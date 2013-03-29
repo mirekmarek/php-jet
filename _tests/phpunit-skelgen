@@ -1,0 +1,7 @@
+#!/usr/local/bin/php
+<?php
+require "bootstrap.php";
+require "SebastianBergmann/PHPUnit/SkeletonGenerator/autoload.php";
+
+$textui = new SebastianBergmann\PHPUnit\SkeletonGenerator\Command;
+$textui->main();

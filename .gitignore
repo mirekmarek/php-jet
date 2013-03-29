@@ -1,0 +1,12 @@
+library/Zend
+library/External
+application/sites/*
+application/config/*
+tmp/*
+logs/*
+cache/*
+data/*
+public/*
+!public/scripts/Jet
+.settings
+.idea

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<jet_layout_part name="header"/>
+	<style type="text/css">
+		.formFieldError {
+			clear: none;
+			background-color: #ff0000;
+			color: #ffffff;
+			padding: 3px;
+		}
+		.buttonCancel {
+			margin-left: 20px;
+		}
+		.editAreaBn {
+			padding: 5px;
+		}
+		.editAreaBn a {
+			color: black;
+		}
+
+		.editAreaBn img {
+			padding: 0px;
+		}
+		.editAreaBnSeparator {
+		}
+		.editAreaBnActiveTitle {
+			font-weight: bolder;
+			font-size: 15px;
+		}
+	</style>
+
+</head>
+<body class="%DOJO_THEME%">
+	<jet_layout_body_prefix/>
+
+	<jetml_dialog id="jet_alert_dialog" title="">
+		<div id="jet_alert_dialog_msg_area" style="min-width: 200px; max-width: 400px;"></div>
+		<jetml_dialog_buttons>
+			<jetml_form_button id="jet_alert_dialog_ok_button" title="OK"/>
+		</jetml_dialog_buttons>
+	</jetml_dialog>
+
+	<jetml_dialog id="jet_confirm_dialog" title="">
+		<div id="jet_confirm_dialog_msg_area" style="min-width: 200px; max-width: 400px;"></div>
+		<jetml_dialog_buttons>
+			<jetml_form_button id="jet_confirm_dialog_yes_button" title="Yes"/>
+			<jetml_form_button id="jet_confirm_dialog_no_button" title="NO"/>
+		</jetml_dialog_buttons>
+	</jetml_dialog>
+
+	<div>
+	User: <?=Jet\Auth::getCurrentUser()->getLogin(); ?>
+		[<a href="?logout">LOGOUT</a>]
+	</div>
+
+	<jet_layout_main_position/>
+	<jet_layout_body_suffix/>
+</body>
+</html>

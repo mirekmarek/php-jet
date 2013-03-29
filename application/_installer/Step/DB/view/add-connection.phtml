@@ -1,0 +1,32 @@
+<?php
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+
+/**
+ * @var Jet\Config $config
+ */
+$config = $this->config;
+
+/**
+ * @var Jet\Config_Definition_Property_Abstract[] $config_props
+ */
+$config_props = $config->getPropertiesDefinition();
+?>
+
+<a href="?"><?=Jet\Tr::_("&lt Back");?></a> <h3><?=Jet\Tr::_("Add new DB connection '%CONNECTION%' ", array("CONNECTION"=>$this->connection_name));?></h3>
+
+<jet_form name="<?=$form->getName();?>">
+	<jet_form_common_error_message class="formError"/>
+	<table>
+		<?php foreach( $form->getFields() as $field_name=>$field ):?>
+			<tr>
+				<td valign="top"><jet_form_field_label name="<?=$field_name;?>"/></td>
+				<td><jet_form_field_error_msg name="<?=$field_name;?>" class="error"/><jet_form_field name="<?=$field_name;?>"/></td>
+				<td><?=$config_props[$field_name]->getDescription();?></td>
+			</tr>
+		<?php endforeach; ?>
+		<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("Add");?>"/></td></tr>
+	</table>
+</jet_form>

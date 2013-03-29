@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+?>
+<jet_form name="Mvc_Router_Config_Default">
+	<jet_form_common_error_message class="formError"/>
+	<table>
+		<?php foreach($form->getFields() as $field): ?>
+		<?=$field->helper_getBasicHTML(); ?>
+		<?php endforeach; ?>
+	</table>
+	<input type="submit" value="<?=Jet\Tr::_("Next", array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
+</jet_form>

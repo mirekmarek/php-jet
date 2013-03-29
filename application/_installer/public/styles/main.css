@@ -1,0 +1,80 @@
+* {
+    font-family: Arial;
+}
+
+body {
+    padding: 0px;margin: 0px;
+}
+
+table.list {
+    border: 1px solid black;
+    Border-spacing: 0px;
+}
+
+table.list thead {
+    background-color: #c9c9c9;
+}
+
+table.list td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.error {
+    background: red;
+    color: #ffffff;
+}
+
+.warning {
+	background: yellow;
+}
+
+.dontCare {
+	background: #c9c9c9;
+}
+
+.OK {
+    background: green;
+    color: #ffffff;
+    font-weight: bolder;
+}
+
+#header {
+    background: #cccccc;
+    padding: 5px;
+    font-size: 18px;
+}
+
+#statusBar {
+    background: #e9e9e9;
+    padding: 10px;
+    border-right: 1px solid #dddddd;
+    width: 200px;
+}
+
+
+.stepPrev, .stepCurrent, .stepNext {
+    padding: 5px;
+}
+
+.stepPrev A {
+    text-decoration: none;
+}
+.stepPrev {
+    font-size: 10px;
+}
+
+.stepCurrent {
+    font-size: 16px;
+    font-weight: bolder;
+    border-top: 1px solid #c9c9c9;
+    border-bottom: 1px solid #c9c9c9;
+}
+
+.stepNext {
+    font-size: 14px;
+}
+
+.stepSub {
+    margin-left: 20px;
+}

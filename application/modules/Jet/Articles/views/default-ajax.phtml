@@ -1,0 +1,72 @@
+<?php
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+?>
+<jetml_editarea id="article_edit" title="Articles" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
+
+	<jetml_editarea_dialog id="article_edit">
+		<jetml_layout_toolbar region="top">
+			<jetml_form_button_save id="article_save" onClick="Jet.modules.CURRENT_MODULE.save();"/>
+			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
+		</jetml_layout_toolbar>
+		<jetml_layout_pane region="center">
+
+			<jet_form name="<?=$form->getName();?>">
+				<jetml_data id="article_form_fields_definition"><?php echo json_encode( $form->getFields() ); ?></jetml_data>
+
+				<table>
+					<jet_form_field name="ID"/>
+					<tr>
+						<td valign="top"><jet_form_field_label name="locale"/></td>
+						<td><jet_form_field_error_msg name="locale" class="error"/><jet_form_field name="locale"/></td>
+						<td style="width:80px;">&nbsp;&nbsp;&nbsp;</td>
+
+						<td valign="top"><jet_form_field_label name="date_time"/></td>
+						<td><jet_form_field_error_msg name="date_time" class="error"/><jet_form_field name="date_time"/><jet_form_field_time name="date_time"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="tags"/></td>
+						<td colspan="2"><jet_form_field_error_msg name="tags" class="error"/><jet_form_field name="tags"/></td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<!-- <td valign="top"><jet_form_field_label name="title"/></td> -->
+						<td><jet_form_field_error_msg name="title" class="error"/><jet_form_field name="title" style="width:700px;"/></td>
+					</tr>
+					<tr>
+						<!-- <td valign="top"><jet_form_field_label name="annotation"/></td> -->
+						<td><jet_form_field_error_msg name="annotation" class="error"/><jet_form_field name="annotation" style="width:700px;height:100px;"/></td>
+					</tr>
+					<tr>
+						<!-- <td valign="top"><jet_form_field_label name="text"/></td> -->
+						<td><jet_form_field_error_msg name="text" class="error"/><jet_form_field name="text" style="width:700px;height:500px;"/></td>
+					</tr>
+				</table>
+			</jet_form>
+
+		</jetml_layout_pane>
+	</jetml_editarea_dialog>
+
+	<jetml_editarea_list id="article_edit">
+
+		<jetml_layout_toolbar region="top">
+			<jetml_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
+			<jetml_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
+			<jetml_trash_button id="article_trash"/>
+		</jetml_layout_toolbar>
+
+		<jetml_layout_pane region="center" gutters="false" style="padding:0px;">
+
+			<jetml_datagrid id="articles_grid">
+				<jetml_datagrid_column field="title" title="Title" width="80%"/>
+				<jetml_datagrid_column field="locale" title="Locale" width="10%"/>
+				<jetml_datagrid_column field="date_time" title="Date and time" width="10%" formatter="Jet.Formatter.DateTime"/>
+			</jetml_datagrid>
+		</jetml_layout_pane>
+	</jetml_editarea_list>
+</jetml_editarea>
+
+<jetml_trash_dialog id="article_trash"/>

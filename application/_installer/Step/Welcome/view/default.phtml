@@ -1,0 +1,11 @@
+<h1><?=Jet\Tr::_("Welcome!");?></h1>
+<jet_form name="select_locale_form">
+	<jet_form_common_error_message class="formError"/>
+	<table>
+		<tr>
+			<td valign="top"><jet_form_field_label name="locale"/></td>
+			<td><jet_form_field_error_msg name="locale" class="error"/><jet_form_field name="locale"/></td>
+		</tr>
+		<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("Select");?>"/></td></tr>
+	</table>
+</jet_form>

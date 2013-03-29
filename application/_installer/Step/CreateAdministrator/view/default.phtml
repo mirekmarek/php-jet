@@ -1,0 +1,34 @@
+<?php
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+?>
+<jet_form name="<?=$form->getName();?>">
+	<jet_form_common_error_message class="formError"/>
+	<table>
+		<tr>
+			<td valign="top"><jet_form_field_label name="login"/></td>
+			<td><jet_form_field_error_msg name="login" class="error"/><jet_form_field name="login"/></td>
+		</tr>
+		<tr>
+			<td valign="top"><jet_form_field_label name="password"/></td>
+			<td><jet_form_field_error_msg name="password"/><jet_form_field name="password"/></td>
+		</tr>
+		<tr>
+			<td valign="top"><jet_form_field_check_label name="password"/></td>
+			<td><jet_form_field_check name="password"/></td>
+		</tr>
+		<tr>
+			<td valign="top"><jet_form_field_label name="email"/></td>
+			<td><jet_form_field_error_msg name="email" class="error"/><jet_form_field name="email"/></td>
+		</tr>
+	</table>
+	<input type="submit" value="<?=Jet\Tr::_("Create");?>"/>
+</jet_form>
+
+
+<form method="post">
+	<input type="hidden" name="go" value="1">
+	<input type="submit" value="<?=Jet\Tr::_("Next - skip this");?>"/>
+</form>

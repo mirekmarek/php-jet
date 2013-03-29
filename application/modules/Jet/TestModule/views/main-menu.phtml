@@ -1,0 +1,138 @@
+<?php
+if(!function_exists("showMenu")) {
+	function showMenu( $pages ){
+		if(!$pages) return;
+		if($pages instanceof Jet\Data_Tree) {
+			$pages = array( $pages->getRootNode() );
+		}
+
+		$current_page_ID = (string)Jet\Mvc::getCurrentPage()->getID();
+		?>
+	<ul>
+		<?php foreach($pages as $page):
+		/**
+		 * @var Jet\Data_Tree_Node $page
+		 */
+		$d = $page->getData();
+
+		if($d["is_admin_UI"]) {
+			continue;
+		}
+		?>
+		<li>
+			<?php if($current_page_ID=="{$d["ID"]}:{$d["site_ID"]}:{$d["locale"]}"): ?>
+			<i><?=$d["menu_title"]; ?></i>
+			<?php else: ?>
+			<a href="<?=Jet\Mvc_Pages::getURI($d["ID"], $d["locale"], $d["site_ID"]); ?>"><?=$d["menu_title"]; ?></a>
+			<?php endif; ?>
+			<?php showMenu($page->getChildren()); ?>
+		</li>
+		<?php endforeach; ?>
+	</ul>
+	<?php
+	}
+}
+?>
+
+<div style="margin:5px;padding:5px;border-top: 1px solid black;">
+	<strong>Site map [current locale: <?=Jet\Mvc::getCurrentLocale();?>]:</strong>
+	<?php showMenu( $this->site_tree_current ); ?>
+</div>
+
+
+<?php foreach( Jet\Mvc::getCurrentLocalesList() as $locale ):
+	$key = "site_tree_".$locale;
+	?>
+<div style="margin:5px;padding:5px;border-top: 1px solid black;">
+	<strong>Site map [<?php echo $locale;?>]:</strong>
+	<?php showMenu( $this->{$key} ); ?>
+</div>
+<?php endforeach; ?>
+
+
+<?php /*
+<p>
+	<strong>URI - current locale:</strong>
+	<ul>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI( Jet_Mvc_Pages::HOMEPAGE_ID ); ?>">Homepage</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_1"); ?>">Page 1-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_2"); ?>">Page 1-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3"); ?>">Page 1-3</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_1"); ?>">Page 1-3-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_2"); ?>">Page 1-3-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_2_1"); ?>">Page 1-3-2-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_4"); ?>">Page 1-4</a></li>
+	</ul>
+</p>
+
+<p>
+	<strong>URI - en_US:</strong>
+	<ul>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI( Jet_Mvc_Pages::HOMEPAGE_ID, "en_US" ); ?>">Homepage</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_1", "en_US" ); ?>">Page 1-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_2", "en_US" ); ?>">Page 1-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3", "en_US" ); ?>">Page 1-3</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_1", "en_US" ); ?>">Page 1-3-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_2", "en_US" ); ?>">Page 1-3-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_2_1", "en_US" ); ?>">Page 1-3-2-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_4", "en_US" ); ?>">Page 1-4</a></li>
+	</ul>
+</p>
+
+<p>
+	<strong>URI - cs_CZ:</strong>
+	<ul>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI( Jet_Mvc_Pages::HOMEPAGE_ID, "cs_CZ" ); ?>">Homepage</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_1", "cs_CZ" ); ?>">Page 1-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_2", "cs_CZ" ); ?>">Page 1-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3", "cs_CZ" ); ?>">Page 1-3</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_1", "cs_CZ" ); ?>">Page 1-3-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_2", "cs_CZ" ); ?>">Page 1-3-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_3_2_1", "cs_CZ" ); ?>">Page 1-3-2-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURI("page_1_4", "cs_CZ" ); ?>">Page 1-4</a></li>
+	</ul>
+</p>
+
+<p>
+	<strong>URL - current locale:</strong>
+	<ul>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL( Jet_Mvc_Pages::HOMEPAGE_ID ); ?>">Homepage</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_1"); ?>">Page 1-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_2"); ?>">Page 1-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3"); ?>">Page 1-3</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_1"); ?>">Page 1-3-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_2"); ?>">Page 1-3-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_2_1"); ?>">Page 1-3-2-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_4"); ?>">Page 1-4</a></li>
+	</ul>
+</p>
+
+<p>
+	<strong>URL - en_US:</strong>
+	<ul>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL( Jet_Mvc_Pages::HOMEPAGE_ID, "en_US" ); ?>">Homepage</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_1", "en_US" ); ?>">Page 1-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_2", "en_US" ); ?>">Page 1-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3", "en_US" ); ?>">Page 1-3</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_1", "en_US" ); ?>">Page 1-3-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_2", "en_US" ); ?>">Page 1-3-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_2_1", "en_US" ); ?>">Page 1-3-2-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_4", "en_US" ); ?>">Page 1-4</a></li>
+	</ul>
+</p>
+
+<p>
+	<strong>URL - cs_CZ:</strong>
+	<ul>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL( Jet_Mvc_Pages::HOMEPAGE_ID, "cs_CZ" ); ?>">Homepage</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_1", "cs_CZ" ); ?>">Page 1-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_2", "cs_CZ" ); ?>">Page 1-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3", "cs_CZ" ); ?>">Page 1-3</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_1", "cs_CZ" ); ?>">Page 1-3-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_2", "cs_CZ" ); ?>">Page 1-3-2</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_3_2_1", "cs_CZ" ); ?>">Page 1-3-2-1</a></li>
+		<li><a href="<?php echo Jet_Mvc_Pages::getURL("page_1_4", "cs_CZ" ); ?>">Page 1-4</a></li>
+	</ul>
+</p>
+
+*/ ?>

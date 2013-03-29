@@ -1,0 +1,31 @@
+* {
+    font-family: Arial;
+}
+
+body {
+    padding: 0px;margin: 0px;
+    font-size: 14px;
+}
+
+.colTop {
+    margin: 0px; padding: 5px; clear: both; background-color: #b9b9b9;
+}
+
+.clear {
+    clear: both;
+}
+
+.colLeft {
+    float: left;width:20%;background-color: #c9c9c9;margin-right: 10px;padding: 5px;
+}
+
+.colRight {
+    float: right;width:40%;background-color: #999999;margin-left: 10px;padding: 5px;
+}
+
+.formError,
+.formFieldError {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 3px;
+}

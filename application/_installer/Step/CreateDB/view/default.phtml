@@ -1,0 +1,26 @@
+<table class="list">
+	<thead>
+		<tr>
+			<th><?=Jet\Tr::_("Class");?></th>
+			<th><?=Jet\Tr::_("Status");?></th>
+		</tr>
+	</thead>
+	<?php foreach($this->result as $class=>$state): ?>
+	<tr>
+		<td><?=$class;?></td>
+		<?php if($state===true): ?>
+		<td class="OK">OK</td>
+		<?php else: ?>
+		<td class="error"><?=$state;?></td>
+		<?php endif; ?>
+	</tr>
+	<?php endforeach; ?>
+</table>
+
+
+<?php if($this->OK): ?>
+<form method="post">
+<input type="hidden" name="go" value="1">
+<input type="submit" value="<?=Jet\Tr::_("Next", array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
+</form>
+<?php endif; ?>
