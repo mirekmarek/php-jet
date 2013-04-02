@@ -40,12 +40,12 @@ class DataModel_Query extends Object {
 	public static $_available_operators = array(
 		self::O_NOT_EQUAL,
 		self::O_NOT_LIKE,
+        self::O_GREATER_THAN_OR_EQUAL,
+        self::O_LESS_THAN_OR_EQUAL,
 		self::O_EQUAL,
 		self::O_LIKE,
         self::O_GREATER_THAN,
         self::O_LESS_THAN,
-        self::O_GREATER_THAN_OR_EQUAL,
-        self::O_LESS_THAN_OR_EQUAL,
 
 	);
 
