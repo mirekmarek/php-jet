@@ -31,8 +31,10 @@ class Form_Decorator_Dojo_Input extends Form_Decorator_Dojo_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function getDojoType( /** @noinspection PhpUnusedParameterInspection */
-		Form_Parser_TagData $tag_data ) {
+	protected function getDojoType(
+						/** @noinspection PhpUnusedParameterInspection */
+						Form_Parser_TagData $tag_data
+	) {
 		return $this->field->getValidationRegexp() ? "dijit.form.ValidationTextBox" : "dijit.form.TextBox";
 	}
 }

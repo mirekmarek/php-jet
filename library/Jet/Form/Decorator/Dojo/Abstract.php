@@ -58,8 +58,8 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 			$dojo_type = $decorate_data["dojo_type"];
 		}
 
-		if(!empty($decorate_data["get_dojo_type_method_name"])) {
-			$get_dojo_properties_method_name = $decorate_data["get_dojo_type_method_name"];
+		if(!empty($decorate_data["get_dojo_props_method_name"])) {
+			$get_dojo_properties_method_name = $decorate_data["get_dojo_props_method_name"];
 		} else {
 			$get_dojo_properties_method_name = "getDojoProperties";
 		}

@@ -32,13 +32,14 @@ class Form_Factory extends Factory {
 	 * @return Form_Field_Abstract
 	 */
 	public static function getFieldInstance(
-		$type,
-		$name,
-		$label="",
-		$default_value="",
-		$is_required=false,
-		$validation_regexp=null,
-		array $error_messages = array() ) {
+								$type,
+								$name,
+								$label="",
+								$default_value="",
+								$is_required=false,
+								$validation_regexp=null,
+								array $error_messages = array()
+							) {
 
 		if(!$type) {
 			throw new Form_Exception(
@@ -96,12 +97,13 @@ class Form_Factory extends Factory {
 	 * @return Form_Field_Abstract
 	 */
 	public static function field( $type,
-	                                  $name,
-	                                  $label="",
-	                                  $default_value="",
-	                                  $required=false,
-	                                  $validation_regexp=null,
-	                                  array $error_messages = array() ) {
+								$name,
+								$label="",
+								$default_value="",
+								$required=false,
+								$validation_regexp=null,
+								array $error_messages = array()
+							) {
 		return self::getFieldInstance($type, $name, $label, $default_value, $required, $validation_regexp, $error_messages);
 	}
 

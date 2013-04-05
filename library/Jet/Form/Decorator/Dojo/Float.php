@@ -29,30 +29,33 @@ class Form_Decorator_Dojo_Float extends Form_Decorator_Dojo_Abstract {
 	protected $field;
 
 	/**
-	 * @param string $tag
-	 * @param array &$properties
+	 * @param Form_Parser_TagData $tag_data
 	 */
-	protected function getDojoProperties( $tag, &$properties ) {
-		/*
-		if(!empty($properties["rangeMessage"])) {
-			$this->_dojo_properties["rangeMessage"] = Tr::_($properties["rangeMessage"]);
-			unset($properties["rangeMessage"]);
-		} else {
-			$this->_dojo_properties["rangeMessage"] = Tr::_($this->field->getErrorMessage("out_of_range"));
-		}
-*/
+	protected function getDojoProperties( Form_Parser_TagData $tag_data ) {
+		$this->_dojo_properties["rangeMessage"] = $tag_data->getProperty(
+			"rangeMessage",
+			$this->field->getErrorMessage("out_of_range")
+		);
+		$tag_data->unsetProperty("rangeMessage");
+
 		$min = $this->field->getMinValue();
 		$max = $this->field->getMaxValue();
 		$places = $this->field->getPlaces();
 
 		$constraints = array();
-		if($min !== null) $constraints["min"] = $min;
-		if($max !== null) $constraints["max"] = $max;
-		if($places !== null) $constraints["places"] = $places;
+		if($min !== null) {
+			$constraints["min"] = $min;
+		}
+		if($max !== null) {
+			$constraints["max"] = $max;
+		}
+		if($places !== null) {
+			$constraints["places"] = $places;
+		}
 
 		$this->_dojo_properties["constraints"] = $constraints;
 
-		parent::getDojoProperties($tag, $properties);
+		parent::getDojoProperties( $tag_data );
 	}
 
 }

@@ -23,7 +23,7 @@ class Form_Decorator_Dojo_DateTime extends Form_Decorator_Dojo_Abstract {
 		"field" => array(
 			"dojo_type" => "dijit.form.DateTextBox"
 		),
-		"field:time" => array(
+		"field_time" => array(
 			"dojo_type" => "dijit.form.TimeTextBox"
 		)
 	);

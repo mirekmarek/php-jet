@@ -20,7 +20,7 @@ class Form_Decorator_Dojo_Password extends Form_Decorator_Dojo_Abstract {
 		"field" => array(
 			"dojo_type" => "dijit.form.TextBox"
 		),
-		"field:check" => array(
+		"field_check" => array(
 			"dojo_type" => "dijit.form.TextBox"
 		)
 	);
