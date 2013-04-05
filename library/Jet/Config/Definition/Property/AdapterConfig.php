@@ -72,7 +72,7 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 
 	/**
 	 * @param array|null $definition_data
-	 * @return void
+	 * 
 	 * @throws Config_Exception
 	 */
 	public function setUp(array $definition_data = null ) {

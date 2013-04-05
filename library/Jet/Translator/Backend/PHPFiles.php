@@ -67,7 +67,6 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	 *
 	 * @throws Translator_Exception
 	 * @throws IO_File_Exception
-	 * @return void
 	 */
 	public function saveDictionary(Translator_Dictionary $dictionary){
 		$file_path = $this->_getFilePath($dictionary->getNamespace(), $dictionary->getLocale());
@@ -110,7 +109,6 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	/**
 	 * Create backend after installation
 	 *
-	 * @return void
 	 */
 	public function helper_create() {
 	}

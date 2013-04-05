@@ -184,7 +184,6 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * Try to read and pass throw site public files (example: sitemap.xml, robot.txt, favicon.ico, ....)
 	 *
 	 * @abstract
-	 * @return void
 	 */
 	abstract public function handlePublicFile();
 
@@ -334,7 +333,6 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * So each module which is using path fragment must let route known about it.
 	 *
 	 * @param string $used_path_fragment
-	 * @return void
 	 */
 	abstract public function putUsedPathFragment( $used_path_fragment );
 
@@ -394,7 +392,7 @@ abstract class Mvc_Router_Abstract extends Object {
 
 	/**
 	 * @abstract
-	 * @return string|void
+	 * @return string|null
 	 */
 	abstract public function getServiceSubtype();
 
@@ -552,7 +550,6 @@ abstract class Mvc_Router_Abstract extends Object {
 
 	/**
 	 * @abstract
-	 * @return void
 	 */
 	abstract public function cacheSave();
 
@@ -564,7 +561,6 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * array - delete records for specified URLs
 	 *
 	 * @param null|string|array $URL
-	 * @return void
 	 */
 	abstract public function cacheTruncate( $URL=null );
 
@@ -607,7 +603,6 @@ abstract class Mvc_Router_Abstract extends Object {
 
 	/**
 	 * @abstract
-	 * @return void
 	 */
 	abstract function helper_cache_create();
 }

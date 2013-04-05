@@ -58,13 +58,11 @@ abstract class Translator_Backend_Abstract extends Object {
 	 *
 	 * @param Translator_Dictionary $dictionary
 	 *
-	 * @return void
 	 */
 	abstract public function saveDictionary(Translator_Dictionary $dictionary);
 
 	/**
 	 * Create backend after installation
-	 * @return void
 	 */
 	abstract public function helper_create();
 

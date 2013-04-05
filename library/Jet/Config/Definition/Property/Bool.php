@@ -42,7 +42,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	/**
 	 * Property required test
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 *
 	 * @throws Config_Exception
 	 * @return bool

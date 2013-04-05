@@ -82,7 +82,7 @@ class Mvc_Pages extends Object {
 	 * @param Mvc_Pages_Page_Abstract $page_data
 	 *
 	 * @throws Mvc_Sites_Handler_Exception
-	 * @return void
+	 *
 	 */
 	public static function createPage( Mvc_Pages_Page_Abstract $page_data ) {
 		if(!$page_data->validateData()) {
@@ -123,7 +123,6 @@ class Mvc_Pages extends Object {
 	 * @param string $site_ID
 	 * @param Locale $locale
 	 *
-	 * @return void
 	 */
 	public static function actualizePages( $site_ID, Locale $locale ) {
 		self::getHandler()->actualizePages( $site_ID, $locale );

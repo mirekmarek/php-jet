@@ -193,7 +193,6 @@ class Debug_ErrorHandler {
 	 * @param bool $check_path (optional, default: true)
 	 *
 	 * @throws Debug_ErrorHandler_Exception
-	 * @return void
 	 */
 	public static function setHTTPErrorPagesDir($error_pages_dir, $check_path = true){
 		$error_pages_dir = rtrim($error_pages_dir, "/\\".DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;

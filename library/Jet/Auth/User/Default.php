@@ -372,7 +372,6 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @param string|DateTime|null $password_is_valid_till
 	 *
-	 * @return void
 	 */
 	public function setPasswordIsValidTill( $password_is_valid_till ) {
 		if(!$password_is_valid_till) {

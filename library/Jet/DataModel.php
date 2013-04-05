@@ -508,7 +508,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	* Generate unique ID
 	 *
 	 * @param bool $called_after_save (optional, default = false)
-	 * @param void $backend_save_result  (optional, default = null)
+	 * @param mixed $backend_save_result  (optional, default = null)
 	*
 	*/
 	protected function generateID(  /** @noinspection PhpUnusedParameterInspection */

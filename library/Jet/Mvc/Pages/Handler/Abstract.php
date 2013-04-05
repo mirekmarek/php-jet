@@ -37,7 +37,6 @@ abstract class Mvc_Pages_Handler_Abstract extends Object {
 	 *
 	 * @param Mvc_Pages_Page_Abstract $page_data
 	 *
-	 * @return void
 	 */
 	abstract function createPage( Mvc_Pages_Page_Abstract $page_data );
 
@@ -56,7 +55,6 @@ abstract class Mvc_Pages_Handler_Abstract extends Object {
 	 * @param string $site_ID
 	 * @param Locale $locale
 	 *
-	 * @return void
 	 */
 	abstract function dropPages( $site_ID, Locale $locale );
 
@@ -66,7 +64,6 @@ abstract class Mvc_Pages_Handler_Abstract extends Object {
 	 * @param string $site_ID
 	 * @param Locale $locale
 	 *
-	 * @return void
 	 */
 	abstract function actualizePages( $site_ID, Locale $locale );
 }

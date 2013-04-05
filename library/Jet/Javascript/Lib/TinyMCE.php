@@ -64,7 +64,7 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 	 *
 	 * @param string $component - JetJS module
 	 * @param array $parameters(optional)
-	 * @return void
+	 *
 	 */
 	public function requireComponent( $component, $parameters=array() ) {
 	}

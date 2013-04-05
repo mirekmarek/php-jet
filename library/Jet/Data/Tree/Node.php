@@ -131,7 +131,6 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 * @throws Data_Tree_Exception
 	 *
-	 * @return void
 	 */
 	public function appendChild( Data_Tree_Node $node ){
 

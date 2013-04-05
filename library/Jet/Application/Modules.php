@@ -562,7 +562,6 @@ class Application_Modules extends Object {
 	 * @param string $module_name
 	 *
 	 * @throws Application_Modules_Exception
-	 * @return void
 	 */
 	public static function activateModule( $module_name ) {
 		static::_hardCheckModuleExists($module_name);
@@ -613,7 +612,6 @@ class Application_Modules extends Object {
 	 * @param string $module_name
 	 *
 	 * @throws Application_Modules_Exception
-	 * @return void
 	 */
 	public static function deactivateModule( $module_name ) {
 		static::_hardCheckModuleExists($module_name);

@@ -42,7 +42,6 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 	 *
 	 * @param Form_Parser_TagData $tag_data
 	 *
-	 * @return void
 	 */
 	public function decorate( Form_Parser_TagData $tag_data ) {
 		$tag = $tag_data->getTag();

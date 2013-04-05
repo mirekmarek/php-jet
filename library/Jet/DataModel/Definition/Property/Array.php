@@ -42,7 +42,6 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	/**
 	 * @param array $definition_data
 	 *
-	 * @return mixed|void
 	 * @throws DataModel_Exception
 	 */
 	public function setUp( $definition_data ) {

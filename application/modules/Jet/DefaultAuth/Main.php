@@ -175,8 +175,6 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 
 	/**
 	 * Logout current user
-	 *
-	 * @return void
 	 */
 	public function logout() {
 		$this->sendSignal("/user/logout");
@@ -236,7 +234,6 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * @param string $event_txt
 	 * @param string $user_ID (optional; default: null = current user ID)
 	 * @param string $user_login (optional; default: null = current user login)
-	 * @return void
 	 */
 	public function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null ) {
 		if($user_ID===null) {

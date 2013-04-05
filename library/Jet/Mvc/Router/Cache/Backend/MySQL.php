@@ -43,8 +43,6 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	/**
 	 * Initializes the cache backend
 	 *
-	 *
-	 * @return void
 	 */
 	public function initialize() {
 		$this->_db_read = Db::get($this->config->getConnectionRead());
@@ -82,7 +80,6 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 * @param string $URL
 	 * @param Mvc_Router_Abstract $item
 	 *
-	 * @return void
 	 */
 	public function save($URL, Mvc_Router_Abstract $item) {
 		$data = array(
@@ -108,7 +105,7 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 * array - delete records for specified URLs
 	 *
 	 * @param null|string|string[] $URL
-	 * @return void
+	 *
 	 */
 	public function truncate($URL = null) {
 		if($URL===null) {

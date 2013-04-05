@@ -95,7 +95,6 @@ class Db_Config extends Config_Application {
 	 * @param $connection_name
 	 * @param Db_Adapter_Config_Abstract $connection_configuration
 	 *
-	 * @return void
 	 */
 	public function addConnection( $connection_name, Db_Adapter_Config_Abstract $connection_configuration ) {
 		$this->connections->addAdapterConfiguration( $connection_name, $connection_configuration );
@@ -104,7 +103,6 @@ class Db_Config extends Config_Application {
 	/**
 	 * @param $connection_name
 	 *
-	 * @return void
 	 */
 	public function deleteConnection( $connection_name ) {
 		$this->connections->deleteAdapterConfiguration( $connection_name );

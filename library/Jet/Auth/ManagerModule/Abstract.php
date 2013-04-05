@@ -101,7 +101,6 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	 * @param string $event_txt
 	 * @param string $user_ID (optional; default: null = current user ID)
 	 * @param string $user_login (optional; default: null = current user login)
-	 * @return void
 	 */
 	abstract public function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null );
 

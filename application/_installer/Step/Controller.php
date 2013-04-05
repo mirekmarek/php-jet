@@ -74,7 +74,6 @@ abstract class Installer_Step_Controller {
 	/**
 	 * @param string $name
 	 *
-	 * @return void
 	 */
 	public function render( $name ) {
 		$output = $this->view->render( $name );

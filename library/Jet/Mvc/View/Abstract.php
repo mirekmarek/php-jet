@@ -221,7 +221,6 @@ abstract class Mvc_View_Abstract extends Object {
 	/**
 	 * Clears all assigned variables
 	 *
-	 * @return void
 	 */
 	public function clearVars() {
 		$this->_data->clearData();
@@ -362,7 +361,7 @@ abstract class Mvc_View_Abstract extends Object {
 	 * Sets if adding path info into the output is enabled
 	 *
 	 * @param bool $enabled
-	 * @return void
+	 *
 	 */
 	public static function setAddScriptPathInfoEnabled($enabled=true){
 		static::$_add_script_path_info = (bool)$enabled;

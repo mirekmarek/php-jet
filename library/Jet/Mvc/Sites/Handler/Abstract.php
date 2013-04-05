@@ -40,7 +40,6 @@ abstract class Mvc_Sites_Handler_Abstract extends Object {
 	 * @param string $template
 	 * @param bool $activate (optional, default:true)
 	 *
-	 * @return void
 	 */
 	abstract public function createSite( Mvc_Sites_Site_Abstract $site_data, $template, $activate=true );
 
@@ -48,7 +47,7 @@ abstract class Mvc_Sites_Handler_Abstract extends Object {
 	 * Drop site
 	 *
 	 * @param Mvc_Sites_Site_ID_Abstract $ID
-	 * @return void
+	 *
 	 */
 	abstract public function dropSite( Mvc_Sites_Site_ID_Abstract $ID );
 
@@ -56,7 +55,7 @@ abstract class Mvc_Sites_Handler_Abstract extends Object {
 	 * Activate site
 	 *
 	 * @param Mvc_Sites_Site_ID_Abstract $ID
-	 * @return void
+	 *
 	 */
 	abstract public function activateSite( Mvc_Sites_Site_ID_Abstract $ID );
 
@@ -64,7 +63,7 @@ abstract class Mvc_Sites_Handler_Abstract extends Object {
 	 * Deactivate site
 	 *
 	 * @param Mvc_Sites_Site_ID_Abstract $ID
-	 * @return void
+	 *
 	 */
 	abstract public function deactivateSite( Mvc_Sites_Site_ID_Abstract $ID );
 

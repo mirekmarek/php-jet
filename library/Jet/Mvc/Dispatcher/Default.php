@@ -40,7 +40,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	 *
 	 * @throws Mvc_Dispatcher_Exception
 	 *
-	 * @return string|void
+	 * @return string|null
 	 */
 	public function dispatch() {
 

@@ -42,7 +42,6 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 	/**
 	 * @param array $definition_data
 	 *
-	 * @return void
 	 */
 	public function setUp( $definition_data ) {
 		if(!$definition_data) {
@@ -141,27 +140,14 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 
     /**
      * Property required test
+     * has no effect for numbers!
      *
-     * @param void &$value
+     * @param mixed &$value
      * @param DataModel_ValidationError[] &$errors[]
      *
      * @return bool
      */
     public function _validateData_test_required( &$value, &$errors ) {
-        if( !$this->is_required ) {
-            return true;
-        }
-
-        if(!$value && $value!==0.0) {
-            $errors[] = new DataModel_ValidationError(
-                DataModel_ValidationError::CODE_REQUIRED,
-                $this,
-                $value
-            );
-
-            return false;
-        }
-
         return true;
     }
 

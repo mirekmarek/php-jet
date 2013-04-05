@@ -99,7 +99,7 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	/**
 	 * Column value test - checks format
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 *
 	 * @throws Config_Exception
 	 * @return bool

@@ -148,7 +148,6 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 	/**
 	 * @param array|null $definition_data
-	 * @return void
 	 * @throws Config_Exception
 	 */
 	public function setUp(array $definition_data = null ) {
@@ -421,7 +420,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * Check data type by definition (retype)
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 */
 	abstract function checkValueType( &$value );
 
@@ -452,7 +451,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * Property required test
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 *
 	 * @throws Config_Exception
 	 * @return bool
@@ -475,7 +474,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * Property value test - can be specific for each column type (eg: min and max value for number, string format ...)
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 *
 	 * @return bool
 	 */

@@ -53,7 +53,6 @@ abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 	 *
 	 * @abstract
 	 *
-	 * @return void
 	 */
 	abstract function initialize();
 
@@ -73,7 +72,6 @@ abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 	 * @param string $URL
 	 * @param Mvc_Router_Abstract $item
 	 *
-	 * @return void
 	 */
 	abstract function save( $URL, Mvc_Router_Abstract $item );
 
@@ -86,7 +84,7 @@ abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 	 *
 	 * @abstract
 	 * @param null|string|string[] $URL
-	 * @return void
+	 *
 	 */
 	abstract function truncate( $URL=null );
 
@@ -98,7 +96,7 @@ abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 
 	/**
 	 * @abstract
-	 * @return void
+	 *
 	 */
 	abstract function helper_create();
 }

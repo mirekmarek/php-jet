@@ -405,7 +405,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * Property required test
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 * @param DataModel_ValidationError[] &$errors[]
 	 *
 	 * @return bool
@@ -431,7 +431,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * Property value test - value must be in list of valid options
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 * @param DataModel_ValidationError[] &$errors
 
 	 * @return bool
@@ -453,7 +453,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * Property value test - can be specific for each column type (eg: min and max value for number, string format ...)
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 * @param DataModel_ValidationError[] &$errors
 	 *
 	 * @return bool

@@ -484,7 +484,6 @@ class DataModel_Query extends Object {
 	 * @param DataModel_Definition_Model_Abstract $related_model_definition
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return void
 	 */
 	public function _addRelatedModel( DataModel_Definition_Model_Abstract $related_model_definition ) {
 		$main_class_name = $this->main_data_model_class_name;

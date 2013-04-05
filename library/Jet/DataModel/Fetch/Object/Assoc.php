@@ -50,7 +50,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 *
 	 * @see ArrayAccess
 	 * @param int $offset
-	 * @param void $value
+	 * @param mixed $value
 	 */
 	public function offsetSet( $offset , $value ) {}
 

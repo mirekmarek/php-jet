@@ -36,14 +36,13 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 	}
 
 	/**
-	* Create new site
-	*
-	* @param Mvc_Sites_Site_Abstract $site_data
-	* @param string $template
+	 *
+	 * @param Mvc_Sites_Site_Abstract $site_data
+	 * @param string $template
 	 * @param bool $activate (optional, default:true)
 	 *
-	 * @return void
-	*/
+	 *
+	 */
 	public function createSite( Mvc_Sites_Site_Abstract $site_data, $template, $activate=true  ) {
 
 		IO_Dir::copy($this->templates_dir . $template, $site_data->getBasePath());
@@ -58,11 +57,10 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 	}
     
 	/**
-	* Drop site
-	*
-	* @param Mvc_Sites_Site_ID_Abstract $ID
-	* @return void
-	*/
+	 * Drop site
+	 *
+	 * @param Mvc_Sites_Site_ID_Abstract $ID
+	 */
 	public function dropSite( Mvc_Sites_Site_ID_Abstract $ID ) {
 		$site = $this->_getSite($ID);
 
@@ -79,11 +77,10 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 	}
 
 	/**
-	* Activate site
-	*
-	* @param Mvc_Sites_Site_ID_Abstract $ID
-	* @return void
-	*/
+	 * Activate site
+	 *
+	 * @param Mvc_Sites_Site_ID_Abstract $ID
+	 */
 	public function activateSite( Mvc_Sites_Site_ID_Abstract  $ID ) {
 		$site = $this->_getSite($ID);
 		$site->setIsActive(true);
@@ -93,11 +90,10 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 	}
 
 	/**
-	* Deactivate site
-	*
-	* @param Mvc_Sites_Site_ID_Abstract $ID
-	* @return void
-	*/
+	 * Deactivate site
+	 *
+	 * @param Mvc_Sites_Site_ID_Abstract $ID
+	 */
 	public function deactivateSite( Mvc_Sites_Site_ID_Abstract  $ID  ) {
 		$site = $this->_getSite($ID);
 		$site->setIsActive(false);

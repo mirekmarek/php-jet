@@ -383,7 +383,6 @@ class IO_File {
 	 * @param bool $force_download (optional, force download header, default: false)
 	 *
 	 * @throws IO_File_Exception
-	 * @return void
 	 */
 	public static function download(
 					$file_path,

@@ -64,7 +64,6 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	 * @param mixed $value
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return void
 	 */
 	public function addExpression( DataModel_Query_Select_Item $property_definition, $operator, $value  ) {
 		if($this->expressions) {
@@ -90,7 +89,6 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	 *
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return void
 	 */
 	public function addAND() {
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
@@ -114,7 +112,6 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	 *
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return void
 	 */
 	public function addOR() {
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
@@ -138,7 +135,6 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	 * @param DataModel_Query_Having $sub_expressions
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return void
 	 */
 	public function addSubExpressions( DataModel_Query_Having $sub_expressions ) {
 		if($this->expressions) {

@@ -43,7 +43,7 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 
 	/**
 	 * Action parameters (optional, example: path fragments - Each fragment is a single parameter for AJAX, REST and SYS requests)
-	 * @var void
+	 * @var array
 	 */
 	protected $controller_action_parameters = array();
 

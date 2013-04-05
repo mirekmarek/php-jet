@@ -66,7 +66,6 @@ class Translator_Dictionary extends Object {
 	 * @param Translator_Dictionary_Phrase $phrase
 	 * @param bool $need_to_save
 	 *
-	 * @return void
 	 */
 	public function addPhrase( Translator_Dictionary_Phrase $phrase, $need_to_save=true ) {
 		$this->phrases[$phrase->getHash()] = $phrase;

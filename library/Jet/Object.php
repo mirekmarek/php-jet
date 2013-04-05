@@ -66,8 +66,8 @@ class Object {
 	 * Getter for protected properties
 	 *
 	 * @param string $key
-	 * @return void
 	 * @throws Object_Exception
+	 *
 	 */
 	public function __get( $key ) {
 

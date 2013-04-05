@@ -274,7 +274,6 @@ class Auth extends Object {
 	 * @param string $event_txt
 	 * @param string $user_ID (optional; default: null = current user ID)
 	 * @param string $user_login (optional; default: null = current user login)
-	 * @return void
 	 */
 	public static function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null ) {
 		static::$current_auth_manager_module_instance->logEvent( $event, $event_data, $event_txt, $user_ID, $user_login );

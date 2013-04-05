@@ -64,7 +64,6 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 *
 	 * @param string $component
 	 * @param array $parameters(optional)
-	 * @return void
 	 */
 	public function requireComponent( $component, $parameters=array() ) {
 	}

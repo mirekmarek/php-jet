@@ -29,7 +29,7 @@ class Mvc {
 	 * @param bool $return_output_as_string (optional; default: true)
 	 * @param bool|null $cache_enabled (optional; default: null = by configuration)
 	 *
-	 * @return void|string
+	 * @return null|string
 	 */
 	public static function run( $URL=null, $return_output_as_string=false, $cache_enabled=null  ) {
 		$router = Mvc_Router::getNewRouterInstance();
@@ -160,7 +160,6 @@ class Mvc {
 	 * array - delete records for specified URLs
 	 *
 	 * @param null|string|array $URL
-	 * @return void
 	 */
 	public static function truncateRouterCache( $URL=null ) {
 		Mvc_Factory::getRouterInstance()->cacheTruncate($URL);

@@ -98,7 +98,7 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	 *
 	 * @throws Mvc_Dispatcher_Exception
 	 *
-	 * @return string|void
+	 * @return string|null
 	 */
 	abstract public function dispatch();
 

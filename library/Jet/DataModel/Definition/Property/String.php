@@ -78,7 +78,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * Column value test - checks format
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 * @param DataModel_ValidationError &$errors
 	 * @param string $locale_str
 	 *

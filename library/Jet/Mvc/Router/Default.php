@@ -494,7 +494,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * Try to download site public files (example: sitemap.xml, robot.txt, favicon.ico, ....)
 	 *
-	 * @return void
 	 */
 	public function handlePublicFile() {
 		if( !$this->public_file_path ) {
@@ -889,7 +888,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 * @return string|void
+	 * @return string|null
 	 */
 	public function getServiceSubtype() {
 		return $this->service_subtype;
@@ -1118,7 +1117,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * array - delete records for specified URLs
 	 *
 	 * @param null|string|array $URL
-	 * @return void
 	 */
 	public function cacheTruncate( $URL=null ) {
 		$this->getCacheBackendInstance()->truncate($URL);

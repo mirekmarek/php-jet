@@ -127,7 +127,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 	/**
 	 * Column value test - checks range
 	 *
-	 * @param void &$value
+	 * @param mixed &$value
 	 *
 	 * @throws Config_Exception
 	 * @return bool

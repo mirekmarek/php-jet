@@ -293,7 +293,6 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 
 	/**
 	 *
-	 * @return void
 	 */
 	public function rewind(){
 		foreach($this->trees as $tree) {

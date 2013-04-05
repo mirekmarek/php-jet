@@ -98,7 +98,7 @@ class Mvc_Sites extends Object {
 	 * @param bool $activate (optional, default:true)
 	 *
 	 * @throws Mvc_Sites_Handler_Exception
-	 * @return void
+	 *
 	 */
 	public static function createSite( Mvc_Sites_Site_Abstract $site_data, $template="default", $activate=true ) {
 		if(!$site_data->validateData()) {
@@ -121,7 +121,7 @@ class Mvc_Sites extends Object {
 	 * Drop site
 	 *
 	 * @param Mvc_Sites_Site_ID_Abstract $ID
-	 * @return void
+	 *
 	 */
 	public static function dropSite( $ID ) {
 		self::getHandler()->dropSite( $ID );
@@ -131,7 +131,7 @@ class Mvc_Sites extends Object {
 	 * Activate site
 	 *
 	 * @param Mvc_Sites_Site_ID_Abstract  $ID
-	 * @return void
+	 *
 	 */
 	public static function activateSite( Mvc_Sites_Site_ID_Abstract  $ID ) {
 		self::getHandler()->activateSite( $ID );

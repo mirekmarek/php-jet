@@ -26,7 +26,6 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 *
 	 * @param Mvc_Pages_Page_Abstract $page_data
 	 *
-	 * @return void
 	 */
 	public function createPage(Mvc_Pages_Page_Abstract $page_data) {
 		$page_data->save();
@@ -50,7 +49,6 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 * @param string $site_ID
 	 * @param Locale $locale
 	 *
-	 * @return void
 	 */
 	public function dropPages( $site_ID, Locale $locale ) {
 
@@ -72,7 +70,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 * @param Locale $locale
 	 *
 	 * @throws Mvc_Pages_Handler_Exception
-	 * @return void
+	 *
 	 */
 	public function actualizePages( $site_ID, Locale $locale ) {
 		$site_data = Mvc_Sites::getSite( Mvc_Factory::getSiteIDInstance()->createID( $site_ID ) );

@@ -61,7 +61,6 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 	 *
 	 * @param Debug_ErrorHandler_Error $error
 	 *
-	 * @return void
 	 */
 	abstract public function handle( Debug_ErrorHandler_Error $error );
 

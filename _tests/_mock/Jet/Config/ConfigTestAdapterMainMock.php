@@ -76,7 +76,6 @@ class ConfigTestAdapterMainMock extends Config {
 	 * @param $connection_name
 	 * @param ConfigTestAdapterMainMock_Config_Abstract $connection_configuragion
 	 *
-	 * @return void
 	 */
 	public function addConnection( $connection_name, ConfigTestAdapterMainMock_Config_Abstract $connection_configuragion ) {
 		$this->connections->addAdapterConfiguration( $connection_name, $connection_configuragion );
@@ -85,7 +84,6 @@ class ConfigTestAdapterMainMock extends Config {
 	/**
 	 * @param $connection_name
 	 *
-	 * @return void
 	 */
 	public function deleteConnection( $connection_name ) {
 		$this->connections->deleteAdapterConfiguration( $connection_name );
