@@ -36,7 +36,7 @@ class Session extends Object {
 	 */
 	protected function sessionStart() {
 		if(!static::$session_started) {
-			session_start();
+			@session_start();
 			static::$session_started = true;
 		}
 
@@ -87,10 +87,10 @@ class Session extends Object {
 
 	/**
 	 * @param string $key
-	 * @param mixed $default_value
+	 * @param mixed $default_value (optional)
 	 * @return mixed
 	 */
-	public function getValue( $key, $default_value ) {
+	public function getValue( $key, $default_value=null ) {
 		$this->checkKey($key);
 
 		if( $this->getValueExists($key) ) {
@@ -128,5 +128,6 @@ class Session extends Object {
 	 */
 	public static function destroy() {
 		session_destroy();
+		$_SESSION = array();
 	}
 }
