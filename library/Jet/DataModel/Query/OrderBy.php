@@ -56,6 +56,8 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 				$ob = substr($ob, 1);
 			}
 
+			$property = null;
+
 			if(!$select->getHasItem($ob)) {
 				if(strpos($ob, ".")) {
 					$property = $query->_getPropertyAndSetRelatedClass($ob);

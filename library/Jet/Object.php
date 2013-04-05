@@ -2,10 +2,6 @@
 /**
  *
  *
- *
- * General system object
- *
- *
  * @copyright Copyright (c) 2011-2012 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0.html AGPLv3
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -52,14 +48,14 @@ class Object {
 
 
 	/**
-	 * Default serialize rules (don't serialize __JET__* properties)
+	 * Default serialize rules (don't serialize __* properties)
 	 *
 	 * @return array
 	 */
 	public function __sleep(){
 		$vars = get_object_vars($this);
 		foreach($vars as $k => $v){
-			if(substr($k, 0, 6) === "_"){
+			if(substr($k, 0, 2) === "__"){
 				unset($vars[$k]);
 			}
 		}
@@ -126,7 +122,7 @@ class Object {
 	 * @return string
 	 */
 	final public static function getFactoryClassMethod() {
-		return static::$__factory_class_method;
+		return static::$__factory_class_method_name;
 	}
 
 

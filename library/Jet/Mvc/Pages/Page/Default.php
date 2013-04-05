@@ -1100,12 +1100,12 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 		$URI_fragment = rawurlencode($URI_fragment);
 
-		$max_sufix_no = 9999;
+		$max_suffix_no = 9999;
 
 		if( $exists_check( $URI_fragment.$suffix ) ) {
-			$_ID = substr($URI_fragment, 0, 255 - strlen( (string)$max_sufix_no )  );
+			$_ID = substr($URI_fragment, 0, 255 - strlen( (string)$max_suffix_no )  );
 
-			for($c=1; $c<=$max_sufix_no; $c++) {
+			for($c=1; $c<=$max_suffix_no; $c++) {
 				$URI_fragment = $_ID.$c;
 
 				if( !$exists_check( $URI_fragment.$suffix ) ) {

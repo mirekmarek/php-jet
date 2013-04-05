@@ -39,6 +39,8 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 		$this->items = array();
 		foreach($group_by as $gb) {
 
+			$property = null;
+
 			if(!$select->getHasItem($gb)) {
 				if(strpos($gb, ".")) {
 					$property = $query->_getPropertyAndSetRelatedClass($gb);

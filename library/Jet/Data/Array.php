@@ -316,6 +316,7 @@ class Data_Array extends Object {
 	 * @return string
 	 */
 	public function export(array $path_labels = array()){
+		//TODO: nicer, use path labels
 		return var_export($this->data, true);
 	}
 

@@ -157,6 +157,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 
 		if( $M_instance instanceof $this->__data_model_M_model_class_name ) {
+			/**
+			 * @var DataModel $M_instance
+			 */
 			$this->M_ID = $M_instance->getID();
 			return;
 		}
@@ -171,6 +174,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 					);
 		}
 
+		/**
+		 * @var DataModel $M_instance
+		 */
 		$this->M_ID = $M_instance->getID();
 
 		$this->N_IDs = null;
@@ -205,6 +211,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 		$valid_class_name =$this->__data_model_N_model_class_name;
 		foreach($N_instances as $N) {
+			/**
+			 * @var DataModel $N
+			 */
 			if(! ($N instanceof $valid_class_name) ) {
 				throw new DataModel_Exception(
 					"N instance must be instance of '{$valid_class_name}'. '".get_class($N)."' given ",
@@ -243,6 +252,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		if(!$get_relation_data) {
 			return true;
 		}
+		/**
+		 * @var DataModel $N_model_instance
+		 */
 
 		//YES - THIS class is relevant for us!
 		$this->setMRelatedModel( $M_model_instance );

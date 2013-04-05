@@ -265,6 +265,7 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 
 		arsort($chars);
 
+		$most_common_char_count = 0;
 		foreach($chars as $most_common_char_count) {
 			break;
 		}

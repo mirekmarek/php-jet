@@ -234,7 +234,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	/**
 	 * @param DataModel $data_model
 	 *
-	 * @throws Exception
+	 * @throws \Exception|Exception
 	 */
 	public function helper_update( DataModel $data_model ) {
 		$this->transactionStart();
@@ -836,6 +836,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			 * @var DataModel_Query_Select_Item $val
 			 */
 			if($val instanceof DataModel_Definition_Property_Abstract) {
+				/**
+				 * @var DataModel_Definition_Property_Abstract $val
+				 */
 				$val = $this->_getColumnName($val);
 			} else
 			if($val instanceof DataModel_Query_Select_Item) {

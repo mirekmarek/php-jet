@@ -197,17 +197,19 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
         //$this->_DOM_document->loadXML($data);
 		$this->_DOM_document->formatOutput = true;
 
+		/*
         $data_per_lines = explode("\n", $data);
 
         foreach( libxml_get_errors() as $xml_error ) {
-            /**
+            **
              * @var \libXMLError $xml_error
-             */
+             *
 
             //TODO: error handling
             //var_dump($xml_error);
             //var_dump($data_per_lines[$xml_error->line-1]);
         }
+		*/
 		libxml_clear_errors();
 
 		$ID_prefix = $this->layout->getUIContainerIDPrefix();
