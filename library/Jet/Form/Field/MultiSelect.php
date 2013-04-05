@@ -105,26 +105,21 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field($tag_data) {
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName()."[]";
-		$properties["id"] = $this->getID();
-		$properties["multiple"] = "multiple";
+		$tag_data->setProperty( "name", $this->getName()."[]" );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "multiple", "multiple" );
+
+		$result = "<select {$this->_getTagPropertiesAsString( $tag_data )}>\n";
 
 		$value = $this->_value;
 
-		$options = $this->select_options;
-
-		$result = "<select "
-			.$this->_getTagPropertiesAsString($properties, "field")
-			.">\n";
-
-		foreach($options as $val=>$label) {
+		foreach($this->select_options as $val=>$label) {
 			$selected = false;
 
 			if(is_array($value) && !empty($value)){

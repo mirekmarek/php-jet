@@ -20,16 +20,6 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	protected $_type = "DateTime";
 
 	/**
-	 * @var array
-	 */
-	protected $_tags_list =  array(
-		"field_label",
-		"field_error_msg",
-		"field",
-		"field_time"
-	);
-
-	/**
 	 *
 	 * @param Data_Array $data
 	 */
@@ -78,54 +68,59 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field($tag_data) {
-
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		$properties["type"] = "text";
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
 		$value = $this->getValue();
-		if($value) {
-			$properties["value"] = date("Y-m-d", strtotime($value));
-		} else {
-			$properties["value"] = "";
-		}
 
-		return '<input '
-			.$this->_getTagPropertiesAsString($properties, "field")
-			.'/>';
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "type", "text" );
+		$tag_data->setProperty( "value", $value ? date("Y-m-d", strtotime($value)):"" );
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field_time($tag_data) {
-
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName()."_time";
-		$properties["id"] = $this->getID()."_time";
-		$properties["type"] = "text";
-		$properties["value"] = "";
+	protected function _getReplacement_field_time( Form_Parser_TagData $tag_data ) {
 
 		$value = $this->getValue();
 
-		if($value) {
-			$properties["value"] = "T".date("H:i:s", strtotime($value));
-		} else {
-			$properties["value"] = "";
+		$tag_data->setProperty( "name", $this->getName()."_time");
+		$tag_data->setProperty( "id", $this->getID()."_time");
+		$tag_data->setProperty( "type", "text");
+		$tag_data->setProperty( "value", $value ? "T".date("H:i:s", strtotime($value)):"" );
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+
+	}
+
+	/**
+	 * @param null|string $template (optional)
+	 *
+	 * @return string
+	 */
+	public function helper_getBasicHTML($template=null) {
+
+		if(!$template) {
+			$template = $this->__form->getTemplate_field();
 		}
 
-
-		return '<input '
-			.$this->_getTagPropertiesAsString($properties, "field:time")
-			.'/>';
+		return Data_Text::replaceData($template, array(
+			"LABEL" => "<jet_form_field_label name=\"{$this->_name}\"/>",
+			"FIELD" =>
+				"<jet_form_field_error_msg name=\"{$this->_name}\" class=\"error\"/>"
+				."<jet_form_field name=\"{$this->_name}\"/>"
+				."<jet_form_field_time name=\"{$this->_name}\"/>"
+		));
 	}
+
 
 }

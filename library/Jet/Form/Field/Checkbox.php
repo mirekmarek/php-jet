@@ -55,28 +55,26 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field( $tag_data ) {
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		$properties["type"] = "checkbox";
-		$properties["class"] = "checkbox";
-		$properties["value"] = 1;
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "type", "checkbox" );
+		$tag_data->setProperty( "value", 1);
+
+
 		if($this->getValue()) {
-			$properties["checked"] = "checked";
+			$tag_data->setProperty("checked", "checked");
 		} else {
-			if(isset($properties["checked"])) {
-				unset($properties["checked"]);
-			}
+			$tag_data->unsetProperty("checked");
 		}
-				
-		return '<input '
-				.$this->_getTagPropertiesAsString($properties, "field")
-				.'/>';
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+
 	}
 	
 }

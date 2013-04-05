@@ -40,17 +40,6 @@ class Form_Field_Password extends Form_Field_Abstract {
 				"thin_password" => "thin_password"
 			);
 
-	/**
-	 * @var array
-	 */
-	protected $_tags_list =  array(
-			"field_label",
-			"field_error_msg",
-			"field",
-			"field_check_label",
-			"field_check"
-		);
-
 
 	/**
 	 * @var int
@@ -184,30 +173,30 @@ class Form_Field_Password extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field($tag_data) {
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		$properties["type"] = "password";
-		$properties["value"] = "";
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		return '<input '
-				.$this->_getTagPropertiesAsString($properties, "field")
-				.'/>';
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "type", "password" );
+		$tag_data->setProperty( "value", "" );
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+
 	}
 
 	/**
-	 * @param $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field_check_label($tag_data) {		
-		if($this->disable_check)
+	protected function _getReplacement_field_check_label( Form_Parser_TagData $tag_data ) {
+		if($this->disable_check) {
 			return "";
+		}
 
 		$label = $this->password_check_label;
 
@@ -215,29 +204,29 @@ class Form_Field_Password extends Form_Field_Abstract {
 			$label = "<em class=\"required\">*</em> ".$label;
 		}
 
-		return '<label for="'.$this->getID().'_check" '
-				.$this->_getTagPropertiesAsString($tag_data["properties"], "field:check:label")
-			.'>'.$this->_form->getTranslation($label).'</label>';
+		$tag_data->setProperty("for", $this->getID(),"_check" );
+
+		$label = $this->getTranslation($label);
+
+		return "<label {$this->_getTagPropertiesAsString( $tag_data )}>{$label}</label>";
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field_check($tag_data) {
-		if($this->disable_check)
+	protected function _getReplacement_field_check( Form_Parser_TagData $tag_data ) {
+		if($this->disable_check) {
 			return "";
-		
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName()."_check";
-		$properties["id"] = $this->getID()."_check";
-		$properties["type"] = "password";
-		$properties["value"] = "";
-				
-		return '<input '
-				.$this->_getTagPropertiesAsString($properties, "field:check")
-				.'/>';
+		}
+
+		$tag_data->setProperty( "name", $this->getName()."_check" );
+		$tag_data->setProperty( "id", $this->getID()."_check" );
+		$tag_data->setProperty( "type", "password" );
+		$tag_data->setProperty( "value", "" );
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
 	}
 
 	/**
@@ -247,7 +236,7 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 */
 	public function helper_getBasicHTML($template=null) {
 		if(!$template) {
-			$template = $this->_form->getTemplate_field();
+			$template = $this->__form->getTemplate_field();
 		}
 
 		$result = Data_Text::replaceData($template, array(

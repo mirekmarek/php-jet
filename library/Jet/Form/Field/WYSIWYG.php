@@ -35,26 +35,19 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	protected $WYSIWYG_editor = "TinyMCE";
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field( $tag_data ) {
-		$this->_form->getLayout()->requireJavascriptLib( $this->WYSIWYG_editor );
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+		$this->__form->getLayout()->requireJavascriptLib( $this->WYSIWYG_editor );
 
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-
-
-		$result = '';
+		$tag_data->setProperty("name", $this->getName());
+		$tag_data->setProperty("id", $this->getID());
 
 
-		$result .= '<textarea '
-			.$this->_getTagPropertiesAsString($properties, "field")
-			.'>'.$this->getValue().'</textarea>'."\n";
-
-		$result .= '<script type="text/javascript">jet_WYSIWYG.init('.json_encode($this->getID()).','.json_encode($this->editor_config_name).');</script>'."\n";
+		$result = "<textarea {$this->_getTagPropertiesAsString( $tag_data )}>{$this->getValue()}</textarea>\n";
+		$result .= "<script type=\"text/javascript\">jet_WYSIWYG.init(".json_encode($this->getID()).",".json_encode($this->editor_config_name).");</script>\n";
 
 		return $result;
 	}

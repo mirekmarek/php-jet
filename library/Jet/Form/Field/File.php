@@ -70,22 +70,18 @@ class Form_Field_File extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param string $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field($tag_data) {
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		$properties["type"] = "file";
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "type", "file" );
+		$tag_data->setProperty( "value", $this->getValue() );
 
-		$properties["value"] = $this->getValue();
-
-		return '<input '
-			.$this->_getTagPropertiesAsString($properties, "field")
-			.'/>';
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
 	}
 
 

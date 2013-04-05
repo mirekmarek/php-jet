@@ -27,28 +27,20 @@ class Form_Field_Hidden extends Form_Field_Abstract {
 	 */
 	protected $_possible_to_decorate = false;
 
-	/**
-	 * @var array
-	 */
-	protected $_tags_list =  array(
-			"field"
-		);
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field( $tag_data ) {
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		$properties["type"] = "hidden";
-		$properties["value"] = $this->getValue();
-				
-		return '<input '
-				.$this->_getTagPropertiesAsString($properties, "field")
-				.'/>';
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "type", "hidden" );
+		$tag_data->setProperty( "value", $this->getValue() );
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+
 	}
 
 	/**

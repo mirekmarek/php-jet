@@ -48,31 +48,13 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	/**
 	 * @var Form
 	 */
-	protected $_form = null;
+	protected $__form = null;
 	/**
 	 * form name
 	 * 
 	 * @var string 
 	 */
-	protected $_form_name = "";
-
-	/**
-	 * @var array
-	 */
-	protected $_tags_list =  array(
-		"field_label",
-		"field_error_msg",
-		"field"
-	);
-
-	/**
-	 * @var array
-	 */
-	protected $_tags_HTML_properties = array(
-		"field_label" => array(),
-		"field_error_msg" => array(),
-		"field" => array()
-	);
+	protected $__form_name = "";
 
 	/**
 	 * raw value from input (input = most often $_POST)
@@ -223,8 +205,8 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @param Form $form
 	 */
 	public function setForm(Form $form) {
-		$this->_form = $form;
-		$this->_form_name = $form->getName();
+		$this->__form = $form;
+		$this->__form_name = $form->getName();
 	}
 		
 	/**
@@ -242,7 +224,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @return string
 	 */
 	public function getID() {
-		return $this->_form->getID()."__".str_replace("/", "___", $this->getName());
+		return $this->__form->getID()."__".str_replace("/", "___", $this->getName());
 	}
 
 	/**
@@ -287,7 +269,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 *
 	 * @return string
 	 */
-	public function getNameForHtmlTag( $name ) {
+	public function getNameTagValue( $name ) {
 		if($name[0]!="/") {
 			return $name;
 		}
@@ -446,73 +428,6 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	}
 
 	/**
-	 * set tag HTML properties
-	 * 
-	 * @param string $tag
-	 * @param array $properties
-	 */
-	public function setHTMLTagProperties( $tag, $properties ) {
-		$this->_tags_HTML_properties[$tag] = array();
-		
-		foreach($properties as $property=>$value) {
-			$this->_tags_HTML_properties[$tag][$property] = $value;
-		}
-	}
-	
-	/**
-	 * set tag HTML property
-	 * 
-	 * @param string $tag
-	 * @param string $property
-	 * @param string $value
-	 */
-	public function setHTMLTagProperty( $tag, $property, $value ) {
-		if(!isset($this->_tags_HTML_properties[$tag])) {
-			$this->_tags_HTML_properties[$tag] = array();
-		}
-			
-		$this->_tags_HTML_properties[$tag][$property] = $value;
-	}
-	
-	/**
-	 * unset HTML property
-	 * 
-	 * @param $tag
-	 * @param $property
-	 */
-	public function unsetHTMLTagProperty( $tag, $property ) {
-		if(!isset($this->_tags_HTML_properties[$tag])) {
-			$this->_tags_HTML_properties[$tag] = array();
-		}
-
-		if(isset($this->_tags_HTML_properties[$tag][$property])) {
-			unset($this->_tags_HTML_properties[$tag][$property]);
-		}
-	}
-	
-		
-	/**
-	 * get HTML property
-	 * 
-	 * @param string $tag
-	 * @param string $property
-	 * @param string $default_value
-	 *
-	 * @return string
-	 */
-	public function getHTMLTagProperty($tag, $property, $default_value) {
-		if(
-			!isset($this->_tags_HTML_properties[$tag]) ||
-			!isset($this->_tags_HTML_properties[$tag][$property])
-		) {
-			return $default_value;
-		}
-			
-		return $this->_tags_HTML_properties[$tag][$property];
-	}
-	
-	
-	/**
 	 * catch value from input (input = most often $_POST)
 	 * 
 	 * @param Data_Array $data
@@ -606,20 +521,6 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	}
 
 	/**
-	 * returns tags in view list
-	 * 
-	 * example:
-	 *              <jet_form_field_label/> <jet_form_field_error_msg/> <jet_form_field/>
-	 *      returns:
-	 *              array("field_label", "field_error_msg", "field")
-	 *
-	 * @return array
-	 */
-	public function getTagsInViewList() {
-		return $this->_tags_list;
-	}
-		
-	/**
 	 * set value is OK
 	 */
 	protected function _setValueIsValid() {
@@ -646,7 +547,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function setErrorMessage($error_message) {
 		$this->_is_valid = false;
-		$this->_form->setIsNotValid();
+		$this->__form->setIsNotValid();
 		$this->_last_error = $error_message;
 		$this->_last_error_message = $error_message;
 	}
@@ -678,126 +579,98 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	/**
 	 * replace magic mf_form* tags by real HTML for this form field
 	 *
-	 * @param string $form_output_part
-	 * @param array $tags_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	public function processView($form_output_part, $tags_data ) {
+	public function getReplacement( Form_Parser_TagData $tag_data ) {
 
-		foreach($tags_data as $tag=>$tag_data) {
-			if(!$tag_data) {
-				continue;
-			}
-
-			$method_name = str_replace(":", "_","_generateTag_{$tag}");
-			$replacement = $this->{$method_name}($tag_data);
-
-			if(is_array($replacement)) {
-				foreach($replacement as $d) {
-					$form_output_part = str_replace($d["orig_str"], $d["replacement"], $form_output_part);
-				}
-			} else {
-				$form_output_part = str_replace($tag_data["orig_str"], $replacement, $form_output_part);
-			}
-		}
-
-		return $form_output_part;
+		$method_name = str_replace(":", "_","_getReplacement_{$tag_data->getTag()}");
+		return $this->{$method_name}($tag_data);
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field_label($tag_data ) {
+	protected function _getReplacement_field_label( Form_Parser_TagData $tag_data ) {
 		$label = $this->label;
 
-		if(!$label) $label = $this->_name.": ";
-
-		$label = $this->_form->getTranslation( $label );
-
-		if($this->is_required && $label) {
-			$label = Data_Text::replaceData($this->_form->getTemplate_field_required(), array("LABEL"=>$label));
+		if(!$label) {
+			$label = $this->_name.": ";
 		}
 
-		return '<label for="'.$this->getID().'" '
-				.$this->_getTagPropertiesAsString($tag_data["properties"], "field_label")
-			.'>'.$label.'</label>';
+		$label = $this->getTranslation( $label );
+
+		if(
+			$this->is_required &&
+			$label
+		) {
+			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), array("LABEL"=>$label));
+		}
+
+		$tag_data->setProperty("for", $this->getID());
+
+		return "<label {$this->_getTagPropertiesAsString( $tag_data )}>{$label}</label>";
 	}
 
 	/**
-	 * @param string $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field_error_msg($tag_data ) {
+	protected function _getReplacement_field_error_msg( /** @noinspection PhpUnusedParameterInspection */
+		Form_Parser_TagData $tag_data ) {
 		$msg = $this->getLastErrorMessage();
 		if(!$msg) {
 			return "";
 		}
 
-		$msg = $this->_form->getTranslation($msg);
+		$msg = $this->getTranslation($msg);
 
-		$template = $this->_form->getTemplate_field_error_msg();
+		$template = $this->__form->getTemplate_field_error_msg();
 
 		return Data_Text::replaceData($template, array("ERROR_MSG"=>$msg));
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field($tag_data) {
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		$properties["type"] = "text";
-		if(!isset($properties["class"])){
-			$properties["class"] = "textfield";
-		}
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( "type", "text" );
+		$tag_data->setProperty( "value", $this->getValue() );
 
-		$properties["value"] = $this->getValue();
 
-		return '<input '
-				.$this->_getTagPropertiesAsString($properties, "field")
-				.'/>';
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
 	}
 
 	/**
-	 * @param array $properties
-	 * @param string $tag (optional)
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _getTagPropertiesAsString($properties, $tag="") {
+	protected function _getTagPropertiesAsString( Form_Parser_TagData $tag_data ) {
 		if($this->_possible_to_decorate) {
-			$decorator = $this->_form->getDecoratorInstance( $this );
+			$decorator = $this->__form->getDecoratorInstance( $this );
 			if($decorator) {
 				/**
 				 * @var Form_Decorator_Abstract $decorator
 				 */
-				$decorator->decorate( $tag, $properties );
+				$decorator->decorate( $tag_data );
 			}
 		}
 
 		$result = "";
 
-		if(
-			$tag &&
-			isset($this->_tags_HTML_properties[$tag]) &&
-			is_array($this->_tags_HTML_properties[$tag])
-		) {
-			foreach($this->_tags_HTML_properties[$tag] as $property=>$val) {
-				$result .= " {$property}=\"".htmlspecialchars($val)."\"";
-			}
-		}
-
-		foreach($properties as $property=>$val) {
+		foreach($tag_data->getProperties() as $property=>$val) {
 			if($property=="name") {
-				$val = $this->getNameForHtmlTag( $val );
+				$val = $this->getNameTagValue( $val );
 			}
 
 			if($property=="value") {
@@ -818,37 +691,16 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @return string
 	 */
 	public function helper_getBasicHTML($template=null) {
+
 		if(!$template) {
-			$template = $this->_form->getTemplate_field();
-		}
-
-
-		$tags_list = $this->_tags_list;
-
-		$label = "";
-		$field = "";
-
-		foreach($tags_list as $tag) {
-			if($tag=="field_error_msg") {
-				continue;
-			}
-
-			if($tag=="field_label") {
-				$label = "<jet_form_{$tag} name=\"{$this->_name}\"/>";
-				continue;
-			}
-
-			if($tag=="field"  && in_array("field_error_msg", $tags_list) ) {
-				$field .= "<jet_form_field_error_msg name=\"{$this->_name}\" class=\"error\"/>"
-					."<jet_form_{$tag} name=\"{$this->_name}\"/>";
-			} else {
-				$field .= "<jet_form_{$tag} name=\"{$this->_name}\"/>";
-			}
+			$template = $this->__form->getTemplate_field();
 		}
 
 		return Data_Text::replaceData($template, array(
-			"LABEL" => $label,
-			"FIELD" => $field
+			"LABEL" => "<jet_form_field_label name=\"{$this->_name}\"/>",
+			"FIELD" =>
+						 "<jet_form_field_error_msg name=\"{$this->_name}\" class=\"error\"/>"
+						."<jet_form_field name=\"{$this->_name}\"/>"
 		));
 	}
 
@@ -909,5 +761,17 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function getValidateDataCallback() {
 		return $this->validate_data_callback;
+	}
+
+	/**
+	 * @see Translator
+	 *
+	 * @param string $phrase
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function getTranslation( $phrase, $data=array() ) {
+		return $this->__form->getTranslation($phrase, $data );
 	}
 }

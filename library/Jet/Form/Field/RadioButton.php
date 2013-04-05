@@ -34,16 +34,6 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 				"invalid_value" => "invalid_value"
 			);
 
-	/**
-	 * @var array
-	 */
-	protected $_tags_list =  array(
-			"field_label",
-			"field_error_msg",
-			"field_option",
-			"field_option_label"
-		);
-
 
 	/**
 	 * catch value from input (input = most often $_POST)
@@ -84,82 +74,56 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param array $tag_data
-	 *
-	 * @return array
+	 * @param Form_Parser_TagData $tag_data
+	 * @return string
 	 */
-	protected function _generateTag_field_option_label( $tag_data ) {
-		
-		$options = $this->select_options;
-		$result = array();
-		
-		foreach($tag_data as $td) {
-			$tag = "";
-			
-			$properties = $td["properties"];
-			$key = $td["properties"]["key"];
-			
-			
-			if(isset($options[$key])) {
-				unset($properties["key"]);
-				$properties["for"] = $this->getID()."_{$key}";
-				
-				$tag = "<label for=\"".$properties["for"]."\">".Tr::_($options[$key])."</label>";
-			}
-			
-			$result[] = array(
-						"orig_str" => $td["orig_str"],
-						"replacement" => $tag
-					);
+	protected function _getReplacement_field_option_label( Form_Parser_TagData $tag_data ) {
+		$key = $tag_data->getProperty("key");
+
+		if(!isset($this->select_options[$key])) {
+			return "";
 		}
-		
-		return $result;
+
+		$tag_data->unsetProperty( "key" );
+		$tag_data->setProperty( "for", $this->getID()."_{$key}" );
+
+		$label = $this->getTranslation( $this->select_options[ $key ] );
+
+		return "<label {$this->_getTagPropertiesAsString( $tag_data )}>{$label}</label>";
+
 	}
 
 	/**
-	 * @param array $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
-	 * @return array
+	 * @return string
 	 */
-	protected function _generateTag_field_option( $tag_data ) {
-		
-		$options = $this->select_options;
-		$result = array();
-		
-		foreach($tag_data as $td) {
-			$tag = "";
-			
-			$properties = $td["properties"];
-			$key = $td["properties"]["key"];
-			
-			
-			if(isset($options[$key])) {
-				unset($properties["key"]);
-				$properties["type"] = "radio";
-				$properties["class"] = "radio";
-				$properties["name"] = $this->_name;
-				$properties["id"] = $this->getID()."_{$key}";
-				$properties["value"] = htmlspecialchars($key);
-				
-				if($this->_value==$key) {
-					$properties["checked"] = "checked";
-				} else {
-					if(isset($properties["checked"]))
-						unset($properties["checked"]);
-				}
-				
-				$tag = "<input "
-					.$this->_getTagPropertiesAsString($properties, "field:option")
-					."/>";
-			}
-			
-			$result[] = array(
-						"orig_str" => $td["orig_str"],
-						"replacement" => $tag
-					);
+	protected function _getReplacement_field_option( Form_Parser_TagData $tag_data ) {
+		$key = $tag_data->getProperty("key");
+
+		if(!isset($this->select_options[$key])) {
+			return "";
 		}
-		
-		return $result;
+
+		$tag_data->unsetProperty( "key" );
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID()."_{$key}" );
+		$tag_data->setProperty( "type", "radio" );
+		$tag_data->setProperty( "value", $key );
+
+		if(!$tag_data->getPropertyIsSet("class")){
+			$tag_data->setProperty("class", "radio");
+			$properties["class"] = "radio";
+		}
+
+
+		if($this->_value==$key) {
+			$tag_data->setProperty("checked", "checked");
+		} else {
+			$tag_data->unsetProperty("checked");
+		}
+
+		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
 	}
 
 	/**
@@ -169,7 +133,7 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 */
 	public function helper_getBasicHTML($template=null) {
 		if(!$template) {
-			$template = $this->_form->getTemplate_field();
+			$template = $this->__form->getTemplate_field();
 		}
 
 

@@ -52,22 +52,19 @@ class Form_Field_Select extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param string $tag_data
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return string
 	 */
-	protected function _generateTag_field($tag_data ) {
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 		
-		$properties = $tag_data["properties"];
-		$properties["name"] = $this->getName();
-		$properties["id"] = $this->getID();
-		
+		$tag_data->setProperty( "name", $this->getName() );
+		$tag_data->setProperty( "id", $this->getID() );
+
 		$value = $this->getValue();
 		$options = $this->select_options;
 				
-		$result = "<select "
-				.$this->_getTagPropertiesAsString($properties, "field")
-				.">\n";
+		$result = "<select {$this->_getTagPropertiesAsString($tag_data)}>\n";
 
 
 		foreach($options as $val=>$label) {

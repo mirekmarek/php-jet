@@ -40,12 +40,13 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 
 	/**
 	 *
-	 * @param string $tag
-	 * @param array &$properties
+	 * @param Form_Parser_TagData $tag_data
 	 *
 	 * @return void
 	 */
-	public function decorate( $tag, array &$properties ) {
+	public function decorate( Form_Parser_TagData $tag_data ) {
+		$tag = $tag_data->getTag();
+
 		if(!isset($this->decoratable_tags[$tag])) {
 			return;
 		}
@@ -53,17 +54,18 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 		$decorate_data = $this->decoratable_tags[$tag];
 
 		if(!empty($decorate_data["get_dojo_type_method_name"])) {
-			$dojo_type = $this->{$decorate_data["get_dojo_type_method_name"]}( $tag, $properties );
+			$dojo_type = $this->{$decorate_data["get_dojo_type_method_name"]}( $tag_data );
 		} else {
 			$dojo_type = $decorate_data["dojo_type"];
 		}
 
-		$get_dojo_type_method_name = "getDojoProperties";
 		if(!empty($decorate_data["get_dojo_type_method_name"])) {
-			$get_dojo_type_method_name = $decorate_data["get_dojo_type_method_name"];
+			$get_dojo_properties_method_name = $decorate_data["get_dojo_type_method_name"];
+		} else {
+			$get_dojo_properties_method_name = "getDojoProperties";
 		}
 
-		$this->$get_dojo_type_method_name($tag, $properties);
+		$this->$get_dojo_properties_method_name($tag_data);
 
 		$Dojo = $this->form->getLayout()->requireJavascriptLib("Dojo");
 		$Dojo->requireComponent( $dojo_type );
@@ -74,23 +76,23 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 			$_dojo_props[] = "{$k}:".json_encode($val);
 		}
 
-		$properties[static::DOJO_TYPE_PROPERTY] = $dojo_type;
-		$properties[static::DOJO_PROPS_PROPERTY] = implode(",", $_dojo_props);
+		$tag_data->setProperty( static::DOJO_TYPE_PROPERTY, $dojo_type );
+		$tag_data->setProperty( static::DOJO_PROPS_PROPERTY, implode(",", $_dojo_props));
 	}
 
 	/**
-	 * @param string $tag
-	 * @param array &$properties
+	 * @param Form_Parser_TagData $tag_data
 	 */
-	protected function getDojoProperties( $tag, &$properties ) {
+	protected function getDojoProperties( Form_Parser_TagData $tag_data ) {
 		if($this->field->getIsRequired()) {
 			$this->_dojo_properties["required"] = "true";
-			if(!empty($properties["missingMessage"])) {
-				$this->_dojo_properties["missingMessage"] = $properties["missingMessage"];
-				unset($properties["missingMessage"]);
-			} else {
-				$this->_dojo_properties["missingMessage"] = $this->field->getErrorMessage("empty");
-			}
+
+
+			$this->_dojo_properties["missingMessage"] = $tag_data->getProperty(
+								"missingMessage",
+								$this->field->getErrorMessage("empty")
+			);
+			$tag_data->unsetProperty("missingMessage");
 		}
 
 		$validation_regexp = $this->field->getValidationRegexp();
@@ -98,12 +100,12 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 		if($validation_regexp){
 			$this->_dojo_properties["regExp"] = $validation_regexp;
 
-			if(!empty($properties["invalidMessage"])) {
-				$this->_dojo_properties["invalidMessage"] = $properties["invalidMessage"];
-				unset($properties["invalidMessage"]);
-			} else {
-				$this->_dojo_properties["invalidMessage"] = $this->field->getErrorMessage("invalid_format");
-			}
+			$this->_dojo_properties["invalidMessage"] = $tag_data->getProperty(
+				"invalidMessage",
+				$this->field->getErrorMessage("empty")
+			);
+			$tag_data->unsetProperty("invalidMessage");
 		}
+
 	}
 }

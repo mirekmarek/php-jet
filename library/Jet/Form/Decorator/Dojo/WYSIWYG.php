@@ -21,11 +21,9 @@ class Form_Decorator_Dojo_WYSIWYG extends Form_Decorator_Abstract {
 	/**
 	 * Do nothing
 	 *
-	 * @param string $tag
-	 * @param array &$properties
+	 * @param Form_Parser_TagData $tag_data
 	 *
-	 * @return void
 	 */
-	public function decorate($tag, array &$properties) {
+	public function decorate( Form_Parser_TagData $tag_data ) {
 	}
 }

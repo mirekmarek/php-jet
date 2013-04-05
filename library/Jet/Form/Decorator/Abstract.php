@@ -50,10 +50,8 @@ abstract class Form_Decorator_Abstract extends Object {
 	/**
 	 * @abstract
 	 *
-	 * @param string $tag
-	 * @param array &$properties
+	 * @param Form_Parser_TagData $tag_data
 	 *
-	 * @return void
 	 */
-	abstract function decorate( $tag, array &$properties );
+	abstract function decorate( Form_Parser_TagData $tag_data );
 }

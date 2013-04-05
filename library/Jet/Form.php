@@ -93,7 +93,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @var Mvc_Layout
 	 */
-	protected $layout;
+	protected $__layout;
 
 	/**
 	 * @var string
@@ -427,7 +427,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function viewPostProcess( &$result, Mvc_View $view) {
-		$this->layout = $view->getLayout();
+		$this->__layout = $view->getLayout();
 
 		$form_output_part = strstr( $result, "<".static::FORM_TAG." name=\"{$this->name}\"" );
 		
@@ -445,104 +445,100 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 					Form_Exception::CODE_VIEW_PARSE_ERROR
 				);
 		}
-		
+
 		$form_output_part = substr($form_output_part, 0, $form_output_part_pos + strlen("</".static::FORM_TAG.">"));
 
 		$form_output_part_replacement = $form_output_part;
-		
-		$all_tags_data = $this->_parseTags($form_output_part_replacement);
 
-		foreach($this->fields as $field_name=>$field) {
+		$tags = $this->_parseTags($form_output_part_replacement);
 
-			$tags_list = $field->getTagsInViewList();
-			$tags_data = array();
-			foreach($tags_list as $tag) {
-				$tags_data[$tag] = null;
-				
-				if(!isset($all_tags_data[$tag])) {
-					continue;
-				}
-					
-				if(!isset($all_tags_data[$tag][$field_name])) {
-					continue;
-				}
-					
-				$tags_data[$tag] = $all_tags_data[$tag][$field_name];
-					
+		foreach( $tags as $tag_data ) {
+			$replacement = "";
+
+			switch( $tag_data->getTag() ) {
+				case self::FORM_COMMON_ERROR_MESSAGE_TAG:
+					$replacement = $this->_getReplacement_common_error_message($tag_data);
+				break;
+				case "form":
+					if($tag_data->getPropertyIsSet("id")) {
+						throw new Form_Exception(
+							"Parse error: Form '{$this->name}' has set ID property! Please do not set ID property yourself. It will be done by parser with regard to container_ID. ",
+							Form_Exception::CODE_VIEW_PARSE_ERROR
+						);
+					}
+
+					$replacement = $this->_getReplacement_form($tag_data);
+				break;
+				default:
+					$field = $this->fields[$tag_data->getName()];
+
+					if($field) {
+						$replacement = $field->getReplacement( $tag_data );
+					}
+				break;
 			}
 
-			$form_output_part_replacement = $field->processView(
-									$form_output_part_replacement,
-									$tags_data
-								);				
+			$form_output_part_replacement = str_replace($tag_data->getOriginalString(), $replacement, $form_output_part_replacement);
+
 		}
 
-
-		$form_tag_data = $all_tags_data["__FORM__"];
-		
-		$form_tag_orig_str = $form_tag_data[$this->name]["orig_str"];
-
-		$form_tag_properties = $form_tag_data[$this->name]["properties"];
-		$form_tag_properties["name"] = $this->name;
-		$form_tag_properties["method"] = ($this->method=="GET") ? "GET" : "POST";
-
-		if(
-			isset($form_tag_properties["ID"]) ||
-			isset($form_tag_properties["id"]) ||
-			isset($form_tag_properties["Id"]) ||
-			isset($form_tag_properties["iD"])
-		) {
-			throw new Form_Exception(
-				"Parse error: Form '{$this->name}' has set ID property! Please do not set ID property yourself. It will be done by parser with regard to container_ID. ",
-				Form_Exception::CODE_VIEW_PARSE_ERROR
-			);
-		}
-
-		$form_tag_properties["ID"] = $this->getID();
-
-		$from_tag_replacement = "<form ";
-		foreach($form_tag_properties as $property=>$val) {
-			$from_tag_replacement .= " {$property}=\"".htmlspecialchars($val)."\"";
-		}
-		
-		$from_tag_replacement .= ">\n";
-				
-		$from_tag_replacement .= "<input type=\"hidden\" name=\"".self::FORM_SENT_KEY."\" value=\"".htmlspecialchars($this->name)."\"/>\n";
-				
-		$form_output_part_replacement = str_replace($form_tag_orig_str, $from_tag_replacement, $form_output_part_replacement);
 		$form_output_part_replacement = str_replace("</".static::FORM_TAG.">", "</form>", $form_output_part_replacement);
 
-		if(isset($all_tags_data[self::FORM_COMMON_ERROR_MESSAGE_TAG])) {
-			$td = $all_tags_data[self::FORM_COMMON_ERROR_MESSAGE_TAG];
 
-			if(!$this->common_error_message) {
-				$common_error_message = "";
-			} else {
-
-				$common_error_message = "<div ";
-				foreach($td["properties"] as $property=>$val) {
-					$common_error_message .= " {$property}=\"".htmlspecialchars($val)."\"";
-				}
-				$common_error_message .= ">".htmlspecialchars($this->common_error_message)."</div>\n";
-			}
-
-			$form_output_part_replacement = str_replace($td["orig_str"], $common_error_message, $form_output_part_replacement);
-		}
-		
 		$result = str_replace(
 					$form_output_part,
 					$form_output_part_replacement,
 					$result
 				);
-	}		
+	}
+
+	/**
+	 * @param Form_Parser_TagData $tag_data
+	 * @return string
+	 *
+	 */
+	protected function _getReplacement_form( Form_Parser_TagData $tag_data ) {
+		$tag_data->setProperty("id", $this->getID() );
+		$tag_data->setProperty("name", $this->name );
+		$tag_data->setProperty("method", ($this->method=="GET") ? "GET" : "POST" );
+
+		$replacement = "<form ";
+		foreach($tag_data->getProperties() as $property=>$val) {
+			$replacement .= " {$property}=\"".htmlspecialchars($val)."\"";
+		}
+
+		$replacement .= ">\n";
+		$replacement .= "<input type=\"hidden\" name=\"".self::FORM_SENT_KEY."\" value=\"".htmlspecialchars($this->name)."\"/>\n";
+
+		return $replacement;
+	}
+
+	/**
+	 * @param Form_Parser_TagData $tag_data
+	 * @return string
+	 */
+	protected function _getReplacement_common_error_message( Form_Parser_TagData $tag_data ) {
+		$replacement = "";
+
+		if($this->common_error_message) {
+
+			$replacement = "<div ";
+			foreach($tag_data->getProperties() as $property=>$val) {
+				$replacement .= " {$property}=\"".htmlspecialchars($val)."\"";
+			}
+			$replacement .= ">".htmlspecialchars($this->common_error_message)."</div>\n";
+		}
+
+		return $replacement;
+	}
 	
 	
 	/**
-	 * parse mf_form* tags data from given string
+	 * parse jet_form* tags data from given string
 	 * 
 	 * @param string $form_output_part
 	 * 
-	 * @return array
+	 * @return Form_Parser_TagData[]
 	 */
 	protected function _parseTags( $form_output_part) {
 		
@@ -552,74 +548,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		if(preg_match_all('/<'.static::FORM_TAG.'([a-zA-Z_]*) ([^>]*)>/i', $form_output_part, $matches, PREG_SET_ORDER)) {
 
 			foreach($matches as $match) {
-				$orig_str = $match[0];
-				
-				$tag = $match[1];
-				
-				if(!$tag) {
-					$tag = "__FORM__";
-				} else {
-					$tag = substr($tag, 1);
-				}
-				$properties = array();
-				$name = false;
-				$_properties = substr(trim($match[2]), 0, -1);
-				
-				do {
-					$_properties = str_replace( "  ", " ", $_properties );
-				} while( strpos( "  ", $_properties ) !== false );
-				
-				$_properties = explode( '" ', $_properties );
-				
-				foreach( $_properties as $property ) {
-					if( !$property || strpos($property, "=")===false ) {
-						continue;
-					}
-						
-					$property = explode("=", $property);
-					
-					$property_name = array_shift($property);
-					$property_value = implode('=', $property);
-					
-					$property_name = strtolower($property_name);
-					$property_value = str_replace("\"", "", $property_value);
-
-					if($property_name=="name") {
-						$name=$property_value;
-					} else {
-						$properties[$property_name] = $property_value;
-					}
-				}
-
-				if(!$name) {
-					if($tag==static::FORM_COMMON_ERROR_MESSAGE_TAG) {
-						$result[$tag] = array(
-							"orig_str" => $orig_str,
-							"properties"=> $properties
-						);
-					}
-
-					continue;
-				}
-
-				if(!isset($result[$tag])) {
-					$result[$tag] = array();
-				}
-				
-				if(isset($result[$tag][$name])) {
-					if(!isset($result[$tag][$name][0]))
-						$result[$tag][$name] = array($result[$tag][$name]);
-						
-					$result[$tag][$name][] = array(
-									"orig_str" => $orig_str,
-									"properties"=> $properties
-								); 
-				} else {
-					$result[$tag][$name] = array(
-									"orig_str" => $orig_str,
-									"properties"=> $properties
-								);
-				}
+				$result[] = new Form_Parser_TagData( $match );
 			}
 		}
 
@@ -708,7 +637,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return Mvc_Layout
 	 */
 	public function getLayout() {
-		return $this->layout;
+		return $this->__layout;
 	}
 
 	/**
@@ -829,6 +758,15 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 */
 	public function getCustomTranslatorLocale() {
 		return $this->custom_translator_locale;
+	}
+
+	/**
+	 *
+	 */
+	public function __wakeup() {
+		foreach($this->fields as $field) {
+			$field->setForm($this);
+		}
 	}
 
 }
