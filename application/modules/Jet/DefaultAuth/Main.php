@@ -163,11 +163,9 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			return false;
 		}
 
-		$session = new \Zend_Session_Namespace("auth");
-		$session->user_ID =(string)$user->getID();
+		$session = new Jet\Session("auth");
+		$session->setValue( "user_ID", $user->getID() );
 
-		//session_start();
-		//$_SESSION["user_ID"] = (string)$user->getID();
 		$this->current_user = $user;
 
 		$this->sendSignal("/user/login");
@@ -183,8 +181,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	public function logout() {
 		$this->sendSignal("/user/logout");
 
-		\Zend_Session::destroy();
-		//session_destroy();
+		Jet\Session::destroy();
 		$this->current_user = null;
 		Jet\Http_Headers::reload();
 	}
@@ -199,18 +196,13 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			return $this->current_user;
 		}
 
-		$session = new \Zend_Session_Namespace("auth");
+		$session = new Jet\Session("auth");
 
-		/** @noinspection PhpUndefinedFieldInspection */
-		if(!isset($session->user_ID)) {
-			//session_start();
-			//if(!isset($_SESSION["user_ID"])) {
+		$user_ID = $session->getValue( "user_ID", null );
+		if(!$user_ID) {
 			$this->current_user = false;
 			return null;
 		}
-		//$user_ID = $_SESSION["user_ID"];
-		//$user_ID = $session->getString("user_ID", "");
-		$user_ID = $session->user_ID;
 
 
 		$this->current_user = Jet\Auth::getUser($user_ID);
