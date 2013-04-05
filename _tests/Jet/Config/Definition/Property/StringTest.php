@@ -241,8 +241,6 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 		$field->__test_set_state(array(
 			'_name' => 'StringTest',
-			'_form' => NULL,
-			'_form_name' => '',
 			'_value_raw' => 'default value',
 			'_value' => 'default value',
 			'_has_value' => false,

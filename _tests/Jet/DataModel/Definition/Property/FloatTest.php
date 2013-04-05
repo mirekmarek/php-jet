@@ -139,8 +139,6 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 
 		$field->__test_set_state(array(
 			'_name' => $this->property_name,
-			'_form' => null,
-			'_form_name' => '',
 			'_value_raw' => $this->property_options["default_value"],
 			'_value' => "2",
 			'default_value' => $this->property_options["default_value"],

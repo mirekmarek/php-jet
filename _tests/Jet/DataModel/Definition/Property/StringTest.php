@@ -276,8 +276,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 		$field->__test_set_state(array(
 			'_name' => $this->property_name,
-			'_form' => null,
-			'_form_name' => '',
 			'_value_raw' => $this->property_options["default_value"],
 			'_value' => $this->property_options["default_value"],
 			'_has_value' => false,
@@ -302,8 +300,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 		$field->__test_set_state(array(
 			'_name' => $this->ID_property_name,
-			'_form' => null,
-			'_form_name' => '',
 			'_value_raw' => $this->ID_property_options["default_value"],
 			'_value' => $this->ID_property_options["default_value"],
 			'_has_value' => false,
