@@ -35,12 +35,15 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 
 		$this->query = new DataModel_Query($this->data_model);
 		$this->query->setSelect(array(
-			"this.int_property",
 			"this.string_property",
-			"this.ID_property"
+			"my_value" => array(
+							array("this.int_property"),
+							"MAX(%int_property%)"
+						),
 		));
 
-		$this->object = new DataModel_Query_GroupBy($this->query, array("int_property", "string_property", "ID_property"));
+		$this->object = new DataModel_Query_GroupBy($this->query, array("this.int_property", "my_value", "string_property", "this.ID_property"));
+
 	}
 
 	/**
@@ -73,13 +76,18 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 		$data = array();
 		foreach($this->object as $k=>$v) {
 			/**
-			 * @var DataModel_Query_Select_Item $v
+			 * @var DataModel_Query_Select_Item|DataModel_Definition_Property_Abstract $v
 			 */
-			$data[$k] = $v->getSelectAs();
+			if($v instanceof DataModel_Definition_Property_Abstract) {
+				$data[$k] = $v->getName();
+			} else {
+				$data[$k] = $v->getSelectAs();
+			}
 		}
 
 		$this->assertEquals( array (
 			'int_property',
+			'my_value',
 			'string_property',
 			'ID_property',
 		), $data);

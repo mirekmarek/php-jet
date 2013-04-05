@@ -101,7 +101,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testCreateImaginaryDirectory() {
-		IO_Dir::create( $this->imaginary_dir_path);
+		@IO_Dir::create( $this->imaginary_dir_path);
 	}
 
 
@@ -120,7 +120,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_REMOVE_FAILED
 	 */
 	public function testRemoveImaginaryDirectory() {
-		IO_Dir::remove( $this->imaginary_dir_path);
+		@IO_Dir::remove( $this->imaginary_dir_path);
 	}
 
 
@@ -145,7 +145,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFaildImaginarySource() {
-		IO_Dir::copy($this->imaginary_dir_path, $this->copy_test_target_path);
+		@IO_Dir::copy($this->imaginary_dir_path, $this->copy_test_target_path);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testCopyFaildImaginaryTarget() {
-		IO_Dir::copy($this->copy_test_source_path, $this->imaginary_dir_path);
+		@IO_Dir::copy($this->copy_test_source_path, $this->imaginary_dir_path);
 	}
 
 
@@ -170,7 +170,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFaildExists() {
-		IO_Dir::copy($this->copy_test_source_path, $this->copy_test_source_path, false);
+		@IO_Dir::copy($this->copy_test_source_path, $this->copy_test_source_path, false);
 	}
 
 	/**

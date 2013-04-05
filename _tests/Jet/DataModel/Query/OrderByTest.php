@@ -45,12 +45,14 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 
 		$this->query = new DataModel_Query($this->data_model);
 		$this->query->setSelect(array(
-			"this.int_property",
 			"this.string_property",
-			"this.ID_property"
+			"my_value" => array(
+							array("this.int_property"),
+							"MAX(%int_property%)"
+						),
 		));
 
-		$this->object = new DataModel_Query_OrderBy($this->query, array("+int_property", "-string_property", "ID_property") );
+		$this->object = new DataModel_Query_OrderBy($this->query, array("+this.int_property", "+my_value","-string_property", "this.ID_property") );
 	}
 
 	/**
@@ -85,11 +87,21 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 			/**
 			 * @var DataModel_Query_OrderBy_Item $v
 			 */
-			$data[$k] = ($v->getDesc()?"-":"+").$v->getItem()->getSelectAs();
+			$item = $v->getItem();
+
+			/**
+			 * @var DataModel_Query_Select_Item|DataModel_Definition_Property_Abstract $item
+			 */
+			if($item instanceof DataModel_Definition_Property_Abstract) {
+				$data[$k] = ($v->getDesc()?"-":"+").$item->getName();
+			} else {
+				$data[$k] = ($v->getDesc()?"-":"+").$item->getSelectAs();
+			}
 		}
 
 		$this->assertEquals( array (
 			'+int_property',
+			'+my_value',
 			'-string_property',
 			'+ID_property',
 		), $data);

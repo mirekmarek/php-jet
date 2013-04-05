@@ -116,7 +116,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testWriteImaginaryDirectory() {
-		IO_File::write($this->imaginary_file_path, "data");
+		@IO_File::write($this->imaginary_file_path, "data");
 	}
 
 	/**
@@ -126,7 +126,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_WRITE_FAILED
 	 */
 	public function testWriteFailed() {
-		IO_File::write(IO_FILE_TEST_BASEDIR . "/not-writable-dir/file.txt", "data");
+		@IO_File::write(IO_FILE_TEST_BASEDIR . "/not-writable-dir/file.txt", "data");
 	}
 
 	/**
@@ -143,8 +143,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_CHMOD_FAILED
 	 */
-	public function testChmodFaild() {
-		IO_File::chmod($this->imaginary_file_path);
+	public function testChmodFailed() {
+		@IO_File::chmod($this->imaginary_file_path);
 	}
 
 
@@ -176,8 +176,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
-	public function testAppendFaild() {
-		IO_File::append($this->imaginary_file_path, "data");
+	public function testAppendFailed() {
+		@IO_File::append($this->imaginary_file_path, "data");
 	}
 
 	/**
@@ -197,8 +197,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_READ_FAILED
 	 */
-	public function testReadFaild() {
-		IO_File::read($this->imaginary_file_path);
+	public function testReadFailed() {
+		@IO_File::read($this->imaginary_file_path);
 	}
 
 	/**
@@ -214,8 +214,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_DELETE_FAILED
 	 */
-	public function testDeleteFaild() {
-		IO_File::delete($this->imaginary_file_path);
+	public function testDeleteFailed() {
+		@IO_File::delete($this->imaginary_file_path);
 	}
 
 
@@ -236,8 +236,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
-	public function testCopyFaildImaginarySource() {
-		IO_File::copy($this->imaginary_file_path, $this->copy_test_target_path);
+	public function testCopyFailedImaginarySource() {
+		@IO_File::copy($this->imaginary_file_path, $this->copy_test_target_path);
 	}
 
 	/**
@@ -246,8 +246,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
-	public function testCopyFaildImaginaryTarget() {
-		IO_File::copy($this->copy_test_source_path, $this->imaginary_file_path);
+	public function testCopyFailedImaginaryTarget() {
+		@IO_File::copy($this->copy_test_source_path, $this->imaginary_file_path);
 	}
 
 
@@ -257,8 +257,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
-	public function testCopyFaildExists() {
-		IO_File::copy($this->copy_test_target_path, $this->copy_test_target_path, false);
+	public function testCopyFailedExists() {
+		@IO_File::copy($this->copy_test_target_path, $this->copy_test_target_path, false);
 	}
 
 	/**
@@ -279,8 +279,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
-	public function testRenameFaildImaginarySource() {
-		IO_File::rename($this->imaginary_file_path, $this->rename_test_target_path);
+	public function testRenameFailedImaginarySource() {
+		@IO_File::rename($this->imaginary_file_path, $this->rename_test_target_path);
 	}
 
 	/**
@@ -290,8 +290,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
-	public function testRenameFaildImaginaryTarget() {
-		IO_File::rename($this->rename_test_source_path, $this->imaginary_file_path);
+	public function testRenameFailedImaginaryTarget() {
+		@IO_File::rename($this->rename_test_source_path, $this->imaginary_file_path);
 	}
 
 
@@ -302,8 +302,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
-	public function testRenameFaildExists() {
-		IO_File::rename($this->rename_test_target_path, $this->rename_test_target_path, false);
+	public function testRenameFailedExists() {
+		@IO_File::rename($this->rename_test_target_path, $this->rename_test_target_path, false);
 	}
 
 	/**

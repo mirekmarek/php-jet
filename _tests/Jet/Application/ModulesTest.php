@@ -68,9 +68,9 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetAllModulesList() {
 		$valid_data = array (
-			'Vendor\\TestModule' =>
+			'Vendor\\Package\\TestModule' =>
 			Application_Modules_Module_Info::__set_state(array(
-				'name' => 'Vendor\TestModule',
+				'name' => 'Vendor\Package\TestModule',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
@@ -98,9 +98,9 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'is_installed' => false,
 				'is_activated' => false,
 			)),
-			'Vendor\\TestModule2' =>
+			'Vendor\\Package\\TestModule2' =>
 			Application_Modules_Module_Info::__set_state(array(
-				'name' => 'Vendor\TestModule2',
+				'name' => 'Vendor\Package\TestModule2',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
@@ -111,7 +111,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				),
 				'require' =>
 				array (
-					0 => 'Vendor\\TestModule',
+					0 => 'Vendor\\Package\\TestModule',
 				),
 				'factory_overload_map' =>
 				array (
@@ -241,21 +241,21 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testInstallUninstall() {
-		$this->assertFalse( Application_Modules::getModuleIsInstalled("Vendor\\TestModule") );
-		$this->assertFalse( Application_Modules::getModuleIsInstalled("Vendor\\TestModule2") );
+		$this->assertFalse( Application_Modules::getModuleIsInstalled("Vendor\\Package\\TestModule") );
+		$this->assertFalse( Application_Modules::getModuleIsInstalled("Vendor\\Package\\TestModule2") );
 
-		Application_Modules::installModule("Vendor\\TestModule");
-		Application_Modules::installModule("Vendor\\TestModule2");
+		Application_Modules::installModule("Vendor\\Package\\TestModule");
+		Application_Modules::installModule("Vendor\\Package\\TestModule2");
 
-		$this->assertTrue( Application_Modules::getModuleIsInstalled("Vendor\\TestModule") );
-		$this->assertTrue( Application_Modules::getModuleIsInstalled("Vendor\\TestModule2") );
+		$this->assertTrue( Application_Modules::getModuleIsInstalled("Vendor\\Package\\TestModule") );
+		$this->assertTrue( Application_Modules::getModuleIsInstalled("Vendor\\Package\\TestModule2") );
 
 		$this->assertTrue( file_exists(JET_APPLICATION_MODULES_TMP."module-install-test") );
 
 		$valid_data = array (
-			'Vendor\\TestModule' =>
+			'Vendor\\Package\\TestModule' =>
 			Application_Modules_Module_Info::__set_state(array(
-				'name' => 'Vendor\\TestModule',
+				'name' => 'Vendor\\Package\\TestModule',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
@@ -283,9 +283,9 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'is_installed' => true,
 				'is_activated' => false,
 			)),
-			'Vendor\\TestModule2' =>
+			'Vendor\\Package\\TestModule2' =>
 			Application_Modules_Module_Info::__set_state(array(
-				'name' => 'Vendor\\TestModule2',
+				'name' => 'Vendor\\Package\\TestModule2',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
@@ -296,7 +296,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				),
 				'require' =>
 				array (
-					0 => 'Vendor\\TestModule',
+					0 => 'Vendor\\Package\\TestModule',
 				),
 				'factory_overload_map' =>
 				array (
@@ -314,17 +314,17 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 		);
 		$this->assertEquals( $valid_data, Application_Modules::getInstalledModulesList() );
 
-		$this->assertFalse( Application_Modules::getModuleIsActivated("Vendor\\TestModule") );
-		$this->assertFalse( Application_Modules::getModuleIsActivated("Vendor\\TestModule2") );
+		$this->assertFalse( Application_Modules::getModuleIsActivated("Vendor\\Package\\TestModule") );
+		$this->assertFalse( Application_Modules::getModuleIsActivated("Vendor\\Package\\TestModule2") );
 
-		Application_Modules::activateModule("Vendor\\TestModule");
-		Application_Modules::activateModule("Vendor\\TestModule2");
+		Application_Modules::activateModule("Vendor\\Package\\TestModule");
+		Application_Modules::activateModule("Vendor\\Package\\TestModule2");
 
 
 		$valid_data = array (
-			'Vendor\\TestModule' =>
+			'Vendor\\Package\\TestModule' =>
 			Application_Modules_Module_Info::__set_state(array(
-				'name' => 'Vendor\\TestModule',
+				'name' => 'Vendor\\Package\\TestModule',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
@@ -352,9 +352,9 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'is_installed' => true,
 				'is_activated' => true,
 			)),
-			'Vendor\\TestModule2' =>
+			'Vendor\\Package\\TestModule2' =>
 			Application_Modules_Module_Info::__set_state(array(
-				'name' => 'Vendor\\TestModule2',
+				'name' => 'Vendor\\Package\\TestModule2',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
@@ -365,7 +365,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				),
 				'require' =>
 				array (
-					0 => 'Vendor\\TestModule',
+					0 => 'Vendor\\Package\\TestModule',
 				),
 				'factory_overload_map' =>
 				array (
@@ -383,11 +383,11 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 		);
 		$this->assertEquals( $valid_data, Application_Modules::getActivatedModulesList() );
 
-		$this->assertTrue( Application_Modules::getModuleIsActivated("Vendor\\TestModule") );
-		$this->assertTrue( Application_Modules::getModuleIsActivated("Vendor\\TestModule2") );
+		$this->assertTrue( Application_Modules::getModuleIsActivated("Vendor\\Package\\TestModule") );
+		$this->assertTrue( Application_Modules::getModuleIsActivated("Vendor\\Package\\TestModule2") );
 
-		Application_Modules::uninstallModule("Vendor\\TestModule2");
-		Application_Modules::uninstallModule("Vendor\\TestModule");
+		Application_Modules::uninstallModule("Vendor\\Package\\TestModule2");
+		Application_Modules::uninstallModule("Vendor\\Package\\TestModule");
 
 		$this->assertFalse( file_exists(JET_APPLICATION_MODULES_TMP."module-install-test") );
 
@@ -401,9 +401,9 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules::reloadModuleManifest
 	 */
 	public function testReloadModuleManifest() {
-		Application_Modules::installModule("Vendor\\TestModule");
-		Application_Modules::reloadModuleManifest( "Vendor\\TestModule" );
-		Application_Modules::uninstallModule("Vendor\\TestModule");
+		Application_Modules::installModule("Vendor\\Package\\TestModule");
+		Application_Modules::reloadModuleManifest( "Vendor\\Package\\TestModule" );
+		Application_Modules::uninstallModule("Vendor\\Package\\TestModule");
 	}
 
 	/**
@@ -415,7 +415,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetModuleInstanceFailedNotInstalled() {
 
-		Application_Modules::getModuleInstance("Vendor\\TestModule");
+		Application_Modules::getModuleInstance("Vendor\\Package\\TestModule");
 
 	}
 
@@ -427,23 +427,23 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_UNKNOWN_MODULE
 	 */
 	public function testGetModuleInstanceFailedNotActivated() {
-		Application_Modules::installModule("Vendor\\TestModule");
+		Application_Modules::installModule("Vendor\\Package\\TestModule");
 
-		Application_Modules::getModuleInstance("Vendor\\TestModule");
+		Application_Modules::getModuleInstance("Vendor\\Package\\TestModule");
 
-		Application_Modules::uninstallModule("Vendor\\TestModule");
+		Application_Modules::uninstallModule("Vendor\\Package\\TestModule");
 	}
 
 	/**
 	 * @covers Jet\Application_Modules::getModuleInstance
 	 */
 	public function testGetModuleInstance() {
-		Application_Modules::installModule("Vendor\\TestModule");
-		Application_Modules::activateModule("Vendor\\TestModule");
+		Application_Modules::installModule("Vendor\\Package\\TestModule");
+		Application_Modules::activateModule("Vendor\\Package\\TestModule");
 
-		Application_Modules::getModuleInstance("Vendor\\TestModule");
+		Application_Modules::getModuleInstance("Vendor\\Package\\TestModule");
 
-		Application_Modules::uninstallModule("Vendor\\TestModule");
+		Application_Modules::uninstallModule("Vendor\\Package\\TestModule");
 	}
 
 }

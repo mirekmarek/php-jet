@@ -15,7 +15,7 @@ spl_autoload_register( function( $class_name ) {
 	global $lib_dir;
 
 	if(
-		substr($class_name, 0, 3)!="Jet\\"
+		substr($class_name, 0, 4)!="Jet\\"
 	) {
 		return false;
 	}

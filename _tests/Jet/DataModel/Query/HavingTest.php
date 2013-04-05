@@ -47,10 +47,16 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 		$this->query->setSelect(array(
 			"int_property" => "this.int_property",
 			"string_property" => "this.string_property",
-			"my_ID" => "this.ID_property"
+			"my_ID" => "this.ID_property",
+			"my_value" => array(
+				array("this.int_property"),
+				"MAX(%int_property%)"
+			),
 		));
 
 		$this->object = new DataModel_Query_Having($this->query, array(
+			"my_value <=" => 10,
+			"AND",
 			"int_property =" => 1234,
 			"AND",
 			"string_property !=" => "test",
@@ -224,8 +230,11 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Having::toString
 	 */
 	public function testGeneral() {
+
 		$this->assertSame(
 			 "( "
+			    ."MAX(data_model_test_mock::int_property) <= '10' "
+				."AND "
 				."data_model_test_mock::int_property = '1234' "
 				."AND "
 				."data_model_test_mock::string_property != 'test' "

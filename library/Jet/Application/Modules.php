@@ -267,7 +267,7 @@ class Application_Modules extends Object {
 			if( !IO_File::exists( $base_dir.$module_dir."/".static::MODULE_MANIFEST_FILE_PATH ) ) {
 
 				$next_module_name_prefix = ($module_name_prefix) ?
-							$module_dir."\\".$module_name_prefix."\\"
+							$module_name_prefix.$module_dir."\\"
 							:
 							$module_dir."\\";
 

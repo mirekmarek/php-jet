@@ -97,7 +97,7 @@ class Application {
 	 * @return string
 	 */
 	public function getEnvironment() {
-		return $this->environment;
+		return static::$environment;
 	}
 
 	/**
