@@ -2,6 +2,14 @@
 namespace Jet;
 require "includes/bootstrap_cli.php";
 
+function error( $err_msg ) {
+        echo "Error:".PHP_EOL;
+        echo "\t{$err_msg}".PHP_EOL;
+        echo PHP_EOL;
+}
+
+
+/*
 function show_usage() {
 	echo "Usage:".PHP_EOL;
 	echo PHP_EOL;
@@ -26,14 +34,6 @@ function show_usage() {
 	die();
 }
 
-function error( $err_msg ) {
-        echo "Error:".PHP_EOL;
-        echo "\t{$err_msg}".PHP_EOL;
-        echo PHP_EOL;
-
-        show_usage();
-}
-
 $params = array(
 	"name|n=s"    => "site name (internal)",
 	"locales|l=s" => "site locales (comma (,) delimited), e.g. en_US,cs_CZ",
@@ -42,10 +42,9 @@ $params = array(
 	"ID|i-w"   => "site ID",
 	"template|t-w"   => "site template"
  );
-
-
 $options = array();
 try {
+	//TODO: remove Zend
 	$opts = new \Zend_Console_Getopt($params);
 	$opts->parse();
 	$options = $opts->getOptions();
@@ -58,9 +57,55 @@ try {
 if(array_diff(array("name", "URL", "locales"), $options)) {
 	show_usage();
 }
+*/
+
+$options_parser = new Console_OptionsParser();
+$options_parser->setHelpHeader(
+	"Usage:".PHP_EOL
+	.PHP_EOL
+	."\tphp site_create.php [OPTIONS] ".PHP_EOL
+	.PHP_EOL
+);
+
+$name_option = new Console_OptionsParser_OptionDefinition("name", "name", "n");
+$name_option->setHelp("site name (internal)");
+$options_parser->addOption( $name_option );
+
+$locales_option = new Console_OptionsParser_OptionDefinition("locales", "locales", "l");
+$locales_option->setHelp("site locales (comma (,) delimited), e.g. en_US,cs_CZ");
+$options_parser->addOption( $locales_option );
+
+$URL_option = new Console_OptionsParser_OptionDefinition("URL", "URL", "U");
+$URL_option->setHelp("site URL for each locale (example: en_US=http://my-site.tld,cs_CZ=http://muj-web.tld/cs/)");
+$options_parser->addOption( $URL_option );
+
+$ssl_URL_option = new Console_OptionsParser_OptionDefinition("SSL_URL", "SSL_URL", "S");
+$ssl_URL_option->setIsRequired(false);
+$ssl_URL_option->setHelp("site SSL URL for each locale (example: en_US=https://my-site.tld,cs_CZ=https://muj-web.tld/cs/)");
+$options_parser->addOption( $ssl_URL_option );
+
+$ID_option = new Console_OptionsParser_OptionDefinition("ID", "ID", "i");
+$ID_option->setIsRequired(false);
+$ID_option->setHelp("site ID");
+$options_parser->addOption($ID_option);
+
+$template_option = new Console_OptionsParser_OptionDefinition("ID", "ID", "i");
+$template_option->setIsRequired(false);
+$template_option->setHelp("site template");
+$options_parser->addOption($template_option);
+
+$t_option = new Console_OptionsParser_OptionDefinition("param", "param", "p", Console_OptionsParser_OptionDefinition::TYPE_BOOL);
+$options_parser->addOption($t_option);
+
+if(!$options_parser->parse()) {
+	$options_parser->showHelp();
+	exit(1);
+}
+
+$options = $options_parser->getOptions();
 
 
-$locales = explode(",", $opts->getOption("locales"));
+$locales = explode(",", $options["locales"] );
 $known_locales = array();
 foreach($locales as $i=>$locale) {
 	$zlc = new Locale( $locale );
@@ -75,7 +120,7 @@ foreach($locales as $i=>$locale) {
 
 $URLs = array();
 $known_URLs = array();
-foreach(explode(",",$opts->URL) as $URL_data) {
+foreach(explode(",",$options["URL"]) as $URL_data) {
 	if( !strpos($URL_data, "=") ) {
 		error( "Invalid URL parameter format " );
 	}
@@ -105,7 +150,7 @@ foreach(explode(",",$opts->URL) as $URL_data) {
 }
 
 
-$site_data = Mvc_Sites::getNewSite($opts->name, $opts->ID);
+$site_data = Mvc_Sites::getNewSite($options["name"], $options["ID"]);
 
 foreach($locales as $locale) {
 	$site_data->addLocale( $locale );
@@ -127,5 +172,5 @@ if(!$site_data->validateData($errors)) {
 }
 
 //var_dump($site_data);die();
-Mvc_Sites::createSite($site_data, $opts->getOption("template"));
+Mvc_Sites::createSite($site_data, $options["template"]);
 echo "END\n";
