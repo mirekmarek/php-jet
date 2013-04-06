@@ -1,8 +1,8 @@
 <?php
  return array (
-  '8ab81bad27f4b882936287975bdea7df' => 
+  'cac65b90af7affcd470b93ee03ee3163' => 
   array (
-    'phrase' => 'Check compatibility ',
+    'phrase' => 'Check directories permissions',
     'translation' => '',
     'is_translated' => false,
   ),

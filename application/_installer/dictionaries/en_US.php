@@ -18,4 +18,10 @@
     'translation' => '',
     'is_translated' => false,
   ),
+  '9987a2706cacd8000237cad89bd9531c' => 
+  array (
+    'phrase' => 'PHP Jet Platform - Project Installer',
+    'translation' => '',
+    'is_translated' => false,
+  ),
 );

@@ -20,6 +20,43 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
+		$dirs = array(
+			JET_DATA_PATH => array(
+				"is_required" => true,
+				"is_writeable" => false
+			),
+			JET_TMP_PATH => array(
+				"is_required" => true,
+				"is_writeable" => false
+			),
+			JET_LOGS_PATH => array(
+				"is_required" => true,
+				"is_writeable" => false
+			),
+			JET_APPLICATION_SITES_PATH => array(
+				"is_required" => true,
+				"is_writeable" => false
+			),
+			JET_APPLICATION_CONFIG_PATH => array(
+				"is_required" => false,
+				"is_writeable" => false,
+				"comment" => "Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually."
+			)
+		);
+
+
+		$is_OK = true;
+		foreach( $dirs as $dir=>$dir_data ) {
+			$dirs[$dir]["is_writeable"] = IO_Dir::isWritable( $dir );
+			if(!$dirs[$dir]["is_writeable"] && $dir_data["is_required"]) {
+				$is_OK = false;
+			}
+		}
+
+		$this->view->setVar("is_OK", $is_OK);
+		$this->view->setVar("dirs", $dirs);
+
+
 
 		$this->render("default");
 	}

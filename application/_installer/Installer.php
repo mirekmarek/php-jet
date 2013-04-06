@@ -19,8 +19,8 @@ class Installer {
 
 	protected static $steps = array(
 		"Welcome",
-//		"SystemCheck",
-//		"DirsCheck",
+		"SystemCheck",
+		"DirsCheck",
 		"Main",
 		"Translator",
 		"DB",
