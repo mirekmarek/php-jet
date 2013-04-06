@@ -200,9 +200,13 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @param string $node_ID
 	 *
-	 * @return Data_Tree_Node
+	 * @return Data_Tree_Node|null
 	 */
 	public function getNode($node_ID){
+		if(!isset($this->nodes[$node_ID])) {
+			return null;
+		}
+
 		return $this->nodes[$node_ID];
 	}
 
