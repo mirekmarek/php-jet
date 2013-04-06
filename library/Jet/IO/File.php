@@ -330,21 +330,36 @@ class IO_File {
 	 * Gets mime type of file by given file path.
 	 *
 	 * @param string $file_path
+	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_APPLICATION_CONFIG_PATH/file_mime_types/map.php )
 	 *
-	 * @throws IO_File_Exception
 	 * @return string
 	 */
-	public static function getMimeType($file_path){
-		$file_info = new \finfo(FILEINFO_MIME);
+	public static function getMimeType($file_path, $extensions_mimes_map_file_path=null){
+		if(!$extensions_mimes_map_file_path) {
+			$extensions_mimes_map_file_path = JET_APPLICATION_CONFIG_PATH."file_mime_types/map.php";
+		}
 
-		$mime_type = $file_info->file($file_path);
+		$mime_type = null;
 
-		unset($file_info);
+		if(is_readable($extensions_mimes_map_file_path)) {
+			/** @noinspection PhpIncludeInspection */
+			$map = require $extensions_mimes_map_file_path;
 
-		//$mime_type = "application/octet-stream";
-		$extension = pathinfo($file_path, PATHINFO_EXTENSION);
-		unset($extension);
-		//TODO: by extension ...
+			if(is_array($map)) {
+				$extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+
+				if(isset($map[$extension])) {
+					$mime_type = $map[$extension];
+				}
+			}
+		}
+
+		if(!$mime_type) {
+			$file_info = new \finfo(FILEINFO_MIME);
+			$mime_type = $file_info->file($file_path);
+			unset($file_info);
+		}
+
 
 		return $mime_type;
 	}
