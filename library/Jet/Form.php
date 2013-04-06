@@ -470,9 +470,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 					$replacement = $this->_getReplacement_form($tag_data);
 				break;
 				default:
-					$field = $this->fields[$tag_data->getName()];
+					if(isset($this->fields[$tag_data->getName()])) {
+						$field = $this->fields[$tag_data->getName()];
 
-					if($field) {
 						$replacement = $field->getReplacement( $tag_data );
 					}
 				break;

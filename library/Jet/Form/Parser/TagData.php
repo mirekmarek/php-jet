@@ -54,9 +54,7 @@ class Form_Parser_TagData extends Object {
 		$this->name = false;
 		$_properties = substr(trim($regexp_match[2]), 0, -1);
 
-		do {
-			$_properties = str_replace( "  ", " ", $_properties );
-		} while( strpos( "  ", $_properties ) !== false );
+		$_properties = preg_replace( "~([ ]{2,})~", " " , $_properties );
 
 		$_properties = explode( '" ', $_properties );
 

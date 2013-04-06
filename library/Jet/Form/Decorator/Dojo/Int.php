@@ -28,10 +28,9 @@ class Form_Decorator_Dojo_Int extends Form_Decorator_Dojo_Abstract {
 	protected $field;
 
 	/**
-	 * @param string $tag
-	 * @param array &$properties
+	 * @param Form_Parser_TagData $tag_data
 	 */
-	protected function getDojoProperties( $tag, &$properties ) {
+	protected function getDojoProperties( Form_Parser_TagData $tag_data ) {
 
 		if(!empty($properties["rangeMessage"])) {
 			$this->_dojo_properties["rangeMessage"] = Tr::_($properties["rangeMessage"]);
@@ -50,7 +49,7 @@ class Form_Decorator_Dojo_Int extends Form_Decorator_Dojo_Abstract {
 
 		$this->_dojo_properties["constraints"] = $constraints;
 
-		parent::getDojoProperties($tag, $properties);
+		parent::getDojoProperties($tag_data);
 	}
 
 }
