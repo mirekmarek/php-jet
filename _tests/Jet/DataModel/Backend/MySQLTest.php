@@ -64,6 +64,14 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			"AND",
 			"this.int_property =" => 1234,
 			"AND",
+			"this.int_property >" => 2,
+			"AND",
+			"this.int_property <" => 9999,
+			"AND",
+			"this.int_property >=" => 3,
+			"AND",
+			"this.int_property <=" => 9998,
+			"AND",
 			"this.string_property !=" => "test",
 			"OR",
 			[
@@ -153,13 +161,9 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			->setRelationJoinType("data_model_test_mock_related_MtoN", DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setRelationJoinType("data_model_test_mock_related_1toN", DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setHaving($this->having_data)
-			->setOrderBy( array("+my_string_property", "-my_count") )
-			->setGroupBy( array("ID_property", "my_string_property") )
+			->setOrderBy( array("+my_string_property", "-my_count", "this.int_property") )
+			->setGroupBy( array("ID_property", "my_string_property", "this.int_property") )
 			->setLimit(100, 10);
-
-		//TODO: add <,>, <=, >=, ...
-		//TODO: update orderby
-		//TODO: update groupby
 
 		$valid_query =
 				"SELECT\n"
@@ -183,6 +187,14 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 					."\tAND\n"
 					." \t`data_model_test_mock`.`int_property`='1234' \n"
 					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`>'2' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`<'9999' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`>='3' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`<='9998' \n"
+					."\tAND\n"
 					." \t`data_model_test_mock`.`string_property`<>'test' \n"
 					."\tOR\n "
 					."\t(\n"
@@ -192,7 +204,8 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 						."\t)\n\n"
 				."GROUP BY\n"
 					."\tID_property,\n"
-					."\tmy_string_property\n\n"
+					."\tmy_string_property,\n"
+					."\t`data_model_test_mock`.`int_property`\n\n"
 				."HAVING\n"
 					."\tmy_count='1234' \n"
 					."\tAND\n"
@@ -205,7 +218,8 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 					."\t)\n\n"
 				."ORDER BY\n"
 					."\tmy_string_property ASC,\n"
-					."\tmy_count DESC\n\n"
+					."\tmy_count DESC,\n"
+					."\t`data_model_test_mock`.`int_property` ASC\n\n"
 				."LIMIT 10,100\n";
 
 
@@ -240,6 +254,14 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 					."\t`data_model_2_test_mock`.`string_property`='test' \n"
 					."\tAND\n"
 					." \t`data_model_test_mock`.`int_property`='1234' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`>'2' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`<'9999' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`>='3' \n"
+					."\tAND\n"
+					." \t`data_model_test_mock`.`int_property`<='9998' \n"
 					."\tAND\n"
 					." \t`data_model_test_mock`.`string_property`<>'test' \n"
 					."\tOR\n "
@@ -340,6 +362,14 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			."\tAND\n"
 			." \t`data_model_test_mock`.`int_property`='1234' \n"
 			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`>'2' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`<'9999' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`>='3' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`<='9998' \n"
+			."\tAND\n"
 			." \t`data_model_test_mock`.`string_property`<>'test' \n"
 			."\tOR\n "
 			."\t(\n"
@@ -363,6 +393,14 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			."\t`data_model_2_test_mock`.`string_property`='test' \n"
 			."\tAND\n"
 			." \t`data_model_test_mock`.`int_property`='1234' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`>'2' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`<'9999' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`>='3' \n"
+			."\tAND\n"
+			." \t`data_model_test_mock`.`int_property`<='9998' \n"
 			."\tAND\n"
 			." \t`data_model_test_mock`.`string_property`<>'test' \n"
 			."\tOR\n "
