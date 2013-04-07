@@ -12,8 +12,7 @@
  */
 namespace Jet;
 
-define("IO_FILE_TEST_BASEDIR", getcwd() . "/_data/IO/File/");
-define("IO_FILE_TEST_TMP", getcwd() . "/_tmp/");
+define("IO_FILE_TEST_BASEDIR", JET_TESTS_DATA . "IO/File/");
 
 
 class IO_FileTest extends \PHPUnit_Framework_TestCase {
@@ -34,14 +33,14 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->write_test_path = IO_FILE_TEST_TMP . "IO_File_write_test.txt";
-		$this->chmod_test_path = IO_FILE_TEST_TMP . "IO_File_chmod_test";
-		$this->append_test_path = IO_FILE_TEST_TMP . "IO_File_append_test.txt";
-		$this->delete_test_path = IO_FILE_TEST_TMP . "IO_File_delete_test.txt";
-		$this->copy_test_target_path = IO_FILE_TEST_TMP . "IO_File_copy_test_target.txt";
+		$this->write_test_path = JET_TESTS_TMP . "IO_File_write_test.txt";
+		$this->chmod_test_path = JET_TESTS_TMP . "IO_File_chmod_test";
+		$this->append_test_path = JET_TESTS_TMP . "IO_File_append_test.txt";
+		$this->delete_test_path = JET_TESTS_TMP . "IO_File_delete_test.txt";
+		$this->copy_test_target_path = JET_TESTS_TMP . "IO_File_copy_test_target.txt";
 		$this->copy_test_source_path = IO_FILE_TEST_BASEDIR . "readable.txt";
-		$this->rename_test_target_path = IO_FILE_TEST_TMP . "IO_File_rename_test_target.txt";
-		$this->rename_test_source_path = IO_FILE_TEST_TMP . "IO_File_rename_test_source.txt";
+		$this->rename_test_target_path = JET_TESTS_TMP . "IO_File_rename_test_target.txt";
+		$this->rename_test_source_path = JET_TESTS_TMP . "IO_File_rename_test_source.txt";
 	}
 
 	/**

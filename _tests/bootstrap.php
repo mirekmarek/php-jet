@@ -28,4 +28,7 @@ spl_autoload_register( function( $class_name ) {
 	return true;
 }, true, true );
 
+define("JET_TESTS_TMP", getcwd()."/_tmp/");
+define("JET_TESTS_DATA", getcwd()."/_data/");
+
 require "_mock/Jet/Object.php";

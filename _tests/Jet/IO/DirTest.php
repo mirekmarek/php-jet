@@ -12,8 +12,7 @@
  */
 namespace Jet;
 
-define("IO_DIR_TEST_BASEDIR", getcwd()."/_data/IO/Dir/");
-define("IO_DIR_TEST_TMP", getcwd()."/_tmp/");
+define("IO_DIR_TEST_BASEDIR", JET_TESTS_DATA."IO/Dir/");
 
 
 class IO_DirTest extends \PHPUnit_Framework_TestCase {
@@ -30,9 +29,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->create_test_path = IO_DIR_TEST_TMP."IO_Dir_create_test/";
-		$this->remove_test_path = IO_DIR_TEST_TMP."IO_Dir_remove_test/";
-		$this->copy_test_target_path = IO_FILE_TEST_TMP."IO_Dir_copy_test_target/";
+		$this->create_test_path = JET_TESTS_TMP."IO_Dir_create_test/";
+		$this->remove_test_path = JET_TESTS_TMP."IO_Dir_remove_test/";
+		$this->copy_test_target_path = JET_TESTS_TMP."IO_Dir_copy_test_target/";
 		$this->copy_test_source_path = IO_DIR_TEST_BASEDIR."readable/";
 	}
 

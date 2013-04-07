@@ -13,7 +13,7 @@
 namespace Jet;
 
 if(!defined("JET_APPLICATION_MODULES_PATH"))
-define("JET_APPLICATION_MODULES_PATH", getcwd()."/_data/Application/Modules/TestModules/");
+define("JET_APPLICATION_MODULES_PATH", JET_TESTS_DATA."Application/Modules/TestModules/");
 
 class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	/**

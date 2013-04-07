@@ -157,6 +157,10 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			->setGroupBy( array("ID_property", "my_string_property") )
 			->setLimit(100, 10);
 
+		//TODO: add <,>, <=, >=, ...
+		//TODO: update orderby
+		//TODO: update groupby
+
 		$valid_query =
 				"SELECT\n"
 					."\t`data_model_test_mock`.`ID_property` AS `ID_property`,\n"

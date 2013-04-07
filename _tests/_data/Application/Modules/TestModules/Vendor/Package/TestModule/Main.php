@@ -40,13 +40,13 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	public function install() {
 		//echo "Hello! This is TestModule install script!\n";
 		file_put_contents(
-			JET_APPLICATION_MODULES_TMP."module-install-test",
+			JET_TESTS_TMP."module-install-test",
 			"Hello! This is TestModule install script!\n"
 		);
 	}
 
 	public function uninstall() {
 		//echo "Hello! This is TestModule uninstall script!\n";
-		unlink(JET_APPLICATION_MODULES_TMP."module-install-test");
+		unlink(JET_TESTS_TMP."module-install-test");
 	}
 }

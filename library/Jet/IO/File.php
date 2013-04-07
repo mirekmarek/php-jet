@@ -97,7 +97,6 @@ class IO_File {
 	 * @throws IO_File_Exception
 	 */
 	public static function chmod($file_path, $chmod_mask=null){
-
 		$chmod_mask = ($chmod_mask===null) ? self::getDefaultChmodMask() : $chmod_mask;
 
 		if(!chmod($file_path, $chmod_mask)) {

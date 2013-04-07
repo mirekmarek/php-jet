@@ -15,8 +15,7 @@ require_once "_mock/Jet/Config/ConfigTestMock.php";
 require_once "_mock/Jet/Config/ConfigTestDescendantMock.php";
 
 if(!defined("CONFIG_TEST_BASEDIR")) {
-	define("CONFIG_TEST_BASEDIR", getcwd()."/_data/Config/");
-	define("CONFIG_TEST_TMP", getcwd()."/_tmp/");
+	define("CONFIG_TEST_BASEDIR", JET_TESTS_DATA."Config/");
 }
 
 
@@ -208,7 +207,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($data, $this->object->getData()->getRawData());
 
-		$save_path = CONFIG_TEST_TMP."config-save-test.php";
+		$save_path = JET_TESTS_TMP."config-save-test.php";
 
 		$this->object->save( $save_path );
 

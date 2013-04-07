@@ -13,8 +13,7 @@
 namespace Jet;
 
 if(!defined("JET_APPLICATION_MODULES_PATH"))
-define("JET_APPLICATION_MODULES_PATH", getcwd()."/_data/Application/Modules/TestModules/");
-define("JET_APPLICATION_MODULES_TMP", getcwd()."/_tmp/");
+define("JET_APPLICATION_MODULES_PATH", JET_TESTS_DATA."Application/Modules/TestModules/");
 
 
 class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
@@ -24,7 +23,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		Application_Modules::setModulesListFilePath( JET_APPLICATION_MODULES_TMP."modules_list_test.php" );
+		Application_Modules::setModulesListFilePath( JET_TESTS_TMP."modules_list_test.php" );
 	}
 
 	/**
@@ -32,9 +31,9 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
-		@unlink( JET_APPLICATION_MODULES_TMP."modules_list_test.php" );
+		@unlink( JET_TESTS_TMP."modules_list_test.php" );
 		Application_Modules::_resetInternalState();
-		@unlink( JET_APPLICATION_MODULES_TMP."module-install-test" );
+		@unlink( JET_TESTS_TMP."module-install-test" );
 	}
 
 	/**
@@ -42,7 +41,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules::getModulesListFilePath
 	 */
 	public function testGetSetModulesListFilePath() {
-		$path = JET_APPLICATION_MODULES_TMP."test_set_list_path";
+		$path = JET_TESTS_TMP."test_set_list_path";
 		Application_Modules::setModulesListFilePath( $path );
 		$this->assertEquals( $path, Application_Modules::getModulesListFilePath() );
 	}
@@ -250,7 +249,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( Application_Modules::getModuleIsInstalled("Vendor\\Package\\TestModule") );
 		$this->assertTrue( Application_Modules::getModuleIsInstalled("Vendor\\Package\\TestModule2") );
 
-		$this->assertTrue( file_exists(JET_APPLICATION_MODULES_TMP."module-install-test") );
+		$this->assertTrue( file_exists(JET_TESTS_TMP."module-install-test") );
 
 		$valid_data = array (
 			'Vendor\\Package\\TestModule' =>
@@ -389,7 +388,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 		Application_Modules::uninstallModule("Vendor\\Package\\TestModule2");
 		Application_Modules::uninstallModule("Vendor\\Package\\TestModule");
 
-		$this->assertFalse( file_exists(JET_APPLICATION_MODULES_TMP."module-install-test") );
+		$this->assertFalse( file_exists(JET_TESTS_TMP."module-install-test") );
 
 		$this->assertEquals( array(), Application_Modules::getActivatedModulesList() );
 		$this->assertEquals( array(), Application_Modules::getInstalledModulesList() );
