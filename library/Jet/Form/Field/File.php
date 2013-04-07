@@ -37,7 +37,49 @@ class Form_Field_File extends Form_Field_Abstract {
 	protected $error_messages = array(
 		"input_missing" => "input_missing",
 		"empty" => "empty",
+		"file_is_too_large" => "file_is_too_large",
+		"disallowed_file_type" => "disallowed_file_type"
 	);
+
+	/**
+	 * @var array
+	 */
+	protected $allowed_mime_types = array();
+
+	/**
+	 * @var null|int
+	 */
+	protected $maximal_file_size = null;
+
+	/**
+	 * @param int|null $maximal_file_size
+	 */
+	public function setMaximalFileSize($maximal_file_size) {
+		$this->maximal_file_size = $maximal_file_size;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getMaximalFileSize() {
+		return $this->maximal_file_size;
+	}
+
+	/**
+	 * @param array $allowed_mime_types
+	 */
+	public function setAllowedMimeTypes( array $allowed_mime_types ) {
+		$this->allowed_mime_types = $allowed_mime_types;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedMimeTypes() {
+		return $this->allowed_mime_types;
+	}
+
+
 
 	/**
 	 *
@@ -62,7 +104,25 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @return bool
 	 */
 	public function validateValue() {
-		//TODO:
+		if($this->maximal_file_size) {
+			$file_size = IO_File::getSize( $this->_value );
+			if( $file_size>$this->maximal_file_size ) {
+				$this->setValueError("file_is_too_large");
+
+				return false;
+			}
+		}
+
+		if($this->allowed_mime_types) {
+			if(!in_array(
+				IO_File::getMimeType( $this->_value ),
+				$this->allowed_mime_types
+			)) {
+				$this->setValueError("disallowed_file_type");
+
+				return false;
+			}
+		}
 
 		$this->_setValueIsValid();
 
