@@ -159,32 +159,32 @@ class Image extends Object {
 
 	/**
 	 * @param string $target_path
-	 * @param int $maximum_width
-	 * @param int $maximum_height
+	 * @param int $maximal_width
+	 * @param int $maximal_height
 	 * @param int|null $target_img_type (optional)
 	 *
 	 * @return Image
 	 *
 	 * @throws Image_Exception
 	 */
-	public function createThumbnail( $target_path, $maximum_width, $maximum_height, $target_img_type=null ) {
+	public function createThumbnail( $target_path, $maximal_width, $maximal_height, $target_img_type=null ) {
 		if($this->width>=$this->height) {
-			$new_width = $maximum_width;
+			$new_width = $maximal_width;
 			$new_height = round( ($new_width/$this->width)*$this->height );
 
-			if($new_height > $maximum_height) {
+			if($new_height > $maximal_height) {
 				$_height=$new_height;
-				$new_height=$maximum_height;
+				$new_height=$maximal_height;
 				$new_width = round( ($new_width/$_height)*$new_width );
 			}
 
 		} else {
-			$new_height = $maximum_height;
+			$new_height = $maximal_height;
 			$new_width = round( ($new_height/$this->height)*$this->width );
 
-			if($new_width > $maximum_width) {
+			if($new_width > $maximal_width) {
 				$_width=$new_width;
-				$new_width=$maximum_width;
+				$new_width=$maximal_width;
 				$new_height = round( ($new_width/$_width)*$new_height );
 			}
 		}

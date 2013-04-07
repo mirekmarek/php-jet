@@ -20,11 +20,11 @@
  */
 namespace Jet;
 
-class Form_Field_File extends Form_Field_Abstract {
+class Form_Field_FileImage extends Form_Field_File {
 	/**
 	 * @var string
 	 */
-	protected $_type = "File";
+	protected $_type = "FileImage";
 
 	/**
 	 * @var bool
@@ -44,39 +44,45 @@ class Form_Field_File extends Form_Field_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $allowed_mime_types = array();
+	protected $allowed_mime_types = array(
+		"image/pjpeg",
+		"image/jpeg",
+		"image/jpg",
+		"image/gif",
+		"image/png"
+	);
 
 	/**
 	 * @var null|int
 	 */
-	protected $maximal_file_size = null;
+	protected $maximal_width = null;
 
 	/**
-	 * @param int|null $maximal_file_size
+	 * @var null|int
 	 */
-	public function setMaximalFileSize($maximal_file_size) {
-		$this->maximal_file_size = $maximal_file_size;
+	protected $maximal_height = null;
+
+	/**
+	 * @param int $maximal_width
+	 * @param int $maximal_height
+	 */
+	protected function setMaximalSize( $maximal_width, $maximal_height ) {
+		$this->maximal_width = (int)$maximal_width;
+		$this->maximal_height = (int)$maximal_height;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalFileSize() {
-		return $this->maximal_file_size;
+	public function getMaximalHeight() {
+		return $this->maximal_height;
 	}
 
 	/**
-	 * @param array $allowed_mime_types
+	 * @return int|null
 	 */
-	public function setAllowedMimeTypes( array $allowed_mime_types ) {
-		$this->allowed_mime_types = $allowed_mime_types;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getAllowedMimeTypes() {
-		return $this->allowed_mime_types;
+	public function getMaximalWidth() {
+		return $this->maximal_width;
 	}
 
 
@@ -104,20 +110,18 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @return bool
 	 */
 	public function validateValue() {
-		if($this->maximal_file_size) {
-			$file_size = IO_File::getSize( $this->_value );
-			if( $file_size>$this->maximal_file_size ) {
-				$this->setValueError("file_is_too_large");
-
-				return false;
-			}
+		if(!parent::validateValue()) {
+			return false;
 		}
 
-		if($this->allowed_mime_types) {
-			if(!in_array(
-				IO_File::getMimeType( $this->_value ),
-				$this->allowed_mime_types
-			)) {
+		if(
+			$this->maximal_width &&
+			$this->maximal_height
+		) {
+			try {
+				$image = new Image( $this->_value );
+				$image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
+			} catch( Image_Exception $e ) {
 				$this->setValueError("disallowed_file_type");
 
 				return false;
