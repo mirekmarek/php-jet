@@ -330,17 +330,24 @@ class IO_File {
 	 *
 	 * @param string $file_path
 	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_APPLICATION_CONFIG_PATH/file_mime_types/map.php )
+	 * @param bool $without_charset (optional)
 	 *
 	 * @return string
 	 */
-	public static function getMimeType($file_path, $extensions_mimes_map_file_path=null){
-		if(!$extensions_mimes_map_file_path) {
+	public static function getMimeType($file_path, $extensions_mimes_map_file_path=null, $without_charset=true){
+		if(
+			!$extensions_mimes_map_file_path &&
+			defined("JET_APPLICATION_CONFIG_PATH")
+		) {
 			$extensions_mimes_map_file_path = JET_APPLICATION_CONFIG_PATH."file_mime_types/map.php";
 		}
 
 		$mime_type = null;
 
-		if(is_readable($extensions_mimes_map_file_path)) {
+		if(
+			$extensions_mimes_map_file_path &&
+			is_readable($extensions_mimes_map_file_path)
+		) {
 			/** @noinspection PhpIncludeInspection */
 			$map = require $extensions_mimes_map_file_path;
 
@@ -357,6 +364,13 @@ class IO_File {
 			$file_info = new \finfo(FILEINFO_MIME);
 			$mime_type = $file_info->file($file_path);
 			unset($file_info);
+		}
+
+		if(
+			$without_charset &&
+			($pos = strpos($mime_type, ";"))!==false
+		) {
+			$mime_type = substr($mime_type, 0, $pos);
 		}
 
 

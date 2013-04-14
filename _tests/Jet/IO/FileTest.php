@@ -337,11 +337,13 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\IO_File::getMimeType
-	 * @todo   Implement testGetMimeType().
 	 */
 	public function testGetMimeType() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals( "application/msword-test", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/doc.docx", IO_FILE_TEST_BASEDIR."mime/map.php") );
+		$this->assertEquals( "application/msexcel-test", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/sheet.xlsx", IO_FILE_TEST_BASEDIR."mime/map.php") );
+		$this->assertEquals( "application/msword", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/doc.doc") );
+		$this->assertEquals( "application/vnd.ms-excel", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/sheet.xls"/) );
+
 	}
 
 	/**
