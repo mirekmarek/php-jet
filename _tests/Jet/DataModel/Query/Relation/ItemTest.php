@@ -28,7 +28,7 @@ class DataModel_Query_Relation_ItemTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @var DataModel_Query_Relation_Item
+	 * @var DataModel_Query_Relation_Inner
 	 */
 	protected $object;
 
@@ -41,7 +41,7 @@ class DataModel_Query_Relation_ItemTest extends \PHPUnit_Framework_TestCase {
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->object = new DataModel_Query_Relation_Item(
+		$this->object = new DataModel_Query_Relation_Inner(
 			$this->data_model->getDataModelDefinition(),
 			$this->data_model->getIDProperties()
 		);

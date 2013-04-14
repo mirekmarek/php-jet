@@ -43,6 +43,11 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	protected $properties = array();
 
+	/**
+	 * @var DataModel_Query_Relation_Outer[]
+	 */
+	protected $outer_relations = array();
+
 
 	/**
 	 *
@@ -114,22 +119,20 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	/**
 	 * @param array $properties_definition_data
 	 *
+	 * @throws DataModel_Exception
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
 	protected function _mainPropertiesInit( array $properties_definition_data ) {
 
 		$properties = array();
 
-		$has_main_ID_property = false;
+		$has_ID_property = false;
 
 		foreach( $properties_definition_data as $property_name=>$property_dd ) {
 			$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this, $property_name, $property_dd);
 
 			if($property_definition->getIsID()) {
-				//There can be many of ID properties, but one with type=TYPE_ID must always exists. Otherwise auto. add ...
-				if($property_definition->getType()==DataModel::TYPE_ID) {
-					$has_main_ID_property = true;
-				}
+				$has_ID_property = true;
 				$this->ID_properties[$property_definition->getName()] = $property_definition;
 			} else {
 				$properties[] = $property_definition;
@@ -137,23 +140,11 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 
 
-		if(!$has_main_ID_property) {
-			//There can be many of ID properties, but one with type=TYPE_ID must always exists. Otherwise auto. add ...
-			$main_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
-							$this,
-							DataModel::DEFAULT_ID_COLUMN_NAME,
-							array(
-								"type" => DataModel::TYPE_ID
-							)
-					);
-
-			//ID on beginning
-			$_ID_properties = $this->ID_properties;
-			$this->ID_properties = array();
-			$this->ID_properties[$main_ID_property->getName()] = $main_ID_property;
-			foreach($_ID_properties as $pn=>$pd) {
-				$this->ID_properties[$pn]  = $pd;
-			}
+		if(!$has_ID_property) {
+			throw new DataModel_Exception(
+				"There are not any ID properties in DataModel '".$this->getClassName()."' definition ...",
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 		}
 
 		return $properties;

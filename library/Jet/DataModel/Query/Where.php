@@ -44,7 +44,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 
 			$operator = $this->_determineOperator($key);
 
-			$property = $query->_getPropertyAndSetRelatedClass( $key );
+			$property = $query->_getPropertyAndSetRelation( $key );
 
 			$this->addExpression( $property, $operator, $val);
 		}
@@ -76,8 +76,6 @@ class DataModel_Query_Where extends Object implements \Iterator {
 		}
 
 		$this->expressions[] = new DataModel_Query_Where_Expression($property_definition, $operator, $value);
-
-		$this->query->_addRelatedModel( $property_definition->getDataModelDefinition() );
 	}
 
 

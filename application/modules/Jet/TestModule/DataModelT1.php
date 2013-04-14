@@ -26,6 +26,10 @@ class DataModelT1 extends Jet\DataModel {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"checkbox" => array(
 			"type" => self::TYPE_BOOL,
 			"form_field_label" => "Checkbox: "

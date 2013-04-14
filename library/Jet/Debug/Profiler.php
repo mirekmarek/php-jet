@@ -52,7 +52,7 @@ class Debug_Profiler {
 				@file_put_contents( $file, $result );
 				@chmod($file, 0666);
 
-				//echo $result;
+				echo $result;
 			} );
 
 		}
@@ -62,6 +62,7 @@ class Debug_Profiler {
 	 * @param string $query
 	 */
 	public static function SQLQueryStart( $query ) {
+
 		if(!static::$log_SQL_queries) {
 			return;
 		}

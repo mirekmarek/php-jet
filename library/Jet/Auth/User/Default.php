@@ -22,6 +22,10 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"login" => array(
 			"type" => self::TYPE_STRING,
 			"max_len" => 100,

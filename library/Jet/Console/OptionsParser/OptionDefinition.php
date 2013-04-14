@@ -9,6 +9,7 @@
  *
  * @category Jet
  * @package Console
+ * @subpackage OptionsParser
  */
 
 namespace Jet;
@@ -70,6 +71,8 @@ class Console_OptionsParser_OptionDefinition extends Object {
 	 * @param string $option_long
 	 * @param string $option_short
 	 * @param string $type (optional)
+	 *
+	 * @throws Console_OptionsParser_Exception
 	 */
 	public function __construct( $name, $option_long, $option_short, $type=self::TYPE_STRING ) {
 		$this->name = (string)$name;
@@ -78,11 +81,22 @@ class Console_OptionsParser_OptionDefinition extends Object {
 		$this->type = (string)$type;
 
 		if(strlen($this->option_short)>1) {
-			//TODO: throw new
+			throw new Console_OptionsParser_Exception(
+				"Ilegal short option definition: '{$this->option_short}'",
+				Console_OptionsParser_Exception::ILEGAL_SHORT_OPTION_DEFINITION
+			);
 		}
 
-		if(!in_array($this->type, array())) {
-			//TODO: throw new
+		if(!in_array($this->type, array(
+			self::TYPE_BOOL,
+			self::TYPE_FLOAT,
+			self::TYPE_INT,
+			self::TYPE_STRING
+		))) {
+			throw new Console_OptionsParser_Exception(
+				"Uknown value type '{$type}'",
+				Console_OptionsParser_Exception::CODE_UNKNOWN_TYPE
+			);
 		}
 	}
 
@@ -252,9 +266,6 @@ class Console_OptionsParser_OptionDefinition extends Object {
 				return (float)$value;
 			case self::TYPE_BOOL:
 				return (bool)$value;
-			break;
-			default:
-				//TODO: throw new ...
 			break;
 		}
 	}

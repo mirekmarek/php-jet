@@ -41,6 +41,20 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getDataModelClassName() {
+		return $this->data_model_class_name;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getValues() {
+		return $this->values;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function __sleep() {
@@ -158,8 +172,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @return DataModel_ID_Abstract
 	 */
 	public function createID( $ID ) {
-		$this->values[DataModel::DEFAULT_ID_COLUMN_NAME] = $ID;
-		return $this;
+		return $this->unserialize($ID);
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------

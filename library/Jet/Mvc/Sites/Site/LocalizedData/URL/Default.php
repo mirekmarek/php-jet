@@ -30,6 +30,11 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
+
 		"URL" => array(
 			"type" => self::TYPE_STRING,
 			"max_len" => 100

@@ -27,6 +27,10 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"privilege" => array(
 			"type" => self::TYPE_STRING,
 			"max_len" => 100,

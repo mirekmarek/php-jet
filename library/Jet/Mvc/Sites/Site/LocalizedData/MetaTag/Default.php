@@ -30,6 +30,10 @@ class Mvc_Sites_Site_LocalizedData_MetaTag_Default extends Mvc_Sites_Site_Locali
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"attribute" => array(
 			"type" => self::TYPE_STRING
 		),

@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+$class = $argv[1];
+$class_script = "../library/".str_replace("_","/", $class);
+$class_script = str_replace("\\","/", $class_script);
+
+$test_class = $class."Test";
+$test_script = str_replace("_","/", $test_class).".php";
+$test_script = str_replace("\\","/", $test_script);
+
+$test_dir = dirname($test_script);
+@mkdir($test_dir, 0700, true);
+
+$command = "./phpunit-skelgen --test -- ".escapeshellarg($class)." ".escapeshellarg($class_script)." ".escapeshellarg($test_class)." ".escapeshellarg($test_script);
+
+passthru($command);

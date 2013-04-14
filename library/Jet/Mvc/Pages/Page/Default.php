@@ -29,6 +29,10 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"site_ID" => array(
 			"type" => self::TYPE_STRING,
 			"max_len" => 100,
@@ -527,6 +531,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		$this->SSL_URL = "";
 
 		$site_URLs = $site->getURLs( $this->locale );
+
 		$i = 0;
 		foreach( $site_URLs as $site_URL ) {
 			/**

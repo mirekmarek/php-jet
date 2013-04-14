@@ -62,12 +62,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 *
 	 *	Data validation options
 	 *		All types:
-	 *			"is_required":
 	 *			"validation_method":
 	 *			"list_of_valid_options":
 	 *			"error_messages":
 	 *
 	 *		TYPE_STRING:
+	 *			"is_required":
 	 *			"max_len":
 	 *			"validation_regexp":
 	 *
@@ -85,6 +85,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = false;
+
+	/**
+	 * //TODO: describe!!!
+	 *
+	 * @var array
+	 */
+	protected static $__data_model_outer_relations_definition = array();
 
 	/**
 	 * @var string
@@ -176,6 +183,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	protected static $___data_model_definitions = array();
 
 	/**
+	 * @var DataModel_Query_Relation_Outer[]
+	 */
+	protected static $___data_model_outer_relations_definitions = array();
+
+	/**
 	 * @var DataModel_Config
 	 */
 	protected static $___data_model_main_config;
@@ -205,6 +217,30 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			self::$___data_model_definitions[$class] = new DataModel_Definition_Model_Main( $this );
 		}
 		return self::$___data_model_definitions[$class];
+	}
+
+	/**
+	 *
+	 *
+	 * @return DataModel_Query_Relation_Outer[]
+	 */
+	public function getDataModelOuterRelationsDefinition()  {
+		$class = get_class($this);
+
+		if( !isset(self::$___data_model_outer_relations_definitions[$class])) {
+			self::$___data_model_outer_relations_definitions[$class] = array();
+			$definitions_data = $this->getDataModelOuterRelationsDefinitionData();
+
+			foreach( $definitions_data as $name=>$definition_data ) {
+
+				self::$___data_model_outer_relations_definitions[$class][$name] = new DataModel_Query_Relation_Outer(
+															$name,
+															$definition_data
+														);
+			}
+
+		}
+		return self::$___data_model_outer_relations_definitions[$class];
 	}
 
 	/**
@@ -249,6 +285,37 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		return array_merge( $parent_definition, static::$__data_model_properties_definition );
 	}
 
+	/**
+	 * Returns properties definition data (used for DataModel_Definition_Model_Abstract::_mainInit)
+	 *
+	 * @return array
+	 */
+	public function getDataModelOuterRelationsDefinitionData() {
+		$parent_class = get_parent_class($this);
+
+		$parent_definition = array();
+		if(
+			$parent_class == "Jet\\DataModel" ||
+			$parent_class=="Jet\\DataModel_Related_1to1" ||
+			$parent_class=="Jet\\DataModel_Related_1toN" ||
+			$parent_class=="Jet\\DataModel_Related_MtoN" ||
+			strpos($parent_class, "_Abstract")!==false
+		) {
+			/** @noinspection PhpUndefinedVariableInspection */
+			if(is_array($parent_class::$__data_model_outer_relations_definition)) {
+				$parent_definition = $parent_class::$__data_model_outer_relations_definition;
+			}
+		} else {
+			/**
+			 * @var DataModel $parent
+			 */
+			$parent = new $parent_class();
+			$parent_definition = $parent->getDataModelOuterRelationsDefinitionData();
+		}
+
+		/** @noinspection PhpUndefinedVariableInspection */
+		return array_merge( $parent_definition, static::$__data_model_outer_relations_definition );
+	}
 
 	/**
 	 * Returns backend type (example: MySQL)
@@ -505,19 +572,31 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 
 	/**
-	* Generate unique ID
+	 * Generate unique ID
 	 *
 	 * @param bool $called_after_save (optional, default = false)
 	 * @param mixed $backend_save_result  (optional, default = null)
-	*
-	*/
+	 *
+	 * @throws DataModel_Exception
+	 */
 	protected function generateID(  /** @noinspection PhpUnusedParameterInspection */
 		$called_after_save = false, $backend_save_result = null  ) {
-		$ID_property = static::DEFAULT_ID_COLUMN_NAME;
 
-		if( !$this->{$ID_property} ) {
-			$this->{$ID_property} = DataModel_ID_Abstract::generateUniqueID();
+
+		$ID_properties = $this->getDataModelDefinition()->getIDProperties();
+		if(isset($ID_properties[static::DEFAULT_ID_COLUMN_NAME])) {
+			$property_name = static::DEFAULT_ID_COLUMN_NAME;
+			if(!$this->{$property_name}) {
+				$this->{$property_name} = DataModel_ID_Abstract::generateUniqueID();
+			}
+
+			return;
 		}
+
+		throw new DataModel_Exception(
+			"Unable to generate ID. There are two solutions: 1) There must be at least one property that has set type ID  2) Overload ".get_class($this)."::generateID method",
+			DataModel_Exception::CODE_DEFINITION_NONSENSE
+		);
 
 	}
 

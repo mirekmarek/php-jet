@@ -30,6 +30,10 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"module_name" => array(
 			"type" => self::TYPE_STRING,
 			"max_len" => 50

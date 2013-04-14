@@ -64,7 +64,12 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 		$model_definition = $this->getDataModelDefinition();
 
-		$query = $main_model_instance->getIDQuery(  $model_definition->getMainModelRelationIDProperties() );
+		$query = new DataModel_Query( $this );
+		$query->setWhere(array());
+
+		$query->getWhere()->attach(
+			$main_model_instance->getIDQuery(  $model_definition->getMainModelRelationIDProperties() )->getWhere()
+		);
 
 		if($parent_model_instance) {
 			$query->getWhere()->attach(
@@ -224,7 +229,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			return parent::jsonSerialize();
 		}
 
+
 		$res = array();
+
 		foreach($this->__items as $k=>$d) {
 			$res[$k] = $d->jsonSerialize();
 		}
@@ -415,8 +422,13 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	}
 
 	public function __wakeup() {
-		if($this->__items===null) {
+		if($this->__is_item) {
 			parent::__wakeup();
+		} else {
+			if(!$this->__items) {
+				$this->__items = array();
+				$this->__deleted_items = array();
+			}
 		}
 	}
 

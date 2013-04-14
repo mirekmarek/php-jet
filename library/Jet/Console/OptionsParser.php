@@ -102,13 +102,24 @@ class Console_OptionsParser extends Object {
 	}
 
 	/**
+	 * @throws Console_OptionsParser_Exception
+	 *
 	 * @return array
 	 */
 	public function getOptions() {
 		if(!$this->parsed_OK) {
-			//TODO: throw new ...
+			throw new Console_OptionsParser_Exception(
+				"Invalid option or options",
+				Console_OptionsParser_Exception::INVALID_OPTIONS
+			);
 		}
-		//TODO:
+
+		$options = array();
+		foreach($this->options as $option) {
+			$options[$option->getName()] = $option->getValue();
+		}
+
+		return $options;
 	}
-	//TODO:
+
 }

@@ -23,6 +23,10 @@ class Article extends Jet\DataModel {
 	protected static $__data_model_model_name = "JetApplicationModule_Articles_Article";
 
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"locale" => array(
 			"type" => self::TYPE_LOCALE,
 			"is_required" => true,

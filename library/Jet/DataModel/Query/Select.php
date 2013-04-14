@@ -33,7 +33,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 
 		foreach( $items as $key=>$val ) {
 			if(is_string($val) && strpos($val, ".")) {
-				$val = $query->_getPropertyAndSetRelatedClass( $val );
+				$val = $query->_getPropertyAndSetRelation( $val );
 			}
 
 			if($val instanceof DataModel_Definition_Property_Abstract) {
@@ -71,9 +71,8 @@ class DataModel_Query_Select extends Object implements \Iterator {
 				foreach($property_names as $property_name) {
 					if($property_name instanceof DataModel_Definition_Property_Abstract) {
 						$properties[] = $property_name;
-						$query->_addRelatedModel($property_name->getDataModelDefinition());
 					} else {
-						$properties[] = $query->_getPropertyAndSetRelatedClass( $property_name );
+						$properties[] = $query->_getPropertyAndSetRelation( $property_name );
 					}
 				}
 

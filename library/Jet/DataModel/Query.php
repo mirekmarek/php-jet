@@ -62,7 +62,7 @@ class DataModel_Query extends Object {
 	/**
 	 * The array key is related data model name
 	 *
-	 * @var DataModel_Query_Relation_Item[]
+	 * @var DataModel_Query_Relation_Abstract[]
 	 */
 	protected $relations = array();
 
@@ -298,40 +298,40 @@ class DataModel_Query extends Object {
 
 
 	/**
-	 * @return DataModel_Query_Relation_Item[]
+	 * @return DataModel_Query_Relation_Abstract[]
 	 */
 	public function getRelations() {
 		return $this->relations;
 	}
 
 	/**
-	 * @param string $related_data_model_name
+	 * @param string $related_data_model_or_outer_relation_name
 	 *
 	 * @throws DataModel_Query_Exception
 	 *
-	 * @return DataModel_Query_Relation_Item
+	 * @return DataModel_Query_Relation_Abstract
 	 */
-	public function getRelation( $related_data_model_name ) {
-		if(!isset($this->relations[$related_data_model_name])) {
+	public function getRelation( $related_data_model_or_outer_relation_name ) {
+		if(!isset($this->relations[$related_data_model_or_outer_relation_name])) {
 			throw new DataModel_Query_Exception(
-				"Unknown relation to class '{$this->main_data_model_class_name}' <-> '{$related_data_model_name}'",
+				"Unknown relation to class '{$this->main_data_model_class_name}' <-> '{$related_data_model_or_outer_relation_name}'",
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
 
-		return $this->relations[$related_data_model_name];
+		return $this->relations[$related_data_model_or_outer_relation_name];
 	}
 
 	/**
 	 * Alias of query->getRelation("relation_name")->setJoinType(join_type);
 	 *
-	 * @param $related_data_model_name
+	 * @param $related_data_model_outer_relation_name
 	 * @param $join_type
 	 *
 	 * @return DataModel_Query
 	 */
-	public function setRelationJoinType( $related_data_model_name, $join_type ) {
-		$this->getRelation($related_data_model_name)->setJoinType($join_type);
+	public function setRelationJoinType( $related_data_model_outer_relation_name, $join_type ) {
+		$this->getRelation($related_data_model_outer_relation_name)->setJoinType($join_type);
 
 		return $this;
 	}
@@ -378,6 +378,8 @@ class DataModel_Query extends Object {
 	 * this.related_property.property_name
 	 * this.related_property.next_related_property.property_name
 	 *
+	 * outer_relation_name.property_name
+	 *
 	 * M2N_related_class_name.property_name
 	 * M2N_related_class_name.related_property.property_name
 	 * M2N_related_class_name.related_property.next_related_property.property_name
@@ -389,7 +391,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @return DataModel_Definition_Property_Abstract
 	 */
-	public function _getPropertyAndSetRelatedClass( $property_name ) {
+	public function _getPropertyAndSetRelation( $property_name ) {
 		$property_name_parts = explode(".", $property_name);
 
 		if(count($property_name_parts)<2) {
@@ -402,40 +404,61 @@ class DataModel_Query extends Object {
 
 		$part = array_shift($property_name_parts);
 
+		/**
+		 * @var DataModel_Query_Relation_Outer|null
+		 */
+		$outer_relation = null;
+
 		if($part=="this") {
 			$data_model = $this->main_data_model;
 			$is_main_do = true;
 		} else {
-			//M2N relation ...
-			$main_data_model_properties = $this->main_data_model->getDataModelDefinition()->getProperties();
-			if( !isset($main_data_model_properties[$part]) ) {
-				throw new DataModel_Query_Exception(
-					"Unknown property '{$part}'",
-					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-				);
+			//Outer relations ....
+			$main_data_model_outer_relations = $this->main_data_model->getDataModelOuterRelationsDefinition();
+
+			if(isset($main_data_model_outer_relations[$part])) {
+
+				$outer_relation =  $main_data_model_outer_relations[$part];
+
+				$outer_relation_name = $outer_relation->getName();
+				if(!isset($this->relations[$outer_relation_name])) {
+					$this->relations[$outer_relation_name] = $outer_relation;
+				}
+
+				$data_model = $outer_relation->getRelatedDataModelInstance();
+			} else {
+				//M2N relations ...
+				$main_data_model_properties = $this->main_data_model->getDataModelDefinition()->getProperties();
+				if( !isset($main_data_model_properties[$part]) ) {
+					throw new DataModel_Query_Exception(
+						"Unknown property '{$part}'",
+						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
+					);
+				}
+
+				/**
+				 * @var DataModel_Definition_Property_DataModel $property_definition
+				 */
+				$property_definition = $main_data_model_properties[$part];
+				if(!$main_data_model_properties[$part]->getIsDataModel()) {
+					throw new DataModel_Query_Exception(
+						"Property '{$part}' is not DataModel!  Is not it more like this.{$part} ?",
+						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
+					);
+				}
+
+				$data_model = static::_getClassInstance($property_definition->getDataModelClass());
+				if( !($data_model instanceof DataModel_Related_MtoN) ) {
+					throw new DataModel_Query_Exception(
+						"Property '{$part}' is not M2N relation. Is not it more like this.{$part} ?",
+						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
+					);
+
+				}
+
+				$data_model = static::_getClassInstance($data_model->getNModelClassName());
 			}
 
-			/**
-			 * @var DataModel_Definition_Property_DataModel $property_definition
-			 */
-			$property_definition = $main_data_model_properties[$part];
-			if(!$main_data_model_properties[$part]->getIsDataModel()) {
-				throw new DataModel_Query_Exception(
-					"Property '{$part}' is not DataModel!  Is not it more like this.{$part} ?",
-					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-				);
-			}
-
-			$data_model = static::_getClassInstance($property_definition->getDataModelClass());
-			if( !($data_model instanceof DataModel_Related_MtoN) ) {
-				throw new DataModel_Query_Exception(
-					"Property '{$part}' is not M2N relation. Is not it more like this.{$part} ?",
-					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-				);
-
-			}
-
-			$data_model = static::_getClassInstance($data_model->getNModelClassName());
 
 			$is_main_do = false;
 		}
@@ -473,7 +496,7 @@ class DataModel_Query extends Object {
 
 		}
 
-		if(!$is_main_do) {
+		if(!$is_main_do && !$outer_relation) {
 			$this->_addRelatedModel( $data_model->getDataModelDefinition() );
 		}
 
@@ -485,7 +508,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function _addRelatedModel( DataModel_Definition_Model_Abstract $related_model_definition ) {
+	protected function _addRelatedModel( DataModel_Definition_Model_Abstract $related_model_definition ) {
 		$main_class_name = $this->main_data_model_class_name;
 		$related_class_name = $related_model_definition->getClassName();
 		$related_model_name = $related_model_definition->getModelName();
@@ -505,7 +528,7 @@ class DataModel_Query extends Object {
 			/**
 			 * @var DataModel_Definition_Model_Related_Abstract $related_model_definition
 			 */
-			$this->relations[$related_model_name] = new DataModel_Query_Relation_Item(
+			$this->relations[$related_model_name] = new DataModel_Query_Relation_Inner(
 				$related_model_definition,
 				$related_model_definition->getMainModelRelationIDProperties()
 			);

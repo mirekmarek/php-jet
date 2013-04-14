@@ -229,7 +229,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @param DataModel $N_model_instance
 	 * @param bool $get_relation_data
 	 *
-	 * @return DataModel_Query_Relation_Item[]|bool
+	 * @return DataModel_Query_Relation_Inner[]|bool
 	 */
 	public function checkIsRelevantMtoNRelation( DataModel $M_model_instance, DataModel $N_model_instance, $get_relation_data=false ) {
 		//query is seeking for MtoN relation, so relevant MtoN relation class/table is needed  ...
@@ -278,8 +278,8 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		}
 
 		$query_related_data = array();
-		$query_related_data[$this_definition->getModelName()] =  new DataModel_Query_Relation_Item( $this_definition, $M_ID_properties );
-		$query_related_data[$N_model_definition->getModelName()]  = new DataModel_Query_Relation_Item( $N_model_instance->getDataModelDefinition(), $m2n_class_2_n_class_relation);
+		$query_related_data[$this_definition->getModelName()] =  new DataModel_Query_Relation_Inner( $this_definition, $M_ID_properties );
+		$query_related_data[$N_model_definition->getModelName()]  = new DataModel_Query_Relation_Inner( $N_model_instance->getDataModelDefinition(), $m2n_class_2_n_class_relation);
 
 		return $query_related_data;
 
@@ -584,7 +584,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 */
 	protected function _fetchNIDs() {
-		if($this->N_IDs!==NULL) {
+		if($this->N_IDs!==null) {
 			return;
 		}
 

@@ -25,6 +25,10 @@ class Event extends Jet\DataModel {
 	protected static $__data_model_model_name = "Jet_Auth_Events";
 
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"date_time" => array(
 			"type" => self::TYPE_DATE_TIME,
 			"is_required" => true

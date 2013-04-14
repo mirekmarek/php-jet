@@ -573,7 +573,8 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$join_qp = "";
 
 		foreach($query->getRelations() as $relation) {
-			$r_ID_properties = $relation->getJoinByProperties();
+
+
 			$r_table_name = $this->_getTableName( $relation->getRelatedDataModelDefinition() );
 
 
@@ -592,18 +593,41 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				break;
 			}
 
-
 			$j = array();
+			$join_by_properties = $relation->getJoinByProperties();
 
-			foreach( $r_ID_properties as $r_property_definition ) {
-				/**
-				 * @var DataModel_Definition_Property_Abstract $r_property_definition
-				 */
-				$rt_property = $r_property_definition->getRelatedToProperty();
+			if($relation instanceof DataModel_Query_Relation_Outer) {
+				foreach( $join_by_properties as $join_by_property ) {
+					/**
+					 * @var DataModel_Query_Relation_Outer_JoinByProperty $join_by_property
+					 */
 
-				$j[] = "\t\t\t".$this->_getColumnName($r_property_definition)." = ".$this->_getColumnName($rt_property);
+					$related_value = $join_by_property->getThisModelPropertyValue( $query->getMainDataModel() );
+
+					if($related_value instanceof DataModel_Definition_Property_Abstract) {
+						$related_value = $this->_getColumnName($related_value);
+					} else {
+						$related_value = "'".addslashes($related_value)."'";
+					}
+
+					$j[] = "\t\t\t".$this->_getColumnName($join_by_property->getRelatedProperty())." = ".$related_value;
+
+				}
+
+			} else {
+				foreach( $join_by_properties as $r_property_definition ) {
+					/**
+					 * @var DataModel_Definition_Property_Abstract $r_property_definition
+					 */
+					$rt_property = $r_property_definition->getRelatedToProperty();
+
+					$j[] = "\t\t\t".$this->_getColumnName($r_property_definition)." = ".$this->_getColumnName($rt_property);
+
+				}
 
 			}
+
+
 
 			$join_qp .= implode(" AND \n", $j);
 		}

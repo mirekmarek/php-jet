@@ -35,6 +35,10 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
+		"ID" => array(
+			"type" => self::TYPE_ID,
+			"is_ID" => true
+		),
 		"name" => array(
 			"type" => self::TYPE_STRING,
 			"max_len" => 255
