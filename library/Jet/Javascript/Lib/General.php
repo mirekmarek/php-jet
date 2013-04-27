@@ -26,14 +26,14 @@ class Javascript_Lib_General extends Javascript_Lib_Abstract {
 	/**
 	 * @param string $URL
 	 */
-	public function appendScriptURL( $URL ) {
+	public function requireScriptURL( $URL ) {
 		$this->JavaScript_URLs[$URL] = $URL;
 	}
 
 	/**
 	 * @param string $code
 	 */
-	public function appendScriptCode( $code ) {
+	public function requireScriptCode( $code ) {
 		$this->JavaScript_code[] = $code;
 	}
 

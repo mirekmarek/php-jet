@@ -25,13 +25,24 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
 		"default" => false,
 	);
 
 	public function default_Action() {
+		/**
+		 * @var Jet\Javascript_Lib_General $general_JS
+		 */
+		/*
+		$general_JS = Jet\Mvc::requireJavascriptLib("General");
+
+		$general_JS->requireScriptURL( JET_PUBLIC_SCRIPTS_URI."my_js_lib.js" );
+		$general_JS->requireScriptURL( "http://domain.tld/some/js_lib.js" );
+		$general_JS->requireScriptCode(" alert('Hello World!'); ");
+		*/
+
 		$Dojo = Jet\Mvc::requireJavascriptLib("Dojo");
 
 		$Dojo->requireComponent("dojo.store.JsonRest");
