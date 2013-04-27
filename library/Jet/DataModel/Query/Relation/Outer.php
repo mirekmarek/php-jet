@@ -42,7 +42,20 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 	 * @throws DataModel_Exception
 	 */
 	public function setUp( array $definition_data) {
-		//TODO: check
+
+		if(!isset($definition_data["related_to_class_name"])) {
+			throw new DataModel_Exception(
+				"Outer relation definition {$this->name}: related_to_class_name is not defined  ",
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		if(!isset($definition_data["join_by_properties"])) {
+			throw new DataModel_Exception(
+				"Outer relation definition {$this->name}: join_by_properties is not defined  ",
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
 
 
 		$this->setRelatedToClass($definition_data["related_to_class_name"]);
@@ -51,9 +64,8 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 
 		foreach($definition_data["join_by_properties"] as $related_property_name=>$this_model_property) {
 			if(!isset($related_properties[$related_property_name])) {
-				//TODO: scream!
 				throw new DataModel_Exception(
-					" {$definition_data["related_to_class_name"]}::{$related_property_name} ",
+					"Unknown property {$definition_data["related_to_class_name"]}::{$related_property_name} ",
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -76,9 +88,4 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 	public function getJoinByProperties() {
 		return $this->join_by_properties;
 	}
-
-
-
-
-
 }
