@@ -85,7 +85,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$user->setPassword( $data["password"] );
 			$user->setPasswordIsValid(true);
 			$user->setPasswordIsValidTill(null);
-			$user->validateData();
+			$user->validateProperties();
 			$user->save();
 
 			Jet\Http_Headers::reload();

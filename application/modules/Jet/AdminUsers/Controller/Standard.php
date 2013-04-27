@@ -64,7 +64,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$this->view->setVar("form", $form);
 
 			if($user->catchForm( $form )) {
-				$user->validateData();
+				$user->validateProperties();
 				$user->save();
 				Jet\Http_Headers::formSent( $form );
 			}

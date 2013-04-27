@@ -190,7 +190,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 
 	/**
 	 * Save data.
-	 * CAUTION: Call validateData first!
+	 * CAUTION: Call validateProperties first!
 	 *
 	 * @param DataModel $main_model_instance (optional)
 	 * @param DataModel_Related_Abstract $parent_model_instance (optional)

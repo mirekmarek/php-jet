@@ -34,10 +34,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @var array(code=>message)
 	 */
 	public static $default_error_messages = array(
-		DataModel_ValidationError::CODE_REQUIRED => "Item is required",
-		DataModel_ValidationError::CODE_INVALID_VALUE => "Invalid value",
-		DataModel_ValidationError::CODE_INVALID_FORMAT => "Invalid format",
-		DataModel_ValidationError::CODE_OUT_OF_RANGE => "Out of range",
+		DataModel_Validation_Error::CODE_REQUIRED => "Item is required",
+		DataModel_Validation_Error::CODE_INVALID_VALUE => "Invalid value",
+		DataModel_Validation_Error::CODE_INVALID_FORMAT => "Invalid format",
+		DataModel_Validation_Error::CODE_OUT_OF_RANGE => "Out of range",
 	);
 
 	/**
@@ -381,23 +381,23 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 	/**
 	 * @param mixed &$value
-	 * @param DataModel_ValidationError[] &$errors
+	 * @param DataModel_Validation_Error[] &$errors
 	 *
 	 *
 	 * @return bool
 	 */
-	public function validateData( &$value, &$errors ) {
+	public function validateProperties( &$value, &$errors ) {
 		$this->checkValueType($value);
 
-		if(!$this->_validateData_test_required($value, $errors )) {
+		if(!$this->_validateProperties_test_required($value, $errors )) {
 			return false;
 		}
 		if($this->list_of_valid_options) {
-			if(!$this->_validateData_test_validOptions($value, $errors )) {
+			if(!$this->_validateProperties_test_validOptions($value, $errors )) {
 				return false;
 			}
 		}
-		return $this->_validateData_test_value($value, $errors );
+		return $this->_validateProperties_test_value($value, $errors );
 
 	}
 
@@ -406,18 +406,18 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * Property required test
 	 *
 	 * @param mixed &$value
-	 * @param DataModel_ValidationError[] &$errors[]
+	 * @param DataModel_Validation_Error[] &$errors[]
 	 *
 	 * @return bool
 	 */
-	public function _validateData_test_required( &$value, &$errors ) {
+	public function _validateProperties_test_required( &$value, &$errors ) {
 		if( !$this->is_required ) {
 			return true;
 		}
 
 		if(!$value) {
-			$errors[] = new DataModel_ValidationError(
-					DataModel_ValidationError::CODE_REQUIRED,
+			$errors[] = new DataModel_Validation_Error(
+					DataModel_Validation_Error::CODE_REQUIRED,
 					$this, 
 					$value
 				);
@@ -432,15 +432,15 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * Property value test - value must be in list of valid options
 	 *
 	 * @param mixed &$value
-	 * @param DataModel_ValidationError[] &$errors
+	 * @param DataModel_Validation_Error[] &$errors
 
 	 * @return bool
 	 */
-	public function _validateData_test_validOptions( &$value, &$errors ) {
+	public function _validateProperties_test_validOptions( &$value, &$errors ) {
 		if(!in_array($value, $this->list_of_valid_options)) {
 
-			$errors[] = new DataModel_ValidationError(
-						DataModel_ValidationError::CODE_INVALID_VALUE,
+			$errors[] = new DataModel_Validation_Error(
+						DataModel_Validation_Error::CODE_INVALID_VALUE,
 						$this, $value
 					);
 
@@ -454,12 +454,12 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * Property value test - can be specific for each column type (eg: min and max value for number, string format ...)
 	 *
 	 * @param mixed &$value
-	 * @param DataModel_ValidationError[] &$errors
+	 * @param DataModel_Validation_Error[] &$errors
 	 *
 	 * @return bool
 	 */
 	/** @noinspection PhpUnusedParameterInspection */
-	public function _validateData_test_value(
+	public function _validateProperties_test_value(
 					/** @noinspection PhpUnusedParameterInspection */
 					&$value,
 					/** @noinspection PhpUnusedParameterInspection */

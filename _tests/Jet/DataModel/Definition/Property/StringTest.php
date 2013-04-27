@@ -374,70 +374,70 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateData
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateData_test_required
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
+	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateProperties_test_required
 	 */
-	public function testValidateDataFailedEmpty() {
+	public function testValidatePropertiesFailedEmpty() {
 		$value = "";
 		$errors = array();
 
-		$this->assertFalse($this->object->validateData($value, $errors));
+		$this->assertFalse($this->object->validateProperties($value, $errors));
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
-		 * @var DataModel_ValidationError $error
+		 * @var DataModel_Validation_Error $error
 		 */
 		$error = $errors[0];
 
-		$this->assertEquals(DataModel_ValidationError::CODE_REQUIRED, $error->getCode());
+		$this->assertEquals(DataModel_Validation_Error::CODE_REQUIRED, $error->getCode());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateData
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateData_test_validOptions
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
+	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateProperties_test_validOptions
 	 */
-	public function testValidateDataFailedInvalidValue() {
+	public function testValidatePropertiesFailedInvalidValue() {
 		$value = "invalid value";
 		$errors = array();
 
-		$this->assertFalse($this->object->validateData($value, $errors));
+		$this->assertFalse($this->object->validateProperties($value, $errors));
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
-		 * @var DataModel_ValidationError $error
+		 * @var DataModel_Validation_Error $error
 		 */
 		$error = $errors[0];
 
-		$this->assertEquals(DataModel_ValidationError::CODE_INVALID_VALUE, $error->getCode());
+		$this->assertEquals(DataModel_Validation_Error::CODE_INVALID_VALUE, $error->getCode());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateData
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateData_test_value
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
+	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateProperties_test_value
 	 */
-	public function testValidateDataFailedInvaliudFormat() {
+	public function testValidatePropertiesFailedInvaliudFormat() {
 		$value = "_#invalid";
 		$errors = array();
 
-		$this->assertFalse( $this->object->validateData($value, $errors) );
+		$this->assertFalse( $this->object->validateProperties($value, $errors) );
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
-		 * @var DataModel_ValidationError $error
+		 * @var DataModel_Validation_Error $error
 		 */
 		$error = $errors[0];
 
-		$this->assertEquals(DataModel_ValidationError::CODE_INVALID_FORMAT, $error->getCode());
+		$this->assertEquals(DataModel_Validation_Error::CODE_INVALID_FORMAT, $error->getCode());
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateData
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
 	 */
-	public function testValidateData() {
+	public function testValidateProperties() {
 		$value = "option1";
 		$errors = array();
-		$this->assertTrue( $this->object->validateData($value, $errors) );
+		$this->assertTrue( $this->object->validateProperties($value, $errors) );
 	}
 
 

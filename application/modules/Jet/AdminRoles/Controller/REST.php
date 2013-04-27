@@ -23,7 +23,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
 		"get_role" => "get_role",
@@ -51,7 +51,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$form = $role->getCommonForm();
 
 		if($role->catchForm( $form, $this->getRequestData(), true )) {
-			$role->validateData();
+			$role->validateProperties();
 			$role->save();
 			$this->responseData($role);
 		} else {
@@ -65,7 +65,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$form = $role->getCommonForm();
 
 		if($role->catchForm( $form, $this->getRequestData(), true )) {
-			$role->validateData();
+			$role->validateProperties();
 			$role->save();
 			$this->responseData($role);
 		} else {

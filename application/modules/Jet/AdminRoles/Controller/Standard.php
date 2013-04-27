@@ -49,7 +49,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$form = $role->getCommonForm();
 
 			if($role->catchForm( $form )) {
-				$role->validateData();
+				$role->validateProperties();
 				$role->save();
 				Jet\Http_Headers::formSent( $form );
 			}

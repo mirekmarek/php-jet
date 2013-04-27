@@ -22,12 +22,6 @@ Jet.declare("Jet.module.Jet\\AdminRoles.Main", [Jet.modules.Module], {
     privileges_scope: null,
 
 
-    destructor: function() {
-        dojo.disconnect( this.signal_connection_new );
-        dojo.disconnect( this.signal_connection_updated );
-        dojo.disconnect( this.signal_connection_deleted );
-    },
-
     initializeUI: function(){
         this._initDialog();
         this._initForm();
@@ -96,9 +90,9 @@ Jet.declare("Jet.module.Jet\\AdminRoles.Main", [Jet.modules.Module], {
     },
     _initSignals: function() {
         var _this = this;
-        this.signal_connection_new = dojo.subscribe(this.module_name+"/new", function(){ _this.reloadGrid(); });
-        this.signal_connection_updated = dojo.subscribe(this.module_name+"/updated", function(){ _this.reloadGrid(); });
-        this.signal_connection_deleted = dojo.subscribe(this.module_name+"/deleted", function(){ _this.reloadGrid(); });
+	    this.addSignalCallback(this.module_name+"/new", function(){ _this.reloadGrid(); });
+	    this.addSignalCallback(this.module_name+"/updated", function(){ _this.reloadGrid(); });
+	    this.addSignalCallback(this.module_name+"/deleted", function(){ _this.reloadGrid(); });
     },
 
 

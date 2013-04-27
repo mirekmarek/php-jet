@@ -47,7 +47,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	 * @throws Config_Exception
 	 * @return bool
 	 */
-	public function _validateData_test_required( &$value ) {
+	public function _validateProperties_test_required( &$value ) {
 		return true;
 	}
 

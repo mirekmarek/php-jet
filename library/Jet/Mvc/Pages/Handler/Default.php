@@ -264,7 +264,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$page->setMetaTags($meta_tags);
 
 		$errors = array();
-		if(!$page->validateData($errors)) {
+		if(!$page->validateProperties($errors)) {
 
 			foreach($page->getValidationErrors() as $error) {
 				$errors[] = (string)$error;

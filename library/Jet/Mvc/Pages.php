@@ -85,7 +85,7 @@ class Mvc_Pages extends Object {
 	 *
 	 */
 	public static function createPage( Mvc_Pages_Page_Abstract $page_data ) {
-		if(!$page_data->validateData()) {
+		if(!$page_data->validateProperties()) {
 			$errors = $page_data->getValidationErrors();
 			foreach($errors as $i=>$error) {
 				$errors[$i] = (string)$error;

@@ -132,7 +132,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 	 * @throws Config_Exception
 	 * @return bool
 	 */
-	protected function _validateData_test_value( &$value ) {
+	protected function _validateProperties_test_value( &$value ) {
 		if($this->min_value===NULL && $this->max_value===NULL) {
 			return true;
 		}

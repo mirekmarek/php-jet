@@ -436,11 +436,11 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	public function checkValue( &$value ) {
 		$this->checkValueType($value);
 
-		if($this->_validateData_test_required( $value )) {
+		if($this->_validateProperties_test_required( $value )) {
 			/*if($this->list_of_valid_options) {
-				$this->_validateData_test_validOptions( $value );
+				$this->_validateProperties_test_validOptions( $value );
 			} else */ {
-				return $this->_validateData_test_value( $value );
+				return $this->_validateProperties_test_value( $value );
 			}
 		}
 
@@ -456,7 +456,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 * @throws Config_Exception
 	 * @return bool
 	 */
-	protected function _validateData_test_required( &$value ) {
+	protected function _validateProperties_test_required( &$value ) {
 		if( !$this->is_required ) {
 			return true;
 		}
@@ -478,7 +478,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 *
 	 * @return bool
 	 */
-	protected function _validateData_test_value( &$value ) {
+	protected function _validateProperties_test_value( &$value ) {
 		return true;
 	}
 

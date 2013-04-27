@@ -172,7 +172,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 	/**
 	 *
-	 * @var DataModel_ValidationError[]
+	 * @var DataModel_Validation_Error[]
 	 */
 	protected $___data_model_data_validation_errors = array();
 
@@ -635,6 +635,58 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		$this->generateID();
 	}
 
+	/**
+	 * @param string $property_name
+	 * @param mixed &$value
+	 * @param bool $throw_exception (optional, default: true)
+	 *
+	 * @throws DataModel_Exception
+	 * @throws DataModel_Validation_Exception
+	 *
+	 * @return bool
+	 */
+	public function validatePropertyValue( $property_name,&$value, $throw_exception=true ) {
+		$properties = $this->getDataModelDefinition()->getProperties();
+		if( !isset($properties[$property_name]) ) {
+			throw new DataModel_Exception(
+				"Unknown property '{$property_name}'",
+				DataModel_Exception::CODE_UNKNOWN_PROPERTY
+			);
+		}
+
+		$property_definition = $properties[$property_name];
+
+		$validation_method_name = $property_definition->getValidationMethodName();
+
+		$errors = array();
+
+		if($validation_method_name) {
+			$this->{$validation_method_name}($property_definition, $value, $errors);
+		} else {
+			$property_definition->validateProperties($value, $errors);
+		}
+
+		if($errors) {
+			if($throw_exception) {
+				throw new DataModel_Validation_Exception( $this, $property_definition, $errors );
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * @param string $property_name
+	 * @param mixed &$value
+	 *
+	 * @throws DataModel_Validation_Exception
+	 */
+	public function setPropertyValue( $property_name, &$value ) {
+		$this->validatePropertyValue( $property_name, $value );
+
+		$this->{$property_name} = $value;
+	}
+
 
 	/**
 	 * Validates data and returns true if everything is OK and ready to save
@@ -642,7 +694,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 * @throws DataModel_Exception
 	 * @return bool
 	 */
-	public function validateData() {
+	public function validateProperties() {
 
 		$this->___data_model_data_validation_errors = array();
 		
@@ -665,7 +717,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				 */
 				$prop = $this->{$property_name};
 
-				$prop->validateData();
+				$prop->validateProperties();
 
 				$this->___data_model_data_validation_errors = array_merge(
 						$this->___data_model_data_validation_errors,
@@ -680,7 +732,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			if($validation_method_name) {
 				$this->{$validation_method_name}($property_definition, $this->{$property_name}, $this->___data_model_data_validation_errors);
 			} else {
-				$property_definition->validateData($this->{$property_name}, $this->___data_model_data_validation_errors);
+				$property_definition->validateProperties($this->{$property_name}, $this->___data_model_data_validation_errors);
 			}
 		}
 
@@ -695,7 +747,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 	/**
 	 *
-	 * @return DataModel_ValidationError[]
+	 * @return DataModel_Validation_Error[]
 	 */
 	public function getValidationErrors() {
 		return $this->___data_model_data_validation_errors;
@@ -815,7 +867,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 	/**
 	 * Save data.
-	 * CAUTION: Call validateData first!
+	 * CAUTION: Call validateProperties first!
 	 *
 	 * @throws Exception
 	 * @throws DataModel_Exception
@@ -892,7 +944,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			}
 
 			throw new DataModel_Exception(
-				"Call ".get_class($this)."::validateData first! (Validation errors: ".implode(",", $errors).")",
+				"Call ".get_class($this)."::validateProperties first! (Validation errors: ".implode(",", $errors).")",
 				DataModel_Exception::CODE_SAVE_ERROR_VALIDATE_DATA_FIRST
 			);
 		}
@@ -1328,18 +1380,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				continue;
 			}
 
-			$properties[$key]->checkValueType($val);
-
-			$set_method_name = "set".str_replace("_", "", $key);
-
-			if(method_exists($this, $set_method_name)) {
-				$this->{$set_method_name}($val);
-			} else {
-				$this->{$key} = $val;
-				if(isset($properties[$key])) {
-					$properties[$key]->checkValueType( $this->{$key} );
-				}
-			}
+			$this->setPropertyValue($key, $val);
 
 		}
 

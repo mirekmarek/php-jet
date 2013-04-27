@@ -311,7 +311,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 * @return bool
 	 */
-	public function validateData() {
+	public function validateProperties() {
 		return true;
 	}
 

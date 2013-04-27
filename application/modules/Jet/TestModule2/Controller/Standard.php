@@ -77,7 +77,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$page_form = $page->getCommonForm();
 
 		if( $page->catchForm( $page_form ) ) {
-			$page->validateData();
+			$page->validateProperties();
 			$page->save();
 			Jet\Mvc::truncateRouterCache();
 			Jet\Http_Headers::formSent($page_form);

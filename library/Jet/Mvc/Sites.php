@@ -101,7 +101,7 @@ class Mvc_Sites extends Object {
 	 *
 	 */
 	public static function createSite( Mvc_Sites_Site_Abstract $site_data, $template="default", $activate=true ) {
-		if(!$site_data->validateData()) {
+		if(!$site_data->validateProperties()) {
 			$errors = $site_data->getValidationErrors();
 			foreach($errors as $i=>$error) {
 				$errors[$i] = (string)$error;

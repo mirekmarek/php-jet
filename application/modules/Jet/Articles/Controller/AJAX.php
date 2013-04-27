@@ -22,7 +22,7 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 
 	protected static $ACL_actions_check_map = array(

@@ -119,7 +119,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @throws DataModel_Exception
 	 * @return bool
 	 */
-	public function validateData() {
+	public function validateProperties() {
 		if( !$this->__items ) {
 			return true;
 		}
@@ -137,12 +137,12 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @return bool
 	 */
 	protected function _validateItem() {
-		return parent::validateData();
+		return parent::validateProperties();
 	}
 
 	/**
 	 * Save data.
-	 * CAUTION: Call validateData first!
+	 * CAUTION: Call validateProperties first!
 	 *
 	 * @param DataModel $main_model_instance (optional)
 	 * @param DataModel_Related_Abstract $parent_model_instance (optional)
@@ -179,7 +179,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 	/**
 	 * Save data.
-	 * CAUTION: Call validateData first!
+	 * CAUTION: Call validateProperties first!
 	 *
 	 * @param DataModel $main_model_instance (optional)
 	 * @param DataModel_Related_Abstract $parent_model_instance (optional)

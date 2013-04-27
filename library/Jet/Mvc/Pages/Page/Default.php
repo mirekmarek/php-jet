@@ -58,7 +58,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			"is_required"=> true,
 			"max_len" => 255,
 			"error_messages" => array(
-				DataModel_ValidationError::CODE_REQUIRED => "Name was not specified"
+				DataModel_Validation_Error::CODE_REQUIRED => "Name was not specified"
 			),
 			"form_field_label" => "Name: ",
 		),

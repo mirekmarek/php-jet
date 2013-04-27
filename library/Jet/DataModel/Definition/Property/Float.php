@@ -100,11 +100,11 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 	 * Column value test - checks range
 	 *
 	 * @param mixed &$value
-	 * @param DataModel_ValidationError &$errors
+	 * @param DataModel_Validation_Error &$errors
 	 *
 	 * @return bool
 	 */
-	public function _validateData_test_value( &$value, &$errors ) {
+	public function _validateProperties_test_value( &$value, &$errors ) {
 		if($this->min_value===null && $this->max_value===null) {
 			return true;
 		}
@@ -113,8 +113,8 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 			$this->min_value!==null &&
 			$value<$this->min_value
 		) {
-			$errors[] = new DataModel_ValidationError(
-					DataModel_ValidationError::CODE_OUT_OF_RANGE,
+			$errors[] = new DataModel_Validation_Error(
+					DataModel_Validation_Error::CODE_OUT_OF_RANGE,
 					$this,
 					$value
 				);
@@ -126,8 +126,8 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 			$this->max_value!==null &&
 			$value>$this->max_value
 		) {
-			$errors[] = new DataModel_ValidationError(
-					DataModel_ValidationError::CODE_OUT_OF_RANGE,
+			$errors[] = new DataModel_Validation_Error(
+					DataModel_Validation_Error::CODE_OUT_OF_RANGE,
 					$this,
 					$value
 				);
@@ -143,11 +143,11 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
      * has no effect for numbers!
      *
      * @param mixed &$value
-     * @param DataModel_ValidationError[] &$errors[]
+     * @param DataModel_Validation_Error[] &$errors[]
      *
      * @return bool
      */
-    public function _validateData_test_required( &$value, &$errors ) {
+    public function _validateProperties_test_required( &$value, &$errors ) {
         return true;
     }
 

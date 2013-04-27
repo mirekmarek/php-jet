@@ -23,7 +23,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
 		"get_page" => "get_page",
@@ -49,7 +49,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$form = $page->getCommonForm();
 
 		if($page->catchForm( $form, $rq_data , true )) {
-			$page->validateData();
+			$page->validateProperties();
 			$page->save();
 			$this->responseData($page);
 		} else {
@@ -63,7 +63,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$form = $page->getCommonForm();
 
 		if($page->catchForm( $form, $this->getRequestData(), true )) {
-			$page->validateData();
+			$page->validateProperties();
 			$page->save();
 			$this->responseData($page);
 		} else {

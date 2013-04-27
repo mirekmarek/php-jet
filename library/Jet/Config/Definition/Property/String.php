@@ -104,7 +104,7 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	 * @throws Config_Exception
 	 * @return bool
 	 */
-	protected function _validateData_test_value( &$value ) {
+	protected function _validateProperties_test_value( &$value ) {
 		if(!$this->validation_regexp) {
 			return true;
 		}

@@ -161,7 +161,7 @@ foreach($locales as $locale) {
 }
 
 $errors = array();
-if(!$site_data->validateData($errors)) {
+if(!$site_data->validateProperties($errors)) {
 	$error_msg = array();
 
 	foreach( $errors as $error ) {

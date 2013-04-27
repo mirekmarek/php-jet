@@ -75,9 +75,9 @@ Jet.declare("Jet.module.Jet\\AdminPages.Main", [Jet.modules.Module], {
         this.trash.disable();
 
 
-        dojo.subscribe(this.module_name+"/new", function(){ _this.treereload(); });
-        dojo.subscribe(this.module_name+"/updated", function(){ _this.treereload(); });
-        dojo.subscribe(this.module_name+"/deleted", function(){
+        this.addSignalCallback(this.module_name+"/new", function(){ _this.treereload(); });
+	    this.addSignalCallback(this.module_name+"/updated", function(){ _this.treereload(); });
+	    this.addSignalCallback(this.module_name+"/deleted", function(){
                 _this.treereload();
                 _this.trash.disable();
                 _this.edit_area.domNode.style.visibility = "hidden";

@@ -96,6 +96,7 @@ class Application_Signals_Dispatcher extends Object {
 	 * Sends the signal to callbacks
 	 *
 	 * @param Application_Signals_Signal $signal
+	 *
 	 * @throws Application_Modules_Exception
 	 * @throws Application_Signals_Exception
 	 */

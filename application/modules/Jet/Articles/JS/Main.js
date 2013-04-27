@@ -19,11 +19,6 @@ Jet.declare("Jet.module.Jet\\Articles.Main", [Jet.modules.Module], {
     grid: null,
     edit_area: null,
 
-    destructor: function() {
-        dojo.disconnect( this.signal_connection_new );
-        dojo.disconnect( this.signal_connection_updated );
-        dojo.disconnect( this.signal_connection_deleted );
-    },
 
     initializeUI: function(){
         this._initDialog();
@@ -35,9 +30,9 @@ Jet.declare("Jet.module.Jet\\Articles.Main", [Jet.modules.Module], {
 
     _initSignals: function() {
         var _this = this;
-        this.signal_connection_new = dojo.subscribe(this.module_name+"/new", function(){ _this.reloadGrid(); });
-        this.signal_connection_updated = dojo.subscribe(this.module_name+"/updated", function(){ _this.reloadGrid(); });
-        this.signal_connection_deleted = dojo.subscribe(this.module_name+"/deleted", function(){ _this.reloadGrid(); });
+	    this.addSignalCallback(this.module_name+"/new", function(){ _this.reloadGrid(); });
+	    this.addSignalCallback(this.module_name+"/updated", function(){ _this.reloadGrid(); });
+	    this.addSignalCallback(this.module_name+"/deleted", function(){ _this.reloadGrid(); });
     },
 
     _initDialog: function() {

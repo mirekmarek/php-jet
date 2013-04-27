@@ -13,7 +13,7 @@ namespace Jet;
 
 require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
 
-class DataModel_ValidationErrorTest extends \PHPUnit_Framework_TestCase {
+class DataModel_Validation_ErrorTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Query_DataModelTestMock
 	 */
@@ -25,7 +25,7 @@ class DataModel_ValidationErrorTest extends \PHPUnit_Framework_TestCase {
 	protected $properties = array();
 
 	/**
-	 * @var DataModel_ValidationError
+	 * @var DataModel_Validation_Error
 	 */
 	protected $object;
 
@@ -38,8 +38,8 @@ class DataModel_ValidationErrorTest extends \PHPUnit_Framework_TestCase {
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->object = new DataModel_ValidationError(
-			DataModel_ValidationError::CODE_REQUIRED,
+		$this->object = new DataModel_Validation_Error(
+			DataModel_Validation_Error::CODE_REQUIRED,
 			$this->properties["string_property"],
 			"invalid value"
 		);
@@ -56,7 +56,7 @@ class DataModel_ValidationErrorTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ValidationError::getCode
 	 */
 	public function testGetCode() {
-		$this->assertEquals(DataModel_ValidationError::CODE_REQUIRED, $this->object->getCode());
+		$this->assertEquals(DataModel_Validation_Error::CODE_REQUIRED, $this->object->getCode());
 	}
 
 	/**

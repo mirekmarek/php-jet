@@ -218,7 +218,7 @@ class Event extends Jet\DataModel {
 
 		$event_i->request_data = $request_data;
 
-		$event_i->validateData();
+		$event_i->validateProperties();
 		$event_i->save();
 
 		return $event_i;

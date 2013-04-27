@@ -10,11 +10,11 @@
  *
  * @category Jet
  * @package DataModel
- * @subpackage DataModel_ValidationError
+ * @subpackage DataModel_Validation
  */
 namespace Jet;
 
-class DataModel_ValidationError extends Object {
+class DataModel_Validation_Error extends Object {
 	const CODE_REQUIRED = "required";
 	const CODE_INVALID_VALUE = "invalid_value";
 	const CODE_INVALID_FORMAT = "invalid_format";

@@ -91,32 +91,32 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateData
-	 * @covers Jet\DataModel_Definition_Property_Float::_validateData_test_value
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
+	 * @covers Jet\DataModel_Definition_Property_Float::_validateProperties_test_value
 	 */
-	public function testValidateDataFailedOutOfRange() {
+	public function testValidatePropertiesFailedOutOfRange() {
 		$value = "10.9876";
 		$errors = array();
 
-		$this->assertFalse( $this->object->validateData($value, $errors) );
+		$this->assertFalse( $this->object->validateProperties($value, $errors) );
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
-		 * @var DataModel_ValidationError $error
+		 * @var DataModel_Validation_Error $error
 		 */
 		$error = $errors[0];
 
-		$this->assertEquals(DataModel_ValidationError::CODE_OUT_OF_RANGE, $error->getCode());
+		$this->assertEquals(DataModel_Validation_Error::CODE_OUT_OF_RANGE, $error->getCode());
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::validateData
+	 * @covers Jet\DataModel_Definition_Property_Float::validateProperties
 	 */
-	public function testValidateData() {
+	public function testValidateProperties() {
 		$value = 2.222;
 		$errors = array();
-		$this->assertTrue( $this->object->validateData($value, $errors) );
+		$this->assertTrue( $this->object->validateProperties($value, $errors) );
 	}
 
 	/**

@@ -76,7 +76,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 				$till<=Jet\DateTime::now()
 			) {
 				$user->unBlock();
-				$user->validateData();
+				$user->validateProperties();
 				$user->save();
 			} else {
 				return true;
@@ -91,7 +91,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 				$pwd_valid_till<=Jet\DateTime::now()
 			) {
 				$user->setPasswordIsValid(false);
-				$user->validateData();
+				$user->validateProperties();
 				$user->save();
 
 				return true;

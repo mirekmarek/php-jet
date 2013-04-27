@@ -84,7 +84,7 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 	public function activateSite( Mvc_Sites_Site_ID_Abstract  $ID ) {
 		$site = $this->_getSite($ID);
 		$site->setIsActive(true);
-		$site->validateData();
+		$site->validateProperties();
 		$site->save();
 		Mvc::truncateRouterCache();
 	}
@@ -97,7 +97,7 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 	public function deactivateSite( Mvc_Sites_Site_ID_Abstract  $ID  ) {
 		$site = $this->_getSite($ID);
 		$site->setIsActive(false);
-		$site->validateData();
+		$site->validateProperties();
 		$site->save();
 		Mvc::truncateRouterCache();
 	}
