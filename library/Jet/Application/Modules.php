@@ -532,12 +532,14 @@ class Application_Modules extends Object {
 		static::$installation_in_progress = true;
 		static::$installation_in_progress_module_name = $module_name;
 
+		$uninstall_exception = null;
+
 		if(file_exists($uninstall_script)) {
 			try {
 				/** @noinspection PhpIncludeInspection */
 				require_once $uninstall_script;
-			} catch(Exception $e){
-				throw new Application_Modules_Exception(
+			} catch(\Exception $e){
+				$uninstall_exception = new Application_Modules_Exception(
 					"Error while processing uninstall script: ".$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
 				);
@@ -554,6 +556,10 @@ class Application_Modules extends Object {
 		static::$installation_in_progress = false;
 		static::$installation_in_progress_module_name = null;
 		static::saveInstalledModulesList();
+
+		if($uninstall_exception) {
+			throw $uninstall_exception;
+		}
 	}
 
 	/**

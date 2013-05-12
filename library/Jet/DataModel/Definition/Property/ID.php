@@ -28,7 +28,7 @@ class DataModel_Definition_Property_ID extends DataModel_Definition_Property_Abs
 	/**
 	 * @var bool
 	 */
-	protected $is_ID = true;
+	protected $is_ID = false;
 
 	/**
 	 * @var string

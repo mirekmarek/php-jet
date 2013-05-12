@@ -68,7 +68,9 @@ Jet.declare("Jet.module.Jet\\Articles.Main", [Jet.modules.Module], {
     },
 
     _initGrid: function() {
-        this.grid = this.getDataGrid( "articles_grid", this.form.store, this.edit, "edit" );
+        this.grid = this.getDataGrid( "articles_grid", this.form.store, "edit" );
+
+	    console.debug(this.grid);
     },
 
     _initTrash: function() {

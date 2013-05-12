@@ -560,7 +560,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		$this->selected_HTML_template_name = $template;
 
 		$result = "<".static::FORM_TAG." name=\"{$this->name}\">\n";
-		$result .= "<".static::FORM_TAG.":".static::FORM_COMMON_ERROR_MESSAGE_TAG." class=\"".$this->getTemplate_form_common_error_message_class()."\"/>\n";
+		$result .= "<".static::FORM_TAG."_".static::FORM_COMMON_ERROR_MESSAGE_TAG." class=\"".$this->getTemplate_form_common_error_message_class()."\"/>\n";
 		$result .= $this->getTemplate_form_start();
 
 		foreach($this->fields as $field) {

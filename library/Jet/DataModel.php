@@ -1379,7 +1379,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			) {
 				continue;
 			}
-
 			$this->setPropertyValue($key, $val);
 
 		}

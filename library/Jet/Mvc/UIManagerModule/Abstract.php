@@ -284,7 +284,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	protected function _generateURL( $page_ID, $locale, $site_ID, $get_URL, $SSL, $non_schema ) {
 		//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
 
-		$pd = $this->getSiteStructure($site_ID, $locale)->getNode($page_ID);
+		$pd = $this->getSiteStructure($site_ID, $locale)->getNode((string)$page_ID);
 
 		if(!$pd) {
 			return false;
