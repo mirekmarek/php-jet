@@ -365,11 +365,12 @@ class Gallery_Image extends Jet\DataModel {
 	/**
 	 * @param Gallery $gallery
 	 * @param string $source_file_path
+	 * @param string|null $source_file_name
 	 * @param bool $do_not_save_imindietly
 	 *
 	 * @return Gallery_Image
 	 */
-	public static function getNewImage( Gallery $gallery, $source_file_path, $do_not_save_imindietly=false  ) {
+	public static function getNewImage( Gallery $gallery, $source_file_path, $source_file_name=null, $do_not_save_imindietly=false  ) {
 
 		/**
 		 * @var Gallery_Image $image
@@ -389,7 +390,7 @@ class Gallery_Image extends Jet\DataModel {
 
 		$image->setImageSizeH( $source_image_file->getHeight() );
 		$image->setImageSizeW( $source_image_file->getWidth() );
-		$image->setFileName( $source_image_file->getFileName() );
+		$image->setFileName( $source_file_name ? $source_file_name : $source_image_file->getFileName() );
 		$image->setFileMimeType( $source_image_file->getMimeType() );
 		$image->setFileSize( Jet\IO_File::getSize( $source_file_path ) );
 

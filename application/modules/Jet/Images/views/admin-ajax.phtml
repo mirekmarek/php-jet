@@ -1,0 +1,100 @@
+<?php
+namespace JetApplicationModule\Jet\Images;
+use Jet;
+
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+
+?>
+<jetml_layout_container gutters="true">
+	<jetml_layout_container region="left" splitter="true" style="width:200px">
+		<jetml_layout_toolbar region="top">
+
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.add();" title="New gallery" icon="add"/>
+			<jetml_trash_button id="gellery_trash"/>
+
+			<jetml_trash_dialog id="gellery_trash">
+			</jetml_trash_dialog>
+		</jetml_layout_toolbar>
+		<jetml_layout_pane region="center" id="galleries_tree_area" style="padding:0px;">
+		</jetml_layout_pane>
+		<jetml_layout_toolbar region="bottom">
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treereload();" icon="reload"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeExpand();" icon="expand"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeCollapse();" icon="collapse"/>
+		</jetml_layout_toolbar>
+	</jetml_layout_container>
+
+	<jetml_layout_container region="center" gutters="false" id="edit_area" style="visibility: hidden;">
+		<jetml_layout_toolbar region="top">
+			<table><tr>
+					<td>
+						<jetml_data id="gallery_form_fields_definition"><?=json_encode($form->getFields());?></jetml_data>
+						<jetml_form_button_save onClick="Jet.modules.CURRENT_MODULE.save();" id="gallery_save"/>
+
+					</td>
+					<td>
+						<jet_form name="Gallery">
+							<jet_form_common_error_message class="formError"/>
+							<table>
+								<jet_form_field name="parent_ID"/>
+								<jet_form_field name="ID"/>
+								<tr>
+									<td valign="top"><jet_form_field_label name="title"/></td>
+									<td><jet_form_field_error_msg name="title" class="error"/><jet_form_field name="title"/></td>
+								</tr>
+							</table>
+						</jet_form>
+
+					</td>
+					<td>
+						<jetml_form_button title="Upload new image" icon="add" onClick="Jet.modules.CURRENT_MODULE.getWidgetByID('upload_image').show();"/>
+					</td>
+
+					<td>
+						<jetml_trash_button id="images_trash"/>
+					</td>
+			</tr></table>
+
+		</jetml_layout_toolbar>
+
+		<jetml_datagrid id="images_grid" region="center" plugins="{'dnd':{'copyOnly': true},'pagination':{'pageSizes':['25','50','100'],'description':true,'sizeSwitch':true,'pageStepper':true,'gotoButton':true,'maxPageStep':10,'position':'bottom'},'indirectSelection':{'headerSelector':true,'name':'Selection','width':'20px','styles':'text-align: center;'}}">
+			<jetml_datagrid_column field="thumbnail_URI" title="Image" width="110" formatter="Jet_module_Jet_Images_formatImage" />
+			<jetml_datagrid_column field="file_name" title="File name" width="70%"/>
+			<jetml_datagrid_column field="file_size" title="File size" width="110" formatter="Jet.Formatter.FileSize" />
+		</jetml_datagrid>
+	</jetml_layout_container>
+
+</jetml_layout_container>
+
+<jetml_dialog id="upload_image" align="center">
+	<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.selectFiles();" title="Select files" />
+
+	<div style="display: none;">
+		<form method="post" action="" enctype="multipart/form-data">
+			<input name="files[]" id="%JET_UI_CONTAINER_ID_PREFIX%select_file" type="file" multiple="multiple" onchange="Jet.modules.CURRENT_MODULE.filesSelectionUpdated(this);" > </input>
+		</form>
+	</div>
+
+	<jetml_div id="selected_files_area" style="border: 1px solid #c9c9c9; width: 300px;height: 300px;overflow: auto;" align="left">
+	</jetml_div>
+
+
+	<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.uploadFiles();" icon="add" title="Upload images" disabled="true" id="files_upload_button"/>
+	<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.resetFilesSelection();" icon="cancel" title="Cancel files selection" disabled="true" id="files_reset_button"/>
+
+</jetml_dialog>
+
+<jetml_trash_dialog id="images_trash"/>
+
+<jetml_dialog id="copy_image_dialog" align="center" title="Copy images">
+	<jetml_div id="copy_images_thb_area" style="width:300px;height: 300px;overflow: auto; border: 1px solid #c9c9c9">
+
+	</jetml_div>
+
+	<jetml_dialog_buttons>
+		<jetml_form_button_busy title="Copy selected images" onClick="Jet.modules.CURRENT_MODULE.copyImages();" id="copy_image_button"></jetml_form_button_bussy>
+	</jetml_dialog_buttons>
+</jetml_dialog>

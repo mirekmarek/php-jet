@@ -191,9 +191,22 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 		$this->_DOM_document = new \DOMDocument("1.0", "UTF-8");
 
+
+
 		libxml_use_internal_errors(true);
-        //TODO: loadHTML is so much tolerant...
-		$this->_DOM_document->loadHTML($data);
+
+
+
+		//TODO: loadHTML is so much tolerant...
+		$this->_DOM_document->loadHTML("<?xml version=\"1.0\" encoding=\"UTF-8\">" . $data);
+
+		foreach ($this->_DOM_document->childNodes as $item) {
+			if( $item->nodeType==XML_PI_NODE ) {
+				$this->_DOM_document->removeChild($item);
+				break;
+			}
+		}
+
         //$this->_DOM_document->loadXML($data);
 		$this->_DOM_document->formatOutput = true;
 
@@ -216,7 +229,9 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 		$prefix_str_len = strlen(static::TAGS_PREFIX);
 
+
 		foreach( $this->_DOM_document->getElementsByTagName("*") as $node ) {
+
 			/**
 			 * @var \DOMElement $node
 			 */

@@ -48,4 +48,10 @@
     'translation' => '',
     'is_translated' => false,
   ),
+  'd5b846e0f39e6e296c0cd499fcef8ff4' => 
+  array (
+    'phrase' => 'Upload new image',
+    'translation' => '',
+    'is_translated' => false,
+  ),
 );

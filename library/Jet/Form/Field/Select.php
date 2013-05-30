@@ -87,7 +87,7 @@ class Form_Field_Select extends Form_Field_Abstract {
 			}
 		}
 		$result .= "</select>\n";
-				
+
 		return $result;
 	}
 	

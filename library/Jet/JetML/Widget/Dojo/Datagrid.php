@@ -20,7 +20,7 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	protected $dojo_type = array(
 		"dojox.grid.EnhancedGrid",
 		"dojox.grid.enhanced.plugins.Pagination",
-		"dojox.grid.enhanced.plugins.IndirectSelection"
+		"dojox.grid.enhanced.plugins.IndirectSelection",
 	);
 	
 	/**
@@ -58,7 +58,7 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 				"indirectSelection" => array(
 					"headerSelector" => true,
 					"name" => "Selection",
-					"width" => "50px",
+					"width" => "20px",
 					"styles" => "text-align: center;"
 				)
 			);
@@ -67,8 +67,8 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 			$this->node->setAttribute("plugins", $plugins);
 		}
 
-		if(!$this->node->hasAttribute("rowsPerPage")) {
-			$this->node->setAttribute("rowsPerPage", 25);
+		if(!$this->node->hasAttribute("rowsperpage")) {
+			$this->node->setAttribute("rowsperpage", 25);
 		}
 
 

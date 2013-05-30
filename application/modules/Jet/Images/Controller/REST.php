@@ -28,11 +28,23 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	protected static $ACL_actions_check_map = array(
 		"get_image" => "get_image",
 		"get_image_thumbnail" => false,
+		"post_image" => "add_image",
+		"delete_image" => "delete_image",
+		"put_copy_image" => "add_image",
 
 		"get_gallery" => "get_gallery",
 		"post_gallery" => "add_gallery",
 		"put_gallery" => "update_gallery",
 		"delete_gallery" => "delete_gallery"
+	);
+
+	protected static $errors = array(
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Jet\Http_Headers::CODE_401_UNAUTHORIZED, "Access denied! Authorization required! "),
+		self::ERR_CODE_ACCESS_DENIED => array(Jet\Http_Headers::CODE_401_UNAUTHORIZED, "Access denied! Insufficient permissions! "),
+		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, "Unsupported data Content-Type"),
+		self::ERR_CODE_FORM_ERRORS => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, "There are errors in form"),
+		self::ERR_CODE_UNKNOWN_ITEM => array(Jet\Http_Headers::CODE_404_NOT_FOUND, "Unknown item"),
+		"no_file" => array( Jet\Http_Headers::CODE_406_NOT_ACCEPTABLE, "No file sent" )
 	);
 
 	/**
@@ -57,7 +69,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 				foreach( $data as $i=>$d ) {
 					$image = Gallery_Image::get($d["ID"]);
 
-					$d["thumbnail_URI"] = $image->getThumbnail(100, 100)->getURI();
+					$d["thumbnail_URI"] = $image->getThumbnail($thumbnail_max_size_w, $thumbnail_max_size_h)->getURI();
 
 					$data[$i] = $d;
 
@@ -71,6 +83,48 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 				$this->_response( $data->toJSON(), $response_headers );
 			}
 		}
+	}
+
+	/**
+	 * @param string $gallery_ID
+	 */
+	public function post_image_Action( $gallery_ID ) {
+		$gallery = $this->_getGallery($gallery_ID);
+
+		if(!isset($_FILES["file"])) {
+			$this->responseError("no_file");
+		}
+
+		//TODO: overwrite ..
+		//TODO: check errors ...
+		$gallery->addImage( $_FILES["file"]["tmp_name"],  $_FILES["file"]["name"]);
+
+		$this->responseOK();
+	}
+
+	/**
+	 * @param string $image_ID
+	 */
+	public function put_copy_image_Action( $image_ID ) {
+		$image = $this->_getImage( $image_ID );
+		$data = $this->getRequestData();
+		$gallery = $this->_getGallery( $data["target_gallery_ID"] );
+
+		//TODO: overwrite ..
+		//TODO: check errors ...
+		$gallery->addImage( $image->getFilePath(), $image->getFileName() );
+
+		$this->responseOK();
+	}
+
+	/**
+	 * @param string $image_ID
+	 */
+	public function delete_image_Action( $image_ID ) {
+		$image = $this->_getImage($image_ID);
+
+		$image->delete();
+		$this->responseOK();
 	}
 
 	/**
@@ -116,6 +170,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			$gallery->validateProperties();
 			$gallery->save();
 
+			/*
 			//- TMP -
 			$files = Jet\IO_Dir::getList(JET_DATA_PATH."SamplePictures");
 
@@ -127,6 +182,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 				$image->save();
 			}
 			//- TMP -
+			*/
 
 			$this->responseData($gallery);
 		} else {

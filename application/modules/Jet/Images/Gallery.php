@@ -115,15 +115,18 @@ class Gallery extends Jet\DataModel {
 
 	/**
 	 * @param $source_file_path
+	 * @param null|string $source_file_name
 	 * @param bool $overwrite_if_exists (optional)
 	 *
 	 * @throws Exception
 	 * @return Gallery_Image
 	 */
-	public function addImage( $source_file_path, $overwrite_if_exists=false ) {
+	public function addImage( $source_file_path, $source_file_name=null, $overwrite_if_exists=false ) {
 		$images = $this->getImages();
 
-		$source_file_name = basename( $source_file_path );
+		if(!$source_file_name) {
+			$source_file_name = basename( $source_file_path );
+		}
 
 		foreach( $images as $existing_image ) {
 			if($existing_image->getFileName()==$source_file_name) {
@@ -143,7 +146,7 @@ class Gallery extends Jet\DataModel {
 			}
 		}
 
-		$image = Gallery_Image::getNewImage($this, $source_file_path );
+		$image = Gallery_Image::getNewImage($this, $source_file_path, $source_file_name );
 		$image->validateProperties();
 
 		$this->__images[] = $image;

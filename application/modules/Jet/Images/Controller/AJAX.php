@@ -38,7 +38,7 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 
 		$this->view->setVar("upload_URL", $this->module_instance->getRestURL("image"));
 
-		$this->render("default-ajax");
+		$this->render("admin-ajax");
 	}
 
 }

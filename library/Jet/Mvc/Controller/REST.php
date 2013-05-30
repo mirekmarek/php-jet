@@ -316,6 +316,12 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 
 				$order_by = explode(",", substr($k, 5, -1));
 
+				foreach( $order_by as $i=>$v ) {
+					if($v[0]=="_") {
+						$order_by[$i][0] = "+";
+					}
+				}
+
 				$data->getQuery()->setOrderBy( $order_by );
 
 			}

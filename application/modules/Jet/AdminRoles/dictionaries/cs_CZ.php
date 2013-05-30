@@ -1,5 +1,5 @@
 <?php
-return array (
+ return array (
   '9eeb52badb613229884838847294b90d' => 
   array (
     'phrase' => 'ADD',
@@ -45,6 +45,42 @@ return array (
   '26f79cf30f845dfb9c8fd0b4555f7ed9' => 
   array (
     'phrase' => 'Edit role: ',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'a5cd3ed116608dac017f14c046ea56bf' => 
+  array (
+    'phrase' => 'Roles',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '6c7ed9863dcbf366c3a39b4cb3dc03e0' => 
+  array (
+    'phrase' => 'Loading ...',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'c98f9f1300927153c002f243419a4ff2' => 
+  array (
+    'phrase' => 'New Role',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'dc3fd488f03d423a04da27ce66274c1b' => 
+  array (
+    'phrase' => 'Warning!',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '7693a2d208314aa9697d49e9b656a158' => 
+  array (
+    'phrase' => 'Role is not saved! Do you really want to exit?',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '2de32377e0c6ee60d03338c14986d124' => 
+  array (
+    'phrase' => 'Basic info',
     'translation' => '',
     'is_translated' => false,
   ),

@@ -35,7 +35,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 		"version" => array(
 			"form_field_label" => "Dojo version",
 			"type" => self::TYPE_STRING,
-			"default_value" => "1.8.0rc1",
+			"default_value" => "1.9.0",
 			"is_required" => false
 		),
 
