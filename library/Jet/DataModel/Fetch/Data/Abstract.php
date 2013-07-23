@@ -25,6 +25,11 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 */
 	protected $data = null;
 
+	/**
+	 * @var callable
+	 */
+	protected $array_walk_callback;
+
 
 	/**
 	 *
@@ -52,6 +57,16 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 
 		$this->data_model = $data_model;
 	}
+
+	/**
+	 *
+	 * @param callable $array_walk_callback
+	 */
+	public function setArrayWalkCallback( callable $array_walk_callback) {
+		$this->array_walk_callback = $array_walk_callback;
+	}
+
+
 
 	/**
 	 * @return array
@@ -158,6 +173,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 		$this->_fetch();
 		return array_key_exists($offset, $this->data);
 	}
+
 	/**
 	 * @see \ArrayAccess
 	 * @param int $offset
@@ -166,7 +182,15 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 */
 	public function offsetGet( $offset ) {
 		$this->_fetch();
-		return $this->data[$offset];
+
+		$item = $this->data[$offset];
+		if( $this->array_walk_callback ) {
+			$callback = $this->array_walk_callback;
+
+			$callback( $item );
+		}
+
+		return $item;
 	}
 
 	/**
@@ -196,7 +220,15 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	public function current() {
 		$this->_fetch();
 
-		return current($this->data);
+		$item = current($this->data);
+
+		if( $this->array_walk_callback ) {
+			$callback = $this->array_walk_callback;
+
+			$callback( $item );
+		}
+
+		return $item;
 	}
 	/**
 	 * @see \Iterator

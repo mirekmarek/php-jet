@@ -24,6 +24,9 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	 */
 	protected $module_instance = null;
 
+	const ERR_CODE_NO_FILE = "NoFile";
+	const ERR_CODE_IMAGE_ALLREADY_EXISTS = "ImageAllreadyExists";
+	const ERR_CODE_UNKNOWN_ERROR = "UnknownError";
 
 	protected static $ACL_actions_check_map = array(
 		"get_image" => "get_image",
@@ -44,7 +47,10 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, "Unsupported data Content-Type"),
 		self::ERR_CODE_FORM_ERRORS => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, "There are errors in form"),
 		self::ERR_CODE_UNKNOWN_ITEM => array(Jet\Http_Headers::CODE_404_NOT_FOUND, "Unknown item"),
-		"no_file" => array( Jet\Http_Headers::CODE_406_NOT_ACCEPTABLE, "No file sent" )
+
+		self::ERR_CODE_NO_FILE => array( Jet\Http_Headers::CODE_406_NOT_ACCEPTABLE, "No file sent" ),
+		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => array( Jet\Http_Headers::CODE_409_CONFLICT, "Image allready exists" ),
+		self::ERR_CODE_UNKNOWN_ERROR => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, "Unknown error"),
 	);
 
 	/**
@@ -60,28 +66,21 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			$thumbnail_max_size_w = Jet\Http_Request::GET()->getInt("thumbnail_max_size_w");
 			$thumbnail_max_size_h = Jet\Http_Request::GET()->getInt("thumbnail_max_size_h");
 
-			$data = Gallery_Image::getListAsData( $gallery_ID );
+			$list = Gallery_Image::getListAsData( $gallery_ID );
+			if($thumbnail_max_size_w>0 && $thumbnail_max_size_h>0) {
+				$list->setArrayWalkCallback(
+					function( &$image_data )
+					use ($thumbnail_max_size_w, $thumbnail_max_size_h)
+					{
+						$image = Gallery_Image::get($image_data["ID"]);
 
-			$response_headers = $this->handleDataPagination( $data );
-			$this->handleOrderBy( $data );
-
-			if($thumbnail_max_size_w && $thumbnail_max_size_h) {
-				foreach( $data as $i=>$d ) {
-					$image = Gallery_Image::get($d["ID"]);
-
-					$d["thumbnail_URI"] = $image->getThumbnail($thumbnail_max_size_w, $thumbnail_max_size_h)->getURI();
-
-					$data[$i] = $d;
-
-				}
+						$image_data["thumbnail_URI"] = $image->getThumbnail($thumbnail_max_size_w, $thumbnail_max_size_h)->getURI();
+					}
+				);
 			}
 
+			$this->responseDataModelsList( $list );
 
-			if($this->responseFormatDetection()==static::RESPONSE_FORMAT_XML) {
-				$this->_response( $data->toXML(), $response_headers );
-			} else {
-				$this->_response( $data->toJSON(), $response_headers );
-			}
 		}
 	}
 
@@ -92,12 +91,21 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$gallery = $this->_getGallery($gallery_ID);
 
 		if(!isset($_FILES["file"])) {
-			$this->responseError("no_file");
+			$this->responseError(
+				self::ERR_CODE_NO_FILE
+			);
 		}
 
 		//TODO: overwrite ..
-		//TODO: check errors ...
-		$gallery->addImage( $_FILES["file"]["tmp_name"],  $_FILES["file"]["name"]);
+		try {
+			$gallery->addImage( $_FILES["file"]["tmp_name"],  $_FILES["file"]["name"]);
+		} catch( Exception $e ) {
+			if($e->getCode()==Exception::CODE_IMAGE_ALLREADY_EXIST) {
+				$this->responseError( self::ERR_CODE_IMAGE_ALLREADY_EXISTS, array("file_name"=>$_FILES["file"]["name"]) );
+			} else {
+				$this->responseError( self::ERR_CODE_UNKNOWN_ERROR, array("message"=>$e->getMessage()) );
+			}
+		}
 
 		$this->responseOK();
 	}
@@ -160,6 +168,9 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function post_gallery_Action() {
 		$gallery = Gallery::getNew();
 		$gallery->initNewObject();
@@ -169,20 +180,6 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
 			$gallery->validateProperties();
 			$gallery->save();
-
-			/*
-			//- TMP -
-			$files = Jet\IO_Dir::getList(JET_DATA_PATH."SamplePictures");
-
-			foreach( $files as $path=>$file ) {
-				$image = Gallery_Image::getNewImage($gallery, $path, true);
-				$image->getThumbnail( 50, 50, true);
-				$image->getThumbnail( 100, 100, true);
-				$image->validateProperties();
-				$image->save();
-			}
-			//- TMP -
-			*/
 
 			$this->responseData($gallery);
 		} else {
@@ -205,6 +202,9 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		}
 	}
 
+	/**
+	 * @param string $ID
+	 */
 	public function delete_gallery_Action( $ID ) {
 		$gallery = $this->_getGallery($ID);
 

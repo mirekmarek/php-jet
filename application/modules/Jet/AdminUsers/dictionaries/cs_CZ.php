@@ -1,5 +1,5 @@
 <?php
-return array (
+ return array (
   '0757ff2706f42f60f935a54e832553e2' => 
   array (
     'phrase' => 'User name:',
@@ -75,6 +75,36 @@ return array (
   'f70a8df6fa4d459849a3d522644e9836' => 
   array (
     'phrase' => 'check_empty',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'f9aae5fda8d810a29f12d1e61b4ab25f' => 
+  array (
+    'phrase' => 'Users',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '6c7ed9863dcbf366c3a39b4cb3dc03e0' => 
+  array (
+    'phrase' => 'Loading ...',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '19a093af0cee2a1d0f8bb6ac14d79843' => 
+  array (
+    'phrase' => 'New User',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'dc3fd488f03d423a04da27ce66274c1b' => 
+  array (
+    'phrase' => 'Warning!',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '8765ad22efa7944b5107ddbb51e625d2' => 
+  array (
+    'phrase' => 'User is not saved! Do you really want to exit?',
     'translation' => '',
     'is_translated' => false,
   ),

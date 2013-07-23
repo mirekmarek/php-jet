@@ -1,5 +1,5 @@
 <?php
-return array (
+ return array (
   '346617884822536846366ed028808a73' => 
   array (
     'phrase' => 'Checkbox: ',
@@ -141,6 +141,12 @@ return array (
   '1063e38cb53d94d386f21227fcd84717' => 
   array (
     'phrase' => 'Remove',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'b0ad2f0ef06f079552b3e7943ad4b574' => 
+  array (
+    'phrase' => 'Test Admin Module',
     'translation' => '',
     'is_translated' => false,
   ),

@@ -1,5 +1,5 @@
 <?php
-return array (
+ return array (
   '3e988b1ee359e33cefcd49fa3d08a619' => 
   array (
     'phrase' => 'Hello WORLD!',
@@ -339,6 +339,12 @@ return array (
   '7c05a063e153cd10d32028e265db74bf' => 
   array (
     'phrase' => 'Add / Edit content category',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '99dea78007133396a7b8ed70578ac6ae' => 
+  array (
+    'phrase' => 'Login',
     'translation' => '',
     'is_translated' => false,
   ),

@@ -5,21 +5,11 @@ dojo.require("dijit.TooltipDialog");
 
 dojo.require("dojox.grid.enhanced.plugins.DnD");
 
-
-/*
-dojo.require("dojox.form.Uploader");
-dojo.require("dojox.embed.Flash");
-if(dojox.embed.Flash.available){
-	dojo.require("dojox.form.uploader.plugins.Flash");
-}else{
-	dojo.require("dojox.form.uploader.plugins.IFrame");
-}
-*/
-
 Jet.require("Jet.modules.Module");
 Jet.require("Jet.Form");
 Jet.require("Jet.Trash");
 Jet.require("Jet.Formatter");
+Jet.require("Jet.MultiUploader");
 
 
 window["Jet_module_Jet_Images_formatImage"] = function( thumbnail_URI ) {
@@ -44,19 +34,27 @@ Jet.declare("Jet.module.Jet\\Images.Main", [Jet.modules.Module], {
 		this.form = this.getForm( "gallery", this.getData("gallery_form_fields_definition"), {
 			save_button: "gallery_save",
 			onEdit: function( data ) {
+
 				_this.edit_area.domNode.style.visibility = "visible";
+				_this.images_grid.domNode.style.visibility = "visible";
 				_this.selected_gallery_ID = data.ID;
+				_this.reloadImages();
 				_this.tree.openByID( data.ID );
+				_this.images_trash.enable();
+				_this.getWidgetByID("upload_images_button").attr("disabled", false);
+
 				if(!data.parent_ID) {
 					_this.trash.disable();
 				} else {
 					_this.trash.enable();
 				}
-				_this.resetFilesSelection();
 			},
 			onNew: function() {
+				_this.images_grid.domNode.style.visibility = "hidden";
 				_this.edit_area.domNode.style.visibility = "visible";
-				_this.resetFilesSelection();
+				_this.trash.disable();
+				_this.images_trash.disable();
+				_this.getWidgetByID("upload_images_button").attr("disabled", true);
 			},
 			beforeAdd: function(data) {
 				data.parent_ID = _this.selected_gallery_ID;
@@ -75,22 +73,27 @@ Jet.declare("Jet.module.Jet\\Images.Main", [Jet.modules.Module], {
 		} );
 
 		this.tree.onClick = function(item) {
+
 			if(_this.form.getIsSaving()) {
 				return;
 			}
 
+			_this.images_trash.disable();
+			_this.getWidgetByID("upload_images_button").attr("disabled", true);
+
 			_this.selected_gallery_ID = item.ID+"";
 
-			if(item.ID=="_root_") {
+			if(_this.selected_gallery_ID=="_root_") {
+				_this.selected_gallery_ID = "_root_";
 				_this.trash.disable();
 				_this.edit_area.domNode.style.visibility = "hidden";
-				_this.images_grid.setStore( _this.images_grid.store, null, null);
+				_this.images_grid.domNode.style.visibility = "hidden";
 			} else {
 				_this.trash.enable();
 				_this.edit(item.ID);
-				_this.images_grid.setStore( _this.images_grid.store, {gallery_ID: item.ID, thumbnail_max_size_w: 100, thumbnail_max_size_h:100}, null);
 				_this.images_grid.selection.deselectAll();
 			}
+
 
 		};
 
@@ -117,7 +120,10 @@ Jet.declare("Jet.module.Jet\\Images.Main", [Jet.modules.Module], {
 			_this.edit_area.domNode.style.visibility = "hidden";
 		});
 		this.addSignalCallback( this.module_name+"/image/deleted", function(){
-			_this.images_grid.reload();
+			_this.reloadImages();
+		});
+		this.addSignalCallback( this.module_name+"/image/upload", function(){
+			_this.reloadImages();
 		});
 
 
@@ -177,8 +183,18 @@ Jet.declare("Jet.module.Jet\\Images.Main", [Jet.modules.Module], {
 			this.onDndCancel();
 		};
 
-		//this.images_grid.struncture.0.cells[0][0]
+		this.uploader = new Jet.MultiUploader(	"image/", this, "upload_images" );
+		this.uploader.onUploadDone = function() {
+			dojo.publish(_this.module_name+"/image/upload");
+			//TODO:
+			alert("DONE");
+		};
 
+
+	},
+
+	reloadImages: function() {
+		this.images_grid.setStore( this.images_grid.store, {gallery_ID: this.selected_gallery_ID, thumbnail_max_size_w: 100, thumbnail_max_size_h:100}, null);
 
 	},
 
@@ -269,175 +285,10 @@ Jet.declare("Jet.module.Jet\\Images.Main", [Jet.modules.Module], {
 		this.form.save();
 	},
 
-
-
-
-
-
-
-	selectFiles: function() {
-		this.getNodeByID("select_file").click();
-	},
-
-	uploadFiles: function() {
-		var _this = this;
-
-		for (var i=0; i<this.selected_files.length; i++) {
-			var file = this.selected_files[i];
-
-			file.uploading = false;
-			file.uploading_percentage = 0;
-			file.uploaded = false;
-			file.upload_error_occurred = false;
-			file.upload_error_message = "";
-
-			this._updateFilesStatus();
-
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", this.getRestURL("image/"+this.selected_gallery_ID), false);
-
-			xhr.addEventListener(
-				"progress",
-				function(event) {
-					console.debug("progress", event, file.id);
-
-					var percentage = 0;
-					if(event.lengthComputable) {
-						percentage = Math.round((event.loaded * 100) / event.total);
-					}
-
-					file.uploading = true;
-					file.uploading_percentage = percentage;
-
-					_this._updateFilesStatus();
-				},
-				false
-			);
-
-			xhr.addEventListener(
-				"load",
-				function(event) {
-					console.debug("load", event, file.id);
-
-					file.uploading = false;
-					file.uploading_percentage = 100;
-					file.uploaded = true;
-
-					_this._updateFilesStatus();
-				},
-				false
-			);
-
-			xhr.addEventListener(
-				"error",
-				function(event) {
-					console.debug("error", event, file.id);
-
-					file.uploading = false;
-					file.uploading_percentage = 100;
-					file.uploaded = true;
-					file.upload_error_occurred = true;
-					//TODO: file.upload_error_message = "";
-
-					_this._updateFilesStatus();
-				},
-				false
-			);
-
-			xhr.addEventListener(
-				"abort",
-				function(event) {
-					console.debug("abort", event, file.id);
-
-					file.uploading = false;
-					file.uploading_percentage = 100;
-					file.uploaded = true;
-					file.upload_error_occurred = true;
-					//TODO: file.upload_error_message = "";
-
-					_this._updateFilesStatus();
-				},
-				false
-			);
-
-
-
-			var fd = new FormData();
-			fd.append("file", file );
-			xhr.send(fd);
-		}
-	},
-
-	resetFilesSelection: function() {
-		this.selected_files = [];
-		this._updateFilesStatus();
-	},
-
-	filesSelectionUpdated: function(file_input) {
-
-		for (var i=0; i<file_input.files.length; i++) {
-			var new_file = file_input.files[i];
-
-			var allready_selected = false;
-
-			for (var c=0; c<this.selected_files.length; c++) {
-				var selected_file = this.selected_files[c];
-				if(new_file.name==selected_file.name) {
-					allready_selected = true;
-					break;
-				}
-			}
-
-			if( allready_selected ) {
-				continue;
-			}
-
-			new_file.id = this.selected_files.length+1;
-
-			this.selected_files.push( new_file );
-		}
-
-		file_input.value = "";
-
-		this._updateFilesStatus();
-	},
-
-	_updateFilesStatus: function() {
-		var output = "";
-
-		for (var i=0; i<this.selected_files.length; i++) {
-			var file = this.selected_files[i];
-
-				output +=
-					'<tr>'
-						+ '<td rowspan="3"></td>'
-						+ '<td>'+file.name+'</td> '
-						+ '<td align="right">'+ Jet.Formatter.FileSize(file.size) +'</td>'
-					+'</tr>'
-					+'<tr>'
-						+ '<td colspan="2"><div id="file_'+file.id+'_progress_area"></div></td>'
-					+'</tr>'
-					+'<tr>'
-						+ '<td colspan="2"><div id="file_'+file.id+'_message_area"></div></td>'
-					+'</tr>';
-
-		}
-
-		this.getNodeByID("selected_files_area").innerHTML = '<table width="100%">' + output + '</table>';
-
-		var files_upload_button = this.getWidgetByID("files_upload_button");
-		var files_reset_button = this.getWidgetByID("files_reset_button");
-
-		if(this.selected_files.length) {
-			files_upload_button.attr("disabled", false);
-			files_reset_button.attr("disabled", false);
-		} else {
-			files_upload_button.attr("disabled", true);
-			files_reset_button.attr("disabled", true);
-		}
-
-		//this.resetFilesSelection();
-		//dojo.publish(_this.module_name+"/updated");
-
+	openUploadDialog: function() {
+		this.uploader.reset();
+		this.uploader.setRESTObjectName( "image/"+this.selected_gallery_ID );
+		this.getWidgetByID('upload_image').show();
 	}
+
 });

@@ -49,15 +49,16 @@ class Mvc {
 				}
 			}
 
+			$router->handleRedirect();
+			$router->handlePublicFile();
+
 			$router->setupErrorHandler();
 
 			if( !$router->getSite()->getIsActive() ) {
 				$router->setIs404();
 			}
-
 			$router->handle404();
-			$router->handlePublicFile();
-			$router->handleRedirect();
+
 
 
 			Auth::initialize( $router );
