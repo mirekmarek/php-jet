@@ -706,6 +706,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				$this->{$property_name}
 			) {
 				if(!is_object($this->{$property_name})) {
+
 					throw new DataModel_Exception(
 						get_class($this)."::{$property_name} should be an Object! ",
 						DataModel_Exception::CODE_INVALID_PROPERTY_TYPE
@@ -1379,7 +1380,15 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			) {
 				continue;
 			}
-			$this->setPropertyValue($key, $val);
+
+			$set_method_name = "set".str_replace("_", "", $key);
+
+			if(method_exists($this, $set_method_name)) {
+				$this->{$set_method_name}($val);
+			} else {
+				$this->setPropertyValue($key, $val);
+			}
+
 
 		}
 

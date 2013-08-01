@@ -198,6 +198,10 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 
 		//TODO: loadHTML is so much tolerant...
+
+		//$data = \mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+
+
 		$this->_DOM_document->loadHTML("<?xml version=\"1.0\" encoding=\"UTF-8\">" . $data);
 
 		foreach ($this->_DOM_document->childNodes as $item) {
@@ -206,6 +210,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 				break;
 			}
 		}
+
 
         //$this->_DOM_document->loadXML($data);
 		$this->_DOM_document->formatOutput = true;

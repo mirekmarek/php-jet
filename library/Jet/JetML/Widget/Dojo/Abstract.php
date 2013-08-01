@@ -94,7 +94,8 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 			 */
 
 			$a_name = $attribute->name;
-			$a_value = utf8_decode($attribute->value);
+			$a_value = $attribute->value;
+
 
 			if( in_array($a_name, $this->internal_properties) ) {
 				continue;
@@ -119,18 +120,7 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 		}
 
 
-		$_dojo_props = array();
-		foreach( $dojo_props as $k=>$val) {
-			if(
-				is_string($val) &&
-				isset($val[0]) &&
-				$val[0]=="{"
-			) {
-				$_dojo_props[] = "{$k}:".$val;
-			} else {
-				$_dojo_props[] = "{$k}:".json_encode($val);
-			}
-		}
+		$_dojo_props = $this->_formatDojoProps($dojo_props);
 
 		if($this->dojo_type!==false) {
 			if(is_array($this->dojo_type)) {
@@ -169,6 +159,24 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 		}
 
 		return $replacement;
+
+	}
+
+	protected function _formatDojoProps( $dojo_props ) {
+		$_dojo_props = array();
+		foreach( $dojo_props as $k=>$val) {
+			if(
+				is_string($val) &&
+				isset($val[0]) &&
+				$val[0]=="{"
+			) {
+				$_dojo_props[] = "{$k}:".$val;
+			} else {
+				$_dojo_props[] = "{$k}:".json_encode($val);
+			}
+		}
+
+		return $_dojo_props;
 
 	}
 

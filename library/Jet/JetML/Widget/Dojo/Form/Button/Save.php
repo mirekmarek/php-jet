@@ -12,13 +12,8 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Form_Button_Save extends JetML_Widget_Dojo_Form_Button {
+class JetML_Widget_Dojo_Form_Button_Save extends JetML_Widget_Dojo_Form_Button_Busy {
 
-	/**
-	 *
-	 * @var string
-	 */
-	protected $dojo_type = "dojox.form.BusyButton";
 
 	/**
 	 * @return \DOMElement

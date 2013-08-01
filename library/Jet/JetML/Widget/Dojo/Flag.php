@@ -33,11 +33,11 @@ class JetML_Widget_Dojo_Flag extends JetML_Widget_Dojo_Abstract {
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$icon = $this->getNodeAttribute("flag");
-		$title = $this->getNodeAttribute("title", (new Locale($icon))->getName() );
+		$locale = $this->getNodeAttribute("flag");
+		$title = $this->getNodeAttribute("title", (new Locale($locale))->getName() );
 		$size = $this->getNodeAttribute("size", $this->parser->getIconDefaultSize());
 
-		$icon_URL = $this->getIconURL("flag", $icon, $size);
+		$icon_URL = $this->getIconURL("flag", $locale, $size);
 
 		$icon_data = $this->parser->getIconSizeData("flag_".$size);
 
