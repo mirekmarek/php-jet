@@ -18,6 +18,7 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 	protected static $__data_model_properties_definition = array(
 		"ID" => array(
 			"type" => self::TYPE_ID,
+			"is_ID" => true,
 		),
 		"ID_property_1" => array(
 			"type" => self::TYPE_STRING,
@@ -42,4 +43,32 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 	public function __construct() {
 	}
 
+	/**
+	 * @param DataModel_ID_Abstract|string $ID
+	 * @return bool
+	 */
+	public function getIDExists( $ID ) {
+		if( !($ID instanceof DataModel_ID_Abstract) ) {
+			$ID = $this->getEmptyIDInstance()->unserialize($ID);
+		}
+
+		$input = $ID["ID"];
+
+		if($input=="site_1" || $input=="site_11") {
+			return true;
+		}
+
+		if(
+				$input=="long_long_long_long_long_long_long_long_long_long_" ||
+				$input=="long_long_long_long_long_long_long_long_long_l1" ||
+				$input=="long_long_long_long_long_long_long_long_long_l2" ||
+				$input=="long_long_long_long_long_long_long_long_long_l3" ||
+				$input=="long_long_long_long_long_long_long_long_long_l4"
+		) {
+			return true;
+		}
+
+
+		return false;
+	}
 }

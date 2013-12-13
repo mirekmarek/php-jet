@@ -133,10 +133,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 
 		switch($content_type) {
 			case static::CONTENT_TYPE_JSON:
-				return json_decode($data, true);
+				return $this->decodeRequestDataJSON($data);
 			break;
 			case static::CONTENT_TYPE_XML:
-				//TODO:
+				return $this->decodeRequestDataXML($data);
 			break;
 			default:
 				$this->responseError(self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE, array("Content-Type"=>$content_type));
@@ -145,6 +145,78 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function decodeRequestDataJSON( $data ) {
+		return json_decode($data, true);
+	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function decodeRequestDataXML( $data ) {
+
+		$xml = simplexml_load_string( $data, null, LIBXML_NOCDATA );
+
+		$json = json_encode( $xml );
+		$array = json_decode( $json, true );
+
+		if(isset($array["comment"])) {
+			foreach( $array["comment"] as $k=>$v ) {
+				if(is_array($v) && !$v) {
+					unset($array["comment"][$k]);
+				}
+			}
+
+			$array["comment"] = implode("", $array["comment"]);
+
+			if(!$array["comment"]) {
+				unset( $array["comment"] );
+			}
+		}
+
+		$array = $this->_decodeRequestDataXMLcleanupArray($array);
+
+		if(
+			count($array)==1 &&
+			isset($array["item"]) &&
+			is_array($array["item"])
+		) {
+			$array = $array["item"];
+		}
+
+		return $array;
+	}
+
+	protected function _decodeRequestDataXMLcleanupArray( $array ) {
+		foreach( $array as $k=>$v ) {
+			if($k[0]=="@") {
+				unset($array[$k]);
+				continue;
+			}
+
+			if(!is_array($v)) {
+
+				$array[$k] = trim($v);
+
+				continue;
+			}
+
+			if(!$v) {
+				$array[$k] = "";
+			} else {
+				$array[$k] = $this->_decodeRequestDataXMLcleanupArray($array[$k]);
+			}
+		}
+
+		return $array;
 	}
 
 	/**
@@ -237,7 +309,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		$error_code = get_class($this).":".$code;
 		$error = array(
 			"error_code" => $error_code,
-			"error_msg" => $error_message
+			"error_msg" => Tr::_($error_message)
 		);
 
 		if($data) {
@@ -311,10 +383,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 */
 	protected function handleOrderBy( DataModel_Fetch_Data_Abstract $data ) {
 
-		foreach(Http_Request::GET()->getRawData() as $k=>$v) {
-			if(substr($k,0, 5)=="sort(" && substr($k, -1)==")") {
+		foreach(Http_Request::GET()->getRawData() as $key=>$value) {
+			if(substr($key,0, 5)=="sort(" && substr($key, -1)==")") {
 
-				$order_by = explode(",", substr($k, 5, -1));
+				$order_by = explode(",", substr($key, 5, -1));
 
 				foreach( $order_by as $i=>$v ) {
 					if($v[0]=="_") {

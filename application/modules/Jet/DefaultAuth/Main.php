@@ -110,6 +110,13 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 */
 	public function getDispatchQueue() {
 
+		$service_type = $this->router->getServiceType();
+
+		if($service_type!=Jet\Mvc_Router::SERVICE_TYPE_STANDARD) {
+			Jet\Http_Headers::authorizationRequired();
+			die();
+		}
+
 		$queue = new Jet\Mvc_Dispatcher_Queue();
 
 		$action = "login";
@@ -149,6 +156,18 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	}
 
 	/**
+	 * @return Jet\Session
+	 */
+	protected function getSession() {
+		if( Jet\Mvc::getIsAdminUIRequest() ) {
+			return new Jet\Session("auth_admin");
+		} else {
+			return new Jet\Session("auth_web");
+		}
+
+	}
+
+	/**
 	 * Authenticates given user and returns TRUE if given credentials are valid, otherwise returns FALSE
 	 *
 	 * @param string $login
@@ -163,7 +182,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			return false;
 		}
 
-		$session = new Jet\Session("auth");
+		$session = $this->getSession();
 		$session->setValue( "user_ID", $user->getID() );
 
 		$this->current_user = $user;
@@ -194,7 +213,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			return $this->current_user;
 		}
 
-		$session = new Jet\Session("auth");
+		$session = $this->getSession();
 
 		$user_ID = $session->getValue( "user_ID", null );
 		if(!$user_ID) {

@@ -373,9 +373,9 @@ class Auth_User_Default extends Auth_User_Abstract {
 	}
 
 	/**
+	 * @param DateTime|string $password_is_valid_till
 	 *
-	 * @param string|DateTime|null $password_is_valid_till
-	 *
+	 * @return void
 	 */
 	public function setPasswordIsValidTill( $password_is_valid_till ) {
 		if(!$password_is_valid_till) {
@@ -383,7 +383,6 @@ class Auth_User_Default extends Auth_User_Abstract {
 		} else {
 			$this->password_is_valid_till = new DateTime($password_is_valid_till);
 		}
-
 	}
 
 	/**

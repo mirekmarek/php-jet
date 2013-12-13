@@ -13,7 +13,25 @@ namespace Jet;
 
 class Db_Factory extends Factory {
 
-	const DEFAULT_CLASS_PREFIX = "Jet\\Db_Adapter_";
+	/**
+	 * @var string
+	 */
+	protected static $adapter_class_prefix = "Jet\\Db_Adapter_";
+
+	/**
+	 * @param string $adapter_class_prefix
+	 */
+	public static function setAdapterClassPrefix($adapter_class_prefix) {
+		self::$adapter_class_prefix = $adapter_class_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getAdapterClassPrefix() {
+		return self::$adapter_class_prefix;
+	}
+
 
 	/**
 	 *
@@ -25,11 +43,11 @@ class Db_Factory extends Factory {
 	 * @return Db_Adapter_Config_Abstract
 	 */
 	public static function getAdapterConfigInstance(Db_Config $config, $adapter_name, array $config_data=array() ){
-		$config_class = self::getClassName(static::DEFAULT_CLASS_PREFIX.$adapter_name."_Config");
+		$default_class_name = static::$adapter_class_prefix.$adapter_name."_Config";
 
+		$config_class = static::getClassName( $default_class_name );
 		$instance = new $config_class( $config, $config_data );
-		self::checkInstance($config_class, $instance);
-
+		static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -41,11 +59,11 @@ class Db_Factory extends Factory {
 	 * @return Db_Adapter_Abstract
 	 */
 	public static function getAdapterInstance($adapter_name, Db_Adapter_Config_Abstract $adapter_config ){
-		$adapter_class = self::getClassName(static::DEFAULT_CLASS_PREFIX.$adapter_name);
+		$default_class_name = static::$adapter_class_prefix.$adapter_name;
 
-		$instance = new $adapter_class($adapter_config);
-		self::checkInstance($adapter_class, $instance);
-
+		$adapter_class = static::getClassName( $default_class_name );
+		$instance = new $adapter_class( $adapter_config );
+		static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
 }

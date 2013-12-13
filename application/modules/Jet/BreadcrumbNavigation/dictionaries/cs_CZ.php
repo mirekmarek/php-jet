@@ -1,5 +1,5 @@
 <?php
-return array (
+ return array (
   '6bc362dbf494c61ea117fe3c71ca48a5' => 
   array (
     'phrase' => 'Move',
@@ -33,6 +33,12 @@ return array (
   '8670a5e2c6b581ae3b59d95702d494dc' => 
   array (
     'phrase' => 'Position: ',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'd41d8cd98f00b204e9800998ecf8427e' => 
+  array (
+    'phrase' => '',
     'translation' => '',
     'is_translated' => false,
   ),

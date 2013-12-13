@@ -20,10 +20,10 @@ class JetML_Widget_Dojo_Form_Button_Save extends JetML_Widget_Dojo_Form_Button_B
 	 */
 	public function getReplacement() {
 		if(!$this->node->hasAttribute("busyLabel")) {
-			$this->node->setAttribute("busyLabel", Tr::_("Saving ..."));
+			$this->node->setAttribute("busyLabel", "Saving ...");
 		}
 		if(!$this->node->hasAttribute("title")) {
-			$this->node->setAttribute("title", Tr::_("Save") );
+			$this->node->setAttribute("title", "Save" );
 		}
 		if(!$this->node->hasAttribute("icon")) {
 			$this->node->setAttribute("icon", "save" );

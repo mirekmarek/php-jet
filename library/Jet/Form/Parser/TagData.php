@@ -68,8 +68,8 @@ class Form_Parser_TagData extends Object {
 			$property_name = array_shift($property);
 			$property_value = implode('=', $property);
 
-			$property_name = strtolower($property_name);
-			$property_value = str_replace("\"", "", $property_value);
+			$property_name = trim(strtolower($property_name));
+			$property_value = trim(str_replace("\"", "", $property_value));
 
 			if($property_name=="name") {
 				$this->name=$property_value;

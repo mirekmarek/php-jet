@@ -3,9 +3,6 @@
  *
  *
  *
- *
- *
- *
  * @copyright Copyright (c) 2011-2012 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0.html AGPLv3
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -472,15 +469,12 @@ abstract class Config extends Object {
 
 			$properties[$key]->checkValueType($val);
 
-			$set_method_name = "set".str_replace("_", "", $key);
+			$setter_method_name = $this->getSetterMethodName( $key );
 
-			if(method_exists($this, $set_method_name)) {
-				$this->{$set_method_name}($val);
+			if(method_exists($this, $setter_method_name)) {
+				$this->{$setter_method_name}($val);
 			} else {
 				$this->{$key} = $val;
-				if(isset($properties[$key])) {
-					$properties[$key]->checkValueType( $this->{$key} );
-				}
 			}
 
 			$this->_config_data->set($key, $this->{$key});

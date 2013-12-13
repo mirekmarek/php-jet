@@ -55,12 +55,6 @@ abstract class Auth_Role_Abstract extends DataModel {
 	abstract public function initNew( $name, $ID="" );
 
 	/**
-	 * @param string $ID
-	 * @return bool
-	 */
-	abstract public function getIDExists( $ID );
-
-	/**
 	 * @return string
 	 */
 	abstract public function getName();

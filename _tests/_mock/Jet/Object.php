@@ -105,5 +105,18 @@ class Object {
 		return true;
 	}
 
+
+	/**
+	 * @param $property_name
+	 *
+	 * @return string
+	 */
+	public function getSetterMethodName( $property_name ) {
+		$setter_method_name = "set".str_replace("_", "", $property_name);
+
+		return $setter_method_name;
+	}
+
+
 }
 class_alias("JetTest\Object", "Jet\Object");

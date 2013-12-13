@@ -18,7 +18,24 @@
 namespace Jet;
 
 class Translator_Factory extends Factory {
-	const BASE_BACKEND_CLASS_NAME_PREFIX = "Jet\\Translator_Backend_";
+	/**
+	 * @var string
+	 */
+	protected static $backend_class_name_prefix = "Jet\\Translator_Backend_";
+
+	/**
+	 * @param string $backend_class_name_prefix
+	 */
+	public static function setBackendClassNamePrefix($backend_class_name_prefix) {
+		static::$backend_class_name_prefix = $backend_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getBackendClassNamePrefix() {
+		return static::$backend_class_name_prefix;
+	}
 
 
 	/**
@@ -28,9 +45,11 @@ class Translator_Factory extends Factory {
 	 * @param bool $soft_mode @see Config
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode=false ){
-		$class_name = Factory::getClassName( self::BASE_BACKEND_CLASS_NAME_PREFIX.$type."_Config" );
+		$default_class_name = static::$backend_class_name_prefix.$type."_Config";
+
+		$class_name = static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
-		self::checkInstance(self::BASE_BACKEND_CLASS_NAME_PREFIX.$type."_Config", $instance);
+		static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -48,9 +67,11 @@ class Translator_Factory extends Factory {
 			$backend_config = static::getBackendConfigInstance($type);
 		}
 
-		$class_name =  Factory::getClassName( self::BASE_BACKEND_CLASS_NAME_PREFIX.$type );
+		$default_class_name = static::$backend_class_name_prefix.$type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $backend_config );
-		self::checkInstance(self::BASE_BACKEND_CLASS_NAME_PREFIX.$type, $instance);
+		static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 }

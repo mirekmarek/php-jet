@@ -14,8 +14,44 @@
 namespace Jet;
 
 class Form_Factory extends Factory {
-	const BASE_FORM_FIELD_CLASS_NAME = "Jet\\Form_Field";
-	const BASE_FORM_DECORATOR_CLASS_NAME = "Jet\\Form_Decorator";
+	/**
+	 * @var string
+	 */
+	protected static $form_field_class_name_prefix = "Jet\\Form_Field_";
+
+	/**
+	 * @var string
+	 */
+	protected static $form_decorator_class_name_prefix = "Jet\\Form_Decorator_";
+
+
+	/**
+	 * @param string $form_field_class_name_prefix
+	 */
+	public static function setFormFieldClassNamePrefix($form_field_class_name_prefix) {
+		static::$form_field_class_name_prefix = $form_field_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getFormFieldClassNamePrefix() {
+		return static::$form_field_class_name_prefix;
+	}
+
+	/**
+	 * @param string $form_decorator_class_name_prefix
+	 */
+	public static function setFormDecoratorClassNamePrefix($form_decorator_class_name_prefix) {
+		static::$form_decorator_class_name_prefix = $form_decorator_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getFormDecoratorClassNamePrefix() {
+		return static::$form_decorator_class_name_prefix;
+	}
 
 	/**
 	 *
@@ -48,7 +84,9 @@ class Form_Factory extends Factory {
 			);
 		}
 
-		$class_name =  static::getClassName( self::BASE_FORM_FIELD_CLASS_NAME."_".$type );
+		$default_class_name = static::$form_field_class_name_prefix.$type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name(
 			$name,
 			$label,
@@ -57,7 +95,7 @@ class Form_Factory extends Factory {
 			$validation_regexp,
 			$error_messages
 		);
-		self::checkInstance(self::BASE_FORM_FIELD_CLASS_NAME."_".$type, $instance);
+		static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -76,9 +114,11 @@ class Form_Factory extends Factory {
 		Form $form,
 		Form_Field_Abstract $field
 	) {
-		$class_name =  static::getClassName( self::BASE_FORM_DECORATOR_CLASS_NAME."_".$decorator."_".$field_type );
+		$default_class_name = static::$form_decorator_class_name_prefix.$decorator."_".$field_type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($form, $field);
-		self::checkInstance(self::BASE_FORM_DECORATOR_CLASS_NAME."_".$decorator."_".$field_type, $instance);
+		static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -104,7 +144,7 @@ class Form_Factory extends Factory {
 								$validation_regexp=null,
 								array $error_messages = array()
 							) {
-		return self::getFieldInstance($type, $name, $label, $default_value, $required, $validation_regexp, $error_messages);
+		return static::getFieldInstance($type, $name, $label, $default_value, $required, $validation_regexp, $error_messages);
 	}
 
 	/**
@@ -113,6 +153,6 @@ class Form_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public static function setFieldClassName( $type, $class_name ) {
-		self::setClassName(self::BASE_FORM_FIELD_CLASS_NAME."_".$type, $class_name);
+		static::setClassName( static::$form_field_class_name_prefix.$type, $class_name );
 	}
 }

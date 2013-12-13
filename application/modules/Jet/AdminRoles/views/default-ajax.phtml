@@ -19,7 +19,7 @@ $form = $this->form;
 			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
 		</jetml_layout_toolbar>
 		<jetml_layout_tabs region="center">
-			<jetml_layout_pane title="<?=Jet\Tr::_("Basic info");?>">
+			<jetml_layout_pane title="Basic info">
 				<jetml_data id="role_form_fields_definition"><?=json_encode( $form->getFields() ); ?></jetml_data>
 				<jetml_data id="role_privileges_scope"><?=json_encode($available_privileges_list);?></jetml_data>
 
@@ -38,7 +38,7 @@ $form = $this->form;
 				</jet_form>
 			</jetml_layout_pane>
 			<?php foreach($available_privileges_list as $privilege=>$pd ): ?>
-			<jetml_layout_pane title="<?=Jet\Tr::_($pd->getLabel());?>" id="role_access_<?=$privilege;?>_pane">
+			<jetml_layout_pane title="<?=$pd->getLabel();?>" id="role_access_<?=$privilege;?>_pane">
 			</jetml_layout_pane>
 			<?php endforeach; ?>
 		</jetml_layout_tabs>

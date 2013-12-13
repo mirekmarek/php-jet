@@ -39,13 +39,12 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array("icon", "size", "flag", "dojotype" );
+	protected $internal_properties = array("icon", "icon_size", "flag", "flag_size", "dojotype" );
 
 	/**
-	 *
 	 * @var array
 	 */
-	protected $HTML_properties = array("style", "class", "id", "onclick", "ondblclick", "onmousedown", "onmousemove", "onmouseover", "onmouseout", "onmouseup", "onkeydown", "onkeypress", "onkeyup", "onblur", "onchange", "onfocus", "onreset", "onselect" );
+	protected $translate_properties = array("title", "busylabel");
 
 
 	/**
@@ -79,6 +78,7 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	}
 
 	/**
+	 *
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
@@ -99,6 +99,10 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 
 			if( in_array($a_name, $this->internal_properties) ) {
 				continue;
+			}
+
+			if( in_array($a_name, $this->translate_properties) ) {
+				$a_value = $this->getTranslation( $a_value );
 			}
 
 
@@ -162,7 +166,12 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 
 	}
 
-	protected function _formatDojoProps( $dojo_props ) {
+	/**
+	 * @param array $dojo_props
+	 *
+	 * @return array
+	 */
+	protected function _formatDojoProps( array $dojo_props ) {
 		$_dojo_props = array();
 		foreach( $dojo_props as $k=>$val) {
 			if(

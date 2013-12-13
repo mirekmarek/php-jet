@@ -507,7 +507,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		return $result;
 	}
 
-
 	/**
 	 * @return DataModel_ID_Abstract
 	 */
@@ -523,6 +522,34 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 */
 	public function getIDProperties() {
 		return $this->getDataModelDefinition()->getIDProperties();
+	}
+
+
+	/**
+	 * @param DataModel_ID_Abstract|string $ID
+	 * @return bool
+	 */
+	public function getIDExists( $ID ) {
+		if( !($ID instanceof DataModel_ID_Abstract) ) {
+			$ID = $this->getEmptyIDInstance()->unserialize($ID);
+		}
+
+		$query = new DataModel_Query( $this );
+		$query->setWhere(array());
+		$where = $query->getWhere();
+
+		foreach($this->getIDProperties() as $pr_property_name => $pr_property) {
+			$value = $ID[$pr_property_name];
+
+			if($value===null) {
+				continue;
+			}
+
+			$where->addAND();
+			$where->addExpression( $pr_property, DataModel_Query::O_EQUAL, $value);
+		}
+
+		return (bool)$this->getBackendInstance()->getCount( $query );
 	}
 
 	/**
@@ -600,13 +627,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 	}
 
-	/**
-	 * @return bool
-	 */
-	protected function _getIDExists() {
-		return (bool)$this->getBackendInstance()->getCount( $this->getIDQuery() );
-	}
-
 
 	/**
 	 * Returns true if the model instance is new (was not saved yet)
@@ -673,6 +693,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				return false;
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -681,7 +703,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 *
 	 * @throws DataModel_Validation_Exception
 	 */
-	public function setPropertyValue( $property_name, &$value ) {
+	protected  function _setPropertyValue( $property_name, &$value ) {
 		$this->validatePropertyValue( $property_name, $value );
 
 		$this->{$property_name} = $value;
@@ -1381,12 +1403,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				continue;
 			}
 
-			$set_method_name = "set".str_replace("_", "", $key);
+			$setter_method_name = $this->getSetterMethodName( $key );
 
-			if(method_exists($this, $set_method_name)) {
-				$this->{$set_method_name}($val);
+			if(method_exists($this, $setter_method_name)) {
+				$this->{$setter_method_name}($val);
 			} else {
-				$this->setPropertyValue($key, $val);
+				$this->_setPropertyValue($key, $val);
 			}
 
 

@@ -197,7 +197,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var bool
 	 */
-	protected $is_admin_UI = NULL;
+	protected $is_admin_UI = null;
 
 	/**
 	 *
@@ -328,21 +328,18 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		$this->locale = $locale;
 
 		if(!$ID) {
-			$this->ID = $this->getEmptyIDInstance()->generateID($name, array($this, "getIDExists") );
+
+			/**
+			 * @var Mvc_Pages_Page_ID_Abstract $ID_instance
+			 */
+			$ID_instance = $this->getEmptyIDInstance();
+			$ID_instance->setSiteID( $site_ID );
+			$ID_instance->setLocale( $locale );
+
+			$this->ID = $ID_instance->generateID($this, $name );
 		} else {
 			$this->ID = $ID;
 		}
-	}
-
-	/**
-	 * @param $ID
-	 *
-	 * @return bool
-	 */
-	public function getIDExists( $ID ) {
-		$this->ID = $ID;
-
-		return $this->_getIDExists();
 	}
 
 
@@ -352,7 +349,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * @param bool $called_after_save
 	 * @param null $backend_save_result
 	 */
-	protected  function generateID(  $called_after_save = false, $backend_save_result = null  ) {
+	protected function generateID(  $called_after_save = false, $backend_save_result = null  ) {
 	}
 
 	/**

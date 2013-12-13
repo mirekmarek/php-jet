@@ -9,7 +9,6 @@ function error( $err_msg ) {
 }
 
 
-/*
 function show_usage() {
 	echo "Usage:".PHP_EOL;
 	echo PHP_EOL;
@@ -44,7 +43,6 @@ $params = array(
  );
 $options = array();
 try {
-	//TODO: remove Zend
 	$opts = new \Zend_Console_Getopt($params);
 	$opts->parse();
 	$options = $opts->getOptions();
@@ -57,9 +55,9 @@ try {
 if(array_diff(array("name", "URL", "locales"), $options)) {
 	show_usage();
 }
-*/
 
-$options_parser = new Console_OptionsParser();
+/*
+$options_parser = new Console_Getopt();
 $options_parser->setHelpHeader(
 	"Usage:".PHP_EOL
 	.PHP_EOL
@@ -67,43 +65,46 @@ $options_parser->setHelpHeader(
 	.PHP_EOL
 );
 
-$name_option = new Console_OptionsParser_OptionDefinition("name", "name", "n");
+$name_option = new Console_Getopt_OptionDefinition("name", "n");
 $name_option->setHelp("site name (internal)");
 $options_parser->addOption( $name_option );
 
-$locales_option = new Console_OptionsParser_OptionDefinition("locales", "locales", "l");
+$locales_option = new Console_Getopt_OptionDefinition("locales", "l");
 $locales_option->setHelp("site locales (comma (,) delimited), e.g. en_US,cs_CZ");
 $options_parser->addOption( $locales_option );
 
-$URL_option = new Console_OptionsParser_OptionDefinition("URL", "URL", "U");
+$URL_option = new Console_Getopt_OptionDefinition("URL", "U");
 $URL_option->setHelp("site URL for each locale (example: en_US=http://my-site.tld,cs_CZ=http://muj-web.tld/cs/)");
 $options_parser->addOption( $URL_option );
 
-$ssl_URL_option = new Console_OptionsParser_OptionDefinition("SSL_URL", "SSL_URL", "S");
+$ssl_URL_option = new Console_Getopt_OptionDefinition("SSL_URL", "S");
 $ssl_URL_option->setIsRequired(false);
 $ssl_URL_option->setHelp("site SSL URL for each locale (example: en_US=https://my-site.tld,cs_CZ=https://muj-web.tld/cs/)");
 $options_parser->addOption( $ssl_URL_option );
 
-$ID_option = new Console_OptionsParser_OptionDefinition("ID", "ID", "i");
+$ID_option = new Console_Getopt_OptionDefinition("ID", "i");
 $ID_option->setIsRequired(false);
 $ID_option->setHelp("site ID");
 $options_parser->addOption($ID_option);
 
-$template_option = new Console_OptionsParser_OptionDefinition("ID", "ID", "i");
+$template_option = new Console_Getopt_OptionDefinition("template", "t");
 $template_option->setIsRequired(false);
 $template_option->setHelp("site template");
 $options_parser->addOption($template_option);
 
-$t_option = new Console_OptionsParser_OptionDefinition("param", "param", "p", Console_OptionsParser_OptionDefinition::TYPE_BOOL);
-$options_parser->addOption($t_option);
+//$t_option = new Console_Getopt_OptionDefinition("param", "param", "p", Console_Getopt_OptionDefinition::TYPE_BOOL);
+//$options_parser->addOption($t_option);
 
 if(!$options_parser->parse()) {
-	$options_parser->showHelp();
+	$options_parser->showErrorMessage();
 	exit(1);
 }
 
 $options = $options_parser->getOptions();
 
+var_dump($options);
+die();
+*/
 
 $locales = explode(",", $options["locales"] );
 $known_locales = array();

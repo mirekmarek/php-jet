@@ -30,10 +30,10 @@ class Auth_Factory extends Factory {
 	 * @return Auth_User_Abstract
 	 */
 	public static function getUserInstance() {
-		$class_name =  self::getClassName( self::DEFAULT_USER_CLASS );
+		$class_name =  static::getClassName( static::DEFAULT_USER_CLASS );
 		$instance = new $class_name();
 
-		self::checkInstance(self::DEFAULT_USER_CLASS, $instance);
+		static::checkInstance(static::DEFAULT_USER_CLASS, $instance);
 		return $instance;
 	}
 
@@ -44,9 +44,9 @@ class Auth_Factory extends Factory {
 	 * @return Auth_Role_Abstract
 	 */
 	public static function getRoleInstance() {
-		$class_name =  self::getClassName( self::DEFAULT_ROLE_CLASS );
+		$class_name =  static::getClassName( static::DEFAULT_ROLE_CLASS );
 		$instance = new $class_name();
-		self::checkInstance(self::DEFAULT_ROLE_CLASS, $instance);
+		static::checkInstance(static::DEFAULT_ROLE_CLASS, $instance);
 		return $instance;
 	}
 
@@ -56,9 +56,9 @@ class Auth_Factory extends Factory {
 	 * @return Auth_Role_Privilege_Abstract
 	 */
 	public static function getPrivilegeInstance() {
-		$class_name =  self::getClassName( self::DEFAULT_PRIVILEGE_CLASS );
+		$class_name =  static::getClassName( static::DEFAULT_PRIVILEGE_CLASS );
 		$instance = new $class_name();
-		self::checkInstance(self::DEFAULT_PRIVILEGE_CLASS, $instance);
+		static::checkInstance(static::DEFAULT_PRIVILEGE_CLASS, $instance);
 		return $instance;
 	}
 
@@ -68,7 +68,7 @@ class Auth_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public static function setUserClass( $class_name ) {
-		self::setClassName(self::DEFAULT_USER_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_USER_CLASS, $class_name);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Auth_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public static function setUserRolesClass( $class_name ) {
-		self::setClassName(self::DEFAULT_USER_ROLES_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_USER_ROLES_CLASS, $class_name);
 	}
 
 
@@ -87,7 +87,7 @@ class Auth_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public static function setRoleClass( $class_name ) {
-		self::setClassName(self::DEFAULT_ROLE_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_ROLE_CLASS, $class_name);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Auth_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public static function setPrivilegeClass( $class_name ) {
-		self::setClassName(self::DEFAULT_PRIVILEGE_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_PRIVILEGE_CLASS, $class_name);
 	}
 
 }

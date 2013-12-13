@@ -18,7 +18,12 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_ID_Default
 	 */
-	protected $object;
+	protected $ID_object;
+
+	/**
+	 * @var DataModel_ID_DataModelTestMock
+	 */
+	protected $data_model_object;
 
 	protected $ID_data = array(
 			"ID" => "myID",
@@ -33,11 +38,11 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$data_model = new DataModel_ID_DataModelTestMock();
-		$this->object = new DataModel_ID_Default( $data_model );
+		$this->data_model_object = new DataModel_ID_DataModelTestMock();
+		$this->ID_object = new DataModel_ID_Default( $this->data_model_object );
 
 		foreach($this->ID_data as $k=>$v) {
-			$this->object[$k] = $v;
+			$this->ID_object[$k] = $v;
 		}
 	}
 
@@ -53,7 +58,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::__wakeup
 	 */
 	public function test__sleepAndWakeup() {
-		$data = serialize($this->object);
+		$data = serialize($this->ID_object);
 		$new_object = unserialize($data);
 
 		$ID_data = array();
@@ -70,17 +75,17 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::toString
 	 */
 	public function testToString() {
-		$this->assertSame("myID:abcdefg:cs_CZ:1234", $this->object->toString());
+		$this->assertSame("myID:abcdefg:cs_CZ:1234", $this->ID_object->toString());
 	}
 
 	/**
 	 * @covers Jet\DataModel_ID_Abstract::unserialize
 	 */
 	public function testUnserialize() {
-		$this->object->unserialize("myID-t:abcdefg-t:sk_SK:12345");
+		$this->ID_object->unserialize("myID-t:abcdefg-t:sk_SK:12345");
 
 		$ID_data = array();
-		foreach($this->object as $k=>$v) {
+		foreach($this->ID_object as $k=>$v) {
 			$ID_data[$k] = $v;
 		}
 
@@ -100,8 +105,8 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::offsetExists
 	 */
 	public function testOffsetExists() {
-		$this->assertTrue( isset($this->object["ID_property_3"]) );
-		$this->assertFalse( isset($this->object["imaginary"]) );
+		$this->assertTrue( isset($this->ID_object["ID_property_3"]) );
+		$this->assertFalse( isset($this->ID_object["imaginary"]) );
 	}
 
 	/**
@@ -109,7 +114,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testOffsetUnset() {
 		//do nothing
-		unset($this->object["nothning"]);
+		unset($this->ID_object["nothning"]);
 	}
 
 	/**
@@ -124,7 +129,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	public function testIterator() {
 
 		$ID_data = array();
-		foreach($this->object as $k=>$v) {
+		foreach($this->ID_object as $k=>$v) {
 			$ID_data[$k] = $v;
 		}
 
@@ -135,7 +140,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Default::getMaxLength
 	 */
 	public function testGetMaxLength() {
-		$this->assertEquals(DataModel_ID_Default::MAX_LEN, $this->object->getMaxLength());
+		$this->assertEquals(DataModel_ID_Default::MAX_LEN, $this->ID_object->getMaxLength());
 	}
 
 
@@ -143,24 +148,15 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Default::generateID
 	 */
 	public function testGenerateID() {
-		$ID = $this->object->generateID("Sítě   1  ", function( $input ) {
-			return ($input=="site_1" || $input=="site_11");
 
-		});
+		$ID = $this->ID_object->generateID( $this->data_model_object, "Sítě   1  ");
+
 		$this->assertEquals("site_12", $ID);
 
-		$ID = $this->object->generateID("Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long ", function( $input ) {
-			return (
-				$input=="long_long_long_long_long_long_long_long_long_long_" ||
-				$input=="long_long_long_long_long_long_long_long_long_l1" ||
-				$input=="long_long_long_long_long_long_long_long_long_l2" ||
-				$input=="long_long_long_long_long_long_long_long_long_l3" ||
-				$input=="long_long_long_long_long_long_long_long_long_l4"
-			);
-
-		});
+		$ID = $this->ID_object->generateID($this->data_model_object, "Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long " );
 
 		$this->assertEquals("long_long_long_long_long_long_long_long_long_l5", $ID);
+
 	}
 
 
@@ -168,12 +164,12 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Default::checkFormat
 	 */
 	public function testCheckFormat() {
-		$this->assertTrue($this->object->checkFormat("valid_id_1"));
+		$this->assertTrue($this->ID_object->checkFormat("valid_id_1"));
 
-		$this->assertFalse($this->object->checkFormat("Invalid_ID_1"));
-		$this->assertFalse($this->object->checkFormat("sh"));
-		$this->assertFalse($this->object->checkFormat("long_long_long_long_long_long_long_long_long_long_long_"));
-		$this->assertFalse($this->object->checkFormat("%^&*(%#.") );
+		$this->assertFalse($this->ID_object->checkFormat("Invalid_ID_1"));
+		$this->assertFalse($this->ID_object->checkFormat("sh"));
+		$this->assertFalse($this->ID_object->checkFormat("long_long_long_long_long_long_long_long_long_long_long_"));
+		$this->assertFalse($this->ID_object->checkFormat("%^&*(%#.") );
 
 	}
 

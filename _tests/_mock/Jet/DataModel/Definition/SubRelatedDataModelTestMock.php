@@ -18,6 +18,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	protected static $__data_model_properties_definition = array(
 		"ID" => array(
 			"type" => self::TYPE_ID,
+			"is_ID" => true,
 		),
 		"ID_property" => array(
 			"type" => self::TYPE_STRING,

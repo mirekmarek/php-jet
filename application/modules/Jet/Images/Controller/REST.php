@@ -49,7 +49,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		self::ERR_CODE_UNKNOWN_ITEM => array(Jet\Http_Headers::CODE_404_NOT_FOUND, "Unknown item"),
 
 		self::ERR_CODE_NO_FILE => array( Jet\Http_Headers::CODE_406_NOT_ACCEPTABLE, "No file sent" ),
-		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => array( Jet\Http_Headers::CODE_409_CONFLICT, "Image allready exists" ),
+		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => array( Jet\Http_Headers::CODE_409_CONFLICT, "Image allready uploaded" ),
 		self::ERR_CODE_UNKNOWN_ERROR => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, "Unknown error"),
 	);
 
@@ -96,9 +96,8 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			);
 		}
 
-		//TODO: overwrite ..
 		try {
-			$gallery->addImage( $_FILES["file"]["tmp_name"],  $_FILES["file"]["name"]);
+			$gallery->addImage( $_FILES["file"]["tmp_name"],  $_FILES["file"]["name"], ( isset($_POST["overwrite_if_exists"]) &&  $_POST["overwrite_if_exists"] ) );
 		} catch( Exception $e ) {
 			if($e->getCode()==Exception::CODE_IMAGE_ALLREADY_EXIST) {
 				$this->responseError( self::ERR_CODE_IMAGE_ALLREADY_EXISTS, array("file_name"=>$_FILES["file"]["name"]) );

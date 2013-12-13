@@ -232,6 +232,10 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 		$res = array();
 
+		if(!$this->__items) {
+			return $res;
+		}
+
 		foreach($this->__items as $k=>$d) {
 			$res[$k] = $d->jsonSerialize();
 		}

@@ -122,23 +122,13 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 		if($ID) {
 			$this->ID = $ID;
 		} else {
-			$this->ID = $this->getEmptyIDInstance()->generateID($name, array($this, "getIDExists") );
+			$this->ID = $this->getEmptyIDInstance()->generateID($this, $name );
 		}
 
 		$this->name = $name;
 		$this->is_default = count($this->getList())==0;
 	}
 
-	/**
-	 * @param string $ID
-	 *
-	 * @return bool
-	 */
-	public function getIDExists( $ID ) {
-		$this->ID = $ID;
-
-		return $this->_getIDExists();
-	}
 
 	/**
 	 * @param bool $called_after_save

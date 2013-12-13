@@ -159,7 +159,7 @@ class Factory extends Object  {
 	 *
 	 */
 	protected static function initOverloadMap() {
-		if(self::$overload_map !== NULL) {
+		if( self::$overload_map !== null ) {
 			return;
 		}
 

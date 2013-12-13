@@ -17,10 +17,82 @@
 namespace Jet;
 
 class DataModel_Factory extends Factory {
-	const BASE_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX = "Jet\\DataModel_Backend_";
-	const BASE_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX = "Jet\\DataModel_History_Backend_";
-	const BASE_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX = "Jet\\DataModel_Cache_Backend_";
-	const BASE_PROPERTY_DEFINITION_CLASS_NAME_PREFIX = "Jet\\DataModel_Definition_Property_";
+	/**
+	 * @var string
+	 */
+	protected static $backend_class_name_prefix = "Jet\\DataModel_Backend_";
+
+	/**
+	 * @var string
+	 */
+	protected static $histiory_backend_class_name_prefix = "Jet\\DataModel_History_Backend_";
+
+	/**
+	 * @var string
+	 */
+	protected static $cache_backend_class_name_prefix = "Jet\\DataModel_Cache_Backend_";
+
+	/**
+	 * @var string
+	 */
+	protected static $property_definition_class_name_prefix = "Jet\\DataModel_Definition_Property_";
+
+	/**
+	 * @param string $backend_class_name_prefix
+	 */
+	public static function setBackendClassNamePrefix($backend_class_name_prefix) {
+		static::$backend_class_name_prefix = $backend_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getBackendClassNamePrefix() {
+		return static::$backend_class_name_prefix;
+	}
+
+	/**
+	 * @param string $cache_backend_class_name_prefix
+	 */
+	public static function setCacheBackendClassNamePrefix($cache_backend_class_name_prefix) {
+		static::$cache_backend_class_name_prefix = $cache_backend_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCacheBackendClassNamePrefix() {
+		return static::$cache_backend_class_name_prefix;
+	}
+
+	/**
+	 * @param string $histiory_backend_class_name_prefix
+	 */
+	public static function setHistioryBackendClassNamePrefix($histiory_backend_class_name_prefix) {
+		static::$histiory_backend_class_name_prefix = $histiory_backend_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getHistioryBackendClassNamePrefix() {
+		return static::$histiory_backend_class_name_prefix;
+	}
+
+	/**
+	 * @param string $property_definition_class_name_prefix
+	 */
+	public static function setPropertyDefinitionClassNamePrefix($property_definition_class_name_prefix) {
+		static::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPropertyDefinitionClassNamePrefix() {
+		return static::$property_definition_class_name_prefix;
+	}
+
 
 	/**
 	 * Returns instance of Property class
@@ -45,9 +117,11 @@ class DataModel_Factory extends Factory {
 
 		}
 
-		$class_name =  static::getClassName( static::BASE_PROPERTY_DEFINITION_CLASS_NAME_PREFIX.$definition_data["type"] );
+		$default_class_name = static::$property_definition_class_name_prefix.$definition_data["type"];
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $data_model, $name, $definition_data );
-		static::checkInstance( static::BASE_PROPERTY_DEFINITION_CLASS_NAME_PREFIX.$definition_data["type"], $instance );
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -63,9 +137,11 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Backend_Config_Abstract
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode=false ) {
-		$class_name =  Factory::getClassName( self::BASE_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type."_Config" );
+		$default_class_name = static::$backend_class_name_prefix.$type."_Config";
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
-		self::checkInstance(self::BASE_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type."_Config", $instance);
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -79,9 +155,11 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Backend_Abstract
 	 */
 	public static function getBackendInstance( $type, DataModel_Backend_Config_Abstract $backend_config ) {
-		$class_name =  Factory::getClassName( self::BASE_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type );
+		$default_class_name = static::$backend_class_name_prefix.$type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $backend_config );
-		self::checkInstance(self::BASE_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type, $instance);
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -96,9 +174,11 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Config_Abstract
 	 */
 	public static function getHistoryBackendConfigInstance( $type, $soft_mode=false ) {
-		$class_name =  Factory::getClassName( self::BASE_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX.$type."_Config" );
-		$instance = new $class_name($soft_mode);
-		self::checkInstance( self::BASE_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX.$type."_Config", $instance );
+		$default_class_name = static::$histiory_backend_class_name_prefix.$type."_Config";
+
+		$class_name =  static::getClassName( $default_class_name );
+		$instance = new $class_name( $soft_mode );
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -111,9 +191,11 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Abstract
 	 */
 	public static function getHistoryBackendInstance( $type, DataModel $data_model ) {
-		$class_name =  Factory::getClassName( self::BASE_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX.$type );
+		$default_class_name = static::$histiory_backend_class_name_prefix.$type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $data_model );
-		self::checkInstance(self::BASE_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX.$type, $instance);
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -129,9 +211,11 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Cache_Backend_Config_Abstract
 	 */
 	public static function getCacheBackendConfigInstance( $type, $soft_mode=false ) {
-		$class_name =  Factory::getClassName( self::BASE_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX.$type."_Config" );
-		$instance = new $class_name($soft_mode);
-		self::checkInstance(self::BASE_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX.$type."_Config", $instance);
+		$default_class_name = static::$cache_backend_class_name_prefix.$type."_Config";
+
+		$class_name =  static::getClassName( $default_class_name );
+		$instance = new $class_name( $soft_mode );
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -144,9 +228,11 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Abstract
 	 */
 	public static function getCacheBackendInstance( $type, DataModel $data_model ) {
-		$class_name =  Factory::getClassName( self::BASE_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX.$type );
+		$default_class_name = static::$cache_backend_class_name_prefix.$type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $data_model );
-		self::checkInstance( self::BASE_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX.$type, $instance );
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 

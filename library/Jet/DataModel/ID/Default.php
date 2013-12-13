@@ -29,33 +29,45 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 
 	/**
 	 *
-	 * @param string $name
-	 * @param callable $exists_check
+	 * @param DataModel $data_model_instance
+	 * @param string $object_name
+	 *
+	 * @throws DataModel_ID_Exception
+	 *
 	 * @return string
 	 */
-	public function generateID( $name, callable $exists_check  ) {
-		$name  = trim( $name );
+	public function generateID( DataModel $data_model_instance, $object_name  ) {
+		$object_name  = trim( $object_name );
 
-		$ID = Data_Text::removeAccents( $name );
-		$ID = str_replace(" ", self::DELIMITER, $ID);
-		$ID = preg_replace("/[^a-z0-9".self::DELIMITER."]/i", "", $ID);
+		$ID = Data_Text::removeAccents( $object_name );
+		$ID = str_replace(" ", static::DELIMITER, $ID);
+		$ID = preg_replace("/[^a-z0-9".static::DELIMITER."]/i", "", $ID);
 		$ID = strtolower($ID);
-		$ID = preg_replace( "~([".self::DELIMITER."]{2,})~", self::DELIMITER , $ID );
-		$ID = substr($ID, 0, self::MAX_LEN);
+		$ID = preg_replace( "~([".static::DELIMITER."]{2,})~", static::DELIMITER , $ID );
+		$ID = substr($ID, 0, static::MAX_LEN);
 
-		if( $exists_check( $ID, $exists_check ) ) {
-			$_ID = substr($ID, 0, self::MAX_LEN - strlen( (string)self::MAX_SUFFIX_NO )  );
 
-			for($c=1; $c<=self::MAX_SUFFIX_NO; $c++) {
-				$ID = $_ID.$c;
+		$this->values[DataModel::DEFAULT_ID_COLUMN_NAME] = $ID;
 
-				if( !$exists_check( $ID )) {
-					break;
+		if( $data_model_instance->getIDExists(  $this ) ) {
+			$_ID = substr($ID, 0, static::MAX_LEN - strlen( (string)static::MAX_SUFFIX_NO )  );
+
+			for($c=1; $c<=static::MAX_SUFFIX_NO; $c++) {
+				$this->values[DataModel::DEFAULT_ID_COLUMN_NAME] = $_ID.$c;
+
+				if( !$data_model_instance->getIDExists( $this )) {
+					return $this->values[DataModel::DEFAULT_ID_COLUMN_NAME];
 				}
 			}
+
+			throw new DataModel_ID_Exception(
+				"ID generate: Reached the maximim numbers of attemps. (Maximim: ".static::MAX_SUFFIX_NO.")",
+				DataModel_ID_Exception::CODE_ID_GENERATE_REACHED_THE_MAXIMUM_NUMBER_OF_ATTEMPTS
+			);
 		}
 
 		return $ID;
+
 	}
 
 
@@ -66,7 +78,7 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 	 * @return bool
 	 */
 	public function checkFormat( $ID ) {
-		return (bool)preg_match("/^([a-z0-9".self::DELIMITER."]{".self::MIN_LEN.",".self::MAX_LEN."})$/", $ID);
+		return (bool)preg_match("/^([a-z0-9".static::DELIMITER."]{".static::MIN_LEN.",".static::MAX_LEN."})$/", $ID);
 	}
 
 }

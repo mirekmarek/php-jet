@@ -18,6 +18,7 @@ class DataModel_Query_DataModel2TestMock extends DataModel {
 	protected static $__data_model_properties_definition = array(
 		"ID" => array(
 			"type" => self::TYPE_ID,
+			"is_ID" => true
 		),
 		"string_property" => array(
 			"type" => self::TYPE_STRING,

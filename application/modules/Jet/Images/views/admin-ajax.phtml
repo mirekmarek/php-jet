@@ -7,6 +7,10 @@ use Jet;
  */
 $form = $this->form;
 
+/**
+ * @var Jet\Form $form
+ */
+$upload_form = $this->upload_form;
 ?>
 <jetml_layout_container gutters="true">
 	<jetml_layout_container region="left" splitter="true" style="width:200px">
@@ -81,6 +85,10 @@ $form = $this->form;
 	</jetml_dialog_buttons>
 </jetml_dialog>
 
+<?php
+
+
+?>
 
 <jetml_dialog id="upload_image" align="center">
 	<jetml_form_button id="upload_images_select_files_button" title="Select files"/>
@@ -94,9 +102,24 @@ $form = $this->form;
 	<jetml_div id="upload_images_selected_files_area" style="border: 1px solid #c9c9c9; width: 400px;height: 400px;overflow: auto;" align="left">
 	</jetml_div>
 
+	<table style="width: 100%;"><tr>
+			<td style="vertical-align: bottom;text-align: left">
+				<jetml_form_button icon="cancel" title="Cancel files selection" disabled="true" id="upload_images_reset_button"/>
 
-	<jetml_form_button icon="add" title="Upload images" disabled="true" id="upload_images_upload_button"/>
-	<jetml_form_button icon="cancel" title="Cancel files selection" disabled="true" id="upload_images_reset_button"/>
+			</td>
+
+			<td style="vertical-align: bottom;text-align: right">
+				<jet_form name="upload_form">
+					<jet_form_field_label name="overwrite_if_exists"/>
+					<jet_form_field_error_msg name="overwrite_if_exists" class="error"/><jet_form_field name="overwrite_if_exists"/>
+				</jet_form>
+				<jetml_form_button icon="add" title="Upload images" disabled="true" id="upload_images_upload_button"/>
+
+			</td>
+	</tr></table>
+
+
+
 
 </jetml_dialog>
 

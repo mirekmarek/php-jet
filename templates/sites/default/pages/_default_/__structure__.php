@@ -1,8 +1,11 @@
 <?php
 return array(
 	"admin" => array(
-		"admin_roles",
-		"admin_users"
+		"admin_ajax",
+		"admin_classic" => array(
+			"admin_roles",
+			"admin_users"
+		),
 	),
 	"articles",
 	"page_1_1",

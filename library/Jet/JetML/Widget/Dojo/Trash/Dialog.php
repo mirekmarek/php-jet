@@ -46,9 +46,9 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 
 		$dialog->setAttribute("data-dojo-type", "dijit.Dialog" );
 		$dialog->setAttribute("id", $ID."_dialog" );
-		$dialog->setAttribute("title", $this->getNodeAttribute("title", Tr::_(static::$default_texts["dialog_title"]) ));
+		$dialog->setAttribute("title", $this->getNodeAttribute("title", $this->getTranslation(static::$default_texts["dialog_title"]) ));
 
-		$confirm_msg = $dom->createElement("div", $this->getNodeAttribute("confirm_msg", Tr::_(static::$default_texts["confirm_msg"]) ));
+		$confirm_msg = $dom->createElement("div", $this->getNodeAttribute("confirm_msg", $this->getTranslation(static::$default_texts["confirm_msg"]) ));
 		$dialog->appendChild($confirm_msg);
 
 		$items_area = $dom->createElement("div");
@@ -62,13 +62,13 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 		$btn_area->setAttribute("class", "dijitDialogPaneActionBar");
 		$dialog->appendChild($btn_area);
 
-		$yes_button = $dom->createElement("button", $this->getNodeAttribute("yes_button_label", Tr::_(static::$default_texts["yes_button_label"]) ));
+		$yes_button = $dom->createElement("button", $this->getNodeAttribute("yes_button_label", $this->getTranslation(static::$default_texts["yes_button_label"]) ));
 		$yes_button->setAttribute("data-dojo-type", "dojox.form.BusyButton");
-		$yes_button->setAttribute("data-dojo-props", "busyLabel:".str_replace("\"", "'", json_encode($this->getNodeAttribute("deleting_msg", Tr::_(static::$default_texts["deleting_msg"])))) );
+		$yes_button->setAttribute("data-dojo-props", "busyLabel:".str_replace("\"", "'", json_encode($this->getNodeAttribute("deleting_msg", $this->getTranslation(static::$default_texts["deleting_msg"])))) );
 		$yes_button->setAttribute("id", $ID."_submit_button");
 		$btn_area->appendChild($yes_button);
 
-		$no_button = $dom->createElement("button", $this->getNodeAttribute("no_button_label", Tr::_(static::$default_texts["no_button_label"]) ));
+		$no_button = $dom->createElement("button", $this->getNodeAttribute("no_button_label", $this->getTranslation(static::$default_texts["no_button_label"]) ));
 		$no_button->setAttribute("data-dojo-type", "dijit.form.Button");
 		$no_button->setAttribute("class", "cancel");
 		$no_button->setAttribute("id", $ID."_cancel_button");

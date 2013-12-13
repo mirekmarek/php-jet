@@ -21,7 +21,11 @@ class Mvc_Factory extends Factory {
 
 	const DEFAULT_ROUTER_CLASS = "Jet\\Mvc_Router_Default";
 	const DEFAULT_ROUTER_CONFIG_CLASS = "Jet\\Mvc_Router_Config_Default";
-	const DEFAULT_ROUTER_CACHE_BACKEND_PREFIX = "Jet\\Mvc_Router_Cache_Backend_";
+
+	/**
+	 * @var string
+	 */
+	protected static $router_cache_backend_class_name_prefix = "Jet\\Mvc_Router_Cache_Backend_";
 
 	const DEFAULT_DISPATCHER_CLASS = "Jet\\Mvc_Dispatcher_Default";
 
@@ -40,6 +44,22 @@ class Mvc_Factory extends Factory {
 	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = "Jet\\Mvc_NavigationData_Breadcrumb_Default";
 	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = "Jet\\Mvc_NavigationData_Menu_Default";
 	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = "Jet\\Mvc_NavigationData_Menu_Item_Default";
+
+	/**
+	 * @param string $router_cache_backend_class_name_prefix
+	 */
+	public static function setRouterCacheBackendClassNamePrefix($router_cache_backend_class_name_prefix) {
+		static::$router_cache_backend_class_name_prefix = $router_cache_backend_class_name_prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getRouterCacheBackendClassNamePrefix() {
+		return static::$router_cache_backend_class_name_prefix;
+	}
+
+
 
 	/**
 	 * Returns instance of Dispatcher class
@@ -328,9 +348,11 @@ class Mvc_Factory extends Factory {
 	 * @return Mvc_Router_Cache_Backend_Config_Abstract
 	 */
 	public static function getRouterCacheBackendConfigInstance( $backend_type, $soft_mode=false ) {
-		$class_name =  static::getClassName( static::DEFAULT_ROUTER_CACHE_BACKEND_PREFIX.$backend_type."_Config" );
+		$default_class_name =  static::$router_cache_backend_class_name_prefix.$backend_type."_Config";
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
-		static::checkInstance(static::DEFAULT_ROUTER_CACHE_BACKEND_PREFIX.$backend_type."_Config", $instance);
+		static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
 
@@ -344,9 +366,11 @@ class Mvc_Factory extends Factory {
 	 * @return Mvc_Router_Cache_Backend_Abstract
 	 */
 	public static function getRouterCacheBackendInstance( $backend_type, Mvc_Router_Cache_Backend_Config_Abstract $backend_config ) {
-		$class_name =  static::getClassName( static::DEFAULT_ROUTER_CACHE_BACKEND_PREFIX.$backend_type );
+		$default_class_name = static::$router_cache_backend_class_name_prefix.$backend_type;
+
+		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $backend_config );
-		static::checkInstance(static::DEFAULT_ROUTER_CACHE_BACKEND_PREFIX.$backend_type, $instance);
+		static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
 
@@ -356,10 +380,10 @@ class Mvc_Factory extends Factory {
 	 * @return Mvc_NavigationData_Breadcrumb_Abstract
 	 */
 	public static function getNavigationDataBreadcrumbInstance() {
-		$class_name =  Factory::getClassName( self::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS );
+		$class_name =  static::getClassName( static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS );
 
 		$instance = new $class_name();
-		self::checkInstance(self::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $instance);
+		static::checkInstance(static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $instance);
 		return $instance;
 	}
 
@@ -369,10 +393,10 @@ class Mvc_Factory extends Factory {
 	 * return Mvc_NavigationData_Menu_Abstract
 	 *
 	public static function getNavigationDataMenuInstance() {
-		$class_name =  Factory::getClassName( self::DEFAULT_NAVIGATION_DATA_MENU_CLASS );
+		$class_name =  static::getClassName( static::DEFAULT_NAVIGATION_DATA_MENU_CLASS );
 
 		$instance = new $class_name();
-		self::checkInstance($instance);
+		static::checkInstance($instance);
 		return $instance;
 	}
 
@@ -382,10 +406,10 @@ class Mvc_Factory extends Factory {
 	 * return Mvc_NavigationData_Menu_Abstract
 	 *
 	public static function getNavigationDataMenuItemInstance() {
-		$class_name =  Factory::getClassName( self::DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS );
+		$class_name =  static::getClassName( static::DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS );
 
 		$instance = new $class_name();
-		self::checkInstance($instance);
+		static::checkInstance($instance);
 		return $instance;
 	}
 	*/
@@ -396,7 +420,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public function setNavigationDataBreadcrumbClass( $class_name ) {
-		Factory::setClassName(self::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $class_name);
 	}
 
 	/**
@@ -405,7 +429,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public function setNavigationDataMenuClass( $class_name ) {
-		Factory::setClassName(self::DEFAULT_NAVIGATION_DATA_MENU_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_NAVIGATION_DATA_MENU_CLASS, $class_name);
 	}
 
 	/**
@@ -414,7 +438,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $class_name
 	 */
 	public function setNavigationDataMenuItemClass( $class_name ) {
-		Factory::setClassName(self::DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS, $class_name);
+		static::setClassName(static::DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS, $class_name);
 	}
 
 

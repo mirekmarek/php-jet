@@ -34,7 +34,7 @@ class JetML_Widget_Dojo_Trash_Button extends JetML_Widget_Dojo_Abstract {
 		$this->node->setAttribute("icon", "trash" );
 
 		if(!$this->node->hasAttribute("title")) {
-			$this->node->setAttribute("title", Tr::_("Delete") );
+			$this->node->setAttribute("title", "Delete" );
 		}
 
 		return parent::getReplacement();

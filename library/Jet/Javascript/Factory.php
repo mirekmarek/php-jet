@@ -15,7 +15,25 @@
 namespace Jet;
 
 class Javascript_Factory extends Factory {
-	const DEFAULT_JS_LIB_CLASS_PREFIX = "Jet\\Javascript_Lib_";
+
+	/**
+	 * @var string
+	 */
+	protected static $JS_lib_class_name_preffix = "Jet\\Javascript_Lib_";
+
+	/**
+	 * @param string $JS_lib_class_name_preffix
+	 */
+	public static function setJSLibClassNamePreffix($JS_lib_class_name_preffix) {
+		self::$JS_lib_class_name_preffix = $JS_lib_class_name_preffix;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getJSLibClassNamePreffix() {
+		return self::$JS_lib_class_name_preffix;
+	}
 
 	/**
 	 * Returns instance of Javascript class
@@ -28,13 +46,12 @@ class Javascript_Factory extends Factory {
 	 * @return Javascript_Lib_Abstract
 	 */
 	public static function getJavascriptLibInstance( $javascript_framework_name, Mvc_Layout $layout ) {
-		$class_name = static::DEFAULT_JS_LIB_CLASS_PREFIX.$javascript_framework_name;
+		$default_class_name = static::$JS_lib_class_name_preffix.$javascript_framework_name;
 
-		$class_name =  Factory::getClassName( $class_name );
+		$class_name =  static::getClassName( $default_class_name );
 
 		$instance = new $class_name( $layout );
-		static::checkInstance(static::DEFAULT_JS_LIB_CLASS_PREFIX.$javascript_framework_name, $instance);
-
+		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 

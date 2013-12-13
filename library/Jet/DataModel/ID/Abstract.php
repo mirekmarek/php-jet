@@ -132,11 +132,22 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 	/**
 	 *
-	 * @param string $name
-	 * @param callable $exists_check
+	 * @param DataModel $data_model_instance
+	 * @param string $object_name
+	 *
 	 * @return string
 	 */
-	abstract public function generateID( $name, callable $exists_check  );
+	abstract public function generateID( DataModel $data_model_instance, $object_name );
+
+	/**
+	 * @param DataModel $data_model_instance
+	 * @param string|DataModel_ID_Abstract $ID
+	 *
+	 * @return bool
+	 */
+	public function getIDExists( DataModel $data_model_instance, $ID ) {
+		return $data_model_instance->getIDExists($ID);
+	}
 
 
 	/**

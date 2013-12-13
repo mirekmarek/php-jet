@@ -27,6 +27,41 @@ abstract class JetML_Widget_Abstract extends Object {
 	protected $node;
 
 	/**
+	 *
+	 * @var array
+	 */
+	protected $internal_properties = array("icon", "icon_size", "flag", "flag_size" );
+
+	/**
+	 *
+	 * @var array
+	 */
+	protected $HTML_properties = array("style", "class", "id", "onclick", "ondblclick", "onmousedown", "onmousemove", "onmouseover", "onmouseout", "onmouseup", "onkeydown", "onkeypress", "onkeyup", "onblur", "onchange", "onfocus", "onreset", "onselect" );
+
+
+	/**
+	 * @var bool|null
+	 */
+	protected $do_not_translate_texts = null;
+
+	/**
+	 * @var array|null
+	 */
+	protected $translation_data = null;
+
+	/**
+	 * @var string|null
+	 */
+	protected $custom_translator_namespace = null;
+
+	/**
+	 * @var Locale|null
+	 */
+	protected $custom_translator_locale = null;
+
+
+
+	/**
 	 * @param JetML $parser
 	 * @param \DOMElement $node
 	 *
@@ -94,7 +129,7 @@ abstract class JetML_Widget_Abstract extends Object {
 	 */
 	protected function getIcon(){
 
-		$title = $this->getNodeAttribute("title");
+		$title = $this->getTranslation($this->getNodeAttribute("title"));
 
 		if($this->node->hasAttribute("flag")){
 			return $this->_getIconSnippet(
@@ -161,6 +196,40 @@ abstract class JetML_Widget_Abstract extends Object {
 		} else {
 			return $span;
 		}
+	}
+
+
+	/**
+	 * Returns translation.
+	 *
+	 * @see Translator
+	 *
+	 * @param string $phrase
+	 *
+	 * @return string
+	 */
+	public function getTranslation( $phrase ) {
+		if($this->do_not_translate_texts===null) {
+			$this->do_not_translate_texts = $this->getNodeAttribute("do_not_translate_texts", "");
+			$this->translation_data = $this->getNodeAttribute("translation_data", "");
+			$this->custom_translator_namespace = $this->getNodeAttribute("custom_translator_namespace", "");
+			$this->custom_translator_locale = $this->getNodeAttribute("custom_translator_locale", "");
+
+			$this->do_not_translate_texts = (strtolower($this->do_not_translate_texts)=="true");
+			$this->translation_data = $this->translation_data ? json_decode( $this->translation_data ) : array();
+			$this->custom_translator_namespace = $this->custom_translator_namespace ? $this->custom_translator_namespace : null;
+			$this->custom_translator_locale = $this->custom_translator_locale ? $this->custom_translator_locale : null;
+		}
+
+		if($this->do_not_translate_texts) {
+			if(!$this->translation_data) {
+				return $phrase;
+			}
+
+			return Data_Text::replaceData($phrase, $this->translation_data);
+		}
+
+		return Tr::_($phrase, $this->translation_data, $this->custom_translator_namespace, $this->custom_translator_locale);
 	}
 
 }

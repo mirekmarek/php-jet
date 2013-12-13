@@ -54,4 +54,22 @@
     'translation' => '',
     'is_translated' => false,
   ),
+  '3e1d7d02a33d2b6b776e2f0e3123aafb' => 
+  array (
+    'phrase' => 'Image allready uploaded',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '9d453892f50c952ee4a6a947bf04a601' => 
+  array (
+    'phrase' => 'Overwrite image if exists',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '20ac757837006b5e62196fb350fe652d' => 
+  array (
+    'phrase' => 'Unknown item',
+    'translation' => '',
+    'is_translated' => false,
+  ),
 );

@@ -38,6 +38,14 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 
 		$this->view->setVar("upload_URL", $this->module_instance->getRestURL("image"));
 
+		$upload_form = new Jet\Form("upload_form", array());
+		$upload_form->enableDecorator("Dojo");
+		$upload_form->addField(
+			Jet\Form_Factory::field("Checkbox", "overwrite_if_exists", "Overwrite image if exists")
+		);
+		$this->view->setVar("upload_form", $upload_form);
+
+
 		$this->render("admin-ajax");
 	}
 

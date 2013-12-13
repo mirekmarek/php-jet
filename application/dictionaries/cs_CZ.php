@@ -348,4 +348,82 @@
     'translation' => '',
     'is_translated' => false,
   ),
+  'fff0d600f8a0b5e19e88bfb821dd1157' => 
+  array (
+    'phrase' => 'Images',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '57b7f59c4b5c67671dfc5157a7e4d9b7' => 
+  array (
+    'phrase' => 'test Jet.alert',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '12d65e410f747a46c278138ef8d8ee9e' => 
+  array (
+    'phrase' => 'test Jet.confirm',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '59d92f2ffae4a88a9d94e8468c855f62' => 
+  array (
+    'phrase' => 'New gallery',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'd5b846e0f39e6e296c0cd499fcef8ff4' => 
+  array (
+    'phrase' => 'Upload new image',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'be53a0541a6d36f6ecb879fa2c584b08' => 
+  array (
+    'phrase' => 'Image',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '34082694d21dbdcfc31e6e32d9fb2b9f' => 
+  array (
+    'phrase' => 'File name',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '1908624a0bca678cd26b99bfd405324e' => 
+  array (
+    'phrase' => 'File size',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'dbd9c26d6a6e7570ccf8b6c378fa77fc' => 
+  array (
+    'phrase' => 'Copy images',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'e697f5c7c93a98fb7d316ddf0d81b372' => 
+  array (
+    'phrase' => 'Copy selected images',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '1afe200fa26ba361f59b603b22ad6392' => 
+  array (
+    'phrase' => 'Select files',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '9a7d44eb8f0e2412223f94e81ba32a77' => 
+  array (
+    'phrase' => 'Upload images',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  '77e307302ccb7cbbbfe63c1ec98fc231' => 
+  array (
+    'phrase' => 'Cancel files selection',
+    'translation' => '',
+    'is_translated' => false,
+  ),
 );

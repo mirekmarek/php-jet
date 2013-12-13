@@ -96,20 +96,10 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 		$this->name = $name;
 
 		if(!$ID) {
-			$this->ID = $this->getEmptyIDInstance()->generateID($name, array($this, "getIDExists") );
+			$this->ID = $this->getEmptyIDInstance()->generateID($this, $name );
 		} else {
 			$this->ID = $ID;
 		}
-	}
-
-	/**
-	 * @param string $ID
-	 * @return bool
-	 */
-	public function getIDExists( $ID ) {
-		$this->ID = $ID;
-
-		return $this->_getIDExists();
 	}
 
 	/**
@@ -121,9 +111,10 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 			$this->name &&
 			!$this->ID
 		) {
-			$this->ID = $this->getEmptyIDInstance()->generateID($this->name, array($this, "getIDExists") );
+			$this->ID = $this->getEmptyIDInstance()->generateID($this, $this->name );
 		}
 	}
+
 
 	/**
 	 * @return string

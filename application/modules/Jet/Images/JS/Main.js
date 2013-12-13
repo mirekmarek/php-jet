@@ -186,8 +186,14 @@ Jet.declare("Jet.module.Jet\\Images.Main", [Jet.modules.Module], {
 		this.uploader = new Jet.MultiUploader(	"image/", this, "upload_images" );
 		this.uploader.onUploadDone = function() {
 			dojo.publish(_this.module_name+"/image/upload");
-			//TODO:
-			alert("DONE");
+		};
+
+		this.uploader.getPostData = function() {
+			var res = {};
+
+			res.overwrite_if_exists = _this.getWidgetByID("upload_form__overwrite_if_exists").checked;
+
+			return res;
 		};
 
 

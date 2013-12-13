@@ -20,6 +20,7 @@ class DataModel_Query_DataModelRelated21TONTestMock extends DataModel_Related_1t
 	protected static $__data_model_properties_definition = array(
 		"ID" => array(
 			"type" => self::TYPE_ID,
+			"is_ID" => true
 		),
 		"string_property" => array(
 			"type" => self::TYPE_STRING,
