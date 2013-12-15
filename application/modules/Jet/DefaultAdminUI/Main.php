@@ -32,7 +32,7 @@ class Main extends Jet\Mvc_UIManagerModule_Abstract {
 		$layout_script = false;
 
 		if($this->router->getServiceType() ==Jet\Mvc_Router::SERVICE_TYPE_STANDARD ) {
-			$layout_script = "default";
+			$layout_script = Jet\Mvc::getCurrentPage()->getLayout();
 		}
 
 		$layout = new Jet\Mvc_Layout( $this->module_info->getModuleDir()."layouts/", $layout_script );

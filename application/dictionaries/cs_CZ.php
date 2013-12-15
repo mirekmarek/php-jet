@@ -426,4 +426,10 @@
     'translation' => '',
     'is_translated' => false,
   ),
+  '6f220e82c622fc88019039b644ff2f81' => 
+  array (
+    'phrase' => 'Current user: %USERNAME%',
+    'translation' => '',
+    'is_translated' => false,
+  ),
 );

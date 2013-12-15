@@ -1,5 +1,5 @@
 <?php
-return array (
+ return array (
   '19f1799814a50fc19daad0ce851f2b34' => 
   array (
     'phrase' => 'Manage roles',
@@ -21,6 +21,18 @@ return array (
   '6c7ed9863dcbf366c3a39b4cb3dc03e0' => 
   array (
     'phrase' => 'Loading ...',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'e592417d9527ec8bf1c2be5cf7931d5e' => 
+  array (
+    'phrase' => 'RIA User Interface',
+    'translation' => '',
+    'is_translated' => false,
+  ),
+  'a11287529c2e86e6195d16a558992bcf' => 
+  array (
+    'phrase' => 'Classic User Interface',
     'translation' => '',
     'is_translated' => false,
   ),

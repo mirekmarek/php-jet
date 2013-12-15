@@ -29,9 +29,21 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 	protected static $ACL_actions_check_map = array(
 		"default" => false,
+		"signpost" => false,
+		"ria_default" => false,
+		"classic_default" => false
 	);
 
-	public function default_Action() {
+	public function signpost_Action() {
+		$this->render("signpost");
+	}
+
+	public function classic_default_Action() {
+		$this->render("default_classic");
+
+	}
+
+	public function ria_default_Action() {
 		/**
 		 * @var Jet\Javascript_Lib_General $general_JS
 		 */
@@ -76,7 +88,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		Jet\Mvc::requireJavascriptLib("TinyMCE");
 
 
-		$this->render("default");
-
+		$this->render("default_ria");
 	}
+
 }

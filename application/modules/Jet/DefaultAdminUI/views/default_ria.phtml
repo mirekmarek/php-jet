@@ -2,12 +2,8 @@
 namespace JetApplicationModule\Jet\DefaultAdminUI;
 use Jet;
 ?>
-<ul>
-	<li><a href="<?=Jet\Mvc_Pages::getURI("admin_roles"); ?>"><?=Jet\Tr::_("Manage roles");?></a></li>
-	<li><a href="<?=Jet\Mvc_Pages::getURI("admin_users"); ?>"><?=Jet\Tr::_("Manage users");?></a></li>
-</ul>
 
-<jetml_layout_container id="_jet_main_border_" gutters="false" style="width:100%;height:600px;">
+<jetml_layout_container id="_jet_main_border_" gutters="false" style="width:100%;height:100%;">
 
 	<jetml_layout_tabs region="center" tabPosition="top" id="_jet_modules_tabs_">
 	</jetml_layout_tabs>
