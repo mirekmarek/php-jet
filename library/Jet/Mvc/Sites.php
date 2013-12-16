@@ -29,8 +29,8 @@
  * When the system catches the request for an URI which does not exist in the system, then then request is redirected to the default URI of the default site.
  *
  *
- * @copyright Copyright (c) 2011-2012 Miroslav Marek <mirek.marek.2m@gmail.com>
- * @license http://www.gnu.org/licenses/agpl-3.0.html AGPLv3
+ * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
