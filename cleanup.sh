@@ -1,5 +1,4 @@
 #!/bin/sh
-
 rm -rf application/config/*
 rm -rf application/sites/*
 rm -rf data/*

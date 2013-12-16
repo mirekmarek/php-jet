@@ -1,5 +1,4 @@
 library/Zend
-library/External
 application/sites/*
 application/config/*
 tmp/*

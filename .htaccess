@@ -3,4 +3,3 @@ RewriteEngine on
 # php_flag magic_quotes_gpc off
 
 RewriteRule !(^(public/)|^(application/sites/)|(application/_installer/public/)|^(application/modules/[A-Za-z0-9/]{1,}/public/)) application/bootstrap.php
-
