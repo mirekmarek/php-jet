@@ -2,7 +2,7 @@
 return array (
 	"name" => "Admin - users",
 	"title" => "Administrační rozhraní (klasické) - Uživatelé",
-	"URL_fragment" => "users",
+	"URL_fragment" => "uzivatele",
 	"layout" => "default",
 	"is_admin_UI" => true,
 	"meta_tags" => array(),

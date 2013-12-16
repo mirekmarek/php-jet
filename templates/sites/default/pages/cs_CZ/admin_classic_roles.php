@@ -2,7 +2,7 @@
 return array (
 	"name" => "Admin - roles",
 	"title" => "Administrační rozhraní (klasické) - Role",
-	"URL_fragment" => "roles",
+	"URL_fragment" => "role",
 	"layout" => "default",
 	"is_admin_UI" => true,
 	"meta_tags" => array(),

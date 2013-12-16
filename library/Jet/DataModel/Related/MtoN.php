@@ -584,6 +584,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 */
 	protected function _fetchNIDs() {
+
 		if($this->N_IDs!==null) {
 			return;
 		}
@@ -650,7 +651,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			"__data_model_M_model_class_name",
 			"__data_model_N_model_class_name",
 			"M_ID",
-			"N_IDs"
+			//"N_IDs"
 		);
 	}
 
