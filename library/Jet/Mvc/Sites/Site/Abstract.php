@@ -77,6 +77,13 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	/**
 	 * @param Locale $locale
 	 *
+	 * @return bool
+	 */
+	abstract public function getHasLocale( Locale $locale );
+
+	/**
+	 * @param Locale $locale
+	 *
 	 * @return Mvc_Sites_Site_LocalizedData_Abstract
 	 */
 	abstract public function getLocalizedData( Locale $locale );

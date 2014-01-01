@@ -20,4 +20,10 @@ namespace Jet;
 class Mvc_Pages_Handler_Exception extends Exception {
 	const CODE_HANDLER_ERROR = 100;
 	const CODE_UNKNOWN_SITE = 101;
+	const CODE_UNKNOWN_LOCALE = 102;
+
+	const CODE_PAGE_ID_NOT_UNIQUE = 201;
+	const CODE_PAGE_DATA_VALIDATION_ERROR = 202;
+	
 }
+

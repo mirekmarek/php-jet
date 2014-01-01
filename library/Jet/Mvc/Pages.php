@@ -117,8 +117,18 @@ class Mvc_Pages extends Object {
 		self::getHandler()->dropPages( $site_ID, $locale );
 	}
 
+
 	/**
-	 * Actualize site pages (example: actualize pages by project definition)
+	 *
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 *
+	 */
+	public static function checkPagesData( $site_ID, Locale $locale ) {
+		self::getHandler()->checkPagesData( $site_ID, $locale );
+	}
+
+	/**
 	 *
 	 * @param string $site_ID
 	 * @param Locale $locale

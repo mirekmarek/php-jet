@@ -179,6 +179,16 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 		return $this->default_locale;
 	}
 
+	/**
+	 * @param Locale $locale
+	 *
+	 * @return bool
+	 */
+	public function getHasLocale( Locale $locale ) {
+		return isset( $this->localized_data[$locale->toString()] );
+	}
+
+
 
 	/**
 	 * @param Locale $locale

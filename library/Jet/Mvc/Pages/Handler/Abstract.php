@@ -58,12 +58,21 @@ abstract class Mvc_Pages_Handler_Abstract extends Object {
 	 */
 	abstract function dropPages( $site_ID, Locale $locale );
 
+
 	/**
-	 * Actualize pages (example: actualize pages by project definition)
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 *
+	 * @throws Mvc_Pages_Handler_Exception
+	 */
+	abstract function checkPagesData( $site_ID, Locale $locale );
+
+	/**
 	 *
 	 * @param string $site_ID
 	 * @param Locale $locale
 	 *
+	 * @throws Mvc_Pages_Handler_Exception
 	 */
 	abstract function actualizePages( $site_ID, Locale $locale );
 }

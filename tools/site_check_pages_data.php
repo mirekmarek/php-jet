@@ -30,11 +30,6 @@ try {
 		Mvc_Pages::checkPagesData( $site_ID, $locale );
 	}
 
-
-	foreach( $site_data->getLocales() as $locale) {
-		Mvc_Pages::actualizePages( $site_ID, $locale );
-	}
-
 } catch( Exception $e ) {
 	echo PHP_EOL."Error:".PHP_EOL.PHP_EOL;
 	echo $e->getMessage();
