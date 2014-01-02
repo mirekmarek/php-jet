@@ -311,13 +311,74 @@ class Data_Array extends Object {
 
 	/**
 	 *
-	 * @param array $path_labels
+	 * @param array $comments
 	 *
 	 * @return string
 	 */
-	public function export(array $path_labels = array()){
-		//TODO: nicer, use path labels
-		return var_export($this->data, true);
+	public function export(array $comments = array()){
+		$result = $this->_export( "", $this->data, 0, $comments );
+
+		$result .= ";\n";
+
+		return $result;
+	}
+
+	/**
+	 * @param string $path
+	 * @param array $data
+	 * @param int $level
+	 * @param array $comments
+	 *
+	 * @return string
+	 */
+	protected function _export( $path, array $data, $level, array $comments ) {
+		$result = "";
+		$next_level = $level + 1;
+
+		$indent = str_pad("", $level, "\t");
+
+
+		$comment = "";
+		if( isset($comments[$path]) ) {
+			$comment .= "\t/* {$comments[$path]} */";
+		}
+
+
+		$result .= "array({$comment}\n";
+
+		$my_root_path = $path . static::PATH_DELIMITER;
+
+		foreach( $data as $key=>$value ) {
+
+			$my_paht = $my_root_path.$key;
+
+			$comment = "";
+			if( isset($comments[$my_paht]) ) {
+				$comment .= "\t/* {$comments[$my_paht]} */";
+			}
+
+			$result .= $indent."\t\"{$key}\" => ";
+
+			if(is_array($value)) {
+				$result .= $this->_export( $my_paht, $value, $next_level, $comments) . "";
+			} else
+			if(is_object($value)) {
+				$class_name = get_class( $value );
+
+				$object_values = get_object_vars( $value );
+
+				$result .= "{$class_name}::__set_state( ".$this->_export( $my_paht, $object_values, $next_level, $comments)." )";
+			} else {
+				$result .= var_export( $value, true )."$comment";
+			}
+
+			$result .= ",\n";
+
+		}
+		$result .= $indent . ")";
+
+		return $result;
+
 	}
 
 }
