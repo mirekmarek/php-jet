@@ -87,7 +87,35 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	protected static $__data_model_properties_definition = false;
 
 	/**
-	 * //TODO: describe!!!
+	 * Relations to another (indenpendent) model.
+	 *
+	 * Example:
+	 *
+	 * $__data_model_outer_relations_definition = array(
+	 *          "relation_name" => array(
+	 *                  "related_to_class_name" => "JetApplicationModule\\Some\\Modules\\Some_Class",
+	 *                  "join_by_properties" => array(
+	 *                      "this_class_property" => "related_class_property",
+	 *                      "another_this_class_property" => "another_related_class_property",
+	 *
+	 *                  ),
+	 *                  //optional:
+	 *                  "join_type" => DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN // options: DataModel_Query::JOIN_TYPE_LEFT_JOIN (default), DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN	 *
+	 *          )
+	 * );
+	 *
+	 * Then you can use relation in query like this:
+	 *
+	 * $query = array(
+	 *          "relation_name.some_related_class_property" => "value",
+	 *          "AND",
+	 *          "relation_name.another_some_related_class_property!" => 1234
+	 * );
+	 *
+	 * Warning!
+	 *
+	 * Outer relation has no affect on saving or deleting object (like DataModel_Related_* models has).
+	 *
 	 *
 	 * @var array
 	 */
