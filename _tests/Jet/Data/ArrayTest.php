@@ -16,6 +16,25 @@ class Data_ArrayTest_testObject {
 	public $v_int = 1;
 	public $v_float = 3.14;
 	public $v_string = '<script>alert("Shady!");</script>';
+}
+
+class Data_ArrayTest_testObject2 {
+	public $v_int = 1;
+	protected $v_float = 3.14;
+	private $v_string = '<script>alert("Shady!");</script>';
+}
+
+class Data_ArrayTest_testObject3 implements \JsonSerializable {
+	public $v_int = 1;
+	protected $v_float = 3.14;
+	private $v_string = '<script>alert("Shady!");</script>';
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize() {
+		return get_object_vars($this);
+	}
 
 }
 
@@ -42,6 +61,11 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 				"string" => '<script>alert("Shady!!!");</script>',
 				"bool" => true,
 
+			),
+			"subai" => array(
+				1,
+				"string",
+				123.456
 			)
 		)
 	);
@@ -67,6 +91,8 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$this->data["sub1"]["sub2"]["test_object"] = new Data_ArrayTest_testObject();
+		$this->data["sub1"]["sub2"]["test_object2"] = new Data_ArrayTest_testObject2();
+		$this->data["sub1"]["sub2"]["test_object3"] = new Data_ArrayTest_testObject3();
 
 		$this->object = new Data_Array( $this->data );
 	}
@@ -253,7 +279,20 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 						."\t\t\t\t\"v_float\" => 3.14,\n"
 						."\t\t\t\t\"v_string\" => '<script>alert(\"Shady!\");</script>',\n"
 					."\t\t\t) ),\n"
+					."\t\t\t\"test_object2\" => Jet\Data_ArrayTest_testObject2::__set_state( array(\n"
+						."\t\t\t\t\"v_int\" => 1,\n"
+					."\t\t\t) ),\n"
+					."\t\t\t\"test_object3\" => Jet\Data_ArrayTest_testObject3::__set_state( array(\n"
+						."\t\t\t\t\"v_int\" => 1,\n"
+						."\t\t\t\t\"v_float\" => 3.14,\n"
+						."\t\t\t\t\"v_string\" => '<script>alert(\"Shady!\");</script>',\n"
+					."\t\t\t) ),\n"
                 ."\t\t),\n"
+				."\t\t\"subai\" => array(\n"
+				."\t\t\t1,\n"
+				."\t\t\t'string',\n"
+				."\t\t\t123.456,\n"
+				."\t\t),\n"
             ."\t),\n"
 		.");\n";
 		$this->assertEquals( $valid_result, $this->object->export( $this->comments ) );

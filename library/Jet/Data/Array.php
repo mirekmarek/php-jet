@@ -357,7 +357,12 @@ class Data_Array extends Object {
 				$comment .= "\t/* {$comments[$my_paht]} */";
 			}
 
-			$result .= $indent."\t\"{$key}\" => ";
+			if(is_int($key)) {
+				$result .= $indent."\t";
+
+			} else {
+				$result .= $indent."\t\"{$key}\" => ";
+			}
 
 			if(is_array($value)) {
 				$result .= $this->_export( $my_paht, $value, $next_level, $comments) . "";
@@ -365,7 +370,12 @@ class Data_Array extends Object {
 			if(is_object($value)) {
 				$class_name = get_class( $value );
 
-				$object_values = get_object_vars( $value );
+				if( is_subclass_of( $value, "\\JsonSerializable" ) ) {
+					$object_values = $value->jsonSerialize();
+				} else {
+					$object_values = get_object_vars( $value );
+				}
+
 
 				$result .= "{$class_name}::__set_state( ".$this->_export( $my_paht, $object_values, $next_level, $comments)." )";
 			} else {

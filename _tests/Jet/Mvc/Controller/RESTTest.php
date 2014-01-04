@@ -33,13 +33,20 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\Mvc_Controller_REST::decodeRequestDataJSON
-	 * @todo   Implement testDecodeRequestDataJSON().
 	 */
 	public function testDecodeRequestDataJSON() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$data = array();
+		$data["a"] = array(
+			"int" => 1234,
+			"float" => 3.14,
+			"array" => array(
+					"string" => "String \"string\" 'string' ",
+			)
 		);
+
+		$json = json_encode( $data );
+
+		$this->assertEquals( $data, $this->object->decodeRequestDataJSON( $json ) );
 	}
 
 	/**

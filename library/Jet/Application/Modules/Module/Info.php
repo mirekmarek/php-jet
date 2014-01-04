@@ -30,7 +30,7 @@
  */
 namespace Jet;
 
-class Application_Modules_Module_Info extends Object {
+class Application_Modules_Module_Info extends Object implements \JsonSerializable {
 
 	/**
 	 * @var string
@@ -211,6 +211,13 @@ class Application_Modules_Module_Info extends Object {
 		$this->setupProperties( $manifest_data );
 
 
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize() {
+		return get_object_vars($this);
 	}
 
 	/**
@@ -559,7 +566,7 @@ class Application_Modules_Module_Info extends Object {
 	 *
 	 * @return array 
 	 */
-	public static function getModuleTypesList(){
+	public static function getModuleTypesList() {
 		return static::$module_types_list;
 	}
 
@@ -574,6 +581,7 @@ class Application_Modules_Module_Info extends Object {
 	public static function setModuleTypesList( array $list ) {
 		static::$module_types_list = $list;
 	}
+
 
 	/**
 	 *
