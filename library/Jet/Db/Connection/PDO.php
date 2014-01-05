@@ -11,37 +11,54 @@
  */
 namespace Jet;
 
-class Db_Adapter_PDO extends Db_Adapter_Abstract {
-
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
-
-	/**
-	 * @param Db_Adapter_PDO_Config $config
-	 */
-	public function __construct( Db_Adapter_PDO_Config $config ) {
-		parent::__construct($config);
-
-		$this->PDO = new \PDO( $config->getDsn(), $config->getUsername(), $config->getPassword() );
-		$this->PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-	}
+class Db_Connection_PDO extends Db_Connection_Abstract {
 
 	/**
 	 * Executes query and return affected rows
+	 *
+	 * @param string $statement
+	 *
+	 * @return int
+	 */
+	public function exec( $statement ) {
+		Debug_Profiler::SQLQueryStart( $statement );
+
+		$result = parent::exec( $statement );
+
+		Debug_Profiler::SQLQueryEnd();
+
+		return $result;
+	}
+
+	/**
+	 * @param string $statement
+	 * @param int $fetch_method (optional)
+	 * @param int|string|object $colno_or_classname_or_object (optional)
+	 * @param array $class_constructor_arguments (optional)
+	 *
+	 * @return \PDOStatement|void
+	 */
+	public function query( $statement, $fetch_method=0, $colno_or_classname_or_object, $class_constructor_arguments=array() ) {
+		Debug_Profiler::SQLQueryStart( $statement );
+
+		$result = parent::query( $statement, $fetch_method, $colno_or_classname_or_object, $class_constructor_arguments );
+
+		Debug_Profiler::SQLQueryEnd();
+
+		return $result;
+	}
+
+	/**
+	 * Executes commant (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
 	 * @param array $query_data
 	 *
 	 * @return int
 	 */
-	public function query($query, array $query_data = array()) {
+	public function execCommand($query, array $query_data = array()) {
 		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
-		$result = $this->PDO->exec( $q );
-		Debug_Profiler::SQLQueryEnd();
-		return $result;
+		return $this->exec( $q );
 	}
 
 	/**
@@ -52,9 +69,17 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 */
 	public function fetchAll($query, array $query_data = array()) {
 		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
 
-		$res = $this->PDO->query( $q );
+		Debug_Profiler::SQLQueryStart( $q );
+		$stn = parent::query( $q );
+		$res = $stn->fetchAll( \PDO::FETCH_ASSOC );
+
+		Debug_Profiler::SQLQueryEnd( count($res) );
+
+		return $res;
+
+		/*
+		$res = $this->execFetch($query, $query_data);
 
 		$res->setFetchMode( \PDO::FETCH_NAMED );
 
@@ -64,9 +89,10 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 			$result[] = $row;
 		}
 
-		Debug_Profiler::SQLQueryEnd( count($result) );
+		//Debug_Profiler::SQLQueryEnd( count($result) );
 
 		return $result;
+		*/
 	}
 
 	/**
@@ -77,15 +103,10 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 * @return array|bool
 	 */
 	public function fetchRow($query, array $query_data = array()) {
-		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
-
-		$res = $this->PDO->query( $q );
-
-		$res->setFetchMode( \PDO::FETCH_NAMED );
+		$res = $this->fetchAll($query, $query_data);
 
 		foreach( $res as $row) {
-			Debug_Profiler::SQLQueryEnd(1);
+			//Debug_Profiler::SQLQueryEnd(1);
 
 			return $row;
 		}
@@ -101,12 +122,7 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 * @return array
 	 */
 	public function fetchAssoc($query, array $query_data = array(), $key_column = null) {
-		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
-
-		$res = $this->PDO->query( $q );
-
-		$res->setFetchMode( \PDO::FETCH_NAMED );
+		$res = $this->fetchAll($query, $query_data);
 
 		$result = array();
 
@@ -118,8 +134,6 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 
 			$result[$key] = $row;
 		}
-
-		Debug_Profiler::SQLQueryEnd( count($result) );
 
 		return $result;
 
@@ -134,12 +148,7 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 * @return array
 	 */
 	public function fetchCol($query, array $query_data = array(), $column = null) {
-		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
-
-		$res = $this->PDO->query( $q );
-
-		$res->setFetchMode( \PDO::FETCH_NAMED );
+		$res = $this->fetchAll($query, $query_data);
 
 		$result = array();
 		foreach( $res as $row) {
@@ -148,8 +157,6 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 			}
 			$result[] =  $row[$column];
 		}
-
-		Debug_Profiler::SQLQueryEnd( count($result) );
 
 		return $result;
 	}
@@ -164,12 +171,7 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 * @return array
 	 */
 	public function fetchPairs($query, array $query_data = array(), $key_column = null, $value_column = null) {
-		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
-
-		$res = $this->PDO->query( $q );
-
-		$res->setFetchMode( \PDO::FETCH_NAMED );
+		$res = $this->fetchAll($query, $query_data);
 
 		$result = array();
 
@@ -181,8 +183,6 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 
 			$result[$key] = $row[$value_column];
 		}
-
-		Debug_Profiler::SQLQueryEnd( count($result) );
 
 		return $result;
 	}
@@ -196,18 +196,12 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 * @return mixed
 	 */
 	public function fetchOne($query, array $query_data = array(), $column = null) {
-		$q = $this->prepareQuery($query, $query_data);
-		Debug_Profiler::SQLQueryStart($q);
-
-		$res = $this->PDO->query( $q );
-
-		$res->setFetchMode( \PDO::FETCH_NAMED );
+		$res = $this->fetchAll($query, $query_data);
 
 		foreach( $res as $row) {
 			if($column===null) {
 				list($column) = array_keys($row);
 			}
-			Debug_Profiler::SQLQueryEnd(1);
 
 			return $row[$column];
 		}
@@ -215,32 +209,15 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 		return false;
 	}
 
-	/**
-	 * @param string|null $name (optional)
-	 *
-	 * @return mixed
-	 */
-	public function lastInsertId( $name = null ) {
-		return $this->PDO->lastInsertId($name);
-	}
-
-	/**
-	 *
-	 * @param string $string
-	 * @return string
-	 */
-	public function quote($string) {
-		return $this->PDO->quote($string);
-	}
 
 	/**
 	 * Begin a transaction.
 	 */
 	public function beginTransaction() {
-		$this->PDO->beginTransaction();
+		parent::beginTransaction();
 		/*
 		try {
-			$this->PDO->beginTransaction();
+			parent::beginTransaction();
 		} catch(\PDOException $e) {
 			if($e->getMessage()!="There is already an active transaction") {
 				throw $e;
@@ -255,10 +232,10 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 *
 	 */
 	public function rollBack() {
-		$this->PDO->rollBack();
+		parent::rollBack();
 		/*
 		try {
-			$this->PDO->rollBack();
+			parent::rollBack();
 		} catch(\PDOException $e) {
 			if($e->getMessage()!="There is no active transaction") {
 				throw $e;
@@ -271,10 +248,10 @@ class Db_Adapter_PDO extends Db_Adapter_Abstract {
 	 * Commit a transaction
 	 */
 	public function commit() {
-		$this->PDO->commit();
+		parent::commit();
 		/*
 		try {
-			$this->PDO->commit();
+			parent::commit();
 		} catch(\PDOException $e) {
 			if($e->getMessage()!="There is no active transaction") {
 				throw $e;

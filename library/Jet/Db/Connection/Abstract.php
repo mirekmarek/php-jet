@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-abstract class Db_Adapter_Abstract extends Object {
+abstract class Db_Connection_Abstract extends \PDO {
 	/**
 	 * @var null|string
 	 */
@@ -23,26 +23,30 @@ abstract class Db_Adapter_Abstract extends Object {
 	/**
 	 * @var null|string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Db_Adapter_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = "Jet\\Db_Connection_Abstract";
 
 
 
 	/**
 	 *
-	 * @var Db_Adapter_Config_Abstract
+	 * @var Db_Connection_Config_Abstract
 	 */
 	protected $config = null;
 
 	/**
-	 * @param Db_Adapter_Config_Abstract $config
+	 * @param Db_Connection_Config_Abstract $config
 	 */
-	public function __construct( Db_Adapter_Config_Abstract $config ) {
+	public function __construct( Db_Connection_Config_Abstract $config ) {
 		$this->config = $config;
+
+		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
+
+		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
 	/**
 	 *
-	 * @return Db_Adapter_Config_Abstract
+	 * @return Db_Connection_Config_Abstract
 	 */
 	public function getConfig(){
 		return $this->config;
@@ -79,10 +83,6 @@ abstract class Db_Adapter_Abstract extends Object {
 				$value = "NULL";
 			}
 
-			if($value instanceof Db_Expr){
-				$value = (string)$value;
-			}
-
 			if(is_string($value)){
 				$value = $this->quote($value);
 			}
@@ -109,14 +109,14 @@ abstract class Db_Adapter_Abstract extends Object {
 	}
 
 	/**
-	 * Executes query and return affected rows
+	 * Executes commant (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
 	 * @param array $query_data
 	 *
 	 * @return int
 	 */
-	abstract public function query($query, array $query_data = array());
+	abstract public function execCommand($query, array $query_data = array());
 
 	/**
 	 *
@@ -175,38 +175,6 @@ abstract class Db_Adapter_Abstract extends Object {
 	 * @return mixed
 	 */
 	abstract public function fetchOne($query, array $query_data = array(), $column = null);
-
-	/**
-	 * @abstract
-	 *
-	 * @param string $name (optional)
-	 *
-	 * @return mixed
-	 */
-	abstract public function lastInsertId( $name = null );
-
-	/**
-	 *
-	 * @param string $string
-	 * @return string
-	 */
-	abstract public function quote($string);
-
-		/**
-	 * Begin a transaction.
-	 */
-	abstract public function beginTransaction();
-
-	/**
-	 * Roll back a transaction
-	 *
-	 */
-	abstract public function rollBack();
-
-	/**
-	 * Commit a transaction
-	 */
-	abstract public function commit();
 
 	/**
 	 *

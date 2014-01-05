@@ -13,9 +13,11 @@ $config = $this->config;
  * @var Jet\Config_Definition_Property_Abstract[] $config_props
  */
 $config_props = $config->getPropertiesDefinition();
+
+//TODO: DNS wizard
 ?>
 
-<a href="?"><?=Jet\Tr::_("&lt Back");?></a> <h3><?=Jet\Tr::_("Edit DB connection '%CONNECTION%' ", array("CONNECTION"=>$this->connection_name));?></h3>
+<a href="?"><?=Jet\Tr::_("&lt Back");?></a> <h3><?=Jet\Tr::_("Edit connection '%CONNECTION%' ", array("CONNECTION"=>$this->connection_name));?></h3>
 
 <jet_form name="<?=$form->getName();?>">
 	<jet_form_common_error_message class="formError"/>

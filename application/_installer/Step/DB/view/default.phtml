@@ -5,33 +5,40 @@
 $config = $this->config;
 ?>
 
-
+<?php if($config->getConnections()): ?>
 <table class="list">
 	<thead>
 	<tr>
 		<th><?=Jet\Tr::_("Name");?></th>
 		<th><?=Jet\Tr::_("Type");?></th>
+		<th><?=Jet\Tr::_("DSN");?></th>
 		<th colspan="3"></th>
 	</tr>
 	</thead>
-	<?php foreach( $config->getConnections() as $name=>$connection ): ?>
+	<?php foreach( $config->getConnections() as $name => $connection ): ?>
 	<tr>
-		<td><?=$name;?></td>
-		<td><?=$connection->getAdapter();?></td>
-		<td><a href="?edit_connection=<?=$name;?>"><?=Jet\Tr::_("Edit");?></a></td>
-		<td><a href="?delete_connection=<?=$name;?>"><?=Jet\Tr::_("Delete");?></a></td>
-		<td><a href="?test_connection=<?=$name;?>"><?=Jet\Tr::_("Test");?></a></td>
+		<td><?=$connection->getName();?></td>
+		<td><?=$connection->getDriver();?></td>
+		<td><?=$connection->getDSN();?></td>
+		<td><a href="?edit_connection=<?=rawurlencode($name);?>"><?=Jet\Tr::_("Edit");?></a></td>
+		<td><a href="?delete_connection=<?=rawurlencode($name);?>"><?=Jet\Tr::_("Delete");?></a></td>
+		<td><a href="?test_connection=<?=rawurlencode($name);?>"><?=Jet\Tr::_("Test");?></a></td>
 	</tr>
 	<?php endforeach; ?>
 </table>
 
-<jet_form name="Db_Config">
-	<jet_form_common_error_message class="formError"/>
-	<table>
-		<tr>
-			<td valign="top"><jet_form_field_label name="default_connection_name"/></td>
-			<td><jet_form_field_error_msg name="default_connection_name" class="error"/><jet_form_field name="default_connection_name"/></td>
-		</tr>
-	</table>
-	<input type="submit" value="<?=Jet\Tr::_("Next", array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
-</jet_form>
+	<jet_form name="Db_Config">
+		<jet_form_common_error_message class="formError"/>
+		<table>
+			<tr>
+				<td valign="top"><jet_form_field_label name="default_connection_name"/></td>
+				<td><jet_form_field_error_msg name="default_connection_name" class="error"/><jet_form_field name="default_connection_name"/></td>
+			</tr>
+		</table>
+		<input type="submit" value="<?=Jet\Tr::_("Next", array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
+	</jet_form>
+
+<?php else: ?>
+	<p><?=Jet\Tr::_("Please add at least one database connection");?></p>
+<?php endif; ?>
+

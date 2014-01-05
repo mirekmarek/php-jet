@@ -16,34 +16,52 @@ class Db_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $adapter_class_prefix = "Jet\\Db_Adapter_";
+	protected static $connection_class_prefix = "Jet\\Db_Connection_";
+
+	/**
+	 * @var string
+	 */
+	protected static $connection_adapter = "PDO";
 
 	/**
 	 * @param string $adapter_class_prefix
 	 */
-	public static function setAdapterClassPrefix($adapter_class_prefix) {
-		self::$adapter_class_prefix = $adapter_class_prefix;
+	public static function setConnectionClassPrefix($adapter_class_prefix) {
+		self::$connection_class_prefix = $adapter_class_prefix;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getAdapterClassPrefix() {
-		return self::$adapter_class_prefix;
+	public static function getConnectionClassPrefix() {
+		return self::$connection_class_prefix;
+	}
+
+	/**
+	 * @param string $connection_adapter
+	 */
+	public static function setConnectionAdapter($connection_adapter) {
+		self::$connection_adapter = $connection_adapter;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getConnectionAdapter() {
+		return self::$connection_adapter;
 	}
 
 
 	/**
 	 *
 	 * @param Db_Config $config
-	 * @param string $adapter_name
-	 *
+	 * @param string $connection_name
 	 * @param array $config_data (optional)
 	 *
-	 * @return Db_Adapter_Config_Abstract
+	 * @return Db_Connection_Config_Abstract
 	 */
-	public static function getAdapterConfigInstance(Db_Config $config, $adapter_name, array $config_data=array() ){
-		$default_class_name = static::$adapter_class_prefix.$adapter_name."_Config";
+	public static function getConnectionConfigInstance(Db_Config $config, $connection_name="", array $config_data=array() ){
+		$default_class_name = static::$connection_class_prefix."Config_".static::$connection_adapter;
 
 		$config_class = static::getClassName( $default_class_name );
 		$instance = new $config_class( $config, $config_data );
@@ -53,17 +71,17 @@ class Db_Factory extends Factory {
 
 	/**
 	 *
-	 * @param string $adapter_name
-	 * @param Db_Adapter_Config_Abstract $adapter_config
+	 * @param Db_Connection_Config_Abstract $adapter_config
 	 *
-	 * @return Db_Adapter_Abstract
+	 * @return Db_Connection_Abstract
 	 */
-	public static function getAdapterInstance($adapter_name, Db_Adapter_Config_Abstract $adapter_config ){
-		$default_class_name = static::$adapter_class_prefix.$adapter_name;
+	public static function getConnectionInstance( Db_Connection_Config_Abstract $adapter_config ){
+		$default_class_name = static::$connection_class_prefix.static::$connection_adapter;
 
 		$adapter_class = static::getClassName( $default_class_name );
 		$instance = new $adapter_class( $adapter_config );
-		static::checkInstance($default_class_name, $instance);
+
+		//TODO: static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
 }

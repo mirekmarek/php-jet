@@ -40,14 +40,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 	/**
 	 *
-	 * @var Db_Connection_Abstract
+	 * @var Db_Adapter_Abstract
 	 */
-	private $_db_read = null;
+	private $_db_read = NULL;
 	/**
 	 *
-	 * @var Db_Connection_Abstract
+	 * @var Db_Adapter_Abstract
 	 */
-	private $_db_write = null;
+	private $_db_write = NULL;
 
 	/**
 	 * @var array
@@ -144,7 +144,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @param DataModel $data_model
 	 */
 	public function helper_create( DataModel $data_model ) {
-		$this->_db_write->execCommand( $this->helper_getCreateCommand( $data_model ) );
+		$this->_db_write->query( $this->helper_getCreateCommand( $data_model ) );
 	}
 
 	/**
@@ -163,7 +163,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @param DataModel $data_model
 	 */
 	public function helper_drop( DataModel $data_model ) {
-		$this->_db_write->execCommand( $this->helper_getDropCommand( $data_model ) );
+		$this->_db_write->query( $this->helper_getDropCommand( $data_model ) );
 	}
 
 	/**
@@ -240,7 +240,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$this->transactionStart();
 		try {
 			foreach($this->helper_getUpdateCommand( $data_model ) as $q) {
-				$this->_db_write->execCommand( $q );
+				$this->_db_write->query( $q );
 			}
 		} catch (Exception $e) {
 			$this->transactionRollback();
@@ -363,7 +363,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function save( DataModel_RecordData $record ) {
-		$this->_db_write->execCommand( $this->getBackendInsertQuery($record) );
+		$this->_db_write->query( $this->getBackendInsertQuery($record) );
 
 		return $this->_db_write->lastInsertId();
 	}
@@ -375,7 +375,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function update( DataModel_RecordData $record, DataModel_Query $where) {
-		return $this->_db_write->execCommand( $this->getBackendUpdateQuery($record, $where) );
+		return $this->_db_write->query( $this->getBackendUpdateQuery($record, $where) );
 	}
 
 	/**
@@ -384,7 +384,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function delete( DataModel_Query $where ) {
-		return $this->_db_write->execCommand( $this->getBackendDeleteQuery($where) );
+		return $this->_db_write->query( $this->getBackendDeleteQuery($where) );
 	}
 
 	/**

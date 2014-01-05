@@ -28,14 +28,14 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 
 	/**
 	 *
-	 * @var Db_Adapter_Abstract
+	 * @var Db_Connection_Abstract
 	 */
-	private $_db_read = NULL;
+	private $_db_read = null;
 	/**
 	 *
-	 * @var Db_Adapter_Abstract
+	 * @var Db_Connection_Abstract
 	 */
-	private $_db_write = NULL;
+	private $_db_write = null;
 
 
 	/**
@@ -62,7 +62,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 			$user_ID = "";
 		}
 
-		$this->_db_write->query("INSERT INTO `{$this->_table_name}` SET
+		$this->_db_write->execCommand("INSERT INTO `{$this->_table_name}` SET
  					`operation_ID`=:operation_ID,
 					`class_name`=:class_name,
 					`model_name`=:model_name,
@@ -91,7 +91,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	 *
 	 */
 	public function operationDone() {
-		$this->_db_write->query(
+		$this->_db_write->execCommand(
 			"UPDATE `{$this->_table_name}` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=NOW() WHERE `operation_ID`=:operation_ID",
 			array(
 				"operation_ID" => $this->_current_operation_ID,
@@ -126,7 +126,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	 *
 	 */
 	public function helper_create() {
-		$this->_db_write->query( $this->helper_getCreateCommand() );
+		$this->_db_write->execCommand( $this->helper_getCreateCommand() );
 	}
 
 	

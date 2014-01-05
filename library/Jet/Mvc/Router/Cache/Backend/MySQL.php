@@ -25,14 +25,14 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 
 	/**
 	 *
-	 * @var Db_Adapter_Abstract
+	 * @var Db_Connection_Abstract
 	 */
-	private $_db_read = NULL;
+	private $_db_read = null;
 	/**
 	 *
-	 * @var Db_Adapter_Abstract
+	 * @var Db_Connection_Abstract
 	 */
-	private $_db_write = NULL;
+	private $_db_write = null;
 
 	/**
 	 * @var string
@@ -88,7 +88,7 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 			"data" => serialize($item),
 		);
 
-		$this->_db_write->query("INSERT IGNORE INTO `{$this->_table_name}` SET
+		$this->_db_write->execCommand("INSERT IGNORE INTO `{$this->_table_name}` SET
 					`URL`=:URL,
 					`URL_hash`=:URL_hash,
 					`data`=:data,
@@ -109,17 +109,17 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 */
 	public function truncate($URL = null) {
 		if($URL===null) {
-			$this->_db_write->query("TRUNCATE TABLE `{$this->_table_name}`");
+			$this->_db_write->execCommand("TRUNCATE TABLE `{$this->_table_name}`");
 		} else {
 			if(is_array($URL)) {
 				foreach($URL as $_URL) {
-					$this->_db_write->query("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
+					$this->_db_write->execCommand("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
 						array(
 							"URL_hash" => md5($_URL),
 						));
 				}
 			} else {
-				$this->_db_write->query("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
+				$this->_db_write->execCommand("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
 					array(
 						"URL_hash" => md5($URL),
 					));
@@ -148,6 +148,6 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 *
 	 */
 	public function helper_create() {
-		$this->_db_write->query( $this->helper_getCreateCommand() );
+		$this->_db_write->execCommand( $this->helper_getCreateCommand() );
 	}
 }

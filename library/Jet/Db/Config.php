@@ -36,9 +36,9 @@ class Db_Config extends Config_Application {
 		"connections" => array(
 			"type" => self::TYPE_ADAPTER_CONFIG,
 			"data_path" => "connections",
-			"adapter_type_key" => "adapter",
+			"adapter_type_key" => "name",
 			"config_factory_class_name" => "Jet\\Db_Factory",
-			"config_factory_method_name" => "getAdapterConfigInstance"
+			"config_factory_method_name" => "getConnectionConfigInstance"
 		)
 	);
 
@@ -49,7 +49,6 @@ class Db_Config extends Config_Application {
 
 
 	/**
-	 * Database adapters and configurations for general usage
 	 *
 	 * @var Config_Definition_Property_AdapterConfig
 	 */
@@ -62,14 +61,14 @@ class Db_Config extends Config_Application {
 	 * @param $connection_name
 	 *
 	 * @throws Db_Exception
-	 * @return Db_Adapter_Config_Abstract
+	 * @return Db_Connection_Config_Abstract
 	 */
 	public function getConnection($connection_name){
 		return $this->connections->getAdapterConfiguration( $connection_name );
 	}
 
 	/**
-	 * @return Db_Adapter_Config_Abstract[]
+	 * @return Db_Connection_Config_Abstract[]
 	 */
 	public function getConnections() {
 		return $this->connections->getAllAdaptersConfiguration();
@@ -85,18 +84,11 @@ class Db_Config extends Config_Application {
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getAvailableAdapterTypes() {
-		return Config::getAvailableHandlersList(JET_LIBRARY_PATH."Jet/Db/Adapter/");
-	}
-
-	/**
 	 * @param $connection_name
-	 * @param Db_Adapter_Config_Abstract $connection_configuration
+	 * @param Db_Connection_Config_Abstract $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, Db_Adapter_Config_Abstract $connection_configuration ) {
+	public function addConnection( $connection_name, Db_Connection_Config_Abstract $connection_configuration ) {
 		$this->connections->addAdapterConfiguration( $connection_name, $connection_configuration );
 	}
 
