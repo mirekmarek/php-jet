@@ -312,6 +312,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 */
 	protected $contents = array();
 
+
 	/**
 	 * @param string $site_ID
 	 * @param Locale $locale
@@ -341,7 +342,6 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			$this->ID = $ID;
 		}
 	}
-
 
 	/**
 	 * Do nothing
@@ -435,7 +435,18 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * @return Mvc_Pages_Page_Abstract
 	 */
 	public function getParent() {
-		return Mvc_Pages::getPage( $this->getParentID() );
+		$parent_ID = $this->getParentID();
+
+		if( $this->_page_data_checking_mode ) {
+			if( !isset($this->_page_data_checking_map[(string)$parent_ID]) ) {
+				return null;
+			}
+
+			return $this->_page_data_checking_map[(string)$parent_ID];
+		}
+
+		return $this->load( $parent_ID );
+		//return Mvc_Pages::getPage( $this->getParentID() );
 	}
 
 	/**
@@ -557,8 +568,10 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			$i++;
 		}
 
-		foreach( $this->getChildren() as $children ) {
-			$children->setURLFragment( $children->getUrlFragment() );
+		if(!$this->_page_data_checking_mode) {
+			foreach( $this->getChildren() as $children ) {
+				$children->setURLFragment( $children->getUrlFragment() );
+			}
 		}
 
 		$this->URL_fragment = rawurldecode($this->URL_fragment);

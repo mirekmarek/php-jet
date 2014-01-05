@@ -197,7 +197,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 
 
-		//TODO: loadHTML is so much tolerant...
+		//TODO: loadHTML is so much tolerant... add some error handling ...
 
 		//$data = \mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
 
@@ -223,7 +223,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
              * @var \libXMLError $xml_error
              *
 
-            //TODO: error handling
+            // error handling
             //var_dump($xml_error);
             //var_dump($data_per_lines[$xml_error->line-1]);
         }

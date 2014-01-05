@@ -31,6 +31,17 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Pages_Page_Abstract";
 
 	/**
+	 * @var bool
+	 */
+	protected $_page_data_checking_mode = false;
+
+	/**
+	 * @var &array()
+	 */
+	protected $_page_data_checking_map;
+
+
+	/**
 	 * @return Mvc_Sites_Site_ID_Abstract
 	 */
 	abstract public function getSiteID();
@@ -340,4 +351,35 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	 * @return Mvc_Pages_Page_Abstract[]
 	 */
 	abstract public function getChildren();
+
+
+	/**
+	 * @param  array &$page_data_checking_map
+	 */
+	public function setPageDataCheckingMap( &$page_data_checking_map ) {
+		$this->_page_data_checking_map = &$page_data_checking_map;
+	}
+
+	/**
+	 * @return
+	 */
+	public function getPageDataCheckingMap() {
+		return $this->_page_data_checking_map;
+	}
+
+	/**
+	 * @param boolean $page_data_checking_mode
+	 */
+	public function setPageDataCheckingMode( $page_data_checking_mode ) {
+		$this->_page_data_checking_mode = $page_data_checking_mode;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getPageDataCheckingMode() {
+		return $this->_page_data_checking_mode;
+	}
+
+
 }

@@ -43,6 +43,11 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	protected $current_pages_tree = array();
 
 	/**
+	 * @var Mvc_Pages_Page_Abstract[]
+	 */
+	protected $current_page_instsances = array();
+
+	/**
 	 * @var array
 	 */
 	protected $current_pages_tree_branch = array();
@@ -105,6 +110,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$this->current_locale = null;
 		$this->current_pages_data_dir = "";
 		$this->current_page_IDs = array();
+		$this->current_page_instsances = array();
 
 		$site = Mvc_Sites::getSite( Mvc_Factory::getSiteIDInstance()->createID( $site_ID ) );
 		if(!$site) {
@@ -137,10 +143,12 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		if(!is_dir($data_dir)) {
 			throw new Mvc_Pages_Handler_Exception(
-				"Directory '$data_dir' as well as '$locale_dir' does not exist.",
+				"Directory '$default_dir' as well as '$locale_dir' does not exist.",
 				Mvc_Pages_Handler_Exception::CODE_HANDLER_ERROR
 			);
 		}
+
+		$this->current_pages_data_dir = $data_dir;
 
 		$structure_tree_file_path = $this->current_pages_data_dir . static::PAGES_STRUCTURE_DATA_FILE;
 
@@ -181,13 +189,13 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		$this->initCurrentSiteAndLocale( $site_ID, $locale );
 
-		echo "[{$site_ID}:{$locale}] Checking pages ...";
+		echo "[{$site_ID}:{$locale}] Checking pages ...\n";
 
 		$this->_readAndCheckPageData( null, Mvc_Pages::HOMEPAGE_ID );
 
 		$this->_traversePagesTree( Mvc_Pages::HOMEPAGE_ID, false );
 
-		echo "OK\n";
+		echo "OK\n\n";
 	}
 
 
@@ -201,7 +209,6 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 *
 	 */
 	public function actualizePages( $site_ID, Locale $locale ) {
-		static::checkPagesData( $site_ID, $locale );
 
 		$this->initCurrentSiteAndLocale( $site_ID, $locale );
 
@@ -298,65 +305,21 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$dat = require $data_file_path;
 
 
-		$name = !empty($data["name"]) ? $data["name"] : $ID;
 		$site_ID = $this->current_site->getID();
 		$locale = $this->current_locale;
 
-		$page = Mvc_Pages::getPage( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $ID) );
-		if(!$page) {
-			$page = Mvc_Pages::getNewPage($site_ID, $locale, $name, $parent_ID, $ID);
-		}
+		$name = !empty($data["name"]) ? $data["name"] : $ID;
+		$dat["name"] = $name;
 
-		$page->setName($name);
 
-		$content_form = Mvc_Factory::getPageContentInstance()->getCommonForm();
+		$page = Mvc_Pages::getNewPage($site_ID, $locale, $name, $parent_ID, $ID);
+		$page->setPageDataCheckingMode( true );
+		$page->setPageDataCheckingMap( $this->current_page_instsances );
+		$this->current_page_instsances[(string)$page->getID()] = $page;
 
-		$contents = array();
-		foreach( $dat["contents"]  as $c_dat) {
-			$cnt = Mvc_Factory::getPageContentInstance();
-			$cnt->initNewObject();
+		$page_form = $page->getCommonForm();
 
-			if(!$cnt->catchForm( $content_form, $c_dat, true )) {
-				$this->_handleValidationErrors( $ID, $content_form->getAllErrors() );
-			}
-
-			/*
-			if(!isset($c_dat["controller_action_parameters"])) {
-				$c_dat["controller_action_parameters"] = array();
-			}
-
-			$cnt->setModuleName( $c_dat["module_name"] );
-			if( isset($c_dat["controller_class_suffix"]) ) {
-				$cnt->setControllerClassSuffix( $c_dat["controller_class_suffix"] );
-			}
-			$cnt->setControllerAction( $c_dat["controller_action"] );
-			$cnt->setControllerActionParameters( $c_dat["controller_action_parameters"] );
-			$cnt->setOutputPosition( $c_dat["output_position"] );
-			$cnt->setOutputPositionOrder( $c_dat["output_position_order"] );
-			$cnt->setOutputPositionRequired( $c_dat["output_position_required"] );
-			*/
-
-			$contents[] = $cnt;
-		}
-
-		$meta_tags = array();
-		$meta_tag_form = Mvc_Factory::getPageMetaTagInstance()->getCommonForm("");
-
-		foreach( $dat["meta_tags"]  as $m_dat) {
-			$mtg = Mvc_Factory::getPageMetaTagInstance();
-			$mtg->initNewObject();
-			if(!$mtg->catchForm( $meta_tag_form, $m_dat, true )) {
-				$this->_handleValidationErrors( $ID, $meta_tag_form->getAllErrors() );
-			}
-
-			/*
-			$mtg->setAttribute( $m_dat["attribute"] );
-			$mtg->setAttributeValue( $m_dat["attribute_value"] );
-			$mtg->setContent( $m_dat["content"] );
-			*/
-
-			$meta_tags[] = $mtg;
-		}
+		//$page->setName($name);
 
 		if(!isset($dat["breadcrumb_title"])) {
 			$dat["breadcrumb_title"] = $dat["title"];
@@ -365,40 +328,79 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 			$dat["menu_title"] = $dat["title"];
 		}
 
-		$page_form = $page->getCommonForm();
+
+		$dat["ID"] = $ID;
+		$dat["site_ID"] = $site_ID;
+		$dat["locale"] = $locale;
+
+		foreach( $page_form->getFields() as $field_name=>$field ) {
+			if(!isset($dat[$field_name])) {
+				$dat[$field_name] = "";
+			}
+		}
+
+		$page_form->getField("layout")->setSelectOptions( array( $dat["layout"]=>$dat["layout"] ) );
+
+
 		if(!$page->catchForm( $page_form, $dat, true )) {
 			$this->_handleValidationErrors( $ID, $page_form->getAllErrors() );
 		}
 
-		/*
-		if($ID == Mvc_Pages::HOMEPAGE_ID) {
-			$dat["path_fragment"] = "";
+
+
+		$content_form = Mvc_Factory::getPageContentInstance()->getCommonForm();
+
+		$contents = array();
+		foreach( $dat["contents"]  as $c_dat) {
+
+			foreach( $content_form->getFields() as $field_name=>$field ) {
+				if(!isset($c_dat[$field_name])) {
+					$c_dat[$field_name] = "";
+				}
+			}
+
+			if(!isset($c_dat["controller_action_parameters"])) {
+				$c_dat["controller_action_parameters"] = array();
+			}
+
+			if(!is_array($c_dat["controller_action_parameters"]) && $c_dat["controller_action_parameters"]) {
+				$c_dat["controller_action_parameters"] = array( $c_dat["controller_action_parameters"] );
+			} else {
+				$c_dat["controller_action_parameters"] = array();
+			}
+
+			$content_form->getField("controller_action_parameters")->setSelectOptions( array_combine($c_dat["controller_action_parameters"], $c_dat["controller_action_parameters"]) );
+
+
+			$cnt = Mvc_Factory::getPageContentInstance();
+			$cnt->initNewObject();
+
+			if(!$cnt->catchForm( $content_form, $c_dat, true )) {
+				$this->_handleValidationErrors( $ID, $content_form->getAllErrors() );
+			}
+
+			$contents[] = $cnt;
 		}
 
-		$page->setTitle($dat["title"]);
-		$page->setBreadcrumbTitle($dat["breadcrumb_title"]);
-		$page->setMenuTitle($dat["menu_title"]);
-		$page->setURLFragment($dat["URL_fragment"]);
-		$page->setLayout($dat["layout"]);
-		if(isset($dat["headers_suffix"])) {
-			$page->setHeadersSuffix($dat["headers_suffix"]);
-		}
+		$meta_tags = array();
+		$meta_tag_form = Mvc_Factory::getPageMetaTagInstance()->getCommonForm("");
 
-		if(isset($dat["body_prefix"])) {
-			$page->setBodyPrefix($dat["body_prefix"]);
-		}
+		foreach( $dat["meta_tags"]  as $m_dat) {
+			foreach( $meta_tag_form->getFields() as $field_name=>$field ) {
+				if(!isset($m_dat[$field_name])) {
+					$m_dat[$field_name] = "";
+				}
+			}
 
-		if(isset($dat["body_suffix"])) {
-			$page->setBodySuffix($dat["body_suffix"]);
-		}
 
-		if(isset($dat["is_admin_UI"])) {
-			$page->setIsAdminUI($dat["is_admin_UI"]);
+			$mtg = Mvc_Factory::getPageMetaTagInstance();
+			$mtg->initNewObject();
+			if(!$mtg->catchForm( $meta_tag_form, $m_dat, true )) {
+				$this->_handleValidationErrors( $ID, $meta_tag_form->getAllErrors() );
+			}
+
+			$meta_tags[] = $mtg;
 		}
-		if(isset($dat["force_UI_manager_module_name"])) {
-			$page->setForceUIManagerModuleName($dat["force_UI_manager_module_name"]);
-		}
-		*/
 
 		$page->setContents($contents);
 		$page->setMetaTags($meta_tags);
@@ -421,16 +423,23 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 */
 	protected function _handleValidationErrors( $page_ID, $errors ) {
 
-		foreach($errors as $i=>$error) {
-			$errors[$i] = (string)$error;
+		$_errors = array();
+		foreach($errors as $key=>$error) {
+			if(is_string($key)) {
+				$_errors[] = "{$key}: ".(string)$error;
+
+			} else {
+				$_errors[] = (string)$error;
+
+			}
 		}
 
-		$errors = implode("\n", $errors);
+		$_errors = implode("\n", $_errors);
 
 		$site_ID = $this->current_site->getID();
 
 		throw new Mvc_Pages_Handler_Exception(
-			"Page data ID={$page_ID}, locale={$this->current_locale}, site_ID={$site_ID} is invalid!\n\nValidation errors:\n" .implode("\n", $errors),
+			"Page data ID={$page_ID}, locale={$this->current_locale}, site_ID={$site_ID} is invalid!\n\nValidation errors:\n".$_errors,
 			Mvc_Pages_Handler_Exception::CODE_PAGE_DATA_VALIDATION_ERROR
 		);
 	}
