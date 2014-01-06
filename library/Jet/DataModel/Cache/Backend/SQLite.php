@@ -14,10 +14,10 @@
  */
 namespace Jet;
 
-class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
+class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 
 	/**
-	 * @var DataModel_Cache_Backend_MySQL_Config
+	 * @var DataModel_Cache_Backend_SQLite_Config
 	 */
 	protected $config;
 
@@ -31,17 +31,16 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 *
 	 * @var Db_Connection_Abstract
 	 */
-	private $_db_read = null;
-	/**
-	 *
-	 * @var Db_Connection_Abstract
-	 */
-	private $_db_write = null;
+	private $_db = null;
 
 
 	public function initialize() {
-		$this->_db_read = Db::get($this->config->getConnectionRead());
-		$this->_db_write = Db::get($this->config->getConnectionWrite());
+		$this->_db = Db::create("datamodel_sqlite_connection", array(
+			"name" => "datamodel_cache_sqlite_connection",
+			"driver" => DB::DRIVER_SQLITE,
+			"DSN" => $this->config->getDSN()
+		));
+
 		$this->_table_name = $this->config->getTableName();
 	}
 
@@ -52,23 +51,31 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 * @return bool|mixed
 	 */
 	public function get( DataModel $data_model, $ID) {
-		$data = $this->_db_read->fetchOne("SELECT `data` FROM `{$this->_table_name}`
+		$data = $this->_db->fetchOne("SELECT `data` FROM `{$this->_table_name}`
 				WHERE
 					`class_name`=:class_name AND
 					`model_name`=:model_name AND
 					`object_ID`=:object_ID",
-			array(
-				"class_name" => get_class($data_model),
-				"model_name" => $data_model->getDataModelName(),
-				"object_ID" => (string)$ID,
+				array(
+					"class_name" => get_class($data_model),
+					"model_name" => $data_model->getDataModelName(),
+					"object_ID" => (string)$ID,
 
-			)
-		);
+				)
+			);
 		if(!$data) {
 			return false;
 		}
 
-		return unserialize($data);
+		$data = $this->unserialize($data);
+
+		if(!$data) {
+			$this->truncate();
+			return false;
+
+		}
+
+		return $data;
 	}
 
 	/**
@@ -82,16 +89,25 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 			"class_name" => get_class($data_model),
 			"model_name" => $data_model->getDataModelName(),
 			"object_ID" => (string)$ID,
-			"data" => serialize($data)
+			"data" => $this->serialize($data)
 		);
 
-		$this->_db_write->execCommand("INSERT IGNORE INTO `{$this->_table_name}` SET
-					`class_name`=:class_name,
-					`model_name`=:model_name,
-					`object_ID`=:object_ID,
-					`data`=:data,
-					`created_date_time`=NOW()
+		$this->_db->execCommand("INSERT OR IGNORE INTO `{$this->_table_name}`
+					(
+						`class_name`,
+						`model_name`,
+						`object_ID`,
+						`data`,
+						`created_date_time`
+					) VALUES (
+						:class_name,
+						:model_name,
+						:object_ID,
+						:data,
+						date('now')
+					)
 				",$data);
+
 	}
 
 	/**
@@ -101,7 +117,7 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function update(DataModel $data_model, $ID, $data) {
 
-		$this->_db_write->execCommand( "UPDATE `{$this->_table_name}` SET
+		$this->_db->execCommand( "UPDATE `{$this->_table_name}` SET
 						`data`=:data,
 						`created_date_time`=NOW()
 					WHERE
@@ -110,7 +126,7 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 						`object_ID`=:object_ID
 						",
 			array(
-				"data" => serialize($data),
+				"data" => $this->serialize($data),
 				"class_name" => get_class($data_model),
 				"model_name" => $data_model->getDataModelName(),
 				"object_ID" => (string)$ID
@@ -122,8 +138,8 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 * @param DataModel $data_model
 	 * @param string $ID
 	 */
-	public function delete(DataModel $data_model, $ID) {
-		$this->_db_write->execCommand("DELETE FROM `{$this->_table_name}` WHERE `class_name`=:class_name AND `model_name`=:model_name AND `object_ID`=:object_ID",
+	public function delete(DataModel $data_model,$ID) {
+		$this->_db->execCommand("DELETE FROM `{$this->_table_name}` WHERE `class_name`=:class_name AND `model_name`=:model_name AND `object_ID`=:object_ID",
 			array(
 				"class_name" => get_class($data_model),
 				"model_name" => $data_model->getDataModelName(),
@@ -137,9 +153,9 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function truncate( $model_name=null ) {
 		if(!$model_name) {
-			$this->_db_write->execCommand("TRUNCATE TABLE `{$this->_table_name}`");
+			$this->_db->execCommand("DELETE FROM `{$this->_table_name}`");
 		} else {
-			$this->_db_write->execCommand("DELETE FROM `{$this->_table_name}` WHERE `model_name`=:model_name",
+			$this->_db->execCommand("DELETE FROM `{$this->_table_name}` WHERE `model_name`=:model_name",
 				array(
 					"model_name" => $model_name,
 				));
@@ -150,23 +166,41 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 * @return string
 	 */
 	public function helper_getCreateCommand() {
-		$engine = $this->config->getEngine();
 
 		return "CREATE TABLE IF NOT EXISTS `{$this->_table_name}` (\n"
-			."\t `class_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `object_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `created_date_time` datetime NOT NULL,\n"
+			."\t `class_name` TEXT,\n"
+			."\t `model_name` TEXT,\n"
+			."\t `object_ID` TEXT,\n"
+			."\t `data` BLOB,\n"
+			."\t `created_date_time` NUMERIC,\n"
 			."\t PRIMARY KEY (`class_name`,`model_name`,`object_ID`)\n"
-			."\t) ENGINE={$engine} DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+			."\t);";
 	}
 
 	/**
 	 *
 	 */
 	public function helper_create() {
-		$this->_db_write->execCommand( $this->helper_getCreateCommand() );
+		$this->_db->execCommand( $this->helper_getCreateCommand() );
+	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return string
+	 */
+	protected function serialize( $data ) {
+		return base64_encode( serialize($data) );
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return mixed
+	 */
+	protected function unserialize( $string ) {
+		$data = base64_decode($string);
+		return unserialize($data);
 	}
 
 }

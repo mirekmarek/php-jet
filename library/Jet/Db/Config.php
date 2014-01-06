@@ -13,6 +13,7 @@
 namespace Jet;
 
 class Db_Config extends Config_Application {
+
 	/**
 	 * @var string
 	 */
@@ -101,12 +102,25 @@ class Db_Config extends Config_Application {
 
 	/**
 	 *
+	 * @param string $driver_type_filter (optional)
+	 *
 	 * @return array
 	 */
-	public static function getConnectionsList() {
+	public static function getConnectionsList( $driver_type_filter="" ) {
 		$i = new self(true);
 
-		$connections = array_keys($i->getConnections());
+		$connections = array();
+
+		foreach( $i->getConnections() as $name=>$connection) {
+			if(
+				$driver_type_filter &&
+				$driver_type_filter!=$connection->getDriver()
+			) {
+				continue;
+			}
+
+			$connections[$name] = $name;
+		}
 
 		return array_combine($connections, $connections);
 	}

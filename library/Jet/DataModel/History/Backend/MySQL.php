@@ -48,10 +48,12 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	}
 
 	/**
+	 * @param DataModel $data_model
 	 * @param string $operation
 	 */
-	public function operationStart( $operation ) {
+	public function operationStart( DataModel $data_model, $operation ) {
 		$this->_current_operation_ID = DataModel_ID_Abstract::generateUniqueID();
+		$this->_current_data_model = $data_model;
 
 		$user = Auth::getCurrentUser();
 		if($user) {
@@ -74,16 +76,16 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 					`object`=:object,
 					`operation_inprogress`=:operation_inprogress
 				",array(
-			"operation_ID" => $this->_current_operation_ID,
-			"class_name" => get_class($this->data_model),
-			"model_name" => $this->data_model->getDataModelName(),
-			"object_ID" => (string)$this->data_model->getID(),
-			"operation" => $operation,
-			"user_name" => $user_name,
-			"user_ID" => $user_ID,
-			"object" => serialize( $this->data_model ),
-			"operation_inprogress" => 1,
-		));
+					"operation_ID" => $this->_current_operation_ID,
+					"class_name" => get_class($this->_current_data_model),
+					"model_name" => $this->_current_data_model->getDataModelName(),
+					"object_ID" => (string)$this->_current_data_model->getID(),
+					"operation" => $operation,
+					"user_name" => $user_name,
+					"user_ID" => $user_ID,
+					"object" => serialize( $this->_current_data_model ),
+					"operation_inprogress" => 1,
+				));
 
 	}
 

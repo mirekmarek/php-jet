@@ -25,6 +25,8 @@ class Installer_Step_DataModelHistory_Controller extends Installer_Step_Controll
 		if( $config->catchForm($form) ) {
 			$config->save();
 
+			DataModel_Factory::getHistoryBackendInstance( $main_config->getHistoryBackendType(), $config )->helper_create();
+
 			$this->installer->goNext();
 		}
 

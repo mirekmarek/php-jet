@@ -3,18 +3,18 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
  * @category Jet
  * @package DataModel
- * @subpackage DataModel_Backend
+ * @subpackage DataModel_Cache
  */
 namespace Jet;
 
-class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract {
+class DataModel_Cache_Backend_SQLite_Config extends DataModel_Cache_Backend_Config_Abstract {
 
 	/**
 	 * @var array
@@ -29,8 +29,14 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 		"database_name" => array(
 			"type" => self::TYPE_STRING,
 			"is_required" => true,
-			"default_value" => "database",
+			"default_value" => "datamodel_cache",
 			"form_field_label" => "Database name: ",
+		),
+		"table_name" => array(
+			"type" => self::TYPE_STRING,
+			"is_required" => false,
+			"default_value" => "jet_datamodel_cache",
+			"form_field_label" => "Table name: ",
 		),
 	);
 
@@ -41,7 +47,12 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	/**
 	 * @var string
 	 */
-	protected $database_name= "database";
+	protected $database_name= "datamodel_cache";
+
+	/**
+	 * @var string
+	 */
+	protected $table_name = "";
 
 
 	/**
@@ -68,6 +79,14 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 			return $dp;
 		}
 		return $dp.$this->getDatabaseName().".sq3";
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getTableName() {
+		return $this->table_name;
 	}
 
 }

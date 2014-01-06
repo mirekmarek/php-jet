@@ -25,6 +25,8 @@ class Installer_Step_DataModelCache_Controller extends Installer_Step_Controller
 		if( $config->catchForm($form) ) {
 			$config->save();
 
+			DataModel_Factory::getCacheBackendInstance( $main_config->getCacheBackendType(), $config )->helper_create();
+
 			$this->installer->goNext();
 		}
 

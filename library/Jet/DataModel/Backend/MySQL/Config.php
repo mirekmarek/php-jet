@@ -115,6 +115,6 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @return array
 	 */
 	public static function getDbConnectionsList() {
-		return Db_Config::getConnectionsList();
+		return Db_Config::getConnectionsList(Db::DRIVER_MYSQL);
 	}
 }

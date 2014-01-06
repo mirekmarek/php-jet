@@ -186,15 +186,19 @@ class DataModel_Factory extends Factory {
 	 * Returns instance of DataModel History Backend class @see Factory
 	 *
 	 * @param string $type
-	 * @param DataModel $data_model
+	 * @param DataModel_History_Backend_Config_Abstract $config
 	 *
 	 * @return DataModel_History_Backend_Abstract
 	 */
-	public static function getHistoryBackendInstance( $type, DataModel $data_model ) {
+	public static function getHistoryBackendInstance( $type, DataModel_History_Backend_Config_Abstract $config ) {
 		$default_class_name = static::$histiory_backend_class_name_prefix.$type;
 
 		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $data_model );
+
+		/**
+		 * @var DataModel_History_Backend_Abstract $instance
+		 */
+		$instance = new $class_name( $config );
 		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
@@ -223,16 +227,21 @@ class DataModel_Factory extends Factory {
 	 * Returns instance of DataModel Class Backend class @see Factory
 	 *
 	 * @param string $type
-	 * @param DataModel $data_model
+	 * @param DataModel_Cache_Backend_Config_Abstract $config
 	 *
 	 * @return DataModel_History_Backend_Abstract
 	 */
-	public static function getCacheBackendInstance( $type, DataModel $data_model ) {
+	public static function getCacheBackendInstance( $type, DataModel_Cache_Backend_Config_Abstract $config ) {
+
 		$default_class_name = static::$cache_backend_class_name_prefix.$type;
 
 		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $data_model );
+		/**
+		 * @var DataModel_History_Backend_Abstract $instance
+		 */
+		$instance = new $class_name( $config );
 		static::checkInstance( $default_class_name, $instance );
+
 		return $instance;
 	}
 

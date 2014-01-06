@@ -105,6 +105,6 @@ class Mvc_Router_Cache_Backend_MySQL_Config extends Mvc_Router_Cache_Backend_Con
 	 * @return array
 	 */
 	public static function getDbConnectionsList() {
-		return Db_Config::getConnectionsList();
+		return Db_Config::getConnectionsList(Db::DRIVER_MYSQL);
 	}
 }

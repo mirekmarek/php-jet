@@ -101,6 +101,6 @@ class DataModel_Cache_Backend_MySQL_Config extends DataModel_Cache_Backend_Confi
 	 * @return array
 	 */
 	public static function getDbConnectionsList() {
-		return Db_Config::getConnectionsList();
+		return Db_Config::getConnectionsList(Db::DRIVER_MYSQL);
 	}
 }

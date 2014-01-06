@@ -5,11 +5,11 @@ Oracle
 MS SQL
 ____________________________________________
 DataModel Cache backend:
-SQLite
++ SQLite
 Oracle
-MS SQL
 Redis
 Memcached
+MS SQL
 ____________________________________________
 DataModel History backend:
 SQLite
@@ -19,9 +19,9 @@ ____________________________________________
 Mvc Router Cache backend:
 SQLite
 Oracle
-MS SQL
 Redis
 Memcached
+MS SQL
 ____________________________________________
 Cache
 ____________________________________________

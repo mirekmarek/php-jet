@@ -58,12 +58,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create("datamodel_sqlite_connection", array(
-			"name" => "datamodel_sqlite_connection",
-			"driver" => "sqlite",
-			"DSN" => $this->config->getDSN(),
-			"username" => "",
-			"password" => ""
+		$this->_db = Db::create("datamodel_connection", array(
+			"name" => "datamodel_connection",
+			"driver" => DB::DRIVER_SQLITE,
+			"DSN" => $this->config->getDSN()
 		));
 	}
 
@@ -475,7 +473,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				$key = $item->getSelectAs();
 
 				if($property->getIsArray()) {
-					$data[$i][$key] = unserialize( $data[$i][$key] );
+					$data[$i][$key] = $this->unserialize( $data[$i][$key] );
 				}
 
 				$property->checkValueType( $data[$i][$key] );
@@ -1068,7 +1066,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				return "NUMERIC";
 				break;
 			case DataModel::TYPE_ARRAY:
-				return "TEXT";
+				return "BLOB";
 				break;
 			default:
 				throw new DataModel_Exception(
@@ -1098,7 +1096,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				$value = $value ? 1 : 0;
 			} else {
 				if(is_array($value)) {
-					$value = serialize($value);
+					$value = $this->serialize($value);
 				} else {
 					if(is_object($value)) {
 						$value = (string)$value;
@@ -1131,6 +1129,25 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$property_name = $property->getName();
 
 		return "`{$property_table_name}`.`{$property_name}`";
+	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return string
+	 */
+	protected function serialize( $data ) {
+		return base64_encode( serialize($data) );
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return mixed
+	 */
+	protected function unserialize( $string ) {
+		$data = base64_decode($string);
+		return unserialize($data);
 	}
 
 }

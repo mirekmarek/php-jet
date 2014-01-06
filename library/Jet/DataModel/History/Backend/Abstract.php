@@ -33,12 +33,6 @@ abstract class DataModel_History_Backend_Abstract extends Object {
 	const OPERATION_SAVE = "save";
 	const OPERATION_UPDATE = "update";
 	const OPERATION_DELETE = "delete";
-	
-	/**
-	 *
-	 * @var DataModel_Definition_Model_Abstract
-	 */
-	protected $data_model = null;
 
 	/**
 	 * @var DataModel_History_Backend_Config_Abstract
@@ -51,13 +45,17 @@ abstract class DataModel_History_Backend_Abstract extends Object {
 	protected $_current_operation_ID = null;
 
 	/**
-	 *
-	 * @param   DataModel $data_model
+	 * @var DataModel
 	 */
-	public function  __construct( DataModel $data_model ) {
-		$this->data_model = $data_model;
+	protected $_current_data_model = null;
 
-		$this->config = $this->data_model->getHistoryBackendConfig();
+	/**
+	 *
+	 * @param DataModel_History_Backend_Config_Abstract $config
+	 *
+	 */
+	public function  __construct( DataModel_History_Backend_Config_Abstract $config ) {
+		$this->config = $config;
 
 		$this->initialize();
 	}
@@ -68,10 +66,12 @@ abstract class DataModel_History_Backend_Abstract extends Object {
 	abstract function initialize();
 
 	/**
+	 * @param DataModel $data_model
 	 * @param string $operation
 	 *
+	 * @return
 	 */
-	abstract function operationStart( $operation );
+	abstract function operationStart( DataModel $data_model, $operation );
 
 	/**
 	 *

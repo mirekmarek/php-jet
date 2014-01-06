@@ -102,7 +102,7 @@ class DataModel_History_Backend_MySQL_Config extends DataModel_History_Backend_C
 	 * @return array
 	 */
 	public static function getDbConnectionsList() {
-		return Db_Config::getConnectionsList();
+		return Db_Config::getConnectionsList(Db::DRIVER_MYSQL);
 	}
 
 }

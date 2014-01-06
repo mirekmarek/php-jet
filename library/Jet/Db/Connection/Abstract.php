@@ -37,6 +37,7 @@ abstract class Db_Connection_Abstract extends \PDO {
 	 * @param Db_Connection_Config_Abstract $config
 	 */
 	public function __construct( Db_Connection_Config_Abstract $config ) {
+
 		$this->config = $config;
 
 		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );

@@ -22,6 +22,9 @@ class Debug_Tools_Formatter {
 		if( php_sapi_name() == "cli" ) {
 			return isset($_SERVER["SCRIPT_FILENAME"]) ? $_SERVER["SCRIPT_FILENAME"] : "CLI";
 		} else {
+			if(!isset($_SERVER["HTTP_HOST"]) || !isset($_SERVER["HTTP_HOST"])) {
+				return "unknown";
+			}
 			return $_SERVER["HTTP_HOST"] .$_SERVER["REQUEST_URI"];
 		}
 	}

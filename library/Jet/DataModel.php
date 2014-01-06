@@ -377,17 +377,16 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 * @return DataModel_Backend_Abstract
 	 */
 	public function getBackendInstance() {
-		$bt = $this->getBackendType();
-		$bo = $this->getBackendConfig();
+		$backend_type = $this->getBackendType();
+		$backend_config = $this->getBackendConfig();
 
-		$key = $bt.":".md5(serialize($bo));
+		$key = $backend_type.":".md5(serialize($backend_config));
 
 		if(!isset(self::$___data_model_backend_instance[$key])) {
 			self::$___data_model_backend_instance[$key] = DataModel_Factory::getBackendInstance(
-				$bt,
-				$bo
+				$backend_type,
+				$backend_config
 			);
-			self::$___data_model_backend_instance[$key]->initialize();
 		}
 
 		return self::$___data_model_backend_instance[$key];
@@ -442,14 +441,15 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			return false;
 		}
 
-		$bt = $this->getCacheBackendType();
+		$backend_type = $this->getCacheBackendType();
+		$backend_config = $this->getCacheBackendConfig();
 
-		$key = get_class($this);
+		$key = $backend_type.md5(serialize($backend_config));
 
 		if(!isset(self::$___data_model_cache_backend_instance[$key])) {
 			self::$___data_model_cache_backend_instance[$key] = DataModel_Factory::getCacheBackendInstance(
-				$bt,
-				$this
+				$backend_type,
+				$backend_config
 			);
 		}
 
@@ -509,10 +509,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		if(!$this->___data_model_history_backend_instance) {
 			$this->___data_model_history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
 				static::getHistoryBackendType(),
-				$this
+				$this->getHistoryBackendConfig()
 			);
 
-			$this->___data_model_history_backend_instance->initialize();
 		}
 
 		return $this->___data_model_history_backend_instance;
@@ -820,7 +819,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		$loaded_instance = null;
 
 		if($cache) {
-			$loaded_instance = $cache->get($ID);
+			$loaded_instance = $cache->get( $this, $ID);
 		}
 
 		if(!$loaded_instance) {
@@ -841,7 +840,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			$loaded_instance = $this->_load_dataToInstance( $dat );
 
 			if($cache) {
-				$cache->save($ID, $loaded_instance);
+				$cache->save($this, $ID, $loaded_instance);
 			}
 		}
 
@@ -955,7 +954,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		}
 
 		if($cache) {
-			$cache->{$operation}($this->getID(), $this);
+			$cache->{$operation}($this, $this->getID(), $this);
 		}
 
 		if( !($this instanceof DataModel_Related_Abstract) ) {
@@ -1156,7 +1155,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 		$cache = $this->getCacheBackendInstance();
 		if($cache) {
-			$cache->delete($this->getID());
+			$cache->delete( $this, $this->getID() );
 		}
  	}
 
@@ -1184,7 +1183,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		if($affected_IDs) {
 			$cache = $this->getCacheBackendInstance();
 			foreach($affected_IDs as $ID) {
-				$cache->delete( $ID );
+				$cache->delete( $this, $ID );
 			}
 		}
 	}
@@ -1199,7 +1198,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			return;
 		}
 
-		$backend->operationStart( $operation );
+		$backend->operationStart( $this, $operation );
 	}
 
 	/**
@@ -1612,6 +1611,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			}
 
 		}
+
 		return $_this->getBackendInstance()->helper_create( $_this );
 	}
 
