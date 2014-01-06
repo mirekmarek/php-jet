@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * //TODO: rename ... Adapter is ...
  *
  *
  *
@@ -16,11 +16,11 @@
  */
 namespace Jet;
 
-class Config_Definition_Property_AdapterConfig extends Config_Definition_Property_Abstract {
+class Config_Definition_Property_ConfigList extends Config_Definition_Property_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = Config::TYPE_ADAPTER_CONFIG;
+	protected $_type = Config::TYPE_CONFIG_LIST;
 	/**
 	 * @var bool
 	 */
@@ -46,10 +46,7 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 	 * @var string
 	 */
 	protected $data_path = "";
-	/**
-	 * @var string
-	 */
-	protected $adapter_type_key = "";
+
 	/**
 	 * @var string
 	 */
@@ -62,12 +59,12 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 	/**
 	 * @var Config_Section[]
 	 */
-	protected $_adapters = array();
+	protected $_configs = array();
 
 	/**
 	 * @var string[]
 	 */
-	protected $_deleted_adapters = array();
+	protected $_deleted_configs = array();
 
 
 	/**
@@ -98,50 +95,39 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 	 *
 	 * @throws Config_Exception
 	 */
-	public function getAdapterConfiguration( $name ) {
+	public function getConfigurationListItem( $name ) {
 		$data = $this->_configuration->getData();
 
-		if(isset($this->_adapters[$name])) {
-			return $this->_adapters[$name];
+		if(isset($this->_configs[$name])) {
+			return $this->_configs[$name];
 		}
 
-		if(!$data->exists($this->data_path)) {
+		$config_path = "/{$this->data_path}/{$name}";
+
+		if(!$data->exists($config_path)) {
+
 			if($this->_configuration->getSoftMode()) {
 				return false;
 			}
 			throw new Config_Exception(
-				"There is not '{$this->data_path}' section in the config file '".$this->_configuration->getConfigFilePath()."'!",
+				"There is not '{$config_path}' section in the config file '".$this->_configuration->getConfigFilePath()."'!",
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
 
-		$config_path = "/{$this->data_path}/{$name}";
-		$type_path = $config_path."/{$this->adapter_type_key}";
-
-		if(!$data->exists($config_path)) {
-			return false;
-		}
-
-		if(!$data->exists($type_path)) {
-			throw new Config_Exception(
-				"Adapter type is not specified! There is not '{$type_path}' value in the '{$name}' configuration. Config file '".$this->_configuration->getConfigFilePath()."'",
-				Config_Exception::CODE_CONFIG_CHECK_ERROR
-			);
-		}
 		/**
 		 * @var callable $callback
 		 */
 		$callback = array( $this->config_factory_class_name, $this->config_factory_method_name );
 
-		$this->_adapters[$name] = $callback(
-			$this->_configuration,
-			$data->getString($type_path),
-			$data->getRaw($config_path)
+		$this->_configs[$name] = $callback(
+			$data->getRaw($config_path),
+			$this->_configuration
 		);
 
 		//$this->_adapters[$name]->parseData();
 
-		return $this->_adapters[$name];
+		return $this->_configs[$name];
 	}
 
 	/**
@@ -149,7 +135,7 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 	 *
 	 * @throws Config_Exception
 	 */
-	public function getAllAdaptersConfiguration() {
+	public function getAllConfigurationItems() {
 		$data = $this->_configuration->getData();
 
 		if(!$data->exists($this->data_path)) {
@@ -164,11 +150,11 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 		}
 
 		foreach( array_keys($data->getRaw($this->data_path)) as $name ) {
-			$this->getAdapterConfiguration($name );
+			$this->getConfigurationListItem($name );
 		}
 
 
-		return $this->_adapters;
+		return $this->_configs;
 	}
 
 	/**
@@ -176,22 +162,22 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 	 * @param Config_Section $configuration
 	 *
 	 */
-	public function addAdapterConfiguration( $name, Config_Section $configuration ) {
-		$this->getAllAdaptersConfiguration();
+	public function addConfigurationItem( $name, Config_Section $configuration ) {
+		$this->getAllConfigurationItems();
 
-		$this->_adapters[$name] = $configuration;
+		$this->_configs[$name] = $configuration;
 	}
 
 	/**
 	 * @param string $name
 	 *
 	 */
-	public function deleteAdapterConfiguration( $name ) {
-		$this->getAllAdaptersConfiguration();
+	public function deleteConfigurationItem( $name ) {
+		$this->getAllConfigurationItems();
 
-		if(isset($this->_adapters[$name])) {
-			unset($this->_adapters[$name]);
-			$this->_deleted_adapters[] = $name;
+		if(isset($this->_configs[$name])) {
+			unset($this->_configs[$name]);
+			$this->_deleted_configs[] = $name;
 		}
 	}
 
@@ -199,11 +185,11 @@ class Config_Definition_Property_AdapterConfig extends Config_Definition_Propert
 	 * @return array
 	 */
 	public function toArray() {
-		$this->getAllAdaptersConfiguration();
+		$this->getAllConfigurationItems();
 
 		$result = array();
-		foreach($this->_adapters as $name=>$cfg) {
-			if(in_array($name, $this->_deleted_adapters)) {
+		foreach($this->_configs as $name=>$cfg) {
+			if(in_array($name, $this->_deleted_configs)) {
 				continue;
 			}
 			$result[$name] = $cfg->toArray();

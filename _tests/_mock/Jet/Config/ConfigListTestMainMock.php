@@ -11,19 +11,18 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestAdapterMainMock/AdapterA/Config.php";
-require_once "_mock/Jet/Config/ConfigTestAdapterMainMock/AdapterB/Config.php";
+require_once "_mock/Jet/Config/ConfigListTestMainMock/AdapterA/Config.php";
+require_once "_mock/Jet/Config/ConfigListTestMainMock/AdapterB/Config.php";
 
-class ConfigTestAdapterMainMock extends Config {
+class ConfigListTestMainMock extends Config {
 	protected static $__config_data_path = "/section/subsection";
 
 
 	protected static $__config_properties_definition = array(
 		"connections" => array(
-			"type" => self::TYPE_ADAPTER_CONFIG,
+			"type" => self::TYPE_CONFIG_LIST,
 			"data_path" => "connections",
-			"adapter_type_key" => "adapter",
-			"config_factory_class_name" => "Jet\\ConfigTestAdapterMainMock",
+			"config_factory_class_name" => "Jet\\ConfigListTestMainMock",
 			"config_factory_method_name" => "getAdapterConfigInstance"
 		)
 	);
@@ -31,7 +30,7 @@ class ConfigTestAdapterMainMock extends Config {
 	/**
 	 * Database adapters and configurations for general usage
 	 *
-	 * @var Config_Definition_Property_AdapterConfig
+	 * @var Config_Definition_Property_ConfigList
 	 */
 	protected $connections;
 
@@ -59,26 +58,26 @@ class ConfigTestAdapterMainMock extends Config {
 	 * @param $connection_name
 	 *
 	 * @throws Db_Exception
-	 * @return ConfigTestAdapterMainMock_Config_Abstract
+	 * @return ConfigListTestMainMock_Config_Abstract
 	 */
-	public function getConnection($connection_name){
-		return $this->connections->getAdapterConfiguration( $connection_name );
+	public function getConfigurationListItem($connection_name){
+		return $this->connections->getConfigurationListItem( $connection_name );
 	}
 
 	/**
-	 * @return ConfigTestAdapterMainMock_Config_Abstract[]
+	 * @return ConfigListTestMainMock_Config_Abstract[]
 	 */
 	public function getConnections() {
-		return $this->connections->getAllAdaptersConfiguration();
+		return $this->connections->getAllConfigurationItems();
 	}
 
 	/**
 	 * @param $connection_name
-	 * @param ConfigTestAdapterMainMock_Config_Abstract $connection_configuragion
+	 * @param ConfigListTestMainMock_Config_Abstract $connection_configuragion
 	 *
 	 */
-	public function addConnection( $connection_name, ConfigTestAdapterMainMock_Config_Abstract $connection_configuragion ) {
-		$this->connections->addAdapterConfiguration( $connection_name, $connection_configuragion );
+	public function addConnection( $connection_name, ConfigListTestMainMock_Config_Abstract $connection_configuragion ) {
+		$this->connections->addConfigurationItem( $connection_name, $connection_configuragion );
 	}
 
 	/**
@@ -86,7 +85,7 @@ class ConfigTestAdapterMainMock extends Config {
 	 *
 	 */
 	public function deleteConnection( $connection_name ) {
-		$this->connections->deleteAdapterConfiguration( $connection_name );
+		$this->connections->deleteConfigurationItem( $connection_name );
 	}
 
 	public function toArray() {
@@ -95,17 +94,17 @@ class ConfigTestAdapterMainMock extends Config {
 
 	/**
 	 *
-	 * @param ConfigTestAdapterMainMock $config
-	 * @param string $adapter_name
-	 *
 	 * @param array $config_data (optional)
+	 * @param ConfigListTestMainMock $config (optional)
 	 *
-	 * @return ConfigTestAdapterMainMock_Config_Abstract
+	 * @return ConfigListTestMainMock_Config_Abstract
 	 */
-	public static function getAdapterConfigInstance(ConfigTestAdapterMainMock $config, $adapter_name, array $config_data=array() ){
-		$config_class = "Jet\\ConfigTestAdapterMainMock_".$adapter_name."_Config";
+	public static function getAdapterConfigInstance(array $config_data=array(), ConfigListTestMainMock $config ){
+		$adapter_name = $config_data["adapter"];
 
-		$adapter_config = new $config_class( $config, $config_data );
+		$config_class = "Jet\\ConfigListTestMainMock_".$adapter_name."_Config";
+
+		$adapter_config = new $config_class( $config_data, $config );
 
 		return $adapter_config;
 	}

@@ -100,9 +100,9 @@ abstract class Config extends Object {
 
 
 	/**
-	 * Property/option type - adapter configuration (sub configuration)
+	 * Property/option type - list of configurations (sub configuration)
 	 */
-	const TYPE_ADAPTER_CONFIG = "AdapterConfig";
+	const TYPE_CONFIG_LIST = "ConfigList";
 
 	/**
 	 *
@@ -342,7 +342,7 @@ abstract class Config extends Object {
 		$data = $this->_config_data;
 
 		foreach($this->getPropertiesDefinition() as $property_name=>$property_definition) {
-			if($property_definition instanceof Config_Definition_Property_AdapterConfig) {
+			if($property_definition instanceof Config_Definition_Property_ConfigList) {
 				$this->{$property_name} = $property_definition;
 
 				continue;

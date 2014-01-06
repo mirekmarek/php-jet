@@ -34,9 +34,8 @@ class Db_Config extends Config_Application {
 		),
 
 		"connections" => array(
-			"type" => self::TYPE_ADAPTER_CONFIG,
+			"type" => self::TYPE_CONFIG_LIST,
 			"data_path" => "connections",
-			"adapter_type_key" => "name",
 			"config_factory_class_name" => "Jet\\Db_Factory",
 			"config_factory_method_name" => "getConnectionConfigInstance"
 		)
@@ -50,7 +49,7 @@ class Db_Config extends Config_Application {
 
 	/**
 	 *
-	 * @var Config_Definition_Property_AdapterConfig
+	 * @var Config_Definition_Property_ConfigList
 	 */
 	protected $connections;
 
@@ -64,14 +63,14 @@ class Db_Config extends Config_Application {
 	 * @return Db_Connection_Config_Abstract
 	 */
 	public function getConnection($connection_name){
-		return $this->connections->getAdapterConfiguration( $connection_name );
+		return $this->connections->getConfigurationListItem( $connection_name );
 	}
 
 	/**
 	 * @return Db_Connection_Config_Abstract[]
 	 */
 	public function getConnections() {
-		return $this->connections->getAllAdaptersConfiguration();
+		return $this->connections->getAllConfigurationItems();
 	}
 
 	/**
@@ -89,7 +88,7 @@ class Db_Config extends Config_Application {
 	 *
 	 */
 	public function addConnection( $connection_name, Db_Connection_Config_Abstract $connection_configuration ) {
-		$this->connections->addAdapterConfiguration( $connection_name, $connection_configuration );
+		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
 	}
 
 	/**
@@ -97,7 +96,7 @@ class Db_Config extends Config_Application {
 	 *
 	 */
 	public function deleteConnection( $connection_name ) {
-		$this->connections->deleteAdapterConfiguration( $connection_name );
+		$this->connections->deleteConfigurationItem( $connection_name );
 	}
 
 	/**

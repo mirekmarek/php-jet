@@ -54,32 +54,31 @@ class Db_Factory extends Factory {
 
 	/**
 	 *
-	 * @param Db_Config $config
-	 * @param string $connection_name
 	 * @param array $config_data (optional)
+	 * @param Db_Config $config (optional)
 	 *
 	 * @return Db_Connection_Config_Abstract
 	 */
-	public static function getConnectionConfigInstance(Db_Config $config, $connection_name="", array $config_data=array() ){
+	public static function getConnectionConfigInstance(array $config_data=array(), Db_Config $config=null ){
 		$default_class_name = static::$connection_class_prefix."Config_".static::$connection_adapter;
 
 		$config_class = static::getClassName( $default_class_name );
-		$instance = new $config_class( $config, $config_data );
+		$instance = new $config_class( $config_data, $config );
 		static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
 	/**
 	 *
-	 * @param Db_Connection_Config_Abstract $adapter_config
+	 * @param Db_Connection_Config_Abstract $connection_config
 	 *
 	 * @return Db_Connection_Abstract
 	 */
-	public static function getConnectionInstance( Db_Connection_Config_Abstract $adapter_config ){
+	public static function getConnectionInstance( Db_Connection_Config_Abstract $connection_config ){
 		$default_class_name = static::$connection_class_prefix.static::$connection_adapter;
 
 		$adapter_class = static::getClassName( $default_class_name );
-		$instance = new $adapter_class( $adapter_config );
+		$instance = new $adapter_class( $connection_config );
 
 		//TODO: static::checkInstance($default_class_name, $instance);
 		return $instance;

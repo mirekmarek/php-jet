@@ -61,7 +61,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 	 *
 	 */
 	protected function _addConnection() {
-		$connection_config = Db_Factory::getConnectionConfigInstance($this->main_config, "");
+		$connection_config = Db_Factory::getConnectionConfigInstance(array(), $this->main_config);
 
 		$form = $connection_config->getCommonForm();
 

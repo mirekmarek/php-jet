@@ -11,10 +11,10 @@
  */
 namespace Jet;
 
-abstract class ConfigTestAdapterMainMock_Config_Abstract extends Config_Section {
+abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
 	protected static $__factory_class_name = null;
 	protected static $__factory_class_method = null;
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\ConfigTestAdapterMainMock_Config_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = "Jet\\ConfigListTestMainMock_Config_Abstract";
 
 	protected static $__config_properties_definition = array(
 		"adapter" => array(

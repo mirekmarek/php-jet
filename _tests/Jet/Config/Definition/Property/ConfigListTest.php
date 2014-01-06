@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestAdapterMainMock.php";
+require_once "_mock/Jet/Config/ConfigListTestMainMock.php";
 //require_once "_mock/Jet/Config/ConfigTestDescendantMock.php";
 
 if(!defined("CONFIG_TEST_BASEDIR")) {
@@ -24,9 +24,9 @@ if(!defined("CONFIG_TEST_BASEDIR")) {
 }
 
 
-class Config_Definition_Property_AdapterConfigTest extends \PHPUnit_Framework_TestCase {
+class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var ConfigTestAdapterMainMock
+	 * @var ConfigListTestMainMock
 	 */
 	protected $object;
 
@@ -35,8 +35,8 @@ class Config_Definition_Property_AdapterConfigTest extends \PHPUnit_Framework_Te
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->object = new ConfigTestAdapterMainMock();
-		$this->object->testInit( CONFIG_TEST_BASEDIR."valid-config-adapters.php" );
+		$this->object = new ConfigListTestMainMock();
+		$this->object->testInit( CONFIG_TEST_BASEDIR."valid-config-list.php", true );
 	}
 
 	/**
@@ -56,17 +56,17 @@ class Config_Definition_Property_AdapterConfigTest extends \PHPUnit_Framework_Te
 
 	/**
 	 * @covers Jet\Config_Definition_Property_AdapterConfig::setUp
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::getAdapterConfiguration
+	 * @covers Jet\Config_Definition_Property_AdapterConfig::getConfigurationListItem
 	 */
-	public function testGetAdapterConfiguration() {
-		$connection = $this->object->getConnection("connection_imaginary");
+	public function testgetConfigurationListItem() {
+		$connection = $this->object->getConfigurationListItem("connection_imaginary");
 		$this->assertFalse( $connection );
 
-		$connection_1 = $this->object->getConnection("connection_1");
+		$connection_1 = $this->object->getConfigurationListItem("connection_1");
 		$this->assertEquals("Connection 1 - config value", $connection_1->getAdapterConfigValue());
-		$connection_2 = $this->object->getConnection("connection_2");
+		$connection_2 = $this->object->getConfigurationListItem("connection_2");
 		$this->assertEquals("Connection 2 - config value", $connection_2->getAdapterConfigValue());
-		$connection_3 = $this->object->getConnection("connection_3");
+		$connection_3 = $this->object->getConfigurationListItem("connection_3");
 		$this->assertEquals("Connection 3 - config value", $connection_3->getAdapterConfigValue());
 	}
 
@@ -115,10 +115,13 @@ class Config_Definition_Property_AdapterConfigTest extends \PHPUnit_Framework_Te
 	 * @covers Jet\Config_Definition_Property_AdapterConfig::addAdapterConfiguration
 	 */
 	public function testAddAdapterConfiguration() {
-		$new_connection = new ConfigTestAdapterMainMock_AdapterB_Config( $this->object, array(
-			'adapter' => 'AdapterB',
-			'adapter_config_value' => 'Connection N - config value',
-		) );
+		$new_connection = new ConfigListTestMainMock_AdapterB_Config(
+			array(
+				'adapter' => 'AdapterB',
+				'adapter_config_value' => 'Connection N - config value',
+			),
+			$this->object
+		);
 		$this->object->addConnection("connection_n", $new_connection);
 
 		$connections = $this->object->getConnections();

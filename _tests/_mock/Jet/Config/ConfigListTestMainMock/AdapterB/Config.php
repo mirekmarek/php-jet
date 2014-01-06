@@ -11,10 +11,10 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestAdapterMainMock/Config/Abstract.php";
+require_once "_mock/Jet/Config/ConfigListTestMainMock/Config/Abstract.php";
 
 
-class ConfigTestAdapterMainMock_AdapterB_Config extends ConfigTestAdapterMainMock_Config_Abstract {
+class ConfigListTestMainMock_AdapterB_Config extends ConfigListTestMainMock_Config_Abstract {
 
 	protected static $__config_properties_definition = array(
 		"adapter" => array(
