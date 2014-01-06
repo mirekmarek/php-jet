@@ -1,0 +1,168 @@
+<?php
+/**
+ *
+ *
+ *
+ * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @version <%VERSION%>
+ *
+ * @category Jet
+ * @package DataModel
+ * @subpackage DataModel_History
+ */
+namespace Jet;
+
+class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstract {
+	/**
+	 * @var DataModel_History_Backend_SQLite_Config
+	 */
+	protected $config;
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $_table_name;
+
+	/**
+	 *
+	 * @var Db_Connection_Abstract
+	 */
+	private $_db = null;
+
+
+	/**
+	 *
+	 */
+	public function initialize() {
+		$this->_db = Db::create("datamodel_history_sqlite_connection", array(
+			"name" => "datamodel_history_sqlite_connection",
+			"driver" => DB::DRIVER_SQLITE,
+			"DSN" => $this->config->getDSN()
+		));
+
+		$this->_table_name = $this->config->getTableName();
+	}
+
+	/**
+	 * @param DataModel $data_model
+	 * @param string $operation
+	 */
+	public function operationStart( DataModel $data_model, $operation ) {
+		$this->_current_operation_ID = DataModel_ID_Abstract::generateUniqueID();
+		$this->_current_data_model = $data_model;
+
+		$user = Auth::getCurrentUser();
+		if($user) {
+			$user_name = $user->getName()." (".$user->getLogin().")";
+			$user_ID = (string)$user->getID();
+		} else {
+			$user_name = "";
+			$user_ID = "";
+		}
+
+		$this->_db->execCommand("INSERT INTO `{$this->_table_name}`
+					(
+	                    `operation_ID`,
+						`class_name`,
+						`model_name`,
+						`object_ID`,
+						`operation`,
+						`start_date_and_time`,
+						`user_name`,
+						`user_ID`,
+						`object`,
+						`operation_inprogress`
+
+					) VALUES (
+	                    :operation_ID,
+						:class_name,
+						:model_name,
+						:object_ID,
+						:operation,
+						datetime('now'),
+						:user_name,
+						:user_ID,
+						:object,
+						:operation_inprogress
+
+					)
+				",array(
+					"operation_ID" => $this->_current_operation_ID,
+					"class_name" => get_class($this->_current_data_model),
+					"model_name" => $this->_current_data_model->getDataModelName(),
+					"object_ID" => (string)$this->_current_data_model->getID(),
+					"operation" => $operation,
+					"user_name" => $user_name,
+					"user_ID" => $user_ID,
+					"object" => $this->serialize( $this->_current_data_model ),
+					"operation_inprogress" => 1,
+				));
+
+	}
+
+	/**
+	 *
+	 */
+	public function operationDone() {
+		$this->_db->execCommand(
+			"UPDATE `{$this->_table_name}` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=datetime('now') WHERE `operation_ID`=:operation_ID",
+			array(
+				"operation_ID" => $this->_current_operation_ID,
+			)
+		);
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function helper_getCreateCommand() {
+
+		return "CREATE TABLE IF NOT EXISTS `{$this->_table_name}` (\n"
+				."\t`operation_ID` TEXT,\n"
+				."\t`class_name` TEXT,\n"
+				."\t`model_name` TEXT,\n"
+				."\t`object_ID` TEXT,\n"
+				."\t`operation` TEXT,\n"
+				."\t`start_date_and_time` NUMERIC,\n"
+				."\t`done_date_and_time` NUMERIC,\n"
+				."\t`operation_inprogress` INTEGER,\n"
+				."\t`operation_done` INTEGER,\n"
+				."\t`user_name` TEXT,\n"
+				."\t`user_ID` TEXT,\n"
+				."\t`object` BLOB,\n"
+				."\tPRIMARY KEY (`operation_ID`)\n"
+			.");";
+	}
+
+	/**
+	 *
+	 */
+	public function helper_create() {
+		$this->_db->execCommand( $this->helper_getCreateCommand() );
+	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return string
+	 */
+	protected function serialize( $data ) {
+		return base64_encode( serialize($data) );
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return mixed
+	 */
+	protected function unserialize( $string ) {
+		$data = base64_decode($string);
+		return unserialize($data);
+	}
+
+	
+}

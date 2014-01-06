@@ -104,7 +104,7 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 						:model_name,
 						:object_ID,
 						:data,
-						date('now')
+						datetime('now')
 					)
 				",$data);
 
