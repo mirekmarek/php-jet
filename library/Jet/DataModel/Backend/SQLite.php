@@ -107,30 +107,35 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			$_columns[] = "\t`{$name}` ".$this->_getSQLType( $data_model, $property, $_keys );
 		}
 
+
+		$table_name = $this->_getTableName( $data_model_definition );
+
+		$table_name = $force_table_name ? $force_table_name : $table_name;
+
+		$create_index_query = array();
+
 		foreach($_keys as $key_name=>$key) {
 			switch( $key["type"] ) {
 				case DataModel::KEY_TYPE_PRIMARY:
 					$_keys[$key_name] = "\n\t,PRIMARY KEY (`".implode("`, `", $key["columns"])."`)";
 				break;
 				case DataModel::KEY_TYPE_INDEX:
+					$create_index_query[] = "\nCREATE INDEX IF NOT EXISTS `_k_{$key_name}` ON $table_name (`".implode("`, `", $key["columns"])."`);";
 					$_keys[$key_name] = "";
-					//TODO: $_keys[$key_name] = "\n\t,KEY `{$key_name}`  (`".implode("`, `", $key["columns"])."`)";
 				break;
 				default:
+					$create_index_query[] = "\nCREATE {$key["type"]} INDEX IF NOT EXISTS `_k_{$key_name}` ON $table_name (`".implode("`, `", $key["columns"])."`);";
 					$_keys[$key_name] = "";
-					//TODO: $_keys[$key_name] = "\n\t,{$key["type"]} KEY `{$key_name}`  (`".implode("`, `", $key["columns"])."`)";
 				break;
 			}
 		}
 
-		$table_name = $this->_getTableName( $data_model_definition );
+		$create_index_query = implode("\n", $create_index_query);
 
-		$table_name = $force_table_name ? $force_table_name : $table_name;
-		
 		$q = "CREATE TABLE IF NOT EXISTS `{$table_name}` (\n";
 		$q .= implode(",\n", $_columns);
 		$q .= implode("", $_keys);
-		$q .= "\n) {$_options};\n\n";
+		$q .= "\n) {$_options};$create_index_query\n\n";
 		
 		return $q;
 	}
