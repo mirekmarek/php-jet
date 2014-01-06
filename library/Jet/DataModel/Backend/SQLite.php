@@ -172,12 +172,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return array
 	 */
 	public function helper_getUpdateCommand( DataModel $data_model ) {
-		//TODO: check it
 		$data_model_definition = $data_model->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
 		$update_prefix = "_UP".date("YmdHis")."_";
-		$exists_cols = $this->_db->fetchCol("DESCRIBE `{$table_name}`");
+		$exists_cols = $this->_db->fetchCol("PRAGMA table_info(`{$table_name}`)", array(), "name");
+
 
 		$updated_table_name = $update_prefix.$table_name;
 
@@ -217,8 +217,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		}
 
 
-		$rename_command1 = "RENAME TABLE `{$table_name}` TO `{$update_prefix}b_{$table_name}` ;\n";
-		$rename_command2 = "RENAME TABLE `{$updated_table_name}` TO  `{$table_name}`; ";
+		$rename_command1 = "ALTER TABLE `{$table_name}` RENAME TO `{$update_prefix}b_{$table_name}` ;\n";
+		$rename_command2 = "ALTER TABLE `{$updated_table_name}` RENAME TO  `{$table_name}`; ";
 
 		$update_command = array();
 		$update_command[] = $create_command;
