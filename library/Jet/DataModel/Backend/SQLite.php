@@ -30,24 +30,19 @@
  */
 namespace Jet;
 
-class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
+class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	const PRIMARY_KEY_NAME = "PRIMARY";
 
 	/**
-	 * @var DataModel_Backend_MySQL_Config
+	 * @var DataModel_Backend_SQLite_Config
 	 */
 	protected $config;
 
 	/**
 	 *
-	 * @var Db_Adapter_Abstract
+	 * @var Db_Connection_Abstract
 	 */
-	private $_db_read = NULL;
-	/**
-	 *
-	 * @var Db_Adapter_Abstract
-	 */
-	private $_db_write = NULL;
+	private $_db = null;
 
 	/**
 	 * @var array
@@ -56,7 +51,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		DataModel::KEY_TYPE_PRIMARY,
 		DataModel::KEY_TYPE_INDEX,
 		DataModel::KEY_TYPE_UNIQUE,
-		//DataModel::KEY_TYPE_FULLTEXT
 	);
 
 
@@ -64,8 +58,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 */
 	public function initialize() {
-		$this->_db_read = Db::get( $this->config->getConnectionRead() );
-		$this->_db_write = Db::get( $this->config->getConnectionWrite() );
+		$this->_db = Db::create("datamodel_sqlite_connection", array(
+			"name" => "datamodel_sqlite_connection",
+			"driver" => "sqlite",
+			"DSN" => $this->config->getDSN(),
+			"username" => "",
+			"password" => ""
+		));
 	}
 
 	/**
@@ -78,10 +77,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$data_model_definition = $data_model->getDataModelDefinition();
 		$options = array();
-
-		$options["ENGINE"] = $this->config->getEngine();
-		$options["DEFAULT CHARSET"] = $this->config->getDefaultCharset();
-		$options["COLLATE"] = $this->config->getCollate();
 
 		$_options = array();
 
@@ -120,10 +115,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 					$_keys[$key_name] = "\n\t,PRIMARY KEY (`".implode("`, `", $key["columns"])."`)";
 				break;
 				case DataModel::KEY_TYPE_INDEX:
-					$_keys[$key_name] = "\n\t,KEY `{$key_name}`  (`".implode("`, `", $key["columns"])."`)";
+					$_keys[$key_name] = "";
+					//TODO: $_keys[$key_name] = "\n\t,KEY `{$key_name}`  (`".implode("`, `", $key["columns"])."`)";
 				break;
 				default:
-					$_keys[$key_name] = "\n\t,{$key["type"]} KEY `{$key_name}`  (`".implode("`, `", $key["columns"])."`)";
+					$_keys[$key_name] = "";
+					//TODO: $_keys[$key_name] = "\n\t,{$key["type"]} KEY `{$key_name}`  (`".implode("`, `", $key["columns"])."`)";
 				break;
 			}
 		}
@@ -144,7 +141,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @param DataModel $data_model
 	 */
 	public function helper_create( DataModel $data_model ) {
-		$this->_db_write->query( $this->helper_getCreateCommand( $data_model ) );
+		$this->_db->execCommand( $this->helper_getCreateCommand( $data_model ) );
 	}
 
 	/**
@@ -163,7 +160,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @param DataModel $data_model
 	 */
 	public function helper_drop( DataModel $data_model ) {
-		$this->_db_write->query( $this->helper_getDropCommand( $data_model ) );
+		$this->_db->execCommand( $this->helper_getDropCommand( $data_model ) );
 	}
 
 	/**
@@ -172,11 +169,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return array
 	 */
 	public function helper_getUpdateCommand( DataModel $data_model ) {
+		//TODO: check it
 		$data_model_definition = $data_model->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
 		$update_prefix = "_UP".date("YmdHis")."_";
-		$exists_cols = $this->_db_write->fetchCol("DESCRIBE `{$table_name}`");
+		$exists_cols = $this->_db->fetchCol("DESCRIBE `{$table_name}`");
 
 		$updated_table_name = $update_prefix.$table_name;
 
@@ -240,7 +238,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$this->transactionStart();
 		try {
 			foreach($this->helper_getUpdateCommand( $data_model ) as $q) {
-				$this->_db_write->query( $q );
+				$this->_db->execCommand( $q );
 			}
 		} catch (Exception $e) {
 			$this->transactionRollback();
@@ -298,22 +296,27 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$set = array();
+		$columns = array();
+		$values = array();
 
 		foreach($this->_getRecord($record) as $k=>$v) {
+			$columns[] = "`{$k}`";
+
 			if($v===null) {
-				$set[] = "`{$k}`=null";
+				$values[] = "null";
 			} else
-			if(is_string($v)) {
-				$set[] = "`{$k}`='".addslashes($v)."'";
-			} else {
-				$set[] = "`{$k}`=".$v;
-			}
+				if(is_string($v)) {
+					$values[] = $this->_db->quote($v);
+				} else {
+					$values[] = $v;
+				}
 		}
 
-		$set = implode(",\n", $set);
+		$columns = implode(",\n", $columns);
+		$values = implode(",\n", $values);
 
-		return "INSERT INTO `{$table_name}` SET \n{$set}";
+		return "INSERT INTO `{$table_name}` ({$columns}) VALUES ({$values})";
+
 	}
 
 	/**
@@ -333,7 +336,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$set[] = "`{$k}`=null";
 			} else
 			if(is_string($v)) {
-				$set[] = "`{$k}`='".addslashes($v)."'";
+				$set[] = "`{$k}`=".$this->_db->quote($v);
 			} else {
 				$set[] = "`{$k}`=".$v;
 			}
@@ -363,9 +366,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function save( DataModel_RecordData $record ) {
-		$this->_db_write->query( $this->getBackendInsertQuery($record) );
+		$this->_db->execCommand( $this->getBackendInsertQuery($record) );
 
-		return $this->_db_write->lastInsertId();
+		return $this->_db->lastInsertId();
 	}
 
 	/**
@@ -375,7 +378,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function update( DataModel_RecordData $record, DataModel_Query $where) {
-		return $this->_db_write->query( $this->getBackendUpdateQuery($record, $where) );
+		return $this->_db->execCommand( $this->getBackendUpdateQuery($record, $where) );
 	}
 
 	/**
@@ -384,7 +387,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function delete( DataModel_Query $where ) {
-		return $this->_db_write->query( $this->getBackendDeleteQuery($where) );
+		return $this->_db->execCommand( $this->getBackendDeleteQuery($where) );
 	}
 
 	/**
@@ -393,7 +396,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function getCount( DataModel_Query $query ) {
-		return (int)$this->_db_read->fetchOne( $this->getBackendCountQuery($query) );
+		return (int)$this->_db->fetchOne( $this->getBackendCountQuery($query) );
 	}
 
 	/**
@@ -449,7 +452,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	protected function _fetch( DataModel_Query $query, $fetch_method ) {
 
-		$data = $this->_db_read->$fetch_method(
+		$data = $this->_db->$fetch_method(
 			$this->getBackendSelectQuery( $query )
 		);
 
@@ -487,21 +490,21 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 */
 	public function transactionStart() {
-		$this->_db_write->beginTransaction();
+		$this->_db->beginTransaction();
 	}
 
 	/**
 	 *
 	 */
 	public function transactionCommit() {
-		$this->_db_write->commit();
+		$this->_db->commit();
 	}
 
 	/**
 	 *
 	 */
 	public function transactionRollback() {
-		$this->_db_write->rollBack();
+		$this->_db->rollBack();
 	}
 
 
@@ -1006,7 +1009,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 				if(!in_array($key_type, self::$valid_key_types )) {
 					throw new DataModel_Backend_Exception(
-						"MySQL backend: unknown key type '{$key_type}'",
+						"SQLite backend: unknown key type '{$key_type}'",
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
 				}
@@ -1034,51 +1037,38 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 						$options = " auto_increment";
 					}
 
-					return "bigint UNSIGNED{$options}";
+					return "INTEGER{$options}";
 				} else {
 					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
 
-					return "varchar({$max_len}) COLLATE utf8_bin NOT NULL";
+					return "TEXT";
 				}
 
 				break;
 			case DataModel::TYPE_STRING:
-				$max_len = (int)$column->getMaxLen();
 
-				if($max_len<=255) {
-					if($column->getIsID()) {
-						return "varchar(".((int)$max_len).") COLLATE utf8_bin NOT NULL";
-					} else {
-						return "varchar(".((int)$max_len).")";
-					}
-				}
-
-				if($max_len<=65535) {
-					return "text";
-				}
-
-				return "longtext";
+				return "TEXT";
 				break;
 			case DataModel::TYPE_BOOL:
-				return "tinyint(1)";
+				return "INTEGER";
 				break;
 			case DataModel::TYPE_INT:
-				return "int";
+				return "INTEGER";
 				break;
 			case DataModel::TYPE_FLOAT:
-				return "float";
+				return "REAL";
 				break;
 			case DataModel::TYPE_LOCALE:
-				return "varchar(20) COLLATE utf8_bin NOT NULL";
+				return "TEXT";
 				break;
 			case DataModel::TYPE_DATE:
-				return "date";
+				return "NUMERIC";
 				break;
 			case DataModel::TYPE_DATE_TIME:
-				return "datetime";
+				return "NUMERIC";
 				break;
 			case DataModel::TYPE_ARRAY:
-				return "longtext";
+				return "TEXT";
 				break;
 			default:
 				throw new DataModel_Exception(

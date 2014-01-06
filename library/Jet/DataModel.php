@@ -414,6 +414,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		if(static::$__data_model_forced_cache_backend_type!==null) {
 			return static::$__data_model_forced_cache_backend_type;
 		}
+
 		return static::__DataModelGetMainConfig()->getCacheBackendType();
 	}
 
@@ -423,7 +424,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 * @return DataModel_Cache_Backend_Config_Abstract
 	 */
 	public function getCacheBackendConfig() {
-		$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getBackendType() );
+		$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getCacheBackendType() );
 
 		if(static::$__data_model_forced_cache_backend_options!==null) {
 			$config->setData(new Data_Array(static::$__data_model_forced_cache_backend_options));

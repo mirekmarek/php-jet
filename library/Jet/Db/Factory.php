@@ -63,6 +63,7 @@ class Db_Factory extends Factory {
 		$default_class_name = static::$connection_class_prefix."Config_".static::$connection_adapter;
 
 		$config_class = static::getClassName( $default_class_name );
+
 		$instance = new $config_class( $config_data, $config );
 		static::checkInstance( $default_class_name, $instance);
 		return $instance;

@@ -200,5 +200,10 @@
 		"translation" => '',
 		"is_translated" => false,
 	),
+	"e63b896b0a7dd5c3849b12416121d848" => array(
+		"phrase" => 'Delete connection \'%CONNECTION%\' ',
+		"translation" => '',
+		"is_translated" => false,
+	),
 );
 ;

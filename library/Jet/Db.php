@@ -36,6 +36,26 @@ class Db extends Object {
 	}
 
 	/**
+	 * @param string $connection_name
+	 * @param array $connection_config_data
+	 *
+	 * @return Db_Connection_Abstract
+	 */
+	public static function create( $connection_name, array $connection_config_data ) {
+		if(isset(static::$connections[$connection_name])){
+			return static::$connections[$connection_name];
+		}
+
+		$config = Db_Factory::getConnectionConfigInstance( $connection_config_data );
+		$connection = Db_Factory::getConnectionInstance( $config );
+
+		static::$connections[$connection_name] = $connection;
+
+		return $connection;
+
+	}
+
+	/**
 	 * Get connection instance (configured PDO database adapter)
 	 *
 	 * @param $connection_name (optional)

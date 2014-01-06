@@ -1,8 +1,5 @@
 <?php
 /**
- * //TODO: rename ... Adapter is ...
- *
- *
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
