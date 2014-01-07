@@ -307,12 +307,12 @@ class JetCompatibilityTester {
 		);
 
 		$this->check(
-			"Memcached support",
+			"Memcache support",
 			"",
 			function( JetCompatibilityTester_TestResult $test_result ) {
-				$result = extension_loaded("memcached");
+				$result = extension_loaded("memcache");
 				if(!$result) {
-					$test_result->setResultMessage( "Memcached support is not available (memcached extension is not loaded).<br/>Use Redis or Memcached for better performance." );
+					$test_result->setResultMessage( "Memcache support is not available (memcache extension is not loaded).<br/>Use Redis or Memcached for better performance." );
 				}
 
 				return $result;

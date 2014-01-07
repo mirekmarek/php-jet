@@ -7,11 +7,11 @@
  * @version <%VERSION%>
  *
  * @category Jet
- * @package Redis
+ * @package Memcache
  */
 namespace Jet;
 
-abstract class Redis_Connection_Abstract extends \Redis implements Object_Interface {
+abstract class Memcache_Connection_Abstract extends \Memcache implements Object_Interface {
 
 	use Object_Trait;
 	use Object_Trait_MagicSleep;
@@ -32,30 +32,28 @@ abstract class Redis_Connection_Abstract extends \Redis implements Object_Interf
 	/**
 	 * @var string
 	 */
-	public static $__factory_must_be_instance_of_class_name = "Jet\\Redis_Connection_Abstract";
+	public static $__factory_must_be_instance_of_class_name = "Jet\\Memcache_Connection_Abstract";
 
 
 	/**
 	 *
-	 * @var Redis_Connection_Config_Abstract
+	 * @var Memcache_Connection_Config_Abstract
 	 */
 	protected $config = null;
 
 	/**
-	 * @param Redis_Connection_Config_Abstract $config
+	 * @param Memcache_Connection_Config_Abstract $config
 	 *
-	 * @throws Redis_Exception
+	 * @throws Memcache_Exception
 	 */
-	public function __construct( Redis_Connection_Config_Abstract $config ) {
+	public function __construct( Memcache_Connection_Config_Abstract $config ) {
 
 		$this->config = $config;
 
-		parent::__construct();
-
-		if(!$this->connect( $this->config->getHost(), $this->config->getPort() )) {
-			throw new Redis_Exception(
-				"Unable to connect Redis '{$this->config->getHost()}:{$this->config->getPort()}' ",
-				Redis_Exception::CODE_UNABLE_TO_CONNECT
+		if(!@$this->connect( $this->config->getHost(), $this->config->getPort() )) {
+			throw new Memcache_Exception(
+				"Unable to connect Memcache '{$this->config->getHost()}:{$this->config->getPort()}' ",
+				Memcache_Exception::CODE_UNABLE_TO_CONNECT
 			);
 		}
 	}
@@ -71,7 +69,7 @@ abstract class Redis_Connection_Abstract extends \Redis implements Object_Interf
 
 	/**
 	 *
-	 * @return Redis_Connection_Config_Abstract
+	 * @return Memcache_Connection_Config_Abstract
 	 */
 	public function getConfig(){
 		return $this->config;

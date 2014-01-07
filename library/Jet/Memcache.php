@@ -7,29 +7,29 @@
  * @version <%VERSION%>
  *
  * @category Jet
- * @package Redis
+ * @package Memcache
  */
 namespace Jet;
 
-class Redis extends Object {
+class Memcache extends Object {
 
 	/**
-	 * @var Redis_Config
+	 * @var Memcache_Config
 	 */
 	protected static $config = null;
 
 	/**
-	 * @var Redis_Connection_Abstract[]
+	 * @var Memcache_Connection_Abstract[]
 	 */
 	protected static $connections = array();
 
 	/**
-	 * Get connection instance (configured Redis client)
+	 * Get connection instance (configured Memcache client)
 	 *
 	 * @param $connection_name (optional)
 	 *
-	 * @return Redis_Connection_Abstract
-	 * @throws Redis_Exception
+	 * @return Memcache_Connection_Abstract
+	 * @throws Memcache_Exception
 	 */
 	public static function getConnection( $connection_name=null ){
 		return self::get($connection_name);
@@ -39,15 +39,15 @@ class Redis extends Object {
 	 * @param string $connection_name
 	 * @param array $connection_config_data
 	 *
-	 * @return Redis_Connection_Abstract
+	 * @return Memcache_Connection_Abstract
 	 */
 	public static function create( $connection_name, array $connection_config_data ) {
 		if(isset(static::$connections[$connection_name])){
 			return static::$connections[$connection_name];
 		}
 
-		$config = Redis_Factory::getConnectionConfigInstance( $connection_config_data );
-		$connection = Redis_Factory::getConnectionInstance( $config );
+		$config = Memcache_Factory::getConnectionConfigInstance( $connection_config_data );
+		$connection = Memcache_Factory::getConnectionInstance( $config );
 
 		static::$connections[$connection_name] = $connection;
 
@@ -56,12 +56,12 @@ class Redis extends Object {
 	}
 
 	/**
-	 * Get connection instance (configured Redis client)
+	 * Get connection instance (configured Memcache client)
 	 *
 	 * @param $connection_name (optional)
 	 *
-	 * @return Redis_Connection_Abstract
-	 * @throws Redis_Exception
+	 * @return Memcache_Connection_Abstract
+	 * @throws Memcache_Exception
 	 */
 	public static function get( $connection_name=null ){
 		if(!$connection_name) {
@@ -77,25 +77,25 @@ class Redis extends Object {
 		$connection_config = $config->getConnection($connection_name);
 
 		if( !$connection_config ){
-			throw new Redis_Exception(
+			throw new Memcache_Exception(
 				"Connection '{$connection_name}' doesn't exist",
 				Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}
 
-		static::$connections[$connection_name] = Redis_Factory::getConnectionInstance( $connection_config );
+		static::$connections[$connection_name] = Memcache_Factory::getConnectionInstance( $connection_config );
 
 		return static::$connections[$connection_name];
 	}
 
 	/**
-	 * Get Redis config instance
+	 * Get Memcache config instance
 	 *
-	 * @return Redis_Config
+	 * @return Memcache_Config
 	 */
 	public static function getConfig(){
 		if(!static::$config) {
-			static::$config = new Redis_Config();
+			static::$config = new Memcache_Config();
 		}
 		return static::$config;
 	}

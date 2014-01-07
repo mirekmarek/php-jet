@@ -13,10 +13,10 @@
  */
 namespace Jet;
 
-class Installer_Step_Redis_Controller extends Installer_Step_Controller {
+class Installer_Step_Memcache_Controller extends Installer_Step_Controller {
 
 	/**
-	 * @var Redis_Config
+	 * @var Memcache_Config
 	 */
 	protected $main_config;
 
@@ -26,7 +26,7 @@ class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
-		$this->main_config = new Redis_Config(true);
+		$this->main_config = new Memcache_Config(true);
 
 		$GET = Http_Request::GET();
 
@@ -40,7 +40,7 @@ class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 			$this->_testConnection( $test_connection_name );
 		}
 		else {
-			if(extension_loaded("redis")) {
+			if(extension_loaded("memcache")) {
 				$this->_addConnection();
 			} else {
 				$this->render("extension-not-loaded-warning");
@@ -66,7 +66,7 @@ class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 	 *
 	 */
 	protected function _addConnection() {
-		$connection_config = Redis_Factory::getConnectionConfigInstance(array(), $this->main_config);
+		$connection_config = Memcache_Factory::getConnectionConfigInstance(array(), $this->main_config);
 
 		$form = $connection_config->getCommonForm();
 
@@ -156,7 +156,7 @@ class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 		$OK = true;
 		$error_message = "";
 		try {
-			Redis::get($test_connection_name);
+			Memcache::get($test_connection_name);
 		} catch(\Exception $e) {
 			$error_message = $e->getMessage();
 			$OK = false;
@@ -175,6 +175,6 @@ class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 	}
 
 	public function getLabel() {
-		return Tr::_("Redis connections", array(), "Redis");
+		return Tr::_("Memcache connections", array(), "Memcache");
 	}
 }

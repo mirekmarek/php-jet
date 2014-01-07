@@ -24,6 +24,7 @@ class Installer {
 		"Main",
 		"Translator",
 		"Redis",
+		"Memcache",
 		"DB",
 		"DataModelMain",
 		"InstallModules",

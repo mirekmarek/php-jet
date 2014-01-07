@@ -110,5 +110,10 @@
 		"translation" => '',
 		"is_translated" => false,
 	),
+	"950ce9cdc23dee2160b7ba2bae9f5565" => array(
+		"phrase" => 'Redis is not available! (redis extension is not loaded) ',
+		"translation" => '',
+		"is_translated" => false,
+	),
 );
 ;
