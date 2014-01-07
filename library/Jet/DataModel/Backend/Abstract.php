@@ -40,7 +40,6 @@ abstract class DataModel_Backend_Abstract extends Object {
 	 */
 	public function  __construct( DataModel_Backend_Config_Abstract $config ) {
 		$this->config = $config;
-		$this->initialize();
 	}
 
 	/**

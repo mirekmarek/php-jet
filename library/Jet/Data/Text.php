@@ -18,6 +18,11 @@
 namespace Jet;
 
 class Data_Text {
+
+	/**
+	 * @var array
+	 */
+	protected static $_defined_constants = array();
 	
 	/**
 	 * Removes accents from text
@@ -112,8 +117,12 @@ class Data_Text {
 	 * @return string
 	 */
 	public static function replaceSystemConstants( $input, array $default_replacement=array() ) {
-		$data = get_defined_constants(true);
-		$data = $data["user"];
+		if(!static::$_defined_constants) {
+			static::$_defined_constants = get_defined_constants(true);
+			static::$_defined_constants = static::$_defined_constants["user"];
+		}
+
+		$data = static::$_defined_constants;
 
 
 		return static::replaceData($input, array_merge($data, $default_replacement));

@@ -1,4 +1,18 @@
 <?php
+/**
+ * Jet compatibility test - all in one
+ *
+ * This script can be used as standalone
+ *
+ *
+ * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @version <%VERSION%>
+ *
+ * @category Jet
+ * @package Installer
+ */
 class JetCompatibilityTester_TestResult {
 	/**
 	 * @var bool
@@ -278,6 +292,33 @@ class JetCompatibilityTester {
 				return isset($_SERVER["DOCUMENT_ROOT"]);
 			}
 		);
+
+		$this->check(
+			"Redis support",
+			"",
+			function( JetCompatibilityTester_TestResult $test_result ) {
+				$result = class_exists("Redis", false);
+				if(!$result) {
+					$test_result->setResultMessage( "Redis support is not available (class Redis does not exist).<br/>Use Redis or Memcached for better performance." );
+				}
+
+				return $result;
+			}
+		);
+
+		$this->check(
+			"Memcached support",
+			"",
+			function( JetCompatibilityTester_TestResult $test_result ) {
+				$result = extension_loaded("memcached");
+				if(!$result) {
+					$test_result->setResultMessage( "Memcached support is not available (memcached extension is not loaded).<br/>Use Redis or Memcached for better performance." );
+				}
+
+				return $result;
+			}
+		);
+
 
 		if( $this->check(
 			"GD extension",

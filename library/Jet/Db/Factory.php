@@ -83,25 +83,7 @@ class Db_Factory extends Factory {
 		$adapter_class = static::getClassName( $default_class_name );
 		$instance = new $adapter_class( $connection_config );
 
-		//HACK: We do not have multiple inheritance in PHP :-(
-		//static::checkInstance($default_class_name, $instance);
-		/**
-		 * @var Object $default_class
-		 */
-		$required_class = $default_class_name::getFactoryMustBeInstanceOfClassName();
-		if(!$required_class){
-			throw new Factory_Exception(
-				$default_class_name."::\$__factory_must_be_instance_of_class_name must be set for Jet\\Factory::checkInstance().",
-				Factory_Exception::CODE_MISSING_INSTANCEOF_CLASS_NAME
-			);
-		}
-
-		if(!($instance instanceof $required_class) ) {
-			throw new Factory_Exception(
-				"Class " . get_class($instance) . " must be descendant of {$required_class}.",
-				Factory_Exception::CODE_INVALID_CLASS_INSTANCE
-			);
-		}
+		static::checkInstance($default_class_name, $instance);
 
 		return $instance;
 	}

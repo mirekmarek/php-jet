@@ -23,7 +23,7 @@ class Application_Signals_Signal extends Object {
 	/**
 	 * Instance of the sender
 	 *
-	 * @var Object
+	 * @var Object|Object_Interface
 	 */
 	protected $sender;
 
@@ -43,11 +43,11 @@ class Application_Signals_Signal extends Object {
 
 	/**
 	 *
-	 * @param \Jet\Object $sender
+	 * @param Object_Interface $sender
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Object $sender, $name, array $data=array() ) {
+	public function __construct( Object_Interface $sender, $name, array $data=array() ) {
 		$this->sender = $sender;
 		$this->name = $name;
 		$this->data = $data;

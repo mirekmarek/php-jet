@@ -92,7 +92,7 @@ class Db extends Object {
 
 	/**
 	 * Get DB config instance
-	 * 
+	 *
 	 * @return Db_Config
 	 */
 	public static function getConfig(){

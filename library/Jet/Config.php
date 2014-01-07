@@ -160,7 +160,7 @@ abstract class Config extends Object {
 	 * @return string
 	 */
 	public static function getApplicationConfigFilePath() {
-		return self::$application_config_file_path;
+		return static::$application_config_file_path;
 	}
 
 	/**
@@ -191,7 +191,10 @@ abstract class Config extends Object {
 		}
 
 		if(!isset(static::$configs_data[$config_file_path])) {
-			if($this->soft_mode && !is_readable($config_file_path)) {
+			if(
+				$this->soft_mode &&
+				!is_readable($config_file_path)
+			) {
 				static::$configs_data[$config_file_path] = new Data_Array( array() );
 				return static::$configs_data[$config_file_path];
 			}
@@ -323,7 +326,10 @@ abstract class Config extends Object {
 			$this_config_data = array();
 
 			if( !$data->exists(static::$__config_data_path) ) {
-				if(static::$__config_section_is_obligatory && !$this->soft_mode ) {
+				if(
+					static::$__config_section_is_obligatory &&
+					!$this->soft_mode
+				) {
 					throw new Config_Exception(
 						"The obligatory section '".static::$__config_data_path."' is missing in the configuration file {$this->config_file_path}! ",
 						Config_Exception::CODE_CONFIG_CHECK_ERROR

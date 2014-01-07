@@ -20,12 +20,13 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 	public function main() {
 		$_translations = file(JET_APPLICATION_PATH."_installer/available translations.txt");
 
-		$all_translations = Locale::getAllLocalesList($this->installer->getCurrentLocale());
+		//$all_translations = Locale::getAllLocalesList($this->installer->getCurrentLocale());
 		$translations = array();
 		foreach($_translations as $tr) {
 			$tr = trim($tr);
+			list($tr,$lng) = explode(":", $tr);
 
-			$translations[$tr] = $all_translations[$tr];
+			$translations[$tr] = $lng;
 		}
 
 

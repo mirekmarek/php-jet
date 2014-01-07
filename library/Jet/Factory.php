@@ -128,11 +128,11 @@ class Factory extends Object  {
 	 * Checks if the instance is instance of static::$__factory_must_be_instance_of class
 	 *
 	 * @param string $default_class
-	 * @param Object|\Jet\Object $instance
+	 * @param Object_Interface|Object $instance
 	 *
 	 * @throws Factory_Exception
 	 */
-	public static function checkInstance( $default_class, Object $instance ) {
+	public static function checkInstance( $default_class, Object_Interface $instance ) {
 
 		/**
 		 * @var Object $default_class

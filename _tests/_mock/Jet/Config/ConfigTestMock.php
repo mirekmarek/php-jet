@@ -52,6 +52,12 @@ class ConfigTestMock extends Config {
 
 	);
 
+	/**
+	 *
+	 * @var string
+	 */
+	protected static $application_config_file_path = "";
+
 	public function getBoolProperty() {
 		return $this->bool_property;
 	}

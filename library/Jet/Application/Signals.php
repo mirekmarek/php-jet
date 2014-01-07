@@ -22,14 +22,14 @@ class Application_Signals extends Object {
 	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = "Jet\\Application_Signals_Signal";
 
 	/**
-	 * @param \Jet\Object $sender
+	 * @param Object_Interface $sender
 	 * @param $signal_name
 	 * @param array $signal_data (optional)
 	 *
 	 * @throws Application_Signals_Exception
 	 * @return Application_Signals_Signal
 	 */
-	public static function createSignal( Object $sender, $signal_name, array $signal_data=array() ) {
+	public static function createSignal( Object_Interface $sender, $signal_name, array $signal_data=array() ) {
 		if( !$sender->getHasSignal( $signal_name ) ) {
 			throw new Application_Signals_Exception(
 				"Unknown signal '{$signal_name}'. Please add a item to the ".get_class($sender)."::\$__signals object property. ",

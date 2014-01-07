@@ -37,6 +37,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 
 		$this->config = new DataModel_Backend_MySQL_Config( true );
+
 		$this->object = new DataModel_Backend_MySQL( $this->config );
 
 		$this->data_model = new DataModel_Query_DataModelTestMock();
