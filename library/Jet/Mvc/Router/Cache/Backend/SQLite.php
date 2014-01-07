@@ -139,7 +139,6 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 
 			}
 		}
-
 	}
 
 	/**

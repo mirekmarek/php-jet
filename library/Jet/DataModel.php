@@ -387,7 +387,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				$backend_type,
 				$backend_config
 			);
-			self::$___data_model_backend_instance[$key]->$this->initialize();
+			self::$___data_model_backend_instance[$key]->initialize();
 
 		}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var Jet\Db_Config $config
+ * @var Jet\Redis_Config $config
  */
 $config = $this->config;
 ?>
@@ -10,16 +10,16 @@ $config = $this->config;
 	<thead>
 	<tr>
 		<th><?=Jet\Tr::_("Name");?></th>
-		<th><?=Jet\Tr::_("Type");?></th>
-		<th><?=Jet\Tr::_("DSN");?></th>
+		<th><?=Jet\Tr::_("Host or socket");?></th>
+		<th><?=Jet\Tr::_("Port");?></th>
 		<th colspan="3"></th>
 	</tr>
 	</thead>
 	<?php foreach( $config->getConnections() as $name => $connection ): ?>
 	<tr>
 		<td><?=$connection->getName();?></td>
-		<td><?=$connection->getDriver();?></td>
-		<td><?=$connection->getDSN();?></td>
+		<td><?=$connection->getHost();?></td>
+		<td><?=$connection->getPort();?></td>
 		<td><a href="?edit_connection=<?=rawurlencode($name);?>"><?=Jet\Tr::_("Edit");?></a></td>
 		<td><a href="?delete_connection=<?=rawurlencode($name);?>"><?=Jet\Tr::_("Delete");?></a></td>
 		<td><a href="?test_connection=<?=rawurlencode($name);?>"><?=Jet\Tr::_("Test");?></a></td>
@@ -27,7 +27,7 @@ $config = $this->config;
 	<?php endforeach; ?>
 </table>
 
-	<jet_form name="Db_Config">
+	<jet_form name="Redis_Config">
 		<jet_form_common_error_message class="formError"/>
 		<table>
 			<tr>
@@ -39,8 +39,7 @@ $config = $this->config;
 	</jet_form>
 <?php else: ?>
 	<form method="post">
-	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Jet\Tr::_("Next - skip it");?>"/>
+		<input type="hidden" name="go" value="1">
+		<input type="submit" value="<?=Jet\Tr::_("Next - skip it");?>"/>
 	</form>
 <?php endif; ?>
-

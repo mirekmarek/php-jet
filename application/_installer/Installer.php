@@ -23,6 +23,7 @@ class Installer {
 		"DirsCheck",
 		"Main",
 		"Translator",
+		"Redis",
 		"DB",
 		"DataModelMain",
 		"InstallModules",
@@ -30,9 +31,7 @@ class Installer {
 		"CoreRouter",
 		"CreateAdministrator",
 		"CreateSite",
-		/*
-$config["js_libs"] = array(
-*/
+		//"jsLibs",
 		"Final"
 	);
 

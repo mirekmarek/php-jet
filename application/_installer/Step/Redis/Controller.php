@@ -13,10 +13,10 @@
  */
 namespace Jet;
 
-class Installer_Step_DB_Controller extends Installer_Step_Controller {
+class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 
 	/**
-	 * @var Db_Config
+	 * @var Redis_Config
 	 */
 	protected $main_config;
 
@@ -26,7 +26,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
-		$this->main_config = new Db_Config(true);
+		$this->main_config = new Redis_Config(true);
 
 		$GET = Http_Request::GET();
 
@@ -65,7 +65,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 	 *
 	 */
 	protected function _addConnection() {
-		$connection_config = Db_Factory::getConnectionConfigInstance(array(), $this->main_config);
+		$connection_config = Redis_Factory::getConnectionConfigInstance(array(), $this->main_config);
 
 		$form = $connection_config->getCommonForm();
 
@@ -155,7 +155,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 		$OK = true;
 		$error_message = "";
 		try {
-			Db::get($test_connection_name);
+			Redis::get($test_connection_name);
 		} catch(\Exception $e) {
 			$error_message = $e->getMessage();
 			$OK = false;
@@ -174,6 +174,6 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 	}
 
 	public function getLabel() {
-		return Tr::_("DB (PDO) connections", array(), "DB");
+		return Tr::_("Redis connections", array(), "Redis");
 	}
 }

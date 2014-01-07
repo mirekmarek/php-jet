@@ -205,5 +205,15 @@
 		"translation" => '',
 		"is_translated" => false,
 	),
+	"07b92462e1f27a6584641ebf6022588b" => array(
+		"phrase" => 'Next - skip this',
+		"translation" => '',
+		"is_translated" => false,
+	),
+	"3770cb0af5c79063b22ba95fa73d10af" => array(
+		"phrase" => 'Next - skip it',
+		"translation" => '',
+		"is_translated" => false,
+	),
 );
 ;
