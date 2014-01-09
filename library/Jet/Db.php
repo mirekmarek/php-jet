@@ -14,6 +14,7 @@ namespace Jet;
 class Db extends Object {
 	const DRIVER_MYSQL = "mysql";
 	const DRIVER_SQLITE = "sqlite";
+	const DRIVER_OCI = "oci";
 
 	/**
 	 * @var Db_Config

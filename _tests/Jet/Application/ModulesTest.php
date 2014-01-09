@@ -12,8 +12,8 @@
  */
 namespace Jet;
 
-if(!defined("JET_APPLICATION_MODULES_PATH"))
-define("JET_APPLICATION_MODULES_PATH", JET_TESTS_DATA."Application/Modules/TestModules/");
+if(!defined("JET_MODULES_PATH"))
+define("JET_MODULES_PATH", JET_TESTS_DATA."Application/Modules/TestModules/");
 
 
 class Application_ModulesTest extends \PHPUnit_Framework_TestCase {

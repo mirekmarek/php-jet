@@ -33,7 +33,7 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 		"dictionaries_path" => array(
 			"type" => self::TYPE_STRING,
 			"is_required" => false,
-			"default_value" => "%JET_APPLICATION_MODULES_PATH%%TRANSLATOR_NAMESPACE%/dictionaries/%TRANSLATOR_LOCALE%.php",
+			"default_value" => "%JET_MODULES_PATH%%TRANSLATOR_NAMESPACE%/dictionaries/%TRANSLATOR_LOCALE%.php",
 			"form_field_label" => "Dictionaries path: ",
 		),
 		"common_dictionaries_path" => array(

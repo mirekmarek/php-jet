@@ -372,7 +372,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 * @return string
 	 */
 	public function getModuleDir() {
-		return JET_APPLICATION_MODULES_PATH . str_replace("\\", "/", $this->name) . "/";
+		return JET_MODULES_PATH . str_replace("\\", "/", $this->name) . "/";
 	}
 
 	/**

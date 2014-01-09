@@ -1,9 +1,9 @@
 library/Zend
 application/sites/*
 application/config/*
-tmp/*
-logs/*
-cache/*
+application/logs/*
+application/tmp/*
+application/cache/*
 data/*
 public/*
 !public/scripts/Jet

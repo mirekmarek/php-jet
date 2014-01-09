@@ -11,9 +11,10 @@
  */
 namespace Jet;
 
+require("defines.php");
+
 //require("initXHProf.php");
 
-require("defines.php");
 require( JET_APPLICATION_PATH . "initErrorHandler.php" );
 require( JET_APPLICATION_PATH . "initAutoloader.php" );
 

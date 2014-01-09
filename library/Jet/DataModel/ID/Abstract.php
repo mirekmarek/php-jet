@@ -29,6 +29,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 */
 	protected $values = array();
 
+
 	/**
 	 * @param DataModel $data_model
 	 */
@@ -111,7 +112,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	public function getWhere() {
 		$where = array();
 
-		foreach($this->values as $pr_property_name=>$value) {
+		foreach($this->values as $key=>$value) {
 			if($value===null) {
 				continue;
 			}
@@ -119,7 +120,8 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 			if($where) {
 				$where[] = "AND";
 			}
-			$where["this.{$pr_property_name}"] = $value;
+
+			$where["this.{$key}"] = $value;
 		}
 
 		return $where;
@@ -209,6 +211,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @throws DataModel_Exception
 	 */
 	public function offsetSet($offset, $value) {
+
 		if(!array_key_exists($offset, $this->values)) {
 			throw new DataModel_Exception(
 					"Undefined ID part '{$offset}'",
@@ -228,6 +231,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @throws DataModel_Exception
 	 */
 	public function offsetGet($offset) {
+
 		if(!array_key_exists($offset, $this->values)) {
 			throw new DataModel_Exception(
 					"Undefined ID part '{$offset}'",
@@ -246,6 +250,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @return bool
 	 */
 	public function offsetExists($offset) {
+
 		return array_key_exists($offset, $this->values);
 	}
 

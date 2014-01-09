@@ -160,7 +160,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 * @return string
 	 */
 	public function getBasePath() {
-		return JET_APPLICATION_SITES_PATH . $this->ID."/";
+		return JET_SITES_PATH . $this->ID."/";
 	}
 
 	/**

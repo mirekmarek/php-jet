@@ -29,6 +29,6 @@ abstract class Config_Module extends Config {
 	 */
 	public function __construct( $module_name ) {
 		$this->__config_module_name = $module_name;
-		parent::__construct( JET_APPLICATION_MODULES_PATH.$module_name."/config/config.php");
+		parent::__construct( JET_MODULES_PATH.$module_name."/config/config.php");
 	}
 }

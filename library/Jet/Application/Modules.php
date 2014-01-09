@@ -250,7 +250,7 @@ class Application_Modules extends Object {
 
 		static::getInstalledModulesList();
 
-		static::_readModulesList($ignore_corrupted_modules, JET_APPLICATION_MODULES_PATH, "");
+		static::_readModulesList($ignore_corrupted_modules, JET_MODULES_PATH, "");
 
 		return static::$all_modules_list;
 	}

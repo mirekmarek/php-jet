@@ -29,7 +29,7 @@ class Application {
 	 * @static
 	 *
 	 * @param string|null $environment (optional, default = JET_APPLICATION_ENVIRONMENT constant)
-	 * @param string|null $config_file_path (optional,default = JET_APPLICATION_PATH."/configs/".$environment.".php")
+	 * @param string|null $config_file_path (optional,default = JET_CONFIG_PATH.$environment.".php")
 	 *
 	 * @throws Application_Exception
 	 */
@@ -56,7 +56,7 @@ class Application {
 		static::$environment = $environment;
 
 		if(!$config_file_path){
-			$config_file_path = JET_APPLICATION_CONFIG_PATH . "{$environment}.php";
+			$config_file_path = JET_CONFIG_PATH . "{$environment}.php";
 		}
 
 		Config::setApplicationConfigFilePath( $config_file_path );

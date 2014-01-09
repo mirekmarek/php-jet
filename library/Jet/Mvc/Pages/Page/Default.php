@@ -92,22 +92,22 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		),
 		"URI" => array(
 			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
+			"max_len" => 255,
 			"form_field_type" => false,
 		),
 		"non_schema_URL" => array(
 			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
+			"max_len" => 2000,
 			"form_field_type" => false,
 		),
 		"non_SSL_URL" => array(
 			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
+			"max_len" => 2000,
 			"form_field_type" => false,
 		),
 		"SSL_URL" => array(
 			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
+			"max_len" => 2000,
 			"form_field_type" => false,
 		),
 		"URLs" => array(

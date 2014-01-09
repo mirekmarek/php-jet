@@ -41,7 +41,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 
 
 		$cp_conf_source = $this->installer->getTmpConfigFilePath();
-		$cp_conf_target = JET_APPLICATION_CONFIG_PATH.JET_APPLICATION_ENVIRONMENT.".php";
+		$cp_conf_target = JET_CONFIG_PATH.JET_APPLICATION_ENVIRONMENT.".php";
 
 		$copy_OK = true;
 		$copy_message = "";

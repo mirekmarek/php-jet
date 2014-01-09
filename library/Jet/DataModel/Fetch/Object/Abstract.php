@@ -110,6 +110,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 
 		foreach( $this->data_model->getBackendInstance()->fetchAll( $this->query ) as $ID ) {
 			$l_ID = clone $this->empty_ID_instance;
+
 			foreach($ID as $k=>$v) {
 				$l_ID[$k] = $v;
 			}

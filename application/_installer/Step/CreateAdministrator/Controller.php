@@ -25,6 +25,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		$user->initNewObject();
 
 		$form = $user->getSimpleForm();
+		$user->setLocale( $this->installer->getCurrentLocale() );
 
 		$this->view->setVar("form", $form);
 

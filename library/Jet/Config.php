@@ -126,7 +126,7 @@ abstract class Config extends Object {
 	protected $_config_data = null;
 
 	/**
-	 * File path to application config file (usually JET_APPLICATION_PATH/configs/[JET_APPLICATION_ENVIRONMENT].php)
+	 * File path to application config file (usually JET_CONFIG_PATH/[JET_APPLICATION_ENVIRONMENT].php)
 	 *
 	 * @var string
 	 */

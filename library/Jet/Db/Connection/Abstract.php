@@ -50,6 +50,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
 
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
 	}
 
 	/**

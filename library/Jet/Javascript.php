@@ -66,7 +66,7 @@ class Javascript extends Object {
 			}
 
 
-			$JS_file_path = JET_APPLICATION_MODULES_PATH.str_replace("\\", "/", $module_name)."/JS/".implode("/", $path_fragments).".js";
+			$JS_file_path = JET_MODULES_PATH.str_replace("\\", "/", $module_name)."/JS/".implode("/", $path_fragments).".js";
 		}
 
 		if(!IO_File::exists($JS_file_path)){

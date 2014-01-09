@@ -12,8 +12,8 @@
  */
 namespace Jet;
 
-if(!defined("JET_APPLICATION_MODULES_PATH"))
-define("JET_APPLICATION_MODULES_PATH", JET_TESTS_DATA."Application/Modules/TestModules/");
+if(!defined("JET_MODULES_PATH"))
+define("JET_MODULES_PATH", JET_TESTS_DATA."Application/Modules/TestModules/");
 
 class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -167,7 +167,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	public function testGetModuleDir() {
 		$module_info = new Application_Modules_Module_Info("ValidModule");
 
-		$this->assertEquals( JET_APPLICATION_MODULES_PATH. "ValidModule/", $module_info->getModuleDir() );
+		$this->assertEquals( JET_MODULES_PATH. "ValidModule/", $module_info->getModuleDir() );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	public function testGetViewDir() {
 		$module_info = new Application_Modules_Module_Info("ValidModule");
 
-		$this->assertEquals( JET_APPLICATION_MODULES_PATH. "ValidModule/".Application_Modules::MODULE_VIEWS_DIR, $module_info->getViewsDir() );
+		$this->assertEquals( JET_MODULES_PATH. "ValidModule/".Application_Modules::MODULE_VIEWS_DIR, $module_info->getViewsDir() );
 	}
 
 	/**

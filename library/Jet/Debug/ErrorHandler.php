@@ -178,7 +178,7 @@ class Debug_ErrorHandler {
 	 */
 	public static function getHTTPErrorPagesDir(){
 		if(!static::$HTTP_error_pages_dir) {
-			static::$HTTP_error_pages_dir = JET_APPLICATION_PATH."error_pages/";
+			static::$HTTP_error_pages_dir = JET_ERROR_PAGES_PATH;
 		}
 
 		return static::$HTTP_error_pages_dir;

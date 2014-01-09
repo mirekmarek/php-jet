@@ -119,7 +119,7 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 
 		$this->_db->execCommand( "UPDATE `{$this->_table_name}` SET
 						`data`=:data,
-						`created_date_time`=NOW()
+						`created_date_time`=datetime('now')
 					WHERE
 						`class_name`=:class_name AND
 						`model_name`=:model_name AND

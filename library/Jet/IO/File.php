@@ -329,7 +329,7 @@ class IO_File {
 	 * Gets mime type of file by given file path.
 	 *
 	 * @param string $file_path
-	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_APPLICATION_CONFIG_PATH/file_mime_types/map.php )
+	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_CONFIG_PATH/file_mime_types/map.php )
 	 * @param bool $without_charset (optional)
 	 *
 	 * @return string
@@ -337,9 +337,9 @@ class IO_File {
 	public static function getMimeType($file_path, $extensions_mimes_map_file_path=null, $without_charset=true){
 		if(
 			!$extensions_mimes_map_file_path &&
-			defined("JET_APPLICATION_CONFIG_PATH")
+			defined("JET_CONFIG_PATH")
 		) {
-			$extensions_mimes_map_file_path = JET_APPLICATION_CONFIG_PATH."file_mime_types/map.php";
+			$extensions_mimes_map_file_path = JET_CONFIG_PATH."file_mime_types/map.php";
 		}
 
 		$mime_type = null;

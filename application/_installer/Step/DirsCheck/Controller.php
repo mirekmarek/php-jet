@@ -33,11 +33,11 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller {
 				"is_required" => true,
 				"is_writeable" => false
 			),
-			JET_APPLICATION_SITES_PATH => array(
+			JET_SITES_PATH => array(
 				"is_required" => true,
 				"is_writeable" => false
 			),
-			JET_APPLICATION_CONFIG_PATH => array(
+			JET_CONFIG_PATH => array(
 				"is_required" => false,
 				"is_writeable" => false,
 				"comment" => "Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually."
