@@ -78,8 +78,7 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 * @param mixed $data
 	 */
 	public function save(DataModel $data_model, $ID, $data) {
-
-		$st = $this->_db_write->prepare("INSERT INTO {$this->_table_name} (
+		$this->_db_write->execCommand("INSERT INTO {$this->_table_name} (
 						class_name,
 						model_name,
 						object_ID,
@@ -91,20 +90,14 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 						:object_ID,
 						trunc(sysdate),
 						:data
-					)
-				");
+					)",
+				array(
+					"class_name" => get_class($data_model),
+					"model_name" => $data_model->getDataModelName(),
+					"object_ID" => (string)$ID,
+					"data" => $this->serialize($data),
 
-		$data = $this->serialize($data);
-		$class = get_class($data_model);
-		$model_name = $data_model->getDataModelName();
-		$ID = (string)$ID;
-
-		$st->bindParam("class_name", $class);
-		$st->bindParam("model_name", $model_name);
-		$st->bindParam("object_ID", $ID);
-		$st->bindParam("data", $data, \PDO::PARAM_STR, strlen($data));
-
-		$st->execute();
+				));
 	}
 
 	/**
@@ -116,14 +109,13 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 
 		$this->_db_write->execCommand( "UPDATE {$this->_table_name} SET
 						data=:data,
-						created_date_time=:date
+						created_date_time=trunc(sysdate)
 					WHERE
 						class_name=:class_name AND
 						model_name=:model_name AND
 						object_ID=:object_ID
 						",
 			array(
-				"date" => date("Y-m-d H:i:s"),
 				"data" => $this->serialize($data),
 				"class_name" => get_class($data_model),
 				"model_name" => $data_model->getDataModelName(),

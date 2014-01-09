@@ -4,15 +4,15 @@ DataModel backend:
 MS SQL
 ____________________________________________
 DataModel Cache backend:
-+ Oracle
+* Oracle
 MS SQL
 ____________________________________________
 DataModel History backend:
-Oracle
++ Oracle
 MS SQL
 ____________________________________________
 Mvc Router Cache backend:
-Oracle
++ Oracle
 MS SQL
 ____________________________________________
 Cache

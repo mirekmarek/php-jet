@@ -57,8 +57,33 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 * @return int
 	 */
 	public function execCommand($query, array $query_data = array()) {
-		$q = $this->prepareQuery($query, $query_data);
-		return $this->exec( $q );
+		Debug_Profiler::SQLQueryStart( $query );
+
+		$statement = $this->prepare($query);
+
+		foreach( $query_data as $k=>$v ) {
+			$type = \PDO::PARAM_STR;
+			$len = null;
+
+			if(is_int($v)) {
+				$type = \PDO::PARAM_INT;
+			} else
+			if(is_null($v)) {
+				$type = \PDO::PARAM_NULL;
+			} else
+			if(is_string($v)) {
+				$len = strlen($v);
+			}
+
+			$statement->bindParam( $k, $query_data[$k], $type, $len );
+
+		}
+
+		$res = $statement->execute();
+
+		Debug_Profiler::SQLQueryEnd();
+
+		return $res;
 	}
 
 	/**
