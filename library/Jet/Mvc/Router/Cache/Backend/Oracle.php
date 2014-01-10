@@ -101,7 +101,7 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 						:URL,
 						:URL_hash,
 						:data,
-						trunc(sysdate)
+						sysdate
 					)
 				",$data);
 
@@ -155,7 +155,7 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 			."\t URL varchar(3000) NOT NULL,\n"
 			."\t URL_hash varchar(255) NOT NULL,\n"
 			."\t data CLOB NOT NULL,\n"
-			."\t created_date_time date NOT NULL,\n"
+			."\t created_date_time TIMESTAMP WITH TIME ZONE NOT NULL,\n"
 			."\tCONSTRAINT {$this->_table_name}_pk PRIMARY KEY (URL_hash)\n"
 			."\t)';"
 			."END IF;\n"

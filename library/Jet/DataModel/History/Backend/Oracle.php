@@ -61,8 +61,8 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 			$user_name = $user->getName()." (".$user->getLogin().")";
 			$user_ID = (string)$user->getID();
 		} else {
-			$user_name = "";
-			$user_ID = "";
+			$user_name = "none";
+			$user_ID = "none";
 		}
 
 		$this->_db_write->execCommand("INSERT INTO {$this->_table_name}
@@ -85,7 +85,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 											:model_name,
 											:object_ID,
 											:operation,
-											trunc(sysdate),
+											sysdate,
 											:user_name,
 											:user_ID,
 											:object,
@@ -111,7 +111,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 	 */
 	public function operationDone() {
 		$this->_db_write->execCommand(
-			"UPDATE {$this->_table_name} SET operation_inprogress=0, operation_done=1, done_date_and_time=trunc(sysdate) WHERE operation_ID=:operation_ID",
+			"UPDATE {$this->_table_name} SET operation_inprogress=0, operation_done=1, done_date_and_time=sysdate WHERE operation_ID=:operation_ID",
 			array(
 				"operation_ID" => $this->_current_operation_ID,
 			)
@@ -136,10 +136,10 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 				."\tmodel_name varchar(255) NOT NULL,\n"
 				."\tobject_ID varchar(255) NOT NULL,\n"
 				."\toperation varchar(50) NOT NULL,\n"
-				."\tstart_date_and_time date NOT NULL,\n"
-				."\tdone_date_and_time date NOT NULL,\n"
+				."\tstart_date_and_time TIMESTAMP WITH TIME ZONE NOT NULL,\n"
+				."\tdone_date_and_time TIMESTAMP WITH TIME ZONE,\n"
 				."\toperation_inprogress char(4) NOT NULL,\n"
-				."\toperation_done char(4) NOT NULL,\n"
+				."\toperation_done char(4),\n"
 				."\tuser_name varchar(255) NOT NULL,\n"
 				."\tuser_ID varchar(255) NOT NULL,\n"
 				."\tobject CLOB NOT NULL,\n"

@@ -90,18 +90,15 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 
 			if($value === null){
 				$value = "NULL";
-			}
-
-			if(is_string($value)){
-				$value = $this->quote($value);
-			}
-
-
+			} else
 			if(is_bool($value)){
 				$value = $value ? 1 : 0;
-			}
-
+			} else
 			if(is_int($value) || is_float($value)){
+
+			} else {
+				$value = $this->quote((string)$value);
+
 			}
 
 			$replacements[":{$key}"] = $value;

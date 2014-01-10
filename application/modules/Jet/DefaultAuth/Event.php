@@ -108,7 +108,7 @@ class Event extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $user_login;
+	protected $user_login="";
 
 	/**
 	 * @var string
@@ -206,7 +206,7 @@ class Event extends Jet\DataModel {
 
 		$event_i->date_time = Jet\DateTime::now();
 		$event_i->event = $event;
-		$event_i->event_data = serialize($event_data);
+		$event_i->event_data = json_encode($event_data);
 		$event_i->event_txt = $event_txt;
 		$event_i->user_ID = $user_ID;
 		$event_i->user_login = $user_login;
@@ -216,7 +216,7 @@ class Event extends Jet\DataModel {
 
 		$request_data = Jet\Http_Request::getRawPostData();
 
-		$event_i->request_data = $request_data;
+		$event_i->request_data = json_encode($request_data);
 
 		$event_i->validateProperties();
 		$event_i->save();

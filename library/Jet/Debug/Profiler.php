@@ -60,8 +60,9 @@ class Debug_Profiler {
 
 	/**
 	 * @param string $query
+	 * @param array $query_data
 	 */
-	public static function SQLQueryStart( $query ) {
+	public static function SQLQueryStart( $query, $query_data=array() ) {
 
 		if(!static::$log_SQL_queries) {
 			return;
@@ -79,6 +80,7 @@ class Debug_Profiler {
 
 		static::$sql_queries[] = array(
 			"query" => $query,
+			"query_data" => $query_data,
 			"backtrace" => $backtrace,
 			"time_start" => microtime(true),
 			"time_end" => microtime(true),

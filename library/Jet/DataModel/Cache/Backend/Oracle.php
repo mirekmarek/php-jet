@@ -88,7 +88,7 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 						:class_name,
 						:model_name,
 						:object_ID,
-						trunc(sysdate),
+						sysdate,
 						:data
 					)",
 				array(
@@ -109,7 +109,7 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 
 		$this->_db_write->execCommand( "UPDATE {$this->_table_name} SET
 						data=:data,
-						created_date_time=trunc(sysdate)
+						created_date_time=sysdate
 					WHERE
 						class_name=:class_name AND
 						model_name=:model_name AND
@@ -169,7 +169,7 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 			."\t model_name varchar(255) NOT NULL,\n"
 			."\t object_ID varchar(255) NOT NULL,\n"
 			."\t data CLOB,\n"
-			."\t created_date_time date NOT NULL,\n"
+			."\t created_date_time TIMESTAMP WITH TIME ZONE,\n"
 			."\t CONSTRAINT {$this->_table_name}_pk PRIMARY KEY (class_name,model_name,object_ID)\n"
 			."\t)';"
 			."END IF;\n"

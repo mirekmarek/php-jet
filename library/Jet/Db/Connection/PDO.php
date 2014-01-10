@@ -57,7 +57,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 * @return int
 	 */
 	public function execCommand($query, array $query_data = array()) {
-		Debug_Profiler::SQLQueryStart( $query );
+		Debug_Profiler::SQLQueryStart( $query,$query_data );
 
 		$statement = $this->prepare($query);
 
@@ -95,29 +95,13 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	public function fetchAll($query, array $query_data = array()) {
 		$q = $this->prepareQuery($query, $query_data);
 
-		Debug_Profiler::SQLQueryStart( $q );
+		Debug_Profiler::SQLQueryStart( $q, $query_data );
 		$stn = parent::query( $q );
 		$res = $stn->fetchAll( \PDO::FETCH_ASSOC );
 
 		Debug_Profiler::SQLQueryEnd( count($res) );
 
 		return $res;
-
-		/*
-		$res = $this->execFetch($query, $query_data);
-
-		$res->setFetchMode( \PDO::FETCH_NAMED );
-
-		$result = array();
-
-		foreach( $res as $row) {
-			$result[] = $row;
-		}
-
-		//Debug_Profiler::SQLQueryEnd( count($result) );
-
-		return $result;
-		*/
 	}
 
 	/**

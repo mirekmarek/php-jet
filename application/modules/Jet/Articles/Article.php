@@ -120,9 +120,13 @@ class Article extends Jet\DataModel {
 	}
 
 	/**
-	 * @param Jet\Locale $locale
+	 * @param Jet\Locale|string $locale
 	 */
-	public function setLocale(Jet\Locale $locale) {
+	public function setLocale( $locale) {
+		if(!($locale instanceof Jet\Locale) ) {
+			$locale = new Jet\Locale($locale);
+		}
+
 		$this->locale = $locale;
 	}
 
@@ -212,9 +216,12 @@ class Article extends Jet\DataModel {
 	}
 
 	/**
-	 * @param Jet\DateTime $date_time
+	 * @param Jet\DateTime|string $date_time
 	 */
-	public function setDateTime(Jet\DateTime $date_time) {
+	public function setDateTime( $date_time) {
+		if(!($date_time instanceof Jet\DateTime)) {
+			$date_time = new Jet\DateTime($date_time);
+		}
 		$this->date_time = $date_time;
 	}
 

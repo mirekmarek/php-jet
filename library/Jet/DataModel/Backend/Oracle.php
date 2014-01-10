@@ -26,6 +26,8 @@
  */
 namespace Jet;
 
+//TODO: date support
+
 class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	const PRIMARY_KEY_NAME = "PRIMARY";
 
@@ -203,7 +205,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		foreach($_new_cols as $new_col) {
 			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue());
 		}
-		$new_cols = $this->_getRecord($new_cols);
+
 
 		$data_migration_command = "INSERT INTO $updated_table_name
 					(\"".implode("\",\"", $common_cols)."\")
@@ -212,10 +214,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				FROM {$table_name};";
 
 		$update_default_values = "";
-		if($new_cols) {
-			$_new_cols = array();
+		if( ($new_cols = $this->_getRecord($new_cols)) ) {
+
 			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = "\"{$c}\"='".addslashes($v)."'";
+				$_new_cols[] = "{$c}=".$v;
 			}
 			$update_default_values = "UPDATE $updated_table_name SET ".implode(",\n", $_new_cols);
 		}
@@ -316,24 +318,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$columns = array();
-		$values = array();
+		$rec = $this->_getRecord($record);
 
-		foreach($this->_getRecord($record) as $k=>$v) {
-			$columns[] = "\"".$this->_getColumnName($k)."\"";
-
-			if($v===null) {
-				$values[] = "null";
-			} else
-				if(is_string($v)) {
-					$values[] = $this->_db_write->quote($v);
-				} else {
-					$values[] = $v;
-				}
-		}
-
-		$columns = implode(",\n", $columns);
-		$values = implode(",\n", $values);
+		$columns = implode(",\n", array_keys($rec));
+		$values = implode(",\n", $rec);
 
 		return "INSERT INTO {$table_name} ({$columns}) VALUES ({$values})";
 	}
@@ -351,16 +339,8 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$set = array();
 
 		foreach($this->_getRecord($record) as $k=>$v) {
-			$k = $this->_getColumnName( $k );
+			$set[] = "{$k}=".$v;
 
-			if($v===null) {
-				$set[] = "\"{$k}\"=null";
-			} else
-			if(is_string($v)) {
-				$set[] = "\"{$k}\"='".addslashes($v)."'";
-			} else {
-				$set[] = "\"{$k}\"=".$v;
-			}
 		}
 
 		$set = implode(",\n", $set);
@@ -387,7 +367,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function save( DataModel_RecordData $record ) {
-		$this->_db_write->execCommand( $this->getBackendInsertQuery($record) );
+		$this->_db_write->execCommand( $this->getBackendInsertQuery($record), $this->_getRecordValues($record) );
 
 		return $this->_db_write;
 	}
@@ -399,7 +379,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function update( DataModel_RecordData $record, DataModel_Query $where) {
-		return $this->_db_write->execCommand( $this->getBackendUpdateQuery($record, $where) );
+		return $this->_db_write->execCommand( $this->getBackendUpdateQuery($record, $where), $this->_getRecordValues($record) );
 	}
 
 	/**
@@ -506,6 +486,13 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					$data[$i][$select_as] = $this->unserialize( $_d );
 				} else {
 					$data[$i][$select_as] = $_d;
+				}
+
+				if(
+					$property instanceof DataModel_Definition_Property_DateTime ||
+					$property instanceof DataModel_Definition_Property_Date
+				) {
+					$data[$i][$select_as] = DateTime::createFromFormat("d#M#y H#i#s*A", $data[$i][$select_as]);
 				}
 
 				$property->checkValueType( $data[$i][$select_as] );
@@ -640,7 +627,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					if($related_value instanceof DataModel_Definition_Property_Abstract) {
 						$related_value = $this->_getColumnName($related_value);
 					} else {
-						$related_value = "'".addslashes($related_value)."'";
+						$related_value = $this->_getValue($related_value);
 					}
 
 					$j[] = "\t\t\t".$this->_getColumnName($join_by_property->getRelatedProperty())." = ".$related_value;
@@ -826,11 +813,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryWherePart_handleOperator($operator, $value) {
-		if(is_bool($value)) {
-			$value = $value ? 1 : 0;
-		} else {
-			$value = "'".addslashes($value)."'";
-		}
+		$value = $this->_getValue($value);
 
 		$res = "";
 
@@ -1092,10 +1075,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				return "varchar(20) NOT NULL";
 				break;
 			case DataModel::TYPE_DATE:
-				return "date";
+				return " TIMESTAMP WITH TIME ZONE";
 				break;
 			case DataModel::TYPE_DATE_TIME:
-				return "date";
+				return " TIMESTAMP WITH TIME ZONE";
 				break;
 			case DataModel::TYPE_ARRAY:
 				return "CLOB";
@@ -1118,28 +1101,96 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	protected function _getRecord( DataModel_RecordData $record ) {
 		$_record = array();
 
+
 		foreach($record as $item) {
 			/**
 			 * @var DataModel_RecordData_Item $item
 			 */
+
+			$definition = $item->getPropertyDefinition();
+			$property_name = $definition->getName();
+			$column_name = $this->_getColumnName($property_name);
+
+
+			$value = ":{$column_name}";
+
+			if(
+				$definition instanceof DataModel_Definition_Property_Date || $definition instanceof DataModel_Definition_Property_DateTime
+			) {
+				$value = "TO_TIMESTAMP_TZ({$value}, 'YYYY-MM-DD\"T\"HH24:MI:SSTZHTZM')";
+			}
+
+			$_record["\"".$column_name."\""] = $value;
+		}
+
+		return $_record;
+	}
+
+	/**
+	 * @param DataModel_RecordData $record
+	 *
+	 * @return array
+	 */
+	protected function _getRecordValues( DataModel_RecordData $record ) {
+		$_record = array();
+
+
+		foreach($record as $item) {
+			/**
+			 * @var DataModel_RecordData_Item $item
+			 */
+
+			$property_name = $item->getPropertyDefinition()->getName();
+
 			$value = $item->getValue();
 
 			if( is_bool($value) ) {
 				$value = $value ? 1 : 0;
-			} else {
-				if(is_array($value)) {
-					$value = $this->serialize($value);
-				} else {
-					if(is_object($value)) {
-						$value = (string)$value;
-					}
-				}
+			} else if(is_array($value)) {
+				$value = $this->serialize($value);
+			} else if(is_object($value)) {
+				$value = (string)$value;
 			}
 
-			$_record[$item->getPropertyDefinition()->getName()] = $value;
+
+			$_record[$this->_getColumnName($property_name)] = $value;
 		}
 
 		return $_record;
+	}
+
+
+	/**
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	protected function _getValue( $value ) {
+		if($value===null) {
+			return "null";
+		}
+
+		if(is_bool($value)) {
+			return $value ? 1 : 0;
+		}
+
+		if(is_int($value)) {
+			return (int)$value;
+		}
+
+		if(is_float($value)) {
+			return (float)$value;
+		}
+
+		if(is_array($value)) {
+			return serialize($value);
+		}
+
+		if($value instanceof DateTime) {
+			return "TO_TIMESTAMP_TZ('{$value}', 'YYYY-MM-DD\"T\"HH24:MI:SSTZHTZM')";
+		}
+
+		return $this->_db_read->quote( $value );
 	}
 
 

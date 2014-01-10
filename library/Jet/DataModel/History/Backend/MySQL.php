@@ -114,7 +114,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 				."\t`object_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
 				."\t`operation` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
 				."\t`start_date_and_time` datetime NOT NULL,\n"
-				."\t`done_date_and_time` datetime NOT NULL,\n"
+				."\t`done_date_and_time` datetime,\n"
 				."\t`operation_inprogress` tinyint(4) NOT NULL,\n"
 				."\t`operation_done` tinyint(4) NOT NULL,\n"
 				."\t`user_name` varchar(255) CHARACTER SET utf8 NOT NULL,\n"
