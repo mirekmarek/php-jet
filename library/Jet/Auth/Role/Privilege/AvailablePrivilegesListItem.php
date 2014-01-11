@@ -21,11 +21,11 @@ class Auth_Role_Privilege_AvailablePrivilegesListItem extends Object {
 	/**
 	 * @var string
 	 */
-	public $privilege = "";
+	public $privilege = '';
 	/**
 	 * @var string
 	 */
-	public $label = "";
+	public $label = '';
 	/**
 	 * @var array|null
 	 */

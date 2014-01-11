@@ -33,12 +33,12 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 	public function getClassPath($class_name) {
 
 		if(
-			substr($class_name, 0, 21)!="JetApplicationModule\\"
+			substr($class_name, 0, 21)!='JetApplicationModule\\'
 		) {
 			return false;
 		}
 
-		$pos = strrpos($class_name, "\\");
+		$pos = strrpos($class_name, '\\');
 
 		$module_name = substr( $class_name , 21, $pos-21 );
 		$class_name = substr( $class_name,  $pos+1);
@@ -64,8 +64,8 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 
 		$module_path = $module_info->getModuleDir();
 
-		$class_name = str_replace( "_", DIRECTORY_SEPARATOR, $class_name );
-		$path = $module_path.$class_name.".php";
+		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
+		$path = $module_path.$class_name.'.php';
 
 		return $path;
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test : %JET_SITE_TITLE% - %JET_PAGE_TITLE%</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="content-language" content="%JET_LANGUAGE%" />
+		<link rel="stylesheet" type="text/css" href="%JET_SITE_STYLES_URI%main.css">
+		<jet_layout_meta_tags/>
+		<jet_layout_javascripts/>
+		<!--
+		<jet_layout_header_suffix/>
+		-->
+	</head>
+	<body class="%DOJO_THEME%">
+		<div style="display: none;">
+		<jet_layout_body_prefix/>
+		</div>
+
+
+		<div class="colTop">
+			<h1><?=Jet\Tr::_("Hello WORLD!");?></h1>
+			<jet_layout_position name="top"/>
+		</div>
+
+		<div class="clear"></div>
+
+		<div class="colLeft">
+			<jet_module:JetExample\TestModule:main_menu/>
+			<jet_layout_position name="left"/>
+		</div>
+		<div class="colRight">
+			<jet_layout_position name="right"/>
+		</div>
+		<div>
+			<jet_module:JetExample\BreadcrumbNavigation view="default"/>
+			<jet_layout_main_position/>
+		</div>
+
+		<div style="display: none;">
+		<jet_layout_body_suffix/>
+		</div>
+	</body>
+</html>

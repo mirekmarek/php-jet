@@ -22,29 +22,29 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"name" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_required" => true
+		'name' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_required' => true
 		),
-		"description" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536,
+		'description' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536,
 		),
-		"privileges" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Auth_Role_Privilege_Default",
-			"is_required" => false,
-			"form_field_type" => false
+		'privileges' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Auth_Role_Privilege_Default',
+			'is_required' => false,
+			'form_field_type' => false
 		),
-		"users" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Auth_User_Roles",
-			"form_field_type" => false
+		'users' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Auth_User_Roles',
+			'form_field_type' => false
 		)
 
 	);
@@ -52,15 +52,15 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 	/**
 	 * @var string
 	 */
-	protected $name = "";
+	protected $name = '';
 	/**
 	 * @var string
 	 */
-	protected $description = "";
+	protected $description = '';
 
 	/**
 	 * @var Auth_Role_Privilege_Abstract[]
@@ -92,7 +92,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 * @param $name
 	 * @param string $ID (optional)
 	 */
-	public function initNew( $name, $ID="" ) {
+	public function initNew( $name, $ID='' ) {
 		$this->name = $name;
 
 		if(!$ID) {
@@ -178,7 +178,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 *
 	 * <code>
 	 * array(
-	 *      "privilege" => array("value1", "value2")
+	 *      'privilege' => array('value1', 'value2')
 	 * )
 	 * </code>
 	 *
@@ -239,7 +239,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 */
 	public function getRolesList() {
 		$list = $this->fetchObjects();
-		$list->getQuery()->setOrderBy("name");
+		$list->getQuery()->setOrderBy('name');
 		return $list;
 	}
 
@@ -248,7 +248,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 */
 	public function getRolesListAsData() {
 		$list = $this->fetchDataAssoc( $this->getDataModelDefinition()->getProperties() );
-		$list->getQuery()->setOrderBy("name");
+		$list->getQuery()->setOrderBy('name');
 		return $list;
 	}
 
@@ -257,15 +257,15 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name="" ) {
+	public function getCommonForm( $form_name='' ) {
 		$form = parent::getCommonForm($form_name);
 
 		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
 
 		$role = $this;
 		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
-			$name = "/privileges/{$privilege}/values";
-			$field = Form_Factory::getFieldInstance("MultiSelect", $name, $privilege_data->getLabel());
+			$name = '/privileges/'.$privilege.'/values';
+			$field = Form_Factory::getFieldInstance('MultiSelect', $name, $privilege_data->getLabel());
 
 			/**
 			 * @var Form_Field_MultiSelect $field

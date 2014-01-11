@@ -22,112 +22,112 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"login" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_required" => true,
-			"backend_options" => array(
-				"key" => "login",
-				"key_type" => "UNIQUE"
+		'login' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_required' => true,
+			'backend_options' => array(
+				'key' => 'login',
+				'key_type' => 'UNIQUE'
 			),
-			"form_field_label" => "User name:"
+			'form_field_label' => 'User name:'
 		),
-		"password" => array(
-			"type" => self::TYPE_STRING,
-			"do_not_serialize" => true,
-			"max_len" => 100,
-			"is_required" => true,
-			"backend_options" => array(
-				"key" => "password"
+		'password' => array(
+			'type' => self::TYPE_STRING,
+			'do_not_serialize' => true,
+			'max_len' => 100,
+			'is_required' => true,
+			'backend_options' => array(
+				'key' => 'password'
 			),
-			"form_field_type" => "Password",
-			"form_field_label" => "Password:"
+			'form_field_type' => 'Password',
+			'form_field_label' => 'Password:'
 		),
-		"is_superuser" => array(
-			"type" => self::TYPE_BOOL,
-			"default_value" => false,
-			"form_field_type" => false
+		'is_superuser' => array(
+			'type' => self::TYPE_BOOL,
+			'default_value' => false,
+			'form_field_type' => false
 		),
-		"email" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "E-mail:"
+		'email' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'E-mail:'
 		),
-		"locale" => array(
-			"type" => self::TYPE_LOCALE,
-			"form_field_label" => "Locale:",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc", "getAllSitesLocalesList")
+		'locale' => array(
+			'type' => self::TYPE_LOCALE,
+			'form_field_label' => 'Locale:',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc', 'getAllSitesLocalesList')
 		),
-		"first_name" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"form_field_label" => "First name:"
+		'first_name' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'form_field_label' => 'First name:'
 		),
-		"surname" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"form_field_label" => "Surname:"
+		'surname' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'form_field_label' => 'Surname:'
 		),
-		"description" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536,
-			"form_field_label" => "Description:"
+		'description' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536,
+			'form_field_label' => 'Description:'
 		),
-		"password_is_valid" => array(
-			"type" => self::TYPE_BOOL,
-			"default_value" => true,
-			"form_field_type" => false
+		'password_is_valid' => array(
+			'type' => self::TYPE_BOOL,
+			'default_value' => true,
+			'form_field_type' => false
 		),
-		"password_is_valid_till" => array(
-			"type" => self::TYPE_DATE_TIME,
-			"default_value" => null,
-			"form_field_type" => false
+		'password_is_valid_till' => array(
+			'type' => self::TYPE_DATE_TIME,
+			'default_value' => null,
+			'form_field_type' => false
 		),
-		"user_is_blocked" => array(
-			"type" => self::TYPE_BOOL,
-			"default_value" => false,
-			"form_field_type" => false
+		'user_is_blocked' => array(
+			'type' => self::TYPE_BOOL,
+			'default_value' => false,
+			'form_field_type' => false
 		),
-		"user_is_blocked_till" => array(
-			"type" => self::TYPE_DATE_TIME,
-			"default_value" => null,
-			"form_field_type" => false
+		'user_is_blocked_till' => array(
+			'type' => self::TYPE_DATE_TIME,
+			'default_value' => null,
+			'form_field_type' => false
 		),
-		"user_is_activated" =>array(
-			"type" => self::TYPE_BOOL,
-			"default_value" => true,
-			"form_field_type" => false
+		'user_is_activated' =>array(
+			'type' => self::TYPE_BOOL,
+			'default_value' => true,
+			'form_field_type' => false
 		),
-		"user_activation_hash" =>array(
-			"type" => self::TYPE_STRING,
-			"default_value" => "",
-			"form_field_type" => false
+		'user_activation_hash' =>array(
+			'type' => self::TYPE_STRING,
+			'default_value' => '',
+			'form_field_type' => false
 		),
-		"roles" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Auth_User_Roles",
-			"form_field_type" => "MultiSelect",
-			"form_field_label" => "Roles:",
-			"form_field_get_select_options_callback" => array("Jet\\Auth","getRolesList")
+		'roles' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Auth_User_Roles',
+			'form_field_type' => 'MultiSelect',
+			'form_field_label' => 'Roles:',
+			'form_field_get_select_options_callback' => array('Jet\\Auth','getRolesList')
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 	/**
 	 * @var string
 	 */
-	protected $login = "";
+	protected $login = '';
 	/**
 	 * @var string
 	 */
-	protected $password = "";
+	protected $password = '';
 
 	/**
 	 * @var bool
@@ -137,7 +137,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $email = "";
+	protected $email = '';
 	/**
 	 * @var Locale
 	 */
@@ -145,15 +145,15 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $first_name = "";
+	protected $first_name = '';
 	/**
 	 * @var string
 	 */
-	protected $surname = "";
+	protected $surname = '';
 	/**
 	 * @var string
 	 */
-	protected $description = "";
+	protected $description = '';
 
 	/**
 	 * @var bool
@@ -178,7 +178,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $user_activation_hash = "";
+	protected $user_activation_hash = '';
 
 	/**
 	 * @var Auth_User_Roles
@@ -219,13 +219,13 @@ class Auth_User_Default extends Auth_User_Abstract {
 	public function getLoginExists( $login ) {
 		if($this->getIsNew()) {
 			$q = array(
-				"this.login" => $login
+				'this.login' => $login
 			);
 		} else {
 			$q = array(
-				"this.login" => $login,
-				"AND",
-				"this.ID!=" => $this->ID
+				'this.login' => $login,
+				'AND',
+				'this.ID!=' => $this->ID
 			);
 		}
 		return (bool)$this->getBackendInstance()->getCount( DataModel_Query::createQuery( $this, $q ) );
@@ -333,7 +333,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->first_name." ".$this->surname;
+		return $this->first_name.' '.$this->surname;
 	}
 
 	/**
@@ -462,14 +462,14 @@ class Auth_User_Default extends Auth_User_Abstract {
 	public function getUsersList( $role_ID=null ) {
 		if($role_ID) {
 			$query = array(
-				"Auth_Role_Default.ID" => $role_ID
+				'Auth_Role_Default.ID' => $role_ID
 			);
 		} else {
 			$query = array();
 		}
 
 		$list = $this->fetchObjects( $query );
-		$list->getQuery()->setOrderBy("login");
+		$list->getQuery()->setOrderBy('login');
 
 		return $list;
 
@@ -484,14 +484,14 @@ class Auth_User_Default extends Auth_User_Abstract {
 		$query = array();
 
 		if($role_ID) {
-			$query["Auth_Role_Default.ID"] = $role_ID;
+			$query['Auth_Role_Default.ID'] = $role_ID;
 		}
 
 		$properties = $this->getDataModelDefinition()->getProperties();
-		unset($properties["password"]);
+		unset($properties['password']);
 
 		$list = $this->fetchDataAssoc( $properties, $query );
-		$list->getQuery()->setOrderBy("login");
+		$list->getQuery()->setOrderBy('login');
 
 		return $list;
 	}
@@ -504,9 +504,9 @@ class Auth_User_Default extends Auth_User_Abstract {
 	public function getByIdentity(  $login, $password  ) {
 
 		return $this->fetchOneObject( array(
-			"this.login" => $login,
-			"AND",
-			"this.password" => $this->encryptPassword($password)
+			'this.login' => $login,
+			'AND',
+			'this.password' => $this->encryptPassword($password)
 		));
 	}
 
@@ -519,7 +519,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	public function getGetByLogin(  $login  ) {
 
 		return $this->fetchOneObject( array(
-			"this.login" => $login
+			'this.login' => $login
 		) );
 	}
 
@@ -616,7 +616,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name="" ) {
+	public function getCommonForm( $form_name='' ) {
 		$form = parent::getCommonForm( $form_name );
 
 		$this->_setupForm($form);
@@ -630,7 +630,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @return Form
 	 */
-	public function getSimpleForm( $form_name="" ) {
+	public function getSimpleForm( $form_name='' ) {
 
 		if(!$form_name) {
 			//$definition = $this->getDataModelDefinition();
@@ -639,7 +639,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 		}
 
-		$form = $this->getForm($form_name, array("login", "password", "email"));
+		$form = $this->getForm($form_name, array('login', 'password', 'email'));
 
 		$this->_setupForm($form);
 
@@ -652,22 +652,22 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 */
 	protected function _setupForm( Form $form ) {
 		if( $this->getIsNew() ) {
-			$form->getField("password")->setIsRequired(true);
+			$form->getField('password')->setIsRequired(true);
 		} else {
-			$form->getField("password")->setIsRequired(false);
+			$form->getField('password')->setIsRequired(false);
 		}
 
 		$user = $this;
 
-		$form->getField("login")->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
+		$form->getField('login')->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
 			$login = $field->getValue();
 
 			/** @var $user Auth_User_Default */
 			if($user->getLoginExists( $login )) {
 				$field->setErrorMessage(
 					Tr::_(
-						"Sorry, but username %LOGIN% is registered.",
-						array("LOGIN"=>$login)
+						'Sorry, but username %LOGIN% is registered.',
+						array('LOGIN'=>$login)
 					)
 				);
 				return false;

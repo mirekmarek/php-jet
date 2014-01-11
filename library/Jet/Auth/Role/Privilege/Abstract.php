@@ -21,21 +21,21 @@ abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Auth_Factory";
+	protected static $__factory_class_name = 'Jet\\Auth_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getPrivilegeInstance";
+	protected static $__factory_class_method = 'getPrivilegeInstance';
 
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Auth_Role_Privilege_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Auth_Role_Privilege_Abstract';
 
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Auth_Role_Privilege";
+	protected static $__data_model_model_name = 'Jet_Auth_Role_Privilege';
 
 	/**
 	 * @param $privilege

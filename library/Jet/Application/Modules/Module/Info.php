@@ -35,49 +35,49 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Application_Modules_Module_Info";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\Application_Modules_Module_Info';
 	
-	const MODULE_TYPE_GENERAL = "general";
-	const MODULE_TYPE_SITE_UI_MANAGER = "site_UI_manager";
-	const MODULE_TYPE_ADMIN_UI_MANAGER = "admin_UI_manager";
-	const MODULE_TYPE_AUTH_MANAGER = "auth_manager";
-	const MODULE_TYPE_OUTPUT_FILTER = "output_filter";
-	const MODULE_TYPE_SYSTEM = "system";
+	const MODULE_TYPE_GENERAL = 'general';
+	const MODULE_TYPE_SITE_UI_MANAGER = 'site_UI_manager';
+	const MODULE_TYPE_ADMIN_UI_MANAGER = 'admin_UI_manager';
+	const MODULE_TYPE_AUTH_MANAGER = 'auth_manager';
+	const MODULE_TYPE_OUTPUT_FILTER = 'output_filter';
+	const MODULE_TYPE_SYSTEM = 'system';
 
 	/**
 	 * Format:
 	 * <code>
 	 * array(
-	 *      "type_key" => "Type description"
+	 *      'type_key' => 'Type description'
 	 * )
 	 * </code>
 	 *
 	 * @var array
 	 */
 	protected static $module_types_list = array(
-		self::MODULE_TYPE_GENERAL => "General module",
-		self::MODULE_TYPE_SITE_UI_MANAGER => "Site UI manager module",
-		self::MODULE_TYPE_ADMIN_UI_MANAGER => "Administration UI manager module",
-		self::MODULE_TYPE_AUTH_MANAGER => "Authentication and authorization manager module",
-		self::MODULE_TYPE_OUTPUT_FILTER => "Output filter module",
-		self::MODULE_TYPE_SYSTEM => "System module",
+		self::MODULE_TYPE_GENERAL => 'General module',
+		self::MODULE_TYPE_SITE_UI_MANAGER => 'Site UI manager module',
+		self::MODULE_TYPE_ADMIN_UI_MANAGER => 'Administration UI manager module',
+		self::MODULE_TYPE_AUTH_MANAGER => 'Authentication and authorization manager module',
+		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
+		self::MODULE_TYPE_SYSTEM => 'System module',
 	);
 	
 	/**
 	*
 	* @var string
 	*/
-	protected $name = "";
+	protected $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $vendor = "";
+	protected $vendor = '';
 
 	/**
 	 * @var string
 	 */
-	protected $version = "";
+	protected $version = '';
 
 	//--------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 *
 	 * @var string
 	 */
-	protected $label = "";
+	protected $label = '';
 
 	/**
 	 * Manifest value
@@ -97,7 +97,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 *
 	 * @var string
 	 */
-	protected $description = "";
+	protected $description = '';
 
 	/**
 	 * Manifest value
@@ -136,7 +136,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 * @see Factory::$overload_map
 	 *
 	 *  array(
-	 *       "originalClassName" => "overloadClassName"
+	 *       'originalClassName' => 'overloadClassName'
 	 *  )
 	 *
 	 * @var array
@@ -149,10 +149,10 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 * Module callbacks for signals.
 	 * 
 	 * array(
-	 *	  "signal1" => "moduleMethod1",  // route signal 'signal1' to method 'moduleMethod1'
-	 *	  "signal2" => array(            // route signal 'signal2' to methods 'method2' and 'method3'
-	 *                       "method2",
-	 *                       "method3"
+	 *	  'signal1' => 'moduleMethod1',  // route signal 'signal1' to method 'moduleMethod1'
+	 *	  'signal2' => array(            // route signal 'signal2' to methods 'method2' and 'method3'
+	 *                       'method2',
+	 *                       'method3'
 	 *                     )
 	 * )
 	 *
@@ -165,7 +165,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 *
 	 * List of emitted signals with description
 	 * array(
-	 *    "signal10" => "Sent when something occurs"
+	 *    'signal10' => 'Sent when something occurs'
 	 * )
 	 *
 	 * @var array 
@@ -179,7 +179,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	*
 	* @var string
 	*/
-	protected $module_dir = "";
+	protected $module_dir = '';
 
 
 	/**
@@ -230,7 +230,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 
 		if( !IO_Dir::exists($module_dir) ) {
 			throw new Application_Modules_Exception(
-				"Directory '{$module_dir}' doesn't exist",
+				'Directory \''.$module_dir.'\' does not exist',
 				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
 			);
 		}
@@ -240,7 +240,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 
 		if( !IO_File::isReadable($manifest_file) ) {
 			throw new Application_Modules_Exception(
-				"Module manifest file '{$manifest_file}' does not exist or is not readable. ",
+				'Module manifest file \''.$manifest_file.'\' does not exist or is not readable. ',
 				Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
 			);
 		}
@@ -259,79 +259,79 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	protected function checkManifestData( $manifest_data ) {
 		if(!is_array($manifest_data)) {
 			throw new Application_Modules_Exception(
-				"Manifest data must be array (Module: '{$this->name}')",
+				'Manifest data must be array (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
-		if( empty( $manifest_data["API_version"]) ) {
+		if( empty( $manifest_data['API_version']) ) {
 			throw new Application_Modules_Exception(
-				"Required API version not set! ('API_version' array key does not exist, or is empty) (Module: '{$this->name}')",
+				'Required API version not set! (\'API_version\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
-		if( empty( $manifest_data["label"]) ) {
+		if( empty( $manifest_data['label']) ) {
 			throw new Application_Modules_Exception(
-				"Module label not set! ('label' array key does not exist, or is empty) (Module: '{$this->name}')",
+				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
-		if( empty( $manifest_data["types"]) ) {
+		if( empty( $manifest_data['types']) ) {
 			throw new Application_Modules_Exception(
-				"Module types not set! ('type' array key does not exist, or is empty) (Module: '{$this->name}')",
+				'Module types not set! (\'type\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		$modules_types = static::getModuleTypesList();
-		foreach($manifest_data["types"] as $type) {
+		foreach($manifest_data['types'] as $type) {
 
 			if(!isset($modules_types[$type])){
 				throw new Application_Modules_Exception(
-					"Invalid module type '{$type}' ! See Jet\\Application_Modules_Module_Info::getModulesTypesList() (Module: '{$this->name}')",
+					'Invalid module type \''.$type.'\' ! See Jet\\Application_Modules_Module_Info::getModulesTypesList() (Module: \''.$this->name.'\')',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}
 		}
 
 		if(
-			isset($manifest_data["require"]) &&
-			!is_array($manifest_data["require"])
+			isset($manifest_data['require']) &&
+			!is_array($manifest_data['require'])
 		){
 			throw new Application_Modules_Exception(
-				"Required modules ('require' key) must be an array like [required_module1, required_module2, ...]! (Module: '{$this->name}')",
+				'Required modules (\'require\' key) must be an array like [required_module1, required_module2, ...]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		if(
-			isset($manifest_data["factory_overload_map"]) &&
-			!is_array($manifest_data["factory_overload_map"])
+			isset($manifest_data['factory_overload_map']) &&
+			!is_array($manifest_data['factory_overload_map'])
 		){
 			throw new Application_Modules_Exception(
-				"Factory overload map must be an array like [source_class_name => replaced_by_class_name]! (Module: '{$this->name}')",
+				'Factory overload map must be an array like [source_class_name => replaced_by_class_name]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		if(
-			isset($manifest_data["signals_callbacks"]) &&
-			!is_array($manifest_data["signals_callbacks"])
+			isset($manifest_data['signals_callbacks']) &&
+			!is_array($manifest_data['signals_callbacks'])
 		){
 			throw new Application_Modules_Exception(
-				"Signal callbacks must be an array like [signal_name => module_method_name, signal_name2 => array(method2, method3), ...]! (Module: '{$this->name}')",
+				'Signal callbacks must be an array like [signal_name => module_method_name, signal_name2 => array(method2, method3), ...]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		if(
-			isset($manifest_data["signals"]) &&
-			!is_array($manifest_data["signals"])
+			isset($manifest_data['signals']) &&
+			!is_array($manifest_data['signals'])
 		){
 			throw new Application_Modules_Exception(
-				"Emitted signals list must be an array like [signal_name => signal description]! (Module: '{$this->name}')",
+				'Emitted signals list must be an array like [signal_name => signal description]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
@@ -349,7 +349,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 		foreach( $manifest_data as $key=>$val ) {
 			if(!$this->getHasProperty($key)) {
 				throw new Application_Modules_Exception(
-					"Unknown manifest property '{$key}' (Module: '{$this->name}') ",
+					'Unknown manifest property \''.$key.'\' (Module: \''.$this->name.'\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}
@@ -372,7 +372,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 * @return string
 	 */
 	public function getModuleDir() {
-		return JET_MODULES_PATH . str_replace("\\", "/", $this->name) . "/";
+		return JET_MODULES_PATH . str_replace('\\', '/', $this->name) . '/';
 	}
 
 	/**
@@ -498,7 +498,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 
 	/**
 	 * array(
-	 *      "originalClassName" => "overloadClassName"
+	 *      'originalClassName' => 'overloadClassName'
 	 * )
 	 *
 	 * @return array
@@ -509,10 +509,10 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 
 	/**
 	 * array(
-	 *	  "signal1" => "moduleMethod1",  // route signal 'signal1' to method 'moduleMethod1'
-	 *	  "signal2" => array(            // route signal 'signal2' to methods 'method2' and 'method3'
-	 *                      "method2",
-	 *                      "method3"
+	 *	  'signal1' => 'moduleMethod1',  // route signal 'signal1' to method 'moduleMethod1'
+	 *	  'signal2' => array(            // route signal 'signal2' to methods 'method2' and 'method3'
+	 *                      'method2',
+	 *                      'method3'
 	 *                  )
 	 * )
 	 *
@@ -524,7 +524,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 
 	/**
 	 * array(
-	 *    "signal10" => "Sent when something occurs"
+	 *    'signal10' => 'Sent when something occurs'
 	 * )
 	 *
 	 * @return array
@@ -573,7 +573,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	/**
 	 * Format:
 	 * array(
-	 *      "module_type" => "Module type description"
+	 *      'module_type' => 'Module type description'
 	 * )
 	 *
 	 * @param array $list

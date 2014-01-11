@@ -31,7 +31,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Config_Definition_Property_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Config_Definition_Property_Abstract';
 
 
 	/**
@@ -53,22 +53,22 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $_name = "";
+	protected $_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $description = "";
+	protected $description = '';
 
 	/**
 	 * @var string
 	 */
-	protected $label = "";
+	protected $label = '';
 
 	/**
 	 * @var mixed
 	 */
-	protected $default_value = "";
+	protected $default_value = '';
 
 	/**
 	 * @var bool
@@ -78,19 +78,19 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $error_message = "";
+	protected $error_message = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $form_field_type = "";
+	protected $form_field_type = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $form_field_label = "";
+	protected $form_field_label = '';
 
 	/**
 	 *
@@ -143,7 +143,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function toString() {
-		return get_class($this->_configuration)."::".$this->getName();
+		return get_class($this->_configuration).'::'.$this->getName();
 	}
 
 	/**
@@ -158,7 +158,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 		foreach($definition_data as $key=>$val) {
 			if(!$this->getHasProperty($key)) {
 				throw new Config_Exception(
-						get_class($this->_configuration)."::{$this->_name}: unknown definition option '{$key}'  ",
+						get_class($this->_configuration).'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
 						Config_Exception::CODE_DEFINITION_NONSENSE
 					);
 			}
@@ -383,13 +383,13 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 			if(
 				is_array($callback) &&
-				$callback[0]=="this"
+				$callback[0]=='this'
 			) {
 				$callback[0] = get_class($this->_configuration);
 			}
 
 			if(!is_callable($callback)) {
-				throw new Config_Exception(get_class($this->_configuration)."::".$this->_name."::form_field_get_select_options_callback is not callable");
+				throw new Config_Exception(get_class($this->_configuration).'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
 			}
 
 			$field->setSelectOptions( $callback() );
@@ -402,9 +402,9 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType();
+		$res = 'Type: '.$this->getType();
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->default_value) {
 			$res .= ", default value: {$this->default_value}";
@@ -463,7 +463,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 		if(!$value) {
 			throw new Config_Exception(
-				"Configuration property ".get_class($this->_configuration)."::".$this->_name." is required by definition, but value is missing!",
+				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' is required by definition, but value is missing!',
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}

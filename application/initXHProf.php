@@ -9,15 +9,15 @@
  * @category Jet
  * @package application bootstrap
  */
-if( ($xhprof_available = extension_loaded("xhprof")) ){
-	if(isset($_GET["XHP"])) {
-		require_once "xhprof_lib/utils/xhprof_lib.php";
-		require_once "xhprof_lib/utils/callgraph_utils.php";
-		require_once "xhprof_lib/utils/xhprof_runs.php";
-		require_once "xhprof_lib/display/xhprof.php";
+if( ($xhprof_available = extension_loaded('xhprof')) ){
+	if(isset($_GET['XHP'])) {
+		require_once 'xhprof_lib/utils/xhprof_lib.php';
+		require_once 'xhprof_lib/utils/callgraph_utils.php';
+		require_once 'xhprof_lib/utils/xhprof_runs.php';
+		require_once 'xhprof_lib/display/xhprof.php';
 
-		if(isset($_GET["graph"])) {
-			ini_set("max_execution_time", 100);
+		if(isset($_GET['graph'])) {
+			ini_set('max_execution_time', 100);
 
 			$params = array(// run id param
 				'run' => array(XHPROF_STRING_PARAM, ''),
@@ -93,24 +93,24 @@ if( ($xhprof_available = extension_loaded("xhprof")) ){
 				unset($params[$k]);
 			}
 		}
-		$base_path = "?XHP&";
+		$base_path = '?XHP&';
 
 		?>
 		<html>
 
 		<head>
 		<title>XHProf: Hierarchical Profiler Report</title>
-		<style type="text/css">
+		<style type='text/css'>
 		/*  Copyright (c) 2009 Facebook
 		*
-		*  Licensed under the Apache License, Version 2.0 (the "License");
+		*  Licensed under the Apache License, Version 2.0 (the 'License');
 		*  you may not use this file except in compliance with the License.
 		*  You may obtain a copy of the License at
 		*
 		*      http://www.apache.org/licenses/LICENSE-2.0
 		*
 		*  Unless required by applicable law or agreed to in writing, software
-		*  distributed under the License is distributed on an "AS IS" BASIS,
+		*  distributed under the License is distributed on an 'AS IS' BASIS,
 		*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 		*  See the License for the specific language governing permissions and
 		*  limitations under the License.
@@ -212,13 +212,13 @@ if( ($xhprof_available = extension_loaded("xhprof")) ){
 
 	register_shutdown_function(function() {
 		$xhprof_data = xhprof_disable();
-		$xhprof_source = "jet_app";
+		$xhprof_source = 'jet_app';
 
-		require_once "xhprof_lib/utils/xhprof_lib.php";
-		require_once "xhprof_lib/utils/xhprof_runs.php";
+		require_once 'xhprof_lib/utils/xhprof_lib.php';
+		require_once 'xhprof_lib/utils/xhprof_runs.php';
 
 		$xhprofRunId = (new \XHProfRuns_Default( JET_TMP_PATH ))->save_run($xhprof_data, $xhprof_source);
 
-		echo "<div><a href=\"?XHP&run={$xhprofRunId}&source={$xhprof_source}\" target=\"_blank\">XHP</a></div>";
+		echo '<div><a href=\'?XHP&run={$xhprofRunId}&source={$xhprof_source}\' target=\'_blank\'>XHP</a></div>';
 	});
 }

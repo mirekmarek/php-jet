@@ -352,32 +352,32 @@ class Data_Array extends Object {
 
 			$my_paht = $my_root_path.$key;
 
-			$comment = "";
+			$comment = '';
 			if( isset($comments[$my_paht]) ) {
-				$comment .= "\t/* {$comments[$my_paht]} */";
+				$comment .= "\t/* ".$comments[$my_paht].' */';
 			}
 
 			if(is_int($key)) {
 				$result .= $indent."\t";
 
 			} else {
-				$result .= $indent."\t\"{$key}\" => ";
+				$result .= $indent."\t".'\''.$key.'\' => ';
 			}
 
 			if(is_array($value)) {
-				$result .= $this->_export( $my_paht, $value, $next_level, $comments) . "";
+				$result .= $this->_export( $my_paht, $value, $next_level, $comments) . '';
 			} else
 			if(is_object($value)) {
 				$class_name = get_class( $value );
 
-				if( is_subclass_of( $value, "\\JsonSerializable" ) ) {
+				if( is_subclass_of( $value, '\JsonSerializable' ) ) {
 					$object_values = $value->jsonSerialize();
 				} else {
 					$object_values = get_object_vars( $value );
 				}
 
 
-				$result .= "{$class_name}::__set_state( ".$this->_export( $my_paht, $object_values, $next_level, $comments)." )";
+				$result .= $class_name.'::__set_state( '.$this->_export( $my_paht, $object_values, $next_level, $comments).' )';
 			} else {
 				$result .= var_export( $value, true )."$comment";
 			}
@@ -385,7 +385,7 @@ class Data_Array extends Object {
 			$result .= ",\n";
 
 		}
-		$result .= $indent . ")";
+		$result .= $indent . ')';
 
 		return $result;
 

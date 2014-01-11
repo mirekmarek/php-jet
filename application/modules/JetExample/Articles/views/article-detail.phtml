@@ -1,0 +1,20 @@
+<?php
+namespace JetApplicationModule\JetExample\Articles;
+use Jet;
+/**
+ * @var Article $article
+ */
+$article = $this->article;
+?>
+
+<h1><?=$article->getTitle();?></h1>
+<p>
+	<?=$article->getAnnotation();?>
+</p>
+<p>
+	<?=$article->getText();?>
+</p>
+<div>
+	<?=Jet\Tr::_("Date:");?>
+	<?=Jet\Locale::dateAndTime($article->getDateTime());?>
+</div>

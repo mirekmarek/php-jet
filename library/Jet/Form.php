@@ -13,24 +13,24 @@
 namespace Jet;
 
 class Form extends Object implements Mvc_View_Postprocessor_Interface{
-	const FORM_SENT_KEY = "_jet_form_sent_";
-	const FORM_TAG = "jet_form";
-	const FORM_COMMON_ERROR_MESSAGE_TAG = "common_error_message";
+	const FORM_SENT_KEY = '_jet_form_sent_';
+	const FORM_TAG = 'jet_form';
+	const FORM_COMMON_ERROR_MESSAGE_TAG = 'common_error_message';
 
-	const COMMON_ERROR_MESSAGE_KEY = "__common_message__";
+	const COMMON_ERROR_MESSAGE_KEY = '__common_message__';
 
 	/**
 	 * @var array
 	 */
 	public static $HTML_templates = array(
-		"table" => array(
-			"form_start" => "<table>\n",
-			"form_end" => "</table>\n",
-			"form_common_error_message_class" => "formError",
-			"form_submit_button" => "\t<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\"/></td></tr>\n",
-			"field" => "\t<tr>\n\t\t<td valign=\"top\">%LABEL%</td>\n\t\t<td>%FIELD%</td>\n\t</tr>\n",
-			"field_error_msg" => "\t<div class=\"formFieldError\">%ERROR_MSG%</div>\n",
-			"field_required" => "<em class=\"required\">*</em> %LABEL%",
+		'table' => array(
+			'form_start' => "<table>\n",
+			'form_end' => "</table>\n",
+			'form_common_error_message_class' => 'formError',
+			'form_submit_button' => "\t<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\"/></td></tr>\n",
+			'field' => "\t<tr>\n\t\t<td valign=\"top\">%LABEL%</td>\n\t\t<td>%FIELD%</td>\n\t</tr>\n",
+			'field_error_msg' => "\t<div class=\"formFieldError\">%ERROR_MSG%</div>\n",
+			'field_required' => "<em class=\"required\">*</em> %LABEL%",
 		),
 		"div" => array(
 			"form_start" => "<fieldset>\n",
@@ -47,7 +47,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * Form name
 	 * @var string $name
 	 */	
-	protected $name = "";
+	protected $name = '';
 
 	/**
 	 * @var string
@@ -55,7 +55,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	protected $container_ID = null;
 
 	/**
-	 * container_ID_prefix = container_ID ? container_ID."_" : ""
+	 * container_ID_prefix = container_ID ? container_ID.'_' : ''
 	 *
 	 * @var string
 	 */
@@ -65,14 +65,14 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * Form ID (container_ID_prefix.name)
 	 * @var string $name
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * POST (default) or GET
 	 *
 	 * @var string
 	 */
-	protected $method = "POST";
+	protected $method = 'POST';
 	
 	/**
 	 * Form fields
@@ -94,7 +94,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @var string
 	 */
-	protected $decorator = "";
+	protected $decorator = '';
 
 
 	/**
@@ -102,14 +102,14 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @var string
 	 */
-	protected $selected_HTML_template_name = "table";
+	protected $selected_HTML_template_name = 'table';
 
 	/**
 	 * Common error message (without field context)
 	 *
 	 * @var string
 	 */
-	protected $common_error_message = "";
+	protected $common_error_message = '';
 
 	/**
 	 * @var bool
@@ -133,7 +133,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @param Form_Field_Abstract[] $fields
 	 * @param string $method - POST or GET (optional, default: POST)
 	 */
-	public function __construct( $name, array $fields, $method="POST" ) {
+	public function __construct( $name, array $fields, $method='POST' ) {
 		$this->name = $name;			
 		$this->method = $method;
 		$this->setFields($fields);
@@ -159,9 +159,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			if($router) {
 				$this->container_ID = $router->getUIManagerModuleInstance()->getUIContainerID();
 				if($this->container_ID) {
-					$this->container_ID_prefix = $this->container_ID . "_";
+					$this->container_ID_prefix = $this->container_ID . '_';
 				} else {
-					$this->container_ID_prefix = "";
+					$this->container_ID_prefix = '';
 				}
 			}
 
@@ -218,7 +218,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	public function getField($name) {
 		if(!isset($this->fields[$name])) {
 			throw new Form_Exception(
-				"Unknown field '{$name}'",
+				'Unknown field \''.$name.'\'',
 				Form_Exception::CODE_UNKNOWN_FIELD
 			);
 		}

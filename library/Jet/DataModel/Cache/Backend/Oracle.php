@@ -78,7 +78,9 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 * @param mixed $data
 	 */
 	public function save(DataModel $data_model, $ID, $data) {
-		$this->_db_write->execCommand("INSERT INTO {$this->_table_name} (
+		$this->_db_write->execCommand("
+				BEGIN
+					INSERT INTO {$this->_table_name} (
 						class_name,
 						model_name,
 						object_ID,
@@ -90,7 +92,11 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 						:object_ID,
 						sysdate,
 						:data
-					)",
+					);
+				EXCEPTION WHEN dup_val_on_index THEN
+				      null;
+				END;
+					",
 				array(
 					"class_name" => get_class($data_model),
 					"model_name" => $data_model->getDataModelName(),

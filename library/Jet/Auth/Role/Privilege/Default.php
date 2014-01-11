@@ -21,40 +21,40 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_parent_model_class_name = "Jet\\Auth_Role_Default";
+	protected static $__data_model_parent_model_class_name = 'Jet\\Auth_Role_Default';
 
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"privilege" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_required" => true
+		'privilege' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_required' => true
 		),
-		"values" => array(
-			"type" => self::TYPE_ARRAY,
-			"item_type" => self::TYPE_STRING
+		'values' => array(
+			'type' => self::TYPE_ARRAY,
+			'item_type' => self::TYPE_STRING
 		)
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $Jet_Auth_Role_ID = "";
+	protected $Jet_Auth_Role_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 	/**
 	 * @var string
 	 */
-	protected $privilege = "";
+	protected $privilege = '';
 
 	/**
 	 * @var mixed[]

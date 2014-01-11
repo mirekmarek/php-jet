@@ -1,22 +1,25 @@
 ____________________________________________
 DataModel backend:
-+ Oracle
-MS SQL
-____________________________________________
-DataModel Cache backend:
 * Oracle
 MS SQL
 ____________________________________________
+DataModel Cache backend:
+MS SQL
+____________________________________________
 DataModel History backend:
-+ Oracle
 MS SQL
 ____________________________________________
 Mvc Router Cache backend:
-+ Oracle
 MS SQL
 ____________________________________________
-Cache
+Translator:
+Wrap module dictionary after instalation (store dicts. on one place)
+PHPFiles backend: use one directory as storage
+Module structure: move ~/dictionaries/ to ~/_install/dictionaries
+
 ____________________________________________
+General Cache
+............................................
 Cache backend
 Files
 Redis

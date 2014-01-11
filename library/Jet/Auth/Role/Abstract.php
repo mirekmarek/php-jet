@@ -21,20 +21,20 @@ abstract class Auth_Role_Abstract extends DataModel {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Auth_Factory";
+	protected static $__factory_class_name = 'Jet\\Auth_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getRoleInstance";
+	protected static $__factory_class_method = 'getRoleInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Auth_Role_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Auth_Role_Abstract';
 
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Auth_Role";
+	protected static $__data_model_model_name = 'Jet_Auth_Role';
 
 	/**
 	 * @return string
@@ -52,7 +52,7 @@ abstract class Auth_Role_Abstract extends DataModel {
 	 * @param $name
 	 * @param string $ID (optional)
 	 */
-	abstract public function initNew( $name, $ID="" );
+	abstract public function initNew( $name, $ID='' );
 
 	/**
 	 * @return string
@@ -98,7 +98,7 @@ abstract class Auth_Role_Abstract extends DataModel {
 	 *
 	 * <code>
 	 * array(
-	 *      "privilege" => array("value1", "value2")
+	 *      'privilege' => array('value1', 'value2')
 	 * )
 	 * </code>
 	 *

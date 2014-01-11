@@ -1,31 +1,8 @@
 <?php
  return array(
-	"Jet\AdminPages" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\AdminPages',
-		"vendor" => 'Jet',
-		"version" => '',
-		"label" => 'Web Pages Management',
-		"description" => '',
-		"API_version" => 201208,
-		"types" => array(
-			'general',
-		),
-		"require" => array(
-		),
-		"factory_overload_map" => array(
-		),
-		"signals_callbacks" => array(
-		),
-		"signals" => array(
-		),
-		"module_dir" => '',
-		"is_installed" => true,
-		"is_activated" => true,
-		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
-	) ),
-	"Jet\AdminRoles" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\AdminRoles',
-		"vendor" => 'Jet',
+	"JetExample\AdminRoles" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\AdminRoles',
+		"vendor" => 'Jet (example)',
 		"version" => '',
 		"label" => 'ACL Role Management',
 		"description" => '',
@@ -46,80 +23,11 @@
 		"is_activated" => true,
 		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
 	) ),
-	"Jet\AdminUsers" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\AdminUsers',
-		"vendor" => 'Jet',
+	"JetExample\AdminUIManager" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\AdminUIManager',
+		"vendor" => 'Jet (example)',
 		"version" => '',
-		"label" => 'Users Management',
-		"description" => '',
-		"API_version" => 201208,
-		"types" => array(
-			'general',
-		),
-		"require" => array(
-		),
-		"factory_overload_map" => array(
-		),
-		"signals_callbacks" => array(
-		),
-		"signals" => array(
-		),
-		"module_dir" => '',
-		"is_installed" => true,
-		"is_activated" => true,
-		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
-	) ),
-	"Jet\Articles" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\Articles',
-		"vendor" => 'Jet',
-		"version" => '',
-		"label" => 'Basic acticles module',
-		"description" => '',
-		"API_version" => 201208,
-		"types" => array(
-			'general',
-		),
-		"require" => array(
-		),
-		"factory_overload_map" => array(
-		),
-		"signals_callbacks" => array(
-		),
-		"signals" => array(
-		),
-		"module_dir" => '',
-		"is_installed" => true,
-		"is_activated" => true,
-		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
-	) ),
-	"Jet\BreadcrumbNavigation" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\BreadcrumbNavigation',
-		"vendor" => 'Jet',
-		"version" => '',
-		"label" => 'Breadcrumb navigation',
-		"description" => 'Displays breadcrumb navigation',
-		"API_version" => 201208,
-		"types" => array(
-			'general',
-		),
-		"require" => array(
-		),
-		"factory_overload_map" => array(
-		),
-		"signals_callbacks" => array(
-		),
-		"signals" => array(
-		),
-		"module_dir" => '',
-		"is_installed" => true,
-		"is_activated" => true,
-		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
-	) ),
-	"Jet\DefaultAdminUI" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\DefaultAdminUI',
-		"vendor" => 'Jet',
-		"version" => '',
-		"label" => 'Default admin UI manager',
+		"label" => 'Admin UI manager',
 		"description" => '',
 		"API_version" => 201208,
 		"types" => array(
@@ -144,11 +52,34 @@
 		"is_activated" => true,
 		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
 	) ),
-	"Jet\DefaultAuth" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\DefaultAuth',
-		"vendor" => 'Jet',
+	"JetExample\AdminUsers" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\AdminUsers',
+		"vendor" => 'Jet (example)',
 		"version" => '',
-		"label" => 'Default authentication and authorization manager',
+		"label" => 'Users Management',
+		"description" => '',
+		"API_version" => 201208,
+		"types" => array(
+			'general',
+		),
+		"require" => array(
+		),
+		"factory_overload_map" => array(
+		),
+		"signals_callbacks" => array(
+		),
+		"signals" => array(
+		),
+		"module_dir" => '',
+		"is_installed" => true,
+		"is_activated" => true,
+		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
+	) ),
+	"JetExample\AuthManager" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\AuthManager',
+		"vendor" => 'Jet (example)',
+		"version" => '',
+		"label" => 'Authentication and authorization manager',
 		"description" => '',
 		"API_version" => 201208,
 		"types" => array(
@@ -169,11 +100,34 @@
 		"is_activated" => true,
 		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
 	) ),
-	"Jet\DefaultSiteUI" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\DefaultSiteUI',
-		"vendor" => 'Jet',
+	"JetExample\BreadcrumbNavigation" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\BreadcrumbNavigation',
+		"vendor" => 'Jet (example)',
 		"version" => '',
-		"label" => 'Default site UI manager',
+		"label" => 'Breadcrumb navigation',
+		"description" => 'Displays breadcrumb navigation',
+		"API_version" => 201208,
+		"types" => array(
+			'general',
+		),
+		"require" => array(
+		),
+		"factory_overload_map" => array(
+		),
+		"signals_callbacks" => array(
+		),
+		"signals" => array(
+		),
+		"module_dir" => '',
+		"is_installed" => true,
+		"is_activated" => true,
+		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
+	) ),
+	"JetExample\SiteUIManager" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\SiteUIManager',
+		"vendor" => 'Jet (example)',
+		"version" => '',
+		"label" => 'Site UI manager',
 		"description" => '',
 		"API_version" => 201208,
 		"types" => array(
@@ -192,11 +146,61 @@
 		"is_activated" => true,
 		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
 	) ),
-	"Jet\Images" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\Images',
-		"vendor" => 'Jet',
+	"JetExample\TestModule" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\TestModule',
+		"vendor" => 'Jet (example)',
 		"version" => '',
-		"label" => 'Basic images module',
+		"label" => 'Test Module',
+		"description" => 'Jet test module ...',
+		"API_version" => 201208,
+		"types" => array(
+			'general',
+		),
+		"require" => array(
+		),
+		"factory_overload_map" => array(
+		),
+		"signals_callbacks" => array(
+			"/test/ack" => 'testAck',
+		),
+		"signals" => array(
+			"/test/received" => 'Test signal for DefaultAdminUI',
+			"/test/multiple" => 'Test signal for DefaultAdminUI',
+		),
+		"module_dir" => '',
+		"is_installed" => true,
+		"is_activated" => true,
+		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
+	) ),
+	"JetExample\TestModule2" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\TestModule2',
+		"vendor" => 'Jet (example)',
+		"version" => '',
+		"label" => 'Test Module 2',
+		"description" => 'Jet test module ...',
+		"API_version" => 201208,
+		"types" => array(
+			'general',
+		),
+		"require" => array(
+			'JetExample\\TestModule',
+		),
+		"factory_overload_map" => array(
+		),
+		"signals_callbacks" => array(
+		),
+		"signals" => array(
+		),
+		"module_dir" => '',
+		"is_installed" => true,
+		"is_activated" => true,
+		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
+	) ),
+	"JetExample\Articles" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\Articles',
+		"vendor" => 'Jet (example)',
+		"version" => '',
+		"label" => 'Basic acticles module',
 		"description" => '',
 		"API_version" => 201208,
 		"types" => array(
@@ -215,12 +219,12 @@
 		"is_activated" => true,
 		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
 	) ),
-	"Jet\TestModule2" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\TestModule2',
-		"vendor" => 'Jet',
+	"JetExample\Images" => Jet\Application_Modules_Module_Info::__set_state( array(
+		"name" => 'JetExample\\Images',
+		"vendor" => 'Jet (example)',
 		"version" => '',
-		"label" => 'Test Module 2',
-		"description" => 'Jet test module ...',
+		"label" => 'Images module',
+		"description" => '',
 		"API_version" => 201208,
 		"types" => array(
 			'general',
@@ -232,33 +236,6 @@
 		"signals_callbacks" => array(
 		),
 		"signals" => array(
-		),
-		"module_dir" => '',
-		"is_installed" => true,
-		"is_activated" => true,
-		"__signals_signal_object_class_name" => 'Jet\\Application_Signals_Signal',
-	) ),
-	"Jet\TestModule" => Jet\Application_Modules_Module_Info::__set_state( array(
-		"name" => 'Jet\\TestModule',
-		"vendor" => 'Jet',
-		"version" => '',
-		"label" => 'Test Module',
-		"description" => 'Jet test module ...',
-		"API_version" => 201208,
-		"types" => array(
-			'general',
-		),
-		"require" => array(
-			'Jet\\TestModule2',
-		),
-		"factory_overload_map" => array(
-		),
-		"signals_callbacks" => array(
-			"/test/ack" => 'testAck',
-		),
-		"signals" => array(
-			"/test/received" => 'Test signal for DefaultAdminUI',
-			"/test/multiple" => 'Test signal for DefaultAdminUI',
 		),
 		"module_dir" => '',
 		"is_installed" => true,

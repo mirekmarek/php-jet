@@ -32,7 +32,7 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "MultiSelect";
+	protected $form_field_type = 'MultiSelect';
 
 	/**
 	 * @var string
@@ -66,16 +66,16 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType()."";
+		$res = 'Type: '.$this->getType().'';
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->default_value) {
-			$res .= ", default value: ".implode(",", $this->default_value);
+			$res .= ', default value: '.implode(',', $this->default_value);
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= PHP_EOL.PHP_EOL.$this->description;
 		}
 
 		return $res;

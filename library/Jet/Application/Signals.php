@@ -19,7 +19,7 @@
 namespace Jet;
 
 class Application_Signals extends Object {
-	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = "Jet\\Application_Signals_Signal";
+	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = 'Jet\Application_Signals_Signal';
 
 	/**
 	 * @param Object_Interface $sender
@@ -32,7 +32,7 @@ class Application_Signals extends Object {
 	public static function createSignal( Object_Interface $sender, $signal_name, array $signal_data=array() ) {
 		if( !$sender->getHasSignal( $signal_name ) ) {
 			throw new Application_Signals_Exception(
-				"Unknown signal '{$signal_name}'. Please add a item to the ".get_class($sender)."::\$__signals object property. ",
+				'Unknown signal \''.$signal_name.'\'. Please add item to the '.get_class($sender).'::$__signals object property. ',
 				Application_Signals_Exception::CODE_UNKNOWN_SIGNAL
 			);
 		}
@@ -43,7 +43,7 @@ class Application_Signals extends Object {
 
 		if( !($signal instanceof Application_Signals_Signal) ) {
 			throw new Application_Signals_Exception(
-				"Signal must be instance of \\Jet\\Application_Signals_Signal! (Signal: '$signal_name', Signal object class name: '".get_class($signal)."' ) ",
+				'Signal must be instance of \Jet\Application_Signals_Signal! (Signal: \''.$signal_name.'\', Signal object class name: \''.get_class($signal).'\' ) ',
 				Application_Signals_Exception::INVALID_SIGNAL_OBJECT_CLASS
 			);
 		}

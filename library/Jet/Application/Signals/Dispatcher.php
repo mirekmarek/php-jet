@@ -20,7 +20,7 @@ class Application_Signals_Dispatcher extends Object {
 	/**
 	 * Callbacks array
 	 * array(
-	 *      "signal_name" => callable
+	 *      'signal_name' => callable
 	 * )
 	 * 
 	 *
@@ -53,7 +53,7 @@ class Application_Signals_Dispatcher extends Object {
 			static::$callbacks[$signal_name] = array();
 		}
 
-		$callback_ID = $signal_name."~".count( static::$callbacks[$signal_name] );
+		$callback_ID = $signal_name.'~'.count( static::$callbacks[$signal_name] );
 
 		static::$callbacks[$signal_name][$callback_ID] = $callback;
 
@@ -70,21 +70,21 @@ class Application_Signals_Dispatcher extends Object {
 	 * @return bool
 	 */
 	public static function removeCallback( $callback_ID ) {
-		if( strpos($callback_ID, "~")===false ) {
+		if( strpos($callback_ID, '~')===false ) {
 			throw new Application_Signals_Exception(
-				"Invalid signal callback ID '{$callback_ID}'",
+				'Invalid signal callback ID \''.$callback_ID.'\'',
 				Application_Signals_Exception::CODE_INVALID_SIGNAL_CALLBACK_ID
 			);
 		}
 
-		list($signal_name) = explode("~", $callback_ID);
+		list($signal_name) = explode('~', $callback_ID);
 
 		if(
 			!isset(static::$callbacks[$signal_name]) ||
 			!isset(static::$callbacks[$signal_name][$callback_ID])
 		) {
 			throw new Application_Signals_Exception(
-				"Invalid signal callback ID '{$callback_ID}'",
+				'Invalid signal callback ID \''.$callback_ID.'\'',
 				Application_Signals_Exception::CODE_INVALID_SIGNAL_CALLBACK_ID
 			);
 		}
@@ -111,7 +111,7 @@ class Application_Signals_Dispatcher extends Object {
 			)
 		){
 			throw new Application_Signals_Exception(
-				"There is signal '{$signal_name}' in the queue! Loop detected!",
+				'There is signal \''.$signal_name.'\' in the queue! Loop detected!',
 				Application_Signals_Exception::CODE_LOOP
 			);
 		}

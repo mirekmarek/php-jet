@@ -72,11 +72,17 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 	/**
 	 * @param Mvc_Dispatcher_Queue_Item $queue_item
+	 *
+	 * @return bool
 	 */
 	public function dispatchQueueItem( Mvc_Dispatcher_Queue_Item $queue_item ) {
 		$this->current_queue_item = $queue_item;
 
 		$module_name = $queue_item->getModuleName();
+		if(!Application_Modules::getModuleIsActivated($module_name)) {
+			return false;
+		}
+
 		$controller_class_suffix = $queue_item->getControllerClassSuffix();
 		$controller_action = $queue_item->getControllerAction();
 
@@ -117,7 +123,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		if(!$controller) {
 			//the module may not be installed and activated
-			return;
+			return false;
 		}
 
 		$this->callControllerAction(
@@ -136,6 +142,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		$this->current_queue_item = null;
 		$this->current_loop_ID = null;
+
+		return true;
 	}
 
 

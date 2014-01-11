@@ -119,6 +119,8 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 
 	/**
 	 * @param Mvc_Dispatcher_Queue_Item $queue_item
+	 *
+	 * @return true
 	 */
 	abstract public function dispatchQueueItem( Mvc_Dispatcher_Queue_Item $queue_item );
 

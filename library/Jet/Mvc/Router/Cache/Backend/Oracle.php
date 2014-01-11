@@ -88,8 +88,9 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 			"data" => $this->serialize($item),
 		);
 
-		//TODO: IGNORE ...
-		$this->_db_write->execCommand("INSERT INTO {$this->_table_name}
+		$this->_db_write->execCommand("
+				BEGIN
+					INSERT INTO {$this->_table_name}
 					(
 						URL,
 						URL_hash,
@@ -102,7 +103,10 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 						:URL_hash,
 						:data,
 						sysdate
-					)
+					);
+				EXCEPTION WHEN dup_val_on_index THEN
+				      null;
+				END;
 				",$data);
 
 	}

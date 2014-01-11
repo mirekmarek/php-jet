@@ -1,0 +1,83 @@
+<?php
+namespace JetApplicationModule\JetExample\AdminUsers;
+use Jet;
+
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+?>
+<jetml_editarea id="user_edit" title="Users" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
+	<jetml_editarea_dialog id="user_edit">
+		<jetml_layout_toolbar region="top">
+			<jetml_form_button_save id="user_save" onClick="Jet.modules.CURRENT_MODULE.save(false);"/>
+			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
+		</jetml_layout_toolbar>
+		<jetml_layout_pane region="center" gutters="false" style="padding:0px;">
+			<jetml_data id="user_form_fields_definition"><?=json_encode( $form->getFields() ); ?></jetml_data>
+			<jet_form name="<?=$form->getName();?>">
+				<table>
+					<jet_form_field name="ID"/>
+					<tr>
+						<td valign="top"><jet_form_field_label name="login"/></td>
+						<td><jet_form_field name="login"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="password"/></td>
+						<td><jet_form_field name="password"/></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td valign="top"><jet_form_field_check name="password"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="email"/></td>
+						<td><jet_form_field name="email"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="locale"/></td>
+						<td><jet_form_field name="locale"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="first_name"/></td>
+						<td><jet_form_field name="first_name"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="surname"/></td>
+						<td><jet_form_field name="surname"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="description"/></td>
+						<td><jet_form_field name="description"/></td>
+					</tr>
+					<tr>
+						<td valign="top"><jet_form_field_label name="roles"/></td>
+						<td><jet_form_field name="roles"/></td>
+					</tr>
+				</table>
+			</jet_form>
+		</jetml_layout_pane>
+	</jetml_editarea_dialog>
+	<jetml_editarea_list id="user_edit">
+		<jetml_layout_toolbar region="top">
+			<jetml_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
+			<jetml_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
+			<jetml_trash_button id="user_trash"/>
+		</jetml_layout_toolbar>
+
+		<jetml_layout_pane region="center" gutters="false" style="padding:0px;">
+
+			<jetml_datagrid id="users_grid">
+				<jetml_datagrid_column field="login" title="User name" width="10%"/>
+				<jetml_datagrid_column field="email" title="E-mail" width="20%"/>
+				<jetml_datagrid_column field="first_name" title="First name" width="15%"/>
+				<jetml_datagrid_column field="surname" title="Surname" width="15%"/>
+				<jetml_datagrid_column field="description" title="Description" width="40%"/>
+			</jetml_datagrid>
+
+		</jetml_layout_pane>
+	</jetml_editarea_list>
+</jetml_editarea>
+
+
+<jetml_trash_dialog id="user_trash"/>

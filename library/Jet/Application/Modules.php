@@ -79,17 +79,17 @@
 namespace Jet;
 
 class Application_Modules extends Object {
-	const MODULE_NAMESPACE = "JetApplicationModule";
-	const MODULE_CONFIG_FILE_PATH = "config/config.php";
-	const MODULE_MANIFEST_FILE_PATH = "manifest.php";
-	const MODULE_INSTALL_DIR = "_install/";
-	const MODULE_INSTALL_SCRIPT_PATH = "_install/install.php";
-	const MODULE_UNINSTALL_SCRIPT_PATH = "_install/uninstall.php";
+	const MODULE_NAMESPACE = 'JetApplicationModule';
+	const MODULE_CONFIG_FILE_PATH = 'config/config.php';
+	const MODULE_MANIFEST_FILE_PATH = 'manifest.php';
+	const MODULE_INSTALL_DIR = '_install/';
+	const MODULE_INSTALL_SCRIPT_PATH = '_install/install.php';
+	const MODULE_UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
 
-	const MODULES_LIST_FILE_NAME = "modules_list.php";
+	const MODULES_LIST_FILE_NAME = 'modules_list.php';
 
-	const MODULE_VIEWS_DIR = "views/";
-	const MODULE_LAYOUTS_DIR = "layouts/";
+	const MODULE_VIEWS_DIR = 'views/';
+	const MODULE_LAYOUTS_DIR = 'layouts/';
 
 
 	/**
@@ -170,7 +170,7 @@ class Application_Modules extends Object {
 
 		$data = new Data_Array(static::$installed_modules_list);
 
-		IO_File::write(static::getModulesListFilePath(), "<?php\n return ".$data->export().";\n");
+		IO_File::write(static::getModulesListFilePath(), '<?php'.PHP_EOL.' return '.$data->export().';'.PHP_EOL);
 	}
 
 
@@ -185,15 +185,15 @@ class Application_Modules extends Object {
 		if(!preg_match('/^([a-zA-Z0-9\\\\]{3,50})$/', $module_name)) {
 			return false;
 		}
-		if(strpos($module_name, "\\\\")!==false) {
+		if(strpos($module_name, '\\\\')!==false) {
 			return false;
 		}
 
-		if($module_name[0]=="\\") {
+		if($module_name[0]=='\\') {
 			return false;
 		}
 
-		if( $module_name[strlen($module_name)-1]=="\\" ) {
+		if( $module_name[strlen($module_name)-1]=='\\' ) {
 			return false;
 		}
 
@@ -221,7 +221,7 @@ class Application_Modules extends Object {
 
 		if(!is_readable($path)){
 			throw new Application_Modules_Exception(
-				"Modules list data file '{$path}' is not readable.",
+				'Modules list data file \''.$path.'\' is not readable.',
 				Application_Modules_Exception::CODE_MODULES_LIST_NOT_FOUND
 			);
 		}
@@ -250,7 +250,7 @@ class Application_Modules extends Object {
 
 		static::getInstalledModulesList();
 
-		static::_readModulesList($ignore_corrupted_modules, JET_MODULES_PATH, "");
+		static::_readModulesList($ignore_corrupted_modules, JET_MODULES_PATH, '');
 
 		return static::$all_modules_list;
 	}
@@ -264,14 +264,14 @@ class Application_Modules extends Object {
 		$modules = IO_Dir::getSubdirectoriesList( $base_dir );
 
 		foreach( $modules as $module_dir ) {
-			if( !IO_File::exists( $base_dir.$module_dir."/".static::MODULE_MANIFEST_FILE_PATH ) ) {
+			if( !IO_File::exists( $base_dir.$module_dir.'/'.static::MODULE_MANIFEST_FILE_PATH ) ) {
 
 				$next_module_name_prefix = ($module_name_prefix) ?
-							$module_name_prefix.$module_dir."\\"
+							$module_name_prefix.$module_dir.'\\'
 							:
-							$module_dir."\\";
+							$module_dir.'\\';
 
-				static::_readModulesList($ignore_corrupted_modules, $base_dir.$module_dir."/", $next_module_name_prefix);
+				static::_readModulesList($ignore_corrupted_modules, $base_dir.$module_dir.'/', $next_module_name_prefix);
 				continue;
 			}
 
@@ -440,14 +440,14 @@ class Application_Modules extends Object {
 
 		if( $module_info->getIsInstalled() ) {
 			throw new Application_Modules_Exception(
-				"Module '{$module_name}' is already installed",
+				'Module \''.$module_name.'\' is already installed',
 				Application_Modules_Exception::CODE_MODULE_ALREADY_INSTALLED
 			);
 		}
 
 		if(!$module_info->getIsCompatible()) {
 			throw new Application_Modules_Exception(
-				"Module '{$module_name}' (API version".$module_info->getAPIVersion().") is not compatible with this system version (API version".Version::getAPIVersionNumber().")",
+				'Module \''.$module_name.'\' (API version '.$module_info->getAPIVersion().') is not compatible with this system version (API version'.Version::getAPIVersionNumber().')',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_COMPATIBLE
 			);
 		}
@@ -469,7 +469,7 @@ class Application_Modules extends Object {
 
 		if( $required_modules ) {
 			throw new Application_Modules_Exception(
-				"The module '{$module_name}' requires these modules: ".implode(", ", $required_modules).". This module must be installed before.",
+				'The module \''.$module_name.'\' requires these modules: '.implode(', ', $required_modules).'. This module must be installed before.',
 				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
 			);
 		}
@@ -477,10 +477,6 @@ class Application_Modules extends Object {
 		$module_dir = $module_info->getModuleDir();
 
 
-		$module_info->setIsInstalled(true);
-
-		static::$installed_modules_list[$module_name] = $module_info;
-		static::saveInstalledModulesList();
 
 		static::$installation_in_progress = true;
 		static::$installation_in_progress_module_name = $module_name;
@@ -491,9 +487,10 @@ class Application_Modules extends Object {
 			try {
 				/** @noinspection PhpIncludeInspection */
 				require_once $install_script;
-			} catch(Exception $e){
+			} catch(\Exception $e){
+
 				throw new Application_Modules_Exception(
-					"Error while processing installation script: ".$e->getMessage(),
+					'Error while processing installation script: '.$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
 				);
 			}
@@ -501,6 +498,10 @@ class Application_Modules extends Object {
 		static::$installation_in_progress = false;
 		static::$installation_in_progress_module_name = null;
 
+		$module_info->setIsInstalled(true);
+
+		static::$installed_modules_list[$module_name] = $module_info;
+		static::saveInstalledModulesList();
 
 	}
 
@@ -518,7 +519,7 @@ class Application_Modules extends Object {
 
 		if( !$module_info->getIsInstalled() ) {
 			throw new Application_Modules_Exception(
-				"Module '{$module_name}' is not installed",
+				'Module \''.$module_name.'\' is not installed',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
 			);
 		}
@@ -540,7 +541,7 @@ class Application_Modules extends Object {
 				require_once $uninstall_script;
 			} catch(\Exception $e){
 				$uninstall_exception = new Application_Modules_Exception(
-					"Error while processing uninstall script: ".$e->getMessage(),
+					'Error while processing uninstall script: '.$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
 				);
 			}
@@ -588,7 +589,7 @@ class Application_Modules extends Object {
 
 		if( $required_modules ) {
 			throw new Application_Modules_Exception(
-				"The module requires these modules: ".implode(",", $required_modules).". They must be activated.",
+				'The module requires these modules: '.implode(',', $required_modules).'. They must be activated.',
 				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
 			);
 		}
@@ -597,7 +598,7 @@ class Application_Modules extends Object {
 
 		if( !$module_info->getIsInstalled() ) {
 			throw new Application_Modules_Exception(
-				"Module '{$module_name}' is not installed",
+				'Module \''.$module_name.'\' is not installed',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
 			);
 		}
@@ -627,7 +628,7 @@ class Application_Modules extends Object {
 
 		if( !$module_info->getIsInstalled() ) {
 			throw new Application_Modules_Exception(
-				"Module '{$module_name}' is not installed",
+				'Module \''.$module_name.'\' is not installed',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
 			);
 		}
@@ -690,7 +691,7 @@ class Application_Modules extends Object {
 		} else {
 			if( !isset(static::$activated_modules_list[$module_name]) ) {
 				throw new Application_Modules_Exception(
-					"'{$module_name}' module does not exist, is not installed or is not activated",
+					'Module \''.$module_name.'\' does not exist, is not installed or is not activated',
 					Application_Modules_Exception::CODE_UNKNOWN_MODULE
 				);
 			}
@@ -701,13 +702,13 @@ class Application_Modules extends Object {
 		$module_dir = $module_info->getModuleDir();
 
 		/** @noinspection PhpIncludeInspection */
-		require_once $module_dir . "Main.php";
+		require_once $module_dir . 'Main.php';
 
-		$class_name = "\\".static::MODULE_NAMESPACE."\\".$module_name."\\Main";
+		$class_name = '\\'.static::MODULE_NAMESPACE.'\\'.$module_name.'\Main';
 
 		if(!class_exists($class_name)) {
 			throw new Application_Modules_Exception(
-				"Class '{$class_name}' does not exist",
+				'Class \''.$class_name.'\' does not exist',
 				Application_Modules_Exception::CODE_ERROR_CREATING_MODULE_INSTANCE
 			);
 		}
@@ -716,7 +717,7 @@ class Application_Modules extends Object {
 
 		if( !$module instanceof Application_Modules_Module_Abstract ) {
 			throw new Application_Modules_Exception(
-				"Class '{$module_name}' is not instance of Jet\\Application_Modules_Module_Abstract",
+				'Class \''.$module_name.'\' is not instance of Jet\Application_Modules_Module_Abstract',
 				Application_Modules_Exception::CODE_ERROR_CREATING_MODULE_INSTANCE
 			);
 		}
@@ -734,7 +735,7 @@ class Application_Modules extends Object {
 	protected static function _hardCheckModuleExists( $module_name ) {
 		if( !static::checkModuleNameFormat($module_name) ) {
 			throw new Application_Modules_Exception(
-				"Module name '{$module_name}' is not valid ([a-zA-Z0-9] {3,50}) ",
+				'Module name \''.$module_name.'\' is not valid ([a-zA-Z0-9] {3,50}) ',
 				Application_Modules_Exception::CODE_MODULE_NAME_FORMAT_IS_NOT_VALID
 			);
 		}
@@ -745,7 +746,7 @@ class Application_Modules extends Object {
 
 		if( !isset(static::$all_modules_list[$module_name]) ) {
 			throw new Application_Modules_Exception(
-				"Module '{$module_name}' doesn't exist ",
+				'Module \''.$module_name.'\' does not exist ',
 				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
 			);
 		}
@@ -775,7 +776,7 @@ class Application_Modules extends Object {
 
 		if( $dependent_modules ) {
 			throw new Application_Modules_Exception(
-				"{$module_name} module is required for ".implode(",", $dependent_modules),
+				'Module \'{$module_name}\' is required for '.implode(',', $dependent_modules),
 				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
 			);
 		}

@@ -26,10 +26,9 @@
  */
 namespace Jet;
 
-//TODO: date support
-
 class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	const PRIMARY_KEY_NAME = "PRIMARY";
+	const ROWNUM_KEY = "RN____";
 
 	/**
 	 * @var DataModel_Backend_Oracle_Config
@@ -275,7 +274,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$q .= "SELECT\n\t"
 			.$this->_getSQLQuerySelectPart($query);
 		if($limit_part) {
-			$q .= ",ROWNUM rn____";
+			$q .= ",ROWNUM AS ".static::ROWNUM_KEY;
 		}
 		$q .= "\nFROM\n\t"
 			.$this->_getSQLQueryTableName($query)
@@ -464,7 +463,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		}
 
 		foreach($data as $i=>$d) {
-			unset($data[$i]["RN____"]);
+			if(isset($data[$i][static::ROWNUM_KEY])) {
+				unset($data[$i][static::ROWNUM_KEY]);
+			}
 
 			foreach($query->getSelect() as $item) {
 				/**
@@ -949,9 +950,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		if($limit) {
 			if($offset) {
 				$limit = $offset+$limit;
-				$limit_qp = "\n) where RN___ >= {$offset} AND RN____ < {$limit}";
+				$limit_qp = "\n) where ".static::ROWNUM_KEY." >= {$offset} AND ".static::ROWNUM_KEY." < {$limit}";
 			} else {
-				$limit_qp = "\n) where RN____ <= {$limit}";
+				$limit_qp = "\n) where ".static::ROWNUM_KEY." <= {$limit}";
 			}
 		}
 

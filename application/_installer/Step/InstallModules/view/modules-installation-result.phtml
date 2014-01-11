@@ -19,7 +19,11 @@ $result = $this->getRaw("result");
 	</tr>
 	</thead>
 	<?php foreach( $modules as $name=>$info ):
-	$state = isset($result[$name]) ?  $result[$name] : "";
+		if(!isset($result[$name])) {
+			continue;
+		}
+
+		$state = $result[$name];
 	?>
 	<tr>
 		<td><label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> (<?=$info->getName();?>)</label></td>

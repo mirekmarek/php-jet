@@ -23,14 +23,14 @@ class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract {
 	 * @return string|bool
 	 */
 	public function getClassPath($class_name) {
-		if(substr($class_name, 0, 4)!="Zend") {
+		if(substr($class_name, 0, 4)!='Zend') {
 			return false;
 		}
 
-		$class_name = str_replace( "\\", DIRECTORY_SEPARATOR, $class_name );
-		$class_name = str_replace( "_", DIRECTORY_SEPARATOR, $class_name );
+		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
+		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return JET_LIBRARY_PATH.$class_name.".php";
+		return JET_LIBRARY_PATH.$class_name.'.php';
 
 	}
 }

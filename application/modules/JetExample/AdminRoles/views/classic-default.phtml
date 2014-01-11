@@ -1,0 +1,60 @@
+<?php
+namespace JetApplicationModule\JetExample\AdminRoles;
+use Jet;
+
+/**
+ * @var Jet\Data_Paginator $paginator
+ */
+$paginator = $this->paginator;
+?>
+
+
+<a href="?new">ADD ROLE</a>
+
+
+
+<table border="1">
+	<thead>
+		<tr>
+			<td></td>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+<?php foreach( $this->roles as $role ): ?>
+	<tr>
+		<td>
+			<a href="?ID=<?php echo rawurlencode( $role["ID"] ); ?>">EDIT</a>
+		</td>
+		<td><?php echo $role["ID"]; ?></td>
+		<td><?php echo $role["name"]; ?></td>
+		<td><?php echo $role["description"]; ?></td>
+	</tr>
+<?php endforeach; ?>
+	<tr>
+		<td colspan="4">
+			<table width="100%">
+				<tr>
+					<?php if( ($p_URL=$paginator->getPrevPageURL()) ): ?>
+					<td><a href="<?php echo $p_URL; ?>">&lt;</a></td>
+					<?php endif ?>
+					<td width="100%" align="center">
+						<?php foreach($paginator->getPagesURL() as $p_no => $p_URL): ?>
+						<?php if($p_no==$paginator->getCurrentPageNo()): ?>
+							<strong><?php echo $p_no; ?></strong>
+							<?php else: ?>
+							<a href="<?php echo $p_URL; ?>"><?php echo $p_no; ?></a>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</td>
+					<?php if( ($p_URL=$paginator->getNextPageURL()) ): ?>
+					<td><a href="<?php echo $p_URL; ?>">&gt;</a></td>
+					<?php endif ?>
+
+					<td nowrap>[<?php echo $paginator->getShowFrom();?>-<?php echo $paginator->getShowTo();?>/<?php echo $paginator->getDataItemsCount();?>]</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>

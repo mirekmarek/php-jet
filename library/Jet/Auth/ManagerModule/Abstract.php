@@ -42,7 +42,7 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 		$queue = new Mvc_Dispatcher_Queue();
 
 		$queue->addItem(
-				new Mvc_Dispatcher_Queue_Item( $this->module_info->getName(), "", "login" )
+				new Mvc_Dispatcher_Queue_Item( $this->module_info->getName(), '', 'login' )
 			);
 
 		return $queue;
@@ -238,13 +238,13 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	                $score = $score + 10;
                 }
 
-		if (preg_match("/[a-z]/", $password) && preg_match("/[A-Z]/", $password)) {
+		if (preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)) {
 			$score = $score + 10;
 		}
-		if (preg_match("/[0-9]/", $password)) {
+		if (preg_match('/[0-9]/', $password)) {
 			$score = $score + 10;
 		}
-		if (preg_match("/[^a-zA-Z0-9][^a-zA-Z0-9]+/", $password)) {
+		if (preg_match('/[^a-zA-Z0-9][^a-zA-Z0-9]+/', $password)) {
 			$score = $score + 20;
 		}
 

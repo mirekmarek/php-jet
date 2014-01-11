@@ -90,5 +90,20 @@
 		"translation" => '',
 		"is_translated" => false,
 	),
+	"fe9c32038cd372744ed95bbb273b62fe" => array(
+		"phrase" => 'Edit connection \'%CONNECTION%\' ',
+		"translation" => '',
+		"is_translated" => false,
+	),
+	"e63b896b0a7dd5c3849b12416121d848" => array(
+		"phrase" => 'Delete connection \'%CONNECTION%\' ',
+		"translation" => '',
+		"is_translated" => false,
+	),
+	"3d74ab3b1d356cab11b43e03e95ea9f7" => array(
+		"phrase" => 'YES! Delete it!',
+		"translation" => '',
+		"is_translated" => false,
+	),
 );
 ;

@@ -23,20 +23,20 @@ abstract class Auth_User_Abstract extends DataModel {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Auth_Factory";
+	protected static $__factory_class_name = 'Jet\\Auth_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getUserInstance";
+	protected static $__factory_class_method = 'getUserInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Auth_User_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Auth_User_Abstract';
 
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Auth_User";
+	protected static $__data_model_model_name = 'Jet_Auth_User';
 
 
 	/**
@@ -320,5 +320,5 @@ abstract class Auth_User_Abstract extends DataModel {
 	 *
 	 * @return Form
 	 */
-	abstract public function getSimpleForm( $form_name="" );
+	abstract public function getSimpleForm( $form_name='' );
 }

@@ -38,10 +38,10 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 * <code>
 	 * protected static $ACL_actions = array(
-	 *      "get_data_module_action" => "Get data",
-	 *      "update_record_module_action" => "Update data",
-	 *      "add_record_module_action" => "Add new data",
-	 *      "delete_record_module_action" => "Delete data"
+	 *      'get_data_module_action' => 'Get data',
+	 *      'update_record_module_action' => 'Update data',
+	 *      'add_record_module_action' => 'Add new data',
+	 *      'delete_record_module_action' => 'Delete data'
 	 * );
 	 * </code>
 	 *
@@ -84,7 +84,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	public function checkAclCanDoAction( $action, $log_if_false=true ) {
 		if(!isset($this->ACL_actions[$action])) {
 			throw new Application_Modules_Exception(
-				"Unknown ACL action '{$action}'. Please add record to ".get_class($this)."::\$ACL_actions ",
+				'Unknown ACL action \''.$action.'\'. Please add record to '.get_class($this).'::$ACL_actions ',
 				Application_Modules_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}
@@ -92,7 +92,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$module_name = $this->module_info->getName();
 		return Auth::getCurrentUserHasPrivilege(
 				Auth::PRIVILEGE_MODULE_ACTION,
-				$module_name.":".$action,
+				$module_name.':'.$action,
 				$log_if_false
 			);
 	}
@@ -109,13 +109,13 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		if(!$this->config) {
 			$module_name = $this->module_info->getName();
 
-			$class_name = "JetApplicationModule_{$module_name}_Config";
+			$class_name = 'JetApplicationModule_'.$module_name.'_Config';
 
 			$this->config = new $class_name( $module_name );
 
 			if(!($this->config instanceof Config_Module)) {
 				throw new Application_Modules_Exception(
-					"Module '{$module_name}' config class '{$class_name}' must be instance of \\Jet\\Config_Module!",
+					'Module \''.$module_name.'\' config class \''.$class_name.'\' must be instance of \Jet\Config_Module !',
 					Application_Modules_Exception::CODE_INVALID_MODULE_CONFIG_CLASS
 				);
 			}
@@ -135,7 +135,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @return string
 	 */
 	public function getPublicURI() {
-		return JET_MODULES_URI.$this->module_info->getName()."/public/";
+		return JET_MODULES_URI.$this->module_info->getName().'/public/';
 	}
 
 	/**
@@ -365,20 +365,20 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$URI = Mvc_Pages::getURI($page_ID, $locale, $site_ID);
 
 		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
-		$URI .= $sm[$service_type]."/";
+		$URI .= $sm[$service_type].'/';
 
-		$URI .= str_replace("\\", ".", $this->module_info->getName())."/";
-		$URI .= $action."/";
+		$URI .= str_replace('\\', '.', $this->module_info->getName()).'/';
+		$URI .= $action.'/';
 
 		if($path_fragments) {
-			$URI .= implode("/", $path_fragments)."/";
+			$URI .= implode('/', $path_fragments).'/';
 		}
 
 		if($GET_params) {
 			foreach($GET_params as $k=>$v) {
-				$GET_params[$k] = $k."=".rawurlencode($v);
+				$GET_params[$k] = $k.'='.rawurlencode($v);
 			}
-			$URI .= "?".implode("&", $GET_params);
+			$URI .= '?'.implode('&', $GET_params);
 		}
 		return $URI;
 	}
@@ -419,20 +419,20 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$URL = Mvc_Pages::getURL($page_ID, $locale, $site_ID);
 
 		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
-		$URL .= $sm[$service_type]."/";
+		$URL .= $sm[$service_type].'/';
 
-		$URL .= $this->module_info->getName()."/";
-		$URL .= $action."/";
+		$URL .= $this->module_info->getName().'/';
+		$URL .= $action.'/';
 
 		if($path_fragments) {
-			$URL .= implode("/", $path_fragments)."/";
+			$URL .= implode('/', $path_fragments).'/';
 		}
 
 		if($GET_params) {
 			foreach($GET_params as $k=>$v) {
-				$GET_params[$k] = $k."=".rawurlencode($v);
+				$GET_params[$k] = $k.'='.rawurlencode($v);
 			}
-			$URL .= "?".implode("&", $GET_params);
+			$URL .= '?'.implode('&', $GET_params);
 		}
 		return $URL;
 	}

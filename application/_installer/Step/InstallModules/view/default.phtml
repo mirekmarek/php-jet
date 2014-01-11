@@ -25,8 +25,12 @@ $modules = $this->getRaw("modules");
 	</thead>
 	<?php foreach( $modules as $info ): ?>
 	<tr>
-		<td><input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked"/></td>
-                <td><?=$info->getVendor();?></td>
+		<td>
+			<?php if(!$info->getIsActivated()): ?>
+			<input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked"/>
+			<?php endif; ?>
+		</td>
+		<td><?=$info->getVendor();?></td>
 		<td><label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> (<?=$info->getName();?>)</label></td>
 		<td><?=$info->getDescription();?></td>
 		<td><?=Tr::_($info->getIsInstalled()?"Yes":"NO");?></td>

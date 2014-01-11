@@ -16,50 +16,50 @@ class Application_Config extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "main";
+	protected static $__config_data_path = 'main';
 
 	/**
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
 
-		"IO_dirs_chmod" => array(
-			"type" => Config::TYPE_STRING,
-			"is_required" => true,
-			"description" => "default chmod() mask for dirs",
-			"default_value" => "0777",
-			"form_field_label" => "I/O dirs mode (Unix access): "
+		'IO_dirs_chmod' => array(
+			'type' => Config::TYPE_STRING,
+			'is_required' => true,
+			'description' => 'default chmod() mask for dirs',
+			'default_value' => '0777',
+			'form_field_label' => 'I/O dirs mode (Unix access): '
 		),
 
-		"IO_files_chmod" => array(
-			"type" => Config::TYPE_STRING,
-			"is_required" => true,
-			"description" => "default chmod() mask for files",
-			"default_value" => "0666",
-			"form_field_label" => "I/O files mode (Unix access): "
+		'IO_files_chmod' => array(
+			'type' => Config::TYPE_STRING,
+			'is_required' => true,
+			'description' => 'default chmod() mask for files',
+			'default_value' => '0666',
+			'form_field_label' => 'I/O files mode (Unix access): '
 		),
 
-		"default_time_zone" => array(
-			"type" => Config::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "Europe/Prague",
-			"description" => "Default timezone for PHP",
-			"form_field_label" => "Default timezone: "
+		'default_time_zone' => array(
+			'type' => Config::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'Europe/Prague',
+			'description' => 'Default timezone for PHP',
+			'form_field_label' => 'Default timezone: '
 		),
 
-		"hide_PHP_request_data" => array(
-			"type" => Config::TYPE_BOOL,
-			"is_required" => false,
-			"default_value" => true,
-			"form_field_label" => "Hide \$_GET, \$_POST and \$_REQUEST:"
+		'hide_PHP_request_data' => array(
+			'type' => Config::TYPE_BOOL,
+			'is_required' => false,
+			'default_value' => true,
+			'form_field_label' => 'Hide $_GET, $_POST and $_REQUEST:'
 		),
 
-		"error_handlers" => array(
-			"type" => Config::TYPE_ARRAY,
-			"item_type" => Config::TYPE_STRING,
-			"is_required" => true,
-			"form_field_get_default_value_callback" => array("\\Jet\\Debug_ErrorHandler", "getDefaultErrorHandlers"),
-			"form_field_get_select_options_callback" => array("\\Jet\\Debug_ErrorHandler", "getHandlersList")
+		'error_handlers' => array(
+			'type' => Config::TYPE_ARRAY,
+			'item_type' => Config::TYPE_STRING,
+			'is_required' => true,
+			'form_field_get_default_value_callback' => array('\Jet\Debug_ErrorHandler', 'getDefaultErrorHandlers'),
+			'form_field_get_select_options_callback' => array('\Jet\Debug_ErrorHandler', 'getHandlersList')
 		)
 
 	);

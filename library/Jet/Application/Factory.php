@@ -14,7 +14,7 @@
 namespace Jet;
 
 class Application_Factory extends Factory {
-	const DEFAULT_MODULE_INFO_CLASS_NAME = "Jet\\Application_Modules_Module_Info";
+	const DEFAULT_MODULE_INFO_CLASS_NAME = 'Jet\Application_Modules_Module_Info';
 
 	/**
 	 * @param string $module_name

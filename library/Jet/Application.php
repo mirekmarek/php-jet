@@ -29,15 +29,15 @@ class Application {
 	 * @static
 	 *
 	 * @param string|null $environment (optional, default = JET_APPLICATION_ENVIRONMENT constant)
-	 * @param string|null $config_file_path (optional,default = JET_CONFIG_PATH.$environment.".php")
+	 * @param string|null $config_file_path (optional,default = JET_CONFIG_PATH.$environment.'.php')
 	 *
 	 * @throws Application_Exception
 	 */
 	public static function start( $environment = null, $config_file_path = null ){
 		if(!$environment){
-			if(!defined("JET_APPLICATION_ENVIRONMENT")){
+			if(!defined('JET_APPLICATION_ENVIRONMENT')){
 				throw new Application_Exception(
-					"Constant JET_APPLICATION_ENVIRONMENT is not defined.",
+					'Constant JET_APPLICATION_ENVIRONMENT is not defined.',
 					Application_Exception::CODE_ENVIRONMENT_NOT_SET
 				);
 			}
@@ -106,7 +106,7 @@ class Application {
 	 * @return bool
 	 */
 	public static function getIsDebugMode(){
-		return defined("JET_DEBUG_MODE") && JET_DEBUG_MODE;
+		return defined('JET_DEBUG_MODE') && JET_DEBUG_MODE;
 	}
 
 	/**

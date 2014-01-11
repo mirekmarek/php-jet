@@ -22,13 +22,13 @@ abstract class Config_Module extends Config {
 	/**
 	 * @var string
 	 */
-	protected $__config_module_name = "";
+	protected $__config_module_name = '';
 
 	/**
 	 * @param $module_name
 	 */
 	public function __construct( $module_name ) {
 		$this->__config_module_name = $module_name;
-		parent::__construct( JET_MODULES_PATH.$module_name."/config/config.php");
+		parent::__construct( JET_MODULES_PATH.$module_name.'/config/config.php');
 	}
 }
