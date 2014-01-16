@@ -43,7 +43,7 @@ trait DataModel_Query_Where_Trait {
 					break;
 				default:
 					throw new DataModel_Query_Exception(
-						"Unknown logical operator '".strtoupper($val)."'. Available operators: AND, OR",
+						'Unknown logical operator \''.strtoupper($val).'\'. Available operators: AND, OR',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 					break;

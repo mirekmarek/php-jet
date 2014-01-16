@@ -37,10 +37,10 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create("datamodel_history_sqlite_connection", array(
-			"name" => "datamodel_history_sqlite_connection",
-			"driver" => DB::DRIVER_SQLITE,
-			"DSN" => $this->config->getDSN()
+		$this->_db = Db::create('datamodel_history_sqlite_connection', array(
+			'name' => 'datamodel_history_sqlite_connection',
+			'driver' => DB::DRIVER_SQLITE,
+			'DSN' => $this->config->getDSN()
 		));
 
 		$this->_table_name = $this->config->getTableName();
@@ -56,14 +56,14 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 
 		$user = Auth::getCurrentUser();
 		if($user) {
-			$user_name = $user->getName()." (".$user->getLogin().")";
+			$user_name = $user->getName().' ('.$user->getLogin().')';
 			$user_ID = (string)$user->getID();
 		} else {
-			$user_name = "";
-			$user_ID = "";
+			$user_name = '';
+			$user_ID = '';
 		}
 
-		$this->_db->execCommand("INSERT INTO `{$this->_table_name}`
+		$this->_db->execCommand('INSERT INTO `'.$this->_table_name.'`
 					(
 	                    `operation_ID`,
 						`class_name`,
@@ -82,23 +82,23 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 						:model_name,
 						:object_ID,
 						:operation,
-						datetime('now'),
+						datetime(\'now\'),
 						:user_name,
 						:user_ID,
 						:object,
 						:operation_inprogress
 
 					)
-				",array(
-					"operation_ID" => $this->_current_operation_ID,
-					"class_name" => get_class($this->_current_data_model),
-					"model_name" => $this->_current_data_model->getDataModelName(),
-					"object_ID" => (string)$this->_current_data_model->getID(),
-					"operation" => $operation,
-					"user_name" => $user_name,
-					"user_ID" => $user_ID,
-					"object" => $this->serialize( $this->_current_data_model ),
-					"operation_inprogress" => 1,
+				',array(
+					'operation_ID' => $this->_current_operation_ID,
+					'class_name' => get_class($this->_current_data_model),
+					'model_name' => $this->_current_data_model->getDataModelName(),
+					'object_ID' => (string)$this->_current_data_model->getID(),
+					'operation' => $operation,
+					'user_name' => $user_name,
+					'user_ID' => $user_ID,
+					'object' => $this->serialize( $this->_current_data_model ),
+					'operation_inprogress' => 1,
 				));
 
 	}
@@ -108,9 +108,9 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	 */
 	public function operationDone() {
 		$this->_db->execCommand(
-			"UPDATE `{$this->_table_name}` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=datetime('now') WHERE `operation_ID`=:operation_ID",
+			'UPDATE `'.$this->_table_name.'` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=datetime(\'now\') WHERE `operation_ID`=:operation_ID',
 			array(
-				"operation_ID" => $this->_current_operation_ID,
+				'operation_ID' => $this->_current_operation_ID,
 			)
 		);
 	}
@@ -121,21 +121,21 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	 */
 	public function helper_getCreateCommand() {
 
-		return "CREATE TABLE IF NOT EXISTS `{$this->_table_name}` (\n"
-				."\t`operation_ID` TEXT,\n"
-				."\t`class_name` TEXT,\n"
-				."\t`model_name` TEXT,\n"
-				."\t`object_ID` TEXT,\n"
-				."\t`operation` TEXT,\n"
-				."\t`start_date_and_time` NUMERIC,\n"
-				."\t`done_date_and_time` NUMERIC,\n"
-				."\t`operation_inprogress` INTEGER,\n"
-				."\t`operation_done` INTEGER,\n"
-				."\t`user_name` TEXT,\n"
-				."\t`user_ID` TEXT,\n"
-				."\t`object` BLOB,\n"
-				."\tPRIMARY KEY (`operation_ID`)\n"
-			.");";
+		return 'CREATE TABLE IF NOT EXISTS `'.$this->_table_name.'` ('.JET_EOL
+				.JET_TAB.'`operation_ID` TEXT,'.JET_EOL
+				.JET_TAB.'`class_name` TEXT,'.JET_EOL
+				.JET_TAB.'`model_name` TEXT,'.JET_EOL
+				.JET_TAB.'`object_ID` TEXT,'.JET_EOL
+				.JET_TAB.'`operation` TEXT,'.JET_EOL
+				.JET_TAB.'`start_date_and_time` NUMERIC,'.JET_EOL
+				.JET_TAB.'`done_date_and_time` NUMERIC,'.JET_EOL
+				.JET_TAB.'`operation_inprogress` INTEGER,'.JET_EOL
+				.JET_TAB.'`operation_done` INTEGER,'.JET_EOL
+				.JET_TAB.'`user_name` TEXT,'.JET_EOL
+				.JET_TAB.'`user_ID` TEXT,'.JET_EOL
+				.JET_TAB.'`object` BLOB,'.JET_EOL
+				.JET_TAB.'PRIMARY KEY (`operation_ID`)'.JET_EOL
+			.');';
 	}
 
 	/**

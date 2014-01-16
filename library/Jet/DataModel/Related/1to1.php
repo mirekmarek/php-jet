@@ -26,7 +26,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $____data_model_definition_class_name = "Jet\\DataModel_Definition_Model_Related_1to1";
+	protected static $____data_model_definition_class_name = 'Jet\\DataModel_Definition_Model_Related_1to1';
 
 
 

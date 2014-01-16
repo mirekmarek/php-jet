@@ -105,7 +105,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 
 			if(!$this->parent) {
 				throw new Data_Tree_Exception(
-					"Inconsistent tree data. Parent node '{$this->parent_ID}' does not exist. Node ID: '{$this->ID}' ",
+					'Inconsistent tree data. Parent node \''.$this->parent_ID.'\' does not exist. Node ID: \''.$this->ID.'\' ',
 					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 				);
 			}
@@ -117,7 +117,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 			$root_node = $this->tree->getRootNode();
 			if( $root_node ) {
 				throw new Data_Tree_Exception(
-					"Node: '{$this->ID}'. Parent ID is not defined, but root node already exist (Root node ID: '{$root_node->getID()}'). There can be only one root. Please check data, or use Data_Forest if you need. ",
+					'Node: \''.$this->ID.'\'. Parent ID is not defined, but root node already exist (Root node ID: \''.$root_node->getID().'\'). There can be only one root. Please check data, or use Data_Forest if you need. ',
 					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 				);
 
@@ -141,7 +141,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 			isset($this->children[$ID])
 		) {
 			throw new Data_Tree_Exception(
-				"Child '{$ID}' already exists!",
+				'Child \''.$ID.'\' already exists!',
 				Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
 			);
 		}
@@ -282,12 +282,12 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	public function jsonSerialize(){
 
 		$props = array(
-			"ID",
-			"parent_ID",
-			"depth",
-			"data",
-			"children",
-			"is_root"
+			'ID',
+			'parent_ID',
+			'depth',
+			'data',
+			'children',
+			'is_root'
 		);
 
 		$output = array();
@@ -306,12 +306,12 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	public function __sleep(){
 		return array(
-			"ID",
-			"data",
-			"parent",
-			"children",
-			"depth",
-			"is_root"
+			'ID',
+			'data',
+			'parent',
+			'children',
+			'depth',
+			'is_root'
 		);
 	}
 

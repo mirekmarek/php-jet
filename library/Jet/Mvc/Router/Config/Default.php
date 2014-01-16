@@ -25,52 +25,52 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 *
 	 * @var string
 	 */
-	protected static $__config_data_path = "core_router";
+	protected static $__config_data_path = 'core_router';
 
 	/**
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"cache_enabled" => array(
-			"type" => self::TYPE_BOOL,
-			"default_value" => true,
-			"is_required" => true,
-			"form_field_label" => "Enable cache: "
+		'cache_enabled' => array(
+			'type' => self::TYPE_BOOL,
+			'default_value' => true,
+			'is_required' => true,
+			'form_field_label' => 'Enable cache: '
 		),
-		"cache_backend_type" => array(
-			"type" => self::TYPE_STRING,
-			"default_value" => "MySQL",
-			"is_required" => true,
-			"form_field_label" => "Cache backend type: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc_Router_Config_Default", "getCacheBackendTypesList")
+		'cache_backend_type' => array(
+			'type' => self::TYPE_STRING,
+			'default_value' => 'MySQL',
+			'is_required' => true,
+			'form_field_label' => 'Cache backend type: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getCacheBackendTypesList')
 		),
-		"default_site_UI_manager_module_name" => array(
-			"type" => self::TYPE_STRING,
-			"default_value" => "Jet\\SiteUIDefault",
-			"description" => "Default site UI manager module name",
-			"is_required" => true,
-			"form_field_label" => "Default site UI manager module: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc_Router_Config_Default", "getSiteUIManagerModulesList")
+		'default_site_UI_manager_module_name' => array(
+			'type' => self::TYPE_STRING,
+			'default_value' => 'Jet\\SiteUIDefault',
+			'description' => 'Default site UI manager module name',
+			'is_required' => true,
+			'form_field_label' => 'Default site UI manager module: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getSiteUIManagerModulesList')
 		),
-		"default_admin_UI_manager_module_name" => array(
-			"type" => self::TYPE_STRING,
-			"default_value" => "Jet\\AdminUIDefault",
-			"description" => "Default admin UI manager module name",
-			"is_required" => true,
-			"form_field_label" => "Default administration UI manager module: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc_Router_Config_Default", "getAdminUIManagerModulesList")
+		'default_admin_UI_manager_module_name' => array(
+			'type' => self::TYPE_STRING,
+			'default_value' => 'Jet\\AdminUIDefault',
+			'description' => 'Default admin UI manager module name',
+			'is_required' => true,
+			'form_field_label' => 'Default administration UI manager module: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getAdminUIManagerModulesList')
 		),
-		"default_auth_manager_module_name" => array(
-			"type" => self::TYPE_STRING,
-			"default_value" => "Jet\\AuthDefault",
-			"description" => "Default authentication and authorization manager module name",
-			"is_required" => true,
-			"form_field_label" => "Authentication and authorization manager module: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc_Router_Config_Default", "getAuthManagerModulesList")
+		'default_auth_manager_module_name' => array(
+			'type' => self::TYPE_STRING,
+			'default_value' => 'Jet\\AuthDefault',
+			'description' => 'Default authentication and authorization manager module name',
+			'is_required' => true,
+			'form_field_label' => 'Authentication and authorization manager module: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getAuthManagerModulesList')
 
 		),
 	);
@@ -146,7 +146,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 * @return array
 	 */
 	public static function getCacheBackendTypesList() {
-		return static::getAvailableHandlersList( JET_LIBRARY_PATH."Jet/Mvc/Router/Cache/Backend/" );
+		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Mvc/Router/Cache/Backend/' );
 	}
 
 	/**

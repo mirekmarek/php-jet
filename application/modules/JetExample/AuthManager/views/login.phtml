@@ -1,5 +1,5 @@
 <?php if($this->incorrect_login): ?>
-	<?=Jet\Tr::_("Invalid user name or password!");?>
+	<?=Jet\Tr::_('Invalid user name or password!');?>
 <?php endif; ?>
 <jet_form name="login">
     <jet_form_common_error_message class="formError"/>
@@ -12,7 +12,7 @@
             <td valign="top"><jet_form_field_label name="password"/></td>
             <td><jet_form_field_error_msg name="password"/><jet_form_field name="password"/></td>
         </tr>
-        <tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("LOGIN");?>"/></td></tr>
+        <tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_('LOGIN');?>"/></td></tr>
     </table>
 </jet_form>
 

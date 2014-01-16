@@ -40,7 +40,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 
 			if(!$parent_model_class_name) {
 				throw new DataModel_Exception(
-					get_class($this)."::\$__data_model_parent_model_class_name is not defined!",
+					get_class($this).'::$__data_model_parent_model_class_name is not defined!',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -181,7 +181,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 		$main_class = $this->getDataModelDefinition()->getMainModelDefinition()->getClassName();
 
 		throw new DataModel_Exception(
-			"Please use {$main_class}->save() ",
+			'Please use '.$main_class.'->save() ',
 			DataModel_Exception::CODE_PERMISSION_DENIED
 		);
 
@@ -256,13 +256,13 @@ abstract class DataModel_Related_Abstract extends DataModel {
 		$backend = $this->getBackendInstance();
 
 		if( !$this->___data_model_saved ) {
-			$operation = "save";
+			$operation = 'save';
 		} else {
-			$operation = "update";
+			$operation = 'update';
 		}
 
 
-		$this->{"_$operation"}( $backend, $main_model_instance );
+		$this->{'_'.$operation}( $backend, $main_model_instance );
 
 		$this->___data_model_saved = true;
 

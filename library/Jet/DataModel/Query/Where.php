@@ -69,7 +69,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 			) {
 
 				throw new DataModel_Query_Exception(
-					"Previous part of the query must be AND or OR. ".$previous." given. Current where dump:".$this->toString(),
+					'Previous part of the query must be AND or OR. '.$previous.' given. Current where dump:'.$this->toString(),
 					DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -94,7 +94,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 
 		if( $previous===DataModel_Query::L_O_AND || $previous===DataModel_Query::L_O_OR ) {
 			throw new DataModel_Query_Exception(
-				"Previous part of the query must be Expression. ".$previous." given. Current where dump:".$this->toString(),
+				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(),
 				DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
@@ -117,7 +117,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 
 		if( $previous===DataModel_Query::L_O_AND || $previous===DataModel_Query::L_O_OR ) {
 			throw new DataModel_Query_Exception(
-				"Previous part of the query must be Expression. ".$previous." given. Current where dump:".$this->toString(),
+				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(),
 				DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
@@ -136,7 +136,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 
 			if( $previous!==DataModel_Query::L_O_AND && $previous!==DataModel_Query::L_O_OR ) {
 				throw new DataModel_Query_Exception(
-					"Previous part of the query must be Expression. ".$previous." given. Current where dump:".$this->toString(),
+					'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(),
 					DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -172,7 +172,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 			}
 		}
 
-		return "( ".implode(" ", $result)." )";
+		return '( '.implode(' ', $result).' )';
 	}
 
 	//------------------------------------------------------------------------------------------------------------

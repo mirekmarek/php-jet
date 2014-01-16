@@ -25,12 +25,12 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	/**
 	 * @var string
 	 */
-	protected $default_value = "";
+	protected $default_value = '';
 
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Input";
+	protected $form_field_type = 'Input';
 
 	/**
 	 * @var string
@@ -76,20 +76,20 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType();
+		$res = 'Type: '.$this->getType();
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->default_value) {
-			$res .= ", default value: {$this->default_value}";
+			$res .= ', default value: '.$this->default_value;
 		}
 
 		if($this->validation_regexp) {
-			$res .= ", valid value regular expression: {$this->validation_regexp}";
+			$res .= ', valid value regular expression: '.$this->validation_regexp;
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;
@@ -111,7 +111,7 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 
 		if( !preg_match($this->validation_regexp, $value) ) {
 			throw new Config_Exception(
-				"Configuration property ".get_class($this->_configuration)."::".$this->_name." has invalid format. Valid regexp: {$this->validation_regexp}, current value: {$value}",
+				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' has invalid format. Valid regexp: '.$this->validation_regexp.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}

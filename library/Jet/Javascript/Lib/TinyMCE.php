@@ -44,15 +44,15 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getHTMLSnippet(){
-		$result = "";
+		$result = '';
 
 
-		$result .= '<script type="text/javascript">'."\n";
-		$result .= '  var Jet_WYSIWYG_editor_configs = '.json_encode($this->config->getEditorConfigs()).';'."\n";
-		$result .= '</script>'."\n";
+		$result .= '<script type="text/javascript">'.JET_EOL;
+		$result .= '  var Jet_WYSIWYG_editor_configs = '.json_encode($this->config->getEditorConfigs()).';'.JET_EOL;
+		$result .= '</script>'.JET_EOL;
 
-		$result .= '<script type="text/javascript" src="'.$this->config->getURI().'" charset="utf-8"></script>'."\n";
-		$result .= '<script type="text/javascript" src="'.$this->config->getWrapperURI().'" charset="utf-8"></script>'."\n";
+		$result .= '<script type="text/javascript" src="'.$this->config->getURI().'" charset="utf-8"></script>'.JET_EOL;
+		$result .= '<script type="text/javascript" src="'.$this->config->getWrapperURI().'" charset="utf-8"></script>'.JET_EOL;
 
 		return $result;
 	}

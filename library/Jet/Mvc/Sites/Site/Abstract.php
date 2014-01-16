@@ -24,15 +24,15 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getSiteInstance";
+	protected static $__factory_class_method = 'getSiteInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Sites_Site_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Site_Abstract';
 
 	/**
 	 * Prepares new site data

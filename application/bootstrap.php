@@ -11,16 +11,17 @@
  */
 namespace Jet;
 
-require("defines.php");
+require('defines.php');
 
-//require("initXHProf.php");
+if(JET_DEBUG_MODE) {
+	require( JET_APPLICATION_PATH . 'init/Profiler.php' );
+}
 
-require( JET_APPLICATION_PATH . "initErrorHandler.php" );
-require( JET_APPLICATION_PATH . "initAutoloader.php" );
+require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
+require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
-//Debug_Profiler::enable();
 
-//require(JET_APPLICATION_PATH."_installer/install.php");
+//require(JET_APPLICATION_PATH.'_installer/install.php');
 
 Application::start( JET_APPLICATION_ENVIRONMENT );
 Mvc::run();

@@ -24,15 +24,15 @@ abstract class Mvc_Router_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getRouterInstance";
+	protected static $__factory_class_method = 'getRouterInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Router_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Router_Abstract';
 
 	/**
 	 * @see Mvc/readme.txt
@@ -43,10 +43,10 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @var array
 	 */
 	protected static $path_fragments_service_types_map = array(
-		"_ajax_" => Mvc_Router::SERVICE_TYPE_AJAX,
-		"_rest_" => Mvc_Router::SERVICE_TYPE_REST,
-		"_sys_" => Mvc_Router::SERVICE_TYPE_SYS,
-		"_JetJS_" => Mvc_Router::SERVICE_TYPE__JETJS_,
+		'_ajax_' => Mvc_Router::SERVICE_TYPE_AJAX,
+		'_rest_' => Mvc_Router::SERVICE_TYPE_REST,
+		'_sys_' => Mvc_Router::SERVICE_TYPE_SYS,
+		'_JetJS_' => Mvc_Router::SERVICE_TYPE__JETJS_,
 	);
 
 	/**
@@ -58,10 +58,10 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @var array
 	 */
 	protected static $service_types_path_fragments_map = array(
-		Mvc_Router::SERVICE_TYPE_AJAX => "_ajax_",
-		Mvc_Router::SERVICE_TYPE_REST => "_rest_",
-		Mvc_Router::SERVICE_TYPE_SYS => "_sys_",
-		Mvc_Router::SERVICE_TYPE__JETJS_ => "_JetJS_"
+		Mvc_Router::SERVICE_TYPE_AJAX => '_ajax_',
+		Mvc_Router::SERVICE_TYPE_REST => '_rest_',
+		Mvc_Router::SERVICE_TYPE_SYS => '_sys_',
+		Mvc_Router::SERVICE_TYPE__JETJS_ => '_JetJS_'
 	);
 
 

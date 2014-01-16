@@ -26,7 +26,7 @@ class IO_File {
 	 * @return array
 	 */
 	protected static function _getLastError() {
-		if(class_exists("Jet\\Debug_ErrorHandler", false)) {
+		if(class_exists('Jet\\Debug_ErrorHandler', false)) {
 			return Debug_ErrorHandler::getLastError();
 		} else {
 			return error_get_last();
@@ -103,7 +103,7 @@ class IO_File {
 			$error = static::_getLastError();
 
 			throw new IO_File_Exception(
-				"Unable to chmod '{$file_path}'. Error message: {$error["message"]}",
+				'Unable to chmod \''.$file_path.'\'. Error message: '.$error['message'],
 				IO_File_Exception::CODE_CHMOD_FAILED
 			);
 		}
@@ -163,7 +163,7 @@ class IO_File {
 		if(!file_put_contents($file_path, $data, $flags)) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				"Unable to write file '{$file_path}'. Error message: {$error["message"]}",
+				'Unable to write file \''.$file_path.'\'. Error message: '.$error['message'],
 				IO_File_Exception::CODE_WRITE_FAILED
 			);
 
@@ -190,7 +190,7 @@ class IO_File {
 		if($data===false) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				"Unable to read file '{$file_path}'. Error message: {$error["message"]}",
+				'Unable to read file \''.$file_path.'\'. Error message: '.$error['message'],
 				IO_File_Exception::CODE_READ_FAILED
 			);
 		}
@@ -209,7 +209,7 @@ class IO_File {
 		if(!unlink($file_path)) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				"Unable to delete file '{$file_path}'. Error message: {$error["message"]}",
+				'Unable to delete file \''.$file_path.'\'. Error message: '.$error['message'],
 				IO_File_Exception::CODE_DELETE_FAILED
 			);
 		}
@@ -231,7 +231,7 @@ class IO_File {
 				self::delete($target_path);
 			} else {
 				throw new IO_File_Exception(
-					"Unable to copy file '{$source_path}' -> '{$target_path}'. Target already exists.",
+					'Unable to copy file \''.$source_path.'\' -> \''.$target_path.'\'. Target already exists.',
 					IO_File_Exception::CODE_COPY_FAILED
 				);
 			}
@@ -240,7 +240,7 @@ class IO_File {
 		if(!copy($source_path, $target_path)) {
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				"Unable to copy file '{$source_path}' -> '{$target_path}'. Error message: {$error["message"]}",
+				'Unable to copy file \''.$source_path.'\' -> \''.$target_path.'\'. Error message: '.$error['message'],
 				IO_File_Exception::CODE_COPY_FAILED
 			);
 		}
@@ -291,7 +291,7 @@ class IO_File {
 
 		if(!is_uploaded_file($source_path)){
 			throw new IO_File_Exception(
-				"File '{$source_path}' is not uploaded file",
+				'File \''.$source_path.'\' is not uploaded file',
 				IO_File_Exception::CODE_IS_NOT_UPLOADED_FILE
 			);
 		}
@@ -317,7 +317,7 @@ class IO_File {
 		if( $size===false ){
 			$error = static::_getLastError();
 			throw new IO_File_Exception(
-				"Unable to get size of file '{$file_path}'. Error message: {$error["message"]}",
+				'Unable to get size of file \''.$file_path.'\'. Error message: '.$error['message'],
 				IO_File_Exception::CODE_GET_FILE_SIZE_FAILED
 			);
 		}
@@ -337,9 +337,9 @@ class IO_File {
 	public static function getMimeType($file_path, $extensions_mimes_map_file_path=null, $without_charset=true){
 		if(
 			!$extensions_mimes_map_file_path &&
-			defined("JET_CONFIG_PATH")
+			defined('JET_CONFIG_PATH')
 		) {
-			$extensions_mimes_map_file_path = JET_CONFIG_PATH."file_mime_types/map.php";
+			$extensions_mimes_map_file_path = JET_CONFIG_PATH.'file_mime_types/map.php';
 		}
 
 		$mime_type = null;
@@ -368,7 +368,7 @@ class IO_File {
 
 		if(
 			$without_charset &&
-			($pos = strpos($mime_type, ";"))!==false
+			($pos = strpos($mime_type, ';'))!==false
 		) {
 			$mime_type = substr($mime_type, 0, $pos);
 		}
@@ -385,10 +385,10 @@ class IO_File {
 	 */
 	public static function getMaxUploadSize() {
 		
-		$max_upload = ini_get("upload_max_filesize");
-		$max_post = ini_get("post_max_size");
+		$max_upload = ini_get('upload_max_filesize');
+		$max_post = ini_get('post_max_size');
 
-		$units = array("" => 1, "K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+		$units = array('' => 1, 'K'=>1024, 'M'=>1024*1024, 'G'=>1024*1024*1024);
 
 		$max_post_unit = substr($max_post, -1);
 		$max_upload_unit = substr($max_upload, -1);
@@ -422,7 +422,7 @@ class IO_File {
 
 		if(!static::isReadable($file_path)) {
 			throw new IO_File_Exception(
-				"File '{$file_path}' is not readable",
+				'File \''.$file_path.'\' is not readable',
 				IO_File_Exception::CODE_READ_FAILED
 			);
 
@@ -447,7 +447,7 @@ class IO_File {
 			$force_download
 		);
 
-		$fp = fopen($file_path, "r");
+		$fp = fopen($file_path, 'r');
 		fpassthru($fp);
 		Application::end();
 	}

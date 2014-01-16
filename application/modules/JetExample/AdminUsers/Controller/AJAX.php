@@ -27,17 +27,17 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 
 
 	protected static $ACL_actions_check_map = array(
-		"default" => false
+		'default' => false
 	);
 
 	function default_Action() {
 		$role = Jet\Auth_Factory::getUserInstance();
 		$form = $role->getCommonForm();
-		$form->enableDecorator("Dojo");
+		$form->enableDecorator('Dojo');
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->render("default-ajax");
+		$this->render('default-ajax');
 	}
 
 }

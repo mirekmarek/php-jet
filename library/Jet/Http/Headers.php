@@ -73,58 +73,58 @@ class Http_Headers {
 	 * @var array
 	 */
 	protected static $response_messages = array(
-		200 => "OK",
-		201 => "Created",
-		202 => "Accepted",
-		204 => "No Content",
-		205 => "Reset Content",
-		206 => "Partial Content",
+		200 => 'OK',
+		201 => 'Created',
+		202 => 'Accepted',
+		204 => 'No Content',
+		205 => 'Reset Content',
+		206 => 'Partial Content',
 
-		301 => "Moved Permanently",
-		302 => "Found",
-		303 => "See Other",
-		304 => "Not Modified",
-		307 => "Temporary Redirect",
-		308 => "Permanent Redirect",
+		301 => 'Moved Permanently',
+		302 => 'Found',
+		303 => 'See Other',
+		304 => 'Not Modified',
+		307 => 'Temporary Redirect',
+		308 => 'Permanent Redirect',
 
-		400 => "Bad Request",
-		401 => "Unauthorized",
-		402 => "Payment Required",
-		403 => "Forbidden",
-		404 => "Not Found",
-		405 => "Method Not Allowed",
-		406 => "Not Acceptable",
-		407 => "Proxy Authentication Required",
-		408 => "Request Timeout",
-		409 => "Conflict",
-		410 => "Gone",
-		411 => "Length Required",
-		412 => "Precondition Failed",
-		413 => "Request Entity Too Large",
-		414 => "Request-URI Too Long",
-		415 => "Unsupported Media Type",
-		416 => "Requested Range Not Satisfiable",
-		417 => "Expectation Failed",
-		425 => "Unordered Collection",
-		426 => "Upgrade Required",
-		428 => "Precondition Required",
-		429 => "Too Many Requests",
-		431 => "Request Header Fields Too Large",
-		444 => "No Response",
-		451 => "Unavailable For Legal Reasons",
+		400 => 'Bad Request',
+		401 => 'Unauthorized',
+		402 => 'Payment Required',
+		403 => 'Forbidden',
+		404 => 'Not Found',
+		405 => 'Method Not Allowed',
+		406 => 'Not Acceptable',
+		407 => 'Proxy Authentication Required',
+		408 => 'Request Timeout',
+		409 => 'Conflict',
+		410 => 'Gone',
+		411 => 'Length Required',
+		412 => 'Precondition Failed',
+		413 => 'Request Entity Too Large',
+		414 => 'Request-URI Too Long',
+		415 => 'Unsupported Media Type',
+		416 => 'Requested Range Not Satisfiable',
+		417 => 'Expectation Failed',
+		425 => 'Unordered Collection',
+		426 => 'Upgrade Required',
+		428 => 'Precondition Required',
+		429 => 'Too Many Requests',
+		431 => 'Request Header Fields Too Large',
+		444 => 'No Response',
+		451 => 'Unavailable For Legal Reasons',
 
-		500 => "Internal Server Error",
-		501 => "Not Implemented",
-		502 => "Bad Gateway",
-		503 => "Service Unavailable",
-		504 => "Gateway Timeout",
-		505 => "HTTP Version Not Supported",
-		506 => "Variant Also Negotiates",
-		509 => "Bandwidth Limit Exceeded",
-		510 => "Not Extended",
-		511 => "Network Authentication Required",
-		598 => "Network read timeout error",
-		599 => "Network connect timeout error",
+		500 => 'Internal Server Error',
+		501 => 'Not Implemented',
+		502 => 'Bad Gateway',
+		503 => 'Service Unavailable',
+		504 => 'Gateway Timeout',
+		505 => 'HTTP Version Not Supported',
+		506 => 'Variant Also Negotiates',
+		509 => 'Bandwidth Limit Exceeded',
+		510 => 'Not Extended',
+		511 => 'Network Authentication Required',
+		598 => 'Network read timeout error',
+		599 => 'Network connect timeout error',
 	);
 
 
@@ -132,7 +132,7 @@ class Http_Headers {
 	 *
 	 * @var string
 	 */
-	protected static $http_version = "1.1";
+	protected static $http_version = '1.1';
 
 
 	/**
@@ -192,7 +192,7 @@ class Http_Headers {
 			return false;
 		}
 
-		return "HTTP/".static::$http_version." {$http_code} {$message}";
+		return 'HTTP/'.static::$http_version.' '.$http_code.' '.$message;
 	}
 
 	/**
@@ -222,10 +222,10 @@ class Http_Headers {
 				static::sendHeader($value);
 			} else {
 				if(is_array($value)){
-					$value = implode("; ", $value);
+					$value = implode('; ', $value);
 				}
 
-				static::sendHeader("{$header}: {$value}");
+				static::sendHeader( $header.': '.$value);
 			}
 
 		}
@@ -244,8 +244,8 @@ class Http_Headers {
 	 * @return bool
 	 */
 	protected static function sendHeader( $header, $replace=true, $http_response_code=0 ) {
-		if( PHP_SAPI==="cli" && isset($GLOBALS["_test_Http_Headers_sent_headers"]) ){
-			$GLOBALS["_test_Http_Headers_sent_headers"][] = $header;
+		if( PHP_SAPI==='cli' && isset($GLOBALS['_test_Http_Headers_sent_headers']) ){
+			$GLOBALS['_test_Http_Headers_sent_headers'][] = $header;
 		} else {
 			header($header, $replace, $http_response_code);
 		}
@@ -275,13 +275,14 @@ class Http_Headers {
 			static::CODE_301_MOVED_PERMANENTLY,
 			array_merge(
 				array(
-					"Location" => $target_URL
+					'Location' => $target_URL
 				),
 				$headers
 			)
 		);
 
 		if($application_end) {
+			Debug_Profiler::setOutputEnabled(false);
 			Application::end();
 		}
 	}
@@ -298,13 +299,14 @@ class Http_Headers {
 			static::CODE_302_MOVED_TEMPORARY,
 			array_merge(
 				array(
-					"Location" => $target_URL
+					'Location' => $target_URL
 				),
 				$headers
 			)
 		);
 
 		if($application_end) {
+			Debug_Profiler::setOutputEnabled(false);
 			Application::end();
 		}
 	}
@@ -321,12 +323,13 @@ class Http_Headers {
 			static::CODE_303_SEE_OTHER,
 			array_merge(
 				array(
-					"Location" => $target_URL
+					'Location' => $target_URL
 				),
 				$headers
 			)
 		);
 		if($application_end) {
+			Debug_Profiler::setOutputEnabled(false);
 			Application::end();
 		}
 	}
@@ -394,8 +397,9 @@ class Http_Headers {
 	 * @param bool $application_end (optional, default: true)
 	 */
 	public static function formSent( Form $form, $application_end = true ) {
-		static::sendHeader("Location: #".$form->getName());
+		static::sendHeader('Location: #'.$form->getName());
 		if($application_end){
+			Debug_Profiler::setOutputEnabled(false);
 			Application::end();
 		}
 	}
@@ -406,8 +410,9 @@ class Http_Headers {
 	 * @param bool $application_end (optional, default: true)
 	 */
 	public static function reload( $application_end = true ) {
-		static::sendHeader("Location: ?#");
+		static::sendHeader('Location: ?#');
 		if($application_end){
+			Debug_Profiler::setOutputEnabled(false);
 			Application::end();
 		}
 	}
@@ -429,29 +434,29 @@ class Http_Headers {
 					$force_download = false
 				) {
 
-		$date = gmdate("D, d M Y H:i:s");
+		$date = gmdate('D, d M Y H:i:s');
 
 		if($force_download) {
-			static::sendHeader("Content-Description: File Transfer");
-			static::sendHeader("Cache-Control: public, must-revalidate, max-age=0");
-			static::sendHeader("Pragma: public");
-			static::sendHeader("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-			static::sendHeader("Last-Modified: {$date} GMT");
-			static::sendHeader("Content-Type: application/force-download");
-			static::sendHeader("Content-Type: application/octet-stream");
-			static::sendHeader("Content-Type: application/download");
-			static::sendHeader("Content-Type: {$file_mime}");
-			static::sendHeader("Content-Disposition: attachment; filename='{$file_name}';");
-			static::sendHeader("Content-Transfer-Encoding: binary");
-			static::sendHeader("Content-Length: {$file_size}");
+			static::sendHeader('Content-Description: File Transfer');
+			static::sendHeader('Cache-Control: public, must-revalidate, max-age=0');
+			static::sendHeader('Pragma: public');
+			static::sendHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+			static::sendHeader('Last-Modified: '.$date.' GMT');
+			static::sendHeader('Content-Type: application/force-download');
+			static::sendHeader('Content-Type: application/octet-stream');
+			static::sendHeader('Content-Type: application/download');
+			static::sendHeader('Content-Type: '.$file_mime);
+			static::sendHeader('Content-Disposition: attachment; filename="'.$file_name.'";');
+			static::sendHeader('Content-Transfer-Encoding: binary');
+			static::sendHeader('Content-Length: '.$file_size);
 		} else {
-			static::sendHeader("Content-Type: {$file_mime}");
-			static::sendHeader("Cache-Control: public, must-revalidate, max-age=0");
-			static::sendHeader("Pragma: public");
-			static::sendHeader("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-			static::sendHeader("Last-Modified: {$date} GMT");
-			static::sendHeader("Content-Length: {$file_size}");
-			static::sendHeader("Content-Disposition: inline; filename='{$file_name}';");
+			static::sendHeader('Content-Type: '.$file_mime);
+			static::sendHeader('Cache-Control: public, must-revalidate, max-age=0');
+			static::sendHeader('Pragma: public');
+			static::sendHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+			static::sendHeader('Last-Modified: '.$date.' GMT');
+			static::sendHeader('Content-Length: '.$file_size);
+			static::sendHeader('Content-Disposition: inline; filename="'.$file_name.'";');
 		}
 	}
 

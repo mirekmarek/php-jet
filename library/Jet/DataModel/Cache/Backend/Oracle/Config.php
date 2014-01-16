@@ -20,41 +20,41 @@ class DataModel_Cache_Backend_Oracle_Config extends DataModel_Cache_Backend_Conf
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"connection_read" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - read: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Cache_Backend_Oracle_Config", "getDbConnectionsList")
+		'connection_read' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - read: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Cache_Backend_Oracle_Config', 'getDbConnectionsList')
 		),
-		"connection_write" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - write: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Cache_Backend_Oracle_Config", "getDbConnectionsList")
+		'connection_write' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - write: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Cache_Backend_Oracle_Config', 'getDbConnectionsList')
 		),
-		"table_name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "jet_datamodel_cache",
-			"form_field_label" => "Table name: ",
+		'table_name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => 'jet_datamodel_cache',
+			'form_field_label' => 'Table name: ',
 		)
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $connection_read = "";
+	protected $connection_read = '';
 	/**
 	 * @var string
 	 */
-	protected $connection_write= "";
+	protected $connection_write= '';
 
 	/**
 	 * @var string
 	 */
-	protected $table_name = "";
+	protected $table_name = '';
 
 	/**
 	 * @return string

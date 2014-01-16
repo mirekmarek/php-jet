@@ -21,12 +21,12 @@ class Translator_Dictionary_Phrase extends Object {
 	/**
 	 * @var string
 	 */
-	protected $phrase = "";
+	protected $phrase = '';
 
 	/**
 	 * @var string
 	 */
-	protected $hash = "";
+	protected $hash = '';
 
 	/**
 	 * @var bool
@@ -36,7 +36,7 @@ class Translator_Dictionary_Phrase extends Object {
 	/**
 	 * @var string
 	 */
-	protected $translation = "";
+	protected $translation = '';
 
 	/**
 	 * @param string $phrase
@@ -44,7 +44,7 @@ class Translator_Dictionary_Phrase extends Object {
 	 * @param bool $is_translated (optional)
 	 * @param null $hash (optional)
 	 */
-	public function __construct($phrase, $translation="", $is_translated=false, $hash=null) {
+	public function __construct($phrase, $translation='', $is_translated=false, $hash=null) {
 		$this->phrase = $phrase;
 		$this->translation = $translation;
 		$this->is_translated = (bool)$is_translated;

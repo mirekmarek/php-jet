@@ -17,7 +17,7 @@ class Javascript_Lib_Jet_Config extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "/js_libs/Jet";
+	protected static $__config_data_path = '/js_libs/Jet';
 	/**
 	 * @var bool
 	 */

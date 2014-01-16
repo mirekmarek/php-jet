@@ -18,6 +18,6 @@ class JetML_Widget_Dojo_Titlepane extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.TitlePane";
+	protected $dojo_type = 'dijit.TitlePane';
 
 }

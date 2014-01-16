@@ -20,12 +20,12 @@ $view = $this;
 
 <p>
 	<?=$form->helper_getBasicHTML(); ?>
-	<?php if($view->varExists("form_data")): ?>
+	<?php if($view->varExists('form_data')): ?>
 		<table>
 			<?php foreach($form->getValues() as $k=>$v): ?>
 			<tr>
 				<td><?=$k;?>:</td>
-				<td><?=is_array($v) ? implode(",", $v): $v;?></td>
+				<td><?=is_array($v) ? implode(',', $v): $v;?></td>
 			</tr>
 			<?php endforeach; ?>
 		</table>

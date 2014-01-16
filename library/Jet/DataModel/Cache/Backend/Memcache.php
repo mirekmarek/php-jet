@@ -15,7 +15,7 @@
 namespace Jet;
 
 class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract {
-	const KEYS_LIST_KEY = "__keys__";
+	const KEYS_LIST_KEY = '__keys__';
 
 	/**
 	 * @var DataModel_Cache_Backend_Memcache_Config
@@ -31,13 +31,13 @@ class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract 
 	/**
 	 * @var string
 	 */
-	protected $key_prefix = "";
+	protected $key_prefix = '';
 
 
 	public function initialize() {
 		$this->memcache = Memcache::get($this->config->getConnection());
 
-		$this->key_prefix = $this->config->getKeyPrefix().":";
+		$this->key_prefix = $this->config->getKeyPrefix().':';
 	}
 
 	/**
@@ -47,7 +47,7 @@ class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract 
 	 * @return string
 	 */
 	protected function getCacheKey( DataModel $data_model, $ID ) {
-		return $this->key_prefix.$data_model->getDataModelName().":".$ID;
+		return $this->key_prefix.$data_model->getDataModelName().':'.$ID;
 	}
 
 	/**
@@ -117,7 +117,7 @@ class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract 
 				$this->memcache->delete($key);
 			}
 		} else {
-			$prefix = $this->key_prefix.$model_name.":";
+			$prefix = $this->key_prefix.$model_name.':';
 			$prefix_len = strlen($prefix);
 
 			foreach($list as $key) {
@@ -132,7 +132,7 @@ class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract 
 	 * @return string
 	 */
 	public function helper_getCreateCommand() {
-		return "";
+		return '';
 	}
 
 	/**

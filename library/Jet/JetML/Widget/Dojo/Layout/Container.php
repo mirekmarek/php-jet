@@ -18,6 +18,6 @@ class JetML_Widget_Dojo_Layout_Container extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.layout.BorderContainer";
+	protected $dojo_type = 'dijit.layout.BorderContainer';
 
 }

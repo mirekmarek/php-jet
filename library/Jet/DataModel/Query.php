@@ -18,21 +18,21 @@
 namespace Jet;
 
 class DataModel_Query extends Object {
-	const L_O_OR = "OR";
-	const L_O_AND = "AND";
+	const L_O_OR = 'OR';
+	const L_O_AND = 'AND';
 
-	const O_EQUAL = "=";
-	const O_NOT_EQUAL = "!=";
-	const O_LIKE = "*";
-	const O_NOT_LIKE = "!*";
-    const O_GREATER_THAN = ">";
-    const O_LESS_THAN = "<";
-    const O_GREATER_THAN_OR_EQUAL = ">=";
-    const O_LESS_THAN_OR_EQUAL = "<=";
+	const O_EQUAL = '=';
+	const O_NOT_EQUAL = '!=';
+	const O_LIKE = '*';
+	const O_NOT_LIKE = '!*';
+    const O_GREATER_THAN = '>';
+    const O_LESS_THAN = '<';
+    const O_GREATER_THAN_OR_EQUAL = '>=';
+    const O_LESS_THAN_OR_EQUAL = '<=';
 
 
-	const JOIN_TYPE_LEFT_JOIN = "LEFT_JOIN";
-	const JOIN_TYPE_LEFT_OUTER_JOIN = "LEFT_OUTER_JOIN";
+	const JOIN_TYPE_LEFT_JOIN = 'LEFT_JOIN';
+	const JOIN_TYPE_LEFT_OUTER_JOIN = 'LEFT_OUTER_JOIN';
 
 	/**
 	 * @var array
@@ -314,7 +314,7 @@ class DataModel_Query extends Object {
 	public function getRelation( $related_data_model_or_outer_relation_name ) {
 		if(!isset($this->relations[$related_data_model_or_outer_relation_name])) {
 			throw new DataModel_Query_Exception(
-				"Unknown relation to class '{$this->main_data_model_class_name}' <-> '{$related_data_model_or_outer_relation_name}'",
+				'Unknown relation to class \''.$this->main_data_model_class_name.'\' <-> \''.$related_data_model_or_outer_relation_name.'\'',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
@@ -323,7 +323,7 @@ class DataModel_Query extends Object {
 	}
 
 	/**
-	 * Alias of query->getRelation("relation_name")->setJoinType(join_type);
+	 * Alias of query->getRelation('relation_name')->setJoinType(join_type);
 	 *
 	 * @param $related_data_model_outer_relation_name
 	 * @param $join_type
@@ -392,11 +392,11 @@ class DataModel_Query extends Object {
 	 * @return DataModel_Definition_Property_Abstract
 	 */
 	public function _getPropertyAndSetRelation( $property_name ) {
-		$property_name_parts = explode(".", $property_name);
+		$property_name_parts = explode('.', $property_name);
 
 		if(count($property_name_parts)<2) {
 			throw new DataModel_Query_Exception(
-				"Invalid property name: '{$property_name}'. Valid examples: this.property_name, this.related_property.property_name, this.related_property.next_related_property.property_name, property_name_M2N_relation.property_name, ...",
+				'Invalid property name: \''.$property_name.'\'. Valid examples: this.property_name, this.related_property.property_name, this.related_property.next_related_property.property_name, property_name_M2N_relation.property_name, ...',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 
@@ -409,7 +409,7 @@ class DataModel_Query extends Object {
 		 */
 		$outer_relation = null;
 
-		if($part=="this") {
+		if($part=='this') {
 			$data_model = $this->main_data_model;
 			$is_main_do = true;
 		} else {
@@ -431,7 +431,7 @@ class DataModel_Query extends Object {
 				$main_data_model_properties = $this->main_data_model->getDataModelDefinition()->getProperties();
 				if( !isset($main_data_model_properties[$part]) ) {
 					throw new DataModel_Query_Exception(
-						"Unknown property '{$part}'",
+						'Unknown property \''.$part.'\'',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 				}
@@ -442,7 +442,7 @@ class DataModel_Query extends Object {
 				$property_definition = $main_data_model_properties[$part];
 				if(!$main_data_model_properties[$part]->getIsDataModel()) {
 					throw new DataModel_Query_Exception(
-						"Property '{$part}' is not DataModel!  Is not it more like this.{$part} ?",
+						'Property \''.$part.'\' is not DataModel!  Is not it more like this.'.$part.' ?',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 				}
@@ -450,7 +450,7 @@ class DataModel_Query extends Object {
 				$data_model = static::_getClassInstance($property_definition->getDataModelClass());
 				if( !($data_model instanceof DataModel_Related_MtoN) ) {
 					throw new DataModel_Query_Exception(
-						"Property '{$part}' is not M2N relation. Is not it more like this.{$part} ?",
+						'Property \''.$part.'\' is not M2N relation. Is not it more like this.'.$part.' ?',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 
@@ -470,7 +470,7 @@ class DataModel_Query extends Object {
 
 			if( !isset($properties[$part]) ) {
 				throw new DataModel_Query_Exception(
-					"Unknown property: '{$property_name}'",
+					'Unknown property: \''.$property_name.'\'',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			}
@@ -490,7 +490,7 @@ class DataModel_Query extends Object {
 
 		if(!$property) {
 			throw new DataModel_Query_Exception(
-				"Unknown property: '{$property_name}'",
+				'Unknown property: \''.$property_name.'\'',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 
@@ -599,7 +599,7 @@ class DataModel_Query extends Object {
 		// ... and if yes, then setup relation by where from DataModel_Related_MtoN
 
 		throw new DataModel_Query_Exception(
-			"Unknown relation to class '{$main_class_name}' <-> '{$related_class_name}'",
+			'Unknown relation to class \''.$main_class_name.'\' <-> \''.$related_class_name.'\'',
 			DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 		);
 

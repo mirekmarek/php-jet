@@ -18,14 +18,14 @@ class JetML_Widget_Dojo_Editarea_List extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.layout.BorderContainer";
+	protected $dojo_type = 'dijit.layout.BorderContainer';
 
 	/**
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$this->node->setAttribute("id", $this->getNodeAttribute("id")."_list");
-		$this->node->setAttribute("region", "center");
+		$this->node->setAttribute('id', $this->getNodeAttribute('id').'_list');
+		$this->node->setAttribute('region', 'center');
 
 		return parent::getReplacement();
 	}

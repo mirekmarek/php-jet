@@ -28,14 +28,14 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Date";
+	protected $form_field_type = 'Date';
 
 	/**
 	 * @param DateTime|string $value
 	 */
 	public function checkValueType( &$value ) {
 
-		if($value==="") {
+		if($value==='') {
 			$value = null;
 		}
 
@@ -44,7 +44,7 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 		}
 
 		if(!is_object($value)) {
-			$value = new DateTime( $value." 00:00:00" );
+			$value = new DateTime( $value.' 00:00:00' );
 		} else {
 			if(!$value instanceof  DateTime) {
 				$value = new DateTime();

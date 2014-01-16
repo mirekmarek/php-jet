@@ -31,7 +31,7 @@
 namespace Jet;
 
 class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
-	const PRIMARY_KEY_NAME = "PRIMARY";
+	const PRIMARY_KEY_NAME = 'PRIMARY';
 
 	/**
 	 * @var DataModel_Backend_SQLite_Config
@@ -58,10 +58,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create("datamodel_connection", array(
-			"name" => "datamodel_connection",
-			"driver" => DB::DRIVER_SQLITE,
-			"DSN" => $this->config->getDSN()
+		$this->_db = Db::create('datamodel_connection', array(
+			'name' => 'datamodel_connection',
+			'driver' => DB::DRIVER_SQLITE,
+			'DSN' => $this->config->getDSN()
 		));
 	}
 
@@ -79,10 +79,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$_options = array();
 
 		foreach($options as $o=>$v) {
-			$_options[] = "{$o}={$v}";
+			$_options[] = $o.'='.$v;
 		}
 
-		$_options = implode(" ", $_options);
+		$_options = implode(' ', $_options);
 
 
 		$_columns = array();
@@ -93,7 +93,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				continue;
 			}
 
-			$_columns[] = "\t`{$name}` ".$this->_getSQLType( $data_model, $property, $_keys );
+			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property, $_keys );
 		}
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
@@ -104,7 +104,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				continue;
 			}
 
-			$_columns[] = "\t`{$name}` ".$this->_getSQLType( $data_model, $property, $_keys );
+			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property, $_keys );
 		}
 
 
@@ -115,27 +115,27 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$create_index_query = array();
 
 		foreach($_keys as $key_name=>$key) {
-			switch( $key["type"] ) {
+			switch( $key['type`'] ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$_keys[$key_name] = "\n\t,PRIMARY KEY (`".implode("`, `", $key["columns"])."`)";
+					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY (`'.implode('`, `', $key['columns']).'`)';
 				break;
 				case DataModel::KEY_TYPE_INDEX:
-					$create_index_query[] = "\nCREATE INDEX IF NOT EXISTS `_k_{$key_name}` ON $table_name (`".implode("`, `", $key["columns"])."`);";
-					$_keys[$key_name] = "";
+					$create_index_query[] = JET_EOL.'CREATE INDEX IF NOT EXISTS `_k_'.$key_name.'` ON $table_name (`'.implode('`, `', $key['columns']).'`);';
+					$_keys[$key_name] = '';
 				break;
 				default:
-					$create_index_query[] = "\nCREATE {$key["type"]} INDEX IF NOT EXISTS `_k_{$key_name}` ON $table_name (`".implode("`, `", $key["columns"])."`);";
-					$_keys[$key_name] = "";
+					$create_index_query[] = JET_EOL.'CREATE '.$key['type'].' INDEX IF NOT EXISTS `_k_'.$key_name.'` ON $table_name (`'.implode('`, `', $key['columns']).'`);';
+					$_keys[$key_name] = '';
 				break;
 			}
 		}
 
-		$create_index_query = implode("\n", $create_index_query);
+		$create_index_query = implode(JET_EOL, $create_index_query);
 
-		$q = "CREATE TABLE IF NOT EXISTS `{$table_name}` (\n";
-		$q .= implode(",\n", $_columns);
-		$q .= implode("", $_keys);
-		$q .= "\n) {$_options};$create_index_query\n\n";
+		$q = 'CREATE TABLE IF NOT EXISTS `'.$table_name.'` ('.JET_EOL;
+		$q .= implode(','.JET_EOL, $_columns);
+		$q .= implode('', $_keys);
+		$q .= JET_EOL.') '.$_options.';'.$create_index_query.JET_EOL.JET_EOL;
 		
 		return $q;
 	}
@@ -154,9 +154,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 */
 	public function helper_getDropCommand( DataModel $data_model ) {
 		$table_name = $this->_getTableName( $data_model->getDataModelDefinition() );
-		$ui_prefix = "_d".date("YmdHis");
+		$ui_prefix = '_d'.date('YmdHis');
 
-		return "RENAME TABLE `{$table_name}` TO `{$ui_prefix}{$table_name}`";
+		return 'RENAME TABLE `'.$table_name.'` TO `'.$ui_prefix.$table_name.'`';
 	}
 
 	/**
@@ -175,8 +175,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$data_model_definition = $data_model->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$update_prefix = "_UP".date("YmdHis")."_";
-		$exists_cols = $this->_db->fetchCol("PRAGMA table_info(`{$table_name}`)", array(), "name");
+		$update_prefix = '_UP'.date('YmdHis').'_';
+		$exists_cols = $this->_db->fetchCol('PRAGMA table_info(`'.$table_name.'`)', array(), 'name');
 
 
 		$updated_table_name = $update_prefix.$table_name;
@@ -201,24 +201,24 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		}
 		$new_cols = $this->_getRecord($new_cols);
 
-		$data_migration_command = "INSERT INTO `$updated_table_name`
-					(`".implode("`,`", $common_cols)."`)
+		$data_migration_command = 'INSERT INTO `'.$updated_table_name.'`
+					(`'.implode('`,`', $common_cols).'`)
 				SELECT
-					`".implode("`,`", $common_cols)."`
-				FROM `{$table_name}`;";
+					`'.implode('`,`', $common_cols).'`
+				FROM `'.$table_name.'`;';
 
-		$update_default_values = "";
+		$update_default_values = '';
 		if($new_cols) {
 			$_new_cols = array();
 			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = "`{$c}`='".addslashes($v)."'";
+				$_new_cols[] = '`'.$c.'`='.$this->_db->quote($v);
 			}
-			$update_default_values = "UPDATE `$updated_table_name` SET ".implode(",\n", $_new_cols);
+			$update_default_values = 'UPDATE `'.$updated_table_name.'` SET '.implode(','.JET_EOL, $_new_cols);
 		}
 
 
-		$rename_command1 = "ALTER TABLE `{$table_name}` RENAME TO `{$update_prefix}b_{$table_name}` ;\n";
-		$rename_command2 = "ALTER TABLE `{$updated_table_name}` RENAME TO  `{$table_name}`; ";
+		$rename_command1 = 'ALTER TABLE `'.$table_name.'` RENAME TO `'.$update_prefix.'b_'.$table_name.'` ;'.JET_EOL;
+		$rename_command2 = 'ALTER TABLE `'.$updated_table_name.'` RENAME TO  `'.$table_name.'`; ';
 
 		$update_command = array();
 		$update_command[] = $create_command;
@@ -258,10 +258,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendSelectQuery( DataModel_Query $query ) {
 
-		return "SELECT\n\t"
-			.$this->_getSQLQuerySelectPart($query)
-			."\nFROM\n\t"
-			.$this->_getSQLQueryTableName($query)
+		return 'SELECT'.JET_EOL
+			.JET_TAB.$this->_getSQLQuerySelectPart($query).JET_EOL
+			.'FROM'.JET_EOL
+			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 
 			.$this->_getSQLqueryWherePart($query->getWhere())
@@ -279,8 +279,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendCountQuery( DataModel_Query $query ) {
-		return "SELECT count(*) FROM\n\t"
-			.$this->_getSQLQueryTableName($query)
+		return 'SELECT count(*) FROM'.JET_EOL
+			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 			.$this->_getSQLqueryWherePart($query->getWhere())
 			.$this->_getSQLQueryGroupPart($query)
@@ -303,10 +303,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$values = array();
 
 		foreach($this->_getRecord($record) as $k=>$v) {
-			$columns[] = "`{$k}`";
+			$columns[] = '`'.$k.'`';
 
 			if($v===null) {
-				$values[] = "null";
+				$values[] = 'null';
 			} else
 				if(is_string($v)) {
 					$values[] = $this->_db->quote($v);
@@ -315,10 +315,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				}
 		}
 
-		$columns = implode(",\n", $columns);
-		$values = implode(",\n", $values);
+		$columns = implode(','.JET_EOL, $columns);
+		$values = implode(','.JET_EOL, $values);
 
-		return "INSERT INTO `{$table_name}` ({$columns}) VALUES ({$values})";
+		return 'INSERT INTO `'.$table_name.'` ('.$columns.') VALUES ('.$values.')';
 
 	}
 
@@ -336,20 +336,20 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 		foreach($this->_getRecord($record) as $k=>$v) {
 			if($v===null) {
-				$set[] = "`{$k}`=null";
+				$set[] = '`'.$k.'`=null';
 			} else
 			if(is_string($v)) {
-				$set[] = "`{$k}`=".$this->_db->quote($v);
+				$set[] = '`'.$k.'`='.$this->_db->quote($v);
 			} else {
-				$set[] = "`{$k}`=".$v;
+				$set[] = '`'.$k.'`='.$v;
 			}
 		}
 
-		$set = implode(",\n", $set);
+		$set = implode(','.JET_EOL, $set);
 
 		$where = $this->_getSQLqueryWherePart($where->getWhere());
 
-		return "UPDATE `{$table_name}` SET \n{$set}{$where}";
+		return 'UPDATE `'.$table_name.'` SET '.JET_EOL.$set.$where;
 
 	}
 
@@ -360,7 +360,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
 		$table_name = $this->_getTableName($where->getMainDataModel()->getDataModelDefinition());
-		return "DELETE FROM `{$table_name}`".$this->_getSQLqueryWherePart($where->getWhere());
+		return 'DELETE FROM `'.$table_name.'`'.$this->_getSQLqueryWherePart($where->getWhere());
 	}
 
 	/**
@@ -408,7 +408,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchAll( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchAll");
+		return $this->_fetch($query, 'fetchAll');
 	}
 
 	/**
@@ -417,7 +417,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchAssoc( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchAssoc");
+		return $this->_fetch($query, 'fetchAssoc');
 	}
 
 	/**
@@ -426,7 +426,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchPairs( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchPairs");
+		return $this->_fetch($query, 'fetchPairs');
 	}
 
 	/**
@@ -435,7 +435,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchRow( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchRow");
+		return $this->_fetch($query, 'fetchRow');
 	}
 
 	/**
@@ -444,7 +444,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchOne( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchOne");
+		return $this->_fetch($query, 'fetchOne');
 	}
 
 	/**
@@ -536,7 +536,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Definition_Property_Abstract $property
 				 */
-				$columns_qp[] = $this->_getColumnName($property)." AS `{$select_as}`";
+				$columns_qp[] = $this->_getColumnName($property).' AS `'.$select_as.'`';
 
 				continue;
 			}
@@ -549,13 +549,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 				$backend_function_call = $property->toString( $mapper );
 
-				$columns_qp[] = "{$backend_function_call} AS `{$select_as}`";
+				$columns_qp[] = $backend_function_call.' AS `'.$select_as.'`';
 				continue;
 			}
 
 		}
 
-		return implode(",\n\t", $columns_qp);
+		return implode(','.JET_EOL.JET_TAB, $columns_qp);
 	}
 
 	/**
@@ -565,7 +565,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryTableName( DataModel_Query $query ) {
 		$main_model_definition = $query->getMainDataModel()->getDataModelDefinition();
-		return "`".$this->_getTableName( $main_model_definition )."`";
+		return '`'.$this->_getTableName( $main_model_definition ).'`';
 
 	}
 
@@ -576,7 +576,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected  function _getSQLQueryJoinPart( DataModel_Query $query ) {
-		$join_qp = "";
+		$join_qp = '';
 
 		foreach($query->getRelations() as $relation) {
 
@@ -586,14 +586,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-					$join_qp .= "\n\t\tJOIN `{$r_table_name}` ON\n";
+					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'JOIN `'.$r_table_name.'` ON'.JET_EOL;
 				break;
 				case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-					$join_qp .= "\n\t\tLEFT OUTER JOIN `{$r_table_name}` ON\n";
+					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'LEFT OUTER JOIN `'.$r_table_name.'` ON'.JET_EOL;
 				break;
 				default:
 					throw new DataModel_Backend_Exception(
-						"MySQL backend: unknown join type '{$relation->getJoinType()}'",
+						'MySQL backend: unknown join type \''.$relation->getJoinType().'\'',
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
 				break;
@@ -613,10 +613,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 					if($related_value instanceof DataModel_Definition_Property_Abstract) {
 						$related_value = $this->_getColumnName($related_value);
 					} else {
-						$related_value = "'".addslashes($related_value)."'";
+						$related_value = $this->_db->quote($related_value);
 					}
 
-					$j[] = "\t\t\t".$this->_getColumnName($join_by_property->getRelatedProperty())." = ".$related_value;
+					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($join_by_property->getRelatedProperty()).' = '.$related_value;
 
 				}
 
@@ -627,7 +627,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 					 */
 					$rt_property = $r_property_definition->getRelatedToProperty();
 
-					$j[] = "\t\t\t".$this->_getColumnName($r_property_definition)." = ".$this->_getColumnName($rt_property);
+					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($r_property_definition).' = '.$this->_getColumnName($rt_property);
 
 				}
 
@@ -635,7 +635,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 
 
-			$join_qp .= implode(" AND \n", $j);
+			$join_qp .= implode(' AND '.JET_EOL, $j);
 		}
 
 		return $join_qp;
@@ -651,19 +651,19 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryWherePart( DataModel_Query_Where $query=null, $level=0 ) {
 		if(!$query) {
-			return "";
+			return '';
 		}
-		$res = "";
+		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat("\t", $next_level);
+		$tab = str_repeat(JET_TAB, $next_level);
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab."(\n".$this->_getSQLqueryWherePart($qp, $next_level)." \n\t)";
+				$res .= $tab.'('.JET_EOL.$this->_getSQLqueryWherePart($qp, $next_level).' '.JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -671,7 +671,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				/**
 				 * @var string $qp
 				 */
-				$res .= "\n{$tab}$qp\n ";
+				$res .= JET_EOL.$tab.$qp.' '.JET_EOL;
 				continue;
 			}
 
@@ -685,7 +685,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			$prop = $qp->getProperty();
 
 			$table_name = $this->_getTableName( $prop->getDataModelDefinition() );
-			$property_name = "`{$table_name}`.`".$prop->getName()."`";
+			$property_name = '`'.$table_name.'`.`'.$prop->getName().'`';
 
 
 			$res .= $tab.$this->_getSQLQueryWherePart_handleExpression(
@@ -697,7 +697,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		}
 
 		if($res && !$level) {
-			$res = "\nWHERE\n{$res}\n";
+			$res = JET_EOL.'WHERE'.JET_EOL.$res.JET_EOL;
 		}
 
 		return $res;
@@ -712,19 +712,19 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryHavingPart( DataModel_Query_Having $query=null, $level=0 ) {
 		if(!$query) {
-			return "";
+			return '';
 		}
-		$res = "";
+		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat("\t", $next_level);
+		$tab = str_repeat(JET_TAB, $next_level);
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Having ) {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .="$tab(\n".$this->_getSQLQueryHavingPart($qp, $next_level )." \n\t)";
+				$res .= $tab.'('.JET_EOL.$this->_getSQLQueryHavingPart($qp, $next_level ).' '.JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -732,7 +732,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				/**
 				 * @var string $qp
 				 */
-				$res .= "\n$tab$qp\n ";
+				$res .= JET_EOL.$tab.$qp.JET_EOL.' ';
 				continue;
 			}
 
@@ -754,7 +754,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		}
 
 		if($res && !$level ) {
-			$res = "\nHAVING\n{$res}\n";
+			$res = JET_EOL.'HAVING'.JET_EOL.$res.JET_EOL;
 		}
 
 		return $res;
@@ -768,7 +768,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryWherePart_handleExpression($item, $operator, $value) {
-		$res = "";
+		$res = '';
 
 		if(is_array($value)) {
 			$sq = array();
@@ -778,12 +778,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			 */
 			foreach($value as $v) {
 
-				$sq[] = "\t\t{$item}".$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+				$sq[] = JET_TAB.JET_TAB.$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
 			}
 
-			$res .= "(\n".implode(" OR\n", $sq)."\n\t) ";
+			$res .= '('.JET_EOL.implode(' OR'.JET_EOL, $sq).JET_EOL.JET_TAB.') ';
 		} else {
-			$res .= "{$item}".$this->_getSQLQueryWherePart_handleOperator($operator, $value);
+			$res .= $item.$this->_getSQLQueryWherePart_handleOperator($operator, $value);
 
 		}
 
@@ -803,40 +803,40 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		if(is_bool($value)) {
 			$value = $value ? 1 : 0;
 		} else {
-			$value = "'".addslashes($value)."'";
+			$value = $this->_db->quote($value);
 		}
 
-		$res = "";
+		$res = '';
 
 		switch($operator) {
 			case DataModel_Query::O_EQUAL:
-				$res .="={$value} ";
+				$res .='='.$value.' ';
 				break;
 			case DataModel_Query::O_NOT_EQUAL:
-				$res .="<>{$value} ";
+				$res .='<>'.$value.' ';
 				break;
 			case DataModel_Query::O_LIKE:
-				$res .=" LIKE {$value}";
+				$res .=' LIKE '.$value;
 				break;
 			case DataModel_Query::O_NOT_LIKE:
-				$res .=" NOT LIKE {$value}";
+				$res .=' NOT LIKE '.$value;
 				break;
             case DataModel_Query::O_GREATER_THAN:
-                $res .=">{$value} ";
+	            $res .='>'.$value.' ';
                 break;
             case DataModel_Query::O_LESS_THAN:
-                $res .="<{$value} ";
+	            $res .='<'.$value.' ';
                 break;
             case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-                $res .=">={$value} ";
+	            $res .='>='.$value.' ';
                 break;
             case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-                $res .="<={$value} ";
+	            $res .='<='.$value.' ';
                 break;
 
 			default:
 				throw new DataModel_Backend_Exception(
-					"Unknown operator {$operator}! ",
+					'Unknown operator '.$operator.'! ',
 					DataModel_Backend_Exception::CODE_BACKEND_ERROR
 				);
 
@@ -856,7 +856,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	protected function _getSQLQueryGroupPart( DataModel_Query $query=null ) {
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
-			return "";
+			return '';
 		}
 
 		$group_by_qp = array();
@@ -878,7 +878,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = "\nGROUP BY\n\t".implode(",\n\t", $group_by_qp)."\n";
+		$group_by_qp = JET_EOL.'GROUP BY'.JET_EOL.JET_TAB.implode(','.JET_EOL.JET_TAB, $group_by_qp).JET_EOL;
 
 		return $group_by_qp;
 	}
@@ -892,7 +892,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$order_by = $query->getOrderBy();
 
 		if(!$order_by) {
-			return "";
+			return '';
 		}
 
 		$order_qp = array();
@@ -912,17 +912,17 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 
 			if($order_by_desc) {
-				$order_qp[] = "{$item} DESC";
+				$order_qp[] = $item.' DESC';
 			} else {
-				$order_qp[] = "{$item} ASC";
+				$order_qp[] = $item.' ASC';
 			}
 		}
 
 		if(!$order_qp) {
-			return "";
+			return '';
 		}
 
-		return "\nORDER BY\n\t".implode(",\n\t", $order_qp)."\n";
+		return JET_EOL.'ORDER BY'.JET_EOL.JET_TAB.implode(','.JET_EOL.JET_TAB, $order_qp).JET_EOL;
 
 	}
 
@@ -932,16 +932,16 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryLimitPart( DataModel_Query $query ) {
-		$limit_qp = "";
+		$limit_qp = '';
 
 		$offset = (int)$query->getOffset();
 		$limit = (int)$query->getLimit();
 
 		if($limit) {
 			if($offset) {
-				$limit_qp = "\nLIMIT {$offset},{$limit}\n";
+				$limit_qp = JET_EOL.'LIMIT '.$offset.','.$limit.JET_EOL;
 			} else {
-				$limit_qp = "\nLIMIT {$limit}\n";
+				$limit_qp = JET_EOL.'LIMIT '.$limit.JET_EOL;
 			}
 		}
 
@@ -976,11 +976,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 				if(!isset($keys[$key_name])) {
 					$keys[$key_name] = array(
-						"type" => $key_type,
-						"columns" => array()
+						'type' => $key_type,
+						'columns' => array()
 					);
 				}
-				$keys[$key_name]["columns"][] = $name;
+				$keys[$key_name]['columns'][] = $name;
 
 
 				$key_type = DataModel::KEY_TYPE_INDEX;
@@ -989,93 +989,93 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 			if(!isset($keys[$key_name])) {
 				$keys[$key_name] = array(
-					"type" => $key_type,
-					"columns" => array()
+					'type' => $key_type,
+					'columns' => array()
 				);
 			}
-			$keys[$key_name]["columns"][] = $name;
+			$keys[$key_name]['columns'][] = $name;
 		}
 
-		if( isset($backend_options["key"]) && $backend_options["key"] ) {
+		if( isset($backend_options['key']) && $backend_options['key'] ) {
 
 
-			$key_name = $backend_options["key"] ;
+			$key_name = $backend_options['key'] ;
 			if(is_bool($key_name)) {
 				$key_name = $name;
 			}
 
 			if(!isset($keys[$key_name])) {
 				$key_type = DataModel::KEY_TYPE_INDEX;
-				if(isset($backend_options["key_type"])) {
-					$key_type = $backend_options["key_type"];
+				if(isset($backend_options['key_type'])) {
+					$key_type = $backend_options['key_type'];
 				}
 
 				if(!in_array($key_type, self::$valid_key_types )) {
 					throw new DataModel_Backend_Exception(
-						"SQLite backend: unknown key type '{$key_type}'",
+						'SQLite backend: unknown key type \''.$key_type.'\'',
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
 				}
 
 				$keys[$key_name] = array(
-					"type" => $key_type,
-					"columns" => array()
+					'type' => $key_type,
+					'columns' => array()
 				);
 			}
 
-			$keys[$key_name]["columns"][] = $name;
+			$keys[$key_name]['columns'][] = $name;
 		}
 
 
-		if( isset($backend_options["column_type"]) && $backend_options["column_type"] ) {
-			return $backend_options["column_type"];
+		if( isset($backend_options['column_type']) && $backend_options['column_type'] ) {
+			return $backend_options['column_type'];
 		}
 
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
 
-				if( isset($backend_options["autoincrement"]) && $backend_options["autoincrement"]  ) {
-					$options = "";
+				if( isset($backend_options['autoincrement']) && $backend_options['autoincrement']  ) {
+					$options = '';
 					if(!$related_to_column) {
-						$options = " auto_increment";
+						$options = ' auto_increment';
 					}
 
-					return "INTEGER{$options}";
+					return 'INTEGER'.$options;
 				} else {
-					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
+					//$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
 
-					return "TEXT";
+					return 'TEXT';
 				}
 
 				break;
 			case DataModel::TYPE_STRING:
 
-				return "TEXT";
+				return 'TEXT';
 				break;
 			case DataModel::TYPE_BOOL:
-				return "INTEGER";
+				return 'INTEGER';
 				break;
 			case DataModel::TYPE_INT:
-				return "INTEGER";
+				return 'INTEGER';
 				break;
 			case DataModel::TYPE_FLOAT:
-				return "REAL";
+				return 'REAL';
 				break;
 			case DataModel::TYPE_LOCALE:
-				return "TEXT";
+				return 'TEXT';
 				break;
 			case DataModel::TYPE_DATE:
-				return "NUMERIC";
+				return 'NUMERIC';
 				break;
 			case DataModel::TYPE_DATE_TIME:
-				return "NUMERIC";
+				return 'NUMERIC';
 				break;
 			case DataModel::TYPE_ARRAY:
-				return "BLOB";
+				return 'BLOB';
 				break;
 			default:
 				throw new DataModel_Exception(
-					"Unknown column type '".$column->getType()."'! Column '{$name}' ",
+					'Unknown column type \''.$column->getType().'\'! Column \''.$name.'\' ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 				break;
@@ -1133,7 +1133,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$property_table_name = $this->_getTableName( $property->getDataModelDefinition() );
 		$property_name = $property->getName();
 
-		return "`{$property_table_name}`.`{$property_name}`";
+		return '`'.$property_table_name.'`.`'.$property_name.'`';
 	}
 
 	/**

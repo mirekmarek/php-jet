@@ -17,7 +17,7 @@
 namespace Jet;
 
 class Mvc_Pages extends Object {
-	const HOMEPAGE_ID = "_homepage_";
+	const HOMEPAGE_ID = '_homepage_';
 
 
 	/**
@@ -53,7 +53,7 @@ class Mvc_Pages extends Object {
 	 *
 	 * @return Mvc_Pages_Page_Abstract
 	 */
-	public static function getNewPage( $site_ID, Locale $locale , $name, $parent_ID="", $ID=null ) {
+	public static function getNewPage( $site_ID, Locale $locale , $name, $parent_ID='', $ID=null ) {
 
 		$page = Mvc_Factory::getPageInstance();
 		$page->initNew( $site_ID, $locale , $name, $parent_ID, $ID);
@@ -90,10 +90,10 @@ class Mvc_Pages extends Object {
 			foreach($errors as $i=>$error) {
 				$errors[$i] = (string)$error;
 			}
-			$errors = implode(", ", $errors);
+			$errors = implode(', ', $errors);
 
 			throw new Mvc_Sites_Handler_Exception(
-				"Page validation failed. Errors: {$errors}",
+				'Page validation failed. Errors: '.$errors,
 				Mvc_Sites_Handler_Exception::CODE_INVALID_PAGE_DATA
 			);
 		}

@@ -37,7 +37,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Int";
+	protected $form_field_type = 'Int';
 
 	/**
 	 * @param array $definition_data
@@ -71,10 +71,10 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	 */
 	public function getFormFieldOptions() {
 		if($this->min_value!==null) {
-			$this->form_field_options["min_value"] = $this->min_value;
+			$this->form_field_options['min_value'] = $this->min_value;
 		}
 		if($this->max_value!==null) {
-			$this->form_field_options["max_value"] = $this->max_value;
+			$this->form_field_options['max_value'] = $this->max_value;
 		}
 
 		return $this->form_field_options;
@@ -158,28 +158,28 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType()." ";
+		$res = 'Type: '.$this->getType().' ';
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->is_ID) {
-			$res .= ", is ID";
+			$res .= ', is ID';
 		}
 
 		if($this->default_value) {
-			$res .= ", default value: {$this->default_value}";
+			$res .= ', default value: '.$this->default_value;
 		}
 
 		if($this->min_value) {
-			$res .= ", min. value: {$this->min_value}";
+			$res .= ', min. value: '.$this->min_value;
 		}
 
 		if($this->max_value) {
-			$res .= ", max. value: {$this->max_value}";
+			$res .= ', max. value: '.$this->max_value;
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;

@@ -20,7 +20,7 @@ class Image extends Object {
 	/**
 	 * @var string
 	 */
-	protected $path = "";
+	protected $path = '';
 
 	/**
 	 *
@@ -43,7 +43,7 @@ class Image extends Object {
 	/**
 	 * @var string
 	 */
-	protected $mime_type = "";
+	protected $mime_type = '';
 
 	/**
 	 * @see imagejpeg
@@ -62,14 +62,14 @@ class Image extends Object {
 
 		if(!IO_File::exists($path)) {
 			throw new Image_Exception(
-						"File '{$path}' does not exist!",
+						'File \''.$path.'\' does not exist!',
 						Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
 					);
 		}
 
 		if(!IO_File::isReadable($path)) {
 			throw new Image_Exception(
-				"File '{$path}' is not readable!",
+				'File \''.$path.'\' is not readable!',
 				Image_Exception::CODE_IMAGE_FILE_IS_NOT_READABLE
 			);
 		}
@@ -78,7 +78,7 @@ class Image extends Object {
 
 		if(!$image_dat) {
 			throw new Image_Exception(
-				"File: '{$path}' Unsuported type! Unable to get image size!",
+				'File: \''.$path.'\' Unsuported type! Unable to get image size!',
 				Image_Exception::CODE_UNSUPORTED_IMAGE_TYPE
 			);
 		}
@@ -91,7 +91,7 @@ class Image extends Object {
 			$this->img_type
 		) = $image_dat;
 
-		$this->mime_type = $image_dat["mime"];
+		$this->mime_type = $image_dat['mime'];
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Image extends Object {
 	 * @return string
 	 */
 	public function getDirectory() {
-		return dirname( $this->path )."/";
+		return dirname( $this->path ).'/';
 	}
 
 	/**
@@ -233,7 +233,7 @@ class Image extends Object {
 
 		if(!$image) {
 			throw new Image_Exception(
-				"File: '{$this->path}' Unsuported type! Unable to get image size!",
+				'File: \''.$this->path.'\' Unsuported type! Unable to get image size!',
 				Image_Exception::CODE_UNSUPORTED_IMAGE_TYPE
 			);
 		}

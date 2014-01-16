@@ -18,7 +18,7 @@
 namespace Jet;
 
 class Mvc_Dispatcher {
-	const DEFAULT_ACTION = "default";
+	const DEFAULT_ACTION = 'default';
 
 	/**
 	 *

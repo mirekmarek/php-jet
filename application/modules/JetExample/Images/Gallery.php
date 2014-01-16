@@ -15,36 +15,36 @@ use Jet;
 
 class Gallery extends Jet\DataModel {
 
-	protected static $__data_model_model_name = "Jet_ImageGallery";
+	protected static $__data_model_model_name = 'Jet_ImageGallery';
 
 	protected static $__data_model_properties_definition = array(
-		"parent_ID" => array(
-			"type" => self::TYPE_ID,
-			"is_required" => true,
+		'parent_ID' => array(
+			'type' => self::TYPE_ID,
+			'is_required' => true,
 		),
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
 		/*
-		"locale" => array(
-			"type" => self::TYPE_LOCALE,
-			"is_required" => true,
-			"form_field_label" => "Locale:",
-			"form_field_get_select_options_callback" => array("Jet\Mvc", "getAllSitesLocalesList")
+		'locale' => array(
+			'type' => self::TYPE_LOCALE,
+			'is_required' => true,
+			'form_field_label' => 'Locale:',
+			'form_field_get_select_options_callback' => array('Jet\Mvc', 'getAllSitesLocalesList')
 		),
 		*/
-		"title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_required" => true,
-			"form_field_label" => "Title: ",
+		'title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_required' => true,
+			'form_field_label' => 'Title: ',
 		),
 		/*
-		"annotation" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536,
-			"form_field_label" => "Annotation:"
+		'annotation' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536,
+			'form_field_label' => 'Annotation:'
 		)
 		*/
 	);
@@ -52,17 +52,17 @@ class Gallery extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $parent_ID = "";
+	protected $parent_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $title = "";
+	protected $title = '';
 
 	/**
 	 * @var Gallery_Image
@@ -95,7 +95,7 @@ class Gallery extends Jet\DataModel {
 	 * @return string
 	 */
 	public function getBaseDirPath() {
-		$base_dir = JET_PUBLIC_PATH."imagegallery/";
+		$base_dir = JET_PUBLIC_PATH.'imagegallery/';
 		if(!Jet\IO_Dir::exists($base_dir)) {
 			Jet\IO_Dir::create( $base_dir );
 		}
@@ -139,7 +139,7 @@ class Gallery extends Jet\DataModel {
 					return $existing_image;
 				} else {
 					throw new Exception(
-						"Image '{$source_file_name}' allready exists in the gallery!",
+						'Image \''.$source_file_name.'\' allready exists in the gallery!',
 						Exception::CODE_IMAGE_ALLREADY_EXIST
 					);
 				}
@@ -159,7 +159,7 @@ class Gallery extends Jet\DataModel {
 	 * @return string
 	 */
 	public function getBaseURI() {
-		return JET_PUBLIC_URI."imagegallery/";
+		return JET_PUBLIC_URI.'imagegallery/';
 	}
 
 
@@ -231,16 +231,16 @@ class Gallery extends Jet\DataModel {
 
 		$root = array(
 			array(
-				"ID"=>"_root_",
-				"parent_ID" => "",
-				"title" => "Galleries"
+				'ID'=>'_root_',
+				'parent_ID' => '',
+				'title' => 'Galleries'
 			)
 		);
 
 
 		$tree = new Jet\Data_Tree();
 		$tree->setData( array_merge($root, $data) );
-		$tree->setLabelKey( "title" );
+		$tree->setLabelKey( 'title' );
 
 		return $tree;
 	}

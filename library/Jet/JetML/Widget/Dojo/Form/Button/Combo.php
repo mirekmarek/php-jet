@@ -18,6 +18,6 @@ class JetML_Widget_Dojo_Form_Button_Combo extends JetML_Widget_Dojo_Form_Button 
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.form.ComboButton";
+	protected $dojo_type = 'dijit.form.ComboButton';
 
 }

@@ -22,67 +22,67 @@ class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Pages_Page_MetaTag";
+	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page_MetaTag';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_parent_model_class_name = "Jet\\Mvc_Pages_Page_Default";
+	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"attribute" => array(
-			"type" => self::TYPE_STRING
+		'attribute' => array(
+			'type' => self::TYPE_STRING
 		),
-		"attribute_value" => array(
-			"type" => self::TYPE_STRING
+		'attribute_value' => array(
+			'type' => self::TYPE_STRING
 		),
-		"content" => array(
-			"type" => self::TYPE_STRING,
+		'content' => array(
+			'type' => self::TYPE_STRING,
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_ID = "";
+	protected $Jet_Mvc_Pages_Page_ID = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_locale = "";
+	protected $Jet_Mvc_Pages_Page_locale = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_site_ID = "";
+	protected $Jet_Mvc_Pages_Page_site_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $content = "";
+	protected $content = '';
 	/**
 	 * @var string
 	 */
-	protected $attribute = "";
+	protected $attribute = '';
 	/**
 	 * @var string
 	 */
-	protected $attribute_value = "";
+	protected $attribute_value = '';
 
 	/**
 	 * @param string $content (optional)
 	 * @param string $attribute (optional)
 	 * @param string $attribute_value (optional)
 	 */
-	public function __construct($content="", $attribute="", $attribute_value="") {
+	public function __construct($content='', $attribute='', $attribute_value='') {
 		if($content) {
 			$this->generateID();
 

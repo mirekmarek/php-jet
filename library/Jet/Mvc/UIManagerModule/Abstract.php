@@ -21,7 +21,7 @@
 namespace Jet;
 
 abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_Abstract {
-	const CONTAINER_ID_GET_PARAMETER = "container_ID";
+	const CONTAINER_ID_GET_PARAMETER = 'container_ID';
 	
 	/**
 	 *
@@ -66,8 +66,8 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 
 		$public_URI = $this->router->getPublicURI();
 		$JetML_postprocessor = $layout->enableJetML();
-		$JetML_postprocessor->setIconsURL( $public_URI."icons/" );
-		$JetML_postprocessor->setFlagsURL( $public_URI."flags/" );
+		$JetML_postprocessor->setIconsURL( $public_URI.'icons/' );
+		$JetML_postprocessor->setFlagsURL( $public_URI.'flags/' );
 
 		return $layout;
 	}
@@ -79,9 +79,9 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	 */
 	public function getLayoutJsReplacementCurrentModule($module_name) {
 		if( ($container_ID=$this->getUIContainerID()) ) {
-			return "Jet.modules.getModuleInstance('{$module_name}', '{$container_ID}').";
+			return 'Jet.modules.getModuleInstance(\''.$module_name.'\', \''.$container_ID.'\').';
 		} else {
-			return "Jet.modules.getModuleInstance('{$module_name}').";
+			return 'Jet.modules.getModuleInstance(\''.$module_name.'\').';
 		}
 
 	}
@@ -91,7 +91,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	 * @return string
 	 */
 	public function getLayoutJsReplacementUiManagerModule() {
-		return "Jet.getUIManagerModuleInstance().";
+		return 'Jet.getUIManagerModuleInstance().';
 	}
 
 	/**
@@ -100,7 +100,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	 * @return string
 	 */
 	public function getLayoutJsReplacementModule($module_name) {
-		return "Jet.modules.getModuleInstance('{$module_name}').";
+		return 'Jet.modules.getModuleInstance(\''.$module_name.'\').';
 	}
 
 
@@ -136,7 +136,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 			$queue = new Mvc_Dispatcher_Queue();
 			$qi = new Mvc_Dispatcher_Queue_Item(
 				$this->router->getModuleName(),
-				"",
+				'',
 				$this->router->getModuleAction(),
 				$this->router->getPathFragments()
 			);
@@ -296,23 +296,23 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 			$get_URL = true;
 		}
 
-		if($data["SSL_required"]) {
+		if($data['SSL_required']) {
 			$SSL = true;
 		}
 
 		if($non_schema) {
-			return $data["non_schema_URL"];
+			return $data['non_schema_URL'];
 		}
 
 		if($SSL) {
-			return $data["SSL_URL"];
+			return $data['SSL_URL'];
 		}
 
 		if($get_URL) {
-			return $data["non_SSL_URL"];
+			return $data['non_SSL_URL'];
 		}
 
-		return $data["URI"];
+		return $data['URI'];
 	}
 
 	/**
@@ -328,7 +328,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 			$locale = $this->router->getLocale();
 		}
 
-		$ck = "{$site_ID}:{$locale}";
+		$ck = $site_ID.':'.$locale;
 
 		if(!isset($this->sites_structure[$ck])) {
 			//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
@@ -337,21 +337,21 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 				$locale,
 				null,
 				array(
-					"site_ID" => "this.site_ID",
-					"locale" => "this.locale",
-					"name" => "this.name",
-					"is_admin_UI" => "this.is_admin_UI",
-					"force_UI_manager_module_name" => "this.force_UI_manager_module_name",
-					"title" => "this.title",
-					"menu_title" => "this.menu_title",
-					"breadcrumb_title" => "this.breadcrumb_title",
-					"URL_fragment" => "this.URL_fragment",
-					"URI" => "this.URI",
-					"non_schema_URL" => "this.non_schema_URL",
-					"non_SSL_URL" => "this.non_SSL_URL",
-					"SSL_URL" => "this.SSL_URL",
-					"authentication_required" => "this.authentication_required",
-					"SSL_required" => "this.SSL_required",
+					'site_ID' => 'this.site_ID',
+					'locale' => 'this.locale',
+					'name' => 'this.name',
+					'is_admin_UI' => 'this.is_admin_UI',
+					'force_UI_manager_module_name' => 'this.force_UI_manager_module_name',
+					'title' => 'this.title',
+					'menu_title' => 'this.menu_title',
+					'breadcrumb_title' => 'this.breadcrumb_title',
+					'URL_fragment' => 'this.URL_fragment',
+					'URI' => 'this.URI',
+					'non_schema_URL' => 'this.non_schema_URL',
+					'non_SSL_URL' => 'this.non_SSL_URL',
+					'SSL_URL' => 'this.SSL_URL',
+					'authentication_required' => 'this.authentication_required',
+					'SSL_required' => 'this.SSL_required',
 				)
 			);
 		}
@@ -373,16 +373,16 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 
 			$page_ID = $this->router->getPageID();
 
-			$page_node = $site_structure->getNode( $page_ID["ID"] );
+			$page_node = $site_structure->getNode( $page_ID['ID'] );
 			if(!$page_node) {
 				return null;
 			}
 			$page_data = $page_node->getData();
 
 			$navigation_data = Mvc_Factory::getNavigationDataBreadcrumbInstance();
-			$navigation_data->setPageID( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $page_data["ID"]) );
-			$navigation_data->setTitle( $page_data["breadcrumb_title"] );
-			$navigation_data->setURI( $page_data["URI"] );
+			$navigation_data->setPageID( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $page_data['ID']) );
+			$navigation_data->setTitle( $page_data['breadcrumb_title'] );
+			$navigation_data->setURI( $page_data['URI'] );
 
 			$this->breadcrumb_navigation[] = $navigation_data;
 
@@ -390,9 +390,9 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 				$page_data = $page_node->getData();
 
 				$navigation_data = Mvc_Factory::getNavigationDataBreadcrumbInstance();
-				$navigation_data->setPageID( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $page_data["ID"]) );
-				$navigation_data->setTitle( $page_data["breadcrumb_title"] );
-				$navigation_data->setURI( $page_data["URI"] );
+				$navigation_data->setPageID( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $page_data['ID']) );
+				$navigation_data->setTitle( $page_data['breadcrumb_title'] );
+				$navigation_data->setURI( $page_data['URI'] );
 
 				array_unshift($this->breadcrumb_navigation, $navigation_data);
 
@@ -429,7 +429,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	 * @param string $URI (optional)
 	 * @param Mvc_Pages_Page_ID_Abstract  $page_ID (optional)
 	 */
-	public function addBreadcrumbNavigationData( $title, $URI="", Mvc_Pages_Page_ID_Abstract $page_ID=null ) {
+	public function addBreadcrumbNavigationData( $title, $URI='', Mvc_Pages_Page_ID_Abstract $page_ID=null ) {
 		$this->getBreadcrumbNavigation();
 
 		$bn = Mvc_Factory::getNavigationDataBreadcrumbInstance();
@@ -463,7 +463,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 
 			if(!$dat instanceof Mvc_NavigationData_Breadcrumb_Abstract) {
 				throw new Mvc_UIManagerModule_Exception(
-						"Breadcrumb navigation element must be an instance of  Mvc_NavigationData_Breadcrumb_Abstract ",
+						'Breadcrumb navigation element must be an instance of  Mvc_NavigationData_Breadcrumb_Abstract ',
 						Mvc_UIManagerModule_Exception::CODE_INVALID_BREADCRUMB_NAVIGATION_DATA_CLASS
 					);
 			}
@@ -480,7 +480,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 
 		if(
 			$container_ID &&
-			preg_match("~^[a-zA-Z0-9_-]+$~", $container_ID)
+			preg_match('~^[a-zA-Z0-9_-]+$~', $container_ID)
 		){
 			return $container_ID;
 		}
@@ -502,7 +502,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	public function handleAccessDenied() {
 		Http_Headers::authorizationRequired();
 		if(!Debug_ErrorHandler::displayHTTPErrorPage( Http_Headers::CODE_401_UNAUTHORIZED )) {
-			echo "Unauthorized ...";
+			echo 'Unauthorized ...';
 		}
 		Application::end();
 	}
@@ -514,7 +514,7 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 	public function handle404() {
 		Http_Headers::notFound();
 		if(!Debug_ErrorHandler::displayHTTPErrorPage( Http_Headers::CODE_404_NOT_FOUND )) {
-			echo "404 - Page Not Found";
+			echo '404 - Page Not Found';
 		}
 		Application::end();
 	}

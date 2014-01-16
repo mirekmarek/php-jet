@@ -21,14 +21,14 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 *
 	 * @var string
 	 */
-	protected $model_name = "";
+	protected $model_name = '';
 
 	/**
 	 * DataModel class name
 	 *
 	 * @var string
 	 */
-	protected $class_name = "";
+	protected $class_name = '';
 
 	/**
 	 *
@@ -77,7 +77,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					"DataModel '{$class}' doesn't have model name! ({$class}::getDataModelName() returns false.) ",
+					'DataModel \''.$class.'\' doesn\'t have model name! ('.$class.'::getDataModelName() returns false.) ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
@@ -89,7 +89,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$properties_definition_data
 		) {
 			throw new DataModel_Exception(
-					"DataModel '{$class}' doesn't have properties definition! ({$class}::getPropertiesDefinition() returns false.) ",
+					'DataModel \''.$class.'\' doesn\'t have properties definition! ('.$class.'::getPropertiesDefinition() returns false.) ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
@@ -142,7 +142,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		if(!$has_ID_property) {
 			throw new DataModel_Exception(
-				"There are not any ID properties in DataModel '".$this->getClassName()."' definition ...",
+				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition ...',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

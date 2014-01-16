@@ -14,7 +14,7 @@ namespace Jet;
 
 class Data_Array extends Object {
 
-	const PATH_DELIMITER = "/";
+	const PATH_DELIMITER = '/';
 
 		
 	/**
@@ -294,11 +294,11 @@ class Data_Array extends Object {
 	/**
 	 *
 	 * @param string $key
-	 * @param string $default_value (optional, default = "")
+	 * @param string $default_value (optional, default = '')
 	 *
 	 * @return string
 	 */
-	public function getString($key, $default_value = ""){
+	public function getString($key, $default_value = ''){
 
 		$value = $this->getRaw($key, $default_value);
 
@@ -316,9 +316,9 @@ class Data_Array extends Object {
 	 * @return string
 	 */
 	public function export(array $comments = array()){
-		$result = $this->_export( "", $this->data, 0, $comments );
+		$result = $this->_export( '', $this->data, 0, $comments );
 
-		$result .= ";\n";
+		$result .= ';'.JET_EOL;
 
 		return $result;
 	}
@@ -332,19 +332,19 @@ class Data_Array extends Object {
 	 * @return string
 	 */
 	protected function _export( $path, array $data, $level, array $comments ) {
-		$result = "";
+		$result = '';
 		$next_level = $level + 1;
 
-		$indent = str_pad("", $level, "\t");
+		$indent = str_pad('', $level, JET_TAB);
 
 
-		$comment = "";
+		$comment = '';
 		if( isset($comments[$path]) ) {
-			$comment .= "\t/* {$comments[$path]} */";
+			$comment .= JET_TAB.'/* '.$comments[$path].' */';
 		}
 
 
-		$result .= "array({$comment}\n";
+		$result .= 'array('.$comment.JET_EOL;
 
 		$my_root_path = $path . static::PATH_DELIMITER;
 
@@ -354,14 +354,14 @@ class Data_Array extends Object {
 
 			$comment = '';
 			if( isset($comments[$my_paht]) ) {
-				$comment .= "\t/* ".$comments[$my_paht].' */';
+				$comment .= JET_TAB.'/* '.$comments[$my_paht].' */';
 			}
 
 			if(is_int($key)) {
-				$result .= $indent."\t";
+				$result .= $indent.JET_TAB;
 
 			} else {
-				$result .= $indent."\t".'\''.$key.'\' => ';
+				$result .= $indent.JET_TAB.'\''.$key.'\' => ';
 			}
 
 			if(is_array($value)) {
@@ -379,10 +379,10 @@ class Data_Array extends Object {
 
 				$result .= $class_name.'::__set_state( '.$this->_export( $my_paht, $object_values, $next_level, $comments).' )';
 			} else {
-				$result .= var_export( $value, true )."$comment";
+				$result .= var_export( $value, true ).$comment;
 			}
 
-			$result .= ",\n";
+			$result .= ','.JET_EOL;
 
 		}
 		$result .= $indent . ')';

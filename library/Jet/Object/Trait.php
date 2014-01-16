@@ -74,6 +74,7 @@ trait Object_Trait {
 	 */
 	public function sendSignal( $signal_name, array $signal_data=array() ) {
 
+		/** @var $this Object_Interface */
 		$signal = Application_Signals::createSignal( $this, $signal_name, $signal_data );
 
 		Application_Signals_Dispatcher::dispatchSignal( $signal );
@@ -91,7 +92,7 @@ trait Object_Trait {
 	 * @return string
 	 */
 	public function getClassNameWithoutNamespace() {
-		$class_name = explode("\\", get_class($this));
+		$class_name = explode('\\', get_class($this));
 		return end($class_name);
 	}
 
@@ -102,7 +103,7 @@ trait Object_Trait {
 	 */
 	public function getHasProperty( $property_name ) {
 		if(
-			$property_name[0]=="_" ||
+			$property_name[0]=='_' ||
 			!property_exists($this, $property_name)
 		) {
 			return false;
@@ -116,7 +117,7 @@ trait Object_Trait {
 	 * @return string
 	 */
 	public function getSetterMethodName( $property_name ) {
-		$setter_method_name = "set".str_replace("_", "", $property_name);
+		$setter_method_name = 'set'.str_replace('_', '', $property_name);
 
 		return $setter_method_name;
 	}

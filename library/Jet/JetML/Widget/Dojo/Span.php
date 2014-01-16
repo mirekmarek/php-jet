@@ -23,5 +23,5 @@ class JetML_Widget_Dojo_Span extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $widget_container_tag = "span";
+	protected $widget_container_tag = 'span';
 }

@@ -100,16 +100,16 @@ class Mvc_Sites extends Object {
 	 * @throws Mvc_Sites_Handler_Exception
 	 *
 	 */
-	public static function createSite( Mvc_Sites_Site_Abstract $site_data, $template="default", $activate=true ) {
+	public static function createSite( Mvc_Sites_Site_Abstract $site_data, $template='default', $activate=true ) {
 		if(!$site_data->validateProperties()) {
 			$errors = $site_data->getValidationErrors();
 			foreach($errors as $i=>$error) {
 				$errors[$i] = (string)$error;
 			}
-			$errors = implode(", ", $errors);
+			$errors = implode(', ', $errors);
 
 			throw new Mvc_Sites_Handler_Exception(
-				"Page validation failed! Errors: {$errors}",
+				'Page validation failed! Errors: '.$errors,
 				Mvc_Sites_Handler_Exception::CODE_INVALID_SITE_DATA
 			);
 		}

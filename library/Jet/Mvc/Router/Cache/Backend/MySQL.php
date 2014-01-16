@@ -37,7 +37,7 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_table_name = "";
+	protected $_table_name = '';
 
 
 	/**
@@ -60,11 +60,11 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 */
 	public function load($URL) {
 
-		$data = $this->_db_read->fetchOne("SELECT `data` FROM `{$this->_table_name}`
+		$data = $this->_db_read->fetchOne('SELECT `data` FROM `'.$this->_table_name.'`
 				WHERE
-					`URL_hash`=:URL_hash",
+					`URL_hash`=:URL_hash',
 			array(
-				"URL_hash" => md5($URL)
+				'URL_hash' => md5($URL)
 
 			)
 		);
@@ -83,17 +83,17 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 */
 	public function save($URL, Mvc_Router_Abstract $item) {
 		$data = array(
-			"URL" => $URL,
-			"URL_hash" => md5($URL),
-			"data" => serialize($item),
+			'URL' => $URL,
+			'URL_hash' => md5($URL),
+			'data' => serialize($item),
 		);
 
-		$this->_db_write->execCommand("INSERT IGNORE INTO `{$this->_table_name}` SET
+		$this->_db_write->execCommand('INSERT IGNORE INTO `'.$this->_table_name.'` SET
 					`URL`=:URL,
 					`URL_hash`=:URL_hash,
 					`data`=:data,
 					`created_date_time`=NOW()
-				",$data);
+				',$data);
 
 	}
 
@@ -109,19 +109,19 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 */
 	public function truncate($URL = null) {
 		if($URL===null) {
-			$this->_db_write->execCommand("TRUNCATE TABLE `{$this->_table_name}`");
+			$this->_db_write->execCommand('TRUNCATE TABLE `'.$this->_table_name.'`');
 		} else {
 			if(is_array($URL)) {
 				foreach($URL as $_URL) {
-					$this->_db_write->execCommand("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
+					$this->_db_write->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `URL_hash`=:URL_hash',
 						array(
-							"URL_hash" => md5($_URL),
+							'URL_hash' => md5($_URL),
 						));
 				}
 			} else {
-				$this->_db_write->execCommand("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
+				$this->_db_write->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `URL_hash`=:URL_hash',
 					array(
-						"URL_hash" => md5($URL),
+						'URL_hash' => md5($URL),
 					));
 
 			}
@@ -135,13 +135,13 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	public function helper_getCreateCommand() {
 		$engine = $this->config->getEngine();
 
-		return "CREATE TABLE IF NOT EXISTS `{$this->_table_name}` (\n"
-			."\t `URL` varchar(65536) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `URL_hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-			."\t `created_date_time` datetime NOT NULL,\n"
-			."\t PRIMARY KEY (`URL_hash`)\n"
-			."\t) ENGINE={$engine} DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+		return 'CREATE TABLE IF NOT EXISTS `'.$this->_table_name.'` ('.JET_EOL
+			.JET_TAB.' `URL` varchar(65536) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+			.JET_TAB.' `URL_hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+			.JET_TAB.' `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+			.JET_TAB.' `created_date_time` datetime NOT NULL,'.JET_EOL
+			.JET_TAB.' PRIMARY KEY (`URL_hash`)'.JET_EOL
+			.JET_TAB.') ENGINE='.$engine.' DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci';
 	}
 
 	/**

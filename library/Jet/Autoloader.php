@@ -11,9 +11,9 @@
  */
 namespace Jet;
 
-require_once "Exception.php";
-require_once "Autoloader/Exception.php";
-require_once "Autoloader/Loader/Abstract.php";
+require_once 'Exception.php';
+require_once 'Autoloader/Exception.php';
+require_once 'Autoloader/Loader/Abstract.php';
 
 class Autoloader {
 	/**
@@ -45,7 +45,7 @@ class Autoloader {
 
 		self::$is_initialized = true;
 
-		spl_autoload_register( array("\Jet\\Autoloader", "load"), true, true );
+		spl_autoload_register( array('\Jet\\Autoloader', 'load'), true, true );
 
 	}
 
@@ -68,7 +68,7 @@ class Autoloader {
 
 		$path = false;
 
-		$loader_name = "";
+		$loader_name = '';
 		if(isset(static::$classes_paths_map[$class_name])) {
 			$path = static::$classes_paths_map[$class_name];
 		} else {
@@ -86,14 +86,14 @@ class Autoloader {
 
 		if(!$path) {
 			throw new Autoloader_Exception(
-				"Unable to load class '{$class_name}'. Registered auto loaders: '".implode("', '", array_keys(static::$loaders))."'",
+				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''.implode('', '', array_keys(static::$loaders)).'\'',
 				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 		}
 
 		if(!file_exists($path)) {
 			throw new Autoloader_Exception(
-				"File '{$path}' does not exist. Class: '{$class_name}', Loader: '{$loader_name}'",
+				'File \''.$path.'\' does not exist. Class: \''.$class_name.'\', Loader: \''.$loader_name.'\'',
 				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 
@@ -108,7 +108,7 @@ class Autoloader {
 			!trait_exists($class_name, false)
 		) {
 			throw new Autoloader_Exception(
-				"Class '{$class_name}' does not exist in script: '{$path}', Loader: '{$loader_name}' ",
+				'Class \''.$class_name.'\' does not exist in script: \''.$path.'\', Loader: \''.$loader_name.'\' ',
 				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 		}
@@ -134,7 +134,7 @@ class Autoloader {
 			!class_exists($loader_class_name, false)
 		) {
 			throw new Autoloader_Exception(
-				"Autoloader class '{$loader_class_name}' does not exist. Should be in script: '{$loader_script_path}' ",
+				'Autoloader class \''.$loader_class_name.'\' does not exist. Should be in script: \''.$loader_script_path.'\' ',
 				Autoloader_Exception::CODE_INVALID_AUTOLOADER_CLASS_DOES_NOT_EXIST
 			);
 
@@ -144,7 +144,7 @@ class Autoloader {
 
 		if( ! ($loader instanceof Autoloader_Loader_Abstract) ){
 			throw new Autoloader_Exception(
-				"Autoloader class '$loader_class_name' must extend Jet\\Autoloader_Loader_Abstract class.",
+				'Autoloader class \''.$loader_class_name.'\' must extend Jet\\Autoloader_Loader_Abstract class.',
 				Autoloader_Exception::CODE_INVALID_AUTOLOADER_CLASS
 			);
 		}

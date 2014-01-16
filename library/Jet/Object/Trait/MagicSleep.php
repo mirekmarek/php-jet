@@ -23,7 +23,7 @@ trait Object_Trait_MagicSleep {
 	public function __sleep(){
 		$vars = get_object_vars($this);
 		foreach($vars as $k => $v){
-			if(substr($k, 0, 2) === "__"){
+			if(substr($k, 0, 2) === '__'){
 				unset($vars[$k]);
 			}
 		}

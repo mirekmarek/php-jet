@@ -21,50 +21,50 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Sites_Site_LocalizedData_URL";
+	protected static $__data_model_model_name = 'Jet_Mvc_Sites_Site_LocalizedData_URL';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_parent_model_class_name = "Jet\\Mvc_Sites_Site_LocalizedData_Default";
+	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Default';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
 
-		"URL" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100
+		'URL' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100
 		),
-		"is_default" => array(
-			"type" => self::TYPE_BOOL
+		'is_default' => array(
+			'type' => self::TYPE_BOOL
 		),
-		"is_SSL" => array(
-			"type" => self::TYPE_BOOL
+		'is_SSL' => array(
+			'type' => self::TYPE_BOOL
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Sites_Site_ID = "";
+	protected $Jet_Mvc_Sites_Site_ID = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Sites_Site_LocalizedData_ID = "";
+	protected $Jet_Mvc_Sites_Site_LocalizedData_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $URL = "";
+	protected $URL = '';
 	/**
 	 * @var bool
 	 */
@@ -83,7 +83,7 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	 * @param string $URL (optional)
 	 * @param bool $is_default (optional)
 	 */
-	public function __construct($URL="", $is_default=false) {
+	public function __construct($URL='', $is_default=false) {
 		if($URL) {
 			$this->generateID();
 
@@ -120,7 +120,7 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	public function setURL($URL) {
 		if(!$URL) {
 			throw new Mvc_Sites_Site_Exception(
-				"URL is not defined",
+				'URL is not defined',
 				Mvc_Sites_Site_Exception::CODE_URL_NOT_DEFINED
 			);
 		}
@@ -128,22 +128,22 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 		$parse_data = parse_url($URL);
 		if(
 			$parse_data===false ||
-			!empty($parse_data["user"]) ||
-			!empty($parse_data["pass"]) ||
-			!empty($parse_data["query"]) ||
-			!empty($parse_data["fragment"])
+			!empty($parse_data['user']) ||
+			!empty($parse_data['pass']) ||
+			!empty($parse_data['query']) ||
+			!empty($parse_data['fragment'])
 		) {
 			throw new Mvc_Sites_Site_Exception(
-				"URL format is not valid! Valid format examples: http://host/, https://host/, http://host:80/, http://host/path/, .... ",
+				'URL format is not valid! Valid format examples: http://host/, https://host/, http://host:80/, http://host/path/, .... ',
 				Mvc_Sites_Site_Exception::CODE_URL_INVALID_FORMAT
 			);
 		}
 
-		if(empty($parse_data["path"]) || $parse_data["path"][strlen($parse_data["path"])-1]!="/") {
-			$URL .= "/";
+		if(empty($parse_data['path']) || $parse_data['path'][strlen($parse_data['path'])-1]!='/') {
+			$URL .= '/';
 		}
 
-		$this->is_SSL = $parse_data["scheme"]=="https";
+		$this->is_SSL = $parse_data['scheme']=='https';
 
 		$this->URL = $URL;
 		$this->parsed_URL_data = $parse_data;
@@ -167,28 +167,28 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	 * @return bool|string
 	 */
 	public function getSchemePart() {
-		return $this->parseURL( "scheme" );
+		return $this->parseURL( 'scheme' );
 	}
 
 	/**
 	 * @return bool|string
 	 */
 	public function getHostPart() {
-		return $this->parseURL( "host" );
+		return $this->parseURL( 'host' );
 	}
 
 	/**
 	 * @return bool|string
 	 */
 	public function getPostPart() {
-		return $this->parseURL( "port" );
+		return $this->parseURL( 'port' );
 	}
 
 	/**
 	 * @return bool|string
 	 */
 	public function getPathPart() {
-		return $this->parseURL( "path" );
+		return $this->parseURL( 'path' );
 	}
 
 
@@ -226,10 +226,10 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 			$this->parsed_URL_data = parse_url($this->URL);
 		}
 
-		$res = $this->parsed_URL_data["scheme"]."://";
-		$res .= $this->parsed_URL_data["host"];
-		if(!empty($this->parsed_URL_data["port"])) {
-			$res .= ":".$this->parsed_URL_data["port"];
+		$res = $this->parsed_URL_data['scheme'].'://';
+		$res .= $this->parsed_URL_data['host'];
+		if(!empty($this->parsed_URL_data['port'])) {
+			$res .= ':'.$this->parsed_URL_data['port'];
 		}
 
 		return $res;

@@ -40,7 +40,7 @@ class DataModel_Query_OrderBy_Item extends Object {
 			!($item instanceof DataModel_Definition_Property_Abstract) &&
 			!($item instanceof DataModel_Query_Select_Item)
 		) {
-			throw new Exception("Item must be instance of 'DataModel_Definition_Property_Abstract' or 'DataModel_Query_Select_Item' ");
+			throw new Exception('Item must be instance of \'DataModel_Definition_Property_Abstract\' or \'DataModel_Query_Select_Item\' ');
 		}
 
 		$this->item = $item;

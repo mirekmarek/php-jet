@@ -19,7 +19,7 @@ abstract class DataModel_Query_Relation_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $name = "";
+	protected $name = '';
 
 	/**
 	 * @var string

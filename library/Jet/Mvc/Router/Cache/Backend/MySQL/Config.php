@@ -24,31 +24,31 @@ class Mvc_Router_Cache_Backend_MySQL_Config extends Mvc_Router_Cache_Backend_Con
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"connection_read" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - read: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc_Router_Cache_Backend_MySQL_Config", "getDbConnectionsList")
+		'connection_read' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - read: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Cache_Backend_MySQL_Config', 'getDbConnectionsList')
 		),
-		"connection_write" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - write: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Mvc_Router_Cache_Backend_MySQL_Config", "getDbConnectionsList")
+		'connection_write' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - write: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Cache_Backend_MySQL_Config', 'getDbConnectionsList')
 		),
-		"table_name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "jet_mvc_router_cache",
-			"form_field_label" => "Table name: ",
+		'table_name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => 'jet_mvc_router_cache',
+			'form_field_label' => 'Table name: ',
 		),
-		"engine" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "InnoDB",
-			"form_field_label" => "Engine: ",
+		'engine' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => 'InnoDB',
+			'form_field_label' => 'Engine: ',
 		)
 
 	);
@@ -56,21 +56,21 @@ class Mvc_Router_Cache_Backend_MySQL_Config extends Mvc_Router_Cache_Backend_Con
 	/**
 	 * @var string
 	 */
-	protected $connection_read = "";
+	protected $connection_read = '';
 	/**
 	 * @var string
 	 */
-	protected $connection_write= "";
+	protected $connection_write= '';
 
 	/**
 	 * @var string
 	 */
-	protected $engine = "";
+	protected $engine = '';
 
 	/**
 	 * @var string
 	 */
-	protected $table_name = "";
+	protected $table_name = '';
 
 	/**
 	 * @return string

@@ -32,7 +32,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 	public function __construct( DataModel_Query $query, array $items=array() ) {
 
 		foreach( $items as $key=>$val ) {
-			if(is_string($val) && strpos($val, ".")) {
+			if(is_string($val) && strpos($val, '.')) {
 				$val = $query->_getPropertyAndSetRelation( $val );
 			}
 
@@ -56,7 +56,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 			if(is_array($val)) {
 				if(!isset($val[1])) {
 					throw new DataModel_Query_Exception(
-						"Invalid backend function call specification. Example: array( array(\"this.prop_a\", \"this.prop_b\"), \"SUM(%prop_a%)+%prop_b%\"  )",
+						'Invalid backend function call specification. Example: array( array(\'this.prop_a\', \'this.prop_b\'), \'SUM(%prop_a%)+%prop_b%\'  )',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 
@@ -84,7 +84,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 			if( $val instanceof DataModel_Query_Select_Item_BackendFunctionCall ) {
 				if(!is_string($key)) {
 					throw new DataModel_Query_Exception(
-						"The item is DataModel_Query_Select_Item_BackendFunctionCall. So the key must be string. Example: Special item is 'sum(something) as total_sum' and the key is 'total_sum'.",
+						'The item is DataModel_Query_Select_Item_BackendFunctionCall. So the key must be string. Example: Special item is \'sum(something) as total_sum\' and then the array key is \'total_sum\'.',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 				}
@@ -99,7 +99,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 
 
 			throw new DataModel_Query_Exception(
-				"I'm sorry, but I did not understand what you want to define ...",
+				'I\'m sorry, but I did not understand what you want to define ...',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 
@@ -120,7 +120,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 
 		if(array_key_exists($select_as, $this->items)) {
 			throw new DataModel_Query_Exception(
-				"Item '{$select_as}' is already in the list",
+				'Item \''.$select_as.'\' is already in the list',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 

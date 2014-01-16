@@ -25,23 +25,23 @@ class Translator_Config extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "translator";
+	protected static $__config_data_path = 'translator';
 	/**
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"backend_type" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "PHPFiles",
-			"form_field_label" => "Default backend type: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Translator_Config", "getBackendTypesList")
+		'backend_type' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => 'PHPFiles',
+			'form_field_label' => 'Default backend type: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Translator_Config', 'getBackendTypesList')
 		),
-		"auto_append_unknown_phrase" => array(
-			"type" => self::TYPE_BOOL,
-			"default_value" => true,
-			"form_field_label" => "Auto append unknown phrase: ",
+		'auto_append_unknown_phrase' => array(
+			'type' => self::TYPE_BOOL,
+			'default_value' => true,
+			'form_field_label' => 'Auto append unknown phrase: ',
 		)
 	);
 
@@ -93,7 +93,7 @@ class Translator_Config extends Config_Application {
 	 * @return array
 	 */
 	public static function getBackendTypesList() {
-		return static::getAvailableHandlersList( JET_LIBRARY_PATH."Jet/Translator/Backend/" );
+		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Translator/Backend/' );
 	}
 
 }

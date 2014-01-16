@@ -45,13 +45,13 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 
 			$desc = false;
 
-			if($ob[0]=="-") {
+			if($ob[0]=='-') {
 				$desc = true;
 			}
 
 			if(
-				$ob[0]=="+" ||
-				$ob[0]=="-"
+				$ob[0]=='+' ||
+				$ob[0]=='-'
 			) {
 				$ob = substr($ob, 1);
 			}
@@ -59,7 +59,7 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 			$property = null;
 
 			if(!$select->getHasItem($ob)) {
-				if(strpos($ob, ".")) {
+				if(strpos($ob, '.')) {
 					$property = $query->_getPropertyAndSetRelation($ob);
 				} else {
 					$properties = $query->getMainDataModel()->getDataModelDefinition()->getProperties();
@@ -73,7 +73,7 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 
 			if(!$property) {
 				throw new DataModel_Query_Exception(
-					"setOrderBy error. Undefined order by property: '{$ob}'",
+					'setOrderBy error. Undefined order by property: \''.$ob.'\'',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			}

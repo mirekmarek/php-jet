@@ -21,7 +21,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = NULL;
 
 	protected static $ACL_actions_check_map = array(
-		"default" => false
+		'default' => false
 	);
 
 
@@ -32,24 +32,24 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		if($current_article) {
 			Jet\Mvc::getCurrentUIManagerModuleInstance()->addBreadcrumbNavigationData($current_article->getTitle());
 
-			$this->view->setVar("article", $current_article);
+			$this->view->setVar('article', $current_article);
 
-			$this->render("article-detail");
+			$this->render('article-detail');
 		} else {
 
 			$paginator = new Jet\Data_Paginator(
-				Jet\Http_Request::GET()->getInt("p", 1),
+				Jet\Http_Request::GET()->getInt('p', 1),
 				2,
-				"?p=".Jet\Data_Paginator::URL_PAGE_NO_KEY
+				'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
 			);
 
 			/** @noinspection PhpParamsInspection */
 			$paginator->setDataSource( $article->getListForCurrentLocale() );
 
-			$this->view->setVar("articles_list", $paginator->getData());
-			$this->view->setVar("paginator", $paginator);
+			$this->view->setVar('articles_list', $paginator->getData());
+			$this->view->setVar('paginator', $paginator);
 
-			$this->render("articles-list");
+			$this->render('articles-list');
 		}
 
 	}

@@ -18,6 +18,6 @@ class JetML_Widget_Dojo_Menubar_Item_Popup extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.PopupMenuBarItem";
+	protected $dojo_type = 'dijit.PopupMenuBarItem';
 	
 }

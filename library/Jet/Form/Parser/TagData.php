@@ -20,17 +20,17 @@ class Form_Parser_TagData extends Object {
 	/**
 	 * @var string
 	 */
-	protected $tag = "";
+	protected $tag = '';
 
 	/**
 	 * @var string
 	 */
-	protected $name = "";
+	protected $name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $original_string = "";
+	protected $original_string = '';
 
 	/**
 	 * @var array
@@ -45,7 +45,7 @@ class Form_Parser_TagData extends Object {
 		$tag = $regexp_match[1];
 
 		if(!$tag) {
-			$this->tag = "form";
+			$this->tag = 'form';
 		} else {
 			$this->tag = substr($tag, 1);
 		}
@@ -54,24 +54,24 @@ class Form_Parser_TagData extends Object {
 		$this->name = false;
 		$_properties = substr(trim($regexp_match[2]), 0, -1);
 
-		$_properties = preg_replace( "~([ ]{2,})~", " " , $_properties );
+		$_properties = preg_replace( '~([ ]{2,})~', ' ' , $_properties );
 
 		$_properties = explode( '" ', $_properties );
 
 		foreach( $_properties as $property ) {
-			if( !$property || strpos($property, "=")===false ) {
+			if( !$property || strpos($property, '=')===false ) {
 				continue;
 			}
 
-			$property = explode("=", $property);
+			$property = explode('=', $property);
 
 			$property_name = array_shift($property);
 			$property_value = implode('=', $property);
 
 			$property_name = trim(strtolower($property_name));
-			$property_value = trim(str_replace("\"", "", $property_value));
+			$property_value = trim(str_replace('"', '', $property_value));
 
-			if($property_name=="name") {
+			if($property_name=='name') {
 				$this->name=$property_value;
 			} else {
 				$this->properties[$property_name] = $property_value;

@@ -35,7 +35,7 @@ class Data_Text {
 		/** @noinspection PhpVoidFunctionResultUsedInspection */
 		/** @noinspection PhpUndefinedMethodInspection */
 		/** @noinspection SpellCheckingInspection */
-		$myTrans = \Transliterator::create("NFD; [:Nonspacing Mark:] Remove; NFC");
+		$myTrans = \Transliterator::create('NFD; [:Nonspacing Mark:] Remove; NFC');
 		/** @noinspection PhpUndefinedMethodInspection */
 		return $myTrans->transliterate( $text );
 	}
@@ -52,7 +52,7 @@ class Data_Text {
 					$text,
 					$max_length,
 					$add_dots = true,
-					$dots = "..."
+					$dots = '...'
 				) {
 
 		$text = trim($text);
@@ -61,7 +61,7 @@ class Data_Text {
 			$max_length = $max_length - strlen($dots);
 		}
 
-		if(!preg_match("~^(.{0,$max_length})~us", $text, $match)){
+		if(!preg_match('~^(.{0,'.$max_length.')~us', $text, $match)){
 			return $text;
 		}
 
@@ -71,7 +71,7 @@ class Data_Text {
 			return $text;
 		}
 
-		$shortened = preg_replace("~( [^ ]*)$~us", "", $shortened);
+		$shortened = preg_replace('~( [^ ]*)$~us', '', $shortened);
 		if ($add_dots) {
 			$shortened .= $dots;
 		}
@@ -83,7 +83,7 @@ class Data_Text {
 	 * Replace data in text by given values
 	 *
 	 * Example:
-	 * $text = array("PARAM1" => "value 1", "PARAM2" => "value 2")
+	 * $text = array('PARAM1' => 'value 1', 'PARAM2' => 'value 2')
 	 * replaces %PARAM1% for value 1 and %PARAM2% for value 2
 	 * 
 	 * @param string $text
@@ -94,7 +94,7 @@ class Data_Text {
 
 		$replace_keys = array_keys($data);
 		foreach($replace_keys as $i=>$v) {
-			$replace_keys[$i] = "%{$v}%";
+			$replace_keys[$i] = '%'.$v.'%';
 		}
 		$replace_values = array_values( $data );
 
@@ -106,7 +106,7 @@ class Data_Text {
 	 *
 	 * Example:
 	 * <code>
-	 * $text = "My temp path is %JET_TMP_PATH%";
+	 * $text = 'My temp path is %JET_TMP_PATH%';
 	 * $output = Data_Text::replaceConstants($text); // %JET_TMP_PATH% will be replaced by real path to [ROAD_root]/tmp/
 	 * </code>
 	 *
@@ -119,7 +119,7 @@ class Data_Text {
 	public static function replaceSystemConstants( $input, array $default_replacement=array() ) {
 		if(!static::$_defined_constants) {
 			static::$_defined_constants = get_defined_constants(true);
-			static::$_defined_constants = static::$_defined_constants["user"];
+			static::$_defined_constants = static::$_defined_constants['user'];
 		}
 
 		$data = static::$_defined_constants;

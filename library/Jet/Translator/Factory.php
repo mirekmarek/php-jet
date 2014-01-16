@@ -21,7 +21,7 @@ class Translator_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $backend_class_name_prefix = "Jet\\Translator_Backend_";
+	protected static $backend_class_name_prefix = 'Jet\\Translator_Backend_';
 
 	/**
 	 * @param string $backend_class_name_prefix
@@ -45,7 +45,7 @@ class Translator_Factory extends Factory {
 	 * @param bool $soft_mode @see Config
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode=false ){
-		$default_class_name = static::$backend_class_name_prefix.$type."_Config";
+		$default_class_name = static::$backend_class_name_prefix.$type.'_Config';
 
 		$class_name = static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);

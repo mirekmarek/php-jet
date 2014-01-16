@@ -26,25 +26,25 @@ class JetML_Widget_Dojo_Flag extends JetML_Widget_Dojo_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $widget_container_tag = "img";
+	protected $widget_container_tag = 'img';
 
 
 	/**
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$locale = $this->getNodeAttribute("flag");
-		$title = $this->getNodeAttribute("title", (new Locale($locale))->getName() );
-		$size = $this->getNodeAttribute("size", $this->parser->getIconDefaultSize());
+		$locale = $this->getNodeAttribute('flag');
+		$title = $this->getNodeAttribute('title', (new Locale($locale))->getName() );
+		$size = $this->getNodeAttribute('size', $this->parser->getIconDefaultSize());
 
-		$icon_URL = $this->getIconURL("flag", $locale, $size);
+		$icon_URL = $this->getIconURL('flag', $locale, $size);
 
-		$icon_data = $this->parser->getIconSizeData("flag_".$size);
+		$icon_data = $this->parser->getIconSizeData('flag_'.$size);
 
-		$this->node->setAttribute("src", $icon_URL);
-		$this->node->setAttribute("title", $title);
-		$this->node->setAttribute("width", $icon_data["width"]);
-		$this->node->setAttribute("height", $icon_data["height"]);
+		$this->node->setAttribute('src', $icon_URL);
+		$this->node->setAttribute('title', $title);
+		$this->node->setAttribute('width', $icon_data['width']);
+		$this->node->setAttribute('height', $icon_data['height']);
 
 
 		return parent::getReplacement();

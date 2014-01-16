@@ -25,7 +25,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 
 		$result = parent::exec( $statement );
 
-		Debug_Profiler::SQLQueryEnd();
+		Debug_Profiler::SQLQueryDone( $result );
 
 		return $result;
 	}
@@ -43,7 +43,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 
 		$result = parent::query( $statement, $fetch_method, $colno_or_classname_or_object, $class_constructor_arguments );
 
-		Debug_Profiler::SQLQueryEnd();
+		Debug_Profiler::SQLQueryDone();
 
 		return $result;
 	}
@@ -81,7 +81,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 
 		$res = $statement->execute();
 
-		Debug_Profiler::SQLQueryEnd();
+		Debug_Profiler::SQLQueryDone( $res );
 
 		return $res;
 	}
@@ -99,7 +99,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 		$stn = parent::query( $q );
 		$res = $stn->fetchAll( \PDO::FETCH_ASSOC );
 
-		Debug_Profiler::SQLQueryEnd( count($res) );
+		Debug_Profiler::SQLQueryDone( count($res) );
 
 		return $res;
 	}
@@ -228,7 +228,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 		try {
 			parent::beginTransaction();
 		} catch(\PDOException $e) {
-			if($e->getMessage()!="There is already an active transaction") {
+			if($e->getMessage()!='There is already an active transaction') {
 				throw $e;
 			}
 		}
@@ -246,7 +246,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 		try {
 			parent::rollBack();
 		} catch(\PDOException $e) {
-			if($e->getMessage()!="There is no active transaction") {
+			if($e->getMessage()!='There is no active transaction') {
 				throw $e;
 			}
 		}
@@ -262,7 +262,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 		try {
 			parent::commit();
 		} catch(\PDOException $e) {
-			if($e->getMessage()!="There is no active transaction") {
+			if($e->getMessage()!='There is no active transaction') {
 				throw $e;
 			}
 		}

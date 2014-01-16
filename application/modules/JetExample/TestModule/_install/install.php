@@ -1,2 +1,2 @@
 <?php
-echo "Hello! This is TestModule install script!\n";
+echo 'Hello! This is TestModule install script!\n';

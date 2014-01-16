@@ -14,20 +14,20 @@
 namespace Jet;
 
 class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
-	const DOJO_TYPE_PROPERTY = "data-dojo-type";
-	const DOJO_PROPS_PROPERTY = "data-dojo-props";
+	const DOJO_TYPE_PROPERTY = 'data-dojo-type';
+	const DOJO_PROPS_PROPERTY = 'data-dojo-props';
 
 	/**
 	 *
 	 * @var string|array|bool $dojo_type
 	 */
-	protected $dojo_type = "";
+	protected $dojo_type = '';
 	
 	/**
 	 *
 	 * @var string
 	 */
-	protected $widget_container_tag = "div";
+	protected $widget_container_tag = 'div';
 
 	/**
 	 *
@@ -39,12 +39,12 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array("icon", "icon_size", "flag", "flag_size", "dojotype" );
+	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype' );
 
 	/**
 	 * @var array
 	 */
-	protected $translate_properties = array("title", "busylabel");
+	protected $translate_properties = array('title', 'busylabel');
 
 
 	/**
@@ -54,7 +54,7 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	public function __construct(  JetML $parser, \DOMElement $node){
 		parent::__construct( $parser, $node);
 
-		$dojo = Mvc::requireJavascriptLib("Dojo");
+		$dojo = Mvc::requireJavascriptLib('Dojo');
 
 		if(!$this->dojo_type) {
 			return;
@@ -66,13 +66,13 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 					is_array($this->required_css) &&
 					isset($this->required_css[$dojo_component])
 				) {
-					$dojo->requireComponent($dojo_component, array( "css" => $this->required_css[$dojo_component] ));
+					$dojo->requireComponent($dojo_component, array( 'css' => $this->required_css[$dojo_component] ));
 				} else {
 					$dojo->requireComponent($dojo_component, array());
 				}
 			}
 		} else {
-			$dojo->requireComponent($this->dojo_type, array( "css" => $this->required_css ));
+			$dojo->requireComponent($this->dojo_type, array( 'css' => $this->required_css ));
 		}
 
 	}
@@ -110,8 +110,8 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 				$this->dojo_type!==false &&
 				!in_array($a_name, $this->HTML_properties)
 			) {
-				if($a_value=="true" || $a_value=="false") {
-					$a_value = ($a_value=="true");
+				if($a_value=='true' || $a_value=='false') {
+					$a_value = ($a_value=='true');
 				}
 
 				$dojo_props[$a_name] = $a_value;
@@ -133,7 +133,7 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 				$attributes[static::DOJO_TYPE_PROPERTY ] = $this->dojo_type;
 			}
 
-			$attributes[static::DOJO_PROPS_PROPERTY] = str_replace("\"", "'", implode(",", $_dojo_props));
+			$attributes[static::DOJO_PROPS_PROPERTY] = str_replace('"', '\'', implode(',', $_dojo_props));
 		}
 
 
@@ -177,11 +177,11 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 			if(
 				is_string($val) &&
 				isset($val[0]) &&
-				$val[0]=="{"
+				$val[0]=='{'
 			) {
-				$_dojo_props[] = "{$k}:".$val;
+				$_dojo_props[] = $k.':'.$val;
 			} else {
-				$_dojo_props[] = "{$k}:".json_encode($val);
+				$_dojo_props[] = $k.':'.json_encode($val);
 			}
 		}
 

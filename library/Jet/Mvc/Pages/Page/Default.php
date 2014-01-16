@@ -20,143 +20,143 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_ID_class_name = "Jet\\Mvc_Pages_Page_ID_Default";
+	protected static $__data_model_ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Default';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Pages_Page";
+	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"site_ID" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_ID" => true,
+		'site_ID' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_ID' => true,
 		),
-		"locale" => array(
-			"type" => self::TYPE_LOCALE,
-			"is_ID" => true,
+		'locale' => array(
+			'type' => self::TYPE_LOCALE,
+			'is_ID' => true,
 		),
 
-		"parent_ID" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"backend_options" => array(
-				"key" => "parent_ID"
+		'parent_ID' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'backend_options' => array(
+				'key' => 'parent_ID'
 			),
-			"form_field_label" => "Parent page: ",
-			"form_field_type" => false
+			'form_field_label' => 'Parent page: ',
+			'form_field_type' => false
 		),
 
-		"name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required"=> true,
-			"max_len" => 255,
-			"error_messages" => array(
-				DataModel_Validation_Error::CODE_REQUIRED => "Name was not specified"
+		'name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required'=> true,
+			'max_len' => 255,
+			'error_messages' => array(
+				DataModel_Validation_Error::CODE_REQUIRED => 'Name was not specified'
 			),
-			"form_field_label" => "Name: ",
+			'form_field_label' => 'Name: ',
 		),
-		"is_admin_UI" => array(
-			"type" => self::TYPE_BOOL,
-			"form_field_label" => "Is admin UI: ",
+		'is_admin_UI' => array(
+			'type' => self::TYPE_BOOL,
+			'form_field_label' => 'Is admin UI: ',
 		),
-		"force_UI_manager_module_name" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255
+		'force_UI_manager_module_name' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255
 		),
-		"title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "Title:"
+		'title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'Title:'
 		),
-		"menu_title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "Title for menu item:"
+		'menu_title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'Title for menu item:'
 		),
-		"breadcrumb_title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "Title for breadcrumb navigation:"
+		'breadcrumb_title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'Title for breadcrumb navigation:'
 		),
-		"URL_fragment" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "URL fragment:"
+		'URL_fragment' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'URL fragment:'
 		),
-		"URI" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_type" => false,
+		'URI' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_type' => false,
 		),
-		"non_schema_URL" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 2000,
-			"form_field_type" => false,
+		'non_schema_URL' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 2000,
+			'form_field_type' => false,
 		),
-		"non_SSL_URL" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 2000,
-			"form_field_type" => false,
+		'non_SSL_URL' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 2000,
+			'form_field_type' => false,
 		),
-		"SSL_URL" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 2000,
-			"form_field_type" => false,
+		'SSL_URL' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 2000,
+			'form_field_type' => false,
 		),
-		"URLs" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Mvc_Pages_Page_URL_Default",
-			"form_field_type" => false
+		'URLs' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Mvc_Pages_Page_URL_Default',
+			'form_field_type' => false
 		),
-		"layout" => array(
-			"type" => self::TYPE_STRING,
-			"is_required"=> true,
-			"max_len" => 255,
-			"form_field_label" => "Layout: ",
-			"form_field_type" => "Select"
+		'layout' => array(
+			'type' => self::TYPE_STRING,
+			'is_required'=> true,
+			'max_len' => 255,
+			'form_field_label' => 'Layout: ',
+			'form_field_type' => 'Select'
 		),
-		"headers_suffix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
-			"form_field_label" => "Headers suffix:"
+		'headers_suffix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65535,
+			'form_field_label' => 'Headers suffix:'
 		),
-		"body_prefix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
-			"form_field_label" => "Body prefix:"
+		'body_prefix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65535,
+			'form_field_label' => 'Body prefix:'
 		),
-		"body_suffix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65535,
-			"form_field_label" => "Body suffix:"
+		'body_suffix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65535,
+			'form_field_label' => 'Body suffix:'
 		),
-		"meta_tags" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Mvc_Pages_Page_MetaTag_Default",
-			"form_field_type" => false
-		),
-
-		"authentication_required" => array(
-			"type" => self::TYPE_BOOL,
-			"form_field_label" => "Authentication required: "
+		'meta_tags' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Mvc_Pages_Page_MetaTag_Default',
+			'form_field_type' => false
 		),
 
-		"SSL_required" => array(
-			"type" => self::TYPE_BOOL,
-			"form_field_label" => "Secure connection required: "
+		'authentication_required' => array(
+			'type' => self::TYPE_BOOL,
+			'form_field_label' => 'Authentication required: '
 		),
 
-		"contents" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Mvc_Pages_Page_Content_Default",
-			"form_field_type" => false
+		'SSL_required' => array(
+			'type' => self::TYPE_BOOL,
+			'form_field_label' => 'Secure connection required: '
+		),
+
+		'contents' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Mvc_Pages_Page_Content_Default',
+			'form_field_type' => false
 		)
 	);
 
@@ -165,7 +165,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $site_ID = "";
+	protected $site_ID = '';
 
 	/**
 	 *
@@ -177,13 +177,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $parent_ID = "";
+	protected $parent_ID = '';
 
 
 	/**
@@ -191,7 +191,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $name = "";
+	protected $name = '';
 
 	/**
 	 *
@@ -203,38 +203,38 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $force_UI_manager_module_name = "";
+	protected $force_UI_manager_module_name = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $title = "";
+	protected $title = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $menu_title = "";
+	protected $menu_title = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $breadcrumb_title = "";
+	protected $breadcrumb_title = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $URL_fragment = "";
+	protected $URL_fragment = '';
 
 	/**
 	 * Example: /page/
 	 *
 	 * @var string
 	 */
-	protected $URI = "";
+	protected $URI = '';
 
 
 	/**
@@ -242,21 +242,21 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $non_schema_URL = "";
+	protected $non_schema_URL = '';
 
 	/**
 	 * Example: http://domain/page/
 	 *
 	 * @var string
 	 */
-	protected $non_SSL_URL = "";
+	protected $non_SSL_URL = '';
 
 	/**
 	 * Example: https://domain/page/
 	 *
 	 * @var string
 	 */
-	protected $SSL_URL = "";
+	protected $SSL_URL = '';
 
 	/**
 	 *
@@ -268,25 +268,25 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $layout = "";
+	protected $layout = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $headers_suffix = "";
+	protected $headers_suffix = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $body_prefix = "";
+	protected $body_prefix = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $body_suffix = "";
+	protected $body_suffix = '';
 
 	/**
 	 *
@@ -320,7 +320,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * @param string $parent_ID
 	 * @param string $ID
 	 */
-	public function initNew( $site_ID, Locale $locale, $name, $parent_ID="", $ID="" ) {
+	public function initNew( $site_ID, Locale $locale, $name, $parent_ID='', $ID='' ) {
 		parent::initNewObject();
 
 		$this->name = $name;
@@ -509,7 +509,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			});
 		}
 
-		$parent_URI = "";
+		$parent_URI = '';
 
 		$site = $this->getSite();
 
@@ -517,7 +517,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		if( $this->ID!=Mvc_Pages::HOMEPAGE_ID ) {
 			$parent_URI = $this->getParent()->getURI();
 
-			$this->URI = $parent_URI . $this->URL_fragment . "/";
+			$this->URI = $parent_URI . $this->URL_fragment . '/';
 		} else {
 
 			if( ($default_site_URL = $site->getDefaultURL( $this->locale )) ) {
@@ -527,16 +527,16 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			if($parent_URI) {
 				$this->URI = $parent_URI;
 			} else {
-				$this->URI = "/";
+				$this->URI = '/';
 			}
 		}
 
 		/** @noinspection PhpUndefinedMethodInspection */
 		$this->URLs->clearData();
 
-		$this->non_schema_URL = "";
-		$this->non_SSL_URL = "";
-		$this->SSL_URL = "";
+		$this->non_schema_URL = '';
+		$this->non_SSL_URL = '';
+		$this->SSL_URL = '';
 
 		$site_URLs = $site->getURLs( $this->locale );
 
@@ -555,7 +555,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			if($new_URL->getIsDefault()) {
 				if(!$new_URL->getIsSSL()) {
 					$this->non_SSL_URL = (string)$new_URL;
-					$this->non_schema_URL = strstr( $this->non_SSL_URL, "//");
+					$this->non_schema_URL = strstr( $this->non_SSL_URL, '//');
 					if(!$this->SSL_URL) {
 						$this->SSL_URL = (string)$new_URL;
 					}
@@ -586,17 +586,17 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 */
 	public function getUrlFragmentExists( $URL_fragment ) {
 		$q = array(
-			"this.site_ID" => $this->site_ID,
-			"AND",
-			"this.locale" => $this->locale,
-			"AND",
-			"this.parent_ID" => $this->parent_ID,
-			"AND",
-			"this.URL_fragment" => $URL_fragment
+			'this.site_ID' => $this->site_ID,
+			'AND',
+			'this.locale' => $this->locale,
+			'AND',
+			'this.parent_ID' => $this->parent_ID,
+			'AND',
+			'this.URL_fragment' => $URL_fragment
 		);
 		if(!$this->getIsNew()) {
-			$q[] = "AND";
-			$q["this.ID!="] = $this->ID;
+			$q[] = 'AND';
+			$q['this.ID!='] = $this->ID;
 		}
 		return (bool)$this->getBackendInstance()->getCount( DataModel_Query::createQuery( $this, $q) );
 	}
@@ -827,12 +827,12 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 */
 	public function getIDs(  $site_ID, $locale=null ) {
 		$q = array(
-				"this.site_ID" => $site_ID
+				'this.site_ID' => $site_ID
 			);
 
 		if($locale) {
-			$q[] = "AND";
-			$q["this.locale"] = $locale;
+			$q[] = 'AND';
+			$q['this.locale'] = $locale;
 		}
 
 		return $this->fetchObjectIDs( $q );
@@ -846,12 +846,12 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 */
 	public function getList( $site_ID, $locale=null ) {
 		$q = array(
-			"this.site_ID" => $site_ID
+			'this.site_ID' => $site_ID
 		);
 
 		if($locale) {
-			$q[] = "AND";
-			$q["this.locale"] = $locale;
+			$q[] = 'AND';
+			$q['this.locale'] = $locale;
 		}
 
 		return $this->fetchObjects($q);
@@ -866,13 +866,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		if( is_array($URL) ) {
 			$pages = $this->fetchObjects(
 				array(
-					"this.URLs.URL" => $URL,
+					'this.URLs.URL' => $URL,
 				)
 			);
 
 			$query = $pages->getQuery();
 
-			$query->setOrderBy("-this.URLs.URL");
+			$query->setOrderBy('-this.URLs.URL');
 			$query->setLimit(1);
 
 			foreach($pages as $page) {
@@ -884,7 +884,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		} else {
 			return $this->fetchOneObject(
 				array(
-					"this.URLs.URL" => $URL,
+					'this.URLs.URL' => $URL,
 				)
 			);
 
@@ -900,21 +900,21 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @return Data_Tree
 	 */
-	public function getTree( $site_ID, Locale $locale, $admin_UI = null,  $load_properties=array("name"=>"this.name")  ) {
+	public function getTree( $site_ID, Locale $locale, $admin_UI = null,  $load_properties=array('name'=>'this.name')  ) {
 		//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
 
-		$load_properties["ID"] = "this.ID";
-		$load_properties["parent_ID"] = "this.parent_ID";
+		$load_properties['ID'] = 'this.ID';
+		$load_properties['parent_ID'] = 'this.parent_ID';
 
 		$query = array(
-			"this.site_ID" => (string)$site_ID,
-			"AND",
-			"this.locale" => $locale,
+			'this.site_ID' => (string)$site_ID,
+			'AND',
+			'this.locale' => $locale,
 		);
 
 		if(is_bool($admin_UI)) {
-			$query[] = "AND";
-			$query["this.is_admin_UI"] = $admin_UI;
+			$query[] = 'AND';
+			$query['this.is_admin_UI'] = $admin_UI;
 		}
 
 		$data = $this->fetchDataAll(
@@ -936,13 +936,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * @internal param bool $exclude_admin_UI
 	 * @return Data_Tree_Forest
 	 */
-	public function getAllPagesTree( $admin_UI = null,  $only_properties=array("name") ) {
+	public function getAllPagesTree( $admin_UI = null,  $only_properties=array('name') ) {
 		//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
 
-		$only_properties[] = "site_ID";
-		$only_properties[] = "locale";
-		$only_properties[] = "ID";
-		$only_properties[] = "parent_ID";
+		$only_properties[] = 'site_ID';
+		$only_properties[] = 'locale';
+		$only_properties[] = 'ID';
+		$only_properties[] = 'parent_ID';
 
 		$properties = $this->getDataModelDefinition()->getProperties();
 
@@ -953,23 +953,23 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 		}
 
-		$ID_properties = array( "ID","site_ID","locale" );
+		$ID_properties = array( 'ID','site_ID','locale' );
 
 		$forest = new Data_Tree_Forest();
-		$forest->setIDKey("ID");
-		$forest->setLabelKey("name");
+		$forest->setIDKey('ID');
+		$forest->setLabelKey('name');
 
 		foreach( Mvc_Sites::getAllSitesList() as $site ) {
 			foreach($site->getLocales() as $locale) {
 				$query = array(
-					"this.site_ID" => (string)$site->getID(),
-					"AND",
-					"this.locale" => $locale
+					'this.site_ID' => (string)$site->getID(),
+					'AND',
+					'this.locale' => $locale
 				);
 
 				if(is_bool($admin_UI)) {
-					$query[] = "AND";
-					$query["this.is_admin_UI"] = $admin_UI;
+					$query[] = 'AND';
+					$query['this.is_admin_UI'] = $admin_UI;
 				}
 
 
@@ -985,8 +985,8 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 					}
 
 					foreach( $ID_properties as $ID_item ) {
-						if($ID_item=="ID") {
-							$parent_ID["parent_ID"] = (string)$d["parent_ID"];
+						if($ID_item=='ID') {
+							$parent_ID['parent_ID'] = (string)$d['parent_ID'];
 						} else {
 							$parent_ID[$ID_item] = (string)$d[$ID_item];
 						}
@@ -996,11 +996,11 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 						unset($d[$ID_item]);
 					}
 
-					$d["ID"] = implode(":", $ID);
-					if($d["parent_ID"]) {
-						$d["parent_ID"] = implode(":", $parent_ID);
+					$d['ID'] = implode(':', $ID);
+					if($d['parent_ID']) {
+						$d['parent_ID'] = implode(':', $parent_ID);
 					} else {
-						$d["name"] = $site->getName()." - ".$locale;
+						$d['name'] = $site->getName().' - '.$locale;
 					}
 
 					$data[] = $d;
@@ -1022,7 +1022,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 */
 	public function getChildrenIDs() {
 		return $this->fetchObjectIDs( array(
-			"this.parent_ID" => $this->ID,
+			'this.parent_ID' => $this->ID,
 		) );
 	}
 
@@ -1033,11 +1033,11 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 		return $this->fetchObjects(
 			array(
-				"this.parent_ID" => $this->ID,
-				"AND",
-				"this.site_ID" => (string)$this->site_ID,
-				"AND",
-				"this.locale" => $this->locale
+				'this.parent_ID' => $this->ID,
+				'AND',
+				'this.site_ID' => (string)$this->site_ID,
+				'AND',
+				'this.locale' => $this->locale
 			)
 		);
 	}
@@ -1060,7 +1060,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	public function jsonSerialize() {
 		$data = parent::jsonSerialize();
 
-		$data["layouts_list"] = $this->getLayoutsList();
+		$data['layouts_list'] = $this->getLayoutsList();
 
 		return $data;
 	}
@@ -1071,15 +1071,15 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name="" ) {
+	public function getCommonForm( $form_name='' ) {
 		$form = parent::getCommonForm();
 
 		if( $this->ID!=Mvc_Pages::HOMEPAGE_ID ) {
-			$form->getField("URL_fragment")->setIsRequired(true);
+			$form->getField('URL_fragment')->setIsRequired(true);
 		}
 
 		if($this->site_ID) {
-			$form->getField("layout")->setSelectOptions( $this->getLayoutsList() );
+			$form->getField('layout')->setSelectOptions( $this->getLayoutsList() );
 		}
 
 		return $form;
@@ -1090,7 +1090,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * Generates URI fragment:
 	 *
 	 * - replace ' ' by '-'
-	 * - remove "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", ".", "'","/","<",">",";","?","{","}","[","]","|"
+	 * - remove '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', ''','/','<','>',';','?','{','}','[',']','|'
 	 * - apply rawurlencode()
 	 *
 	 * @param string $URI_fragment
@@ -1101,17 +1101,17 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @return string
 	 */
-	public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix="", $remove_accents=false ) {
+	public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=false ) {
 
 		if($remove_accents) {
 			$URI_fragment = Data_Text::removeAccents($URI_fragment);
 		}
 
-		$URI_fragment = str_replace(" ", "-", $URI_fragment);
-		$URI_fragment = preg_replace( "~([-]{2,})~", "-" , $URI_fragment );
+		$URI_fragment = str_replace(' ', '-', $URI_fragment);
+		$URI_fragment = preg_replace( '~([-]{2,})~', '-' , $URI_fragment );
 
-		$replace = array("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", ".", "'","/","<",">",";","?","{","}","[","]","|");
-		$URI_fragment = str_replace($replace, "", $URI_fragment);
+		$replace = array('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'','"' ,'/','<','>',';','?','{','}','[',']','|');
+		$URI_fragment = str_replace($replace, '', $URI_fragment);
 
 		$URI_fragment = rawurlencode($URI_fragment);
 

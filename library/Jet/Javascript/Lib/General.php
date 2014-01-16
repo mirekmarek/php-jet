@@ -44,18 +44,18 @@ class Javascript_Lib_General extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getHTMLSnippet() {
-		$result = "";
+		$result = '';
 
 		foreach( $this->JavaScript_URLs as $URL ) {
-			$result .= "<script type=\"text/javascript\" src=\"{$URL}\"></script>\n";
+			$result .= '<script type="text/javascript" src="'.$URL.'"></script>'.JET_EOL;
 
 		}
 
-		$result .= '<script type="text/javascript" charset="utf-8">' . "\n";
+		$result .= '<script type="text/javascript" charset="utf-8">'.JET_EOL;
 		foreach( $this->JavaScript_code as $code ) {
-			$result .= $code . "\n\n";
+			$result .= $code.JET_EOL.JET_EOL;
 		}
-		$result .= '</script>';
+		$result .= '</script>'.JET_EOL;
 
 		return $result;
 	}
@@ -66,7 +66,7 @@ class Javascript_Lib_General extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getVersionNumber() {
-		return "unknown";
+		return 'unknown';
 	}
 
 	/**

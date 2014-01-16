@@ -58,7 +58,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 
 		if(!$query instanceof DataModel_Query) {
 			throw new DataModel_Query_Exception(
-				"Query must be an instance of DataModel_Query (or valid query as array) " ,
+				'Query must be an instance of DataModel_Query (or valid query as array) ' ,
 				DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}

@@ -23,46 +23,46 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	/**
 	 * @var null|string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Db_Connection_Config_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Db_Connection_Config_Abstract';
 
 	/**
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"name" => array(
-			"form_field_label" => "Connection name",
-			"type" => self::TYPE_STRING,
-			"default_value" => "default",
-			"is_required" => true
+		'name' => array(
+			'form_field_label' => 'Connection name',
+			'type' => self::TYPE_STRING,
+			'default_value' => 'default',
+			'is_required' => true
 		),
-		"driver" => array(
-			"form_field_label" => "Driver",
-			"type" => self::TYPE_STRING,
-			"description" => "PDO driver",
-			"default_value" => "mysql",
-			"is_required" => true,
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Db_Connection_Config_PDO", "getPDODrivers"),
+		'driver' => array(
+			'form_field_label' => 'Driver',
+			'type' => self::TYPE_STRING,
+			'description' => 'PDO driver',
+			'default_value' => 'mysql',
+			'is_required' => true,
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Db_Connection_Config_PDO', 'getPDODrivers'),
 		),
-		"DSN" => array(
-			"form_field_label" => "DSN",
-			"type" => self::TYPE_STRING,
-			"default_value" => "",
-			"is_required" => true
-		),
-
-		"username" => array(
-			"form_field_label" => "Username",
-			"type" => self::TYPE_STRING,
-			"default_value" => null,
-			"is_required" => false
+		'DSN' => array(
+			'form_field_label' => 'DSN',
+			'type' => self::TYPE_STRING,
+			'default_value' => '',
+			'is_required' => true
 		),
 
-		"password" => array(
-			"form_field_label" => "Password",
-			"type" => self::TYPE_STRING,
-			"default_value" => null,
-			"is_required" => false
+		'username' => array(
+			'form_field_label' => 'Username',
+			'type' => self::TYPE_STRING,
+			'default_value' => null,
+			'is_required' => false
+		),
+
+		'password' => array(
+			'form_field_label' => 'Password',
+			'type' => self::TYPE_STRING,
+			'default_value' => null,
+			'is_required' => false
 		)
 	);
 
@@ -137,6 +137,6 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	 * @return string
 	 */
 	public function getDsn() {
-		return $this->driver.":".$this->DSN;
+		return $this->driver.':'.$this->DSN;
 	}
 }

@@ -20,15 +20,15 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getPageInstance";
+	protected static $__factory_class_method = 'getPageInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Pages_Page_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Pages_Page_Abstract';
 
 	/**
 	 * @var bool
@@ -149,7 +149,7 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	 *
 	 * @return string
 	 */
-	abstract public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix="", $remove_accents=false );
+	abstract public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=false );
 
 	/**
 	 *
@@ -330,7 +330,7 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	 *
 	 * @return Data_Tree
 	 */
-	abstract public function getTree( $site_ID, Locale $locale, $admin_UI = null,  $load_properties=array("name"=>"this.name")  );
+	abstract public function getTree( $site_ID, Locale $locale, $admin_UI = null,  $load_properties=array('name'=>'this.name')  );
 
 	/**
 	 *
@@ -340,7 +340,7 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	 * @internal param bool $exclude_admin_UI
 	 * @return Data_Tree_Forest
 	 */
-	abstract public function getAllPagesTree( $admin_UI = null,  $only_properties=array("name") );
+	abstract public function getAllPagesTree( $admin_UI = null,  $only_properties=array('name') );
 
 	/**
 	 * @return DataModel_Fetch_Object_IDs

@@ -17,9 +17,9 @@
 namespace Jet;
 
 class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
-	const PAGES_SUB_DIR = "pages/";
-	const PAGES_STRUCTURE_DATA_FILE = "__structure__.php";
-	const PAGES_DATA_FILE_SUFFIX = "php";
+	const PAGES_SUB_DIR = 'pages/';
+	const PAGES_STRUCTURE_DATA_FILE = '__structure__.php';
+	const PAGES_DATA_FILE_SUFFIX = 'php';
 
 
 	/**
@@ -35,7 +35,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $current_pages_data_dir = "";
+	protected $current_pages_data_dir = '';
 
 	/**
 	 * @var array
@@ -108,32 +108,32 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	protected function initCurrentSiteAndLocale( $site_ID, Locale $locale ) {
 		$this->current_site = null;
 		$this->current_locale = null;
-		$this->current_pages_data_dir = "";
+		$this->current_pages_data_dir = '';
 		$this->current_page_IDs = array();
 		$this->current_page_instsances = array();
 
 		$site = Mvc_Sites::getSite( Mvc_Factory::getSiteIDInstance()->createID( $site_ID ) );
 		if(!$site) {
 			throw new Mvc_Pages_Handler_Exception(
-				"Unknown site '{$site_ID}'",
+				'Unknown site \''.$site_ID.'\'',
 				Mvc_Pages_Handler_Exception::CODE_UNKNOWN_SITE
 			);
 		}
 
 		if(!$site->getHasLocale( $locale )) {
 			throw new Mvc_Pages_Handler_Exception(
-				"Unknown site locale '{$site_ID}:{$locale}'",
+				'Unknown site locale \''.$site_ID.':'.$locale.'\'',
 				Mvc_Pages_Handler_Exception::CODE_UNKNOWN_SITE
 			);
 		}
 
 		$locale_dir = $site->getBasePath()
 			.static::PAGES_SUB_DIR
-			.(string)$locale."/";
+			.(string)$locale.'/';
 
 		$default_dir = $site->getBasePath()
 			.static::PAGES_SUB_DIR
-			."_default_/";
+			.'_default_/';
 
 		if(!is_dir($locale_dir)) {
 			$data_dir = $default_dir;
@@ -143,7 +143,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		if(!is_dir($data_dir)) {
 			throw new Mvc_Pages_Handler_Exception(
-				"Directory '$default_dir' as well as '$locale_dir' does not exist.",
+				'Directory \''.$default_dir.'\' as well as \''.$locale_dir.'\' does not exist.',
 				Mvc_Pages_Handler_Exception::CODE_HANDLER_ERROR
 			);
 		}
@@ -154,14 +154,14 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		if( !file_exists( $structure_tree_file_path ) ) {
 			throw new Mvc_Pages_Handler_Exception(
-				"File '$structure_tree_file_path' does not exist. ",
+				'File \''.$structure_tree_file_path.'\' does not exist. ',
 				Mvc_Pages_Handler_Exception::CODE_HANDLER_ERROR
 			);
 		}
 
 		if( !is_readable( $structure_tree_file_path ) ) {
 			throw new Mvc_Pages_Handler_Exception(
-				"File '$structure_tree_file_path' is not readable. ",
+				'File \''.$structure_tree_file_path.'\' is not readable. ',
 				Mvc_Pages_Handler_Exception::CODE_HANDLER_ERROR
 			);
 		}
@@ -189,13 +189,13 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		$this->initCurrentSiteAndLocale( $site_ID, $locale );
 
-		echo "[{$site_ID}:{$locale}] Checking pages ...\n";
+		echo '['.$site_ID.':'.$locale.'] Checking pages ...'.JET_EOL;
 
 		$this->_readAndCheckPageData( null, Mvc_Pages::HOMEPAGE_ID );
 
 		$this->_traversePagesTree( Mvc_Pages::HOMEPAGE_ID, false );
 
-		echo "OK\n\n";
+		echo 'OK'.JET_EOL.JET_EOL;
 	}
 
 
@@ -212,19 +212,19 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		$this->initCurrentSiteAndLocale( $site_ID, $locale );
 
-		echo "[{$site_ID}:{$locale}] Deleting pages ...";
+		echo '['.$site_ID.':'.$locale.'] Deleting pages ...';
 		$this->dropPages( $site_ID, $locale );
-		echo "DONE\n";
+		echo 'DONE'.JET_EOL;
 
 
-		echo "[{$site_ID}:{$locale}] Creating pages ...\n";
+		echo '['.$site_ID.':'.$locale.'] Creating pages ...'.JET_EOL;
 
 		$page = $this->_readAndCheckPageData( null, Mvc_Pages::HOMEPAGE_ID );
 		$page->save();
 
 		$this->_traversePagesTree( Mvc_Pages::HOMEPAGE_ID, true );
 
-		echo "DONE\n";
+		echo 'DONE'.JET_EOL;
 		Mvc::truncateRouterCache();
 	}
 
@@ -269,16 +269,16 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 			$parent_ID,
 			$ID
 	) {
-		echo "[".$this->current_site->getID().":".$this->current_locale."] ";
+		echo '['.$this->current_site->getID().':'.$this->current_locale.'] ';
 		if( $this->current_site->getID()==Mvc_Pages::HOMEPAGE_ID ) {
-			echo "{$ID}\n";
+			echo $ID.JET_EOL;
 		} else {
-			echo "{$parent_ID} => {$ID}\n";
+			echo $parent_ID.' => '.$ID.JET_EOL;
 		}
 
 		if(in_array($ID, $this->current_page_IDs)) {
 			throw new Mvc_Pages_Handler_Exception(
-				"Page ID '{$ID}' is not unique!",
+				'Page ID \''.$ID.'\' is not unique!',
 				Mvc_Pages_Handler_Exception::CODE_PAGE_ID_NOT_UNIQUE
 			);
 		}
@@ -289,14 +289,14 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		if(!IO_File::exists($data_file_path)) {
 			throw new Mvc_Pages_Handler_Exception(
-					"Page data file '{$data_file_path}' does not exist!",
+					'Page data file \''.$data_file_path.'\' does not exist!',
 					Mvc_Pages_Handler_Exception::CODE_HANDLER_ERROR
 				);
 		}
 
 		if(!IO_File::isReadable($data_file_path)) {
 			throw new Mvc_Pages_Handler_Exception(
-				"Page data file '{$data_file_path}' exists, but is not readable!",
+				'Page data file \''.$data_file_path.'\' exists, but is not readable!',
 				Mvc_Pages_Handler_Exception::CODE_HANDLER_ERROR
 			);
 		}
@@ -308,8 +308,8 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$site_ID = $this->current_site->getID();
 		$locale = $this->current_locale;
 
-		$name = !empty($data["name"]) ? $data["name"] : $ID;
-		$dat["name"] = $name;
+		$name = !empty($data['name']) ? $data['name'] : $ID;
+		$dat['name'] = $name;
 
 
 		$page = Mvc_Pages::getNewPage($site_ID, $locale, $name, $parent_ID, $ID);
@@ -321,25 +321,25 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		//$page->setName($name);
 
-		if(!isset($dat["breadcrumb_title"])) {
-			$dat["breadcrumb_title"] = $dat["title"];
+		if(!isset($dat['breadcrumb_title'])) {
+			$dat['breadcrumb_title'] = $dat['title'];
 		}
-		if(!isset($dat["menu_title"])) {
-			$dat["menu_title"] = $dat["title"];
+		if(!isset($dat['menu_title'])) {
+			$dat['menu_title'] = $dat['title'];
 		}
 
 
-		$dat["ID"] = $ID;
-		$dat["site_ID"] = $site_ID;
-		$dat["locale"] = $locale;
+		$dat['ID'] = $ID;
+		$dat['site_ID'] = $site_ID;
+		$dat['locale'] = $locale;
 
 		foreach( $page_form->getFields() as $field_name=>$field ) {
 			if(!isset($dat[$field_name])) {
-				$dat[$field_name] = "";
+				$dat[$field_name] = '';
 			}
 		}
 
-		$page_form->getField("layout")->setSelectOptions( array( $dat["layout"]=>$dat["layout"] ) );
+		$page_form->getField('layout')->setSelectOptions( array( $dat['layout']=>$dat['layout'] ) );
 
 
 		if(!$page->catchForm( $page_form, $dat, true )) {
@@ -351,25 +351,25 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$content_form = Mvc_Factory::getPageContentInstance()->getCommonForm();
 
 		$contents = array();
-		foreach( $dat["contents"]  as $c_dat) {
+		foreach( $dat['contents']  as $c_dat) {
 
 			foreach( $content_form->getFields() as $field_name=>$field ) {
 				if(!isset($c_dat[$field_name])) {
-					$c_dat[$field_name] = "";
+					$c_dat[$field_name] = '';
 				}
 			}
 
-			if(!isset($c_dat["controller_action_parameters"])) {
-				$c_dat["controller_action_parameters"] = array();
+			if(!isset($c_dat['controller_action_parameters'])) {
+				$c_dat['controller_action_parameters'] = array();
 			}
 
-			if(!is_array($c_dat["controller_action_parameters"]) && $c_dat["controller_action_parameters"]) {
-				$c_dat["controller_action_parameters"] = array( $c_dat["controller_action_parameters"] );
+			if(!is_array($c_dat['controller_action_parameters']) && $c_dat['controller_action_parameters']) {
+				$c_dat['controller_action_parameters'] = array( $c_dat['controller_action_parameters'] );
 			} else {
-				$c_dat["controller_action_parameters"] = array();
+				$c_dat['controller_action_parameters'] = array();
 			}
 
-			$content_form->getField("controller_action_parameters")->setSelectOptions( array_combine($c_dat["controller_action_parameters"], $c_dat["controller_action_parameters"]) );
+			$content_form->getField('controller_action_parameters')->setSelectOptions( array_combine($c_dat['controller_action_parameters'], $c_dat['controller_action_parameters']) );
 
 
 			$cnt = Mvc_Factory::getPageContentInstance();
@@ -383,12 +383,12 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		}
 
 		$meta_tags = array();
-		$meta_tag_form = Mvc_Factory::getPageMetaTagInstance()->getCommonForm("");
+		$meta_tag_form = Mvc_Factory::getPageMetaTagInstance()->getCommonForm('');
 
-		foreach( $dat["meta_tags"]  as $m_dat) {
+		foreach( $dat['meta_tags']  as $m_dat) {
 			foreach( $meta_tag_form->getFields() as $field_name=>$field ) {
 				if(!isset($m_dat[$field_name])) {
-					$m_dat[$field_name] = "";
+					$m_dat[$field_name] = '';
 				}
 			}
 
@@ -426,7 +426,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$_errors = array();
 		foreach($errors as $key=>$error) {
 			if(is_string($key)) {
-				$_errors[] = "{$key}: ".(string)$error;
+				$_errors[] = $key.': '.(string)$error;
 
 			} else {
 				$_errors[] = (string)$error;
@@ -434,12 +434,12 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 			}
 		}
 
-		$_errors = implode("\n", $_errors);
+		$_errors = implode(JET_EOL, $_errors);
 
 		$site_ID = $this->current_site->getID();
 
 		throw new Mvc_Pages_Handler_Exception(
-			"Page data ID={$page_ID}, locale={$this->current_locale}, site_ID={$site_ID} is invalid!\n\nValidation errors:\n".$_errors,
+			'Page data ID='.$page_ID.', locale='.$this->current_locale.', site_ID='.$site_ID.' is invalid!'.JET_EOL.JET_EOL.'Validation errors:'.JET_EOL.$_errors,
 			Mvc_Pages_Handler_Exception::CODE_PAGE_DATA_VALIDATION_ERROR
 		);
 	}

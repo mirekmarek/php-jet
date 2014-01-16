@@ -17,7 +17,7 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $HTML_bg_color = "#c9ffc9";
+	protected $HTML_bg_color = '#c9ffc9';
 
 	/**
 	 * @var bool

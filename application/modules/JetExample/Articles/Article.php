@@ -20,66 +20,66 @@ use Jet;
 
 class Article extends Jet\DataModel {
 
-	protected static $__data_model_model_name = "Jet_Article";
+	protected static $__data_model_model_name = 'Jet_Article';
 
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"locale" => array(
-			"type" => self::TYPE_LOCALE,
-			"is_required" => true,
-			"form_field_label" => "Locale:",
-			"form_field_get_select_options_callback" => array("Jet\Mvc", "getAllSitesLocalesList")
+		'locale' => array(
+			'type' => self::TYPE_LOCALE,
+			'is_required' => true,
+			'form_field_label' => 'Locale:',
+			'form_field_get_select_options_callback' => array('Jet\Mvc', 'getAllSitesLocalesList')
 		),
-		"URI_fragment" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"is_required" => true,
-			"form_field_type" => false,
-			"backend_options" => array(
-				"key" => true,
-				"key_type" => self::KEY_TYPE_INDEX
+		'URI_fragment' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'is_required' => true,
+			'form_field_type' => false,
+			'backend_options' => array(
+				'key' => true,
+				'key_type' => self::KEY_TYPE_INDEX
 			)
 		),
-		"title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_required" => true,
-			"form_field_label" => "Title: ",
+		'title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_required' => true,
+			'form_field_label' => 'Title: ',
 		),
-		"annotation" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536,
-			"form_field_label" => "Annotation:"
+		'annotation' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536,
+			'form_field_label' => 'Annotation:'
 		),
-		"text" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 655360,
-			"form_field_label" => "Text:",
-			"form_field_type" => "WYSIWYG"
+		'text' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 655360,
+			'form_field_label' => 'Text:',
+			'form_field_type' => 'WYSIWYG'
 		),
-		"date_time" => array(
-			"type" => self::TYPE_DATE_TIME,
-			"form_field_label" => "Date and time:"
+		'date_time' => array(
+			'type' => self::TYPE_DATE_TIME,
+			'form_field_label' => 'Date and time:'
 		),
-		"tags" => array(
-			"type" => self::TYPE_STRING,
-			"form_field_label" => "Tags: ",
-			"max_len" => 65536,
+		'tags' => array(
+			'type' => self::TYPE_STRING,
+			'form_field_label' => 'Tags: ',
+			'max_len' => 65536,
 		)
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $tags = "";
+	protected $tags = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * @var Jet\Locale
@@ -89,22 +89,22 @@ class Article extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $URI_fragment = "";
+	protected $URI_fragment = '';
 
 	/**
 	 * @var string
 	 */
-	protected $title = "";
+	protected $title = '';
 
 	/**
 	 * @var string
 	 */
-	protected $annotation = "";
+	protected $annotation = '';
 
 	/**
 	 * @var string
 	 */
-	protected $text = "";
+	protected $text = '';
 
 	/**
 	 * @var Jet\DateTime
@@ -147,7 +147,7 @@ class Article extends Jet\DataModel {
 
 		$this->URI_fragment = Jet\Mvc_Factory::getPageInstance()->generateURLfragment($this->title, function( $URI_fragment ) use ( $article_i ) {
 			return $article_i->getURIfragmentExists( $URI_fragment );
-		}, ".html");
+		}, '.html');
 	}
 
 	/**
@@ -159,13 +159,13 @@ class Article extends Jet\DataModel {
 	public function getURIfragmentExists( $URI_fragment ) {
 		if($this->getIsNew()) {
 			$q = array(
-				"this.URI_fragment" => $URI_fragment
+				'this.URI_fragment' => $URI_fragment
 			);
 		} else {
 			$q = array(
-				"this.URI_fragment" => $URI_fragment,
-				"AND",
-				"this.ID!=" => $this->ID
+				'this.URI_fragment' => $URI_fragment,
+				'AND',
+				'this.ID!=' => $this->ID
 			);
 		}
 		return (bool)$this->getBackendInstance()->getCount( Jet\DataModel_Query::createQuery( $this, $q) );
@@ -281,9 +281,9 @@ class Article extends Jet\DataModel {
 	 */
 	public function getListForCurrentLocale() {
 		$list = $this->fetchObjects(array(
-			"this.locale" => Jet\Mvc::getCurrentLocale()
+			'this.locale' => Jet\Mvc::getCurrentLocale()
 		));
-		$list->getQuery()->setOrderBy("-date_time");
+		$list->getQuery()->setOrderBy('-date_time');
 
 		return $list;
 	}
@@ -297,10 +297,10 @@ class Article extends Jet\DataModel {
 		$current_article = null;
 		$param = $router->getPathFragments();
 
-		if(isset($param[0]) && substr($param[0], -5)==".html" ) {
+		if(isset($param[0]) && substr($param[0], -5)=='.html' ) {
 			//$ID = substr($param[0], 0, -5);
 			$current_article = $this->fetchOneObject( array(
-				"this.URI_fragment" => 	$param[0]
+				'this.URI_fragment' => 	$param[0]
 			) );
 
 			if($current_article) {

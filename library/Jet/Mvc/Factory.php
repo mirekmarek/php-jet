@@ -19,31 +19,31 @@ namespace Jet;
 
 class Mvc_Factory extends Factory {
 
-	const DEFAULT_ROUTER_CLASS = "Jet\\Mvc_Router_Default";
-	const DEFAULT_ROUTER_CONFIG_CLASS = "Jet\\Mvc_Router_Config_Default";
+	const DEFAULT_ROUTER_CLASS = 'Jet\\Mvc_Router_Default';
+	const DEFAULT_ROUTER_CONFIG_CLASS = 'Jet\\Mvc_Router_Config_Default';
 
 	/**
 	 * @var string
 	 */
-	protected static $router_cache_backend_class_name_prefix = "Jet\\Mvc_Router_Cache_Backend_";
+	protected static $router_cache_backend_class_name_prefix = 'Jet\\Mvc_Router_Cache_Backend_';
 
-	const DEFAULT_DISPATCHER_CLASS = "Jet\\Mvc_Dispatcher_Default";
+	const DEFAULT_DISPATCHER_CLASS = 'Jet\\Mvc_Dispatcher_Default';
 
-	const DEFAULT_PAGE_HANDLER_CLASS = "Jet\\Mvc_Pages_Handler_Default";
-	const DEFAULT_PAGE_CLASS = "Jet\\Mvc_Pages_Page_Default";
-	const DEFAULT_PAGE_META_TAG_CLASS = "Jet\\Mvc_Pages_Page_MetaTag_Default";
-	const DEFAULT_PAGE_CONTENT_CLASS = "Jet\\Mvc_Pages_Page_Content_Default";
-	const DEFAULT_PAGE_URL_CLASS = "Jet\\Mvc_Pages_Page_URL_Default";
+	const DEFAULT_PAGE_HANDLER_CLASS = 'Jet\\Mvc_Pages_Handler_Default';
+	const DEFAULT_PAGE_CLASS = 'Jet\\Mvc_Pages_Page_Default';
+	const DEFAULT_PAGE_META_TAG_CLASS = 'Jet\\Mvc_Pages_Page_MetaTag_Default';
+	const DEFAULT_PAGE_CONTENT_CLASS = 'Jet\\Mvc_Pages_Page_Content_Default';
+	const DEFAULT_PAGE_URL_CLASS = 'Jet\\Mvc_Pages_Page_URL_Default';
 
-	const DEFAULT_SITE_HANDLER_CLASS = "Jet\\Mvc_Sites_Handler_Default";
-	const DEFAULT_SITE_CLASS = "Jet\\Mvc_Sites_Site_Default";
-	const DEFAULT_LOCALIZED_SITE_CLASS = "Jet\\Mvc_Sites_Site_LocalizedData_Default";
-	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = "Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default";
-	const DEFAULT_LOCALIZED_SITE_URL_CLASS = "Jet\\Mvc_Sites_Site_LocalizedData_URL_Default";
+	const DEFAULT_SITE_HANDLER_CLASS = 'Jet\\Mvc_Sites_Handler_Default';
+	const DEFAULT_SITE_CLASS = 'Jet\\Mvc_Sites_Site_Default';
+	const DEFAULT_LOCALIZED_SITE_CLASS = 'Jet\\Mvc_Sites_Site_LocalizedData_Default';
+	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default';
+	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Default';
 
-	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = "Jet\\Mvc_NavigationData_Breadcrumb_Default";
-	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = "Jet\\Mvc_NavigationData_Menu_Default";
-	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = "Jet\\Mvc_NavigationData_Menu_Item_Default";
+	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = 'Jet\\Mvc_NavigationData_Breadcrumb_Default';
+	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = 'Jet\\Mvc_NavigationData_Menu_Default';
+	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = 'Jet\\Mvc_NavigationData_Menu_Item_Default';
 
 	/**
 	 * @param string $router_cache_backend_class_name_prefix
@@ -348,7 +348,7 @@ class Mvc_Factory extends Factory {
 	 * @return Mvc_Router_Cache_Backend_Config_Abstract
 	 */
 	public static function getRouterCacheBackendConfigInstance( $backend_type, $soft_mode=false ) {
-		$default_class_name =  static::$router_cache_backend_class_name_prefix.$backend_type."_Config";
+		$default_class_name =  static::$router_cache_backend_class_name_prefix.$backend_type.'_Config';
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);

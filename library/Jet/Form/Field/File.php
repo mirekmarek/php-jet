@@ -24,7 +24,7 @@ class Form_Field_File extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "File";
+	protected $_type = 'File';
 
 	/**
 	 * @var bool
@@ -35,10 +35,10 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = array(
-		"input_missing" => "input_missing",
-		"empty" => "empty",
-		"file_is_too_large" => "file_is_too_large",
-		"disallowed_file_type" => "disallowed_file_type"
+		'input_missing' => 'input_missing',
+		'empty' => 'empty',
+		'file_is_too_large' => 'file_is_too_large',
+		'disallowed_file_type' => 'disallowed_file_type'
 	);
 
 	/**
@@ -92,7 +92,7 @@ class Form_Field_File extends Form_Field_Abstract {
 
 		if($this->_has_value) {
 			$this->_value_raw = $_FILES[$this->_name];
-			$this->_value = $_FILES[$this->_name]["tmp_name"];
+			$this->_value = $_FILES[$this->_name]['tmp_name'];
 		} else {
 			$this->_value_raw = null;
 		}
@@ -107,7 +107,7 @@ class Form_Field_File extends Form_Field_Abstract {
 		if($this->maximal_file_size) {
 			$file_size = IO_File::getSize( $this->_value );
 			if( $file_size>$this->maximal_file_size ) {
-				$this->setValueError("file_is_too_large");
+				$this->setValueError('file_is_too_large');
 
 				return false;
 			}
@@ -118,7 +118,7 @@ class Form_Field_File extends Form_Field_Abstract {
 				IO_File::getMimeType( $this->_value ),
 				$this->allowed_mime_types
 			)) {
-				$this->setValueError("disallowed_file_type");
+				$this->setValueError('disallowed_file_type');
 
 				return false;
 			}
@@ -136,12 +136,12 @@ class Form_Field_File extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID() );
-		$tag_data->setProperty( "type", "file" );
-		$tag_data->setProperty( "value", $this->getValue() );
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', 'file' );
+		$tag_data->setProperty( 'value', $this->getValue() );
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
 

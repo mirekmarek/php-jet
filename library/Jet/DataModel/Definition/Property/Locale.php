@@ -28,7 +28,7 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Select";
+	protected $form_field_type = 'Select';
 
 	/**
 	 * @param mixed $value

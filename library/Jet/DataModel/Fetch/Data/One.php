@@ -18,5 +18,5 @@ class DataModel_Fetch_Data_One extends DataModel_Fetch_Data_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $backend_fetch_method = "fetchOne";
+	protected $backend_fetch_method = 'fetchOne';
 }

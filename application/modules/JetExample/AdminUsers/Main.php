@@ -19,9 +19,9 @@ use Jet;
 
 class Main extends Jet\Application_Modules_Module_Abstract {
 	protected $ACL_actions = array(
-		"get_user" => "Get user(s) data",
-		"add_user" => "Add new user",
-		"update_user" => "Update user",
-		"delete_user" => "Delete user",
+		'get_user' => 'Get user(s) data',
+		'add_user' => 'Add new user',
+		'update_user' => 'Update user',
+		'delete_user' => 'Delete user',
 	);
 }

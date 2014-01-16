@@ -21,8 +21,8 @@ use Jet;
 
 class Main extends Jet\Auth_ManagerModule_Abstract {
 	protected static $__signals = array(
-		"/user/login",
-		"/user/logout",
+		'/user/login',
+		'/user/logout',
 	);
 
 	/**
@@ -33,13 +33,13 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	protected $available_privileges = array(
 
 		Jet\Auth::PRIVILEGE_VISIT_PAGE => array(
-			"label" => "Sites and pages",
-			"get_available_values_list_method_name" => "getAclActionValuesList_Pages"
+			'label' => 'Sites and pages',
+			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
 		),
 
 		Jet\Auth::PRIVILEGE_MODULE_ACTION => array(
-			"label" => "Modules and actions",
-			"get_available_values_list_method_name" => "getAclActionValuesList_ModulesActions"
+			'label' => 'Modules and actions',
+			'get_available_values_list_method_name' => 'getAclActionValuesList_ModulesActions'
 		)
 
 	);
@@ -119,24 +119,24 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 
 		$queue = new Jet\Mvc_Dispatcher_Queue();
 
-		$action = "login";
+		$action = 'login';
 
 		$user = $this->getCurrentUser();
 
 		if($user) {
 			if(!$user->getIsActivated()) {
-				$action = "isNotActivated";
+				$action = 'isNotActivated';
 			} else
 				if($user->getIsBlocked()) {
-					$action = "isBlocked";
+					$action = 'isBlocked';
 				} else
 					if(!$user->getPasswordIsValid()) {
-						$action = "mustChangePassword";
+						$action = 'mustChangePassword';
 					}
 		}
 
 		$queue->addItem(
-			new Jet\Mvc_Dispatcher_Queue_Item( $this->module_info->getName(), "", $action )
+			new Jet\Mvc_Dispatcher_Queue_Item( $this->module_info->getName(), '', $action )
 		);
 
 		return $queue;
@@ -149,7 +149,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * @return Jet\Mvc_Layout
 	 */
 	function initializeLayout() {
-		$layout = new Jet\Mvc_Layout( $this->module_info->getLayoutsDir(), "default" );
+		$layout = new Jet\Mvc_Layout( $this->module_info->getLayoutsDir(), 'default' );
 		$layout->setRouter($this->router);
 
 		return $layout;
@@ -160,9 +160,9 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 */
 	protected function getSession() {
 		if( Jet\Mvc::getIsAdminUIRequest() ) {
-			return new Jet\Session("auth_admin");
+			return new Jet\Session('auth_admin');
 		} else {
-			return new Jet\Session("auth_web");
+			return new Jet\Session('auth_web');
 		}
 
 	}
@@ -183,11 +183,11 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 		}
 
 		$session = $this->getSession();
-		$session->setValue( "user_ID", $user->getID() );
+		$session->setValue( 'user_ID', $user->getID() );
 
 		$this->current_user = $user;
 
-		$this->sendSignal("/user/login");
+		$this->sendSignal('/user/login');
 
 		return true;
 	}
@@ -196,7 +196,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * Logout current user
 	 */
 	public function logout() {
-		$this->sendSignal("/user/logout");
+		$this->sendSignal('/user/logout');
 
 		Jet\Session::destroy();
 		$this->current_user = null;
@@ -215,7 +215,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 
 		$session = $this->getSession();
 
-		$user_ID = $session->getValue( "user_ID", null );
+		$user_ID = $session->getValue( 'user_ID', null );
 		if(!$user_ID) {
 			$this->current_user = false;
 			return null;
@@ -262,8 +262,8 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 				$user_ID = (string)$c_user->getID();
 				$user_login = $c_user->getLogin();
 			} else {
-				$user_ID = "";
-				$user_login = "";
+				$user_ID = '';
+				$user_login = '';
 			}
 
 		}
@@ -287,16 +287,16 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * @return Jet\Form
 	 */
 	function getLoginForm() {
-		$form = new Jet\Form("login", array(
-			Jet\Form_Factory::field("Input", "login", "User name: "),
-			Jet\Form_Factory::field("Password", "password", "Password:")
+		$form = new Jet\Form('login', array(
+			Jet\Form_Factory::field('Input', 'login', 'User name: '),
+			Jet\Form_Factory::field('Password', 'password', 'Password:')
 		));
 
-		$form->getField("login")->setIsRequired( true );
+		$form->getField('login')->setIsRequired( true );
 		/**
 		 * @var Jet\Form_Field_Password $password
 		 */
-		$password = $form->getField("password");
+		$password = $form->getField('password');
 		$password->setDisableCheck( true );
 		$password->setIsRequired( true );
 
@@ -307,11 +307,11 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * @return \Jet\Form
 	 */
 	function getChangePasswordForm() {
-		$form = new Jet\Form("login", array(
-			Jet\Form_Factory::field("Password", "password", "Password")
+		$form = new Jet\Form('login', array(
+			Jet\Form_Factory::field('Password', 'password', 'Password')
 		));
 
-		$form->getField("password")->setIsRequired( true );
+		$form->getField('password')->setIsRequired( true );
 
 		return $form;
 	}
@@ -330,10 +330,10 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			$available_values_list = null;
 
 			if($get_available_values_list) {
-				$available_values_list = $this->{$d["get_available_values_list_method_name"]}();
+				$available_values_list = $this->{$d['get_available_values_list_method_name']}();
 			}
 
-			$item = new Jet\Auth_Role_Privilege_AvailablePrivilegesListItem( $privilege, $d["label"], $available_values_list );
+			$item = new Jet\Auth_Role_Privilege_AvailablePrivilegesListItem( $privilege, $d['label'], $available_values_list );
 
 			$data[$privilege] = $item;
 		}
@@ -353,7 +353,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			return false;
 		}
 
-		$method = $this->available_privileges[$privilege]["get_available_values_list_method_name"];
+		$method = $this->available_privileges[$privilege]['get_available_values_list_method_name'];
 
 		return $this->{$method}();
 	}
@@ -365,8 +365,8 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 */
 	public function getAclActionValuesList_ModulesActions() {
 		$forest = new Jet\Data_Tree_Forest();
-		$forest->setLabelKey("name");
-		$forest->setIDKey("ID");
+		$forest->setLabelKey('name');
+		$forest->setIDKey('ID');
 
 		$modules = Jet\Application_Modules::getActivatedModulesList();
 
@@ -384,17 +384,17 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 			$data = array();
 
 			$data[] = array(
-				"ID" => $module_name,
-				"parent_ID" => "",
-				"name" => $module_info->getLabel()." ({$module_name})"
+				'ID' => $module_name,
+				'parent_ID' => '',
+				'name' => $module_info->getLabel().' ('.$module_name.')'
 			);
 
 
 			foreach($actions as $action=>$action_description) {
 				$data[] = array(
-					"ID" => $module_name.":".$action,
-					"parent_ID" => $module_name,
-					"name" => $action_description
+					'ID' => $module_name.':'.$action,
+					'parent_ID' => $module_name,
+					'name' => $action_description
 				);
 			}
 

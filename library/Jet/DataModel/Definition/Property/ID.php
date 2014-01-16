@@ -33,7 +33,7 @@ class DataModel_Definition_Property_ID extends DataModel_Definition_Property_Abs
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Hidden";
+	protected $form_field_type = 'Hidden';
 
 	/**
 	 * Do nothing

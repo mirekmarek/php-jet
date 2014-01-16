@@ -22,7 +22,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "/js_libs/Dojo";
+	protected static $__config_data_path = '/js_libs/Dojo';
 	/**
 	 * @var bool
 	 */
@@ -32,51 +32,51 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"version" => array(
-			"form_field_label" => "Dojo version",
-			"type" => self::TYPE_STRING,
-			"default_value" => "1.8.0",
-			"is_required" => false
+		'version' => array(
+			'form_field_label' => 'Dojo version',
+			'type' => self::TYPE_STRING,
+			'default_value' => '1.8.0',
+			'is_required' => false
 		),
 
-		"default_theme" => array(
-			"form_field_label" => "Dijit theme",
-			"type" => self::TYPE_STRING,
-			"validation_regexp" => "/^[a-zA-Z0-9_\-]+$/",
-			"default_value" => "claro",
-			"is_required" => false
+		'default_theme' => array(
+			'form_field_label' => 'Dijit theme',
+			'type' => self::TYPE_STRING,
+			'validation_regexp' => '/^[a-zA-Z0-9_\-]+$/',
+			'default_value' => 'claro',
+			'is_required' => false
 		),
 
-		"dojo_js_URI" => array(
-			"form_field_label" => "dojo.js URI",
-			"type" => self::TYPE_STRING,
-			"default_value" => "%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js",
-			"is_required" => false
+		'dojo_js_URI' => array(
+			'form_field_label' => 'dojo.js URI',
+			'type' => self::TYPE_STRING,
+			'default_value' => '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js',
+			'is_required' => false
 		),
 
-		"dojo_package_URI" => array(
-			"form_field_label" => "Dojo package URI",
-			"type" => self::TYPE_STRING,
-			"is_required" => false
+		'dojo_package_URI' => array(
+			'form_field_label' => 'Dojo package URI',
+			'type' => self::TYPE_STRING,
+			'is_required' => false
 		),
 
-		"theme_URI" => array(
-			"form_field_label" => "Dijit theme URI",
-			"type" => self::TYPE_STRING,
-			"default_value" => "%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css",
-			"is_required" => false
+		'theme_URI' => array(
+			'form_field_label' => 'Dijit theme URI',
+			'type' => self::TYPE_STRING,
+			'default_value' => '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css',
+			'is_required' => false
 		),
 
-		"parse_on_load" => array(
-			"form_field_label" => "Parse on load",
-			"type" => self::TYPE_BOOL,
-			"default_value" => true
+		'parse_on_load' => array(
+			'form_field_label' => 'Parse on load',
+			'type' => self::TYPE_BOOL,
+			'default_value' => true
 		),
 
-		"is_debug" => array(
-			"form_field_label" => "Dojo debug",
-			"type" => self::TYPE_BOOL,
-			"default_value" => false
+		'is_debug' => array(
+			'form_field_label' => 'Dojo debug',
+			'type' => self::TYPE_BOOL,
+			'default_value' => false
 		),
 
 	);
@@ -98,19 +98,19 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 *
 	 * @var string
 	 */
-	protected $dojo_js_URI = "%JET_BASE_URI%public/libs/dojo/%VERSION%/dojo/dojo.js";
+	protected $dojo_js_URI = '%JET_BASE_URI%public/libs/dojo/%VERSION%/dojo/dojo.js';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $dojo_package_URI = "";
+	protected $dojo_package_URI = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $theme_URI = "%JET_BASE_URI%public/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css";
+	protected $theme_URI = '%JET_BASE_URI%public/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css';
 
 	/**
 	 *
@@ -167,7 +167,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 */
 	public function getURI() {
 		$dojo_js_URI = $this->getDojoJsURI();
-		return dirname(dirname($dojo_js_URI)) . "/";
+		return dirname(dirname($dojo_js_URI)) . '/';
 	}
 
 	/**
@@ -190,8 +190,8 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	public function replaceConstants($value){
 
 		$replacements = array(
-			"VERSION" => $this->version,
-			"THEME" => $this->default_theme
+			'VERSION' => $this->version,
+			'THEME' => $this->default_theme
 		);
 
 		return Data_Text::replaceSystemConstants($value, $replacements);

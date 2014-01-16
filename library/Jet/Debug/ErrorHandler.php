@@ -12,8 +12,8 @@
  */
 namespace Jet;
 
-require_once "ErrorHandler/Error.php";
-require_once "ErrorHandler/Handler/Abstract.php";
+require_once 'ErrorHandler/Error.php';
+require_once 'ErrorHandler/Handler/Abstract.php';
 
 
 class Debug_ErrorHandler {
@@ -41,7 +41,7 @@ class Debug_ErrorHandler {
 	 */
 	public static function initialize(){
 
-		if( php_sapi_name()!="cli" ) {
+		if( php_sapi_name()!='cli' ) {
 			static::enableHTMLErrors();
 		} else {
 			static::disableHTMLErrors();
@@ -49,15 +49,15 @@ class Debug_ErrorHandler {
 
 		$class_name = get_called_class();
 
-		set_error_handler(array($class_name, "handleError"));
-		set_exception_handler(array($class_name, "handleException"));
-		register_shutdown_function(array($class_name, "handleShutdown"));
+		set_error_handler(array($class_name, 'handleError'));
+		set_exception_handler(array($class_name, 'handleException'));
+		register_shutdown_function(array($class_name, 'handleShutdown'));
 
-		if( !trim(ini_get("date.timezone")) ){
-			date_default_timezone_set("Europe/Prague");
+		if( !trim(ini_get('date.timezone')) ){
+			date_default_timezone_set('Europe/Prague');
 		}
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@ini_set( "error_log", JET_LOGS_PATH . "php_errors_".@date("Y-m-d").".log" );
+		@ini_set( 'error_log', JET_LOGS_PATH . 'php_errors_'.@date('Y-m-d').'.log' );
 
 	}
 
@@ -102,13 +102,13 @@ class Debug_ErrorHandler {
 		if(
 			!class_exists($handler_class_name, false)
 		) {
-			die("Error handler: Handler class '{$handler_class_name}' does not exist. Should be in script: '{$handler_script_path}' ");
+			die('Error handler: Handler class \''.$handler_class_name.'\' does not exist. Should be in script: \''.$handler_script_path.'\' ');
 		}
 
 		$handler = new $handler_class_name( $handler_options );
 
 		if( ! ($handler instanceof Debug_ErrorHandler_Handler_Abstract) ){
-			die("Error handler: Handler class '{$handler_class_name}' must extend Debug_ErrorHandler_Handler_Abstract class.");
+			die('Error handler: Handler class \''.$handler_class_name.'\' must extend Debug_ErrorHandler_Handler_Abstract class.');
 		}
 
 		static::$handlers[$handler_name] = $handler;
@@ -195,11 +195,11 @@ class Debug_ErrorHandler {
 	 * @throws Debug_ErrorHandler_Exception
 	 */
 	public static function setHTTPErrorPagesDir($error_pages_dir, $check_path = true){
-		$error_pages_dir = rtrim($error_pages_dir, "/\\".DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+		$error_pages_dir = rtrim($error_pages_dir, '/\\'.DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
 		if($check_path && !is_dir($error_pages_dir)){
 			throw new Debug_ErrorHandler_Exception(
-				"Error pages directory '{$error_pages_dir}' doesn't exist",
+				'Error pages directory \''.$error_pages_dir.'\' doesn\'t exist',
 				Debug_ErrorHandler_Exception::CODE_INVALID_ERROR_PAGES_DIR_PATH
 			);
 		}
@@ -216,7 +216,7 @@ class Debug_ErrorHandler {
 	 */
 	public static function getHTTPErrorPageFilePath( $HTTP_code ) {
 		$HTTP_code = (int)$HTTP_code;
-		$path = static::$HTTP_error_pages_dir.$HTTP_code.".phtml";
+		$path = static::$HTTP_error_pages_dir.$HTTP_code.'.phtml';
 
 		if(is_file($path) && file_exists($path) && is_readable($path)){
 			return $path;
@@ -270,25 +270,25 @@ class Debug_ErrorHandler {
 
 		if (
 			$code==E_STRICT &&
-			strpos($file, "PEAR") !== false
+			strpos($file, 'PEAR') !== false
 		) {
 			return;
 		}
 
-		if( $code==E_STRICT && strpos($message, "should be compatible with")) {
+		if( $code==E_STRICT && strpos($message, 'should be compatible with')) {
 			return;
 		}
 
 		self::$last_error = array(
-			"type" => $code,
-			"message" => $message,
-			"file" => $file,
-			"line" => $line
+			'type' => $code,
+			'message' => $message,
+			'file' => $file,
+			'line' => $line
 		);
 
 		if (
-			strpos($file, __NAMESPACE__."/IO/") !== false ||
-			strpos($file, __NAMESPACE__."\\IO\\") !== false
+			strpos($file, __NAMESPACE__.'/IO/') !== false ||
+			strpos($file, __NAMESPACE__.'\\IO\\') !== false
 		) {
 			return;
 		}
@@ -347,9 +347,9 @@ class Debug_ErrorHandler {
 		$error_displayed = false;
 
 		if( $error->is_fatal ) {
-			if( php_sapi_name()!="cli" ) {
+			if( php_sapi_name()!='cli' ) {
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				@header("HTTP/1.1 500 Internal Server Error");
+				@header('HTTP/1.1 500 Internal Server Error');
 			}
 		}
 
@@ -365,7 +365,7 @@ class Debug_ErrorHandler {
 		}
 
 		if( $error->is_fatal ) {
-			if( php_sapi_name()!="cli" ) {
+			if( php_sapi_name()!='cli' ) {
 				if(!$error_displayed) {
 					static::displayHTTPErrorPage(500);
 				}

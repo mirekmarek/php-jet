@@ -20,19 +20,19 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "WYSIWYG";
+	protected $_type = 'WYSIWYG';
 
 	/**
 	 * Editor config name in main configuration /js_libs/TinyMCE/editor_configs/CONFIG_NAME
 	 *
 	 * @var string
 	 */
-	protected $editor_config_name = "default";
+	protected $editor_config_name = 'default';
 
 	/**
 	 * @var string
 	 */
-	protected $WYSIWYG_editor = "TinyMCE";
+	protected $WYSIWYG_editor = 'TinyMCE';
 
 	/**
 	 * @param Form_Parser_TagData $tag_data
@@ -42,12 +42,12 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 		$this->__form->getLayout()->requireJavascriptLib( $this->WYSIWYG_editor );
 
-		$tag_data->setProperty("name", $this->getName());
-		$tag_data->setProperty("id", $this->getID());
+		$tag_data->setProperty('name', $this->getName());
+		$tag_data->setProperty('id', $this->getID());
 
 
-		$result = "<textarea {$this->_getTagPropertiesAsString( $tag_data )}>{$this->getValue()}</textarea>\n";
-		$result .= "<script type=\"text/javascript\">jet_WYSIWYG.init(".json_encode($this->getID()).",".json_encode($this->editor_config_name).");</script>\n";
+		$result = '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>'.JET_EOL;
+		$result .= '<script type="text/javascript">jet_WYSIWYG.init('.json_encode($this->getID()).','.json_encode($this->editor_config_name).');</script>'.JET_EOL;
 
 		return $result;
 	}
@@ -65,7 +65,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 			$this->_value = trim( $data->getRaw($this->_name) );
 		} else {
 			$this->_value_raw = null;
-			$this->setValueError("input_missing");
+			$this->setValueError('input_missing');
 		}
 	}
 

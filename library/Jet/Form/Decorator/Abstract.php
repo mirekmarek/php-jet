@@ -18,15 +18,15 @@ abstract class Form_Decorator_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\UI_Factory";
+	protected static $__factory_class_name = 'Jet\\UI_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getFormDecoratorInstance";
+	protected static $__factory_class_method = 'getFormDecoratorInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Form_Decorator_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Form_Decorator_Abstract';
 
 	/**
 	 * @var Form

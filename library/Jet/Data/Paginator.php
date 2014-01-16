@@ -18,7 +18,7 @@
 namespace Jet;
 
 class Data_Paginator extends Object {
-	const URL_PAGE_NO_KEY = "%PAGE_NO%";
+	const URL_PAGE_NO_KEY = '%PAGE_NO%';
 
 	const DEFAULT_ITEMS_PER_PAGE = 50;
 
@@ -87,7 +87,7 @@ class Data_Paginator extends Object {
 	/**
 	 * @var string
 	 */
-	protected $URL_template = "";
+	protected $URL_template = '';
 
 	/**
 	 * Can be null if current page is the first page
@@ -116,7 +116,7 @@ class Data_Paginator extends Object {
 	 *
 	 * @throws Data_Paginator_Exception
 	 */
-	public function __construct( $current_page_no, $items_per_page=self::DEFAULT_ITEMS_PER_PAGE, $URL_template="" ) {
+	public function __construct( $current_page_no, $items_per_page=self::DEFAULT_ITEMS_PER_PAGE, $URL_template='' ) {
 		$this->current_page_no_is_in_range = true;
 
 		$this->current_page_no = (int)$current_page_no;
@@ -137,7 +137,7 @@ class Data_Paginator extends Object {
 
 		if( $URL_template && strpos($URL_template, self::URL_PAGE_NO_KEY)===false ) {
 			throw new Data_Paginator_Exception(
-				"Incorrect URL template string. Template string must contains '".self::URL_PAGE_NO_KEY."' string. Example: '?page=".self::URL_PAGE_NO_KEY."' ",
+				'Incorrect URL template string. Template string must contains \''.self::URL_PAGE_NO_KEY.'\' string. Example: \'?page='.self::URL_PAGE_NO_KEY.'\' ',
 				Data_Paginator_Exception::CODE_INCORRECT_URL_TEMPLATE_STRING
 			);
 		}
@@ -176,7 +176,7 @@ class Data_Paginator extends Object {
 	public function getData() {
 		if($this->data===null) {
 			throw new Data_Paginator_Exception(
-				"Data source is not set! Please call ->setData() or ->setDataSource() first ",
+				'Data source is not set! Please call ->setData() or ->setDataSource() first ',
 				Data_Paginator_Exception::CODE_DATA_SOURCE_IS_NOT_SET
 			);
 		}

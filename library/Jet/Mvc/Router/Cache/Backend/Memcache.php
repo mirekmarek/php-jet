@@ -15,7 +15,7 @@
 namespace Jet;
 
 class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstract {
-	const KEYS_LIST_KEY = "__keys__";
+	const KEYS_LIST_KEY = '__keys__';
 
 	/**
 	 * @var Mvc_Router_Cache_Backend_Memcache_Config
@@ -31,13 +31,13 @@ class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstrac
 	/**
 	 * @var string
 	 */
-	protected $key_prefix = "";
+	protected $key_prefix = '';
 
 
 	public function initialize() {
 		$this->memcache = Memcache::get($this->config->getConnection());
 
-		$this->key_prefix = $this->config->getKeyPrefix().":";
+		$this->key_prefix = $this->config->getKeyPrefix().':';
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstrac
 	 */
 	public function helper_getCreateCommand() {
 
-		return "";
+		return '';
 	}
 
 	/**

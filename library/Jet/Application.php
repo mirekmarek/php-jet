@@ -34,6 +34,8 @@ class Application {
 	 * @throws Application_Exception
 	 */
 	public static function start( $environment = null, $config_file_path = null ){
+		Debug_Profiler::MainBlockStart('Application init');
+
 		if(!$environment){
 			if(!defined('JET_APPLICATION_ENVIRONMENT')){
 				throw new Application_Exception(
@@ -45,9 +47,9 @@ class Application {
 			$environment = JET_APPLICATION_ENVIRONMENT;
 		}
 
-		if(!preg_match("/^([a-zA-Z0-9_\-]{1,})$/", $environment)){
+		if(!preg_match('/^([a-zA-Z0-9_-]{1,})$/', $environment)){
 			throw new Application_Exception(
-				"Invalid environment name '{$environment}'. Valid name is: '/^([a-zA-Z0-9_\-]{1,})$/' ",
+				'Invalid environment name \''.$environment.'\'. Valid name is: \'/^([a-zA-Z0-9_-]{1,})$/\' ',
 				Application_Exception::CODE_INVALID_ENVIRONMENT_NAME
 
 			);
@@ -56,13 +58,30 @@ class Application {
 		static::$environment = $environment;
 
 		if(!$config_file_path){
-			$config_file_path = JET_CONFIG_PATH . "{$environment}.php";
+			$config_file_path = JET_CONFIG_PATH . $environment.'.php';
 		}
 
+		Debug_Profiler::blockStart('Configuration init');
 		Config::setApplicationConfigFilePath( $config_file_path );
 
+		Debug_Profiler::message("Test msg 1");
+		Debug_Profiler::message("Test msg 2");
+		Debug_Profiler::message("Test msg 3");
+
+		Debug_Profiler::blockEnd('Configuration init');
+
+		Debug_Profiler::blockStart('Error handler init');
 		static::setupErrorHandler();
+		Debug_Profiler::message("Test msg 4");
+		Debug_Profiler::message("Test msg 5");
+		Debug_Profiler::message("Test msg 6");
+		Debug_Profiler::blockEnd('Error handler init');
+
+		Debug_Profiler::blockStart('Http request init');
 		Http_Request::initialize( Application::getConfig()->getHidePHPRequestData() );
+		Debug_Profiler::blockEnd('Http request init');
+
+		Debug_Profiler::MainBlockEnd('Application init');
 	}
 
 	/**

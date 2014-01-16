@@ -28,11 +28,11 @@ abstract class DataModel_History_Backend_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\DataModel_History_Backend_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\DataModel_History_Backend_Abstract';
 
-	const OPERATION_SAVE = "save";
-	const OPERATION_UPDATE = "update";
-	const OPERATION_DELETE = "delete";
+	const OPERATION_SAVE = 'save';
+	const OPERATION_UPDATE = 'update';
+	const OPERATION_DELETE = 'delete';
 
 	/**
 	 * @var DataModel_History_Backend_Config_Abstract

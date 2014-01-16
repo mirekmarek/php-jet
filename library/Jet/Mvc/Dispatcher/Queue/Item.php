@@ -22,7 +22,7 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	 *
 	 * @var string
 	 */
-	protected $module_name = "";
+	protected $module_name = '';
 
 	/**
 	 * @var string
@@ -33,7 +33,7 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	 *
 	 * @var string
 	 */
-	protected $controller_class_suffix = "";
+	protected $controller_class_suffix = '';
 
 	/**
 	 *
@@ -61,7 +61,7 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	 * @param array $controller_action_parameters
 	 * @param Mvc_Pages_Page_Content_Abstract $content_data (optional)
 	 */
-	public function  __construct( $module_name, $controller_class_suffix = "", $controller_action="", $controller_action_parameters=array(), Mvc_Pages_Page_Content_Abstract $content_data=NULL ) {
+	public function  __construct( $module_name, $controller_class_suffix = '', $controller_action='', $controller_action_parameters=array(), Mvc_Pages_Page_Content_Abstract $content_data=NULL ) {
 		
 		$this->module_name = $module_name;
 		$this->controller_class_suffix = $controller_class_suffix;

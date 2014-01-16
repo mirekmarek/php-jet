@@ -25,46 +25,46 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Sites_Site_LocalizedData";
+	protected static $__data_model_model_name = 'Jet_Mvc_Sites_Site_LocalizedData';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_parent_model_class_name = "Jet\\Mvc_Sites_Site_Default";
+	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Sites_Site_Default';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"locale" => array(
-			"type" => self::TYPE_LOCALE,
-			"is_required" => true
+		'locale' => array(
+			'type' => self::TYPE_LOCALE,
+			'is_required' => true
 		),
-		"title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255
+		'title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255
 		),
-		"default_headers_suffix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536
+		'default_headers_suffix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536
 		),
-		"default_body_prefix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536
+		'default_body_prefix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536
 		),
-		"default_body_suffix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536
+		'default_body_suffix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536
 		),
-		"URLs" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Mvc_Sites_Site_LocalizedData_URL_Default"
+		'URLs' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Default'
 		),
-		"default_meta_tags" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default"
+		'default_meta_tags' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default'
 		),
 	);
 
@@ -72,13 +72,13 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	 *
 	 * @var string
 	 */
-	protected $Jet_Mvc_Sites_Site_ID = "";
+	protected $Jet_Mvc_Sites_Site_ID = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 *
@@ -91,28 +91,28 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	 *
 	 * @var string
 	 */
-	protected $title = "";
+	protected $title = '';
 
 	/**
 	 * Default headers suffix
 	 *
 	 * @var string
 	 */
-	protected $default_headers_suffix = "";
+	protected $default_headers_suffix = '';
 
 	/**
 	 * Default body prefix
 	 *
 	 * @var string
 	 */
-	protected $default_body_prefix = "";
+	protected $default_body_prefix = '';
 
 	/**
 	 * Default body prefix
 	 *
 	 * @var string
 	 */
-	protected $default_body_suffix = "";
+	protected $default_body_suffix = '';
 
 	/**
 	 * @see Mvc_Sites
@@ -312,7 +312,7 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 		foreach($this->URLs as $e_URL) {
 			if( (string)$URL==(string)$e_URL  ) {
 				throw new Mvc_Sites_Site_Exception(
-					"URL '{$URL}' is already added",
+					'URL \''.$URL.'\' is already added',
 					Mvc_Sites_Site_Exception::CODE_URL_ALREADY_ADDED
 				);
 			}

@@ -22,21 +22,21 @@ $paginator = $this->paginator;
 <table>
 	<tr>
 		<?php if( ($p_URL=$paginator->getPrevPageURL()) ): ?>
-		<td><a href="<?php echo $p_URL; ?>">&lt;</a></td>
+		<td><a href="<?=$p_URL; ?>">&lt;</a></td>
 		<?php endif ?>
 		<td width="100%" align="center">
 			<?php foreach($paginator->getPagesURL() as $p_no => $p_URL): ?>
 			<?php if($p_no==$paginator->getCurrentPageNo()): ?>
 				<strong><?php echo $p_no; ?></strong>
 				<?php else: ?>
-				<a href="<?php echo $p_URL; ?>"><?php echo $p_no; ?></a>
+				<a href="<?=$p_URL; ?>"><?=$p_no; ?></a>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</td>
 		<?php if( ($p_URL=$paginator->getNextPageURL()) ): ?>
-		<td><a href="<?php echo $p_URL; ?>">&gt;</a></td>
+		<td><a href="<?=$p_URL; ?>">&gt;</a></td>
 		<?php endif ?>
 
-		<td nowrap>[<?php echo $paginator->getShowFrom();?>-<?php echo $paginator->getShowTo();?>/<?php echo $paginator->getDataItemsCount();?>]</td>
+		<td nowrap>[<?=$paginator->getShowFrom();?>-<?=$paginator->getShowTo();?>/<?=$paginator->getDataItemsCount();?>]</td>
 	</tr>
 </table>

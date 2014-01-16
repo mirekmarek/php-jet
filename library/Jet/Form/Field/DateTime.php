@@ -17,7 +17,7 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "DateTime";
+	protected $_type = 'DateTime';
 
 	/**
 	 *
@@ -28,21 +28,21 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 
 		if($this->_has_value) {
 
-			$name = $this->_name."_time";
+			$name = $this->_name.'_time';
 
 			if($data->exists($name)) {
-				$this->_value_raw .= " ".$data->getRaw($name);
-				$this->_value .= " ".trim( $data->getRaw($name) );
+				$this->_value_raw .= ' '.$data->getRaw($name);
+				$this->_value .= ' '.trim( $data->getRaw($name) );
 			} else {
 				$this->_value_raw = null;
-				$this->setValueError("input_missing");
+				$this->setValueError('input_missing');
 			}
 		}
 
 		$this->_value = trim($this->_value);
 
 		if($this->_value) {
-			$this->_value = date("c",strtotime($this->_value));
+			$this->_value = date('c',strtotime($this->_value));
 		}
 	}
 
@@ -52,13 +52,13 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	 * @return bool
 	 */
 	public function validateValue() {
-		if(!$this->is_required && $this->_value==="") {
+		if(!$this->is_required && $this->_value==='') {
 			return true;
 		}
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if(!@strtotime($this->_value)) {
-			$this->setValueError("invalid_format");
+			$this->setValueError('invalid_format');
 			return false;
 		}
 
@@ -76,12 +76,12 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 
 		$value = $this->getValue();
 
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID() );
-		$tag_data->setProperty( "type", "text" );
-		$tag_data->setProperty( "value", $value ? date("Y-m-d", strtotime($value)):"" );
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', 'text' );
+		$tag_data->setProperty( 'value', $value ? date('Y-m-d', strtotime($value)):'' );
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
 	/**
@@ -93,12 +93,12 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 
 		$value = $this->getValue();
 
-		$tag_data->setProperty( "name", $this->getName()."_time");
-		$tag_data->setProperty( "id", $this->getID()."_time");
-		$tag_data->setProperty( "type", "text");
-		$tag_data->setProperty( "value", $value ? "T".date("H:i:s", strtotime($value)):"" );
+		$tag_data->setProperty( 'name', $this->getName().'_time');
+		$tag_data->setProperty( 'id', $this->getID().'_time');
+		$tag_data->setProperty( 'type', 'text');
+		$tag_data->setProperty( 'value', $value ? 'T'.date('H:i:s', strtotime($value)):'' );
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 
 	}
 
@@ -114,11 +114,11 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 		}
 
 		return Data_Text::replaceData($template, array(
-			"LABEL" => "<jet_form_field_label name=\"{$this->_name}\"/>",
-			"FIELD" =>
-				"<jet_form_field_error_msg name=\"{$this->_name}\" class=\"error\"/>"
-				."<jet_form_field name=\"{$this->_name}\"/>"
-				."<jet_form_field_time name=\"{$this->_name}\"/>"
+			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
+			'FIELD' =>
+				'<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>'
+				.'<jet_form_field name="'.$this->_name.'"/>'
+				.'<jet_form_field_time name="'.$this->_name.'"/>'
 		));
 	}
 

@@ -32,7 +32,7 @@ abstract class Redis_Connection_Abstract extends \Redis implements Object_Interf
 	/**
 	 * @var string
 	 */
-	public static $__factory_must_be_instance_of_class_name = "Jet\\Redis_Connection_Abstract";
+	public static $__factory_must_be_instance_of_class_name = 'Jet\\Redis_Connection_Abstract';
 
 
 	/**
@@ -54,7 +54,7 @@ abstract class Redis_Connection_Abstract extends \Redis implements Object_Interf
 
 		if(!$this->connect( $this->config->getHost(), $this->config->getPort() )) {
 			throw new Redis_Exception(
-				"Unable to connect Redis '{$this->config->getHost()}:{$this->config->getPort()}' ",
+				'Unable to connect Redis \''.$this->config->getHost().':'.$this->config->getPort().'\' ',
 				Redis_Exception::CODE_UNABLE_TO_CONNECT
 			);
 		}

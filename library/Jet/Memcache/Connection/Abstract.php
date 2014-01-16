@@ -32,7 +32,7 @@ abstract class Memcache_Connection_Abstract extends \Memcache implements Object_
 	/**
 	 * @var string
 	 */
-	public static $__factory_must_be_instance_of_class_name = "Jet\\Memcache_Connection_Abstract";
+	public static $__factory_must_be_instance_of_class_name = 'Jet\\Memcache_Connection_Abstract';
 
 
 	/**
@@ -52,7 +52,7 @@ abstract class Memcache_Connection_Abstract extends \Memcache implements Object_
 
 		if(!@$this->connect( $this->config->getHost(), $this->config->getPort() )) {
 			throw new Memcache_Exception(
-				"Unable to connect Memcache '{$this->config->getHost()}:{$this->config->getPort()}' ",
+				'Unable to connect Memcache \''.$this->config->getHost().':'.$this->config->getPort().'\' ',
 				Memcache_Exception::CODE_UNABLE_TO_CONNECT
 			);
 		}

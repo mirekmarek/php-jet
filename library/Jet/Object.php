@@ -40,8 +40,8 @@ class Object implements Object_Interface {
 	 * Signals list
 	 *
 	 * array(
-	 *      "/my_signal_group/signal1",
-	 *      "/my_signal_group/signal2"
+	 *      '/my_signal_group/signal1',
+	 *      '/my_signal_group/signal2'
 	 * )
 	 *
 	 *

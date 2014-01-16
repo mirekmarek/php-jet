@@ -19,13 +19,13 @@ class JetML_Widget_Dojo_Form_Button_Busy extends JetML_Widget_Dojo_Form_Button {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dojox.form.BusyButton";
+	protected $dojo_type = 'dojox.form.BusyButton';
 
 
 	protected function _formatDojoProps( $dojo_props ) {
-		if(isset($dojo_props["busylabel"])) {
-			$dojo_props["busyLabel"] = $dojo_props["busylabel"];
-			unset( $dojo_props["busylabel"] );
+		if(isset($dojo_props['busylabel'])) {
+			$dojo_props['busyLabel'] = $dojo_props['busylabel'];
+			unset( $dojo_props['busylabel'] );
 		}
 
 		return parent::_formatDojoProps($dojo_props);

@@ -27,12 +27,12 @@ class DataModel_Query_Where_Expression extends Object {
 	/**
 	 * @var string
 	 */
-	protected $operator = "";
+	protected $operator = '';
 
 	/**
 	 * @var mixed
 	 */
-	protected $value = "";
+	protected $value = '';
 
 
 	/**
@@ -59,7 +59,7 @@ class DataModel_Query_Where_Expression extends Object {
 
 		if(!in_array($operator, $available_operators)) {
 			throw new DataModel_Query_Exception(
-				"Unknown operator '{$operator}'. Available operators: '".implode("','", $available_operators)."' ",
+				'Unknown operator \''.$operator.'\'. Available operators: \''.implode('\',\'', $available_operators).'\' ',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 
@@ -103,7 +103,7 @@ class DataModel_Query_Where_Expression extends Object {
 	 * @return string
 	 */
 	public function toString() {
-		return $this->property->getDataModelDefinition()->getModelName()."::".$this->property->getName()." ".$this->operator." '".$this->value."'";
+		return $this->property->getDataModelDefinition()->getModelName().'::'.$this->property->getName().' '.$this->operator.' \''.$this->value.'\'';
 	}
 
 }

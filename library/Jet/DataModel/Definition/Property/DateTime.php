@@ -28,13 +28,13 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "DateTime";
+	protected $form_field_type = 'DateTime';
 
 	/**
 	 * @param DateTime $value
 	 */
 	public function checkValueType( &$value ) {
-		if($value==="") {
+		if($value==='') {
 			$value = null;
 		}
 

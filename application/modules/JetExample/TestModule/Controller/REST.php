@@ -26,7 +26,7 @@ class JetApplicationModule_TestModule_Controller_REST extends Jet\Mvc_Controller
 	protected $module_instance = NULL;
 
 	protected static $ACL_actions_check_map = array(
-		"get_pages_tree" => false
+		'get_pages_tree' => false
 	);
 
 	public function get_pages_tree_Action() {

@@ -20,7 +20,7 @@ class JetML_Widget_Dojo_Data extends JetML_Widget_Abstract {
 	 */
 	public function getReplacement() {
 
-		$replacement  = $this->parser->getDOMDocument()->createElement( "textarea", $this->node->nodeValue );
+		$replacement  = $this->parser->getDOMDocument()->createElement( 'textarea', $this->node->nodeValue );
 
 		foreach($this->node->attributes as $attribute){
 			/**
@@ -32,7 +32,7 @@ class JetML_Widget_Dojo_Data extends JetML_Widget_Abstract {
 		}
 
 
-		$replacement->setAttribute("style", "display:none;width:0px;height:0px;");
+		$replacement->setAttribute('style', 'display:none;width:0px;height:0px;');
 
 		return $replacement;
 	}

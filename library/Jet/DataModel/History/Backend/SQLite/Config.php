@@ -22,39 +22,39 @@ class DataModel_History_Backend_SQLite_Config extends DataModel_History_Backend_
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"directory_path" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "%JET_DATA_PATH%",
-			"form_field_label" => "Data directory path: ",
+		'directory_path' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => '%JET_DATA_PATH%',
+			'form_field_label' => 'Data directory path: ',
 		),
-		"database_name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "datamodel_history",
-			"form_field_label" => "Database name: ",
+		'database_name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'datamodel_history',
+			'form_field_label' => 'Database name: ',
 		),
-		"table_name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "jet_datamodel_history",
-			"form_field_label" => "Table name: ",
+		'table_name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => 'jet_datamodel_history',
+			'form_field_label' => 'Table name: ',
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $directory_path = "%JET_DATA_PATH%";
+	protected $directory_path = '%JET_DATA_PATH%';
 	/**
 	 * @var string
 	 */
-	protected $database_name= "datamodel_hostory";
+	protected $database_name= 'datamodel_hostory';
 
 	/**
 	 * @var string
 	 */
-	protected $table_name = "";
+	protected $table_name = '';
 
 
 	/**
@@ -77,10 +77,10 @@ class DataModel_History_Backend_SQLite_Config extends DataModel_History_Backend_
 	public function getDSN() {
 		$dp = $this->getDirectorypath();
 
-		if($dp==":memory:") {
+		if($dp==':memory:') {
 			return $dp;
 		}
-		return $dp.$this->getDatabaseName().".sq3";
+		return $dp.$this->getDatabaseName().'.sq3';
 	}
 
 

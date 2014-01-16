@@ -12,6 +12,12 @@
  */
 namespace Jet;
 
+require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/SQLqueryData.php';
+require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block/Message.php';
+require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block.php';
+require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run.php';
+
+
 class Debug_Profiler {
 	/**
 	 * @var bool
@@ -21,123 +27,284 @@ class Debug_Profiler {
 	/**
 	 * @var bool
 	 */
+	protected static $output_enabled = true;
+
+	/**
+	 * @var bool
+	 */
+	protected static $output_is_XML = false;
+
+	/**
+	 * @var bool
+	 */
+	protected static $output_is_JSON = false;
+
+	/**
+	 * @var bool
+	 */
 	protected static $log_SQL_queries = false;
 
 	/**
-	 * @var array
+     * @var Debug_Profiler_Run
 	 */
-	protected static $sql_queries = array();
+	protected static $run;
 
+	/**
+	 * @var string
+	 */
+	protected static $run_save_directory_path;
 
 	/**
 	 * @param bool $log_SQL_queries
-	 * @param bool $print_output
 	 */
-	public static function enable( $log_SQL_queries=true, $print_output=true ) {
+	public static function enable( $log_SQL_queries=true ) {
+		static::$run = new Debug_Profiler_Run();
+
 		static::$enabled = true;
 		static::$log_SQL_queries = $log_SQL_queries;
 
-		if($print_output) {
-			//register_shutdown_function( array(get_called_class(), "printSQLQueries") );
 
-			register_shutdown_function( function() {
-				ob_start();
-				Debug_Profiler::printSQLQueries();
-				$result = ob_get_clean();
+		register_shutdown_function( function() {
+			$run = Debug_Profiler::getRun();
+			$run->runEnd();
+			$run_ID = $run->getID();
 
-				$dir = JET_TMP_PATH."profiler/";
-				@mkdir($dir);
-				@chmod($dir, 0777);
-				$file = $dir."pr_".microtime(true).".html";
-				@file_put_contents( $file, $result );
-				@chmod($file, 0666);
+			Debug_Profiler::saveRun();
 
-				echo $result;
-			} );
+			if(!static::$output_enabled) {
+				return;
+			}
 
-		}
+			$URL = '?JPR&run='.$run_ID;
+
+			if( static::$output_is_XML ) {
+				echo '<!-- profiler: '.$URL.' -->';
+			} elseif( static::$output_is_JSON ) {
+				//echo '//profiler: '.$URL;
+			} else {
+				echo '<div><a href="'.$URL.'" target="_blank">profiler</a></div>';
+			}
+
+		});
 	}
+
+
+	/**
+	 * @param bool $output_enabled
+	 */
+	public static function setOutputEnabled($output_enabled) {
+		static::$output_enabled = $output_enabled;
+	}
+
+	/**
+	 * @param bool $output_is_JSON
+	 */
+	public static function setOutputIsJSON($output_is_JSON) {
+		static::$output_is_JSON = $output_is_JSON;
+	}
+
+	/**
+	 * @param bool $output_is_XML
+	 */
+	public static function setOutputIsXML($output_is_XML) {
+		static::$output_is_XML = $output_is_XML;
+	}
+
+
+
+	/**
+	 * @return Debug_Profiler_Run
+	 */
+	public static function getRun() {
+		return static::$run;
+	}
+
+	/**
+	 *
+	 */
+	public static function saveRun() {
+		$run = static::getRun();
+		$run_ID = $run->getID();
+
+		$dir = static::getRunSaveDirectoryPath();
+
+		@mkdir($dir);
+		@chmod($dir, 0777);
+		$file_path = $dir.$run_ID.".jpd";
+		@file_put_contents( $file_path, serialize($run) );
+		@chmod($file_path, 0666);
+	}
+
+
+	/**
+	 * @param $run_ID
+	 *
+	 * @return Debug_Profiler_Run|null
+	 * @throws \Exception
+	 */
+	public static function loadRun( $run_ID ) {
+		if( strpos($run_ID, ".")!==false ) {
+			throw new \Exception( "Incorrect run ID" );
+		}
+
+		$dir = static::getRunSaveDirectoryPath();
+
+		$file_path = $dir.$run_ID.".jpd";
+
+		if(!file_exists($file_path)) {
+			return null;
+		}
+
+		$d = file_get_contents($file_path);
+
+		$run = unserialize($d);
+
+		if(
+			!is_object($run) ||
+			!($run instanceof Debug_Profiler_Run)
+		) {
+			return null;
+		}
+
+		return $run;
+	}
+
+
+
+	/**
+	 * @param string $run_save_directory_path
+	 */
+	public static function setRunSaveDirectoryPath($run_save_directory_path) {
+		static::$run_save_directory_path = $run_save_directory_path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getRunSaveDirectoryPath() {
+		if(!static::$run_save_directory_path) {
+			static::$run_save_directory_path = JET_TMP_PATH.'profiler/';
+		}
+		return static::$run_save_directory_path;
+	}
+
+
 
 	/**
 	 * @param string $query
 	 * @param array $query_data
 	 */
 	public static function SQLQueryStart( $query, $query_data=array() ) {
-
-		if(!static::$log_SQL_queries) {
+		if(
+			!static::$enabled ||
+			!static::$log_SQL_queries
+		) {
 			return;
 		}
 
-		$backtrace = array();
-
-		foreach(debug_backtrace() as $bt) {
-			if(!isset($bt["file"])) {
-				$backtrace[] = "?";
-			} else {
-				$backtrace[] = $bt["file"].":".$bt["line"];
-			}
-		}
-
-		static::$sql_queries[] = array(
-			"query" => $query,
-			"query_data" => $query_data,
-			"backtrace" => $backtrace,
-			"time_start" => microtime(true),
-			"time_end" => microtime(true),
-			"memory_start" => memory_get_usage(),
-			"memory_end" => memory_get_usage(),
-			"rows_count" => 0
-
-		);
+		static::$run->SQLqueryStart($query, $query_data);
 	}
 
 	/**
 	 * @param int $rows_count
 	 */
-	public static function SQLQueryEnd( $rows_count=0 ) {
-		if(!static::$log_SQL_queries) {
+	public static function SQLQueryDone( $rows_count=0 ) {
+		if(
+			!static::$enabled ||
+			!static::$log_SQL_queries
+		) {
 			return;
 		}
 
-		$i = count(static::$sql_queries)-1;
-		static::$sql_queries[$i]["time_end"] = microtime(true);
-		static::$sql_queries[$i]["rows_count"] = $rows_count;
-		static::$sql_queries[$i]["memory_end"] = memory_get_usage();
+		static::$run->SQLqueryDone($rows_count);
+	}
+
+	/**
+	 * @param $text
+	 */
+	public static function message( $text ) {
+		if( !static::$enabled ) {
+			return;
+		}
+
+		static::$run->message($text);
+	}
+
+	/**
+	 * @param $label
+	 */
+	public static function MainBlockStart( $label ) {
+		if( !static::$enabled ) {
+			return;
+		}
+
+		static::$run->blockStart( $label );
+	}
+
+	/**
+	 * @param $label
+	 */
+	public static function MainBlockEnd( $label ) {
+		if( !static::$enabled ) {
+			return;
+		}
+
+		static::$run->blockEnd( $label );
+	}
+
+	/**
+	 * @param string $label
+	 */
+	public static function blockStart( $label ) {
+		if( !static::$enabled ) {
+			return;
+		}
+
+		static::$run->subBlockStart( $label );
 	}
 
 	/**
 	 *
+	 * @param string $label
+	 *
 	 */
-	public static function printSQLQueries() {
-		?>
-		<table border="1">
-		<?php
-		$total_duration = 0;
-		$total_rows_count = 0;
-		$total_memory_usage = 0;
-		foreach(static::$sql_queries as $qd):
-			$duration = $qd["time_end"]-$qd["time_start"];
-			$memory_usage = $qd["memory_end"]-$qd["memory_start"];
-			$total_duration = $total_duration + $duration;
-			$total_rows_count = $total_rows_count + $qd["rows_count"];
-			$total_memory_usage = $total_memory_usage + $memory_usage;
-			?>
-			<tr>
-				<td><?=$qd["query"];?></td>
-				<td><?=$duration;?></td>
-				<td><?=$qd["rows_count"];?></td>
-				<td><?=$memory_usage / 1024;?>&nbsp;KiB</td>
-				<td><?=implode("<br/>\n", $qd["backtrace"]);?></td>
-			</tr>
-		<?php endforeach; ?>
-		        <tr>
-		            <td><?=count(static::$sql_queries);?></td>
-		            <td><?=$total_duration;?></td>
-                            <td><?=$total_rows_count;?></td>
-                            <td><?=$total_memory_usage / 1024;?>&nbsp;KiB</td>
-		            <td></td>
-		        </tr>
-		</table>
-		<?php
+	public static function blockEnd( $label ) {
+		if( !static::$enabled ) {
+			return;
+		}
+
+		static::$run->subBlockEnd( $label );
 	}
+
+
+	/**
+	 *
+	 * @param int $shift (optional, default: 0)
+	 *
+	 * @return array
+	 */
+	public static function getBacktrace( $shift=0 ) {
+		$_backtrace = debug_backtrace();
+
+		if($shift) {
+			for( $c=0; $c<$shift; $c++ ) {
+				array_shift( $_backtrace );
+			}
+		}
+
+		$backtrace = array();
+
+		foreach($_backtrace as $bt) {
+			if(!isset($bt['file'])) {
+				$backtrace[] = '?';
+			} else {
+				$backtrace[] = $bt['file'].':'.$bt['line'];
+			}
+		}
+
+		return $backtrace;
+
+	}
+
+
 }

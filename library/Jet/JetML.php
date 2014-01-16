@@ -17,17 +17,17 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "JetML_Factory";
+	protected static $__factory_class_name = 'JetML_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getJetMLPostprocessorInstance";
+	protected static $__factory_class_method = 'getJetMLPostprocessorInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\JetML";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\JetML';
 
-	const TAGS_PREFIX = "jetml";
+	const TAGS_PREFIX = 'jetml';
 
 	/**
 	 * @var \DOMDocument
@@ -37,7 +37,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	/**
 	 * @var string
 	 */
-	protected $toolkit = "Dojo";
+	protected $toolkit = 'Dojo';
 
 	/**
 	 * @var Mvc_UIManagerModule_Abstract
@@ -52,48 +52,48 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	/**
 	 * @var string
 	 */
-	protected $icons_URL = "";
+	protected $icons_URL = '';
 
 	/**
 	 * @var array
 	 */
 	protected $icon_sizes = array(
-		"small" => array(
-			"width" => 16,
-			"height" => 16,
-			"wspace" => 4,
-			"hspace" => 4,
+		'small' => array(
+			'width' => 16,
+			'height' => 16,
+			'wspace' => 4,
+			'hspace' => 4,
 		),
-		"normal" => array(
-			"width" => 20,
-			"height" => 20,
-			"wspace" => 4,
-			"hspace" => 4,
+		'normal' => array(
+			'width' => 20,
+			'height' => 20,
+			'wspace' => 4,
+			'hspace' => 4,
 		),
-		"large" => array(
-			"width" => 32,
-			"height" => 32,
-			"wspace" => 4,
-			"hspace" => 4,
+		'large' => array(
+			'width' => 32,
+			'height' => 32,
+			'wspace' => 4,
+			'hspace' => 4,
 		),
 
-		"flag_small" => array(
-			"width" => 16,
-			"height" => 10,
-			"wspace" => 4,
-			"hspace" => 4,
+		'flag_small' => array(
+			'width' => 16,
+			'height' => 10,
+			'wspace' => 4,
+			'hspace' => 4,
 		),
-		"flag_normal" => array(
-			"width" => 24,
-			"height" => 15,
-			"wspace" => 4,
-			"hspace" => 4,
+		'flag_normal' => array(
+			'width' => 24,
+			'height' => 15,
+			'wspace' => 4,
+			'hspace' => 4,
 		),
-		"flag_large" => array(
-			"width" => 38,
-			"height" => 24,
-			"wspace" => 4,
-			"hspace" => 4,
+		'flag_large' => array(
+			'width' => 38,
+			'height' => 24,
+			'wspace' => 4,
+			'hspace' => 4,
 		)
 
 	);
@@ -101,18 +101,18 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	/**
 	 * @var string
 	 */
-	protected  $icon_default_size = "normal";
+	protected  $icon_default_size = 'normal';
 
 	/**
 	 * @var string
 	 */
-	protected  $icon_file_suffix = "png";
+	protected  $icon_file_suffix = 'png';
 
 
 	/**
 	 * @var string
 	 */
-	protected  $flags_URL = "";
+	protected  $flags_URL = '';
 
 
 	/**
@@ -185,11 +185,11 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	 */
 	public function parse( $data ) {
 
-		if( strpos($data, static::TAGS_PREFIX."_" )===false ) {
+		if( strpos($data, static::TAGS_PREFIX.'_' )===false ) {
 			return $data;
 		}
 
-		$this->_DOM_document = new \DOMDocument("1.0", "UTF-8");
+		$this->_DOM_document = new \DOMDocument('1.0', 'UTF-8');
 
 
 
@@ -199,10 +199,10 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 		//TODO: loadHTML is so much tolerant... add some error handling ...
 
-		//$data = \mb_convert_encoding($data, 'HTML-ENTITIES', "UTF-8");
+		//$data = \mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
 
 
-		$this->_DOM_document->loadHTML("<?xml version=\"1.0\" encoding=\"UTF-8\">" . $data);
+		$this->_DOM_document->loadHTML('<?xml version="1.0" encoding="UTF-8">' . $data);
 
 		foreach ($this->_DOM_document->childNodes as $item) {
 			if( $item->nodeType==XML_PI_NODE ) {
@@ -216,7 +216,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 		$this->_DOM_document->formatOutput = true;
 
 		/*
-        $data_per_lines = explode("\n", $data);
+        $data_per_lines = explode(JET_EOL, $data);
 
         foreach( libxml_get_errors() as $xml_error ) {
             **
@@ -235,7 +235,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 		$prefix_str_len = strlen(static::TAGS_PREFIX);
 
 
-		foreach( $this->_DOM_document->getElementsByTagName("*") as $node ) {
+		foreach( $this->_DOM_document->getElementsByTagName('*') as $node ) {
 
 			/**
 			 * @var \DOMElement $node
@@ -244,8 +244,8 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 				continue;
 			}
 
-			if($ID_prefix && $node->hasAttribute("id")) {
-				$node->setAttribute("id", $ID_prefix.$node->getAttribute("id") );
+			if($ID_prefix && $node->hasAttribute('id')) {
+				$node->setAttribute('id', $ID_prefix.$node->getAttribute('id') );
 			}
 
 
@@ -275,12 +275,12 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 			$o_tag_name = $tag_name;
 
 			$tag_name = substr($node->tagName, 6);
-			$tag_name = explode("_", $tag_name);
+			$tag_name = explode('_', $tag_name);
 
 			foreach($tag_name as $i=>$t) {
 				$tag_name[$i] = ucfirst(strtolower($t));
 			}
-			$tag_name = implode("_", $tag_name);
+			$tag_name = implode('_', $tag_name);
 
 			static::$_tag_class_map_cache[$o_tag_name] = $tag_name;
 		} else {
@@ -353,10 +353,10 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 			$wspace,
 			$hspace ) {
 		$this->icon_sizes[$size_name] = array(
-			"width" => $width,
-			"height" => $height,
-			"wspace" => $wspace,
-			"hspace" => $hspace,
+			'width' => $width,
+			'height' => $height,
+			'wspace' => $wspace,
+			'hspace' => $hspace,
 		);
 	}
 

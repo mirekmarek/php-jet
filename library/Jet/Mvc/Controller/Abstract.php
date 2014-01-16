@@ -62,11 +62,11 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 *
 	 * <code>
 	 * protected static $ACL_actions_check_map = array(
-	 *      "get_public_data" => false, //do not check this
-	 *      "get_data" => "get_data_module_action",
-	 *      "put_data" => "update_record_module_action",
-	 *      "post_data => "add_record_module_action"
-	 *      "delete_data => "delete_record_module_action"
+	 *      'get_public_data' => false, //do not check this
+	 *      'get_data' => 'get_data_module_action',
+	 *      'put_data' => 'update_record_module_action',
+	 *      'post_data => 'add_record_module_action'
+	 *      'delete_data => 'delete_record_module_action'
 	 * );
 	 * </code>
 	 *
@@ -99,7 +99,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 	public function checkACL( $action, $action_parameters ) {
 		if(!isset(static::$ACL_actions_check_map[$action])) {
 			throw new Mvc_Controller_Exception(
-				"Action '$action' is not specified in ACL check map! Please specify the ACL rules. Add ".get_class($this)."::\$ACL_actions_check_map[{$action}] entry.",
+				'Action \''.$action.'\' is not specified in ACL check map! Please specify the ACL rules. Add '.get_class($this).'::$ACL_actions_check_map['.$action.'] entry.',
 				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}
@@ -115,9 +115,9 @@ abstract class Mvc_Controller_Abstract extends Object {
 		}
 
 		Auth::logEvent(
-			"action:{$this->module_info->getName()}:{$module_action}",
-			array("action_params"=>$action_parameters),
-			"Allowed action: {$this->module_info->getName()}:{$action}"
+			'action:'.$this->module_info->getName().':'.$module_action,
+			array('action_params'=>$action_parameters),
+			'Allowed action: '.$this->module_info->getName().':'.$action
 		);
 	}
 

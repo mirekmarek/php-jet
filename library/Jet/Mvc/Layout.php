@@ -6,15 +6,15 @@
  * @see Mvc/readme.txt
  *
  * The layout is similar to the view. Therefore allows to use. phtml files to generate output.
- * It also allows pass the layout script variables ($layout->setVar("variable", "value"); )
+ * It also allows pass the layout script variables ($layout->setVar('variable', 'value'); )
  *
  * Of course, but has characteristics of highly specific for the carry out its role:
  * Allows for each positions in the output place specific content.
  *
- * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name="positionName"/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
+ * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name='positionName'/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
  * - Handles the tags for JavaScript initialization   (tag: <jet_layout_javascripts/> ), @see Mvc_Layout::handleJavascript(), @see Mvc_Layout::requireJavascriptLib(), @see JavaScript_Abstract, @see Mvc/readme.txt
- * - Handles the tags for layout parts including (tag: <jet_layout_part name="part-name"/>), @see Mvc_Layout::handleParts()
- * - Handles the tags for modules dispatching (tag: <jet_module:ModuleName:controllerAction action_param="action_param_value" />)
+ * - Handles the tags for layout parts including (tag: <jet_layout_part name='part-name'/>), @see Mvc_Layout::handleParts()
+ * - Handles the tags for modules dispatching (tag: <jet_module:ModuleName:controllerAction action_param='action_param_value' />)
  *
  * NOTICE: @see Mvc_Layout_Postprocessor_Interface
  *
@@ -32,26 +32,26 @@ namespace Jet;
 
 class Mvc_Layout extends Mvc_View_Abstract  {
 
-	const TAG_PART = "jet_layout_part";
-	const TAG_POSITION = "jet_layout_position";
-	const TAG_MAIN_POSITION = "jet_layout_main_position";
+	const TAG_PART = 'jet_layout_part';
+	const TAG_POSITION = 'jet_layout_position';
+	const TAG_MAIN_POSITION = 'jet_layout_main_position';
 
-	const TAG_JAVASCRIPT = "jet_layout_javascripts";
+	const TAG_JAVASCRIPT = 'jet_layout_javascripts';
 
-	const TAG_META_TAGS = "jet_layout_meta_tags";
-	const TAG_HEADER_SUFFIX = "jet_layout_header_suffix";
-	const TAG_BODY_PREFIX = "jet_layout_body_prefix";
-	const TAG_BODY_SUFFIX = "jet_layout_body_suffix";
+	const TAG_META_TAGS = 'jet_layout_meta_tags';
+	const TAG_HEADER_SUFFIX = 'jet_layout_header_suffix';
+	const TAG_BODY_PREFIX = 'jet_layout_body_prefix';
+	const TAG_BODY_SUFFIX = 'jet_layout_body_suffix';
 
 
-	const TAG_MODULE = "jet_module:";
+	const TAG_MODULE = 'jet_module:';
 
-	const DEFAULT_OUTPUT_POSITION = "__main__";
+	const DEFAULT_OUTPUT_POSITION = '__main__';
 
-	const JS_REPLACEMENT_REGEXP = "~Jet\.modules\.([a-zA-Z_]+)\.~sU";
+	const JS_REPLACEMENT_REGEXP = '~Jet\.modules\.([a-zA-Z_]+)\.~sU';
 
-	const JS_REPLACEMENT_CURRENT_MODULE = "CURRENT_MODULE";
-	const JS_REPLACEMENT_UI_MANAGER_MODULE = "UI_MANAGER_MODULE";
+	const JS_REPLACEMENT_CURRENT_MODULE = 'CURRENT_MODULE';
+	const JS_REPLACEMENT_UI_MANAGER_MODULE = 'UI_MANAGER_MODULE';
 
 
 	/**
@@ -77,12 +77,12 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	/**
 	 * @var string
 	 */
-	protected $UI_container_ID = "";
+	protected $UI_container_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $UI_container_ID_prefix = "";
+	protected $UI_container_ID_prefix = '';
 
 	/**
 	* Constructor
@@ -113,9 +113,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$this->router = $router;
 		$this->UI_container_ID = $router->getUIManagerModuleInstance()->getUIContainerID();
 		if($this->UI_container_ID) {
-			$this->UI_container_ID_prefix = $this->UI_container_ID."_";
+			$this->UI_container_ID_prefix = $this->UI_container_ID.'_';
 		} else {
-			$this->UI_container_ID_prefix = "";
+			$this->UI_container_ID_prefix = '';
 		}
 	}
 
@@ -140,20 +140,20 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @return JetML
 	 */
 	public function enableJetML() {
-		if($this->_data->exists("JetML_postprocessor")) {
-			return $this->_data->getRaw("JetML_postprocessor");
+		if($this->_data->exists('JetML_postprocessor')) {
+			return $this->_data->getRaw('JetML_postprocessor');
 		}
 
-		$this->setVar("JetML_postprocessor", JetML_Factory::getJetMLPostprocessorInstance() );
+		$this->setVar('JetML_postprocessor', JetML_Factory::getJetMLPostprocessorInstance() );
 
-		return $this->_data->getRaw("JetML_postprocessor");
+		return $this->_data->getRaw('JetML_postprocessor');
 	}
 
 	/**
 	 * Disables JetML
 	 */
 	public function disableJetML() {
-		$this->unsetVar("JetML_postprocessor");
+		$this->unsetVar('JetML_postprocessor');
 	}
 
 	/**
@@ -161,11 +161,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 *
 	 * If $include_tag=false then
 	 *
-	 * array( "position_name"=>"position_name" )
+	 * array( 'position_name'=>'position_name' )
 	 *
 	 * If $include_tag=true then
 	 *
-	 * array( "position_name"=>"<position_tag>" )
+	 * array( 'position_name'=>'<position_tag>' )
 	 *
 	 * @param bool $include_tag (optional, default: false)
 	 *
@@ -181,11 +181,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 *
 	 * If $include_tag=false then
 	 *
-	 * array( "position_name"=>"position_name" )
+	 * array( 'position_name'=>'position_name' )
 	 *
 	 * If $include_tag=true then
 	 *
-	 * array( "position_name"=>"<position_tag>" )
+	 * array( 'position_name'=>'<position_tag>' )
 	 *
 	 * @param $result
 	 *
@@ -203,7 +203,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				$orig = $match[0];
 				$position = $match[1];
 
-				if($position[0]=="-") {
+				if($position[0]=='-') {
 					continue;
 				}
 
@@ -322,14 +322,14 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * Well. We had to add some code layout. Something like this:
 	 *
 	 * <code>
-	 * <script type="text/javascript">
-	 *  var djConfig = {"parseOnLoad":false,"locale":"en-us"};
+	 * <script type='text/javascript'>
+	 *  var djConfig = {'parseOnLoad':false,'locale':'en-us'};
 	 * </script>
 	 *
-	 * <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css">
-	 * <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" charset="utf-8"></script>
-	 * <script type="text/javascript">
-	 * dojo.require("dijit.form.InputBox");
+	 * <link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css'>
+	 * <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js' charset='utf-8'></script>
+	 * <script type='text/javascript'>
+	 * dojo.require('dijit.form.InputBox');
 	 * </script>
 	 * </code>
 	 * .... and more ...
@@ -338,8 +338,8 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * Do it like this:
 	 *
 	 * <code>
-	 *	$Dojo = $layout->requireJavascriptLib("Dojo");
-	 *	$Dojo->requireComponent("dijit.form.InputBox");
+	 *	$Dojo = $layout->requireJavascriptLib('Dojo');
+	 *	$Dojo->requireComponent('dijit.form.InputBox');
 	 * </code>
 	 *
 	 * And that's all!
@@ -411,7 +411,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$this->handleSitePageTags( $result );
 
-		$current_module_name = "";
+		$current_module_name = '';
 
 		if($this->router) {
 			$current_module_name = $this->router->getUIManagerModuleName();
@@ -443,7 +443,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected  function _render() {
 		if($this->_script_name===false) {
-			$result = "<".self::TAG_MAIN_POSITION."/>";
+			$result = '<'.self::TAG_MAIN_POSITION.'/>';
 		} else {
 			$this->getScriptPath();
 
@@ -453,7 +453,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			include $this->_script_path;
 
 			if(static::$_add_script_path_info) {
-				echo "\n<!-- LAYOUT: {$this->_script_name} --> \n";
+				echo JET_EOL.'<!-- LAYOUT: '.$this->_script_name.' --> '.JET_EOL;
 			}
 
 			$result = ob_get_clean();
@@ -468,16 +468,16 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected function handleConstants( &$result ) {
 		if($this->router) {
 			$data = array();
-			$data["JET_SITE_BASE_URI"] = $this->router->getSiteBaseURI();
-			$data["JET_SITE_IMAGES_URI"] = $this->router->getSiteImagesURI();
-			$data["JET_SITE_SCRIPTS_URI"] = $this->router->getSiteScriptsURI();
-			$data["JET_SITE_STYLES_URI"] = $this->router->getSiteStylesURI();
-			$data["JET_UI_CONTAINER_ID"] = $this->getUIContainerID();
-			$data["JET_UI_CONTAINER_ID_PREFIX"] = $this->getUIContainerIDPrefix();
-			$data["JET_PAGE_TITLE"] = $this->router->getPage()->getTitle();
+			$data['JET_SITE_BASE_URI'] = $this->router->getSiteBaseURI();
+			$data['JET_SITE_IMAGES_URI'] = $this->router->getSiteImagesURI();
+			$data['JET_SITE_SCRIPTS_URI'] = $this->router->getSiteScriptsURI();
+			$data['JET_SITE_STYLES_URI'] = $this->router->getSiteStylesURI();
+			$data['JET_UI_CONTAINER_ID'] = $this->getUIContainerID();
+			$data['JET_UI_CONTAINER_ID_PREFIX'] = $this->getUIContainerIDPrefix();
+			$data['JET_PAGE_TITLE'] = $this->router->getPage()->getTitle();
 
-			$data["JET_SITE_TITLE"] = $this->router->getSite()->getLocalizedData($this->router->getLocale())->getTitle();
-			$data["JET_LANGUAGE"] = $this->router->getLocale()->getLanguage();
+			$data['JET_SITE_TITLE'] = $this->router->getSite()->getLocalizedData($this->router->getLocale())->getTitle();
+			$data['JET_LANGUAGE'] = $this->router->getLocale()->getLanguage();
 
 			$result = Data_Text::replaceData($result, $data );
 		}
@@ -493,10 +493,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			!($page = $this->router->getPage())
 		) {
 			$dat = array();
-			$dat[self::TAG_META_TAGS] = "";
-			$dat[self::TAG_HEADER_SUFFIX] = "";
-			$dat[self::TAG_BODY_PREFIX] = "";
-			$dat[self::TAG_BODY_SUFFIX] = "";
+			$dat[self::TAG_META_TAGS] = '';
+			$dat[self::TAG_HEADER_SUFFIX] = '';
+			$dat[self::TAG_BODY_PREFIX] = '';
+			$dat[self::TAG_BODY_SUFFIX] = '';
 		} else {
 			$dat = array();
 
@@ -505,25 +505,25 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$meta_tags = array();
 
 			foreach($site_localized_data->getDefaultMetaTags() as $mt) {
-				$key = $mt->getAttribute().":".$mt->getAttributeValue();
-				if($key==":") {
+				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
+				if($key==':') {
 					$key = $mt->getContent();
 				}
 				$meta_tags[$key] = $mt;
 			}
 
 			foreach($page->getMetaTags() as $mt) {
-				$key = $mt->getAttribute().":".$mt->getAttributeValue();
-				if($key==":") {
+				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
+				if($key==':') {
 					$key = $mt->getContent();
 				}
 				$meta_tags[$key] = $mt;
 			}
 
-			$dat[self::TAG_META_TAGS] = "";
+			$dat[self::TAG_META_TAGS] = '';
 
 			foreach($meta_tags as $mt) {
-				$dat[self::TAG_META_TAGS] .= "\n\t".$mt;
+				$dat[self::TAG_META_TAGS] .= JET_EOL.JET_TAB.$mt;
 			}
 
 
@@ -567,7 +567,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			foreach($matches as $match) {
 				$orig_str = $match[0];
 
-				$action_data = explode(":", $match[1]);
+				$action_data = explode(':', $match[1]);
 				if(!isset($action_data[1])) {
 					$action_data[1] = Mvc_Dispatcher::DEFAULT_ACTION;
 				}
@@ -576,28 +576,28 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				$action_params = array();
 
 				$_properties = substr(trim($match[2]), 0, -1);
-				$_properties = preg_replace("/[ ]{2,}/i", " ", $_properties);
+				$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
 				$_properties = explode( '" ', $_properties );
 
 				foreach( $_properties as $property ) {
-					if( !$property || strpos($property, "=")===false ) {
+					if( !$property || strpos($property, '=')===false ) {
 						continue;
 					}
 
-					$property = explode("=", $property);
+					$property = explode('=', $property);
 
 					$property_name = array_shift($property);
 					$property_value = implode('=', $property);
 
 					$property_name = strtolower($property_name);
-					$property_value = str_replace("\"", "", $property_value);
+					$property_value = str_replace('"', '', $property_value);
 
 					$action_params[$property_name] = $property_value;
 				}
 
-				$tmp_position = "--layout-tmp-pos-".str_replace("\\", "-", $module_name)."-{$action}";
+				$tmp_position = '--layout-tmp-pos-'.str_replace('\\', '-', $module_name).'-'.$action;
 
-				$result = str_replace($orig_str, "<".static::TAG_POSITION." name=\"{$tmp_position}\"/>", $result);
+				$result = str_replace($orig_str, '<'.static::TAG_POSITION.' name="'.$tmp_position.'"/>', $result);
 
 				$content_data = Mvc_Factory::getPageContentInstance();
 
@@ -609,7 +609,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 				$qi = new Mvc_Dispatcher_Queue_Item(
 					$module_name,
-					"",
+					'',
 					$action,
 					$action_params,
 					$content_data
@@ -627,7 +627,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected function handleModulesJavascripts( &$result, $current_module_name) {
 
-		$current_module_name = str_replace("\\", "\\\\", $current_module_name);
+		$current_module_name = str_replace('\\', '\\\\', $current_module_name);
 
 		$matches = array();
 		preg_match_all(static::JS_REPLACEMENT_REGEXP, $result, $matches, PREG_SET_ORDER);
@@ -645,7 +645,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 						$replacements[$search] = $UI_manager->getLayoutJsReplacementUiManagerModule();
 						break;
 					default:
-						$module_name = str_replace("\\", "\\\\", $module_name);
+						$module_name = str_replace('\\', '\\\\', $module_name);
 						$replacements[$search] = $UI_manager->getLayoutJsReplacementModule($module_name);
 				}
 			}
@@ -655,18 +655,18 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				switch( $module_name ) {
 					case self::JS_REPLACEMENT_CURRENT_MODULE:
 						if($this->UI_container_ID) {
-							$replacements[$search] = "Jet.modules.getModuleInstance('{$current_module_name}', '{$this->UI_container_ID}').";
+							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$current_module_name.'\', \''.$this->UI_container_ID.'\').';
 
 						} else {
-							$replacements[$search] = "Jet.modules.getModuleInstance('{$current_module_name}').";
+							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$current_module_name.'\').';
 						}
 						break;
 					case self::JS_REPLACEMENT_UI_MANAGER_MODULE:
-						$replacements[$search] = "Jet.getUIManagerModuleInstance().";
+						$replacements[$search] = 'Jet.getUIManagerModuleInstance().';
 						break;
 					default:
-						$module_name = str_replace("\\", "\\\\", $module_name);
-						$replacements[$search] = "Jet.modules.getModuleInstance('{$module_name}').";
+						$module_name = str_replace('\\', '\\\\', $module_name);
+						$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$module_name.'\').';
 				}
 			}
 		}
@@ -687,7 +687,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected function handleJavascripts( &$result ) {
 
-		$JS_snippet = "";
+		$JS_snippet = '';
 
 		if($this->required_javascript) {
 			foreach( $this->required_javascript as $JS ) {
@@ -747,7 +747,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				$orig = $match[0];
 				$position = $match[1];
 
-				$output_on_position = "";
+				$output_on_position = '';
 
 				if(isset($output[$position])) {
 					foreach($output[$position] as $o_ID=>$o) {
@@ -769,7 +769,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		if(preg_match_all('/<'.self::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
 			$orig = $matches[0][0];
-			$output_on_position = "";
+			$output_on_position = '';
 
 			if(isset($output[self::DEFAULT_OUTPUT_POSITION])) {
 				foreach( $output[self::DEFAULT_OUTPUT_POSITION] as $o ) {

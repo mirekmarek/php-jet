@@ -21,21 +21,21 @@ namespace Jet;
 
 class Mvc_Router extends Object {
 	
-	const SERVICE_TYPE_AJAX = "AJAX";
-	const SERVICE_TYPE_SYS = "SYS";
-	const SERVICE_TYPE_REST = "REST";
-	const SERVICE_TYPE_STANDARD = "Standard";
-	const SERVICE_TYPE__JETJS_ = "_JetJS_";
+	const SERVICE_TYPE_AJAX = 'AJAX';
+	const SERVICE_TYPE_SYS = 'SYS';
+	const SERVICE_TYPE_REST = 'REST';
+	const SERVICE_TYPE_STANDARD = 'Standard';
+	const SERVICE_TYPE__JETJS_ = '_JetJS_';
 
-	const REDIRECT_TYPE_PERMANENTLY = "permanently";
-	const REDIRECT_TYPE_TEMPORARY = "temporary";
+	const REDIRECT_TYPE_PERMANENTLY = 'permanently';
+	const REDIRECT_TYPE_TEMPORARY = 'temporary';
 
 
 	/**
 	 *
 	 * @var Mvc_Router_Abstract
 	 */
-	protected static $current_router_instance = NULL;
+	protected static $current_router_instance = null;
 
 	/**
 	 * @var Mvc_Router_Abstract[]

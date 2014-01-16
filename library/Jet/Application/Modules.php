@@ -170,7 +170,7 @@ class Application_Modules extends Object {
 
 		$data = new Data_Array(static::$installed_modules_list);
 
-		IO_File::write(static::getModulesListFilePath(), '<?php'.PHP_EOL.' return '.$data->export().';'.PHP_EOL);
+		IO_File::write(static::getModulesListFilePath(), '<?php'.JET_EOL.' return '.$data->export().';'.JET_EOL);
 	}
 
 
@@ -776,7 +776,7 @@ class Application_Modules extends Object {
 
 		if( $dependent_modules ) {
 			throw new Application_Modules_Exception(
-				'Module \'{$module_name}\' is required for '.implode(',', $dependent_modules),
+				'Module \''.$module_name.'\' is required for '.implode(',', $dependent_modules),
 				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
 			);
 		}

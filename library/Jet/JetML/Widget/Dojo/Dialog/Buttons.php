@@ -22,7 +22,7 @@ class JetML_Widget_Dojo_Dialog_Buttons extends JetML_Widget_Dojo_Abstract {
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$this->node->setAttribute("class", "dijitDialogPaneActionBar");
+		$this->node->setAttribute('class', 'dijitDialogPaneActionBar');
 
 		return parent::getReplacement();
 	}

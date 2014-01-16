@@ -18,7 +18,7 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 	const MIN_LEN = 3;
 	const MAX_LEN = 50;
 	const MAX_SUFFIX_NO = 9999;
-	const DELIMITER = "_";
+	const DELIMITER = '_';
 
 	/**
 	 * @return int
@@ -40,10 +40,10 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 		$object_name  = trim( $object_name );
 
 		$ID = Data_Text::removeAccents( $object_name );
-		$ID = str_replace(" ", static::DELIMITER, $ID);
-		$ID = preg_replace("/[^a-z0-9".static::DELIMITER."]/i", "", $ID);
+		$ID = str_replace(' ', static::DELIMITER, $ID);
+		$ID = preg_replace('/[^a-z0-9'.static::DELIMITER.']/i', '', $ID);
 		$ID = strtolower($ID);
-		$ID = preg_replace( "~([".static::DELIMITER."]{2,})~", static::DELIMITER , $ID );
+		$ID = preg_replace( '~(['.static::DELIMITER.']{2,})~', static::DELIMITER , $ID );
 		$ID = substr($ID, 0, static::MAX_LEN);
 
 
@@ -61,7 +61,7 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 			}
 
 			throw new DataModel_ID_Exception(
-				"ID generate: Reached the maximim numbers of attemps. (Maximim: ".static::MAX_SUFFIX_NO.")",
+				'ID generate: Reached the maximim numbers of attemps. (Maximim: '.static::MAX_SUFFIX_NO.')',
 				DataModel_ID_Exception::CODE_ID_GENERATE_REACHED_THE_MAXIMUM_NUMBER_OF_ATTEMPTS
 			);
 		}
@@ -78,7 +78,7 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 	 * @return bool
 	 */
 	public function checkFormat( $ID ) {
-		return (bool)preg_match("/^([a-z0-9".static::DELIMITER."]{".static::MIN_LEN.",".static::MAX_LEN."})$/", $ID);
+		return (bool)preg_match('/^([a-z0-9'.static::DELIMITER.']{'.static::MIN_LEN.','.static::MAX_LEN.'})$/', $ID);
 	}
 
 }

@@ -20,7 +20,7 @@ class Form_Field_Hidden extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "Hidden";
+	protected $_type = 'Hidden';
 
 	/**
 	 * @var bool
@@ -34,12 +34,12 @@ class Form_Field_Hidden extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID() );
-		$tag_data->setProperty( "type", "hidden" );
-		$tag_data->setProperty( "value", $this->getValue() );
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', 'hidden' );
+		$tag_data->setProperty( 'value', $this->getValue() );
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 
 	}
 
@@ -47,14 +47,14 @@ class Form_Field_Hidden extends Form_Field_Abstract {
 	 * @return string
 	 */
 	public function helper_getFormCellHTMLPrefix() {
-		return "";
+		return '';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function helper_getFormCellHTMLSuffix() {
-		return "";
+		return '';
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Form_Field_Hidden extends Form_Field_Abstract {
 	 * @return string
 	 */
 	public function helper_getBasicHTML($template=null) {
-		return "\t<jet_form_field name=\"{$this->_name}\"/>\n";
+		return JET_TAB.'<jet_form_field name="'.$this->_name.'"/>'.JET_EOL;
 
 	}
 

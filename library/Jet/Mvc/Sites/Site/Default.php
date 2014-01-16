@@ -26,40 +26,40 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Sites_Site";
+	protected static $__data_model_model_name = 'Jet_Mvc_Sites_Site';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_ID_class_name = "Jet\\Mvc_Sites_Site_ID_Default";
+	protected static $__data_model_ID_class_name = 'Jet\\Mvc_Sites_Site_ID_Default';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"name" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255
+		'name' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255
 		),
-		"is_default" => array(
-			"type" => self::TYPE_BOOL,
+		'is_default' => array(
+			'type' => self::TYPE_BOOL,
 		),
-		"is_active" => array(
-			"type" => self::TYPE_BOOL,
+		'is_active' => array(
+			'type' => self::TYPE_BOOL,
 		),
-		"locales" => array(
-			"type" => self::TYPE_ARRAY,
-			"item_type" => self::TYPE_LOCALE,
+		'locales' => array(
+			'type' => self::TYPE_ARRAY,
+			'item_type' => self::TYPE_LOCALE,
 		),
-		"default_locale" => array(
-			"type" => self::TYPE_LOCALE,
-			"is_required" => true
+		'default_locale' => array(
+			'type' => self::TYPE_LOCALE,
+			'is_required' => true
 		),
-		"localized_data" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "Jet\\Mvc_Sites_Site_LocalizedData_Default"
+		'localized_data' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'Jet\\Mvc_Sites_Site_LocalizedData_Default'
 		)
 	);
 
@@ -67,7 +67,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 
 	/**
@@ -75,7 +75,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $name = "";
+	protected $name = '';
 
 	/**
 	 *
@@ -160,14 +160,14 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 * @return string
 	 */
 	public function getBasePath() {
-		return JET_SITES_PATH . $this->ID."/";
+		return JET_SITES_PATH . $this->ID.'/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getLayoutsPath() {
-		return $this->getBasePath()."layouts/";
+		return $this->getBasePath().'layouts/';
 	}
 
 	/**
@@ -429,7 +429,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 */
 	public function getList() {
 		$list = $this->fetchObjects();
-		$list->getQuery()->setOrderBy("name");
+		$list->getQuery()->setOrderBy('name');
 		return $list;
 	}
 
@@ -443,7 +443,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	public function getByURL( $URL ) {
 		return $this->fetchOneObject(
 			array(
-				"this.localized_data.URL"=>$URL
+				'this.localized_data.URL'=>$URL
 			)
 		);
 	}
@@ -456,7 +456,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 */
 	public function getDefault() {
 		return $this->fetchOneObject( array(
-			"this.is_default" => true
+			'this.is_default' => true
 		) );
 	}
 
@@ -464,7 +464,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 * @return array
 	 */
 	public function getLayoutsList() {
-		$_lj = IO_Dir::getFilesList( $this->getLayoutsPath(), "*.phtml");
+		$_lj = IO_Dir::getFilesList( $this->getLayoutsPath(), '*.phtml');
 
 		$layouts = array();
 

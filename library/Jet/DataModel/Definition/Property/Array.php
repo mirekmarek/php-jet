@@ -37,7 +37,7 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "MultiSelect";
+	protected $form_field_type = 'MultiSelect';
 
 	/**
 	 * @param array $definition_data
@@ -53,21 +53,21 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 
 		if( $this->is_ID ) {
 			throw new DataModel_Exception(
-				"Property {$this->_data_model_definition->getClassName()}::{$this->_name} is Array and Array can't be ID.",
+				'Property '.$this->_data_model_definition->getClassName().'::'.$this->_name.' is Array and Array can\'t be ID.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
 		if( !$this->item_type ) {
 			throw new DataModel_Exception(
-				"Property {$this->_data_model_definition->getClassName()}::{$this->_name} is Array, but item_type is missing in definition data.",
+				'Property '.$this->_data_model_definition->getClassName().'::'.$this->_name.' is Array, but item_type is missing in definition data.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
 		if( $this->item_type==DataModel::TYPE_DATA_MODEL ) {
 			throw new DataModel_Exception(
-				"Property {$this->_data_model_definition->getClassName()}::{$this->_name} is Array and item_type='Jet\\DataModel::TYPE_DATA_MODEL'. Item type can not be 'Jet\\DataModel::TYPE_DATA_MODEL'! Please use Related1toN. Example: array(\"type\"=>Jet\\DataModel::TYPE_DATA_MODEL,\"data_model_class\"=> \"SomeRelatedDataModelClass\")",
+				'Property '.$this->_data_model_definition->getClassName().'::'.$this->_name.' is Array and item_type=\'Jet\\DataModel::TYPE_DATA_MODEL\'. Item type can not be \'Jet\\DataModel::TYPE_DATA_MODEL\'! Please use Related1toN. Example: array(\'type\'=>Jet\\DataModel::TYPE_DATA_MODEL,\'data_model_class\'=> \'SomeRelatedDataModelClass\')',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

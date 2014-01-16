@@ -19,5 +19,5 @@ class JetML_Widget_Dojo_Layout_Pane extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.layout.ContentPane";
+	protected $dojo_type = 'dijit.layout.ContentPane';
 }

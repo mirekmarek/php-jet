@@ -53,15 +53,15 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 * @return bool|mixed
 	 */
 	public function get( DataModel $data_model, $ID) {
-		$data = $this->_db_read->fetchOne("SELECT data FROM {$this->_table_name}
+		$data = $this->_db_read->fetchOne('SELECT data FROM '.$this->_table_name.'
 				WHERE
 					class_name=:class_name AND
 					model_name=:model_name AND
-					object_ID=:object_ID",
+					object_ID=:object_ID',
 			array(
-				"class_name" => get_class($data_model),
-				"model_name" => $data_model->getDataModelName(),
-				"object_ID" => (string)$ID,
+				'class_name' => get_class($data_model),
+				'model_name' => $data_model->getDataModelName(),
+				'object_ID' => (string)$ID,
 
 			)
 		);
@@ -78,9 +78,9 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 * @param mixed $data
 	 */
 	public function save(DataModel $data_model, $ID, $data) {
-		$this->_db_write->execCommand("
+		$this->_db_write->execCommand('
 				BEGIN
-					INSERT INTO {$this->_table_name} (
+					INSERT INTO '.$this->_table_name.' (
 						class_name,
 						model_name,
 						object_ID,
@@ -96,12 +96,12 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 				EXCEPTION WHEN dup_val_on_index THEN
 				      null;
 				END;
-					",
+				',
 				array(
-					"class_name" => get_class($data_model),
-					"model_name" => $data_model->getDataModelName(),
-					"object_ID" => (string)$ID,
-					"data" => $this->serialize($data),
+					'class_name' => get_class($data_model),
+					'model_name' => $data_model->getDataModelName(),
+					'object_ID' => (string)$ID,
+					'data' => $this->serialize($data),
 
 				));
 	}
@@ -113,19 +113,19 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function update(DataModel $data_model, $ID, $data) {
 
-		$this->_db_write->execCommand( "UPDATE {$this->_table_name} SET
+		$this->_db_write->execCommand( 'UPDATE '.$this->_table_name.' SET
 						data=:data,
 						created_date_time=sysdate
 					WHERE
 						class_name=:class_name AND
 						model_name=:model_name AND
 						object_ID=:object_ID
-						",
+						',
 			array(
-				"data" => $this->serialize($data),
-				"class_name" => get_class($data_model),
-				"model_name" => $data_model->getDataModelName(),
-				"object_ID" => (string)$ID
+				'data' => $this->serialize($data),
+				'class_name' => get_class($data_model),
+				'model_name' => $data_model->getDataModelName(),
+				'object_ID' => (string)$ID
 			) );
 	}
 
@@ -135,11 +135,11 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 * @param string $ID
 	 */
 	public function delete(DataModel $data_model, $ID) {
-		$this->_db_write->execCommand("DELETE FROM {$this->_table_name} WHERE class_name=:class_name AND model_name=:model_name AND object_ID=:object_ID",
+		$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE class_name=:class_name AND model_name=:model_name AND object_ID=:object_ID',
 			array(
-				"class_name" => get_class($data_model),
-				"model_name" => $data_model->getDataModelName(),
-				"object_ID" => (string)$ID,
+				'class_name' => get_class($data_model),
+				'model_name' => $data_model->getDataModelName(),
+				'object_ID' => (string)$ID,
 			));
 	}
 
@@ -149,11 +149,11 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function truncate( $model_name=null ) {
 		if(!$model_name) {
-			$this->_db_write->execCommand("TRUNCATE TABLE {$this->_table_name}");
+			$this->_db_write->execCommand('TRUNCATE TABLE '.$this->_table_name);
 		} else {
-			$this->_db_write->execCommand("DELETE FROM {$this->_table_name} WHERE model_name=:model_name",
+			$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE model_name=:model_name',
 				array(
-					"model_name" => $model_name,
+					'model_name' => $model_name,
 				));
 		}
 	}
@@ -164,22 +164,21 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	public function helper_getCreateCommand() {
 
 		return
-			""
-			."DECLARE\n"
-			."\tcnt NUMBER;\n"
-			."BEGIN\n"
-			."\tSELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER('{$this->_table_name}') or table_name = '{$this->_table_name}';\n"
-			."IF cnt = 0 THEN\n"
-			."EXECUTE IMMEDIATE 'CREATE TABLE {$this->_table_name} (\n"
-			."\t class_name varchar(255) NOT NULL,\n"
-			."\t model_name varchar(255) NOT NULL,\n"
-			."\t object_ID varchar(255) NOT NULL,\n"
-			."\t data CLOB,\n"
-			."\t created_date_time TIMESTAMP WITH TIME ZONE,\n"
-			."\t CONSTRAINT {$this->_table_name}_pk PRIMARY KEY (class_name,model_name,object_ID)\n"
-			."\t)';"
-			."END IF;\n"
-			."END;\n";
+			'DECLARE'.JET_EOL
+			.JET_TAB.'cnt NUMBER;'.JET_EOL
+			.'BEGIN'.JET_EOL
+			.JET_TAB.'SELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER(\''.$this->_table_name.'\') or table_name = \''.$this->_table_name.'\';'.JET_EOL
+			.'IF cnt = 0 THEN'.JET_EOL
+			.'EXECUTE IMMEDIATE \'CREATE TABLE '.$this->_table_name.' ('.JET_EOL
+			.JET_TAB.' class_name varchar(255) NOT NULL,'.JET_EOL
+			.JET_TAB.' model_name varchar(255) NOT NULL,'.JET_EOL
+			.JET_TAB.' object_ID varchar(255) NOT NULL,'.JET_EOL
+			.JET_TAB.' data CLOB,'.JET_EOL
+			.JET_TAB.' created_date_time TIMESTAMP WITH TIME ZONE,'.JET_EOL
+			.JET_TAB.' CONSTRAINT '.$this->_table_name.'_pk PRIMARY KEY (class_name,model_name,object_ID)'.JET_EOL
+			.JET_TAB.')\';'
+			.'END IF;'.JET_EOL
+			.'END;'.JET_EOL;
 	}
 
 	/**

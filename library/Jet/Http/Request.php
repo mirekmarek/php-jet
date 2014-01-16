@@ -162,7 +162,7 @@ class Http_Request extends Object {
 	 */
 	public static function getRawPostData() {
 		if(static::$raw_post_data===null) {
-			static::$raw_post_data=file_get_contents("php://input");
+			static::$raw_post_data=file_get_contents('php://input');
 		}
 
 		return static::$raw_post_data;
@@ -176,7 +176,7 @@ class Http_Request extends Object {
 	 * @return string 
 	 */
 	public static function getRequestMethod(){
-		return isset( $_SERVER["REQUEST_METHOD"] ) ? strtoupper($_SERVER["REQUEST_METHOD"]) : "GET";
+		return isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
 	}
 	
 
@@ -195,7 +195,7 @@ class Http_Request extends Object {
 	 * @return bool
 	 */
 	public static function getRequestIsHttps(){
-		return isset( $_SERVER["HTTPS"] ) && strtolower($_SERVER["HTTPS"])!=="off";
+		return isset( $_SERVER['HTTPS'] ) && strtolower($_SERVER['HTTPS'])!=='off';
 	}
 	
 	/**
@@ -204,7 +204,7 @@ class Http_Request extends Object {
 	 * @return string 
 	 */
 	public static function getClientIP(){
-		return isset( $_SERVER["REMOTE_ADDR"] ) ? $_SERVER["REMOTE_ADDR"] : "unknown";
+		return isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : 'unknown';
 	}
 
 	/**
@@ -213,7 +213,7 @@ class Http_Request extends Object {
 	 * @return string
 	 */
 	public static function getClientUserAgent(){
-		return isset( $_SERVER["HTTP_USER_AGENT"] ) ? $_SERVER["HTTP_USER_AGENT"] :  "unknown";
+		return isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] :  'unknown';
 	}
 
 	/**
@@ -224,29 +224,29 @@ class Http_Request extends Object {
 	 * @return string
 	 */
 	public static function getURL( $include_query_string=true ) {
-		$scheme = "http";
-		$host = $_SERVER["HTTP_HOST"];
-		$port = "";
-		$request_URI = $_SERVER["REQUEST_URI"];
+		$scheme = 'http';
+		$host = $_SERVER['HTTP_HOST'];
+		$port = '';
+		$request_URI = $_SERVER['REQUEST_URI'];
 
 		if(!$include_query_string) {
-			list($request_URI) = explode("?", $request_URI);
+			list($request_URI) = explode('?', $request_URI);
 		}
 
 		if(
 			static::getRequestIsHttps()
 		) {
-			$scheme = "https";
-			if( $_SERVER["SERVER_PORT"]!="443" ) {
-				$port = ":{$_SERVER["SERVER_PORT"]}";
+			$scheme = 'https';
+			if( $_SERVER['SERVER_PORT']!='443' ) {
+				$port = ':'.$_SERVER['SERVER_PORT'];
 			}
 		} else {
-			if( $_SERVER["SERVER_PORT"]!="80" ) {
-				$port = ":{$_SERVER["SERVER_PORT"]}";
+			if( $_SERVER['SERVER_PORT']!='80' ) {
+				$port = ':'.$_SERVER['SERVER_PORT'];
 			}
 		}
 
-		return "{$scheme}://{$host}{$port}{$request_URI}";
+		return $scheme.'://'.$host.$port.$request_URI;
 	}
 
 	/**
@@ -260,19 +260,19 @@ class Http_Request extends Object {
 			return static::$headers;
 		}
 
-		if(function_exists("apache_request_headers")) {
+		if(function_exists('apache_request_headers')) {
 			$headers = apache_request_headers();
 		} else {
 
 			$headers = array();
 			foreach($_SERVER as $key => $value) {
-				if(substr($key, 0, 5) != "HTTP_") {
+				if(substr($key, 0, 5) != 'HTTP_') {
 					continue;
 				}
 
-				$header = str_replace(" ", "-",
+				$header = str_replace(' ', '-',
 					ucwords(
-						str_replace("_", " ",
+						str_replace('_', ' ',
 							strtolower( substr($key, 5) )
 						)
 					)

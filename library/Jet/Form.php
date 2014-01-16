@@ -24,22 +24,22 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 */
 	public static $HTML_templates = array(
 		'table' => array(
-			'form_start' => "<table>\n",
-			'form_end' => "</table>\n",
+			'form_start' => '<table>',
+			'form_end' => '</table>',
 			'form_common_error_message_class' => 'formError',
-			'form_submit_button' => "\t<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\"/></td></tr>\n",
-			'field' => "\t<tr>\n\t\t<td valign=\"top\">%LABEL%</td>\n\t\t<td>%FIELD%</td>\n\t</tr>\n",
-			'field_error_msg' => "\t<div class=\"formFieldError\">%ERROR_MSG%</div>\n",
-			'field_required' => "<em class=\"required\">*</em> %LABEL%",
+			'form_submit_button' => '<tr><td colspan="2" align="center"><input type="submit"/></td></tr>',
+			'field' => '<tr><td valign="top">%LABEL%</td><td>%FIELD%</td></tr>',
+			'field_error_msg' => '<div class="formFieldError">%ERROR_MSG%</div>',
+			'field_required' => '<em class="required">*</em> %LABEL%',
 		),
-		"div" => array(
-			"form_start" => "<fieldset>\n",
-			"form_end" => "</fieldset>\n",
-			"form_common_error_message_class" => "formError",
-			"form_submit_button" => "<input type=\"submit\"/>\n",
-			"field" => "\t<div class=\"formCell\">\n\t\t%LABEL%\n\t\t%FIELD%\t</div>\n",
-			"field_error_msg" => "\t<div class=\"formFieldError\">%ERROR_MSG%</div>\n",
-			"field_required" => "<em class=\"required\">*</em> %LABEL%",
+		'div' => array(
+			'form_start' => '<fieldset>',
+			'form_end' => '</fieldset>',
+			'form_common_error_message_class' => 'formError',
+			'form_submit_button' => '<input type="submit"/>',
+			'field' => '<div class="formCell">%LABEL%%FIELD%</div>',
+			'field_error_msg' => '<div class="formFieldError">%ERROR_MSG%</div>',
+			'field_required' => '<em class="required">*</em> %LABEL%',
 		)
 	);
 
@@ -257,7 +257,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		$this->is_valid = false;
 		
 		if($data===null) {
-			$data = $this->method=="GET" ? Http_Request::GET()->getRawData() : Http_Request::POST()->getRawData();
+			$data = $this->method=='GET' ? Http_Request::GET()->getRawData() : Http_Request::POST()->getRawData();
 		}
 
 		if($data===false) {
@@ -289,7 +289,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 */
 	public function validateValues() {
 
-		$this->common_error_message = "";
+		$this->common_error_message = '';
 		$this->is_valid = true;
 		foreach($this->fields as $field) {
 			if(!$field->getHasValue()) {
@@ -425,7 +425,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	public function viewPostProcess( &$result, Mvc_View $view) {
 		$this->__layout = $view->getLayout();
 
-		$form_output_part = strstr( $result, "<".static::FORM_TAG." name=\"{$this->name}\"" );
+		$form_output_part = strstr( $result, '<'.static::FORM_TAG.' name="'.$this->name.'"' );
 		
 		if(!$form_output_part) {
 			return;
@@ -433,32 +433,32 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 		Mvc::setProvidesDynamicContent();
 		
-		$form_output_part_pos = strpos($form_output_part, "</".static::FORM_TAG.">");
+		$form_output_part_pos = strpos($form_output_part, '</'.static::FORM_TAG.'>' );
 		
 		if(!$form_output_part_pos) {
 			throw new Form_Exception(
-					"Parse error: ".static::FORM_TAG." end tag missing...",
+					'Parse error: '.static::FORM_TAG.' end tag missing...',
 					Form_Exception::CODE_VIEW_PARSE_ERROR
 				);
 		}
 
-		$form_output_part = substr($form_output_part, 0, $form_output_part_pos + strlen("</".static::FORM_TAG.">"));
+		$form_output_part = substr($form_output_part, 0, $form_output_part_pos + strlen('</'.static::FORM_TAG.'>'));
 
 		$form_output_part_replacement = $form_output_part;
 
 		$tags = $this->_parseTags($form_output_part_replacement);
 
 		foreach( $tags as $tag_data ) {
-			$replacement = "";
+			$replacement = '';
 
 			switch( $tag_data->getTag() ) {
 				case self::FORM_COMMON_ERROR_MESSAGE_TAG:
 					$replacement = $this->_getReplacement_common_error_message($tag_data);
 				break;
-				case "form":
-					if($tag_data->getPropertyIsSet("id")) {
+				case 'form':
+					if($tag_data->getPropertyIsSet('id')) {
 						throw new Form_Exception(
-							"Parse error: Form '{$this->name}' has set ID property! Please do not set ID property yourself. It will be done by parser with regard to container_ID. ",
+							'Parse error: Form \''.$this->name.'\' has set ID property! Please do not set ID property yourself. It will be done by parser with regard to container_ID. ',
 							Form_Exception::CODE_VIEW_PARSE_ERROR
 						);
 					}
@@ -478,7 +478,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 		}
 
-		$form_output_part_replacement = str_replace("</".static::FORM_TAG.">", "</form>", $form_output_part_replacement);
+		$form_output_part_replacement = str_replace('</'.static::FORM_TAG.'>', '</form>', $form_output_part_replacement);
 
 
 		$result = str_replace(
@@ -494,17 +494,17 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 */
 	protected function _getReplacement_form( Form_Parser_TagData $tag_data ) {
-		$tag_data->setProperty("id", $this->getID() );
-		$tag_data->setProperty("name", $this->name );
-		$tag_data->setProperty("method", ($this->method=="GET") ? "GET" : "POST" );
+		$tag_data->setProperty('id', $this->getID() );
+		$tag_data->setProperty('name', $this->name );
+		$tag_data->setProperty('method', ($this->method=='GET') ? 'GET' : 'POST' );
 
-		$replacement = "<form ";
+		$replacement = '<form ';
 		foreach($tag_data->getProperties() as $property=>$val) {
-			$replacement .= " {$property}=\"".htmlspecialchars($val)."\"";
+			$replacement .= ' '.$property.'="'.htmlspecialchars($val).'"';
 		}
 
-		$replacement .= ">\n";
-		$replacement .= "<input type=\"hidden\" name=\"".self::FORM_SENT_KEY."\" value=\"".htmlspecialchars($this->name)."\"/>\n";
+		$replacement .= '>'.JET_EOL;
+		$replacement .= '<input type="hidden" name="'.self::FORM_SENT_KEY.'" value="'.htmlspecialchars($this->name).'" />'.JET_EOL;
 
 		return $replacement;
 	}
@@ -514,15 +514,15 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	protected function _getReplacement_common_error_message( Form_Parser_TagData $tag_data ) {
-		$replacement = "";
+		$replacement = '';
 
 		if($this->common_error_message) {
 
-			$replacement = "<div ";
+			$replacement = '<div ';
 			foreach($tag_data->getProperties() as $property=>$val) {
-				$replacement .= " {$property}=\"".htmlspecialchars($val)."\"";
+				$replacement .= ' '.$property.'="'.htmlspecialchars($val).'"';
 			}
-			$replacement .= ">".htmlspecialchars($this->common_error_message)."</div>\n";
+			$replacement .= '>'.htmlspecialchars($this->common_error_message).'</div>'.JET_EOL;
 		}
 
 		return $replacement;
@@ -556,11 +556,11 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @return string
 	 */
-	public function helper_getBasicHTML( $template="table" ) {
+	public function helper_getBasicHTML( $template='table' ) {
 		$this->selected_HTML_template_name = $template;
 
-		$result = "<".static::FORM_TAG." name=\"{$this->name}\">\n";
-		$result .= "<".static::FORM_TAG."_".static::FORM_COMMON_ERROR_MESSAGE_TAG." class=\"".$this->getTemplate_form_common_error_message_class()."\"/>\n";
+		$result = '<'.static::FORM_TAG.' name="'.$this->name.'">'.JET_EOL;
+		$result .= '<'.static::FORM_TAG.'_'.static::FORM_COMMON_ERROR_MESSAGE_TAG.' class="'.$this->getTemplate_form_common_error_message_class().'"/>'.JET_EOL;
 		$result .= $this->getTemplate_form_start();
 
 		foreach($this->fields as $field) {
@@ -569,7 +569,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 		$result .= $this->getTemplate_form_end();
 
-		$result .= "</".static::FORM_TAG.">";
+		$result .= '</'.static::FORM_TAG.'>';
 
 		return $result;
 	}
@@ -577,9 +577,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @param string $template
 	 */
-	public function helper_showBasicHTML( $template="table" ) {
+	public function helper_showBasicHTML( $template='table' ) {
 		Http_Headers::responseOK( array(
-			     "Content-type" => "text/plain"
+			     'Content-type' => 'text/plain'
 			) );
 
 		echo $this->helper_getBasicHTML( $template );
@@ -609,7 +609,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return Form
 	 */
 	public function disableDecorator() {
-		$this->decorator = "";
+		$this->decorator = '';
 
 		return $this;
 	}
@@ -624,7 +624,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			return false;
 		}
 
-		$field_type = explode("_",get_class($field));
+		$field_type = explode('_',get_class($field));
 		$field_type = $field_type[count($field_type)-1];
 		return Form_Factory::getDecoratorInstance($this->decorator, $field_type, $this, $field);
 	}
@@ -654,22 +654,22 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getTemplate_form_start() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]["form_start"];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_start'];
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_form_end() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]["form_submit_button"]
-			.static::$HTML_templates[$this->selected_HTML_template_name]["form_end"];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_submit_button']
+			.static::$HTML_templates[$this->selected_HTML_template_name]['form_end'];
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_form_common_error_message_class() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]["form_common_error_message_class"];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_common_error_message_class'];
 	}
 
 
@@ -678,21 +678,21 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getTemplate_field() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]["field"];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['field'];
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_field_error_msg() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]["field_error_msg"];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['field_error_msg'];
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_field_required() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]["field_required"];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['field_required'];
 	}
 
 

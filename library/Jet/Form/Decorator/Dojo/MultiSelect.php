@@ -17,8 +17,8 @@ class Form_Decorator_Dojo_MultiSelect extends Form_Decorator_Dojo_Abstract {
 	 * @var array
 	 */
 	protected $decoratable_tags = array(
-		"field" => array(
-			"dojo_type" => "dijit.form.MultiSelect"
+		'field' => array(
+			'dojo_type' => 'dijit.form.MultiSelect'
 		)
 	);
 }

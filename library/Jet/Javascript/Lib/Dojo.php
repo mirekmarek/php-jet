@@ -31,9 +31,9 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 * @var array
 	 */
 	protected $djConfig = array(
-			"parseOnLoad" => true,
-			"locale" => "en-us",
-			"isDebug" => false,
+			'parseOnLoad' => true,
+			'locale' => 'en-us',
+			'isDebug' => false,
 		);
 
 	/**
@@ -45,11 +45,11 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 		$this->config = new Javascript_Lib_Dojo_Config();
 
 		$locale = $this->layout->getRouter()->getLocale();
-		$locale = strtolower($locale->getLanguage())."-".strtolower($locale->getRegion());
+		$locale = strtolower($locale->getLanguage()).'-'.strtolower($locale->getRegion());
 
-		$this->setOption("parseOnLoad", $this->config->getParseOnLoad());
-		$this->setOption("isDebug", $this->config->getIsDebug());
-		$this->setOption("locale", $locale);
+		$this->setOption('parseOnLoad', $this->config->getParseOnLoad());
+		$this->setOption('isDebug', $this->config->getIsDebug());
+		$this->setOption('locale', $locale);
 	}
 
 	/**
@@ -72,15 +72,15 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	public function setOption( $option, $value ) {
 
 		switch($option){
-			case "parseOnLoad":
-			case "locale":
-			case "isDebug":
+			case 'parseOnLoad':
+			case 'locale':
+			case 'isDebug':
 				$this->djConfig[$option] = $value;
 			break;
 
 			default:
 				throw new Javascript_Exception(
-					"Unknown Dojo option: '{$option}'",
+					'Unknown Dojo option: \''.$option.'\'',
 					Javascript_Exception::CODE_UNKNOWN_JS_LIB_OPTION
 				);
 			break;
@@ -89,7 +89,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	
 	/**
 	 * Equivalent to dojo.require().
-	 * If $parameters["css"] is set (string or array or strings), additional CSS for given component is written into output
+	 * If $parameters['css'] is set (string or array or strings), additional CSS for given component is written into output
 	 *
 	 * @param string $component - dojo module
 	 * @param array $parameters(optional)
@@ -101,13 +101,13 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 
 		$this->required_components[] = $component;
 		if(
-			isset($parameters["css"]) &&
-			$parameters["css"]
+			isset($parameters['css']) &&
+			$parameters['css']
 		){
-			if(!is_array($parameters["css"])){
-				$parameters["css"] = array($parameters["css"]);
+			if(!is_array($parameters['css'])){
+				$parameters['css'] = array($parameters['css']);
 			} 
-			foreach($parameters["css"] as $css){
+			foreach($parameters['css'] as $css){
 				if(in_array($css, $this->required_components_CSS)){
 					continue;
 				}
@@ -124,14 +124,14 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet() {
 
-		$result = "";
+		$result = '';
 
-		$result .= '<link rel="stylesheet" type="text/css" href="'.$this->config->getURI().'dojo/resources/dojo.css">'."\n";
-		$result .= '<link rel="stylesheet" type="text/css" href="'.$this->config->getThemeURI().'">'."\n";
+		$result .= '<link rel="stylesheet" type="text/css" href="'.$this->config->getURI().'dojo/resources/dojo.css">'.JET_EOL;
+		$result .= '<link rel="stylesheet" type="text/css" href="'.$this->config->getThemeURI().'">'.JET_EOL;
 
-		$result .= '<script type="text/javascript">'."\n";
-		$result .= '  var djConfig = '.json_encode($this->djConfig).';'."\n";
-		$result .= '</script>'."\n";
+		$result .= '<script type="text/javascript">'.JET_EOL;
+		$result .= '  var djConfig = '.json_encode($this->djConfig).';'.JET_EOL;
+		$result .= '</script>'.JET_EOL;
 
 		$source_URL = $this->config->getURI();
 
@@ -139,23 +139,23 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 			foreach($this->required_components_CSS as $css){
 				$css = $this->config->replaceConstants($css);
 
-				$result .= '<link rel="stylesheet" type="text/css" href="'.$source_URL.$css.'">'."\n";
+				$result .= '<link rel="stylesheet" type="text/css" href="'.$source_URL.$css.'">'.JET_EOL;
 			}
 		}
 
-		$result .= '<script type="text/javascript" src="'.$this->config->getDojoJsURI().'" charset="utf-8"></script>'."\n";
+		$result .= '<script type="text/javascript" src="'.$this->config->getDojoJsURI().'" charset="utf-8"></script>'.JET_EOL;
 		$package_URL = $this->config->getDojoPackageURI();
 		if($package_URL){
-			$result .= '<script type="text/javascript" src="'.$package_URL.'" charset="utf-8"></script>'."\n";
+			$result .= '<script type="text/javascript" src="'.$package_URL.'" charset="utf-8"></script>'.JET_EOL;
 		}
 
 		if($this->required_components){
-			$result .= '<script type="text/javascript">'."\n";
+			$result .= '<script type="text/javascript">'.JET_EOL;
 			foreach( $this->required_components as $rc ) {
 				if(!$rc) {
 					continue;
 				}
-				$result .= 'dojo.require("'.$rc.'");'."\n";
+				$result .= 'dojo.require(\''.$rc.'\');'.JET_EOL;
 			}
 			$result .= '</script>';
 		}
@@ -171,7 +171,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function finalPostProcess( &$result, Mvc_Layout $layout ) {
 		$replace_data = array(
-			"DOJO_THEME" => $this->config->getDefaultTheme()
+			'DOJO_THEME' => $this->config->getDefaultTheme()
 		);
 
 		$result = Data_Text::replaceData($result, $replace_data);

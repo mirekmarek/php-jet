@@ -20,60 +20,60 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"connection_read" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - read: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Backend_MySQL_Config", "getDbConnectionsList")
+		'connection_read' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - read: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
 		),
-		"connection_write" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - write: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Backend_MySQL_Config", "getDbConnectionsList")
+		'connection_write' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - write: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
 		),
-		"engine" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "InnoDB",
-			"form_field_label" => "Engine: ",
+		'engine' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'InnoDB',
+			'form_field_label' => 'Engine: ',
 		),
-		"default_charset" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "utf8",
-			"form_field_label" => "Default charset: ",
+		'default_charset' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'utf8',
+			'form_field_label' => 'Default charset: ',
 		),
-		"collate" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "utf8_general_ci",
-			"form_field_label" => "Default collate: ",
+		'collate' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'utf8_general_ci',
+			'form_field_label' => 'Default collate: ',
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $connection_read = "";
+	protected $connection_read = '';
 	/**
 	 * @var string
 	 */
-	protected $connection_write= "";
+	protected $connection_write= '';
 	/**
 	 * @var string
 	 */
-	protected $engine= "";
+	protected $engine= '';
 	/**
 	 * @var string
 	 */
-	protected $default_charset= "";
+	protected $default_charset= '';
 	/**
 	 * @var string
 	 */
-	protected $collate= "";
+	protected $collate= '';
 
 
 	/**

@@ -26,16 +26,16 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = NULL;
 
 	protected static $ACL_actions_check_map = array(
-		"default" => false
+		'default' => false
 	);
 
-	public function default_Action( $view="default" ) {
+	public function default_Action( $view='default' ) {
 		//named params emulation
 		if(is_array($view)) {
 			extract($view, EXTR_IF_EXISTS);
 		}
 
-		$this->view->setVar("data", Jet\Mvc::getCurrentUIManagerModuleInstance()->getBreadcrumbNavigation());
+		$this->view->setVar('data', Jet\Mvc::getCurrentUIManagerModuleInstance()->getBreadcrumbNavigation());
 
 		$this->render( $view );
 	}

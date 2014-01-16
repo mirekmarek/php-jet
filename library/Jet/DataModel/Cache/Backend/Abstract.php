@@ -26,7 +26,7 @@ abstract class DataModel_Cache_Backend_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\DataModel_Cache_Backend_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\DataModel_Cache_Backend_Abstract';
 
 	/**
 	 * @var DataModel_Cache_Backend_Config_Abstract

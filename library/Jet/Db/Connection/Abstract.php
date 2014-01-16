@@ -31,7 +31,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	/**
 	 * @var string
 	 */
-	public static $__factory_must_be_instance_of_class_name = "Jet\\Db_Connection_Abstract";
+	public static $__factory_must_be_instance_of_class_name = 'Jet\\Db_Connection_Abstract';
 
 
 	/**
@@ -89,7 +89,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 		foreach($query_data as $key => $value){
 
 			if($value === null){
-				$value = "NULL";
+				$value = 'NULL';
 			} else
 			if(is_bool($value)){
 				$value = $value ? 1 : 0;
@@ -101,7 +101,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 
 			}
 
-			$replacements[":{$key}"] = $value;
+			$replacements[':'.$key] = $value;
 		}
 
 		krsort($replacements, SORT_STRING);

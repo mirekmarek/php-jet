@@ -28,7 +28,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Float";
+	protected $form_field_type = 'Float';
 
 	/**
 	 * @var float
@@ -104,24 +104,24 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType()." ";
+		$res = 'Type: '.$this->getType().' ';
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->default_value) {
-			$res .= ", default value: {$this->default_value}";
+			$res .= ', default value: '.$this->default_value;
 		}
 
 		if($this->min_value) {
-			$res .= ", min. value: {$this->min_value}";
+			$res .= ', min. value: '.$this->min_value;
 		}
 
 		if($this->max_value) {
-			$res .= ", max. value: {$this->max_value}";
+			$res .= ', max. value: '.$this->max_value;
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;
@@ -145,7 +145,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 			$value<$this->min_value
 		) {
 			throw new Config_Exception(
-				"Configuration property ".get_class($this->_configuration)."::".$this->_name." value is under the minimal value (by definition). Minimal value: {$this->min_value}, current value: {$value}",
+				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' value is under the minimal value (by definition). Minimal value: '.$this->min_value.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
@@ -155,7 +155,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 			$value>$this->max_value
 		) {
 			throw new Config_Exception(
-				"Configuration property ".get_class($this->_configuration)."::".$this->_name." value is above the maximum value (by definition). Maximum value: {$this->max_value}, current value: {$value}",
+				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' value is above the maximum value (by definition). Maximum value: '.$this->max_value.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}

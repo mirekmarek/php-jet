@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-require_once JET_LIBRARY_PATH."Jet/Debug/Tools/Formatter.php";
+require_once JET_LIBRARY_PATH.'Jet/Debug/Tools/Formatter.php';
 
 class Debug_ErrorHandler_Handler_Display extends Debug_ErrorHandler_Handler_Abstract {
 

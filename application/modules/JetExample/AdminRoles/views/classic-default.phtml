@@ -25,11 +25,11 @@ $paginator = $this->paginator;
 <?php foreach( $this->roles as $role ): ?>
 	<tr>
 		<td>
-			<a href="?ID=<?php echo rawurlencode( $role["ID"] ); ?>">EDIT</a>
+			<a href="?ID=<?php echo rawurlencode( $role['ID'] ); ?>">EDIT</a>
 		</td>
-		<td><?php echo $role["ID"]; ?></td>
-		<td><?php echo $role["name"]; ?></td>
-		<td><?php echo $role["description"]; ?></td>
+		<td><?php echo $role['ID']; ?></td>
+		<td><?php echo $role['name']; ?></td>
+		<td><?php echo $role['description']; ?></td>
 	</tr>
 <?php endforeach; ?>
 	<tr>

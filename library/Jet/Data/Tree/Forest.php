@@ -79,7 +79,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 
 		if( isset($this->trees[$tree_ID]) ){
 			throw new Data_Tree_Exception(
-				"Tree '{$tree_ID}' already exists in the forest",
+				'Tree \''.$tree_ID.'\' already exists in the forest',
 				Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
 			);
 		}
@@ -177,7 +177,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	public function toXML() {
 		$data = $this->_toJsonOrXMLDataPrepare();
 
-		return $this->_XMLSerialize($data, "tree");
+		return $this->_XMLSerialize($data, 'tree');
 	}
 
 	/**
@@ -191,9 +191,9 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 		}
 
 		$data = array(
-			"identifier" => $this->ID_key,
-			"label" => $this->label_key,
-			"items" => $data
+			'identifier' => $this->ID_key,
+			'label' => $this->label_key,
+			'items' => $data
 		);
 
 		return $data;
@@ -207,8 +207,8 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $data, $tag, $prefix="" ) {
-		$result = "{$prefix}<{$tag}>\n";
+	protected function _XMLSerialize( $data, $tag, $prefix='' ) {
+		$result = $prefix.'<'.$tag.'>'.JET_EOL;
 
 		if(is_object($data)) {
 			$data = get_class_vars($data);
@@ -217,14 +217,14 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 		foreach($data as $key=>$val) {
 			if(is_array($val) || is_object($val)) {
 				if(is_int($key)) {
-					$key = "item";
+					$key = 'item';
 				}
-				$result .= $this->_XMLSerialize($val, $key, $prefix . "\t");
+				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= "{$prefix}\t<{$key}>".htmlspecialchars($val)."</{$key}>\n";
+				$result .= $prefix.JET_EOL.'<'.$key.'>'.htmlspecialchars($val).'</'.$key.'>'.JET_EOL;
 			}
 		}
-		$result .= "{$prefix}</{$tag}>\n";
+		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
 		return $result;
 	}
 
@@ -239,7 +239,6 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 */
 	public function current(){
 		$current_tree_ID = key($this->trees);
-		//echo "Current {$current_tree_ID}\n";
 
 		return $this->trees[$current_tree_ID]->current();
 	}

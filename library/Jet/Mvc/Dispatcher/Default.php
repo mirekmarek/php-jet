@@ -43,10 +43,11 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	 * @return string|null
 	 */
 	public function dispatch() {
+		Debug_Profiler::MainBlockStart('Modules dispatch');
 
 		if(!$this->router) {
 			throw new Mvc_Dispatcher_Exception(
-				"Dispatcher is not initialized yet. Please call \$dispatcher->initialize(\$router); first! ",
+				'Dispatcher is not initialized yet. Please call $dispatcher->initialize($router); first! ',
 				Mvc_Dispatcher_Exception::CODE_DISPATCHER_IS_NOT_INITIALIZED
 			);
 		}
@@ -67,6 +68,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		if($this->request_provides_static_content) {
 			$this->router->setCacheOutput($output);
 		}
+		Debug_Profiler::MainBlockEnd('Modules dispatch');
+
 		return $output;
 	}
 
@@ -79,6 +82,9 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$this->current_queue_item = $queue_item;
 
 		$module_name = $queue_item->getModuleName();
+
+		Debug_Profiler::blockStart( 'Dispatch '.$module_name );
+
 		if(!Application_Modules::getModuleIsActivated($module_name)) {
 			return false;
 		}
@@ -87,11 +93,13 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$controller_action = $queue_item->getControllerAction();
 
 		$this->current_loop_ID =
-				 "{$module_name}:"
-				."{$controller_class_suffix}:"
-				."{$this->service_type}:"
-				."{$controller_action}:"
+				 $module_name.':'
+				.$controller_class_suffix.':'
+				.$this->service_type.':'
+				.$controller_action.':'
 				.$this->loop_counter;
+
+		Debug_Profiler::message('Loop ID:'.$this->current_loop_ID);
 
 		$this->loop_counter++;
 
@@ -103,6 +111,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		) {
 			$layout->setOutputPart($output_part);
 			if( $output_part->getIsStatic() ) {
+				Debug_Profiler::message('Cache hit: IS STATIC');
+				Debug_Profiler::blockEnd( 'Dispatch '.$module_name );
 				return;
 			}
 		}
@@ -123,6 +133,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		if(!$controller) {
 			//the module may not be installed and activated
+			Debug_Profiler::blockEnd( 'Dispatch '.$module_name );
 			return false;
 		}
 
@@ -142,6 +153,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		$this->current_queue_item = null;
 		$this->current_loop_ID = null;
+
+		Debug_Profiler::blockEnd( 'Dispatch '.$module_name );
 
 		return true;
 	}
@@ -173,21 +186,21 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$module_dir = $module_info->getModuleDir();
 
 		if($controller_class_suffix) {
-			$controller_class_suffix .=  "_";
+			$controller_class_suffix .=  '_';
 		}
 
 
-		$controller_suffix = "Controller_{$controller_class_suffix}{$service_type}";
+		$controller_suffix = 'Controller_'.$controller_class_suffix.$service_type;
 
-		$controller_class_name = Application_Modules::MODULE_NAMESPACE."\\{$module_name}\\{$controller_suffix}";
-		$controller_path = $module_dir.str_replace("_", "/", $controller_suffix).".php";
+		$controller_class_name = Application_Modules::MODULE_NAMESPACE.'\\'.$module_name.'\\'.$controller_suffix;
+		$controller_path = $module_dir.str_replace('_', '/', $controller_suffix).'.php';
 
 		/** @noinspection PhpIncludeInspection */
 		require_once $controller_path;
 
 		if(!class_exists($controller_class_name, false)) {
 			throw new Mvc_Dispatcher_Exception(
-				"Controller '$controller_class_name' does not exist. File: {$controller_path}",
+				'Controller \''.$controller_class_name.'\' does not exist. File: '.$controller_path,
 				Mvc_Dispatcher_Exception::CODE_CONTROLLER_CLASS_DOES_NOT_EXIST
 			);
 		}
@@ -196,7 +209,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		if (!$controller instanceof Mvc_Controller_Abstract) {
 			throw new Mvc_Dispatcher_Exception(
-				"Controller '$controller_class_name' is not an instance of Mvc_Controller_Abstract",
+				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract',
 				Mvc_Dispatcher_Exception::CODE_INVALID_CONTROLLER_CLASS
 			);
 		}
@@ -215,11 +228,11 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	 * @throws Mvc_Dispatcher_Exception
 	 */
 	protected function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters=array() ) {
-		$method = $action."_Action";
+		$method = $action.'_Action';
 
 		if( !method_exists($controller, $method) ) {
 			throw new Mvc_Dispatcher_Exception(
-				"Controller method ". get_class($controller)."->{$method}() does not exist",
+				'Controller method '. get_class($controller).'->'.$method.'() does not exist',
 				Mvc_Dispatcher_Exception::CODE_ACTION_DOES_NOT_EXIST
 			);
 		}

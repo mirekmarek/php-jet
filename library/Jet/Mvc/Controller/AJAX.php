@@ -23,8 +23,8 @@ namespace Jet;
 abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 
 
-	const ERR_CODE_AUTHORIZATION_REQUIRED = "AuthorizationRequired";
-	const ERR_CODE_ACCESS_DENIED = "AccessDenied";
+	const ERR_CODE_AUTHORIZATION_REQUIRED = 'AuthorizationRequired';
+	const ERR_CODE_ACCESS_DENIED = 'AccessDenied';
 
 	/**
 	 *
@@ -35,18 +35,18 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	 * Example:
 	 *
 	 * <code>
-	 * const ERROR_CODE_OBJECT_NOT_FOUND = "ObjectNotFound";
+	 * const ERROR_CODE_OBJECT_NOT_FOUND = 'ObjectNotFound';
 	 *
 	 * protected static $errors = array(
-	 *      self::ERROR_CODE_OBJECT_NOT_FOUND => array(self::HTTP_NOT_FOUND, "Object not found")
+	 *      self::ERROR_CODE_OBJECT_NOT_FOUND => array(self::HTTP_NOT_FOUND, 'Object not found')
 	 * );
 	 * </code>
 	 *
 	 * @var array
 	 */
 	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, "Access denied! Authorization required! "),
-		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, "Access denied! Insufficient permissions! "),
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '),
+		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
 	);
 
 
@@ -60,8 +60,8 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 			$this->responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );
 		} else {
 			$this->responseError( self::ERR_CODE_ACCESS_DENIED , array(
-				"module_action" => $module_action,
-				"controller_action" => $controller_action
+				'module_action' => $module_action,
+				'controller_action' => $controller_action
 			));
 		}
 	}
@@ -74,21 +74,21 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	public function responseError( $code, $data=null ) {
 		if(!isset(static::$errors[$code])) {
 			throw new Mvc_Controller_Exception(
-				"AJAX Error (code:{$code}) is not specified! Please specify the error. Add ".get_class($this)."::\$errors[{$code}] entry.  ",
+				'AJAX Error (code:'.$code.') is not specified! Please specify the error. Add '.get_class($this).'::$errors['.$code.'] entry.  ',
 				Mvc_Controller_Exception::CODE_INVALID_RESPONSE_CODE
 			);
 		}
 
 		list($http_code, $error_message) = static::$errors[$code];
 
-		$error_code = get_class($this).":".$code;
+		$error_code = get_class($this).':'.$code;
 		$error = array(
-			"error_code" => $error_code,
-			"error_msg" => $error_message
+			'error_code' => $error_code,
+			'error_msg' => $error_message
 		);
 
 		if($data) {
-			$error["error_data"] = $data;
+			$error['error_data'] = $data;
 		}
 
 		$this->_response(json_encode( $error ), array(), $http_code, $error_message);
@@ -100,17 +100,48 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	 * @param int $http_code
 	 * @param string $http_message
 	 */
-	protected function _response( $response_text, array $http_headers=array(), $http_code = 200, $http_message="OK" ) {
-		header( "HTTP/1.1 {$http_code} {$http_message}" );
-		header("Content-type:text/json;charset=UTF-8");
+	protected function _response( $response_text, array $http_headers=array(), $http_code = 200, $http_message='OK' ) {
+		header( 'HTTP/1.1 '.$http_code.' '.$http_message );
+		header('Content-type:text/json;charset=UTF-8');
 
 		foreach( $http_headers as $header=>$header_value ) {
-			header("{$header}: $header_value");
+			header( $header.': '.$header_value );
 		}
+
+		Debug_Profiler::setOutputIsJSON(true);
 
 		echo $response_text;
 		Application::end();
 
 	}
+
+	/**
+	 * Renders the output and adds it into the default layout.
+	 * @see Mvc/readme.txt
+	 *
+	 * @param string $script
+	 * @param string $position (optional, default: by current dispatcher queue item)
+	 * @param bool $position_required (optional, default: by current dispatcher queue item)
+	 * @param int $position_order (optional, default: by current dispatcher queue item)
+	 */
+	public function render(
+		$script,
+		$position = null,
+		$position_required = null,
+		$position_order = null
+	) {
+		Debug_Profiler::setOutputIsXML( true );
+
+		$this->router->getUIManagerModuleInstance()->renderOutput(
+			$this->view,
+			$script,
+			$position,
+			$position_required,
+			$position_order
+		);
+
+		return;
+	}
+
 
 }

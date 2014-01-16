@@ -37,7 +37,7 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 	/**
 	 * @var string
 	 */
-	protected $_table_name = "";
+	protected $_table_name = '';
 
 
 	/**
@@ -61,11 +61,11 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 	 */
 	public function load($URL) {
 
-		$data = $this->_db_read->fetchOne("SELECT data FROM {$this->_table_name}
+		$data = $this->_db_read->fetchOne('SELECT data FROM '.$this->_table_name.'
 				WHERE
-					URL_hash=:URL_hash",
+					URL_hash=:URL_hash',
 			array(
-				"URL_hash" => md5($URL)
+				'URL_hash' => md5($URL)
 			)
 		);
 		if(!$data) {
@@ -83,14 +83,14 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 	 */
 	public function save($URL, Mvc_Router_Abstract $item) {
 		$data = array(
-			"URL" => $URL,
-			"URL_hash" => md5($URL),
-			"data" => $this->serialize($item),
+			'URL' => $URL,
+			'URL_hash' => md5($URL),
+			'data' => $this->serialize($item),
 		);
 
-		$this->_db_write->execCommand("
+		$this->_db_write->execCommand('
 				BEGIN
-					INSERT INTO {$this->_table_name}
+					INSERT INTO '.$this->_table_name.'
 					(
 						URL,
 						URL_hash,
@@ -107,7 +107,7 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 				EXCEPTION WHEN dup_val_on_index THEN
 				      null;
 				END;
-				",$data);
+				', $data);
 
 	}
 
@@ -123,19 +123,19 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 	 */
 	public function truncate($URL = null) {
 		if($URL===null) {
-			$this->_db_write->execCommand("TRUNCATE TABLE {$this->_table_name}");
+			$this->_db_write->execCommand('TRUNCATE TABLE '.$this->_table_name);
 		} else {
 			if(is_array($URL)) {
 				foreach($URL as $_URL) {
-					$this->_db_write->execCommand("DELETE FROM {$this->_table_name} WHERE URL_hash=:URL_hash",
+					$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE URL_hash=:URL_hash',
 						array(
-							"URL_hash" => md5($_URL),
+							'URL_hash' => md5($_URL),
 						));
 				}
 			} else {
-				$this->_db_write->execCommand("DELETE FROM {$this->_table_name} WHERE URL_hash=:URL_hash",
+				$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE URL_hash=:URL_hash',
 					array(
-						"URL_hash" => md5($URL),
+						'URL_hash' => md5($URL),
 					));
 
 			}
@@ -149,21 +149,20 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 	public function helper_getCreateCommand() {
 
 		return
-			""
-			."DECLARE\n"
-			."\tcnt NUMBER;\n"
-			."BEGIN\n"
-			."\tSELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER('{$this->_table_name}') or table_name = '{$this->_table_name}';\n"
-			."IF cnt = 0 THEN\n"
-			."EXECUTE IMMEDIATE 'CREATE TABLE {$this->_table_name} (\n"
-			."\t URL varchar(3000) NOT NULL,\n"
-			."\t URL_hash varchar(255) NOT NULL,\n"
-			."\t data CLOB NOT NULL,\n"
-			."\t created_date_time TIMESTAMP WITH TIME ZONE NOT NULL,\n"
-			."\tCONSTRAINT {$this->_table_name}_pk PRIMARY KEY (URL_hash)\n"
-			."\t)';"
-			."END IF;\n"
-			."END;\n";
+			'DECLARE'.JET_EOL
+			.JET_TAB.'cnt NUMBER;'.JET_EOL
+			.'BEGIN'.JET_EOL
+			.JET_TAB.'SELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER(\''.$this->_table_name.'\') or table_name = \''.$this->_table_name.'\';'.JET_EOL
+			.'IF cnt = 0 THEN'.JET_EOL
+			.'EXECUTE IMMEDIATE \'CREATE TABLE '.$this->_table_name.' ('.JET_EOL
+			.JET_TAB.'URL varchar(3000) NOT NULL,'.JET_EOL
+			.JET_TAB.'URL_hash varchar(255) NOT NULL,'.JET_EOL
+			.JET_TAB.'data CLOB NOT NULL,'.JET_EOL
+			.JET_TAB.'created_date_time TIMESTAMP WITH TIME ZONE NOT NULL,'.JET_EOL
+			.JET_TAB.'CONSTRAINT '.$this->_table_name.'_pk PRIMARY KEY (URL_hash)'.JET_EOL
+			.JET_TAB.')\';'
+			.'END IF;'.JET_EOL
+			.'END;'.JET_EOL;
 	}
 
 	/**

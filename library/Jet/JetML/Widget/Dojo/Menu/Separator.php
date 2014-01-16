@@ -19,6 +19,6 @@ class JetML_Widget_Dojo_Menu_Separator extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.MenuSeparator";
+	protected $dojo_type = 'dijit.MenuSeparator';
 
 }

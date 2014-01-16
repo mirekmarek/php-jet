@@ -27,8 +27,8 @@
 namespace Jet;
 
 class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
-	const PRIMARY_KEY_NAME = "PRIMARY";
-	const ROWNUM_KEY = "RN____";
+	const PRIMARY_KEY_NAME = 'PRIMARY';
+	const ROWNUM_KEY = 'RN____';
 
 	/**
 	 * @var DataModel_Backend_Oracle_Config
@@ -91,7 +91,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 			$name = $this->_getColumnName($name);
 
-			$_columns[] = "\t\"{$name}\" ".$this->_getSQLType( $data_model, $property, $_keys );
+			$_columns[] = JET_TAB.'\''.$name.'\' '.$this->_getSQLType( $data_model, $property, $_keys );
 		}
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
@@ -103,44 +103,44 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			}
 			$name = $this->_getColumnName($name);
 
-			$_columns[] = "\t\"{$name}\" ".$this->_getSQLType( $data_model, $property, $_keys );
+			$_columns[] = JET_TAB.'\''.$name.'\' '.$this->_getSQLType( $data_model, $property, $_keys );
 		}
 
 		$create_index_query = array();
 
 		foreach($_keys as $key_name=>$key) {
-			$columns = implode("\", \"", $this->_getColumnName($key["columns"]) );
+			$columns = implode('', '', $this->_getColumnName($key['columns']) );
 
-			switch( $key["type"] ) {
+			switch( $key['type'] ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$_keys[$key_name] = "\n,CONSTRAINT \"".$this->_getColumnName("{$table_name}_pk")."\" PRIMARY KEY (\"{$columns}\")";
+					$_keys[$key_name] = JET_EOL.',CONSTRAINT "'.$this->_getColumnName($table_name.'_pk').'" PRIMARY KEY ("'.$columns.'")';
 				break;
 				case DataModel::KEY_TYPE_INDEX:
-					$create_index_query[] = "\nCREATE INDEX \"".$this->_getColumnName("{$table_name}_{$key_name}")."\" ON $table_name (\"{$columns}\")";
-					$_keys[$key_name] = "";
+					$create_index_query[] = JET_EOL.'CREATE INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ("'.$columns.'")';
+					$_keys[$key_name] = '';
 					break;
 				default:
-					$create_index_query[] = "\nCREATE {$key["type"]} INDEX \"".$this->_getColumnName("{$table_name}_{$key_name}")."\" ON $table_name (\"{$columns}\")";
-					$_keys[$key_name] = "";
+					$create_index_query[] = JET_EOL.'CREATE '.$key['type'].' INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ("'.$columns.'")';
+					$_keys[$key_name] = '';
 					break;
 			}
 		}
 
-		$q = "";
-		$q .= "DECLARE\n";
-		$q .= "cnt NUMBER;\n";
-		$q .= "BEGIN\n";
-		$q .= "SELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER('{$table_name}') or table_name = '{$table_name}';\n";
-		$q .= "IF cnt = 0 THEN\n";
-		$q .= "EXECUTE IMMEDIATE 'CREATE TABLE {$table_name} (\n";
-		$q .= implode(",\n", $_columns);
-		$q .= implode("\n", $_keys);
-		$q .= ")';\n";
+		$q = 'DECLARE'.JET_EOL;
+		$q .= 'cnt NUMBER;'.JET_EOL;
+		$q .= 'BEGIN'.JET_EOL;
+		$q .= 'SELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER(\''.$table_name.'\') or table_name = \''.$table_name.'\';'.JET_EOL;
+		$q .= 'IF cnt = 0 THEN'.JET_EOL;
+		$q .= 'EXECUTE IMMEDIATE \'CREATE TABLE '.$table_name.' ('.JET_EOL;
+		$q .= implode(','.JET_EOL, $_columns);
+		$q .= implode(JET_EOL, $_keys);
+		$q .= ')\';'.JET_EOL;
+
 		foreach($create_index_query as $ciq) {
-			$q .= "EXECUTE IMMEDIATE '{$ciq}';\n";
+			$q .= 'EXECUTE IMMEDIATE \''.$ciq.'\';'.JET_EOL;
 		}
-		$q .= "END IF;\n";
-		$q .= "END;\n";
+		$q .= 'END IF;'.JET_EOL;
+		$q .= 'END;'.JET_EOL;
 
 		return $q;
 	}
@@ -159,9 +159,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	public function helper_getDropCommand( DataModel $data_model ) {
 		$table_name = $this->_getTableName( $data_model->getDataModelDefinition() );
-		$ui_prefix = "_d".date("YmdHis");
+		$ui_prefix = '_d'.date('YmdHis');
 
-		return "RENAME TABLE \"{$table_name}\" TO \"{$ui_prefix}{$table_name}\"";
+		return 'RENAME TABLE '.$table_name.' TO '.$ui_prefix.$table_name.'';
 	}
 
 	/**
@@ -181,8 +181,8 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$data_model_definition = $data_model->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$update_prefix = "_UP".date("YmdHis")."_";
-		$exists_cols = $this->_db_write->fetchCol("DESCRIBE {$table_name}");
+		$update_prefix = '_UP'.date('YmdHis').'_';
+		$exists_cols = $this->_db_write->fetchCol('DESCRIBE '.$table_name);
 
 		$updated_table_name = $update_prefix.$table_name;
 
@@ -206,24 +206,24 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		}
 
 
-		$data_migration_command = "INSERT INTO $updated_table_name
-					(\"".implode("\",\"", $common_cols)."\")
+		$data_migration_command = 'INSERT INTO '.$updated_table_name.'
+					("'.implode('","', $common_cols).'")
 				SELECT
-					\"".implode("\",\"", $common_cols)."\"
-				FROM {$table_name};";
+					"'.implode('","', $common_cols).'"
+				FROM '.$table_name.';';
 
-		$update_default_values = "";
+		$update_default_values = '';
 		if( ($new_cols = $this->_getRecord($new_cols)) ) {
 
 			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = "{$c}=".$v;
+				$_new_cols[] = $c.'='.$v;
 			}
-			$update_default_values = "UPDATE $updated_table_name SET ".implode(",\n", $_new_cols);
+			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode(','.JET_EOL, $_new_cols);
 		}
 
 
-		$rename_command1 = "RENAME TABLE {$table_name} TO {$update_prefix}b_{$table_name} ;\n";
-		$rename_command2 = "RENAME TABLE {$updated_table_name} TO  {$table_name}; ";
+		$rename_command1 = 'RENAME TABLE '.$table_name.' TO '.$update_prefix.'b_'.$table_name.' ;'.JET_EOL;
+		$rename_command2 = 'RENAME TABLE '.$updated_table_name.' TO  '.$table_name.'; ';
 
 		$update_command = array();
 		$update_command[] = $create_command;
@@ -265,19 +265,19 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 		$limit_part = $this->_getSQLQueryLimitPart($query);
 
-		$q = "";
+		$q = '';
 
 		if($limit_part) {
-			$q = "SELECT * FROM (\n";
+			$q = 'SELECT * FROM ('.JET_EOL;
 		}
 
-		$q .= "SELECT\n\t"
-			.$this->_getSQLQuerySelectPart($query);
+		$q .= 'SELECT'.JET_EOL
+			.JET_TAB.$this->_getSQLQuerySelectPart($query);
 		if($limit_part) {
-			$q .= ",ROWNUM AS ".static::ROWNUM_KEY;
+			$q .= ',ROWNUM AS '.static::ROWNUM_KEY;
 		}
-		$q .= "\nFROM\n\t"
-			.$this->_getSQLQueryTableName($query)
+		$q .= JET_EOL.'FROM'.JET_EOL
+			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 
 			.$this->_getSQLqueryWherePart($query->getWhere())
@@ -297,7 +297,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendCountQuery( DataModel_Query $query ) {
-		return "SELECT count(*) FROM\n\t"
+		return 'SELECT count(*) FROM'.JET_EOL.JET_TAB
 			.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 			.$this->_getSQLqueryWherePart($query->getWhere())
@@ -319,10 +319,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 		$rec = $this->_getRecord($record);
 
-		$columns = implode(",\n", array_keys($rec));
-		$values = implode(",\n", $rec);
+		$columns = implode(','.JET_EOL, array_keys($rec));
+		$values = implode(','.JET_EOL, $rec);
 
-		return "INSERT INTO {$table_name} ({$columns}) VALUES ({$values})";
+		return 'INSERT INTO '.$table_name.' ('.$columns.') VALUES ('.$values.')';
 	}
 
 	/**
@@ -338,15 +338,15 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$set = array();
 
 		foreach($this->_getRecord($record) as $k=>$v) {
-			$set[] = "{$k}=".$v;
+			$set[] = $k.'='.$v;
 
 		}
 
-		$set = implode(",\n", $set);
+		$set = implode(','.JET_EOL, $set);
 
 		$where = $this->_getSQLqueryWherePart($where->getWhere());
 
-		return "UPDATE {$table_name} SET \n{$set}{$where}";
+		return 'UPDATE '.$table_name.' SET '.JET_EOL.$set.$where;
 
 	}
 
@@ -357,7 +357,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
 		$table_name = $this->_getTableName($where->getMainDataModel()->getDataModelDefinition());
-		return "DELETE FROM {$table_name}".$this->_getSQLqueryWherePart($where->getWhere());
+		return 'DELETE FROM '.$table_name.$this->_getSQLqueryWherePart($where->getWhere());
 	}
 
 	/**
@@ -405,7 +405,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchAll( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchAll");
+		return $this->_fetch($query, 'fetchAll');
 	}
 
 	/**
@@ -414,7 +414,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchAssoc( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchAssoc");
+		return $this->_fetch($query, 'fetchAssoc');
 	}
 
 	/**
@@ -423,7 +423,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchPairs( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchPairs");
+		return $this->_fetch($query, 'fetchPairs');
 	}
 
 	/**
@@ -432,7 +432,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchRow( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchRow");
+		return $this->_fetch($query, 'fetchRow');
 	}
 
 	/**
@@ -441,7 +441,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function fetchOne( DataModel_Query $query ) {
-		return $this->_fetch($query, "fetchOne");
+		return $this->_fetch($query, 'fetchOne');
 	}
 
 	/**
@@ -493,7 +493,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					$property instanceof DataModel_Definition_Property_DateTime ||
 					$property instanceof DataModel_Definition_Property_Date
 				) {
-					$data[$i][$select_as] = DateTime::createFromFormat("d#M#y H#i#s*A", $data[$i][$select_as]);
+					$data[$i][$select_as] = DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i][$select_as]);
 				}
 
 				$property->checkValueType( $data[$i][$select_as] );
@@ -551,7 +551,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Definition_Property_Abstract $property
 				 */
-				$columns_qp[] = $this->_getColumnName($property)." AS {$select_as}";
+				$columns_qp[] = $this->_getColumnName($property).' AS '.$select_as;
 
 				continue;
 			}
@@ -564,13 +564,13 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 				$backend_function_call = $property->toString( $mapper );
 
-				$columns_qp[] = "{$backend_function_call} AS {$select_as}";
+				$columns_qp[] = $backend_function_call.' AS '.$select_as;
 				continue;
 			}
 
 		}
 
-		return implode(",\n\t", $columns_qp);
+		return implode(','.JET_EOL.JET_TAB, $columns_qp);
 	}
 
 	/**
@@ -580,7 +580,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryTableName( DataModel_Query $query ) {
 		$main_model_definition = $query->getMainDataModel()->getDataModelDefinition();
-		return "".$this->_getTableName( $main_model_definition )."";
+		return $this->_getTableName( $main_model_definition );
 
 	}
 
@@ -591,7 +591,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected  function _getSQLQueryJoinPart( DataModel_Query $query ) {
-		$join_qp = "";
+		$join_qp = '';
 
 		foreach($query->getRelations() as $relation) {
 
@@ -601,14 +601,14 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-					$join_qp .= "\n\t\tJOIN {$r_table_name} ON\n";
+					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'JOIN '.$r_table_name.' ON'.JET_EOL;
 				break;
 				case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-					$join_qp .= "\n\t\tLEFT OUTER JOIN {$r_table_name} ON\n";
+					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'LEFT OUTER JOIN '.$r_table_name.' ON'.JET_EOL;
 				break;
 				default:
 					throw new DataModel_Backend_Exception(
-						"Oracle backend: unknown join type '{$relation->getJoinType()}'",
+						'Oracle backend: unknown join type \''.$relation->getJoinType().'\'',
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
 				break;
@@ -631,7 +631,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 						$related_value = $this->_getValue($related_value);
 					}
 
-					$j[] = "\t\t\t".$this->_getColumnName($join_by_property->getRelatedProperty())." = ".$related_value;
+					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($join_by_property->getRelatedProperty()).' = '.$related_value;
 
 				}
 
@@ -642,7 +642,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					 */
 					$rt_property = $r_property_definition->getRelatedToProperty();
 
-					$j[] = "\t\t\t".$this->_getColumnName($r_property_definition)." = ".$this->_getColumnName($rt_property);
+					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($r_property_definition).' = '.$this->_getColumnName($rt_property);
 
 				}
 
@@ -650,7 +650,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 
-			$join_qp .= implode(" AND \n", $j);
+			$join_qp .= implode(' AND '.JET_EOL, $j);
 		}
 
 		return $join_qp;
@@ -666,19 +666,19 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryWherePart( DataModel_Query_Where $query=null, $level=0 ) {
 		if(!$query) {
-			return "";
+			return '';
 		}
-		$res = "";
+		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat("\t", $next_level);
+		$tab = str_repeat(JET_TAB, $next_level);
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab."(\n".$this->_getSQLqueryWherePart($qp, $next_level)." \n\t)";
+				$res .= $tab.'('.JET_EOL.$this->_getSQLqueryWherePart($qp, $next_level).' '.JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -686,7 +686,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				/**
 				 * @var string $qp
 				 */
-				$res .= "\n{$tab}$qp\n ";
+				$res .= JET_EOL.$tab.$qp.JET_EOL.' ';
 				continue;
 			}
 
@@ -711,7 +711,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		}
 
 		if($res && !$level) {
-			$res = "\nWHERE\n{$res}\n";
+			$res = JET_EOL.'WHERE'.JET_EOL.$res.JET_EOL;
 		}
 
 		return $res;
@@ -726,19 +726,19 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryHavingPart( DataModel_Query_Having $query=null, $level=0 ) {
 		if(!$query) {
-			return "";
+			return '';
 		}
-		$res = "";
+		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat("\t", $next_level);
+		$tab = str_repeat(JET_TAB, $next_level*strlen(JET_TAB));
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Having ) {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .="$tab(\n".$this->_getSQLQueryHavingPart($qp, $next_level )." \n\t)";
+				$res .= $tab.'('.JET_EOL.$this->_getSQLQueryHavingPart($qp, $next_level ).' '.JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -746,7 +746,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				/**
 				 * @var string $qp
 				 */
-				$res .= "\n$tab$qp\n ";
+				$res .= JET_EOL.$tab.$qp.JET_EOL.' ';
 				continue;
 			}
 
@@ -768,7 +768,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		}
 
 		if($res && !$level ) {
-			$res = "\nHAVING\n{$res}\n";
+			$res = JET_EOL.'HAVING'.JET_EOL.$res.JET_EOL;
 		}
 
 		return $res;
@@ -782,7 +782,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryWherePart_handleExpression($item, $operator, $value) {
-		$res = "";
+		$res = '';
 
 		if(is_array($value)) {
 			$sq = array();
@@ -792,12 +792,12 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			 */
 			foreach($value as $v) {
 
-				$sq[] = "\t\t{$item}".$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
+				$sq[] = JET_TAB.JET_TAB.$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
 			}
 
-			$res .= "(\n".implode(" OR\n", $sq)."\n\t) ";
+			$res .= '('.JET_EOL.implode(' OR'.JET_EOL, $sq).JET_EOL.JET_TAB.') ';
 		} else {
-			$res .= "{$item}".$this->_getSQLQueryWherePart_handleOperator($operator, $value);
+			$res .= $item.$this->_getSQLQueryWherePart_handleOperator($operator, $value);
 
 		}
 
@@ -816,37 +816,37 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	protected function _getSQLQueryWherePart_handleOperator($operator, $value) {
 		$value = $this->_getValue($value);
 
-		$res = "";
+		$res = '';
 
 		switch($operator) {
 			case DataModel_Query::O_EQUAL:
-				$res .="={$value} ";
+				$res .='='.$value.' ';
 				break;
 			case DataModel_Query::O_NOT_EQUAL:
-				$res .="<>{$value} ";
+				$res .='<>'.$value.' ';
 				break;
 			case DataModel_Query::O_LIKE:
-				$res .=" LIKE {$value}";
+				$res .=' LIKE'.$value.' ';
 				break;
 			case DataModel_Query::O_NOT_LIKE:
-				$res .=" NOT LIKE {$value}";
+				$res .=' NOT LIKE'.$value.' ';
 				break;
             case DataModel_Query::O_GREATER_THAN:
-                $res .=">{$value} ";
+	            $res .='>'.$value.' ';
                 break;
             case DataModel_Query::O_LESS_THAN:
-                $res .="<{$value} ";
+	            $res .='<'.$value.' ';
                 break;
             case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-                $res .=">={$value} ";
+	            $res .='>='.$value.' ';
                 break;
             case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-                $res .="<={$value} ";
+	            $res .='<='.$value.' ';
                 break;
 
 			default:
 				throw new DataModel_Backend_Exception(
-					"Unknown operator {$operator}! ",
+					'Unknown operator '.$operator.'! ',
 					DataModel_Backend_Exception::CODE_BACKEND_ERROR
 				);
 
@@ -866,7 +866,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	protected function _getSQLQueryGroupPart( DataModel_Query $query=null ) {
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
-			return "";
+			return '';
 		}
 
 		$group_by_qp = array();
@@ -888,7 +888,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			$group_by_qp[] = $val;
 		}
 
-		$group_by_qp = "\nGROUP BY\n\t".implode(",\n\t", $group_by_qp)."\n";
+		$group_by_qp = JET_EOL.'GROUP BY'.JET_EOL.JET_TAB.implode(','.JET_EOL.JET_TAB, $group_by_qp).JET_EOL;
 
 		return $group_by_qp;
 	}
@@ -902,7 +902,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$order_by = $query->getOrderBy();
 
 		if(!$order_by) {
-			return "";
+			return '';
 		}
 
 		$order_qp = array();
@@ -922,17 +922,17 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 			if($order_by_desc) {
-				$order_qp[] = "{$item} DESC";
+				$order_qp[] = $item.' DESC';
 			} else {
-				$order_qp[] = "{$item} ASC";
+				$order_qp[] = $item.' ASC';
 			}
 		}
 
 		if(!$order_qp) {
-			return "";
+			return '';
 		}
 
-		return "\nORDER BY\n\t".implode(",\n\t", $order_qp)."\n";
+		return JET_EOL.'ORDER BY'.JET_EOL.JET_TAB.implode(','.JET_EOL.JET_TAB, $order_qp).JET_EOL;
 
 	}
 
@@ -942,7 +942,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryLimitPart( DataModel_Query $query ) {
-		$limit_qp = "";
+		$limit_qp = '';
 
 		$offset = (int)$query->getOffset();
 		$limit = (int)$query->getLimit();
@@ -950,9 +950,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		if($limit) {
 			if($offset) {
 				$limit = $offset+$limit;
-				$limit_qp = "\n) where ".static::ROWNUM_KEY." >= {$offset} AND ".static::ROWNUM_KEY." < {$limit}";
+				$limit_qp = JET_EOL.') WHERE '.static::ROWNUM_KEY.' >= '.$offset.' AND '.static::ROWNUM_KEY.' < '.$limit;
 			} else {
-				$limit_qp = "\n) where ".static::ROWNUM_KEY." <= {$limit}";
+				$limit_qp = JET_EOL.') WHERE '.static::ROWNUM_KEY.' <= '.$limit;
 			}
 		}
 
@@ -987,11 +987,11 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 				if(!isset($keys[$key_name])) {
 					$keys[$key_name] = array(
-						"type" => $key_type,
-						"columns" => array()
+						'type' => $key_type,
+						'columns' => array()
 					);
 				}
-				$keys[$key_name]["columns"][] = $name;
+				$keys[$key_name]['columns'][] = $name;
 
 
 				$key_type = DataModel::KEY_TYPE_INDEX;
@@ -1000,46 +1000,46 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 			if(!isset($keys[$key_name])) {
 				$keys[$key_name] = array(
-					"type" => $key_type,
-					"columns" => array()
+					'type' => $key_type,
+					'columns' => array()
 				);
 			}
-			$keys[$key_name]["columns"][] = $name;
+			$keys[$key_name]['columns'][] = $name;
 		}
 
-		if( isset($backend_options["key"]) && $backend_options["key"] ) {
+		if( isset($backend_options['key']) && $backend_options['key'] ) {
 
 
-			$key_name = $backend_options["key"] ;
+			$key_name = $backend_options['key'] ;
 			if(is_bool($key_name)) {
 				$key_name = $name;
 			}
 
 			if(!isset($keys[$key_name])) {
 				$key_type = DataModel::KEY_TYPE_INDEX;
-				if(isset($backend_options["key_type"])) {
-					$key_type = $backend_options["key_type"];
+				if(isset($backend_options['key_type'])) {
+					$key_type = $backend_options['key_type'];
 				}
 
 				if(!in_array($key_type, self::$valid_key_types )) {
 					throw new DataModel_Backend_Exception(
-						"Oracle backend: unknown key type '{$key_type}'",
+						'Oracle backend: unknown key type \''.$key_type.'\'',
 						DataModel_Backend_Exception::CODE_BACKEND_ERROR
 					);
 				}
 
 				$keys[$key_name] = array(
-					"type" => $key_type,
-					"columns" => array()
+					'type' => $key_type,
+					'columns' => array()
 				);
 			}
 
-			$keys[$key_name]["columns"][] = $name;
+			$keys[$key_name]['columns'][] = $name;
 		}
 
 
-		if( isset($backend_options["column_type"]) && $backend_options["column_type"] ) {
-			return $backend_options["column_type"];
+		if( isset($backend_options['column_type']) && $backend_options['column_type'] ) {
+			return $backend_options['column_type'];
 		}
 
 		switch($column->getType()) {
@@ -1047,46 +1047,46 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
 
-					return "varchar({$max_len}) NOT NULL";
+					return 'varchar('.$max_len.') NOT NULL';
 				break;
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();
 
 				if($max_len<=4000) {
 					if($column->getIsID()) {
-						return "varchar(".((int)$max_len).") NOT NULL";
+						return 'varchar('.((int)$max_len).') NOT NULL';
 					} else {
-						return "varchar(".((int)$max_len).")";
+						return 'varchar('.((int)$max_len).')';
 					}
 				}
 
 
-				return "CLOB";
+				return 'CLOB';
 				break;
 			case DataModel::TYPE_BOOL:
-				return "char(1)";
+				return 'char(1)';
 				break;
 			case DataModel::TYPE_INT:
-				return "number(12)";
+				return 'number(12)';
 				break;
 			case DataModel::TYPE_FLOAT:
-				return "float";
+				return 'float';
 				break;
 			case DataModel::TYPE_LOCALE:
-				return "varchar(20) NOT NULL";
+				return 'varchar(20) NOT NULL';
 				break;
 			case DataModel::TYPE_DATE:
-				return " TIMESTAMP WITH TIME ZONE";
+				return ' TIMESTAMP WITH TIME ZONE';
 				break;
 			case DataModel::TYPE_DATE_TIME:
-				return " TIMESTAMP WITH TIME ZONE";
+				return ' TIMESTAMP WITH TIME ZONE';
 				break;
 			case DataModel::TYPE_ARRAY:
-				return "CLOB";
+				return 'CLOB';
 				break;
 			default:
 				throw new DataModel_Exception(
-					"Unknown column type '".$column->getType()."'! Column '{$name}' ",
+					'Unknown column type \''.$column->getType().'\'! Column \''.$name.'\' ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 				break;
@@ -1113,15 +1113,15 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			$column_name = $this->_getColumnName($property_name);
 
 
-			$value = ":{$column_name}";
+			$value = ':'.$column_name;
 
 			if(
 				$definition instanceof DataModel_Definition_Property_Date || $definition instanceof DataModel_Definition_Property_DateTime
 			) {
-				$value = "TO_TIMESTAMP_TZ({$value}, 'YYYY-MM-DD\"T\"HH24:MI:SSTZHTZM')";
+				$value = 'TO_TIMESTAMP_TZ('.$value.', \'YYYY-MM-DD"T"HH24:MI:SSTZHTZM\')';
 			}
 
-			$_record["\"".$column_name."\""] = $value;
+			$_record['\''.$column_name.'\''] = $value;
 		}
 
 		return $_record;
@@ -1168,7 +1168,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	protected function _getValue( $value ) {
 		if($value===null) {
-			return "null";
+			return 'null';
 		}
 
 		if(is_bool($value)) {
@@ -1188,7 +1188,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		}
 
 		if($value instanceof DateTime) {
-			return "TO_TIMESTAMP_TZ('{$value}', 'YYYY-MM-DD\"T\"HH24:MI:SSTZHTZM')";
+			return 'TO_TIMESTAMP_TZ(\''.$value.'\', \'YYYY-MM-DD"T"HH24:MI:SSTZHTZM\')';
 		}
 
 		return $this->_db_read->quote( $value );
@@ -1217,7 +1217,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		if($column instanceof DataModel_Definition_Property_Abstract) {
 			$property_table_name = $this->_getTableName( $column->getDataModelDefinition() );
 
-			return "{$property_table_name}.\"".$this->_getColumnName($column->getName())."\"";
+			return $property_table_name.'."'.$this->_getColumnName($column->getName()).'"';
 		}
 
 

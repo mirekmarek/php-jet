@@ -60,9 +60,9 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 */
 	public function __sleep() {
 		return array(
-				"data_model_class_name",
-				//"ID_properties_names",
-				"values"
+				'data_model_class_name',
+				//'ID_properties_names',
+				'values'
 			);
 	}
 
@@ -83,7 +83,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @return string
 	 */
 	public function toString() {
-		return implode( ":", $this->values );
+		return implode( ':', $this->values );
 	}
 
 	/**
@@ -92,7 +92,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @return DataModel_ID_Abstract
 	 */
 	public function unserialize( $ID ) {
-		$ID = explode(":", $ID);
+		$ID = explode(':', $ID);
 		foreach(array_keys($this->values) as $k ) {
 			if(!$ID) {
 				break;
@@ -118,10 +118,10 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 			}
 
 			if($where) {
-				$where[] = "AND";
+				$where[] = 'AND';
 			}
 
-			$where["this.{$key}"] = $value;
+			$where['this.'.$key] = $value;
 		}
 
 		return $where;
@@ -167,13 +167,13 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	public static function generateUniqueID() {
 		$time = floor(microtime(true) * 1000);
 
-		$unique_ID = uniqid("", true);
+		$unique_ID = uniqid('', true);
 
-		$u_name = substr(php_uname("n"), 0,14);
+		$u_name = substr(php_uname('n'), 0,14);
 
 		$ID = $u_name.$time .$unique_ID;
 
-		$ID = substr( preg_replace("~[^a-zA-Z0-9]~", "_", $ID), 0, 50);
+		$ID = substr( preg_replace('~[^a-zA-Z0-9]~', '_', $ID), 0, 50);
 
 		return $ID;
 	}
@@ -214,7 +214,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 		if(!array_key_exists($offset, $this->values)) {
 			throw new DataModel_Exception(
-					"Undefined ID part '{$offset}'",
+					'Undefined ID part \''.$offset.'\'',
 					DataModel_Exception::CODE_UNDEFINED_ID_PART
 				);
 		}
@@ -234,7 +234,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 		if(!array_key_exists($offset, $this->values)) {
 			throw new DataModel_Exception(
-					"Undefined ID part '{$offset}'",
+					'Undefined ID part \''.$offset.'\'',
 					DataModel_Exception::CODE_UNDEFINED_ID_PART
 			);
 		}

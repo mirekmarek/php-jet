@@ -14,7 +14,7 @@ $form = $this->form;
 		<jetml_layout_pane region="center">
 
 			<jet_form name="<?=$form->getName();?>">
-				<jetml_data id="article_form_fields_definition"><?php echo json_encode( $form->getFields() ); ?></jetml_data>
+				<jetml_data id="article_form_fields_definition"><?=json_encode( $form->getFields() ); ?></jetml_data>
 
 				<table>
 					<jet_form_field name="ID"/>

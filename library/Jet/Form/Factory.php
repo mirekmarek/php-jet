@@ -17,12 +17,12 @@ class Form_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $form_field_class_name_prefix = "Jet\\Form_Field_";
+	protected static $form_field_class_name_prefix = 'Jet\\Form_Field_';
 
 	/**
 	 * @var string
 	 */
-	protected static $form_decorator_class_name_prefix = "Jet\\Form_Decorator_";
+	protected static $form_decorator_class_name_prefix = 'Jet\\Form_Decorator_';
 
 
 	/**
@@ -70,8 +70,8 @@ class Form_Factory extends Factory {
 	public static function getFieldInstance(
 								$type,
 								$name,
-								$label="",
-								$default_value="",
+								$label='',
+								$default_value='',
 								$is_required=false,
 								$validation_regexp=null,
 								array $error_messages = array()
@@ -79,7 +79,7 @@ class Form_Factory extends Factory {
 
 		if(!$type) {
 			throw new Form_Exception(
-				"Unknown field type ''",
+				'Unknown field type \'\'',
 				Form_Exception::CODE_UNKNOWN_FIELD_TYPE
 			);
 		}
@@ -114,7 +114,7 @@ class Form_Factory extends Factory {
 		Form $form,
 		Form_Field_Abstract $field
 	) {
-		$default_class_name = static::$form_decorator_class_name_prefix.$decorator."_".$field_type;
+		$default_class_name = static::$form_decorator_class_name_prefix.$decorator.'_'.$field_type;
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($form, $field);
@@ -138,8 +138,8 @@ class Form_Factory extends Factory {
 	 */
 	public static function field( $type,
 								$name,
-								$label="",
-								$default_value="",
+								$label='',
+								$default_value='',
 								$required=false,
 								$validation_regexp=null,
 								array $error_messages = array()

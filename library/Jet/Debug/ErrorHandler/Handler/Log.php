@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-require_once JET_LIBRARY_PATH."Jet/Debug/Tools/Formatter.php";
+require_once JET_LIBRARY_PATH.'Jet/Debug/Tools/Formatter.php';
 
 class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler_Abstract {
 
@@ -28,7 +28,7 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler_Abstract
 		if( !empty($this->log_dir) ) {
 			$dir = $this->log_dir;
 		} else {
-			if( !defined("JET_LOGS_PATH") ) {
+			if( !defined('JET_LOGS_PATH') ) {
 				return false;
 			}
 
@@ -48,22 +48,22 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler_Abstract
 		$dir = $this->getLogDir();
 
 		if(!$dir) {
-			echo "Warning! JET_LOGS_PATH is not defined!";
+			echo 'Warning! JET_LOGS_PATH is not defined!';
 			echo $message;
 			return;
 		}
 
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$log_fn = $dir."/".@date("Y-m-d").".log";
+		$log_fn = $dir.'/'.@date('Y-m-d').'.log';
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if(!@file_put_contents($log_fn,
 					$message.
-					"_________________________________________________________________________________________".PHP_EOL.PHP_EOL.PHP_EOL,
+					'_________________________________________________________________________________________'.JET_EOL.JET_EOL.JET_EOL,
 					FILE_APPEND
 		)) {
-			echo "Warning! Log  file'{$log_fn}' is not writable!";
+			echo 'Warning! Log  file\''.$log_fn.'\' is not writable!';
 			echo $message;
 			return;
 		}

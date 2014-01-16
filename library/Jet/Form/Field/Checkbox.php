@@ -16,7 +16,7 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "Checkbox";
+	protected $_type = 'Checkbox';
 
 	/**
 	 * @param Data_Array $data
@@ -37,7 +37,7 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	 */
 	public function checkValueIsNotEmpty() {
 		if(!$this->_value && $this->is_required) {
-			$this->setValueError("empty");
+			$this->setValueError('empty');
 			return false;	
 		}
 		
@@ -61,19 +61,19 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID() );
-		$tag_data->setProperty( "type", "checkbox" );
-		$tag_data->setProperty( "value", 1);
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', 'checkbox' );
+		$tag_data->setProperty( 'value', 1);
 
 
 		if($this->getValue()) {
-			$tag_data->setProperty("checked", "checked");
+			$tag_data->setProperty('checked', 'checked');
 		} else {
-			$tag_data->unsetProperty("checked");
+			$tag_data->unsetProperty('checked');
 		}
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 
 	}
 	

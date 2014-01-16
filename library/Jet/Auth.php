@@ -19,12 +19,12 @@ class Auth extends Object {
 	/**
 	 * Privilege to sites/page
 	 */
-	const PRIVILEGE_VISIT_PAGE = "visit_page";
+	const PRIVILEGE_VISIT_PAGE = 'visit_page';
 
 	/**
 	 * Privilege for modules/actions
 	 */
-	const PRIVILEGE_MODULE_ACTION = "module_action";
+	const PRIVILEGE_MODULE_ACTION = 'module_action';
 
 	/**
 	 * Auth module instance
@@ -58,7 +58,7 @@ class Auth extends Object {
 			$module_name = static::$current_auth_manager_module_instance->getModuleInfo()->getName();
 
 			throw new Auth_ManagerModule_Exception(
-					"Auth manager module '{$module_name}' instance must be subclass of Auth_ManagerModule_Abstract",
+					'Auth manager module \''.$module_name.'\' instance must be subclass of Auth_ManagerModule_Abstract',
 					Auth_ManagerModule_Exception::CODE_INVALID_AUTH_MANAGER_MODULE_CLASS
 				);
 		}
@@ -104,11 +104,11 @@ class Auth extends Object {
 	 */
 	public static function login( $login, $password ) {
 		if(!static::$current_auth_manager_module_instance->login( $login, $password )) {
-			static::logEvent("login", array("login"=>$login), "Login successful. Login: '{$login}'");
+			static::logEvent('login', array('login'=>$login), 'Login successful. Login: \''.$login.'\'');
 			return false;
 		} else {
 			$user_ID = static::getCurrentUser()->getID();
-			static::logEvent("login_failed", array("login"=>$login, "user_ID"=>$user_ID), "Login failed. Login: '{$login}', User ID: '{$user_ID}'");
+			static::logEvent('login_failed', array('login'=>$login, 'user_ID'=>$user_ID), 'Login failed. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 			return true;
 		}
 	}
@@ -123,7 +123,7 @@ class Auth extends Object {
 		if($user) {
 			$login = $user->getLogin();
 			$user_ID = $user->getID();
-			static::logEvent("logout", array("login"=>$login, "user_ID"=>$user_ID), "Logout successful. Login: '{$login}', User ID: '{$user_ID}'");
+			static::logEvent('logout', array('login'=>$login, 'user_ID'=>$user_ID), 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 		}
 
 		return static::$current_auth_manager_module_instance->logout();
@@ -164,8 +164,8 @@ class Auth extends Object {
 		$res = static::$current_auth_manager_module_instance->getCurrentUserHasPrivilege( $privilege, $value, $log_if_false );
 
 		if(!$res && $log_if_false) {
-			$login = "unknown";
-			$user_ID = "unknown";
+			$login = 'unknown';
+			$user_ID = 'unknown';
 
 
 			$user = static::getCurrentUser();
@@ -175,12 +175,12 @@ class Auth extends Object {
 			}
 
 
-			static::logEvent("privilege_access_denied",
+			static::logEvent('privilege_access_denied',
 				array(
-					"privilege"=>$privilege,
-					"value"=>$value
+					'privilege'=>$privilege,
+					'value'=>$value
 				),
-				"Privilege access denied. Login: '{$login}', User ID: '{$user_ID}', Privilege: '{$privilege}', Value: '{$value}'"
+				'Privilege access denied. Login: \''.$login.'\', User ID: \''.$user_ID.'\', Privilege: \''.$privilege.'\', Value: \''.$value.'\''
 			);
 		}
 

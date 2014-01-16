@@ -25,39 +25,39 @@ class Mvc_Router_Cache_Backend_SQLite_Config extends Mvc_Router_Cache_Backend_Co
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"directory_path" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "%JET_DATA_PATH%",
-			"form_field_label" => "Data directory path: ",
+		'directory_path' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => '%JET_DATA_PATH%',
+			'form_field_label' => 'Data directory path: ',
 		),
-		"database_name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "mvc_router_cache",
-			"form_field_label" => "Database name: ",
+		'database_name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'mvc_router_cache',
+			'form_field_label' => 'Database name: ',
 		),
-		"table_name" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "jet_mvc_router_cache",
-			"form_field_label" => "Table name: ",
+		'table_name' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => 'jet_mvc_router_cache',
+			'form_field_label' => 'Table name: ',
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $directory_path = "%JET_DATA_PATH%";
+	protected $directory_path = '%JET_DATA_PATH%';
 	/**
 	 * @var string
 	 */
-	protected $database_name= "mvc_router_cache";
+	protected $database_name= 'mvc_router_cache';
 
 	/**
 	 * @var string
 	 */
-	protected $table_name = "";
+	protected $table_name = '';
 
 
 	/**
@@ -80,10 +80,10 @@ class Mvc_Router_Cache_Backend_SQLite_Config extends Mvc_Router_Cache_Backend_Co
 	public function getDSN() {
 		$dp = $this->getDirectorypath();
 
-		if($dp==":memory:") {
+		if($dp==':memory:') {
 			return $dp;
 		}
-		return $dp.$this->getDatabaseName().".sq3";
+		return $dp.$this->getDatabaseName().'.sq3';
 	}
 
 

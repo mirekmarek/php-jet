@@ -24,7 +24,7 @@ class JetML_Widget_Dojo_Datagrid_Column extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $widget_container_tag = "th";
+	protected $widget_container_tag = 'th';
 
 	/**
 	 * @return \DOMElement
@@ -32,9 +32,9 @@ class JetML_Widget_Dojo_Datagrid_Column extends JetML_Widget_Dojo_Abstract {
 	 * @throws JetML_Exception
 	 */
 	public function getReplacement() {
-		if(!$this->node->hasAttribute("field")) {
+		if(!$this->node->hasAttribute('field')) {
 			throw new JetML_Exception(
-				"Field property is not specified!",
+				'Field property is not specified!',
 				JetML_Exception::CODE_WIDGET_ERROR
 			);
 		}

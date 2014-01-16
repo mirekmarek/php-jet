@@ -100,7 +100,7 @@ class DataModel_RecordData implements \Iterator {
 		foreach($properties_and_values as $property_name=>$value) {
 			if(!isset($properties[$property_name])) {
 				throw new DataModel_Exception(
-					"Unknown property '{$property_name}'",
+					'Unknown property \''.$property_name.'\'',
 					DataModel_Exception::CODE_UNKNOWN_PROPERTY
 				);
 			}

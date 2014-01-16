@@ -23,21 +23,21 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Sites_Site_LocalizedData_URL_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Abstract';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getLocalizedSiteURLInstance";
+	protected static $__factory_class_method = 'getLocalizedSiteURLInstance';
 
 	/**
 	 * @param string $URL (optional)
 	 * @param bool $is_default (optional)
 	 */
-	abstract public function __construct($URL="", $is_default=false);
+	abstract public function __construct($URL='', $is_default=false);
 
 	/**
 	 * @return string

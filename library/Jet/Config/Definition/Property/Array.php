@@ -75,7 +75,7 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 		}
 
 		if($this->description) {
-			$res .= PHP_EOL.PHP_EOL.$this->description;
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;

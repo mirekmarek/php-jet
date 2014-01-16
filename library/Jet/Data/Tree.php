@@ -20,36 +20,36 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @var string 
 	 */
-	protected $ID_key = "ID";
+	protected $ID_key = 'ID';
 
 	/**
 	 *
 	 * @var string 
 	 */
-	protected $parent_ID_key = "parent_ID";
+	protected $parent_ID_key = 'parent_ID';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $label_key = "name";
+	protected $label_key = 'name';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $depth_key = "depth";
+	protected $depth_key = 'depth';
 
 	/**
 	 * @var string
 	 */
-	protected $children_key = "children";
+	protected $children_key = 'children';
 
 	/**
 	 *
 	 * @var string 
 	 */
-	protected $nodes_class_name = "Jet\\Data_Tree_Node";
+	protected $nodes_class_name = 'Jet\\Data_Tree_Node';
 		
 	/**
 	 *
@@ -75,7 +75,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @param string $parent_ID_key (optional,default: parent_ID)
 	 *
 	 */
-	public function __construct($ID_key = "ID", $parent_ID_key = "parent_ID" ) {
+	public function __construct($ID_key = 'ID', $parent_ID_key = 'parent_ID' ) {
 		$this->ID_key = $ID_key;
 		$this->parent_ID_key = $parent_ID_key;
 
@@ -89,11 +89,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function setNodeClassName( $nodes_class_name ) {
 		if(
-			$nodes_class_name !== "Jet\\Data_Tree_Node" &&
-			!is_subclass_of($nodes_class_name, "Jet\\Data_Tree_Node")
+			$nodes_class_name !== 'Jet\\Data_Tree_Node' &&
+			!is_subclass_of($nodes_class_name, 'Jet\\Data_Tree_Node')
 		) {
 			throw new Data_Tree_Exception(
-				"Tree node class '{$nodes_class_name}' must be Jet\\Data_Tree_Node class or descendant class",
+				'Tree node class \''.$nodes_class_name.'\' must be Jet\\Data_Tree_Node class or descendant class',
 				Data_Tree_Exception::CODE_INVALID_NODES_CLASS
 			);
 		}
@@ -258,13 +258,13 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 
 		if( !isset($item_data[$this->ID_key]) ){
 			throw new Data_Tree_Exception(
-				"Missing '{$this->ID_key}' key in item data (ID_key)",
+				'Missing \''.$this->ID_key.'\' key in item data (ID_key)',
 				Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 		}
 		if( !isset($item_data[$this->parent_ID_key]) ){
 			throw new Data_Tree_Exception(
-				"Missing '{$this->parent_ID_key}' key in item data (parent_ID_key)",
+				'Missing \''.$this->parent_ID_key.'\' key in item data (parent_ID_key)',
 				Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 		}
@@ -273,7 +273,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 
 		if( isset($this->nodes[$ID]) ){
 			throw new Data_Tree_Exception(
-				"Node '{$ID}' already exists",
+				'Node \''.$ID.'\' already exists',
 				Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
 			);
 		}
@@ -322,7 +322,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$parent_ID = $item[$this->parent_ID_key];
 
 			if(!$parent_ID) {
-				$parent_ID = "";
+				$parent_ID = '';
 			}
 
 			if( !isset($parent_map[$parent_ID]) ) {
@@ -332,22 +332,22 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$parent_map[$parent_ID][$ID] = $item;
 		}
 
-		if(!isset($parent_map[""])) {
+		if(!isset($parent_map[''])) {
 			throw new Data_Tree_Exception(
-				"No root item defined",
+				'No root item defined',
 				Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 			);
 		}
 
-		if(count($parent_map[""])>1) {
+		if(count($parent_map[''])>1) {
 			throw new Data_Tree_Exception(
-				"Multiple roots in items or parent ID key '{$this->parent_ID_key}' not found in item",
+				'Multiple roots in items or parent ID key \''.$this->parent_ID_key.'\' not found in item',
 				Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 			);
 
 		}
 
-		$this->__setData( "", $parent_map );
+		$this->__setData( '', $parent_map );
 
 	}
 
@@ -403,7 +403,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function toXML() {
 		$data = $this->_toJsonOrXMLDataPrepare();
 
-		return $this->_XMLSerialize($data, "tree");
+		return $this->_XMLSerialize($data, 'tree');
 	}
 
 	/**
@@ -412,9 +412,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	protected function _toJsonOrXMLDataPrepare() {
 
 		$data = array(
-			"identifier" => $this->ID_key,
-			"label" => $this->label_key,
-			"items" => array($this->toArray())
+			'identifier' => $this->ID_key,
+			'label' => $this->label_key,
+			'items' => array($this->toArray())
 		);
 
 		return $data;
@@ -428,8 +428,8 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $data, $tag, $prefix="" ) {
-		$result = "{$prefix}<{$tag}>\n";
+	protected function _XMLSerialize( $data, $tag, $prefix='' ) {
+		$result = $prefix.'<'.$tag.'>'.JET_EOL;
 
 		if(is_object($data)) {
 			$data = get_class_vars($data);
@@ -437,21 +437,21 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 
 		if(!is_array($data)) {
 			//var_dump($tag, $data);die();
-			$result = "{$prefix}<{$tag}></{$tag}>\n";
+			$result = $prefix.'<'.$tag.'></'.$tag.'>'.JET_EOL;
 			return $result;
 		}
 
 		foreach($data as $key=>$val) {
 			if(is_array($val) || is_object($val)) {
 				if(is_int($key)) {
-					$key = "item";
+					$key = 'item';
 				}
-				$result .= $this->_XMLSerialize($val, $key, $prefix . "\t");
+				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= "{$prefix}\t<{$key}>".htmlspecialchars($val)."</{$key}>\n";
+				$result .= $prefix.JET_TAB.'<'.$key.'>'.htmlspecialchars($val).'</'.$key.'>'.JET_EOL;
 			}
 		}
-		$result .= "{$prefix}</{$tag}>\n";
+		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
 		return $result;
 	}
 

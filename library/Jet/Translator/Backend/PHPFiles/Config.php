@@ -30,17 +30,17 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"dictionaries_path" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "%JET_MODULES_PATH%%TRANSLATOR_NAMESPACE%/dictionaries/%TRANSLATOR_LOCALE%.php",
-			"form_field_label" => "Dictionaries path: ",
+		'dictionaries_path' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => '%JET_MODULES_PATH%%TRANSLATOR_NAMESPACE%/dictionaries/%TRANSLATOR_LOCALE%.php',
+			'form_field_label' => 'Dictionaries path: ',
 		),
-		"common_dictionaries_path" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => false,
-			"default_value" => "%JET_APPLICATION_PATH%dictionaries/%TRANSLATOR_LOCALE%.php",
-			"form_field_label" => "Common dictionaries path: ",
+		'common_dictionaries_path' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => false,
+			'default_value' => '%JET_APPLICATION_PATH%dictionaries/%TRANSLATOR_LOCALE%.php',
+			'form_field_label' => 'Common dictionaries path: ',
 		)
 
 	);
@@ -48,12 +48,12 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	/**
 	 * @var string
 	 */
-	protected $dictionaries_path = "";
+	protected $dictionaries_path = '';
 
 	/**
 	 * @var string
 	 */
-	protected $common_dictionaries_path = "";
+	protected $common_dictionaries_path = '';
 
 	/**
 	 * @param $namespace
@@ -64,8 +64,8 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	public function getDictionaryPath( $namespace, Locale $locale ) {
 
 		return Data_Text::replaceSystemConstants( Data_Text::replaceData( $this->dictionaries_path, array(
-			"TRANSLATOR_NAMESPACE" => str_replace( "\\","/", $namespace),
-			"TRANSLATOR_LOCALE" => (string)$locale
+			'TRANSLATOR_NAMESPACE' => str_replace( '\\','/', $namespace),
+			'TRANSLATOR_LOCALE' => (string)$locale
 		)));
 	}
 
@@ -77,7 +77,7 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	public function getCommonDictionaryPath( Locale $locale ) {
 
 		return Data_Text::replaceSystemConstants( Data_Text::replaceData($this->common_dictionaries_path, array(
-			"TRANSLATOR_LOCALE" => (string)$locale
+			'TRANSLATOR_LOCALE' => (string)$locale
 		)));
 	}
 

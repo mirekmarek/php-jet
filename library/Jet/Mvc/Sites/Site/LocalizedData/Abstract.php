@@ -24,15 +24,15 @@ abstract class Mvc_Sites_Site_LocalizedData_Abstract extends DataModel_Related_1
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getLocalizedSiteInstance";
+	protected static $__factory_class_method = 'getLocalizedSiteInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Sites_Site_LocalizedData_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Abstract';
 
 	/**
 	 * @param Locale $locale (optional)
@@ -48,7 +48,7 @@ abstract class Mvc_Sites_Site_LocalizedData_Abstract extends DataModel_Related_1
 	 * @return string
 	 */
 	public function getArrayKeyValue() {
-		trigger_error("Please implement ".get_class($this)."::getArrayKeyValue()", E_ERROR);
+		trigger_error('Please implement '.get_class($this).'::getArrayKeyValue()', E_ERROR);
 	}
 
 	/**

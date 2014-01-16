@@ -57,14 +57,14 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 
 		$user = Auth::getCurrentUser();
 		if($user) {
-			$user_name = $user->getName()." (".$user->getLogin().")";
+			$user_name = $user->getName().' ('.$user->getLogin().')';
 			$user_ID = (string)$user->getID();
 		} else {
-			$user_name = "";
-			$user_ID = "";
+			$user_name = '';
+			$user_ID = '';
 		}
 
-		$this->_db_write->execCommand("INSERT INTO `{$this->_table_name}` SET
+		$this->_db_write->execCommand('INSERT INTO `'.$this->_table_name.'` SET
  					`operation_ID`=:operation_ID,
 					`class_name`=:class_name,
 					`model_name`=:model_name,
@@ -75,16 +75,16 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 					`user_ID`=:user_ID,
 					`object`=:object,
 					`operation_inprogress`=:operation_inprogress
-				",array(
-					"operation_ID" => $this->_current_operation_ID,
-					"class_name" => get_class($this->_current_data_model),
-					"model_name" => $this->_current_data_model->getDataModelName(),
-					"object_ID" => (string)$this->_current_data_model->getID(),
-					"operation" => $operation,
-					"user_name" => $user_name,
-					"user_ID" => $user_ID,
-					"object" => serialize( $this->_current_data_model ),
-					"operation_inprogress" => 1,
+				',array(
+					'operation_ID' => $this->_current_operation_ID,
+					'class_name' => get_class($this->_current_data_model),
+					'model_name' => $this->_current_data_model->getDataModelName(),
+					'object_ID' => (string)$this->_current_data_model->getID(),
+					'operation' => $operation,
+					'user_name' => $user_name,
+					'user_ID' => $user_ID,
+					'object' => serialize( $this->_current_data_model ),
+					'operation_inprogress' => 1,
 				));
 
 	}
@@ -94,9 +94,9 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	 */
 	public function operationDone() {
 		$this->_db_write->execCommand(
-			"UPDATE `{$this->_table_name}` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=NOW() WHERE `operation_ID`=:operation_ID",
+			'UPDATE `'.$this->_table_name.'` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=NOW() WHERE `operation_ID`=:operation_ID',
 			array(
-				"operation_ID" => $this->_current_operation_ID,
+				'operation_ID' => $this->_current_operation_ID,
 			)
 		);
 	}
@@ -107,21 +107,21 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	public function helper_getCreateCommand() {
 		$engine = $this->config->getEngine();
 
-		return "CREATE TABLE IF NOT EXISTS `{$this->_table_name}` (\n"
-				."\t`operation_ID` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\t`class_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\t`model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\t`object_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\t`operation` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\t`start_date_and_time` datetime NOT NULL,\n"
-				."\t`done_date_and_time` datetime,\n"
-				."\t`operation_inprogress` tinyint(4) NOT NULL,\n"
-				."\t`operation_done` tinyint(4) NOT NULL,\n"
-				."\t`user_name` varchar(255) CHARACTER SET utf8 NOT NULL,\n"
-				."\t`user_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\t`object` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,\n"
-				."\tPRIMARY KEY (`operation_ID`)\n"
-			.") ENGINE={$engine} DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		return 'CREATE TABLE IF NOT EXISTS `'.$this->_table_name.'` ('.JET_EOL
+				.JET_TAB.'`operation_ID` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'`class_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'`model_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'`object_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'`operation` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'`start_date_and_time` datetime NOT NULL,'.JET_EOL
+				.JET_TAB.'`done_date_and_time` datetime,'.JET_EOL
+				.JET_TAB.'`operation_inprogress` tinyint(4) NOT NULL,'.JET_EOL
+				.JET_TAB.'`operation_done` tinyint(4) NOT NULL,'.JET_EOL
+				.JET_TAB.'`user_name` varchar(255) CHARACTER SET utf8 NOT NULL,'.JET_EOL
+				.JET_TAB.'`user_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'`object` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+				.JET_TAB.'PRIMARY KEY (`operation_ID`)'.JET_EOL
+			.') ENGINE='.$engine.' DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
 	}
 
 	/**

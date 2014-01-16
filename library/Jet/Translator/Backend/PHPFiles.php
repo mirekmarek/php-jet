@@ -48,9 +48,9 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 
 			foreach($data as $hash=>$phrase_dat) {
 				$phrase = new Translator_Dictionary_Phrase(
-					$phrase_dat["phrase"],
-					$phrase_dat["translation"],
-					$phrase_dat["is_translated"],
+					$phrase_dat['phrase'],
+					$phrase_dat['translation'],
+					$phrase_dat['is_translated'],
 					$hash
 				);
 				$dictionary->addPhrase($phrase, false);
@@ -74,13 +74,13 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 		$data = array();
 		foreach($dictionary->getPhrases() as $phrase) {
 			$data[$phrase->getHash()] = array(
-				"phrase" => $phrase->getPhrase(),
-				"translation" => $phrase->getTranslationRaw(),
-				"is_translated" => $phrase->getIsTranslated()
+				'phrase' => $phrase->getPhrase(),
+				'translation' => $phrase->getTranslationRaw(),
+				'is_translated' => $phrase->getIsTranslated()
 			);
 		}
 
-		$data = "<?php\n return ".(new Data_Array($data))->export().";\n";
+		$data = '<?php'.JET_EOL.' return '.(new Data_Array($data))->export().';'.JET_EOL;
 
 		IO_File::write($file_path, $data);
 	}

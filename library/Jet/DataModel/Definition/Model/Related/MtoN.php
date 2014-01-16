@@ -67,7 +67,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					"DataModel '{$class}' doesn't have model name! ({$class}::getModelName() returns false.) ",
+					'DataModel \''.$class.'\' doesn\'t have model name! ('.$class.'::getModelName() returns false.) ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
@@ -115,8 +115,8 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 							$this,
 							$relation_ID_property_name,
 							array(
-								"type" => $ID_property_definition->getType(),
-								"is_ID" => true
+								'type' => $ID_property_definition->getType(),
+								'is_ID' => true
 							)
 					);
 
@@ -143,8 +143,8 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 							$this,
 							$relation_ID_property_name,
 							array(
-								"type" => $ID_property_definition->getType(),
-								"is_ID" => true
+								'type' => $ID_property_definition->getType(),
+								'is_ID' => true
 							)
 					);
 

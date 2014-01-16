@@ -34,7 +34,7 @@ class DataModel_Validation_Exception extends Exception {
 
 	public function __construct( DataModel $data_model_instance, DataModel_Definition_Property_Abstract $property_definition_instance, array $errors ) {
 		$this->code = static::CODE_PROPERTY_VALIDATION_ERROR;
-		$this->message = "Value is not valid";
+		$this->message = 'Value is not valid';
 
 		$this->data_model_instance = $data_model_instance;
 		$this->property_definition_instance = $property_definition_instance;

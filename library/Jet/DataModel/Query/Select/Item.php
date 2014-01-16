@@ -25,7 +25,7 @@ class DataModel_Query_Select_Item extends Object {
 	/**
 	 * @var string
 	 */
-	protected $select_as = "";
+	protected $select_as = '';
 
 
 	/**
@@ -40,7 +40,7 @@ class DataModel_Query_Select_Item extends Object {
 			!($item instanceof DataModel_Query_Select_Item_BackendFunctionCall)
 		) {
 			throw new DataModel_Query_Exception(
-				"Item must be instance of DataModel_Definition_Property_Abstract or DataModel_Query_Select_Item_BackendFunctionCall",
+				'Item must be instance of DataModel_Definition_Property_Abstract or DataModel_Query_Select_Item_BackendFunctionCall',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}

@@ -20,11 +20,11 @@ class Form_Decorator_Dojo_DateTime extends Form_Decorator_Dojo_Abstract {
 	 * @var array
 	 */
 	protected $decoratable_tags = array(
-		"field" => array(
-			"dojo_type" => "dijit.form.DateTextBox"
+		'field' => array(
+			'dojo_type' => 'dijit.form.DateTextBox'
 		),
-		"field_time" => array(
-			"dojo_type" => "dijit.form.TimeTextBox"
+		'field_time' => array(
+			'dojo_type' => 'dijit.form.TimeTextBox'
 		)
 	);
 }

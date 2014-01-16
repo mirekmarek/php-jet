@@ -20,5 +20,5 @@ class Form_Field_Input extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "Input";
+	protected $_type = 'Input';
 }

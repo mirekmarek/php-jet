@@ -19,7 +19,7 @@ class JetML_Widget_Dojo_Menu_Item_Popup extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.PopupMenuItem";
+	protected $dojo_type = 'dijit.PopupMenuItem';
 
 	/**
 	 * @return \DOMElement|\DOMElement[]

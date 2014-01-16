@@ -407,11 +407,11 @@ abstract class Config_Definition_Property_Abstract extends Object {
 		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->default_value) {
-			$res .= ", default value: {$this->default_value}";
+			$res .= ', default value: '.$this->default_value;
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;

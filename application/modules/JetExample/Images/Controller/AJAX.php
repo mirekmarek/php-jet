@@ -26,27 +26,27 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 
 
 	protected static $ACL_actions_check_map = array(
-		"default" => false
+		'default' => false
 	);
 
 	function default_Action() {
 		$article = new Gallery();
 		$form = $article->getCommonForm();
-		$form->enableDecorator("Dojo");
+		$form->enableDecorator('Dojo');
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->view->setVar("upload_URL", $this->module_instance->getRestURL("image"));
+		$this->view->setVar('upload_URL', $this->module_instance->getRestURL('image'));
 
-		$upload_form = new Jet\Form("upload_form", array());
-		$upload_form->enableDecorator("Dojo");
+		$upload_form = new Jet\Form('upload_form', array());
+		$upload_form->enableDecorator('Dojo');
 		$upload_form->addField(
-			Jet\Form_Factory::field("Checkbox", "overwrite_if_exists", "Overwrite image if exists")
+			Jet\Form_Factory::field('Checkbox', 'overwrite_if_exists', 'Overwrite image if exists')
 		);
-		$this->view->setVar("upload_form", $upload_form);
+		$this->view->setVar('upload_form', $upload_form);
 
 
-		$this->render("admin-ajax");
+		$this->render('admin-ajax');
 	}
 
 }

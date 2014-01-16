@@ -22,15 +22,15 @@ abstract class Mvc_Pages_Page_Content_Abstract extends DataModel_Related_1toN {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getPageContentInstance";
+	protected static $__factory_class_method = 'getPageContentInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Pages_Page_Content_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Pages_Page_Content_Abstract';
 
 	/**
 	 * @param string $module_name (optional)
@@ -42,11 +42,11 @@ abstract class Mvc_Pages_Page_Content_Abstract extends DataModel_Related_1toN {
 	 * @param int $output_position_order (optional)
 	 */
 	abstract public function __construct(
-					$module_name="",
-					$controller_class_suffix = "",
-					$controller_action="",
+					$module_name='',
+					$controller_class_suffix = '',
+					$controller_action='',
 					$controller_action_parameters=array(),
-					$output_position="",
+					$output_position='',
 					$output_position_required=true,
 					$output_position_order=0
 		);

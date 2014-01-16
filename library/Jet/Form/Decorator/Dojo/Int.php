@@ -17,8 +17,8 @@ class Form_Decorator_Dojo_Int extends Form_Decorator_Dojo_Abstract {
 	 * @var array
 	 */
 	protected $decoratable_tags = array(
-		"field" => array(
-			"dojo_type" => "dijit.form.NumberTextBox"
+		'field' => array(
+			'dojo_type' => 'dijit.form.NumberTextBox'
 		)
 	);
 
@@ -32,22 +32,22 @@ class Form_Decorator_Dojo_Int extends Form_Decorator_Dojo_Abstract {
 	 */
 	protected function getDojoProperties( Form_Parser_TagData $tag_data ) {
 
-		if(!empty($properties["rangeMessage"])) {
-			$this->_dojo_properties["rangeMessage"] = Tr::_($properties["rangeMessage"]);
-			unset($properties["rangeMessage"]);
+		if(!empty($properties['rangeMessage'])) {
+			$this->_dojo_properties['rangeMessage'] = Tr::_($properties['rangeMessage']);
+			unset($properties['rangeMessage']);
 		} else {
-			$this->_dojo_properties["rangeMessage"] = Tr::_($this->field->getErrorMessage("out_of_range"));
+			$this->_dojo_properties['rangeMessage'] = Tr::_($this->field->getErrorMessage('out_of_range'));
 		}
 
 		$min = $this->field->getMinValue();
 		$max = $this->field->getMaxValue();
 
 		$constraints = array();
-		if($min !== null) $constraints["min"] = $min;
-		if($max !== null) $constraints["max"] = $max;
-		$constraints["places"] = 0;
+		if($min !== null) $constraints['min'] = $min;
+		if($max !== null) $constraints['max'] = $max;
+		$constraints['places'] = 0;
 
-		$this->_dojo_properties["constraints"] = $constraints;
+		$this->_dojo_properties['constraints'] = $constraints;
 
 		parent::getDojoProperties($tag_data);
 	}

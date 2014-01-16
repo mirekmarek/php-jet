@@ -27,7 +27,7 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 	protected $module_instance = NULL;
 
 	protected static $ACL_actions_check_map = array(
-		"default" => false
+		'default' => false
 	);
 
 
@@ -40,9 +40,9 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 			var_dump($form->validateValues());
 			die();
 		}
-		$form->enableDecorator("Dojo");
-		$this->view->setVar("form", $form);
+		$form->enableDecorator('Dojo');
+		$this->view->setVar('form', $form);
 
-		$this->render("ajax-test-action");
+		$this->render('ajax-test-action');
 	}
 }

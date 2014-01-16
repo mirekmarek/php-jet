@@ -32,7 +32,7 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	/**
 	 * @var string
 	 */
-	protected $_table_name = "";
+	protected $_table_name = '';
 
 
 	/**
@@ -40,10 +40,10 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create("mvc_router_cache_sqlite_connection", array(
-			"name" => "mvc_router_cache_sqlite_connection",
-			"driver" => DB::DRIVER_SQLITE,
-			"DSN" => $this->config->getDSN()
+		$this->_db = Db::create('mvc_router_cache_sqlite_connection', array(
+			'name' => 'mvc_router_cache_sqlite_connection',
+			'driver' => DB::DRIVER_SQLITE,
+			'DSN' => $this->config->getDSN()
 		));
 
 		$this->_table_name = $this->config->getTableName();
@@ -59,11 +59,11 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 */
 	public function load($URL) {
 
-		$data = $this->_db->fetchOne("SELECT `data` FROM `{$this->_table_name}`
+		$data = $this->_db->fetchOne('SELECT `data` FROM `'.$this->_table_name.'`
 				WHERE
-					`URL_hash`=:URL_hash",
+					`URL_hash`=:URL_hash',
 			array(
-				"URL_hash" => md5($URL)
+				'URL_hash' => md5($URL)
 
 			)
 		);
@@ -88,25 +88,23 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 */
 	public function save($URL, Mvc_Router_Abstract $item) {
 		$data = array(
-			"URL" => $URL,
-			"URL_hash" => md5($URL),
-			"data" => $this->serialize($item),
+			'URL' => $URL,
+			'URL_hash' => md5($URL),
+			'data' => $this->serialize($item),
 		);
 
-		$this->_db->execCommand("INSERT OR IGNORE INTO `{$this->_table_name}` (
+		$this->_db->execCommand('INSERT OR IGNORE INTO `'.$this->_table_name.'` (
 								`URL`,
 								`URL_hash`,
 								`data`,
 								`created_date_time`
-
 							) VALUES (
 								:URL,
 								:URL_hash,
 								:data,
-								datetime('now')
+								datetime(\'now\')
 
-							)
-				",$data);
+							)',$data);
 
 	}
 
@@ -122,19 +120,19 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 */
 	public function truncate($URL = null) {
 		if($URL===null) {
-			$this->_db->execCommand("DELETE FROM `{$this->_table_name}`");
+			$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'`');
 		} else {
 			if(is_array($URL)) {
 				foreach($URL as $_URL) {
-					$this->_db->execCommand("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
+					$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `URL_hash`=:URL_hash',
 						array(
-							"URL_hash" => md5($_URL),
+							'URL_hash' => md5($_URL),
 						));
 				}
 			} else {
-				$this->_db->execCommand("DELETE FROM `{$this->_table_name}` WHERE `URL_hash`=:URL_hash",
+				$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `URL_hash`=:URL_hash',
 					array(
-						"URL_hash" => md5($URL),
+						'URL_hash' => md5($URL),
 					));
 
 			}
@@ -145,13 +143,13 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 * @return string
 	 */
 	public function helper_getCreateCommand() {
-		return "CREATE TABLE IF NOT EXISTS `{$this->_table_name}` (\n"
-			."\t `URL` TEXT,\n"
-			."\t `URL_hash` TEXT,\n"
-			."\t `data` BLOB,\n"
-			."\t `created_date_time` NUMERIC,\n"
-			."\t PRIMARY KEY (`URL_hash`)\n"
-			."\t)";
+		return 'CREATE TABLE IF NOT EXISTS `'.$this->_table_name.'` ('.JET_EOL
+			.JET_TAB.' `URL` TEXT,'.JET_EOL
+			.JET_TAB.' `URL_hash` TEXT,'.JET_EOL
+			.JET_TAB.' `data` BLOB,'.JET_EOL
+			.JET_TAB.' `created_date_time` NUMERIC,'.JET_EOL
+			.JET_TAB.' PRIMARY KEY (`URL_hash`)'.JET_EOL
+			.JET_TAB.')';
 	}
 
 	/**

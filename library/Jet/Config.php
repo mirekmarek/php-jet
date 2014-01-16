@@ -23,7 +23,7 @@ abstract class Config extends Object {
 	 *
 	 * @var string
 	 */
-	protected static $__config_data_path = "";
+	protected static $__config_data_path = '';
 
 
 	/**
@@ -39,17 +39,17 @@ abstract class Config extends Object {
 	 *
 	 * Looks like:
 	 * array(
-	 *  "property_name" => array(
-	 *      "type" => one of Config::TYPE_*,
-	 *      "description" => "Extended description of option",
-	 *      "is_required" => true/false
-	 *      "default_value" => "some default value"
-	 *      "form_field_type" => Form::TYPE_* (optional, default: autodetect)
-	 *      "form_field_label" => "Form filed label:"
-	 *      "form_field_options" => array("option1" => "Option 1", "option2" => "Option 1", "option3"=>"Option 3", ...)
-	 *      "form_field_error_messages" => array("error_code" => "Message", ...):
-	 *      "form_field_get_default_value_callback" => callable
-	 *      "form_field_get_select_options_callback" => callable
+	 *  'property_name' => array(
+	 *      'type' => one of Config::TYPE_*,
+	 *      'description' => 'Extended description of option',
+	 *      'is_required' => true/false
+	 *      'default_value' => 'some default value'
+	 *      'form_field_type' => Form::TYPE_* (optional, default: autodetect)
+	 *      'form_field_label' => 'Form filed label:'
+	 *      'form_field_options' => array('option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3', ...)
+	 *      'form_field_error_messages' => array('error_code' => 'Message', ...):
+	 *      'form_field_get_default_value_callback' => callable
+	 *      'form_field_get_select_options_callback' => callable
 	 *  )
 	 * )
 	 *
@@ -71,44 +71,44 @@ abstract class Config extends Object {
 	/**
 	 * Property definition classes names prefix
 	 */
-	const BASE_PROPERTY_DEFINITION_CLASS_NAME = "Jet\\Config_Definition_Property";
+	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Jet\\Config_Definition_Property';
 
 	/**
 	 * Property/option type - string/text
 	 */
-	const TYPE_STRING = "String";
+	const TYPE_STRING = 'String';
 
 	/**
 	 * Property/option type - boolean
 	 */
-	const TYPE_BOOL = "Bool";
+	const TYPE_BOOL = 'Bool';
 
 	/**
 	 * Property/option type - integer
 	 */
-	const TYPE_INT = "Int";
+	const TYPE_INT = 'Int';
 
 	/**
 	 * Property/option type - floating point number
 	 */
-	const TYPE_FLOAT = "Float";
+	const TYPE_FLOAT = 'Float';
 
 	/**
 	 * Property/option type - array
 	 */
-	const TYPE_ARRAY = "Array";
+	const TYPE_ARRAY = 'Array';
 
 
 	/**
 	 * Property/option type - list of configurations (sub configuration)
 	 */
-	const TYPE_CONFIG_LIST = "ConfigList";
+	const TYPE_CONFIG_LIST = 'ConfigList';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $config_file_path = "";
+	protected $config_file_path = '';
 
 	/**
 	 * Ignore non-existent config file and non-existent config section. Usable for installer or setup.
@@ -130,7 +130,7 @@ abstract class Config extends Object {
 	 *
 	 * @var string
 	 */
-	protected static $application_config_file_path = "";
+	protected static $application_config_file_path = '';
 
 	/**
 	 * Configuration data (content of config data array wrapped to Data_Array)
@@ -185,7 +185,7 @@ abstract class Config extends Object {
 
 		if(!$config_file_path) {
 			throw new Config_Exception(
-				"Config file path is not defined",
+				'Config file path is not defined',
 				Config_Exception::CODE_CONFIG_FILE_PATH_NOT_DEFINED
 			);
 		}
@@ -204,7 +204,7 @@ abstract class Config extends Object {
 
 			if(!IO_File::isReadable($_config_file_path)) {
 				throw new Config_Exception(
-					"Config file '{$config_file_path}' does not exist or is not readable",
+					'Config file \''.$config_file_path.'\' does not exist or is not readable',
 					Config_Exception::CODE_CONFIG_FILE_IS_NOT_READABLE
 				);
 
@@ -214,7 +214,7 @@ abstract class Config extends Object {
 			$data = require $_config_file_path;
 			if(!is_array($data)) {
 				throw new Config_Exception(
-					"Config file '{$config_file_path}' does not contain PHP array. Example: <?php return array(\"option\" => \"value\"); ",
+					'Config file \''.$config_file_path.'\' does not contain PHP array. Example: <?php return array(\'option\' => \'value\'); ',
 					Config_Exception::CODE_CONFIG_FILE_IS_NOT_VALID
 				);
 
@@ -237,11 +237,11 @@ abstract class Config extends Object {
 
 		$parent_definition = array();
 		if(
-			$parent_class==__NAMESPACE__."\\Config"  ||
-			$parent_class==__NAMESPACE__."\\Config_Module" ||
-			$parent_class==__NAMESPACE__."\\Config_Application" ||
-			$parent_class==__NAMESPACE__."\\Config_Section" ||
-			strpos($parent_class, "_Abstract")!==false
+			$parent_class==__NAMESPACE__.'\\Config'  ||
+			$parent_class==__NAMESPACE__.'\\Config_Module' ||
+			$parent_class==__NAMESPACE__.'\\Config_Application' ||
+			$parent_class==__NAMESPACE__.'\\Config_Section' ||
+			strpos($parent_class, '_Abstract')!==false
 		) {
 			/** @noinspection PhpUndefinedVariableInspection */
 			if(is_array($parent_class::$__config_properties_definition)) {
@@ -282,21 +282,21 @@ abstract class Config extends Object {
 	 * @throws Config_Exception
 	 */
 	protected function getPropertyDefinitionInstance( $name, array $definition_data ) {
-		if(!isset($definition_data["type"]) || !$definition_data["type"]) {
+		if(!isset($definition_data['type']) || !$definition_data['type']) {
 			throw new Config_Exception(
-				"Property ".get_class($this)."::{$name}: 'type' parameter is not defined ... ",
+				'Property '.get_class($this).'::'.$name.': \'type\' parameter is not defined.',
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 
 		}
 
-		$class_name = static::BASE_PROPERTY_DEFINITION_CLASS_NAME."_".$definition_data["type"];
+		$class_name = static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_'.$definition_data['type'];
 
-		unset($definition_data["type"]);
+		unset($definition_data['type']);
 
 		$instance = new $class_name( $this, $name, $definition_data );
 
-		Factory::checkInstance(static::BASE_PROPERTY_DEFINITION_CLASS_NAME."_Abstract", $instance);
+		Factory::checkInstance(static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_Abstract', $instance);
 
 		return $instance;
 	}
@@ -331,7 +331,7 @@ abstract class Config extends Object {
 					!$this->soft_mode
 				) {
 					throw new Config_Exception(
-						"The obligatory section '".static::$__config_data_path."' is missing in the configuration file {$this->config_file_path}! ",
+						'The obligatory section \''.static::$__config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
 						Config_Exception::CODE_CONFIG_CHECK_ERROR
 					);
 				}
@@ -360,7 +360,7 @@ abstract class Config extends Object {
 			} else {
 				if($property_definition->getIsRequired() && !$this->soft_mode  ) {
 					throw new Config_Exception(
-						"Configuration property ".get_class($this)."::".$property_name." is required by definition, but value is missing!",
+						'Configuration property '.get_class($this).'::'.$property_name.' is required by definition, but value is missing!',
 						Config_Exception::CODE_CONFIG_CHECK_ERROR
 					);
 				}
@@ -374,7 +374,7 @@ abstract class Config extends Object {
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name="" ) {
+	public function getCommonForm( $form_name='' ) {
 		$definition = $this->getPropertiesDefinition();
 
 
@@ -420,7 +420,7 @@ abstract class Config extends Object {
 				$class = get_class($this);
 
 				throw new DataModel_Exception(
-					"The property {$class}::{$property} is required for form definition. But property definition ".get_class($property)." prohibits the use of property as form field. ",
+					'The property '.$class.'::'.$property.' is required for form definition. But property definition '.get_class($property).' prohibits the use of property as form field. ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 
@@ -536,7 +536,7 @@ abstract class Config extends Object {
 
 		$original_data->set(static::$__config_data_path, $this->toArray());
 
-		$config_data = "<?php\n return ".$original_data->export().";";
+		$config_data = '<?php'.JET_EOL.' return '.$original_data->export().';';
 
 		if(!$target_file_path) {
 			$target_file_path = $this->config_file_path;
@@ -569,9 +569,9 @@ abstract class Config extends Object {
 	 * @return array
 	 */
 	public static function getAvailableHandlersList( $base_directory ) {
-		$res = IO_Dir::getSubdirectoriesList($base_directory, "*");
+		$res = IO_Dir::getSubdirectoriesList($base_directory, '*');
 		foreach($res as $path=>$dir) {
-			if($dir=="Config") {
+			if($dir=='Config') {
 				unset($res[$path]);
 			}
 		}

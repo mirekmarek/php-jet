@@ -18,24 +18,24 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	 * @var string
 	 */
 	protected $dojo_type = array(
-		"dojox.grid.EnhancedGrid",
-		"dojox.grid.enhanced.plugins.Pagination",
-		"dojox.grid.enhanced.plugins.IndirectSelection",
+		'dojox.grid.EnhancedGrid',
+		'dojox.grid.enhanced.plugins.Pagination',
+		'dojox.grid.enhanced.plugins.IndirectSelection',
 	);
 	
 	/**
 	 *
 	 * @var string
 	 */
-	protected $widget_container_tag = "table";
+	protected $widget_container_tag = 'table';
 	
 	/**
 	 *
 	 * @var array 
 	 */
 	protected $required_css = array(
-			"dojox/grid/enhanced/resources/%THEME%/EnhancedGrid.css",
-			"dojox/grid/enhanced/resources/EnhancedGrid_rtl.css",
+			'dojox/grid/enhanced/resources/%THEME%/EnhancedGrid.css',
+			'dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',
 		);
 
 
@@ -44,31 +44,31 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	 */
 	public function getReplacement() {
 
-		if(!$this->node->hasAttribute("plugins")) {
+		if(!$this->node->hasAttribute('plugins')) {
 			$plugins = array(
-				"pagination" => array(
-					"pageSizes" => array('25', '50', '100'),
-					"description" => true,
-					"sizeSwitch" => true,
-					"pageStepper" => true,
-					"gotoButton" => true,
-					"maxPageStep" => 10,
-					"position" => "bottom"
+				'pagination' => array(
+					'pageSizes' => array('25', '50', '100'),
+					'description' => true,
+					'sizeSwitch' => true,
+					'pageStepper' => true,
+					'gotoButton' => true,
+					'maxPageStep' => 10,
+					'position' => 'bottom'
 				),
-				"indirectSelection" => array(
-					"headerSelector" => true,
-					"name" => "Selection",
-					"width" => "20px",
-					"styles" => "text-align: center;"
+				'indirectSelection' => array(
+					'headerSelector' => true,
+					'name' => 'Selection',
+					'width' => '20px',
+					'styles' => 'text-align: center;'
 				)
 			);
 
-			$plugins = str_replace("\"", "'", json_encode($plugins));
-			$this->node->setAttribute("plugins", $plugins);
+			$plugins = str_replace('"', '\'', json_encode($plugins));
+			$this->node->setAttribute('plugins', $plugins);
 		}
 
-		if(!$this->node->hasAttribute("rowsperpage")) {
-			$this->node->setAttribute("rowsperpage", 25);
+		if(!$this->node->hasAttribute('rowsperpage')) {
+			$this->node->setAttribute('rowsperpage', 25);
 		}
 
 
@@ -81,8 +81,8 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	protected function _getTagContent() {
 		$dom = $this->parser->getDOMDocument();
 
-		$thead = $dom->createElement("thead");
-		$tr = $dom->createElement("tr");
+		$thead = $dom->createElement('thead');
+		$tr = $dom->createElement('tr');
 
 		$thead->appendChild($tr);
 

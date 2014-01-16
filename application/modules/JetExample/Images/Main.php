@@ -19,13 +19,13 @@ use Jet;
 
 class Main extends Jet\Application_Modules_Module_Abstract {
 	protected $ACL_actions = array(
-		"get_gallery" => "Get article(s) data",
-		"add_gallery" => "Add new gallery",
-		"update_gallery" => "Update gallery",
-		"delete_gallery" => "Delete gallery",
-		"get_image" => "Get image(s) data",
-		"add_image" => "Add new image",
-		"update_image" => "Update image",
-		"delete_image" => "Delete image",
+		'get_gallery' => 'Get article(s) data',
+		'add_gallery' => 'Add new gallery',
+		'update_gallery' => 'Update gallery',
+		'delete_gallery' => 'Delete gallery',
+		'get_image' => 'Get image(s) data',
+		'add_image' => 'Add new image',
+		'update_image' => 'Update image',
+		'delete_image' => 'Delete image',
 	);
 }

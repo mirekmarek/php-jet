@@ -20,30 +20,30 @@ class DataModel_Cache_Backend_Redis_Config extends DataModel_Cache_Backend_Confi
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"connection" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Cache_Backend_Redis_Config", "getRedisConnectionsList")
+		'connection' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Cache_Backend_Redis_Config', 'getRedisConnectionsList')
 		),
-		"key_prefix" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"default_value" => "do_c",
-			"form_field_label" => "Cache key prefix: ",
+		'key_prefix' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'default_value' => 'do_c',
+			'form_field_label' => 'Cache key prefix: ',
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $connection = "";
+	protected $connection = '';
 
 	/**
 	 * @var string
 	 */
-	protected $key_prefix = "do_c";
+	protected $key_prefix = 'do_c';
 
 	/**
 	 * @return string

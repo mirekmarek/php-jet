@@ -22,56 +22,56 @@ class Event extends Jet\DataModel {
 	protected static $__data_model_forced_history_enabled = false;
 	protected static $__data_model_forced_cache_enabled = false;
 
-	protected static $__data_model_model_name = "Jet_Auth_Events";
+	protected static $__data_model_model_name = 'Jet_Auth_Events';
 
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"date_time" => array(
-			"type" => self::TYPE_DATE_TIME,
-			"is_required" => true
+		'date_time' => array(
+			'type' => self::TYPE_DATE_TIME,
+			'is_required' => true
 		),
-		"event" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"is_required" => true
+		'event' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'is_required' => true
 		),
-		"event_txt" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 1024,
-			"is_required" => true
+		'event_txt' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 1024,
+			'is_required' => true
 		),
-		"event_data" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 134217728,
-			"is_required" => true
+		'event_data' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 134217728,
+			'is_required' => true
 		),
-		"user_ID" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"is_required" => false
+		'user_ID' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'is_required' => false
 		),
-		"user_login" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"is_required" => false
+		'user_login' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'is_required' => false
 		),
-		"request_URL" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536,
-			"is_required" => true
+		'request_URL' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536,
+			'is_required' => true
 		),
-		"request_data" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 134217728,
-			"is_required" => false
+		'request_data' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 134217728,
+			'is_required' => false
 		),
-		"remote_IP" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 45,
-			"is_required" => true
+		'remote_IP' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 45,
+			'is_required' => true
 		),
 	);
 
@@ -108,7 +108,7 @@ class Event extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $user_login="";
+	protected $user_login='';
 
 	/**
 	 * @var string

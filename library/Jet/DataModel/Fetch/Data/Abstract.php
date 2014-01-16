@@ -18,7 +18,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	/**
 	 * @var string
 	 */
-	protected $backend_fetch_method = "";
+	protected $backend_fetch_method = '';
 
 	/**
 	 * @var array
@@ -46,7 +46,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 
 		if(!$query instanceof DataModel_Query) {
 			throw new DataModel_Query_Exception(
-				"Query must be an instance of \\Jet\\DataModel_Query (or valid query as an array) " ,
+				'Query must be an instance of \\Jet\\DataModel_Query or valid query as an array. ' ,
 				DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
@@ -105,19 +105,19 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	public function toXML() {
 		$model_name = $this->data_model->getDataModelDefinition()->getModelName();
 
-		$result = "";
-		$result .= "<list model_name=\"{$model_name}\">\n";
+		$result = '';
+		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
 
 		foreach($this->jsonSerialize() as $val) {
-			$result .= "\t<item>\n";
+			$result .= JET_TAB.'<item>'.JET_EOL;
 			foreach($val as $k=>$v) {
-				$result .= "\t\t<{$k}>".htmlspecialchars($v)."</{$k}>\n";
+				$result .= JET_TAB.JET_TAB.'<'.$k.'>'.htmlspecialchars($v).'</'.$k.'>'.JET_EOL;
 			}
-			$result .= "\t</item>\n";
+			$result .= JET_TAB.'</item>'.JET_EOL;
 
 		}
 
-		$result .= "</list>\n";
+		$result .= '</list>'.JET_EOL;
 
 		return $result;
 	}

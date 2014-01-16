@@ -17,23 +17,23 @@
 namespace Jet;
 
 abstract class DataModel extends Object implements Object_Serializable_REST {
-	const DEFAULT_ID_COLUMN_NAME = "ID";
+	const DEFAULT_ID_COLUMN_NAME = 'ID';
 
-	const TYPE_ID = "ID";
-	const TYPE_STRING = "String";
-	const TYPE_BOOL = "Bool";
-	const TYPE_INT = "Int";
-	const TYPE_FLOAT = "Float";
-	const TYPE_LOCALE = "Locale";
-	const TYPE_DATE = "Date";
-	const TYPE_DATE_TIME = "DateTime";
-	const TYPE_ARRAY = "Array";
-	const TYPE_DATA_MODEL = "DataModel";
+	const TYPE_ID = 'ID';
+	const TYPE_STRING = 'String';
+	const TYPE_BOOL = 'Bool';
+	const TYPE_INT = 'Int';
+	const TYPE_FLOAT = 'Float';
+	const TYPE_LOCALE = 'Locale';
+	const TYPE_DATE = 'Date';
+	const TYPE_DATE_TIME = 'DateTime';
+	const TYPE_ARRAY = 'Array';
+	const TYPE_DATA_MODEL = 'DataModel';
 
-	const KEY_TYPE_PRIMARY = "PRIMARY";
-	const KEY_TYPE_INDEX = "INDEX";
-	const KEY_TYPE_UNIQUE = "UNIQUE";
-	//const KEY_TYPE_FULLTEXT = "FULLTEXT";
+	const KEY_TYPE_PRIMARY = 'PRIMARY';
+	const KEY_TYPE_INDEX = 'INDEX';
+	const KEY_TYPE_UNIQUE = 'UNIQUE';
+	//const KEY_TYPE_FULLTEXT = 'FULLTEXT';
 
 	/**
 	 * Each model has name. Example of name: Jet\Auth_User_Abstract::$__data_model_name=Jet_Auth_User
@@ -45,42 +45,42 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	/**
 	 *   [string=>array]  $__data_model_definition
 	 *	Common options
-	 *		"type":
-	 *		"default_value":
-	 *		"backend_options":
-	 *              "is_ID",
-	 *              "do_not_serialize":
-	 *              "description":
+	 *		'type':
+	 *		'default_value':
+	 *		'backend_options':
+	 *              'is_ID',
+	 *              'do_not_serialize':
+	 *              'description':
 	 *
 	 *      Form options:
-	 *              "form_field_type":
-	 *              "form_field_label":
-	 *              "form_field_options":
-	 *              "form_field_error_messages":
-	 *              "form_field_get_default_value_callback":
-	 *              "form_field_get_select_options_callback":
+	 *              'form_field_type':
+	 *              'form_field_label':
+	 *              'form_field_options':
+	 *              'form_field_error_messages':
+	 *              'form_field_get_default_value_callback':
+	 *              'form_field_get_select_options_callback':
 	 *
 	 *	Data validation options
 	 *		All types:
-	 *			"validation_method":
-	 *			"list_of_valid_options":
-	 *			"error_messages":
+	 *			'validation_method':
+	 *			'list_of_valid_options':
+	 *			'error_messages':
 	 *
 	 *		TYPE_STRING:
-	 *			"is_required":
-	 *			"max_len":
-	 *			"validation_regexp":
+	 *			'is_required':
+	 *			'max_len':
+	 *			'validation_regexp':
 	 *
 	 *		TYPE_INT,TYPE_FLOAT:
-	 *			"min_value":
-	 *			"max_value":
+	 *			'min_value':
+	 *			'max_value':
 	 *
 	 *
 	 *	Type specific options
 	 *		TYPE_DATA_MODEL:
-	 *			"data_model_class"
+	 *			'data_model_class'
 	 *		TYPE_ARRAY
-	 *			"item_type":
+	 *			'item_type':
 	 *
 	 * @var array
 	 */
@@ -92,24 +92,24 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 * Example:
 	 *
 	 * $__data_model_outer_relations_definition = array(
-	 *          "relation_name" => array(
-	 *                  "related_to_class_name" => "JetApplicationModule\\Some\\Modules\\Some_Class",
-	 *                  "join_by_properties" => array(
-	 *                      "this_class_property" => "related_class_property",
-	 *                      "another_this_class_property" => "another_related_class_property",
+	 *          'relation_name' => array(
+	 *                  'related_to_class_name' => 'JetApplicationModule\\Some\\Modules\\Some_Class',
+	 *                  'join_by_properties' => array(
+	 *                      'this_class_property' => 'related_class_property',
+	 *                      'another_this_class_property' => 'another_related_class_property',
 	 *
 	 *                  ),
 	 *                  //optional:
-	 *                  "join_type" => DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN // options: DataModel_Query::JOIN_TYPE_LEFT_JOIN (default), DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN	 *
+	 *                  'join_type' => DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN // options: DataModel_Query::JOIN_TYPE_LEFT_JOIN (default), DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN	 *
 	 *          )
 	 * );
 	 *
 	 * Then you can use relation in query like this:
 	 *
 	 * $query = array(
-	 *          "relation_name.some_related_class_property" => "value",
-	 *          "AND",
-	 *          "relation_name.another_some_related_class_property!" => 1234
+	 *          'relation_name.some_related_class_property' => 'value',
+	 *          'AND',
+	 *          'relation_name.another_some_related_class_property!' => 1234
 	 * );
 	 *
 	 * Warning!
@@ -124,7 +124,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_ID_class_name = "Jet\\DataModel_ID_Default";
+	protected static $__data_model_ID_class_name = 'Jet\\DataModel_ID_Default';
 
 
 	/**
@@ -291,11 +291,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 		$parent_definition = array();
 		if( 
-			$parent_class == "Jet\\DataModel" ||
-			$parent_class=="Jet\\DataModel_Related_1to1" ||
-			$parent_class=="Jet\\DataModel_Related_1toN" ||
-			$parent_class=="Jet\\DataModel_Related_MtoN" ||
-			strpos($parent_class, "_Abstract")!==false
+			$parent_class == 'Jet\\DataModel' ||
+			$parent_class=='Jet\\DataModel_Related_1to1' ||
+			$parent_class=='Jet\\DataModel_Related_1toN' ||
+			$parent_class=='Jet\\DataModel_Related_MtoN' ||
+			strpos($parent_class, '_Abstract')!==false
 		) {
 			/** @noinspection PhpUndefinedVariableInspection */
 			if(is_array($parent_class::$__data_model_properties_definition)) {
@@ -323,11 +323,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 		$parent_definition = array();
 		if(
-			$parent_class == "Jet\\DataModel" ||
-			$parent_class=="Jet\\DataModel_Related_1to1" ||
-			$parent_class=="Jet\\DataModel_Related_1toN" ||
-			$parent_class=="Jet\\DataModel_Related_MtoN" ||
-			strpos($parent_class, "_Abstract")!==false
+			$parent_class == 'Jet\\DataModel' ||
+			$parent_class=='Jet\\DataModel_Related_1to1' ||
+			$parent_class=='Jet\\DataModel_Related_1toN' ||
+			$parent_class=='Jet\\DataModel_Related_MtoN' ||
+			strpos($parent_class, '_Abstract')!==false
 		) {
 			/** @noinspection PhpUndefinedVariableInspection */
 			if(is_array($parent_class::$__data_model_outer_relations_definition)) {
@@ -380,7 +380,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		$backend_type = $this->getBackendType();
 		$backend_config = $this->getBackendConfig();
 
-		$key = $backend_type.":".md5(serialize($backend_config));
+		$key = $backend_type.':'.md5(serialize($backend_config));
 
 		if(!isset(self::$___data_model_backend_instance[$key])) {
 			self::$___data_model_backend_instance[$key] = DataModel_Factory::getBackendInstance(
@@ -651,7 +651,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		}
 
 		throw new DataModel_Exception(
-			"Unable to generate ID. There are two solutions: 1) There must be at least one property that has set type ID  2) Overload ".get_class($this)."::generateID method",
+			'Unable to generate ID. There are two solutions: 1) There must be at least one property that has set type ID  2) Overload '.get_class($this).'::generateID method',
 			DataModel_Exception::CODE_DEFINITION_NONSENSE
 		);
 
@@ -699,7 +699,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		$properties = $this->getDataModelDefinition()->getProperties();
 		if( !isset($properties[$property_name]) ) {
 			throw new DataModel_Exception(
-				"Unknown property '{$property_name}'",
+				'Unknown property \''.$property_name.'\'',
 				DataModel_Exception::CODE_UNKNOWN_PROPERTY
 			);
 		}
@@ -760,7 +760,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				if(!is_object($this->{$property_name})) {
 
 					throw new DataModel_Exception(
-						get_class($this)."::{$property_name} should be an Object! ",
+						get_class($this).'::'.$property_name.' should be an Object! ',
 						DataModel_Exception::CODE_INVALID_PROPERTY_TYPE
 					);
 				}
@@ -894,7 +894,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				!($related_instance instanceof DataModel_Related_MtoN)
 			) {
 				throw new DataModel_Exception(
-					"DataModel '".get_class($related_instance)."' is related class to  '".get_class($loaded_instance)."' but is not instance of  DataModel_Related*",
+					'DataModel \''.get_class($related_instance).'\' is related class to  \''.get_class($loaded_instance).'\' but is not instance of  DataModel_Related*',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -938,10 +938,10 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 
 		if($this->getSaveAsNew()) {
-			$operation = "save";
+			$operation = 'save';
 			$h_operation = DataModel_History_Backend_Abstract::OPERATION_SAVE;
 		} else {
-			$operation = "update";
+			$operation = 'update';
 			$h_operation = DataModel_History_Backend_Abstract::OPERATION_UPDATE;
 		}
 
@@ -949,7 +949,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 
 
 		try {
-			$this->{"_$operation"}( $backend );
+			$this->{'_'.$operation}( $backend );
 		} catch (Exception $e) {
 			$backend->transactionRollback();
 			throw $e;
@@ -993,11 +993,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			}
 
 			if(!$errors) {
-				$errors[] = "none";
+				$errors[] = 'none';
 			}
 
 			throw new DataModel_Exception(
-				"Call ".get_class($this)."::validateProperties first! (Validation errors: ".implode(",", $errors).")",
+				'Call '.get_class($this).'::validateProperties first! (Validation errors: '.implode(',', $errors).')',
 				DataModel_Exception::CODE_SAVE_ERROR_VALIDATE_DATA_FIRST
 			);
 		}
@@ -1121,7 +1121,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 */
 	public function delete() {
 		if( !$this->getID() || !$this->___data_model_saved ) {
-			throw new DataModel_Exception("Nothing to delete... Object was not loaded.", DataModel_Exception::CODE_NOTHING_TO_DELETE);
+			throw new DataModel_Exception('Nothing to delete... Object was not loaded.', DataModel_Exception::CODE_NOTHING_TO_DELETE);
 		}
 
 		$this->___DataModelHistoryOperationStart( DataModel_History_Backend_Abstract::OPERATION_DELETE );
@@ -1227,7 +1227,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 			DataModel_Definition_Property_Abstract $related_model_ID_property_definition
 		) {
 			return $related_model_definition->getModelName()
-				."_"
+				.'_'
 				.$related_model_ID_property_definition->getName();
 	}
 
@@ -1348,7 +1348,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 				$class = $definition->getClassName();
 
 				throw new DataModel_Exception(
-					"The property {$class}::{$property} is required for form definition. But property definition ".get_class($property)." prohibits the use of property as form field. ",
+					'The property '.$class.'::'.$property.' is required for form definition. But property definition '.get_class($property).' prohibits the use of property as form field. ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 
@@ -1372,7 +1372,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name="" ) {
+	public function getCommonForm( $form_name='' ) {
 		$definition = $this->getDataModelDefinition();
 
 
@@ -1472,50 +1472,50 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $prefix="" ) {
+	protected function _XMLSerialize( $prefix='' ) {
 		$definition = $this->getDataModelDefinition();
 		$properties = $definition->getProperties();
 
 		$model_name = $definition->getModelName();
 
-		$result = "{$prefix}<{$model_name}>\n";
+		$result = $prefix.'<'.$model_name.'>'.JET_EOL;
 
 		foreach($properties as $property_name=>$property) {
 			if($property->getDoNotSerialize()) {
 				continue;
 			}
-			$result .= "{$prefix}\t<!-- ".$property->getTechnicalDescription()." -->\n";
+			$result .= $prefix.JET_TAB.'<!-- '.$property->getTechnicalDescription().' -->'.JET_EOL;
 
 			$val = $this->{$property_name};
 
 			if($property->getIsDataModel()) {
-				$result .= "{$prefix}\t<{$property_name}>\n";
+				$result .= $prefix.JET_TAB.$property_name.JET_EOL;
 				if($val) {
 					/**
 					 * @var DataModel $val
 					 */
-					$result .= $val->_XMLSerialize( $prefix."\t" );
+					$result .= $val->_XMLSerialize( $prefix.JET_TAB );
 				}
-				$result .= "{$prefix}\t</{$property_name}>\n";
+				$result .= $prefix.JET_TAB.'</'.$property_name.'>'.JET_EOL;
 
 			} else {
 				if(is_array($val)) {
-					$result .= "{$prefix}\t<{$property_name}>\n";
+					$result .= $prefix.JET_TAB.'<'.$property_name.'>'.JET_EOL;
 					foreach($val as $k=>$v) {
 						if(is_numeric($k)) {
-							$k = "item";
+							$k = 'item';
 						}
-						$result .= "{$prefix}\t\t<{$k}>".htmlspecialchars($v)."</{$k}>\n";
+						$result .= $prefix.JET_TAB.JET_TAB.'<'.$k.'>'.htmlspecialchars($v).'</'.$k.'>'.JET_EOL;
 
 					}
-					$result .= "{$prefix}\t</{$property_name}>\n";
+					$result .= $prefix.JET_TAB.'</'.$property_name.'>'.JET_EOL;
 				} else {
-					$result .= "{$prefix}\t<{$property_name}>".htmlspecialchars($val)."</{$property_name}>\n";
+					$result .= $prefix.JET_TAB.'<'.$property_name.'>'.htmlspecialchars($val).'</'.$property_name.'>'.JET_EOL;
 				}
 
 			}
 		}
-		$result .= "{$prefix}</{$model_name}>\n";
+		$result .= $prefix.'</'.$model_name.'>'.JET_EOL;
 
 		return $result;
 	}

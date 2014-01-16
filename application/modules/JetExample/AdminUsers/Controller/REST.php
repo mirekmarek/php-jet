@@ -27,10 +27,10 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 
 
 	protected static $ACL_actions_check_map = array(
-		"get_user" => "get_user",
-		"post_user" => "add_user",
-		"put_user" => "update_user",
-		"delete_user" => "delete_user",
+		'get_user' => 'get_user',
+		'post_user' => 'add_user',
+		'put_user' => 'update_user',
+		'delete_user' => 'delete_user',
 	);
 
 	/**

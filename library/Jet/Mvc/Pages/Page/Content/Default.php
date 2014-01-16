@@ -21,78 +21,78 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Pages_Page_Content";
+	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page_Content';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_parent_model_class_name = "Jet\\Mvc_Pages_Page_Default";
+	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"module_name" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 50
+		'module_name' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 50
 		),
-		"controller_class_suffix" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255
+		'controller_class_suffix' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255
 		),
-		"controller_action" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 50
+		'controller_action' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 50
 		),
-		"controller_action_parameters" => array(
-			"type" => self::TYPE_ARRAY,
-			"item_type" => self::TYPE_STRING
+		'controller_action_parameters' => array(
+			'type' => self::TYPE_ARRAY,
+			'item_type' => self::TYPE_STRING
 		),
-		"output_position" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 50
+		'output_position' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 50
 		),
-		"output_position_required" => array(
-			"type" => self::TYPE_BOOL
+		'output_position_required' => array(
+			'type' => self::TYPE_BOOL
 		),
-		"output_position_order" => array(
-			"type" => self::TYPE_INT
+		'output_position_order' => array(
+			'type' => self::TYPE_INT
 		)
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_ID = "";
+	protected $Jet_Mvc_Pages_Page_ID = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_locale = "";
+	protected $Jet_Mvc_Pages_Page_locale = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_site_ID = "";
+	protected $Jet_Mvc_Pages_Page_site_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID  = "";
+	protected $ID  = '';
 
 	/**
 	 * @var string
 	 */
-	protected $module_name = "";
+	protected $module_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $controller_class_suffix = "";
+	protected $controller_class_suffix = '';
 	/**
 	 * @var string
 	 */
-	protected $controller_action = "";
+	protected $controller_action = '';
 
 	/**
 	 * @var array
@@ -102,7 +102,7 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $output_position = "";
+	protected $output_position = '';
 	/**
 	 * @var bool
 	 */
@@ -122,11 +122,11 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	 * @param int $output_position_order (optional)
 	 */
 	public function __construct(
-		$module_name="",
-		$controller_class_suffix = "",
-		$controller_action="",
+		$module_name='',
+		$controller_class_suffix = '',
+		$controller_action='',
 		$controller_action_parameters=array(),
-		$output_position="",
+		$output_position='',
 		$output_position_required=true,
 		$output_position_order=0
 	) {

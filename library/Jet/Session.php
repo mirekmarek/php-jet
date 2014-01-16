@@ -107,9 +107,9 @@ class Session extends Object {
 	protected function checkKey( &$key ) {
 		$key = (string)$key;
 
-		if($key=="") {
+		if($key=='') {
 			throw new Session_Exception(
-				"The key must be a non-empty string",
+				'The key must be a non-empty string',
 				Session_Exception::CODE_INVALID_KEY
 			);
 		}

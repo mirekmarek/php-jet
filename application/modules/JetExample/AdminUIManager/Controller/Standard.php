@@ -28,18 +28,18 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
-		"default" => false,
-		"signpost" => false,
-		"ria_default" => false,
-		"classic_default" => false
+		'default' => false,
+		'signpost' => false,
+		'ria_default' => false,
+		'classic_default' => false
 	);
 
 	public function signpost_Action() {
-		$this->render("signpost");
+		$this->render('signpost');
 	}
 
 	public function classic_default_Action() {
-		$this->render("default_classic");
+		$this->render('default_classic');
 
 	}
 
@@ -48,47 +48,47 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		 * @var Jet\Javascript_Lib_General $general_JS
 		 */
 		/*
-		$general_JS = Jet\Mvc::requireJavascriptLib("General");
+		$general_JS = Jet\Mvc::requireJavascriptLib('General');
 
-		$general_JS->requireScriptURL( JET_PUBLIC_SCRIPTS_URI."my_js_lib.js" );
-		$general_JS->requireScriptURL( "http://domain.tld/some/js_lib.js" );
-		$general_JS->requireScriptCode(" alert('Hello World!'); ");
+		$general_JS->requireScriptURL( JET_PUBLIC_SCRIPTS_URI.'my_js_lib.js' );
+		$general_JS->requireScriptURL( 'http://domain.tld/some/js_lib.js' );
+		$general_JS->requireScriptCode(' alert('Hello World!'); ');
 		*/
 
-		$Dojo = Jet\Mvc::requireJavascriptLib("Dojo");
+		$Dojo = Jet\Mvc::requireJavascriptLib('Dojo');
 
-		$Dojo->requireComponent("dojo.store.JsonRest");
-		$Dojo->requireComponent("dojo.data.ObjectStore");
-		$Dojo->requireComponent("dojo.data.ItemFileWriteStore");
-		$Dojo->requireComponent("dijit.tree.TreeStoreModel");
-		$Dojo->requireComponent("dijit.Tree");
-		$Dojo->requireComponent("dijit.form.TextBox");
-		$Dojo->requireComponent("dijit.form.FilteringSelect");
-		$Dojo->requireComponent("dijit.form.MultiSelect");
-		$Dojo->requireComponent("dijit.form.CheckBox");
-		$Dojo->requireComponent("dijit.form.NumberTextBox");
-		$Dojo->requireComponent("dijit.form.SimpleTextarea");
-		$Dojo->requireComponent("dijit.TooltipDialog");
-		$Dojo->requireComponent("dojox.grid.EnhancedGrid", array("css"=>array(
-			"dojox/grid/enhanced/resources/%THEME%/EnhancedGrid.css",
-			"dojox/grid/enhanced/resources/EnhancedGrid_rtl.css",
+		$Dojo->requireComponent('dojo.store.JsonRest');
+		$Dojo->requireComponent('dojo.data.ObjectStore');
+		$Dojo->requireComponent('dojo.data.ItemFileWriteStore');
+		$Dojo->requireComponent('dijit.tree.TreeStoreModel');
+		$Dojo->requireComponent('dijit.Tree');
+		$Dojo->requireComponent('dijit.form.TextBox');
+		$Dojo->requireComponent('dijit.form.FilteringSelect');
+		$Dojo->requireComponent('dijit.form.MultiSelect');
+		$Dojo->requireComponent('dijit.form.CheckBox');
+		$Dojo->requireComponent('dijit.form.NumberTextBox');
+		$Dojo->requireComponent('dijit.form.SimpleTextarea');
+		$Dojo->requireComponent('dijit.TooltipDialog');
+		$Dojo->requireComponent('dojox.grid.EnhancedGrid', array('css'=>array(
+			'dojox/grid/enhanced/resources/%THEME%/EnhancedGrid.css',
+			'dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',
 		)));
 
 
-		$Dojo->requireComponent("dojox.form.BusyButton");
-		$Dojo->requireComponent("dojox.grid.enhanced.plugins.Pagination");
-		$Dojo->requireComponent("dojox.grid.enhanced.plugins.IndirectSelection");
+		$Dojo->requireComponent('dojox.form.BusyButton');
+		$Dojo->requireComponent('dojox.grid.enhanced.plugins.Pagination');
+		$Dojo->requireComponent('dojox.grid.enhanced.plugins.IndirectSelection');
 
-		$Jet = Jet\Mvc::requireJavascriptLib("Jet");
-		$Jet->requireComponent("Jet.Form");
-		$Jet->requireComponent("Jet.Trash");
+		$Jet = Jet\Mvc::requireJavascriptLib('Jet');
+		$Jet->requireComponent('Jet.Form');
+		$Jet->requireComponent('Jet.Trash');
 
-		Jet\Mvc::requireJavascriptLib("cbtree");
+		Jet\Mvc::requireJavascriptLib('cbtree');
 
-		Jet\Mvc::requireJavascriptLib("TinyMCE");
+		Jet\Mvc::requireJavascriptLib('TinyMCE');
 
 
-		$this->render("default_ria");
+		$this->render('default_ria');
 	}
 
 }

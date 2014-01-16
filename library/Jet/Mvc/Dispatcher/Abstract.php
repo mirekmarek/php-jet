@@ -24,15 +24,15 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getDispatcherInstance";
+	protected static $__factory_class_method = 'getDispatcherInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Dispatcher_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Dispatcher_Abstract';
 
 	/**
 	 * Router
@@ -64,7 +64,7 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	 *
 	 * @var string
 	 */
-	protected $service_type = "";
+	protected $service_type = '';
 
 	/**
 	 * @var string
@@ -120,7 +120,7 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	/**
 	 * @param Mvc_Dispatcher_Queue_Item $queue_item
 	 *
-	 * @return true
+	 * @return bool
 	 */
 	abstract public function dispatchQueueItem( Mvc_Dispatcher_Queue_Item $queue_item );
 

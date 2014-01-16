@@ -28,12 +28,12 @@ abstract class DataModel_History_Backend_Config_Abstract extends Config_Applicat
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\DataModel_History_Backend_Config_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\DataModel_History_Backend_Config_Abstract';
 
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "/data_model/history_backend_options";
+	protected static $__config_data_path = '/data_model/history_backend_options';
 
 	/**
 	 * @var array

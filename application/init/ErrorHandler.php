@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler.php';
+require JET_LIBRARY_PATH . 'Jet/Debug/ErrorHandler.php';
 Debug_ErrorHandler::registerHandler(
 	'Log',
 	'Jet\\Debug_ErrorHandler_Handler_Log',

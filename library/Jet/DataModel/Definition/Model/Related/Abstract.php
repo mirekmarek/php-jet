@@ -98,8 +98,8 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 				$this,
 				$relation_ID_property_name,
 				array(
-					"type" => $main_ID_property->getType(),
-					"is_ID" => true
+					'type' => $main_ID_property->getType(),
+					'is_ID' => true
 				)
 			);
 
@@ -128,8 +128,8 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 					$this,
 					$relation_ID_property_name,
 					array(
-						"type" => $parent_ID_property->getType(),
-						"is_ID" => true
+						'type' => $parent_ID_property->getType(),
+						'is_ID' => true
 					)
 				);
 

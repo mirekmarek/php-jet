@@ -23,19 +23,19 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $output = "";
+	protected $output = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $position = "";
+	protected $position = '';
 
 	/**
 	 *
@@ -53,7 +53,7 @@ class Mvc_Layout_OutputPart extends Object{
 	 *
 	 * @var string
 	 */
-	protected $module_name = "";
+	protected $module_name = '';
 
 	/**
 	 * @var bool

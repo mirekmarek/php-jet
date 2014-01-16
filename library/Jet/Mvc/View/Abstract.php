@@ -17,15 +17,15 @@ namespace Jet;
 
 abstract class Mvc_View_Abstract extends Object {
 
-	const TAG_PART = "jet_view_part";
-	const SCRIPT_FILE_SUFFIX = "phtml";
+	const TAG_PART = 'jet_view_part';
+	const SCRIPT_FILE_SUFFIX = 'phtml';
 
 	/**
 	 * View dir
 	 *
 	 * @var string
 	 */
-	protected $_scripts_dir = "";
+	protected $_scripts_dir = '';
 
 	/**
 	 * Full view file path (/some/dir/view-file.phtml)
@@ -33,12 +33,12 @@ abstract class Mvc_View_Abstract extends Object {
 	 *
 	 * @var string
 	 */
-	protected $_script_name = "";
+	protected $_script_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $_script_path = "";
+	protected $_script_path = '';
 
 	/**
 	 *
@@ -54,7 +54,7 @@ abstract class Mvc_View_Abstract extends Object {
 	 *
 	 * Example:
 	 *   Controller script code example:
-	 *	$layout->setVar("test_variable", "Hello world!");
+	 *	$layout->setVar('test_variable', 'Hello world!');
 	 *
 	 *   Layout script example:
 	 *	<p><?=$this->test_variable; ?></p>
@@ -79,8 +79,8 @@ abstract class Mvc_View_Abstract extends Object {
 	 * @param string $scripts_dir
 	 */
 	public function setScriptsDir($scripts_dir) {
-		if( $scripts_dir[strlen($scripts_dir)-1]!="/" )  {
-			$scripts_dir .= "/";
+		if( $scripts_dir[strlen($scripts_dir)-1]!='/' )  {
+			$scripts_dir .= '/';
 		}
 
 		$this->_scripts_dir = $scripts_dir;
@@ -107,9 +107,9 @@ abstract class Mvc_View_Abstract extends Object {
 			return;
 		}
 
-		if( strpos(".", $script_name)!==false ) {
+		if( strpos('.', $script_name)!==false ) {
 			throw new Mvc_View_Exception(
-				"Illegal script file name",
+				'Illegal script file name',
 				Mvc_View_Exception::CODE_INVALID_VIEW_NAME
 			);
 		}
@@ -134,18 +134,18 @@ abstract class Mvc_View_Abstract extends Object {
 	 * @return string
 	 */
 	public function getScriptPath() {
-		$file = $this->_scripts_dir . $this->_script_name . ".".static::SCRIPT_FILE_SUFFIX;
+		$file = $this->_scripts_dir . $this->_script_name . '.'.static::SCRIPT_FILE_SUFFIX;
 
 		if( !IO_File::exists($file) ) {
 			throw new Mvc_View_Exception(
-				"File '$file' doesn't exist",
+				'File \''.$file.'\' doesn\'t exist',
 				Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
 			);
 		}
 
 		if( !IO_File::isReadable($file) ) {
 			throw new Mvc_View_Exception(
-				"File '$file' is not readable",
+				'File \''.$file.'\' is not readable',
 				Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
 			);
 		}
@@ -283,7 +283,7 @@ abstract class Mvc_View_Abstract extends Object {
 	 *
 	 * @return string
 	 */
-	public function getString($key, $default_value = ""){
+	public function getString($key, $default_value = ''){
 		return $this->_data->getString($key, $default_value);
 	}
 
@@ -298,10 +298,10 @@ abstract class Mvc_View_Abstract extends Object {
 
 
 	/**
-	 * Handle the parts tag ( <jet_view_part name="part-name"/> or <jet_layout_part name="part-name"/> )
+	 * Handle the parts tag ( <jet_view_part name='part-name'/> or <jet_layout_part name='part-name'/> )
 	 *
 	 * Sometimes it is appropriate or necessary to make the view consisted of several parts.
-	 * Each of the view part must be placed in the directory "parts":
+	 * Each of the view part must be placed in the directory 'parts':
 	 *
 	 * view-dir/parts/view-part.phtml
 	 *
@@ -318,18 +318,18 @@ abstract class Mvc_View_Abstract extends Object {
 				$orig = $match[0];
 				$part = $match[1];
 
-				$file = $this->_scripts_dir . "parts/{$part}.".static::SCRIPT_FILE_SUFFIX;
+				$file = $this->_scripts_dir . 'parts/'.$part.'.'.static::SCRIPT_FILE_SUFFIX;
 
 				if( !IO_File::exists($file) ) {
 					throw new Mvc_View_Exception(
-						"File '$file' doesn't exist",
+						'File \''.$file.'\' doesn\'t exist',
 						Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
 					);
 				}
 
 				if( !IO_File::isReadable($file) ) {
 					throw new Mvc_View_Exception(
-						"File '$file' is not readable",
+						'File \''.$file.'\' is not readable',
 						Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
 					);
 				}
@@ -338,7 +338,7 @@ abstract class Mvc_View_Abstract extends Object {
 
 				ob_start();
 				/** @noinspection PhpIncludeInspection */
-				include $this->_scripts_dir . "parts/{$part}.phtml";
+				include $this->_scripts_dir . 'parts/'.$part.'.phtml';
 				$part = ob_get_clean();
 
 				$result = str_replace($orig, $part, $result);

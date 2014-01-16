@@ -45,7 +45,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 
 			if(!$query->getSelect()->getHasItem($key)) {
 				throw new DataModel_Query_Exception(
-					"There is not item '{$key}' in the query select items list! In the having clause can only use items that are defined in the select",
+					'There is not item \''.$key.'\' in the query select items list! In the having clause can only use items that are defined in the select',
 					DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -75,7 +75,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 			) {
 
 				throw new DataModel_Query_Exception(
-					"Previous part of the query must be AND or OR. ".$previous." given. Current having dump:".$this->toString(),
+					'Previous part of the query must be AND or OR. '.$previous.' given. Current having dump:'.$this->toString(),
 					DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -100,7 +100,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 
 		if( $previous===DataModel_Query::L_O_AND || $previous===DataModel_Query::L_O_OR ) {
 			throw new DataModel_Query_Exception(
-				"Previous part of the query must be Expression. ".$previous." given. Current having dump:".$this->toString(),
+				'Previous part of the query must be Expression. '.$previous.' given. Current having dump:'.$this->toString(),
 				DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
@@ -123,7 +123,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 
 		if( $previous===DataModel_Query::L_O_AND || $previous===DataModel_Query::L_O_OR ) {
 			throw new DataModel_Query_Exception(
-				"Previous part of the query must be Expression. ".$previous." given. Current having dump:".$this->toString(),
+				'Previous part of the query must be Expression. '.$previous.' given. Current having dump:'.$this->toString(),
 				DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
@@ -142,7 +142,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 
 			if( $previous!==DataModel_Query::L_O_AND && $previous!==DataModel_Query::L_O_OR ) {
 				throw new DataModel_Query_Exception(
-					"Previous part of the query must be Expression. ".$previous." given. Current having dump:".$this->toString(),
+					'Previous part of the query must be Expression. '.$previous.' given. Current having dump:'.$this->toString(),
 					DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
@@ -178,7 +178,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 			}
 		}
 
-		return "( ".implode(" ", $result)." )";
+		return '( '.implode(' ', $result).' )';
 	}
 
 	//------------------------------------------------------------------------------------------------------------

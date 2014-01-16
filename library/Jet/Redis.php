@@ -78,7 +78,7 @@ class Redis extends Object {
 
 		if( !$connection_config ){
 			throw new Redis_Exception(
-				"Connection '{$connection_name}' doesn't exist",
+				'Connection \''.$connection_name.'\' doesn\'t exist',
 				Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}

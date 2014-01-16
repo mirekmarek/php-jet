@@ -68,7 +68,7 @@ class Mvc_View extends Mvc_View_Abstract {
 		ob_start();
 
 		if(static::$_add_script_path_info) {
-			echo "\n<!-- VIEW START: {$this->_script_path} -->\n";
+			echo JET_EOL.'<!-- VIEW START: '.$this->_script_path.' -->'.JET_EOL;
 		}
 
 
@@ -76,7 +76,7 @@ class Mvc_View extends Mvc_View_Abstract {
 		include $this->_script_path;
 
 		if(static::$_add_script_path_info) {
-			echo "\n<!-- VIEW END: {$this->_script_path} --> \n";
+			echo JET_EOL.'<!-- VIEW END: '.$this->_script_path.' --> '.JET_EOL;
 		}
 
 		$result = ob_get_clean();
@@ -104,7 +104,7 @@ class Mvc_View extends Mvc_View_Abstract {
 		) {
 			$module_name = $current_queue_item->getModuleName();
 			$data = array(
-				"JET_CURRENT_MODULE_NAME" => $module_name
+				'JET_CURRENT_MODULE_NAME' => $module_name
 			);
 			$result = Data_Text::replaceData($result, $data );
 		}

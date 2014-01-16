@@ -19,15 +19,15 @@ class JetML_Widget_Dojo_Layout_Tabs_Tab extends JetML_Widget_Dojo_Layout_Pane {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.layout.BorderContainer";
+	protected $dojo_type = 'dijit.layout.BorderContainer';
 
 
 	/**
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		if($this->node->hasAttribute("gutters")) {
-			$this->node->setAttribute("gutters", "false");
+		if($this->node->hasAttribute('gutters')) {
+			$this->node->setAttribute('gutters', 'false');
 		}
 
 		return parent::getReplacement();

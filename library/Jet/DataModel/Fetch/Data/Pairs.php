@@ -18,5 +18,5 @@ class DataModel_Fetch_Data_Pairs extends DataModel_Fetch_Data_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $backend_fetch_method = "fetchPairs";
+	protected $backend_fetch_method = 'fetchPairs';
 }

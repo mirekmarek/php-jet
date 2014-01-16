@@ -21,49 +21,49 @@
 namespace Jet;
 
 abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
-	const ERR_CODE_AUTHORIZATION_REQUIRED = "AuthorizationRequired";
-	const ERR_CODE_ACCESS_DENIED = "AccessDenied";
-	const ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE = "UnsupportedDataContentType";
-	const ERR_CODE_FORM_ERRORS = "FormErrors";
-	const ERR_CODE_UNKNOWN_ITEM = "UnknownItem";
+	const ERR_CODE_AUTHORIZATION_REQUIRED = 'AuthorizationRequired';
+	const ERR_CODE_ACCESS_DENIED = 'AccessDenied';
+	const ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE = 'UnsupportedDataContentType';
+	const ERR_CODE_FORM_ERRORS = 'FormErrors';
+	const ERR_CODE_UNKNOWN_ITEM = 'UnknownItem';
 
-	const RESPONSE_FORMAT_XML = "XML";
-	const RESPONSE_FORMAT_JSON = "JSON";
+	const RESPONSE_FORMAT_XML = 'XML';
+	const RESPONSE_FORMAT_JSON = 'JSON';
 
-	const CONTENT_TYPE_XML = "text/xml";
-	const CONTENT_TYPE_JSON = "application/json";
+	const CONTENT_TYPE_XML = 'text/xml';
+	const CONTENT_TYPE_JSON = 'application/json';
 
-	const INTERNAL_CHARSET = "UTF-8";
-
-	/**
-	 * @var string
-	 */
-	protected static $pagination_request_http_header_name = "Range";
-	/**
-	 * @var string
-	 */
-	protected static $pagination_request_http_header_regexp = "/^items=([0-9]{1,})-([0-9]{1,})$/";
-	/**
-	 * @var string
-	 */
-	protected static $pagination_response_http_header_name = "Content-Range";
-	/**
-	 * @var string
-	 */
-	protected static $pagination_response_http_header_value_template = "items %RANGE_FROM%-%RANGE_TO%/%COUNT%";
+	const INTERNAL_CHARSET = 'UTF-8';
 
 	/**
 	 * @var string
 	 */
-	protected static $response_format_xml_http_get_parameter = "xml";
+	protected static $pagination_request_http_header_name = 'Range';
 	/**
 	 * @var string
 	 */
-	protected static $response_format_json_http_get_parameter = "json";
+	protected static $pagination_request_http_header_regexp = '/^items=([0-9]{1,})-([0-9]{1,})$/';
 	/**
 	 * @var string
 	 */
-	protected static $response_charset_http_get_parameter = "charset";
+	protected static $pagination_response_http_header_name = 'Content-Range';
+	/**
+	 * @var string
+	 */
+	protected static $pagination_response_http_header_value_template = 'items %RANGE_FROM%-%RANGE_TO%/%COUNT%';
+
+	/**
+	 * @var string
+	 */
+	protected static $response_format_xml_http_get_parameter = 'xml';
+	/**
+	 * @var string
+	 */
+	protected static $response_format_json_http_get_parameter = 'json';
+	/**
+	 * @var string
+	 */
+	protected static $response_charset_http_get_parameter = 'charset';
 
 	/**
 	 * @var string
@@ -72,7 +72,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $default_response_charset = "UTF-8";
+	protected static $default_response_charset = 'UTF-8';
 
 	/**
 	 * @var array
@@ -88,21 +88,21 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 * Example:
 	 *
 	 * <code>
-	 * const ERROR_CODE_OBJECT_NOT_FOUND = "ObjectNotFound";
+	 * const ERROR_CODE_OBJECT_NOT_FOUND = 'ObjectNotFound';
 	 *
 	 * protected static $errors = array(
-	 *      self::ERROR_CODE_OBJECT_NOT_FOUND => array(self::HTTP_NOT_FOUND, "Object not found")
+	 *      self::ERROR_CODE_OBJECT_NOT_FOUND => array(self::HTTP_NOT_FOUND, 'Object not found')
 	 * );
 	 * </code>
 	 *
 	 * @var array
 	 */
 	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, "Access denied! Authorization required! "),
-		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, "Access denied! Insufficient permissions! "),
-		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Http_Headers::CODE_400_BAD_REQUEST, "Unsupported data Content-Type"),
-		self::ERR_CODE_FORM_ERRORS => array(Http_Headers::CODE_400_BAD_REQUEST, "There are errors in form"),
-		self::ERR_CODE_UNKNOWN_ITEM => array(Http_Headers::CODE_404_NOT_FOUND, "Unknown item"),
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '),
+		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
+		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'),
+		self::ERR_CODE_FORM_ERRORS => array(Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'),
+		self::ERR_CODE_UNKNOWN_ITEM => array(Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'),
 	);
 
 
@@ -117,14 +117,14 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			return false;
 		}
 
-		$content_type = $this->getHttpRequestHeader("Content-Type");
+		$content_type = $this->getHttpRequestHeader('Content-Type');
 
-		if(strpos($content_type, ";")!==false) {
-			list($content_type, $charset) = explode(";", $content_type);
+		if(strpos($content_type, ';')!==false) {
+			list($content_type, $charset) = explode(';', $content_type);
 			$content_type = trim($content_type);
 			$charset = trim($charset);
 
-			list(,$charset) = explode("=", $charset);
+			list(,$charset) = explode('=', $charset);
 
 			if($charset!=static::INTERNAL_CHARSET) {
 				$data = iconv($charset, static::INTERNAL_CHARSET, $data);
@@ -139,7 +139,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 				return $this->decodeRequestDataXML($data);
 			break;
 			default:
-				$this->responseError(self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE, array("Content-Type"=>$content_type));
+				$this->responseError(self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE, array('Content-Type'=>$content_type));
 			break;
 
 		}
@@ -168,17 +168,17 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		$json = json_encode( $xml );
 		$array = json_decode( $json, true );
 
-		if(isset($array["comment"])) {
-			foreach( $array["comment"] as $k=>$v ) {
+		if(isset($array['comment'])) {
+			foreach( $array['comment'] as $k=>$v ) {
 				if(is_array($v) && !$v) {
-					unset($array["comment"][$k]);
+					unset($array['comment'][$k]);
 				}
 			}
 
-			$array["comment"] = implode("", $array["comment"]);
+			$array['comment'] = implode('', $array['comment']);
 
-			if(!$array["comment"]) {
-				unset( $array["comment"] );
+			if(!$array['comment']) {
+				unset( $array['comment'] );
 			}
 		}
 
@@ -186,10 +186,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 
 		if(
 			count($array)==1 &&
-			isset($array["item"]) &&
-			is_array($array["item"])
+			isset($array['item']) &&
+			is_array($array['item'])
 		) {
-			$array = $array["item"];
+			$array = $array['item'];
 		}
 
 		return $array;
@@ -197,7 +197,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 
 	protected function _decodeRequestDataXMLcleanupArray( $array ) {
 		foreach( $array as $k=>$v ) {
-			if($k[0]=="@") {
+			if($k[0]=='@') {
 				unset($array[$k]);
 				continue;
 			}
@@ -210,7 +210,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			}
 
 			if(!$v) {
-				$array[$k] = "";
+				$array[$k] = '';
 			} else {
 				$array[$k] = $this->_decodeRequestDataXMLcleanupArray($array[$k]);
 			}
@@ -224,9 +224,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 */
 	public function responseOK() {
 		if($this->responseFormatDetection()==static::RESPONSE_FORMAT_XML) {
-			$this->_response("<result>OK</result>");
+			$this->_response('<result>OK</result>');
 		} else {
-			$this->_response(json_encode("OK"));
+			$this->_response(json_encode('OK'));
 		}
 
 	}
@@ -268,8 +268,8 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			$this->responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );
 		} else {
 			$this->responseError( self::ERR_CODE_ACCESS_DENIED , array(
-				"module_action" => $module_action,
-				"controller_action" => $controller_action
+				'module_action' => $module_action,
+				'controller_action' => $controller_action
 			));
 		}
 	}
@@ -286,7 +286,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 */
 	public function responseUnknownItem( $ID ) {
 		if(!is_array($ID)) {
-			$ID = array("ID"=>$ID);
+			$ID = array('ID'=>$ID);
 		}
 		$this->responseError(self::ERR_CODE_UNKNOWN_ITEM, $ID);
 	}
@@ -299,26 +299,26 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	public function responseError( $code, $data=null ) {
 		if(!isset(static::$errors[$code])) {
 			throw new Mvc_Controller_Exception(
-				"REST Error (code:{$code}) is not specified! Please specify the error. Add ".get_class($this)."::\$errors[{$code}] entry.  ",
+				'REST Error (code:'.$code.') is not specified! Please specify the error. Add '.get_class($this).'::$errors['.$code.'] entry.  ',
 				Mvc_Controller_Exception::CODE_INVALID_RESPONSE_CODE
 			);
 		}
 
 		list($http_code, $error_message) = static::$errors[$code];
 
-		$error_code = get_class($this).":".$code;
+		$error_code = get_class($this).':'.$code;
 		$error = array(
-			"error_code" => $error_code,
-			"error_msg" => Tr::_($error_message)
+			'error_code' => $error_code,
+			'error_msg' => Tr::_($error_message)
 		);
 
 		if($data) {
-			$error["error_data"] = $data;
+			$error['error_data'] = $data;
 		}
 
 
 		if($this->responseFormatDetection()==self::RESPONSE_FORMAT_XML) {
-			$this->_response( $this->_XMLSerialize($error, "error"), array(), $http_code, $error_message );
+			$this->_response( $this->_XMLSerialize($error, 'error'), array(), $http_code, $error_message );
 		} else {
 			$this->_response(json_encode( $error ), array(), $http_code, $error_message);
 		}
@@ -357,9 +357,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			$response_headers[static::$pagination_response_http_header_name] = Data_Text::replaceData(
 				static::$pagination_response_http_header_value_template,
 				array(
-					"RANGE_FROM" => $range_from,
-					"RANGE_TO" => $range_to,
-					"COUNT" => $count
+					'RANGE_FROM' => $range_from,
+					'RANGE_TO' => $range_to,
+					'COUNT' => $count
 				)
 			);
 		}
@@ -384,13 +384,13 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	protected function handleOrderBy( DataModel_Fetch_Data_Abstract $data ) {
 
 		foreach(Http_Request::GET()->getRawData() as $key=>$value) {
-			if(substr($key,0, 5)=="sort(" && substr($key, -1)==")") {
+			if(substr($key,0, 5)=='sort(' && substr($key, -1)==')') {
 
-				$order_by = explode(",", substr($key, 5, -1));
+				$order_by = explode(',', substr($key, 5, -1));
 
 				foreach( $order_by as $i=>$v ) {
-					if($v[0]=="_") {
-						$order_by[$i][0] = "+";
+					if($v[0]=='_') {
+						$order_by[$i][0] = '+';
 					}
 				}
 
@@ -407,7 +407,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 * @param int $http_code
 	 * @param string $http_message
 	 */
-	protected function _response( $response_text, array $http_headers=array(), $http_code = 200, $http_message="OK" ) {
+	protected function _response( $response_text, array $http_headers=array(), $http_code = 200, $http_message='OK' ) {
 		$response_format = $this->responseFormatDetection();
 		$response_charset = $this->responseCharsetDetection();
 
@@ -421,15 +421,18 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 				);
 		}
 
-		header( "HTTP/1.1 {$http_code} {$http_message}" );
-		header("Content-type:{$response_content_type};charset={$response_charset}");
+		header( 'HTTP/1.1 '.$http_code.' '.$http_message );
+		header( 'Content-type:'.$response_content_type.';charset='.$response_charset);
 
 		foreach( $http_headers as $header=>$header_value ) {
-			header("{$header}: $header_value");
+			header($header.': '.$header_value);
 		}
 
 		if( $response_format==static::RESPONSE_FORMAT_XML ) {
-			echo "<?xml version=\"1.0\" encoding=\"{$response_charset}\" ?>\n";
+			echo '<?xml version="1.0" encoding="'.$response_charset.'" ?>'.JET_EOL;
+			Debug_Profiler::setOutputIsXML(true);
+		} else {
+			Debug_Profiler::setOutputIsJSON(true);
 		}
 		echo $response_text;
 		Application::end();
@@ -472,8 +475,8 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $data, $tag, $prefix="" ) {
-		$result = "{$prefix}<{$tag}>\n";
+	protected function _XMLSerialize( $data, $tag, $prefix='' ) {
+		$result = $prefix.'<'.$tag.'>'.JET_EOL;
 
 		if(is_object($data)) {
 			$data = get_class_vars($data);
@@ -481,12 +484,12 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 
 		foreach($data as $key=>$val) {
 			if(is_array($val) || is_object($val)) {
-				$result .= $this->_XMLSerialize($val, $key, $prefix . "\t");
+				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= "{$prefix}\t<{$key}>".htmlspecialchars($val)."</{$key}>\n";
+				$result .= $prefix.JET_TAB.'<'.$key.'>'.htmlspecialchars($val).'</'.$key.'>'.JET_EOL;
 			}
 		}
-		$result .= "{$prefix}</{$tag}>\n";
+		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
 		return $result;
 	}
 
@@ -498,7 +501,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 *
 	 * @return array
 	 */
-	protected function getHttpRequestHeader( $header, $default_value="" ) {
+	protected function getHttpRequestHeader( $header, $default_value='' ) {
 		$headers = Http_Request::getHeaders();
 		return isset($headers[$header]) ? $headers[$header] : $default_value;
 	}

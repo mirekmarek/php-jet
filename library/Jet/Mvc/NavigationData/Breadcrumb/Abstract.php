@@ -22,15 +22,15 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_NavigationData_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_NavigationData_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getBreadcrumbInstance";
+	protected static $__factory_class_method = 'getBreadcrumbInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_NavigationData_Breadcrumb_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_NavigationData_Breadcrumb_Abstract';
 
 	/**
 	 * @var Mvc_Pages_Page_ID_Abstract
@@ -47,13 +47,13 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	 *
 	 * @var string
 	 */
-	protected $title = "";
+	protected $title = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $URI = "";
+	protected $URI = '';
 
 	/**
 	 *

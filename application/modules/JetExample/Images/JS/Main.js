@@ -1,48 +1,48 @@
-dojo.require("dojo.data.ObjectStore");
-dojo.require("dijit.Tree");
-dojo.require("dojo.data.ItemFileWriteStore");
-dojo.require("dijit.TooltipDialog");
+dojo.require('dojo.data.ObjectStore');
+dojo.require('dijit.Tree');
+dojo.require('dojo.data.ItemFileWriteStore');
+dojo.require('dijit.TooltipDialog');
 
-dojo.require("dojox.grid.enhanced.plugins.DnD");
+dojo.require('dojox.grid.enhanced.plugins.DnD');
 
-Jet.require("Jet.modules.Module");
-Jet.require("Jet.Form");
-Jet.require("Jet.Trash");
-Jet.require("Jet.Formatter");
-Jet.require("Jet.MultiUploader");
+Jet.require('Jet.modules.Module');
+Jet.require('Jet.Form');
+Jet.require('Jet.Trash');
+Jet.require('Jet.Formatter');
+Jet.require('Jet.MultiUploader');
 
 
 //TODO: HACK!!!
-window["Jet_module_Jet_Images_formatImage"] = function( thumbnail_URI ) {
+window['Jet_module_Jet_Images_formatImage'] = function( thumbnail_URI ) {
 
-	return '<div style="height: 100px;width: 100px;"><img src="'+thumbnail_URI+'"/></div>';
+	return '<div style='height: 100px;width: 100px;'><img src=''+thumbnail_URI+''/></div>';
 }
 
-Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
-	module_name: "JetExample\\Images",
-	module_label: Jet.translate("Images"),
+Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
+	module_name: 'JetExample\\Images',
+	module_label: Jet.translate('Images'),
 	selected_gallery_ID: null,
 
 	initializeUI: function(){
 		var _this = this;
 
-		this.edit_area = this.getWidgetByID("edit_area");
+		this.edit_area = this.getWidgetByID('edit_area');
 
-		this.tree = this.getTree( "galleries_tree_area", "gallery", true );
+		this.tree = this.getTree( 'galleries_tree_area', 'gallery', true );
 
 
 
-		this.form = this.getForm( "gallery", this.getData("gallery_form_fields_definition"), {
-			save_button: "gallery_save",
+		this.form = this.getForm( 'gallery', this.getData('gallery_form_fields_definition'), {
+			save_button: 'gallery_save',
 			onEdit: function( data ) {
 
-				_this.edit_area.domNode.style.visibility = "visible";
-				_this.images_grid.domNode.style.visibility = "visible";
+				_this.edit_area.domNode.style.visibility = 'visible';
+				_this.images_grid.domNode.style.visibility = 'visible';
 				_this.selected_gallery_ID = data.ID;
 				_this.reloadImages();
 				_this.tree.openByID( data.ID );
 				_this.images_trash.enable();
-				_this.getWidgetByID("upload_images_button").attr("disabled", false);
+				_this.getWidgetByID('upload_images_button').attr('disabled', false);
 
 				if(!data.parent_ID) {
 					_this.trash.disable();
@@ -51,11 +51,11 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 				}
 			},
 			onNew: function() {
-				_this.images_grid.domNode.style.visibility = "hidden";
-				_this.edit_area.domNode.style.visibility = "visible";
+				_this.images_grid.domNode.style.visibility = 'hidden';
+				_this.edit_area.domNode.style.visibility = 'visible';
 				_this.trash.disable();
 				_this.images_trash.disable();
-				_this.getWidgetByID("upload_images_button").attr("disabled", true);
+				_this.getWidgetByID('upload_images_button').attr('disabled', true);
 			},
 			beforeAdd: function(data) {
 				data.parent_ID = _this.selected_gallery_ID;
@@ -63,12 +63,12 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 				return data;
 			},
 			afterAdd: function(response_data) {
-				dojo.publish(_this.module_name+"/new");
+				dojo.publish(_this.module_name+'/new');
 
 				_this.edit( response_data.ID );
 			},
 			afterUpdate: function(response_data) {
-				dojo.publish(_this.module_name+"/updated");
+				dojo.publish(_this.module_name+'/updated');
 				_this.edit( response_data.ID );
 			}
 		} );
@@ -80,15 +80,15 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 			}
 
 			_this.images_trash.disable();
-			_this.getWidgetByID("upload_images_button").attr("disabled", true);
+			_this.getWidgetByID('upload_images_button').attr('disabled', true);
 
-			_this.selected_gallery_ID = item.ID+"";
+			_this.selected_gallery_ID = item.ID+'';
 
-			if(_this.selected_gallery_ID=="_root_") {
-				_this.selected_gallery_ID = "_root_";
+			if(_this.selected_gallery_ID=='_root_') {
+				_this.selected_gallery_ID = '_root_';
 				_this.trash.disable();
-				_this.edit_area.domNode.style.visibility = "hidden";
-				_this.images_grid.domNode.style.visibility = "hidden";
+				_this.edit_area.domNode.style.visibility = 'hidden';
+				_this.images_grid.domNode.style.visibility = 'hidden';
 			} else {
 				_this.trash.enable();
 				_this.edit(item.ID);
@@ -98,57 +98,57 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 
 		};
 
-		this.trash = new Jet.Trash(this, "gellery_trash", this.form.store, {
+		this.trash = new Jet.Trash(this, 'gellery_trash', this.form.store, {
 			source_widget_tree: this.tree,
 			itemAvatarCreator: function(item) {
-				return '<div>'+item["title"]+'</div>';
+				return '<div>'+item['title']+'</div>';
 			},
 			afterDelete: function() {
-				dojo.publish(_this.module_name+"/deleted");
+				dojo.publish(_this.module_name+'/deleted');
 			}
 		});
 		this.trash.disable();
 
 
-		this.addSignalCallback( this.module_name+"/new", function(){ _this.treereload(); });
-		this.addSignalCallback( this.module_name+"/updated", function(){
+		this.addSignalCallback( this.module_name+'/new', function(){ _this.treereload(); });
+		this.addSignalCallback( this.module_name+'/updated', function(){
 			_this.treereload();
 			_this.images_grid.reload();
 		});
-		this.addSignalCallback( this.module_name+"/deleted", function(){
+		this.addSignalCallback( this.module_name+'/deleted', function(){
 			_this.treereload();
 			_this.trash.disable();
-			_this.edit_area.domNode.style.visibility = "hidden";
+			_this.edit_area.domNode.style.visibility = 'hidden';
 		});
-		this.addSignalCallback( this.module_name+"/image/deleted", function(){
+		this.addSignalCallback( this.module_name+'/image/deleted', function(){
 			_this.reloadImages();
 		});
-		this.addSignalCallback( this.module_name+"/image/upload", function(){
+		this.addSignalCallback( this.module_name+'/image/upload', function(){
 			_this.reloadImages();
 		});
 
 
-		this.images_grid = this.getDataGrid( "images_grid", this.getJsonRestStoreInstance("image") );
+		this.images_grid = this.getDataGrid( 'images_grid', this.getJsonRestStoreInstance('image') );
 
 
 		this.images_grid.canSort = function(col) {
 			return ( Math.abs(col)!=2 );
 		}
 
-		this.images_trash = new Jet.Trash(this, "images_trash", this.getJsonRestStoreInstance("image"), {
+		this.images_trash = new Jet.Trash(this, 'images_trash', this.getJsonRestStoreInstance('image'), {
 			source_widget_grid: this.images_grid,
 			itemAvatarCreator: function(item) {
-				return '<div style="width:50px; height: 50px;float: left;padding: 5px;">'
+				return '<div style='width:50px; height: 50px;float: left;padding: 5px;'>'
 						+_this.getThumbnail(item, 50, 50)
 						+'</div>';
 			},
 			afterDelete: function() {
-				dojo.publish(_this.module_name+"/image/deleted");
+				dojo.publish(_this.module_name+'/image/deleted');
 			}
 		});
 
 		this.tree.dndController.checkAcceptance = function( source, nodes ) {
-			if(source.dnd["grid"] && source.dnd["grid"]==_this.images_grid) {
+			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
 				return true;
 			}
 
@@ -159,7 +159,7 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 		};
 
 		this.tree.dndController.onDndDrop = function(source, nodes, copy) {
-			if(source.dnd["grid"] && source.dnd["grid"]==_this.images_grid) {
+			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
 				var selected = source.grid.selection.getSelected();
 				var images = [];
 				for( var i=0; i<selected.length; i++ ) {
@@ -167,7 +167,7 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 				}
 
 
-				_this.copy_images_target_gallery_ID=this.targetAnchor.item.ID+"";
+				_this.copy_images_target_gallery_ID=this.targetAnchor.item.ID+'';
 
 				if(images.length) {
 					_this.copyImagesOpenDialog( images );
@@ -179,20 +179,20 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 			}
 
 			//TODO:
-			console.debug( "???",source, nodes, copy );
+			console.debug( '???',source, nodes, copy );
 
 			this.onDndCancel();
 		};
 
-		this.uploader = new Jet.MultiUploader(	"image/", this, "upload_images" );
+		this.uploader = new Jet.MultiUploader(	'image/', this, 'upload_images' );
 		this.uploader.onUploadDone = function() {
-			dojo.publish(_this.module_name+"/image/upload");
+			dojo.publish(_this.module_name+'/image/upload');
 		};
 
 		this.uploader.getPostData = function() {
 			var res = {};
 
-			res.overwrite_if_exists = _this.getWidgetByID("upload_form__overwrite_if_exists").checked;
+			res.overwrite_if_exists = _this.getWidgetByID('upload_form__overwrite_if_exists').checked;
 
 			return res;
 		};
@@ -221,12 +221,12 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 			}
 		}
 
-		return '<img src="'+image.thumbnail_URI+'" width="'+width+'" height="'+height+'"/>';
+		return '<img src=''+image.thumbnail_URI+'' width=''+width+'' height=''+height+''/>';
 
 	},
 
 	copyImagesOpenDialog: function( selected_images ) {
-		var prw_html = "";
+		var prw_html = '';
 
 		this.copy_images_selection = selected_images;
 
@@ -234,13 +234,13 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 			var image = selected_images[i];
 
 
-			prw_html += '<div style="width:50px; height: 50px;float: left;padding: 5px;">'
+			prw_html += '<div style='width:50px; height: 50px;float: left;padding: 5px;'>'
 				+ this.getThumbnail( image, 50, 50 )
 				+'</div>';
 		}
 
-		this.getNodeByID("copy_images_thb_area").innerHTML = prw_html;
-		this.getWidgetByID("copy_image_dialog").show();
+		this.getNodeByID('copy_images_thb_area').innerHTML = prw_html;
+		this.getWidgetByID('copy_image_dialog').show();
 	},
 
 	copyImages: function() {
@@ -254,14 +254,14 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 		for(var i=0;i<this.copy_images_selection.length; i++ ) {
 			if(i==last) {
 				//COPY is not supported by dojo
-				this.restPutAction( "copy_image", this.copy_images_selection[i].ID, data, function() {
-					_this.getWidgetByID("copy_image_dialog").hide();
+				this.restPutAction( 'copy_image', this.copy_images_selection[i].ID, data, function() {
+					_this.getWidgetByID('copy_image_dialog').hide();
 
-				}, "copy_image_button" );
+				}, 'copy_image_button' );
 
 			} else {
 				//COPY is not supported by dojo
-				this.restPutAction( "copy_image", this.copy_images_selection[i].ID, data );
+				this.restPutAction( 'copy_image', this.copy_images_selection[i].ID, data );
 
 			}
 		}
@@ -294,7 +294,7 @@ Jet.declare("Jet.module.JetExample\\Images.Main", [Jet.modules.Module], {
 
 	openUploadDialog: function() {
 		this.uploader.reset();
-		this.uploader.setRESTObjectName( "image/"+this.selected_gallery_ID );
+		this.uploader.setRESTObjectName( 'image/'+this.selected_gallery_ID );
 		this.getWidgetByID('upload_image').show();
 	}
 

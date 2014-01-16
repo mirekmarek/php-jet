@@ -30,13 +30,13 @@ trait Object_Trait_MagicSet {
 
 		if(!property_exists($this, $key)) {
 			throw new Object_Exception(
-				"Undefined class property ".get_class($this)."->{$key}",
+				'Undefined class property '.get_class($this).'->'.$key,
 				Object_Exception::CODE_UNDEFINED_PROPERTY
 			);
 		}
 
 		throw new Object_Exception(
-			"Access to protected class property ".get_class($this)."->{$key}",
+			'Access to protected class property '.get_class($this).'->'.$key,
 			Object_Exception::CODE_ACCESS_PROTECTED_PROPERTY
 		);
 	}

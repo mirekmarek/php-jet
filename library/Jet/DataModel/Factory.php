@@ -20,22 +20,22 @@ class DataModel_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $backend_class_name_prefix = "Jet\\DataModel_Backend_";
+	protected static $backend_class_name_prefix = 'Jet\\DataModel_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $histiory_backend_class_name_prefix = "Jet\\DataModel_History_Backend_";
+	protected static $histiory_backend_class_name_prefix = 'Jet\\DataModel_History_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $cache_backend_class_name_prefix = "Jet\\DataModel_Cache_Backend_";
+	protected static $cache_backend_class_name_prefix = 'Jet\\DataModel_Cache_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $property_definition_class_name_prefix = "Jet\\DataModel_Definition_Property_";
+	protected static $property_definition_class_name_prefix = 'Jet\\DataModel_Definition_Property_';
 
 	/**
 	 * @param string $backend_class_name_prefix
@@ -107,17 +107,17 @@ class DataModel_Factory extends Factory {
 	 */
 	public static function getPropertyDefinitionInstance( DataModel_Definition_Model_Abstract $data_model, $name, $definition_data ) {
 		if(
-			!isset($definition_data["type"]) ||
-			!$definition_data["type"]
+			!isset($definition_data['type']) ||
+			!$definition_data['type']
 		) {
 			throw new DataModel_Exception(
-				"Property {$data_model->getClassName()}::{$name}: 'type' parameter is not defined ... ",
+				'Property '.$data_model->getClassName().'::'.$name.': \'type\' parameter is not defined ... ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
 		}
 
-		$default_class_name = static::$property_definition_class_name_prefix.$definition_data["type"];
+		$default_class_name = static::$property_definition_class_name_prefix.$definition_data['type'];
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $data_model, $name, $definition_data );
@@ -137,7 +137,7 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Backend_Config_Abstract
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$backend_class_name_prefix.$type."_Config";
+		$default_class_name = static::$backend_class_name_prefix.$type.'_Config';
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
@@ -174,7 +174,7 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Config_Abstract
 	 */
 	public static function getHistoryBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$histiory_backend_class_name_prefix.$type."_Config";
+		$default_class_name = static::$histiory_backend_class_name_prefix.$type.'_Config';
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $soft_mode );
@@ -215,7 +215,7 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Cache_Backend_Config_Abstract
 	 */
 	public static function getCacheBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$cache_backend_class_name_prefix.$type."_Config";
+		$default_class_name = static::$cache_backend_class_name_prefix.$type.'_Config';
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $soft_mode );

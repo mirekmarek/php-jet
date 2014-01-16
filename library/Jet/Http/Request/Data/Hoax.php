@@ -19,7 +19,7 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	 */
 	protected function hoax(){
 		throw new Http_Request_Exception(
-			"Direct access to PHP request data (\$_GET, \$_POST and \$_REQUEST) forbidden.",
+			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
 			Http_Request_Exception::CODE_REQUEST_DATA_HOAX
 		);
 	}

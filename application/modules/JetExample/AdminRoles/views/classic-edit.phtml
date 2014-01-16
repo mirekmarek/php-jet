@@ -44,7 +44,7 @@ $form = $this->form;
 		 */
 		?>
 		<tr>
-			<td><a href="<?=Jet\Mvc_Pages::getURI("admin_classic_users");?>?ID=<?=(string)$user->getID(); ?>">EDIT</a></td>
+			<td><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users');?>?ID=<?=(string)$user->getID(); ?>">EDIT</a></td>
 			<td><?=$user->getLogin(); ?></td>
 		</tr>
 	<?php endforeach; ?>

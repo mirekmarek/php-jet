@@ -27,16 +27,16 @@ class Form_Field_Float extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "Float";
+	protected $_type = 'Float';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = array(
-				"input_missing" => "input_missing",
-				"empty" => "empty",
-				"invalid_format" => "invalid_format",
-				"out_of_range" => "out_of_range",
+				'input_missing' => 'input_missing',
+				'empty' => 'empty',
+				'invalid_format' => 'invalid_format',
+				'out_of_range' => 'out_of_range',
 			);
 
 	/**
@@ -100,7 +100,7 @@ class Form_Field_Float extends Form_Field_Abstract {
 	 */
 	public function validateValue() {
 
-		if(!$this->is_required && $this->_value_raw === ""){
+		if(!$this->is_required && $this->_value_raw === ''){
 			$this->_setValueIsValid();
 			return true;
 		}
@@ -115,7 +115,7 @@ class Form_Field_Float extends Form_Field_Abstract {
 			$min!==null &&
 			$this->_value < $min
 		) {
-			$this->setValueError("out_of_range");
+			$this->setValueError('out_of_range');
 			return false;
 		}
 		
@@ -123,7 +123,7 @@ class Form_Field_Float extends Form_Field_Abstract {
 			$max!==null &&
 			$this->_value > $max
 		) {
-			$this->setValueError("out_of_range");
+			$this->setValueError('out_of_range');
 			return false;
 		}
 		

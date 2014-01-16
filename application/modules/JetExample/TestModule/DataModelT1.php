@@ -20,93 +20,93 @@ use Jet;
 
 class DataModelT1 extends Jet\DataModel {
 
-	protected static $__data_model_model_name = "JetApplicationModule_TestModule_DataModelT1";
+	protected static $__data_model_model_name = 'JetApplicationModule_TestModule_DataModelT1';
 
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"checkbox" => array(
-			"type" => self::TYPE_BOOL,
-			"form_field_label" => "Checkbox: "
+		'checkbox' => array(
+			'type' => self::TYPE_BOOL,
+			'form_field_label' => 'Checkbox: '
 		),
-		"date" => array(
-			"type" => self::TYPE_DATE,
-			"form_field_label" => "Date: "
+		'date' => array(
+			'type' => self::TYPE_DATE,
+			'form_field_label' => 'Date: '
 		),
-		"date_time" => array(
-			"type" => self::TYPE_DATE_TIME,
-			"form_field_label" => "Date and time: "
+		'date_time' => array(
+			'type' => self::TYPE_DATE_TIME,
+			'form_field_label' => 'Date and time: '
 		),
-		"float" => array(
-			"type" => self::TYPE_FLOAT,
-			"form_field_label" => "Float: ",
-			"min_value" => 0,
-			"max_value" => 999
+		'float' => array(
+			'type' => self::TYPE_FLOAT,
+			'form_field_label' => 'Float: ',
+			'min_value' => 0,
+			'max_value' => 999
 		),
-		"int" => array(
-			"type" => self::TYPE_INT,
-			"form_field_label" => "Int: ",
-			"min_value" => 0,
-			"max_value" => 999
+		'int' => array(
+			'type' => self::TYPE_INT,
+			'form_field_label' => 'Int: ',
+			'min_value' => 0,
+			'max_value' => 999
 		),
-		"text" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "Text: ",
+		'text' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'Text: ',
 		),
-		"long_text" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 65536,
-			"form_field_label" => "Long text:"
+		'long_text' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 65536,
+			'form_field_label' => 'Long text:'
 		),
-		"HTML" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 655360,
-			"form_field_label" => "WYSIWYG:",
-			"form_field_type" => "WYSIWYG"
+		'HTML' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 655360,
+			'form_field_label' => 'WYSIWYG:',
+			'form_field_type' => 'WYSIWYG'
 		),
-		"select" => array(
-			"type" => self::TYPE_STRING,
-			"form_field_label" => "Select: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("JetApplicationModule\\JetExample\\TestModule\\DataModelT1", "getSelectOptions")
+		'select' => array(
+			'type' => self::TYPE_STRING,
+			'form_field_label' => 'Select: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions')
 		),
-		"multi_select" => array(
-			"type" => self::TYPE_ARRAY,
-			"item_type" => self::TYPE_STRING,
-			"form_field_label" => "Multi Select: ",
-			"form_field_type" => "MultiSelect",
-			"form_field_get_select_options_callback" => array("JetApplicationModule\\JetExample\\TestModule\\DataModelT1", "getSelectOptions")
+		'multi_select' => array(
+			'type' => self::TYPE_ARRAY,
+			'item_type' => self::TYPE_STRING,
+			'form_field_label' => 'Multi Select: ',
+			'form_field_type' => 'MultiSelect',
+			'form_field_get_select_options_callback' => array('JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions')
 		),
-		"radio_button" => array(
-			"type" => self::TYPE_ARRAY,
-			"item_type" => self::TYPE_STRING,
-			"form_field_label" => "Radio Button: ",
-			"form_field_type" => "RadioButton",
-			"form_field_get_select_options_callback" => array("JetApplicationModule\\JetExample\\TestModule\\DataModelT1", "getSelectOptions")
+		'radio_button' => array(
+			'type' => self::TYPE_ARRAY,
+			'item_type' => self::TYPE_STRING,
+			'form_field_label' => 'Radio Button: ',
+			'form_field_type' => 'RadioButton',
+			'form_field_get_select_options_callback' => array('JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions')
 		),
-		"password" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "Password: ",
-			"form_field_type" => "Password",
-			"form_field_options" => array(
-				"disable_check" => false,
-				"minimal_password_strength" => 0
+		'password' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'Password: ',
+			'form_field_type' => 'Password',
+			'form_field_options' => array(
+				'disable_check' => false,
+				'minimal_password_strength' => 0
 			)
 		),
-		"password_nc" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"form_field_label" => "Password (no check field): ",
-			"form_field_type" => "Password",
-			"form_field_options" => array(
-				"disable_check" => true
+		'password_nc' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'form_field_label' => 'Password (no check field): ',
+			'form_field_type' => 'Password',
+			'form_field_options' => array(
+				'disable_check' => true
 			)
 		)
 
@@ -120,17 +120,17 @@ class DataModelT1 extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $text = "";
+	protected $text = '';
 
 	/**
 	 * @var string
 	 */
-	protected $HTML = "";
+	protected $HTML = '';
 
 	/**
 	 * @var string
 	 */
-	protected $long_text = "";
+	protected $long_text = '';
 
 	/**
 	 * @var Jet\DateTime
@@ -145,7 +145,7 @@ class DataModelT1 extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $select = "";
+	protected $select = '';
 
 	/**
 	 * @var array
@@ -175,12 +175,12 @@ class DataModelT1 extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $password = "";
+	protected $password = '';
 
 	/**
 	 * @var string
 	 */
-	protected $password_nc = "";
+	protected $password_nc = '';
 
 
 	/**
@@ -257,11 +257,11 @@ class DataModelT1 extends Jet\DataModel {
 
 	public static function getSelectOptions() {
 		return array(
-				"value1" => "Option 1",
-				"value2" => "Option 2",
-				"value3" => "Option 3",
-				"value4" => "Option 4",
-				"value5" => "Option 5",
+				'value1' => 'Option 1',
+				'value2' => 'Option 2',
+				'value3' => 'Option 3',
+				'value4' => 'Option 4',
+				'value5' => 'Option 5',
 		);
 	}
 

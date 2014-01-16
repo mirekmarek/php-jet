@@ -11,8 +11,8 @@
 	<jet_module:JetExample\BreadcrumbNavigation view="default"/>
 
 	<div style="position: absolute;top:18px; right: 10px;">
-		<?=Jet\Tr::_("Current user: %USERNAME%", array("USERNAME"=>Jet\Auth::getCurrentUser()->getLogin()));?>
-		[<a href="?logout"><?=Jet\Tr::_("LOGOUT");?></a>]
+		<?=Jet\Tr::_('Current user: %USERNAME%', array('USERNAME' => Jet\Auth::getCurrentUser()->getLogin()));?>
+		[<a href="?logout"><?=Jet\Tr::_('LOGOUT');?></a>]
 	</div>
 
 	<jet_layout_main_position/>

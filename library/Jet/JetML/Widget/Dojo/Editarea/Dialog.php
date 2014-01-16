@@ -18,16 +18,16 @@ class JetML_Widget_Dojo_Editarea_Dialog extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.layout.BorderContainer";
+	protected $dojo_type = 'dijit.layout.BorderContainer';
 
 	/**
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$this->node->setAttribute("id", $this->getNodeAttribute("id")."_dialog");
-		$this->node->setAttribute("region", "leading");
-		$this->node->setAttribute("gutters", "false");
-		$this->node->setAttribute("style", "display:none");
+		$this->node->setAttribute('id', $this->getNodeAttribute('id').'_dialog');
+		$this->node->setAttribute('region', 'leading');
+		$this->node->setAttribute('gutters', 'false');
+		$this->node->setAttribute('style', 'display:none');
 
 		return parent::getReplacement();
 	}

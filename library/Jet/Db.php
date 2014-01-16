@@ -12,9 +12,9 @@
 namespace Jet;
 
 class Db extends Object {
-	const DRIVER_MYSQL = "mysql";
-	const DRIVER_SQLITE = "sqlite";
-	const DRIVER_OCI = "oci";
+	const DRIVER_MYSQL = 'mysql';
+	const DRIVER_SQLITE = 'sqlite';
+	const DRIVER_OCI = 'oci';
 
 	/**
 	 * @var Db_Config
@@ -81,7 +81,7 @@ class Db extends Object {
 
 		if( !$connection_config ){
 			throw new Db_Exception(
-				"Connection '{$connection_name}' doesn't exist",
+				'Connection \''.$connection_name.'\' doesn\'t exist',
 				Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}

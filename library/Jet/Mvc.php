@@ -29,6 +29,8 @@ class Mvc {
 	 * @param bool $return_output_as_string (optional; default: true)
 	 * @param bool|null $cache_enabled (optional; default: null = by configuration)
 	 *
+	 * @throws Mvc_Router_Exception
+	 *
 	 * @return null|string
 	 */
 	public static function run( $URL=null, $return_output_as_string=false, $cache_enabled=null  ) {
@@ -39,7 +41,7 @@ class Mvc {
 
 		if(!$return_output_as_string) {
 			if(!$router->initialize($URL, $cache_enabled)) {
-				die("FATAL: Unable to resolve page and site... Probably there is no site or we have some data problem.");
+				throw new Mvc_Router_Exception('FATAL: Unable to resolve page and site... Probably there is no site or we have some data problem.');
 			}
 
 			if($router->getCacheLoaded()) {

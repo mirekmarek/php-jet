@@ -31,12 +31,12 @@ abstract class Mvc_Router_Cache_Backend_Config_Abstract extends Config_Applicati
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Router_Cache_Backend_Config_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Router_Cache_Backend_Config_Abstract';
 
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "/core_router/cache_backend_options";
+	protected static $__config_data_path = '/core_router/cache_backend_options';
 
 	/**
 	 * @var array

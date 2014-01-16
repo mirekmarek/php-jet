@@ -17,5 +17,5 @@ class JetML_Widget_Dojo_Menu_Item_Checkbox extends JetML_Widget_Dojo_Menu_Item {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.CheckedMenuItem";
+	protected $dojo_type = 'dijit.CheckedMenuItem';
 }

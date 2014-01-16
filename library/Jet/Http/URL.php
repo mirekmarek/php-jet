@@ -32,13 +32,13 @@ class Http_URL extends Object {
 	 *
 	 * @var string
 	 */
-	protected $scheme = "http";
+	protected $scheme = 'http';
 	
 	/**
 	 *
 	 * @var string 
 	 */
-	protected $host = "";
+	protected $host = '';
 	
 	/**
 	 *
@@ -56,13 +56,13 @@ class Http_URL extends Object {
 	 *
 	 * @var string 
 	 */
-	protected $path = "/";
+	protected $path = '/';
 	
 	/**
 	 *
 	 * @var string 
 	 */
-	protected $query = "";
+	protected $query = '';
 	
 	/**
 	 *
@@ -101,7 +101,7 @@ class Http_URL extends Object {
 
 		if(
 			$parsed === false ||
-			!isset($parsed["scheme"])
+			!isset($parsed['scheme'])
 		){
 			$this->is_valid = false;
 			return false;
@@ -180,7 +180,7 @@ class Http_URL extends Object {
 	 */
 	public function getQueryData() {
 		if($this->query_data===null && $this->is_valid) {
-			if($this->query !== ""){
+			if($this->query !== ''){
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 				@parse_str($this->query, $this->query_data);
 				if(!is_array($this->query_data)){

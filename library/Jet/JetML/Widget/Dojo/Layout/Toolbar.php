@@ -18,5 +18,5 @@ class JetML_Widget_Dojo_Layout_Toolbar extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.Toolbar";
+	protected $dojo_type = 'dijit.Toolbar';
 }

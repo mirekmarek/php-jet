@@ -22,15 +22,15 @@ abstract class Mvc_Pages_Handler_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getPageHandlerInstance";
+	protected static $__factory_class_method = 'getPageHandlerInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Pages_Handler_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Pages_Handler_Abstract';
 
 	/**
 	 * Create new page

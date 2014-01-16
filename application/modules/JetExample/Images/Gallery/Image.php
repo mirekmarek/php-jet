@@ -14,71 +14,71 @@ namespace JetApplicationModule\JetExample\Images;
 use Jet;
 
 class Gallery_Image extends Jet\DataModel {
-	const THUMBNAILS_DIR_NAME = "_t_";
+	const THUMBNAILS_DIR_NAME = '_t_';
 
-	protected static $__data_model_model_name = "Jet_ImageGallery_Images";
+	protected static $__data_model_model_name = 'Jet_ImageGallery_Images';
 
 	protected static $__data_model_properties_definition = array(
-		"gallery_ID" => array(
-			"type" => self::TYPE_ID,
+		'gallery_ID' => array(
+			'type' => self::TYPE_ID,
 		),
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"offset" => array(
-			"type" => self::TYPE_INT,
-			"min_value" => 1,
-			"form_field_type" => false,
+		'offset' => array(
+			'type' => self::TYPE_INT,
+			'min_value' => 1,
+			'form_field_type' => false,
 		),
-		"title" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 100,
-			"is_required" => false,
-			"form_field_label" => "Title: ",
+		'title' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 100,
+			'is_required' => false,
+			'form_field_label' => 'Title: ',
 		),
-		"file_name" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"is_required" => true,
-			"form_field_type" => false,
+		'file_name' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'is_required' => true,
+			'form_field_type' => false,
 		),
-		"file_mime_type" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"is_required" => true,
-			"form_field_type" => false,
+		'file_mime_type' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'is_required' => true,
+			'form_field_type' => false,
 		),
-		"file_size" => array(
-			"type" => self::TYPE_INT,
-			"min_value" => 1,
-			"form_field_type" => false,
+		'file_size' => array(
+			'type' => self::TYPE_INT,
+			'min_value' => 1,
+			'form_field_type' => false,
 		),
-		"image_size_w" => array(
-			"type" => self::TYPE_INT,
-			"min_value" => 1,
-			"form_field_type" => false,
+		'image_size_w' => array(
+			'type' => self::TYPE_INT,
+			'min_value' => 1,
+			'form_field_type' => false,
 		),
-		"image_size_h" => array(
-			"type" => self::TYPE_INT,
-			"min_value" => 1,
-			"form_field_type" => false,
+		'image_size_h' => array(
+			'type' => self::TYPE_INT,
+			'min_value' => 1,
+			'form_field_type' => false,
 		),
-		"thumbnails" => array(
-			"type" => self::TYPE_DATA_MODEL,
-			"data_model_class" => "JetApplicationModule\\JetExample\\Images\\Gallery_Image_Thumbnail"
+		'thumbnails' => array(
+			'type' => self::TYPE_DATA_MODEL,
+			'data_model_class' => 'JetApplicationModule\\JetExample\\Images\\Gallery_Image_Thumbnail'
 		)
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $gallery_ID = "";
+	protected $gallery_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * @var int
@@ -88,17 +88,17 @@ class Gallery_Image extends Jet\DataModel {
 	/**
 	 * @var string
 	 */
-	protected $title = "";
+	protected $title = '';
 
 	/**
 	 * @var string
 	 */
-	protected $file_name = "";
+	protected $file_name = '';
 
 	/**
 	 * @var string
 	 */
-	protected $file_mime_type = "";
+	protected $file_mime_type = '';
 
 	/**
 	 * @var int
@@ -208,7 +208,7 @@ class Gallery_Image extends Jet\DataModel {
 	 * @param string $title
 	 */
 	public function setTitle($title) {
-		$this->_setPropertyValue("title", $title);
+		$this->_setPropertyValue('title', $title);
 	}
 
 
@@ -218,42 +218,42 @@ class Gallery_Image extends Jet\DataModel {
 	 * @param string $file_mime_type
 	 */
 	protected function setFileMimeType($file_mime_type) {
-		$this->_setPropertyValue("file_mime_type", $file_mime_type);
+		$this->_setPropertyValue('file_mime_type', $file_mime_type);
 	}
 
 	/**
 	 * @param string $file_name
 	 */
 	protected function setFileName($file_name) {
-		$this->_setPropertyValue("file_name", $file_name);
+		$this->_setPropertyValue('file_name', $file_name);
 	}
 
 	/**
 	 * @param int $file_size
 	 */
 	protected function setFileSize($file_size) {
-		$this->_setPropertyValue("file_size", $file_size);
+		$this->_setPropertyValue('file_size', $file_size);
 	}
 
 	/**
 	 * @param int $image_size_h
 	 */
 	protected function setImageSizeH($image_size_h) {
-		$this->_setPropertyValue("image_size_h", $image_size_h);
+		$this->_setPropertyValue('image_size_h', $image_size_h);
 	}
 
 	/**
 	 * @param int $image_size_w
 	 */
 	protected function setImageSizeW($image_size_w) {
-		$this->_setPropertyValue("image_size_w", $image_size_w);
+		$this->_setPropertyValue('image_size_w', $image_size_w);
 	}
 
 	/**
 	 * @param int $offset
 	 */
 	protected function setOffset($offset) {
-		$this->_setPropertyValue("offset", $offset);
+		$this->_setPropertyValue('offset', $offset);
 	}
 
 	/**
@@ -290,28 +290,28 @@ class Gallery_Image extends Jet\DataModel {
 	 * @return string
 	 */
 	public function getOffsetDirPath() {
-		return $this->getGallery()->getBaseDirPath().$this->getOffset()."/";
+		return $this->getGallery()->getBaseDirPath().$this->getOffset().'/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getDirPath() {
-		return $this->getOffsetDirPath().$this->getID()."/";
+		return $this->getOffsetDirPath().$this->getID().'/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getThumbnailsDirPath() {
-		return $this->getDirPath().static::THUMBNAILS_DIR_NAME."/";
+		return $this->getDirPath().static::THUMBNAILS_DIR_NAME.'/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getURI() {
-		return $this->getGallery()->getBaseURI().$this->getOffset()."/".$this->getID()."/".rawurldecode($this->getFileName());
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getID().'/'.rawurldecode($this->getFileName());
 	}
 
 
@@ -319,7 +319,7 @@ class Gallery_Image extends Jet\DataModel {
 	 * @return string
 	 */
 	public function getThumbnailsBaseURI() {
-		return $this->getGallery()->getBaseURI().$this->getOffset()."/".$this->getID()."/".static::THUMBNAILS_DIR_NAME."/";
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getID().'/'.static::THUMBNAILS_DIR_NAME.'/';
 	}
 
 	/**
@@ -419,11 +419,11 @@ class Gallery_Image extends Jet\DataModel {
 	 *
 	 * @return Gallery_Image[]
 	 */
-	public static function getList( $gallery_ID="" ) {
+	public static function getList( $gallery_ID='' ) {
 		$query = array();
 
 		if($gallery_ID) {
-			$query["this.gallery_ID"] = $gallery_ID;
+			$query['this.gallery_ID'] = $gallery_ID;
 		}
 
 		return (new self())->fetchObjects($query);
@@ -436,7 +436,7 @@ class Gallery_Image extends Jet\DataModel {
 	 *
 	 * @return Jet\DataModel_Fetch_Data_Assoc
 	 */
-	public static function getListAsData( $gallery_ID="" ) {
+	public static function getListAsData( $gallery_ID='' ) {
 		/**
 		 * @var Jet\DataModel $i;
 		 */
@@ -445,7 +445,7 @@ class Gallery_Image extends Jet\DataModel {
 		$data = $i->fetchDataAssoc($props, array());
 
 		if($gallery_ID) {
-			$data->getQuery()->setWhere( array("this.gallery_ID"=>$gallery_ID) );
+			$data->getQuery()->setWhere( array('this.gallery_ID'=>$gallery_ID) );
 		}
 
 		return $data;

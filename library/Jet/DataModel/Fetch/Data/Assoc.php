@@ -18,5 +18,5 @@ class DataModel_Fetch_Data_Assoc extends DataModel_Fetch_Data_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $backend_fetch_method = "fetchAll";
+	protected $backend_fetch_method = 'fetchAll';
 }

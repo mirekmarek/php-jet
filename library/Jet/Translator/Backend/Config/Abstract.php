@@ -32,7 +32,7 @@ abstract class Translator_Backend_Config_Abstract extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Translator_Backend_Config_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Translator_Backend_Config_Abstract';
 
 	/**
 	 * @var bool
@@ -41,7 +41,7 @@ abstract class Translator_Backend_Config_Abstract extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "/translator/backend_options";
+	protected static $__config_data_path = '/translator/backend_options';
 
 	/**
 	 * @var array

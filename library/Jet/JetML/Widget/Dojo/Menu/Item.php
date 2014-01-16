@@ -19,7 +19,7 @@ class JetML_Widget_Dojo_Menu_Item extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.MenuItem";
+	protected $dojo_type = 'dijit.MenuItem';
 
 	/**
 	 * @return \DOMElement|\DOMElement[]

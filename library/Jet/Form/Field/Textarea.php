@@ -20,7 +20,7 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "Textarea";
+	protected $_type = 'Textarea';
 
 	/**
 	 * @param Form_Parser_TagData $tag_data
@@ -28,10 +28,10 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID() );
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
 
-		return "<textarea {$this->_getTagPropertiesAsString( $tag_data )}>{$this->getValue()}</textarea>";
+		return '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>';
 	}
 	
 }

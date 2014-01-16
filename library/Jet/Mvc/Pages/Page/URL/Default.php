@@ -21,56 +21,56 @@ class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_model_name = "Jet_Mvc_Pages_Page_URL";
+	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page_URL';
 	/**
 	 * @var string
 	 */
-	protected static $__data_model_parent_model_class_name = "Jet\\Mvc_Pages_Page_Default";
+	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default';
 	/**
 	 * @var array
 	 */
 	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
+		'ID' => array(
+			'type' => self::TYPE_ID,
+			'is_ID' => true
 		),
-		"URL" => array(
-			"type" => self::TYPE_STRING,
-			"max_len" => 255,
-			"backend_options" => array(
-				"key" => "URI"
+		'URL' => array(
+			'type' => self::TYPE_STRING,
+			'max_len' => 255,
+			'backend_options' => array(
+				'key' => 'URI'
 			)
 		),
-		"is_default" => array(
-			"type" => self::TYPE_BOOL
+		'is_default' => array(
+			'type' => self::TYPE_BOOL
 		),
-		"is_SSL" => array(
-			"type" => self::TYPE_BOOL
+		'is_SSL' => array(
+			'type' => self::TYPE_BOOL
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_ID = "";
+	protected $Jet_Mvc_Pages_Page_ID = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_locale = "";
+	protected $Jet_Mvc_Pages_Page_locale = '';
 	/**
 	 * @var string
 	 */
-	protected $Jet_Mvc_Pages_Page_site_ID = "";
+	protected $Jet_Mvc_Pages_Page_site_ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $ID = '';
 
 	/**
 	 * @var string
 	 */
-	protected $URL = "";
+	protected $URL = '';
 	/**
 	 * @var bool
 	 */
@@ -86,7 +86,7 @@ class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
 	 * @param bool $is_default (optional, default: false )
 	 * @param bool $is_SSL (optional, default: false )
 	 */
-	public function __construct($URL="", $is_default=false, $is_SSL=false) {
+	public function __construct($URL='', $is_default=false, $is_SSL=false) {
 		if($URL) {
 			$this->generateID();
 			$this->setURL($URL);

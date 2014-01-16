@@ -169,7 +169,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			!($M_instance instanceof $this->__data_model_N_model_class_name)
 		) {
 			throw new DataModel_Exception(
-							"M DataModel must be instance of ".$this->__data_model_M_model_class_name." or ".$this->__data_model_N_model_class_name." class",
+							'M DataModel must be instance of '.$this->__data_model_M_model_class_name.' or '.$this->__data_model_N_model_class_name.' class',
 							DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 		}
@@ -216,7 +216,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			 */
 			if(! ($N instanceof $valid_class_name) ) {
 				throw new DataModel_Exception(
-					"N instance must be instance of '{$valid_class_name}'. '".get_class($N)."' given ",
+					'N instance must be instance of \''.$valid_class_name.'\'. \''.get_class($N).'\' given ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -386,7 +386,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	public function delete() {
 		if( !$this->M_ID ) {
 			throw new DataModel_Exception(
-				"Nothing to delete... Object was not loaded.",
+				'Nothing to delete... Object was not loaded.',
 				DataModel_Exception::CODE_NOTHING_TO_DELETE
 			);
 		}
@@ -413,7 +413,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize($prefix="" ) {
+	protected function _XMLSerialize($prefix='' ) {
 		/**
 		 * @var DataModel $N_model_instance
 		 */
@@ -423,14 +423,14 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 		$this->_fetchNIDs();
 
-		$result = "";
+		$result = '';
 
 		foreach($this->N_IDs as $ID_value) {
-			$result .= $prefix . "\t<$N_class_name>\n";
+			$result .= $prefix . JET_TAB.'<'.$N_class_name.'>'.JET_EOL;
 			foreach($ID_value as $ID_k=>$ID_v) {
-				$result .= $prefix . "\t\t<$ID_k>".htmlspecialchars($ID_v)."</$ID_k>\n";
+				$result .= $prefix . JET_TAB.JET_TAB.'<'.$ID_k.'>'.htmlspecialchars($ID_v).'</'.$ID_k.'>'.JET_EOL;
 			}
-			$result .= $prefix . "\t</$N_class_name>\n";
+			$result .= $prefix . JET_TAB.'</'.$N_class_name.'>'.JET_EOL;
 		}
 
 		return $result;
@@ -522,7 +522,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	public function offsetSet( $offset , $value ) {
 		throw new DataModel_Exception(
-			"Please do not change MtoN model directly. Use ".get_class($this)."->setNIDs()",
+			'Please do not change MtoN model directly. Use '.get_class($this).'->setNIDs()',
 			DataModel_Exception::CODE_PERMISSION_DENIED
 		);
 	}
@@ -648,10 +648,10 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	public function __sleep() {
 
 		return array(
-			"__data_model_M_model_class_name",
-			"__data_model_N_model_class_name",
-			"M_ID",
-			//"N_IDs"
+			'__data_model_M_model_class_name',
+			'__data_model_N_model_class_name',
+			'M_ID',
+			//'N_IDs'
 		);
 	}
 

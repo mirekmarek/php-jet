@@ -18,8 +18,8 @@ class Form_Decorator_Dojo_Textarea extends Form_Decorator_Dojo_Abstract {
 	 * @var array
 	 */
 	protected $decoratable_tags = array(
-		"field" => array(
-			"dojo_type" => "dijit.form.SimpleTextarea"
+		'field' => array(
+			'dojo_type' => 'dijit.form.SimpleTextarea'
 		)
 	);
 

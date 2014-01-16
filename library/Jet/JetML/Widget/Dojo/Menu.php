@@ -18,6 +18,6 @@ class JetML_Widget_Dojo_Menu extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.Menu";
+	protected $dojo_type = 'dijit.Menu';
 
 }

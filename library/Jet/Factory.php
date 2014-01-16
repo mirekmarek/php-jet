@@ -22,9 +22,9 @@
  *  Example: Do you want to implement your own Site?
  *  In addition to creating your own module (a class that will implement a specific interface or extend an abstract class) is sufficient to overload the original class:
  *
- *  Jet\Mvc_Sites_Factory: setSiteClass( "JetApplicationModule_MySite_MySite");
+ *  Jet\Mvc_Sites_Factory: setSiteClass( 'JetApplicationModule_MySite_MySite');
  *
- * Next possibility how to specify class overload is "factory_overload_map" directive in the modules manifest file. @see Mvc_Modules_ModuleInfo
+ * Next possibility how to specify class overload is 'factory_overload_map' directive in the modules manifest file. @see Mvc_Modules_ModuleInfo
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -107,7 +107,7 @@ class Factory extends Object  {
 		if($factory_callback){
 			if(!is_callable($factory_callback)){
 				throw new Factory_Exception(
-					"{$factory_callback[0]}::{$factory_callback[1]} is not valid factory callback.",
+					$factory_callback[0].'::'.$factory_callback[1].' is not valid factory callback.',
 					Factory_Exception::CODE_INVALID_CALLBACK
 				);
 			}
@@ -140,14 +140,14 @@ class Factory extends Object  {
 		$required_class = $default_class::getFactoryMustBeInstanceOfClassName();
 		if(!$required_class){
 			throw new Factory_Exception(
-				$default_class."::\$__factory_must_be_instance_of_class_name must be set for Jet\\Factory::checkInstance().",
+				$default_class.'::$__factory_must_be_instance_of_class_name must be defined.',
 				Factory_Exception::CODE_MISSING_INSTANCEOF_CLASS_NAME
 			);
 		}
 
 		if(!($instance instanceof $required_class) ) {
 			throw new Factory_Exception(
-				"Class " . get_class($instance) . " must be descendant of {$required_class}.",
+				'Class ' . get_class($instance) . ' must be descendant of '.$required_class.'.',
 				Factory_Exception::CODE_INVALID_CLASS_INSTANCE
 			);
 		}

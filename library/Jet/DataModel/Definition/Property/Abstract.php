@@ -26,7 +26,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\DataModel_Definition_Property_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\DataModel_Definition_Property_Abstract';
 
 	/**
 	 * Default error messages
@@ -34,10 +34,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @var array(code=>message)
 	 */
 	public static $default_error_messages = array(
-		DataModel_Validation_Error::CODE_REQUIRED => "Item is required",
-		DataModel_Validation_Error::CODE_INVALID_VALUE => "Invalid value",
-		DataModel_Validation_Error::CODE_INVALID_FORMAT => "Invalid format",
-		DataModel_Validation_Error::CODE_OUT_OF_RANGE => "Out of range",
+		DataModel_Validation_Error::CODE_REQUIRED => 'Item is required',
+		DataModel_Validation_Error::CODE_INVALID_VALUE => 'Invalid value',
+		DataModel_Validation_Error::CODE_INVALID_FORMAT => 'Invalid format',
+		DataModel_Validation_Error::CODE_OUT_OF_RANGE => 'Out of range',
 	);
 
 	/**
@@ -70,7 +70,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $_name = "";
+	protected $_name = '';
 
 
 	/**
@@ -81,7 +81,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $description = "";
+	protected $description = '';
 
 	/**
 	 * @var bool
@@ -91,12 +91,12 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $default_value = "";
+	protected $default_value = '';
 
 	/**
 	 * @var string
 	 */
-	protected $backend_options = "";
+	protected $backend_options = '';
 
 	//Data check params
 	/**
@@ -106,7 +106,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $validation_method_name = "";
+	protected $validation_method_name = '';
 	/**
 	 * @var array
 	 */
@@ -115,7 +115,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * Format:
 	 * <code>
 	 * array(
-	 *      "error_code" = "Error message"
+	 *      'error_code' = 'Error message'
 	 * )
 	 * </code>
 	 *
@@ -127,13 +127,13 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 *
 	 * @var string
 	 */
-	protected $form_field_type = "";
+	protected $form_field_type = '';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $form_field_label = "";
+	protected $form_field_label = '';
 
 	/**
 	 *
@@ -180,12 +180,12 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	public function setUp( $definition_data ) {
 		if($definition_data) {
-			unset($definition_data["type"]);
+			unset($definition_data['type']);
 
 			foreach($definition_data as $key=>$val) {
 				if( !$this->getHasProperty($key) ) {
 					throw new DataModel_Exception(
-						"{$this->_data_model_definition->getClassName()}::{$this->_name}: unknown definition option '{$key}'  ",
+						$this->_data_model_definition->getClassName().'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
@@ -199,14 +199,14 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			if( $this->is_ID ) {
 				if( $this->_is_data_model ) {
 					throw new DataModel_Exception(
-						"{$this->_data_model_definition->getClassName()}::{$this->_name} property type is DataModel. Can't be ID! ",
+						$this->_data_model_definition->getClassName().'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 
 				}
 				if( $this->_is_array ) {
 					throw new DataModel_Exception(
-						"{$this->_data_model_definition->getClassName()}::{$this->_name} property type is Array. Can't be ID! ",
+						$this->_data_model_definition->getClassName().'::'.$this->_name.' property type is Array. Can\'t be ID! ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
@@ -223,7 +223,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	public function setUpRelation( DataModel_Definition_Property_Abstract $related_to_property ) {
 		if(!$this->is_ID) {
 			throw new DataModel_Exception(
-				"{$this->_data_model_definition->getClassName()}::{$this->_name} property is not ID. Can't setup relations! ",
+				$this->_data_model_definition->getClassName().'::'.$this->_name.' property is not ID. Can\'t setup relations! ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
@@ -243,7 +243,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function toString() {
-		return $this->_data_model_definition->getClassName()."::".$this->getName();
+		return $this->_data_model_definition->getClassName().'::'.$this->getName();
 	}
 
 	/**
@@ -368,7 +368,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			return self::$default_error_messages[$error_code];
 		}
 
-		return "Unknown ERROR (code: {$error_code})";
+		return 'Unknown ERROR (code: '.$error_code.')';
 	}
 
 	/**
@@ -508,7 +508,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @return Form_Field_Abstract
 	 */
 	public function getFormField() {
-		$type = $this->is_ID ? "Hidden" : $this->getFormFieldType();
+		$type = $this->is_ID ? 'Hidden' : $this->getFormFieldType();
 
 		if(!$type) {
 			return null;
@@ -534,13 +534,13 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 			if(
 				is_array($callback) &&
-				$callback[0]=="this"
+				$callback[0]=='this'
 			) {
 				$callback[0] = $this->_data_model_definition->getClassName();
 			}
 
 			if(!is_callable($callback)) {
-				throw new DataModel_Exception($this->_data_model_definition->getClassName()."::".$this->_name."::form_field_get_select_options_callback is not callable");
+				throw new DataModel_Exception($this->_data_model_definition->getClassName().'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
 			}
 
 			$field->setSelectOptions( $callback() );
@@ -553,21 +553,21 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType();
+		$res = 'Type: '.$this->getType();
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 
 		if($this->is_ID) {
-			$res .= ", is ID";
+			$res .= ', is ID';
 		}
 
 		if($this->default_value) {
-			$res .= ", default value: {$this->default_value}";
+			$res .= ', default value: '.$this->default_value;
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;
@@ -598,7 +598,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		$props = get_object_vars($source_property);
 
 		foreach( $props as $p=>$v ) {
-			if($p[0]=="_") {
+			if($p[0]=='_') {
 				continue;
 			}
 

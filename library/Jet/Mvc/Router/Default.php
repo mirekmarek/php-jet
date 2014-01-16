@@ -27,7 +27,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $URL = "";
+	protected $URL = '';
 
 	/**
 	 * @var Http_URL
@@ -48,7 +48,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $base_URL = "";
+	protected $base_URL = '';
 
 	/**
 	 * Request path fragments (http://host/path-fragment-0/path-fragment-1/ )
@@ -132,7 +132,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $public_file_path = "";
+	protected $public_file_path = '';
 
 	//------------------------------------------------------------------
 
@@ -146,14 +146,14 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $service_type = "";
+	protected $service_type = '';
 
 	/**
 	 * Reserved ...
 	 *
 	 * @var string
 	 */
-	protected $service_subtype = "";
+	protected $service_subtype = '';
 
 	//------------------------------------------------------------------
 
@@ -170,7 +170,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $module_name = "";
+	protected $module_name = '';
 
 	/**
 	 * Current module action (accurately controller action)
@@ -203,7 +203,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $redirect_target_URL = "";
+	protected $redirect_target_URL = '';
 
 	/**
 	 * @see Mvc_Router_RoutingData::setRedirect()
@@ -211,7 +211,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $redirect_type = "";
+	protected $redirect_type = '';
 
 
 	//-----------------------------------------------------------------
@@ -270,7 +270,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		if( !$URL ) {
 			throw new Mvc_Router_Exception(
-				"URL is not defined",
+				'URL is not defined',
 				Mvc_Router_Exception::CODE_URL_NOT_DEFINED
 			);
 		}
@@ -292,18 +292,18 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		if( !$this->parsed_URL->getIsValid() ) {
 			throw new Mvc_Router_Exception(
-				"Unable to parse URL",
+				'Unable to parse URL',
 				Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
 			);
 		}
 
 
-		$this->base_URL = $this->parsed_URL->getScheme()."://".$this->parsed_URL->getHost();
+		$this->base_URL = $this->parsed_URL->getScheme().'://'.$this->parsed_URL->getHost();
 		if($this->parsed_URL->getPort()) {
-			$this->base_URL .= ":".$this->parsed_URL->getPort();
+			$this->base_URL .= ':'.$this->parsed_URL->getPort();
 		}
 
-		$this->path_fragments = explode( "/", $this->parsed_URL->getPath() );
+		$this->path_fragments = explode( '/', $this->parsed_URL->getPath() );
 
 		if(!$this->validateURIFormat()) {
 			return true;
@@ -334,10 +334,10 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		$URIs = array();
 		for($i=count($this->path_fragments); $i>=0; $i--) {
 			if($i>0) {
-				$URI = "/".implode("/", $path)."/";
+				$URI = '/'.implode('/', $path).'/';
 				unset($path[count($path)-1]);
 			} else {
-				$URI = "/";
+				$URI = '/';
 			}
 
 			$URIs[] = $URI;
@@ -394,8 +394,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			//OK, we have page. But given URL is not default URL. So redirect to default ...
 			$this->setIsRedirect(
 				$redirect_default_URL
-					. implode("/", $this->path_fragments)
-					. ( $this->path_fragments ? "/" : "" )
+					. implode('/', $this->path_fragments)
+					. ( $this->path_fragments ? '/' : '' )
 					. $this->parsed_URL->getQuery()
 			);
 
@@ -442,7 +442,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$this->service_type!=Mvc_Router::SERVICE_TYPE__JETJS_ &&
 			$this->path_fragments
 		) {
-			$this->module_name = str_replace(".","\\", array_shift( $this->path_fragments ));
+			$this->module_name = str_replace('.','\\', array_shift( $this->path_fragments ));
 
 			if($this->path_fragments){
 				$this->module_action = array_shift( $this->path_fragments );
@@ -451,7 +451,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			if( $this->service_type==Mvc_Router::SERVICE_TYPE_REST ) {
 				$method = strtolower(Http_Request::getRequestMethod());
 
-				$this->module_action = $method . "_" . $this->module_action;
+				$this->module_action = $method . '_' . $this->module_action;
 			}
 
 		}
@@ -459,9 +459,9 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if(
 			$this->service_type == Mvc_Router::SERVICE_TYPE_STANDARD &&
 			count($this->path_fragments)==1 &&
-			strpos($this->path_fragments[0], ".")!==false &&
-			$this->path_fragments[0][0] != "." &&
-			strpos($this->path_fragments[0], "..")===false
+			strpos($this->path_fragments[0], '.')!==false &&
+			$this->path_fragments[0][0] != '.' &&
+			strpos($this->path_fragments[0], '..')===false
 		) {
 			$file_path = $this->getPublicFilesPath().$this->path_fragments[0];
 
@@ -612,14 +612,14 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		$end_i = count($this->path_fragments)-1;
 
 		//last char in URI path must be /
-		if( $this->path_fragments[$end_i]==="" ) {
+		if( $this->path_fragments[$end_i]==='' ) {
 			unset($this->path_fragments[$end_i]);
 
 			return true;
 		}
 
 		//... or some opened document, or XML and so on
-		if( strpos( $this->path_fragments[$end_i], ".")!==false ) {
+		if( strpos( $this->path_fragments[$end_i], '.')!==false ) {
 			return true;
 		}
 
@@ -628,8 +628,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		/*
 		$this->setRedirect(
 			$this->base_URL
-				. $this->path . "/"
-				. (($this->query) ? "?".$this->query : ""),
+				. $this->path . '/'
+				. (($this->query) ? '?'.$this->query : ''),
 			Mvc_Router::REDIRECT_TYPE_PERMANENTLY
 		);
 
@@ -683,7 +683,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		if(!$module_instance instanceof Mvc_UIManagerModule_Abstract) {
 			throw new Mvc_Router_Exception(
-				"Invalid Site UI module class. Main '{$module_name}' module class must be subclass of Mvc_UIManagerModule_Abstract",
+				'Invalid Site UI module class. Main \''.$module_name.'\' module class must be subclass of Mvc_UIManagerModule_Abstract',
 				Mvc_Router_Exception::CODE_INVALID_SITE_UI_CLASS
 			);
 
@@ -716,7 +716,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 */
 	public function setupErrorHandler() {
-		Debug_ErrorHandler::setHTTPErrorPagesDir( $this->site->getBasePath() . "error_pages/" );
+		Debug_ErrorHandler::setHTTPErrorPagesDir( $this->site->getBasePath() . 'error_pages/' );
 	}
 
 	/**
@@ -926,63 +926,63 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return string
 	 */
 	public function getModulesBaseURI() {
-		return $this->getBaseURI()."modules/";
+		return $this->getBaseURI().'modules/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getModulesBaseURL() {
-		return $this->getBaseURL()."modules/";
+		return $this->getBaseURL().'modules/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getPublicURI() {
-		return $this->getBaseURI()."public/";
+		return $this->getBaseURI().'public/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getPublicURL() {
-		return $this->getBaseURL()."public/";
+		return $this->getBaseURL().'public/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getPublicFilesPath() {
-		return $this->site->getBasePath() . "public_files/";
+		return $this->site->getBasePath() . 'public_files/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getSiteBaseURI() {
-		return JET_SITES_URI . $this->site_ID . "/";
+		return JET_SITES_URI . $this->site_ID . '/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getSiteImagesURI() {
-		return JET_SITES_URI . $this->site_ID . "/images/";
+		return JET_SITES_URI . $this->site_ID . '/images/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getSiteScriptsURI() {
-		return JET_SITES_URI . $this->site_ID . "/scripts/";
+		return JET_SITES_URI . $this->site_ID . '/scripts/';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getSiteStylesURI() {
-		return JET_SITES_URI . $this->site_ID . "/styles/";
+		return JET_SITES_URI . $this->site_ID . '/styles/';
 	}
 
 	/**
@@ -1081,7 +1081,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 		foreach( get_object_vars($cached_router) as $property=>$value ) {
-			if($property[0]=="_") {
+			if($property[0]=='_') {
 				continue;
 			}
 			$this->{$property} = $value;
@@ -1142,7 +1142,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$_output_part = clone $output_part;
 		if(!$output_part->getIsStatic()) {
-			$_output_part->setOutput("");
+			$_output_part->setOutput('');
 		}
 
 		$this->cache_output_parts[$loop_ID] = $_output_part;
@@ -1190,8 +1190,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	public function __sleep() {
 		$dat = array();
 		foreach(get_object_vars($this) as $var=>$val) {
-			if($var[0]=="_" ||
-                ($var=="layout" && !$this->output_cache_enabled)
+			if($var[0]=='_' ||
+                ($var=='layout' && !$this->output_cache_enabled)
             ) {
 				continue;
 			}

@@ -19,5 +19,5 @@ class JetML_Widget_Dojo_Layout_Tabs extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.layout.TabContainer";
+	protected $dojo_type = 'dijit.layout.TabContainer';
 }

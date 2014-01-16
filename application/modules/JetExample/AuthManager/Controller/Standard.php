@@ -46,25 +46,25 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$form->validateValues()
 		) {
 			$data = $form->getValues();
-			if(Jet\Auth::login( $data["login"], $data["password"] )) {
+			if(Jet\Auth::login( $data['login'], $data['password'] )) {
 				Jet\Http_Headers::reload();
 			} else {
-				$this->view->setVar("incorrect_login", true);
+				$this->view->setVar('incorrect_login', true);
 			}
 		}
 
-		$this->view->setVar("login_form", $form);
+		$this->view->setVar('login_form', $form);
 
-		$this->render("login");
+		$this->render('login');
 	}
 
 
 	public function isNotActivated_Action() {
-		$this->render("is-not-activated");
+		$this->render('is-not-activated');
 	}
 
 	public function isBlocked_Action() {
-		$this->render("is-blocked");
+		$this->render('is-blocked');
 	}
 
 	public function mustChangePassword_Action() {
@@ -82,7 +82,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			 * @var Jet\Auth_User_Abstract $user
 			 */
 			$user = $this->module_instance->getCurrentUser();
-			$user->setPassword( $data["password"] );
+			$user->setPassword( $data['password'] );
 			$user->setPasswordIsValid(true);
 			$user->setPasswordIsValidTill(null);
 			$user->validateProperties();
@@ -91,8 +91,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			Jet\Http_Headers::reload();
 		}
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->render("must-change-password");
+		$this->render('must-change-password');
 	}
 }

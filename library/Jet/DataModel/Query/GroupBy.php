@@ -42,7 +42,7 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 			$property = null;
 
 			if(!$select->getHasItem($gb)) {
-				if(strpos($gb, ".")) {
+				if(strpos($gb, '.')) {
 					$property = $query->_getPropertyAndSetRelation($gb);
 				} else {
 					$properties = $query->getMainDataModel()->getDataModelDefinition()->getProperties();
@@ -56,7 +56,7 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 
 			if(!$property) {
 				throw new DataModel_Query_Exception(
-					"setGroupBy error. Undefined group by property: '{$gb}'",
+					'setGroupBy error. Undefined group by property: \''.$gb.'\'',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			}

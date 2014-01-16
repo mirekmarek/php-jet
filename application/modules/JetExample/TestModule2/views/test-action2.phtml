@@ -56,6 +56,6 @@ M2: Test Action 2
 
 <?php
 foreach( Jet\Mvc::getCurrentPage()->getChildren() as $chld ) {
-	echo "\t\t".(string)$chld->getID()."\n";
+	echo (string)$chld->getID().JET_EOL;
 }
 ?>

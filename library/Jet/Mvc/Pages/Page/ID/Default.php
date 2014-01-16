@@ -20,21 +20,21 @@ class Mvc_Pages_Page_ID_Default extends Mvc_Pages_Page_ID_Abstract {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getSiteIDInstance";
+	protected static $__factory_class_method = 'getSiteIDInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Sites_Site_ID_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Site_ID_Abstract';
 
 	/**
 	 * @param string $site_ID
 	 */
 	public function setSiteID( $site_ID ) {
-		$this->values["site_ID"] = $site_ID;
+		$this->values['site_ID'] = $site_ID;
 	}
 
 	/**
@@ -42,10 +42,10 @@ class Mvc_Pages_Page_ID_Default extends Mvc_Pages_Page_ID_Abstract {
 	 *
 	 */
 	public function setLocale($locale) {
-		$this->values["locale"] = $locale;
+		$this->values['locale'] = $locale;
 
-		if(!($this->values["locale"] instanceof $locale)) {
-			$this->values["locale"] = new Locale($this->values["locale"]);
+		if(!($this->values['locale'] instanceof $locale)) {
+			$this->values['locale'] = new Locale($this->values['locale']);
 		}
 
 	}
@@ -55,14 +55,14 @@ class Mvc_Pages_Page_ID_Default extends Mvc_Pages_Page_ID_Abstract {
 	 *
 	 */
 	public function setPageID($ID) {
-		$this->values["ID"] = $ID;
+		$this->values['ID'] = $ID;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getSiteID() {
-		return $this->values["site_ID"];
+		return $this->values['site_ID'];
 	}
 
 	/**
@@ -70,13 +70,13 @@ class Mvc_Pages_Page_ID_Default extends Mvc_Pages_Page_ID_Abstract {
 	 * @return Locale
 	 */
 	public function getLocale() {
-		return $this->values["locale"];
+		return $this->values['locale'];
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getPageID() {
-		return $this->values["ID"];
+		return $this->values['ID'];
 	}
 }

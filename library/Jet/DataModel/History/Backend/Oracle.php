@@ -58,14 +58,14 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 
 		$user = Auth::getCurrentUser();
 		if($user) {
-			$user_name = $user->getName()." (".$user->getLogin().")";
+			$user_name = $user->getName().' ('.$user->getLogin().')';
 			$user_ID = (string)$user->getID();
 		} else {
-			$user_name = "none";
-			$user_ID = "none";
+			$user_name = 'none';
+			$user_ID = 'none';
 		}
 
-		$this->_db_write->execCommand("INSERT INTO {$this->_table_name}
+		$this->_db_write->execCommand('INSERT INTO '.$this->_table_name.'
 						                (
 						                    operation_ID,
 											class_name,
@@ -92,16 +92,16 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 											:operation_inprogress
 
 						                )
-				",array(
-					"operation_ID" => $this->_current_operation_ID,
-					"class_name" => get_class($this->_current_data_model),
-					"model_name" => $this->_current_data_model->getDataModelName(),
-					"object_ID" => (string)$this->_current_data_model->getID(),
-					"operation" => $operation,
-					"user_name" => $user_name,
-					"user_ID" => $user_ID,
-					"object" => $this->serialize( $this->_current_data_model ),
-					"operation_inprogress" => 1,
+					',array(
+					'operation_ID' => $this->_current_operation_ID,
+					'class_name' => get_class($this->_current_data_model),
+					'model_name' => $this->_current_data_model->getDataModelName(),
+					'object_ID' => (string)$this->_current_data_model->getID(),
+					'operation' => $operation,
+					'user_name' => $user_name,
+					'user_ID' => $user_ID,
+					'object' => $this->serialize( $this->_current_data_model ),
+					'operation_inprogress' => 1,
 				));
 
 	}
@@ -111,9 +111,9 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 	 */
 	public function operationDone() {
 		$this->_db_write->execCommand(
-			"UPDATE {$this->_table_name} SET operation_inprogress=0, operation_done=1, done_date_and_time=sysdate WHERE operation_ID=:operation_ID",
+			'UPDATE '.$this->_table_name.' SET operation_inprogress=0, operation_done=1, done_date_and_time=sysdate WHERE operation_ID=:operation_ID',
 			array(
-				"operation_ID" => $this->_current_operation_ID,
+				'operation_ID' => $this->_current_operation_ID,
 			)
 		);
 	}
@@ -124,29 +124,28 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 	public function helper_getCreateCommand() {
 
 		return
-			""
-			."DECLARE\n"
-			."\tcnt NUMBER;\n"
-			."BEGIN\n"
-			."\tSELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER('{$this->_table_name}') or table_name = '{$this->_table_name}';\n"
-			."IF cnt = 0 THEN\n"
-			."EXECUTE IMMEDIATE 'CREATE TABLE {$this->_table_name} (\n"
-				."\toperation_ID varchar(100) NOT NULL,\n"
-				."\tclass_name varchar(255) NOT NULL,\n"
-				."\tmodel_name varchar(255) NOT NULL,\n"
-				."\tobject_ID varchar(255) NOT NULL,\n"
-				."\toperation varchar(50) NOT NULL,\n"
-				."\tstart_date_and_time TIMESTAMP WITH TIME ZONE NOT NULL,\n"
-				."\tdone_date_and_time TIMESTAMP WITH TIME ZONE,\n"
-				."\toperation_inprogress char(4) NOT NULL,\n"
-				."\toperation_done char(4),\n"
-				."\tuser_name varchar(255) NOT NULL,\n"
-				."\tuser_ID varchar(255) NOT NULL,\n"
-				."\tobject CLOB NOT NULL,\n"
-				."\tCONSTRAINT {$this->_table_name}_pk PRIMARY KEY (operation_ID)\n"
-			.")';"
-			."END IF;\n"
-			."END;\n";
+			'DECLARE'.JET_EOL
+			.JET_TAB.'cnt NUMBER;'.JET_EOL
+			.'BEGIN'.JET_EOL
+			.JET_TAB.'SELECT count(*) INTO cnt FROM user_tables WHERE table_name = UPPER(\''.$this->_table_name.'\') or table_name = \''.$this->_table_name.'\';'.JET_EOL
+			.'IF cnt = 0 THEN'.JET_EOL
+			.'EXECUTE IMMEDIATE \'CREATE TABLE '.$this->_table_name.' ('.JET_EOL
+				.JET_TAB.'operation_ID varchar(100) NOT NULL,'.JET_EOL
+				.JET_TAB.'class_name varchar(255) NOT NULL,'.JET_EOL
+				.JET_TAB.'model_name varchar(255) NOT NULL,'.JET_EOL
+				.JET_TAB.'object_ID varchar(255) NOT NULL,'.JET_EOL
+				.JET_TAB.'operation varchar(50) NOT NULL,'.JET_EOL
+				.JET_TAB.'start_date_and_time TIMESTAMP WITH TIME ZONE NOT NULL,'.JET_EOL
+				.JET_TAB.'done_date_and_time TIMESTAMP WITH TIME ZONE,'.JET_EOL
+				.JET_TAB.'operation_inprogress char(4) NOT NULL,'.JET_EOL
+				.JET_TAB.'operation_done char(4),'.JET_EOL
+				.JET_TAB.'user_name varchar(255) NOT NULL,'.JET_EOL
+				.JET_TAB.'user_ID varchar(255) NOT NULL,'.JET_EOL
+				.JET_TAB.'object CLOB NOT NULL,'.JET_EOL
+				.JET_TAB.'CONSTRAINT '.$this->_table_name.'_pk PRIMARY KEY (operation_ID)'.JET_EOL
+			.')\';'
+			.'END IF;'.JET_EOL
+			.'END;'.JET_EOL;
 	}
 
 	/**

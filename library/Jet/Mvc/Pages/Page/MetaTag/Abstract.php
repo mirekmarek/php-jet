@@ -23,22 +23,22 @@ abstract class Mvc_Pages_Page_MetaTag_Abstract extends DataModel_Related_1toN {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getPageMetaTagInstance";
+	protected static $__factory_class_method = 'getPageMetaTagInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Pages_Page_MetaTag_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Pages_Page_MetaTag_Abstract';
 
 	/**
 	 * @param string $content (optional)
 	 * @param string $attribute (optional)
 	 * @param string $attribute_value (optional)
 	 */
-	abstract function __construct($content="", $attribute="", $attribute_value="");
+	abstract function __construct($content='', $attribute='', $attribute_value='');
 
 	/**
 	 * @return string

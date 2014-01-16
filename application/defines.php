@@ -12,6 +12,9 @@
 namespace Jet;
 error_reporting(E_ALL | E_STRICT);
 
+define('JET_TAB', "\t");
+define('JET_EOL', PHP_EOL);
+
 define('JET_APPLICATION_ENVIRONMENT', 'devel');
 define('JET_DEBUG_MODE', true);
 

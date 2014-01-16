@@ -23,15 +23,15 @@ abstract class Mvc_Sites_Handler_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Mvc_Factory";
+	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getSiteHandlerInstance";
+	protected static $__factory_class_method = 'getSiteHandlerInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Mvc_Sites_Handler_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Handler_Abstract';
 
 	/**
 	 * Create new site
@@ -79,7 +79,7 @@ abstract class Mvc_Sites_Handler_Abstract extends Object {
 		
 		if(!$site) {
 			throw new Mvc_Sites_Handler_Exception(
-				"Unknown site '{$ID}' ",
+				'Unknown site \''.$ID.'\' ',
 				Mvc_Sites_Handler_Exception::CODE_UNKNOWN_SITE
 			);
 		}

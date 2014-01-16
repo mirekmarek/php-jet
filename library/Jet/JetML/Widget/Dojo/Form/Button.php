@@ -17,13 +17,13 @@ class JetML_Widget_Dojo_Form_Button extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.form.Button";
+	protected $dojo_type = 'dijit.form.Button';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $widget_container_tag = "button";
+	protected $widget_container_tag = 'button';
 
 	/**
 	 * @return \DOMElement|\DOMElement[]

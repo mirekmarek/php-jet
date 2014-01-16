@@ -17,8 +17,8 @@ class Form_Decorator_Dojo_RadioButton extends Form_Decorator_Dojo_Abstract {
 	 * @var array
 	 */
 	protected $decoratable_tags = array(
-		"field_option" => array(
-			"dojo_type" => "dijit.form.RadioButton"
+		'field_option' => array(
+			'dojo_type' => 'dijit.form.RadioButton'
 		)
 	);
 }

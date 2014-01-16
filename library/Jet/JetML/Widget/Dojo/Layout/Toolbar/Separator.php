@@ -16,11 +16,11 @@ class JetML_Widget_Dojo_Layout_Toolbar_Separator extends JetML_Widget_Dojo_Abstr
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.ToolbarSeparator";
+	protected $dojo_type = 'dijit.ToolbarSeparator';
 	
 	/**
 	 *
 	 * @var string
 	 */
-	protected $widget_container_tag = "span";
+	protected $widget_container_tag = 'span';
 }

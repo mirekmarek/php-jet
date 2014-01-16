@@ -15,10 +15,10 @@
 namespace Jet;
 
 class DataModel_Validation_Error extends Object {
-	const CODE_REQUIRED = "required";
-	const CODE_INVALID_VALUE = "invalid_value";
-	const CODE_INVALID_FORMAT = "invalid_format";
-	const CODE_OUT_OF_RANGE = "out_of_range";
+	const CODE_REQUIRED = 'required';
+	const CODE_INVALID_VALUE = 'invalid_value';
+	const CODE_INVALID_FORMAT = 'invalid_format';
+	const CODE_OUT_OF_RANGE = 'out_of_range';
 
 
 	/**
@@ -31,13 +31,13 @@ class DataModel_Validation_Error extends Object {
 	 *
 	 * @var string
 	 */
-	protected $message = "";
+	protected $message = '';
 
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract
 	 */
-	protected $property = "";
+	protected $property = '';
 
 	/**
 	 *
@@ -97,7 +97,7 @@ class DataModel_Validation_Error extends Object {
 		 * @var DataModel_Definition_Model_Abstract $model_definition
 		 */
 		$model_definition = $this->property->getDataModelDefinition();
-		return "{$model_definition->getClassName()}::{$this->property->getName()} : ({$this->code}) $this->message";
+		return $model_definition->getClassName().'::'.$this->property->getName().' : ('.$this->code.') '.$this->message;
 	}
 
 	/**

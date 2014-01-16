@@ -22,15 +22,15 @@ abstract class Javascript_Lib_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_name = "Jet\\Javascript_Factory";
+	protected static $__factory_class_name = 'Jet\\Javascript_Factory';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_class_method = "getJavascriptLibInstance";
+	protected static $__factory_class_method = 'getJavascriptLibInstance';
 	/**
 	 * @var string
 	 */
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\Javascript_Lib_Abstract";
+	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Javascript_Lib_Abstract';
 
 	/**
 	 * The layout instance
@@ -88,8 +88,8 @@ abstract class Javascript_Lib_Abstract extends Object {
 	 *
 	 * Example:
 	 *
-	 * $Dojo = $layout->requireJavaScript("Dojo");
-	 * $Dojo->requireComponent( "dijit.form.InputBox" );
+	 * $Dojo = $layout->requireJavaScript('Dojo');
+	 * $Dojo->requireComponent( 'dijit.form.InputBox' );
 	 *
 	 * @param string $component
 	 * @param mixed[] $parameters (optional)

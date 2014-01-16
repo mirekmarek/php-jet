@@ -26,7 +26,7 @@ namespace Jet;
 
 class Translator extends Object {
 	
-	const COMMON_NAMESPACE = "_COMMON_";
+	const COMMON_NAMESPACE = '_COMMON_';
 
 	/**
 	 * @var string
@@ -88,7 +88,7 @@ class Translator extends Object {
 		if(static::$backend_instance === null){
 			static::$backend_instance = Translator_Factory::getBackendInstance( static::getConfig()->getBackendType() );
 
-			register_shutdown_function( array("\\Jet\\Translator", "saveUpdatedDictionaries") );
+			register_shutdown_function( array('\\Jet\\Translator', 'saveUpdatedDictionaries') );
 		}
 		return static::$backend_instance;
 	}
@@ -100,7 +100,7 @@ class Translator extends Object {
 	 */
 	public static function setBackendInstance( Translator_Backend_Abstract $backend_instance ) {
 		if(static::$backend_instance === null){
-			register_shutdown_function( array("\\Jet\\Translator", "saveUpdatedDictionaries") );
+			register_shutdown_function( array('\\Jet\\Translator', 'saveUpdatedDictionaries') );
 		}
 		static::$backend_instance = $backend_instance;
 	}
@@ -126,7 +126,7 @@ class Translator extends Object {
 	 * 
 	 *
 	 * @param string $phrase
-	 * @param array $data(optional) - data that replace parts of text; input array("KEY1"=>"value1") replaces %KEY1% in text for value1 
+	 * @param array $data(optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string $namespace(optional)
 	 * @param string|Locale $locale(optional) - target locale
 	 * @return string
@@ -162,7 +162,7 @@ class Translator extends Object {
 	 * Gets translation of given text
 	 *
 	 * @param string $text
-	 * @param array $data(optional) - data that replace parts of text; input array("KEY1"=>"value1") replaces %KEY1% in text for value1
+	 * @param array $data(optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
 	 * @param string $namespace(optional)
 	 * @param string $locale(optional) - target locale
 	 * @return string
@@ -214,7 +214,7 @@ class Translator extends Object {
 	 * @return Translator_Dictionary
 	 */
 	public static function loadDictionary($namespace, Locale $locale, $force_load=false) {
-		$dictionary_key = $namespace.":".$locale;
+		$dictionary_key = $namespace.':'.$locale;
 
 		if(
 			!isset(static::$dictionaries[$dictionary_key]) ||
@@ -255,7 +255,7 @@ class Translator extends Object {
 
 		if(!$namespace || !$locale) {
 			throw new Translator_Exception(
-				"Incorrect file format. Header is missing.",
+				'Incorrect file format. Header is missing.',
 				Translator_Exception::CODE_IMPORT_INCORRECT_DICTIONARY_EXPORT_FILE_FORMAT
 			);
 		}

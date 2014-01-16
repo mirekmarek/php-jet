@@ -66,32 +66,32 @@ class DataModel_Query_Relation_Outer_JoinByProperty extends Object {
 	public function getThisModelPropertyValue( DataModel $model_instance ) {
 
 
-		if(!strpos($this->this_model_property_name, ".")) {
+		if(!strpos($this->this_model_property_name, '.')) {
 			throw new DataModel_Query_Exception(
-				"Invalid property name: '{$this->this_model_property_name}'. Valid examples: this.property_name, this_value.getterMethodName ",
+				'Invalid property name: \''.$this->this_model_property_name.'\'. Valid examples: this.property_name, this_value.getterMethodName ',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
 
-		list($prefix, $item) = explode(".", $this->this_model_property_name);
+		list($prefix, $item) = explode('.', $this->this_model_property_name);
 
 		switch( $prefix ) {
-			case "this":
+			case 'this':
 				$properties = $model_instance->getDataModelDefinition()->getProperties();
 				if(!isset($properties[$item])) {
 					throw new DataModel_Query_Exception(
-						"Unknown property: ".get_class($model_instance)."::$item ",
+						'Unknown property: '.get_class($model_instance).'::$item ',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 				}
 				return $properties[$item];
 			break;
-			case "this_value":
+			case 'this_value':
 				return $model_instance->$item();
 			break;
 			default:
 				throw new DataModel_Query_Exception(
-					"Invalid property name: '{$this->this_model_property_name}'. Valid examples: this.property_name, this_value.getterMethodName ",
+					'Invalid property name: \''.$this->this_model_property_name.'\'. Valid examples: this.property_name, this_value.getterMethodName ',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			break;

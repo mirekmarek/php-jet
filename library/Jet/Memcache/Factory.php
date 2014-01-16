@@ -16,12 +16,12 @@ class Memcache_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $connection_class_prefix = "Jet\\Memcache_Connection_";
+	protected static $connection_class_prefix = 'Jet\\Memcache_Connection_';
 
 	/**
 	 * @var string
 	 */
-	protected static $connection_adapter = "Default";
+	protected static $connection_adapter = 'Default';
 
 	/**
 	 * @param string $adapter_class_prefix
@@ -60,7 +60,7 @@ class Memcache_Factory extends Factory {
 	 * @return Memcache_Connection_Config_Abstract
 	 */
 	public static function getConnectionConfigInstance(array $config_data=array(), Memcache_Config $config=null ){
-		$default_class_name = static::$connection_class_prefix."Config_".static::$connection_adapter;
+		$default_class_name = static::$connection_class_prefix.'Config_'.static::$connection_adapter;
 
 		$config_class = static::getClassName( $default_class_name );
 

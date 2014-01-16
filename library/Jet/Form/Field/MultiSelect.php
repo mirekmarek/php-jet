@@ -21,16 +21,16 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "MultiSelect";
+	protected $_type = 'MultiSelect';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = array(
-				"input_missing" => "input_missing",
-				"empty" => "empty",
-				"invalid_format" => "invalid_format",
-				"invalid_value" => "invalid_value"
+				'input_missing' => 'input_missing',
+				'empty' => 'empty',
+				'invalid_format' => 'invalid_format',
+				'invalid_value' => 'invalid_value'
 			);
 
 	/**
@@ -50,7 +50,7 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 
 		foreach($this->_value as $item){
 			if(!isset($options[$item])) {
-				$this->setValueError("invalid_value");
+				$this->setValueError('invalid_value');
 				return false;
 			}
 		}
@@ -69,7 +69,7 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 */
 	public function checkValueIsNotEmpty() {
 		if(!$this->_value && $this->is_required) {
-			$this->setValueError("empty");
+			$this->setValueError('empty');
 			return false;
 		}
 
@@ -111,11 +111,11 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$tag_data->setProperty( "name", $this->getName()."[]" );
-		$tag_data->setProperty( "id", $this->getID() );
-		$tag_data->setProperty( "multiple", "multiple" );
+		$tag_data->setProperty( 'name', $this->getName().'[]' );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'multiple', 'multiple' );
 
-		$result = "<select {$this->_getTagPropertiesAsString( $tag_data )}>\n";
+		$result = '<select '.$this->_getTagPropertiesAsString( $tag_data ).'>'.JET_EOL;
 
 		$value = $this->_value;
 
@@ -136,26 +136,26 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 				}
 			}
 
-			$prefix = "";
+			$prefix = '';
 
 			if($label instanceof Data_Tree_Node) {
 				/**
 				 * @var Data_Tree_Node $label
 				 */
 
-				$prefix = "";
-				$prefix = str_pad( $prefix , $label->getDepth()*2 , " " ,  STR_PAD_LEFT );
-				$prefix = str_replace(" ", "&nbsp;", $prefix);
+				$prefix = '';
+				$prefix = str_pad( $prefix , $label->getDepth()*2 , ' ' ,  STR_PAD_LEFT );
+				$prefix = str_replace(' ', '&nbsp;', $prefix);
 			}
 
 			if($selected){
-				$result .= "<option value=\"".htmlspecialchars($val)."\" selected=\"selected\">".$prefix.htmlspecialchars( $label )."</option>\n";
+				$result .= '<option value="'.htmlspecialchars($val).'" selected="selected">'.$prefix.htmlspecialchars( $label ).'</option>'.JET_EOL;
 			}
 			else{
-				$result .= "<option value=\"".htmlspecialchars($val)."\">".$prefix.htmlspecialchars( $label )."</option>\n";
+				$result .= '<option value="'.htmlspecialchars($val).'">'.$prefix.htmlspecialchars( $label ).'</option>'.JET_EOL;
 			}
 		}
-		$result .= "</select>\n";
+		$result .= '</select>'.JET_EOL;
 
 		return $result;
 	}

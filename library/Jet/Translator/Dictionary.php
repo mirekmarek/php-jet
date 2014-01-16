@@ -42,7 +42,7 @@ class Translator_Dictionary extends Object {
 	 * @param string $namespace
 	 * @param Locale $locale
 	 */
-	public function __construct( $namespace="", Locale $locale=null ) {
+	public function __construct( $namespace='', Locale $locale=null ) {
 		$this->namespace = $namespace;
 		$this->locale = $locale;
 	}
@@ -93,7 +93,7 @@ class Translator_Dictionary extends Object {
 			return $this->phrases[$hash]->getTranslation();
 		}
 
-		$phrase = new Translator_Dictionary_Phrase($phrase_txt, "", false, $hash);
+		$phrase = new Translator_Dictionary_Phrase($phrase_txt, '', false, $hash);
 		if($auto_append_unknown_phrase) {
 			$this->addPhrase($phrase);
 		}
@@ -114,32 +114,30 @@ class Translator_Dictionary extends Object {
 	 * File format:
 	 *
 	 * #namespace,locale
-	 * phrase;translation\n
-	 * phrase;translation\n
-	 * phrase;translation\n
+	 * phrase;translation
+	 * phrase;translation
+	 * phrase;translation
 	 *
 	 *
 	 * @return string
 	 */
 	public function export() {
-		$result = "";
-		$result .= "#{$this->namespace},{$this->locale}\n";
+		$result = '';
+		$result .= '#'.$this->namespace.','.$this->locale.JET_EOL;
 
 		foreach($this->phrases as $phrase_i) {
 			$phrase = $phrase_i->getPhrase();
 			$translation = $phrase_i->getTranslation();
 
-			$phrase = str_replace(";", '\;', $phrase);
-			$phrase = str_replace("\n", '\n', $phrase);
-			$phrase = str_replace("\r", '\r', $phrase);
-			$phrase = str_replace("\t", '\t', $phrase);
+			$phrase = str_replace(';', '\;', $phrase);
+			$phrase = str_replace(JET_EOL, '\n', $phrase);
+			$phrase = str_replace(JET_TAB, '\t', $phrase);
 
-			$translation = str_replace(";", '\;', $translation);
-			$translation = str_replace("\n", '\n', $translation);
-			$translation = str_replace("\r", '\r', $translation);
-			$translation = str_replace("\t", '\t', $translation);
+			$translation = str_replace(';', '\;', $translation);
+			$translation = str_replace(JET_EOL, '\n', $translation);
+			$translation = str_replace(JET_TAB, '\t', $translation);
 
-			$result .= "{$phrase};{$translation}\n";
+			$result .= $phrase.';'.$translation.JET_EOL;
 		}
 
 		return $result;
@@ -152,15 +150,15 @@ class Translator_Dictionary extends Object {
 	 * @return array|bool
 	 */
 	public static function getImportDataNamespaceAndLocale($data) {
-		$data = explode("\n", $data);
+		$data = explode(JET_EOL, $data);
 
 		foreach($data as $line) {
 			$line = trim($line);
 
 			if(!$line) continue;
 
-			if($line[0]=="#") {
-				$line = explode(",", substr($line, 1));
+			if($line[0]=='#') {
+				$line = explode(',', substr($line, 1));
 
 				list($namespace, $locale) = $line;
 
@@ -180,22 +178,22 @@ class Translator_Dictionary extends Object {
 	 * File format:
 	 *
 	 * #namespace,locale
-	 * phrase;translation\n
-	 * phrase;translation\n
-	 * phrase;translation\n
+	 * phrase;translation
+	 * phrase;translation
+	 * phrase;translation
 	 *
 	 *
 	 * @param string $data
 	 */
 	public function import($data) {
-		$data = explode("\n", $data);
+		$data = explode(JET_EOL, $data);
 
 		foreach($data as $line) {
 			$line = trim($line);
 
 			if(!$line) continue;
 
-			if($line[0]=="#") {
+			if($line[0]=='#') {
 				continue;
 			}
 
@@ -220,15 +218,13 @@ class Translator_Dictionary extends Object {
 			$phrase = substr($line, 0, $separator_position);
 			$translation = substr($line, $separator_position+1);
 
-			$phrase = str_replace('\;', ";", $phrase);
-			$phrase = str_replace('\n', "\n", $phrase);
-			$phrase = str_replace('\r', "\r", $phrase);
-			$phrase = str_replace('\t', "\t", $phrase);
+			$phrase = str_replace('\;', ';', $phrase);
+			$phrase = str_replace('\n', JET_EOL, $phrase);
+			$phrase = str_replace('\t', JET_TAB, $phrase);
 
-			$translation = str_replace('\;', ";", $translation);
-			$translation = str_replace('\n', "\n", $translation);
-			$translation = str_replace('\r', "\r", $translation);
-			$translation = str_replace('\t', "\t", $translation);
+			$translation = str_replace('\;', ';', $translation);
+			$translation = str_replace('\n', JET_EOL, $translation);
+			$translation = str_replace('\t', JET_TAB, $translation);
 
 			$translated = true;
 

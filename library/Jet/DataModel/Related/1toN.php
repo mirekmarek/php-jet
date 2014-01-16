@@ -25,7 +25,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	/**
 	 * @var string
 	 */
-	protected static $____data_model_definition_class_name = "Jet\\DataModel_Definition_Model_Related_1toN";
+	protected static $____data_model_definition_class_name = 'Jet\\DataModel_Definition_Model_Related_1toN';
 
 	/**
 	 * @var DataModel_Related_1toN[]
@@ -250,7 +250,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $prefix="" ) {
+	protected function _XMLSerialize( $prefix='' ) {
 
 		if( $this->__is_item) {
 			return parent::_XMLSerialize($prefix);
@@ -261,7 +261,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			$res[] = $d->_XMLSerialize($prefix);
 		}
 
-		return implode("\n",$res);
+		return implode(JET_EOL,$res);
 	}
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -330,7 +330,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 		if( !($value instanceof $valid_class) ) {
 			throw new DataModel_Exception(
-				"New item must be instance of '{$valid_class}' class. '".get_class($value)."' given.",
+				'New item must be instance of \''.$valid_class.'\' class. \''.get_class($value).'\' given.',
 				DataModel_Exception::CODE_INVALID_CLASS
 			);
 		}
@@ -417,11 +417,11 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	public function __sleep() {
 		if( $this->___data_model_saved ) {
 			$items = array_keys($this->getDataModelDefinition()->getProperties());
-			$items[] = "__is_item";
+			$items[] = '__is_item';
 
 			return $items;
 		} else {
-			return array("__items", "__is_item");
+			return array('__items', '__is_item');
 		}
 	}
 

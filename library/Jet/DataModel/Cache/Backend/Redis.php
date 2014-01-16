@@ -30,13 +30,13 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $key_prefix = "";
+	protected $key_prefix = '';
 
 
 	public function initialize() {
 		$this->redis = Redis::get($this->config->getConnection());
 
-		$this->key_prefix = $this->config->getKeyPrefix().":";
+		$this->key_prefix = $this->config->getKeyPrefix().':';
 	}
 
 	/**
@@ -46,7 +46,7 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 	 * @return string
 	 */
 	protected function getCacheKey( DataModel $data_model, $ID ) {
-		return $this->key_prefix.$data_model->getDataModelName().":".$ID;
+		return $this->key_prefix.$data_model->getDataModelName().':'.$ID;
 	}
 
 	/**
@@ -106,10 +106,10 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 	public function truncate( $model_name=null ) {
 		$pattern = $this->key_prefix;
 		if($model_name) {
-			$pattern .= "{$model_name}:";
+			$pattern .= $model_name.':';
 		}
 
-		$pattern .= "*";
+		$pattern .= '*';
 
 		$keys = $this->redis->getKeys($pattern);
 
@@ -123,7 +123,7 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function helper_getCreateCommand() {
 
-		return "";
+		return '';
 	}
 
 	/**

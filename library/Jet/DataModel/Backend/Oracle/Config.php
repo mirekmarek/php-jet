@@ -20,30 +20,30 @@ class DataModel_Backend_Oracle_Config extends DataModel_Backend_Config_Abstract 
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
-		"connection_read" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - read: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Backend_Oracle_Config", "getDbConnectionsList")
+		'connection_read' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - read: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_Oracle_Config', 'getDbConnectionsList')
 		),
-		"connection_write" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_label" => "Connection - write: ",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\DataModel_Backend_Oracle_Config", "getDbConnectionsList")
+		'connection_write' => array(
+			'type' => self::TYPE_STRING,
+			'is_required' => true,
+			'form_field_label' => 'Connection - write: ',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_Oracle_Config', 'getDbConnectionsList')
 		),
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $connection_read = "";
+	protected $connection_read = '';
 	/**
 	 * @var string
 	 */
-	protected $connection_write= "";
+	protected $connection_write= '';
 
 
 	/**

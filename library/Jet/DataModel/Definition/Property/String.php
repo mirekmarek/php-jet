@@ -33,12 +33,12 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $default_value = "";
+	protected $default_value = '';
 
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = "Input";
+	protected $form_field_type = 'Input';
 
 	/**
 	 * @param $definition_data
@@ -106,14 +106,14 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 * @return string
 	 */
 	public function getFormFieldType() {
-		if($this->form_field_type!="Input") {
+		if($this->form_field_type!='Input') {
 			return $this->form_field_type;
 		}
 
 		if($this->max_len<=255) {
-			return "Input";
+			return 'Input';
 		} else {
-			return "Textarea";
+			return 'Textarea';
 		}
 	}
 
@@ -133,25 +133,25 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
-		$res = "Type: ".$this->getType().", max length: {$this->max_len}";
+		$res = 'Type: '.$this->getType().', max length: '.$this->max_len;
 
-		$res .= ", required: ".($this->is_required ? "yes":"no");
+		$res .= ', required: '.($this->is_required ? 'yes':'no');
 
 		if($this->is_ID) {
-			$res .= ", is ID";
+			$res .= ', is ID';
 		}
 
 		if($this->default_value) {
-			$res .= ", default value: {$this->default_value}";
+			$res .= ', default value: '.$this->default_value;
 		}
 
 		if($this->validation_regexp) {
 
-			$res .= ", validation regexp: {$this->validation_regexp}";
+			$res .= ', validation regexp: '.$this->validation_regexp;
 		}
 
 		if($this->description) {
-			$res .= "\n\n{$this->description}";
+			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
 		return $res;

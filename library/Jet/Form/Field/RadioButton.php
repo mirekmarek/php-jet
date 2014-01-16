@@ -22,16 +22,16 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "RadioButton";
+	protected $_type = 'RadioButton';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = array(
-				"input_missing" => "input_missing",
-				"empty" => "empty",
-				"invalid_format" => "invalid_format",
-				"invalid_value" => "invalid_value"
+				'input_missing' => 'input_missing',
+				'empty' => 'empty',
+				'invalid_format' => 'invalid_format',
+				'invalid_value' => 'invalid_value'
 			);
 
 
@@ -64,7 +64,7 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		$options = $this->select_options;
 		
 		if(!isset($options[$this->_value])) {
-			$this->setValueError("invalid_value");
+			$this->setValueError('invalid_value');
 			return false;
 		}
 		
@@ -78,18 +78,18 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field_option_label( Form_Parser_TagData $tag_data ) {
-		$key = $tag_data->getProperty("key");
+		$key = $tag_data->getProperty('key');
 
 		if(!isset($this->select_options[$key])) {
-			return "";
+			return '';
 		}
 
-		$tag_data->unsetProperty( "key" );
-		$tag_data->setProperty( "for", $this->getID()."_{$key}" );
+		$tag_data->unsetProperty( 'key' );
+		$tag_data->setProperty( 'for', $this->getID().'_'.$key );
 
 		$label = $this->getTranslation( $this->select_options[ $key ] );
 
-		return "<label {$this->_getTagPropertiesAsString( $tag_data )}>{$label}</label>";
+		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
 
 	}
 
@@ -99,31 +99,31 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field_option( Form_Parser_TagData $tag_data ) {
-		$key = $tag_data->getProperty("key");
+		$key = $tag_data->getProperty('key');
 
 		if(!isset($this->select_options[$key])) {
-			return "";
+			return '';
 		}
 
-		$tag_data->unsetProperty( "key" );
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID()."_{$key}" );
-		$tag_data->setProperty( "type", "radio" );
-		$tag_data->setProperty( "value", $key );
+		$tag_data->unsetProperty( 'key' );
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID().'_'.$key );
+		$tag_data->setProperty( 'type', 'radio' );
+		$tag_data->setProperty( 'value', $key );
 
-		if(!$tag_data->getPropertyIsSet("class")){
-			$tag_data->setProperty("class", "radio");
-			$properties["class"] = "radio";
+		if(!$tag_data->getPropertyIsSet('class')){
+			$tag_data->setProperty('class', 'radio');
+			$properties['class'] = 'radio';
 		}
 
 
 		if($this->_value==$key) {
-			$tag_data->setProperty("checked", "checked");
+			$tag_data->setProperty('checked', 'checked');
 		} else {
-			$tag_data->unsetProperty("checked");
+			$tag_data->unsetProperty('checked');
 		}
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
 	/**
@@ -137,18 +137,18 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		}
 
 
-		$label = "<jet_form_field_label name=\"{$this->_name}\"/>";
-		$field = "<jet_form_field_error_msg name=\"{$this->_name}\" class=\"error\"/>";
+		$label = '<jet_form_field_label name="'.$this->_name.'"/>';
+		$field = '<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>';
 
 		foreach($this->select_options as $key=>$val) {
-			$field .= "\t\t\t<jet_form_field_option name=\"{$this->_name}\" key=\"{$key}\"/>\n";
-			$field .= "\t\t\t<jet_form_field_option_label name=\"{$this->_name}\" key=\"{$key}\"/><br/>\n";
+			$field .= JET_TAB.JET_TAB.JET_TAB.'<jet_form_field_option name="'.$this->_name.'" key="'.$key.'"/>'.JET_EOL;
+			$field .= JET_TAB.JET_TAB.JET_TAB.'<jet_form_field_option_label name="'.$this->_name.'" key="'.$key.'"/><br/>'.JET_EOL;
 
 		}
 
 		return Data_Text::replaceData($template, array(
-			"LABEL" => $label,
-			"FIELD" => $field
+			'LABEL' => $label,
+			'FIELD' => $field
 		));
 
 	}	

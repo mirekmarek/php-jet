@@ -42,7 +42,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 
 		$this->layout = $layout;
 
-		$this->layout->requireJavascriptLib("Dojo");
+		$this->layout->requireJavascriptLib('Dojo');
 
 	}
 		
@@ -56,13 +56,13 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		$router = $this->layout->getRouter();
 
 		$Jet_config = array(
-			"base_request_URI" => $this->getBaseRequestURI(),
-			"base_URI" => $this->getBaseURI(),
-			"modules_URI" => $this->getModulesURI(),
-			"service_type_path_fragments_map" => Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap(),
-			"auto_initialize" => true,
-			"current_locale" => $router->getLocale(),
-			"UI_manager_module_name" => $router->getUIManagerModuleName()
+			'base_request_URI' => $this->getBaseRequestURI(),
+			'base_URI' => $this->getBaseURI(),
+			'modules_URI' => $this->getModulesURI(),
+			'service_type_path_fragments_map' => Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap(),
+			'auto_initialize' => true,
+			'current_locale' => $router->getLocale(),
+			'UI_manager_module_name' => $router->getUIManagerModuleName()
 		);
 		
 		
@@ -72,25 +72,25 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		if($this->required_components_CSS){
 			foreach($this->required_components_CSS as $css){
 				$css = Data_Text::replaceData($css, $data);
-				$result .= '<link rel="stylesheet" type="text/css" href="'.$css.'">'."\n";
+				$result .= '<link rel="stylesheet" type="text/css" href="'.$css.'">'.JET_EOL;
 			}
 		}
 		
-		$result .= '<script type="text/javascript">'."\n";
-		$result .= '  var Jet_config = '.json_encode($Jet_config).';'."\n";
-		$result .= '</script>'."\n";
+		$result .= '<script type="text/javascript">'.JET_EOL;
+		$result .= '  var Jet_config = '.json_encode($Jet_config).';'.JET_EOL;
+		$result .= '</script>'.JET_EOL;
 		
-		$result .= '<script type="text/javascript" src="'.$this->getComponentURI("Jet").'" charset="utf-8"></script>'."\n";
+		$result .= '<script type="text/javascript" src="'.$this->getComponentURI('Jet').'" charset="utf-8"></script>'.JET_EOL;
 
 		if($this->required_components){
-			$result .= '<script type="text/javascript" charset="utf-8">' . "\n";
+			$result .= '<script type="text/javascript" charset="utf-8">' . JET_EOL;
 			foreach( $this->required_components as $rc ) {
-				if($rc == "Jet"){
+				if($rc == 'Jet'){
 					continue;
 				}
-				$result .= "Jet.require(\"{$rc}\");\n";
+				$result .= 'Jet.require(\''.$rc.'\');'.JET_EOL;
 			}
-			$result .= "</script>\n";
+			$result .= '</script>'.JET_EOL;
 		}
 
 		return $result;
@@ -101,7 +101,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 */
 	protected function _getDataForReplacement(){
 		$data = array(
-			"JETJS_URI" => $this->getBaseURI(),
+			'JETJS_URI' => $this->getBaseURI(),
 		);
 		return $data;
 	}
@@ -124,7 +124,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	public function getBaseURI(){
 		if(!$this->base_URI) {
 			$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
-			$this->base_URI = $this->getBaseRequestURI().$sm[Mvc_Router::SERVICE_TYPE__JETJS_]."/";
+			$this->base_URI = $this->getBaseRequestURI().$sm[Mvc_Router::SERVICE_TYPE__JETJS_].'/';
 		}
 
 		return $this->base_URI;
@@ -139,7 +139,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getModulesURI() {
-		return $this->getBaseURI()."modules/";
+		return $this->getBaseURI().'modules/';
 	}
 
 	/**
@@ -149,13 +149,13 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getComponentURI( $component ){
-		$parts = explode(".", $component);
-		return $this->getBaseURI() . implode("/", $parts) . ".js";
+		$parts = explode('.', $component);
+		return $this->getBaseURI() . implode('/', $parts) . '.js';
 	}
 	
 	/**
 	 * Equivalent to Jet.require().
-	 * If $parameters["css"] is set (string or array or strings), additional CSS for given component is written into output
+	 * If $parameters['css'] is set (string or array or strings), additional CSS for given component is written into output
 	 *
 	 * @param string $component - JetJS module
 	 * @param array $parameters(optional)
@@ -166,11 +166,11 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		}
 
 		$this->required_components[] = $component;
-		if(isset($parameters["css"]) && $parameters["css"]){
-			if(!is_array($parameters["css"])){
-				$parameters["css"] = array($parameters["css"]);
+		if(isset($parameters['css']) && $parameters['css']){
+			if(!is_array($parameters['css'])){
+				$parameters['css'] = array($parameters['css']);
 			} 
-			foreach($parameters["css"] as $css){
+			foreach($parameters['css'] as $css){
 				if(in_array($css, $this->required_components_CSS)){
 					continue;
 				}

@@ -21,9 +21,9 @@ class JetML_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $jetml_widget_class_name_prefix = "Jet\\JetML_Widget_";
+	protected static $jetml_widget_class_name_prefix = 'Jet\\JetML_Widget_';
 
-	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = "Jet\\JetML";
+	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = 'Jet\\JetML';
 
 	/**
 	 * @param string $jetml_widget_class_name_prefix
@@ -69,14 +69,14 @@ class JetML_Factory extends Factory {
 	 */
 	public static function getJetMLWidgetInstance(  JetML $postprocessor, $toolkit, $tag_name,\DOMElement $node) {
 
-		$class_name =  static::getClassName( static::$jetml_widget_class_name_prefix."{$toolkit}_{$tag_name}" );
+		$class_name =  static::getClassName( static::$jetml_widget_class_name_prefix.$toolkit.'_'.$tag_name );
 
 		/* @var $tag_instance JetML_Widget_Abstract */
 		$tag_instance = new $class_name($postprocessor, $node);
 
 		if (!($tag_instance instanceof JetML_Widget_Abstract)) {
 			throw new JetML_Exception(
-				"Class {$class_name} is not subclass of JetML_Widget_Abstract",
+				'Class '.$class_name.' is not subclass of JetML_Widget_Abstract',
 				JetML_Exception::CODE_INVALID_WIDGET_CLASS
 			);
 		}

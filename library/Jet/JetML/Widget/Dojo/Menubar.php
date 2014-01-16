@@ -17,5 +17,5 @@ class JetML_Widget_Dojo_Menubar extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.MenuBar";
+	protected $dojo_type = 'dijit.MenuBar';
 }

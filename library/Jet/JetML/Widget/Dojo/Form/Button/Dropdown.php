@@ -18,6 +18,6 @@ class JetML_Widget_Dojo_Form_Button_Dropdown extends JetML_Widget_Dojo_Form_Butt
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = "dijit.form.DropDownButton";
+	protected $dojo_type = 'dijit.form.DropDownButton';
 
 }

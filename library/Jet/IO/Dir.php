@@ -25,7 +25,7 @@ class IO_Dir {
 	 * @return array
 	 */
 	protected static function _getLastError() {
-		if(class_exists(__NAMESPACE__."\\Debug_ErrorHandler", false)) {
+		if(class_exists(__NAMESPACE__.'\\Debug_ErrorHandler', false)) {
 			return Debug_ErrorHandler::getLastError();
 		} else {
 			return error_get_last();
@@ -112,7 +112,7 @@ class IO_Dir {
 			$error = static::_getLastError();
 
 			throw new IO_Dir_Exception(
-				"Failed to create directory '{$dir_path}'. Error message: {$error["message"]}",
+				'Failed to create directory \''.$dir_path.'\'. Error message: '.$error['message'],
 				IO_Dir_Exception::CODE_CREATE_FAILED
 			);
 		}
@@ -135,17 +135,17 @@ class IO_Dir {
 		if($dh === false){
 			$error= static::_getLastError();
 			throw new IO_Dir_Exception(
-				"Failed to open directory '{$dir_path}'. Error message: {$error["message"]}",
+				'Failed to open directory \''.$dir_path.'\'. Error message: '.$error['message'],
 				IO_Dir_Exception::CODE_REMOVE_FAILED
 			);
 		}
 
 		while (($file = readdir($dh)) !== false) {
-                        if($file == "." || $file == ".."){
+                        if($file == '.' || $file == '..'){
             	                continue;
                         }
 
-                        $fp = "{$dir_path}/{$file}";
+                        $fp = $dir_path.'/'.$file;
 			if(is_dir($fp)){
 	                        self::remove($fp);
                         } elseif(is_file($fp)) {
@@ -157,7 +157,7 @@ class IO_Dir {
 		if(!rmdir($dir_path)){
 			$error= static::_getLastError();
 			throw new IO_Dir_Exception(
-				"Failed to remove directory '{$dir_path}'. Error message: {$error["message"]}",
+				'Failed to remove directory \''.$dir_path.'\'. Error message: '.$error['message'],
 				IO_Dir_Exception::CODE_REMOVE_FAILED
 			);
 		}
@@ -176,14 +176,14 @@ class IO_Dir {
 		
 		if(!self::exists($source_path)){
 			throw new IO_Dir_Exception(
-				"Directory '{$source_path}' not found",
+				'Directory \''.$source_path.'\' not found',
 				IO_Dir_Exception::CODE_COPY_FAILED
 			);
 		}
 
 		if(static::exists($target_path) && !$overwrite_if_exists ) {
 			throw new IO_Dir_Exception(
-				"Target directory '{$source_path}' already exists",
+				'Target directory \''.$source_path.'\' already exists',
 				IO_Dir_Exception::CODE_COPY_FAILED
 			);
 		}
@@ -194,18 +194,18 @@ class IO_Dir {
 		if($dh === false){
 			$error = static::_getLastError();
 			throw new IO_Dir_Exception(
-				"Failed to open source directory '{$source_path}'. Error message: {$error["message"]}",
+				'Failed to open source directory \''.$source_path.'\'. Error message: '.$error['message'],
 				IO_Dir_Exception::CODE_OPEN_FAILED
 			);
 		}
 
 		while (($file = readdir($dh)) !== false) {
-			if($file == "." || $file == ".."){
+			if($file == '.' || $file == '..'){
 				continue;
 			}
 			
-			$source = "{$source_path}/{$file}";
-			$target = "{$target_path}/{$file}";
+			$source = $source_path.'/'.$file;
+			$target = $target_path.'/'.$file;
 
 			if(is_file($source)){
 				IO_File::copy($source, $target, $overwrite_if_exists);
@@ -249,16 +249,16 @@ class IO_Dir {
 	 *
 	 * Returns:
 	 * array(
-	 *    "full path" => "file name"
+	 *    'full path' => 'file name'
 	 * )
 	 *
 	 * @param string $dir_path
-	 * @param string $mask (optional, default: "*", @see glob)
+	 * @param string $mask (optional, default: '*', @see glob)
 	 *
 	 * @throws IO_Dir_Exception
 	 * @return array
 	 */
-	public static function getFilesList($dir_path, $mask="*" ){
+	public static function getFilesList($dir_path, $mask='*' ){
 		return static::getList($dir_path, $mask, false, true );
 	}
 
@@ -267,16 +267,16 @@ class IO_Dir {
 	 *
 	 * Returns:
 	 * array(
-	 *    "full path" => "dir name"
+	 *    'full path' => 'dir name'
 	 * )
 	 *
 	 * @param string $dir_path
-	 * @param string $mask (optional, default: "*", @see glob)
+	 * @param string $mask (optional, default: '*', @see glob)
 	 *
 	 * @throws IO_Dir_Exception
 	 * @return array
 	 */
-	public static function getSubdirectoriesList($dir_path, $mask = "*" ){
+	public static function getSubdirectoriesList($dir_path, $mask = '*' ){
 		return static::getList($dir_path, $mask, true, false );
 	}
 
@@ -286,21 +286,21 @@ class IO_Dir {
 	 *
 	 * Returns:
 	 * array(
-	 *    "full path" => "file or dir name"
+	 *    'full path' => 'file or dir name'
 	 * )
 	 *
 	 * @param string $dir_path
-	 * @param string $mask (optional, default: "*", @see glob)
+	 * @param string $mask (optional, default: '*', @see glob)
 	 * @param bool $get_dirs (optional, default: true)
 	 * @param bool $get_files (optional, default: true)
 	 *
 	 * @throws IO_Dir_Exception
 	 * @return array
 	 */
-	public static function getList($dir_path, $mask="*", $get_dirs=true, $get_files=true ){
+	public static function getList($dir_path, $mask='*', $get_dirs=true, $get_files=true ){
 		$last_char = substr($dir_path, -1);
 
-		if($last_char!="/" && $last_char!="\\") {
+		if($last_char!='/' && $last_char!='\\') {
 			$dir_path .= DIRECTORY_SEPARATOR;
 		}
 
@@ -317,7 +317,7 @@ class IO_Dir {
 		if($files === false){
 			$error = static::_getLastError();
 			throw new IO_Dir_Exception(
-				"Failed to open source directory '{$dir_path}'. Error message: {$error["message"]}",
+				'Failed to open source directory \''.$dir_path.'\'. Error message: '.$error['message'],
 				IO_Dir_Exception::CODE_OPEN_FAILED
 			);
 		}
@@ -327,7 +327,7 @@ class IO_Dir {
 		foreach( $files as $file_path ) {
 			$file_name = basename($file_path);
 
-			if($file_name === "." || $file_name === ".."){
+			if($file_name === '.' || $file_name === '..'){
 				continue;
 			}
 

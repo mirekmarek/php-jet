@@ -21,8 +21,8 @@ class Form_Decorator_Dojo_Input extends Form_Decorator_Dojo_Abstract {
 	 * @var array
 	 */
 	protected $decoratable_tags = array(
-		"field" => array(
-			"get_dojo_type_method_name" => "getDojoType"
+		'field' => array(
+			'get_dojo_type_method_name' => 'getDojoType'
 		)
 	);
 
@@ -35,6 +35,6 @@ class Form_Decorator_Dojo_Input extends Form_Decorator_Dojo_Abstract {
 						/** @noinspection PhpUnusedParameterInspection */
 						Form_Parser_TagData $tag_data
 	) {
-		return $this->field->getValidationRegexp() ? "dijit.form.ValidationTextBox" : "dijit.form.TextBox";
+		return $this->field->getValidationRegexp() ? 'dijit.form.ValidationTextBox' : 'dijit.form.TextBox';
 	}
 }

@@ -17,35 +17,35 @@ class Db_Config extends Config_Application {
 	/**
 	 * @var string
 	 */
-	protected static $__config_data_path = "database";
+	protected static $__config_data_path = 'database';
 
 	/**
 	 * @var array
 	 */
 	protected static $__config_properties_definition = array(
 
-		"default_connection_name" => array(
-			"form_field_label" => "Default connection:",
-			"type" => self::TYPE_STRING,
-			"description" => "Connection name for Db::get() / Db::getConnection() if connection name is not specified (must be one of the keys in 'connections')",
-			"is_required" => true,
-			"default_value" => "default",
-			"form_field_type" => "Select",
-			"form_field_get_select_options_callback" => array("Jet\\Db_Config", "getConnectionsList")
+		'default_connection_name' => array(
+			'form_field_label' => 'Default connection:',
+			'type' => self::TYPE_STRING,
+			'description' => 'Connection name default value for Db::get() / Db::getConnection()',
+			'is_required' => true,
+			'default_value' => 'default',
+			'form_field_type' => 'Select',
+			'form_field_get_select_options_callback' => array('Jet\\Db_Config', 'getConnectionsList')
 		),
 
-		"connections" => array(
-			"type" => self::TYPE_CONFIG_LIST,
-			"data_path" => "connections",
-			"config_factory_class_name" => "Jet\\Db_Factory",
-			"config_factory_method_name" => "getConnectionConfigInstance"
+		'connections' => array(
+			'type' => self::TYPE_CONFIG_LIST,
+			'data_path' => 'connections',
+			'config_factory_class_name' => 'Jet\\Db_Factory',
+			'config_factory_method_name' => 'getConnectionConfigInstance'
 		)
 	);
 
 	/**
 	 * @var string
 	 */
-	protected $default_connection_name = "default";
+	protected $default_connection_name = 'default';
 
 
 	/**
@@ -106,7 +106,7 @@ class Db_Config extends Config_Application {
 	 *
 	 * @return array
 	 */
-	public static function getConnectionsList( $driver_type_filter="" ) {
+	public static function getConnectionsList( $driver_type_filter='' ) {
 		$i = new self(true);
 
 		$connections = array();

@@ -42,16 +42,16 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	/**
 	 * @var string
 	 */
-	protected $data_path = "";
+	protected $data_path = '';
 
 	/**
 	 * @var string
 	 */
-	protected $config_factory_class_name = "";
+	protected $config_factory_class_name = '';
 	/**
 	 * @var string
 	 */
-	protected $config_factory_method_name = "";
+	protected $config_factory_method_name = '';
 
 	/**
 	 * @var Config_Section[]
@@ -99,7 +99,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 			return $this->_configs[$name];
 		}
 
-		$config_path = "/{$this->data_path}/{$name}";
+		$config_path = '/'.$this->data_path.'/'.$name;
 
 		if(!$data->exists($config_path)) {
 
@@ -107,7 +107,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 				return false;
 			}
 			throw new Config_Exception(
-				"There is not '{$config_path}' section in the config file '".$this->_configuration->getConfigFilePath()."'!",
+				'There is not \''.$config_path.'\' section in the config file \''.$this->_configuration->getConfigFilePath().'\'!',
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
@@ -140,7 +140,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 				$data->set($this->data_path, array());
 			} else {
 				throw new Config_Exception(
-					"There is not '{$this->data_path}' section in the config file ".$this->_configuration->getConfigFilePath()."!",
+					'There is not \''.$this->data_path.'\' section in the config file '.$this->_configuration->getConfigFilePath().'!',
 					Config_Exception::CODE_CONFIG_CHECK_ERROR
 				);
 			}

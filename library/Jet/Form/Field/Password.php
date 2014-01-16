@@ -27,17 +27,17 @@ class Form_Field_Password extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = "Password";
+	protected $_type = 'Password';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = array(
-				"input_missing" => "input_missing",
-				"empty" => "empty",
-				"check_empty" => "check_empty",
-				"check_not_match" => "check_not_match",
-				"thin_password" => "thin_password"
+				'input_missing' => 'input_missing',
+				'empty' => 'empty',
+				'check_empty' => 'check_empty',
+				'check_not_match' => 'check_not_match',
+				'thin_password' => 'thin_password'
 			);
 
 
@@ -53,12 +53,12 @@ class Form_Field_Password extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $password_check_value = "";
+	protected $password_check_value = '';
 
 	/**
 	 * @var string
 	 */
-	protected $password_check_label = "";
+	protected $password_check_label = '';
 
 
 	/**
@@ -112,8 +112,8 @@ class Form_Field_Password extends Form_Field_Abstract {
 	public function catchValue( Data_Array $data ) {
 
 		if( !$this->disable_check ) {
-			$this->password_check_value = "";
-			$name = $this->_name."_check";
+			$this->password_check_value = '';
+			$name = $this->_name.'_check';
 
 			if($data->exists($name)) {
 				$this->password_check_value = trim( $data->getString($name ) );
@@ -136,7 +136,7 @@ class Form_Field_Password extends Form_Field_Abstract {
 				$this->_value &&
 				!$this->password_check_value
 			) {
-				$this->setValueError("check_empty");
+				$this->setValueError('check_empty');
 				return false;
 			}
 		}
@@ -154,14 +154,14 @@ class Form_Field_Password extends Form_Field_Abstract {
 			$this->_value
 		) {
 			if( $this->_value!=$this->password_check_value ) {
-				$this->setValueError("check_not_match");
+				$this->setValueError('check_not_match');
 				return false;
 			}
 
 			$password_strength = Auth::getPasswordStrength( $this->_value );
 
 			if( $password_strength < $this->minimal_password_strength ) {
-				$this->setValueError("thin_password");
+				$this->setValueError('thin_password');
 				return false;
 			}
 		}
@@ -179,12 +179,12 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
-		$tag_data->setProperty( "name", $this->getName() );
-		$tag_data->setProperty( "id", $this->getID() );
-		$tag_data->setProperty( "type", "password" );
-		$tag_data->setProperty( "value", "" );
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', 'password' );
+		$tag_data->setProperty( 'value', '' );
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 
 	}
 
@@ -195,20 +195,20 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field_check_label( Form_Parser_TagData $tag_data ) {
 		if($this->disable_check) {
-			return "";
+			return '';
 		}
 
 		$label = $this->password_check_label;
 
 		if($this->is_required) {
-			$label = "<em class=\"required\">*</em> ".$label;
+			$label = '<em class="required">*</em>'.$label;
 		}
 
-		$tag_data->setProperty("for", $this->getID(),"_check" );
+		$tag_data->setProperty('for', $this->getID(),'_check' );
 
 		$label = $this->getTranslation($label);
 
-		return "<label {$this->_getTagPropertiesAsString( $tag_data )}>{$label}</label>";
+		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
 	}
 
 	/**
@@ -218,15 +218,15 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field_check( Form_Parser_TagData $tag_data ) {
 		if($this->disable_check) {
-			return "";
+			return '';
 		}
 
-		$tag_data->setProperty( "name", $this->getName()."_check" );
-		$tag_data->setProperty( "id", $this->getID()."_check" );
-		$tag_data->setProperty( "type", "password" );
-		$tag_data->setProperty( "value", "" );
+		$tag_data->setProperty( 'name', $this->getName().'_check' );
+		$tag_data->setProperty( 'id', $this->getID().'_check' );
+		$tag_data->setProperty( 'type', 'password' );
+		$tag_data->setProperty( 'value', '' );
 
-		return "<input {$this->_getTagPropertiesAsString($tag_data)}/>";
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
 	/**
@@ -240,15 +240,15 @@ class Form_Field_Password extends Form_Field_Abstract {
 		}
 
 		$result = Data_Text::replaceData($template, array(
-			"LABEL" => "<jet_form_field_label name=\"{$this->_name}\"/>",
-			"FIELD" => "<jet_form_field_error_msg name=\"{$this->_name}\"/>"
-				."<jet_form_field name=\"{$this->_name}\"/>"
+			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
+			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'"/>'
+					  .'<jet_form_field name="'.$this->_name.'"/>'
 		));
 
 		if( !$this->disable_check ) {
 			$result .= Data_Text::replaceData($template, array(
-				"LABEL" => "<jet_form_field_check_label name=\"{$this->_name}\"/>",
-				"FIELD" => "<jet_form_field_check name=\"{$this->_name}\"/>"
+				'LABEL' => '<jet_form_field_check_label name="'.$this->_name.'"/>',
+				'FIELD' => '<jet_form_field_check name="'.$this->_name.'"/>'
 			));
 		}
 

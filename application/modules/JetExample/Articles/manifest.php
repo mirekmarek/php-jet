@@ -1,15 +1,15 @@
 <?php
 return array(
-	"API_version" => 201208,
-	"vendor" => "Jet (example)",
+	'API_version' => 201208,
+	'vendor' => 'Jet (example)',
 
-	"label" => "Basic acticles module",
-	"types" => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
-	"description" => "",
+	'label' => 'Basic acticles module',
+	'types' => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
+	'description' => '',
 
-	"require" => array(),
+	'require' => array(),
 
-	"signals_callbacks" => array(),
-	"signals" => array()
+	'signals_callbacks' => array(),
+	'signals' => array()
     
 );

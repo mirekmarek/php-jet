@@ -30,13 +30,13 @@ class Mvc_Router_Cache_Backend_Redis extends Mvc_Router_Cache_Backend_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $key_prefix = "";
+	protected $key_prefix = '';
 
 
 	public function initialize() {
 		$this->redis = Redis::get($this->config->getConnection());
 
-		$this->key_prefix = $this->config->getKeyPrefix().":";
+		$this->key_prefix = $this->config->getKeyPrefix().':';
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Mvc_Router_Cache_Backend_Redis extends Mvc_Router_Cache_Backend_Abstract {
 	public function truncate($URL = null) {
 		if($URL===null) {
 			$pattern = $this->key_prefix;
-			$pattern .= "*";
+			$pattern .= '*';
 
 			$keys = $this->redis->getKeys($pattern);
 
@@ -108,7 +108,7 @@ class Mvc_Router_Cache_Backend_Redis extends Mvc_Router_Cache_Backend_Abstract {
 	 */
 	public function helper_getCreateCommand() {
 
-		return "";
+		return '';
 	}
 
 	/**
