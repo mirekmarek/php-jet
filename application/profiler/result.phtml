@@ -123,7 +123,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 										<td>Query</td>
 										<td>Duration</td>
 										<td nowrap>Rows count</td>
-										<td nowrap>Memory diff</td>
+										<?php /*<td nowrap>Memory diff</td>*/ ?>
 										<td>Backtrace</td>
 
 									</tr>
@@ -141,11 +141,11 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 										<td valign="top"><?=formatQuery( $q->getQuery(), $q->getQueryData() );?></td>
 										<td valign="top"><?=formatDuration($q->getDuration());?></td>
 										<td valign="top"><?=$q->getRowsCount();?></td>
-										<td valign="top">
+										<?php /* <td valign="top">
 											Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
 											<br/>
 											Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-										</td>
+										</td> */ ?>
 										<td valign="top"><?=implode('<br/>', $q->getBacktrace());?></td>
 									</tr>
 								<?php endforeach; ?>
@@ -273,7 +273,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 					<td>Query</td>
 					<td>Duration</td>
 					<td nowrap>Rows count</td>
-					<td nowrap>Memory diff</td>
+					<?php /*<td nowrap>Memory diff</td>*/ ?>
 					<td>Backtrace</td>
 
 				</tr>
@@ -292,11 +292,11 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 					<td valign="top"><?=formatQuery( $q->getQuery(), $q->getQueryData() );?></td>
 					<td valign="top"><?=formatDuration($q->getDuration());?></td>
 					<td valign="top"><?=$q->getRowsCount();?></td>
-					<td valign="top">
+					<?php /*<td valign="top">
 							Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
 							<br/>
 							Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-					</td>
+					</td>*/ ?>
 					<td valign="top"><ul><li><?=implode('</li><li>', $q->getBacktrace());?></li></ul></td>
 				</tr>
 			<?php endforeach; ?>

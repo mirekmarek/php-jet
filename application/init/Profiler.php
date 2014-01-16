@@ -11,9 +11,9 @@ if(
 
 	if( $run ) {
 		if(isset($_GET['callgraph'])) {
-			require "Profiler/callgraph.php";
+			require JET_APPLICATION_PATH."profiler/result_callgraph.php";
 		} else {
-			require "Profiler/result.phtml";
+			require JET_APPLICATION_PATH."profiler/result.phtml";
 		}
 		die();
 	}
