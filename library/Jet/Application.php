@@ -24,6 +24,28 @@ class Application {
 	protected static $config = null;
 
 	/**
+	 *
+	 */
+	public static function installCommonDictionaries() {
+		$dictionaries_path = JET_APPLICATION_PATH."_install/dictionaries/";
+
+		$list = IO_Dir::getList( $dictionaries_path, '*.php' );
+
+		$tr_backend_type = 'PHPFiles';
+
+		$backend = Translator_Factory::getBackendInstance( $tr_backend_type );
+
+		foreach( $list as $path=>$file_name ) {
+			list($locale) = explode('.', $file_name);
+			$locale = new Locale($locale);
+
+			$dictionary = $backend->loadDictionary( Tr::COMMON_NAMESPACE, $locale, $path );
+
+			$backend->saveDictionary( $dictionary );
+		}
+	}
+
+	/**
 	 * Start application
 	 *
 	 * @static

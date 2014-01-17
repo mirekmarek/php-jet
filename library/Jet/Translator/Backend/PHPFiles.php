@@ -32,15 +32,16 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
-	 *
-	 * @throws IO_File_Exception
+	 * @param string $file_path (optional, default: by configuration)
 	 *
 	 * @return Translator_Dictionary
 	 */
-	public function loadDictionary($namespace, Locale $locale) {
-		$dictionary = new Translator_Dictionary( $namespace, $locale );
+	public function loadDictionary( $namespace, Locale $locale, $file_path=null ) {
+		if(!$file_path) {
+			$file_path = $this->_getFilePath( $namespace, $locale );
+		}
 
-		$file_path = $this->_getFilePath( $namespace, $locale );
+		$dictionary = new Translator_Dictionary( $namespace, $locale );
 
 		if(is_readable($file_path)) {
 			/** @noinspection PhpIncludeInspection */
@@ -64,12 +65,15 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	/**
 	 *
 	 * @param Translator_Dictionary $dictionary
-	 *
-	 * @throws Translator_Exception
-	 * @throws IO_File_Exception
+	 * @param string $file_path (optional, default: by configuration)
 	 */
-	public function saveDictionary(Translator_Dictionary $dictionary){
-		$file_path = $this->_getFilePath($dictionary->getNamespace(), $dictionary->getLocale());
+	public function saveDictionary( Translator_Dictionary $dictionary, $file_path=null ){
+		if(!$file_path) {
+			$file_path = $this->_getFilePath(
+								$dictionary->getNamespace(),
+								$dictionary->getLocale()
+						);
+		}
 
 		$data = array();
 		foreach($dictionary->getPhrases() as $phrase) {
@@ -96,11 +100,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	 */
 	protected function _getFilePath($namespace, Locale $locale) {
 
-		if($namespace==Translator::COMMON_NAMESPACE) {
-			$file = $this->config->getCommonDictionaryPath($locale);
-		} else {
-			$file = $this->config->getDictionaryPath($namespace, $locale);
-		}
+		$file = $this->config->getDictionaryPath($namespace, $locale);
 
 		return $file;
 	}

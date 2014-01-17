@@ -44,22 +44,22 @@ abstract class Translator_Backend_Abstract extends Object {
 	}
 
 	/**
-	 * Returns dictionary
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
+	 * @param string $file_path (optional, default: by configuration)
 	 *
 	 * @return Translator_Dictionary
 	 */
-	abstract public function loadDictionary($namespace, Locale $locale);
+	abstract public function loadDictionary($namespace, Locale $locale, $file_path=null );
 
 	/**
-	 * Saves dictionary
 	 *
 	 * @param Translator_Dictionary $dictionary
+	 * @param string $file_path (optional, default: by configuration)
 	 *
 	 */
-	abstract public function saveDictionary(Translator_Dictionary $dictionary);
+	abstract public function saveDictionary(Translator_Dictionary $dictionary, $file_path=null );
 
 	/**
 	 * Create backend after installation

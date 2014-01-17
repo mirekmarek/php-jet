@@ -115,7 +115,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$create_index_query = array();
 
 		foreach($_keys as $key_name=>$key) {
-			switch( $key['type`'] ) {
+			switch( $key['type'] ) {
 				case DataModel::KEY_TYPE_PRIMARY:
 					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY (`'.implode('`, `', $key['columns']).'`)';
 				break;

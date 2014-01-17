@@ -127,9 +127,8 @@ class Installer {
 
 
 		$backend_config = new Translator_Backend_PHPFiles_Config(true);
-		$backend_config->setData( new Data_Array(array("translator"=>array("backend_options"=>array(
-			"dictionaries_path" => "%JET_APPLICATION_PATH%_installer/Step/%TRANSLATOR_NAMESPACE%/dictionaries/%TRANSLATOR_LOCALE%.php",
-			"common_dictionaries_path" => "%JET_APPLICATION_PATH%_installer/dictionaries/%TRANSLATOR_LOCALE%.php"
+		$backend_config->setData( new Data_Array(array( "translator" => array("backend_options"=>array(
+			"dictionaries_path" => "%JET_APPLICATION_PATH%_installer/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php"
 		)))));
 
 		$backend = new Translator_Backend_PHPFiles($backend_config);

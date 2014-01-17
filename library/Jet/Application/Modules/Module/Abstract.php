@@ -20,6 +20,7 @@
 namespace Jet;
 
 abstract class Application_Modules_Module_Abstract extends Object {
+
 	/**
 	*
 	* @var Application_Modules_Module_Info
@@ -60,10 +61,95 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	}
 
 	/**
-	 * Initialization method 
+	 * Initialization method
 	 */
 	protected function initialize() {
 	}
+
+	/**
+	 * @throws Application_Modules_Exception
+	 */
+	public function install() {
+		$module_dir = $this->module_info->getModuleDir();
+		$install_script = $module_dir . Application_Modules::MODULE_INSTALL_SCRIPT_PATH;
+
+		if(file_exists($install_script)) {
+			try {
+
+				/** @noinspection PhpUnusedLocalVariableInspection */
+				$module_instance = $this;
+
+				/** @noinspection PhpIncludeInspection */
+				require_once $install_script;
+
+			} catch(\Exception $e){
+
+				throw new Application_Modules_Exception(
+					'Error while processing installation script: '.$e->getMessage(),
+					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
+				);
+			}
+		}
+
+		$this->installDictionaries();
+
+	}
+
+	/**
+	 *
+	 */
+	public function installDictionaries() {
+		$module_dir = $this->module_info->getModuleDir();
+		$dictionaries_path = $module_dir . Application_Modules::MODULE_INSTALL_DICTIONARIES_PATH;
+
+		$list = IO_Dir::getList( $dictionaries_path, '*.php' );
+
+		$tr_backend_type = 'PHPFiles';
+
+		$backend = Translator_Factory::getBackendInstance( $tr_backend_type );
+
+		$module_name = $this->getModuleInfo()->getName();
+
+		foreach( $list as $path=>$file_name ) {
+			list($locale) = explode('.', $file_name);
+			$locale = new Locale($locale);
+
+			$dictionary = $backend->loadDictionary( $module_name, $locale, $path );
+
+			$backend->saveDictionary( $dictionary );
+		}
+
+	}
+
+	/**
+	 * @throws Application_Modules_Exception
+	 */
+	public function uninstall() {
+		$module_dir = $this->module_info->getModuleDir();
+
+		$uninstall_script = $module_dir . Application_Modules::MODULE_UNINSTALL_SCRIPT_PATH;
+
+		if(file_exists($uninstall_script)) {
+			try {
+
+				/** @noinspection PhpUnusedLocalVariableInspection */
+				$module_instance = $this;
+
+				/** @noinspection PhpIncludeInspection */
+				require_once $uninstall_script;
+
+			} catch(\Exception $e){
+				throw new Application_Modules_Exception(
+					'Error while processing uninstall script: '.$e->getMessage(),
+					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
+				);
+			}
+		}
+
+		//TODO: dictionaries ...
+
+	}
+
 
 	/**
 	 * @see Jet\Mvc_Modules_Module::$ACL_actions_check_map

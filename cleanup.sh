@@ -6,5 +6,5 @@ rm -rf application/data/*
 rm -rf application/tmp/*
 rm -rf public/data/*
 rm -rf public/files/*
-rm -rf public/images/*
+rm -rf public/imagegallery/*
 rm -rf public/styles/*

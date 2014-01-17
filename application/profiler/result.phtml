@@ -187,11 +187,8 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 	</div>
 
 		<?php if( ($children=$block->getChildren()) ): ?>
-		<?php if(!$is_root): ?>
-				<a href="javascript:toggleDisplay('run_block_children_<?=$ID;?>');">Subblocks &gt;&gt;&gt;</a>
-		<?php endif; ?>
 
-		<div class="run_block_children" id="run_block_children_<?=$ID;?>" style="display: <?=$is_root?'block':'none';?>">
+		<div class="run_block_children" id="run_block_children_<?=$ID;?>">
 			<?php foreach( $children as $child ): ?>
 				<?php showRunBlock($child); ?>
 			<?php endforeach; ?>

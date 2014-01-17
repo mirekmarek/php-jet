@@ -27,6 +27,8 @@ class Installer_Step_TranslatorBackend_Controller extends Installer_Step_Control
 
 			Translator::helper_create();
 
+			Application::installCommonDictionaries();
+
 			$this->installer->goNext();
 		}
 

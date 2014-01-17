@@ -16,6 +16,8 @@
  *  ~/application/modules/ModuleName
  *    |
  *    |- _install
+ *    |  |- dictionaries
+ *    |  |  \- [locale].php
  *    |  |- install.php
  *    |  \- uninstall.php
  *    |
@@ -50,8 +52,6 @@
  *    |  \- REST.php
  *    |
  *    |- JS
- *    |  |- models
- *    |  |  \- [*.js]
  *    |  |- Main.js
  *    |  \- [*.js]
  *    |
@@ -82,9 +82,12 @@ class Application_Modules extends Object {
 	const MODULE_NAMESPACE = 'JetApplicationModule';
 	const MODULE_CONFIG_FILE_PATH = 'config/config.php';
 	const MODULE_MANIFEST_FILE_PATH = 'manifest.php';
+
 	const MODULE_INSTALL_DIR = '_install/';
+	const MODULE_INSTALL_DICTIONARIES_PATH = '_install/dictionaries/';
 	const MODULE_INSTALL_SCRIPT_PATH = '_install/install.php';
 	const MODULE_UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
+
 
 	const MODULES_LIST_FILE_NAME = 'modules_list.php';
 
@@ -96,26 +99,26 @@ class Application_Modules extends Object {
 	 *
 	 * @var string
 	 */
-	protected static $custom_modules_list_file_path = NULL;
+	protected static $custom_modules_list_file_path = null;
 
 	/**
 	*
 	* @var Application_Modules_Module_Info[]
 	*/
-	protected static $activated_modules_list = NULL;
+	protected static $activated_modules_list = null;
 
 
 	/**
 	*
 	* @var Application_Modules_Module_Info[]
 	*/
-	protected static $installed_modules_list = NULL;
+	protected static $installed_modules_list = null;
 
 	/**
 	*
 	* @var Application_Modules_Module_Info[]
 	*/
-	protected static $all_modules_list = NULL;
+	protected static $all_modules_list = null;
 
 	/**
 	*
@@ -166,7 +169,7 @@ class Application_Modules extends Object {
 	 *
 	 */
 	protected static function saveInstalledModulesList() {
-		static::$all_modules_list = NULL;
+		static::$all_modules_list = null;
 
 		$data = new Data_Array(static::$installed_modules_list);
 
@@ -242,7 +245,7 @@ class Application_Modules extends Object {
 	 * @return Application_Modules_Module_Info[]
 	 */
 	public static function getAllModulesList( $ignore_corrupted_modules=true ) {
-		if(static::$all_modules_list !== NULL) {
+		if(static::$all_modules_list !== null) {
 			return static::$all_modules_list;
 		}
 
@@ -311,7 +314,7 @@ class Application_Modules extends Object {
 	* @return Application_Modules_Module_Info[]
 	*/
 	public static function getActivatedModulesList() {
-		if( static::$activated_modules_list !== NULL) {
+		if( static::$activated_modules_list !== null) {
 			return static::$activated_modules_list;
 		}
 
@@ -337,7 +340,7 @@ class Application_Modules extends Object {
 	*/
 	public static function getModuleExists( $module_name ) {
 
-		if( static::$activated_modules_list === NULL) {
+		if( static::$activated_modules_list === null) {
 			static::getActivatedModulesList();
 		}
 
@@ -345,7 +348,7 @@ class Application_Modules extends Object {
 			return true;
 		}
 
-		if( static::$all_modules_list === NULL) {
+		if( static::$all_modules_list === null) {
 			static::getAllModulesList();
 		}
 
@@ -364,7 +367,7 @@ class Application_Modules extends Object {
 	* @return bool
 	*/
 	public static function getModuleIsInstalled( $module_name ) {
-		if( static::$installed_modules_list === NULL) {
+		if( static::$installed_modules_list === null) {
 			static::getInstalledModulesList();
 		}
 
@@ -383,7 +386,7 @@ class Application_Modules extends Object {
 	 * @return bool
 	 */
 	public static function getModuleIsActivated( $module_name ) {
-		if( static::$activated_modules_list === NULL) {
+		if( static::$activated_modules_list === null) {
 			static::getActivatedModulesList();
 		}
 
@@ -405,7 +408,7 @@ class Application_Modules extends Object {
 	* @return Application_Modules_Module_Info
 	*/
 	public static function getModuleInfo( $module_name, $only_activated=false ) {
-		if( static::$activated_modules_list === NULL) {
+		if( static::$activated_modules_list === null) {
 			static::getActivatedModulesList();
 		}
 
@@ -414,7 +417,7 @@ class Application_Modules extends Object {
 		}
 
 		if(!$only_activated) {
-			if( static::$all_modules_list === NULL) {
+			if( static::$all_modules_list === null) {
 				static::getAllModulesList();
 			}
 
@@ -423,7 +426,7 @@ class Application_Modules extends Object {
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -445,7 +448,7 @@ class Application_Modules extends Object {
 			);
 		}
 
-		if(!$module_info->getIsCompatible()) {
+		if( !$module_info->getIsCompatible() ) {
 			throw new Application_Modules_Exception(
 				'Module \''.$module_name.'\' (API version '.$module_info->getAPIVersion().') is not compatible with this system version (API version'.Version::getAPIVersionNumber().')',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_COMPATIBLE
@@ -474,27 +477,24 @@ class Application_Modules extends Object {
 			);
 		}
 
-		$module_dir = $module_info->getModuleDir();
-
-
-
 		static::$installation_in_progress = true;
 		static::$installation_in_progress_module_name = $module_name;
 
-		$install_script = $module_dir . static::MODULE_INSTALL_SCRIPT_PATH;
+		try {
 
-		if(file_exists($install_script)) {
-			try {
-				/** @noinspection PhpIncludeInspection */
-				require_once $install_script;
-			} catch(\Exception $e){
+			static::getModuleInstance( $module_name )->install();
 
-				throw new Application_Modules_Exception(
-					'Error while processing installation script: '.$e->getMessage(),
-					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
-				);
-			}
+		} catch(\Exception $e){
+			static::$installation_in_progress = false;
+			static::$installation_in_progress_module_name = null;
+
+			throw new Application_Modules_Exception(
+				'Error while processing installation script: '.$e->getMessage(),
+				Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
+			);
+
 		}
+
 		static::$installation_in_progress = false;
 		static::$installation_in_progress_module_name = null;
 
@@ -524,34 +524,30 @@ class Application_Modules extends Object {
 			);
 		}
 
-		$module_dir = $module_info->getModuleDir();
-
-		/** @noinspection PhpUnusedLocalVariableInspection */
-		$install_dir = $module_dir . static::MODULE_INSTALL_DIR;
-		$uninstall_script = $module_dir . static::MODULE_UNINSTALL_SCRIPT_PATH;
 
 		static::$installation_in_progress = true;
 		static::$installation_in_progress_module_name = $module_name;
 
 		$uninstall_exception = null;
 
-		if(file_exists($uninstall_script)) {
-			try {
-				/** @noinspection PhpIncludeInspection */
-				require_once $uninstall_script;
-			} catch(\Exception $e){
-				$uninstall_exception = new Application_Modules_Exception(
-					'Error while processing uninstall script: '.$e->getMessage(),
-					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
-				);
-			}
+		try {
+
+			static::getModuleInstance($module_name)->uninstall();
+
+		} catch(\Exception $e){
+			$uninstall_exception = new Application_Modules_Exception(
+				'Error while processing uninstall script: '.$e->getMessage(),
+				Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
+			);
 		}
 
 		$module_info->setIsInstalled(false);
 		$module_info->setIsActivated(false);
+
 		if(isset(static::$activated_modules_list[$module_name])) {
 			unset(static::$activated_modules_list[$module_name]);
 		}
+
 		unset(static::$installed_modules_list[$module_name]);
 
 		static::$installation_in_progress = false;
@@ -740,7 +736,7 @@ class Application_Modules extends Object {
 			);
 		}
 
-		if( static::$all_modules_list === NULL) {
+		if( static::$all_modules_list === null) {
 			static::getAllModulesList();
 		}
 
@@ -801,10 +797,10 @@ class Application_Modules extends Object {
 	 * For tests only
 	 */
 	public static function _resetInternalState() {
-		static::$custom_modules_list_file_path = NULL;
-		static::$activated_modules_list = NULL;
-		static::$installed_modules_list = NULL;
-		static::$all_modules_list = NULL;
+		static::$custom_modules_list_file_path = null;
+		static::$activated_modules_list = null;
+		static::$installed_modules_list = null;
+		static::$all_modules_list = null;
 		static::$module_instance = array();
 		static::$installation_in_progress = false;
 
