@@ -1,2 +1,2 @@
 <?php
-return "not array";
+return 'not an array';

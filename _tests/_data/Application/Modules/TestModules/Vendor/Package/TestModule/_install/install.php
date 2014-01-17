@@ -1,6 +1,5 @@
 <?php
 /**
- * @var JetApplicationModule\Vendor\TestModule\Main $module
+ * @var JetApplicationModule\Vendor\TestModule\Main $module_instance
  */
-$module = Jet\Application_Modules::getModuleInstance("Vendor\\Package\\TestModule");
-$module->install();
+$module_instance->testInstall();

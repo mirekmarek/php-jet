@@ -14,7 +14,7 @@
  * @category JetApplicationModule
  * @package JetApplicationModule_TestModule2
  */
-namespace JetApplicationModule\Package\Vendor\TestModule2;
+namespace JetApplicationModule\Vendor\Package\TestModule2;
 use Jet;
 
 class Main extends Jet\Application_Modules_Module_Abstract {

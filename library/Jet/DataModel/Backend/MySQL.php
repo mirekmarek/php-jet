@@ -629,7 +629,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 
-			$join_qp .= implode(' AND '.JET_EOL, $j);
+			$join_qp .= implode(' AND'.JET_EOL, $j);
 		}
 
 		return $join_qp;
@@ -657,7 +657,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSQLqueryWherePart($qp, $next_level).' '.JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSQLqueryWherePart($qp, $next_level).JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -665,7 +665,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				/**
 				 * @var string $qp
 				 */
-				$res .= JET_EOL.$tab.$qp.JET_EOL.' ';
+				$res .= JET_EOL.$tab.$qp.JET_EOL;
 				continue;
 			}
 
@@ -718,7 +718,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSQLQueryHavingPart($qp, $next_level ).' '.JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSQLQueryHavingPart($qp, $next_level ).JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -775,7 +775,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$sq[] = JET_TAB.JET_TAB.$item.$this->_getSQLQueryWherePart_handleOperator( $operator, $v );
 			}
 
-			$res .= '('.JET_EOL.implode(' OR'.JET_EOL, $sq).JET_EOL.JET_TAB.') ';
+			$res .= '('.JET_EOL.implode('OR'.JET_EOL, $sq).JET_EOL.JET_TAB.') ';
 		} else {
 			$res .= $item.$this->_getSQLQueryWherePart_handleOperator($operator, $value);
 
@@ -804,28 +804,28 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		switch($operator) {
 			case DataModel_Query::O_EQUAL:
-				$res .='='.$value.' ';
+				$res .='='.$value;
 				break;
 			case DataModel_Query::O_NOT_EQUAL:
-				$res .='<>'.$value.' ';
+				$res .='<>'.$value;
 				break;
 			case DataModel_Query::O_LIKE:
-				$res .=' LIKE '.$value.' ';
+				$res .=' LIKE '.$value;
 				break;
 			case DataModel_Query::O_NOT_LIKE:
-				$res .=' NOT LIKE '.$value.' ';
+				$res .=' NOT LIKE '.$value;
 				break;
             case DataModel_Query::O_GREATER_THAN:
-	            $res .='>'.$value.' ';
+	            $res .='>'.$value;
                 break;
             case DataModel_Query::O_LESS_THAN:
-	            $res .='<'.$value.' ';
+	            $res .='<'.$value;
                 break;
             case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-	            $res .='>='.$value.' ';
+	            $res .='>='.$value;
                 break;
             case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-	            $res .='<='.$value.' ';
+	            $res .='<='.$value;
                 break;
 
 			default:

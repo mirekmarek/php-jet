@@ -489,7 +489,7 @@ class Application_Modules extends Object {
 			static::$installation_in_progress_module_name = null;
 
 			throw new Application_Modules_Exception(
-				'Error while processing installation script: '.$e->getMessage(),
+				$e->getMessage(),
 				Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
 			);
 
@@ -536,7 +536,7 @@ class Application_Modules extends Object {
 
 		} catch(\Exception $e){
 			$uninstall_exception = new Application_Modules_Exception(
-				'Error while processing uninstall script: '.$e->getMessage(),
+				$e->getMessage(),
 				Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
 			);
 		}
@@ -675,6 +675,7 @@ class Application_Modules extends Object {
 	 * @return Application_Modules_Module_Abstract
 	 */
 	public static function getModuleInstance( $module_name ) {
+
 		if(isset(static::$module_instance[$module_name])) {
 			return static::$module_instance[$module_name];
 		}

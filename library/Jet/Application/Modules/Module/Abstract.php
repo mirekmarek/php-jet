@@ -85,7 +85,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 			} catch(\Exception $e){
 
 				throw new Application_Modules_Exception(
-					'Error while processing installation script: '.$e->getMessage(),
+					'Error while processing installation script: '.get_class($e).'::'.$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
 				);
 			}
@@ -101,6 +101,10 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	public function installDictionaries() {
 		$module_dir = $this->module_info->getModuleDir();
 		$dictionaries_path = $module_dir . Application_Modules::MODULE_INSTALL_DICTIONARIES_PATH;
+
+		if(!IO_Dir::exists($dictionaries_path)) {
+			return;
+		}
 
 		$list = IO_Dir::getList( $dictionaries_path, '*.php' );
 
@@ -140,7 +144,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 
 			} catch(\Exception $e){
 				throw new Application_Modules_Exception(
-					'Error while processing uninstall script: '.$e->getMessage(),
+					'Error while processing uninstall script: '.get_class($e).'::'.$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
 				);
 			}

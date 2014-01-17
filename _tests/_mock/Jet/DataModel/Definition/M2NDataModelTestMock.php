@@ -12,7 +12,7 @@
 namespace Jet;
 
 class DataModel_Definition_M2NDataModelTestMock extends DataModel_Related_MtoN {
-	protected static $__data_model_model_name = "m2n_data_model_test_mock";
+	protected static $__data_model_model_name = 'm2n_data_model_test_mock';
 
 
 }

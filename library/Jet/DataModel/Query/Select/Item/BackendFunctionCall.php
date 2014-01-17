@@ -65,7 +65,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends Object {
 
 			$property_name = $property->getName();
 
-			if( strpos($backend_function, '%$property_name%')===false ) {
+			if( strpos($backend_function, '%'.$property_name.'%')===false ) {
 				throw new DataModel_Query_Exception(
 					'There is not property \''.$property_name.'\' placeholder in the backend function call. Example: count(%'.$property_name.'%) ',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR

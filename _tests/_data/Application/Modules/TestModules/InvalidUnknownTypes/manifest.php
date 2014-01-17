@@ -3,31 +3,31 @@
  * @see Jet\Application_Modules_Module_Info
  */
 return array(
-	"API_version" => 201208,
+	'API_version' => 201208,
 
-	"label" => "Test Module",
+	'label' => 'Test Module',
 
-	"types" => array( "UnknownType" ),
-	"description" => "Unit test module",
+	'types' => array( 'UnknownType' ),
+	'description' => 'Unit test module',
 
-	"require" => array(
-			"RequireModule1",
-			"RequireModule2"
+	'require' => array(
+			'RequireModule1',
+			'RequireModule2'
 		),
 
-	"factory_overload_map" => array(
-		"OldClass1" => "MyClass1",
-		"OldClass2" => "MyClass2",
-		"OldClass3" => "MyClass3",
+	'factory_overload_map' => array(
+		'OldClass1' => 'MyClass1',
+		'OldClass2' => 'MyClass2',
+		'OldClass3' => 'MyClass3',
 	),
 
-	"signals" => array(
-		"/test/signal1" => "Test signal 1",
-		"/test/signal2" => "Test signal 2",
+	'signals' => array(
+		'/test/signal1' => 'Test signal 1',
+		'/test/signal2' => 'Test signal 2',
 	),
-	"signals_callbacks" => array(
-		"/test/signal1" => "CallbackMoeduleMethodName1",
-		"/test/signal2" => "CallbackMoeduleMethodName2",
+	'signals_callbacks' => array(
+		'/test/signal1' => 'CallbackMoeduleMethodName1',
+		'/test/signal2' => 'CallbackMoeduleMethodName2',
 	)
 
 );

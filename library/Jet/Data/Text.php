@@ -61,7 +61,7 @@ class Data_Text {
 			$max_length = $max_length - strlen($dots);
 		}
 
-		if(!preg_match('~^(.{0,'.$max_length.')~us', $text, $match)){
+		if(!preg_match('~^(.{0,'.$max_length.'})~us', $text, $match)){
 			return $text;
 		}
 
