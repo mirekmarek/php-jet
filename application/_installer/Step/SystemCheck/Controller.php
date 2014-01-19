@@ -17,14 +17,14 @@ class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller {
 
 
 	public function main() {
-		if(Http_Request::POST()->exists("go")) {
+		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Check compatibility ", array(), "SystemCheck");
+		return Tr::_('Check compatibility ', array(), 'SystemCheck');
 	}
 }

@@ -27,13 +27,13 @@ class Installer_Step_CoreRouter_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Router configuration", array(), "CoreRouter");
+		return Tr::_('Router configuration', array(), 'CoreRouter');
 	}
 
 	/**
@@ -45,6 +45,6 @@ class Installer_Step_CoreRouter_Controller extends Installer_Step_Controller {
 			return false;
 		}
 
-		return array("CoreRouterCache");
+		return array('CoreRouterCache');
 	}
 }

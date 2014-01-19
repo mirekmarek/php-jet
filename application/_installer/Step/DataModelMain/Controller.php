@@ -26,13 +26,13 @@ class Installer_Step_DataModelMain_Controller extends Installer_Step_Controller 
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("DataModel configuration", array(), "DataModelMain");
+		return Tr::_('DataModel configuration', array(), 'DataModelMain');
 	}
 
 	public function getStepsAfter() {
@@ -41,16 +41,16 @@ class Installer_Step_DataModelMain_Controller extends Installer_Step_Controller 
 		$result = array();
 
 		if($config->getCacheEnabled()) {
-			$result[] = "DataModelHistory";
+			$result[] = 'DataModelHistory';
 		}
 
 		if($config->getCacheEnabled()) {
-			$result[] = "DataModelCache";
+			$result[] = 'DataModelCache';
 		}
 
-		$result[] = "DataModelBackend";
+		$result[] = 'DataModelBackend';
 
-		//return array("DataModelBackend");
+		//return array('DataModelBackend');
 
 		return $result;
 	}

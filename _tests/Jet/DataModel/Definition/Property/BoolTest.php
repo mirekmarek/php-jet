@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Definition/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -24,9 +24,9 @@ class DataModel_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
-	protected $property_class_name = "DataModel_Definition_Property_Bool";
+	protected $property_class_name = 'DataModel_Definition_Property_Bool';
 
-	protected $property_name = "bool_property";
+	protected $property_name = 'bool_property';
 
 
 	/**
@@ -34,7 +34,7 @@ class DataModel_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 

@@ -13,27 +13,27 @@
  */
 namespace Jet;
 
-require JET_INSTALLER_PATH."Step/Controller.php";
+require JET_INSTALLER_PATH.'Step/Controller.php';
 
 class Installer {
 
 	protected static $steps = array(
-		"Welcome",
-		"SystemCheck",
-		"DirsCheck",
-		"Main",
-		"Translator",
-		"Redis",
-		"Memcache",
-		"DB",
-		"DataModelMain",
-		"InstallModules",
-		"CreateDB",
-		"CoreRouter",
-		"CreateAdministrator",
-		"CreateSite",
-		//"jsLibs",
-		"Final"
+		'Welcome',
+		'SystemCheck',
+		'DirsCheck',
+		'Main',
+		'Translator',
+		'Redis',
+		'Memcache',
+		'DB',
+		'DataModelMain',
+		'InstallModules',
+		'CreateDB',
+		'CoreRouter',
+		'CreateAdministrator',
+		'CreateSite',
+		//'jsLibs',
+		'Final'
 	);
 
 	/**
@@ -68,7 +68,7 @@ class Installer {
 	protected $step_controllers = array();
 
 	public function getTmpConfigFilePath() {
-		return JET_TMP_PATH."config_install.php";
+		return JET_TMP_PATH.'config_install.php';
 	}
 
 	public function main() {
@@ -78,29 +78,29 @@ class Installer {
 
 		static::initTranslator();
 		session_start();
-		if(empty($_SESSION["current_locale"])) {
-			$_SESSION["current_locale"] = new Locale("en_US");
+		if(empty($_SESSION['current_locale'])) {
+			$_SESSION['current_locale'] = new Locale('en_US');
 		}
 
-		$this->layout = new Mvc_Layout(JET_INSTALLER_PATH."layout/", "default");
+		$this->layout = new Mvc_Layout(JET_INSTALLER_PATH.'layout/', 'default');
 
 		list($first_step) = self::$steps;
 
-		if(empty($_SESSION["current_step"])) {
-			$_SESSION["current_step"] = $first_step;
+		if(empty($_SESSION['current_step'])) {
+			$_SESSION['current_step'] = $first_step;
 		}
 
-		if(Http_Request::GET()->exists("step")) {
-			$_SESSION["current_step"] = Http_Request::GET()->getString("step", $first_step);
+		if(Http_Request::GET()->exists('step')) {
+			$_SESSION['current_step'] = Http_Request::GET()->getString('step', $first_step);
 		}
 
-		Translator::setCurrentLocale($_SESSION["current_locale"]);
-		$this->getStepControllers( $_SESSION["current_step"] );
+		Translator::setCurrentLocale($_SESSION['current_locale']);
+		$this->getStepControllers( $_SESSION['current_step'] );
 		Translator::setCurrentNamespace($this->current_step_name);
 
 		$this->current_step_controller->main();
 
-		$this->layout->setVar("steps", $this->step_controllers);
+		$this->layout->setVar('steps', $this->step_controllers);
 
 		Translator::setCurrentNamespace(Translator::COMMON_NAMESPACE);
 		echo $this->layout->render();
@@ -109,26 +109,26 @@ class Installer {
 	}
 
 	public function getCurrentLocale() {
-		return $_SESSION["current_locale"];
+		return $_SESSION['current_locale'];
 	}
 
 	public function setCurrentLocale( Locale $locale ) {
-		$_SESSION["current_locale"] = $locale;
+		$_SESSION['current_locale'] = $locale;
 	}
 
 
 	public static function initTranslator() {
 		$config = new Translator_Config(true);
 		$config->setData( new Data_Array(array(
-			"backend_type" => "PHPFiles",
-			"auto_append_unknown_phrase" => true
+			'backend_type' => 'PHPFiles',
+			'auto_append_unknown_phrase' => true
 		)));
 		Translator::setConfig($config);
 
 
 		$backend_config = new Translator_Backend_PHPFiles_Config(true);
-		$backend_config->setData( new Data_Array(array( "translator" => array("backend_options"=>array(
-			"dictionaries_path" => "%JET_APPLICATION_PATH%_installer/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php"
+		$backend_config->setData( new Data_Array(array( 'translator' => array('backend_options'=>array(
+			'dictionaries_path' => '%JET_APPLICATION_PATH%_installer/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php'
 		)))));
 
 		$backend = new Translator_Backend_PHPFiles($backend_config);
@@ -147,11 +147,11 @@ class Installer {
 		while($steps) {
 			$_step_name = array_shift($steps);
 
-			$step_base_path = JET_INSTALLER_PATH."Step/{$_step_name}/";
+			$step_base_path = JET_INSTALLER_PATH.'Step/'.$_step_name.'/';
 
-			require_once $step_base_path."Controller.php";
+			require_once $step_base_path.'Controller.php';
 
-			$class_name = __NAMESPACE__."\\Installer_Step_{$_step_name}_Controller";
+			$class_name = __NAMESPACE__.'\\Installer_Step_'.$_step_name.'_Controller';
 
 			$is_current = ($_step_name==$current_step_name);
 			if($is_current) {
@@ -170,7 +170,7 @@ class Installer {
 				}
 			}
 
-			$URL = "?step=".$_step_name;
+			$URL = '?step='.$_step_name;
 
 			$is_last = ($steps);
 

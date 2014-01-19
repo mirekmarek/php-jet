@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -39,9 +39,9 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->object = new DataModel_Query_Where_Expression(
-			$this->properties["string_property"],
+			$this->properties['string_property'],
 			DataModel_Query::O_NOT_EQUAL,
-			"test"
+			'test'
 		);
 	}
 
@@ -60,9 +60,9 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed() {
 		$this->object = new DataModel_Query_Where_Expression(
-			$this->properties["string_property"],
-			"imaginary_operator",
-			"test"
+			$this->properties['string_property'],
+			'imaginary_operator',
+			'test'
 		);
 
 	}
@@ -71,7 +71,7 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Where_Expression::getProperty
 	 */
 	public function testGetProperty() {
-		$this->assertEquals( $this->properties["string_property"], $this->object->getProperty() );
+		$this->assertEquals( $this->properties['string_property'], $this->object->getProperty() );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Where_Expression::getValue
 	 */
 	public function testGetValue() {
-		$this->assertEquals( "test", $this->object->getValue() );
+		$this->assertEquals( 'test', $this->object->getValue() );
 	}
 
 
@@ -94,6 +94,6 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Where_Expression::__toString
 	 */
 	public function testToString() {
-		$this->assertEquals("data_model_test_mock::string_property != 'test'", $this->object->toString() );
+		$this->assertEquals('data_model_test_mock::string_property != \'test\'', $this->object->toString() );
 	}
 }

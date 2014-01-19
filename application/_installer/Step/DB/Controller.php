@@ -22,7 +22,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 
 
 	public function main() {
-		if(Http_Request::POST()->exists("go")) {
+		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
 
@@ -30,13 +30,13 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 
 		$GET = Http_Request::GET();
 
-		if( ( $edit_connection_name = $GET->getString("edit_connection") ) ) {
+		if( ( $edit_connection_name = $GET->getString('edit_connection') ) ) {
 			$this->_editConnection( $edit_connection_name );
 		} else
-		if( ( $delete_connection_name = $GET->getString("delete_connection") ) ) {
+		if( ( $delete_connection_name = $GET->getString('delete_connection') ) ) {
 			$this->_deleteConnection( $delete_connection_name );
 		} else
-		if( ( $test_connection_name = $GET->getString("test_connection") ) ) {
+		if( ( $test_connection_name = $GET->getString('test_connection') ) ) {
 			$this->_testConnection( $test_connection_name );
 		}
 		else {
@@ -53,10 +53,10 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 				$this->installer->goNext();
 			}
 
-			$this->view->setVar("config", $this->main_config);
-			$this->view->setVar("form", $form);
+			$this->view->setVar('config', $this->main_config);
+			$this->view->setVar('form', $form);
 
-			$this->render("default");
+			$this->render('default');
 		}
 
 	}
@@ -73,13 +73,13 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 			//TODO: name validation
 			$this->main_config->addConnection( $connection_config->getName(), $connection_config);
 			$this->main_config->save();
-			Http_Headers::movedTemporary("?test_connection=".$connection_config->getName());
+			Http_Headers::movedTemporary('?test_connection='.$connection_config->getName());
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("config", $connection_config);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('config', $connection_config);
 
-		$this->render("add-connection");
+		$this->render('add-connection');
 
 	}
 
@@ -101,15 +101,15 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 		if($form->catchValues()) {
 			$this->main_config->deleteConnection($delete_connection_name);
 			$this->main_config->save();
-			Http_Headers::movedTemporary("?");
+			Http_Headers::movedTemporary('?');
 
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("connection_name", $delete_connection_name);
-		$this->view->setVar("config", $connection_config);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('connection_name', $delete_connection_name);
+		$this->view->setVar('config', $connection_config);
 
-		$this->render("delete-connection");
+		$this->render('delete-connection');
 
 	}
 
@@ -127,14 +127,14 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 		if( $connection_config->catchForm($form) ) {
 			$this->main_config->addConnection($edit_connection_name, $connection_config);
 			$this->main_config->save();
-			Http_Headers::movedTemporary("?test_connection=".$edit_connection_name);
+			Http_Headers::movedTemporary('?test_connection='.$edit_connection_name);
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("connection_name", $edit_connection_name);
-		$this->view->setVar("config", $connection_config);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('connection_name', $edit_connection_name);
+		$this->view->setVar('config', $connection_config);
 
-		$this->render("edit-connection");
+		$this->render('edit-connection');
 	}
 
 	/**
@@ -149,11 +149,11 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 		$form = $connection_config->getCommonForm();
 
 		if($form->catchValues()) {
-			Http_Headers::movedTemporary("?");
+			Http_Headers::movedTemporary('?');
 		}
 
 		$OK = true;
-		$error_message = "";
+		$error_message = '';
 		try {
 			Db::get($test_connection_name);
 		} catch(\Exception $e) {
@@ -162,18 +162,18 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 		}
 
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("connection_name", $test_connection_name);
-		$this->view->setVar("config", $connection_config);
-		$this->view->setVar("OK", $OK);
-		$this->view->setVar("error_message", $error_message);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('connection_name', $test_connection_name);
+		$this->view->setVar('config', $connection_config);
+		$this->view->setVar('OK', $OK);
+		$this->view->setVar('error_message', $error_message);
 
 
-		$this->render("test-connection");
+		$this->render('test-connection');
 
 	}
 
 	public function getLabel() {
-		return Tr::_("DB (PDO) connections", array(), "DB");
+		return Tr::_('DB (PDO) connections', array(), 'DB');
 	}
 }

@@ -14,9 +14,9 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	 * @var array
 	 */
 	protected $matches = array(
-			"<jet_form_tag name =  \"name1\" prop1=\"prop1_value\"  prop2=\"prop2 value\"   >",
-			"_tag",
-			"name =  \"name1\" prop1=\"prop1_value\"  prop2=\"prop2 value\"   "
+			'<jet_form_tag name =  "name1" prop1="prop1_value"  prop2="prop2 value"   >',
+			'_tag',
+			'name =  "name1" prop1="prop1_value"  prop2="prop2 value"   '
 	);
 
 	/**
@@ -45,7 +45,7 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Form_Parser_TagData::getName
 	 */
 	public function testGetName() {
-		$this->assertEquals( "name1", $this->object->getName() );
+		$this->assertEquals( 'name1', $this->object->getName() );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Form_Parser_TagData::getProperties
 	 */
 	public function testGetProperties() {
-		$this->assertEquals(array("prop1" => "prop1_value", "prop2" => "prop2 value"), $this->object->getProperties());
+		$this->assertEquals(array('prop1' => 'prop1_value', 'prop2' => 'prop2 value'), $this->object->getProperties());
 
 	}
 
@@ -68,15 +68,15 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Form_Parser_TagData::getProperty
 	 */
 	public function testGetSetProperty() {
-		$this->assertEquals("prop1_value", $this->object->getProperty("prop1") );
-		$this->assertEquals("prop2 value", $this->object->getProperty("prop2") );
+		$this->assertEquals('prop1_value', $this->object->getProperty('prop1') );
+		$this->assertEquals('prop2 value', $this->object->getProperty('prop2') );
 
-		$this->assertEquals("default value", $this->object->getProperty("imaginary_property", "default value") );
-		$this->assertNull( $this->object->getProperty("imaginary_property") );
+		$this->assertEquals('default value', $this->object->getProperty('imaginary_property', 'default value') );
+		$this->assertNull( $this->object->getProperty('imaginary_property') );
 
-		$this->assertNull( $this->object->getProperty("new_property") );
-		$this->object->setProperty("new_property", "new value");
-		$this->assertEquals("new value", $this->object->getProperty("new_property") );
+		$this->assertNull( $this->object->getProperty('new_property') );
+		$this->object->setProperty('new_property', 'new value');
+		$this->assertEquals('new value', $this->object->getProperty('new_property') );
 
 
 	}
@@ -86,11 +86,11 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Form_Parser_TagData::unsetProperty
 	 */
 	public function testGetPropertyIsSetUnsetProperty() {
-		$this->assertTrue($this->object->getPropertyIsSet("prop1") );
-		$this->assertTrue($this->object->getPropertyIsSet("prop2") );
-		$this->assertFalse( $this->object->getPropertyIsSet("imaginary_property") );
-		$this->object->unsetProperty("prop2");
-		$this->assertFalse( $this->object->getPropertyIsSet("prop2") );
+		$this->assertTrue($this->object->getPropertyIsSet('prop1') );
+		$this->assertTrue($this->object->getPropertyIsSet('prop2') );
+		$this->assertFalse( $this->object->getPropertyIsSet('imaginary_property') );
+		$this->object->unsetProperty('prop2');
+		$this->assertFalse( $this->object->getPropertyIsSet('prop2') );
 	}
 
 }

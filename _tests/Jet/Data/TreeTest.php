@@ -29,65 +29,65 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	protected $object;
 
 	protected $data = array(
-		"root" => array(
-			"ID" => "root",
-			"parent_ID" => "",
-			"name" => "Root",
+		'root' => array(
+			'ID' => 'root',
+			'parent_ID' => '',
+			'name' => 'Root',
 		),
-		"1" => array(
-			"ID" => "1",
-			"parent_ID" => "root",
-			"name" => "Node 1",
+		'1' => array(
+			'ID' => '1',
+			'parent_ID' => 'root',
+			'name' => 'Node 1',
 		),
-		"1-1" => array(
-			"ID" => "1-1",
-			"parent_ID" => "1",
-			"name" => "Node 1-1",
+		'1-1' => array(
+			'ID' => '1-1',
+			'parent_ID' => '1',
+			'name' => 'Node 1-1',
 		),
-		"1-2" => array(
-			"ID" => "1-2",
-			"parent_ID" => "1",
-			"name" => "Node 1-2",
+		'1-2' => array(
+			'ID' => '1-2',
+			'parent_ID' => '1',
+			'name' => 'Node 1-2',
 		),
-		"1-2-1" => array(
-			"ID" => "1-2-1",
-			"parent_ID" => "1-2",
-			"name" => "Node 1-2-1",
+		'1-2-1' => array(
+			'ID' => '1-2-1',
+			'parent_ID' => '1-2',
+			'name' => 'Node 1-2-1',
 		),
-		"1-2-2" => array(
-			"ID" => "1-2-2",
-			"parent_ID" => "1-2",
-			"name" => "Node 1-2-2",
+		'1-2-2' => array(
+			'ID' => '1-2-2',
+			'parent_ID' => '1-2',
+			'name' => 'Node 1-2-2',
 		),
-		"1-2-2-1" => array(
-			"ID" => "1-2-2-1",
-			"parent_ID" => "1-2-2",
-			"name" => "Node 1-2-2-1",
+		'1-2-2-1' => array(
+			'ID' => '1-2-2-1',
+			'parent_ID' => '1-2-2',
+			'name' => 'Node 1-2-2-1',
 		),
-		"1-2-2-2" => array(
-			"ID" => "1-2-2-2",
-			"parent_ID" => "1-2-2",
-			"name" => "Node 1-2-2-2",
+		'1-2-2-2' => array(
+			'ID' => '1-2-2-2',
+			'parent_ID' => '1-2-2',
+			'name' => 'Node 1-2-2-2',
 		),
-		"1-2-3" => array(
-			"ID" => "1-2-3",
-			"parent_ID" => "1-2",
-			"name" => "Node 1-2-3",
+		'1-2-3' => array(
+			'ID' => '1-2-3',
+			'parent_ID' => '1-2',
+			'name' => 'Node 1-2-3',
 		),
-		"1-3" => array(
-			"ID" => "1-3",
-			"parent_ID" => "1",
-			"name" => "Node 1-3",
+		'1-3' => array(
+			'ID' => '1-3',
+			'parent_ID' => '1',
+			'name' => 'Node 1-3',
 		),
-		"2" => array(
-			"ID" => "2",
-			"parent_ID" => "root",
-			"name" => "Node 2",
+		'2' => array(
+			'ID' => '2',
+			'parent_ID' => 'root',
+			'name' => 'Node 2',
 		),
-		"3" => array(
-			"ID" => "3",
-			"parent_ID" => "root",
-			"name" => "Node 3",
+		'3' => array(
+			'ID' => '3',
+			'parent_ID' => 'root',
+			'name' => 'Node 3',
 		),
 	);
 
@@ -113,7 +113,7 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @expectedExceptionCode \Jet\Data_Tree_Exception::CODE_INVALID_NODES_CLASS
 	 */
 	public function testSetNodeClassNameInvalid() {
-		$this->object->setNodeClassName("Jet\\TreeTest_Node_Invalid");
+		$this->object->setNodeClassName('Jet\\TreeTest_Node_Invalid');
 	}
 
 
@@ -122,22 +122,22 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\Data_Tree::getNodeClassName
 	 */
 	public function testSetAndGetNodeClassName() {
-		$this->object->setNodeClassName("Jet\\TreeTest_Node_Valid");
-		$this->assertEquals("Jet\\TreeTest_Node_Valid", $this->object->getNodesClassName());
+		$this->object->setNodeClassName('Jet\\TreeTest_Node_Valid');
+		$this->assertEquals('Jet\\TreeTest_Node_Valid', $this->object->getNodesClassName());
 	}
 
 	/**
 	 * @covers Jet\Data_Tree::getIDKey
 	 */
 	public function testGetIDKey() {
-		$this->assertEquals("ID", $this->object->getIDKey() );
+		$this->assertEquals('ID', $this->object->getIDKey() );
 	}
 
 	/**
 	 * @covers Jet\Data_Tree::getParentIDKey
 	 */
 	public function testGetParentIDKey() {
-		$this->assertEquals("parent_ID", $this->object->getParentIDKey() );
+		$this->assertEquals('parent_ID', $this->object->getParentIDKey() );
 	}
 
 	/**
@@ -145,10 +145,10 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\Data_Tree::getLabelKey
 	 */
 	public function testSetGetLabelKey() {
-		$this->assertEquals("name" ,$this->object->getLabelKey() );
-		$this->object->setLabelKey("label_key_test");
-		$this->assertEquals("label_key_test" ,$this->object->label_key );
-		$this->assertEquals("label_key_test" ,$this->object->getLabelKey() );
+		$this->assertEquals('name' ,$this->object->getLabelKey() );
+		$this->object->setLabelKey('label_key_test');
+		$this->assertEquals('label_key_test' ,$this->object->label_key );
+		$this->assertEquals('label_key_test' ,$this->object->getLabelKey() );
 	}
 
 
@@ -157,10 +157,10 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\Data_Tree::getChildrenKey
 	 */
 	public function testSetGetChildrenKey() {
-		$this->assertEquals("children" ,$this->object->getChildrenKey() );
-		$this->object->setChildrenKey("children_key_test");
-		$this->assertEquals("children_key_test" ,$this->object->children_key );
-		$this->assertEquals("children_key_test" ,$this->object->getChildrenKey() );
+		$this->assertEquals('children' ,$this->object->getChildrenKey() );
+		$this->object->setChildrenKey('children_key_test');
+		$this->assertEquals('children_key_test' ,$this->object->children_key );
+		$this->assertEquals('children_key_test' ,$this->object->getChildrenKey() );
 	}
 
 	/**
@@ -168,10 +168,10 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\Data_Tree::getDepthKey
 	 */
 	public function testSetGetDepthKey() {
-		$this->assertEquals("depth" ,$this->object->getDepthKey() );
-		$this->object->setDepthKey("depth_key_test");
-		$this->assertEquals("depth_key_test" ,$this->object->depth_key );
-		$this->assertEquals("depth_key_test" ,$this->object->getDepthKey() );
+		$this->assertEquals('depth' ,$this->object->getDepthKey() );
+		$this->object->setDepthKey('depth_key_test');
+		$this->assertEquals('depth_key_test' ,$this->object->depth_key );
+		$this->assertEquals('depth_key_test' ,$this->object->getDepthKey() );
 	}
 
 	protected function prepareTree() {
@@ -191,8 +191,8 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 		$this->prepareTree();
 
-		$this->assertEquals( "root", $this->object->getRootID() );
-		$this->assertEquals( "root", $this->object->getRootNode()->getID() );
+		$this->assertEquals( 'root', $this->object->getRootID() );
+		$this->assertEquals( 'root', $this->object->getRootNode()->getID() );
 
 	}
 
@@ -204,8 +204,8 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	public function testGetNodeExists() {
 		$this->prepareTree();
 
-		$this->assertFalse( $this->object->getNodeExists("unknown-node") );
-		$this->assertTrue( $this->object->getNodeExists("1-2-2-2") );
+		$this->assertFalse( $this->object->getNodeExists('unknown-node') );
+		$this->assertTrue( $this->object->getNodeExists('1-2-2-2') );
 	}
 
 	/**
@@ -222,24 +222,24 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	public function testGeneral() {
 		$this->prepareTree();
 
-		$node = $this->object->getNode("1-2-2-2");
+		$node = $this->object->getNode('1-2-2-2');
 		$parent_node = $node->getParent();
 
-		$this->assertEquals( "1-2-2-2", $node->getID() );
-		$this->assertEquals( "1-2-2", $node->getParentID() );
-		$this->assertEquals( "Node 1-2-2-2", $node->getLabel() );
+		$this->assertEquals( '1-2-2-2', $node->getID() );
+		$this->assertEquals( '1-2-2', $node->getParentID() );
+		$this->assertEquals( 'Node 1-2-2-2', $node->getLabel() );
 
-		$this->assertEquals( "1-2-2", $parent_node->getID() );
-		$this->assertEquals( "1-2", $parent_node->getParentID() );
-		$this->assertEquals( "Node 1-2-2", $parent_node->getLabel() );
+		$this->assertEquals( '1-2-2', $parent_node->getID() );
+		$this->assertEquals( '1-2', $parent_node->getParentID() );
+		$this->assertEquals( 'Node 1-2-2', $parent_node->getLabel() );
 
-		$this->assertFalse( $parent_node->getChildExists( "unknown-child" ) );
-		$this->assertTrue( $parent_node->getChildExists( "1-2-2-2" ) );
+		$this->assertFalse( $parent_node->getChildExists( 'unknown-child' ) );
+		$this->assertTrue( $parent_node->getChildExists( '1-2-2-2' ) );
 
-		$child = $parent_node->getChild("1-2-2-2");
-		$this->assertEquals( "1-2-2-2", $child->getID() );
-		$this->assertEquals( "1-2-2", $child->getParentID() );
-		$this->assertEquals( "Node 1-2-2-2", $child->getLabel() );
+		$child = $parent_node->getChild('1-2-2-2');
+		$this->assertEquals( '1-2-2-2', $child->getID() );
+		$this->assertEquals( '1-2-2', $child->getParentID() );
+		$this->assertEquals( 'Node 1-2-2-2', $child->getLabel() );
 
 	}
 
@@ -258,9 +258,9 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( count($this->data), count($nodes) );
 
 		foreach($nodes as $ID=>$node) {
-			$this->assertEquals( $this->data[$ID]["ID"], $node->getID() );
-			$this->assertEquals( $this->data[$ID]["parent_ID"], $node->getParentID() );
-			$this->assertEquals( $this->data[$ID]["name"], $node->getLabel() );
+			$this->assertEquals( $this->data[$ID]['ID'], $node->getID() );
+			$this->assertEquals( $this->data[$ID]['parent_ID'], $node->getParentID() );
+			$this->assertEquals( $this->data[$ID]['name'], $node->getLabel() );
 		}
 	}
 
@@ -494,14 +494,14 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 
 		$test_XML = $this->object->toXML();
-		$valid_XML = str_replace("\r", "", $valid_XML);
-		$test_XML = str_replace("\r", "", $test_XML);
-		$valid_XML = str_replace("\t", "", $valid_XML);
-		$test_XML = str_replace("\t", "", $test_XML);
-		$valid_XML = str_replace("\n", "", $valid_XML);
-		$test_XML = str_replace("\n", "", $test_XML);
-		$valid_XML = str_replace(" ", "", $valid_XML);
-		$test_XML = str_replace(" ", "", $test_XML);
+		$valid_XML = str_replace("\r", '', $valid_XML);
+		$test_XML = str_replace("\r", '', $test_XML);
+		$valid_XML = str_replace("\t", '', $valid_XML);
+		$test_XML = str_replace("\t", '', $test_XML);
+		$valid_XML = str_replace("\n", '', $valid_XML);
+		$test_XML = str_replace("\n", '', $test_XML);
+		$valid_XML = str_replace(' ', '', $valid_XML);
+		$test_XML = str_replace(' ', '', $test_XML);
 
 		$this->assertEquals( $valid_XML, $test_XML );
 	}
@@ -530,52 +530,52 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 		$valid_data = array(
 			array(
-				"ID" => "root",
-				"label" => "Root"
+				'ID' => 'root',
+				'label' => 'Root'
 			),
 			array(
-				"ID" => "1",
-				"label" => "Node 1"
+				'ID' => '1',
+				'label' => 'Node 1'
 			),
 			array(
-				"ID" => "1-1",
-				"label" => "Node 1-1"
+				'ID' => '1-1',
+				'label' => 'Node 1-1'
 			),
 			array(
-				"ID" => "1-2",
-				"label" => "Node 1-2"
+				'ID' => '1-2',
+				'label' => 'Node 1-2'
 			),
 			array(
-				"ID" => "1-2-1",
-				"label" => "Node 1-2-1"
+				'ID' => '1-2-1',
+				'label' => 'Node 1-2-1'
 			),
 			array(
-				"ID" => "1-2-2",
-				"label" => "Node 1-2-2"
+				'ID' => '1-2-2',
+				'label' => 'Node 1-2-2'
 			),
 			array(
-				"ID" => "1-2-2-1",
-				"label" => "Node 1-2-2-1"
+				'ID' => '1-2-2-1',
+				'label' => 'Node 1-2-2-1'
 			),
 			array(
-				"ID" => "1-2-2-2",
-				"label" => "Node 1-2-2-2"
+				'ID' => '1-2-2-2',
+				'label' => 'Node 1-2-2-2'
 			),
 			array(
-				"ID" => "1-2-3",
-				"label" => "Node 1-2-3"
+				'ID' => '1-2-3',
+				'label' => 'Node 1-2-3'
 			),
 			array(
-				"ID" => "1-3",
-				"label" => "Node 1-3"
+				'ID' => '1-3',
+				'label' => 'Node 1-3'
 			),
 			array(
-				"ID" => "2",
-				"label" => "Node 2"
+				'ID' => '2',
+				'label' => 'Node 2'
 			),
 			array(
-				"ID" => "3",
-				"label" => "Node 3"
+				'ID' => '3',
+				'label' => 'Node 3'
 			),
 		);
 
@@ -585,8 +585,8 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 			$current_valid_data = $valid_data[$i];
 
-			$this->assertEquals($current_valid_data["ID"], $ID);
-			$this->assertEquals($current_valid_data["label"], (string)$node );
+			$this->assertEquals($current_valid_data['ID'], $ID);
+			$this->assertEquals($current_valid_data['label'], (string)$node );
 
 			$i++;
 		}

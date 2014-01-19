@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Validation_ErrorTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -40,8 +40,8 @@ class DataModel_Validation_ErrorTest extends \PHPUnit_Framework_TestCase {
 
 		$this->object = new DataModel_Validation_Error(
 			DataModel_Validation_Error::CODE_REQUIRED,
-			$this->properties["string_property"],
-			"invalid value"
+			$this->properties['string_property'],
+			'invalid value'
 		);
 	}
 
@@ -63,21 +63,21 @@ class DataModel_Validation_ErrorTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ValidationError::getMessage
 	 */
 	public function testGetMessage() {
-		$this->assertEquals("Item is required", $this->object->getMessage());
+		$this->assertEquals('Item is required', $this->object->getMessage());
 	}
 
 	/**
 	 * @covers Jet\DataModel_ValidationError::getProperty
 	 */
 	public function testGetProperty() {
-		$this->assertEquals($this->properties["string_property"],$this->object->getProperty());
+		$this->assertEquals($this->properties['string_property'],$this->object->getProperty());
 	}
 
 	/**
 	 * @covers Jet\DataModel_ValidationError::getPropertyValue
 	 */
 	public function testGetPropertyValue() {
-		$this->assertEquals("invalid value",$this->object->getPropertyValue());
+		$this->assertEquals('invalid value',$this->object->getPropertyValue());
 	}
 
 	/**
@@ -85,7 +85,7 @@ class DataModel_Validation_ErrorTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ValidationError::__toString
 	 */
 	public function testToString() {
-		$this->assertEquals("Jet\\DataModel_Query_DataModelTestMock::string_property : (required) Item is required", (string)$this->object);
+		$this->assertEquals('Jet\\DataModel_Query_DataModelTestMock::string_property : (required) Item is required', (string)$this->object);
 	}
 
 }

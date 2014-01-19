@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestMock.php";
+require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -19,23 +19,23 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $object;
 
-	protected $property_name = "IntTest";
+	protected $property_name = 'IntTest';
 
 	protected $property_type = Config::TYPE_INT;
 
-	protected $property_class_name = "Config_Definition_Property_Int";
+	protected $property_class_name = 'Config_Definition_Property_Int';
 
-	protected $property_default_form_field_type = "Int";
+	protected $property_default_form_field_type = 'Int';
 
 	protected $default_value = 10;
 
 	protected $property_options = array(
-		"description" => "Description",
-		"default_value" => "",
-		"is_required" => true,
-		"error_message" => "Error Message",
-		"label" => "Label",
-		"form_field_label" => "Form field label"
+		'description' => 'Description',
+		'default_value' => '',
+		'is_required' => true,
+		'error_message' => 'Error Message',
+		'label' => 'Label',
+		'form_field_label' => 'Form field label'
 	);
 
 	/**
@@ -49,10 +49,10 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
-		$this->property_options["default_value"] = $this->default_value;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
+		$this->property_options['default_value'] = $this->default_value;
 
-		$this->config = new ConfigTestMock("test");
+		$this->config = new ConfigTestMock('test');
 		$this->object = new $class_name( $this->config, $this->property_name, $this->property_options  );
 	}
 
@@ -80,7 +80,7 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckValueType() {
 
-		$value = "123.4";
+		$value = '123.4';
 
 		$this->object->checkValueType( $value );
 
@@ -152,7 +152,7 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 		$this->object->setMaxValue(100);
 
 		$this->assertEquals(
-			"Type: Int, required: yes, default value: 10, min. value: 10, max. value: 100\n\nDescription",
+			'Type: Int, required: yes, default value: 10, min. value: 10, max. value: 100'.JET_EOL.JET_EOL.'Description',
 			$this->object->getTechnicalDescription()
 		);
 	}
@@ -165,7 +165,7 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 		$this->object->setMinValue(10);
 		$this->object->setMaxValue(100);
 
-		$field = new Form_Field_Int("");
+		$field = new Form_Field_Int('');
 
 		$field->__test_set_state(array(
 			'_type' => 'Int',

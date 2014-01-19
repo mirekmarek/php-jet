@@ -1,3 +1,5 @@
+Example app must be cool!
+
 ____________________________________________
 DataModel backend:
 * Oracle

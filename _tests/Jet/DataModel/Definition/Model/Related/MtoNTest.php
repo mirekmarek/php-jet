@@ -11,9 +11,9 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Definition/DataModelTestMock.php";
-require_once "_mock/Jet/DataModel/Definition/M2NDataModelTestMock.php";
-require_once "_mock/Jet/DataModel/Definition/NRelatedDataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
+require_once '_mock/Jet/DataModel/Definition/M2NDataModelTestMock.php';
+require_once '_mock/Jet/DataModel/Definition/NRelatedDataModelTestMock.php';
 
 class DataModel_Definition_Model_Related_MtoNTest extends \PHPUnit_Framework_TestCase {
 
@@ -82,14 +82,14 @@ class DataModel_Definition_Model_Related_MtoNTest extends \PHPUnit_Framework_Tes
 	 */
 	public function testGetMModelRelationIDProperties() {
 		$M_relation_ID_properties = $this->object->getMModelRelationIDProperties();
-		$this->assertArrayHasKey("data_model_test_mock_ID", $M_relation_ID_properties);
-		$this->assertArrayHasKey("data_model_test_mock_ID_property", $M_relation_ID_properties);
+		$this->assertArrayHasKey('data_model_test_mock_ID', $M_relation_ID_properties);
+		$this->assertArrayHasKey('data_model_test_mock_ID_property', $M_relation_ID_properties);
 
-		$this->assertEquals("data_model_test_mock_ID", $M_relation_ID_properties["data_model_test_mock_ID"]->getName());
-		$this->assertEquals("data_model_test_mock_ID_property", $M_relation_ID_properties["data_model_test_mock_ID_property"]->getName());
+		$this->assertEquals('data_model_test_mock_ID', $M_relation_ID_properties['data_model_test_mock_ID']->getName());
+		$this->assertEquals('data_model_test_mock_ID_property', $M_relation_ID_properties['data_model_test_mock_ID_property']->getName());
 
-		$this->assertEquals("ID", $M_relation_ID_properties["data_model_test_mock_ID"]->getRelatedToProperty()->getName());
-		$this->assertEquals("ID_property", $M_relation_ID_properties["data_model_test_mock_ID_property"]->getRelatedToProperty()->getName());
+		$this->assertEquals('ID', $M_relation_ID_properties['data_model_test_mock_ID']->getRelatedToProperty()->getName());
+		$this->assertEquals('ID_property', $M_relation_ID_properties['data_model_test_mock_ID_property']->getRelatedToProperty()->getName());
 	}
 
 	/**
@@ -99,13 +99,13 @@ class DataModel_Definition_Model_Related_MtoNTest extends \PHPUnit_Framework_Tes
 	public function testGetNModelRelationIDProperties() {
 		$N_relation_ID_properties = $this->object->getNModelRelationIDProperties();
 		//var_dump(array_keys($N_relation_ID_properties));
-		$this->assertArrayHasKey("n_related_data_model_test_mock_ID", $N_relation_ID_properties);
-		$this->assertArrayHasKey("n_related_data_model_test_mock_ID_property", $N_relation_ID_properties);
+		$this->assertArrayHasKey('n_related_data_model_test_mock_ID', $N_relation_ID_properties);
+		$this->assertArrayHasKey('n_related_data_model_test_mock_ID_property', $N_relation_ID_properties);
 
-		$this->assertEquals("n_related_data_model_test_mock_ID", $N_relation_ID_properties["n_related_data_model_test_mock_ID"]->getName());
-		$this->assertEquals("n_related_data_model_test_mock_ID_property", $N_relation_ID_properties["n_related_data_model_test_mock_ID_property"]->getName());
+		$this->assertEquals('n_related_data_model_test_mock_ID', $N_relation_ID_properties['n_related_data_model_test_mock_ID']->getName());
+		$this->assertEquals('n_related_data_model_test_mock_ID_property', $N_relation_ID_properties['n_related_data_model_test_mock_ID_property']->getName());
 
-		$this->assertEquals("ID", $N_relation_ID_properties["n_related_data_model_test_mock_ID"]->getRelatedToProperty()->getName());
-		$this->assertEquals("ID_property", $N_relation_ID_properties["n_related_data_model_test_mock_ID_property"]->getRelatedToProperty()->getName());
+		$this->assertEquals('ID', $N_relation_ID_properties['n_related_data_model_test_mock_ID']->getRelatedToProperty()->getName());
+		$this->assertEquals('ID_property', $N_relation_ID_properties['n_related_data_model_test_mock_ID_property']->getRelatedToProperty()->getName());
 	}
 }

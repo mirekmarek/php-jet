@@ -12,8 +12,8 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Application/Signals/TestSender.php";
-require_once "_mock/Jet/Application/Signals/FakeSignalClass.php";
+require_once '_mock/Jet/Application/Signals/TestSender.php';
+require_once '_mock/Jet/Application/Signals/FakeSignalClass.php';
 
 class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 
@@ -26,7 +26,7 @@ class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 	public function testCreateSignalFailedImaginarySignal() {
 		$sender_mock = new Application_Signals_SignalTest_Sender();
 
-		Application_Signals::createSignal( $sender_mock, "/test/imaginary/signal" );
+		Application_Signals::createSignal( $sender_mock, '/test/imaginary/signal' );
 	}
 
 	/**
@@ -37,10 +37,10 @@ class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCreateSignalFailedInvalidClass() {
 		$sender_mock = new Application_Signals_SignalTest_Sender();
-		$sender_mock->addSignal("/test/signal");
-		$sender_mock->setSignalsSignalObjectClassName("Jet\\FakeSignalClass");
+		$sender_mock->addSignal('/test/signal');
+		$sender_mock->setSignalsSignalObjectClassName('Jet\\FakeSignalClass');
 
-		Application_Signals::createSignal( $sender_mock, "/test/signal", array() );
+		Application_Signals::createSignal( $sender_mock, '/test/signal', array() );
 	}
 
 	/**
@@ -49,8 +49,8 @@ class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCreateSignal() {
 		$sender_mock = new Application_Signals_SignalTest_Sender();
-		$sender_mock->addSignal("/test/signal");
+		$sender_mock->addSignal('/test/signal');
 
-		Application_Signals::createSignal( $sender_mock, "/test/signal" );
+		Application_Signals::createSignal( $sender_mock, '/test/signal' );
 	}
 }

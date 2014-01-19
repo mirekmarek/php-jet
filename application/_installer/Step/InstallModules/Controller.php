@@ -21,21 +21,21 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		$modules = Application_Modules::getAllModulesList(true);
 
 
-		$form = new Form("modules_select_form", array(
-			Form_Factory::field("MultiSelect", "modules")
+		$form = new Form('modules_select_form', array(
+			Form_Factory::field('MultiSelect', 'modules')
 		));
 
-		$this->view->setVar("modules", $modules);
+		$this->view->setVar('modules', $modules);
 
-		$form->getField("modules")->setSelectOptions( $modules );
+		$form->getField('modules')->setSelectOptions( $modules );
 
-		if(Http_Request::POST()->exists("go")) {
+		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
 
 		if($form->catchValues() && $form->validateValues()) {
 			$d = $form->getValues();
-			$selected_modules = $d["modules"];
+			$selected_modules = $d['modules'];
 
 			$result = array();
 
@@ -69,18 +69,18 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 			}
 
-			$this->view->setVar("result", $result);
-			$this->view->setVar("OK", $OK);
+			$this->view->setVar('result', $result);
+			$this->view->setVar('OK', $OK);
 
-			$this->render("modules-installation-result");
+			$this->render('modules-installation-result');
 		} else {
-			$this->view->setVar("form", $form);
-			$this->render("default");
+			$this->view->setVar('form', $form);
+			$this->render('default');
 		}
 
 	}
 
 	public function getLabel() {
-		return Tr::_("Modules installation", array(), "InstallModules");
+		return Tr::_('Modules installation', array(), 'InstallModules');
 	}
 }

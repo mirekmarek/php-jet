@@ -7,15 +7,15 @@ namespace Jet;
 /**
  * @var Application_Modules_Module_Info[] $modules
  */
-$modules = $this->getRaw("modules");
-$result = $this->getRaw("result");
+$modules = $this->getRaw('modules');
+$result = $this->getRaw('result');
 ?>
 
 <table class="list">
 	<thead>
 	<tr>
-		<th><?=Tr::_("Module");?></th>
-		<th><?=Tr::_("Result");?></th>
+		<th><?=Tr::_('Module');?></th>
+		<th><?=Tr::_('Result');?></th>
 	</tr>
 	</thead>
 	<?php foreach( $modules as $name=>$info ):
@@ -40,13 +40,13 @@ $result = $this->getRaw("result");
 <?php if($this->OK): ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Tr::_("Next", array(), Translator::COMMON_NAMESPACE);?>"/>
+	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>"/>
 </form>
 <?php endif; ?>
 
 <?php if(!$this->OK): ?>
 <form method="post">
 	<input type="hidden" name="back" value="1">
-	<input type="submit" value="<?=Tr::_("&lt; Back");?>"/>
+	<input type="submit" value="<?=Tr::_('&lt; Back');?>"/>
 </form>
 <?php endif; ?>

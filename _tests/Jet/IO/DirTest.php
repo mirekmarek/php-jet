@@ -12,27 +12,27 @@
  */
 namespace Jet;
 
-define("IO_DIR_TEST_BASEDIR", JET_TESTS_DATA."IO/Dir/");
+define('IO_DIR_TEST_BASEDIR', JET_TESTS_DATA.'IO/Dir/');
 
 
 class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
-	protected $imaginary_dir_path = "/path/to/imaginary/directory/";
+	protected $imaginary_dir_path = '/path/to/imaginary/directory/';
 
-	protected $create_test_path = "";
-	protected $remove_test_path = "";
-	protected $copy_test_target_path = "";
-	protected $copy_test_source_path = "";
+	protected $create_test_path = '';
+	protected $remove_test_path = '';
+	protected $copy_test_target_path = '';
+	protected $copy_test_source_path = '';
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->create_test_path = JET_TESTS_TMP."IO_Dir_create_test/";
-		$this->remove_test_path = JET_TESTS_TMP."IO_Dir_remove_test/";
-		$this->copy_test_target_path = JET_TESTS_TMP."IO_Dir_copy_test_target/";
-		$this->copy_test_source_path = IO_DIR_TEST_BASEDIR."readable/";
+		$this->create_test_path = JET_TESTS_TMP.'IO_Dir_create_test/';
+		$this->remove_test_path = JET_TESTS_TMP.'IO_Dir_remove_test/';
+		$this->copy_test_target_path = JET_TESTS_TMP.'IO_Dir_copy_test_target/';
+		$this->copy_test_source_path = IO_DIR_TEST_BASEDIR.'readable/';
 	}
 
 	/**
@@ -47,9 +47,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 			rmdir( $this->remove_test_path );
 		}
 		if(is_dir($this->copy_test_target_path)) {
-			unlink($this->copy_test_target_path."subdir/subdir/file.txt");
-			rmdir($this->copy_test_target_path."subdir/subdir/");
-			rmdir($this->copy_test_target_path."subdir/");
+			unlink($this->copy_test_target_path.'subdir/subdir/file.txt');
+			rmdir($this->copy_test_target_path.'subdir/subdir/');
+			rmdir($this->copy_test_target_path.'subdir/');
 			rmdir($this->copy_test_target_path);
 		}
 	}
@@ -70,27 +70,27 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_Dir::exists
 	 */
 	public function testExists() {
-		$this->assertFalse( IO_Dir::exists( IO_DIR_TEST_BASEDIR."imaginary/" ) );
-		$this->assertTrue( IO_Dir::exists( IO_DIR_TEST_BASEDIR."not-readable/" ) );
-		$this->assertTrue( IO_Dir::exists( IO_DIR_TEST_BASEDIR."readable/" ) );
+		$this->assertFalse( IO_Dir::exists( IO_DIR_TEST_BASEDIR.'imaginary/' ) );
+		$this->assertTrue( IO_Dir::exists( IO_DIR_TEST_BASEDIR.'not-readable/' ) );
+		$this->assertTrue( IO_Dir::exists( IO_DIR_TEST_BASEDIR.'readable/' ) );
 	}
 
 	/**
 	 * @covers Jet\IO_Dir::isReadable
 	 */
 	public function testIsReadable() {
-		$this->assertFalse( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR."imaginary/" ) );
-		$this->assertFalse( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR."not-readable/" ) );
-		$this->assertTrue( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR."readable/" ) );
+		$this->assertFalse( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR.'imaginary/' ) );
+		$this->assertFalse( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR.'not-readable/' ) );
+		$this->assertTrue( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR.'readable/' ) );
 	}
 
 	/**
 	 * @covers Jet\IO_Dir::isWritable
 	 */
 	public function testIsWritable() {
-		$this->assertFalse( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR."imaginary/" ) );
-		$this->assertFalse( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR."not-writeable/" ) );
-		$this->assertTrue( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR."writeable/" ) );
+		$this->assertFalse( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR.'imaginary/' ) );
+		$this->assertFalse( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR.'not-writeable/' ) );
+		$this->assertTrue( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR.'writeable/' ) );
 	}
 
 	/**
@@ -181,8 +181,8 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	public function testCopy() {
 		IO_Dir::copy($this->copy_test_source_path, $this->copy_test_target_path);
 
-		$this->assertTrue( file_exists($this->copy_test_target_path."subdir/subdir/file.txt") );
-		$this->assertEquals("IO_Dir::copy test", file_get_contents($this->copy_test_target_path."subdir/subdir/file.txt"));
+		$this->assertTrue( file_exists($this->copy_test_target_path.'subdir/subdir/file.txt') );
+		$this->assertEquals('IO_Dir::copy test', file_get_contents($this->copy_test_target_path.'subdir/subdir/file.txt'));
 	}
 
 	protected function getValidDataGetListTest( $get_dirs=true, $get_files=true, $filter=false ) {
@@ -198,9 +198,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 		$valid_data = array();
 		foreach( $files_list as $f ) {
-			$path = IO_DIR_TEST_BASEDIR."getlist".DIRECTORY_SEPARATOR.$f;
+			$path = IO_DIR_TEST_BASEDIR.'getlist'.DIRECTORY_SEPARATOR.$f;
 
-			$is_dir = $f[0]=="S";
+			$is_dir = $f[0]=='S';
 
 			if($is_dir && !$get_dirs) {
 				continue;
@@ -209,7 +209,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 				continue;
 			}
 
-			if($filter && strpos($f, "N")===false) {
+			if($filter && strpos($f, 'N')===false) {
 				continue;
 			}
 
@@ -229,10 +229,10 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetList() {
 
-		$this->assertEquals( $this->getValidDataGetListTest(), IO_Dir::getList( IO_DIR_TEST_BASEDIR."getlist/" ));
-		$this->assertEquals( $this->getValidDataGetListTest(), IO_Dir::getList( IO_DIR_TEST_BASEDIR."getlist" ));
-		$this->assertEquals( $this->getValidDataGetListTest(true, true, true), IO_Dir::getList( IO_DIR_TEST_BASEDIR."getlist/", "*N*" ));
-		$this->assertEquals( $this->getValidDataGetListTest(true, true, true), IO_Dir::getList( IO_DIR_TEST_BASEDIR."getlist", "*N*" ));
+		$this->assertEquals( $this->getValidDataGetListTest(), IO_Dir::getList( IO_DIR_TEST_BASEDIR.'getlist/' ));
+		$this->assertEquals( $this->getValidDataGetListTest(), IO_Dir::getList( IO_DIR_TEST_BASEDIR.'getlist' ));
+		$this->assertEquals( $this->getValidDataGetListTest(true, true, true), IO_Dir::getList( IO_DIR_TEST_BASEDIR.'getlist/', '*N*' ));
+		$this->assertEquals( $this->getValidDataGetListTest(true, true, true), IO_Dir::getList( IO_DIR_TEST_BASEDIR.'getlist', '*N*' ));
 
 	}
 
@@ -241,20 +241,20 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_Dir::getFilesList
 	 */
 	public function testGetFilesList() {
-		$this->assertEquals( $this->getValidDataGetListTest(false), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR."getlist/" ));
-		$this->assertEquals( $this->getValidDataGetListTest(false), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR."getlist" ));
-		$this->assertEquals( $this->getValidDataGetListTest(false, true, true), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR."getlist/", "*N*" ));
-		$this->assertEquals( $this->getValidDataGetListTest(false, true, true), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR."getlist", "*N*" ));
+		$this->assertEquals( $this->getValidDataGetListTest(false), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR.'getlist/' ));
+		$this->assertEquals( $this->getValidDataGetListTest(false), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR.'getlist' ));
+		$this->assertEquals( $this->getValidDataGetListTest(false, true, true), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR.'getlist/', '*N*' ));
+		$this->assertEquals( $this->getValidDataGetListTest(false, true, true), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR.'getlist', '*N*' ));
 	}
 
 	/**
 	 * @covers Jet\IO_Dir::getSubdirectoriesList
 	 */
 	public function testGetSubdirectoriesList() {
-		$this->assertEquals( $this->getValidDataGetListTest(true, false), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR."getlist/" ));
-		$this->assertEquals( $this->getValidDataGetListTest(true, false), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR."getlist" ));
-		$this->assertEquals( $this->getValidDataGetListTest(true, false, true), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR."getlist/", "*N*" ));
-		$this->assertEquals( $this->getValidDataGetListTest(true, false, true), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR."getlist", "*N*" ));
+		$this->assertEquals( $this->getValidDataGetListTest(true, false), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR.'getlist/' ));
+		$this->assertEquals( $this->getValidDataGetListTest(true, false), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR.'getlist' ));
+		$this->assertEquals( $this->getValidDataGetListTest(true, false, true), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR.'getlist/', '*N*' ));
+		$this->assertEquals( $this->getValidDataGetListTest(true, false, true), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR.'getlist', '*N*' ));
 	}
 
 }

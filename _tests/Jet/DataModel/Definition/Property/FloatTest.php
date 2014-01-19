@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Definition/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -24,9 +24,9 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 */
 	protected $object;
 
-	protected $property_class_name = "DataModel_Definition_Property_Float";
+	protected $property_class_name = 'DataModel_Definition_Property_Float';
 
-	protected $property_name = "float_property";
+	protected $property_name = 'float_property';
 
 	protected $property_options = array();
 
@@ -35,7 +35,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
@@ -55,7 +55,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 * @covers Jet\DataModel_Definition_Property_Float::checkValueType
 	 */
 	public function testCheckValueType() {
-		$value = "3.14";
+		$value = '3.14';
 		$this->object->checkValueType($value);
 
 		$this->assertSame(3.14, $value);
@@ -66,7 +66,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 * @covers Jet\DataModel_Definition_Property_Float::getMinValue
 	 */
 	public function testGetMinValue() {
-		$this->assertSame($this->property_options["min_value"], $this->object->getMinValue());
+		$this->assertSame($this->property_options['min_value'], $this->object->getMinValue());
 	}
 
 	/**
@@ -74,7 +74,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 * @covers Jet\DataModel_Definition_Property_Float::getMaxValue
 	 */
 	public function testGetMaxValue() {
-		$this->assertSame($this->property_options["max_value"], $this->object->getMaxValue());
+		$this->assertSame($this->property_options['max_value'], $this->object->getMaxValue());
 	}
 
 	/**
@@ -83,11 +83,11 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 */
 	public function testGetFormFieldOptions() {
 		$options = $this->object->getFormFieldOptions();
-		$this->assertArrayHasKey("min_value", $options);
-		$this->assertArrayHasKey("max_value", $options);
+		$this->assertArrayHasKey('min_value', $options);
+		$this->assertArrayHasKey('max_value', $options);
 
-		$this->assertSame($this->property_options["min_value"], $options["min_value"]);
-		$this->assertSame($this->property_options["max_value"], $options["max_value"]);
+		$this->assertSame($this->property_options['min_value'], $options['min_value']);
+		$this->assertSame($this->property_options['max_value'], $options['max_value']);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 * @covers Jet\DataModel_Definition_Property_Float::_validateProperties_test_value
 	 */
 	public function testValidatePropertiesFailedOutOfRange() {
-		$value = "10.9876";
+		$value = '10.9876';
 		$errors = array();
 
 		$this->assertFalse( $this->object->validateProperties($value, $errors) );
@@ -125,7 +125,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	public function testGetTechnicalDescription() {
 
 		$this->assertEquals(
-				"Type: Float , required: yes, default value: 2, min. value: 1.23, max. value: 4.56\n\nDescription",
+				'Type: Float , required: yes, default value: 2, min. value: 1.23, max. value: 4.56'.JET_EOL.JET_EOL.'Description',
 				$this->object->getTechnicalDescription()
 			);
 	}
@@ -135,16 +135,16 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormField
 	 */
 	public function testGetFormField() {
-		$field = new Form_Field_Float("");
+		$field = new Form_Field_Float('');
 
 		$field->__test_set_state(array(
 			'_name' => $this->property_name,
-			'_value_raw' => $this->property_options["default_value"],
-			'_value' => "2",
-			'default_value' => $this->property_options["default_value"],
-			'is_required' => $this->property_options["is_required"],
-			'min_value' => $this->property_options["min_value"],
-			'max_value' => $this->property_options["max_value"],
+			'_value_raw' => $this->property_options['default_value'],
+			'_value' => '2',
+			'default_value' => $this->property_options['default_value'],
+			'is_required' => $this->property_options['is_required'],
+			'min_value' => $this->property_options['min_value'],
+			'max_value' => $this->property_options['max_value'],
 			'catch_data_callback' => null,
 			'validate_data_callback' => null,
 			'select_options' =>

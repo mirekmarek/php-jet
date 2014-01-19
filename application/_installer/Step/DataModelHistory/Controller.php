@@ -30,13 +30,13 @@ class Installer_Step_DataModelHistory_Controller extends Installer_Step_Controll
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("config", $config);
-		$this->render("default");
+		$this->view->setVar('form', $form);
+		$this->view->setVar('config', $config);
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("History configuration", array(), "DataModelHistory");
+		return Tr::_('History configuration', array(), 'DataModelHistory');
 	}
 
 	public function getIsSubstep() {

@@ -47,7 +47,7 @@ abstract class Installer_Step_Controller {
 	/**
 	 * @var string
 	 */
-	protected $URL = "";
+	protected $URL = '';
 
 
 	public function __construct( Installer $installator, $step_base_path, $is_prev, $is_current, $is_next, $is_last, $URL ) {
@@ -58,8 +58,8 @@ abstract class Installer_Step_Controller {
 		$this->is_next = $is_next;
 		$this->is_last = $is_last;
 		$this->URL = $URL;
-		$this->view = new Mvc_View($step_base_path."view/");
-		$this->view->setVar("controller", $this);
+		$this->view = new Mvc_View($step_base_path.'view/');
+		$this->view->setVar('controller', $this);
 
 	}
 

@@ -15,7 +15,7 @@ $config = $this->config;
 $config_props = $config->getPropertiesDefinition();
 ?>
 
-<a href="?"><?=Jet\Tr::_("&lt Back");?></a> <h3><?=Jet\Tr::_("Delete connection '%CONNECTION%' ", array("CONNECTION"=>$this->connection_name));?></h3>
+<a href="?"><?=Jet\Tr::_('&lt Back');?></a> <h3><?=Jet\Tr::_('Delete connection \'%CONNECTION%\' ', array("CONNECTION"=>$this->connection_name));?></h3>
 
 <jet_form name="<?=$form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
@@ -26,6 +26,6 @@ $config_props = $config->getPropertiesDefinition();
 				<td><jet_form_field_error_msg name="<?=$field_name;?>" class="error"/><jet_form_field name="<?=$field_name;?>" readonly="readonly"/></td>
 			</tr>
 		<?php endforeach; ?>
-		<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("YES! Delete it!");?>"/></td></tr>
+		<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>"/></td></tr>
 	</table>
 </jet_form>

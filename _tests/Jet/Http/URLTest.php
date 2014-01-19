@@ -23,7 +23,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->object = new Http_URL("https://user:pass@www.domain.tld:8443/path/?query=value#fragment");
+		$this->object = new Http_URL('https://user:pass@www.domain.tld:8443/path/?query=value#fragment');
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::parseURL
 	 */
 	public function testParseURL() {
-		$URL = new Http_URL("invalid~url");
+		$URL = new Http_URL('invalid~url');
 		$this->assertFalse( $URL->getIsValid() );
 
 		$this->assertTrue( $this->object->getIsValid() );
@@ -49,7 +49,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getFragment
 	 */
 	public function testGetFragment() {
-		$this->assertEquals( "fragment", $this->object->getFragment() );
+		$this->assertEquals( 'fragment', $this->object->getFragment() );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getHost
 	 */
 	public function testGetHost() {
-		$this->assertEquals( "www.domain.tld", $this->object->getHost() );
+		$this->assertEquals( 'www.domain.tld', $this->object->getHost() );
 	}
 
 
@@ -66,7 +66,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getUser
 	 */
 	public function testGetUser() {
-		$this->assertEquals( "user", $this->object->getUser() );
+		$this->assertEquals( 'user', $this->object->getUser() );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getPassword
 	 */
 	public function testGetPassword() {
-		$this->assertEquals( "pass", $this->object->getPassword() );
+		$this->assertEquals( 'pass', $this->object->getPassword() );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getPath
 	 */
 	public function testGetPath() {
-		$this->assertEquals( "/path/", $this->object->getPath() );
+		$this->assertEquals( '/path/', $this->object->getPath() );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getQuery
 	 */
 	public function testGetQuery() {
-		$this->assertEquals( "query=value", $this->object->getQuery() );
+		$this->assertEquals( 'query=value', $this->object->getQuery() );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getQueryData
 	 */
 	public function testGetQueryData() {
-		$this->assertEquals( array("query" => "value"), $this->object->getQueryData() );
+		$this->assertEquals( array('query' => 'value'), $this->object->getQueryData() );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getScheme
 	 */
 	public function testGetScheme() {
-		$this->assertEquals( "https", $this->object->getScheme() );
+		$this->assertEquals( 'https', $this->object->getScheme() );
 	}
 
 }

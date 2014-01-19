@@ -16,11 +16,11 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigListTestMainMock.php";
-//require_once "_mock/Jet/Config/ConfigTestDescendantMock.php";
+require_once '_mock/Jet/Config/ConfigListTestMainMock.php';
+//require_once '_mock/Jet/Config/ConfigTestDescendantMock.php';
 
-if(!defined("CONFIG_TEST_BASEDIR")) {
-	define("CONFIG_TEST_BASEDIR", JET_TESTS_DATA."Config/");
+if(!defined('CONFIG_TEST_BASEDIR')) {
+	define('CONFIG_TEST_BASEDIR', JET_TESTS_DATA.'Config/');
 }
 
 
@@ -36,7 +36,7 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 	 */
 	protected function setUp() {
 		$this->object = new ConfigListTestMainMock();
-		$this->object->testInit( CONFIG_TEST_BASEDIR."valid-config-list.php", true );
+		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config-list.php', true );
 	}
 
 	/**
@@ -59,15 +59,15 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 	 * @covers Jet\Config_Definition_Property_AdapterConfig::getConfigurationListItem
 	 */
 	public function testgetConfigurationListItem() {
-		$connection = $this->object->getConfigurationListItem("connection_imaginary");
+		$connection = $this->object->getConfigurationListItem('connection_imaginary');
 		$this->assertFalse( $connection );
 
-		$connection_1 = $this->object->getConfigurationListItem("connection_1");
-		$this->assertEquals("Connection 1 - config value", $connection_1->getAdapterConfigValue());
-		$connection_2 = $this->object->getConfigurationListItem("connection_2");
-		$this->assertEquals("Connection 2 - config value", $connection_2->getAdapterConfigValue());
-		$connection_3 = $this->object->getConfigurationListItem("connection_3");
-		$this->assertEquals("Connection 3 - config value", $connection_3->getAdapterConfigValue());
+		$connection_1 = $this->object->getConfigurationListItem('connection_1');
+		$this->assertEquals('Connection 1 - config value', $connection_1->getAdapterConfigValue());
+		$connection_2 = $this->object->getConfigurationListItem('connection_2');
+		$this->assertEquals('Connection 2 - config value', $connection_2->getAdapterConfigValue());
+		$connection_3 = $this->object->getConfigurationListItem('connection_3');
+		$this->assertEquals('Connection 3 - config value', $connection_3->getAdapterConfigValue());
 	}
 
 	/**
@@ -76,13 +76,13 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 	 */
 	public function testGetAllAdaptersConfiguration() {
 		$connections = $this->object->getConnections();
-		$this->assertArrayHasKey("connection_1", $connections);
-		$this->assertArrayHasKey("connection_2", $connections);
-		$this->assertArrayHasKey("connection_3", $connections);
+		$this->assertArrayHasKey('connection_1', $connections);
+		$this->assertArrayHasKey('connection_2', $connections);
+		$this->assertArrayHasKey('connection_3', $connections);
 
-		$this->assertEquals("Connection 1 - config value", $connections["connection_1"]->getAdapterConfigValue());
-		$this->assertEquals("Connection 2 - config value", $connections["connection_2"]->getAdapterConfigValue());
-		$this->assertEquals("Connection 3 - config value", $connections["connection_3"]->getAdapterConfigValue());
+		$this->assertEquals('Connection 1 - config value', $connections['connection_1']->getAdapterConfigValue());
+		$this->assertEquals('Connection 2 - config value', $connections['connection_2']->getAdapterConfigValue());
+		$this->assertEquals('Connection 3 - config value', $connections['connection_3']->getAdapterConfigValue());
 	}
 
 	/**
@@ -122,19 +122,19 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 			),
 			$this->object
 		);
-		$this->object->addConnection("connection_n", $new_connection);
+		$this->object->addConnection('connection_n', $new_connection);
 
 		$connections = $this->object->getConnections();
-		$this->assertArrayHasKey("connection_n", $connections);
+		$this->assertArrayHasKey('connection_n', $connections);
 
-		$this->assertEquals("Connection N - config value", $connections["connection_n"]->getAdapterConfigValue());
+		$this->assertEquals('Connection N - config value', $connections['connection_n']->getAdapterConfigValue());
 	}
 
 	/**
 	 * @covers Jet\Config_Definition_Property_AdapterConfig::deleteAdapterConfiguration
 	 */
 	public function testDeleteAdapterConfiguration() {
-		$this->object->deleteConnection("connection_2");
+		$this->object->deleteConnection('connection_2');
 		$this->assertEquals(  array (
 			'connection_1' =>
 			array (

@@ -1,8 +1,8 @@
 <table class="list">
 	<thead>
 		<tr>
-			<th><?=Jet\Tr::_("Class");?></th>
-			<th><?=Jet\Tr::_("Status");?></th>
+			<th><?=Jet\Tr::_('Class');?></th>
+			<th><?=Jet\Tr::_('Status');?></th>
 		</tr>
 	</thead>
 	<?php foreach($this->result as $class=>$state): ?>
@@ -21,6 +21,6 @@
 <?php if($this->OK): ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-<input type="submit" value="<?=Jet\Tr::_("Next", array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
+<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
 </form>
 <?php endif; ?>

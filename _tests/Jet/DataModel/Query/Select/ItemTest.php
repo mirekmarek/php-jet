@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Select_ItemTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -37,7 +37,7 @@ class DataModel_Query_Select_ItemTest extends \PHPUnit_Framework_TestCase {
 		$this->data_model = new DataModel_Query_DataModelTestMock();
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->object = new DataModel_Query_Select_Item( $this->properties["int_property"], "my_int_property" );
+		$this->object = new DataModel_Query_Select_Item( $this->properties['int_property'], 'my_int_property' );
 	}
 
 	/**
@@ -51,13 +51,13 @@ class DataModel_Query_Select_ItemTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Select_Item::getItem
 	 */
 	public function testGetItem() {
-		$this->assertEquals($this->properties["int_property"], $this->object->getItem());
+		$this->assertEquals($this->properties['int_property'], $this->object->getItem());
 	}
 
 	/**
 	 * @covers Jet\DataModel_Query_Select_Item::getSelectAs
 	 */
 	public function testGetSelectAs() {
-		$this->assertEquals("my_int_property", $this->object->getSelectAs());
+		$this->assertEquals('my_int_property', $this->object->getSelectAs());
 	}
 }

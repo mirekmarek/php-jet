@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestMock.php";
+require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase {
 
@@ -27,23 +27,23 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 	protected $property_type = Config::TYPE_STRING;
 
-	protected $property_class_name = "Config_Definition_Property_String";
+	protected $property_class_name = 'Config_Definition_Property_String';
 
-	protected $property_name = "StringTest";
+	protected $property_name = 'StringTest';
 
-	protected $property_default_form_field_type = "Input";
+	protected $property_default_form_field_type = 'Input';
 
-	protected $validation_regexp = "/^([a-z0-9]{1,10})$/";
+	protected $validation_regexp = '/^([a-z0-9]{1,10})$/';
 
-	protected $default_value = "default value";
+	protected $default_value = 'default value';
 
 	protected $property_options = array(
-		"description" => "Description",
-		"default_value" => "",
-		"is_required" => true,
-		"error_message" => "Error Message",
-		"label" => "Label",
-		"form_field_label" => "Form field label"
+		'description' => 'Description',
+		'default_value' => '',
+		'is_required' => true,
+		'error_message' => 'Error Message',
+		'label' => 'Label',
+		'form_field_label' => 'Form field label'
 	);
 
 	/**
@@ -52,10 +52,10 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	protected function setUp() {
 
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
-		$this->property_options["default_value"] = $this->default_value;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
+		$this->property_options['default_value'] = $this->default_value;
 
-		$this->config = new ConfigTestMock("test");
+		$this->config = new ConfigTestMock('test');
 		$this->object = new $class_name( $this->config, $this->property_name, $this->property_options  );
 	}
 
@@ -71,7 +71,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::toString
 	 */
 	public function testToString() {
-		$this->assertEquals( "Jet\ConfigTestMock::".$this->property_name, (string)$this->object );
+		$this->assertEquals( 'Jet\ConfigTestMock::'.$this->property_name, (string)$this->object );
 	}
 
 	/**
@@ -112,9 +112,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getDescription
 	 */
 	public function testSetGetDescription() {
-		$this->assertEquals($this->property_options["description"], $this->object->getDescription());
-		$this->object->setDescription( "Description ..." );
-		$this->assertEquals("Description ...", $this->object->getDescription());
+		$this->assertEquals($this->property_options['description'], $this->object->getDescription());
+		$this->object->setDescription( 'Description ...' );
+		$this->assertEquals('Description ...', $this->object->getDescription());
 	}
 
 	/**
@@ -123,9 +123,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getDefaultValue
 	 */
 	public function testSetGetDefaultValue() {
-		$this->assertEquals($this->property_options["default_value"], $this->object->getDefaultValue());
-		$this->object->setDefaultValue( "default value ..." );
-		$this->assertEquals("default value ...", $this->object->getDefaultValue());
+		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue());
+		$this->object->setDefaultValue( 'default value ...' );
+		$this->assertEquals('default value ...', $this->object->getDefaultValue());
 	}
 
 
@@ -146,9 +146,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getErrorMessage
 	 */
 	public function testSetGetErrorMessage() {
-		$this->assertEquals($this->property_options["error_message"], $this->object->getErrorMessage());
-		$this->object->setErrorMessage( "Error Message ..." );
-		$this->assertEquals("Error Message ...", $this->object->getErrorMessage());
+		$this->assertEquals($this->property_options['error_message'], $this->object->getErrorMessage());
+		$this->object->setErrorMessage( 'Error Message ...' );
+		$this->assertEquals('Error Message ...', $this->object->getErrorMessage());
 	}
 
 	/**
@@ -157,9 +157,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getLabel
 	 */
 	public function testSetGetLabel() {
-		$this->assertEquals($this->property_options["label"], $this->object->getLabel());
-		$this->object->setLabel( "Label ..." );
-		$this->assertEquals("Label ...", $this->object->getLabel());
+		$this->assertEquals($this->property_options['label'], $this->object->getLabel());
+		$this->object->setLabel( 'Label ...' );
+		$this->assertEquals('Label ...', $this->object->getLabel());
 	}
 
 	/**
@@ -169,8 +169,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	public function testSetGetFormFieldType() {
 		$this->assertEquals( $this->property_default_form_field_type, $this->object->getFormFieldType() );
-		$this->object->setFormFieldType("Select");
-		$this->assertEquals( "Select", $this->object->getFormFieldType() );
+		$this->object->setFormFieldType('Select');
+		$this->assertEquals( 'Select', $this->object->getFormFieldType() );
 	}
 
 	/**
@@ -180,8 +180,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	public function testSetGetFormFieldOptions() {
 		$options = array(
-			"option_1" => "Option 1",
-			"option_2" => "Option 2",
+			'option_1' => 'Option 1',
+			'option_2' => 'Option 2',
 		);
 		$this->object->setFormFieldOptions($options);
 		$this->assertEquals($options, $this->object->getFormFieldOptions());
@@ -193,9 +193,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getFormFieldLabel
 	 */
 	public function testSetGetFormFieldLabel() {
-		$this->assertEquals($this->property_options["form_field_label"], $this->object->getFormFieldLabel());
-		$this->object->setFormFieldLabel("Form field label:");
-		$this->assertEquals("Form field label:", $this->object->getFormFieldLabel());
+		$this->assertEquals($this->property_options['form_field_label'], $this->object->getFormFieldLabel());
+		$this->object->setFormFieldLabel('Form field label:');
+		$this->assertEquals('Form field label:', $this->object->getFormFieldLabel());
 	}
 
 
@@ -220,9 +220,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	public function testSetGetFormFieldErrorMessages() {
 		$error_messages = array(
-			"input_missing" => "Input is missing",
-			"empty" => "Input is empty",
-			"invalid_format" => "Invalid format"
+			'input_missing' => 'Input is missing',
+			'empty' => 'Input is empty',
+			'invalid_format' => 'Invalid format'
 		);
 
 
@@ -237,7 +237,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	public function testGetFormField() {
 		$this->object->setValidationRegexp($this->validation_regexp);
 
-		$field = new Form_Field_Input("");
+		$field = new Form_Field_Input('');
 
 		$field->__test_set_state(array(
 			'_name' => 'StringTest',
@@ -269,7 +269,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 		$this->object->setValidationRegexp($this->validation_regexp);
 
 		$this->assertEquals(
-			"Type: String, required: yes, default value: default value, valid value regular expression: {$this->validation_regexp}\n\nDescription",
+			'Type: String, required: yes, default value: default value, valid value regular expression: '.$this->validation_regexp.JET_EOL.JET_EOL.'Description',
 			$this->object->getTechnicalDescription()
 		);
 	}
@@ -295,7 +295,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
 	 */
 	public function testCheckValueFailedEmpty() {
-		$value = "";
+		$value = '';
 
 		$this->object->checkValue( $value );
 	}
@@ -309,13 +309,13 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	public function testCheckValueFailedInvalidFormat() {
 		if($this->property_type == Config::TYPE_STRING) {
-			$value = "A=^------------------";
+			$value = 'A=^------------------';
 
 			$this->object->setValidationRegexp($this->validation_regexp);
 			$this->object->checkValue( $value );
 		} else {
 			throw new Config_Exception(
-				"Test",
+				'Test',
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
@@ -327,7 +327,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 *
 	 */
 	public function testCheckValue() {
-		$value = "valid";
+		$value = 'valid';
 
 		$this->object->setValidationRegexp($this->validation_regexp);
 		$this->assertTrue( $this->object->checkValue( $value ) );
@@ -342,7 +342,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 		$this->object->checkValueType( $value );
 
-		$this->assertSame("123.4", $value);
+		$this->assertSame('123.4', $value);
 	}
 
 }

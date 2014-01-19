@@ -41,10 +41,10 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 
 
 		$cp_conf_source = $this->installer->getTmpConfigFilePath();
-		$cp_conf_target = JET_CONFIG_PATH.JET_APPLICATION_ENVIRONMENT.".php";
+		$cp_conf_target = JET_CONFIG_PATH.JET_APPLICATION_ENVIRONMENT.'.php';
 
 		$copy_OK = true;
-		$copy_message = "";
+		$copy_message = '';
 		try {
 			IO_File::copy($cp_conf_source, $cp_conf_target);
 		} catch(IO_File_Exception $e) {
@@ -53,13 +53,13 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 		}
 
 		if($copy_OK) {
-			$this->render("default");
+			$this->render('default');
 		} else {
-			$this->view->setVar("message", $copy_message);
-			$this->view->setVar("source", $cp_conf_source);
-			$this->view->setVar("target", $cp_conf_target);
+			$this->view->setVar('message', $copy_message);
+			$this->view->setVar('source', $cp_conf_source);
+			$this->view->setVar('target', $cp_conf_target);
 
-			$this->render("default-copy-config");
+			$this->render('default-copy-config');
 		}
 
 
@@ -67,6 +67,6 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 	}
 
 	public function getLabel() {
-		return Tr::_("Done", array(), "Final");
+		return Tr::_('Done', array(), 'Final');
 	}
 }

@@ -33,7 +33,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testConstructor() {
-		$this->object = new Data_Paginator( 1, 1000, "invalid" );
+		$this->object = new Data_Paginator( 1, 1000, 'invalid' );
 	}
 
 	/**
@@ -56,10 +56,10 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 	public function testSetData() {
 		$data = array();
 		for( $i=0; $i<123; $i++ ) {
-			$data[$i] = "Item {$i}";
+			$data[$i] = 'Item '.$i;
 		}
 
-		$this->object = new Data_Paginator( 0, 10, "test:".Data_Paginator::URL_PAGE_NO_KEY );
+		$this->object = new Data_Paginator( 0, 10, 'test:'.Data_Paginator::URL_PAGE_NO_KEY );
 
 		$this->assertEquals(1, $this->object->getCurrentPageNo());
 		$this->assertEquals(0, $this->object->getDataItemsCount());
@@ -96,12 +96,12 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 		), $this->object->getData());
 		$this->assertFalse( $this->object->getCurrentPageNoIsInRange() );
 		$this->assertNull( $this->object->getPrevPageURL() );
-		$this->assertEquals("test:2", $this->object->getNextPageURL());
+		$this->assertEquals('test:2', $this->object->getNextPageURL());
 
 
 
 
-		$this->object = new Data_Paginator( 5, 10, "test:".Data_Paginator::URL_PAGE_NO_KEY );
+		$this->object = new Data_Paginator( 5, 10, 'test:'.Data_Paginator::URL_PAGE_NO_KEY );
 		$this->object->setData( $data );
 		$this->assertEquals(4, $this->object->getPrevPageNo());
 		$this->assertEquals(5, $this->object->getCurrentPageNo());
@@ -123,12 +123,12 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 			49 => 'Item 49',
 		), $this->object->getData());
 		$this->assertTrue( $this->object->getCurrentPageNoIsInRange() );
-		$this->assertEquals("test:4", $this->object->getPrevPageURL());
-		$this->assertEquals("test:6", $this->object->getNextPageURL());
+		$this->assertEquals('test:4', $this->object->getPrevPageURL());
+		$this->assertEquals('test:6', $this->object->getNextPageURL());
 
 
 
-		$this->object = new Data_Paginator( 50, 10, "test:".Data_Paginator::URL_PAGE_NO_KEY );
+		$this->object = new Data_Paginator( 50, 10, 'test:'.Data_Paginator::URL_PAGE_NO_KEY );
 		$this->object->setData( $data );
 		$this->assertEquals(13, $this->object->getCurrentPageNo());
 		$this->assertEquals(12, $this->object->getPrevPageNo());
@@ -143,7 +143,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 			122 => 'Item 122'
 		), $this->object->getData());
 		$this->assertFalse( $this->object->getCurrentPageNoIsInRange() );
-		$this->assertEquals("test:12", $this->object->getPrevPageURL());
+		$this->assertEquals('test:12', $this->object->getPrevPageURL());
 		$this->assertNull($this->object->getNextPageURL());
 
 		$this->assertEquals(array (
@@ -167,11 +167,11 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 
 		$data = array();
 		for( $i=0; $i<3; $i++ ) {
-			$data[$i] = "Item {$i}";
+			$data[$i] = 'Item '.$i;
 		}
 
 
-		$this->object = new Data_Paginator( 2, 2, "test:".Data_Paginator::URL_PAGE_NO_KEY );
+		$this->object = new Data_Paginator( 2, 2, 'test:'.Data_Paginator::URL_PAGE_NO_KEY );
 		$this->object->setData( $data );
 		$this->assertEquals(2, $this->object->getCurrentPageNo());
 		$this->assertEquals(1, $this->object->getPrevPageNo());

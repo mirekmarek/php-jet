@@ -4,7 +4,7 @@ application/config/*
 application/logs/*
 application/tmp/*
 application/cache/*
-data/*
+application/data/*
 public/*
 !public/scripts/Jet
 .settings

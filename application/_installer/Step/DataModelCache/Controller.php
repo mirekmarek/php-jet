@@ -30,13 +30,13 @@ class Installer_Step_DataModelCache_Controller extends Installer_Step_Controller
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("config", $config);
-		$this->render("default");
+		$this->view->setVar('form', $form);
+		$this->view->setVar('config', $config);
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Cache configuration", array(), "DataModelCache");
+		return Tr::_('Cache configuration', array(), 'DataModelCache');
 	}
 
 	public function getIsSubstep() {

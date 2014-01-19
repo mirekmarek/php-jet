@@ -17,7 +17,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 
 
 	public function main() {
-		if(Http_Request::POST()->exists("go")) {
+		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
 
@@ -53,13 +53,13 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 
 		}
 
-		$this->view->setVar("result", $result);
-		$this->view->setVar("OK", $OK);
+		$this->view->setVar('result', $result);
+		$this->view->setVar('OK', $OK);
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Create database", array(), "CreateDB");
+		return Tr::_('Create database', array(), 'CreateDB');
 	}
 }

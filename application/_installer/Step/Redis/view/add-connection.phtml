@@ -15,7 +15,7 @@ $config = $this->config;
 $config_props = $config->getPropertiesDefinition();
 ?>
 
-<h3><?=Jet\Tr::_("Add new Redis connection");?></h3>
+<h3><?=Jet\Tr::_('Add new Redis connection');?></h3>
 
 <jet_form name="<?=$form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
@@ -27,6 +27,6 @@ $config_props = $config->getPropertiesDefinition();
 				<td><?=$config_props[$field_name]->getDescription();?></td>
 			</tr>
 		<?php endforeach; ?>
-		<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("Add");?>"/></td></tr>
+		<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_('Add');?>"/></td></tr>
 	</table>
 </jet_form>

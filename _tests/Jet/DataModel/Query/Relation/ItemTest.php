@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 
 class DataModel_Query_Relation_ItemTest extends \PHPUnit_Framework_TestCase {
@@ -65,8 +65,8 @@ class DataModel_Query_Relation_ItemTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$new_join = array(
-			$this->properties["ID_property"],
-			$this->properties["string_property"]
+			$this->properties['ID_property'],
+			$this->properties['string_property']
 		);
 
 		$this->object->setJoinByProperties( $new_join );

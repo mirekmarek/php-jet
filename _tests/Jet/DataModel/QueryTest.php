@@ -11,12 +11,12 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
-require_once "_mock/Jet/DataModel/Query/DataModelRelated1TONTestMock.php";
-require_once "_mock/Jet/DataModel/Query/DataModelRelated1TO1TestMock.php";
-require_once "_mock/Jet/DataModel/Query/DataModelRelatedMTONTestMock.php";
-require_once "_mock/Jet/DataModel/Query/DataModel2TestMock.php";
-require_once "_mock/Jet/DataModel/Query/DataModel2Related1TONTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
+require_once '_mock/Jet/DataModel/Query/DataModelRelated1TONTestMock.php';
+require_once '_mock/Jet/DataModel/Query/DataModelRelated1TO1TestMock.php';
+require_once '_mock/Jet/DataModel/Query/DataModelRelatedMTONTestMock.php';
+require_once '_mock/Jet/DataModel/Query/DataModel2TestMock.php';
+require_once '_mock/Jet/DataModel/Query/DataModel2Related1TONTestMock.php';
 
 class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -52,42 +52,42 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 		$this->object = new DataModel_Query($this->data_model);
 
 		$this->select_data = array(
-			$this->properties["ID_property"],
-			"my_string_property" => $this->properties["string_property"],
-			"my_sum" => array(
+			$this->properties['ID_property'],
+			'my_string_property' => $this->properties['string_property'],
+			'my_sum' => array(
 				array(
-					$this->properties["int_property"],
-					$this->properties["float_property"]
+					$this->properties['int_property'],
+					$this->properties['float_property']
 				),
-				"SUM(%int_property%)+%float_property%"
+				'SUM(%int_property%)+%float_property%'
 			),
-			"my_count" => array(
-				"this.int_property",
-				"COUNT(%int_property%)"
+			'my_count' => array(
+				'this.int_property',
+				'COUNT(%int_property%)'
 			)
 		);
 
 		$this->where_data = array(
-			"this.int_property =" => 1234,
-			"AND",
-			"this.string_property !=" => "test",
-			"OR",
+			'this.int_property =' => 1234,
+			'AND',
+			'this.string_property !=' => 'test',
+			'OR',
 			array(
-				"this.ID_property *" => "test%",
-				"AND",
-				"this.int_property" => 54321
+				'this.ID_property *' => 'test%',
+				'AND',
+				'this.int_property' => 54321
 			)
 		);
 
 		$this->having_data = array(
-			"int_property =" => 1234,
-			"AND",
-			"string_property !=" => "test",
-			"OR",
+			'int_property =' => 1234,
+			'AND',
+			'string_property !=' => 'test',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		);
 
@@ -155,9 +155,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetSetHaving() {
 		$this->object->setSelect(array(
-			"int_property" => "this.int_property",
-			"string_property" => "this.string_property",
-			"my_ID" => "this.ID_property"
+			'int_property' => 'this.int_property',
+			'string_property' => 'this.string_property',
+			'my_ID' => 'this.ID_property'
 		));
 
 		$this->assertNull($this->object->getHaving());
@@ -174,12 +174,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetSetGroupBy() {
 		$this->object->setSelect(array(
-			"this.int_property",
-			"this.string_property",
-			"this.ID_property"
+			'this.int_property',
+			'this.string_property',
+			'this.ID_property'
 		));
 
-		$gorup_by_data = array("int_property", "string_property", "ID_property");
+		$gorup_by_data = array('int_property', 'string_property', 'ID_property');
 
 		$this->assertNull($this->object->getGroupBy());
 		$this->assertSame($this->object, $this->object->setGroupBy($gorup_by_data));
@@ -196,13 +196,13 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetSetOrderBy() {
 		$this->object->setSelect(array(
-			"this.int_property",
-			"this.string_property",
-			"this.ID_property"
+			'this.int_property',
+			'this.string_property',
+			'this.ID_property'
 		));
 		$this->assertNull($this->object->getOrderBy());
 
-		$order_by_data = array("+int_property", "-string_property", "ID_property");
+		$order_by_data = array('+int_property', '-string_property', 'ID_property');
 		$this->assertSame($this->object, $this->object->setOrderBy($order_by_data));
 
 		$order_by = new DataModel_Query_OrderBy($this->object, $order_by_data );
@@ -236,14 +236,14 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
 	public function testRelationsM2N() {
-		$property = $this->object->_getPropertyAndSetRelation("data_model_property_MtoN.string_property");
-		$this->assertEquals("data_model_2_test_mock", $property->getDataModelDefinition()->getModelName());
-		$this->assertEquals("string_property", $property->getName());
+		$property = $this->object->_getPropertyAndSetRelation('data_model_property_MtoN.string_property');
+		$this->assertEquals('data_model_2_test_mock', $property->getDataModelDefinition()->getModelName());
+		$this->assertEquals('string_property', $property->getName());
 
 		$this->assertEquals(
 				array(
-					"data_model_test_mock_related_MtoN",
-					"data_model_2_test_mock"
+					'data_model_test_mock_related_MtoN',
+					'data_model_2_test_mock'
 				),
 				array_keys($this->object->getRelations())
 			);
@@ -251,14 +251,14 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_JOIN,
-			$this->object->getRelation("data_model_test_mock_related_MtoN")->getJoinType()
+			$this->object->getRelation('data_model_test_mock_related_MtoN')->getJoinType()
 		);
 
-		$this->object->getRelation("data_model_test_mock_related_MtoN")->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
+		$this->object->getRelation('data_model_test_mock_related_MtoN')->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN,
-			$this->object->getRelation("data_model_test_mock_related_MtoN")->getJoinType()
+			$this->object->getRelation('data_model_test_mock_related_MtoN')->getJoinType()
 		);
 
 	}
@@ -271,27 +271,27 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
 	public function testRelations12N() {
-		$property = $this->object->_getPropertyAndSetRelation("this.data_model_property_1toN.string_property");
+		$property = $this->object->_getPropertyAndSetRelation('this.data_model_property_1toN.string_property');
 
-		$this->assertEquals("data_model_test_mock_related_1toN", $property->getDataModelDefinition()->getModelName());
+		$this->assertEquals('data_model_test_mock_related_1toN', $property->getDataModelDefinition()->getModelName());
 
 		$this->assertEquals(
 			array(
-				"data_model_test_mock_related_1toN"
+				'data_model_test_mock_related_1toN'
 			),
 			array_keys($this->object->getRelations())
 		);
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_JOIN,
-			$this->object->getRelation("data_model_test_mock_related_1toN")->getJoinType()
+			$this->object->getRelation('data_model_test_mock_related_1toN')->getJoinType()
 		);
 
-		$this->object->getRelation("data_model_test_mock_related_1toN")->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
+		$this->object->getRelation('data_model_test_mock_related_1toN')->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN,
-			$this->object->getRelation("data_model_test_mock_related_1toN")->getJoinType()
+			$this->object->getRelation('data_model_test_mock_related_1toN')->getJoinType()
 		);
 
 	}
@@ -306,7 +306,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed1() {
-		$this->object->_getPropertyAndSetRelation("hoax");
+		$this->object->_getPropertyAndSetRelation('hoax');
 	}
 
 	/**
@@ -319,7 +319,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed2() {
-		$this->object->_getPropertyAndSetRelation("this.imaginary_property");
+		$this->object->_getPropertyAndSetRelation('this.imaginary_property');
 	}
 
 
@@ -333,7 +333,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed3() {
-		$this->object->_getPropertyAndSetRelation("string_property");
+		$this->object->_getPropertyAndSetRelation('string_property');
 	}
 
 
@@ -347,7 +347,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed4() {
-		$this->object->_getPropertyAndSetRelation("data_model_property_1toN");
+		$this->object->_getPropertyAndSetRelation('data_model_property_1toN');
 	}
 
 
@@ -361,7 +361,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed5() {
-		$this->object->getRelation("imaginary_relation");
+		$this->object->getRelation('imaginary_relation');
 	}
 
 }

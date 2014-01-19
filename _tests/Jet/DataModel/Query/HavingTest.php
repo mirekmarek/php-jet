@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -45,37 +45,37 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 		$this->query = new DataModel_Query($this->data_model);
 		$this->query->setSelect(array(
-			"int_property" => "this.int_property",
-			"string_property" => "this.string_property",
-			"my_ID" => "this.ID_property",
-			"my_value" => array(
-				array("this.int_property"),
-				"MAX(%int_property%)"
+			'int_property' => 'this.int_property',
+			'string_property' => 'this.string_property',
+			'my_ID' => 'this.ID_property',
+			'my_value' => array(
+				array('this.int_property'),
+				'MAX(%int_property%)'
 			),
 		));
 
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"my_value <=" => 10,
-			"AND",
-			"int_property =" => 1234,
-			"AND",
-			"string_property !=" => "test",
-			"OR",
+			'my_value <=' => 10,
+			'AND',
+			'int_property =' => 1234,
+			'AND',
+			'string_property !=' => 'test',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 
 		$query = new DataModel_Query($this->data_model);
 		$query->setSelect(array(
-			"float_property" => "this.float_property"
+			'float_property' => 'this.float_property'
 		));
 
 
 		$query = new DataModel_Query_Having($query, array(
-			"float_property =" => 3.14
+			'float_property =' => 3.14
 		));
 
 		$this->object->attach($query);
@@ -98,13 +98,13 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed1() {
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"int_property =" => 1234,
-			"string_property !=" => "test",
-			"OR",
+			'int_property =' => 1234,
+			'string_property !=' => 'test',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 	}
@@ -117,15 +117,15 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed2() {
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"int_property =" => 1234,
-			"AND",
-			"AND",
-			"string_property !=" => "test",
-			"OR",
+			'int_property =' => 1234,
+			'AND',
+			'AND',
+			'string_property !=' => 'test',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 	}
@@ -139,15 +139,15 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed3() {
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"int_property =" => 1234,
-			"AND",
-			"string_property !=" => "test",
-			"OR",
-			"OR",
+			'int_property =' => 1234,
+			'AND',
+			'string_property !=' => 'test',
+			'OR',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 	}
@@ -161,13 +161,13 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed4() {
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"int_property =" => 1234,
-			"AND",
-			"string_property !=" => "test",
+			'int_property =' => 1234,
+			'AND',
+			'string_property !=' => 'test',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 	}
@@ -181,14 +181,14 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed5() {
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"int_property =" => 1234,
-			"imaginary_AND",
-			"string_property !=" => "test",
-			"OR",
+			'int_property =' => 1234,
+			'imaginary_AND',
+			'string_property !=' => 'test',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 	}
@@ -202,14 +202,14 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testConstructFailed6() {
 		$this->object = new DataModel_Query_Having($this->query, array(
-			"imaginary_property =" => 1234,
-			"AND",
-			"string_property !=" => "test",
-			"OR",
+			'imaginary_property =' => 1234,
+			'AND',
+			'string_property !=' => 'test',
+			'OR',
 			array(
-				"my_ID *" => "test%",
-				"AND",
-				"int_property" => 54321
+				'my_ID *' => 'test%',
+				'AND',
+				'int_property' => 54321
 			)
 		));
 	}
@@ -232,21 +232,21 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	public function testGeneral() {
 
 		$this->assertSame(
-			 "( "
-			    ."MAX(data_model_test_mock::int_property) <= '10' "
-				."AND "
-				."data_model_test_mock::int_property = '1234' "
-				."AND "
-				."data_model_test_mock::string_property != 'test' "
-				."OR "
-				."( "
-				        ."data_model_test_mock::ID_property * 'test%' "
-				        ."AND "
-				        ."data_model_test_mock::int_property = '54321' "
-				 .") "
-				."AND "
-				."data_model_test_mock::float_property = '3.14'"
-			." )",
+			 '( '
+			    .'MAX(data_model_test_mock::int_property) <= \'10\' '
+				.'AND '
+				.'data_model_test_mock::int_property = \'1234\' '
+				.'AND '
+				.'data_model_test_mock::string_property != \'test\' '
+				.'OR '
+				.'( '
+				        .'data_model_test_mock::ID_property * \'test%\' '
+				        .'AND '
+				        .'data_model_test_mock::int_property = \'54321\' '
+				 .') '
+				.'AND '
+				.'data_model_test_mock::float_property = \'3.14\''
+			.' )',
 			$this->object->toString()
 		);
 	}

@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestMock.php";
+require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -19,23 +19,23 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $object;
 
-	protected $property_name = "FloatTest";
+	protected $property_name = 'FloatTest';
 
 	protected $property_type = Config::TYPE_FLOAT;
 
-	protected $property_class_name = "Config_Definition_Property_Float";
+	protected $property_class_name = 'Config_Definition_Property_Float';
 
-	protected $property_default_form_field_type = "Float";
+	protected $property_default_form_field_type = 'Float';
 
 	protected $default_value = 10.11;
 
 	protected $property_options = array(
-		"description" => "Description",
-		"default_value" => "",
-		"is_required" => true,
-		"error_message" => "Error Message",
-		"label" => "Label",
-		"form_field_label" => "Form field label"
+		'description' => 'Description',
+		'default_value' => '',
+		'is_required' => true,
+		'error_message' => 'Error Message',
+		'label' => 'Label',
+		'form_field_label' => 'Form field label'
 	);
 
 
@@ -50,10 +50,10 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
-		$this->property_options["default_value"] = $this->default_value;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
+		$this->property_options['default_value'] = $this->default_value;
 
-		$this->config = new ConfigTestMock("test");
+		$this->config = new ConfigTestMock('test');
 		$this->object = new $class_name( $this->config, $this->property_name, $this->property_options  );
 	}
 
@@ -81,7 +81,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckValueType() {
 
-		$value = "123.4";
+		$value = '123.4';
 
 		$this->object->checkValueType( $value );
 
@@ -154,7 +154,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 		$this->object->setMaxValue(100.1);
 
 		$this->assertEquals(
-			"Type: Float , required: yes, default value: 10.11, min. value: 10.1, max. value: 100.1\n\nDescription",
+			'Type: Float , required: yes, default value: 10.11, min. value: 10.1, max. value: 100.1'.JET_EOL.JET_EOL.'Description',
 			$this->object->getTechnicalDescription()
 		);
 	}
@@ -167,7 +167,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 		$this->object->setMinValue(10.1);
 		$this->object->setMaxValue(100.1);
 
-		$field = new Form_Field_Float("");
+		$field = new Form_Field_Float('');
 
 		$field->__test_set_state(array(
 			'_type' => 'Float',

@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestMock.php";
+require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -19,24 +19,24 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $object;
 
-	protected $property_name = "BoolTest";
+	protected $property_name = 'BoolTest';
 
 	protected $property_type = Config::TYPE_BOOL;
 
-	protected $property_class_name = "Config_Definition_Property_Bool";
+	protected $property_class_name = 'Config_Definition_Property_Bool';
 
-	protected $property_default_form_field_type = "Checkbox";
+	protected $property_default_form_field_type = 'Checkbox';
 
 	protected $default_value = true;
 
 
 	protected $property_options = array(
-		"description" => "Description",
-		"default_value" => "",
-		"is_required" => true,
-		"error_message" => "Error Message",
-		"label" => "Label",
-		"form_field_label" => "Form field label"
+		'description' => 'Description',
+		'default_value' => '',
+		'is_required' => true,
+		'error_message' => 'Error Message',
+		'label' => 'Label',
+		'form_field_label' => 'Form field label'
 	);
 
 
@@ -51,10 +51,10 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
-		$this->property_options["default_value"] = $this->default_value;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
+		$this->property_options['default_value'] = $this->default_value;
 
-		$this->config = new ConfigTestMock("test");
+		$this->config = new ConfigTestMock('test');
 		$this->object = new $class_name( $this->config, $this->property_name, $this->property_options  );
 	}
 
@@ -77,7 +77,7 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	public function testGetTechnicalDescription() {
 
 		$this->assertEquals(
-			"Type: Bool, required: yes, default value: 1\n\nDescription",
+			'Type: Bool, required: yes, default value: 1'.JET_EOL.JET_EOL.'Description',
 			$this->object->getTechnicalDescription()
 		);
 	}
@@ -99,7 +99,7 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Config_Definition_Property_Abstract::getFormField
 	 */
 	public function testGetFormField() {
-		$field = new Form_Field_Checkbox("");
+		$field = new Form_Field_Checkbox('');
 
 		$field->__test_set_state(array(
 			'_type' => 'Checkbox',

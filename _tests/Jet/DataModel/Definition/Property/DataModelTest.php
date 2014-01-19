@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Definition/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -24,9 +24,9 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 */
 	protected $object;
 
-	protected $property_class_name = "DataModel_Definition_Property_DataModel";
+	protected $property_class_name = 'DataModel_Definition_Property_DataModel';
 
-	protected $property_name = "data_model_property";
+	protected $property_name = 'data_model_property';
 
 	protected $property_options = array();
 	/**
@@ -34,7 +34,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
@@ -56,11 +56,11 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
 	 */
 	public function testSetUpFailedNotItemType() {
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
-		unset($this->property_options["data_model_class"]);
+		unset($this->property_options['data_model_class']);
 
 		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
 	}
@@ -69,7 +69,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 * @covers Jet\DataModel_Definition_Property_DataModel::getDefaultValue
 	 */
 	public function testGetDefaultValue() {
-		$data_model = new $this->property_options["data_model_class"]();
+		$data_model = new $this->property_options['data_model_class']();
 		$this->assertEquals($data_model, $this->object->getDefaultValue());
 	}
 
@@ -77,7 +77,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 * @covers Jet\DataModel_Definition_Property_DataModel::checkValueType
 	 */
 	public function testCheckValueType() {
-		$value = "do not change";
+		$value = 'do not change';
 		$this->object->checkValueType($value);
 		$this->assertEquals($value, $value);
 	}
@@ -86,6 +86,6 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 * @covers Jet\DataModel_Definition_Property_DataModel::getDataModelClass
 	 */
 	public function testGetDataModelClass() {
-		$this->assertEquals($this->property_options["data_model_class"], $this->object->getDataModelClass());
+		$this->assertEquals($this->property_options['data_model_class'], $this->object->getDataModelClass());
 	}
 }

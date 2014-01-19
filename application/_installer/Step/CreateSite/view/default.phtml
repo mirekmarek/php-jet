@@ -4,7 +4,7 @@ namespace Jet;
  * @var Mvc_View $this
  */
 
-$locales = $this->getRaw("locales");
+$locales = $this->getRaw('locales');
 ?>
 <jet_form name="locale_add">
 	<jet_form_common_error_message class="formError"/>
@@ -13,7 +13,7 @@ $locales = $this->getRaw("locales");
 			<td valign="top"><jet_form_field_label name="locale"/></td>
 			<td><jet_form_field_error_msg name="locale" class="error"/><jet_form_field name="locale"/></td>
 		</tr>
-		<tr><td colspan="2" align="center"><input type="submit" value="<?=Tr::_("Add locale");?>"/></td></tr>
+		<tr><td colspan="2" align="center"><input type="submit" value="<?=Tr::_('Add locale');?>"/></td></tr>
 	</table>
 </jet_form>
 
@@ -38,9 +38,9 @@ $locales = $this->getRaw("locales");
 		<?php foreach($locales as $locale=>$data): ?>
 		<tr>
 			<td rowspan="2">
-				<?=$data["locale"];?>
+				<?=$data['locale'];?>
 				<br/>
-				[<a href="?remove_locale=<?=$locale;?>"><?=Tr::_("remove");?></a>]
+				[<a href="?remove_locale=<?=$locale;?>"><?=Tr::_('remove');?></a>]
 			</td>
 			<td valign="top"><jet_form_field_label name="/<?=$locale;?>/nonSSL"/></td>
 			<td><jet_form_field_error_msg name="/<?=$locale;?>/nonSSL" class="error"/><jet_form_field name="/<?=$locale;?>/nonSSL"/></td>
@@ -53,8 +53,8 @@ $locales = $this->getRaw("locales");
 	</table>
 
 	<?php if($locales): ?>
-	<input type="submit" value="<?=Tr::_("Next", array(), Translator::COMMON_NAMESPACE);?>"/>
+	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>"/>
 	<?php else: ?>
-	<?=Tr::_("Please add at least one locale");?>
+	<?=Tr::_('Please add at least one locale');?>
 	<?php endif; ?>
 </jet_form>

@@ -17,7 +17,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 
 
 	public function main() {
-		if(Http_Request::POST()->exists("go")) {
+		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
 
@@ -27,7 +27,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		$form = $user->getSimpleForm();
 		$user->setLocale( $this->installer->getCurrentLocale() );
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
 
 		if($user->catchForm( $form )) {
@@ -37,10 +37,10 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 			$this->installer->goNext();
 		}
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Create administrator account", array(), "CreateAdministrator");
+		return Tr::_('Create administrator account', array(), 'CreateAdministrator');
 	}
 }

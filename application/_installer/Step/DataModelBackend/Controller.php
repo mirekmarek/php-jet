@@ -28,13 +28,13 @@ class Installer_Step_DataModelBackend_Controller extends Installer_Step_Controll
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("config", $config);
-		$this->render("default");
+		$this->view->setVar('form', $form);
+		$this->view->setVar('config', $config);
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Backend configuration", array(), "DataModelBackend");
+		return Tr::_('Backend configuration', array(), 'DataModelBackend');
 	}
 
 	public function getIsSubstep() {

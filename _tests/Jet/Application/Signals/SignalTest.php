@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Application/Signals/TestSender.php";
+require_once '_mock/Jet/Application/Signals/TestSender.php';
 
 class Application_Signals_SignalTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -24,8 +24,8 @@ class Application_Signals_SignalTest extends \PHPUnit_Framework_TestCase {
 	 * @var Application_Signals_SignalTest_Sender
 	 */
 	protected $sender;
-	protected $signal = "/test/signal1";
-	protected $data = array( "val1", "a" => "valb" );
+	protected $signal = '/test/signal1';
+	protected $data = array( 'val1', 'a' => 'valb' );
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

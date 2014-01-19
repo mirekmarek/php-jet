@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/Config/ConfigTestMock.php";
+require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -19,15 +19,15 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $object;
 
-	protected $property_name = "ArrayTest";
+	protected $property_name = 'ArrayTest';
 
 	protected $property_type = Config::TYPE_BOOL;
 
-	protected $property_class_name = "Config_Definition_Property_Array";
+	protected $property_class_name = 'Config_Definition_Property_Array';
 
-	protected $property_default_form_field_type = "MultiSelect";
+	protected $property_default_form_field_type = 'MultiSelect';
 
-	protected $default_value = array("val1","val2");
+	protected $default_value = array('val1','val2');
 
 	/**
 	 * @var ConfigTestMock
@@ -36,12 +36,12 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 
 
 	protected $property_options = array(
-		"description" => "Description",
-		"default_value" => "",
-		"is_required" => true,
-		"error_message" => "Error Message",
-		"label" => "Label",
-		"form_field_label" => "Form field label"
+		'description' => 'Description',
+		'default_value' => '',
+		'is_required' => true,
+		'error_message' => 'Error Message',
+		'label' => 'Label',
+		'form_field_label' => 'Form field label'
 	);
 
 
@@ -51,10 +51,10 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
-		$this->property_options["default_value"] = $this->default_value;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
+		$this->property_options['default_value'] = $this->default_value;
 
-		$this->config = new ConfigTestMock("test");
+		$this->config = new ConfigTestMock('test');
 		$this->object = new $class_name( $this->config, $this->property_name, $this->property_options  );
 	}
 
@@ -63,7 +63,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckValueType() {
 
-		$value = "notarray";
+		$value = 'notarray';
 
 		$this->object->checkValueType( $value );
 
@@ -77,7 +77,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	public function testGetTechnicalDescription() {
 
 		$this->assertEquals(
-			"Type: Array, required: yes, default value: val1,val2\n\nDescription",
+			'Type: Array, required: yes, default value: val1,val2'.JET_EOL.JET_EOL.'Description',
 			$this->object->getTechnicalDescription()
 		);
 	}
@@ -88,7 +88,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testCheckValue() {
-		$value = array("testvalue1", "testvalue2");
+		$value = array('testvalue1', 'testvalue2');
 
 		$this->assertTrue( $this->object->checkValue( $value ) );
 	}
@@ -112,13 +112,13 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Config_Definition_Property_Abstract::getFormField
 	 */
 	public function testGetFormField() {
-		$field = new Form_Field_MultiSelect("");
+		$field = new Form_Field_MultiSelect('');
 
 		$field->__test_set_state(array(
 			'_type' => 'MultiSelect',
 			'_name' => 'ArrayTest',
-			'_value' => array("val1","val2"),
-			'_value_raw' => array("val1","val2"),
+			'_value' => array('val1','val2'),
+			'_value_raw' => array('val1','val2'),
 			'default_value' => $this->default_value,
 			'label' => 'Form field label',
 			'is_required' => true,

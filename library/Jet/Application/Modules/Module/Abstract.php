@@ -149,9 +149,6 @@ abstract class Application_Modules_Module_Abstract extends Object {
 				);
 			}
 		}
-
-		//TODO: dictionaries ...
-
 	}
 
 

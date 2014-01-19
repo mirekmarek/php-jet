@@ -4,11 +4,11 @@ namespace Jet;
  * @var Installer_Step_Controller[] $steps
  * @var Mvc_Layout $this
  */
-$steps = $this->getRaw("steps");
+$steps = $this->getRaw('steps');
 ?>
 <html>
 <head>
-	<title><?=Tr::_("PHP Jet Platform - Example Project Installer");?></title>
+	<title><?=Tr::_('PHP Jet Platform - Example Project Installer');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?=JET_INSTALLER_URI;?>public/styles/main.css">
 	<jet_layout_meta_tags/>
@@ -19,15 +19,15 @@ $steps = $this->getRaw("steps");
 
 <table cellpadding="0" cellspacing="0" width="100%" height="100%">
 	<tr><td colspan="2" id="header" height="40" valign="middle">
-		<?=Tr::_("PHP Jet Platform - Example Project Installer");?>
+		<?=Tr::_('PHP Jet Platform - Example Project Installer');?>
 	</td></tr>
 	<tr>
 		<td valign="top" id="statusBar">
 
 				<?php foreach( $steps as $step ):
-					$class = "";
+					$class = '';
 					if($step->getIsSubstep()) {
-						$class = " stepSub";
+						$class = ' stepSub';
 					}
 					?>
 					<?php if($step->getIsPrev()): ?>

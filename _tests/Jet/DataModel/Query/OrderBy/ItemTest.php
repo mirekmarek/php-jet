@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 
 class DataModel_Query_OrderBy_ItemTest extends \PHPUnit_Framework_TestCase {
@@ -56,8 +56,8 @@ class DataModel_Query_OrderBy_ItemTest extends \PHPUnit_Framework_TestCase {
 		$this->data_model = new DataModel_Query_DataModelTestMock();
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->select_string_item = new DataModel_Query_Select_Item($this->properties["string_property"], "string_property_test");
-		$this->select_int_item = new DataModel_Query_Select_Item($this->properties["int_property"], "int_property_test");
+		$this->select_string_item = new DataModel_Query_Select_Item($this->properties['string_property'], 'string_property_test');
+		$this->select_int_item = new DataModel_Query_Select_Item($this->properties['int_property'], 'int_property_test');
 
 		$this->object_string = new DataModel_Query_OrderBy_Item( $this->select_string_item, false );
 		$this->object_int = new DataModel_Query_OrderBy_Item( $this->select_int_item, true );
@@ -74,8 +74,8 @@ class DataModel_Query_OrderBy_ItemTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_OrderBy_Item::getItem
 	 */
 	public function testGetIten() {
-		$this->assertSame($this->properties["string_property"], $this->object_string->getItem()->getItem() );
-		$this->assertSame($this->properties["int_property"], $this->object_int->getItem()->getItem() );
+		$this->assertSame($this->properties['string_property'], $this->object_string->getItem()->getItem() );
+		$this->assertSame($this->properties['int_property'], $this->object_int->getItem()->getItem() );
 	}
 
 	/**

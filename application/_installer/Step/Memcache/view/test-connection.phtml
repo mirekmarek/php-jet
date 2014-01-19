@@ -15,13 +15,13 @@ $config = $this->config;
 $config_props = $config->getPropertiesDefinition();
 ?>
 
-<a href="?"><?=Jet\Tr::_("&lt Back");?></a> <h3><?=Jet\Tr::_("Connection '%CONNECTION%' Test", array("CONNECTION"=>$this->connection_name));?></h3>
+<a href="?"><?=Jet\Tr::_('&lt Back');?></a> <h3><?=Jet\Tr::_('Connection \'%CONNECTION%\' Test', array('CONNECTION'=>$this->connection_name));?></h3>
 
 <?php if($this->OK): ?>
 	<div class="OK" style="padding: 5px;margin: 5px;">OK</div>
 <?php else: ?>
 	<div class="error" style="padding: 5px;margin: 5px;">
-		<strong><?=Jet\Tr::_("Error:");?></strong>
+		<strong><?=Jet\Tr::_('Error:');?></strong>
 		<?=$this->error_message;?>
 	</div>
 <?php endif; ?>
@@ -37,9 +37,9 @@ $config_props = $config->getPropertiesDefinition();
 			</tr>
 		<?php endforeach; ?>
 		<tr><td colspan="2" align="center">
-			<a href="?edit_connection=<?=$this->connection_name;?>"><?=Jet\Tr::_("Edit connection");?></a>
+			<a href="?edit_connection=<?=$this->connection_name;?>"><?=Jet\Tr::_('Edit connection');?></a>
 			<?php if($this->OK): ?>
-			<input type="submit" value="<?=Jet\Tr::_("OK");?>"/>
+			<input type="submit" value="<?=Jet\Tr::_('OK');?>"/>
 			<?php endif; ?>
 		</td></tr>
 	</table>

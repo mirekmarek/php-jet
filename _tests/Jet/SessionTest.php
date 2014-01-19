@@ -21,7 +21,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	protected function setUp() {
-		$this->object = new Session("test-namespace");
+		$this->object = new Session('test-namespace');
 	}
 
 	/**
@@ -38,7 +38,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Session_Exception::CODE_INVALID_KEY
 	 */
 	public function testInvalidKey() {
-		$this->object->setValue("", "value");
+		$this->object->setValue('', 'value');
 	}
 
 	/**
@@ -46,7 +46,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Session::getNamespace
 	 */
 	public function testGetNamespace() {
-		$this->assertEquals("test-namespace", $this->object->getNamespace() );
+		$this->assertEquals('test-namespace', $this->object->getNamespace() );
 	}
 
 	/**
@@ -56,24 +56,24 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Session::getValue
 	 */
 	public function testGeneral() {
-		$this->assertFalse( $this->object->getValueExists("imaginary") );
-		$this->assertEquals("default value", $this->object->getValue("imaginary", "default value"));
+		$this->assertFalse( $this->object->getValueExists('imaginary') );
+		$this->assertEquals('default value', $this->object->getValue('imaginary', 'default value'));
 
-		$this->object->setValue( "key", "value" );
-		$this->assertTrue( $this->object->getValueExists("key") );
-		$this->assertEquals("value", $this->object->getValue("key"));
+		$this->object->setValue( 'key', 'value' );
+		$this->assertTrue( $this->object->getValueExists('key') );
+		$this->assertEquals('value', $this->object->getValue('key'));
 
 		$this->assertEquals(array (
-			"test-namespace" => array (
-				"key" => "value",
+			'test-namespace' => array (
+				'key' => 'value',
 			),
 		), $_SESSION);
 
-		$this->object->unsetValue("key");
-		$this->assertFalse( $this->object->getValueExists("key") );
+		$this->object->unsetValue('key');
+		$this->assertFalse( $this->object->getValueExists('key') );
 
 		$this->assertEquals(array (
-			"test-namespace" => array (
+			'test-namespace' => array (
 			),
 		), $_SESSION);
 	}

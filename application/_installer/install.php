@@ -13,13 +13,13 @@
  */
 namespace Jet;
 
-if( version_compare(PHP_VERSION, "5.4.4", "<") ) {
-	@header("HTTP/1.1 500 Internal Server Error");
-	trigger_error("PHP 5.4.4 or above is required", E_USER_ERROR);
+if( version_compare(PHP_VERSION, '5.4.4', '<') ) {
+	@header('HTTP/1.1 500 Internal Server Error');
+	trigger_error('PHP 5.4.4 or above is required', E_USER_ERROR);
 }
 
-define("JET_INSTALLER_PATH", JET_APPLICATION_PATH."_installer/");
-define("JET_INSTALLER_URI", JET_BASE_URI."application/_installer/");
+define('JET_INSTALLER_PATH', JET_APPLICATION_PATH.'_installer/');
+define('JET_INSTALLER_URI', JET_BASE_URI.'application/_installer/');
 
-require "Installer.php";
+require 'Installer.php';
 (new Installer())->main();

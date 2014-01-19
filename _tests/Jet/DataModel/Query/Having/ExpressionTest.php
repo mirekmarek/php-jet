@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase {
 
@@ -51,18 +51,18 @@ class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase 
 
 		$this->backend_function_call = new DataModel_Query_Select_Item_BackendFunctionCall(
 			array(
-				$this->properties["float_property"],
-				$this->properties["int_property"]
+				$this->properties['float_property'],
+				$this->properties['int_property']
 			),
-			"SUM(%float_property%)+%int_property%"
+			'SUM(%float_property%)+%int_property%'
 		);
 
-		$this->select_item = new DataModel_Query_Select_Item( $this->backend_function_call, "my_function_call" );
+		$this->select_item = new DataModel_Query_Select_Item( $this->backend_function_call, 'my_function_call' );
 
 		$this->object = new DataModel_Query_Having_Expression(
 			$this->select_item,
 			DataModel_Query::O_NOT_EQUAL,
-			"test"
+			'test'
 		);
 	}
 
@@ -84,6 +84,6 @@ class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\DataModel_Query_Having_Expression::toString
 	 */
 	public function testToString() {
-		$this->assertEquals("SUM(data_model_test_mock::float_property)+data_model_test_mock::int_property != 'test'", $this->object->toString());
+		$this->assertEquals('SUM(data_model_test_mock::float_property)+data_model_test_mock::int_property != \'test\'', $this->object->toString());
 	}
 }

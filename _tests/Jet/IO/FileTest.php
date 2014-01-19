@@ -12,35 +12,35 @@
  */
 namespace Jet;
 
-define("IO_FILE_TEST_BASEDIR", JET_TESTS_DATA . "IO/File/");
+define('IO_FILE_TEST_BASEDIR', JET_TESTS_DATA . 'IO/File/');
 
 
 class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
-	protected $imaginary_file_path = "/path/to/imaginary/directory/file.txt";
+	protected $imaginary_file_path = '/path/to/imaginary/directory/file.txt';
 
-	protected $write_test_path = "";
-	protected $chmod_test_path = "";
-	protected $append_test_path = "";
-	protected $delete_test_path = "";
-	protected $copy_test_target_path = "";
-	protected $copy_test_source_path = "";
-	protected $rename_test_target_path = "";
-	protected $rename_test_source_path = "";
+	protected $write_test_path = '';
+	protected $chmod_test_path = '';
+	protected $append_test_path = '';
+	protected $delete_test_path = '';
+	protected $copy_test_target_path = '';
+	protected $copy_test_source_path = '';
+	protected $rename_test_target_path = '';
+	protected $rename_test_source_path = '';
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->write_test_path = JET_TESTS_TMP . "IO_File_write_test.txt";
-		$this->chmod_test_path = JET_TESTS_TMP . "IO_File_chmod_test";
-		$this->append_test_path = JET_TESTS_TMP . "IO_File_append_test.txt";
-		$this->delete_test_path = JET_TESTS_TMP . "IO_File_delete_test.txt";
-		$this->copy_test_target_path = JET_TESTS_TMP . "IO_File_copy_test_target.txt";
-		$this->copy_test_source_path = IO_FILE_TEST_BASEDIR . "readable.txt";
-		$this->rename_test_target_path = JET_TESTS_TMP . "IO_File_rename_test_target.txt";
-		$this->rename_test_source_path = JET_TESTS_TMP . "IO_File_rename_test_source.txt";
+		$this->write_test_path = JET_TESTS_TMP . 'IO_File_write_test.txt';
+		$this->chmod_test_path = JET_TESTS_TMP . 'IO_File_chmod_test';
+		$this->append_test_path = JET_TESTS_TMP . 'IO_File_append_test.txt';
+		$this->delete_test_path = JET_TESTS_TMP . 'IO_File_delete_test.txt';
+		$this->copy_test_target_path = JET_TESTS_TMP . 'IO_File_copy_test_target.txt';
+		$this->copy_test_source_path = IO_FILE_TEST_BASEDIR . 'readable.txt';
+		$this->rename_test_target_path = JET_TESTS_TMP . 'IO_File_rename_test_target.txt';
+		$this->rename_test_source_path = JET_TESTS_TMP . 'IO_File_rename_test_source.txt';
 	}
 
 	/**
@@ -85,27 +85,27 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_File::exists
 	 */
 	public function testExists() {
-		$this->assertFalse(IO_File::exists(IO_FILE_TEST_BASEDIR . "imaginary.file"));
-		$this->assertTrue(IO_File::exists(IO_FILE_TEST_BASEDIR . "not-readable.txt"));
-		$this->assertTrue(IO_File::exists(IO_FILE_TEST_BASEDIR . "readable.txt"));
+		$this->assertFalse(IO_File::exists(IO_FILE_TEST_BASEDIR . 'imaginary.file'));
+		$this->assertTrue(IO_File::exists(IO_FILE_TEST_BASEDIR . 'not-readable.txt'));
+		$this->assertTrue(IO_File::exists(IO_FILE_TEST_BASEDIR . 'readable.txt'));
 	}
 
 	/**
 	 * @covers Jet\IO_File::isReadable
 	 */
 	public function testIsReadable() {
-		$this->assertFalse(IO_File::isReadable(IO_FILE_TEST_BASEDIR . "imaginary.file"));
-		$this->assertFalse(IO_File::isReadable(IO_FILE_TEST_BASEDIR . "not-readable.txt"));
-		$this->assertTrue(IO_File::isReadable(IO_FILE_TEST_BASEDIR . "readable.txt"));
+		$this->assertFalse(IO_File::isReadable(IO_FILE_TEST_BASEDIR . 'imaginary.file'));
+		$this->assertFalse(IO_File::isReadable(IO_FILE_TEST_BASEDIR . 'not-readable.txt'));
+		$this->assertTrue(IO_File::isReadable(IO_FILE_TEST_BASEDIR . 'readable.txt'));
 	}
 
 	/**
 	 * @covers Jet\IO_File::isWritable
 	 */
 	public function testIsWritable() {
-		$this->assertFalse(IO_File::isWritable(IO_FILE_TEST_BASEDIR . "imaginary.file"));
-		$this->assertFalse(IO_File::isWritable(IO_FILE_TEST_BASEDIR . "not-writeable.txt"));
-		$this->assertTrue(IO_File::isWritable(IO_FILE_TEST_BASEDIR . "writeable.txt"));
+		$this->assertFalse(IO_File::isWritable(IO_FILE_TEST_BASEDIR . 'imaginary.file'));
+		$this->assertFalse(IO_File::isWritable(IO_FILE_TEST_BASEDIR . 'not-writeable.txt'));
+		$this->assertTrue(IO_File::isWritable(IO_FILE_TEST_BASEDIR . 'writeable.txt'));
 	}
 
 	/**
@@ -115,7 +115,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testWriteImaginaryDirectory() {
-		@IO_File::write($this->imaginary_file_path, "data");
+		@IO_File::write($this->imaginary_file_path, 'data');
 	}
 
 	/**
@@ -125,14 +125,14 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_WRITE_FAILED
 	 */
 	public function testWriteFailed() {
-		@IO_File::write(IO_FILE_TEST_BASEDIR . "/not-writable-dir/file.txt", "data");
+		@IO_File::write(IO_FILE_TEST_BASEDIR . '/not-writable-dir/file.txt', 'data');
 	}
 
 	/**
 	 * @covers Jet\IO_File::write
 	 */
 	public function testWrite() {
-		IO_File::write($this->write_test_path, "IO_File::write test");
+		IO_File::write($this->write_test_path, 'IO_File::write test');
 		$this->assertTrue(file_exists($this->write_test_path));
 	}
 
@@ -153,19 +153,19 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testChmod() {
 
-		file_put_contents($this->chmod_test_path, "IO_File::chmod test");
+		file_put_contents($this->chmod_test_path, 'IO_File::chmod test');
 
 		IO_File::setDefaultChmodMask(0500);
 		IO_File::chmod($this->chmod_test_path);
 
 		clearstatcache();
 		$file_stat = stat($this->chmod_test_path);
-		$this->assertTrue((0500 & $file_stat["mode"]) == 0500);
+		$this->assertTrue((0500 & $file_stat['mode']) == 0500);
 
 		IO_File::chmod($this->chmod_test_path, 0666);
 		clearstatcache();
 		$file_stat = stat($this->chmod_test_path);
-		$this->assertTrue((0666 & $file_stat["mode"]) == 0666);
+		$this->assertTrue((0666 & $file_stat['mode']) == 0666);
 
 	}
 
@@ -176,18 +176,18 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testAppendFailed() {
-		@IO_File::append($this->imaginary_file_path, "data");
+		@IO_File::append($this->imaginary_file_path, 'data');
 	}
 
 	/**
 	 * @covers Jet\IO_File::append
 	 */
 	public function testAppend() {
-		file_put_contents($this->append_test_path, "old data");
+		file_put_contents($this->append_test_path, 'old data');
 
-		IO_File::append($this->append_test_path, "/new data");
+		IO_File::append($this->append_test_path, '/new data');
 
-		$this->assertEquals("old data/new data", file_get_contents($this->append_test_path));
+		$this->assertEquals('old data/new data', file_get_contents($this->append_test_path));
 	}
 
 	/**
@@ -204,7 +204,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_File::read
 	 */
 	public function testRead() {
-		$this->assertEquals("read test", IO_File::read(IO_FILE_TEST_BASEDIR . "readable.txt"));
+		$this->assertEquals('read test', IO_File::read(IO_FILE_TEST_BASEDIR . 'readable.txt'));
 	}
 
 	/**
@@ -222,7 +222,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_File::delete
 	 */
 	public function testDelete() {
-		file_put_contents($this->delete_test_path, "delete data");
+		file_put_contents($this->delete_test_path, 'delete data');
 
 		IO_File::delete($this->delete_test_path);
 		$this->assertFalse(file_exists($this->delete_test_path));
@@ -268,7 +268,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 		IO_File::copy($this->copy_test_source_path, $this->copy_test_target_path);
 
 		$this->assertTrue(file_exists($this->copy_test_target_path));
-		$this->assertEquals("read test", file_get_contents($this->copy_test_target_path));
+		$this->assertEquals('read test', file_get_contents($this->copy_test_target_path));
 	}
 
 	/**
@@ -311,20 +311,20 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testRename() {
-		file_put_contents($this->rename_test_source_path, "rename test");
+		file_put_contents($this->rename_test_source_path, 'rename test');
 
 		IO_File::rename($this->rename_test_source_path, $this->rename_test_target_path);
 
 		$this->assertFalse(file_exists($this->rename_test_source_path));
 		$this->assertTrue(file_exists($this->rename_test_target_path));
-		$this->assertEquals("rename test", file_get_contents($this->rename_test_target_path));
+		$this->assertEquals('rename test', file_get_contents($this->rename_test_target_path));
 	}
 
 	/**
 	 * @covers Jet\IO_File::getSize
 	 */
 	public function testGetSize() {
-		$this->assertEquals(9, IO_File::getSize(IO_FILE_TEST_BASEDIR . "readable.txt"));
+		$this->assertEquals(9, IO_File::getSize(IO_FILE_TEST_BASEDIR . 'readable.txt'));
 	}
 
 	/**
@@ -339,10 +339,10 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_File::getMimeType
 	 */
 	public function testGetMimeType() {
-		$this->assertEquals( "application/msword-test", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/doc.docx", IO_FILE_TEST_BASEDIR."mime/map.php") );
-		$this->assertEquals( "application/msexcel-test", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/sheet.xlsx", IO_FILE_TEST_BASEDIR."mime/map.php") );
-		$this->assertEquals( "application/msword", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/doc.doc") );
-		$this->assertEquals( "application/vnd.ms-excel", IO_File::getMimeType(IO_FILE_TEST_BASEDIR."mime/sheet.xls" ) );
+		$this->assertEquals( 'application/msword-test', IO_File::getMimeType(IO_FILE_TEST_BASEDIR.'mime/doc.docx', IO_FILE_TEST_BASEDIR.'mime/map.php') );
+		$this->assertEquals( 'application/msexcel-test', IO_File::getMimeType(IO_FILE_TEST_BASEDIR.'mime/sheet.xlsx', IO_FILE_TEST_BASEDIR.'mime/map.php') );
+		$this->assertEquals( 'application/msword', IO_File::getMimeType(IO_FILE_TEST_BASEDIR.'mime/doc.doc') );
+		$this->assertEquals( 'application/vnd.ms-excel', IO_File::getMimeType(IO_FILE_TEST_BASEDIR.'mime/sheet.xls' ) );
 
 	}
 
@@ -350,10 +350,10 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_File::getMaxUploadSize
 	 */
 	public function testGetMaxUploadSize() {
-		$max_upload = ini_get("upload_max_filesize");
-		$max_post = ini_get("post_max_size");
+		$max_upload = ini_get('upload_max_filesize');
+		$max_post = ini_get('post_max_size');
 
-		$units = array("" => 1, "K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+		$units = array('' => 1, 'K'=>1024, 'M'=>1024*1024, 'G'=>1024*1024*1024);
 
 		$max_post_unit = substr($max_post, -1);
 		$max_upload_unit = substr($max_upload, -1);

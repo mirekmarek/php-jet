@@ -36,11 +36,11 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testDecodeRequestDataJSON() {
 		$data = array();
-		$data["a"] = array(
-			"int" => 1234,
-			"float" => 3.14,
-			"array" => array(
-					"string" => "String \"string\" 'string' ",
+		$data['a'] = array(
+			'int' => 1234,
+			'float' => 3.14,
+			'array' => array(
+					'string' => 'String "string" \'string\' ',
 			)
 		);
 
@@ -54,7 +54,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testDecodeRequestDataXML() {
 
-		$data = $this->object->decodeRequestDataXML("<Jet_ImageGallery>
+		$data = $this->object->decodeRequestDataXML('<Jet_ImageGallery>
 											<!--  Type: ID, required: no, is ID  -->
 											<ID>linux_2m_MF137301720954251d69479847362_23093172</ID>
 											<!--  Type: ID, required: yes  -->
@@ -70,7 +70,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 												<title/>
 											</item>
-										</Jet_ImageGallery>");
+										</Jet_ImageGallery>');
 
 		$this->assertEquals(array (
 			'comment' => 'aaa',
@@ -86,7 +86,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			),
 		), $data);
 
-		$data = $this->object->decodeRequestDataXML("<list model_name=\"Jet_ImageGallery_Images\">
+		$data = $this->object->decodeRequestDataXML('<list model_name=\'Jet_ImageGallery_Images\'>
 											<item>
 												<ID>linux_2m_MF137301722026651d69484411740_57557045</ID>
 												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
@@ -171,7 +171,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												/public/imagegallery/1/linux_2m_MF137301928548251d69c9575b7c1_93699139/_t_/100x100_Forest.jpg
 												</thumbnail_URI>
 											</item>
-											</list>");
+											</list>');
 
 
 		$this->assertEquals(array (

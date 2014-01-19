@@ -27,16 +27,16 @@ class Installer_Step_Translator_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Translator configuration", array(), "Translator");
+		return Tr::_('Translator configuration', array(), 'Translator');
 	}
 
 	public function getStepsAfter() {
-		return array("TranslatorBackend");
+		return array('TranslatorBackend');
 	}
 }

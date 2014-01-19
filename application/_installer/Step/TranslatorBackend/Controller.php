@@ -32,13 +32,13 @@ class Installer_Step_TranslatorBackend_Controller extends Installer_Step_Control
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("config", $config);
-		$this->render("default");
+		$this->view->setVar('form', $form);
+		$this->view->setVar('config', $config);
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Backend configuration", array(), "TranslatorBackend");
+		return Tr::_('Backend configuration', array(), 'TranslatorBackend');
 	}
 
 	public function getIsSubstep() {

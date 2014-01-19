@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -45,14 +45,14 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 
 		$this->query = new DataModel_Query($this->data_model);
 		$this->query->setSelect(array(
-			"this.string_property",
-			"my_value" => array(
-							array("this.int_property"),
-							"MAX(%int_property%)"
+			'this.string_property',
+			'my_value' => array(
+							array('this.int_property'),
+							'MAX(%int_property%)'
 						),
 		));
 
-		$this->object = new DataModel_Query_OrderBy($this->query, array("+this.int_property", "+my_value","-string_property", "this.ID_property") );
+		$this->object = new DataModel_Query_OrderBy($this->query, array('+this.int_property', '+my_value','-string_property', 'this.ID_property') );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function test__constructFailed() {
-		$this->object = new DataModel_Query_OrderBy($this->query, array("+imaginary") );
+		$this->object = new DataModel_Query_OrderBy($this->query, array('+imaginary') );
 
 	}
 
@@ -93,9 +93,9 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 			 * @var DataModel_Query_Select_Item|DataModel_Definition_Property_Abstract $item
 			 */
 			if($item instanceof DataModel_Definition_Property_Abstract) {
-				$data[$k] = ($v->getDesc()?"-":"+").$item->getName();
+				$data[$k] = ($v->getDesc()?'-':'+').$item->getName();
 			} else {
-				$data[$k] = ($v->getDesc()?"-":"+").$item->getSelectAs();
+				$data[$k] = ($v->getDesc()?'-':'+').$item->getSelectAs();
 			}
 		}
 

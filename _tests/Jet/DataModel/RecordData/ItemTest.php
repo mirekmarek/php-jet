@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -38,7 +38,7 @@ class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->object = new DataModel_RecordData_Item( $this->properties["string_property"], "My Test" );
+		$this->object = new DataModel_RecordData_Item( $this->properties['string_property'], 'My Test' );
 	}
 
 	/**
@@ -52,13 +52,13 @@ class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_RecordData_Item::getPropertyDefinition
 	 */
 	public function testGetPropertyDefinition() {
-		$this->assertEquals($this->properties["string_property"], $this->object->getPropertyDefinition() );
+		$this->assertEquals($this->properties['string_property'], $this->object->getPropertyDefinition() );
 	}
 
 	/**
 	 * @covers Jet\DataModel_RecordData_Item::getValue
 	 */
 	public function testGetValue() {
-		$this->assertEquals("My Test", $this->object->getValue() );
+		$this->assertEquals('My Test', $this->object->getValue() );
 	}
 }

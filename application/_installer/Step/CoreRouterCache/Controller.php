@@ -30,13 +30,13 @@ class Installer_Step_CoreRouterCache_Controller extends Installer_Step_Controlle
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
-		$this->view->setVar("config", $config);
-		$this->render("default");
+		$this->view->setVar('form', $form);
+		$this->view->setVar('config', $config);
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Cache configuration", array(), "CoreRouterCache");
+		return Tr::_('Cache configuration', array(), 'CoreRouterCache');
 	}
 
 	public function getIsSubstep() {

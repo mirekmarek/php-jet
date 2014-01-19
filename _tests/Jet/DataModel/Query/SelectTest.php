@@ -12,7 +12,7 @@
 
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -42,18 +42,18 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 		$query = new DataModel_Query( $this->data_model );
 
 		$this->object = new DataModel_Query_Select($query, array(
-			$this->properties["ID_property"],
-			"my_string_property" => $this->properties["string_property"],
-			"my_sum" => array(
+			$this->properties['ID_property'],
+			'my_string_property' => $this->properties['string_property'],
+			'my_sum' => array(
 				array(
-					$this->properties["int_property"],
-					$this->properties["float_property"]
+					$this->properties['int_property'],
+					$this->properties['float_property']
 				),
-				"SUM(%int_property%)+%float_property%"
+				'SUM(%int_property%)+%float_property%'
 			),
-			"my_count" => array(
-				"this.int_property",
-				"COUNT(%int_property%)"
+			'my_count' => array(
+				'this.int_property',
+				'COUNT(%int_property%)'
 			)
 
 
@@ -78,7 +78,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 		$query = new DataModel_Query( $this->data_model );
 
 		$this->object = new DataModel_Query_Select($query, array(
-			"some" => "crap"
+			'some' => 'crap'
 		));
 
 	}
@@ -95,8 +95,8 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 		$this->object = new DataModel_Query_Select($query, array(
 			array(
-				"this.int_property",
-				"COUNT(%int_property%)"
+				'this.int_property',
+				'COUNT(%int_property%)'
 			)
 		));
 
@@ -113,7 +113,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 		$this->object = new DataModel_Query_Select($query, array(
 			array(
-				"this.int_property"
+				'this.int_property'
 			)
 		));
 
@@ -126,11 +126,11 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Select::getHasItem
 	 */
 	public function testGetHasItem() {
-		$this->assertTrue( $this->object->getHasItem("ID_property") );
-		$this->assertTrue( $this->object->getHasItem("my_string_property") );
-		$this->assertTrue( $this->object->getHasItem("my_sum") );
-		$this->assertTrue( $this->object->getHasItem("my_count") );
-		$this->assertFalse( $this->object->getHasItem("imaginary") );
+		$this->assertTrue( $this->object->getHasItem('ID_property') );
+		$this->assertTrue( $this->object->getHasItem('my_string_property') );
+		$this->assertTrue( $this->object->getHasItem('my_sum') );
+		$this->assertTrue( $this->object->getHasItem('my_count') );
+		$this->assertFalse( $this->object->getHasItem('imaginary') );
 	}
 
 	/**
@@ -139,10 +139,10 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_Select::getItem
 	 */
 	public function testGetItem() {
-		$this->assertTrue($this->object->getItem("ID_property")->getItem() instanceof DataModel_Definition_Property_Abstract);
-		$this->assertTrue($this->object->getItem("my_string_property")->getItem() instanceof DataModel_Definition_Property_Abstract);
-		$this->assertTrue($this->object->getItem("my_count")->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall);
-		$this->assertTrue($this->object->getItem("my_sum")->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall);
+		$this->assertTrue($this->object->getItem('ID_property')->getItem() instanceof DataModel_Definition_Property_Abstract);
+		$this->assertTrue($this->object->getItem('my_string_property')->getItem() instanceof DataModel_Definition_Property_Abstract);
+		$this->assertTrue($this->object->getItem('my_count')->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall);
+		$this->assertTrue($this->object->getItem('my_sum')->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall);
 	}
 
 	/**
@@ -161,6 +161,6 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 			$items[] = $k;
 		}
 
-		$this->assertEquals( array("ID_property", "my_string_property", "my_sum", "my_count"), $items );
+		$this->assertEquals( array('ID_property', 'my_string_property', 'my_sum', 'my_count'), $items );
 	}
 }

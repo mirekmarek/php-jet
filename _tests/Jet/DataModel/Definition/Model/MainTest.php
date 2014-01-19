@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Definition/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 
 class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
@@ -47,14 +47,14 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Definition_Model_Abstract::getModelName
 	 */
 	public function testGetModelName() {
-		$this->assertEquals("data_model_test_mock", $this->object->getModelName());
+		$this->assertEquals('data_model_test_mock', $this->object->getModelName());
 	}
 
 	/**
 	 * @covers Jet\DataModel_Definition_Model_Abstract::getClassName
 	 */
 	public function testGetClassName() {
-		$this->assertEquals("Jet\\DataModel_Definition_DataModelTestMock", $this->object->getClassName());
+		$this->assertEquals('Jet\\DataModel_Definition_DataModelTestMock', $this->object->getClassName());
 	}
 
 	/**
@@ -62,8 +62,8 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetIDProperties() {
 		$ID_properties = $this->object->getIDProperties();
-		$this->assertArrayHasKey("ID", $ID_properties);
-		$this->assertArrayHasKey("ID_property", $ID_properties);
+		$this->assertArrayHasKey('ID', $ID_properties);
+		$this->assertArrayHasKey('ID_property', $ID_properties);
 	}
 
 	/**
@@ -73,17 +73,17 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 		$properties = $this->object->getProperties();
 
 		$property_names = array(
-			"ID",
-			"ID_property",
-			"string_property",
-			"locale_property",
-			"int_property",
-			"float_property",
-			"bool_property",
-			"array_property",
-			"date_time_property",
-			"date_property",
-			"data_model_property"
+			'ID',
+			'ID_property',
+			'string_property',
+			'locale_property',
+			'int_property',
+			'float_property',
+			'bool_property',
+			'array_property',
+			'date_time_property',
+			'date_property',
+			'data_model_property'
 		);
 
 		foreach($property_names as $property_name) {

@@ -27,12 +27,12 @@ class Installer_Step_Main_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $form);
+		$this->view->setVar('form', $form);
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Main configuration", array(), "Main");
+		return Tr::_('Main configuration', array(), 'Main');
 	}
 }

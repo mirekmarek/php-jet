@@ -18,39 +18,39 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 
 
 	public function main() {
-		$_translations = file(JET_APPLICATION_PATH."_installer/available translations.txt");
+		$_translations = file(JET_APPLICATION_PATH.'_installer/available translations.txt');
 
 		//$all_translations = Locale::getAllLocalesList($this->installer->getCurrentLocale());
 		$translations = array();
 		foreach($_translations as $tr) {
 			$tr = trim($tr);
-			list($tr,$lng) = explode(":", $tr);
+			list($tr,$lng) = explode(':', $tr);
 
 			$translations[$tr] = $lng;
 		}
 
 
-		$select_locale_form = new Form("select_locale_form",
+		$select_locale_form = new Form('select_locale_form',
 			array(
-				Form_Factory::field("Select","locale", "Please select locale: "),
+				Form_Factory::field('Select','locale', 'Please select locale: '),
 			)
 		);
-		$select_locale_form->getField("locale")->setSelectOptions( $translations );
-		$select_locale_form->getField("locale")->setIsRequired(true);
-		$select_locale_form->getField("locale")->setDefaultValue($this->installer->getCurrentLocale());
+		$select_locale_form->getField('locale')->setSelectOptions( $translations );
+		$select_locale_form->getField('locale')->setIsRequired(true);
+		$select_locale_form->getField('locale')->setDefaultValue($this->installer->getCurrentLocale());
 
 		if($select_locale_form->catchValues() && $select_locale_form->validateValues()) {
 			$d = $select_locale_form->getValues();
-			$this->installer->setCurrentLocale(new Locale($d["locale"]));
+			$this->installer->setCurrentLocale(new Locale($d['locale']));
 			$this->installer->goNext();
 		}
 
-		$this->view->setVar("form", $select_locale_form);
+		$this->view->setVar('form', $select_locale_form);
 
-		$this->render("default");
+		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_("Welcome", array(), "Welcome");
+		return Tr::_('Welcome', array(), 'Welcome');
 	}
 }

@@ -7,7 +7,7 @@ namespace Jet;
 /**
  * @var Application_Modules_Module_Info[] $modules
  */
-$modules = $this->getRaw("modules");
+$modules = $this->getRaw('modules');
 ?>
 <jet_form name="modules_select_form">
 <jet_form_common_error_message class="formError"/>
@@ -16,11 +16,11 @@ $modules = $this->getRaw("modules");
 	<thead>
 	<tr>
 		<th></th>
-		<th><?=Tr::_("Vendor");?></th>
-		<th><?=Tr::_("Module");?></th>
-		<th><?=Tr::_("Module description");?></th>
-		<th><?=Tr::_("Installed?");?></th>
-		<th><?=Tr::_("Activated?");?></th>
+		<th><?=Tr::_('Vendor');?></th>
+		<th><?=Tr::_('Module');?></th>
+		<th><?=Tr::_('Module description');?></th>
+		<th><?=Tr::_('Installed?');?></th>
+		<th><?=Tr::_('Activated?');?></th>
 	</tr>
 	</thead>
 	<?php foreach( $modules as $info ): ?>
@@ -33,11 +33,11 @@ $modules = $this->getRaw("modules");
 		<td><?=$info->getVendor();?></td>
 		<td><label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> (<?=$info->getName();?>)</label></td>
 		<td><?=$info->getDescription();?></td>
-		<td><?=Tr::_($info->getIsInstalled()?"Yes":"NO");?></td>
-		<td><?=Tr::_($info->getIsActivated()?"Yes":"NO");?></td>
+		<td><?=Tr::_($info->getIsInstalled()?'Yes':'NO');?></td>
+		<td><?=Tr::_($info->getIsActivated()?'Yes':'NO');?></td>
 	</tr>
 	<?php endforeach; ?>
 </table>
 
-	<input type="submit" value="<?=Tr::_("Install and activate selected modules");?>">
+	<input type="submit" value="<?=Tr::_('Install and activate selected modules');?>">
 </jet_form>

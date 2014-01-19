@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/ID/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/ID/DataModelTestMock.php';
 
 
 class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
@@ -26,10 +26,10 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	protected $data_model_object;
 
 	protected $ID_data = array(
-			"ID" => "myID",
-			"ID_property_1" => "abcdefg",
-			"ID_property_2" => "cs_CZ",
-			"ID_property_3" => 1234,
+			'ID' => 'myID',
+			'ID_property_1' => 'abcdefg',
+			'ID_property_2' => 'cs_CZ',
+			'ID_property_3' => 1234,
 
 		);
 
@@ -75,14 +75,14 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::toString
 	 */
 	public function testToString() {
-		$this->assertSame("myID:abcdefg:cs_CZ:1234", $this->ID_object->toString());
+		$this->assertSame('myID:abcdefg:cs_CZ:1234', $this->ID_object->toString());
 	}
 
 	/**
 	 * @covers Jet\DataModel_ID_Abstract::unserialize
 	 */
 	public function testUnserialize() {
-		$this->ID_object->unserialize("myID-t:abcdefg-t:sk_SK:12345");
+		$this->ID_object->unserialize('myID-t:abcdefg-t:sk_SK:12345');
 
 		$ID_data = array();
 		foreach($this->ID_object as $k=>$v) {
@@ -90,10 +90,10 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 		}
 
 		$valid_ID_data = array(
-			"ID" => "myID-t",
-			"ID_property_1" => "abcdefg-t",
-			"ID_property_2" => "sk_SK",
-			"ID_property_3" => 12345,
+			'ID' => 'myID-t',
+			'ID_property_1' => 'abcdefg-t',
+			'ID_property_2' => 'sk_SK',
+			'ID_property_3' => 12345,
 
 		);
 
@@ -105,8 +105,8 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::offsetExists
 	 */
 	public function testOffsetExists() {
-		$this->assertTrue( isset($this->ID_object["ID_property_3"]) );
-		$this->assertFalse( isset($this->ID_object["imaginary"]) );
+		$this->assertTrue( isset($this->ID_object['ID_property_3']) );
+		$this->assertFalse( isset($this->ID_object['imaginary']) );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testOffsetUnset() {
 		//do nothing
-		unset($this->ID_object["nothning"]);
+		unset($this->ID_object['nothning']);
 	}
 
 	/**
@@ -149,13 +149,13 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGenerateID() {
 
-		$ID = $this->ID_object->generateID( $this->data_model_object, "Sítě   1  ");
+		$ID = $this->ID_object->generateID( $this->data_model_object, 'Sítě   1  ');
 
-		$this->assertEquals("site_12", $ID);
+		$this->assertEquals('site_12', $ID);
 
-		$ID = $this->ID_object->generateID($this->data_model_object, "Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long " );
+		$ID = $this->ID_object->generateID($this->data_model_object, 'Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long ' );
 
-		$this->assertEquals("long_long_long_long_long_long_long_long_long_l5", $ID);
+		$this->assertEquals('long_long_long_long_long_long_long_long_long_l5', $ID);
 
 	}
 
@@ -164,12 +164,12 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Default::checkFormat
 	 */
 	public function testCheckFormat() {
-		$this->assertTrue($this->ID_object->checkFormat("valid_id_1"));
+		$this->assertTrue($this->ID_object->checkFormat('valid_id_1'));
 
-		$this->assertFalse($this->ID_object->checkFormat("Invalid_ID_1"));
-		$this->assertFalse($this->ID_object->checkFormat("sh"));
-		$this->assertFalse($this->ID_object->checkFormat("long_long_long_long_long_long_long_long_long_long_long_"));
-		$this->assertFalse($this->ID_object->checkFormat("%^&*(%#.") );
+		$this->assertFalse($this->ID_object->checkFormat('Invalid_ID_1'));
+		$this->assertFalse($this->ID_object->checkFormat('sh'));
+		$this->assertFalse($this->ID_object->checkFormat('long_long_long_long_long_long_long_long_long_long_long_'));
+		$this->assertFalse($this->ID_object->checkFormat('%^&*(%#.') );
 
 	}
 

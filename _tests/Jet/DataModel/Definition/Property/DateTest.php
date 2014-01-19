@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Definition/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -24,9 +24,9 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
-	protected $property_class_name = "DataModel_Definition_Property_Date";
+	protected $property_class_name = 'DataModel_Definition_Property_Date';
 
-	protected $property_name = "date_property";
+	protected $property_name = 'date_property';
 
 	protected $property_options = array();
 
@@ -35,7 +35,7 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$class_name = __NAMESPACE__."\\".$this->property_class_name;
+		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
@@ -55,10 +55,10 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\DataModel_Definition_Property_Date::checkValueType
 	 */
 	public function testCheckValueType() {
-		$date = "1980-08-13";
+		$date = '1980-08-13';
 		$this->object->checkValueType($date);
 
-		$date_object = new DateTime("1980-08-13");
+		$date_object = new DateTime('1980-08-13');
 		$this->assertEquals($date_object, $date);
 	}
 
@@ -66,7 +66,7 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\DataModel_Definition_Property_Date::getValueForJsonSerialize
 	 */
 	public function testGetValueForJsonSerialize() {
-		$date_object = new DateTime("1980-08-13");
+		$date_object = new DateTime('1980-08-13');
 		$value = $this->object->getValueForJsonSerialize($date_object);
 		$this->assertEquals($date_object->toString(), $value);
 	}

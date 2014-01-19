@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-require_once "_mock/Jet/DataModel/Query/DataModelTestMock.php";
+require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -30,13 +30,13 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	protected $object;
 
 	protected $values = array(
-		"ID" => "ID123",
-		"ID_property" => "myID",
-		"string_property" => "My Test",
-		"int_property" => 1234,
-		"float_property" => 3.14,
-		"bool_property" => true,
-		"array_property" => array("a","b","c")
+		'ID' => 'ID123',
+		'ID_property' => 'myID',
+		'string_property' => 'My Test',
+		'int_property' => 1234,
+		'float_property' => 3.14,
+		'bool_property' => true,
+		'array_property' => array('a','b','c')
 
 	);
 
@@ -101,7 +101,7 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	public function testCreateRecordDataFailed() {
 
 		$values = $this->values;
-		$values["imaginary"] = "hoax";
+		$values['imaginary'] = 'hoax';
 
 		DataModel_RecordData::createRecordData($this->data_model, $values );
 	}
