@@ -35,7 +35,9 @@ define('JET_EOL', PHP_EOL);
 
 define('JET_TESTS_TMP', getcwd().'/_tmp/');
 define('JET_TESTS_DATA', getcwd().'/_data/');
+define('JET_LIBRARY_PATH', _JET_TEST_LIB_DIR);
 
 require '_mock/Jet/Object.php';
 
 Jet\Config::setApplicationConfigFilePath( __DIR__.'/application-test-config.php' );
+Jet\Application::doNotEnd();

@@ -1,6 +1,14 @@
 <?php
 namespace Jet;
 
+function header_test_rest( $header, $replace=true, $http_response_code=0 ) {
+	$GLOBALS['_test_Http_Headers_sent_headers'][] = array(
+		'header' => $header,
+		'replace' => $replace,
+		'http_response_code' => $http_response_code
+	);
+}
+
 class Mvc_Controller_REST_Test extends Mvc_Controller_REST {
 	public function __construct() {
 
@@ -21,6 +29,10 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
+
+		Http_Headers::setHeaderFunctionName('\Jet\header_test_rest');
+		$GLOBALS['_test_Http_Headers_sent_headers'] = array();
+
 		$this->object = new Mvc_Controller_REST_Test;
 	}
 
@@ -269,14 +281,61 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\Mvc_Controller_REST::responseOK
-	 * @todo   Implement testResponseOK().
 	 */
-	public function testResponseOK() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+	public function testResponseOKJSON() {
+		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_JSON );
+
+		ob_start();
+		$this->object->responseOK();
+		$d = ob_get_contents();
+		ob_end_clean();
+
+		//var_export($GLOBALS['_test_Http_Headers_sent_headers']);
+		//var_export( $d );
+
+		$this->assertEquals( array (
+			array (
+				'header' => 'HTTP/1.1 200 OK',
+				'replace' => true,
+				'http_response_code' => 200,
+			),
+			array (
+				'header' => 'Content-type:application/json;charset=UTF-8',
+				'replace' => true,
+				'http_response_code' => 0,
+			),
+		), $GLOBALS['_test_Http_Headers_sent_headers'] );
+
+		$this->assertEquals('"OK"', $d );
 	}
+
+	/**
+	 * @covers Jet\Mvc_Controller_REST::responseOK
+	 */
+	public function testResponseOKXML() {
+		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
+
+		ob_start();
+		$this->object->responseOK();
+		$d = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals( array (
+			array (
+				'header' => 'HTTP/1.1 200 OK',
+				'replace' => true,
+				'http_response_code' => 200,
+			),
+			array (
+				'header' => 'Content-type:text/xml;charset=UTF-8',
+				'replace' => true,
+				'http_response_code' => 0,
+			),
+		), $GLOBALS['_test_Http_Headers_sent_headers'] );
+
+		$this->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>'.JET_EOL.'<result>OK</result>', $d );
+	}
+
 
 	/**
 	 * @covers Jet\Mvc_Controller_REST::responseData
@@ -324,23 +383,68 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\Mvc_Controller_REST::responseUnknownItem
-	 * @todo   Implement testResponseUnknownItem().
+	 * @covers Jet\Mvc_Controller_REST::responseError
 	 */
-	public function testResponseUnknownItem() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+	public function testResponseUnknownItemJSON() {
+
+		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_JSON );
+
+		ob_start();
+		$this->object->responseUnknownItem('Item_ID');
+		$d = ob_get_contents();
+		ob_end_clean();
+
+		//var_export($GLOBALS['_test_Http_Headers_sent_headers']);
+		//var_export( $d );
+
+		$this->assertEquals( array (
+			array (
+				'header' => 'HTTP/1.1 404 Unknown item',
+				'replace' => true,
+				'http_response_code' => 404,
+			),
+			array (
+				'header' => 'Content-type:application/json;charset=UTF-8',
+				'replace' => true,
+				'http_response_code' => 0,
+			),
+		), $GLOBALS['_test_Http_Headers_sent_headers'] );
+
+		$this->assertEquals('{"error_code":"Jet\\\\Mvc_Controller_REST_Test:UnknownItem","error_msg":"Unknown item","error_data":{"ID":"Item_ID"}}', $d );
 	}
 
 	/**
+	 * @covers Jet\Mvc_Controller_REST::responseUnknownItem
 	 * @covers Jet\Mvc_Controller_REST::responseError
-	 * @todo   Implement testResponseError().
 	 */
-	public function testResponseError() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+	public function testResponseUnknownItemXML() {
+		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
+
+		ob_start();
+		$this->object->responseUnknownItem('Item_ID');
+		$d = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals( array (
+			array (
+				'header' => 'HTTP/1.1 404 Unknown item',
+				'replace' => true,
+				'http_response_code' => 404,
+			),
+			array (
+				'header' => 'Content-type:text/xml;charset=UTF-8',
+				'replace' => true,
+				'http_response_code' => 0,
+			),
+		), $GLOBALS['_test_Http_Headers_sent_headers'] );
+
+		$this->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>'.JET_EOL
+					.'<error>'.JET_EOL
+					.JET_TAB.'<error_code>Jet\\Mvc_Controller_REST_Test:UnknownItem</error_code>'.JET_EOL
+					.JET_TAB.'<error_msg>Unknown item</error_msg>'.JET_EOL
+					.JET_TAB.'<error_data>'.JET_EOL
+					.JET_TAB.JET_TAB.'<ID>Item_ID</ID>'.JET_EOL
+					.JET_TAB.'</error_data>'.JET_EOL
+					.'</error>'.JET_EOL , $d );
 	}
 }

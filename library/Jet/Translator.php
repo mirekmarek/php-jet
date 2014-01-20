@@ -141,6 +141,13 @@ class Translator extends Object {
 			$locale = static::$current_locale;
 		}
 
+		if(
+			!$namespace ||
+			!$locale
+		) {
+			return Data_Text::replaceData($phrase, $data);
+		}
+
 		if(is_string($locale)) {
 			$locale = new Locale($locale);
 		}

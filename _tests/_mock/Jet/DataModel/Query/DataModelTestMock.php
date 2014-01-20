@@ -147,6 +147,9 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	protected $ID;
 	protected $ID_property;
 
+	protected static $__data_model_forced_backend_type = null;
+	protected static $__data_model_forced_backend_options = null;
+
 	public function _test_get_property_options( $property_name ) {
 		return static::$__data_model_properties_definition[$property_name];
 	}
@@ -155,6 +158,14 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	/**
 	 */
 	public function __construct() {
+	}
+
+	public static function setBackendType( $backend_type ) {
+		static::$__data_model_forced_backend_type = $backend_type;
+	}
+
+	public static function setBackendOptions( $backend_options ) {
+		static::$__data_model_forced_backend_options = $backend_options;
 	}
 
 }

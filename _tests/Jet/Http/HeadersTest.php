@@ -11,6 +11,14 @@
  */
 namespace Jet;
 
+function header_test( $header, $replace=true, $http_response_code=0 ) {
+	$GLOBALS['_test_Http_Headers_sent_headers'][] = array(
+		'header' => $header,
+		'replace' => $replace,
+		'http_response_code' => $http_response_code
+	);
+}
+
 class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 	protected $http_codes = array(
@@ -77,6 +85,8 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	protected $redirect_target = 'http://somewhere/over/the/rainbow/';
 
 	protected function setUp() {
+
+		Http_Headers::setHeaderFunctionName('\Jet\header_test');
 		$GLOBALS['_test_Http_Headers_sent_headers'] = array();
 	}
 
@@ -140,16 +150,29 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 
-		$main = array( 'HTTP/1.1 '.$code.' '.$this->http_codes[$code] );
+		$res = array();
+
+		$res[] = array( 'header' => 'HTTP/1.1 '.$code.' '.$this->http_codes[$code], 'replace' => true, 'http_response_code' => $code );
 
 		if($add_redirect_target) {
-			$main[] = 'Location: '.$this->redirect_target;
+			$res[] = array(
+					'header' => 'Location: '.$this->redirect_target,
+					'replace' => true,
+					'http_response_code' => 0
+				);
 		}
 
-		return array_merge(
-			$main,
-			$headers
-		);
+		foreach( $headers as $h ) {
+			$res[] = array(
+				'header' => $h,
+				'replace' => true,
+				'http_response_code' => 0
+			);
+
+		}
+
+
+		return $res;
 
 	}
 
@@ -259,7 +282,11 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	public function testReload() {
 		Http_Headers::reload( false );
 
-		$this->assertEquals( array('Location: ?#'), $GLOBALS['_test_Http_Headers_sent_headers'] );
+		$this->assertEquals( array( array(
+			'header' => 'Location: ?#',
+			'replace' => true,
+			'http_response_code' => 0
+		)), $GLOBALS['_test_Http_Headers_sent_headers'] );
 	}
 
 	/**
@@ -270,6 +297,10 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 		Http_Headers::formSent($test_form, false);
 
-		$this->assertEquals( array('Location: #test_form'), $GLOBALS['_test_Http_Headers_sent_headers'] );
+		$this->assertEquals( array( array(
+			'header' => 'Location: #test_form',
+			'replace' => true,
+			'http_response_code' => 0
+		)), $GLOBALS['_test_Http_Headers_sent_headers'] );
 	}
 }

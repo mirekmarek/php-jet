@@ -15,7 +15,7 @@ Jet.require('Jet.MultiUploader');
 //TODO: HACK!!!
 window['Jet_module_Jet_Images_formatImage'] = function( thumbnail_URI ) {
 
-	return '<div style='height: 100px;width: 100px;'><img src=''+thumbnail_URI+''/></div>';
+	return '<div style="height: 100px;width: 100px;"><img src="'+thumbnail_URI+'"/></div>';
 }
 
 Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
@@ -138,7 +138,7 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 		this.images_trash = new Jet.Trash(this, 'images_trash', this.getJsonRestStoreInstance('image'), {
 			source_widget_grid: this.images_grid,
 			itemAvatarCreator: function(item) {
-				return '<div style='width:50px; height: 50px;float: left;padding: 5px;'>'
+				return '<div style="width:50px; height: 50px;float: left;padding: 5px;">'
 						+_this.getThumbnail(item, 50, 50)
 						+'</div>';
 			},
@@ -221,7 +221,7 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 			}
 		}
 
-		return '<img src=''+image.thumbnail_URI+'' width=''+width+'' height=''+height+''/>';
+		return '<img src="'+image.thumbnail_URI+'" width="'+width+'" height="'+height+'"/>';
 
 	},
 
@@ -234,7 +234,7 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 			var image = selected_images[i];
 
 
-			prw_html += '<div style='width:50px; height: 50px;float: left;padding: 5px;'>'
+			prw_html += '<div style="width:50px; height: 50px;float: left;padding: 5px;">'
 				+ this.getThumbnail( image, 50, 50 )
 				+'</div>';
 		}

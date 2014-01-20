@@ -37,19 +37,22 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 
 		$this->config = new DataModel_Backend_MySQL_Config( true );
-		$this->config->setData( new Data_Array( array(
-			'data_model' => array(
-				'backend_options' => array(
-					'connection_read' => 'test_mysql',
-					'connection_write' => 'test_mysql',
-				)
-			)
-		) ) );
+		$this->config->setData( array(
+							'connection_read' => 'test_mysql',
+							'connection_write' => 'test_mysql',
+					), false
+				);
 
 		$this->object = new DataModel_Backend_MySQL( $this->config );
 		$this->object->initialize();
 
 		$this->data_model = new DataModel_Query_DataModelTestMock();
+		$this->data_model->setBackendType('MySQL');
+		$this->data_model->setBackendOptions( array(
+			'connection_read' => 'test_mysql',
+			'connection_write' => 'test_mysql',
+		) );
+
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->select_data = array(
@@ -154,11 +157,49 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Backend_MySQL::helper_getUpdateCommand
-	 * @todo   Implement testHelper_getUpdateCommand().
 	 */
 	public function testHelper_getUpdateCommand() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$pdo = Db::get('test_mysql');
+
+		$pdo->execCommand('CREATE TABLE IF NOT EXISTS `data_model_test_mock` (
+							`ID` varchar(50) COLLATE utf8_bin NOT NULL,
+					        `ID_property` varchar(50) COLLATE utf8_bin NOT NULL,
+					        `string_property` varchar(123),
+					        `locale_property` varchar(20) COLLATE utf8_bin NOT NULL,
+					        `float_property` float,
+					        `bool_property` tinyint(1),
+					        `array_property` longtext,
+					        `date_time_property` datetime
+					        ,PRIMARY KEY (`ID`, `ID_property`)
+							) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;');
+
+
+		$timestamp = date('YmdHis');
+
+		$valid_d = array (
+			0 => 'CREATE TABLE IF NOT EXISTS `_UP'.$timestamp.'_data_model_test_mock` ('.JET_EOL
+                    .JET_TAB.'`ID` varchar(50) COLLATE utf8_bin NOT NULL,'.JET_EOL
+                    .JET_TAB.'`ID_property` varchar(50) COLLATE utf8_bin NOT NULL,'.JET_EOL
+                    .JET_TAB.'`string_property` varchar(123),'.JET_EOL
+                    .JET_TAB.'`locale_property` varchar(20) COLLATE utf8_bin NOT NULL,'.JET_EOL
+                    .JET_TAB.'`int_property` int,'.JET_EOL
+                    .JET_TAB.'`float_property` float,'.JET_EOL
+                    .JET_TAB.'`bool_property` tinyint(1),'.JET_EOL
+                    .JET_TAB.'`array_property` longtext,'.JET_EOL
+                    .JET_TAB.'`date_time_property` datetime,'.JET_EOL
+                    .JET_TAB.'`date_property` date'.JET_EOL
+                    .JET_TAB.',PRIMARY KEY (`ID`, `ID_property`)'.JET_EOL
+                    .') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;'.JET_EOL.JET_EOL,
+
+			1 => 'INSERT INTO `_UP'.$timestamp.'_data_model_test_mock` (`ID`,`ID_property`,`string_property`,`locale_property`,`float_property`,`bool_property`,`array_property`,`date_time_property`) SELECT `ID`,`ID_property`,`string_property`,`locale_property`,`float_property`,`bool_property`,`array_property`,`date_time_property` FROM `data_model_test_mock`;',
+			2 => 'UPDATE `_UP'.$timestamp.'_data_model_test_mock` SET `int_property`=\'2\', `date_property`=\'default value\'',
+			3 => 'RENAME TABLE `data_model_test_mock` TO `_UP'.$timestamp.'_b_data_model_test_mock`;',
+			4 => 'RENAME TABLE `_UP'.$timestamp.'_data_model_test_mock` TO  `data_model_test_mock`;',
+		);
+
+		$this->assertEquals( $valid_d, $this->object->helper_getUpdateCommand( $this->data_model ) );
+
+		$pdo->execCommand('DROP TABLE IF EXISTS data_model_test_mock');
 	}
 
 	/**

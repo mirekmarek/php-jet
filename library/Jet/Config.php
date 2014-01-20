@@ -233,7 +233,66 @@ abstract class Config extends Object {
 	 * @return array[]
 	 */
 	protected function getPropertiesDefinitionData() {
-		$parent_class = get_parent_class($this);
+
+		//----------------------------------------------------
+		$class = get_class($this);
+
+		//TODO: cache read
+
+		$reflection = new \ReflectionClass( $class );
+
+		$reflestions = array();
+
+		while($reflection) {
+			array_unshift( $reflestions, $reflection );
+
+			$reflection = $reflection->getParentClass();
+		};
+
+		foreach( $reflestions as $reflection ) {
+			foreach( $reflection->getProperties() as $prop_ref ) {
+				if($prop_ref->getName()[0]=='_') {
+					continue;
+				}
+
+				$comment = $prop_ref->getDocComment();
+
+				$matches = array();
+
+				preg_match_all('/@JetC:(.*)=(.*)/', $comment, $matches, PREG_SET_ORDER);
+
+				if(!$matches) {
+					continue;
+				}
+
+				$property_name = $prop_ref->getName();
+				$property_data = array();
+
+				foreach( $matches as $m ) {
+					$m[1] = trim($m[1]);
+					$m[2] = trim($m[2]);
+
+					$value = null;
+
+					eval('$value='.$m[2].';');
+
+					$property_data[$m[1]] = $value;
+
+				}
+
+				//var_dump( $property_name, $property_data );
+
+				static::$__config_properties_definition[$property_name] = $property_data;
+
+			}
+		}
+		//TODO: cache write
+
+		return static::$__config_properties_definition;
+
+		//----------------------------------------------------
+
+		$parent_class = get_parent_class( $this );
 
 		$parent_definition = array();
 		if(
@@ -254,7 +313,6 @@ abstract class Config extends Object {
 			$parent = new $parent_class();
 			$parent_definition = $parent->getPropertiesDefinitionData();
 		}
-
 
 		return array_merge($parent_definition, static::$__config_properties_definition);
 	}
@@ -315,13 +373,20 @@ abstract class Config extends Object {
 
 	/**
 	 *
-	 * @param Data_Array $data
+	 * @param Data_Array|array $data
+	 * @param bool $use_data_path_for_source_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setData(Data_Array $data ) {
+	public function setData( $data, $use_data_path_for_source_data=true ) {
+		if( !($data instanceof Data_Array) ) {
+			$data = new Data_Array( $data );
+		}
 
-		if(static::$__config_data_path) {
+		if(
+			static::$__config_data_path &&
+			$use_data_path_for_source_data
+		) {
 
 			$this_config_data = array();
 

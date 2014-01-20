@@ -42,7 +42,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 			'default_value' => 'mysql',
 			'is_required' => true,
 			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Db_Connection_Config_PDO', 'getPDODrivers'),
+			'form_field_get_select_options_callback' => array('Jet\\Db_Connection_PDO_Config', 'getPDODrivers'),
 		),
 		'DSN' => array(
 			'form_field_label' => 'DSN',

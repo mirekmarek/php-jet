@@ -363,10 +363,22 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 	 * @return DataModel_Backend_Config_Abstract
 	 */
 	public function getBackendConfig() {
-		$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType() );
 
 		if(static::$__data_model_forced_backend_options!==null) {
-			$config->setData(new Data_Array(static::$__data_model_forced_backend_options));
+			$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType(), true );
+
+			$data = array(
+				"data_model" => array(
+					"backend_options" => static::$__data_model_forced_backend_options
+				)
+			);
+
+			$config->setData(
+				new Data_Array( $data )
+			);
+		} else {
+			$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType() );
+
 		}
 		return $config;
 	}
@@ -428,7 +440,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST {
 		$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getCacheBackendType() );
 
 		if(static::$__data_model_forced_cache_backend_options!==null) {
-			$config->setData(new Data_Array(static::$__data_model_forced_cache_backend_options));
+			$config->setData( static::$__data_model_forced_cache_backend_options );
 		}
 		return $config;
 	}

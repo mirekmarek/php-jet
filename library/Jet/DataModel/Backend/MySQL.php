@@ -200,11 +200,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		}
 		$new_cols = $this->_getRecord($new_cols);
 
-		$data_migration_command = 'INSERT INTO `$updated_table_name`
-					(`'.implode('`,`', $common_cols).'`)
-				SELECT
-					`'.implode('`,`', $common_cols).'`
-				FROM `'.$table_name.'`;';
+		$data_migration_command = 'INSERT INTO `'.$updated_table_name.'` (`'.implode('`,`', $common_cols).'`) SELECT `'.implode('`,`', $common_cols).'` FROM `'.$table_name.'`;';
 
 		$update_default_values = '';
 		if($new_cols) {
@@ -212,12 +208,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			foreach($new_cols as $c=>$v) {
 				$_new_cols[] = '`'.$c.'`='.$this->_db_write->quote($v);
 			}
-			$update_default_values = 'UPDATE `'.$updated_table_name.'` SET '.implode(','.JET_EOL, $_new_cols);
+			$update_default_values = 'UPDATE `'.$updated_table_name.'` SET '.implode(', ', $_new_cols);
 		}
 
 
-		$rename_command1 = 'RENAME TABLE `'.$table_name.'` TO `'.$update_prefix.'b_'.$table_name.'` ;'.JET_EOL;
-		$rename_command2 = 'RENAME TABLE `'.$updated_table_name.'` TO  `'.$table_name.'`; '.JET_EOL;
+		$rename_command1 = 'RENAME TABLE `'.$table_name.'` TO `'.$update_prefix.'b_'.$table_name.'`;';
+		$rename_command2 = 'RENAME TABLE `'.$updated_table_name.'` TO  `'.$table_name.'`;';
 
 		$update_command = array();
 		$update_command[] = $create_command;

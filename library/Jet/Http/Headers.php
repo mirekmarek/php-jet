@@ -129,11 +129,29 @@ class Http_Headers {
 
 
 	/**
+	 * @var string
+	 */
+	protected static $header_function_name = '\header';
+
+	/**
 	 *
 	 * @var string
 	 */
 	protected static $http_version = '1.1';
 
+	/**
+	 * @param string $header_function_name
+	 */
+	public static function setHeaderFunctionName($header_function_name) {
+		self::$header_function_name = $header_function_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getHeaderFunctionName() {
+		return self::$header_function_name;
+	}
 
 	/**
 	 * @return string
@@ -243,12 +261,10 @@ class Http_Headers {
 	 *
 	 * @return bool
 	 */
-	protected static function sendHeader( $header, $replace=true, $http_response_code=0 ) {
-		if( PHP_SAPI==='cli' && isset($GLOBALS['_test_Http_Headers_sent_headers']) ){
-			$GLOBALS['_test_Http_Headers_sent_headers'][] = $header;
-		} else {
-			header($header, $replace, $http_response_code);
-		}
+	public static function sendHeader( $header, $replace=true, $http_response_code=0 ) {
+		$f_name = static::$header_function_name;
+
+		$f_name($header, $replace, $http_response_code);
 	}
 
 

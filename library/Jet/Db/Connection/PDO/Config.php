@@ -11,6 +11,6 @@
  */
 namespace Jet;
 
-class Db_Connection_Config_PDO extends Db_Connection_Config_Abstract {
+class Db_Connection_PDO_Config extends Db_Connection_Config_Abstract {
 
 }

@@ -14,6 +14,11 @@ namespace Jet;
 class Application {
 
 	/**
+	 * @var bool
+	 */
+	protected static $do_not_end = false;
+
+	/**
 	 * @var string
 	 */
 	protected static $environment;
@@ -131,7 +136,17 @@ class Application {
 	 *
 	 */
 	public static function end(){
-		exit();
+		if(!static::$do_not_end) {
+			exit();
+		}
+	}
+
+	/**
+	 * Useful for tests
+	 *
+	 */
+	public static function doNotEnd() {
+		static::$do_not_end = true;
 	}
 
 	/**

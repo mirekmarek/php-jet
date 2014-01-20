@@ -119,17 +119,18 @@ class Installer {
 
 	public static function initTranslator() {
 		$config = new Translator_Config(true);
-		$config->setData( new Data_Array(array(
+		$config->setData( array(
 			'backend_type' => 'PHPFiles',
 			'auto_append_unknown_phrase' => true
-		)));
+		), false);
+
 		Translator::setConfig($config);
 
 
 		$backend_config = new Translator_Backend_PHPFiles_Config(true);
-		$backend_config->setData( new Data_Array(array( 'translator' => array('backend_options'=>array(
-			'dictionaries_path' => '%JET_APPLICATION_PATH%_installer/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php'
-		)))));
+		$backend_config->setData( array(
+							'dictionaries_path' => '%JET_APPLICATION_PATH%_installer/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php'
+					), false);
 
 		$backend = new Translator_Backend_PHPFiles($backend_config);
 		Translator::setBackendInstance($backend);

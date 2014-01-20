@@ -18,17 +18,13 @@ class ConfigListTestMainMock extends Config {
 	protected static $__config_data_path = "/section/subsection";
 
 
-	protected static $__config_properties_definition = array(
-		"connections" => array(
-			"type" => self::TYPE_CONFIG_LIST,
-			"data_path" => "connections",
-			"config_factory_class_name" => "Jet\\ConfigListTestMainMock",
-			"config_factory_method_name" => "getAdapterConfigInstance"
-		)
-	);
-
 	/**
 	 * Database adapters and configurations for general usage
+	 *
+	 * @JetC:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetC:data_path = 'connections'
+	 * @JetC:config_factory_class_name = 'Jet\\ConfigListTestMainMock'
+	 * @JetC:config_factory_method_name = 'getAdapterConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */

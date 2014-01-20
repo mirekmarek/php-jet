@@ -36,6 +36,11 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	const INTERNAL_CHARSET = 'UTF-8';
 
 	/**
+	 * @var null|string
+	 */
+	protected $response_format = null;
+
+	/**
 	 * @var string
 	 */
 	protected static $pagination_request_http_header_name = 'Range';
@@ -105,6 +110,17 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		self::ERR_CODE_UNKNOWN_ITEM => array(Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'),
 	);
 
+	/**
+	 * @param null|string $response_format
+	 */
+	public function setResponseFormat($response_format) {
+		if(
+			$response_format==static::RESPONSE_FORMAT_JSON ||
+			$response_format==static::RESPONSE_FORMAT_XML
+		) {
+			$this->response_format = $response_format;
+		}
+	}
 
 
 	/**
@@ -307,6 +323,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		list($http_code, $error_message) = static::$errors[$code];
 
 		$error_code = get_class($this).':'.$code;
+
 		$error = array(
 			'error_code' => $error_code,
 			'error_msg' => Tr::_($error_message)
@@ -421,11 +438,12 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 				);
 		}
 
-		header( 'HTTP/1.1 '.$http_code.' '.$http_message );
-		header( 'Content-type:'.$response_content_type.';charset='.$response_charset);
+		Http_Headers::sendHeader( 'HTTP/1.1 '.$http_code.' '.$http_message, true, $http_code );
+
+		Http_Headers::sendHeader( 'Content-type:'.$response_content_type.';charset='.$response_charset);
 
 		foreach( $http_headers as $header=>$header_value ) {
-			header($header.': '.$header_value);
+			Http_Headers::sendHeader($header.': '.$header_value);
 		}
 
 		if( $response_format==static::RESPONSE_FORMAT_XML ) {
@@ -456,6 +474,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 * @return string
 	 */
 	protected function responseFormatDetection() {
+		if($this->response_format) {
+			return $this->response_format;
+		}
 
 		if( Http_Request::GET()->exists( static::$response_format_xml_http_get_parameter ) ) {
 			return static::RESPONSE_FORMAT_XML;

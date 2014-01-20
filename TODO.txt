@@ -15,9 +15,9 @@ Mvc Router Cache backend:
 MS SQL
 
 ____________________________________________
-General Cache
+?? General Cache
 ............................................
-Cache backend
+Cache backend:
 Files
 Redis
 Memcached

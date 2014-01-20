@@ -51,4 +51,4 @@ class Object implements Jet\Object_Interface {
 	}
 
 }
-class_alias("JetTest\Object", "Jet\Object");
+class_alias('JetTest\Object', 'Jet\Object');
