@@ -14,43 +14,49 @@ namespace Jet;
 class ConfigTestMock extends Config {
 	protected static $__config_data_path = "/section/subsection";
 
-	protected $string_property;
-	protected $int_property;
-	protected $float_property;
-	protected $bool_property;
-
-
-	protected static $__config_properties_definition = array(
-		"string_property" => array(
-			"type" => self::TYPE_STRING,
-			"description" => "String property",
-			"is_required" => true,
-			"default_value" => "default value",
-			"form_field_label" => "String property:"
-		),
-		"int_property" => array(
-			"type" => self::TYPE_INT,
-			"description" => "Int property",
-			"is_required" => false,
-			"default_value" => 123,
-			"form_field_label" => "Int property:"
-		),
-		"float_property" => array(
-			"type" => self::TYPE_FLOAT,
-			"description" => "",
-			"is_required" => true,
-			"default_value" => 123.45,
-			"form_field_label" => "Float property:"
-		),
-		"bool_property" => array(
-			"type" => self::TYPE_BOOL,
-			"description" => "Bool property:",
-			"is_required" => false,
-			"default_value" => true,
-			"form_field_label" => "Bool property:"
-		),
-
-	);
+	/**
+	 * @JetC:type = Jet\Config::TYPE_STRING
+	 * @JetC:description = 'String property'
+	 * @JetC:is_required = true
+	 * @JetC:default_value = 'default value'
+	 * @JetC:form_field_label = 'String property:'
+	 * 
+	 * @var string
+	 */
+	protected $string_property = '';
+	
+	/**
+	 * @JetC:type = Jet\Config::TYPE_INT
+	 * @JetC:description = 'Int property'
+	 * @JetC:is_required = false
+	 * @JetC:default_value = 123
+	 * @JetC:form_field_label = 'Int property:'
+	 * 
+	 * @var int
+	 */
+	protected $int_property = 0;
+	
+	/**
+	 * @JetC:type = Jet\Config::TYPE_FLOAT
+	 * @JetC:description = ''
+	 * @JetC:is_required = true
+	 * @JetC:default_value = 123.45
+	 * @JetC:form_field_label = 'Float property:'
+	 * 
+	 * @var float
+	 */
+	protected $float_property = 0.0;
+	
+	/**
+	 * @JetC:type = Jet\Config::TYPE_BOOL
+	 * @JetC:description = 'Bool property:'
+	 * @JetC:is_required = false
+	 * @JetC:default_value = true
+	 * @JetC:form_field_label = 'Bool property:'
+	 * 
+	 * @var bool
+	 */
+	protected $bool_property = false;
 
 	/**
 	 *

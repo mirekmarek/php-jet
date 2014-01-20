@@ -12,17 +12,17 @@
 namespace Jet;
 
 class ConfigTestDescendantMock extends ConfigTestMock {
-	protected $next_string_property;
 
-	protected static $__config_properties_definition = array(
-		"next_string_property" => array(
-			"type" => self::TYPE_STRING,
-			"description" => "Next string property",
-			"is_required" => true,
-			"default_value" => "default value",
-			"form_field_label" => "Next string property:"
-		)
-	);
+	/**
+	 * @JetC:type = Jet\Config::TYPE_STRING
+	 * @JetC:description = 'Next string property'
+	 * @JetC:is_required = true
+	 * @JetC:default_value = 'default value'
+	 * @JetC:form_field_label = 'Next string property:'
+	 *
+	 * @var string
+	 */
+	protected $next_string_property = '';
 
 	public function getNextStringProperty() {
 		return $this->next_string_property;
