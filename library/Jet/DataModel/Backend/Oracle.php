@@ -921,6 +921,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			$order_by_desc = $ob->getDesc();
 
 
+			/**
+			 * @var string $item
+			 */
 			if($order_by_desc) {
 				$order_qp[] = $item.' DESC';
 			} else {

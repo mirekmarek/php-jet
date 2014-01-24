@@ -20,26 +20,21 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Dispatcher_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:method = 'getDispatcherInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Dispatcher_Abstract'
+ */
 abstract class Mvc_Dispatcher_Abstract extends Object {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getDispatcherInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Dispatcher_Abstract';
 
 	/**
 	 * Router
 	 *
 	 * @var Mvc_Router_Abstract
 	 */
-	protected $router = NULL;
+	protected $router = null;
 
 	/**
 	 *

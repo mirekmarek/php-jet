@@ -18,99 +18,95 @@
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
 
+/**
+ * Class Article
+ *
+ * @JetDataModel:name = 'Jet_Article'
+ */
 class Article extends Jet\DataModel {
 
-	protected static $__data_model_model_name = 'Jet_Article';
-
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'locale' => array(
-			'type' => self::TYPE_LOCALE,
-			'is_required' => true,
-			'form_field_label' => 'Locale:',
-			'form_field_get_select_options_callback' => array('Jet\Mvc', 'getAllSitesLocalesList')
-		),
-		'URI_fragment' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'is_required' => true,
-			'form_field_type' => false,
-			'backend_options' => array(
-				'key' => true,
-				'key_type' => self::KEY_TYPE_INDEX
-			)
-		),
-		'title' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'is_required' => true,
-			'form_field_label' => 'Title: ',
-		),
-		'annotation' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536,
-			'form_field_label' => 'Annotation:'
-		),
-		'text' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 655360,
-			'form_field_label' => 'Text:',
-			'form_field_type' => 'WYSIWYG'
-		),
-		'date_time' => array(
-			'type' => self::TYPE_DATE_TIME,
-			'form_field_label' => 'Date and time:'
-		),
-		'tags' => array(
-			'type' => self::TYPE_STRING,
-			'form_field_label' => 'Tags: ',
-			'max_len' => 65536,
-		)
-	);
-
 	/**
-	 * @var string
-	 */
-	protected $tags = '';
-
-	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
 	/**
-	 * @var Jet\Locale
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_label = 'Locale:'
+	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Mvc',  1 => 'getAllSitesLocalesList',)
+	 *
+	 * @var Locale
 	 */
 	protected $locale;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:backend_options = array (  'key' => true,  'key_type' => 'INDEX',)
+	 *
 	 * @var string
 	 */
 	protected $URI_fragment = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_label = 'Title: '
+	 *
 	 * @var string
 	 */
 	protected $title = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Annotation:'
+	 *
 	 * @var string
 	 */
 	protected $annotation = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 655360
+	 * @JetDataModel:form_field_label = 'Text:'
+	 * @JetDataModel:form_field_type = 'WYSIWYG'
+	 *
 	 * @var string
 	 */
 	protected $text = '';
 
 	/**
-	 * @var Jet\DateTime
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:form_field_label = 'Date and time:'
+	 *
+	 * @var DateTime
 	 */
 	protected $date_time;
 
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:form_field_label = 'Tags: '
+	 * @JetDataModel:max_len = 65536
+	 *
+	 * @var string
+	 */
+	protected $tags = '';
 
 	/**
 	 * @return Jet\Locale

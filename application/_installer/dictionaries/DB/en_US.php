@@ -45,5 +45,75 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'3d9c5424ab362672cbf019908e091073' => array(
+		'phrase' => '&lt Back',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'41a89c5c3d6adab104775844daf7bb84' => array(
+		'phrase' => 'Connection \'%CONNECTION%\' Test',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'3d9f514d46849760ef1b1412e314fd99' => array(
+		'phrase' => 'Error:',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'e510bc4c58e3d30974885b56e0aed3e4' => array(
+		'phrase' => 'Edit connection',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'49ee3087348e8d44e1feda1917443987' => array(
+		'phrase' => 'Name',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'a1fa27779242b4902f7ae3bdd5c6d508' => array(
+		'phrase' => 'Type',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'7dce122004969d56ae2e0245cb754d35' => array(
+		'phrase' => 'Edit',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'f2a6c498fb90ee345d997f888fce3b18' => array(
+		'phrase' => 'Delete',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'0cbc6611f5540bd0809a388dc95a615b' => array(
+		'phrase' => 'Test',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'a367ca272e06a092cb9c0b2e20770a04' => array(
+		'phrase' => 'Default connection:',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'd41d8cd98f00b204e9800998ecf8427e' => array(
+		'phrase' => false,
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'fe9c32038cd372744ed95bbb273b62fe' => array(
+		'phrase' => 'Edit connection \'%CONNECTION%\' ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'e0aa021e21dddbd6d8cecec71e9cf564' => array(
+		'phrase' => 'OK',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'a2e4822a98337283e39f7b60acf85ec9' => array(
+		'phrase' => 'empty',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

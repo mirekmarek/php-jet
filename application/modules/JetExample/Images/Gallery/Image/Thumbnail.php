@@ -13,97 +13,90 @@
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
 
+/**
+ * Class Gallery_Image_Thumbnail
+ *
+ * @JetDataModel:name = 'Jet_ImageGallery_Images_Thumbnails'
+ * @JetDataModel:parent_model_class_name = 'JetApplicationModule\\JetExample\\Images\\Gallery_Image'
+ */
 class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
-	protected static $__data_model_parent_model_class_name = 'JetApplicationModule\\JetExample\\Images\\Gallery_Image';
-	protected static $__data_model_model_name = 'Jet_ImageGallery_Images_Thumbnails';
-
-
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_required' => true,
-			'is_ID' => true,
-		),
-		'maximal_size_w' => array(
-			'type' => self::TYPE_INT,
-			'is_required' => true,
-			'form_field_type' => false
-		),
-		'maximal_size_h' => array(
-			'type' => self::TYPE_INT,
-			'is_required' => true,
-			'form_field_type' => false
-		),
-		'real_size_w' => array(
-			'type' => self::TYPE_INT,
-			'is_required' => true,
-			'form_field_type' => false
-		),
-		'real_size_h' => array(
-			'type' => self::TYPE_INT,
-			'is_required' => true,
-			'form_field_type' => false
-		),
-		'file_size' => array(
-			'type' => self::TYPE_INT,
-			'is_required' => true,
-			'form_field_type' => false
-		),
-		'file_mime_type' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_type' => false
-		),
-		'file_name' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_type' => false
-		),
-	);
-
 	/**
-	 * @var string
-	 */
-	protected $Jet_ImageGallery_Images_ID = '';
-
-	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
-
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var int
 	 */
 	protected $maximal_size_w = 0;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var int
 	 */
 	protected $maximal_size_h = 0;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var int
 	 */
 	protected $real_size_w = 0;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var int
 	 */
 	protected $real_size_h = 0;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var int
 	 */
 	protected $file_size = 0;
 
 	/**
-	 * @var int
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_type = false
+	 *
+	 * @var string
 	 */
-	protected $file_mime_type = 0;
+	protected $file_mime_type = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var string
 	 */
 	protected $file_name = '';

@@ -37,6 +37,10 @@ define('JET_TESTS_TMP', getcwd().'/_tmp/');
 define('JET_TESTS_DATA', getcwd().'/_data/');
 define('JET_LIBRARY_PATH', _JET_TEST_LIB_DIR);
 
+define('JET_OBJECT_REFLECTION_CACHE_LOAD', false );
+define('JET_OBJECT_REFLECTION_CACHE_SAVE', false );
+define('JET_OBJECT_REFLECTION_CACHE_PATH', JET_TESTS_TMP.'reflections/' );
+
 require '_mock/Jet/Object.php';
 
 Jet\Config::setApplicationConfigFilePath( __DIR__.'/application-test-config.php' );

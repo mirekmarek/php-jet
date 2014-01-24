@@ -81,6 +81,7 @@ abstract class DataModel_Query_Relation_Abstract extends Object {
 	 * @return DataModel
 	 */
 	public function getRelatedDataModelInstance() {
+		//TODO: remove it ... staci is better
 		if(!$this->related_data_model_instance) {
 			$this->related_data_model_instance = Factory::getInstance( $this->related_data_model_class_name );
 		}

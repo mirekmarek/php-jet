@@ -60,7 +60,7 @@ class Memcache_Factory extends Factory {
 	 * @return Memcache_Connection_Config_Abstract
 	 */
 	public static function getConnectionConfigInstance(array $config_data=array(), Memcache_Config $config=null ){
-		$default_class_name = static::$connection_class_prefix.'Config_'.static::$connection_adapter;
+		$default_class_name = static::$connection_class_prefix.static::$connection_adapter.'_Config';
 
 		$config_class = static::getClassName( $default_class_name );
 

@@ -21,57 +21,27 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Sites_Site_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Sites_Site'
+ * @JetDataModel:ID_class_name = 'Jet\\Mvc_Sites_Site_ID_Default'
+ */
 class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 
 	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Sites_Site';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_ID_class_name = 'Jet\\Mvc_Sites_Site_ID_Default';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'name' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255
-		),
-		'is_default' => array(
-			'type' => self::TYPE_BOOL,
-		),
-		'is_active' => array(
-			'type' => self::TYPE_BOOL,
-		),
-		'locales' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_LOCALE,
-		),
-		'default_locale' => array(
-			'type' => self::TYPE_LOCALE,
-			'is_required' => true
-		),
-		'localized_data' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Mvc_Sites_Site_LocalizedData_Default'
-		)
-	);
-
-	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
-
 	/**
-	 * Internal site name
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
 	 *
 	 * @var string
 	 */
@@ -79,31 +49,43 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
 	protected $is_default = false;
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
 	protected $is_active = false;
 
 	/**
-	 * @see Mvc_Sites
 	 *
-	 * @var Locale[]
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:item_type = 'Locale'
+	 *
+	 * @var array
 	 */
-	protected $locales = array();
+	protected $locales = array (
+	);
 
 	/**
-	 * @see Mvc_Sites
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:is_required = true
 	 *
 	 * @var Locale
 	 */
-	protected $default_locale = null;
+	protected $default_locale;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Sites_Site_LocalizedData_Default'
 	 *
 	 * @var Mvc_Sites_Site_LocalizedData_Abstract[]
 	 */

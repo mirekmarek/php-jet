@@ -17,24 +17,16 @@
  */
 namespace Jet;
 
+/**
+ * Class Auth_Role_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Auth_Factory'
+ * @JetFactory:method = 'getRoleInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Auth_Role_Abstract'
+ *
+ * @JetDataModel:name = 'Jet_Auth_Role'
+ */
 abstract class Auth_Role_Abstract extends DataModel {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Auth_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getRoleInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Auth_Role_Abstract';
-
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Auth_Role';
 
 	/**
 	 * @return string

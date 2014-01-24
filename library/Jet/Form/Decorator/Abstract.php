@@ -14,19 +14,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Form_Decorator_Abstract
+ *
+ * @JetFactory:class = 'Jet\\UI_Factory'
+ * @JetFactory:method = 'getFormDecoratorInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Form_Decorator_Abstract'
+ */
 abstract class Form_Decorator_Abstract extends Object {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\UI_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getFormDecoratorInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Form_Decorator_Abstract';
 
 	/**
 	 * @var Form

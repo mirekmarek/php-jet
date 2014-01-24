@@ -11,83 +11,65 @@
  */
 namespace Jet;
 
+/**
+ * Class Db_Connection_Config_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Db_Connection_Config_Abstract'
+ */
 abstract class Db_Connection_Config_Abstract extends Config_Section {
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_class_name = null;
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_class_method = null;
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Db_Connection_Config_Abstract';
+
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'name' => array(
-			'form_field_label' => 'Connection name',
-			'type' => self::TYPE_STRING,
-			'default_value' => 'default',
-			'is_required' => true
-		),
-		'driver' => array(
-			'form_field_label' => 'Driver',
-			'type' => self::TYPE_STRING,
-			'description' => 'PDO driver',
-			'default_value' => 'mysql',
-			'is_required' => true,
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Db_Connection_PDO_Config', 'getPDODrivers'),
-		),
-		'DSN' => array(
-			'form_field_label' => 'DSN',
-			'type' => self::TYPE_STRING,
-			'default_value' => '',
-			'is_required' => true
-		),
-
-		'username' => array(
-			'form_field_label' => 'Username',
-			'type' => self::TYPE_STRING,
-			'default_value' => null,
-			'is_required' => false
-		),
-
-		'password' => array(
-			'form_field_label' => 'Password',
-			'type' => self::TYPE_STRING,
-			'default_value' => null,
-			'is_required' => false
-		)
-	);
-
-	/**
+	 * @JetConfig:form_field_label = 'Connection name'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'default'
+	 * @JetConfig:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $name;
 
 	/**
+	 * @JetConfig:form_field_label = 'Driver'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:description = 'PDO driver'
+	 * @JetConfig:default_value = 'mysql'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Db_Connection_PDO_Config', 'getPDODrivers')
+	 *
 	 * @var string
 	 */
 	protected $driver;
 
 	/**
+	 * @JetConfig:form_field_label = 'DSN'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = ''
+	 * @JetConfig:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $DSN;
 
 	/**
+	 * @JetConfig:form_field_label = 'Username'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = null
+	 * @JetConfig:is_required = false
 	 *
 	 * @var string
 	 */
 	protected $username;
 
 	/**
+	 * @JetConfig:form_field_label = 'Password'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = null
+	 * @JetConfig:is_required = false
+	 *
 	 * @var string
 	 */
 	protected $password;

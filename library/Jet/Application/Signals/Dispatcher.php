@@ -97,7 +97,7 @@ class Application_Signals_Dispatcher extends Object {
 	 *
 	 * @param Application_Signals_Signal $signal
 	 *
-	 * @throws Application_Modules_Exception
+	 * @throws \Exception|Application_Modules_Exception
 	 * @throws Application_Signals_Exception
 	 */
 	public static function dispatchSignal(Application_Signals_Signal $signal) {

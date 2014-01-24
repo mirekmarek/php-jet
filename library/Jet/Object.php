@@ -21,22 +21,10 @@ class Object implements Object_Interface {
 	use Object_Trait_MagicGet;
 	use Object_Trait_MagicSet;
 
-	/**
-	 * @var string|null
-	 */
-	protected static $__factory_class_name = null;
 
 	/**
-	 * @var string|null
-	 */
-	protected static $__factory_class_method_name = null;
-
-	/**
-	 * @var string|null
-	 */
-	protected static $__factory_must_be_instance_of_class_name = null;
-
-	/**
+	 * //TODO: update comment
+	 *
 	 * Signals list
 	 *
 	 * array(
@@ -47,11 +35,11 @@ class Object implements Object_Interface {
 	 *
 	 * @var array
 	 */
-	protected static $__signals = array();
 
 	/**
+	 * //TODO: update comment signals_signal_object_class_name
+	 *
 	 * @var string
 	 */
-	protected $__signals_signal_object_class_name = Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME;
 
 }

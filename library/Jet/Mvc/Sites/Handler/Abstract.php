@@ -19,19 +19,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Sites_Handler_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:method = 'getSiteHandlerInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Handler_Abstract'
+ */
 abstract class Mvc_Sites_Handler_Abstract extends Object {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getSiteHandlerInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Handler_Abstract';
 
 	/**
 	 * Create new site

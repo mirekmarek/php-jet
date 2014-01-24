@@ -75,7 +75,7 @@ class Debug_Profiler_Run_Block {
 	protected $SQL_queries = array();
 
 	/**
-	 * @var Debug_Profiler_Run_Milestone_Message[]
+	 * @var Debug_Profiler_Run_Block_Message[]
 	 */
 	protected $messages = array();
 

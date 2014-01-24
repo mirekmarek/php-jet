@@ -17,30 +17,22 @@ namespace Jet;
 class DataModel_Cache_Backend_Redis_Config extends DataModel_Cache_Backend_Config_Abstract {
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'connection' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Cache_Backend_Redis_Config', 'getRedisConnectionsList')
-		),
-		'key_prefix' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'do_c',
-			'form_field_label' => 'Cache key prefix: ',
-		),
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Cache_Backend_Redis_Config', 'getRedisConnectionsList')
+	 * 
 	 * @var string
 	 */
 	protected $connection = '';
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'do_c'
+	 * @JetConfig:form_field_label = 'Cache key prefix: '
+	 * 
 	 * @var string
 	 */
 	protected $key_prefix = 'do_c';

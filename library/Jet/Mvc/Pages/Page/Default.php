@@ -16,164 +16,18 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Pages_Page_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Pages_Page'
+ * @JetDataModel:ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Default'
+ */
 class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Default';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'site_ID' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'is_ID' => true,
-		),
-		'locale' => array(
-			'type' => self::TYPE_LOCALE,
-			'is_ID' => true,
-		),
-
-		'parent_ID' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'backend_options' => array(
-				'key' => 'parent_ID'
-			),
-			'form_field_label' => 'Parent page: ',
-			'form_field_type' => false
-		),
-
-		'name' => array(
-			'type' => self::TYPE_STRING,
-			'is_required'=> true,
-			'max_len' => 255,
-			'error_messages' => array(
-				DataModel_Validation_Error::CODE_REQUIRED => 'Name was not specified'
-			),
-			'form_field_label' => 'Name: ',
-		),
-		'is_admin_UI' => array(
-			'type' => self::TYPE_BOOL,
-			'form_field_label' => 'Is admin UI: ',
-		),
-		'force_UI_manager_module_name' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255
-		),
-		'title' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'Title:'
-		),
-		'menu_title' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'Title for menu item:'
-		),
-		'breadcrumb_title' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'Title for breadcrumb navigation:'
-		),
-		'URL_fragment' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'URL fragment:'
-		),
-		'URI' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_type' => false,
-		),
-		'non_schema_URL' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 2000,
-			'form_field_type' => false,
-		),
-		'non_SSL_URL' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 2000,
-			'form_field_type' => false,
-		),
-		'SSL_URL' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 2000,
-			'form_field_type' => false,
-		),
-		'URLs' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Mvc_Pages_Page_URL_Default',
-			'form_field_type' => false
-		),
-		'layout' => array(
-			'type' => self::TYPE_STRING,
-			'is_required'=> true,
-			'max_len' => 255,
-			'form_field_label' => 'Layout: ',
-			'form_field_type' => 'Select'
-		),
-		'headers_suffix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65535,
-			'form_field_label' => 'Headers suffix:'
-		),
-		'body_prefix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65535,
-			'form_field_label' => 'Body prefix:'
-		),
-		'body_suffix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65535,
-			'form_field_label' => 'Body suffix:'
-		),
-		'meta_tags' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Mvc_Pages_Page_MetaTag_Default',
-			'form_field_type' => false
-		),
-
-		'authentication_required' => array(
-			'type' => self::TYPE_BOOL,
-			'form_field_label' => 'Authentication required: '
-		),
-
-		'SSL_required' => array(
-			'type' => self::TYPE_BOOL,
-			'form_field_label' => 'Secure connection required: '
-		),
-
-		'contents' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Mvc_Pages_Page_Content_Default',
-			'form_field_type' => false
-		)
-	);
-
-	/**
-	 * @see Mvc_Sites
-	 *
-	 * @var string
-	 */
-	protected $site_ID = '';
 
 	/**
 	 *
-	 * @var Locale
-	 */
-	protected $locale = null;
-
-	/**
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
 	 */
@@ -181,13 +35,42 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var string
+	 */
+	protected $site_ID = '';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var Locale
+	 */
+	protected $locale;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:backend_options = array (  'key' => 'parent_ID',)
+	 * @JetDataModel:form_field_label = 'Parent page: '
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var string
 	 */
 	protected $parent_ID = '';
 
-
 	/**
-	 * Internal page name
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:error_messages = array (  'required' => 'Name was not specified',)
+	 * @JetDataModel:form_field_label = 'Name: '
 	 *
 	 * @var string
 	 */
@@ -195,11 +78,17 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Is admin UI: '
+	 *
 	 * @var bool
 	 */
-	protected $is_admin_UI = null;
+	protected $is_admin_UI = false;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
 	 *
 	 * @var string
 	 */
@@ -207,11 +96,19 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Title:'
+	 *
 	 * @var string
 	 */
 	protected $title = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Title for menu item:'
 	 *
 	 * @var string
 	 */
@@ -219,40 +116,59 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Title for breadcrumb navigation:'
+	 *
 	 * @var string
 	 */
 	protected $breadcrumb_title = '';
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'URL fragment:'
+	 *
 	 * @var string
 	 */
 	protected $URL_fragment = '';
 
 	/**
-	 * Example: /page/
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
 	protected $URI = '';
 
-
 	/**
-	 * Example: //domain/page/
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 2000
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
 	protected $non_schema_URL = '';
 
 	/**
-	 * Example: http://domain/page/
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 2000
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
 	protected $non_SSL_URL = '';
 
 	/**
-	 * Example: https://domain/page/
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 2000
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
@@ -260,11 +176,21 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Pages_Page_URL_Default'
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var Mvc_Pages_Page_URL_Abstract[]
 	 */
-	protected $URLs = array();
+	protected $URLs;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Layout: '
+	 * @JetDataModel:form_field_type = 'Select'
 	 *
 	 * @var string
 	 */
@@ -272,11 +198,19 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65535
+	 * @JetDataModel:form_field_label = 'Headers suffix:'
+	 *
 	 * @var string
 	 */
 	protected $headers_suffix = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65535
+	 * @JetDataModel:form_field_label = 'Body prefix:'
 	 *
 	 * @var string
 	 */
@@ -284,17 +218,28 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65535
+	 * @JetDataModel:form_field_label = 'Body suffix:'
+	 *
 	 * @var string
 	 */
 	protected $body_suffix = '';
 
 	/**
 	 *
-	 * @var Mvc_Pages_Page_MetaTag_Default[]
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Pages_Page_MetaTag_Default'
+	 * @JetDataModel:form_field_type = false
+	 *
+	 * @var Mvc_Pages_Page_MetaTag_Abstract[]
 	 */
-	protected $meta_tags = array();
+	protected $meta_tags;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Authentication required: '
 	 *
 	 * @var bool
 	 */
@@ -302,15 +247,22 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Secure connection required: '
+	 *
 	 * @var bool
 	 */
 	protected $SSL_required = false;
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Pages_Page_Content_Default'
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var Mvc_Pages_Page_Content_Abstract[]
 	 */
-	protected $contents = array();
+	protected $contents;
 
 
 	/**
@@ -494,7 +446,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	/**
 	 * Example: http://domain.tld/parent-page/this-is-url-fragment/
 	 *
-	 * @param $URL_fragment
+	 * @param string $URL_fragment
 	 */
 	public function setURLFragment( $URL_fragment ) {
 
@@ -512,7 +464,6 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		$parent_URI = '';
 
 		$site = $this->getSite();
-
 
 		if( $this->ID!=Mvc_Pages::HOMEPAGE_ID ) {
 			$parent_URI = $this->getParent()->getURI();

@@ -109,8 +109,8 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		);
 
 		foreach($_SESSION['cw_selected_locale'] as $locale=>$dat) {
-			$URL_fields[] = Form_Factory::field('Input','/{$locale}/nonSSL', 'URL: ', $dat['nonSSL'], true);
-			$URL_fields[] = Form_Factory::field('Input','/{$locale}/SSL', 'SSL URL: ', $dat['SSL'], false);
+			$URL_fields[] = Form_Factory::field('Input','/'.$locale.'/nonSSL', 'URL: ', $dat['nonSSL'], true);
+			$URL_fields[] = Form_Factory::field('Input','/'.$locale.'/SSL', 'SSL URL: ', $dat['SSL'], false);
 		}
 
 		$main_form = new Form('main', $URL_fields );
@@ -133,8 +133,8 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 			foreach($_SESSION['cw_selected_locale'] as $locale=>$dat) {
 				$_SESSION['cw_data']['locales'][$locale] = array(
-					'nonSSL' => $data['/{$locale}/nonSSL'],
-					'SSL' => $data['/{$locale}/SSL'],
+					'nonSSL' => $data['/'.$locale.'/nonSSL'],
+					'SSL' => $data['/'.$locale.'/SSL'],
 				);
 			}
 

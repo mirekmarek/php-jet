@@ -19,26 +19,19 @@
  */
 namespace Jet;
 
+/**
+ * Class Translator_Backend_PHPFiles_Config
+ *
+ * @JetConfig:section_is_obligatory = false
+ */
 class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstract {
 
 	/**
-	 * @var bool
-	 */
-	protected static $__config_section_is_obligatory = false;
-
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'dictionaries_path' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => false,
-			'default_value' => '%JET_DATA_PATH%/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php',
-			'form_field_label' => 'Dictionaries storage path: ',
-		)
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = '%JET_DATA_PATH%/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php'
+	 * @JetConfig:form_field_label = 'Dictionaries storage path: '
+	 * 
 	 * @var string
 	 */
 	protected $dictionaries_path = '';

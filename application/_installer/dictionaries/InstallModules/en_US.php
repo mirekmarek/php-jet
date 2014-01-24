@@ -50,5 +50,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'b1f1e41f66be68c066dc59ea6d1b0a3e' => array(
+		'phrase' => '&lt; Back',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

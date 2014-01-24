@@ -19,55 +19,46 @@ namespace Jet;
 class DataModel_History_Backend_MySQL_Config extends DataModel_History_Backend_Config_Abstract {
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'connection_read' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection - read: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_History_Backend_MySQL_Config', 'getDbConnectionsList')
-		),
-		'connection_write' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection - write: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_History_Backend_MySQL_Config', 'getDbConnectionsList')
-		),
-		'table_name' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => false,
-			'default_value' => 'jet_datamodel_history',
-			'form_field_label' => 'Table name: ',
-		),
-		'engine' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => false,
-			'default_value' => 'InnoDB',
-			'form_field_label' => 'Engine: ',
-		)
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection - read: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 *
 	 * @var string
 	 */
 	protected $connection_read = '';
+
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection - write: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 *
 	 * @var string
 	 */
 	protected $connection_write= '';
 
 	/**
-	 * @var string
-	 */
-	protected $table_name = '';
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = 'InnoDB'
+	 * @JetConfig:form_field_label = 'Engine: '
+	 *
 	 * @var string
 	 */
 	protected $engine= '';
+
+	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = 'jet_datamodel_history'
+	 * @JetConfig:form_field_label = 'Table name: '
+	 *
+	 * @var string
+	 */
+	protected $table_name = '';
 
 	/**
 	 * @return string

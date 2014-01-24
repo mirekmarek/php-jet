@@ -86,7 +86,7 @@ class Autoloader {
 
 		if(!$path) {
 			throw new Autoloader_Exception(
-				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''.implode('', '', array_keys(static::$loaders)).'\'',
+				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''.implode('\', \'', array_keys(static::$loaders)).'\'',
 				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 		}

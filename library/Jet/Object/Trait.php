@@ -22,7 +22,7 @@ trait Object_Trait {
 	 * @return string
 	 */
 	final public static function getFactoryClassName() {
-		return static::$__factory_class_name;
+		return Object_Reflection::get( get_called_class(), 'factory_class', null );
 	}
 
 	/**
@@ -32,7 +32,7 @@ trait Object_Trait {
 	 * @return string
 	 */
 	final public static function getFactoryClassMethod() {
-		return static::$__factory_class_method_name;
+		return Object_Reflection::get( get_called_class(), 'factory_method', null );
 	}
 
 
@@ -42,7 +42,7 @@ trait Object_Trait {
 	 * @return string
 	 */
 	final public static function getFactoryMustBeInstanceOfClassName() {
-		return static::$__factory_must_be_instance_of_class_name;
+		return Object_Reflection::get( get_called_class(), 'factory_mandatory_parent_class', null );
 	}
 
 
@@ -52,7 +52,9 @@ trait Object_Trait {
 	 * @return bool
 	 */
 	public function getHasSignal( $signal_name ) {
-		return in_array( $signal_name, static::$__signals );
+		$signals = Object_Reflection::get( get_class($this), 'signals', array() );
+
+		return in_array( $signal_name, $signals );
 	}
 
 	/**
@@ -61,7 +63,7 @@ trait Object_Trait {
 	 * @return string
 	 */
 	public function getSignalObjectClassName( $signal_name ) {
-		return $this->__signals_signal_object_class_name;
+		return Object_Reflection::get( get_class($this), 'signal_object_class_name', Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME );
 	}
 
 	/**
@@ -121,4 +123,5 @@ trait Object_Trait {
 
 		return $setter_method_name;
 	}
+
 }

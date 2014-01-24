@@ -17,19 +17,15 @@
  */
 
 namespace Jet;
+
+/**
+ * Class Translator_Backend_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Translator_Backend_Abstract'
+ */
 abstract class Translator_Backend_Abstract extends Object {
-	/**
-	 * @var null
-	 */
-	protected static $__factory_class_name = null;
-	/**
-	 * @var null
-	 */
-	protected static $__factory_method_name = null;
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Translator_Backend_Abstract';
 
 	/**
 	 * @var Translator_Backend_Config_Abstract

@@ -19,11 +19,13 @@
 namespace JetApplicationModule\JetExample\AuthManager;
 use Jet;
 
+/**
+ * Class Main
+ *
+ * @JetApplication_Signals:signal = '/user/login'
+ * @JetApplication_Signals:signal = '/user/logout'
+ */
 class Main extends Jet\Auth_ManagerModule_Abstract {
-	protected static $__signals = array(
-		'/user/login',
-		'/user/logout',
-	);
 
 	/**
 	 * List of available privileges

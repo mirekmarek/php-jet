@@ -17,37 +17,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Pages_Page_URL_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Pages_Page_URL'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default'
+ */
 class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page_URL';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'URL' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'backend_options' => array(
-				'key' => 'URI'
-			)
-		),
-		'is_default' => array(
-			'type' => self::TYPE_BOOL
-		),
-		'is_SSL' => array(
-			'type' => self::TYPE_BOOL
-		),
-	);
 
 	/**
 	 * @var string
@@ -63,19 +39,36 @@ class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
 	protected $Jet_Mvc_Pages_Page_site_ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:backend_options = array (  'key' => 'URI',)
+	 *
 	 * @var string
 	 */
 	protected $URL = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
 	protected $is_default = false;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
 	protected $is_SSL = false;

@@ -11,28 +11,18 @@
  */
 namespace Jet;
 
+/**
+ * Class Db_Connection_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Db_Connection_Abstract'
+ */
 abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 
 	use Object_Trait;
 	use Object_Trait_MagicGet;
 	use Object_Trait_MagicSet;
-
-
-	/**
-	 * @var string|null
-	 */
-	protected static $__factory_class_name = null;
-
-	/**
-	 * @var string|null
-	 */
-	protected static $__factory_class_method_name = null;
-
-	/**
-	 * @var string
-	 */
-	public static $__factory_must_be_instance_of_class_name = 'Jet\\Db_Connection_Abstract';
-
 
 	/**
 	 *

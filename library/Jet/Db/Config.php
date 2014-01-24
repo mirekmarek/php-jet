@@ -12,43 +12,33 @@
  */
 namespace Jet;
 
+/**
+ * Class Db_Config
+ *
+ * @JetConfig:data_path = 'database'
+ */
 class Db_Config extends Config_Application {
 
-	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = 'database';
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-
-		'default_connection_name' => array(
-			'form_field_label' => 'Default connection:',
-			'type' => self::TYPE_STRING,
-			'description' => 'Connection name default value for Db::get() / Db::getConnection()',
-			'is_required' => true,
-			'default_value' => 'default',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Db_Config', 'getConnectionsList')
-		),
-
-		'connections' => array(
-			'type' => self::TYPE_CONFIG_LIST,
-			'data_path' => 'connections',
-			'config_factory_class_name' => 'Jet\\Db_Factory',
-			'config_factory_method_name' => 'getConnectionConfigInstance'
-		)
-	);
-
-	/**
+	 * @JetConfig:form_field_label = 'Default connection:'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:description = 'Connection name default value for Db::get() / Db::getConnection()'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'default'
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Db_Config', 'getConnectionsList')
+	 * 
 	 * @var string
 	 */
 	protected $default_connection_name = 'default';
 
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetConfig:data_path = 'connections'
+	 * @JetConfig:config_factory_class_name = 'Jet\\Db_Factory'
+	 * @JetConfig:config_factory_method_name = 'getConnectionConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */

@@ -315,7 +315,14 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$page = Mvc_Pages::getNewPage($site_ID, $locale, $name, $parent_ID, $ID);
 		$page->setPageDataCheckingMode( true );
 		$page->setPageDataCheckingMap( $this->current_page_instsances );
-		$this->current_page_instsances[(string)$page->getID()] = $page;
+
+		/**
+		 * @var Mvc_Pages_Page_ID_Default $ID
+		 */
+		$ID = $page->getID();
+		$s_ID = $ID->getPageID().':'.$ID->getSiteID().':'.$ID->getLocale();
+
+		$this->current_page_instsances[$s_ID] = $page;
 
 		$page_form = $page->getCommonForm();
 
@@ -338,9 +345,6 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 				$dat[$field_name] = '';
 			}
 		}
-
-		$page_form->getField('layout')->setSelectOptions( array( $dat['layout']=>$dat['layout'] ) );
-
 
 		if(!$page->catchForm( $page_form, $dat, true )) {
 			$this->_handleValidationErrors( $ID, $page_form->getAllErrors() );

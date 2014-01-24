@@ -17,113 +17,112 @@
 namespace JetApplicationModule\JetExample\AuthManager;
 use Jet;
 
+/**
+ * Class Event
+ *
+ * @JetDataModel:name = 'Jet_Auth_Events'
+ * @JetDataModel:forced_history_enabled = false
+ * @JetDataModel:forced_cache_enabled = false
+ */
 class Event extends Jet\DataModel {
 
-	protected static $__data_model_forced_history_enabled = false;
-	protected static $__data_model_forced_cache_enabled = false;
-
-	protected static $__data_model_model_name = 'Jet_Auth_Events';
-
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'date_time' => array(
-			'type' => self::TYPE_DATE_TIME,
-			'is_required' => true
-		),
-		'event' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'is_required' => true
-		),
-		'event_txt' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 1024,
-			'is_required' => true
-		),
-		'event_data' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 134217728,
-			'is_required' => true
-		),
-		'user_ID' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'is_required' => false
-		),
-		'user_login' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'is_required' => false
-		),
-		'request_URL' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536,
-			'is_required' => true
-		),
-		'request_data' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 134217728,
-			'is_required' => false
-		),
-		'remote_IP' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 45,
-			'is_required' => true
-		),
-	);
-
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
-	protected $ID;
+	protected $ID = '';
 
 	/**
-	 * @var Jet\DateTime
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:is_required = true
+	 *
+	 * @var DateTime
 	 */
 	protected $date_time;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
-	protected $event;
+	protected $event = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 1024
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
-	protected $event_txt;
+	protected $event_txt = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 134217728
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
-	protected $event_data;
+	protected $event_data = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:is_required = false
+	 *
 	 * @var string
 	 */
-	protected $user_ID;
+	protected $user_ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:is_required = false
+	 *
 	 * @var string
 	 */
-	protected $user_login='';
+	protected $user_login = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
-	protected $request_URL;
+	protected $request_URL = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 134217728
+	 * @JetDataModel:is_required = false
+	 *
 	 * @var string
 	 */
-	protected $request_data;
+	protected $request_data = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 45
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
-	protected $remote_IP;
+	protected $remote_IP = '';
 
 
 	/**

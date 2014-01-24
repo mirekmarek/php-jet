@@ -12,15 +12,12 @@
  */
 namespace Jet;
 
+/**
+ * Class Javascript_Lib_Jet_Config
+ *
+ * @JetConfig:data_path = '/js_libs/Jet'
+ * @JetConfig:section_is_obligatory = false
+ */
 class Javascript_Lib_Jet_Config extends Config_Application {
-
-	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = '/js_libs/Jet';
-	/**
-	 * @var bool
-	 */
-	protected static $__config_section_is_obligatory = false;
 
 }

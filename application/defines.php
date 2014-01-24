@@ -18,7 +18,6 @@ define('JET_EOL', PHP_EOL);
 define('JET_APPLICATION_ENVIRONMENT', 'devel');
 define('JET_DEBUG_MODE', true);
 
-
 define('JET_BASE_PATH', dirname(__DIR__).'/');
 define('JET_LIBRARY_PATH', JET_BASE_PATH.'library/');
 
@@ -40,6 +39,12 @@ define('JET_PUBLIC_IMAGES_PATH', JET_BASE_PATH.'public/images/');
 define('JET_PUBLIC_SCRIPTS_PATH', JET_BASE_PATH.'public/scripts/');
 define('JET_PUBLIC_STYLES_PATH', JET_BASE_PATH.'public/styles/');
 define('JET_PUBLIC_LIBS_PATH', JET_BASE_PATH.'public/libs/');
+
+
+//define('JET_OBJECT_REFLECTION_CACHE_LOAD', !JET_DEBUG_MODE );
+define('JET_OBJECT_REFLECTION_CACHE_LOAD', true );
+define('JET_OBJECT_REFLECTION_CACHE_SAVE', true );
+define('JET_OBJECT_REFLECTION_CACHE_PATH', JET_DATA_PATH.'reflections/' );
 
 
 if(php_sapi_name()!='cli') {

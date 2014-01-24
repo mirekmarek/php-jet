@@ -15,26 +15,28 @@
  */
 namespace Jet;
 
-abstract class Config extends Object {
+abstract class Config extends Object implements Object_Reflection_ParserInterface {
 	/**
+	 * //TODO: update
+	 *
 	 * Path to configuration data within main config file data
 	 *
 	 * @see Data_Array::getRaw() for paths usage explanation
 	 *
-	 * @var string
 	 */
-	protected static $__config_data_path = '';
 
 
 	/**
+	 * //TODO: update
+	 *
 	 * Is given section presence in config required (TRUE) or optional (FALSE)?
 	 *
 	 * @var bool
 	 */
-	protected static $__config_section_is_obligatory = true;
-
 
 	/**
+	 * //TODO: update
+	 *
 	 * Definition of config properties/options
 	 *
 	 * Looks like:
@@ -62,10 +64,7 @@ abstract class Config extends Object {
 	 * @see \Jet\Config_Definition_Property_Float
 	 * @see \Jet\Config_Definition_Property_Array
 	 *
-	 *
-	 * @var array[]
 	 */
-	protected static $__config_properties_definition = array();
 
 
 	/**
@@ -228,93 +227,12 @@ abstract class Config extends Object {
 
 	/**
 	 *
-	 * @see \Jet\Config::$__config_properties_definition for details
-	 *
 	 * @return array[]
 	 */
 	protected function getPropertiesDefinitionData() {
 
-		//----------------------------------------------------
-		$class = get_class($this);
+		return Object_Reflection::get( get_class($this), 'config_properties_definition', array() );
 
-		//TODO: cache read
-
-		$reflection = new \ReflectionClass( $class );
-
-		$reflestions = array();
-
-		while($reflection) {
-			array_unshift( $reflestions, $reflection );
-
-			$reflection = $reflection->getParentClass();
-		};
-
-		foreach( $reflestions as $reflection ) {
-			foreach( $reflection->getProperties() as $prop_ref ) {
-				if($prop_ref->getName()[0]=='_') {
-					continue;
-				}
-
-				$comment = $prop_ref->getDocComment();
-
-				$matches = array();
-
-				preg_match_all('/@JetC:(.*)=(.*)/', $comment, $matches, PREG_SET_ORDER);
-
-				if(!$matches) {
-					continue;
-				}
-
-				$property_name = $prop_ref->getName();
-				$property_data = array();
-
-				foreach( $matches as $m ) {
-					$m[1] = trim($m[1]);
-					$m[2] = trim($m[2]);
-
-					$value = null;
-
-					eval('$value='.$m[2].';');
-
-					$property_data[$m[1]] = $value;
-
-				}
-
-				//var_dump( $property_name, $property_data );
-
-				static::$__config_properties_definition[$property_name] = $property_data;
-
-			}
-		}
-		//TODO: cache write
-
-		return static::$__config_properties_definition;
-
-		//----------------------------------------------------
-
-		$parent_class = get_parent_class( $this );
-
-		$parent_definition = array();
-		if(
-			$parent_class==__NAMESPACE__.'\\Config'  ||
-			$parent_class==__NAMESPACE__.'\\Config_Module' ||
-			$parent_class==__NAMESPACE__.'\\Config_Application' ||
-			$parent_class==__NAMESPACE__.'\\Config_Section' ||
-			strpos($parent_class, '_Abstract')!==false
-		) {
-			/** @noinspection PhpUndefinedVariableInspection */
-			if(is_array($parent_class::$__config_properties_definition)) {
-				$parent_definition = $parent_class::$__config_properties_definition;
-			}
-		} else {
-			/**
-			 * @var Config $parent
-			 */
-			$parent = new $parent_class();
-			$parent_definition = $parent->getPropertiesDefinitionData();
-		}
-
-		return array_merge($parent_definition, static::$__config_properties_definition);
 	}
 
 	/**
@@ -383,32 +301,35 @@ abstract class Config extends Object {
 			$data = new Data_Array( $data );
 		}
 
+		$config_data_path = Object_Reflection::get( get_class($this), 'config_data_path', '' );
+
 		if(
-			static::$__config_data_path &&
+			$config_data_path &&
 			$use_data_path_for_source_data
 		) {
 
+			$config_section_is_obligatory = Object_Reflection::get( get_class($this), 'config_section_is_obligatory', true );
+
 			$this_config_data = array();
 
-			if( !$data->exists(static::$__config_data_path) ) {
+			if( !$data->exists($config_data_path) ) {
 				if(
-					static::$__config_section_is_obligatory &&
+					$config_section_is_obligatory &&
 					!$this->soft_mode
 				) {
 					throw new Config_Exception(
-						'The obligatory section \''.static::$__config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
+						'The obligatory section \''.$config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
 						Config_Exception::CODE_CONFIG_CHECK_ERROR
 					);
 				}
 			} else {
-				$this_config_data = $data->getRaw(static::$__config_data_path);
+				$this_config_data = $data->getRaw($config_data_path);
 			}
 
 			$this->_config_data = new  Data_Array($this_config_data);
 		} else {
 			$this->_config_data = $data;
 		}
-
 
 		$data = $this->_config_data;
 
@@ -599,7 +520,9 @@ abstract class Config extends Object {
 
 		$original_data = new Data_Array($original_data);
 
-		$original_data->set(static::$__config_data_path, $this->toArray());
+		$config_data_path = Object_Reflection::get( get_class($this), 'config_data_path', '' );
+
+		$original_data->set( $config_data_path, $this->toArray());
 
 		$config_data = '<?php'.JET_EOL.' return '.$original_data->export().';';
 
@@ -642,6 +565,60 @@ abstract class Config extends Object {
 		}
 
 		return array_combine($res, $res);
+	}
+
+
+	/**
+	 * @param &$reflection_data
+	 * @param string $key
+	 * @param string $definition
+	 * @param mixed $raw_value
+	 * @param mixed $value
+	 *
+	 * @throws Object_Reflection_Exception
+	 */
+	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
+
+		switch($key) {
+			case 'section_is_obligatory':
+				$reflection_data['config_section_is_obligatory'] = (bool)$value;
+				break;
+			case 'data_path':
+				$reflection_data['config_data_path'] = (string)$value;
+				break;
+			default:
+				throw new Object_Reflection_Exception(
+					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
+					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+				);
+		}
+
+	}
+
+	/**
+	 * @param array &$reflection_data
+	 * @param string $property_name
+	 * @param string $key
+	 * @param string $definition
+	 * @param mixed $raw_value
+	 * @param mixed $value
+	 *
+	 * @throws Object_Reflection_Exception
+	 */
+	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
+		if(!isset($reflection_data['config_properties_definition'])) {
+			$reflection_data['config_properties_definition'] = array();
+		}
+		if(!isset($reflection_data['config_properties_definition'][$property_name])) {
+			$reflection_data['config_properties_definition'][$property_name] = array();
+		}
+
+		$value = null;
+
+		eval('$value='.$raw_value.';');
+
+		$reflection_data['config_properties_definition'][$property_name][$key] = $value;
+
 	}
 
 }

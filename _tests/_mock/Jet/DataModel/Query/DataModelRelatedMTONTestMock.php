@@ -11,10 +11,13 @@
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Query_DataModelRelatedMTONTestMock
+ *
+ * @JetDataModel:name = 'data_model_test_mock_related_MtoN'
+ */
 class DataModel_Query_DataModelRelatedMTONTestMock extends DataModel_Related_MtoN {
 	protected $__data_model_M_model_class_name = "Jet\\DataModel_Query_DataModelTestMock";
 	protected $__data_model_N_model_class_name = "Jet\\DataModel_Query_DataModel2TestMock";
-
-	protected static $__data_model_model_name = "data_model_test_mock_related_MtoN";
 
 }

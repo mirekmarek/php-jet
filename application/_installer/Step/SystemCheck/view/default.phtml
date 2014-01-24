@@ -338,7 +338,7 @@ class JetCompatibilityTester {
 
 					foreach( $functions as $function_name ) {
 						if(!function_exists($function_name)) {
-							$na_function_names[] = '<i>{$function_name}</i> is not available';
+							$na_function_names[] = '<i>'.$function_name.'</i> is not available';
 							$OK = false;
 						}
 					}

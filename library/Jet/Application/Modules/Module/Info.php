@@ -30,13 +30,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Application_Modules_Module_Info
+ *
+ * @JetFactory:mandatory_parent_class = 'Jet\Application_Modules_Module_Info'
+ */
 class Application_Modules_Module_Info extends Object implements \JsonSerializable {
 
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\Application_Modules_Module_Info';
-	
 	const MODULE_TYPE_GENERAL = 'general';
 	const MODULE_TYPE_SITE_UI_MANAGER = 'site_UI_manager';
 	const MODULE_TYPE_ADMIN_UI_MANAGER = 'admin_UI_manager';

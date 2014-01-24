@@ -22,7 +22,7 @@ class Debug_Profiler {
 	/**
 	 * @var bool
 	 */
-	protected static $enabled = true;
+	protected static $enabled = false;
 
 	/**
 	 * @var bool

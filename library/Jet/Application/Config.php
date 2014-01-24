@@ -12,33 +12,30 @@
  */
 namespace Jet;
 
+/**
+ * Class Application_Config
+ *
+ * @JetConfig:data_path = 'main'
+ */
 class Application_Config extends Config_Application {
-	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = 'main';
 
 	/**
-	 * @var array
-	 */
-
-	/**
-	 * @JetC:type = Jet\Config::TYPE_STRING
-	 * @JetC:is_required = true
-	 * @JetC:description = 'default chmod() mask for dirs'
-	 * @JetC:default_value = '0777'
-	 * @JetC:form_field_label = 'I/O dirs mode (Unix access): '
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:description = 'default chmod() mask for dirs'
+	 * @JetConfig:default_value = '0777'
+	 * @JetConfig:form_field_label = 'I/O dirs mode (Unix access): '
 	 *
 	 * @var string
 	 */
 	protected $IO_dirs_chmod;
 
 	/**
-	 * @JetC:type = Jet\Config::TYPE_STRING
-	 * @JetC:is_required = true
-	 * @JetC:description = 'default chmod() mask for files'
-	 * @JetC:default_value = '0666'
-	 * @JetC:form_field_label = 'I/O files mode (Unix access): '
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:description = 'default chmod() mask for files'
+	 * @JetConfig:default_value = '0666'
+	 * @JetConfig:form_field_label = 'I/O files mode (Unix access): '
 	 *
 	 * @var string
 	 */
@@ -46,32 +43,32 @@ class Application_Config extends Config_Application {
 
 	/**
 	 *
-	 * @JetC:type = Jet\Config::TYPE_STRING
-	 * @JetC:is_required = true
-	 * @JetC:default_value = 'Europe/Prague'
-	 * @JetC:description = 'Default timezone for PHP'
-	 * @JetC:form_field_label = 'Default timezone: '
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'Europe/Prague'
+	 * @JetConfig:description = 'Default timezone for PHP'
+	 * @JetConfig:form_field_label = 'Default timezone: '
 	 *
 	 * @var string
 	 */
 	protected $default_time_zone;
 
 	/**
-	 * @JetC:type = Jet\Config::TYPE_BOOL
-	 * @JetC:is_required = false
-	 * @JetC:default_value = true
-	 * @JetC:form_field_label = 'Hide $_GET, $_POST and $_REQUEST:'
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = true
+	 * @JetConfig:form_field_label = 'Hide $_GET, $_POST and $_REQUEST:'
 	 *
 	 * @var bool
 	 */
 	protected $hide_PHP_request_data;
 
 	/**
-	 * @JetC:type = Jet\Config::TYPE_ARRAY
-	 * @JetC:item_type = Jet\Config::TYPE_STRING
-	 * @JetC:is_required = true
-	 * @JetC:form_field_get_default_value_callback = array('\Jet\Debug_ErrorHandler', 'getDefaultErrorHandlers')
-	 * @JetC:form_field_get_select_options_callback = array('\Jet\Debug_ErrorHandler', 'getHandlersList')
+	 * @JetConfig:type = Jet\Config::TYPE_ARRAY
+	 * @JetConfig:item_type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_get_default_value_callback = array('\Jet\Debug_ErrorHandler', 'getDefaultErrorHandlers')
+	 * @JetConfig:form_field_get_select_options_callback = array('\Jet\Debug_ErrorHandler', 'getHandlersList')
 	 * 
 	 * @var array
 	 */

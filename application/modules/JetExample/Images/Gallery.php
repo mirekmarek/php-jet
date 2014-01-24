@@ -13,56 +13,44 @@
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
 
+/**
+ * Class Gallery
+ *
+ * @JetDataModel:name = 'Jet_ImageGallery'
+ *
+ * @JetDataModel:relation: images = ['JetApplicationModule\\JetExample\\Images\\Gallery_Image', ['ID'=>'gallery_ID'], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ */
 class Gallery extends Jet\DataModel {
 
-	protected static $__data_model_model_name = 'Jet_ImageGallery';
-
-	protected static $__data_model_properties_definition = array(
-		'parent_ID' => array(
-			'type' => self::TYPE_ID,
-			'is_required' => true,
-		),
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		/*
-		'locale' => array(
-			'type' => self::TYPE_LOCALE,
-			'is_required' => true,
-			'form_field_label' => 'Locale:',
-			'form_field_get_select_options_callback' => array('Jet\Mvc', 'getAllSitesLocalesList')
-		),
-		*/
-		'title' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'is_required' => true,
-			'form_field_label' => 'Title: ',
-		),
-		/*
-		'annotation' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536,
-			'form_field_label' => 'Annotation:'
-		)
-		*/
-	);
-
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $parent_ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_label = 'Title: '
+	 *
 	 * @var string
 	 */
 	protected $title = '';
+
 
 	/**
 	 * @var Gallery_Image

@@ -20,5 +20,15 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'1d33f81ff2e38cc2b2750b967936b0cf' => array(
+		'phrase' => 'Connection: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'f8d522a2cee0748a7ebd93b0ae961811' => array(
+		'phrase' => 'Cache key prefix: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

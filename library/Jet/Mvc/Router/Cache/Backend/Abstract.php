@@ -18,19 +18,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Router_Cache_Backend_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Router_Cache_Backend_Abstract'
+ */
 abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
-	/**
-	 * @var null
-	 */
-	protected static $__factory_class_name = null;
-	/**
-	 * @var null
-	 */
-	protected static $__factory_class_method = null;
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Router_Cache_Backend_Abstract';
 
 	/**
 	 * @var Mvc_Router_Cache_Backend_Config_Abstract

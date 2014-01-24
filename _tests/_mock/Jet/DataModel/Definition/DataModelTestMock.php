@@ -11,131 +11,164 @@
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Definition_DataModelTestMock
+ *
+ * @JetDataModel:name = 'data_model_test_mock'
+ */
 class DataModel_Definition_DataModelTestMock extends DataModel {
-	protected static $__data_model_model_name = 'data_model_test_mock';
 
 
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true,
-		),
-		'ID_property' => array(
-			'type' => self::TYPE_STRING,
-			'description' => 'ID Description',
-			'default_value' => 'ID default value',
-			'is_required' => false,
-			'is_ID' => true,
-			'max_len' => 50
-		),
-		'string_property' => array(
-			'type' => self::TYPE_STRING,
-			'description' => 'Description',
-			'default_value' => 'default value',
-			'is_required' => true,
-			'validation_regexp' => '/^([a-z0-9]{1,10})$/',
-			'do_not_serialize' => true,
-			'is_ID' => false,
-			'max_len' => 123,
-			'backend_options' => array(
-				'option_1' => 'Option 1',
-				'option_2' => true,
-				'option_3' => 123
-			),
-			'validation_method_name' => 'string_validation_method_1',
-			'form_field_label' => 'Form field label',
-			'form_field_error_messages' => array(
-				'error_1' => 'Error 1',
-				'error_2' => 'Error 2',
-				'error_3' => 'Error 3',
-			),
-			'form_field_options' => array(
-				'option_1' => 'Option 1',
-				'option_2' => true,
-				'option_3' => 123
-			),
-			'list_of_valid_options' => array(
-				'option1',
-				'option2',
-				'option3',
-				'_#invalid'
-			),
-			'error_messages' => array(
-				'error_1' => 'Message 1',
-				'error_2' => 'Message 2',
-				'error_3' => 'Message 3',
-			),
-		),
-		'locale_property' => array(
-			'type' => self::TYPE_LOCALE,
-			'description' => 'Description',
-			'default_value' => 'default value',
-			'is_required' => true,
-			'do_not_serialize' => true,
-		),
-		'int_property' => array(
-			'type' => self::TYPE_INT,
-			'description' => 'Description',
-			'default_value' => 2,
-			'is_required' => true,
-			'do_not_serialize' => true,
-			'min_value' => 1,
-			'max_value' => 4
-		),
-		'float_property' => array(
-			'type' => self::TYPE_FLOAT,
-			'description' => 'Description',
-			'default_value' => 2.0,
-			'is_required' => true,
-			'do_not_serialize' => true,
-			'min_value' => 1.23,
-			'max_value' => 4.56
-		),
-		'bool_property' => array(
-			'type' => self::TYPE_BOOL,
-			'description' => 'Bool property:',
-			'is_required' => false,
-			'default_value' => true,
-			'form_field_label' => 'Bool property:'
-		),
-		'array_property' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_STRING,
-			'description' => 'Description',
-			'default_value' => 'default value',
-			'is_required' => true,
-			'do_not_serialize' => false,
-		),
-		'date_time_property' => array(
-			'type' => self::TYPE_DATE_TIME,
-			'description' => 'Description',
-			'default_value' => 'default value',
-			'is_required' => true,
-			'do_not_serialize' => true,
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var string
+	 */
+	protected $ID = '';
 
-		),
-		'date_property' => array(
-			'type' => self::TYPE_DATE,
-			'description' => 'Description',
-			'default_value' => 'default value',
-			'is_required' => true,
-			'do_not_serialize' => true,
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:description = 'ID Description'
+	 * @JetDataModel:default_value = 'ID default value'
+	 * @JetDataModel:is_required = false
+	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:max_len = 50
+	 *
+	 * @var string
+	 */
+	protected $ID_property = 'ID default value';
 
-		),
-		'data_model_property' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\DataModel_Definition_DataModelTestMock',
-			'description' => 'Description',
-			'default_value' => 'default value',
-			'is_required' => true,
-			'do_not_serialize' => true,
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:validation_regexp = '/^([a-z0-9]{1,10})$/'
+	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:is_ID = false
+	 * @JetDataModel:max_len = 123
+	 * @JetDataModel:backend_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
+	 * @JetDataModel:validation_method_name = 'string_validation_method_1'
+	 * @JetDataModel:form_field_label = 'Form field label'
+	 * @JetDataModel:form_field_error_messages = array (  'error_1' => 'Error 1',  'error_2' => 'Error 2',  'error_3' => 'Error 3',)
+	 * @JetDataModel:form_field_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
+	 * @JetDataModel:list_of_valid_options = array (  0 => 'option1',  1 => 'option2',  2 => 'option3',  3 => '_#invalid',)
+	 * @JetDataModel:error_messages = array (  'error_1' => 'Message 1',  'error_2' => 'Message 2',  'error_3' => 'Message 3',)
+	 *
+	 * @var string
+	 */
+	protected $string_property = 'default value';
 
-		),
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = true
+	 *
+	 * @var Locale
+	 */
+	protected $locale_property;
 
-	);
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 2
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:min_value = 1
+	 * @JetDataModel:max_value = 4
+	 *
+	 * @var int
+	 */
+	protected $int_property = 2;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_FLOAT
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 2
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:min_value = 1.23
+	 * @JetDataModel:max_value = 4.56
+	 *
+	 * @var float
+	 */
+	protected $float_property = 2;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:description = 'Bool property:'
+	 * @JetDataModel:is_required = false
+	 * @JetDataModel:default_value = true
+	 * @JetDataModel:form_field_label = 'Bool property:'
+	 *
+	 * @var bool
+	 */
+	protected $bool_property = true;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:item_type = 'String'
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = false
+	 *
+	 * @var array
+	 */
+	protected $array_property = 'default value';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = true
+	 *
+	 * @var DateTime
+	 */
+	protected $date_time_property;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = true
+	 *
+	 * @var DateTime
+	 */
+	protected $date_property;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\DataModel_Definition_DataModelTestMock'
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:do_not_serialize = true
+	 *
+	 * @var DataModel_Definition_DataModelTestMock[]
+	 */
+	protected $data_model_property;
+
 
 	public function _test_get_property_options( $property_name ) {
-		return static::$__data_model_properties_definition[$property_name];
+		$data = $this->getDataModelPropertiesDefinitionData();
+		return $data[ $property_name ];
 	}
 
 

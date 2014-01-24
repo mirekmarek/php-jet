@@ -17,109 +17,77 @@
  */
 namespace Jet;
 
+/**
+ * Class Javascript_Lib_Dojo_Config
+ *
+ * @JetConfig:data_path = '/js_libs/Dojo'
+ * @JetConfig:section_is_obligatory = false
+ */
 class Javascript_Lib_Dojo_Config extends Config_Application {
 
 	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = '/js_libs/Dojo';
-	/**
-	 * @var bool
-	 */
-	protected static $__config_section_is_obligatory = false;
-
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'version' => array(
-			'form_field_label' => 'Dojo version',
-			'type' => self::TYPE_STRING,
-			'default_value' => '1.9.0',
-			'is_required' => false
-		),
-
-		'default_theme' => array(
-			'form_field_label' => 'Dijit theme',
-			'type' => self::TYPE_STRING,
-			'validation_regexp' => '/^[a-zA-Z0-9_\-]+$/',
-			'default_value' => 'claro',
-			'is_required' => false
-		),
-
-		'dojo_js_URI' => array(
-			'form_field_label' => 'dojo.js URI',
-			'type' => self::TYPE_STRING,
-			'default_value' => '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js',
-			'is_required' => false
-		),
-
-		'dojo_package_URI' => array(
-			'form_field_label' => 'Dojo package URI',
-			'type' => self::TYPE_STRING,
-			'is_required' => false
-		),
-
-		'theme_URI' => array(
-			'form_field_label' => 'Dijit theme URI',
-			'type' => self::TYPE_STRING,
-			'default_value' => '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css',
-			'is_required' => false
-		),
-
-		'parse_on_load' => array(
-			'form_field_label' => 'Parse on load',
-			'type' => self::TYPE_BOOL,
-			'default_value' => true
-		),
-
-		'is_debug' => array(
-			'form_field_label' => 'Dojo debug',
-			'type' => self::TYPE_BOOL,
-			'default_value' => false
-		),
-
-	);
-
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = '1.9.2'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'Dojo version'
 	 *
 	 * @var string
 	 */
 	protected $version;
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:validation_regexp = '/^[a-zA-Z0-9_\-]+$/'
+	 * @JetConfig:default_value = 'claro'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'Dijit theme'
 	 *
 	 * @var string
 	 */
 	protected $default_theme;
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'dojo.js URI'
 	 *
 	 * @var string
 	 */
 	protected $dojo_js_URI = '%JET_BASE_URI%public/libs/dojo/%VERSION%/dojo/dojo.js';
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'Dojo package URI'
 	 *
 	 * @var string
 	 */
 	protected $dojo_package_URI = '';
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'Dijit theme URI'
 	 *
 	 * @var string
 	 */
 	protected $theme_URI = '%JET_BASE_URI%public/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css';
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = true
+	 * @JetConfig:form_field_label = 'Parse on load'
 	 *
 	 * @var bool
 	 */
 	protected $parse_on_load;
 
 	/**
-	 * Dojo debug
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = false
+	 * @JetConfig:form_field_label = 'Dojo debug'
 	 *
 	 * @var bool
 	 */

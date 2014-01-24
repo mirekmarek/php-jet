@@ -17,40 +17,31 @@
  */
 namespace Jet;
 
+/**
+ * Class Translator_Config
+ *
+ * @JetConfig:data_path = 'translator'
+ * @JetConfig:section_is_obligatory = false
+ */
 class Translator_Config extends Config_Application {
-	/**
-	 * @var bool
-	 */
-	protected static $__config_section_is_obligatory = false;
-	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = 'translator';
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'backend_type' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => false,
-			'default_value' => 'PHPFiles',
-			'form_field_label' => 'Default backend type: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Translator_Config', 'getBackendTypesList')
-		),
-		'auto_append_unknown_phrase' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => true,
-			'form_field_label' => 'Auto append unknown phrase: ',
-		)
-	);
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = 'PHPFiles'
+	 * @JetConfig:form_field_label = 'Default backend type: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Translator_Config', 'getBackendTypesList')
+	 * 
 	 * @var string
 	 */
 	protected $backend_type;
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = true
+	 * @JetConfig:form_field_label = 'Auto append unknown phrase: '
+	 * 
 	 * @var bool
 	 */
 	protected $auto_append_unknown_phrase;

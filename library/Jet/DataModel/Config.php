@@ -14,71 +14,63 @@
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Config
+ *
+ * @JetConfig:data_path = 'data_model'
+ */
 class DataModel_Config extends Config_Application {
-	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = 'data_model';
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'backend_type' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'MySQL',
-			'form_field_label' => 'Default backend type: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Config', 'getBackendTypesList')
-		),
-		'history_enabled' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => true,
-			'form_field_label' => 'Enable data history:',
-		),
-		'history_backend_type' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'MySQL',
-			'form_field_label' => 'History backend type: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Config', 'getHistoryBackendTypesList')
-		),
-		'cache_enabled' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => true,
-			'form_field_label' => 'Enable data cache:',
-		),
-		'cache_backend_type' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'MySQL',
-			'form_field_label' => 'Cache backend type: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Config', 'getCacheBackendTypesList')
-
-		)
-	);
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'MySQL'
+	 * @JetConfig:form_field_label = 'Default backend type: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Config', 'getBackendTypesList')
+	 * 
 	 * @var string
 	 */
 	protected $backend_type;
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = true
+	 * @JetConfig:form_field_label = 'Enable data history:'
+	 * 
 	 * @var bool
 	 */
 	protected $history_enabled;
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'MySQL'
+	 * @JetConfig:form_field_label = 'History backend type: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Config', 'getHistoryBackendTypesList')
+	 * 
 	 * @var string
 	 */
 	protected $history_backend_type;
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = true
+	 * @JetConfig:form_field_label = 'Enable data cache:'
+	 * 
 	 * @var bool
 	 */
 	protected $cache_enabled;
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'MySQL'
+	 * @JetConfig:form_field_label = 'Cache backend type: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Config', 'getCacheBackendTypesList')
+	 * 
 	 * @var string
 	 */
 	protected $cache_backend_type;

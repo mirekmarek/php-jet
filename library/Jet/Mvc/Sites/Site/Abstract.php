@@ -20,19 +20,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Sites_Site_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:method = 'getSiteInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_Abstract'
+ */
 abstract class Mvc_Sites_Site_Abstract extends DataModel {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getSiteInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Site_Abstract';
 
 	/**
 	 * Prepares new site data

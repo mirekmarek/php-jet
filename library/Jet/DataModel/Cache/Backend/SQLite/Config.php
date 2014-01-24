@@ -17,42 +17,34 @@ namespace Jet;
 class DataModel_Cache_Backend_SQLite_Config extends DataModel_Cache_Backend_Config_Abstract {
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'directory_path' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => '%JET_DATA_PATH%',
-			'form_field_label' => 'Data directory path: ',
-		),
-		'database_name' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'datamodel_cache',
-			'form_field_label' => 'Database name: ',
-		),
-		'table_name' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => false,
-			'default_value' => 'jet_datamodel_cache',
-			'form_field_label' => 'Table name: ',
-		),
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = '%JET_DATA_PATH%'
+	 * @JetConfig:form_field_label = 'Data directory path: '
+	 *
 	 * @var string
 	 */
 	protected $directory_path = '%JET_DATA_PATH%';
+
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'datamodel_cache'
+	 * @JetConfig:form_field_label = 'Database name: '
+	 *
 	 * @var string
 	 */
 	protected $database_name= 'datamodel_cache';
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = 'jet_datamodel_cache'
+	 * @JetConfig:form_field_label = 'Table name: '
+	 *
 	 * @var string
 	 */
-	protected $table_name = '';
+	protected $table_name = 'jet_datamodel_cache';
 
 
 	/**

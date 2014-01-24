@@ -14,19 +14,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Form_Field_Abstract
+ *
+ * @JetFactory:class = 'Jet\\UI_Factory'
+ * @JetFactory:method = 'getFormFieldInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Form_Field_Abstract'
+ */
 abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\UI_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getFormFieldInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Form_Field_Abstract';
 
 	/**
 	 * @var string

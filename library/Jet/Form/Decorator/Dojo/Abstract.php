@@ -17,6 +17,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Form_Decorator_Abstract
+ *
+ * @JetFactory:class = 'Jet\\UI_Factory'
+ * @JetFactory:method = 'getFormDecoratorInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Form_Decorator_Abstract'
+ */
 abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 	const DOJO_TYPE_PROPERTY = 'data-dojo-type';
 	const DOJO_PROPS_PROPERTY = 'data-dojo-props';

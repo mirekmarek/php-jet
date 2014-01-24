@@ -17,30 +17,23 @@ namespace Jet;
 class DataModel_Backend_Oracle_Config extends DataModel_Backend_Config_Abstract {
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'connection_read' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection - read: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_Oracle_Config', 'getDbConnectionsList')
-		),
-		'connection_write' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection - write: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_Oracle_Config', 'getDbConnectionsList')
-		),
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection - read: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 *
 	 * @var string
 	 */
 	protected $connection_read = '';
+
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection - write: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 *
 	 * @var string
 	 */
 	protected $connection_write= '';

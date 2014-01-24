@@ -61,6 +61,7 @@ class Application {
 	 * @throws Application_Exception
 	 */
 	public static function start( $environment = null, $config_file_path = null ){
+
 		Debug_Profiler::MainBlockStart('Application init');
 
 		if(!$environment){
@@ -89,23 +90,15 @@ class Application {
 		}
 
 		Debug_Profiler::blockStart('Configuration init');
-		Config::setApplicationConfigFilePath( $config_file_path );
-
-		Debug_Profiler::message("Test msg 1");
-		Debug_Profiler::message("Test msg 2");
-		Debug_Profiler::message("Test msg 3");
-
+			Config::setApplicationConfigFilePath( $config_file_path );
 		Debug_Profiler::blockEnd('Configuration init');
 
 		Debug_Profiler::blockStart('Error handler init');
-		static::setupErrorHandler();
-		Debug_Profiler::message("Test msg 4");
-		Debug_Profiler::message("Test msg 5");
-		Debug_Profiler::message("Test msg 6");
+			static::setupErrorHandler();
 		Debug_Profiler::blockEnd('Error handler init');
 
 		Debug_Profiler::blockStart('Http request init');
-		Http_Request::initialize( Application::getConfig()->getHidePHPRequestData() );
+			Http_Request::initialize( Application::getConfig()->getHidePHPRequestData() );
 		Debug_Profiler::blockEnd('Http request init');
 
 		Debug_Profiler::MainBlockEnd('Application init');

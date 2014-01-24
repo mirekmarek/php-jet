@@ -17,11 +17,12 @@
  */
 namespace Jet;
 
+/**
+ * Class Auth_User_Roles
+ *
+ * @JetDataModel:name = 'Jet_Auth_User_Roles'
+ */
 class Auth_User_Roles extends DataModel_Related_MtoN {
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Auth_User_Roles';
 
 	/**
 	 * @var string

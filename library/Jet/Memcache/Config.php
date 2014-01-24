@@ -12,43 +12,32 @@
  */
 namespace Jet;
 
+/**
+ * Class Memcache_Config
+ *
+ * @JetConfig:data_path = 'memcache'
+ */
 class Memcache_Config extends Config_Application {
 
 	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = 'memcache';
-
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-
-		'default_connection_name' => array(
-			'form_field_label' => 'Default connection:',
-			'type' => self::TYPE_STRING,
-			'description' => 'Connection name for Memcache::get() / Memcache::getConnection() if connection name is not specified (must be one of the keys in \'connections\')',
-			'is_required' => true,
-			'default_value' => 'default',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Memcache_Config', 'getConnectionsList')
-		),
-
-		'connections' => array(
-			'type' => self::TYPE_CONFIG_LIST,
-			'data_path' => 'connections',
-			'config_factory_class_name' => 'Jet\\Memcache_Factory',
-			'config_factory_method_name' => 'getConnectionConfigInstance'
-		)
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:description = 'Default connection name for Memcache::get() / Memcache::getConnection()'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'default'
+	 * @JetConfig:form_field_label = 'Default connection:'
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Memcache_Config', 'getConnectionsList')
+	 * 
 	 * @var string
 	 */
 	protected $default_connection_name = 'default';
 
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetConfig:data_path = 'connections'
+	 * @JetConfig:config_factory_class_name = 'Jet\\Memcache_Factory'
+	 * @JetConfig:config_factory_method_name = 'getConnectionConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */

@@ -15,92 +15,60 @@
  */
 namespace Jet;
 
+/**
+ * Class Javascript_Lib_TinyMCE_Config
+ *
+ * @JetConfig:data_path = '/js_lib/TinyMCE'
+ * @JetConfig:section_is_obligatory = false
+ */
 class Javascript_Lib_TinyMCE_Config extends Config_Application {
-
-	/**
-	 * @var string
-	 */
-	protected static $__config_data_path = '/js_libs/TinyMCE';
-	/**
-	 * @var bool
-	 */
-	protected static $__config_section_is_obligatory = false;
-
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'version' => array(
-			'type' => self::TYPE_STRING,
-			'description' => 'Version of TinyMCE',
-			'default_value' => '3.5.6',
-			'is_required' => false
-		),
-		'URI' => array(
-			'type' => self::TYPE_STRING,
-			'description' => 'TinyMCE scripts URI or URL',
-			'default_value' => '%JET_PUBLIC_SCRIPTS_URI%tiny_mce/%VERSION%/tiny_mce.js',
-			'is_required' => false
-		),
-		'wrapper_URI' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => false,
-			'default_value' => '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE.js'
-		),
-		'editor_configs' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_STRING,
-			'description' => 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. For content_css directive can be used Jet\\* constants.',
-			'is_required' => false,
-			'default_value' => array(
-				'default' => array(
-					'mode' => 'exact',
-					'theme' => 'advanced',
-					'apply_source_formatting' => true,
-					'remove_linebreaks' => false,
-					'entity_encoding' => 'raw',
-
-					'convert_urls' => false,
-					'verify_html' => true,
-
-					'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css'
-				)
-			)
-		),
-
-	);
 
 	/**
 	 * @var array
 	 */
 	protected $_editor_configs = null;
 
-	/**
-	 * @var array
-	 */
-	protected $editor_configs = array();
 
 	/**
-	 * Version of Dojo
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:description = 'Version of TinyMCE'
+	 * @JetConfig:default_value = '3.5.6'
+	 * @JetConfig:is_required = false
 	 *
 	 * @var string
 	 */
 	protected $version;
 
 	/**
-	 * TinyMCE scripts URI or URL
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:description = 'TinyMCE scripts URI or URL'
+	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%tiny_mce/%VERSION%/tiny_mce.js'
+	 * @JetConfig:is_required = false
 	 *
 	 * @var string
 	 */
 	protected $URI;
 
 	/**
-	 * Editor wrapper URI
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE.js'
 	 *
 	 * @var string
 	 */
 	protected $wrapper_URI;
 
+
+	/**
+	 * @JetConfig:type = Jet\Config::TYPE_ARRAY
+	 * @JetConfig:item_type = Jet\Config::TYPE_STRING
+	 * @JetConfig:description = 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. For content_css directive can be used Jet\\* constants.'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'advanced', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
+	 *
+	 * @var array
+	 */
+	protected $editor_configs;
 
 	/**
 	 * @return string

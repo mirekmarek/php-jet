@@ -13,19 +13,14 @@
  */
 namespace Jet;
 
+/**
+ * Class JetML
+ *
+ * @JetFactory:class = 'JetML_Factory';
+ * @JetFactory:method = 'getJetMLPostprocessorInstance';
+ * @JetFactory:mandatory_parent_class = 'Jet\\JetML';
+ */
 class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'JetML_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getJetMLPostprocessorInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\JetML';
 
 	const TAGS_PREFIX = 'jetml';
 

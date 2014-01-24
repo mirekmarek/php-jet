@@ -17,11 +17,6 @@
 namespace Jet;
 
 abstract class DataModel_Related_1toN extends DataModel_Related_Abstract implements \ArrayAccess, \Iterator, \Countable   {
-
-	/**
-	 * @var string|null
-	 */
-	protected static $__data_model_parent_model_class_name = null;
 	/**
 	 * @var string
 	 */

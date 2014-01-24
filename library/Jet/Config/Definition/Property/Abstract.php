@@ -18,21 +18,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Config_Definition_Property_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Config_Definition_Property_Abstract'
+ */
 abstract class Config_Definition_Property_Abstract extends Object {
-
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_class_name = null;
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_class_method = null;
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Config_Definition_Property_Abstract';
-
 
 	/**
 	 * @var string

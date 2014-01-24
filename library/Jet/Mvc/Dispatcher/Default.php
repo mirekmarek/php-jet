@@ -113,7 +113,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 			if( $output_part->getIsStatic() ) {
 				Debug_Profiler::message('Cache hit: IS STATIC');
 				Debug_Profiler::blockEnd( 'Dispatch '.$module_name );
-				return;
+				return true;
 			}
 		}
 

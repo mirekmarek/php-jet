@@ -20,19 +20,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Router_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:method = 'getRouterInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Router_Abstract'
+ */
 abstract class Mvc_Router_Abstract extends Object {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getRouterInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Router_Abstract';
 
 	/**
 	 * @see Mvc/readme.txt

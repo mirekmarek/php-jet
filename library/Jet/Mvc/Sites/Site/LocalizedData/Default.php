@@ -21,52 +21,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Sites_Site_LocalizedData_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Sites_Site_LocalizedData'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_Site_Default'
+ */
 class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_Abstract {
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Sites_Site_LocalizedData';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Sites_Site_Default';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'locale' => array(
-			'type' => self::TYPE_LOCALE,
-			'is_required' => true
-		),
-		'title' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255
-		),
-		'default_headers_suffix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536
-		),
-		'default_body_prefix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536
-		),
-		'default_body_suffix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536
-		),
-		'URLs' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Default'
-		),
-		'default_meta_tags' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default'
-		),
-	);
 
 	/**
 	 *
@@ -76,57 +37,76 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
 	/**
 	 *
-	 * @var locale
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:is_required = true
+	 *
+	 * @var Locale
 	 */
-	protected $locale = null;
+	protected $locale;
 
 	/**
-	 * Site titles
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
 	 *
 	 * @var string
 	 */
 	protected $title = '';
 
 	/**
-	 * Default headers suffix
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
 	 *
 	 * @var string
 	 */
 	protected $default_headers_suffix = '';
 
 	/**
-	 * Default body prefix
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
 	 *
 	 * @var string
 	 */
 	protected $default_body_prefix = '';
 
 	/**
-	 * Default body prefix
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
 	 *
 	 * @var string
 	 */
 	protected $default_body_suffix = '';
 
 	/**
-	 * @see Mvc_Sites
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Default'
 	 *
 	 * @var Mvc_Sites_Site_LocalizedData_URL_Abstract[]
 	 */
-	protected $URLs = array();
+	protected $URLs;
 
 	/**
-	 * Default meta tags
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default'
 	 *
 	 * @var Mvc_Sites_Site_LocalizedData_MetaTag_Abstract[]
 	 */
-	protected $default_meta_tags = array();
+	protected $default_meta_tags;
+
 
 	/**
 	 * @param Locale $locale (optional)

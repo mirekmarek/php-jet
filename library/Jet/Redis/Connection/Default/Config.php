@@ -11,6 +11,6 @@
  */
 namespace Jet;
 
-class Redis_Connection_Config_Default extends Redis_Connection_Config_Abstract {
+class Redis_Connection_Default_Config extends Redis_Connection_Config_Abstract {
 
 }

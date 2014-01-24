@@ -18,60 +18,55 @@
 namespace Jet;
 
 class Auth_Role_Default extends Auth_Role_Abstract {
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'name' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'is_required' => true
-		),
-		'description' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536,
-		),
-		'privileges' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Auth_Role_Privilege_Default',
-			'is_required' => false,
-			'form_field_type' => false
-		),
-		'users' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Auth_User_Roles',
-			'form_field_type' => false
-		)
-
-	);
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $name = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
+	 *
 	 * @var string
 	 */
 	protected $description = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Auth_Role_Privilege_Default'
+	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var Auth_Role_Privilege_Abstract[]
 	 */
-	protected $privileges = array();
+	protected $privileges;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Auth_User_Roles'
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var Auth_User_Abstract[]
 	 */
-	protected $users = array();
-
+	protected $users;
 
 
 	/**

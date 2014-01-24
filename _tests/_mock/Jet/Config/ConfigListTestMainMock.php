@@ -14,21 +14,24 @@ namespace Jet;
 require_once "_mock/Jet/Config/ConfigListTestMainMock/AdapterA/Config.php";
 require_once "_mock/Jet/Config/ConfigListTestMainMock/AdapterB/Config.php";
 
+/**
+ * Class ConfigListTestMainMock
+ *
+ * @JetConfig:data_path = '/section/subsection'
+ */
 class ConfigListTestMainMock extends Config {
-	protected static $__config_data_path = "/section/subsection";
-
 
 	/**
 	 * Database adapters and configurations for general usage
 	 *
-	 * @JetC:type = Jet\Config::TYPE_CONFIG_LIST
-	 * @JetC:data_path = 'connections'
-	 * @JetC:config_factory_class_name = 'Jet\\ConfigListTestMainMock'
-	 * @JetC:config_factory_method_name = 'getAdapterConfigInstance'
+	 * @JetConfig:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetConfig:data_path = 'connections'
+	 * @JetConfig:config_factory_class_name = 'Jet\\ConfigListTestMainMock'
+	 * @JetConfig:config_factory_method_name = 'getAdapterConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */
-	protected $connections;
+	protected $connections = array();
 
 	/**
 	 */

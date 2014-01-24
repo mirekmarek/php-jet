@@ -11,31 +11,49 @@
  */
 namespace Jet;
 
+/**
+ * Class DataModel_ID_DataModelTestMock
+ *
+ * @JetDataModel:name = 'data_model_test_mock'
+ */
 class DataModel_ID_DataModelTestMock extends DataModel {
-	protected static $__data_model_model_name = "data_model_test_mock";
 
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var string
+	 */
+	protected $ID = '';
 
-	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true,
-		),
-		"ID_property_1" => array(
-			"type" => self::TYPE_STRING,
-			"is_ID" => true,
-			"max_len" => 50
-		),
-		"ID_property_2" => array(
-			"type" => self::TYPE_LOCALE,
-			"is_ID" => true
-		),
-		"ID_property_3" => array(
-			"type" => self::TYPE_INT,
-			"is_ID" => true
-		)
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:max_len = 50
+	 *
+	 * @var string
+	 */
+	protected $ID_property_1 = '';
 
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var Locale
+	 */
+	protected $ID_property_2;
 
-	);
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var int
+	 */
+	protected $ID_property_3 = 0;
 
 
 	/**
@@ -52,18 +70,18 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 			$ID = $this->getEmptyIDInstance()->unserialize($ID);
 		}
 
-		$input = $ID["ID"];
+		$input = $ID['ID'];
 
-		if($input=="site_1" || $input=="site_11") {
+		if($input=='site_1' || $input=='site_11') {
 			return true;
 		}
 
 		if(
-				$input=="long_long_long_long_long_long_long_long_long_long_" ||
-				$input=="long_long_long_long_long_long_long_long_long_l1" ||
-				$input=="long_long_long_long_long_long_long_long_long_l2" ||
-				$input=="long_long_long_long_long_long_long_long_long_l3" ||
-				$input=="long_long_long_long_long_long_long_long_long_l4"
+				$input=='long_long_long_long_long_long_long_long_long_long_' ||
+				$input=='long_long_long_long_long_long_long_long_long_l1' ||
+				$input=='long_long_long_long_long_long_long_long_long_l2' ||
+				$input=='long_long_long_long_long_long_long_long_long_l3' ||
+				$input=='long_long_long_long_long_long_long_long_long_l4'
 		) {
 			return true;
 		}

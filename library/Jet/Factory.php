@@ -38,14 +38,14 @@
 
 namespace Jet;
 
-class Factory extends Object  {
+class Factory extends Object implements Object_Reflection_ParserInterface {
 
 	/**
 	 * Map of overloaded classes where the key is the original class name and the value is new class name
 	 *
 	 * @var array [string=>string]
 	 */
-	protected static $overload_map = NULL;
+	protected static $overload_map = null;
 
 	/**
 	 * @see Jet\Factory
@@ -55,7 +55,7 @@ class Factory extends Object  {
 	 */
 	public static function setClassName( $original_name, $overloaded_name ) {
 
-		if(self::$overload_map === NULL) {
+		if(self::$overload_map === null) {
 			self::initOverloadMap();
 		}
 
@@ -70,7 +70,7 @@ class Factory extends Object  {
 	 */
 	public static function getClassName( $original_name ) {
 
-		if(self::$overload_map === NULL) {
+		if(self::$overload_map === null) {
 			self::initOverloadMap();
 		}
 
@@ -83,7 +83,7 @@ class Factory extends Object  {
 
 
 	/**
-	 * Try to get instance by factory if the class has defined $__factory_class_name and $__factory_class_method properties.
+	 * Try to get instance by factory if the class has defined @JetFactory:class and @JetFactory:method
 	 * Otherwise returns new $class_name
 	 *
 	 * @param string $class_name
@@ -125,7 +125,7 @@ class Factory extends Object  {
 	}
 
 	/**
-	 * Checks if the instance is instance of static::$__factory_must_be_instance_of class
+	 * Checks if the instance is instance of @JetFactory::must_be_instance_of class
 	 *
 	 * @param string $default_class
 	 * @param Object_Interface|Object $instance
@@ -138,9 +138,10 @@ class Factory extends Object  {
 		 * @var Object $default_class
 		 */
 		$required_class = $default_class::getFactoryMustBeInstanceOfClassName();
+
 		if(!$required_class){
 			throw new Factory_Exception(
-				$default_class.'::$__factory_must_be_instance_of_class_name must be defined.',
+				$default_class.' @JetFactory:mandatory_parent_class must be defined.',
 				Factory_Exception::CODE_MISSING_INSTANCEOF_CLASS_NAME
 			);
 		}
@@ -175,4 +176,67 @@ class Factory extends Object  {
 			}
 		}
 	}
+
+	/**
+	 * @param &$reflection_data
+	 * @param string $key
+	 * @param string $definition
+	 * @param mixed $raw_value
+	 * @param mixed $value
+	 *
+	 * @throws Object_Reflection_Exception
+	 */
+	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
+
+		switch($key) {
+			case 'class':
+				/*if(
+					!isset($reflection_data['factory_class']) ||
+					!$reflection_data['factory_class']
+				) */ {
+					$reflection_data['factory_class'] = (string)$value;
+				}
+				break;
+			case 'method':
+				/*if(
+					!isset($reflection_data['factory_method']) ||
+					!$reflection_data['factory_method']
+				) */ {
+					$reflection_data['factory_method'] = (string)$value;
+				}
+				break;
+			case 'mandatory_parent_class':
+				/*if(
+					!isset($reflection_data['factory_mandatory_parent_class']) ||
+					!$reflection_data['factory_mandatory_parent_class']
+				) */ {
+					$reflection_data['factory_mandatory_parent_class'] = (string)$value;
+				}
+				break;
+			default:
+				throw new Object_Reflection_Exception(
+					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
+					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+				);
+		}
+
+	}
+
+	/**
+	 * @param array &$reflection_data
+	 * @param string $property_name
+	 * @param string $key
+	 * @param string $definition
+	 * @param mixed $raw_value
+	 * @param mixed $value
+	 *
+	 * @throws Object_Reflection_Exception
+	 */
+	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
+		throw new Object_Reflection_Exception(
+			'Unknown definition! Class: \''.get_called_class().'\', property: \''.$property_name.'\', definition: \''.$definition.'\' ',
+			Object_Reflection_Exception::CODE_UNKNOWN_PROPERTY_DEFINITION
+		);
+	}
+
 }

@@ -19,19 +19,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Sites_Site_LocalizedData_MetaTag_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:method = 'getLocalizedSiteMetaTagInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Abstract'
+ */
 abstract class Mvc_Sites_Site_LocalizedData_MetaTag_Abstract extends DataModel_Related_1toN {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getLocalizedSiteMetaTagInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Abstract';
 
 	/**
 	 * @param string $content (optional)

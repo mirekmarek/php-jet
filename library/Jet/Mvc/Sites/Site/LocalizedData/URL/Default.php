@@ -17,35 +17,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Sites_Site_LocalizedData_URL_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Sites_Site_LocalizedData_URL'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Default'
+ */
 class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedData_URL_Abstract {
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Sites_Site_LocalizedData_URL';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Default';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-
-		'URL' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100
-		),
-		'is_default' => array(
-			'type' => self::TYPE_BOOL
-		),
-		'is_SSL' => array(
-			'type' => self::TYPE_BOOL
-		),
-	);
 
 	/**
 	 * @var string
@@ -56,23 +34,41 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	 */
 	protected $Jet_Mvc_Sites_Site_LocalizedData_ID = '';
 
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 *
 	 * @var string
 	 */
 	protected $URL = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
 	protected $is_default = false;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
 	protected $is_SSL = false;
+
 
 	/**
 	 * @var array|null|bool

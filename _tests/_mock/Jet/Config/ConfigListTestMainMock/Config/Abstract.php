@@ -11,24 +11,24 @@
  */
 namespace Jet;
 
+/**
+ * Class ConfigListTestMainMock_Config_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\ConfigListTestMainMock_Config_Abstract'
+ */
 abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
-	protected static $__factory_class_name = null;
-	protected static $__factory_class_method = null;
-	protected static $__factory_must_be_instance_of_class_name = "Jet\\ConfigListTestMainMock_Config_Abstract";
 
-	protected static $__config_properties_definition = array(
-		"adapter" => array(
-			"type" => self::TYPE_STRING,
-			"is_required" => true,
-			"form_field_type" => false
-		)
-	);
 
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_type = false
 	 *
 	 * @var string
 	 */
-	protected $adapter = "";
+	protected $adapter = '';
 
 
 	protected $adapter_config_value;

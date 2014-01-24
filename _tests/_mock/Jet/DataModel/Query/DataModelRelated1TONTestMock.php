@@ -11,59 +11,48 @@
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Query_DataModelRelated1TONTestMock
+ *
+ * @JetDataModel:name = 'data_model_test_mock_related_1toN'
+ * @JetDataModel:parent_model_class_name = 'Jet\\DataModel_Query_DataModelTestMock'
+ */
 class DataModel_Query_DataModelRelated1TONTestMock extends DataModel_Related_1toN {
-	protected static $__data_model_parent_model_class_name = "Jet\\DataModel_Query_DataModelTestMock";
 
-	protected static $__data_model_model_name = "data_model_test_mock_related_1toN";
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var string
+	 */
+	protected $ID = '';
 
-
-	protected static $__data_model_properties_definition = array(
-		"ID" => array(
-			"type" => self::TYPE_ID,
-			"is_ID" => true
-		),
-		"string_property" => array(
-			"type" => self::TYPE_STRING,
-			"description" => "Description",
-			"default_value" => "default value",
-			"is_required" => true,
-			"validation_regexp" => "/^([a-z0-9]{1,10})$/",
-			"do_not_serialize" => true,
-			"is_ID" => false,
-			"max_len" => 123,
-			"backend_options" => array(
-				"option_1" => "Option 1",
-				"option_2" => true,
-				"option_3" => 123
-			),
-			"validation_method_name" => "string_validation_method_1",
-			"form_field_label" => "Form field label",
-			"form_field_error_messages" => array(
-				"error_1" => "Error 1",
-				"error_2" => "Error 2",
-				"error_3" => "Error 3",
-			),
-			"form_field_options" => array(
-				"option_1" => "Option 1",
-				"option_2" => true,
-				"option_3" => 123
-			),
-			"list_of_valid_options" => array(
-				"option1",
-				"option2",
-				"option3",
-				"_#invalid"
-			),
-			"error_messages" => array(
-				"error_1" => "Message 1",
-				"error_2" => "Message 2",
-				"error_3" => "Message 3",
-			),
-		)
-	);
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:description = 'Description'
+	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:validation_regexp = '/^([a-z0-9]{1,10})$/'
+	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:is_ID = false
+	 * @JetDataModel:max_len = 123
+	 * @JetDataModel:backend_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
+	 * @JetDataModel:validation_method_name = 'string_validation_method_1'
+	 * @JetDataModel:form_field_label = 'Form field label'
+	 * @JetDataModel:form_field_error_messages = array (  'error_1' => 'Error 1',  'error_2' => 'Error 2',  'error_3' => 'Error 3',)
+	 * @JetDataModel:form_field_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
+	 * @JetDataModel:list_of_valid_options = array (  0 => 'option1',  1 => 'option2',  2 => 'option3',  3 => '_#invalid',)
+	 * @JetDataModel:error_messages = array (  'error_1' => 'Message 1',  'error_2' => 'Message 2',  'error_3' => 'Message 3',)
+	 *
+	 * @var string
+	 */
+	protected $string_property = 'default value';
 
 	public function _test_get_property_options( $property_name ) {
-		return static::$__data_model_properties_definition[$property_name];
+		$data = $this->getDataModelPropertiesDefinitionData();
+		return $data[ $property_name ];
 	}
 
 

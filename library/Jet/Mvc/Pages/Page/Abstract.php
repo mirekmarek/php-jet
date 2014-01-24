@@ -16,19 +16,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Pages_Page_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:method = 'getPageInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_Abstract'
+ */
 abstract class Mvc_Pages_Page_Abstract extends DataModel {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getPageInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_Pages_Page_Abstract';
 
 	/**
 	 * @var bool

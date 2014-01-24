@@ -11,29 +11,19 @@
  */
 namespace Jet;
 
+/**
+ * Class Memcache_Connection_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Memcache_Connection_Abstract'
+ */
 abstract class Memcache_Connection_Abstract extends \Memcache implements Object_Interface {
 
 	use Object_Trait;
 	use Object_Trait_MagicSleep;
 	//use Object_Trait_MagicGet;
 	//use Object_Trait_MagicSet;
-
-
-	/**
-	 * @var string|null
-	 */
-	protected static $__factory_class_name = null;
-
-	/**
-	 * @var string|null
-	 */
-	protected static $__factory_class_method_name = null;
-
-	/**
-	 * @var string
-	 */
-	public static $__factory_must_be_instance_of_class_name = 'Jet\\Memcache_Connection_Abstract';
-
 
 	/**
 	 *

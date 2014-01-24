@@ -21,7 +21,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\AdminUIManager' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\AdminUIManager',
@@ -50,7 +49,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\AdminUsers' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\AdminUsers',
@@ -73,7 +71,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\Articles' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\Articles',
@@ -96,7 +93,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\AuthManager' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\AuthManager',
@@ -121,7 +117,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\BreadcrumbNavigation' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\BreadcrumbNavigation',
@@ -144,7 +139,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\Images' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\Images',
@@ -167,7 +161,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\SiteUIManager' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\SiteUIManager',
@@ -190,7 +183,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\TestModule' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\TestModule',
@@ -216,7 +208,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 	'JetExample\TestModule2' => Jet\Application_Modules_Module_Info::__set_state( array(
 		'name' => 'JetExample\\TestModule2',
@@ -240,7 +231,6 @@
 		'module_dir' => '',
 		'is_installed' => true,
 		'is_activated' => true,
-		'__signals_signal_object_class_name' => 'Jet\\Application_Signals_Signal',
 	) ),
 );
 ;

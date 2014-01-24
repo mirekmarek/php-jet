@@ -18,26 +18,21 @@
  */
 namespace Jet;
 
+/**
+ * Class Javascript_Lib_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Javascript_Factory'
+ * @JetFactory:method = 'getJavascriptLibInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Javascript_Lib_Abstract'
+ */
 abstract class Javascript_Lib_Abstract extends Object {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Javascript_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getJavascriptLibInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Javascript_Lib_Abstract';
 
 	/**
 	 * The layout instance
 	 *
 	 * @var Mvc_Layout
 	 */
-	protected $layout = NULL;
+	protected $layout = null;
 
 	/**
 	 * List of required components

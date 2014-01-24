@@ -11,55 +11,42 @@
  */
 namespace Jet;
 
+/**
+ * Class Redis_Connection_Config_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\Redis_Connection_Config_Abstract'
+ */
 abstract class Redis_Connection_Config_Abstract extends Config_Section {
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_class_name = null;
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_class_method = null;
-	/**
-	 * @var null|string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Redis_Connection_Config_Abstract';
+
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'name' => array(
-			'form_field_label' => 'Connection name',
-			'type' => self::TYPE_STRING,
-			'default_value' => 'default',
-			'is_required' => true
-		),
-		'host' => array(
-			'form_field_label' => 'Host or socket',
-			'type' => self::TYPE_STRING,
-			'default_value' => '127.0.0.1',
-			'is_required' => true
-		),
-		'port' => array(
-			'form_field_label' => 'Port',
-			'type' => self::TYPE_STRING,
-			'default_value' => 6379,
-			'is_required' => false
-		),
-	);
-
-	/**
+	 * @JetConfig:form_field_label = 'Connection name'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'default'
+	 * @JetConfig:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $name;
 
 	/**
+	 * @JetConfig:form_field_label = 'Host or socket'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = '127.0.0.1'
+	 * @JetConfig:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $host;
 
 	/**
+	 * @JetConfig:form_field_label = 'Port'
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 6379
+	 * @JetConfig:is_required = false
+	 *
 	 * @var string
 	 */
 	protected $port;

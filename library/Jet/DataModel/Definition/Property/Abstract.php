@@ -14,19 +14,14 @@
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Definition_Property_Abstract
+ *
+ * @JetFactory:class = null
+ * @JetFactory:method = null
+ * @JetFactory:mandatory_parent_class = 'Jet\\DataModel_Definition_Property_Abstract'
+ */
 abstract class DataModel_Definition_Property_Abstract extends Object {
-	/**
-	 * @var null
-	 */
-	protected static $__factory_class_name = null;
-	/**
-	 * @var null
-	 */
-	protected static $__factory_class_method = null;
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\DataModel_Definition_Property_Abstract';
 
 	/**
 	 * Default error messages
@@ -331,6 +326,14 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	public function getDefaultValue() {
 		return $this->default_value;
+	}
+
+	/**
+	 *
+	 * @param mixed $default_value
+	 */
+	public function setDefaultValue( $default_value ) {
+		$this->default_value = $default_value;
 	}
 
 	/**

@@ -17,170 +17,176 @@
  */
 namespace Jet;
 
+/**
+ * Class Auth_User_Default
+ *
+ * @JetDataModel:name = 'Jet_Auth_User'
+ */
 class Auth_User_Default extends Auth_User_Abstract {
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'login' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'is_required' => true,
-			'backend_options' => array(
-				'key' => 'login',
-				'key_type' => 'UNIQUE'
-			),
-			'form_field_label' => 'User name:'
-		),
-		'password' => array(
-			'type' => self::TYPE_STRING,
-			'do_not_serialize' => true,
-			'max_len' => 100,
-			'is_required' => true,
-			'backend_options' => array(
-				'key' => 'password'
-			),
-			'form_field_type' => 'Password',
-			'form_field_label' => 'Password:'
-		),
-		'is_superuser' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => false,
-			'form_field_type' => false
-		),
-		'email' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'E-mail:'
-		),
-		'locale' => array(
-			'type' => self::TYPE_LOCALE,
-			'form_field_label' => 'Locale:',
-			'form_field_get_select_options_callback' => array('Jet\\Mvc', 'getAllSitesLocalesList')
-		),
-		'first_name' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'form_field_label' => 'First name:'
-		),
-		'surname' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'form_field_label' => 'Surname:'
-		),
-		'description' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536,
-			'form_field_label' => 'Description:'
-		),
-		'password_is_valid' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => true,
-			'form_field_type' => false
-		),
-		'password_is_valid_till' => array(
-			'type' => self::TYPE_DATE_TIME,
-			'default_value' => null,
-			'form_field_type' => false
-		),
-		'user_is_blocked' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => false,
-			'form_field_type' => false
-		),
-		'user_is_blocked_till' => array(
-			'type' => self::TYPE_DATE_TIME,
-			'default_value' => null,
-			'form_field_type' => false
-		),
-		'user_is_activated' =>array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => true,
-			'form_field_type' => false
-		),
-		'user_activation_hash' =>array(
-			'type' => self::TYPE_STRING,
-			'default_value' => '',
-			'form_field_type' => false
-		),
-		'roles' => array(
-			'type' => self::TYPE_DATA_MODEL,
-			'data_model_class' => 'Jet\\Auth_User_Roles',
-			'form_field_type' => 'MultiSelect',
-			'form_field_label' => 'Roles:',
-			'form_field_get_select_options_callback' => array('Jet\\Auth','getRolesList')
-		),
-	);
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:backend_options = array (  'key' => 'login',  'key_type' => 'UNIQUE',)
+	 * @JetDataModel:form_field_label = 'User name:'
+	 *
 	 * @var string
 	 */
 	protected $login = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_required = true
+	 * @JetDataModel:backend_options = array (  'key' => 'password',)
+	 * @JetDataModel:form_field_type = 'Password'
+	 * @JetDataModel:form_field_label = 'Password:'
+	 *
 	 * @var string
 	 */
 	protected $password = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:default_value = false
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var bool
 	 */
 	protected $is_superuser = false;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'E-mail:'
+	 *
 	 * @var string
 	 */
 	protected $email = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:form_field_label = 'Locale:'
+	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Mvc',  1 => 'getAllSitesLocalesList',)
+	 *
 	 * @var Locale
 	 */
 	protected $locale;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:form_field_label = 'First name:'
+	 *
 	 * @var string
 	 */
 	protected $first_name = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:form_field_label = 'Surname:'
+	 *
 	 * @var string
 	 */
 	protected $surname = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Description:'
+	 *
 	 * @var string
 	 */
 	protected $description = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:default_value = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var bool
 	 */
 	protected $password_is_valid = true;
+
 	/**
-	 * @var DateTime|null
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:default_value = NULL
+	 * @JetDataModel:form_field_type = false
+	 *
+	 * @var DateTime
 	 */
-	protected $password_is_valid_till = null;
+	protected $password_is_valid_till;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:default_value = false
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var bool
 	 */
 	protected $user_is_blocked = false;
+
 	/**
-	 * @var DateTime|null
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:default_value = NULL
+	 * @JetDataModel:form_field_type = false
+	 *
+	 * @var DateTime
 	 */
-	protected $user_is_blocked_till = null;
+	protected $user_is_blocked_till;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:default_value = true
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var bool
 	 */
 	protected $user_is_activated = true;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:default_value = ''
+	 * @JetDataModel:form_field_type = false
+	 *
 	 * @var string
 	 */
 	protected $user_activation_hash = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Jet\\Auth_User_Roles'
+	 * @JetDataModel:form_field_type = 'MultiSelect'
+	 * @JetDataModel:form_field_label = 'Roles:'
+	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Auth',  1 => 'getRolesList',)
+	 *
 	 * @var Auth_User_Roles
 	 */
 	protected $roles;

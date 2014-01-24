@@ -16,98 +16,97 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Pages_Page_Content_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Pages_Page_Content'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default'
+ */
 class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page_Content';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'module_name' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 50
-		),
-		'controller_class_suffix' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255
-		),
-		'controller_action' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 50
-		),
-		'controller_action_parameters' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_STRING
-		),
-		'output_position' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 50
-		),
-		'output_position_required' => array(
-			'type' => self::TYPE_BOOL
-		),
-		'output_position_order' => array(
-			'type' => self::TYPE_INT
-		)
-	);
 
 	/**
 	 * @var string
 	 */
 	protected $Jet_Mvc_Pages_Page_ID = '';
+
 	/**
 	 * @var string
 	 */
 	protected $Jet_Mvc_Pages_Page_locale = '';
+
 	/**
 	 * @var string
 	 */
 	protected $Jet_Mvc_Pages_Page_site_ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
-	protected $ID  = '';
+	protected $ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 50
+	 *
 	 * @var string
 	 */
 	protected $module_name = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 *
 	 * @var string
 	 */
 	protected $controller_class_suffix = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 50
+	 *
 	 * @var string
 	 */
 	protected $controller_action = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:item_type = 'String'
+	 *
 	 * @var array
 	 */
-	protected $controller_action_parameters = array();
+	protected $controller_action_parameters = array (
+	);
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 50
+	 *
 	 * @var string
 	 */
 	protected $output_position = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 *
 	 * @var bool
 	 */
-	protected $output_position_required = true;
+	protected $output_position_required = false;
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 *
 	 * @var int
 	 */
 	protected $output_position_order = 0;

@@ -21,10 +21,6 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	/**
 	 * @var string|null
 	 */
-	protected static $__data_model_parent_model_class_name = null;
-	/**
-	 * @var string|null
-	 */
 	protected static $____data_model_definition_class_name = null;
 
 	/**
@@ -36,11 +32,11 @@ abstract class DataModel_Related_Abstract extends DataModel {
 		$class = get_class($this);
 
 		if( !isset(DataModel::$___data_model_definitions[$class])) {
-			$parent_model_class_name = $this->getParentModelClassName();
+			$parent_model_class_name = static::getParentModelClassName();
 
 			if(!$parent_model_class_name) {
 				throw new DataModel_Exception(
-					get_class($this).'::$__data_model_parent_model_class_name is not defined!',
+					get_class($this).' @JetDataModel:parent_model_class_name is not defined!',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -56,10 +52,21 @@ abstract class DataModel_Related_Abstract extends DataModel {
 
 
 	/**
+	 * @throws DataModel_Exception
+	 *
 	 * @return string
 	 */
-	public function getParentModelClassName() {
-		return static::$__data_model_parent_model_class_name;
+	public static function getParentModelClassName() {
+		$parent_model_class_name = Object_Reflection::get( get_called_class(), 'data_model_parent_model_class_name', '' );
+
+		if(!$parent_model_class_name) {
+			throw new DataModel_Exception(
+				'Related DataModel parent class is not defined. Class: \''.get_called_class().'\' Please define it in the class doc comment. Example: @JetDataModel:parent_model_class_name = \'Some\\ParentClass\' ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		return $parent_model_class_name;
 	}
 
 	/**
@@ -87,7 +94,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	 * @return string
 	 */
 	final public function getBackendType() {
-		$class_name = Factory::getClassName( static::$__data_model_parent_model_class_name );
+		$class_name = Factory::getClassName( static::getParentModelClassName() );
 
 		$pi = new $class_name();
 
@@ -103,7 +110,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	 * @return array
 	 */
 	final public function getBackendConfig() {
-		$class_name = Factory::getClassName( static::$__data_model_parent_model_class_name );
+		$class_name = Factory::getClassName( static::getParentModelClassName() );
 
 		$pi = new $class_name();
 
@@ -119,13 +126,9 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	 * @return bool
 	 */
 	final public static function getCacheEnabled() {
-		$class_name = Factory::getClassName( static::$__data_model_parent_model_class_name );
+		$class_name = Factory::getClassName( static::getParentModelClassName() );
 
-		/**
-		 * @var DataModel $pi
-		 */
-		$pi = new $class_name();
-		return $pi->getCacheEnabled();
+		return $class_name::getCacheEnabled();
 	}
 
 	/**
@@ -134,7 +137,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	 * @return string
 	 */
 	final public function getCacheBackendType() {
-		$class_name = Factory::getClassName( static::$__data_model_parent_model_class_name );
+		$class_name = Factory::getClassName( static::getParentModelClassName() );
 
 		$pi = new $class_name();
 
@@ -150,7 +153,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	 * @return array
 	 */
 	final public function getCacheBackendConfig() {
-		$class_name = Factory::getClassName( static::$__data_model_parent_model_class_name );
+		$class_name = Factory::getClassName( static::getParentModelClassName() );
 
 		$pi = new $class_name();
 

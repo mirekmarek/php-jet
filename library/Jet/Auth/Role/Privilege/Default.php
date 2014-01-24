@@ -17,30 +17,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Auth_Role_Privilege_Default
+ *
+ * @JetDataModel:name = 'Jet_Auth_Role_Privilege'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Auth_Role_Default'
+ */
 class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_parent_model_class_name = 'Jet\\Auth_Role_Default';
-
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'privilege' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 100,
-			'is_required' => true
-		),
-		'values' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_STRING
-		)
-	);
 
 	/**
 	 * @var string
@@ -48,18 +31,32 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	protected $Jet_Auth_Role_ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:is_required = true
+	 *
 	 * @var string
 	 */
 	protected $privilege = '';
 
 	/**
-	 * @var mixed[]
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:item_type = 'String'
+	 *
+	 * @var array
 	 */
-	protected $values = array();
+	protected $values = array ();
 
 
 	/**

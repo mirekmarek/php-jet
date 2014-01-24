@@ -12,12 +12,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Application_Signals_SignalTest_Sender
+ *
+ */
 class Application_Signals_SignalTest_Sender extends Object {
 
-	/**
-	 * @var string
-	 */
-	protected $__signals_signal_object_class_name = Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME;
+	protected $_test_signals_signal_object_class_name = Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME;
 
 	/**
 	 * Signals list
@@ -74,7 +75,7 @@ class Application_Signals_SignalTest_Sender extends Object {
 	 * @return string
 	 */
 	public function getSignalObjectClassName( $signal_name ) {
-		return $this->__signals_signal_object_class_name;
+		return $this->_test_signals_signal_object_class_name;
 	}
 
 
@@ -82,7 +83,7 @@ class Application_Signals_SignalTest_Sender extends Object {
 	 * @param string $_signals_signal_object_class_name
 	 */
 	public function setSignalsSignalObjectClassName($_signals_signal_object_class_name) {
-		$this->__signals_signal_object_class_name = $_signals_signal_object_class_name;
+		$this->_test_signals_signal_object_class_name = $_signals_signal_object_class_name;
 	}
 
 

@@ -18,166 +18,158 @@
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
 
+/**
+ * Class DataModelT1
+ *
+ * @JetDataModel:name = 'JetApplicationModule_TestModule_DataModelT1'
+ */
 class DataModelT1 extends Jet\DataModel {
 
-	protected static $__data_model_model_name = 'JetApplicationModule_TestModule_DataModelT1';
-
 	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'checkbox' => array(
-			'type' => self::TYPE_BOOL,
-			'form_field_label' => 'Checkbox: '
-		),
-		'date' => array(
-			'type' => self::TYPE_DATE,
-			'form_field_label' => 'Date: '
-		),
-		'date_time' => array(
-			'type' => self::TYPE_DATE_TIME,
-			'form_field_label' => 'Date and time: '
-		),
-		'float' => array(
-			'type' => self::TYPE_FLOAT,
-			'form_field_label' => 'Float: ',
-			'min_value' => 0,
-			'max_value' => 999
-		),
-		'int' => array(
-			'type' => self::TYPE_INT,
-			'form_field_label' => 'Int: ',
-			'min_value' => 0,
-			'max_value' => 999
-		),
-		'text' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'Text: ',
-		),
-		'long_text' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 65536,
-			'form_field_label' => 'Long text:'
-		),
-		'HTML' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 655360,
-			'form_field_label' => 'WYSIWYG:',
-			'form_field_type' => 'WYSIWYG'
-		),
-		'select' => array(
-			'type' => self::TYPE_STRING,
-			'form_field_label' => 'Select: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions')
-		),
-		'multi_select' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_STRING,
-			'form_field_label' => 'Multi Select: ',
-			'form_field_type' => 'MultiSelect',
-			'form_field_get_select_options_callback' => array('JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions')
-		),
-		'radio_button' => array(
-			'type' => self::TYPE_ARRAY,
-			'item_type' => self::TYPE_STRING,
-			'form_field_label' => 'Radio Button: ',
-			'form_field_type' => 'RadioButton',
-			'form_field_get_select_options_callback' => array('JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions')
-		),
-		'password' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'Password: ',
-			'form_field_type' => 'Password',
-			'form_field_options' => array(
-				'disable_check' => false,
-				'minimal_password_strength' => 0
-			)
-		),
-		'password_nc' => array(
-			'type' => self::TYPE_STRING,
-			'max_len' => 255,
-			'form_field_label' => 'Password (no check field): ',
-			'form_field_type' => 'Password',
-			'form_field_options' => array(
-				'disable_check' => true
-			)
-		)
-
-	);
-
-	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
-	protected $ID;
+	protected $ID = '';
 
 	/**
-	 * @var string
-	 */
-	protected $text = '';
-
-	/**
-	 * @var string
-	 */
-	protected $HTML = '';
-
-	/**
-	 * @var string
-	 */
-	protected $long_text = '';
-
-	/**
-	 * @var Jet\DateTime
-	 */
-	protected $date;
-
-	/**
-	 * @var Jet\DateTime
-	 */
-	protected $date_time;
-
-	/**
-	 * @var string
-	 */
-	protected $select = '';
-
-	/**
-	 * @var array
-	 */
-	protected $multi_select = array();
-
-	/**
-	 * @var array
-	 */
-	protected $radio_button = array();
-
-	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Checkbox: '
+	 *
 	 * @var bool
 	 */
 	protected $checkbox = false;
 
 	/**
-	 * @var float
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE
+	 * @JetDataModel:form_field_label = 'Date: '
+	 *
+	 * @var DateTime
 	 */
-	protected $float = 0.0;
+	protected $date;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:form_field_label = 'Date and time: '
+	 *
+	 * @var DateTime
+	 */
+	protected $date_time;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_FLOAT
+	 * @JetDataModel:form_field_label = 'Float: '
+	 * @JetDataModel:min_value = 0
+	 * @JetDataModel:max_value = 999
+	 *
+	 * @var float
+	 */
+	protected $float = 0;
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:form_field_label = 'Int: '
+	 * @JetDataModel:min_value = 0
+	 * @JetDataModel:max_value = 999
+	 *
 	 * @var int
 	 */
 	protected $int = 0;
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Text: '
+	 *
+	 * @var string
+	 */
+	protected $text = '';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Long text:'
+	 *
+	 * @var string
+	 */
+	protected $long_text = '';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 655360
+	 * @JetDataModel:form_field_label = 'WYSIWYG:'
+	 * @JetDataModel:form_field_type = 'WYSIWYG'
+	 *
+	 * @var string
+	 */
+	protected $HTML = '';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:form_field_label = 'Select: '
+	 * @JetDataModel:form_field_type = 'Select'
+	 * @JetDataModel:form_field_get_select_options_callback = array ( 'JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions',)
+	 *
+	 * @var string
+	 */
+	protected $select = '';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:item_type = 'String'
+	 * @JetDataModel:form_field_label = 'Multi Select: '
+	 * @JetDataModel:form_field_type = 'MultiSelect'
+	 * @JetDataModel:form_field_get_select_options_callback = array ( 'JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions',)
+	 *
+	 * @var array
+	 */
+	protected $multi_select = array (
+	);
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:item_type = 'String'
+	 * @JetDataModel:form_field_label = 'Radio Button: '
+	 * @JetDataModel:form_field_type = 'RadioButton'
+	 * @JetDataModel:form_field_get_select_options_callback = array ( 'JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions',)
+	 *
+	 * @var array
+	 */
+	protected $radio_button = array ();
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Password: '
+	 * @JetDataModel:form_field_type = 'Password'
+	 * @JetDataModel:form_field_options = array (  'disable_check' => false,  'minimal_password_strength' => 0,)
+	 *
 	 * @var string
 	 */
 	protected $password = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Password (no check field): '
+	 * @JetDataModel:form_field_type = 'Password'
+	 * @JetDataModel:form_field_options = array (  'disable_check' => true,)
+	 *
 	 * @var string
 	 */
 	protected $password_nc = '';

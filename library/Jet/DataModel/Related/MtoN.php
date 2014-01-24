@@ -28,11 +28,6 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	protected $__data_model_N_model_class_name = null;
 
 	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array();
-
-	/**
 	 * @var DataModel_ID_Abstract
 	 */
 	protected $M_ID = null;

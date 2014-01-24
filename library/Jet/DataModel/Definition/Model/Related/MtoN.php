@@ -76,6 +76,9 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->setupRelation($M_related_model_definition, $N_related_model_definition);
 
 		$properties_definition_data = $data_model->getDataModelPropertiesDefinitionData();
+		if(!$properties_definition_data) {
+			$properties_definition_data = array();
+		}
 
 		$this->_definePropertiesAndSetupRelations( $properties_definition_data );
 	}

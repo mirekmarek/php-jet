@@ -17,34 +17,13 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Pages_Page_MetaTag_Default
+ *
+ * @JetDataModel:name = 'Jet_Mvc_Pages_Page_MetaTag'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default'
+ */
 class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
-
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_model_name = 'Jet_Mvc_Pages_Page_MetaTag';
-	/**
-	 * @var string
-	 */
-	protected static $__data_model_parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default';
-	/**
-	 * @var array
-	 */
-	protected static $__data_model_properties_definition = array(
-		'ID' => array(
-			'type' => self::TYPE_ID,
-			'is_ID' => true
-		),
-		'attribute' => array(
-			'type' => self::TYPE_STRING
-		),
-		'attribute_value' => array(
-			'type' => self::TYPE_STRING
-		),
-		'content' => array(
-			'type' => self::TYPE_STRING,
-		),
-	);
 
 	/**
 	 * @var string
@@ -60,22 +39,37 @@ class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
 	protected $Jet_Mvc_Pages_Page_site_ID = '';
 
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:is_ID = true
+	 *
 	 * @var string
 	 */
 	protected $ID = '';
 
 	/**
-	 * @var string
-	 */
-	protected $content = '';
-	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 *
 	 * @var string
 	 */
 	protected $attribute = '';
+
 	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 *
 	 * @var string
 	 */
 	protected $attribute_value = '';
+
+	/**
+	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 *
+	 * @var string
+	 */
+	protected $content = '';
 
 	/**
 	 * @param string $content (optional)

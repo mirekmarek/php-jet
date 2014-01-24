@@ -77,7 +77,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class.'\' doesn\'t have model name! ('.$class.'::getDataModelName() returns false.) ',
+					'DataModel \''.$class.'\' doesn\'t have model name! ('.$class.'::getDataModelName() returns false.) Please specify model name by @JetDataModel:name ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
@@ -112,6 +112,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 
 		foreach($properties as $property) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
 			$this->properties[$property->getName()] = $property;
 		}
 	}

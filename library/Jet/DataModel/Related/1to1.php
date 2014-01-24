@@ -19,11 +19,6 @@ namespace Jet;
 abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 	/**
-	 * @var string|null
-	 */
-	protected static $__data_model_parent_model_class_name = null;
-
-	/**
 	 * @var string
 	 */
 	protected static $____data_model_definition_class_name = 'Jet\\DataModel_Definition_Model_Related_1to1';

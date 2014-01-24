@@ -19,83 +19,75 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Router_Config_Default
+ *
+ * @JetConfig:data_path = 'core_router'
+ */
 class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 
 	/**
-	 *
-	 * @var string
-	 */
-	protected static $__config_data_path = 'core_router';
-
-	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'cache_enabled' => array(
-			'type' => self::TYPE_BOOL,
-			'default_value' => true,
-			'is_required' => true,
-			'form_field_label' => 'Enable cache: '
-		),
-		'cache_backend_type' => array(
-			'type' => self::TYPE_STRING,
-			'default_value' => 'MySQL',
-			'is_required' => true,
-			'form_field_label' => 'Cache backend type: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getCacheBackendTypesList')
-		),
-		'default_site_UI_manager_module_name' => array(
-			'type' => self::TYPE_STRING,
-			'default_value' => 'Jet\\SiteUIDefault',
-			'description' => 'Default site UI manager module name',
-			'is_required' => true,
-			'form_field_label' => 'Default site UI manager module: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getSiteUIManagerModulesList')
-		),
-		'default_admin_UI_manager_module_name' => array(
-			'type' => self::TYPE_STRING,
-			'default_value' => 'Jet\\AdminUIDefault',
-			'description' => 'Default admin UI manager module name',
-			'is_required' => true,
-			'form_field_label' => 'Default administration UI manager module: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getAdminUIManagerModulesList')
-		),
-		'default_auth_manager_module_name' => array(
-			'type' => self::TYPE_STRING,
-			'default_value' => 'Jet\\AuthDefault',
-			'description' => 'Default authentication and authorization manager module name',
-			'is_required' => true,
-			'form_field_label' => 'Authentication and authorization manager module: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\Mvc_Router_Config_Default', 'getAuthManagerModulesList')
-
-		),
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = true
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Enable cache: '
+	 * 
 	 * @var bool
 	 */
 	protected $cache_enabled;
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'MySQL'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Cache backend type: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getCacheBackendTypesList')
+	 * 
 	 * @var string
 	 */
 	protected $cache_backend_type;
+	
 	/**
 	 * @var array
 	 */
 	protected $cache_backend_options;
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'Jet\\SiteUIDefault'
+	 * @JetConfig:description = 'Default site UI manager module name'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Default site UI manager module: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getSiteUIManagerModulesList')
+	 * 
 	 * @var string
 	 */
 	protected $default_site_UI_manager_module_name;
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'Jet\\AdminUIDefault'
+	 * @JetConfig:description = 'Default admin UI manager module name'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Default administration UI manager module: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getAdminUIManagerModulesList')
+	 * 
 	 * @var string
 	 */
 	protected $default_admin_UI_manager_module_name;
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'Jet\\AuthDefault'
+	 * @JetConfig:description = 'Default authentication and authorization manager module name'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Authentication and authorization manager module: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getAuthManagerModulesList')
+	 * 
 	 * @var string
 	 */
 	protected $default_auth_manager_module_name;

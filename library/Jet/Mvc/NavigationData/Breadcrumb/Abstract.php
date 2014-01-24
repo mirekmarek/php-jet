@@ -18,19 +18,14 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_NavigationData_Breadcrumb_Abstract
+ *
+ * @JetFactory:class = 'Jet\\Mvc_NavigationData_Factory'
+ * @JetFactory:method = 'getBreadcrumbInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_NavigationData_Breadcrumb_Abstract'
+ */
 abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_name = 'Jet\\Mvc_NavigationData_Factory';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_class_method = 'getBreadcrumbInstance';
-	/**
-	 * @var string
-	 */
-	protected static $__factory_must_be_instance_of_class_name = 'Jet\\Mvc_NavigationData_Breadcrumb_Abstract';
 
 	/**
 	 * @var Mvc_Pages_Page_ID_Abstract
@@ -41,7 +36,7 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	 *
 	 * @var Mvc_Pages_Page_Abstract
 	 */
-	protected $page = NULL;
+	protected $page = null;
 
 	/**
 	 *

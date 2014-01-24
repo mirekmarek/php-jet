@@ -122,7 +122,7 @@ foreach($locales as $i=>$locale) {
 	$zlc = new Locale( $locale );
 
 	if($zlc->toString()!=$locale) {
-		error( "'{$locale}' is not valid locale" );
+		error( '\''.$locale.'\' is not valid locale' );
 	}
 
 	$locales[$i] = $zlc;
@@ -139,13 +139,13 @@ foreach(explode(",",$options["URL"]) as $URL_data) {
 	list($locale, $URL) = explode("=", $URL_data);
 
 	if(!in_array($locale, $known_locales)) {
-		error( "Unknown locale {$locale}" );
+		error( 'Unknown locale '.$locale );
 	}
 
 
 
 	if( !parse_url($URL) ) {
-		error( "URL {$URL} is not valid" );
+		error( 'URL '.$URL.' is not valid' );
 	}
 
 	if(in_array($URL, $URLs)) {

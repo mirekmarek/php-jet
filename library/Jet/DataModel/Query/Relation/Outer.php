@@ -62,7 +62,7 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 
 		$related_properties = $this->getRelatedDataModelDefinition()->getProperties();
 
-		foreach($definition_data['join_by_properties'] as $related_property_name=>$this_model_property) {
+		foreach($definition_data['join_by_properties'] as $this_model_property=>$related_property_name) {
 			if(!isset($related_properties[$related_property_name])) {
 				throw new DataModel_Exception(
 					'Unknown property '.$definition_data['related_to_class_name'].'::'.$related_property_name.' ',

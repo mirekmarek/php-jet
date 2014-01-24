@@ -17,60 +17,53 @@ namespace Jet;
 class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 
 	/**
-	 * @var array
-	 */
-	protected static $__config_properties_definition = array(
-		'connection_read' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection - read: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
-		),
-		'connection_write' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'form_field_label' => 'Connection - write: ',
-			'form_field_type' => 'Select',
-			'form_field_get_select_options_callback' => array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
-		),
-		'engine' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'InnoDB',
-			'form_field_label' => 'Engine: ',
-		),
-		'default_charset' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'utf8',
-			'form_field_label' => 'Default charset: ',
-		),
-		'collate' => array(
-			'type' => self::TYPE_STRING,
-			'is_required' => true,
-			'default_value' => 'utf8_general_ci',
-			'form_field_label' => 'Default collate: ',
-		),
-	);
-
-	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection - read: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 * 
 	 * @var string
 	 */
 	protected $connection_read = '';
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_label = 'Connection - write: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 * 
 	 * @var string
 	 */
 	protected $connection_write= '';
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'InnoDB'
+	 * @JetConfig:form_field_label = 'Engine: '
+	 * 
 	 * @var string
 	 */
 	protected $engine= '';
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'utf8'
+	 * @JetConfig:form_field_label = 'Default charset: '
+	 * 
 	 * @var string
 	 */
 	protected $default_charset= '';
+	
 	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 * @JetConfig:default_value = 'utf8_general_ci'
+	 * @JetConfig:form_field_label = 'Default collate: '
+	 * 
 	 * @var string
 	 */
 	protected $collate= '';
