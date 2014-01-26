@@ -38,7 +38,7 @@ class Object_Reflection {
 	/**
 	 * @param $class
 	 *
-	 * @throws Exception
+	 * @throws Object_Reflection_Exception
 	 *
 	 * @return array
 	 */

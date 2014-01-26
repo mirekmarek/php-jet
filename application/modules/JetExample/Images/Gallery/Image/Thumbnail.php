@@ -22,6 +22,11 @@ use Jet;
 class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
+	 * @var string
+	 */
+	protected $Jet_ImageGallery_Images_ID;
+
+	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
 	 * @JetDataModel:is_required = true
