@@ -48,6 +48,7 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 			$plugins = array(
 				'pagination' => array(
 					'pageSizes' => array('25', '50', '100'),
+					'defaultPageSize' => 25,
 					'description' => true,
 					'sizeSwitch' => true,
 					'pageStepper' => true,
@@ -67,9 +68,11 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 			$this->node->setAttribute('plugins', $plugins);
 		}
 
+		/*
 		if(!$this->node->hasAttribute('rowsperpage')) {
 			$this->node->setAttribute('rowsperpage', 25);
 		}
+		*/
 
 
 		return parent::getReplacement();

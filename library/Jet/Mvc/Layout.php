@@ -312,6 +312,32 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$this->output_parts[$output_part->getID()] = $output_part;
 	}
 
+	/**
+	 * @return string
+	 *
+	 * @throws Mvc_Layout_Exception
+	 */
+	protected  function _render() {
+		if($this->_script_name===false) {
+			$result = '<'.self::TAG_MAIN_POSITION.'/>';
+		} else {
+			$this->getScriptPath();
+
+			ob_start();
+
+			/** @noinspection PhpIncludeInspection */
+			include $this->_script_path;
+
+			if(static::$_add_script_path_info) {
+				echo JET_EOL.'<!-- LAYOUT: '.$this->_script_name.' --> '.JET_EOL;
+			}
+
+			$result = ob_get_clean();
+		}
+
+		return $result;
+	}
+
 
 	/**
 	 * Create instance of class that provides JavaScript toolkit initialization and its including into layout.
@@ -406,7 +432,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$item->layoutPostProcess( $result, $this, $this->output_parts );
 		}
 
-		$this->handlePositions( $result );
+
 		$this->handlePositions( $result );
 
 		$this->handleSitePageTags( $result );
@@ -437,29 +463,109 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @return string
-	 *
-	 * @throws Mvc_Layout_Exception
+	 * @param string &$result
 	 */
-	protected  function _render() {
-		if($this->_script_name===false) {
-			$result = '<'.self::TAG_MAIN_POSITION.'/>';
-		} else {
-			$this->getScriptPath();
+	protected function handlePositions( &$result ) {
+		$output = array();
+		$sort_hash = array();
 
-			ob_start();
-
-			/** @noinspection PhpIncludeInspection */
-			include $this->_script_path;
-
-			if(static::$_add_script_path_info) {
-				echo JET_EOL.'<!-- LAYOUT: '.$this->_script_name.' --> '.JET_EOL;
-			}
-
-			$result = ob_get_clean();
+		foreach( $this->output_parts as $o_ID=>$o ) {
+			$sort_hash[ $o_ID ] = $o->getPositionOrder();
 		}
 
-		return $result;
+		asort( $sort_hash );
+		foreach( array_keys($sort_hash) as $o_ID  ) {
+			$output[ $o_ID ] = $this->output_parts[ $o_ID ];
+		}
+
+		$this->output_parts = $output;
+
+
+		do {
+			$matches_count = 0;
+
+			foreach( $this->output_parts as $o ) {
+				$output_result = $o->getOutput();
+
+				$matches_count = $this->_handlePositions( $output_result, false );
+
+				if($matches_count) {
+					$o->setOutput( $output_result );
+					continue 2;
+				}
+
+			}
+
+		} while( $matches_count>0 );
+
+		$this->_handlePositions( $result, true );
+
+	}
+
+	/**
+	 * Place the output to an adequate position
+	 *
+	 * @param string &$result
+	 * @param bool $handle_main_position
+	 *
+	 * @return int
+	 */
+	protected function _handlePositions( &$result, $handle_main_position ) {
+
+		$matches_count = 0;
+		$matches = array();
+
+		if(preg_match_all('/<'.self::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
+
+			$matches_count = $matches_count + count($matches);
+
+			foreach($matches as $match) {
+				$orig = $match[0];
+				$position = $match[1];
+
+				$output_on_position = '';
+
+				foreach( $this->output_parts as $o_ID=>$o ) {
+					if($o->getPosition()!=$position) {
+						continue;
+					}
+
+					$output_on_position .= $o->getOutput();
+					unset( $this->output_parts[$o_ID] );
+				}
+
+				$result = str_replace($orig, $output_on_position, $result);
+
+			}
+		}
+
+
+		if(
+			$handle_main_position &&
+			preg_match_all('/<'.self::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)
+		) {
+			$orig = $matches[0][0];
+			$output_on_position = '';
+
+			foreach( $this->output_parts as $o_ID=>$o ) {
+				if( $o->getPosition()==self::DEFAULT_OUTPUT_POSITION ) {
+					$output_on_position .= $o->getOutput();
+					unset( $this->output_parts[$o_ID] );
+				}
+			}
+
+			foreach( $this->output_parts as $o_ID=>$o ) {
+				if( !$o->getPositionRequired() ) {
+					$output_on_position .= $o->getOutput();
+					unset( $this->output_parts[$o_ID] );
+				}
+			}
+
+			$result = str_replace($orig, $output_on_position, $result);
+		}
+
+		return $matches_count;
+
 	}
 
 	/**
@@ -561,9 +667,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handleModules( &$result ) {
+
 		$matches = array();
 
 		if( preg_match_all('/<'.self::TAG_MODULE.'([a-zA-Z_:\\\\]{3,})([^\/]*)\/>/i', $result, $matches, PREG_SET_ORDER) ) {
+
 			foreach($matches as $match) {
 				$orig_str = $match[0];
 
@@ -701,104 +809,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		foreach($this->required_javascript as $js) {
 			$js->finalPostProcess($result, $this);
 		}
-	}
-
-
-	/**
-	 * Place the output to an adequate position
-	 *
-	 * @param string &$result
-	 */
-	protected function handlePositions( &$result ) {
-
-		$output = array();
-
-		foreach($this->output_parts as $o) {
-			$position = $o->getPosition();
-			if(!isset($output[$position])) {
-				$output[$position] = array();
-			}
-
-			$output[$position][$o->getID()] = $o;
-		}
-
-		foreach($output as $position=>$output_on_position) {
-			$sort_hash = array();
-			foreach($output_on_position as $o_ID=>$o) {
-				/**
-				 * @var Mvc_Layout_OutputPart $o
-				 */
-				$sort_hash[$o_ID] = $o->getPositionOrder();
-			}
-
-			asort($sort_hash);
-			$output[$position] = array();
-
-			foreach( array_keys($sort_hash) as $o_ID ) {
-				$output[$position][$o_ID] = $output_on_position[$o_ID];
-				unset($output_on_position[$o_ID]);
-			}
-		}
-
-		$matches = array();
-		if(preg_match_all('/<'.self::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
-
-			foreach($matches as $match) {
-				$orig = $match[0];
-				$position = $match[1];
-
-				$output_on_position = '';
-
-				if(isset($output[$position])) {
-					foreach($output[$position] as $o_ID=>$o) {
-						/**
-						 * @var Mvc_Layout_OutputPart $o
-						 */
-
-						$output_on_position .= $o->getOutput();
-						unset($output[$position][$o_ID]);
-					}
-
-					unset($output[$position]);
-				}
-
-				$result = str_replace($orig, $output_on_position, $result);
-
-			}
-		}
-
-		if(preg_match_all('/<'.self::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
-			$orig = $matches[0][0];
-			$output_on_position = '';
-
-			if(isset($output[self::DEFAULT_OUTPUT_POSITION])) {
-				foreach( $output[self::DEFAULT_OUTPUT_POSITION] as $o ) {
-					/**
-					 * @var Mvc_Layout_OutputPart $o
-					 */
-					$output_on_position .= $o->getOutput();
-				}
-
-				unset($output[self::DEFAULT_OUTPUT_POSITION]);
-			}
-
-			foreach($output as $outputs) {
-				/**
-				 * @var Mvc_Layout_OutputPart[] $outputs
-				 */
-				foreach( $outputs as $o ) {
-					/**
-					 * @var Mvc_Layout_OutputPart $o
-					 */
-					if( !$o->getPositionRequired() ) {
-						$output_on_position .= $o->getOutput();
-					}
-				}
-			}
-
-			$result = str_replace($orig, $output_on_position, $result);
-		}
-
 	}
 
 	/**

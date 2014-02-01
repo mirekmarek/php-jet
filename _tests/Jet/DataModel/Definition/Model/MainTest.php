@@ -33,7 +33,7 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
 
-		$this->object = new DataModel_Definition_Model_Main($this->data_model);
+		$this->object = new DataModel_Definition_Model_Main( get_class( $this->data_model ) );
 	}
 
 	/**
@@ -54,6 +54,7 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Definition_Model_Abstract::getClassName
 	 */
 	public function testGetClassName() {
+
 		$this->assertEquals('Jet\\DataModel_Definition_DataModelTestMock', $this->object->getClassName());
 	}
 

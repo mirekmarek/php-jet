@@ -62,10 +62,30 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	protected function generateID(  $called_after_save = false, $backend_save_result = null  ) {
 	}
 
+
+	/**
+	 * @return string
+	 */
+	public static function getDataModelDefinitionNModelClassName() {
+		return Object_Reflection::get( get_called_class(), 'N_model_class_name', null );
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDataModelDefinitionMModelClassName() {
+		return Object_Reflection::get( get_called_class(), 'M_model_class_name', null );
+	}
+
+
 	/**
 	 * @return string
 	 */
 	public function getNModelClassName() {
+		if(!$this->__data_model_N_model_class_name) {
+			$this->__data_model_N_model_class_name = $this->getDataModelDefinitionNModelClassName();
+		}
+
 		return $this->__data_model_N_model_class_name;
 	}
 
@@ -73,36 +93,34 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return string
 	 */
 	public function getMModelClassName() {
+		if(!$this->__data_model_M_model_class_name) {
+			$this->__data_model_M_model_class_name = $this->getDataModelDefinitionMModelClassName();
+		}
+
 		return $this->__data_model_M_model_class_name;
 	}
 
 	/**
-	 * Returns model definition
 	 *
-	 * @return DataModel_Definition_Model_Related_MtoN
+	 *
+	 * @param string $class_name
+	 *
+	 * @return DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_MtoN
 	 */
-	public function getDataModelDefinition()  {
-		if($this->definition===null) {
-			/**
-			 * @var DataModel $M_model_instance
-			 */
-			$M_model_instance = Factory::getInstance( $this->__data_model_M_model_class_name );
-
-			/**
-			 * @var DataModel $N_model_instance
-			 */
-			$N_model_instance = Factory::getInstance( $this->__data_model_N_model_class_name );
-
-			$this->definition = new DataModel_Definition_Model_Related_MtoN(
-				$this,
-				$M_model_instance->getDataModelDefinition(),
-				$N_model_instance->getDataModelDefinition()
-			);
-
+	public static function getDataModelDefinition( $class_name='' )  {
+		if($class_name) {
+			return DataModel::getDataModelDefinition($class_name);
 		}
 
-		return $this->definition;
+		$class = get_called_class();
+
+		if( !isset(DataModel::$___data_model_definitions[$class])) {
+
+			DataModel::$___data_model_definitions[$class] = new DataModel_Definition_Model_Related_MtoN( $class );
+		}
+		return DataModel::$___data_model_definitions[$class];
 	}
+
 
 
 	/**
@@ -110,18 +128,13 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 * @return string
 	 */
-	final public function getBackendType() {
+	final public static function getBackendType() {
 		/**
 		 * @var DataModel $class_name
 		 */
-		$class_name = Factory::getClassName( $this->__data_model_M_model_class_name );
+		$class_name = Factory::getClassName( static::getDataModelDefinition()->getMRelatedModelClassName() );
 
-		$pi = new $class_name();
-
-		/**
-		 * @var DataModel $pi
-		 */
-		return $pi->getBackendType();
+		return $class_name::getBackendType();
 	}
 
 	/**
@@ -129,18 +142,13 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 * @return array
 	 */
-	final public function getBackendConfig() {
+	final public static function getBackendConfig() {
 		/**
 		 * @var DataModel $class_name
 		 */
-		$class_name = Factory::getClassName( $this->__data_model_M_model_class_name );
+		$class_name = Factory::getClassName( static::getDataModelDefinition()->getMRelatedModelClassName() );
 
-		$pi = new $class_name();
-
-		/**
-		 * @var DataModel $pi
-		 */
-		return $pi->getBackendConfig();
+		return $class_name::getBackendConfig();
 	}
 
 	/**
@@ -227,19 +235,22 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return DataModel_Query_Relation_Inner[]|bool
 	 */
 	public function checkIsRelevantMtoNRelation( DataModel $M_model_instance, DataModel $N_model_instance, $get_relation_data=false ) {
+		$__data_model_M_model_class_name = $this->getMModelClassName();
+		$__data_model_N_model_class_name = $this->getNModelClassName();
+
 		//query is seeking for MtoN relation, so relevant MtoN relation class/table is needed  ...
 		/** @noinspection PhpUndefinedVariableInspection */
 		if(
-			!($M_model_instance instanceof $this->__data_model_M_model_class_name) &&
-			!($M_model_instance instanceof $this->__data_model_N_model_class_name)
+			!($M_model_instance instanceof $__data_model_M_model_class_name) &&
+			!($M_model_instance instanceof $__data_model_N_model_class_name)
 		) {
 			return false;
 		}
 
 		/** @noinspection PhpUndefinedVariableInspection */
 		if(
-			!($N_model_instance instanceof $this->__data_model_M_model_class_name) &&
-			!($N_model_instance instanceof $this->__data_model_N_model_class_name)
+			!($N_model_instance instanceof $__data_model_M_model_class_name) &&
+			!($N_model_instance instanceof $__data_model_N_model_class_name)
 		) {
 			return false;
 		}

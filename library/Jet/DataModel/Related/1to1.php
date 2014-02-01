@@ -19,10 +19,25 @@ namespace Jet;
 abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 	/**
-	 * @var string
+	 *
+	 *
+	 * @param string $class_name (optional)
+	 *
+	 * @return DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_1to1
 	 */
-	protected static $____data_model_definition_class_name = 'Jet\\DataModel_Definition_Model_Related_1to1';
+	public static function getDataModelDefinition( $class_name='' )  {
+		if($class_name) {
+			return DataModel::getDataModelDefinition($class_name);
+		}
 
+		$class = get_called_class();
+
+		if( !isset(DataModel::$___data_model_definitions[$class])) {
+
+			DataModel::$___data_model_definitions[$class] = new DataModel_Definition_Model_Related_1to1( $class );
+		}
+		return DataModel::$___data_model_definitions[$class];
+	}
 
 
 	/**
@@ -51,7 +66,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 		$data = $this->getBackendInstance()->fetchRow( $query );
 
 		if(!$data) {
-			return NULL;
+			return null;
 		}
 
 		$loaded_instance = $this->_load_dataToInstance( $data, $main_model_instance );

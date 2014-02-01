@@ -15,6 +15,9 @@ namespace Jet;
  * Class DataModel_Definition_M2NDataModelTestMock
  *
  * @JetDataModel:name = 'm2n_data_model_test_mock'
+ *
+ * @JetDataModel:M_model_class_name = 'Jet\\DataModel_Definition_DataModelTestMock'
+ * @JetDataModel:N_model_class_name = 'Jet\\DataModel_Definition_NRelatedDataModelTestMock'
  */
 class DataModel_Definition_M2NDataModelTestMock extends DataModel_Related_MtoN {
 }

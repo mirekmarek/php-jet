@@ -17,10 +17,6 @@
 namespace Jet;
 
 abstract class DataModel_Related_1toN extends DataModel_Related_Abstract implements \ArrayAccess, \Iterator, \Countable   {
-	/**
-	 * @var string
-	 */
-	protected static $____data_model_definition_class_name = 'Jet\\DataModel_Definition_Model_Related_1toN';
 
 	/**
 	 * @var DataModel_Related_1toN[]
@@ -36,6 +32,28 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @var bool
 	 */
 	protected $__is_item = false;
+
+	/**
+	 *
+	 *
+	 * @param string $class_name (optional)
+	 *
+	 * @return DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_1toN
+	 */
+	public static function getDataModelDefinition( $class_name='' )  {
+		if($class_name) {
+			return DataModel::getDataModelDefinition($class_name);
+		}
+
+		$class = get_called_class();
+
+		if( !isset(DataModel::$___data_model_definitions[$class])) {
+
+			DataModel::$___data_model_definitions[$class] = new DataModel_Definition_Model_Related_1toN( $class );
+		}
+		return DataModel::$___data_model_definitions[$class];
+	}
+
 
 	/**
 	 * @return mixed|null

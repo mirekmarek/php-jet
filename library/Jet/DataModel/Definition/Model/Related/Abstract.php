@@ -48,15 +48,27 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 
 	/**
-	 * @param DataModel $data_model
-	 * @param DataModel_Definition_Model_Abstract $parent_related_model_definition
+	 * @param string $data_model_class_name
+	 *
+	 * @throws DataModel_Exception
 	 */
-	public function  __construct(
-		DataModel $data_model,
-		DataModel_Definition_Model_Abstract $parent_related_model_definition
-	) {
+	public function  __construct( $data_model_class_name ) {
 
-		$properties_definition_data = $this->_mainInit($data_model);
+		$parent_model_class_name = $data_model_class_name::getParentModelClassName();
+
+		if(!$parent_model_class_name) {
+			throw new DataModel_Exception(
+				$data_model_class_name.' @JetDataModel:parent_model_class_name is not defined!',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		$parent_model_class_name = Factory::getClassName( $parent_model_class_name );
+
+		$parent_related_model_definition = $parent_model_class_name::getDataModelDefinition();
+
+
+		$properties_definition_data = $this->_mainInit($data_model_class_name);
 
 		$this->_parent_related_model_definition = $parent_related_model_definition;
 

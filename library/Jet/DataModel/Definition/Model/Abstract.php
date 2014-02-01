@@ -51,45 +51,46 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 	/**
 	 *
-	 * @param DataModel $data_model
+	 * @param $data_model_class_name
+	 *
+	 * @internal param string $data_model
 	 */
-	public function  __construct( DataModel $data_model ) {
-		$properties_definition_data = $this->_mainInit($data_model);
+	public function  __construct( $data_model_class_name ) {
+
+		$properties_definition_data = $this->_mainInit( $data_model_class_name );
 		$this->_definePropertiesAndSetupRelations( $properties_definition_data );
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param string $class_name
 	 *
 	 * @return array
 	 * @throws DataModel_Exception
 	 */
-	protected function _mainInit( DataModel $data_model ) {
+	protected function _mainInit( $class_name ) {
 
-		$class = get_class($data_model);
+		$this->class_name = (string)$class_name;
 
-		$this->class_name = $class;
-
-		$this->model_name = $data_model->getDataModelName();
+		$this->model_name = $class_name::getDataModelName();
 
 		if(
 			!is_string($this->model_name) ||
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class.'\' doesn\'t have model name! ('.$class.'::getDataModelName() returns false.) Please specify model name by @JetDataModel:name ',
+					'DataModel \''.$class_name.'\' doesn\'t have model name! ('.$class_name.'::getDataModelName() returns false.) Please specify model name by @JetDataModel:name ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
 
-		$properties_definition_data = $data_model->getDataModelPropertiesDefinitionData();
+		$properties_definition_data = $class_name::getDataModelPropertiesDefinitionData();
 		
 		if(
 			!is_array($properties_definition_data) ||
 			!$properties_definition_data
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class.'\' doesn\'t have properties definition! ('.$class.'::getPropertiesDefinition() returns false.) ',
+					'DataModel \''.$class_name.'\' doesn\'t have properties definition! ('.$class_name.'::getPropertiesDefinition() returns false.) ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}

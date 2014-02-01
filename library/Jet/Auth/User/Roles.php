@@ -21,15 +21,9 @@ namespace Jet;
  * Class Auth_User_Roles
  *
  * @JetDataModel:name = 'Jet_Auth_User_Roles'
+ *
+ * @JetDataModel:M_model_class_name = 'Jet\\Auth_User_Default'
+ * @JetDataModel:N_model_class_name = 'Jet\\Auth_Role_Default'
  */
 class Auth_User_Roles extends DataModel_Related_MtoN {
-
-	/**
-	 * @var string
-	 */
-	protected $__data_model_M_model_class_name = 'Jet\\Auth_User_Default';
-	/**
-	 * @var string
-	 */
-	protected $__data_model_N_model_class_name = 'Jet\\Auth_Role_Default';
 }

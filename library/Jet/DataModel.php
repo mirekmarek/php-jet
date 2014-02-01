@@ -19,7 +19,6 @@ namespace Jet;
 /**
  * //TODO: update comments
  *
- *   [string=>array]  $__data_model_definition
  *	Common options
  *		'type':
  *		'default_value':
@@ -180,13 +179,24 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 * Returns model definition
 	 *
+	 * @param string $class_name (optional)
+	 *
 	 * @return DataModel_Definition_Model_Main
 	 */
-	public function getDataModelDefinition()  {
-		$class = get_class($this);
-		
+	public static function getDataModelDefinition( $class_name='' )  {
+		if($class_name) {
+			$class_name = Factory::getClassName( $class_name );
+
+			/**
+			 * @var DataModel $class_name
+			 */
+			return $class_name::getDataModelDefinition();
+		}
+
+		$class = get_called_class();
+
 		if( !isset(self::$___data_model_definitions[$class])) {
-			self::$___data_model_definitions[$class] = new DataModel_Definition_Model_Main( $this );
+			self::$___data_model_definitions[$class] = new DataModel_Definition_Model_Main( $class );
 		}
 		return self::$___data_model_definitions[$class];
 	}
@@ -196,12 +206,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Query_Relation_Outer[]
 	 */
-	public function getDataModelOuterRelationsDefinition()  {
-		$class = get_class($this);
+	public static function getDataModelOuterRelationsDefinition()  {
+		$class = get_called_class();
 
 		if( !isset(self::$___data_model_outer_relations_definitions[$class])) {
 			self::$___data_model_outer_relations_definitions[$class] = array();
-			$definitions_data = $this->getDataModelOuterRelationsDefinitionData();
+			$definitions_data = $class::getDataModelOuterRelationsDefinitionData();
 
 			foreach( $definitions_data as $name=>$definition_data ) {
 
@@ -219,8 +229,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return array
 	 */
-	public function getDataModelName() {
-		return Object_Reflection::get( get_class($this), 'data_model_name', '' );
+	public static function getDataModelName() {
+		return Object_Reflection::get( get_called_class(), 'data_model_name', '' );
 	}
 
 
@@ -229,8 +239,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return array
 	 */
-	public function getDataModelPropertiesDefinitionData() {
-		return Object_Reflection::get(get_class($this), 'data_model_properties_definition', false);
+	public static function getDataModelPropertiesDefinitionData() {
+		return Object_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
 	}
 
 	/**
@@ -238,8 +248,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return array
 	 */
-	public function getDataModelOuterRelationsDefinitionData() {
-		return Object_Reflection::get( get_class($this), 'data_model_outer_relations_definition', array());
+	public static function getDataModelOuterRelationsDefinitionData() {
+		return Object_Reflection::get( get_called_class(), 'data_model_outer_relations_definition', array());
 	}
 
 	/**
@@ -247,8 +257,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return string
 	 */
-	public function getBackendType() {
-		$forced_backend_type = Object_Reflection::get( get_class($this), 'data_model_forced_backend_type', null );
+	public static function getBackendType() {
+		$forced_backend_type = Object_Reflection::get( get_called_class(), 'data_model_forced_backend_type', null );
 
 		if($forced_backend_type!==null) {
 			return $forced_backend_type;
@@ -261,19 +271,19 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Backend_Config_Abstract
 	 */
-	public function getBackendConfig() {
+	public static function getBackendConfig() {
 
-		$forced_backend_config = Object_Reflection::get( get_class($this), 'data_model_forced_backend_config', null );
+		$forced_backend_config = Object_Reflection::get( get_called_class(), 'data_model_forced_backend_config', null );
 
 		if($forced_backend_config!==null) {
-			$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType(), true );
+			$config = DataModel_Factory::getBackendConfigInstance( static::getBackendType(), true );
 
 			$config->setData(
 				$forced_backend_config,
 				false
 			);
 		} else {
-			$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType() );
+			$config = DataModel_Factory::getBackendConfigInstance( static::getBackendType() );
 
 		}
 		return $config;
@@ -284,9 +294,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Backend_Abstract
 	 */
-	public function getBackendInstance() {
-		$backend_type = $this->getBackendType();
-		$backend_config = $this->getBackendConfig();
+	public static function getBackendInstance() {
+		$backend_type = static::getBackendType();
+		$backend_config = static::getBackendConfig();
 
 		$key = $backend_type.':'.md5(serialize($backend_config));
 
@@ -321,8 +331,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return string
 	 */
-	public function getCacheBackendType() {
-		$forced_cache_backend_type = Object_Reflection::get( get_class($this), 'data_model_forced_cache_backend_type', null );
+	public static function getCacheBackendType() {
+		$forced_cache_backend_type = Object_Reflection::get( get_called_class(), 'data_model_forced_cache_backend_type', null );
 
 		if($forced_cache_backend_type!==null) {
 			return $forced_cache_backend_type;
@@ -336,17 +346,17 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Cache_Backend_Config_Abstract
 	 */
-	public function getCacheBackendConfig() {
-		$forced_cache_backend_config = Object_Reflection::get( get_class($this), 'data_model_forced_cache_backend_config', null );
+	public static function getCacheBackendConfig() {
+		$forced_cache_backend_config = Object_Reflection::get( get_called_class(), 'data_model_forced_cache_backend_config', null );
 
 
 		if($forced_cache_backend_config!==null) {
-			$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getCacheBackendType(), true );
+			$config = DataModel_Factory::getCacheBackendConfigInstance( static::getCacheBackendType(), true );
 
 			$config->setData( $forced_cache_backend_config, false );
 
 		} else {
-			$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getCacheBackendType() );
+			$config = DataModel_Factory::getCacheBackendConfigInstance( static::getCacheBackendType() );
 		}
 
 		return $config;
@@ -357,13 +367,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Cache_Backend_Abstract
 	 */
-	public function getCacheBackendInstance() {
+	public static function getCacheBackendInstance() {
 		if(!static::getCacheEnabled()) {
 			return false;
 		}
 
-		$backend_type = $this->getCacheBackendType();
-		$backend_config = $this->getCacheBackendConfig();
+		$backend_type = static::getCacheBackendType();
+		$backend_config = static::getCacheBackendConfig();
 
 		$key = $backend_type.md5(serialize($backend_config));
 
@@ -439,7 +449,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		if(!$this->___data_model_history_backend_instance) {
 			$this->___data_model_history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
 				static::getHistoryBackendType(),
-				$this->getHistoryBackendConfig()
+				static::getHistoryBackendConfig()
 			);
 
 		}
@@ -604,7 +614,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$this->___data_model_saved = false;
 
 		foreach( $this->getDataModelDefinition()->getProperties() as $property_name => $property_definition ) {
-
 
 			$this->{$property_name} = $property_definition->getDefaultValue();
 			$property_definition->checkValueType( $this->{$property_name} );
@@ -1731,6 +1740,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				break;
 			case 'forced_cache_backend_config':
 				$reflection_data['data_model_forced_cache_backend_config'] = (array)$value;
+				break;
+			case 'M_model_class_name':
+				$reflection_data['M_model_class_name'] = (string)$value;
+				break;
+			case 'N_model_class_name':
+				$reflection_data['N_model_class_name'] = (string)$value;
 				break;
 			default:
 				throw new Object_Reflection_Exception(

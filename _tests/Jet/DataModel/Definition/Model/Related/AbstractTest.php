@@ -41,7 +41,7 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 		$this->data_model = new DataModel_Definition_SubRelatedDataModelTestMock();
 		$this->main_data_model = new DataModel_Definition_DataModelTestMock();
 		$this->parent_data_model = new DataModel_Definition_RelatedDataModelTestMock();
-		$this->object = new DataModel_Definition_Model_Related_1toN( $this->data_model, $this->parent_data_model->getDataModelDefinition() );
+		$this->object = new DataModel_Definition_Model_Related_1toN( get_class($this->data_model) );
 	}
 
 	/**

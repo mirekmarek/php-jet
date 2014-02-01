@@ -32,11 +32,6 @@ abstract class DataModel_Query_Relation_Abstract extends Object {
 	 */
 	protected $related_data_model_definition;
 
-	/**
-	 * @var DataModel
-	 */
-	protected $related_data_model_instance;
-
 
 	/**
 	 * @var string
@@ -72,21 +67,10 @@ abstract class DataModel_Query_Relation_Abstract extends Object {
 	 */
 	public function getRelatedDataModelDefinition() {
 		if(!$this->related_data_model_definition) {
-			$this->related_data_model_definition = $this->getRelatedDataModelInstance()->getDataModelDefinition();
+
+			$this->related_data_model_definition = DataModel::getDataModelDefinition( $this->related_data_model_class_name );
 		}
 		return $this->related_data_model_definition;
-	}
-
-	/**
-	 * @return DataModel
-	 */
-	public function getRelatedDataModelInstance() {
-		//TODO: remove it ... staci is better
-		if(!$this->related_data_model_instance) {
-			$this->related_data_model_instance = Factory::getInstance( $this->related_data_model_class_name );
-		}
-
-		return $this->related_data_model_instance;
 	}
 
 	/**

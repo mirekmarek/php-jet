@@ -199,19 +199,22 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 *
 	 * @return string
 	 */
-	public function getBackendType() {
+	public static function getBackendType() {
 		if(static::$__test_data_model_forced_backend_type===null) {
 			return parent::getBackendType();
 		}
 		return static::$__test_data_model_forced_backend_type;
 	}
 
-	public function getBackendConfig() {
+	/**
+	 * @return DataModel_Backend_Config_Abstract
+	 */
+	public static function getBackendConfig() {
 		if(static::$__test_data_model_forced_backend_config===null) {
 			return parent::getBackendConfig();
 		}
 
-		$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType(), true );
+		$config = DataModel_Factory::getBackendConfigInstance( static::getBackendType(), true );
 
 		$config->setData(
 			static::$__test_data_model_forced_backend_config,

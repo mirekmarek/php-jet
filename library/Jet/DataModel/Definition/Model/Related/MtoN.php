@@ -18,6 +18,17 @@ namespace Jet;
 class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model_Abstract {
 
 	/**
+	 * @var string
+	 */
+	protected $M_related_model_class_name = '';
+
+
+	/**
+	 * @var string
+	 */
+	protected $N_related_model_class_name = '';
+
+	/**
 	 *
 	 * @var DataModel_Definition_Model_Abstract
 	 */
@@ -44,30 +55,48 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	/**
 	 *
-	 * @param DataModel $data_model
-	 * @param DataModel_Definition_Model_Abstract $M_related_model_definition
-	 * @param DataModel_Definition_Model_Abstract $N_related_model_definition
+	 * @param string $data_model_class_name
 	 *
 	 * @throws DataModel_Exception
+	 *
 	 */
-	public function  __construct(
-					DataModel $data_model,
-					DataModel_Definition_Model_Abstract $M_related_model_definition,
-					DataModel_Definition_Model_Abstract $N_related_model_definition
-				) {
-		
-		$class = get_class($data_model);
+	public function  __construct( $data_model_class_name ) {
 
-		$this->class_name = $class;
+		$M_model_class_name = $data_model_class_name::getDataModelDefinitionMModelClassName();
+		if(!$M_model_class_name) {
+			throw new DataModel_Exception(
+				$data_model_class_name.' @JetDataModel:M_model_class_name is not defined!',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 
-		$this->model_name = $data_model->getDataModelName();
+		}
+
+		$this->M_related_model_class_name = $M_model_class_name;
+
+		$N_model_class_name = $data_model_class_name::getDataModelDefinitionNModelClassName();
+		if(!$N_model_class_name) {
+			throw new DataModel_Exception(
+				$data_model_class_name.' @JetDataModel:N_model_class_name is not defined!',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+
+		}
+
+		$this->N_related_model_class_name = $N_model_class_name;
+
+		$M_related_model_definition = $M_model_class_name::getDataModelDefinition();
+		$N_related_model_definition = $N_model_class_name::getDataModelDefinition();
+
+		$this->class_name = $data_model_class_name;
+
+		$this->model_name = $data_model_class_name::getDataModelName();
 
 		if(
 			!is_string($this->model_name) ||
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class.'\' doesn\'t have model name! ('.$class.'::getModelName() returns false.) ',
+					'DataModel \''.$data_model_class_name.'\' doesn\'t have model name! ('.$data_model_class_name.'::getModelName() returns false.) ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
@@ -75,7 +104,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		$this->setupRelation($M_related_model_definition, $N_related_model_definition);
 
-		$properties_definition_data = $data_model->getDataModelPropertiesDefinitionData();
+		$properties_definition_data = $data_model_class_name::getDataModelPropertiesDefinitionData();
 		if(!$properties_definition_data) {
 			$properties_definition_data = array();
 		}
@@ -173,6 +202,21 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		}
 
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getMRelatedModelClassName() {
+		return $this->M_related_model_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNRelatedModelClassName() {
+		return $this->N_related_model_class_name;
+	}
+
 
 	/**
 	 * @return DataModel_Definition_Model_Abstract

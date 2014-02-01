@@ -60,6 +60,11 @@ class DataModel_Query extends Object {
 	protected $main_data_model;
 
 	/**
+	 * @var DataModel_Definition_Model_Main
+	 */
+	protected $main_data_model_definition;
+
+	/**
 	 * The array key is related data model name
 	 *
 	 * @var DataModel_Query_Relation_Abstract[]
@@ -114,16 +119,11 @@ class DataModel_Query extends Object {
 
 
 	/**
-	 * @var DataModel[]
-	 */
-	protected static $_classes_instance = array();
-
-	/**
 	 * @param DataModel $main_data_model
 	 */
 	public function __construct( DataModel $main_data_model ) {
-		$this->main_data_model = $main_data_model;
-		$this->main_data_model_class_name = $this->main_data_model->getDataModelDefinition()->getClassName();
+		$this->setMainDataModel($main_data_model);
+
 	}
 
 
@@ -154,11 +154,12 @@ class DataModel_Query extends Object {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel $main_data_model
 	 */
-	public function setMainDataModel( DataModel $data_model) {
-		$this->main_data_model = $data_model;
-		$this->main_data_model_class_name = $this->main_data_model->getDataModelDefinition()->getClassName();
+	public function setMainDataModel( DataModel $main_data_model) {
+		$this->main_data_model = $main_data_model;
+		$this->main_data_model_definition = $main_data_model->getDataModelDefinition();
+		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
 	}
 
 	/**
@@ -354,22 +355,6 @@ class DataModel_Query extends Object {
 	//----------------------------------------------------------------------------------------------------------------------
 	//----------------------------------------------------------------------------------------------------------------------
 
-	/**
-	 *
-	 * @param string $class_name
-	 * @return DataModel
-	 */
-	protected static function _getClassInstance( $class_name ) {
-
-		$class_name = trim($class_name);
-
-		if( !isset(self::$_classes_instance[$class_name]) ) {
-			self::$_classes_instance[$class_name] = Factory::getInstance($class_name);
-		}
-
-		return self::$_classes_instance[$class_name];
-	}
-
 
 	/**
 	 * Property_name examples:
@@ -410,7 +395,7 @@ class DataModel_Query extends Object {
 		$outer_relation = null;
 
 		if($part=='this') {
-			$data_model = $this->main_data_model;
+			$data_model_definition = $this->main_data_model_definition;
 			$is_main_do = true;
 		} else {
 			//Outer relations ....
@@ -425,10 +410,11 @@ class DataModel_Query extends Object {
 					$this->relations[$outer_relation_name] = $outer_relation;
 				}
 
-				$data_model = $outer_relation->getRelatedDataModelInstance();
+				$data_model_definition = $outer_relation->getRelatedDataModelDefinition();
 			} else {
 				//M2N relations ...
-				$main_data_model_properties = $this->main_data_model->getDataModelDefinition()->getProperties();
+				$main_data_model_properties = $this->main_data_model_definition->getProperties();
+
 				if( !isset($main_data_model_properties[$part]) ) {
 					throw new DataModel_Query_Exception(
 						'Unknown property \''.$part.'\'',
@@ -447,8 +433,10 @@ class DataModel_Query extends Object {
 					);
 				}
 
-				$data_model = static::_getClassInstance($property_definition->getDataModelClass());
-				if( !($data_model instanceof DataModel_Related_MtoN) ) {
+
+				$_data_model_definition = DataModel::getDataModelDefinition( $property_definition->getDataModelClass() );
+
+				if( !($_data_model_definition instanceof DataModel_Definition_Model_Related_MtoN) ) {
 					throw new DataModel_Query_Exception(
 						'Property \''.$part.'\' is not M2N relation. Is not it more like this.'.$part.' ?',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -456,7 +444,7 @@ class DataModel_Query extends Object {
 
 				}
 
-				$data_model = static::_getClassInstance($data_model->getNModelClassName());
+				$data_model_definition = DataModel::getDataModelDefinition( $_data_model_definition->getNRelatedModelClassName() );
 			}
 
 
@@ -466,7 +454,7 @@ class DataModel_Query extends Object {
 		$property = null;
 		while($property_name_parts) {
 			$part = array_shift($property_name_parts);
-			$properties = $data_model->getDataModelDefinition()->getProperties();
+			$properties = $data_model_definition->getProperties();
 
 			if( !isset($properties[$part]) ) {
 				throw new DataModel_Query_Exception(
@@ -481,7 +469,7 @@ class DataModel_Query extends Object {
 				/**
 				 * @var DataModel_Definition_Property_DataModel $property
 				 */
-				$data_model = static::_getClassInstance($property->getDataModelClass());
+				$data_model_definition = DataModel::getDataModelDefinition($property->getDataModelClass());
 				$is_main_do = false;
 				unset($property);
 				$property = null;
@@ -497,7 +485,7 @@ class DataModel_Query extends Object {
 		}
 
 		if(!$is_main_do && !$outer_relation) {
-			$this->_addRelatedModel( $data_model->getDataModelDefinition() );
+			$this->_addRelatedModel( $data_model_definition );
 		}
 
 		return $property;
@@ -539,26 +527,32 @@ class DataModel_Query extends Object {
 		$m2n_related_data = null;
 
 		//Try to find the appropriate MtoN relation
-		foreach($this->main_data_model->getDataModelDefinition()->getProperties() as $property_definition) {
+		foreach($this->main_data_model_definition->getProperties() as $property_definition) {
+			/**
+			 * @var DataModel_Definition_Property_DataModel $property_definition
+			 */
 
 			if(!$property_definition->getIsDataModel()) {
 				continue;
 			}
 
-			/**
-			 * @var DataModel_Definition_Property_DataModel $property_definition
-			 */
 			$m2n_class_name = $property_definition->getDataModelClass();
 
 			/**
-			 * @var $m2n_instance DataModel_Related_MtoN
+			 * @var DataModel $m2n_class_name
 			 */
-			$m2n_instance = Factory::getInstance($m2n_class_name);
-			$m2n_definition = $m2n_instance->getDataModelDefinition();
+			$m2n_definition = $m2n_class_name::getDataModelDefinition();
 
 			if( !($m2n_definition instanceof DataModel_Definition_Model_Related_MtoN) ) {
 				continue;
 			}
+
+			/**
+			 * @var DataModel_Related_MtoN $m2n_instance
+			 */
+			//TODO: pryc s tim
+			$m2n_instance = Factory::getInstance($m2n_class_name);
+
 
 			//yes, it is THE MtoN relation
 			if($m2n_class_name==$related_class_name) {
@@ -596,7 +590,6 @@ class DataModel_Query extends Object {
 
 			return;
 		}
-		// ... and if yes, then setup relation by where from DataModel_Related_MtoN
 
 		throw new DataModel_Query_Exception(
 			'Unknown relation to class \''.$main_class_name.'\' <-> \''.$related_class_name.'\'',

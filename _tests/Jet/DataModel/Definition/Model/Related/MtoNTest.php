@@ -45,11 +45,8 @@ class DataModel_Definition_Model_Related_MtoNTest extends \PHPUnit_Framework_Tes
 		$this->data_model = new DataModel_Definition_M2NDataModelTestMock();
 		$this->M_data_model = new DataModel_Definition_DataModelTestMock();
 		$this->N_data_model = new DataModel_Definition_NRelatedDataModelTestMock();
-		$this->object = new DataModel_Definition_Model_Related_MtoN(
-			$this->data_model,
-			$this->M_data_model->getDataModelDefinition(),
-			$this->N_data_model->getDataModelDefinition()
-		);
+
+		$this->object = new DataModel_Definition_Model_Related_MtoN( get_class($this->data_model) );
 	}
 
 	/**
