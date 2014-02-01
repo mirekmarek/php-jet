@@ -23,6 +23,16 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	protected $_is_sub_related_model = false;
 
 	/**
+	 * @var DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	protected $main_model_relation_join_items = array();
+
+	/**
+	 * @var DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	protected $parent_model_relation_join_items = array();
+
+	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
@@ -117,10 +127,10 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 			DataModel_Definition_Property_Abstract::cloneProperty( $main_ID_property, $relation_ID_property );
 
-			$relation_ID_property->setUpRelation($main_ID_property);
+			$this->main_model_relation_join_items[] = new DataModel_Definition_Relation_JoinBy_Item( $main_ID_property, $relation_ID_property );
 
 			$this->_main_model_relation_ID_properties[$relation_ID_property_name] = $relation_ID_property;
-
+			$relation_ID_property->setUpRelation($main_ID_property);
 		}
 
 		if($this->_is_sub_related_model) {
@@ -147,8 +157,9 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 				DataModel_Definition_Property_Abstract::cloneProperty( $parent_ID_property, $relation_ID_property );
 
-				$relation_ID_property->setUpRelation($parent_ID_property);
+				$this->parent_model_relation_join_items[] = new DataModel_Definition_Relation_JoinBy_Item( $parent_ID_property, $relation_ID_property );
 
+				$relation_ID_property->setUpRelation($parent_ID_property);
 				$this->_parent_model_relation_ID_properties[$relation_ID_property_name] = $relation_ID_property;
 			}
 		}
@@ -177,6 +188,30 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	}
 
 	/**
+	 * @param string $parent_model_class_name
+	 *
+	 * @return DataModel_Definition_Relation_Internal[]
+	 */
+	public function getInternalRelations( $parent_model_class_name ) {
+		$relations = array();
+
+		$relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(
+			$this,
+			$this->getMainModelRelationJoinItems()
+		);
+
+		if($this->_is_sub_related_model) {
+			$relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(
+				$this,
+				$this->getParentModelRelationJoinItems()
+			);
+		}
+
+		return $relations;
+	}
+
+
+	/**
 	 *
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
@@ -191,6 +226,22 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	public function getParentModelRelationIDProperties() {
 		return $this->_parent_model_relation_ID_properties;
 	}
+
+	/**
+	 * @return DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	public function getMainModelRelationJoinItems() {
+		return $this->main_model_relation_join_items;
+	}
+
+	/**
+	 * @return DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	public function getParentModelRelationJoinItems() {
+		return $this->parent_model_relation_join_items;
+	}
+
+
 
 	/**
 	 *

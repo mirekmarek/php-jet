@@ -62,7 +62,7 @@ namespace Jet;
  *
  * Example:
  *
- * JetDataModel:relation:relation_name = [ 'Jet\SomeClass', [ 'this.class_property'=>'related_class_property, 'this.another_class_property' => 'another_related_class_property', 'this_value.getValueMethodName' => 'another_related_class_property' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ * JetDataModel:relation = [ 'Some\RelatedClass', [ 'this.class_property_name'=>'related_class_property_name', 'this.another_class_property_name' => 'another_related_class_property_name', 'this_value.getValueMethodName' => 'another_related_class_property' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  *
  *
  * Then you can use relation in query like this:
@@ -119,9 +119,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 	/**
-	 * Backend instance 
+	 * Backend instance
 	 * @see getBackendInstance()
-	 * 
+	 *
 	 * @var DataModel_Backend_Abstract[]
 	 */
 	protected static $___data_model_backend_instance = array();
@@ -154,7 +154,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	protected static $___data_model_definitions = array();
 
 	/**
-	 * @var DataModel_Query_Relation_Outer[]
+	 * @var DataModel_Definition_Relation_External[]
 	 */
 	protected static $___data_model_outer_relations_definitions = array();
 
@@ -204,19 +204,22 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 *
 	 *
-	 * @return DataModel_Query_Relation_Outer[]
+	 * @return DataModel_Definition_Relation_External[]
 	 */
 	public static function getDataModelOuterRelationsDefinition()  {
 		$class = get_called_class();
 
 		if( !isset(self::$___data_model_outer_relations_definitions[$class])) {
 			self::$___data_model_outer_relations_definitions[$class] = array();
+
+			/**
+			 * @var DataModel $class
+			 */
 			$definitions_data = $class::getDataModelOuterRelationsDefinitionData();
 
-			foreach( $definitions_data as $name=>$definition_data ) {
+			foreach( $definitions_data as $definition_data ) {
 
-				self::$___data_model_outer_relations_definitions[$class][$name] = new DataModel_Query_Relation_Outer(
-															$name,
+				self::$___data_model_outer_relations_definitions[$class][] = new DataModel_Definition_Relation_External(
 															$definition_data
 														);
 			}
@@ -462,7 +465,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 	/**
 	 * Returns ID
-	 * 
+	 *
 	 * @return DataModel_ID_Abstract
 	 */
 	public function getID() {
@@ -471,7 +474,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		foreach($result as $property_name => $value) {
 			$result[$property_name] = $this->{$property_name};
 		}
-		
+
 		return $result;
 	}
 
@@ -686,7 +689,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	public function validateProperties() {
 
 		$this->___data_model_data_validation_errors = array();
-		
+
 		$this->___data_model_ready_to_save = false;
 
 		foreach( $this->getDataModelDefinition()->getProperties()  as $property_name=>$property_definition ) {
@@ -718,7 +721,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 
 			$validation_method_name = $property_definition->getValidationMethodName();
-			
+
 			if($validation_method_name) {
 				$this->{$validation_method_name}($property_definition, $this->{$property_name}, $this->___data_model_data_validation_errors);
 			} else {
@@ -955,7 +958,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 			if( $property_definition->getIsDataModel() ) {
 				$related_model_properties[$property_name]  = $property_definition;
-				
+
 				continue;
 			}
 
@@ -1132,7 +1135,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	protected function ___DataModelHistoryOperationStart( $operation ) {
 		$backend = $this->getHistoryBackendInstance();
-		
+
 		if( !$backend ) {
 			return;
 		}
@@ -1145,7 +1148,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	protected function ___DataModelHistoryOperationDone() {
 		$backend = $this->getHistoryBackendInstance();
-		
+
 		if( !$backend ) {
 			return;
 		}
@@ -1168,9 +1171,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				.$related_model_ID_property_definition->getName();
 	}
 
-	
+
 	/**
-	 * 
+	 *
 	 * @param array| $query
 	 * @return DataModel
 	 */
@@ -1186,7 +1189,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 	/**
-	 * 
+	 *
 	 * @param array $query
 	 * @return DataModel_Fetch_Object_Assoc
 	 */
@@ -1530,7 +1533,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $class
 	 * @param bool $including_history_backend (optional, default: true)
 	 * @param bool $including_cache_backend (optional, default: true)
@@ -1650,64 +1653,57 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
 
-		if( strpos($key, ':') ) {
-
-			list($key, $name) = explode(':', $key);
-
-			$key = trim($key);
-			$name = trim($name);
-
-			if( $key!='relation' || !$name ) {
-				throw new Object_Reflection_Exception(
-					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-				);
-			}
-
-			if(
-				!is_array($value) ||
-				empty($value[0]) ||
-				empty($value[1]) ||
-				!is_array($value[1]) ||
-				!is_string($value[0])
-			) {
-				throw new Object_Reflection_Exception(
-					'Relation definition parse errro. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Example: @JetDataModel:relation:relation_name = [ \'Jet\SomeClass\', [ \'this_class_property\'=>\'related_class_property\', \'another_this_class_property\' => \'another_related_class_property\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-				);
-
-			}
-
-			if( !isset($reflection_data['data_model_outer_relations_definition']) ) {
-				$reflection_data['data_model_outer_relations_definition'] = array();
-			}
-
-			if(!isset($value[2])) {
-				$value[2] = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
-			}
-
-			if(
-				$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_JOIN &&
-				$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
-			) {
-				throw new Object_Reflection_Exception(
-					'Unknown relation type. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Use Jet\DataModel_Query::JOIN_TYPE_LEFT_JOIN or Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-				);
-
-			}
-
-			$reflection_data['data_model_outer_relations_definition'][$name] = array(
-				'related_to_class_name' => $value[0],
-				'join_by_properties' => $value[1],
-				'join_type' => $value[2]
-			);
-
-			return;
-		}
-
 
 		switch($key) {
+			case 'relation':
+				if(
+					!is_array($value) ||
+					empty($value[0]) ||
+					empty($value[1]) ||
+					!is_array($value[1]) ||
+					!is_string($value[0])
+				) {
+					throw new Object_Reflection_Exception(
+						'Relation definition parse errro. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Example: JetDataModel:relation = [ \'Some\RelatedClass\', [ \'this.class_property_name\'=>\'related_class_property_name\', \'this.another_class_property_name\' => \'another_related_class_property_name\', \'this_value.getValueMethodName\' => \'another_related_class_property\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
+						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					);
+
+				}
+
+				if(!isset($value[2])) {
+					$value[2] = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
+				}
+
+				if(
+					$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_JOIN &&
+					$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
+				) {
+					throw new Object_Reflection_Exception(
+						'Unknown relation type. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Use Jet\DataModel_Query::JOIN_TYPE_LEFT_JOIN or Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
+						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					);
+
+				}
+
+				if( !isset($reflection_data['data_model_outer_relations_definition']) ) {
+					$reflection_data['data_model_outer_relations_definition'] = array();
+				}
+
+				if(isset( $reflection_data['data_model_outer_relations_definition'][ $value[0] ] )) {
+					throw new Object_Reflection_Exception(
+						'Duplicit relation! Class: \''.get_called_class().'\', definition: \''.$definition.'\''
+					);
+
+				}
+
+				$reflection_data['data_model_outer_relations_definition'][ $value[0] ] = array(
+					'related_to_class_name' => $value[0],
+					'join_by_properties' => $value[1],
+					'join_type' => $value[2]
+				);
+
+				return;
+			break;
 			case 'name':
 				$reflection_data['data_model_name'] = (string)$value;
 				break;

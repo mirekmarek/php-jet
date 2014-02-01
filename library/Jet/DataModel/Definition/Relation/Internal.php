@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_Relation_Inner extends DataModel_Query_Relation_Abstract {
+class DataModel_Definition_Relation_Internal extends DataModel_Definition_Relation_Abstract {
 
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
@@ -24,32 +24,21 @@ class DataModel_Query_Relation_Inner extends DataModel_Query_Relation_Abstract {
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $related_data_model_definition
-	 * @param DataModel_Definition_Property_Abstract[] $join_by_properties
+	 * @param DataModel_Definition_Relation_JoinBy_Item[] $join_by
 	 * @param string $join_type
 	 */
 	public function  __construct(
 				DataModel_Definition_Model_Abstract $related_data_model_definition,
-				array $join_by_properties,
+				array $join_by,
 				$join_type=DataModel_Query::JOIN_TYPE_LEFT_JOIN
 			) {
-		$this->name = $related_data_model_definition->getModelName();
+
 		$this->related_data_model_class_name = $related_data_model_definition->getClassName();
 		$this->related_data_model_definition = $related_data_model_definition;
-		$this->join_by_properties = $join_by_properties;
 		$this->join_type = $join_type;
+
+		$this->setJoinBy( $join_by );
 	}
 
-	/**
-	 * @param DataModel_Definition_Property_Abstract[] $join_by_properties
-	 */
-	public function setJoinByProperties(array $join_by_properties) {
-		$this->join_by_properties = $join_by_properties;
-	}
 
-	/**
-	 * @return DataModel_Definition_Property_Abstract[]
-	 */
-	public function getJoinByProperties() {
-		return $this->join_by_properties;
-	}
 }

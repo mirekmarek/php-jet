@@ -43,7 +43,7 @@ abstract class DataModel_Fetch_Abstract extends Object {
 	/**
 	 * @param $related_class_name
 	 *
-	 * @return DataModel_Query_Relation_Inner
+	 * @return DataModel_Definition_Relation_Internal
 	 */
 	public function getRelation( $related_class_name ) {
 		return $this->query->getRelation($related_class_name);

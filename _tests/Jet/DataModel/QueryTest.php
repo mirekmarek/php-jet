@@ -231,12 +231,11 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
 	public function testRelationsM2N() {
-		$property = $this->object->_getPropertyAndSetRelation('data_model_property_MtoN.string_property');
+		$property = $this->object->_getPropertyAndSetRelation('data_model_2_test_mock.string_property');
 		$this->assertEquals('data_model_2_test_mock', $property->getDataModelDefinition()->getModelName());
 		$this->assertEquals('string_property', $property->getName());
 
@@ -251,14 +250,14 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_JOIN,
-			$this->object->getRelation('data_model_test_mock_related_MtoN')->getJoinType()
+			$this->object->getRelation('data_model_2_test_mock')->getJoinType()
 		);
 
-		$this->object->getRelation('data_model_test_mock_related_MtoN')->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
+		$this->object->getRelation('data_model_2_test_mock')->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN,
-			$this->object->getRelation('data_model_test_mock_related_MtoN')->getJoinType()
+			$this->object->getRelation('data_model_2_test_mock')->getJoinType()
 		);
 
 	}
@@ -266,12 +265,11 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
 	public function testRelations12N() {
-		$property = $this->object->_getPropertyAndSetRelation('this.data_model_property_1toN.string_property');
+		$property = $this->object->_getPropertyAndSetRelation('data_model_test_mock_related_1toN.string_property');
 
 		$this->assertEquals('data_model_test_mock_related_1toN', $property->getDataModelDefinition()->getModelName());
 
@@ -281,6 +279,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 			),
 			array_keys($this->object->getRelations())
 		);
+
 
 		$this->assertEquals(
 			DataModel_Query::JOIN_TYPE_LEFT_JOIN,
@@ -298,7 +297,6 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -311,7 +309,6 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -325,7 +322,6 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -339,7 +335,6 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -353,7 +348,6 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
-	 * @covers Jet\DataModel_Query::_addRelatedModel
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *

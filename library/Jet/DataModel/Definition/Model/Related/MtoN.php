@@ -54,6 +54,17 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 
 	/**
+	 * @var DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	protected $M_model_relation_join_items = array();
+
+	/**
+	 * @var DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	protected $N_model_relation_join_items = array();
+
+
+	/**
 	 *
 	 * @param string $data_model_class_name
 	 *
@@ -120,6 +131,53 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	}
 
 	/**
+	 * @param string $parent_model_class_name
+	 *
+	 * @return DataModel_Definition_Relation_Internal[]
+	 */
+	public function getInternalRelations( $parent_model_class_name ) {
+		$definition_M_data_model_class_name = $this->getMRelatedModelClassName();
+		$definition_N_data_model_class_name = $this->getNRelatedModelClassName();
+
+		/** @noinspection PhpUndefinedVariableInspection */
+		if(
+			$parent_model_class_name!=$definition_M_data_model_class_name &&
+			$parent_model_class_name!=$definition_N_data_model_class_name &&
+			!is_subclass_of($parent_model_class_name, $definition_M_data_model_class_name) &&
+			!is_subclass_of($parent_model_class_name, $definition_N_data_model_class_name)
+		) {
+			//TODO: vynadat
+			die("!");
+		}
+
+		if( $parent_model_class_name==$definition_N_data_model_class_name ) {
+			$_tmp = $definition_N_data_model_class_name;
+			$definition_N_data_model_class_name = $definition_M_data_model_class_name;
+			$definition_M_data_model_class_name = $_tmp;
+
+		}
+
+		$N_model_definition = DataModel::getDataModelDefinition( $definition_N_data_model_class_name );
+		$M_model_definition = DataModel::getDataModelDefinition( $definition_M_data_model_class_name );
+
+		$this->setupRelation( $M_model_definition, $N_model_definition );
+
+		$relations = array();
+
+
+		$main_glue_relation_join_by = $this->M_model_relation_join_items;
+		$relations[ $this->getModelName() ] = new DataModel_Definition_Relation_Internal( $this, $main_glue_relation_join_by );
+
+		$glue_n_relation_join_by = $this->N_model_relation_join_items;
+		$relations[ $N_model_definition->getModelName() ] = new DataModel_Definition_Relation_Internal( $N_model_definition, $glue_n_relation_join_by );
+		$relations[ $N_model_definition->getModelName() ]->setRequiredRelations( array( $this->getModelName() ) );
+
+
+		return $relations;
+	}
+
+
+	/**
 	 * @param DataModel_Definition_Model_Abstract $M_related_model_definition
 	 * @param DataModel_Definition_Model_Abstract $N_related_model_definition
 	 */
@@ -133,6 +191,8 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		$this->M_model_relation_ID_properties = array();
 		$this->N_model_relation_ID_properties = array();
+		$this->M_model_relation_join_items = array();
+		$this->N_model_relation_join_items = array();
 
 		$ID_properties = $this->M_related_model_definition->getIDProperties();
 
@@ -154,6 +214,9 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 			//DataModel_Definition_Property_Abstract::cloneProperty( $ID_property_definition, $relation_ID_property );
 
+			$this->M_model_relation_join_items[] = new DataModel_Definition_Relation_JoinBy_Item( $relation_ID_property, $ID_property_definition );
+
+			//TODO: pryc
 			$relation_ID_property->setUpRelation($ID_property_definition);
 
 			$this->M_model_relation_ID_properties[$relation_ID_property_name] = $relation_ID_property;
@@ -182,6 +245,9 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 			//DataModel_Definition_Property_Abstract::cloneProperty( $ID_property_definition, $relation_ID_property );
 
+			$this->N_model_relation_join_items[] = new DataModel_Definition_Relation_JoinBy_Item( $relation_ID_property, $ID_property_definition );
+
+			//TODO: pryc
 			$relation_ID_property->setUpRelation($ID_property_definition);
 
 			$this->N_model_relation_ID_properties[$relation_ID_property_name] = $relation_ID_property;

@@ -14,12 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Query_Relation_Abstract extends Object {
-
-	/**
-	 * @var string
-	 */
-	protected $name = '';
+abstract class DataModel_Definition_Relation_Abstract extends Object {
 
 	/**
 	 * @var string
@@ -34,18 +29,33 @@ abstract class DataModel_Query_Relation_Abstract extends Object {
 
 
 	/**
+	 * @var DataModel_Definition_Relation_JoinBy_Item[]
+	 */
+	protected $join_by = array();
+
+	/**
 	 * @var string
 	 */
 	protected $join_type = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
 
 	/**
+	 * @var array
+	 */
+	protected $required_relations = array();
+
+	/**
 	 * @return string
 	 */
-	public function getName() {
-		return $this->name;
+	public function getRelatedDataModelClassName() {
+		return $this->related_data_model_class_name;
 	}
 
-
+	/**
+	 * @return string
+	 */
+	public function getRelatedDataModelName() {
+		return $this->getRelatedDataModelDefinition()->getModelName();
+	}
 
 	/**
 	 * @param string $join_type
@@ -81,10 +91,42 @@ abstract class DataModel_Query_Relation_Abstract extends Object {
 	}
 
 	/**
-	 *
-	 * @return DataModel_Definition_Property_Abstract[]|DataModel_Query_Relation_Outer_JoinByProperty[]
+	 * @return DataModel_Definition_Relation_JoinBy_Item[]
 	 */
-	abstract public function getJoinByProperties();
+	public function getJoinBy() {
+		return $this->join_by;
+	}
 
+	/**
+	 * @param array $items
+	 */
+	public function setJoinBy( array $items ) {
+		$this->join_by = array();
+
+		foreach( $items as $item ) {
+			$this->addJoinBy($item);
+		}
+	}
+
+	/**
+	 * @param DataModel_Definition_Relation_JoinBy_Item $item
+	 */
+	public function addJoinBy( DataModel_Definition_Relation_JoinBy_Item $item ) {
+		$this->join_by[] = $item;
+	}
+
+	/**
+	 * @param array $required_relations
+	 */
+	public function setRequiredRelations( array $required_relations ) {
+		$this->required_relations = $required_relations;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredRelations() {
+		return $this->required_relations;
+	}
 
 }

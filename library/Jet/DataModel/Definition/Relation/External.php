@@ -14,22 +14,16 @@
  */
 namespace Jet;
 
-class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
+class DataModel_Definition_Relation_External extends DataModel_Definition_Relation_Abstract {
 
-	/**
-	 * @var DataModel_Query_Relation_Outer_JoinByProperty[]
-	 */
-	protected $join_by_properties = array();
 
 
 	/**
-	 * @param string $name
 	 * @param array $definition_data (optional)
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function  __construct( $name, $definition_data=null ) {
-		$this->name = $name;
+	public function  __construct( $definition_data=null ) {
 
 		if($definition_data) {
 			$this->setUp( $definition_data );
@@ -45,14 +39,14 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 
 		if(!isset($definition_data['related_to_class_name'])) {
 			throw new DataModel_Exception(
-				'Outer relation definition '.$this->name.': related_to_class_name is not defined  ',
+				'Outer relation definition: related_to_class_name is not defined  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
 		if(!isset($definition_data['join_by_properties'])) {
 			throw new DataModel_Exception(
-				'Outer relation definition '.$this->name.': join_by_properties is not defined  ',
+				'Outer relation definition: join_by_properties is not defined  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -72,8 +66,7 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 
 			;
 
-			$this->join_by_properties[] = new DataModel_Query_Relation_Outer_JoinByProperty(
-				$this,
+			$this->join_by[] = new DataModel_Definition_Relation_JoinBy_Item(
 				$related_properties[$related_property_name],
 				$this_model_property
 			);
@@ -81,11 +74,4 @@ class DataModel_Query_Relation_Outer extends DataModel_Query_Relation_Abstract {
 
 	}
 
-	/**
-	 *
-	 * @return DataModel_Query_Relation_Outer_JoinByProperty[]
-	 */
-	public function getJoinByProperties() {
-		return $this->join_by_properties;
-	}
 }

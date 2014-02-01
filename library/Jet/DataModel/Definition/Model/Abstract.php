@@ -44,9 +44,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	protected $properties = array();
 
 	/**
-	 * @var DataModel_Query_Relation_Outer[]
+	 * @var DataModel_Definition_Relation_Abstract[]
 	 */
-	protected $outer_relations = array();
+	protected $relations;
 
 
 	/**
@@ -118,6 +118,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			 */
 			$this->properties[$property->getName()] = $property;
 		}
+
 	}
 
 	/**
@@ -187,4 +188,57 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	public function getProperties() {
 		return $this->properties;
 	}
+
+	/**
+	 * @return DataModel_Definition_Relation_Abstract[]
+	 */
+	public function getRelations() {
+
+		if($this->relations!==null) {
+			return $this->relations;
+		}
+
+		$this->relations = array();
+
+		$class = $this->class_name;
+
+		//TODO: relations
+		/**
+		 * @var DataModel $class
+		 */
+		$relations_definitions_data = $class::getDataModelOuterRelationsDefinitionData();
+
+		foreach( $relations_definitions_data as $definition_data ) {
+			$relation = new DataModel_Definition_Relation_External( $definition_data );
+
+			$this->relations[ $relation->getRelatedDataModelName() ] = $relation;
+		}
+
+
+		foreach( $this->properties as $property ) {
+			if(!$property->getIsDataModel()) {
+				continue;
+			}
+
+			/**
+			 * @var DataModel_Definition_Model_Related_Abstract $related_data_model_definition
+			 */
+			$related_data_model_definition = DataModel::getDataModelDefinition( $property->getDataModelClass() );
+
+			$internal_relations = $related_data_model_definition->getInternalRelations( $this->class_name );
+
+			foreach( $internal_relations as $related_model_name=>$relation ) {
+				//TODO: overit unikatnost ...
+				$this->relations[$related_model_name] = $relation;
+			}
+
+			continue;
+
+
+		}
+
+		return $this->relations;
+	}
+
+
 }
