@@ -15,6 +15,7 @@ namespace Jet;
  * Class DataModel_ID_DataModelTestMock
  *
  * @JetDataModel:name = 'data_model_test_mock'
+ * @JetDataModel:database_table_name = 'data_model_test_mock'
  */
 class DataModel_ID_DataModelTestMock extends DataModel {
 

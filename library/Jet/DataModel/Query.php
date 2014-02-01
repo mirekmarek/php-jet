@@ -406,8 +406,6 @@ class DataModel_Query extends Object {
 
 			$property_name = array_pop( $property_name_parts );
 
-			var_dump($str_property_name, $property_name, $property_name_parts);
-
 			do {
 				$related_data_model_name = array_shift( $property_name_parts );
 
@@ -428,11 +426,15 @@ class DataModel_Query extends Object {
 
 				if( ($required_relations=$relevant_relation->getRequiredRelations()) ) {
 					foreach($required_relations as $required_relation) {
-						$this->relations[$required_relation] = clone $_relations[$required_relation];
+						if(!isset($this->relations[$required_relation])) {
+							$this->relations[$required_relation] = clone $_relations[$required_relation];
+						}
 					}
 				}
 
-				$this->relations[$related_data_model_name]=$relevant_relation;
+				if(!isset($this->relations[$related_data_model_name])) {
+					$this->relations[$related_data_model_name]=$relevant_relation;
+				}
 
 				$data_model_definition = $relevant_relation->getRelatedDataModelDefinition();
 
@@ -445,49 +447,11 @@ class DataModel_Query extends Object {
 
 		if( !isset($properties[$property_name]) ) {
 			throw new DataModel_Query_Exception(
-				'Unknown property: \''.$property_name.'\'',
+				'Unknown property: \''.$data_model_definition->getModelName().'::'.$property_name.'\'',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
 
 		return $properties[$property_name];
-
-
-		//TODO: toto je uplne blbe ..
-		/*
-		$property = null;
-		while($property_name_parts) {
-			$part = array_shift($property_name_parts);
-			$properties = $data_model_definition->getProperties();
-
-			if( !isset($properties[$part]) ) {
-				throw new DataModel_Query_Exception(
-					'Unknown property: \''.$property_name.'\'',
-					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-				);
-			}
-
-			$property = $properties[$part];
-
-			if($property->getIsDataModel()) {
-				 * @var DataModel_Definition_Property_DataModel $property
-				$data_model_definition = DataModel::getDataModelDefinition($property->getDataModelClass());
-				$is_main_do = false;
-				unset($property);
-				$property = null;
-			}
-		}
-		*/
-
-		if(!$property) {
-			throw new DataModel_Query_Exception(
-				'Unknown property: \''.$property_name.'\'',
-				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-			);
-
-		}
-
-
-		return $property;
 	}
 }

@@ -21,6 +21,7 @@ namespace Jet;
  * Class Auth_User_Roles
  *
  * @JetDataModel:name = 'Jet_Auth_User_Roles'
+ * @JetDataModel:database_table_name = 'Jet_Auth_User_Roles'
  *
  * @JetDataModel:M_model_class_name = 'Jet\\Auth_User_Default'
  * @JetDataModel:N_model_class_name = 'Jet\\Auth_Role_Default'

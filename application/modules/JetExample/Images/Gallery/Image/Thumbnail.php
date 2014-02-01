@@ -17,6 +17,7 @@ use Jet;
  * Class Gallery_Image_Thumbnail
  *
  * @JetDataModel:name = 'Jet_ImageGallery_Images_Thumbnails'
+ * @JetDataModel:database_table_name = 'Jet_ImageGallery_Images_Thumbnails'
  * @JetDataModel:parent_model_class_name = 'JetApplicationModule\\JetExample\\Images\\Gallery_Image'
  */
 class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {

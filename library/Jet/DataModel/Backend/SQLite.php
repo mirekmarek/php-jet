@@ -1107,7 +1107,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getTableName(DataModel_Definition_Model_Abstract $model_definition) {
-		return strtolower($model_definition->getModelName());
+		return strtolower($model_definition->getDatabaseTableName());
 	}
 
 	/**

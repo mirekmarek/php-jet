@@ -17,6 +17,11 @@
  */
 namespace Jet;
 
+/**
+ * Class Auth_Role_Default
+ *
+ * @JetDataModel:database_table_name = 'Jet_Auth_Role'
+ */
 class Auth_Role_Default extends Auth_Role_Abstract {
 
 	/**

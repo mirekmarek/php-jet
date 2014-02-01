@@ -15,6 +15,7 @@ namespace Jet;
  * Class DataModel_Query_DataModelRelated1TO1TestMock
  *
  * @JetDataModel:name = 'data_model_test_mock_related_1to1'
+ * @JetDataModel:database_table_name = 'data_model_test_mock_related_1to1'
  * @JetDataModel:parent_model_class_name = 'Jet\\DataModel_Query_DataModelTestMock'
  */
 class DataModel_Query_DataModelRelated1TO1TestMock extends DataModel_Related_1to1 {

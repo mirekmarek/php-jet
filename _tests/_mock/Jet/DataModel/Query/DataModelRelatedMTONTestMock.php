@@ -15,6 +15,7 @@ namespace Jet;
  * Class DataModel_Query_DataModelRelatedMTONTestMock
  *
  * @JetDataModel:name = 'data_model_test_mock_related_MtoN'
+ * @JetDataModel:database_table_name = 'data_model_test_mock_related_MtoN'
  *
  * @JetDataModel:M_model_class_name = 'Jet\\DataModel_Query_DataModelTestMock'
  * @JetDataModel:N_model_class_name = 'Jet\\DataModel_Query_DataModel2TestMock'

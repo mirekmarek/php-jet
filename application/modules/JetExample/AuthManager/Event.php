@@ -21,6 +21,7 @@ use Jet;
  * Class Event
  *
  * @JetDataModel:name = 'Jet_Auth_Events'
+ * @JetDataModel:database_table_name = 'Jet_Auth_Events'
  * @JetDataModel:forced_history_enabled = false
  * @JetDataModel:forced_cache_enabled = false
  */

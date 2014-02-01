@@ -24,6 +24,13 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	protected $model_name = '';
 
 	/**
+	 * Database table name
+	 *
+	 * @var string
+	 */
+	protected $database_table_name = '';
+
+	/**
 	 * DataModel class name
 	 *
 	 * @var string
@@ -71,6 +78,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$this->class_name = (string)$class_name;
 
+		/**
+		 * @var DataModel $class_name
+		 */
 		$this->model_name = $class_name::getDataModelName();
 
 		if(
@@ -78,10 +88,23 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class_name.'\' doesn\'t have model name! ('.$class_name.'::getDataModelName() returns false.) Please specify model name by @JetDataModel:name ',
+					'DataModel \''.$class_name.'\' doesn\'t have model name! Please specify it by @JetDataModel:name ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
+
+		$this->database_table_name = $class_name::getDbTableName();
+
+		if(
+			!is_string($this->database_table_name) ||
+			!$this->database_table_name
+		) {
+			throw new DataModel_Exception(
+				'DataModel \''.$class_name.'\' doesn\'t have database table name! Please specify it by @JetDataModel:database_table_name ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
 
 		$properties_definition_data = $class_name::getDataModelPropertiesDefinitionData();
 		
@@ -161,6 +184,15 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	public function getModelName() {
 		return $this->model_name;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getDatabaseTableName() {
+		return $this->database_table_name;
+	}
+
+
 	
 	/**
 	 * Returns DataModel class name
@@ -202,7 +234,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$class = $this->class_name;
 
-		//TODO: relations
 		/**
 		 * @var DataModel $class
 		 */
@@ -211,6 +242,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $definition_data );
 
+			//TODO: overit unikatnost ...
 			$this->relations[ $relation->getRelatedDataModelName() ] = $relation;
 		}
 
@@ -238,6 +270,17 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 
 		return $this->relations;
+	}
+
+	/**
+	 * Default serialize rules (don't serialize __* properties)
+	 *
+	 * @return array
+	 */
+	public function __sleep(){
+		$this->getRelations();
+
+		parent::__sleep();
 	}
 
 

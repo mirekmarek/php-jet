@@ -112,6 +112,18 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 				);
 		}
 
+		$this->database_table_name = $data_model_class_name::getDbTableName();
+
+		if(
+			!is_string($this->database_table_name) ||
+			!$this->database_table_name
+		) {
+			throw new DataModel_Exception(
+				'DataModel \''.$data_model_class_name.'\' doesn\'t have database table name! Please specify it by @JetDataModel:database_table_name ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
 
 		$this->setupRelation($M_related_model_definition, $N_related_model_definition);
 

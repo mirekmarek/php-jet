@@ -20,7 +20,7 @@ namespace Jet;
 /**
  * Class Mvc_Sites_Site_LocalizedData_MetaTag_Default
  *
- * @JetDataModel:name = 'Jet_Mvc_Sites_Site_LocalizedData_MetaTag'
+ * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_Site_LocalizedData_MetaTag'
  * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Default'
  */
 class Mvc_Sites_Site_LocalizedData_MetaTag_Default extends Mvc_Sites_Site_LocalizedData_MetaTag_Abstract {

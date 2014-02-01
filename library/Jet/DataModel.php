@@ -236,6 +236,14 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		return Object_Reflection::get( get_called_class(), 'data_model_name', '' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
+	public static function getDbTableName() {
+		return Object_Reflection::get( get_called_class(), 'database_table_name', '' );
+	}
+
 
 	/**
 	 * Returns properties definition data (used for DataModel_Definition_Model_Abstract::_mainInit)
@@ -1706,6 +1714,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			break;
 			case 'name':
 				$reflection_data['data_model_name'] = (string)$value;
+				break;
+			case 'database_table_name':
+				$reflection_data['database_table_name'] = (string)$value;
 				break;
 			case 'ID_class_name':
 				$reflection_data['data_model_ID_class_name'] = (string)$value;

@@ -1186,7 +1186,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getTableName(DataModel_Definition_Model_Abstract $model_definition) {
-		$table_name = strtolower($model_definition->getModelName());
+		$table_name = strtolower($model_definition->getDatabaseTableName());
 
 		return $this->_OracleWorkaround($table_name);
 	}

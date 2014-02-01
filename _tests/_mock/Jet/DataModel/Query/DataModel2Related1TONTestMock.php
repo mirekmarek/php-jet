@@ -15,6 +15,7 @@ namespace Jet;
  * Class DataModel_Query_DataModelRelated21TONTestMock
  *
  * @JetDataModel:name = 'data_model_test_mock_related_1toN'
+ * @JetDataModel:database_table_name = 'data_model_test_mock_related_1toN'
  * @JetDataModel:parent_model_class_name = 'Jet\\DataModel_Query_DataModelTestMock'
  */
 class DataModel_Query_DataModelRelated21TONTestMock extends DataModel_Related_1toN {

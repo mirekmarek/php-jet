@@ -19,7 +19,7 @@ namespace Jet;
 /**
  * Class Mvc_Pages_Page_Default
  *
- * @JetDataModel:name = 'Jet_Mvc_Pages_Page'
+ * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Page'
  * @JetDataModel:ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Default'
  */
 class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
@@ -817,13 +817,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		if( is_array($URL) ) {
 			$pages = $this->fetchObjects(
 				array(
-					'this.URLs.URL' => $URL,
+					'Jet_Mvc_Pages_Page_URL.URL' => $URL,
 				)
 			);
 
 			$query = $pages->getQuery();
 
-			$query->setOrderBy('-this.URLs.URL');
+			$query->setOrderBy('-Jet_Mvc_Pages_Page_URL.URL');
 			$query->setLimit(1);
 
 			foreach($pages as $page) {
@@ -835,7 +835,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		} else {
 			return $this->fetchOneObject(
 				array(
-					'this.URLs.URL' => $URL,
+					'Jet_Mvc_Pages_Page_URL.URL' => $URL,
 				)
 			);
 
