@@ -189,7 +189,8 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function _initGlueProperty( $property_name, $related_to ) {
+	protected function _initGlueProperty( $property_name, /** @noinspection PhpUnusedParameterInspection */
+	                                      $related_to ) {
 		throw new DataModel_Exception(
 			'It is not possible to define related property in Main DataModel  (\''.$this->class_name.'\'::'.$property_name.') ',
 			DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -263,7 +264,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		$relations_definitions_data = $class::getDataModelOuterRelationsDefinitionData();
 
 		foreach( $relations_definitions_data as $definition_data ) {
-			$relation = new DataModel_Definition_Relation_External( $definition_data );
+			$relation = new DataModel_Definition_Relation_External( $this, $definition_data );
 
 			$related_model_name = $relation->getRelatedDataModelName();
 
@@ -278,6 +279,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 			/**
 			 * @var DataModel_Definition_Model_Related_Abstract $related_data_model_definition
+			 * @var DataModel_Definition_Property_DataModel $property
 			 */
 			$related_data_model_definition = DataModel::getDataModelDefinition( $property->getDataModelClass() );
 

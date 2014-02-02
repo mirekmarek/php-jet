@@ -361,6 +361,9 @@ class Mvc {
 
 		} else {
 			foreach( $sites as $site ) {
+				/**
+				 * @var Mvc_Sites_Site_Abstract $site
+				 */
 				foreach( $site->getLocales(false) as $locale ) {
 					$locales[(string)$locale] = $locale;
 				}

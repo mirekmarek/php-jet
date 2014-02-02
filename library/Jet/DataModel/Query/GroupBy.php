@@ -45,7 +45,7 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 				if(strpos($gb, '.')) {
 					$property = $query->_getPropertyAndSetRelation($gb);
 				} else {
-					$properties = $query->getMainDataModel()->getDataModelDefinition()->getProperties();
+					$properties = $query->getMainDataModelDefinition()->getProperties();
 					if(isset($properties[$gb])) {
 						$property = $properties[$gb];
 					}

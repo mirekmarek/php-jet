@@ -234,7 +234,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 		$this->properties[$this_ID_property_name] = $this_ID_property;
 		$target_properties_array[$this_ID_property_name] = $this_ID_property;
 
-		$target_join_array[] = new DataModel_Definition_Relation_JoinBy_Item( $parent_ID_property, $this_ID_property );
+		$target_join_array[] = new DataModel_Definition_Relation_JoinBy_Item( $parent_ID_property, $this_ID_property, $this );
 
 		$target_glue_defined[] = $parent_ID_property->getName();
 
@@ -245,7 +245,10 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 *
 	 * @return DataModel_Definition_Relation_Internal[]
 	 */
-	public function getInternalRelations( $parent_model_class_name ) {
+	public function getInternalRelations(
+		/** @noinspection PhpUnusedParameterInspection */
+		$parent_model_class_name
+	) {
 		$relations = array();
 
 		$relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(

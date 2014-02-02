@@ -26,32 +26,21 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	/**
 	 * @var DataModel_Related_1to1[]
 	 */
-	protected $__deleted_items = array();
+	private $__deleted_items = array();
 
 	/**
 	 * @var bool
 	 */
-	protected $__is_item = false;
+	private $__is_item = false;
+
 
 	/**
+	 * @param $data_model_class_name
 	 *
-	 *
-	 * @param string $class_name (optional)
-	 *
-	 * @return DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_1toN
+	 * @return DataModel_Definition_Model_Related_Abstract
 	 */
-	public static function getDataModelDefinition( $class_name='' )  {
-		if($class_name) {
-			return DataModel::getDataModelDefinition($class_name);
-		}
-
-		$class = get_called_class();
-
-		if( !isset(DataModel::$___data_model_definitions[$class])) {
-
-			DataModel::$___data_model_definitions[$class] = new DataModel_Definition_Model_Related_1toN( $class );
-		}
-		return DataModel::$___data_model_definitions[$class];
+	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+		return new DataModel_Definition_Model_Related_1toN( $data_model_class_name );
 	}
 
 
@@ -222,7 +211,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 		}
 
 		foreach($this->__items as $d) {
-			if($d->___data_model_saved) {
+			if($d->getIsSaved()) {
 				$d->_deleteItem();
 			}
 		}
@@ -428,7 +417,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @return array
 	 */
 	public function __sleep() {
-		if( $this->___data_model_saved ) {
+		if( $this->getIsSaved() ) {
 			$items = array_keys($this->getDataModelDefinition()->getProperties());
 			$items[] = '__is_item';
 

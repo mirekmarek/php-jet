@@ -43,9 +43,15 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 	/**
 	 *
-	 * @var DataModel_Definition_Property_Abstract
+	 * @var string|null
 	 */
-	protected $_related_to_property = null;
+	protected $_related_to_class_name = null;
+
+	/**
+	 *
+	 * @var string|null
+	 */
+	protected $_related_to_property_name = null;
 
 
 	/**
@@ -237,8 +243,24 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 		}
 
-		$this->_related_to_property = $related_to_property;
+		$this->_related_to_property_name = $related_to_property->getName();
+		$this->_related_to_class_name = $related_to_property->getDataModelDefinition()->getClassName();
 	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getRelatedToClassName() {
+		return $this->_related_to_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRelatedToPropertyName() {
+		return $this->_related_to_property_name;
+	}
+
 
 	/**
 	 * @return string
@@ -304,13 +326,6 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	public function getDataModelDefinition() {
 		return $this->_data_model_definition;
-	}
-
-	/**
-	 * @return DataModel_Definition_Property_Abstract
-	 */
-	public function getRelatedToProperty() {
-		return $this->_related_to_property;
 	}
 
 	/**

@@ -62,7 +62,7 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 				if(strpos($ob, '.')) {
 					$property = $query->_getPropertyAndSetRelation($ob);
 				} else {
-					$properties = $query->getMainDataModel()->getDataModelDefinition()->getProperties();
+					$properties = $query->getMainDataModelDefinition()->getProperties();
 					if(isset($properties[$ob])) {
 						$property = $properties[$ob];
 					}

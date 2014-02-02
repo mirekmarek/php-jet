@@ -338,7 +338,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
-		$table_name = $this->_getTableName($where->getMainDataModel()->getDataModelDefinition());
+		$table_name = $this->_getTableName($where->getMainDataModelDefinition());
 		return 'DELETE FROM `'.$table_name.'`'.$this->_getSQLqueryWherePart($where->getWhere());
 	}
 
@@ -543,7 +543,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryTableName( DataModel_Query $query ) {
-		$main_model_definition = $query->getMainDataModel()->getDataModelDefinition();
+		$main_model_definition = $query->getMainDataModelDefinition();
 		return '`'.$this->_getTableName( $main_model_definition ).'`';
 
 	}
@@ -583,7 +583,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisModelPropertyValue( $query->getMainDataModel() );
+				$related_value = $join_by_property->getThisModelPropertyOrValue();
 
 				if($related_value instanceof DataModel_Definition_Property_Abstract) {
 					$related_value = $this->_getColumnName($related_value);

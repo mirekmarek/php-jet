@@ -39,7 +39,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$query = new DataModel_Query( $this->data_model );
+		$query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
 
 		$this->object = new DataModel_Query_Select($query, array(
 			$this->properties['ID_property'],
@@ -75,7 +75,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function test__constructFailed1() {
-		$query = new DataModel_Query( $this->data_model );
+		$query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
 
 		$this->object = new DataModel_Query_Select($query, array(
 			'some' => 'crap'
@@ -91,7 +91,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function test__constructFailed2() {
-		$query = new DataModel_Query( $this->data_model );
+		$query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
 
 		$this->object = new DataModel_Query_Select($query, array(
 			array(
@@ -109,7 +109,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function test__constructFailed3() {
-		$query = new DataModel_Query( $this->data_model );
+		$query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
 
 		$this->object = new DataModel_Query_Select($query, array(
 			array(

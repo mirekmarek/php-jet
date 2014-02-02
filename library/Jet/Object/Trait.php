@@ -62,7 +62,10 @@ trait Object_Trait {
 	 *
 	 * @return string
 	 */
-	public function getSignalObjectClassName( $signal_name ) {
+	public function getSignalObjectClassName(
+		/** @noinspection PhpUnusedParameterInspection */
+		$signal_name
+	) {
 		return Object_Reflection::get( get_class($this), 'signal_object_class_name', Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME );
 	}
 

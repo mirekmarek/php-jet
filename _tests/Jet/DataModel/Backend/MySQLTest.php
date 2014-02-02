@@ -207,7 +207,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetBackendSelectQuery() {
 
-		$query = DataModel_Query::createQuery($this->data_model, $this->where_data);
+		$query = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
 		$query->setSelect($this->select_data)
 			->setRelationJoinType('data_model_test_mock_related_MtoN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setRelationJoinType('data_model_test_mock_related_1toN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
@@ -281,7 +281,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Backend_MySQL::getBackendCountQuery
 	 */
 	public function testGetBackendCountQuery() {
-		$query = DataModel_Query::createQuery($this->data_model, $this->where_data);
+		$query = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
 		$query->setSelect($this->select_data)
 			->setRelationJoinType('data_model_test_mock_related_MtoN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setRelationJoinType('data_model_test_mock_related_1toN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
@@ -379,7 +379,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetBackendUpdateQuery() {
 
-		$query = DataModel_Query::createQuery($this->data_model, $this->where_data);
+		$query = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
 
 		$definition = $this->data_model->getDataModelDefinition();
 
@@ -437,7 +437,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetBackendDeleteQuery() {
 
-		$query = DataModel_Query::createQuery($this->data_model, $this->where_data);
+		$query = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
 
 		$valid_query = 'DELETE FROM `data_model_test_mock`'.JET_EOL
 			.'WHERE'.JET_EOL

@@ -84,7 +84,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @var bool
 	 */
-	protected $is_valid = false; 
+	protected $is_valid = false;
 
 	/**
 	 * @var Mvc_Layout
@@ -449,6 +449,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		$tags = $this->_parseTags($form_output_part_replacement);
 
 		foreach( $tags as $tag_data ) {
+			/**
+			 * @var Form_Parser_TagData $tag_data
+			 */
 			$replacement = '';
 
 			switch( $tag_data->getTag() ) {

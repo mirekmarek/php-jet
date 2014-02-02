@@ -35,6 +35,7 @@ namespace Jet;
  *
  * @JetFactory:mandatory_parent_class = 'Jet\Application_Modules_Module_Info'
  */
+
 class Application_Modules_Module_Info extends Object implements \JsonSerializable {
 
 	const MODULE_TYPE_GENERAL = 'general';

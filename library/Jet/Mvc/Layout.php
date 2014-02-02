@@ -485,6 +485,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$matches_count = 0;
 
 			foreach( $this->output_parts as $o ) {
+				/**
+				 * @var Mvc_Layout_OutputPart $o
+				 */
 				$output_result = $o->getOutput();
 
 				$matches_count = $this->_handlePositions( $output_result, false );

@@ -94,7 +94,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				continue;
 			}
 
-			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property );
+			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $property );
 		}
 
 
@@ -348,7 +348,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
-		$table_name = $this->_getTableName($where->getMainDataModel()->getDataModelDefinition());
+		$table_name = $this->_getTableName($where->getMainDataModelDefinition());
 		return 'DELETE FROM `'.$table_name.'`'.$this->_getSQLqueryWherePart($where->getWhere());
 	}
 
@@ -553,7 +553,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryTableName( DataModel_Query $query ) {
-		$main_model_definition = $query->getMainDataModel()->getDataModelDefinition();
+		$main_model_definition = $query->getMainDataModelDefinition();
 		return '`'.$this->_getTableName( $main_model_definition ).'`';
 
 	}
@@ -593,7 +593,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 
 			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisModelPropertyValue( $query->getMainDataModel() );
+				$related_value = $join_by_property->getThisModelPropertyOrValue();
 
 				if($related_value instanceof DataModel_Definition_Property_Abstract) {
 					$related_value = $this->_getColumnName($related_value);
@@ -924,14 +924,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
 	 * @param DataModel_Definition_Property_Abstract $column
 	 *
 	 * @throws DataModel_Exception
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel $data_model, DataModel_Definition_Property_Abstract $column ) {
+	protected function _getSQLType( DataModel_Definition_Property_Abstract $column ) {
 		$backend_options = $column->getBackendOptions( 'SQLite' );
 
 		$name = $column->getName();

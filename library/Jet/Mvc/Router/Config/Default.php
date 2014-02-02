@@ -169,6 +169,10 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 */
 	public static function getAdminUIManagerModulesList() {
 		$result = array();
+
+		/**
+		 * @var Application_Modules_Module_Info[] $modules
+		 */
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module) {
 			if(!$module->getIsAdminUIManagerModule()) {

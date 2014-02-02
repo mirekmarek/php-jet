@@ -471,7 +471,10 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 *
 	 * @return bool
 	 */
-	protected function _validateProperties_test_value( &$value ) {
+	protected function _validateProperties_test_value(
+		/** @noinspection PhpUnusedParameterInspection */
+		&$value
+	) {
 		return true;
 	}
 

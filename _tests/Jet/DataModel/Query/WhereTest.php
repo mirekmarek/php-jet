@@ -43,7 +43,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->query = new DataModel_Query($this->data_model);
+		$this->query = new DataModel_Query($this->data_model->getDataModelDefinition());
 		$this->query->setSelect(array(
 			'this.int_property',
 			'this.string_property',
@@ -62,7 +62,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			)
 		));
 
-		$query = new DataModel_Query($this->data_model);
+		$query = new DataModel_Query($this->data_model->getDataModelDefinition());
 		$query->setSelect(array(
 			'this.float_property'
 		));

@@ -47,20 +47,20 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 *
 	 * @return bool|mixed
 	 */
-	public function get( DataModel $data_model, $ID) {
+	public function get( DataModel_Definition_Model_Abstract $data_model_definition, $ID) {
 		$data = $this->_db_read->fetchOne('SELECT data FROM '.$this->_table_name.'
 				WHERE
 					class_name=:class_name AND
 					model_name=:model_name AND
 					object_ID=:object_ID',
 			array(
-				'class_name' => get_class($data_model),
-				'model_name' => $data_model->getDataModelName(),
+				'class_name' => $data_model_definition->getClassName(),
+				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID,
 
 			)
@@ -73,11 +73,11 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 * @param mixed $data
 	 */
-	public function save(DataModel $data_model, $ID, $data) {
+	public function save(DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data) {
 		$this->_db_write->execCommand('
 				BEGIN
 					INSERT INTO '.$this->_table_name.' (
@@ -98,8 +98,8 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 				END;
 				',
 				array(
-					'class_name' => get_class($data_model),
-					'model_name' => $data_model->getDataModelName(),
+					'class_name' => $data_model_definition->getClassName(),
+					'model_name' => $data_model_definition->getModelName(),
 					'object_ID' => (string)$ID,
 					'data' => $this->serialize($data),
 
@@ -107,11 +107,11 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 * @param mixed $data
 	 */
-	public function update(DataModel $data_model, $ID, $data) {
+	public function update(DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data) {
 
 		$this->_db_write->execCommand( 'UPDATE '.$this->_table_name.' SET
 						data=:data,
@@ -123,22 +123,22 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 						',
 			array(
 				'data' => $this->serialize($data),
-				'class_name' => get_class($data_model),
-				'model_name' => $data_model->getDataModelName(),
+				'class_name' => $data_model_definition->getClassName(),
+				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID
 			) );
 	}
 
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 */
-	public function delete(DataModel $data_model, $ID) {
+	public function delete(DataModel_Definition_Model_Abstract $data_model_definition, $ID) {
 		$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE class_name=:class_name AND model_name=:model_name AND object_ID=:object_ID',
 			array(
-				'class_name' => get_class($data_model),
-				'model_name' => $data_model->getDataModelName(),
+				'class_name' => $data_model_definition->getClassName(),
+				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID,
 			));
 	}

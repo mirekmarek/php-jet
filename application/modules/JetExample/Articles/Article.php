@@ -165,7 +165,7 @@ class Article extends Jet\DataModel {
 				'this.ID!=' => $this->ID
 			);
 		}
-		return (bool)$this->getBackendInstance()->getCount( Jet\DataModel_Query::createQuery( $this, $q) );
+		return (bool)$this->getBackendInstance()->getCount( $this->createQuery($q) );
 	}
 
 

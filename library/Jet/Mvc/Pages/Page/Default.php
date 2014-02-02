@@ -549,7 +549,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 			$q[] = 'AND';
 			$q['this.ID!='] = $this->ID;
 		}
-		return (bool)$this->getBackendInstance()->getCount( DataModel_Query::createQuery( $this, $q) );
+		return (bool)$this->getBackendInstance()->getCount( $this->createQuery( $q ) );
 	}
 
 

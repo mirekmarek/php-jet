@@ -49,7 +49,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 		$this->data_model = new DataModel_Query_DataModelTestMock();
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->object = new DataModel_Query($this->data_model);
+		$this->object = new DataModel_Query($this->data_model->getDataModelDefinition());
 
 		$this->select_data = array(
 			$this->properties['ID_property'],
@@ -104,23 +104,22 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query::createQuery
 	 */
 	public function testCreateQuery() {
-		$object = DataModel_Query::createQuery($this->data_model, $this->where_data);
-		$this->assertSame($this->data_model, $object->getMainDataModel());
+		$object = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
+		$this->assertSame($this->data_model->getDataModelDefinition(), $object->getMainDataModelDefinition());
 
 		$where = new DataModel_Query_Where($this->object, $this->where_data);
 		$this->assertEquals($where->toString(), $object->getWhere()->toString());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query::getMainDataModel
-	 * @covers Jet\DataModel_Query::setMainDataModel
+	 * @covers Jet\DataModel_Query::getMainDataModelDefinition
 	 */
-	public function testGetSetMainDataModel() {
-		$this->assertSame($this->data_model, $this->object->getMainDataModel());
+	public function testGetSetMainDataModelDefinition() {
+		$this->assertSame($this->data_model->getDataModelDefinition(), $this->object->getMainDataModelDefinition());
 		$new_data_model = new DataModel_Query_DataModelTestMock();
-		$this->object->setMainDataModel($new_data_model);
+		$this->object->setMainDataModel( $new_data_model->getDataModelDefinition() );
 
-		$this->assertSame($new_data_model, $this->object->getMainDataModel());
+		$this->assertSame($new_data_model->getDataModelDefinition(), $this->object->getMainDataModelDefinition());
 	}
 
 	/**

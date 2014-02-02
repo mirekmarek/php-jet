@@ -176,7 +176,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->properties[$this_ID_property_name] = $this_ID_property;
 
 		$this->relation_ID_properties[$related_model_name][$this_ID_property_name] = $this_ID_property;
-		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinBy_Item( $related_ID_property, $this_ID_property );
+		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinBy_Item( $related_ID_property, $this_ID_property, $this );
 		$this->_glue_defined[$related_model_name][] = $related_ID_property->getName();
 
 	}

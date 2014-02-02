@@ -110,8 +110,10 @@ class Object_Reflection {
 					throw new Object_Reflection_Exception( 'Value parse error! Class:\''.$class.'\', Definition: \''.$definition.'\' ' );
 				}
 
+				/**
+				 * @var Object_Reflection_ParserInterface $_class_name
+				 */
 				$_class_name = 'Jet\\'.$class_name;
-				//TODO: check class
 
 				$_class_name::parseClassDocComment( $reflection_data, $key, $definition, $value_raw, $value );
 
@@ -147,7 +149,9 @@ class Object_Reflection {
 						throw new Object_Reflection_Exception( 'Value parse error! Class:\''.$class.'\', Definition: \''.$definition.'\' ' );
 					}
 
-					//TODO: check class
+					/**
+					 * @var Object_Reflection_ParserInterface $_class_name
+					 */
 					$_class_name = 'Jet\\'.$class_name;
 
 					$_class_name::parsePropertyDocComment( $reflection_data, $property_name, $key, $definition, $raw_value, $value );

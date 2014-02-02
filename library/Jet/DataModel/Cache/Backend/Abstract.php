@@ -42,35 +42,35 @@ abstract class DataModel_Cache_Backend_Abstract extends Object {
 	abstract public function initialize();
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 *
 	 * @return mixed|null
 	 */
-	abstract public function get( DataModel $data_model, $ID );
+	abstract public function get( DataModel_Definition_Model_Abstract $data_model_definition, $ID );
 
 	/**
 	 *
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 *
 	 * @param mixed $data
 	 */
-	abstract public function save( DataModel $data_model, $ID, $data );
+	abstract public function save( DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 *
 	 * @param mixed $data
 	 */
-	abstract public function update( DataModel $data_model, $ID, $data );
+	abstract public function update( DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 */
-	abstract public function delete( DataModel $data_model, $ID );
+	abstract public function delete( DataModel_Definition_Model_Abstract $data_model_definition, $ID );
 
 	/**
 	 * @param null|string $model_name (optional)

@@ -89,7 +89,11 @@ abstract class Javascript_Lib_Abstract extends Object {
 	 * @param string $component
 	 * @param mixed[] $parameters (optional)
 	 */
-	public function requireComponent( $component, $parameters=array() ) {
+	public function requireComponent(
+		$component,
+		/** @noinspection PhpUnusedParameterInspection */
+		$parameters=array()
+	) {
 		if( in_array( $component, $this->required_components ) ) {
 			return;
 		}

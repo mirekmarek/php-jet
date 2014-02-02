@@ -19,12 +19,6 @@ namespace Jet;
 abstract class DataModel_Related_Abstract extends DataModel {
 
 	/**
-	 * @var string|null
-	 */
-	protected static $____data_model_definition_class_name = null;
-
-
-	/**
 	 * @throws DataModel_Exception
 	 *
 	 * @return string
@@ -41,6 +35,18 @@ abstract class DataModel_Related_Abstract extends DataModel {
 
 		return $parent_model_class_name;
 	}
+
+
+
+	/**
+	 * @param $data_model_class_name
+	 *
+	 * @return DataModel_Definition_Model_Related_Abstract
+	 */
+	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+		return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
+	}
+
 
 	/**
 	 *
@@ -185,11 +191,8 @@ abstract class DataModel_Related_Abstract extends DataModel {
 		foreach($definition->getMainModelRelationIDProperties() as $r_property_name => $r_property) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $r_property
-			 * @var DataModel_Definition_Property_Abstract $rt_property
 			 */
-			$rt_property = $r_property->getRelatedToProperty();
-			$r_IDs[$r_property_name] = $main_ID[ $rt_property->getName() ];
-
+			$r_IDs[$r_property_name] = $main_ID[ $r_property->getRelatedToPropertyName() ];
 		}
 
 
@@ -203,20 +206,18 @@ abstract class DataModel_Related_Abstract extends DataModel {
 			foreach($definition->getParentModelRelationIDProperties() as $r_property_name => $r_property) {
 				/**
 				 * @var DataModel_Definition_Property_Abstract $r_property
-				 * @var DataModel_Definition_Property_Abstract $rt_property
 				 */
-				$rt_property = $r_property->getRelatedToProperty();
-				$r_IDs[$r_property_name] = $parent_ID[ $rt_property->getName() ];
+				$r_IDs[$r_property_name] = $parent_ID[ $r_property->getRelatedToPropertyName() ];
 
 			}
 
 		}
 		foreach($r_IDs as $property => $value) {
 			if(
-				$this->___data_model_saved &&
+				$this->getIsSaved() &&
 				$this->{$property}!=$value
 			) {
-				$this->___data_model_saved = false;
+				$this->setIsNew();
 			}
 			$this->{$property} = $value;
 		}
@@ -226,7 +227,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 
 		$backend = $this->getBackendInstance();
 
-		if( !$this->___data_model_saved ) {
+		if( !$this->getIsSaved() ) {
 			$operation = 'save';
 		} else {
 			$operation = 'update';
@@ -235,7 +236,7 @@ abstract class DataModel_Related_Abstract extends DataModel {
 
 		$this->{'_'.$operation}( $backend, $main_model_instance );
 
-		$this->___data_model_saved = true;
+		$this->setIsSaved();
 
 	}
 

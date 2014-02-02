@@ -17,25 +17,25 @@ namespace Jet;
 class DataModel_Definition_Relation_External extends DataModel_Definition_Relation_Abstract {
 
 
-
 	/**
+	 * @param DataModel_Definition_Model_Abstract $this_model_definition
 	 * @param array $definition_data (optional)
 	 *
-	 * @throws DataModel_Exception
 	 */
-	public function  __construct( $definition_data=null ) {
+	public function  __construct( DataModel_Definition_Model_Abstract $this_model_definition, $definition_data=null ) {
 
 		if($definition_data) {
-			$this->setUp( $definition_data );
+			$this->setUp( $this_model_definition, $definition_data );
 		}
 	}
 
 	/**
+	 * @param DataModel_Definition_Model_Abstract $this_model_definition
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( array $definition_data) {
+	public function setUp( DataModel_Definition_Model_Abstract $this_model_definition, array $definition_data) {
 
 		if(!isset($definition_data['related_to_class_name'])) {
 			throw new DataModel_Exception(
@@ -68,7 +68,8 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 			$this->join_by[] = new DataModel_Definition_Relation_JoinBy_Item(
 				$related_properties[$related_property_name],
-				$this_model_property
+				$this_model_property,
+				$this_model_definition
 			);
 		}
 

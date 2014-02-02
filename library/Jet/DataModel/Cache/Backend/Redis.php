@@ -40,23 +40,23 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param $ID
 	 *
 	 * @return string
 	 */
-	protected function getCacheKey( DataModel $data_model, $ID ) {
-		return $this->key_prefix.$data_model->getDataModelName().':'.$ID;
+	protected function getCacheKey( DataModel_Definition_Model_Abstract $data_model_definition, $ID ) {
+		return $this->key_prefix.$data_model_definition->getModelName().':'.$ID;
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 *
 	 * @return bool|mixed
 	 */
-	public function get( DataModel $data_model, $ID) {
-		$data = $this->redis->get( $this->getCacheKey($data_model, $ID) );
+	public function get( DataModel_Definition_Model_Abstract $data_model_definition, $ID) {
+		$data = $this->redis->get( $this->getCacheKey($data_model_definition, $ID) );
 
 		if(!$data) {
 			return false;
@@ -66,37 +66,37 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 * @param mixed $data
 	 */
-	public function save(DataModel $data_model, $ID, $data) {
+	public function save(DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data) {
 		$this->redis->set(
-				$this->getCacheKey($data_model, $ID),
+				$this->getCacheKey($data_model_definition, $ID),
 				serialize($data)
 			);
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 * @param mixed $data
 	 */
-	public function update(DataModel $data_model, $ID, $data) {
+	public function update(DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data) {
 
 		$this->redis->set(
-			$this->getCacheKey($data_model, $ID),
+			$this->getCacheKey($data_model_definition, $ID),
 			serialize($data)
 		);
 	}
 
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 * @param string $ID
 	 */
-	public function delete(DataModel $data_model, $ID) {
-		$this->redis->delete( $this->getCacheKey($data_model, $ID) );
+	public function delete(DataModel_Definition_Model_Abstract $data_model_definition, $ID) {
+		$this->redis->delete( $this->getCacheKey($data_model_definition, $ID) );
 	}
 
 

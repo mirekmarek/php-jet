@@ -119,25 +119,25 @@ class DataModel_Query extends Object {
 
 
 	/**
-	 * @param DataModel $main_data_model
+	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
 	 */
-	public function __construct( DataModel $main_data_model ) {
-		$this->setMainDataModel($main_data_model);
+	public function __construct( DataModel_Definition_Model_Abstract $main_data_model_definition ) {
+		$this->setMainDataModel($main_data_model_definition);
 
 	}
 
 
 	/**
 	 *
-	 * @param DataModel $main_data_model
+	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
 	 * @param array $where
 	 *
 	 * @throws DataModel_Query_Exception
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( DataModel $main_data_model, array $where=array() ) {
+	public static function createQuery( DataModel_Definition_Model_Abstract $main_data_model_definition, array $where=array() ) {
 
-		$result = new self( $main_data_model );
+		$result = new self( $main_data_model_definition );
 		if($where) {
 			$result->setWhere($where);
 		}
@@ -145,22 +145,28 @@ class DataModel_Query extends Object {
 		return $result;
 	}
 
-
 	/**
-	 * @return DataModel
+	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
 	 */
-	public function getMainDataModel() {
-		return $this->main_data_model;
-	}
-
-	/**
-	 * @param DataModel $main_data_model
-	 */
-	public function setMainDataModel( DataModel $main_data_model) {
-		$this->main_data_model = $main_data_model;
-		$this->main_data_model_definition = $main_data_model->getDataModelDefinition();
+	public function setMainDataModel( DataModel_Definition_Model_Abstract $main_data_model_definition ) {
+		$this->main_data_model_definition = $main_data_model_definition;
 		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getMainDataModelClassName() {
+		return $this->main_data_model_class_name;
+	}
+
+	/**
+	 * @return DataModel_Definition_Model_Abstract
+	 */
+	public function getMainDataModelDefinition() {
+		return $this->main_data_model_definition;
+	}
+
 
 	/**
 	 *

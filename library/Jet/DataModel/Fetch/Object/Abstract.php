@@ -53,7 +53,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 */
 	final public function __construct( $query, DataModel $data_model  ) {
 		if(is_array($query)) {
-			$query = DataModel_Query::createQuery( $data_model, $query);
+			$query = DataModel_Query::createQuery( $data_model->getDataModelDefinition(), $query);
 		}
 
 		if(!$query instanceof DataModel_Query) {

@@ -84,12 +84,12 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_Abstract::setUpRelation
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getRelatedToProperty
+	 * @covers Jet\DataModel_Definition_Property_Abstract::getRelatedToPropertyName
 	 */
 	public function testSetUpRelation() {
-		$this->assertNull( $this->ID_object->getRelatedToProperty() );
+		$this->assertNull( $this->ID_object->getRelatedToPropertyName() );
 		$this->ID_object->setUpRelation($this->ID_model_related);
-		$this->assertSame($this->ID_model_related, $this->ID_object->getRelatedToProperty());
+		$this->assertSame($this->ID_model_related->getName(), $this->ID_object->getRelatedToPropertyName());
 	}
 
 	/**

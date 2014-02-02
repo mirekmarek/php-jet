@@ -397,6 +397,9 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		$fields = array();
 
 		foreach($definition as $property_name=>$property) {
+			/**
+			 * @var Config_Definition_Property_Abstract $property
+			 */
 			if( !in_array($property_name, $only_properties) ) {
 				continue;
 			}

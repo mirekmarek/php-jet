@@ -43,7 +43,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->query = new DataModel_Query($this->data_model);
+		$this->query = new DataModel_Query($this->data_model->getDataModelDefinition());
 		$this->query->setSelect(array(
 			'this.string_property',
 			'my_value' => array(
