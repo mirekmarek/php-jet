@@ -31,7 +31,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	/**
 	 * @var bool
 	 */
-	private $__is_item = false;
+	protected  $__is_item = false;
 
 
 	/**
@@ -66,7 +66,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 		$model_definition = $this->getDataModelDefinition();
 
-		$query = new DataModel_Query( $this );
+		$query = new DataModel_Query( $model_definition );
 		$query->setWhere(array());
 
 		$query->getWhere()->attach(

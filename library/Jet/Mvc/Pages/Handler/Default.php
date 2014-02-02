@@ -311,7 +311,6 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$name = !empty($data['name']) ? $data['name'] : $ID;
 		$dat['name'] = $name;
 
-
 		$page = Mvc_Pages::getNewPage($site_ID, $locale, $name, $parent_ID, $ID);
 		$page->setPageDataCheckingMode( true );
 		$page->setPageDataCheckingMap( $this->current_page_instsances );

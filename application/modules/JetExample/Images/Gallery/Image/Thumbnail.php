@@ -23,9 +23,9 @@ use Jet;
 class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $Jet_ImageGallery_Images_ID;
+	protected $image_ID;
 
 	/**
 	 *

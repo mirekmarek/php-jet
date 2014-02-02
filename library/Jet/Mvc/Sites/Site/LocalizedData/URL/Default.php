@@ -26,13 +26,15 @@ namespace Jet;
 class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedData_URL_Abstract {
 
 	/**
-	 * @var string
+	 *
+	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $Jet_Mvc_Sites_Site_ID = '';
+	protected $stie_ID = '';
+
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'parent.ID'
 	 */
-	protected $Jet_Mvc_Sites_Site_LocalizedData_ID = '';
+	protected $localizeddata_ID = '';
 
 
 	/**

@@ -186,7 +186,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		if(!$this->_is_sub_related_model && $what=='parent') {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to = \'parent.'.$parent_ID_property_name.'\ definition. Use: @JetDataModel:related_to = \'main.'.$parent_ID_property_name.'\  ',
+				'Invalid @JetDataModel:related_to = \'parent.'.$parent_ID_property_name.'\' definition. Use: @JetDataModel:related_to = \'main.'.$parent_ID_property_name.'\'  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

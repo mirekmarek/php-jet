@@ -56,8 +56,11 @@ class Debug_ErrorHandler {
 		if( !trim(ini_get('date.timezone')) ){
 			date_default_timezone_set('Europe/Prague');
 		}
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@ini_set( 'error_log', JET_LOGS_PATH . 'php_errors_'.@date('Y-m-d').'.log' );
+
+		if(file_exists('ini_set')) {
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
+			@ini_set( 'error_log', JET_LOGS_PATH . 'php_errors_'.@date('Y-m-d').'.log' );
+		}
 
 	}
 

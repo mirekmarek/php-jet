@@ -114,7 +114,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 					$create_index_query[] = JET_EOL.'CREATE INDEX IF NOT EXISTS `_k_'.$key_name.'` ON $table_name (`'.implode('`, `', $key->getPropertyNames()).'`);';
 				break;
 				default:
-					$create_index_query[] = JET_EOL.'CREATE '.$key['type'].' INDEX IF NOT EXISTS `_k_'.$key_name.'` ON $table_name (`'.implode('`, `', $key->getPropertyNames()).'`);';
+					$create_index_query[] = JET_EOL.'CREATE '.$key->getType().' INDEX IF NOT EXISTS `_k_'.$key_name.'` ON $table_name (`'.implode('`, `', $key->getPropertyNames()).'`);';
 				break;
 			}
 		}
@@ -452,6 +452,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			return $data;
 		}
 
+		$fetch_row = ($fetch_method=='fetchRow');
+
+		if($fetch_row) {
+			$data = [$data];
+		}
+
 		foreach($data as $i=>$d) {
 			foreach($query->getSelect() as $item) {
 				/**
@@ -473,6 +479,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				$property->checkValueType( $data[$i][$key] );
 
 			}
+		}
+
+		if($fetch_row) {
+			return $data[0];
 		}
 
 		return $data;

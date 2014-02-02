@@ -26,9 +26,9 @@ namespace Jet;
 class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $Jet_Auth_Role_ID = '';
+	protected $role_ID = '';
 
 	/**
 	 *

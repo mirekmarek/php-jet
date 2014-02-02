@@ -31,9 +31,9 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 
 	/**
 	 *
-	 * @var string
+	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $Jet_Mvc_Sites_Site_ID = '';
+	protected $stie_ID = '';
 
 	/**
 	 *

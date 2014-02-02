@@ -242,10 +242,9 @@ class Article extends Jet\DataModel {
 	 * @return Article
 	 */
 	public static function get( $ID ) {
-		$instance = new self();
-		$ID = $instance->getEmptyIDInstance()->createID($ID);
+		$ID = static::getEmptyIDInstance()->createID($ID);
 
-		return $instance->load($ID);
+		return static::load($ID);
 	}
 
 	/**

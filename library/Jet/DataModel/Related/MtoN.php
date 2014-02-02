@@ -58,11 +58,6 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	private $N_data = array();
 
-	/**
-	 * @var DataModel_Definition_Model_Related_MtoN
-	 */
-	private $definition = null;
-
 
 	/**
 	 * @return string
@@ -140,14 +135,14 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		}
 
 
-		$N_model_name = $this->definition->getNModelName($M_model_name);
+		$N_model_name = $this->getDataModelDefinition()->getNModelName($M_model_name);
 
 
 		$this->__data_model_current_M_model_name = $M_model_name;
 		$this->__data_model_current_N_model_name = $N_model_name;
 
-		$this->__data_model_current_M_model_class_name = $this->definition->getRelatedModelDefinition($M_model_name)->getClassName();
-		$this->__data_model_current_N_model_class_name = $this->definition->getRelatedModelDefinition($N_model_name)->getClassName();
+		$this->__data_model_current_M_model_class_name = $this->getDataModelDefinition()->getRelatedModelDefinition($M_model_name)->getClassName();
+		$this->__data_model_current_N_model_class_name = $this->getDataModelDefinition()->getRelatedModelDefinition($N_model_name)->getClassName();
 
 		/**
 		 * @var DataModel $M_instance
@@ -247,8 +242,8 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			return;
 		}
 
-		$M_ID_properties = $this->definition->getRelationIDProperties($this->__data_model_current_M_model_name);
-		$N_ID_properties = $this->definition->getRelationIDProperties($this->__data_model_current_N_model_name);
+		$M_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_M_model_name);
+		$N_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_N_model_name);
 
 		$main_record = new DataModel_RecordData($definition);
 
@@ -343,13 +338,13 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return DataModel_Query
 	 */
 	protected function _getMIdQuery() {
-		$query = new DataModel_Query( $this );
+		$query = new DataModel_Query( $this->getDataModelDefinition() );
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
 
-		$M_ID_properties = $this->definition->getRelationIDProperties($this->__data_model_current_M_model_name);
-		$N_ID_properties = $this->definition->getRelationIDProperties($this->__data_model_current_N_model_name);
+		$M_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_M_model_name);
+		$N_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_N_model_name);
 
 		foreach($M_ID_properties as $M_ID_property) {
 			/**
@@ -494,7 +489,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			return;
 		}
 
-		$N_ID_properties = $this->definition->getRelationIDProperties($this->__data_model_current_N_model_name);
+		$N_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_N_model_name);
 
 
 		/**
@@ -554,13 +549,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	public function __sleep() {
 
-		return array(
-			'__data_model_current_M_model_class_name',
-			'__data_model_current_N_model_class_name',
-			'__data_model_current_M_model_name',
-			'__data_model_current_N_model_name',
-			'M_ID'
-		);
+		return array();
 	}
 
 	public function __wakeup() {

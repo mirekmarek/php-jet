@@ -442,6 +442,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			return $data;
 		}
 
+		$fetch_row = ($fetch_method=='fetchRow');
+
+		if($fetch_row) {
+			$data = [$data];
+		}
+
 		foreach($data as $i=>$d) {
 			foreach($query->getSelect() as $item) {
 				/**
@@ -463,6 +469,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$property->checkValueType( $data[$i][$key] );
 
 			}
+		}
+
+		if($fetch_row) {
+			return $data[0];
 		}
 
 		return $data;

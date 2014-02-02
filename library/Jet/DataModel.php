@@ -204,7 +204,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_Definition_Model_Main
 	 */
 	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
-		return new DataModel_Definition_Model_Main( $data_model_class_name );;
+		return new DataModel_Definition_Model_Main( $data_model_class_name );
 	}
 
 	/**
@@ -477,9 +477,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 * @return DataModel_ID_Abstract
 	 */
-	public function getEmptyIDInstance() {
-		$class_name = Object_Reflection::get( get_class($this), 'data_model_ID_class_name', 'Jet\\DataModel_ID_Default' );
-		return new $class_name( $this );
+	public static function getEmptyIDInstance() {
+		$class_name = Object_Reflection::get( get_called_class(), 'data_model_ID_class_name', 'Jet\\DataModel_ID_Default' );
+		return new $class_name( static::getDataModelDefinition() );
 	}
 
 	/**
@@ -487,7 +487,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
-	public function getIDProperties() {
+	protected function getIDProperties() {
 		return $this->getDataModelDefinition()->getIDProperties();
 	}
 
@@ -501,7 +501,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$ID = $this->getEmptyIDInstance()->unserialize($ID);
 		}
 
-		$query = new DataModel_Query( $this );
+		$query = new DataModel_Query( $this->getDataModelDefinition() );
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
@@ -526,7 +526,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_Query
 	 */
 	public function getIDQuery( $relation_ID_properties=null ) {
-		$query = new DataModel_Query( $this );
+		$query = new DataModel_Query( $this->getDataModelDefinition() );
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
@@ -621,7 +621,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 */
 	public function setIsSaved() {
-		$this->___data_model_saved = false;
+		$this->___data_model_saved = true;
 	}
 
 
@@ -781,19 +781,16 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$cache = static::getCacheBackendInstance();
 
 
+		$loaded_instance = null;
 		if($cache) {
 			$loaded_instance = $cache->get( $definition, $ID);
 		}
 
 		if(!$loaded_instance) {
-			/**
-			 * @var DataModel $loaded_instance
-			 */
-			$loaded_instance = new static();
 
-			$query = new DataModel_Query( $loaded_instance );
+			$query = new DataModel_Query( $definition );
 
-			$query->setSelect( $loaded_instance->getDataModelDefinition()->getProperties() );
+			$query->setSelect( $definition->getProperties() );
 			$query->setWhere( $ID->getWhere() );
 
 			$dat = static::getBackendInstance()->fetchRow( $query );
@@ -802,7 +799,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				return null;
 			}
 
-			$loaded_instance = $loaded_instance->_load_dataToInstance( $dat );
+			$loaded_instance = static::_load_dataToInstance( $dat );
 
 			if($cache) {
 				$cache->save($definition, $ID, $loaded_instance);
@@ -822,14 +819,16 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function _load_dataToInstance( $dat, $main_model_instance=null ) {
+	protected static function _load_dataToInstance( $dat, $main_model_instance=null ) {
 
 		/**
 		 * @var DataModel $loaded_instance
 		 */
 		$loaded_instance = new static();
 
-		foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property_definition ) {
+		$definition = static::getDataModelDefinition();
+
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 			if($property_definition->getIsDataModel()) {
 				continue;
 			}
@@ -838,7 +837,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 
-		foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property_definition ) {
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 			if(!$property_definition->getIsDataModel()) {
 				continue;
 			}
@@ -919,7 +918,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 		if($cache) {
-			$cache->{$operation}($this, $this->getID(), $this);
+			$cache->{$operation}($this->getDataModelDefinition(), $this->getID(), $this);
 		}
 
 		if( !($this instanceof DataModel_Related_Abstract) ) {
@@ -1108,7 +1107,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$cache = $this->getCacheBackendInstance();
 		if($cache) {
-			$cache->delete( $this, $this->getID() );
+			$cache->delete( $definition, $this->getID() );
 		}
  	}
 
@@ -1136,7 +1135,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		if($affected_IDs) {
 			$cache = $this->getCacheBackendInstance();
 			foreach($affected_IDs as $ID) {
-				$cache->delete( $this, $ID );
+				$cache->delete( $this->getDataModelDefinition(), $ID );
 			}
 		}
 	}

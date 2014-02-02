@@ -269,14 +269,6 @@ class JetCompatibilityTester {
 		);
 
 		$this->test(
-			'ini_set PHP function',
-			'Ini_set function must be allowed',
-			function() {
-				return function_exists('ini_set');
-			}
-		);
-
-		$this->test(
 			'$_SERVER["REQUEST_URI"] value',
 			'PHP $_SERVER["REQUEST_URI"] value must be available',
 			function() {

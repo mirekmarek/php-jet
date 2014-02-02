@@ -31,12 +31,12 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 */
-	public function  __construct( DataModel $data_model ) {
-		$this->data_model_class_name = $data_model->getDataModelDefinition()->getClassName();
+	public function  __construct( DataModel_Definition_Model_Abstract $data_model_definition ) {
+		$this->data_model_class_name = $data_model_definition->getClassName();
 
-		foreach(array_keys( $data_model->getIDProperties() ) as $ID_p_n) {
+		foreach(array_keys( $data_model_definition->getIDProperties() ) as $ID_p_n) {
 			$this->values[$ID_p_n] = null;
 		}
 	}

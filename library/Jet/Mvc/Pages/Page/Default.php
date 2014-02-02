@@ -190,7 +190,6 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Layout: '
-	 * @JetDataModel:form_field_type = 'Select'
 	 *
 	 * @var string
 	 */
@@ -1028,6 +1027,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		if( $this->ID!=Mvc_Pages::HOMEPAGE_ID ) {
 			$form->getField('URL_fragment')->setIsRequired(true);
 		}
+
 
 		if($this->site_ID) {
 			$form->getField('layout')->setSelectOptions( $this->getLayoutsList() );
