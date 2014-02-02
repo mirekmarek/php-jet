@@ -51,6 +51,11 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	protected $properties = array();
 
 	/**
+	 * @var DataModel_Definition_Key[]
+	 */
+	protected $keys = array();
+
+	/**
 	 * @var DataModel_Definition_Relation_Abstract[]
 	 */
 	protected $relations;
@@ -147,7 +152,17 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				$this->ID_properties[$property_definition->getName()] = $property_definition;
 			}
 
-			$this->properties[$property_definition->getName()] = $property_definition;
+			$property_name = $property_definition->getName();
+
+			$this->properties[$property_name] = $property_definition;
+
+			if( $property_definition->getIsKey() ) {
+				$this->addKey(
+					$property_name,
+					$property_definition->getIsUnique() ? DataModel::KEY_TYPE_UNIQUE : DataModel::KEY_TYPE_INDEX,
+					array( $property_name )
+				);
+			}
 		}
 
 
@@ -156,6 +171,15 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
+		}
+
+		$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->ID_properties) );
+
+		$keys_definition_data = $class_name::getDataModelKeysDefinitionData();
+
+		foreach( $keys_definition_data as $kd ) {
+			$this->addKey( $kd['name'], $kd['type'], $kd['property_names'] );
+
 		}
 	}
 
@@ -218,6 +242,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	}
 
 	/**
+	 *
+	 * @throws DataModel_Exception
+	 *
 	 * @return DataModel_Definition_Relation_Abstract[]
 	 */
 	public function getRelations() {
@@ -238,8 +265,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $definition_data );
 
-			//TODO: overit unikatnost ...
-			$this->relations[ $relation->getRelatedDataModelName() ] = $relation;
+			$related_model_name = $relation->getRelatedDataModelName();
+
+			$this->addRelation($related_model_name, $relation);
 		}
 
 
@@ -256,8 +284,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			$internal_relations = $related_data_model_definition->getInternalRelations( $this->class_name );
 
 			foreach( $internal_relations as $related_model_name=>$relation ) {
-				//TODO: overit unikatnost ...
-				$this->relations[$related_model_name] = $relation;
+				$this->addRelation($related_model_name, $relation);
 			}
 
 			continue;
@@ -266,6 +293,62 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 
 		return $this->relations;
+	}
+
+	/**
+	 * @param string $related_model_name
+	 * @param DataModel_Definition_Relation_Abstract $relation
+	 *
+	 * @throws DataModel_Exception
+	 */
+	protected function addRelation( $related_model_name, DataModel_Definition_Relation_Abstract $relation) {
+		if(isset($this->relations[ $related_model_name ])) {
+			throw new DataModel_Exception(
+				'Class \''.$this->getClassName().'\': duplicit relation \''.$related_model_name.'\' ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		$this->relations[$related_model_name] = $relation;
+
+	}
+
+	/**
+	 * @return DataModel_Definition_Key[]
+	 */
+	public function getKeys() {
+		return $this->keys;
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $type
+	 * @param array $key_properties
+	 *
+	 * @throws DataModel_Exception
+	 */
+	public function addKey( $name, $type, array $key_properties ) {
+
+		if(isset($this->keys[$name])) {
+			throw new DataModel_Exception(
+				'Class \''.$this->getClassName().'\': duplicit key \''.$name.'\' ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		$my_properties = $this->getProperties();
+
+		foreach( $key_properties as $property_name ) {
+			if(!isset($my_properties[$property_name])) {
+				throw new DataModel_Exception(
+					'Unknown key property \''.$property_name.'\'. Class: \''.$this->class_name.'\' Key: \''.$name.'\' ',
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
+				);
+
+			}
+		}
+
+		$this->keys[$name] = new DataModel_Definition_Key( $name, $type, $key_properties );
 	}
 
 	/**

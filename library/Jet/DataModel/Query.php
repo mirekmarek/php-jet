@@ -417,7 +417,7 @@ class DataModel_Query extends Object {
 				if(!isset($_relations[$related_data_model_name])) {
 
 					throw new DataModel_Query_Exception(
-						'Unknown relation to class \''.$data_model_definition->getModelName().'\' <-> \''.$part.'\' (Class: \''.$this->main_data_model_class_name.'\') ',
+						'Unknown relation to class \''.$data_model_definition->getModelName().'\' <-> \''.$related_data_model_name.'\' (Class: \''.$this->main_data_model_class_name.'\') ',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 				}

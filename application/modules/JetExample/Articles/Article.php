@@ -52,7 +52,7 @@ class Article extends Jet\DataModel {
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
-	 * @JetDataModel:backend_options = array (  'key' => true,  'key_type' => 'INDEX',)
+	 * @JetDataModel:is_key = true
 	 *
 	 * @var string
 	 */

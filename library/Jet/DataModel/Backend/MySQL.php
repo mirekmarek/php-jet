@@ -93,37 +93,26 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 		$_columns = array();
+
+		foreach( $data_model_definition->getProperties() as $name=>$property ) {
+			if( $property->getIsDataModel() ) {
+				continue;
+			}
+
+			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property );
+		}
+
 		$_keys = array();
-
-		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-			if( !$property->getIsID() ) {
-				continue;
-			}
-
-			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property, $_keys );
-		}
-
-		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-			if(
-				$property->getIsID() ||
-				$property->getIsDataModel()
-			) {
-				continue;
-			}
-
-			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property, $_keys );
-		}
-
-		foreach($_keys as $key_name=>$key) {
-			switch( $key['type'] ) {
+		foreach( $data_model_definition->getKeys() as $key_name=>$key ) {
+			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY (`'.implode('`, `', $key['columns']).'`)';
+					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY (`'.implode('`, `', $key->getPropertyNames()).'`)';
 				break;
 				case DataModel::KEY_TYPE_INDEX:
-					$_keys[$key_name] = JET_EOL.JET_TAB.',KEY `'.$key_name.'`  (`'.implode('`, `', $key['columns']).'`)';
+					$_keys[$key_name] = JET_EOL.JET_TAB.',KEY `'.$key_name.'`  (`'.implode('`, `', $key->getPropertyNames()).'`)';
 				break;
 				default:
-					$_keys[$key_name] = JET_EOL.JET_TAB.','.$key['type'].' KEY `'.$key_name.'`  (`'.implode('`, `', $key['columns']).'`)';
+					$_keys[$key_name] = JET_EOL.JET_TAB.','.$key->getType().' KEY `'.$key_name.'`  (`'.implode('`, `', $key->getPropertyNames()).'`)';
 				break;
 			}
 		}
@@ -953,80 +942,15 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	/**
 	 * @param DataModel $data_model
 	 * @param DataModel_Definition_Property_Abstract $column
-	 * @param array $keys
 	 *
 	 * @throws DataModel_Exception
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel $data_model, DataModel_Definition_Property_Abstract $column, &$keys ) {
-		$backend_options = $column->getBackendOptions();
+	protected function _getSQLType( DataModel $data_model, DataModel_Definition_Property_Abstract $column ) {
+		$backend_options = $column->getBackendOptions( 'MySQL' );
 
 		$name = $column->getName();
-		$related_to_column = false;
-
-		if($column->getIsID()) {
-			$related_to_column = $column->getRelatedToProperty();
-
-			if(!$related_to_column) {
-				$key_name = self::PRIMARY_KEY_NAME;
-				$key_type = DataModel::KEY_TYPE_PRIMARY;
-			} else {
-
-				$key_name = self::PRIMARY_KEY_NAME;
-				$key_type = DataModel::KEY_TYPE_PRIMARY;
-
-				if(!isset($keys[$key_name])) {
-					$keys[$key_name] = array(
-						'type' => $key_type,
-						'columns' => array()
-					);
-				}
-				$keys[$key_name]['columns'][] = $name;
-
-
-				$key_type = DataModel::KEY_TYPE_INDEX;
-				$key_name = $this->_getTableName( $related_to_column->getDataModelDefinition() );
-			}
-
-			if(!isset($keys[$key_name])) {
-				$keys[$key_name] = array(
-					'type' => $key_type,
-					'columns' => array()
-				);
-			}
-			$keys[$key_name]['columns'][] = $name;
-		}
-
-		if( isset($backend_options['key']) && $backend_options['key'] ) {
-
-
-			$key_name = $backend_options['key'] ;
-			if(is_bool($key_name)) {
-				$key_name = $name;
-			}
-
-			if(!isset($keys[$key_name])) {
-				$key_type = DataModel::KEY_TYPE_INDEX;
-				if(isset($backend_options['key_type'])) {
-					$key_type = $backend_options['key_type'];
-				}
-
-				if(!in_array($key_type, self::$valid_key_types )) {
-					throw new DataModel_Backend_Exception(
-						'MySQL backend: unknown key type \''.$key_type.'\'',
-						DataModel_Backend_Exception::CODE_BACKEND_ERROR
-					);
-				}
-
-				$keys[$key_name] = array(
-					'type' => $key_type,
-					'columns' => array()
-				);
-			}
-
-			$keys[$key_name]['columns'][] = $name;
-		}
 
 
 		if( isset($backend_options['column_type']) && $backend_options['column_type'] ) {
@@ -1037,12 +961,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			case DataModel::TYPE_ID:
 
 				if( isset($backend_options['autoincrement']) && $backend_options['autoincrement']  ) {
-					$options = '';
-					if(!$related_to_column) {
-						$options = ' auto_increment';
-					}
-
-					return 'bigint UNSIGNED'.$options;
+					return 'bigint UNSIGNED autoincrement';
 				} else {
 					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
 

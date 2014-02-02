@@ -38,7 +38,8 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:backend_options = array (  'key' => 'login',  'key_type' => 'UNIQUE',)
+	 * @JetDataModel:is_key = true
+	 * @JetDataModel:is_unique = true
 	 * @JetDataModel:form_field_label = 'User name:'
 	 *
 	 * @var string
@@ -51,7 +52,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @JetDataModel:do_not_serialize = true
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:backend_options = array (  'key' => 'password',)
+	 * @JetDataModel:is_key = true
 	 * @JetDataModel:form_field_type = 'Password'
 	 * @JetDataModel:form_field_label = 'Password:'
 	 *

@@ -39,7 +39,7 @@ class DataModel_Query_DataModelRelated21TONTestMock extends DataModel_Related_1t
 	 * @JetDataModel:do_not_serialize = true
 	 * @JetDataModel:is_ID = false
 	 * @JetDataModel:max_len = 123
-	 * @JetDataModel:backend_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
+	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
 	 * @JetDataModel:validation_method_name = 'string_validation_method_1'
 	 * @JetDataModel:form_field_label = 'Form field label'
 	 * @JetDataModel:form_field_error_messages = array (  'error_1' => 'Error 1',  'error_2' => 'Error 2',  'error_3' => 'Error 3',)

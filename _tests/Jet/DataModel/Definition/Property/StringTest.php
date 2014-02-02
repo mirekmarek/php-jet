@@ -190,7 +190,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 * @covers Jet\DataModel_Definition_Property_Abstract::getBackendOptions
 	 */
 	public function testGetBackendOptions() {
-		$this->assertEquals($this->property_options['backend_options'], $this->object->getBackendOptions());
+		$this->assertEquals($this->property_options['backend_options']['test'], $this->object->getBackendOptions('test'));
 	}
 
 	/**
@@ -456,7 +456,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$this->assertEquals( $this->object->getListOfValidOptions(), $dolly->getListOfValidOptions() );
 		$this->assertEquals( $this->object->getDefaultValue(), $dolly->getDefaultValue() );
 		$this->assertEquals( $this->object->getDescription(), $dolly->getDescription() );
-		$this->assertEquals( $this->object->getBackendOptions(), $dolly->getBackendOptions() );
+		$this->assertEquals( $this->object->getBackendOptions( 'test' ), $dolly->getBackendOptions( 'test' ) );
 	}
 
 }

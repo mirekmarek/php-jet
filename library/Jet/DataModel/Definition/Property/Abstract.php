@@ -3,7 +3,7 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -74,6 +74,17 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	protected $is_ID = false;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_key = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $is_unique = false;
+
+
+	/**
 	 * @var string
 	 */
 	protected $description = '';
@@ -109,9 +120,9 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * Format:
 	 * <code>
-	 * array(
+	 * [
 	 *      'error_code' = 'Error message'
-	 * )
+	 * ]
 	 * </code>
 	 *
 	 * @var array
@@ -189,6 +200,8 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			}
 
 			$this->is_ID = (bool)$this->is_ID;
+			$this->is_key = (bool)$this->is_key;
+			$this->is_unique = (bool)$this->is_unique;
 			$this->is_required = (bool)$this->is_required;
 
 			if( $this->is_ID ) {
@@ -254,6 +267,22 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	public function getName() {
 		return $this->_name;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsKey() {
+		return $this->is_key;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsUnique() {
+		return $this->is_unique;
+	}
+
+
 
 	/**
 	 * @return string
@@ -337,10 +366,15 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	}
 
 	/**
+	 * @param string $backend_type
+	 *
 	 * @return array
 	 */
-	public function getBackendOptions() {
-		return $this->backend_options;
+	public function getBackendOptions( $backend_type ) {
+		if(!isset($this->backend_options[$backend_type])) {
+			return array();
+		}
+		return $this->backend_options[$backend_type];
 	}
 
 	/**

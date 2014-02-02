@@ -56,7 +56,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:backend_options = array (  'key' => 'parent_ID',)
+	 * @JetDataModel:is_key = true
 	 * @JetDataModel:form_field_label = 'Parent page: '
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -817,13 +817,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		if( is_array($URL) ) {
 			$pages = $this->fetchObjects(
 				array(
-					'Jet_Mvc_Pages_Page_URL.URL' => $URL,
+					'Page_URL.URL' => $URL,
 				)
 			);
 
 			$query = $pages->getQuery();
 
-			$query->setOrderBy('-Jet_Mvc_Pages_Page_URL.URL');
+			$query->setOrderBy('-Page_URL.URL');
 			$query->setLimit(1);
 
 			foreach($pages as $page) {
@@ -835,7 +835,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {
 		} else {
 			return $this->fetchOneObject(
 				array(
-					'Jet_Mvc_Pages_Page_URL.URL' => $URL,
+					'Page_URL.URL' => $URL,
 				)
 			);
 

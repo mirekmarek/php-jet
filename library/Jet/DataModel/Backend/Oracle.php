@@ -78,51 +78,40 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 		$_columns = array();
-		$_keys = array();
 
 		$table_name = $this->_getTableName( $data_model_definition );
 
 		$table_name = $force_table_name ? $force_table_name : $table_name;
 
-		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-			if( !$property->getIsID() ) {
-				continue;
-			}
-
-			$name = $this->_getColumnName($name);
-
-			$_columns[] = JET_TAB.'\''.$name.'\' '.$this->_getSQLType( $data_model, $property, $_keys );
-		}
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
 			if(
-				$property->getIsID() ||
 				$property->getIsDataModel()
 			) {
 				continue;
 			}
 			$name = $this->_getColumnName($name);
 
-			$_columns[] = JET_TAB.'\''.$name.'\' '.$this->_getSQLType( $data_model, $property, $_keys );
+			$_columns[] = JET_TAB.'\''.$name.'\' '.$this->_getSQLType( $data_model, $property );
 		}
 
 		$create_index_query = array();
 
-		foreach($_keys as $key_name=>$key) {
-			$columns = implode('', '', $this->_getColumnName($key['columns']) );
+		$keys = array();
+		foreach($data_model_definition->getKeys() as $key_name=>$key) {
 
-			switch( $key['type'] ) {
+			$columns = implode('', '', $this->_getColumnName($key->getPropertyNames()) );
+
+			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$_keys[$key_name] = JET_EOL.',CONSTRAINT "'.$this->_getColumnName($table_name.'_pk').'" PRIMARY KEY ("'.$columns.'")';
+					$keys[$key_name] = JET_EOL.',CONSTRAINT "'.$this->_getColumnName($key_name).'" PRIMARY KEY ("'.$columns.'")';
 				break;
 				case DataModel::KEY_TYPE_INDEX:
 					$create_index_query[] = JET_EOL.'CREATE INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ("'.$columns.'")';
-					$_keys[$key_name] = '';
-					break;
+				break;
 				default:
 					$create_index_query[] = JET_EOL.'CREATE '.$key['type'].' INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ("'.$columns.'")';
-					$_keys[$key_name] = '';
-					break;
+				break;
 			}
 		}
 
@@ -133,7 +122,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$q .= 'IF cnt = 0 THEN'.JET_EOL;
 		$q .= 'EXECUTE IMMEDIATE \'CREATE TABLE '.$table_name.' ('.JET_EOL;
 		$q .= implode(','.JET_EOL, $_columns);
-		$q .= implode(JET_EOL, $_keys);
+		$q .= implode(JET_EOL, $keys);
 		$q .= ')\';'.JET_EOL;
 
 		foreach($create_index_query as $ciq) {
@@ -947,80 +936,15 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	/**
 	 * @param DataModel $data_model
 	 * @param DataModel_Definition_Property_Abstract $column
-	 * @param array $keys
 	 *
 	 * @throws DataModel_Exception
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel $data_model, DataModel_Definition_Property_Abstract $column, &$keys ) {
-		$backend_options = $column->getBackendOptions();
+	protected function _getSQLType( DataModel $data_model, DataModel_Definition_Property_Abstract $column ) {
+		$backend_options = $column->getBackendOptions( 'Oracle' );
 
 		$name = $column->getName();
-		$related_to_column = false;
-
-		if($column->getIsID()) {
-			$related_to_column = $column->getRelatedToProperty();
-
-			if(!$related_to_column) {
-				$key_name = self::PRIMARY_KEY_NAME;
-				$key_type = DataModel::KEY_TYPE_PRIMARY;
-			} else {
-
-				$key_name = self::PRIMARY_KEY_NAME;
-				$key_type = DataModel::KEY_TYPE_PRIMARY;
-
-				if(!isset($keys[$key_name])) {
-					$keys[$key_name] = array(
-						'type' => $key_type,
-						'columns' => array()
-					);
-				}
-				$keys[$key_name]['columns'][] = $name;
-
-
-				$key_type = DataModel::KEY_TYPE_INDEX;
-				$key_name = $this->_getTableName( $related_to_column->getDataModelDefinition() );
-			}
-
-			if(!isset($keys[$key_name])) {
-				$keys[$key_name] = array(
-					'type' => $key_type,
-					'columns' => array()
-				);
-			}
-			$keys[$key_name]['columns'][] = $name;
-		}
-
-		if( isset($backend_options['key']) && $backend_options['key'] ) {
-
-
-			$key_name = $backend_options['key'] ;
-			if(is_bool($key_name)) {
-				$key_name = $name;
-			}
-
-			if(!isset($keys[$key_name])) {
-				$key_type = DataModel::KEY_TYPE_INDEX;
-				if(isset($backend_options['key_type'])) {
-					$key_type = $backend_options['key_type'];
-				}
-
-				if(!in_array($key_type, self::$valid_key_types )) {
-					throw new DataModel_Backend_Exception(
-						'Oracle backend: unknown key type \''.$key_type.'\'',
-						DataModel_Backend_Exception::CODE_BACKEND_ERROR
-					);
-				}
-
-				$keys[$key_name] = array(
-					'type' => $key_type,
-					'columns' => array()
-				);
-			}
-
-			$keys[$key_name]['columns'][] = $name;
-		}
 
 
 		if( isset($backend_options['column_type']) && $backend_options['column_type'] ) {

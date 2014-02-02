@@ -26,18 +26,19 @@ namespace Jet;
 class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
 
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.site_ID'
 	 */
-	protected $Jet_Mvc_Pages_Page_ID = '';
+	protected $site_ID;
 
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $Jet_Mvc_Pages_Page_locale = '';
+	protected $page_ID;
+
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.locale'
 	 */
-	protected $Jet_Mvc_Pages_Page_site_ID = '';
+	protected $locale;
 
 	/**
 	 *
@@ -52,7 +53,7 @@ class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:backend_options = array (  'key' => 'URI',)
+	 * @JetDataModel:is_key = true
 	 *
 	 * @var string
 	 */

@@ -154,11 +154,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	protected static $___data_model_definitions = array();
 
 	/**
-	 * @var DataModel_Definition_Relation_External[]
-	 */
-	protected static $___data_model_outer_relations_definitions = array();
-
-	/**
 	 * @var DataModel_Config
 	 */
 	protected static $___data_model_main_config;
@@ -203,33 +198,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 	/**
 	 *
-	 *
-	 * @return DataModel_Definition_Relation_External[]
-	 */
-	public static function getDataModelOuterRelationsDefinition()  {
-		$class = get_called_class();
-
-		if( !isset(self::$___data_model_outer_relations_definitions[$class])) {
-			self::$___data_model_outer_relations_definitions[$class] = array();
-
-			/**
-			 * @var DataModel $class
-			 */
-			$definitions_data = $class::getDataModelOuterRelationsDefinitionData();
-
-			foreach( $definitions_data as $definition_data ) {
-
-				self::$___data_model_outer_relations_definitions[$class][] = new DataModel_Definition_Relation_External(
-															$definition_data
-														);
-			}
-
-		}
-		return self::$___data_model_outer_relations_definitions[$class];
-	}
-
-	/**
-	 *
 	 * @return array
 	 */
 	public static function getDataModelName() {
@@ -246,7 +214,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 	/**
-	 * Returns properties definition data (used for DataModel_Definition_Model_Abstract::_mainInit)
 	 *
 	 * @return array
 	 */
@@ -255,13 +222,21 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 	/**
-	 * Returns properties definition data (used for DataModel_Definition_Model_Abstract::_mainInit)
 	 *
 	 * @return array
 	 */
 	public static function getDataModelOuterRelationsDefinitionData() {
 		return Object_Reflection::get( get_called_class(), 'data_model_outer_relations_definition', array());
 	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public static function getDataModelKeysDefinitionData() {
+		return Object_Reflection::get( get_called_class(), 'data_model_keys_definition', array());
+	}
+
 
 	/**
 	 * Returns backend type (example: MySQL)
@@ -1647,6 +1622,54 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 		switch($key) {
+			case 'key':
+				if(
+					!is_array($value) ||
+					empty($value[0]) ||
+					empty($value[1]) ||
+					!is_array($value[1]) ||
+					!is_string($value[0])
+				) {
+					throw new Object_Reflection_Exception(
+						'Key definition parse errro. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Example: JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], Jet\DataModel::KEY_TYPE_INDEX ]',
+						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					);
+
+				}
+
+				if(!isset($value[2])) {
+					$value[2] = DataModel::KEY_TYPE_INDEX;
+				}
+
+				if(
+					$value[2]!= DataModel::KEY_TYPE_INDEX &&
+					$value[2]!= DataModel::KEY_TYPE_UNIQUE
+				) {
+					throw new Object_Reflection_Exception(
+						'Unknown key type. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Use Jet\DataModel::KEY_TYPE_INDEX or Jet\DataModel::KEY_TYPE_UNIQUE',
+						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					);
+				}
+
+				if( !isset($reflection_data['data_model_keys_definition']) ) {
+					$reflection_data['data_model_keys_definition'] = array();
+				}
+
+				if(isset( $reflection_data['data_model_keys_definition'][ $value[0] ] )) {
+					throw new Object_Reflection_Exception(
+						'Duplicit key! Class: \''.get_called_class().'\', definition: \''.$definition.'\''
+					);
+
+				}
+
+				$reflection_data['data_model_keys_definition'][ $value[0] ] = array(
+					'name' => $value[0],
+					'type' => $value[1],
+					'property_names' => $value[2]
+				);
+
+
+			break;
 			case 'relation':
 				if(
 					!is_array($value) ||

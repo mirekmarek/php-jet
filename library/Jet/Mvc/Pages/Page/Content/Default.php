@@ -24,21 +24,20 @@ namespace Jet;
  */
 class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 
+	/**
+	 * @JetDataModel:related_to = 'main.site_ID'
+	 */
+	protected $site_ID;
 
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $Jet_Mvc_Pages_Page_ID = '';
+	protected $page_ID;
 
 	/**
-	 * @var string
+	 * @JetDataModel:related_to = 'main.locale'
 	 */
-	protected $Jet_Mvc_Pages_Page_locale = '';
-
-	/**
-	 * @var string
-	 */
-	protected $Jet_Mvc_Pages_Page_site_ID = '';
+	protected $locale;
 
 	/**
 	 *

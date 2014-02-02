@@ -36,6 +36,11 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatVariable($var){
+
+		if(is_object($var)) {
+			return get_class($var);
+		}
+
 		$result = print_r($var, true);
 		if(strlen($result)>2048) {
 			$result = substr($result, 0, 2048).' ...';
