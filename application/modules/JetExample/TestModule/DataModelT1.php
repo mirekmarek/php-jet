@@ -21,7 +21,7 @@ use Jet;
 /**
  * Class DataModelT1
  *
- * @JetDataModel:name = 'JetApplicationModule_TestModule_DataModelT1'
+ * @JetDataModel:name = 'DataModelT1'
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
  */
 class DataModelT1 extends Jet\DataModel {

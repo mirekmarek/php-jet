@@ -26,7 +26,7 @@ namespace Jet;
  * @JetFactory:method = 'getPageURLInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_URL_Abstract'
  *
- * @JetDataModel:name = 'Jet_Mvc_Pages_Page_URL'
+ * @JetDataModel:name = 'Page_URL'
  * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Abstract'
  */
 abstract class Mvc_Pages_Page_URL_Abstract extends DataModel_Related_1toN {

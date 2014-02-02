@@ -1165,22 +1165,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $related_model_definition
-	 * @param DataModel_Definition_Property_Abstract $related_model_ID_property_definition
-	 *
-	 * @return string
-	 */
-	public static function getRelationIDPropertyName(
-			DataModel_Definition_Model_Abstract $related_model_definition,
-			DataModel_Definition_Property_Abstract $related_model_ID_property_definition
-		) {
-			return $related_model_definition->getModelName()
-				.'_'
-				.$related_model_ID_property_definition->getName();
-	}
-
-
-	/**
 	 *
 	 * @param array| $query
 	 * @return DataModel

@@ -21,6 +21,27 @@ namespace Jet;
 class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related_1toN {
 
 	/**
+	 * @JetDataModel:related_to = 'main.ID'
+	 */
+	protected $main_ID;
+
+
+	/**
+	 * @JetDataModel:related_to = 'main.ID_property'
+	 */
+	protected $main_ID_property;
+
+	/**
+	 * @JetDataModel:related_to = 'parent.ID'
+	 */
+	protected $parent_ID;
+
+	/**
+	 * @JetDataModel:related_to = 'parent.ID_property'
+	 */
+	protected $parent_ID_property;
+
+	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true

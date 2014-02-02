@@ -64,119 +64,115 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	public function  __construct( $data_model_class_name ) {
 
-		$properties_definition_data = $this->_mainInit( $data_model_class_name );
-		$this->_definePropertiesAndSetupRelations( $properties_definition_data );
+		$this->_mainInit( $data_model_class_name );
+		$this->_initProperties();
 	}
 
 	/**
-	 * @param string $class_name
+	 * @param string $data_model_class_name
 	 *
 	 * @return array
 	 * @throws DataModel_Exception
 	 */
-	protected function _mainInit( $class_name ) {
+	protected function _mainInit( $data_model_class_name ) {
 
-		$this->class_name = (string)$class_name;
+		$this->class_name = (string)$data_model_class_name;
 
 		/**
-		 * @var DataModel $class_name
+		 * @var DataModel $data_model_class_name
 		 */
-		$this->model_name = $class_name::getDataModelName();
+		$this->model_name = $data_model_class_name::getDataModelName();
 
 		if(
 			!is_string($this->model_name) ||
 			!$this->model_name
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class_name.'\' doesn\'t have model name! Please specify it by @JetDataModel:name ',
+					'DataModel \''.$data_model_class_name.'\' doesn\'t have model name! Please specify it by @JetDataModel:name ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 		}
 
-		$this->database_table_name = $class_name::getDbTableName();
+		$this->database_table_name = $data_model_class_name::getDbTableName();
 
 		if(
 			!is_string($this->database_table_name) ||
 			!$this->database_table_name
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$class_name.'\' doesn\'t have database table name! Please specify it by @JetDataModel:database_table_name ',
+				'DataModel \''.$data_model_class_name.'\' doesn\'t have database table name! Please specify it by @JetDataModel:database_table_name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
 
+	}
+
+	/**
+	 *
+	 */
+	protected function _initProperties() {
+
+		$class_name = $this->class_name;
+
+		/**
+		 * @var DataModel $class_name
+		 */
 		$properties_definition_data = $class_name::getDataModelPropertiesDefinitionData();
-		
+
 		if(
 			!is_array($properties_definition_data) ||
 			!$properties_definition_data
 		) {
 			throw new DataModel_Exception(
-					'DataModel \''.$class_name.'\' doesn\'t have properties definition! ('.$class_name.'::getPropertiesDefinition() returns false.) ',
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
+				'DataModel \''.$class_name.'\' doesn\'t have properties definition! ('.$class_name.'::getPropertiesDefinition() returns false.) ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 		}
 
-
-
-		return $properties_definition_data;
-	}
-
-	/**
-	 *
-	 * @param array $properties_definition_data
-	 */
-	protected function _definePropertiesAndSetupRelations( array $properties_definition_data ) {
-		$properties = $this->_mainPropertiesInit($properties_definition_data);
-
-		//We must secure the proper position. IDs, relation IDs and other ...
-		foreach($this->ID_properties as $ID_property) {
-			$this->properties[$ID_property->getName()] = $ID_property;
-		}
-
-		foreach($properties as $property) {
-			/**
-			 * @var DataModel_Definition_Property_Abstract $property
-			 */
-			$this->properties[$property->getName()] = $property;
-		}
-
-	}
-
-	/**
-	 * @param array $properties_definition_data
-	 *
-	 * @throws DataModel_Exception
-	 * @return DataModel_Definition_Property_Abstract[]
-	 */
-	protected function _mainPropertiesInit( array $properties_definition_data ) {
-
-		$properties = array();
+		$this->properties = array();
 
 		$has_ID_property = false;
 
 		foreach( $properties_definition_data as $property_name=>$property_dd ) {
+			if(isset($property_dd['related_to'])) {
+				$this->_initGlueProperty($property_name, $property_dd['related_to']);
+				continue;
+			}
+
 			$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this, $property_name, $property_dd);
 
 			if($property_definition->getIsID()) {
 				$has_ID_property = true;
 				$this->ID_properties[$property_definition->getName()] = $property_definition;
-			} else {
-				$properties[] = $property_definition;
 			}
+
+			$this->properties[$property_definition->getName()] = $property_definition;
 		}
 
 
 		if(!$has_ID_property) {
 			throw new DataModel_Exception(
-				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition ...',
+				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
-
-		return $properties;
 	}
+
+	/**
+	 * @param string $property_name
+	 * @param string $related_to
+	 *
+	 * @throws DataModel_Exception
+	 */
+	protected function _initGlueProperty( $property_name, $related_to ) {
+		throw new DataModel_Exception(
+			'It is not possible to define related property in Main DataModel  (\''.$this->class_name.'\'::'.$property_name.') ',
+			DataModel_Exception::CODE_DEFINITION_NONSENSE
+		);
+
+	}
+
 
 	/**
 	 * @return string

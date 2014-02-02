@@ -19,7 +19,7 @@ namespace Jet;
 /**
  * Class Mvc_Pages_Page_Default
  *
- * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Page'
+ * @JetDataModel:database_table_name = 'Jet_Mvc_Pages'
  * @JetDataModel:ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Default'
  */
 class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract {

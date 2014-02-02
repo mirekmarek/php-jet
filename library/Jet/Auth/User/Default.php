@@ -20,8 +20,7 @@ namespace Jet;
 /**
  * Class Auth_User_Default
  *
- * @JetDataModel:name = 'Jet_Auth_User'
- * @JetDataModel:database_table_name = 'Jet_Auth_User'
+ * @JetDataModel:database_table_name = 'Jet_Auth_Users'
  */
 class Auth_User_Default extends Auth_User_Abstract {
 

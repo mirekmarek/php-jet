@@ -20,6 +20,18 @@ namespace Jet;
  */
 class DataModel_Query_DataModelRelated1TO1TestMock extends DataModel_Related_1to1 {
 
+
+	/**
+	 * @JetDataModel:related_to = 'main.ID'
+	 */
+	protected $main_ID;
+
+
+	/**
+	 * @JetDataModel:related_to = 'main.ID_property'
+	 */
+	protected $main_ID_property;
+
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ID

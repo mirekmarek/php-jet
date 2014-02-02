@@ -26,8 +26,8 @@ namespace Jet;
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Abstract'
  * @JetFactory:method = 'getLocalizedSiteURLInstance'
  *
- * @JetDataModel:name = 'Jet_Mvc_Sites_Site_LocalizedData_URL'
- * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Abstract'
+ * @JetDataModel:name = 'Site_LocalizedData_URL'
+ * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_LocalizedData_Abstract'
  */
 abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Related_1toN {
 

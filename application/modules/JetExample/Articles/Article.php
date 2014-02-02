@@ -21,8 +21,8 @@ use Jet;
 /**
  * Class Article
  *
- * @JetDataModel:name = 'Jet_Article'
- * @JetDataModel:database_table_name = 'Jet_Article'
+ * @JetDataModel:name = 'Article'
+ * @JetDataModel:database_table_name = 'Jet_Articles'
  */
 class Article extends Jet\DataModel {
 

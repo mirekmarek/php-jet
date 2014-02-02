@@ -26,7 +26,7 @@ namespace Jet;
  * @JetFactory:method = 'getPageMetaTagInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_MetaTag_Abstract'
  *
- * @JetDataModel:name = 'Jet_Mvc_Pages_Page_MetaTag'
+ * @JetDataModel:name = 'Page_MetaTag'
  * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Abstract'
  */
 abstract class Mvc_Pages_Page_MetaTag_Abstract extends DataModel_Related_1toN {

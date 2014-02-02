@@ -56,10 +56,10 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	 */
 	public function testGetMainModelRelationIDProperties() {
 		$main_model_ID_properties = $this->object->getMainModelRelationIDProperties();
-		$this->assertArrayHasKey('data_model_test_mock_ID', $main_model_ID_properties);
-		$this->assertArrayHasKey('data_model_test_mock_ID_property', $main_model_ID_properties);
-		$this->assertEquals('data_model_test_mock_ID' , $main_model_ID_properties['data_model_test_mock_ID']->getName());
-		$this->assertEquals('data_model_test_mock_ID_property' , $main_model_ID_properties['data_model_test_mock_ID_property']->getName());
+		$this->assertArrayHasKey('main_ID', $main_model_ID_properties);
+		$this->assertArrayHasKey('main_ID_property', $main_model_ID_properties);
+		$this->assertEquals('main_ID' , $main_model_ID_properties['main_ID']->getName());
+		$this->assertEquals('main_ID_property' , $main_model_ID_properties['main_ID_property']->getName());
 	}
 
 	/**
@@ -67,11 +67,12 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	 */
 	public function testGetParentModelRelationIDProperties() {
 		$parent_model_ID_properties = $this->object->getParentModelRelationIDProperties();
-		$this->assertArrayHasKey('related_data_model_test_mock_ID', $parent_model_ID_properties);
-		$this->assertArrayHasKey('related_data_model_test_mock_ID_property', $parent_model_ID_properties);
 
-		$this->assertEquals('related_data_model_test_mock_ID' , $parent_model_ID_properties['related_data_model_test_mock_ID']->getName());
-		$this->assertEquals('related_data_model_test_mock_ID_property' , $parent_model_ID_properties['related_data_model_test_mock_ID_property']->getName());
+		$this->assertArrayHasKey('parent_ID', $parent_model_ID_properties);
+		$this->assertArrayHasKey('parent_ID_property', $parent_model_ID_properties);
+
+		$this->assertEquals('parent_ID' , $parent_model_ID_properties['parent_ID']->getName());
+		$this->assertEquals('parent_ID_property' , $parent_model_ID_properties['parent_ID_property']->getName());
 
 	}
 

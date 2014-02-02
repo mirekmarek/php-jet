@@ -24,7 +24,7 @@ namespace Jet;
  * @JetFactory:method = 'getPrivilegeInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Auth_Role_Privilege_Abstract'
  *
- * @JetDataModel:name = 'Jet_Auth_Role_Privilege'
+ * @JetDataModel:name = 'Role_Privilege'
  * @JetDataModel:parent_model_class_name = 'Jet\\Auth_Role_Abstract'
  */
 abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {

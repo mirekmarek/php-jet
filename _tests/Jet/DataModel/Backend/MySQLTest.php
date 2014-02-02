@@ -226,13 +226,13 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				.'FROM'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_mton` ON'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock_related_mton`.`data_model_test_mock_ID` = `data_model_test_mock`.`ID` AND'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock_related_mton`.`data_model_test_mock_ID_property` = `data_model_test_mock`.`ID_property`'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID` AND'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID_property`'.JET_EOL
 						.JET_TAB.JET_TAB.'JOIN `data_model_2_test_mock` ON'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock_related_mton`.`data_model_2_test_mock_ID` = `data_model_2_test_mock`.`ID`'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_2_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_2_test_mock_ID`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_1ton` ON'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_1ton`.`data_model_test_mock_ID` AND'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_1ton`.`data_model_test_mock_ID_property`'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_1ton`.`main_ID` AND'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_1ton`.`main_ID_property`'.JET_EOL
 				.'WHERE'.JET_EOL
 					.JET_TAB.'`data_model_2_test_mock`.`string_property`=\'test\''.JET_EOL
 					.JET_TAB.'AND'.JET_EOL
@@ -294,13 +294,13 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 		$valid_query = 'SELECT count(*) FROM'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_mton` ON'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock_related_mton`.`data_model_test_mock_ID` = `data_model_test_mock`.`ID` AND'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock_related_mton`.`data_model_test_mock_ID_property` = `data_model_test_mock`.`ID_property`'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID` AND'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID_property`'.JET_EOL
 						.JET_TAB.JET_TAB.'JOIN `data_model_2_test_mock` ON'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock_related_mton`.`data_model_2_test_mock_ID` = `data_model_2_test_mock`.`ID`'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_2_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_2_test_mock_ID`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_1ton` ON'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_1ton`.`data_model_test_mock_ID` AND'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_1ton`.`data_model_test_mock_ID_property`'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_1ton`.`main_ID` AND'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_1ton`.`main_ID_property`'.JET_EOL
 				.'WHERE'.JET_EOL
 					.JET_TAB.'`data_model_2_test_mock`.`string_property`=\'test\''.JET_EOL
 					.JET_TAB.'AND'.JET_EOL

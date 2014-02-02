@@ -56,6 +56,26 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 */
 	protected $_parent_related_model_definition = null;
 
+	/**
+	 * @var DataModel_Definition_Property_Abstract[]
+	 */
+	protected $__main_ID_properties;
+
+	/**
+	 * @var array
+	 */
+	protected $__main_ID_glue_defined = array();
+
+	/**
+	 * @var DataModel_Definition_Property_Abstract[]
+	 */
+	protected $__parent_ID_properties;
+
+	/**
+	 * @var array
+	 */
+	protected $__parent_ID_glue_defined = array();
+
 
 	/**
 	 * @param string $data_model_class_name
@@ -63,7 +83,11 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 * @throws DataModel_Exception
 	 */
 	public function  __construct( $data_model_class_name ) {
+		$this->_mainInit($data_model_class_name);
 
+		/**
+		 * @var DataModel_Related_Abstract $data_model_class_name
+		 */
 		$parent_model_class_name = $data_model_class_name::getParentModelClassName();
 
 		if(!$parent_model_class_name) {
@@ -73,117 +97,146 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			);
 		}
 
-		$parent_model_class_name = Factory::getClassName( $parent_model_class_name );
-
-		$parent_related_model_definition = $parent_model_class_name::getDataModelDefinition();
+		$this->_parent_related_model_definition = DataModel::getDataModelDefinition( $parent_model_class_name );
 
 
-		$properties_definition_data = $this->_mainInit($data_model_class_name);
+		$_parent_definition = $this->_parent_related_model_definition;
 
-		$this->_parent_related_model_definition = $parent_related_model_definition;
-
-		$main_model_definition = $parent_related_model_definition;
-
-		while( !($main_model_definition instanceof DataModel_Definition_Model_Main) ) {
+		while( !($_parent_definition instanceof DataModel_Definition_Model_Main) ) {
 			/**
 			 * Temporary ... Traversing and seeking for main model
 			 *
-			 * @var DataModel_Definition_Model_Related_1to1 $main_model_definition
+			 * @var DataModel_Definition_Model_Related_1to1 $_parent_definition
 			 */
-			$main_model_definition = $main_model_definition->getParentRelatedModelDefinition();
+			$_parent_definition = $_parent_definition->getParentRelatedModelDefinition();
 
 			$this->_is_sub_related_model = true;
 		}
 
-		$this->_main_model_definition = $main_model_definition;
+		$this->_main_model_definition = $_parent_definition;
 
-		$this->_definePropertiesAndSetupRelations( $properties_definition_data );
+		$this->__main_ID_properties = $this->_main_model_definition->getIDProperties();
+		if($this->_is_sub_related_model) {
+			$this->__parent_ID_properties = $this->_parent_related_model_definition->getIDProperties();
+		}
+
+		$this->_initProperties();
 	}
 
 	/**
 	 *
-	 * @param array $properties_definition_data
 	 */
-	protected function _definePropertiesAndSetupRelations( array $properties_definition_data ) {
-		$properties = $this->_mainPropertiesInit($properties_definition_data);
+	protected function _initProperties() {
 
-		$main_ID_properties = $this->_main_model_definition->getIDProperties();
+		parent::_initProperties();
 
-		foreach( $main_ID_properties as $main_ID_property ) {
-			/**
-			 * @var DataModel_Definition_Property_Abstract $main_ID_property
-			 */
-
-			$relation_ID_property_name = DataModel::getRelationIDPropertyName( $this->_main_model_definition, $main_ID_property );
-
-			$relation_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
-				$this,
-				$relation_ID_property_name,
-				array(
-					'type' => $main_ID_property->getType(),
-					'is_ID' => true
-				)
-			);
-
-			DataModel_Definition_Property_Abstract::cloneProperty( $main_ID_property, $relation_ID_property );
-
-			$this->main_model_relation_join_items[] = new DataModel_Definition_Relation_JoinBy_Item( $main_ID_property, $relation_ID_property );
-
-			$this->_main_model_relation_ID_properties[$relation_ID_property_name] = $relation_ID_property;
-			$relation_ID_property->setUpRelation($main_ID_property);
-		}
-
-		if($this->_is_sub_related_model) {
-			$parent_ID_properties = $this->_parent_related_model_definition->getIDProperties();
-
-			foreach( $parent_ID_properties as $parent_ID_property ) {
-				/**
-				 * @var DataModel_Definition_Property_Abstract $parent_ID_property
-				 */
-
-				$relation_ID_property_name = DataModel::getRelationIDPropertyName(
-					$this->_parent_related_model_definition,
-					$parent_ID_property
+		foreach( $this->__main_ID_properties as $main_ID_property_name => $main_ID_property ) {
+			if(!in_array($main_ID_property_name, $this->__main_ID_glue_defined)) {
+				throw new DataModel_Exception(
+					'Class: \''.$this->class_name.'\'  Main model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \'main.'.$main_ID_property_name.'\' ',
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
-
-				$relation_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
-					$this,
-					$relation_ID_property_name,
-					array(
-						'type' => $parent_ID_property->getType(),
-						'is_ID' => true
-					)
-				);
-
-				DataModel_Definition_Property_Abstract::cloneProperty( $parent_ID_property, $relation_ID_property );
-
-				$this->parent_model_relation_join_items[] = new DataModel_Definition_Relation_JoinBy_Item( $parent_ID_property, $relation_ID_property );
-
-				$relation_ID_property->setUpRelation($parent_ID_property);
-				$this->_parent_model_relation_ID_properties[$relation_ID_property_name] = $relation_ID_property;
 			}
 		}
 
-
-		//We must secure the proper position. IDs, relation IDs and other ...
-		foreach($this->ID_properties as $property) {
-			$this->properties[$property->getName()] = $property;
+		if($this->_is_sub_related_model) {
+			foreach( $this->__parent_ID_properties as $parent_ID_property_name => $parent_ID_property ) {
+				if(!in_array($parent_ID_property_name, $this->__parent_ID_glue_defined)) {
+					throw new DataModel_Exception(
+						'Class: \''.$this->class_name.'\'  parent model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \'parent.'.$parent_ID_property_name.'\' ',
+						DataModel_Exception::CODE_DEFINITION_NONSENSE
+					);
+				}
+			}
 		}
 
-		foreach($this->_main_model_relation_ID_properties as $property) {
-			$this->properties[$property->getName()] = $property;
+	}
+
+	/**
+	 * @param string $this_ID_property_name
+	 * @param string $related_to
+	 *
+	 * @throws DataModel_Exception
+	 */
+	protected function _initGlueProperty( $this_ID_property_name, $related_to ) {
+
+		$related_to = explode('.', $related_to);
+		if(count($related_to)!=2) {
+			throw new DataModel_Exception(
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.ID\', @JetDataModel:related_to=\'main.ID\'  ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 		}
 
-		foreach($this->_parent_model_relation_ID_properties as $property) {
-			$this->properties[$property->getName()] = $property;
+		list( $what, $parent_ID_property_name ) = $related_to;
+
+		if(
+			(
+				$what!='parent' &&
+				$what!='main'
+			) ||
+			!$parent_ID_property_name
+		) {
+			throw new DataModel_Exception(
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.ID\', @JetDataModel:related_to=\'main.ID\'  ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 		}
 
-		foreach($properties as $property) {
-			/**
-			 * @var DataModel_Definition_Property_Abstract $property
-			 */
-			$this->properties[$property->getName()] = $property;
+
+		if(!$this->_is_sub_related_model && $what=='parent') {
+			throw new DataModel_Exception(
+				'Invalid @JetDataModel:related_to = \'parent.'.$parent_ID_property_name.'\ definition. Use: @JetDataModel:related_to = \'main.'.$parent_ID_property_name.'\  ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 		}
+
+		if($what=='parent') {
+			$properties = $this->__parent_ID_properties;
+			$target_properties_array = &$this->_parent_model_relation_ID_properties;
+			$target_join_array = &$this->parent_model_relation_join_items;
+			$target_glue_defined = &$this->__parent_ID_glue_defined;
+		}
+
+
+		if($what=='main') {
+			$properties = $this->__main_ID_properties;
+			$target_properties_array = &$this->_main_model_relation_ID_properties;
+			$target_join_array = &$this->main_model_relation_join_items;
+			$target_glue_defined = &$this->__main_ID_glue_defined;
+		}
+
+		if(!isset($properties[$parent_ID_property_name])) {
+			throw new DataModel_Exception(
+				'Unknown relation property \''.$what.'.'.$parent_ID_property_name.'\'',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+
+		}
+
+		$parent_ID_property = $properties[$parent_ID_property_name];
+
+
+		$this_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
+			$this,
+			$this_ID_property_name,
+			array(
+				'type' => $parent_ID_property->getType(),
+				'is_ID' => true
+			)
+		);
+
+
+		DataModel_Definition_Property_Abstract::cloneProperty( $parent_ID_property, $this_ID_property );
+		$this_ID_property->setUpRelation($parent_ID_property);
+
+
+		$this->properties[$this_ID_property_name] = $this_ID_property;
+		$target_properties_array[$this_ID_property_name] = $this_ID_property;
+
+		$target_join_array[] = new DataModel_Definition_Relation_JoinBy_Item( $parent_ID_property, $this_ID_property );
+
+		$target_glue_defined[] = $parent_ID_property->getName();
 
 	}
 

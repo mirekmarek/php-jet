@@ -20,7 +20,7 @@ namespace Jet;
 /**
  * Class Mvc_Sites_Site_LocalizedData_URL_Default
  *
- * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_Site_LocalizedData_URL'
+ * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_URLs'
  * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_Site_LocalizedData_Default'
  */
 class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedData_URL_Abstract {

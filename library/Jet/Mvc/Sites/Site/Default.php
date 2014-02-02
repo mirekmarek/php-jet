@@ -24,7 +24,7 @@ namespace Jet;
 /**
  * Class Mvc_Sites_Site_Default
  *
- * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_Site'
+ * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
  * @JetDataModel:ID_class_name = 'Jet\\Mvc_Sites_Site_ID_Default'
  */
 class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
