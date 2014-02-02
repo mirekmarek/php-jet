@@ -499,6 +499,12 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 */
 	protected function _fetchNIDs() {
+		if(!$this->__data_model_current_M_model_class_name) {
+			$this->N_IDs = array();
+			$this->N_data = array();
+
+			return;
+		}
 
 		if($this->N_IDs!==null) {
 			return;

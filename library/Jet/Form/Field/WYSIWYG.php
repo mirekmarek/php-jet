@@ -47,7 +47,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 
 
 		$result = '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>'.JET_EOL;
-		$result .= '<script type="text/javascript">jet_WYSIWYG.init('.json_encode($this->getID()).','.json_encode($this->editor_config_name).');</script>'.JET_EOL;
+		$result .= '<script type="text/javascript">Jet_WYSIWYG.init('.json_encode($this->getID()).','.json_encode($this->editor_config_name).');</script>'.JET_EOL;
 
 		return $result;
 	}
