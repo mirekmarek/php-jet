@@ -784,6 +784,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$loaded_instance = null;
 		if($cache) {
 			$loaded_instance = $cache->get( $definition, $ID);
+			foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+				if(!$property_definition->getIsDataModel()) {
+					continue;
+				}
+
+				$loaded_instance->{$property_name}->wakeUp( $loaded_instance );
+			}
 		}
 
 		if(!$loaded_instance) {

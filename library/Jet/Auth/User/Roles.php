@@ -28,11 +28,6 @@ namespace Jet;
  * @JetDataModel:N_model_class_name = 'Jet\\Auth_Role_Default'
  */
 class Auth_User_Roles extends DataModel_Related_MtoN {
-	/**
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
-	 */
-	protected $ID;
 
 	/**
 	 * @JetDataModel:related_to = 'User.ID'

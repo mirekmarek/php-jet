@@ -37,7 +37,6 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	}
 
 
-
 	/**
 	 * @param $data_model_class_name
 	 *
@@ -47,25 +46,6 @@ abstract class DataModel_Related_Abstract extends DataModel {
 		return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
 	}
 
-
-	/**
-	 *
-	 * @return DataModel_Definition_Model_Abstract
-	 */
-	public function getParentModelDefinition() {
-		return $this->getDataModelDefinition()
-				->getParentRelatedModelDefinition();
-
-	}
-
-	/**
-	 *
-	 * @return DataModel_Definition_Model_Abstract
-	 */
-	public function getMainModelDefinition() {
-		return $this->getDataModelDefinition()
-				->getMainModelDefinition();
-	}
 
 	/**
 	 * Returns backend type (example: MySQL)
@@ -146,8 +126,13 @@ abstract class DataModel_Related_Abstract extends DataModel {
 	 * @throws DataModel_Exception
 	 * @return DataModel
 	 */
-	public function loadRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-	}
+	abstract function loadRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  );
+
+	/**
+	 * @param DataModel $main_model_instance
+	 * @param DataModel_Related_Abstract $parent_model_instance
+	 */
+	abstract function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  );
 
 
 	/**
@@ -161,7 +146,6 @@ abstract class DataModel_Related_Abstract extends DataModel {
 			'Please use '.$main_class.'->save() ',
 			DataModel_Exception::CODE_PERMISSION_DENIED
 		);
-
 	}
 
 
@@ -239,5 +223,6 @@ abstract class DataModel_Related_Abstract extends DataModel {
 		$this->setIsSaved();
 
 	}
+
 
 }

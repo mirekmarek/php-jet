@@ -39,7 +39,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$this->data_model_object = new DataModel_ID_DataModelTestMock();
-		$this->ID_object = new DataModel_ID_Default( $this->data_model_object );
+		$this->ID_object = new DataModel_ID_Default( $this->data_model_object->getDataModelDefinition() );
 
 		foreach($this->ID_data as $k=>$v) {
 			$this->ID_object[$k] = $v;

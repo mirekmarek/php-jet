@@ -62,4 +62,12 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 	}
 
+	/**
+	 * @param DataModel $main_model_instance
+	 * @param DataModel_Related_Abstract $parent_model_instance
+	 */
+	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
+		//TODO:
+	}
+
 }

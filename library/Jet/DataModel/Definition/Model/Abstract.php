@@ -65,12 +65,19 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 *
 	 * @param $data_model_class_name
 	 *
-	 * @internal param string $data_model
+	 * @throws DataModel_Exception
 	 */
 	public function  __construct( $data_model_class_name ) {
 
 		$this->_mainInit( $data_model_class_name );
 		$this->_initProperties();
+
+		if(!$this->ID_properties) {
+			throw new DataModel_Exception(
+				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
 	}
 
 	/**
@@ -163,14 +170,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					array( $property_name )
 				);
 			}
-		}
-
-
-		if(!$has_ID_property) {
-			throw new DataModel_Exception(
-				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
 		}
 
 		$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->ID_properties) );

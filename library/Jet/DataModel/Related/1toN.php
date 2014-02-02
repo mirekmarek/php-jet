@@ -16,6 +16,7 @@
  */
 namespace Jet;
 
+//TODO: iterator jako samostatnou tridu
 abstract class DataModel_Related_1toN extends DataModel_Related_Abstract implements \ArrayAccess, \Iterator, \Countable   {
 
 	/**
@@ -113,6 +114,14 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 		$this->__deleted_items = array();
 
 		return $this;
+	}
+
+	/**
+	 * @param DataModel $main_model_instance
+	 * @param DataModel_Related_Abstract $parent_model_instance
+	 */
+	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
+		//TODO:
 	}
 
 	/**

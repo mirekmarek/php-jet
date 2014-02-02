@@ -196,9 +196,24 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		} else {
 			$M = $main_model_instance;
 		}
+
 		$this->setMRelatedModel( $M );
 
 		return $this;
+	}
+
+	/**
+	 * @param DataModel $main_model_instance
+	 * @param DataModel_Related_Abstract $parent_model_instance
+	 */
+	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
+		if($parent_model_instance) {
+			$M = $parent_model_instance;
+		} else {
+			$M = $main_model_instance;
+		}
+
+		$this->setMRelatedModel( $M );
 	}
 
 	/**
@@ -548,8 +563,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return array
 	 */
 	public function __sleep() {
-
-		return array();
+	return array();
 	}
 
 	public function __wakeup() {

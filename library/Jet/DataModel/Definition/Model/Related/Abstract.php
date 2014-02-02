@@ -121,6 +121,13 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 		}
 
 		$this->_initProperties();
+
+		if(!$this->ID_properties) {
+			throw new DataModel_Exception(
+				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
 	}
 
 	/**
