@@ -18,8 +18,8 @@ require JET_INSTALLER_PATH.'Step/Controller.php';
 class Installer {
 
 	protected static $steps = array(
-		'Welcome',
 		'SystemCheck',
+		'Welcome',
 		'DirsCheck',
 		'Main',
 		'Translator',

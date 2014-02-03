@@ -17,4 +17,4 @@ require_once( $application_dir . 'defines.php' );
 require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
-Application::start( JET_APPLICATION_ENVIRONMENT );
+Application::start( JET_APPLICATION_CONFIGURATION_NAME );

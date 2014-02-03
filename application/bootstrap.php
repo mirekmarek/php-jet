@@ -12,6 +12,7 @@
 namespace Jet;
 
 require('defines.php');
+require('defines_URI.php');
 
 if(JET_DEBUG_MODE) {
 	require( JET_APPLICATION_PATH . 'init/Profiler.php' );
@@ -21,8 +22,8 @@ require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
 
-//require(JET_APPLICATION_PATH.'_installer/install.php');
+require(JET_APPLICATION_PATH.'_installer/install.php');
 
-Application::start( JET_APPLICATION_ENVIRONMENT );
+Application::start( JET_APPLICATION_CONFIGURATION_NAME );
 Mvc::run();
 Application::end();

@@ -19,11 +19,6 @@ class Application {
 	protected static $do_not_end = false;
 
 	/**
-	 * @var string
-	 */
-	protected static $environment;
-
-	/**
 	 * @var Application_Config
 	 */
 	protected static $config = null;
@@ -55,42 +50,27 @@ class Application {
 	 *
 	 * @static
 	 *
-	 * @param string|null $environment (optional, default = JET_APPLICATION_ENVIRONMENT constant)
-	 * @param string|null $config_file_path (optional,default = JET_CONFIG_PATH.$environment.'.php')
+	 * @param string $configuration_name
 	 *
 	 * @throws Application_Exception
 	 */
-	public static function start( $environment = null, $config_file_path = null ){
+	public static function start( $configuration_name ){
 
 		Debug_Profiler::MainBlockStart('Application init');
 
-		if(!$environment){
-			if(!defined('JET_APPLICATION_ENVIRONMENT')){
-				throw new Application_Exception(
-					'Constant JET_APPLICATION_ENVIRONMENT is not defined.',
-					Application_Exception::CODE_ENVIRONMENT_NOT_SET
-				);
-			}
-
-			$environment = JET_APPLICATION_ENVIRONMENT;
-		}
-
-		if(!preg_match('/^([a-zA-Z0-9_-]{1,})$/', $environment)){
+		if( strpos($configuration_name, '.')!==false ) {
 			throw new Application_Exception(
-				'Invalid environment name \''.$environment.'\'. Valid name is: \'/^([a-zA-Z0-9_-]{1,})$/\' ',
-				Application_Exception::CODE_INVALID_ENVIRONMENT_NAME
+				'Invalid configuration name \''.$configuration_name.'\'',
+				Application_Exception::CODE_INVALID_CONFIGURATION_NAME
 
 			);
 		}
 
-		static::$environment = $environment;
-
-		if(!$config_file_path){
-			$config_file_path = JET_CONFIG_PATH . $environment.'.php';
-		}
+		$config_file_path = JET_CONFIG_PATH . $configuration_name.'.php';
 
 		Debug_Profiler::blockStart('Configuration init');
 			Config::setApplicationConfigFilePath( $config_file_path );
+			static::getConfig();
 		Debug_Profiler::blockEnd('Configuration init');
 
 		Debug_Profiler::blockStart('Error handler init');
@@ -102,6 +82,17 @@ class Application {
 		Debug_Profiler::blockEnd('Http request init');
 
 		Debug_Profiler::MainBlockEnd('Application init');
+	}
+
+	/**
+	 * @return Application_Config|null
+	 */
+	public static function getConfig() {
+		if(!static::$config) {
+			static::$config = new Application_Config();
+		}
+
+		return static::$config;
 	}
 
 	/**
@@ -149,19 +140,6 @@ class Application {
 	 */
 	public static function getIsDebugMode(){
 		return defined('JET_DEBUG_MODE') && JET_DEBUG_MODE;
-	}
-
-	/**
-	 * @static
-	 *
-	 * @return Application_Config
-	 */
-	public static function getConfig() {
-		if(!static::$config) {
-			static::$config = new Application_Config();
-		}
-
-		return static::$config;
 	}
 
 }

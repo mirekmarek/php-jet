@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -15,7 +15,7 @@ error_reporting(E_ALL | E_STRICT);
 define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);
 
-define('JET_APPLICATION_ENVIRONMENT', 'devel');
+define('JET_APPLICATION_CONFIGURATION_NAME', 'main');
 define('JET_DEBUG_MODE', true);
 
 define('JET_BASE_PATH', dirname(__DIR__).'/');
@@ -41,65 +41,23 @@ define('JET_PUBLIC_STYLES_PATH', JET_BASE_PATH.'public/styles/');
 define('JET_PUBLIC_LIBS_PATH', JET_BASE_PATH.'public/libs/');
 
 
-//define('JET_OBJECT_REFLECTION_CACHE_LOAD', !JET_DEBUG_MODE );
-define('JET_OBJECT_REFLECTION_CACHE_LOAD', true );
+define('JET_OBJECT_REFLECTION_CACHE_LOAD', !JET_DEBUG_MODE );
+//define('JET_OBJECT_REFLECTION_CACHE_LOAD', true );
 define('JET_OBJECT_REFLECTION_CACHE_SAVE', true );
 define('JET_OBJECT_REFLECTION_CACHE_PATH', JET_DATA_PATH.'reflections/' );
 
-//define('JET_DATAMODEL_DEFINITION_CACHE_LOAD', !JET_DEBUG_MODE );
-define('JET_DATAMODEL_DEFINITION_CACHE_LOAD', true );
+define('JET_DATAMODEL_DEFINITION_CACHE_LOAD', !JET_DEBUG_MODE );
+//define('JET_DATAMODEL_DEFINITION_CACHE_LOAD', true );
 define('JET_DATAMODEL_DEFINITION_CACHE_SAVE', true );
 define('JET_DATAMODEL_DEFINITION_CACHE_PATH', JET_DATA_PATH.'datamodel_definitions/' );
 
-//define('JET_CONFIG_DEFINITION_CACHE_LOAD', !JET_DEBUG_MODE );
-define('JET_CONFIG_DEFINITION_CACHE_LOAD', true );
+define('JET_CONFIG_DEFINITION_CACHE_LOAD', !JET_DEBUG_MODE );
+//define('JET_CONFIG_DEFINITION_CACHE_LOAD', true );
 define('JET_CONFIG_DEFINITION_CACHE_SAVE', true );
 define('JET_CONFIG_DEFINITION_CACHE_PATH', JET_DATA_PATH.'config_definitions/' );
 
-
-
-if(php_sapi_name()!='cli') {
-	$base_URI = null;
-
-	$request_URI = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-	list($request_URI) = explode('?', $request_URI);
-
-	$base_URI = '/';
-	$URI_path_parts = explode( '/', ltrim( $request_URI, '/' ) );
-	$got_base_URI = false;
-
-	while($URI_path_parts){
-
-		$bootstrap_path = $_SERVER['DOCUMENT_ROOT'] . $base_URI . 'application/bootstrap.php';
-		if( file_exists($bootstrap_path) ){
-			$got_base_URI = true;
-			break;
-		}
-		$base_URI .= array_shift($URI_path_parts) . '/';
-	}
-
-	if(!$got_base_URI){
-		die('Unable to determine base URI...');
-	}
-
-	define('JET_BASE_URI', $base_URI);
-
-	define('JET_MODULES_URI', JET_BASE_URI . 'application/modules/');
-	define('JET_SITES_URI', JET_BASE_URI . 'application/sites/');
-
-	define('JET_PUBLIC_URI', JET_BASE_URI . 'public/');
-	define('JET_PUBLIC_FILES_URI', JET_PUBLIC_URI . 'files/');
-	define('JET_PUBLIC_DATA_URI', JET_PUBLIC_URI . 'data/');
-	define('JET_PUBLIC_IMAGES_URI', JET_PUBLIC_URI . 'images/');
-	define('JET_PUBLIC_SCRIPTS_URI', JET_PUBLIC_URI . 'scripts/');
-	define('JET_PUBLIC_STYLES_URI', JET_PUBLIC_URI . 'styles/');
-}
-
-if(!ini_get('date.timezone')){
-	date_default_timezone_set('Europe/Prague');
-}
 set_include_path(
 	JET_LIBRARY_PATH
 		.PATH_SEPARATOR
-		.get_include_path()
+	.get_include_path()
 );

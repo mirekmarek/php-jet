@@ -231,28 +231,6 @@ class JetCompatibilityTester {
 			}
 		);
 
-		if( $this->test(
-			'Web Server',
-			'PHP Jet Platform requires Apache webserver',
-			function( JetCompatibilityTester_TestResult $test_result ) {
-				if(empty($_SERVER['SERVER_SOFTWARE'])) {
-					$test_result->setResultMessage( 'Unable to determine the type of web server ...' );
-					return false;
-				}
-
-				$test_result->setResultMessage( 'Webserver: '.$_SERVER['SERVER_SOFTWARE'] );
-
-				return (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')!==false);
-			})
-		) {
-			$this->test(
-				'mod_rewrite Apache modul',
-				'mod_rewrite Apache module is required',
-				function() {
-					return ( function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules() ) );
-				}
-			);
-		}
 		$this->test(
 			'PDO extension',
 			'PHP PDO extension must be activated',
@@ -265,6 +243,13 @@ class JetCompatibilityTester {
 			'PHP SPL extension must be activated',
 			function() {
 				return extension_loaded('PDO');
+			}
+		);
+		$this->test(
+			'intl extension',
+			'PHP Internationalization Functions (intl) extension must be activated',
+			function() {
+				return extension_loaded('intl');
 			}
 		);
 
@@ -524,7 +509,7 @@ $tester = new JetCompatibilityTester();
 	<?php $tester->showResult(); ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
+<input type="submit" value="Next"/>
 </form>
 <?php else: ?>
 	<?php $tester->showResult(); ?>

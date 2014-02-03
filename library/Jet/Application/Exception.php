@@ -13,6 +13,5 @@
 namespace Jet;
 
 class Application_Exception extends Exception {
-	const CODE_ENVIRONMENT_NOT_SET = 1;
-	const CODE_INVALID_ENVIRONMENT_NAME = 2;
+	const CODE_INVALID_CONFIGURATION_NAME = 1;
 }
