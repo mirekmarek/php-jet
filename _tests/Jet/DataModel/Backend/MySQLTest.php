@@ -352,7 +352,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				continue;
 			}
 
-			$value = $property_definition->getDefaultValue();
+			$value = $property_definition->getDefaultValue( $this->data_model );
 			if($property_name=='ID') {
 				$value = 'id_value_123';
 			}
@@ -390,7 +390,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				continue;
 			}
 
-			$value = $property_definition->getDefaultValue();
+			$value = $property_definition->getDefaultValue( $this->data_model );
 			if($property_name=='ID') {
 				$value = 'id_value_123';
 			}

@@ -71,6 +71,7 @@ class Autoloader {
 		$loader_name = '';
 		if(isset(static::$classes_paths_map[$class_name])) {
 			$path = static::$classes_paths_map[$class_name];
+			$loader_name = '__classes_paths_map__';
 		} else {
 			foreach(static::$loaders as $loader_name => $loader) {
 				$path = $loader->getClassPath($class_name);

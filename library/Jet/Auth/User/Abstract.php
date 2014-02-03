@@ -31,11 +31,20 @@ namespace Jet;
 abstract class Auth_User_Abstract extends DataModel {
 
 	/**
-	 * @abstract
-	 * @param string $login
-	 * @param string $password
+	 * @param string|null $login
+	 * @param string|null $password
 	 */
-	abstract public function initNew( $login, $password );
+	public function __construct( $login=null, $password=null ) {
+
+		if($login!==null) {
+			$this->setLogin($login);
+		}
+		if($password!==null) {
+			$this->setPassword($password);
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @abstract

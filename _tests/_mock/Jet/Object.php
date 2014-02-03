@@ -18,6 +18,15 @@ class Object implements Jet\Object_Interface {
 		throw new \Exception('Undefined class property '.get_class($this).'::'.$property_name );
 	}
 
+
+	public function __test_set( $property_name, $value ) {
+		$this->{$property_name} = $value;
+	}
+
+	public static function __test_set_static( $property_name, $value ) {
+		static::$$property_name = $value;
+	}
+
 	/**
 	 *
 	 * @param array $data
@@ -48,3 +57,5 @@ class Object implements Jet\Object_Interface {
 
 }
 class_alias('JetTest\Object', 'Jet\Object');
+
+

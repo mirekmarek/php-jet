@@ -185,7 +185,7 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	protected static $__test_data_model_forced_backend_config = null;
 
 	public function _test_get_property_options( $property_name ) {
-		$data = $this->getDataModelPropertiesDefinitionData();
+		$data = Object_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
 		return $data[ $property_name ];
 	}
 
@@ -196,43 +196,14 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	}
 
 
-	/**
-	 *
-	 * @return string
-	 */
-	public static function getBackendType() {
-		if(static::$__test_data_model_forced_backend_type===null) {
-			return parent::getBackendType();
-		}
-		return static::$__test_data_model_forced_backend_type;
-	}
-
-	/**
-	 * @return DataModel_Backend_Config_Abstract
-	 */
-	public static function getBackendConfig() {
-		if(static::$__test_data_model_forced_backend_config===null) {
-			return parent::getBackendConfig();
-		}
-
-		$config = DataModel_Factory::getBackendConfigInstance( static::getBackendType(), true );
-
-		$config->setData(
-			static::$__test_data_model_forced_backend_config,
-			false
-		);
-
-		return $config;
-
-	}
-
-
 	public static function setBackendType( $backend_type ) {
-		static::$__test_data_model_forced_backend_type = $backend_type;
+		static::getDataModelDefinition()->__test_set('forced_backend_type', $backend_type);
+		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', array());
 	}
 
 	public static function setBackendOptions( $backend_config ) {
-		static::$__test_data_model_forced_backend_config = $backend_config;
+		static::getDataModelDefinition()->__test_set('forced_backend_config', $backend_config);
+		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', array());
 	}
 
 }

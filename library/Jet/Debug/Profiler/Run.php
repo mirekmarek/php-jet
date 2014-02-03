@@ -82,7 +82,7 @@ class Debug_Profiler_Run {
 		$this->__root_block = $root_block;
 
 
-		$this->blockStart("", true);
+		$this->MainBlockStart("", true);
 
 		if(extension_loaded('xhprof')) {
 			/** @noinspection PhpUndefinedConstantInspection */
@@ -149,7 +149,7 @@ class Debug_Profiler_Run {
 	 *
 	 * @return Debug_Profiler_Run_Block
 	 */
-	public function blockStart( $label, $is_anonymous=false ) {
+	public function MainBlockStart( $label, $is_anonymous=false ) {
 		if($is_anonymous) {
 			$label = "anonymous";
 		}
@@ -191,7 +191,7 @@ class Debug_Profiler_Run {
 	/**
 	 * @param string $label (Does nothing. Only for best practises and orientation to the application code)
 	 */
-	public function blockEnd( $label ) {
+	public function MainBlockEnd( $label ) {
 		if( !$this->__current_block_level ) {
 			trigger_error('Jet Profiler Warning: blockEnd(\''.$label.'\') called, but no block has been started! Skipping blockEnd! ');
 			return;
@@ -224,7 +224,7 @@ class Debug_Profiler_Run {
 		$this->__block_stack = array();
 		$this->__current_block_level = 0;
 
-		$this->blockStart("", true);
+		$this->MainBlockStart("", true);
 	}
 
 	/**
@@ -233,10 +233,10 @@ class Debug_Profiler_Run {
 	 *
 	 * @return Debug_Profiler_Run_Block
 	 */
-	public function subBlockStart( $label ) {
+	public function blockStart( $label ) {
 		if(!$this->__current_block_level) {
 			trigger_error('Jet Profiler Warning: subBlockStart(\''.$label.'\') called, but no block has been started! Calling blockStart! ');
-			return $this->blockStart($label);
+			return $this->MainBlockStart($label);
 		}
 
 		$block = new Debug_Profiler_Run_Block( false, $label, $this->__current_block_level, $this->__block_stack[$this->__current_block_level-1] );
@@ -255,17 +255,19 @@ class Debug_Profiler_Run {
 	/**
 	 * @param string $label (Does nothing. Only for best practises and orientation to the application code)
 	 */
-	public function subBlockEnd( $label ) {
+	public function blockEnd( $label ) {
 
 		if(	$this->__current_block_level<=1 ) {
 			trigger_error('Jet Profiler Warning: subBlockEnd(\''.$label.'\') called, but no subblock has been started! Calling blockEnd! ');
-			$this->blockEnd( $label );
+			$this->MainBlockEnd( $label );
 			return;
 		}
 
 		$this->__current_block->setEnd();
 		$this->__current_block_level--;
 		array_pop($this->__block_stack);
+
+		$this->__current_block  = $this->__block_stack[count($this->__block_stack)-1];
 	}
 
 

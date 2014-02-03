@@ -53,6 +53,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 	public function test_action2_Action( $parameter_1 = 'undefined', $parameter_2 = 'undefined' ) {
+
 		$this->view->setVar('parameter_1', $parameter_1);
 		$this->view->setVar('parameter_2', $parameter_2);
 
@@ -73,6 +74,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$this->view->setVar('parameter_2', $parameter_2);
 
 		$this->render('test-action2' );
+
+
 	}
 
 }

@@ -388,10 +388,12 @@ class Mvc {
 			$site_ID = static::getCurrentSiteID();
 		}
 
+		$page_class_name = Mvc_Factory::getPageClassName();
+
 		/**
-		 * @var Mvc_Pages_Page_ID_Abstract $page_ID_instance
+		 * @var Mvc_Pages_Page_Abstract $page_class_name
 		 */
-		$page_ID_instance = Mvc_Factory::getPageInstance()->getEmptyIDInstance()->createID(
+		$page_ID_instance = $page_class_name::createID(
 			$site_ID,
 			$locale,
 			$page_ID

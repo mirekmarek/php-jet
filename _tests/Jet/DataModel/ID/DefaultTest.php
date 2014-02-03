@@ -13,6 +13,35 @@ namespace Jet;
 
 require_once '_mock/Jet/DataModel/ID/DataModelTestMock.php';
 
+class Test_DataModel_ID_Default extends DataModel_ID_Default {
+	/**
+	 *
+	 * @return bool
+	 */
+	public function getExists() {
+
+		$input = $this->values['ID'];
+
+		if($input=='site_1' || $input=='site_11') {
+			return true;
+		}
+
+		if(
+			$input=='long_long_long_long_long_long_long_long_long_long_' ||
+			$input=='long_long_long_long_long_long_long_long_long_l1' ||
+			$input=='long_long_long_long_long_long_long_long_long_l2' ||
+			$input=='long_long_long_long_long_long_long_long_long_l3' ||
+			$input=='long_long_long_long_long_long_long_long_long_l4'
+		) {
+			return true;
+		}
+
+
+		return false;
+	}
+
+}
+
 
 class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	/**
@@ -39,7 +68,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$this->data_model_object = new DataModel_ID_DataModelTestMock();
-		$this->ID_object = new DataModel_ID_Default( $this->data_model_object->getDataModelDefinition() );
+		$this->ID_object = new Test_DataModel_ID_Default( $this->data_model_object->getDataModelDefinition() );
 
 		foreach($this->ID_data as $k=>$v) {
 			$this->ID_object[$k] = $v;
@@ -149,13 +178,14 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGenerateID() {
 
-		$ID = $this->ID_object->generateID( $this->data_model_object, 'Sítě   1  ');
 
-		$this->assertEquals('site_12', $ID);
+		$this->ID_object->generateNameID( $this->data_model_object, 'ID', 'Sítě   1  ');
 
-		$ID = $this->ID_object->generateID($this->data_model_object, 'Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long ' );
+		$this->assertEquals('site_12', $this->ID_object['ID']);
 
-		$this->assertEquals('long_long_long_long_long_long_long_long_long_l5', $ID);
+		$this->ID_object->generateNameID($this->data_model_object, 'ID', 'Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long Long ' );
+
+		$this->assertEquals('long_long_long_long_long_long_long_long_long_l5', $this->ID_object['ID']);
 
 	}
 

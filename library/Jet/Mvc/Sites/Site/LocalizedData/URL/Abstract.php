@@ -35,7 +35,14 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 	 * @param string $URL (optional)
 	 * @param bool $is_default (optional)
 	 */
-	abstract public function __construct($URL='', $is_default=false);
+	public function __construct($URL='', $is_default=false) {
+		if($URL) {
+			$this->setURL($URL);
+			$this->setIsDefault($is_default);
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string

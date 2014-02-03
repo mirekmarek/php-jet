@@ -55,10 +55,18 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
+	 * @param DataModel $data_model
+	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue() {
+	public function getDefaultValue( DataModel $data_model ) {
 		$default_value = new $this->data_model_class();
+
+		if($default_value instanceof DataModel_Related_MtoN) {
+			$default_value->setMRelatedModel( $data_model );
+		}
+
+
 		return $default_value;
 	}
 

@@ -36,7 +36,16 @@ abstract class Mvc_Pages_Page_URL_Abstract extends DataModel_Related_1toN {
 	 * @param bool $is_default (optional, default: false )
 	 * @param bool $is_SSL (optional, default: false )
 	 */
-	abstract function __construct($URL='', $is_default=false, $is_SSL=false);
+	public function __construct($URL='', $is_default=false, $is_SSL=false) {
+
+		if($URL) {
+			$this->setURL($URL);
+			$this->setIsDefault( $is_default );
+			$this->setIsSSL( $is_SSL );
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string

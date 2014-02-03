@@ -19,102 +19,12 @@ namespace Jet;
 abstract class DataModel_Related_Abstract extends DataModel {
 
 	/**
-	 * @throws DataModel_Exception
-	 *
-	 * @return string
-	 */
-	public static function getParentModelClassName() {
-		$parent_model_class_name = Object_Reflection::get( get_called_class(), 'data_model_parent_model_class_name', '' );
-
-		if(!$parent_model_class_name) {
-			throw new DataModel_Exception(
-				'Related DataModel parent class is not defined. Class: \''.get_called_class().'\' Please define it in the class doc comment. Example: @JetDataModel:parent_model_class_name = \'Some\\ParentClass\' ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-		return $parent_model_class_name;
-	}
-
-
-	/**
 	 * @param $data_model_class_name
 	 *
 	 * @return DataModel_Definition_Model_Related_Abstract
 	 */
-	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+	public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
 		return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
-	}
-
-
-	/**
-	 * Returns backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	final public static function getBackendType() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getParentModelClassName() );
-
-		return $class_name::getBackendType();
-	}
-
-	/**
-	 * Returns Backend options
-	 *
-	 * @return array
-	 */
-	final public static function getBackendConfig() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getParentModelClassName() );
-
-		return $class_name::getBackendConfig();
-	}
-
-
-	/**
-	 *
-	 * @return bool
-	 */
-	final public static function getCacheEnabled() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getParentModelClassName() );
-
-		return $class_name::getCacheEnabled();
-	}
-
-	/**
-	 * Returns backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	final public static  function getCacheBackendType() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getParentModelClassName() );
-
-		return $class_name::getCacheBackendType();
-	}
-
-	/**
-	 * Returns Backend options
-	 *
-	 * @return array
-	 */
-	final public static function getCacheBackendConfig() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getParentModelClassName() );
-
-		return $class_name::getCacheBackendConfig();
 	}
 
 	/**

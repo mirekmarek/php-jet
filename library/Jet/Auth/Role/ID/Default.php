@@ -16,31 +16,9 @@
  */
 namespace Jet;
 
-/**
- * Class Mvc_Sites_Site_ID_Default
- *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
- * @JetFactory:method = 'getSiteIDInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_ID_Abstract'
- */
-class Mvc_Sites_Site_ID_Default extends Mvc_Sites_Site_ID_Abstract {
+class Auth_Role_ID_Default extends Auth_Role_ID_Abstract {
 
 	/**
-	 * @param string $ID
-	 */
-	public function setSiteID( $ID ) {
-		$this->values['ID'] = $ID;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteID() {
-		return $this->values['ID'];
-	}
-
-	/**
-	 * Generate unique ID
 	 *
 	 * @param DataModel $data_model_instance
 	 * @param bool $called_after_save (optional, default = false)
@@ -51,7 +29,7 @@ class Mvc_Sites_Site_ID_Default extends Mvc_Sites_Site_ID_Abstract {
 
 		if(!$this->values['ID']) {
 			/**
-			 * @var Mvc_Sites_Site_Abstract $data_model_instance
+			 * @var Auth_Role_Abstract $data_model_instance
 			 */
 			$this->generateNameID( $data_model_instance, 'ID', $data_model_instance->getName() );
 		}

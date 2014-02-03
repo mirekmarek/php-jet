@@ -51,7 +51,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	 * @param string $operation
 	 */
 	public function operationStart( DataModel $data_model, $operation ) {
-		$this->_current_operation_ID = DataModel_ID_Abstract::generateUniqueID();
+		$this->_current_operation_ID = $this->generateOperationID();
 		$this->_current_data_model = $data_model;
 
 		$user = Auth::getCurrentUser();
@@ -92,7 +92,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 				',array(
 					'operation_ID' => $this->_current_operation_ID,
 					'class_name' => get_class($this->_current_data_model),
-					'model_name' => $this->_current_data_model->getDataModelName(),
+					'model_name' => $this->_current_data_model->getDataModelDefinition()->getModelName(),
 					'object_ID' => (string)$this->_current_data_model->getID(),
 					'operation' => $operation,
 					'user_name' => $user_name,

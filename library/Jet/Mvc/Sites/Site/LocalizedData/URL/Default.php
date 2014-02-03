@@ -78,19 +78,6 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	protected $parsed_URL_data = null;
 
 	/**
-	 * @param string $URL (optional)
-	 * @param bool $is_default (optional)
-	 */
-	public function __construct($URL='', $is_default=false) {
-		if($URL) {
-			$this->generateID();
-
-			$this->setURL($URL);
-			$this->is_default = (bool)$is_default;
-		}
-	}
-
-	/**
 	 * @return string
 	 */
 	public function  __toString() {

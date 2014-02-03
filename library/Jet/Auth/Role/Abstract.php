@@ -25,6 +25,7 @@ namespace Jet;
  * @JetFactory:mandatory_parent_class = 'Jet\\Auth_Role_Abstract'
  *
  * @JetDataModel:name = 'Role'
+ * @JetDataModel:ID_class_name = 'Jet\\Auth_Role_ID_Abstract'
  */
 abstract class Auth_Role_Abstract extends DataModel {
 
@@ -39,12 +40,6 @@ abstract class Auth_Role_Abstract extends DataModel {
 	public function  __toString() {
 		return $this->toString();
 	}
-
-	/**
-	 * @param $name
-	 * @param string $ID (optional)
-	 */
-	abstract public function initNew( $name, $ID='' );
 
 	/**
 	 * @return string

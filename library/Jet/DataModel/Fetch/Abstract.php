@@ -21,9 +21,9 @@ abstract class DataModel_Fetch_Abstract extends Object {
 	/**
 	 * DataModel instance
 	 *
-	 * @var DataModel
+	 * @var DataModel_Definition_Model_Abstract
 	 */
-	protected $data_model;
+	protected $data_model_definition;
 
 	/**
 	 * Query
@@ -34,19 +34,34 @@ abstract class DataModel_Fetch_Abstract extends Object {
 
 
 	/**
+	 *
+	 * @param array|DataModel_Query $query
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
+	 *
+	 * @throws DataModel_Query_Exception
+	 */
+	public function __construct( $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
+		$this->data_model_definition = $data_model_definition;
+
+		if(is_array($query)) {
+			$query = DataModel_Query::createQuery( $this->data_model_definition, $query);
+		}
+
+		if(!$query instanceof DataModel_Query) {
+			throw new DataModel_Query_Exception(
+				'Query must be an instance of DataModel_Query (or valid query as array) ' ,
+				DataModel_Query_Exception::CODE_QUERY_NONSENSE
+			);
+		}
+
+		$this->query = $query;
+	}
+
+	/**
 	 * @return DataModel_Query
 	 */
 	public function getQuery() {
 		return $this->query;
-	}
-
-	/**
-	 * @param $related_class_name
-	 *
-	 * @return DataModel_Definition_Relation_Internal
-	 */
-	public function getRelation( $related_class_name ) {
-		return $this->query->getRelation($related_class_name);
 	}
 
 	/**
@@ -55,7 +70,7 @@ abstract class DataModel_Fetch_Abstract extends Object {
 	 * @return mixed
 	 */
 	public function getBackendQuery() {
-		return $this->data_model->getBackendInstance()->getBackendSelectQuery( $this->query );
+		return $this->data_model_definition->getBackendInstance()->getBackendSelectQuery( $this->query );
 	}
 
 	/**
@@ -64,6 +79,6 @@ abstract class DataModel_Fetch_Abstract extends Object {
 	 * @return int
 	 */
 	public function getCount() {
-		return $this->data_model->getBackendInstance()->getCount( $this->query );
+		return $this->data_model_definition->getBackendInstance()->getCount( $this->query );
 	}
 }

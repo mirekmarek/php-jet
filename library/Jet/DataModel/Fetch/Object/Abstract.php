@@ -47,28 +47,17 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	/**
 	 *
 	 * @param array|DataModel_Query $query
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	final public function __construct( $query, DataModel $data_model  ) {
-		if(is_array($query)) {
-			$query = DataModel_Query::createQuery( $data_model->getDataModelDefinition(), $query);
-		}
-
-		if(!$query instanceof DataModel_Query) {
-			throw new DataModel_Query_Exception(
-				'Query must be an instance of DataModel_Query (or valid query as array) ' ,
-				DataModel_Query_Exception::CODE_QUERY_NONSENSE
-			);
-		}
-
-		$this->query = $query;
+	final public function __construct( $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
+		parent::__construct( $query, $data_model_definition );
 
 		$load_properties = array();
 		//$group_by = array();
 
-		foreach( $data_model->getDataModelDefinition()->getIDProperties() as $property_definition ) {
+		foreach( $this->data_model_definition->getIDProperties() as $property_definition ) {
 			$load_properties[] = $property_definition;
 			//$group_by[] = $property_definition->getName();
 		}
@@ -76,8 +65,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		$this->query->setSelect($load_properties);
 		//$this->query->setGroupBy($group_by);
 
-		$this->data_model = $data_model;
-		$this->empty_ID_instance = $data_model->getEmptyIDInstance();
+		$this->empty_ID_instance = $data_model_definition->getEmptyIDInstance();
 	}
 
 	/**
@@ -102,13 +90,13 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 *
 	 */
 	public function _fetchIDs() {
-		if($this->IDs!==NULL) {
+		if($this->IDs!==null) {
 			return;
 		}
 
 		$this->IDs = array();
 
-		foreach( $this->data_model->getBackendInstance()->fetchAll( $this->query ) as $ID ) {
+		foreach( $this->data_model_definition->getBackendInstance()->fetchAll( $this->query ) as $ID ) {
 			$l_ID = clone $this->empty_ID_instance;
 
 			foreach($ID as $k=>$v) {
@@ -131,8 +119,13 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		if(isset($this->data[$s_ID])) {
 			return $this->data[$s_ID];
 		}
-		$this->data[$s_ID] = Factory::getInstance( get_class($this->data_model) );
-		$this->data[$s_ID] = $this->data[$s_ID]->load( $ID );
+
+		$class_name = $this->data_model_definition->getClassName();
+
+		/**
+		 * @var DataModel $class_name
+		 */
+		$this->data[$s_ID] = $class_name::load( $ID );
 
 		return $this->data[$s_ID];
 	}

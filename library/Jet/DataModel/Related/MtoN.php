@@ -58,58 +58,15 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	private $N_data = array();
 
-
-	/**
-	 * @return string
-	 */
-	public static function getDataModelDefinitionNModelClassName() {
-		return Object_Reflection::get( get_called_class(), 'N_model_class_name', null );
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDataModelDefinitionMModelClassName() {
-		return Object_Reflection::get( get_called_class(), 'M_model_class_name', null );
-	}
-
 	/**
 	 * @param $data_model_class_name
 	 *
 	 * @return DataModel_Definition_Model_Related_Abstract
 	 */
-	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+	public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
 		return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );
 	}
 
-
-	/**
-	 * Returns backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	final public static function getBackendType() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getDataModelDefinitionMModelClassName() );
-
-		return $class_name::getBackendType();
-	}
-
-	/**
-	 * Returns Backend options
-	 *
-	 * @return array
-	 */
-	final public static function getBackendConfig() {
-		/**
-		 * @var DataModel $class_name
-		 */
-		$class_name = Factory::getClassName( static::getDataModelDefinitionMModelClassName() );
-
-		return $class_name::getBackendConfig();
-	}
 
 	/**
 	 * @param DataModel $M_instance
@@ -129,7 +86,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			);
 		}
 
-		if($M_model_name==$this->__data_model_current_M_model_name) {
+		if(
+			$M_model_name==$this->__data_model_current_M_model_name
+		) {
 			$this->M_ID = $M_instance->getID();
 			return;
 		}
@@ -499,12 +458,6 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 */
 	protected function _fetchNIDs() {
-		if(!$this->__data_model_current_M_model_class_name) {
-			$this->N_IDs = array();
-			$this->N_data = array();
-
-			return;
-		}
 
 		if($this->N_IDs!==null) {
 			return;

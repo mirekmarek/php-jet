@@ -273,9 +273,7 @@ class Gallery_Image extends Jet\DataModel {
 	 * @return Gallery_Image
 	 */
 	public static function get( $ID ) {
-		$ID = static::getEmptyIDInstance()->createID($ID);
-
-		return static::load($ID);
+		return static::load( static::createID($ID) );
 	}
 
 
@@ -377,14 +375,12 @@ class Gallery_Image extends Jet\DataModel {
 		 */
 		$image = new static();
 		$image->initNewObject();
-		$image->generateID();
 		$image->setGallery($gallery);
 
 		$offset = ceil($image->getAllImagesCount()/1000);
 		$offset = $offset ? $offset : 1;
 
 		$image->setOffset( $offset );
-		$image->generateID();
 
 		$source_image_file = new Jet\Image( $source_file_path );
 

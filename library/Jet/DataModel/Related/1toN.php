@@ -16,7 +16,6 @@
  */
 namespace Jet;
 
-//TODO: iterator jako samostatnou tridu
 abstract class DataModel_Related_1toN extends DataModel_Related_Abstract implements \ArrayAccess, \Iterator, \Countable   {
 
 	/**
@@ -40,7 +39,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 *
 	 * @return DataModel_Definition_Model_Related_Abstract
 	 */
-	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+	public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
 		return new DataModel_Definition_Model_Related_1toN( $data_model_class_name );
 	}
 
@@ -71,12 +70,12 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 		$query->setWhere(array());
 
 		$query->getWhere()->attach(
-			$main_model_instance->getIDQuery(  $model_definition->getMainModelRelationIDProperties() )->getWhere()
+			$main_model_instance->getID()->getQuery(  $model_definition->getMainModelRelationIDProperties() )->getWhere()
 		);
 
 		if($parent_model_instance) {
 			$query->getWhere()->attach(
-				$parent_model_instance->getIDQuery(  $model_definition->getParentModelRelationIDProperties() )->getWhere()
+				$parent_model_instance->getID()->getQuery(  $model_definition->getParentModelRelationIDProperties() )->getWhere()
 			);
 		}
 

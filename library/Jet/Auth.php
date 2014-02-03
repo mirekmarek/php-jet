@@ -104,11 +104,11 @@ class Auth extends Object {
 	 */
 	public static function login( $login, $password ) {
 		if(!static::$current_auth_manager_module_instance->login( $login, $password )) {
-			static::logEvent('login', array('login'=>$login), 'Login successful. Login: \''.$login.'\'');
+			static::logEvent('login_failed', array('login'=>$login), 'Login failed. Login: \''.$login.'\'');
 			return false;
 		} else {
 			$user_ID = static::getCurrentUser()->getID();
-			static::logEvent('login_failed', array('login'=>$login, 'user_ID'=>$user_ID), 'Login failed. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
+			static::logEvent('login', array('login'=>$login, 'user_ID'=>$user_ID), 'Login successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 			return true;
 		}
 	}

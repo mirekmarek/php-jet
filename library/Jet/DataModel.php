@@ -89,7 +89,7 @@ namespace Jet;
  * @JetDataModel:ID_class_name = 'Jet\\DataModel_ID_Default'
  */
 abstract class DataModel extends Object implements Object_Serializable_REST, Object_Reflection_ParserInterface {
-	const DEFAULT_ID_COLUMN_NAME = 'ID';
+	const DEFAULT_ID_PROPERTY_NAME = 'ID';
 
 	const TYPE_ID = 'ID';
 	const TYPE_STRING = 'String';
@@ -106,6 +106,10 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	const KEY_TYPE_INDEX = 'INDEX';
 	const KEY_TYPE_UNIQUE = 'UNIQUE';
 
+	/**
+	 * @var DataModel_ID_Abstract
+	 */
+	private $__ID;
 
 	/**
 	 * @var bool
@@ -116,23 +120,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @var bool
 	 */
 	private $___data_model_ready_to_save = false;
-
-
-	/**
-	 * Backend instance
-	 * @see getBackendInstance()
-	 *
-	 * @var DataModel_Backend_Abstract[]
-	 */
-	private static $___data_model_backend_instance = array();
-
-	/**
-	 * Cache Backend instance
-	 * @see getCacheBackendInstance()
-	 *
-	 * @var DataModel_Cache_Backend_Abstract[]
-	 */
-	private static $___data_model_cache_backend_instance = array();
 
 
 	/**
@@ -147,314 +134,42 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	private $___data_model_data_validation_errors = array();
 
-	/**
-	 *
-	 * @var DataModel_Definition_Model_Abstract[]
-	 */
-	private static $___data_model_definitions = array();
 
-	/**
-	 * @var DataModel_Config
-	 */
-	private static $___data_model_main_config;
-
-
-	/**
-	 * Returns DataModel system config instance
-	 *
-	 * @return DataModel_Config
-	 */
-	protected static function __DataModelGetMainConfig() {
-		if(!self::$___data_model_main_config) {
-			self::$___data_model_main_config = new DataModel_Config();
-		}
-
-		return self::$___data_model_main_config;
+	public function __construct() {
+		$this->initNewObject();
 	}
 
 	/**
-	 * Returns model definition
+	 * Initializes new DataModel
 	 *
-	 * @param string $class_name (optional)
-	 *
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
 	 */
-	public static function getDataModelDefinition( $class_name='' )  {
-		if($class_name) {
-			$class_name = Factory::getClassName( $class_name );
+	protected function initNewObject() {
 
-			/**
-			 * @var DataModel $class_name
-			 */
-			return $class_name::getDataModelDefinition();
-		}
-
-		$class = get_called_class();
-
-		if( !isset(self::$___data_model_definitions[$class])) {
-			self::$___data_model_definitions[$class] = static::_getDataModelDefinitionInstance($class);
-		}
-		return self::$___data_model_definitions[$class];
-	}
+		$this->___data_model_ready_to_save = false;
+		$this->___data_model_saved = false;
 
 
-	/**
-	 * @param $data_model_class_name
-	 *
-	 * @return DataModel_Definition_Model_Main
-	 */
-	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
-		return new DataModel_Definition_Model_Main( $data_model_class_name );
-	}
+		foreach( $this->getDataModelDefinition()->getProperties() as $property_name => $property_definition ) {
+			if($property_definition->getIsDataModel()) {
+				$default_value = $property_definition->getDefaultValue( $this );
 
-	/**
-	 *
-	 * @return array
-	 */
-	public static function getDataModelName() {
-		return Object_Reflection::get( get_called_class(), 'data_model_name', '' );
-	}
+				$this->{$property_name} = $default_value;
 
-	/**
-	 *
-	 * @return array
-	 */
-	public static function getDbTableName() {
-		return Object_Reflection::get( get_called_class(), 'database_table_name', '' );
-	}
+			} else {
+				if(!$this->{$property_name}) {
+					$default_value = $property_definition->getDefaultValue( $this );
 
+					$this->{$property_name} = $default_value;
 
-	/**
-	 *
-	 * @return array
-	 */
-	public static function getDataModelPropertiesDefinitionData() {
-		return Object_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
-	}
+					$property_definition->checkValueType( $this->{$property_name} );
+				}
+			}
 
-	/**
-	 *
-	 * @return array
-	 */
-	public static function getDataModelOuterRelationsDefinitionData() {
-		return Object_Reflection::get( get_called_class(), 'data_model_outer_relations_definition', array());
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public static function getDataModelKeysDefinitionData() {
-		return Object_Reflection::get( get_called_class(), 'data_model_keys_definition', array());
-	}
-
-
-	/**
-	 * Returns backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	public static function getBackendType() {
-		$forced_backend_type = Object_Reflection::get( get_called_class(), 'data_model_forced_backend_type', null );
-
-		if($forced_backend_type!==null) {
-			return $forced_backend_type;
-		}
-		return static::__DataModelGetMainConfig()->getBackendType();
-	}
-
-	/**
-	 * Returns Backend options
-	 *
-	 * @return DataModel_Backend_Config_Abstract
-	 */
-	public static function getBackendConfig() {
-
-		$forced_backend_config = Object_Reflection::get( get_called_class(), 'data_model_forced_backend_config', null );
-
-		if($forced_backend_config!==null) {
-			$config = DataModel_Factory::getBackendConfigInstance( static::getBackendType(), true );
-
-			$config->setData(
-				$forced_backend_config,
-				false
-			);
-		} else {
-			$config = DataModel_Factory::getBackendConfigInstance( static::getBackendType() );
-
-		}
-		return $config;
-	}
-
-	/**
-	 * Returns backend instance
-	 *
-	 * @return DataModel_Backend_Abstract
-	 */
-	public static function getBackendInstance() {
-		$backend_type = static::getBackendType();
-		$backend_config = static::getBackendConfig();
-
-		$key = $backend_type.':'.md5(serialize($backend_config));
-
-		if(!isset(self::$___data_model_backend_instance[$key])) {
-			self::$___data_model_backend_instance[$key] = DataModel_Factory::getBackendInstance(
-				$backend_type,
-				$backend_config
-			);
-			self::$___data_model_backend_instance[$key]->initialize();
 
 		}
 
-		return self::$___data_model_backend_instance[$key];
+		$this->generateID();
 	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getCacheEnabled() {
-		$forced_cache_enabled = Object_Reflection::get( get_called_class(), 'data_model_forced_cache_enabled', null );
-
-		if($forced_cache_enabled!==null) {
-			return $forced_cache_enabled;
-		}
-		return static::__DataModelGetMainConfig()->getCacheEnabled();
-	}
-
-
-	/**
-	 * Returns cache backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	public static function getCacheBackendType() {
-		$forced_cache_backend_type = Object_Reflection::get( get_called_class(), 'data_model_forced_cache_backend_type', null );
-
-		if($forced_cache_backend_type!==null) {
-			return $forced_cache_backend_type;
-		}
-
-		return static::__DataModelGetMainConfig()->getCacheBackendType();
-	}
-
-	/**
-	 * Returns Cache Backend options
-	 *
-	 * @return DataModel_Cache_Backend_Config_Abstract
-	 */
-	public static function getCacheBackendConfig() {
-		$forced_cache_backend_config = Object_Reflection::get( get_called_class(), 'data_model_forced_cache_backend_config', null );
-
-
-		if($forced_cache_backend_config!==null) {
-			$config = DataModel_Factory::getCacheBackendConfigInstance( static::getCacheBackendType(), true );
-
-			$config->setData( $forced_cache_backend_config, false );
-
-		} else {
-			$config = DataModel_Factory::getCacheBackendConfigInstance( static::getCacheBackendType() );
-		}
-
-		return $config;
-	}
-
-	/**
-	 * Returns cache backend instance
-	 *
-	 * @return DataModel_Cache_Backend_Abstract
-	 */
-	public static function getCacheBackendInstance() {
-		if(!static::getCacheEnabled()) {
-			return false;
-		}
-
-		$backend_type = static::getCacheBackendType();
-		$backend_config = static::getCacheBackendConfig();
-
-		$key = $backend_type.md5(serialize($backend_config));
-
-		if(!isset(self::$___data_model_cache_backend_instance[$key])) {
-			self::$___data_model_cache_backend_instance[$key] = DataModel_Factory::getCacheBackendInstance(
-				$backend_type,
-				$backend_config
-			);
-		}
-
-		return self::$___data_model_cache_backend_instance[$key];
-	}
-
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getHistoryEnabled() {
-		$force_history_enabled = Object_Reflection::get( get_called_class(), 'data_model_forced_history_enabled', null );
-
-		if($force_history_enabled!==null) {
-			return $force_history_enabled;
-		}
-		return static::__DataModelGetMainConfig()->getHistoryEnabled();
-	}
-
-
-	/**
-	 * Returns history backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	public static function getHistoryBackendType() {
-		$forced_history_backend_type = Object_Reflection::get( get_called_class(), 'data_model_forced_history_backend_type', null );
-
-		if($forced_history_backend_type!==null) {
-			return $forced_history_backend_type;
-		}
-		return static::__DataModelGetMainConfig()->getHistoryBackendType();
-	}
-
-	/**
-	 * Returns history Backend options
-	 *
-	 * @return DataModel_History_Backend_Config_Abstract
-	 */
-	public static function getHistoryBackendConfig() {
-
-		$forced_history_backend_config = Object_Reflection::get( get_called_class(), 'data_model_forced_history_backend_config', null );
-
-		if($forced_history_backend_config!==null) {
-			$config = DataModel_Factory::getHistoryBackendConfigInstance( self::getHistoryBackendType(), true );
-
-			$config->setData( $forced_history_backend_config, false );
-		} else {
-			$config = DataModel_Factory::getHistoryBackendConfigInstance( self::getHistoryBackendType() );
-		}
-		return $config;
-	}
-
-
-	/**
-	 * Returns history backend instance
-	 *
-	 * @return DataModel_History_Backend_Abstract
-	 */
-	public function getHistoryBackendInstance() {
-		if(!static::getHistoryEnabled()) {
-			return false;
-		}
-
-		if(!$this->___data_model_history_backend_instance) {
-			$this->___data_model_history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
-				static::getHistoryBackendType(),
-				static::getHistoryBackendConfig()
-			);
-
-		}
-
-		return $this->___data_model_history_backend_instance;
-
-	}
-
 
 
 	/**
@@ -463,105 +178,53 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_ID_Abstract
 	 */
 	public function getID() {
-		$result = $this->getEmptyIDInstance();
-
-		foreach($result as $property_name => $value) {
-			$result[$property_name] = $this->{$property_name};
+		if(!$this->__ID) {
+			$this->__ID = $this->getEmptyIDInstance();
 		}
 
-		return $result;
-	}
+		foreach($this->__ID as $property_name => $value) {
+			$this->__ID[$property_name] = $this->{$property_name};
+		}
 
+		return $this->__ID;
+	}
 
 
 	/**
 	 * @return DataModel_ID_Abstract
 	 */
 	public static function getEmptyIDInstance() {
-		$class_name = Object_Reflection::get( get_called_class(), 'data_model_ID_class_name', 'Jet\\DataModel_ID_Default' );
-		return new $class_name( static::getDataModelDefinition() );
+		return static::getDataModelDefinition()->getEmptyIDInstance();
 	}
 
 	/**
-	 * Returns ID properties names
+	 * @param string $ID
 	 *
-	 * @return DataModel_Definition_Property_Abstract[]
+	 * @return DataModel_ID_Abstract
 	 */
-	protected function getIDProperties() {
-		return $this->getDataModelDefinition()->getIDProperties();
+	public static function createID( $ID ) {
+		return static::getEmptyIDInstance()->createID( $ID );
 	}
 
 
 	/**
-	 * @param DataModel_ID_Abstract|string $ID
-	 * @return bool
+	 * @return DataModel_ID_Abstract
 	 */
-	public function getIDExists( $ID ) {
-		if( !($ID instanceof DataModel_ID_Abstract) ) {
-			$ID = $this->getEmptyIDInstance()->unserialize($ID);
+	public function resetID() {
+		if(!$this->__ID) {
+			$this->__ID = $this->getEmptyIDInstance();
 		}
 
-		$query = new DataModel_Query( $this->getDataModelDefinition() );
-		$query->setWhere(array());
-		$where = $query->getWhere();
+		$this->__ID->reset();
 
-		foreach($this->getIDProperties() as $pr_property_name => $pr_property) {
-			$value = $ID[$pr_property_name];
-
-			if($value===null) {
-				continue;
-			}
-
-			$where->addAND();
-			$where->addExpression( $pr_property, DataModel_Query::O_EQUAL, $value);
+		foreach( $this->__ID as $property_name=>$value ) {
+			$this->{$property_name} = $value;
 		}
 
-		return (bool)$this->getBackendInstance()->getCount( $query );
+		return $this->__ID;
+
 	}
 
-	/**
-	 *
-	 * @param DataModel_Definition_Property_Abstract[] $relation_ID_properties (optional)
-	 *
-	 * @return DataModel_Query
-	 */
-	public function getIDQuery( $relation_ID_properties=null ) {
-		$query = new DataModel_Query( $this->getDataModelDefinition() );
-		$query->setWhere(array());
-		$where = $query->getWhere();
-
-		if($relation_ID_properties) {
-			foreach($relation_ID_properties as $pr_property) {
-				/**
-				 * @var DataModel_Definition_Property_Abstract $pr_property
-				 */
-				$pr_property_name = $pr_property->getRelatedToPropertyName();
-
-				$value = $this->{$pr_property_name};
-
-				if($value===null)  {
-					continue;
-				}
-
-				$where->addAND();
-				$where->addExpression( $pr_property, DataModel_Query::O_EQUAL, $value);
-			}
-
-		} else {
-			foreach($this->getIDProperties() as $pr_property_name => $pr_property) {
-				$value = $this->$pr_property_name;
-
-				if($value===null) {
-					continue;
-				}
-
-				$where->addAND();
-				$where->addExpression( $pr_property, DataModel_Query::O_EQUAL, $value);
-			}
-		}
-
-		return $query;
-	}
 
 
 	/**
@@ -572,25 +235,15 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function generateID(  /** @noinspection PhpUnusedParameterInspection */
-		$called_after_save = false, $backend_save_result = null  ) {
+	protected function generateID(  $called_after_save = false, $backend_save_result = null  ) {
 
+		$ID = $this->getID();
 
-		$ID_properties = $this->getDataModelDefinition()->getIDProperties();
-		if(isset($ID_properties[static::DEFAULT_ID_COLUMN_NAME])) {
-			$property_name = static::DEFAULT_ID_COLUMN_NAME;
-			if(!$this->{$property_name}) {
-				$this->{$property_name} = DataModel_ID_Abstract::generateUniqueID();
-			}
+		$ID->generate( $this, $called_after_save, $backend_save_result );
 
-			return;
+		foreach( $ID as $property_name=>$value ) {
+			$this->{$property_name} = $value;
 		}
-
-		throw new DataModel_Exception(
-			'Unable to generate ID. There are two solutions: 1) There must be at least one property that has set type ID  2) Overload '.get_class($this).'::generateID method',
-			DataModel_Exception::CODE_DEFINITION_NONSENSE
-		);
-
 	}
 
 
@@ -624,23 +277,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$this->___data_model_saved = true;
 	}
 
-
-	/**
-	 * Initializes new DataModel
-	 *
-	 */
-	public function initNewObject() {
-		$this->___data_model_ready_to_save = false;
-		$this->___data_model_saved = false;
-
-		foreach( $this->getDataModelDefinition()->getProperties() as $property_name => $property_definition ) {
-
-			$this->{$property_name} = $property_definition->getDefaultValue();
-			$property_definition->checkValueType( $this->{$property_name} );
-		}
-
-		$this->generateID();
-	}
 
 	/**
 	 * @param string $property_name
@@ -690,7 +326,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @throws DataModel_Validation_Exception
 	 */
-	protected  function _setPropertyValue( $property_name, &$value ) {
+	protected function _setPropertyValue( $property_name, &$value ) {
 		$this->validatePropertyValue( $property_name, $value );
 
 		$this->{$property_name} = $value;
@@ -763,6 +399,91 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		return $this->___data_model_data_validation_errors;
 	}
 
+
+
+	/**
+	 * Returns model definition
+	 *
+	 * @param string $class_name (optional)
+	 *
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+	 */
+	public static function getDataModelDefinition( $class_name='' )  {
+		if(!$class_name) {
+			$class_name = get_called_class();
+		}
+
+		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $class_name );
+	}
+
+
+	/**
+	 * @param $data_model_class_name
+	 *
+	 * @return DataModel_Definition_Model_Main
+	 */
+	public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+		return new DataModel_Definition_Model_Main( $data_model_class_name );
+	}
+
+	/**
+	 * Returns backend instance
+	 *
+	 * @return DataModel_Backend_Abstract
+	 */
+	public static function getBackendInstance() {
+		return static::getDataModelDefinition()->getBackendInstance();
+	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public static function getCacheEnabled() {
+		return static::getDataModelDefinition()->getCacheEnabled();
+	}
+
+	/**
+	 * Returns cache backend instance
+	 *
+	 * @return DataModel_Cache_Backend_Abstract
+	 */
+	public static function getCacheBackendInstance() {
+		return static::getDataModelDefinition()->getCacheBackendInstance();
+	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public static function getHistoryEnabled() {
+		return static::getDataModelDefinition()->getHistoryEnabled();
+	}
+
+	/**
+	 * Returns history backend instance
+	 *
+	 * @return DataModel_History_Backend_Abstract
+	 */
+	public function getHistoryBackendInstance() {
+		$definition = static::getDataModelDefinition();
+
+		if(!$definition->getHistoryEnabled()) {
+			return false;
+		}
+
+		if(!$this->___data_model_history_backend_instance) {
+			$this->___data_model_history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
+				$definition->getHistoryBackendType(),
+				$definition->getHistoryBackendConfig()
+			);
+
+		}
+
+		return $this->___data_model_history_backend_instance;
+	}
+
+
 	/**
 	 * Loads DataModel.
 	 *
@@ -784,33 +505,39 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$loaded_instance = null;
 		if($cache) {
 			$loaded_instance = $cache->get( $definition, $ID);
-			foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-				if(!$property_definition->getIsDataModel()) {
-					continue;
+
+			if($loaded_instance) {
+				foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+					if(!$property_definition->getIsDataModel()) {
+						continue;
+					}
+
+					/**
+					 * @var DataModel_Related_Abstract $related_object
+					 */
+					$related_object = $loaded_instance->{$property_name};
+
+					$related_object->wakeUp( $loaded_instance );
 				}
 
-				$loaded_instance->{$property_name}->wakeUp( $loaded_instance );
+				return $loaded_instance;
 			}
 		}
 
-		if(!$loaded_instance) {
 
-			$query = new DataModel_Query( $definition );
+		$query = $ID->getQuery();
+		$query->setSelect( $definition->getProperties() );
 
-			$query->setSelect( $definition->getProperties() );
-			$query->setWhere( $ID->getWhere() );
+		$dat = static::getBackendInstance()->fetchRow( $query );
 
-			$dat = static::getBackendInstance()->fetchRow( $query );
+		if(!$dat) {
+			return null;
+		}
 
-			if(!$dat) {
-				return null;
-			}
+		$loaded_instance = static::_load_dataToInstance( $dat );
 
-			$loaded_instance = static::_load_dataToInstance( $dat );
-
-			if($cache) {
-				$cache->save($definition, $ID, $loaded_instance);
-			}
+		if($cache) {
+			$cache->save($definition, $ID, $loaded_instance);
 		}
 
 
@@ -982,6 +709,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$record->addItem($property_definition, $this->{$property_name});
 		}
 
+		$this->generateID();
+
 		$backend_result = $backend->save( $record );
 
 		$this->generateID( true, $backend_result );
@@ -1040,7 +769,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$record->addItem($property_definition, $this->{$property_name});
 		}
 
-		$backend->update($record, $this->getIDQuery());
+		$backend->update($record, $this->getID()->getQuery() );
 
 		if(!$main_model_instance) {
 			foreach( $related_model_properties as $property_name=>$property_definition ) {
@@ -1104,7 +833,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 		}
 
-		$backend->delete( $this->getIDQuery() );
+		$backend->delete( $this->getID()->getQuery() );
 
 		if( !($this instanceof DataModel_Related_Abstract) ) {
 			$backend->transactionCommit();
@@ -1187,8 +916,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array| $query
 	 * @return DataModel
 	 */
-	protected function fetchOneObject( array $query ) {
-		$fetch = new DataModel_Fetch_Object_Assoc( $query, $this );
+	protected static function fetchOneObject( array $query ) {
+
+		$fetch = new DataModel_Fetch_Object_Assoc( $query, static::getDataModelDefinition() );
 		$fetch->getQuery()->setLimit(1);
 
 		foreach($fetch as $object) {
@@ -1203,8 +933,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $query
 	 * @return DataModel_Fetch_Object_Assoc
 	 */
-	protected function fetchObjects( array  $query=array() ) {
-		return new DataModel_Fetch_Object_Assoc( $query, $this );
+	protected static function fetchObjects( array  $query=array() ) {
+		return new DataModel_Fetch_Object_Assoc( $query, static::getDataModelDefinition() );
 	}
 
 	/**
@@ -1212,8 +942,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $query
 	 * @return DataModel_Fetch_Object_IDs
 	 */
-	protected function fetchObjectIDs( array $query=array() ) {
-		return new DataModel_Fetch_Object_IDs( $query, $this );
+	protected static function fetchObjectIDs( array $query=array() ) {
+		return new DataModel_Fetch_Object_IDs( $query, static::getDataModelDefinition() );
 	}
 
 
@@ -1223,8 +953,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $query
 	 * @return DataModel_Fetch_Data_All
 	 */
-	protected function fetchDataAll( array $load_items, array  $query=array() ) {
-		return new DataModel_Fetch_Data_All( $load_items, $query, $this );
+	protected static function fetchDataAll( array $load_items, array  $query=array() ) {
+		return new DataModel_Fetch_Data_All( $load_items, $query, static::getDataModelDefinition() );
 	}
 
 	/**
@@ -1233,8 +963,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $query
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
-	protected function fetchDataAssoc( array $load_items, array  $query=array() ) {
-		return new DataModel_Fetch_Data_Assoc( $load_items, $query, $this );
+	protected static function fetchDataAssoc( array $load_items, array  $query=array() ) {
+		return new DataModel_Fetch_Data_Assoc( $load_items, $query, static::getDataModelDefinition() );
 	}
 
 	/**
@@ -1243,8 +973,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $query
 	 * @return DataModel_Fetch_Data_Pairs
 	 */
-	protected function fetchDataPairs( array $load_items, array  $query=array() ) {
-		return new DataModel_Fetch_Data_Pairs( $load_items, $query, $this );
+	protected static function fetchDataPairs( array $load_items, array  $query=array() ) {
+		return new DataModel_Fetch_Data_Pairs( $load_items, $query, static::getDataModelDefinition() );
 	}
 
 	/**
@@ -1253,11 +983,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $query
 	 * @return mixed|null
 	 */
-	protected function fetchDataRow( array $load_items, array  $query=array() ) {
-		$query = DataModel_Query::createQuery($this->getDataModelDefinition(), $query);
+	protected static function fetchDataRow( array $load_items, array  $query=array() ) {
+		$query = DataModel_Query::createQuery(static::getDataModelDefinition(), $query);
 		$query->setSelect($load_items);
 
-		return $this->getBackendInstance()->fetchRow( $query );
+		return static::getBackendInstance()->fetchRow( $query );
 
 	}
 
@@ -1268,11 +998,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return mixed|null
 	 */
-	protected function fetchDataOne( array $load_items, array  $query=array() ) {
-		$query = DataModel_Query::createQuery($this->getDataModelDefinition(), $query);
+	protected static function fetchDataOne( array $load_items, array  $query=array() ) {
+		$query = DataModel_Query::createQuery(static::getDataModelDefinition(), $query);
 		$query->setSelect($load_items);
 
-		return $this->getBackendInstance()->fetchOne( $query );
+		return static::getBackendInstance()->fetchOne( $query );
 	}
 
 	/**
@@ -1304,11 +1034,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 			}
 
-			if(!$this->getIsNew()) {
-				$field->setDefaultValue( $this->{$property->getName()} );
-			} else {
-				$field->setDefaultValue( $property->getDefaultValue() );
-			}
+			$field->setDefaultValue( $this->{$property->getName()} );
 
 			$fields[] = $field;
 		}
@@ -1402,11 +1128,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 		}
-
-		if( $this->getIsNew() ) {
-			$this->generateID();
-		}
-
 
 		return true;
 	}
@@ -1526,6 +1247,14 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$this->___data_model_ready_to_save = false;
 	}
 
+	/**
+	 *
+	 */
+	public function __clone() {
+		$this->resetID();
+		$this->setIsNew();
+	}
+
 
 	/**
 	 * @param string $class
@@ -1585,10 +1314,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return string
 	 */
 	public static function helper_getUpdateCommand( $class ) {
+		//DO NOT use factory here!
 		/**
 		 * @var DataModel $_this
 		 */
-		$_this = Factory::getInstance( $class );
+		$_this = new $class();
 
 		return $_this->getBackendInstance()->helper_getUpdateCommand( $_this );
 	}
@@ -1602,10 +1332,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param string $class
 	 */
 	public static function helper_update( $class, $including_history_backend=true, $including_cache_backend=true  ) {
+		//DO NOT use factory here!
 		/**
 		 * @var DataModel $_this
 		 */
-		$_this = Factory::getInstance( $class );
+		$_this = new $class();
 
 		if( $including_history_backend ) {
 			$h_backend = $_this->getHistoryBackendInstance();
@@ -1638,10 +1369,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param string $class
 	 */
 	public static function helper_drop( $class ) {
+		//DO NOT use factory here!
 		/**
 		 * @var DataModel $_this
 		 */
-		$_this = Factory::getInstance( $class );
+		$_this = new $class();
+
 		$_this->getBackendInstance()->helper_drop( $_this );
 
 		$cache = $_this->getCacheBackendInstance();
@@ -1662,155 +1395,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @throws Object_Reflection_Exception
 	 */
 	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
-
-
-		switch($key) {
-			case 'key':
-				if(
-					!is_array($value) ||
-					empty($value[0]) ||
-					empty($value[1]) ||
-					!is_array($value[1]) ||
-					!is_string($value[0])
-				) {
-					throw new Object_Reflection_Exception(
-						'Key definition parse errro. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Example: JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], Jet\DataModel::KEY_TYPE_INDEX ]',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-					);
-
-				}
-
-				if(!isset($value[2])) {
-					$value[2] = DataModel::KEY_TYPE_INDEX;
-				}
-
-				if(
-					$value[2]!= DataModel::KEY_TYPE_INDEX &&
-					$value[2]!= DataModel::KEY_TYPE_UNIQUE
-				) {
-					throw new Object_Reflection_Exception(
-						'Unknown key type. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Use Jet\DataModel::KEY_TYPE_INDEX or Jet\DataModel::KEY_TYPE_UNIQUE',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-					);
-				}
-
-				if( !isset($reflection_data['data_model_keys_definition']) ) {
-					$reflection_data['data_model_keys_definition'] = array();
-				}
-
-				if(isset( $reflection_data['data_model_keys_definition'][ $value[0] ] )) {
-					throw new Object_Reflection_Exception(
-						'Duplicit key! Class: \''.get_called_class().'\', definition: \''.$definition.'\''
-					);
-
-				}
-
-				$reflection_data['data_model_keys_definition'][ $value[0] ] = array(
-					'name' => $value[0],
-					'type' => $value[1],
-					'property_names' => $value[2]
-				);
-
-
-			break;
-			case 'relation':
-				if(
-					!is_array($value) ||
-					empty($value[0]) ||
-					empty($value[1]) ||
-					!is_array($value[1]) ||
-					!is_string($value[0])
-				) {
-					throw new Object_Reflection_Exception(
-						'Relation definition parse errro. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Example: JetDataModel:relation = [ \'Some\RelatedClass\', [ \'this.class_property_name\'=>\'related_class_property_name\', \'this.another_class_property_name\' => \'another_related_class_property_name\', \'this_value.getValueMethodName\' => \'another_related_class_property\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-					);
-
-				}
-
-				if(!isset($value[2])) {
-					$value[2] = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
-				}
-
-				if(
-					$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_JOIN &&
-					$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
-				) {
-					throw new Object_Reflection_Exception(
-						'Unknown relation type. Class: \''.get_called_class().'\', definition: \''.$definition.'\', Use Jet\DataModel_Query::JOIN_TYPE_LEFT_JOIN or Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-					);
-
-				}
-
-				if( !isset($reflection_data['data_model_outer_relations_definition']) ) {
-					$reflection_data['data_model_outer_relations_definition'] = array();
-				}
-
-				if(isset( $reflection_data['data_model_outer_relations_definition'][ $value[0] ] )) {
-					throw new Object_Reflection_Exception(
-						'Duplicit relation! Class: \''.get_called_class().'\', definition: \''.$definition.'\''
-					);
-
-				}
-
-				$reflection_data['data_model_outer_relations_definition'][ $value[0] ] = array(
-					'related_to_class_name' => $value[0],
-					'join_by_properties' => $value[1],
-					'join_type' => $value[2]
-				);
-
-				return;
-			break;
-			case 'name':
-				$reflection_data['data_model_name'] = (string)$value;
-				break;
-			case 'database_table_name':
-				$reflection_data['database_table_name'] = (string)$value;
-				break;
-			case 'ID_class_name':
-				$reflection_data['data_model_ID_class_name'] = (string)$value;
-				break;
-			case 'parent_model_class_name':
-				$reflection_data['data_model_parent_model_class_name'] = (string)$value;
-				break;
-			case 'forced_backend_type':
-				$reflection_data['data_model_forced_backend_type'] = (string)$value;
-				break;
-			case 'forced_backend_config':
-				$reflection_data['data_model_forced_backend_config'] = (array)$value;
-				break;
-			case 'forced_history_enabled':
-				$reflection_data['data_model_forced_history_enabled'] = (bool)$value;
-				break;
-			case 'forced_history_backend_type':
-				$reflection_data['data_model_forced_history_backend_type'] = (string)$value;
-				break;
-			case 'forced_history_backend_config':
-				$reflection_data['data_model_forced_history_backend_config'] = (array)$value;
-				break;
-			case 'forced_cache_enabled':
-				$reflection_data['data_model_forced_cache_enabled'] = (bool)$value;
-				break;
-			case 'forced_cache_backend_type':
-				$reflection_data['data_model_forced_cache_backend_type'] = (string)$value;
-				break;
-			case 'forced_cache_backend_config':
-				$reflection_data['data_model_forced_cache_backend_config'] = (array)$value;
-				break;
-			case 'M_model_class_name':
-				$reflection_data['M_model_class_name'] = (string)$value;
-				break;
-			case 'N_model_class_name':
-				$reflection_data['N_model_class_name'] = (string)$value;
-				break;
-			default:
-				throw new Object_Reflection_Exception(
-					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-				);
-		}
-
+		DataModel_Definition_Model_Abstract::parseClassDocComment( get_called_class(), $reflection_data, $key, $definition, $raw_value, $value );
 	}
 
 	/**
@@ -1824,15 +1409,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @throws Object_Reflection_Exception
 	 */
 	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
-
-		if(!isset($reflection_data['data_model_properties_definition'])) {
-			$reflection_data['data_model_properties_definition'] = array();
-		}
-		if(!isset($reflection_data['data_model_properties_definition'][$property_name])) {
-			$reflection_data['data_model_properties_definition'][$property_name] = array();
-		}
-
-		$reflection_data['data_model_properties_definition'][$property_name][$key] = $value;
+		DataModel_Definition_Model_Abstract::parsePropertyDocComment( get_called_class(), $reflection_data,$property_name, $key, $definition, $raw_value, $value );
 	}
 
 }

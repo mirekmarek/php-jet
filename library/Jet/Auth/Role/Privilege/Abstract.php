@@ -29,11 +29,20 @@ namespace Jet;
  */
 abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {
 
+
 	/**
 	 * @param $privilege
 	 * @param mixed[] $values
 	 */
-	abstract function initNew( $privilege, array $values );
+	public function __construct( $privilege='', array $values=array() ) {
+
+		if($privilege) {
+			$this->setPrivilege($privilege);
+			$this->setValues($values);
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string

@@ -181,8 +181,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 * @covers Jet\DataModel_Definition_Property_Abstract::getDefaultValue
 	 */
 	public function testGetDefaultValue() {
-		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue());
-		$this->assertEquals($this->ID_property_options['default_value'], $this->ID_object->getDefaultValue());
+		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue( $this->data_model ) );
+		$this->assertEquals($this->ID_property_options['default_value'], $this->ID_object->getDefaultValue( $this->data_model ) );
 	}
 
 	/**
@@ -454,7 +454,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		DataModel_Definition_Property_Abstract::cloneProperty($this->object, $dolly);
 
 		$this->assertEquals( $this->object->getListOfValidOptions(), $dolly->getListOfValidOptions() );
-		$this->assertEquals( $this->object->getDefaultValue(), $dolly->getDefaultValue() );
+		$this->assertEquals( $this->object->getDefaultValue( $this->data_model ), $dolly->getDefaultValue( $this->data_model ) );
 		$this->assertEquals( $this->object->getDescription(), $dolly->getDescription() );
 		$this->assertEquals( $this->object->getBackendOptions( 'test' ), $dolly->getBackendOptions( 'test' ) );
 	}

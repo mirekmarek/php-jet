@@ -35,27 +35,14 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 *
 	 * @param string[] $select_items
 	 * @param array|DataModel_Query $query
-	 * @param DataModel $data_model
+	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	final public function __construct( array $select_items, $query, DataModel $data_model  ) {
-		if(is_array($query)) {
-			$query = DataModel_Query::createQuery($data_model->getDataModelDefinition(), $query);
-		}
-
-		if(!$query instanceof DataModel_Query) {
-			throw new DataModel_Query_Exception(
-				'Query must be an instance of \\Jet\\DataModel_Query or valid query as an array. ' ,
-				DataModel_Query_Exception::CODE_QUERY_NONSENSE
-			);
-		}
-
-		$this->query = $query;
+	final public function __construct( array $select_items, $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
+		parent::__construct( $query, $data_model_definition );
 
 		$this->query->setSelect( $select_items );
-
-		$this->data_model = $data_model;
 	}
 
 	/**
@@ -103,7 +90,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 * @return string
 	 */
 	public function toXML() {
-		$model_name = $this->data_model->getDataModelDefinition()->getModelName();
+		$model_name = $this->data_model_definition->getModelName();
 
 		$result = '';
 		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
@@ -142,7 +129,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 			return;
 		}
 
-		$this->data = $this->data_model->getBackendInstance()->{$this->backend_fetch_method}( $this->query );
+		$this->data = $this->data_model_definition->getBackendInstance()->{$this->backend_fetch_method}( $this->query );
 	}
 
 //--------------------------------------------------------------------------------------------------

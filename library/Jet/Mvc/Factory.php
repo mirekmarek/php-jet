@@ -90,22 +90,40 @@ class Mvc_Factory extends Factory {
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function getPageClassName() {
+		return static::getClassName( static::DEFAULT_PAGE_CLASS );
+	}
+
+	/**
 	 * Returns instance of Page ID class @see Factory
 	 *
 	 * @return Mvc_Pages_Page_ID_Abstract
 	 */
 	public static function getPageIDInstance() {
-		return static::getPageInstance()->getEmptyIDInstance();
+		$class_name = static::getPageClassName();
+
+		/**
+		 * @var Mvc_Pages_Page_Abstract $class_name
+		 */
+		return $class_name::getEmptyIDInstance();
 	}
 
 	/**
 	 * Returns instance of Page class @see Factory
 	 *
-	 * @return Mvc_Pages_Page_Default
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 * @param string $name
+	 * @param string $parent_ID (optional)
+	 * @param string $ID (optional)
+	 *
+	 * @return Mvc_Pages_Page_Abstract
 	 */
-	public static function getPageInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_PAGE_CLASS );
-		$instance = new $class_name();
+	public static function getPageInstance( $site_ID='', Locale $locale=null , $name='', $parent_ID='', $ID=null ) {
+		$class_name = static::getPageClassName();
+		$instance = new $class_name( $site_ID, $locale , $name, $parent_ID, $ID );
 		static::checkInstance(static::DEFAULT_PAGE_CLASS, $instance);
 		return $instance;
 	}
@@ -125,11 +143,15 @@ class Mvc_Factory extends Factory {
 	/**
 	 * Returns instance of Page MetaTag class @see Factory
 	 *
+	 * @param string $content (optional)
+	 * @param string $attribute (optional)
+	 * @param string $attribute_value (optional)
+	 *
 	 * @return Mvc_Pages_Page_MetaTag_Abstract
 	 */
-	public static function getPageMetaTagInstance() {
+	public static function getPageMetaTagInstance( $content='', $attribute='', $attribute_value='' ) {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_META_TAG_CLASS );
-		$instance = new $class_name();
+		$instance = new $class_name( $content, $attribute, $attribute_value );
 		static::checkInstance(static::DEFAULT_PAGE_META_TAG_CLASS, $instance);
 		return $instance;
 	}
@@ -204,36 +226,54 @@ class Mvc_Factory extends Factory {
 		return $instance;
 	}
 
+
+	/**
+	 * @return string
+	 */
+	public static function getSiteClassName() {
+		return static::getClassName( static::DEFAULT_SITE_CLASS );
+	}
+
 	/**
 	 * Returns instance of Site class @see Factory
 	 *
 	 * @return Mvc_Sites_Site_ID_Abstract
 	 */
 	public static function getSiteIDInstance() {
-		return static::getSiteInstance()->getEmptyIDInstance();
-	}
+		$class_name = static::getSiteClassName();
 
+		/**
+		 * @var Mvc_Sites_Site_Abstract $class_name
+		 */
+		return $class_name::getEmptyIDInstance();
+	}
 
 	/**
 	 * Returns instance of Site class @see Factory
 	 *
+	 * @param string $name (optional)
+	 * @param string $ID (optional)
+	 *
 	 * @return Mvc_Sites_Site_Abstract
 	 */
-	public static function getSiteInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_SITE_CLASS );
-		$instance = new $class_name();
+	public static function getSiteInstance( $name='', $ID=null ) {
+		$class_name = static::getSiteClassName();
+		$instance = new $class_name( $name, $ID );
 		static::checkInstance(static::DEFAULT_SITE_CLASS, $instance);
 		return $instance;
 	}
 
 	/**
-	 * Returns instance of Localized Site class @see Factory
+	 * Returns instance of Localized Site class
+	 * @see Factory
+	 *
+	 * @param Locale $locale
 	 *
 	 * @return Mvc_Sites_Site_LocalizedData_Abstract
 	 */
-	public static function getLocalizedSiteInstance() {
+	public static function getLocalizedSiteInstance( Locale $locale=null ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_CLASS );
-		$instance = new $class_name();
+		$instance = new $class_name( $locale );
 		static::checkInstance(static::DEFAULT_LOCALIZED_SITE_CLASS, $instance);
 		return $instance;
 	}
@@ -241,11 +281,15 @@ class Mvc_Factory extends Factory {
 	/**
 	 * Returns instance of Localized Site MetaTag class @see Factory
 	 *
+	 * @param string $content (optional)
+	 * @param string $attribute (optional)
+	 * @param string $attribute_value (optional)
+	 *
 	 * @return Mvc_Sites_Site_LocalizedData_MetaTag_Abstract
 	 */
-	public static function getLocalizedSiteMetaTagInstance() {
+	public static function getLocalizedSiteMetaTagInstance( $content='', $attribute='', $attribute_value='' ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS );
-		$instance = new $class_name();
+		$instance = new $class_name( $content, $attribute, $attribute_value );
 		static::checkInstance(static::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS, $instance);
 		return $instance;
 	}
@@ -253,11 +297,14 @@ class Mvc_Factory extends Factory {
 	/**
 	 * Returns instance of Localized Site URL class @see Factory
 	 *
+	 * @param string $URL (optional)
+	 * @param bool $is_default (optional)
+	 *
 	 * @return Mvc_Sites_Site_LocalizedData_URL_Abstract
 	 */
-	public static function getLocalizedSiteURLInstance() {
+	public static function getLocalizedSiteURLInstance( $URL='', $is_default=false ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_URL_CLASS );
-		$instance = new $class_name();
+		$instance = new $class_name( $URL, $is_default );
 		static::checkInstance(static::DEFAULT_LOCALIZED_SITE_URL_CLASS, $instance);
 		return $instance;
 	}

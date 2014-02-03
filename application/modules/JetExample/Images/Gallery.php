@@ -174,7 +174,7 @@ class Gallery extends Jet\DataModel {
 		if(!isset(static::$__galleries[$ID])) {
 			$s_ID = $ID;
 
-			$ID = static::getEmptyIDInstance()->createID($ID);
+			$ID = static::createID($ID);
 
 			if( !($instance = static::load($ID)) ) {
 				return null;

@@ -49,21 +49,156 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	}
 
 	/**
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_MtoN
+	 */
+	public function getDataModelDefinition() {
+		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->data_model_class_name );
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getValues() {
 		return $this->values;
 	}
+	/**
+	 * @param string $ID
+	 *
+	 * @return DataModel_ID_Abstract
+	 */
+	public function unserialize( $ID ) {
+		$ID = explode(':', $ID);
+		foreach(array_keys($this->values) as $k ) {
+			if(!$ID) {
+				break;
+			}
+			$val = array_shift( $ID );
+
+			$this->values[$k] = $val;
+		}
+
+		return $this;
+	}
+
+	abstract public function generate( DataModel $data_model_instance, $called_after_save = false, $backend_save_result = null );
+
+	/**
+	 *
+	 * @param DataModel_Definition_Property_Abstract[] $relation_ID_properties (optional)
+	 *
+	 * @return DataModel_Query
+	 */
+	public function getQuery( $relation_ID_properties=null ) {
+		$data_model_definition = $this->getDataModelDefinition();
+
+		$query = new DataModel_Query( $data_model_definition );
+		$query->setWhere(array());
+		$where = $query->getWhere();
+
+		if($relation_ID_properties) {
+			foreach($relation_ID_properties as $related_property) {
+				/**
+				 * @var DataModel_Definition_Property_Abstract $related_property
+				 */
+				$property_name = $related_property->getRelatedToPropertyName();
+
+				$value = $this->values[$property_name];
+
+				if($value===null)  {
+					continue;
+				}
+
+				$where->addAND();
+				$where->addExpression( $related_property, DataModel_Query::O_EQUAL, $value);
+			}
+
+		} else {
+			$properties = $data_model_definition->getProperties();
+
+			foreach($this->values as $property_name => $value) {
+				if($value===null) {
+					continue;
+				}
+
+
+				$where->addAND();
+				$where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value);
+			}
+		}
+
+		return $query;
+	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function getExists() {
+		$query = $this->getQuery();
+
+		return (bool)$this->getDataModelDefinition()->getBackendInstance()->getCount( $query );
+	}
+
+
+	/**
+	 * @return int
+	 */
+	abstract public function getMaxLength();
+
+
+	/**
+	 *
+	 * @param DataModel $data_model_instance
+	 * @param string $ID_property_name
+	 * @param string $object_name
+	 *
+	 * @throws DataModel_ID_Exception
+	 */
+	abstract public function generateNameID( DataModel $data_model_instance, $ID_property_name, $object_name  );
+
+
+	/**
+	 * @param DataModel $data_model_instance
+	 * @param string $ID_property_name
+	 *
+	 */
+	abstract public function generateUniqueID( DataModel $data_model_instance, $ID_property_name  );
+
+
+	/**
+	 * Returns true if the ID format is valid
+	 *
+	 * @param string $ID
+	 * @return bool
+	 */
+	abstract public function checkFormat( $ID );
+
+
+
+	/**
+	 * @param string $ID
+	 *
+	 * @return DataModel_ID_Abstract
+	 */
+	public function createID( $ID ) {
+		return $this->unserialize( $ID );
+	}
+
+	public function reset() {
+		foreach( $this->values as $k=>$val ) {
+			$this->values[$k] = null;
+		}
+	}
+
 
 	/**
 	 * @return array
 	 */
 	public function __sleep() {
 		return array(
-				'data_model_class_name',
-				//'ID_properties_names',
-				'values'
-			);
+			'data_model_class_name',
+			'values'
+		);
 	}
 
 	/**
@@ -86,107 +221,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		return implode( ':', $this->values );
 	}
 
-	/**
-	 * @param string $ID
-	 *
-	 * @return DataModel_ID_Abstract
-	 */
-	public function unserialize( $ID ) {
-		$ID = explode(':', $ID);
-		foreach(array_keys($this->values) as $k ) {
-			if(!$ID) {
-				break;
-			}
-			$val = array_shift( $ID );
 
-			$this->values[$k] = $val;
-		}
-
-		return $this;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getWhere() {
-		$where = array();
-
-		foreach($this->values as $key=>$value) {
-			if($value===null) {
-				continue;
-			}
-
-			if($where) {
-				$where[] = 'AND';
-			}
-
-			$where['this.'.$key] = $value;
-		}
-
-		return $where;
-	}
-
-	/**
-	 * @return int
-	 */
-	abstract public function getMaxLength();
-
-	/**
-	 *
-	 * @param DataModel $data_model_instance
-	 * @param string $object_name
-	 *
-	 * @return string
-	 */
-	abstract public function generateID( DataModel $data_model_instance, $object_name );
-
-	/**
-	 * @param DataModel $data_model_instance
-	 * @param string|DataModel_ID_Abstract $ID
-	 *
-	 * @return bool
-	 */
-	public function getIDExists( DataModel $data_model_instance, $ID ) {
-		return $data_model_instance->getIDExists($ID);
-	}
-
-
-	/**
-	 * Returns true if the ID format is valid
-	 *
-	 * @param string $ID
-	 * @return bool
-	 */
-	abstract public function checkFormat( $ID );
-
-
-	/**
-	 * @return string
-	 */
-	public static function generateUniqueID() {
-		$time = floor(microtime(true) * 1000);
-
-		$unique_ID = uniqid('', true);
-
-		$u_name = substr(php_uname('n'), 0,14);
-
-		$ID = $u_name.$time .$unique_ID;
-
-		$ID = substr( preg_replace('~[^a-zA-Z0-9]~', '_', $ID), 0, 50);
-
-		return $ID;
-	}
-
-
-	/**
-	 * @param string $ID
-	 *
-	 * @return DataModel_ID_Abstract
-	 */
-	public function createID( $ID ) {
-		return $this->unserialize($ID);
-	}
 
 //--------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------

@@ -128,9 +128,7 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 		$output_position_required=true,
 		$output_position_order=0
 	) {
-
 		if($module_name) {
-			$this->generateID();
 
 			$this->module_name = $module_name;
 			$this->controller_class_suffix = $controller_class_suffix;
@@ -141,6 +139,8 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 			$this->output_position_required = (bool)$output_position_required;
 			$this->output_position_order = (int)$output_position_order;
 		}
+
+		parent::__construct();
 	}
 
 	/**

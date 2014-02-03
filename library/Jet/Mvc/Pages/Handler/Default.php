@@ -376,7 +376,6 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 
 			$cnt = Mvc_Factory::getPageContentInstance();
-			$cnt->initNewObject();
 
 			if(!$cnt->catchForm( $content_form, $c_dat, true )) {
 				$this->_handleValidationErrors( $ID, $content_form->getAllErrors() );
@@ -397,7 +396,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 
 			$mtg = Mvc_Factory::getPageMetaTagInstance();
-			$mtg->initNewObject();
+
 			if(!$mtg->catchForm( $meta_tag_form, $m_dat, true )) {
 				$this->_handleValidationErrors( $ID, $meta_tag_form->getAllErrors() );
 			}

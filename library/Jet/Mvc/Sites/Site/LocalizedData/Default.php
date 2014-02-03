@@ -109,22 +109,11 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 
 
 	/**
-	 * @param Locale $locale (optional)
-	 */
-	public function __construct( Locale $locale=null) {
-		if($locale) {
-			$this->generateID();
-
-			$this->locale = $locale;
-		}
-	}
-
-	/**
 	 * @param Locale $locale
+	 *
+	 * @return void
 	 */
-	public function initNew( Locale $locale ) {
-		$this->generateID();
-		$this->initNewObject();
+	protected function setLocale( Locale $locale ) {
 		$this->locale = $locale;
 	}
 
@@ -299,7 +288,6 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 		}
 
 		$new_URL_instance = Mvc_Factory::getLocalizedSiteURLInstance();
-		$new_URL_instance->initNewObject();
 		$new_URL_instance->setURL( (string)$URL );
 		$is_SSL = $new_URL_instance->getIsSSL();
 

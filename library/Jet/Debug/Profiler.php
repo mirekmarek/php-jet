@@ -238,7 +238,7 @@ class Debug_Profiler {
 			return;
 		}
 
-		static::$run->blockStart( $label );
+		static::$run->MainBlockStart( $label );
 	}
 
 	/**
@@ -249,7 +249,7 @@ class Debug_Profiler {
 			return;
 		}
 
-		static::$run->blockEnd( $label );
+		static::$run->MainBlockEnd( $label );
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Debug_Profiler {
 			return;
 		}
 
-		static::$run->subBlockStart( $label );
+		static::$run->blockStart( $label );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class Debug_Profiler {
 			return;
 		}
 
-		static::$run->subBlockEnd( $label );
+		static::$run->blockEnd( $label );
 	}
 
 

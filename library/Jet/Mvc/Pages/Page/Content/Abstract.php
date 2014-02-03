@@ -31,25 +31,6 @@ namespace Jet;
 abstract class Mvc_Pages_Page_Content_Abstract extends DataModel_Related_1toN {
 
 	/**
-	 * @param string $module_name (optional)
-	 * @param string $controller_class_suffix (optional)
-	 * @param string $controller_action (optional)
-	 * @param array $controller_action_parameters (optional)
-	 * @param string $output_position (optional)
-	 * @param bool $output_position_required (optional)
-	 * @param int $output_position_order (optional)
-	 */
-	abstract public function __construct(
-					$module_name='',
-					$controller_class_suffix = '',
-					$controller_action='',
-					$controller_action_parameters=array(),
-					$output_position='',
-					$output_position_required=true,
-					$output_position_order=0
-		);
-
-	/**
 	 * @return string
 	 */
 	abstract public function getModuleName();

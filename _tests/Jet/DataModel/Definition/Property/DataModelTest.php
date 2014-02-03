@@ -70,7 +70,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 */
 	public function testGetDefaultValue() {
 		$data_model = new $this->property_options['data_model_class']();
-		$this->assertEquals($data_model, $this->object->getDefaultValue());
+		$this->assertEquals($data_model, $this->object->getDefaultValue( $this->data_model ));
 	}
 
 	/**

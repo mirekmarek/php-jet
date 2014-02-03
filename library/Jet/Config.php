@@ -140,6 +140,11 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 */
 	protected static $configs_data = array();
 
+	/**
+	 * @var Config_Definition_Property_Abstract[]
+	 */
+	private $_properties_definition = null;
+
 
 	/**
 	 * Sets application config file path
@@ -227,25 +232,59 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 
 	/**
 	 *
-	 * @return array[]
-	 */
-	protected function getPropertiesDefinitionData() {
-
-		return Object_Reflection::get( get_class($this), 'config_properties_definition', array() );
-
-	}
-
-	/**
-	 *
 	 * @return Config_Definition_Property_Abstract[]
 	 */
 	public function getPropertiesDefinition() {
-		$properties = array();
-		foreach( $this->getPropertiesDefinitionData() as $property_name=>$property_dd ) {
-			$properties[$property_name] = $this->getPropertyDefinitionInstance( $property_name, $property_dd);
+		if($this->_properties_definition) {
+			return $this->_properties_definition;
 		}
 
-		return $properties;
+		$file_path = JET_CONFIG_DEFINITION_CACHE_PATH.str_replace('\\', '__', get_called_class().'.dat');
+
+		if( JET_CONFIG_DEFINITION_CACHE_LOAD ) {
+
+			if(IO_File::isReadable($file_path)) {
+				$OK = true;
+
+				$definition = null;
+				try {
+					$definition = IO_File::read($file_path);
+				} catch( IO_File_Exception $e ) {
+					$OK = false;
+				}
+
+				if($OK) {
+					$definition = unserialize($definition);
+					if(!$definition) {
+						IO_File::delete($file_path);
+						$OK = false;
+					}
+				}
+
+
+				if($OK) {
+					$this->_properties_definition = $definition;
+
+					return $definition;
+				}
+
+			}
+		}
+
+
+		$propertied_definition_data = Object_Reflection::get( get_class($this), 'config_properties_definition', array() );
+
+		$this->_properties_definition = array();
+		foreach( $propertied_definition_data as $property_name=>$property_dd ) {
+			$this->_properties_definition[$property_name] = $this->getPropertyDefinitionInstance( $property_name, $property_dd);
+		}
+
+		if(JET_CONFIG_DEFINITION_CACHE_SAVE) {
+			IO_File::write( $file_path, serialize($this->_properties_definition) );
+		}
+
+
+		return $this->_properties_definition;
 	}
 
 	/**

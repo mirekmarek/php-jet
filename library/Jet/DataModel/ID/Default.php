@@ -28,15 +28,53 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 	}
 
 	/**
+	 * Generate unique ID
 	 *
 	 * @param DataModel $data_model_instance
+	 * @param bool $called_after_save (optional, default = false)
+	 * @param mixed $backend_save_result  (optional, default = null)
+	 *
+	 */
+	public function generate( DataModel $data_model_instance, $called_after_save = false, $backend_save_result = null ) {
+
+		foreach( $this->values as $ID_property_name=>$value ) {
+			if($value===null || $value==='') {
+				$this->generateUniqueID( $data_model_instance, $ID_property_name );
+			}
+		}
+	}
+
+	/**
+	 * @param DataModel $data_model_instance
+	 * @param string $ID_property_name
+	 */
+	public function generateUniqueID( DataModel $data_model_instance, $ID_property_name  ) {
+		//do {
+			$time = floor(microtime(true) * 1000);
+
+			$unique_ID = uniqid('', true);
+
+			$u_name = substr(php_uname('n'), 0,14);
+
+			$ID = $u_name.$time .$unique_ID;
+
+			$ID = substr( preg_replace('~[^a-zA-Z0-9]~', '_', $ID), 0, 50);
+
+			$this->values[$ID_property_name] = $ID;
+		//} while( $this->getExists() );
+	}
+
+
+	/**
+	 *
+	 * @param DataModel $data_model_instance
+	 * @param string $ID_property_name
 	 * @param string $object_name
 	 *
 	 * @throws DataModel_ID_Exception
-	 *
 	 * @return string
 	 */
-	public function generateID( DataModel $data_model_instance, $object_name  ) {
+	public function generateNameID( DataModel $data_model_instance, $ID_property_name, $object_name  ) {
 		$object_name  = trim( $object_name );
 
 		$ID = Data_Text::removeAccents( $object_name );
@@ -47,16 +85,16 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 		$ID = substr($ID, 0, static::MAX_LEN);
 
 
-		$this->values[DataModel::DEFAULT_ID_COLUMN_NAME] = $ID;
+		$this->values[$ID_property_name] = $ID;
 
-		if( $data_model_instance->getIDExists(  $this ) ) {
+		if( $this->getExists() ) {
 			$_ID = substr($ID, 0, static::MAX_LEN - strlen( (string)static::MAX_SUFFIX_NO )  );
 
 			for($c=1; $c<=static::MAX_SUFFIX_NO; $c++) {
-				$this->values[DataModel::DEFAULT_ID_COLUMN_NAME] = $_ID.$c;
+				$this->values[$ID_property_name] = $_ID.$c;
 
-				if( !$data_model_instance->getIDExists( $this )) {
-					return $this->values[DataModel::DEFAULT_ID_COLUMN_NAME];
+				if( !$this->getExists()) {
+					return;
 				}
 			}
 
@@ -65,9 +103,6 @@ class DataModel_ID_Default extends DataModel_ID_Abstract {
 				DataModel_ID_Exception::CODE_ID_GENERATE_REACHED_THE_MAXIMUM_NUMBER_OF_ATTEMPTS
 			);
 		}
-
-		return $ID;
-
 	}
 
 

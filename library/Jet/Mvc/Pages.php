@@ -55,10 +55,7 @@ class Mvc_Pages extends Object {
 	 */
 	public static function getNewPage( $site_ID, Locale $locale , $name, $parent_ID='', $ID=null ) {
 
-		$page = Mvc_Factory::getPageInstance();
-		$page->initNew( $site_ID, $locale , $name, $parent_ID, $ID);
-
-		return $page;
+		return Mvc_Factory::getPageInstance( $site_ID, $locale , $name, $parent_ID, $ID );
 	}
 
 

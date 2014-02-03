@@ -36,7 +36,15 @@ abstract class Mvc_Sites_Site_LocalizedData_MetaTag_Abstract extends DataModel_R
 	 * @param string $attribute (optional)
 	 * @param string $attribute_value (optional)
 	 */
-	abstract public function __construct($content='', $attribute='', $attribute_value='');
+	public function __construct($content='', $attribute='', $attribute_value='') {
+		if($content) {
+			$this->setContent( $content );
+			$this->setAttribute( $attribute );
+			$this->setAttributeValue( $attribute_value );
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string

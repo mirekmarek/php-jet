@@ -41,6 +41,15 @@ define('JET_OBJECT_REFLECTION_CACHE_LOAD', false );
 define('JET_OBJECT_REFLECTION_CACHE_SAVE', false );
 define('JET_OBJECT_REFLECTION_CACHE_PATH', JET_TESTS_TMP.'reflections/' );
 
+define('JET_DATAMODEL_DEFINITION_CACHE_LOAD', false );
+define('JET_DATAMODEL_DEFINITION_CACHE_SAVE', false );
+define('JET_DATAMODEL_DEFINITION_CACHE_PATH', JET_TESTS_TMP.'datamodel_definitions/' );
+
+define('JET_CONFIG_DEFINITION_CACHE_LOAD', false );
+define('JET_CONFIG_DEFINITION_CACHE_SAVE', false );
+define('JET_CONFIG_DEFINITION_CACHE_PATH', JET_TESTS_TMP.'config_definitions/' );
+
+
 require '_mock/Jet/Object.php';
 
 Jet\Config::setApplicationConfigFilePath( __DIR__.'/application-test-config.php' );

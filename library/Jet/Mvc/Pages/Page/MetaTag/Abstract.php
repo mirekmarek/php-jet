@@ -36,7 +36,16 @@ abstract class Mvc_Pages_Page_MetaTag_Abstract extends DataModel_Related_1toN {
 	 * @param string $attribute (optional)
 	 * @param string $attribute_value (optional)
 	 */
-	abstract function __construct($content='', $attribute='', $attribute_value='');
+	public function __construct($content='', $attribute='', $attribute_value='') {
+
+		if($content) {
+			$this->setContent( $content );
+			$this->setAttribute( $attribute );
+			$this->setAttributeValue( $attribute_value );
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string

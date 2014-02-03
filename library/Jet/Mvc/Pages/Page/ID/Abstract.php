@@ -71,4 +71,5 @@ abstract class Mvc_Pages_Page_ID_Abstract extends DataModel_ID_Default {
 		$this->setPageID( $page_ID );
 		return $this;
 	}
+
 }

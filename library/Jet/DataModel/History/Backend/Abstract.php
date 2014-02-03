@@ -83,4 +83,22 @@ abstract class DataModel_History_Backend_Abstract extends Object {
 	 */
 	abstract function helper_create();
 
+	/**
+	 * @return string
+	 */
+	protected function generateOperationID() {
+		$time = floor(microtime(true) * 1000);
+
+		$unique_ID = uniqid('', true);
+
+		$u_name = substr(php_uname('n'), 0,14);
+
+		$ID = $u_name.$time .$unique_ID;
+
+		$ID = substr( preg_replace('~[^a-zA-Z0-9]~', '_', $ID), 0, 50);
+
+		return $ID;
+
+	}
+
 }

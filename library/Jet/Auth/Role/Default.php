@@ -21,6 +21,7 @@ namespace Jet;
  * Class Auth_Role_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles'
+ * @JetDataModel:ID_class_name = 'Jet\\Auth_Role_ID_Default'
  */
 class Auth_Role_Default extends Auth_Role_Abstract {
 
@@ -87,34 +88,6 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	public function  __toString() {
 		return $this->toString();
 	}
-
-	/**
-	 * @param $name
-	 * @param string $ID (optional)
-	 */
-	public function initNew( $name, $ID='' ) {
-		$this->name = $name;
-
-		if(!$ID) {
-			$this->ID = $this->getEmptyIDInstance()->generateID($this, $name );
-		} else {
-			$this->ID = $ID;
-		}
-	}
-
-	/**
-	 * @param bool $called_after_save
-	 * @param null|mixed $backend_save_result
-	 */
-	protected  function generateID(  $called_after_save = false, $backend_save_result = null  ) {
-		if(
-			$this->name &&
-			!$this->ID
-		) {
-			$this->ID = $this->getEmptyIDInstance()->generateID($this, $this->name );
-		}
-	}
-
 
 	/**
 	 * @return string
@@ -205,8 +178,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 */
 	public function setPrivilege( $privilege, array $values ) {
 		if(!isset($this->privileges[$privilege])) {
-			$this->privileges[$privilege] = Auth_Factory::getPrivilegeInstance();
-			$this->privileges[$privilege]->initNew( $privilege, $values );
+			$this->privileges[$privilege] = Auth_Factory::getPrivilegeInstance( $privilege, $values );
 		} else {
 			$this->privileges[$privilege]->setValues( $values );
 		}

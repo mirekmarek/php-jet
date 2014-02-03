@@ -242,9 +242,8 @@ class Article extends Jet\DataModel {
 	 * @return Article
 	 */
 	public static function get( $ID ) {
-		$ID = static::getEmptyIDInstance()->createID($ID);
 
-		return static::load($ID);
+		return static::load( static::createID($ID) );
 	}
 
 	/**

@@ -21,5 +21,5 @@ if(JET_DEBUG_MODE) {
 
 	}
 
-	//Debug_Profiler::enable();
+	Debug_Profiler::enable();
 }

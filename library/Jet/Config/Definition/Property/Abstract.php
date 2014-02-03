@@ -427,6 +427,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 * @throws Config_Exception
 	 */
 	public function checkValue( &$value ) {
+
 		$this->checkValueType($value);
 
 		if($this->_validateProperties_test_required( $value )) {

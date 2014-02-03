@@ -16,6 +16,10 @@ namespace Jet;
 
 
 class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model_Abstract {
+	/**
+	 * @var string
+	 */
+	protected $M_model_class_name = '';
 
 	/**
 	 * @var DataModel_Definition_Model_Abstract[]
@@ -47,11 +51,23 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	public function  __construct( $data_model_class_name ) {
 		$this->_mainInit($data_model_class_name);
 
+		$this->_initParents();
+		$this->_initBackendsConfig();
+		$this->_initProperties();
+		$this->_initKeys();
+
+	}
+
+
+	/**
+	 * @throws DataModel_Exception
+	 */
+	protected function _initParents() {
 		/**
 		 * @var DataModel_Related_MtoN $data_model_class_name
 		 */
-		$M_model_class_name = $data_model_class_name::getDataModelDefinitionMModelClassName();
-		$N_model_class_name = $data_model_class_name::getDataModelDefinitionNModelClassName();
+		$M_model_class_name = Object_Reflection::get( $this->class_name, 'M_model_class_name', null );
+		$N_model_class_name = Object_Reflection::get( $this->class_name, 'N_model_class_name', null );
 
 		if(!$M_model_class_name) {
 			throw new DataModel_Exception(
@@ -72,6 +88,8 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$M_related_model_definition = DataModel::getDataModelDefinition( $M_model_class_name );
 		$N_related_model_definition = DataModel::getDataModelDefinition( $N_model_class_name );
 
+		$this->M_model_class_name = $M_model_class_name;
+
 
 		$M_model_name = $M_related_model_definition->getModelName();
 		$N_model_name = $N_related_model_definition->getModelName();
@@ -88,9 +106,24 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		$this->_glue_defined[$M_model_name] = array();
 		$this->_glue_defined[$N_model_name] = array();
+	}
 
-		$this->_initProperties();
+	/**
+	 *
+	 */
+	protected function _initBackendsConfig() {
+		$main_class_name = $this->M_model_class_name;
 
+		$this->forced_backend_type = Object_Reflection::get( $main_class_name, 'data_model_forced_backend_type', null );
+		$this->forced_backend_config = Object_Reflection::get( $main_class_name, 'data_model_forced_backend_config', null );
+
+		$this->forced_cache_enabled = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_enabled', null );
+		$this->forced_cache_backend_type = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_type', null );
+		$this->forced_cache_backend_config = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_config', null );
+
+		$this->forced_history_enabled = Object_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
+		$this->forced_history_backend_type = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
+		$this->forced_history_backend_config = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**
@@ -179,6 +212,13 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinBy_Item( $related_ID_property, $this_ID_property, $this );
 		$this->_glue_defined[$related_model_name][] = $related_ID_property->getName();
 
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMModelClassName() {
+		return $this->M_model_class_name;
 	}
 
 

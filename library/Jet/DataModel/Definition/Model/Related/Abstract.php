@@ -85,14 +85,29 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	public function  __construct( $data_model_class_name ) {
 		$this->_mainInit($data_model_class_name);
 
-		/**
-		 * @var DataModel_Related_Abstract $data_model_class_name
-		 */
-		$parent_model_class_name = $data_model_class_name::getParentModelClassName();
+		$this->_initParents();
+		$this->_initBackendsConfig();
+		$this->_initProperties();
+		$this->_initKeys();
+
+		if(!$this->ID_properties) {
+			throw new DataModel_Exception(
+				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+	}
+
+	/**
+	 * @throws DataModel_Exception
+	 */
+	protected function _initParents() {
+
+		$parent_model_class_name = Object_Reflection::get( $this->class_name, 'data_model_parent_model_class_name', '' );
 
 		if(!$parent_model_class_name) {
 			throw new DataModel_Exception(
-				$data_model_class_name.' @JetDataModel:parent_model_class_name is not defined!',
+				$this->class_name.' @JetDataModel:parent_model_class_name is not defined!',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -120,14 +135,24 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			$this->__parent_ID_properties = $this->_parent_related_model_definition->getIDProperties();
 		}
 
-		$this->_initProperties();
+	}
 
-		if(!$this->ID_properties) {
-			throw new DataModel_Exception(
-				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
+	/**
+	 *
+	 */
+	protected function _initBackendsConfig() {
+		$main_class_name = $this->_main_model_definition->getClassName();
+
+		$this->forced_backend_type = Object_Reflection::get( $main_class_name, 'data_model_forced_backend_type', null );
+		$this->forced_backend_config = Object_Reflection::get( $main_class_name, 'data_model_forced_backend_config', null );
+
+		$this->forced_cache_enabled = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_enabled', null );
+		$this->forced_cache_backend_type = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_type', null );
+		$this->forced_cache_backend_config = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_config', null );
+
+		$this->forced_history_enabled = Object_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
+		$this->forced_history_backend_type = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
+		$this->forced_history_backend_config = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**

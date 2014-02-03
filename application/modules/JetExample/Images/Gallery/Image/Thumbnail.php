@@ -253,7 +253,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 		 * @var Gallery_Image_Thumbnail $thumbnail
 		 */
 		$thumbnail = new static();
-		$thumbnail->generateID();
+		$thumbnail->initNewObject();
 
 		$thumbnail->file_name = $key.'_'.$image->getFileName();
 

@@ -58,17 +58,6 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 */
 	protected $values = array ();
 
-
-	/**
-	 * @param $privilege
-	 * @param mixed[] $values
-	 */
-	public function initNew( $privilege, array $values ) {
-		$this->generateID();
-		$this->privilege = $privilege;
-		$this->values = $values;
-	}
-
 	/**
 	 * @return string
 	 */

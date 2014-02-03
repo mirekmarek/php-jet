@@ -73,22 +73,6 @@ class Mvc_Sites_Site_LocalizedData_MetaTag_Default extends Mvc_Sites_Site_Locali
 	 */
 	protected $content = '';
 
-
-	/**
-	 * @param string $content (optional)
-	 * @param string $attribute (optional)
-	 * @param string $attribute_value (optional)
-	 */
-	public function __construct($content='', $attribute='', $attribute_value='') {
-		if($content) {
-			$this->generateID();
-
-			$this->content = $content;
-			$this->attribute = $attribute;
-			$this->attribute_value = $attribute_value;
-		}
-	}
-
 	/**
 	 * @return string
 	 */

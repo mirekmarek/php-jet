@@ -32,13 +32,30 @@ namespace Jet;
  */
 abstract class Mvc_Sites_Site_Abstract extends DataModel {
 
+
 	/**
 	 * Prepares new site data
 	 *
-	 * @param string $name
+	 * @param string $name (optional)
 	 * @param string $ID (optional)
 	 */
-	abstract public function initNew( $name, $ID=null );
+	public function __construct( $name=null, $ID=null ) {
+
+		if($name) {
+			$this->setName( $name );
+			$this->setIsDefault( (count(static::getList())==0) );
+			$this->setID( $ID );
+		}
+
+		parent::__construct();
+	}
+
+	/**
+	 * @param string $ID
+	 *
+	 */
+	abstract protected function setID( $ID );
+
 
 	/**
 	 * Returns site name
@@ -227,7 +244,17 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	 *
 	 * @return Mvc_Sites_Site_Abstract[]
 	 */
-	abstract public function getList();
+	public static function getList() {
+
+		$list = static::fetchObjects();
+		$list->getQuery()->setOrderBy('name');
+		return $list;
+	}
+
+	/**
+	 * @return array
+	 */
+	abstract public function getLayoutsList();
 
 	/**
 	 * Returns site by URL
@@ -236,17 +263,24 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	 *
 	 * @return Mvc_Sites_Site_Abstract
 	 */
-	abstract public function getByURL( $URL );
+	public static function getByURL( $URL ) {
+		return self::fetchOneObject(
+			array(
+				'Site_LocalizedData_URL.URL'=>$URL
+			)
+		);
+	}
+
 
 	/**
-	 * Returns default site
+	 * Returns default site data
 	 *
 	 * @return Mvc_Sites_Site_Abstract
 	 */
-	abstract public function getDefault();
+	public static function getDefault() {
+		self::fetchOneObject( array(
+			'this.is_default' => true
+		) );
+	}
 
-	/**
-	 * @return array
-	 */
-	abstract public function getLayoutsList();
 }

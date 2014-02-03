@@ -129,10 +129,7 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	 * @return Auth_Role_Abstract
 	 */
 	public static function getNewRole() {
-		$new = Auth_Factory::getRoleInstance();
-		$new->initNewObject();
-
-		return $new;
+		return Auth_Factory::getRoleInstance();
 	}
 
 	/**
@@ -143,8 +140,12 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	 * @return Auth_Role_Abstract|null
 	 */
 	public static function getRole( $ID ) {
-		$role_instance = Auth_Factory::getRoleInstance();
-		return $role_instance->load( $role_instance->getEmptyIDInstance()->createID($ID) );
+		$role_class_name = Auth_Factory::getRoleClassName();
+
+		/**
+		 * @var Auth_Role_Abstract $role_class_name
+		 */
+		return $role_class_name::load( $role_class_name::createID($ID) );
 	}
 
 	/**
@@ -171,10 +172,7 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	 * @return Auth_User_Abstract
 	 */
 	public static function getNewUser() {
-		$new = Auth_Factory::getUserInstance();
-		$new->initNewObject();
-
-		return $new;
+		return Auth_Factory::getUserInstance();
 	}
 
 	/**
@@ -185,8 +183,12 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	 * @return Auth_User_Abstract|null
 	 */
 	public static function getUser( $ID ) {
-		$user_instance = Auth_Factory::getUserInstance();
-		return $user_instance->load( $user_instance->getEmptyIDInstance()->createID($ID) );
+		$user_class_name = Auth_Factory::getUserClassName();
+
+		/**
+		 * @var Auth_User_Abstract $user_class_name
+		 */
+		return $user_class_name::load( $user_class_name::createID($ID) );
 	}
 
 	/**

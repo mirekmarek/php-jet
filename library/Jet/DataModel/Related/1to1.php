@@ -23,7 +23,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 	 *
 	 * @return DataModel_Definition_Model_Related_1to1
 	 */
-	protected static function _getDataModelDefinitionInstance( $data_model_class_name ) {
+	public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
 		return new DataModel_Definition_Model_Related_1to1( $data_model_class_name );
 	}
 
@@ -40,11 +40,11 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 		$model_definition = $this->getDataModelDefinition();
 
-		$query = $main_model_instance->getIDQuery(  $model_definition->getMainModelRelationIDProperties() );
+		$query = $main_model_instance->getID()->getQuery( $model_definition->getMainModelRelationIDProperties() );
 
 		if($parent_model_instance) {
 			$query->getWhere()->attach(
-				$parent_model_instance->getIDQuery(  $model_definition->getParentModelRelationIDProperties() )->getWhere()
+				$parent_model_instance->getID()->getQuery(  $model_definition->getParentModelRelationIDProperties() )->getWhere()
 			);
 		}
 

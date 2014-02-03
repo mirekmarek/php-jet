@@ -44,4 +44,5 @@ abstract class Mvc_Sites_Site_ID_Abstract extends DataModel_ID_Default {
 		$this->setSiteID($ID);
 		return $this;
 	}
+
 }

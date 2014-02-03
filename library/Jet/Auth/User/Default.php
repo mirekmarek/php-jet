@@ -192,16 +192,6 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 */
 	protected $roles;
 
-	/**
-	 * @param string $login
-	 * @param string $password
-	 */
-	public function initNew( $login, $password ) {
-		parent::initNewObject();
-		$this->generateID();
-		$this->login = $login;
-		$this->setPassword($password);
-	}
 
 	/**
 	 * @return string

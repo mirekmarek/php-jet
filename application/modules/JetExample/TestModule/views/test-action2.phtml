@@ -20,6 +20,7 @@ $view = $this;
 
 <p>
 	<?=$form->helper_getBasicHTML(); ?>
+
 	<?php if($view->varExists('form_data')): ?>
 		<table>
 			<?php foreach($form->getValues() as $k=>$v): ?>
@@ -30,4 +31,5 @@ $view = $this;
 			<?php endforeach; ?>
 		</table>
 	<?php endif; ?>
+
 </p>

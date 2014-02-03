@@ -46,7 +46,7 @@ class Mvc_Sites extends Object {
 	 *
 	 * @var Mvc_Sites_Handler_Abstract
 	 */
-	protected static $_handler = NULL;
+	protected static $_handler = null;
 
 
 	/**
@@ -55,8 +55,13 @@ class Mvc_Sites extends Object {
 	 * @return Mvc_Sites_Site_Abstract[]
 	 */
 	public static function getAllSitesList() {
-		$site = Mvc_Factory::getSiteInstance();
-		return $site->getList();
+
+		$class_name = Mvc_Factory::getSiteClassName();
+
+		/**
+		 * @var Mvc_Sites_Site_Abstract $class_name
+		 */
+		return $class_name::getList();
 	}
 
 	/**
@@ -71,10 +76,7 @@ class Mvc_Sites extends Object {
 	 * @return Mvc_Sites_Site_Abstract
 	 */
 	public static function getNewSite( $name, $ID=null ) {
-		$site = Mvc_Factory::getSiteInstance();
-		$site->initNew($name, $ID);
-
-		return $site;
+		return Mvc_Factory::getSiteInstance( $name, $ID );
 	}
 
 	/**
@@ -87,7 +89,13 @@ class Mvc_Sites extends Object {
 	 * @return Mvc_Sites_Site_Abstract
 	 */
 	public static function getSite( Mvc_Sites_Site_ID_Abstract $ID ) {
-		return Mvc_Factory::getSiteInstance()->load($ID);
+
+		$class_name = Mvc_Factory::getSiteClassName();
+
+		/**
+		 * @var Mvc_Sites_Site_Abstract $class_name
+		 */
+		return $class_name::load( $ID );
 	}
 
 	/**

@@ -74,4 +74,24 @@ class Mvc_Pages_Page_ID_Default extends Mvc_Pages_Page_ID_Abstract {
 	public function getPageID() {
 		return $this->values['ID'];
 	}
+
+	/**
+	 * Generate unique ID
+	 *
+	 * @param DataModel $data_model_instance
+	 * @param bool $called_after_save (optional, default = false)
+	 * @param mixed $backend_save_result  (optional, default = null)
+	 *
+	 */
+	public function generate( DataModel $data_model_instance, $called_after_save = false, $backend_save_result = null ) {
+
+		if(!$this->values['ID']) {
+			/**
+			 * @var Mvc_Pages_Page_Abstract $data_model_instance
+			 */
+			$this->generateNameID( $data_model_instance, 'ID', $data_model_instance->getName() );
+		}
+
+	}
+
 }

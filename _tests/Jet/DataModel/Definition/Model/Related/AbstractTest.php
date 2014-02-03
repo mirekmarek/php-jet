@@ -80,13 +80,13 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	 * @covers Jet\DataModel_Definition_Model_Related_Abstract::getMainModelDefinition
 	 */
 	public function testGetMainModelDefinition() {
-		$this->assertEquals($this->main_data_model->getDataModelName(), $this->object->getMainModelDefinition()->getModelName());
+		$this->assertEquals('data_model_test_mock', $this->object->getMainModelDefinition()->getModelName());
 	}
 
 	/**
 	 * @covers Jet\DataModel_Definition_Model_Related_Abstract::getParentRelatedModelDefinition
 	 */
 	public function testGetParentRelatedModelDefinition() {
-		$this->assertEquals($this->parent_data_model->getDataModelName(), $this->object->getParentRelatedModelDefinition()->getModelName());
+		$this->assertEquals('related_data_model_test_mock', $this->object->getParentRelatedModelDefinition()->getModelName());
 	}
 }

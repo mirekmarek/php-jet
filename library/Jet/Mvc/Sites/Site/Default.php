@@ -92,31 +92,12 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	protected $localized_data;
 
 
-
 	/**
-	 * Prepares new site data
+	 * @param string $ID
 	 *
-	 * @param string $name
-	 * @param string $ID (optional)
 	 */
-	public function initNew( $name, $ID=null ) {
-		parent::initNewObject();
-		if($ID) {
-			$this->ID = $ID;
-		} else {
-			$this->ID = $this->getEmptyIDInstance()->generateID($this, $name );
-		}
-
-		$this->name = $name;
-		$this->is_default = count($this->getList())==0;
-	}
-
-
-	/**
-	 * @param bool $called_after_save
-	 * @param mixed|null $backend_save_result
-	 */
-	protected  function generateID(  $called_after_save = false, $backend_save_result = null  ) {
+	protected function setID( $ID ) {
+		$this->ID = $ID;
 	}
 
 	/**
@@ -320,8 +301,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 			return;
 		}
 
-		$new_ld = Mvc_Factory::getLocalizedSiteInstance();
-		$new_ld->initNew($locale);
+		$new_ld = Mvc_Factory::getLocalizedSiteInstance( $locale );
 
 		$this->locales[] = $locale;
 		$this->localized_data[(string)$locale] = $new_ld;
@@ -400,46 +380,6 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 */
 	public function setIsActive($is_active) {
 		$this->is_active = (bool)$is_active;
-	}
-
-
-
-	/**
-	 * Returns a list of all sites
-	 *
-	 * @return Mvc_Sites_Site_Abstract[]
-	 */
-	public function getList() {
-		$list = $this->fetchObjects();
-		$list->getQuery()->setOrderBy('name');
-		return $list;
-	}
-
-	/**
-	 * Returns site by URL
-	 *
-	 * @param string $URL
-	 *
-	 * @return Mvc_Sites_Site_Abstract
-	 */
-	public function getByURL( $URL ) {
-		return $this->fetchOneObject(
-			array(
-				'this.localized_data.URL'=>$URL
-			)
-		);
-	}
-
-
-	/**
-	 * Returns default site data
-	 *
-	 * @return Mvc_Sites_Site_Abstract
-	 */
-	public function getDefault() {
-		return $this->fetchOneObject( array(
-			'this.is_default' => true
-		) );
 	}
 
 	/**

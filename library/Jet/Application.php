@@ -143,13 +143,6 @@ class Application {
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getEnvironment() {
-		return static::$environment;
-	}
-
-	/**
 	 * @static
 	 *
 	 * @return bool

@@ -38,6 +38,59 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	 */
 	protected $_page_data_checking_map;
 
+	/**
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 * @param string $name
+	 * @param string $parent_ID
+	 * @param string $ID
+	 */
+	public function __construct( $site_ID='', Locale $locale=null, $name='', $parent_ID='', $ID='' ) {
+		if($site_ID) {
+			$this->setName($name);
+			$this->setSiteID( $site_ID );
+			$this->setParentID( $parent_ID );
+			$this->setLocale( $locale );
+			$this->setID( $ID );
+		}
+
+		parent::__construct();
+	}
+
+	/**
+	 * @return Mvc_Pages_Page_ID_Abstract
+	 */
+	public static function getEmptyIDInstance() {
+		return parent::getEmptyIDInstance();
+	}
+
+
+	/**
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 * @param string $page_ID
+	 *
+	 * @return Mvc_Pages_Page_ID_Abstract
+	 */
+	public static function createID( $site_ID, Locale $locale, $page_ID ) {
+		return static::getEmptyIDInstance()->createID( $site_ID, $locale, $page_ID );
+	}
+
+	/**
+	 * @param string $ID
+	 */
+	abstract protected function setID( $ID );
+
+	/**
+	 * @param string $site_ID
+	 */
+	abstract protected function setSiteID( $site_ID );
+
+	/**
+	 * @param Locale $locale
+	 *
+	 */
+	abstract protected function setLocale( Locale $locale );
 
 	/**
 	 * @return Mvc_Sites_Site_ID_Abstract

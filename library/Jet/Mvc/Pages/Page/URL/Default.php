@@ -77,20 +77,6 @@ class Mvc_Pages_Page_URL_Default extends Mvc_Pages_Page_URL_Abstract {
 
 
 	/**
-	 * @param string $URL
-	 * @param bool $is_default (optional, default: false )
-	 * @param bool $is_SSL (optional, default: false )
-	 */
-	public function __construct($URL='', $is_default=false, $is_SSL=false) {
-		if($URL) {
-			$this->generateID();
-			$this->setURL($URL);
-			$this->is_default = (bool)$is_default;
-			$this->is_SSL = (bool)$is_SSL;
-		}
-	}
-
-	/**
 	 * @return string
 	 */
 	public function  __toString() {

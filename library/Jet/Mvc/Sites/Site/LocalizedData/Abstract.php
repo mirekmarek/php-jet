@@ -35,12 +35,19 @@ abstract class Mvc_Sites_Site_LocalizedData_Abstract extends DataModel_Related_1
 	/**
 	 * @param Locale $locale (optional)
 	 */
-	abstract public function __construct( Locale $locale=null);
+	public function __construct( Locale $locale=null) {
+
+		if($locale) {
+			$this->setLocale($locale);
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @param Locale $locale
 	 */
-	abstract public function initNew( Locale $locale );
+	abstract protected function setLocale( Locale $locale );
 
 	/**
 	 * @return string
