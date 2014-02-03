@@ -246,8 +246,8 @@ class JetCompatibilityTester {
 			}
 		);
 		$this->test(
-			'intl extension',
-			'PHP Internationalization Functions (intl) extension must be activated',
+			'INTL extension',
+			'PHP Internationalization Functions extension must be activated',
 			function() {
 				return extension_loaded('intl');
 			}
@@ -320,7 +320,7 @@ class JetCompatibilityTester {
 						}
 					}
 
-					$na_function_names = implode('<br/>\n', $na_function_names);
+					$na_function_names = implode('<br/>', $na_function_names);
 					$test_result->setResultMessage($na_function_names);
 
 					return $OK;
@@ -362,25 +362,13 @@ class JetCompatibilityTester {
 					return false;
 				}
 
-				$test_result->setResultMessage( '<i>post_max_size</i>: '.$post_max_size_cv.'<br/>\n<i>upload_max_filesize</i>:'.$upload_max_filesize_cv );
+				$test_result->setResultMessage( '<i>post_max_size</i>: '.$post_max_size_cv.'<br/><i>upload_max_filesize</i>:'.$upload_max_filesize_cv );
 
 				return true;
 
 			}
 		);
 
-		$this->check(
-			'Safe mode',
-			'PHP safe mode is deprecated and should be disabled <br/><a href="http://php.net/manual/en/features.safe-mode.php">http://php.net/manual/en/features.safe-mode.php</a>',
-			function( JetCompatibilityTester_TestResult $test_result ) {
-				if(ini_get( 'safe_mode' )) {
-					$test_result->setResultMessage('Safe mode is enabled!');
-					return false;
-				}
-
-				return true;
-			}
-		);
 
 		$this->check(
 			'PHP configurations - paths',

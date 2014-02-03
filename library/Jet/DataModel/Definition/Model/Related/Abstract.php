@@ -294,7 +294,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 				$this->getParentModelRelationJoinItems()
 			);
 		}
-		
+
 		//TODO: get relations from children
 
 		return $relations;
