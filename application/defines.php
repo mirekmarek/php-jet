@@ -12,8 +12,6 @@
 namespace Jet;
 error_reporting(E_ALL | E_STRICT);
 
-define('JET_TAB', "\t");
-define('JET_EOL', PHP_EOL);
 
 define('JET_APPLICATION_CONFIGURATION_NAME', 'main');
 define('JET_DEBUG_MODE', true);
@@ -55,6 +53,9 @@ define('JET_CONFIG_DEFINITION_CACHE_LOAD', !JET_DEBUG_MODE );
 //define('JET_CONFIG_DEFINITION_CACHE_LOAD', true );
 define('JET_CONFIG_DEFINITION_CACHE_SAVE', true );
 define('JET_CONFIG_DEFINITION_CACHE_PATH', JET_DATA_PATH.'config_definitions/' );
+
+define('JET_TAB', "\t");
+define('JET_EOL', PHP_EOL);
 
 set_include_path(
 	JET_LIBRARY_PATH

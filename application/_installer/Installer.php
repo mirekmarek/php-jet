@@ -150,6 +150,7 @@ class Installer {
 
 			$step_base_path = JET_INSTALLER_PATH.'Step/'.$_step_name.'/';
 
+			/** @noinspection PhpIncludeInspection */
 			require_once $step_base_path.'Controller.php';
 
 			$class_name = __NAMESPACE__.'\\Installer_Step_'.$_step_name.'_Controller';

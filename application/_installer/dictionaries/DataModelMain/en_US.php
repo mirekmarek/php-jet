@@ -31,4 +31,3 @@
 		'is_translated' => false,
 	),
 );
-;

@@ -152,6 +152,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 			if(IO_File::isReadable($file_path)) {
 				$OK = true;
+				$definition = null;
 
 				try {
 					$definition = IO_File::read($file_path);
@@ -327,7 +328,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			}
 		}
 
-		$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->ID_properties) );
+		if($this->ID_properties) {
+			$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->ID_properties) );
+		}
 
 		$keys_definition_data = Object_Reflection::get( $this->class_name, 'data_model_keys_definition', array());
 
@@ -456,8 +459,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			foreach( $internal_relations as $related_model_name=>$relation ) {
 				$this->addRelation($related_model_name, $relation);
 			}
-
-			continue;
 
 
 		}

@@ -104,6 +104,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$_keys = array();
 		foreach( $data_model_definition->getKeys() as $key_name=>$key ) {
+
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
 					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY (`'.implode('`, `', $key->getPropertyNames()).'`)';

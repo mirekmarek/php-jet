@@ -9,6 +9,8 @@ namespace Jet;
  */
 $modules = $this->getRaw('modules');
 $result = $this->getRaw('result');
+
+$OK = $this->getBool('OK');
 ?>
 
 <table class="list">
@@ -37,14 +39,14 @@ $result = $this->getRaw('result');
 	<?php endforeach; ?>
 </table>
 
-<?php if($this->OK): ?>
+<?php if($OK): ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
 	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>"/>
 </form>
 <?php endif; ?>
 
-<?php if(!$this->OK): ?>
+<?php if(!$OK): ?>
 <form method="post">
 	<input type="hidden" name="back" value="1">
 	<input type="submit" value="<?=Tr::_('&lt; Back');?>"/>

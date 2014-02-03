@@ -89,7 +89,6 @@ namespace Jet;
  * @JetDataModel:ID_class_name = 'Jet\\DataModel_ID_Default'
  */
 abstract class DataModel extends Object implements Object_Serializable_REST, Object_Reflection_ParserInterface {
-	const DEFAULT_ID_PROPERTY_NAME = 'ID';
 
 	const TYPE_ID = 'ID';
 	const TYPE_STRING = 'String';
@@ -107,20 +106,22 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	const KEY_TYPE_UNIQUE = 'UNIQUE';
 
 	/**
+	 *
 	 * @var DataModel_ID_Abstract
 	 */
 	private $__ID;
 
 	/**
+	 *
 	 * @var bool
 	 */
 	private $___data_model_saved = false;
 
 	/**
+	 *
 	 * @var bool
 	 */
 	private $___data_model_ready_to_save = false;
-
 
 	/**
 	 *
