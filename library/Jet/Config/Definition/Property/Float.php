@@ -136,26 +136,26 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	 * @return bool
 	 */
 	protected function _validateProperties_test_value( &$value ) {
-		if($this->min_value===NULL && $this->max_value===NULL) {
+		if($this->min_value===null && $this->max_value===null) {
 			return true;
 		}
 
 		if(
-			$this->min_value!==NULL &&
+			$this->min_value!==null &&
 			$value<$this->min_value
 		) {
 			throw new Config_Exception(
-				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' value is under the minimal value (by definition). Minimal value: '.$this->min_value.', current value: '.$value,
+				'Configuration property '.$this->_configuration_class.'::'.$this->name.' value is under the minimal value (by definition). Minimal value: '.$this->min_value.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
 
 		if(
-			$this->max_value!==NULL &&
+			$this->max_value!==null &&
 			$value>$this->max_value
 		) {
 			throw new Config_Exception(
-				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' value is above the maximum value (by definition). Maximum value: '.$this->max_value.', current value: '.$value,
+				'Configuration property '.$this->_configuration_class.'::'.$this->name.' value is above the maximum value (by definition). Maximum value: '.$this->max_value.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}

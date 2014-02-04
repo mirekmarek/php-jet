@@ -176,6 +176,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$properties = $data_model_definition->getProperties();
 		$actual_cols = array();
 		foreach($properties as $property_name=>$property) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
 			if( $property->getIsDataModel() ) {
 				continue;
 			}
@@ -594,7 +597,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisModelPropertyOrValue();
+				$related_value = $join_by_property->getThisPropertyOrValue();
 
 				if($related_value instanceof DataModel_Definition_Property_Abstract) {
 					$related_value = $this->_getColumnName($related_value);
@@ -605,35 +608,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($join_by_property->getRelatedProperty()).' = '.$related_value;
 
 			}
-			/*
-			if($relation instanceof DataModel_Definition_Relation_External) {
-				foreach( $join_by_properties as $join_by_property ) {
-					 //* @var DataModel_Query_Relation_Outer_JoinByProperty $join_by_property
-
-					$related_value = $join_by_property->getThisModelPropertyValue( $query->getMainDataModel() );
-
-					if($related_value instanceof DataModel_Definition_Property_Abstract) {
-						$related_value = $this->_getColumnName($related_value);
-					} else {
-						$related_value = $this->_db_read->quote($related_value);
-					}
-
-					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($join_by_property->getRelatedProperty()).' = '.$related_value;
-
-				}
-
-			} else {
-				foreach( $join_by_properties as $r_property_definition ) {
-					// * @var DataModel_Definition_Property_Abstract $r_property_definition
-					$rt_property = $r_property_definition->getRelatedToProperty();
-
-					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($r_property_definition).' = '.$this->_getColumnName($rt_property);
-
-				}
-
-			}
-			*/
-
 
 
 			$join_qp .= implode(' AND'.JET_EOL, $j);

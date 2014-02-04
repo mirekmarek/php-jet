@@ -98,20 +98,20 @@ class DataModel_Factory extends Factory {
 	 * Returns instance of Property class
 	 * @see Factory
 	 *
-	 * @param DataModel_Definition_Model_Abstract $data_model
+	 * @param string $data_model_class_name
 	 * @param string $name
 	 * @param array $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 * @return DataModel_Definition_Property_Abstract
 	 */
-	public static function getPropertyDefinitionInstance( DataModel_Definition_Model_Abstract $data_model, $name, $definition_data ) {
+	public static function getPropertyDefinitionInstance( $data_model_class_name, $name, $definition_data ) {
 		if(
 			!isset($definition_data['type']) ||
 			!$definition_data['type']
 		) {
 			throw new DataModel_Exception(
-				'Property '.$data_model->getClassName().'::'.$name.': \'type\' parameter is not defined ... ',
+				'Property '.$data_model_class_name.'::'.$name.': \'type\' parameter is not defined ... ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
@@ -120,7 +120,7 @@ class DataModel_Factory extends Factory {
 		$default_class_name = static::$property_definition_class_name_prefix.$definition_data['type'];
 
 		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $data_model, $name, $definition_data );
+		$instance = new $class_name( $data_model_class_name, $name, $definition_data );
 		static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}

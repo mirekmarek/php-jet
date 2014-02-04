@@ -48,6 +48,11 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	protected static $overload_map = null;
 
 	/**
+	 * @var Factory_ClassDefinition
+	 */
+	protected static $class_definitions = array();
+
+	/**
 	 * @see Jet\Factory
 	 *
 	 * @param string $original_name
@@ -92,19 +97,18 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 * @return object
 	 */
 	public static function getInstance( $class_name ) {
-		$factory_callback = false;
 
-		/** @noinspection PhpUndefinedMethodInspection */
+		$definition = static::getClassDefinition( $class_name );
+
+		$factory_class_name = $definition->getFactoryClass();
+		$factory_method = $definition->getFactoryMethod();
+
 		if(
-			$class_name::getFactoryClassName() &&
-			$class_name::getFactoryClassMethod()
+			$factory_class_name &&
+			$factory_method
 		){
-			/** @noinspection PhpUndefinedMethodInspection */
-			$factory_callback = array( $class_name::getFactoryClassName(), $class_name::getFactoryClassMethod() );
-		}
+			$factory_callback = array( $factory_class_name, $factory_method );
 
-
-		if($factory_callback){
 			if(!is_callable($factory_callback)){
 				throw new Factory_Exception(
 					$factory_callback[0].'::'.$factory_callback[1].' is not valid factory callback.',
@@ -113,38 +117,35 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 			}
 
 			return $factory_callback();
-
-		} else {
-
-			$orig_name = $class_name;
-			// get real class name
-			$class_name = self::getClassName($orig_name);
-
-			return new $class_name();
 		}
+
+
+		$orig_name = $class_name;
+		// get real class name
+		$class_name = self::getClassName($orig_name);
+
+		return new $class_name();
 	}
 
 	/**
 	 * Checks if the instance is instance of @JetFactory::must_be_instance_of class
 	 *
-	 * @param string $default_class
+	 * @param string $default_class_name
 	 * @param Object_Interface|Object $instance
 	 *
 	 * @throws Factory_Exception
 	 */
-	public static function checkInstance( $default_class, Object_Interface $instance ) {
+	public static function checkInstance( $default_class_name, Object_Interface $instance ) {
 
-		/**
-		 * @var Object $default_class
-		 */
-		$required_class = $default_class::getFactoryMustBeInstanceOfClassName();
+		$required_class = static::getClassDefinition( $default_class_name )->getFactoryMandatoryParentClass();
 
 		if(!$required_class){
 			throw new Factory_Exception(
-				$default_class.' @JetFactory:mandatory_parent_class must be defined.',
+				$default_class_name.' @JetFactory:mandatory_parent_class must be defined.',
 				Factory_Exception::CODE_MISSING_INSTANCEOF_CLASS_NAME
 			);
 		}
+
 
 		if(!($instance instanceof $required_class) ) {
 			throw new Factory_Exception(
@@ -178,48 +179,49 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	}
 
 	/**
+	 * @param string $class_name
+	 *
+	 * @return Factory_ClassDefinition
+	 */
+	protected static function getClassDefinition( $class_name ) {
+		if(isset(static::$class_definitions[$class_name])) {
+			return static::$class_definitions[$class_name];
+		}
+
+		$file_path = JET_FACTORY_DEFINITION_CACHE_PATH.str_replace('\\', '__', $class_name.'.php');
+
+		$definition = null;
+		if(JET_FACTORY_DEFINITION_CACHE_LOAD) {
+			if(IO_File::isReadable($file_path)) {
+				/** @noinspection PhpIncludeInspection */
+				$definition = require $file_path;
+
+			}
+		}
+
+		if(!$definition) {
+			$definition = new Factory_ClassDefinition($class_name);
+		}
+
+		if(JET_FACTORY_DEFINITION_CACHE_SAVE) {
+			IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
+		}
+
+		static::$class_definitions[$class_name] = $definition;
+
+		return $definition;
+	}
+
+	/**
 	 * @param &$reflection_data
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
-
-		switch($key) {
-			case 'class':
-				/*if(
-					!isset($reflection_data['factory_class']) ||
-					!$reflection_data['factory_class']
-				) */ {
-					$reflection_data['factory_class'] = (string)$value;
-				}
-				break;
-			case 'method':
-				/*if(
-					!isset($reflection_data['factory_method']) ||
-					!$reflection_data['factory_method']
-				) */ {
-					$reflection_data['factory_method'] = (string)$value;
-				}
-				break;
-			case 'mandatory_parent_class':
-				/*if(
-					!isset($reflection_data['factory_mandatory_parent_class']) ||
-					!$reflection_data['factory_mandatory_parent_class']
-				) */ {
-					$reflection_data['factory_mandatory_parent_class'] = (string)$value;
-				}
-				break;
-			default:
-				throw new Object_Reflection_Exception(
-					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-				);
-		}
-
+	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
+		Factory_ClassDefinition::parseClassDocComment( $reflection_data, $key, $definition, $value );
 	}
 
 	/**
@@ -227,16 +229,12 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
-		throw new Object_Reflection_Exception(
-			'Unknown definition! Class: \''.get_called_class().'\', property: \''.$property_name.'\', definition: \''.$definition.'\' ',
-			Object_Reflection_Exception::CODE_UNKNOWN_PROPERTY_DEFINITION
-		);
+	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
+		Factory_ClassDefinition::parsePropertyDocComment( $reflection_data,$property_name, $key, $definition, $value );
 	}
 
 }

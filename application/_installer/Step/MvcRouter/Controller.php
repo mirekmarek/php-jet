@@ -13,33 +13,38 @@
  */
 namespace Jet;
 
-class Installer_Step_CoreRouterCache_Controller extends Installer_Step_Controller {
+class Installer_Step_MvcRouter_Controller extends Installer_Step_Controller {
+
 
 
 	public function main() {
-		$main_config = Mvc_Factory::getRouterConfigInstance(true);
-
-		$config = Mvc_Factory::getRouterCacheBackendConfigInstance($main_config->getCacheBackendType(), true);
+		$config = Mvc_Factory::getRouterConfigInstance(true);
 		$form = $config->getCommonForm();
 
 		if( $config->catchForm($form) ) {
 			$config->save();
 
-			Mvc_Router::getNewRouterInstance()->helper_cache_create();
-
 			$this->installer->goNext();
 		}
 
 		$this->view->setVar('form', $form);
-		$this->view->setVar('config', $config);
+
 		$this->render('default');
 	}
 
 	public function getLabel() {
-		return Tr::_('Cache configuration', array(), 'CoreRouterCache');
+		return Tr::_('Router configuration', array(), 'MvcRouter');
 	}
 
-	public function getIsSubstep() {
-		return true;
+	/**
+	 * @return array|bool
+	 */
+	public function getStepsAfter() {
+		$config = Mvc_Factory::getRouterConfigInstance(true);
+		if(!$config->getCacheEnabled()) {
+			return false;
+		}
+
+		return array('MvcRouterCache');
 	}
 }

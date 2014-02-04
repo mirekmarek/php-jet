@@ -15,62 +15,59 @@
  */
 namespace Jet;
 
+/**
+ * //TODO: update
+ *
+ * Path to configuration data within main config file data
+ *
+ * @see Data_Array::getRaw() for paths usage explanation
+ *
+ *
+ * //TODO: update
+ *
+ * Is given section presence in config required (TRUE) or optional (FALSE)?
+ *
+ * @var bool
+ *
+ * //TODO: update
+ *
+ * Definition of config properties/options
+ *
+ * Looks like:
+ * array(
+ *  'property_name' => array(
+ *      'type' => one of Config::TYPE_*,
+ *      'description' => 'Extended description of option',
+ *      'is_required' => true/false
+ *      'default_value' => 'some default value'
+ *      'form_field_type' => Form::TYPE_* (optional, default: autodetect)
+ *      'form_field_label' => 'Form filed label:'
+ *      'form_field_options' => array('option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3', ...)
+ *      'form_field_error_messages' => array('error_code' => 'Message', ...):
+ *      'form_field_get_default_value_callback' => callable
+ *      'form_field_get_select_options_callback' => callable
+ *  )
+ * )
+ *
+ * See properties definition classes for more specific definition details for each type
+ *
+ * @see \Jet\Config_Definition_Property_Abstract
+ * @see \Jet\Config_Definition_Property_String
+ * @see \Jet\Config_Definition_Property_Bool
+ * @see \Jet\Config_Definition_Property_Int
+ * @see \Jet\Config_Definition_Property_Float
+ * @see \Jet\Config_Definition_Property_Array
+ *
+ */
+
+
+/**
+ * Class Config
+ *
+ */
 abstract class Config extends Object implements Object_Reflection_ParserInterface {
-	/**
-	 * //TODO: update
-	 *
-	 * Path to configuration data within main config file data
-	 *
-	 * @see Data_Array::getRaw() for paths usage explanation
-	 *
-	 */
 
 
-	/**
-	 * //TODO: update
-	 *
-	 * Is given section presence in config required (TRUE) or optional (FALSE)?
-	 *
-	 * @var bool
-	 */
-
-	/**
-	 * //TODO: update
-	 *
-	 * Definition of config properties/options
-	 *
-	 * Looks like:
-	 * array(
-	 *  'property_name' => array(
-	 *      'type' => one of Config::TYPE_*,
-	 *      'description' => 'Extended description of option',
-	 *      'is_required' => true/false
-	 *      'default_value' => 'some default value'
-	 *      'form_field_type' => Form::TYPE_* (optional, default: autodetect)
-	 *      'form_field_label' => 'Form filed label:'
-	 *      'form_field_options' => array('option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3', ...)
-	 *      'form_field_error_messages' => array('error_code' => 'Message', ...):
-	 *      'form_field_get_default_value_callback' => callable
-	 *      'form_field_get_select_options_callback' => callable
-	 *  )
-	 * )
-	 *
-	 * See properties definition classes for more specific definition details for each type
-	 *
-	 * @see \Jet\Config_Definition_Property_Abstract
-	 * @see \Jet\Config_Definition_Property_String
-	 * @see \Jet\Config_Definition_Property_Bool
-	 * @see \Jet\Config_Definition_Property_Int
-	 * @see \Jet\Config_Definition_Property_Float
-	 * @see \Jet\Config_Definition_Property_Array
-	 *
-	 */
-
-
-	/**
-	 * Property definition classes names prefix
-	 */
-	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Jet\\Config_Definition_Property';
 
 	/**
 	 * Property/option type - string/text
@@ -141,9 +138,14 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	protected static $configs_data = array();
 
 	/**
-	 * @var Config_Definition_Property_Abstract[]
+	 * @var Config_Definition_Config
 	 */
-	private $_properties_definition = null;
+	private $definition;
+
+	/**
+	 * @var Config_Definition_Property_Abstract
+	 */
+	private $properties_definition;
 
 
 	/**
@@ -231,89 +233,37 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	}
 
 	/**
+	 * @return Config_Definition_Config
+	 */
+	public function getDefinition() {
+		if(!$this->definition) {
+			$this->definition = Config_Definition_Config::getDefinition( get_called_class() );
+		}
+
+		return $this->definition;
+	}
+
+	/**
 	 *
 	 * @return Config_Definition_Property_Abstract[]
 	 */
 	public function getPropertiesDefinition() {
-		if($this->_properties_definition) {
-			return $this->_properties_definition;
+		if($this->properties_definition!==null) {
+			return $this->properties_definition;
 		}
 
-		$file_path = JET_CONFIG_DEFINITION_CACHE_PATH.str_replace('\\', '__', get_called_class().'.dat');
+		$definition = $this->getDefinition()->getPropertiesDefinition();
 
-		if( JET_CONFIG_DEFINITION_CACHE_LOAD ) {
-
-			if(IO_File::isReadable($file_path)) {
-				$OK = true;
-
-				$definition = null;
-				try {
-					$definition = IO_File::read($file_path);
-				} catch( IO_File_Exception $e ) {
-					$OK = false;
-				}
-
-				if($OK) {
-					$definition = unserialize($definition);
-					if(!$definition) {
-						IO_File::delete($file_path);
-						$OK = false;
-					}
-				}
-
-
-				if($OK) {
-					$this->_properties_definition = $definition;
-
-					return $definition;
-				}
-
-			}
+		foreach( $definition as $property ) {
+			/**
+			 * @var Config_Definition_Property_Abstract $property
+			 */
+			$property->setConfiguration($this);
 		}
 
+		$this->properties_definition = $definition;
 
-		$propertied_definition_data = Object_Reflection::get( get_class($this), 'config_properties_definition', array() );
-
-		$this->_properties_definition = array();
-		foreach( $propertied_definition_data as $property_name=>$property_dd ) {
-			$this->_properties_definition[$property_name] = $this->getPropertyDefinitionInstance( $property_name, $property_dd);
-		}
-
-		if(JET_CONFIG_DEFINITION_CACHE_SAVE) {
-			IO_File::write( $file_path, serialize($this->_properties_definition) );
-		}
-
-
-		return $this->_properties_definition;
-	}
-
-	/**
-	 * Get property definition
-	 *
-	 * @param string $name
-	 * @param array $definition_data
-	 *
-	 * @return Config_Definition_Property_Abstract
-	 * @throws Config_Exception
-	 */
-	protected function getPropertyDefinitionInstance( $name, array $definition_data ) {
-		if(!isset($definition_data['type']) || !$definition_data['type']) {
-			throw new Config_Exception(
-				'Property '.get_class($this).'::'.$name.': \'type\' parameter is not defined.',
-				Config_Exception::CODE_CONFIG_CHECK_ERROR
-			);
-
-		}
-
-		$class_name = static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_'.$definition_data['type'];
-
-		unset($definition_data['type']);
-
-		$instance = new $class_name( $this, $name, $definition_data );
-
-		Factory::checkInstance(static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_Abstract', $instance);
-
-		return $instance;
+		return $definition;
 	}
 
 
@@ -340,14 +290,16 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 			$data = new Data_Array( $data );
 		}
 
-		$config_data_path = Object_Reflection::get( get_class($this), 'config_data_path', '' );
+		$definition = $this->getDefinition();
+
+		$config_data_path = $definition->getDataPath();
 
 		if(
 			$config_data_path &&
 			$use_data_path_for_source_data
 		) {
 
-			$config_section_is_obligatory = Object_Reflection::get( get_class($this), 'config_section_is_obligatory', true );
+			$config_section_is_obligatory = $definition->getSectionIsObligatory();
 
 			$this_config_data = array();
 
@@ -416,7 +368,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		}
 
 		if(!$form_name) {
-			$form_name = $this->getClassNameWithoutNamespace();
+			$form_name = str_replace( '\\','_', get_class($this) );
 		}
 
 		return $this->getForm($form_name, $only_properties);
@@ -562,7 +514,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 
 		$original_data = new Data_Array($original_data);
 
-		$config_data_path = Object_Reflection::get( get_class($this), 'config_data_path', '' );
+		$config_data_path = $this->getDefinition()->getDataPath();
 
 		$original_data->set( $config_data_path, $this->toArray());
 
@@ -614,27 +566,12 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 * @param &$reflection_data
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
-
-		switch($key) {
-			case 'section_is_obligatory':
-				$reflection_data['config_section_is_obligatory'] = (bool)$value;
-				break;
-			case 'data_path':
-				$reflection_data['config_data_path'] = (string)$value;
-				break;
-			default:
-				throw new Object_Reflection_Exception(
-					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-				);
-		}
-
+	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
+		Config_Definition_Config::parseClassDocComment( $reflection_data, $key, $definition, $value );
 	}
 
 	/**
@@ -642,25 +579,12 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
-		if(!isset($reflection_data['config_properties_definition'])) {
-			$reflection_data['config_properties_definition'] = array();
-		}
-		if(!isset($reflection_data['config_properties_definition'][$property_name])) {
-			$reflection_data['config_properties_definition'][$property_name] = array();
-		}
-
-		$value = null;
-
-		eval('$value='.$raw_value.';');
-
-		$reflection_data['config_properties_definition'][$property_name][$key] = $value;
-
+	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
+		Config_Definition_Config::parsePropertyDocComment( $reflection_data,$property_name, $key, $definition, $value );
 	}
 
 }

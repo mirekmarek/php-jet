@@ -40,7 +40,7 @@ class DataModel_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase
 
 		$property_options = $this->data_model->_test_get_property_options($this->property_name);
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $property_options );
 	}
 
 	/**

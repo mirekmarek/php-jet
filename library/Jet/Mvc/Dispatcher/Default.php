@@ -192,7 +192,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		$controller_suffix = 'Controller_'.$controller_class_suffix.$service_type;
 
-		$controller_class_name = Application_Modules::MODULE_NAMESPACE.'\\'.$module_name.'\\'.$controller_suffix;
+		$controller_class_name = JET_APPLICATION_MODULE_NAMESPACE.'\\'.$module_name.'\\'.$controller_suffix;
 		$controller_path = $module_dir.str_replace('_', '/', $controller_suffix).'.php';
 
 		/** @noinspection PhpIncludeInspection */

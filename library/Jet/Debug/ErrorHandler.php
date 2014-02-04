@@ -53,10 +53,6 @@ class Debug_ErrorHandler {
 		set_exception_handler(array($class_name, 'handleException'));
 		register_shutdown_function(array($class_name, 'handleShutdown'));
 
-		if( !trim(ini_get('date.timezone')) ){
-			date_default_timezone_set('Europe/Prague');
-		}
-
 		if(file_exists('ini_set')) {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@ini_set( 'error_log', JET_LOGS_PATH . 'php_errors_'.@date('Y-m-d').'.log' );
@@ -125,52 +121,6 @@ class Debug_ErrorHandler {
 	 */
 	public static function getRegisteredHandlers() {
 		return static::$handlers;
-	}
-
-	/**
-	 * @static
-	 *
-	 * @param $handler_name
-	 */
-	public static function enableHandler( $handler_name ) {
-		static::$handlers[$handler_name]->setIsEnabled(true);
-	}
-
-	/**
-	 * @static
-	 *
-	 * @param $handler_name
-	 */
-	public static function disableHandler( $handler_name ) {
-		static::$handlers[$handler_name]->setIsEnabled(false);
-	}
-
-	/**
-	 * @static
-	 *
-	 * @param array $handler_names
-	 */
-	public static function enableHandlers( array $handler_names ) {
-		foreach( static::$handlers as $handler_name=>$handler) {
-			$handler->setIsEnabled( in_array($handler_name, $handler_names) );
-		}
-	}
-
-	/**
-	 * @static
-	 * @return array
-	 */
-	public static function getDefaultErrorHandlers() {
-		return array_keys(static::$handlers);
-	}
-
-	/**
-	 * @static
-	 * @return array
-	 */
-	public static function getHandlersList() {
-		$handlers = array_keys(static::$handlers);
-		return array_combine($handlers, $handlers);
 	}
 
 	/**
@@ -357,9 +307,6 @@ class Debug_ErrorHandler {
 		}
 
 		foreach( static::$handlers as $handler ) {
-			if(!$handler->getIsEnabled()) {
-				continue;
-			}
 
 			$handler->handle( $error );
 			if($handler->errorDisplayed()) {

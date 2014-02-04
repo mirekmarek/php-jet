@@ -3,6 +3,11 @@
  * @var Jet\Memcache_Config $config
  */
 $config = $this->config;
+
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
 ?>
 
 <?php if($config->getConnections()): ?>
@@ -27,7 +32,7 @@ $config = $this->config;
 	<?php endforeach; ?>
 </table>
 
-	<jet_form name="Memcache_Config">
+	<jet_form name="<?=$form->getName();?>">
 		<jet_form_common_error_message class="formError"/>
 		<table>
 			<tr>

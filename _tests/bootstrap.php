@@ -49,6 +49,15 @@ define('JET_CONFIG_DEFINITION_CACHE_LOAD', false );
 define('JET_CONFIG_DEFINITION_CACHE_SAVE', false );
 define('JET_CONFIG_DEFINITION_CACHE_PATH', JET_TESTS_TMP.'config_definitions/' );
 
+define('JET_FACTORY_DEFINITION_CACHE_LOAD', false );
+define('JET_FACTORY_DEFINITION_CACHE_SAVE', false );
+define('JET_FACTORY_DEFINITION_CACHE_PATH', JET_TESTS_TMP.'factory_definitions/' );
+
+define('JET_APPLICATION_MODULE_NAMESPACE', 'JetApplicationModule');
+define('JET_APPLICATION_MODULES_LIST_PATH', JET_TESTS_TMP.'modules_list.php');
+
+define('JET_IO_CHMOD_MASK_DIR', 0777);
+define('JET_IO_CHMOD_MASK_FILE', 0666);
 
 require '_mock/Jet/Object.php';
 

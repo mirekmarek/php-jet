@@ -22,7 +22,7 @@ namespace Jet;
 /**
  * Class Mvc_Router_Config_Default
  *
- * @JetConfig:data_path = 'core_router'
+ * @JetConfig:data_path = 'mvc_router'
  */
 class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 

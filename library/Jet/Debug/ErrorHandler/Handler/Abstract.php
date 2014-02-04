@@ -17,12 +17,7 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $HTML_bg_color = '#c9ffc9';
-
-	/**
-	 * @var bool
-	 */
-	protected $is_enabled = true;
+	protected $HTML_bg_color = '';
 
 	/**
 	 * @param array $options
@@ -40,20 +35,6 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 				$this->$k = $v;
 			}
 		}
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsEnabled() {
-		return $this->is_enabled;
-	}
-
-	/**
-	 * @param bool $is_enabled
-	 */
-	public function setIsEnabled($is_enabled) {
-		$this->is_enabled = (bool)$is_enabled;
 	}
 
 	/**

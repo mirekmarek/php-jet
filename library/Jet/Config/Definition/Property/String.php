@@ -111,7 +111,7 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 
 		if( !preg_match($this->validation_regexp, $value) ) {
 			throw new Config_Exception(
-				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' has invalid format. Valid regexp: '.$this->validation_regexp.', current value: '.$value,
+				'Configuration property '.$this->_configuration_class.'::'.$this->name.' has invalid format. Valid regexp: '.$this->validation_regexp.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}

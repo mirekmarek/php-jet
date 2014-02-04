@@ -45,6 +45,7 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 			$this->setName( $name );
 			$this->setIsDefault( (count(static::getList())==0) );
 			$this->setID( $ID );
+			$this->generateID();
 		}
 
 		parent::__construct();

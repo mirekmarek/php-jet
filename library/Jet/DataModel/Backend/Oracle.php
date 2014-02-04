@@ -618,7 +618,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisModelPropertyOrValue();
+				/**
+				 * @var DataModel_Definition_Relation_JoinBy_Item $join_by_property
+				 */
+				$related_value = $join_by_property->getThisPropertyOrValue();
 
 				if($related_value instanceof DataModel_Definition_Property_Abstract) {
 					$related_value = $this->_getColumnName($related_value);

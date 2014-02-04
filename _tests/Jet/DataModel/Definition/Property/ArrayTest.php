@@ -40,7 +40,7 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 		$this->property_options = $this->data_model->_test_get_property_options($this->property_name);
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
 	/**
@@ -62,7 +62,7 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 
 		$this->property_options['is_ID'] = true;
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 
 		unset($this->property_options['item_type']);
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 
 		$this->property_options['item_type'] = DataModel::TYPE_DATA_MODEL;
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
 

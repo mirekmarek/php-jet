@@ -23,7 +23,7 @@ namespace Jet;
  * @JetFactory:method = 'getSiteIDInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_ID_Abstract'
  */
-abstract class Mvc_Sites_Site_ID_Abstract extends DataModel_ID_Default {
+abstract class Mvc_Sites_Site_ID_Abstract extends DataModel_ID_Name {
 
 	/**
 	 * @param string $ID

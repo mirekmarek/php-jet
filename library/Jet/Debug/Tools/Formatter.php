@@ -129,11 +129,12 @@ class Debug_Tools_Formatter {
 	 * Formats error message
 	 *
 	 * @param  Debug_ErrorHandler_Error $e
-	 * @param string $bg_color
 	 *
 	 * @return string
 	 */
-	public static function formatErrorMessage_HTML( Debug_ErrorHandler_Error $e, $bg_color ){
+	public static function formatErrorMessage_HTML( Debug_ErrorHandler_Error $e  ){
+		$bg_color = '#c9ffc9';
+
 		$report = array();
 
 		$report[] = '<br /><div style="background-color: '.$bg_color.';overflow:auto;padding:10px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';

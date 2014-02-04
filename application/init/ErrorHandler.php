@@ -20,13 +20,17 @@ Debug_ErrorHandler::registerHandler(
 		/** options */
 	)
 );
-Debug_ErrorHandler::registerHandler(
-	'Display',
-	'Jet\\Debug_ErrorHandler_Handler_Display',
-	JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler/Handler/Display.php',
-	array(
-		/** options */
-	)
-);
+
+if(JET_DEBUG_MODE) {
+	Debug_ErrorHandler::registerHandler(
+		'Display',
+		'Jet\\Debug_ErrorHandler_Handler_Display',
+		JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler/Handler/Display.php',
+		array(
+			/** options */
+		)
+	);
+
+}
 
 Debug_ErrorHandler::initialize();

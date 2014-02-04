@@ -38,7 +38,6 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	protected $_is_array = false;
 
 	/**
-	 *
 	 * @var Config
 	 */
 	protected $_configuration;
@@ -46,7 +45,12 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $_name = '';
+	protected $_configuration_class;
+
+	/**
+	 * @var string
+	 */
+	protected $name = '';
 
 	/**
 	 * @var string
@@ -108,20 +112,36 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 */
 	protected $form_field_get_select_options_callback;
 
-
 	/**
 	 *
-	 * @param Config $configuration
+	 * @param string|Config $configuration_class_name
 	 * @param string $name
 	 * @param array $definition_data (optional)
 	 *
 	 * @return Config_Definition_Property_Abstract
 	 */
-	public function __construct(Config $configuration, $name, array $definition_data=null ) {
-		$this->_configuration = $configuration;
-		$this->_name = $name;
+	public function __construct( $configuration_class_name, $name, array $definition_data=null ) {
+		if(is_object($configuration_class_name)) {
+			/**
+			 * @var Config $configuration_class_name
+			 */
+			$this->setConfiguration( $configuration_class_name );
+		} else {
+			$this->_configuration_class = $configuration_class_name;
+		}
+
+
+		$this->name = $name;
 
 		$this->setUp($definition_data);
+	}
+
+	/**
+	 * @param Config $configuration
+	 */
+	public function setConfiguration( Config $configuration ) {
+		$this->_configuration = $configuration;
+		$this->_configuration_class = get_class($configuration);
 	}
 
 
@@ -136,7 +156,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function toString() {
-		return get_class($this->_configuration).'::'.$this->getName();
+		return $this->_configuration_class.'::'.$this->getName();
 	}
 
 	/**
@@ -151,7 +171,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 		foreach($definition_data as $key=>$val) {
 			if(!$this->getHasProperty($key)) {
 				throw new Config_Exception(
-						get_class($this->_configuration).'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
+						$this->_configuration_class.'::'.$this->name.': unknown definition option \''.$key.'\'  ',
 						Config_Exception::CODE_DEFINITION_NONSENSE
 					);
 			}
@@ -174,15 +194,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->_name;
-	}
-
-	/**
-	 *
-	 * @return Config
-	 */
-	public function getConfiguration() {
-		return $this->_configuration;
+		return $this->name;
 	}
 
 	/**
@@ -362,7 +374,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 		$field = Form_Factory::getFieldInstance(
 			$type,
-			$this->_name,
+			$this->name,
 			$this->getFormFieldLabel(),
 			$this->default_value,
 			$this->is_required
@@ -378,11 +390,11 @@ abstract class Config_Definition_Property_Abstract extends Object {
 				is_array($callback) &&
 				$callback[0]=='this'
 			) {
-				$callback[0] = get_class($this->_configuration);
+				$callback[0] = $this->_configuration_class;
 			}
 
 			if(!is_callable($callback)) {
-				throw new Config_Exception(get_class($this->_configuration).'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
+				throw new Config_Exception($this->_configuration_class.'::'.$this->name.'::form_field_get_select_options_callback is not callable');
 			}
 
 			$field->setSelectOptions( $callback() );
@@ -457,7 +469,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 		if(!$value) {
 			throw new Config_Exception(
-				'Configuration property '.get_class($this->_configuration).'::'.$this->_name.' is required by definition, but value is missing!',
+				'Configuration property '.$this->_configuration_class.'::'.$this->name.' is required by definition, but value is missing!',
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
@@ -478,5 +490,21 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	) {
 		return true;
 	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( $data ) {
+		$i = new static( $data['_configuration_class'], $data['name'] );
+
+		foreach( $data as $key=>$val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
 
 }

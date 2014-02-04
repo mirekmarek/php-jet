@@ -26,7 +26,7 @@ namespace Jet;
  * @JetFactory:method = null
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Router_Cache_Backend_Config_Abstract'
  *
- * @JetConfig:data_path = '/core_router/cache_backend_options'
+ * @JetConfig:data_path = '/mvc_router/cache_backend_options'
  *
  */
 abstract class Mvc_Router_Cache_Backend_Config_Abstract extends Config_Application {

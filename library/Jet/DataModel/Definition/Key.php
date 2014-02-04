@@ -86,5 +86,14 @@ class DataModel_Definition_Key extends Object {
 	}
 
 
+	/**
+	 * @param $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( $data ) {
+		return new static( $data['name'], $data['type'], $data['property_names'] );
+
+	}
 
 }

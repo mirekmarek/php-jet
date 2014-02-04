@@ -4,7 +4,7 @@
  */
 $form = $this->form;
 ?>
-<jet_form name="Mvc_Router_Config_Default">
+<jet_form name="<?=$form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
 	<table>
 		<?php foreach($form->getFields() as $field): ?>

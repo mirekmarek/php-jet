@@ -78,8 +78,9 @@
  */
 namespace Jet;
 
+//TODO: split into new handler and this class
 class Application_Modules extends Object {
-	const MODULE_NAMESPACE = 'JetApplicationModule';
+
 	const MODULE_CONFIG_FILE_PATH = 'config/config.php';
 	const MODULE_MANIFEST_FILE_PATH = 'manifest.php';
 
@@ -89,17 +90,9 @@ class Application_Modules extends Object {
 	const MODULE_UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
 
 
-	const MODULES_LIST_FILE_NAME = 'modules_list.php';
-
 	const MODULE_VIEWS_DIR = 'views/';
 	const MODULE_LAYOUTS_DIR = 'layouts/';
 
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected static $custom_modules_list_file_path = null;
 
 	/**
 	*
@@ -138,32 +131,6 @@ class Application_Modules extends Object {
 	 */
 	protected static $installation_in_progress_module_name = null;
 
-
-	/**
-	 * It is possible to set custom data file file path
-	 * For example: you need to set path to NFS shared dir on cluster
-	 *
-	 * @param string $path 
-	 */
-	public static function setModulesListFilePath( $path ) {
-		static::$custom_modules_list_file_path = $path;
-	}
-
-	/**
-	 * Returns data file path
-	 *
-	 * @return string
-	 */
-	public static function getModulesListFilePath() {
-		if(static::$custom_modules_list_file_path) {
-			return static::$custom_modules_list_file_path;
-		}
-
-		return JET_DATA_PATH . static::MODULES_LIST_FILE_NAME;
-	}
-
-
-
 	/**
 	 * Write installed modules
 	 *
@@ -171,9 +138,8 @@ class Application_Modules extends Object {
 	protected static function saveInstalledModulesList() {
 		static::$all_modules_list = null;
 
-		$data = new Data_Array(static::$installed_modules_list);
 
-		IO_File::write(static::getModulesListFilePath(), '<?php'.JET_EOL.' return '.$data->export().';'.JET_EOL);
+		IO_File::write(JET_APPLICATION_MODULES_LIST_PATH, '<?php'.JET_EOL.' return '.var_export(static::$installed_modules_list, true).';'.JET_EOL);
 	}
 
 
@@ -216,7 +182,7 @@ class Application_Modules extends Object {
 			return static::$installed_modules_list;
 		}
 
-		$path = static::getModulesListFilePath();
+		$path = JET_APPLICATION_MODULES_LIST_PATH;
 		if(!IO_File::exists($path)) {
 			static::$installed_modules_list = array();
 			return array();
@@ -322,6 +288,9 @@ class Application_Modules extends Object {
 		static::$activated_modules_list = array();
 
 		foreach($installed_modules_list as $module_name=>$module_info) {
+			/**
+			 * @var Application_Modules_Module_Info $module_info
+			 */
 			if($module_info->getIsActivated()) {
 				static::$activated_modules_list[$module_name] = $module_info;
 			}
@@ -701,7 +670,7 @@ class Application_Modules extends Object {
 		/** @noinspection PhpIncludeInspection */
 		require_once $module_dir . 'Main.php';
 
-		$class_name = '\\'.static::MODULE_NAMESPACE.'\\'.$module_name.'\Main';
+		$class_name = '\\'.JET_APPLICATION_MODULE_NAMESPACE.'\\'.$module_name.'\Main';
 
 		if(!class_exists($class_name)) {
 			throw new Application_Modules_Exception(
@@ -762,6 +731,9 @@ class Application_Modules extends Object {
 		$dependent_modules = array();
 
 		foreach( $activated_modules as $d_module_name => $module_info ) {
+			/**
+			 * @var Application_Modules_Module_Info $module_info
+			 */
 			if( $d_module_name==$module_name ) {
 				continue;
 			}
@@ -798,7 +770,6 @@ class Application_Modules extends Object {
 	 * For tests only
 	 */
 	public static function _resetInternalState() {
-		static::$custom_modules_list_file_path = null;
 		static::$activated_modules_list = null;
 		static::$installed_modules_list = null;
 		static::$all_modules_list = null;

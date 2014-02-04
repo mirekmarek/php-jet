@@ -92,14 +92,6 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 	/**
 	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::getConfiguration
-	 */
-	public function testGetConfiguration() {
-		$this->assertEquals($this->config, $this->object->getConfiguration() );
-	}
-
-	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
 	 * @covers Jet\Config_Definition_Property_Abstract::getIsArray
 	 */
 	public function testGetIsArray() {

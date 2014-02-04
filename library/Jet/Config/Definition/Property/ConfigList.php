@@ -65,9 +65,9 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 
 
 	/**
-	 * @param array|null $definition_data
-	 * 
-	 * @throws Config_Exception
+	 * @param array $definition_data
+	 *
+	 * @return void
 	 */
 	public function setUp(array $definition_data = null ) {
 		if(!$definition_data) {
@@ -179,6 +179,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	}
 
 	/**
+	 *
 	 * @return array
 	 */
 	public function toArray() {

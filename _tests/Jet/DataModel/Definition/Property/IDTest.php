@@ -46,7 +46,7 @@ class DataModel_Definition_Property_IDTest extends \PHPUnit_Framework_TestCase {
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
 	/**

@@ -3,23 +3,21 @@ namespace Jet;
 
 require JET_LIBRARY_PATH . 'Jet/Debug/Profiler.php';
 
-if(JET_DEBUG_MODE) {
-	if(
-		isset($_GET['JPR']) &&
-		!empty($_GET['run'])
-	) {
-		$run = @Debug_Profiler::loadRun($_GET['run']);
+if(
+	isset($_GET['JPR']) &&
+	!empty($_GET['run'])
+) {
+	$run = @Debug_Profiler::loadRun($_GET['run']);
 
-		if( $run ) {
-			if(isset($_GET['callgraph'])) {
-				require JET_APPLICATION_PATH."profiler/result_callgraph.php";
-			} else {
-				require JET_APPLICATION_PATH."profiler/result.phtml";
-			}
-			die();
+	if( $run ) {
+		if(isset($_GET['callgraph'])) {
+			require JET_APPLICATION_PATH."profiler/result_callgraph.php";
+		} else {
+			require JET_APPLICATION_PATH."profiler/result.phtml";
 		}
-
+		die();
 	}
 
-	Debug_Profiler::enable();
 }
+
+Debug_Profiler::enable();

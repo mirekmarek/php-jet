@@ -169,7 +169,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		}
 
-		$this->generateID();
+		//$this->generateID();
 	}
 
 
@@ -245,6 +245,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		foreach( $ID as $property_name=>$value ) {
 			$this->{$property_name} = $value;
 		}
+
 	}
 
 
@@ -700,6 +701,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$related_model_properties = array();
 
+		$this->generateID();
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 			if( $property_definition->getIsDataModel() ) {
 				$related_model_properties[$property_name]  = $property_definition;
@@ -710,7 +712,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$record->addItem($property_definition, $this->{$property_name});
 		}
 
-		$this->generateID();
 
 		$backend_result = $backend->save( $record );
 
@@ -1075,8 +1076,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 		if(!$form_name) {
-			//$form_name = $definition->getClassName();
-			$form_name = $this->getClassNameWithoutNamespace();
+			$form_name = $definition->getModelName();
 		}
 
 		return $this->getForm($form_name, $only_properties);
@@ -1162,6 +1162,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$result = $prefix.'<'.$model_name.'>'.JET_EOL;
 
 		foreach($properties as $property_name=>$property) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
 			if($property->getDoNotSerialize()) {
 				continue;
 			}
@@ -1210,6 +1213,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$result = array();
 		foreach($properties as $property_name=>$property) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
 			if($property->getDoNotSerialize()) {
 				continue;
 			}
@@ -1390,13 +1396,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param &$reflection_data
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $raw_value, $value ) {
-		DataModel_Definition_Model_Abstract::parseClassDocComment( get_called_class(), $reflection_data, $key, $definition, $raw_value, $value );
+	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
+		DataModel_Definition_Model_Abstract::parseClassDocComment( get_called_class(), $reflection_data, $key, $definition, $value );
 	}
 
 	/**
@@ -1404,13 +1409,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
-		DataModel_Definition_Model_Abstract::parsePropertyDocComment( get_called_class(), $reflection_data,$property_name, $key, $definition, $raw_value, $value );
+	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
+		DataModel_Definition_Model_Abstract::parsePropertyDocComment( get_called_class(), $reflection_data,$property_name, $key, $definition, $value );
 	}
 
 }

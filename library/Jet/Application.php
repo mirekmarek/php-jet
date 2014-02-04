@@ -73,12 +73,8 @@ class Application {
 			static::getConfig();
 		Debug_Profiler::blockEnd('Configuration init');
 
-		Debug_Profiler::blockStart('Error handler init');
-			static::setupErrorHandler();
-		Debug_Profiler::blockEnd('Error handler init');
-
 		Debug_Profiler::blockStart('Http request init');
-			Http_Request::initialize( Application::getConfig()->getHidePHPRequestData() );
+			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
 		Debug_Profiler::blockEnd('Http request init');
 
 		Debug_Profiler::MainBlockEnd('Application init');
@@ -93,26 +89,6 @@ class Application {
 		}
 
 		return static::$config;
-	}
-
-	/**
-	 * Setup error handlers
-	 *
-	 * @static
-	 *
-	 */
-	public static function setupErrorHandler() {
-		$enable_handlers = static::getConfig()->getErrorHandlers();
-		$registered_handlers = Debug_ErrorHandler::getRegisteredHandlers();
-
-		foreach($registered_handlers as $handler_name=>$handler ) {
-			if(!isset($enable_handlers[$handler_name])) {
-				$handler->setIsEnabled( false );
-				continue;
-			}
-			$handler->setIsEnabled( true );
-			$handler->setOptions($enable_handlers[$handler_name]);
-		}
 	}
 
 	/**

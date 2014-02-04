@@ -630,9 +630,8 @@ class Auth_User_Default extends Auth_User_Abstract {
 	public function getSimpleForm( $form_name='' ) {
 
 		if(!$form_name) {
-			//$definition = $this->getDataModelDefinition();
-			//$form_name = $definition->getClassName();
-			$form_name = $this->getClassNameWithoutNamespace();
+			$definition = $this->getDataModelDefinition();
+			$form_name = $definition->getModelName();
 
 		}
 

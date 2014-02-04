@@ -79,7 +79,6 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Signals_Dispatcher::getSignalQueue
 	 */
 	public function testDispatchSignal() {
-		Application_Modules::setModulesListFilePath( JET_TESTS_TMP.'modules_list_test.php' );
 
 
 		$callback_ID_1 = Application_Signals_Dispatcher::addCallback('/test/signal1', function( Application_Signals_Signal $signal ) {

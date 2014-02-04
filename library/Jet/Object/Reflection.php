@@ -115,7 +115,7 @@ class Object_Reflection {
 				 */
 				$_class_name = 'Jet\\'.$class_name;
 
-				$_class_name::parseClassDocComment( $reflection_data, $key, $definition, $value_raw, $value );
+				$_class_name::parseClassDocComment( $reflection_data, $key, $definition, $value );
 
 			}
 
@@ -154,7 +154,7 @@ class Object_Reflection {
 					 */
 					$_class_name = 'Jet\\'.$class_name;
 
-					$_class_name::parsePropertyDocComment( $reflection_data, $property_name, $key, $definition, $raw_value, $value );
+					$_class_name::parsePropertyDocComment( $reflection_data, $property_name, $key, $definition, $value );
 				}
 
 

@@ -56,7 +56,7 @@ class Auth_Factory extends Factory {
 
 	/**
 	 *
-	 * @return Auth_Role_ID_Abstract
+	 * @return DataModel_ID_Name
 	 */
 	public static function getRoleIDInstance() {
 		$class_name =  static::getRoleClassName();

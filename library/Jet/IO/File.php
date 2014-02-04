@@ -46,11 +46,7 @@ class IO_File {
 	 */
 	public static function getDefaultChmodMask(){
 		if(self::$default_chmod_mask===null){
-			try {
-				self::$default_chmod_mask = Application::getConfig()->getIOFilesChmod();
-			} catch(Exception $e){
-				self::$default_chmod_mask = 0666;
-			}
+			self::$default_chmod_mask = JET_IO_CHMOD_MASK_FILE;
 		}
 		return self::$default_chmod_mask;
 	}

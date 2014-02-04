@@ -29,7 +29,7 @@ class Debug_ErrorHandler_Handler_Display extends Debug_ErrorHandler_Handler_Abst
 	 */
 	public function handle( Debug_ErrorHandler_Error $error ) {
 		if( Debug_ErrorHandler::getHTMLErrorsEnabled() ) {
-			echo Debug_Tools_Formatter::formatErrorMessage_HTML( $error, $this->HTML_bg_color );
+			echo Debug_Tools_Formatter::formatErrorMessage_HTML( $error );
 		} else {
 			echo Debug_Tools_Formatter::formatErrorMessage_TXT( $error );
 		}

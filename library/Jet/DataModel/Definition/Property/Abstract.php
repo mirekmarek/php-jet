@@ -35,23 +35,23 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		DataModel_Validation_Error::CODE_OUT_OF_RANGE => 'Out of range',
 	);
 
+
 	/**
-	 *
-	 * @var DataModel_Definition_Model_Abstract
+	 * @var string
 	 */
-	protected $_data_model_definition = null;
+	protected $data_model_class_name = '';
 
 	/**
 	 *
 	 * @var string|null
 	 */
-	protected $_related_to_class_name = null;
+	protected $related_to_class_name = null;
 
 	/**
 	 *
 	 * @var string|null
 	 */
-	protected $_related_to_property_name = null;
+	protected $related_to_property_name = null;
 
 
 	/**
@@ -173,12 +173,12 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $model_definition
+	 * @param string $data_model_class_name
 	 * @param string $name
 	 * @param array $definition_data (optional)
 	 */
-	public function  __construct(DataModel_Definition_Model_Abstract $model_definition, $name, $definition_data=null ) {
-		$this->_data_model_definition = $model_definition;
+	public function  __construct( $data_model_class_name, $name, $definition_data=null ) {
+		$this->data_model_class_name = (string)$data_model_class_name;
 		$this->_name = $name;
 
 		$this->setUp($definition_data);
@@ -197,7 +197,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			foreach($definition_data as $key=>$val) {
 				if( !$this->getHasProperty($key) ) {
 					throw new DataModel_Exception(
-						$this->_data_model_definition->getClassName().'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
+						$this->data_model_class_name.'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
@@ -213,14 +213,14 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			if( $this->is_ID ) {
 				if( $this->_is_data_model ) {
 					throw new DataModel_Exception(
-						$this->_data_model_definition->getClassName().'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
+						$this->data_model_class_name.'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 
 				}
 				if( $this->_is_array ) {
 					throw new DataModel_Exception(
-						$this->_data_model_definition->getClassName().'::'.$this->_name.' property type is Array. Can\'t be ID! ',
+						$this->data_model_class_name.'::'.$this->_name.' property type is Array. Can\'t be ID! ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
@@ -231,34 +231,44 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	}
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $related_to_property
+	 *
+	 * @param $related_to_class_name
+	 * @param $related_to_property_name
+	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUpRelation( DataModel_Definition_Property_Abstract $related_to_property ) {
-		if(!$this->is_ID) {
-			throw new DataModel_Exception(
-				$this->_data_model_definition->getClassName().'::'.$this->_name.' property is not ID. Can\'t setup relations! ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
+	public function setUpRelation( $related_to_class_name, $related_to_property_name ) {
+		$this->related_to_class_name = $related_to_class_name;
+		$this->related_to_property_name = $related_to_property_name;
+	}
 
-		}
+	/**
+	 * @return string
+	 */
+	public function getDataModelClassName() {
+		return $this->data_model_class_name;
+	}
 
-		$this->_related_to_property_name = $related_to_property->getName();
-		$this->_related_to_class_name = $related_to_property->getDataModelDefinition()->getClassName();
+	/**
+	 *
+	 * @return DataModel_Definition_Model_Abstract|DataModel_Definition_Model_Related_Abstract
+	 */
+	public function getDataModelDefinition() {
+		return DataModel_Definition_Model_Abstract::getDataModelDefinition($this->data_model_class_name);
 	}
 
 	/**
 	 * @return null|string
 	 */
 	public function getRelatedToClassName() {
-		return $this->_related_to_class_name;
+		return $this->related_to_class_name;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getRelatedToPropertyName() {
-		return $this->_related_to_property_name;
+		return $this->related_to_property_name;
 	}
 
 
@@ -273,7 +283,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @return string
 	 */
 	public function toString() {
-		return $this->_data_model_definition->getClassName().'::'.$this->getName();
+		return $this->data_model_class_name.'::'.$this->getName();
 	}
 
 	/**
@@ -318,14 +328,6 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	public function getDoNotSerialize() {
 		return $this->do_not_serialize;
-	}
-
-	/**
-	 *
-	 * @return DataModel_Definition_Model_Abstract
-	 */
-	public function getDataModelDefinition() {
-		return $this->_data_model_definition;
 	}
 
 	/**
@@ -593,11 +595,11 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 				is_array($callback) &&
 				$callback[0]=='this'
 			) {
-				$callback[0] = $this->_data_model_definition->getClassName();
+				$callback[0] = $this->data_model_class_name;
 			}
 
 			if(!is_callable($callback)) {
-				throw new DataModel_Exception($this->_data_model_definition->getClassName().'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
+				throw new DataModel_Exception($this->data_model_class_name.'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
 			}
 
 			$field->setSelectOptions( $callback() );
@@ -661,6 +663,22 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 			$target_property->{$p} = $v;
 		}
+	}
+
+	/**
+	 * @param $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( $data ) {
+
+		$i = new static( $data['data_model_class_name'], $data['_name'] );
+
+		foreach( $data as $key=>$val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
 	}
 
 }

@@ -60,9 +60,9 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$this->property_options = $this->data_model->_test_get_property_options($this->property_name);
 		$this->ID_property_options = $this->data_model->_test_get_property_options($this->ID_property_name);
 
-		$this->object = new $class_name( $this->data_model->getDataModelDefinition(), $this->property_name, $this->property_options );
-		$this->ID_object = new $class_name( $this->data_model->getDataModelDefinition(), $this->ID_property_name, $this->ID_property_options );
-		$this->ID_model_related = new $class_name( $this->data_model->getDataModelDefinition(), 'ID_related', $this->ID_property_options );
+		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
+		$this->ID_object = new $class_name( get_class($this->data_model), $this->ID_property_name, $this->ID_property_options );
+		$this->ID_model_related = new $class_name( get_class($this->data_model), 'ID_related', $this->ID_property_options );
 	}
 
 	/**
@@ -75,20 +75,14 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_Abstract::setUpRelation
-	 * @expectedException \Jet\DataModel_Exception
-	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
-	 */
-	public function testSetUpRelationFailed() {
-		$this->object->setUpRelation($this->ID_object);
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::setUpRelation
 	 * @covers Jet\DataModel_Definition_Property_Abstract::getRelatedToPropertyName
 	 */
 	public function testSetUpRelation() {
 		$this->assertNull( $this->ID_object->getRelatedToPropertyName() );
-		$this->ID_object->setUpRelation($this->ID_model_related);
+		$this->ID_object->setUpRelation(
+					$this->ID_model_related->getDataModelClassName(),
+					$this->ID_model_related->getName()
+		);
 		$this->assertSame($this->ID_model_related->getName(), $this->ID_object->getRelatedToPropertyName());
 	}
 
@@ -441,22 +435,5 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::cloneProperty
-	 */
-	public function testCloneProperty() {
-		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
-		/**
-		 * @var DataModel_Definition_Property_String $dolly
-		 */
-		$dolly = new $class_name( $this->data_model->getDataModelDefinition(), 'Dolly', array() );
-
-		DataModel_Definition_Property_Abstract::cloneProperty($this->object, $dolly);
-
-		$this->assertEquals( $this->object->getListOfValidOptions(), $dolly->getListOfValidOptions() );
-		$this->assertEquals( $this->object->getDefaultValue( $this->data_model ), $dolly->getDefaultValue( $this->data_model ) );
-		$this->assertEquals( $this->object->getDescription(), $dolly->getDescription() );
-		$this->assertEquals( $this->object->getBackendOptions( 'test' ), $dolly->getBackendOptions( 'test' ) );
-	}
 
 }

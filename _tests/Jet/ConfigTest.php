@@ -176,7 +176,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	public function testGetCommonForm() {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );
 
-		$valid_form = new Form('ConfigTestDescendantMock', array(
+		$valid_form = new Form('Jet_ConfigTestDescendantMock', array(
 			new Form_Field_Input('string_property', 'String property:', 'String config value', true),
 			new Form_Field_Int('int_property', 'Int property:', 123, false),
 			new Form_Field_Float('float_property', 'Float property:', 1.3, true),

@@ -146,35 +146,17 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	public static function getDataModelDefinition( $class_name )  {
 
 		$s_class_name = $class_name;
-		$file_path = JET_DATAMODEL_DEFINITION_CACHE_PATH.str_replace('\\', '__', $s_class_name.'.dat');
+		$file_path = JET_DATAMODEL_DEFINITION_CACHE_PATH.str_replace('\\', '__', $s_class_name.'.php');
 
 		if( JET_DATAMODEL_DEFINITION_CACHE_LOAD ) {
 
 			if(IO_File::isReadable($file_path)) {
-				$OK = true;
-				$definition = null;
+				/** @noinspection PhpIncludeInspection */
+				$definition = require $file_path;
 
-				try {
-					$definition = IO_File::read($file_path);
-				} catch( IO_File_Exception $e ) {
-					$OK = false;
-				}
+				static::$__definitions[$s_class_name] = $definition;
 
-				if($OK) {
-					$definition = unserialize($definition);
-					if(!$definition) {
-						IO_File::delete($file_path);
-						$OK = false;
-					}
-				}
-
-
-				if($OK) {
-					static::$__definitions[$s_class_name] = $definition;
-
-					return static::$__definitions[$s_class_name];
-				}
-
+				return $definition;
 			}
 		}
 
@@ -187,7 +169,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			self::$__definitions[$s_class_name] = $class_name::_getDataModelDefinitionInstance($s_class_name);
 
 			if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
-				IO_File::write( $file_path, serialize(self::$__definitions[$s_class_name]) );
+				IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$s_class_name], true).';' );
 			}
 		}
 
@@ -198,22 +180,69 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 	/**
 	 *
-	 * @param $data_model_class_name
+	 * @param $data_model_class_name (optional)
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function  __construct( $data_model_class_name ) {
+	public function  __construct( $data_model_class_name='' ) {
 
-		$this->_mainInit( $data_model_class_name );
-		$this->_initProperties();
-		$this->_initKeys();
+		if($data_model_class_name) {
+			$this->_mainInit( $data_model_class_name );
+			$this->_initProperties();
+			$this->_initKeys();
 
-		if(!$this->ID_properties) {
+			if(!$this->ID_properties) {
+				throw new DataModel_Exception(
+					'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
+				);
+			}
+		}
+	}
+
+
+	/**
+	 * @param $class_name
+	 *
+	 * @return array
+	 * @throws DataModel_Exception
+	 */
+	protected function _getPropertiesDefinitionData( $class_name ) {
+		$properties_definition_data = Object_Reflection::get( $class_name , 'data_model_properties_definition', false);
+
+		if(
+			!is_array($properties_definition_data) ||
+			!$properties_definition_data
+		) {
 			throw new DataModel_Exception(
-				'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+				'DataModel \''.$class_name.'\' doesn\'t have any properties defined!',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
+
+		return $properties_definition_data;
+	}
+
+	/**
+	 * @param $class_name
+	 *
+	 * @return string
+	 * @throws DataModel_Exception
+	 */
+	protected function _getModelNameDefinition( $class_name ) {
+		$model_name = Object_Reflection::get( $class_name, 'data_model_name', '' );
+
+		if(
+			!is_string($model_name) ||
+			!$model_name
+		) {
+			throw new DataModel_Exception(
+				'DataModel \''.$class_name.'\' doesn\'t have model name! Please specify it by @JetDataModel:name ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		return $model_name;
 	}
 
 	/**
@@ -230,17 +259,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		/**
 		 * @var DataModel $data_model_class_name
 		 */
-		$this->model_name = Object_Reflection::get( $data_model_class_name, 'data_model_name', '' );
-
-		if(
-			!is_string($this->model_name) ||
-			!$this->model_name
-		) {
-			throw new DataModel_Exception(
-					'DataModel \''.$data_model_class_name.'\' doesn\'t have model name! Please specify it by @JetDataModel:name ',
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
-		}
+		$this->model_name = $this->_getModelNameDefinition( $data_model_class_name );
 
 		$this->database_table_name = Object_Reflection::get( $data_model_class_name, 'database_table_name', '' );
 
@@ -280,17 +299,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$class_name = $this->class_name;
 
-		$properties_definition_data = Object_Reflection::get( $class_name , 'data_model_properties_definition', false);
-
-		if(
-			!is_array($properties_definition_data) ||
-			!$properties_definition_data
-		) {
-			throw new DataModel_Exception(
-				'DataModel \''.$class_name.'\' doesn\'t have any properties defined!',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
+		$properties_definition_data = $this->_getPropertiesDefinitionData($class_name);
 
 		$this->properties = array();
 
@@ -300,7 +309,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				continue;
 			}
 
-			$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this, $property_name, $property_dd);
+			$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this->class_name, $property_name, $property_dd);
 
 			if($property_definition->getIsID()) {
 				$this->ID_properties[$property_definition->getName()] = $property_definition;
@@ -414,6 +423,15 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	public function getProperties() {
 		return $this->properties;
+	}
+
+	/**
+	 * @param string $property_name
+	 *
+	 * @return DataModel_Definition_Property_Abstract
+	 */
+	public function getProperty( $property_name ) {
+		return $this->properties[$property_name];
 	}
 
 	/**
@@ -765,12 +783,11 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @param array $reflection_data
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( $class_name, &$reflection_data, $key, $definition, $raw_value, $value ) {
+	public static function parseClassDocComment( $class_name, &$reflection_data, $key, $definition, $value ) {
 
 
 		switch($key) {
@@ -928,11 +945,18 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
-	 * @param mixed $raw_value
 	 * @param mixed $value
 	 *
 	 */
-	public static function parsePropertyDocComment( $class_name, &$reflection_data,$property_name, $key, $definition, $raw_value, $value ) {
+	public static function parsePropertyDocComment(
+		/** @noinspection PhpUnusedParameterInspection */
+		$class_name,
+		&$reflection_data,
+		$property_name,
+		$key,
+		$definition,
+		$value
+	) {
 
 		if(!isset($reflection_data['data_model_properties_definition'])) {
 			$reflection_data['data_model_properties_definition'] = array();
@@ -958,5 +982,19 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		return self::$__main_config;
 	}
 
+	/**
+	 * @param $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( $data ) {
+		$i = new static();
+
+		foreach( $data as $key=>$val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
 
 }

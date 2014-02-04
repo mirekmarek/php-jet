@@ -23,7 +23,7 @@ namespace Jet;
  * @JetFactory:method = 'getPageIDInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_ID_Abstract'
  */
-abstract class Mvc_Pages_Page_ID_Abstract extends DataModel_ID_Default {
+abstract class Mvc_Pages_Page_ID_Abstract extends DataModel_ID_Name {
 
 	/**
 	 * @param string $site_ID

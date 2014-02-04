@@ -46,11 +46,7 @@ class IO_Dir {
 	 */
 	public static function getDefaultChmodMask() {
 		if( static::$default_chmod_mask===null ) {
-			try {
-				self::$default_chmod_mask = Application::getConfig()->getIODirsChmod();
-			} catch(Exception $e){
-				self::$default_chmod_mask = 0777;
-			}
+			self::$default_chmod_mask = JET_IO_CHMOD_MASK_DIR;
 		}
 		return self::$default_chmod_mask;
 	}
@@ -100,6 +96,7 @@ class IO_Dir {
 	 * @throws IO_Dir_Exception
 	 */
 	public static function create($dir_path, $overwrite_if_exists=false ){
+
 		if(static::exists($dir_path)) {
 			if($overwrite_if_exists) {
 				static::remove($dir_path);

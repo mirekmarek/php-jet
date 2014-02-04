@@ -46,7 +46,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 			if( !$this->data_model_class ) {
 				throw new DataModel_Exception(
-					'Property '.$this->_data_model_definition->getClassName().'::'.$this->_name.' is DataModel, but data_model_class is missing in definition data.',
+					'Property '.$this->data_model_class_name.'::'.$this->_name.' is DataModel, but data_model_class is missing in definition data.',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}

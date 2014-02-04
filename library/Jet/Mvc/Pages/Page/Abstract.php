@@ -52,6 +52,8 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 			$this->setParentID( $parent_ID );
 			$this->setLocale( $locale );
 			$this->setID( $ID );
+
+			$this->generateID();
 		}
 
 		parent::__construct();

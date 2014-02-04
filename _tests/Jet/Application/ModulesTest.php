@@ -23,7 +23,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		Application_Modules::setModulesListFilePath( JET_TESTS_TMP.'modules_list_test.php' );
 	}
 
 	/**
@@ -31,20 +30,11 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
-		@unlink( JET_TESTS_TMP.'modules_list_test.php' );
+		@unlink( JET_APPLICATION_MODULES_LIST_PATH );
 		Application_Modules::_resetInternalState();
 		@unlink( JET_TESTS_TMP.'module-install-test' );
 	}
 
-	/**
-	 * @covers Jet\Application_Modules::setModulesListFilePath
-	 * @covers Jet\Application_Modules::getModulesListFilePath
-	 */
-	public function testGetSetModulesListFilePath() {
-		$path = JET_TESTS_TMP.'test_set_list_path';
-		Application_Modules::setModulesListFilePath( $path );
-		$this->assertEquals( $path, Application_Modules::getModulesListFilePath() );
-	}
 
 
 	/**

@@ -25,7 +25,7 @@ namespace Jet;
  * @JetFactory:mandatory_parent_class = 'Jet\\Auth_Role_Abstract'
  *
  * @JetDataModel:name = 'Role'
- * @JetDataModel:ID_class_name = 'Jet\\Auth_Role_ID_Abstract'
+ * @JetDataModel:ID_class_name = 'Jet\\DataModel_ID_Name'
  */
 abstract class Auth_Role_Abstract extends DataModel {
 
