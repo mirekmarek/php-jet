@@ -11,9 +11,4 @@ return array(
 	'require' => array(),
 
 	'factory_overload_map' => array(),
-
-	'signals' => array(
-		'user/login' => 'After user login',
-		'user/logout' => 'Before user logout'
-	)
 );

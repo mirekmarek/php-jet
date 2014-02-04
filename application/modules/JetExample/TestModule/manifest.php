@@ -15,11 +15,5 @@ return array(
 
 	'signals_callbacks' => array(
 		'/test/ack' => 'testAck',
-	),
-	
-	'signals' => array(
-		'/test/received' => 'Test signal for DefaultAdminUI',
-		'/test/multiple' => 'Test signal for DefaultAdminUI'
 	)
-    
 );

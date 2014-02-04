@@ -78,11 +78,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 					'/test/ack' => 'testAck',
 				),
-				'signals' =>
-				array (
-					'/test/received' => 'Test signal 1',
-					'/test/multiple' => 'Test signal 2',
-				),
 				'module_dir' => '',
 				'is_installed' => false,
 				'is_activated' => false,
@@ -106,9 +101,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 				),
 				'signals_callbacks' =>
-				array (
-				),
-				'signals' =>
 				array (
 				),
 				'module_dir' => '',
@@ -140,11 +132,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 					'/test/signal1' => 'CallbackMoeduleMethodName1',
 					'/test/signal2' => 'CallbackMoeduleMethodName2',
-				),
-				'signals' =>
-				array (
-					'/test/signal1' => 'Test signal 1',
-					'/test/signal2' => 'Test signal 2',
 				),
 				'module_dir' => '',
 				'is_installed' => false,
@@ -193,11 +180,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 			array (
 				'/test/signal1' => 'CallbackMoeduleMethodName1',
 				'/test/signal2' => 'CallbackMoeduleMethodName2',
-			),
-			'signals' =>
-			array (
-				'/test/signal1' => 'Test signal 1',
-				'/test/signal2' => 'Test signal 2',
 			),
 			'module_dir' => '',
 			'is_installed' => false,
@@ -263,11 +245,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 					'/test/ack' => 'testAck',
 				),
-				'signals' =>
-				array (
-					'/test/received' => 'Test signal 1',
-					'/test/multiple' => 'Test signal 2',
-				),
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => false,
@@ -291,9 +268,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 				),
 				'signals_callbacks' =>
-				array (
-				),
-				'signals' =>
 				array (
 				),
 				'module_dir' => '',
@@ -332,11 +306,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 					'/test/ack' => 'testAck',
 				),
-				'signals' =>
-				array (
-					'/test/received' => 'Test signal 1',
-					'/test/multiple' => 'Test signal 2',
-				),
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => true,
@@ -360,9 +329,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				array (
 				),
 				'signals_callbacks' =>
-				array (
-				),
-				'signals' =>
 				array (
 				),
 				'module_dir' => '',

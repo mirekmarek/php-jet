@@ -10,6 +10,5 @@ return array(
 	'require' => array(),
 
 	'signals_callbacks' => array(),
-	'signals' => array()
-    
+
 );

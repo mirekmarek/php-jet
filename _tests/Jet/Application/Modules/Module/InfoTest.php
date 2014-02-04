@@ -146,16 +146,6 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::readManifestData
-	 *
-	 * @expectedException \Jet\Application_Modules_Exception
-	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-	 */
-	public function testReadManifestDataInvalidSignalsIsNotArray() {
-		new Application_Modules_Module_Info('InvalidSignalsIsNotArray');
-	}
-
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::readManifestData
 	 */
 	public function testReadManifestData() {
 		new Application_Modules_Module_Info('ValidModule');
@@ -300,16 +290,6 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 		), $module_info->getSignalCallbacks() );
 	}
 
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::getSignals
-	 */
-	public function testGetSignals() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
-		$this->assertEquals( array(
-			'/test/signal1' => 'Test signal 1',
-			'/test/signal2' => 'Test signal 2',
-		), $module_info->getSignals() );
-	}
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::setIsInstalled

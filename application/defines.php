@@ -66,7 +66,7 @@ define('JET_FACTORY_DEFINITION_CACHE_PATH', JET_DATA_PATH.'factory_definitions/'
 define('JET_IO_CHMOD_MASK_DIR', 0777);
 define('JET_IO_CHMOD_MASK_FILE', 0666);
 
-define('JET_HIDE_HTTP_REQUEST', true);
+define('JET_HIDE_HTTP_REQUEST', false);
 
 define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);

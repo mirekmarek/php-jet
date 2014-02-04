@@ -17,10 +17,6 @@ return array(
 
 	'factory_overload_map' => 'IsNotArray',
 
-	'signals' => array(
-		'/test/signal1' => 'Test signal 1',
-		'/test/signal2' => 'Test signal 2',
-	),
 	'signals_callbacks' => array(
 		'/test/signal1' => 'CallbackMoeduleMethodName1',
 		'/test/signal2' => 'CallbackMoeduleMethodName2',

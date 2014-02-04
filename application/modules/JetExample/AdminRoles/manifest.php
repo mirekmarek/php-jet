@@ -13,6 +13,5 @@ return array(
         ),
 
 	'signals_callbacks' => array(),
-	'signals' => array()
-    
+
 );

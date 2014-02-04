@@ -3,17 +3,17 @@
  * @see Jet\Application\Modules_Module_Info
  */
 return array(
-	"API_version" => 201208,
+	'API_version' => 201208,
 	
-	"label" => "Test Module 2",
+	'label' => 'Test Module 2',
 
-	"vendor" => "Vendor",
+	'vendor' => 'Vendor',
 	
-	"types" => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
+	'types' => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
 
-	"description" => "Test module 2...",
+	'description' => 'Test module 2...',
 
-	"require" => array( "Vendor\\Package\\TestModule" ),
+	'require' => array( 'Vendor\\Package\\TestModule' ),
 
-	"factory_overload_map" => array()
+	'factory_overload_map' => array()
 );

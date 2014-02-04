@@ -18,9 +18,5 @@ return array(
 			'testMultiple2'
 		),
 	),
-	
-	'signals' => array(
-		'/test/ack' => 'Reply to test/received signal'
-	)
-    
+
 );

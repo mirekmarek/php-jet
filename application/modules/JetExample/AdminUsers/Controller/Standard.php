@@ -42,7 +42,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$user_instance = Jet\Auth_Factory::getUserInstance();
 		if($GET->exists('new')) {
 			$user = $user_instance;
-			$user->initNewObject();
 
 			$this->view->setVar('bnt_label', 'ADD');
 

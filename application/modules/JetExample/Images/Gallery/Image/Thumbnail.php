@@ -244,6 +244,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 	 * @return Gallery_Image_Thumbnail
 	 */
 	public static function getNewThumbnail( Gallery_Image $image, $maximal_size_w, $maximal_size_h ) {
+
 		$maximal_size_w = (int)$maximal_size_w;
 		$maximal_size_h = (int)$maximal_size_h;
 
@@ -253,7 +254,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 		 * @var Gallery_Image_Thumbnail $thumbnail
 		 */
 		$thumbnail = new static();
-		$thumbnail->initNewObject();
+		$thumbnail->generateID();
 
 		$thumbnail->file_name = $key.'_'.$image->getFileName();
 

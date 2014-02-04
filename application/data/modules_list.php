@@ -21,9 +21,6 @@
      'signals_callbacks' => 
     array (
     ),
-     'signals' => 
-    array (
-    ),
      'module_dir' => '',
      'is_installed' => true,
      'is_activated' => true,
@@ -55,10 +52,6 @@
         1 => 'testMultiple2',
       ),
     ),
-     'signals' => 
-    array (
-      '/test/ack' => 'Reply to test/received signal',
-    ),
      'module_dir' => '',
      'is_installed' => true,
      'is_activated' => true,
@@ -82,9 +75,6 @@
     array (
     ),
      'signals_callbacks' => 
-    array (
-    ),
-     'signals' => 
     array (
     ),
      'module_dir' => '',
@@ -112,9 +102,6 @@
      'signals_callbacks' => 
     array (
     ),
-     'signals' => 
-    array (
-    ),
      'module_dir' => '',
      'is_installed' => true,
      'is_activated' => true,
@@ -140,11 +127,6 @@
      'signals_callbacks' => 
     array (
     ),
-     'signals' => 
-    array (
-      'user/login' => 'After user login',
-      'user/logout' => 'Before user logout',
-    ),
      'module_dir' => '',
      'is_installed' => true,
      'is_activated' => true,
@@ -168,9 +150,6 @@
     array (
     ),
      'signals_callbacks' => 
-    array (
-    ),
-     'signals' => 
     array (
     ),
      'module_dir' => '',
@@ -198,9 +177,6 @@
      'signals_callbacks' => 
     array (
     ),
-     'signals' => 
-    array (
-    ),
      'module_dir' => '',
      'is_installed' => true,
      'is_activated' => true,
@@ -224,9 +200,6 @@
     array (
     ),
      'signals_callbacks' => 
-    array (
-    ),
-     'signals' => 
     array (
     ),
      'module_dir' => '',
@@ -255,11 +228,6 @@
     array (
       '/test/ack' => 'testAck',
     ),
-     'signals' => 
-    array (
-      '/test/received' => 'Test signal for DefaultAdminUI',
-      '/test/multiple' => 'Test signal for DefaultAdminUI',
-    ),
      'module_dir' => '',
      'is_installed' => true,
      'is_activated' => true,
@@ -284,9 +252,6 @@
     array (
     ),
      'signals_callbacks' => 
-    array (
-    ),
-     'signals' => 
     array (
     ),
      'module_dir' => '',

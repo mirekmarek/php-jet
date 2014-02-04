@@ -3,27 +3,21 @@
  * @see Jet\Application_Modules_Module_Info
  */
 return array(
-	"API_version" => 201208,
+	'API_version' => 201208,
 
-	"vendor" => "Vendor",
+	'vendor' => 'Vendor',
 	
-	"label" => "Test Module 1",
-	"types" => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
-	"description" => "Test module 1...",
+	'label' => 'Test Module 1',
+	'types' => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
+	'description' => 'Test module 1...',
 
-	"require" => array(),
+	'require' => array(),
 
-	"factory_overload_map" => array(
+	'factory_overload_map' => array(
 
 	),
 
-	"signals_callbacks" => array(
-		"/test/ack" => "testAck",
-	),
-	
-	"signals" => array(
-		"/test/received" => "Test signal 1",
-		"/test/multiple" => "Test signal 2"
+	'signals_callbacks' => array(
+		'/test/ack' => 'testAck',
 	)
-    
 );

@@ -42,7 +42,7 @@ class Article extends Jet\DataModel {
 	 * @JetDataModel:form_field_label = 'Locale:'
 	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Mvc',  1 => 'getAllSitesLocalesList',)
 	 *
-	 * @var Locale
+	 * @var Jet\Locale
 	 */
 	protected $locale;
 
@@ -95,7 +95,7 @@ class Article extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time:'
 	 *
-	 * @var DateTime
+	 * @var Jet\DateTime
 	 */
 	protected $date_time;
 
@@ -228,10 +228,7 @@ class Article extends Jet\DataModel {
 	 * @return Article
 	 */
 	public static function getNew() {
-		$instance = new self();
-		$instance->initNewObject();
-
-		return $instance;
+		return new self();
 	}
 
 	/**

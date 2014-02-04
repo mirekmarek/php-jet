@@ -374,7 +374,8 @@ class Gallery_Image extends Jet\DataModel {
 		 * @var Gallery_Image $image
 		 */
 		$image = new static();
-		$image->initNewObject();
+		$image->generateID();
+
 		$image->setGallery($gallery);
 
 		$offset = ceil($image->getAllImagesCount()/1000);

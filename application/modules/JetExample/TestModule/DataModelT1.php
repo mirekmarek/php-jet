@@ -49,7 +49,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE
 	 * @JetDataModel:form_field_label = 'Date: '
 	 *
-	 * @var DateTime
+	 * @var Jet\DateTime
 	 */
 	protected $date;
 
@@ -58,7 +58,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time: '
 	 *
-	 * @var DateTime
+	 * @var Jet\DateTime
 	 */
 	protected $date_time;
 

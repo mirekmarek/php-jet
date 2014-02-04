@@ -157,10 +157,7 @@ class Gallery extends Jet\DataModel {
 	 * @return Gallery
 	 */
 	public static function getNew() {
-		$instance = new self();
-		$instance->initNewObject();
-
-		return $instance;
+		return new self();
 	}
 
 	/**

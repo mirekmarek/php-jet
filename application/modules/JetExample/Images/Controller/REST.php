@@ -172,7 +172,6 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	 */
 	public function post_gallery_Action() {
 		$gallery = Gallery::getNew();
-		$gallery->initNewObject();
 
 		$form = $gallery->getCommonForm();
 

@@ -41,7 +41,7 @@ class Event extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:is_required = true
 	 *
-	 * @var DateTime
+	 * @var Jet\DateTime
 	 */
 	protected $date_time;
 
@@ -202,7 +202,6 @@ class Event extends Jet\DataModel {
 	 */
 	public static function logEvent( $event, $event_data, $event_txt, $user_ID, $user_login ) {
 		$event_i = new self();
-		$event_i->initNewObject();
 
 		$event_i->date_time = Jet\DateTime::now();
 		$event_i->event = $event;

@@ -15,7 +15,6 @@
  *  - require (optional)
  *  - factory_overload_map (optional)
  *  - signals_callbacks (optional)
- *  - signals  (optional)
  *
  * See class variables description for more details
  *
@@ -161,17 +160,6 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 */
 	protected $signals_callbacks = array();
 	
-	/**
-	 * Manifest value
-	 *
-	 * List of emitted signals with description
-	 * array(
-	 *    'signal10' => 'Sent when something occurs'
-	 * )
-	 *
-	 * @var array 
-	 */
-	protected $signals = array();
 
 	//--------------------------------------------------------------------------
 
@@ -327,15 +315,6 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 			);
 		}
 
-		if(
-			isset($manifest_data['signals']) &&
-			!is_array($manifest_data['signals'])
-		){
-			throw new Application_Modules_Exception(
-				'Emitted signals list must be an array like [signal_name => signal description]! (Module: \''.$this->name.'\')',
-				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-			);
-		}
 	}
 
 	/**
@@ -521,17 +500,6 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 */
 	public function getSignalCallbacks() {
 		return $this->signals_callbacks;
-	}
-
-	/**
-	 * array(
-	 *    'signal10' => 'Sent when something occurs'
-	 * )
-	 *
-	 * @return array
-	 */
-	public function getSignals() {
-		return $this->signals;
 	}
 
 	/**
