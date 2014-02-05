@@ -15,7 +15,7 @@
 namespace Jet;
 
 /**
- * No OOP, but this one must be realy fast
+ * No OOP, but this one must be really fast
  *
  */
 class Object_Reflection {

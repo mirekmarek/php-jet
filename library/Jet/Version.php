@@ -14,7 +14,7 @@ namespace Jet;
 
 class Version extends Object {
 
-	const API_VERSION = 201208;
+	const API_VERSION = 201401;
 
 	/**
 	 * @return string

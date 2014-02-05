@@ -33,15 +33,15 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	/**
 	 * @param string $statement
 	 * @param int $fetch_method (optional)
-	 * @param int|string|object $colno_or_classname_or_object (optional)
+	 * @param int|string|object $column_no_or_class_name_or_object (optional)
 	 * @param array $class_constructor_arguments (optional)
 	 *
 	 * @return \PDOStatement|void
 	 */
-	public function query( $statement, $fetch_method=0, $colno_or_classname_or_object, $class_constructor_arguments=array() ) {
+	public function query( $statement, $fetch_method=0, $column_no_or_class_name_or_object, $class_constructor_arguments=array() ) {
 		Debug_Profiler::SQLQueryStart( $statement );
 
-		$result = parent::query( $statement, $fetch_method, $colno_or_classname_or_object, $class_constructor_arguments );
+		$result = parent::query( $statement, $fetch_method, $column_no_or_class_name_or_object, $class_constructor_arguments );
 
 		Debug_Profiler::SQLQueryDone();
 
@@ -49,7 +49,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	}
 
 	/**
-	 * Executes commant (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
+	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
 	 * @param array $query_data

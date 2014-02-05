@@ -29,12 +29,12 @@ class Mvc_Sites_Site_LocalizedData_URL_Default extends Mvc_Sites_Site_LocalizedD
 	 *
 	 * @JetDataModel:related_to = 'main.ID'
 	 */
-	protected $stie_ID = '';
+	protected $site_ID = '';
 
 	/**
 	 * @JetDataModel:related_to = 'parent.ID'
 	 */
-	protected $localizeddata_ID = '';
+	protected $localized_data_ID = '';
 
 
 	/**

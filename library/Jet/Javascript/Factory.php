@@ -19,20 +19,20 @@ class Javascript_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $JS_lib_class_name_preffix = 'Jet\\Javascript_Lib_';
+	protected static $JS_lib_class_name_prefix = 'Jet\\Javascript_Lib_';
 
 	/**
-	 * @param string $JS_lib_class_name_preffix
+	 * @param string $JS_lib_class_name_prefix
 	 */
-	public static function setJSLibClassNamePreffix($JS_lib_class_name_preffix) {
-		self::$JS_lib_class_name_preffix = $JS_lib_class_name_preffix;
+	public static function setJSLibClassNamePrefix($JS_lib_class_name_prefix) {
+		self::$JS_lib_class_name_prefix = $JS_lib_class_name_prefix;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getJSLibClassNamePreffix() {
-		return self::$JS_lib_class_name_preffix;
+	public static function getJSLibClassNamePrefix() {
+		return self::$JS_lib_class_name_prefix;
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Javascript_Factory extends Factory {
 	 * @return Javascript_Lib_Abstract
 	 */
 	public static function getJavascriptLibInstance( $javascript_framework_name, Mvc_Layout $layout ) {
-		$default_class_name = static::$JS_lib_class_name_preffix.$javascript_framework_name;
+		$default_class_name = static::$JS_lib_class_name_prefix.$javascript_framework_name;
 
 		$class_name =  static::getClassName( $default_class_name );
 

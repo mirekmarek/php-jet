@@ -74,7 +74,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 					`user_name`=:user_name,
 					`user_ID`=:user_ID,
 					`object`=:object,
-					`operation_inprogress`=:operation_inprogress
+					`operation_in_progress`=:operation_in_progress
 				',array(
 					'operation_ID' => $this->_current_operation_ID,
 					'class_name' => get_class($this->_current_data_model),
@@ -84,7 +84,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 					'user_name' => $user_name,
 					'user_ID' => $user_ID,
 					'object' => serialize( $this->_current_data_model ),
-					'operation_inprogress' => 1,
+					'operation_in_progress' => 1,
 				));
 
 	}
@@ -94,7 +94,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	 */
 	public function operationDone() {
 		$this->_db_write->execCommand(
-			'UPDATE `'.$this->_table_name.'` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=NOW() WHERE `operation_ID`=:operation_ID',
+			'UPDATE `'.$this->_table_name.'` SET `operation_in_progress`=0, `operation_done`=1, `done_date_and_time`=NOW() WHERE `operation_ID`=:operation_ID',
 			array(
 				'operation_ID' => $this->_current_operation_ID,
 			)
@@ -115,7 +115,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 				.JET_TAB.'`operation` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
 				.JET_TAB.'`start_date_and_time` datetime NOT NULL,'.JET_EOL
 				.JET_TAB.'`done_date_and_time` datetime,'.JET_EOL
-				.JET_TAB.'`operation_inprogress` tinyint(4) NOT NULL,'.JET_EOL
+				.JET_TAB.'`operation_in_progress` tinyint(4) NOT NULL,'.JET_EOL
 				.JET_TAB.'`operation_done` tinyint(4) NOT NULL,'.JET_EOL
 				.JET_TAB.'`user_name` varchar(255) CHARACTER SET utf8 NOT NULL,'.JET_EOL
 				.JET_TAB.'`user_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL

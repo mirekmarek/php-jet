@@ -16,7 +16,7 @@ namespace Jet;
 /**
  * Available annotation:
  *
- *      Signlas:
+ *      Signals:
  *          Signal definition:
  *              @JetApplication_Signals:signal = '/signal/name'
  *              @JetApplication_Signals:signal = '/next/signal/name'

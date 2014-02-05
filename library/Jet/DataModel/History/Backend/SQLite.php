@@ -74,7 +74,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 						`user_name`,
 						`user_ID`,
 						`object`,
-						`operation_inprogress`
+						`operation_in_progress`
 
 					) VALUES (
 	                    :operation_ID,
@@ -86,7 +86,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 						:user_name,
 						:user_ID,
 						:object,
-						:operation_inprogress
+						:operation_in_progress
 
 					)
 				',array(
@@ -98,7 +98,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 					'user_name' => $user_name,
 					'user_ID' => $user_ID,
 					'object' => $this->serialize( $this->_current_data_model ),
-					'operation_inprogress' => 1,
+					'operation_in_progress' => 1,
 				));
 
 	}
@@ -108,7 +108,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	 */
 	public function operationDone() {
 		$this->_db->execCommand(
-			'UPDATE `'.$this->_table_name.'` SET `operation_inprogress`=0, `operation_done`=1, `done_date_and_time`=datetime(\'now\') WHERE `operation_ID`=:operation_ID',
+			'UPDATE `'.$this->_table_name.'` SET `operation_in_progress`=0, `operation_done`=1, `done_date_and_time`=datetime(\'now\') WHERE `operation_ID`=:operation_ID',
 			array(
 				'operation_ID' => $this->_current_operation_ID,
 			)
@@ -129,7 +129,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 				.JET_TAB.'`operation` TEXT,'.JET_EOL
 				.JET_TAB.'`start_date_and_time` NUMERIC,'.JET_EOL
 				.JET_TAB.'`done_date_and_time` NUMERIC,'.JET_EOL
-				.JET_TAB.'`operation_inprogress` INTEGER,'.JET_EOL
+				.JET_TAB.'`operation_in_progress` INTEGER,'.JET_EOL
 				.JET_TAB.'`operation_done` INTEGER,'.JET_EOL
 				.JET_TAB.'`user_name` TEXT,'.JET_EOL
 				.JET_TAB.'`user_ID` TEXT,'.JET_EOL

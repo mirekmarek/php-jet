@@ -25,7 +25,7 @@ class DataModel_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $histiory_backend_class_name_prefix = 'Jet\\DataModel_History_Backend_';
+	protected static $history_backend_class_name_prefix = 'Jet\\DataModel_History_Backend_';
 
 	/**
 	 * @var string
@@ -66,17 +66,17 @@ class DataModel_Factory extends Factory {
 	}
 
 	/**
-	 * @param string $histiory_backend_class_name_prefix
+	 * @param string $history_backend_class_name_prefix
 	 */
-	public static function setHistioryBackendClassNamePrefix($histiory_backend_class_name_prefix) {
-		static::$histiory_backend_class_name_prefix = $histiory_backend_class_name_prefix;
+	public static function setHistoryBackendClassNamePrefix($history_backend_class_name_prefix) {
+		static::$history_backend_class_name_prefix = $history_backend_class_name_prefix;
 	}
 
 	/**
 	 * @return string
 	 */
-	public static function getHistioryBackendClassNamePrefix() {
-		return static::$histiory_backend_class_name_prefix;
+	public static function getHistoryBackendClassNamePrefix() {
+		return static::$history_backend_class_name_prefix;
 	}
 
 	/**
@@ -174,7 +174,7 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Config_Abstract
 	 */
 	public static function getHistoryBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$histiory_backend_class_name_prefix.$type.'_Config';
+		$default_class_name = static::$history_backend_class_name_prefix.$type.'_Config';
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $soft_mode );
@@ -191,7 +191,7 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Abstract
 	 */
 	public static function getHistoryBackendInstance( $type, DataModel_History_Backend_Config_Abstract $config ) {
-		$default_class_name = static::$histiory_backend_class_name_prefix.$type;
+		$default_class_name = static::$history_backend_class_name_prefix.$type;
 
 		$class_name =  static::getClassName( $default_class_name );
 

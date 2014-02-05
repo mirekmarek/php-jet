@@ -37,7 +37,7 @@ class Mvc_Sites_Site_LocalizedData_MetaTag_Default extends Mvc_Sites_Site_Locali
 	 *
 	 * @var string
 	 */
-	protected $localizeddata_ID = '';
+	protected $localized_data_ID = '';
 
 
 	/**

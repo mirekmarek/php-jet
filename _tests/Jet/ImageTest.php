@@ -59,9 +59,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Image::__construct
 	 *
 	 * @expectedException \Jet\Image_Exception
-	 * @expectedExceptionCode \Jet\Image_Exception::CODE_UNSUPORTED_IMAGE_TYPE
+	 * @expectedExceptionCode \Jet\Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 	 */
-	public function testFailedUnsuportedImageType() {
+	public function testFailedUnsupportedImageType() {
 		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage.sgi' );
 	}
 

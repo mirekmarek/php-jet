@@ -215,7 +215,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 			}
 
 			throw new DataModel_ID_Exception(
-				'ID generate: Reached the maximim numbers of attemps. (Maximim: '.static::MAX_SUFFIX_NO.')',
+				'ID generate: Reached the maximum numbers of attempts. (Maximum: '.static::MAX_SUFFIX_NO.')',
 				DataModel_ID_Exception::CODE_ID_GENERATE_REACHED_THE_MAXIMUM_NUMBER_OF_ATTEMPTS
 			);
 		}

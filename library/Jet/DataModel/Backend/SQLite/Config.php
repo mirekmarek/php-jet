@@ -40,7 +40,7 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	/**
 	 * @return string
 	 */
-	public function getDirectorypath() {
+	public function getDirectoryPath() {
 		return Data_Text::replaceSystemConstants( $this->directory_path );
 	}
 
@@ -55,7 +55,7 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	 * @return string
 	 */
 	public function getDSN() {
-		$dp = $this->getDirectorypath();
+		$dp = $this->getDirectoryPath();
 
 		if($dp==':memory:') {
 			return $dp;

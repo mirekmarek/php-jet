@@ -152,7 +152,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 
 		if( !method_exists($controller, $method) ) {
 			throw new Mvc_Dispatcher_Exception(
-				'Controller method '. get_class($controller).'::'.$method.'() doesn\'t exist',
+				'Controller method '. get_class($controller).'::'.$method.'() does not exist',
 				Mvc_Dispatcher_Exception::CODE_ACTION_DOES_NOT_EXIST
 			);
 		}

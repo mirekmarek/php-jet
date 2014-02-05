@@ -198,7 +198,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			}
 		}
 
-		$array = $this->_decodeRequestDataXMLcleanupArray($array);
+		$array = $this->_decodeRequestDataXmlCleanupArray($array);
 
 		if(
 			count($array)==1 &&
@@ -211,7 +211,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		return $array;
 	}
 
-	protected function _decodeRequestDataXMLcleanupArray( $array ) {
+	protected function _decodeRequestDataXmlCleanupArray( $array ) {
 		foreach( $array as $k=>$v ) {
 			if($k[0]=='@') {
 				unset($array[$k]);
@@ -228,7 +228,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			if(!$v) {
 				$array[$k] = '';
 			} else {
-				$array[$k] = $this->_decodeRequestDataXMLcleanupArray($array[$k]);
+				$array[$k] = $this->_decodeRequestDataXmlCleanupArray($array[$k]);
 			}
 		}
 

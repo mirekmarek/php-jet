@@ -81,7 +81,7 @@ class Db extends Object {
 
 		if( !$connection_config ){
 			throw new Db_Exception(
-				'Connection \''.$connection_name.'\' doesn\'t exist',
+				'Connection \''.$connection_name.'\' does not exist',
 				Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}

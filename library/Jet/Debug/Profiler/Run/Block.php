@@ -70,7 +70,7 @@ class Debug_Profiler_Run_Block {
 	protected $backtrace_end = array();
 
 	/**
-	 * @var Debug_Profiler_Run_SQLqueryData[]
+	 * @var Debug_Profiler_Run_SQLQueryData[]
 	 */
 	protected $SQL_queries = array();
 
@@ -95,7 +95,7 @@ class Debug_Profiler_Run_Block {
 	protected $children = array();
 
 	/**
-	 * @var null|Debug_Profiler_Run_SQLqueryData
+	 * @var null|Debug_Profiler_Run_SQLQueryData
 	 */
 	protected $__current_query;
 
@@ -275,7 +275,7 @@ class Debug_Profiler_Run_Block {
 
 
 	/**
-	 * @return Debug_Profiler_Run_SQLqueryData[]
+	 * @return Debug_Profiler_Run_SQLQueryData[]
 	 */
 	public function getSQLQueries() {
 		return $this->SQL_queries;
@@ -287,9 +287,9 @@ class Debug_Profiler_Run_Block {
 	 * @param $query
 	 * @param $query_data
 	 *
-	 * @return Debug_Profiler_Run_SQLqueryData
+	 * @return Debug_Profiler_Run_SQLQueryData
 	 */
-	public function SQLqueryStart(  $query, $query_data  ) {
+	public function SQLQueryStart(  $query, $query_data  ) {
 		$q = new Debug_Profiler_Run_SQLqueryData( $this->ID, $query, $query_data);
 
 		$this->SQL_queries[] = $q;
@@ -302,7 +302,7 @@ class Debug_Profiler_Run_Block {
 	/**
 	 * @param $rows_count
 	 */
-	public function SQLqueryDone( $rows_count ) {
+	public function SQLQueryDone( $rows_count ) {
 		$this->__current_query->setDone($rows_count);
 	}
 

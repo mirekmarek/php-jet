@@ -105,7 +105,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	}
 
 	/**
-	 * Executes commant (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
+	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
 	 * @param array $query_data

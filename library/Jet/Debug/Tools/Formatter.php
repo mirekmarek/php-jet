@@ -141,7 +141,7 @@ class Debug_Tools_Formatter {
 		$report[] = '<h2 style="padding:0;margin:0;">'.static::encodeForHTML($e->txt).'</h2><br/>';
 		$report[] = '<strong>'.static::encodeForHTML($e->message).'</strong><br/>';
 		$report[] = '<hr/>';
-		$report[] = '<table cellspacing="0" cellpadding="2" border="1" style="border-collapse:collapse;collapse;background-color: #c9c9c9;">';
+		$report[] = '<table cellSpacing="0" cellPadding="2" border="1" style="border-collapse:collapse;collapse;background-color: #c9c9c9;">';
 		$report[] = '<tr><td>script:</td><td>'.$e->file.'</td></tr>';
 		$report[] = '<tr><td>line:</td><td>'.$e->line.'</td></tr>';
 		$report[] = '<tr><td>time:</td><td>'.$e->date.' '.$e->time.'</td></tr>';
@@ -180,7 +180,7 @@ class Debug_Tools_Formatter {
 	public static function formatErrorContext_HTML(array $error_context){
 		$output = array();
 		$output[] = '<br /><strong>Error context:</strong><br />';
-		$output[] = '<table border="1" cellspacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">';
+		$output[] = '<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">';
 		$output[] = '<tr><th align="left">Variable</th><th align="left">Value</th></tr>';
 		$i = 0;
 		foreach(self::formatErrorContext($error_context) as $var_name => $var_value){
@@ -202,7 +202,7 @@ class Debug_Tools_Formatter {
 	public static function formatBacktrace_HTML(array $debug_backtrace){
 		$output = array();
 		$output[] = '<br /><strong>Debug backtrace:</strong><br />';
-		$output[] = '<table border="1" cellspacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">';
+		$output[] = '<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">';
 		$output[] = '<tr><th align="left">File</th><th align="left">Line</th><th align="left">Call</th></tr>';
 
 		$i = 0;

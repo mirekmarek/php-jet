@@ -22,7 +22,7 @@ namespace Jet;
  *              -  Path to configuration data within config file data. @see Data_Array::getRaw() for paths usage explanation
  *
  *          @JetConfig:config_section_is_obligatory = false
- *              - If defined section doesn't exists in the configuration data and this options is true then Config system throws exception. Default is true
+ *              - If defined section does not exists in the configuration data and this options is true then Config system throws exception. Default is true
  *
  *      Config Property Definition:
  *          /**

@@ -60,7 +60,7 @@ namespace Jet;
  *       *      - optional
  *       *
  *       * Validation:
- *       *   @JetDataModel:error_messages = ['errod_code'=>'Massage ...','errod_code'=>'Massage ...']
+ *       *   @JetDataModel:error_messages = ['error_code'=>'Massage ...','error_code'=>'Massage ...']
  *       *   @JetDataModel:validation_method = 'someCustomValidationMethodName'
  *       *      - optional
  *       *   @JetDataModel:list_of_valid_options = ['option1'=>'Valid option 1','option2'=>'Valid option 2']
@@ -68,7 +68,7 @@ namespace Jet;
  *       * Validation (type Jet\DataModel::TYPE_STRING):
  *       *   @JetDataModel:is_required = bool
  *       *   @JetDataModel:max_len = 255
- *       *   @JetDataModel:validation_regexp = '/someregexp/'
+ *       *   @JetDataModel:validation_regexp = '/some_regexp/'
  *       *      - optional
  *       *
  *       * Validation (type Jet\DataModel::TYPE_INT,Jet\DataModel::TYPE_FLOAT):

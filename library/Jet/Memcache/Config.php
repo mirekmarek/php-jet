@@ -64,7 +64,7 @@ class Memcache_Config extends Config_Application {
 	}
 
 	/**
-	 * Returns connection name for Memcache::get() / Refis::getConnection() if connection name is not specified (one of the keys in 'connections')
+	 * Returns connection name for Memcache::get() / Memcache::getConnection() if connection name is not specified (one of the keys in 'connections')
 	 *
 	 * @return string
 	 */

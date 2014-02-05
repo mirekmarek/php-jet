@@ -350,11 +350,11 @@ class Data_Array extends Object {
 
 		foreach( $data as $key=>$value ) {
 
-			$my_paht = $my_root_path.$key;
+			$my_path = $my_root_path.$key;
 
 			$comment = '';
-			if( isset($comments[$my_paht]) ) {
-				$comment .= JET_TAB.'/* '.$comments[$my_paht].' */';
+			if( isset($comments[$my_path]) ) {
+				$comment .= JET_TAB.'/* '.$comments[$my_path].' */';
 			}
 
 			if(is_int($key)) {
@@ -365,7 +365,7 @@ class Data_Array extends Object {
 			}
 
 			if(is_array($value)) {
-				$result .= $this->_export( $my_paht, $value, $next_level, $comments) . '';
+				$result .= $this->_export( $my_path, $value, $next_level, $comments) . '';
 			} else
 			if(is_object($value)) {
 				$class_name = get_class( $value );
@@ -377,7 +377,7 @@ class Data_Array extends Object {
 				}
 
 
-				$result .= $class_name.'::__set_state( '.$this->_export( $my_paht, $object_values, $next_level, $comments).' )';
+				$result .= $class_name.'::__set_state( '.$this->_export( $my_path, $object_values, $next_level, $comments).' )';
 			} else {
 				$result .= var_export( $value, true ).$comment;
 			}

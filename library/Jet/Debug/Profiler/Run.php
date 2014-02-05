@@ -128,7 +128,7 @@ class Debug_Profiler_Run {
 	}
 
 	/**
-	 * @return Debug_Profiler_Run_SQLqueryData[]
+	 * @return Debug_Profiler_Run_SQLQueryData[]
 	 */
 	public function getSqlQueries() {
 		$r = array();
@@ -197,7 +197,7 @@ class Debug_Profiler_Run {
 			return;
 		}
 
-		$timestampe = microtime(true);
+		$timestamp = microtime(true);
 
 		if( $this->__current_block_level>1 ) {
 
@@ -208,7 +208,7 @@ class Debug_Profiler_Run {
 				 * @var Debug_Profiler_Run_Block $block
 				 */
 				$block = array_pop( $this->__block_stack );
-				$block->setEnd($timestampe);
+				$block->setEnd($timestamp);
 
 			} while($this->__block_stack && $block->getLevel()>1);
 
@@ -219,7 +219,7 @@ class Debug_Profiler_Run {
 		 * @var Debug_Profiler_Run_Block $block
 		 */
 		$block = array_pop( $this->__block_stack );
-		$block->setEnd($timestampe);
+		$block->setEnd($timestamp);
 
 		$this->__block_stack = array();
 		$this->__current_block_level = 0;
@@ -302,17 +302,17 @@ class Debug_Profiler_Run {
 	 * @param $query
 	 * @param $query_data
 	 *
-	 * @return Debug_Profiler_Run_SQLqueryData
+	 * @return Debug_Profiler_Run_SQLQueryData
 	 */
-	public function SQLqueryStart(  $query, $query_data  ) {
-		$this->__current_block->SQLqueryStart($query, $query_data);
+	public function SQLQueryStart(  $query, $query_data  ) {
+		$this->__current_block->SQLQueryStart($query, $query_data);
 	}
 
 	/**
 	 * @param $rows_count
 	 */
-	public function SQLqueryDone( $rows_count ) {
-		$this->__current_block->SQLqueryDone( $rows_count );
+	public function SQLQueryDone( $rows_count ) {
+		$this->__current_block->SQLQueryDone( $rows_count );
 	}
 
 

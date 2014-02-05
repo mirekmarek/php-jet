@@ -76,7 +76,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 											user_name,
 											user_ID,
 											object,
-											operation_inprogress
+											operation_in_progress
 						                )
 						                VALUES
 						                (
@@ -89,7 +89,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 											:user_name,
 											:user_ID,
 											:object,
-											:operation_inprogress
+											:operation_in_progress
 
 						                )
 					',array(
@@ -101,7 +101,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 					'user_name' => $user_name,
 					'user_ID' => $user_ID,
 					'object' => $this->serialize( $this->_current_data_model ),
-					'operation_inprogress' => 1,
+					'operation_in_progress' => 1,
 				));
 
 	}
@@ -111,7 +111,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 	 */
 	public function operationDone() {
 		$this->_db_write->execCommand(
-			'UPDATE '.$this->_table_name.' SET operation_inprogress=0, operation_done=1, done_date_and_time=sysdate WHERE operation_ID=:operation_ID',
+			'UPDATE '.$this->_table_name.' SET operation_in_progress=0, operation_done=1, done_date_and_time=sysdate WHERE operation_ID=:operation_ID',
 			array(
 				'operation_ID' => $this->_current_operation_ID,
 			)
@@ -137,7 +137,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 				.JET_TAB.'operation varchar(50) NOT NULL,'.JET_EOL
 				.JET_TAB.'start_date_and_time TIMESTAMP WITH TIME ZONE NOT NULL,'.JET_EOL
 				.JET_TAB.'done_date_and_time TIMESTAMP WITH TIME ZONE,'.JET_EOL
-				.JET_TAB.'operation_inprogress char(4) NOT NULL,'.JET_EOL
+				.JET_TAB.'operation_in_progress char(4) NOT NULL,'.JET_EOL
 				.JET_TAB.'operation_done char(4),'.JET_EOL
 				.JET_TAB.'user_name varchar(255) NOT NULL,'.JET_EOL
 				.JET_TAB.'user_ID varchar(255) NOT NULL,'.JET_EOL

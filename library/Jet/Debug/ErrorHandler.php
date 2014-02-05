@@ -152,7 +152,7 @@ class Debug_ErrorHandler {
 
 		if($check_path && !is_dir($error_pages_dir)){
 			throw new Debug_ErrorHandler_Exception(
-				'Error pages directory \''.$error_pages_dir.'\' doesn\'t exist',
+				'Error pages directory \''.$error_pages_dir.'\' does not exist',
 				Debug_ErrorHandler_Exception::CODE_INVALID_ERROR_PAGES_DIR_PATH
 			);
 		}

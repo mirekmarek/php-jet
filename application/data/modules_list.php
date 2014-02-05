@@ -7,7 +7,7 @@
      'version' => '',
      'label' => 'ACL Role Management',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',
@@ -32,7 +32,7 @@
      'version' => '',
      'label' => 'Admin UI manager',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'admin_UI_manager',
@@ -63,7 +63,7 @@
      'version' => '',
      'label' => 'Users Management',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',
@@ -88,7 +88,7 @@
      'version' => '',
      'label' => 'Basic acticles module',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',
@@ -113,7 +113,7 @@
      'version' => '',
      'label' => 'Authentication and authorization manager',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'auth_manager',
@@ -138,7 +138,7 @@
      'version' => '',
      'label' => 'Breadcrumb navigation',
      'description' => 'Displays breadcrumb navigation',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',
@@ -163,7 +163,7 @@
      'version' => '',
      'label' => 'Images module',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',
@@ -188,7 +188,7 @@
      'version' => '',
      'label' => 'Site UI manager',
      'description' => '',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'site_UI_manager',
@@ -213,7 +213,7 @@
      'version' => '',
      'label' => 'Test Module',
      'description' => 'Jet test module ...',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',
@@ -239,7 +239,7 @@
      'version' => '',
      'label' => 'Test Module 2',
      'description' => 'Jet test module ...',
-     'API_version' => 201208,
+     'API_version' => 201401,
      'types' => 
     array (
       0 => 'general',

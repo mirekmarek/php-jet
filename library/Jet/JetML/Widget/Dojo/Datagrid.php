@@ -49,7 +49,7 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 
 			if($this->_getProp('pagination', true)) {
 				$plugins['pagination'] = array(
-					'pageSizes' => $this->_getProp('pagination_pagesizes', ['25', '50', '100']),
+					'pageSizes' => $this->_getProp('pagination_pageSizes', ['25', '50', '100']),
 					'defaultPageSize' => (int)$this->_getProp('pagination_defaultPageSize', 25),
 					'description' => (bool)$this->_getProp('pagination_description', true),
 					'sizeSwitch' => (bool)$this->_getProp('pagination_sizeSwitch', true),
@@ -83,16 +83,16 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 
 	/**
 	 * @param string $key
-	 * @param mixed $devault_value
+	 * @param mixed $default_value
 	 *
 	 * @return mixed
 	 */
-	protected function _getProp( $key, $devault_value ) {
+	protected function _getProp( $key, $default_value ) {
 		$val = $this->node->getAttribute( $key );
 		if($val) {
 			$val = json_decode($val);
 		} else {
-			$val = $devault_value;
+			$val = $default_value;
 		}
 
 		return $val;

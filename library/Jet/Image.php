@@ -78,8 +78,8 @@ class Image extends Object {
 
 		if(!$image_dat) {
 			throw new Image_Exception(
-				'File: \''.$path.'\' Unsuported type! Unable to get image size!',
-				Image_Exception::CODE_UNSUPORTED_IMAGE_TYPE
+				'File: \''.$path.'\' Unsupported type! Unable to get image size!',
+				Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 			);
 		}
 
@@ -233,8 +233,8 @@ class Image extends Object {
 
 		if(!$image) {
 			throw new Image_Exception(
-				'File: \''.$this->path.'\' Unsuported type! Unable to get image size!',
-				Image_Exception::CODE_UNSUPORTED_IMAGE_TYPE
+				'File: \''.$this->path.'\' Unsupported type! Unable to get image size!',
+				Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 			);
 		}
 

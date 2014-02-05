@@ -64,7 +64,7 @@ class Redis_Config extends Config_Application {
 	}
 
 	/**
-	 * Returns connection name for Redis::get() / Refis::getConnection() if connection name is not specified (one of the keys in 'connections')
+	 * Returns connection name for Redis::get() / Redis::getConnection() if connection name is not specified
 	 *
 	 * @return string
 	 */

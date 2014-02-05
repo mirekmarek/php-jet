@@ -215,7 +215,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$properties_definition_data
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$class_name.'\' doesn\'t have any properties defined!',
+				'DataModel \''.$class_name.'\' does not have any properties defined!',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -237,7 +237,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$model_name
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$class_name.'\' doesn\'t have model name! Please specify it by @JetDataModel:name ',
+				'DataModel \''.$class_name.'\' does not have model name! Please specify it by @JetDataModel:name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -268,7 +268,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			!$this->database_table_name
 		) {
 			throw new DataModel_Exception(
-				'DataModel \''.$data_model_class_name.'\' doesn\'t have database table name! Please specify it by @JetDataModel:database_table_name ',
+				'DataModel \''.$data_model_class_name.'\' does not have database table name! Please specify it by @JetDataModel:database_table_name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -493,7 +493,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	protected function addRelation( $related_model_name, DataModel_Definition_Relation_Abstract $relation) {
 		if(isset($this->relations[ $related_model_name ])) {
 			throw new DataModel_Exception(
-				'Class \''.$this->getClassName().'\': duplicit relation \''.$related_model_name.'\' ',
+				'Class \''.$this->getClassName().'\': duplicate relation \''.$related_model_name.'\' ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -520,7 +520,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		if(isset($this->keys[$name])) {
 			throw new DataModel_Exception(
-				'Class \''.$this->getClassName().'\': duplicit key \''.$name.'\' ',
+				'Class \''.$this->getClassName().'\': duplicate key \''.$name.'\' ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -800,7 +800,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					!is_string($value[0])
 				) {
 					throw new Object_Reflection_Exception(
-						'Key definition parse errro. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], Jet\DataModel::KEY_TYPE_INDEX ]',
+						'Key definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], Jet\DataModel::KEY_TYPE_INDEX ]',
 						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -826,7 +826,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 				if(isset( $reflection_data['data_model_keys_definition'][ $value[0] ] )) {
 					throw new Object_Reflection_Exception(
-						'Duplicit key! Class: \''.$class_name.'\', definition: \''.$definition.'\''
+						'Duplicate key! Class: \''.$class_name.'\', definition: \''.$definition.'\''
 					);
 
 				}
@@ -848,7 +848,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					!is_string($value[0])
 				) {
 					throw new Object_Reflection_Exception(
-						'Relation definition parse errro. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
+						'Relation definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
 						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -875,7 +875,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 				if(isset( $reflection_data['data_model_outer_relations_definition'][ $value[0] ] )) {
 					throw new Object_Reflection_Exception(
-						'Duplicit relation! Class: \''.$class_name.'\', definition: \''.$definition.'\''
+						'Duplicate relation! Class: \''.$class_name.'\', definition: \''.$definition.'\''
 					);
 
 				}

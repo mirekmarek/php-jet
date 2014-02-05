@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/SQLqueryData.php';
+require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/SQLQueryData.php';
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block/Message.php';
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block.php';
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run.php';
@@ -204,7 +204,7 @@ class Debug_Profiler {
 			return;
 		}
 
-		static::$run->SQLqueryStart($query, $query_data);
+		static::$run->SQLQueryStart($query, $query_data);
 	}
 
 	/**

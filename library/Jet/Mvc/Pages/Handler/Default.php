@@ -45,7 +45,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	/**
 	 * @var Mvc_Pages_Page_Abstract[]
 	 */
-	protected $current_page_instsances = array();
+	protected $current_page_instances = array();
 
 	/**
 	 * @var array
@@ -110,7 +110,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$this->current_locale = null;
 		$this->current_pages_data_dir = '';
 		$this->current_page_IDs = array();
-		$this->current_page_instsances = array();
+		$this->current_page_instances = array();
 
 		$site = Mvc_Sites::getSite( Mvc_Factory::getSiteIDInstance()->createID( $site_ID ) );
 		if(!$site) {
@@ -313,7 +313,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 		$page = Mvc_Pages::getNewPage($site_ID, $locale, $name, $parent_ID, $ID);
 		$page->setPageDataCheckingMode( true );
-		$page->setPageDataCheckingMap( $this->current_page_instsances );
+		$page->setPageDataCheckingMap( $this->current_page_instances );
 
 		/**
 		 * @var Mvc_Pages_Page_ID_Default $ID
@@ -321,7 +321,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$ID = $page->getID();
 		$s_ID = $ID->getPageID().':'.$ID->getSiteID().':'.$ID->getLocale();
 
-		$this->current_page_instsances[$s_ID] = $page;
+		$this->current_page_instances[$s_ID] = $page;
 
 		$page_form = $page->getCommonForm();
 

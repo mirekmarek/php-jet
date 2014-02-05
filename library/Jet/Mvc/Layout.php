@@ -11,10 +11,10 @@
  * Of course, but has characteristics of highly specific for the carry out its role:
  * Allows for each positions in the output place specific content.
  *
- * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name='positionName'/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
+ * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name="positionName"/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
  * - Handles the tags for JavaScript initialization   (tag: <jet_layout_javascripts/> ), @see Mvc_Layout::handleJavascript(), @see Mvc_Layout::requireJavascriptLib(), @see JavaScript_Abstract, @see Mvc/readme.txt
- * - Handles the tags for layout parts including (tag: <jet_layout_part name='part-name'/>), @see Mvc_Layout::handleParts()
- * - Handles the tags for modules dispatching (tag: <jet_module:ModuleName:controllerAction action_param='action_param_value' />)
+ * - Handles the tags for layout parts including (tag: <jet_layout_part name="part-name"/>), @see Mvc_Layout::handleParts()
+ * - Handles the tags for modules dispatching (tag: <jet_module:ModuleName:controllerAction action_param="action_param_value" />)
  *
  * NOTICE: @see Mvc_Layout_Postprocessor_Interface
  *
@@ -352,9 +352,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 *  var djConfig = {'parseOnLoad':false,'locale':'en-us'};
 	 * </script>
 	 *
-	 * <link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css'>
-	 * <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js' charset='utf-8'></script>
-	 * <script type='text/javascript'>
+	 * <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css">
+	 * <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" charset="utf-8"></script>
+	 * <script type="text/javascript">
 	 * dojo.require('dijit.form.InputBox');
 	 * </script>
 	 * </code>

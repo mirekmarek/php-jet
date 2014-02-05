@@ -138,7 +138,7 @@ abstract class Mvc_View_Abstract extends Object {
 
 		if( !IO_File::exists($file) ) {
 			throw new Mvc_View_Exception(
-				'File \''.$file.'\' doesn\'t exist',
+				'File \''.$file.'\' does not exist',
 				Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
 			);
 		}
@@ -322,7 +322,7 @@ abstract class Mvc_View_Abstract extends Object {
 
 				if( !IO_File::exists($file) ) {
 					throw new Mvc_View_Exception(
-						'File \''.$file.'\' doesn\'t exist',
+						'File \''.$file.'\' does not exist',
 						Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
 					);
 				}

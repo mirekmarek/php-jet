@@ -13,7 +13,7 @@
 namespace Jet;
 
 
-class Debug_Profiler_Run_SQLqueryData {
+class Debug_Profiler_Run_SQLQueryData {
 	/**
 	 * @var string
 	 */
