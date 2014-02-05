@@ -30,7 +30,7 @@ namespace Jet;
  *           * @JetConfig:description = 'Some description ...',
  *           * @JetConfig:is_required = true
  *           * @JetConfig:default_value = 'some default value'
- *           * @JetConfig:form_field_type = 'SomeFieldType'
+ *           * @JetConfig:form_field_type = Jet\Form::TYPE_*
  *           *     - (optional, default: autodetect)
  *           * @JetConfig:form_field_label = 'Some form filed label:'
  *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
@@ -41,7 +41,7 @@ namespace Jet;
  *           * @JetConfig:form_field_get_select_options_callback = callable
  *           *     - optional
  *           *
- *           * @var string //or some PHP type ...
+ *           * @var string          //some PHP type ...
  *           * /
  *          protected $some_property;
  *

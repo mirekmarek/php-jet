@@ -1,5 +1,7 @@
 dojo.require('dojo.data.ObjectStore');
 dojo.require('dijit.Tree');
+dojo.require('dijit.tree.ForestStoreModel');
+dojo.require('dijit.tree.dndSource');
 dojo.require('dojo.data.ItemFileWriteStore');
 dojo.require('dijit.TooltipDialog');
 
@@ -12,11 +14,6 @@ Jet.require('Jet.Formatter');
 Jet.require('Jet.MultiUploader');
 
 
-//TODO: HACK!!!
-window['Jet_module_Jet_Images_formatImage'] = function( thumbnail_URI ) {
-
-	return '<div style="height: 100px;width: 100px;"><img src="'+thumbnail_URI+'"/></div>';
-}
 
 Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 	module_name: 'JetExample\\Images',
@@ -24,12 +21,75 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 	selected_gallery_ID: null,
 
 	initializeUI: function(){
+
 		var _this = this;
 
 		this.edit_area = this.getWidgetByID('edit_area');
 
 		this.tree = this.getTree( 'galleries_tree_area', 'gallery', true );
+		this.tree.onClick = function(item) {
 
+			if(_this.form.getIsSaving()) {
+				return;
+			}
+
+			_this.images_trash.disable();
+			_this.getWidgetByID('upload_images_button').attr('disabled', true);
+
+			_this.selected_gallery_ID = item.ID+'';
+
+			if(_this.selected_gallery_ID=='_root_') {
+				_this.selected_gallery_ID = '_root_';
+				_this.trash.disable();
+				_this.edit_area.domNode.style.visibility = 'hidden';
+				_this.images_grid.domNode.style.visibility = 'hidden';
+			} else {
+				_this.trash.enable();
+				_this.edit(item.ID);
+				_this.images_grid.selection.deselectAll();
+			}
+
+
+		};
+
+		this.tree.dndController.checkAcceptance = function( source, nodes ) {
+			return true;
+
+			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
+				return true;
+			}
+
+			//TODO:
+			console.debug( source, nodes );
+
+			return false;
+		};
+
+		this.tree.dndController.onDndDrop = function(source, nodes, copy) {
+			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
+				var selected = source.grid.selection.getSelected();
+				var images = [];
+				for( var i=0; i<selected.length; i++ ) {
+					images.push(selected[i]);
+				}
+
+
+				_this.copy_images_target_gallery_ID=this.targetAnchor.item.ID+'';
+
+				if(images.length) {
+					_this.copyImagesOpenDialog( images );
+				}
+
+				this.onDndCancel();
+
+				return;
+			}
+
+			//TODO:
+			console.debug( '???',source, nodes, copy );
+
+			this.onDndCancel();
+		};
 
 
 		this.form = this.getForm( 'gallery', this.getData('gallery_form_fields_definition'), {
@@ -73,30 +133,6 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 			}
 		} );
 
-		this.tree.onClick = function(item) {
-
-			if(_this.form.getIsSaving()) {
-				return;
-			}
-
-			_this.images_trash.disable();
-			_this.getWidgetByID('upload_images_button').attr('disabled', true);
-
-			_this.selected_gallery_ID = item.ID+'';
-
-			if(_this.selected_gallery_ID=='_root_') {
-				_this.selected_gallery_ID = '_root_';
-				_this.trash.disable();
-				_this.edit_area.domNode.style.visibility = 'hidden';
-				_this.images_grid.domNode.style.visibility = 'hidden';
-			} else {
-				_this.trash.enable();
-				_this.edit(item.ID);
-				_this.images_grid.selection.deselectAll();
-			}
-
-
-		};
 
 		this.trash = new Jet.Trash(this, 'gellery_trash', this.form.store, {
 			source_widget_tree: this.tree,
@@ -147,42 +183,6 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 			}
 		});
 
-		this.tree.dndController.checkAcceptance = function( source, nodes ) {
-			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
-				return true;
-			}
-
-			//TODO:
-			console.debug( source, nodes );
-
-			return false;
-		};
-
-		this.tree.dndController.onDndDrop = function(source, nodes, copy) {
-			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
-				var selected = source.grid.selection.getSelected();
-				var images = [];
-				for( var i=0; i<selected.length; i++ ) {
-					images.push(selected[i]);
-				}
-
-
-				_this.copy_images_target_gallery_ID=this.targetAnchor.item.ID+'';
-
-				if(images.length) {
-					_this.copyImagesOpenDialog( images );
-				}
-
-				this.onDndCancel();
-
-				return;
-			}
-
-			//TODO:
-			console.debug( '???',source, nodes, copy );
-
-			this.onDndCancel();
-		};
 
 		this.uploader = new Jet.MultiUploader(	'image/', this, 'upload_images' );
 		this.uploader.onUploadDone = function() {
@@ -198,6 +198,10 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 		};
 
 
+	},
+
+	formatImage: function( thumbnail_URI ) {
+		return '<div style="height: 100px;width: 100px;"><img src="'+thumbnail_URI+'"/></div>';
 	},
 
 	reloadImages: function() {

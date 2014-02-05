@@ -44,6 +44,7 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	 */
 	public function getReplacement() {
 
+		//TODO: make it customizable
 		if(!$this->node->hasAttribute('plugins')) {
 			$plugins = array(
 				'pagination' => array(

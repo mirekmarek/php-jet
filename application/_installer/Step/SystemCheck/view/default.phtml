@@ -355,28 +355,56 @@ class JetCompatibilityTester {
 		);
 
 
-		$this->check(
+		if( $this->check(
 			'PHP configurations - paths',
 			'open_basedir, upload_tmp_dir and session.save_path',
 			function( JetCompatibilityTester_TestResult $test_result ) {
 				$open_basedir = ini_get('open_basedir');
-				$upload_tmp_dir = ini_get('upload_tmp_dir');
-				$session_save_path = ini_get('session.save_path');
 
 				if(!$open_basedir) {
 					$test_result->setResultMessage( '<b style="color:red"><i>open_basedir</i> should be set!</b>' );
 					return false;
 				}
-
-				$open_basedir_test = realpath($open_basedir);
-				$upload_tmp_dir_test = realpath($upload_tmp_dir);
-				$session_save_path_test = realpath($session_save_path);
-
-				//TODO: check session_save_path
-				//TODO: check upload_tmp_dir
 				return true;
 			}
-		);
+		)) {
+
+			$this->test(
+				'open_basedir vs upload_tmp_dir',
+				'',
+				function( JetCompatibilityTester_TestResult $test_result ) {
+					$open_basedir = ini_get('open_basedir');
+					$upload_tmp_dir = realpath( ini_get('upload_tmp_dir') );
+
+					$result = (strpos($upload_tmp_dir, $open_basedir )===0);
+
+					if(!$result) {
+						$test_result->setResultMessage('upload_tmp_dir is '.$upload_tmp_dir.' but open_basedir is '.$open_basedir);
+					}
+
+					return $result;
+				}
+			);
+
+			$this->test(
+				'open_basedir vs session.save_path',
+				'',
+				function( JetCompatibilityTester_TestResult $test_result ) {
+					$open_basedir = ini_get('open_basedir');
+					$session_save_path = realpath( ini_get('session.save_path') );
+
+					$result = (strpos($session_save_path, $open_basedir )===0);
+
+					if(!$result) {
+						$test_result->setResultMessage('session.save_path is '.$session_save_path.' but open_basedir is '.$open_basedir);
+					}
+
+					return $result;
+				}
+			);
+
+
+		}
 
 		foreach($this->test_results as $test_result) {
 			if($test_result->getIsError()) {
@@ -416,7 +444,7 @@ class JetCompatibilityTester {
 				<div class="resultmsg warning">The system is compatible with PHP Jet Platform. Please take care about warnings!</div>
 			<?php endif; ?>
 		<?php else: ?>
-			<div class="resultmsg fault">Sorry, but the system is tom compatible with PHP Jet Platform!</div>
+			<div class="resultmsg fail">Sorry, but the system is tom compatible with PHP Jet Platform!</div>
 		<?php endif; ?>
 		</td></tr>
 		</table>

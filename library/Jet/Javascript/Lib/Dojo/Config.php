@@ -48,13 +48,14 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js'
+	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js'
+	 * @JetConfig:default_value = '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dojo/dojo.js'
 	 * @JetConfig:is_required = false
 	 * @JetConfig:form_field_label = 'dojo.js URI'
 	 *
 	 * @var string
 	 */
-	protected $dojo_js_URI = '%JET_BASE_URI%public/libs/dojo/%VERSION%/dojo/dojo.js';
+	protected $dojo_js_URI = '';
 
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
@@ -67,13 +68,14 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
+	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
+	 * @JetConfig:default_value = '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
 	 * @JetConfig:is_required = false
 	 * @JetConfig:form_field_label = 'Dijit theme URI'
 	 *
 	 * @var string
 	 */
-	protected $theme_URI = '%JET_BASE_URI%public/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css';
+	protected $theme_URI = '';
 
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_BOOL
@@ -170,8 +172,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 *
 	 * @return string
 	 */
-	public function getDojoPackageURI()
-	{
+	public function getDojoPackageURI() {
 		return $this->replaceConstants($this->dojo_package_URI);
 	}
 

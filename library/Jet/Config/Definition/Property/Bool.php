@@ -30,7 +30,7 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Checkbox';
+	protected $form_field_type = Form::TYPE_CHECKBOX;
 
 	/**
 	 * @param mixed &$value

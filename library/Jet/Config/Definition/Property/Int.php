@@ -28,7 +28,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Int';
+	protected $form_field_type = Form::TYPE_INT;
 
 	/**
 	 * @var int

@@ -145,7 +145,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 
 		$result .= '<script type="text/javascript" src="'.$this->config->getDojoJsURI().'" charset="utf-8"></script>'.JET_EOL;
 		$package_URL = $this->config->getDojoPackageURI();
-		if($package_URL){
+		if($package_URL) {
 			$result .= '<script type="text/javascript" src="'.$package_URL.'" charset="utf-8"></script>'.JET_EOL;
 		}
 

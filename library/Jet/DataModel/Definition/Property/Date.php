@@ -28,7 +28,7 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Date';
+	protected $form_field_type = Form::TYPE_DATE;
 
 	/**
 	 * @param DateTime|string $value

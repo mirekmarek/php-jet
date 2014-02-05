@@ -37,7 +37,7 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Float';
+	protected $form_field_type = Form::TYPE_FLOAT;
 
 	/**
 	 * @param array $definition_data

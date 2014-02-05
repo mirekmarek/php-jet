@@ -28,7 +28,7 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Float';
+	protected $form_field_type = Form::TYPE_FLOAT;
 
 	/**
 	 * @var float

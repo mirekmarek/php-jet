@@ -38,7 +38,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Input';
+	protected $form_field_type = Form::TYPE_INPUT;
 
 	/**
 	 * @param $definition_data

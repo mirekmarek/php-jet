@@ -30,7 +30,7 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Input';
+	protected $form_field_type = Form::TYPE_INPUT;
 
 	/**
 	 * @var string

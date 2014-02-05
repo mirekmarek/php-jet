@@ -78,7 +78,7 @@ namespace Jet;
  *       *      - optional
  *       *
  *       * Form field options:
- *       *   @JetDataModel:form_field_type = 'SomeFormFieldType'
+ *       *   @JetDataModel:form_field_type = Jet\Form::TYPE_*
  *       *      - optional, default: autodetect
  *       *   @JetDataModel:form_field_label = 'Field label:'
  *       *   @JetDataModel:form_field_options = ['option'=>'value','option'=>'value']
@@ -94,6 +94,9 @@ namespace Jet;
  *       *
  *       * Specific (type Jet\DataModel::TYPE_ARRAY):
  *       *   @JetDataModel:item_type = Jet\DataModel::TYPE_*
+ *       *
+ *       *
+ *       * @var string          //some PHP type ...
  *       * /
  *      protected $some_property;
  *

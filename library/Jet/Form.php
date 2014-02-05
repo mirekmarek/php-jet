@@ -13,6 +13,23 @@
 namespace Jet;
 
 class Form extends Object implements Mvc_View_Postprocessor_Interface{
+
+	const TYPE_CHECKBOX = 'Checkbox';
+	const TYPE_DATE = 'Date';
+	const TYPE_DATE_TIME = 'DateTime';
+	const TYPE_FILE = 'File';
+	const TYPE_FILE_IMAGE = 'FileImage';
+	const TYPE_FLOAT = 'Float';
+	const TYPE_HIDDEN = 'Hidden';
+	const TYPE_INPUT = 'Input';
+	const TYPE_INT = 'Int';
+	const TYPE_MULTI_SELECT = 'MultiSelect';
+	const TYPE_PASSWORD = 'Password';
+	const TYPE_RADIO_BUTTON = 'RadioButton';
+	const TYPE_SELECT = 'Select';
+	const TYPE_TEXTAREA = 'Textarea';
+	const TYPE_WYSIWYG = 'WYSIWYG';
+
 	const FORM_SENT_KEY = '_jet_form_sent_';
 	const FORM_TAG = 'jet_form';
 	const FORM_COMMON_ERROR_MESSAGE_TAG = 'common_error_message';

@@ -37,7 +37,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'Int';
+	protected $form_field_type = Form::TYPE_INT;
 
 	/**
 	 * @param array $definition_data

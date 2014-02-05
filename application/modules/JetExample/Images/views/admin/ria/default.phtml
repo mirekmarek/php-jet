@@ -65,7 +65,7 @@ $form = $this->form;
 		</jetml_layout_toolbar>
 
 		<jetml_datagrid id="images_grid" region="center" plugins="{'dnd':{'copyOnly': true},'pagination':{'pageSizes':['25','50','100'],'description':true,'sizeSwitch':true,'pageStepper':true,'gotoButton':true,'maxPageStep':10,'position':'bottom'},'indirectSelection':{'headerSelector':true,'name':'Selection','width':'20px','styles':'text-align: center;'}}">
-			<jetml_datagrid_column field="thumbnail_URI" title="Image" width="110" formatter="Jet_module_Jet_Images_formatImage" />
+			<jetml_datagrid_column field="thumbnail_URI" title="Image" width="110" formatter="formatImage" />
 			<jetml_datagrid_column field="file_name" title="File name" width="70%"/>
 			<jetml_datagrid_column field="file_size" title="File size" width="110" formatter="Jet.Formatter.FileSize" />
 		</jetml_datagrid>
@@ -117,9 +117,6 @@ $form = $this->form;
 
 			</td>
 	</tr></table>
-
-
-
 
 </jetml_dialog>
 
