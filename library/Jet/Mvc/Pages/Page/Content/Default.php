@@ -60,15 +60,6 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 *
-	 * @var string
-	 */
-	protected $controller_class_suffix = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
@@ -112,7 +103,6 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 
 	/**
 	 * @param string $module_name (optional)
-	 * @param string $controller_class_suffix (optional)
 	 * @param string $controller_action (optional)
 	 * @param array $controller_action_parameters (optional)
 	 * @param string $output_position (optional)
@@ -121,7 +111,6 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	 */
 	public function __construct(
 		$module_name='',
-		$controller_class_suffix = '',
 		$controller_action='',
 		$controller_action_parameters=array(),
 		$output_position='',
@@ -131,7 +120,6 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 		if($module_name) {
 
 			$this->module_name = $module_name;
-			$this->controller_class_suffix = $controller_class_suffix;
 			$this->controller_action = $controller_action;
 			$this->controller_action_parameters = $controller_action_parameters;
 
@@ -163,20 +151,6 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 	 */
 	public function setModuleName( $module_name ) {
 		$this->module_name = $module_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getControllerClassSuffix() {
-		return $this->controller_class_suffix;
-	}
-
-	/**
-	 * @param string $controller_class_suffix
-	 */
-	public function setControllerClassSuffix($controller_class_suffix) {
-		$this->controller_class_suffix = $controller_class_suffix;
 	}
 
 	/**

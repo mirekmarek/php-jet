@@ -30,12 +30,13 @@
 namespace Jet;
 
 /**
- * Class Application_Modules_Module_Info
+ * Class Application_Modules_Module_Manifest
  *
- * @JetFactory:mandatory_parent_class = 'Jet\Application_Modules_Module_Info'
+ * @JetFactory:mandatory_parent_class = 'Jet\Application_Modules_Module_Manifest'
  */
 
-class Application_Modules_Module_Info extends Object implements \JsonSerializable {
+class Application_Modules_Module_Manifest extends Object implements \JsonSerializable {
+	const MANIFEST_FILE_NAME = 'manifest.php';
 
 	const MODULE_TYPE_GENERAL = 'general';
 	const MODULE_TYPE_SITE_UI_MANAGER = 'site_UI_manager';
@@ -111,7 +112,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	/**
 	 * Manifest value
 	 *
-	 * Module type - one of Application_Modules_Module_Info::MODULE_TYPE_
+	 * Module type - one of Application_Modules_Module_Manifest::MODULE_TYPE_
 	 *
 	 * @var string[]
 	 */
@@ -225,7 +226,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 		}
 
 
-		$manifest_file = $module_dir . Application_Modules::MODULE_MANIFEST_FILE_PATH;
+		$manifest_file = $module_dir . static::MANIFEST_FILE_NAME;
 
 		if( !IO_File::isReadable($manifest_file) ) {
 			throw new Application_Modules_Exception(
@@ -279,7 +280,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 
 			if(!isset($modules_types[$type])){
 				throw new Application_Modules_Exception(
-					'Invalid module type \''.$type.'\' ! See Jet\\Application_Modules_Module_Info::getModulesTypesList() (Module: \''.$this->name.'\')',
+					'Invalid module type \''.$type.'\' ! See Jet\\Application_Modules_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}
@@ -354,25 +355,6 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	public function getModuleDir() {
 		return JET_MODULES_PATH . str_replace('\\', '/', $this->name) . '/';
 	}
-
-	/**
-	 * Returns module views directory
-	 *
-	 * @return string
-	 */
-	public function getViewsDir() {
-		return $this->getModuleDir().Application_Modules::MODULE_VIEWS_DIR;
-	}
-
-	/**
-	 * Returns module layouts directory
-	 *
-	 * @return string
-	 */
-	public function getLayoutsDir() {
-		return $this->getModuleDir().Application_Modules::MODULE_LAYOUTS_DIR;
-	}
-
 
 	/**
 	 * @return string
@@ -556,7 +538,7 @@ class Application_Modules_Module_Info extends Object implements \JsonSerializabl
 	 *
 	 * @param array $data
 	 *
-	 * @return Application_Modules_Module_Info
+	 * @return Application_Modules_Module_Manifest
 	 */
 	public static function __set_state(array $data) {
 		$i = new static();

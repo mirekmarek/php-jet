@@ -35,6 +35,11 @@ class Factory_ClassDefinition extends Object {
 	protected $factory_mandatory_parent_class = '';
 
 	/**
+	 * @var Factory_ClassDefinition
+	 */
+	protected static $class_definitions = array();
+
+	/**
 	 * @param string $class_name (optional)
 	 *
 	 */
@@ -147,6 +152,42 @@ class Factory_ClassDefinition extends Object {
 			Object_Reflection_Exception::CODE_UNKNOWN_PROPERTY_DEFINITION
 		);
 	}
+
+	/**
+	 * @param string $class_name
+	 *
+	 * @return Factory_ClassDefinition
+	 */
+	public static function getClassDefinition( $class_name ) {
+		if(isset(static::$class_definitions[$class_name])) {
+			return static::$class_definitions[$class_name];
+		}
+
+		$file_path = JET_FACTORY_DEFINITION_CACHE_PATH.str_replace('\\', '__', $class_name.'.php');
+
+		$definition = null;
+		if(JET_FACTORY_DEFINITION_CACHE_LOAD) {
+			if(IO_File::isReadable($file_path)) {
+				/** @noinspection PhpIncludeInspection */
+				$definition = require $file_path;
+
+			}
+		}
+
+		if(!$definition) {
+			$definition = new Factory_ClassDefinition($class_name);
+
+			if(JET_FACTORY_DEFINITION_CACHE_SAVE) {
+				IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
+			}
+		}
+
+
+		static::$class_definitions[$class_name] = $definition;
+
+		return $definition;
+	}
+
 
 	/**
 	 * @param $data

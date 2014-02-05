@@ -12,12 +12,12 @@
  * @version <%VERSION%>
  *
  * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Images
+ * @package JetApplicationModule\JetExample\Articles
  */
-namespace JetApplicationModule\JetExample\Images;
+namespace JetApplicationModule\JetExample\Articles;
 use Jet;
 
-class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
+class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
 	/**
 	 *
 	 * @var Main
@@ -30,23 +30,13 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 	);
 
 	function default_Action() {
-		$article = new Gallery();
+		$article = new Article();
 		$form = $article->getCommonForm();
 		$form->enableDecorator('Dojo');
 
 		$this->view->setVar('form', $form);
 
-		$this->view->setVar('upload_URL', $this->module_instance->getRestURL('image'));
-
-		$upload_form = new Jet\Form('upload_form', array());
-		$upload_form->enableDecorator('Dojo');
-		$upload_form->addField(
-			Jet\Form_Factory::field('Checkbox', 'overwrite_if_exists', 'Overwrite image if exists')
-		);
-		$this->view->setVar('upload_form', $upload_form);
-
-
-		$this->render('admin-ajax');
+		$this->render('ria/default');
 	}
 
 }

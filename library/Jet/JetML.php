@@ -175,7 +175,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	 *
 	 * @param string $data
 	 *
-	 * @throws JetML_Exception
+	 * @throws Javascript_Exception
 	 * @return string
 	 */
 	public function parse( $data ) {
@@ -191,12 +191,6 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 		libxml_use_internal_errors(true);
 
 
-
-		//TODO: loadHTML is so much tolerant... add some error handling ...
-
-		//$data = \mb_convert_encoding($data, 'HTML-ENTITIES', 'UTF-8');
-
-
 		$this->_DOM_document->loadHTML('<?xml version="1.0" encoding="UTF-8">' . $data);
 
 		foreach ($this->_DOM_document->childNodes as $item) {
@@ -207,23 +201,42 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 		}
 
 
-        //$this->_DOM_document->loadXML($data);
 		$this->_DOM_document->formatOutput = true;
 
-		/*
-        $data_per_lines = explode(JET_EOL, $data);
+
 
         foreach( libxml_get_errors() as $xml_error ) {
-            **
-             * @var \libXMLError $xml_error
-             *
+	        /**
+	         * @var \libXMLError $xml_error
+	         */
+
+	        if(
+		        $xml_error->code==801 &&
+		        strpos($xml_error->message,'Tag jet')!==false
+	        ) {
+		        continue;
+	        }
 
             // error handling
-            //var_dump($xml_error);
-            //var_dump($data_per_lines[$xml_error->line-1]);
+	        $data_per_lines = explode(JET_EOL, $data);
+
+	        $xml_snippet = '';
+	        if(isset($data_per_lines[$xml_error->line-2])) {
+		        $xml_snippet .= ($xml_error->line-1).': '.$data_per_lines[$xml_error->line-2].JET_EOL;
+	        }
+	        $xml_snippet .= $xml_error->line.': '.$data_per_lines[$xml_error->line-1].JET_EOL;
+
+	        if(isset($data_per_lines[$xml_error->line])) {
+		        $xml_snippet .= ($xml_error->line+1).': '.$data_per_lines[$xml_error->line].JET_EOL;
+	        }
+
+	        throw new Javascript_Exception(
+		        'JetML XML parse error: '.$xml_error->message.' on line: '.$xml_error->line.JET_EOL.JET_EOL.$xml_snippet,
+		        Javascript_Exception::CODE_PARSE_ERROR
+	        );
         }
-		*/
 		libxml_clear_errors();
+
 
 		$ID_prefix = $this->layout->getUIContainerIDPrefix();
 
@@ -246,6 +259,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 			$tag_inst = self::getTagInstance( $node );
 			$replacement = $tag_inst->getReplacement();
+
 
 			$node->parentNode->replaceChild($replacement, $node);
 

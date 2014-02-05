@@ -1,7 +1,7 @@
 <?php
  return array (
   'JetExample\\AdminRoles' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\AdminRoles',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -26,7 +26,7 @@
      'is_activated' => true,
   )),
   'JetExample\\AdminUIManager' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\AdminUIManager',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -57,7 +57,7 @@
      'is_activated' => true,
   )),
   'JetExample\\AdminUsers' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\AdminUsers',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -82,7 +82,7 @@
      'is_activated' => true,
   )),
   'JetExample\\Articles' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\Articles',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -107,7 +107,7 @@
      'is_activated' => true,
   )),
   'JetExample\\AuthManager' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\AuthManager',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -132,7 +132,7 @@
      'is_activated' => true,
   )),
   'JetExample\\BreadcrumbNavigation' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\BreadcrumbNavigation',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -157,7 +157,7 @@
      'is_activated' => true,
   )),
   'JetExample\\Images' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\Images',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -182,7 +182,7 @@
      'is_activated' => true,
   )),
   'JetExample\\SiteUIManager' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\SiteUIManager',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -207,7 +207,7 @@
      'is_activated' => true,
   )),
   'JetExample\\TestModule' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\TestModule',
      'vendor' => 'Jet (example)',
      'version' => '',
@@ -233,7 +233,7 @@
      'is_activated' => true,
   )),
   'JetExample\\TestModule2' => 
-  Jet\Application_Modules_Module_Info::__set_state(array(
+  Jet\Application_Modules_Module_Manifest::__set_state(array(
      'name' => 'JetExample\\TestModule2',
      'vendor' => 'Jet (example)',
      'version' => '',

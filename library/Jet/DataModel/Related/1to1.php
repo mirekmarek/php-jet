@@ -67,7 +67,18 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 	 * @param DataModel_Related_Abstract $parent_model_instance
 	 */
 	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-		//TODO:
+		foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property ) {
+			if(!$property->getIsDataModel()) {
+				continue;
+			}
+
+			/**
+			 * @var DataModel_Related_Abstract $p
+			 */
+			$p = $this->{$property_name};
+
+			$p->wakeUp( $main_model_instance, $this );
+		}
 	}
 
 }

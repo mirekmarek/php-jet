@@ -720,7 +720,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 				$qi = new Mvc_Dispatcher_Queue_Item(
 					$module_name,
-					'',
 					$action,
 					$action_params,
 					$content_data

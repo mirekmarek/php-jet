@@ -19,6 +19,12 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 	protected $dojo_type = array('dijit.Dialog', 'dijit.form.Button', 'dojox.form.BusyButton');
 
 	/**
+	 *
+	 * @var array
+	 */
+	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'trash_id' );
+
+	/**
 	 * @var array
 	 */
 	public static $default_texts = array(
@@ -40,7 +46,9 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 
 		$dom = $this->parser->getDOMDocument();
 
-		$ID = $this->getNodeAttribute('id');
+		$prefix = $this->parser->getLayout()->getUIContainerIDPrefix();
+		$ID = $prefix.$this->getNodeAttribute('trash_id');
+
 
 		$dialog = $dom->createElement('div');
 

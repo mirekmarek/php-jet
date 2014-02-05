@@ -19,7 +19,7 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 	/**
 	 * Installed and activated modules list
 	 *
-	 * @var Application_Modules_Module_Info[] $modules_list
+	 * @var Application_Modules_Module_Manifest[] $modules_list
 	 */
 	protected $modules_list = null;
 
@@ -47,22 +47,22 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 			$this->modules_list = Application_Modules::getActivatedModulesList();
 		}
 
-		$module_info = null;
+		$module_manifest = null;
 		if( isset($this->modules_list[$module_name]) ){
-			$module_info = $this->modules_list[$module_name];
+			$module_manifest = $this->modules_list[$module_name];
 		} else {
 			if( Application_Modules::getInstallationInProgress() ) {
 				$all_modules = Application_Modules::getAllModulesList();
 				if( isset($all_modules[$module_name]) ) {
-					$module_info = $all_modules[$module_name];
+					$module_manifest = $all_modules[$module_name];
 				}
 			}
 		}
-		if(!$module_info) {
+		if(!$module_manifest) {
 			return false;
 		}
 
-		$module_path = $module_info->getModuleDir();
+		$module_path = $module_manifest->getModuleDir();
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 		$path = $module_path.$class_name.'.php';

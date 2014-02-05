@@ -53,9 +53,8 @@ class Auth extends Object {
 		static::$auth_manager_module_instances[] = static::$current_auth_manager_module_instance;
 
 
-
 		if( !static::$current_auth_manager_module_instance instanceof Auth_ManagerModule_Abstract ) {
-			$module_name = static::$current_auth_manager_module_instance->getModuleInfo()->getName();
+			$module_name = static::$current_auth_manager_module_instance->getModuleManifest()->getName();
 
 			throw new Auth_ManagerModule_Exception(
 					'Auth manager module \''.$module_name.'\' instance must be subclass of Auth_ManagerModule_Abstract',

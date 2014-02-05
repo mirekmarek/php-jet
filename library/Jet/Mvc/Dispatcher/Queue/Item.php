@@ -33,12 +33,6 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	 *
 	 * @var string
 	 */
-	protected $controller_class_suffix = '';
-
-	/**
-	 *
-	 * @var string
-	 */
 	protected $controller_action = Mvc_Dispatcher::DEFAULT_ACTION;
 
 	/**
@@ -56,16 +50,14 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	/**
 	 *
 	 * @param string $module_name
-	 * @param string $controller_class_suffix
 	 * @param string $controller_action
 	 * @param array $controller_action_parameters
 	 * @param Mvc_Pages_Page_Content_Abstract $content_data (optional)
 	 */
-	public function  __construct( $module_name, $controller_class_suffix = '', $controller_action='', $controller_action_parameters=array(), Mvc_Pages_Page_Content_Abstract $content_data=NULL ) {
+	public function  __construct( $module_name, $controller_action='', $controller_action_parameters=array(), Mvc_Pages_Page_Content_Abstract $content_data=NULL ) {
 		
 		$this->module_name = $module_name;
-		$this->controller_class_suffix = $controller_class_suffix;
-		
+
 		if($controller_action) {
 			$this->controller_action = $controller_action;
 		}
@@ -81,14 +73,6 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	 */
 	public function getModuleName() {
 		return $this->module_name;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getControllerClassSuffix() {
-		return $this->controller_class_suffix;
 	}
 
 	/**

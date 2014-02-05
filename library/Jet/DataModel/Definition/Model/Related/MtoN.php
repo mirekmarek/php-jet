@@ -159,7 +159,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 * @throws DataModel_Exception
 	 */
 	protected function _initGlueProperty( $this_ID_property_name, $related_to ) {
-		//TODO: predelat
 
 		$related_to = explode('.', $related_to);
 		if(count($related_to)!=2) {

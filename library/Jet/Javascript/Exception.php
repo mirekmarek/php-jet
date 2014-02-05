@@ -13,6 +13,7 @@
 namespace Jet;
 
 class Javascript_Exception extends Exception {
+	const CODE_PARSE_ERROR = 1;
 
 	const CODE_INVALID_JS_LIB_PATH = 50;
 	const CODE_JS_NOT_FOUND = 51;

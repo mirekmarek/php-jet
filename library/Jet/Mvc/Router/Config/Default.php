@@ -148,15 +148,15 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	public static function getSiteUIManagerModulesList() {
 		$result = array();
 		$modules = Application_Modules::getActivatedModulesList();
-		foreach($modules as $module_info) {
+		foreach($modules as $module_manifest) {
 			/**
-			 * @var Application_Modules_Module_Info $module_info
+			 * @var Application_Modules_Module_Manifest $module_manifest
 			 */
-			if(!$module_info->getIsSiteUIManagerModule()) {
+			if(!$module_manifest->getIsSiteUIManagerModule()) {
 				continue;
 			}
 
-			$result[$module_info->getName()] = $module_info->getLabel();
+			$result[$module_manifest->getName()] = $module_manifest->getLabel();
 
 		}
 
@@ -171,7 +171,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 		$result = array();
 
 		/**
-		 * @var Application_Modules_Module_Info[] $modules
+		 * @var Application_Modules_Module_Manifest[] $modules
 		 */
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module) {
@@ -195,7 +195,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module) {
 			/**
-			 * @var Application_Modules_Module_Info $module
+			 * @var Application_Modules_Module_Manifest $module
 			 */
 			if(!$module->getIsAuthManagerModule()) {
 				continue;

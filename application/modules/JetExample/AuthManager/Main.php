@@ -111,7 +111,6 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * @return Jet\Mvc_Dispatcher_Queue
 	 */
 	public function getDispatchQueue() {
-
 		$service_type = $this->router->getServiceType();
 
 		if($service_type!=Jet\Mvc_Router::SERVICE_TYPE_STANDARD) {
@@ -137,8 +136,11 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 					}
 		}
 
+		$item = new Jet\Mvc_Dispatcher_Queue_Item( $this->module_manifest->getName(), $action );
+		$item->setCustomServiceType(Jet\Mvc_Router::SERVICE_TYPE_STANDARD);
+
 		$queue->addItem(
-			new Jet\Mvc_Dispatcher_Queue_Item( $this->module_info->getName(), '', $action )
+			$item
 		);
 
 		return $queue;
@@ -151,7 +153,7 @@ class Main extends Jet\Auth_ManagerModule_Abstract {
 	 * @return Jet\Mvc_Layout
 	 */
 	function initializeLayout() {
-		$layout = new Jet\Mvc_Layout( $this->module_info->getLayoutsDir(), 'default' );
+		$layout = new Jet\Mvc_Layout( $this->getLayoutsDir(), 'default' );
 		$layout->setRouter($this->router);
 
 		return $layout;

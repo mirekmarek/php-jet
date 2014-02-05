@@ -12,6 +12,8 @@
  */
 namespace Jet;
 
+require JET_LIBRARY_PATH.'Jet/IO/File/Exception.php';
+
 class IO_File {
 
 	/**

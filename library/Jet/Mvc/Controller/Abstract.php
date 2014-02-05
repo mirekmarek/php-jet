@@ -29,9 +29,9 @@ abstract class Mvc_Controller_Abstract extends Object {
 
 	/**
 	 *
-	 * @var Application_Modules_Module_Info
+	 * @var Application_Modules_Module_Manifest
 	 */
-	protected $module_info;
+	protected $module_manifest;
 
 	/**
 	 *
@@ -78,22 +78,23 @@ abstract class Mvc_Controller_Abstract extends Object {
 
 	/**
 	 *
-	 * @param Application_Modules_Module_Abstract $module_instance
-	 * @param Application_Modules_Module_Info $module_info
-	 * @param Mvc_Router_Abstract $router
 	 * @param Mvc_Dispatcher_Abstract $dispatcher
+	 * @param Application_Modules_Module_Abstract $module_instance
 	 */
-	public function __construct( Application_Modules_Module_Abstract $module_instance, Application_Modules_Module_Info $module_info, Mvc_Router_Abstract $router, Mvc_Dispatcher_Abstract $dispatcher ) {
+	public function __construct( Mvc_Dispatcher_Abstract $dispatcher, Application_Modules_Module_Abstract $module_instance ) {
 		$this->module_instance = $module_instance;
-		$this->module_info = $module_info;
+		$this->module_manifest = $module_instance->getModuleManifest();
 		$this->dispatcher = $dispatcher;
-		$this->router = $router;
+		$this->router = $dispatcher->getRouter();
 		$this->initializeDefaultView();
 	}
 
 	/**
 	 * @param string $action
 	 * @param array $action_parameters
+	 *
+	 * @return bool
+	 *
 	 * @throws Mvc_Controller_Exception
 	 */
 	public function checkACL( $action, $action_parameters ) {
@@ -105,20 +106,24 @@ abstract class Mvc_Controller_Abstract extends Object {
 		}
 
 		if(static::$ACL_actions_check_map[$action]===false) {
-			return;
+			return true;
 		}
 
 		$module_action = static::$ACL_actions_check_map[$action];
 
 		if( !$this->module_instance->checkAclCanDoAction( $module_action ) ) {
 			$this->responseAclAccessDenied( $module_action, $action, $action_parameters );
+
+			return false;
 		}
 
 		Auth::logEvent(
-			'action:'.$this->module_info->getName().':'.$module_action,
+			'action:'.$this->module_manifest->getName().':'.$module_action,
 			array('action_params'=>$action_parameters),
-			'Allowed action: '.$this->module_info->getName().':'.$action
+			'Allowed action: '.$this->module_manifest->getName().':'.$action
 		);
+
+		return true;
 	}
 
 
@@ -137,7 +142,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 * @see Mvc_View
 	 */
 	protected function initializeDefaultView() {
-		$this->view = new Mvc_View( $this->module_info->getViewsDir() );
+		$this->view = new Mvc_View( $this->module_instance->getViewsDir() );
 	}
 
 	/**

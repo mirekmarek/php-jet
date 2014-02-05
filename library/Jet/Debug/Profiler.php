@@ -128,8 +128,10 @@ class Debug_Profiler {
 
 		$dir = static::getRunSaveDirectoryPath();
 
-		@mkdir($dir);
-		@chmod($dir, 0777);
+		if(!file_exists($dir)) {
+			@mkdir($dir);
+			@chmod($dir, 0777);
+		}
 		$file_path = $dir.$run_ID.".jpd";
 		@file_put_contents( $file_path, serialize($run) );
 		@chmod($file_path, 0666);

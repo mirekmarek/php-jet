@@ -28,9 +28,13 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	/**
 	 * @param string $action
 	 * @param array $action_parameters
+	 *
 	 * @throws Jet\Mvc_Controller_Exception
+	 * 
+	 * @return bool
 	 */
-	function checkACL( $action, $action_parameters ) {
+	public function checkACL( $action, $action_parameters ) {
+		return true;
 	}
 
 

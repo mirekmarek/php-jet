@@ -16,47 +16,34 @@
 namespace Jet;
 
 /**
- * //TODO: update
+ * Available annotation:
+ *      Config:
+ *          @JetConfig:config_data_path = '/some/array/path'
+ *              -  Path to configuration data within config file data. @see Data_Array::getRaw() for paths usage explanation
  *
- * Path to configuration data within main config file data
+ *          @JetConfig:config_section_is_obligatory = false
+ *              - If defined section doesn't exists in the configuration data and this options is true then Config system throws exception. Default is true
  *
- * @see Data_Array::getRaw() for paths usage explanation
- *
- *
- * //TODO: update
- *
- * Is given section presence in config required (TRUE) or optional (FALSE)?
- *
- * @var bool
- *
- * //TODO: update
- *
- * Definition of config properties/options
- *
- * Looks like:
- * array(
- *  'property_name' => array(
- *      'type' => one of Config::TYPE_*,
- *      'description' => 'Extended description of option',
- *      'is_required' => true/false
- *      'default_value' => 'some default value'
- *      'form_field_type' => Form::TYPE_* (optional, default: autodetect)
- *      'form_field_label' => 'Form filed label:'
- *      'form_field_options' => array('option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3', ...)
- *      'form_field_error_messages' => array('error_code' => 'Message', ...):
- *      'form_field_get_default_value_callback' => callable
- *      'form_field_get_select_options_callback' => callable
- *  )
- * )
- *
- * See properties definition classes for more specific definition details for each type
- *
- * @see \Jet\Config_Definition_Property_Abstract
- * @see \Jet\Config_Definition_Property_String
- * @see \Jet\Config_Definition_Property_Bool
- * @see \Jet\Config_Definition_Property_Int
- * @see \Jet\Config_Definition_Property_Float
- * @see \Jet\Config_Definition_Property_Array
+ *      Config Property Definition:
+ *          /**
+ *           * @JetConfig:type = Jet\Config::TYPE_*,
+ *           * @JetConfig:description = 'Some description ...',
+ *           * @JetConfig:is_required = true
+ *           * @JetConfig:default_value = 'some default value'
+ *           * @JetConfig:form_field_type = 'SomeFieldType'
+ *           *     - (optional, default: autodetect)
+ *           * @JetConfig:form_field_label = 'Some form filed label:'
+ *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
+ *           *      - optional
+ *           * @JetConfig:form_field_error_messages = ['error_code' => 'Message' ]
+ *           * @JetConfig:form_field_get_default_value_callback = callable
+ *           *      - optional
+ *           * @JetConfig:form_field_get_select_options_callback = callable
+ *           *     - optional
+ *           *
+ *           * @var string //or some PHP type ...
+ *           * /
+ *          protected $some_property;
  *
  */
 

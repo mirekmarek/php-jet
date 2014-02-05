@@ -737,7 +737,6 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 		foreach( $this->contents as $content ) {
 			$queue->addItem( new Mvc_Dispatcher_Queue_Item(
 					$content->getModuleName(),
-					$content->getControllerClassSuffix(),
 					$content->getControllerAction(),
 					$content->getControllerActionParameters(),
 					$content

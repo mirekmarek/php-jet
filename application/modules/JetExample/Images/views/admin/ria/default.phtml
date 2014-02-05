@@ -8,18 +8,18 @@ use Jet;
 $form = $this->form;
 
 /**
- * @var Jet\Form $form
+ * @var Jet\Form $upload_form
  */
-$upload_form = $this->upload_form;
+//$upload_form = $this->upload_form;
 ?>
 <jetml_layout_container gutters="true">
 	<jetml_layout_container region="left" splitter="true" style="width:200px">
 		<jetml_layout_toolbar region="top">
 
 			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.add();" title="New gallery" icon="add"/>
-			<jetml_trash_button id="gellery_trash"/>
+			<jetml_trash_button trash_id="gellery_trash"/>
 
-			<jetml_trash_dialog id="gellery_trash">
+			<jetml_trash_dialog trash_id="gellery_trash">
 			</jetml_trash_dialog>
 		</jetml_layout_toolbar>
 		<jetml_layout_pane region="center" id="galleries_tree_area" style="padding:0px;">
@@ -58,7 +58,7 @@ $upload_form = $this->upload_form;
 					</td>
 
 					<td>
-						<jetml_trash_button id="images_trash"/>
+						<jetml_trash_button trash_id="images_trash"/>
 					</td>
 			</tr></table>
 
@@ -73,7 +73,7 @@ $upload_form = $this->upload_form;
 
 </jetml_layout_container>
 
-<jetml_trash_dialog id="images_trash"/>
+<jetml_trash_dialog trash_id="images_trash"/>
 
 <jetml_dialog id="copy_image_dialog" align="center" title="Copy images">
 	<jetml_div id="copy_images_thb_area" style="width:300px;height: 300px;overflow: auto; border: 1px solid #c9c9c9">
@@ -81,7 +81,7 @@ $upload_form = $this->upload_form;
 	</jetml_div>
 
 	<jetml_dialog_buttons>
-		<jetml_form_button_busy title="Copy selected images" onClick="Jet.modules.CURRENT_MODULE.copyImages();" id="copy_image_button"></jetml_form_button_bussy>
+		<jetml_form_button_busy title="Copy selected images" onClick="Jet.modules.CURRENT_MODULE.copyImages();" id="copy_image_button"></jetml_form_button_busy>
 	</jetml_dialog_buttons>
 </jetml_dialog>
 
@@ -95,7 +95,7 @@ $upload_form = $this->upload_form;
 
 	<div style="display: none;">
 		<form method="post" action="" enctype="multipart/form-data">
-			<input name="files[]" id="%JET_UI_CONTAINER_ID_PREFIX%upload_images_files" type="file" multiple="multiple"> </input>
+			<input name="files[]" id="%JET_UI_CONTAINER_ID_PREFIX%upload_images_files" type="file" multiple="multiple" />
 		</form>
 	</div>
 

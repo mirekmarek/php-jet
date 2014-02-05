@@ -24,7 +24,10 @@ class JetML_Widget_Dojo_Editarea_Dialog extends JetML_Widget_Dojo_Abstract {
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$this->node->setAttribute('id', $this->getNodeAttribute('id').'_dialog');
+		$prefix = $this->parser->getLayout()->getUIContainerIDPrefix();
+		$ID = $prefix.$this->node->getAttribute('area_id').'_dialog';
+
+		$this->node->setAttribute('id', $ID);
 		$this->node->setAttribute('region', 'leading');
 		$this->node->setAttribute('gutters', 'false');
 		$this->node->setAttribute('style', 'display:none');

@@ -6,7 +6,7 @@ return array(
 
 	'label' => 'Test Module',
 
-	'types' => array( Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL ),
+	'types' => array( Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL ),
 	'description' => 'Unit test module',
 
 	'require' => array(

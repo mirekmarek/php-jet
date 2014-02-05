@@ -18,7 +18,7 @@
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
 
-class JetApplicationModule_TestModule_Controller_REST extends Jet\Mvc_Controller_REST {
+class Controller_REST extends Jet\Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main

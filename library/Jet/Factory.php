@@ -47,10 +47,6 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 */
 	protected static $overload_map = null;
 
-	/**
-	 * @var Factory_ClassDefinition
-	 */
-	protected static $class_definitions = array();
 
 	/**
 	 * @see Jet\Factory
@@ -98,7 +94,7 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 */
 	public static function getInstance( $class_name ) {
 
-		$definition = static::getClassDefinition( $class_name );
+		$definition = Factory_ClassDefinition::getClassDefinition( $class_name );
 
 		$factory_class_name = $definition->getFactoryClass();
 		$factory_method = $definition->getFactoryMethod();
@@ -137,7 +133,7 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 */
 	public static function checkInstance( $default_class_name, Object_Interface $instance ) {
 
-		$required_class = static::getClassDefinition( $default_class_name )->getFactoryMandatoryParentClass();
+		$required_class = Factory_ClassDefinition::getClassDefinition( $default_class_name )->getFactoryMandatoryParentClass();
 
 		if(!$required_class){
 			throw new Factory_Exception(
@@ -168,48 +164,14 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 		self::$overload_map = array();
 		$activated_modules_list = Application_Modules::getActivatedModulesList();
 
-		foreach($activated_modules_list as $module_info) {
+		foreach($activated_modules_list as $module_manifest) {
 			/**
-			 * @var Application_Modules_Module_Info $module_info
+			 * @var Application_Modules_Module_Manifest $module_manifest
 			 */
-			if( $module_info->getFactoryOverloadMap() ) {
-				self::$overload_map = $module_info->getFactoryOverloadMap() + self::$overload_map;
+			if( $module_manifest->getFactoryOverloadMap() ) {
+				self::$overload_map = $module_manifest->getFactoryOverloadMap() + self::$overload_map;
 			}
 		}
-	}
-
-	/**
-	 * @param string $class_name
-	 *
-	 * @return Factory_ClassDefinition
-	 */
-	protected static function getClassDefinition( $class_name ) {
-		if(isset(static::$class_definitions[$class_name])) {
-			return static::$class_definitions[$class_name];
-		}
-
-		$file_path = JET_FACTORY_DEFINITION_CACHE_PATH.str_replace('\\', '__', $class_name.'.php');
-
-		$definition = null;
-		if(JET_FACTORY_DEFINITION_CACHE_LOAD) {
-			if(IO_File::isReadable($file_path)) {
-				/** @noinspection PhpIncludeInspection */
-				$definition = require $file_path;
-
-			}
-		}
-
-		if(!$definition) {
-			$definition = new Factory_ClassDefinition($class_name);
-		}
-
-		if(JET_FACTORY_DEFINITION_CACHE_SAVE) {
-			IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
-		}
-
-		static::$class_definitions[$class_name] = $definition;
-
-		return $definition;
 	}
 
 	/**

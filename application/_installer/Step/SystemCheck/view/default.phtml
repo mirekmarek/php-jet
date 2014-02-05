@@ -239,13 +239,6 @@ class JetCompatibilityTester {
 			}
 		);
 		$this->test(
-			'SPL extension',
-			'PHP SPL extension must be activated',
-			function() {
-				return extension_loaded('PDO');
-			}
-		);
-		$this->test(
 			'INTL extension',
 			'PHP Internationalization Functions extension must be activated',
 			function() {
@@ -261,14 +254,6 @@ class JetCompatibilityTester {
 			}
 		);
 
-
-		$this->test(
-			'$_SERVER["DOCUMENT_ROOT"] value',
-			'PHP $_SERVER["DOCUMENT_ROOT"] value must be available',
-			function() {
-				return isset($_SERVER['DOCUMENT_ROOT']);
-			}
-		);
 
 		$this->check(
 			'Redis support',

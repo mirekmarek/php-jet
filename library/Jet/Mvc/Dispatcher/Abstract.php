@@ -98,19 +98,31 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	abstract public function dispatch();
 
 
+
 	/**
-	 * @abstract
 	 *
 	 * @return Mvc_Dispatcher_Queue
 	 */
-	abstract public function getQueue();
+	public function getQueue() {
+		return $this->queue;
+	}
 
 	/**
-	 * @abstract
 	 *
 	 * @return Mvc_Dispatcher_Queue_Item
 	 */
-	abstract public function getCurrentQueueItem();
+	public function getCurrentQueueItem() {
+		return $this->current_queue_item;
+	}
+
+
+	/**
+	 * @return \Jet\Mvc_Router_Abstract
+	 */
+	public function getRouter() {
+		return $this->router;
+	}
+
 
 	/**
 	 * @param Mvc_Dispatcher_Queue_Item $queue_item

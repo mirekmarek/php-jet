@@ -146,11 +146,11 @@ class Application_Signals_Dispatcher extends Object {
 					throw $e;
 				}
 			}
-			foreach($active_modules as $module_name => $module_info){
+			foreach($active_modules as $module_name => $module_manifest){
 				/**
-				 * @var Application_Modules_Module_Info $module_info
+				 * @var Application_Modules_Module_Manifest $module_manifest
 				 */
-				$signal_callbacks = $module_info->getSignalCallbacks();
+				$signal_callbacks = $module_manifest->getSignalCallbacks();
 
 				if(
 					!$signal_callbacks ||

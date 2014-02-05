@@ -68,7 +68,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$this->view->setVar('role', $role);
 			$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
 
-			$this->render('classic-edit');
+			$this->render('classic/edit');
 		} else {
 
 			$p = new Jet\Data_Paginator(
@@ -81,7 +81,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$this->view->setVar('roles', $p->getData());
 			$this->view->setVar('paginator', $p);
 
-			$this->render('classic-default');
+			$this->render('classic/default');
 		}
 
 	}

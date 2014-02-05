@@ -9,7 +9,7 @@ return array(
 
 	'vendor' => 'Vendor',
 	
-	'types' => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
+	'types' => array(Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
 
 	'description' => 'Test module 2...',
 

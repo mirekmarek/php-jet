@@ -79,6 +79,7 @@ class Mvc {
 				$router->getUIManagerModuleInstance()->handle404();
 			}
 
+
 			echo $output;
 			$router->cacheSave();
 

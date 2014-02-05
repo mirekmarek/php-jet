@@ -8,7 +8,7 @@ return array(
 	'vendor' => 'Vendor',
 	
 	'label' => 'Test Module 1',
-	'types' => array(Jet\Application_Modules_Module_Info::MODULE_TYPE_GENERAL),
+	'types' => array(Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
 	'description' => 'Test module 1...',
 
 	'require' => array(),

@@ -41,8 +41,11 @@ abstract class Auth_ManagerModule_Abstract extends Mvc_UIManagerModule_Abstract 
 	public function getDispatchQueue() {
 		$queue = new Mvc_Dispatcher_Queue();
 
+		$item = new Mvc_Dispatcher_Queue_Item( $this->module_manifest->getName(), 'login' );
+		$item->setCustomServiceType( Mvc_Router::SERVICE_TYPE_STANDARD );
+
 		$queue->addItem(
-				new Mvc_Dispatcher_Queue_Item( $this->module_info->getName(), '', 'login' )
+				$item
 			);
 
 		return $queue;

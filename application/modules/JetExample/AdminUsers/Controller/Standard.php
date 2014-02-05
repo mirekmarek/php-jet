@@ -68,12 +68,12 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 				Jet\Http_Headers::formSent( $form );
 			}
 
-			$this->render('edit');
+			$this->render('classic/edit');
 		} else {
 
 			$this->view->setVar('users', Jet\Auth::getUsersList());
 
-			$this->render('default');
+			$this->render('classic/default');
 		}
 
 		//$form->helper_showBasicHTML();

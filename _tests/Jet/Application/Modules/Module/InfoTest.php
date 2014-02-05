@@ -17,7 +17,7 @@ define('JET_MODULES_PATH', JET_TESTS_DATA.'Application/Modules/TestModules/');
 
 class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var Application_Modules_Module_Info
+	 * @var Application_Modules_Module_Manifest
 	 */
 	protected $object;
 
@@ -33,13 +33,13 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
-		Application_Modules_Module_Info::setModuleTypesList(array(
-			Application_Modules_Module_Info::MODULE_TYPE_GENERAL => 'General module',
-			Application_Modules_Module_Info::MODULE_TYPE_SITE_UI_MANAGER => 'Site UI manager module',
-			Application_Modules_Module_Info::MODULE_TYPE_ADMIN_UI_MANAGER => 'Administration UI manager module',
-			Application_Modules_Module_Info::MODULE_TYPE_AUTH_MANAGER => 'Authentication and authorization manager module',
-			Application_Modules_Module_Info::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
-			Application_Modules_Module_Info::MODULE_TYPE_SYSTEM => 'System module',
+		Application_Modules_Module_Manifest::setModuleTypesList(array(
+			Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL => 'General module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_SITE_UI_MANAGER => 'Site UI manager module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_ADMIN_UI_MANAGER => 'Administration UI manager module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_AUTH_MANAGER => 'Authentication and authorization manager module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_SYSTEM => 'System module',
 		));
 	}
 
@@ -50,7 +50,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
 	 */
 	public function testReadManifestDataFailedModuleDoesNotExist() {
-		new Application_Modules_Module_Info('ImaginaryModule');
+		new Application_Modules_Module_Manifest('ImaginaryModule');
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
 	 */
 	public function testReadManifestDataFailedManifestIsNotReadable() {
-		new Application_Modules_Module_Info('ModuleWOManifest');
+		new Application_Modules_Module_Manifest('ModuleWOManifest');
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testcheckManifestDataInvalidNotArray() {
-		new Application_Modules_Module_Info('InvalidManifestNotArray');
+		new Application_Modules_Module_Manifest('InvalidManifestNotArray');
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testcheckManifestDataInvalidMissingAPIVersion() {
-		new Application_Modules_Module_Info('InvalidMissingAPIVersion');
+		new Application_Modules_Module_Manifest('InvalidMissingAPIVersion');
 	}
 
 
@@ -91,7 +91,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testcheckManifestDataInvalidMissingLabel() {
-		new Application_Modules_Module_Info('InvalidMissingLabel');
+		new Application_Modules_Module_Manifest('InvalidMissingLabel');
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testcheckManifestDataInvalidMissingTypes() {
-		new Application_Modules_Module_Info('InvalidMissingTypes');
+		new Application_Modules_Module_Manifest('InvalidMissingTypes');
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testcheckManifestDataInvalidUnknownTypes() {
-		new Application_Modules_Module_Info('InvalidUnknownTypes');
+		new Application_Modules_Module_Manifest('InvalidUnknownTypes');
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testReadManifestDataInvalidRequireIsNotArray() {
-		new Application_Modules_Module_Info('InvalidRequireIsNotArray');
+		new Application_Modules_Module_Manifest('InvalidRequireIsNotArray');
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testReadManifestDataInvalidFactoryOverloadMapIsNotArray() {
-		new Application_Modules_Module_Info('InvalidFactoryOverloadMapIsNotArray');
+		new Application_Modules_Module_Manifest('InvalidFactoryOverloadMapIsNotArray');
 	}
 
 	/**
@@ -141,39 +141,31 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
 	public function testReadManifestDataInvalidSignalsCallbacksIsNotArray() {
-		new Application_Modules_Module_Info('InvalidSignalsCallbacksIsNotArray');
+		new Application_Modules_Module_Manifest('InvalidSignalsCallbacksIsNotArray');
 	}
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::readManifestData
 	 */
 	public function testReadManifestData() {
-		new Application_Modules_Module_Info('ValidModule');
+		new Application_Modules_Module_Manifest('ValidModule');
 	}
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::getModuleDir
 	 */
 	public function testGetModuleDir() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
 		$this->assertEquals( JET_MODULES_PATH. 'ValidModule/', $module_info->getModuleDir() );
 	}
 
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::getViewDir
-	 */
-	public function testGetViewDir() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
-
-		$this->assertEquals( JET_MODULES_PATH. 'ValidModule/'.Application_Modules::MODULE_VIEWS_DIR, $module_info->getViewsDir() );
-	}
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::getName
 	 */
 	public function testGetName() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( 'ValidModule', $module_info->getName() );
 	}
 
@@ -181,7 +173,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getLabel
 	 */
 	public function testGetLabel() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( 'Test Module', $module_info->getLabel() );
 	}
 
@@ -189,7 +181,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getDescription
 	 */
 	public function testGetDescription() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( 'Unit test module', $module_info->getDescription() );
 	}
 
@@ -197,7 +189,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getAPIVersion
 	 */
 	public function testGetAPIVersion() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( 201208, $module_info->getAPIVersion() );
 	}
 
@@ -205,25 +197,25 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getTypes
 	 */
 	public function testGetTypes() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
-		$this->assertEquals( array( Application_Modules_Module_Info::MODULE_TYPE_GENERAL ), $module_info->getTypes() );
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
+		$this->assertEquals( array( Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL ), $module_info->getTypes() );
 	}
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::getHasType
 	 */
 	public function testGetHasType() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
-		$this->assertTrue( $module_info->getHasType(Application_Modules_Module_Info::MODULE_TYPE_GENERAL) );
-		$this->assertFalse( $module_info->getHasType(Application_Modules_Module_Info::MODULE_TYPE_SYSTEM) );
+		$this->assertTrue( $module_info->getHasType(Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL) );
+		$this->assertFalse( $module_info->getHasType(Application_Modules_Module_Manifest::MODULE_TYPE_SYSTEM) );
 	}
 
 	/**
 	 * @covers Jet\Application_Modules_Module_Info::getIsSiteUIManagerModule
 	 */
 	public function testGetIssiteUIManagerModule() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
 		$this->assertFalse( $module_info->getIsSiteUIManagerModule() );
 	}
@@ -233,7 +225,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getIsAdminUIManagerModule
 	 */
 	public function testGetIsAdminUIManagerModule() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
 		$this->assertFalse( $module_info->getIsAdminUIManagerModule() );
 	}
@@ -242,7 +234,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getIsAuthManagerModule
 	 */
 	public function testGetIsAuthManagerModule() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
 		$this->assertFalse( $module_info->getIsAuthManagerModule() );
 	}
@@ -251,7 +243,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getIsOutputFilter
 	 */
 	public function testGetIsOutputFilter() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
 		$this->assertFalse( $module_info->getIsOutputFilter() );
 	}
@@ -260,7 +252,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getRequire
 	 */
 	public function testGetRequire() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( array(
 			'RequireModule1',
 			'RequireModule2'
@@ -271,7 +263,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getFactoryOverloadMap
 	 */
 	public function testGetFactoryOverloadMap() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( array(
 			'OldClass1' => 'MyClass1',
 			'OldClass2' => 'MyClass2',
@@ -283,7 +275,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getSignalCallbacks
 	 */
 	public function testGetSignalCallbacks() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( array(
 			'/test/signal1' => 'CallbackMoeduleMethodName1',
 			'/test/signal2' => 'CallbackMoeduleMethodName2',
@@ -296,7 +288,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getIsInstalled
 	 */
 	public function testSetGetIsInstalled() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertFalse( $module_info->getIsInstalled() );
 		$module_info->setIsInstalled(true);
 		$this->assertTrue( $module_info->getIsInstalled() );
@@ -307,7 +299,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Module_Info::getIsActivated
 	 */
 	public function testSetGetIsActivated() {
-		$module_info = new Application_Modules_Module_Info('ValidModule');
+		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertFalse( $module_info->getIsActivated() );
 		$module_info->setIsActivated(true);
 		$this->assertTrue( $module_info->getIsActivated() );
@@ -325,8 +317,8 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 			'MyType3' => 'MyModuleType3',
 		);
 
-		Application_Modules_Module_Info::setModuleTypesList($data);
-		$this->assertEquals($data, Application_Modules_Module_Info::getModuleTypesList());
+		Application_Modules_Module_Manifest::setModuleTypesList($data);
+		$this->assertEquals($data, Application_Modules_Module_Manifest::getModuleTypesList());
 	}
 
 }

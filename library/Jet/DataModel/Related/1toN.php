@@ -120,7 +120,25 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @param DataModel_Related_Abstract $parent_model_instance
 	 */
 	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-		//TODO:
+		if($this->__is_item) {
+			foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property ) {
+				if(!$property->getIsDataModel()) {
+					continue;
+				}
+
+				/**
+				 * @var DataModel_Related_Abstract $p
+				 */
+				$p = $this->{$property_name};
+
+				$p->wakeUp( $main_model_instance, $this );
+			}
+
+		} else {
+			foreach( $this->__items as $item ) {
+				$item->wakeUp( $main_model_instance, $parent_model_instance );
+			}
+		}
 	}
 
 	/**

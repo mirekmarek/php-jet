@@ -136,7 +136,6 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 			$queue = new Mvc_Dispatcher_Queue();
 			$qi = new Mvc_Dispatcher_Queue_Item(
 				$this->router->getModuleName(),
-				'',
 				$this->router->getModuleAction(),
 				$this->router->getPathFragments()
 			);

@@ -13,7 +13,7 @@
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -26,5 +26,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 
 	public function default_Action() {
+		//TODO:
 	}
 }

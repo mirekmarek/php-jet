@@ -24,7 +24,10 @@ class JetML_Widget_Dojo_Editarea_List extends JetML_Widget_Dojo_Abstract {
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
-		$this->node->setAttribute('id', $this->getNodeAttribute('id').'_list');
+		$prefix = $this->parser->getLayout()->getUIContainerIDPrefix();
+		$ID = $prefix.$this->node->getAttribute('area_id').'_list';
+
+		$this->node->setAttribute('id', $ID);
 		$this->node->setAttribute('region', 'center');
 
 		return parent::getReplacement();

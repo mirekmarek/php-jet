@@ -13,17 +13,4 @@ MS SQL
 ____________________________________________
 Mvc Router Cache backend:
 MS SQL
-
 ____________________________________________
-?? General Cache
-............................................
-Cache backend:
-Files
-Redis
-Memcached
-MySQL
-Oracle
-MS SQL
-____________________________________________
-
-?? JS request ACL protection

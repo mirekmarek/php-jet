@@ -800,7 +800,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					!is_string($value[0])
 				) {
 					throw new Object_Reflection_Exception(
-						'Key definition parse errro. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], Jet\DataModel::KEY_TYPE_INDEX ]',
+						'Key definition parse errro. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], Jet\DataModel::KEY_TYPE_INDEX ]',
 						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -848,7 +848,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					!is_string($value[0])
 				) {
 					throw new Object_Reflection_Exception(
-						'Relation definition parse errro. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: JetDataModel:relation = [ \'Some\RelatedClass\', [ \'this.class_property_name\'=>\'related_class_property_name\', \'this.another_class_property_name\' => \'another_related_class_property_name\', \'this_value.getValueMethodName\' => \'another_related_class_property\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
+						'Relation definition parse errro. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
 						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 

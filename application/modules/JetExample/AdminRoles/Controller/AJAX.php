@@ -38,7 +38,7 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 		$this->view->setVar('form', $form);
 		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList());
 
-		$this->render('ajax-default');
+		$this->render('ria/default');
 	}
 
 }

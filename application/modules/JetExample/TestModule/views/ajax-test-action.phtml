@@ -12,9 +12,9 @@ $form = $this->form;
 		<jetml_layout_toolbar region="top">
 
 			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeTest_openByID();" title="Open by ID"/>
-			<jetml_trash_button id="tree_trash"/>
+			<jetml_trash_button trash_id="tree_trash"/>
 
-			<jetml_trash_dialog id="tree_trash">
+			<jetml_trash_dialog trash_id="tree_trash">
 			</jetml_trash_dialog>
 		</jetml_layout_toolbar>
 		<jetml_layout_pane region="center" id="test_tree_area" style="padding:0px;">
@@ -30,7 +30,6 @@ $form = $this->form;
 		<div dojoType="dijit.ColorPalette" onChange="alert(this.value);" palette="3x4">
 		</div>
 
-		<p>
 			<table>
 				<tr>
 					<td>
@@ -50,7 +49,6 @@ $form = $this->form;
 					</td>
 				</tr>
 			</table>
-		</p>
 
 	</jetml_layout_pane>
 </jetml_layout_container>

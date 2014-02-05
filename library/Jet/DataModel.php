@@ -17,68 +17,96 @@
 namespace Jet;
 
 /**
- * //TODO: update comments
+ * Available annotation:
  *
- *	Common options
- *		'type':
- *		'default_value':
- *		'backend_options':
- *              'is_ID',
- *              'do_not_serialize':
- *              'description':
+ * @JetDataModel:name = 'some_model_name'
+ *      - Internal model name. It does not name a database table! The name is used mainly in queries.
  *
- *      Form options:
- *              'form_field_type':
- *              'form_field_label':
- *              'form_field_options':
- *              'form_field_error_messages':
- *              'form_field_get_default_value_callback':
- *              'form_field_get_select_options_callback':
+ * @JetDataModel:database_table_name = 'some_table_name'
  *
- *	Data validation options
- *		All types:
- *			'validation_method':
- *			'list_of_valid_options':
- *			'error_messages':
+ * @JetDataModel:ID_class_name = 'Some\ID_Class_Name'
+ *      - Optional. You can create your ID class or use one of those: Jet\DataModel_ID_UniqueString (is default), Jet\DataModel_ID_Name, Jet\DataModel_ID_AutoIncrement
  *
- *		TYPE_STRING:
- *			'is_required':
- *			'max_len':
- *			'validation_regexp':
+ * @JetDataModel:parent_model_class_name = 'Some\Parent_Class_Name'
+ *      - ONLY FOR RELATED MODELS!
  *
- *		TYPE_INT,TYPE_FLOAT:
- *			'min_value':
- *			'max_value':
+ * Overrides the default settings:
+ *      @JetDataModel:forced_backend_type = 'SomeBackendType'
+ *      @JetDataModel:forced_backend_config = ['option'=>'value','option'=>'value']
+ *      @JetDataModel:forced_history_enabled = bool
+ *      @JetDataModel:forced_history_backend_type = 'SomeBackendType'
+ *      @JetDataModel:forced_history_backend_config = ['option'=>'value','option'=>'value']
+ *      @JetDataModel:forced_cache_enabled = bool
+ *      @JetDataModel:forced_cache_backend_type = 'SomeBackendType'
+ *      @JetDataModel:forced_cache_backend_config = ['option'=>'value','option'=>'value']
+ *
+ * Property definition:
+ *      /**
+ *       * @JetDataModel:type = Jet\DataModel::TYPE_*
+ *       * @JetDataModel:is_ID = bool
+ *       *      - optional
+ *       * @JetDataModel:default_value = 'some default value'
+ *       *      - optional
+ *       * @JetDataModel:is_key = bool
+ *       *      - optional, default: false or true if is_ID
+ *       * @JetDataModel:key_type = Jet\DataModel::KEY_TYPE_*
+ *       *      - optional, default: Jet\DataModel::KEY_TYPE_INDEX
+ *       * @JetDataModel:description = 'Some description ...'
+ *       *      - optional
+ *       * @JetDataModel:do_not_serialize = bool
+ *       *      - Do not serialize property into the XML/JSON result
+ *       *      - optional, default: false
+ *       * @JetDataModel:backend_options = ['BackendType'=>['option'=>'value','option'=>'value']]
+ *       *      - optional
+ *       *
+ *       * Validation:
+ *       *   @JetDataModel:error_messages = ['errod_code'=>'Massage ...','errod_code'=>'Massage ...']
+ *       *   @JetDataModel:validation_method = 'someCustomValidationMethodName'
+ *       *      - optional
+ *       *   @JetDataModel:list_of_valid_options = ['option1'=>'Valid option 1','option2'=>'Valid option 2']
+ *       *      - optional
+ *       * Validation (type Jet\DataModel::TYPE_STRING):
+ *       *   @JetDataModel:is_required = bool
+ *       *   @JetDataModel:max_len = 255
+ *       *   @JetDataModel:validation_regexp = '/someregexp/'
+ *       *      - optional
+ *       *
+ *       * Validation (type Jet\DataModel::TYPE_INT,Jet\DataModel::TYPE_FLOAT):
+ *       *   @JetDataModel:min_value = 1
+ *       *      - optional
+ *       *   @JetDataModel:max_value = 999
+ *       *      - optional
+ *       *
+ *       * Form field options:
+ *       *   @JetDataModel:form_field_type = 'SomeFormFieldType'
+ *       *      - optional, default: autodetect
+ *       *   @JetDataModel:form_field_label = 'Field label:'
+ *       *   @JetDataModel:form_field_options = ['option'=>'value','option'=>'value']
+ *       *      - optional
+ *       *   @JetDataModel:form_field_error_messages = ['error_code'=>'message','error_code'=>'message']
+ *       *   @JetDataModel:form_field_get_default_value_callback = callable
+ *       *      - optional
+ *       *   @JetDataModel:form_field_get_select_options_callback = callable
+ *       *      - optional
+ *       *
+ *       * Specific (type Jet\DataModel::TYPE_DATA_MODEL):
+ *       *   @JetDataModel:data_model_class = 'Some\Related_Model_Class_Name'
+ *       *
+ *       * Specific (type Jet\DataModel::TYPE_ARRAY):
+ *       *   @JetDataModel:item_type = Jet\DataModel::TYPE_*
+ *       * /
+ *      protected $some_property;
  *
  *
- *	Type specific options
- *		TYPE_DATA_MODEL:
- *			'data_model_class'
- *		TYPE_ARRAY
- *			'item_type':
+ * Relation on foreign model definition:
+ *      @JetDataModel:relation = [ 'Some\RelatedClass', [ 'property_name'=>'related_property_name', 'another_property_name' => 'another_related_property_name' ], Jet\DataModel_Query::JOIN_TYPE_* ]
  *
+ *          Warning!
+ *          This kind of relation has no affect on saving or deleting object (like DataModel_Related_* models has).
  *
- * Relations to another (indenpendent) model.
+ * Composite keys definition:
+ *      @JetDataModel:key = ['key_name', ['property_name', 'next_property_name'], Jet\DataModel::KEY_TYPE_*]
  *
- * Example:
- *
- * JetDataModel:relation = [ 'Some\RelatedClass', [ 'this.class_property_name'=>'related_class_property_name', 'this.another_class_property_name' => 'another_related_class_property_name', 'this_value.getValueMethodName' => 'another_related_class_property' ], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
- *
- *
- * Then you can use relation in query like this:
- *
- * $query = array(
- *          'relation_name.some_related_class_property' => 'value',
- *          'AND',
- *          'relation_name.another_some_related_class_property!' => 1234
- * );
- *
- * Warning!
- *
- * Outer relation has no affect on saving or deleting object (like DataModel_Related_* models has).
- *
- *
- * @var array
  */
 
 

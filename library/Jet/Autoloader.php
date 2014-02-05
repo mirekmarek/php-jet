@@ -33,7 +33,13 @@ class Autoloader {
 	 */
 	protected static $classes_paths_map = array();
 
-	
+	/**
+	 *
+	 * @var array
+	 */
+	protected static $classes_paths_map_updated = false;
+
+
 	/**
 	 * Initialize autoloader
 	 */
@@ -43,11 +49,51 @@ class Autoloader {
 			return;
 		}
 
+		if(JET_AUTOLOADER_CACHE_LOAD) {
+			$file_path = JET_AUTOLOADER_CACHE_PATH.'autoloader_class_map.php';
+
+			require JET_LIBRARY_PATH.'Jet/IO/File.php';
+
+			if(IO_File::isReadable($file_path)) {
+				/** @noinspection PhpIncludeInspection */
+				static::$classes_paths_map = require $file_path;
+			}
+		}
+
+		if(JET_AUTOLOADER_CACHE_SAVE) {
+
+			register_shutdown_function( function() {
+
+				if( Autoloader::getClassesPathsMapUpdated() ) {
+					$file_path = JET_AUTOLOADER_CACHE_PATH.'autoloader_class_map.php';
+
+					IO_File::write($file_path, '<?php return '.var_export( Autoloader::getClassesPathsMap(), true ).';' );
+				}
+
+			} );
+		}
+
 		self::$is_initialized = true;
+
 
 		spl_autoload_register( array('\Jet\\Autoloader', 'load'), true, true );
 
 	}
+
+	/**
+	 * @return array
+	 */
+	public static function getClassesPathsMap() {
+		return self::$classes_paths_map;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getClassesPathsMapUpdated() {
+		return self::$classes_paths_map_updated;
+	}
+
 
 	/**
 	 *
@@ -69,19 +115,19 @@ class Autoloader {
 		$path = false;
 
 		$loader_name = '';
+
+		$map_hit = false;
+
 		if(isset(static::$classes_paths_map[$class_name])) {
 			$path = static::$classes_paths_map[$class_name];
 			$loader_name = '__classes_paths_map__';
+			$map_hit = true;
 		} else {
 			foreach(static::$loaders as $loader_name => $loader) {
 				$path = $loader->getClassPath($class_name);
 				if($path) {
 					break;
 				}
-			}
-
-			if($path) {
-				static::$classes_paths_map[$class_name] = $path;
 			}
 		}
 
@@ -113,6 +159,12 @@ class Autoloader {
 				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 		}
+
+		if(!$map_hit) {
+			static::$classes_paths_map_updated = true;
+			static::$classes_paths_map[$class_name] = $path;
+		}
+
 	}
 
 

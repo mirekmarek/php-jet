@@ -8,7 +8,7 @@ use Jet;
 $form = $this->form;
 ?>
 <jetml_editarea id="user_edit" title="Users" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
-	<jetml_editarea_dialog id="user_edit">
+	<jetml_editarea_dialog area_id="user_edit">
 		<jetml_layout_toolbar region="top">
 			<jetml_form_button_save id="user_save" onClick="Jet.modules.CURRENT_MODULE.save(false);"/>
 			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
@@ -58,11 +58,11 @@ $form = $this->form;
 			</jet_form>
 		</jetml_layout_pane>
 	</jetml_editarea_dialog>
-	<jetml_editarea_list id="user_edit">
+	<jetml_editarea_list area_id="user_edit">
 		<jetml_layout_toolbar region="top">
 			<jetml_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
 			<jetml_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
-			<jetml_trash_button id="user_trash"/>
+			<jetml_trash_button trash_id="user_trash"/>
 		</jetml_layout_toolbar>
 
 		<jetml_layout_pane region="center" gutters="false" style="padding:0px;">
@@ -80,4 +80,4 @@ $form = $this->form;
 </jetml_editarea>
 
 
-<jetml_trash_dialog id="user_trash"/>
+<jetml_trash_dialog trash_id="user_trash"/>

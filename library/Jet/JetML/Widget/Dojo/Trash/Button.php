@@ -26,11 +26,20 @@ class JetML_Widget_Dojo_Trash_Button extends JetML_Widget_Dojo_Abstract {
 	protected $widget_container_tag = 'button';
 
 	/**
+	 *
+	 * @var array
+	 */
+	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'trash_id' );
+
+	/**
 	 * @return \DOMElement
 	 */
 	public function getReplacement() {
 
-		$this->node->setAttribute('id', $this->node->getAttribute('id').'_button');
+		$prefix = $this->parser->getLayout()->getUIContainerIDPrefix();
+		$ID = $prefix.$this->node->getAttribute('trash_id').'_button';
+
+		$this->node->setAttribute('id', $ID);
 		$this->node->setAttribute('icon', 'trash' );
 
 		if(!$this->node->hasAttribute('title')) {

@@ -13,7 +13,7 @@
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -34,7 +34,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 			$this->view->setVar('article', $current_article);
 
-			$this->render('article-detail');
+			$this->render('detail');
 		} else {
 
 			$paginator = new Jet\Data_Paginator(
@@ -49,7 +49,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$this->view->setVar('articles_list', $paginator->getData());
 			$this->view->setVar('paginator', $paginator);
 
-			$this->render('articles-list');
+			$this->render('list');
 		}
 
 	}

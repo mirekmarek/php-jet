@@ -14,27 +14,29 @@
 namespace Jet;
 
 /**
- * //TODO: update comment
+ * Available annotation:
  *
- * Signals list
+ *      Signlas:
+ *          Signal definition:
+ *              @JetApplication_Signals:signal = '/signal/name'
+ *              @JetApplication_Signals:signal = '/next/signal/name'
  *
- * array(
- *      '/my_signal_group/signal1',
- *      '/my_signal_group/signal2'
- * )
+ *          Signal object class name:
+ *              @JetApplication_Signals:signal_object_class_name = 'Some\Custom_Class_Name'
  *
- *
- * @var array
+ *      Factory: @see Factory
+ *          @JetFactory:class = 'Some\Factory_Class'
+ *                     - optional
+ *          @JetFactory:method = 'someMethodName'
+ *                     - optional
+ *          @JetFactory:mandatory_parent_class = 'Some\Mandatory_Abstract_Class'
  */
+
 
 /**
- * //TODO: update comment signals_signal_object_class_name
+ * Class Object
  *
- * @var string
  */
-
-
-// We do not have multiple inheritance in PHP :-(
 class Object implements Object_Interface {
 
 	use Object_Trait;

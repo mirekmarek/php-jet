@@ -35,7 +35,7 @@ class Main extends Jet\Mvc_UIManagerModule_Abstract {
 			$layout_script = Jet\Mvc::getCurrentPage()->getLayout();
 		}
 
-		$layout = new Jet\Mvc_Layout( $this->module_info->getModuleDir().'layouts/', $layout_script );
+		$layout = new Jet\Mvc_Layout( $this->module_manifest->getModuleDir().'layouts/', $layout_script );
 		$layout->setRouter($this->router);
 
 		$public_URI = $this->getPublicURI();

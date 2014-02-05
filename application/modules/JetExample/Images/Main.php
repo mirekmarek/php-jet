@@ -28,4 +28,44 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		'update_image' => 'Update image',
 		'delete_image' => 'Delete image',
 	);
+
+	/**
+	 * Returns module views directory
+	 *
+	 * @return string
+	 */
+	public function getViewsDir() {
+		$dir = parent::getViewsDir();
+
+		if(Jet\Mvc::getIsAdminUIRequest()) {
+			return $dir.'admin/';
+		} else {
+			return $dir.'public/';
+		}
+	}
+
+	/**
+	 * @param Jet\Mvc_Dispatcher_Abstract $dispatcher
+	 * @param string $service_type
+	 *
+	 * @return string
+	 */
+	protected function getControllerClassName( Jet\Mvc_Dispatcher_Abstract $dispatcher, $service_type ) {
+
+		if($service_type!=Jet\Mvc_Router::SERVICE_TYPE_REST) {
+			if( $dispatcher->getRouter()->getIsAdminUI() ) {
+				$controller_suffix = 'Controller_Admin_'.$service_type;
+
+			} else {
+				$controller_suffix = 'Controller_Public_'.$service_type;
+			}
+		} else {
+			$controller_suffix = 'Controller_'.$service_type;
+		}
+
+		$controller_class_name = JET_APPLICATION_MODULE_NAMESPACE.'\\'.$this->module_manifest->getName().'\\'.$controller_suffix;
+
+		return $controller_class_name;
+	}
+
 }

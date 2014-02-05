@@ -64,8 +64,6 @@
  *    |- [*.php]
  *    \- manifest.php ......................... @see Jet\Mvc_Modules_ModuleInfo
  *
- * @see Jet\Application/readme.txt
- *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
@@ -73,74 +71,36 @@
  * @version <%VERSION%>
  *
  * @category Jet
- * @package Mvc
+ * @package Application
  * @subpackage Application_Modules
  */
 namespace Jet;
 
-//TODO: split into new handler and this class
 class Application_Modules extends Object {
 
-	const MODULE_CONFIG_FILE_PATH = 'config/config.php';
-	const MODULE_MANIFEST_FILE_PATH = 'manifest.php';
-
-	const MODULE_INSTALL_DIR = '_install/';
-	const MODULE_INSTALL_DICTIONARIES_PATH = '_install/dictionaries/';
-	const MODULE_INSTALL_SCRIPT_PATH = '_install/install.php';
-	const MODULE_UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
-
-
-	const MODULE_VIEWS_DIR = 'views/';
-	const MODULE_LAYOUTS_DIR = 'layouts/';
-
-
 	/**
-	*
-	* @var Application_Modules_Module_Info[]
-	*/
-	protected static $activated_modules_list = null;
-
-
-	/**
-	*
-	* @var Application_Modules_Module_Info[]
-	*/
-	protected static $installed_modules_list = null;
-
-	/**
-	*
-	* @var Application_Modules_Module_Info[]
-	*/
-	protected static $all_modules_list = null;
-
-	/**
-	*
-	* @var Application_Modules_Module_Abstract[]
-	*/
-	protected static $module_instance = array();
-
-	/**
-	 * Internal flag. Used in autoloader
-	 *
-	 * @var bool
+	 * @var Application_Modules_Handler_Abstract
 	 */
-	protected static $installation_in_progress = false;
+	protected static $handler;
 
 	/**
-	 * @var string|null
+	 * @return Application_Modules_Handler_Abstract
 	 */
-	protected static $installation_in_progress_module_name = null;
+	public static function getHandler() {
+		if(!static::$handler) {
+			$class_name = JET_APPLICATION_MODULES_HANDLER_CLASS_NAME;
 
-	/**
-	 * Write installed modules
-	 *
-	 */
-	protected static function saveInstalledModulesList() {
-		static::$all_modules_list = null;
+			static::$handler = new $class_name(
+				JET_MODULES_PATH,
+				JET_APPLICATION_MODULES_LIST_PATH,
+				JET_APPLICATION_MODULE_NAMESPACE,
+				JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME
+			);
+		}
 
-
-		IO_File::write(JET_APPLICATION_MODULES_LIST_PATH, '<?php'.JET_EOL.' return '.var_export(static::$installed_modules_list, true).';'.JET_EOL);
+		return static::$handler;
 	}
+
 
 
 	/**
@@ -150,23 +110,7 @@ class Application_Modules extends Object {
 	* @return bool
 	*/
 	public static function checkModuleNameFormat( $module_name ) {
-
-		if(!preg_match('/^([a-zA-Z0-9\\\\]{3,50})$/', $module_name)) {
-			return false;
-		}
-		if(strpos($module_name, '\\\\')!==false) {
-			return false;
-		}
-
-		if($module_name[0]=='\\') {
-			return false;
-		}
-
-		if( $module_name[strlen($module_name)-1]=='\\' ) {
-			return false;
-		}
-
-		return true;
+		return static::getHandler()->checkModuleNameFormat($module_name);
 	}
 
 
@@ -175,30 +119,10 @@ class Application_Modules extends Object {
 	 * Read installed modules list
 	 *
 	 * @throws Application_Modules_Exception
-	 * @return Application_Modules_Module_Info[]
+	 * @return Application_Modules_Module_Manifest[]
 	 */
 	public static function getInstalledModulesList() {
-		if(static::$installed_modules_list !== null) {
-			return static::$installed_modules_list;
-		}
-
-		$path = JET_APPLICATION_MODULES_LIST_PATH;
-		if(!IO_File::exists($path)) {
-			static::$installed_modules_list = array();
-			return array();
-		}
-
-		if(!is_readable($path)){
-			throw new Application_Modules_Exception(
-				'Modules list data file \''.$path.'\' is not readable.',
-				Application_Modules_Exception::CODE_MODULES_LIST_NOT_FOUND
-			);
-		}
-
-		/** @noinspection PhpIncludeInspection */
-		static::$installed_modules_list = require $path;
-
-		return static::$installed_modules_list;
+		return static::getHandler()->getInstalledModulesList();
 	}
 
 	/**
@@ -208,95 +132,19 @@ class Application_Modules extends Object {
 	 *
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Modules_Module_Info[]
+	 * @return Application_Modules_Module_Manifest[]
 	 */
 	public static function getAllModulesList( $ignore_corrupted_modules=true ) {
-		if(static::$all_modules_list !== null) {
-			return static::$all_modules_list;
-		}
-
-		static::$all_modules_list = array();
-
-		static::getInstalledModulesList();
-
-		static::_readModulesList($ignore_corrupted_modules, JET_MODULES_PATH, '');
-
-		return static::$all_modules_list;
-	}
-
-	/**
-	 * @param bool $ignore_corrupted_modules
-	 * @param string $base_dir
-	 * @param string $module_name_prefix
-	 */
-	protected static function _readModulesList( $ignore_corrupted_modules, $base_dir, $module_name_prefix ) {
-		$modules = IO_Dir::getSubdirectoriesList( $base_dir );
-
-		foreach( $modules as $module_dir ) {
-			if( !IO_File::exists( $base_dir.$module_dir.'/'.static::MODULE_MANIFEST_FILE_PATH ) ) {
-
-				$next_module_name_prefix = ($module_name_prefix) ?
-							$module_name_prefix.$module_dir.'\\'
-							:
-							$module_dir.'\\';
-
-				static::_readModulesList($ignore_corrupted_modules, $base_dir.$module_dir.'/', $next_module_name_prefix);
-				continue;
-			}
-
-			$module_name = $module_name_prefix.$module_dir;
-
-			if(isset(static::$installed_modules_list[$module_name])) {
-				static::$all_modules_list[$module_name] = static::$installed_modules_list[$module_name];
-				continue;
-			}
-
-			if( $ignore_corrupted_modules ) {
-				try {
-
-					$module_info = Application_Factory::getModuleInfoInstance($module_name);
-
-				} catch( Application_Modules_Exception $e ) {
-					$module_info = null;
-				}
-
-			} else {
-				$module_info = Application_Factory::getModuleInfoInstance($module_name);
-			}
-
-			if(!$module_info) {
-				continue;
-			}
-
-
-			static::$all_modules_list[$module_name] = $module_info;
-		}
-
+		return static::getHandler()->getAllModulesList($ignore_corrupted_modules);
 	}
 
 	/**
 	* Returns an array containing information on installed and activated modules
 	*
-	* @return Application_Modules_Module_Info[]
+	* @return Application_Modules_Module_Manifest[]
 	*/
 	public static function getActivatedModulesList() {
-		if( static::$activated_modules_list !== null) {
-			return static::$activated_modules_list;
-		}
-
-		$installed_modules_list = static::getInstalledModulesList();
-		static::$activated_modules_list = array();
-
-		foreach($installed_modules_list as $module_name=>$module_info) {
-			/**
-			 * @var Application_Modules_Module_Info $module_info
-			 */
-			if($module_info->getIsActivated()) {
-				static::$activated_modules_list[$module_name] = $module_info;
-			}
-		}
-
-		return static::$activated_modules_list;
+		return static::getHandler()->getActivatedModulesList();
 	}
 
 	/**
@@ -308,24 +156,7 @@ class Application_Modules extends Object {
 	* @return bool
 	*/
 	public static function getModuleExists( $module_name ) {
-
-		if( static::$activated_modules_list === null) {
-			static::getActivatedModulesList();
-		}
-
-		if(isset(static::$activated_modules_list[$module_name]) ) {
-			return true;
-		}
-
-		if( static::$all_modules_list === null) {
-			static::getAllModulesList();
-		}
-
-		if(isset(static::$all_modules_list[$module_name])){
-			return true;
-		}
-
-		return false;
+		return static::getHandler()->getModuleExists( $module_name );
 	}
 
 	/**
@@ -336,15 +167,7 @@ class Application_Modules extends Object {
 	* @return bool
 	*/
 	public static function getModuleIsInstalled( $module_name ) {
-		if( static::$installed_modules_list === null) {
-			static::getInstalledModulesList();
-		}
-
-		if( isset(static::$installed_modules_list[$module_name]) ) {
-			return true;
-		} else {
-			return false;
-		}
+		return static::getHandler()->getModuleIsInstalled( $module_name );
 	}
 
 	/**
@@ -355,15 +178,7 @@ class Application_Modules extends Object {
 	 * @return bool
 	 */
 	public static function getModuleIsActivated( $module_name ) {
-		if( static::$activated_modules_list === null) {
-			static::getActivatedModulesList();
-		}
-
-		if( isset(static::$activated_modules_list[$module_name]) ) {
-			return true;
-		} else {
-			return false;
-		}
+		return static::getHandler()->getModuleIsActivated( $module_name );
 	}
 
 
@@ -374,28 +189,10 @@ class Application_Modules extends Object {
 	* @param string $module_name
 	* @param bool $only_activated (optional, default: false)
 	*
-	* @return Application_Modules_Module_Info
+	* @return Application_Modules_Module_Manifest
 	*/
-	public static function getModuleInfo( $module_name, $only_activated=false ) {
-		if( static::$activated_modules_list === null) {
-			static::getActivatedModulesList();
-		}
-
-		if( isset(static::$activated_modules_list[$module_name]) ) {
-			return static::$activated_modules_list[$module_name];
-		}
-
-		if(!$only_activated) {
-			if( static::$all_modules_list === null) {
-				static::getAllModulesList();
-			}
-
-			if( isset(static::$all_modules_list[$module_name]) ) {
-				return static::$all_modules_list[$module_name];
-			}
-		}
-
-		return null;
+	public static function getModuleManifest( $module_name, $only_activated=false ) {
+		return static::getHandler()->getModuleManifest( $module_name, $only_activated );
 	}
 
 	/**
@@ -406,72 +203,7 @@ class Application_Modules extends Object {
 	 * @throws Application_Modules_Exception
 	 */
 	public static function installModule( $module_name ) {
-		static::_hardCheckModuleExists($module_name);
-
-		$module_info = static::getModuleInfo($module_name);
-
-		if( $module_info->getIsInstalled() ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is already installed',
-				Application_Modules_Exception::CODE_MODULE_ALREADY_INSTALLED
-			);
-		}
-
-		if( !$module_info->getIsCompatible() ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' (API version '.$module_info->getAPIVersion().') is not compatible with this system version (API version'.Version::getAPIVersionNumber().')',
-				Application_Modules_Exception::CODE_MODULE_IS_NOT_COMPATIBLE
-			);
-		}
-
-		$all_modules = static::getAllModulesList();
-
-		$required_modules = array();
-
-		foreach( $module_info->getRequire() as $required_module_name ) {
-
-			if(
-				!isset($all_modules[$required_module_name]) ||
-				!$all_modules[$required_module_name]->getIsInstalled()
-			) {
-				$required_modules[] = $required_module_name;
-			}
-
-		}
-
-		if( $required_modules ) {
-			throw new Application_Modules_Exception(
-				'The module \''.$module_name.'\' requires these modules: '.implode(', ', $required_modules).'. This module must be installed before.',
-				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
-			);
-		}
-
-		static::$installation_in_progress = true;
-		static::$installation_in_progress_module_name = $module_name;
-
-		try {
-
-			static::getModuleInstance( $module_name )->install();
-
-		} catch(\Exception $e){
-			static::$installation_in_progress = false;
-			static::$installation_in_progress_module_name = null;
-
-			throw new Application_Modules_Exception(
-				$e->getMessage(),
-				Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
-			);
-
-		}
-
-		static::$installation_in_progress = false;
-		static::$installation_in_progress_module_name = null;
-
-		$module_info->setIsInstalled(true);
-
-		static::$installed_modules_list[$module_name] = $module_info;
-		static::saveInstalledModulesList();
-
+		static::getHandler()->installModule( $module_name );
 	}
 
 	/**
@@ -481,51 +213,7 @@ class Application_Modules extends Object {
 	 * @throws Application_Modules_Exception
 	 */
 	public static function uninstallModule( $module_name ) {
-		static::_hardCheckModuleExists($module_name);
-		static::_checkModuleDependencies($module_name);
-
-		$module_info = static::getModuleInfo($module_name);
-
-		if( !$module_info->getIsInstalled() ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not installed',
-				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
-			);
-		}
-
-
-		static::$installation_in_progress = true;
-		static::$installation_in_progress_module_name = $module_name;
-
-		$uninstall_exception = null;
-
-		try {
-
-			static::getModuleInstance($module_name)->uninstall();
-
-		} catch(\Exception $e){
-			$uninstall_exception = new Application_Modules_Exception(
-				$e->getMessage(),
-				Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
-			);
-		}
-
-		$module_info->setIsInstalled(false);
-		$module_info->setIsActivated(false);
-
-		if(isset(static::$activated_modules_list[$module_name])) {
-			unset(static::$activated_modules_list[$module_name]);
-		}
-
-		unset(static::$installed_modules_list[$module_name]);
-
-		static::$installation_in_progress = false;
-		static::$installation_in_progress_module_name = null;
-		static::saveInstalledModulesList();
-
-		if($uninstall_exception) {
-			throw $uninstall_exception;
-		}
+		static::getHandler()->uninstallModule( $module_name );
 	}
 
 	/**
@@ -536,46 +224,7 @@ class Application_Modules extends Object {
 	 * @throws Application_Modules_Exception
 	 */
 	public static function activateModule( $module_name ) {
-		static::_hardCheckModuleExists($module_name);
-
-		$activated_modules = static::getActivatedModulesList();
-
-		$required_modules = array();
-
-		$module_info = static::getModuleInfo( $module_name );
-
-		foreach( $module_info->getRequire() as $required_module_name ) {
-
-			if( !isset($activated_modules[$required_module_name]) ) {
-				$required_modules[] = $required_module_name;
-			}
-
-		}
-
-		if( $required_modules ) {
-			throw new Application_Modules_Exception(
-				'The module requires these modules: '.implode(',', $required_modules).'. They must be activated.',
-				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
-			);
-		}
-
-		$module_info = static::getModuleInfo($module_name);
-
-		if( !$module_info->getIsInstalled() ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not installed',
-				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
-			);
-		}
-
-		if( $module_info->getIsActivated() ) {
-			return;
-		}
-
-		$module_info->setIsActivated(true);
-
-		static::saveInstalledModulesList(static::$installed_modules_list);
-		static::$activated_modules_list[$module_name] = $module_info;
+		static::getHandler()->activateModule( $module_name );
 	}
 
 	/**
@@ -586,26 +235,7 @@ class Application_Modules extends Object {
 	 * @throws Application_Modules_Exception
 	 */
 	public static function deactivateModule( $module_name ) {
-		static::_hardCheckModuleExists($module_name);
-		static::_checkModuleDependencies($module_name);
-
-		$module_info = static::getModuleInfo($module_name);
-
-		if( !$module_info->getIsInstalled() ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is not installed',
-				Application_Modules_Exception::CODE_MODULE_IS_NOT_INSTALLED
-			);
-		}
-
-		if( !$module_info->getIsActivated() ) {
-			return;
-		}
-
-		$module_info->setIsActivated(false);
-
-		unset(static::$activated_modules_list[$module_name]);
-		static::saveInstalledModulesList(static::$installed_modules_list);
+		static::getHandler()->deactivateModule( $module_name );
 	}
 
 	/**
@@ -614,24 +244,7 @@ class Application_Modules extends Object {
 	* @param string $module_name
 	*/
 	public static function reloadModuleManifest( $module_name ) {
-		static::_hardCheckModuleExists($module_name);
-
-		$module_info = Application_Factory::getModuleInfoInstance($module_name);
-
-		static::$all_modules_list[$module_name] = $module_info;
-
-		if(isset(static::$activated_modules_list[$module_name])) {
-			$module_info->setIsActivated(true);
-			static::$activated_modules_list[$module_name] = $module_info;
-		}
-
-		if(isset(static::$installed_modules_list[$module_name])) {
-			$module_info->setIsInstalled(true);
-			static::$installed_modules_list[$module_name] = $module_info;
-			
-			static::saveInstalledModulesList();
-		}
-
+		static::getHandler()->reloadModuleManifest( $module_name );
 	}
 
 
@@ -644,137 +257,21 @@ class Application_Modules extends Object {
 	 * @return Application_Modules_Module_Abstract
 	 */
 	public static function getModuleInstance( $module_name ) {
-
-		if(isset(static::$module_instance[$module_name])) {
-			return static::$module_instance[$module_name];
-		}
-
-		static::getActivatedModulesList();
-
-		if(static::$installation_in_progress_module_name===$module_name) {
-			$modules_list = static::getAllModulesList(true);
-			$module_info = $modules_list[$module_name];
-		} else {
-			if( !isset(static::$activated_modules_list[$module_name]) ) {
-				throw new Application_Modules_Exception(
-					'Module \''.$module_name.'\' does not exist, is not installed or is not activated',
-					Application_Modules_Exception::CODE_UNKNOWN_MODULE
-				);
-			}
-
-			$module_info = static::$activated_modules_list[$module_name];
-		}
-
-		$module_dir = $module_info->getModuleDir();
-
-		/** @noinspection PhpIncludeInspection */
-		require_once $module_dir . 'Main.php';
-
-		$class_name = '\\'.JET_APPLICATION_MODULE_NAMESPACE.'\\'.$module_name.'\Main';
-
-		if(!class_exists($class_name)) {
-			throw new Application_Modules_Exception(
-				'Class \''.$class_name.'\' does not exist',
-				Application_Modules_Exception::CODE_ERROR_CREATING_MODULE_INSTANCE
-			);
-		}
-
-		$module = new $class_name( $module_info );
-
-		if( !$module instanceof Application_Modules_Module_Abstract ) {
-			throw new Application_Modules_Exception(
-				'Class \''.$module_name.'\' is not instance of Jet\Application_Modules_Module_Abstract',
-				Application_Modules_Exception::CODE_ERROR_CREATING_MODULE_INSTANCE
-			);
-		}
-
-		static::$module_instance[$module_name] = $module;
-		return static::$module_instance[$module_name];
-	}
-
-
-	/**
-	 * @param string $module_name
-	 *
-	 * @throws Application_Modules_Exception
-	 */
-	protected static function _hardCheckModuleExists( $module_name ) {
-		if( !static::checkModuleNameFormat($module_name) ) {
-			throw new Application_Modules_Exception(
-				'Module name \''.$module_name.'\' is not valid ([a-zA-Z0-9] {3,50}) ',
-				Application_Modules_Exception::CODE_MODULE_NAME_FORMAT_IS_NOT_VALID
-			);
-		}
-
-		if( static::$all_modules_list === null) {
-			static::getAllModulesList();
-		}
-
-		if( !isset(static::$all_modules_list[$module_name]) ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' does not exist ',
-				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
-			);
-		}
-	}
-
-
-	/**
-	 * Checks module dependencies before uninstalling or deactivating
-	 *
-	 * @param string $module_name
-	 * @throws Application_Modules_Exception
-	 */
-	protected static function _checkModuleDependencies( $module_name ) {
-		$activated_modules = static::getActivatedModulesList();
-
-		$dependent_modules = array();
-
-		foreach( $activated_modules as $d_module_name => $module_info ) {
-			/**
-			 * @var Application_Modules_Module_Info $module_info
-			 */
-			if( $d_module_name==$module_name ) {
-				continue;
-			}
-
-			if(in_array( $module_name, $module_info->getRequire() )) {
-				$dependent_modules[] = $d_module_name;
-			}
-		}
-
-		if( $dependent_modules ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is required for '.implode(',', $dependent_modules),
-				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
-			);
-		}
-
+		return static::getHandler()->getModuleInstance( $module_name );
 	}
 
 	/**
 	 * @return bool
 	 */
 	public static function getInstallationInProgress() {
-		return static::$installation_in_progress;
+		return static::getHandler()->getInstallationInProgress();
 	}
 
 	/**
 	 * @return string
 	 */
 	public static function getInstallationInProgressModuleName() {
-		return static::$installation_in_progress_module_name;
+		return static::getHandler()->getInstallationInProgressModuleName();
 	}
 
-	/**
-	 * For tests only
-	 */
-	public static function _resetInternalState() {
-		static::$activated_modules_list = null;
-		static::$installed_modules_list = null;
-		static::$all_modules_list = null;
-		static::$module_instance = array();
-		static::$installation_in_progress = false;
-
-	}
 }

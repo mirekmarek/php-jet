@@ -21,11 +21,19 @@ namespace Jet;
 
 abstract class Application_Modules_Module_Abstract extends Object {
 
+	const INSTALL_DIR = '_install/';
+	const INSTALL_DICTIONARIES_PATH = '_install/dictionaries/';
+	const INSTALL_SCRIPT_PATH = '_install/install.php';
+	const UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
+
+	const VIEWS_DIR = 'views/';
+	const LAYOUTS_DIR = 'layouts/';
+
 	/**
 	*
-	* @var Application_Modules_Module_Info
+	* @var Application_Modules_Module_Manifest
 	*/
-	protected $module_info;
+	protected $module_manifest;
 
 	/**
 	 * @var Config_Module
@@ -53,10 +61,10 @@ abstract class Application_Modules_Module_Abstract extends Object {
 
 
 	/**
-	 * @param Application_Modules_Module_Info $module_info
+	 * @param Application_Modules_Module_Manifest $manifest
 	 */
-	final function __construct( Application_Modules_Module_Info $module_info ) {
-		$this->module_info = $module_info;
+	final function __construct( Application_Modules_Module_Manifest $manifest ) {
+		$this->module_manifest = $manifest;
 		$this->initialize();
 	}
 
@@ -66,12 +74,102 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	protected function initialize() {
 	}
 
+
+	/**
+	 * Returns module views directory
+	 *
+	 * @return string
+	 */
+	public function getViewsDir() {
+		return $this->module_manifest->getModuleDir().static::VIEWS_DIR;
+	}
+
+	/**
+	 * Returns module layouts directory
+	 *
+	 * @return string
+	 */
+	public function getLayoutsDir() {
+		return $this->module_manifest->getModuleDir().static::LAYOUTS_DIR;
+	}
+
+	/**
+	 * @param Mvc_Dispatcher_Abstract $dispatcher
+	 * @param string $service_type
+	 *
+	 * @return string
+	 */
+	protected function getControllerClassName(
+		/** @noinspection PhpUnusedParameterInspection */
+		Mvc_Dispatcher_Abstract $dispatcher,
+		$service_type
+	) {
+		$controller_suffix = 'Controller_'.$service_type;
+
+		$controller_class_name = JET_APPLICATION_MODULE_NAMESPACE.'\\'.$this->module_manifest->getName().'\\'.$controller_suffix;
+
+		return $controller_class_name;
+	}
+
+	/**
+	 * Returns controller instance
+	 *
+	 * @param Mvc_Dispatcher_Abstract $dispatcher
+	 * @param string $service_type
+	 *
+	 * @throws Mvc_Dispatcher_Exception
+	 * @internal param Mvc_Dispatcher_Queue_Item $queue_item
+	 *
+	 * @return Mvc_Controller_Abstract
+	 */
+	public function getControllerInstance( Mvc_Dispatcher_Abstract $dispatcher, $service_type ) {
+
+		$controller_class_name = $this->getControllerClassName( $dispatcher, $service_type );
+
+		$controller = new $controller_class_name( $dispatcher, $this );
+
+		if (!$controller instanceof Mvc_Controller_Abstract) {
+			throw new Mvc_Dispatcher_Exception(
+				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract',
+				Mvc_Dispatcher_Exception::CODE_INVALID_CONTROLLER_CLASS
+			);
+		}
+
+		return $controller;
+	}
+
+	/**
+	 * Calls the action
+	 *
+	 * @param Mvc_Controller_Abstract $controller
+	 * @param string $action
+	 * @param array $action_parameters (optional)  @see Mvc_Dispatcher_QueueItem::$action_parameters
+	 *
+	 * @throws Mvc_Dispatcher_Exception
+	 */
+	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters=array() ) {
+		$method = $action.'_Action';
+
+		if( !method_exists($controller, $method) ) {
+			throw new Mvc_Dispatcher_Exception(
+				'Controller method '. get_class($controller).'::'.$method.'() doesn\'t exist',
+				Mvc_Dispatcher_Exception::CODE_ACTION_DOES_NOT_EXIST
+			);
+		}
+
+		if(!$controller->checkACL($action, $action_parameters)) {
+			return;
+		}
+
+		call_user_func_array(array( $controller, $method ), $action_parameters);
+	}
+
 	/**
 	 * @throws Application_Modules_Exception
 	 */
 	public function install() {
-		$module_dir = $this->module_info->getModuleDir();
-		$install_script = $module_dir . Application_Modules::MODULE_INSTALL_SCRIPT_PATH;
+		$module_dir = $this->module_manifest->getModuleDir();
+		$install_script = $module_dir . static::INSTALL_SCRIPT_PATH;
 
 		if(file_exists($install_script)) {
 			try {
@@ -99,8 +197,8 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 */
 	public function installDictionaries() {
-		$module_dir = $this->module_info->getModuleDir();
-		$dictionaries_path = $module_dir . Application_Modules::MODULE_INSTALL_DICTIONARIES_PATH;
+		$module_dir = $this->module_manifest->getModuleDir();
+		$dictionaries_path = $module_dir . static::INSTALL_DICTIONARIES_PATH;
 
 		if(!IO_Dir::exists($dictionaries_path)) {
 			return;
@@ -112,7 +210,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 
 		$backend = Translator_Factory::getBackendInstance( $tr_backend_type );
 
-		$module_name = $this->getModuleInfo()->getName();
+		$module_name = $this->getModuleManifest()->getName();
 
 		foreach( $list as $path=>$file_name ) {
 			list($locale) = explode('.', $file_name);
@@ -129,9 +227,9 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @throws Application_Modules_Exception
 	 */
 	public function uninstall() {
-		$module_dir = $this->module_info->getModuleDir();
+		$module_dir = $this->module_manifest->getModuleDir();
 
-		$uninstall_script = $module_dir . Application_Modules::MODULE_UNINSTALL_SCRIPT_PATH;
+		$uninstall_script = $module_dir . static::UNINSTALL_SCRIPT_PATH;
 
 		if(file_exists($uninstall_script)) {
 			try {
@@ -176,7 +274,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 			);
 		}
 
-		$module_name = $this->module_info->getName();
+		$module_name = $this->module_manifest->getName();
 		return Auth::getCurrentUserHasPrivilege(
 				Auth::PRIVILEGE_MODULE_ACTION,
 				$module_name.':'.$action,
@@ -194,7 +292,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 */
 	public function getConfig(){
 		if(!$this->config) {
-			$module_name = $this->module_info->getName();
+			$module_name = $this->module_manifest->getName();
 
 			$class_name = 'JetApplicationModule_'.$module_name.'_Config';
 
@@ -212,17 +310,17 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	}
 
 	/**
-	 * @return Application_Modules_Module_Info
+	 * @return Application_Modules_Module_Manifest
 	 */
-	public function getModuleInfo() {
-		return $this->module_info;
+	public function getModuleManifest() {
+		return $this->module_manifest;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getPublicURI() {
-		return JET_MODULES_URI.$this->module_info->getName().'/public/';
+		return JET_MODULES_URI.$this->module_manifest->getName().'/public/';
 	}
 
 	/**
@@ -454,7 +552,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
 		$URI .= $sm[$service_type].'/';
 
-		$URI .= str_replace('\\', '.', $this->module_info->getName()).'/';
+		$URI .= str_replace('\\', '.', $this->module_manifest->getName()).'/';
 		$URI .= $action.'/';
 
 		if($path_fragments) {
@@ -508,7 +606,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
 		$URL .= $sm[$service_type].'/';
 
-		$URL .= $this->module_info->getName().'/';
+		$URL .= $this->module_manifest->getName().'/';
 		$URL .= $action.'/';
 
 		if($path_fragments) {

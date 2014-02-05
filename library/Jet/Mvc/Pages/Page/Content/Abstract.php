@@ -43,16 +43,6 @@ abstract class Mvc_Pages_Page_Content_Abstract extends DataModel_Related_1toN {
 	/**
 	 * @return string
 	 */
-	abstract public function getControllerClassSuffix();
-
-	/**
-	 * @param string $controller_class_suffix
-	 */
-	abstract public function setControllerClassSuffix($controller_class_suffix);
-
-	/**
-	 * @return string
-	 */
 	abstract public function getControllerAction();
 
 	/**
