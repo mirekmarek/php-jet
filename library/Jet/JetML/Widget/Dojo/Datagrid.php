@@ -44,39 +44,58 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	 */
 	public function getReplacement() {
 
-		//TODO: make it customizable
 		if(!$this->node->hasAttribute('plugins')) {
-			$plugins = array(
-				'pagination' => array(
-					'pageSizes' => array('25', '50', '100'),
-					'defaultPageSize' => 25,
-					'description' => true,
-					'sizeSwitch' => true,
-					'pageStepper' => true,
-					'gotoButton' => true,
-					'maxPageStep' => 10,
-					'position' => 'bottom'
-				),
-				'indirectSelection' => array(
-					'headerSelector' => true,
-					'name' => 'Selection',
-					'width' => '20px',
-					'styles' => 'text-align: center;'
-				)
-			);
+			$plugins = array();
 
-			$plugins = str_replace('"', '\'', json_encode($plugins));
-			$this->node->setAttribute('plugins', $plugins);
+			if($this->_getProp('pagination', true)) {
+				$plugins['pagination'] = array(
+					'pageSizes' => $this->_getProp('pagination_pagesizes', ['25', '50', '100']),
+					'defaultPageSize' => (int)$this->_getProp('pagination_defaultPageSize', 25),
+					'description' => (bool)$this->_getProp('pagination_description', true),
+					'sizeSwitch' => (bool)$this->_getProp('pagination_sizeSwitch', true),
+					'pageStepper' => (bool)$this->_getProp('pagination_pageStepper', true),
+					'gotoButton' => (bool)$this->_getProp('pagination_gotoButton', true),
+					'maxPageStep' => (int)$this->_getProp('pagination_maxPageStep', 25),
+					'position' => $this->_getProp('pagination_position', 'bottom')
+				);
+			}
+
+			if($this->_getProp('indirectSelection', true)) {
+				$plugins['indirectSelection'] = array(
+					'headerSelector' => (bool)$this->_getProp('indirectSelection_headerSelector', true),
+					'name' => $this->_getProp('indirectSelection_name', 'Selection'),
+					'width' => $this->_getProp('indirectSelection_width', '20px'),
+					'styles' => $this->_getProp('indirectSelection_style', 'text-align: center;')
+				);
+			}
+
+			if($plugins) {
+				$plugins = str_replace('"', '\'', json_encode($plugins));
+				$this->node->setAttribute('plugins', $plugins);
+			}
+
 		}
 
-		/*
-		if(!$this->node->hasAttribute('rowsperpage')) {
-			$this->node->setAttribute('rowsperpage', 25);
-		}
-		*/
 
 
 		return parent::getReplacement();
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $devault_value
+	 *
+	 * @return mixed
+	 */
+	protected function _getProp( $key, $devault_value ) {
+		$val = $this->node->getAttribute( $key );
+		if($val) {
+			$val = json_decode($val);
+		} else {
+			$val = $devault_value;
+		}
+
+		return $val;
 	}
 
 	/**
