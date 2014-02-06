@@ -51,7 +51,7 @@ class Javascript_Factory extends Factory {
 		$class_name =  static::getClassName( $default_class_name );
 
 		$instance = new $class_name( $layout );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 

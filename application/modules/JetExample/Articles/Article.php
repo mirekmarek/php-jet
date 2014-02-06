@@ -100,16 +100,6 @@ class Article extends Jet\DataModel {
 	protected $date_time;
 
 	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:form_field_label = 'Tags: '
-	 * @JetDataModel:max_len = 65536
-	 *
-	 * @var string
-	 */
-	protected $tags = '';
-
-	/**
 	 * @return Jet\Locale
 	 */
 	public function getLocale() {
@@ -301,19 +291,5 @@ class Article extends Jet\DataModel {
 		}
 
 		return $current_article;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTags() {
-		return $this->tags;
-	}
-
-	/**
-	 * @param string $tags
-	 */
-	public function setTags($tags) {
-		$this->tags = $tags;
 	}
 }

@@ -65,7 +65,7 @@ class Redis_Factory extends Factory {
 		$config_class = static::getClassName( $default_class_name );
 
 		$instance = new $config_class( $config_data, $config );
-		static::checkInstance( $default_class_name, $instance);
+		//static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -83,7 +83,7 @@ class Redis_Factory extends Factory {
 		$adapter_class = static::getClassName( $default_class_name );
 		$instance = new $adapter_class( $connection_config );
 
-		static::checkInstance($default_class_name, $instance);
+		//static::checkInstance($default_class_name, $instance);
 
 		return $instance;
 	}

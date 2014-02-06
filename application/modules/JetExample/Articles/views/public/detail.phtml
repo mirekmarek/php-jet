@@ -11,9 +11,9 @@ $article = $this->article;
 <p>
 	<?=$article->getAnnotation();?>
 </p>
-<p>
-	<?=$article->getText();?>
-</p>
+
+<?=$article->getText();?>
+
 <div>
 	<?=Jet\Tr::_('Date:');?>
 	<?=Jet\Locale::dateAndTime($article->getDateTime());?>

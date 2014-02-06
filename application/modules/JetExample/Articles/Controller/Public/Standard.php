@@ -38,12 +38,11 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 		} else {
 
 			$paginator = new Jet\Data_Paginator(
-				Jet\Http_Request::GET()->getInt('p', 1),
-				2,
-				'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
+				Jet\Mvc::parsePathFragmentIntValue( 'page:<V>', 1 ),
+				5,
+				Jet\Mvc::getCurrentURI().'page:'.Jet\Data_Paginator::URL_PAGE_NO_KEY.'/'
 			);
 
-			/** @noinspection PhpParamsInspection */
 			$paginator->setDataSource( $article->getListForCurrentLocale() );
 
 			$this->view->setVar('articles_list', $paginator->getData());

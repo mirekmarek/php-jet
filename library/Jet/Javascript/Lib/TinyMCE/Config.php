@@ -32,8 +32,8 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:description = 'Version of TinyMCE'
-	 * @JetConfig:default_value = '3.5.6'
-	 * @//JetConfig:default_value = '4.0'
+	 * @//JetConfig:default_value = '3.5.6'
+	 * @JetConfig:default_value = '4.0'
 	 * @JetConfig:is_required = false
 	 *
 	 * @var string
@@ -43,8 +43,8 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:description = 'TinyMCE scripts URI or URL'
-	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%tiny_mce/%VERSION%/tiny_mce.js'
-	 * @//JetConfig:default_value = '//tinymce.cachefly.net//tinymce.min.js'
+	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%tiny_mce/%VERSION%/tiny_mce.js'
+	 * @JetConfig:default_value = '//tinymce.cachefly.net/%VERSION%/tinymce.min.js'
 	 * @JetConfig:is_required = false
 	 *
 	 * @var string
@@ -54,7 +54,8 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = false
-	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE.js'
+	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE35.js'
+	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE40.js'
 	 *
 	 * @var string
 	 */
@@ -66,7 +67,8 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 * @JetConfig:item_type = Jet\Config::TYPE_STRING
 	 * @JetConfig:description = 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. For content_css directive can be used Jet\\* constants.'
 	 * @JetConfig:is_required = false
-	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'advanced', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
+	 * @//JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'advanced', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
+	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'modern', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
 	 *
 	 * @var array
 	 */
@@ -111,7 +113,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 			}
 
 			foreach($this->editor_configs as $name=>$cfg) {
-				$cfg['language'] = Mvc::getCurrentLocale()->getLanguage();
+				//TODO: $cfg['language'] = Mvc::getCurrentLocale()->getLanguage();
 
 				if(isset($cfg['content_css'])) {
 					$cfg['content_css'] = Data_Text::replaceSystemConstants($cfg['content_css']);

@@ -121,7 +121,7 @@ class DataModel_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $data_model_class_name, $name, $definition_data );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -141,7 +141,7 @@ class DataModel_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -159,7 +159,7 @@ class DataModel_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $backend_config );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -178,7 +178,7 @@ class DataModel_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $soft_mode );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -199,7 +199,7 @@ class DataModel_Factory extends Factory {
 		 * @var DataModel_History_Backend_Abstract $instance
 		 */
 		$instance = new $class_name( $config );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -219,7 +219,7 @@ class DataModel_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $soft_mode );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 		return $instance;
 	}
 
@@ -240,7 +240,7 @@ class DataModel_Factory extends Factory {
 		 * @var DataModel_History_Backend_Abstract $instance
 		 */
 		$instance = new $class_name( $config );
-		static::checkInstance( $default_class_name, $instance );
+		//static::checkInstance( $default_class_name, $instance );
 
 		return $instance;
 	}

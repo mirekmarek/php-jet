@@ -84,3 +84,7 @@ set_include_path(
 		.PATH_SEPARATOR
 	.get_include_path()
 );
+
+if(!ini_get('date.timezone')){
+	date_default_timezone_set('UTC');
+}

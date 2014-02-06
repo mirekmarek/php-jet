@@ -11,9 +11,9 @@
  */
 namespace Jet;
 
-require_once 'Exception.php';
-require_once 'Autoloader/Exception.php';
-require_once 'Autoloader/Loader/Abstract.php';
+require_once JET_LIBRARY_PATH.'Jet/Exception.php';
+require_once JET_LIBRARY_PATH.'Jet/Autoloader/Exception.php';
+require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Abstract.php';
 
 class Autoloader {
 	/**

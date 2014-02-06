@@ -124,6 +124,8 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	}
 
 	/**
+	 * @deprecated
+	 *
 	 * Checks if the instance is instance of @JetFactory::must_be_instance_of class
 	 *
 	 * @param string $default_class_name

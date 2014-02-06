@@ -39,7 +39,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 	public function classic_default_Action() {
-		$this->render('default_classic');
+		$this->render('classic/default');
 
 	}
 
@@ -88,7 +88,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		Jet\Mvc::requireJavascriptLib('TinyMCE');
 
 
-		$this->render('default_ria');
+		$this->render('ria/default');
 	}
 
 }

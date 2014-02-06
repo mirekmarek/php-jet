@@ -674,22 +674,22 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getTemplate_form_start() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['form_start'];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_start'].JET_EOL;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_form_end() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['form_submit_button']
-			.static::$HTML_templates[$this->selected_HTML_template_name]['form_end'];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_submit_button'].JET_EOL
+			.static::$HTML_templates[$this->selected_HTML_template_name]['form_end'].JET_EOL;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_form_common_error_message_class() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['form_common_error_message_class'];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_common_error_message_class'].JET_EOL;
 	}
 
 
@@ -698,21 +698,21 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getTemplate_field() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['field'];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['field'].JET_EOL;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_field_error_msg() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['field_error_msg'];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['field_error_msg'].JET_EOL;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getTemplate_field_required() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['field_required'];
+		return static::$HTML_templates[$this->selected_HTML_template_name]['field_required'].JET_EOL;
 	}
 
 

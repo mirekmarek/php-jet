@@ -95,7 +95,7 @@ class Form_Factory extends Factory {
 			$validation_regexp,
 			$error_messages
 		);
-		static::checkInstance( $default_class_name, $instance);
+		//static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -118,7 +118,7 @@ class Form_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($form, $field);
-		static::checkInstance( $default_class_name, $instance);
+		//static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 

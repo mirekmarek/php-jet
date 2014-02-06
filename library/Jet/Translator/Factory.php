@@ -49,7 +49,7 @@ class Translator_Factory extends Factory {
 
 		$class_name = static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
-		static::checkInstance( $default_class_name, $instance);
+		//static::checkInstance( $default_class_name, $instance);
 		return $instance;
 	}
 
@@ -67,11 +67,11 @@ class Translator_Factory extends Factory {
 			$backend_config = static::getBackendConfigInstance($type);
 		}
 
-		$default_class_name = static::$backend_class_name_prefix.$type;
+		$_class_name = static::$backend_class_name_prefix.$type;
 
-		$class_name =  static::getClassName( $default_class_name );
+		$class_name =  static::getClassName( $_class_name );
 		$instance = new $class_name( $backend_config );
-		static::checkInstance( $default_class_name, $instance);
+		//static::checkInstance( $_class_name, $instance);
 		return $instance;
 	}
 }

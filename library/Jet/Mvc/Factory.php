@@ -71,7 +71,7 @@ class Mvc_Factory extends Factory {
 	public static function getDispatcherInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_DISPATCHER_CLASS );
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_DISPATCHER_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_DISPATCHER_CLASS, $instance);
 
 		return $instance;
 	}
@@ -85,7 +85,7 @@ class Mvc_Factory extends Factory {
 	public static function getPageHandlerInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_HANDLER_CLASS );
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_PAGE_HANDLER_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_PAGE_HANDLER_CLASS, $instance);
 		return $instance;
 	}
 
@@ -124,7 +124,7 @@ class Mvc_Factory extends Factory {
 	public static function getPageInstance( $site_ID='', Locale $locale=null , $name='', $parent_ID='', $ID=null ) {
 		$class_name = static::getPageClassName();
 		$instance = new $class_name( $site_ID, $locale , $name, $parent_ID, $ID );
-		static::checkInstance(static::DEFAULT_PAGE_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_PAGE_CLASS, $instance);
 		return $instance;
 	}
 
@@ -136,7 +136,7 @@ class Mvc_Factory extends Factory {
 	public static function getPageContentInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_CONTENT_CLASS );
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_PAGE_CONTENT_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_PAGE_CONTENT_CLASS, $instance);
 		return $instance;
 	}
 
@@ -152,7 +152,7 @@ class Mvc_Factory extends Factory {
 	public static function getPageMetaTagInstance( $content='', $attribute='', $attribute_value='' ) {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_META_TAG_CLASS );
 		$instance = new $class_name( $content, $attribute, $attribute_value );
-		static::checkInstance(static::DEFAULT_PAGE_META_TAG_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_PAGE_META_TAG_CLASS, $instance);
 		return $instance;
 	}
 
@@ -164,7 +164,7 @@ class Mvc_Factory extends Factory {
 	public static function getPageURLInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_URL_CLASS );
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_PAGE_URL_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_PAGE_URL_CLASS, $instance);
 		return $instance;
 	}
 
@@ -222,7 +222,7 @@ class Mvc_Factory extends Factory {
 	public static function getSiteHandlerInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_SITE_HANDLER_CLASS );
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_SITE_HANDLER_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_SITE_HANDLER_CLASS, $instance);
 		return $instance;
 	}
 
@@ -259,7 +259,7 @@ class Mvc_Factory extends Factory {
 	public static function getSiteInstance( $name='', $ID=null ) {
 		$class_name = static::getSiteClassName();
 		$instance = new $class_name( $name, $ID );
-		static::checkInstance(static::DEFAULT_SITE_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_SITE_CLASS, $instance);
 		return $instance;
 	}
 
@@ -274,7 +274,7 @@ class Mvc_Factory extends Factory {
 	public static function getLocalizedSiteInstance( Locale $locale=null ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_CLASS );
 		$instance = new $class_name( $locale );
-		static::checkInstance(static::DEFAULT_LOCALIZED_SITE_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_LOCALIZED_SITE_CLASS, $instance);
 		return $instance;
 	}
 
@@ -290,7 +290,7 @@ class Mvc_Factory extends Factory {
 	public static function getLocalizedSiteMetaTagInstance( $content='', $attribute='', $attribute_value='' ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS );
 		$instance = new $class_name( $content, $attribute, $attribute_value );
-		static::checkInstance(static::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS, $instance);
 		return $instance;
 	}
 
@@ -305,7 +305,7 @@ class Mvc_Factory extends Factory {
 	public static function getLocalizedSiteURLInstance( $URL='', $is_default=false ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_URL_CLASS );
 		$instance = new $class_name( $URL, $is_default );
-		static::checkInstance(static::DEFAULT_LOCALIZED_SITE_URL_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_LOCALIZED_SITE_URL_CLASS, $instance);
 		return $instance;
 	}
 
@@ -365,7 +365,7 @@ class Mvc_Factory extends Factory {
 	public static function getRouterInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_ROUTER_CLASS );
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_ROUTER_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_ROUTER_CLASS, $instance);
 		return $instance;
 	}
 
@@ -380,7 +380,7 @@ class Mvc_Factory extends Factory {
 	public static function getRouterConfigInstance( $soft_mode=false ) {
 		$class_name =  static::getClassName( static::DEFAULT_ROUTER_CONFIG_CLASS );
 		$instance = new $class_name($soft_mode);
-		static::checkInstance(static::DEFAULT_ROUTER_CONFIG_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_ROUTER_CONFIG_CLASS, $instance);
 		return $instance;
 	}
 
@@ -399,7 +399,7 @@ class Mvc_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name($soft_mode);
-		static::checkInstance($default_class_name, $instance);
+		//static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
 
@@ -417,7 +417,7 @@ class Mvc_Factory extends Factory {
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $backend_config );
-		static::checkInstance($default_class_name, $instance);
+		//static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
 
@@ -430,7 +430,7 @@ class Mvc_Factory extends Factory {
 		$class_name =  static::getClassName( static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS );
 
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $instance);
 		return $instance;
 	}
 

@@ -20,7 +20,7 @@ class Version extends Object {
 	 * @return string
 	 */
 	public static function getVersionNumber() {
-		return static::API_VERSION;
+		return '1.0b1';
 	}
 
 	/**

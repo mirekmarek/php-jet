@@ -70,7 +70,6 @@ Jet.declare('Jet.module.JetExample\\Articles.Main', [Jet.modules.Module], {
     _initGrid: function() {
         this.grid = this.getDataGrid( 'articles_grid', this.form.store, 'edit' );
 
-	    console.debug(this.grid);
     },
 
     _initTrash: function() {

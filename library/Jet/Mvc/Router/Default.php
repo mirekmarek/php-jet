@@ -547,7 +547,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @param string $target_URL
 	 * @param string $type (optional), options: temporary, permanent, default: Mvc_Router::REDIRECT_TYPE_TEMPORARY
 	 */
-	public function setIsRedirect( $target_URL, $type=NULL ) {
+	public function setIsRedirect( $target_URL, $type=null ) {
 		if(!$type ) {
 			$type = Mvc_Router::REDIRECT_TYPE_TEMPORARY;
 		}
@@ -790,6 +790,55 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	public function getPathFragments() {
 		return $this->path_fragments;
+	}
+
+	/**
+	 * @param string $template  (example: page:<V> )
+	 * @param mixed $default_value
+	 * @param int $fragment_index (optional, default: 0)
+	 *
+	 * @return int
+	 */
+	public function parsePathFragmentIntValue( $template, $default_value=null, $fragment_index=0 ) {
+
+		$value = $this->parsePathFragmentValue($template, $fragment_index, '[0-9]{1,}');
+
+		if($value===null) {
+			$value = $default_value;
+		}
+
+		return (int)$value;
+	}
+
+	/**
+	 * @param string $template
+	 * @param string $fragment_index
+	 * @param string $reg_exp_part
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
+	public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part ) {
+		$path_fragments = $this->getPathFragments();
+
+		$value = null;
+
+		if(isset($path_fragments[$fragment_index])) {
+			if(strpos($template, '<V>')===false) {
+				throw new Exception('Incorrect parameter template format. Example: \'page:<V>\'');
+			}
+
+			$regexp = '/^'.str_replace( '<V>', '('.$reg_exp_part.')' , $template ).'$/';
+
+			$matches = array();
+			if(preg_match( $regexp, $path_fragments[$fragment_index], $matches )) {
+				$value = $matches[1];
+				$this->putUsedPathFragment( $path_fragments[$fragment_index] );
+			}
+		}
+
+		return $value;
+
 	}
 
 	/**

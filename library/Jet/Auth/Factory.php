@@ -43,7 +43,7 @@ class Auth_Factory extends Factory {
 		$class_name =  static::getUserClassName();
 		$instance = new $class_name( $login, $password );
 
-		static::checkInstance(static::DEFAULT_USER_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_USER_CLASS, $instance);
 		return $instance;
 	}
 
@@ -76,7 +76,7 @@ class Auth_Factory extends Factory {
 	public static function getRoleInstance() {
 		$class_name =  static::getRoleClassName();
 		$instance = new $class_name();
-		static::checkInstance(static::DEFAULT_ROLE_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_ROLE_CLASS, $instance);
 		return $instance;
 	}
 
@@ -92,7 +92,7 @@ class Auth_Factory extends Factory {
 	public static function getPrivilegeInstance( $privilege='', array $values=array() ) {
 		$class_name =  static::getClassName( static::DEFAULT_PRIVILEGE_CLASS );
 		$instance = new $class_name( $privilege, $values );
-		static::checkInstance(static::DEFAULT_PRIVILEGE_CLASS, $instance);
+		//static::checkInstance(static::DEFAULT_PRIVILEGE_CLASS, $instance);
 		return $instance;
 	}
 

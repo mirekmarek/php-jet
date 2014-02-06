@@ -14,8 +14,8 @@ namespace Jet;
 
 class Translator_Exception extends Exception {
 
-	const CODE_IMPORT_INCORRECT_DICTIONARY_EXPORT_FILE_FORMAT = 1000;
+	const CODE_IMPORT_INCORRECT_DICTIONARY_EXPORT_FILE_FORMAT = 10;
 
-	const CODE_BACKEND_ERROR = 10000;
+	const CODE_BACKEND_ERROR = 1000;
 
 }

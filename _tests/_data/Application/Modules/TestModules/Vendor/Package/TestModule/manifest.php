@@ -3,7 +3,7 @@
  * @see Jet\Application_Modules_Module_Info
  */
 return array(
-	'API_version' => 201208,
+	'API_version' => 201401,
 
 	'vendor' => 'Vendor',
 	

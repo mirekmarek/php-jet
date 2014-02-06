@@ -1,4 +1,8 @@
 dojo.require('dijit.ColorPalette');
+dojo.require('dijit.Tree');
+dojo.require('dijit.tree.ForestStoreModel');
+dojo.require('dijit.tree.dndSource');
+dojo.require('dojo.data.ItemFileWriteStore');
 
 Jet.require('Jet.modules.Module');
 Jet.provide('Jet.module.TestModule');
@@ -9,7 +13,7 @@ Jet.require('Jet.Trash');
 
 Jet.declare('Jet.module.JetExample\\TestModule.Main', [Jet.modules.Module], {
     module_name: 'JetExample\\TestModule',
-    module_label: Jet.translate('Test Admin Module'),
+    module_label: Jet.translate('Test Module'),
 
     form: null,
 

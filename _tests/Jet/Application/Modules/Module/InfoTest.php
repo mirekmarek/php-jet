@@ -190,7 +190,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetAPIVersion() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
-		$this->assertEquals( 201208, $module_info->getAPIVersion() );
+		$this->assertEquals( 201401, $module_info->getAPIVersion() );
 	}
 
 	/**

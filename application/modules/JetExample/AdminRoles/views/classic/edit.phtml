@@ -10,6 +10,11 @@ $role = $this->role;
  * @var Jet\Form $form
  */
 $form = $this->form;
+
+/**
+ * @var Jet\Auth_Role_Privilege_AvailablePrivilegesListItem[] $available_privileges_list
+ */
+$available_privileges_list = $this->available_privileges_list;
 ?>
 [<a href="?#">X</a>]
 <jet_form name="<?=$form->getName();?>"><table>
@@ -30,7 +35,20 @@ $form = $this->form;
 		<td valign="top"><jet_form_field_label name="/privileges/module_action"/></td>
 		<td><jet_form_field_error_msg name="/privileges/module_action" class="error"/><jet_form_field name="/privileges/module_action"/></td>
 	</tr>
-	<tr><td colspan="2" align="center"><input type="submit"/></td></tr>
+
+	<?php foreach($available_privileges_list as $privilege=>$pd ): ?>
+	<tr>
+		<td valign="top"></td>
+		<td>
+			<jet_form_field_label name="/privileges/<?=$privilege;?>/values"/>
+			<br/>
+			<jet_form_field_error_msg name="/privileges/<?=$privilege;?>/values" class="error"/>
+			<jet_form_field name="/privileges/<?=$privilege;?>/values"/>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+
+	<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("Save");?>"/></td></tr>
 </table>
 </jet_form>
 

@@ -146,7 +146,8 @@ class Debug_Profiler {
 	 */
 	public static function loadRun( $run_ID ) {
 		if( strpos($run_ID, ".")!==false ) {
-			throw new \Exception( "Incorrect run ID" );
+			//throw new \Exception( "Incorrect run ID" );
+			return null;
 		}
 
 		$dir = static::getRunSaveDirectoryPath();

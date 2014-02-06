@@ -71,7 +71,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',
@@ -96,7 +96,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',
@@ -120,7 +120,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'name' => 'ValidModule',
 				'label' => 'Test Module',
 				'description' => 'Unit test module',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',
@@ -168,7 +168,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 			'name' => 'ValidModule',
 			'label' => 'Test Module',
 			'description' => 'Unit test module',
-			'API_version' => 201208,
+			'API_version' => 201401,
 			'types' =>
 			array (
 				0 => 'general',
@@ -238,7 +238,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',
@@ -263,7 +263,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',
@@ -299,7 +299,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',
@@ -324,7 +324,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
-				'API_version' => 201208,
+				'API_version' => 201401,
 				'types' =>
 				array (
 					0 => 'general',

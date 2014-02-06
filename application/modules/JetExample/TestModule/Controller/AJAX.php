@@ -43,6 +43,6 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 		$form->enableDecorator('Dojo');
 		$this->view->setVar('form', $form);
 
-		$this->render('ajax-test-action');
+		$this->render('ria/test-default');
 	}
 }

@@ -1,0 +1,207 @@
+<?php
+namespace JetApplicationModule\JetExample\TestModule;
+use Jet;
+
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+
+//$form->helper_showBasicHTML();
+?>
+<jetml_layout_container gutters="true">
+	<jetml_layout_container region="left" splitter="true" style="width:200px">
+		<jetml_layout_toolbar region="top">
+
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeTest_openByID();" title="Open by ID"/>
+			<jetml_trash_button trash_id="tree_trash"/>
+
+			<jetml_trash_dialog trash_id="tree_trash">
+			</jetml_trash_dialog>
+		</jetml_layout_toolbar>
+
+		<jetml_layout_pane region="center" style="padding:0px;">
+			<jetml_div id="test_tree_area"></jetml_div>
+		</jetml_layout_pane>
+
+		<jetml_layout_toolbar region="bottom">
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeTest_reload();" icon="reload"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeTest_expand();" icon="expand"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.treeTest_collapse();" icon="collapse"/>
+		</jetml_layout_toolbar>
+	</jetml_layout_container>
+
+	<jetml_layout_pane Id = "testpane" region="center">
+		<div>
+			<jetml_form_button title="test Jet.alert" onClick="Jet.alert('Alert text!', 'Alert title', function() {alert('onOk');});" />
+			<jetml_form_button title="test Jet.confirm" onClick="Jet.confirm('Confirm text!', 'Confirm title', function() {alert('onYes');}, function() {alert('onNo');});" />
+		</div>
+
+
+		<div>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.formTest_getData();"
+			                   title="Get form data"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.formTest_showErrors();"
+			                   title="Show form errors"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.formTest_hideErrors();"
+			                   title="Hide form errors"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.formTest_disable();"
+			                   title="Disable form"/>
+			<jetml_form_button onClick="Jet.modules.CURRENT_MODULE.formTest_enable();" title="Enable form"/>
+		</div>
+
+		<jetml_data id="test_form_fields_definition"><?=json_encode($form->getFields());?></jetml_data>
+
+		<jet_form name="DataModelT1">
+		<jet_form_common_error_message class="formError"/>
+			<table>
+				<jet_form_field name="ID"/>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="checkbox"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="checkbox" class="error"/>
+						<jet_form_field name="checkbox"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="date"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="date" class="error"/>
+						<jet_form_field name="date"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="date_time"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="date_time" class="error"/>
+						<jet_form_field name="date_time"/>
+						<jet_form_field_time name="date_time"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="float"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="float" class="error"/>
+						<jet_form_field name="float"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="int"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="int" class="error"/>
+						<jet_form_field name="int"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="text"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="text" class="error"/>
+						<jet_form_field name="text"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="long_text"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="long_text" class="error"/>
+						<jet_form_field name="long_text"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="HTML"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="HTML" class="error"/>
+						<jet_form_field name="HTML"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="select"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="select" class="error"/>
+						<jet_form_field name="select"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="multi_select"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="multi_select" class="error"/>
+						<jet_form_field name="multi_select"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="radio_button"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="radio_button" class="error"/>
+						<jet_form_field_option name="radio_button" key="value1"/>
+						<jet_form_field_option_label name="radio_button" key="value1"/>
+						<br/>
+						<jet_form_field_option name="radio_button" key="value2"/>
+						<jet_form_field_option_label name="radio_button" key="value2"/>
+						<br/>
+						<jet_form_field_option name="radio_button" key="value3"/>
+						<jet_form_field_option_label name="radio_button" key="value3"/>
+						<br/>
+						<jet_form_field_option name="radio_button" key="value4"/>
+						<jet_form_field_option_label name="radio_button" key="value4"/>
+						<br/>
+						<jet_form_field_option name="radio_button" key="value5"/>
+						<jet_form_field_option_label name="radio_button" key="value5"/>
+						<br/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="password"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="password"/>
+						<jet_form_field name="password"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_check_label name="password"/>
+					</td>
+					<td>
+						<jet_form_field_check name="password"/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<jet_form_field_label name="password_nc"/>
+					</td>
+					<td>
+						<jet_form_field_error_msg name="password_nc"/>
+						<jet_form_field name="password_nc"/>
+					</td>
+				</tr>
+			</table>
+		</jet_form>
+
+
+		<div dojoType="dijit.ColorPalette" onChange="alert(this.value);" palette="3x4">
+		</div>
+
+	</jetml_layout_pane>
+</jetml_layout_container>

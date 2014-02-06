@@ -53,6 +53,7 @@ class Debug_ErrorHandler {
 		set_exception_handler(array($class_name, 'handleException'));
 		register_shutdown_function(array($class_name, 'handleShutdown'));
 
+
 		if(file_exists('ini_set')) {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@ini_set( 'error_log', JET_LOGS_PATH . 'php_errors_'.@date('Y-m-d').'.log' );

@@ -34,7 +34,7 @@ if(!function_exists('showMenu')) {
 }
 ?>
 
-<div style="margin:5px;padding:5px;border-top: 1px solid black;">
+<div style="margin:5px;border-top: 1px solid black;">
 	<strong>Site map [current locale: <?=Jet\Mvc::getCurrentLocale();?>]:</strong>
 	<?php showMenu( $this->site_tree_current ); ?>
 </div>
@@ -43,7 +43,7 @@ if(!function_exists('showMenu')) {
 <?php foreach( Jet\Mvc::getCurrentLocalesList() as $locale ):
 	$key = 'site_tree_'.$locale;
 	?>
-<div style="margin:5px;padding:5px;border-top: 1px solid black;">
+<div style="margin:5px;border-top: 1px solid black;">
 	<strong>Site map [<?php echo $locale;?>]:</strong>
 	<?php showMenu( $this->{$key} ); ?>
 </div>

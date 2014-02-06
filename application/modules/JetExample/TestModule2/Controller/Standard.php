@@ -44,7 +44,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			Jet\Form_Factory::field('Checkbox','checkbox', 'Checkbox: '),
 			Jet\Form_Factory::field('Int','int', 'Int: '),
 		) );
-		
+
 		$form->getField('select')->setSelectOptions(
 				array(
 					'o1' => 'Option 1',

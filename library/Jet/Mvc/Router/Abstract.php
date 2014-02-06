@@ -320,6 +320,26 @@ abstract class Mvc_Router_Abstract extends Object {
 	 */
 	abstract public function getPathFragments();
 
+
+	/**
+	 * @param string $template  (example: page:<V> )
+	 * @param mixed $default_value
+	 * @param int $fragment_index (optional, default: 0)
+	 *
+	 * @return int
+	 */
+	abstract public function parsePathFragmentIntValue( $template, $default_value=null, $fragment_index=0 );
+
+	/**
+	 * @param string $template
+	 * @param string $fragment_index
+	 * @param string $reg_exp_part
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
+	abstract public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part );
+
 	/**
 	 * @abstract
 	 *

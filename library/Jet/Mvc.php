@@ -182,6 +182,17 @@ class Mvc {
 		return Mvc_Router::getCurrentRouterInstance()->getLocale();
 	}
 
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getPage()->getURI()
+	 *
+	 * @return string
+	 */
+	public static function getCurrentURI() {
+		return Mvc_Router::getCurrentRouterInstance()->getPage()->getURI();
+	}
+
+
 	/**
 	 * Returns current locales list
 	 *
@@ -401,6 +412,34 @@ class Mvc {
 		);
 
 		return Mvc_Pages::getPage( $page_ID_instance );
+	}
+
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->parsePathFragmentIntValue()
+	 *
+	 * @param string $template  (example: page:<V> )
+	 * @param mixed $default_value
+	 * @param int $fragment_index (optional, default: 0)
+	 *
+	 * @return int
+	 */
+	public static function parsePathFragmentIntValue( $template, $default_value=null, $fragment_index=0 ) {
+		return Mvc_Router::getCurrentRouterInstance()->parsePathFragmentIntValue( $template, $default_value, $fragment_index );
+	}
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->parsePathFragmentValue()
+	 *
+	 * @param string $template
+	 * @param string $fragment_index
+	 * @param string $reg_exp_part
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
+	public static function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part ) {
+		return Mvc_Router::getCurrentRouterInstance()->parsePathFragmentValue( $template, $fragment_index, $reg_exp_part );
 	}
 
 }

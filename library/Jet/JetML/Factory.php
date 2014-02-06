@@ -50,7 +50,7 @@ class JetML_Factory extends Factory {
 		$class_name =  static::getClassName( static::DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME );
 
 		$layout_postprocessor_instance = new $class_name();
-		static::checkInstance(static::DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME, $layout_postprocessor_instance);
+		//static::checkInstance(static::DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME, $layout_postprocessor_instance);
 
 		return $layout_postprocessor_instance;
 	}

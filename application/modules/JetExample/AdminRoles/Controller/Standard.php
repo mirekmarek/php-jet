@@ -32,7 +32,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	);
 
 	public function default_Action() {
-		Jet\Mvc::requireJavascriptLib('Jet');
 
 		$GET = Jet\Http_Request::GET();
 

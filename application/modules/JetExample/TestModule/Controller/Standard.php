@@ -22,7 +22,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
 		'default' => false,
@@ -30,9 +30,15 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		'test_action2' => false,
 	);
 
+	/**
+	 *
+	 */
 	public function default_Action() {
 	}
 
+	/**
+	 *
+	 */
 	public function main_menu_Action() {
 
 		$this->view->setVar('site_tree_current', Jet\Mvc::getCurrentUIManagerModuleInstance()->getSiteStructure(
@@ -52,6 +58,10 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$this->render('main-menu' );
 	}
 
+	/**
+	 * @param string $parameter_1
+	 * @param string $parameter_2
+	 */
 	public function test_action2_Action( $parameter_1 = 'undefined', $parameter_2 = 'undefined' ) {
 
 		$this->view->setVar('parameter_1', $parameter_1);
