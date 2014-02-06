@@ -96,7 +96,7 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 		$tag_data->setProperty( 'name', $this->getName().'_time');
 		$tag_data->setProperty( 'id', $this->getID().'_time');
 		$tag_data->setProperty( 'type', 'text');
-		$tag_data->setProperty( 'value', $value ? 'T'.date('H:i:s', strtotime($value)):'' );
+		$tag_data->setProperty( 'value', $value ? date('H:i:s', strtotime($value)):'' );
 
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 
@@ -116,9 +116,9 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 		return Data_Text::replaceData($template, array(
 			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
 			'FIELD' =>
-				'<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>'
-				.'<jet_form_field name="'.$this->_name.'"/>'
-				.'<jet_form_field_time name="'.$this->_name.'"/>'
+				'<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>'.JET_EOL
+				.'<jet_form_field name="'.$this->_name.'" class="form-control"/>'.JET_EOL
+				.'<jet_form_field_time name="'.$this->_name.'" class="form-control"/>'
 		));
 	}
 

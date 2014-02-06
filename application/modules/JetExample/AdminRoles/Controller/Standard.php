@@ -25,63 +25,102 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
-		'default' => false
+		'default' => 'get_role'
 	);
 
+	/**
+	 *
+	 */
 	public function default_Action() {
+
+		Jet\Mvc::setProvidesDynamicContent();
 
 		$GET = Jet\Http_Request::GET();
 
 		$role = false;
-		if($GET->exists('new')) {
+		if( $GET->exists('new') ) {
 			$role = Jet\Auth::getNewRole();
-
 		} else if( $GET->exists('ID') ) {
 			$role = Jet\Auth::getRole( $GET->getString('ID') );
 		}
 
 		if($role) {
-
-			$form = $role->getCommonForm();
-
-			if($role->catchForm( $form )) {
-				$role->validateProperties();
-				$role->save();
-				Jet\Http_Headers::formSent( $form );
-			}
-
-			if($role->getIsNew()) {
-				$this->view->setVar('bnt_label', Jet\Tr::_('ADD'));
-
-				$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData(Jet\Tr::_('New role'));
-			} else {
-				$this->view->setVar('bnt_label', Jet\Tr::_('Save'));
-
-				$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData(Jet\Tr::_('Edit role: ').$role->getName());
-			}
-
-			$this->view->setVar('form', $form);
-			$this->view->setVar('role', $role);
-			$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
-
-			$this->render('classic/edit');
+			$this->handleEdit( $role );
 		} else {
-
-			$p = new Jet\Data_Paginator(
-				$GET->getInt('p', 1),
-				10,
-				'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
-			);
-			$p->setDataSource( Jet\Auth::getRolesListAsData() );
-
-			$this->view->setVar('roles', $p->getData());
-			$this->view->setVar('paginator', $p);
-
-			$this->render('classic/default');
+			$this->handleList();
 		}
+	}
+
+	/**
+	 * @param Jet\Auth_Role_Abstract $role
+	 */
+	protected function handleEdit( Jet\Auth_Role_Abstract $role ) {
+		$has_access = false;
+
+		if($role->getIsNew()) {
+			if( $this->module_instance->checkAclCanDoAction('add_role') ) {
+				$has_access = true;
+			}
+		} else {
+			if( $this->module_instance->checkAclCanDoAction('update_role') ) {
+				$has_access = true;
+			}
+		}
+
+		if(!$has_access) {
+			//TODO:
+			return;
+		}
+
+		$form = $role->getCommonForm();
+
+		if($role->catchForm( $form )) {
+			$role->validateProperties();
+			$role->save();
+			Jet\Http_Headers::movedTemporary( '?ID='.$role->getID() );
+		}
+
+		if($role->getIsNew()) {
+			$this->view->setVar('bnt_label', Jet\Tr::_('ADD'));
+
+			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData(Jet\Tr::_('New role'));
+		} else {
+			$this->view->setVar('bnt_label', Jet\Tr::_('Save'));
+
+			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData( $role->getName() );
+		}
+
+		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
+
+		$this->view->setVar('form', $form);
+		$this->view->setVar('role', $role);
+		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+
+		$this->render('classic/edit');
+
+	}
+
+	/**
+	 *
+	 */
+	protected function handleList() {
+
+		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
+
+		$p = new Jet\Data_Paginator(
+			Jet\Http_Request::GET()->getInt('p', 1),
+			10,
+			'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
+		);
+		$p->setDataSource( Jet\Auth::getRolesList() );
+
+		$this->view->setVar('roles', $p->getData());
+		$this->view->setVar('paginator', $p);
+
+		$this->render('classic/default');
 
 	}
 }

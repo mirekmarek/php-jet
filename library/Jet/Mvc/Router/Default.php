@@ -793,7 +793,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 * @param string $template  (example: page:<V> )
+	 * @param string $template  (example: 'page:%VAL%' )
 	 * @param mixed $default_value
 	 * @param int $fragment_index (optional, default: 0)
 	 *
@@ -824,11 +824,11 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		$value = null;
 
 		if(isset($path_fragments[$fragment_index])) {
-			if(strpos($template, '<V>')===false) {
-				throw new Exception('Incorrect parameter template format. Example: \'page:<V>\'');
+			if(strpos($template, '%VAL%')===false) {
+				throw new Exception('Incorrect parameter template format. Example: \'page:%VAL%\'');
 			}
 
-			$regexp = '/^'.str_replace( '<V>', '('.$reg_exp_part.')' , $template ).'$/';
+			$regexp = '/^'.str_replace( '%VAL%', '('.$reg_exp_part.')' , $template ).'$/';
 
 			$matches = array();
 			if(preg_match( $regexp, $path_fragments[$fragment_index], $matches )) {

@@ -238,7 +238,7 @@ class Article extends Jet\DataModel {
 	 *
 	 * @param array $query (optional)
 	 *
-	 * @return Article[]
+	 * @return Article[]|Jet\DataModel_Fetch_Object_Abstract
 	 */
 	public static function getList( $query=array() ) {
 		return (new self())->fetchObjects($query);

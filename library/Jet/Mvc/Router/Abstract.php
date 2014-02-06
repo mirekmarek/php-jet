@@ -322,7 +322,7 @@ abstract class Mvc_Router_Abstract extends Object {
 
 
 	/**
-	 * @param string $template  (example: page:<V> )
+	 * @param string $template  (example: 'page:%VAL%' )
 	 * @param mixed $default_value
 	 * @param int $fragment_index (optional, default: 0)
 	 *

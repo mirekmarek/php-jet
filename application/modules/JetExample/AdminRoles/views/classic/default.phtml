@@ -3,58 +3,53 @@ namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
 
 /**
+ * @var Jet\Auth_Role_Abstract[] $roles
+ */
+$roles = $this->roles;
+
+/**
  * @var Jet\Data_Paginator $paginator
  */
 $paginator = $this->paginator;
+
+/**
+ * @var \JetApplicationModule\JetExample\AdminUIManager\Main $UI_manager
+ */
+$UI_manager = Jet\Mvc::getCurrentUIManagerModuleInstance();
 ?>
 
+<div style="padding: 10px;">
 
-<a href="?new">ADD ROLE</a>
+<a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new role');?></a>
 
-
-
-<table border="1">
+<table class="table table-striped">
 	<thead>
 		<tr>
-			<td></td>
-			<td>ID</td>
-			<td>Name</td>
-			<td>Description</td>
+			<th style="width: 40px;"></th>
+			<th><?=Jet\Tr::_('ID');?></th>
+			<th><?=Jet\Tr::_('Name');?></th>
+			<th><?=Jet\Tr::_('Description');?></th>
 		</tr>
 	</thead>
-<?php foreach( $this->roles as $role ): ?>
+	<tbody>
+<?php foreach( $roles as $role ): ?>
 	<tr>
 		<td>
-			<a href="?ID=<?php echo rawurlencode( $role['ID'] ); ?>">EDIT</a>
+			<a href="?ID=<?php echo rawurlencode( $role->getID() ); ?>" class="btn btn-info">EDIT</a>
 		</td>
-		<td><?php echo $role['ID']; ?></td>
-		<td><?php echo $role['name']; ?></td>
-		<td><?php echo $role['description']; ?></td>
+		<td><?=$role->getID(); ?></td>
+		<td><?=$role->getName(); ?></td>
+		<td><?=$role->getDescription(); ?></td>
 	</tr>
 <?php endforeach; ?>
+	</tbody>
+	<tfoot>
 	<tr>
 		<td colspan="4">
-			<table width="100%">
-				<tr>
-					<?php if( ($p_URL=$paginator->getPrevPageURL()) ): ?>
-					<td><a href="<?php echo $p_URL; ?>">&lt;</a></td>
-					<?php endif ?>
-					<td width="100%" align="center">
-						<?php foreach($paginator->getPagesURL() as $p_no => $p_URL): ?>
-						<?php if($p_no==$paginator->getCurrentPageNo()): ?>
-							<strong><?php echo $p_no; ?></strong>
-							<?php else: ?>
-							<a href="<?php echo $p_URL; ?>"><?php echo $p_no; ?></a>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					</td>
-					<?php if( ($p_URL=$paginator->getNextPageURL()) ): ?>
-					<td><a href="<?php echo $p_URL; ?>">&gt;</a></td>
-					<?php endif ?>
-
-					<td nowrap>[<?php echo $paginator->getShowFrom();?>-<?php echo $paginator->getShowTo();?>/<?php echo $paginator->getDataItemsCount();?>]</td>
-				</tr>
-			</table>
+			<?=$UI_manager->renderPaginator( $paginator );?>
 		</td>
 	</tr>
+	</tfoot>
 </table>
+
+</div>

@@ -13,8 +13,7 @@ namespace Jet;
 error_reporting(E_ALL | E_STRICT);
 
 
-define('JET_APPLICATION_CONFIGURATION_NAME', 'main');
-define('JET_DEBUG_MODE', true);
+define('JET_DEBUG_MODE', false);
 define('JET_DEBUG_PROFILER_ENABLED', JET_DEBUG_MODE);
 //define('JET_DEBUG_PROFILER_ENABLED', true);
 
@@ -40,6 +39,7 @@ define('JET_PUBLIC_SCRIPTS_PATH', JET_BASE_PATH.'public/scripts/');
 define('JET_PUBLIC_STYLES_PATH', JET_BASE_PATH.'public/styles/');
 define('JET_PUBLIC_LIBS_PATH', JET_BASE_PATH.'public/libs/');
 
+define('JET_APPLICATION_CONFIGURATION_NAME', 'main');
 define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', 'Jet\Application_Modules_Handler_Default');
 define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', 'Jet\Application_Modules_Module_Manifest');
 define('JET_APPLICATION_MODULE_NAMESPACE', 'JetApplicationModule');

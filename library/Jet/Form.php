@@ -43,8 +43,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		'table' => array(
 			'form_start' => '<table>',
 			'form_end' => '</table>',
-			'form_common_error_message_class' => 'formError',
-			'form_submit_button' => '<tr><td colspan="2" align="center"><input type="submit"/></td></tr>',
+			'form_common_error_message_class' => 'form-error',
+			'form_submit_button' => '<tr><td colspan="2" align="center"><input type="submit" class="btn btn-primary"/></td></tr>',
 			'field' => '<tr><td valign="top">%LABEL%</td><td>%FIELD%</td></tr>',
 			'field_error_msg' => '<div class="formFieldError">%ERROR_MSG%</div>',
 			'field_required' => '<em class="required">*</em> %LABEL%',
@@ -52,10 +52,10 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		'div' => array(
 			'form_start' => '<fieldset>',
 			'form_end' => '</fieldset>',
-			'form_common_error_message_class' => 'formError',
-			'form_submit_button' => '<input type="submit"/>',
-			'field' => '<div class="formCell">%LABEL%%FIELD%</div>',
-			'field_error_msg' => '<div class="formFieldError">%ERROR_MSG%</div>',
+			'form_common_error_message_class' => 'form-error',
+			'form_submit_button' => '<input type="submit" class="btn btn-primary"/>',
+			'field' => '<div class="form-group">%LABEL%%FIELD%</div>',
+			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
 			'field_required' => '<em class="required">*</em> %LABEL%',
 		)
 	);
@@ -576,7 +576,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @return string
 	 */
-	public function helper_getBasicHTML( $template='table' ) {
+	public function helper_getBasicHTML( $template='div' ) {
 		$this->selected_HTML_template_name = $template;
 
 		$result = '<'.static::FORM_TAG.' name="'.$this->name.'">'.JET_EOL;
@@ -597,7 +597,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @param string $template
 	 */
-	public function helper_showBasicHTML( $template='table' ) {
+	public function helper_showBasicHTML( $template='div' ) {
 		Http_Headers::responseOK( array(
 			     'Content-type' => 'text/plain'
 			) );

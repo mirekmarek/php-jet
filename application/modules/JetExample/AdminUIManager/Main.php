@@ -24,7 +24,7 @@ class Main extends Jet\Mvc_UIManagerModule_Abstract {
 	 *
 	 * @return Jet\Mvc_Layout
 	 */
-	function initializeLayout() {
+	public function initializeLayout() {
 		if( Jet\Http_Request::GET()->exists('logout') ) {
 			Jet\Auth::logout();
 		}
@@ -44,5 +44,30 @@ class Main extends Jet\Mvc_UIManagerModule_Abstract {
 		$JetML_postprocessor->setFlagsURL( $public_URI.'flags/' );
 
 		return $layout;
+	}
+
+	/**
+	 * @param Jet\Data_Paginator $paginator
+	 *
+	 * @return string
+	 */
+	public function renderPaginator( Jet\Data_Paginator $paginator ) {
+		$view = new Jet\Mvc_View( $this->getViewsDir() );
+		$view->setVar( 'paginator', $paginator );
+
+		return $view->render('snippets/paginator');
+	}
+
+	/**
+	 * @param array $columns
+	 *
+	 * @return string
+	 */
+	public function renderDataGridHeader( array $columns ) {
+		$view = new Jet\Mvc_View( $this->getViewsDir() );
+		$view->setVar( 'columns', $columns );
+
+		return $view->render('snippets/data-grid-header');
+
 	}
 }

@@ -7,6 +7,60 @@ use Jet;
  */
 $form = $this->form;
 ?>
-[<a href="?#">X</a>]
-<?php echo $form->helper_getBasicHTML(); ?>
+<div style="padding: 10px;">
 
+<a href="?#" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
+
+<jet_form name="User">
+	<jet_form_common_error_message class="formError"/>
+
+	<jet_form_field name="ID"/>
+	<div class="form-group">
+		<jet_form_field_label name="login"/>
+		<jet_form_field_error_msg name="login" class="error"/>
+		<jet_form_field name="login" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="password"/>
+		<jet_form_field_error_msg name="password"/>
+		<jet_form_field name="password" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_check_label name="password"/>
+		<jet_form_field_check name="password" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="email"/>
+		<jet_form_field_error_msg name="email" class="error"/>
+		<jet_form_field name="email" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="locale"/>
+		<jet_form_field_error_msg name="locale" class="error"/>
+		<jet_form_field name="locale" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="first_name"/>
+		<jet_form_field_error_msg name="first_name" class="error"/>
+		<jet_form_field name="first_name" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="surname"/>
+		<jet_form_field_error_msg name="surname" class="error"/>
+		<jet_form_field name="surname" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="description"/>
+		<jet_form_field_error_msg name="description" class="error"/>
+		<jet_form_field name="description" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="roles"/>
+		<jet_form_field_error_msg name="roles" class="error"/>
+		<jet_form_field name="roles" class="form-control"/>
+	</div>
+
+	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+</jet_form>
+
+</div>

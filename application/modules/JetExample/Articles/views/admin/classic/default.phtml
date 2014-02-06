@@ -1,0 +1,50 @@
+<?php
+namespace JetApplicationModule\JetExample\Articles;
+use Jet;
+
+/**
+ * @var Article[] $articles
+ */
+$articles = $this->articles;
+
+/**
+ * @var Jet\Data_Paginator $paginator
+ */
+$paginator = $this->paginator;
+
+/**
+ * @var \JetApplicationModule\JetExample\AdminUIManager\Main $UI_manager
+ */
+$UI_manager = Jet\Mvc::getCurrentUIManagerModuleInstance();
+?>
+
+<div style="padding: 10px;">
+
+<a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Create new article');?></a>
+
+<table class="table table-striped">
+	<?=$UI_manager->renderDataGridHeader( [
+		'title' => Jet\Tr::_('Title'),
+		'date_time' => Jet\Tr::_('Date and time'),
+	]); ?>
+	<tbody>
+	<?php foreach( $articles as $article ): ?>
+	<tr>
+		<td>
+			<a href="?ID=<?php echo rawurlencode( $article->getID() ); ?>" class="btn btn-info">EDIT</a>
+		</td>
+		<td><?=$article->getTitle(); ?></td>
+		<td><?=Jet\Locale::dateAndTime( $article->getDateTime() ); ?></td>
+	</tr>
+	<?php endforeach; ?>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td colspan="4">
+			<?=$UI_manager->renderPaginator( $paginator );?>
+		</td>
+	</tr>
+	</tfoot>
+</table>
+
+</div>

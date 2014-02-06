@@ -39,6 +39,8 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_label = 'Name'
+	 * @JetDataModel:form_field_error_messages = ['empty'=>'Please enter a name']
 	 *
 	 * @var string
 	 */
@@ -48,6 +50,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Description'
 	 *
 	 * @var string
 	 */

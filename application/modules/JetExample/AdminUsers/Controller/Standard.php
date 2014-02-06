@@ -25,58 +25,104 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
-		'default' => false
+		'default' => 'get_user'
 	);
 
 
+	/**
+	 *
+	 */
 	public function default_Action() {
 
-		Jet\Mvc::requireJavascriptLib('Jet');
+		Jet\Mvc::setProvidesDynamicContent();
 
 		$GET = Jet\Http_Request::GET();
 
 		$user = false;
-		$user_instance = Jet\Auth_Factory::getUserInstance();
+
 		if($GET->exists('new')) {
-			$user = $user_instance;
-
-			$this->view->setVar('bnt_label', 'ADD');
-
-			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('New user');
-		} else if(
-			$GET->exists('ID') &&
-			($user = Jet\Auth::getUser( $GET->getString('ID') ) )
-		) {
-			/**
-			 * @var Jet\Auth_User_Default $user
-			 */
-			$this->view->setVar('bnt_label', 'SAVE' );
-
-			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('Edit user: '.$user->getLogin());
+			$user = Jet\Auth_Factory::getUserInstance();
+		} else if( $GET->exists('ID') ) {
+			$user = Jet\Auth::getUser( $GET->getString('ID') );
 		}
 
 		if($user) {
-			$form = $user->getCommonForm();
-			$this->view->setVar('form', $form);
-
-			if($user->catchForm( $form )) {
-				$user->validateProperties();
-				$user->save();
-				Jet\Http_Headers::formSent( $form );
-			}
-
-			$this->render('classic/edit');
+			$this->handleEdit($user);
 		} else {
-
-			$this->view->setVar('users', Jet\Auth::getUsersList());
-
-			$this->render('classic/default');
+			$this->handleList();
 		}
 
-		//$form->helper_showBasicHTML();
+	}
+
+	/**
+	 * @param Jet\Auth_User_Abstract $user
+	 */
+	protected function handleEdit( Jet\Auth_User_Abstract $user ) {
+		$has_access = false;
+
+		if($user->getIsNew()) {
+			if( $this->module_instance->checkAclCanDoAction('add_user') ) {
+				$has_access = true;
+			}
+		} else {
+			if( $this->module_instance->checkAclCanDoAction('update_user') ) {
+				$has_access = true;
+			}
+		}
+
+		if(!$has_access) {
+			//TODO:
+			return;
+		}
+
+		$form = $user->getCommonForm();
+
+		if( $user->catchForm( $form ) ) {
+			$user->validateProperties();
+			$user->save();
+			Jet\Http_Headers::movedTemporary( '?ID='.$user->getID() );
+		}
+
+
+		if($user->getIsNew()) {
+			$this->view->setVar('bnt_label', 'ADD');
+
+			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('New user');
+
+		} else {
+			$this->view->setVar('bnt_label', 'SAVE' );
+
+			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData( $user->getLogin() );
+		}
+
+
+		$this->view->setVar('form', $form);
+		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
+
+		$this->render('classic/edit');
 
 	}
+
+	/**
+	 *
+	 */
+	protected function handleList() {
+		$p = new Jet\Data_Paginator(
+			Jet\Http_Request::GET()->getInt('p', 1),
+			10,
+			'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
+		);
+		$p->setDataSource( Jet\Auth::getUsersList() );
+
+		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
+
+		$this->view->setVar('users', $p->getData());
+		$this->view->setVar('paginator', $p);
+
+		$this->render('classic/default');
+	}
+
 }

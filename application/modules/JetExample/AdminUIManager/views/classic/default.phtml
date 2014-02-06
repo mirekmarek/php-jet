@@ -2,7 +2,23 @@
 namespace JetApplicationModule\JetExample\AdminUIManager;
 use Jet;
 ?>
-<ul>
-	<li><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_roles'); ?>"><?=Jet\Tr::_('Manage roles');?></a></li>
-	<li><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users'); ?>"><?=Jet\Tr::_('Manage users');?></a></li>
-</ul>
+<div style="width: 100%;vertical-align: middle;text-align: center;">
+	<a href="<?=Jet\Mvc_Pages::getURI('admin_classic_articles'); ?>" class="btn btn-default" style="width: 200px;">
+		<jetml_icon icon="module/JetExample\Articles/module" size="large"></jetml_icon>
+		<?=Jet\Tr::_('Articles');?>
+	</a>
+
+	<br/>
+	<br/>
+	<br/>
+
+	<a href="<?=Jet\Mvc_Pages::getURI('admin_classic_roles'); ?>" class="btn btn-default" style="width: 200px;">
+		<jetml_icon icon="module/JetExample\AdminRoles/module" size="large"></jetml_icon>
+		<?=Jet\Tr::_('Manage roles');?>
+	</a>
+
+	<a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users'); ?>" class="btn btn-default" style="width: 200px;">
+		<jetml_icon icon="module/JetExample\AdminUsers/module" size="large"></jetml_icon>
+		<?=Jet\Tr::_('Manage users');?>
+	</a>
+</div>

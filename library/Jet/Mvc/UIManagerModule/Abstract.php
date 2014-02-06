@@ -471,6 +471,22 @@ abstract class Mvc_UIManagerModule_Abstract extends Application_Modules_Module_A
 		}
 	}
 
+
+	/**
+	 *
+	 * @param int $shift_count
+	 */
+	public function breadcrumbNavigationShift( $shift_count ) {
+		$this->getBreadcrumbNavigation();
+		if($shift_count<0) {
+			$shift_count = count($this->breadcrumb_navigation)+$shift_count;
+		}
+
+		for($c=0;$c<$shift_count;$c++) {
+			array_shift($this->breadcrumb_navigation);
+		}
+	}
+
 	/**
 	 * @return string|null
 	 */

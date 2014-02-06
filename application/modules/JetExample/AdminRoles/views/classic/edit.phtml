@@ -16,56 +16,68 @@ $form = $this->form;
  */
 $available_privileges_list = $this->available_privileges_list;
 ?>
-[<a href="?#">X</a>]
-<jet_form name="<?=$form->getName();?>"><table>
+
+<div style="padding: 10px;">
+
+<a href="?#" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
+
+
+<jet_form name="<?=$form->getName();?>" role="form">
 	<jet_form_field name="ID"/>
-	<tr>
-		<td valign="top"><jet_form_field_label name="name"/></td>
-		<td><jet_form_field_error_msg name="name" class="error"/><jet_form_field name="name"/></td>
-	</tr>
-	<tr>
-		<td valign="top"><jet_form_field_label name="description"/></td>
-		<td><jet_form_field_error_msg name="description" class="error"/><jet_form_field name="description"/></td>
-	</tr>
-	<tr>
-		<td valign="top"><jet_form_field_label name="/privileges/visit_page"/></td>
-		<td><jet_form_field_error_msg name="/privileges/visit_page" class="error"/><jet_form_field name="/privileges/visit_page"/></td>
-	</tr>
-	<tr>
-		<td valign="top"><jet_form_field_label name="/privileges/module_action"/></td>
-		<td><jet_form_field_error_msg name="/privileges/module_action" class="error"/><jet_form_field name="/privileges/module_action"/></td>
-	</tr>
 
-	<?php foreach($available_privileges_list as $privilege=>$pd ): ?>
-	<tr>
-		<td valign="top"></td>
-		<td>
-			<jet_form_field_label name="/privileges/<?=$privilege;?>/values"/>
-			<br/>
-			<jet_form_field_error_msg name="/privileges/<?=$privilege;?>/values" class="error"/>
-			<jet_form_field name="/privileges/<?=$privilege;?>/values"/>
-		</td>
-	</tr>
-	<?php endforeach; ?>
+	<div class="form-group">
+			<jet_form_field_label name="name"/>
+			<jet_form_field_error_msg name="name" class="error"/>
+			<jet_form_field name="name" class="form-control"/>
+	</div>
 
-	<tr><td colspan="2" align="center"><input type="submit" value="<?=Jet\Tr::_("Save");?>"/></td></tr>
-</table>
+	<div class="form-group">
+		<jet_form_field_label name="description"/>
+		<jet_form_field_error_msg name="description" class="error"/>
+		<jet_form_field name="description" class="form-control"/>
+	</div>
+	<fieldset>
+		<legend><?=Jet\Tr::_('Privileges');?></legend>
+		<?php foreach($available_privileges_list as $privilege=>$pd ): ?>
+		<div class="form-group">
+				<jet_form_field_label name="/privileges/<?=$privilege;?>/values"/>
+				<jet_form_field_error_msg name="/privileges/<?=$privilege;?>/values" class="error"/>
+				<jet_form_field name="/privileges/<?=$privilege;?>/values" class="form-control"/>
+		</div>
+		<?php endforeach; ?>
+	</fieldset>
+
+	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+
 </jet_form>
 
-<?php if(!$role->getIsNew()): ?>
-<div>
-	Users:
-	<table border="1">
-	<?php foreach( $role->getUsers() as $user ):
-		/**
-		 * @var Jet\Auth_User_Abstract $user
-		 */
-		?>
-		<tr>
-			<td><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users');?>?ID=<?=(string)$user->getID(); ?>">EDIT</a></td>
-			<td><?=$user->getLogin(); ?></td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-</div>
+	<br/>
+	<br/>
+	<br/>
+<?php if(!$role->getIsNew() && count($role->getUsers())): ?>
+	<fieldset>
+		<legend><?=Jet\Tr::_('Users');?></legend>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th style="width: 40px;"></th>
+						<th><?=Jet\Tr::_('Login');?></th>
+					</tr>
+				</thead>
+				<tbody>
+			<?php foreach( $role->getUsers() as $user ):
+				/**
+				 * @var Jet\Auth_User_Abstract $user
+				 */
+				?>
+				<tr>
+					<td><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users');?>?ID=<?=(string)$user->getID(); ?>"class="btn btn-default">EDIT</a></td>
+					<td><?=$user->getLogin(); ?></td>
+				</tr>
+			<?php endforeach; ?>
+				</tbody>
+			</table>
+	</fieldset>
 <?php endif; ?>
+
+</div>

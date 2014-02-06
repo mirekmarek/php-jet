@@ -418,7 +418,7 @@ class Mvc {
 	/**
 	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->parsePathFragmentIntValue()
 	 *
-	 * @param string $template  (example: page:<V> )
+	 * @param string $template  (example: 'page:%VAL%' )
 	 * @param mixed $default_value
 	 * @param int $fragment_index (optional, default: 0)
 	 *

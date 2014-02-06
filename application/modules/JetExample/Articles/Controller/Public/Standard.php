@@ -38,7 +38,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 		} else {
 
 			$paginator = new Jet\Data_Paginator(
-				Jet\Mvc::parsePathFragmentIntValue( 'page:<V>', 1 ),
+				Jet\Mvc::parsePathFragmentIntValue( 'page:%VAL%', 1 ),
 				5,
 				Jet\Mvc::getCurrentURI().'page:'.Jet\Data_Paginator::URL_PAGE_NO_KEY.'/'
 			);

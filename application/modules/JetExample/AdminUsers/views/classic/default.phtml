@@ -6,22 +6,48 @@ use Jet;
  * @var Jet\Auth_User_Abstract[] $users
  */
 $users = $this->users;
-?>
-<a href="?new">ADD USER</a>
 
-<table border="1">
+/**
+ * @var Jet\Data_Paginator $paginator
+ */
+$paginator = $this->paginator;
+
+/**
+ * @var \JetApplicationModule\JetExample\AdminUIManager\Main $UI_manager
+ */
+$UI_manager = Jet\Mvc::getCurrentUIManagerModuleInstance();
+?>
+
+<div style="padding: 10px;">
+
+<a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new user');?></a>
+
+<table class="table table-striped">
 	<thead>
 		<tr>
-			<td></td>
-			<td>ID</td>
-			<td>Login</td>
+			<th style="width: 40px;"></th>
+			<th><?=Jet\Tr::_('Login');?></th>
+			<th><?=Jet\Tr::_('ID');?></th>
 		</tr>
 	</thead>
-	<?php foreach( $users as $user_ID=>$user ): ?>
+	<tbody>
+	<?php foreach( $users as $user ): ?>
 	<tr>
-		<td><a href="?ID=<?=rawurlencode( $user_ID ); ?>">EDIT</a></td>
-		<td><?=$user->getID(); ?></td>
+		<td>
+			<a href="?ID=<?php echo rawurlencode( $user->getID() ); ?>" class="btn btn-info">EDIT</a>
+		</td>
 		<td><?=$user->getLogin(); ?></td>
+		<td><?=$user->getID(); ?></td>
 	</tr>
-<?php endforeach; ?>
+	<?php endforeach; ?>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td colspan="4">
+			<?=$UI_manager->renderPaginator( $paginator );?>
+		</td>
+	</tr>
+	</tfoot>
 </table>
+
+</div>

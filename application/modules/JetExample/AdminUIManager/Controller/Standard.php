@@ -39,6 +39,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 	public function classic_default_Action() {
+		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -1 );
+
 		$this->render('classic/default');
 
 	}

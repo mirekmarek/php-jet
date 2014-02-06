@@ -242,13 +242,13 @@ class Form_Field_Password extends Form_Field_Abstract {
 		$result = Data_Text::replaceData($template, array(
 			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
 			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'"/>'
-					  .'<jet_form_field name="'.$this->_name.'"/>'
+					  .'<jet_form_field name="'.$this->_name.'" class="form-control"/>'
 		));
 
 		if( !$this->disable_check ) {
 			$result .= Data_Text::replaceData($template, array(
 				'LABEL' => '<jet_form_field_check_label name="'.$this->_name.'"/>',
-				'FIELD' => '<jet_form_field_check name="'.$this->_name.'"/>'
+				'FIELD' => '<jet_form_field_check name="'.$this->_name.'" class="form-control"/>'
 			));
 		}
 
