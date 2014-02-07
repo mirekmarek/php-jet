@@ -95,23 +95,54 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	public function post_image_Action( $gallery_ID ) {
 		$gallery = $this->_getGallery($gallery_ID);
 
-		if(!isset($_FILES['file'])) {
-			$this->responseError(
-				self::ERR_CODE_NO_FILE
-			);
-		}
+		$upload_form = new Jet\Form( 'upload', array() );
+		/**
+		 * @var Jet\Form_Field_FileImage $image_field
+		 */
+		$image_field = Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_FILE_IMAGE, 'file' );
 
-		try {
-			$gallery->addImage( $_FILES['file']['tmp_name'],  $_FILES['file']['name'], Jet\Http_Request::POST()->getBool('overwrite_if_exists', false) );
-		} catch( Exception $e ) {
-			if($e->getCode()==Exception::CODE_IMAGE_ALLREADY_EXIST) {
-				$this->responseError( self::ERR_CODE_IMAGE_ALLREADY_EXISTS, array('file_name'=>$_FILES['file']['name']) );
-			} else {
-				$this->responseError( self::ERR_CODE_UNKNOWN_ERROR, array('message'=>$e->getMessage()) );
+		/**
+		 * @var Config $config
+		 */
+		$config = $this->module_instance->getConfig();
+
+
+		$image_field->setMaximalSize(
+			$config->getDefaultMaxW(),
+			$config->getDefaultMaxH()
+		);
+
+		$upload_form->addField($image_field);
+
+		$upload_form->catchValues( null, true );
+
+		if($upload_form->validateValues()) {
+			try {
+				$image = $gallery->addImage(
+					$image_field->getTmpFilePath(),
+					$image_field->getFileName(),
+					Jet\Http_Request::POST()->getBool('overwrite_if_exists', false)
+				);
+
+
+				$image->getThumbnail(
+					$config->getDefaultThbMaxW(),
+					$config->getDefaultThbMaxH()
+				);
+
+			} catch( Exception $e ) {
+				if($e->getCode()==Exception::CODE_IMAGE_ALLREADY_EXIST) {
+					$this->responseError( self::ERR_CODE_IMAGE_ALLREADY_EXISTS, array('file_name'=>$image_field->getFileName() ) );
+				} else {
+					$this->responseError( self::ERR_CODE_UNKNOWN_ERROR, array('message'=>$e->getMessage()) );
+				}
 			}
+
+			$this->responseOK();
+		} else {
+			$this->responseFormErrors( $upload_form->getAllErrors() );
 		}
 
-		$this->responseOK();
 	}
 
 	/**
@@ -122,9 +153,19 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$data = $this->getRequestData();
 		$gallery = $this->_getGallery( $data['target_gallery_ID'] );
 
+		/**
+		 * @var Config $config
+		 */
+		$config = $this->module_instance->getConfig();
+
 		//TODO: overwrite ..
 		//TODO: check errors ...
-		$gallery->addImage( $image->getFilePath(), $image->getFileName() );
+		$image = $gallery->addImage( $image->getFilePath(), $image->getFileName() );
+
+		$image->getThumbnail(
+			$config->getDefaultThbMaxW(),
+			$config->getDefaultThbMaxH()
+		);
 
 		$this->responseOK();
 	}

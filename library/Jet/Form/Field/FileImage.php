@@ -99,6 +99,8 @@ class Form_Field_FileImage extends Form_Field_File {
 		if($this->_has_value) {
 			$this->_value_raw = $_FILES[$this->_name];
 			$this->_value = $_FILES[$this->_name]['tmp_name'];
+			$this->tmp_file_path = $_FILES[$this->_name]['tmp_name'];
+			$this->file_name = $_FILES[$this->_name]['name'];
 		} else {
 			$this->_value_raw = null;
 		}

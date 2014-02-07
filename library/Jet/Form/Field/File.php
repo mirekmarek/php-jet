@@ -52,6 +52,17 @@ class Form_Field_File extends Form_Field_Abstract {
 	protected $maximal_file_size = null;
 
 	/**
+	 * @var string
+	 */
+	protected $tmp_file_path;
+
+	/**
+	 * @var string
+	 */
+	protected $file_name;
+
+
+	/**
 	 * @param int|null $maximal_file_size
 	 */
 	public function setMaximalFileSize($maximal_file_size) {
@@ -79,6 +90,21 @@ class Form_Field_File extends Form_Field_Abstract {
 		return $this->allowed_mime_types;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getFileName() {
+		return $this->file_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTmpFilePath() {
+		return $this->tmp_file_path;
+	}
+
+
 
 
 	/**
@@ -93,6 +119,8 @@ class Form_Field_File extends Form_Field_Abstract {
 		if($this->_has_value) {
 			$this->_value_raw = $_FILES[$this->_name];
 			$this->_value = $_FILES[$this->_name]['tmp_name'];
+			$this->tmp_file_path = $_FILES[$this->_name]['tmp_name'];
+			$this->file_name = $_FILES[$this->_name]['name'];
 		} else {
 			$this->_value_raw = null;
 		}

@@ -12,8 +12,10 @@
 namespace Jet;
 error_reporting(E_ALL | E_STRICT);
 
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 define('JET_DEBUG_MODE', false);
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 define('JET_DEBUG_PROFILER_ENABLED', JET_DEBUG_MODE);
 //define('JET_DEBUG_PROFILER_ENABLED', true);
 
@@ -74,7 +76,7 @@ define('JET_FACTORY_DEFINITION_CACHE_PATH', JET_DATA_PATH.'factory_definitions/'
 define('JET_IO_CHMOD_MASK_DIR', 0777);
 define('JET_IO_CHMOD_MASK_FILE', 0666);
 
-define('JET_HIDE_HTTP_REQUEST', false);
+define('JET_HIDE_HTTP_REQUEST', true);
 
 define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);
