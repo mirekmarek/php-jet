@@ -224,6 +224,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
 			$gallery->validateProperties();
 			$gallery->save();
+			Jet\Mvc::truncateRouterCache();
 
 			$this->responseData($gallery);
 		} else {
@@ -232,6 +233,9 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 
 	}
 
+	/**
+	 * @param $ID
+	 */
 	public function put_gallery_Action( $ID ) {
 		$gallery = $this->_getGallery($ID);
 
@@ -240,6 +244,9 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
 			$gallery->validateProperties();
 			$gallery->save();
+
+			Jet\Mvc::truncateRouterCache();
+			
 			$this->responseData($gallery);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );

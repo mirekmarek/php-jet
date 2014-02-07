@@ -28,7 +28,7 @@ $steps = $this->getRaw('steps');
 
 				<?php foreach( $steps as $step ):
 					$class = '';
-					if($step->getIsSubstep()) {
+					if($step->getIsSubStep()) {
 						$class = ' stepSub';
 					}
 					?>

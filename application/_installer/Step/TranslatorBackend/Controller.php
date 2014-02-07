@@ -41,7 +41,7 @@ class Installer_Step_TranslatorBackend_Controller extends Installer_Step_Control
 		return Tr::_('Backend configuration', array(), 'TranslatorBackend');
 	}
 
-	public function getIsSubstep() {
+	public function getIsSubStep() {
 		return true;
 	}
 }

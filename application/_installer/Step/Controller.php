@@ -129,7 +129,7 @@ abstract class Installer_Step_Controller {
 		return $this->URL;
 	}
 
-	public function getIsSubstep() {
+	public function getIsSubStep() {
 		return false;
 	}
 
@@ -138,6 +138,13 @@ abstract class Installer_Step_Controller {
 	 */
 	public function getStepsAfter() {
 		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsAvailable() {
+		return true;
 	}
 
 }

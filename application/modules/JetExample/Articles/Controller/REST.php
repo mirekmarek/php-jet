@@ -51,7 +51,6 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$form = $article->getCommonForm();
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
-			$article->setTitle( $article->getTitle() );
 			$article->validateProperties();
 			$article->save();
 			Jet\Mvc::truncateRouterCache();
@@ -68,7 +67,6 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$form = $article->getCommonForm();
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
-			$article->setTitle( $article->getTitle() );
 			$article->validateProperties();
 			$article->save();
 			Jet\Mvc::truncateRouterCache();

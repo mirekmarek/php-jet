@@ -39,7 +39,7 @@ class Installer_Step_MvcRouterCache_Controller extends Installer_Step_Controller
 		return Tr::_('Cache configuration', array(), 'MvcRouterCache');
 	}
 
-	public function getIsSubstep() {
+	public function getIsSubStep() {
 		return true;
 	}
 }

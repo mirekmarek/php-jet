@@ -37,7 +37,7 @@ class Installer_Step_DataModelBackend_Controller extends Installer_Step_Controll
 		return Tr::_('Backend configuration', array(), 'DataModelBackend');
 	}
 
-	public function getIsSubstep() {
+	public function getIsSubStep() {
 		return true;
 	}
 }

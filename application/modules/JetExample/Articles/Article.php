@@ -280,7 +280,7 @@ class Article extends Jet\DataModel {
 		$param = $router->getPathFragments();
 
 		if(isset($param[0]) && substr($param[0], -5)=='.html' ) {
-			//$ID = substr($param[0], 0, -5);
+
 			$current_article = $this->fetchOneObject( array(
 				'this.URI_fragment' => 	$param[0]
 			) );

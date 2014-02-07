@@ -39,7 +39,7 @@ class Installer_Step_DataModelHistory_Controller extends Installer_Step_Controll
 		return Tr::_('History configuration', array(), 'DataModelHistory');
 	}
 
-	public function getIsSubstep() {
+	public function getIsSubStep() {
 		return true;
 	}
 }

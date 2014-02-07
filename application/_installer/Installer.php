@@ -135,6 +135,9 @@ class Installer {
 		Translator::setBackendInstance($backend);
 	}
 
+	/**
+	 * @param string $current_step_name
+	 */
 	protected function getStepControllers( $current_step_name=null ) {
 		$got_current = false;
 		$steps = self::$steps;
@@ -245,6 +248,9 @@ class Installer {
 		return self::$steps;
 	}
 
+	/**
+	 *
+	 */
 	public function goNext() {
 		$this->getStepControllers();
 
