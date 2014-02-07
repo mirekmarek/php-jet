@@ -414,6 +414,26 @@ class Mvc {
 		return Mvc_Pages::getPage( $page_ID_instance );
 	}
 
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getPathFragments()
+	 *
+	 * @return array
+	 */
+	public static function getPathFragments() {
+		return Mvc_Router::getCurrentRouterInstance()->getPathFragments();
+	}
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->putUsedPathFragment()
+	 *
+	 *
+	 * @param string $used_path_fragment
+	 *
+	 * @return array
+	 */
+	public static function putUsedPathFragment( $used_path_fragment ) {
+		return Mvc_Router::getCurrentRouterInstance()->putUsedPathFragment( $used_path_fragment );
+	}
 
 	/**
 	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->parsePathFragmentIntValue()

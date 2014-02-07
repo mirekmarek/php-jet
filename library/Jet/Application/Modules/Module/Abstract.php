@@ -36,7 +36,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	protected $module_manifest;
 
 	/**
-	 * @var Config_Module
+	 * @var Config
 	 */
 	protected $config;
 
@@ -288,22 +288,19 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Config_Module
+	 * @return Config
 	 */
 	public function getConfig(){
 		if(!$this->config) {
 			$module_name = $this->module_manifest->getName();
 
-			$class_name = 'JetApplicationModule_'.$module_name.'_Config';
+			$class_name = get_called_class();
 
-			$this->config = new $class_name( $module_name );
 
-			if(!($this->config instanceof Config_Module)) {
-				throw new Application_Modules_Exception(
-					'Module \''.$module_name.'\' config class \''.$class_name.'\' must be instance of \Jet\Config_Module !',
-					Application_Modules_Exception::CODE_INVALID_MODULE_CONFIG_CLASS
-				);
-			}
+			$class_name = substr($class_name, 0, strrpos($class_name, '\\')).'\Config';
+
+			$this->config = new $class_name( $this->getModuleManifest()->getModuleDir().'config/main.php' );
+
 		}
 
 		return $this->config;

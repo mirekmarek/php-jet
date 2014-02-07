@@ -13,7 +13,9 @@ $paginator = $this->paginator;
 
 <?php foreach( $articles_list as $article ): ?>
 <div>
-	<a href="<?=$article->getURIFragment();?>"><?=$article->getTitle();?></a>&nbsp;&nbsp;<?=Jet\Locale::dateAndTime($article->getDateTime());?>
+	<a href="<?=$article->getURIFragment();?>"><?=$article->getTitle();?></a>
+	<br/>
+	<span style="font-size: 10px;"><?=Jet\Locale::dateAndTime($article->getDateTime());?></span>
 	<p><?=$article->getAnnotation();?></p>
 </div>
 <hr/>

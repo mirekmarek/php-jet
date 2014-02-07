@@ -1,0 +1,36 @@
+<?php
+namespace JetApplicationModule\JetExample\Images;
+use Jet;
+
+/**
+ * @var Jet\DataModel_Fetch_Object_Assoc|Gallery[] $children
+ */
+$children = $this->children;
+
+/**
+ * @var Gallery $gallery
+ */
+$gallery = $this->gallery;
+
+$images = array();
+if($gallery) {
+	$images = $gallery->getImages();
+}
+?>
+
+<div>
+<?php foreach( $children as $gallery ): ?>
+	<a href="<?=rawurlencode($gallery->getTitle());?>/" class="img-thumbnail" style="width: 130px;height: 120px;text-align: center;overflow: hidden;margin: 3px;">
+		<img src="<?=$this->icons_URI;?>folder.png">
+		<br/>
+		<?=$gallery->getTitle();?>
+	</a>
+<?php endforeach; ?>
+</div>
+
+<?php foreach( $images as $image ):
+	$thumbnail = $image->getThumbnail( 120, 120 );
+	?>
+	<a href="<?=$image->getURI();?>" target="_blank"><img src="<?=$thumbnail->getURI();?>" class="img-thumbnail" style="margin: 3px;" /></a>
+<?php endforeach; ?>
+

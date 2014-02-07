@@ -1,5 +1,4 @@
-.formError,
-.formFieldError {
+.form-error {
     background-color: #ff0000;
     color: #ffffff;
     padding: 3px;

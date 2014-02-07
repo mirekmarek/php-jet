@@ -2,6 +2,8 @@
 return array (
 	"name" => "Admin - roles",
 	"title" => "Administration Interface (classic) - Roles",
+	"breadcrumb_title" => "Roles",
+	"menu_title" => "Roles management",
 	"URL_fragment" => "roles",
 	"layout" => "default",
 	"is_admin_UI" => true,

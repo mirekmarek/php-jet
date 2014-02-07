@@ -2,6 +2,7 @@
 return array (
 	"name" => "Admin",
 	"title" => "Administrační rozhraní (klasické)",
+	"breadcrumb_title" => "Úvodní stránka",
 	"URL_fragment" => "klasicke",
 	"layout" => "default",
 	"is_admin_UI" => true,

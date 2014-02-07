@@ -63,8 +63,13 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		} else {
 			$gallery_ID = Jet\Http_Request::GET()->getString('gallery_ID');
 
-			$thumbnail_max_size_w = Jet\Http_Request::GET()->getInt('thumbnail_max_size_w');
-			$thumbnail_max_size_h = Jet\Http_Request::GET()->getInt('thumbnail_max_size_h');
+			/**
+			 * @var Config $config
+			 */
+			$config = $this->module_instance->getConfig();
+
+			$thumbnail_max_size_w = Jet\Http_Request::GET()->getInt('thumbnail_max_size_w', $config->getDefaultThbMaxW() );
+			$thumbnail_max_size_h = Jet\Http_Request::GET()->getInt('thumbnail_max_size_h', $config->getDefaultThbMaxH() );
 
 			$list = Gallery_Image::getListAsData( $gallery_ID );
 			if($thumbnail_max_size_w>0 && $thumbnail_max_size_h>0) {
@@ -97,7 +102,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		}
 
 		try {
-			$gallery->addImage( $_FILES['file']['tmp_name'],  $_FILES['file']['name'], ( isset($_POST['overwrite_if_exists']) &&  $_POST['overwrite_if_exists'] ) );
+			$gallery->addImage( $_FILES['file']['tmp_name'],  $_FILES['file']['name'], Jet\Http_Request::POST()->getBool('overwrite_if_exists', false) );
 		} catch( Exception $e ) {
 			if($e->getCode()==Exception::CODE_IMAGE_ALLREADY_EXIST) {
 				$this->responseError( self::ERR_CODE_IMAGE_ALLREADY_EXISTS, array('file_name'=>$_FILES['file']['name']) );

@@ -209,6 +209,26 @@ class Gallery extends Jet\DataModel {
 	}
 
 	/**
+	 * @param string $parent_ID
+	 *
+	 * @return Jet\DataModel_Fetch_Object_Assoc|Gallery[]
+	 */
+	public static function getChildren( $parent_ID ) {
+		return static::fetchObjects( [[ 'this.parent_ID'=>$parent_ID ]]);
+	}
+
+	/**
+	 * @param string $title
+	 * @param string $parent_ID
+	 *
+	 * @return Gallery|null
+	 */
+	public static function getByTitle( $title, $parent_ID ) {
+		return static::fetchOneObject( [[ 'this.title'=>$title, 'AND', 'this.parent_ID'=>$parent_ID ]]);
+	}
+
+
+	/**
 	 * @returnJet\Data_Tree
 	 */
 	public static function getTree() {

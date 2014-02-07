@@ -2,6 +2,7 @@
 return array (
 	"name" => "Admin",
 	"title" => "Administration Interface (classic)",
+	"breadcrumb_title" => "Homepage",
 	"URL_fragment" => "classic",
 	"layout" => "default",
 	"is_admin_UI" => true,

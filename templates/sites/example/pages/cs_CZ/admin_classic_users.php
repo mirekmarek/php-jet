@@ -2,6 +2,8 @@
 return array (
 	"name" => "Admin - users",
 	"title" => "Administrační rozhraní (klasické) - Uživatelé",
+	"breadcrumb_title" => "Uživatelé",
+	"menu_title" => "Správa uživatelů",
 	"URL_fragment" => "uzivatele",
 	"layout" => "default",
 	"is_admin_UI" => true,

@@ -30,6 +30,7 @@ class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
 	);
 
 	function default_Action() {
+
 		$article = new Gallery();
 		$form = $article->getCommonForm();
 		$form->enableDecorator('Dojo');

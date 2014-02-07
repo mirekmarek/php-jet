@@ -3,6 +3,7 @@ return array(
 	"admin" => array(
 		"admin_ria",
 		"admin_classic" => array(
+			"admin_classic_articles",
 			"admin_classic_roles",
 			"admin_classic_users"
 		),
