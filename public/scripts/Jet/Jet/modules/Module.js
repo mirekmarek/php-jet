@@ -1,0 +1,324 @@
+/**
+ *
+ *
+ *
+ * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @version <%VERSION%>
+ *
+ * @category Jet
+ * @package js.Jet
+ * @subpackage modules
+ */
+
+Jet.declare("Jet.modules.Module", [], {
+    module_name: null,
+    module_label: null,
+
+	IDs_prefix: null,
+
+	container_ID: null,
+	container: null,
+
+	signal_connections: null,
+
+	constructor: function(container_ID){
+		if( container_ID ){
+			this.container = dijit.byId(container_ID);
+			this.IDs_prefix = container_ID + "_";
+			this.container_ID = container_ID;
+		}
+		this.initialize();
+	},
+
+	destructor: function(){
+		this.disconnectSignals();
+	},
+
+	initialize: function(){
+
+	},
+
+	initializeUI: function(action, parameters){
+
+	},
+
+    getModuleName: function( escape_name ) {
+        if(escape_name) {
+            return this.module_name.replace(/\\/g, "\\\\");
+        } else {
+            return this.module_name;
+        }
+    },
+
+	getWidgetID: function(ID) {
+		return this.IDs_prefix ? this.IDs_prefix + ID : ID;
+	},
+
+	getNodeID: function(ID){
+		return this.getWidgetID(ID);
+	},
+
+	getWidgetByID: function(ID){
+		return dijit.byId(this.getWidgetID(ID));
+	},
+
+	getNodeByID: function(ID){
+		return dojo.byId(this.getNodeID(ID));
+	},
+
+	getContainer: function(){
+		return this.container;
+	},
+
+	getActionURL: function(service_type, action, path_fragments, GET_params ){
+		return Jet.getActionURL( service_type, this.module_name, action, path_fragments, GET_params );
+	},
+
+	getAjaxActionURL: function(action, path_fragments, GET_params ){
+        if(!GET_params) {
+            GET_params = {};
+        }
+        if(this.container_ID && !GET_params["container_ID"]) {
+            GET_params["container_ID"] = this.container_ID;
+        }
+		return Jet.getAjaxActionURL(this.module_name, action, path_fragments, GET_params );
+	},
+
+	getRestURL: function(object_name, path_fragments, GET_params ){
+		return Jet.getRestURL(this.module_name, object_name, path_fragments, GET_params );
+	},
+
+    getData: function( data_ID, default_value ) {
+        var d_textarea = dojo.byId(this.IDs_prefix+data_ID);
+        if(!d_textarea) {
+            return default_value;
+        }
+
+        return dojo.fromJson(d_textarea.value);
+    },
+
+    getJsonRestStoreInstance: function(object_name) {
+        return new dojo.store.JsonRest({
+            target: this.getRestURL(object_name),
+            sync: true
+        });
+    },
+
+    getCheckboxTree: function( place_at_widget_ID, object_name, root_label, options ) {
+        Jet.dojoExtensions.handleExtensions();
+        var store = new dojo.data.ItemFileWriteStore( {
+            url: this.getRestURL(object_name )
+        });
+
+        if(options===undefined) {
+            options = {};
+        }
+
+        if( options["checkboxAll"]===undefined ) options["checkboxAll"]=true;
+        if( options["checkboxRoot"]===undefined ) options["checkboxRoot"]=true;
+        if( options["checkboxState"]===undefined ) options["checkboxState"]=false;
+        if( options["checkboxStrict"]===undefined ) options["checkboxStrict"]=true;
+        if( options["allowMultiState"]===undefined ) options["allowMultiState"]=true;
+        if( options["branchIcons"]===undefined ) options["branchIcons"]=true;
+        if( options["nodeIcons"]===undefined ) options["nodeIcons"]=true;
+        if( options["showRoot"]===undefined ) options["showRoot"]=true;
+
+        var model = new cbtree.CheckBoxStoreModel( {
+            store: store,
+            rootLabel: root_label,
+            checkboxAll:  options["checkboxAll"],
+            checkboxRoot: options["checkboxRoot"],
+            checkboxState: options["checkboxState"],
+            checkboxStrict: options["checkboxStrict"]
+        });
+
+
+        var tree = new cbtree.CheckBoxTree( {
+            checkBoxes: true,
+            model: model,
+            allowMultiState: options["allowMultiState"],
+            branchIcons: options["branchIcons"],
+            nodeIcons: options["nodeIcons"],
+            showRoot: options["showRoot"]
+        });
+
+        tree.placeAt( this.getWidgetByID(place_at_widget_ID) );
+        return tree;
+    },
+
+    getDataGrid: function(grid_widget_ID, rest_store, edit_method_name, edit_column_index) {
+        var grid = this.getWidgetByID(grid_widget_ID);
+
+	    for(var y=0; y<grid.layout.cells.length; y++) {
+
+		    var formatter = grid.layout.cells[y].formatter;
+		    if(
+			    !formatter ||
+				typeof formatter!='string'
+			    ) {
+			    continue;
+		    }
+
+		    grid.layout.cells[y].formatter = this[formatter];
+	    }
+
+
+
+	    var store = new dojo.data.ObjectStore({objectStore: rest_store });
+        var _this = this;
+
+        grid.onRowDblClick = function(e) {
+            _this[edit_method_name](e.grid.getItem(e.rowIndex).ID);
+        }
+
+        //grid.changePageSize(25);
+        grid.setStore( store, null, null );
+        grid.reload = grid.render;
+
+        if(edit_method_name) {
+            if(edit_column_index===undefined) {
+                edit_column_index = 1;
+            }
+
+            grid.layout.cells[edit_column_index].formatter = function(val, idx, c) {
+                var item = c.grid.getItem(idx);
+                if(_this.container_ID) {
+                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"','"+_this.container_ID+"')."+edit_method_name+"('"+item.ID+"')";
+                } else {
+
+                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"','"+_this.container_ID+"')."+edit_method_name+"('"+item.ID+"')";
+                }
+
+                return '<a href="javascript:'+edit+'">'+val+'</a>';
+            };
+        }
+
+
+        return grid;
+    },
+
+    getTree: function(place_at_widget_ID, object_name, enable_DnD) {
+        var store = new dojo.data.ItemFileWriteStore({
+            url: this.getRestURL(object_name)
+        });
+
+
+        var tree_model = new dijit.tree.ForestStoreModel({
+            store: store,
+            rootLabel: "",
+            rootId: "__root__",
+            childrenAttrs: ["children"]
+        });
+
+        var tree_params = {
+            model: tree_model,
+            showRoot: false,
+            persist: false
+        };
+
+        if(enable_DnD) {
+           tree_params.dndController = dijit.tree.dndSource;
+        }
+
+
+	    widget = this.getWidgetByID(place_at_widget_ID);
+	    if(widget) {
+		    var tree = new dijit.Tree(tree_params );
+		    tree.placeAt(widget);
+	    } else {
+		    var tree = new dijit.Tree(tree_params, this.getNodeID(place_at_widget_ID) );
+	    }
+
+
+
+        return tree;
+    },
+
+    getForm: function( object_name, fields_definition, params ) {
+        return new Jet.Form(this, object_name, fields_definition, params );
+    },
+
+	addSignalCallback: function( signal_name, callback ) {
+
+		if(!this.signal_connections) {
+			this.signal_connections = {};
+		}
+
+		if(!this.signal_connections[signal_name]) {
+			this.signal_connections[signal_name] = [];
+		}
+
+		signal_connection = dojo.subscribe( signal_name, callback );
+
+		this.signal_connections[signal_name].push(signal_connection);
+
+		return signal_connection;
+	},
+
+	disconnectSignals: function() {
+		if(!this.signal_connections) {
+			return;
+		}
+
+		for(var signal_name in this.signal_connections) {
+			for(var i=0; i<this.signal_connections[signal_name].length; i++) {
+				dojo.disconnect( this.signal_connections[signal_name][i] );
+			}
+		}
+	},
+
+	restPutAction: function( object_name, object_ID, data, on_response, busy_button_ID ) {
+		this.restAction("put", object_name, object_ID, data, on_response, busy_button_ID);
+	},
+
+	restPostAction: function( object_name, object_ID, data, on_response, busy_button_ID ) {
+		this.restAction("post", object_name, object_ID, data, on_response, busy_button_ID);
+	},
+
+	restDeleteAction: function( object_name, object_ID, data, on_response, busy_button_ID ) {
+		this.restAction("delete", object_name, object_ID, data, on_response, busy_button_ID);
+	},
+
+	restAction: function( operation, object_name, object_ID, data, on_response, busy_button_ID ) {
+		var store = this.getJsonRestStoreInstance(object_name);
+
+		var _this = this;
+
+		var cancel_busy_button = function() {
+			if(!busy_button_ID) {
+				return;
+			}
+
+			if( busy_button_ID.push!==undefined ) {
+				for(var i=0; i<busy_button_ID.length;i++) {
+					_this.getWidgetByID( busy_button_ID[i] ).cancel();
+				}
+			} else {
+				_this.getWidgetByID( busy_button_ID ).cancel();
+			}
+
+		}
+
+		store[operation](
+			data,
+			{
+				id: object_ID
+			}).then(
+			function(data) {
+				cancel_busy_button();
+
+				if(on_response) {
+					on_response(data);
+				}
+			},
+			function(error) {
+				cancel_busy_button();
+				_this.handleResponseError(error);
+			}
+		);
+
+	},
+
+});
