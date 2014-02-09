@@ -67,9 +67,10 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 			;
 
 			$this->join_by[] = new DataModel_Definition_Relation_JoinBy_Item(
-				$related_properties[$related_property_name],
+				$this_model_definition,
 				$this_model_property,
-				$this_model_definition
+				$related_properties[$related_property_name]->getDataModelClassName(),
+				$related_property_name
 			);
 		}
 

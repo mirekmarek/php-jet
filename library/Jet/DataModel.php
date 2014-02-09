@@ -1056,6 +1056,55 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				continue;
 			}
 
+			if(
+				$property->getIsDataModel() &&
+				(
+					$this->{$property_name} instanceof DataModel_Related_1toN ||
+					$this->{$property_name} instanceof DataModel_Related_1to1
+				)
+			) {
+
+				if( $this->{$property_name} instanceof DataModel_Related_1toN ) {
+					foreach( $this->{$property_name} as $key=>$related_instance) {
+
+						/**
+						 * @var DataModel_Related_1toN $related_instance
+						 */
+						$content_form = $related_instance->getCommonForm();
+
+						foreach($content_form->getFields() as $field) {
+							$field->setName('/'.$property_name.'/'.$key.'/'.$field->getName() );
+
+							$fields[] = $field;
+							//$new_field->setForm($form);
+							//$form->addField( $new_field );
+						}
+
+					}
+
+				}
+
+				if( $this->{$property_name} instanceof DataModel_Related_1to1 ) {
+					/**
+					 * @var DataModel_Related_1to1 $related_instance
+					 */
+					$related_instance = $this->{$property_name};
+
+					$content_form = $related_instance->getCommonForm();
+
+					foreach($content_form->getFields() as $field) {
+						$field->setName('/'.$property_name.'/'.$field->getName() );
+
+						$fields[] = $field;
+						//$new_field->setForm($form);
+						//$form->addField( $new_field );
+					}
+
+				}
+
+				continue;
+			}
+
 			$field = $property->getFormField();
 			if(!$field) {
 				$class = $definition->getClassName();

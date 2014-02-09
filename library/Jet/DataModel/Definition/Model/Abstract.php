@@ -161,7 +161,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 
 
-		if( !isset(self::$__definitions[$class_name])) {
+		if( !isset(self::$__definitions[$s_class_name])) {
 
 			/**
 			 * @var DataModel $class_name

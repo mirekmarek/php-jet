@@ -26,7 +26,7 @@ namespace Jet;
  * @JetFactory:method = 'getLocalizedSiteMetaTagInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Abstract'
  *
- * @JetDataModel:name = 'Site_LocalizedData_MetaTag'
+ * @JetDataModel:name = 'site_localized_data_meta_tag'
  * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_LocalizedData_Abstract'
  */
 abstract class Mvc_Sites_Site_LocalizedData_MetaTag_Abstract extends DataModel_Related_1toN {

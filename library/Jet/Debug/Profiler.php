@@ -88,6 +88,20 @@ class Debug_Profiler {
 		});
 	}
 
+	/**
+	 * @param boolean $enabled
+	 */
+	public static function setEnabled($enabled) {
+		self::$enabled = $enabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public static function getEnabled() {
+		return self::$enabled;
+	}
+
 
 	/**
 	 * @param bool $output_enabled

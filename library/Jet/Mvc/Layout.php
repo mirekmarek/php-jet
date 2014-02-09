@@ -150,6 +150,17 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
+	 *
+	 * @return JetML
+	 */
+	public function getJetMLParserInstance() {
+		if(!$this->_data->exists('JetML_postprocessor')) {
+			return null;
+		}
+		return $this->_data->getRaw('JetML_postprocessor');
+	}
+
+	/**
 	 * Disables JetML
 	 */
 	public function disableJetML() {

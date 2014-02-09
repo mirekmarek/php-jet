@@ -25,7 +25,7 @@ namespace Jet;
  * @JetFactory:method = 'getPageContentInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_Content_Abstract'
  *
- * @JetDataModel:name = 'Page_Content'
+ * @JetDataModel:name = 'page_content'
  * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Abstract'
  */
 abstract class Mvc_Pages_Page_Content_Abstract extends DataModel_Related_1toN {

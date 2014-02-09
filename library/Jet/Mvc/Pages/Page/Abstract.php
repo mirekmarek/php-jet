@@ -23,7 +23,7 @@ namespace Jet;
  * @JetFactory:method = 'getPageInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_Abstract'
  *
- * @JetDataModel:name = 'Page'
+ * @JetDataModel:name = 'page'
  * @JetDataModel:ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Abstract'
  */
 abstract class Mvc_Pages_Page_Abstract extends DataModel {

@@ -172,7 +172,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		if(!isset($this->related_model_class_names[$related_model_name]) ) {
 			throw new DataModel_Exception(
-				'Unknown related data model \''.$related_model_name.'\'',
+				'Unknown related data model name \''.$related_model_name.'\' (in class \''.$this->class_name.'\', property: \''.$this_ID_property_name.'\') ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
@@ -184,7 +184,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		if(!isset($related_definition_data[$related_to_property_name])) {
 			throw new DataModel_Exception(
-				'Unknown relation property \''.$related_to_class_name.'.'.$related_to_property_name.'\'',
+				'Unknown relation property \''.$related_to_class_name.'.'.$related_to_property_name.'\' (in class \''.$this->class_name.'\', property: \''.$this_ID_property_name.'\')',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
@@ -225,14 +225,16 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 */
 	public function getInternalRelations( $parent_model_class_name ) {
 
-		$M_model_name = null;
-		$N_model_name = null;
+		$M_model_name = DataModel::getDataModelDefinition( $parent_model_class_name )->getModelName();
 
+		$is_related = false;
+
+		$N_model_name = null;
 		$N_class_name = null;
 
 		foreach( $this->related_model_class_names as $model_name=>$class_name ) {
-			if( $class_name==$parent_model_class_name ) {
-				$M_model_name = $model_name;
+			if( $M_model_name==$model_name ) {
+				$is_related = true;
 			} else {
 				$N_model_name = $model_name;
 				$N_class_name = $class_name;
@@ -240,14 +242,12 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 			}
 		}
 
-		if(!$M_model_name) {
+		if(!$is_related) {
 			throw new DataModel_Exception(
-				'Class \''.$parent_model_class_name.'\' is not related to me',
+				'Class \''.$parent_model_class_name.'\' is not related to me (Class: \''.$this->class_name.'\')',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
-
-
 
 		/**
 		 * @var DataModel_Definition_Relation_Internal[] $relations

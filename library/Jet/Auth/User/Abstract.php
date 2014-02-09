@@ -26,7 +26,7 @@ namespace Jet;
  * @JetFactory:method = 'getUserInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\\Auth_User_Abstract'
  *
- * @JetDataModel:name = 'User'
+ * @JetDataModel:name = 'user'
  */
 abstract class Auth_User_Abstract extends DataModel {
 

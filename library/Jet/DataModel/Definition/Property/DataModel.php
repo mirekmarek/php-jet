@@ -60,7 +60,10 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @return mixed
 	 */
 	public function getDefaultValue( DataModel $data_model ) {
-		$default_value = new $this->data_model_class();
+
+		$class_name =  $this->getDataModelClass();
+
+		$default_value = new $class_name();
 
 		if($default_value instanceof DataModel_Related_MtoN) {
 			$default_value->setMRelatedModel( $data_model );
@@ -81,6 +84,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @return string
 	 */
 	public function getDataModelClass() {
-		return $this->data_model_class;
+		return Factory::getClassName($this->data_model_class);
 	}
 }

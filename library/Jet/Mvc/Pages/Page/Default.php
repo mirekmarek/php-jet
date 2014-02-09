@@ -796,13 +796,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 		if( is_array($URL) ) {
 			$pages = $this->fetchObjects(
 				array(
-					'Page_URL.URL' => $URL,
+					'page_URL.URL' => $URL,
 				)
 			);
 
 			$query = $pages->getQuery();
 
-			$query->setOrderBy('-Page_URL.URL');
+			$query->setOrderBy('-page_URL.URL');
 			$query->setLimit(1);
 
 			foreach($pages as $page) {
@@ -814,7 +814,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 		} else {
 			return $this->fetchOneObject(
 				array(
-					'Page_URL.URL' => $URL,
+					'page_URL.URL' => $URL,
 				)
 			);
 

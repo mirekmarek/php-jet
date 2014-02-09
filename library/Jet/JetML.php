@@ -50,6 +50,11 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	protected $icons_URL = '';
 
 	/**
+	 * @var bool
+	 */
+	protected $handle_XML_errors = true;
+
+	/**
 	 * @var array
 	 */
 	protected $icon_sizes = array(
@@ -141,6 +146,21 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 		$result = $this->parse( $result );
 	}
 
+	/**
+	 * @param boolean $handle_XML_errors
+	 */
+	public function setHandleXMLErrors($handle_XML_errors) {
+		$this->handle_XML_errors = $handle_XML_errors;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getHandleXMLErrors() {
+		return $this->handle_XML_errors;
+	}
+
+
 
 	/**
 	 * @return Mvc_Layout
@@ -205,36 +225,39 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 
 
-        foreach( libxml_get_errors() as $xml_error ) {
-	        /**
-	         * @var \libXMLError $xml_error
-	         */
+		if( $this->handle_XML_errors ) {
+			foreach( libxml_get_errors() as $xml_error ) {
+				/**
+				 * @var \libXMLError $xml_error
+				 */
 
-	        if(
-		        $xml_error->code==801 &&
-		        strpos($xml_error->message,'Tag jet')!==false
-	        ) {
-		        continue;
-	        }
+				if(
+					$xml_error->code==801 &&
+					strpos($xml_error->message,'Tag jet')!==false
+				) {
+					continue;
+				}
 
-            // error handling
-	        $data_per_lines = explode(JET_EOL, $data);
+				// error handling
+				$data_per_lines = explode(JET_EOL, $data);
 
-	        $xml_snippet = '';
-	        if(isset($data_per_lines[$xml_error->line-2])) {
-		        $xml_snippet .= ($xml_error->line-1).': '.$data_per_lines[$xml_error->line-2].JET_EOL;
-	        }
-	        $xml_snippet .= $xml_error->line.': '.$data_per_lines[$xml_error->line-1].JET_EOL;
+				$xml_snippet = '';
+				if(isset($data_per_lines[$xml_error->line-2])) {
+					$xml_snippet .= ($xml_error->line-1).': '.$data_per_lines[$xml_error->line-2].JET_EOL;
+				}
+				$xml_snippet .= $xml_error->line.': '.$data_per_lines[$xml_error->line-1].JET_EOL;
 
-	        if(isset($data_per_lines[$xml_error->line])) {
-		        $xml_snippet .= ($xml_error->line+1).': '.$data_per_lines[$xml_error->line].JET_EOL;
-	        }
+				if(isset($data_per_lines[$xml_error->line])) {
+					$xml_snippet .= ($xml_error->line+1).': '.$data_per_lines[$xml_error->line].JET_EOL;
+				}
 
-	        throw new Javascript_Exception(
-		        'JetML XML parse error: '.$xml_error->message.' on line: '.$xml_error->line.JET_EOL.JET_EOL.$xml_snippet,
-		        Javascript_Exception::CODE_PARSE_ERROR
-	        );
-        }
+				throw new Javascript_Exception(
+					'JetML XML parse error: '.$xml_error->message.' on line: '.$xml_error->line.JET_EOL.JET_EOL.$xml_snippet,
+					Javascript_Exception::CODE_PARSE_ERROR
+				);
+			}
+
+		}
 		libxml_clear_errors();
 
 

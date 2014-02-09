@@ -246,7 +246,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			$gallery->save();
 
 			Jet\Mvc::truncateRouterCache();
-			
+
 			$this->responseData($gallery);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );

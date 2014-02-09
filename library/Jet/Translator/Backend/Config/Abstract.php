@@ -25,7 +25,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\\Translator_Backend_Config_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Translator_Backend_Config_Abstract'
  *
  * @JetConfig:data_path = '/translator/backend_options'
  * @JetConfig:section_is_obligatory = false
