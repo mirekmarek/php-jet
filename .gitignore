@@ -1,10 +1,10 @@
 library/Zend
-application/sites/*
-application/config/*
-application/logs/*
-application/tmp/*
-application/cache/*
-application/data/*
+application/sites/**
+application/config/**
+application/logs/**
+application/tmp/**
+application/cache/**
+application/data/**
 public/*
 !public/scripts/Jet
 .settings
