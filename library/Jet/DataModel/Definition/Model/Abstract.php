@@ -169,7 +169,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			self::$__definitions[$s_class_name] = $class_name::_getDataModelDefinitionInstance($s_class_name);
 
 			if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
-				IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$s_class_name], true).';' );
+				try {
+					IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$s_class_name], true).';' );
+				} catch(Exception $e) {}
 			}
 		}
 

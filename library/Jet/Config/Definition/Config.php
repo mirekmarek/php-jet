@@ -140,7 +140,9 @@ class Config_Definition_Config extends Object {
 		$definition = new static( $class_name );
 
 		if(JET_CONFIG_DEFINITION_CACHE_SAVE) {
-			IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
+			try {
+				IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
+			} catch(Exception $e) {}
 		}
 
 

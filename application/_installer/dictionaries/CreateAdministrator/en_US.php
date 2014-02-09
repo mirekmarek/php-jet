@@ -40,5 +40,15 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'2380e5081706fdc549ec15978308fc88' => array(
+		'phrase' => 'Sorry, but username %LOGIN% is registered.',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'f6b3275d710f3f8cb22ebb35387ec83d' => array(
+		'phrase' => 'Sorry, but username admin is registered.',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

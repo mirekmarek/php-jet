@@ -185,7 +185,9 @@ class Object_Reflection {
 		foreach( static::$_save_list as $class ) {
 			$file_path = JET_OBJECT_REFLECTION_CACHE_PATH.str_replace('\\', '__', $class.'.php');
 
-			IO_File::write($file_path, '<?php return '.var_export( static::$_reflections[$class], true ).';' );
+			try {
+				IO_File::write($file_path, '<?php return '.var_export( static::$_reflections[$class], true ).';' );
+			} catch(Exception $e) {}
 		}
 	}
 

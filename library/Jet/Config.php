@@ -512,7 +512,9 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		}
 
 
-		IO_File::write($target_file_path, $config_data);
+		try {
+			IO_File::write($target_file_path, $config_data);
+		} catch(Exception $e) {}
 		static::$configs_data = array();
 	}
 

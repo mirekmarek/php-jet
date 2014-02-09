@@ -67,7 +67,9 @@ class Autoloader {
 				if( Autoloader::getClassesPathsMapUpdated() ) {
 					$file_path = JET_AUTOLOADER_CACHE_PATH.'autoloader_class_map.php';
 
-					IO_File::write($file_path, '<?php return '.var_export( Autoloader::getClassesPathsMap(), true ).';' );
+					try {
+						IO_File::write($file_path, '<?php return '.var_export( Autoloader::getClassesPathsMap(), true ).';' );
+					} catch(Exception $e) {}
 				}
 
 			} );

@@ -178,7 +178,9 @@ class Factory_ClassDefinition extends Object {
 			$definition = new Factory_ClassDefinition($class_name);
 
 			if(JET_FACTORY_DEFINITION_CACHE_SAVE) {
-				IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
+				try {
+					IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
+				} catch(Exception $e) {}
 			}
 		}
 

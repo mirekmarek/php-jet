@@ -16,8 +16,8 @@ error_reporting(E_ALL | E_STRICT);
 define('JET_DEBUG_MODE', false);
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-//define('JET_DEBUG_PROFILER_ENABLED', JET_DEBUG_MODE);
-define('JET_DEBUG_PROFILER_ENABLED', true);
+define('JET_DEBUG_PROFILER_ENABLED', JET_DEBUG_MODE);
+//define('JET_DEBUG_PROFILER_ENABLED', true);
 
 define('JET_BASE_PATH', dirname(__DIR__).'/');
 define('JET_LIBRARY_PATH', JET_BASE_PATH.'library/');
