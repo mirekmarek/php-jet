@@ -42,7 +42,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Cache backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getCacheBackendTypesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getCacheBackendTypesList']
 	 * 
 	 * @var string
 	 */
@@ -55,12 +55,12 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\\SiteUIDefault'
+	 * @JetConfig:default_value = 'Jet\SiteUIDefault'
 	 * @JetConfig:description = 'Default site UI manager module name'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Default site UI manager module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getSiteUIManagerModulesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getSiteUIManagerModulesList']
 	 * 
 	 * @var string
 	 */
@@ -68,12 +68,12 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\\AdminUIDefault'
+	 * @JetConfig:default_value = 'Jet\AdminUIDefault'
 	 * @JetConfig:description = 'Default admin UI manager module name'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Default administration UI manager module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getAdminUIManagerModulesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAdminUIManagerModulesList']
 	 * 
 	 * @var string
 	 */
@@ -81,12 +81,12 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\\AuthDefault'
+	 * @JetConfig:default_value = 'Jet\AuthDefault'
 	 * @JetConfig:description = 'Default authentication and authorization manager module name'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Authentication and authorization manager module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Mvc_Router_Config_Default', 'getAuthManagerModulesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAuthManagerModulesList']
 	 * 
 	 * @var string
 	 */

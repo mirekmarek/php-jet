@@ -17,9 +17,9 @@ namespace Jet;
 /**
  * Class Form_Field_Abstract
  *
- * @JetFactory:class = 'Jet\\UI_Factory'
+ * @JetFactory:class = 'Jet\UI_Factory'
  * @JetFactory:method = 'getFormFieldInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Form_Field_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Form_Field_Abstract'
  */
 abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 

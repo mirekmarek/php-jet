@@ -16,7 +16,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\\Db_Connection_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Db_Connection_Abstract'
  */
 abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 

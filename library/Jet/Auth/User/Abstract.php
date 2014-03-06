@@ -22,9 +22,9 @@ namespace Jet;
 /**
  * Class Auth_User_Abstract
  *
- * @JetFactory:class = 'Jet\\Auth_Factory'
+ * @JetFactory:class = 'Jet\Auth_Factory'
  * @JetFactory:method = 'getUserInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Auth_User_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Auth_User_Abstract'
  *
  * @JetDataModel:name = 'user'
  */

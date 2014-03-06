@@ -20,7 +20,7 @@ namespace Jet;
  * Class Mvc_Pages_Page_Content_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
- * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Default'
+ * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Pages_Page_Default'
  */
 class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 

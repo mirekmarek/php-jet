@@ -115,7 +115,7 @@ class Gallery_Image extends Jet\DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetApplicationModule\\JetExample\\Images\\Gallery_Image_Thumbnail'
+	 * @JetDataModel:data_model_class = 'JetApplicationModule\JetExample\Images\Gallery_Image_Thumbnail'
 	 *
 	 * @var Gallery_Image_Thumbnail[]
 	 */

@@ -19,7 +19,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\\DataModel_Cache_Backend_Config_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\DataModel_Cache_Backend_Config_Abstract'
  *
  * @JetConfig:data_path = '/data_model/cache_backend_options'
  */

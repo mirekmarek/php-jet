@@ -27,7 +27,7 @@ class DataModel_Config extends Config_Application {
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:form_field_label = 'Default backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Config', 'getBackendTypesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Config', 'getBackendTypesList']
 	 * 
 	 * @var string
 	 */
@@ -48,7 +48,7 @@ class DataModel_Config extends Config_Application {
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:form_field_label = 'History backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Config', 'getHistoryBackendTypesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Config', 'getHistoryBackendTypesList']
 	 * 
 	 * @var string
 	 */
@@ -69,7 +69,7 @@ class DataModel_Config extends Config_Application {
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:form_field_label = 'Cache backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Config', 'getCacheBackendTypesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Config', 'getCacheBackendTypesList']
 	 * 
 	 * @var string
 	 */

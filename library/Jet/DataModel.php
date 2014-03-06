@@ -117,7 +117,7 @@ namespace Jet;
 /**
  * Class DataModel
  *
- * @JetDataModel:ID_class_name = 'Jet\\DataModel_ID_Default'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Default'
  */
 abstract class DataModel extends Object implements Object_Serializable_REST, Object_Reflection_ParserInterface {
 
@@ -1073,6 +1073,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 						$content_form = $related_instance->getCommonForm();
 
 						foreach($content_form->getFields() as $field) {
+							if(
+								$field instanceof Form_Field_Hidden
+							) {
+								continue;
+							}
+
 							$field->setName('/'.$property_name.'/'.$key.'/'.$field->getName() );
 
 							$fields[] = $field;
@@ -1093,6 +1099,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 					$content_form = $related_instance->getCommonForm();
 
 					foreach($content_form->getFields() as $field) {
+						if(
+							$field instanceof Form_Field_Hidden
+						) {
+							continue;
+						}
+
 						$field->setName('/'.$property_name.'/'.$field->getName() );
 
 						$fields[] = $field;
@@ -1127,17 +1139,30 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 	/**
 	 * @param string $form_name
+	 * @param bool $include_related_objects (optional, default=false)
 	 * @param bool $skip_hidden_fields (optional, default=false)
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name='', $skip_hidden_fields=false ) {
+	public function getCommonForm( $form_name='', $include_related_objects=true, $skip_hidden_fields=false ) {
 		$definition = $this->getDataModelDefinition();
 
 
 		$only_properties = array();
 
 		foreach($definition->getProperties() as $property_name => $property) {
+			if(
+				$property->getIsDataModel() &&
+				$include_related_objects &&
+				(
+					$this->$property_name instanceof DataModel_Related_1toN ||
+					$this->$property_name instanceof DataModel_Related_1to1
+				)
+			) {
+				$only_properties[] = $property_name;
+				continue;
+			}
+
 			$field = $property->getFormField();
 
 			if(!$field) {
@@ -1159,7 +1184,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$form_name = $definition->getModelName();
 		}
 
-		return $this->getForm($form_name, $only_properties);
+		return $this->getForm($form_name, $only_properties, $skip_hidden_fields);
 	}
 
 	/**
@@ -1171,6 +1196,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return bool;
 	 */
 	public function catchForm( Form $form, $data=null, $force_catch=false   ) {
+
 		if(
 			!$form->catchValues($data, $force_catch) ||
 			!$form->validateValues()
@@ -1178,12 +1204,57 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			return false;
 		}
 
-		$data = $form->getValues();
+
+		$data= $form->getRawData()->getRawData();
 
 		$properties = $this->getDataModelDefinition()->getProperties();
+		$fields = $form->getFields();
 
-		foreach( $data as $key=>$val ) {
-			$field = $form->getField($key);
+		foreach( array_keys($data) as $key ) {
+
+			if(
+				!isset($fields[$key]) ||
+				!isset($properties[$key])
+			) {
+				continue;
+			}
+
+			$property = $properties[$key];
+			$property_name = $property->getName();
+
+
+			if( $property->getIsDataModel() ) {
+
+				if( $this->$property_name instanceof DataModel_Related_1toN ) {
+
+
+					foreach( $this->$property_name as $r_key=>$r_instance ) {
+
+						/**
+						 * @var DataModel $r_instance
+						 */
+						$r_form = $r_instance->getForm( '', array_keys($data[$key][$r_key]) );
+
+						$r_instance->catchForm( $r_form, $data[$key][$r_key], true );
+
+					}
+				}
+
+				if( $this->$property_name instanceof DataModel_Related_1to1 ) {
+					/**
+					 * @var DataModel $r_instance
+					 */
+					$r_instance = $this->$property_name;
+					$r_form = $r_instance->getForm( '', array_keys($data[$key]) );
+
+					$r_instance->catchForm( $r_form, $data[$key], true );
+				}
+
+				continue;
+			}
+
+			$field = $fields[$key];
+			$val = $field->getValue();
 
 			$callback = $field->getCatchDataCallback();
 
@@ -1193,8 +1264,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 
 			if(
-				!isset($properties[$key]) ||
-				$properties[$key]->getIsID()
+				$property->getIsID()
 			) {
 				continue;
 			}
@@ -1206,7 +1276,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			} else {
 				$this->_setPropertyValue($key, $val);
 			}
-
 
 		}
 

@@ -113,6 +113,10 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 */
 	protected $decorator = '';
 
+	/**
+	 * @var Data_Array
+	 */
+	protected $raw_data;
 
 	/**
 	 * One of $HTML_templates
@@ -296,7 +300,16 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			$field->catchValue($data);
 		}
 
+		$this->raw_data = $data;
+
 		return true;
+	}
+
+	/**
+	 * @return \Jet\Data_Array
+	 */
+	public function getRawData() {
+		return $this->raw_data;
 	}
 	
 	/**

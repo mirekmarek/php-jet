@@ -23,9 +23,9 @@ namespace Jet;
 /**
  * Class Mvc_Dispatcher_Abstract
  *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getDispatcherInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Dispatcher_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Dispatcher_Abstract'
  */
 abstract class Mvc_Dispatcher_Abstract extends Object {
 

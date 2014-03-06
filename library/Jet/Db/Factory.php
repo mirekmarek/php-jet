@@ -16,7 +16,7 @@ class Db_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $connection_class_prefix = 'Jet\\Db_Connection_';
+	protected static $connection_class_prefix = 'Jet\Db_Connection_';
 
 	/**
 	 * @var string

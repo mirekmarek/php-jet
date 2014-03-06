@@ -21,9 +21,9 @@ class JetML_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $jetml_widget_class_name_prefix = 'Jet\\JetML_Widget_';
+	protected static $jetml_widget_class_name_prefix = 'Jet\JetML_Widget_';
 
-	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = 'Jet\\JetML';
+	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = 'Jet\JetML';
 
 	/**
 	 * @param string $jetml_widget_class_name_prefix

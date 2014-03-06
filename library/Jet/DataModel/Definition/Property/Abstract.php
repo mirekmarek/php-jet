@@ -19,7 +19,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\\DataModel_Definition_Property_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\DataModel_Definition_Property_Abstract'
  */
 abstract class DataModel_Definition_Property_Abstract extends Object {
 

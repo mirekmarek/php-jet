@@ -21,7 +21,7 @@ class Translator_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $backend_class_name_prefix = 'Jet\\Translator_Backend_';
+	protected static $backend_class_name_prefix = 'Jet\Translator_Backend_';
 
 	/**
 	 * @param string $backend_class_name_prefix

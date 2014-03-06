@@ -16,7 +16,7 @@ class Memcache_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $connection_class_prefix = 'Jet\\Memcache_Connection_';
+	protected static $connection_class_prefix = 'Jet\Memcache_Connection_';
 
 	/**
 	 * @var string

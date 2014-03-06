@@ -22,9 +22,9 @@ namespace Jet;
 /**
  * Class Mvc_Sites_Handler_Abstract
  *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getSiteHandlerInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Handler_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Sites_Handler_Abstract'
  */
 abstract class Mvc_Sites_Handler_Abstract extends Object {
 

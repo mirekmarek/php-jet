@@ -36,9 +36,9 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	protected $module_manifest;
 
 	/**
-	 * @var Config
+	 * @var Config[]
 	 */
-	protected $config;
+	protected $config = array();
 
 	/**
 	 * action => Human readable action description
@@ -286,24 +286,24 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	/**
 	 * Gets module config
 	 *
-	 * @throws Application_Modules_Exception
+	 *
+	 * @param string $config_name (optional, default: main)
 	 *
 	 * @return Config
 	 */
-	public function getConfig(){
-		if(!$this->config) {
-			$module_name = $this->module_manifest->getName();
+	public function getConfig( $config_name = 'main' ){
+
+		if(!isset($this->config[$config_name]) ) {
 
 			$class_name = get_called_class();
 
-
 			$class_name = substr($class_name, 0, strrpos($class_name, '\\')).'\Config';
 
-			$this->config = new $class_name( $this->getModuleManifest()->getModuleDir().'config/main.php' );
+			$this->config[$config_name] = new $class_name( $this->getModuleManifest()->getModuleDir().'config/'.$config_name.'.php' );
 
 		}
 
-		return $this->config;
+		return $this->config[$config_name];
 	}
 
 	/**

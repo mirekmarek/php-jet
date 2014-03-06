@@ -23,7 +23,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Router_Cache_Backend_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Router_Cache_Backend_Abstract'
  */
 abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 

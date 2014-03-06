@@ -88,7 +88,7 @@ class Translator extends Object {
 		if(static::$backend_instance === null){
 			static::$backend_instance = Translator_Factory::getBackendInstance( static::getConfig()->getBackendType() );
 
-			register_shutdown_function( array('\\Jet\\Translator', 'saveUpdatedDictionaries') );
+			register_shutdown_function( array('\Jet\Translator', 'saveUpdatedDictionaries') );
 		}
 		return static::$backend_instance;
 	}
@@ -100,7 +100,7 @@ class Translator extends Object {
 	 */
 	public static function setBackendInstance( Translator_Backend_Abstract $backend_instance ) {
 		if(static::$backend_instance === null){
-			register_shutdown_function( array('\\Jet\\Translator', 'saveUpdatedDictionaries') );
+			register_shutdown_function( array('\Jet\Translator', 'saveUpdatedDictionaries') );
 		}
 		static::$backend_instance = $backend_instance;
 	}

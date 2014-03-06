@@ -120,7 +120,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:form_field_label = 'Select: '
 	 * @JetDataModel:form_field_type = 'Select'
-	 * @JetDataModel:form_field_get_select_options_callback = array ( 'JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions',)
+	 * @JetDataModel:form_field_get_select_options_callback = ['JetApplicationModule\JetExample\TestModule\DataModelT1', 'getSelectOptions']
 	 *
 	 * @var string
 	 */
@@ -132,7 +132,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Multi Select: '
 	 * @JetDataModel:form_field_type = 'MultiSelect'
-	 * @JetDataModel:form_field_get_select_options_callback = array ( 'JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions',)
+	 * @JetDataModel:form_field_get_select_options_callback = ['JetApplicationModule\JetExample\TestModule\DataModelT1', 'getSelectOptions']
 	 *
 	 * @var array
 	 */
@@ -145,7 +145,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Radio Button: '
 	 * @JetDataModel:form_field_type = 'RadioButton'
-	 * @JetDataModel:form_field_get_select_options_callback = array ( 'JetApplicationModule\\JetExample\\TestModule\\DataModelT1', 'getSelectOptions',)
+	 * @JetDataModel:form_field_get_select_options_callback = ['JetApplicationModule\JetExample\TestModule\DataModelT1', 'getSelectOptions']
 	 *
 	 * @var array
 	 */

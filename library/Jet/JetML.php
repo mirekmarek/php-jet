@@ -18,7 +18,7 @@ namespace Jet;
  *
  * @JetFactory:class = 'JetML_Factory';
  * @JetFactory:method = 'getJetMLPostprocessorInstance';
- * @JetFactory:mandatory_parent_class = 'Jet\\JetML';
+ * @JetFactory:mandatory_parent_class = 'Jet\JetML';
  */
 class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 

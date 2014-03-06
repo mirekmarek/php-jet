@@ -280,7 +280,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 
 			if(!isset($modules_types[$type])){
 				throw new Application_Modules_Exception(
-					'Invalid module type \''.$type.'\' ! See Jet\\Application_Modules_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
+					'Invalid module type \''.$type.'\' ! See Jet\Application_Modules_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}

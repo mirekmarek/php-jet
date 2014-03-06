@@ -23,7 +23,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\\Config_Definition_Property_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Config_Definition_Property_Abstract'
  */
 abstract class Config_Definition_Property_Abstract extends Object {
 

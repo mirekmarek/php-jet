@@ -74,7 +74,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$this->view->setVar('form', $form);
 
 		$page = Jet\Mvc::getCurrentPage();
-		$page_form = $page->getCommonForm();
+		$page_form = $page->getCommonForm('', false);
+
 
 		if( $page->catchForm( $page_form ) ) {
 			$page->validateProperties();

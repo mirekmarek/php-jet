@@ -49,7 +49,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @var string 
 	 */
-	protected $nodes_class_name = 'Jet\\Data_Tree_Node';
+	protected $nodes_class_name = 'Jet\Data_Tree_Node';
 		
 	/**
 	 *
@@ -89,11 +89,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function setNodeClassName( $nodes_class_name ) {
 		if(
-			$nodes_class_name !== 'Jet\\Data_Tree_Node' &&
-			!is_subclass_of($nodes_class_name, 'Jet\\Data_Tree_Node')
+			$nodes_class_name !== 'Jet\Data_Tree_Node' &&
+			!is_subclass_of($nodes_class_name, 'Jet\Data_Tree_Node')
 		) {
 			throw new Data_Tree_Exception(
-				'Tree node class \''.$nodes_class_name.'\' must be Jet\\Data_Tree_Node class or descendant class',
+				'Tree node class \''.$nodes_class_name.'\' must be Jet\Data_Tree_Node class or descendant class',
 				Data_Tree_Exception::CODE_INVALID_NODES_CLASS
 			);
 		}

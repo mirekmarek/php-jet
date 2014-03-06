@@ -21,7 +21,7 @@ namespace Jet;
  * Class Auth_Role_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles'
- * @JetDataModel:ID_class_name = 'Jet\\DataModel_ID_Name'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Name'
  */
 class Auth_Role_Default extends Auth_Role_Abstract {
 
@@ -59,7 +59,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Auth_Role_Privilege_Default'
+	 * @JetDataModel:data_model_class = 'Jet\Auth_Role_Privilege_Default'
 	 * @JetDataModel:is_required = false
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -70,7 +70,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Auth_User_Roles'
+	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Auth_User_Abstract[]

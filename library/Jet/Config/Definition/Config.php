@@ -22,7 +22,7 @@ class Config_Definition_Config extends Object {
 	/**
 	 * Property definition classes names prefix
 	 */
-	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Jet\\Config_Definition_Property';
+	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Jet\Config_Definition_Property';
 
 	/**
 	 * @var string

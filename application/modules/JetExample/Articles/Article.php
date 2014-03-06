@@ -40,7 +40,7 @@ class Article extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_label = 'Locale:'
-	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Mvc',  1 => 'getAllSitesLocalesList',)
+	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc','getAllSitesLocalesList']
 	 *
 	 * @var Jet\Locale
 	 */

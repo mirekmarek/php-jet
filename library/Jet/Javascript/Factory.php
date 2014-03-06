@@ -19,7 +19,7 @@ class Javascript_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $JS_lib_class_name_prefix = 'Jet\\Javascript_Lib_';
+	protected static $JS_lib_class_name_prefix = 'Jet\Javascript_Lib_';
 
 	/**
 	 * @param string $JS_lib_class_name_prefix

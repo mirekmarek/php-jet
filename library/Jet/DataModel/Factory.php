@@ -20,22 +20,22 @@ class DataModel_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $backend_class_name_prefix = 'Jet\\DataModel_Backend_';
+	protected static $backend_class_name_prefix = 'Jet\DataModel_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $history_backend_class_name_prefix = 'Jet\\DataModel_History_Backend_';
+	protected static $history_backend_class_name_prefix = 'Jet\DataModel_History_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $cache_backend_class_name_prefix = 'Jet\\DataModel_Cache_Backend_';
+	protected static $cache_backend_class_name_prefix = 'Jet\DataModel_Cache_Backend_';
 
 	/**
 	 * @var string
 	 */
-	protected static $property_definition_class_name_prefix = 'Jet\\DataModel_Definition_Property_';
+	protected static $property_definition_class_name_prefix = 'Jet\DataModel_Definition_Property_';
 
 	/**
 	 * @param string $backend_class_name_prefix

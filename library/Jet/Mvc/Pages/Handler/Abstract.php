@@ -21,9 +21,9 @@ namespace Jet;
 /**
  * Class Mvc_Pages_Handler_Abstract
  *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getPageHandlerInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Handler_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Pages_Handler_Abstract'
  */
 abstract class Mvc_Pages_Handler_Abstract extends Object {
 

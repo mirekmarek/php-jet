@@ -22,12 +22,12 @@ namespace Jet;
 /**
  * Class Mvc_Pages_Page_MetaTag_Abstract
  *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getPageMetaTagInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_MetaTag_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Pages_Page_MetaTag_Abstract'
  *
  * @JetDataModel:name = 'page_meta_tag'
- * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Abstract'
+ * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Pages_Page_Abstract'
  */
 abstract class Mvc_Pages_Page_MetaTag_Abstract extends DataModel_Related_1toN {
 

@@ -254,7 +254,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @throws DataModel_Exception
 	 */
 	protected function _mainInit( $data_model_class_name ) {
-		$this->ID_class_name = Object_Reflection::get( $data_model_class_name, 'data_model_ID_class_name', 'Jet\\DataModel_ID_Default' );
+		$this->ID_class_name = Object_Reflection::get( $data_model_class_name, 'data_model_ID_class_name', 'Jet\DataModel_ID_Default' );
 
 		$this->class_name = (string)$data_model_class_name;
 

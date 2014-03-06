@@ -23,12 +23,12 @@ namespace Jet;
 /**
  * Class Mvc_Sites_Site_Abstract
  *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getSiteInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Sites_Site_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Sites_Site_Abstract'
  *
  * @JetDataModel:name = 'site'
- * @JetDataModel:ID_class_name = 'Jet\\Mvc_Sites_Site_ID_Abstract'
+ * @JetDataModel:ID_class_name = 'Jet\Mvc_Sites_Site_ID_Abstract'
  */
 abstract class Mvc_Sites_Site_Abstract extends DataModel {
 

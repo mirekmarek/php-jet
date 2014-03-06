@@ -84,7 +84,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_label = 'Locale:'
-	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Mvc',  1 => 'getAllSitesLocalesList',)
+	 * @JetDataModel:form_field_get_select_options_callback = [ 'Jet\Mvc','getAllSitesLocalesList']
 	 *
 	 * @var Locale
 	 */
@@ -183,10 +183,10 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Auth_User_Roles'
+	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
 	 * @JetDataModel:form_field_type = 'MultiSelect'
 	 * @JetDataModel:form_field_label = 'Roles:'
-	 * @JetDataModel:form_field_get_select_options_callback = array (  0 => 'Jet\\Auth',  1 => 'getRolesList',)
+	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Auth', 'getRolesList']
 	 *
 	 * @var Auth_User_Roles
 	 */

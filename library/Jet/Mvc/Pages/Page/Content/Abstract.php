@@ -21,12 +21,12 @@ namespace Jet;
 /**
  * Class Mvc_Pages_Page_Content_Abstract
  *
- * @JetFactory:class = 'Jet\\Mvc_Factory'
+ * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getPageContentInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\\Mvc_Pages_Page_Content_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Pages_Page_Content_Abstract'
  *
  * @JetDataModel:name = 'page_content'
- * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Pages_Page_Abstract'
+ * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Pages_Page_Abstract'
  */
 abstract class Mvc_Pages_Page_Content_Abstract extends DataModel_Related_1toN {
 

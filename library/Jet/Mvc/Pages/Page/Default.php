@@ -20,7 +20,7 @@ namespace Jet;
  * Class Mvc_Pages_Page_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages'
- * @JetDataModel:ID_class_name = 'Jet\\Mvc_Pages_Page_ID_Default'
+ * @JetDataModel:ID_class_name = 'Jet\Mvc_Pages_Page_ID_Default'
  */
 class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 
@@ -177,7 +177,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Pages_Page_URL_Default'
+	 * @JetDataModel:data_model_class = 'Jet\Mvc_Pages_Page_URL_Default'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Mvc_Pages_Page_URL_Abstract[]
@@ -228,7 +228,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Pages_Page_MetaTag_Default'
+	 * @JetDataModel:data_model_class = 'Jet\Mvc_Pages_Page_MetaTag_Default'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Mvc_Pages_Page_MetaTag_Abstract[]
@@ -256,7 +256,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Pages_Page_Content_Default'
+	 * @JetDataModel:data_model_class = 'Jet\Mvc_Pages_Page_Content_Default'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Mvc_Pages_Page_Content_Abstract[]
@@ -998,11 +998,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 
 	/**
 	 * @param string $form_name
+	 * @param bool $include_related_objects (optional, default=false)
+	 * @param bool $skip_hidden_fields (optional, default=false)
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name='' ) {
-		$form = parent::getCommonForm();
+	public function getCommonForm( $form_name='', $include_related_objects=true, $skip_hidden_fields=false ) {
+		$form = parent::getCommonForm( $form_name, $include_related_objects, $skip_hidden_fields );
 
 		if( $this->ID!=Mvc_Pages::HOMEPAGE_ID ) {
 			$form->getField('URL_fragment')->setIsRequired(true);

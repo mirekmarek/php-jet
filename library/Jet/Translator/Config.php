@@ -31,7 +31,7 @@ class Translator_Config extends Config_Application {
 	 * @JetConfig:default_value = 'PHPFiles'
 	 * @JetConfig:form_field_label = 'Default backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\Translator_Config', 'getBackendTypesList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Translator_Config', 'getBackendTypesList']
 	 * 
 	 * @var string
 	 */

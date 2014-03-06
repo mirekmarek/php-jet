@@ -23,7 +23,7 @@ class Mvc_Router_Cache_Backend_Oracle_Config extends Mvc_Router_Cache_Backend_Co
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - read: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 *
 	 * @var string
 	 */
@@ -34,7 +34,7 @@ class Mvc_Router_Cache_Backend_Oracle_Config extends Mvc_Router_Cache_Backend_Co
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - write: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = array('Jet\\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 *
 	 * @var string
 	 */

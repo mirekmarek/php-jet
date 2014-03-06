@@ -25,7 +25,7 @@ namespace Jet;
  * Class Mvc_Sites_Site_LocalizedData_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData'
- * @JetDataModel:parent_model_class_name = 'Jet\\Mvc_Sites_Site_Default'
+ * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Sites_Site_Default'
  */
 class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_Abstract {
 
@@ -92,7 +92,7 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Sites_Site_LocalizedData_URL_Default'
+	 * @JetDataModel:data_model_class = 'Jet\Mvc_Sites_Site_LocalizedData_URL_Default'
 	 *
 	 * @var Mvc_Sites_Site_LocalizedData_URL_Abstract[]
 	 */
@@ -101,7 +101,7 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\Mvc_Sites_Site_LocalizedData_MetaTag_Default'
+	 * @JetDataModel:data_model_class = 'Jet\Mvc_Sites_Site_LocalizedData_MetaTag_Default'
 	 *
 	 * @var Mvc_Sites_Site_LocalizedData_MetaTag_Abstract[]
 	 */
