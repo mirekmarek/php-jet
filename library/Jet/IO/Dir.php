@@ -315,10 +315,14 @@ class IO_Dir {
 
 		if($files === false){
 			$error = static::_getLastError();
-			throw new IO_Dir_Exception(
-				'Failed to open source directory \''.$dir_path.'\'. Error message: '.$error['message'],
-				IO_Dir_Exception::CODE_OPEN_FAILED
-			);
+			if($error) {
+				throw new IO_Dir_Exception(
+					'Failed to open source directory \''.$dir_path.'\'. Error message: '.$error['message'],
+					IO_Dir_Exception::CODE_OPEN_FAILED
+				);
+			} else {
+				return array();
+			}
 		}
 
 

@@ -31,13 +31,20 @@ class Data_Text {
 	 * @return string
 	 */
 	public static function removeAccents( $text ){
-		/** @noinspection PhpUndefinedClassInspection */
-		/** @noinspection PhpVoidFunctionResultUsedInspection */
-		/** @noinspection PhpUndefinedMethodInspection */
-		/** @noinspection SpellCheckingInspection */
-		$myTrans = \Transliterator::create('NFD; [:Nonspacing Mark:] Remove; NFC');
-		/** @noinspection PhpUndefinedMethodInspection */
-		return $myTrans->transliterate( $text );
+
+		if( !class_exists('\Transliterator', false) ) {
+			$text = iconv('UTF8', 'ASCII//TRANSLIT', $text);
+			return preg_replace('/[^a-zA-Z0-9]/', '_', $text);
+		} else {
+			/** @noinspection PhpUndefinedClassInspection */
+			/** @noinspection PhpVoidFunctionResultUsedInspection */
+			/** @noinspection PhpUndefinedMethodInspection */
+			/** @noinspection SpellCheckingInspection */
+			$myTrans = \Transliterator::create('NFD; [:Nonspacing Mark:] Remove; NFC');
+			/** @noinspection PhpUndefinedMethodInspection */
+			return $myTrans->transliterate( $text );
+
+		}
 	}
 	
 	/**

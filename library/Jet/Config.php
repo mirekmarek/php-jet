@@ -175,7 +175,6 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 * @return Data_Array
 	 */
 	protected function readConfigData( $config_file_path ) {
-
 		if(!$config_file_path) {
 			throw new Config_Exception(
 				'Config file path is not defined',

@@ -96,16 +96,30 @@ class Locale extends Object {
 	 * @param string $locale
 	 */
 	protected function _setLocale( $locale ) {
-		$data = \Locale::parseLocale($locale);
-		if(
-			$data &&
-			!empty($data['language']) &&
-			!empty($data['region'])
-		) {
-			$this->region = $data['region'];
-			$this->language = $data['language'];
-			$this->locale = $this->language.'_'.$this->region;
+
+		if(!class_exists('\Locale', false)) {
+			$locale = substr($locale, 0, 5);
+
+			if(!in_array($locale, static::$all_locales )) {
+				return;
+			}
+
+			$this->locale = $locale;
+			list( $this->region, $this->language ) = explode('_', $locale);
+
+		} else {
+			$data = \Locale::parseLocale($locale);
+			if(
+				$data &&
+				!empty($data['language']) &&
+				!empty($data['region'])
+			) {
+				$this->region = $data['region'];
+				$this->language = $data['language'];
+				$this->locale = $this->language.'_'.$this->region;
+			}
 		}
+
 	}
 
 	/**
@@ -131,7 +145,11 @@ class Locale extends Object {
 	 */
 	public function getCalendar() {
 		if($this->_calendar===null) {
-			$this->_calendar = \IntlDateFormatter::GREGORIAN;
+			if(class_exists('\IntlDateFormatter', false)) {
+				$this->_calendar = \IntlDateFormatter::GREGORIAN;
+			} else {
+				$this->_calendar = 1;
+			}
 		}
 
 		return $this->_calendar;
@@ -197,6 +215,11 @@ class Locale extends Object {
 			$in_locale = Mvc::getCurrentLocale();
 		}
 
+		if(!class_exists('\Locale', false)) {
+			//TODO:
+			return $this->locale;
+		}
+
 		return \Locale::getDisplayName( $this->locale, (string)$in_locale );
 	}
 
@@ -209,9 +232,18 @@ class Locale extends Object {
 	 *
 	 * @return string
 	 */
-	public function formatDateAndTime( DateTime $date_and_time, $format=\IntlDateFormatter::MEDIUM  ) {
+	public function formatDateAndTime( DateTime $date_and_time, $format=null ) {
 		if(!$date_and_time){
 			return '';
+		}
+
+		if(!class_alias('\IntlDateFormatter', false)) {
+			//TODO:
+			return $date_and_time;
+		}
+
+		if(!$format) {
+			$format=\IntlDateFormatter::MEDIUM;
 		}
 
 		$fmt = new \IntlDateFormatter(
@@ -234,7 +266,7 @@ class Locale extends Object {
 	 *
 	 * @return string
 	 */
-	public static function dateAndTime( DateTime $date_and_time, $format=\IntlDateFormatter::MEDIUM ) {
+	public static function dateAndTime( DateTime $date_and_time, $format=null ) {
 		return Mvc::getCurrentLocale()->formatDateAndTime($date_and_time, $format);
 	}
 
@@ -246,10 +278,21 @@ class Locale extends Object {
 	 *
 	 * @return string
 	 */
-	public function formatDate(  DateTime $date_and_time, $format=\IntlDateFormatter::MEDIUM ) {
+	public function formatDate(  DateTime $date_and_time, $format=null ) {
 		if(!$date_and_time){
 			return '';
 		}
+
+		if(!class_alias('\IntlDateFormatter', false)) {
+			//TODO:
+			return $date_and_time;
+		}
+
+		if(!$format) {
+			$format=\IntlDateFormatter::MEDIUM;
+		}
+
+
 		$fmt = new \IntlDateFormatter(
 			$this->locale,
 			$format,
@@ -271,7 +314,7 @@ class Locale extends Object {
 	 *
 	 * @return string
 	 */
-	public static function date(  DateTime $date_and_time, $format=\IntlDateFormatter::MEDIUM  ) {
+	public static function date(  DateTime $date_and_time, $format=null ) {
 		return Mvc::getCurrentLocale()->formatDate($date_and_time, $format);
 	}
 
@@ -283,10 +326,20 @@ class Locale extends Object {
 	 *
 	 * @return string
 	 */
-	public function formatTime(  DateTime $date_and_time, $format=\IntlDateFormatter::MEDIUM  ) {
+	public function formatTime(  DateTime $date_and_time, $format=null  ) {
 		if(!$date_and_time){
 			return '';
 		}
+
+		if(!class_alias('\IntlDateFormatter', false)) {
+			//TODO:
+			return $date_and_time;
+		}
+
+		if(!$format) {
+			$format=\IntlDateFormatter::MEDIUM;
+		}
+
 
 		$fmt = new \IntlDateFormatter(
 			$this->locale,
@@ -309,7 +362,7 @@ class Locale extends Object {
 	 *
 	 * @return string
 	 */
-	public function time(  DateTime $date_and_time, $format=\IntlDateFormatter::MEDIUM  ) {
+	public function time(  DateTime $date_and_time, $format=null  ) {
 		return Mvc::getCurrentLocale()->formatTime($date_and_time, $format);
 	}
 
@@ -321,6 +374,11 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public function formatInt( $number ) {
+
+		if(!class_alias('\NumberFormatter', false)) {
+			//TODO:
+			return (int)$number;
+		}
 
 		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL);
 
@@ -353,6 +411,11 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public function formatFloat( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
+
+		if(!class_alias('\NumberFormatter', false)) {
+			//TODO:
+			return round( $number, $max_fraction_digits );
+		}
 
 		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL);
 
@@ -450,8 +513,18 @@ class Locale extends Object {
 		}
 
 		$result = array();
-		foreach(static::$all_locales as $locale) {
-			$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
+
+		if(!class_exists('\Locale', false)) {
+			foreach(static::$all_locales as $locale) {
+				//TODO:
+				$result[$locale] = $locale;
+			}
+
+		} else {
+			foreach(static::$all_locales as $locale) {
+				$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
+			}
+
 		}
 
 		asort($result);

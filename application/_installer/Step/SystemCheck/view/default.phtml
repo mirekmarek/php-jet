@@ -238,11 +238,17 @@ class JetCompatibilityTester {
 				return extension_loaded('PDO');
 			}
 		);
-		$this->test(
+		$this->check(
 			'INTL extension',
 			'PHP Internationalization Functions extension must be activated',
-			function() {
-				return extension_loaded('intl');
+			function( JetCompatibilityTester_TestResult $test_result ) {
+				$result = extension_loaded('intl');
+
+				if(!$result) {
+					$test_result->setResultMessage( '<b style="color:red">Internationalization support is limited!</b>' );
+				}
+
+				return $result;
 			}
 		);
 

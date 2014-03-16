@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -10,16 +10,25 @@
  * @package tools
  */
 namespace Jet;
-require "includes/bootstrap_cli.php";
+
+require 'includes/bootstrap_cli.php';
 
 if(!isset($argv[1])) {
-    die("Usage: {$argv[0]} ClassName".PHP_EOL );
+    die('Usage: '.$argv[0].' \'Namespace\ClassName\''.JET_EOL );
 }
 
 
 $class = $argv[1];
 
-echo "\nUpdate for class '{$class}'\n";
-echo implode("\n", DataModel::helper_getUpdateCommand($class));
+echo JET_EOL.'Update for class \''.$class.'\''.JET_EOL;
+
+try {
+	class_exists($class);
+} catch( Autoloader_Exception $e ) {
+	echo JET_EOL.'ERROR: '.$e->getMessage().JET_EOL.JET_EOL;
+	die();
+}
+
+echo implode(JET_EOL, DataModel::helper_getUpdateCommand($class));
 DataModel::helper_update($class);
-echo "\n\n";
+echo JET_EOL.JET_EOL;
