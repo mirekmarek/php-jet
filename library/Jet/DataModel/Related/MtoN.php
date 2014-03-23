@@ -79,9 +79,10 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		 * @var DataModel $M_instance
 		 */
 		$M_model_name = $M_instance->getDataModelDefinition()->getModelName();
-		if(!$M_model_name) {
+
+		if(!$this->getDataModelDefinition()->getRelatedModelDefinition($M_model_name)  ) {
 			throw new DataModel_Exception(
-				'Class \''.get_class($M_instance).'\' is not related to \''.get_class($this).'\'  (class: \''.get_called_class().'\') ',
+				'Class \''.get_class($M_instance).'\' (model name: \''.$M_model_name.'\') is not related to \''.get_class($this).'\'  (class: \''.get_called_class().'\') ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -99,6 +100,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 		$this->__data_model_current_M_model_name = $M_model_name;
 		$this->__data_model_current_N_model_name = $N_model_name;
+
 
 		$this->__data_model_current_M_model_class_name = $this->getDataModelDefinition()->getRelatedModelDefinition($M_model_name)->getClassName();
 		$this->__data_model_current_N_model_class_name = $this->getDataModelDefinition()->getRelatedModelDefinition($N_model_name)->getClassName();

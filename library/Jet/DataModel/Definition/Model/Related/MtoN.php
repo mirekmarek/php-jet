@@ -90,6 +90,8 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$M_model_name = $this->_getModelNameDefinition( $M_model_class_name );
 		$N_model_name = $this->_getModelNameDefinition( $N_model_class_name );
 
+		var_dump($M_model_name, $N_model_name, $M_model_class_name, $N_model_class_name );
+
 
 		$this->relation_ID_properties[$M_model_name] = array();
 		$this->relation_ID_properties[$N_model_name] = array();
