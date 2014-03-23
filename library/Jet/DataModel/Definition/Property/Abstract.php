@@ -136,6 +136,11 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	protected $error_messages = array();
 
 	/**
+	 * @var string
+	 */
+	protected $form_field_creator_method_name = '';
+
+	/**
 	 *
 	 * @var string
 	 */
@@ -525,6 +530,50 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	                                &$errors) {
 		return true;
 	}
+
+	/**
+	 * @param string $form_field_creator_method_name
+	 */
+	public function setFormFieldCreatorMethodName($form_field_creator_method_name) {
+		$this->form_field_creator_method_name = $form_field_creator_method_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFormFieldCreatorMethodName() {
+		return $this->form_field_creator_method_name;
+	}
+
+	/**
+	 * @param callable $form_field_get_default_value_callback
+	 */
+	public function setFormFieldGetDefaultValueCallback($form_field_get_default_value_callback) {
+		$this->form_field_get_default_value_callback = $form_field_get_default_value_callback;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getFormFieldGetDefaultValueCallback() {
+		return $this->form_field_get_default_value_callback;
+	}
+
+	/**
+	 * @param callable $form_field_get_select_options_callback
+	 */
+	public function setFormFieldGetSelectOptionsCallback($form_field_get_select_options_callback) {
+		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getFormFieldGetSelectOptionsCallback() {
+		return $this->form_field_get_select_options_callback;
+	}
+
+
 
 	/**
 	 * @return string

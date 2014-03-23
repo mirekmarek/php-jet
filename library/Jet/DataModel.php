@@ -78,6 +78,16 @@ namespace Jet;
  *       *      - optional
  *       *
  *       * Form field options:
+ *       *   @JetDataModel:form_field_creator_method_name = 'someMethodName'
+ *       *      - optional
+ *       *          Creator example:
+ *       *          public function myFieldCreator( DataModel_Definition_Property_Abstract $property_definition ) {
+ *       *              $form_field = $property_definition->getFormField();
+ *       *              $form_field->setLabel( 'Some special label' );
+ *       *              // ... do something with form field
+ *       *              return $form_field
+ *       *          }
+ *       *
  *       *   @JetDataModel:form_field_type = Jet\Form::TYPE_*
  *       *      - optional, default: autodetect
  *       *   @JetDataModel:form_field_label = 'Field label:'
@@ -1117,7 +1127,14 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				continue;
 			}
 
-			$field = $property->getFormField();
+			$field_creator_method_name = $property->getFormFieldCreatorMethodName();
+
+			if(!$field_creator_method_name) {
+				$field = $property->getFormField();
+			} else {
+				$field = $this->{$field_creator_method_name}( $property );
+			}
+
 			if(!$field) {
 				$class = $definition->getClassName();
 
@@ -1208,73 +1225,84 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$data= $form->getRawData()->getRawData();
 
 		$properties = $this->getDataModelDefinition()->getProperties();
-		$fields = $form->getFields();
+		$form_fields = $form->getFields();
 
-		foreach( array_keys($data) as $key ) {
-
+		foreach( $data as $key=>$val ) {
 			if(
-				!isset($fields[$key]) ||
+				!isset($form_fields[$key]) &&
 				!isset($properties[$key])
 			) {
 				continue;
 			}
 
-			$property = $properties[$key];
-			$property_name = $property->getName();
+
+			if(isset($form_fields[$key])) {
+				$form_field = $form_fields[$key];
+				$val = $form_field->getValue();
+
+				$callback = $form_field->getCatchDataCallback();
+
+				if($callback) {
+					$callback( $form_field->getValueRaw() );
+					continue;
+				}
+			}
 
 
-			if( $property->getIsDataModel() ) {
+			if(isset($properties[$key])) {
+				$property = $properties[$key];
+				$property_name = $property->getName();
 
-				if( $this->$property_name instanceof DataModel_Related_1toN ) {
+				if( $property->getIsDataModel() ) {
 
+					if( $this->$property_name instanceof DataModel_Related_1toN ) {
 
-					foreach( $this->$property_name as $r_key=>$r_instance ) {
+						foreach( $this->$property_name as $r_key=>$r_instance ) {
 
+							$values = isset( $val[$r_key] ) ? $val[$r_key] : array();
+
+							/**
+							 * @var DataModel $r_instance
+							 */
+							$r_form = $r_instance->getForm( '', array_keys($values) );
+
+							$r_instance->catchForm( $r_form, $values, true );
+
+						}
+
+						continue;
+					}
+
+					if( $this->$property_name instanceof DataModel_Related_1to1 ) {
 						/**
 						 * @var DataModel $r_instance
 						 */
-						$r_form = $r_instance->getForm( '', array_keys($data[$key][$r_key]) );
+						$r_instance = $this->$property_name;
+						$r_form = $r_instance->getForm( '', array_keys($val) );
 
-						$r_instance->catchForm( $r_form, $data[$key][$r_key], true );
+						$r_instance->catchForm( $r_form, $val, true );
 
+						continue;
 					}
+
+
 				}
 
-				if( $this->$property_name instanceof DataModel_Related_1to1 ) {
-					/**
-					 * @var DataModel $r_instance
-					 */
-					$r_instance = $this->$property_name;
-					$r_form = $r_instance->getForm( '', array_keys($data[$key]) );
 
-					$r_instance->catchForm( $r_form, $data[$key], true );
+				if(
+					$property->getIsID()
+				) {
+					continue;
 				}
 
-				continue;
-			}
+				$setter_method_name = $this->getSetterMethodName( $key );
 
-			$field = $fields[$key];
-			$val = $field->getValue();
+				if(method_exists($this, $setter_method_name)) {
+					$this->{$setter_method_name}($val);
+				} else {
+					$this->_setPropertyValue($key, $val);
+				}
 
-			$callback = $field->getCatchDataCallback();
-
-			if($callback) {
-				$callback( $field->getValueRaw() );
-				continue;
-			}
-
-			if(
-				$property->getIsID()
-			) {
-				continue;
-			}
-
-			$setter_method_name = $this->getSetterMethodName( $key );
-
-			if(method_exists($this, $setter_method_name)) {
-				$this->{$setter_method_name}($val);
-			} else {
-				$this->_setPropertyValue($key, $val);
 			}
 
 		}

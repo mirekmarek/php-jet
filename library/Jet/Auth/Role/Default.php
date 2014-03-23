@@ -77,6 +77,32 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 */
 	protected $users;
 
+	/**
+	 *
+	 */
+	public function __construct() {
+		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+
+		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
+			$this->setPrivilege( $privilege, array() );
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	public function __wakeup() {
+		parent::__wakeup();
+
+		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+
+		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
+			if(!isset($this->privileges[$privilege])) {
+				$this->setPrivilege( $privilege, array() );
+			}
+		}
+	}
 
 	/**
 	 * @return string
@@ -226,41 +252,4 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 		$list->getQuery()->setOrderBy('name');
 		return $list;
 	}
-
-	/**
-	 * @param string $form_name
-	 *
-	 * @return Form
-	 */
-	public function getCommonForm( $form_name='' ) {
-		$form = parent::getCommonForm($form_name);
-
-		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
-
-		$role = $this;
-		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
-			$name = '/privileges/'.$privilege.'/values';
-			$field = Form_Factory::getFieldInstance('MultiSelect', $name, $privilege_data->getLabel());
-
-			/**
-			 * @var Form_Field_MultiSelect $field
-			 */
-			$field->setSelectOptions( $privilege_data->getValuesList() );
-
-			$field->setCatchDataCallback(function( $values ) use ($role, $privilege) {
-				if(!$values) {
-					$values = array();
-				}
-				/**
-				 * @var Auth_Role_Abstract $role
-				 */
-				$role->setPrivilege( $privilege, $values );
-			});
-
-			$field->setDefaultValue($this->getPrivilegeValues( $privilege ));
-
-			$form->setField( $name, $field );
-		}
-
-		return $form;
-	}}
+}

@@ -79,6 +79,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		if($role->catchForm( $form )) {
 			$role->validateProperties();
+
 			$role->save();
 			Jet\Http_Headers::movedTemporary( '?ID='.$role->getID() );
 		}

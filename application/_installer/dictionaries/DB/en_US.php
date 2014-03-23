@@ -115,5 +115,40 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'c2ca16d048ec66e04bca283eab048ec2' => array(
+		'phrase' => 'Host',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'60aaf44d4b562252c04db7f98497e9aa' => array(
+		'phrase' => 'Port',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'825689fed4e8cd85dbc5beedf98feec0' => array(
+		'phrase' => 'Database Name',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'1148e3928e034ec2fc7796cedb77b3b0' => array(
+		'phrase' => 'Unix socket',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'f594c0052b0886932fe51eedb83fb2c3' => array(
+		'phrase' => 'Charset',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'ac70412e939d72a9234cdebb1af5867b' => array(
+		'phrase' => 'Path',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'9e362f7bde93fb1a52dea86534d5be9c' => array(
+		'phrase' => 'Database name',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

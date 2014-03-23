@@ -15,5 +15,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'ec211f7c20af43e742bf2570c3cb84f9' => array(
+		'phrase' => 'Add',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

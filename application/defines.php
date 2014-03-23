@@ -13,7 +13,7 @@ namespace Jet;
 error_reporting(E_ALL | E_STRICT);
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-define('JET_DEBUG_MODE', false);
+define('JET_DEBUG_MODE', true);
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 define('JET_DEBUG_PROFILER_ENABLED', JET_DEBUG_MODE);

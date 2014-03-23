@@ -237,7 +237,7 @@ class Locale extends Object {
 			return '';
 		}
 
-		if(!class_alias('\IntlDateFormatter', false)) {
+		if(!class_exists('\IntlDateFormatter', false)) {
 			//TODO:
 			return $date_and_time;
 		}
@@ -283,7 +283,7 @@ class Locale extends Object {
 			return '';
 		}
 
-		if(!class_alias('\IntlDateFormatter', false)) {
+		if(!class_exists('\IntlDateFormatter', false)) {
 			//TODO:
 			return $date_and_time;
 		}
@@ -331,7 +331,7 @@ class Locale extends Object {
 			return '';
 		}
 
-		if(!class_alias('\IntlDateFormatter', false)) {
+		if(!class_exists('\IntlDateFormatter', false)) {
 			//TODO:
 			return $date_and_time;
 		}
@@ -375,7 +375,7 @@ class Locale extends Object {
 	 */
 	public function formatInt( $number ) {
 
-		if(!class_alias('\NumberFormatter', false)) {
+		if(!class_exists('\NumberFormatter', false)) {
 			//TODO:
 			return (int)$number;
 		}
@@ -412,7 +412,7 @@ class Locale extends Object {
 	 */
 	public function formatFloat( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
 
-		if(!class_alias('\NumberFormatter', false)) {
+		if(!class_exists('\NumberFormatter', false)) {
 			//TODO:
 			return round( $number, $max_fraction_digits );
 		}

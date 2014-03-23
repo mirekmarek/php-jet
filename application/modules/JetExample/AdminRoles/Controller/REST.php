@@ -60,6 +60,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	}
 
 	public function put_role_Action( $ID ) {
+
 		$role = $this->_getRole($ID);
 
 		$form = $role->getCommonForm();

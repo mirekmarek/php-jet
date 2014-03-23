@@ -44,6 +44,7 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
@@ -53,10 +54,16 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
+	 * @JetDataModel:form_field_creator_method_name = 'getValuesFormField'
 	 *
 	 * @var array
 	 */
 	protected $values = array ();
+
+	/**
+	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
+	 */
+	private static $available_privileges_list;
 
 	/**
 	 * @return string
@@ -111,6 +118,27 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 */
 	protected function _jsonSerializeItem() {
 		return $this->values;
+	}
+
+	/**
+	 * @param DataModel_Definition_Property_Abstract $values_property_def
+	 *
+	 * @return Form_Field_Abstract
+	 */
+	public function getValuesFormField( DataModel_Definition_Property_Abstract $values_property_def ) {
+
+		$form_field = $values_property_def->getFormField();
+
+		if(!static::$available_privileges_list) {
+			static::$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+		}
+
+		$privilege_data = static::$available_privileges_list[ $this->privilege ];
+
+		$form_field->setLabel( $privilege_data->getLabel() );
+		$form_field->setSelectOptions( $privilege_data->getValuesList() );
+
+		return $form_field;
 	}
 
 }
