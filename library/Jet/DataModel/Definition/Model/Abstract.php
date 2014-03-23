@@ -891,7 +891,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				return;
 				break;
 			case 'name':
-				if($reflection_data['data_model_name']) {
+				if(!empty($reflection_data['data_model_name'])) {
 					throw new Object_Reflection_Exception(
 						'@Jet_DataModel:model_name is defined by parent and can\'t be overloaded! '
 					);
