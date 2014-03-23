@@ -69,6 +69,10 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 			}
 
+			if(!$result) {
+				$this->installer->goNext();
+			}
+
 			$this->view->setVar('result', $result);
 			$this->view->setVar('OK', $OK);
 

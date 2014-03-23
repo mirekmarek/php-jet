@@ -30,6 +30,9 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 
 		$GET = Http_Request::GET();
 
+		if( $GET->exists('add_connection') ) {
+			$this->_addConnection();
+		} else
 		if( ( $edit_connection_name = $GET->getString('edit_connection') ) ) {
 			$this->_editConnection( $edit_connection_name );
 		} else
@@ -40,10 +43,10 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 			$this->_testConnection( $test_connection_name );
 		}
 		else {
-			$this->_addConnection();
 
-
-
+			if(!$this->main_config->getConnectionsList()) {
+				$this->_addConnection();
+			}
 
 			$form = $this->main_config->getCommonForm();
 

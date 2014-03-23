@@ -13,7 +13,7 @@ $result = $this->getRaw('result');
 $OK = $this->getBool('OK');
 ?>
 
-<table class="list">
+<table class="table table-striped">
 	<thead>
 	<tr>
 		<th><?=Tr::_('Module');?></th>
@@ -42,13 +42,13 @@ $OK = $this->getBool('OK');
 <?php if($OK): ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>"/>
+	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
 </form>
 <?php endif; ?>
 
 <?php if(!$OK): ?>
 <form method="post">
 	<input type="hidden" name="back" value="1">
-	<input type="submit" value="<?=Tr::_('&lt; Back');?>"/>
+	<input type="submit" value="<?=Tr::_('&lt; Back');?>" class="btn btn-default"/>
 </form>
 <?php endif; ?>

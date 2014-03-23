@@ -1,4 +1,4 @@
-<table class="list">
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th><?=Jet\Tr::_('Class');?></th>
@@ -9,9 +9,9 @@
 	<tr>
 		<td><?=$class;?></td>
 		<?php if($state===true): ?>
-		<td class="OK">OK</td>
+		<td><div class="OK">OK</div></td>
 		<?php else: ?>
-		<td class="error"><?=$state;?></td>
+		<td><div class="error"><?=$state;?></div></td>
 		<?php endif; ?>
 	</tr>
 	<?php endforeach; ?>
@@ -21,6 +21,6 @@
 <?php if($this->OK): ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
+<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
 </form>
 <?php endif; ?>

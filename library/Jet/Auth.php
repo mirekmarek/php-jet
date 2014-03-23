@@ -286,6 +286,10 @@ class Auth extends Object {
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	public static function getAvailablePrivilegesList( $get_available_values_list=false ) {
+		if(!static::$current_auth_manager_module_instance) {
+			return array();
+		}
+
 		return static::$current_auth_manager_module_instance->getAvailablePrivilegesList( $get_available_values_list );
 	}
 

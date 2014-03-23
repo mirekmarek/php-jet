@@ -30,6 +30,9 @@ class Installer_Step_Memcache_Controller extends Installer_Step_Controller {
 
 		$GET = Http_Request::GET();
 
+		if( $GET->exists('add_connection') ) {
+			$this->_addConnection();
+		} else
 		if( ( $edit_connection_name = $GET->getString('edit_connection') ) ) {
 			$this->_editConnection( $edit_connection_name );
 		} else
@@ -41,7 +44,9 @@ class Installer_Step_Memcache_Controller extends Installer_Step_Controller {
 		}
 		else {
 			if(extension_loaded('memcache')) {
-				$this->_addConnection();
+				if(!$this->main_config->getConnectionsList()) {
+					$this->_addConnection();
+				}
 			} else {
 				$this->render('extension-not-loaded-warning');
 			}

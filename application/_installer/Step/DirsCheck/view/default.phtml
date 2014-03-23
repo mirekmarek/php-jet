@@ -70,9 +70,10 @@
 	<?php endforeach;?>
 </table>
 
+<br/>
 <?php if($this->getBool('is_OK')): ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>" />
+<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>"  class="btn btn-primary"/>
 </form>
 <?php endif ;?>

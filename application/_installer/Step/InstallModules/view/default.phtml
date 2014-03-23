@@ -12,7 +12,7 @@ $modules = $this->getRaw('modules');
 <jet_form name="modules_select_form">
 <jet_form_common_error_message class="formError"/>
 
-<table class="list">
+<table class="table table-striped">
 	<thead>
 	<tr>
 		<th></th>
@@ -39,5 +39,5 @@ $modules = $this->getRaw('modules');
 	<?php endforeach; ?>
 </table>
 
-	<input type="submit" value="<?=Tr::_('Install and activate selected modules');?>">
+	<input type="submit" value="<?=Tr::_('Install and activate selected modules');?>" class="btn btn-primary">
 </jet_form>

@@ -150,5 +150,25 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'e63b896b0a7dd5c3849b12416121d848' => array(
+		'phrase' => 'Delete connection \'%CONNECTION%\' ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'3d74ab3b1d356cab11b43e03e95ea9f7' => array(
+		'phrase' => 'YES! Delete it!',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'571c4a75a551e135eb5253a8b3d0d71d' => array(
+		'phrase' => 'Add new connection',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'31d432053ffd3c1673a69ceb66b61863' => array(
+		'phrase' => 'Is default?',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

@@ -1,24 +1,4 @@
-* {
-    font-family: Arial;
-}
 
-body {
-    padding: 0px;margin: 0px;
-}
-
-table.list {
-    border: 1px solid black;
-    Border-spacing: 0px;
-}
-
-table.list thead {
-    background-color: #c9c9c9;
-}
-
-table.list td {
-    border: 1px solid black;
-    padding: 5px;
-}
 
 .error {
     background: red;
@@ -41,15 +21,11 @@ table.list td {
 
 #header {
     background: #cccccc;
-    padding: 5px;
     font-size: 18px;
 }
 
 #statusBar {
     background: #e9e9e9;
-    padding: 10px;
-    border-right: 1px solid #dddddd;
-    width: 200px;
 }
 
 

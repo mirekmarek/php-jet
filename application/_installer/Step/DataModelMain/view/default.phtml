@@ -1,49 +1,37 @@
 <?php
-namespace Jet;
-
 /**
- * @var Form $form
+ * @var Jet\Form $form
  */
 $form = $this->form;
-
 
 ?>
 <jet_form name="<?=$form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
-	<table>
-		<tr>
-			<td valign="top"><jet_form_field_label name="backend_type"/></td>
-			<td><jet_form_field_error_msg name="backend_type" class="error"/><jet_form_field name="backend_type"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="backend_options"/></td>
-			<td><jet_form_field_error_msg name="backend_options" class="error"/><jet_form_field name="backend_options"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="history_enabled"/></td>
-			<td><jet_form_field_error_msg name="history_enabled" class="error"/><jet_form_field name="history_enabled"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="history_backend_type"/></td>
-			<td><jet_form_field_error_msg name="history_backend_type" class="error"/><jet_form_field name="history_backend_type"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="history_backend_options"/></td>
-			<td><jet_form_field_error_msg name="history_backend_options" class="error"/><jet_form_field name="history_backend_options"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="cache_enabled"/></td>
-			<td><jet_form_field_error_msg name="cache_enabled" class="error"/><jet_form_field name="cache_enabled"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="cache_backend_type"/></td>
-			<td><jet_form_field_error_msg name="cache_backend_type" class="error"/><jet_form_field name="cache_backend_type"/></td>
-		</tr>
-		<tr>
-			<td valign="top"><jet_form_field_label name="cache_backend_options"/></td>
-			<td><jet_form_field_error_msg name="cache_backend_options" class="error"/><jet_form_field name="cache_backend_options"/></td>
-		</tr>
-	</table>
+	<div class="form-group">
+		<jet_form_field_label name="backend_type"/>
+		<jet_form_field_error_msg name="backend_type" class="form-error"/>
+		<jet_form_field name="backend_type" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="history_enabled"/>
+		<jet_form_field_error_msg name="history_enabled" class="form-error"/>
+		<jet_form_field name="history_enabled"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="history_backend_type"/>
+		<jet_form_field_error_msg name="history_backend_type" class="form-error"/>
+		<jet_form_field name="history_backend_type" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="cache_enabled"/>
+		<jet_form_field_error_msg name="cache_enabled" class="form-error"/>
+		<jet_form_field name="cache_enabled"/>
+	</div>
+	<div class="form-group">
+		<jet_form_field_label name="cache_backend_type"/>
+		<jet_form_field_error_msg name="cache_backend_type" class="form-error"/>
+		<jet_form_field name="cache_backend_type" class="form-control"/>
+	</div>
 
-	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>"/>
+	<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>"/>
 </jet_form>

@@ -10,43 +10,48 @@ $steps = $this->getRaw('steps');
 <head>
 	<title><?=Tr::_('PHP Jet Platform - Example Project Installer');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?=JET_INSTALLER_URI;?>public/styles/main.css">
 	<jet_layout_meta_tags/>
 	<jet_layout_javascripts/>
 	<jet_layout_header_suffix/>
 	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="<?=JET_INSTALLER_URI;?>public/styles/main.css">
 
 </head>
-<body>
+<body style="margin: 0xp;padding: 0px;background-color: #e9e9e9;">
 
-<table cellpadding="0" cellspacing="0" width="100%" height="100%">
-	<tr><td colspan="2" id="header" height="40" valign="middle">
-		<?=Tr::_('PHP Jet Platform - Example Project Installer');?>
-	</td></tr>
-	<tr>
-		<td valign="top" id="statusBar">
+<div class="row">
+	<div class="col-md-12" style="background-color: #000000;color: #ffffff;font-size: 18px;font-weight: bolder;">
+		<div style="padding: 4px;">
+			<?=Tr::_('PHP Jet Platform - Example Project Installer');?>
+		</div>
+	</div>
+</div>
 
-				<?php foreach( $steps as $step ):
-					$class = '';
-					if($step->getIsSubStep()) {
-						$class = ' stepSub';
-					}
-					?>
-					<?php if($step->getIsPrev()): ?>
-					<div class="stepPrev<?=$class;?>"><a href="<?=$step->getURL();?>"><?=$step->getLabel();?></a></div>
-					<?php endif; ?>
-					<?php if($step->getIsCurrent()): ?>
-					<div class="stepCurrent<?=$class;?>"><?=$step->getLabel();?></div>
-					<?php endif; ?>
-					<?php if($step->getIsNext()): ?>
-					<div class="stepNext<?=$class;?>"><?=$step->getLabel();?></div>
-					<?php endif; ?>
-				<?php endforeach; ?>
-
-		</td>
-		<td valign="top" style="padding: 10px;"><jet_layout_main_position/></td>
-	</tr>
-</table>
+<div class="row" style="">
+	<div class="col-md-2" style="height: height: 100%;">
+		<?php foreach( $steps as $step ):
+			$class = '';
+			if($step->getIsSubStep()) {
+				$class = ' stepSub';
+			}
+			?>
+			<?php if($step->getIsPrev()): ?>
+			<div class="stepPrev<?=$class;?>"><a href="<?=$step->getURL();?>"><?=$step->getLabel();?></a></div>
+		<?php endif; ?>
+			<?php if($step->getIsCurrent()): ?>
+			<div class="stepCurrent<?=$class;?>"><?=$step->getLabel();?></div>
+		<?php endif; ?>
+			<?php if($step->getIsNext()): ?>
+			<div class="stepNext<?=$class;?>"><?=$step->getLabel();?></div>
+		<?php endif; ?>
+		<?php endforeach; ?>
+	</div>
+	<div class="col-md-10" style="background-color: #ffffff;min-height: 100%;">
+		<div style="padding: 10px;">
+			<jet_layout_main_position/>
+		</div>
+	</div>
+</div>
 
 
 </body>
