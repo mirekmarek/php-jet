@@ -46,8 +46,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			'form_common_error_message_class' => 'form-error',
 			'form_submit_button' => '<tr><td colspan="2" align="center"><input type="submit" class="btn btn-primary"/></td></tr>',
 			'field' => '<tr><td valign="top">%LABEL%</td><td>%FIELD%</td></tr>',
-			'field_error_msg' => '<div class="formFieldError">%ERROR_MSG%</div>',
-			'field_required' => '<em class="required">*</em> %LABEL%',
+			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
+			'field_required' => '<em class="form-required">*</em> %LABEL%',
 		),
 		'div' => array(
 			'form_start' => '<fieldset>',
@@ -56,7 +56,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			'form_submit_button' => '<input type="submit" class="btn btn-primary"/>',
 			'field' => '<div class="form-group">%LABEL%%FIELD%</div>',
 			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
-			'field_required' => '<em class="required">*</em> %LABEL%',
+			'field_required' => '<em class="form-required">*</em> %LABEL%',
 		)
 	);
 

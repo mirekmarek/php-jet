@@ -1,0 +1,22 @@
+<?php
+namespace JetApplicationModule\JetExample\UIElements;
+use Jet;
+
+/**
+ * @var DataGrid $grid
+ */
+$grid = $this->grid;
+?>
+<tbody>
+<?php foreach( $grid->getData() as $i=>$item ): ?>
+	<tr>
+		<?php foreach( $grid->getColumns() as $column ):
+			$callback = $column->getDisplayCallback();
+			?>
+			<td>
+				<?=$callback( $item, $i );?>
+			</td>
+		<?php endforeach; ?>
+	</tr>
+<?php endforeach; ?>
+</tbody>

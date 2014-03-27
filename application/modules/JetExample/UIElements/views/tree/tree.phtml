@@ -1,0 +1,62 @@
+<?php
+namespace JetApplicationModule\JetExample\UIElements;
+use Jet;
+
+/**
+ * @var Tree $tree
+ */
+$tree = $this->tree;
+
+$selected_ID = $tree->getSelectedID();
+
+$path = ($selected_ID) ? $tree->getData()->getPath( $selected_ID ) : array('_root_');
+
+?>
+
+<table>
+	<?php foreach( $tree->getData() as $node ):
+
+		/**
+		 * @var Jet\Data_Tree_Node $node
+		 */
+		if(
+			!$tree->getShowAll() &&
+			!(
+				in_array($node->getParentID(), $path) ||
+				in_array($node->getID(), $path)
+			)
+		) {
+				continue;
+		}
+
+		$opened = in_array($node->getID(), $path);
+		$selected = ($selected_ID==$node->getID());
+
+		$callback = $tree->getNormalDisplayCallback();
+		if($selected) {
+			$callback = $tree->getSelectedDisplayCallback();
+		} else if( $opened ) {
+			$callback = $tree->getOpenedDisplayCallback();
+		}
+
+		//TODO: icons ...
+		?>
+		<tr><td>
+				<table>
+					<tr>
+					<?php if($opened): ?>
+						<td style="width: <?=$node->getDepth()*20;?>px"></td>
+					<?php else: ?>
+						<td style="width: <?=$node->getDepth()*20;?>px"></td>
+					<?php endif;?>
+						<td>
+							<?=$callback($node, $node->getData());?>
+						</td>
+					</tr>
+
+				</table>
+			</td></tr>
+
+	<?php endforeach; ?>
+</table>
+

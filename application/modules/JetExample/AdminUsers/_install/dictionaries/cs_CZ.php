@@ -54,13 +54,7 @@
     'translation' => '',
     'is_translated' => false,
   ),
-  '2c4ef892f8cf8d90a69deca8c628427a' => 
-  array (
-    'phrase' => '<em class="required">*</em> ',
-    'translation' => '',
-    'is_translated' => false,
-  ),
-  '2380e5081706fdc549ec15978308fc88' => 
+  '2380e5081706fdc549ec15978308fc88' =>
   array (
     'phrase' => 'Sorry, but username %LOGIN% is registered.',
     'translation' => '',

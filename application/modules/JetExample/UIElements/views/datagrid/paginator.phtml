@@ -1,0 +1,75 @@
+<?php
+namespace JetApplicationModule\JetExample\UIElements;
+use Jet;
+
+/**
+ * @var DataGrid $grid
+ */
+$grid = $this->grid;
+
+$paginator = $grid->getPaginator();
+?>
+
+<?php if($paginator->getPagesCount()>1):
+	$pages = $paginator->getPagesURL();
+
+	$s_index = $paginator->getCurrentPageNo()-3;
+	$e_index = $paginator->getCurrentPageNo()+3;
+	if($s_index<1) {
+		$e_index = $e_index+($s_index*-1)+1;
+		$s_index=1;
+	}
+
+	if($e_index>count($pages)) {
+		$e_index = count($pages);
+		$s_index = $e_index-6;
+		if($s_index<1) {
+			$s_index = 1;
+		}
+	}
+
+?>
+<tfoot>
+<tr>
+	<td colspan="<?=count($grid->getColumns());?>">
+	<table>
+		<tr>
+			<td nowrap class="btn btn-default" style="width: 80px;">[<?php echo $paginator->getShowFrom();?>-<?php echo $paginator->getShowTo();?>/<?php echo $paginator->getDataItemsCount();?>]</td>
+
+			<td style="width: 120px;text-align: right">
+				<?php if( ($p_URL=$paginator->getFirstPageURL()) ): ?>
+					<a href="<?php echo $p_URL; ?>" class="btn btn-default">&lt;&lt;</a>
+				<?php endif ?>
+				<?php if( ($p_URL=$paginator->getPrevPageURL()) ): ?>
+					<a href="<?php echo $p_URL; ?>" class="btn btn-default">&lt;</a>
+				<?php endif ?>
+			</td>
+			<td style="width: 280px;text-align: center">
+				<?php
+				for($p_no=$s_index; ($p_no<=$e_index && isset($pages[$p_no])) ;$p_no++):
+					$p_URL = $pages[$p_no];
+
+					?>
+					<?php if($p_no==$paginator->getCurrentPageNo()): ?>
+					<strong class="btn btn-info"><?php echo $p_no; ?></strong>
+				<?php else: ?>
+					<a href="<?php echo $p_URL; ?>" class="btn btn-default"><?php echo $p_no; ?></a>
+				<?php endif; ?>
+				<?php endfor; ?>
+			</td>
+			<td style="width: 120px;">
+				<?php if( ($p_URL=$paginator->getNextPageURL()) ): ?>
+					<a href="<?php echo $p_URL; ?>" class="btn btn-default">&gt;</a>
+				<?php endif ?>
+				<?php if( ($p_URL=$paginator->getLastPageURL()) ): ?>
+					<a href="<?php echo $p_URL; ?>" class="btn btn-default">&gt;&gt;</a>
+				<?php endif ?>
+			</td>
+
+		</tr>
+	</table>
+	</td>
+</tr>
+</tfoot>
+
+<?php endif; ?>

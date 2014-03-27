@@ -46,28 +46,4 @@ class Main extends Jet\Mvc_UIManagerModule_Abstract {
 		return $layout;
 	}
 
-	/**
-	 * @param Jet\Data_Paginator $paginator
-	 *
-	 * @return string
-	 */
-	public function renderPaginator( Jet\Data_Paginator $paginator ) {
-		$view = new Jet\Mvc_View( $this->getViewsDir() );
-		$view->setVar( 'paginator', $paginator );
-
-		return $view->render('snippets/paginator');
-	}
-
-	/**
-	 * @param array $columns
-	 *
-	 * @return string
-	 */
-	public function renderDataGridHeader( array $columns ) {
-		$view = new Jet\Mvc_View( $this->getViewsDir() );
-		$view->setVar( 'columns', $columns );
-
-		return $view->render('snippets/data-grid-header');
-
-	}
 }

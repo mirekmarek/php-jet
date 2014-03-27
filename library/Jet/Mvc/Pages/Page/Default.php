@@ -57,7 +57,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_key = true
-	 * @JetDataModel:form_field_label = 'Parent page: '
+	 * @JetDataModel:form_field_label = 'Parent page'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
@@ -70,7 +70,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:error_messages = array (  'required' => 'Name was not specified',)
-	 * @JetDataModel:form_field_label = 'Name: '
+	 * @JetDataModel:form_field_label = 'Name'
 	 *
 	 * @var string
 	 */
@@ -79,7 +79,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Is admin UI: '
+	 * @JetDataModel:form_field_label = 'Is admin UI'
 	 *
 	 * @var bool
 	 */
@@ -98,7 +98,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Title:'
+	 * @JetDataModel:form_field_label = 'Title'
 	 *
 	 * @var string
 	 */
@@ -108,7 +108,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Title for menu item:'
+	 * @JetDataModel:form_field_label = 'Title for menu item'
 	 *
 	 * @var string
 	 */
@@ -118,7 +118,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Title for breadcrumb navigation:'
+	 * @JetDataModel:form_field_label = 'Title for breadcrumb navigation'
 	 *
 	 * @var string
 	 */
@@ -128,7 +128,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'URL fragment:'
+	 * @JetDataModel:form_field_label = 'URL fragment'
 	 *
 	 * @var string
 	 */
@@ -189,7 +189,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Layout: '
+	 * @JetDataModel:form_field_label = 'Layout'
 	 *
 	 * @var string
 	 */
@@ -199,7 +199,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
-	 * @JetDataModel:form_field_label = 'Headers suffix:'
+	 * @JetDataModel:form_field_label = 'Headers suffix'
 	 *
 	 * @var string
 	 */
@@ -209,7 +209,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
-	 * @JetDataModel:form_field_label = 'Body prefix:'
+	 * @JetDataModel:form_field_label = 'Body prefix'
 	 *
 	 * @var string
 	 */
@@ -219,7 +219,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
-	 * @JetDataModel:form_field_label = 'Body suffix:'
+	 * @JetDataModel:form_field_label = 'Body suffix'
 	 *
 	 * @var string
 	 */
@@ -238,7 +238,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Authentication required: '
+	 * @JetDataModel:form_field_label = 'Authentication required'
 	 *
 	 * @var bool
 	 */
@@ -247,7 +247,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Secure connection required: '
+	 * @JetDataModel:form_field_label = 'Secure connection required'
 	 *
 	 * @var bool
 	 */

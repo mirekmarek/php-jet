@@ -4,11 +4,13 @@ return array(
 		'admin_ria',
 		'admin_classic' => array(
 			'admin_classic_articles',
+			'admin_classic_images',
 			'admin_classic_roles',
 			'admin_classic_users'
 		),
 	),
 	'articles',
+	'images',
 	'page_1_1',
 	'page_1_2',
 	'page_1_3' => array(

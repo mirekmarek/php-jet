@@ -19,6 +19,7 @@
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
+use JetApplicationModule\JetExample\UIElements;
 
 class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	/**
@@ -40,6 +41,16 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		$GET = Jet\Http_Request::GET();
 
+		if( $delete_ID = $GET->getString('delete')) {
+			$role = Jet\Auth::getRole( $delete_ID );
+			if($role) {
+				$this->handleDelete($role);
+
+				return;
+			}
+		}
+
+
 		$role = false;
 		if( $GET->exists('new') ) {
 			$role = Jet\Auth::getNewRole();
@@ -53,6 +64,29 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$this->handleList();
 		}
 	}
+
+	/**
+	 * @param Jet\Auth_Role_Abstract $role
+	 */
+	public function handleDelete( Jet\Auth_Role_Abstract $role ) {
+		if( !$this->module_instance->checkAclCanDoAction('delete_role') ) {
+			//TODO:
+			return;
+		}
+
+		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+			$role->delete();
+			Jet\Http_Headers::movedTemporary('?');
+		}
+
+
+		$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('Delete role');
+
+		$this->view->setVar( 'role', $role );
+
+		$this->render('classic/delete-confirm');
+	}
+
 
 	/**
 	 * @param Jet\Auth_Role_Abstract $role
@@ -111,15 +145,20 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
 
-		$p = new Jet\Data_Paginator(
-			Jet\Http_Request::GET()->getInt('p', 1),
-			10,
-			'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
-		);
-		$p->setDataSource( Jet\Auth::getRolesList() );
+		/**
+		 * @var UIElements\Main $UI_m
+		 */
+		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
+		$grid = $UI_m->getDataGridInstance();
 
-		$this->view->setVar('roles', $p->getData());
-		$this->view->setVar('paginator', $p);
+		$grid->addColumn('_edit_', '')->setAllowSort(false);
+		$grid->addColumn('ID', Jet\Tr::_('ID'));
+		$grid->addColumn('name', Jet\Tr::_('Name'));
+		$grid->addColumn('description', Jet\Tr::_('Description'));
+
+		$grid->setData( Jet\Auth::getRolesList() );
+
+		$this->view->setVar('grid', $grid);
 
 		$this->render('classic/default');
 

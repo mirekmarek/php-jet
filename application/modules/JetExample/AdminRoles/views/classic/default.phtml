@@ -1,55 +1,45 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
+use JetApplicationModule\JetExample\UIElements;
 
 /**
- * @var Jet\Auth_Role_Abstract[] $roles
+ * @var UIElements\DataGrid $grid
  */
-$roles = $this->roles;
+$grid = $this->grid;
 
-/**
- * @var Jet\Data_Paginator $paginator
- */
-$paginator = $this->paginator;
+$c_edit = $grid->getColumn('_edit_');
+$c_edit->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+	$ID = rawurlencode($item->getID());
+	?>
+	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	&nbsp;
+	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+<?php
+} );
+$c_edit->setCssStyle( 'width:120px;' );
 
-/**
- * @var \JetApplicationModule\JetExample\AdminUIManager\Main $UI_manager
- */
-$UI_manager = Jet\Mvc::getCurrentUIManagerModuleInstance();
+$grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+	$ID = rawurlencode($item->getID());
+	?>
+	<a href="?ID=<?=$ID;?>"><?=$item->getID();?></a>
+	<?php
+} );
+
+$grid->getColumn('name')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+	echo $item->getName();
+} );
+$grid->getColumn('description')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+	echo $item->getDescription();
+} );
+
+
+
 ?>
 
 <div style="padding: 10px;">
 
 <a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new role');?></a>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th style="width: 40px;"></th>
-			<th><?=Jet\Tr::_('ID');?></th>
-			<th><?=Jet\Tr::_('Name');?></th>
-			<th><?=Jet\Tr::_('Description');?></th>
-		</tr>
-	</thead>
-	<tbody>
-<?php foreach( $roles as $role ): ?>
-	<tr>
-		<td>
-			<a href="?ID=<?php echo rawurlencode( $role->getID() ); ?>" class="btn btn-info">EDIT</a>
-		</td>
-		<td><?=$role->getID(); ?></td>
-		<td><?=$role->getName(); ?></td>
-		<td><?=$role->getDescription(); ?></td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	<tfoot>
-	<tr>
-		<td colspan="4">
-			<?=$UI_manager->renderPaginator( $paginator );?>
-		</td>
-	</tr>
-	</tfoot>
-</table>
-
+	<?=$grid->render();?>
 </div>

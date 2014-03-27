@@ -1075,6 +1075,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			) {
 
 				if( $this->{$property_name} instanceof DataModel_Related_1toN ) {
+
 					foreach( $this->{$property_name} as $key=>$related_instance) {
 
 						/**
@@ -1168,6 +1169,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$only_properties = array();
 
 		foreach($definition->getProperties() as $property_name => $property) {
+
 			if(
 				$property->getIsDataModel() &&
 				$include_related_objects &&

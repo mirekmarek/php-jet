@@ -1,53 +1,42 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
+use JetApplicationModule\JetExample\UIElements;
+
 
 /**
- * @var Jet\Auth_User_Abstract[] $users
+ * @var UIElements\DataGrid $grid
  */
-$users = $this->users;
+$grid = $this->grid;
 
-/**
- * @var Jet\Data_Paginator $paginator
- */
-$paginator = $this->paginator;
+$c_edit = $grid->getColumn('_edit_');
+$c_edit->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
+	$ID = rawurlencode($item->getID());
+	?>
+	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	&nbsp;
+	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+<?php
+} );
+$c_edit->setCssStyle( 'width:120px;' );
 
-/**
- * @var \JetApplicationModule\JetExample\AdminUIManager\Main $UI_manager
- */
-$UI_manager = Jet\Mvc::getCurrentUIManagerModuleInstance();
+$grid->getColumn('login')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
+	$ID = rawurlencode($item->getID());
+	?>
+	<a href="?ID=<?=$ID;?>"><?=$item->getLogin();?></a>
+	<?php
+} );
+$grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
+	echo $item->getID();
+} );
+
+
 ?>
 
 <div style="padding: 10px;">
 
 <a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new user');?></a>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th style="width: 40px;"></th>
-			<th><?=Jet\Tr::_('Login');?></th>
-			<th><?=Jet\Tr::_('ID');?></th>
-		</tr>
-	</thead>
-	<tbody>
-	<?php foreach( $users as $user ): ?>
-	<tr>
-		<td>
-			<a href="?ID=<?php echo rawurlencode( $user->getID() ); ?>" class="btn btn-info">EDIT</a>
-		</td>
-		<td><?=$user->getLogin(); ?></td>
-		<td><?=$user->getID(); ?></td>
-	</tr>
-	<?php endforeach; ?>
-	</tbody>
-	<tfoot>
-	<tr>
-		<td colspan="4">
-			<?=$UI_manager->renderPaginator( $paginator );?>
-		</td>
-	</tr>
-	</tfoot>
-</table>
+<?=$grid->render();?>
 
 </div>

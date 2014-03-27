@@ -25,11 +25,6 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
-	'ab894a7ea35c3fa6879f4365192b9c13' => array(
-		'phrase' => '<em class="required">*</em>',
-		'translation' => '',
-		'is_translated' => false,
-	),
 	'df1555fe48479f594280a2e03f9a8186' => array(
 		'phrase' => 'E-mail:',
 		'translation' => '',

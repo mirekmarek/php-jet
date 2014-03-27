@@ -1,50 +1,54 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use JetApplicationModule\JetExample\UIElements;
 
 /**
- * @var Article[] $articles
+ * @var UIElements\DataGrid $grid
  */
-$articles = $this->articles;
+$grid = $this->grid;
 
-/**
- * @var Jet\Data_Paginator $paginator
- */
-$paginator = $this->paginator;
+$can_delete_article = $this->can_delete_article;
+$can_update_article = $this->can_update_article;
 
-/**
- * @var \JetApplicationModule\JetExample\AdminUIManager\Main $UI_manager
- */
-$UI_manager = Jet\Mvc::getCurrentUIManagerModuleInstance();
+$c_edit = $grid->getColumn('_edit_');
+$c_edit->setDisplayCallback( function( Article $item ) use ($can_delete_article, $can_update_article) {
+	$ID = rawurlencode($item->getID());
+	?>
+	<?php if($can_update_article): ?>
+	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	<?php endif; ?>
+	&nbsp;
+	<?php if($can_delete_article): ?>
+	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+	<?php endif; ?>
+	<?php
+} );
+$c_edit->setAllowSort(false);
+$c_edit->setCssStyle( 'width:120px;' );
+
+$grid->getColumn('title')->setDisplayCallback( function( Article $item ) {
+	$ID = rawurlencode($item->getID());
+	?>
+	<a href="?ID=<?=$ID;?>"><?=$item->getTitle();?></a>
+	<?php
+} );
+
+$c_date_time = $grid->getColumn('date_time');
+$c_date_time->setDisplayCallback( function( Article $item ) {
+	echo Jet\Locale::dateAndTime( $item->getDateTime() );
+} );
+
+$c_date_time->setCssStyle( 'width:200px;' );
+
 ?>
 
 <div style="padding: 10px;">
 
+<?php if($this->can_add_article): ?>
 <a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Create new article');?></a>
+<?php endif; ?>
 
-<table class="table table-striped">
-	<?=$UI_manager->renderDataGridHeader( [
-		'title' => Jet\Tr::_('Title'),
-		'date_time' => Jet\Tr::_('Date and time'),
-	]); ?>
-	<tbody>
-	<?php foreach( $articles as $article ): ?>
-	<tr>
-		<td>
-			<a href="?ID=<?php echo rawurlencode( $article->getID() ); ?>" class="btn btn-info">EDIT</a>
-		</td>
-		<td><?=$article->getTitle(); ?></td>
-		<td><?=Jet\Locale::dateAndTime( $article->getDateTime() ); ?></td>
-	</tr>
-	<?php endforeach; ?>
-	</tbody>
-	<tfoot>
-	<tr>
-		<td colspan="4">
-			<?=$UI_manager->renderPaginator( $paginator );?>
-		</td>
-	</tr>
-	</tfoot>
-</table>
+<?=$grid->render(); ?>
 
 </div>

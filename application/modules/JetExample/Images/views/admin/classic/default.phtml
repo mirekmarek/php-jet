@@ -1,0 +1,129 @@
+<?php
+namespace JetApplicationModule\JetExample\Images;
+use Jet;
+use JetApplicationModule\JetExample\UIElements;
+
+
+
+/**
+ * @var Jet\Data_Tree $galleries
+ */
+$galleries = $this->galleries;
+
+/**
+ * @var Gallery $gallery
+ */
+$gallery = $this->gallery;
+
+/**
+ * @var Jet\Form $upload_form
+ */
+$upload_form = $this->upload_form;
+
+/**
+ * @var Jet\Form $edit_form
+ */
+$edit_form = $this->edit_form;
+
+
+/**
+ * @var UIElements\Main $UI_m
+ */
+$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
+$tree = $UI_m->getTreeInstance();
+
+$tree->setData( $galleries );
+$tree->setSelectedID( $this->selected_ID );
+
+$tree->setNormalDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) {
+	?>
+	<a href="?ID=<?=rawurlencode($node->getID());?>"><?=$data['title'];?></a>
+	<?php
+} );
+
+$tree->setSelectedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) {
+	?>
+	<strong><?=$data['title'];?></strong>
+	<?php
+});
+
+$tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) {
+	?>
+	<a href="?ID=<?=rawurlencode($node->getID());?>" style="font-style: italic;"><?=$data['title'];?></a>
+<?php
+});
+
+?>
+
+
+<div class="row">
+	<div class="col-md-3">
+		<a href="?new<?=($gallery?('&ID='.$gallery->getID()):'');?>" class="btn btn-primary"><?=Jet\Tr::_('Create new gallery');?></a>
+
+		<?=$tree->render();?>
+
+	</div>
+	<div class="col-md-9">
+
+		<?php if($gallery): ?>
+
+			<jet_form name="<?=$edit_form->getName();?>">
+				<jet_form_common_error_message class="form-error"/>
+				<fieldset>
+					<jet_form_field name="parent_ID"/>
+					<jet_form_field name="ID"/>
+					<div class="form-group">
+						<jet_form_field_label name="title"/>
+						<jet_form_field_error_msg name="title" class="form-error"/>
+						<jet_form_field name="title" class="form-control"/>
+					</div>
+					<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Save');?>"/>
+				</fieldset>
+			</jet_form>
+
+			<?php if(!$gallery->getIsNew()): ?>
+			<div>
+				<jet_form name="<?=$upload_form->getName();?>" enctype="multipart/form-data">
+					<jet_form_common_error_message class="form-error"/>
+
+					<div class="form-group">
+						<jet_form_field_label name="image"/>
+						<jet_form_field_error_msg name="image" class="form-error"/>
+						<jet_form_field name="image" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<jet_form_field_label name="overwrite_if_exists"/>
+						<jet_form_field_error_msg name="overwrite_if_exists" class="form-error"/>
+						<jet_form_field name="overwrite_if_exists"/>
+					</div>
+					<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Upload');?>"/>
+
+				</jet_form>
+			</div>
+
+
+			<form action="?ID=<?=$gallery->getID();?>&delete_images" method="post">
+				<div style="padding: 10px;">
+					<?php foreach( $gallery->getImages() as $image ): ?>
+					<div class="img-thumbnail">
+						<div style="width: 150px;height: 150px;vertical-align: middle;text-align: center;">
+							<a href="<?=$image->getURI();?>" target="_blank"><img src="<?=$image->getThumbnail(150, 150)->getURI();?>" /></a>
+						</div>
+						<div style="width: 150px;height: 40px;overflow: hidden;text-align: left;">
+								<table><tr>
+									<td style="vertical-align: top; padding: 5px;"><input type="checkbox" name="images[]" value="<?=$image->getID();?>" id="image_<?=$image->getID();?>"></td>
+									<td><label for="image_<?=$image->getID();?>"><?=$image->getFileName();?></label></td>
+								</tr></table>
+
+
+						</div>
+					</div>
+					<?php endforeach; ?>
+				</div>
+				<input type="submit" class="btn btn-danger" value="<?=Jet\Tr::_('Delete selected images');?>">
+			</form>
+			<?php endif; ?>
+
+		<?php endif; ?>
+	</div>
+</div>

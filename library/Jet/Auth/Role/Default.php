@@ -81,6 +81,8 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 *
 	 */
 	public function __construct() {
+		parent::__construct();
+
 		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
 
 		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
@@ -150,6 +152,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 * @return Auth_User_Abstract[]
 	 */
 	public function getUsers() {
+
 		return $this->users;
 	}
 

@@ -168,6 +168,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @param DataModel_Related_Abstract $parent_model_instance
 	 */
 	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
+
 		if($parent_model_instance) {
 			$M = $parent_model_instance;
 		} else {
@@ -460,7 +461,6 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 *
 	 */
 	protected function _fetchNIDs() {
-
 		if($this->N_IDs!==null) {
 			return;
 		}
@@ -507,6 +507,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return DataModel
 	 */
 	protected function _get( DataModel_ID_Abstract $ID ) {
+
 		$s_ID = (string)$ID;
 		if(isset($this->N_data[$s_ID])) {
 			return $this->N_data[$s_ID];

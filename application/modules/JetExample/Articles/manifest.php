@@ -7,7 +7,9 @@ return array(
 	'types' => array(Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
 	'description' => '',
 
-	'require' => array(),
+	'require' => array(
+		'JetExample\UIElements'
+	),
 
 	'signals_callbacks' => array(),
 

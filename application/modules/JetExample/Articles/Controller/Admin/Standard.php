@@ -12,6 +12,7 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use JetApplicationModule\JetExample\UIElements;
 
 class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	/**
@@ -34,6 +35,15 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 		$GET = Jet\Http_Request::GET();
 
+		if( $delete_ID = $GET->getString('delete')) {
+			$article = Article::get( $delete_ID );
+			if($article) {
+				$this->handleDelete($article);
+
+				return;
+			}
+		}
+
 		$article = false;
 
 		if($GET->exists('new')) {
@@ -53,12 +63,33 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	/**
 	 * @param Article $article
 	 */
+	public function handleDelete( Article $article ) {
+		if( !$this->module_instance->checkAclCanDoAction('delete_article') ) {
+			return;
+		}
+
+		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+			$article->delete();
+			Jet\Http_Headers::movedTemporary('?');
+		}
+
+
+		$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('Delete article');
+
+		$this->view->setVar( 'article', $article );
+
+		$this->render('classic/delete-confirm');
+	}
+
+	/**
+	 * @param Article $article
+	 */
 	protected function handleEdit( Article $article ) {
 		$has_access = false;
 
 		if($article->getIsNew()) {
-			if( $this->module_instance->checkAclCanDoAction('add_article') ) {
-				$has_access = true;
+			if( !$this->module_instance->checkAclCanDoAction('add_article') ) {
+				return;
 			}
 		} else {
 			if( $this->module_instance->checkAclCanDoAction('update_article') ) {
@@ -66,17 +97,15 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 			}
 		}
 
-		if(!$has_access) {
-			//TODO:
-			return;
-		}
 
 		$form = $article->getCommonForm();
 
-		if( $article->catchForm( $form ) ) {
-			$article->validateProperties();
-			$article->save();
-			Jet\Http_Headers::movedTemporary( '?ID='.$article->getID() );
+		if($has_access) {
+			if( $article->catchForm( $form ) ) {
+				$article->validateProperties();
+				$article->save();
+				Jet\Http_Headers::movedTemporary( '?ID='.$article->getID() );
+			}
 		}
 
 
@@ -92,6 +121,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		}
 
 
+		$this->view->setVar('has_access', $has_access);
 		$this->view->setVar('form', $form);
 		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
 
@@ -103,53 +133,28 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	protected function handleList() {
-		$list = Article::getList();
-
-
-		$list->getQuery()->setOrderBy( $this->getListSort() );
-
-		$paginator = $this->getPaginator( $list );
-
 		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
 
-		$this->view->setVar('articles', $paginator->getData());
-		$this->view->setVar('paginator', $paginator);
+		/**
+		 * @var UIElements\Main $UI_m
+		 */
+		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
+		$grid = $UI_m->getDataGridInstance();
+
+		$grid->addColumn('_edit_', '')->setAllowSort(false);
+		$grid->addColumn('title', Jet\Tr::_('Title'));
+		$grid->addColumn('date_time', Jet\Tr::_('Date and time'));
+
+		$grid->setData( Article::getList() );
+
+		$this->view->setVar('can_add_article', $this->module_instance->checkAclCanDoAction('add_article'));
+		$this->view->setVar('can_delete_article', $this->module_instance->checkAclCanDoAction('delete_article'));
+		$this->view->setVar('can_update_article', $this->module_instance->checkAclCanDoAction('update_article'));
+		$this->view->setVar('grid', $grid);
 
 		$this->render('classic/default');
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function getListSort() {
-		$GET = Jet\Http_Request::GET();
 
-		$session = new Jet\Session( 'Articles_admin_list' );
-
-		if( $sort = $GET->getString('sort') ) {
-			if( in_array($sort, array('title', '-title', 'date_time', '-date_time')) ) {
-				$session->setValue('sort', $sort);
-			}
-		}
-
-		return $session->getValue('sort', '+title');
-	}
-
-	/**
-	 * @param Jet\Data_Paginator_DataSource_Interface $list
-	 *
-	 * @return Jet\Data_Paginator
-	 */
-	protected function getPaginator( Jet\Data_Paginator_DataSource_Interface $list ) {
-		$p = new Jet\Data_Paginator(
-			Jet\Http_Request::GET()->getInt('p', 1),
-			10,
-			'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
-		);
-		$p->setDataSource( $list );
-
-		return $p;
-
-	}
 
 }

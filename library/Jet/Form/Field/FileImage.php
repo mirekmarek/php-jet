@@ -112,6 +112,7 @@ class Form_Field_FileImage extends Form_Field_File {
 	 * @return bool
 	 */
 	public function validateValue() {
+
 		if(!parent::validateValue()) {
 			return false;
 		}

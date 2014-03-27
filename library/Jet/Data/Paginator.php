@@ -104,6 +104,16 @@ class Data_Paginator extends Object {
 	protected $next_page_URL = null;
 
 	/**
+	 * @var string|null
+	 */
+	protected $first_page_URL = null;
+
+	/**
+	 * @var string|null
+	 */
+	protected $last_page_URL = null;
+
+	/**
 	 * @var array
 	 */
 	protected $pages_URL = array();
@@ -243,10 +253,12 @@ class Data_Paginator extends Object {
 		if($this->URL_template) {
 			if($this->prev_page_no) {
 				$this->prev_page_URL = str_replace(static::URL_PAGE_NO_KEY, $this->prev_page_no, $this->URL_template);
+				$this->first_page_URL = str_replace(static::URL_PAGE_NO_KEY, 1, $this->URL_template);
 			}
 
 			if($this->next_page_no) {
 				$this->next_page_URL = str_replace(static::URL_PAGE_NO_KEY, $this->next_page_no, $this->URL_template);
+				$this->last_page_URL = str_replace(static::URL_PAGE_NO_KEY, $this->pages_count, $this->URL_template);
 			}
 
 			if($this->pages_count) {
@@ -365,6 +377,22 @@ class Data_Paginator extends Object {
 	public function getNextPageURL() {
 		return $this->next_page_URL;
 	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getLastPageURL() {
+		return $this->last_page_URL;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getFirstPageURL() {
+		return $this->first_page_URL;
+	}
+
+
 
 	/**
 	 * @return array

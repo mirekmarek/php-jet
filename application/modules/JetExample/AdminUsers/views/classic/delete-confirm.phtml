@@ -1,0 +1,25 @@
+<?php
+namespace JetApplicationModule\JetExample\Articles;
+use Jet;
+
+/**
+ * @var Jet\Auth_User_Abstract $user
+ */
+$user = $this->user;
+?>
+
+<div style="padding: 10px;">
+
+	<a href="?" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
+
+	<p>
+	<?=Jet\Tr::_('Do you really want to delete this user?');?>
+	<br/>
+	<a href="?ID=<?=rawurlencode($user->getID());?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getLogin();?>)</a>
+	</p>
+
+	<form action="?delete=<?=rawurlencode($user->getID());?>" method="post">
+		<input type="hidden" name="delete" value="yes">
+		<input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
+	</form>
+</div>

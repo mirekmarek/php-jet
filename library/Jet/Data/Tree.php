@@ -306,6 +306,27 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$this->_setData($data);
 	}
 
+	public function getPath( $target_node_ID ) {
+		$target_node_ID = (string)$target_node_ID;
+		$target_node = $this->getNode( $target_node_ID );
+
+		if(!$target_node) {
+			return false;
+		}
+
+		$path = array();
+		$path[] = $target_node->getID();
+
+		while( ($parent=$target_node->getParent()) ) {
+			$path[] = $parent->getID();
+			$target_node = $parent;
+		}
+
+		$path = array_reverse($path);
+
+		return $path;
+	}
+
 	/**
 	 *
 	 * @param array|DataModel_Fetch_Data_Abstract $items
@@ -380,6 +401,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	}
 
 
+
 	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
 	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
 	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
@@ -436,7 +458,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		}
 
 		if(!is_array($data)) {
-			//var_dump($tag, $data);die();
 			$result = $prefix.'<'.$tag.'></'.$tag.'>'.JET_EOL;
 			return $result;
 		}

@@ -1,6 +1,6 @@
 <?php
 return array (
-	'name' => 'Admin - roles',
+	'name' => 'Admin - articles',
 	'title' => 'Administration Interface (classic) - Articles',
 	'breadcrumb_title' => 'Articles',
 	'menu_title' => 'Articles',

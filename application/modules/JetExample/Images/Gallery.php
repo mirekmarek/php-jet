@@ -65,6 +65,22 @@ class Gallery extends Jet\DataModel {
 	protected static $__galleries = array();
 
 	/**
+	 * @param string $parent_ID
+	 */
+	public function setParentID($parent_ID) {
+		$this->parent_ID = (string)$parent_ID;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getParentID() {
+		return $this->parent_ID;
+	}
+
+
+
+	/**
 	 * @param string $title
 	 */
 	public function setTitle($title) {
@@ -111,27 +127,28 @@ class Gallery extends Jet\DataModel {
 	 * @return Gallery_Image
 	 */
 	public function addImage( $source_file_path, $source_file_name=null, $overwrite_if_exists=false ) {
-		$images = $this->getImages();
 
 		if(!$source_file_name) {
 			$source_file_name = basename( $source_file_path );
 		}
 
-		foreach( $images as $existing_image ) {
-			if($existing_image->getFileName()==$source_file_name) {
-				if($overwrite_if_exists) {
-					$existing_image->overwrite( $source_file_path );
+		$existing_image = $this->getImageExists( $source_file_name );
 
-					$existing_image->validateProperties();
-					$existing_image->save();
+		if($existing_image) {
+			if($overwrite_if_exists) {
+				$existing_image->overwrite( $source_file_path );
 
-					return $existing_image;
-				} else {
-					throw new Exception(
-						'Image \''.$source_file_name.'\' allready exists in the gallery!',
-						Exception::CODE_IMAGE_ALLREADY_EXIST
-					);
-				}
+				$existing_image->validateProperties();
+				$existing_image->save();
+
+				return $existing_image;
+
+			} else {
+				throw new Exception(
+					'Image \''.$source_file_name.'\' allready exists in the gallery!',
+					Exception::CODE_IMAGE_ALLREADY_EXIST
+				);
+
 			}
 		}
 
@@ -141,6 +158,85 @@ class Gallery extends Jet\DataModel {
 		$this->__images[] = $image;
 
 		return $image;
+
+	}
+
+	/**
+	 * @param string $file_name
+	 *
+	 * @return bool|Gallery_Image
+	 */
+	public function getImageExists( $file_name ) {
+
+		foreach( $this->getImages() as $existing_image ) {
+			if($existing_image->getFileName()==$file_name) {
+				return $existing_image;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @return Jet\Form
+	 */
+	public function getUploadForm() {
+		$form = new Jet\Form('gallery_image_upload', array(
+			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_FILE_IMAGE, 'image', 'Upload image' ),
+			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
+		));
+
+		return $form;
+	}
+
+	/**
+	 * @param Jet\Form $form
+	 *
+	 * @return bool
+	 */
+	public function catchUploadForm( Jet\Form $form ) {
+
+		if(
+			!$form->catchValues() ||
+			!$form->validateValues()
+		) {
+			return false;
+		}
+
+		$overwrite_if_exists = $form->getField('overwrite_if_exists')->getValue();
+
+
+		/**
+		 * @var Jet\Form_Field_FileImage $img_field
+		 */
+		$img_field = $form->getField('image');
+
+		$tmp_file_path = $img_field->getTmpFilePath();
+		$file_name = $img_field->getFileName();
+
+		if(
+			!$overwrite_if_exists &&
+			$this->getImageExists( $file_name )
+		) {
+			$form->setCommonErrorMessage( Jet\Tr::_('Image is already uploaded. Use \'Overwrite image if exists\' option if you want to overwrite it. ') );
+
+			return false;
+		}
+
+		try {
+			$this->addImage(
+				$tmp_file_path,
+				$file_name,
+				$overwrite_if_exists
+			);
+		} catch( Exception $e ) {
+			$form->setCommonErrorMessage( Jet\Tr::_($e->getMessage()) );
+
+			return false;
+		}
+
+		return true;
 
 	}
 

@@ -19,6 +19,7 @@
  */
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
+use JetApplicationModule\JetExample\UIElements;
 
 class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	/**
@@ -41,6 +42,16 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		$GET = Jet\Http_Request::GET();
 
+
+		if( $delete_ID = $GET->getString('delete')) {
+			$user = Jet\Auth::getUser( $delete_ID );
+			if($user) {
+				$this->handleDelete($user);
+
+				return;
+			}
+		}
+
 		$user = false;
 
 		if($GET->exists('new')) {
@@ -56,6 +67,29 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		}
 
 	}
+
+	/**
+	 * @param Jet\Auth_User_Abstract $user
+	 */
+	public function handleDelete( Jet\Auth_User_Abstract $user ) {
+		if( !$this->module_instance->checkAclCanDoAction('delete_user') ) {
+			//TODO:
+			return;
+		}
+
+		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+			$user->delete();
+			Jet\Http_Headers::movedTemporary('?');
+		}
+
+
+		$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('Delete user');
+
+		$this->view->setVar( 'user', $user );
+
+		$this->render('classic/delete-confirm');
+	}
+
 
 	/**
 	 * @param Jet\Auth_User_Abstract $user
@@ -110,17 +144,22 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	protected function handleList() {
-		$p = new Jet\Data_Paginator(
-			Jet\Http_Request::GET()->getInt('p', 1),
-			10,
-			'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
-		);
-		$p->setDataSource( Jet\Auth::getUsersList() );
 
 		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
 
-		$this->view->setVar('users', $p->getData());
-		$this->view->setVar('paginator', $p);
+		/**
+		 * @var UIElements\Main $UI_m
+		 */
+		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
+		$grid = $UI_m->getDataGridInstance();
+
+		$grid->addColumn('_edit_', '')->setAllowSort(false);
+		$grid->addColumn('login', Jet\Tr::_('Login') );
+		$grid->addColumn('ID', Jet\Tr::_('ID') );
+
+		$grid->setData( Jet\Auth::getUsersList() );
+		
+		$this->view->setVar('grid', $grid);
 
 		$this->render('classic/default');
 	}

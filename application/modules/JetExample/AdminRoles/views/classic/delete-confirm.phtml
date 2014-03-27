@@ -1,0 +1,25 @@
+<?php
+namespace JetApplicationModule\JetExample\Articles;
+use Jet;
+
+/**
+ * @var Jet\Auth_Role_Abstract $role
+ */
+$role = $this->role;
+?>
+
+<div style="padding: 10px;">
+
+	<a href="?" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
+
+	<p>
+	<?=Jet\Tr::_('Do you really want to delete this role?');?>
+	<br/>
+	<a href="?ID=<?=rawurlencode($role->getID());?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getID();?>)</a>
+	</p>
+
+	<form action="?delete=<?=rawurlencode($role->getID());?>" method="post">
+		<input type="hidden" name="delete" value="yes">
+		<input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
+	</form>
+</div>

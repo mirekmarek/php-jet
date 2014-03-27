@@ -198,15 +198,17 @@ class Form_Field_Password extends Form_Field_Abstract {
 			return '';
 		}
 
-		$label = $this->password_check_label;
+		$label = $this->getTranslation($this->password_check_label);
 
-		if($this->is_required) {
-			$label = '<em class="required">*</em>'.$label;
+		if(
+			$this->is_required &&
+			$label
+		) {
+			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), array('LABEL'=>$label));
 		}
 
 		$tag_data->setProperty('for', $this->getID(),'_check' );
 
-		$label = $this->getTranslation($label);
 
 		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
 	}

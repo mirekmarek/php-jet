@@ -39,7 +39,7 @@ class Article extends Jet\DataModel {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:form_field_label = 'Locale:'
+	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc','getAllSitesLocalesList']
 	 *
 	 * @var Jet\Locale
@@ -63,7 +63,7 @@ class Article extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:form_field_label = 'Title: '
+	 * @JetDataModel:form_field_label = 'Title'
 	 *
 	 * @var string
 	 */
@@ -73,7 +73,7 @@ class Article extends Jet\DataModel {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Annotation:'
+	 * @JetDataModel:form_field_label = 'Annotation'
 	 *
 	 * @var string
 	 */
@@ -83,7 +83,7 @@ class Article extends Jet\DataModel {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 655360
-	 * @JetDataModel:form_field_label = 'Text:'
+	 * @JetDataModel:form_field_label = 'Text'
 	 * @JetDataModel:form_field_type = 'WYSIWYG'
 	 *
 	 * @var string
@@ -93,7 +93,7 @@ class Article extends Jet\DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:form_field_label = 'Date and time:'
+	 * @JetDataModel:form_field_label = 'Date and time'
 	 *
 	 * @var Jet\DateTime
 	 */

@@ -40,7 +40,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:is_unique = true
-	 * @JetDataModel:form_field_label = 'User name:'
+	 * @JetDataModel:form_field_label = 'User name'
 	 *
 	 * @var string
 	 */
@@ -54,7 +54,8 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:form_field_type = 'Password'
-	 * @JetDataModel:form_field_label = 'Password:'
+	 * @JetDataModel:form_field_label = 'Password'
+	 * @JetDataModel:form_field_options = ['password_check_label'=>'Confirm password']
 	 *
 	 * @var string
 	 */
@@ -74,7 +75,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'E-mail:'
+	 * @JetDataModel:form_field_label = 'E-mail'
 	 *
 	 * @var string
 	 */
@@ -83,7 +84,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
-	 * @JetDataModel:form_field_label = 'Locale:'
+	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = [ 'Jet\Mvc','getAllSitesLocalesList']
 	 *
 	 * @var Locale
@@ -94,7 +95,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_label = 'First name:'
+	 * @JetDataModel:form_field_label = 'First name'
 	 *
 	 * @var string
 	 */
@@ -104,7 +105,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_label = 'Surname:'
+	 * @JetDataModel:form_field_label = 'Surname'
 	 *
 	 * @var string
 	 */
@@ -114,7 +115,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Description:'
+	 * @JetDataModel:form_field_label = 'Description'
 	 *
 	 * @var string
 	 */
@@ -185,7 +186,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
 	 * @JetDataModel:form_field_type = 'MultiSelect'
-	 * @JetDataModel:form_field_label = 'Roles:'
+	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Auth', 'getRolesList']
 	 *
 	 * @var Auth_User_Roles

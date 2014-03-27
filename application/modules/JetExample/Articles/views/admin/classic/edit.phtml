@@ -37,7 +37,10 @@ use Jet;
 		<jet_form_field name="date_time" class="form-control"/>
 		<jet_form_field_time name="date_time" class="form-control"/>
 	</div>
+
+	<?php if($this->has_access): ?>
 	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+	<?php endif; ?>
 </jet_form>
 
 </div>
