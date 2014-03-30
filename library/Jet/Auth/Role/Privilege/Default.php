@@ -131,11 +131,13 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
 		if(!static::$available_privileges_list) {
 			static::$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+
 		}
 
 		$privilege_data = static::$available_privileges_list[ $this->privilege ];
 
 		$form_field->setLabel( $privilege_data->getLabel() );
+
 		$form_field->setSelectOptions( $privilege_data->getValuesList() );
 
 		return $form_field;

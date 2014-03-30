@@ -57,8 +57,15 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 
 
 <div class="row">
-	<div class="col-md-3">
-		<a href="?new<?=($gallery?('&ID='.$gallery->getID()):'');?>" class="btn btn-primary"><?=Jet\Tr::_('Create new gallery');?></a>
+	<div class="col-md-2">
+		<?php if( $this->can_add_gallery ): ?>
+		<div style="padding: 5px;">
+			<a href="?new<?=($gallery?('&amp;ID='.$gallery->getID()):'');?>" class="btn btn-default" style="width: 100%;">
+				<jetml_icon icon="module/JetExample\Images/module" size="large"/>
+				<?=Jet\Tr::_('Create new gallery');?>
+			</a>
+		</div>
+		<?php endif; ?>
 
 		<?=$tree->render();?>
 
@@ -77,19 +84,21 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 						<jet_form_field_error_msg name="title" class="form-error"/>
 						<jet_form_field name="title" class="form-control"/>
 					</div>
+					<?php if($this->has_access): ?>
 					<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Save');?>"/>
+					<?php endif; ?>
 				</fieldset>
 			</jet_form>
 
-			<?php if(!$gallery->getIsNew()): ?>
+			<?php if($upload_form): ?>
 			<div>
 				<jet_form name="<?=$upload_form->getName();?>" enctype="multipart/form-data">
 					<jet_form_common_error_message class="form-error"/>
 
 					<div class="form-group">
-						<jet_form_field_label name="image"/>
-						<jet_form_field_error_msg name="image" class="form-error"/>
-						<jet_form_field name="image" class="form-control"/>
+						<jet_form_field_label name="file"/>
+						<jet_form_field_error_msg name="file" class="form-error"/>
+						<jet_form_field name="file" class="form-control"/>
 					</div>
 					<div class="form-group">
 						<jet_form_field_label name="overwrite_if_exists"/>
@@ -100,28 +109,41 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 
 				</jet_form>
 			</div>
+			<?php endif; ?>
+
+			<?php if(
+				$this->can_get_image &&
+				$gallery->getIsSaved()
+			): ?>
+
+				<?php
+				$images=$gallery->getImages();
+				if( count($images) ): ?>
+				<form action="?ID=<?=$gallery->getID();?>&amp;delete_images" method="post">
+					<div style="padding: 10px;">
+						<?php foreach( $images as $image ): ?>
+						<div class="img-thumbnail">
+							<div style="width: 150px;height: 150px;vertical-align: middle;text-align: center;">
+								<a href="<?=$image->getURI();?>" target="_blank"><img src="<?=$image->getThumbnail(150, 150)->getURI();?>" /></a>
+							</div>
+							<div style="width: 150px;height: 40px;overflow: hidden;text-align: left;">
+									<table><tr>
+										<?php if($this->can_delete_image): ?>
+										<td style="vertical-align: top; padding: 5px;"><input type="checkbox" name="images[]" value="<?=$image->getID();?>" id="image_<?=$image->getID();?>"></td>
+										<?php endif; ?>
+										<td><label for="image_<?=$image->getID();?>"><?=$image->getFileName();?></label></td>
+									</tr></table>
 
 
-			<form action="?ID=<?=$gallery->getID();?>&delete_images" method="post">
-				<div style="padding: 10px;">
-					<?php foreach( $gallery->getImages() as $image ): ?>
-					<div class="img-thumbnail">
-						<div style="width: 150px;height: 150px;vertical-align: middle;text-align: center;">
-							<a href="<?=$image->getURI();?>" target="_blank"><img src="<?=$image->getThumbnail(150, 150)->getURI();?>" /></a>
+							</div>
 						</div>
-						<div style="width: 150px;height: 40px;overflow: hidden;text-align: left;">
-								<table><tr>
-									<td style="vertical-align: top; padding: 5px;"><input type="checkbox" name="images[]" value="<?=$image->getID();?>" id="image_<?=$image->getID();?>"></td>
-									<td><label for="image_<?=$image->getID();?>"><?=$image->getFileName();?></label></td>
-								</tr></table>
-
-
-						</div>
+						<?php endforeach; ?>
 					</div>
-					<?php endforeach; ?>
-				</div>
-				<input type="submit" class="btn btn-danger" value="<?=Jet\Tr::_('Delete selected images');?>">
-			</form>
+					<?php if($this->can_delete_image): ?>
+					<input type="submit" class="btn btn-danger" value="<?=Jet\Tr::_('Delete selected images');?>">
+					<?php endif; ?>
+				</form>
+				<?php endif; ?>
 			<?php endif; ?>
 
 		<?php endif; ?>

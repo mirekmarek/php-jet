@@ -8,13 +8,20 @@ use JetApplicationModule\JetExample\UIElements;
  */
 $grid = $this->grid;
 
+$can_delete_role = $this->can_delete_role;
+$can_update_role = $this->can_update_role;
+
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+$c_edit->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) use ($can_delete_role, $can_update_role) {
 	$ID = rawurlencode($item->getID());
 	?>
+	<?php if($can_update_role): ?>
 	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	<?php endif; ?>
 	&nbsp;
+	<?php if($can_delete_role): ?>
 	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+	<?php endif; ?>
 <?php
 } );
 $c_edit->setCssStyle( 'width:120px;' );
@@ -39,7 +46,9 @@ $grid->getColumn('description')->setDisplayCallback( function( Jet\Auth_Role_Abs
 
 <div style="padding: 10px;">
 
+<?php if($this->can_add_role): ?>
 <a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new role');?></a>
+<?php endif; ?>
 
 	<?=$grid->render();?>
 </div>

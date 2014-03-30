@@ -155,7 +155,6 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 	 * @return string
 	 */
 	public function getFileName() {
-		//TODO: check
 		return $this->file_name;
 	}
 

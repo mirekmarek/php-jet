@@ -317,7 +317,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @return string
 	 */
 	public function getPublicURI() {
-		return JET_MODULES_URI.$this->module_manifest->getName().'/public/';
+		return JET_MODULES_URI.str_replace('\\','/',$this->module_manifest->getName()).'/public/';
 	}
 
 	/**

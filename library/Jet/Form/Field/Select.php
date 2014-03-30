@@ -57,7 +57,6 @@ class Form_Field_Select extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-		
 		$tag_data->setProperty( 'name', $this->getName() );
 		$tag_data->setProperty( 'id', $this->getID() );
 
@@ -66,8 +65,8 @@ class Form_Field_Select extends Form_Field_Abstract {
 				
 		$result = '<select '.$this->_getTagPropertiesAsString($tag_data).'>'.JET_EOL;
 
-
 		foreach($options as $val=>$label) {
+
 			$prefix = '';
 			if($label instanceof Data_Tree_Node) {
 				/**

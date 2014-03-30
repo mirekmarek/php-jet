@@ -11,6 +11,7 @@ $selected_ID = $tree->getSelectedID();
 
 $path = ($selected_ID) ? $tree->getData()->getPath( $selected_ID ) : array('_root_');
 
+$images_URI = $this->images_uri;
 ?>
 
 <table>
@@ -39,16 +40,23 @@ $path = ($selected_ID) ? $tree->getData()->getPath( $selected_ID ) : array('_roo
 			$callback = $tree->getOpenedDisplayCallback();
 		}
 
-		//TODO: icons ...
 		?>
 		<tr><td>
 				<table>
 					<tr>
-					<?php if($opened): ?>
-						<td style="width: <?=$node->getDepth()*20;?>px"></td>
+					<?php if($node->getHasChildren()): ?>
+						<?php if($opened): ?>
+							<td style="padding-left: <?=$node->getDepth()*22;?>px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;"><img src="<?=$images_URI;?>folder_open.png"></td>
+						<?php else: ?>
+							<td style="padding-left: <?=$node->getDepth()*22;?>px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;"><img src="<?=$images_URI;?>folder.png"></td>
+						<?php endif;?>
 					<?php else: ?>
-						<td style="width: <?=$node->getDepth()*20;?>px"></td>
-					<?php endif;?>
+							<?php if($opened): ?>
+								<td style="padding-left: <?=$node->getDepth()*22;?>px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;"><img src="<?=$images_URI;?>file.png"></td>
+							<?php else: ?>
+								<td style="padding-left: <?=$node->getDepth()*22;?>px;padding-right: 5px;padding-top: 2px;padding-bottom: 2px;"><img src="<?=$images_URI;?>file.png"></td>
+							<?php endif;?>
+					<?php endif; ?>
 						<td>
 							<?=$callback($node, $node->getData());?>
 						</td>

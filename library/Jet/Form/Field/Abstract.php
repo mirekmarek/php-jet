@@ -242,7 +242,8 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 			$options = array();
 
 			foreach($_o as $k=>$v) {
-				$options[$k] = (string)$v;
+
+				$options[$k] = $v;
 			}
 
 		}

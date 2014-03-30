@@ -48,7 +48,9 @@ $available_privileges_list = $this->available_privileges_list;
 		<?php endforeach; ?>
 	</fieldset>
 
+	<?php if($this->has_access): ?>
 	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+	<?php endif; ?>
 
 </jet_form>
 
@@ -61,7 +63,6 @@ $available_privileges_list = $this->available_privileges_list;
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th style="width: 40px;"></th>
 						<th><?=Jet\Tr::_('Login');?></th>
 					</tr>
 				</thead>
@@ -72,8 +73,7 @@ $available_privileges_list = $this->available_privileges_list;
 				 */
 				?>
 				<tr>
-					<td><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users');?>?ID=<?=(string)$user->getID(); ?>"class="btn btn-default">EDIT</a></td>
-					<td><?=$user->getLogin(); ?></td>
+					<td><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users');?>?ID=<?=(string)$user->getID(); ?>"><?=$user->getLogin(); ?></a></td>
 				</tr>
 			<?php endforeach; ?>
 				</tbody>

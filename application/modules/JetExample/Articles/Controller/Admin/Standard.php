@@ -141,6 +141,8 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
 		$grid = $UI_m->getDataGridInstance();
 
+		$grid->setIsPersistent('admin_classic_articles_list_grid');
+
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
 		$grid->addColumn('title', Jet\Tr::_('Title'));
 		$grid->addColumn('date_time', Jet\Tr::_('Date and time'));

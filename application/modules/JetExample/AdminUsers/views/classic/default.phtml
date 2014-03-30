@@ -9,13 +9,20 @@ use JetApplicationModule\JetExample\UIElements;
  */
 $grid = $this->grid;
 
+$can_delete_user = $this->can_delete_user;
+$can_update_user = $this->can_update_user;
+
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
+$c_edit->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) use ($can_delete_user, $can_update_user) {
 	$ID = rawurlencode($item->getID());
 	?>
+	<?php if($can_update_user): ?>
 	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	<?php endif; ?>
 	&nbsp;
+	<?php if($can_delete_user): ?>
 	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+	<?php endif; ?>
 <?php
 } );
 $c_edit->setCssStyle( 'width:120px;' );
@@ -35,7 +42,9 @@ $grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_User_Abstract $it
 
 <div style="padding: 10px;">
 
+<?php if($this->can_add_user): ?>
 <a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new user');?></a>
+<?php endif; ?>
 
 <?=$grid->render();?>
 

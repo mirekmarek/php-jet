@@ -46,7 +46,7 @@ class Gallery extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:form_field_label = 'Title: '
+	 * @JetDataModel:form_field_label = 'Title'
 	 *
 	 * @var string
 	 */
@@ -183,7 +183,7 @@ class Gallery extends Jet\DataModel {
 	 */
 	public function getUploadForm() {
 		$form = new Jet\Form('gallery_image_upload', array(
-			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_FILE_IMAGE, 'image', 'Upload image' ),
+			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_FILE_IMAGE, 'file', 'Upload image' ),
 			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
 		));
 
@@ -192,13 +192,14 @@ class Gallery extends Jet\DataModel {
 
 	/**
 	 * @param Jet\Form $form
+	 * @param bool $force_catch
 	 *
-	 * @return bool
+	 * @return bool|Gallery_Image
 	 */
-	public function catchUploadForm( Jet\Form $form ) {
+	public function catchUploadForm( Jet\Form $form, $force_catch=false ) {
 
 		if(
-			!$form->catchValues() ||
+			!$form->catchValues(null, $force_catch) ||
 			!$form->validateValues()
 		) {
 			return false;
@@ -210,7 +211,7 @@ class Gallery extends Jet\DataModel {
 		/**
 		 * @var Jet\Form_Field_FileImage $img_field
 		 */
-		$img_field = $form->getField('image');
+		$img_field = $form->getField('file');
 
 		$tmp_file_path = $img_field->getTmpFilePath();
 		$file_name = $img_field->getFileName();
@@ -225,7 +226,7 @@ class Gallery extends Jet\DataModel {
 		}
 
 		try {
-			$this->addImage(
+			$image = $this->addImage(
 				$tmp_file_path,
 				$file_name,
 				$overwrite_if_exists
@@ -236,7 +237,7 @@ class Gallery extends Jet\DataModel {
 			return false;
 		}
 
-		return true;
+		return $image;
 
 	}
 

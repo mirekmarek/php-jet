@@ -19,12 +19,12 @@ $images_URI = $this->images_uri;
 		?>
 		<th<?=$class;?><?=$style;?>>
 			<?php if($column->getAllowSort()): ?>
-				<a href="?sort=<?=$column->getName();?>"><img src="<?=$images_URI;?>arrow_down.png"></a>
+				<a href="<?=$grid->getSortURL($column->getName());?>"><img src="<?=$images_URI;?>arrow_down.png"></a>
 			<?php endif; ?>
 
 			<?=$column->getTitle();?>
 			<?php if($column->getAllowSort()): ?>
-			<a href="?sort=-<?=$column->getName();?>"><img src="<?=$images_URI;?>arrow_up.png"></a>
+			<a href="<?=$grid->getSortURL($column->getName(), true);?>"><img src="<?=$images_URI;?>arrow_up.png"></a>
 			<?php endif; ?>
 		</th>
 	<?php endforeach; ?>

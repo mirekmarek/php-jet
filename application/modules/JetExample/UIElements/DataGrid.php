@@ -50,6 +50,31 @@ class DataGrid extends Jet\Object {
 	protected $allow_paginator = true;
 
 	/**
+	 * @var string
+	 */
+	protected $sort_get_parameter = 'sort';
+	/**
+	 * @var string
+	 */
+	protected $paginator_get_parameter = 'p';
+
+	/**
+	 * @var int
+	 */
+	protected $paginator_items_per_page = 10;
+
+	/**
+	 * @var string
+	 */
+	protected $root_URI = '';
+
+	/**
+	 * @var string
+	 */
+	protected $session_name = '';
+
+
+	/**
 	 * @param Main $module_instance
 	 */
 	public function __construct( Main $module_instance ) {
@@ -168,6 +193,12 @@ class DataGrid extends Jet\Object {
 	 */
 	public function getData() {
 		if($this->paginator) {
+
+			if($this->session_name) {
+				$session = new Jet\Session( $this->session_name );
+				$session->setValue('page_no', $this->paginator->getCurrentPageNo());
+			}
+
 			return $this->paginator->getData();
 		}
 
@@ -240,26 +271,139 @@ class DataGrid extends Jet\Object {
 		return $view->render('DataGrid/paginator');
 	}
 
-	/**
-	 *
-	 */
-	public function handlePaginator() {
-		//TODO: konfigurovatelne
-		//TODO: persistentni
-		$this->paginator = new Jet\Data_Paginator(
-			Jet\Http_Request::GET()->getInt('p', 1),
-			10,
-			'?p='.Jet\Data_Paginator::URL_PAGE_NO_KEY
-		);
 
+	/**
+	 * @param string $sort_get_parameter
+	 */
+	public function setSortGetParameter($sort_get_parameter) {
+		$this->sort_get_parameter = $sort_get_parameter;
 	}
 
 	/**
 	 * @return string
 	 */
+	public function getSortGetParameter() {
+		return $this->sort_get_parameter;
+	}
+
+	/**
+	 * @param string $column_name
+	 * @param bool $desc
+	 *
+	 * @return string
+	 */
+	public function getSortURL( $column_name, $desc=false ) {
+		$column = $this->getColumn($column_name);
+		if(
+			!$column ||
+			!$column->getAllowSort())
+		{
+			return '';
+		}
+
+		if($desc) {
+			$column_name = '-'.$column_name;
+		}
+
+		if($this->root_URI) {
+			if(strpos($this->root_URI, '?')===false) {
+				return $this->root_URI.'?'.$this->sort_get_parameter.'='.rawurlencode($column_name);
+			} else {
+				return $this->root_URI.'&amp;'.$this->sort_get_parameter.'='.rawurlencode($column_name);
+			}
+		} else {
+			return '?'.$this->sort_get_parameter.'='.rawurlencode($column_name);
+		}
+	}
+
+	/**
+	 * @param $paginator_get_parameter
+	 */
+	public function setPaginatorGetParameter($paginator_get_parameter) {
+		$this->paginator_get_parameter = $paginator_get_parameter;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPaginatorGetParameter() {
+		return $this->paginator_get_parameter;
+	}
+
+	/**
+	 * @param $root_URI
+	 */
+	public function setRootURI($root_URI) {
+		$this->root_URI = $root_URI;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRootURI() {
+		return $this->root_URI;
+	}
+
+	/**
+	 * @param int $paginator_items_per_page
+	 */
+	public function setPaginatorItemsPerPage($paginator_items_per_page) {
+		$this->paginator_items_per_page = $paginator_items_per_page;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPaginatorItemsPerPage() {
+		return $this->paginator_items_per_page;
+	}
+
+	/**
+	 * @param string $session_name
+	 */
+	public function setIsPersistent( $session_name ) {
+		$this->session_name = $session_name;
+	}
+
+	/**
+	 *
+	 */
+	public function handlePaginator() {
+
+		if($this->root_URI) {
+			if(strpos($this->root_URI, '?')===false) {
+				$URL_template = $this->root_URI.'?'.$this->paginator_get_parameter.'='.Jet\Data_Paginator::URL_PAGE_NO_KEY;
+			} else {
+				$URL_template = $this->root_URI.'&amp;'.$this->paginator_get_parameter.'='.Jet\Data_Paginator::URL_PAGE_NO_KEY;
+			}
+		} else {
+			$URL_template = '?'.$this->paginator_get_parameter.'='.Jet\Data_Paginator::URL_PAGE_NO_KEY;
+		}
+
+		if($this->session_name) {
+			$session = new Jet\Session( $this->session_name );
+			$default_page_no = $session->getValue('page_no', 1);
+		} else {
+			$default_page_no = 1;
+
+		}
+
+
+
+		$this->paginator = new Jet\Data_Paginator(
+			Jet\Http_Request::GET()->getInt($this->paginator_get_parameter, $default_page_no),
+			$this->paginator_items_per_page,
+			$URL_template
+		);
+
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function handleSortRequest() {
-		//TODO: konfigurovatelne
-		//TODO: persistentni
+
 		$sort_options = array();
 		foreach( $this->columns as $column ) {
 			if($column->getAllowSort()) {
@@ -272,12 +416,26 @@ class DataGrid extends Jet\Object {
 			return '';
 		}
 
-		$this->sort_by = $sort_options[0];
+		$session = false;
+		if($this->session_name) {
+			$session = new Jet\Session( $this->session_name );
+		}
 
-		if( $sort = Jet\Http_Request::GET()->getString('sort') ) {
+
+		if($session) {
+			$this->sort_by = $session->getValue('sort', $sort_options[0]);
+		} else {
+			$this->sort_by = $sort_options[0];
+		}
+
+		if( $sort = Jet\Http_Request::GET()->getString($this->sort_get_parameter) ) {
 			if( in_array($sort, $sort_options) ) {
 				$this->sort_by = $sort;
 			}
+		}
+
+		if($session) {
+			$session->setValue('sort', $this->sort_by);
 		}
 
 		return $this->sort_by;

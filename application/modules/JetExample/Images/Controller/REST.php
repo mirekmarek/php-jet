@@ -95,12 +95,12 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	public function post_image_Action( $gallery_ID ) {
 		$gallery = $this->_getGallery($gallery_ID);
 
-		$upload_form = new Jet\Form( 'upload', array() );
+		$upload_form = $gallery->getUploadForm();
+
 		/**
 		 * @var Jet\Form_Field_FileImage $image_field
 		 */
-		$image_field = Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_FILE_IMAGE, 'file' );
-
+		$image_field = $upload_form->getField('file');
 		/**
 		 * @var Config $config
 		 */
@@ -112,36 +112,18 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			$config->getDefaultMaxH()
 		);
 
-		$upload_form->addField($image_field);
+		if( ($image=$gallery->catchUploadForm( $upload_form, true )) ) {
 
-		$upload_form->catchValues( null, true );
-
-		if($upload_form->validateValues()) {
-			try {
-				$image = $gallery->addImage(
-					$image_field->getTmpFilePath(),
-					$image_field->getFileName(),
-					Jet\Http_Request::POST()->getBool('overwrite_if_exists', false)
-				);
-
-
-				$image->getThumbnail(
-					$config->getDefaultThbMaxW(),
-					$config->getDefaultThbMaxH()
-				);
-
-			} catch( Exception $e ) {
-				if($e->getCode()==Exception::CODE_IMAGE_ALLREADY_EXIST) {
-					$this->responseError( self::ERR_CODE_IMAGE_ALLREADY_EXISTS, array('file_name'=>$image_field->getFileName() ) );
-				} else {
-					$this->responseError( self::ERR_CODE_UNKNOWN_ERROR, array('message'=>$e->getMessage()) );
-				}
-			}
+			$image->getThumbnail(
+				$config->getDefaultThbMaxW(),
+				$config->getDefaultThbMaxH()
+			);
 
 			$this->responseOK();
 		} else {
 			$this->responseFormErrors( $upload_form->getAllErrors() );
 		}
+
 
 	}
 

@@ -70,7 +70,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function handleDelete( Jet\Auth_Role_Abstract $role ) {
 		if( !$this->module_instance->checkAclCanDoAction('delete_role') ) {
-			//TODO:
 			return;
 		}
 
@@ -96,7 +95,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		if($role->getIsNew()) {
 			if( $this->module_instance->checkAclCanDoAction('add_role') ) {
-				$has_access = true;
+				return;
 			}
 		} else {
 			if( $this->module_instance->checkAclCanDoAction('update_role') ) {
@@ -104,18 +103,16 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			}
 		}
 
-		if(!$has_access) {
-			//TODO:
-			return;
-		}
 
 		$form = $role->getCommonForm();
 
-		if($role->catchForm( $form )) {
-			$role->validateProperties();
+		if( $has_access ) {
+			if($role->catchForm( $form )) {
+				$role->validateProperties();
 
-			$role->save();
-			Jet\Http_Headers::movedTemporary( '?ID='.$role->getID() );
+				$role->save();
+				Jet\Http_Headers::movedTemporary( '?ID='.$role->getID() );
+			}
 		}
 
 		if($role->getIsNew()) {
@@ -130,6 +127,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
 
+		$this->view->setVar('has_access', $has_access);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
 		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
@@ -151,11 +149,16 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
 		$grid = $UI_m->getDataGridInstance();
 
+		$grid->setIsPersistent('admin_classic_roles_list_grid');
+
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
 		$grid->addColumn('ID', Jet\Tr::_('ID'));
 		$grid->addColumn('name', Jet\Tr::_('Name'));
 		$grid->addColumn('description', Jet\Tr::_('Description'));
 
+		$this->view->setVar('can_add_role', $this->module_instance->checkAclCanDoAction('add_role'));
+		$this->view->setVar('can_delete_role', $this->module_instance->checkAclCanDoAction('delete_role'));
+		$this->view->setVar('can_update_role', $this->module_instance->checkAclCanDoAction('update_role'));
 		$grid->setData( Jet\Auth::getRolesList() );
 
 		$this->view->setVar('grid', $grid);

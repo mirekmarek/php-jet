@@ -60,7 +60,9 @@ $form = $this->form;
 		<jet_form_field name="roles" class="form-control"/>
 	</div>
 
+	<?php if($this->has_access): ?>
 	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+	<?php endif; ?>
 </jet_form>
 
 </div>

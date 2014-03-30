@@ -73,7 +73,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function handleDelete( Jet\Auth_User_Abstract $user ) {
 		if( !$this->module_instance->checkAclCanDoAction('delete_user') ) {
-			//TODO:
 			return;
 		}
 
@@ -99,7 +98,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		if($user->getIsNew()) {
 			if( $this->module_instance->checkAclCanDoAction('add_user') ) {
-				$has_access = true;
+				return;
 			}
 		} else {
 			if( $this->module_instance->checkAclCanDoAction('update_user') ) {
@@ -107,17 +106,15 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			}
 		}
 
-		if(!$has_access) {
-			//TODO:
-			return;
-		}
 
 		$form = $user->getCommonForm();
 
-		if( $user->catchForm( $form ) ) {
-			$user->validateProperties();
-			$user->save();
-			Jet\Http_Headers::movedTemporary( '?ID='.$user->getID() );
+		if( $has_access ) {
+			if( $user->catchForm( $form ) ) {
+				$user->validateProperties();
+				$user->save();
+				Jet\Http_Headers::movedTemporary( '?ID='.$user->getID() );
+			}
 		}
 
 
@@ -133,6 +130,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		}
 
 
+		$this->view->setVar('has_access', $has_access);
 		$this->view->setVar('form', $form);
 		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
 
@@ -153,12 +151,17 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
 		$grid = $UI_m->getDataGridInstance();
 
+		$grid->setIsPersistent('admin_classic_users_list_grid');
+
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
 		$grid->addColumn('login', Jet\Tr::_('Login') );
 		$grid->addColumn('ID', Jet\Tr::_('ID') );
 
 		$grid->setData( Jet\Auth::getUsersList() );
-		
+
+		$this->view->setVar('can_add_user', $this->module_instance->checkAclCanDoAction('add_user'));
+		$this->view->setVar('can_delete_user', $this->module_instance->checkAclCanDoAction('delete_user'));
+		$this->view->setVar('can_update_user', $this->module_instance->checkAclCanDoAction('update_user'));
 		$this->view->setVar('grid', $grid);
 
 		$this->render('classic/default');
