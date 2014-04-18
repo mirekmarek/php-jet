@@ -45,5 +45,25 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'987dce661afca3372aa3e05702fb1d06' => array(
+		'phrase' => 'User name',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'dc647eb65e6711e155375218212b3964' => array(
+		'phrase' => 'Password',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'4c231e0da3eaaa6a9752174f7f9cfb31' => array(
+		'phrase' => 'Confirm password',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'1e884e3078d9978e216a027ecd57fb34' => array(
+		'phrase' => 'E-mail',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

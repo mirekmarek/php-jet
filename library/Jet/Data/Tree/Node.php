@@ -194,6 +194,15 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	}
 
 	/**
+	 * @param boolean $is_root
+	 */
+	public function setIsRoot($is_root) {
+		$this->is_root = (bool)$is_root;
+	}
+
+
+
+	/**
 	 *
 	 * @return int
 	 */
@@ -382,16 +391,23 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		if($next_children && $this->children){
 			$item[$children_key] = array();
 
-			foreach($this->children as $child) {
-				$child->_toArray( $item[$children_key], $max_depth, $root_depth );
-			}
+            if(
+	            $this->is_root ||
+	            !$this->tree->getLazyMode()
+            ) {
+                foreach($this->children as $child) {
+                    $child->_toArray( $item[$children_key], $max_depth, $root_depth );
+                }
+            } else {
+                $item[$children_key] = true;
+            }
+
 
 		}
 
 		if($this->is_root) {
 			$_result = $item;
 		} else {
-			//$_result[$this->ID] = $item;
 			$_result[] = $item;
 		}
 

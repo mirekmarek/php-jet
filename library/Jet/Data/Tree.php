@@ -64,10 +64,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	protected $root_node = null;
 
 	/**
-	 *
-	 * @var array
+	 * @var bool
 	 */
-	protected $traversal_iterator_nodes = array();
+	protected $lazy_mode = false;
 
 	/**
 	 *
@@ -110,6 +109,22 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function getNodesClassName(){
 		return $this->nodes_class_name;
 	}
+
+	/**
+	 * @param bool $lazy_mode
+	 */
+	public function setLazyMode($lazy_mode) {
+		$this->lazy_mode = (bool)$lazy_mode;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getLazyMode() {
+		return $this->lazy_mode;
+	}
+
+
 
 	/**
 	 * Key in data item representing ID
@@ -194,6 +209,14 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			return null;
 		}
 		return $this->root_node->getID();
+	}
+
+	public function setRootNode( Data_Tree_Node $node ) {
+
+		$node->setIsRoot( true );
+		$this->root_node = $node;
+
+		$node->getChildren();
 	}
 		
 	/**

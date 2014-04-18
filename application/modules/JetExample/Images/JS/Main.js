@@ -1,6 +1,5 @@
 dojo.require('dojo.data.ObjectStore');
 dojo.require('dijit.Tree');
-dojo.require('dijit.tree.ForestStoreModel');
 dojo.require('dijit.tree.dndSource');
 dojo.require('dojo.data.ItemFileWriteStore');
 dojo.require('dijit.TooltipDialog');
@@ -26,7 +25,7 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 
 		this.edit_area = this.getWidgetByID('edit_area');
 
-		this.tree = this.getTree( 'galleries_tree_area', 'gallery', true );
+		this.tree = this.getTree( 'galleries_tree_area', 'gallery_tree_lazy', true );
 		this.tree.onClick = function(item) {
 
 			if(_this.form.getIsSaving()) {
@@ -53,28 +52,30 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 		};
 
 		this.tree.dndController.checkAcceptance = function( source, nodes ) {
-			return true;
+            if(source['tree'] && source['tree']==_this.tree) {
+                return true;
+            }
 
 			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
 				return true;
 			}
 
-			//TODO:
-			console.debug( source, nodes );
-
 			return false;
 		};
 
 		this.tree.dndController.onDndDrop = function(source, nodes, copy) {
-			if(source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
+
+            var target_ID=this.targetAnchor.item.ID+'';
+
+			if(source['dnd'] && source.dnd['grid'] && source.dnd['grid']==_this.images_grid) {
+
 				var selected = source.grid.selection.getSelected();
 				var images = [];
 				for( var i=0; i<selected.length; i++ ) {
 					images.push(selected[i]);
 				}
 
-
-				_this.copy_images_target_gallery_ID=this.targetAnchor.item.ID+'';
+				_this.copy_images_target_gallery_ID=target_ID;
 
 				if(images.length) {
 					_this.copyImagesOpenDialog( images );
@@ -85,8 +86,26 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 				return;
 			}
 
-			//TODO:
-			console.debug( '???',source, nodes, copy );
+            if(source['tree']) {
+                var source_ID = source.getItem( nodes[0].id).data.item.ID+'';
+
+                var form = _this.getForm( 'gallery', _this.getData('gallery_form_fields_definition'), {
+                    save_button: 'gallery_save',
+                    onEdit: function( data ) {
+                        this.getField('parent_ID').setValue(target_ID);
+                        this.save();
+                    },
+
+                    afterUpdate: function(response_data) {
+                        dojo.publish(_this.module_name+'/updated');
+                        _this.edit( response_data.ID );
+                    }
+                } );
+
+                form.edit(source_ID);
+
+            }
+
 
 			this.onDndCancel();
 		};
@@ -251,7 +270,8 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 
 		var _this = this;
 		var data = {
-			target_gallery_ID: this.copy_images_target_gallery_ID
+			target_gallery_ID: this.copy_images_target_gallery_ID,
+            overwrite_if_exists: this.getWidgetByID('copy_overwrite_if_exists').checked
 		};
 
 		var last = this.copy_images_selection.length-1;
@@ -260,6 +280,7 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 				//COPY is not supported by dojo
 				this.restPutAction( 'copy_image', this.copy_images_selection[i].ID, data, function() {
 					_this.getWidgetByID('copy_image_dialog').hide();
+                    _this.form.edit(data.target_gallery_ID);
 
 				}, 'copy_image_button' );
 

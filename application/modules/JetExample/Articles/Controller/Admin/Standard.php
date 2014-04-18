@@ -91,6 +91,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 			if( !$this->module_instance->checkAclCanDoAction('add_article') ) {
 				return;
 			}
+            $has_access = true;
 		} else {
 			if( $this->module_instance->checkAclCanDoAction('update_article') ) {
 				$has_access = true;

@@ -136,7 +136,7 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 		$engine = $this->config->getEngine();
 
 		return 'CREATE TABLE IF NOT EXISTS `'.$this->_table_name.'` ('.JET_EOL
-			.JET_TAB.' `URL` varchar(65536) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
+			.JET_TAB.' `URL` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
 			.JET_TAB.' `URL_hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
 			.JET_TAB.' `data` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
 			.JET_TAB.' `created_date_time` datetime NOT NULL,'.JET_EOL

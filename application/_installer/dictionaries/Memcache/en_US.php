@@ -115,5 +115,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'45b2bb7672768a257a5665ed2098d4dc' => array(
+		'phrase' => 'Memcache is not available! (memcache extension is not loaded) ',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

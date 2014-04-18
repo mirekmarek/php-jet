@@ -335,7 +335,7 @@ class Gallery extends Jet\DataModel {
 			array(
 				'ID'=>'_root_',
 				'parent_ID' => '',
-				'title' => 'Galleries'
+				'title' => Jet\Tr::_('Galleries')
 			)
 		);
 

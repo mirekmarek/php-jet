@@ -100,6 +100,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			if( $this->module_instance->checkAclCanDoAction('add_user') ) {
 				return;
 			}
+            $has_access = true;
 		} else {
 			if( $this->module_instance->checkAclCanDoAction('update_user') ) {
 				$has_access = true;

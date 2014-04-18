@@ -199,22 +199,62 @@ Jet.declare("Jet.modules.Module", [], {
         return grid;
     },
 
-    getTree: function(place_at_widget_ID, object_name, enable_DnD) {
-        var store = new dojo.data.ItemFileWriteStore({
-            url: this.getRestURL(object_name)
-        });
+    getTree: function(place_at_widget_ID, object_name, enable_DnD ) {
 
 
-        var tree_model = new dijit.tree.ForestStoreModel({
-            store: store,
-            rootLabel: "",
-            rootId: "__root__",
-            childrenAttrs: ["children"]
+        var store = new dojo.store.JsonRest({
+            target: this.getRestURL(object_name),
+            children_arg: 'children',
+
+            mayHaveChildren: function(item) {
+                return item[this.children_arg] ? true:false;
+            },
+            getChildren: function(item, onComplete, onError){
+                if(!item[this.children_arg]) {
+                    return;
+                }
+
+                var _this = this;
+
+                if( item[this.children_arg].push!==undefined ) {
+                    onComplete(item[this.children_arg]);
+                } else {
+                    console.debug( item[this.identifier_arg] );
+                    this.get( item[this.identifier_arg] ).then( function(branch){
+
+                        item[_this.children_arg] = branch.items[0][_this.children_arg];
+                        onComplete(item.children);
+
+                    }, function(error){
+                        console.error(error);
+                        onComplete([]);
+                    });
+                }
+
+
+            },
+            getRoot: function(onItem, onError){
+                var _this = this;
+
+                this.get('').then( function( item ) {
+                    _this.identifier_arg = item.identifier;
+                    _this.label_arg = item.label;
+
+                    for(var i=0;i<item.items.length;i++) {
+                        onItem( item.items[i] );
+                    }
+
+                }, onError );
+            },
+            getLabel: function( item ){
+                return item[this.label_arg];
+            }
         });
+
 
         var tree_params = {
-            model: tree_model,
-            showRoot: false,
+            model: store,
+            showRoot: true,
             persist: false
         };
 

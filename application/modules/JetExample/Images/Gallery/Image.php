@@ -151,7 +151,6 @@ class Gallery_Image extends Jet\DataModel {
 		$this->gallery_ID = $gallery->getID()->toString();
 
 		$this->__gallery = $gallery;
-		//TODO: copy current image?
 	}
 
 

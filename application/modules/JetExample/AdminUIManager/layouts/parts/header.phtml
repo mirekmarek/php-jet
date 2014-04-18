@@ -33,42 +33,65 @@
 		font-size: 15px;
 	}
 
-	.Jet_Uploader_FileItem {
-		margin: 5px;
-	}
 
-	.Jet_Uploader_FileItem_inProgress {
+    .jet-uploader-file-item-box {
+        position: relative;
+        margin: 5px;
+        min-height: 130px;
+    }
+    .jet-uploader-file-item-icon-box {
+        position: absolute;
+        top:5px;
+        left: 5px;
+        width: 104px;
+        height: 104px;
+        vertical-align: middle;
+        text-align: center;
+
+    }
+    .jet-uploader-file-item-icon {
+        max-width:100px;
+        max-height:100px;
+
+    }
+
+    .jet-uploader-file-item-file-name {
+        position: absolute;
+        top:0px;
+        left: 120px;
+        padding-top: 20px;
+        font-weight: bolder;
+    }
+    .jet-uploader-file-item-file-size {
+        position: absolute;
+        top:40px;
+        left: 120px;
+        font-size: 11px;
+    }
+    .jet-uploader-file-item-progress-bar-area {
+        position: absolute;
+        top:60px;
+        left: 120px;
+
+    }
+    .jet-uploader-file-item-message-area {
+        position: absolute;
+        top:60px;
+        left: 120px;
+
+    }
+
+
+	.jet-uploader-file-item-box-in-progress {
 		background-color: #c9c9c9;
 	}
 
-	.Jet_Uploader_FileItem_uploaded {
+	.jet-uploader-file-item-box-uploaded {
 		background-color: #aaffaa;
 	}
 
-	.Jet_Uploader_FileItem_error {
+	.jet-uploader-file-item-box-error {
 		background-color: #ffbbbb;
-	}
-
-	.Jet_Uploader_FileItem .fileName {
-		padding-top: 20px;
-		font-weight: bolder;
-	}
-
-	.Jet_Uploader_FileItem .fileSize {
-		font-size: 11px;
-	}
-
-	.Jet_Uploader_FileItem .fileIcon {
-		max-width:100px;
-		max-height:100px;
-	}
-
-	.Jet_Uploader_FileItem .fileIconBox {
-		width: 104px;
-		height: 104px;
-		vertical-align: middle;
-		text-align: center;
-
 	}
 </style>
 

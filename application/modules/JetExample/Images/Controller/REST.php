@@ -36,6 +36,8 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		'put_copy_image' => 'add_image',
 
 		'get_gallery' => 'get_gallery',
+		'get_gallery_tree' => 'get_gallery',
+		'get_gallery_tree_lazy' => 'get_gallery',
 		'post_gallery' => 'add_gallery',
 		'put_gallery' => 'update_gallery',
 		'delete_gallery' => 'delete_gallery'
@@ -140,9 +142,18 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		 */
 		$config = $this->module_instance->getConfig();
 
-		//TODO: overwrite ..
-		//TODO: check errors ...
-		$image = $gallery->addImage( $image->getFilePath(), $image->getFileName() );
+        if(
+            (
+                !isset($data['overwrite_if_exists']) ||
+                !$data['overwrite_if_exists']
+            )
+            &&
+            $gallery->getImageExists($image->getFileName())
+        ) {
+            $this->responseOK();
+        }
+
+		$image = $gallery->addImage( $image->getFilePath(), $image->getFileName(), true );
 
 		$image->getThumbnail(
 			$config->getDefaultThbMaxW(),
@@ -193,6 +204,38 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		} else {
 			$this->responseData( Gallery::getTree() );
 		}
+	}
+
+	/**
+	 *
+	 */
+	public function get_gallery_tree_lazy_action( $parent_ID="" ) {
+		$tree = Gallery::getTree();
+
+		if($parent_ID) {
+			$node = $tree->getNode( $parent_ID );
+			if(!$node) {
+				$this->responseUnknownItem( $parent_ID );
+			}
+
+			$tree->setRootNode($node);
+
+		}
+		$tree->setLazyMode(true);
+
+		$this->responseData( $tree );
+
+	}
+
+
+	/**
+	 *
+	 */
+	public function get_gallery_tree_action() {
+		$tree = Gallery::getTree();
+
+		$this->responseData( $tree );
+
 	}
 
 	/**

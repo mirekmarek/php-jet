@@ -292,7 +292,7 @@ dojo.declare("Jet.MultiUploader", [], {
 			this.scrollTo();
 			this.uploading = true;
 			this.updateProgress(0);
-			dojo.addClass(this.item_node_ID, "Jet_Uploader_FileItem_inProgress");
+			dojo.addClass(this.item_node_ID, "jet-uploader-file-item-box-in-progress");
 		};
 
 		new_file.setUploaded = function() {
@@ -303,8 +303,8 @@ dojo.declare("Jet.MultiUploader", [], {
 			this.updateProgress(100);
 			this.getProgressBar().destroy();
 
-			dojo.removeClass(this.item_node_ID, "Jet_Uploader_FileItem_inProgress");
-			dojo.addClass(this.item_node_ID, "Jet_Uploader_FileItem_uploaded");
+			dojo.removeClass(this.item_node_ID, "jet-uploader-file-item-box-in-progress");
+			dojo.addClass(this.item_node_ID, "jet-uploader-file-item-box-uploaded");
 		};
 
 		new_file.setError = function( error_message, error_code ) {
@@ -315,9 +315,9 @@ dojo.declare("Jet.MultiUploader", [], {
 			this.upload_error_code = error_code;
 
 
-			dojo.removeClass(this.item_node_ID, "Jet_Uploader_FileItem_uploaded");
-			dojo.removeClass(this.item_node_ID, "Jet_Uploader_FileItem_inProgress");
-			dojo.addClass(this.item_node_ID, "Jet_Uploader_FileItem_error");
+			dojo.removeClass(this.item_node_ID, "jet-uploader-file-item-box-uploaded");
+			dojo.removeClass(this.item_node_ID, "jet-uploader-file-item-box-in-progress");
+			dojo.addClass(this.item_node_ID, "jet-uploader-file-item-box-error");
 
 			dojo.byId( this.message_area_node_ID ).innerHTML = this.upload_error_message;
 		};
@@ -349,29 +349,20 @@ dojo.declare("Jet.MultiUploader", [], {
 		file.progress_area_node_ID = this.files_ID_preffix+file.id+'_progress_area';
 		file.message_area_node_ID = this.files_ID_preffix+file.id+'_message_area';
 
-		var result = "";
-		//TODO: no tables please ...
-		result += '<div id="'+file.item_node_ID+'" class="Jet_Uploader_FileItem">';
-		result += '<table width="100%" border="0">';
-		result += '<tr>';
-		result += '<td rowspan="4" class="fileIconBox">';
-		if(file.is_image) {
-			result += ( file["file_avatar_src"] ? '<img src="'+file.file_avatar_src+'" class="fileIcon" id="'+file.item_image_ID+'"/>' : '<img class="fileIcon" id="'+file.item_image_ID+'"/>' );
-		}
-		result += '</td>';
-		result += '<td class="fileName">'+file.name+'</td> ';
-		result += '</tr>';
-		result += '<tr>';
-		result += '<td class="fileSize">'+ Jet.Formatter.FileSize(file.size) +'</td>';
-		result += '</tr>';
-		result += '<tr>';
-		result += '<td colspan="2"><div id="'+file.progress_area_node_ID+'"></div></td>';
-		result += '</tr>';
-		result += '<tr>';
-		result += '<td colspan="2"><div id="'+file.message_area_node_ID+'"></div></td>';
-		result += '</tr>';
-		result += '</table>';
-		result += '</div>';
+		var result = '';
+
+        result += '<div id="'+file.item_node_ID+'" class="jet-uploader-file-item-box">';
+        result += '<div class="jet-uploader-file-item-icon-box">';
+        if(file.is_image) {
+            result += ( file["file_avatar_src"] ? '<img src="'+file.file_avatar_src+'" class="jet-uploader-file-item-icon" id="'+file.item_image_ID+'"/>' : '<img class="jet-uploader-file-item-icon" id="'+file.item_image_ID+'"/>' );
+        }
+        result += '</div>';
+        result += '<div class="jet-uploader-file-item-file-name">'+file.name+'</div> ';
+        result += '<div class="jet-uploader-file-item-file-size">'+ Jet.Formatter.FileSize(file.size) +'</div>';
+        result += '<div class="jet-uploader-file-item-progress-bar-area" id="'+file.progress_area_node_ID+'"></div>';
+        result += '<div class="jet-uploader-file-item-message-area" id="'+file.message_area_node_ID+'"></div>';
+        result += '</div>';
+
 
 		return result;
 	}
