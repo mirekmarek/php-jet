@@ -115,21 +115,6 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 	}
 
-	/**
-	 * @param DataModel[] $N_instances
-	 *
-	 * @throws DataModel_Exception
-	 */
-	public function setItems( $N_instances ) {
-
-		$this->N_data = array();
-		$this->N_IDs = array();
-
-		foreach($N_instances as $N) {
-            $this->offsetSet( $N->getID()->toString(), $N );
-		}
-	}
-
 
 
 	/**
@@ -332,6 +317,37 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		return $query;
 	}
 
+	/**
+	 * @param DataModel $N_instance
+	 * @return string
+	 */
+	protected function getArrayKey( DataModel $N_instance ) {
+		return $N_instance->getID()->toString();
+    }
+
+	/**
+	 * @param DataModel_ID_Abstract $N_ID
+	 * @return string
+	 */
+	protected function getArrayKeyByID( DataModel_ID_Abstract $N_ID ) {
+		return $N_ID->toString();
+	}
+
+    /**
+     * @param DataModel[] $N_instances
+     *
+     * @throws DataModel_Exception
+     */
+    public function setItems( $N_instances ) {
+
+        $this->N_data = array();
+        $this->N_IDs = array();
+
+        foreach($N_instances as $N) {
+            $this->offsetSet( $this->getArrayKey($N), $N );
+        }
+    }
+
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
@@ -416,16 +432,16 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
         }
 
         $ID = $value->getID();
-        $s_ID = $ID->toString();
+		$key = $this->getArrayKey( $value );
 
-        if( $s_ID!=$offset ) {
+        if( $key!=$offset ) {
             throw new DataModel_Exception(
-                'The offset must equal object ID (offset is: \''.$offset.'\', ID is \''.$s_ID.'\') '
+                'The offset must equal generated key ( probably object ID) Offset: \''.$offset.'\', Key (ID): \''.$s_ID.'\' '
             );
         }
 
-        $this->N_IDs[$s_ID] = $ID;
-        $this->N_data[$s_ID] = $value;
+        $this->N_IDs[$key] = $ID;
+        $this->N_data[(string)$ID] = $value;
 
 	}
 
@@ -435,8 +451,11 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	public function offsetUnset( $offset )	{
 		$this->_fetchNData();
+
+		$ID = $this->N_IDs[(string)$offset]->toString();
+
 		unset( $this->N_IDs[(string)$offset] );
-        unset( $this->N_data[(string)$offset] );
+        unset( $this->N_data[$ID] );
 	}
 
 	/**
@@ -519,9 +538,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 				$N_ID[$N_ID_prop->getRelatedToPropertyName()] = $ID[$N_ID_prop_name];
 			}
 
-            $s_N_ID = (string)$N_ID;
+			$key = $this->getArrayKeyByID( $N_ID );
 
-			$this->N_IDs[$s_N_ID] = $N_ID;
+			$this->N_IDs[$key] = $N_ID;
             $this->N_data[(string)$N_ID] = null;
 		}
 
