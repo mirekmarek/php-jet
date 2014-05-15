@@ -125,18 +125,8 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		$this->N_data = array();
 		$this->N_IDs = array();
 
-		$valid_class_name =$this->__data_model_current_N_model_class_name;
 		foreach($N_instances as $N) {
-			/**
-			 * @var DataModel $N
-			 */
-			if(! ($N instanceof $valid_class_name) ) {
-				throw new DataModel_Exception(
-					'N instance must be instance of \''.$valid_class_name.'\'. \''.get_class($N).'\' given ',
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
-			}
-			$this->N_IDs[] = $N->getID();
+            $this->offsetSet( $N->getID()->toString(), $N );
 		}
 	}
 
@@ -206,7 +196,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 		$this->setMRelatedModel($M_instance);
 
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 
 		$definition = $this->getDataModelDefinition();
 		$backend = $this->getBackendInstance();
@@ -273,7 +263,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return array
 	 */
 	public function jsonSerialize() {
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 
 		$result = array();
 		foreach($this->N_IDs as $ID) {
@@ -296,7 +286,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		$N_model_definition = $N_model_instance->getDataModelDefinition();
 		$N_class_name =$N_model_definition->getModelName();
 
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 
 		$result = '';
 
@@ -364,18 +354,19 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return int
 	 */
 	public function count() {
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 		return count($this->N_IDs);
 	}
 
 	/**
 	 * @see ArrayAccess
 	 * @param int $offset
+     *
 	 * @return bool
 	 */
 	public function offsetExists( $offset  ) {
-		$this->_fetchNIDs();
-		return isset($this->N_IDs[(int)$offset]);
+		$this->_fetchNData();
+		return isset($this->N_IDs[(string)$offset]);
 	}
 	/**
 	 * @see ArrayAccess
@@ -384,8 +375,8 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return DataModel
 	 */
 	public function offsetGet( $offset ) {
-		$this->_fetchNIDs();
-		return $this->_get($this->N_IDs[(int)$offset]);
+		$this->_fetchNData();
+		return $this->_get($this->N_IDs[(string)$offset]);
 	}
 
 	/**
@@ -393,24 +384,59 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @see ArrayAccess
 	 *
 	 * @param int $offset
-	 * @param mixed $value
+	 * @param DataModel $value
 	 *
 	 * @throws DataModel_Exception
 	 */
 	public function offsetSet( $offset , $value ) {
-		throw new DataModel_Exception(
-			'Please do not change MtoN model directly. Use '.get_class($this).'->setNIDs()',
-			DataModel_Exception::CODE_PERMISSION_DENIED
-		);
+        Factory::getInstance($this->__data_model_current_N_model_class_name);
+
+        $valid_class_name = Factory::getClassName( $this->__data_model_current_N_model_class_name );
+
+        if(!is_object($value)) {
+            throw new DataModel_Exception(
+                'Value instance must be instance of \''.$valid_class_name.'\'.'
+            );
+
+        }
+
+        /**
+         * @var DataModel $value
+         */
+        if(! ($value instanceof $valid_class_name) ) {
+            throw new DataModel_Exception(
+                'Value instance must be instance of \''.$valid_class_name.'\'. \''.get_class($value).'\' given '
+            );
+        }
+
+        if(!$value->getIsSaved()) {
+            throw new DataModel_Exception(
+                'Object instance must be saved '
+            );
+        }
+
+        $ID = $value->getID();
+        $s_ID = $ID->toString();
+
+        if( $s_ID!=$offset ) {
+            throw new DataModel_Exception(
+                'The offset must equal object ID (offset is: \''.$offset.'\', ID is \''.$s_ID.'\') '
+            );
+        }
+
+        $this->N_IDs[$s_ID] = $ID;
+        $this->N_data[$s_ID] = $value;
+
 	}
 
 	/**
 	 * @see ArrayAccess
-	 * @param int $offset
+	 * @param string $offset
 	 */
 	public function offsetUnset( $offset )	{
-		$this->_fetchNIDs();
-		unset( $this->N_IDs[(int)$offset] );
+		$this->_fetchNData();
+		unset( $this->N_IDs[(string)$offset] );
+        unset( $this->N_data[(string)$offset] );
 	}
 
 	/**
@@ -419,7 +445,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return DataModel
 	 */
 	public function current() {
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 
 		return $this->_get( current($this->N_IDs) );
 	}
@@ -429,21 +455,21 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return string
 	 */
 	public function key() {
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 		return key($this->N_IDs);
 	}
 	/**
 	 * @see Iterator
 	 */
 	public function next() {
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 		return next($this->N_IDs);
 	}
 	/**
 	 * @see Iterator
 	 */
 	public function rewind() {
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 		reset($this->N_IDs);
 	}
 	/**
@@ -451,7 +477,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return bool
 	 */
 	public function valid()	{
-		$this->_fetchNIDs();
+		$this->_fetchNData();
 		return key($this->N_IDs)!==null;
 	}
 
@@ -460,7 +486,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * Fetches IDs...
 	 *
 	 */
-	protected function _fetchNIDs() {
+	protected function _fetchNData() {
 		if($this->N_IDs!==null) {
 			return;
 		}
@@ -493,12 +519,12 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 				$N_ID[$N_ID_prop->getRelatedToPropertyName()] = $ID[$N_ID_prop_name];
 			}
 
-			$this->N_IDs[] = $N_ID;
+            $s_N_ID = (string)$N_ID;
+
+			$this->N_IDs[$s_N_ID] = $N_ID;
+            $this->N_data[(string)$N_ID] = null;
 		}
 
-		foreach($this->N_IDs as $N_ID) {
-			$this->N_data[(string)$N_ID] = null;
-		}
 
 	}
 
@@ -525,7 +551,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @return array
 	 */
 	public function __sleep() {
-	return array();
+        	return array();
 	}
 
 	public function __wakeup() {

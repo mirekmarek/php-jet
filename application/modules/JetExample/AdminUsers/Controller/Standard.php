@@ -97,7 +97,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$has_access = false;
 
 		if($user->getIsNew()) {
-			if( $this->module_instance->checkAclCanDoAction('add_user') ) {
+			if( !$this->module_instance->checkAclCanDoAction('add_user') ) {
 				return;
 			}
             $has_access = true;

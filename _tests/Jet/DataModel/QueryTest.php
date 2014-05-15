@@ -233,7 +233,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
-	public function testRelationsM2N() {
+	public function testRelationsMtoN() {
 		$property = $this->object->_getPropertyAndSetRelation('data_model_2_test_mock.string_property');
 		$this->assertEquals('data_model_2_test_mock', $property->getDataModelDefinition()->getModelName());
 		$this->assertEquals('string_property', $property->getName());
@@ -267,7 +267,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
-	public function testRelations12N() {
+	public function testRelations1toN() {
 		$property = $this->object->_getPropertyAndSetRelation('data_model_test_mock_related_1toN.string_property');
 
 		$this->assertEquals('data_model_test_mock_related_1toN', $property->getDataModelDefinition()->getModelName());
@@ -293,6 +293,60 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 		);
 
 	}
+
+    /**
+     * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+     * @covers Jet\DataModel_Query::getRelations
+     * @covers Jet\DataModel_Query::getRelation
+     */
+    public function testRelations1to1() {
+
+        $property = $this->object->_getPropertyAndSetRelation('data_model_test_mock_related_1to1.string_property');
+
+        $this->assertEquals('data_model_test_mock_related_1to1', $property->getDataModelDefinition()->getModelName());
+
+        $this->assertEquals(
+            array(
+                'data_model_test_mock_related_1to1'
+            ),
+            array_keys($this->object->getRelations())
+        );
+
+
+        $this->assertEquals(
+            DataModel_Query::JOIN_TYPE_LEFT_JOIN,
+            $this->object->getRelation('data_model_test_mock_related_1to1')->getJoinType()
+        );
+
+        $this->object->getRelation('data_model_test_mock_related_1to1')->setJoinType(DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN);
+
+        $this->assertEquals(
+            DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN,
+            $this->object->getRelation('data_model_test_mock_related_1to1')->getJoinType()
+        );
+
+
+
+        /*
+        $this->object->setSelect(array(
+            'ms' => 'data_model_test_mock_related_1to1.string_property'
+        ));
+
+
+        $config = new DataModel_Backend_MySQL_Config( true );
+        $config->setData( array(
+                'connection_read' => 'test_mysql',
+                'connection_write' => 'test_mysql',
+            ), false
+        );
+
+        $backend = new DataModel_Backend_MySQL( $config );
+        //$backend->initialize();
+
+        var_dump($backend->getBackendSelectQuery( $this->object ));
+        */
+    }
+
 
 	/**
 	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation

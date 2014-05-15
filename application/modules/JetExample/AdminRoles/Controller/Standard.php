@@ -94,7 +94,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$has_access = false;
 
 		if($role->getIsNew()) {
-			if( $this->module_instance->checkAclCanDoAction('add_role') ) {
+			if( !$this->module_instance->checkAclCanDoAction('add_role') ) {
 				return;
 			}
             $has_access = true;
