@@ -436,7 +436,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
         if( $key!=$offset ) {
             throw new DataModel_Exception(
-                'The offset must equal generated key ( probably object ID) Offset: \''.$offset.'\', Key (ID): \''.$s_ID.'\' '
+                'The offset must equal generated key ( probably object ID) Offset: \''.$offset.'\', Key (ID): \''.$key.'\' '
             );
         }
 

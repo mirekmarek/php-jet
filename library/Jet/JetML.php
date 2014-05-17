@@ -35,9 +35,9 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	protected $toolkit = 'Dojo';
 
 	/**
-	 * @var Mvc_UIManagerModule_Abstract
+	 * @var Mvc_FrontControllerModule_Abstract
 	 */
-	protected $UI_manager_module;
+	protected $front_controller_module;
 
 	/**
 	 * @var Mvc_Layout

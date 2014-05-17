@@ -35,7 +35,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			extract($view, EXTR_IF_EXISTS);
 		}
 
-		$this->view->setVar('data', Jet\Mvc::getCurrentUIManagerModuleInstance()->getBreadcrumbNavigation());
+		$this->view->setVar('data', Jet\Mvc::getCurrentFrontController()->getBreadcrumbNavigation());
 
 		$this->render( $view );
 	}

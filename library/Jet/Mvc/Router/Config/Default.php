@@ -56,41 +56,41 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:default_value = 'Jet\SiteUIDefault'
-	 * @JetConfig:description = 'Default site UI manager module name'
+	 * @JetConfig:description = 'Default site Front Controller module name'
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Default site UI manager module: '
+	 * @JetConfig:form_field_label = 'Default site Front Controller module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getSiteUIManagerModulesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getSiteFrontControllerModulesList']
 	 * 
 	 * @var string
 	 */
-	protected $default_site_UI_manager_module_name;
+	protected $default_site_front_controller_module_name;
 	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:default_value = 'Jet\AdminUIDefault'
-	 * @JetConfig:description = 'Default admin UI manager module name'
+	 * @JetConfig:description = 'Default admin Front Controller module name'
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Default administration UI manager module: '
+	 * @JetConfig:form_field_label = 'Default administration Front Controller module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAdminUIManagerModulesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAdminFrontControllerModulesList']
 	 * 
 	 * @var string
 	 */
-	protected $default_admin_UI_manager_module_name;
+	protected $default_admin_front_controller_module_name;
 	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:default_value = 'Jet\AuthDefault'
-	 * @JetConfig:description = 'Default authentication and authorization manager module name'
+	 * @JetConfig:description = 'Default Authentication and Authorization Controller module name'
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Authentication and authorization manager module: '
+	 * @JetConfig:form_field_label = 'Authentication and Authorization Controller module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAuthManagerModulesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAuthControllerModulesList']
 	 * 
 	 * @var string
 	 */
-	protected $default_auth_manager_module_name;
+	protected $default_auth_controller_module_name;
 
 	/**
 	 * @return array
@@ -116,22 +116,22 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	/**
 	 * @return string
 	 */
-	public function getDefaultAdminUIManagerModuleName() {
-		return $this->default_admin_UI_manager_module_name;
+	public function getDefaultAdminFrontControllerModuleName() {
+		return $this->default_admin_front_controller_module_name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDefaultSiteUIManagerModuleName() {
-		return $this->default_site_UI_manager_module_name;
+	public function getDefaultSiteFrontControllerModuleName() {
+		return $this->default_site_front_controller_module_name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDefaultAuthManagerModuleName() {
-		return $this->default_auth_manager_module_name;
+	public function getDefaultAuthControllerModuleName() {
+		return $this->default_auth_controller_module_name;
 	}
 
 	/**
@@ -145,14 +145,14 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 * @static
 	 * @return array
 	 */
-	public static function getSiteUIManagerModulesList() {
+	public static function getSiteFrontControllerModulesList() {
 		$result = array();
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module_manifest) {
 			/**
 			 * @var Application_Modules_Module_Manifest $module_manifest
 			 */
-			if(!$module_manifest->getIsSiteUIManagerModule()) {
+			if(!$module_manifest->getIsSiteFrontController()) {
 				continue;
 			}
 
@@ -167,7 +167,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 * @static
 	 * @return array
 	 */
-	public static function getAdminUIManagerModulesList() {
+	public static function getAdminFrontControllerModulesList() {
 		$result = array();
 
 		/**
@@ -175,7 +175,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 		 */
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module) {
-			if(!$module->getIsAdminUIManagerModule()) {
+			if(!$module->getIsAdminFrontController()) {
 				continue;
 			}
 
@@ -190,14 +190,14 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 * @static
 	 * @return array
 	 */
-	public static function getAuthManagerModulesList() {
+	public static function getAuthControllerModulesList() {
 		$result = array();
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module) {
 			/**
 			 * @var Application_Modules_Module_Manifest $module
 			 */
-			if(!$module->getIsAuthManagerModule()) {
+			if(!$module->getIsAuthController()) {
 				continue;
 			}
 

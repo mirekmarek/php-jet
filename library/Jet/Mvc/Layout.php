@@ -51,7 +51,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	const JS_REPLACEMENT_REGEXP = '~Jet\.modules\.([a-zA-Z_]+)\.~sU';
 
 	const JS_REPLACEMENT_CURRENT_MODULE = 'CURRENT_MODULE';
-	const JS_REPLACEMENT_UI_MANAGER_MODULE = 'UI_MANAGER_MODULE';
+	const JS_REPLACEMENT_FRONT_CONTROLLER_MODULE = 'FRONT_CONTROLLER_MODULE';
 
 
 	/**
@@ -111,7 +111,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	public function setRouter(Mvc_Router_Abstract $router) {
 		$this->router = $router;
-		$this->UI_container_ID = $router->getUIManagerModuleInstance()->getUIContainerID();
+		$this->UI_container_ID = $router->getFrontController()->getUIContainerID();
 		if($this->UI_container_ID) {
 			$this->UI_container_ID_prefix = $this->UI_container_ID.'_';
 		} else {
@@ -422,7 +422,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			 */
 			$res = $o->getOutput();
 			$this->handleModules($res);
-			$this->handleModulesJavascripts($res, $o->getModuleName());
+			$this->handleModulesJavaScripts($res, $o->getModuleName());
 			$o->setOutput($res);
 
 		}
@@ -451,9 +451,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$current_module_name = '';
 
 		if($this->router) {
-			$current_module_name = $this->router->getUIManagerModuleName();
+			$current_module_name = $this->router->getFrontControllerModuleName();
 		}
-		$this->handleModulesJavascripts($result, $current_module_name);
+		$this->handleModulesJavaScripts($result, $current_module_name);
 
 		foreach( $this->_data->getRawData() as $item ) {
 			if(
@@ -746,7 +746,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 * @param string $current_module_name
 	 */
-	protected function handleModulesJavascripts( &$result, $current_module_name) {
+	protected function handleModulesJavaScripts( &$result, $current_module_name) {
 
 		$current_module_name = str_replace('\\', '\\\\', $current_module_name);
 
@@ -755,19 +755,19 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$replacements = array();
 
 		if($this->router) {
-			$UI_manager = $this->router->getUIManagerModuleInstance();
+			$front_controller = $this->router->getFrontController();
 			foreach($matches as $match) {
 				list($search, $module_name) = $match;
 				switch( $module_name) {
 					case self::JS_REPLACEMENT_CURRENT_MODULE:
-						$replacements[$search] = $UI_manager->getLayoutJsReplacementCurrentModule($current_module_name);
+						$replacements[$search] = $front_controller->getLayoutJsReplacementCurrentModule($current_module_name);
 						break;
-					case self::JS_REPLACEMENT_UI_MANAGER_MODULE:
-						$replacements[$search] = $UI_manager->getLayoutJsReplacementUiManagerModule();
+					case self::JS_REPLACEMENT_FRONT_CONTROLLER_MODULE:
+						$replacements[$search] = $front_controller->getLayoutJsReplacementFrontController();
 						break;
 					default:
 						$module_name = str_replace('\\', '\\\\', $module_name);
-						$replacements[$search] = $UI_manager->getLayoutJsReplacementModule($module_name);
+						$replacements[$search] = $front_controller->getLayoutJsReplacementModule($module_name);
 				}
 			}
 		} else {
@@ -782,8 +782,8 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$current_module_name.'\').';
 						}
 						break;
-					case self::JS_REPLACEMENT_UI_MANAGER_MODULE:
-						$replacements[$search] = 'Jet.getUIManagerModuleInstance().';
+					case self::JS_REPLACEMENT_FRONT_CONTROLLER_MODULE:
+						$replacements[$search] = 'Jet.getFrontController().';
 						break;
 					default:
 						$module_name = str_replace('\\', '\\\\', $module_name);

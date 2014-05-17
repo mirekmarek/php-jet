@@ -29,40 +29,40 @@ class Auth extends Object {
 	/**
 	 * Auth module instance
 	 *
-	 * @var Auth_ManagerModule_Abstract
+	 * @var Auth_ControllerModule_Abstract
 	 */
-	protected static $current_auth_manager_module_instance;
+	protected static $current_auth_controller_module_instance;
 
 	/**
 	 * List of Auth modules instances
 	 *
-	 * @var Auth_ManagerModule_Abstract[]
+	 * @var Auth_ControllerModule_Abstract[]
 	 */
-	protected static $auth_manager_module_instances = array();
+	protected static $auth_controller_module_instances = array();
 
 	/**
 	 * Initialize new Auth module
 	 *
 	 * @param Mvc_Router_Abstract $router
 	 *
-	 * @throws Auth_ManagerModule_Exception
+	 * @throws Auth_ControllerModule_Exception
 	 */
 	public static function initialize( Mvc_Router_Abstract $router ) {
 
-		static::$current_auth_manager_module_instance = $router->getUIManagerModuleInstance()->getAuthManagerModuleInstance();
-		static::$auth_manager_module_instances[] = static::$current_auth_manager_module_instance;
+		static::$current_auth_controller_module_instance = $router->getFrontController()->getAuthController();
+		static::$auth_controller_module_instances[] = static::$current_auth_controller_module_instance;
 
 
-		if( !static::$current_auth_manager_module_instance instanceof Auth_ManagerModule_Abstract ) {
-			$module_name = static::$current_auth_manager_module_instance->getModuleManifest()->getName();
+		if( !static::$current_auth_controller_module_instance instanceof Auth_ControllerModule_Abstract ) {
+			$module_name = static::$current_auth_controller_module_instance->getModuleManifest()->getName();
 
-			throw new Auth_ManagerModule_Exception(
-					'Auth manager module \''.$module_name.'\' instance must be subclass of Auth_ManagerModule_Abstract',
-					Auth_ManagerModule_Exception::CODE_INVALID_AUTH_MANAGER_MODULE_CLASS
+			throw new Auth_ControllerModule_Exception(
+					'Auth Controller module \''.$module_name.'\' instance must be subclass of Auth_ControllerModule_Abstract',
+					Auth_ControllerModule_Exception::CODE_INVALID_AUTH_CONTROLLER_MODULE_CLASS
 				);
 		}
 
-		$router->setAuthManagerModuleInstance( static::$current_auth_manager_module_instance );
+		$router->setAuthController( static::$current_auth_controller_module_instance );
 	}
 
 	/**
@@ -72,25 +72,25 @@ class Auth extends Object {
 	 *
 	 */
 	public static function shutdown() {
-		if(!static::$auth_manager_module_instances) {
+		if(!static::$auth_controller_module_instances) {
 			return;
 		}
-		unset(static::$auth_manager_module_instances[count(static::$auth_manager_module_instances)-1]);
+		unset(static::$auth_controller_module_instances[count(static::$auth_controller_module_instances)-1]);
 
-		if(static::$auth_manager_module_instances) {
-			static::$current_auth_manager_module_instance = static::$auth_manager_module_instances[count(static::$auth_manager_module_instances)-1];
+		if(static::$auth_controller_module_instances) {
+			static::$current_auth_controller_module_instance = static::$auth_controller_module_instances[count(static::$auth_controller_module_instances)-1];
 		} else {
-			static::$current_auth_manager_module_instance = null;
+			static::$current_auth_controller_module_instance = null;
 		}
 	}
 
 	/**
 	 * Get instance of current Auth module
 	 *
-	 * @return Auth_ManagerModule_Abstract
+	 * @return Auth_ControllerModule_Abstract
 	 */
-	public static function getCurrentAuthManagerModuleInstance() {
-		return static::$current_auth_manager_module_instance;
+	public static function getAuthController() {
+		return static::$current_auth_controller_module_instance;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Auth extends Object {
 	 * @return bool
 	 */
 	public static function login( $login, $password ) {
-		if(!static::$current_auth_manager_module_instance->login( $login, $password )) {
+		if(!static::$current_auth_controller_module_instance->login( $login, $password )) {
 			static::logEvent('login_failed', array('login'=>$login), 'Login failed. Login: \''.$login.'\'');
 			return false;
 		} else {
@@ -125,7 +125,7 @@ class Auth extends Object {
 			static::logEvent('logout', array('login'=>$login, 'user_ID'=>$user_ID), 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 		}
 
-		return static::$current_auth_manager_module_instance->logout();
+		return static::$current_auth_controller_module_instance->logout();
 	}
 
 	/**
@@ -134,10 +134,10 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract|bool
 	 */
 	public static function getCurrentUser() {
-		if(!static::$current_auth_manager_module_instance) {
+		if(!static::$current_auth_controller_module_instance) {
 			return null;
 		}
-		return static::$current_auth_manager_module_instance->getCurrentUser();
+		return static::$current_auth_controller_module_instance->getCurrentUser();
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Auth extends Object {
 	 * @return bool
 	 */
 	public static function getCurrentUserHasRole( $role_ID ) {
-		return static::$current_auth_manager_module_instance->getCurrentUser()->getHasRole( $role_ID );
+		return static::$current_auth_controller_module_instance->getCurrentUser()->getHasRole( $role_ID );
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Auth extends Object {
 	 * @return bool
 	 */
 	public static function getCurrentUserHasPrivilege( $privilege, $value, $log_if_false=true ) {
-		$res = static::$current_auth_manager_module_instance->getCurrentUserHasPrivilege( $privilege, $value, $log_if_false );
+		$res = static::$current_auth_controller_module_instance->getCurrentUserHasPrivilege( $privilege, $value, $log_if_false );
 
 		if(!$res && $log_if_false) {
 			$login = 'unknown';
@@ -192,7 +192,7 @@ class Auth extends Object {
 	 * @return Auth_Role_Abstract
 	 */
 	public static function getNewRole() {
-		return static::$current_auth_manager_module_instance->getNewRole();
+		return static::$current_auth_controller_module_instance->getNewRole();
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Auth extends Object {
 	 * @return Auth_Role_Abstract|null
 	 */
 	public static function getRole( $ID ) {
-		return static::$current_auth_manager_module_instance->getRole( $ID );
+		return static::$current_auth_controller_module_instance->getRole( $ID );
 	}
 
 	/**
@@ -212,7 +212,7 @@ class Auth extends Object {
 	 * @return Auth_Role_Abstract[]
 	 */
 	public static function getRolesList() {
-		return static::$current_auth_manager_module_instance->getRolesList();
+		return static::$current_auth_controller_module_instance->getRolesList();
 	}
 
 	/**
@@ -220,7 +220,7 @@ class Auth extends Object {
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getRolesListAsData() {
-		return static::$current_auth_manager_module_instance->getRolesListAsData();
+		return static::$current_auth_controller_module_instance->getRolesListAsData();
 	}
 
 
@@ -230,7 +230,7 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract
 	 */
 	public static function getNewUser() {
-		return static::$current_auth_manager_module_instance->getNewUser();
+		return static::$current_auth_controller_module_instance->getNewUser();
 	}
 
 	/**
@@ -241,7 +241,7 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract|null
 	 */
 	public static function getUser( $ID ) {
-		return static::$current_auth_manager_module_instance->getUser( $ID );
+		return static::$current_auth_controller_module_instance->getUser( $ID );
 	}
 
 	/**
@@ -252,7 +252,7 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract[]
 	 */
 	public static function getUsersList( $role_ID=null ) {
-		return static::$current_auth_manager_module_instance->getUsersList( $role_ID );
+		return static::$current_auth_controller_module_instance->getUsersList( $role_ID );
 	}
 
 	/**
@@ -262,7 +262,7 @@ class Auth extends Object {
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getUsersListAsData( $role_ID=null ) {
-		return static::$current_auth_manager_module_instance->getUsersListAsData( $role_ID );
+		return static::$current_auth_controller_module_instance->getUsersListAsData( $role_ID );
 	}
 
 	/**
@@ -275,7 +275,7 @@ class Auth extends Object {
 	 * @param string $user_login (optional; default: null = current user login)
 	 */
 	public static function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null ) {
-		static::$current_auth_manager_module_instance->logEvent( $event, $event_data, $event_txt, $user_ID, $user_login );
+		static::$current_auth_controller_module_instance->logEvent( $event, $event_data, $event_txt, $user_ID, $user_login );
 	}
 
 	/**
@@ -286,11 +286,11 @@ class Auth extends Object {
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	public static function getAvailablePrivilegesList( $get_available_values_list=false ) {
-		if(!static::$current_auth_manager_module_instance) {
+		if(!static::$current_auth_controller_module_instance) {
 			return array();
 		}
 
-		return static::$current_auth_manager_module_instance->getAvailablePrivilegesList( $get_available_values_list );
+		return static::$current_auth_controller_module_instance->getAvailablePrivilegesList( $get_available_values_list );
 	}
 
 	/**
@@ -301,7 +301,7 @@ class Auth extends Object {
 	 * @return Data_Tree_Forest
 	 */
 	public static function getAvailablePrivilegeValuesList( $privilege ) {
-		return static::$current_auth_manager_module_instance->getAvailablePrivilegeValuesList( $privilege );
+		return static::$current_auth_controller_module_instance->getAvailablePrivilegeValuesList( $privilege );
 	}
 
 	/**
@@ -312,9 +312,9 @@ class Auth extends Object {
 	 * @return int
 	 */
 	public static function getPasswordStrength( $password ) {
-		if(!static::$current_auth_manager_module_instance) {
-			return Auth_ManagerModule_Abstract::getPasswordStrength( $password );
+		if(!static::$current_auth_controller_module_instance) {
+			return Auth_ControllerModule_Abstract::getPasswordStrength( $password );
 		}
-		return static::$current_auth_manager_module_instance->getPasswordStrength( $password );
+		return static::$current_auth_controller_module_instance->getPasswordStrength( $password );
 	}
 }

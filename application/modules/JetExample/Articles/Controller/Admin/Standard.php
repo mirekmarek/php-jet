@@ -74,7 +74,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		}
 
 
-		$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('Delete article');
+		$this->getFrontController()->addBreadcrumbNavigationData('Delete article');
 
 		$this->view->setVar( 'article', $article );
 
@@ -113,18 +113,18 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		if($article->getIsNew()) {
 			$this->view->setVar('bnt_label', 'ADD');
 
-			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('New article');
+			$this->getFrontController()->addBreadcrumbNavigationData('New article');
 
 		} else {
 			$this->view->setVar('bnt_label', 'SAVE' );
 
-			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData( $article->getTitle() );
+			$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
 		}
 
 
 		$this->view->setVar('has_access', $has_access);
 		$this->view->setVar('form', $form);
-		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
+		$this->getFrontController()->breadcrumbNavigationShift( -3 );
 
 		$this->render('classic/edit');
 
@@ -134,7 +134,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	protected function handleList() {
-		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
+		$this->getFrontController()->breadcrumbNavigationShift( -2 );
 
 		/**
 		 * @var UIElements\Main $UI_m

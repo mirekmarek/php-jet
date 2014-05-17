@@ -158,7 +158,7 @@ class Mvc_Pages extends Object {
 	 * @return string
 	 */
 	public static function getURI( $page_ID, $locale=null, $site_ID=null ) {
-		return Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()->generateURI( $page_ID, $locale, $site_ID );
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURI( $page_ID, $locale, $site_ID );
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Mvc_Pages extends Object {
 	 * @return string
 	 */
 	public static function getURL( $page_ID,  $locale=null, $site_ID=null ) {
-		return Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()->generateURL( $page_ID, $locale, $site_ID );
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURL( $page_ID, $locale, $site_ID );
 	}
 
 	/**
@@ -182,6 +182,6 @@ class Mvc_Pages extends Object {
 	 * @return string
 	 */
 	public static function getSslURL( $page_ID,  $locale=null, $site_ID=null ) {
-		return Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()->generateSslURL( $page_ID, $locale, $site_ID );
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateSslURL( $page_ID, $locale, $site_ID );
 	}
 }

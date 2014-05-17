@@ -160,7 +160,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 		$position_required = null,
 		$position_order = null
 	) {
-		$this->router->getUIManagerModuleInstance()->renderOutput(
+		$this->router->getFrontController()->renderOutput(
 			$this->view,
 			$script,
 			$position,
@@ -182,10 +182,10 @@ abstract class Mvc_Controller_Abstract extends Object {
 	}
 
 	/**
-	 * @return Mvc_UIManagerModule_Abstract
+	 * @return Mvc_FrontControllerModule_Abstract
 	 */
-	public function getUIManagerModuleInstance() {
-		return $this->router->getUIManagerModuleInstance();
+	public function getFrontController() {
+		return $this->router->getFrontController();
 	}
 
 }

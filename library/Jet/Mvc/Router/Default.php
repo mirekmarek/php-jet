@@ -240,13 +240,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 	/**
 	 *
-	 * @var Mvc_UIManagerModule_Abstract
+	 * @var Mvc_FrontControllerModule_Abstract
 	 */
-	protected $_UI_manager_module_instance = null;
+	protected $_UI_front_controller_module_instance = null;
 
 	/**
 	 *
-	 * @var Auth_ManagerModule_Abstract
+	 * @var Auth_ControllerModule_Abstract
 	 */
 	protected $_auth_module_instance = null;
 
@@ -535,7 +535,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 		$this->cacheSave();
-		$this->getUIManagerModuleInstance()->handle404();
+		$this->getFrontController()->handle404();
 	}
 
 
@@ -650,16 +650,16 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @return string
 	 */
-	public function getUIManagerModuleName() {
-		$force_UI_manager_module_name = $this->page->getForceUIManagerModuleName();
+	public function getFrontControllerModuleName() {
+		$force_front_controller_module_name = $this->page->getForceFrontControllerModuleName();
 
-		if( $force_UI_manager_module_name ) {
-			return $force_UI_manager_module_name;
+		if( $force_front_controller_module_name ) {
+			return $force_front_controller_module_name;
 		} else {
 			if($this->is_admin_UI) {
-				return $this->_config->getDefaultAdminUIManagerModuleName();
+				return $this->_config->getDefaultAdminFrontControllerModuleName();
 			} else {
-				return $this->_config->getDefaultSiteUIManagerModuleName();
+				return $this->_config->getDefaultSiteFrontControllerModuleName();
 			}
 
 		}
@@ -670,44 +670,44 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @throws Mvc_Router_Exception
 	 *
-	 * @return Mvc_UIManagerModule_Abstract
+	 * @return Mvc_FrontControllerModule_Abstract
 	 */
-	public function getUIManagerModuleInstance() {
-		if($this->_UI_manager_module_instance) {
-			return $this->_UI_manager_module_instance;
+	public function getFrontController() {
+		if($this->_UI_front_controller_module_instance) {
+			return $this->_UI_front_controller_module_instance;
 		}
 
-		$module_name = $this->getUIManagerModuleName();
+		$module_name = $this->getFrontControllerModuleName();
 
 		$module_instance = Application_Modules::getModuleInstance( $module_name );
 
-		if(!$module_instance instanceof Mvc_UIManagerModule_Abstract) {
+		if(!$module_instance instanceof Mvc_FrontControllerModule_Abstract) {
 			throw new Mvc_Router_Exception(
-				'Invalid Site UI module class. Main \''.$module_name.'\' module class must be subclass of Mvc_UIManagerModule_Abstract',
+				'Invalid Front Controller module class. Main \''.$module_name.'\' module class must be subclass of Mvc_FrontControllerModule_Abstract',
 				Mvc_Router_Exception::CODE_INVALID_SITE_UI_CLASS
 			);
 
 		}
 
-		$this->_UI_manager_module_instance = $module_instance;
-		$this->_UI_manager_module_instance->setupRouter( $this );
+		$this->_UI_front_controller_module_instance = $module_instance;
+		$this->_UI_front_controller_module_instance->setupRouter( $this );
 
-		return $this->_UI_manager_module_instance;
+		return $this->_UI_front_controller_module_instance;
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getAuthManagerModuleName() {
-		return $this->_config->getDefaultAuthManagerModuleName();
+	public function getAuthControllerModuleName() {
+		return $this->_config->getDefaultAuthControllerModuleName();
 	}
 
 	/**
 	 *
-	 * @return Auth_ManagerModule_Abstract
+	 * @return Auth_ControllerModule_Abstract
 	 */
-	public function getAuthManagerModuleInstance() {
+	public function getAuthController() {
 		return $this->_auth_module_instance;
 	}
 
@@ -720,17 +720,17 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 * @param Auth_ManagerModule_Abstract $auth_manager_module_instance
+	 * @param Auth_ControllerModule_Abstract $auth_controller_module_instance
 	 */
-	public function setAuthManagerModuleInstance( Auth_ManagerModule_Abstract $auth_manager_module_instance ) {
-		$this->_auth_module_instance = $auth_manager_module_instance;
+	public function setAuthController( Auth_ControllerModule_Abstract $auth_controller_module_instance ) {
+		$this->_auth_module_instance = $auth_controller_module_instance;
 		$this->_auth_module_instance->setupRouter($this);
 
 		if(!$this->page_is_publicly_accessible) {
 			$this->_authentication_required = $this->_auth_module_instance->getAuthenticationRequired();
 
 			if( $this->_authentication_required ) {
-				$this->_UI_manager_module_instance = $this->_auth_module_instance;
+				$this->_UI_front_controller_module_instance = $this->_auth_module_instance;
 			}
 		} else {
 			$this->_authentication_required = false;
@@ -749,7 +749,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$this->service_type!=Mvc_Router::SERVICE_TYPE_REST &&
 			$this->service_type!=Mvc_Router::SERVICE_TYPE_SYS
 		) {
-			$this->layout = $this->_UI_manager_module_instance->initializeLayout();
+			$this->layout = $this->_UI_front_controller_module_instance->initializeLayout();
 		}
 	}
 

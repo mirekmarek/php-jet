@@ -31,7 +31,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$this->service_type = $router->getServiceType();
 		$this->router->setDispatcherInstance($this);
 
-		$this->queue = $router->getUIManagerModuleInstance()->getDispatchQueue();
+		$this->queue = $router->getFrontController()->getDispatchQueue();
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		Translator::setCurrentNamespace( $translator_namespace );
 
-		$output = $this->router->getUIManagerModuleInstance()->finalizeDispatch();
+		$output = $this->router->getFrontController()->finalizeDispatch();
 		if($this->request_provides_static_content) {
 			$this->router->setCacheOutput($output);
 		}

@@ -92,7 +92,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @var string
 	 */
-	protected $force_UI_manager_module_name = '';
+	protected $force_front_controller_module_name = '';
 
 	/**
 	 *
@@ -331,15 +331,15 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 * @return string
 	 */
-	public function getForceUIManagerModuleName() {
-		return $this->force_UI_manager_module_name;
+	public function getForceFrontControllerModuleName() {
+		return $this->force_front_controller_module_name;
 	}
 
 	/**
-	 * @param string $force_UI_manager_module_name
+	 * @param string $force_front_controller_module_name
 	 */
-	public function setForceUIManagerModuleName( $force_UI_manager_module_name ) {
-		$this->force_UI_manager_module_name = $force_UI_manager_module_name;
+	public function setForceFrontControllerModuleName( $force_front_controller_module_name ) {
+		$this->force_front_controller_module_name = $force_front_controller_module_name;
 	}
 
 	/**

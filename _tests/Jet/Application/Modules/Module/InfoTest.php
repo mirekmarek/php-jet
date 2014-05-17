@@ -35,9 +35,9 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 		Application_Modules_Module_Manifest::setModuleTypesList(array(
 			Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL => 'General module',
-			Application_Modules_Module_Manifest::MODULE_TYPE_SITE_UI_MANAGER => 'Site UI manager module',
-			Application_Modules_Module_Manifest::MODULE_TYPE_ADMIN_UI_MANAGER => 'Administration UI manager module',
-			Application_Modules_Module_Manifest::MODULE_TYPE_AUTH_MANAGER => 'Authentication and authorization manager module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_SITE_FRONT_CONTROLLER => 'Site Front Controller module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_ADMIN_FRONT_CONTROLLER => 'Administration Front Controller module',
+			Application_Modules_Module_Manifest::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
 			Application_Modules_Module_Manifest::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 			Application_Modules_Module_Manifest::MODULE_TYPE_SYSTEM => 'System module',
 		));
@@ -212,31 +212,31 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Module_Info::getIsSiteUIManagerModule
+	 * @covers Jet\Application_Modules_Module_Info::getIsSiteFrontController
 	 */
-	public function testGetIssiteUIManagerModule() {
+	public function testGetIsSiteFrontController() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
-		$this->assertFalse( $module_info->getIsSiteUIManagerModule() );
+		$this->assertFalse( $module_info->getIsSiteFrontController() );
 	}
 
 
 	/**
-	 * @covers Jet\Application_Modules_Module_Info::getIsAdminUIManagerModule
+	 * @covers Jet\Application_Modules_Module_Info::getIsAdminFrontController
 	 */
-	public function testGetIsAdminUIManagerModule() {
+	public function testGetIsAdminFrontController() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
-		$this->assertFalse( $module_info->getIsAdminUIManagerModule() );
+		$this->assertFalse( $module_info->getIsAdminFrontController() );
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Module_Info::getIsAuthManagerModule
+	 * @covers Jet\Application_Modules_Module_Info::getIsAuthController
 	 */
-	public function testGetIsAuthManagerModule() {
+	public function testGetIsAuthController() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 
-		$this->assertFalse( $module_info->getIsAuthManagerModule() );
+		$this->assertFalse( $module_info->getIsAuthController() );
 	}
 
 	/**

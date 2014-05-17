@@ -178,7 +178,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		if($this->container_ID===null) {
 			$router = Mvc_Router::getCurrentRouterInstance();
 			if($router) {
-				$this->container_ID = $router->getUIManagerModuleInstance()->getUIContainerID();
+				$this->container_ID = $router->getFrontController()->getUIContainerID();
 				if($this->container_ID) {
 					$this->container_ID_prefix = $this->container_ID . '_';
 				} else {

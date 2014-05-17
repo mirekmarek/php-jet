@@ -248,28 +248,28 @@ abstract class Mvc_Router_Abstract extends Object {
 	 *
 	 * @return string
 	 */
-	abstract public function getUIManagerModuleName();
+	abstract public function getFrontControllerModuleName();
 
 	/**
 	 * Returns instance of main site UI module
 	 *
 	 * @abstract
 	 *
-	 * @return Mvc_UIManagerModule_Abstract
+	 * @return Mvc_FrontControllerModule_Abstract
 	 */
-	abstract public function getUIManagerModuleInstance();
+	abstract public function getFrontController();
 
 	/**
 	 * @return string
 	 */
-	abstract public function getAuthManagerModuleName();
+	abstract public function getAuthControllerModuleName();
 
 	/**
 	 * @abstract
 	 *
-	 * @return Auth_ManagerModule_Abstract
+	 * @return Auth_ControllerModule_Abstract
 	 */
-	abstract public function getAuthManagerModuleInstance();
+	abstract public function getAuthController();
 
 	/**
 	 * Setup error handler if any changes from default settings
@@ -281,9 +281,9 @@ abstract class Mvc_Router_Abstract extends Object {
 	/**
 	 *
 	 * @abstract
-	 * @param Auth_ManagerModule_Abstract $auth_manager_module_instance
+	 * @param Auth_ControllerModule_Abstract $auth_controller_module_instance
 	 */
-	abstract public function setAuthManagerModuleInstance( Auth_ManagerModule_Abstract $auth_manager_module_instance );
+	abstract public function setAuthController( Auth_ControllerModule_Abstract $auth_controller_module_instance );
 
 	/**
 	 *

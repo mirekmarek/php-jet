@@ -30,7 +30,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 		$current_article = $article->resolveArticleByURL( $this->router );
 
 		if($current_article) {
-			Jet\Mvc::getCurrentUIManagerModuleInstance()->addBreadcrumbNavigationData($current_article->getTitle());
+			Jet\Mvc::getCurrentFrontController()->addBreadcrumbNavigationData($current_article->getTitle());
 
 			$this->view->setVar('article', $current_article);
 

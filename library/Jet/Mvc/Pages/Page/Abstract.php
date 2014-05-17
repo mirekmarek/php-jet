@@ -128,12 +128,12 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	/**
 	 * @return string
 	 */
-	abstract public function getForceUIManagerModuleName();
+	abstract public function getForceFrontControllerModuleName();
 
 	/**
-	 * @param string $force_UI_manager_module_name
+	 * @param string $force_front_controller_module_name
 	 */
-	abstract public function setForceUIManagerModuleName( $force_UI_manager_module_name );
+	abstract public function setForceFrontControllerModuleName( $force_front_controller_module_name );
 
 	/**
 	 * @return Mvc_Sites_Site_Abstract

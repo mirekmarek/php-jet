@@ -188,7 +188,7 @@ Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
 
 		this.images_grid.canSort = function(col) {
 			return ( Math.abs(col)!=2 );
-		}
+		};
 
 		this.images_trash = new Jet.Trash(this, 'images_trash', this.getJsonRestStoreInstance('image'), {
 			source_widget_grid: this.images_grid,

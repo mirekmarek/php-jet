@@ -1,0 +1,16 @@
+<?php
+namespace JetApplicationModule\JetExample\FrontController\Admin;
+use Jet;
+?>
+
+<div style="width: 100%; text-align: center;">
+	<a href="<?=Jet\Mvc_Pages::getURI('admin_ria'); ?>" class="btn btn-default" style="width: 250px;">
+		<jetml_icon icon="module/JetExample\FrontController\Admin/ria" size="large"></jetml_icon>
+		<?=Jet\Tr::_('RIA User Interface');?>
+	</a>
+
+	<a href="<?=Jet\Mvc_Pages::getURI('admin_classic'); ?>" class="btn btn-default" style="width: 250px;">
+		<jetml_icon icon="module/JetExample\FrontController\Admin/classic" size="large"></jetml_icon>
+		<?=Jet\Tr::_('Classic User Interface');?>
+	</a>
+</div>

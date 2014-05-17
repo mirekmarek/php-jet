@@ -18,7 +18,6 @@ $modules = $this->getRaw('modules');
 		<th></th>
 		<th><?=Tr::_('Vendor');?></th>
 		<th><?=Tr::_('Module');?></th>
-		<th><?=Tr::_('Module description');?></th>
 		<th><?=Tr::_('Installed?');?></th>
 		<th><?=Tr::_('Activated?');?></th>
 	</tr>
@@ -31,8 +30,13 @@ $modules = $this->getRaw('modules');
 			<?php endif; ?>
 		</td>
 		<td><?=$info->getVendor();?></td>
-		<td><label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> (<?=$info->getName();?>)</label></td>
-		<td><?=$info->getDescription();?></td>
+		<td>
+			<label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> </label>
+			<br/>
+			<div style="font-size: 11px;"><?=$info->getName();?></div>
+			<br/>
+			<?=$info->getDescription();?>
+		</td>
 		<td><?=Tr::_($info->getIsInstalled()?'Yes':'NO');?></td>
 		<td><?=Tr::_($info->getIsActivated()?'Yes':'NO');?></td>
 	</tr>

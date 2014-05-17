@@ -15,19 +15,28 @@ namespace Jet;
 
 class Installer_Step_InstallModules_Controller extends Installer_Step_Controller {
 
+	/**
+	 * @var Application_Modules_Module_Manifest[]
+	 */
+	protected $all_modules;
 
+	/**
+	 * @var string[]
+	 */
+	protected $selected_modules = array();
 
 	public function main() {
-		$modules = Application_Modules::getAllModulesList(true);
+		$this->all_modules = Application_Modules::getAllModulesList(true);
+
 
 
 		$form = new Form('modules_select_form', array(
 			Form_Factory::field('MultiSelect', 'modules')
 		));
 
-		$this->view->setVar('modules', $modules);
+		$this->view->setVar('modules', $this->all_modules);
 
-		$form->getField('modules')->setSelectOptions( $modules );
+		$form->getField('modules')->setSelectOptions( $this->all_modules );
 
 		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
@@ -35,35 +44,38 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 		if($form->catchValues() && $form->validateValues()) {
 			$d = $form->getValues();
-			$selected_modules = $d['modules'];
+			$this->selected_modules = $d['modules'];
+
+			while( !$this->resolveDependencies() ) {}
+
 
 			$result = array();
 
 			$OK = true;
 
-			foreach($selected_modules as $module) {
-				$result[$module] = true;
+			foreach($this->selected_modules as $module_name) {
+				$result[$module_name] = true;
 
-				if($modules[$module]->getIsActivated()) {
+				if($this->all_modules[$module_name]->getIsActivated()) {
 					continue;
 				}
 
 				try {
-					Application_Modules::installModule($module);
+					Application_Modules::installModule($module_name);
 				} catch(Exception $e) {
-					$result[$module] = $e->getMessage();
+					$result[$module_name] = $e->getMessage();
 
 					$OK = false;
 				}
 
-				if($result[$module]!==true) {
+				if($result[$module_name]!==true) {
 					continue;
 				}
 
 				try {
-					Application_Modules::activateModule($module);
+					Application_Modules::activateModule($module_name);
 				} catch(Exception $e) {
-					$result[$module] = $e->getMessage();
+					$result[$module_name] = $e->getMessage();
 					$OK = false;
 				}
 
@@ -86,5 +98,51 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 	public function getLabel() {
 		return Tr::_('Modules installation', array(), 'InstallModules');
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function resolveDependencies( ) {
+		$available_modules = array();
+
+		foreach( $this->all_modules as $module_info ) {
+			if($module_info->getIsActivated()) {
+				$available_modules[] = $module_info->getName();
+			}
+		}
+
+		foreach( $this->selected_modules as $module_name ) {
+			$available_modules[] = $module_name;
+
+			$module_info = $this->all_modules[$module_name];
+
+			$require = $module_info->getRequire();
+
+			if(!$require) {
+				continue;
+			}
+
+			foreach( $require as $required_module_name ) {
+				if(in_array($required_module_name, $available_modules)) {
+					continue;
+				}
+
+				$position = array_search( $required_module_name, $this->selected_modules );
+
+				if($position===null) {
+					//unsolvable dependency
+					continue;
+				}
+
+				unset( $this->selected_modules[$position] );
+
+				array_unshift($this->selected_modules, $required_module_name);
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

@@ -116,7 +116,7 @@ return array (
   ),
   'fbe6114e914e93af56b17f3b81497398' => 
   array (
-    'phrase' => 'force_UI_manager_module_name: ',
+    'phrase' => 'force_front_controller_module_name: ',
     'translation' => '',
     'is_translated' => false,
   ),

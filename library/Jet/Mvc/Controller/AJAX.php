@@ -132,7 +132,7 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	) {
 		Debug_Profiler::setOutputIsXML( true );
 
-		$this->router->getUIManagerModuleInstance()->renderOutput(
+		$this->router->getFrontController()->renderOutput(
 			$this->view,
 			$script,
 			$position,

@@ -1,8 +1,9 @@
 <?php
 namespace Jet;
 
-/** @var $run Debug_Profiler_Run */
-$run;
+/**
+ * @var Debug_Profiler_Run $run
+ */
 
 $blocks = $run->getBlocks();
 
@@ -84,7 +85,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 
 
 		<?php if(!$is_root): ?>
-			<a href="javascript:toggleDisplay('run_block_details_<?=$ID;?>');">Details &gt;&gt;&gt;</a>
+			<a href="#" onClick="toggleDisplay('run_block_details_<?=$ID;?>');">Details &gt;&gt;&gt;</a>
 		<?php endif; ?>
 
 	</div>
@@ -96,7 +97,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 				<tr>
 					<td></td>
 					<td>
-						<a href="javascript:toggleDisplay('run_block_details_messages_<?=$ID;?>');">Messages</a>
+						<a href="#" onClick="toggleDisplay('run_block_details_messages_<?=$ID;?>');">Messages</a>
 						<div class="run_block_details_backtrace" id="run_block_details_messages_<?=$ID;?>" style="display: block">
 							<ul>
 								<?php foreach( $block->getMessages() as $msg ): ?>
@@ -115,7 +116,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 				<tr>
 					<td></td>
 					<td>
-						<a href="javascript:toggleDisplay('run_block_details_queries_<?=$ID;?>');">SQL queries</a>
+						<a href="#" onClick="toggleDisplay('run_block_details_queries_<?=$ID;?>');">SQL queries</a>
 						<div class="run_block_details_backtrace" id="run_block_details_queries_<?=$ID;?>" style="display: block">
 								<table border="1">
 									<thead>
@@ -165,7 +166,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 				<tr>
 					<td></td>
 					<td>
-						<a href="javascript:toggleDisplay('run_block_details_backtrace_<?=$ID;?>');">Backtrace</a>
+						<a href="#" onClick="toggleDisplay('run_block_details_backtrace_<?=$ID;?>');">Backtrace</a>
 						<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?=$ID;?>" style="display: none">
 							<strong>Block start backtrace:</strong>
 							<ul>

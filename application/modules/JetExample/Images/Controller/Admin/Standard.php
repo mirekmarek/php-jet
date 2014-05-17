@@ -27,7 +27,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 	public function default_Action() {
 
-		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
+		$this->getFrontController()->breadcrumbNavigationShift( -2 );
 
 		$GET = Jet\Http_Request::GET();
 

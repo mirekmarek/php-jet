@@ -43,7 +43,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 					$parent_ID = $gallery->getID();
 					$URI .= rawurlencode($gallery->getTitle()).'/';
 
-					$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
+					$this->getFrontController()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
 
 					Jet\Mvc::putUsedPathFragment( $pf );
 				} else {

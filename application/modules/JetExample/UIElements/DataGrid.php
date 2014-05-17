@@ -162,6 +162,7 @@ class DataGrid extends Jet\Object {
 			($sort = $this->handleSortRequest())
 		) {
 			/**
+			 * @var Jet\DataModel_Fetch_Data_Abstract $data
 			 * @var Jet\DataModel_Query $query
 			 */
 			$query = $data->getQuery();

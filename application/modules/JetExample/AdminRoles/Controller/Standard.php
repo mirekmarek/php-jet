@@ -79,7 +79,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		}
 
 
-		$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData('Delete role');
+		$this->getFrontController()->addBreadcrumbNavigationData('Delete role');
 
 		$this->view->setVar( 'role', $role );
 
@@ -119,14 +119,14 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		if($role->getIsNew()) {
 			$this->view->setVar('bnt_label', Jet\Tr::_('ADD'));
 
-			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData(Jet\Tr::_('New role'));
+			$this->getFrontController()->addBreadcrumbNavigationData(Jet\Tr::_('New role'));
 		} else {
 			$this->view->setVar('bnt_label', Jet\Tr::_('Save'));
 
-			$this->getUIManagerModuleInstance()->addBreadcrumbNavigationData( $role->getName() );
+			$this->getFrontController()->addBreadcrumbNavigationData( $role->getName() );
 		}
 
-		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -3 );
+		$this->getFrontController()->breadcrumbNavigationShift( -3 );
 
 		$this->view->setVar('has_access', $has_access);
 		$this->view->setVar('form', $form);
@@ -142,7 +142,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	protected function handleList() {
 
-		$this->getUIManagerModuleInstance()->breadcrumbNavigationShift( -2 );
+		$this->getFrontController()->breadcrumbNavigationShift( -2 );
 
 		/**
 		 * @var UIElements\Main $UI_m

@@ -66,7 +66,7 @@ class Mvc {
 			Auth::initialize( $router );
 			$router->setupLayout();
 
-			$router->getUIManagerModuleInstance()->checkPermissionsToViewThePage();
+			$router->getFrontController()->checkPermissionsToViewThePage();
 
 			$dispatcher = Mvc_Dispatcher::getNewDispatcherInstance();
 			$dispatcher->initialize($router);
@@ -76,7 +76,7 @@ class Mvc {
 
 			if($router->getIsThereAnyUnusedPathFragment()) {
 				$router->setIs404();
-				$router->getUIManagerModuleInstance()->handle404();
+				$router->getFrontController()->handle404();
 			}
 
 
@@ -112,7 +112,7 @@ class Mvc {
 			Auth::initialize( $router );
 			$router->setupLayout();
 
-			if(!$router->getUIManagerModuleInstance()->checkPermissionsToViewThePage(true)) {
+			if(!$router->getFrontController()->checkPermissionsToViewThePage(true)) {
 				return false;
 			}
 
@@ -309,7 +309,7 @@ class Mvc {
 	}
 
 	/**
-	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()->getLayout()->requireJavascriptLib( $javascript )
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()->getLayout()->requireJavascriptLib( $javascript )
 	 *
 	 * @see JavaScript
 	 * @see Mvc_Layout::requireJavascriptLib()
@@ -325,26 +325,22 @@ class Mvc {
 	/**
 	 * Returns current UI module instance
 	 *
-	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()
 	 *
-	 * @see getUIManagerModuleInstance::getUIManagerModuleInstance()
-	 *
-	 * @return Mvc_UIManagerModule_Abstract
+	 * @return Mvc_FrontControllerModule_Abstract
 	 */
-	public static function getCurrentUIManagerModuleInstance() {
-		return Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance();
+	public static function getCurrentFrontController() {
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController();
 	}
 
 	/**
 	 * Show 404 page
 	 *
-	 * Equivalent of  Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()->handle404()
-	 *
-	 * @see Mvc_UIManagerModule_Abstract::handle404()
+	 * Equivalent of  Mvc_Router::getCurrentRouterInstance()->getFrontController()->handle404()
 	 *
 	 */
 	public static function handle404() {
-		Mvc_Router::getCurrentRouterInstance()->getUIManagerModuleInstance()->handle404();
+		Mvc_Router::getCurrentRouterInstance()->getFrontController()->handle404();
 	}
 
 	/**

@@ -29,7 +29,7 @@ abstract class Mvc_Controller_SYS extends Mvc_Controller_Abstract {
 	 *
 	 */
 	public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters ) {
-		$this->router->getUIManagerModuleInstance()->handleAccessDenied();
+		$this->router->getFrontController()->handleAccessDenied();
 	}
 
 }

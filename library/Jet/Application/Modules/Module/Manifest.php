@@ -39,9 +39,9 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	const MANIFEST_FILE_NAME = 'manifest.php';
 
 	const MODULE_TYPE_GENERAL = 'general';
-	const MODULE_TYPE_SITE_UI_MANAGER = 'site_UI_manager';
-	const MODULE_TYPE_ADMIN_UI_MANAGER = 'admin_UI_manager';
-	const MODULE_TYPE_AUTH_MANAGER = 'auth_manager';
+	const MODULE_TYPE_SITE_FRONT_CONTROLLER = 'site_front_controller';
+	const MODULE_TYPE_ADMIN_FRONT_CONTROLLER = 'admin_front_controller';
+	const MODULE_TYPE_AUTH_CONTROLLER = 'auth_controller';
 	const MODULE_TYPE_OUTPUT_FILTER = 'output_filter';
 	const MODULE_TYPE_SYSTEM = 'system';
 
@@ -57,9 +57,9 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 */
 	protected static $module_types_list = array(
 		self::MODULE_TYPE_GENERAL => 'General module',
-		self::MODULE_TYPE_SITE_UI_MANAGER => 'Site UI manager module',
-		self::MODULE_TYPE_ADMIN_UI_MANAGER => 'Administration UI manager module',
-		self::MODULE_TYPE_AUTH_MANAGER => 'Authentication and authorization manager module',
+		self::MODULE_TYPE_SITE_FRONT_CONTROLLER => 'Site Front Controller module',
+		self::MODULE_TYPE_ADMIN_FRONT_CONTROLLER => 'Administration Front Controller module',
+		self::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
 		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 		self::MODULE_TYPE_SYSTEM => 'System module',
 	);
@@ -423,23 +423,23 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	/**
 	 * @return bool
 	 */
-	public function getIsSiteUIManagerModule() {
-		return $this->getHasType( static::MODULE_TYPE_SITE_UI_MANAGER );
+	public function getIsSiteFrontController() {
+		return $this->getHasType( static::MODULE_TYPE_SITE_FRONT_CONTROLLER );
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAdminUIManagerModule() {
-		return $this->getHasType( static::MODULE_TYPE_ADMIN_UI_MANAGER );
+	public function getIsAdminFrontController() {
+		return $this->getHasType( static::MODULE_TYPE_ADMIN_FRONT_CONTROLLER );
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function getIsAuthManagerModule() {
-		return $this->getHasType( static::MODULE_TYPE_AUTH_MANAGER );
+	public function getIsAuthController() {
+		return $this->getHasType( static::MODULE_TYPE_AUTH_CONTROLLER );
 	}
 
 	/**

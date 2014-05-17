@@ -114,13 +114,7 @@ return array (
     'translation' => '',
     'is_translated' => false,
   ),
-  'fbe6114e914e93af56b17f3b81497398' => 
-  array (
-    'phrase' => 'force_UI_manager_module_name: ',
-    'translation' => '',
-    'is_translated' => false,
-  ),
-  'f901220202345635c7c79019e180f9cc' => 
+  'f901220202345635c7c79019e180f9cc' =>
   array (
     'phrase' => 'Template: ',
     'translation' => '',

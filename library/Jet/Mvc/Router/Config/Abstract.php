@@ -47,16 +47,16 @@ abstract class Mvc_Router_Config_Abstract extends Config_Application {
 	/**
 	 * @return string
 	 */
-	abstract public function getDefaultAdminUIManagerModuleName();
+	abstract public function getDefaultAdminFrontControllerModuleName();
 
 	/**
 	 * @return string
 	 */
-	abstract public function getDefaultSiteUIManagerModuleName();
+	abstract public function getDefaultSiteFrontControllerModuleName();
 
 	/**
 	 * @return string
 	 */
-	abstract public function getDefaultAuthManagerModuleName();
+	abstract public function getDefaultAuthControllerModuleName();
 
 }

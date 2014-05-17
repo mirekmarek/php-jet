@@ -26,7 +26,7 @@ var Jet = {
     _loaded_components: {},
     _initialized: false,
 
-    UI_manager_module_name: null,
+    front_controller_module_name: null,
 
 
     _hasResource: dojo._hasResource,
@@ -63,22 +63,22 @@ var Jet = {
     },
 
     onLoad: function(){
-        if(this.UI_manager_module_name) {
+        if(this.front_controller_module_name) {
             try {
-                    this.UI_manager_module_instance = this.modules.getModuleInstance(this.UI_manager_module_name);
-                    this.UI_manager_module_instance.initializeUI();
+                    this.front_controller_module_instance = this.modules.getModuleInstance(this.front_controller_module_name);
+                    this.front_controller_module_instance.initializeUI();
             } catch(e){
                 console.error("Error loading UI! "+e);
             }
         }
     },
 
-    getUIManagerModuleInstance: function() {
-        return this.UI_manager_module_instance;
+    getFrontController: function() {
+        return this.front_controller_module_instance;
     },
 
-    getUIManagerModuleName: function() {
-        return this.UI_manager_module_name;
+    getFrontControllerModuleName: function() {
+        return this.front_controller_module_name;
     },
 
     require: function( component ){

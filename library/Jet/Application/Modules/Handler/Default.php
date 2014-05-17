@@ -524,6 +524,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	public function reloadModuleManifest( $module_name ) {
 		$this->_hardCheckModuleExists($module_name);
 
+		/**
+		 * @var Application_Modules_Module_Manifest $module_manifest
+		 */
 		$module_manifest = new $this->manifest_class_name($module_name);
 
 		$this->all_modules_list[$module_name] = $module_manifest;

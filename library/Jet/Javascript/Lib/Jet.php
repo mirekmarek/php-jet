@@ -62,7 +62,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 			'service_type_path_fragments_map' => Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap(),
 			'auto_initialize' => true,
 			'current_locale' => $router->getLocale(),
-			'UI_manager_module_name' => $router->getUIManagerModuleName()
+			'front_controller_module_name' => $router->getFrontControllerModuleName()
 		);
 		
 		

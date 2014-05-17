@@ -10,7 +10,7 @@ return array (
 	'meta_tags' => array(),
 	'contents' => array(
 					array(
-						'module_name' => 'JetExample\AdminUIManager',
+						'module_name' => 'JetExample\AdminFrontController',
 						'controller_action' => 'signpost',
 						'output_position' => '',
 						'output_position_required' => true,
