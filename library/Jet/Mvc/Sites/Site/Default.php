@@ -306,7 +306,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 		$this->locales[] = $locale;
 		$this->localized_data[(string)$locale] = $new_ld;
 
-		if(!$this->default_locale->toString()) {
+		if(!$this->default_locale || !$this->default_locale->toString()) {
 			$this->setDefaultLocale( $locale );
 		}
 	}

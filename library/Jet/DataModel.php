@@ -277,7 +277,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function generateID(  $called_after_save = false, $backend_save_result = null  ) {
+	public function generateID(  $called_after_save = false, $backend_save_result = null  ) {
 
 		$ID = $this->getID();
 
@@ -302,7 +302,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 *
 	 */
-	protected function setIsNew() {
+	public function setIsNew() {
 		$this->___data_model_saved = false;
 	}
 

@@ -75,5 +75,85 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'33cca2bba52c685ce77b2b25ffbcd1b2' => array(
+		'phrase' => 'Select new locale',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'bf7ed2d215c357ed9f7cee9fac246ab9' => array(
+		'phrase' => 'name: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'aa24ccd82878bcd408e98f1687a34dfc' => array(
+		'phrase' => 'is_default: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'f1c494aba65716e5dc6f913d693e3818' => array(
+		'phrase' => 'is_active: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'c35d69286668860017e0682cb9a3b6ab' => array(
+		'phrase' => 'locales: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'99e0046795a50b7fa82a49ef6b3c7d6c' => array(
+		'phrase' => 'default_locale: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'74b70d4d8e3109365c8797de45d35492' => array(
+		'phrase' => '/localized_data/en_US/locale: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'aabcbd671ef45eb93fb2ad2f63c00630' => array(
+		'phrase' => '/localized_data/en_US/title: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'509a0c5b9dc9e55b4c9ec25753b009ae' => array(
+		'phrase' => '/localized_data/en_US/default_headers_suffix: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'a68c2d7ddb6f5f24f45ed7142deef5de' => array(
+		'phrase' => '/localized_data/en_US/default_body_prefix: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'642a3f089041099b1433e22f99245444' => array(
+		'phrase' => '/localized_data/en_US/default_body_suffix: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'816667a2fb049f8788d7058d81c09f9d' => array(
+		'phrase' => 'Site name',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'08246ed5a489539cb8e4fe5224bcdea5' => array(
+		'phrase' => 'URL ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'6f32cd9fffb5f43aacfaf893675aec4a' => array(
+		'phrase' => 'SSL URL ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'30064b698495e25d33d7858faad577fe' => array(
+		'phrase' => 'Save site settings',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'24fe18195f0e29f8d3ef5ad3110cfc24' => array(
+		'phrase' => 'invalid_value',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

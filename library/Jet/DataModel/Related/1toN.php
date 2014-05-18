@@ -443,7 +443,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @return array
 	 */
 	public function __sleep() {
-		if( $this->getIsSaved() ) {
+		if( $this->__is_item ) {
 			$items = array_keys($this->getDataModelDefinition()->getProperties());
 			$items[] = '__is_item';
 

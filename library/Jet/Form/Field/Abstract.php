@@ -129,7 +129,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @var array
 	 */
 	protected $error_messages = array(
-			'input_missing' => 'input_missing',
+			//'input_missing' => 'input_missing',
 			'empty' => 'empty',
 			'invalid_format' => 'invalid_format'
 		);
@@ -437,7 +437,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 			$this->_value = trim( $data->getString($this->_name) );
 		} else {
 			$this->_value_raw = null;
-			$this->setValueError('input_missing');
+			//$this->setValueError('input_missing');
 		}
 	}
 	

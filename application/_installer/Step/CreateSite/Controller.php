@@ -27,55 +27,63 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			return;
 		}
 
-		if(
-			Http_Request::GET()->exists('create') &&
-			isset($_SESSION['cw_data'])
-		) {
-			$data = $_SESSION['cw_data'];
-			$site_data = Mvc_Sites::getNewSite($data['name'], $data['ID']);
+		$default_locale = $this->installer->getCurrentLocale();
 
-			foreach($data['locales'] as $locale=>$locale_data) {
-				$locale = new Locale($locale);
-				$site_data->addLocale( $locale );
+		$session = new Session( 'create_site_session' );
 
-				$site_data->addURL($locale, $locale_data['nonSSL']);
-				$site_data->addURL($locale, $locale_data['SSL']);
-			}
+		if( !$session->getValueExists('site')) {
+			$site = Mvc_Factory::getSiteInstance();
 
-			ob_start();
-			Mvc_Sites::createSite($site_data, $data['template'], true);
-			ob_end_clean();
+			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
+			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
 
-			$_SESSION['cw_created'] = true;
+			$site->setName('Example Site');
+			$site->generateID();
 
-			Http_Headers::movedPermanently('?');
+			$site->addLocale( $default_locale );
+			$site->addURL( $default_locale, $nonSSL );
+			$site->addURL( $default_locale, $SSL );
+
+			$session->setValue('site', $site);
+		} else {
+			$site = $session->getValue('site');
 		}
 
-		$default_locale = $this->installer->getCurrentLocale();
+		if(
+			Http_Request::GET()->exists('create') &&
+			count($site->getLocales()) &&
+			$site->validateProperties()
+		) {
+			if(!$session->getValue('creating')) {
+				$session->setValue('creating', true);
+				$this->render('in-progress');
+
+			} else {
+				$site->setIsNew();
+
+				ob_start();
+				Mvc_Sites::createSite($site, $session->getValue('template'), true);
+				ob_end_clean();
+
+				Http_Headers::movedPermanently('?');
+
+			}
+
+		}
+
+		//----------------------------------------------------------------------
 
 		$all_locales = Locale::getAllLocalesList($default_locale);
 		$avl_locales = $all_locales;
 
-		if(!isset($_SESSION['cw_selected_locale'])) {
-			$_SESSION['cw_selected_locale'] = array();
+		foreach( $site->getLocales() as $s_locale) {
+			unset($avl_locales[(string)$s_locale]);
 		}
 
-		if(Http_Request::GET()->exists('remove_locale')) {
-			$remove_locale = Http_Request::GET()->getString('remove_locale');
-			if(isset($_SESSION['cw_selected_locale'][$remove_locale])) {
-				unset($_SESSION['cw_selected_locale'][$remove_locale]);
-			}
-			Http_Headers::movedPermanently('?');
-		}
-
-
-		foreach(array_keys($_SESSION['cw_selected_locale']) as $s_locale) {
-			unset($avl_locales[$s_locale]);
-		}
 
 		$add_locale_form = new Form('locale_add',
 			array(
-				Form_Factory::field('Select','locale', 'Select new locale: '),
+				Form_Factory::field('Select','locale', 'Select new locale'),
 			)
 		);
 
@@ -86,69 +94,102 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			$d = $add_locale_form->getValues();
 			$locale = $d['locale'];
 
-			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
-			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
+			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_BASE_URI.$locale.'/';
+			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI.$locale.'/';
 
-			if($_SESSION['cw_selected_locale']) {
-				$nonSSL.= $locale.'/';
-				$SSL.= $locale.'/';
-			}
+			$locale = new Locale($locale);
 
-			$_SESSION['cw_selected_locale'][$locale] = array(
-				'locale' => $all_locales[$locale],
-				'nonSSL' => $nonSSL,
-				'SSL' => $SSL
-			);
+			$site->addLocale( $locale );
+			$site->addURL( $locale, $nonSSL );
+			$site->addURL( $locale, $SSL );
+
 			Http_Headers::formSent($add_locale_form);
 		}
 
-		$URL_fields = array(
-			Form_Factory::field('Input','name', 'Site name: ', '', true),
-			Form_Factory::field('Input','ID', 'Site ID: ', '', false),
-			Form_Factory::field('Select','template', 'Site template: ', '', true),
-		);
+		if(Http_Request::GET()->exists('remove_locale')) {
+			$remove_locale = Http_Request::GET()->getString('remove_locale');
 
-		foreach($_SESSION['cw_selected_locale'] as $locale=>$dat) {
-			$URL_fields[] = Form_Factory::field('Input','/'.$locale.'/nonSSL', 'URL: ', $dat['nonSSL'], true);
-			$URL_fields[] = Form_Factory::field('Input','/'.$locale.'/SSL', 'SSL URL: ', $dat['SSL'], false);
+			$site->removeLocale( new Locale($remove_locale) );
+
+			Http_Headers::movedPermanently('?');
 		}
 
-		$main_form = new Form('main', $URL_fields );
 
-		$templates_list = Mvc_Sites::getAvailableTemplatesList();
 
-		$main_form->getField('template')->setSelectOptions($templates_list);
+		//----------------------------------------------------------------------
+		$main_form_fields = array(
+			Form_Factory::field('Input','name', 'Site name', $site->getName(), true),
+		);
+
+		foreach($site->getLocales() as $locale ) {
+			$URLs = $site->getLocalizedData($locale)->getURLs();
+
+			$nonSSL = "";
+			$SSL = "";
+
+			foreach( $URLs as $URL ) {
+				if($URL->getIsSSL()) {
+					$SSL = $URL->getURL();
+				} else {
+					$nonSSL = $URL->getURL();
+				}
+			}
+
+			$main_form_fields[] = Form_Factory::field('Input','/'.$locale.'/nonSSL', 'URL ', $nonSSL, true);
+			$main_form_fields[] = Form_Factory::field('Input','/'.$locale.'/SSL', 'SSL URL ', $SSL, false);
+		}
+
+		$main_form = new Form('main', $main_form_fields );
 
 		if(
 			$main_form->catchValues() &&
 			$main_form->validateValues()
 		) {
 			$data = $main_form->getValues();
-			$_SESSION['cw_data'] = array(
-				'name' => $data['name'],
-				'ID' => $data['ID'],
-				'template' => $data['template'],
-				'locales' => array()
-			);
 
-			foreach($_SESSION['cw_selected_locale'] as $locale=>$dat) {
-				$_SESSION['cw_data']['locales'][$locale] = array(
-					'nonSSL' => $data['/'.$locale.'/nonSSL'],
-					'SSL' => $data['/'.$locale.'/SSL'],
-				);
+			$site->resetID();
+			$site->setName( $data['name'] );
+			$site->generateID();
+
+			foreach( $site->getLocales() as $locale ) {
+				foreach( $site->getLocalizedData($locale)->getURLs() as $URL ) {
+					if($URL->getIsSSL()) {
+						$URL->setURL($data['/'.$locale.'/SSL']);
+					} else {
+						$URL->setURL($data['/'.$locale.'/nonSSL']);
+					}
+				}
 			}
-
-			$this->render('in-progress');
-
-			return;
 		}
 
-		//$main_form->helper_showBasicHTML();
+		//----------------------------------------------------------------------
+		if( count($site->getLocales()) && $site->validateProperties() ) {
+			$create_form = new Form('create',
+				array(
+					Form_Factory::field('Select','template', 'Site template: ', '', true)
+				)
+			);
+			$templates_list = Mvc_Sites::getAvailableTemplatesList();
 
+			$create_form->getField('template')->setSelectOptions($templates_list);
 
+			$this->view->setVar('create_form', $create_form);
+
+			if(
+				$create_form->catchValues() &&
+				$create_form->validateValues()
+			) {
+				$session->setValue('template', $create_form->getField('template')->getValue() );
+				Http_Headers::movedPermanently('?create');
+			}
+		}
+
+		//----------------------------------------------------------------------
+
+		$this->view->setVar('current_locale', $default_locale);
+		$this->view->setVar('site', $site );
 		$this->view->setVar('add_locale_form', $add_locale_form);
 		$this->view->setVar('main_form', $main_form);
-		$this->view->setVar('locales', $_SESSION['cw_selected_locale'] );
 
 		$this->render('default');
 	}

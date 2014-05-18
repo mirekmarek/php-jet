@@ -65,5 +65,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'f70a8df6fa4d459849a3d522644e9836' => array(
+		'phrase' => 'check_empty',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

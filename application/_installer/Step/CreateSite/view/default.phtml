@@ -1,24 +1,95 @@
 <?php
 namespace Jet;
-/**
- * @var Mvc_View $this
- */
 
-$locales = $this->getRaw('locales');
+/**
+ *  @var Form $main_form
+ */
+$main_form = $this->getRaw('main_form');
+
+/**
+ *  @var Form $create_form
+ */
+$create_form = $this->getRaw('create_form');
+
+/**
+ * @var Mvc_Sites_Site_Default $site
+ */
+$site = $this->getRaw('site');
+
+/**
+ *  @var Form $add_locale_form
+ */
+$add_locale_form = $this->getRaw('add_locale_form');
+
 ?>
-<jet_form name="locale_add">
+<jet_form name="<?=$add_locale_form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
-	<table>
-		<tr>
-			<td valign="top"><jet_form_field_label name="locale"/></td>
-			<td><jet_form_field_error_msg name="locale" class="error"/><jet_form_field name="locale"/></td>
-		</tr>
-		<tr><td colspan="2" align="center"><input type="submit" value="<?=Tr::_('Add locale');?>"/></td></tr>
-	</table>
+
+	<div class="form-group">
+		<jet_form_field_label name="locale"/>
+		<jet_form_field_error_msg name="locale" class="form-error"/>
+		<jet_form_field name="locale" class="form-control"/>
+	</div>
+
+	<input type="submit" value="<?=Tr::_('Add locale');?>" class="btn btn-primary"/>
 </jet_form>
 
+<jet_form name="<?=$main_form->getName();?>">
+	<jet_form_common_error_message class="form-error"/>
+	<fieldset>
+		<div class="form-group">
+			<jet_form_field_label name="name"/>
+			<jet_form_field_error_msg name="name" class="form-error"/>
+			<jet_form_field name="name" class="form-control"/>
+		</div>
+		<?php foreach( $site->getLocales() as $locale ): ?>
 
-<jet_form name="main">
+		<table><tr>
+			<td>
+				<a href="?remove_locale=<?=$locale;?>" class="btn-xs btn-danger"><?=Tr::_('remove');?></a>
+			</td>
+			<td>
+				&nbsp;<b><?=$locale->getName( $this->current_locale );?></b>
+			</td>
+		</tr></table>
+
+			<?php  $locale = $locale->toString(); ?>
+		<div class="form-group">
+			<jet_form_field_label name="/<?=$locale;?>/nonSSL"/>
+			<jet_form_field_error_msg name="/<?=$locale;?>/nonSSL" class="form-error"/>
+			<jet_form_field name="/<?=$locale;?>/nonSSL" class="form-control"/>
+		</div>
+		<div class="form-group">
+			<jet_form_field_label name="/<?=$locale;?>/SSL"/>
+			<jet_form_field_error_msg name="/<?=$locale;?>/SSL" class="form-error"/>
+			<jet_form_field name="/<?=$locale;?>/SSL" class="form-control"/>
+		</div>
+		<?php endforeach; ?>
+
+		<?php if( count($site->getLocales()) ): ?>
+			<input type="submit" class="btn btn-default" value="<?=Tr::_('Save site settings');?>"/>
+		<?php else: ?>
+			<?=Tr::_('Please add at least one locale');?>
+		<?php endif; ?>
+	</fieldset>
+</jet_form>
+
+<?php if($create_form): ?>
+	<jet_form name="<?=$create_form->getName();?>">
+		<jet_form_common_error_message class="form-error"/>
+		<fieldset>
+			<div class="form-group"><jet_form_field_label name="template"/><jet_form_field_error_msg name="template" class="form-error"/><jet_form_field name="template" class="form-control"/></div>
+			<input type="submit" class="btn btn-primary" value="<?=Tr::_('Create site');?>"/>
+		</fieldset>
+	</jet_form>
+<?php endif; ?>
+
+<?php
+
+/*
+
+
+<jet_form name="<?=$main_form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
 	<table>
 		<tr>
@@ -35,7 +106,7 @@ $locales = $this->getRaw('locales');
 		</tr>
 	</table>
 	<table>
-		<?php foreach($locales as $locale=>$data): ?>
+		<?php  foreach($locales as $locale=>$data): ?>
 		<tr>
 			<td rowspan="2">
 				<?=$data['locale'];?>
@@ -49,12 +120,12 @@ $locales = $this->getRaw('locales');
 			<td valign="top"><jet_form_field_label name="/<?=$locale;?>/SSL"/></td>
 			<td><jet_form_field_error_msg name="/<?=$locale;?>/SSL" class="error"/><jet_form_field name="/<?=$locale;?>/SSL"/></td>
 		</tr>
-		<?php endforeach; ?>
+		<?php endforeach;  ?>
 	</table>
 
 	<?php if($locales): ?>
 	<input type="submit" value="<?=Tr::_('Next', array(), Translator::COMMON_NAMESPACE);?>"/>
 	<?php else: ?>
-	<?=Tr::_('Please add at least one locale');?>
 	<?php endif; ?>
 </jet_form>
+ */ ?>
