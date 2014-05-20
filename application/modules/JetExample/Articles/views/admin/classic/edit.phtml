@@ -5,7 +5,7 @@ use Jet;
 ?>
 <div style="padding: 10px;">
 
-<a href="?#" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
+<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
 
 <jet_form name="Article">
 	<jet_form_common_error_message class="formError"/>
@@ -39,7 +39,7 @@ use Jet;
 	</div>
 
 	<?php if($this->has_access): ?>
-	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+	<input type="submit" value="<?=$this->btn_label;?>" class="btn btn-primary"/>
 	<?php endif; ?>
 </jet_form>
 

@@ -92,12 +92,13 @@ abstract class Mvc_Controller_Abstract extends Object {
 	/**
 	 * @param string $action
 	 * @param array $action_parameters
-	 *
-	 * @return bool
+	 * @param bool $log_event (optional, default: true)
 	 *
 	 * @throws Mvc_Controller_Exception
+	 *
+	 * @return bool
 	 */
-	public function checkACL( $action, $action_parameters ) {
+	public function checkACL( $action, $action_parameters, $log_event=true ) {
 		if(!isset(static::$ACL_actions_check_map[$action])) {
 			throw new Mvc_Controller_Exception(
 				'Action \''.$action.'\' is not specified in ACL check map! Please specify the ACL rules. Add '.get_class($this).'::$ACL_actions_check_map['.$action.'] entry.',
@@ -117,11 +118,14 @@ abstract class Mvc_Controller_Abstract extends Object {
 			return false;
 		}
 
-		Auth::logEvent(
-			'action:'.$this->module_manifest->getName().':'.$module_action,
-			array('action_params'=>$action_parameters),
-			'Allowed action: '.$this->module_manifest->getName().':'.$action
-		);
+		if($log_event) {
+			Auth::logEvent(
+				'action:'.$this->module_manifest->getName().':'.$module_action,
+				array('action_params'=>$action_parameters),
+				'Allowed action: '.$this->module_manifest->getName().':'.$action
+			);
+
+		}
 
 		return true;
 	}

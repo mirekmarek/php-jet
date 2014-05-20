@@ -21,10 +21,19 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
-	protected static $ACL_actions_check_map = array(
-		'default' => 'get_article'
-	);
+	/**
+	 * @var Jet\Mvc_Controller_MicroRouter
+	 */
+	protected $micro_router;
 
+	protected static $ACL_actions_check_map = array(
+		'default' => false,
+		'list' => 'get_article',
+		'add' => 'add_article',
+		'edit' => 'update_article',
+		'view' => 'get_article',
+		'delete' => 'delete_article',
+	);
 
 	/**
 	 *
@@ -33,108 +42,33 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 		Jet\Mvc::setProvidesDynamicContent();
 
-		$GET = Jet\Http_Request::GET();
+		$router = new Jet\Mvc_Controller_MicroRouter( $this );
 
-		if( $delete_ID = $GET->getString('delete')) {
-			$article = Article::get( $delete_ID );
-			if($article) {
-				$this->handleDelete($article);
+		$base_URI = Jet\Mvc::getCurrentURI();
 
-				return;
-			}
-		}
+		$router->addAction('add', '/^add$/')
+			->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+		$router->addAction('edit', '/^edit:([\S]+)$/')
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.$article->getID().'/'; } );
+		$router->addAction('view', '/^view:([\S]+)$/')
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.$article->getID().'/'; } );
+		$router->addAction('delete', '/^delete:([\S]+)$/')
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.$article->getID().'/'; } );
 
-		$article = false;
+		$router->setDefaultActionName('list');
+		$router->setNotAuthorizedActionName('notAuthorized');
 
-		if($GET->exists('new')) {
-			$article = new Article();
-		} else if( $GET->exists('ID') ) {
-			$article = Article::get( $GET->getString('ID') );
-		}
+		$this->micro_router = $router;
+		$this->view->setVar('router', $router);
 
-		if($article) {
-			$this->handleEdit($article);
-		} else {
-			$this->handleList();
-		}
-
-	}
-
-	/**
-	 * @param Article $article
-	 */
-	public function handleDelete( Article $article ) {
-		if( !$this->module_instance->checkAclCanDoAction('delete_article') ) {
-			return;
-		}
-
-		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
-			$article->delete();
-			Jet\Http_Headers::movedTemporary('?');
-		}
-
-
-		$this->getFrontController()->addBreadcrumbNavigationData('Delete article');
-
-		$this->view->setVar( 'article', $article );
-
-		$this->render('classic/delete-confirm');
-	}
-
-	/**
-	 * @param Article $article
-	 */
-	protected function handleEdit( Article $article ) {
-		$has_access = false;
-
-		if($article->getIsNew()) {
-			if( !$this->module_instance->checkAclCanDoAction('add_article') ) {
-				return;
-			}
-            $has_access = true;
-		} else {
-			if( $this->module_instance->checkAclCanDoAction('update_article') ) {
-				$has_access = true;
-			}
-		}
-
-
-		$form = $article->getCommonForm();
-
-		if($has_access) {
-			if( $article->catchForm( $form ) ) {
-				$article->validateProperties();
-				$article->save();
-				Jet\Http_Headers::movedTemporary( '?ID='.$article->getID() );
-			}
-		}
-
-
-		if($article->getIsNew()) {
-			$this->view->setVar('bnt_label', 'ADD');
-
-			$this->getFrontController()->addBreadcrumbNavigationData('New article');
-
-		} else {
-			$this->view->setVar('bnt_label', 'SAVE' );
-
-			$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
-		}
-
-
-		$this->view->setVar('has_access', $has_access);
-		$this->view->setVar('form', $form);
-		$this->getFrontController()->breadcrumbNavigationShift( -3 );
-
-		$this->render('classic/edit');
-
+		$this->getFrontController()->breadcrumbNavigationShift( -2 );
+		$router->dispatch();
 	}
 
 	/**
 	 *
 	 */
-	protected function handleList() {
-		$this->getFrontController()->breadcrumbNavigationShift( -2 );
+	public function list_Action() {
 
 		/**
 		 * @var UIElements\Main $UI_m
@@ -150,14 +84,120 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 		$grid->setData( Article::getList() );
 
-		$this->view->setVar('can_add_article', $this->module_instance->checkAclCanDoAction('add_article'));
-		$this->view->setVar('can_delete_article', $this->module_instance->checkAclCanDoAction('delete_article'));
-		$this->view->setVar('can_update_article', $this->module_instance->checkAclCanDoAction('update_article'));
 		$this->view->setVar('grid', $grid);
 
 		$this->render('classic/default');
+
 	}
 
+	/**
+	 *
+	 */
+	public function add_Action() {
 
+		$article = new Article();
+
+		$form = $article->getCommonForm();
+
+		if( $article->catchForm( $form ) ) {
+			$article->validateProperties();
+			$article->save();
+			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
+		}
+
+		$this->getFrontController()->addBreadcrumbNavigationData( Jet\Tr::_('New article') );
+
+
+		$this->view->setVar('btn_label', Jet\Tr::_('ADD') );
+		$this->view->setVar('has_access', true);
+		$this->view->setVar('form', $form);
+
+		$this->render('classic/edit');
+	}
+
+	/**
+	 * @param $ID
+	 */
+	public function edit_Action( $ID ) {
+		$article = Article::get( $ID );
+		if(!$article) {
+			$this->unknownItem_Action();
+			return;
+		}
+
+		$form = $article->getCommonForm();
+
+		if( $article->catchForm( $form ) ) {
+			$article->validateProperties();
+			$article->save();
+			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
+		}
+
+		$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
+
+		$this->view->setVar('btn_label', Jet\Tr::_('SAVE') );
+		$this->view->setVar('has_access', true);
+		$this->view->setVar('form', $form);
+
+		$this->render('classic/edit');
+	}
+
+	/**
+	 * @param $ID
+	 */
+	public function view_Action( $ID ) {
+		$article = Article::get( $ID );
+		if(!$article) {
+			$this->unknownItem_Action();
+			return;
+		}
+
+		$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
+
+		$form = $article->getCommonForm();
+		$this->view->setVar('has_access', false);
+		$this->view->setVar('form', $form);
+
+		$this->render('classic/edit');
+	}
+
+	/**
+	 * @param $ID
+	 */
+	public function delete_action( $ID ) {
+		$article = Article::get( $ID );
+		if(!$article) {
+			$this->unknownItem_Action();
+			return;
+		}
+
+		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+			$article->delete();
+
+			Jet\Http_Headers::movedTemporary( Jet\Mvc::getCurrentURI() );
+		}
+
+
+		$this->getFrontController()->addBreadcrumbNavigationData('Delete article');
+
+		$this->view->setVar( 'article', $article );
+
+		$this->render('classic/delete-confirm');
+	}
+
+	/**
+	 *
+	 */
+	public function unknownItem_Action() {
+		$this->render('classic/unknown-item');
+
+	}
+
+	/**
+	 *
+	 */
+	public function notAuthorized_Action() {
+		$this->render('classic/not-authorized');
+	}
 
 }

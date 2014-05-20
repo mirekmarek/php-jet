@@ -10,7 +10,7 @@ $article = $this->article;
 
 <div style="padding: 10px;">
 
-	<a href="?" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
+	<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
 
 	<p>
 	<?=Jet\Tr::_('Do you really want to delete this article?');?>
