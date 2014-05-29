@@ -407,11 +407,11 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		$page->setContents($contents);
 		$page->setMetaTags($meta_tags);
 
-		$errors = array();
-		if(!$page->validateProperties($errors)) {
+		if(!$page->validateProperties()) {
+			//var_dump($page->getValidationErrors());
+
 			$this->_handleValidationErrors( $ID, $page->getValidationErrors() );
 		}
-
 
 
 		return $page;
@@ -424,6 +424,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 * @throws Mvc_Pages_Handler_Exception
 	 */
 	protected function _handleValidationErrors( $page_ID, $errors ) {
+
 
 		$_errors = array();
 		foreach($errors as $key=>$error) {

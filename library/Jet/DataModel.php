@@ -174,7 +174,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @var DataModel_Validation_Error[]
 	 */
-	private $___data_model_data_validation_errors = array();
+	protected  $___data_model_data_validation_errors = array();
 
 
 	public function __construct() {
@@ -1222,7 +1222,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		) {
 			return false;
 		}
-
 
 		$data= $form->getRawData()->getRawData();
 

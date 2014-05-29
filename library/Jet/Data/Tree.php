@@ -64,6 +64,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	protected $root_node = null;
 
 	/**
+	 * @var string
+	 */
+	protected $root_node_ID = '_root_';
+
+	/**
 	 * @var bool
 	 */
 	protected $lazy_mode = false;
@@ -79,6 +84,21 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$this->parent_ID_key = $parent_ID_key;
 
 	}
+
+	/**
+	 * @param string $root_node_parent_ID
+	 */
+	public function setRootNodeID($root_node_parent_ID) {
+		$this->root_node_ID = $root_node_parent_ID;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRootNodeID() {
+		return $this->root_node_ID;
+	}
+
 
 	/**
 	 * @param string $nodes_class_name
@@ -123,7 +143,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function getLazyMode() {
 		return $this->lazy_mode;
 	}
-
 
 
 	/**
@@ -313,22 +332,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	}
 
 	/**
-	 * Sets tree data
-	 *
-	 * @param array $data
+	 * @param string $target_node_ID
+	 * @return array|bool
 	 */
-	public function setData( array $data ) {
-		$this->_setData($data);
-	}
-
-	/**
-	 *
-	 * @param DataModel_Fetch_Data_Abstract $data
-	 */
-	public function setDataSource( DataModel_Fetch_Data_Abstract $data ) {
-		$this->_setData($data);
-	}
-
 	public function getPath( $target_node_ID ) {
 		$target_node_ID = (string)$target_node_ID;
 		$target_node = $this->getNode( $target_node_ID );
@@ -351,6 +357,23 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	}
 
 	/**
+	 * Sets tree data
+	 *
+	 * @param array $data
+	 */
+	public function setData( array $data ) {
+		$this->_setData( $data );
+	}
+
+	/**
+	 *
+	 * @param DataModel_Fetch_Data_Abstract $data
+	 */
+	public function setDataSource( DataModel_Fetch_Data_Abstract $data ) {
+		$this->_setData($data);
+	}
+
+	/**
 	 *
 	 * @param array|DataModel_Fetch_Data_Abstract $items
 	 *
@@ -359,7 +382,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	protected function _setData( $items ){
 
+		$root_node_parent_ID='';
+
 		$parent_map = array();
+
+		$root_item = null;
 
 		foreach( $items as $item ) {
 			$ID = $item[$this->ID_key];
@@ -369,29 +396,40 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 				$parent_ID = '';
 			}
 
-			if( !isset($parent_map[$parent_ID]) ) {
-				$parent_map[$parent_ID] = array();
+			if($ID==$this->root_node_ID) {
+				$root_node_parent_ID = $parent_ID;
+
+				if($root_item) {
+					throw new Data_Tree_Exception(
+						'Multiple roots in items (root ID: \''.$this->root_node_ID.'\') ',
+						Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
+					);
+
+				}
+
+				$root_item = $item;
+			} else {
+
+				if( !isset($parent_map[$parent_ID]) ) {
+					$parent_map[$parent_ID] = array();
+				}
+
+				$parent_map[$parent_ID][$ID] = $item;
 			}
 
-			$parent_map[$parent_ID][$ID] = $item;
+
 		}
 
-		if(!isset($parent_map[''])) {
+		if(!$root_item) {
 			throw new Data_Tree_Exception(
-				'No root item defined',
+				'No root item defined (root ID: \''.$this->root_node_ID.'\')',
 				Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 			);
 		}
 
-		if(count($parent_map[''])>1) {
-			throw new Data_Tree_Exception(
-				'Multiple roots in items or parent ID key \''.$this->parent_ID_key.'\' not found in item',
-				Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-			);
+		$this->appendNode( $root_item );
 
-		}
-
-		$this->__setData( '', $parent_map );
+		$this->__setData( $this->root_node_ID, $parent_map );
 
 	}
 
@@ -405,9 +443,23 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		}
 
 		foreach( $parent_map[$parent_ID] as $ID=>$item_data ) {
-			$this->appendNode( $item_data );
+			$node = $this->appendNode( $item_data );
 			unset($parent_map[$parent_ID][$ID]);
-			$this->__setData($ID, $parent_map);
+
+			if(!$this->lazy_mode) {
+				$this->__setData($ID, $parent_map);
+			} else {
+				if(
+					$node->getDepth()<1
+				) {
+					$this->__setData($ID, $parent_map);
+				} else {
+					if(!empty($parent_map[$ID])) {
+						$node->setHasChildren();
+					}
+				}
+
+			}
 		}
 		unset( $parent_map[$parent_ID] );
 

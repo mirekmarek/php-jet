@@ -97,7 +97,9 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		$this->parent_ID = $data[$tree->getParentIDKey()];
 		$this->data = $data;
 
-		$this->is_root = !(bool)$this->parent_ID;
+
+
+		$this->is_root = ($this->ID==$tree->getRootNodeID());
 
 		if( !$this->is_root ) {
 
@@ -117,7 +119,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 			$root_node = $this->tree->getRootNode();
 			if( $root_node ) {
 				throw new Data_Tree_Exception(
-					'Node: \''.$this->ID.'\'. Parent ID is not defined, but root node already exist (Root node ID: \''.$root_node->getID().'\'). There can be only one root. Please check data, or use Data_Forest if you need. ',
+					'Multiple roots in items (root ID: \''.$this->ID.'\') ',
 					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 				);
 
@@ -220,10 +222,17 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 
 	/**
 	 *
-	 * @return array
+	 * @return bool
 	 */
 	public function getHasChildren(){
 		return (bool)$this->children;
+	}
+
+	/**
+	 *
+	 */
+	public function setHasChildren(){
+		$this->children = true;
 	}
 
 	/**
@@ -389,12 +398,13 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		$item[$depth_key] = $this->depth;
 
 		if($next_children && $this->children){
-			$item[$children_key] = array();
 
             if(
 	            $this->is_root ||
 	            !$this->tree->getLazyMode()
             ) {
+	            $item[$children_key] = array();
+
                 foreach($this->children as $child) {
                     $child->_toArray( $item[$children_key], $max_depth, $root_depth );
                 }

@@ -131,6 +131,7 @@ class Data_Array extends Object {
 		if( $key[0]===self::PATH_DELIMITER ){
 			$path = explode(self::PATH_DELIMITER, trim($key, self::PATH_DELIMITER));
 
+
 			if(!$path){
 				return;
 			}
@@ -138,17 +139,15 @@ class Data_Array extends Object {
 			$key = array_pop($path);
 
 			foreach($path as $part){
-
-				if(
-					is_array($target) &&
-					isset($target[$part])
-				){
-					$target = &$target[$part];
-				} else {
-
+				if(!is_array($target)) {
 					return;
-
 				}
+
+				if( !isset($target[$part]) ){
+					$target[$part] = array();
+				}
+
+				$target = &$target[$part];
 
 			}
 		}

@@ -100,7 +100,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$keys = array();
 		foreach($data_model_definition->getKeys() as $key_name=>$key) {
 
-			$columns = implode('', '', $this->_getColumnName($key->getPropertyNames()) );
+			$columns = implode('', $this->_getColumnName($key->getPropertyNames()) );
 
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:

@@ -211,6 +211,7 @@ Jet.declare("Jet.modules.Module", [], {
             },
             getChildren: function(item, onComplete, onError){
                 if(!item[this.children_arg]) {
+                    onComplete();
                     return;
                 }
 
@@ -219,7 +220,6 @@ Jet.declare("Jet.modules.Module", [], {
                 if( item[this.children_arg].push!==undefined ) {
                     onComplete(item[this.children_arg]);
                 } else {
-                    console.debug( item[this.identifier_arg] );
                     this.get( item[this.identifier_arg] ).then( function(branch){
 
                         item[_this.children_arg] = branch.items[0][_this.children_arg];

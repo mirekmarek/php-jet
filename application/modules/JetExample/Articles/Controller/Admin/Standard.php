@@ -47,13 +47,16 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		$base_URI = Jet\Mvc::getCurrentURI();
 
 		$router->addAction('add', '/^add$/')
-			->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+				->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+
 		$router->addAction('edit', '/^edit:([\S]+)$/')
-			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.$article->getID().'/'; } );
+				->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } );
+
 		$router->addAction('view', '/^view:([\S]+)$/')
-			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.$article->getID().'/'; } );
+				->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } );
+
 		$router->addAction('delete', '/^delete:([\S]+)$/')
-			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.$article->getID().'/'; } );
+				->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } );
 
 		$router->setDefaultActionName('list');
 		$router->setNotAuthorizedActionName('notAuthorized');

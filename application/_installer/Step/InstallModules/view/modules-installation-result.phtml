@@ -28,12 +28,20 @@ $OK = $this->getBool('OK');
 		$state = $result[$name];
 	?>
 	<tr>
-		<td><label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> (<?=$info->getName();?>)</label></td>
-		<?php if($state===true): ?>
-		<td class="OK">OK</td>
-		<?php else: ?>
-		<td class="error"><?=$state;?></td>
-		<?php endif; ?>
+		<td>
+			<label for="module_<?=$info->getName();?>"><?=$info->getLabel();?></label>
+			<br/>
+			<div style="font-size: 11px;"><?=$info->getName();?></div>
+
+		</td>
+		<td>
+			<?php if($state===true): ?>
+			<div class="OK">OK</div>
+			<?php else: ?>
+			<div class="error"><?=$state;?></div>
+			<?php endif; ?>
+
+		</td>
 
 	</tr>
 	<?php endforeach; ?>

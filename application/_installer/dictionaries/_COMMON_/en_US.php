@@ -20,5 +20,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'9537b15d5155fbeb50d8881de39a5e09' => array(
+		'phrase' => 'Baseon3 Installer',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;
