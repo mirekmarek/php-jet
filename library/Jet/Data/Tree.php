@@ -66,7 +66,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	/**
 	 * @var string
 	 */
-	protected $root_node_ID = '_root_';
+	protected $root_node_ID = '';
 
 	/**
 	 * @var bool
@@ -382,7 +382,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	protected function _setData( $items ){
 
-		$root_node_parent_ID='';
 
 		$parent_map = array();
 
@@ -396,8 +395,14 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 				$parent_ID = '';
 			}
 
+			if(
+				!$this->root_node_ID &&
+				!$parent_ID
+			) {
+				$this->root_node_ID = $ID;
+			}
+
 			if($ID==$this->root_node_ID) {
-				$root_node_parent_ID = $parent_ID;
 
 				if($root_item) {
 					throw new Data_Tree_Exception(
