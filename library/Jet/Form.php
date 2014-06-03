@@ -223,7 +223,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * returns language independent fields
 	 *
-	 * @param bool $as_multidimensional_array (optional, defaut: false)
+	 * @param bool $as_multidimensional_array (optional, default: false)
 	 * @return Form_Field_Abstract[]
 	 */
 	public function getFields( $as_multidimensional_array=false ){

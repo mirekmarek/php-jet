@@ -104,4 +104,21 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 		$this->_fetchIDs();
 		return isset( $this->IDs[$this->iterator_position] );
 	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function toArray() {
+		$this->_fetchIDs();
+
+		$result = array();
+
+		foreach( $this->IDs as $ID ) {
+			$result[] = $ID->toString();
+		}
+
+		return $result;
+
+	}
 }

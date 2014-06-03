@@ -241,6 +241,9 @@ Jet.declare("Jet.modules.Module", [], {
                     _this.label_arg = item.label;
 
                     for(var i=0;i<item.items.length;i++) {
+                        if(i==0) {
+                            _this.root = item.items[i];
+                        }
                         onItem( item.items[i] );
                     }
 
@@ -248,7 +251,11 @@ Jet.declare("Jet.modules.Module", [], {
             },
             getLabel: function( item ){
                 return item[this.label_arg];
+            },
+            getIdentity: function( item ){
+                return item[this.identifier_arg];
             }
+
         });
 
 

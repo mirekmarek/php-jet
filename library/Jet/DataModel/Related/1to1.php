@@ -38,9 +38,16 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 	 */
 	public function loadRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
 
+		$backend = $this->getBackendInstance();
+
 		$model_definition = $this->getDataModelDefinition();
 
-		$query = $main_model_instance->getID()->getQuery( $model_definition->getMainModelRelationIDProperties() );
+		$query = new DataModel_Query( $model_definition );
+		$query->setWhere(array());
+
+		$query->getWhere()->attach(
+			$main_model_instance->getID()->getQuery(  $model_definition->getMainModelRelationIDProperties() )->getWhere()
+		);
 
 		if($parent_model_instance) {
 			$query->getWhere()->attach(
@@ -50,7 +57,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 		$query->setSelect( $model_definition->getProperties() );
 
-		$data = $this->getBackendInstance()->fetchRow( $query );
+		$data = $backend->fetchRow( $query );
 
 		if(!$data) {
 			return null;

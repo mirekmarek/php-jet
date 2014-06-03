@@ -185,6 +185,13 @@ abstract class DataModel_Backend_Abstract extends Object {
 	abstract public function fetchOne( DataModel_Query $query );
 
 	/**
+	 * @param DataModel_Query $query
+	 *
+	 * @return mixed
+	 */
+	abstract public function fetchCol( DataModel_Query $query );
+
+	/**
 	 *
 	 */
 	abstract public function transactionStart();

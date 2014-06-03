@@ -432,6 +432,47 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 	/**
 	 * @param DataModel_Query $query
+	 *
+	 * @return mixed
+	 */
+	public function fetchCol( DataModel_Query $query ) {
+		$data = $this->_db_read->fetchCol(
+			$this->getBackendSelectQuery( $query )
+		);
+
+		if(!is_array($data)) {
+			return $data;
+		}
+
+
+		foreach($data as $i=>$d) {
+			foreach($query->getSelect() as $item) {
+				/**
+				 * @var DataModel_Query_Select_Item $item
+				 * @var DataModel_Definition_Property_Abstract $property
+				 */
+				$property = $item->getItem();
+
+				if( ! ($property instanceof DataModel_Definition_Property_Abstract) ) {
+					continue;
+				}
+
+				if($property->getIsArray()) {
+					$data[$i] = unserialize( $data[$i] );
+				}
+
+				$property->checkValueType( $data[$i] );
+
+				break;
+			}
+		}
+
+		return $data;
+	}
+
+
+	/**
+	 * @param DataModel_Query $query
 	 * @param string $fetch_method
 	 *
 	 * @return mixed

@@ -162,10 +162,12 @@ Jet.dojoExtensions = {
                     }
                 },
                 searchPath: function(search_ID, parent_node, path){
+
                     if(!parent_node) { parent_node = this.model.root; }
                     if(!path) { path = []; }
 
                     var ID = this.model.getIdentity(parent_node);
+
                     path.push(ID);
                     if(ID == search_ID){
                         return path;
@@ -183,12 +185,23 @@ Jet.dojoExtensions = {
                 },
                 openByID: function( ID ) {
                     var _this = this;
-                    this.model.store.fetch({ onComplete: function(){
+
+                    var callback = function(){
+
                         var path = _this.searchPath( ID );
+
                         if(path && path.length) {
                             _this.set("path", path);
                         }
-                    } });
+                    };
+
+                    if( this.model.store ) {
+                        this.model.store.fetch({ onComplete: callback });
+
+                    } else {
+                        callback();
+                    }
+
                 }
             });
         }

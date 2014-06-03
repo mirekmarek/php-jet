@@ -560,7 +560,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 					 */
 					$related_object = $loaded_instance->{$property_name};
 
-					$related_object->wakeUp( $loaded_instance );
+					if($related_object) {
+						$related_object->wakeUp( $loaded_instance );
+					}
 				}
 
 				return $loaded_instance;
@@ -1042,11 +1044,24 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return mixed|null
 	 */
 	protected static function fetchDataOne( array $load_items, array  $query=array() ) {
+
 		$query = DataModel_Query::createQuery(static::getDataModelDefinition(), $query);
 		$query->setSelect($load_items);
 
 		return static::getBackendInstance()->fetchOne( $query );
 	}
+
+	/**
+	 *
+	 * @param $load_item
+	 * @param array $query
+	 *
+	 * @return DataModel_Fetch_Data_Col
+	 */
+	protected static function fetchDataCol( $load_item, array  $query=array() ) {
+		return new DataModel_Fetch_Data_Col( $load_item, $query, static::getDataModelDefinition() );
+	}
+
 
 	/**
 	 *

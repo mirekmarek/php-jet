@@ -39,7 +39,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	final public function __construct( array $select_items, $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
+	public function __construct( array $select_items, $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
 		parent::__construct( $query, $data_model_definition );
 
 		$this->query->setSelect( $select_items );
@@ -59,13 +59,9 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 * @return array
 	 */
 	public function toArray() {
-		$result = array();
+		$this->_fetch();
 
-		foreach($this as $key=>$val) {
-			$result[$key] = $val;
-		}
-
-		return $result;
+		return $this->data;
 	}
 
 	/**
