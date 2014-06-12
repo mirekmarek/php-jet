@@ -307,11 +307,11 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		foreach( $properties_definition_data as $property_name=>$property_dd ) {
 			if(isset($property_dd['related_to'])) {
-				$this->_initGlueProperty($property_name, $property_dd['related_to']);
-				continue;
-			}
+				$property_definition = $this->_initGlueProperty($property_name, $property_dd['related_to'], $property_dd);
+			} else {
+				$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this->class_name, $property_name, $property_dd);
 
-			$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this->class_name, $property_name, $property_dd);
+			}
 
 			if($property_definition->getIsID()) {
 				$this->ID_properties[$property_definition->getName()] = $property_definition;
@@ -355,11 +355,15 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	/**
 	 * @param string $property_name
 	 * @param string $related_to
+	 * @param array $property_definition_data
 	 *
 	 * @throws DataModel_Exception
+	 * @return DataModel_Definition_Property_Abstract
+	 *
 	 */
 	protected function _initGlueProperty( $property_name, /** @noinspection PhpUnusedParameterInspection */
-	                                      $related_to ) {
+	                                      $related_to,
+										  $property_definition_data ) {
 		throw new DataModel_Exception(
 			'It is not possible to define related property in Main DataModel  (\''.$this->class_name.'\'::'.$property_name.') ',
 			DataModel_Exception::CODE_DEFINITION_NONSENSE

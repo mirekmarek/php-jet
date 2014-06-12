@@ -616,10 +616,14 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @return Form_Field_Abstract
 	 */
 	public function getFormField() {
-		$type = $this->is_ID ? 'Hidden' : $this->getFormFieldType();
+		$type = $this->getFormFieldType();
 
 		if(!$type) {
 			return null;
+		}
+
+		if($this->is_ID) {
+			$type = Form::TYPE_HIDDEN;
 		}
 
 		if($this->form_field_get_default_value_callback) {

@@ -12,12 +12,41 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Form_Button_Dropdown extends JetML_Widget_Dojo_Form_Button {
+class JetML_Widget_Dojo_Form_Button_Dropdown extends JetML_Widget_Dojo_Abstract {
 	
 	/**
 	 *
 	 * @var string
 	 */
 	protected $dojo_type = 'dijit.form.DropDownButton';
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $widget_container_tag = 'div';
+
+	/**
+	 * @return \DOMElement|\DOMElement[]
+	 */
+	protected function _getTagContent() {
+		$icon = $this->getIcon();
+
+		if(!$icon) {
+			return null;
+		}
+
+		$span = $this->parser->getDOMDocument()->createElement('span');
+		if(!is_array($icon)) {
+			$span->appendChild( $icon );
+
+		} else {
+			$span->appendChild( $icon[0] );
+			$span->appendChild( $icon[1] );
+
+		}
+
+		return $span;
+	}
 
 }

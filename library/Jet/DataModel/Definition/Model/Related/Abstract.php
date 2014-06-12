@@ -189,10 +189,13 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	/**
 	 * @param string $this_ID_property_name
 	 * @param string $related_to
+	 * @param array $property_definition_data
 	 *
 	 * @throws DataModel_Exception
+	 * @return DataModel_Definition_Property_Abstract
+	 *
 	 */
-	protected function _initGlueProperty( $this_ID_property_name, $related_to ) {
+	protected function _initGlueProperty( $this_ID_property_name, $related_to, $property_definition_data ) {
 
 		$related_to = explode('.', $related_to);
 		if(count($related_to)!=2) {
@@ -253,6 +256,10 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		$parent_ID_property_data = $related_definition_data[$related_to_property_name];
 
+		$parent_ID_property_data['is_key'] = true;
+
+
+		$parent_ID_property_data['is_ID'] = isset($property_definition_data['is_ID']);
 
 		$this_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
 			$this->class_name,
@@ -268,6 +275,8 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 		$target_join_array[] = new DataModel_Definition_Relation_JoinBy_Item( $this, $this_ID_property, $related_to_class_name, $related_to_property_name );
 
 		$target_glue_defined[] = $related_to_property_name;
+
+		return $this_ID_property;
 
 	}
 

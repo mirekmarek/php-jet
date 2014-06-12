@@ -178,7 +178,7 @@ var Jet = {
 
 
     getActionURL: function(service_type, module_name, action, path_fragments, GET_params ){
-        module_name = module_name.replace("\\",".");
+        module_name = module_name.replace(/\\/g, ".");
         var URL = this.base_request_URI;
 
 
@@ -187,6 +187,10 @@ var Jet = {
         if(path_fragments){
                 if(!path_fragments["push"]){
                     path_fragments = path_fragments.split("/");
+                }
+
+                for(var i=0;i<path_fragments.length;i++) {
+                    path_fragments[i] = encodeURIComponent( path_fragments[i] );
                 }
 
                 URL += path_fragments.join("/");
@@ -295,6 +299,10 @@ var Jet = {
             }
 
             if(this.require(module_name, module_class)){
+
+                if(!Jet.module[module_name][module_class]) {
+                    return false;
+                }
 
                 if(has_container_ID){
                     this.instances_of_modules[instances_of_modules_key][container_ID] = new Jet.module[module_name][module_class](container_ID);

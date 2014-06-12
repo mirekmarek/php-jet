@@ -243,6 +243,9 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		return $this->unserialize( $ID );
 	}
 
+	/**
+	 *
+	 */
 	public function reset() {
 		foreach( $this->values as $k=>$val ) {
 			$this->values[$k] = null;

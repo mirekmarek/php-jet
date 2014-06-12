@@ -102,7 +102,6 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			 */
 			$key = $loaded_instance->getArrayKeyValue();
 
-
 			if($key!==null) {
 				$this->__items[$key] = $loaded_instance;
 			} else {
@@ -372,7 +371,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 		$value->__is_item = true;
 
-		if(is_null($offset)) {
+		if(!$offset) {
 			$this->__items[] = $value;
 		} else {
 			$this->__items[$offset] = $value;
@@ -449,6 +448,8 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 			return $items;
 		} else {
+			$this->validateKeys();
+
 			return array('__items', '__is_item');
 		}
 	}
@@ -460,9 +461,32 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			if(!$this->__items) {
 				$this->__items = array();
 				$this->__deleted_items = array();
+			} else {
+				$this->validateKeys();
 			}
 		}
 	}
 
+	/**
+	 *
+	 */
+	protected function validateKeys() {
+		$items = array();
+		foreach($this->__items as $key=>$item) {
+
+			$new_key = $item->getArrayKeyValue();
+			$key = $new_key!==null ? $new_key : $key;
+
+			if(!$key) {
+				$items[] = $item;
+			} else {
+				$items[$key] = $item;
+			}
+
+		}
+
+		$this->__items = $items;
+
+	}
 
 }

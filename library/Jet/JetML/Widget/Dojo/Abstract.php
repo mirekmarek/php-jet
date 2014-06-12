@@ -39,12 +39,17 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype' );
+	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'custom_translator_namespace', 'custom_translator_locale', 'translation_data' );
 
 	/**
 	 * @var array
 	 */
-	protected $translate_properties = array('title', 'busylabel');
+	protected $translate_properties = array('title');
+
+	/**
+	 * @var array
+	 */
+	protected $dojo_props_real_names_map = array();
 
 
 	/**
@@ -112,6 +117,10 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 			) {
 				if($a_value=='true' || $a_value=='false') {
 					$a_value = ($a_value=='true');
+				}
+
+				if(isset($this->dojo_props_real_names_map[$a_name])) {
+					$a_name = $this->dojo_props_real_names_map[$a_name];
 				}
 
 				$dojo_props[$a_name] = $a_value;

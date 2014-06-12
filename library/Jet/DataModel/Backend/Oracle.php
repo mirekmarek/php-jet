@@ -1138,6 +1138,11 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	protected function _getValue( $value ) {
+		if($value instanceof DataModel_Definition_Property_Abstract) {
+			return $this->_getColumnName( $value );
+		}
+
+
 		if($value===null) {
 			return 'null';
 		}

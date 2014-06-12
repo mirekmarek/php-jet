@@ -253,9 +253,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_ID_Abstract
 	 */
 	public function resetID() {
-		if(!$this->__ID) {
-			$this->__ID = $this->getEmptyIDInstance();
-		}
+		$this->getID();
 
 		$this->__ID->reset();
 
@@ -1038,15 +1036,15 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 	/**
 	 *
-	 * @param array $load_items
+	 * @param array $load_item
 	 * @param array $query
 	 *
 	 * @return mixed|null
 	 */
-	protected static function fetchDataOne( array $load_items, array  $query=array() ) {
+	protected static function fetchDataOne( $load_item, array  $query=array() ) {
 
 		$query = DataModel_Query::createQuery(static::getDataModelDefinition(), $query);
-		$query->setSelect($load_items);
+		$query->setSelect( [$load_item] );
 
 		return static::getBackendInstance()->fetchOne( $query );
 	}
@@ -1193,7 +1191,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 					$this->$property_name instanceof DataModel_Related_1to1
 				)
 			) {
-				$only_properties[] = $property_name;
+				if($property->getFormFieldType()!==false) {
+					$only_properties[] = $property_name;
+				}
 				continue;
 			}
 
@@ -1230,6 +1230,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return bool;
 	 */
 	public function catchForm( Form $form, $data=null, $force_catch=false   ) {
+
 
 		if(
 			!$form->catchValues($data, $force_catch) ||
@@ -1280,7 +1281,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 							/**
 							 * @var DataModel $r_instance
 							 */
-							$r_form = $r_instance->getForm( '', array_keys($values) );
+							//$r_form = $r_instance->getForm( '', array_keys($values) );
+							$r_form = $r_instance->getCommonForm();
 
 							$r_instance->catchForm( $r_form, $values, true );
 

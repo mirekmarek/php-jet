@@ -106,20 +106,31 @@ abstract class DataModel_Related_Abstract extends DataModel {
 			}
 
 		}
+
 		foreach($r_IDs as $property => $value) {
 			if(
 				$this->getIsSaved() &&
 				$this->{$property}!=$value
 			) {
+				$this->resetID();
 				$this->setIsNew();
+
+				break;
 			}
+		}
+
+		foreach($r_IDs as $property => $value) {
 			$this->{$property} = $value;
 		}
+
+
+		$this->generateID();
 
 		$this->_checkBeforeSave();
 
 
 		$backend = $this->getBackendInstance();
+
 
 		if( !$this->getIsSaved() ) {
 			$operation = 'save';

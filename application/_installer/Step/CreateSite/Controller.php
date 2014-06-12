@@ -46,7 +46,18 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 			$session->setValue('site', $site);
 		} else {
+			/**
+			 * @var Mvc_Sites_Site_Abstract $site
+			 */
 			$site = $session->getValue('site');
+			$site->setIsNew();
+			foreach( $site->getLocales() as $locale ) {
+				$ld = $site->getLocalizedData( $locale );
+				$ld->setIsNew();
+				foreach($ld->getURLs() as $URL ) {
+					$URL->setIsNew();
+				}
+			}
 		}
 
 		if(

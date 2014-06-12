@@ -25,6 +25,9 @@ var Jet_WYSIWYG = new function() {
 	        }
         }
 
+        config.auto_focus = false;
+
+
         tinymce.init( config );
     };
 

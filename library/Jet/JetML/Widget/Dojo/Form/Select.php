@@ -1,8 +1,6 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -13,24 +11,23 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Form_Button_Busy extends JetML_Widget_Dojo_Form_Button {
+class JetML_Widget_Dojo_Form_Select extends JetML_Widget_Dojo_Abstract {
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected $dojo_type = 'dijit.form.FilteringSelect';
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = 'dojox.form.BusyButton';
+	protected $widget_container_tag = 'select';
 
 	/**
 	 * @var array
 	 */
-	protected $translate_properties = array('title', 'busylabel');
-
-	/**
-	 * @var array
-	 */
-	protected $dojo_props_real_names_map = array(
-		'busylabel' => 'busyLabel'
-	);
+	protected $dojo_props_real_names_map = array( 'fetchProperties'=>'sortByLabel', 'fetchproperties'=>'fetchProperties' );
 
 }

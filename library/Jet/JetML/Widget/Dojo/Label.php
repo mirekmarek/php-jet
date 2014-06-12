@@ -13,6 +13,32 @@
 namespace Jet;
 
 class JetML_Widget_Dojo_Label extends JetML_Widget_Dojo_Abstract {
+	/**
+	 *
+	 * @var string|array|bool $dojo_type
+	 */
+	protected $dojo_type = false;
 
+	/**
+	 *
+	 * @var string
+	 */
+	protected $widget_container_tag = 'label';
+
+	/**
+	 * @return \DOMElement|void
+	 */
+	public function getReplacement() {
+
+		$for = $this->node->getAttribute('for');
+
+		if($for) {
+			$for = $this->parser->getLayout()->getUIContainerIDPrefix().$for;
+
+			$this->node->setAttribute('for', $for);
+		}
+
+		return parent::getReplacement();
+	}
 
 }

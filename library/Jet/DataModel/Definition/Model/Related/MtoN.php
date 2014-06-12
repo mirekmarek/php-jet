@@ -155,10 +155,13 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	/**
 	 * @param string $this_ID_property_name
 	 * @param string $related_to
+	 * @param array $property_definition_data
 	 *
 	 * @throws DataModel_Exception
+	 * @return DataModel_Definition_Property_Abstract
+	 *
 	 */
-	protected function _initGlueProperty( $this_ID_property_name, $related_to ) {
+	protected function _initGlueProperty( $this_ID_property_name, $related_to, $property_definition_data ) {
 
 		$related_to = explode('.', $related_to);
 		if(count($related_to)!=2) {
@@ -206,6 +209,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinBy_Item( $this, $this_ID_property, $related_to_class_name, $related_to_property_name );
 		$this->_glue_defined[$related_model_name][] = $related_to_property_name;
 
+		return $this_ID_property;
 	}
 
 	/**

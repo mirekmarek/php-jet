@@ -403,7 +403,7 @@ class DataModel_Query extends Object {
 
 			if( $property_name_parts ) {
 				throw new DataModel_Query_Exception(
-					'Invalid property name: \''.$property_name.'\'. Valid examples: this.property_name, related_data_model_name.property_name, related_data_model.next_related_data_model.property_name, ...',
+					'Invalid property name: \''.$str_property_name.'\'. Valid examples: this.property_name, related_data_model_name.property_name, related_data_model.next_related_data_model.property_name, ...',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			}

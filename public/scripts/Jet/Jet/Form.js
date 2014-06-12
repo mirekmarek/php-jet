@@ -136,7 +136,7 @@ dojo.declare("Jet.Form", [], {
         var class_name = "Jet.Form.Field."+definition_data.type;
 
         this.fields[name] = eval("new "+class_name+"(this, ID, name, definition_data)");
-        this.fields[name].connectOnChangeAction( function() {_this.setChanged(true);} )
+        this.fields[name].connectOnChangeAction( function() { _this.setChanged(true);} )
 
 
         return this.fields[name];
@@ -331,12 +331,20 @@ dojo.declare("Jet.Form", [], {
         if( this.save_button.push!==undefined ) {
             setTimeout(function() {
                 for(var i=0; i<_this.save_button.length;i++) {
-                    _this.module_instance.getWidgetByID(_this.save_button[i]).cancel();
+                    var button = _this.module_instance.getWidgetByID(_this.save_button[i]);
+
+                    if(button.cancel) {
+                        button.cancel();
+                    }
                 }
             }, 10);
         } else {
             setTimeout(function() {
-                _this.module_instance.getWidgetByID(_this.save_button).cancel();
+                var button = _this.module_instance.getWidgetByID(_this.save_button);
+
+                if(button.cancel) {
+                    button.cancel();
+                }
             },10);
         }
     },
@@ -388,6 +396,7 @@ dojo.declare("Jet.Form", [], {
         if(this._changed===status) {
             return;
         }
+
 
         this._changed = status;
 
@@ -590,6 +599,11 @@ dojo.declare("Jet.Form.Field", [], {
 
     showErrorIsNotValid: function() {
         this.showError(this.data.error_messages["invalid_value"]);
+    },
+
+    focus: function() {
+        this._getElement(this.ID).focus();
+
     },
 
     disable: function() {

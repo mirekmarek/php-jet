@@ -816,11 +816,19 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryWherePart_handleOperator($operator, $value) {
-		if(is_bool($value)) {
-			$value = $value ? 1 : 0;
+
+		if($value instanceof DataModel_Definition_Property_Abstract) {
+			$v_table_name = $this->_getTableName( $value->getDataModelDefinition() );
+			$value = '`'.$v_table_name.'`.`'.$value->getName().'`';
 		} else {
-			$value = $this->_db_read->quote($value);
+			if(is_bool($value)) {
+				$value = $value ? 1 : 0;
+			} else {
+				$value = $this->_db_read->quote($value);
+			}
+
 		}
+
 
 		$res = '';
 

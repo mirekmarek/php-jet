@@ -30,7 +30,7 @@ abstract class JetML_Widget_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size' );
+	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'custom_translator_namespace', 'custom_translator_locale', 'translation_data' );
 
 	/**
 	 *

@@ -103,11 +103,13 @@ class Application_Signals_Dispatcher extends Object {
 	public static function dispatchSignal(Application_Signals_Signal $signal) {
 		$signal_name = $signal->getName();
 
+
 		if(
 			isset( static::$signal_queue[$signal_name] ) ||
 			(
 				static::$current_signal &&
-				static::$current_signal->getName()==$signal_name
+				static::$current_signal->getName()==$signal_name &&
+				static::$current_signal->getSender()===$signal->getSender()
 			)
 		){
 			throw new Application_Signals_Exception(

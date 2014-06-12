@@ -42,6 +42,7 @@ class Form_Field_Select extends Form_Field_Abstract {
 		$options = $this->select_options;
 		
 		if(!isset($options[$this->_value])) {
+
 			$this->setValueError('invalid_value');
 			return false;
 		}

@@ -2,7 +2,6 @@
 /**
  *
  *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -13,15 +12,10 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Layout_Tabs extends JetML_Widget_Dojo_Abstract {
-
+class JetML_Widget_Dojo_Dialog_Tooltip extends JetML_Widget_Dojo_Abstract {
 	/**
-	 *
-	 * @var string
+	 * @var bool|string
 	 */
-	protected $dojo_type = 'dijit.layout.TabContainer';
+	protected $dojo_type = 'dijit.TooltipDialog';
 
-	protected $dojo_props_real_names_map = array(
-		'tabposition' => 'tabPosition'
-	);
 }

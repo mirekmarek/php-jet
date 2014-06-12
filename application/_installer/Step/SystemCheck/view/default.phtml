@@ -375,14 +375,24 @@ class JetCompatibilityTester {
 			}
 		)) {
 
+
 			$this->test(
 				'open_basedir vs upload_tmp_dir',
 				'',
 				function( JetCompatibilityTester_TestResult $test_result ) {
-					$open_basedir = ini_get('open_basedir');
+					$open_base_dirs = explode(':', ini_get('open_basedir'));
 					$upload_tmp_dir = realpath( ini_get('upload_tmp_dir') );
 
-					$result = (strpos($upload_tmp_dir, $open_basedir )===0);
+					$result = false;
+
+					foreach( $open_base_dirs as $open_base_dir ) {
+						if(strpos($upload_tmp_dir, $open_base_dir )===0) {
+							$result = true;
+							break;
+						}
+
+					}
+
 
 					if(!$result) {
 						$test_result->setResultMessage('upload_tmp_dir is '.$upload_tmp_dir.' but open_basedir is '.$open_basedir);
@@ -396,10 +406,18 @@ class JetCompatibilityTester {
 				'open_basedir vs session.save_path',
 				'',
 				function( JetCompatibilityTester_TestResult $test_result ) {
-					$open_basedir = ini_get('open_basedir');
+					$open_base_dirs = explode(':', ini_get('open_basedir'));
 					$session_save_path = realpath( ini_get('session.save_path') );
 
-					$result = (strpos($session_save_path, $open_basedir )===0);
+					$result = false;
+
+					foreach( $open_base_dirs as $open_base_dir ) {
+						if(strpos($session_save_path, $open_base_dir )===0) {
+							$result = true;
+							break;
+						}
+
+					}
 
 					if(!$result) {
 						$test_result->setResultMessage('session.save_path is '.$session_save_path.' but open_basedir is '.$open_basedir);

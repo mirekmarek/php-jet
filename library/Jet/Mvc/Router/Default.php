@@ -305,6 +305,10 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$this->path_fragments = explode( '/', $this->parsed_URL->getPath() );
 
+		foreach( $this->path_fragments as $i=>$pf ) {
+			$this->path_fragments[$i] = rawurldecode( $pf );
+		}
+
 		if(!$this->validateURIFormat()) {
 			return true;
 		}
@@ -791,6 +795,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	public function getPathFragments() {
 		return $this->path_fragments;
 	}
+
 
 	/**
 	 * @param string $template  (example: 'page:%VAL%' )

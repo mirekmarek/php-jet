@@ -141,18 +141,11 @@ Jet.dojoExtensions = {
                         this.dndController.selectNone();
                     }
 
-                    if(this.model.store) {
-                        this.model.store.clearOnClose = true;
-                        this.model.store.close();
-                        this.model.root.children = null;
-                    }
-
                     this._itemNodesMap = {};
                     this.rootNode.state = "UNCHECKED";
 
                     this.rootNode.destroyRecursive();
 
-                    this.model.constructor(this.model)
 
                     this.postMixInProperties();
                     this._load();

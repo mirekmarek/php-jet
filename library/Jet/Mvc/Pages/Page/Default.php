@@ -47,6 +47,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Locale
 	 */

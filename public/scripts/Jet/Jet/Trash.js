@@ -51,6 +51,10 @@ dojo.declare("Jet.Trash", [], {
 
         dojo.mixin( this, params );
 
+        if(params['ID_property_name']) {
+            this.ID_property_name = params['ID_property_name'];
+        }
+
 
          var _this = this;
         this.button_widget = this._getWidget( "_button" );
@@ -109,6 +113,8 @@ dojo.declare("Jet.Trash", [], {
     },
 
     submit: function() {
+        console.debug( this._trash_content, this.ID_property_name );
+
         if(!this._trash_content) {
             this.submit_button_widget.cancel();
             this.confirm_dialog_widget.hide();

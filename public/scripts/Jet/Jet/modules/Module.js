@@ -145,11 +145,16 @@ Jet.declare("Jet.modules.Module", [], {
         });
 
         tree.placeAt( this.getWidgetByID(place_at_widget_ID) );
+
         return tree;
     },
 
-    getDataGrid: function(grid_widget_ID, rest_store, edit_method_name, edit_column_index) {
+    getDataGrid: function(grid_widget_ID, rest_store, edit_method_name, ID_key, edit_column_index) {
         var grid = this.getWidgetByID(grid_widget_ID);
+
+        if(!ID_key) {
+            ID_key = 'ID';
+        }
 
 	    for(var y=0; y<grid.layout.cells.length; y++) {
 
@@ -157,7 +162,7 @@ Jet.declare("Jet.modules.Module", [], {
 		    if(
 			    !formatter ||
 				typeof formatter!='string'
-			    ) {
+		    ) {
 			    continue;
 		    }
 
@@ -185,13 +190,13 @@ Jet.declare("Jet.modules.Module", [], {
             grid.layout.cells[edit_column_index].formatter = function(val, idx, c) {
                 var item = c.grid.getItem(idx);
                 if(_this.container_ID) {
-                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"','"+_this.container_ID+"')."+edit_method_name+"('"+item.ID+"')";
+                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"','"+_this.container_ID+"')."+edit_method_name+"('"+item[ID_key]+"')";
                 } else {
 
-                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"','"+_this.container_ID+"')."+edit_method_name+"('"+item.ID+"')";
+                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"')."+edit_method_name+"('"+item[ID_key]+"')";
                 }
 
-                return '<a href="javascript:'+edit+'">'+val+'</a>';
+                return '<a href="#" onClick="'+edit+'">'+val+'</a>';
             };
         }
 
@@ -200,64 +205,9 @@ Jet.declare("Jet.modules.Module", [], {
     },
 
     getTree: function(place_at_widget_ID, object_name, enable_DnD ) {
+        Jet.require('Jet.JsonRestTreeStore');
 
-
-        var store = new dojo.store.JsonRest({
-            target: this.getRestURL(object_name),
-            children_arg: 'children',
-
-            mayHaveChildren: function(item) {
-                return item[this.children_arg] ? true:false;
-            },
-            getChildren: function(item, onComplete, onError){
-                if(!item[this.children_arg]) {
-                    onComplete();
-                    return;
-                }
-
-                var _this = this;
-
-                if( item[this.children_arg].push!==undefined ) {
-                    onComplete(item[this.children_arg]);
-                } else {
-                    this.get( item[this.identifier_arg] ).then( function(branch){
-
-                        item[_this.children_arg] = branch.items[0][_this.children_arg];
-                        onComplete(item.children);
-
-                    }, function(error){
-                        console.error(error);
-                        onComplete([]);
-                    });
-                }
-
-
-            },
-            getRoot: function(onItem, onError){
-                var _this = this;
-
-                this.get('').then( function( item ) {
-                    _this.identifier_arg = item.identifier;
-                    _this.label_arg = item.label;
-
-                    for(var i=0;i<item.items.length;i++) {
-                        if(i==0) {
-                            _this.root = item.items[i];
-                        }
-                        onItem( item.items[i] );
-                    }
-
-                }, onError );
-            },
-            getLabel: function( item ){
-                return item[this.label_arg];
-            },
-            getIdentity: function( item ){
-                return item[this.identifier_arg];
-            }
-
-        });
-
+        var store = new Jet.JsonRestTreeStore( this.getRestURL(object_name) );
 
         var tree_params = {
             model: store,
@@ -277,7 +227,6 @@ Jet.declare("Jet.modules.Module", [], {
 	    } else {
 		    var tree = new dijit.Tree(tree_params, this.getNodeID(place_at_widget_ID) );
 	    }
-
 
 
         return tree;
