@@ -44,8 +44,12 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getHTMLSnippet(){
+		/**
+		 * @var Javascript_Lib_Dojo $dojo
+		 */
+		$dojo = $this->layout->requireJavascriptLib('Dojo');
 
-		$this->layout->requireCssFile( JET_PUBLIC_SCRIPTS_URI.'cbtree/themes/%DOJO_THEME%/Checkbox.css' );
+		$this->layout->requireCssFile( JET_PUBLIC_SCRIPTS_URI.'cbtree/themes/'.$dojo->getTheme().'/Checkbox.css' );
 
 		$this->layout->requireJavascriptCode(JET_TAB.'dojo.registerModulePath(\'cbtree\',\''.JET_PUBLIC_SCRIPTS_URI.'cbtree\');');
 		$this->layout->requireJavascriptCode(JET_TAB.'dojo.require(\'cbtree.CheckBoxTree\');');

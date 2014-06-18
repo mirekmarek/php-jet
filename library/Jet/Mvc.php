@@ -323,6 +323,59 @@ class Mvc {
 	}
 
 	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()->getLayout()->requireJavascriptFile( $URI )
+	 *
+	 * @see JavaScript
+	 * @see Mvc_Layout::requireJavascriptFile()
+	 *
+	 * @param string $URI
+	 *
+	 */
+	public static function requireJavascriptFile( $URI ) {
+		Mvc_Router::getCurrentRouterInstance()->getLayout()->requireJavascriptFile( $URI );
+	}
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()->getLayout()->requireInitialJavascriptCode( $code )
+	 *
+	 * @see JavaScript
+	 * @see Mvc_Layout::requireInitialJavascriptCode()
+	 *
+	 * @param string $code
+	 *
+	 */
+	public static function requireInitialJavascriptCode( $code ) {
+		Mvc_Router::getCurrentRouterInstance()->getLayout()->requireInitialJavascriptCode( $code );
+	}
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()->getLayout()->requireJavascriptCode( $code )
+	 *
+	 * @see JavaScript
+	 * @see Mvc_Layout::requireJavascriptCode()
+	 *
+	 * @param string $code
+	 *
+	 */
+	public static function requireJavascriptCode( $code ) {
+		Mvc_Router::getCurrentRouterInstance()->getLayout()->requireJavascriptCode( $code );
+	}
+
+
+	/**
+	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()->getLayout()->requireCssFile( $URI )
+	 *
+	 * @see JavaScript
+	 * @see Mvc_Layout::requireCssFile()
+	 *
+	 * @param string $URI
+	 * @param string $media (optional)
+	 */
+	public static function requireCssFile( $URI, $media='' ) {
+		Mvc_Router::getCurrentRouterInstance()->getLayout()->requireCssFile( $URI, $media );
+	}
+
+	/**
 	 * Returns current UI module instance
 	 *
 	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()

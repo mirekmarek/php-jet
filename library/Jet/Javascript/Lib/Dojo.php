@@ -23,6 +23,10 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	protected $config = null;
 
+	/**
+	 * @var string
+	 */
+	protected $theme = '';
 
    
 	/**
@@ -47,10 +51,28 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 		$locale = $this->layout->getRouter()->getLocale();
 		$locale = strtolower($locale->getLanguage()).'-'.strtolower($locale->getRegion());
 
+		$this->theme = $this->config->getDefaultTheme();
+
 		$this->setOption('parseOnLoad', $this->config->getParseOnLoad());
 		$this->setOption('isDebug', $this->config->getIsDebug());
 		$this->setOption('locale', $locale);
 	}
+
+	/**
+	 * @param string $theme
+	 */
+	public function setTheme($theme) {
+		$this->theme = $theme;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTheme() {
+		return $this->theme;
+	}
+
+
 
 	/**
 	 * Returns dojo version
@@ -124,15 +146,15 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet() {
 
-		$this->layout->requireCssFile( $this->config->getURI().'dojo/resources/dojo.css' );
-		$this->layout->requireCssFile( $this->config->getThemeURI() );
+		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getURI().'dojo/resources/dojo.css') );
+		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getThemeURI()) );
 
-		$source_URL = $this->config->getURI();
+		$base_URL = $this->replaceConstants( $this->config->getURI() );
 		if($this->required_components_CSS){
 			foreach($this->required_components_CSS as $css){
-				$css = $this->config->replaceConstants($css);
+				$css = $this->replaceConstants($css);
 
-				$this->layout->requireCssFile( $source_URL.$css );
+				$this->layout->requireCssFile( $base_URL.$css );
 			}
 		}
 
@@ -141,11 +163,13 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 		$result = '';
 
 
-		$this->layout->requireJavascriptFile( $this->config->getDojoJsURI() );
+
+
+		$this->layout->requireJavascriptFile( $this->replaceConstants( $this->config->getDojoJsURI() ) );
 
 		$package_URL = $this->config->getDojoPackageURI();
 		if($package_URL) {
-			$this->layout->requireJavascriptFile( $package_URL );
+			$this->layout->requireJavascriptFile( $this->replaceConstants($package_URL) );
 		}
 
 		if($this->required_components){
@@ -161,6 +185,24 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	}
 
 	/**
+	 * Replace constants in values
+	 *
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	protected function replaceConstants($value){
+
+		$replacements = array(
+			'VERSION' => $this->config->getVersion(),
+			'THEME' => $this->theme
+		);
+
+		return Data_Text::replaceSystemConstants($value, $replacements);
+	}
+
+
+	/**
 	 * This method is called when processing is completed and the content is placed in its positions
 	 *
 	 * @param string &$result
@@ -168,7 +210,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function finalPostProcess( &$result, Mvc_Layout $layout ) {
 		$replace_data = array(
-			'DOJO_THEME' => $this->config->getDefaultTheme()
+			'DOJO_THEME' => $this->theme
 		);
 
 		$result = Data_Text::replaceData($result, $replace_data);

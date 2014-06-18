@@ -129,7 +129,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 * @return string
 	 */
 	public function getThemeURI() {
-		return $this->replaceConstants($this->theme_URI);
+		return $this->theme_URI;
 	}
 
 	/**
@@ -147,24 +147,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 */
 	public function getDojoJsURI(){
 
-		return $this->replaceConstants($this->dojo_js_URI);
-	}
-
-	/**
-	 * Replace constants in values
-	 *
-	 * @param $value
-	 *
-	 * @return string
-	 */
-	public function replaceConstants($value){
-
-		$replacements = array(
-			'VERSION' => $this->version,
-			'THEME' => $this->default_theme
-		);
-
-		return Data_Text::replaceSystemConstants($value, $replacements);
+		return $this->dojo_js_URI;
 	}
 
 	/**
@@ -173,7 +156,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 * @return string
 	 */
 	public function getDojoPackageURI() {
-		return $this->replaceConstants($this->dojo_package_URI);
+		return $this->dojo_package_URI;
 	}
 
 }
