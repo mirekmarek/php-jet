@@ -88,6 +88,14 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	}
 
 	/**
+	 * @param string $module_name
+	 * @return string
+	 */
+	public function normalizeName( $module_name ) {
+		return str_replace('.','\\', $module_name );
+	}
+
+	/**
 	 * Returns true if the module name correspond to a valid format
 	 *
 	 * @param string $module_name
@@ -216,6 +224,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return bool
 	 */
 	public function getModuleExists( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
 
 		if( $this->activated_modules_list === null) {
 			$this->getActivatedModulesList();
@@ -244,6 +253,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return bool
 	 */
 	public function getModuleIsInstalled( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		if( $this->installed_modules_list === null) {
 			$this->getInstalledModulesList();
 		}
@@ -263,6 +274,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return bool
 	 */
 	public function getModuleIsActivated( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		if( $this->activated_modules_list === null) {
 			$this->getActivatedModulesList();
 		}
@@ -285,6 +298,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return Application_Modules_Module_Manifest
 	 */
 	public function getModuleManifest( $module_name, $only_activated=false ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		if( $this->activated_modules_list === null) {
 			$this->getActivatedModulesList();
 		}
@@ -314,6 +329,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function installModule( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		$this->_hardCheckModuleExists($module_name);
 
 		$module_manifest = $this->getModuleManifest($module_name);
@@ -389,6 +406,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function uninstallModule( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		$this->_hardCheckModuleExists($module_name);
 		$this->_checkModuleDependencies($module_name);
 
@@ -444,6 +463,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function activateModule( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		$this->_hardCheckModuleExists($module_name);
 
 		$activated_modules = $this->getActivatedModulesList();
@@ -494,6 +515,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function deactivateModule( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		$this->_hardCheckModuleExists($module_name);
 		$this->_checkModuleDependencies($module_name);
 
@@ -522,6 +545,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @param string $module_name
 	 */
 	public function reloadModuleManifest( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
+
 		$this->_hardCheckModuleExists($module_name);
 
 		/**
@@ -555,6 +580,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return Application_Modules_Module_Abstract
 	 */
 	public function getModuleInstance( $module_name ) {
+		$module_name = $this->normalizeName( $module_name );
 
 		if(isset($this->module_instance[$module_name])) {
 			return $this->module_instance[$module_name];

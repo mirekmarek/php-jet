@@ -62,7 +62,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 			'service_type_path_fragments_map' => Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap(),
 			'auto_initialize' => true,
 			'current_locale' => $router->getLocale(),
-			'front_controller_module_name' => $router->getFrontControllerModuleName()
+			'front_controller_module_name' => Application_Modules::getModuleManifest($router->getFrontControllerModuleName())->getDottedName()
 		);
 		
 		
@@ -72,25 +72,24 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		if($this->required_components_CSS){
 			foreach($this->required_components_CSS as $css){
 				$css = Data_Text::replaceData($css, $data);
-				$result .= '<link rel="stylesheet" type="text/css" href="'.$css.'">'.JET_EOL;
+				$this->layout->requireCssFile( $css );
 			}
 		}
-		
-		$result .= '<script type="text/javascript">'.JET_EOL;
-		$result .= '  var Jet_config = '.json_encode($Jet_config).';'.JET_EOL;
-		$result .= '</script>'.JET_EOL;
-		
-		$result .= '<script type="text/javascript" src="'.$this->getComponentURI('Jet').'" charset="utf-8"></script>'.JET_EOL;
+
+		$this->layout->requireInitialJavascriptCode(JET_TAB.'var Jet_config = '.json_encode($Jet_config).';');
+
+		$this->layout->requireJavascriptFile( $this->getComponentURI('Jet') );
+
 
 		if($this->required_components){
-			$result .= '<script type="text/javascript" charset="utf-8">' . JET_EOL;
+			//$result .= '<script type="text/javascript" charset="utf-8">' . JET_EOL;
 			foreach( $this->required_components as $rc ) {
 				if($rc == 'Jet'){
 					continue;
 				}
-				$result .= 'Jet.require(\''.$rc.'\');'.JET_EOL;
+				$this->layout->requireJavascriptCode( JET_TAB.'Jet.require(\''.$rc.'\');' );
 			}
-			$result .= '</script>'.JET_EOL;
+			//$result .= '</script>'.JET_EOL;
 		}
 
 		return $result;

@@ -446,7 +446,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$this->service_type!=Mvc_Router::SERVICE_TYPE__JETJS_ &&
 			$this->path_fragments
 		) {
-			$this->module_name = str_replace('.','\\', array_shift( $this->path_fragments ));
+			//$this->module_name = str_replace('.','\\', array_shift( $this->path_fragments ));
+			$this->module_name = array_shift( $this->path_fragments );
 
 			if($this->path_fragments){
 				$this->module_action = array_shift( $this->path_fragments );

@@ -10,8 +10,8 @@ Jet.require('Jet.Trash');
 Jet.require('Jet.Formatter');
 Jet.require('Jet.EditArea');
 
-Jet.declare('Jet.module.JetExample\\Articles.Main', [Jet.modules.Module], {
-    module_name: 'JetExample\\Articles',
+Jet.declare('Jet.module.JetExample.Articles.Main', [Jet.modules.Module], {
+    module_name: 'JetExample.Articles',
     module_label: Jet.translate('Articles'),
 
     form: null,

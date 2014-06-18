@@ -317,7 +317,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @return string
 	 */
 	public function getPublicURI() {
-		return JET_MODULES_URI.str_replace('\\','/',$this->module_manifest->getName()).'/public/';
+		return JET_MODULES_URI.$this->module_manifest->getUriReadyName().'/public/';
 	}
 
 	/**
@@ -549,7 +549,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
 		$URI .= $sm[$service_type].'/';
 
-		$URI .= str_replace('\\', '.', $this->module_manifest->getName()).'/';
+		$URI .= $this->module_manifest->getDottedName().'/';
 		$URI .= $action.'/';
 
 		if($path_fragments) {

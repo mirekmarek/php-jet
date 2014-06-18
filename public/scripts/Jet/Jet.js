@@ -107,14 +107,10 @@ var Jet = {
            component_parts.length >= 3 &&
            component_parts[1] == "module"
         ) {
-            var module_name = component_parts[2].replace(/\\/g, ".");
-            var module_JS_URL = this.modules_URI +	module_name;
+            var module_name = component_parts.slice(2, -1).join('.');
+            var module_class = component_parts.slice(-1).join('.');
 
-            if( component_parts.length > 3 ){
-                uri = module_JS_URL + "/" + component_parts.slice(3).join("/");
-           } else {
-                uri = module_JS_URL;
-           }
+            uri = this.modules_URI + module_name+'/'+module_class;
         } else {
             uri = this.base_URI + component_parts.join("/") + '.js';
         }
@@ -279,6 +275,7 @@ var Jet = {
 
         getModuleInstance: function(module_name, container_ID, module_class){
 
+
             var has_container_ID = !!container_ID;
             if(!has_container_ID){
                 container_ID = this.NO_CONTAINER_ID;
@@ -298,16 +295,19 @@ var Jet = {
                 return this.instances_of_modules[instances_of_modules_key][container_ID];
             }
 
+
             if(this.require(module_name, module_class)){
 
-                if(!Jet.module[module_name][module_class]) {
+                var module_class_i = eval( 'Jet.module.'+module_name+'.'+module_class );
+
+                if(!module_class_i) {
                     return false;
                 }
 
                 if(has_container_ID){
-                    this.instances_of_modules[instances_of_modules_key][container_ID] = new Jet.module[module_name][module_class](container_ID);
+                    this.instances_of_modules[instances_of_modules_key][container_ID] = new module_class_i(container_ID);
                 } else {
-                    this.instances_of_modules[instances_of_modules_key][container_ID] = new Jet.module[module_name][module_class]();
+                    this.instances_of_modules[instances_of_modules_key][container_ID] = new module_class_i();
                 }
 
                 this.instances_of_modules[instances_of_modules_key][container_ID].initialize();

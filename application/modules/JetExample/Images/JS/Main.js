@@ -14,8 +14,8 @@ Jet.require('Jet.MultiUploader');
 
 
 
-Jet.declare('Jet.module.JetExample\\Images.Main', [Jet.modules.Module], {
-	module_name: 'JetExample\\Images',
+Jet.declare('Jet.module.JetExample.Images.Main', [Jet.modules.Module], {
+	module_name: 'JetExample.Images',
 	module_label: Jet.translate('Images'),
 	selected_gallery_ID: null,
 

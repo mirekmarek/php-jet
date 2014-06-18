@@ -35,7 +35,6 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 		$dojo->requireComponent('dijit.form.CheckBox');
 		$dojo->requireComponent('dijit.tree.ForestStoreModel');
 		$dojo->requireComponent('dojo.data.ItemFileWriteStore');
-
 	}
 
 
@@ -46,13 +45,12 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet(){
 
-		$result = '';
+		$this->layout->requireCssFile( JET_PUBLIC_SCRIPTS_URI.'cbtree/themes/%DOJO_THEME%/Checkbox.css' );
 
-		$result .= '<link rel="stylesheet" type="text/css" href="'.JET_PUBLIC_SCRIPTS_URI.'cbtree/themes/%DOJO_THEME%/Checkbox.css">'.JET_EOL;
-		$result .= '<script type="text/javascript" charset="utf-8">' . JET_EOL;
-		$result .= 'dojo.registerModulePath(\'cbtree\',\''.JET_PUBLIC_SCRIPTS_URI.'cbtree\');'.JET_EOL;
-		$result .= 'dojo.require(\'cbtree.CheckBoxTree\');'.JET_EOL;
-		$result .= '</script>'.JET_EOL;
+		$this->layout->requireJavascriptCode(JET_TAB.'dojo.registerModulePath(\'cbtree\',\''.JET_PUBLIC_SCRIPTS_URI.'cbtree\');');
+		$this->layout->requireJavascriptCode(JET_TAB.'dojo.require(\'cbtree.CheckBoxTree\');');
+
+		$result = '';
 
 		return $result;
 	}

@@ -124,40 +124,37 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet() {
 
-		$result = '';
-
-		$result .= '<link rel="stylesheet" type="text/css" href="'.$this->config->getURI().'dojo/resources/dojo.css">'.JET_EOL;
-		$result .= '<link rel="stylesheet" type="text/css" href="'.$this->config->getThemeURI().'">'.JET_EOL;
-
-		$result .= '<script type="text/javascript">'.JET_EOL;
-		$result .= '  var djConfig = '.json_encode($this->djConfig).';'.JET_EOL;
-		$result .= '</script>'.JET_EOL;
+		$this->layout->requireCssFile( $this->config->getURI().'dojo/resources/dojo.css' );
+		$this->layout->requireCssFile( $this->config->getThemeURI() );
 
 		$source_URL = $this->config->getURI();
-
 		if($this->required_components_CSS){
 			foreach($this->required_components_CSS as $css){
 				$css = $this->config->replaceConstants($css);
 
-				$result .= '<link rel="stylesheet" type="text/css" href="'.$source_URL.$css.'">'.JET_EOL;
+				$this->layout->requireCssFile( $source_URL.$css );
 			}
 		}
 
-		$result .= '<script type="text/javascript" src="'.$this->config->getDojoJsURI().'" charset="utf-8"></script>'.JET_EOL;
+		$this->layout->requireInitialJavascriptCode( JET_TAB.'var djConfig = '.json_encode($this->djConfig).';' );
+
+		$result = '';
+
+
+		$this->layout->requireJavascriptFile( $this->config->getDojoJsURI() );
+
 		$package_URL = $this->config->getDojoPackageURI();
 		if($package_URL) {
-			$result .= '<script type="text/javascript" src="'.$package_URL.'" charset="utf-8"></script>'.JET_EOL;
+			$this->layout->requireJavascriptFile( $package_URL );
 		}
 
 		if($this->required_components){
-			$result .= '<script type="text/javascript">'.JET_EOL;
 			foreach( $this->required_components as $rc ) {
 				if(!$rc) {
 					continue;
 				}
-				$result .= 'dojo.require(\''.$rc.'\');'.JET_EOL;
+				$this->layout->requireJavascriptCode(JET_TAB.'dojo.require(\''.$rc.'\');');
 			}
-			$result .= '</script>';
 		}
 
 		return $result;

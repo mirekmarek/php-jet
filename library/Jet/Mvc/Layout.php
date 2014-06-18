@@ -37,6 +37,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	const TAG_MAIN_POSITION = 'jet_layout_main_position';
 
 	const TAG_JAVASCRIPT = 'jet_layout_javascripts';
+	const TAG_CSS = 'jet_layout_css';
 
 	const TAG_META_TAGS = 'jet_layout_meta_tags';
 	const TAG_HEADER_SUFFIX = 'jet_layout_header_suffix';
@@ -66,7 +67,28 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 *
 	 * @var Javascript_Lib_Abstract[]
 	 */
-	protected $required_javascript = array();
+	protected $required_javascript_libs = array();
+
+
+	/**
+	 * @var string
+	 */
+	protected $required_javascript_files = array();
+
+	/**
+	 * @var string[]
+	 */
+	protected $required_initial_javascript_code = array();
+
+	/**
+	 * @var string[]
+	 */
+	protected $required_javascript_code = array();
+
+	/**
+	 * @var string[][]
+	 */
+	protected $required_css_files = array();
 
 	/**
 	 *
@@ -393,11 +415,53 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @return Javascript_Lib_Abstract
 	 */
 	public function requireJavascriptLib( $javascript ) {
-		if( !isset($this->required_javascript[$javascript]) ) {
-			$this->required_javascript[$javascript] = Javascript_Factory::getJavascriptLibInstance( $javascript, $this );
+		if( !isset($this->required_javascript_libs[$javascript]) ) {
+			$this->required_javascript_libs[$javascript] = Javascript_Factory::getJavascriptLibInstance( $javascript, $this );
 		}
 
-		return $this->required_javascript[$javascript];
+		return $this->required_javascript_libs[$javascript];
+	}
+
+	/**
+	 * @param string $URI
+	 */
+	public function requireJavascriptFile( $URI ) {
+		if(!in_array($URI, $this->required_javascript_files)) {
+			$this->required_javascript_files[] = $URI;
+		}
+	}
+
+	/**
+	 * @param string $code
+	 */
+	public function requireInitialJavascriptCode( $code ) {
+		if(!in_array($code, $this->required_initial_javascript_code)) {
+			$this->required_initial_javascript_code[] = $code;
+		}
+	}
+
+	/**
+	 * @param string $code
+	 */
+	public function requireJavascriptCode( $code ) {
+		if(!in_array($code, $this->required_javascript_files)) {
+			$this->required_javascript_code[] = $code;
+		}
+	}
+
+	/**
+	 * @param string $URI
+	 * @param string $media (optional)
+	 */
+	public function requireCssFile( $URI, $media='' ) {
+		$key = $URI.':'.$media;
+
+		if(!isset($this->required_css_files[$key])) {
+			$this->required_css_files[$key] = [
+						'URI' => $URI,
+						'media' => $media
+					];
+		}
 	}
 
 	/**
@@ -466,7 +530,12 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$item->finalPostProcess( $result, $this, $this->output_parts );
 		}
 		$this->handleJavascripts( $result );
+		$this->handleCss( $result );
 		$this->handleConstants( $result );
+
+		foreach($this->required_javascript_libs as $js) {
+			$js->finalPostProcess($result, $this);
+		}
 
 		$this->output_parts = array();
 
@@ -748,8 +817,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected function handleModulesJavaScripts( &$result, $current_module_name) {
 
-		$current_module_name = str_replace('\\', '\\\\', $current_module_name);
-
 		$matches = array();
 		preg_match_all(static::JS_REPLACEMENT_REGEXP, $result, $matches, PREG_SET_ORDER);
 		$replacements = array();
@@ -766,7 +833,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 						$replacements[$search] = $front_controller->getLayoutJsReplacementFrontController();
 						break;
 					default:
-						$module_name = str_replace('\\', '\\\\', $module_name);
 						$replacements[$search] = $front_controller->getLayoutJsReplacementModule($module_name);
 				}
 			}
@@ -798,9 +864,40 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
+	 * Handle the CSS tag  ( <jet_layout_css/> )
+	 *
+	 * @see Mvc_Layout::requireCssFile();
+	 *
+	 * @param string &$result
+	 */
+	protected function handleCss( &$result ) {
+
+		$snippet = '';
+
+		foreach( $this->required_css_files as $dat ) {
+			$URI = $dat['URI'];
+			$media = $dat['media'];
+
+			if($media) {
+				$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.JET_EOL;
+			} else {
+				$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.JET_EOL;
+			}
+		}
+
+
+		$result = $this->_replaceTagByValue($result, self::TAG_CSS, $snippet);
+
+
+	}
+
+
+	/**
 	 * Handle the JavaScript tag  ( <jet_layout_javascripts/> )
 	 *
-	 * @see Mvc_Layout::requireJavascript();
+	 * @see Mvc_Layout::requireJavascriptLib();
+	 * @see Mvc_Layout::requireJavascriptFile();
+	 * @see Mvc_Layout::requireJavascriptCode();
 	 * @see JavaScript_Abstract
 	 * @see Mvc/readme.txt
 	 *
@@ -808,20 +905,44 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected function handleJavascripts( &$result ) {
 
-		$JS_snippet = '';
+		$snippet = '';
 
-		if($this->required_javascript) {
-			foreach( $this->required_javascript as $JS ) {
-				$JS_snippet .= $JS->getHTMLSnippet();
+		$libs_snippet = '';
+		if($this->required_javascript_libs) {
+			foreach( $this->required_javascript_libs as $JS ) {
+				$libs_snippet .= $JS->getHTMLSnippet();
 			}
 		}
 
-		$result = $this->_replaceTagByValue($result, self::TAG_JAVASCRIPT, $JS_snippet);
-
-
-		foreach($this->required_javascript as $js) {
-			$js->finalPostProcess($result, $this);
+		$initial_code = '';
+		foreach( $this->required_initial_javascript_code as $code ) {
+			$initial_code .= $code.JET_EOL;
 		}
+
+		if($initial_code) {
+			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL.$initial_code.JET_EOL.JET_TAB.'</script>'.JET_EOL;
+
+		}
+
+		foreach( $this->required_javascript_files as $URI ) {
+			$snippet .= JET_TAB.'<script type="text/javascript" src="'.$URI.'"></script>'.JET_EOL;
+		}
+
+		if($this->required_javascript_code) {
+
+			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL;
+			foreach( $this->required_javascript_code as $code ) {
+				$snippet .= $code.JET_EOL;
+
+			}
+			$snippet .= JET_TAB.'</script>'.JET_EOL;
+
+		}
+
+		$snippet .= $libs_snippet;
+
+		$result = $this->_replaceTagByValue($result, self::TAG_JAVASCRIPT, $snippet);
+
 	}
 
 	/**

@@ -56,9 +56,10 @@ class Javascript extends Object {
 			$JS_file_path = JET_PUBLIC_SCRIPTS_PATH.'Jet/Jet/'.implode('/',$path_fragments);
 		} else
 		if($group=='modules') {
-			$module_name = str_replace('.', '\\', array_shift($path_fragments));
 
-			Application_Modules::getModuleInstance($module_name);
+			$module_manifest = Application_Modules::getModuleManifest( array_shift($path_fragments) );
+			$module_name = $module_manifest->getName();
+
 			Translator::setCurrentNamespace( $module_name );
 
 			if(!$path_fragments) {
@@ -66,7 +67,7 @@ class Javascript extends Object {
 			}
 
 
-			$JS_file_path = JET_MODULES_PATH.str_replace('\\', '/', $module_name).'/JS/'.implode('/', $path_fragments).'.js';
+			$JS_file_path = $module_manifest->getModuleDir().'JS/'.implode('/', $path_fragments).'.js';
 		}
 
 		if(!IO_File::exists($JS_file_path)){

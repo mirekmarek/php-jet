@@ -363,6 +363,20 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		return $this->name;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getDottedName() {
+		return str_replace('\\','.',$this->name);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUriReadyName() {
+		return str_replace('\\','/',$this->name);
+	}
+
 
 	/**
 	 * @return string

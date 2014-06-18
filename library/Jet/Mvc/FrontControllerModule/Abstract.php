@@ -78,10 +78,12 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	 * @return string
 	 */
 	public function getLayoutJsReplacementCurrentModule($module_name) {
+		$module_manifest = Application_Modules::getModuleManifest($module_name);
+
 		if( ($container_ID=$this->getUIContainerID()) ) {
-			return 'Jet.modules.getModuleInstance(\''.$module_name.'\', \''.$container_ID.'\').';
+			return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\', \''.$container_ID.'\').';
 		} else {
-			return 'Jet.modules.getModuleInstance(\''.$module_name.'\').';
+			return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
 		}
 
 	}
@@ -100,7 +102,10 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	 * @return string
 	 */
 	public function getLayoutJsReplacementModule($module_name) {
-		return 'Jet.modules.getModuleInstance(\''.$module_name.'\').';
+		$module_manifest = Application_Modules::getModuleManifest($module_name);
+
+
+		return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
 	}
 
 

@@ -11,8 +11,8 @@ Jet.require('Jet.Form');
 Jet.require('Jet.Trash');
 
 
-Jet.declare('Jet.module.JetExample\\TestModule.Main', [Jet.modules.Module], {
-    module_name: 'JetExample\\TestModule',
+Jet.declare('Jet.module.JetExample.TestModule.Main', [Jet.modules.Module], {
+    module_name: 'JetExample.TestModule',
     module_label: Jet.translate('Test Module'),
 
     form: null,

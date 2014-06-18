@@ -1,8 +1,8 @@
 Jet.require('Jet.modules.Module');
 Jet.require('Jet.dojoExtensions');
 
-Jet.declare('Jet.module.JetExample\\FrontController\\Admin.Main', [Jet.modules.Module], {
-    module_name: 'JetExample\\FrontController\\Admin',
+Jet.declare('Jet.module.JetExample.FrontController.Admin.Main', [Jet.modules.Module], {
+    module_name: 'JetExample.FrontController.Admin',
     module_label: Jet.translate('Default Admin UI'),
 
 	initialize: function(){

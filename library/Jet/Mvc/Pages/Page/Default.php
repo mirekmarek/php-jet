@@ -267,23 +267,26 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 * @param string $ID
 	 */
-	protected function setID( $ID ) {
+	public function setID( $ID ) {
 		$this->ID = $ID;
+		$this->setIsNew();
 	}
 
 	/**
 	 * @param string $site_ID
 	 */
-	protected function setSiteID( $site_ID ) {
+	public function setSiteID( $site_ID ) {
 		$this->site_ID = $site_ID;
+		$this->setIsNew();
 	}
 
 	/**
 	 * @param Locale $locale
 	 *
 	 */
-	protected function setLocale( Locale $locale ) {
+	public function setLocale( Locale $locale ) {
 		$this->locale = $locale;
+		$this->setIsNew();
 	}
 
 	/**

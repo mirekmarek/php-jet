@@ -44,17 +44,17 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			'form_start' => '<table>',
 			'form_end' => '</table>',
 			'form_common_error_message_class' => 'form-error',
-			'form_submit_button' => '<tr><td colspan="2" align="center"><input type="submit" class="btn btn-primary"/></td></tr>',
-			'field' => '<tr><td valign="top">%LABEL%</td><td>%FIELD%</td></tr>',
+			'form_submit_button' => '\t<tr>\n\t\t<td colspan="2" align="center">\n\t\t\t<input type="submit" class="btn btn-primary"/>\n\t\t</td>\n\t</tr>',
+			'field' => '\t<tr>\n\t\t<td valign="top">%LABEL%</td>\n\t\t<td>\n\t\t\t%FIELD%\n\t\t</td>\n\t</tr>',
 			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
 			'field_required' => '<em class="form-required">*</em> %LABEL%',
 		),
 		'div' => array(
-			'form_start' => '<fieldset>',
-			'form_end' => '</fieldset>',
+			'form_start' => '\t<fieldset>',
+			'form_end' => '\t</fieldset>',
 			'form_common_error_message_class' => 'form-error',
-			'form_submit_button' => '<input type="submit" class="btn btn-primary"/>',
-			'field' => '<div class="form-group">%LABEL%%FIELD%</div>',
+			'form_submit_button' => '\t<input type="submit" class="btn btn-primary"/>',
+			'field' => '\t\t<div class="form-group">\n\t\t\t%LABEL%\n\t\t\t%FIELD%\n\t\t</div>',
 			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
 			'field_required' => '<em class="form-required">*</em> %LABEL%',
 		)
@@ -616,6 +616,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 		$result .= '</'.static::FORM_TAG.'>';
 
+		$result = str_replace('\n', JET_EOL, $result);
+		$result = str_replace('\t', JET_TAB, $result);
+
 		return $result;
 	}
 
@@ -714,7 +717,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getTemplate_form_common_error_message_class() {
-		return static::$HTML_templates[$this->selected_HTML_template_name]['form_common_error_message_class'].JET_EOL;
+		return static::$HTML_templates[$this->selected_HTML_template_name]['form_common_error_message_class'];
 	}
 
 

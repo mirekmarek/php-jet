@@ -9,8 +9,8 @@ Jet.require('Jet.Form');
 Jet.require('Jet.Trash');
 Jet.require('Jet.EditArea');
 
-Jet.declare('Jet.module.JetExample\\AdminUsers.Main', [Jet.modules.Module], {
-    module_name: 'JetExample\\AdminUsers',
+Jet.declare('Jet.module.JetExample.AdminUsers.Main', [Jet.modules.Module], {
+    module_name: 'JetExample.AdminUsers',
     module_label: Jet.translate('Users'),
 
     form: null,

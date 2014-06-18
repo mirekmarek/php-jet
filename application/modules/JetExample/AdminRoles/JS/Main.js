@@ -10,8 +10,8 @@ Jet.require('Jet.Form');
 Jet.require('Jet.Trash');
 Jet.require('Jet.EditArea');
 
-Jet.declare('Jet.module.JetExample\\AdminRoles.Main', [Jet.modules.Module], {
-    module_name: 'JetExample\\AdminRoles',
+Jet.declare('Jet.module.JetExample.AdminRoles.Main', [Jet.modules.Module], {
+    module_name: 'JetExample.AdminRoles',
     module_label: Jet.translate('Roles'),
 
     form: null,
