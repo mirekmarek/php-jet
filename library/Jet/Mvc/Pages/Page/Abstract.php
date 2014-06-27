@@ -62,6 +62,13 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	/**
 	 * @return Mvc_Pages_Page_ID_Abstract
 	 */
+	public function getID() {
+		return parent::getID();
+	}
+
+	/**
+	 * @return Mvc_Pages_Page_ID_Abstract
+	 */
 	public static function getEmptyIDInstance() {
 		return parent::getEmptyIDInstance();
 	}
@@ -238,11 +245,16 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	abstract public function getNonSslURL();
 
 	/**
-	 * Example: http://domain/page/
+	 * Example: https://domain/page/
 	 *
 	 * @return string
 	 */
 	abstract public function getSslURL();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getDefaultURL();
 
 	/**
 	 * @return string
@@ -433,6 +445,15 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	public function getPageDataCheckingMode() {
 		return $this->_page_data_checking_mode;
 	}
+
+
+	/**
+	 * @param array|Mvc_Router_Map_URL_Abstract[] $site_base_URLs
+	 * @param array|Mvc_Router_Map_URL_Abstract[] $parent_page_URLs
+	 *
+	 * @return Mvc_Router_Map_URL_Abstract[]
+	 */
+	abstract public function generateMapURLs( array $site_base_URLs, array $parent_page_URLs );
 
 
 }

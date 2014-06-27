@@ -5,11 +5,27 @@ Jet.declare('Jet.module.JetExample.FrontController.Admin.Main', [Jet.modules.Mod
     module_name: 'JetExample.FrontController.Admin',
     module_label: Jet.translate('Default Admin UI'),
 
+    error_message_401: Jet.translate("Sorry, but you do not have permission for this operation."),
+    error_message_unknown_error: Jet.translate("Sorry, but the error occurred."),
+
 	initialize: function(){
 	},
 
     initializeUI: function(){
     },
+
+    handleRequestError: function( error ) {
+        switch(error.response.status) {
+            case 401:
+                Jet.alert( this.error_message_401 );
+                break;
+            default:
+                Jet.alert( this.error_message_unknown_error+'<br/><br/><div style="width: 800px;height: 500px;overflow: auto;"><pre>'+error.response.text+'</pre></div>' );
+                break;
+        }
+
+    },
+
 
     openModule: function(module_name, tab_ID, controller_action, on_load ){
 

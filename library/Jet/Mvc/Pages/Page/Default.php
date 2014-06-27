@@ -138,56 +138,6 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var string
-	 */
-	protected $URI = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 2000
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var string
-	 */
-	protected $non_schema_URL = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 2000
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var string
-	 */
-	protected $non_SSL_URL = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 2000
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var string
-	 */
-	protected $SSL_URL = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Mvc_Pages_Page_URL_Default'
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var Mvc_Pages_Page_URL_Abstract[]
-	 */
-	protected $URLs;
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Layout'
@@ -446,71 +396,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 			});
 		}
 
-		$parent_URI = '';
-
-		$site = $this->getSite();
-
-		if( $this->ID!=Mvc_Pages::HOMEPAGE_ID ) {
-			$parent_URI = $this->getParent()->getURI();
-
-			$this->URI = $parent_URI . $this->URL_fragment . '/';
-		} else {
-
-			if( ($default_site_URL = $site->getDefaultURL( $this->locale )) ) {
-				$parent_URI = $default_site_URL->getPathPart();
-			}
-
-			if($parent_URI) {
-				$this->URI = $parent_URI;
-			} else {
-				$this->URI = '/';
-			}
-		}
-
-		/** @noinspection PhpUndefinedMethodInspection */
-		$this->URLs->clearData();
-
-		$this->non_schema_URL = '';
-		$this->non_SSL_URL = '';
-		$this->SSL_URL = '';
-
-		$site_URLs = $site->getURLs( $this->locale );
-
-		$i = 0;
-		foreach( $site_URLs as $site_URL ) {
-			/**
-			 * @var Mvc_Sites_Site_LocalizedData_URL_Abstract $site_URL
-			 */
-			$new_URL = Mvc_Factory::getPageURLInstance();
-
-			$new_URL->setURL( $site_URL->getBaseURL() .$this->URI );
-			$new_URL->setIsSSL( $site_URL->getIsSSL() );
-			$new_URL->setIsDefault( $site_URL->getIsDefault() );
-
-			if($new_URL->getIsDefault()) {
-				if(!$new_URL->getIsSSL()) {
-					$this->non_SSL_URL = (string)$new_URL;
-					$this->non_schema_URL = strstr( $this->non_SSL_URL, '//');
-					if(!$this->SSL_URL) {
-						$this->SSL_URL = (string)$new_URL;
-					}
-				} else {
-					$this->SSL_URL = (string)$new_URL;
-				}
-			}
-
-			$this->URLs[] = $new_URL;
-			$i++;
-		}
-
-		if(!$this->_page_data_checking_mode) {
-			foreach( $this->getChildren() as $children ) {
-				$children->setURLFragment( $children->getUrlFragment() );
-			}
-		}
-
 		$this->URL_fragment = rawurldecode($this->URL_fragment);
-
 	}
 
 	/**
@@ -548,7 +434,18 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @return string
 	 */
 	public function getURI() {
-		return $this->URI;
+		$URLs = $this->getURLs();
+		if(!$URLs) {
+			return null;
+		}
+
+		foreach( $URLs as $URL ) {
+			if($URL->getIsMain()) {
+				return $URL->getPathPart();
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -557,7 +454,18 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @return string
 	 */
 	public function getNonSchemaURL() {
-		return $this->non_schema_URL;
+		$URLs = $this->getURLs();
+		if(!$URLs) {
+			return null;
+		}
+
+		foreach( $URLs as $URL ) {
+			if($URL->getIsMain()) {
+				return $URL->getAsNonSchemaURL();
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -566,16 +474,71 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @return string
 	 */
 	public function getNonSslURL() {
-		return $this->non_SSL_URL;
+		$URLs = $this->getURLs();
+		if(!$URLs) {
+			return null;
+		}
+
+		foreach( $URLs as $URL ) {
+			if(
+				$URL->getIsDefault() &&
+				!$URL->getIsSSL()
+			) {
+				return $URL->toString();
+			}
+		}
+
+		return null;
 	}
 
 	/**
-	 * Example: http://domain/page/
+	 * Example: https://domain/page/
 	 *
 	 * @return string
 	 */
 	public function getSslURL() {
-		return $this->SSL_URL;
+		$URLs = $this->getURLs();
+		if(!$URLs) {
+			return null;
+		}
+
+		foreach( $URLs as $URL ) {
+			if(
+				$URL->getIsDefault() &&
+				$URL->getIsSSL()
+			) {
+				return $URL->toString();
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultURL() {
+
+		$URLs = $this->getURLs();
+		if(!$URLs) {
+			return null;
+		}
+
+		foreach( $URLs as $URL ) {
+			if($URL->getIsMain()) {
+				return $URL->toString();
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return Mvc_Router_Map_URL_Abstract[]|null
+	 */
+	protected function getURLs() {
+
+		return Mvc_Router::getCurrentRouterInstance()->getMap()->findURLs( $this->getID(), true );
 	}
 
 	/**
@@ -838,6 +801,8 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 		//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
 
 		$load_properties['ID'] = 'this.ID';
+		$load_properties['locale'] = 'this.locale';
+		$load_properties['site_ID'] = 'this.site_ID';
 		$load_properties['parent_ID'] = 'this.parent_ID';
 
 		$query = array(
@@ -906,6 +871,8 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 					$query['this.is_admin_UI'] = $admin_UI;
 				}
 
+				$this->setSiteID( $site->getID() );
+				$this->setLocale( $locale );
 
 				$_data = $this->fetchDataAll( $properties, $query );
 
@@ -1069,4 +1036,53 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 
 		return $URI_fragment.$suffix;
 	}
+
+	/**
+	 * @param array|Mvc_Router_Map_URL_Abstract[] $site_base_URLs
+	 * @param array|Mvc_Router_Map_URL_Abstract[] $parent_page_URLs
+	 *
+	 * @return Mvc_Router_Map_URL_Abstract[]
+	 *
+	 */
+	public function generateMapURLs( array $site_base_URLs, array $parent_page_URLs ) {
+
+		/**
+		 * @var Mvc_Router_Map_URL_Abstract[] $URLs
+		 */
+		$URLs = [];
+
+		if($this->ID==Mvc_Pages::HOMEPAGE_ID) {
+
+			$URLs = $site_base_URLs;
+
+		} else {
+			foreach( $parent_page_URLs as $parent_URL ) {
+				$URL = clone $parent_URL;
+
+				$str_URL = $URL->toString().$this->URL_fragment.'/';
+
+				$URL->setURL( $str_URL );
+
+				$URLs[] = $URL;
+			}
+		}
+
+		foreach( $URLs as $URL ) {
+			$URL->takePageData( $this );
+
+			if($URL->getIsDefault()) {
+				if( $this->SSL_required && $URL->getIsSSL() ) {
+					$URL->setIsMain( true );
+				}
+
+				if( !$this->SSL_required && !$URL->getIsSSL() ) {
+					$URL->setIsMain( true );
+				}
+			}
+		}
+
+
+		return $URLs;
+	}
+
 }

@@ -25,7 +25,6 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_META_TAG_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_CONTENT_CLASS ),
-			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_URL_CLASS ),
 
 			Factory::getClassName( Mvc_Factory::DEFAULT_SITE_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_LOCALIZED_SITE_CLASS ),

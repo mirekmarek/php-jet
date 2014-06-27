@@ -200,7 +200,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			/**
 			 * @var DataModel_Related_1toN $item
 			 */
-			$item->_deleteItem();
+			if($item->getIsSaved()) {
+				$item->_deleteItem();
+			}
 		}
 	}
 
@@ -471,6 +473,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 *
 	 */
 	protected function validateKeys() {
+		if(!$this->__items) {
+			return;
+		}
 		$items = array();
 		foreach($this->__items as $key=>$item) {
 

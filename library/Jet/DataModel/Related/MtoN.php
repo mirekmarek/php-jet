@@ -163,6 +163,20 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	}
 
 	/**
+	 * @throws DataModel_Exception
+	 */
+	public function save() {
+
+		$main_class = $this->getDataModelDefinition()->getMModelClassName();
+
+		throw new DataModel_Exception(
+			'Please use '.$main_class.'->save() ',
+			DataModel_Exception::CODE_PERMISSION_DENIED
+		);
+	}
+
+
+	/**
 	 *
 	 * @param DataModel $main_model_instance (optional)
 	 * @param DataModel_Related_Abstract $parent_model_instance (optional)

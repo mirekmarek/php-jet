@@ -302,6 +302,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$set = implode(','.JET_EOL, $set);
 
+
 		return 'INSERT INTO `'.$table_name.'` SET '.JET_EOL.$set;
 	}
 
@@ -364,6 +365,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function update( DataModel_RecordData $record, DataModel_Query $where) {
+
 		return $this->_db_write->execCommand( $this->getBackendUpdateQuery($record, $where) );
 	}
 
@@ -487,40 +489,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			return $data;
 		}
 
-		$fetch_row = ($fetch_method=='fetchRow');
-
-		if($fetch_row) {
-			$data = [$data];
-		}
-
-		foreach($data as $i=>$d) {
-			foreach($query->getSelect() as $item) {
-				/**
-				 * @var DataModel_Query_Select_Item $item
-				 * @var DataModel_Definition_Property_Abstract $property
-				 */
-				$property = $item->getItem();
-
-				if( ! ($property instanceof DataModel_Definition_Property_Abstract) ) {
-					continue;
-				}
-
-				$key = $item->getSelectAs();
-
-				if($property->getIsArray()) {
-					$data[$i][$key] = unserialize( $data[$i][$key] );
-				}
-
-				$property->checkValueType( $data[$i][$key] );
-
-			}
-		}
-
-		if($fetch_row) {
-			return $data[0];
-		}
-
-		return $data;
+		return $this->validateResultData( $query, $fetch_method, $data );
 	}
 
 	/**
@@ -638,7 +607,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisPropertyOrValue();
+				$related_value = $join_by_property->getThisPropertyOrValue( $query );
+				if($related_value===null) {
+					continue;
+				}
 
 				if($related_value instanceof DataModel_Definition_Property_Abstract) {
 					$related_value = $this->_getColumnName($related_value);

@@ -35,24 +35,12 @@ abstract class DataModel_Fetch_Abstract extends Object {
 
 	/**
 	 *
-	 * @param array|DataModel_Query $query
-	 * @param DataModel_Definition_Model_Abstract $data_model_definition
+	 * @param DataModel_Query $query
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
-		$this->data_model_definition = $data_model_definition;
-
-		if(is_array($query)) {
-			$query = DataModel_Query::createQuery( $this->data_model_definition, $query);
-		}
-
-		if(!$query instanceof DataModel_Query) {
-			throw new DataModel_Query_Exception(
-				'Query must be an instance of DataModel_Query (or valid query as array) ' ,
-				DataModel_Query_Exception::CODE_QUERY_NONSENSE
-			);
-		}
+	public function __construct( DataModel_Query $query ) {
+		$this->data_model_definition = $query->getMainDataModelDefinition();
 
 		$this->query = $query;
 	}

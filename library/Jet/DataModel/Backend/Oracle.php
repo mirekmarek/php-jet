@@ -491,7 +491,6 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	protected function _fetch( DataModel_Query $query, $fetch_method ) {
 
 
-
 		$data = $this->_db_read->$fetch_method(
 			$this->getBackendSelectQuery( $query )
 		);
@@ -501,49 +500,77 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		}
 
 		$fetch_row = ($fetch_method=='fetchRow');
+		$fetch_pairs = ($fetch_method=='fetchPairs');
 
 		if($fetch_row) {
 			$data = [$data];
 		}
 
-		foreach($data as $i=>$d) {
-			if(isset($data[$i][static::ROW_NUM_KEY])) {
-				unset($data[$i][static::ROW_NUM_KEY]);
+		if($fetch_pairs) {
+			foreach($query->getSelect() as $item) {
 			}
 
-			foreach($query->getSelect() as $item) {
-				/**
-				 * @var DataModel_Query_Select_Item $item
-				 * @var DataModel_Definition_Property_Abstract $property
-				 */
-				$property = $item->getItem();
+			/**
+			 * @var DataModel_Query_Select_Item $item
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
+			$property = $item->getItem();
 
-				if( ! ($property instanceof DataModel_Definition_Property_Abstract) ) {
-					continue;
-				}
-
-				$select_as = $item->getSelectAs();
-				$key = strtoupper($this->_getColumnName($select_as));
-				$_d = $data[$i][$key];
-				unset( $data[$i][$key] );
-
-				if($property->getIsArray()) {
-					$data[$i][$select_as] = $this->unserialize( $_d );
-				} else {
-					$data[$i][$select_as] = $_d;
-				}
+			foreach($data as $i=>$d) {
 
 				if(
 					$property instanceof DataModel_Definition_Property_DateTime ||
 					$property instanceof DataModel_Definition_Property_Date
 				) {
-					$data[$i][$select_as] = DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i][$select_as]);
+					$d = DateTime::createFromFormat('d#M#y H#i#s*A', $d );
 				}
 
-				$property->checkValueType( $data[$i][$select_as] );
-
+				$property->checkValueType( $d );
+				$data[$i] = $d;
 			}
+
+		} else {
+			foreach($data as $i=>$d) {
+				if(isset($data[$i][static::ROW_NUM_KEY])) {
+					unset($data[$i][static::ROW_NUM_KEY]);
+				}
+
+				foreach($query->getSelect() as $item) {
+					/**
+					 * @var DataModel_Query_Select_Item $item
+					 * @var DataModel_Definition_Property_Abstract $property
+					 */
+					$property = $item->getItem();
+
+					if( ! ($property instanceof DataModel_Definition_Property_Abstract) ) {
+						continue;
+					}
+
+					$select_as = $item->getSelectAs();
+					$key = strtoupper($this->_getColumnName($select_as));
+					$_d = $data[$i][$key];
+					unset( $data[$i][$key] );
+
+					if($property->getIsArray()) {
+						$data[$i][$select_as] = $this->unserialize( $_d );
+					} else {
+						$data[$i][$select_as] = $_d;
+					}
+
+					if(
+						$property instanceof DataModel_Definition_Property_DateTime ||
+						$property instanceof DataModel_Definition_Property_Date
+					) {
+						$data[$i][$select_as] = DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i][$select_as]);
+					}
+
+					$property->checkValueType( $data[$i][$select_as] );
+
+				}
+			}
+
 		}
+
 
 		if($fetch_row) {
 			return $data[0];
@@ -670,7 +697,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Definition_Relation_JoinBy_Item $join_by_property
 				 */
-				$related_value = $join_by_property->getThisPropertyOrValue();
+				$related_value = $join_by_property->getThisPropertyOrValue( $query );
+				if($related_value===null) {
+					continue;
+				}
 
 				if($related_value instanceof DataModel_Definition_Property_Abstract) {
 					$related_value = $this->_getColumnName($related_value);

@@ -177,6 +177,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	protected  $___data_model_data_validation_errors = array();
 
 
+	/**
+	 *
+	 */
 	public function __construct() {
 		$this->initNewObject();
 	}
@@ -365,9 +368,26 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param string $property_name
 	 * @param mixed &$value
 	 *
-	 * @throws DataModel_Validation_Exception
+	 * @throws DataModel_Exception
 	 */
 	protected function _setPropertyValue( $property_name, &$value ) {
+		$properties = $this->getDataModelDefinition()->getProperties();
+		if( !isset($properties[$property_name]) ) {
+			throw new DataModel_Exception(
+				'Unknown property \''.$property_name.'\'',
+				DataModel_Exception::CODE_UNKNOWN_PROPERTY
+			);
+		}
+
+		$property_definition = $properties[$property_name];
+		if( $property_definition->getIsDataModel() ) {
+			throw new DataModel_Exception(
+				'It is not possible to use _setPropertyValue for property \''.$property_name.'\' which is DataModel. (For this property you must create setter.) '
+			);
+
+		}
+
+
 		$this->validatePropertyValue( $property_name, $value );
 
 		$this->{$property_name} = $value;
@@ -406,10 +426,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 				$prop->validateProperties();
 
-				$this->___data_model_data_validation_errors = array_merge(
-						$this->___data_model_data_validation_errors,
-						$prop->getValidationErrors()
-					);
+				$this->appendValidationErrors( $prop->getValidationErrors() );
 
 				continue;
 			}
@@ -430,6 +447,17 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$this->___data_model_ready_to_save = true;
 
 		return true;
+	}
+
+	/**
+	 * @param DataModel_Validation_Error[] $errors
+	 */
+	public function appendValidationErrors( $errors ) {
+		$this->___data_model_data_validation_errors = array_merge(
+			$this->___data_model_data_validation_errors,
+			$errors
+		);
+
 	}
 
 	/**
@@ -569,7 +597,18 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 		$query = $ID->getQuery();
+
+		/**
+		 * @var DataModel $i
+		 */
+		$i = new static();
+		foreach( $ID as $key=>$val ) {
+			$i->{$key} = $val;
+		}
+		$query->setMainDataModel($i);
+
 		$query->setSelect( $definition->getProperties() );
+
 
 		$dat = static::getBackendInstance()->fetchRow( $query );
 
@@ -652,6 +691,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 
+		$loaded_instance->__wakeup();
 		$loaded_instance->setIsSaved();
 
 		return $loaded_instance;
@@ -668,7 +708,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$this->_checkBeforeSave();
 
-		$cache = $this->getCacheBackendInstance();
 		$backend = $this->getBackendInstance();
 
 		if( !($this instanceof DataModel_Related_Abstract) ) {
@@ -677,9 +716,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 		if( $this->getIsNew() ) {
+			$after_method_name = 'afterAdd';
 			$operation = 'save';
 			$h_operation = DataModel_History_Backend_Abstract::OPERATION_SAVE;
 		} else {
+			$after_method_name = 'afterUpdate';
 			$operation = 'update';
 			$h_operation = DataModel_History_Backend_Abstract::OPERATION_UPDATE;
 		}
@@ -694,9 +735,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			throw $e;
 		}
 
-		if($cache) {
-			$cache->{$operation}($this->getDataModelDefinition(), $this->getID(), $this);
-		}
+		$this->updateCache( $operation );
 
 		if( !($this instanceof DataModel_Related_Abstract) ) {
 			$backend->transactionCommit();
@@ -706,7 +745,32 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$this->___DataModelHistoryOperationDone();
 
+
+		$this->{$after_method_name}();
 	}
+
+	/**
+	 *
+	 */
+	protected function updateCache( $operation ) {
+		$cache = $this->getCacheBackendInstance();
+		if($cache) {
+			$cache->{$operation}($this->getDataModelDefinition(), $this->getID(), $this);
+		}
+
+	}
+
+	/**
+	 *
+	 */
+	protected function deleteCache() {
+		$cache = $this->getCacheBackendInstance();
+		if($cache) {
+			$cache->delete($this->getDataModelDefinition(), $this->getID() );
+		}
+
+	}
+
 
 	/**
 	 * @throws DataModel_Exception
@@ -884,11 +948,27 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$this->___DataModelHistoryOperationDone();
 
-		$cache = $this->getCacheBackendInstance();
-		if($cache) {
-			$cache->delete( $definition, $this->getID() );
-		}
+
+		$this->deleteCache();
+
+		$this->afterDelete();
  	}
+
+	/**
+	 *
+	 */
+	public function afterAdd() {
+
+	}
+
+	public function afterUpdate() {
+
+	}
+
+	public function afterDelete() {
+
+	}
+
 
 	/**
 	 * @param array $data
@@ -950,19 +1030,23 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_Query
 	 */
 	protected function createQuery( array $where=array() ) {
-		return DataModel_Query::createQuery($this->getDataModelDefinition(), $where);
+		$query = new DataModel_Query($this->getDataModelDefinition() );
+		$query->setMainDataModel( $this );
+		$query->setWhere( $where );
+		return $query;
 	}
 
 
 	/**
 	 *
-	 * @param array| $query
+	 * @param array| $where
 	 * @return DataModel
 	 */
-	protected static function fetchOneObject( array $query ) {
+	protected function fetchOneObject( array $where ) {
+		$query = $this->createQuery( $where );
+		$query->setLimit(1);
 
-		$fetch = new DataModel_Fetch_Object_Assoc( $query, static::getDataModelDefinition() );
-		$fetch->getQuery()->setLimit(1);
+		$fetch = new DataModel_Fetch_Object_Assoc( $query );
 
 		foreach($fetch as $object) {
 			return $object;
@@ -973,61 +1057,61 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 	/**
 	 *
-	 * @param array $query
+	 * @param array $where
 	 * @return DataModel_Fetch_Object_Assoc
 	 */
-	protected static function fetchObjects( array  $query=array() ) {
-		return new DataModel_Fetch_Object_Assoc( $query, static::getDataModelDefinition() );
+	protected function fetchObjects( array  $where=array() ) {
+		return new DataModel_Fetch_Object_Assoc( $this->createQuery($where) );
 	}
 
 	/**
 	 *
-	 * @param array $query
+	 * @param array $where
 	 * @return DataModel_Fetch_Object_IDs
 	 */
-	protected static function fetchObjectIDs( array $query=array() ) {
-		return new DataModel_Fetch_Object_IDs( $query, static::getDataModelDefinition() );
+	protected function fetchObjectIDs( array $where=array() ) {
+		return new DataModel_Fetch_Object_IDs(  $this->createQuery($where)  );
 	}
 
 
 	/**
 	 *
 	 * @param array $load_items
-	 * @param array $query
+	 * @param array $where
 	 * @return DataModel_Fetch_Data_All
 	 */
-	protected static function fetchDataAll( array $load_items, array  $query=array() ) {
-		return new DataModel_Fetch_Data_All( $load_items, $query, static::getDataModelDefinition() );
+	protected function fetchDataAll( array $load_items, array  $where=array() ) {
+		return new DataModel_Fetch_Data_All( $load_items, $this->createQuery($where) );
 	}
 
 	/**
 	 *
 	 * @param array $load_items
-	 * @param array $query
+	 * @param array $where
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
-	protected static function fetchDataAssoc( array $load_items, array  $query=array() ) {
-		return new DataModel_Fetch_Data_Assoc( $load_items, $query, static::getDataModelDefinition() );
+	protected function fetchDataAssoc( array $load_items, array  $where=array() ) {
+		return new DataModel_Fetch_Data_Assoc( $load_items, $this->createQuery($where) );
 	}
 
 	/**
 	 *
 	 * @param array $load_items
-	 * @param array $query
+	 * @param array $where
 	 * @return DataModel_Fetch_Data_Pairs
 	 */
-	protected static function fetchDataPairs( array $load_items, array  $query=array() ) {
-		return new DataModel_Fetch_Data_Pairs( $load_items, $query, static::getDataModelDefinition() );
+	protected function fetchDataPairs( array $load_items, array  $where=array() ) {
+		return new DataModel_Fetch_Data_Pairs( $load_items, $this->createQuery($where) );
 	}
 
 	/**
 	 *
 	 * @param array $load_items
-	 * @param array $query
+	 * @param array $where
 	 * @return mixed|null
 	 */
-	protected static function fetchDataRow( array $load_items, array  $query=array() ) {
-		$query = DataModel_Query::createQuery(static::getDataModelDefinition(), $query);
+	protected function fetchDataRow( array $load_items, array  $where=array() ) {
+		$query = $this->createQuery( $where );
 		$query->setSelect($load_items);
 
 		return static::getBackendInstance()->fetchRow( $query );
@@ -1037,13 +1121,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 *
 	 * @param array $load_item
-	 * @param array $query
+	 * @param array $where
 	 *
 	 * @return mixed|null
 	 */
-	protected static function fetchDataOne( $load_item, array  $query=array() ) {
+	protected function fetchDataOne( $load_item, array  $where=array() ) {
 
-		$query = DataModel_Query::createQuery(static::getDataModelDefinition(), $query);
+		$query = $this->createQuery( $where );
 		$query->setSelect( [$load_item] );
 
 		return static::getBackendInstance()->fetchOne( $query );
@@ -1052,12 +1136,14 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 *
 	 * @param $load_item
-	 * @param array $query
+	 * @param array $where
 	 *
 	 * @return DataModel_Fetch_Data_Col
 	 */
-	protected static function fetchDataCol( $load_item, array  $query=array() ) {
-		return new DataModel_Fetch_Data_Col( $load_item, $query, static::getDataModelDefinition() );
+	protected function fetchDataCol( $load_item, array  $where=array() ) {
+		$query = $this->createQuery( $where );
+
+		return new DataModel_Fetch_Data_Col( $load_item, $query );
 	}
 
 
@@ -1267,6 +1353,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 			if(isset($properties[$key])) {
+
 				$property = $properties[$key];
 				$property_name = $property->getName();
 
@@ -1455,6 +1542,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	public function __clone() {
 		$this->resetID();
 		$this->setIsNew();
+
 	}
 
 

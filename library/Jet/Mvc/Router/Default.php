@@ -256,6 +256,11 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	protected $_dispatcher_instance = null;
 
 	/**
+	 * @var Mvc_Router_Map_Abstract
+	 */
+	protected $_map;
+
+	/**
 	 * Initializes the router.
 	 *
 	 * @see Mvc/readme.txt
@@ -316,6 +321,41 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		return $this->resolve();
 	}
 
+	/**
+	 * @return Mvc_Router_Map_Abstract
+	 */
+	public function generateMap() {
+		$map = Mvc_Factory::getRouterMapInstance();
+		$map->generate();
+
+		$this->_map = $map;
+
+		return $map;
+	}
+
+	/**
+	 * @return Mvc_Router_Map_Abstract
+	 */
+	public function getMap() {
+
+		if(!$this->_map) {
+			$cache = $this->getMapCacheBackendInstance();
+
+			$map = $cache->load();
+
+			if(!$map) {
+				$map = Mvc_Factory::getRouterMapInstance();
+				$map->generate();
+
+				$cache->save( $map );
+			}
+
+			$this->_map = $map;
+		}
+
+		return $this->_map;
+	}
+
 
 	/**
 	 * Resolve:
@@ -329,11 +369,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	protected function resolve() {
 
+		$map = $this->getMap();
+
+
+
 		$path = $this->path_fragments;
 
-		$page_i = Mvc_Factory::getPageInstance();
-
-		//---------------------------------------
 		$URLs = array();
 		$URIs = array();
 		for($i=count($this->path_fragments); $i>=0; $i--) {
@@ -349,65 +390,62 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
-		$page = $page_i->getByURL($URLs);
+		$page_URL = $map->findPage( $URLs );
 
-		if(!$page) {
-			//Unknown? Let's redirect to the default ...
 
-			$default_site = Mvc_Factory::getSiteInstance()->getDefault();
-
-			if(!$default_site) {
-				return false;
-			}
-
-			$default_URL = $default_site->getDefaultURL($default_site->getDefaultLocale());
-			if(!$default_URL) {
-				return false;
-			}
+		if(!$page_URL) {
+			$default_URL = $map->getDefaultURL();
 
 			$this->setIsRedirect($default_URL, Mvc_Router::REDIRECT_TYPE_TEMPORARY);
 
 			return true;
 		}
 
-		$URL_index = array_search($page->getURI(), $URIs);
+		$page_i = Mvc_Factory::getPageInstance();
+		/**
+		 * @var Mvc_Pages_Page_Abstract $page
+		 */
+		$page = $page_i->load( $page_URL->getPageID() );
 
-		$i = count($this->path_fragments) - $URL_index;
-		$URL = $URLs[$URL_index];
+		if(!$page) {
+			$default_URL = $map->getDefaultURL();
 
-		for($c=0; $c<$i; $c++) {
-			array_shift( $this->path_fragments );
-		}
-
-		$redirect_default_URL = false;
-		if($page->getSSLRequired()) {
-			if($URL!=$page->getSslURL()) {
-				$redirect_default_URL = $page->getSslURL();
-			}
-		} else {
-			if(
-				$URL!=$page->getNonSslURL() &&
-				$URL!=$page->getSslURL()
-			) {
-				$redirect_default_URL = $page->getNonSslURL();
-			}
-		}
-
-
-		if($redirect_default_URL) {
-			//OK, we have page. But given URL is not default URL. So redirect to default ...
-			$this->setIsRedirect(
-				$redirect_default_URL
-					. implode('/', $this->path_fragments)
-					. ( $this->path_fragments ? '/' : '' )
-					. $this->parsed_URL->getQuery()
-			);
+			$this->setIsRedirect($default_URL, Mvc_Router::REDIRECT_TYPE_TEMPORARY);
 
 			return true;
 		}
 
 
+		$URL_index = array_search( (string)$page_URL, $URLs);
+
+		$i = count($this->path_fragments) - $URL_index;
+
+		for($c=0; $c<$i; $c++) {
+			array_shift( $this->path_fragments );
+		}
+
+
+		if(!$page_URL->getIsMain()) {
+			//OK, we have page. But given URL is not default URL. So redirect to default ...
+
+			$redirect_default_URL = $page->getDefaultURL();
+
+			if($redirect_default_URL) {
+				$this->setIsRedirect(
+					$redirect_default_URL
+						. implode('/', $this->path_fragments)
+						. ( $this->path_fragments ? '/' : '' )
+						. $this->parsed_URL->getQuery()
+				);
+
+				return true;
+			}
+		}
+
+
+
 		$this->page_ID = $page->getID();
+
 		$this->page = $page;
 
 		$this->site_ID = $page->getSiteID();
@@ -429,6 +467,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		//service (Standard, AJAX, REST)
 		$this->service_type = Mvc_Router::SERVICE_TYPE_STANDARD;
 
+
+		//TODO: get service allowed on the page?
 		if(
 			isset($this->path_fragments[0]) &&
 			isset( static::$path_fragments_service_types_map[$this->path_fragments[0]] )
@@ -446,8 +486,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$this->service_type!=Mvc_Router::SERVICE_TYPE__JETJS_ &&
 			$this->path_fragments
 		) {
-			//$this->module_name = str_replace('.','\\', array_shift( $this->path_fragments ));
 			$this->module_name = array_shift( $this->path_fragments );
+			Application_Modules::getHandler()->normalizeName( $this->module_name );
 
 			if($this->path_fragments){
 				$this->module_action = array_shift( $this->path_fragments );

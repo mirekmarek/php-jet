@@ -148,40 +148,58 @@ class Mvc_Pages extends Object {
 		return self::$_handler;
 	}
 
-
 	/**
 	 *
-	 * @param string$page_ID
-	 * @param null|string $locale (optional, default: auto)
-	 * @param null|string $site_ID (optional, default: auto)
 	 *
-	 * @return string
+	 * @param string $page_ID
+	 * @param Locale|string|null $locale (optional), default: current locale
+	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
+	 *
+	 * @return Mvc_Router_Map_URL_Abstract|null
 	 */
-	public static function getURI( $page_ID, $locale=null, $site_ID=null ) {
-		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURI( $page_ID, $locale, $site_ID );
+	public static function getURLObject( $page_ID, $locale=null, $site_ID=null ) {
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->getURLObject( $page_ID, $locale, $site_ID );
 	}
 
 	/**
 	 *
-	 * @param string$page_ID
+	 * @param string $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
 	 * @param null|string $locale (optional, default: auto)
 	 * @param null|string $site_ID (optional, default: auto)
 	 *
 	 * @return string
 	 */
-	public static function getURL( $page_ID,  $locale=null, $site_ID=null ) {
-		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURL( $page_ID, $locale, $site_ID );
+	public static function getURI( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURI( $page_ID, $path_fragments, $GET_params, $locale, $site_ID );
 	}
 
 	/**
 	 *
-	 * @param string$page_ID
+	 * @param string $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
 	 * @param null|string $locale (optional, default: auto)
 	 * @param null|string $site_ID (optional, default: auto)
 	 *
 	 * @return string
 	 */
-	public static function getSslURL( $page_ID,  $locale=null, $site_ID=null ) {
-		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateSslURL( $page_ID, $locale, $site_ID );
+	public static function getURL(  $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURL( $page_ID, $path_fragments, $GET_params, $locale, $site_ID );
+	}
+
+	/**
+	 *
+	 * @param string $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
+	 * @param null|string $locale (optional, default: auto)
+	 * @param null|string $site_ID (optional, default: auto)
+	 *
+	 * @return string
+	 */
+	public static function getNonSchemaURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateNonSchemaURL( $page_ID, $path_fragments, $GET_params, $locale, $site_ID );
 	}
 }

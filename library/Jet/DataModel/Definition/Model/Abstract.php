@@ -361,8 +361,10 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @return DataModel_Definition_Property_Abstract
 	 *
 	 */
-	protected function _initGlueProperty( $property_name, /** @noinspection PhpUnusedParameterInspection */
+	protected function _initGlueProperty( $property_name,
+										/** @noinspection PhpUnusedParameterInspection */
 	                                      $related_to,
+										/** @noinspection PhpUnusedParameterInspection */
 										  $property_definition_data ) {
 		throw new DataModel_Exception(
 			'It is not possible to define related property in Main DataModel  (\''.$this->class_name.'\'::'.$property_name.') ',

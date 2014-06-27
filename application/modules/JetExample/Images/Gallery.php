@@ -311,7 +311,7 @@ class Gallery extends Jet\DataModel {
 	 * @return Jet\DataModel_Fetch_Object_Assoc|Gallery[]
 	 */
 	public static function getChildren( $parent_ID ) {
-		return static::fetchObjects( [[ 'this.parent_ID'=>$parent_ID ]]);
+		return (new self())->fetchObjects( [[ 'this.parent_ID'=>$parent_ID ]]);
 	}
 
 	/**
@@ -321,7 +321,7 @@ class Gallery extends Jet\DataModel {
 	 * @return Gallery|null
 	 */
 	public static function getByTitle( $title, $parent_ID ) {
-		return static::fetchOneObject( [[ 'this.title'=>$title, 'AND', 'this.parent_ID'=>$parent_ID ]]);
+		return (new self())->fetchOneObject( [[ 'this.title'=>$title, 'AND', 'this.parent_ID'=>$parent_ID ]]);
 	}
 
 
@@ -329,7 +329,7 @@ class Gallery extends Jet\DataModel {
 	 * @returnJet\Data_Tree
 	 */
 	public static function getTree() {
-		$data = static::getListAsData()->toArray();
+		$data = (new self())->getListAsData()->toArray();
 
 		$root = array(
 			array(

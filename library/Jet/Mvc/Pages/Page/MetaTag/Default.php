@@ -27,16 +27,22 @@ class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
 
 	/**
 	 * @JetDataModel:related_to = 'main.site_ID'
+	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 */
 	protected $site_ID;
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 */
 	protected $page_ID;
 
 	/**
 	 * @JetDataModel:related_to = 'main.locale'
+	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 */
 	protected $locale;
 
@@ -44,6 +50,7 @@ class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
@@ -83,6 +90,20 @@ class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
 		} else {
 			return '<meta content="'.htmlspecialchars($this->content).'" />';
 		}
+	}
+
+	/**
+	 * @return mixed|null|string
+	 */
+	public function getArrayKeyValue() {
+		return $this->ID;
+	}
+
+	/**
+	 * @param string $ID
+	 */
+	public function setIdentifier( $ID ) {
+		$this->ID = $ID;
 	}
 
 	/**

@@ -75,8 +75,11 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 	/**
 	 * @param mixed $value
+	 *
+	 * @throws DataModel_Exception
 	 */
 	public function checkValueType( &$value ) {
+		throw new DataModel_Exception('You can not use checkValueType for the property that is DataObject (property: '.$this->_name.')');
 	}
 
 	/**

@@ -52,6 +52,24 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 * @var array
 	 */
 	protected $cache_backend_options;
+
+	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = 'PHPFile'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'Map Cache backend type: '
+	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getMapCacheBackendTypesList']
+	 *
+	 * @var string
+	 */
+	protected $map_cache_backend_type;
+
+	/**
+	 * @var array
+	 */
+	protected $map_cache_backend_options;
+
 	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
@@ -93,6 +111,13 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	protected $default_auth_controller_module_name;
 
 	/**
+	 * @return boolean
+	 */
+	public function getCacheEnabled() {
+		return $this->cache_enabled;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getCacheBackendOptions() {
@@ -107,10 +132,17 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	}
 
 	/**
-	 * @return boolean
+	 * @return string
 	 */
-	public function getCacheEnabled() {
-		return $this->cache_enabled;
+	public function getMapCacheBackendType() {
+		return $this->map_cache_backend_type;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMapCacheBackendOptions() {
+		return $this->map_cache_backend_options;
 	}
 
 	/**
@@ -139,6 +171,13 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 */
 	public static function getCacheBackendTypesList() {
 		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Mvc/Router/Cache/Backend/' );
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getMapCacheBackendTypesList() {
+		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Mvc/Router/Map/Cache/Backend/' );
 	}
 
 	/**

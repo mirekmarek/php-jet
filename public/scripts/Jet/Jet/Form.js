@@ -65,9 +65,6 @@ dojo.declare("Jet.Form", [], {
     save_warning_css_class: "saveWarning",
     error_css_class: "formFieldError",
 
-    error_message_401: Jet.translate("Sorry, but you do not have permission for this operation."),
-    error_message_unknown_error: Jet.translate("Sorry, but the error occurred."),
-
     beforeAdd: function (data) { return data; },
     beforeUpdate: function (data) { return data; },
     afterAdd: function(data) {},
@@ -259,7 +256,6 @@ dojo.declare("Jet.Form", [], {
                     _this._is_saving = false;
                 },
                 function(error) {
-                    _this._is_saving = false;
                     _this.handleError(error);
                 }
             );
@@ -275,7 +271,6 @@ dojo.declare("Jet.Form", [], {
                     _this._is_saving = false;
                 },
                 function(error) {
-                    _this._is_saving = false;
                     _this.handleError(error);
                 }
             );
@@ -283,28 +278,26 @@ dojo.declare("Jet.Form", [], {
     },
 
     handleError: function(error) {
+        this._is_saving = false;
         this.enable();
         this.cancelSaveButton();
-        switch(error.response.status) {
-            case 400:
-                var error_data = dojo.fromJson( error.response.text );
 
-                for(var field in error_data.error_data) {
-                    var message = error_data.error_data[field];
-                    if(field=="__common_message__") {
-                        Jet.alert( message );
-                    } else {
-                        this.showFieldErrorMessage(field, message);
-                    }
+        if(error.response.status==400) {
+            var error_data = dojo.fromJson( error.response.text );
+
+            for(var field in error_data.error_data) {
+                var message = error_data.error_data[field];
+                if(field=="__common_message__") {
+                    Jet.alert( message );
+                } else {
+                    this.showFieldErrorMessage(field, message);
                 }
-            break;
-            case 401:
-                Jet.alert( this.error_message_401 );
-            break;
-            default:
-                Jet.alert( this.error_message_unknown_error+"<br/><br/><pre>"+error.response.text+"</pre>" );
-            break;
+            }
+
+        } else {
+            Jet.handleRequestError( error );
         }
+
         this.onSaveError( error );
     },
 

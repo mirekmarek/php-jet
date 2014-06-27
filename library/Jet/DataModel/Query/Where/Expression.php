@@ -103,7 +103,13 @@ class DataModel_Query_Where_Expression extends Object {
 	 * @return string
 	 */
 	public function toString() {
-		return $this->property->getDataModelDefinition()->getModelName().'::'.$this->property->getName().' '.$this->operator.' \''.$this->value.'\'';
+		$value = $this->value;
+
+		if(is_array($value)) {
+			$value = '['.implode(',', $value).']';
+		}
+
+		return $this->property->getDataModelDefinition()->getModelName().'::'.$this->property->getName().' '.$this->operator.' \''.$value.'\'';
 	}
 
 }

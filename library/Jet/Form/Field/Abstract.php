@@ -694,8 +694,8 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 
 		return Data_Text::replaceData($template, array(
 			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
-			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'" class="form-error"/>\n'
-					.'\t\t\t<jet_form_field name="'.$this->_name.'" class="form-control"/>'
+			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'" class="form-error"/>'.JET_EOL
+					.JET_TAB.JET_TAB.JET_TAB.'<jet_form_field name="'.$this->_name.'" class="form-control"/>'
 		));
 	}
 

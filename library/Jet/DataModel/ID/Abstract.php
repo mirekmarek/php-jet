@@ -21,6 +21,11 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	const DELIMITER = '_';
 
 	/**
+	 * @var DataModel
+	 */
+	protected $data_model_instance;
+
+	/**
 	 * @return int
 	 */
 	public function getMaxLength() {
@@ -104,6 +109,9 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		$data_model_definition = $this->getDataModelDefinition();
 
 		$query = new DataModel_Query( $data_model_definition );
+		if($this->data_model_instance) {
+			$query->setMainDataModel( $this->data_model_instance );
+		}
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
@@ -157,10 +165,11 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @param string $ID_property_name
 	 */
 	public function generateUniqueID(
-		/** @noinspection PhpUnusedParameterInspection */
 		DataModel $data_model_instance,
 		$ID_property_name
 	) {
+		$this->data_model_instance = $data_model_instance;
+
 		//do {
 		$time = floor(microtime(true) * 1000);
 
@@ -187,10 +196,11 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @return string
 	 */
 	public function generateNameID(
-		/** @noinspection PhpUnusedParameterInspection */
 		DataModel $data_model_instance,
 		$ID_property_name, $object_name
 	) {
+		$this->data_model_instance = $data_model_instance;
+
 		$object_name  = trim( $object_name );
 
 		$ID = Data_Text::removeAccents( $object_name );
@@ -281,6 +291,13 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 */
 	public function toString() {
 		return implode( ':', $this->values );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAsMapKey() {
+		return $this->toString();
 	}
 
 

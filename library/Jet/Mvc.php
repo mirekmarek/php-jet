@@ -89,16 +89,13 @@ class Mvc {
 			Mvc_Router::dropCurrentRouterInstance();
 
 		} else {
+
 			if(!$router->initialize($URL, $cache_enabled)) {
 				return false;
 			}
 
 			if( ($output=$router->getCacheOutput() )!==null ) {
 				return $output;
-			}
-
-			if( !$router->getSite()->getIsActive() ) {
-				$router->setIs404();
 			}
 
 			if(
@@ -108,6 +105,11 @@ class Mvc {
 			) {
 				return false;
 			}
+
+			if( !$router->getSite()->getIsActive() ) {
+				return false;
+			}
+
 
 			Auth::initialize( $router );
 			$router->setupLayout();
@@ -167,6 +169,15 @@ class Mvc {
 	 */
 	public static function truncateRouterCache( $URL=null ) {
 		Mvc_Factory::getRouterInstance()->cacheTruncate($URL);
+	}
+
+	/**
+	 *
+	 * Alias of:Mvc_Router::getCurrentRouterInstance()->generateMap();
+	 *
+	 */
+	public static function generateRouterMap() {
+		Mvc_Router::getCurrentRouterInstance()->generateMap();
 	}
 
 	/**

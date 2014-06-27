@@ -47,13 +47,12 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	/**
 	 *
 	 * @param array|DataModel_Query $query
-	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	final public function __construct( $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
-		parent::__construct( $query, $data_model_definition );
+	final public function __construct( DataModel_Query $query ) {
 
+		parent::__construct($query);
 		$load_properties = array();
 		//$group_by = array();
 
@@ -65,7 +64,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		$this->query->setSelect($load_properties);
 		//$this->query->setGroupBy($group_by);
 
-		$this->empty_ID_instance = $data_model_definition->getEmptyIDInstance();
+		$this->empty_ID_instance = $this->data_model_definition->getEmptyIDInstance();
 	}
 
 	/**

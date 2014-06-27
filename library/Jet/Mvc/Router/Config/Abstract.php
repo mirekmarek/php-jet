@@ -30,6 +30,11 @@ namespace Jet;
 abstract class Mvc_Router_Config_Abstract extends Config_Application {
 
 	/**
+	 * @return boolean
+	 */
+	abstract public function getCacheEnabled();
+
+	/**
 	 * @return array
 	 */
 	abstract public function getCacheBackendOptions();
@@ -40,9 +45,14 @@ abstract class Mvc_Router_Config_Abstract extends Config_Application {
 	abstract public function getCacheBackendType();
 
 	/**
-	 * @return boolean
+	 * @return array
 	 */
-	abstract public function getCacheEnabled();
+	abstract public function getMapCacheBackendOptions();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getMapCacheBackendType();
 
 	/**
 	 * @return string

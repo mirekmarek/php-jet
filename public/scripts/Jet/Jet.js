@@ -28,6 +28,8 @@ var Jet = {
 
     front_controller_module_name: null,
 
+    error_message_401: Jet.translate("Sorry, but you do not have permission for this operation."),
+    error_message_unknown_error: Jet.translate("Sorry, but the error occurred."),
 
     _hasResource: dojo._hasResource,
 
@@ -379,7 +381,27 @@ var Jet = {
             return false;
         }
 
+    },
+
+    handleRequestError: function( error ) {
+        var front_controller = this.getFrontController();
+
+        if(front_controller && front_controller.handleRequestError) {
+            front_controller.handleRequestError( error );
+            return;
+        }
+
+        switch(error.response.status) {
+            case 401:
+                Jet.alert( this.error_message_401 );
+                break;
+            default:
+                Jet.alert( this.error_message_unknown_error+'<br/><br/><div style="width: 800px;height: 500px;overflow: auto;"><pre>'+error.response.text+'</pre></div>' );
+                break;
+        }
+
     }
+
 
 };
 

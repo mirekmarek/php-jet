@@ -111,16 +111,6 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($where->toString(), $object->getWhere()->toString());
 	}
 
-	/**
-	 * @covers Jet\DataModel_Query::getMainDataModelDefinition
-	 */
-	public function testGetSetMainDataModelDefinition() {
-		$this->assertSame($this->data_model->getDataModelDefinition(), $this->object->getMainDataModelDefinition());
-		$new_data_model = new DataModel_Query_DataModelTestMock();
-		$this->object->setMainDataModel( $new_data_model->getDataModelDefinition() );
-
-		$this->assertSame($new_data_model->getDataModelDefinition(), $this->object->getMainDataModelDefinition());
-	}
 
 	/**
 	 * @covers Jet\DataModel_Query::getSelect
@@ -229,12 +219,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
 	public function testRelationsMtoN() {
-		$property = $this->object->_getPropertyAndSetRelation('data_model_2_test_mock.string_property');
+		$property = $this->object->getPropertyAndSetRelation('data_model_2_test_mock.string_property');
 		$this->assertEquals('data_model_2_test_mock', $property->getDataModelDefinition()->getModelName());
 		$this->assertEquals('string_property', $property->getName());
 
@@ -263,12 +253,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 */
 	public function testRelations1toN() {
-		$property = $this->object->_getPropertyAndSetRelation('data_model_test_mock_related_1toN.string_property');
+		$property = $this->object->getPropertyAndSetRelation('data_model_test_mock_related_1toN.string_property');
 
 		$this->assertEquals('data_model_test_mock_related_1toN', $property->getDataModelDefinition()->getModelName());
 
@@ -295,13 +285,13 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	}
 
     /**
-     * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+     * @covers Jet\DataModel_Query::getPropertyAndSetRelation
      * @covers Jet\DataModel_Query::getRelations
      * @covers Jet\DataModel_Query::getRelation
      */
     public function testRelations1to1() {
 
-        $property = $this->object->_getPropertyAndSetRelation('data_model_test_mock_related_1to1.string_property');
+        $property = $this->object->getPropertyAndSetRelation('data_model_test_mock_related_1to1.string_property');
 
         $this->assertEquals('data_model_test_mock_related_1to1', $property->getDataModelDefinition()->getModelName());
 
@@ -349,7 +339,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -357,11 +347,11 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed1() {
-		$this->object->_getPropertyAndSetRelation('hoax');
+		$this->object->getPropertyAndSetRelation('hoax');
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -369,12 +359,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed2() {
-		$this->object->_getPropertyAndSetRelation('this.imaginary_property');
+		$this->object->getPropertyAndSetRelation('this.imaginary_property');
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -382,12 +372,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed3() {
-		$this->object->_getPropertyAndSetRelation('string_property');
+		$this->object->getPropertyAndSetRelation('string_property');
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *
@@ -395,12 +385,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testRelationsFailed4() {
-		$this->object->_getPropertyAndSetRelation('data_model_property_1toN');
+		$this->object->getPropertyAndSetRelation('data_model_property_1toN');
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Query::_getPropertyAndSetRelation
+	 * @covers Jet\DataModel_Query::getPropertyAndSetRelation
 	 * @covers Jet\DataModel_Query::getRelations
 	 * @covers Jet\DataModel_Query::getRelation
 	 *

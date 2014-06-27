@@ -47,12 +47,16 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 
 		IO_Dir::copy($this->templates_dir . $template, $site_data->getBasePath());
 		$site_data->setIsActive($activate);
+		$site_data->setIsDefault( (count($site_data->getList())==0) );
+
+
 		$site_data->save();
 
 		foreach( $site_data->getLocales() as $locale ) {
 			Mvc_Pages::actualizePages( $site_data->getID(), $locale );
 		}
 		Mvc::truncateRouterCache();
+		Mvc::generateRouterMap();
 
 	}
     
@@ -74,6 +78,7 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 
 		$site->delete();
 		Mvc::truncateRouterCache();
+		Mvc::generateRouterMap();
 	}
 
 	/**
@@ -87,6 +92,7 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 		$site->validateProperties();
 		$site->save();
 		Mvc::truncateRouterCache();
+		Mvc::generateRouterMap();
 	}
 
 	/**
@@ -100,6 +106,7 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 		$site->validateProperties();
 		$site->save();
 		Mvc::truncateRouterCache();
+		Mvc::generateRouterMap();
 	}
 
 }

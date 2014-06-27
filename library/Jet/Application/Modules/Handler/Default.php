@@ -87,13 +87,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 		$this->manifest_class_name = $manifest_class_name;
 	}
 
-	/**
-	 * @param string $module_name
-	 * @return string
-	 */
-	public function normalizeName( $module_name ) {
-		return str_replace('.','\\', $module_name );
-	}
 
 	/**
 	 * Returns true if the module name correspond to a valid format

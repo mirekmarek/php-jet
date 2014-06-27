@@ -311,7 +311,7 @@ Jet.declare("Jet.modules.Module", [], {
 			},
 			function(error) {
 				cancel_busy_button();
-				_this.handleResponseError(error);
+                Jet.handleRequestError( error );
 			}
 		);
 

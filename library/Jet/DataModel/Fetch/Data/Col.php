@@ -23,13 +23,12 @@ class DataModel_Fetch_Data_Col extends DataModel_Fetch_Data_Abstract {
 	/**
 	 *
 	 * @param string $select_item
-	 * @param array|DataModel_Query $query
-	 * @param DataModel_Definition_Model_Abstract $data_model_definition
+	 * @param DataModel_Query $query
 	 *
 	 * @internal param string $select_items
 	 */
-	public function __construct($select_item, $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
-		parent::__construct( [$select_item], $query, $data_model_definition );
+	public function __construct($select_item, DataModel_Query $query ) {
+		parent::__construct( [$select_item], $query );
 	}
 
 }

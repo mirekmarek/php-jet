@@ -1,12 +1,14 @@
 <?php
 if(!function_exists('showMenu')) {
 	function showMenu( $pages ){
+
+
 		if(!$pages) return;
 		if($pages instanceof Jet\Data_Tree) {
 			$pages = array( $pages->getRootNode() );
 		}
 
-		$current_page_ID = (string)Jet\Mvc::getCurrentPage()->getID();
+		$current_page_ID = Jet\Mvc::getCurrentPage()->getID()->getAsMapKey();
 		?>
 	<ul>
 		<?php foreach($pages as $page):
@@ -15,16 +17,17 @@ if(!function_exists('showMenu')) {
 		 */
 		$d = $page->getData();
 
-		if($d['is_admin_UI']) {
+		if( !($URL_object = Jet\Mvc_Pages::getURLObject( $d['ID'], $d['locale'], $d['site_ID'] )) ) {
 			continue;
 		}
+
 		?>
 		<li>
-			<?php if($current_page_ID==$d['ID'].':'.$d['site_ID'].':'.$d['locale']): ?>
-			<i><?=$d['menu_title']; ?></i>
-			<?php else: ?>
-			<a href="<?=Jet\Mvc_Pages::getURI($d['ID'], $d['locale'], $d['site_ID']); ?>"><?=$d['menu_title']; ?></a>
-			<?php endif; ?>
+		<?php if($current_page_ID==$URL_object->getPageID()->getAsMapKey() ): ?>
+			<i><?=$URL_object->getPageMenuTitle(); ?></i>
+		<?php else: ?>
+			<a href="<?=$URL_object->toString(); ?>"><?=$URL_object->getPageMenuTitle(); ?></a>
+		<?php endif; ?>
 			<?php showMenu($page->getChildren()); ?>
 		</li>
 		<?php endforeach; ?>

@@ -34,13 +34,12 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	/**
 	 *
 	 * @param string[] $select_items
-	 * @param array|DataModel_Query $query
-	 * @param DataModel_Definition_Model_Abstract $data_model_definition
+	 * @param DataModel_Query $query
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( array $select_items, $query, DataModel_Definition_Model_Abstract $data_model_definition  ) {
-		parent::__construct( $query, $data_model_definition );
+	public function __construct( array $select_items, DataModel_Query $query ) {
+		parent::__construct( $query );
 
 		$this->query->setSelect( $select_items );
 	}

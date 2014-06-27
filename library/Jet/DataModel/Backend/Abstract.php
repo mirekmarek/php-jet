@@ -206,4 +206,68 @@ abstract class DataModel_Backend_Abstract extends Object {
 	 */
 	abstract public function transactionRollback();
 
+
+	/**
+	 * @param DataModel_Query $query
+	 * @param string $fetch_method
+	 * @param array $data
+	 * @return array
+	 */
+	protected function validateResultData( DataModel_Query $query, $fetch_method, $data ) {
+		$fetch_row = ($fetch_method=='fetchRow');
+		$fetch_pairs = ($fetch_method=='fetchPairs');
+
+
+		if($fetch_row) {
+			$data = [$data];
+		}
+
+		if($fetch_pairs) {
+			foreach($query->getSelect() as $item) {
+			}
+
+			/**
+			 * @var DataModel_Query_Select_Item $item
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
+			$property = $item->getItem();
+
+			foreach($data as $i=>$d) {
+				$property->checkValueType( $d );
+				$data[$i] = $d;
+			}
+
+		} else {
+			foreach($data as $i=>$d) {
+				foreach($query->getSelect() as $item) {
+					/**
+					 * @var DataModel_Query_Select_Item $item
+					 * @var DataModel_Definition_Property_Abstract $property
+					 */
+					$property = $item->getItem();
+
+					if( ! ($property instanceof DataModel_Definition_Property_Abstract) ) {
+						continue;
+					}
+
+					$key = $item->getSelectAs();
+
+					if($property->getIsArray()) {
+						$data[$i][$key] = unserialize( $data[$i][$key] );
+					}
+
+					$property->checkValueType( $data[$i][$key] );
+				}
+			}
+
+		}
+
+		if($fetch_row) {
+			return $data[0];
+		}
+
+		return $data;
+
+	}
+
 }

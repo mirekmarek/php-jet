@@ -220,7 +220,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 		echo '['.$site_ID.':'.$locale.'] Creating pages ...'.JET_EOL;
 
 		$page = $this->_readAndCheckPageData( null, Mvc_Pages::HOMEPAGE_ID );
-		$page->save();
+		$this->createPage( $page );
 
 		$this->_traversePagesTree( Mvc_Pages::HOMEPAGE_ID, true );
 
@@ -242,7 +242,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 
 				$page = $this->_readAndCheckPageData( $parent_ID, $key );
 				if($save) {
-					$page->save();
+					$this->createPage($page);
 				}
 
 				$this->_traversePagesTree( $key, $save);
@@ -250,7 +250,7 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 				$page = $this->_readAndCheckPageData( $parent_ID, $val );
 
 				if($save) {
-					$page->save();
+					$this->createPage($page);
 				}
 			}
 		}

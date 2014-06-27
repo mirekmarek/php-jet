@@ -247,7 +247,12 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	 */
 	public static function getList() {
 
-		$list = static::fetchObjects();
+		/**
+		 * @var DataModel $i
+		 */
+		$i = new static();
+
+		$list = $i->fetchObjects();
 		$list->getQuery()->setOrderBy('name');
 		return $list;
 	}
@@ -265,7 +270,12 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	 * @return Mvc_Sites_Site_Abstract
 	 */
 	public static function getByURL( $URL ) {
-		return self::fetchOneObject(
+		/**
+		 * @var DataModel $i
+		 */
+		$i = new static();
+
+		return $i->fetchOneObject(
 			array(
 				'Site_LocalizedData_URL.URL'=>$URL
 			)
@@ -279,7 +289,12 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	 * @return Mvc_Sites_Site_Abstract
 	 */
 	public static function getDefault() {
-		self::fetchOneObject( array(
+		/**
+		 * @var DataModel $i
+		 */
+		$i = new static();
+
+		return $i->fetchOneObject( array(
 			'this.is_default' => true
 		) );
 	}

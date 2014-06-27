@@ -131,6 +131,16 @@ abstract class Mvc_Router_Abstract extends Object {
 		return static::$service_types_path_fragments_map;
 	}
 
+	/**
+	 * @return Mvc_Router_Map_Abstract
+	 */
+	abstract public function generateMap();
+
+	/**
+	 * @return Mvc_Router_Map_Abstract
+	 */
+	abstract public function getMap();
+
 
 	/**
 	 * Initializes the router.
@@ -555,6 +565,15 @@ abstract class Mvc_Router_Abstract extends Object {
 	protected function getCacheBackendInstance() {
 		$backend_type = $this->_config->getCacheBackendType();
 		return Mvc_Factory::getRouterCacheBackendInstance( $backend_type, Mvc_Factory::getRouterCacheBackendConfigInstance($backend_type) );
+	}
+
+	/**
+	 *
+	 * @return Mvc_Router_Map_Cache_Backend_Abstract
+	 */
+	protected function getMapCacheBackendInstance() {
+		$backend_type = $this->_config->getMapCacheBackendType();
+		return Mvc_Factory::getRouterMapCacheBackendInstance( $backend_type, Mvc_Factory::getRouterMapCacheBackendConfigInstance($backend_type) );
 	}
 
 	/**

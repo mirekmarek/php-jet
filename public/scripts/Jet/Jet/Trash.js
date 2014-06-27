@@ -113,7 +113,6 @@ dojo.declare("Jet.Trash", [], {
     },
 
     submit: function() {
-        console.debug( this._trash_content, this.ID_property_name );
 
         if(!this._trash_content) {
             this.submit_button_widget.cancel();
@@ -198,14 +197,23 @@ dojo.declare("Jet.Trash", [], {
 
                 _this.cancel();
             } else {
-                dojo.when(_this.store.remove(IDs[i]), onDelete );
+                dojo.when(_this.store.remove(IDs[i]), onDelete, function(error) { _this.handleError(error); } );
             }
         };
 
 
-        dojo.when(this.store.remove(IDs[i]), onDelete );
+        dojo.when(this.store.remove(IDs[i]), onDelete, function(error) { _this.handleError(error); } );
 
     },
+
+    handleError: function(error) {
+        this.submit_button_widget.cancel();
+
+        console.debug( Jet.getFrontController() );
+
+        Jet.handleRequestError( error );
+    },
+
 
 
     cancel: function(){

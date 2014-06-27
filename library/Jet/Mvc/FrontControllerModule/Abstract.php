@@ -229,94 +229,110 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	/**
 	 *
 	 * @param DataModel_ID_Abstract|mixed $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
 	 * @param Locale|string|null $locale (optional), default: current locale
 	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
 	 *
 	 * @return string
 	 */
-	public function generateURI( $page_ID, $locale=null, $site_ID=null ) {
-		return $this->_generateURL($page_ID, $locale, $site_ID, false, false, false);
+	public function generateURI( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		if(
+			$site_ID &&
+			$site_ID!=$this->router->getSiteID()
+		) {
+			return $this->generateURL( $page_ID, $locale, $site_ID );
+		}
+
+		;
+		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
+			return null;
+		}
+
+		return $this->_createURL($URL->getPathPart(), $path_fragments, $GET_params);
 	}
 
 	/**
 	 *
 	 * @param DataModel_ID_Abstract|mixed $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
 	 * @param Locale|string|null $locale (optional), default: current locale
 	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
 	 *
 	 * @return string
 	 */
-	public function generateURL( $page_ID, $locale=null, $site_ID=null ) {
-		return $this->_generateURL($page_ID, $locale, $site_ID, true, false, false);
+	public function generateURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
+			return null;
+		}
+
+		return $this->_createURL($URL->toString(), $path_fragments, $GET_params);
 	}
+
 
 	/**
 	 *
 	 * @param DataModel_ID_Abstract|mixed $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
 	 * @param Locale|string|null $locale (optional), default: current locale
 	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
 	 *
 	 * @return string
 	 */
-	public function generateSslURL( $page_ID, $locale=null, $site_ID=null ) {
-		return $this->_generateURL($page_ID, $locale, $site_ID, true, true, false);
+	public function generateNonSchemaURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
+			return null;
+		}
+
+		return $this->_createURL($URL->getAsNonSchemaURL(), $path_fragments, $GET_params);
 	}
 
 	/**
-	 *
-	 * @param DataModel_ID_Abstract|mixed $page_ID
-	 * @param Locale|string|null $locale (optional), default: current locale
-	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
+	 * @param $URL
+	 * @param $path_fragments
+	 * @param $GET_params
 	 *
 	 * @return string
 	 */
-	public function generateNonSchemaURL( $page_ID, $locale=null, $site_ID=null ) {
-		return $this->_generateURL($page_ID, $locale, $site_ID, true, false, true);
+	public function _createURL( $URL, array $path_fragments, array $GET_params ) {
+
+		foreach( $path_fragments as $path_fragment ) {
+			$URL .= rawurlencode($path_fragment).'/';
+		}
+
+		if($GET_params) {
+			$URL .= '?'.http_build_query( $GET_params );
+		}
+
+
+		return $URL;
 	}
 
 
 	/**
 	 * @param string $page_ID
-	 * @param string $locale
-	 * @param string $site_ID
-	 * @param bool $get_URL
-	 * @param bool $SSL
-	 * @param bool $non_schema
+	 * @param Locale|string|null $locale (optional), default: current locale
+	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
 	 *
-	 * @return bool
+	 * @return Mvc_Router_Map_URL_Abstract|null
 	 */
-	protected function _generateURL( $page_ID, $locale, $site_ID, $get_URL, $SSL, $non_schema ) {
-		//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
-
-		$pd = $this->getSiteStructure($site_ID, $locale)->getNode((string)$page_ID);
-
-		if(!$pd) {
-			return false;
+	public function getURLObject( $page_ID, $locale=null, $site_ID=null ) {
+		if(!$locale) {
+			$locale = Mvc::getCurrentLocale();
 		}
 
-		$data = $pd->getData();
-
-		if(!$get_URL && $site_ID!=$this->router->getSiteID() ) {
-			$get_URL = true;
+		if(!$site_ID) {
+			$site_ID = Mvc::getCurrentSiteID();
 		}
 
-		if($data['SSL_required']) {
-			$SSL = true;
-		}
+		/**
+		 * @var Mvc_Pages_Page_ID_Abstract $page_ID_i
+		 */
+		$page_ID_i = Mvc_Factory::getPageInstance()->getID()->createID( $site_ID, $locale, $page_ID );
 
-		if($non_schema) {
-			return $data['non_schema_URL'];
-		}
-
-		if($SSL) {
-			return $data['SSL_URL'];
-		}
-
-		if($get_URL) {
-			return $data['non_SSL_URL'];
-		}
-
-		return $data['URI'];
+		return $this->router->getMap()->findMainURL( $page_ID_i );
 	}
 
 	/**
@@ -339,24 +355,7 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 			$this->sites_structure[$ck] = Mvc_Factory::getPageInstance()->getTree(
 				$site_ID,
 				$locale,
-				null,
-				array(
-					'site_ID' => 'this.site_ID',
-					'locale' => 'this.locale',
-					'name' => 'this.name',
-					'is_admin_UI' => 'this.is_admin_UI',
-					'force_front_controller_module_name' => 'this.force_front_controller_module_name',
-					'title' => 'this.title',
-					'menu_title' => 'this.menu_title',
-					'breadcrumb_title' => 'this.breadcrumb_title',
-					'URL_fragment' => 'this.URL_fragment',
-					'URI' => 'this.URI',
-					'non_schema_URL' => 'this.non_schema_URL',
-					'non_SSL_URL' => 'this.non_SSL_URL',
-					'SSL_URL' => 'this.SSL_URL',
-					'authentication_required' => 'this.authentication_required',
-					'SSL_required' => 'this.SSL_required',
-				)
+				false
 			);
 		}
 
@@ -368,35 +367,33 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	 */
 	public function getBreadcrumbNavigation() {
 		if( !$this->breadcrumb_navigation ) {
-			$site_ID = $this->router->getSiteID();
-			$locale = $this->router->getLocale();
-			//DO NOT USE PAGE DATA INSTANCE! Why? Because PERFORMANCE!
-
-			$site_structure = $this->getSiteStructure( $site_ID, $locale );
 			$this->breadcrumb_navigation = array();
 
-			$page_ID = $this->router->getPageID();
+			$URL_object = $this->router->getMap()->findMainURL( $this->router->getPageID() );
 
-			$page_node = $site_structure->getNode( $page_ID['ID'] );
-			if(!$page_node) {
+			if(!$URL_object) {
 				return null;
 			}
-			$page_data = $page_node->getData();
 
 			$navigation_data = Mvc_Factory::getNavigationDataBreadcrumbInstance();
-			$navigation_data->setPageID( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $page_data['ID']) );
-			$navigation_data->setTitle( $page_data['breadcrumb_title'] );
-			$navigation_data->setURI( $page_data['URI'] );
+			$navigation_data->setPageID( $URL_object->getPageID() );
+			$navigation_data->setTitle( $URL_object->getPageBreadcrumbTitle() );
+			$navigation_data->setURI( $URL_object->toString() );
 
 			$this->breadcrumb_navigation[] = $navigation_data;
 
-			while( ($page_node = $page_node->getParent()) ) {
-				$page_data = $page_node->getData();
+			while( ($parent_ID = $URL_object->getPageParentID()) ) {
+
+				$URL_object = $this->router->getMap()->findMainURL( $parent_ID );
+
+				if(!$URL_object) {
+					break;
+				}
 
 				$navigation_data = Mvc_Factory::getNavigationDataBreadcrumbInstance();
-				$navigation_data->setPageID( Mvc_Factory::getPageIDInstance()->createID($site_ID, $locale, $page_data['ID']) );
-				$navigation_data->setTitle( $page_data['breadcrumb_title'] );
-				$navigation_data->setURI( $page_data['URI'] );
+				$navigation_data->setPageID( $URL_object->getPageID() );
+				$navigation_data->setTitle( $URL_object->getPageBreadcrumbTitle() );
+				$navigation_data->setURI( $URL_object->toString() );
 
 				array_unshift($this->breadcrumb_navigation, $navigation_data);
 

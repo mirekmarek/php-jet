@@ -122,7 +122,8 @@ class DataModel_Query extends Object {
 	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
 	 */
 	public function __construct( DataModel_Definition_Model_Abstract $main_data_model_definition ) {
-		$this->setMainDataModel($main_data_model_definition);
+		$this->main_data_model_definition = $main_data_model_definition;
+		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
 
 	}
 
@@ -146,12 +147,20 @@ class DataModel_Query extends Object {
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
+	 * @param DataModel $main_data_model
 	 */
-	public function setMainDataModel( DataModel_Definition_Model_Abstract $main_data_model_definition ) {
-		$this->main_data_model_definition = $main_data_model_definition;
-		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
+	public function setMainDataModel( DataModel $main_data_model ) {
+		$this->main_data_model = $main_data_model;
 	}
+
+	/**
+	 * @return DataModel
+	 */
+	public function getMainDataModel() {
+		return $this->main_data_model;
+	}
+
+
 
 	/**
 	 * @return string
@@ -382,7 +391,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @return DataModel_Definition_Property_Abstract
 	 */
-	public function _getPropertyAndSetRelation( $str_property_name ) {
+	public function getPropertyAndSetRelation( $str_property_name ) {
 		$property_name_parts = explode('.', $str_property_name);
 
 		if(count($property_name_parts)<2) {

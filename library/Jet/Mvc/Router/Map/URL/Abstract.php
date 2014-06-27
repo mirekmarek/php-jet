@@ -1,12 +1,7 @@
 <?php
 /**
  *
- *
- *
- * Class describes one URL
- *
- *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2014 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -15,46 +10,52 @@
  *
  * @category Jet
  * @package Mvc
- * @subpackage Mvc_Sites
  */
 namespace Jet;
 
 /**
- * Class Mvc_Sites_Site_LocalizedData_URL_Abstract
- *
  * @JetFactory:class = 'Jet\Mvc_Factory'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Sites_Site_LocalizedData_URL_Abstract'
- * @JetFactory:method = 'getLocalizedSiteURLInstance'
- *
- * @JetDataModel:name = 'site_localized_data_URL'
- * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Sites_LocalizedData_Abstract'
+ * @JetFactory:method = 'getRouterMapUrlInstance'
+ * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Router_Map_URL_Abstract'
  */
-abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Related_1toN {
+abstract class Mvc_Router_Map_URL_Abstract extends Object {
 
 	/**
-	 *
-	 * @JetDataModel:related_to = 'main.ID'
+	 * @var Mvc_Pages_Page_ID_Abstract
 	 */
-	protected $site_ID = '';
+	protected $page_ID = '';
 
 	/**
-	 * @JetDataModel:related_to = 'parent.ID'
+	 * @var Mvc_Pages_Page_ID_Abstract
 	 */
-	protected $localized_data_ID = '';
+	protected $page_parent_ID;
 
 	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
-	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $page_title = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
+	 * @var string
+	 */
+	protected $page_menu_title = '';
+
+	/**
+	 * @var string
+	 */
+	protected $page_breadcrumb_title = '';
+
+	/**
+	 * @var string
+	 */
+	protected $page_authentication_required = '';
+
+	/**
+	 * @var bool
+	 */
+	protected $page_SSL_required = false;
+
+	/**
 	 *
 	 * @var string
 	 */
@@ -62,15 +63,16 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
-	 *+
 	 * @var bool
 	 */
 	protected $is_default = false;
 
 	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @var bool
+	 */
+	protected $is_main = false;
+
+	/**
 	 *
 	 * @var bool
 	 */
@@ -81,33 +83,87 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 	 */
 	protected $parsed_URL_data = null;
 
-	/**
-	 * @param string $URL (optional)
-	 * @param bool $is_default (optional)
-	 */
-	public function __construct($URL='', $is_default=false) {
-		if($URL) {
-			$this->setURL($URL);
-			$this->setIsDefault($is_default);
-		}
 
-		parent::__construct();
+	/**
+	 * @param bool $is_main
+	 */
+	public function setIsMain($is_main) {
+		$this->is_main = (bool)$is_main;
 	}
 
 	/**
-	 * @param string $site_ID
+	 * @return bool
 	 */
-	public function setSiteID($site_ID) {
-		$this->site_ID = $site_ID;
+	public function getIsMain() {
+		return $this->is_main;
+	}
+
+	/**
+	 * @param Mvc_Pages_Page_Abstract $page
+	 * @return void
+	 */
+	abstract public function takePageData( Mvc_Pages_Page_Abstract $page );
+
+
+
+	/**
+	 * @param Mvc_Pages_Page_ID_Abstract $page_ID
+	 */
+	public function setPageID(Mvc_Pages_Page_ID_Abstract $page_ID) {
+		$this->page_ID = $page_ID;
+	}
+
+	/**
+	 * @return Mvc_Pages_Page_ID_Abstract
+	 */
+	public function getPageID() {
+		return $this->page_ID;
+	}
+
+
+	/**
+	 * @return Mvc_Pages_Page_ID_Abstract
+	 */
+	public function getPageParentID() {
+		return $this->page_parent_ID;
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getPageTitle() {
+		return $this->page_title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSiteID() {
-		return $this->site_ID;
+	public function getPageMenuTitle() {
+		return $this->page_menu_title;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getPageBreadcrumbTitle() {
+		return $this->page_breadcrumb_title;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getPageSSLRequired() {
+		return $this->page_SSL_required;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPageAuthenticationRequired() {
+		return $this->page_authentication_required;
+	}
 
 	/**
 	 * @return string
@@ -262,5 +318,6 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 
 		return $this->parsed_URL_data[$return_what];
 	}
+
 
 }

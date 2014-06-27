@@ -25,6 +25,15 @@ abstract class Application_Modules_Handler_Abstract extends Object {
 	abstract function __construct( $modules_basedir, $modules_list_file_path, $modules_namespace, $manifest_class_name );
 
 	/**
+	 * @param string $module_name
+	 * @return string
+	 */
+	public function normalizeName( $module_name ) {
+		return str_replace('.','\\', $module_name );
+	}
+
+
+	/**
 	 * Returns true if the module name correspond to a valid format
 	 *
 	 * @param string $module_name

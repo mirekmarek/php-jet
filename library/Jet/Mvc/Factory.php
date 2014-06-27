@@ -21,11 +21,18 @@ class Mvc_Factory extends Factory {
 
 	const DEFAULT_ROUTER_CLASS = 'Jet\Mvc_Router_Default';
 	const DEFAULT_ROUTER_CONFIG_CLASS = 'Jet\Mvc_Router_Config_Default';
+	const DEFAULT_ROUTER_MAP_CLASS = 'Jet\Mvc_Router_Map_Default';
+	const DEFAULT_ROUTER_MAP_URL_CLASS = 'Jet\Mvc_Router_Map_URL_Default';
 
 	/**
 	 * @var string
 	 */
 	protected static $router_cache_backend_class_name_prefix = 'Jet\Mvc_Router_Cache_Backend_';
+
+	/**
+	 * @var string
+	 */
+	protected static $router_map_cache_backend_class_name_prefix = 'Jet\Mvc_Router_Map_Cache_Backend_';
 
 	const DEFAULT_DISPATCHER_CLASS = 'Jet\Mvc_Dispatcher_Default';
 
@@ -33,7 +40,6 @@ class Mvc_Factory extends Factory {
 	const DEFAULT_PAGE_CLASS = 'Jet\Mvc_Pages_Page_Default';
 	const DEFAULT_PAGE_META_TAG_CLASS = 'Jet\Mvc_Pages_Page_MetaTag_Default';
 	const DEFAULT_PAGE_CONTENT_CLASS = 'Jet\Mvc_Pages_Page_Content_Default';
-	const DEFAULT_PAGE_URL_CLASS = 'Jet\Mvc_Pages_Page_URL_Default';
 
 	const DEFAULT_SITE_HANDLER_CLASS = 'Jet\Mvc_Sites_Handler_Default';
 	const DEFAULT_SITE_CLASS = 'Jet\Mvc_Sites_Site_Default';
@@ -50,6 +56,13 @@ class Mvc_Factory extends Factory {
 	 */
 	public static function setRouterCacheBackendClassNamePrefix($router_cache_backend_class_name_prefix) {
 		static::$router_cache_backend_class_name_prefix = $router_cache_backend_class_name_prefix;
+	}
+
+	/**
+	 * @param string $router_map_cache_backend_class_name_prefix
+	 */
+	public static function setRouterMapCacheBackendClassNamePrefix($router_map_cache_backend_class_name_prefix) {
+		static::$router_map_cache_backend_class_name_prefix = $router_map_cache_backend_class_name_prefix;
 	}
 
 	/**
@@ -157,18 +170,6 @@ class Mvc_Factory extends Factory {
 	}
 
 	/**
-	 * Returns instance of Page URL class @see Factory
-	 *
-	 * @return Mvc_Pages_Page_URL_Abstract
-	 */
-	public static function getPageURLInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_PAGE_URL_CLASS );
-		$instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_PAGE_URL_CLASS, $instance);
-		return $instance;
-	}
-
-	/**
 	 * @see Factory
 	 *
 	 * @param string $class_name
@@ -203,16 +204,6 @@ class Mvc_Factory extends Factory {
 	public static function setPageContentClass( $class_name ) {
 		static::setClassName(static::DEFAULT_PAGE_CONTENT_CLASS, $class_name);
 	}
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setPageURLClass( $class_name ) {
-		static::setClassName(static::DEFAULT_PAGE_URL_CLASS, $class_name);
-	}
-
 
 	/**
 	 * Returns instance of Site Handler class @see Factory
@@ -370,6 +361,32 @@ class Mvc_Factory extends Factory {
 	}
 
 	/**
+	 * Returns instance of Router Map class @see Factory
+	 *
+	 * @return Mvc_Router_Map_Abstract
+	 */
+	public static function getRouterMapInstance() {
+		$class_name =  static::getClassName( static::DEFAULT_ROUTER_MAP_CLASS );
+		$instance = new $class_name();
+		//static::checkInstance(static::DEFAULT_ROUTER_CLASS, $instance);
+		return $instance;
+	}
+
+	/**
+	 * Returns instance of Router Map class @see Factory
+	 *
+	 * @return Mvc_Router_Map_URL_Abstract
+	 */
+	public static function getRouterMapUrlInstance() {
+		$class_name =  static::getClassName( static::DEFAULT_ROUTER_MAP_URL_CLASS );
+		$instance = new $class_name();
+		//static::checkInstance(static::DEFAULT_ROUTER_CLASS, $instance);
+		return $instance;
+	}
+
+
+
+	/**
 	 * Returns instance of Router configuration class
 	 * @see Factory
 	 *
@@ -420,6 +437,42 @@ class Mvc_Factory extends Factory {
 		//static::checkInstance($default_class_name, $instance);
 		return $instance;
 	}
+
+	/**
+	 *
+	 * @see Factory
+	 *
+	 * @param string $backend_type
+	 * @param bool $soft_mode
+	 *
+	 * @return Mvc_Router_Map_Cache_Backend_Config_Abstract
+	 */
+	public static function getRouterMapCacheBackendConfigInstance( $backend_type, $soft_mode=false ) {
+		$default_class_name =  static::$router_map_cache_backend_class_name_prefix.$backend_type.'_Config';
+
+		$class_name =  static::getClassName( $default_class_name );
+		$instance = new $class_name($soft_mode);
+		//static::checkInstance($default_class_name, $instance);
+		return $instance;
+	}
+
+	/**
+	 * @see Factory
+	 *
+	 * @param string $backend_type
+	 * @param Mvc_Router_Map_Cache_Backend_Config_Abstract $backend_config
+	 *
+	 * @return Mvc_Router_Map_Cache_Backend_Abstract
+	 */
+	public static function getRouterMapCacheBackendInstance( $backend_type, Mvc_Router_Map_Cache_Backend_Config_Abstract $backend_config ) {
+		$default_class_name = static::$router_map_cache_backend_class_name_prefix.$backend_type;
+
+		$class_name =  static::getClassName( $default_class_name );
+		$instance = new $class_name( $backend_config );
+		//static::checkInstance($default_class_name, $instance);
+		return $instance;
+	}
+
 
 	/**
 	 * Returns instance of NavigationData_Breadcrumb class @see Factory

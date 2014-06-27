@@ -260,6 +260,9 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 
 		$parent_ID_property_data['is_ID'] = isset($property_definition_data['is_ID']);
+		if(isset($property_definition_data['form_field_type'])) {
+			$parent_ID_property_data['form_field_type'] = $property_definition_data['form_field_type'];
+		}
 
 		$this_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
 			$this->class_name,

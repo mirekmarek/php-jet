@@ -75,8 +75,10 @@ class DataModel_Definition_Relation_JoinBy_Item extends Object {
 					$this->this_property_or_value = $properties[$item];
 					break;
 				case 'this_value':
-					$class = $this_model_definition->getClassName();
-					$this->this_property_or_value = $class::$item();
+					//$class = $this_model_definition->getClassName();
+					//$this->this_property_or_value = $class::$item();
+
+					$this->this_property_or_value = new DataModel_Definition_Relation_JoinBy_Item_ObjectGetter( $this_model_definition, $item );
 					break;
 				default:
 					throw new DataModel_Query_Exception(
@@ -106,12 +108,21 @@ class DataModel_Definition_Relation_JoinBy_Item extends Object {
 
 	/**
 	 *
-	 * @throws DataModel_Query_Exception
+	 * @param DataModel_Query $query
 	 *
 	 * @return mixed|DataModel_Definition_Property_Abstract
 	 */
-	public function getThisPropertyOrValue() {
-		return $this->this_property_or_value;
+	public function getThisPropertyOrValue( DataModel_Query $query ) {
+
+		if($this->this_property_or_value instanceof DataModel_Definition_Relation_JoinBy_Item_ObjectGetter) {
+			$object = $query->getMainDataModel();
+			$getter_name = $this->this_property_or_value->getGetterMethodName();
+
+			return $object->{$getter_name}();
+
+		} else {
+			return $this->this_property_or_value;
+		}
 	}
 
 
