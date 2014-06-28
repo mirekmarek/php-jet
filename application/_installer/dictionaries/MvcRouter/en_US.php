@@ -30,5 +30,15 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'aa73e32a3d0c45791fdcbf7979b4eb9f' => array(
+		'phrase' => 'Map Cache backend type: ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'24fe18195f0e29f8d3ef5ad3110cfc24' => array(
+		'phrase' => 'invalid_value',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

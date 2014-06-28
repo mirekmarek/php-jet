@@ -414,6 +414,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 * @return bool;
 	 */
 	public function catchForm( Form $form, $data=null, $force_catch=false   ) {
+
 		if(
 			!$form->catchValues($data, $force_catch) ||
 			!$form->validateValues()

@@ -1,7 +1,7 @@
 <?php
  return array(
-	'7cca3cf4ba3f6184efea2827781368f4' => array(
-		'phrase' => 'Cache configuration',
+	'bcf717a45b55bd19c27d1b3c479cd052' => array(
+		'phrase' => 'Map Cache configuration',
 		'translation' => '',
 		'is_translated' => false,
 	),
@@ -25,13 +25,13 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
-	'5c9379f68c0b172e85cbf7f4e881529c' => array(
-		'phrase' => 'Data directory path: ',
+	'13efbe54bba783146ab21740d13f5c05' => array(
+		'phrase' => 'Dictionaries storage path: ',
 		'translation' => '',
 		'is_translated' => false,
 	),
-	'bd7c1b072ef59ba920bafb529bf0c32d' => array(
-		'phrase' => 'Database name: ',
+	'54b6fdefee9bc917ea4f1a462c4ee013' => array(
+		'phrase' => 'File path: ',
 		'translation' => '',
 		'is_translated' => false,
 	),
@@ -40,8 +40,8 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
-	'f8d522a2cee0748a7ebd93b0ae961811' => array(
-		'phrase' => 'Cache key prefix: ',
+	'8264c60a1b96cfbf57e7c8d107edfe73' => array(
+		'phrase' => 'Cache key: ',
 		'translation' => '',
 		'is_translated' => false,
 	),

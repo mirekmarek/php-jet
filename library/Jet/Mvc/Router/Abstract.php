@@ -636,10 +636,22 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @abstract
 	 * @return mixed
 	 */
+	abstract function helper_mapCache_getCreateCommand();
+
+	/**
+	 * @abstract
+	 */
+	abstract function helper_mapCache_create();
+
+	/**
+	 * @abstract
+	 * @return mixed
+	 */
 	abstract function helper_cache_getCreateCommand();
 
 	/**
 	 * @abstract
 	 */
 	abstract function helper_cache_create();
+
 }

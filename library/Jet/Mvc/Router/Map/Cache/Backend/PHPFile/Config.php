@@ -20,7 +20,7 @@ class Mvc_Router_Map_Cache_Backend_PHPFile_Config extends Mvc_Router_Map_Cache_B
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = '%JET_DATA_PATH%/router_map.php'
-	 * @JetConfig:form_field_label = 'Dictionaries storage path: '
+	 * @JetConfig:form_field_label = 'File path: '
 	 *
 	 * @var string
 	 */

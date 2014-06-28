@@ -1325,6 +1325,20 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @return mixed
 	 */
+	public function helper_mapCache_getCreateCommand() {
+		return $this->getMapCacheBackendInstance()->helper_getCreateCommand();
+	}
+
+	/**
+	 *
+	 */
+	public function helper_mapCache_create() {
+		$this->getMapCacheBackendInstance()->helper_create();
+	}
+
+	/**
+	 * @return mixed
+	 */
 	public function helper_cache_getCreateCommand() {
 		return $this->getCacheBackendInstance()->helper_getCreateCommand();
 	}

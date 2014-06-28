@@ -14,14 +14,14 @@
  */
 namespace Jet;
 
-class Mvc_Router_Cache_Backend_Memcache_Config extends Mvc_Router_Cache_Backend_Config_Abstract {
+class Mvc_Router_Map_Cache_Backend_Memcache_Config extends Mvc_Router_Map_Cache_Backend_Config_Abstract {
 
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Cache_Backend_Memcache_Config', 'getMemcacheConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Map_Cache_Backend_Memcache_Config', 'getMemcacheConnectionsList']
 	 *
 	 * @var string
 	 */
@@ -30,12 +30,12 @@ class Mvc_Router_Cache_Backend_Memcache_Config extends Mvc_Router_Cache_Backend_
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'mvc_c'
-	 * @JetConfig:form_field_label = 'Cache key prefix: '
+	 * @JetConfig:default_value = 'mvc_map'
+	 * @JetConfig:form_field_label = 'Cache key: '
 	 *
 	 * @var string
 	 */
-	protected $key_prefix = 'mvc_c';
+	protected $key = 'mvc_map';
 
 	/**
 	 * @return string
@@ -47,8 +47,8 @@ class Mvc_Router_Cache_Backend_Memcache_Config extends Mvc_Router_Cache_Backend_
 	/**
 	 * @return string
 	 */
-	public function getKeyPrefix() {
-		return $this->key_prefix;
+	public function getKey() {
+		return $this->key;
 	}
 
 	/**
