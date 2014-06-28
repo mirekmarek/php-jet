@@ -148,13 +148,13 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @see Mvc/readme.txt
 	 *
 	 * @abstract
-	 * @param string $URL
+	 * @param string $request_URL
 	 * @param bool|null $cache_enabled (optional, default: by configuration)
 	 *
 	 * @throws Mvc_Router_Exception
-	 * @return mixed
+	 * @return bool
 	 */
-	abstract public function initialize( $URL, $cache_enabled=null );
+	abstract public function initialize( $request_URL, $cache_enabled=null );
 
 	/**
 	 * Resolve:
@@ -317,12 +317,12 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @abstract
 	 * @return string
 	 */
-	abstract public function getURL();
+	abstract public function getRequestURL();
 
 	/**
 	 * @return Http_URL
 	 */
-	abstract public function getParsedURL();
+	abstract public function getParsedRequestURL();
 
 	/**
 	 * @abstract
@@ -578,9 +578,12 @@ abstract class Mvc_Router_Abstract extends Object {
 
 	/**
 	 * @abstract
+	 *
+	 * @param string $URL
+	 *
 	 * @return bool
 	 */
-	abstract protected function cacheRead();
+	abstract protected function cacheRead( $URL );
 
 	/**
 	 * @abstract

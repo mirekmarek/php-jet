@@ -8,7 +8,7 @@
  * @see Mvc/readme.txt
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -27,12 +27,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $URL = '';
+	protected $_request_URL = '';
 
 	/**
 	 * @var Http_URL
 	 */
-	protected $parsed_URL;
+	protected $_parsed_request_URL;
 
 	/**
 	 *  Example:
@@ -48,7 +48,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $base_URL = '';
+	protected $_base_URL = '';
 
 	/**
 	 * Request path fragments (http://host/path-fragment-0/path-fragment-1/ )
@@ -72,9 +72,14 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * Is it SSL (https) request?
 	 * @var bool
 	 */
-	protected $is_SSL_request = false;
+	protected $_is_SSL_request = false;
 
 	//------------------------------------------------------------------
+
+	/**
+	 * @var string
+	 */
+	protected $page_URL;
 
 	/**
 	 *
@@ -265,15 +270,15 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @see Mvc/readme.txt
 	 *
-	 * @param string $URL
+	 * @param string $request_URL
 	 * @param bool|null $cache_enabled (optional, default: by configuration)
 	 *
 	 * @throws Mvc_Router_Exception
-	 * @return mixed
+	 * @return bool
 	 */
-	public function initialize( $URL, $cache_enabled=null ) {
+	public function initialize( $request_URL, $cache_enabled=null ) {
 
-		if( !$URL ) {
+		if( !$request_URL ) {
 			throw new Mvc_Router_Exception(
 				'URL is not defined',
 				Mvc_Router_Exception::CODE_URL_NOT_DEFINED
@@ -287,15 +292,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
         $this->output_cache_enabled = $this->cache_enabled;
 
-		$this->URL = $URL;
+		$this->_request_URL = $request_URL;
 
-		if($this->cacheRead()) {
-			return true;
-		}
 
-		$this->parsed_URL = Http_URL::parseURL($URL);
+		$this->_parsed_request_URL = Http_URL::parseURL($request_URL);
+		$this->_is_SSL_request = $this->_parsed_request_URL->getIsSSL();
 
-		if( !$this->parsed_URL->getIsValid() ) {
+		if( !$this->_parsed_request_URL->getIsValid() ) {
 			throw new Mvc_Router_Exception(
 				'Unable to parse URL',
 				Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
@@ -303,12 +306,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
-		$this->base_URL = $this->parsed_URL->getScheme().'://'.$this->parsed_URL->getHost();
-		if($this->parsed_URL->getPort()) {
-			$this->base_URL .= ':'.$this->parsed_URL->getPort();
+		$this->_base_URL = $this->_parsed_request_URL->getScheme().'://'.$this->_parsed_request_URL->getHost();
+		if($this->_parsed_request_URL->getPort()) {
+			$this->_base_URL .= ':'.$this->_parsed_request_URL->getPort();
 		}
 
-		$this->path_fragments = explode( '/', $this->parsed_URL->getPath() );
+		$this->path_fragments = explode( '/', $this->_parsed_request_URL->getPath() );
 
 		foreach( $this->path_fragments as $i=>$pf ) {
 			$this->path_fragments[$i] = rawurldecode( $pf );
@@ -369,9 +372,11 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	protected function resolve() {
 
+		if( $this->cacheRead($this->_request_URL) ) {
+			return true;
+		}
+
 		$map = $this->getMap();
-
-
 
 		$path = $this->path_fragments;
 
@@ -386,7 +391,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			}
 
 			$URIs[] = $URI;
-			$URLs[] = $this->base_URL.$URI;
+			$URLs[] = $this->_base_URL.$URI;
 		}
 
 
@@ -396,19 +401,9 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if(!$page_URL) {
 			$default_URL = $map->getDefaultURL();
 
-			$this->setIsRedirect($default_URL, Mvc_Router::REDIRECT_TYPE_TEMPORARY);
-
-			return true;
-		}
-
-		$page_i = Mvc_Factory::getPageInstance();
-		/**
-		 * @var Mvc_Pages_Page_Abstract $page
-		 */
-		$page = $page_i->load( $page_URL->getPageID() );
-
-		if(!$page) {
-			$default_URL = $map->getDefaultURL();
+			if(!$default_URL) {
+				return false;
+			}
 
 			$this->setIsRedirect($default_URL, Mvc_Router::REDIRECT_TYPE_TEMPORARY);
 
@@ -428,20 +423,40 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if(!$page_URL->getIsMain()) {
 			//OK, we have page. But given URL is not default URL. So redirect to default ...
 
-			$redirect_default_URL = $page->getDefaultURL();
+			$redirect_default_URL = $map->findMainURL( $page_URL->getPageID() );
+
+			if(!$redirect_default_URL) {
+				return false;
+			}
 
 			if($redirect_default_URL) {
 				$this->setIsRedirect(
 					$redirect_default_URL
 						. implode('/', $this->path_fragments)
 						. ( $this->path_fragments ? '/' : '' )
-						. $this->parsed_URL->getQuery()
+						. $this->_parsed_request_URL->getQuery()
 				);
 
 				return true;
 			}
 		}
 
+
+
+		$this->page_URL = (string)$page_URL;
+
+
+		$page_i = Mvc_Factory::getPageInstance();
+		/**
+		 * @var Mvc_Pages_Page_Abstract $page
+		 */
+		$page = $page_i->load( $page_URL->getPageID() );
+
+		if(!$page) {
+			$this->setIs404();
+
+			return true;
+		}
 
 
 		$this->page_ID = $page->getID();
@@ -468,7 +483,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		$this->service_type = Mvc_Router::SERVICE_TYPE_STANDARD;
 
 
-		//TODO: get service allowed on the page?
 		if(
 			isset($this->path_fragments[0]) &&
 			isset( static::$path_fragments_service_types_map[$this->path_fragments[0]] )
@@ -486,8 +500,16 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$this->service_type!=Mvc_Router::SERVICE_TYPE__JETJS_ &&
 			$this->path_fragments
 		) {
-			$this->module_name = array_shift( $this->path_fragments );
-			Application_Modules::getHandler()->normalizeName( $this->module_name );
+			$this->module_name = Application_Modules::getHandler()->normalizeName(
+							array_shift( $this->path_fragments )
+						);
+
+			if(!$this->getFrontController()->getServiceRequestAllowed( $this->module_name )) {
+				$this->setIs404();
+
+				return true;
+			}
+
 
 			if($this->path_fragments){
 				$this->module_action = array_shift( $this->path_fragments );
@@ -559,7 +581,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	public function setIs404() {
 		$this->is_404 = true;
-		$this->cacheSave();
+		//$this->cacheSave();
 	}
 
 	/**
@@ -579,7 +601,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			return;
 		}
 
-		$this->cacheSave();
+		//$this->cacheSave();
 		$this->getFrontController()->handle404();
 	}
 
@@ -658,6 +680,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		//last char in URI path must be /
 		if( $this->path_fragments[$end_i]==='' ) {
+			$this->_request_URL = $this->_base_URL.implode('/', $this->path_fragments);
+
 			unset($this->path_fragments[$end_i]);
 
 			return true;
@@ -665,21 +689,19 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		//... or some opened document, or XML and so on
 		if( strpos( $this->path_fragments[$end_i], '.')!==false ) {
+			$this->_request_URL = $this->_base_URL.implode('/', $this->path_fragments);
 			return true;
 		}
 
-		return true;
+		$this->setIsRedirect(
+			$this->_base_URL
+				. $this->_parsed_request_URL->getPath() . '/'
+				. (($this->_parsed_request_URL->getQuery()) ? '?'.$this->_parsed_request_URL->getQuery() : ''),
 
-		/*
-		$this->setRedirect(
-			$this->base_URL
-				. $this->path . '/'
-				. (($this->query) ? '?'.$this->query : ''),
 			Mvc_Router::REDIRECT_TYPE_PERMANENTLY
 		);
 
 		return false;
-		*/
 	}
 
 
@@ -817,15 +839,15 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @return string
 	 */
-	public function getURL() {
-		return $this->URL;
+	public function getRequestURL() {
+		return $this->_request_URL;
 	}
 
 	/**
 	 * @return Http_URL
 	 */
-	public function getParsedURL() {
-		return $this->parsed_URL;
+	public function getParsedRequestURL() {
+		return $this->_parsed_request_URL;
 	}
 
 	/**
@@ -895,6 +917,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @param string $used_path_fragment
 	 */
 	public function putUsedPathFragment( $used_path_fragment ) {
+
 		if(!in_array($used_path_fragment, $this->used_path_fragments)) {
 			$this->used_path_fragments[] = $used_path_fragment;
 		}
@@ -927,7 +950,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return bool
 	 */
 	public function getIsSSLRequest() {
-		return $this->is_SSL_request;
+		return $this->_is_SSL_request;
 	}
 
 	/**
@@ -1162,14 +1185,16 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
+	 * @param string $URL
+	 *
 	 * @return bool
 	 */
-	protected function cacheRead() {
+	protected function cacheRead( $URL ) {
 		if(!$this->cache_enabled) {
 			return false;
 		}
 
-		$cached_router = $this->getCacheBackendInstance()->load( $this->URL );
+		$cached_router = $this->getCacheBackendInstance()->load( $URL );
 
 		if(!$cached_router) {
 			return false;
@@ -1196,12 +1221,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	public function cacheSave() {
 		if(
 			!$this->cache_enabled ||
-			$this->_cache_loaded
+			$this->_cache_loaded ||
+			!$this->page_URL
 		) {
 			return;
 		}
 
-		$this->getCacheBackendInstance()->save($this->URL, $this);
+		$this->getCacheBackendInstance()->save($this->_request_URL, $this);
 	}
 
 	/**

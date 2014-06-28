@@ -206,5 +206,12 @@ class Http_URL extends Object {
 		return $this->user;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getIsSSL() {
+		return ($this->scheme=='https');
+	}
+
 
 }

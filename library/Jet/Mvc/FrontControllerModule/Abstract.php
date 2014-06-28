@@ -563,4 +563,26 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 		return true;
 	}
 
+	/**
+	 * @param string $module_name
+	 *
+	 * @return bool
+	 */
+	public function getServiceRequestAllowed( $module_name ) {
+		$page = $this->router->getPage();
+
+		if($page->getIsAdminUI()) {
+			return true;
+		}
+
+		$contents = $page->getContents();
+		foreach( $contents as $content ) {
+			if($content->getModuleName()==$module_name) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }
