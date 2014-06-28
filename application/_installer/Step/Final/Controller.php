@@ -63,6 +63,13 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 		}
 
 
+		if(JET_DEBUG_MODE) {
+			$this->render('debug-warning');
+		} else {
+			$this->render('non-debug-warning');
+
+		}
+
 
 	}
 

@@ -25,5 +25,20 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'dc3fd488f03d423a04da27ce66274c1b' => array(
+		'phrase' => 'Warning!',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'c1032144d126c070919ed9b181710e2b' => array(
+		'phrase' => 'The application is in debug mode. It is good for development, but bad for performace. Plase change JET_DEBUG_MODE constant value (script: application/defines.php) if you want. ',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'148916797b3ba8678ac0dbada38cd5c3' => array(
+		'phrase' => 'The application is in not debug mode. It is good for performance, but bad for development. Plase change JET_DEBUG_MODE constant value (script: application/defines.php) if you want. ',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;
