@@ -55,14 +55,16 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	public function getHTMLSnippet(){
 		$router = $this->layout->getRouter();
 
+		$front_controller = $router->getFrontController();
+
 		$Jet_config = array(
 			'base_request_URI' => $this->getBaseRequestURI(),
 			'base_URI' => $this->getBaseURI(),
 			'modules_URI' => $this->getModulesURI(),
-			'service_type_path_fragments_map' => Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap(),
+			'service_type_path_fragments_map' => $front_controller->getServiceTypesPathFragmentsMap(),
 			'auto_initialize' => true,
 			'current_locale' => $router->getLocale(),
-			'front_controller_module_name' => Application_Modules::getModuleManifest($router->getFrontControllerModuleName())->getDottedName()
+			'front_controller_module_name' => $front_controller->getModuleManifest()->getDottedName()
 		);
 		
 		
@@ -122,8 +124,9 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 */
 	public function getBaseURI(){
 		if(!$this->base_URI) {
-			$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
-			$this->base_URI = $this->getBaseRequestURI().$sm[Mvc_Router::SERVICE_TYPE__JETJS_].'/';
+			$front_controller = $this->layout->getRouter()->getFrontController();
+
+			$this->base_URI = $front_controller->generateServiceURL( Mvc_Router::SERVICE_TYPE__JETJS_ );
 		}
 
 		return $this->base_URI;

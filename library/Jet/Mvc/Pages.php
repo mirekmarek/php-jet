@@ -185,7 +185,7 @@ class Mvc_Pages extends Object {
 	 *
 	 * @return string
 	 */
-	public static function getURL(  $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+	public static function getURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
 		return Mvc_Router::getCurrentRouterInstance()->getFrontController()->generateURL( $page_ID, $path_fragments, $GET_params, $locale, $site_ID );
 	}
 

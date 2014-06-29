@@ -30,37 +30,6 @@ namespace Jet;
 abstract class Mvc_Router_Abstract extends Object {
 
 	/**
-	 * @see Mvc/readme.txt
-	 *
-	 *  Key = URI path fragment
-	 *  Value = service type (and controller class!)
-	 *
-	 * @var array
-	 */
-	protected static $path_fragments_service_types_map = array(
-		'_ajax_' => Mvc_Router::SERVICE_TYPE_AJAX,
-		'_rest_' => Mvc_Router::SERVICE_TYPE_REST,
-		'_sys_' => Mvc_Router::SERVICE_TYPE_SYS,
-		'_JetJS_' => Mvc_Router::SERVICE_TYPE__JETJS_,
-	);
-
-	/**
-	 * @see Mvc/readme.txt
-	 *
-	 *  Key = service type (and controller class!)
-	 *  Value = URI path fragment
-	 *
-	 * @var array
-	 */
-	protected static $service_types_path_fragments_map = array(
-		Mvc_Router::SERVICE_TYPE_AJAX => '_ajax_',
-		Mvc_Router::SERVICE_TYPE_REST => '_rest_',
-		Mvc_Router::SERVICE_TYPE_SYS => '_sys_',
-		Mvc_Router::SERVICE_TYPE__JETJS_ => '_JetJS_'
-	);
-
-
-	/**
 	 *
 	 * @var Mvc_Router_Config_Abstract
 	 */
@@ -116,20 +85,6 @@ abstract class Mvc_Router_Abstract extends Object {
         $this->output_cache_enabled = false;
     }
 
-
-	/**
-	 * @return array
-	 */
-	public function getPathFragmentsServiceTypesMap() {
-		return static::$path_fragments_service_types_map;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getServiceTypesPathFragmentsMap() {
-		return static::$service_types_path_fragments_map;
-	}
 
 	/**
 	 * @return Mvc_Router_Map_Abstract
@@ -425,6 +380,7 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @return string
 	 */
 	abstract public function getServiceType();
+
 
 	/**
 	 * @abstract

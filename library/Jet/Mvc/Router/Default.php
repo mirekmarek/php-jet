@@ -744,8 +744,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 		if(
-			$this->service_type!=Mvc_Router::SERVICE_TYPE_REST &&
-			$this->service_type!=Mvc_Router::SERVICE_TYPE_SYS
+			$this->service_type!=Mvc_Router::SERVICE_TYPE_REST
 		) {
 			$this->layout = $this->_UI_front_controller_module_instance->initializeLayout();
 		}

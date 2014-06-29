@@ -22,7 +22,6 @@ namespace Jet;
 class Mvc_Router extends Object {
 	
 	const SERVICE_TYPE_AJAX = 'AJAX';
-	const SERVICE_TYPE_SYS = 'SYS';
 	const SERVICE_TYPE_REST = 'REST';
 	const SERVICE_TYPE_STANDARD = 'Standard';
 	const SERVICE_TYPE__JETJS_ = '_JetJS_';

@@ -21,6 +21,35 @@
 namespace Jet;
 
 abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Module_Abstract {
+	/**
+	 * @see Mvc/readme.txt
+	 *
+	 *  Key = URI path fragment
+	 *  Value = service type (and controller class!)
+	 *
+	 * @var array
+	 */
+	protected static $path_fragments_service_types_map = array(
+		'_ajax_' => Mvc_Router::SERVICE_TYPE_AJAX,
+		'_rest_' => Mvc_Router::SERVICE_TYPE_REST,
+		'_JetJS_' => Mvc_Router::SERVICE_TYPE__JETJS_,
+	);
+
+	/**
+	 * @see Mvc/readme.txt
+	 *
+	 *  Key = service type (and controller class!)
+	 *  Value = URI path fragment
+	 *
+	 * @var array
+	 */
+	protected static $service_types_path_fragments_map = array(
+		Mvc_Router::SERVICE_TYPE_AJAX => '_ajax_',
+		Mvc_Router::SERVICE_TYPE_REST => '_rest_',
+		Mvc_Router::SERVICE_TYPE__JETJS_ => '_JetJS_'
+	);
+
+
 	const CONTAINER_ID_GET_PARAMETER = 'container_ID';
 	
 	/**
@@ -138,7 +167,7 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 
 		$router = $this->router;
 
-		$path_fragments_service_types_map = $router->getPathFragmentsServiceTypesMap();
+		$path_fragments_service_types_map = static::$path_fragments_service_types_map;
 		$path_fragments = $router->getPathFragments();
 
 
@@ -313,90 +342,6 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 		}
 
 		return null;
-	}
-
-	/**
-	 *
-	 * @param DataModel_ID_Abstract|mixed $page_ID
-	 * @param array $path_fragments (optional)
-	 * @param array $GET_params (optional)
-	 * @param Locale|string|null $locale (optional), default: current locale
-	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
-	 *
-	 * @return string
-	 */
-	public function generateURI( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
-		if(
-			$site_ID &&
-			$site_ID!=$this->router->getSiteID()
-		) {
-			return $this->generateURL( $page_ID, $locale, $site_ID );
-		}
-
-		;
-		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
-			return null;
-		}
-
-		return $this->_createURL($URL->getPathPart(), $path_fragments, $GET_params);
-	}
-
-	/**
-	 *
-	 * @param DataModel_ID_Abstract|mixed $page_ID
-	 * @param array $path_fragments (optional)
-	 * @param array $GET_params (optional)
-	 * @param Locale|string|null $locale (optional), default: current locale
-	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
-	 *
-	 * @return string
-	 */
-	public function generateURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
-		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
-			return null;
-		}
-
-		return $this->_createURL($URL->toString(), $path_fragments, $GET_params);
-	}
-
-
-	/**
-	 *
-	 * @param DataModel_ID_Abstract|mixed $page_ID
-	 * @param array $path_fragments (optional)
-	 * @param array $GET_params (optional)
-	 * @param Locale|string|null $locale (optional), default: current locale
-	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
-	 *
-	 * @return string
-	 */
-	public function generateNonSchemaURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
-		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
-			return null;
-		}
-
-		return $this->_createURL($URL->getAsNonSchemaURL(), $path_fragments, $GET_params);
-	}
-
-	/**
-	 * @param $URL
-	 * @param $path_fragments
-	 * @param $GET_params
-	 *
-	 * @return string
-	 */
-	public function _createURL( $URL, array $path_fragments, array $GET_params ) {
-
-		foreach( $path_fragments as $path_fragment ) {
-			$URL .= rawurlencode($path_fragment).'/';
-		}
-
-		if($GET_params) {
-			$URL .= '?'.http_build_query( $GET_params );
-		}
-
-
-		return $URL;
 	}
 
 
@@ -626,6 +571,21 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getPathFragmentsServiceTypesMap() {
+		return static::$path_fragments_service_types_map;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getServiceTypesPathFragmentsMap() {
+		return static::$service_types_path_fragments_map;
+	}
+
+
+	/**
 	 * @param bool $do_not_handle_error_page (optional, default:false)
 	 *
 	 * @return bool
@@ -673,6 +633,229 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 
 		return false;
 	}
+
+
+	/**
+	 *
+	 * @param DataModel_ID_Abstract|mixed $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
+	 * @param Locale|string|null $locale (optional), default: current locale
+	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
+	 *
+	 * @return string
+	 */
+	public function generateURI( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		if(
+			$site_ID &&
+			$site_ID!=$this->router->getSiteID()
+		) {
+			return $this->generateURL( $page_ID, $locale, $site_ID );
+		}
+
+		;
+		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
+			return null;
+		}
+
+		return $this->_generateURL($URL->getPathPart(), $path_fragments, $GET_params);
+	}
+
+	/**
+	 *
+	 * @param DataModel_ID_Abstract|mixed $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
+	 * @param Locale|string|null $locale (optional), default: current locale
+	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
+	 *
+	 * @return string
+	 */
+	public function generateURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
+			return null;
+		}
+
+		return $this->_generateURL($URL->toString(), $path_fragments, $GET_params);
+	}
+
+
+	/**
+	 *
+	 * @param DataModel_ID_Abstract|mixed $page_ID
+	 * @param array $path_fragments (optional)
+	 * @param array $GET_params (optional)
+	 * @param Locale|string|null $locale (optional), default: current locale
+	 * @param DataModel_ID_Abstract|mixed $site_ID( optimal), default: current site_ID
+	 *
+	 * @return string
+	 */
+	public function generateNonSchemaURL( $page_ID, array $path_fragments=[], array $GET_params=[], $locale=null, $site_ID=null ) {
+		if(!($URL = $this->getURLObject( $page_ID, $locale, $site_ID ))) {
+			return null;
+		}
+
+		return $this->_generateURL($URL->getAsNonSchemaURL(), $path_fragments, $GET_params);
+	}
+
+	/**
+	 * @param $URL
+	 * @param $path_fragments
+	 * @param $GET_params
+	 *
+	 * @return string
+	 */
+	public function _generateURL( $URL, array $path_fragments, array $GET_params ) {
+
+		foreach( $path_fragments as $path_fragment ) {
+			$URL .= rawurlencode($path_fragment).'/';
+		}
+
+		if($GET_params) {
+			$URL .= '?'.http_build_query( $GET_params );
+		}
+
+
+		return $URL;
+	}
+
+
+	/**
+	 * Gets URI to this module service action (page-uri/[service]/[module name]/[action])
+	 *
+	 * @param string $service_type
+	 * @param string $module_name
+	 * @param string $action
+	 * @param array $path_fragments(optional), default: no fragments
+	 * @param array $GET_params(optional), default: no parameters
+	 * @param string|mixed $page_ID (optional), default: current page
+	 * @param Locale|string $locale(optional), default: current locale
+	 * @param string|mixed $site_ID (optional), default: current site ID
+	 *
+	 * @return string
+	 */
+	public function generateServiceURI(
+		$service_type,
+		$module_name='',
+		$action='',
+		$path_fragments=array(),
+		$GET_params=array(),
+		$page_ID = null,
+		$locale = null,
+		$site_ID = null
+	){
+
+		return $this->_generateServiceURL(
+			false,
+			$service_type,
+			$module_name,
+			$action,
+			$path_fragments,
+			$GET_params,
+			$page_ID,
+			$locale,
+			$site_ID
+		);
+	}
+
+	/**
+	 * Gets URL to this module service action (http://site/page/[service]/[module name]/[action])
+	 *
+	 * @param string $service_type
+	 * @param string $module_name
+	 * @param string $action
+	 * @param array $path_fragments(optional), default: no fragments
+	 * @param array $GET_params(optional), default: no parameters
+	 * @param string|mixed $page_ID (optional), default: current page
+	 * @param Locale|string $locale(optional), default: current locale
+	 * @param string|mixed $site_ID (optional), default: current site ID
+	 *
+	 * @return string
+	 */
+	public function generateServiceURL(
+		$service_type,
+		$module_name='',
+		$action='',
+		$path_fragments=array(),
+		$GET_params=array(),
+		$page_ID = null,
+		$locale = null,
+		$site_ID = null
+	){
+		return $this->_generateServiceURL(
+			true,
+			$service_type,
+			$module_name,
+			$action,
+			$path_fragments,
+			$GET_params,
+			$page_ID,
+			$locale,
+			$site_ID
+		);
+	}
+
+	/**
+	 *
+	 * @param bool $get_full_URL
+	 * @param string $service_type
+	 * @param string $module_name
+	 * @param string $action
+	 * @param array $path_fragments(optional), default: no fragments
+	 * @param array $GET_params(optional), default: no parameters
+	 * @param string|mixed $page_ID (optional), default: current page
+	 * @param Locale|string $locale(optional), default: current locale
+	 * @param string|mixed $site_ID (optional), default: current site ID
+	 *
+	 * @return string
+	 */
+	protected function _generateServiceURL(
+		$get_full_URL,
+		$service_type,
+		$module_name='',
+		$action='',
+		$path_fragments=array(),
+		$GET_params=array(),
+		$page_ID = null,
+		$locale = null,
+		$site_ID = null
+	){
+
+		if(!$page_ID) {
+			$page_ID = Mvc::getCurrentPageID();
+		}
+
+
+		if($get_full_URL) {
+			$URL = Mvc_Pages::getURL($page_ID, [], [], $locale, $site_ID );
+		} else {
+			$URL = Mvc_Pages::getURI($page_ID, [], [], $locale, $site_ID );
+		}
+
+		$URL .= static::$service_types_path_fragments_map[$service_type].'/';
+
+		if($module_name) {
+			$URL .= Application_Modules::getModuleManifest($module_name)->getDottedName().'/';
+		}
+		if($action) {
+			$URL .= $action.'/';
+		}
+
+		if($path_fragments) {
+			foreach( $path_fragments as $i=>$pf ) {
+				$path_fragments[$i] = rawurlencode($pf);
+			}
+			$URL .= implode('/', $path_fragments).'/';
+		}
+
+		if($GET_params) {
+			$URL .= '?'.http_build_query($GET_params);
+		}
+		return $URL;
+	}
+
+
+
 
 	/**
 	 * @param Mvc_Router_Abstract $router

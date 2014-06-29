@@ -1059,7 +1059,7 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 			foreach( $parent_page_URLs as $parent_URL ) {
 				$URL = clone $parent_URL;
 
-				$str_URL = $URL->toString().$this->URL_fragment.'/';
+				$str_URL = $URL.$this->URL_fragment.'/';
 
 				$URL->setURL( $str_URL );
 

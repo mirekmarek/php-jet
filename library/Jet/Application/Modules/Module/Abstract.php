@@ -390,39 +390,6 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		);
 	}
 
-	/**
-	 * Gets URI to this module SYS action (page-uri/_sys_/[module name]/[action])
-	 *
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getSysURI(
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return $this->getServiceURI(
-			Mvc_Router::SERVICE_TYPE_SYS,
-			$action,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
-	}
-
-
-
 
 
 
@@ -489,36 +456,6 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		);
 	}
 
-	/**
-	 * Gets URL to this module SYS action (http://site/page/_sys_/[module name]/[action])
-	 *
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getSysURL(
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return $this->getServiceURL(
-			Mvc_Router::SERVICE_TYPE_SYS,
-			$action,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
-	}
 
 	/**
 	 * Gets URI to this module service action (page-uri/[service]/[module name]/[action])
@@ -533,7 +470,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 * @return string
 	 */
-	protected function getServiceURI(
+	public function getServiceURI(
 		$service_type,
 		$action,
 		$path_fragments=array(),
@@ -542,35 +479,16 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$locale = null,
 		$site_ID = null
 	){
-		if(!$page_ID) {
-			$page_ID = Mvc::getCurrentPageID();
-		}
-		if(!$site_ID) {
-			$site_ID = Mvc::getCurrentSiteID();
-		}
-		if(!$locale) {
-			$locale = Mvc::getCurrentLocale();
-		}
-
-		$URI = Mvc_Pages::getURI($page_ID, $locale, $site_ID);
-
-		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
-		$URI .= $sm[$service_type].'/';
-
-		$URI .= $this->module_manifest->getDottedName().'/';
-		$URI .= $action.'/';
-
-		if($path_fragments) {
-			$URI .= implode('/', $path_fragments).'/';
-		}
-
-		if($GET_params) {
-			foreach($GET_params as $k=>$v) {
-				$GET_params[$k] = $k.'='.rawurlencode($v);
-			}
-			$URI .= '?'.implode('&', $GET_params);
-		}
-		return $URI;
+		return Mvc::getCurrentFrontController()->generateServiceURI(
+			$service_type,
+			$this->module_manifest->getName(),
+			$action,
+			$path_fragments,
+			$GET_params,
+			$page_ID,
+			$locale,
+			$site_ID
+		);
 	}
 
 
@@ -587,7 +505,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 * @return string
 	 */
-	protected function getServiceURL(
+	public function getServiceURL(
 		$service_type,
 		$action,
 		$path_fragments=array(),
@@ -596,35 +514,16 @@ abstract class Application_Modules_Module_Abstract extends Object {
 		$locale = null,
 		$site_ID = null
 	){
-		if(!$page_ID) {
-			$page_ID = Mvc::getCurrentPageID();
-		}
-		if(!$site_ID) {
-			$site_ID = Mvc::getCurrentSiteID();
-		}
-		if(!$locale) {
-			$locale = Mvc::getCurrentLocale();
-		}
-
-		$URL = Mvc_Pages::getURL($page_ID, $locale, $site_ID);
-
-		$sm = Mvc_Router::getCurrentRouterInstance()->getServiceTypesPathFragmentsMap();
-		$URL .= $sm[$service_type].'/';
-
-		$URL .= $this->module_manifest->getName().'/';
-		$URL .= $action.'/';
-
-		if($path_fragments) {
-			$URL .= implode('/', $path_fragments).'/';
-		}
-
-		if($GET_params) {
-			foreach($GET_params as $k=>$v) {
-				$GET_params[$k] = $k.'='.rawurlencode($v);
-			}
-			$URL .= '?'.implode('&', $GET_params);
-		}
-		return $URL;
+		return Mvc::getCurrentFrontController()->generateServiceURL(
+			$service_type,
+			$this->module_manifest->getName(),
+			$action,
+			$path_fragments,
+			$GET_params,
+			$page_ID,
+			$locale,
+			$site_ID
+		);
 	}
 
 }
