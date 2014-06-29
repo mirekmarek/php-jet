@@ -10,7 +10,7 @@ $grid = $this->grid;
 
 
 /**
- * @var Jet\Mvc_Controller_MicroRouter $router
+ * @var Jet\Mvc_MicroRouter $router
  */
 $router = $this->router;
 
@@ -50,7 +50,7 @@ $c_date_time->setCssStyle( 'width:200px;' );
 
 <div style="padding: 10px;">
 
-<?php if($this->can_add_article): ?>
+<?php if($router->getActionAllowed('add')): ?>
 <a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Jet\Tr::_('Create new article');?></a>
 <?php endif; ?>
 

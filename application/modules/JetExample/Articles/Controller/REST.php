@@ -32,6 +32,12 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		'delete_article' => 'delete_article'
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
 
 	/**
 	 * @param null|int $ID

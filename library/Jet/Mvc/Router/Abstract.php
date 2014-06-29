@@ -302,6 +302,12 @@ abstract class Mvc_Router_Abstract extends Object {
 	abstract public function setupLayout();
 
 	/**
+	 * @return Mvc_Dispatcher_Queue
+	 */
+	abstract public function getDispatchQueue();
+
+
+	/**
 	 * @abstract
 	 * @param Mvc_Dispatcher_Abstract $dispatcher
 	 */
@@ -329,6 +335,11 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @return array
 	 */
 	abstract public function getPathFragments();
+
+	/**
+	 * @return array
+	 */
+	abstract public function shiftPathFragments();
 
 
 	/**
@@ -404,8 +415,8 @@ abstract class Mvc_Router_Abstract extends Object {
 	abstract public function getPage();
 
 	/**
-	 *
 	 * @param Mvc_Pages_Page_Abstract $page
+	 *
 	 */
 	abstract public function setPage( Mvc_Pages_Page_Abstract $page );
 
@@ -414,24 +425,6 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @return string
 	 */
 	abstract public function getServiceType();
-
-	/**
-	 * @abstract
-	 * @return string|null
-	 */
-	abstract public function getServiceSubtype();
-
-	/**
-	 * @abstract
-	 * @return string
-	 */
-	abstract public function getModuleName();
-
-	/**
-	 * @abstract
-	 * @return string
-	 */
-	abstract public function getModuleAction();
 
 	/**
 	 * @abstract
@@ -522,24 +515,6 @@ abstract class Mvc_Router_Abstract extends Object {
 	 * @param string $service_type
 	 */
 	abstract public function setServiceType($service_type);
-
-	/**
-	 * @abstract
-	 * @param string $service_subtype
-	 */
-	abstract public function setServiceSubtype($service_subtype);
-
-	/**
-	 * @abstract
-	 * @param string $module_name
-	 */
-	abstract public function setModuleName($module_name);
-
-	/**
-	 * @abstract
-	 * @param string $module_action
-	 */
-	abstract public function setModuleAction($module_action);
 
 	/**
 	 * @abstract

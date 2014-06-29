@@ -18,4 +18,11 @@ namespace JetApplicationModule\JetExample\FrontController\Site;
 use Jet;
 
 class Main extends Jet\Mvc_FrontControllerModule_Abstract {
+
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
 }

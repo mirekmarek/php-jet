@@ -76,6 +76,22 @@ class Mvc_Dispatcher_Queue_Item extends Object {
 	}
 
 	/**
+	 * @param string $controller_action
+	 */
+	public function setControllerAction($controller_action) {
+		$this->controller_action = $controller_action;
+	}
+
+	/**
+	 * @param array $controller_action_parameters
+	 */
+	public function setControllerActionParameters( array $controller_action_parameters) {
+		$this->controller_action_parameters = $controller_action_parameters;
+	}
+
+
+
+	/**
 	 *
 	 * @return string
 	 */

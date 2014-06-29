@@ -30,6 +30,12 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 		'default' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
 
 	public function default_Action() {
 		$obj = new DataModelT1();

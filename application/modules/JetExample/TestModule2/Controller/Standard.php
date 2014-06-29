@@ -30,6 +30,12 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		'test_action2' => false,
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
 	public function default_Action() {
 	}
 

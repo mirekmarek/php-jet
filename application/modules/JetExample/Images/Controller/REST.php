@@ -56,6 +56,12 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	);
 
 	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+	/**
 	 * @param null|int $ID
 	 */
 	public function get_image_Action( $ID=null ) {

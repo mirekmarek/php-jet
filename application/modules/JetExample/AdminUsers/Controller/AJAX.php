@@ -30,6 +30,13 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 		'default' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+
 	function default_Action() {
 		$role = Jet\Auth_Factory::getUserInstance();
 		$form = $role->getCommonForm();

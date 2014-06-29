@@ -16,6 +16,7 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Mvc_MicroRouter;
 
 class Main extends Jet\Application_Modules_Module_Abstract {
 	protected $ACL_actions = array(
@@ -24,6 +25,16 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		'update_article' => 'Update article',
 		'delete_article' => 'Delete article',
 	);
+
+	/**
+	 * @var int
+	 */
+	protected $public_list_items_per_page = 5;
+
+	/**
+	 * @var Jet\Mvc_MicroRouter
+	 */
+	protected $_micro_router;
 
 
 	/**
@@ -65,4 +76,95 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		return $controller_class_name;
 	}
 
+	/**
+	 * @param Jet\Mvc_Router_Abstract $router
+	 *
+	 * @return Jet\Mvc_MicroRouter
+	 */
+	public function getMicroRouter( Jet\Mvc_Router_Abstract $router=null ) {
+		if($this->_micro_router) {
+			return $this->_micro_router;
+		}
+
+		if(!$router) {
+			$router = Jet\Mvc_Router::getCurrentRouterInstance();
+		}
+
+		$router = new Jet\Mvc_MicroRouter( $router, $this );
+
+		$base_URI = Jet\Mvc::getCurrentURI();
+
+		$router->addAction('add', '/^add$/', 'add_article')
+			->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+
+		$router->addAction('edit', '/^edit:([\S]+)$/', 'update_article')
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } );
+
+		$router->addAction('view', '/^view:([\S]+)$/', 'get_article')
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } );
+
+		$router->addAction('delete', '/^delete:([\S]+)$/', 'delete_article')
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } );
+
+		$router->setDefaultActionName('list');
+
+		$this->_micro_router = $router;
+
+		return $router;
+	}
+
+
+	/**
+	 * @param Jet\Mvc_Router_Abstract $router
+	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 */
+	public function resolveRequest( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
+		if(Jet\Mvc::getIsAdminUIRequest()) {
+			$this->resolveRequest_Admin( $router, $dispatch_queue_item );
+		} else {
+			$this->resolveRequest_Public( $router, $dispatch_queue_item );
+		}
+	}
+
+	/**
+	 * @param Jet\Mvc_Router_Abstract $router
+	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 */
+	public function resolveRequest_Admin( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
+
+		$router = $this->getMicroRouter( $router );
+
+		$router->resolve( $dispatch_queue_item );
+	}
+
+	/**
+	 * @param Jet\Mvc_Router_Abstract $router
+	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 */
+	public function resolveRequest_Public( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
+
+		$article = new Article();
+		$current_article = $article->resolveArticleByURL( $router );
+
+		if($current_article) {
+
+			$dispatch_queue_item->setControllerAction('detail');
+			$dispatch_queue_item->setControllerActionParameters( [$current_article] );
+		} else {
+
+			$paginator = new Jet\Data_Paginator(
+				$router->parsePathFragmentIntValue( 'page:%VAL%', 1 ),
+				$this->public_list_items_per_page,
+				$router->getPage()->getURI().'page:'.Jet\Data_Paginator::URL_PAGE_NO_KEY.'/'
+			);
+
+			$paginator->setDataSource( $article->getListForCurrentLocale() );
+
+			$articles_list = $paginator->getData();
+
+			$dispatch_queue_item->setControllerAction('list');
+			$dispatch_queue_item->setControllerActionParameters( [$paginator, $articles_list] );
+
+		}
+	}
 }

@@ -19,4 +19,9 @@ namespace JetApplicationModule\JetExample\TestModule2;
 use Jet;
 
 class Controller_REST extends Jet\Mvc_Controller_REST {
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
 }

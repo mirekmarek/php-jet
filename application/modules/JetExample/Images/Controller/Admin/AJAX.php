@@ -29,6 +29,12 @@ class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
 		'default' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
 	function default_Action() {
 
 		$article = new Gallery();

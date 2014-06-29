@@ -90,6 +90,11 @@ abstract class Mvc_Controller_Abstract extends Object {
 	}
 
 	/**
+	 * Is called after controller instance is created
+	 */
+	abstract public function initialize();
+
+	/**
 	 * @param string $action
 	 * @param array $action_parameters
 	 * @param bool $log_event (optional, default: true)

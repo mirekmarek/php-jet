@@ -29,6 +29,13 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		'get_pages_tree' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+
 	public function get_pages_tree_Action() {
 		$this->responseData( Jet\Mvc_Factory::getPageInstance()->getAllPagesTree() );
 	}

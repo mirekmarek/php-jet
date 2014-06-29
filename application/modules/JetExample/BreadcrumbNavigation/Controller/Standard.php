@@ -29,6 +29,13 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		'default' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+
 	public function default_Action( $view='default' ) {
 		//named params emulation
 		if(is_array($view)) {

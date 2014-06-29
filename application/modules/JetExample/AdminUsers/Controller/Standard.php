@@ -36,6 +36,13 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	/**
 	 *
 	 */
+	public function initialize() {
+	}
+
+
+	/**
+	 *
+	 */
 	public function default_Action() {
 
 		Jet\Mvc::setProvidesDynamicContent();

@@ -31,7 +31,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$this->service_type = $router->getServiceType();
 		$this->router->setDispatcherInstance($this);
 
-		$this->queue = $router->getFrontController()->getDispatchQueue();
+		$this->queue = $router->getDispatchQueue();
 	}
 
 	/**

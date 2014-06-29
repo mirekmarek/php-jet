@@ -24,41 +24,22 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 		'default' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
 
-	public function default_Action() {
-		$parent_ID = '_root_';
-		$gallery = null;
+	/**
+	 * @param string $gallery_ID
+	 * @param Gallery $gallery (optional)
+	 */
+	public function default_Action( $gallery_ID, Gallery $gallery=null ) {
 
-
-		$path_fragments = Jet\Mvc::getPathFragments();
-
-		$URI = Jet\Mvc::getCurrentURI();
-
-		if($path_fragments) {
-
-			foreach( $path_fragments as $pf ) {
-
-				if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $parent_ID )) ) {
-					$gallery = $_g;
-					$parent_ID = $gallery->getID();
-					$URI .= rawurlencode($gallery->getTitle()).'/';
-
-					$this->getFrontController()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
-
-					Jet\Mvc::putUsedPathFragment( $pf );
-				} else {
-					break;
-				}
-
-			}
-
-		}
-
-		$children = Gallery::getChildren( $parent_ID );
+		$children = Gallery::getChildren( $gallery_ID );
 
 		$this->view->setVar('children', $children);
 		$this->view->setVar('gallery', $gallery);
-		$this->view->setVar('root_URI', $URI);
 		$this->view->setVar('icons_URI', $this->module_instance->getPublicURI().'icons/');
 
 		$this->render('default');

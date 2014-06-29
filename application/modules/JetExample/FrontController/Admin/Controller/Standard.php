@@ -34,6 +34,13 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		'classic_default' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+
+	}
+
 	public function signpost_Action() {
 		$this->render('signpost');
 	}

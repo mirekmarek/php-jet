@@ -7,7 +7,7 @@
  * @see Mvc/readme.txt
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -39,6 +39,11 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	 * @var Data_Tree[]
 	 */
 	protected $sites_structure = array();
+
+	/**
+	 * @var Mvc_Dispatcher_Queue
+	 */
+	protected $_dispatch_queue;
 
 	/**
 	 *
@@ -122,32 +127,116 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	/**
 	 * Returns dispatch queue
 	 *
-	 * @return Mvc_Dispatcher_Queue
+	 * @return Mvc_Dispatcher_Queue|null
 	 */
 	public function getDispatchQueue() {
-		$service_type = $this->router->getServiceType();
-
-		if($service_type==Mvc_Router::SERVICE_TYPE_STANDARD) {
-			return $this->router->getPage()->getDispatchQueue();
+		if($this->_dispatch_queue) {
+			return $this->_dispatch_queue;
 		}
-		else if($service_type==Mvc_Router::SERVICE_TYPE__JETJS_) {
+
+		$this->_dispatch_queue = new Mvc_Dispatcher_Queue();
+
+		$router = $this->router;
+
+		$path_fragments_service_types_map = $router->getPathFragmentsServiceTypesMap();
+		$path_fragments = $router->getPathFragments();
+
+
+		$service_type = $router->getServiceType();
+		if(
+			isset($path_fragments[0]) &&
+			isset( $path_fragments_service_types_map[$path_fragments[0]] )
+		) {
+			$service_type = $path_fragments_service_types_map[$path_fragments[0]];
+			$router->setServiceType( $service_type );
+			$path_fragments = $router->shiftPathFragments();
+		}
+
+
+
+		if( $service_type == Mvc_Router::SERVICE_TYPE_STANDARD ) {
+
+			if(
+				count($path_fragments)==1 &&
+				strpos($path_fragments[0], '.')!==false &&
+				$path_fragments[0][0] != '.' &&
+				strpos($path_fragments[0], '..')===false
+			) {
+				$file_path = $router->getPublicFilesPath().$path_fragments[0];
+
+
+				if(IO_File::isReadable($file_path)) {
+					$router->shiftPathFragments();
+					$router->setIsPublicFile($file_path);
+
+					return null;
+				}
+
+			}
+
+
+			$this->_dispatch_queue = $this->router->getPage()->getDispatchQueue();
+
+			foreach( $this->_dispatch_queue as $item ) {
+				/**
+				 * @var Mvc_Dispatcher_Queue_Item $item
+				 */
+				$module_name = $item->getModuleName();
+
+				$module_instance = Application_Modules::getModuleInstance( $module_name );
+
+				$module_instance->resolveRequest( $router, $item );
+			}
+
+			return $this->_dispatch_queue;
+		}
+
+
+		if($service_type==Mvc_Router::SERVICE_TYPE__JETJS_) {
 			Translator::setCurrentLocale( $this->router->getLocale() );
 
 			$this->handleJetJS();
+
 			return null;
-
 		}
-		else {
-			$queue = new Mvc_Dispatcher_Queue();
-			$qi = new Mvc_Dispatcher_Queue_Item(
-				$this->router->getModuleName(),
-				$this->router->getModuleAction(),
-				$this->router->getPathFragments()
-			);
-			$queue->addItem( $qi );
 
-			return $queue;
+
+		$module_name = Application_Modules::getHandler()->normalizeName(
+			$path_fragments[0]
+		);
+
+		$path_fragments = $router->shiftPathFragments();
+
+
+		if(!$this->getServiceRequestAllowed( $module_name )) {
+			$router->setIs404();
+
+			return null;
 		}
+
+		$controller_action = Mvc_Dispatcher::DEFAULT_ACTION;
+
+		if($path_fragments){
+			$controller_action = $path_fragments[0];
+			$path_fragments = $router->shiftPathFragments();
+		}
+
+		if( $service_type==Mvc_Router::SERVICE_TYPE_REST ) {
+			$method = strtolower(Http_Request::getRequestMethod());
+
+			$controller_action = $method . '_' . $controller_action;
+		}
+
+		$this->_dispatch_queue = new Mvc_Dispatcher_Queue();
+		$qi = new Mvc_Dispatcher_Queue_Item(
+			$module_name,
+			$controller_action,
+			$path_fragments
+		);
+		$this->_dispatch_queue->addItem( $qi );
+
+		return $this->_dispatch_queue;
+
 	}
 
 
@@ -583,6 +672,14 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param Mvc_Router_Abstract $router
+	 * @param Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 *
+	 */
+	public function resolveRequest( Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
 	}
 
 }

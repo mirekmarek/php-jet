@@ -24,6 +24,11 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		'default' => 'get_gallery'
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
 
 	public function default_Action() {
 

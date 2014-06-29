@@ -34,6 +34,13 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	);
 
 	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+
+	/**
 	 * @param null|string $ID
 	 */
 	public function get_user_Action( $ID=null ) {

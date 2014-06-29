@@ -74,12 +74,6 @@ class Mvc {
 			$output = $dispatcher->dispatch();
 
 
-			if($router->getIsThereAnyUnusedPathFragment()) {
-				$router->setIs404();
-				$router->getFrontController()->handle404();
-			}
-
-
 			echo $output;
 			$router->cacheSave();
 
@@ -121,11 +115,6 @@ class Mvc {
 			$dispatcher = Mvc_Dispatcher::getNewDispatcherInstance();
 			$dispatcher->initialize($router);
 			$output = $dispatcher->dispatch( $return_output_as_string );
-
-			if($router->getIsThereAnyUnusedPathFragment()) {
-				$router->setIs404();
-				return false;
-			}
 
 			$router->cacheSave();
 

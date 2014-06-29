@@ -36,4 +36,12 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		echo 'TestModule: sending test/multiple\n';
 		return $this->sendSignal('test/multiple', 'HELLO MULTIPLE!');
 	}
+
+	/**
+	 * @param Jet\Mvc_Router_Abstract $router
+	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 */
+	public function resolveRequest( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
+	}
+
 }

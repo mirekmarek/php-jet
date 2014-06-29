@@ -26,12 +26,6 @@ class Mvc_Dispatcher_Queue extends Object implements \Iterator {
 
 	/**
 	 *
-	 * @var Mvc_Dispatcher_Queue_Item
-	 */
-	protected $current_item = null;
-
-	/**
-	 *
 	 */
 	public function __construct() {
 	}
@@ -40,6 +34,7 @@ class Mvc_Dispatcher_Queue extends Object implements \Iterator {
 	 * @see Iterator
 	 */
 	public function rewind() {
+		reset($this->items);
 	}
 
 	/**
@@ -48,25 +43,21 @@ class Mvc_Dispatcher_Queue extends Object implements \Iterator {
 	 * @return Mvc_Dispatcher_Queue_Item
 	 */
 	public function current() {
-		return $this->current_item;
+		return current($this->items);
 	}
 
 	/**
 	 * @see Iterator
 	 */
 	public function key() {
-		return 0;
+		return key($this->items);
 	}
 
 	/**
 	 * @see Iterator
 	 */
 	public function next() {
-		if(!$this->items) {
-			$this->current_item = null;
-		} else {
-			$this->current_item = array_shift( $this->items );
-		}
+		return next($this->items);
 	}
 
 	/**
@@ -74,28 +65,34 @@ class Mvc_Dispatcher_Queue extends Object implements \Iterator {
 	 * @return bool
 	 */
 	public function valid() {
-		return $this->current_item !== null;
+		return key($this->items)!==null;
 	}
 
 	/**
 	 * @param Mvc_Dispatcher_Queue_Item $item
 	 */
 	public function addItem(  Mvc_Dispatcher_Queue_Item $item  ) {
-		if(!$this->current_item) {
-			$this->current_item = $item;
-		} else {
-			$this->items[] = $item;
-		}
+		$this->items[] = $item;
 	}
 
 	/**
-	 * @param Mvc_Dispatcher_Queue_Item $item
+	 * @param Mvc_Dispatcher_Queue_Item $new_item
 	 */
-	public function unShiftItem(  Mvc_Dispatcher_Queue_Item $item  ) {
-		if(!$this->current_item) {
-			$this->current_item = $item;
-		} else {
-			array_unshift($this->items, $item);
+	public function unShiftItem(  Mvc_Dispatcher_Queue_Item $new_item  ) {
+		$current_index = key($this->items);
+
+		$items = array();
+		foreach( $this->items as $index=>$item ) {
+			$items[] = $item;
+			if($index==$current_index) {
+				$items[] = $new_item;
+			}
+		}
+
+		$this->items = $items;
+
+		for( $c=0; $c<$current_index; $c++ ) {
+			next( $this->items );
 		}
 	}
 
@@ -104,7 +101,11 @@ class Mvc_Dispatcher_Queue extends Object implements \Iterator {
 	 * @return Mvc_Dispatcher_Queue_Item
 	 */
 	public function getCurrentItem() {
-		return $this->current_item;
+		if(!$this->valid()) {
+			return null;
+		}
+
+		return current($this->items);
 	}
 
 }

@@ -75,11 +75,11 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_DataModel::checkValueType
+	 * @expectedException \Jet\DataModel_Exception
 	 */
 	public function testCheckValueType() {
-		$value = 'do not change';
+		$value = 'string ';
 		$this->object->checkValueType($value);
-		$this->assertEquals($value, $value);
 	}
 
 	/**

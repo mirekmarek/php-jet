@@ -153,40 +153,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	protected $service_type = '';
 
-	/**
-	 * Reserved ...
-	 *
-	 * @var string
-	 */
-	protected $service_subtype = '';
-
-	//------------------------------------------------------------------
-
-
-	/**
-	 * Current module name
-	 * Relates: AJAX, SYS, REST, ....
-	 *
-	 * Is empty if:
-	 *	- it is standard request
-	 *
-	 * @see Mvc/readme.txt
-	 * @see Mvc_Modules
-	 *
-	 * @var string
-	 */
-	protected $module_name = '';
-
-	/**
-	 * Current module action (accurately controller action)
-	 * Relates: AJAX, SYS, REST, ....
-	 *
-	 * @see Mvc/readme.txt
-	 * @see Mvc_Modules
-	 *
-	 * @var string
-	 */
-	protected $module_action = Mvc_Dispatcher::DEFAULT_ACTION;
 
 	//------------------------------------------------------------------
 	/**
@@ -220,6 +186,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 
 	//-----------------------------------------------------------------
+
+	/**
+	 * @var Mvc_Dispatcher_Queue
+	 */
+	protected $dispatch_queue;
+	//----------------------------------------------------------------
 
 	/**
 	 * @var bool
@@ -313,13 +285,18 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$this->path_fragments = explode( '/', $this->_parsed_request_URL->getPath() );
 
+		array_shift( $this->path_fragments );
+
+
 		foreach( $this->path_fragments as $i=>$pf ) {
 			$this->path_fragments[$i] = rawurldecode( $pf );
 		}
 
+
 		if(!$this->validateURIFormat()) {
 			return true;
 		}
+
 
 		return $this->resolve();
 	}
@@ -366,6 +343,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *  - page
 	 *  - service type
 	 *  (- module and action)
+	 *  (- resolve path fragments )
 	 * @see Mvc/readme.txt
 	 *
 	 * @return bool
@@ -465,7 +443,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$this->site_ID = $page->getSiteID();
 		$this->site = Mvc_Sites::getSite($this->site_ID);
-
 		$this->is_admin_UI = $this->page->getIsAdminUI();
 
 		if(
@@ -479,62 +456,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
-		//service (Standard, AJAX, REST)
 		$this->service_type = Mvc_Router::SERVICE_TYPE_STANDARD;
 
 
-		if(
-			isset($this->path_fragments[0]) &&
-			isset( static::$path_fragments_service_types_map[$this->path_fragments[0]] )
-		) {
-			$this->service_type = static::$path_fragments_service_types_map[$this->path_fragments[0]];
-			array_shift($this->path_fragments);
-		}
+		$this->dispatch_queue = $this->getFrontController()->getDispatchQueue();
 
-		if($this->service_type!=Mvc_Router::SERVICE_TYPE_STANDARD) {
-            $this->output_cache_enabled = false;
-		}
-
-		if(
-			$this->service_type!=Mvc_Router::SERVICE_TYPE_STANDARD &&
-			$this->service_type!=Mvc_Router::SERVICE_TYPE__JETJS_ &&
-			$this->path_fragments
-		) {
-			$this->module_name = Application_Modules::getHandler()->normalizeName(
-							array_shift( $this->path_fragments )
-						);
-
-			if(!$this->getFrontController()->getServiceRequestAllowed( $this->module_name )) {
-				$this->setIs404();
-
-				return true;
-			}
-
-
-			if($this->path_fragments){
-				$this->module_action = array_shift( $this->path_fragments );
-			}
-
-			if( $this->service_type==Mvc_Router::SERVICE_TYPE_REST ) {
-				$method = strtolower(Http_Request::getRequestMethod());
-
-				$this->module_action = $method . '_' . $this->module_action;
-			}
-
-		}
-
-		if(
-			$this->service_type == Mvc_Router::SERVICE_TYPE_STANDARD &&
-			count($this->path_fragments)==1 &&
-			strpos($this->path_fragments[0], '.')!==false &&
-			$this->path_fragments[0][0] != '.' &&
-			strpos($this->path_fragments[0], '..')===false
-		) {
-			$file_path = $this->getPublicFilesPath().$this->path_fragments[0];
-
-			if(IO_File::isReadable($file_path)) {
-				$this->setIsPublicFile($file_path);
-			}
+		if( $this->getIsThereAnyUnusedPathFragment() ) {
+			$this->setIs404();
 		}
 
 		return true;
@@ -675,12 +603,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	protected function validateURIFormat() {
 
-		array_shift( $this->path_fragments );
 		$end_i = count($this->path_fragments)-1;
+
 
 		//last char in URI path must be /
 		if( $this->path_fragments[$end_i]==='' ) {
-			$this->_request_URL = $this->_base_URL.implode('/', $this->path_fragments);
+
+			$this->_request_URL = $this->_base_URL.'/'.implode('/', $this->path_fragments);
 
 			unset($this->path_fragments[$end_i]);
 
@@ -689,7 +618,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		//... or some opened document, or XML and so on
 		if( strpos( $this->path_fragments[$end_i], '.')!==false ) {
-			$this->_request_URL = $this->_base_URL.implode('/', $this->path_fragments);
+			$this->_request_URL = $this->_base_URL.'/'.implode('/', $this->path_fragments);
+
 			return true;
 		}
 
@@ -700,6 +630,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 			Mvc_Router::REDIRECT_TYPE_PERMANENTLY
 		);
+
 
 		return false;
 	}
@@ -820,6 +751,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 	}
 
+	/**
+	 * @return Mvc_Dispatcher_Queue
+	 */
+	public function getDispatchQueue() {
+		return $this->dispatch_queue;
+	}
 
 
 	/**
@@ -858,6 +795,16 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	public function getPathFragments() {
 		return $this->path_fragments;
 	}
+
+	/**
+	 * @return array
+	 */
+	public function shiftPathFragments() {
+		array_shift( $this->path_fragments );
+
+		return $this->path_fragments;
+	}
+
 
 
 	/**
@@ -1005,26 +952,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		return $this->service_type;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getServiceSubtype() {
-		return $this->service_subtype;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModuleName() {
-		return $this->module_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModuleAction() {
-		return $this->module_action;
-	}
 
 	/**
 	 * @return string
@@ -1140,27 +1067,9 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	public function setServiceType($service_type) {
 		$this->service_type = $service_type;
-	}
-
-	/**
-	 * @param string $service_subtype
-	 */
-	public function setServiceSubtype($service_subtype) {
-		$this->service_subtype = $service_subtype;
-	}
-
-	/**
-	 * @param string $module_name
-	 */
-	public function setModuleName($module_name) {
-		$this->module_name = $module_name;
-	}
-
-	/**
-	 * @param string $module_action
-	 */
-	public function setModuleAction($module_action) {
-		$this->module_action = $module_action;
+		if($service_type!=Mvc_Router::SERVICE_TYPE_STANDARD) {
+			$this->output_cache_enabled = false;
+		}
 	}
 
 	/**
@@ -1306,6 +1215,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
+	 *
 	 * @return array
 	 */
 	public function __sleep() {

@@ -22,7 +22,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Jet\Mvc_Controller_MicroRouter
+	 * @var Jet\Mvc_MicroRouter
 	 */
 	protected $micro_router;
 
@@ -38,34 +38,16 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	/**
 	 *
 	 */
-	public function default_Action() {
-
+	public function initialize() {
 		Jet\Mvc::setProvidesDynamicContent();
-
-		$router = new Jet\Mvc_Controller_MicroRouter( $this );
-
-		$base_URI = Jet\Mvc::getCurrentURI();
-
-		$router->addAction('add', '/^add$/')
-				->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
-
-		$router->addAction('edit', '/^edit:([\S]+)$/')
-				->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } );
-
-		$router->addAction('view', '/^view:([\S]+)$/')
-				->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } );
-
-		$router->addAction('delete', '/^delete:([\S]+)$/')
-				->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } );
-
-		$router->setDefaultActionName('list');
-		$router->setNotAuthorizedActionName('notAuthorized');
-
-		$this->micro_router = $router;
-		$this->view->setVar('router', $router);
-
 		$this->getFrontController()->breadcrumbNavigationShift( -2 );
-		$router->dispatch();
+		$this->micro_router = $this->module_instance->getMicroRouter();
+	}
+
+	/**
+	 *
+	 */
+	public function default_Action() {
 	}
 
 	/**
@@ -88,6 +70,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		$grid->setData( Article::getList() );
 
 		$this->view->setVar('grid', $grid);
+		$this->view->setVar( 'router', $this->micro_router );
 
 		$this->render('classic/default');
 
@@ -122,6 +105,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 * @param $ID
 	 */
 	public function edit_Action( $ID ) {
+
 		$article = Article::get( $ID );
 		if(!$article) {
 			$this->unknownItem_Action();
@@ -149,6 +133,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 * @param $ID
 	 */
 	public function view_Action( $ID ) {
+
 		$article = Article::get( $ID );
 		if(!$article) {
 			$this->unknownItem_Action();
@@ -168,6 +153,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 * @param $ID
 	 */
 	public function delete_action( $ID ) {
+
 		$article = Article::get( $ID );
 		if(!$article) {
 			$this->unknownItem_Action();
@@ -194,13 +180,6 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	public function unknownItem_Action() {
 		$this->render('classic/unknown-item');
 
-	}
-
-	/**
-	 *
-	 */
-	public function notAuthorized_Action() {
-		$this->render('classic/not-authorized');
 	}
 
 }

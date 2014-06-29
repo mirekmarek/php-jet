@@ -34,6 +34,12 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		return true;
 	}
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
 
 	public function login_Action() {
 

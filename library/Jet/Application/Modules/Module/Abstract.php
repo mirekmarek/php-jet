@@ -74,6 +74,12 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	protected function initialize() {
 	}
 
+	/**
+	 * @param Mvc_Router_Abstract $router
+	 * @param Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 */
+	abstract public function resolveRequest( Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null );
+
 
 	/**
 	 * Returns module views directory
@@ -134,6 +140,8 @@ abstract class Application_Modules_Module_Abstract extends Object {
 				Mvc_Dispatcher_Exception::CODE_INVALID_CONTROLLER_CLASS
 			);
 		}
+
+		$controller->initialize();
 
 		return $controller;
 	}

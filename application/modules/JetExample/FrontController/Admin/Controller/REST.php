@@ -27,4 +27,12 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 
 	protected static $ACL_actions_check_map = array(
 	);
+
+	/**
+	 *
+	 */
+	public function initialize() {
+
+	}
+
 }

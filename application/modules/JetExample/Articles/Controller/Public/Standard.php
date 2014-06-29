@@ -21,35 +21,35 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = NULL;
 
 	protected static $ACL_actions_check_map = array(
-		'default' => false
+		'default' => false,
+		'list' => false,
+		'detail' => false
 	);
+
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
 
 
 	public function default_Action() {
-		$article = new Article();
-		$current_article = $article->resolveArticleByURL( $this->router );
+	}
 
-		if($current_article) {
-			Jet\Mvc::getCurrentFrontController()->addBreadcrumbNavigationData($current_article->getTitle());
+	public function list_Action( Jet\Data_Paginator $paginator, $articles_list ) {
 
-			$this->view->setVar('article', $current_article);
+		$this->view->setVar('articles_list', $articles_list);
+		$this->view->setVar('paginator', $paginator);
 
-			$this->render('detail');
-		} else {
+		$this->render('list');
 
-			$paginator = new Jet\Data_Paginator(
-				Jet\Mvc::parsePathFragmentIntValue( 'page:%VAL%', 1 ),
-				5,
-				Jet\Mvc::getCurrentURI().'page:'.Jet\Data_Paginator::URL_PAGE_NO_KEY.'/'
-			);
+	}
 
-			$paginator->setDataSource( $article->getListForCurrentLocale() );
+	public function detail_Action( Article $article ) {
+		Jet\Mvc::getCurrentFrontController()->addBreadcrumbNavigationData($article->getTitle());
 
-			$this->view->setVar('articles_list', $paginator->getData());
-			$this->view->setVar('paginator', $paginator);
+		$this->view->setVar('article', $article);
 
-			$this->render('list');
-		}
-
+		$this->render('detail');
 	}
 }

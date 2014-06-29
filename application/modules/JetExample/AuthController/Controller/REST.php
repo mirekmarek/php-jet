@@ -38,6 +38,13 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		'mustChangePassword' => false
 	);
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+
 	public function login_Action() {
 		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User is not logged in'));
 	}
