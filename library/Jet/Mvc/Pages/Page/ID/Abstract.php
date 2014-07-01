@@ -43,7 +43,7 @@ abstract class Mvc_Pages_Page_ID_Abstract extends DataModel_ID_Name {
 	abstract public function setPageID( $ID );
 
 	/**
-	 * @return string
+	 * @return Mvc_Sites_Site_ID_Abstract
 	 */
 	abstract public function getSiteID();
 

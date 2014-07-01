@@ -270,7 +270,7 @@ Jet.declare("Jet.modules.Module", [], {
 	},
 
 	restPostAction: function( object_name, object_ID, data, on_response, busy_button_ID ) {
-		this.restAction("post", object_name, object_ID, data, on_response, busy_button_ID);
+		this.restAction("add", object_name, object_ID, data, on_response, busy_button_ID);
 	},
 
 	restDeleteAction: function( object_name, object_ID, data, on_response, busy_button_ID ) {

@@ -18,7 +18,7 @@ namespace Jet;
  * @JetFactory:method = 'getRouterMapUrlInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Router_Map_URL_Abstract'
  */
-abstract class Mvc_Router_Map_URL_Abstract extends Object {
+abstract class Mvc_Router_Map_URL_Abstract extends Object implements \JsonSerializable {
 
 	/**
 	 * @var Mvc_Pages_Page_ID_Abstract
@@ -317,6 +317,19 @@ abstract class Mvc_Router_Map_URL_Abstract extends Object {
 		}
 
 		return $this->parsed_URL_data[$return_what];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize() {
+		return [
+			'URL' => $this->URL,
+			'is_default' => $this->is_default,
+			'is_main' => $this->is_main,
+			'is_SSL' => $this->is_SSL,
+
+		];
 	}
 
 

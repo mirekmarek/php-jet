@@ -373,6 +373,16 @@ class Mvc_Factory extends Factory {
 	}
 
 	/**
+	 * @see factory
+	 *
+	 * @param string $class_name
+	 */
+	public static function setRouterMapClass( $class_name ) {
+		static::setClassName(static::DEFAULT_ROUTER_MAP_CLASS, $class_name);
+	}
+
+
+	/**
 	 * Returns instance of Router Map class @see Factory
 	 *
 	 * @return Mvc_Router_Map_URL_Abstract
@@ -384,6 +394,15 @@ class Mvc_Factory extends Factory {
 		return $instance;
 	}
 
+
+	/**
+	 * @see factory
+	 *
+	 * @param string $class_name
+	 */
+	public static function setRouterMapUrlClass( $class_name ) {
+		static::setClassName(static::DEFAULT_ROUTER_MAP_URL_CLASS, $class_name);
+	}
 
 
 	/**

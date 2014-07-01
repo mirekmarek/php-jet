@@ -26,108 +26,115 @@ class Mvc {
 	 * @static
 	 *
 	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
-	 * @param bool $return_output_as_string (optional; default: true)
 	 * @param bool|null $cache_enabled (optional; default: null = by configuration)
 	 *
 	 * @throws Mvc_Router_Exception
 	 *
 	 * @return null|string
 	 */
-	public static function run( $URL=null, $return_output_as_string=false, $cache_enabled=null  ) {
+	public static function run( $URL=null, $cache_enabled=null  ) {
 		$router = Mvc_Router::getNewRouterInstance();
 		if(!$URL) {
 			$URL = Http_Request::getURL();
 		}
 
-		if(!$return_output_as_string) {
-			if(!$router->initialize($URL, $cache_enabled)) {
-				throw new Mvc_Router_Exception('FATAL: Unable to resolve page and site... Probably there is no site or we have some data problem.');
-			}
-
-			if($router->getCacheLoaded()) {
-				if( ($output=$router->getCacheOutput() )!==null ) {
-					echo $output;
-					return null;
-				}
-			}
-
-			$router->handleRedirect();
-			$router->handlePublicFile();
-
-			$router->setupErrorHandler();
-
-			if( !$router->getSite()->getIsActive() ) {
-				$router->setIs404();
-			}
-			$router->handle404();
-
-
-
-			Auth::initialize( $router );
-			$router->setupLayout();
-
-			$router->getFrontController()->checkPermissionsToViewThePage();
-
-			$dispatcher = Mvc_Dispatcher::getNewDispatcherInstance();
-			$dispatcher->initialize($router);
-
-			$output = $dispatcher->dispatch();
-
-
-			echo $output;
-			$router->cacheSave();
-
-
-			Auth::shutdown();
-			Mvc_Dispatcher::dropCurrentDispatcherInstance();
-			Mvc_Router::dropCurrentRouterInstance();
-
-		} else {
-
-			if(!$router->initialize($URL, $cache_enabled)) {
-				return false;
-			}
-
-			if( ($output=$router->getCacheOutput() )!==null ) {
-				return $output;
-			}
-
-			if(
-				$router->getIs404() ||
-				$router->getIsRedirect() ||
-				$router->getIsPublicFile()
-			) {
-				return false;
-			}
-
-			if( !$router->getSite()->getIsActive() ) {
-				return false;
-			}
-
-
-			Auth::initialize( $router );
-			$router->setupLayout();
-
-			if(!$router->getFrontController()->checkPermissionsToViewThePage(true)) {
-				return false;
-			}
-
-			$dispatcher = Mvc_Dispatcher::getNewDispatcherInstance();
-			$dispatcher->initialize($router);
-			$output = $dispatcher->dispatch( $return_output_as_string );
-
-			$router->cacheSave();
-
-			Auth::shutdown();
-			Mvc_Dispatcher::dropCurrentDispatcherInstance();
-			Mvc_Router::dropCurrentRouterInstance();
-
-			return $output;
-
+		if(!$router->initialize($URL, $cache_enabled)) {
+			throw new Mvc_Router_Exception('FATAL: Unable to resolve page and site... Probably there is no site or we have some data problem.');
 		}
 
-		return false;
+		if($router->getCacheLoaded()) {
+			if( ($output=$router->getCacheOutput() )!==null ) {
+				echo $output;
+				return null;
+			}
+		}
+
+		$router->handleRedirect();
+		$router->handlePublicFile();
+
+		$router->setupErrorHandler();
+
+		if( !$router->getSite()->getIsActive() ) {
+			$router->setIs404();
+		}
+		$router->handle404();
+
+
+
+		Auth::initialize( $router );
+		$router->setupLayout();
+
+		$router->getFrontController()->checkPermissionsToViewThePage();
+
+		$dispatcher = Mvc_Dispatcher::getNewDispatcherInstance();
+		$dispatcher->initialize($router);
+
+		$output = $dispatcher->dispatch();
+
+
+		echo $output;
+		$router->cacheSave();
+
+
+		Auth::shutdown();
+		Mvc_Dispatcher::dropCurrentDispatcherInstance();
+		Mvc_Router::dropCurrentRouterInstance();
+
+
 	}
+
+	/**
+	 * Initializes system and run dispatch.
+	 *
+	 * @see Mvc/readme.txt
+	 *
+	 * @static
+	 *
+	 * @param string $URL
+	 *
+	 * @throws Mvc_Router_Exception
+	 *
+	 * @return null|string
+	 */
+	public static function render( $URL ) {
+		$router = Mvc_Router::getNewRouterInstance();
+
+
+		if(!$router->initialize($URL, false)) {
+			return false;
+		}
+
+		if(
+			$router->getIs404() ||
+			$router->getIsRedirect() ||
+			$router->getIsPublicFile()
+		) {
+			return false;
+		}
+
+		if( !$router->getSite()->getIsActive() ) {
+			return false;
+		}
+
+
+		Auth::initialize( $router );
+		$router->setupLayout();
+
+		if(!$router->getFrontController()->checkPermissionsToViewThePage(true)) {
+			return false;
+		}
+
+		$dispatcher = Mvc_Dispatcher::getNewDispatcherInstance();
+		$dispatcher->initialize($router);
+		$output = $dispatcher->dispatch();
+
+		Auth::shutdown();
+		Mvc_Dispatcher::dropCurrentDispatcherInstance();
+		Mvc_Router::dropCurrentRouterInstance();
+
+		return $output;
+	}
+
 
 	/**
 	 * Sets current loop provides dynamic content (disables cache for current output part)
@@ -166,7 +173,10 @@ class Mvc {
 	 *
 	 */
 	public static function generateRouterMap() {
-		Mvc_Router::getCurrentRouterInstance()->generateMap();
+		$router = Mvc_Router::getCurrentRouterInstance();
+
+		$router->generateMap();
+		$router->cacheTruncate();
 	}
 
 	/**

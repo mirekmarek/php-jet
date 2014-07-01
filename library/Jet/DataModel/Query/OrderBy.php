@@ -37,6 +37,14 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 
 		$select = $query->getSelect();
 
+		if(!$select){
+			throw new DataModel_Query_Exception(
+				'Query SELECT is not defined. Please use $query->setSelect()',
+				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
+			);
+
+		}
+
 		$this->items = array();
 		foreach($order_by as $ob) {
 			if(!$ob) {

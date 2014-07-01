@@ -991,12 +991,27 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			)
 		);
 
-		if($affected_IDs) {
-			$cache = $this->getCacheBackendInstance();
-			foreach($affected_IDs as $ID) {
-				$cache->delete( $this->getDataModelDefinition(), $ID );
-			}
+		/**
+		 * @var DataModel_ID_Abstract[] $affected_IDs
+		 */
+		if(count($affected_IDs)) {
+			$this->deleteCacheIDs( $affected_IDs );
 		}
+	}
+
+	/**
+	 * @param DataModel_ID_Abstract[] $IDs
+	 */
+	protected function deleteCacheIDs( $IDs ) {
+		$cache = $this->getCacheBackendInstance();
+		if(!$cache) {
+			return;
+		}
+
+		foreach($IDs as $ID) {
+			$cache->delete( $this->getDataModelDefinition(), $ID );
+		}
+
 	}
 
 	/**

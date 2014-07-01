@@ -219,13 +219,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var Mvc_FrontControllerModule_Abstract
 	 */
-	protected $_UI_front_controller_module_instance = null;
+	protected $_front_controller_instance = null;
 
 	/**
 	 *
 	 * @var Auth_ControllerModule_Abstract
 	 */
-	protected $_auth_module_instance = null;
+	protected $_auth_controller_instance = null;
 
 	/**
 	 * @var Mvc_Dispatcher_Abstract
@@ -277,7 +277,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			);
 		}
 
-
 		$this->_base_URL = $this->_parsed_request_URL->getScheme().'://'.$this->_parsed_request_URL->getHost();
 		if($this->_parsed_request_URL->getPort()) {
 			$this->_base_URL .= ':'.$this->_parsed_request_URL->getPort();
@@ -297,7 +296,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			return true;
 		}
 
-
 		return $this->resolve();
 	}
 
@@ -309,6 +307,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		$map->generate();
 
 		$this->_map = $map;
+
+		$this->getMapCacheBackendInstance()->save($map);
 
 		return $map;
 	}
@@ -349,7 +349,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return bool
 	 */
 	protected function resolve() {
-
 		if( $this->cacheRead($this->_request_URL) ) {
 			return true;
 		}
@@ -375,7 +374,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$page_URL = $map->findPage( $URLs );
 
-
 		if(!$page_URL) {
 			$default_URL = $map->getDefaultURL();
 
@@ -396,7 +394,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		for($c=0; $c<$i; $c++) {
 			array_shift( $this->path_fragments );
 		}
-
 
 		if(!$page_URL->getIsMain()) {
 			//OK, we have page. But given URL is not default URL. So redirect to default ...
@@ -421,10 +418,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 
 
-		$this->page_URL = (string)$page_URL;
+		$this->site_ID = $page_URL->getPageID()->getSiteID();
+		$this->site = Mvc_Sites::getSite($this->site_ID);
 
 
 		$page_i = Mvc_Factory::getPageInstance();
+
 		/**
 		 * @var Mvc_Pages_Page_Abstract $page
 		 */
@@ -437,12 +436,9 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
+		$this->page_URL = (string)$page_URL;
 		$this->page_ID = $page->getID();
-
 		$this->page = $page;
-
-		$this->site_ID = $page->getSiteID();
-		$this->site = Mvc_Sites::getSite($this->site_ID);
 		$this->is_admin_UI = $this->page->getIsAdminUI();
 
 		if(
@@ -649,11 +645,17 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return string
 	 */
 	public function getFrontControllerModuleName() {
-		$force_front_controller_module_name = $this->page->getForceFrontControllerModuleName();
+		if($this->page) {
+			$force_front_controller_module_name = $this->page->getForceFrontControllerModuleName();
+		} else {
+			$force_front_controller_module_name = null;
+		}
+
 
 		if( $force_front_controller_module_name ) {
 			return $force_front_controller_module_name;
 		} else {
+
 			if($this->is_admin_UI) {
 				return $this->_config->getDefaultAdminFrontControllerModuleName();
 			} else {
@@ -671,8 +673,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return Mvc_FrontControllerModule_Abstract
 	 */
 	public function getFrontController() {
-		if($this->_UI_front_controller_module_instance) {
-			return $this->_UI_front_controller_module_instance;
+		if($this->_front_controller_instance) {
+			return $this->_front_controller_instance;
 		}
 
 		$module_name = $this->getFrontControllerModuleName();
@@ -687,10 +689,10 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		}
 
-		$this->_UI_front_controller_module_instance = $module_instance;
-		$this->_UI_front_controller_module_instance->setupRouter( $this );
+		$this->_front_controller_instance = $module_instance;
+		$this->_front_controller_instance->setupRouter( $this );
 
-		return $this->_UI_front_controller_module_instance;
+		return $this->_front_controller_instance;
 	}
 
 
@@ -706,7 +708,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return Auth_ControllerModule_Abstract
 	 */
 	public function getAuthController() {
-		return $this->_auth_module_instance;
+		return $this->_auth_controller_instance;
 	}
 
 	/**
@@ -721,14 +723,14 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @param Auth_ControllerModule_Abstract $auth_controller_module_instance
 	 */
 	public function setAuthController( Auth_ControllerModule_Abstract $auth_controller_module_instance ) {
-		$this->_auth_module_instance = $auth_controller_module_instance;
-		$this->_auth_module_instance->setupRouter($this);
+		$this->_auth_controller_instance = $auth_controller_module_instance;
+		$this->_auth_controller_instance->setupRouter($this);
 
 		if(!$this->page_is_publicly_accessible) {
-			$this->_authentication_required = $this->_auth_module_instance->getAuthenticationRequired();
+			$this->_authentication_required = $this->_auth_controller_instance->getAuthenticationRequired();
 
 			if( $this->_authentication_required ) {
-				$this->_UI_front_controller_module_instance = $this->_auth_module_instance;
+				$this->_front_controller_instance = $this->_auth_controller_instance;
 			}
 		} else {
 			$this->_authentication_required = false;
@@ -746,7 +748,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if(
 			$this->service_type!=Mvc_Router::SERVICE_TYPE_REST
 		) {
-			$this->layout = $this->_UI_front_controller_module_instance->initializeLayout();
+			$this->layout = $this->_front_controller_instance->initializeLayout();
 		}
 	}
 
@@ -754,6 +756,10 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return Mvc_Dispatcher_Queue
 	 */
 	public function getDispatchQueue() {
+		if($this->_authentication_required) {
+			return $this->_front_controller_instance->getDispatchQueue();
+		}
+
 		return $this->dispatch_queue;
 	}
 
@@ -1130,7 +1136,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if(
 			!$this->cache_enabled ||
 			$this->_cache_loaded ||
-			!$this->page_URL
+			!$this->page_URL ||
+			$this->_authentication_required
 		) {
 			return;
 		}

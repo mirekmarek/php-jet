@@ -212,6 +212,10 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 				 */
 				$module_name = $item->getModuleName();
 
+				if(!Application_Modules::getModuleIsActivated($module_name)) {
+					continue;
+				}
+
 				$module_instance = Application_Modules::getModuleInstance( $module_name );
 
 				$module_instance->resolveRequest( $router, $item );

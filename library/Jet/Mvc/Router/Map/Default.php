@@ -45,8 +45,6 @@ class Mvc_Router_Map_Default extends Mvc_Router_Map_Abstract {
 
 
 		$sites = Mvc_Sites::getAllSitesList();
-		$page_i = Mvc_Factory::getPageInstance();
-		$page_ID_i = $page_i->getEmptyIDInstance();
 
 		foreach( $sites as $site ) {
 			$site_ID = $site->getID();
@@ -71,7 +69,7 @@ class Mvc_Router_Map_Default extends Mvc_Router_Map_Abstract {
 				}
 
 
-				$tree = $page_i->getTree( $site_ID, $locale );
+				$tree = $this->getPagesTree( $site_ID, $locale );
 
 				/**
 				 * @var Mvc_Pages_Page_Abstract $current_parent_page
@@ -92,18 +90,16 @@ class Mvc_Router_Map_Default extends Mvc_Router_Map_Abstract {
 						(!$current_parent_page &&  $parent_page_ID) ||
 						($current_parent_page && $current_parent_page->getID()['ID']!=$parent_page_ID )
 					) {
-						$current_parent_page = $page_i->load( $page_ID_i->createID( $site_ID, $locale, $parent_page_ID ) );
+						$current_parent_page = $this->loadPage( $site_ID, $locale, $parent_page_ID );
 						$current_parent_key = $current_parent_page->getID()->getAsMapKey();
 						$current_parent_URLs = $pages_to_URLs_map[$current_parent_key];
 					}
 
-					/**
-					 * @var Mvc_Pages_Page_Abstract $page
-					 */
-					$page = $page_i->load( $page_ID_i->createID( $site_ID, $locale, $page_ID ) );
+					$page = $this->loadPage( $site_ID, $locale, $page_ID );
+					$page_key = $page->getID()->getAsMapKey();
+
 					$URLs = $page->generateMapURLs( $site_URLs, $current_parent_URLs );
 
-					$page_key = $page->getID()->getAsMapKey();
 					$pages_to_URLs_map[$page_key] = $URLs;
 
 					foreach( $URLs as $URL ) {
@@ -117,10 +113,48 @@ class Mvc_Router_Map_Default extends Mvc_Router_Map_Abstract {
 			}
 		}
 
+		/*
+		foreach( $pages_to_URLs_map as $page_key=>$URLs ) {
+			var_dump($page_key);
+
+			foreach( $URLs as $URL ) {
+				if($URL->getIsMain()) echo 'M:';
+				if($URL->getIsDefault()) echo 'D:';
+
+				echo $URL->toString();
+				echo JET_EOL;
+			}
+		}
+		*/
+
 		$this->URLs_to_pages = $URLs_to_pages_map;
 		$this->pages_to_URLs = $pages_to_URLs_map;
 		$this->default_URL = $system_default_URL;
 
+	}
+
+	/**
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 * @param string $page_ID
+	 *
+	 * @return Mvc_Pages_Page_Abstract|null
+	 */
+	protected function loadPage( $site_ID, $locale, $page_ID ) {
+		$page_i = Mvc_Factory::getPageInstance();
+		$page_ID_i = $page_i->getEmptyIDInstance();
+
+
+		return $page_i->load($page_ID_i->createID($site_ID, $locale, $page_ID));
+	}
+
+	/**
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 * @return Data_Tree
+	 */
+	protected function getPagesTree( $site_ID, $locale ) {
+		return Mvc_Factory::getPageInstance()->getTree( $site_ID, $locale );
 	}
 
 	/**
@@ -155,6 +189,7 @@ class Mvc_Router_Map_Default extends Mvc_Router_Map_Abstract {
 	 */
 	public function findURLs( Mvc_Pages_Page_ID_Abstract $page_ID, $only_default=false ) {
 		$key = $page_ID->getAsMapKey();
+
 
 		if(!isset($this->pages_to_URLs[ $key ])) {
 			return null;

@@ -534,11 +534,13 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	}
 
 	/**
+	 * @param bool $only_default
+	 *
 	 * @return Mvc_Router_Map_URL_Abstract[]|null
 	 */
-	protected function getURLs() {
+	protected function getURLs( $only_default=true ) {
 
-		return Mvc_Router::getCurrentRouterInstance()->getMap()->findURLs( $this->getID(), true );
+		return Mvc_Router::getCurrentRouterInstance()->getMap()->findURLs( $this->getID(), $only_default );
 	}
 
 	/**
@@ -961,7 +963,18 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	public function jsonSerialize() {
 		$data = parent::jsonSerialize();
 
+		$parent = $this->getParent();
+
+		if($parent) {
+			$data['parent_URL'] = $parent->getDefaultURL();
+		}
+
+		$data['default_URL'] = $this->getDefaultURL();
+
+
 		$data['layouts_list'] = $this->getLayoutsList();
+
+		$data['URLs'] = $this->getURLs(false);
 
 		return $data;
 	}
@@ -1062,22 +1075,37 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 				$str_URL = $URL.$this->URL_fragment.'/';
 
 				$URL->setURL( $str_URL );
+				$URL->setIsMain( false );
 
 				$URLs[] = $URL;
 			}
 		}
 
+		$has_main = false;
 		foreach( $URLs as $URL ) {
 			$URL->takePageData( $this );
+
+			if($has_main) {
+				continue;
+			}
 
 			if($URL->getIsDefault()) {
 				if( $this->SSL_required && $URL->getIsSSL() ) {
 					$URL->setIsMain( true );
+					$has_main = true;
 				}
 
 				if( !$this->SSL_required && !$URL->getIsSSL() ) {
 					$URL->setIsMain( true );
+					$has_main = true;
 				}
+			}
+		}
+
+		if($has_main) {
+			foreach( $URLs as $URL ) {
+				$URL->setIsMain(true);
+				break;
 			}
 		}
 

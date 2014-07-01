@@ -53,10 +53,10 @@ class Mvc_Pages_Page_ID_Default extends Mvc_Pages_Page_ID_Abstract {
 	}
 
 	/**
-	 * @return string
+	 * @return Mvc_Sites_Site_ID_Abstract
 	 */
 	public function getSiteID() {
-		return $this->values['site_ID'];
+		return Mvc_Factory::getSiteIDInstance()->createID( $this->values['site_ID'] );
 	}
 
 	/**
