@@ -61,7 +61,6 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = 'Jet\Auth_Role_Privilege_Default'
 	 * @JetDataModel:is_required = false
-	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Auth_Role_Privilege_Abstract[]
 	 */
@@ -84,6 +83,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 		parent::__construct();
 
 		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+
 
 		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
 			$this->setPrivilege( $privilege, array() );

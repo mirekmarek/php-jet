@@ -330,6 +330,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	public function getAvailablePrivilegesList( $get_available_values_list=false ) {
 		$data = array();
 
+
 		foreach($this->available_privileges as $privilege=>$d) {
 			$available_values_list = null;
 
