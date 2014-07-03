@@ -81,7 +81,8 @@ class Mvc_View extends Mvc_View_Abstract {
 
 		$result = ob_get_clean();
 
-                $this->handleParts($result);
+        $this->handleParts($result);
+		$this->handleModules($result);
 
 		foreach( $this->_data->getRawData() as $item ) {
 

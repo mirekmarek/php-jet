@@ -176,7 +176,6 @@ var Jet = {
 
 
     getActionURL: function(service_type, module_name, action, path_fragments, GET_params ){
-        module_name = module_name.replace(/\\/g, ".");
         var URL = this.base_request_URI;
 
 

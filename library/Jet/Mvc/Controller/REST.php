@@ -25,6 +25,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	const ERR_CODE_ACCESS_DENIED = 'AccessDenied';
 	const ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE = 'UnsupportedDataContentType';
 	const ERR_CODE_FORM_ERRORS = 'FormErrors';
+	const ERR_CODE_REQUEST_ERROR = 'Bad request';
 	const ERR_CODE_UNKNOWN_ITEM = 'UnknownItem';
 
 	const RESPONSE_FORMAT_XML = 'XML';
@@ -107,6 +108,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
 		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'),
 		self::ERR_CODE_FORM_ERRORS => array(Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'),
+		self::ERR_CODE_REQUEST_ERROR => array(Http_Headers::CODE_400_BAD_REQUEST, 'Bad request'),
 		self::ERR_CODE_UNKNOWN_ITEM => array(Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'),
 	);
 

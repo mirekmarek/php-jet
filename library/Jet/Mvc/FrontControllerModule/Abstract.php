@@ -233,6 +233,12 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 			return null;
 		}
 
+		if(!$path_fragments) {
+			$router->setIs404();
+
+			return null;
+		}
+
 
 		$module_name = Application_Modules::getHandler()->normalizeName(
 			$path_fragments[0]

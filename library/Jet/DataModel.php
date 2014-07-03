@@ -408,25 +408,27 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		foreach( $this->getDataModelDefinition()->getProperties()  as $property_name=>$property_definition ) {
 			if(
-				$property_definition->getIsDataModel() &&
-				$this->{$property_name}
+				$property_definition->getIsDataModel()
 			) {
-				if(!is_object($this->{$property_name})) {
+				if( $this->{$property_name} ) {
+					if(!is_object($this->{$property_name})) {
 
-					throw new DataModel_Exception(
-						get_class($this).'::'.$property_name.' should be an Object! ',
-						DataModel_Exception::CODE_INVALID_PROPERTY_TYPE
-					);
+						throw new DataModel_Exception(
+							get_class($this).'::'.$property_name.' should be an Object! ',
+							DataModel_Exception::CODE_INVALID_PROPERTY_TYPE
+						);
+					}
+
+					/**
+					 * @var DataModel $prop
+					 */
+					$prop = $this->{$property_name};
+
+					$prop->validateProperties();
+
+					$this->appendValidationErrors( $prop->getValidationErrors() );
+
 				}
-
-				/**
-				 * @var DataModel $prop
-				 */
-				$prop = $this->{$property_name};
-
-				$prop->validateProperties();
-
-				$this->appendValidationErrors( $prop->getValidationErrors() );
 
 				continue;
 			}

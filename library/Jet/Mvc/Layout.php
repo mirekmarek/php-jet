@@ -45,8 +45,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	const TAG_BODY_SUFFIX = 'jet_layout_body_suffix';
 
 
-	const TAG_MODULE = 'jet_module:';
-
 	const DEFAULT_OUTPUT_POSITION = '__main__';
 
 	const JS_REPLACEMENT_REGEXP = '~Jet\.modules\.([a-zA-Z_]+)\.~sU';
@@ -343,6 +341,15 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	public function setOutputPart( Mvc_Layout_OutputPart $output_part ) {
 		$this->output_parts[$output_part->getID()] = $output_part;
+	}
+
+	/**
+	 * @param string $ID
+	 */
+	public function unsetOutputPart( $ID ) {
+		if(isset($this->output_parts[$ID])) {
+			unset($this->output_parts[$ID]);
+		}
 	}
 
 	/**
@@ -740,76 +747,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		}
 	}
 
-	/**
-	 * Handle the Module tag  ( <jet_module:* /> )
-	 *
-	 * In fact it search and dispatch all modules included by the tag
-	 *
-	 * @see Mvc/readme.txt
-	 *
-	 * @param string &$result
-	 */
-	protected function handleModules( &$result ) {
-
-		$matches = array();
-
-		if( preg_match_all('/<'.self::TAG_MODULE.'([a-zA-Z_:\\\\]{3,})([^\/]*)\/>/i', $result, $matches, PREG_SET_ORDER) ) {
-
-			foreach($matches as $match) {
-				$orig_str = $match[0];
-
-				$action_data = explode(':', $match[1]);
-				if(!isset($action_data[1])) {
-					$action_data[1] = Mvc_Dispatcher::DEFAULT_ACTION;
-				}
-				list($module_name, $action) = $action_data;
-
-				$action_params = array();
-
-				$_properties = substr(trim($match[2]), 0, -1);
-				$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
-				$_properties = explode( '" ', $_properties );
-
-				foreach( $_properties as $property ) {
-					if( !$property || strpos($property, '=')===false ) {
-						continue;
-					}
-
-					$property = explode('=', $property);
-
-					$property_name = array_shift($property);
-					$property_value = implode('=', $property);
-
-					$property_name = strtolower($property_name);
-					$property_value = str_replace('"', '', $property_value);
-
-					$action_params[$property_name] = $property_value;
-				}
-
-				$tmp_position = '--layout-tmp-pos-'.str_replace('\\', '-', $module_name).'-'.$action;
-
-				$result = str_replace($orig_str, '<'.static::TAG_POSITION.' name="'.$tmp_position.'"/>', $result);
-
-				$content_data = Mvc_Factory::getPageContentInstance();
-
-				$content_data->setOutputPosition( $tmp_position );
-
-				if($action_params) {
-					$action_params = array($action_params);
-				}
-
-				$qi = new Mvc_Dispatcher_Queue_Item(
-					$module_name,
-					$action,
-					$action_params,
-					$content_data
-				);
-
-				$qi->setCustomServiceType( Mvc_Router::SERVICE_TYPE_STANDARD );
-				$this->router->getDispatcherInstance()->dispatchQueueItem($qi);
-			}
-		}
-	}
 
 	/**
 	 * @param string &$result

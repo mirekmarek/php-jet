@@ -132,6 +132,13 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	abstract public function dispatchQueueItem( Mvc_Dispatcher_Queue_Item $queue_item );
 
 	/**
+	 * @param Mvc_Dispatcher_Queue_Item $queue_item
+	 *
+	 * @return string
+	 */
+	abstract public function renderQueueItem( Mvc_Dispatcher_Queue_Item $queue_item );
+
+	/**
 	 *
 	 */
 	abstract public function setCurrentLoopProvidesDynamicContent();

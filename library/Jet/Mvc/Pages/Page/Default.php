@@ -534,11 +534,10 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	}
 
 	/**
-	 * @param bool $only_default
-	 *
+	 * @param bool $only_default (optional)
 	 * @return Mvc_Router_Map_URL_Abstract[]|null
 	 */
-	protected function getURLs( $only_default=true ) {
+	protected function getURLs( $only_default=true) {
 
 		return Mvc_Router::getCurrentRouterInstance()->getMap()->findURLs( $this->getID(), $only_default );
 	}

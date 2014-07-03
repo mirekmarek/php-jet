@@ -125,6 +125,8 @@ class Mvc_Router_Map_Default extends Mvc_Router_Map_Abstract {
 				echo JET_EOL;
 			}
 		}
+
+		die();
 		*/
 
 		$this->URLs_to_pages = $URLs_to_pages_map;

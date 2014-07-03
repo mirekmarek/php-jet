@@ -282,6 +282,10 @@ Jet.declare("Jet.modules.Module", [], {
 
 		var _this = this;
 
+        if(object_ID.substr(-1)!='/') {
+            object_ID+='/';
+        }
+
 		var cancel_busy_button = function() {
 			if(!busy_button_ID) {
 				return;

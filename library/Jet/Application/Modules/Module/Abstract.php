@@ -275,7 +275,9 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @return bool
 	 */
 	public function checkAclCanDoAction( $action, $log_if_false=true ) {
-		if(!isset($this->ACL_actions[$action])) {
+		$ACL_actions = $this->getAclActions();
+
+		if(!isset($ACL_actions[$action])) {
 			throw new Application_Modules_Exception(
 				'Unknown ACL action \''.$action.'\'. Please add record to '.get_class($this).'::$ACL_actions ',
 				Application_Modules_Exception::CODE_UNKNOWN_ACL_ACTION

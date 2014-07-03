@@ -80,6 +80,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	 * @return bool
 	 */
 	public function dispatchQueueItem( Mvc_Dispatcher_Queue_Item $queue_item ) {
+
 		$this->current_queue_item = $queue_item;
 
 		$module_name = $queue_item->getModuleName();
@@ -89,7 +90,6 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$block_name =  $module_name.':'.$this->service_type.':'.$controller_action;
 
 		Debug_Profiler::blockStart( 'Dispatch '.$block_name );
-
 
 		if(!Application_Modules::getModuleIsActivated($module_name)) {
 
@@ -169,6 +169,67 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		return true;
 	}
+
+	/**
+	 * @param Mvc_Dispatcher_Queue_Item $queue_item
+	 *
+	 * @return string
+	 */
+	public function renderQueueItem( Mvc_Dispatcher_Queue_Item $queue_item ) {
+		$current_queue_item = $this->current_queue_item;
+		$current_translator_namespace = Translator::getCurrentNamespace();
+		$current_loop_ID = $this->current_loop_ID;
+
+
+		$module_name = $queue_item->getModuleName();
+		$controller_action = $queue_item->getControllerAction();
+		$block_name =  $module_name.':'.$this->service_type.':'.$controller_action;
+
+
+		if(!Application_Modules::getModuleIsActivated($module_name)) {
+
+			return false;
+		}
+		$module_instance = Application_Modules::getModuleInstance( $module_name );
+		if(!$module_instance) {
+
+			return false;
+		}
+
+
+		$this->current_queue_item = $queue_item;
+		$this->current_loop_ID = $block_name.':'.$this->loop_counter;
+
+
+		$layout = $this->router->getLayout();
+
+
+		Translator::setCurrentNamespace( $module_name );
+
+		$custom_service_type = $queue_item->getCustomServiceType();
+
+		$controller = $module_instance->getControllerInstance(
+			$this,
+			$custom_service_type ? $custom_service_type: $this->service_type
+		);
+
+		$module_instance->callControllerAction(
+			$controller,
+			$controller_action,
+			$queue_item->getControllerActionParameters()
+		);
+
+		$output = $layout->getOutputPart($this->current_loop_ID)->getOutput();
+		$layout->unsetOutputPart($this->current_loop_ID);
+
+
+		$this->current_queue_item = $current_queue_item;
+		$this->current_loop_ID = $current_loop_ID;
+		Translator::setCurrentNamespace( $current_translator_namespace );
+
+		return $output;
+	}
+
 
 
 	/**

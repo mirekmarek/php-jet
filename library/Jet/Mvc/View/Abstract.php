@@ -16,7 +16,7 @@
 namespace Jet;
 
 abstract class Mvc_View_Abstract extends Object {
-
+	const TAG_MODULE = 'jet_module:';
 	const TAG_PART = 'jet_view_part';
 	const SCRIPT_FILE_SUFFIX = 'phtml';
 
@@ -365,6 +365,77 @@ abstract class Mvc_View_Abstract extends Object {
 	 */
 	public static function setAddScriptPathInfoEnabled($enabled=true){
 		static::$_add_script_path_info = (bool)$enabled;
+	}
+
+	/**
+	 * Handle the Module tag  ( <jet_module:* /> )
+	 *
+	 * In fact it search and dispatch all modules included by the tag
+	 *
+	 * @see Mvc/readme.txt
+	 *
+	 * @param string &$result
+	 */
+	protected function handleModules( &$result ) {
+
+		$matches = array();
+
+		if( preg_match_all('/<'.self::TAG_MODULE.'([a-zA-Z_:\\\\]{3,})([^\/]*)\/>/i', $result, $matches, PREG_SET_ORDER) ) {
+
+			foreach($matches as $match) {
+				$orig_str = $match[0];
+
+				$action_data = explode(':', $match[1]);
+				if(!isset($action_data[1])) {
+					$action_data[1] = Mvc_Dispatcher::DEFAULT_ACTION;
+				}
+				list($module_name, $action) = $action_data;
+
+				$action_params = array();
+
+				$_properties = substr(trim($match[2]), 0, -1);
+				$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
+				$_properties = explode( '" ', $_properties );
+
+				foreach( $_properties as $property ) {
+					if( !$property || strpos($property, '=')===false ) {
+						continue;
+					}
+
+					$property = explode('=', $property);
+
+					$property_name = array_shift($property);
+					$property_value = implode('=', $property);
+
+					$property_name = strtolower($property_name);
+					$property_value = str_replace('"', '', $property_value);
+
+					$action_params[$property_name] = $property_value;
+				}
+
+
+				$content_data = Mvc_Factory::getPageContentInstance();
+
+				if($action_params) {
+					$action_params = array($action_params);
+				}
+
+				$qi = new Mvc_Dispatcher_Queue_Item(
+					$module_name,
+					$action,
+					$action_params,
+					$content_data
+				);
+
+				$qi->setCustomServiceType( Mvc_Router::SERVICE_TYPE_STANDARD );
+
+				$output = Mvc_Router::getCurrentRouterInstance()->getDispatcherInstance()->renderQueueItem($qi);
+
+				//var_dump($output);
+
+				$result = str_replace($orig_str, $output, $result);
+			}
+		}
 	}
 
 }
