@@ -42,6 +42,7 @@ var Jet = {
     },
 
     setOptions: function(options){
+
         if(options){
             dojo.mixin(this, options);
         }

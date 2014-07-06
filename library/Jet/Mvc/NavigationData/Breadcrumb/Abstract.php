@@ -51,6 +51,11 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	protected $URI = '';
 
 	/**
+	 * @var Mvc_Router_Map_URL_Abstract
+	 */
+	protected $map_URL_object;
+
+	/**
 	 *
 	 * @var bool
 	 */
@@ -133,6 +138,20 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	 */
 	public function setIsLast($is_last) {
 		$this->is_last = (bool)$is_last;
+	}
+
+	/**
+	 * @param Mvc_Router_Map_URL_Abstract $map_URL_object
+	 */
+	public function setMapURLObject( Mvc_Router_Map_URL_Abstract $map_URL_object) {
+		$this->map_URL_object = $map_URL_object;
+	}
+
+	/**
+	 * @return Mvc_Router_Map_URL_Abstract|null
+	 */
+	public function getMapURLObject() {
+		return $this->map_URL_object;
 	}
 
 

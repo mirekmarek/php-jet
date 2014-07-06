@@ -26,7 +26,7 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 		$Dojo = $this->parser->getLayout()->requireJavascriptLib('Dojo');
 		$Dojo->requireComponent('dijit.layout.BorderContainer');
 		$Dojo->requireComponent('dijit.layout.ContentPane');
-		$Dojo->requireComponent('dijit.layout.Toolbar');
+		$Dojo->requireComponent('dijit.Toolbar');
 
 		$border_container = $dom->createElement('div');
 		$border_container->setAttribute('id', $ID.'_container');

@@ -16,11 +16,12 @@ $form = $this->form;
  */
 $available_privileges_list = $this->available_privileges_list;
 
+
 ?>
 
 <div style="padding: 10px;">
 
-<a href="?#" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
+<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
 
 
 <jet_form name="<?=$form->getName();?>" role="form">
@@ -57,7 +58,7 @@ $available_privileges_list = $this->available_privileges_list;
 	<br/>
 	<br/>
 	<br/>
-<?php if(!$role->getIsNew() && count($role->getUsers())): ?>
+<?php if($role && count($role->getUsers())): ?>
 	<fieldset>
 		<legend><?=Jet\Tr::_('Users');?></legend>
 			<table class="table table-striped">

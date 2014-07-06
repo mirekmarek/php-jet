@@ -65,8 +65,8 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 			'hspace' => 4,
 		),
 		'normal' => array(
-			'width' => 20,
-			'height' => 20,
+			'width' => 22,
+			'height' => 22,
 			'wspace' => 4,
 			'hspace' => 4,
 		),

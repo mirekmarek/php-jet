@@ -221,6 +221,15 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	}
 
 	/**
+	 * @param array $data
+	 */
+	public function setData($data) {
+		$this->data = $data;
+	}
+
+
+
+	/**
 	 *
 	 * @return bool
 	 */

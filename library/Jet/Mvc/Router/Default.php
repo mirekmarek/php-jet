@@ -417,7 +417,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
-
 		$this->site_ID = $page_URL->getPageID()->getSiteID();
 		$this->site = Mvc_Sites::getSite($this->site_ID);
 

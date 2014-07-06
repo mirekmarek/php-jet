@@ -48,11 +48,12 @@ class Mvc_MicroRouter extends Object {
 	 * @param string $action_name
 	 * @param string $regexp
 	 * @param string $ACL_action
+	 * @param bool $disable_routing_cache (optional, default: false)
 	 *
 	 * @return Mvc_MicroRouter_Action
 	 */
-	public function addAction( $action_name, $regexp, $ACL_action ) {
-		$action = new Mvc_MicroRouter_Action( $action_name, $regexp, $ACL_action );
+	public function addAction( $action_name, $regexp, $ACL_action, $disable_routing_cache=false ) {
+		$action = new Mvc_MicroRouter_Action( $action_name, $regexp, $ACL_action, $disable_routing_cache );
 
 		$this->actions[$action_name] = $action;
 
@@ -101,13 +102,16 @@ class Mvc_MicroRouter extends Object {
 	 *
 	 */
 	public function resolve( Mvc_Dispatcher_Queue_Item $dispatch_queue_item ) {
-		if(!$this->default_action_name) {
-			throw new Exception('Default action name is not set.' );
+
+
+		if($this->default_action_name) {
+			$action_name = $this->default_action_name;
+			$action_parameters = [];
+		} else {
+			$action_name = null;
+			$action_parameters = [];
+
 		}
-
-
-		$action_name = $this->default_action_name;
-		$action_parameters = [];
 
 		foreach( $this->actions as $action ) {
 			if(!$action->resolve( $this )) {
@@ -117,11 +121,17 @@ class Mvc_MicroRouter extends Object {
 			$action_name = $action->getActionName();
 			$action_parameters = $action->getActionParameters();
 
+			if($action->getDisableRoutingCache()) {
+				$this->router_instance->disableCache();
+			}
+
 			break;
 		}
 
-		$dispatch_queue_item->setControllerAction( $action_name );
-		$dispatch_queue_item->setControllerActionParameters( $action_parameters );
+		if($action_name) {
+			$dispatch_queue_item->setControllerAction( $action_name );
+			$dispatch_queue_item->setControllerActionParameters( $action_parameters );
+		}
 
 	}
 

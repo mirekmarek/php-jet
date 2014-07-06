@@ -259,7 +259,7 @@ class Article extends Jet\DataModel {
 	}
 
 	/**
-	 * @return Article[]
+	 * @return Article[]|Jet\Data_Paginator_DataSource_Interface
 	 */
 	public function getListForCurrentLocale() {
 		$list = $this->fetchObjects(array(

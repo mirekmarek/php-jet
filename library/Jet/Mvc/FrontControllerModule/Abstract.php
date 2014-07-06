@@ -420,6 +420,7 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 			}
 
 			$navigation_data = Mvc_Factory::getNavigationDataBreadcrumbInstance();
+			$navigation_data->setMapURLObject( $URL_object );
 			$navigation_data->setPageID( $URL_object->getPageID() );
 			$navigation_data->setTitle( $URL_object->getPageBreadcrumbTitle() );
 			$navigation_data->setURI( $URL_object->toString() );
@@ -478,11 +479,17 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 		$this->getBreadcrumbNavigation();
 
 		$bn = Mvc_Factory::getNavigationDataBreadcrumbInstance();
-		$bn->setTitle( $title );
-		$bn->setURI( $URI );
 
 		if($page_ID) {
+			$map_URL = $this->router->getMap()->findMainURL( $page_ID );
+			$bn->setMapURLObject( $map_URL );
+			$bn->setTitle( $map_URL->getPageBreadcrumbTitle() );
+			$bn->setURI( (string)$map_URL );
 			$bn->setPageID( $page_ID );
+		} else {
+
+			$bn->setTitle( $title );
+			$bn->setURI( $URI );
 		}
 
 		$this->breadcrumb_navigation[] = $bn;

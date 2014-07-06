@@ -28,6 +28,11 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	protected $theme = '';
 
+	/**
+	 * @var Locale
+	 */
+	protected $locale;
+
    
 	/**
 	 * Dojo config (djConfig)
@@ -48,8 +53,9 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 
 		$this->config = new Javascript_Lib_Dojo_Config();
 
-		$locale = $this->layout->getRouter()->getLocale();
-		$locale = strtolower($locale->getLanguage()).'-'.strtolower($locale->getRegion());
+		$this->locale = $this->layout->getRouter()->getLocale();
+
+		$locale = strtolower($this->locale->getLanguage()).'-'.strtolower($this->locale->getRegion());
 
 		$this->theme = $this->config->getDefaultTheme();
 
@@ -146,10 +152,13 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet() {
 
-		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getURI().'dojo/resources/dojo.css') );
+
+
+
+		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getBaseURI().'dojo/resources/dojo.css') );
 		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getThemeURI()) );
 
-		$base_URL = $this->replaceConstants( $this->config->getURI() );
+		$base_URL = $this->replaceConstants( $this->config->getBaseURI() );
 		if($this->required_components_CSS){
 			foreach($this->required_components_CSS as $css){
 				$css = $this->replaceConstants($css);
@@ -160,28 +169,44 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 
 		$this->layout->requireInitialJavascriptCode( JET_TAB.'var djConfig = '.json_encode($this->djConfig).';' );
 
-		$result = '';
+		if($this->config->getPackageEnabled()) {
+			$key = Javascript_Lib_Dojo_PackageCreator::getKey($this->locale, $this->required_components);
+
+			$package_file = Mvc_Layout::JS_PACKAGES_DIR_NAME.'dojo-'.$key.'.js';
+			$package_path = JET_PUBLIC_PATH.$package_file;
+			$package_URI = JET_PUBLIC_URI.$package_file;
 
 
+			if(!IO_File::exists($package_path)) {
 
+				$pc = new Javascript_Lib_Dojo_PackageCreator(
+					$this->replaceConstants($this->config->getBasePath()),
+					$this->replaceConstants($this->config->getBaseURI()),
+					$this->locale,
+					$this->required_components
+				);
 
-		$this->layout->requireJavascriptFile( $this->replaceConstants( $this->config->getDojoJsURI() ) );
+				IO_File::write(
+					$package_path,
+					$pc->createPackage()
+				);
+			}
 
-		$package_URL = $this->config->getDojoPackageURI();
-		if($package_URL) {
-			$this->layout->requireJavascriptFile( $this->replaceConstants($package_URL) );
-		}
+			$this->layout->requireJavascriptFile( $package_URI );
+		} else {
+			$this->layout->requireJavascriptFile( $this->replaceConstants( $this->config->getDojoJsURI() ) );
 
-		if($this->required_components){
-			foreach( $this->required_components as $rc ) {
-				if(!$rc) {
-					continue;
+			if($this->required_components){
+				foreach( $this->required_components as $rc ) {
+					if(!$rc) {
+						continue;
+					}
+					$this->layout->requireJavascriptCode(JET_TAB.'dojo.require(\''.$rc.'\');');
 				}
-				$this->layout->requireJavascriptCode(JET_TAB.'dojo.require(\''.$rc.'\');');
 			}
 		}
 
-		return $result;
+		return '';
 	}
 
 	/**

@@ -32,6 +32,8 @@ namespace Jet;
 
 class Mvc_Layout extends Mvc_View_Abstract  {
 
+	const JS_PACKAGES_DIR_NAME = 'js_packages/';
+
 	const TAG_PART = 'jet_layout_part';
 	const TAG_POSITION = 'jet_layout_position';
 	const TAG_MAIN_POSITION = 'jet_layout_main_position';
@@ -809,6 +811,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected function handleCss( &$result ) {
 
+		if( !strpos($result, self::TAG_CSS) ) {
+			return;
+		}
+
 		$snippet = '';
 
 		foreach( $this->required_css_files as $dat ) {
@@ -841,6 +847,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handleJavascripts( &$result ) {
+
+		if( !strpos($result, self::TAG_JAVASCRIPT) ) {
+			return;
+		}
 
 		$snippet = '';
 

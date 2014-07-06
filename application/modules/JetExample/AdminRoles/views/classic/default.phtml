@@ -8,29 +8,33 @@ use JetApplicationModule\JetExample\UIElements;
  */
 $grid = $this->grid;
 
-$can_delete_role = $this->can_delete_role;
-$can_update_role = $this->can_update_role;
+/**
+ * @var Jet\Mvc_MicroRouter $router
+ */
+$router = $this->router;
 
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) use ($can_delete_role, $can_update_role) {
-	$ID = rawurlencode($item->getID());
+$c_edit->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) use ($router) {
 	?>
-	<?php if($can_update_role): ?>
-	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	<?php if($router->getActionAllowed('edit')): ?>
+		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
 	<?php endif; ?>
 	&nbsp;
-	<?php if($can_delete_role): ?>
-	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+	<?php if($router->getActionAllowed('delete')): ?>
+		<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
 	<?php endif; ?>
 <?php
 } );
 $c_edit->setCssStyle( 'width:120px;' );
 
-$grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
-	$ID = rawurlencode($item->getID());
+$grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) use ($router) {
 	?>
-	<a href="?ID=<?=$ID;?>"><?=$item->getID();?></a>
-	<?php
+	<?php if($router->getActionAllowed('edit')): ?>
+		<a href="<?=$router->getActionURI('edit', $item);?>"><?=$item->getName();?></a>
+	<?php else: ?>
+		<a href="<?=$router->getActionURI('view', $item);?>"><?=$item->getName();?></a>
+	<?php endif; ?>
+<?php
 } );
 
 $grid->getColumn('name')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
@@ -46,9 +50,10 @@ $grid->getColumn('description')->setDisplayCallback( function( Jet\Auth_Role_Abs
 
 <div style="padding: 10px;">
 
-<?php if($this->can_add_role): ?>
-<a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new role');?></a>
-<?php endif; ?>
+	<?php if($router->getActionAllowed('add')): ?>
+		<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Jet\Tr::_('Add new role');?></a>
+	<?php endif; ?>
+
 
 	<?=$grid->render();?>
 </div>

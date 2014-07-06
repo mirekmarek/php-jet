@@ -28,14 +28,26 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
+	/**
+	 * @var Jet\Mvc_MicroRouter
+	 */
+	protected $micro_router;
+
 	protected static $ACL_actions_check_map = array(
-		'default' => 'get_role'
+		'default' => 'get_role',
+		'add' => 'add_role',
+		'edit' => 'update_role',
+		'view' => 'get_role',
+		'delete' => 'delete_role',
 	);
 
 	/**
 	 *
 	 */
 	public function initialize() {
+		Jet\Mvc::setProvidesDynamicContent();
+		$this->getFrontController()->breadcrumbNavigationShift( -2 );
+		$this->micro_router = $this->module_instance->getMicroRouter();
 	}
 
 
@@ -43,114 +55,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function default_Action() {
-
-		Jet\Mvc::setProvidesDynamicContent();
-
-		$GET = Jet\Http_Request::GET();
-
-		if( $delete_ID = $GET->getString('delete')) {
-			$role = Jet\Auth::getRole( $delete_ID );
-			if($role) {
-				$this->handleDelete($role);
-
-				return;
-			}
-		}
-
-
-		$role = false;
-		if( $GET->exists('new') ) {
-			$role = Jet\Auth::getNewRole();
-		} else if( $GET->exists('ID') ) {
-			$role = Jet\Auth::getRole( $GET->getString('ID') );
-		}
-
-		if($role) {
-			$this->handleEdit( $role );
-		} else {
-			$this->handleList();
-		}
-	}
-
-	/**
-	 * @param Jet\Auth_Role_Abstract $role
-	 */
-	public function handleDelete( Jet\Auth_Role_Abstract $role ) {
-		if( !$this->module_instance->checkAclCanDoAction('delete_role') ) {
-			return;
-		}
-
-		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
-			$role->delete();
-			Jet\Http_Headers::movedTemporary('?');
-		}
-
-
-		$this->getFrontController()->addBreadcrumbNavigationData('Delete role');
-
-		$this->view->setVar( 'role', $role );
-
-		$this->render('classic/delete-confirm');
-	}
-
-
-	/**
-	 * @param Jet\Auth_Role_Abstract $role
-	 */
-	protected function handleEdit( Jet\Auth_Role_Abstract $role ) {
-		$has_access = false;
-
-		if($role->getIsNew()) {
-			if( !$this->module_instance->checkAclCanDoAction('add_role') ) {
-				return;
-			}
-            $has_access = true;
-		} else {
-			if( $this->module_instance->checkAclCanDoAction('update_role') ) {
-				$has_access = true;
-			}
-		}
-
-
-		$form = $role->getCommonForm();
-
-		if( $has_access ) {
-			if($role->catchForm( $form )) {
-				$role->validateProperties();
-
-				$role->save();
-				Jet\Http_Headers::movedTemporary( '?ID='.$role->getID() );
-			}
-		}
-
-		if($role->getIsNew()) {
-			$this->view->setVar('bnt_label', Jet\Tr::_('ADD'));
-
-			$this->getFrontController()->addBreadcrumbNavigationData(Jet\Tr::_('New role'));
-		} else {
-			$this->view->setVar('bnt_label', Jet\Tr::_('Save'));
-
-			$this->getFrontController()->addBreadcrumbNavigationData( $role->getName() );
-		}
-
-		$this->getFrontController()->breadcrumbNavigationShift( -3 );
-
-		$this->view->setVar('has_access', $has_access);
-		$this->view->setVar('form', $form);
-		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
-
-		$this->render('classic/edit');
-
-	}
-
-	/**
-	 *
-	 */
-	protected function handleList() {
-
-		$this->getFrontController()->breadcrumbNavigationShift( -2 );
-
 		/**
 		 * @var UIElements\Main $UI_m
 		 */
@@ -164,14 +68,100 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$grid->addColumn('name', Jet\Tr::_('Name'));
 		$grid->addColumn('description', Jet\Tr::_('Description'));
 
-		$this->view->setVar('can_add_role', $this->module_instance->checkAclCanDoAction('add_role'));
-		$this->view->setVar('can_delete_role', $this->module_instance->checkAclCanDoAction('delete_role'));
-		$this->view->setVar('can_update_role', $this->module_instance->checkAclCanDoAction('update_role'));
 		$grid->setData( Jet\Auth::getRolesList() );
 
 		$this->view->setVar('grid', $grid);
+		$this->view->setVar( 'router', $this->micro_router );
 
 		$this->render('classic/default');
-
 	}
+
+
+	/**
+	 *
+	 */
+	public function add_Action() {
+
+		$role = Jet\Auth::getNewRole();
+
+		$form = $role->getCommonForm();
+
+		if( $role->catchForm( $form ) ) {
+			$role->validateProperties();
+			$role->save();
+			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
+		}
+
+		$this->getFrontController()->addBreadcrumbNavigationData( Jet\Tr::_('New role') );
+
+
+		$this->view->setVar('btn_label', Jet\Tr::_('ADD') );
+		$this->view->setVar('has_access', true);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+
+		$this->render('classic/edit');
+	}
+
+	/**
+	 * @param Jet\Auth_Role_Abstract $role
+	 */
+	public function edit_Action( Jet\Auth_Role_Abstract $role ) {
+
+		$form = $role->getCommonForm();
+
+		if( $role->catchForm( $form ) ) {
+			$role->validateProperties();
+			$role->save();
+			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
+		}
+
+		$this->getFrontController()->addBreadcrumbNavigationData( $role->getName() );
+
+		$this->view->setVar('btn_label', Jet\Tr::_('SAVE') );
+		$this->view->setVar('has_access', true);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('role', $role);
+		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+
+		$this->render('classic/edit');
+	}
+
+	/**
+	 * @param Jet\Auth_Role_Abstract $role
+	 */
+	public function view_Action( Jet\Auth_Role_Abstract $role ) {
+
+		$this->getFrontController()->addBreadcrumbNavigationData( $role->getName() );
+
+		$form = $role->getCommonForm();
+		$this->view->setVar('has_access', false);
+		$this->view->setVar('form', $form);
+		$this->view->setVar('role', $role);
+		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+
+		$this->render('classic/edit');
+	}
+
+
+	/**
+	 * @param Jet\Auth_Role_Abstract $role
+	 */
+	public function delete_action( Jet\Auth_Role_Abstract $role ) {
+
+		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+			$role->delete();
+
+			Jet\Http_Headers::movedTemporary( Jet\Mvc::getCurrentURI() );
+		}
+
+
+		$this->getFrontController()->addBreadcrumbNavigationData('Delete role');
+
+		$this->view->setVar( 'role', $role );
+
+		$this->render('classic/delete-confirm');
+	}
+
+
 }

@@ -29,7 +29,7 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	/**
 	 * @var int
 	 */
-	protected $public_list_items_per_page = 5;
+	protected $public_list_items_per_page = 10;
 
 	/**
 	 * @var Jet\Mvc_MicroRouter
@@ -94,19 +94,31 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 
 		$base_URI = Jet\Mvc::getCurrentURI();
 
-		$router->addAction('add', '/^add$/', 'add_article')
+		$validator = function( &$parameters ) {
+			$article = Article::get( $parameters[0] );
+			if(!$article) {
+				return false;
+			}
+
+			$parameters[0] = $article;
+			return true;
+
+		};
+
+		$router->addAction('add', '/^add$/', 'add_article', true)
 			->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
-		$router->addAction('edit', '/^edit:([\S]+)$/', 'update_article')
-			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } );
+		$router->addAction('edit', '/^edit:([\S]+)$/', 'update_article', true)
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } )
+			->setParametersValidatorCallback( $validator );
 
-		$router->addAction('view', '/^view:([\S]+)$/', 'get_article')
-			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } );
+		$router->addAction('view', '/^view:([\S]+)$/', 'get_article', true)
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } )
+			->setParametersValidatorCallback( $validator );
 
-		$router->addAction('delete', '/^delete:([\S]+)$/', 'delete_article')
-			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } );
-
-		$router->setDefaultActionName('list');
+		$router->addAction('delete', '/^delete:([\S]+)$/', 'delete_article', true)
+			->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } )
+			->setParametersValidatorCallback( $validator );
 
 		$this->_micro_router = $router;
 

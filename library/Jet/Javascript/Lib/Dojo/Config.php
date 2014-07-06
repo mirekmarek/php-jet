@@ -59,15 +59,6 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:is_required = false
-	 * @JetConfig:form_field_label = 'Dojo package URI'
-	 *
-	 * @var string
-	 */
-	protected $dojo_package_URI = '';
-
-	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
 	 * @JetConfig:default_value = '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
 	 * @JetConfig:is_required = false
@@ -77,10 +68,31 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 */
 	protected $theme_URI = '';
 
+
+	/**
+	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_PATH%dojo/%VERSION%/'
+	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_label = 'Base path'
+	 *
+	 * @var string
+	 */
+	protected $base_path = '';
+
+	/**
+	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:default_value = true
+	 * @JetConfig:form_field_label = 'Create package'
+	 * @JetConfig:is_required = false
+	 *
+	 */
+	protected $package_enabled = true;
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Parse on load'
+	 * @JetConfig:is_required = false
 	 *
 	 * @var bool
 	 */
@@ -90,6 +102,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	 * @JetConfig:type = Jet\Config::TYPE_BOOL
 	 * @JetConfig:default_value = false
 	 * @JetConfig:form_field_label = 'Dojo debug'
+	 * @JetConfig:is_required = false
 	 *
 	 * @var bool
 	 */
@@ -135,9 +148,16 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	/**
 	 * @return string
 	 */
-	public function getURI() {
+	public function getBaseURI() {
 		$dojo_js_URI = $this->getDojoJsURI();
 		return dirname(dirname($dojo_js_URI)) . '/';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBasePath() {
+		return $this->base_path;
 	}
 
 	/**
@@ -151,12 +171,12 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	}
 
 	/**
-	 * Get URI/URL where dojo package file is placed
-	 *
-	 * @return string
+	 * @return bool
 	 */
-	public function getDojoPackageURI() {
-		return $this->dojo_package_URI;
+	public function getPackageEnabled() {
+		return $this->package_enabled;
 	}
+
+
 
 }

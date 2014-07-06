@@ -32,10 +32,14 @@ class Mvc_MicroRouter_Action extends Object {
 	protected $ACL_action = '';
 
 	/**
+	 * @var bool
+	 */
+	protected $disable_routing_cache = false;
+
+	/**
 	 * @var array
 	 */
 	protected $action_parameters = array();
-
 
 	/**
 	 * @var callable
@@ -50,17 +54,24 @@ class Mvc_MicroRouter_Action extends Object {
 	/**
 	 * @var callable
 	 */
+	protected $parameters_validator_callback;
+
+	/**
+	 * @var callable
+	 */
 	protected $create_URI_callback;
 
 	/**
 	 * @param string $controller_action_name
 	 * @param string $regexp
 	 * @param string $ACL_action
+	 * @param bool $disable_routing_cache
 	 */
-	public function __construct( $controller_action_name, $regexp, $ACL_action ) {
+	public function __construct( $controller_action_name, $regexp, $ACL_action, $disable_routing_cache ) {
 		$this->setActionName( $controller_action_name );
 		$this->setRegexp( $regexp );
 		$this->ACL_action = $ACL_action;
+		$this->disable_routing_cache = (bool)$disable_routing_cache;
 	}
 
 
@@ -114,6 +125,21 @@ class Mvc_MicroRouter_Action extends Object {
 	public function getACLAction(){
 		return $this->ACL_action;
 	}
+
+	/**
+	 * @param bool $disable_routing_cache
+	 */
+	public function setDisableRoutingCache($disable_routing_cache) {
+		$this->disable_routing_cache = (bool)$disable_routing_cache;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getDisableRoutingCache() {
+		return $this->disable_routing_cache;
+	}
+
 
 
 
@@ -220,6 +246,14 @@ class Mvc_MicroRouter_Action extends Object {
 
 		array_shift( $matches );
 
+		if($this->parameters_validator_callback) {
+			$callback = $this->parameters_validator_callback;
+
+			if(!$callback( $matches )) {
+				return false;
+			}
+		}
+
 		$this->action_parameters = $matches;
 
 		$micro_router->getRouterInstance()->putUsedPathFragment( $path_fragment );
@@ -237,6 +271,18 @@ class Mvc_MicroRouter_Action extends Object {
 
 		return $this;
 	}
+
+	/**
+	 * @param callable $parameters_validator_callback
+	 *
+	 * @return Mvc_MicroRouter_Action
+	 */
+	public function setParametersValidatorCallback(callable $parameters_validator_callback){
+		$this->parameters_validator_callback = $parameters_validator_callback;
+
+		return $this;
+	}
+
 
 	/**
 	 * @param array $arguments

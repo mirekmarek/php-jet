@@ -27,8 +27,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	protected $micro_router;
 
 	protected static $ACL_actions_check_map = array(
-		'default' => false,
-		'list' => 'get_article',
+		'default' => 'get_article',
 		'add' => 'add_article',
 		'edit' => 'update_article',
 		'view' => 'get_article',
@@ -48,12 +47,6 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function default_Action() {
-	}
-
-	/**
-	 *
-	 */
-	public function list_Action() {
 
 		/**
 		 * @var UIElements\Main $UI_m
@@ -73,7 +66,6 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		$this->view->setVar( 'router', $this->micro_router );
 
 		$this->render('classic/default');
-
 	}
 
 	/**
@@ -102,15 +94,9 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param $ID
+	 * @param  Article $article
 	 */
-	public function edit_Action( $ID ) {
-
-		$article = Article::get( $ID );
-		if(!$article) {
-			$this->unknownItem_Action();
-			return;
-		}
+	public function edit_Action( Article $article ) {
 
 		$form = $article->getCommonForm();
 
@@ -130,15 +116,9 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param $ID
+	 * @param  Article $article
 	 */
-	public function view_Action( $ID ) {
-
-		$article = Article::get( $ID );
-		if(!$article) {
-			$this->unknownItem_Action();
-			return;
-		}
+	public function view_Action(  Article $article  ) {
 
 		$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
 
@@ -150,15 +130,10 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param $ID
+	 * @param  Article $article
 	 */
-	public function delete_action( $ID ) {
+	public function delete_action(  Article $article  ) {
 
-		$article = Article::get( $ID );
-		if(!$article) {
-			$this->unknownItem_Action();
-			return;
-		}
 
 		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
 			$article->delete();
@@ -174,12 +149,5 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		$this->render('classic/delete-confirm');
 	}
 
-	/**
-	 *
-	 */
-	public function unknownItem_Action() {
-		$this->render('classic/unknown-item');
-
-	}
 
 }
