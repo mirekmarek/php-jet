@@ -89,17 +89,17 @@ dojo.declare("Jet.MultiUploader", [], {
 
 		for(var i=0; i<file_input.files.length; i++) {
 			var new_file = file_input.files[i];
-			var allready_selected = false;
+			var already_selected = false;
 
 			for (var c=0; c<this.selected_files.length; c++) {
 				var selected_file = this.selected_files[c];
 				if(new_file.name==selected_file.name) {
-					allready_selected = true;
+					already_selected = true;
 					break;
 				}
 			}
 
-			if( allready_selected ) {
+			if( already_selected ) {
 				continue;
 			}
 

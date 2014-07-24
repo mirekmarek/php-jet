@@ -265,6 +265,7 @@ Jet.declare("Jet.modules.Module", [], {
 		}
 	},
 
+
 	restPutAction: function( object_name, object_ID, data, on_response, busy_button_ID ) {
 		this.restAction("put", object_name, object_ID, data, on_response, busy_button_ID);
 	},

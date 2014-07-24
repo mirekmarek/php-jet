@@ -178,11 +178,16 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @throws DataModel_Exception
 	 */
 	public function saveRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+		foreach($this->__deleted_items as $item) {
+			/**
+			 * @var DataModel_Related_1toN $item
+			 */
+			if($item->getIsSaved()) {
+				$item->_deleteItem();
+			}
+		}
 
 		if( !$this->__items ) {
-			foreach($this->__deleted_items as $item) {
-				$item->delete();
-			}
 			return;
 		}
 
@@ -196,14 +201,6 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			}
 		}
 
-		foreach($this->__deleted_items as $item) {
-			/**
-			 * @var DataModel_Related_1toN $item
-			 */
-			if($item->getIsSaved()) {
-				$item->_deleteItem();
-			}
-		}
 	}
 
 	/**
@@ -245,6 +242,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	}
 
 	protected function _deleteItem() {
+
 		parent::delete();
 	}
 
@@ -385,6 +383,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @param mixed $offset
 	 */
 	public function offsetUnset( $offset )	{
+
 		$this->__deleted_items[] = $this->__items[$offset];
 		unset( $this->__items[$offset] );
 	}

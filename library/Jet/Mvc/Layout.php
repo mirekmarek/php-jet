@@ -538,6 +538,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 			$item->finalPostProcess( $result, $this, $this->output_parts );
 		}
+
 		$this->handleJavascripts( $result );
 		$this->handleCss( $result );
 		$this->handleConstants( $result );
@@ -854,12 +855,25 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$snippet = '';
 
+		$required_initial_javascript_code = $this->required_initial_javascript_code;
+		$required_javascript_files = $this->required_javascript_files;
+		$required_javascript_code = $this->required_javascript_code;
+
+		$this->required_initial_javascript_code = [];
+		$this->required_javascript_files = [];
+		$this->required_javascript_code = [];
+
 		$libs_snippet = '';
 		if($this->required_javascript_libs) {
 			foreach( $this->required_javascript_libs as $JS ) {
 				$libs_snippet .= $JS->getHTMLSnippet();
 			}
 		}
+
+		$this->required_initial_javascript_code = array_merge($this->required_initial_javascript_code, $required_initial_javascript_code);
+		$this->required_javascript_files = array_merge($this->required_javascript_files, $required_javascript_files );
+		$this->required_javascript_code = array_merge($this->required_javascript_code, $required_javascript_code);
+
 
 		$initial_code = '';
 		foreach( $this->required_initial_javascript_code as $code ) {

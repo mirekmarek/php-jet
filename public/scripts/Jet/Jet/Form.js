@@ -393,12 +393,14 @@ dojo.declare("Jet.Form", [], {
 
         this._changed = status;
 
-        if( this.save_button.push!==undefined ) {
-            for(var i=0; i<this.save_button.length;i++) {
-                this._setButtonSaveWarning(this.save_button[i], status);
+        if(this.save_button) {
+            if( this.save_button.push!==undefined ) {
+                for(var i=0; i<this.save_button.length;i++) {
+                    this._setButtonSaveWarning(this.save_button[i], status);
+                }
+            } else {
+                this._setButtonSaveWarning(this.save_button, status);
             }
-        } else {
-            this._setButtonSaveWarning(this.save_button, status);
         }
 
         this.onChanged();

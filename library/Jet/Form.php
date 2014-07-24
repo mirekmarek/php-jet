@@ -409,7 +409,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		}
 		
 		foreach($this->fields as $key=>$field) {
-			$last_error = $field->getLastError();
+			$last_error = $field->getLastErrorMessage();
 			
 			if($last_error) {
 				$result[$key] = $last_error;
@@ -418,6 +418,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		
 		return $result;
 	}
+
 
 	/**
 	 * returns field values if form is valid otherwise false

@@ -82,7 +82,9 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 			$_dojo_props[] = $k.':'.json_encode($val);
 		}
 
-		$tag_data->setProperty( static::DOJO_TYPE_PROPERTY, $dojo_type );
+		if(!$tag_data->getProperty(static::DOJO_TYPE_PROPERTY)) {
+			$tag_data->setProperty( static::DOJO_TYPE_PROPERTY, $dojo_type );
+		}
 		$tag_data->setProperty( static::DOJO_PROPS_PROPERTY, implode(',', $_dojo_props));
 	}
 

@@ -78,7 +78,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @param Mvc_Router_Abstract $router
 	 * @param Mvc_Dispatcher_Queue_Item $dispatch_queue_item
 	 */
-	abstract public function resolveRequest( Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null );
+	abstract public function resolveRequest( Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item );
 
 
 	/**

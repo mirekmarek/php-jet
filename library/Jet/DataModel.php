@@ -213,7 +213,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		}
 
-		//$this->generateID();
 	}
 
 
@@ -578,6 +577,10 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$loaded_instance = $cache->get( $definition, $ID);
 
 			if($loaded_instance) {
+				/**
+				 * @var DataModel $loaded_instance
+				 */
+
 				foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 					if(!$property_definition->getIsDataModel()) {
 						continue;
@@ -592,6 +595,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 						$related_object->wakeUp( $loaded_instance );
 					}
 				}
+
+				$loaded_instance->setIsSaved();
 
 				return $loaded_instance;
 			}

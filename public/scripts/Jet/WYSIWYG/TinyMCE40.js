@@ -5,8 +5,8 @@ var Jet_WYSIWYG = new function() {
 	this._enabled = {};
 
     this.init = function(node_ID, config_name, onChange) {
-
         this._loaded[node_ID] = false;
+
 
         var config = Jet_WYSIWYG_editor_configs[config_name];
         config.elements = node_ID;
@@ -67,7 +67,10 @@ var Jet_WYSIWYG = new function() {
             return;
         }
 
-        if(!Jet_WYSIWYG._loaded[node_ID]) {
+        if(
+            !Jet_WYSIWYG._loaded[node_ID] ||
+            !tinymce.get(node_ID)
+         ) {
             Jet_WYSIWYG._content[node_ID] = content;
         } else {
             tinymce.get(node_ID).setContent(content);

@@ -33,7 +33,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:description = 'Version of TinyMCE'
 	 * @//JetConfig:default_value = '3.5.6'
-	 * @JetConfig:default_value = '4.0'
+	 * @JetConfig:default_value = '4.1'
 	 * @JetConfig:is_required = false
 	 *
 	 * @var string

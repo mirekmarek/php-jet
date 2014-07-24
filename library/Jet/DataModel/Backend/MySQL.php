@@ -759,6 +759,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$res = '';
 
 		if(is_array($value)) {
+
 			$sq = array();
 
 			/**

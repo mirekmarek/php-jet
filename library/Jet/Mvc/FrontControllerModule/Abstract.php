@@ -165,76 +165,125 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 
 		$this->_dispatch_queue = new Mvc_Dispatcher_Queue();
 
-		$router = $this->router;
+
+		if( $this->resolveServiceType() == Mvc_Router::SERVICE_TYPE_STANDARD ) {
+
+			if($this->resolvePublicFileRequest()) {
+				return null;
+			}
+
+			return $this->resolveStandardRequest();
+		}
+
+		if($this->resolveJsRequest()) {
+			return null;
+		}
+
+		return $this->resolveNonStandardRequest();
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function resolveServiceType() {
+		$path_fragments = $this->router->getPathFragments();
 
 		$path_fragments_service_types_map = static::$path_fragments_service_types_map;
-		$path_fragments = $router->getPathFragments();
 
 
-		$service_type = $router->getServiceType();
+		$service_type = $this->router->getServiceType();
 		if(
 			isset($path_fragments[0]) &&
 			isset( $path_fragments_service_types_map[$path_fragments[0]] )
 		) {
 			$service_type = $path_fragments_service_types_map[$path_fragments[0]];
-			$router->setServiceType( $service_type );
-			$path_fragments = $router->shiftPathFragments();
+			$this->router->setServiceType( $service_type );
+			$this->router->shiftPathFragments();
 		}
 
+		return $service_type;
+	}
 
+	/**
+	 *
+	 * @return bool
+	 */
+	protected function resolvePublicFileRequest() {
+		$path_fragments = $this->router->getPathFragments();
 
-		if( $service_type == Mvc_Router::SERVICE_TYPE_STANDARD ) {
+		if(
+			count($path_fragments)==1 &&
+			strpos($path_fragments[0], '.')!==false &&
+			$path_fragments[0][0] != '.' &&
+			strpos($path_fragments[0], '..')===false
+		) {
+			$file_path = $this->router->getPublicFilesPath().$path_fragments[0];
 
-			if(
-				count($path_fragments)==1 &&
-				strpos($path_fragments[0], '.')!==false &&
-				$path_fragments[0][0] != '.' &&
-				strpos($path_fragments[0], '..')===false
-			) {
-				$file_path = $router->getPublicFilesPath().$path_fragments[0];
+			if(IO_File::isReadable($file_path)) {
+				$this->router->shiftPathFragments();
+				$this->router->setIsPublicFile($file_path);
 
-
-				if(IO_File::isReadable($file_path)) {
-					$router->shiftPathFragments();
-					$router->setIsPublicFile($file_path);
-
-					return null;
-				}
-
+				return true;
 			}
 
-
-			$this->_dispatch_queue = $this->router->getPage()->getDispatchQueue();
-
-			foreach( $this->_dispatch_queue as $item ) {
-				/**
-				 * @var Mvc_Dispatcher_Queue_Item $item
-				 */
-				$module_name = $item->getModuleName();
-
-				if(!Application_Modules::getModuleIsActivated($module_name)) {
-					continue;
-				}
-
-				$module_instance = Application_Modules::getModuleInstance( $module_name );
-
-				$module_instance->resolveRequest( $router, $item );
-			}
-
-			return $this->_dispatch_queue;
 		}
 
+		return false;
+	}
 
-		if($service_type==Mvc_Router::SERVICE_TYPE__JETJS_) {
+	/**
+	 *
+	 * @return bool
+	 */
+	protected function resolveJsRequest() {
+
+		if($this->router->getServiceType()==Mvc_Router::SERVICE_TYPE__JETJS_) {
 			Translator::setCurrentLocale( $this->router->getLocale() );
 
 			$this->handleJetJS();
 
-			return null;
+			return true;
 		}
 
+		return false;
+	}
+
+	/**
+	 *
+	 * @return Mvc_Dispatcher_Queue
+	 */
+	protected function resolveStandardRequest() {
+
+		$this->_dispatch_queue = $this->router->getPage()->getDispatchQueue();
+
+		foreach( $this->_dispatch_queue as $item ) {
+			/**
+			 * @var Mvc_Dispatcher_Queue_Item $item
+			 */
+			$module_name = $item->getModuleName();
+
+			if(!Application_Modules::getModuleIsActivated($module_name)) {
+				continue;
+			}
+
+			$module_instance = Application_Modules::getModuleInstance( $module_name );
+
+			$module_instance->resolveRequest( $this->router, $item );
+		}
+
+		return $this->_dispatch_queue;
+	}
+
+	/**
+	 *
+	 * @return Mvc_Dispatcher_Queue|null
+	 */
+	protected function resolveNonStandardRequest() {
+		$service_type = $this->router->getServiceType();
+		$path_fragments = $this->router->getPathFragments();
+
 		if(!$path_fragments) {
-			$router->setIs404();
+			$this->router->setIs404();
 
 			return null;
 		}
@@ -244,11 +293,11 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 			$path_fragments[0]
 		);
 
-		$path_fragments = $router->shiftPathFragments();
+		$path_fragments = $this->router->shiftPathFragments();
 
 
 		if(!$this->getServiceRequestAllowed( $module_name )) {
-			$router->setIs404();
+			$this->router->setIs404();
 
 			return null;
 		}
@@ -257,7 +306,7 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 
 		if($path_fragments){
 			$controller_action = $path_fragments[0];
-			$path_fragments = $router->shiftPathFragments();
+			$path_fragments = $this->router->shiftPathFragments();
 		}
 
 		if( $service_type==Mvc_Router::SERVICE_TYPE_REST ) {
@@ -275,7 +324,6 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 		$this->_dispatch_queue->addItem( $qi );
 
 		return $this->_dispatch_queue;
-
 	}
 
 
