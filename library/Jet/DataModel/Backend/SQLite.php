@@ -797,6 +797,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			$v_table_name = $this->_getTableName( $value->getDataModelDefinition() );
 			$value = '`'.$v_table_name.'`.`'.$value->getName().'`';
 		} else {
+
+			if(is_object($value)) {
+				$value = (string)$value;
+			}
+
+
 			if(is_bool($value)) {
 				$value = $value ? 1 : 0;
 			} else {

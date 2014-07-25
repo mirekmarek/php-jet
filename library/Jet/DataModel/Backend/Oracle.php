@@ -1197,6 +1197,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			return 'TO_TIMESTAMP_TZ(\''.$value.'\', \'YYYY-MM-DD"T"HH24:MI:SSTZHTZM\')';
 		}
 
+		if(is_object($value)) {
+			$value = (string)$value;
+		}
+
 		return $this->_db_read->quote( $value );
 	}
 
