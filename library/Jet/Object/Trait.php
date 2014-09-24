@@ -83,4 +83,15 @@ trait Object_Trait {
 		return $setter_method_name;
 	}
 
+	/**
+	 * @param $property_name
+	 *
+	 * @return string
+	 */
+	public function getGetterMethodName( $property_name ) {
+		$setter_method_name = 'get'.str_replace('_', '', $property_name);
+
+		return $setter_method_name;
+	}
+
 }

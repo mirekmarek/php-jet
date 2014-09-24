@@ -241,6 +241,8 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 *
 	 */
 	public function responseOK() {
+		//TODO: add data ...
+
 		if($this->responseFormatDetection()==static::RESPONSE_FORMAT_XML) {
 			$this->_response('<result>OK</result>');
 		} else {

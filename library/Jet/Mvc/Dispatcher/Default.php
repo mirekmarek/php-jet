@@ -151,6 +151,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 										);
 
 
+		$this->router->getFrontController()->afterLoopDispatch( $queue_item, $this->current_loop_ID );
+
 		if( ($output_part = $layout->getOutputPart($this->current_loop_ID)) ) {
 
 			if( $this->current_loop_provides_dynamic_content ) {

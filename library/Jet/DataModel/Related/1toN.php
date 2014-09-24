@@ -101,6 +101,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			 * @var DataModel_Related_1toN $loaded_instance
 			 */
 			$key = $loaded_instance->getArrayKeyValue();
+			if(is_object($key)) {
+				$key = (string)$key;
+			}
 
 			if($key!==null) {
 				$this->__items[$key] = $loaded_instance;
@@ -367,6 +370,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 			 * @var DataModel_Related_1toN $value
 			 */
 			$offset = $value->getArrayKeyValue();
+			if(is_object($offset)) {
+				$offset = (string)$offset;
+			}
 		}
 
 		$value->__is_item = true;
@@ -480,6 +486,10 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 
 			$new_key = $item->getArrayKeyValue();
 			$key = $new_key!==null ? $new_key : $key;
+
+			if(is_object($key)) {
+				$key = (string)$key;
+			}
 
 			if(!$key) {
 				$items[] = $item;

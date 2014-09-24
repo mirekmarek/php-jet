@@ -52,7 +52,7 @@ class Mvc_Sites extends Object {
 	/**
 	 * Returns a list of all sites
 	 *
-	 * @return Mvc_Sites_Site_Abstract[]
+	 * @return Mvc_Sites_Site_Abstract[]|DataModel_Fetch_Object_Assoc
 	 */
 	public static function getAllSitesList() {
 

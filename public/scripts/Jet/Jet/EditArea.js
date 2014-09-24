@@ -20,6 +20,7 @@ dojo.declare("Jet.EditArea", [], {
     _current_pane: null,
 
     constructor: function( module_instance, area_ID ) {
+
         this.module_instance = module_instance;
         this.ID = area_ID;
 
@@ -31,6 +32,7 @@ dojo.declare("Jet.EditArea", [], {
         this.list_title_closed = module_instance.getNodeByID(area_ID + "_list_title_closed");
 
         this._current_pane = this.list_pane;
+
 
     },
 

@@ -247,7 +247,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_ID_Abstract
 	 */
 	public static function createID( $ID ) {
-		return static::getEmptyIDInstance()->createID( $ID );
+		$arguments = func_get_args();
+
+		return call_user_func_array( [static::getEmptyIDInstance(),'createID'], $arguments );
 	}
 
 
@@ -1540,6 +1542,16 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param DataModel_Definition_Property_Abstract $property
+	 * @return mixed
+	 */
+	protected function getValueForJsonSerialize( DataModel_Definition_Property_Abstract $property) {
+		$property_name = $property->getName();
+
+		return $property->getValueForJsonSerialize( $this->{$property_name} );
 	}
 
 	/**

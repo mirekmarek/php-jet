@@ -81,4 +81,13 @@ interface Object_Interface {
 	 * @return string
 	 */
 	public function getSetterMethodName( $property_name );
+
+
+	/**
+	 * @param $property_name
+	 *
+	 * @return string
+	 */
+	public function getGetterMethodName( $property_name );
+
 }

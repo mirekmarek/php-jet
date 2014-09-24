@@ -138,6 +138,28 @@ class Mvc_Pages_Page_Content_Default extends Mvc_Pages_Page_Content_Abstract {
 		return $this->ID;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getSiteID() {
+		return $this->site_ID;
+	}
+
+	/**
+	 * @return Locale
+	 */
+	public function getLocale() {
+		return $this->locale;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPageID() {
+		return $this->page_ID;
+	}
+
+
 
 	/**
 	 * @return string

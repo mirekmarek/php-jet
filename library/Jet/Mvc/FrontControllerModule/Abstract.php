@@ -930,4 +930,11 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	public function resolveRequest( Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
 	}
 
+	/**
+	 * @param Mvc_Dispatcher_Queue_Item $current_queue_item
+	 * @param string $current_loop_ID
+	 */
+	public function afterLoopDispatch( $current_queue_item, $current_loop_ID ) {
+
+	}
 }
