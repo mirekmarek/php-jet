@@ -71,8 +71,8 @@ Jet.dojoExtensions = {
 
 
 
-        if(window["cbtree"] && cbtree.CheckBoxTree && !cbtree.CheckBoxTree.prototype.uncheckAll) {
-            dojo.extend(cbtree.CheckBoxTree, {
+        if(window["cbtree"] && cbtree.Tree && !cbtree.Tree.prototype.uncheckAll) {
+            dojo.extend(cbtree.Tree, {
                 uncheckAll: function( onComplete ) {
                     this.model.uncheck({ID:"*"}, onComplete);
                 },
@@ -87,7 +87,6 @@ Jet.dojoExtensions = {
                     this.model.store.fetch({
                         queryOptions: {deep:true},
                         onItem: function(storeItem, request) {
-
                             var ID = _this.model.store.getValue(storeItem, "ID", "");
                             var checked = false;
 
@@ -98,7 +97,8 @@ Jet.dojoExtensions = {
                                 }
                             }
 
-                            _this.model.updateCheckbox( storeItem, checked );
+                            //_this.model.updateCheckbox( storeItem, checked );
+                            _this.model.setChecked( storeItem, checked );
                         },
                         onComplete: function() {
                             _this.model.checkboxStrict = checkboxStrict_state;
@@ -116,13 +116,64 @@ Jet.dojoExtensions = {
                     this.model.store.fetch({
                         queryOptions: {deep:true},
                         onItem: function(storeItem, request) {
-                            if(_this.model.store.getValue(storeItem, _this.model.checkboxIdent)) {
+                            if(_this.model.getChecked( storeItem )) {
                                 IDs.push(_this.model.store.getValue(storeItem, "ID"));
                             }
                         }
                     });
 
                     return IDs;
+                },
+
+                disable: function() {
+                    var _tree = this;
+
+                    var traverse = function(node) {
+                        _tree.model.setEnabled( node.item, false );
+                        if(node._checkBox) {
+                            node._checkBox.set("disabled", true);
+                        }
+                        node.set("enabled", false);
+                        node.set("disabled", true);
+
+                        var children = node.getChildren();
+                        for(var i in children) {
+                            traverse( children[i] );
+                        }
+                    }
+
+                    this.model.store.fetch({
+                        onComplete: function() {
+                            traverse( _tree.rootNode);
+                        }
+                    });
+
+                },
+
+                enable: function() {
+                    var _tree = this;
+                    var traverse = function(node) {
+
+                        _tree.model.setEnabled( node.item, true );
+                        if(node._checkBox) {
+                            node._checkBox.set("disabled", false);
+                        }
+                        node.set("enabled", true);
+                        node.set("disabled", false);
+
+                        var children = node.getChildren();
+                        for(var i in children) {
+                            traverse( children[i] );
+
+                        }
+                    }
+
+                    this.model.store.fetch({
+                        onComplete: function() {
+                            traverse( _tree.rootNode);
+                        }
+                    });
+
                 }
 
             });

@@ -292,7 +292,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		foreach($this->N_IDs as $ID_value) {
 			$result .= $prefix . JET_TAB.'<'.$N_class_name.'>'.JET_EOL;
 			foreach($ID_value as $ID_k=>$ID_v) {
-				$result .= $prefix . JET_TAB.JET_TAB.'<'.$ID_k.'>'.htmlspecialchars($ID_v).'</'.$ID_k.'>'.JET_EOL;
+				$result .= $prefix . JET_TAB.JET_TAB.'<'.$ID_k.'>'.Data_Text::htmlSpecialChars($ID_v).'</'.$ID_k.'>'.JET_EOL;
 			}
 			$result .= $prefix . JET_TAB.'</'.$N_class_name.'>'.JET_EOL;
 		}

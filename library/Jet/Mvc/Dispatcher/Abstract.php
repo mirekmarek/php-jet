@@ -51,7 +51,7 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	/**
 	 * @var int
 	 */
-	protected $loop_counter = 0;
+	protected $step_counter = 0;
 
 
 	/**
@@ -64,13 +64,13 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	/**
 	 * @var string
 	 */
-	protected $current_loop_ID;
+	protected $current_step_ID;
 
 
 	/**
 	 * @var bool
 	 */
-	protected $current_loop_provides_dynamic_content = false;
+	protected $current_step_provides_dynamic_content = false;
 
 	/**
 	 * @var bool
@@ -141,13 +141,13 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	/**
 	 *
 	 */
-	abstract public function setCurrentLoopProvidesDynamicContent();
+	abstract public function setCurrentStepProvidesDynamicContent();
 
 	/**
 	 *
 	 * @return bool
 	 */
-	abstract public function getCurrentLoopProvidesDynamicContent();
+	abstract public function getCurrentStepProvidesDynamicContent();
 
 	/**
 	 * @return bool
@@ -159,6 +159,6 @@ abstract class Mvc_Dispatcher_Abstract extends Object {
 	 *
 	 * @return string
 	 */
-	abstract public function getCurrentLoopID();
+	abstract public function getCurrentStepID();
 
 }

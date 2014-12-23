@@ -49,7 +49,6 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 		$site_data->setIsActive($activate);
 		$site_data->setIsDefault( (count($site_data->getList())==0) );
 
-
 		$site_data->save();
 
 		foreach( $site_data->getLocales() as $locale ) {

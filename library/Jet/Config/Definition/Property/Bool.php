@@ -40,6 +40,19 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	}
 
 	/**
+	 *
+	 * @throws Config_Exception
+	 *
+	 * @return Form_Field_Abstract
+	 */
+	public function getFormField() {
+		$field = parent::getFormField();
+		$field->setIsRequired(false);
+
+		return $field;
+	}
+
+	/**
 	 * Property required test
 	 *
 	 * @param mixed &$value

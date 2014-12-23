@@ -67,6 +67,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	protected $_is_data_model = false;
 
+	/**
+	 * @var bool
+	 */
+	protected $_is_dynamic_value = false;
 
 	/**
 	 * @var string
@@ -216,6 +220,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			$this->is_required = (bool)$this->is_required;
 
 			if( $this->is_ID ) {
+				if(!isset($definition_data['form_field_type'])) {
+					$this->form_field_type = Form::TYPE_HIDDEN;
+				}
+
 				if( $this->_is_data_model ) {
 					throw new DataModel_Exception(
 						$this->data_model_class_name.'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
@@ -349,6 +357,15 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	public function getIsDataModel() {
 		return $this->_is_data_model;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsDynamicValue() {
+		return $this->_is_dynamic_value;
+	}
+
+
 
 	/**
 	 * @return bool
@@ -622,9 +639,6 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			return null;
 		}
 
-		if($this->is_ID) {
-			$type = Form::TYPE_HIDDEN;
-		}
 
 		if($this->form_field_get_default_value_callback) {
 			$callback = $this->form_field_get_default_value_callback;

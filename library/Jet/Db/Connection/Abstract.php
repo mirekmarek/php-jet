@@ -23,6 +23,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	use Object_Trait;
 	use Object_Trait_MagicGet;
 	use Object_Trait_MagicSet;
+	use Object_Trait_MagicClone;
 
 	/**
 	 *

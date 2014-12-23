@@ -166,7 +166,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 */
 	public function toJSON( ) {
 
-		$data = $this->_toJsonOrXMLDataPrepare();
+		$data = $this->jsonSerialize();
 
 		return json_encode( $data );
 	}
@@ -175,7 +175,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 * @return string
 	 */
 	public function toXML() {
-		$data = $this->_toJsonOrXMLDataPrepare();
+		$data = $this->jsonSerialize();
 
 		return $this->_XMLSerialize($data, 'tree');
 	}
@@ -183,7 +183,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	/**
 	 * @return array
 	 */
-	protected function _toJsonOrXMLDataPrepare() {
+	public function jsonSerialize() {
 		$data = array();
 
 		foreach($this->trees as $tree) {
@@ -221,7 +221,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 				}
 				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= $prefix.JET_EOL.'<'.$key.'>'.htmlspecialchars($val).'</'.$key.'>'.JET_EOL;
+				$result .= $prefix.JET_EOL.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;

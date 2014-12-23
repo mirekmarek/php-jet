@@ -97,6 +97,13 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		return $this;
 	}
 
+	/**
+	 * @param DataModel $data_model_instance
+	 * @param bool $called_after_save
+	 * @param mixed $backend_save_result
+	 *
+	 * @return void
+	 */
 	abstract public function generate( DataModel $data_model_instance, $called_after_save = false, $backend_save_result = null );
 
 	/**

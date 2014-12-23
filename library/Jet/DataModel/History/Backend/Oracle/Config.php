@@ -22,7 +22,7 @@ class DataModel_History_Backend_Oracle_Config extends DataModel_History_Backend_
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - read: '
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Jet\Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = array('Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
 	 *
 	 * @var string
@@ -33,7 +33,7 @@ class DataModel_History_Backend_Oracle_Config extends DataModel_History_Backend_
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - write: '
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Jet\Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = array('Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
 	 *
 	 * @var string

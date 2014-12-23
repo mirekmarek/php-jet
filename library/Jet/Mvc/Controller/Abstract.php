@@ -152,6 +152,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 */
 	protected function initializeDefaultView() {
 		$this->view = new Mvc_View( $this->module_instance->getViewsDir() );
+		$this->view->setModuleName( $this->module_instance->getModuleManifest()->getName() );
 	}
 
 	/**

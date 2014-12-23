@@ -31,7 +31,6 @@
 namespace Jet;
 
 class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
-	const PRIMARY_KEY_NAME = 'PRIMARY';
 
 	/**
 	 * @var DataModel_Backend_MySQL_Config
@@ -95,7 +94,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$_columns = array();
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-			if( $property->getIsDataModel() ) {
+			if(
+				$property->getIsDataModel() ||
+				$property->getIsDynamicValue()
+			) {
 				continue;
 			}
 
@@ -179,7 +181,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
-			if( $property->getIsDataModel() ) {
+			if(
+				$property->getIsDataModel() ||
+				$property->getIsDynamicValue()
+			) {
 				continue;
 			}
 			$actual_cols[$property_name] = $property;
@@ -199,7 +204,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		if($new_cols) {
 			$_new_cols = array();
 			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = '`'.$c.'`='.$this->_db_write->quote($v);
+				$_new_cols[] = '`'.$c.'`='.$this->_getValue($v, true);
 			}
 			$update_default_values = 'UPDATE `'.$updated_table_name.'` SET '.implode(', ', $_new_cols);
 		}
@@ -460,7 +465,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				}
 
 				if($property->getIsArray()) {
-					$data[$i] = unserialize( $data[$i] );
+					$data[$i] = $this->unserialize( $data[$i] );
 				}
 
 				$property->checkValueType( $data[$i] );
@@ -790,23 +795,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	protected function _getSQLQueryWherePart_handleOperator($operator, $value) {
 
-		if($value instanceof DataModel_Definition_Property_Abstract) {
-			$v_table_name = $this->_getTableName( $value->getDataModelDefinition() );
-			$value = '`'.$v_table_name.'`.`'.$value->getName().'`';
-		} else {
-			if(is_object($value)) {
-				$value = (string)$value;
-			}
-
-
-			if(is_bool($value)) {
-				$value = $value ? 1 : 0;
-			} else {
-				$value = $this->_db_read->quote($value);
-			}
-
-		}
-
+		$value = $this->_getValue( $value );
 
 		$res = '';
 
@@ -964,6 +953,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$name = $column->getName();
 
+		//TODO:
+		$default_value = $column->getDefaultValue( $data_model );
+
 
 		if( isset($backend_options['column_type']) && $backend_options['column_type'] ) {
 			return $backend_options['column_type'];
@@ -977,7 +969,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				} else {
 					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
 
-					return 'varchar('.$max_len.') COLLATE utf8_bin NOT NULL';
+					return 'varchar('.$max_len.') COLLATE utf8_bin NOT NULL DEFAULT \'\' ';
 				}
 
 				break;
@@ -986,38 +978,38 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 				if($max_len<=255) {
 					if($column->getIsID()) {
-						return 'varchar('.((int)$max_len).') COLLATE utf8_bin NOT NULL';
+						return 'varchar('.((int)$max_len).') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
 					} else {
-						return 'varchar('.((int)$max_len).')';
+						return 'varchar('.((int)$max_len).')  DEFAULT '.$this->_db_write->quote($default_value);
 					}
 				}
 
 				if($max_len<=65535) {
-					return 'text';
+					return 'text DEFAULT '.$this->_db_write->quote($default_value);
 				}
 
 				return 'longtext';
 				break;
 			case DataModel::TYPE_BOOL:
-				return 'tinyint(1)';
+				return 'tinyint(1) DEFAULT '.($default_value ? 1 : 0 );
 				break;
 			case DataModel::TYPE_INT:
-				return 'int';
+				return 'int DEFAULT '.(int)$default_value;
 				break;
 			case DataModel::TYPE_FLOAT:
-				return 'float';
+				return 'float DEFAULT '.(float)$default_value;
 				break;
 			case DataModel::TYPE_LOCALE:
-				return 'varchar(20) COLLATE utf8_bin NOT NULL';
+				return 'varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '.$this->_db_write->quote($default_value);
 				break;
 			case DataModel::TYPE_DATE:
-				return 'date';
+				return 'date DEFAULT NULL';
 				break;
 			case DataModel::TYPE_DATE_TIME:
-				return 'datetime';
+				return 'datetime DEFAULT NULL';
 				break;
 			case DataModel::TYPE_ARRAY:
-				return 'longtext';
+				return 'longtext DEFAULT \'\'';
 				break;
 			default:
 				throw new DataModel_Exception(
@@ -1041,25 +1033,63 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			/**
 			 * @var DataModel_RecordData_Item $item
 			 */
-			$value = $item->getValue();
 
-			if( is_bool($value) ) {
-				$value = $value ? 1 : 0;
-			} else {
-				if(is_array($value)) {
-					$value = serialize($value);
-				} else {
-					if(is_object($value)) {
-						$value = (string)$value;
-					}
-				}
-			}
-
-			$_record[$item->getPropertyDefinition()->getName()] = $value;
+			$_record[$item->getPropertyDefinition()->getName()] = $this->_getValue($item->getValue(), false);
 		}
 
 		return $_record;
 	}
+
+	/**
+	 * @param mixed $value
+	 * @param bool $quote (optional, default:true)
+	 *
+	 * @return mixed
+	 */
+	protected function _getValue( $value, $quote=true ) {
+		if($value instanceof DataModel_Definition_Property_Abstract) {
+			return $this->_getColumnName( $value );
+		}
+
+		if($value===null) {
+			if($quote) {
+				return 'NULL';
+			} else {
+				return null;
+			}
+		}
+
+		if(is_bool($value)) {
+			return $value ? 1 : 0;
+		}
+
+		if(is_int($value)) {
+			return (int)$value;
+		}
+
+		if(is_float($value)) {
+			return (float)$value;
+		}
+
+		if($value instanceof DateTime) {
+			$value = $value->format('Y-m-d H:i:s');
+		}
+
+		if(is_array($value)) {
+			$value = $this->serialize($value);
+		}
+
+		if(is_object($value)) {
+			$value = (string)$value;
+		}
+
+		if(!$quote) {
+			return $value;
+		}
+
+		return $this->_db_read->quote( $value );
+	}
+
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $model_definition

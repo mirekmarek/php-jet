@@ -3,7 +3,6 @@
  *
  *
  *
- * @see Mvc/readme.txt
  *
  * The layout is similar to the view. Therefore allows to use. phtml files to generate output.
  * It also allows pass the layout script variables ($layout->setVar('variable', 'value'); )
@@ -14,7 +13,7 @@
  * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name="positionName"/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
  * - Handles the tags for JavaScript initialization   (tag: <jet_layout_javascripts/> ), @see Mvc_Layout::handleJavascript(), @see Mvc_Layout::requireJavascriptLib(), @see JavaScript_Abstract, @see Mvc/readme.txt
  * - Handles the tags for layout parts including (tag: <jet_layout_part name="part-name"/>), @see Mvc_Layout::handleParts()
- * - Handles the tags for modules dispatching (tag: <jet_module:ModuleName:controllerAction action_param="action_param_value" />)
+ * - Handles the tags for modules dispatching (tag: <jet_module data-module-name="ModuleName" data-action="controllerAction" data-action-params="{param:value}" />)
  *
  * NOTICE: @see Mvc_Layout_Postprocessor_Interface
  *
@@ -33,6 +32,7 @@ namespace Jet;
 class Mvc_Layout extends Mvc_View_Abstract  {
 
 	const JS_PACKAGES_DIR_NAME = 'js_packages/';
+	const CSS_PACKAGES_DIR_NAME = 'css_packages/';
 
 	const TAG_PART = 'jet_layout_part';
 	const TAG_POSITION = 'jet_layout_position';
@@ -107,6 +107,16 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected $UI_container_ID_prefix = '';
 
 	/**
+	 * @var bool
+	 */
+	protected $JS_packager_enabled = true;
+
+	/**
+	 * @var bool
+	 */
+	protected $CSS_packager_enabled = true;
+
+	/**
 	* Constructor
 	*
 	* @param string $scripts_dir
@@ -116,9 +126,19 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$this->setScriptsDir($scripts_dir);
 		$this->setScriptName($script_name);
 
+		$this->JS_packager_enabled = JET_LAYOUT_JS_PACKAGER_ENABLED;
+		$this->CSS_packager_enabled = JET_LAYOUT_CSS_PACKAGER_ENABLED;
+
 		$this->_data = new Data_Array();
 	}
 
+	/**
+	 * @param Mvc_Router_Abstract $router
+	 */
+	public function setRouter(Mvc_Router_Abstract $router) {
+		$this->router = $router;
+		$this->setUIContainerID( $router->getFrontController()->getUIContainerID() );
+	}
 
 	/**
 	 *
@@ -129,11 +149,41 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param Mvc_Router_Abstract $router
+	 * @param bool $CSS_packager_enabled
 	 */
-	public function setRouter(Mvc_Router_Abstract $router) {
-		$this->router = $router;
-		$this->UI_container_ID = $router->getFrontController()->getUIContainerID();
+	public function setCSSPackagerEnabled($CSS_packager_enabled) {
+		$this->CSS_packager_enabled = (bool)$CSS_packager_enabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getCSSPackagerEnabled() {
+		return $this->CSS_packager_enabled;
+	}
+
+	/**
+	 * @param bool $JS_packager_enabled
+	 */
+	public function setJSPackagerEnabled($JS_packager_enabled) {
+		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getJSPackagerEnabled() {
+		return $this->JS_packager_enabled;
+	}
+
+
+
+	/**
+	 * @param string $UI_container_ID
+	 */
+	public function setUIContainerID($UI_container_ID) {
+		$this->UI_container_ID = $UI_container_ID;
+
 		if($this->UI_container_ID) {
 			$this->UI_container_ID_prefix = $this->UI_container_ID.'_';
 		} else {
@@ -267,7 +317,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * Adds output to specified position
 	 *
 	 * @param string $output
-	 * @param string $output_ID
+	 * @param string $step_ID
 	 * @param string $module_name
 	 * @param string $position (optional, default: main position)
 	 * @param bool $position_required (optional, default:true)
@@ -276,17 +326,12 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	public function addOutputPart(
 			$output,
-			$output_ID,
+			$step_ID,
 			$module_name,
 			$position = self::DEFAULT_OUTPUT_POSITION,
 			$position_required = true,
 			$position_order = null
 	) {
-		if(isset($this->output_parts[$output_ID])) {
-			$current_output = $this->output_parts[$output_ID]->getOutput();
-			$this->output_parts[$output_ID]->setOutput( $current_output.$output );
-			return;
-		}
 
 		if(
 			$position_order === null ||
@@ -306,9 +351,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		}
 
 
-		$o = new Mvc_Layout_OutputPart($output_ID, $output, $position, $position_required, $position_order, $module_name );
+		$o = new Mvc_Layout_OutputPart($step_ID, $output, $position, $position_required, $position_order, $module_name );
 
-		$this->output_parts[$output_ID] = $o;
+		$this->output_parts[] = $o;
 	}
 
 
@@ -323,34 +368,44 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @return Mvc_Layout_OutputPart[]
+	 * @return array|Mvc_Layout_OutputPart[]
 	 */
 	public function getOutputParts() {
 		return $this->output_parts;
 	}
 
 	/**
-	 * @param $ID
-	 *
-	 * @return Mvc_Layout_OutputPart|null
-	 */
-	public function getOutputPart( $ID ) {
-		return isset($this->output_parts[$ID]) ? $this->output_parts[$ID] : null;
-	}
-
-	/**
 	 * @param Mvc_Layout_OutputPart $output_part
 	 */
 	public function setOutputPart( Mvc_Layout_OutputPart $output_part ) {
-		$this->output_parts[$output_part->getID()] = $output_part;
+		$this->output_parts[] = $output_part;
 	}
 
 	/**
-	 * @param string $ID
+	 * @param $step_ID
+	 *
+	 * @return array|Mvc_Layout_OutputPart[]
 	 */
-	public function unsetOutputPart( $ID ) {
-		if(isset($this->output_parts[$ID])) {
-			unset($this->output_parts[$ID]);
+	public function getStepOutputParts( $step_ID ) {
+		$result = [];
+
+		foreach( $this->output_parts as $i=>$output_part ) {
+			if($output_part->getStepID()==$step_ID) {
+				$result[] = $output_part;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param string $step_ID
+	 */
+	public function unsetStepOutputParts( $step_ID ) {
+		foreach( $this->output_parts as $i=>$output_part ) {
+			if($output_part->getStepID()==$step_ID) {
+				unset($this->output_parts[$i]);
+			}
 		}
 	}
 
@@ -463,14 +518,14 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string $media (optional)
 	 */
 	public function requireCssFile( $URI, $media='' ) {
-		$key = $URI.':'.$media;
+		//$key = $URI.':'.$media;
 
-		if(!isset($this->required_css_files[$key])) {
-			$this->required_css_files[$key] = [
-						'URI' => $URI,
-						'media' => $media
-					];
+		if( !isset($this->required_css_files[$media]) ) {
+			$this->required_css_files[$media] = array();
 		}
+
+		$this->required_css_files[$media][] = $URI;
+
 	}
 
 	/**
@@ -502,6 +557,39 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$this->handleParts( $result );
 
+		$this->handlePostprocessor( $result );
+
+		$this->handlePositions( $result );
+
+		$this->handleSitePageTags( $result );
+
+		$current_module_name = '';
+
+		if($this->router) {
+			$current_module_name = $this->router->getFrontControllerModuleName();
+		}
+		$this->handleModulesJavaScripts($result, $current_module_name);
+
+		$this->handleFinalPostprocessor($result);
+
+
+		$this->handleJavascripts( $result );
+		$this->handleCss( $result );
+		$this->handleConstants( $result );
+
+		foreach($this->required_javascript_libs as $js) {
+			$js->finalPostProcess($result, $this);
+		}
+
+		$this->output_parts = array();
+
+		return $result;
+	}
+
+	/**
+	 * @param string &$result
+	 */
+	public function handlePostprocessor( &$result ) {
 		foreach( $this->_data->getRawData() as $item ) {
 			if(
 				!is_object($item) ||
@@ -515,19 +603,12 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			 */
 			$item->layoutPostProcess( $result, $this, $this->output_parts );
 		}
+	}
 
-
-		$this->handlePositions( $result );
-
-		$this->handleSitePageTags( $result );
-
-		$current_module_name = '';
-
-		if($this->router) {
-			$current_module_name = $this->router->getFrontControllerModuleName();
-		}
-		$this->handleModulesJavaScripts($result, $current_module_name);
-
+	/**
+	 * @param string &$result
+	 */
+	public function handleFinalPostprocessor( &$result ) {
 		foreach( $this->_data->getRawData() as $item ) {
 			if(
 				!is_object($item) ||
@@ -536,20 +617,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				continue;
 			}
 
-			$item->finalPostProcess( $result, $this, $this->output_parts );
+			/**
+			 * @var Mvc_Layout_Postprocessor_Interface $item
+			 */
+			$item->finalPostProcess( $result, $this );
 		}
-
-		$this->handleJavascripts( $result );
-		$this->handleCss( $result );
-		$this->handleConstants( $result );
-
-		foreach($this->required_javascript_libs as $js) {
-			$js->finalPostProcess($result, $this);
-		}
-
-		$this->output_parts = array();
-
-		return $result;
 	}
 
 	/**
@@ -773,7 +845,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 						$replacements[$search] = $front_controller->getLayoutJsReplacementFrontController();
 						break;
 					default:
-						$replacements[$search] = $front_controller->getLayoutJsReplacementModule($module_name);
+						$replacement = $front_controller->getLayoutJsReplacementModule($module_name);
+						if($replacement) {
+							$replacements[$search] = $replacement;
+						}
 				}
 			}
 		} else {
@@ -792,8 +867,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 						$replacements[$search] = 'Jet.getFrontController().';
 						break;
 					default:
-						$module_name = str_replace('\\', '\\\\', $module_name);
-						$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$module_name.'\').';
+						$module_manifest = Application_Modules::getModuleManifest($module_name);
+						if($module_manifest) {
+							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
+						}
 				}
 			}
 		}
@@ -816,19 +893,52 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			return;
 		}
 
+
 		$snippet = '';
 
-		foreach( $this->required_css_files as $dat ) {
-			$URI = $dat['URI'];
-			$media = $dat['media'];
+		if(
+			$this->CSS_packager_enabled &&
+			$this->required_css_files
+		) {
+			$CSS_files = [];
 
-			if($media) {
-				$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.JET_EOL;
-			} else {
-				$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.JET_EOL;
+			foreach( $this->required_css_files as $media=>$URIs ) {
+
+				$CSS_files[$media] = [];
+
+				$package_creator = Mvc_Factory::getLayoutCssPackageCreatorInstance( $media, $this->router->getLocale(), $URIs );
+
+				$package_creator->generatePackageFile();
+				$package_URI = $package_creator->getPackageURI();
+
+				$CSS_files[$media][] = $package_URI;
+
+				foreach( $package_creator->getOmittedURIs() as $URI ) {
+					$CSS_files[$media][] = $URI;
+				}
+
 			}
+
+		} else {
+			$CSS_files = $this->required_css_files;
+
 		}
 
+		foreach( $CSS_files as $media=>$URIs ) {
+			/**
+			 * @var array $URIs
+			 */
+			foreach( $URIs as $URI ) {
+				$URI = Data_Text::replaceSystemConstants( $URI );
+
+				if($media) {
+					$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.JET_EOL;
+				} else {
+					$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'"/>'.JET_EOL;
+				}
+
+			}
+		}
 
 		$result = $this->_replaceTagByValue($result, self::TAG_CSS, $snippet);
 
@@ -882,17 +992,53 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		if($initial_code) {
 			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL.$initial_code.JET_EOL.JET_TAB.'</script>'.JET_EOL;
+		}
+
+		if(
+			$this->JS_packager_enabled &&
+			(
+				$this->required_javascript_files ||
+				$this->required_javascript_code
+			)
+		) {
+			$JS_files = [];
+			$JS_code = [];
+
+			$package_creator = Mvc_Factory::getLayoutJavaScriptPackageCreatorInstance(
+				$this->router->getLocale(),
+				$this->required_javascript_files,
+				$this->required_javascript_code
+			);
+
+			$package_creator->generatePackageFile();
+			$package_URI = $package_creator->getPackageURI();
+
+			$JS_files[] = $package_URI;
+
+			foreach( $package_creator->getOmittedURIs() as $URI ) {
+				$JS_files[] = $URI;
+			}
+
+			foreach( $package_creator->getOmittedCode() as $code ) {
+				$JS_code[] = $code;
+			}
+
+		} else {
+			$JS_files = $this->required_javascript_files;
+			$JS_code = $this->required_javascript_code;
 
 		}
 
-		foreach( $this->required_javascript_files as $URI ) {
+
+		foreach( $JS_files as $URI ) {
+			$URI = Data_Text::replaceSystemConstants($URI);
 			$snippet .= JET_TAB.'<script type="text/javascript" src="'.$URI.'"></script>'.JET_EOL;
 		}
 
-		if($this->required_javascript_code) {
+		if($JS_code) {
 
 			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL;
-			foreach( $this->required_javascript_code as $code ) {
+			foreach( $JS_code as $code ) {
 				$snippet .= $code.JET_EOL;
 
 			}

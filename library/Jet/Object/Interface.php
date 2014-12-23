@@ -42,6 +42,10 @@ interface Object_Interface {
 	 */
 	public function __set( $key, $value );
 
+	/**
+	 *
+	 */
+	public function __clone();
 
 	/**
 	 * @param $signal_name

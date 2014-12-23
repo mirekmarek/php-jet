@@ -23,7 +23,7 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $step_ID = '';
 
 	/**
 	 *
@@ -61,15 +61,15 @@ class Mvc_Layout_OutputPart extends Object{
 	protected $is_static = true;
 
 	/**
-	 * @param string $ID
+	 * @param string $step_ID
 	 * @param string $output
 	 * @param string $position
 	 * @param bool $position_required
 	 * @param int $position_order
 	 * @param string $module_name
 	 */
-	public function __construct($ID, $output, $position, $position_required, $position_order, $module_name) {
-		$this->ID = $ID;
+	public function __construct($step_ID, $output, $position, $position_required, $position_order, $module_name) {
+		$this->step_ID = $step_ID;
 		$this->output = $output;
 		$this->position = $position;
 		$this->position_required = $position_required;
@@ -80,8 +80,8 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @return string
 	 */
-	public function getID() {
-		return $this->ID;
+	public function getStepID() {
+		return $this->step_ID;
 	}
 
 	/**

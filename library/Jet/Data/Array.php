@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class Data_Array extends Object {
+class Data_Array extends Object implements Object_Serializable_REST {
 
 	const PATH_DELIMITER = '/';
 
@@ -125,6 +125,8 @@ class Data_Array extends Object {
 		if(!$key) {
 			return;
 		}
+
+		$key = (string)$key;
 
 		$target = &$this->data;
 
@@ -305,7 +307,7 @@ class Data_Array extends Object {
 			$value = $value?1:0;
 		}
 
-		return htmlspecialchars( (string)$value );
+		return Data_Text::htmlSpecialChars( (string)$value );
 	}
 
 	/**
@@ -388,6 +390,55 @@ class Data_Array extends Object {
 
 		return $result;
 
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toJSON() {
+		$data = $this->jsonSerialize();
+		return json_encode($data);
+	}
+
+	/**
+	 *
+	 */
+	public function jsonSerialize() {
+		$data = $this->data;
+
+		return $this->_jsonSerializeTraverse($data);
+	}
+
+	/**
+	 * @param $data
+	 * @return mixed
+	 */
+	protected function _jsonSerializeTraverse( $data ) {
+		foreach( $data as $key=>$val ) {
+
+			if(is_array($val)) {
+				$data[$key] = $this->_jsonSerializeTraverse($val);
+				continue;
+			}
+
+			if(!is_object($val)) {
+				continue;
+			}
+
+			if( is_subclass_of( $val, '\JsonSerializable' ) ) {
+				$data[$key] = $val->jsonSerialize();
+				continue;
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toXML() {
+		// TODO: Implement toXML() method.
 	}
 
 }

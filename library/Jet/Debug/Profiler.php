@@ -143,11 +143,15 @@ class Debug_Profiler {
 		$dir = static::getRunSaveDirectoryPath();
 
 		if(!file_exists($dir)) {
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@mkdir($dir);
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@chmod($dir, 0777);
 		}
 		$file_path = $dir.$run_ID.".jpd";
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@file_put_contents( $file_path, serialize($run) );
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@chmod($file_path, 0666);
 	}
 

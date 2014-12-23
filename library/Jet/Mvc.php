@@ -54,9 +54,19 @@ class Mvc {
 
 		$router->setupErrorHandler();
 
-		if( !$router->getSite()->getIsActive() ) {
-			$router->setIs404();
+		if(
+			!$router->getSite()->getIsActive()
+		) {
+			$router->getFrontController()->handleDeactivatedSite();
 		}
+
+		if(
+			!$router->getSite()->getLocalizedData($router->getLocale())->getIsActive()
+		) {
+			$router->getFrontController()->handleDeactivatedLocale();
+		}
+
+
 		$router->handle404();
 
 
@@ -104,15 +114,24 @@ class Mvc {
 			return false;
 		}
 
+
+		if(
+			!$router->getSite()->getIsActive()
+		) {
+			$router->getFrontController()->handleDeactivatedSite();
+		}
+
+		if(
+			!$router->getSite()->getLocalizedData($router->getLocale())->getIsActive()
+		) {
+			$router->getFrontController()->handleDeactivatedLocale();
+		}
+
 		if(
 			$router->getIs404() ||
 			$router->getIsRedirect() ||
 			$router->getIsPublicFile()
 		) {
-			return false;
-		}
-
-		if( !$router->getSite()->getIsActive() ) {
 			return false;
 		}
 
@@ -137,16 +156,16 @@ class Mvc {
 
 
 	/**
-	 * Sets current loop provides dynamic content (disables cache for current output part)
+	 * Sets current step provides dynamic content (disables cache for current output part)
 	 *
-	 * Equivalent of Mvc_Dispatcher::getCurrentDispatcherInstance()->setCurrentLoopProvidesDynamicContent();
-	 * @see Mvc_Dispatcher_Abstract::setCurrentLoopProvidesDynamicContent()
+	 * Equivalent of Mvc_Dispatcher::getCurrentDispatcherInstance()->setCurrentStepProvidesDynamicContent();
+	 * @see Mvc_Dispatcher_Abstract::setCurrentStepProvidesDynamicContent()
 	 *
 	 */
 	public static function setProvidesDynamicContent() {
 		$dispatcher = Mvc_Dispatcher::getCurrentDispatcherInstance();
 		if($dispatcher) {
-			$dispatcher->setCurrentLoopProvidesDynamicContent();
+			$dispatcher->setCurrentStepProvidesDynamicContent();
 		}
 	}
 

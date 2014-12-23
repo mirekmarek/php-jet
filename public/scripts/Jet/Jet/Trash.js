@@ -209,8 +209,6 @@ dojo.declare("Jet.Trash", [], {
     handleError: function(error) {
         this.submit_button_widget.cancel();
 
-        console.debug( Jet.getFrontController() );
-
         Jet.handleRequestError( error );
     },
 

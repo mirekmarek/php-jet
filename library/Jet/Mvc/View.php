@@ -27,12 +27,18 @@ class Mvc_View extends Mvc_View_Abstract {
 	protected $layout;
 
 	/**
+	 * @var string
+	 */
+	protected $module_name = '';
+
+	/**
 	* Constructor
 	*
 	* @param string $scripts_dir
 	*/
 	public function __construct( $scripts_dir ) {
 		$this->setScriptsDir($scripts_dir);
+
 
 		$this->_data = new Data_Array();
 	}
@@ -52,6 +58,22 @@ class Mvc_View extends Mvc_View_Abstract {
 		$this->layout = $layout;
 	}
 
+	/**
+	 * @param string $module_name
+	 */
+	public function setModuleName($module_name) {
+		$this->module_name = $module_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModuleName() {
+		return $this->module_name;
+	}
+
+
+
 
 	/**
 	*
@@ -68,7 +90,7 @@ class Mvc_View extends Mvc_View_Abstract {
 		ob_start();
 
 		if(static::$_add_script_path_info) {
-			echo JET_EOL.'<!-- VIEW START: '.$this->_script_path.' -->'.JET_EOL;
+			echo JET_EOL.'<!-- VIEW START: '.$this->_script_path.' -->'.JET_EOL.JET_EOL;
 		}
 
 
@@ -83,7 +105,18 @@ class Mvc_View extends Mvc_View_Abstract {
 
         $this->handleParts($result);
 		$this->handleModules($result);
+		$this->handlePostProcessors($result);
 
+		$this->handleConstants($result);
+
+
+		return $result;
+	}
+
+	/**
+	 * @param string &$result
+	 */
+	protected function handlePostProcessors(&$result) {
 		foreach( $this->_data->getRawData() as $item ) {
 
 			if(
@@ -97,20 +130,22 @@ class Mvc_View extends Mvc_View_Abstract {
 			}
 		}
 
-		if(
-			($this->layout) &&
-			($router = $this->layout->getRouter()) &&
-			($dispatcher = $router->getDispatcherInstance()) &&
-			($current_queue_item = $dispatcher->getCurrentQueueItem())
-		) {
-			$module_name = $current_queue_item->getModuleName();
-			$data = array(
-				'JET_CURRENT_MODULE_NAME' => $module_name
-			);
-			$result = Data_Text::replaceData($result, $data );
+	}
+
+	/**
+	 * @param string &$result
+	 */
+	protected function handleConstants(&$result) {
+
+		$data = array();
+
+		if($this->module_name) {
+			$module_manifest = Application_Modules::getModuleManifest($this->module_name);
+
+			$module_name = $module_manifest ? $module_manifest->getDottedName() : $this->module_name;
+
+			$data['JET_CURRENT_MODULE_NAME'] = $module_name;
 		}
-
-
-		return $result;
+		$result = Data_Text::replaceData($result, $data );
 	}
 }

@@ -539,18 +539,18 @@ abstract class Mvc_Router_Abstract extends Object {
 
 
 	/**
-	 * @param string $loop_ID
+	 * @param string $step_ID
 	 * @param Mvc_Layout_OutputPart $output_part
 	 *
 	 */
-	abstract public function setCacheOutputParts( $loop_ID, Mvc_Layout_OutputPart $output_part );
+	abstract public function addCacheOutputPart( $step_ID, Mvc_Layout_OutputPart $output_part );
 
 	/**
-	 * @param string $loop_ID
+	 * @param string $step_ID
 	 *
-	 * @return null|Mvc_Layout_OutputPart
+	 * @return array|Mvc_Layout_OutputPart[]
 	 */
-	abstract public function getCacheOutputParts( $loop_ID );
+	abstract public function getCacheOutputParts( $step_ID );
 
 	/**
 	 *

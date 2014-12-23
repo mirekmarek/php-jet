@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Fetch_Abstract extends Object {
+abstract class DataModel_Fetch_Abstract extends Object implements Object_Serializable_REST, Data_Paginator_DataSource_Interface  {
 
 	/**
 	 * DataModel instance
@@ -69,4 +69,6 @@ abstract class DataModel_Fetch_Abstract extends Object {
 	public function getCount() {
 		return $this->data_model_definition->getBackendInstance()->getCount( $this->query );
 	}
+
+
 }

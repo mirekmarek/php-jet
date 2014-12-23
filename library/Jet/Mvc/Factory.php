@@ -51,6 +51,9 @@ class Mvc_Factory extends Factory {
 	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = 'Jet\Mvc_NavigationData_Menu_Default';
 	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = 'Jet\Mvc_NavigationData_Menu_Item_Default';
 
+	const DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS = 'Jet\Mvc_Layout_PackageCreator_CSS_Default';
+	const DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS = 'Jet\Mvc_Layout_PackageCreator_JavaScript_Default';
+
 	/**
 	 * @param string $router_cache_backend_class_name_prefix
 	 */
@@ -538,7 +541,7 @@ class Mvc_Factory extends Factory {
 	 *
 	 * @param string $class_name
 	 */
-	public function setNavigationDataBreadcrumbClass( $class_name ) {
+	public static function setNavigationDataBreadcrumbClass( $class_name ) {
 		static::setClassName(static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $class_name);
 	}
 
@@ -547,7 +550,7 @@ class Mvc_Factory extends Factory {
 	 *
 	 * @param string $class_name
 	 */
-	public function setNavigationDataMenuClass( $class_name ) {
+	public static function setNavigationDataMenuClass( $class_name ) {
 		static::setClassName(static::DEFAULT_NAVIGATION_DATA_MENU_CLASS, $class_name);
 	}
 
@@ -556,9 +559,55 @@ class Mvc_Factory extends Factory {
 	 *
 	 * @param string $class_name
 	 */
-	public function setNavigationDataMenuItemClass( $class_name ) {
+	public static function setNavigationDataMenuItemClass( $class_name ) {
 		static::setClassName(static::DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS, $class_name);
 	}
 
+
+	/**
+	 * @param string $media
+	 * @param Locale $locale
+	 * @param array $URIs
+	 *
+	 * @return Mvc_Layout_PackageCreator_CSS_Abstract
+	 */
+	public static function getLayoutCssPackageCreatorInstance( $media, Locale $locale, array $URIs ) {
+		$class_name =  static::getClassName( static::DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS );
+
+		$instance = new $class_name( $media, $locale, $URIs );
+		//static::checkInstance(static::DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS, $instance);
+		return $instance;
+
+	}
+
+	/**
+	 * @param string $class_name
+	 */
+	public static function setLayoutCssPackageCreatorClassName( $class_name ) {
+		static::setClassName(static::DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS, $class_name);
+	}
+
+	/**
+	 * @param Locale $locale
+	 * @param array $URIs
+	 * @param array $code
+	 *
+	 * @return Mvc_Layout_PackageCreator_JavaScript_Abstract
+	 */
+	public static function getLayoutJavaScriptPackageCreatorInstance( Locale $locale, array $URIs, array $code ) {
+		$class_name =  static::getClassName( static::DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS );
+
+		$instance = new $class_name( $locale, $URIs, $code );
+		//static::checkInstance(static::DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS, $instance);
+		return $instance;
+
+	}
+
+	/**
+	 * @param string $class_name
+	 */
+	public static function setLayoutJavaScriptPackageCreatorClassName( $class_name ) {
+		static::setClassName(static::DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS, $class_name);
+	}
 
 }

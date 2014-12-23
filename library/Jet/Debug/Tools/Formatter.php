@@ -116,13 +116,13 @@ class Debug_Tools_Formatter {
 
 
 	/**
-	 * nl2br and htmlspecialchars
+	 * nl2br and Data_Text::htmlSpecialChars
 	 *
 	 * @param string $html
 	 * @return string
 	 */
 	public static function encodeForHTML($html){
-		return nl2br(htmlspecialchars($html));
+		return nl2br(Data_Text::htmlSpecialChars($html));
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Debug_Tools_Formatter {
 
 		$report = array();
 
-		$report[] = '<br /><div style="background-color: '.$bg_color.';overflow:auto;padding:10px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';
+		$report[] = '<br /><div style="background-color: '.$bg_color.';padding:5px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';
 		$report[] = '<h2 style="padding:0;margin:0;">'.static::encodeForHTML($e->txt).'</h2><br/>';
 		$report[] = '<strong>'.static::encodeForHTML($e->message).'</strong><br/>';
 		$report[] = '<hr/>';

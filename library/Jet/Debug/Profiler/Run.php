@@ -59,6 +59,9 @@ class Debug_Profiler_Run {
 	 */
 	protected $__current_block_level = 0;
 
+	/**
+	 *
+	 */
 	public function __construct() {
 
 		if( php_sapi_name() == 'cli' ) {

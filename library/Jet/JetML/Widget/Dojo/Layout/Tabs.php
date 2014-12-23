@@ -21,6 +21,9 @@ class JetML_Widget_Dojo_Layout_Tabs extends JetML_Widget_Dojo_Abstract {
 	 */
 	protected $dojo_type = 'dijit.layout.TabContainer';
 
+	/**
+	 * @var array
+	 */
 	protected $dojo_props_real_names_map = array(
 		'tabposition' => 'tabPosition'
 	);

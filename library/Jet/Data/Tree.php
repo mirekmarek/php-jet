@@ -230,6 +230,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		return $this->root_node->getID();
 	}
 
+	/**
+	 * @param Data_Tree_Node $node
+	 */
 	public function setRootNode( Data_Tree_Node $node ) {
 
 		$node->setIsRoot( true );
@@ -494,7 +497,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function toJSON( ) {
 
-		$data = $this->_toJsonOrXMLDataPrepare();
+		$data = $this->jsonSerialize();
 
 		return json_encode( $data );
 	}
@@ -503,7 +506,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @return string
 	 */
 	public function toXML() {
-		$data = $this->_toJsonOrXMLDataPrepare();
+		$data = $this->jsonSerialize();
 
 		return $this->_XMLSerialize($data, 'tree');
 	}
@@ -511,7 +514,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	/**
 	 * @return array
 	 */
-	protected function _toJsonOrXMLDataPrepare() {
+	public function jsonSerialize() {
 
 		$data = array(
 			'identifier' => $this->ID_key,
@@ -549,7 +552,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 				}
 				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= $prefix.JET_TAB.'<'.$key.'>'.htmlspecialchars($val).'</'.$key.'>'.JET_EOL;
+				$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;

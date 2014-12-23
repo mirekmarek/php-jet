@@ -179,6 +179,7 @@ class Factory_ClassDefinition extends Object {
 
 			if(JET_FACTORY_DEFINITION_CACHE_SAVE) {
 				try {
+					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
 				} catch(Exception $e) {}
 			}

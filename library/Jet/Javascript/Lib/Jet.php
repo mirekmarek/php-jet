@@ -32,6 +32,11 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	protected $base_URI;
 
 	/**
+	 * @var Locale
+	 */
+	protected $locale;
+
+	/**
 	 *
 	 * @param Mvc_Layout $layout
 	 *
@@ -41,6 +46,8 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		$this->config = new Javascript_Lib_Jet_Config();
 
 		$this->layout = $layout;
+
+		$this->locale = $this->layout->getRouter()->getLocale();
 
 		$this->layout->requireJavascriptLib('Dojo');
 
@@ -68,8 +75,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		);
 		
 		
-		$result = '';
-		
+
 		$data = $this->_getDataForReplacement();
 		if($this->required_components_CSS){
 			foreach($this->required_components_CSS as $css){
@@ -80,21 +86,37 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 
 		$this->layout->requireInitialJavascriptCode(JET_TAB.'var Jet_config = '.json_encode($Jet_config).';');
 
-		$this->layout->requireJavascriptFile( $this->getComponentURI('Jet') );
+
+		if( $this->config->getPackageEnabled()) {
+			$package_creator = new Javascript_Lib_Jet_PackageCreator(
+				$this->getBasePath(),
+				$this->locale,
+				$this->required_components
+			);
 
 
-		if($this->required_components){
-			//$result .= '<script type="text/javascript" charset="utf-8">' . JET_EOL;
-			foreach( $this->required_components as $rc ) {
-				if($rc == 'Jet'){
-					continue;
+			$package_creator->generatePackageFile();
+
+			$package_URI = $package_creator->getPackageURI();
+
+			$this->layout->requireJavascriptFile( $package_URI );
+
+		} else {
+			$this->layout->requireJavascriptFile( $this->getComponentURI('Jet') );
+
+
+			if($this->required_components){
+				foreach( $this->required_components as $rc ) {
+					if($rc == 'Jet'){
+						continue;
+					}
+					$this->layout->requireJavascriptFile( $this->getComponentURI($rc) );
 				}
-				$this->layout->requireJavascriptCode( JET_TAB.'Jet.require(\''.$rc.'\');' );
 			}
-			//$result .= '</script>'.JET_EOL;
+
 		}
 
-		return $result;
+		return '';
 	}
 
 	/**
@@ -112,6 +134,13 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 */
 	public function getBaseRequestURI() {
 		return $this->layout->getRouter()->getPage()->getURI();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBasePath() {
+		return JET_PUBLIC_SCRIPTS_PATH.'Jet/';
 	}
 
 	/**
@@ -154,6 +183,17 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		$parts = explode('.', $component);
 		return $this->getBaseURI() . implode('/', $parts) . '.js';
 	}
+
+	/**
+	 *
+	 * @param string $component
+	 * @return string
+	 */
+	public function getComponentPath( $component ){
+		$parts = explode('.', $component);
+		return $this->getBasePath() . implode('/', $parts) . '.js';
+	}
+
 	
 	/**
 	 * Equivalent to Jet.require().

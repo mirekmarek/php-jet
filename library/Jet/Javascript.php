@@ -80,18 +80,7 @@ class Javascript extends Object {
 		$JS = IO_File::read($JS_file_path);
 
 
-
-		preg_match_all('~Jet.translate\((".*"|\'.*\')\)~isU', $JS, $matches, PREG_SET_ORDER);
-
-		$replacements = array();
-		foreach($matches as $match){
-			list($search, $text) = $match;
-			$text = stripslashes(trim($text, $text[0] == '\'' ? '\'' : '"'));
-
-			$text = json_encode(Tr::_($text));
-			$JS = str_replace($search, $text, $JS);
-		}
-		$JS = Data_Text::replaceData($JS, $replacements, true);
+		$JS = static::translateJavaScript($JS);
 
 
 		if($get_as_string){
@@ -110,5 +99,26 @@ class Javascript extends Object {
 		Application::end();
 
 		return null;
+	}
+
+	/**
+	 * @param string $JS
+	 * @return string
+	 */
+	public static function translateJavaScript( $JS ) {
+		preg_match_all('~Jet.translate\((".*"|\'.*\')\)~isU', $JS, $matches, PREG_SET_ORDER);
+
+		$replacements = array();
+		foreach($matches as $match){
+			list($search, $text) = $match;
+			$text = stripslashes(trim($text, $text[0] == '\'' ? '\'' : '"'));
+
+			$text = json_encode(Tr::_($text));
+			$JS = str_replace($search, $text, $JS);
+		}
+		$JS = Data_Text::replaceData($JS, $replacements, true);
+
+		return $JS;
+
 	}
 }

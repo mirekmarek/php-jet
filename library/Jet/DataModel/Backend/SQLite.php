@@ -89,7 +89,8 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
 			if(
-				$property->getIsDataModel()
+				$property->getIsDataModel() ||
+				$property->getIsDynamicValue()
 			) {
 				continue;
 			}
@@ -176,7 +177,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$properties = $data_model_definition->getProperties();
 		$actual_cols = array();
 		foreach($properties as $property_name=>$property) {
-			if( $property->getIsDataModel() ) {
+			if(
+				$property->getIsDataModel() ||
+				$property->getIsDynamicValue()
+			) {
 				continue;
 			}
 			$actual_cols[$property_name] = $property;
@@ -200,7 +204,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		if($new_cols) {
 			$_new_cols = array();
 			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = '`'.$c.'`='.$this->_db->quote($v);
+				$_new_cols[] = '`'.$c.'`='.$this->_getValue($v, true);
 			}
 			$update_default_values = 'UPDATE `'.$updated_table_name.'` SET '.implode(','.JET_EOL, $_new_cols);
 		}
@@ -793,23 +797,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryWherePart_handleOperator($operator, $value) {
-		if($value instanceof DataModel_Definition_Property_Abstract) {
-			$v_table_name = $this->_getTableName( $value->getDataModelDefinition() );
-			$value = '`'.$v_table_name.'`.`'.$value->getName().'`';
-		} else {
-
-			if(is_object($value)) {
-				$value = (string)$value;
-			}
-
-
-			if(is_bool($value)) {
-				$value = $value ? 1 : 0;
-			} else {
-				$value = $this->_db->quote($value);
-			}
-		}
-
+		$value = $this->_getValue($value);
 		$res = '';
 
 		switch($operator) {
@@ -1031,25 +1019,63 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			/**
 			 * @var DataModel_RecordData_Item $item
 			 */
-			$value = $item->getValue();
 
-			if( is_bool($value) ) {
-				$value = $value ? 1 : 0;
-			} else {
-				if(is_array($value)) {
-					$value = $this->serialize($value);
-				} else {
-					if(is_object($value)) {
-						$value = (string)$value;
-					}
-				}
-			}
-
-			$_record[$item->getPropertyDefinition()->getName()] = $value;
+			$_record[$item->getPropertyDefinition()->getName()] = $this->_getValue($item->getValue(), false);
 		}
 
 		return $_record;
 	}
+
+	/**
+	 * @param mixed $value
+	 * @param bool $quote (optional, default:true)
+	 *
+	 * @return mixed
+	 */
+	protected function _getValue( $value, $quote=true ) {
+		if($value instanceof DataModel_Definition_Property_Abstract) {
+			return $this->_getColumnName( $value );
+		}
+
+		if($value===null) {
+			if($quote) {
+				return 'NULL';
+			} else {
+				return null;
+			}
+		}
+
+		if(is_bool($value)) {
+			return $value ? 1 : 0;
+		}
+
+		if(is_int($value)) {
+			return (int)$value;
+		}
+
+		if(is_float($value)) {
+			return (float)$value;
+		}
+
+		if($value instanceof DateTime) {
+			$value = $value->toString();
+		}
+
+		if(is_array($value)) {
+			$value = $this->serialize($value);
+		}
+
+		if(is_object($value)) {
+			$value = (string)$value;
+		}
+
+		if(!$quote) {
+			return $value;
+		}
+
+		return $this->_db->quote( $value );
+	}
+
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $model_definition

@@ -44,14 +44,38 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getHTMLSnippet(){
+		$base_URI = dirname($this->config->getURI()).'/';
 
-		$this->layout->requireInitialJavascriptCode( JET_TAB.'var Jet_WYSIWYG_editor_configs = '.json_encode($this->config->getEditorConfigs()).';' );
-		$this->layout->requireJavascriptFile( $this->config->getURI() );
-		$this->layout->requireJavascriptFile( $this->config->getWrapperURI() );
+		$plugins = [];
+		$themes = [];
+		foreach( $this->config->getEditorConfigs() as $cfg ) {
 
-		$result = '';
+			if(!in_array($cfg['theme'], $themes)) {
+				$themes[] = $cfg['theme'];
+			}
+			$plugins = array_merge($plugins, explode(' ', $cfg['plugins']));
+		}
 
-		return $result;
+		$plugins = array_unique($plugins);
+
+		$layout = $this->layout;
+
+		$layout->requireInitialJavascriptCode( JET_TAB.'var Jet_WYSIWYG_editor_configs = '.json_encode($this->config->getEditorConfigs()).';' );
+		$layout->requireJavascriptFile( $this->config->getURI() );
+		$layout->requireJavascriptFile( $this->config->getWrapperURI() );
+
+
+		foreach( $themes as $theme ) {
+			$layout->requireJavascriptFile( $base_URI.'themes/'.$theme.'/theme.js' );
+		}
+
+		foreach( $plugins as $plugin ) {
+			$layout->requireJavascriptFile( $base_URI.'plugins/'.$plugin.'/plugin.js' );
+		}
+
+		$layout->requireJavascriptCode('tinymce.baseURL='.json_encode( Data_Text::replaceSystemConstants($base_URI) ).';');
+
+		return '';
 	}
 
 

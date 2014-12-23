@@ -59,6 +59,11 @@ abstract class Mvc_Sites_Site_LocalizedData_MetaTag_Abstract extends DataModel_R
 	abstract public function  toString();
 
 	/**
+	 * @param string $ID
+	 */
+	abstract public function setIdentifier( $ID );
+
+	/**
 	 * @return string
 	 */
 	abstract public function getAttribute();

@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-interface Object_Serializable_JSON {
+interface Object_Serializable_JSON extends \JsonSerializable {
 	/**
 	 * @return string
 	 */

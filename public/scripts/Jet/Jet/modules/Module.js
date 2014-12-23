@@ -16,23 +16,31 @@ Jet.declare("Jet.modules.Module", [], {
     module_name: null,
     module_label: null,
 
-	IDs_prefix: null,
-
+    container: null,
 	container_ID: null,
-	container: null,
+
+    IDs_prefix: null,
 
 	signal_connections: null,
 
-	constructor: function(container_ID){
-		if( container_ID ){
-			this.container = dijit.byId(container_ID);
-			this.IDs_prefix = container_ID + "_";
-			this.container_ID = container_ID;
+	constructor: function( container ){
+		if( container ){
+			this.container = container;
+            this.container_ID = container.id;
+			this.IDs_prefix = container.id + "_";
 		}
 		this.initialize();
 	},
 
+    destroy: function() {
+        Jet.modules.destroyModuleInstance(
+            this.getModuleName(),
+            this.getContainerID()
+        );
+    },
+
 	destructor: function(){
+        //console.debug( '*** Destroing '+this.module_name );
 		this.disconnectSignals();
 	},
 
@@ -49,6 +57,25 @@ Jet.declare("Jet.modules.Module", [], {
             return this.module_name.replace(/\\/g, "\\\\");
         } else {
             return this.module_name;
+        }
+    },
+
+    getContainerID: function() {
+        return this.container_ID;
+    },
+
+    getModuleClass: function() {
+
+         var offset = this.module_name.length+12;
+
+        return this.declaredClass.substr( offset );
+    },
+
+    getMe: function() {
+        if(this.container_ID) {
+            return "Jet.modules.getModuleInstance( '"+this.getModuleName(true)+"', '"+this.container_ID+"', '"+this.getModuleClass()+"' )";
+        } else {
+            return "Jet.modules.getModuleInstance( '"+this.getModuleName(true)+"', '', '"+this.getModuleClass()+"' )";
         }
     },
 
@@ -100,13 +127,27 @@ Jet.declare("Jet.modules.Module", [], {
     },
 
     getJsonRestStoreInstance: function(object_name) {
-        return new dojo.store.JsonRest({
-            target: this.getRestURL(object_name),
-            sync: true
+
+        var store = new dojo.store.JsonRest({
+            target: this.getRestURL(object_name) /*,
+            sync: true */
         });
+
+
+        store.handleError = function(error) {
+            Jet.handleRequestError( error );
+        };
+
+        return store;
     },
 
     getCheckboxTree: function( place_at_widget_ID, object_name, root_label, options ) {
+        dojo.require('cbtree.Tree');
+        dojo.require('cbtree.models.TreeStoreModel');
+        dojo.require('cbtree.models.ForestStoreModel');
+
+        //alert( window["cbtree"]["Tree"] );
+
         Jet.dojoExtensions.handleExtensions();
         var store = new dojo.data.ItemFileWriteStore( {
             url: this.getRestURL(object_name )
@@ -125,7 +166,7 @@ Jet.declare("Jet.modules.Module", [], {
         if( options["nodeIcons"]===undefined ) options["nodeIcons"]=true;
         if( options["showRoot"]===undefined ) options["showRoot"]=true;
 
-        var model = new cbtree.CheckBoxStoreModel( {
+        var model = new cbtree.models.ForestStoreModel( {
             store: store,
             rootLabel: root_label,
             checkboxAll:  options["checkboxAll"],
@@ -135,7 +176,7 @@ Jet.declare("Jet.modules.Module", [], {
         });
 
 
-        var tree = new cbtree.CheckBoxTree( {
+        var tree = new cbtree.Tree( {
             checkBoxes: true,
             model: model,
             allowMultiState: options["allowMultiState"],
@@ -189,12 +230,9 @@ Jet.declare("Jet.modules.Module", [], {
 
             grid.layout.cells[edit_column_index].formatter = function(val, idx, c) {
                 var item = c.grid.getItem(idx);
-                if(_this.container_ID) {
-                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"','"+_this.container_ID+"')."+edit_method_name+"('"+item[ID_key]+"')";
-                } else {
 
-                    var edit = "Jet.modules.getModuleInstance('"+_this.getModuleName(true)+"')."+edit_method_name+"('"+item[ID_key]+"')";
-                }
+                var edit = _this.getMe()+"."+edit_method_name+"('"+item[ID_key]+"')";
+
 
                 return '<a href="#" onClick="'+edit+'">'+val+'</a>';
             };

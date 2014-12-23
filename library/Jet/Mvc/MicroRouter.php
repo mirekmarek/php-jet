@@ -38,6 +38,10 @@ class Mvc_MicroRouter extends Object {
 	protected $default_action_name = '';
 
 
+	/**
+	 * @param Mvc_Router_Abstract $router_instance
+	 * @param Application_Modules_Module_Abstract $module_instance
+	 */
 	public function __construct( Mvc_Router_Abstract $router_instance, Application_Modules_Module_Abstract $module_instance ) {
 
 		$this->router_instance = $router_instance;

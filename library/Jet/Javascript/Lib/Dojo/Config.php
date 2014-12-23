@@ -70,16 +70,6 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_PATH%dojo/%VERSION%/'
-	 * @JetConfig:is_required = false
-	 * @JetConfig:form_field_label = 'Base path'
-	 *
-	 * @var string
-	 */
-	protected $base_path = '';
-
-	/**
 	 * @JetConfig:type = Jet\Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Create package'
@@ -153,12 +143,6 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 		return dirname(dirname($dojo_js_URI)) . '/';
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getBasePath() {
-		return $this->base_path;
-	}
 
 	/**
 	 * Get URI/URL where Dojo Toolkit dojo.js (dojo.xd.js) file is placed

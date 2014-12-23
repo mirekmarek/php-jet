@@ -181,6 +181,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @throws DataModel_Exception
 	 */
 	public function saveRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+
 		foreach($this->__deleted_items as $item) {
 			/**
 			 * @var DataModel_Related_1toN $item
@@ -287,8 +288,13 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 		}
 
 		$res = array();
-		foreach($this->__items as $d) {
-			$res[] = $d->_XMLSerialize($prefix);
+		if(is_array($this->__items)) {
+			foreach($this->__items as $d) {
+				/**
+				 * @var DataModel_Related_1toN $d
+				 */
+				$res[] = $d->_XMLSerialize($prefix);
+			}
 		}
 
 		return implode(JET_EOL,$res);
@@ -389,8 +395,8 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract impleme
 	 * @param mixed $offset
 	 */
 	public function offsetUnset( $offset )	{
-
 		$this->__deleted_items[] = $this->__items[$offset];
+
 		unset( $this->__items[$offset] );
 	}
 

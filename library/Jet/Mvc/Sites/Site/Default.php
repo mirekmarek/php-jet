@@ -42,6 +42,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Site name:'
 	 *
 	 * @var string
 	 */
@@ -50,6 +51,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
 	 */
@@ -58,6 +60,7 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
 	 */
@@ -65,18 +68,9 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
-	 * @JetDataModel:item_type = 'Locale'
-	 *
-	 * @var array
-	 */
-	protected $locales = array (
-	);
-
-	/**
-	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Locale
 	 */
@@ -284,9 +278,12 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 
 		$result = array();
 
-		foreach( $this->locales as $locale ) {
+		foreach( $this->localized_data as $ld ) {
+			$locale = $ld->getLocale();
+
 			$result[] = $get_as_string ? (string)$locale : $locale;
 		}
+
 
 		return $result;
 	}
@@ -303,7 +300,6 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 
 		$new_ld = Mvc_Factory::getLocalizedSiteInstance( $locale );
 
-		$this->locales[] = $locale;
 		$this->localized_data[(string)$locale] = $new_ld;
 
 		if(!$this->default_locale || !$this->default_locale->toString()) {
@@ -321,9 +317,9 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 			return;
 		}
 
-		$new_locales = array();
+		foreach($this->localized_data as $ld) {
+			$o_locale = $ld->getLocale();
 
-		foreach($this->locales as $o_locale) {
 			if((string)$o_locale==(string)$locale) {
 				unset( $this->localized_data[(string)$locale] );
 				continue;
@@ -333,12 +329,9 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 				$this->default_locale = $o_locale;
 			}
 
-			$new_locales[] = $o_locale;
 		}
 
-		$this->locales = $new_locales;
-
-		if(!$this->locales) {
+		if(!count($this->localized_data)) {
 			$this->default_locale = null;
 		}
 	}

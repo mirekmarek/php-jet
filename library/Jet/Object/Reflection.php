@@ -104,6 +104,7 @@ class Object_Reflection {
 				$value_raw = trim($m[3]);
 
 				$value = null;
+				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 				$eval_res = @eval('$value='.$value_raw.'; return true;');
 
 				if( !$eval_res ) {
@@ -143,6 +144,7 @@ class Object_Reflection {
 					$raw_value = trim($m[3]);
 
 					$value = null;
+					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$eval_res = @eval('$value='.$raw_value.'; return true;');
 
 					if( !$eval_res ) {

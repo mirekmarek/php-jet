@@ -171,11 +171,13 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 		if($this->is_sub_related_model) {
 			$related_definition_data = $this->_getPropertiesDefinitionData( $this->parent_model_class_name );
 			foreach( $related_definition_data as $property_name=>$pd ) {
+
 				if(empty($pd['is_ID'])) {
 					continue;
 				}
+
 				if(
-					!in_array($property_name, $this->__main_ID_glue_defined)
+					!in_array($property_name, $this->__parent_ID_glue_defined)
 				) {
 					throw new DataModel_Exception(
 						'Class: \''.$this->class_name.'\'  parent model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \'parent.'.$property_name.'\' ',
@@ -230,6 +232,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		$related_to_class_name = '';
 
+
 		if($what=='parent') {
 			$related_to_class_name = $this->parent_model_class_name;
 			$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
@@ -258,8 +261,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		$parent_ID_property_data['is_key'] = true;
 
-
-		$parent_ID_property_data['is_ID'] = isset($property_definition_data['is_ID']);
+		$parent_ID_property_data['is_ID'] = isset($property_definition_data['is_ID']) ? $property_definition_data['is_ID'] : true;
 		if(isset($property_definition_data['form_field_type'])) {
 			$parent_ID_property_data['form_field_type'] = $property_definition_data['form_field_type'];
 		}

@@ -42,6 +42,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	const MODULE_TYPE_SITE_FRONT_CONTROLLER = 'site_front_controller';
 	const MODULE_TYPE_ADMIN_FRONT_CONTROLLER = 'admin_front_controller';
 	const MODULE_TYPE_AUTH_CONTROLLER = 'auth_controller';
+	const MODULE_TYPE_PRE_DISPATCH = 'pre_dispatch';
 	const MODULE_TYPE_OUTPUT_FILTER = 'output_filter';
 	const MODULE_TYPE_SYSTEM = 'system';
 
@@ -60,6 +61,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		self::MODULE_TYPE_SITE_FRONT_CONTROLLER => 'Site Front Controller module',
 		self::MODULE_TYPE_ADMIN_FRONT_CONTROLLER => 'Administration Front Controller module',
 		self::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
+		self::MODULE_TYPE_PRE_DISPATCH => 'Pre dispatch',
 		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 		self::MODULE_TYPE_SYSTEM => 'System module',
 	);
@@ -454,6 +456,13 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 */
 	public function getIsAuthController() {
 		return $this->getHasType( static::MODULE_TYPE_AUTH_CONTROLLER );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsPreDispatch() {
+		return $this->getHasType( self::MODULE_TYPE_PRE_DISPATCH );
 	}
 
 	/**

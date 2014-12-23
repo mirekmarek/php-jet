@@ -34,6 +34,7 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 		$border_container->setAttribute('data-dojo-props', 'region:\'center\',gutters:false');
 
 		$toolbar = $dom->createElement('div');
+		$toolbar->setAttribute('id', $ID.'_toolbar');
 		$toolbar->setAttribute('data-dojo-type', 'dijit.Toolbar');
 		$toolbar->setAttribute('data-dojo-props', 'region:\'top\'');
 

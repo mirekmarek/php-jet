@@ -14,6 +14,10 @@
 namespace Jet;
 
 class Session extends Object {
+
+	/**
+	 * @var bool
+	 */
 	protected static $session_started = false;
 
 	/**
@@ -36,6 +40,7 @@ class Session extends Object {
 	 */
 	protected function sessionStart() {
 		if(!static::$session_started) {
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@session_start();
 			static::$session_started = true;
 		}

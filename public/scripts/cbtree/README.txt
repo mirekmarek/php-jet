@@ -1,1 +1,0 @@
-README.TXT:	Please read the release notes, specifically item 6, before installing version	1.7 of the Mutli State Checkbox Tree.	

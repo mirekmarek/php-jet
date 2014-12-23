@@ -27,6 +27,7 @@ dojo.declare("Jet.EditArea", [], {
         this.list_pane = module_instance.getWidgetByID(area_ID + "_list");
         this.dialog_pane = module_instance.getWidgetByID(area_ID + "_dialog");
         this.container = module_instance.getWidgetByID(area_ID + "_container");
+        this.toolbar = module_instance.getWidgetByID(area_ID + "_toolbar");
         this.item_title = module_instance.getNodeByID(area_ID + "_item_title");
         this.list_title_opened = module_instance.getNodeByID(area_ID + "_list_title_opened");
         this.list_title_closed = module_instance.getNodeByID(area_ID + "_list_title_closed");

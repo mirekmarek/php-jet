@@ -43,5 +43,6 @@ class Object implements Object_Interface {
 	use Object_Trait_MagicSleep;
 	use Object_Trait_MagicGet;
 	use Object_Trait_MagicSet;
+	use Object_Trait_MagicClone;
 
 }

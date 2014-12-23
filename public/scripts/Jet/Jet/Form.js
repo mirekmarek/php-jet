@@ -106,9 +106,6 @@ dojo.declare("Jet.Form", [], {
         }
 
         this.store = this.module_instance.getJsonRestStoreInstance(object_name);
-        this.store.handleError = function(error) {
-            console.log( "Error: ", error );
-        };
 
     },
 
@@ -730,49 +727,11 @@ dojo.declare("Jet.Form.Field.CheckBoxTree", [Jet.Form.Field], {
         this._error_node = null;
     },
     disable: function() {
-
-	    var traverse = function(node) {
-		    node._checkbox.set("disabled", true);
-		    node.set("enabled", false);
-		    node.set("disabled", true);
-
-		    var children = node.getChildren();
-		    for(var i in children) {
-			    traverse( children[i] );
-
-		    }
-	    }
-
-	    var _tree = this.data.tree_instance;
-
-	    _tree.model.store.fetch({
-		    onComplete: function() {
-			    traverse( _tree.rootNode);
-		    }
-	    });
+	    this.data.tree_instance.disable();
     },
 
     enable: function() {
-
-	    var traverse = function(node) {
-		    node._checkbox.set("disabled", false);
-		    node.set("enabled", true);
-		    node.set("disabled", false);
-
-		    var children = node.getChildren();
-		    for(var i in children) {
-			    traverse( children[i] );
-
-		    }
-	    }
-
-	    var _tree = this.data.tree_instance;
-
-	    _tree.model.store.fetch({
-		    onComplete: function() {
-			    traverse( _tree.rootNode);
-		    }
-	    });
+        this.data.tree_instance.enable();
     },
 
     connectOnChangeAction: function(action) {
@@ -876,6 +835,13 @@ dojo.declare("Jet.Form.Field.Password", [Jet.Form.Field], {
 
 dojo.declare("Jet.Form.Field.Date", [Jet.Form.Field], {
     setValue: function(value) {
+
+        if(!value) {
+            this._getElement(this.ID).set("value", null);
+
+            return;
+        }
+
         this._getElement(this.ID).set("value", dojo.date.stamp.fromISOString(value));
     },
 
@@ -890,6 +856,13 @@ dojo.declare("Jet.Form.Field.Date", [Jet.Form.Field], {
 
 dojo.declare("Jet.Form.Field.DateTime", [Jet.Form.Field], {
     setValue: function(value) {
+        if(!value) {
+            this._getElement(this.ID).set("value", null);
+            this._getElement(this.ID+"_time").set("value", null);
+
+            return;
+        }
+
         this._getElement(this.ID).set("value", dojo.date.stamp.fromISOString(value));
         this._getElement(this.ID+"_time").set("value", dojo.date.stamp.fromISOString(value, "THH:mm:ss"));
     },

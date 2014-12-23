@@ -434,7 +434,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			return true;
 		}
 
-
 		$this->page_URL = (string)$page_URL;
 		$this->page_ID = $page->getID();
 		$this->page = $page;
@@ -453,8 +452,11 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$this->service_type = Mvc_Router::SERVICE_TYPE_STANDARD;
 
+		$front_controller = $this->getFrontController();
 
-		$this->dispatch_queue = $this->getFrontController()->getDispatchQueue();
+		$front_controller->handlePreDispatch();
+
+		$this->dispatch_queue = $front_controller->getDispatchQueue();
 
 		if( $this->getIsThereAnyUnusedPathFragment() ) {
 			$this->setIs404();
@@ -618,6 +620,11 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			return true;
 		}
 
+
+		return true;
+
+		//TODO: OK, but we have some problem with Jet.Form and URL formats
+		/*
 		$this->setIsRedirect(
 			$this->_base_URL
 				. $this->_parsed_request_URL->getPath() . '/'
@@ -626,8 +633,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			Mvc_Router::REDIRECT_TYPE_PERMANENTLY
 		);
 
-
 		return false;
+		*/
 	}
 
 
@@ -715,7 +722,10 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 */
 	public function setupErrorHandler() {
-		Debug_ErrorHandler::setHTTPErrorPagesDir( $this->site->getBasePath() . 'error_pages/' );
+		$dir = $this->site->getBasePath() . 'error_pages/';
+		if(IO_Dir::exists($dir)) {
+			Debug_ErrorHandler::setHTTPErrorPagesDir( $dir );
+		}
 	}
 
 	/**
@@ -1167,10 +1177,10 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 
 	/**
-	 * @param string $loop_ID
+	 * @param string $step_ID
 	 * @param Mvc_Layout_OutputPart $output_part
 	 */
-	public function setCacheOutputParts( $loop_ID, Mvc_Layout_OutputPart $output_part ) {
+	public function addCacheOutputPart( $step_ID, Mvc_Layout_OutputPart $output_part ) {
         if(!$this->output_cache_enabled) {
             return;
         }
@@ -1180,19 +1190,23 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$_output_part->setOutput('');
 		}
 
-		$this->cache_output_parts[$loop_ID] = $_output_part;
+		if(!isset($this->cache_output_parts[$step_ID])) {
+			$this->cache_output_parts[$step_ID] = [];
+		}
+
+		$this->cache_output_parts[$step_ID][] = $_output_part;
 	}
 
 	/**
-	 * @param string $loop_ID
+	 * @param string $step_ID
 	 *
-	 * @return null|Mvc_Layout_OutputPart
+	 * @return array|Mvc_Layout_OutputPart[]
 	 */
-	public function getCacheOutputParts( $loop_ID ) {
+	public function getCacheOutputParts( $step_ID ) {
         if(!$this->output_cache_enabled) {
             return null;
         }
-		return isset($this->cache_output_parts[$loop_ID]) ? $this->cache_output_parts[$loop_ID] : null;
+		return isset($this->cache_output_parts[$step_ID]) ? $this->cache_output_parts[$step_ID] : null;
 	}
 
 

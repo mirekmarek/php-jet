@@ -32,6 +32,11 @@ class DataModel_Validation_Exception extends Exception {
 	 */
 	protected $errors = array();
 
+	/**
+	 * @param DataModel $data_model_instance
+	 * @param DataModel_Definition_Property_Abstract $property_definition_instance
+	 * @param array|DataModel_Validation_Error[] $errors
+	 */
 	public function __construct( DataModel $data_model_instance, DataModel_Definition_Property_Abstract $property_definition_instance, array $errors ) {
 		$this->code = static::CODE_PROPERTY_VALIDATION_ERROR;
 		$this->message = 'Value is not valid';
@@ -52,12 +57,15 @@ class DataModel_Validation_Exception extends Exception {
 	}
 
 	/**
-	 * @return \Jet\DataModel
+	 * @return DataModel
 	 */
 	public function getDataModelInstance() {
 		return $this->data_model_instance;
 	}
 
+	/**
+	 * @return array|DataModel_Validation_Error[]
+	 */
 	public function getErrors() {
 		return $this->errors;
 	}

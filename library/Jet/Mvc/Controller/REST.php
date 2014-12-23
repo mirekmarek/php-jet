@@ -213,6 +213,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		return $array;
 	}
 
+	/**
+	 * @param $array
+	 * @return mixed
+	 */
 	protected function _decodeRequestDataXmlCleanupArray( $array ) {
 		foreach( $array as $k=>$v ) {
 			if($k[0]=='@') {
@@ -241,7 +245,6 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 *
 	 */
 	public function responseOK() {
-		//TODO: add data ...
 
 		if($this->responseFormatDetection()==static::RESPONSE_FORMAT_XML) {
 			$this->_response('<result>OK</result>');
@@ -263,9 +266,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	}
 
 	/**
-	 * @param DataModel_Fetch_Data_Abstract $data
+	 * @param DataModel_Fetch_Abstract $data
 	 */
-	public function responseDataModelsList( DataModel_Fetch_Data_Abstract $data ) {
+	public function responseDataModelsList( DataModel_Fetch_Abstract $data ) {
 
 		$response_headers = $this->handleDataPagination( $data );
 		$this->handleOrderBy( $data );
@@ -349,10 +352,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	/**
 	 * Handles data pagination by request HTTP headers and returns response HTTP headers
 	 *
-	 * @param DataModel_Fetch_Data_Abstract $data
+	 * @param DataModel_Fetch_Abstract $data
 	 * @return array
 	 */
-	protected function handleDataPagination( DataModel_Fetch_Data_Abstract $data ) {
+	protected function handleDataPagination( DataModel_Fetch_Abstract $data ) {
 		$response_headers = array();
 
 		$header = $this->getHttpRequestHeader( static::$pagination_request_http_header_name );
@@ -400,9 +403,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	 * ?sort(-price)
 	 *
 	 *
-	 * @param DataModel_Fetch_Data_Abstract $data
+	 * @param DataModel_Fetch_Abstract $data
 	 */
-	protected function handleOrderBy( DataModel_Fetch_Data_Abstract $data ) {
+	protected function handleOrderBy( DataModel_Fetch_Abstract $data ) {
 
 		foreach(Http_Request::GET()->getRawData() as $key=>$value) {
 			if(substr($key,0, 5)=='sort(' && substr($key, -1)==')') {
@@ -511,7 +514,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 			if(is_array($val) || is_object($val)) {
 				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= $prefix.JET_TAB.'<'.$key.'>'.htmlspecialchars($val).'</'.$key.'>'.JET_EOL;
+				$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;

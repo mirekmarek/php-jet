@@ -67,6 +67,55 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		$this->empty_ID_instance = $this->data_model_definition->getEmptyIDInstance();
 	}
 
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize() {
+		$result = array();
+
+		foreach($this as $val) {
+			/**
+			 * @var DataModel $val
+			 */
+			$result[] = $val->jsonSerialize();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toXML() {
+		$model_name = $this->data_model_definition->getModelName();
+
+		$result = '';
+		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
+
+		foreach($this as $val) {
+			/**
+			 * @var DataModel $val
+			 */
+
+			$result .= JET_TAB.'<item>'.JET_EOL;
+			$result .= $val->toXML();
+			$result .= JET_TAB.'</item>'.JET_EOL;
+
+		}
+
+		$result .= '</list>'.JET_EOL;
+
+		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toJSON() {
+		return json_encode($this->jsonSerialize());
+	}
+
 	/**
 	 * @return array
 	 */

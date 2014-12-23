@@ -90,7 +90,6 @@ var Jet = {
             return true;
         }
 
-
         var component_parts = component.split(".");
         if(!component_parts.length){
             console.error("Empty component required!");
@@ -277,26 +276,25 @@ var Jet = {
 
         getModuleInstance: function(module_name, container_ID, module_class){
 
-
             var has_container_ID = !!container_ID;
             if(!has_container_ID){
                 container_ID = this.NO_CONTAINER_ID;
+            } else {
+               var container = dijit.byId( container_ID );
             }
 
             if(!module_class) {
                 module_class = "Main";
             }
 
-            var instances_of_modules_key = module_name+"."+module_class;
 
-            if(!this.instances_of_modules[instances_of_modules_key]){
-                this.instances_of_modules[instances_of_modules_key] = {};
+            if(!this.instances_of_modules[module_name]){
+                this.instances_of_modules[module_name] = {};
             }
 
-            if(this.instances_of_modules[instances_of_modules_key][container_ID]){
-                return this.instances_of_modules[instances_of_modules_key][container_ID];
+            if(this.instances_of_modules[module_name][container_ID]){
+                return this.instances_of_modules[module_name][container_ID];
             }
-
 
             if(this.require(module_name, module_class)){
 
@@ -307,78 +305,99 @@ var Jet = {
                 }
 
                 if(has_container_ID){
-                    this.instances_of_modules[instances_of_modules_key][container_ID] = new module_class_i(container_ID);
+                    this.instances_of_modules[module_name][container_ID] = new module_class_i( container );
                 } else {
-                    this.instances_of_modules[instances_of_modules_key][container_ID] = new module_class_i();
+                    this.instances_of_modules[module_name][container_ID] = new module_class_i();
                 }
 
-                this.instances_of_modules[instances_of_modules_key][container_ID].initialize();
-                return this.instances_of_modules[instances_of_modules_key][container_ID];
+                this.instances_of_modules[module_name][container_ID].initialize();
+
+                return this.instances_of_modules[module_name][container_ID];
 
             }
             return false;
         },
 
-        destroyModuleInstance: function(module_name, container_ID, module_class){
+        destroyModuleInstance: function(module_name, container_ID ){
             if(!container_ID){
                 container_ID = this.NO_CONTAINER_ID;
             }
 
-            if(!module_class) {
-                module_class = "Main";
-            }
-            var instances_of_modules_key = module_name+"."+module_class;
-
 
             if(
-                !this.instances_of_modules[instances_of_modules_key] ||
-                !this.instances_of_modules[instances_of_modules_key][container_ID]
+                !this.instances_of_modules[module_name] ||
+                !this.instances_of_modules[module_name][container_ID]
             ){
                 return false;
             }
 
-            Jet.modules.instances_of_modules[instances_of_modules_key][container_ID].destructor();
+            Jet.modules.instances_of_modules[module_name][container_ID].destructor();
 
-            delete Jet.modules.instances_of_modules[instances_of_modules_key][container_ID];
-            Jet.modules.instances_of_modules[instances_of_modules_key][container_ID] = undefined;
+            delete Jet.modules.instances_of_modules[module_name][container_ID];
+            Jet.modules.instances_of_modules[module_name][container_ID] = undefined;
 
             var new_data = {};
 
             var count = 0;
-            for(var _container_ID in Jet.modules.instances_of_modules[instances_of_modules_key]) {
-                if(Jet.modules.instances_of_modules[instances_of_modules_key][_container_ID]!==undefined) {
-                    new_data[_container_ID] = Jet.modules.instances_of_modules[instances_of_modules_key][_container_ID];
+            for(var _container_ID in Jet.modules.instances_of_modules[module_name]) {
+                if(Jet.modules.instances_of_modules[module_name][_container_ID]!==undefined) {
+                    new_data[_container_ID] = Jet.modules.instances_of_modules[module_name][_container_ID];
                     count++;
                 }
             }
 
             if(count==0) {
-                delete Jet.modules.instances_of_modules[instances_of_modules_key];
-                Jet.modules.instances_of_modules[instances_of_modules_key] = undefined;
+                delete Jet.modules.instances_of_modules[module_name];
+                Jet.modules.instances_of_modules[module_name] = undefined;
 
                 var new_data = {};
-                for(var i_instances_of_modules_key in Jet.modules.instances_of_modules) {
-                    if(Jet.modules.instances_of_modules[i_instances_of_modules_key]!==undefined) {
-                        new_data[i_instances_of_modules_key] = Jet.modules.instances_of_modules[i_instances_of_modules_key];
+                for(var _module_name in Jet.modules.instances_of_modules) {
+                    if(Jet.modules.instances_of_modules[_module_name]!==undefined) {
+                        new_data[_module_name] = Jet.modules.instances_of_modules[_module_name];
                     }
 
                 }
                 Jet.modules.instances_of_modules = new_data;
             } else {
-                Jet.modules.instances_of_modules[instances_of_modules_key] = new_data;
+                Jet.modules.instances_of_modules[module_name] = new_data;
             }
 
-            //Jet.modules.instances_of_modules[instances_of_modules_key][container_ID] = undefined;
+            //Jet.modules.instances_of_modules[module_name][container_ID] = undefined;
             return true;
         },
 
         getModuleInstanceByContainerID: function( container_ID ){
+            var instances = [];
+
             for(var module_name in this.instances_of_modules){
                 if( this.instances_of_modules[module_name][container_ID] ){
-                    return this.instances_of_modules[module_name][container_ID];
+                    instances.push( this.instances_of_modules[module_name][container_ID] );
                 }
             }
+
+            if(instances.length==0) {
+                return false;
+            }
+
+            if(instances.length==1) {
+                return instances[0];
+            }
+
+            console.error('Jet.modules.getModuleInstanceByContainerID: multiple module instances in container! ', instances);
+
             return false;
+        },
+
+        getModuleInstancesByContainerID: function( container_ID ){
+            var instances = {};
+
+            for(var module_name in this.instances_of_modules){
+                if( this.instances_of_modules[module_name][container_ID] ){
+                    instances[module_name] = this.instances_of_modules[module_name][container_ID];
+                }
+            }
+
+            return instances;
         }
 
     },

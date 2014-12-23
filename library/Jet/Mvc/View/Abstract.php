@@ -16,7 +16,7 @@
 namespace Jet;
 
 abstract class Mvc_View_Abstract extends Object {
-	const TAG_MODULE = 'jet_module:';
+	const TAG_MODULE = 'jet_module';
 	const TAG_PART = 'jet_view_part';
 	const SCRIPT_FILE_SUFFIX = 'phtml';
 
@@ -171,7 +171,7 @@ abstract class Mvc_View_Abstract extends Object {
 		) {
 			return $var;
 		}
-		return htmlspecialchars($var);
+		return Data_Text::htmlSpecialChars($var);
 	}
 
 	/**
@@ -368,7 +368,7 @@ abstract class Mvc_View_Abstract extends Object {
 	}
 
 	/**
-	 * Handle the Module tag  ( <jet_module:* /> )
+	 * Handle the Module tag  ( <jet_module> )
 	 *
 	 * In fact it search and dispatch all modules included by the tag
 	 *
@@ -376,26 +376,22 @@ abstract class Mvc_View_Abstract extends Object {
 	 *
 	 * @param string &$result
 	 */
-	protected function handleModules( &$result ) {
+	protected function handleModules(&$result) {
 
 		$matches = array();
 
-		if( preg_match_all('/<'.self::TAG_MODULE.'([a-zA-Z_:\\\\]{3,})([^\/]*)\/>/i', $result, $matches, PREG_SET_ORDER) ) {
+		if( preg_match_all('/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER) ) {
 
 			foreach($matches as $match) {
 				$orig_str = $match[0];
 
-				$action_data = explode(':', $match[1]);
-				if(!isset($action_data[1])) {
-					$action_data[1] = Mvc_Dispatcher::DEFAULT_ACTION;
-				}
-				list($module_name, $action) = $action_data;
-
-				$action_params = array();
-
-				$_properties = substr(trim($match[2]), 0, -1);
+				$_properties = substr(trim($match[1]), 0, -1);
 				$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
 				$_properties = explode( '" ', $_properties );
+
+
+				$properties = array();
+
 
 				foreach( $_properties as $property ) {
 					if( !$property || strpos($property, '=')===false ) {
@@ -410,9 +406,16 @@ abstract class Mvc_View_Abstract extends Object {
 					$property_name = strtolower($property_name);
 					$property_value = str_replace('"', '', $property_value);
 
-					$action_params[$property_name] = $property_value;
+					$properties[$property_name] = $property_value;
+
 				}
 
+
+				$module_name = $properties['data-module-name'];
+                $action = isset($properties['data-action']) ? $properties['data-action'] : Mvc_Dispatcher::DEFAULT_ACTION;
+				$action_params = isset($properties['data-action-params']) ? json_decode( htmlspecialchars_decode($properties['data-action-params']), true ) : [];
+
+//				var_dump($module_name, $action, $action_params);
 
 				$content_data = Mvc_Factory::getPageContentInstance();
 
@@ -434,8 +437,10 @@ abstract class Mvc_View_Abstract extends Object {
 				//var_dump($output);
 
 				$result = str_replace($orig_str, $output, $result);
+
 			}
 		}
+
 	}
 
 }

@@ -92,7 +92,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Http_Request::POST()->getBool('bool_true'));
 		$this->assertFalse(Http_Request::POST()->getBool('bool_false'));
 		$this->assertEquals(
-			htmlspecialchars('Test <script type="text/javascript">alert("I am a bad boy");</script>'),
+			Data_Text::htmlSpecialChars('Test <script type="text/javascript">alert("I am a bad boy");</script>'),
 			Http_Request::POST()->getString('string')
 		);
 		$this->assertEquals(
@@ -122,7 +122,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Http_Request::GET()->getBool('bool_true'));
 		$this->assertFalse(Http_Request::GET()->getBool('bool_false'));
 		$this->assertEquals(
-			htmlspecialchars('Test <script type="text/javascript">alert("I am a bad boy");</script>'),
+			Data_Text::htmlSpecialChars('Test <script type="text/javascript">alert("I am a bad boy");</script>'),
 			Http_Request::GET()->getString('string')
 		);
 		$this->assertEquals(
@@ -152,7 +152,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Http_Request::SERVER()->getBool('bool_true'));
 		$this->assertFalse(Http_Request::SERVER()->getBool('bool_false'));
 		$this->assertEquals(
-			htmlspecialchars('Test <script type="text/javascript">alert("I am a bad boy");</script>'),
+			Data_Text::htmlSpecialChars('Test <script type="text/javascript">alert("I am a bad boy");</script>'),
 			Http_Request::SERVER()->getString('string')
 		);
 		$this->assertEquals(

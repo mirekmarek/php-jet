@@ -74,6 +74,7 @@ class Image extends Object {
 			);
 		}
 
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		$image_dat = @getimagesize($path);
 
 		if(!$image_dat) {

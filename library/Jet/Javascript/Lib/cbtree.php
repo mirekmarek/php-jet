@@ -30,11 +30,17 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 
 		$this->layout = $layout;
 
+		/**
+		 * @var Javascript_Lib_Dojo $dojo
+		 */
 		$dojo = $this->layout->requireJavascriptLib('Dojo');
-		$dojo->requireComponent('dijit.Tree');
-		$dojo->requireComponent('dijit.form.CheckBox');
-		$dojo->requireComponent('dijit.tree.ForestStoreModel');
-		$dojo->requireComponent('dojo.data.ItemFileWriteStore');
+
+		$dojo->registerPackage('cbtree');
+		$dojo->requireComponent('cbtree.Tree');
+		$dojo->requireComponent('cbtree.models.TreeStoreModel');
+		$dojo->requireComponent('cbtree.models.ForestStoreModel');
+		//$dojo->requireComponent('cbtree.cbtree');
+
 	}
 
 
@@ -49,14 +55,10 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 		 */
 		$dojo = $this->layout->requireJavascriptLib('Dojo');
 
-		$this->layout->requireCssFile( JET_PUBLIC_SCRIPTS_URI.'cbtree/themes/'.$dojo->getTheme().'/Checkbox.css' );
+		$this->layout->requireCssFile( $dojo->getBaseURI().'cbtree/themes/'.$dojo->getTheme().'/checkbox.css' );
 
-		$this->layout->requireJavascriptCode(JET_TAB.'dojo.registerModulePath(\'cbtree\',\''.JET_PUBLIC_SCRIPTS_URI.'cbtree\');');
-		$this->layout->requireJavascriptCode(JET_TAB.'dojo.require(\'cbtree.CheckBoxTree\');');
 
-		$result = '';
-
-		return $result;
+		return '';
 	}
 
 
@@ -68,6 +70,12 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 * @param array $parameters(optional)
 	 */
 	public function requireComponent( $component, $parameters=array() ) {
+		/**
+		 * @var Javascript_Lib_Dojo $dojo
+		 */
+		$dojo = $this->layout->requireJavascriptLib('Dojo');
+
+		$dojo->requireComponent($component);
 	}
 
 	/**

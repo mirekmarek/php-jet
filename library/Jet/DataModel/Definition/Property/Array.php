@@ -37,7 +37,7 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = 'MultiSelect';
+	protected $form_field_type = Form::TYPE_MULTI_SELECT;
 
 	/**
 	 * @param array $definition_data

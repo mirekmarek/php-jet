@@ -77,36 +77,6 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	protected $users;
 
 	/**
-	 *
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
-
-
-		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
-			$this->setPrivilege( $privilege, array() );
-		}
-
-	}
-
-	/**
-	 *
-	 */
-	public function __wakeup() {
-		parent::__wakeup();
-
-		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
-
-		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
-			if(!isset($this->privileges[$privilege])) {
-				$this->setPrivilege( $privilege, array() );
-			}
-		}
-	}
-
-	/**
 	 * @return string
 	 */
 	public function toString() {
@@ -181,11 +151,9 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	/**
 	 * Data format:
 	 *
-	 * <code>
 	 * array(
 	 *      'privilege' => array('value1', 'value2')
 	 * )
-	 * </code>
 	 *
 	 * @param array $privileges
 	 */
@@ -254,5 +222,34 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 		$list = $this->fetchDataAssoc( $this->getDataModelDefinition()->getProperties() );
 		$list->getQuery()->setOrderBy('name');
 		return $list;
+	}
+
+
+	/**
+	 *
+	 */
+	protected function _initPrivileges() {
+		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+
+		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
+			if(!isset($this->privileges[$privilege])) {
+				$this->setPrivilege( $privilege, array() );
+			}
+		}
+
+	}
+
+	/**
+	 *
+	 * @param string $form_name
+	 * @param array $only_properties
+	 *
+	 * @throws DataModel_Exception
+	 * @return Form
+	 */
+	protected function getForm( $form_name, array $only_properties ) {
+		$this->_initPrivileges();
+
+		return parent::getForm($form_name, $only_properties);
 	}
 }

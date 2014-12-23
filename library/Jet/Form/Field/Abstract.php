@@ -325,10 +325,10 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 					$v = $k;
 				}
 
-				$this->_value[] = trim(htmlspecialchars(  (string)$v  ));
+				$this->_value[] = trim(Data_Text::htmlSpecialChars(  (string)$v  ));
 			}
 		} else {
-			$this->_value = trim(htmlspecialchars($default_value));
+			$this->_value = trim(Data_Text::htmlSpecialChars($default_value));
 		}
 		$this->_value_raw = $default_value;
 	}
@@ -672,7 +672,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 			if($property=='value') {
 				$result .= ' '.$property.'="'.$val.'"';
 			} else {
-				$result .= ' '.$property.'="'.htmlspecialchars($val).'"';
+				$result .= ' '.$property.'="'.Data_Text::htmlSpecialChars($val).'"';
 			}
 
 		}

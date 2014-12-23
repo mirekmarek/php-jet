@@ -547,11 +547,11 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 		$replacement = '<form ';
 		foreach($tag_data->getProperties() as $property=>$val) {
-			$replacement .= ' '.$property.'="'.htmlspecialchars($val).'"';
+			$replacement .= ' '.$property.'="'.Data_Text::htmlSpecialChars($val).'"';
 		}
 
 		$replacement .= '>'.JET_EOL;
-		$replacement .= '<input type="hidden" name="'.self::FORM_SENT_KEY.'" value="'.htmlspecialchars($this->name).'" />'.JET_EOL;
+		$replacement .= '<input type="hidden" name="'.self::FORM_SENT_KEY.'" value="'.Data_Text::htmlSpecialChars($this->name).'" />'.JET_EOL;
 
 		return $replacement;
 	}
@@ -567,9 +567,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 			$replacement = '<div ';
 			foreach($tag_data->getProperties() as $property=>$val) {
-				$replacement .= ' '.$property.'="'.htmlspecialchars($val).'"';
+				$replacement .= ' '.$property.'="'.Data_Text::htmlSpecialChars($val).'"';
 			}
-			$replacement .= '>'.htmlspecialchars($this->common_error_message).'</div>'.JET_EOL;
+			$replacement .= '>'.Data_Text::htmlSpecialChars($this->common_error_message).'</div>'.JET_EOL;
 		}
 
 		return $replacement;

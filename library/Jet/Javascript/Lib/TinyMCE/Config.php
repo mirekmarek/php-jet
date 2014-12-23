@@ -18,7 +18,7 @@ namespace Jet;
 /**
  * Class Javascript_Lib_TinyMCE_Config
  *
- * @JetConfig:data_path = '/js_lib/TinyMCE'
+ * @JetConfig:data_path = '/js_libs/TinyMCE'
  * @JetConfig:section_is_obligatory = false
  */
 class Javascript_Lib_TinyMCE_Config extends Config_Application {
@@ -67,7 +67,6 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 * @JetConfig:item_type = Jet\Config::TYPE_STRING
 	 * @JetConfig:description = 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. For content_css directive can be used Jet\* constants.'
 	 * @JetConfig:is_required = false
-	 * @//JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'advanced', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
 	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'modern', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
 	 *
 	 * @var array
@@ -91,7 +90,8 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 			'VERSION' => $this->version,
 		);
 
-		return Data_Text::replaceSystemConstants($this->URI, $replacements);
+		return Data_Text::replaceData($this->URI, $replacements);
+//		return Data_Text::replaceSystemConstants($this->URI, $replacements);
 	}
 
 
@@ -152,6 +152,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 * @return string
 	 */
 	public function getWrapperURI() {
-		return Data_Text::replaceSystemConstants($this->wrapper_URI);
+		return $this->wrapper_URI;
+		//return Data_Text::replaceSystemConstants($this->wrapper_URI);
 	}
 }

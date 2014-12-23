@@ -243,16 +243,23 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	/**
 	 * Returns a list of all sites
 	 *
-	 * @return Mvc_Sites_Site_Abstract[]
+	 * @param null|bool $admin_UI
+	 *
+	 * @return Mvc_Sites_Site_Abstract[]|DataModel_Fetch_Abstract
 	 */
-	public static function getList() {
+	public static function getList( $admin_UI=null ) {
 
 		/**
 		 * @var DataModel $i
 		 */
 		$i = new static();
 
-		$list = $i->fetchObjects();
+		$where = [];
+		if($admin_UI!==null) {
+			$where['this.is_admin_UI'] = (bool)$admin_UI;
+		}
+
+		$list = $i->fetchObjects( $where );
 		$list->getQuery()->setOrderBy('name');
 		return $list;
 	}

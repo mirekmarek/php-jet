@@ -26,6 +26,11 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	protected $base_URL = '';
 
 	/**
+	 * @var Locale
+	 */
+	protected $locale;
+
+	/**
 	 * @var array
 	 */
 	protected $component_scripts = [];
@@ -33,7 +38,17 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	/**
 	 * @var array
 	 */
+	protected $required_components = [];
+
+	/**
+	 * @var array
+	 */
 	protected $components = ['dojo'];
+
+	/**
+	 * @var array
+	 */
+	protected $packages = [];
 
 	/**
 	 * @var array
@@ -109,53 +124,48 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	/**
 	 * @var array
 	 */
-	protected $i18n = [
-			'dojo/cldr/nls/number',
-			'dojo/cldr/nls/gregorian',
-			'dojo/cldr/nls/currency',
-
-			'dojo/cldr/nls/%LANG%/number',
-			'dojo/cldr/nls/%LANG%/gregorian',
-			'dojo/cldr/nls/%LANG%/currency'
-		];
+	protected $i18n = [];
 
 
 	/**
-	 * @param string $base_path
 	 * @param string $base_URL
-	 * @param array $components
 	 * @param Locale $locale
+	 * @param array $packages
+	 * @param array $components
 	 */
-	public function __construct( $base_path, $base_URL, Locale $locale, $components ) {
+	public function __construct( $base_URL, Locale $locale, $packages, $components ) {
+
+		$base_path = str_replace('_URI%', '_PATH%', $base_URL);
+
 
 		$this->base_path = $base_path;
 		$this->base_URL = $base_URL;
+		$this->locale = $locale;
 
-		$language = strtolower($locale->getLanguage());
 
-		foreach( $this->i18n as $i=>$i18n ) {
-			$this->i18n[$i] = str_replace('%LANG%', $language, $i18n);
+		foreach( $packages as $dojo_package ) {
+			$this->registerPackage($dojo_package);
 		}
 
 
-		$this->requireComponent('dojo/dojo');
-
-		foreach( $components as $component ) {
-			$this->requireComponent( $component );
-		}
+		$this->required_components = $components;
 	}
 
 	/**
-	 * @param Locale $locale
-	 * @param array $components
+	 * @param $package
+	 */
+	public function registerPackage( $package ) {
+		$this->packages[] = $package;
+	}
+
+	/**
+	 *
 	 * @return string
 	 */
-	public static function getKey( Locale $locale, $components ) {
-		$key = '';
-		foreach( $components as $component ) {
-			$key .= $component;
-		}
-		$key = md5($key).'-'.$locale;
+	public function getKey() {
+
+		$key = implode(';', $this->required_components);
+		$key = $this->locale.'-'.md5($key);
 
 		return $key;
 	}
@@ -178,7 +188,19 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		$base_path = null;
 		list($namespace) = explode('/', $component);
-		if($namespace!='dojo' && $namespace!='dijit' && $namespace!='dojox') {
+
+		if(!in_array($namespace, $this->packages)) {
+
+			/*
+			$script = $this->getScript($component, $base_path);
+
+
+			list($components, $requires, $templates) = $this->parseDependencies( $component, $script, true );
+
+
+			var_dump($namespace, $components, $requires, $templates, $script);
+			die('???');
+			*/
 
 			$script = $this->getScript($component, JET_PUBLIC_SCRIPTS_PATH);
 
@@ -206,10 +228,8 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		$script = $this->getScript($component, $base_path);
 
+		list($components, $requires ) = $this->parseDependencies( $component, $script );
 
-		list($components, $requires, $templates) = $this->parseDependencies( $component, $script );
-
-		$this->handleTemplates($templates, $script);
 
 		$this->component_scripts[$component] = $script;
 
@@ -231,22 +251,6 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 	}
 
-	/**
-	 * @param array $templates
-	 * @param string &$script
-	 */
-	protected function handleTemplates( $templates, &$script ) {
-		foreach( $templates as $original_str=>$template_path ) {
-			$replacement = str_replace('dojo/text!', '__get_template!', $original_str);
-
-			$template = $this->getTemplate( $template_path );
-
-			$this->templates[$template_path] = $template;
-
-			$script = str_replace( $original_str, $replacement, $script );
-		}
-
-	}
 
 	/**
 	 * @param string $component
@@ -254,18 +258,13 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	 *
 	 * @return array
 	 */
-	protected function parseDependencies( $component, $script ) {
+	protected function parseDependencies( $component, &$script ) {
 
 		$requires = [];
 		$components = [];
 
-		$component_base_path = dirname($component).'/';
 
 		$matches = [];
-
-		$templates = [];
-
-
 
 		if(preg_match_all('/define\(([^,]*),"([^"]*)"\.split\(" "\)/i', $script, $matches, PREG_SET_ORDER)) {
 			foreach( $matches as $match ) {
@@ -279,78 +278,95 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 			}
 		}
 
-		preg_match_all('/define\(([^,]*),\[([^\]]*)]/i', $script, $matches, PREG_SET_ORDER);
+		preg_match_all('/define\(([^,]*),[ ]*\[([^\]]*)]/i', $script, $matches, PREG_SET_ORDER);
+
+		if($component[0]=="c") {
+			//var_dump($component);
+		}
 
 		foreach($matches as $match) {
+			$match[2] = preg_replace('/\/\/.*/i', '', $match[2]);
+
 			$_component = str_replace(' ', '', str_replace("'", '', str_replace('"','', $match[1])));
-			$__require = explode(',', str_replace(' ', '', str_replace("'", '', str_replace('"','', $match[2]))));
+			$_require = explode(',', str_replace(' ', '', str_replace("'", '', str_replace('"','', $match[2]))));
 
-			$_require = [];
+			foreach($_require as $r) {
 
-			foreach($__require as $r) {
+				$r = trim($r);
+
+				if(!$r) {
+					continue;
+				}
+
 				if(strpos($r, '!')!==false) {
-					if(strpos($r,'?')===false) {
+					if(strpos($r,'?')!==false) {
+						//$_require = array_merge($_require, $this->parseRegularExpr($r));
+					} else {
 						$original_str = $r;
 
-						$param = 'dojo/text!';
+						list( $ns, $param ) = explode('!', $r);
 
-						if( substr($r,0, strlen($param) )==$param ) {
-							$template_path = $this->normalizePath( $component_base_path, substr($r, strlen($param)));
-
-
-							$templates[$original_str] = $template_path;
-
+						if(!$ns || !$param) {
 							continue;
 						}
 
-						$param = 'dojo/i18n!';
-
-						if( substr($r,0, strlen($param) )==$param ) {
-							$i18n_path = substr($r, strlen($param));
-
-							if($i18n_path[0]=='.') {
-								$i18n_path = $this->normalizePath( $component_base_path, $i18n_path);
-							}
-
-							if(!in_array($i18n_path, $this->i18n)) {
-								$this->i18n[] = $i18n_path;
-							}
+						$ns = $this->resolveComponentPath( $_component, $ns );
+						$param = $this->resolveComponentPath( $_component, $param );
 
 
-							continue;
+						switch( $ns ) {
+							case 'dojo/text':
+								$script = str_replace($original_str, '__get_template!'.$param, $script );
+
+								if(!in_array($param, $this->templates)) {
+									$this->templates[] = $param;
+								}
+
+								continue;
+							break;
+							case 'dojo/i18n':
+								$script = str_replace($original_str, 'dojo/i18n!'.$param, $script );
+
+								if(!in_array($param, $this->i18n)) {
+									$this->i18n[] = $param;
+								}
+							break;
+							case 'dojo/query':
+							break;
+							default:
+								$requires[] = $ns;
+								//var_dump($original_str, $ns, $param);
+							break;
 						}
 
-
-					} else {
-						//$_require = array_merge($_require, $this->parseRegularExpr($r));
 					}
 
 					continue;
 				}
 
-				$_require[] = $r;
-			}
+				$r = $this->resolveComponentPath( $_component, $r );
 
-			foreach( $_require as $_r ) {
-				if(!$_r) {
-					continue;
-				}
-
-				if($_r[0]=='.') {
-					$require = $this->normalizePath( $component_base_path, $_r );
-				} else {
-					$require = $_r;
-				}
-
-				if(!in_array($require, $requires)) {
-					$requires[] = $require;
+				if(!in_array($r, $requires)) {
+					$requires[] = $r;
 				}
 			}
+
 
 			$components[] = $_component;
 		}
 
-		return [ $components, $requires, $templates ];
+		foreach( $requires as $i=>$r ) {
+			if(in_array($r, $components)) {
+				unset( $requires[$i] );
+			}
+		}
+
+		if($component[0]=="c") {
+			//var_dump($components, $requires);
+		}
+
+
+		return [ $components, $requires ];
 	}
 
 	/**
@@ -362,12 +378,24 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	protected function getScript( $component, $base_path = null ) {
 		$base_path = $base_path ? $base_path : $this->base_path;
 
-		$path = $base_path . $component . '.js';
-
+		$path = Data_Text::replaceSystemConstants( $base_path . $component . '.js' );
 
 		$script = IO_File::read( $path );
 
 		return $script;
+	}
+
+	/**
+	 * @param string $component
+	 * @param string|null $base_path
+	 * @return bool
+	 */
+	protected function getScriptExists( $component, $base_path = null ) {
+		$base_path = $base_path ? $base_path : $this->base_path;
+
+		$path = Data_Text::replaceSystemConstants( $base_path . $component . '.js' );
+
+		return IO_File::exists( $path );
 
 	}
 
@@ -376,12 +404,40 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	 * @return string
 	 */
 	protected function getTemplate( $template_path ) {
-		$path = $this->base_path . $template_path;
-
+		$path = Data_Text::replaceSystemConstants( $this->base_path . $template_path );
 
 		$template = IO_File::read( $path );
 
 		return $template;
+	}
+
+	/**
+	 * @param string $component
+	 * @param string $require
+	 * @return string
+	 */
+	protected function resolveComponentPath( $component, $require ) {
+		if($require[0]=='.') {
+			$dir = dirname($component);
+
+
+			if($require[1]=='/') {
+				$require = $dir . substr($require, 1);
+			} else {
+				$require = explode('/', $require);
+
+				while( $require[0]=='..' ) {
+					array_shift($require);
+					$dir = dirname($dir);
+				}
+
+				$require = $dir.'/'.implode('/', $require);
+
+			}
+		}
+
+
+		return $require;
 	}
 
 
@@ -412,37 +468,46 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	 * @return string
 	 */
 	public function createPackage() {
+		$dojo_main_key = 'dojo/dojo';
+		$base_URL = Data_Text::replaceSystemConstants($this->base_URL);
+		$language = strtolower($this->locale->getLanguage());
+
+
+		$this->requireComponent('dojo/dojo');
+
+		foreach( $this->required_components as $component ) {
+			$this->requireComponent( $component );
+		}
+
 		$JS = '';
 
-		/*
-		foreach($this->components as $component) {
-			if(!isset($this->component_scripts[$component])) {
-				continue;
-			}
 
-			$JS .= '// '.$component.JET_EOL;
-		}
-		$JS .= JET_EOL;
-		*/
 
 		$JS .= ' var __templates={};'.JET_EOL;
 
-		foreach( $this->templates as $ID=>$template ) {
-			$JS .= '__templates['.json_encode($ID).'] = '.json_encode($template).';'.JET_EOL;
+		foreach( $this->templates as $template ) {
+			$JS .= '__templates['.json_encode($template).'] = '.json_encode($this->getTemplate($template)).';'.JET_EOL;
 		}
 
-		$dojo_main_key = 'dojo/dojo';
 
-		$this->component_scripts[$dojo_main_key] .= "dojo.registerModulePath('dojo','".$this->base_URL."dojo');".JET_EOL;
-		$this->component_scripts[$dojo_main_key] .= "dojo.registerModulePath('dijit','".$this->base_URL."dijit');".JET_EOL;
-		$this->component_scripts[$dojo_main_key] .= "dojo.registerModulePath('dojox','".$this->base_URL."dojox');".JET_EOL;
+		$this->component_scripts[$dojo_main_key] .= JET_EOL;
+		foreach( $this->packages as $package ) {
+			$this->component_scripts[$dojo_main_key] .= "dojo.registerModulePath('".$package."','".$base_URL."".$package."');".JET_EOL;
+
+		}
 		$this->component_scripts[$dojo_main_key] .= 'define("__get_template", [], function(){ return { dynamic: true, load: function(id, require, load){ load(__templates[id]); }};});'.JET_EOL;
 
+
 		foreach($this->i18n as $i18n) {
-			$script = $this->getScript( $i18n );
+
+			$i18n_lang_script = dirname($i18n).'/'.$language.'/'.basename($i18n);
 
 			$this->component_scripts[$dojo_main_key] .= JET_EOL.'//i18n '.$i18n.JET_EOL;
-			$this->component_scripts[$dojo_main_key] .= $script;
+			$this->component_scripts[$dojo_main_key] .= $this->getScript( $i18n ).JET_EOL;
+			if($this->getScriptExists($i18n_lang_script)) {
+
+				$this->component_scripts[$dojo_main_key] .= $this->getScript( $i18n_lang_script ).JET_EOL;
+			}
 			$this->component_scripts[$dojo_main_key] .= '//-----------------------------'.JET_EOL;
 
 		}
@@ -460,5 +525,46 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 		}
 
 		return $JS;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPackageFileName() {
+		$key = $this->getKey();
+		return Mvc_Layout::JS_PACKAGES_DIR_NAME.'dojo-'.$key.'.js';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPackageFilePath() {
+		return JET_PUBLIC_PATH.$this->getPackageFileName();
+	}
+
+	/**
+	 *
+	 */
+	public function getPackageURI() {
+		return '%JET_PUBLIC_URI%'.$this->getPackageFileName();
+	}
+
+	/**
+	 *
+	 */
+	public function generatePackageFile() {
+
+		$package_path = $this->getPackageFilePath();
+
+		if(true || !IO_File::exists($package_path)) {
+
+
+			IO_File::write(
+				$package_path,
+				$this->createPackage()
+			);
+		}
+
 	}
 }

@@ -86,9 +86,9 @@ class Mvc_Pages_Page_MetaTag_Default extends Mvc_Pages_Page_MetaTag_Abstract {
 	 */
 	public function  toString() {
 		if($this->attribute) {
-			return '<meta '.$this->attribute.'="'.htmlspecialchars($this->attribute_value).'" content="'.htmlspecialchars($this->content).'" />';
+			return '<meta '.$this->attribute.'="'.Data_Text::htmlSpecialChars($this->attribute_value).'" content="'.Data_Text::htmlSpecialChars($this->content).'" />';
 		} else {
-			return '<meta content="'.htmlspecialchars($this->content).'" />';
+			return '<meta content="'.Data_Text::htmlSpecialChars($this->content).'" />';
 		}
 	}
 

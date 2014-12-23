@@ -116,7 +116,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 				.JET_TAB.'`start_date_and_time` datetime NOT NULL,'.JET_EOL
 				.JET_TAB.'`done_date_and_time` datetime,'.JET_EOL
 				.JET_TAB.'`operation_in_progress` tinyint(4) NOT NULL,'.JET_EOL
-				.JET_TAB.'`operation_done` tinyint(4) NOT NULL,'.JET_EOL
+				.JET_TAB.'`operation_done` tinyint(4) DEFAULT 0,'.JET_EOL
 				.JET_TAB.'`user_name` varchar(255) CHARACTER SET utf8 NOT NULL,'.JET_EOL
 				.JET_TAB.'`user_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL
 				.JET_TAB.'`object` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,'.JET_EOL

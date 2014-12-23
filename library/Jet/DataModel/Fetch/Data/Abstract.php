@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract implements Data_Paginator_DataSource_Interface,\ArrayAccess, \Iterator, \Countable,Object_Serializable_REST  {
+abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract implements Data_Paginator_DataSource_Interface,\ArrayAccess, \Iterator, \Countable {
 	/**
 	 * @var string
 	 */
@@ -93,7 +93,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 		foreach($this->jsonSerialize() as $val) {
 			$result .= JET_TAB.'<item>'.JET_EOL;
 			foreach($val as $k=>$v) {
-				$result .= JET_TAB.JET_TAB.'<'.$k.'>'.htmlspecialchars($v).'</'.$k.'>'.JET_EOL;
+				$result .= JET_TAB.JET_TAB.'<'.$k.'>'.Data_Text::htmlSpecialChars($v).'</'.$k.'>'.JET_EOL;
 			}
 			$result .= JET_TAB.'</item>'.JET_EOL;
 

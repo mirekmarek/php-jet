@@ -31,55 +31,6 @@ namespace Jet;
  */
 abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Related_1toN {
 
-	/**
-	 *
-	 * @JetDataModel:related_to = 'main.ID'
-	 */
-	protected $site_ID = '';
-
-	/**
-	 * @JetDataModel:related_to = 'parent.ID'
-	 */
-	protected $localized_data_ID = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
-	 *
-	 * @var string
-	 */
-	protected $ID = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 *
-	 * @var string
-	 */
-	protected $URL = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
-	 *+
-	 * @var bool
-	 */
-	protected $is_default = false;
-
-	/**
-	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
-	 *
-	 * @var bool
-	 */
-	protected $is_SSL = false;
-
-	/**
-	 * @var array|null|bool
-	 */
-	protected $parsed_URL_data = null;
 
 	/**
 	 * @param string $URL (optional)
@@ -97,16 +48,12 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 	/**
 	 * @param string $site_ID
 	 */
-	public function setSiteID($site_ID) {
-		$this->site_ID = $site_ID;
-	}
+	abstract public function setSiteID($site_ID);
 
 	/**
 	 * @return string
 	 */
-	public function getSiteID() {
-		return $this->site_ID;
-	}
+	abstract public function getSiteID();
 
 
 	/**
@@ -119,148 +66,63 @@ abstract class Mvc_Sites_Site_LocalizedData_URL_Abstract extends DataModel_Relat
 	/**
 	 * @return string
 	 */
-	public function  toString() {
-		return $this->URL;
-	}
+	abstract public function toString();
 
 	/**
 	 * @return string
 	 */
-	public function getAsNonSchemaURL() {
-
-		$host = $this->getHostPart();
-		$port = $this->getPostPart();
-		$path = $this->getPathPart();
-
-		$URL = '//'.$host;
-		if($port) {
-			$URL .= ':'.$port;
-		}
-
-		$URL .= $path;
-
-		return $URL;
-	}
+	abstract public function getAsNonSchemaURL();
 
 
 	/**
 	 * @return string
 	 */
-	public function getURL() {
-		return $this->URL;
-	}
+	abstract public function getURL();
 
 	/**
 	 * @param string $URL
 	 * @throws Mvc_Sites_Site_Exception
 	 */
-	public function setURL($URL) {
-
-		if(!$URL) {
-			throw new Mvc_Sites_Site_Exception(
-				'URL is not defined',
-				Mvc_Sites_Site_Exception::CODE_URL_NOT_DEFINED
-			);
-		}
-
-		$parse_data = parse_url($URL);
-		if(
-			$parse_data===false ||
-			!empty($parse_data['user']) ||
-			!empty($parse_data['pass']) ||
-			!empty($parse_data['query']) ||
-			!empty($parse_data['fragment'])
-		) {
-			throw new Mvc_Sites_Site_Exception(
-				'URL format is not valid! Valid format examples: http://host/, https://host/, http://host:80/, http://host/path/, .... ',
-				Mvc_Sites_Site_Exception::CODE_URL_INVALID_FORMAT
-			);
-		}
-
-		if(empty($parse_data['path']) || $parse_data['path'][strlen($parse_data['path'])-1]!='/') {
-			$URL .= '/';
-		}
-
-		$this->is_SSL = $parse_data['scheme']=='https';
-
-		$this->URL = $URL;
-		$this->parsed_URL_data = $parse_data;
-	}
+	abstract public function setURL($URL);
 
 	/**
 	 * @return bool
 	 */
-	public function getIsDefault() {
-		return $this->is_default;
-	}
+	abstract public function getIsDefault();
 
 	/**
 	 * @param bool $is_default
 	 */
-	public function setIsDefault($is_default) {
-		$this->is_default = (bool)$is_default;
-	}
+	abstract public function setIsDefault($is_default);
 
 	/**
 	 * @return bool|string
 	 */
-	public function getSchemePart() {
-		return $this->parseURL( 'scheme' );
-	}
+	abstract public function getSchemePart();
 
 	/**
 	 * @return bool|string
 	 */
-	public function getHostPart() {
-		return $this->parseURL( 'host' );
-	}
+	abstract public function getHostPart();
 
 	/**
 	 * @return bool|string
 	 */
-	public function getPostPart() {
-		return $this->parseURL( 'port' );
-	}
+	abstract public function getPostPart();
 
 	/**
 	 * @return bool|string
 	 */
-	public function getPathPart() {
-		return $this->parseURL( 'path' );
-	}
-
+	abstract public function getPathPart();
 
 	/**
 	 * @return bool
 	 */
-	public function getIsSSL() {
-		return $this->is_SSL;
-	}
+	abstract public function getIsSSL();
 
 	/**
 	 * @param bool $is_SSL
 	 */
-	public function setIsSSL( $is_SSL ) {
-		$this->is_SSL = (bool)$is_SSL;
-	}
-
-	/**
-	 * @see parse_url
-	 *
-	 * @param string $return_what (scheme, host, port, user, pass, path, query, fragment)
-	 *
-	 * @return string|bool
-	 */
-	protected function parseURL( $return_what ) {
-		if(!$this->parsed_URL_data) {
-			$this->parsed_URL_data = parse_url($this->URL);
-		}
-
-		if(!$this->parsed_URL_data) {
-			return false;
-		}
-
-		return $this->parsed_URL_data[$return_what];
-	}
+	abstract public function setIsSSL( $is_SSL );
 
 }

@@ -100,21 +100,25 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		}
 
 
-		$this->current_loop_ID =
-				$block_name.':'.$this->loop_counter;
+		$this->current_step_ID =
+				$block_name.':'.$this->step_counter;
 
-		Debug_Profiler::message('Loop ID:'.$this->current_loop_ID);
+		Debug_Profiler::message('Step ID:'.$this->current_step_ID);
 
-		$this->loop_counter++;
+		$this->step_counter++;
 
 		$layout = $this->router->getLayout();
 
 		if(
 			$layout &&
-			($output_part = $this->router->getCacheOutputParts($this->current_loop_ID))
+			($output_parts = $this->router->getCacheOutputParts($this->current_step_ID))
 		) {
+			$output_part = null;
 
-			$layout->setOutputPart($output_part);
+			foreach($output_parts as $output_part) {
+				$layout->setOutputPart($output_part);
+			}
+
 			if( $output_part->getIsStatic() ) {
 
 				Debug_Profiler::message('Cache hit: IS STATIC');
@@ -132,7 +136,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 			return false;
 		}
 
-		$this->current_loop_provides_dynamic_content = false;
+		$this->current_step_provides_dynamic_content = false;
 
 
 		Translator::setCurrentNamespace( $module_name );
@@ -151,21 +155,25 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 										);
 
 
-		$this->router->getFrontController()->afterLoopDispatch( $queue_item, $this->current_loop_ID );
+		$this->router->getFrontController()->afterStepDispatch( $queue_item, $this->current_step_ID );
 
-		if( ($output_part = $layout->getOutputPart($this->current_loop_ID)) ) {
+		if( ($output_parts = $layout->getStepOutputParts($this->current_step_ID)) ) {
 
-			if( $this->current_loop_provides_dynamic_content ) {
-				$output_part->setIsStatic(false);
+			if( $this->current_step_provides_dynamic_content ) {
+				foreach( $output_parts as $output_part ) {
+					$output_part->setIsStatic(false);
+				}
 			} else {
 				Debug_Profiler::message('Is static');
 			}
 
-			$this->router->setCacheOutputParts($this->current_loop_ID, $output_part);
+			foreach( $output_parts as $output_part ) {
+				$this->router->addCacheOutputPart($this->current_step_ID, $output_part);
+			}
 		}
 
 		$this->current_queue_item = null;
-		$this->current_loop_ID = null;
+		$this->current_step_ID = null;
 
 		Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
 
@@ -180,7 +188,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	public function renderQueueItem( Mvc_Dispatcher_Queue_Item $queue_item ) {
 		$current_queue_item = $this->current_queue_item;
 		$current_translator_namespace = Translator::getCurrentNamespace();
-		$current_loop_ID = $this->current_loop_ID;
+		$current_step_ID = $this->current_step_ID;
 
 
 		$module_name = $queue_item->getModuleName();
@@ -200,7 +208,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 
 		$this->current_queue_item = $queue_item;
-		$this->current_loop_ID = $block_name.':'.$this->loop_counter;
+		$this->current_step_ID = $block_name.':'.$this->step_counter;
 
 
 		$layout = $this->router->getLayout();
@@ -221,12 +229,17 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 			$queue_item->getControllerActionParameters()
 		);
 
-		$output = $layout->getOutputPart($this->current_loop_ID)->getOutput();
-		$layout->unsetOutputPart($this->current_loop_ID);
+		$output_parts = $layout->getStepOutputParts($this->current_step_ID);
+		$output = '';
+
+		foreach( $output_parts as $output_part ) {
+			$output .= $output_part->getOutput();
+		}
+		$layout->unsetStepOutputParts($this->current_step_ID);
 
 
 		$this->current_queue_item = $current_queue_item;
-		$this->current_loop_ID = $current_loop_ID;
+		$this->current_step_ID = $current_step_ID;
 		Translator::setCurrentNamespace( $current_translator_namespace );
 
 		return $output;
@@ -237,11 +250,11 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	/**
 	 *
 	 */
-	public function setCurrentLoopProvidesDynamicContent() {
+	public function setCurrentStepProvidesDynamicContent() {
 
 		Debug_Profiler::message('Provides dynamic content' );
 
-		$this->current_loop_provides_dynamic_content = true;
+		$this->current_step_provides_dynamic_content = true;
 		$this->request_provides_static_content = false;
 	}
 
@@ -249,8 +262,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function getCurrentLoopProvidesDynamicContent() {
-		return $this->current_loop_provides_dynamic_content;
+	public function getCurrentStepProvidesDynamicContent() {
+		return $this->current_step_provides_dynamic_content;
 	}
 
 	/**
@@ -263,8 +276,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 	/**
 	 * @return string
 	 */
-	public function getCurrentLoopID() {
-		return $this->current_loop_ID;
+	public function getCurrentStepID() {
+		return $this->current_step_ID;
 	}
 
 }

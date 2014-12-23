@@ -86,7 +86,8 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
 			if(
-				$property->getIsDataModel()
+				$property->getIsDataModel() ||
+				$property->getIsDynamicValue()
 			) {
 				continue;
 			}
@@ -181,7 +182,10 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$properties = $data_model_definition->getProperties();
 		$actual_cols = array();
 		foreach($properties as $property_name=>$property) {
-			if( $property->getIsDataModel() ) {
+			if(
+				$property->getIsDataModel() ||
+				$property->getIsDynamicValue()
+			) {
 				continue;
 			}
 			$actual_cols[$property_name] = $property;
@@ -1144,18 +1148,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 			$property_name = $item->getPropertyDefinition()->getName();
 
-			$value = $item->getValue();
-
-			if( is_bool($value) ) {
-				$value = $value ? 1 : 0;
-			} else if(is_array($value)) {
-				$value = $this->serialize($value);
-			} else if(is_object($value)) {
-				$value = (string)$value;
-			}
-
-
-			$_record[$this->_getColumnName($property_name)] = $value;
+			$_record[$this->_getColumnName($property_name)] = $this->_getValue($item->getValue(), false);
 		}
 
 		return $_record;
@@ -1164,17 +1157,22 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 	/**
 	 * @param mixed $value
+	 * @param bool $quote (optional, default:true)
 	 *
 	 * @return mixed
 	 */
-	protected function _getValue( $value ) {
+	protected function _getValue( $value, $quote=true ) {
 		if($value instanceof DataModel_Definition_Property_Abstract) {
 			return $this->_getColumnName( $value );
 		}
 
 
 		if($value===null) {
-			return 'null';
+			if($quote) {
+				return 'null';
+			} else {
+				return null;
+			}
 		}
 
 		if(is_bool($value)) {
@@ -1189,16 +1187,21 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			return (float)$value;
 		}
 
-		if(is_array($value)) {
-			return serialize($value);
-		}
-
 		if($value instanceof DateTime) {
 			return 'TO_TIMESTAMP_TZ(\''.$value.'\', \'YYYY-MM-DD"T"HH24:MI:SSTZHTZM\')';
 		}
 
+		if(is_array($value)) {
+			$value = $this->serialize($value);
+		}
+
+
 		if(is_object($value)) {
 			$value = (string)$value;
+		}
+
+		if(!$quote) {
+			return $value;
 		}
 
 		return $this->_db_read->quote( $value );

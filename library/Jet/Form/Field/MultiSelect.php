@@ -149,10 +149,10 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 			}
 
 			if($selected){
-				$result .= '<option value="'.htmlspecialchars($val).'" selected="selected">'.$prefix.htmlspecialchars( $label ).'</option>'.JET_EOL;
+				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" selected="selected">'.$prefix.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
 			}
 			else{
-				$result .= '<option value="'.htmlspecialchars($val).'">'.$prefix.htmlspecialchars( $label ).'</option>'.JET_EOL;
+				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'">'.$prefix.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
 			}
 		}
 		$result .= '</select>'.JET_EOL;

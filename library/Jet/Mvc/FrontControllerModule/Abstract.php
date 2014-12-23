@@ -138,6 +138,9 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	public function getLayoutJsReplacementModule($module_name) {
 		$module_manifest = Application_Modules::getModuleManifest($module_name);
 
+		if(!$module_manifest) {
+			return false;
+		}
 
 		return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
 	}
@@ -150,6 +153,24 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 	 */
 	public function getAuthController() {
 		return Application_Modules::getModuleInstance( $this->router->getAuthControllerModuleName() );
+	}
+
+	/**
+	 *
+	 */
+	public function handlePreDispatch() {
+		$modules = Application_Modules::getActivatedModulesList();
+
+		foreach( $modules as $module ) {
+			if($module->getIsActivated() && $module->getIsPreDispatch()) {
+				/**
+				 * @var Application_Modules_Module_PreDispatch_Interface $module_i
+				 */
+				$module_i = Application_Modules::getModuleInstance($module->getName());
+
+				$module_i->resolvePreDispatch( $this->router );
+			}
+		}
 	}
 
 
@@ -351,7 +372,7 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 
 		$dispatcher = Mvc_Dispatcher::getCurrentDispatcherInstance();
 		$current_queue_item = $dispatcher->getCurrentQueueItem();
-		$output_ID = $dispatcher->getCurrentLoopID();
+		$output_ID = $dispatcher->getCurrentStepID();
 
 		$module_name = $current_queue_item->getModuleName();
 		$content_data = $current_queue_item->getContentData();
@@ -621,6 +642,20 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 			echo 'Unauthorized ...';
 		}
 		Application::end();
+	}
+
+	/**
+	 *
+	 */
+	public function handleDeactivatedSite() {
+		$this->router->setIs404();
+	}
+
+	/**
+	 *
+	 */
+	public function handleDeactivatedLocale() {
+		$this->router->setIs404();
 	}
 
 	/**
@@ -932,9 +967,9 @@ abstract class Mvc_FrontControllerModule_Abstract extends Application_Modules_Mo
 
 	/**
 	 * @param Mvc_Dispatcher_Queue_Item $current_queue_item
-	 * @param string $current_loop_ID
+	 * @param string $current_step_ID
 	 */
-	public function afterLoopDispatch( $current_queue_item, $current_loop_ID ) {
+	public function afterStepDispatch( $current_queue_item, $current_step_ID ) {
 
 	}
 }

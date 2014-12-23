@@ -249,9 +249,9 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Data_Array::getString
 	 */
 	public function testGetString() {
-	    $this->assertEquals( htmlspecialchars( $this->data['string'] ), $this->object->getString('string') );
-	    $this->assertEquals( htmlspecialchars( $this->data['string'] ), $this->object->getString('/string') );
-	    $this->assertEquals( htmlspecialchars( $this->data['sub1']['sub2']['string'] ), $this->object->getString('/sub1/sub2/string') );
+	    $this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('string') );
+	    $this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('/string') );
+	    $this->assertEquals( Data_Text::htmlSpecialChars( $this->data['sub1']['sub2']['string'] ), $this->object->getString('/sub1/sub2/string') );
 	}
 
 	/**

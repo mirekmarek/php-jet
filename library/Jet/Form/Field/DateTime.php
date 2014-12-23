@@ -96,7 +96,7 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 		$tag_data->setProperty( 'name', $this->getName().'_time');
 		$tag_data->setProperty( 'id', $this->getID().'_time');
 		$tag_data->setProperty( 'type', 'text');
-		$tag_data->setProperty( 'value', $value ? date('H:i:s', strtotime($value)):'' );
+		$tag_data->setProperty( 'value', $value ? 'T'.date('H:i:s', strtotime($value)):'' );
 
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 

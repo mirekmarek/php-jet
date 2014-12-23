@@ -33,6 +33,12 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	protected $locale;
 
+	/**
+	 * @var array
+	 */
+	protected $packages = ['dojo', 'dijit', 'dojox'];
+
+
    
 	/**
 	 * Dojo config (djConfig)
@@ -65,6 +71,13 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	}
 
 	/**
+	 * @param $package
+	 */
+	public function registerPackage( $package ) {
+		$this->packages[] = $package;
+	}
+
+	/**
 	 * @param string $theme
 	 */
 	public function setTheme($theme) {
@@ -87,6 +100,13 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function getVersionNumber() {
 		return $this->config->getVersion();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBaseURI() {
+		return $this->replaceConstants($this->config->getBaseURI());
 	}
 
 	/**
@@ -152,9 +172,6 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet() {
 
-
-
-
 		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getBaseURI().'dojo/resources/dojo.css') );
 		$this->layout->requireCssFile( $this->replaceConstants( $this->config->getThemeURI()) );
 
@@ -170,27 +187,18 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 		$this->layout->requireInitialJavascriptCode( JET_TAB.'var djConfig = '.json_encode($this->djConfig).';' );
 
 		if($this->config->getPackageEnabled()) {
-			$key = Javascript_Lib_Dojo_PackageCreator::getKey($this->locale, $this->required_components);
 
-			$package_file = Mvc_Layout::JS_PACKAGES_DIR_NAME.'dojo-'.$key.'.js';
-			$package_path = JET_PUBLIC_PATH.$package_file;
-			$package_URI = JET_PUBLIC_URI.$package_file;
+			$package_creator = new Javascript_Lib_Dojo_PackageCreator(
+				$this->replaceConstants($this->config->getBaseURI()),
+				$this->locale,
+				$this->packages,
+				$this->required_components
+			);
 
 
-			if(!IO_File::exists($package_path)) {
+			$package_creator->generatePackageFile();
 
-				$pc = new Javascript_Lib_Dojo_PackageCreator(
-					$this->replaceConstants($this->config->getBasePath()),
-					$this->replaceConstants($this->config->getBaseURI()),
-					$this->locale,
-					$this->required_components
-				);
-
-				IO_File::write(
-					$package_path,
-					$pc->createPackage()
-				);
-			}
+			$package_URI = $package_creator->getPackageURI();
 
 			$this->layout->requireJavascriptFile( $package_URI );
 		} else {
@@ -223,7 +231,8 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 			'THEME' => $this->theme
 		);
 
-		return Data_Text::replaceSystemConstants($value, $replacements);
+		return Data_Text::replaceData($value, $replacements);
+		//return Data_Text::replaceSystemConstants($value, $replacements);
 	}
 
 

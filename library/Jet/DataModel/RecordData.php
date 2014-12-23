@@ -84,6 +84,13 @@ class DataModel_RecordData implements \Iterator {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function getIsEmpty() {
+		return !(bool)count($this->items);
+	}
+
+	/**
 	 * @static
 	 *
 	 * @param DataModel $data_model

@@ -152,7 +152,17 @@ class Form_Factory extends Factory {
 	 * @param string $type
 	 * @param string $class_name
 	 */
-	public static function setFieldClassName( $type, $class_name ) {
+	public static function setFieldClass( $type, $class_name ) {
 		static::setClassName( static::$form_field_class_name_prefix.$type, $class_name );
 	}
+
+	/**
+	 *
+	 * @param string $type
+	 * @param string $class_name
+	 */
+	public static function setDecoratorClass( $type, $class_name ) {
+		static::setClassName( static::$form_decorator_class_name_prefix.$type, $class_name );
+	}
+
 }

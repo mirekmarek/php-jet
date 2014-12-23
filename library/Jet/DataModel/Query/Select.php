@@ -37,7 +37,10 @@ class DataModel_Query_Select extends Object implements \Iterator {
 			}
 
 			if($val instanceof DataModel_Definition_Property_Abstract) {
-				if( $val->getIsDataModel() ) {
+				if(
+					$val->getIsDataModel() ||
+					$val->getIsDynamicValue()
+				) {
 					continue;
 				}
 

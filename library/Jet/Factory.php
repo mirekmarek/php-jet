@@ -51,35 +51,35 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	/**
 	 * @see Jet\Factory
 	 *
-	 * @param string $original_name
+	 * @param string $default_name
 	 * @param string $overloaded_name
 	 */
-	public static function setClassName( $original_name, $overloaded_name ) {
+	public static function setClassName( $default_name, $overloaded_name ) {
 
 		if(self::$overload_map === null) {
 			self::initOverloadMap();
 		}
 
-		self::$overload_map[$original_name] = $overloaded_name;
+		self::$overload_map[$default_name] = $overloaded_name;
 	}
 
 	/**
 	 * @see Jet\Factory
 	 *
-	 * @param string $original_name
+	 * @param string $default_name
 	 * @return string
 	 */
-	public static function getClassName( $original_name ) {
+	public static function getClassName( $default_name ) {
 
 		if(self::$overload_map === null) {
 			self::initOverloadMap();
 		}
 
-		if( isset(self::$overload_map[$original_name]) ) {
-			return self::$overload_map[$original_name];
+		if( isset(self::$overload_map[$default_name]) ) {
+			return self::$overload_map[$default_name];
 		}
 
-		return $original_name;
+		return $default_name;
 	}
 
 

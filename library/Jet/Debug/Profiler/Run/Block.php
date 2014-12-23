@@ -188,6 +188,9 @@ class Debug_Profiler_Run_Block {
 		return $this->label;
 	}
 
+	/**
+	 * @return array|Debug_Profiler_Run_Block[]
+	 */
 	public function getChildren() {
 		return $this->children;
 	}

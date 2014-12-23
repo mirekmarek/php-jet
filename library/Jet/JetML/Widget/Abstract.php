@@ -188,6 +188,7 @@ abstract class JetML_Widget_Abstract extends Object {
 			$img = $this->parser->getDOMDocument()->createElement('img');
 			$img->setAttribute('src', $icon_URL);
 			$img->setAttribute('title', $title);
+			$img->setAttribute('style', 'width:'.$icon_data['width'].'px; height:'.$icon_data['height'].'px;vertical-align:middle;');
 
 			foreach($icon_data as $k=>$v) {
 				$img->setAttribute($k, $v);

@@ -135,4 +135,12 @@ class Data_Text {
 		return static::replaceData($input, array_merge($data, $default_replacement));
 	}
 
+	/**
+	 * @param string $input
+	 * @return string
+	 */
+	public static function htmlSpecialChars( $input ) {
+		return htmlspecialchars( $input, ENT_QUOTES, 'UTF-8' );
+	}
+
 }

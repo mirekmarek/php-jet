@@ -27,17 +27,20 @@ class Mvc_Sites_Site_LocalizedData_MetaTag_Default extends Mvc_Sites_Site_Locali
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
 	 */
 	protected $site_ID = '';
 
 	/**
-	 * @JetDataModel:related_to = 'parent.ID'
 	 *
-	 * @var string
+	 * @JetDataModel:related_to = 'parent.locale'
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var Locale
 	 */
-	protected $localized_data_ID = '';
+	protected $locale = '';
 
 
 	/**
@@ -73,15 +76,30 @@ class Mvc_Sites_Site_LocalizedData_MetaTag_Default extends Mvc_Sites_Site_Locali
 	 */
 	protected $content = '';
 
+
+	/**
+	 * @return mixed|null|string
+	 */
+	public function getArrayKeyValue() {
+		return $this->ID;
+	}
+
 	/**
 	 * @return string
 	 */
 	public function  toString() {
 		if($this->attribute) {
-			return '<meta '.$this->attribute.'="'.htmlspecialchars($this->attribute_value).'" content="'.htmlspecialchars($this->content).'" />';
+			return '<meta '.$this->attribute.'="'.Data_Text::htmlSpecialChars($this->attribute_value).'" content="'.Data_Text::htmlSpecialChars($this->content).'" />';
 		} else {
-			return '<meta content="'.htmlspecialchars($this->content).'" />';
+			return '<meta content="'.Data_Text::htmlSpecialChars($this->content).'" />';
 		}
+	}
+
+	/**
+	 * @param string $ID
+	 */
+	public function setIdentifier( $ID ) {
+		$this->ID = $ID;
 	}
 
 	/**

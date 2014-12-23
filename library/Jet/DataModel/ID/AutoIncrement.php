@@ -27,7 +27,10 @@ class DataModel_ID_AutoIncrement extends DataModel_ID_Abstract {
 	 * @param bool $called_after_save (optional, default = false)
 	 * @param mixed $backend_save_result  (optional, default = null)
 	 *
+	 * @return void
+	 *
 	 * @throws DataModel_Exception
+	 *
 	 */
 	public function generate( DataModel $data_model_instance, $called_after_save = false, $backend_save_result = null ) {
 		if(!array_key_exists($this->ID_property_name, $this->values)) {

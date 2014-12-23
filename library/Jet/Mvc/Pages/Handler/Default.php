@@ -88,13 +88,8 @@ class Mvc_Pages_Handler_Default extends Mvc_Pages_Handler_Abstract {
 	 */
 	public function dropPages( $site_ID, Locale $locale ) {
 
-		$page = Mvc_Factory::getPageInstance();
+		Mvc_Factory::getPageInstance()->dropPages( $site_ID, $locale );
 
-		foreach( $page->getIDs($site_ID, $locale) as $ID) {
-			if( ($page_i = $page->load( $ID )) ) {
-				$page_i->delete();
-			}
-		}
 		Mvc::truncateRouterCache();
 	}
 

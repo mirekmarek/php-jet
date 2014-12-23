@@ -24,6 +24,7 @@ abstract class Memcache_Connection_Abstract extends \Memcache implements Object_
 	use Object_Trait_MagicSleep;
 	//use Object_Trait_MagicGet;
 	//use Object_Trait_MagicSet;
+	use Object_Trait_MagicClone;
 
 	/**
 	 *
@@ -40,6 +41,7 @@ abstract class Memcache_Connection_Abstract extends \Memcache implements Object_
 
 		$this->config = $config;
 
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if(!@$this->connect( $this->config->getHost(), $this->config->getPort() )) {
 			throw new Memcache_Exception(
 				'Unable to connect Memcache \''.$this->config->getHost().':'.$this->config->getPort().'\' ',

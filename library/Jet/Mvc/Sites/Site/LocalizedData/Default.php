@@ -26,6 +26,7 @@ namespace Jet;
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData'
  * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Sites_Site_Default'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Passive'
  */
 class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_Abstract {
 
@@ -37,17 +38,10 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
-	 *
-	 * @var string
-	 */
-	protected $ID = '';
-
-	/**
-	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
+	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Locale
 	 */
@@ -55,8 +49,20 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 
 	/**
 	 *
+	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:default_value = true
+	 * @JetDataModel:form_field_type = false
+	 *
+	 * @var bool
+	 */
+	protected $is_active = true;
+
+
+	/**
+	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Title:'
 	 *
 	 * @var string
 	 */
@@ -66,6 +72,7 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Header Suffix:'
 	 *
 	 * @var string
 	 */
@@ -75,6 +82,7 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Body Prefix:'
 	 *
 	 * @var string
 	 */
@@ -84,6 +92,7 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
+	 * @JetDataModel:form_field_label = 'Body Suffix:'
 	 *
 	 * @var string
 	 */
@@ -107,7 +116,6 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	 */
 	protected $default_meta_tags;
 
-
 	/**
 	 * @param Locale $locale
 	 *
@@ -118,11 +126,34 @@ class Mvc_Sites_Site_LocalizedData_Default extends Mvc_Sites_Site_LocalizedData_
 	}
 
 	/**
+	 * @return Locale
+	 */
+	public function getLocale() {
+		return $this->locale;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getArrayKeyValue() {
 		return (string)$this->locale;
 	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function getIsActive() {
+		return $this->is_active;
+	}
+
+	/**
+	 * @param bool $is_active
+	 */
+	public function setIsActive($is_active) {
+		$this->is_active = (bool)$is_active;
+	}
+
 
 	/**
 	 * @return string

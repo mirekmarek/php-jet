@@ -50,11 +50,27 @@ abstract class Mvc_Sites_Site_LocalizedData_Abstract extends DataModel_Related_1
 	abstract protected function setLocale( Locale $locale );
 
 	/**
+	 * @return Locale
+	 */
+	abstract public function getLocale();
+
+	/**
 	 * @return string
 	 */
 	public function getArrayKeyValue() {
 		trigger_error('Please implement '.get_class($this).'::getArrayKeyValue()', E_ERROR);
 	}
+
+	/**
+	 * @return bool
+	 */
+	abstract public function getIsActive();
+
+	/**
+	 * @param bool $is_active
+	 */
+	abstract public function setIsActive($is_active);
+
 
 	/**
 	 * @return string
@@ -97,7 +113,7 @@ abstract class Mvc_Sites_Site_LocalizedData_Abstract extends DataModel_Related_1
 	abstract public function setDefaultBodySuffix($default_body_suffix);
 
 	/**
-	 * @return Mvc_Sites_Site_LocalizedData_URL_Abstract[]
+	 * @return Mvc_Sites_Site_LocalizedData_URL_Abstract[]|DataModel_Related_1toN
 	 */
 	abstract public function getURLs();
 

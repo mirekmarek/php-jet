@@ -253,7 +253,7 @@ abstract class DataModel_Backend_Abstract extends Object {
 					$key = $item->getSelectAs();
 
 					if($property->getIsArray()) {
-						$data[$i][$key] = unserialize( $data[$i][$key] );
+						$data[$i][$key] = $this->unserialize( $data[$i][$key] );
 					}
 
 					$property->checkValueType( $data[$i][$key] );
@@ -268,6 +268,28 @@ abstract class DataModel_Backend_Abstract extends Object {
 
 		return $data;
 
+	}
+
+
+	/**
+	 * @param $data
+	 *
+	 * @return string
+	 */
+	protected function serialize( $data ) {
+		//return base64_encode( serialize($data) );
+		return serialize($data);
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return mixed
+	 */
+	protected function unserialize( $string ) {
+		//$data = base64_decode($string);
+		//return unserialize($data);
+		return unserialize($string);
 	}
 
 }

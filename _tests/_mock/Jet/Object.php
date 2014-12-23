@@ -8,7 +8,13 @@ class Object implements Jet\Object_Interface {
 	use Jet\Object_Trait;
 	use Jet\Object_Trait_MagicSleep;
 	use Jet\Object_Trait_MagicSet;
+	use Jet\Object_Trait_MagicClone;
 
+	/**
+	 * @param string $property_name
+	 * @return mixed
+	 * @throws \Exception
+	 */
 	public function __get( $property_name ) {
 		if(isset($this->$property_name)) {
 			//workaround for tests
@@ -19,10 +25,18 @@ class Object implements Jet\Object_Interface {
 	}
 
 
+	/**
+	 * @param string $property_name
+	 * @param mixed $value
+	 */
 	public function __test_set( $property_name, $value ) {
 		$this->{$property_name} = $value;
 	}
 
+	/**
+	 * @param string $property_name
+	 * @param mixed $value
+	 */
 	public static function __test_set_static( $property_name, $value ) {
 		static::$$property_name = $value;
 	}

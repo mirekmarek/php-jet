@@ -369,9 +369,8 @@ abstract class Mvc_Pages_Page_Abstract extends DataModel {
 	 * @param string $site_ID
 	 * @param Locale $locale (optional)
 	 *
-	 * @return DataModel_Fetch_Object_IDs
 	 */
-	abstract public function getIDs(  $site_ID, $locale=null );
+	abstract public function dropPages(  $site_ID, $locale=null );
 
 	/**
 	 * @param string $site_ID

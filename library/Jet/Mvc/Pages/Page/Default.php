@@ -215,6 +215,39 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	protected $contents;
 
 	/**
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
+	 * @JetDataModel:getter_name = 'getParentURL'
+	 *
+	 * @var string
+	 */
+	protected $parent_URL = '';
+
+	/**
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
+	 * @JetDataModel:getter_name = 'getDefaultURL'
+	 *
+	 * @var string
+	 */
+	protected $default_URL = '';
+
+	/**
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
+	 * @JetDataModel:getter_name = 'getLayoutsList'
+	 *
+	 * @var string
+	 */
+	protected $layouts_list = [];
+
+	/**
+	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
+	 * @JetDataModel:getter_name = 'getAllURLs'
+	 *
+	 * @var string
+	 */
+	protected $URLs = [];
+
+
+	/**
 	 * @param string $ID
 	 */
 	public function setID( $ID ) {
@@ -538,8 +571,27 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @return Mvc_Router_Map_URL_Abstract[]|null
 	 */
 	protected function getURLs( $only_default=true) {
-
 		return Mvc_Router::getCurrentRouterInstance()->getMap()->findURLs( $this->getID(), $only_default );
+	}
+
+	/**
+	 * @return Mvc_Router_Map_URL_Abstract[]|null
+	 */
+	protected function getAllURLs() {
+		return $this->getURLs(false);
+	}
+
+	/**
+	 * @return null|string
+	 */
+	protected function getParentURL() {
+		$parent = $this->getParent();
+
+		if(!$parent) {
+			return null;
+		}
+
+		return $parent->getDefaultURL();
 	}
 
 	/**
@@ -721,9 +773,8 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 	 * @param string $site_ID
 	 * @param Locale|string $locale (optional)
 	 *
-	 * @return DataModel_Fetch_Object_IDs
 	 */
-	public function getIDs(  $site_ID, $locale=null ) {
+	public function dropPages(  $site_ID, $locale=null ) {
 		$q = array(
 				'this.site_ID' => $site_ID
 			);
@@ -733,7 +784,15 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 			$q['this.locale'] = $locale;
 		}
 
-		return $this->fetchObjectIDs( $q );
+		$pages = $this->fetchObjects( $q );
+
+		foreach( $pages as $page ) {
+			/**
+			 * @var Mvc_Pages_Page_Default $page
+			 */
+			$page->delete();
+		}
+
 	}
 
 	/**
@@ -908,10 +967,14 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 					$data[] = $d;
 				}
 
-				$tree = new Data_Tree();
-				$tree->setData($data);
+				if($data) {
+					$tree = new Data_Tree();
+					$tree->setData($data);
 
-				$forest->appendTree($tree);
+					$forest->appendTree($tree);
+
+				}
+
 
 			}
 		}
@@ -954,28 +1017,6 @@ class Mvc_Pages_Page_Default extends Mvc_Pages_Page_Abstract{
 		}
 
 		return  $this->getSite()->getLayoutsList();
-	}
-
-	/**
-	 * @return array
-	 */
-	public function jsonSerialize() {
-		$data = parent::jsonSerialize();
-
-		$parent = $this->getParent();
-
-		if($parent) {
-			$data['parent_URL'] = $parent->getDefaultURL();
-		}
-
-		$data['default_URL'] = $this->getDefaultURL();
-
-
-		$data['layouts_list'] = $this->getLayoutsList();
-
-		$data['URLs'] = $this->getURLs(false);
-
-		return $data;
 	}
 
 
