@@ -100,6 +100,8 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	 */
 	protected function _getFilePath($namespace, Locale $locale) {
 
+		$namespace = str_replace('/', '.', $namespace);
+
 		$file = $this->config->getDictionaryPath($namespace, $locale);
 
 		return $file;

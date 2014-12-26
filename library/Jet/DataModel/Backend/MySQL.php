@@ -985,7 +985,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				}
 
 				if($max_len<=65535) {
-					return 'text DEFAULT '.$this->_db_write->quote($default_value);
+					return 'text';
 				}
 
 				return 'longtext';
@@ -1009,7 +1009,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				return 'datetime DEFAULT NULL';
 				break;
 			case DataModel::TYPE_ARRAY:
-				return 'longtext DEFAULT \'\'';
+				return 'longtext';
 				break;
 			default:
 				throw new DataModel_Exception(

@@ -280,9 +280,6 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		preg_match_all('/define\(([^,]*),[ ]*\[([^\]]*)]/i', $script, $matches, PREG_SET_ORDER);
 
-		if($component[0]=="c") {
-			//var_dump($component);
-		}
 
 		foreach($matches as $match) {
 			$match[2] = preg_replace('/\/\/.*/i', '', $match[2]);
@@ -361,10 +358,6 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 			}
 		}
 
-		if($component[0]=="c") {
-			//var_dump($components, $requires);
-		}
-
 
 		return [ $components, $requires ];
 	}
@@ -380,7 +373,14 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		$path = Data_Text::replaceSystemConstants( $base_path . $component . '.js' );
 
+		if($path[0]=='/' && $path[1]=='/') {
+			$path = 'http:'.$path;
+		}
+
 		$script = IO_File::read( $path );
+
+		//@ sourceMappingURL=place.js.map
+		$script = preg_replace('/\/\/@ sourceMappingURL=.*map/', '', $script);
 
 		return $script;
 	}
@@ -395,6 +395,10 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		$path = Data_Text::replaceSystemConstants( $base_path . $component . '.js' );
 
+		if($path[0]=='/' && $path[1]=='/') {
+			$path = 'http:'.$path;
+		}
+
 		return IO_File::exists( $path );
 
 	}
@@ -405,6 +409,10 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	 */
 	protected function getTemplate( $template_path ) {
 		$path = Data_Text::replaceSystemConstants( $this->base_path . $template_path );
+
+		if($path[0]=='/' && $path[1]=='/') {
+			$path = 'http:'.$path;
+		}
 
 		$template = IO_File::read( $path );
 
@@ -557,7 +565,7 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		$package_path = $this->getPackageFilePath();
 
-		if(true || !IO_File::exists($package_path)) {
+		if(!IO_File::exists($package_path)) {
 
 
 			IO_File::write(

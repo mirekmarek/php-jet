@@ -182,7 +182,6 @@ class IO_File {
 	 * @return string
 	 */
 	public static function read($file_path){
-
 		$data = file_get_contents($file_path);
 
 		if($data===false) {

@@ -19,6 +19,9 @@ define('JET_DEBUG_MODE', true);
 //define('JET_DEBUG_PROFILER_ENABLED', JET_DEBUG_MODE);
 define('JET_DEBUG_PROFILER_ENABLED', false);
 
+define('JET_LAYOUT_CSS_PACKAGER_ENABLED', true);
+define('JET_LAYOUT_JS_PACKAGER_ENABLED', true);
+
 define('JET_BASE_PATH', dirname(__DIR__).'/');
 define('JET_LIBRARY_PATH', JET_BASE_PATH.'library/');
 
@@ -37,6 +40,7 @@ define('JET_TEMPLATES_MODULES_PATH', JET_TEMPLATES_PATH.'modules/');
 
 define('JET_PUBLIC_PATH', JET_BASE_PATH.'public/');
 define('JET_PUBLIC_IMAGES_PATH', JET_BASE_PATH.'public/images/');
+define('JET_PUBLIC_DATA_PATH', JET_BASE_PATH.'public/data/');
 define('JET_PUBLIC_SCRIPTS_PATH', JET_BASE_PATH.'public/scripts/');
 define('JET_PUBLIC_STYLES_PATH', JET_BASE_PATH.'public/styles/');
 define('JET_PUBLIC_LIBS_PATH', JET_BASE_PATH.'public/libs/');
@@ -84,7 +88,7 @@ define('JET_EOL', PHP_EOL);
 set_include_path(
 	JET_LIBRARY_PATH
 		.PATH_SEPARATOR
-	.get_include_path()
+		.get_include_path()
 );
 
 if(!ini_get('date.timezone')){

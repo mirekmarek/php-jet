@@ -39,12 +39,14 @@ Jet.declare('Jet.module.JetExample.AdminRoles.Main', [Jet.modules.Module], {
 
         this.privileges_scope = this.getData('role_privileges_scope');
 
+        /*
         for(var privilege in this.privileges_scope) {
             var privilege_data = this.privileges_scope[privilege];
 
             form_definition['/privileges/'+privilege+'/values'].type='CheckBoxTree';
             form_definition['/privileges/'+privilege+'/values'].tree_instance = this.getCheckboxTree('role_access_'+privilege_data.privilege+'_pane', 'privilege_values_scope/'+privilege, privilege_data.label);
         }
+        */
 
         this.form = new Jet.Form(
                 this,

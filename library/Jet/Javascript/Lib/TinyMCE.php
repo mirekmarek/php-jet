@@ -53,7 +53,10 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 			if(!in_array($cfg['theme'], $themes)) {
 				$themes[] = $cfg['theme'];
 			}
-			$plugins = array_merge($plugins, explode(' ', $cfg['plugins']));
+
+			if(isset($cfg['plugins'])) {
+				$plugins = array_merge($plugins, explode(' ', $cfg['plugins']));
+			}
 		}
 
 		$plugins = array_unique($plugins);

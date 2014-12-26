@@ -55,7 +55,6 @@ class Mvc_Sites_Handler_Default extends Mvc_Sites_Handler_Abstract {
 			Mvc_Pages::actualizePages( $site_data->getID(), $locale );
 		}
 		Mvc::truncateRouterCache();
-		Mvc::generateRouterMap();
 
 	}
     

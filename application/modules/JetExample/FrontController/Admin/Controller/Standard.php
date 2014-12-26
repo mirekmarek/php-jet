@@ -92,7 +92,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$Jet->requireComponent('Jet.Form');
 		$Jet->requireComponent('Jet.Trash');
 
-		Jet\Mvc::requireJavascriptLib('cbtree');
+		//Jet\Mvc::requireJavascriptLib('cbtree');
 
 		Jet\Mvc::requireJavascriptLib('TinyMCE');
 

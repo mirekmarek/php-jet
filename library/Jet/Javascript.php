@@ -58,9 +58,8 @@ class Javascript extends Object {
 		if($group=='modules') {
 
 			$module_manifest = Application_Modules::getModuleManifest( array_shift($path_fragments) );
-			$module_name = $module_manifest->getName();
 
-			Translator::setCurrentNamespace( $module_name );
+			Translator::setCurrentNamespace( $module_manifest->getName() );
 
 			if(!$path_fragments) {
 				$path_fragments[] = 'Main';

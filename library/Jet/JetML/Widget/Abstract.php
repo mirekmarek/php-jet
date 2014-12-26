@@ -108,6 +108,9 @@ abstract class JetML_Widget_Abstract extends Object {
 
 			$module_instance = Application_Modules::getModuleManifest( $module_name );
 
+			if(!$module_instance) {
+				return false;
+			}
 
 			$icons_URL = JET_MODULES_URI.$module_instance->getUriReadyName().'/public/icons/'.$size.'/'.$icon;
 		} else {
