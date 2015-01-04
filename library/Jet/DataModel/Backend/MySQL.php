@@ -953,7 +953,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$name = $column->getName();
 
-		//TODO:
 		$default_value = $column->getDefaultValue( $data_model );
 
 

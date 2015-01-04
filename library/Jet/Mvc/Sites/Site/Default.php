@@ -123,6 +123,13 @@ class Mvc_Sites_Site_Default extends Mvc_Sites_Site_Abstract {
 	/**
 	 * @return string
 	 */
+	public function getPublicFilesPath() {
+		return $this->getBasePath().'public_files/';
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getLayoutsPath() {
 		return $this->getBasePath().'layouts/';
 	}

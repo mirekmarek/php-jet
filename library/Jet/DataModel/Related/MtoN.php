@@ -419,6 +419,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 * @throws DataModel_Exception
 	 */
 	public function offsetSet( $offset , $value ) {
+
         Factory::getInstance($this->__data_model_current_N_model_class_name);
 
         $valid_class_name = Factory::getClassName( $this->__data_model_current_N_model_class_name );
@@ -445,8 +446,14 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
             );
         }
 
+		$this->_fetchNData();
+
         $ID = $value->getID();
 		$key = $this->getArrayKey( $value );
+
+		if(!$offset) {
+			$offset = $key;
+		}
 
         if( $key!=$offset ) {
             throw new DataModel_Exception(

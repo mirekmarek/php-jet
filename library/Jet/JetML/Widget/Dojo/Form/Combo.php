@@ -11,13 +11,13 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Form_Select extends JetML_Widget_Dojo_Abstract {
+class JetML_Widget_Dojo_Form_Combo extends JetML_Widget_Dojo_Abstract {
 	
 	/**
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = 'dijit.form.FilteringSelect';
+	protected $dojo_type = 'dijit.form.ComboBox';
 
 	/**
 	 *

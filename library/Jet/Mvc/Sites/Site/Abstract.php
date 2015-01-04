@@ -81,6 +81,11 @@ abstract class Mvc_Sites_Site_Abstract extends DataModel {
 	/**
 	 * @return string
 	 */
+	abstract public function getPublicFilesPath();
+
+	/**
+	 * @return string
+	 */
 	abstract public function getLayoutsPath();
 
 	/**

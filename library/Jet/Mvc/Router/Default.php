@@ -1013,7 +1013,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return string
 	 */
 	public function getPublicFilesPath() {
-		return $this->site->getBasePath() . 'public_files/';
+		return $this->site->getPublicFilesPath();
 	}
 
 	/**
