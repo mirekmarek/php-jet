@@ -98,14 +98,6 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends Object {
 	 * @return string
 	 */
 	protected function normalizePath_Constants( $URI, $constants ) {
-		/*
-		//TODO:
-			$data['JET_SITE_BASE_URI'] = $this->router->getSiteBaseURI();
-			$data['JET_SITE_IMAGES_URI'] = $this->router->getSiteImagesURI();
-			$data['JET_SITE_SCRIPTS_URI'] = $this->router->getSiteScriptsURI();
-			$data['JET_SITE_STYLES_URI'] = $this->router->getSiteStylesURI();
-
-		 */
 
 		foreach( $constants as $constant_name ) {
 			$URI_constant_name = $constant_name.'_URI';
@@ -165,14 +157,6 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends Object {
 	 * @return string
 	 */
 	protected function normalizeURI_Constants( $URI, $constants ) {
-		/*
-		//TODO:
-			$data['JET_SITE_BASE_URI'] = $this->router->getSiteBaseURI();
-			$data['JET_SITE_IMAGES_URI'] = $this->router->getSiteImagesURI();
-			$data['JET_SITE_SCRIPTS_URI'] = $this->router->getSiteScriptsURI();
-			$data['JET_SITE_STYLES_URI'] = $this->router->getSiteStylesURI();
-
-		 */
 
 		foreach( $constants as $constant_name ) {
 			$URI_constant_name = $constant_name.'_URI';

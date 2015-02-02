@@ -73,10 +73,15 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	protected $is_root = true;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_orphan = false;
+
+	/**
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $_iterator_data = array();
+	protected $_iterator_map = array();
 
 	/**
 	 * @var int
@@ -106,15 +111,21 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 			$this->parent = $tree->getNode( $this->parent_ID );
 
 			if(!$this->parent) {
-				throw new Data_Tree_Exception(
-					'Inconsistent tree data. Parent node \''.$this->parent_ID.'\' does not exist. Node ID: \''.$this->ID.'\' ',
-					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-				);
+				if($tree->getAdoptOrphans()) {
+					$this->is_orphan = true;
+				} else {
+					throw new Data_Tree_Exception(
+						'Inconsistent tree data. Parent node \''.$this->parent_ID.'\' does not exist. Node ID: \''.$this->ID.'\' ',
+						Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
+					);
+
+				}
+			} else {
+				$this->depth = $this->parent->getDepth() + 1;
+
+				$this->parent->appendChild($this);
 			}
 
-			$this->depth = $this->parent->getDepth() + 1;
-
-			$this->parent->appendChild($this);
 		} else {
 			$root_node = $this->tree->getRootNode();
 			if( $root_node ) {
@@ -200,6 +211,20 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	public function setIsRoot($is_root) {
 		$this->is_root = (bool)$is_root;
+	}
+
+	/**
+	 * @param boolean $is_orphan
+	 */
+	public function setIsOrphan($is_orphan) {
+		$this->is_orphan = $is_orphan;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getIsOrphan() {
+		return $this->is_orphan;
 	}
 
 
@@ -297,7 +322,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	public function setMaxDepth( $max_depth ) {
 		$this->_max_depth = $max_depth;
-		$this->resetIteratorData();
+		$this->resetIteratorMap();
 	}
 
 
@@ -436,16 +461,21 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	/**
 	 *
 	 */
-	public function resetIteratorData() {
-		$this->_iterator_data = array();
+	public function resetIteratorMap() {
+		$this->_iterator_map = array();
 	}
 
 	/**
 	 *
 	 */
-	protected function _prepareIteratorData(){
+	public function getIteratorMap(){
+		if($this->_iterator_map) {
+			return $this->_iterator_map;
+		}
 
-		$this->__prepareIteratorData($this->_iterator_data, $this->_max_depth, $this->depth);
+		$this->_prepareIteratorMap($this->_iterator_map, $this->_max_depth, $this->depth);
+
+		return $this->_iterator_map;
 	}
 
 	/**
@@ -453,9 +483,9 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 * @param int|null $max_depth
 	 * @param int|null $root_depth
 	 */
-	protected function __prepareIteratorData( &$result, $max_depth, $root_depth ){
+	protected function _prepareIteratorMap( &$result, $max_depth, $root_depth ){
 
-		$result[$this->ID] = $this;
+		$result[(string)$this->ID] = $this;
 
 		if($max_depth) {
 			if( ($root_depth-$this->depth)>$max_depth ) {
@@ -464,7 +494,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		}
 
 		foreach($this->children as $child){
-			$child->__prepareIteratorData( $result, $max_depth, $root_depth );
+			$child->_prepareIteratorMap( $result, $max_depth, $root_depth );
 		}
 
 	}
@@ -481,51 +511,51 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 */
 	public function rewind() {
-		if(!$this->_iterator_data){
-			$this->_prepareIteratorData();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
 		}
-		reset($this->_iterator_data);
+		reset($this->_iterator_map);
 	}
 
 	/**
 	 * @return Data_Tree_Node
 	 */
 	public function current() {
-		if(!$this->_iterator_data){
-			$this->_prepareIteratorData();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
 		}
-		return current($this->_iterator_data);
+		return current($this->_iterator_map);
 	}
 
 	/**
 	 * @return mixed
 	 */
 	public function key() {
-		if(!$this->_iterator_data){
-			$this->_prepareIteratorData();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
 		}
-		return key($this->_iterator_data);
+		return key($this->_iterator_map);
 	}
 
 	/**
 	 *
 	 */
 	public function next() {
-		if(!$this->_iterator_data){
-			$this->_prepareIteratorData();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
 		}
-		next($this->_iterator_data);
+		next($this->_iterator_map);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function valid() {
-		if(!$this->_iterator_data){
-			$this->_prepareIteratorData();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
 		}
 
-		return key($this->_iterator_data)!==null;
+		return key($this->_iterator_map)!==null;
 	}
 
 	//- Countable ---------------------------------------------------------------------------------

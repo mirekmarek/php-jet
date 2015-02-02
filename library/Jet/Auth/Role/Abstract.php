@@ -2,10 +2,6 @@
 /**
  *
  *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -23,6 +19,12 @@ namespace Jet;
  * @JetFactory:class = 'Jet\Auth_Factory'
  * @JetFactory:method = 'getRoleInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\Auth_Role_Abstract'
+ *
+ * @JetApplication_Signals:signal = '/role/new'
+ * @JetApplication_Signals:signal = '/role/updated'
+ * @JetApplication_Signals:signal = '/role/deleted'
+ *
+ * @JetApplication_Signals:signal_object_class_name = 'Jet\Auth_Role_Signal'
  *
  * @JetDataModel:name = 'role'
  * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Name'
@@ -135,5 +137,27 @@ abstract class Auth_Role_Abstract extends DataModel {
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	abstract public function getRolesListAsData();
+
+	/**
+	 *
+	 */
+	public function afterAdd() {
+		$this->sendSignal('/role/new', ['role'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterUpdate() {
+		$this->sendSignal('/role/updated', ['role'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete() {
+		$this->sendSignal('/role/deleted', ['role'=>$this]);
+	}
+
 
 }

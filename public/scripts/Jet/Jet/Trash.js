@@ -209,7 +209,19 @@ dojo.declare("Jet.Trash", [], {
     handleError: function(error) {
         this.submit_button_widget.cancel();
 
-        Jet.handleRequestError( error );
+	    if(error.response.status==400) {
+		    var error_data = dojo.fromJson( error.response.text );
+
+		    if(error_data.error_data['__common_message__']) {
+			    Jet.alert( error_data.error_data['__common_message__'] );
+		    } else {
+			    Jet.handleRequestError( error );
+		    }
+
+	    } else {
+		    Jet.handleRequestError( error );
+	    }
+
     },
 
 

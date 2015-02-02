@@ -16,6 +16,13 @@ namespace Jet;
 interface Data_Paginator_DataSource_Interface /* extends Iterator*/ {
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
+	 */
+	public function setPagination( $limit, $offset );
+
+
+	/**
 	 * Returns total items count
 	 * @return int
 	 */

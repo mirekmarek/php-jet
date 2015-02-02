@@ -13,7 +13,7 @@ $form = $this->form;
 			<jetml_form_button_save id="user_save" onClick="Jet.modules.CURRENT_MODULE.save(false);"/>
 			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
 		</jetml_layout_toolbar>
-		<jetml_layout_pane region="center" gutters="false" style="padding:0px;">
+		<jetml_layout_pane region="center" gutters="false" style="padding:0;">
 			<jetml_data id="user_form_fields_definition"><?=json_encode( $form->getFields() ); ?></jetml_data>
 			<jet_form name="<?=$form->getName();?>">
 				<table>
@@ -65,7 +65,7 @@ $form = $this->form;
 			<jetml_trash_button trash_id="user_trash"/>
 		</jetml_layout_toolbar>
 
-		<jetml_layout_pane region="center" gutters="false" style="padding:0px;">
+		<jetml_layout_pane region="center" gutters="false" style="padding:0;">
 
 			<jetml_datagrid id="users_grid">
 				<jetml_datagrid_column field="login" title="User name" width="10%"/>

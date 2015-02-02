@@ -67,7 +67,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 * @JetConfig:item_type = Jet\Config::TYPE_STRING
 	 * @JetConfig:description = 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. For content_css directive can be used Jet\* constants.'
 	 * @JetConfig:is_required = false
-	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'modern', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_SITE_STYLES_URI%wysiwyg.css' ) )
+	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'modern', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_PUBLIC_STYLES_URI%wysiwyg.css' ) )
 	 *
 	 * @var array
 	 */

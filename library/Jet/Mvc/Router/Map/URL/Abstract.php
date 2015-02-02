@@ -18,6 +18,7 @@ namespace Jet;
  * @JetFactory:method = 'getRouterMapUrlInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Router_Map_URL_Abstract'
  */
+
 abstract class Mvc_Router_Map_URL_Abstract extends Object implements \JsonSerializable {
 
 	/**

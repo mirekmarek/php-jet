@@ -49,6 +49,11 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	private $_db_write = null;
 
 	/**
+	 * @var int
+	 */
+	protected $_last_result_count = null;
+
+	/**
 	 * @var array
 	 */
 	protected static $valid_key_types = array(
@@ -250,8 +255,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendSelectQuery( DataModel_Query $query ) {
+		$select = 'SELECT';
 
-		return 'SELECT'.JET_EOL
+		if($this->data_pagination_mode) {
+			$select .= ' SQL_CALC_FOUND_ROWS ';
+		}
+
+		return $select.JET_EOL
 			.JET_TAB.$this->_getSQLQuerySelectPart($query).JET_EOL
 			.'FROM'.JET_EOL
 			.JET_TAB.$this->_getSQLQueryTableName($query)
@@ -272,7 +282,8 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendCountQuery( DataModel_Query $query ) {
-		return 'SELECT count(*) FROM'.JET_EOL
+		return 'SELECT count(*)'
+			.'FROM'.JET_EOL
 			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 			.$this->_getSQLqueryWherePart($query->getWhere())
@@ -389,6 +400,11 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return int
 	 */
 	public function getCount( DataModel_Query $query ) {
+
+		if($this->_last_result_count!==null) {
+			return $this->_last_result_count;
+		}
+
 		return (int)$this->_db_read->fetchOne( $this->getBackendCountQuery($query) );
 	}
 
@@ -486,12 +502,19 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	protected function _fetch( DataModel_Query $query, $fetch_method ) {
 
+		$this->_last_result_count = null;
+
 		$data = $this->_db_read->$fetch_method(
 			$this->getBackendSelectQuery( $query )
 		);
 
 		if(!is_array($data)) {
 			return $data;
+		}
+
+		if($this->data_pagination_mode) {
+			$this->_last_result_count = (int)$this->_db_read->fetchOne( 'SELECT FOUND_ROWS();' );
+
 		}
 
 		return $this->validateResultData( $query, $fetch_method, $data );
@@ -968,7 +991,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				} else {
 					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
 
-					return 'varchar('.$max_len.') COLLATE utf8_bin NOT NULL DEFAULT \'\' ';
+					return 'varchar('.$max_len.') COLLATE utf8_bin NOT NULL DEFAULT \'\'';
 				}
 
 				break;
@@ -979,7 +1002,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 					if($column->getIsID()) {
 						return 'varchar('.((int)$max_len).') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
 					} else {
-						return 'varchar('.((int)$max_len).')  DEFAULT '.$this->_db_write->quote($default_value);
+						return 'varchar('.((int)$max_len).') DEFAULT '.$this->_db_write->quote($default_value);
 					}
 				}
 

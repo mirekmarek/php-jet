@@ -89,6 +89,48 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 			'parent_ID' => 'root',
 			'name' => 'Node 3',
 		),
+		'op_1' => array(
+			'ID' => 'op_1',
+			'parent_ID' => 'non-existent-1',
+			'name' => 'orphan 1',
+		),
+		'op_1_1' => array(
+			'ID' => 'op_1_1',
+			'parent_ID' => 'op_1',
+			'name' => 'orphan 1-1',
+		),
+		'op_1_2' => array(
+			'ID' => 'op_1_2',
+			'parent_ID' => 'op_1',
+			'name' => 'orphan 1-2',
+		),
+		'op_1_2_1' => array(
+			'ID' => 'op_1_2_1',
+			'parent_ID' => 'op_1_2',
+			'name' => 'orphan 1-2-1',
+		),
+
+		'op_2' => array(
+			'ID' => 'op_2',
+			'parent_ID' => 'non-existent-2',
+			'name' => 'orphan 2',
+		),
+		'op_2_1' => array(
+			'ID' => 'op_2_1',
+			'parent_ID' => 'op_2',
+			'name' => 'orphan 2-1',
+		),
+		'op_2_2' => array(
+			'ID' => 'op_2_2',
+			'parent_ID' => 'op_2',
+			'name' => 'orphan 2-2',
+		),
+		'op_2_2_1' => array(
+			'ID' => 'op_2_2_1',
+			'parent_ID' => 'op_2_2',
+			'name' => 'orphan 2-2-1',
+		),
+
 	);
 
 	/**
@@ -97,6 +139,8 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function setUp() {
 		$this->object = new Data_Tree();
+
+		$this->object->setAdoptOrphans(true);
 	}
 
 	/**
@@ -284,103 +328,175 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 		$this->prepareTree();
 
 		$valid_tree = array (
-			'ID' => 'root',
-			'parent_ID' => '',
-			'name' => 'Root',
-			'depth' => 0,
-			'children' =>
+			0 =>
 			array (
-				0 =>
+				'ID' => 'root',
+				'parent_ID' => '',
+				'name' => 'Root',
+				'depth' => 0,
+				'children' =>
 				array (
-					'ID' => '1',
-					'parent_ID' => 'root',
-					'name' => 'Node 1',
-					'depth' => 1,
-					'children' =>
+					0 =>
 					array (
-						0 =>
+						'ID' => '1',
+						'parent_ID' => 'root',
+						'name' => 'Node 1',
+						'depth' => 1,
+						'children' =>
 						array (
-							'ID' => '1-1',
-							'parent_ID' => '1',
-							'name' => 'Node 1-1',
-							'depth' => 2,
-						),
-						1 =>
-						array (
-							'ID' => '1-2',
-							'parent_ID' => '1',
-							'name' => 'Node 1-2',
-							'depth' => 2,
-							'children' =>
+							0 =>
 							array (
-								0 =>
+								'ID' => '1-1',
+								'parent_ID' => '1',
+								'name' => 'Node 1-1',
+								'depth' => 2,
+							),
+							1 =>
+							array (
+								'ID' => '1-2',
+								'parent_ID' => '1',
+								'name' => 'Node 1-2',
+								'depth' => 2,
+								'children' =>
 								array (
-									'ID' => '1-2-1',
-									'parent_ID' => '1-2',
-									'name' => 'Node 1-2-1',
-									'depth' => 3,
-								),
-								1 =>
-								array (
-									'ID' => '1-2-2',
-									'parent_ID' => '1-2',
-									'name' => 'Node 1-2-2',
-									'depth' => 3,
-									'children' =>
+									0 =>
 									array (
-										0 =>
+										'ID' => '1-2-1',
+										'parent_ID' => '1-2',
+										'name' => 'Node 1-2-1',
+										'depth' => 3,
+									),
+									1 =>
+									array (
+										'ID' => '1-2-2',
+										'parent_ID' => '1-2',
+										'name' => 'Node 1-2-2',
+										'depth' => 3,
+										'children' =>
 										array (
-											'ID' => '1-2-2-1',
-											'parent_ID' => '1-2-2',
-											'name' => 'Node 1-2-2-1',
-											'depth' => 4,
-										),
-										1 =>
-										array (
-											'ID' => '1-2-2-2',
-											'parent_ID' => '1-2-2',
-											'name' => 'Node 1-2-2-2',
-											'depth' => 4,
+											0 =>
+											array (
+												'ID' => '1-2-2-1',
+												'parent_ID' => '1-2-2',
+												'name' => 'Node 1-2-2-1',
+												'depth' => 4,
+											),
+											1 =>
+											array (
+												'ID' => '1-2-2-2',
+												'parent_ID' => '1-2-2',
+												'name' => 'Node 1-2-2-2',
+												'depth' => 4,
+											),
 										),
 									),
-								),
-								2 =>
-								array (
-									'ID' => '1-2-3',
-									'parent_ID' => '1-2',
-									'name' => 'Node 1-2-3',
-									'depth' => 3,
+									2 =>
+									array (
+										'ID' => '1-2-3',
+										'parent_ID' => '1-2',
+										'name' => 'Node 1-2-3',
+										'depth' => 3,
+									),
 								),
 							),
+							2 =>
+							array (
+								'ID' => '1-3',
+								'parent_ID' => '1',
+								'name' => 'Node 1-3',
+								'depth' => 2,
+							),
 						),
-						2 =>
+					),
+					1 =>
+					array (
+						'ID' => '2',
+						'parent_ID' => 'root',
+						'name' => 'Node 2',
+						'depth' => 1,
+					),
+					2 =>
+					array (
+						'ID' => '3',
+						'parent_ID' => 'root',
+						'name' => 'Node 3',
+						'depth' => 1,
+					),
+				),
+			),
+			1 =>
+			array (
+				'ID' => 'op_1',
+				'parent_ID' => 'non-existent-1',
+				'name' => 'orphan 1',
+				'depth' => 0,
+				'children' =>
+				array (
+					0 =>
+					array (
+						'ID' => 'op_1_1',
+						'parent_ID' => 'op_1',
+						'name' => 'orphan 1-1',
+						'depth' => 1,
+					),
+					1 =>
+					array (
+						'ID' => 'op_1_2',
+						'parent_ID' => 'op_1',
+						'name' => 'orphan 1-2',
+						'depth' => 1,
+						'children' =>
 						array (
-							'ID' => '1-3',
-							'parent_ID' => '1',
-							'name' => 'Node 1-3',
-							'depth' => 2,
+							0 =>
+							array (
+								'ID' => 'op_1_2_1',
+								'parent_ID' => 'op_1_2',
+								'name' => 'orphan 1-2-1',
+								'depth' => 2,
+							),
 						),
 					),
 				),
-				1 =>
+			),
+			2 =>
+			array (
+				'ID' => 'op_2',
+				'parent_ID' => 'non-existent-2',
+				'name' => 'orphan 2',
+				'depth' => 0,
+				'children' =>
 				array (
-					'ID' => '2',
-					'parent_ID' => 'root',
-					'name' => 'Node 2',
-					'depth' => 1,
-				),
-				2 =>
-				array (
-					'ID' => '3',
-					'parent_ID' => 'root',
-					'name' => 'Node 3',
-					'depth' => 1,
+					0 =>
+					array (
+						'ID' => 'op_2_1',
+						'parent_ID' => 'op_2',
+						'name' => 'orphan 2-1',
+						'depth' => 1,
+					),
+					1 =>
+					array (
+						'ID' => 'op_2_2',
+						'parent_ID' => 'op_2',
+						'name' => 'orphan 2-2',
+						'depth' => 1,
+						'children' =>
+						array (
+							0 =>
+							array (
+								'ID' => 'op_2_2_1',
+								'parent_ID' => 'op_2_2',
+								'name' => 'orphan 2-2-1',
+								'depth' => 2,
+							),
+						),
+					),
 				),
 			),
 		);
 
+
 		$this->assertEquals( $valid_tree, $this->object->toArray() );
-        }
+    }
 
 
 	/**
@@ -391,7 +507,8 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	public function testToJSON() {
 		$this->prepareTree();
 
-		$valid_JSON = '{"identifier":"ID","label":"name","items":[{"ID":"root","parent_ID":"","name":"Root","depth":0,"children":[{"ID":"1","parent_ID":"root","name":"Node 1","depth":1,"children":[{"ID":"1-1","parent_ID":"1","name":"Node 1-1","depth":2},{"ID":"1-2","parent_ID":"1","name":"Node 1-2","depth":2,"children":[{"ID":"1-2-1","parent_ID":"1-2","name":"Node 1-2-1","depth":3},{"ID":"1-2-2","parent_ID":"1-2","name":"Node 1-2-2","depth":3,"children":[{"ID":"1-2-2-1","parent_ID":"1-2-2","name":"Node 1-2-2-1","depth":4},{"ID":"1-2-2-2","parent_ID":"1-2-2","name":"Node 1-2-2-2","depth":4}]},{"ID":"1-2-3","parent_ID":"1-2","name":"Node 1-2-3","depth":3}]},{"ID":"1-3","parent_ID":"1","name":"Node 1-3","depth":2}]},{"ID":"2","parent_ID":"root","name":"Node 2","depth":1},{"ID":"3","parent_ID":"root","name":"Node 3","depth":1}]}]}';
+		$valid_JSON = '{"identifier":"ID","label":"name","items":[{"ID":"root","parent_ID":"","name":"Root","depth":0,"children":[{"ID":"1","parent_ID":"root","name":"Node 1","depth":1,"children":[{"ID":"1-1","parent_ID":"1","name":"Node 1-1","depth":2},{"ID":"1-2","parent_ID":"1","name":"Node 1-2","depth":2,"children":[{"ID":"1-2-1","parent_ID":"1-2","name":"Node 1-2-1","depth":3},{"ID":"1-2-2","parent_ID":"1-2","name":"Node 1-2-2","depth":3,"children":[{"ID":"1-2-2-1","parent_ID":"1-2-2","name":"Node 1-2-2-1","depth":4},{"ID":"1-2-2-2","parent_ID":"1-2-2","name":"Node 1-2-2-2","depth":4}]},{"ID":"1-2-3","parent_ID":"1-2","name":"Node 1-2-3","depth":3}]},{"ID":"1-3","parent_ID":"1","name":"Node 1-3","depth":2}]},{"ID":"2","parent_ID":"root","name":"Node 2","depth":1},{"ID":"3","parent_ID":"root","name":"Node 3","depth":1}]},{"ID":"op_1","parent_ID":"non-existent-1","name":"orphan 1","depth":0,"children":[{"ID":"op_1_1","parent_ID":"op_1","name":"orphan 1-1","depth":1},{"ID":"op_1_2","parent_ID":"op_1","name":"orphan 1-2","depth":1,"children":[{"ID":"op_1_2_1","parent_ID":"op_1_2","name":"orphan 1-2-1","depth":2}]}]},{"ID":"op_2","parent_ID":"non-existent-2","name":"orphan 2","depth":0,"children":[{"ID":"op_2_1","parent_ID":"op_2","name":"orphan 2-1","depth":1},{"ID":"op_2_2","parent_ID":"op_2","name":"orphan 2-2","depth":1,"children":[{"ID":"op_2_2_1","parent_ID":"op_2_2","name":"orphan 2-2-1","depth":2}]}]}]}';
+
 
 		$this->assertEquals( $valid_JSON, $this->object->toJSON() );
 
@@ -405,7 +522,8 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	public function testToXML() {
 		$this->prepareTree();
 
-		$valid_XML = "<tree>
+		$valid_XML =
+			"<tree>
 			        <identifier>ID</identifier>
 			        <label>name</label>
 			        <items>
@@ -489,11 +607,70 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 			                                </item>
 			                        </children>
 			                </item>
+			                <item>
+			                        <ID>op_1</ID>
+			                        <parent_ID>non-existent-1</parent_ID>
+			                        <name>orphan 1</name>
+			                        <depth>0</depth>
+			                        <children>
+			                                <item>
+			                                        <ID>op_1_1</ID>
+			                                        <parent_ID>op_1</parent_ID>
+			                                        <name>orphan 1-1</name>
+			                                        <depth>1</depth>
+			                                </item>
+			                                <item>
+			                                        <ID>op_1_2</ID>
+			                                        <parent_ID>op_1</parent_ID>
+			                                        <name>orphan 1-2</name>
+			                                        <depth>1</depth>
+			                                        <children>
+			                                                <item>
+			                                                        <ID>op_1_2_1</ID>
+			                                                        <parent_ID>op_1_2</parent_ID>
+			                                                        <name>orphan 1-2-1</name>
+			                                                        <depth>2</depth>
+			                                                </item>
+			                                        </children>
+			                                </item>
+			                        </children>
+			                </item>
+			                <item>
+			                        <ID>op_2</ID>
+			                        <parent_ID>non-existent-2</parent_ID>
+			                        <name>orphan 2</name>
+			                        <depth>0</depth>
+			                        <children>
+			                                <item>
+			                                        <ID>op_2_1</ID>
+			                                        <parent_ID>op_2</parent_ID>
+			                                        <name>orphan 2-1</name>
+			                                        <depth>1</depth>
+			                                </item>
+			                                <item>
+			                                        <ID>op_2_2</ID>
+			                                        <parent_ID>op_2</parent_ID>
+			                                        <name>orphan 2-2</name>
+			                                        <depth>1</depth>
+			                                        <children>
+			                                                <item>
+			                                                        <ID>op_2_2_1</ID>
+			                                                        <parent_ID>op_2_2</parent_ID>
+			                                                        <name>orphan 2-2-1</name>
+			                                                        <depth>2</depth>
+			                                                </item>
+			                                        </children>
+			                                </item>
+			                        </children>
+			                </item>
 			        </items>
 			</tree>";
 
 
 		$test_XML = $this->object->toXML();
+
+		//var_dump($test_XML);die();
+
 		$valid_XML = str_replace("\r", '', $valid_XML);
 		$test_XML = str_replace("\r", '', $test_XML);
 		$valid_XML = str_replace("\t", '', $valid_XML);
@@ -577,20 +754,52 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 				'ID' => '3',
 				'label' => 'Node 3'
 			),
+			array(
+				'ID' => 'op_1',
+				'label' => 'orphan 1'
+			),
+			array(
+				'ID' => 'op_1_1',
+				'label' => 'orphan 1-1'
+			),
+			array(
+				'ID' => 'op_1_2',
+				'label' => 'orphan 1-2'
+			),
+			array(
+				'ID' => 'op_1_2_1',
+				'label' => 'orphan 1-2-1'
+			),
+			array(
+				'ID' => 'op_2',
+				'label' => 'orphan 2'
+			),
+			array(
+				'ID' => 'op_2_1',
+				'label' => 'orphan 2-1'
+			),
+			array(
+				'ID' => 'op_2_2',
+				'label' => 'orphan 2-2'
+			),
+			array(
+				'ID' => 'op_2_2_1',
+				'label' => 'orphan 2-2-1'
+			),
 		);
 
 		$i = 0;
 
+
 		foreach( $this->object as $ID=>$node ) {
 
-			$current_valid_data = $valid_data[$i];
 
+			$current_valid_data = $valid_data[$i];
 			$this->assertEquals($current_valid_data['ID'], $ID);
 			$this->assertEquals($current_valid_data['label'], (string)$node );
 
 			$i++;
 		}
-
 
 	}
 

@@ -25,4 +25,9 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 	 */
 	protected $module_instance = NULL;
 
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
 }

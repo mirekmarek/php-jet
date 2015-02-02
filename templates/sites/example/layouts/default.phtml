@@ -1,18 +1,20 @@
+<?php
+Jet\Mvc::requireSiteCssFile( 'main.css' );
+Jet\Mvc::requireCssFile( '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css' );
+Jet\Mvc::requireSiteJavascriptFile( 'test.js' );
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Test : %JET_SITE_TITLE% - %JET_PAGE_TITLE%</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="%JET_LANGUAGE%" />
-	<link rel="stylesheet" type="text/css" href="%JET_SITE_STYLES_URI%main.css">
 
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
-	<!--
+
 	<jet_layout_header_suffix/>
-	-->
-	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 </head>
 <body class="%DOJO_THEME%">
 <div style="display: none;">

@@ -238,12 +238,12 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function setSelectOptions( $options) {
 		if(is_object($options)) {
+
 			$_o = $options;
 			$options = array();
 
 			foreach($_o as $k=>$v) {
-
-				$options[$k] = $v;
+				$options[$k] = (string)$v;
 			}
 
 		}

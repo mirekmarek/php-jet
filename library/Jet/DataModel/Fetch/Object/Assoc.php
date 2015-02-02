@@ -31,7 +31,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 * @return bool
 	 */
 	public function offsetExists( $offset  ) {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return array_key_exists($offset, $this->data);
 	}
 	/**
@@ -41,7 +41,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 * @return DataModel
 	 */
 	public function offsetGet( $offset ) {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return $this->_get($offset);
 	}
 
@@ -59,7 +59,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 * @param int $offset
 	 */
 	public function offsetUnset( $offset )	{
-		$this->_fetchIDs();
+		$this->_fetch();
 		unset( $this->data[$offset] );
 		foreach($this->IDs as $i=>$ID) {
 			if((string)$ID==$offset) {
@@ -75,7 +75,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 * @return DataModel
 	 */
 	public function current() {
-		$this->_fetchIDs();
+		$this->_fetch();
 
 		return $this->_get($this->IDs[$this->iterator_position]);
 	}
@@ -84,21 +84,21 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 * @return string
 	 */
 	public function key() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return (string)$this->IDs[$this->iterator_position];
 	}
 	/**
 	 * @see Iterator
 	 */
 	public function next() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		++$this->iterator_position;
 	}
 	/**
 	 * @see Iterator
 	 */
 	public function rewind() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		$this->iterator_position=0;
 	}
 	/**
@@ -106,7 +106,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 	 * @return bool
 	 */
 	public function valid()	{
-		$this->_fetchIDs();
+		$this->_fetch();
 		return isset( $this->IDs[$this->iterator_position] );
 	}
 

@@ -137,14 +137,23 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 * Fetches IDs...
 	 *
 	 */
-	public function _fetchIDs() {
+	public function _fetch() {
 		if($this->IDs!==null) {
 			return;
 		}
 
 		$this->IDs = array();
 
-		foreach( $this->data_model_definition->getBackendInstance()->fetchAll( $this->query ) as $ID ) {
+		$backend = $this->data_model_definition->getBackendInstance();
+
+		$pm = $backend->getDataPaginationMode();
+		$backend->setDataPaginationMode( $this->pagination_enabled );
+
+		$l = $backend->fetchAll( $this->query );
+
+		$backend->setDataPaginationMode($pm);
+
+		foreach( $l as $ID ) {
 			$l_ID = clone $this->empty_ID_instance;
 
 			foreach($ID as $k=>$v) {

@@ -333,8 +333,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$position_order = null
 	) {
 
+
 		if(
-			$position_order === null ||
+			$position_order===null ||
 			$position_order===false
 		) {
 			$position_order = 0;
@@ -350,6 +351,20 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			}
 		}
 
+		$current_max_position_order = null;
+		foreach( $this->output_parts as $output_part ) {
+			$_po = $output_part->getPositionOrder();
+
+			if( floor($_po)==floor($position_order) ) {
+				if($_po>$current_max_position_order) {
+					$current_max_position_order = $_po;
+				}
+			}
+		}
+
+		if($current_max_position_order!==null) {
+			$position_order = $current_max_position_order + 0.001;
+		}
 
 		$o = new Mvc_Layout_OutputPart($step_ID, $output, $position, $position_required, $position_order, $module_name );
 
@@ -389,7 +404,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	public function getStepOutputParts( $step_ID ) {
 		$result = [];
 
-		foreach( $this->output_parts as $i=>$output_part ) {
+		foreach( $this->output_parts as $output_part ) {
 			if($output_part->getStepID()==$step_ID) {
 				$result[] = $output_part;
 			}
@@ -739,10 +754,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected function handleConstants( &$result ) {
 		if($this->router) {
 			$data = array();
+
 			$data['JET_SITE_BASE_URI'] = $this->router->getSiteBaseURI();
 			$data['JET_SITE_IMAGES_URI'] = $this->router->getSiteImagesURI();
-			$data['JET_SITE_SCRIPTS_URI'] = $this->router->getSiteScriptsURI();
-			$data['JET_SITE_STYLES_URI'] = $this->router->getSiteStylesURI();
+
 			$data['JET_UI_CONTAINER_ID'] = $this->getUIContainerID();
 			$data['JET_UI_CONTAINER_ID_PREFIX'] = $this->getUIContainerIDPrefix();
 			$data['JET_PAGE_TITLE'] = $this->router->getPage()->getTitle();

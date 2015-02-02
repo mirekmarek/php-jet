@@ -28,12 +28,9 @@ use Jet;
 class Main extends Jet\Auth_ControllerModule_Abstract {
 
 	/**
-	 * List of available privileges
-	 *
 	 * @var array
 	 */
-	protected $available_privileges = array(
-
+	protected $standard_privileges = array(
 		Jet\Auth::PRIVILEGE_VISIT_PAGE => array(
 			'label' => 'Sites and pages',
 			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
@@ -323,24 +320,34 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Get list of available privileges
 	 *
-	 * @param bool $get_available_values_list (optional, default: false)
 	 *
 	 * @return Jet\Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
-	public function getAvailablePrivilegesList( $get_available_values_list=false ) {
+	public function getAvailablePrivilegesList() {
 		$data = array();
 
-
-		foreach($this->available_privileges as $privilege=>$d) {
+		foreach( $this->standard_privileges as $privilege=>$d) {
 			$available_values_list = null;
 
-			if($get_available_values_list) {
-				$available_values_list = $this->{$d['get_available_values_list_method_name']}();
-			}
+			$available_values_list = $this->{$d['get_available_values_list_method_name']}();
 
 			$item = new Jet\Auth_Role_Privilege_AvailablePrivilegesListItem( $privilege, $d['label'], $available_values_list );
 
 			$data[$privilege] = $item;
+		}
+
+		foreach( Jet\Application_Modules::getActivatedModulesList() as $manifest ) {
+			$module = Jet\Application_Modules::getModuleInstance( $manifest->getName() );
+			if( $module instanceof Jet\Auth_Role_Privilege_Provider_Interface ) {
+				/**
+				 * @var Jet\Auth_Role_Privilege_AvailablePrivilegesListItem[] $av
+				 */
+				$av = $module->getAvailablePrivileges();
+
+				foreach( $av as $item ) {
+					$data[$item->getPrivilege()] = $item;
+				}
+			}
 		}
 
 		return $data;
@@ -354,13 +361,13 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 * @return Jet\Data_Tree_Forest
 	 */
 	public function getAvailablePrivilegeValuesList( $privilege ) {
-		if(!isset($this->available_privileges[$privilege])) {
+		$available_privileges = $this->getAvailablePrivilegesList();
+
+		if(!isset($available_privileges[$privilege])) {
 			return false;
 		}
 
-		$method = $this->available_privileges[$privilege]['get_available_values_list_method_name'];
-
-		return $this->{$method}();
+		return $available_privileges[$privilege]->getValuesList();
 	}
 
 	/**

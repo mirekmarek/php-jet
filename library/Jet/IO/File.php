@@ -160,10 +160,12 @@ class IO_File {
 
 		if(!file_put_contents($file_path, $data, $flags)) {
 			$error = static::_getLastError();
-			throw new IO_File_Exception(
-				'Unable to write file \''.$file_path.'\'. Error message: '.$error['message'],
-				IO_File_Exception::CODE_WRITE_FAILED
-			);
+			if($data && $error) {
+				throw new IO_File_Exception(
+					'Unable to write file \''.$file_path.'\'. Error message: '.$error['message'],
+					IO_File_Exception::CODE_WRITE_FAILED
+				);
+			}
 
 		}
 

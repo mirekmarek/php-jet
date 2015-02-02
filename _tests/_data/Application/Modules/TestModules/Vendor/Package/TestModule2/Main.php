@@ -16,6 +16,16 @@
  */
 namespace JetApplicationModule\Vendor\Package\TestModule2;
 use Jet;
+use Jet\Mvc_Dispatcher_Queue_Item;
+use Jet\Mvc_Router_Abstract;
 
 class Main extends Jet\Application_Modules_Module_Abstract {
+
+
+	/**
+	 * @param Mvc_Router_Abstract $router
+	 * @param Mvc_Dispatcher_Queue_Item $dispatch_queue_item
+	 */
+	public function resolveRequest(Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item) {
+	}
 }

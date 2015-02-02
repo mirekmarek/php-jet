@@ -26,6 +26,15 @@ namespace Jet;
  * @JetFactory:method = 'getUserInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\Auth_User_Abstract'
  *
+ * @JetApplication_Signals:signal = '/user/new'
+ * @JetApplication_Signals:signal = '/user/deleted'
+ * @JetApplication_Signals:signal = '/user/updated'
+ * @JetApplication_Signals:signal = '/user/blocked'
+ * @JetApplication_Signals:signal = '/user/unblocked'
+ * @JetApplication_Signals:signal = '/user/activated'
+ *
+ * @JetApplication_Signals:signal_object_class_name = 'Jet\Auth_User_Signal'
+ *
  * @JetDataModel:name = 'user'
  */
 abstract class Auth_User_Abstract extends DataModel {
@@ -321,4 +330,27 @@ abstract class Auth_User_Abstract extends DataModel {
 	 * @return Form
 	 */
 	abstract public function getSimpleForm( $form_name='' );
+
+
+	/**
+	 *
+	 */
+	public function afterAdd() {
+		$this->sendSignal('/user/new', ['user'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterUpdate() {
+		$this->sendSignal('/user/updated', ['user'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete() {
+		$this->sendSignal('/user/deleted', ['user'=>$this]);
+	}
+
 }

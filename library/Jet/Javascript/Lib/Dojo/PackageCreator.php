@@ -258,11 +258,14 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	 *
 	 * @return array
 	 */
-	protected function parseDependencies( $component, &$script ) {
+	protected function parseDependencies(
+		/** @noinspection PhpUnusedParameterInspection */
+		$component,
+		&$script
+	) {
 
 		$requires = [];
 		$components = [];
-
 
 		$matches = [];
 
@@ -449,28 +452,6 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 	}
 
 
-	/**
-	 * @param string $base_path
-	 * @param string $relative_path
-	 *
-	 * @return string
-	 */
-	protected function normalizePath( $base_path, $relative_path ) {
-		$path = $base_path.$relative_path;
-
-
-		$path = preg_replace('#/\.(?=/)|^\./|\./$#', '', $path);
-
-		$regex = '#\/*[^/\.]+/\.\.#Uu';
-
-		while(preg_match($regex, $path)) {
-			$path = preg_replace($regex, '', $path);
-		}
-
-
-		return $path;
-	}
-
 
 	/**
 	 * @return string
@@ -527,7 +508,6 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 
 			$JS .= JET_EOL.'// '.$component.JET_EOL;
-			//$JS .= JET_EOL.'console.debug("'.$component.'");'.JET_EOL;
 			$JS .= $this->component_scripts[$component];
 			$JS .= JET_EOL.'//-----------------------------'.JET_EOL.JET_EOL;
 		}

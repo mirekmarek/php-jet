@@ -229,7 +229,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 *
 	 */
 	protected function _initPrivileges() {
-		$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+		$available_privileges_list = Auth::getAvailablePrivilegesList();
 
 		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
 			if(!isset($this->privileges[$privilege])) {

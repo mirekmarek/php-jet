@@ -293,8 +293,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 
 		if(!$this->validateURIFormat()) {
+			$this->sendSignal('/router/initialized');
+
 			return true;
 		}
+
+		$this->sendSignal('/router/initialized');
 
 		return $this->resolve();
 	}
@@ -350,6 +354,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	protected function resolve() {
 		if( $this->cacheRead($this->_request_URL) ) {
+			$this->sendSignal('/router/resolved');
+
 			return true;
 		}
 
@@ -382,6 +388,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			}
 
 			$this->setIsRedirect($default_URL, Mvc_Router::REDIRECT_TYPE_TEMPORARY);
+			$this->sendSignal('/router/resolved');
 
 			return true;
 		}
@@ -401,6 +408,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$redirect_default_URL = $map->findMainURL( $page_URL->getPageID() );
 
 			if(!$redirect_default_URL) {
+				$this->sendSignal('/router/resolved');
+
 				return false;
 			}
 
@@ -411,6 +420,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 						. ( $this->path_fragments ? '/' : '' )
 						. $this->_parsed_request_URL->getQuery()
 				);
+
+				$this->sendSignal('/router/resolved');
 
 				return true;
 			}
@@ -430,6 +441,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		if(!$page) {
 			$this->setIs404();
+
+			$this->sendSignal('/router/resolved');
 
 			return true;
 		}
@@ -461,6 +474,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if( $this->getIsThereAnyUnusedPathFragment() ) {
 			$this->setIs404();
 		}
+
+		$this->sendSignal('/router/resolved');
 
 		return true;
 	}
@@ -621,10 +636,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
-		return true;
-
-		//TODO: OK, but we have some problem with Jet.Form and URL formats
-		/*
 		$this->setIsRedirect(
 			$this->_base_URL
 				. $this->_parsed_request_URL->getPath() . '/'
@@ -634,7 +645,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		);
 
 		return false;
-		*/
 	}
 
 
@@ -1033,6 +1043,13 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @return string
 	 */
+	public function getSiteImagesPath() {
+		return $this->site->getBasePath() . 'images/';
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getSiteScriptsURI() {
 		return JET_SITES_URI . $this->site_ID . '/scripts/';
 	}
@@ -1040,8 +1057,22 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @return string
 	 */
+	public function getSiteScriptsPath() {
+		return $this->site->getBasePath() . 'scripts/';
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getSiteStylesURI() {
 		return JET_SITES_URI . $this->site_ID . '/styles/';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSiteStylesPath() {
+		return $this->site->getBasePath() . 'styles/';
 	}
 
 	/**

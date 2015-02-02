@@ -173,6 +173,9 @@ class Data_Paginator extends Object {
 	 */
 	public function setDataSource( Data_Paginator_DataSource_Interface $data ) {
 		$this->data = $data;
+
+		$this->data->setPagination( $this->items_per_page, $this->data_index_start );
+
 		$this->data_items_count = $data->getCount();
 		$this->_calculate();
 	}
@@ -190,16 +193,10 @@ class Data_Paginator extends Object {
 				Data_Paginator_Exception::CODE_DATA_SOURCE_IS_NOT_SET
 			);
 		}
-		if(
-			$this->data instanceof DataModel_Fetch_Data_Abstract ||
-			$this->data instanceof DataModel_Fetch_Object_Abstract
-		) {
-			/**
-			 * @var DataModel_Query $query
-			 */
-			$query = $this->data->getQuery();
-			$query->setLimit( $this->items_per_page, $this->data_index_start );
 
+		if(
+			$this->data instanceof Data_Paginator_DataSource_Interface
+		) {
 			return $this->data;
 		}
 

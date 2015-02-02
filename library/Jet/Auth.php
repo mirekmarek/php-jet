@@ -155,35 +155,13 @@ class Auth extends Object {
 	 *
 	 * @param string $privilege
 	 * @param mixed $value
+	 * @param Auth_Role_Privilege_ContextObject_Interface $context_object (optional)
 	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @return bool
 	 */
-	public static function getCurrentUserHasPrivilege( $privilege, $value, $log_if_false=true ) {
-		$res = static::$current_auth_controller_module_instance->getCurrentUserHasPrivilege( $privilege, $value, $log_if_false );
-
-		if(!$res && $log_if_false) {
-			$login = 'unknown';
-			$user_ID = 'unknown';
-
-
-			$user = static::getCurrentUser();
-			if($user) {
-				$login = $user->getLogin();
-				$user_ID = $user->getID();
-			}
-
-
-			static::logEvent('privilege_access_denied',
-				array(
-					'privilege'=>$privilege,
-					'value'=>$value
-				),
-				'Privilege access denied. Login: \''.$login.'\', User ID: \''.$user_ID.'\', Privilege: \''.$privilege.'\', Value: \''.$value.'\''
-			);
-		}
-
-		return $res;
+	public static function getCurrentUserHasPrivilege( $privilege, $value, Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true ) {
+		return static::$current_auth_controller_module_instance->getCurrentUserHasPrivilege( $privilege, $value, $context_object, $log_if_false );
 	}
 
 	/**
@@ -281,16 +259,15 @@ class Auth extends Object {
 	/**
 	 * Get list of available privileges
 	 *
-	 * @param bool $get_available_values_list (optional, default: false)
-	 *
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
-	public static function getAvailablePrivilegesList( $get_available_values_list=false ) {
+	public static function getAvailablePrivilegesList() {
+
 		if(!static::$current_auth_controller_module_instance) {
 			return array();
 		}
 
-		return static::$current_auth_controller_module_instance->getAvailablePrivilegesList( $get_available_values_list );
+		return static::$current_auth_controller_module_instance->getAvailablePrivilegesList();
 	}
 
 	/**

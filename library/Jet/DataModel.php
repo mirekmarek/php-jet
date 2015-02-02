@@ -251,7 +251,10 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_ID_Abstract
 	 */
-	public static function createID( $ID ) {
+	public static function createID(
+		/** @noinspection PhpUnusedParameterInspection */
+		$ID
+	) {
 		$arguments = func_get_args();
 
 		return call_user_func_array( [static::getEmptyIDInstance(),'createID'], $arguments );
@@ -1314,13 +1317,16 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 
 			if(!$field) {
+				if($property->getFormFieldCreatorMethodName()) {
+					continue;
+				}
+
 				$class = $definition->getClassName();
 
 				throw new DataModel_Exception(
 					'The property '.$class.'::'.$property.' is required for form definition. But property definition '.get_class($property).' prohibits the use of property as form field. ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
-
 			}
 
 			$field->setDefaultValue( $this->{$property->getName()} );

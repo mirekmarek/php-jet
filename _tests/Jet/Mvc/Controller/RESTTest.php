@@ -13,6 +13,12 @@ class Mvc_Controller_REST_Test extends Mvc_Controller_REST {
 	public function __construct() {
 
 	}
+
+	/**
+	 * Is called after controller instance is created
+	 */
+	public function initialize() {
+	}
 }
 
 /**

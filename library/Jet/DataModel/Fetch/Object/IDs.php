@@ -31,7 +31,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @return bool
 	 */
 	public function offsetExists( $offset  ) {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return isset($this->IDs[(int)$offset]);
 	}
 	/**
@@ -41,7 +41,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @return DataModel_ID_Abstract
 	 */
 	public function offsetGet( $offset ) {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return $this->IDs[(int)$offset];
 	}
 
@@ -59,7 +59,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @param int $offset
 	 */
 	public function offsetUnset( $offset )	{
-		$this->_fetchIDs();
+		$this->_fetch();
 		unset( $this->IDs[(int)$offset] );
 	}
 
@@ -69,7 +69,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @return DataModel_ID_Abstract
 	 */
 	public function current() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return $this->IDs[$this->iterator_position];
 	}
 	/**
@@ -78,21 +78,21 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @return int
 	 */
 	public function key() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		return $this->iterator_position;
 	}
 	/**
 	 * @see Iterator
 	 */
 	public function next() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		++$this->iterator_position;
 	}
 	/**
 	 * @see Iterator
 	 */
 	public function rewind() {
-		$this->_fetchIDs();
+		$this->_fetch();
 		$this->iterator_position=0;
 	}
 	/**
@@ -101,7 +101,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @return bool
 	 */
 	public function valid()	{
-		$this->_fetchIDs();
+		$this->_fetch();
 		return isset( $this->IDs[$this->iterator_position] );
 	}
 
@@ -110,7 +110,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	 * @return array
 	 */
 	public function toArray() {
-		$this->_fetchIDs();
+		$this->_fetch();
 
 		$result = array();
 

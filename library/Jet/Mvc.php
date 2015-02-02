@@ -38,6 +38,8 @@ class Mvc {
 			$URL = Http_Request::getURL();
 		}
 
+		$router->setRenderOnly( false );
+
 		if(!$router->initialize($URL, $cache_enabled)) {
 			throw new Mvc_Router_Exception('FATAL: Unable to resolve page and site... Probably there is no site or we have some data problem.');
 		}
@@ -81,7 +83,6 @@ class Mvc {
 
 		$output = $dispatcher->dispatch();
 
-
 		echo $output;
 		$router->cacheSave();
 
@@ -89,7 +90,6 @@ class Mvc {
 		Auth::shutdown();
 		Mvc_Dispatcher::dropCurrentDispatcherInstance();
 		Mvc_Router::dropCurrentRouterInstance();
-
 
 	}
 
@@ -109,6 +109,7 @@ class Mvc {
 	public static function render( $URL ) {
 		$router = Mvc_Router::getNewRouterInstance();
 
+		$router->setRenderOnly( true );
 
 		if(!$router->initialize($URL, false)) {
 			return false;
@@ -365,6 +366,21 @@ class Mvc {
 	}
 
 	/**
+	 *
+	 * @see JavaScript
+	 * @see Mvc_Layout::requireJavascriptFile()
+	 *
+	 * @param string $file
+	 *
+	 */
+	public static function requireSiteJavascriptFile( $file ) {
+		$router = Mvc_Router::getCurrentRouterInstance();
+		$path = $router->getSiteScriptsPath();
+
+		$router->getLayout()->requireJavascriptFile( $path.$file );
+	}
+
+	/**
 	 * Equivalent of Mvc_Router::getCurrentRouterInstance()->getFrontController()->getLayout()->requireInitialJavascriptCode( $code )
 	 *
 	 * @see JavaScript
@@ -402,6 +418,21 @@ class Mvc {
 	 */
 	public static function requireCssFile( $URI, $media='' ) {
 		Mvc_Router::getCurrentRouterInstance()->getLayout()->requireCssFile( $URI, $media );
+	}
+
+	/**
+	 *
+	 * @see JavaScript
+	 * @see Mvc_Layout::requireCssFile()
+	 *
+	 * @param string $file
+	 * @param string $media (optional)
+	 */
+	public static function requireSiteCssFile( $file, $media='' ) {
+		$router = Mvc_Router::getCurrentRouterInstance();
+		$path = $router->getSiteStylesPath();
+
+		$router->getLayout()->requireCssFile( $path.$file, $media );
 	}
 
 	/**

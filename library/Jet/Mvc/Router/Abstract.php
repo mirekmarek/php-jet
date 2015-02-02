@@ -23,6 +23,9 @@ namespace Jet;
 /**
  * Class Mvc_Router_Abstract
  *
+ * @JetApplication_Signals:signal = '/router/initialized'
+ * @JetApplication_Signals:signal = '/router/resolved'
+ *
  * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getRouterInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Router_Abstract'
@@ -45,6 +48,10 @@ abstract class Mvc_Router_Abstract extends Object {
      */
     protected $output_cache_enabled;
 
+	/**
+	 * @var bool
+	 */
+	protected $render_only = false;
 
 	/**
 	 * @param Mvc_Router_Config_Abstract $custom_config
@@ -56,6 +63,22 @@ abstract class Mvc_Router_Abstract extends Object {
 			$this->_config = Mvc_Factory::getRouterConfigInstance();
 		}
 	}
+
+	/**
+	 * @param bool $render_only
+	 */
+	public function setRenderOnly($render_only) {
+		$this->render_only = $render_only;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getRenderOnly() {
+		return $this->render_only;
+	}
+
+
 
 	/**
 	 * Enable router cache
@@ -436,12 +459,26 @@ abstract class Mvc_Router_Abstract extends Object {
 	/**
 	 * @return string
 	 */
+	abstract public function getSiteImagesPath();
+
+	/**
+	 * @return string
+	 */
 	abstract public function getSiteScriptsURI();
+	/**
+	 * @return string
+	 */
+	abstract public function getSiteScriptsPath();
 
 	/**
 	 * @return string
 	 */
 	abstract public function getSiteStylesURI();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getSiteStylesPath();
 
 	/**
 	 * @abstract

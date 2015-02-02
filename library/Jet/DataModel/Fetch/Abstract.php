@@ -32,6 +32,15 @@ abstract class DataModel_Fetch_Abstract extends Object implements Object_Seriali
 	 */
 	protected $query;
 
+	/**
+	 * @var int
+	 */
+	protected $count = null;
+
+	/**
+	 * @var bool
+	 */
+	protected $pagination_enabled = false;
 
 	/**
 	 *
@@ -43,6 +52,15 @@ abstract class DataModel_Fetch_Abstract extends Object implements Object_Seriali
 		$this->data_model_definition = $query->getMainDataModelDefinition();
 
 		$this->query = $query;
+	}
+
+	/**
+	 * @param int $limit
+	 * @param int $offset
+	 */
+	public function setPagination( $limit, $offset ) {
+		$this->pagination_enabled = true;
+		$this->query->setLimit( $limit, $offset );
 	}
 
 	/**
@@ -67,8 +85,16 @@ abstract class DataModel_Fetch_Abstract extends Object implements Object_Seriali
 	 * @return int
 	 */
 	public function getCount() {
-		return $this->data_model_definition->getBackendInstance()->getCount( $this->query );
+		if($this->count===null) {
+			$this->_fetch();
+			$this->count = $this->data_model_definition->getBackendInstance()->getCount( $this->query );
+		}
+		return $this->count;
 	}
 
+	/**
+	 *
+	 */
+	abstract protected  function _fetch();
 
 }

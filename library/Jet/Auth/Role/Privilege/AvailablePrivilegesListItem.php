@@ -34,7 +34,7 @@ class Auth_Role_Privilege_AvailablePrivilegesListItem extends Object {
 	/**
 	 * @param string $privilege
 	 * @param string $label
-	 * @param array|null $values_list
+	 * @param array|Data_Tree_Forest|Data_Tree|null $values_list
 	 */
 	public function __construct( $privilege, $label, $values_list=null ) {
 		$this->privilege = $privilege;

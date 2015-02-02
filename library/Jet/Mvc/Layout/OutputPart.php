@@ -45,9 +45,9 @@ class Mvc_Layout_OutputPart extends Object{
 
 	/**
 	 *
-	 * @var int
+	 * @var float
 	 */
-	protected $position_order = 0;
+	protected $position_order = 0.0;
 
 	/**
 	 *

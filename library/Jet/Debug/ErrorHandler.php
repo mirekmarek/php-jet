@@ -287,7 +287,11 @@ class Debug_ErrorHandler {
 	 * @return array|null
 	 */
 	public static function getLastError() {
-		return self::$last_error;
+		$last_error =  self::$last_error;
+
+		self::$last_error = null;
+
+		return $last_error;
 	}
 
 

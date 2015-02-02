@@ -23,6 +23,13 @@ namespace Jet;
 /**
  * Class Mvc_Dispatcher_Abstract
  *
+ * @JetApplication_Signals:signal = '/dispatcher/started'
+ * @JetApplication_Signals:signal = '/dispatcher/step/started'
+ * @JetApplication_Signals:signal = '/dispatcher/step/ended'
+ * @JetApplication_Signals:signal = '/dispatcher/step-render-only/started'
+ * @JetApplication_Signals:signal = '/dispatcher/step-render-only/ended'
+ * @JetApplication_Signals:signal = '/dispatcher/ended'
+ *
  * @JetFactory:class = 'Jet\Mvc_Factory'
  * @JetFactory:method = 'getDispatcherInstance'
  * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Dispatcher_Abstract'

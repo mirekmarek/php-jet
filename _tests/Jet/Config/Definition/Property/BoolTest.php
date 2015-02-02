@@ -108,7 +108,7 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 			'_value_raw' => true,
 			'default_value' => $this->default_value,
 			'label' => 'Form field label',
-			'is_required' => true,
+			'is_required' => false,
 			'select_options' =>
 			array (
 			),

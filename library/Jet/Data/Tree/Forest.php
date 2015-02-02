@@ -148,7 +148,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 				$tree->getRootNode()->setMaxDepth( $max_depth );
 			}
 			//$output[$tree->getRootNode()->getID()] = $tree->toArray();
-			$output[] = $tree->toArray();
+			$output = array_merge($output, $tree->toArray());
 		}
 		return $output;
 	}
@@ -187,7 +187,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 		$data = array();
 
 		foreach($this->trees as $tree) {
-			$data[] =  $tree->toArray();
+			$data = array_merge($data, $tree->toArray());
 		}
 
 		$data = array(
@@ -221,7 +221,12 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 				}
 				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= $prefix.JET_EOL.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
+				if(is_bool($val)) {
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.($val?1:0).'</'.$key.'>'.JET_EOL;
+
+				} else {
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
+				}
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;

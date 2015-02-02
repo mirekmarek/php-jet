@@ -43,13 +43,16 @@ class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CS
 		foreach( $this->URIs as $URI ) {
 
 			$CSS_file_data = $this->getFileContent( $URI );
+			if(!$CSS_file_data) {
+				continue;
+			}
+
 			$CSS_file_data = $this->changeUrls( $CSS_file_data, $URI );
 
 			$CSS .= '/* URI: '.$URI.' */'.JET_EOL;
 			$CSS .= $CSS_file_data.JET_EOL;
 			$CSS .= '/* ------------------------ */ '.JET_EOL;
 		}
-
 
 		return $CSS;
 	}
@@ -74,9 +77,24 @@ class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CS
 				}
 
 
-				//TODO: resolve ../..
+				if($path[0]=='.') {
 
-				$CSS_file_data = str_replace($orig_str, 'url("'.$base_URI.$path.'")', $CSS_file_data);
+					$_base_URI = $base_URI;
+
+					$path = explode('/', $path);
+
+					while( $path[0]=='..' ) {
+						array_shift($path);
+						$_base_URI = dirname($_base_URI);
+					}
+
+					$URL = $_base_URI.'/'.implode('/', $path);
+
+				} else {
+					$URL = $base_URI.$path;
+				}
+
+				$CSS_file_data = str_replace($orig_str, 'url("'.$URL.'")', $CSS_file_data);
 
 			}
 

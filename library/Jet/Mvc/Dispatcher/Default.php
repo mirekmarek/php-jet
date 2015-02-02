@@ -54,10 +54,10 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		$translator_namespace = Translator::COMMON_NAMESPACE;
 
-
 		Translator::setCurrentLocale( $this->router->getLocale() );
 		Translator::setCurrentNamespace( $translator_namespace );
 
+		$this->sendSignal('/dispatcher/started');
 
 		foreach( $this->queue as $qi ) {
 			$this->dispatchQueueItem($qi);
@@ -70,6 +70,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 			$this->router->setCacheOutput($output);
 		}
 		Debug_Profiler::MainBlockEnd('Modules dispatch');
+
+		$this->sendSignal('/dispatcher/ended');
 
 		return $output;
 	}
@@ -105,6 +107,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 
 		Debug_Profiler::message('Step ID:'.$this->current_step_ID);
 
+		$this->sendSignal('/dispatcher/step/started');
+
 		$this->step_counter++;
 
 		$layout = $this->router->getLayout();
@@ -124,17 +128,22 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 				Debug_Profiler::message('Cache hit: IS STATIC');
 				Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
 
+				$this->sendSignal('/dispatcher/step/ended');
+
 				return true;
 			}
 		}
 
+
 		$module_instance = Application_Modules::getModuleInstance( $module_name );
+		/*
 		if(!$module_instance) {
 			Debug_Profiler::message('Module is not installed and/or activated - skipping');
 			Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
 
 			return false;
 		}
+		*/
 
 		$this->current_step_provides_dynamic_content = false;
 
@@ -175,6 +184,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$this->current_queue_item = null;
 		$this->current_step_ID = null;
 
+		$this->sendSignal('/dispatcher/step/ended');
+
 		Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
 
 		return true;
@@ -210,6 +221,7 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$this->current_queue_item = $queue_item;
 		$this->current_step_ID = $block_name.':'.$this->step_counter;
 
+		$this->sendSignal('/dispatcher/step-render-only/started');
 
 		$layout = $this->router->getLayout();
 
@@ -241,6 +253,8 @@ class Mvc_Dispatcher_Default extends Mvc_Dispatcher_Abstract {
 		$this->current_queue_item = $current_queue_item;
 		$this->current_step_ID = $current_step_ID;
 		Translator::setCurrentNamespace( $current_translator_namespace );
+
+		$this->sendSignal('/dispatcher/step-render-only/ended');
 
 		return $output;
 	}

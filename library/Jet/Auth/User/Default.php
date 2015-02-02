@@ -407,6 +407,9 @@ class Auth_User_Default extends Auth_User_Abstract {
 		} else {
 			$this->user_is_blocked_till = new DateTime($till);
 		}
+
+		$this->sendSignal('/user/blocked', ['user'=>$this]);
+
 	}
 
 	/**
@@ -415,6 +418,8 @@ class Auth_User_Default extends Auth_User_Abstract {
 	public function unBlock() {
 		$this->user_is_blocked = false;
 		$this->user_is_blocked_till = null;
+
+		$this->sendSignal('/user/unblocked', ['user'=>$this]);
 	}
 
 	/**
@@ -436,6 +441,8 @@ class Auth_User_Default extends Auth_User_Abstract {
 			return false;
 		}
 		$this->user_is_activated = true;
+
+		$this->sendSignal('/user/activated', ['user'=>$this]);
 		return true;
 	}
 

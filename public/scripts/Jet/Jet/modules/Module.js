@@ -40,7 +40,6 @@ Jet.declare("Jet.modules.Module", [], {
     },
 
 	destructor: function(){
-        //console.debug( '*** Destroing '+this.module_name );
 		this.disconnectSignals();
 	},
 
@@ -332,19 +331,33 @@ Jet.declare("Jet.modules.Module", [], {
 
 			if( busy_button_ID.push!==undefined ) {
 				for(var i=0; i<busy_button_ID.length;i++) {
-					_this.getWidgetByID( busy_button_ID[i] ).cancel();
+					var bb = _this.getWidgetByID( busy_button_ID[i] );
+
+					if(!bb) {
+						console.error( 'Unknown busy button: '+busy_button_ID[i] );
+					} else {
+						bb.cancel();
+					}
+
 				}
 			} else {
-				_this.getWidgetByID( busy_button_ID ).cancel();
+				var bb = _this.getWidgetByID( busy_button_ID );
+
+				if(!bb) {
+					console.error( 'Unknown busy button: '+busy_button_ID );
+				} else {
+					bb.cancel();
+				}
 			}
 
 		}
 
-		store[operation](
-			data,
-			{
-				id: object_ID
-			}).then(
+		store.handleError = function(error) {
+			Jet.handleRequestError( error );
+			cancel_busy_button();
+		};
+
+		store[operation]( data, { id: object_ID }).then(
 			function(data) {
 				cancel_busy_button();
 
@@ -353,8 +366,8 @@ Jet.declare("Jet.modules.Module", [], {
 				}
 			},
 			function(error) {
-				cancel_busy_button();
                 Jet.handleRequestError( error );
+				cancel_busy_button();
 			}
 		);
 

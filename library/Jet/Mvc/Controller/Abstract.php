@@ -75,6 +75,26 @@ abstract class Mvc_Controller_Abstract extends Object {
 	protected static $ACL_actions_check_map = array(
 	);
 
+	/**
+	 * Sometime you need to have some context data for privilege check
+	 *
+	 * Context must be an object witch implements Auth_Role_Privilege_ContextObject_Interface
+	 *
+	 * Example:
+	 *
+	 * <code>
+	 * protected static $ACL_actions_context_getter_map = array(
+	 *      'controller_action' => 'contextGetterMethodName',
+	 *      'controller_action2' => 'contextGetterMethodName',
+	 *      'controller_action3' => 'anotherContextGetterMethodName',
+	 * );
+	 * </code>
+	 *
+	 * @var array
+	 */
+	protected static $ACL_actions_context_getter_map = array(
+	);
+
 
 	/**
 	 *
@@ -115,9 +135,20 @@ abstract class Mvc_Controller_Abstract extends Object {
 			return true;
 		}
 
+		$context = null;
+		if(isset(static::$ACL_actions_context_getter_map[$action])) {
+			/**
+			 * @var callable $getter
+			 */
+			$getter = [$this, static::$ACL_actions_context_getter_map[$action]];
+
+			$context = call_user_func_array($getter, $action_parameters);
+		}
+
 		$module_action = static::$ACL_actions_check_map[$action];
 
-		if( !$this->module_instance->checkAclCanDoAction( $module_action ) ) {
+
+		if( !$this->module_instance->checkAclCanDoAction( $module_action, $context, $log_event ) ) {
 			$this->responseAclAccessDenied( $module_action, $action, $action_parameters );
 
 			return false;
@@ -129,7 +160,6 @@ abstract class Mvc_Controller_Abstract extends Object {
 				array('action_params'=>$action_parameters),
 				'Allowed action: '.$this->module_manifest->getName().':'.$action
 			);
-
 		}
 
 		return true;

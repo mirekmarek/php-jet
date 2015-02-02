@@ -11,7 +11,14 @@
  */
 namespace Jet;
 
-class Application {
+/**
+ * Class Application
+ *
+ * @JetApplication_Signals:signal = '/application/started'
+ * @JetApplication_Signals:signal = '/application/ended'
+ *
+ */
+class Application extends Object {
 
 	/**
 	 * @var bool
@@ -78,6 +85,10 @@ class Application {
 		Debug_Profiler::blockEnd('Http request init');
 
 		Debug_Profiler::MainBlockEnd('Application init');
+
+		$app = new self();
+		$app->sendSignal('/application/started');
+
 	}
 
 	/**
@@ -99,6 +110,9 @@ class Application {
 		if(!static::$do_not_end) {
 			exit();
 		}
+
+		$app = new self();
+		$app->sendSignal('/application/ended');
 	}
 
 	/**

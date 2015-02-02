@@ -22,6 +22,12 @@
 
 namespace Jet;
 
+/**
+ *
+ * @JetApplication_Signals:signal = '/user/login'
+ * @JetApplication_Signals:signal = '/user/logout'
+ *
+ */
 abstract class Auth_ControllerModule_Abstract extends Mvc_FrontControllerModule_Abstract {
 
 	/**
@@ -87,11 +93,12 @@ abstract class Auth_ControllerModule_Abstract extends Mvc_FrontControllerModule_
 	 *
 	 * @param string $privilege
 	 * @param mixed $value
+	 * @param Auth_Role_Privilege_ContextObject_Interface $context_object (optional)
 	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @return bool
 	 */
-	abstract public function getCurrentUserHasPrivilege( $privilege, $value, $log_if_false=true );
+	abstract public function getCurrentUserHasPrivilege( $privilege, $value, Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true );
 
 
 	/**
@@ -111,11 +118,9 @@ abstract class Auth_ControllerModule_Abstract extends Mvc_FrontControllerModule_
 	/**
 	 * Get list of available privileges
 	 *
-	 * @param bool $get_available_values_list (optional, default: false)
-	 *
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
-	abstract public function getAvailablePrivilegesList( $get_available_values_list=false );
+	abstract public function getAvailablePrivilegesList();
 
 	/**
 	 * Get list of available privilege values or false if the privilege does not exist

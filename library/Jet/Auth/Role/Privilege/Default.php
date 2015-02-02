@@ -54,7 +54,7 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
-	 * @JetDataModel:form_field_creator_method_name = 'getValuesFormField'
+	 * @JetDataModel:form_field_creator_method_name = 'getFormField'
 	 *
 	 * @var array
 	 */
@@ -85,6 +85,16 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 * @return bool
 	 */
 	public function getHasValue( $value ) {
+		if(is_array($value)) {
+			foreach( $value as $v ) {
+				if(in_array($v, $this->values)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		return in_array($value, $this->values);
 	}
 
@@ -125,19 +135,22 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 	 *
 	 * @return Form_Field_Abstract
 	 */
-	public function getValuesFormField( DataModel_Definition_Property_Abstract $values_property_def ) {
+	public function getFormField( DataModel_Definition_Property_Abstract $values_property_def ) {
 
-		$form_field = $values_property_def->getFormField();
 
 		if(!self::$available_privileges_list) {
 			self::$available_privileges_list = Auth::getAvailablePrivilegesList(true);
 
 		}
 
+		if(!isset( self::$available_privileges_list[ $this->privilege ]) ) {
+			return false;
+		}
+
 		$privilege_data = self::$available_privileges_list[ $this->privilege ];
 
+		$form_field = $values_property_def->getFormField();
 		$form_field->setLabel( $privilege_data->getLabel() );
-
 		$form_field->setSelectOptions( $privilege_data->getValuesList() );
 
 		return $form_field;

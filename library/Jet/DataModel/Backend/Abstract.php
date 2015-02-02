@@ -29,12 +29,33 @@ abstract class DataModel_Backend_Abstract extends Object {
 	protected $config;
 
 	/**
+	 * @var bool
+	 */
+	protected $data_pagination_mode = false;
+
+	/**
 	 *
 	 * @param DataModel_Backend_Config_Abstract $config
 	 */
 	public function  __construct( DataModel_Backend_Config_Abstract $config ) {
 		$this->config = $config;
 	}
+
+	/**
+	 * @param bool $data_pagination_mode
+	 */
+	public function setDataPaginationMode( $data_pagination_mode ) {
+		$this->data_pagination_mode = (bool)$data_pagination_mode;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getDataPaginationMode() {
+		return $this->data_pagination_mode;
+	}
+
+
 
 	/**
 	 * Initializes ,,,

@@ -94,7 +94,7 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_FLOAT
 	 * @JetDataModel:description = 'Description'
-	 * @JetDataModel:default_value = 2
+	 * @JetDataModel:default_value = 2.2
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:do_not_serialize = true
 	 * @JetDataModel:min_value = 1.23
@@ -102,7 +102,7 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 *
 	 * @var float
 	 */
-	protected $float_property = 2;
+	protected $float_property = 2.2;
 
 	/**
 	 *

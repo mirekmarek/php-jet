@@ -307,6 +307,13 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	}
 
 	/**
+	 * @param string $message
+	 */
+	public function responseCommonErrorMessage( $message ) {
+		$this->responseError(self::ERR_CODE_FORM_ERRORS, ['__common_message__' => $message]);
+	}
+
+	/**
 	 * @param string|array $ID
 	 */
 	public function responseUnknownItem( $ID ) {
@@ -363,14 +370,15 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		$header = $this->getHttpRequestHeader( static::$pagination_request_http_header_name );
 
 		if(preg_match(static::$pagination_request_http_header_regexp, $header, $matches)) {
-
 			list(,$range_from, $range_to) = $matches;
-			$count = $data->getCount();
+
 
 			$offset = $range_from;
 			$limit = ($range_to+1) - $range_from;
 
-			$data->getQuery()->setLimit( $limit, $offset );
+			$data->setPagination( $limit, $offset );
+
+			$count = $data->getCount();
 
 			if( $range_to > $count ) {
 				$range_to = $count;

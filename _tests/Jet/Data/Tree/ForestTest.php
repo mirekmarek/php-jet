@@ -655,6 +655,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 				),
 			),
 		);
+
 		$this->assertEquals( $valid, $this->object->toArray() );
 	}
 

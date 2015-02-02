@@ -94,7 +94,6 @@ class Javascript_Lib_Jet_PackageCreator extends Object {
 		foreach($this->components as $component) {
 
 			$JS .= JET_EOL.'// '.$component.JET_EOL;
-			//$JS .= JET_EOL.'console.debug("'.$component.'");'.JET_EOL;
 			$JS .= $this->getScript($component).JET_EOL;
 			$JS .= 'Jet._loaded_components["'.$component.'"]=true;';
 			$JS .= JET_EOL.'//-----------------------------'.JET_EOL.JET_EOL;

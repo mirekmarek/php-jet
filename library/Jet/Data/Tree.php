@@ -74,6 +74,27 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	protected $lazy_mode = false;
 
 	/**
+	 * @var bool
+	 */
+	protected $adopt_orphans = false;
+
+	/**
+	 * @var Data_Tree_Node[]
+	 */
+	protected $orphans_nodes = [];
+
+	/**
+	 *
+	 * @var Data_Tree_Node[]
+	 */
+	protected $_iterator_map = array();
+
+	/**
+	 * @var array
+	 */
+	protected $__parent_map = [];
+
+	/**
 	 *
 	 * @param string $ID_key (optional, default: ID)
 	 * @param string $parent_ID_key (optional,default: parent_ID)
@@ -143,6 +164,21 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function getLazyMode() {
 		return $this->lazy_mode;
 	}
+
+	/**
+	 * @param boolean $adopt_orphans
+	 */
+	public function setAdoptOrphans($adopt_orphans) {
+		$this->adopt_orphans = $adopt_orphans;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getAdoptOrphans() {
+		return $this->adopt_orphans;
+	}
+
 
 
 	/**
@@ -288,9 +324,44 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @return array
 	 */
 	public function toArray(){
-		return $this->root_node->toArray();
+		$result = [];
+
+		if($this->root_node) {
+			$result[] = $this->root_node->toArray();
+		}
+
+		foreach( $this->orphans_nodes as $orphan ) {
+			$result = array_merge( $result, $orphan->toArray() );
+		}
+
+		return $result;
 	}
 
+
+	/**
+	 * @param string $target_node_ID
+	 * @return array|bool
+	 */
+	public function getPath( $target_node_ID ) {
+		$target_node_ID = (string)$target_node_ID;
+		$target_node = $this->getNode( $target_node_ID );
+
+		if(!$target_node) {
+			return false;
+		}
+
+		$path = array();
+		$path[] = $target_node->getID();
+
+		while( ($parent=$target_node->getParent()) ) {
+			$path[] = $parent->getID();
+			$target_node = $parent;
+		}
+
+		$path = array_reverse($path);
+
+		return $path;
+	}
 
 	/**
 	 *
@@ -329,34 +400,13 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$this->root_node = $this->nodes[$ID];
 		}
 
-		$this->resetIteratorData();
+		if( $this->nodes[$ID]->getIsOrphan() ) {
+			$this->orphans_nodes[$ID] = $this->nodes[$ID];
+		}
+
+		$this->resetIteratorMap();
 
 		return $this->nodes[$ID];
-	}
-
-	/**
-	 * @param string $target_node_ID
-	 * @return array|bool
-	 */
-	public function getPath( $target_node_ID ) {
-		$target_node_ID = (string)$target_node_ID;
-		$target_node = $this->getNode( $target_node_ID );
-
-		if(!$target_node) {
-			return false;
-		}
-
-		$path = array();
-		$path[] = $target_node->getID();
-
-		while( ($parent=$target_node->getParent()) ) {
-			$path[] = $parent->getID();
-			$target_node = $parent;
-		}
-
-		$path = array_reverse($path);
-
-		return $path;
 	}
 
 	/**
@@ -386,13 +436,17 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	protected function _setData( $items ){
 
 
-		$parent_map = array();
+		$this->__parent_map = array();
 
 		$root_item = null;
+
+		$IDs = [];
 
 		foreach( $items as $item ) {
 			$ID = $item[$this->ID_key];
 			$parent_ID = $item[$this->parent_ID_key];
+
+			$IDs[] = $ID;
 
 			if(!$parent_ID) {
 				$parent_ID = '';
@@ -418,58 +472,81 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 				$root_item = $item;
 			} else {
 
-				if( !isset($parent_map[$parent_ID]) ) {
-					$parent_map[$parent_ID] = array();
+				if( !isset($this->__parent_map[$parent_ID]) ) {
+					$this->__parent_map[$parent_ID] = array();
 				}
 
-				$parent_map[$parent_ID][$ID] = $item;
+				$this->__parent_map[$parent_ID][$ID] = $item;
 			}
 
 
 		}
 
 		if(!$root_item) {
-			throw new Data_Tree_Exception(
-				'No root item defined (root ID: \''.$this->root_node_ID.'\')',
-				Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-			);
+			if(!$this->adopt_orphans) {
+				throw new Data_Tree_Exception(
+					'No root item defined (root ID: \''.$this->root_node_ID.'\')',
+					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
+				);
+			}
+		} else {
+			$this->appendNode( $root_item );
+
+			$this->__setData( $this->root_node_ID );
 		}
 
-		$this->appendNode( $root_item );
 
-		$this->__setData( $this->root_node_ID, $parent_map );
+		if($this->__parent_map ) {
+			if($this->adopt_orphans) {
+				$parent_IDs = array_keys($this->__parent_map);
 
+				$non_exists_parent_IDs = array_diff($parent_IDs, $IDs);
+
+				foreach( $non_exists_parent_IDs as $non_exists_parent_ID ) {
+					foreach( $this->__parent_map[$non_exists_parent_ID] as $orphan_ID=>$orphan_item ) {
+						$this->appendNode( $orphan_item );
+
+						$this->__setData( $orphan_ID );
+					}
+				}
+			} else {
+				throw new Data_Tree_Exception(
+					'Inconsistent tree data. There are orphans.',
+					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
+				);
+
+			}
+		}
 	}
 
 	/**
 	 * @param string $parent_ID
-	 * @param array &$parent_map
 	 */
-	protected function __setData( $parent_ID, &$parent_map ) {
-		if(!isset($parent_map[$parent_ID])) {
+	protected function __setData( $parent_ID ) {
+		if(!isset($this->__parent_map[$parent_ID])) {
 			return;
 		}
 
-		foreach( $parent_map[$parent_ID] as $ID=>$item_data ) {
+		foreach( $this->__parent_map[$parent_ID] as $ID=>$item_data ) {
 			$node = $this->appendNode( $item_data );
-			unset($parent_map[$parent_ID][$ID]);
+			unset($this->__parent_map[$parent_ID][$ID]);
 
 			if(!$this->lazy_mode) {
-				$this->__setData($ID, $parent_map);
+				$this->__setData($ID);
 			} else {
 				if(
 					$node->getDepth()<1
 				) {
-					$this->__setData($ID, $parent_map);
+					$this->__setData($ID);
 				} else {
-					if(!empty($parent_map[$ID])) {
+					if(!empty($this->__parent_map[$ID])) {
 						$node->setHasChildren();
 					}
 				}
 
 			}
 		}
-		unset( $parent_map[$parent_ID] );
+		unset( $this->__parent_map[$parent_ID] );
 
 	}
 
@@ -477,12 +554,34 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	/**
 	 *
 	 */
-	protected function resetIteratorData() {
+	protected function resetIteratorMap() {
+		$this->_iterator_map = [];
+
 		foreach($this->nodes as $node) {
-			$node->resetIteratorData();
+			$node->resetIteratorMap();
 		}
 	}
 
+	/**
+	 *
+	 */
+	public function getIteratorMap(){
+		if($this->_iterator_map) {
+			return $this->_iterator_map;
+		}
+
+		$this->_iterator_map = [];
+
+		if($this->root_node) {
+			$this->_iterator_map = $this->root_node->getIteratorMap();
+		}
+
+		foreach( $this->orphans_nodes as $orphan ) {
+			$this->_iterator_map += $orphan->getIteratorMap();
+		}
+
+		return $this->_iterator_map;
+	}
 
 
 	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
@@ -516,10 +615,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function jsonSerialize() {
 
+
 		$data = array(
 			'identifier' => $this->ID_key,
 			'label' => $this->label_key,
-			'items' => array($this->toArray())
+			'items' => $this->toArray()
 		);
 
 		return $data;
@@ -540,11 +640,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$data = get_class_vars($data);
 		}
 
-		if(!is_array($data)) {
-			$result = $prefix.'<'.$tag.'></'.$tag.'>'.JET_EOL;
-			return $result;
-		}
-
 		foreach($data as $key=>$val) {
 			if(is_array($val) || is_object($val)) {
 				if(is_int($key)) {
@@ -552,7 +647,12 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 				}
 				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
 			} else {
-				$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
+				if(is_bool($val)) {
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.($val?1:0).'</'.$key.'>'.JET_EOL;
+
+				} else {
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
+				}
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
@@ -565,36 +665,55 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	//- Iterator ----------------------------------------------------------------------------------
 	//- Iterator ----------------------------------------------------------------------------------
 	//- Iterator ----------------------------------------------------------------------------------
+	/**
+	 *
+	 */
 	public function rewind() {
-		$this->root_node->rewind();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
+		}
+		reset($this->_iterator_map);
 	}
 
 	/**
-	 * @return Data_Tree_Node|null
+	 * @return Data_Tree_Node
 	 */
 	public function current() {
-		return $this->root_node->current();
-        }
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
+		}
+		return current($this->_iterator_map);
+	}
 
 	/**
 	 * @return mixed
 	 */
 	public function key() {
-		return $this->root_node->key();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
+		}
+		return key($this->_iterator_map);
 	}
 
 	/**
 	 *
 	 */
 	public function next() {
-		$this->root_node->next();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
+		}
+		next($this->_iterator_map);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function valid() {
-		return $this->root_node->valid();
+		if(!$this->_iterator_map){
+			$this->getIteratorMap();
+		}
+
+		return key($this->_iterator_map)!==null;
 	}
 
 	//- Countable ---------------------------------------------------------------------------------

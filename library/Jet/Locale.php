@@ -216,7 +216,7 @@ class Locale extends Object {
 		}
 
 		if(!class_exists('\Locale', false)) {
-			//TODO:
+			//?? not supported ... take care about it ???
 			return $this->locale;
 		}
 
@@ -238,7 +238,7 @@ class Locale extends Object {
 		}
 
 		if(!class_exists('\IntlDateFormatter', false)) {
-			//TODO:
+			//?? not supported ... take care about it ???
 			return $date_and_time;
 		}
 
@@ -284,7 +284,7 @@ class Locale extends Object {
 		}
 
 		if(!class_exists('\IntlDateFormatter', false)) {
-			//TODO:
+			//?? not supported ... take care about it ???
 			return $date_and_time;
 		}
 
@@ -332,7 +332,7 @@ class Locale extends Object {
 		}
 
 		if(!class_exists('\IntlDateFormatter', false)) {
-			//TODO:
+			//?? not supported ... take care about it ???
 			return $date_and_time;
 		}
 
@@ -376,7 +376,7 @@ class Locale extends Object {
 	public function formatInt( $number ) {
 
 		if(!class_exists('\NumberFormatter', false)) {
-			//TODO:
+			//?? not supported ... take care about it ???
 			return (int)$number;
 		}
 
@@ -413,7 +413,7 @@ class Locale extends Object {
 	public function formatFloat( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
 
 		if(!class_exists('\NumberFormatter', false)) {
-			//TODO:
+			//?? not supported ... take care about it ???
 			return round( $number, $max_fraction_digits );
 		}
 
@@ -516,7 +516,7 @@ class Locale extends Object {
 
 		if(!class_exists('\Locale', false)) {
 			foreach(static::$all_locales as $locale) {
-				//TODO:
+				//?? not supported ... take care about it ???
 				$result[$locale] = $locale;
 			}
 

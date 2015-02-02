@@ -75,6 +75,7 @@ dojo.declare("Jet.Form", [], {
     onNew: function() {},
     onChanged: function() {},
     onValidationError: function() {},
+	onGetError: function( error ) {},
     onSaveError: function( error ) {},
 
     constructor: function( module_instance, object_name, fields_definition, params ) {
@@ -213,11 +214,16 @@ dojo.declare("Jet.Form", [], {
         this.beforeEdit();
 
 
-        this.store.get(ID).then(function(data) {
-            _this.enable();
-            _this.setData( ID, data );
-            _this.onEdit( data );
-        });
+        this.store.get(ID).then(
+	        function(data) {
+	            _this.enable();
+	            _this.setData( ID, data );
+	            _this.onEdit( data );
+	        },
+	        function(error) {
+		        _this.handleGetError(error);
+	        }
+        );
     },
 
     new: function() {
@@ -253,7 +259,7 @@ dojo.declare("Jet.Form", [], {
                     _this._is_saving = false;
                 },
                 function(error) {
-                    _this.handleError(error);
+                    _this.handleSaveError(error);
                 }
             );
         } else {
@@ -268,13 +274,23 @@ dojo.declare("Jet.Form", [], {
                     _this._is_saving = false;
                 },
                 function(error) {
-                    _this.handleError(error);
+                    _this.handleSaveError(error);
                 }
             );
         }
     },
 
-    handleError: function(error) {
+	handleGetError: function(error) {
+		this._is_saving = false;
+		this.enable();
+		this.cancelSaveButton();
+
+		Jet.handleRequestError( error );
+
+		this.onGetError( error );
+	},
+
+	handleSaveError: function(error) {
         this._is_saving = false;
         this.enable();
         this.cancelSaveButton();
