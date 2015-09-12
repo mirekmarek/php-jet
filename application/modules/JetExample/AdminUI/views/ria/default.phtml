@@ -1,0 +1,19 @@
+<?php
+namespace JetApplicationModule\JetExample\AdminUI;
+use Jet;
+?>
+
+<jetml_layout_container id="_jet_main_border_" gutters="false" style="width:100%;height:100%;">
+	<jetml_layout_toolbar region="top">
+		<jetml_form_button title="Articles" icon="module/JetExample.Articles/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.Articles');" />
+		<jetml_form_button title="Images" icon="module/JetExample.Images/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.Images');" />
+		<jetml_form_button title="Roles" icon="module/JetExample.AdminRoles/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.AdminRoles');" />
+		<jetml_form_button title="Users" icon="module/JetExample.AdminUsers/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.AdminUsers');" />
+		<jetml_form_button title="Test module" icon="module/JetExample.TestModule/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.TestModule');" />
+
+	</jetml_layout_toolbar>
+
+	<jetml_layout_tabs region="center" tabPosition="top" id="_jet_modules_tabs_">
+	</jetml_layout_tabs>
+
+</jetml_layout_container>

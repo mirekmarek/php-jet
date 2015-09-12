@@ -39,12 +39,4 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	public function getViewInstance() {
 		return new Jet\Mvc_View( $this->getViewsDir() );
 	}
-
-	/**
-	 * @param Jet\Mvc_Router_Abstract $router
-	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
-	 */
-	public function resolveRequest( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
-	}
-
 }

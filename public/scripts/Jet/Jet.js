@@ -15,18 +15,15 @@ if( typeof dojo == "undefined"){
 }
 
 var Jet = {
-    base_request_URI: "",
-    base_URI: "",
-    modules_URI: "",
-    service_type_path_fragments_map: {},
-
-    SERVICE_TYPE_AJAX: "AJAX",
-    SERVICE_TYPE_REST: "REST",
+    components_base_URL: '',
+    REST_base_URL: '',
+    AJAX_base_URL: '',
+    current_locale: '',
+    UI_module_name: '',
 
     _loaded_components: {},
     _initialized: false,
 
-    front_controller_module_name: null,
 
     error_message_401: Jet.translate("Sorry, but you do not have permission for this operation."),
     error_message_unknown_error: Jet.translate("Sorry, but the error occurred."),
@@ -66,22 +63,22 @@ var Jet = {
     },
 
     onLoad: function(){
-        if(this.front_controller_module_name) {
+        if(this.UI_module_name) {
             try {
-                    this.front_controller_module_instance = this.modules.getModuleInstance(this.front_controller_module_name);
-                    this.front_controller_module_instance.initializeUI();
+                    this.UI_module_instance = this.modules.getModuleInstance(this.UI_module_name);
+                    this.UI_module_instance.initializeUI();
             } catch(e){
                 console.error("Error loading UI! "+e);
             }
         }
     },
 
-    getFrontController: function() {
-        return this.front_controller_module_instance;
+    getUImodule: function() {
+        return this.UI_module_instance;
     },
 
-    getFrontControllerModuleName: function() {
-        return this.front_controller_module_name;
+    getUImoduleModuleName: function() {
+        return this.UI_module_name;
     },
 
     require: function( component ){
@@ -112,9 +109,9 @@ var Jet = {
             var module_name = component_parts.slice(2, -1).join('.');
             var module_class = component_parts.slice(-1).join('.');
 
-            uri = this.modules_URI + module_name+'/'+module_class;
+            uri = this.components_base_URL + 'modules/' + module_name+'/'+module_class;
         } else {
-            uri = this.base_URI + component_parts.join("/") + '.js';
+            uri = this.components_base_URL + component_parts.join("/") + '.js';
         }
 
 
@@ -175,11 +172,11 @@ var Jet = {
     },
 
 
-    getActionURL: function(service_type, module_name, action, path_fragments, GET_params ){
-        var URL = this.base_request_URI;
+    getActionURL: function(base_URL, module_name, action, path_fragments, GET_params ){
+        var URL = base_URL;
 
 
-        URL += this.service_type_path_fragments_map[service_type]+"/"+module_name + "/"+action + "/";
+        URL += module_name + "/"+action + "/";
 
         if(path_fragments){
                 if(!path_fragments["push"]){
@@ -201,11 +198,11 @@ var Jet = {
     },
 
     getRestURL: function(module_name, object_name, path_fragments, GET_params ){
-        return this.getActionURL( this.SERVICE_TYPE_REST, module_name, object_name, path_fragments, GET_params );
+        return this.getActionURL( this.REST_base_URL, module_name, object_name, path_fragments, GET_params );
     },
 
     getAjaxActionURL: function(module_name, action, path_fragments, GET_params ){
-        return this.getActionURL( this.SERVICE_TYPE_AJAX, module_name, action, path_fragments, GET_params );
+        return this.getActionURL( this.AJAX_base_URL, module_name, action, path_fragments, GET_params );
     },
 
     alert: function( message, title, onOk ) {
@@ -403,10 +400,10 @@ var Jet = {
     },
 
     handleRequestError: function( error ) {
-        var front_controller = this.getFrontController();
+        var UI_module = this.getUImodule();
 
-        if(front_controller && front_controller.handleRequestError) {
-            front_controller.handleRequestError( error );
+        if(UI_module && UI_module.handleRequestError) {
+            UI_module.handleRequestError( error );
             return;
         }
 

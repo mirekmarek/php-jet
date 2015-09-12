@@ -16,8 +16,6 @@
  */
 namespace JetApplicationModule\Vendor\Package\TestModule;
 use Jet;
-use Jet\Mvc_Dispatcher_Queue_Item;
-use Jet\Mvc_Router_Abstract;
 
 class Main extends Jet\Application_Modules_Module_Abstract {
 	public function getMyValue(){
@@ -52,10 +50,4 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		unlink(JET_TESTS_TMP.'module-install-test');
 	}
 
-	/**
-	 * @param Mvc_Router_Abstract $router
-	 * @param Mvc_Dispatcher_Queue_Item $dispatch_queue_item
-	 */
-	public function resolveRequest(Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item) {
-	}
 }

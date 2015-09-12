@@ -34,18 +34,6 @@ abstract class Mvc_Controller_Abstract extends Object {
 	protected $module_manifest;
 
 	/**
-	 *
-	 * @var Mvc_Router_Abstract
-	 */
-	protected $router;
-
-	/**
-	 *
-	 * @var Mvc_Dispatcher_Abstract
-	 */
-	protected $dispatcher;
-
-	/**
 	 * @var Mvc_View
 	 */
 	protected $view;
@@ -98,14 +86,12 @@ abstract class Mvc_Controller_Abstract extends Object {
 
 	/**
 	 *
-	 * @param Mvc_Dispatcher_Abstract $dispatcher
 	 * @param Application_Modules_Module_Abstract $module_instance
 	 */
-	public function __construct( Mvc_Dispatcher_Abstract $dispatcher, Application_Modules_Module_Abstract $module_instance ) {
+	public function __construct( Application_Modules_Module_Abstract $module_instance ) {
 		$this->module_instance = $module_instance;
 		$this->module_manifest = $module_instance->getModuleManifest();
-		$this->dispatcher = $dispatcher;
-		$this->router = $dispatcher->getRouter();
+
 		$this->initializeDefaultView();
 	}
 
@@ -113,6 +99,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 * Is called after controller instance is created
 	 */
 	abstract public function initialize();
+
 
 	/**
 	 * @param string $action
@@ -200,7 +187,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 		$position_required = null,
 		$position_order = null
 	) {
-		$this->router->getFrontController()->renderOutput(
+		Mvc::getCurrentPage()->renderView(
 			$this->view,
 			$script,
 			$position,
@@ -209,23 +196,6 @@ abstract class Mvc_Controller_Abstract extends Object {
 		);
 
 		return;
-	}
-
-	/**
-	 * Returns current routing data
-	 *   equivalent of $this->router
-	 *
-	 * @return Mvc_Router_Abstract
-	 */
-	public function getRouter() {
-		return $this->router;
-	}
-
-	/**
-	 * @return Mvc_FrontControllerModule_Abstract
-	 */
-	public function getFrontController() {
-		return $this->router->getFrontController();
 	}
 
 }

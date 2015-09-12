@@ -25,34 +25,75 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 */
 	protected $config = null;
 
+    /**
+     * @var string
+     */
+    protected $components_base_URL = '';
 
-	/**
-	 * @var string
-	 */
-	protected $base_URI;
+    /**
+     * @var string
+     */
+    protected $REST_base_URL = '';
 
-	/**
-	 * @var Locale
-	 */
-	protected $locale;
+    /**
+     * @var string
+     */
+    protected $AJAX_base_URL = '';
+
+    /**
+     * @var string
+     */
+    protected $UI_module_name = '';
 
 	/**
 	 *
-	 * @param Mvc_Layout $layout
 	 *
 	 * @throws Javascript_Exception
 	 */
-	public function __construct( Mvc_Layout $layout ) {
+	public function __construct() {
 		$this->config = new Javascript_Lib_Jet_Config();
-
-		$this->layout = $layout;
-
-		$this->locale = $this->layout->getRouter()->getLocale();
-
-		$this->layout->requireJavascriptLib('Dojo');
-
 	}
-		
+
+    /**
+     * @param Mvc_Layout $layout
+     */
+    public function setLayout( Mvc_Layout $layout ) {
+        parent::setLayout($layout);
+
+        $dojo = new Javascript_Lib_Dojo();
+        $layout->requireJavascriptLib($dojo);
+    }
+
+
+    /**
+     * @param Javascript_Lib_Abstract $lib
+     * @return void
+     */
+    public function adopt( Javascript_Lib_Abstract $lib ) {
+        /**
+         * @var Javascript_Lib_Jet $lib
+         */
+
+
+        foreach( $lib->required_components as $component ) {
+            if(!in_array($component, $this->required_components)) {
+                $this->required_components[] = $component;
+            }
+        }
+
+        foreach( $lib->required_components_CSS as $CSS ) {
+            if(!in_array($CSS, $this->required_components_CSS)) {
+                $this->required_components_CSS[] = $CSS;
+            }
+        }
+
+        foreach( $this->options as $key=>$val ) {
+            if(!array_key_exists($key, $this->options)) {
+                $this->options[$key] = $val;
+            }
+        }
+    }
+
 	
 	/**
 	 * Returns HTML snippet that initialize Java Script and is included into layout
@@ -60,18 +101,14 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getHTMLSnippet(){
-		$router = $this->layout->getRouter();
-
-		$front_controller = $router->getFrontController();
 
 		$Jet_config = array(
-			'base_request_URI' => $this->getBaseRequestURI(),
-			'base_URI' => $this->getBaseURI(),
-			'modules_URI' => $this->getModulesURI(),
-			'service_type_path_fragments_map' => $front_controller->getServiceTypesPathFragmentsMap(),
+			'components_base_URL' => $this->getComponentsBaseURL(),
+			'REST_base_URL' => $this->getRESTBaseURL(),
+			'AJAX_base_URL' => $this->getAJAXBaseURL(),
 			'auto_initialize' => true,
-			'current_locale' => $router->getLocale(),
-			'front_controller_module_name' => $front_controller->getModuleManifest()->getDottedName()
+			'current_locale' => $this->layout->getPage()->getLocale(),
+			'UI_module_name' => $this->getUIModuleName()
 		);
 		
 		
@@ -90,7 +127,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		if( $this->config->getPackageEnabled()) {
 			$package_creator = new Javascript_Lib_Jet_PackageCreator(
 				$this->getBasePath(),
-				$this->locale,
+				$this->layout->getPage()->getLocale(),
 				$this->required_components
 			);
 
@@ -119,22 +156,82 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		return '';
 	}
 
+    /**
+     * @param string $components_base_URL
+     */
+    public function setComponentsBaseURL($components_base_URL)
+    {
+        $this->components_base_URL = $components_base_URL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComponentsBaseURL()
+    {
+        return $this->components_base_URL;
+    }
+
+    /**
+     * @param string $AJAX_base_URL
+     */
+    public function setAJAXBaseURL($AJAX_base_URL)
+    {
+        $this->AJAX_base_URL = $AJAX_base_URL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAJAXBaseURL()
+    {
+        return $this->AJAX_base_URL;
+    }
+
+    /**
+     * @param string $REST_base_URL
+     */
+    public function setRESTBaseURL($REST_base_URL)
+    {
+        $this->REST_base_URL = $REST_base_URL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRESTBaseURL()
+    {
+        return $this->REST_base_URL;
+    }
+
+    /**
+     * @param string $UI_module_name
+     */
+    public function setUIModuleName($UI_module_name)
+    {
+        $this->UI_module_name = $UI_module_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUIModuleName()
+    {
+        return $this->UI_module_name;
+    }
+
+
+
 	/**
 	 * @return array
 	 */
 	protected function _getDataForReplacement(){
 		$data = array(
-			'JETJS_URI' => $this->getBaseURI(),
+			'JETJS_URI' => $this->getComponentsBaseURL(),
 		);
 		return $data;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getBaseRequestURI() {
-		return $this->layout->getRouter()->getPage()->getURI();
-	}
 
 	/**
 	 * @return string
@@ -143,35 +240,6 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		return JET_PUBLIC_SCRIPTS_PATH.'Jet/';
 	}
 
-	/**
-	 * Gets URI to /JetJS/
-	 *
-	 * In fact: _JetJS_/
-	 *
-	 *
-	 * @return string
-	 */
-	public function getBaseURI(){
-		if(!$this->base_URI) {
-			$front_controller = $this->layout->getRouter()->getFrontController();
-
-			$this->base_URI = $front_controller->generateServiceURL( Mvc_Router::SERVICE_TYPE__JETJS_ );
-		}
-
-		return $this->base_URI;
-	}
-
-
-	/**
-	 * Get URI to modules JS
-	 *
-	 * In fact _JetJS_/modules/
-	 *
-	 * @return string
-	 */
-	public function getModulesURI() {
-		return $this->getBaseURI().'modules/';
-	}
 
 	/**
 	 * Gets proper JS file URI by component and selected framework
@@ -181,7 +249,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 */
 	public function getComponentURI( $component ){
 		$parts = explode('.', $component);
-		return $this->getBaseURI() . implode('/', $parts) . '.js';
+		return $this->getComponentsBaseURL() . implode('/', $parts) . '.js';
 	}
 
 	/**

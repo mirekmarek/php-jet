@@ -46,6 +46,6 @@ class Installer_Step_MvcRouter_Controller extends Installer_Step_Controller {
 			return false;
 		}
 
-		return array('MvcRouterCache', 'MvcRouterMapCache');
+		return array('MvcRouterCache');
 	}
 }

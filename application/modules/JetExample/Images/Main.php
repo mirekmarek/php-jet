@@ -23,6 +23,7 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		'add_gallery' => 'Add new gallery',
 		'update_gallery' => 'Update gallery',
 		'delete_gallery' => 'Delete gallery',
+
 		'get_image' => 'Get image(s) data',
 		'add_image' => 'Add new image',
 		'update_image' => 'Update image',
@@ -45,15 +46,14 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	}
 
 	/**
-	 * @param Jet\Mvc_Dispatcher_Abstract $dispatcher
 	 * @param string $service_type
 	 *
 	 * @return string
 	 */
-	protected function getControllerClassName( Jet\Mvc_Dispatcher_Abstract $dispatcher, $service_type ) {
+	protected function getControllerClassName( $service_type ) {
 
-		if($service_type!=Jet\Mvc_Router::SERVICE_TYPE_REST) {
-			if( $dispatcher->getRouter()->getIsAdminUI() ) {
+		if($service_type!=Jet\Mvc::SERVICE_TYPE_REST) {
+            if( Jet\Mvc::getIsAdminUIRequest() ) {
 				$controller_suffix = 'Controller_Admin_'.$service_type;
 
 			} else {
@@ -68,45 +68,5 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		return $controller_class_name;
 	}
 
-	/**
-	 * @param Jet\Mvc_Router_Abstract $router
-	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
-	 */
-	public function resolveRequest( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
-		$gallery_ID = '_root_';
-		$gallery = null;
-
-
-		$path_fragments = $router->getPathFragments();
-
-		$URI = $router->getPage()->getURI();
-
-		if($path_fragments) {
-
-			foreach( $path_fragments as $pf ) {
-
-				if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_ID )) ) {
-					$gallery = $_g;
-					$gallery_ID = $gallery->getID();
-					$URI .= rawurlencode($gallery->getTitle()).'/';
-
-					$router->getFrontController()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
-
-					$router->putUsedPathFragment( $pf );
-				} else {
-					break;
-				}
-
-			}
-		}
-
-		if($gallery) {
-			$dispatch_queue_item->setControllerActionParameters( [ $gallery_ID, $gallery ]);
-		} else {
-			$dispatch_queue_item->setControllerActionParameters( [ $gallery_ID ]);
-
-		}
-
-	}
 
 }

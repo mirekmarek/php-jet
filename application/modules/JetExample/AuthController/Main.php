@@ -105,17 +105,19 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Returns dispatch queue (example: show login dialog )
 	 *
-	 * @return Jet\Mvc_Dispatcher_Queue
+	 * @return Jet\Mvc_Page_Abstract
 	 */
-	public function getDispatchQueue() {
-		$service_type = $this->router->getServiceType();
+	public function getAuthenticationPage() {
+		$service_type = Jet\Mvc::getCurrentPage()->getServiceType();
 
-		if($service_type!=Jet\Mvc_Router::SERVICE_TYPE_STANDARD) {
+		if($service_type!=Jet\Mvc::SERVICE_TYPE_STANDARD) {
+            //TODO:
 			Jet\Http_Headers::authorizationRequired();
 			die();
 		}
 
-		$queue = new Jet\Mvc_Dispatcher_Queue();
+        $page = Jet\Mvc::getCurrentPage();
+
 
 		$action = 'login';
 
@@ -133,28 +135,28 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 					}
 		}
 
-		$item = new Jet\Mvc_Dispatcher_Queue_Item( $this->module_manifest->getName(), $action );
-		$item->setCustomServiceType(Jet\Mvc_Router::SERVICE_TYPE_STANDARD);
 
-		$queue->addItem(
-			$item
-		);
+        $page_content = array();
+        $page_content_item = Jet\Mvc_Factory::getPageContentInstance();
 
-		return $queue;
+        $page_content_item->setModuleName( $this->module_manifest->getName() );
+        $page_content_item->setControllerAction( $action );
+        $page_content_item->setIsDynamic(true);
+
+
+        $page_content[] = $page_content_item;
+
+        $page->setContents( $page_content );
+
+
+        $layout = new Jet\Mvc_Layout( $this->getLayoutsDir(), 'default' );
+
+        $page->setLayout( $layout );
+
+
+		return $page;
 	}
 
-
-	/**
-	 * Initialize layout
-	 *
-	 * @return Jet\Mvc_Layout
-	 */
-	function initializeLayout() {
-		$layout = new Jet\Mvc_Layout( $this->getLayoutsDir(), 'default' );
-		$layout->setRouter($this->router);
-
-		return $layout;
-	}
 
 	/**
 	 * @return Jet\Session
@@ -234,16 +236,48 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 *
 	 * @param string $privilege
 	 * @param mixed $value
+	 * @param Jet\Auth_Role_Privilege_ContextObject_Interface $context_object (optional)
 	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( $privilege, $value, $log_if_false=true ) {
-		if(!$this->getCurrentUser()->getHasPrivilege( $privilege, $value )) {
-			return false;
+	public function getCurrentUserHasPrivilege( $privilege, $value, Jet\Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true ) {
+		$res = false;
+
+		$current_user = $this->getCurrentUser();
+		if($current_user) {
+			$res = $current_user->getHasPrivilege( $privilege, $value );
 		}
 
-		return true;
+		if($res && $context_object) {
+			$res = $context_object->getHasACLPrivilege( $privilege, $value );
+		}
+
+		if(!$res && $log_if_false) {
+			$login = 'unknown';
+			$user_ID = 'unknown';
+
+
+			if($current_user) {
+				$login = $current_user->getLogin();
+				$user_ID = $current_user->getID();
+			}
+
+			if(is_array($value)) {
+				$value = implode(',', $value);
+			}
+
+			static::logEvent('privilege_access_denied',
+				array(
+					'privilege'=>$privilege,
+					'value'=>$value
+				),
+				'Privilege access denied. Login: \''.$login.'\', User ID: \''.$user_ID.'\', Privilege: \''.$privilege.'\', Value: \''.$value.'\''
+			);
+		}
+
+
+		return $res;
 	}
 
 	/**

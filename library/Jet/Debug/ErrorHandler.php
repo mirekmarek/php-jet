@@ -148,7 +148,7 @@ class Debug_ErrorHandler {
 	 *
 	 * @throws Debug_ErrorHandler_Exception
 	 */
-	public static function setHTTPErrorPagesDir($error_pages_dir, $check_path = true){
+	public static function setErrorPagesDir($error_pages_dir, $check_path = true){
 		$error_pages_dir = rtrim($error_pages_dir, '/\\'.DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
 		if($check_path && !is_dir($error_pages_dir)){
@@ -164,13 +164,13 @@ class Debug_ErrorHandler {
 	/**
 	 * Returns HTTP error page file path if exists within Debug_ErrorHandler::$error_pages_dir or false if does not exist or is not readable
 	 *
-	 * @param $HTTP_code
+	 * @param $code
 	 *
 	 * @return bool|string
 	 */
-	public static function getHTTPErrorPageFilePath( $HTTP_code ) {
-		$HTTP_code = (int)$HTTP_code;
-		$path = static::$HTTP_error_pages_dir.$HTTP_code.'.phtml';
+	public static function getErrorPageFilePath( $code ) {
+		$code = (int)$code;
+		$path = static::$HTTP_error_pages_dir.$code.'.phtml';
 
 		if(is_file($path) && file_exists($path) && is_readable($path)){
 			return $path;
@@ -185,12 +185,12 @@ class Debug_ErrorHandler {
 	 *
 	 * Returns FALSE if the file does not exist or is not readable
 	 *
-	 * @param $HTTP_code
+	 * @param $code
 	 *
 	 * @return bool
 	 */
-	public static function displayHTTPErrorPage( $HTTP_code ) {
-		$path = static::getHTTPErrorPageFilePath($HTTP_code);
+	public static function displayErrorPage( $code ) {
+		$path = static::getErrorPageFilePath($code);
 		if(!$path){
 			return false;
 		}
@@ -322,7 +322,7 @@ class Debug_ErrorHandler {
 		if( $error->is_fatal ) {
 			if( php_sapi_name()!='cli' ) {
 				if(!$error_displayed) {
-					static::displayHTTPErrorPage(500);
+					static::displayErrorPage(500);
 				}
 			}
 

@@ -26,6 +26,12 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	protected $micro_router;
 
+    /**
+     * @var Jet\Mvc_MicroRouter
+     */
+    protected $_standard_admin_micro_router;
+
+
 	protected static $ACL_actions_check_map = array(
 		'default' => 'get_article',
 		'add' => 'add_article',
@@ -38,10 +44,75 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-		Jet\Mvc::setProvidesDynamicContent();
-		$this->getFrontController()->breadcrumbNavigationShift( -2 );
-		$this->micro_router = $this->module_instance->getMicroRouter();
+		Jet\Mvc::checkCurrentContentIsDynamic();
+        Jet\Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
+		$this->micro_router = $this->getStandardAdminMicroRouter();
+		$this->view->setVar( 'router', $this->micro_router );
 	}
+
+
+    /**
+     * @param Jet\Mvc_Router_Abstract $router
+     *
+     * @return Jet\Mvc_MicroRouter
+     */
+    public function getStandardAdminMicroRouter( Jet\Mvc_Router_Abstract $router=null ) {
+        if($this->_standard_admin_micro_router) {
+            return $this->_standard_admin_micro_router;
+        }
+
+        if(!$router) {
+            $router = Jet\Mvc::getCurrentRouter();
+        }
+
+        $router = new Jet\Mvc_MicroRouter( $router, $this->module_instance );
+
+        $base_URI = Jet\Mvc::getCurrentURI();
+
+        $validator = function( &$parameters ) {
+            $article = Article::get( $parameters[0] );
+            if(!$article) {
+                return false;
+            }
+
+            $parameters[0] = $article;
+            return true;
+
+        };
+
+        $router->addAction('add', '/^add$/', 'add_article', true)
+            ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+
+        $router->addAction('edit', '/^edit:([\S]+)$/', 'update_article', true)
+            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } )
+            ->setParametersValidatorCallback( $validator );
+
+        $router->addAction('view', '/^view:([\S]+)$/', 'get_article', true)
+            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } )
+            ->setParametersValidatorCallback( $validator );
+
+        $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_article', true)
+            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } )
+            ->setParametersValidatorCallback( $validator );
+
+        $this->_standard_admin_micro_router = $router;
+
+        return $router;
+    }
+
+
+
+    /**
+     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     * @return bool
+     */
+    public function parseRequestURL_Admin( Jet\Mvc_Page_Content_Abstract $page_content=null ) {
+
+        $router = $this->getStandardAdminMicroRouter( Jet\Mvc::getCurrentRouter() );
+
+        return $router->resolve( $page_content );
+    }
+
 
 	/**
 	 *
@@ -63,7 +134,6 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		$grid->setData( Article::getList() );
 
 		$this->view->setVar('grid', $grid);
-		$this->view->setVar( 'router', $this->micro_router );
 
 		$this->render('classic/default');
 	}
@@ -83,7 +153,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
 		}
 
-		$this->getFrontController()->addBreadcrumbNavigationData( Jet\Tr::_('New article') );
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( Jet\Tr::_('New article') );
 
 
 		$this->view->setVar('btn_label', Jet\Tr::_('ADD') );
@@ -106,7 +176,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
 		}
 
-		$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
 
 		$this->view->setVar('btn_label', Jet\Tr::_('SAVE') );
 		$this->view->setVar('has_access', true);
@@ -120,7 +190,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function view_Action(  Article $article  ) {
 
-		$this->getFrontController()->addBreadcrumbNavigationData( $article->getTitle() );
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
 
 		$form = $article->getCommonForm();
 		$this->view->setVar('has_access', false);
@@ -142,7 +212,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 		}
 
 
-		$this->getFrontController()->addBreadcrumbNavigationData('Delete article');
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData('Delete article');
 
 		$this->view->setVar( 'article', $article );
 

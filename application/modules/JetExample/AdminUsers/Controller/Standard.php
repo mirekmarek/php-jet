@@ -28,8 +28,18 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
+    /**
+     * @var Jet\Mvc_MicroRouter
+     */
+    protected $micro_router;
+
+
 	protected static $ACL_actions_check_map = array(
-		'default' => 'get_user'
+		'default' => 'get_user',
+		'add' => 'add_user',
+		'edit' => 'update_user',
+		'view' => 'get_user',
+		'delete' => 'delete_user',
 	);
 
 
@@ -37,121 +47,75 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
+		Jet\Mvc::checkCurrentContentIsDynamic();
+        Jet\Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
+		$this->getMicroRouter();
+		$this->view->setVar( 'router', $this->micro_router );
 	}
+
+    /**
+     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     *
+     * @return bool
+     */
+    public function parseRequestURL( Jet\Mvc_Page_Content_Abstract $page_content=null ) {
+        $router = $this->getMicroRouter();
+
+        return $router->resolve( $page_content );
+    }
+
+    /**
+     *
+     * @return Jet\Mvc_MicroRouter
+     */
+    public function getMicroRouter() {
+        if($this->micro_router) {
+            return $this->micro_router;
+        }
+
+        $router = Jet\Mvc::getCurrentRouter();
+
+        $router = new Jet\Mvc_MicroRouter( $router, $this->module_instance );
+
+        $base_URI = Jet\Mvc::getCurrentURI();
+
+        $validator = function( &$parameters ) {
+
+            $user = Jet\Auth_ControllerModule_Abstract::getUser( $parameters[0] );
+            if(!$user) {
+                return false;
+            }
+
+            $parameters[0] = $user;
+            return true;
+
+        };
+
+        $router->addAction('add', '/^add$/', 'add_user', true)
+            ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+
+        $router->addAction('edit', '/^edit:([\S]+)$/', 'update_user', true)
+            ->setCreateURICallback( function( Jet\Auth_User_Abstract $user ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($user->getID()).'/'; } )
+            ->setParametersValidatorCallback( $validator );
+
+        $router->addAction('view', '/^view:([\S]+)$/', 'get_user', true)
+            ->setCreateURICallback( function( Jet\Auth_User_Abstract $user ) use($base_URI) { return $base_URI.'view:'.rawurlencode($user->getID()).'/'; } )
+            ->setParametersValidatorCallback( $validator );
+
+        $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_user', true)
+            ->setCreateURICallback( function( Jet\Auth_User_Abstract $user ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($user->getID()).'/'; } )
+            ->setParametersValidatorCallback( $validator );
+
+        $this->micro_router = $router;
+
+        return $router;
+    }
 
 
 	/**
 	 *
 	 */
 	public function default_Action() {
-
-		Jet\Mvc::setProvidesDynamicContent();
-
-		$GET = Jet\Http_Request::GET();
-
-
-		if( $delete_ID = $GET->getString('delete')) {
-			$user = Jet\Auth::getUser( $delete_ID );
-			if($user) {
-				$this->handleDelete($user);
-
-				return;
-			}
-		}
-
-		$user = false;
-
-		if($GET->exists('new')) {
-			$user = Jet\Auth_Factory::getUserInstance();
-		} else if( $GET->exists('ID') ) {
-			$user = Jet\Auth::getUser( $GET->getString('ID') );
-		}
-
-		if($user) {
-			$this->handleEdit($user);
-		} else {
-			$this->handleList();
-		}
-
-	}
-
-	/**
-	 * @param Jet\Auth_User_Abstract $user
-	 */
-	public function handleDelete( Jet\Auth_User_Abstract $user ) {
-		if( !$this->module_instance->checkAclCanDoAction('delete_user') ) {
-			return;
-		}
-
-		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
-			$user->delete();
-			Jet\Http_Headers::movedTemporary('?');
-		}
-
-
-		$this->getFrontController()->addBreadcrumbNavigationData('Delete user');
-
-		$this->view->setVar( 'user', $user );
-
-		$this->render('classic/delete-confirm');
-	}
-
-
-	/**
-	 * @param Jet\Auth_User_Abstract $user
-	 */
-	protected function handleEdit( Jet\Auth_User_Abstract $user ) {
-		$has_access = false;
-
-		if($user->getIsNew()) {
-			if( !$this->module_instance->checkAclCanDoAction('add_user') ) {
-				return;
-			}
-            $has_access = true;
-		} else {
-			if( $this->module_instance->checkAclCanDoAction('update_user') ) {
-				$has_access = true;
-			}
-		}
-
-
-		$form = $user->getCommonForm();
-
-		if( $has_access ) {
-			if( $user->catchForm( $form ) ) {
-				$user->validateProperties();
-				$user->save();
-				Jet\Http_Headers::movedTemporary( '?ID='.$user->getID() );
-			}
-		}
-
-
-		if($user->getIsNew()) {
-			$this->view->setVar('bnt_label', 'ADD');
-
-			$this->getFrontController()->addBreadcrumbNavigationData('New user');
-
-		} else {
-			$this->view->setVar('bnt_label', 'SAVE' );
-
-			$this->getFrontController()->addBreadcrumbNavigationData( $user->getLogin() );
-		}
-
-
-		$this->view->setVar('has_access', $has_access);
-		$this->view->setVar('form', $form);
-		$this->getFrontController()->breadcrumbNavigationShift( -3 );
-
-		$this->render('classic/edit');
-
-	}
-
-	/**
-	 *
-	 */
-	protected function handleList() {
-
-		$this->getFrontController()->breadcrumbNavigationShift( -2 );
 
 		/**
 		 * @var UIElements\Main $UI_m
@@ -167,12 +131,103 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 		$grid->setData( Jet\Auth::getUsersList() );
 
-		$this->view->setVar('can_add_user', $this->module_instance->checkAclCanDoAction('add_user'));
-		$this->view->setVar('can_delete_user', $this->module_instance->checkAclCanDoAction('delete_user'));
-		$this->view->setVar('can_update_user', $this->module_instance->checkAclCanDoAction('update_user'));
 		$this->view->setVar('grid', $grid);
 
 		$this->render('classic/default');
+
 	}
+
+	/**
+	 *
+	 */
+	public function add_Action() {
+
+		$user = Jet\Auth_Factory::getUserInstance();
+
+
+		$form = $user->getCommonForm();
+
+		if( $user->catchForm( $form ) ) {
+			$user->validateProperties();
+			$user->save();
+			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $user ) );
+		}
+
+		$this->view->setVar('bnt_label', 'ADD');
+
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData('New user');
+
+		$this->view->setVar('has_access', true);
+		$this->view->setVar('form', $form);
+
+		$this->render('classic/edit');
+
+	}
+
+	/**
+	 * @param Jet\Auth_User_Abstract $user
+	 */
+	public function edit_Action( Jet\Auth_User_Abstract $user ) {
+
+		$form = $user->getCommonForm();
+
+		if( $user->catchForm( $form ) ) {
+			$user->validateProperties();
+			$user->save();
+			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $user ) );
+		}
+
+
+		$this->view->setVar('bnt_label', 'SAVE' );
+
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $user->getLogin() );
+
+
+		$this->view->setVar('has_access', true);
+		$this->view->setVar('form', $form);
+
+		$this->render('classic/edit');
+
+	}
+
+	/**
+	 * @param Jet\Auth_User_Abstract $user
+	 */
+	public function view_Action( Jet\Auth_User_Abstract $user ) {
+
+		$form = $user->getCommonForm();
+
+		$this->view->setVar('bnt_label', 'SAVE' );
+
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $user->getLogin() );
+
+
+		$this->view->setVar('has_access', false);
+		$this->view->setVar('form', $form);
+
+		$this->render('classic/edit');
+
+	}
+
+
+
+	/**
+	 * @param Jet\Auth_User_Abstract $user
+	 */
+	public function delete_Action( Jet\Auth_User_Abstract $user ) {
+
+		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+			$user->delete();
+			Jet\Http_Headers::movedTemporary( Jet\Mvc::getCurrentURI() );
+		}
+
+
+        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData('Delete user');
+
+		$this->view->setVar( 'user', $user );
+
+		$this->render('classic/delete-confirm');
+	}
+
 
 }

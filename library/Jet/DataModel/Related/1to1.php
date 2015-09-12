@@ -63,7 +63,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 			return null;
 		}
 
-		$loaded_instance = $this->_load_dataToInstance( $data, $main_model_instance );
+		$loaded_instance = $this->createInstance( $data, $main_model_instance );
 
 		return $loaded_instance;
 

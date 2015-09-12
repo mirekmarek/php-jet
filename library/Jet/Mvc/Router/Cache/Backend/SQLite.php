@@ -55,7 +55,7 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 *
 	 * @param string $URL
 	 *
-	 * @return  null|Mvc_Router_Abstract
+	 * @return  null|array
 	 */
 	public function load($URL) {
 
@@ -83,10 +83,10 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	/**
 	 *
 	 * @param string $URL
-	 * @param Mvc_Router_Abstract $item
+	 * @param array $item
 	 *
 	 */
-	public function save($URL, Mvc_Router_Abstract $item) {
+	public function save($URL, array $item) {
 		$data = array(
 			'URL' => $URL,
 			'URL_hash' => md5($URL),

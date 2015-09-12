@@ -70,5 +70,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'e319804121c6ae56f9a4061b6ef8e82a' => array(
+		'phrase' => 'thin_password',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

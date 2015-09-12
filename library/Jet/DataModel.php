@@ -644,7 +644,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			return null;
 		}
 
-		$loaded_instance = static::_load_dataToInstance( $dat );
+		$loaded_instance = static::createInstance( $dat );
 
 		if($cache) {
 			$cache->save($definition, $ID, $loaded_instance);
@@ -657,14 +657,14 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 	/**
-	 * @param array $dat
+	 * @param array $data
 	 * @param DataModel $main_model_instance
 	 *
 	 * @return DataModel
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected static function _load_dataToInstance( $dat, $main_model_instance=null ) {
+	public static function createInstance( $data, $main_model_instance=null ) {
 
 		/**
 		 * @var DataModel $loaded_instance
@@ -680,7 +680,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			) {
 				continue;
 			}
-			$loaded_instance->$property_name = $dat[$property_name];
+			$loaded_instance->$property_name = $data[$property_name];
 			$property_definition->checkValueType( $loaded_instance->$property_name );
 		}
 
@@ -689,22 +689,20 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			if(!$property_definition->getIsDataModel()) {
 				continue;
 			}
-			/**
-			 * @var DataModel_Definition_Property_DataModel $property_definition
-			 */
-			$class_name = $property_definition->getDataModelClass();
+
 
 			/**
-			 * @var DataModel_Related_Abstract $related_instance
+			 * @var DataModel_Related_Abstract $property
 			 */
-			$related_instance = Factory::getInstance( $class_name );
+			$property = $loaded_instance->{$property_name};
 
 			if(
-				!($related_instance instanceof DataModel_Related_Abstract) &&
-				!($related_instance instanceof DataModel_Related_MtoN)
+                !($property instanceof DataModel_Related_1toN_Iterator) &&
+				!($property instanceof DataModel_Related_Abstract) &&
+				!($property instanceof DataModel_Related_MtoN)
 			) {
 				throw new DataModel_Exception(
-					'DataModel \''.get_class($related_instance).'\' is related class to  \''.get_class($loaded_instance).'\' but is not instance of  DataModel_Related*',
+					'DataModel \''.get_class($property).'\' is related class to  \''.get_class($loaded_instance).'\' but is not instance of  DataModel_Related*',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -713,12 +711,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				/**
 				 * @var DataModel_Related_Abstract $loaded_instance
 				 */
-				$loaded_instance->{$property_name} = $related_instance->loadRelated( $main_model_instance, $loaded_instance );
+				$loaded_instance->{$property_name} = $property->loadRelated( $main_model_instance, $loaded_instance );
 			} else {
 				/**
 				 * @var DataModel $loaded_instance
 				 */
-				$loaded_instance->{$property_name} = $related_instance->loadRelated( $loaded_instance );
+				$loaded_instance->{$property_name} = $property->loadRelated( $loaded_instance );
 			}
 		}
 
@@ -1507,7 +1505,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return string
 	 */
 	public function toXML() {
-		return $this->_XMLSerialize();
+		return $this->XMLSerialize();
 	}
 
 	/**
@@ -1523,7 +1521,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $prefix='' ) {
+	public function XMLSerialize( $prefix='' ) {
 		$definition = $this->getDataModelDefinition();
 		$properties = $definition->getProperties();
 
@@ -1555,7 +1553,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 					/**
 					 * @var DataModel $val
 					 */
-					$result .= $val->_XMLSerialize( $prefix.JET_TAB );
+					$result .= $val->XMLSerialize( $prefix.JET_TAB );
 				}
 				$result .= $prefix.JET_TAB.'</'.$property_name.'>'.JET_EOL;
 
@@ -1638,7 +1636,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return array
 	 */
 	public function __sleep() {
-		return array_keys($this->getDataModelDefinition()->getProperties());
+        return parent::__sleep();
+		//return array_keys($this->getDataModelDefinition()->getProperties());
 	}
 
 	/**

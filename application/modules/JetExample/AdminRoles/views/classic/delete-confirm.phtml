@@ -6,6 +6,12 @@ use Jet;
  * @var Jet\Auth_Role_Abstract $role
  */
 $role = $this->role;
+
+/**
+ * @var Jet\Mvc_MicroRouter $router
+ */
+$router = $this->router;
+
 ?>
 
 <div style="padding: 10px;">
@@ -15,7 +21,7 @@ $role = $this->role;
 	<p>
 	<?=Jet\Tr::_('Do you really want to delete this role?');?>
 	<br/>
-	<a href="?ID=<?=rawurlencode($role->getID());?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getID();?>)</a>
+	<a href="<?=$router->getActionURI('edit', $role);?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getID();?>)</a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($role->getID());?>" method="post">

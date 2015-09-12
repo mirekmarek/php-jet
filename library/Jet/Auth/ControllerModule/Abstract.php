@@ -28,7 +28,7 @@ namespace Jet;
  * @JetApplication_Signals:signal = '/user/logout'
  *
  */
-abstract class Auth_ControllerModule_Abstract extends Mvc_FrontControllerModule_Abstract {
+abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module_Abstract {
 
 	/**
 	 * Returns Auth module instance
@@ -42,20 +42,9 @@ abstract class Auth_ControllerModule_Abstract extends Mvc_FrontControllerModule_
 	/**
 	 * Returns dispatch queue (example: show login dialog )
 	 *
-	 * @return Mvc_Dispatcher_Queue_Item[]
+	 * @return Mvc_Page_Abstract
 	 */
-	public function getDispatchQueue() {
-		$queue = new Mvc_Dispatcher_Queue();
-
-		$item = new Mvc_Dispatcher_Queue_Item( $this->module_manifest->getName(), 'login' );
-		$item->setCustomServiceType( Mvc_Router::SERVICE_TYPE_STANDARD );
-
-		$queue->addItem(
-				$item
-			);
-
-		return $queue;
-	}
+	abstract public function getAuthenticationPage();
 
 	/**
 	 * Returns true if authentication (for example login dialog...) is required

@@ -9,30 +9,35 @@ use JetApplicationModule\JetExample\UIElements;
  */
 $grid = $this->grid;
 
-$can_delete_user = $this->can_delete_user;
-$can_update_user = $this->can_update_user;
+/**
+ * @var Jet\Mvc_MicroRouter $router
+ */
+$router = $this->router;
 
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) use ($can_delete_user, $can_update_user) {
-	$ID = rawurlencode($item->getID());
+$c_edit->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) use ($router) {
 	?>
-	<?php if($can_update_user): ?>
-	<a href="?ID=<?=$ID;?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	<?php if($router->getActionAllowed('edit')): ?>
+		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
 	<?php endif; ?>
 	&nbsp;
-	<?php if($can_delete_user): ?>
-	<a href="?delete=<?=$ID;?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+	<?php if($router->getActionAllowed('delete')): ?>
+		<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
 	<?php endif; ?>
 <?php
 } );
 $c_edit->setCssStyle( 'width:120px;' );
 
-$grid->getColumn('login')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
-	$ID = rawurlencode($item->getID());
+$grid->getColumn('login')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) use ($router) {
 	?>
-	<a href="?ID=<?=$ID;?>"><?=$item->getLogin();?></a>
-	<?php
+	<?php if($router->getActionAllowed('edit')): ?>
+		<a href="<?=$router->getActionURI('edit', $item);?>"><?=$item->getLogin();?></a>
+	<?php else: ?>
+		<a href="<?=$router->getActionURI('view', $item);?>"><?=$item->getLogin();?></a>
+	<?php endif; ?>
+<?php
 } );
+
 $grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
 	echo $item->getID();
 } );
@@ -42,8 +47,8 @@ $grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_User_Abstract $it
 
 <div style="padding: 10px;">
 
-<?php if($this->can_add_user): ?>
-<a href="?new" class="btn btn-primary"><?=Jet\Tr::_('Add new user');?></a>
+<?php if($router->getActionAllowed('add')): ?>
+	<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Jet\Tr::_('Add new user');?></a>
 <?php endif; ?>
 
 <?=$grid->render();?>

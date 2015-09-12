@@ -73,9 +73,10 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 
 		$this->$get_dojo_properties_method_name($tag_data);
 
-		$Dojo = $this->form->getLayout()->requireJavascriptLib('Dojo');
+        $Dojo = new Javascript_Lib_Dojo();
 		$Dojo->requireComponent( $dojo_type );
 
+        $this->form->getLayout()->requireJavascriptLib($Dojo);
 
 		$_dojo_props = array();
 		foreach( $this->_dojo_properties as $k=>$val) {

@@ -368,10 +368,10 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_File::download
+	 * @covers Jet\IO_File::send
 	 * @todo   Implement testDownload().
 	 */
-	public function testDownload() {
+	public function testSend() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}

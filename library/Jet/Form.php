@@ -176,9 +176,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 */
 	public function getID() {
 		if($this->container_ID===null) {
-			$router = Mvc_Router::getCurrentRouterInstance();
-			if($router) {
-				$this->container_ID = $router->getFrontController()->getUIContainerID();
+			if( ($current_page=Mvc::getCurrentPage()) ) {
+				$this->container_ID = $current_page->getLayout()->getUIContainerID();
 				if($this->container_ID) {
 					$this->container_ID_prefix = $this->container_ID . '_';
 				} else {
@@ -475,7 +474,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			return;
 		}
 
-		Mvc::setProvidesDynamicContent();
+		Mvc::checkCurrentContentIsDynamic();
 		
 		$form_output_part_pos = strpos($form_output_part, '</'.static::FORM_TAG.'>' );
 		

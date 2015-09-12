@@ -22,6 +22,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 		}
 
 		$classes = array(
+            /*
 			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_META_TAG_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_PAGE_CONTENT_CLASS ),
@@ -30,6 +31,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 			Factory::getClassName( Mvc_Factory::DEFAULT_LOCALIZED_SITE_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS ),
 			Factory::getClassName( Mvc_Factory::DEFAULT_LOCALIZED_SITE_URL_CLASS ),
+            */
 
 			Factory::getClassName( Auth_Factory::DEFAULT_ROLE_CLASS ),
 			Factory::getClassName( Auth_Factory::DEFAULT_PRIVILEGE_CLASS ),

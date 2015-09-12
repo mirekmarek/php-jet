@@ -56,10 +56,9 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	 *
 	 * @param string $URL
 	 *
-	 * @return  null|Mvc_Router_Abstract
+	 * @return  null|array
 	 */
 	public function load($URL) {
-
 		$data = $this->_db_read->fetchOne('SELECT `data` FROM `'.$this->_table_name.'`
 				WHERE
 					`URL_hash`=:URL_hash',
@@ -78,10 +77,11 @@ class Mvc_Router_Cache_Backend_MySQL extends Mvc_Router_Cache_Backend_Abstract {
 	/**
 	 *
 	 * @param string $URL
-	 * @param Mvc_Router_Abstract $item
+	 * @param array $item
 	 *
 	 */
-	public function save($URL, Mvc_Router_Abstract $item) {
+	public function save($URL, array $item) {
+
 		$data = array(
 			'URL' => $URL,
 			'URL_hash' => md5($URL),

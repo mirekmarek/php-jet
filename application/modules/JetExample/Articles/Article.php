@@ -40,7 +40,7 @@ class Article extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_label = 'Locale'
-	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc','getAllSitesLocalesList']
+	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc_Site','getAllLocalesList']
 	 *
 	 * @var Jet\Locale
 	 */
@@ -124,6 +124,13 @@ class Article extends Jet\DataModel {
 		return $this->URI_fragment;
 	}
 
+    /**
+     * @return string
+     */
+    public function getURL() {
+        return Jet\Mvc::getCurrentPage()->getURL().$this->getURIFragment();
+    }
+
 	/**
 	 * @param string $title
 	 */
@@ -132,10 +139,59 @@ class Article extends Jet\DataModel {
 
 		$article_i = $this;
 
-		$this->URI_fragment = Jet\Mvc_Factory::getPageInstance()->generateURLfragment($this->title, function( $URI_fragment ) use ( $article_i ) {
+		$this->URI_fragment = $this->generateURLfragment($this->title, function( $URI_fragment ) use ( $article_i ) {
 			return $article_i->getURIfragmentExists( $URI_fragment );
 		}, '.html');
 	}
+
+
+    /**
+     * Generates URI fragment:
+     *
+     * - replace ' ' by '-'
+     * - remove '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', ''','/','<','>',';','?','{','}','[',']','|'
+     * - apply rawurlencode()
+     *
+     * @param string $URI_fragment
+     *
+     * @param callable $exists_check
+     * @param string $suffix (optional) example: .html
+     * @param bool $remove_accents (optional, default: false)
+     *
+     * @return string
+     */
+    public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=false ) {
+
+        if($remove_accents) {
+            $URI_fragment = Data_Text::removeAccents($URI_fragment);
+        }
+
+        $URI_fragment = str_replace(' ', '-', $URI_fragment);
+        $URI_fragment = preg_replace( '~([-]{2,})~', '-' , $URI_fragment );
+
+        $replace = array('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'','"' ,'/','<','>',';','?','{','}','[',']','|');
+        $URI_fragment = str_replace($replace, '', $URI_fragment);
+
+        $URI_fragment = rawurlencode($URI_fragment);
+
+        $max_suffix_no = 9999;
+
+        if( $exists_check( $URI_fragment.$suffix ) ) {
+            $_ID = substr($URI_fragment, 0, 255 - strlen( (string)$max_suffix_no )  );
+
+            for($c=1; $c<=$max_suffix_no; $c++) {
+                $URI_fragment = $_ID.$c;
+
+                if( !$exists_check( $URI_fragment.$suffix ) ) {
+                    break;
+                }
+            }
+        }
+
+
+        return $URI_fragment.$suffix;
+    }
+
 
 	/**
 	 *
@@ -285,9 +341,6 @@ class Article extends Jet\DataModel {
 				'this.URI_fragment' => 	$param[0]
 			) );
 
-			if($current_article) {
-				$router->putUsedPathFragment( $param[0] );
-			}
 		}
 
 		return $current_article;

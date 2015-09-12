@@ -30,19 +30,45 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 
 		$this->layout = $layout;
 
-		/**
-		 * @var Javascript_Lib_Dojo $dojo
-		 */
-		$dojo = $this->layout->requireJavascriptLib('Dojo');
+        $dojo = new Javascript_Lib_Dojo();
 
-		$dojo->registerPackage('cbtree');
-		$dojo->requireComponent('cbtree.Tree');
-		$dojo->requireComponent('cbtree.models.TreeStoreModel');
-		$dojo->requireComponent('cbtree.models.ForestStoreModel');
-		//$dojo->requireComponent('cbtree.cbtree');
+        $dojo->registerPackage('cbtree');
+        $dojo->requireComponent('cbtree.Tree');
+        $dojo->requireComponent('cbtree.models.TreeStoreModel');
+        $dojo->requireComponent('cbtree.models.ForestStoreModel');
+
+        $this->layout->requireJavascriptLib($dojo);
 
 	}
 
+
+    /**
+     * @param Javascript_Lib_Abstract $lib
+     * @return void
+     */
+    public function adopt( Javascript_Lib_Abstract $lib ) {
+        /**
+         * @var Javascript_Lib_cbtree $lib
+         */
+
+        foreach( $lib->required_components as $component ) {
+            if(!in_array($component, $this->required_components)) {
+                $this->required_components[] = $component;
+            }
+        }
+
+        foreach( $lib->required_components_CSS as $CSS ) {
+            if(!in_array($CSS, $this->required_components_CSS)) {
+                $this->required_components_CSS[] = $CSS;
+            }
+        }
+
+        foreach( $this->options as $key=>$val ) {
+            if(!array_key_exists($key, $this->options)) {
+                $this->options[$key] = $val;
+            }
+        }
+    }
 
 	/**
 	 * Returns HTML snippet that initialize Java Script and is included into layout
@@ -50,10 +76,8 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getHTMLSnippet(){
-		/**
-		 * @var Javascript_Lib_Dojo $dojo
-		 */
-		$dojo = $this->layout->requireJavascriptLib('Dojo');
+
+        $dojo = new Javascript_Lib_Dojo();
 
 		$this->layout->requireCssFile( $dojo->getBaseURI().'cbtree/themes/'.$dojo->getTheme().'/checkbox.css' );
 
@@ -70,12 +94,11 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 * @param array $parameters(optional)
 	 */
 	public function requireComponent( $component, $parameters=array() ) {
-		/**
-		 * @var Javascript_Lib_Dojo $dojo
-		 */
-		$dojo = $this->layout->requireJavascriptLib('Dojo');
+        $dojo = new Javascript_Lib_Dojo();
 
-		$dojo->requireComponent($component);
+        $dojo->requireComponent( $component );
+
+		$this->layout->requireJavascriptLib($dojo);
 	}
 
 	/**

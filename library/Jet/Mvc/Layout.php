@@ -52,7 +52,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	const JS_REPLACEMENT_REGEXP = '~Jet\.modules\.([a-zA-Z_]+)\.~sU';
 
 	const JS_REPLACEMENT_CURRENT_MODULE = 'CURRENT_MODULE';
-	const JS_REPLACEMENT_FRONT_CONTROLLER_MODULE = 'FRONT_CONTROLLER_MODULE';
 
 
 	/**
@@ -90,11 +89,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected $required_css_files = array();
 
-	/**
-	 *
-	 * @var Mvc_Router_Abstract
-	 */
-	protected $router;
+    /**
+     * @var Mvc_Page_Abstract
+     */
+    protected $page;
 
 	/**
 	 * @var string
@@ -132,21 +130,20 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$this->_data = new Data_Array();
 	}
 
-	/**
-	 * @param Mvc_Router_Abstract $router
-	 */
-	public function setRouter(Mvc_Router_Abstract $router) {
-		$this->router = $router;
-		$this->setUIContainerID( $router->getFrontController()->getUIContainerID() );
-	}
+    /**
+     * @param Mvc_Page_Abstract $page
+     */
+    public function setPage( Mvc_Page_Abstract $page ) {
+        $this->page = $page;
+    }
 
-	/**
-	 *
-	 * @return Mvc_Router_Abstract
-	 */
-	public function getRouter() {
-		return $this->router;
-	}
+    /**
+     * @return \Jet\Mvc_Page_Abstract
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
 
 	/**
 	 * @param bool $CSS_packager_enabled
@@ -397,15 +394,15 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param $step_ID
+	 * @param $content_ID
 	 *
 	 * @return array|Mvc_Layout_OutputPart[]
 	 */
-	public function getStepOutputParts( $step_ID ) {
+	public function getContentOutputParts( $content_ID ) {
 		$result = [];
 
 		foreach( $this->output_parts as $output_part ) {
-			if($output_part->getStepID()==$step_ID) {
+			if($output_part->getContentID()==$content_ID) {
 				$result[] = $output_part;
 			}
 		}
@@ -414,11 +411,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param string $step_ID
+	 * @param string $content_ID
 	 */
-	public function unsetStepOutputParts( $step_ID ) {
+	public function unsetContentOutputParts( $content_ID ) {
 		foreach( $this->output_parts as $i=>$output_part ) {
-			if($output_part->getStepID()==$step_ID) {
+			if($output_part->getContentID()==$content_ID) {
 				unset($this->output_parts[$i]);
 			}
 		}
@@ -451,54 +448,60 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 
-	/**
-	 * Create instance of class that provides JavaScript toolkit initialization and its including into layout.
-	 *
-	 * Example:
-	 *
-	 * We want to initialize Dojo toolkit and to use dijit.form.InputBox class (component)
-	 * Well. We had to add some code layout. Something like this:
-	 *
-	 * <code>
-	 * <script type='text/javascript'>
-	 *  var djConfig = {'parseOnLoad':false,'locale':'en-us'};
-	 * </script>
-	 *
-	 * <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css">
-	 * <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" charset="utf-8"></script>
-	 * <script type="text/javascript">
-	 * dojo.require('dijit.form.InputBox');
-	 * </script>
-	 * </code>
-	 * .... and more ...
-	 *
-	 * How to do it? Manually? It is not a good idea.
-	 * Do it like this:
-	 *
-	 * <code>
-	 *	$Dojo = $layout->requireJavascriptLib('Dojo');
-	 *	$Dojo->requireComponent('dijit.form.InputBox');
-	 * </code>
-	 *
-	 * And that's all!
-	 *
-	 * ATTENTION:
-	 * The JavaScript tag ( <jet_layout_javascripts/> ) MUST exist in layout script !!!
-	 *
-	 *
-	 * @see JavaScript_Abstract
-	 * @see Mvc/readme.txt
-	 *
-	 * @param string $javascript
-	 *
-	 * @return Javascript_Lib_Abstract
-	 */
-	public function requireJavascriptLib( $javascript ) {
-		if( !isset($this->required_javascript_libs[$javascript]) ) {
-			$this->required_javascript_libs[$javascript] = Javascript_Factory::getJavascriptLibInstance( $javascript, $this );
-		}
+    /**
+     * Create instance of class that provides JavaScript toolkit initialization and its including into layout.
+     *
+     * Example:
+     *
+     * We want to initialize Dojo toolkit and to use dijit.form.InputBox class (component)
+     * Well. We had to add some code layout. Something like this:
+     *
+     * <code>
+     * <script type='text/javascript'>
+     *  var djConfig = {'parseOnLoad':false,'locale':'en-us'};
+     * </script>
+     *
+     * <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css">
+     * <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" charset="utf-8"></script>
+     * <script type="text/javascript">
+     * dojo.require('dijit.form.InputBox');
+     * </script>
+     * </code>
+     * .... and more ...
+     *
+     * How to do it? Manually? It is not a good idea.
+     * Do it like this:
+     *
+     * <code>
+     *    $Dojo = new Javascript_Lib_Dojo();
+     *    $Dojo->requireComponent('dijit.form.InputBox');
+     *
+     *    $layout->requireJavascriptLib( $Dojo );
+     * </code>
+     *
+     * And that's all!
+     *
+     * ATTENTION:
+     * The JavaScript tag ( <jet_layout_javascripts/> ) MUST exist in layout script !!!
+     *
+     *
+     * @see JavaScript_Abstract
+     * @see Mvc/readme.txt
+     *
+     * @param Javascript_Lib_Abstract $lib
+     *
+     * @return Javascript_Lib_Abstract
+     */
+	public function requireJavascriptLib( Javascript_Lib_Abstract $lib ) {
+        $class = get_class($lib);
 
-		return $this->required_javascript_libs[$javascript];
+		if( !isset($this->required_javascript_libs[$class]) ) {
+            $lib->setLayout($this);
+			$this->required_javascript_libs[$class] = $lib;
+		} else {
+            $this->required_javascript_libs[$class]->adopt( $lib );
+        }
+
 	}
 
 	/**
@@ -580,9 +583,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$current_module_name = '';
 
-		if($this->router) {
-			$current_module_name = $this->router->getFrontControllerModuleName();
-		}
 		$this->handleModulesJavaScripts($result, $current_module_name);
 
 		$this->handleFinalPostprocessor($result);
@@ -752,18 +752,19 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handleConstants( &$result ) {
-		if($this->router) {
+		if($this->getPage()) {
+
 			$data = array();
 
-			$data['JET_SITE_BASE_URI'] = $this->router->getSiteBaseURI();
-			$data['JET_SITE_IMAGES_URI'] = $this->router->getSiteImagesURI();
+			$data['JET_SITE_BASE_URI'] = $this->getPage()->getSite()->getBaseURI();
+			$data['JET_SITE_IMAGES_URI'] = $this->getPage()->getSite()->getImagesURI();
 
 			$data['JET_UI_CONTAINER_ID'] = $this->getUIContainerID();
 			$data['JET_UI_CONTAINER_ID_PREFIX'] = $this->getUIContainerIDPrefix();
-			$data['JET_PAGE_TITLE'] = $this->router->getPage()->getTitle();
+			$data['JET_PAGE_TITLE'] = $this->getPage()->getTitle();
 
-			$data['JET_SITE_TITLE'] = $this->router->getSite()->getLocalizedData($this->router->getLocale())->getTitle();
-			$data['JET_LANGUAGE'] = $this->router->getLocale()->getLanguage();
+			$data['JET_SITE_TITLE'] = $this->getPage()->getSite()->getLocalizedData($this->getPage()->getLocale())->getTitle();
+			$data['JET_LANGUAGE'] = $this->getPage()->getLocale()->getLanguage();
 
 			$result = Data_Text::replaceData($result, $data );
 		}
@@ -774,68 +775,64 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handleSitePageTags( &$result ) {
+        $dat = array();
+        $dat[self::TAG_META_TAGS] = '';
+        $dat[self::TAG_HEADER_SUFFIX] = '';
+        $dat[self::TAG_BODY_PREFIX] = '';
+        $dat[self::TAG_BODY_SUFFIX] = '';
+
 		if(
-			!$this->router ||
-			!($page = $this->router->getPage())
+			($page = $this->getPage())
 		) {
-			$dat = array();
-			$dat[self::TAG_META_TAGS] = '';
-			$dat[self::TAG_HEADER_SUFFIX] = '';
-			$dat[self::TAG_BODY_PREFIX] = '';
-			$dat[self::TAG_BODY_SUFFIX] = '';
-		} else {
-			$dat = array();
 
-			$site_localized_data = $this->router->getSite()->getLocalizedData($this->router->getLocale());
-
-			$meta_tags = array();
-
-			foreach($site_localized_data->getDefaultMetaTags() as $mt) {
-				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
-				if($key==':') {
-					$key = $mt->getContent();
-				}
-				$meta_tags[$key] = $mt;
-			}
-
-			foreach($page->getMetaTags() as $mt) {
-				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
-				if($key==':') {
-					$key = $mt->getContent();
-				}
-				$meta_tags[$key] = $mt;
-			}
-
-			$dat[self::TAG_META_TAGS] = '';
-
-			foreach($meta_tags as $mt) {
+			foreach($page->getMetaTags(true) as $mt) {
 				$dat[self::TAG_META_TAGS] .= JET_EOL.JET_TAB.$mt;
 			}
 
 
-			$dat[self::TAG_HEADER_SUFFIX] = $site_localized_data->getDefaultHeadersSuffix();
-			$dat[self::TAG_BODY_PREFIX] = $site_localized_data->getDefaultBodyPrefix();
-			$dat[self::TAG_BODY_SUFFIX] = $site_localized_data->getDefaultBodySuffix();
-
-			if($page->getHeadersSuffix()) {
-				$dat[self::TAG_HEADER_SUFFIX] = $page->getHeadersSuffix();
-			}
-
-			if($page->getBodyPrefix()) {
-				$dat[self::TAG_BODY_PREFIX] = $page->getBodyPrefix();
-			}
-			if($page->getBodySuffix()) {
-				$dat[self::TAG_BODY_SUFFIX] = $page->getBodySuffix();
-			}
+            $dat[self::TAG_HEADER_SUFFIX] = htmlspecialchars_decode( $page->getHeadersSuffix( true ) );
+            $dat[self::TAG_BODY_PREFIX] = htmlspecialchars_decode( $page->getBodyPrefix( true ) );
+            $dat[self::TAG_BODY_SUFFIX] = htmlspecialchars_decode( $page->getBodySuffix( true ) );
 		}
-
-
-
 
 		foreach($dat as $tag=>$rep_l) {
 			$result = $this->_replaceTagByValue($result, $tag, $rep_l);
 		}
+
 	}
+
+
+    /**
+     * @param string $module_name
+     *
+     * @return string
+     */
+    public function getLayoutJsReplacementCurrentModule($module_name) {
+        $module_manifest = Application_Modules::getModuleManifest($module_name);
+
+        if( ($container_ID=Mvc::getCurrentPage()->getLayout()->getUIContainerID()) ) {
+            return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\', \''.$container_ID.'\').';
+        } else {
+            return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
+        }
+
+    }
+
+
+    /**
+     * @param string $module_name
+     *
+     * @return string
+     */
+    public function getLayoutJsReplacementModule($module_name) {
+        $module_manifest = Application_Modules::getModuleManifest($module_name);
+
+        if(!$module_manifest) {
+            return false;
+        }
+
+        return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
+    }
 
 
 	/**
@@ -848,48 +845,19 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		preg_match_all(static::JS_REPLACEMENT_REGEXP, $result, $matches, PREG_SET_ORDER);
 		$replacements = array();
 
-		if($this->router) {
-			$front_controller = $this->router->getFrontController();
-			foreach($matches as $match) {
-				list($search, $module_name) = $match;
-				switch( $module_name) {
-					case self::JS_REPLACEMENT_CURRENT_MODULE:
-						$replacements[$search] = $front_controller->getLayoutJsReplacementCurrentModule($current_module_name);
-						break;
-					case self::JS_REPLACEMENT_FRONT_CONTROLLER_MODULE:
-						$replacements[$search] = $front_controller->getLayoutJsReplacementFrontController();
-						break;
-					default:
-						$replacement = $front_controller->getLayoutJsReplacementModule($module_name);
-						if($replacement) {
-							$replacements[$search] = $replacement;
-						}
-				}
-			}
-		} else {
-			foreach($matches as $match) {
-				list($search, $module_name) = $match;
-				switch( $module_name ) {
-					case self::JS_REPLACEMENT_CURRENT_MODULE:
-						if($this->UI_container_ID) {
-							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$current_module_name.'\', \''.$this->UI_container_ID.'\').';
-
-						} else {
-							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$current_module_name.'\').';
-						}
-						break;
-					case self::JS_REPLACEMENT_FRONT_CONTROLLER_MODULE:
-						$replacements[$search] = 'Jet.getFrontController().';
-						break;
-					default:
-						$module_manifest = Application_Modules::getModuleManifest($module_name);
-						if($module_manifest) {
-							$replacements[$search] = 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
-						}
-				}
-			}
-		}
-
+        foreach($matches as $match) {
+            list($search, $module_name) = $match;
+            switch( $module_name) {
+                case self::JS_REPLACEMENT_CURRENT_MODULE:
+                    $replacements[$search] = $this->getLayoutJsReplacementCurrentModule($current_module_name);
+                    break;
+                default:
+                    $replacement = $this->getLayoutJsReplacementModule($module_name);
+                    if($replacement) {
+                        $replacements[$search] = $replacement;
+                    }
+            }
+        }
 
 		$result = str_replace(array_keys($replacements), array_values($replacements), $result);
 
@@ -921,7 +889,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 				$CSS_files[$media] = [];
 
-				$package_creator = Mvc_Factory::getLayoutCssPackageCreatorInstance( $media, $this->router->getLocale(), $URIs );
+				$package_creator = Mvc_Factory::getLayoutCssPackageCreatorInstance( $media, $this->getPage()->getLocale(), $URIs );
 
 				$package_creator->generatePackageFile();
 				$package_URI = $package_creator->getPackageURI();
@@ -1020,7 +988,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$JS_code = [];
 
 			$package_creator = Mvc_Factory::getLayoutJavaScriptPackageCreatorInstance(
-				$this->router->getLocale(),
+				$this->getPage()->getLocale(),
 				$this->required_javascript_files,
 				$this->required_javascript_code
 			);

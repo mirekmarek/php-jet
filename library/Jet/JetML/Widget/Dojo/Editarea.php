@@ -23,10 +23,12 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 
 		$ID = $this->getNodeAttribute('id');
 
-		$Dojo = $this->parser->getLayout()->requireJavascriptLib('Dojo');
-		$Dojo->requireComponent('dijit.layout.BorderContainer');
-		$Dojo->requireComponent('dijit.layout.ContentPane');
-		$Dojo->requireComponent('dijit.Toolbar');
+        $Dojo = new Javascript_Lib_Dojo();
+        $Dojo->requireComponent('dijit.layout.BorderContainer');
+        $Dojo->requireComponent('dijit.layout.ContentPane');
+        $Dojo->requireComponent('dijit.Toolbar');
+        $this->parser->getLayout()->requireJavascriptLib($Dojo);
+
 
 		$border_container = $dom->createElement('div');
 		$border_container->setAttribute('id', $ID.'_container');

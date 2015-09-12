@@ -411,7 +411,7 @@ class IO_File {
 	 *
 	 * @throws IO_File_Exception
 	 */
-	public static function download(
+	public static function send(
 					$file_path,
 					$file_name = null,
 					$file_mime = null,

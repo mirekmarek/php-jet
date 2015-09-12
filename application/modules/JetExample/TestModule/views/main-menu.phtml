@@ -1,53 +1,51 @@
 <?php
+namespace Jet;
+
 if(!function_exists('showMenu')) {
+    /**
+     * @param Mvc_Page_Abstract[] $pages
+     */
 	function showMenu( $pages ){
 
-
 		if(!$pages) return;
-		if($pages instanceof Jet\Data_Tree) {
-			$pages = array( $pages->getRootNode() );
-		}
 
-		$current_page_ID = Jet\Mvc::getCurrentPage()->getID()->getAsMapKey();
+		$current_page_ID = Mvc::getCurrentPage()->getID()->toString();
 		?>
-	<ul>
+    	<ul>
 		<?php foreach($pages as $page):
-		/**
-		 * @var Jet\Data_Tree_Node $page
-		 */
-		$d = $page->getData();
-
-		if( !($URL_object = Jet\Mvc_Pages::getURLObject( $d['ID'], $d['locale'], $d['site_ID'] )) ) {
-			continue;
-		}
-
-		?>
-		<li>
-		<?php if($current_page_ID==$URL_object->getPageID()->getAsMapKey() ): ?>
-			<i><?=$URL_object->getPageMenuTitle(); ?></i>
-		<?php else: ?>
-			<a href="<?=$URL_object->toString(); ?>"><?=$URL_object->getPageMenuTitle(); ?></a>
-		<?php endif; ?>
-			<?php showMenu($page->getChildren()); ?>
-		</li>
+                if($page->getIsAdminUI()) {
+                    continue;
+                }
+            ?>
+            <li>
+            <?php if($current_page_ID==$page->getID()->toString() ): ?>
+                <i><?=$page->getMenuTitle(); ?></i>
+            <?php else: ?>
+                <a href="<?=$page->getURL(); ?>"><?=$page->getMenuTitle(); ?></a>
+            <?php endif; ?>
+                <?php showMenu($page->getChildren()); ?>
+            </li>
 		<?php endforeach; ?>
-	</ul>
-	<?php
+    	</ul>
+	    <?php
 	}
 }
 ?>
 
 <div style="margin:5px;border-top: 1px solid black;">
-	<strong>Site map [current locale: <?=Jet\Mvc::getCurrentLocale();?>]:</strong>
+	<strong>Site map [current locale: <?=Mvc::getCurrentLocale();?>]:</strong>
 	<?php showMenu( $this->site_tree_current ); ?>
 </div>
 
 
-<?php foreach( Jet\Mvc::getCurrentLocalesList() as $locale ):
-	$key = 'site_tree_'.$locale;
+<?php foreach( Mvc::getCurrentLocalesList() as $locale ):
+    if($locale==Mvc::getCurrentLocale()) {
+        continue;
+    }
+    $home_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
 	?>
 <div style="margin:5px;border-top: 1px solid black;">
 	<strong>Site map [<?php echo $locale;?>]:</strong>
-	<?php showMenu( $this->{$key} ); ?>
+	<?php showMenu( [$home_page] ); ?>
 </div>
 <?php endforeach; ?>

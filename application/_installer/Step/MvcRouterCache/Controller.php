@@ -25,7 +25,7 @@ class Installer_Step_MvcRouterCache_Controller extends Installer_Step_Controller
 		if( $config->catchForm($form) ) {
 			$config->save();
 
-			Mvc_Router::getNewRouterInstance()->helper_cache_create();
+            Mvc_Factory::getRouterInstance()->helper_cache_create();
 
 			$this->installer->goNext();
 		}

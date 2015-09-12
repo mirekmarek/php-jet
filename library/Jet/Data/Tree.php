@@ -374,13 +374,13 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 
 		if( !isset($item_data[$this->ID_key]) ){
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->ID_key.'\' key in item data (ID_key)',
+				'Missing \''.$this->ID_key.'\' key in item data',
 				Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 		}
 		if( !isset($item_data[$this->parent_ID_key]) ){
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->parent_ID_key.'\' key in item data (parent_ID_key)',
+				'Missing \''.$this->parent_ID_key.'\' key in item data',
 				Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 		}
@@ -443,6 +443,13 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$IDs = [];
 
 		foreach( $items as $item ) {
+            if(!isset($item[$this->ID_key])) {
+                throw new Data_Tree_Exception(
+                    'Missing \''.$this->ID_key.'\' key in item data',
+                    Data_Tree_Exception::CODE_MISSING_VALUE
+                );
+
+            }
 			$ID = $item[$this->ID_key];
 			$parent_ID = $item[$this->parent_ID_key];
 

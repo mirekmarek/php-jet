@@ -52,23 +52,65 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 		);
 
 	/**
-	 * @param Mvc_Layout $layout
+     *
 	 */
-	public function __construct( Mvc_Layout $layout ) {
-		parent::__construct( $layout );
+	public function __construct() {
 
 		$this->config = new Javascript_Lib_Dojo_Config();
 
-		$this->locale = $this->layout->getRouter()->getLocale();
-
-		$locale = strtolower($this->locale->getLanguage()).'-'.strtolower($this->locale->getRegion());
-
-		$this->theme = $this->config->getDefaultTheme();
-
-		$this->setOption('parseOnLoad', $this->config->getParseOnLoad());
-		$this->setOption('isDebug', $this->config->getIsDebug());
-		$this->setOption('locale', $locale);
 	}
+
+    /**
+     * @param Mvc_Layout $layout
+     */
+    public function setLayout( Mvc_Layout $layout ) {
+        parent::setLayout($layout);
+
+        $this->locale = $this->layout->getPage()->getLocale();
+
+        $locale = strtolower($this->locale->getLanguage()).'-'.strtolower($this->locale->getRegion());
+
+        $this->theme = $this->config->getDefaultTheme();
+
+        $this->setOption('parseOnLoad', $this->config->getParseOnLoad());
+        $this->setOption('isDebug', $this->config->getIsDebug());
+        $this->setOption('locale', $locale);
+
+    }
+
+    /**
+     * @param Javascript_Lib_Abstract $lib
+     * @return void
+     */
+    public function adopt( Javascript_Lib_Abstract $lib ) {
+        /**
+         * @var Javascript_Lib_Dojo $lib
+         */
+
+        foreach( $lib->packages as $package ) {
+            if(!in_array($package, $this->packages)) {
+                $this->packages[] = $package;
+            }
+        }
+
+        foreach( $lib->required_components as $component ) {
+            if(!in_array($component, $this->required_components)) {
+                $this->required_components[] = $component;
+            }
+        }
+
+        foreach( $lib->required_components_CSS as $CSS ) {
+            if(!in_array($CSS, $this->required_components_CSS)) {
+                $this->required_components_CSS[] = $CSS;
+            }
+        }
+
+        foreach( $this->options as $key=>$val ) {
+            if(!array_key_exists($key, $this->options)) {
+                $this->options[$key] = $val;
+            }
+        }
+    }
 
 	/**
 	 * @param $package
@@ -190,7 +232,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 
 			$package_creator = new Javascript_Lib_Dojo_PackageCreator(
 				$this->replaceConstants($this->config->getBaseURI()),
-				$this->locale,
+				$this->layout->getPage()->getLocale(),
 				$this->packages,
 				$this->required_components
 			);

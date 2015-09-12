@@ -43,7 +43,6 @@ class Mvc_MicroRouter extends Object {
 	 * @param Application_Modules_Module_Abstract $module_instance
 	 */
 	public function __construct( Mvc_Router_Abstract $router_instance, Application_Modules_Module_Abstract $module_instance ) {
-
 		$this->router_instance = $router_instance;
 		$this->module_instance = $module_instance;
 	}
@@ -100,12 +99,11 @@ class Mvc_MicroRouter extends Object {
 	}
 
 
-
-
-	/**
-	 *
-	 */
-	public function resolve( Mvc_Dispatcher_Queue_Item $dispatch_queue_item ) {
+    /**
+     * @param Mvc_Page_Content_Abstract $page_content
+     * @return bool
+     */
+    public function resolve( Mvc_Page_Content_Abstract $page_content ) {
 
 
 		if($this->default_action_name) {
@@ -133,9 +131,13 @@ class Mvc_MicroRouter extends Object {
 		}
 
 		if($action_name) {
-			$dispatch_queue_item->setControllerAction( $action_name );
-			$dispatch_queue_item->setControllerActionParameters( $action_parameters );
+			$page_content->setControllerAction( $action_name );
+			$page_content->setControllerActionParameters( $action_parameters );
+
+            return true;
 		}
+
+        return false;
 
 	}
 

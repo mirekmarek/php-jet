@@ -21,31 +21,22 @@ class Mvc_Factory extends Factory {
 
 	const DEFAULT_ROUTER_CLASS = 'Jet\Mvc_Router_Default';
 	const DEFAULT_ROUTER_CONFIG_CLASS = 'Jet\Mvc_Router_Config_Default';
-	const DEFAULT_ROUTER_MAP_CLASS = 'Jet\Mvc_Router_Map_Default';
-	const DEFAULT_ROUTER_MAP_URL_CLASS = 'Jet\Mvc_Router_Map_URL_Default';
 
 	/**
 	 * @var string
 	 */
 	protected static $router_cache_backend_class_name_prefix = 'Jet\Mvc_Router_Cache_Backend_';
 
-	/**
-	 * @var string
-	 */
-	protected static $router_map_cache_backend_class_name_prefix = 'Jet\Mvc_Router_Map_Cache_Backend_';
 
-	const DEFAULT_DISPATCHER_CLASS = 'Jet\Mvc_Dispatcher_Default';
+    const DEFAULT_PAGE_ID_CLASS = 'Jet\Mvc_Page_ID_Default';
+	const DEFAULT_PAGE_CLASS = 'Jet\Mvc_Page_Default';
+	const DEFAULT_PAGE_META_TAG_CLASS = 'Jet\Mvc_Page_MetaTag_Default';
+	const DEFAULT_PAGE_CONTENT_CLASS = 'Jet\Mvc_Page_Content_Default';
 
-	const DEFAULT_PAGE_HANDLER_CLASS = 'Jet\Mvc_Pages_Handler_Default';
-	const DEFAULT_PAGE_CLASS = 'Jet\Mvc_Pages_Page_Default';
-	const DEFAULT_PAGE_META_TAG_CLASS = 'Jet\Mvc_Pages_Page_MetaTag_Default';
-	const DEFAULT_PAGE_CONTENT_CLASS = 'Jet\Mvc_Pages_Page_Content_Default';
-
-	const DEFAULT_SITE_HANDLER_CLASS = 'Jet\Mvc_Sites_Handler_Default';
-	const DEFAULT_SITE_CLASS = 'Jet\Mvc_Sites_Site_Default';
-	const DEFAULT_LOCALIZED_SITE_CLASS = 'Jet\Mvc_Sites_Site_LocalizedData_Default';
-	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Jet\Mvc_Sites_Site_LocalizedData_MetaTag_Default';
-	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Jet\Mvc_Sites_Site_LocalizedData_URL_Default';
+	const DEFAULT_SITE_CLASS = 'Jet\Mvc_Site_Default';
+	const DEFAULT_LOCALIZED_SITE_CLASS = 'Jet\Mvc_Site_LocalizedData_Default';
+	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Jet\Mvc_Site_LocalizedData_MetaTag_Default';
+	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Jet\Mvc_Site_LocalizedData_URL_Default';
 
 	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = 'Jet\Mvc_NavigationData_Breadcrumb_Default';
 	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = 'Jet\Mvc_NavigationData_Menu_Default';
@@ -62,13 +53,6 @@ class Mvc_Factory extends Factory {
 	}
 
 	/**
-	 * @param string $router_map_cache_backend_class_name_prefix
-	 */
-	public static function setRouterMapCacheBackendClassNamePrefix($router_map_cache_backend_class_name_prefix) {
-		static::$router_map_cache_backend_class_name_prefix = $router_map_cache_backend_class_name_prefix;
-	}
-
-	/**
 	 * @return string
 	 */
 	public static function getRouterCacheBackendClassNamePrefix() {
@@ -77,33 +61,34 @@ class Mvc_Factory extends Factory {
 
 
 
-	/**
-	 * Returns instance of Dispatcher class
-	 * @see Factory
-	 *
-	 * @throws Mvc_Dispatcher_Exception
-	 * @return Mvc_Dispatcher_Abstract
-	 */
-	public static function getDispatcherInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_DISPATCHER_CLASS );
-		$instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_DISPATCHER_CLASS, $instance);
+    /**
+     * @return string
+     */
+    public static function getPageIDClassName() {
+        return static::getClassName( static::DEFAULT_PAGE_ID_CLASS );
+    }
 
-		return $instance;
-	}
+    /**
+     * @param string $class_name
+     */
+    public static function setPageIDClass( $class_name ) {
+        static::setClassName(static::DEFAULT_PAGE_ID_CLASS, $class_name);
+    }
 
+    /**
+     * Returns instance of Page ID class @see Factory
+     *
+     * @return Mvc_Page_ID_Abstract
+     */
+    public static function getPageIDInstance() {
+        $class_name = static::getClassName(static::DEFAULT_PAGE_ID_CLASS);
 
-	/**
-	 * Returns instance of Page Handler class @see Factory
-	 *
-	 * @return Mvc_Pages_Handler_Abstract
-	 */
-	public static function getPageHandlerInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_PAGE_HANDLER_CLASS );
-		$instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_PAGE_HANDLER_CLASS, $instance);
-		return $instance;
-	}
+        $definition = static::getPageInstance()->getDataModelDefinition();
+
+        $instance = new $class_name($definition);
+
+        return $instance;
+    }
 
 	/**
 	 * @return string
@@ -112,19 +97,12 @@ class Mvc_Factory extends Factory {
 		return static::getClassName( static::DEFAULT_PAGE_CLASS );
 	}
 
-	/**
-	 * Returns instance of Page ID class @see Factory
-	 *
-	 * @return Mvc_Pages_Page_ID_Abstract
-	 */
-	public static function getPageIDInstance() {
-		$class_name = static::getPageClassName();
-
-		/**
-		 * @var Mvc_Pages_Page_Abstract $class_name
-		 */
-		return $class_name::getEmptyIDInstance();
-	}
+    /**
+     * @param string $class_name
+     */
+    public static function setPageClass( $class_name ) {
+        static::setClassName(static::DEFAULT_PAGE_CLASS, $class_name);
+    }
 
 	/**
 	 * Returns instance of Page class @see Factory
@@ -135,7 +113,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $parent_ID (optional)
 	 * @param string $ID (optional)
 	 *
-	 * @return Mvc_Pages_Page_Abstract
+	 * @return Mvc_Page_Abstract
 	 */
 	public static function getPageInstance( $site_ID='', Locale $locale=null , $name='', $parent_ID='', $ID=null ) {
 		$class_name = static::getPageClassName();
@@ -147,7 +125,7 @@ class Mvc_Factory extends Factory {
 	/**
 	* Returns instance of ContentData class @see Factory
 	*
-	* @return Mvc_Pages_Page_Content_Abstract
+	* @return Mvc_Page_Content_Abstract
 	*/
 	public static function getPageContentInstance() {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_CONTENT_CLASS );
@@ -163,31 +141,13 @@ class Mvc_Factory extends Factory {
 	 * @param string $attribute (optional)
 	 * @param string $attribute_value (optional)
 	 *
-	 * @return Mvc_Pages_Page_MetaTag_Abstract
+	 * @return Mvc_Page_MetaTag_Abstract
 	 */
 	public static function getPageMetaTagInstance( $content='', $attribute='', $attribute_value='' ) {
 		$class_name =  static::getClassName( static::DEFAULT_PAGE_META_TAG_CLASS );
 		$instance = new $class_name( $content, $attribute, $attribute_value );
 		//static::checkInstance(static::DEFAULT_PAGE_META_TAG_CLASS, $instance);
 		return $instance;
-	}
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setPageHandlerClass( $class_name ) {
-		static::setClassName(static::DEFAULT_PAGE_HANDLER_CLASS, $class_name);
-	}
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setPageClass( $class_name ) {
-		static::setClassName(static::DEFAULT_PAGE_CLASS, $class_name);
 	}
 
 	/**
@@ -208,18 +168,6 @@ class Mvc_Factory extends Factory {
 		static::setClassName(static::DEFAULT_PAGE_CONTENT_CLASS, $class_name);
 	}
 
-	/**
-	 * Returns instance of Site Handler class @see Factory
-	 *
-	 * @return Mvc_Sites_Handler_Abstract
-	 */
-	public static function getSiteHandlerInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_SITE_HANDLER_CLASS );
-		$instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_SITE_HANDLER_CLASS, $instance);
-		return $instance;
-	}
-
 
 	/**
 	 * @return string
@@ -231,13 +179,13 @@ class Mvc_Factory extends Factory {
 	/**
 	 * Returns instance of Site class @see Factory
 	 *
-	 * @return Mvc_Sites_Site_ID_Abstract
+	 * @return Mvc_Site_ID_Abstract
 	 */
 	public static function getSiteIDInstance() {
 		$class_name = static::getSiteClassName();
 
 		/**
-		 * @var Mvc_Sites_Site_Abstract $class_name
+		 * @var Mvc_Site_Abstract $class_name
 		 */
 		return $class_name::getEmptyIDInstance();
 	}
@@ -248,7 +196,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $name (optional)
 	 * @param string $ID (optional)
 	 *
-	 * @return Mvc_Sites_Site_Abstract
+	 * @return Mvc_Site_Abstract
 	 */
 	public static function getSiteInstance( $name='', $ID=null ) {
 		$class_name = static::getSiteClassName();
@@ -263,7 +211,7 @@ class Mvc_Factory extends Factory {
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Sites_Site_LocalizedData_Abstract
+	 * @return Mvc_Site_LocalizedData_Abstract
 	 */
 	public static function getLocalizedSiteInstance( Locale $locale=null ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_CLASS );
@@ -279,7 +227,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $attribute (optional)
 	 * @param string $attribute_value (optional)
 	 *
-	 * @return Mvc_Sites_Site_LocalizedData_MetaTag_Abstract
+	 * @return Mvc_Site_LocalizedData_MetaTag_Abstract
 	 */
 	public static function getLocalizedSiteMetaTagInstance( $content='', $attribute='', $attribute_value='' ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_META_TAG_CLASS );
@@ -294,7 +242,7 @@ class Mvc_Factory extends Factory {
 	 * @param string $URL (optional)
 	 * @param bool $is_default (optional)
 	 *
-	 * @return Mvc_Sites_Site_LocalizedData_URL_Abstract
+	 * @return Mvc_Site_LocalizedData_URL_Abstract
 	 */
 	public static function getLocalizedSiteURLInstance( $URL='', $is_default=false ) {
 		$class_name =  static::getClassName( static::DEFAULT_LOCALIZED_SITE_URL_CLASS );
@@ -302,17 +250,6 @@ class Mvc_Factory extends Factory {
 		//static::checkInstance(static::DEFAULT_LOCALIZED_SITE_URL_CLASS, $instance);
 		return $instance;
 	}
-
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setSiteHandlerClass( $class_name ) {
-		static::setClassName(static::DEFAULT_SITE_HANDLER_CLASS, $class_name);
-	}
-
 
 	/**
 	 * @see Factory
@@ -363,49 +300,6 @@ class Mvc_Factory extends Factory {
 		return $instance;
 	}
 
-	/**
-	 * Returns instance of Router Map class @see Factory
-	 *
-	 * @return Mvc_Router_Map_Abstract
-	 */
-	public static function getRouterMapInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_ROUTER_MAP_CLASS );
-		$instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_ROUTER_CLASS, $instance);
-		return $instance;
-	}
-
-	/**
-	 * @see factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setRouterMapClass( $class_name ) {
-		static::setClassName(static::DEFAULT_ROUTER_MAP_CLASS, $class_name);
-	}
-
-
-	/**
-	 * Returns instance of Router Map class @see Factory
-	 *
-	 * @return Mvc_Router_Map_URL_Abstract
-	 */
-	public static function getRouterMapUrlInstance() {
-		$class_name =  static::getClassName( static::DEFAULT_ROUTER_MAP_URL_CLASS );
-		$instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_ROUTER_CLASS, $instance);
-		return $instance;
-	}
-
-
-	/**
-	 * @see factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setRouterMapUrlClass( $class_name ) {
-		static::setClassName(static::DEFAULT_ROUTER_MAP_URL_CLASS, $class_name);
-	}
 
 
 	/**
@@ -453,41 +347,6 @@ class Mvc_Factory extends Factory {
 	 */
 	public static function getRouterCacheBackendInstance( $backend_type, Mvc_Router_Cache_Backend_Config_Abstract $backend_config ) {
 		$default_class_name = static::$router_cache_backend_class_name_prefix.$backend_type;
-
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $backend_config );
-		//static::checkInstance($default_class_name, $instance);
-		return $instance;
-	}
-
-	/**
-	 *
-	 * @see Factory
-	 *
-	 * @param string $backend_type
-	 * @param bool $soft_mode
-	 *
-	 * @return Mvc_Router_Map_Cache_Backend_Config_Abstract
-	 */
-	public static function getRouterMapCacheBackendConfigInstance( $backend_type, $soft_mode=false ) {
-		$default_class_name =  static::$router_map_cache_backend_class_name_prefix.$backend_type.'_Config';
-
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name($soft_mode);
-		//static::checkInstance($default_class_name, $instance);
-		return $instance;
-	}
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $backend_type
-	 * @param Mvc_Router_Map_Cache_Backend_Config_Abstract $backend_config
-	 *
-	 * @return Mvc_Router_Map_Cache_Backend_Abstract
-	 */
-	public static function getRouterMapCacheBackendInstance( $backend_type, Mvc_Router_Map_Cache_Backend_Config_Abstract $backend_config ) {
-		$default_class_name = static::$router_map_cache_backend_class_name_prefix.$backend_type;
 
 		$class_name =  static::getClassName( $default_class_name );
 		$instance = new $class_name( $backend_config );

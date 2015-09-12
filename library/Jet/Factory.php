@@ -10,7 +10,7 @@
  *
  * Do not do this:
  *
- *  $site_data  = new Jet\Mvc_Sites_Site_Default();
+ *  $site_data  = new Jet\Mvc_Site_Default();
  *
  * But use the method of the factory class Jet\Mvc_Sites_Factory:
  *

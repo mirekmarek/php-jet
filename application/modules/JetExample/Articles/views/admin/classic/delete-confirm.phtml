@@ -6,6 +6,12 @@ use Jet;
  * @var Article $article
  */
 $article = $this->article;
+
+/**
+ * @var Jet\Mvc_MicroRouter $router
+ */
+$router = $this->router;
+
 ?>
 
 <div style="padding: 10px;">
@@ -15,7 +21,7 @@ $article = $this->article;
 	<p>
 	<?=Jet\Tr::_('Do you really want to delete this article?');?>
 	<br/>
-	<a href="?ID=<?=rawurlencode($article->getID());?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
+	<a href="<?=$router->getActionURI('edit', $article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($article->getID());?>" method="post">

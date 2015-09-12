@@ -69,6 +69,10 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 			$default_value->setMRelatedModel( $data_model );
 		}
 
+        if($default_value instanceof DataModel_Related_1toN) {
+            $default_value = new DataModel_Related_1toN_Iterator( $class_name );
+        }
+
 
 		return $default_value;
 	}

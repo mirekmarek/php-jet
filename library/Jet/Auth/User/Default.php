@@ -85,7 +85,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_label = 'Locale'
-	 * @JetDataModel:form_field_get_select_options_callback = [ 'Jet\Mvc','getAllSitesLocalesList']
+	 * @JetDataModel:form_field_get_select_options_callback = [ 'Jet\Mvc_Site','getAllLocalesList']
 	 *
 	 * @var Locale
 	 */

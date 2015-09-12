@@ -31,66 +31,28 @@ class Auth extends Object {
 	 *
 	 * @var Auth_ControllerModule_Abstract
 	 */
-	protected static $current_auth_controller_module_instance;
+	protected static $current_auth_controller;
 
-	/**
-	 * List of Auth modules instances
-	 *
-	 * @var Auth_ControllerModule_Abstract[]
-	 */
-	protected static $auth_controller_module_instances = array();
-
-	/**
-	 * Initialize new Auth module
-	 *
-	 * @param Mvc_Router_Abstract $router
-	 *
-	 * @throws Auth_ControllerModule_Exception
-	 */
-	public static function initialize( Mvc_Router_Abstract $router ) {
-
-		static::$current_auth_controller_module_instance = $router->getFrontController()->getAuthController();
-		static::$auth_controller_module_instances[] = static::$current_auth_controller_module_instance;
-
-
-		if( !static::$current_auth_controller_module_instance instanceof Auth_ControllerModule_Abstract ) {
-			$module_name = static::$current_auth_controller_module_instance->getModuleManifest()->getName();
-
-			throw new Auth_ControllerModule_Exception(
-					'Auth Controller module \''.$module_name.'\' instance must be subclass of Auth_ControllerModule_Abstract',
-					Auth_ControllerModule_Exception::CODE_INVALID_AUTH_CONTROLLER_MODULE_CLASS
-				);
-		}
-
-		$router->setAuthController( static::$current_auth_controller_module_instance );
-	}
-
-	/**
-	 * Close current Auth module and switch to previous if available
-	 *
-	 * @static
-	 *
-	 */
-	public static function shutdown() {
-		if(!static::$auth_controller_module_instances) {
-			return;
-		}
-		unset(static::$auth_controller_module_instances[count(static::$auth_controller_module_instances)-1]);
-
-		if(static::$auth_controller_module_instances) {
-			static::$current_auth_controller_module_instance = static::$auth_controller_module_instances[count(static::$auth_controller_module_instances)-1];
-		} else {
-			static::$current_auth_controller_module_instance = null;
-		}
-	}
+    /**
+     * @param Auth_ControllerModule_Abstract $current_auth_controller
+     */
+    public static function setCurrentAuthController( Auth_ControllerModule_Abstract $current_auth_controller)
+    {
+        self::$current_auth_controller = $current_auth_controller;
+    }
 
 	/**
 	 * Get instance of current Auth module
 	 *
 	 * @return Auth_ControllerModule_Abstract
 	 */
-	public static function getAuthController() {
-		return static::$current_auth_controller_module_instance;
+	public static function getCurrentAuthController()
+    {
+        if(!static::$current_auth_controller) {
+            static::$current_auth_controller = Mvc::getCurrentPage()->getAuthController();
+        }
+
+        return static::$current_auth_controller;
 	}
 
 	/**
@@ -102,7 +64,7 @@ class Auth extends Object {
 	 * @return bool
 	 */
 	public static function login( $login, $password ) {
-		if(!static::$current_auth_controller_module_instance->login( $login, $password )) {
+		if(!static::getCurrentAuthController()->login( $login, $password )) {
 			static::logEvent('login_failed', array('login'=>$login), 'Login failed. Login: \''.$login.'\'');
 			return false;
 		} else {
@@ -125,7 +87,7 @@ class Auth extends Object {
 			static::logEvent('logout', array('login'=>$login, 'user_ID'=>$user_ID), 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 		}
 
-		return static::$current_auth_controller_module_instance->logout();
+		return static::getCurrentAuthController()->logout();
 	}
 
 	/**
@@ -134,10 +96,10 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract|bool
 	 */
 	public static function getCurrentUser() {
-		if(!static::$current_auth_controller_module_instance) {
+		if(!static::getCurrentAuthController()) {
 			return null;
 		}
-		return static::$current_auth_controller_module_instance->getCurrentUser();
+		return static::getCurrentAuthController()->getCurrentUser();
 	}
 
 	/**
@@ -147,7 +109,7 @@ class Auth extends Object {
 	 * @return bool
 	 */
 	public static function getCurrentUserHasRole( $role_ID ) {
-		return static::$current_auth_controller_module_instance->getCurrentUser()->getHasRole( $role_ID );
+		return static::getCurrentAuthController()->getCurrentUser()->getHasRole( $role_ID );
 	}
 
 	/**
@@ -161,7 +123,7 @@ class Auth extends Object {
 	 * @return bool
 	 */
 	public static function getCurrentUserHasPrivilege( $privilege, $value, Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true ) {
-		return static::$current_auth_controller_module_instance->getCurrentUserHasPrivilege( $privilege, $value, $context_object, $log_if_false );
+		return static::getCurrentAuthController()->getCurrentUserHasPrivilege( $privilege, $value, $context_object, $log_if_false );
 	}
 
 	/**
@@ -170,7 +132,7 @@ class Auth extends Object {
 	 * @return Auth_Role_Abstract
 	 */
 	public static function getNewRole() {
-		return static::$current_auth_controller_module_instance->getNewRole();
+		return static::getCurrentAuthController()->getNewRole();
 	}
 
 	/**
@@ -181,7 +143,7 @@ class Auth extends Object {
 	 * @return Auth_Role_Abstract|null
 	 */
 	public static function getRole( $ID ) {
-		return static::$current_auth_controller_module_instance->getRole( $ID );
+		return static::getCurrentAuthController()->getRole( $ID );
 	}
 
 	/**
@@ -190,7 +152,7 @@ class Auth extends Object {
 	 * @return Auth_Role_Abstract[]
 	 */
 	public static function getRolesList() {
-		return static::$current_auth_controller_module_instance->getRolesList();
+		return static::getCurrentAuthController()->getRolesList();
 	}
 
 	/**
@@ -198,7 +160,7 @@ class Auth extends Object {
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getRolesListAsData() {
-		return static::$current_auth_controller_module_instance->getRolesListAsData();
+		return static::getCurrentAuthController()->getRolesListAsData();
 	}
 
 
@@ -208,7 +170,7 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract
 	 */
 	public static function getNewUser() {
-		return static::$current_auth_controller_module_instance->getNewUser();
+		return static::getCurrentAuthController()->getNewUser();
 	}
 
 	/**
@@ -219,7 +181,7 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract|null
 	 */
 	public static function getUser( $ID ) {
-		return static::$current_auth_controller_module_instance->getUser( $ID );
+		return static::getCurrentAuthController()->getUser( $ID );
 	}
 
 	/**
@@ -230,7 +192,7 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract[]
 	 */
 	public static function getUsersList( $role_ID=null ) {
-		return static::$current_auth_controller_module_instance->getUsersList( $role_ID );
+		return static::getCurrentAuthController()->getUsersList( $role_ID );
 	}
 
 	/**
@@ -240,7 +202,7 @@ class Auth extends Object {
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getUsersListAsData( $role_ID=null ) {
-		return static::$current_auth_controller_module_instance->getUsersListAsData( $role_ID );
+		return static::getCurrentAuthController()->getUsersListAsData( $role_ID );
 	}
 
 	/**
@@ -253,7 +215,7 @@ class Auth extends Object {
 	 * @param string $user_login (optional; default: null = current user login)
 	 */
 	public static function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null ) {
-		static::$current_auth_controller_module_instance->logEvent( $event, $event_data, $event_txt, $user_ID, $user_login );
+		static::getCurrentAuthController()->logEvent( $event, $event_data, $event_txt, $user_ID, $user_login );
 	}
 
 	/**
@@ -263,11 +225,11 @@ class Auth extends Object {
 	 */
 	public static function getAvailablePrivilegesList() {
 
-		if(!static::$current_auth_controller_module_instance) {
+		if(!static::getCurrentAuthController()) {
 			return array();
 		}
 
-		return static::$current_auth_controller_module_instance->getAvailablePrivilegesList();
+		return static::getCurrentAuthController()->getAvailablePrivilegesList();
 	}
 
 	/**
@@ -278,7 +240,7 @@ class Auth extends Object {
 	 * @return Data_Tree_Forest
 	 */
 	public static function getAvailablePrivilegeValuesList( $privilege ) {
-		return static::$current_auth_controller_module_instance->getAvailablePrivilegeValuesList( $privilege );
+		return static::getCurrentAuthController()->getAvailablePrivilegeValuesList( $privilege );
 	}
 
 	/**
@@ -289,9 +251,9 @@ class Auth extends Object {
 	 * @return int
 	 */
 	public static function getPasswordStrength( $password ) {
-		if(!static::$current_auth_controller_module_instance) {
+		if(!static::getCurrentAuthController()) {
 			return Auth_ControllerModule_Abstract::getPasswordStrength( $password );
 		}
-		return static::$current_auth_controller_module_instance->getPasswordStrength( $password );
+		return static::getCurrentAuthController()->getPasswordStrength( $password );
 	}
 }

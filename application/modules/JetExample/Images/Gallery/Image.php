@@ -322,17 +322,17 @@ class Gallery_Image extends Jet\DataModel {
 	/**
 	 * @param $maximal_size_w
 	 * @param $maximal_size_h
-	 * @param bool $do_not_save_imindietly
+	 * @param bool $do_not_save_now
 	 *
 	 * @return Gallery_Image_Thumbnail
 	 */
-	public function getThumbnail( $maximal_size_w, $maximal_size_h, $do_not_save_imindietly=false ) {
+	public function getThumbnail( $maximal_size_w, $maximal_size_h, $do_not_save_now=false ) {
 		$key = Gallery_Image_Thumbnail::createKey( $maximal_size_w, $maximal_size_h );
 
 
 		if(!isset($this->thumbnails[$key])) {
 			$this->thumbnails[$key] = Gallery_Image_Thumbnail::getNewThumbnail($this, $maximal_size_w, $maximal_size_h);
-			if(!$do_not_save_imindietly) {
+			if(!$do_not_save_now) {
 				$this->validateProperties();
 				$this->save();
 			}

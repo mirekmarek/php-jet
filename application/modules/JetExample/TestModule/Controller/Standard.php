@@ -48,19 +48,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function main_menu_Action() {
 
-		$this->view->setVar('site_tree_current', Jet\Mvc::getCurrentFrontController()->getSiteStructure(
-			Jet\Mvc::getCurrentSiteID(),
-			Jet\Mvc::getCurrentLocale()
-		));
-
-		foreach( Jet\Mvc::getCurrentLocalesList() as $locale ) {
-			$key = 'site_tree_'.$locale;
-			$this->view->setVar( $key, Jet\Mvc::getCurrentFrontController()->getSiteStructure(
-				Jet\Mvc::getCurrentSiteID(),
-				$locale
-			));
-
-		}
+        $this->view->setVar('site_tree_current', [Jet\Mvc::getCurrentSite()->getHomepage( Jet\Mvc::getCurrentLocale() )]  );
 
 		$this->render('main-menu' );
 	}
@@ -91,8 +79,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$this->view->setVar('parameter_2', $parameter_2);
 
 		$this->render('test-action2' );
-
-
-	}
+ 	}
 
 }

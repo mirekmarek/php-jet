@@ -35,8 +35,6 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 		Application_Modules_Module_Manifest::setModuleTypesList(array(
 			Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL => 'General module',
-			Application_Modules_Module_Manifest::MODULE_TYPE_SITE_FRONT_CONTROLLER => 'Site Front Controller module',
-			Application_Modules_Module_Manifest::MODULE_TYPE_ADMIN_FRONT_CONTROLLER => 'Administration Front Controller module',
 			Application_Modules_Module_Manifest::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
 			Application_Modules_Module_Manifest::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 			Application_Modules_Module_Manifest::MODULE_TYPE_SYSTEM => 'System module',
@@ -209,25 +207,6 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( $module_info->getHasType(Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL) );
 		$this->assertFalse( $module_info->getHasType(Application_Modules_Module_Manifest::MODULE_TYPE_SYSTEM) );
-	}
-
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::getIsSiteFrontController
-	 */
-	public function testGetIsSiteFrontController() {
-		$module_info = new Application_Modules_Module_Manifest('ValidModule');
-
-		$this->assertFalse( $module_info->getIsSiteFrontController() );
-	}
-
-
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::getIsAdminFrontController
-	 */
-	public function testGetIsAdminFrontController() {
-		$module_info = new Application_Modules_Module_Manifest('ValidModule');
-
-		$this->assertFalse( $module_info->getIsAdminFrontController() );
 	}
 
 	/**

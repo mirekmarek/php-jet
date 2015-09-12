@@ -122,7 +122,7 @@ class Http_URL extends Object {
 	 *
 	 * @return Http_URL
 	 */
-	public static function parseURL($URL){
+	public static function parseRequestURL($URL){
 		return new self($URL);
 	}
 

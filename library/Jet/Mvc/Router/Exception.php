@@ -21,6 +21,4 @@ class Mvc_Router_Exception extends Exception {
 	const CODE_URL_NOT_DEFINED = 20;
 	const CODE_UNABLE_TO_PARSE_URL = 33;
 	const CODE_UNKNOWN_SCHEME = 40;
-	const CODE_INVALID_ADMIN_UI_CLASS = 50;
-	const CODE_INVALID_SITE_UI_CLASS = 60;
 }

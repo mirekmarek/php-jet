@@ -75,12 +75,6 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	}
 
 	/**
-	 * @param Mvc_Router_Abstract $router
-	 * @param Mvc_Dispatcher_Queue_Item $dispatch_queue_item
-	 */
-	abstract public function resolveRequest( Mvc_Router_Abstract $router, Mvc_Dispatcher_Queue_Item $dispatch_queue_item );
-
-	/**
 	 * Returns module views directory
 	 *
 	 * @return string
@@ -99,14 +93,11 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	}
 
 	/**
-	 * @param Mvc_Dispatcher_Abstract $dispatcher
 	 * @param string $service_type
 	 *
 	 * @return string
 	 */
 	protected function getControllerClassName(
-		/** @noinspection PhpUnusedParameterInspection */
-		Mvc_Dispatcher_Abstract $dispatcher,
 		$service_type
 	) {
 		$controller_suffix = 'Controller_'.$service_type;
@@ -119,24 +110,21 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	/**
 	 * Returns controller instance
 	 *
-	 * @param Mvc_Dispatcher_Abstract $dispatcher
 	 * @param string $service_type
 	 *
-	 * @throws Mvc_Dispatcher_Exception
-	 * @internal param Mvc_Dispatcher_Queue_Item $queue_item
+	 * @throws Exception
 	 *
 	 * @return Mvc_Controller_Abstract
 	 */
-	public function getControllerInstance( Mvc_Dispatcher_Abstract $dispatcher, $service_type ) {
+	public function getControllerInstance( $service_type ) {
 
-		$controller_class_name = $this->getControllerClassName( $dispatcher, $service_type );
+		$controller_class_name = $this->getControllerClassName( $service_type );
 
-		$controller = new $controller_class_name( $dispatcher, $this );
+		$controller = new $controller_class_name( $this );
 
 		if (!$controller instanceof Mvc_Controller_Abstract) {
-			throw new Mvc_Dispatcher_Exception(
-				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract',
-				Mvc_Dispatcher_Exception::CODE_INVALID_CONTROLLER_CLASS
+			throw new Exception(
+				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract'
 			);
 		}
 
@@ -152,15 +140,14 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @param string $action
 	 * @param array $action_parameters (optional)  @see Mvc_Dispatcher_QueueItem::$action_parameters
 	 *
-	 * @throws Mvc_Dispatcher_Exception
+	 * @throws Exception
 	 */
 	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters=array() ) {
 		$method = $action.'_Action';
 
 		if( !method_exists($controller, $method) ) {
-			throw new Mvc_Dispatcher_Exception(
-				'Controller method '. get_class($controller).'::'.$method.'() does not exist',
-				Mvc_Dispatcher_Exception::CODE_ACTION_DOES_NOT_EXIST
+			throw new Exception(
+				'Controller method '. get_class($controller).'::'.$method.'() does not exist'
 			);
 		}
 
@@ -331,204 +318,6 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 */
 	public function getPublicURI() {
 		return JET_MODULES_URI.$this->module_manifest->getUriReadyName().'/public/';
-	}
-
-	/**
-	 * Gets URI to this module AJAX action (page-uri/_ajax_/[module name]/[action])
-	 *
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getAjaxURI(
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return $this->getServiceURI(
-				Mvc_Router::SERVICE_TYPE_AJAX,
-				$action,
-				$path_fragments,
-				$GET_params,
-				$page_ID,
-				$locale,
-				$site_ID
-			);
-	}
-
-	/**
-	 * Gets URI to this module REST action (page-uri/_rest_/[module name]/[action])
-	 *
-	 * @param string $object_name
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getRestURI(
-		$object_name,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return $this->getServiceURI(
-			Mvc_Router::SERVICE_TYPE_REST,
-			$object_name,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
-	}
-
-
-
-
-
-	/**
-	 * Gets URL to this module AJAX action (http://site/page/_ajax_/[module name]/[action])
-	 *
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getAjaxURL(
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return $this->getServiceURL(
-			Mvc_Router::SERVICE_TYPE_AJAX,
-			$action,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
-	}
-
-	/**
-	 * Gets URL to this module REST action (http://site/page/_rest_/[module name]/[action])
-	 *
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getRestURL(
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return $this->getServiceURL(
-			Mvc_Router::SERVICE_TYPE_REST,
-			$action,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
-	}
-
-
-	/**
-	 * Gets URI to this module service action (page-uri/[service]/[module name]/[action])
-	 *
-	 * @param string $service_type
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getServiceURI(
-		$service_type,
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return Mvc::getCurrentFrontController()->generateServiceURI(
-			$service_type,
-			$this->module_manifest->getName(),
-			$action,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
-	}
-
-
-	/**
-	 * Gets URL to this module service action (http://site/page/[service]/[module name]/[action])
-	 *
-	 * @param string $service_type
-	 * @param string $action
-	 * @param array $path_fragments(optional), default: no fragments
-	 * @param array $GET_params(optional), default: no parameters
-	 * @param string|mixed $page_ID (optional), default: current page
-	 * @param Locale|string $locale(optional), default: current locale
-	 * @param string|mixed $site_ID (optional), default: current site ID
-	 *
-	 * @return string
-	 */
-	public function getServiceURL(
-		$service_type,
-		$action,
-		$path_fragments=array(),
-		$GET_params=array(),
-		$page_ID = null,
-		$locale = null,
-		$site_ID = null
-	){
-		return Mvc::getCurrentFrontController()->generateServiceURL(
-			$service_type,
-			$this->module_manifest->getName(),
-			$action,
-			$path_fragments,
-			$GET_params,
-			$page_ID,
-			$locale,
-			$site_ID
-		);
 	}
 
 }

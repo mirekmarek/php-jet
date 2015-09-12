@@ -74,7 +74,7 @@ $available_privileges_list = $this->available_privileges_list;
 				 */
 				?>
 				<tr>
-					<td><a href="<?=Jet\Mvc_Pages::getURI('admin_classic_users');?>?ID=<?=(string)$user->getID(); ?>"><?=$user->getLogin(); ?></a></td>
+					<td><a href="<?=Jet\Mvc_Page::get('admin/classic/users')->getURL( ['ID'=>$user->getID()] );?>"><?=$user->getLogin(); ?></a></td>
 				</tr>
 			<?php endforeach; ?>
 				</tbody>

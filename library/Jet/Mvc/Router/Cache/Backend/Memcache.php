@@ -55,7 +55,7 @@ class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstrac
 	 *
 	 * @param string $URL
 	 *
-	 * @return  null|Mvc_Router_Abstract
+	 * @return  null|array
 	 */
 	public function load($URL) {
 
@@ -70,10 +70,10 @@ class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstrac
 	/**
 	 *
 	 * @param string $URL
-	 * @param Mvc_Router_Abstract $item
+	 * @param array $item
 	 *
 	 */
-	public function save($URL, Mvc_Router_Abstract $item) {
+	public function save($URL, array $item) {
 		$key = $this->getCacheKey($URL);
 		$this->memcache->set( $key, serialize($item) );
 		$this->storeKey($key);

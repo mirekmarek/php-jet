@@ -15,16 +15,6 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
-	'ad8992892d8a3e4a1737ffd86fe0c8a0' => array(
-		'phrase' => 'Default site Front Controller module: ',
-		'translation' => '',
-		'is_translated' => false,
-	),
-	'04a6dd952690752fd827e4a6c74008fe' => array(
-		'phrase' => 'Default administration Front Controller module: ',
-		'translation' => '',
-		'is_translated' => false,
-	),
 	'60b0d76e4eccf015fb808b2c37e1b360' => array(
 		'phrase' => 'Authentication and Authorization Controller module: ',
 		'translation' => '',

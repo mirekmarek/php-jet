@@ -174,10 +174,10 @@ class Data_Paginator extends Object {
 	public function setDataSource( Data_Paginator_DataSource_Interface $data ) {
 		$this->data = $data;
 
-		$this->data->setPagination( $this->items_per_page, $this->data_index_start );
-
 		$this->data_items_count = $data->getCount();
 		$this->_calculate();
+
+        $this->data->setPagination( $this->items_per_page, $this->data_index_start );
 	}
 
 	/**

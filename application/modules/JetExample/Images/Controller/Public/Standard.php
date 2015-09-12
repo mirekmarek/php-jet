@@ -34,7 +34,11 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 	 * @param string $gallery_ID
 	 * @param Gallery $gallery (optional)
 	 */
-	public function default_Action( $gallery_ID, Gallery $gallery=null ) {
+	public function default_Action( $gallery_ID='_root_', Gallery $gallery=null ) {
+
+        if(!$gallery) {
+            $gallery = Gallery::get($gallery_ID);
+        }
 
 		$children = Gallery::getChildren( $gallery_ID );
 
@@ -44,4 +48,41 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 
 		$this->render('default');
 	}
+
+
+    /**
+     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     * @return bool
+     */
+    public function parseRequestURL_Public( Jet\Mvc_Page_Content_Abstract $page_content=null ) {
+        $gallery_ID = '_root_';
+        $gallery = null;
+
+
+        $path_fragments = Jet\Mvc::getCurrentRouter()->getPathFragments();
+
+        $URI = Jet\Mvc::getCurrentPage()->getURI();
+
+        if($path_fragments) {
+
+            foreach( $path_fragments as $pf ) {
+
+                if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_ID )) ) {
+                    $gallery = $_g;
+                    $gallery_ID = $gallery->getID();
+                    $URI .= rawurlencode($gallery->getTitle()).'/';
+
+                    Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
+
+                } else {
+                    return false;
+                }
+
+            }
+        }
+
+        $page_content->setControllerActionParameters( [ $gallery_ID, $gallery ]);
+
+        return true;
+    }
 }

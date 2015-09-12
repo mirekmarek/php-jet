@@ -57,7 +57,7 @@ abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 	 * @abstract
 	 *
 	 * @param string $URL
-	 * @return  null|Mvc_Router_Abstract
+	 * @return  null|array
 	 */
 	abstract function load( $URL );
 
@@ -65,10 +65,10 @@ abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
 	 *
 	 * @abstract
 	 * @param string $URL
-	 * @param Mvc_Router_Abstract $item
+	 * @param array $item
 	 *
 	 */
-	abstract function save( $URL, Mvc_Router_Abstract $item );
+	abstract function save( $URL, array $item );
 
 	/**
 	 * Truncate cache. URL can be:

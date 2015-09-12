@@ -300,14 +300,6 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		return implode( ':', $this->values );
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getAsMapKey() {
-		return $this->toString();
-	}
-
-
 
 //--------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------

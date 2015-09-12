@@ -200,6 +200,9 @@ class Translator extends Object {
 	 * @return Locale
 	 */
 	public static function getCurrentLocale() {
+        if(!static::$current_locale) {
+            static::$current_locale = Mvc::getCurrentLocale();
+        }
 		return static::$current_locale;
 	}
 

@@ -126,8 +126,77 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		}
 	}
 
+    /**
+     * @param Mvc_Page_Content_Abstract $page_content
+     * @return bool
+     */
+    public function parseRequestURL( Mvc_Page_Content_Abstract $page_content) {
 
-	/**
+        $router = Mvc::getCurrentRouter();
+
+        $path_fragments = $router->getPathFragments();
+
+
+        $module_name = Application_Modules::getHandler()->normalizeName(
+            $path_fragments[0]
+        );
+
+        $path_fragments = $router->shiftPathFragments();
+
+
+        if(!$this->getServiceRequestAllowed( $module_name )) {
+            return false;
+        }
+
+        if(!$path_fragments){
+
+            return false;
+        }
+
+        $object = $path_fragments[0];
+        $path_fragments = $router->shiftPathFragments();
+
+        $method = strtolower( Http_Request::getRequestMethod());
+
+        $controller_action = $method . '_' . $object;
+
+        $page_content->setModuleName($module_name);
+        $page_content->setControllerAction($controller_action);
+        $page_content->setControllerActionParameters($path_fragments);
+
+        return true;
+
+    }
+
+    /**
+     * @param string $module_name
+     *
+     * @return bool
+     */
+    public function getServiceRequestAllowed( $module_name ) {
+
+        if(!Application_Modules::getModuleIsActivated($module_name)) {
+            return false;
+        }
+
+        $page = Mvc::getCurrentPage();
+
+        if($page->getIsAdminUI()) {
+            return true;
+        }
+
+        foreach( $page->getContents() as $content ) {
+            if($content->getModuleName()==$module_name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+    /**
 	 * @return bool|mixed
 	 */
 	public function getRequestData() {

@@ -13,92 +13,6 @@ namespace Jet;
 
 class Javascript extends Object {
 
-	/**
-	 * @static
-	 * @param array $path_fragments
-	 * @param bool $get_as_string
-	 * @return string
-	 * @throws Javascript_Exception
-	 *
-	 */
-	public static function handleJetJSRequest( array $path_fragments, $get_as_string=false){
-		if(count($path_fragments)<1) {
-			throw new Javascript_Exception(
-				'Invalid path (empty)',
-				Javascript_Exception::CODE_INVALID_JS_LIB_PATH
-			);
-		}
-
-		$group = array_shift($path_fragments);
-
-		if($group!='Jet' && $group!='Jet.js' && $group!='modules') {
-			throw new Javascript_Exception(
-				'Unknown JetJS group: \''.$group.'\'. Valid options: \'Jet\', \'Jet.js\', \'modules\'',
-				Javascript_Exception::CODE_JS_NOT_FOUND
-			);
-		}
-
-		foreach($path_fragments as $pf) {
-			if(strpos($pf, '..')!==false) {
-				throw new Javascript_Exception(
-					'Invalid path (contains \'..\')',
-					Javascript_Exception::CODE_INVALID_JS_LIB_PATH
-				);
-			}
-		}
-
-		$JS_file_path = null;
-
-		if($group=='Jet.js') {
-			$JS_file_path = JET_PUBLIC_SCRIPTS_PATH.'Jet/Jet.js';
-		} else
-		if($group=='Jet') {
-			$JS_file_path = JET_PUBLIC_SCRIPTS_PATH.'Jet/Jet/'.implode('/',$path_fragments);
-		} else
-		if($group=='modules') {
-
-			$module_manifest = Application_Modules::getModuleManifest( array_shift($path_fragments) );
-
-			Translator::setCurrentNamespace( $module_manifest->getName() );
-
-			if(!$path_fragments) {
-				$path_fragments[] = 'Main';
-			}
-
-
-			$JS_file_path = $module_manifest->getModuleDir().'JS/'.implode('/', $path_fragments).'.js';
-		}
-
-		if(!IO_File::exists($JS_file_path)){
-			throw new Javascript_Exception(
-				'Javascript \''.$JS_file_path.'\' not found',
-				Javascript_Exception::CODE_JS_NOT_FOUND
-			);
-		}
-
-		$JS = IO_File::read($JS_file_path);
-
-
-		$JS = static::translateJavaScript($JS);
-
-
-		if($get_as_string){
-			return $JS;
-		}
-
-		Http_Headers::responseOK(
-			array(
-				'Content-type' => 'text/javascript;charset=utf-8'
-			)
-		);
-
-		echo $JS;
-
-		Debug_Profiler::setOutputIsJSON(true);
-		Application::end();
-
-		return null;
-	}
 
 	/**
 	 * @param string $JS
@@ -118,6 +32,5 @@ class Javascript extends Object {
 		$JS = Data_Text::replaceData($JS, $replacements, true);
 
 		return $JS;
-
 	}
 }

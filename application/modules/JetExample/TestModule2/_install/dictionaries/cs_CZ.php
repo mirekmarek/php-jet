@@ -114,10 +114,4 @@ return array (
     'translation' => '',
     'is_translated' => false,
   ),
-  'fbe6114e914e93af56b17f3b81497398' => 
-  array (
-    'phrase' => 'force_front_controller_module_name: ',
-    'translation' => '',
-    'is_translated' => false,
-  ),
 );

@@ -25,11 +25,5 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 		'delete_user' => 'Delete user',
 	);
 
-	/**
-	 * @param Jet\Mvc_Router_Abstract $router
-	 * @param Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item
-	 */
-	public function resolveRequest( Jet\Mvc_Router_Abstract $router, Jet\Mvc_Dispatcher_Queue_Item $dispatch_queue_item=null ) {
-	}
 
 }

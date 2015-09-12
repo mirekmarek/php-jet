@@ -43,7 +43,7 @@ class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
 
 		$this->view->setVar('form', $form);
 
-		$this->view->setVar('upload_URL', $this->module_instance->getRestURL('image'));
+		//TODO: $this->view->setVar('upload_URL', $this->module_instance->getRestURL('image'));
 
 		$upload_form = new Jet\Form('upload_form', array());
 		$upload_form->enableDecorator('Dojo');

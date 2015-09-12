@@ -664,7 +664,6 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			) {
 				$callback[0] = $this->data_model_class_name;
 			}
-
 			if(!is_callable($callback)) {
 				throw new DataModel_Exception($this->data_model_class_name.'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
 			}

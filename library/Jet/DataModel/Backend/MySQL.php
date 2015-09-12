@@ -503,7 +503,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	protected function _fetch( DataModel_Query $query, $fetch_method ) {
 
 		$this->_last_result_count = null;
-
 		$data = $this->_db_read->$fetch_method(
 			$this->getBackendSelectQuery( $query )
 		);

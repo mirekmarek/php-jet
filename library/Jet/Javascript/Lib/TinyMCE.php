@@ -26,17 +26,39 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 
 	/**
 	 *
-	 * @param Mvc_Layout $layout
-	 *
-	 * @throws Javascript_Exception
 	 */
-	public function __construct( Mvc_Layout $layout ) {
+	public function __construct() {
 		$this->config = new Javascript_Lib_TinyMCE_Config();
-
-		$this->layout = $layout;
-
 	}
 
+
+    /**
+     * @param Javascript_Lib_Abstract $lib
+     * @return void
+     */
+    public function adopt( Javascript_Lib_Abstract $lib ) {
+        /**
+         * @var Javascript_Lib_TinyMCE $lib
+         */
+
+        foreach( $lib->required_components as $component ) {
+            if(!in_array($component, $this->required_components)) {
+                $this->required_components[] = $component;
+            }
+        }
+
+        foreach( $lib->required_components_CSS as $CSS ) {
+            if(!in_array($CSS, $this->required_components_CSS)) {
+                $this->required_components_CSS[] = $CSS;
+            }
+        }
+
+        foreach( $this->options as $key=>$val ) {
+            if(!array_key_exists($key, $this->options)) {
+                $this->options[$key] = $val;
+            }
+        }
+    }
 
 	/**
 	 * Returns HTML snippet that initialize Java Script and is included into layout

@@ -55,13 +55,22 @@ abstract class Javascript_Lib_Abstract extends Object {
 	 */
 	protected $options = array();
 
-	/**
-	 *
-	 * @param Mvc_Layout $layout
-	 */
-	public function __construct( Mvc_Layout $layout ) {
-		$this->layout = $layout;
+	public function __construct(  ) {
 	}
+
+    /**
+     *
+     * @param Mvc_Layout $layout
+     */
+    public function setLayout(Mvc_Layout $layout) {
+        $this->layout = $layout;
+    }
+
+    /**
+     * @param Javascript_Lib_Abstract $lib
+     * @return void
+     */
+    abstract public function adopt( Javascript_Lib_Abstract $lib );
 
 	/**
 	 * Returns HTML snippet that initialize Java Script and is included into layout

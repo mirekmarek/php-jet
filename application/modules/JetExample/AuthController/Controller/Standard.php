@@ -41,7 +41,10 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 
-	public function login_Action() {
+    /**
+     *
+     */
+    public function login_Action() {
 
 		/**
 		 * @var Jet\Form $form
@@ -66,14 +69,23 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
 
+    /**
+     *
+     */
 	public function isNotActivated_Action() {
 		$this->render('is-not-activated');
 	}
 
+    /**
+     *
+     */
 	public function isBlocked_Action() {
 		$this->render('is-blocked');
 	}
 
+    /**
+     *
+     */
 	public function mustChangePassword_Action() {
 		/**
 		 * @var Jet\Form $form

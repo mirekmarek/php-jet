@@ -30,7 +30,7 @@ abstract class Mvc_Controller_Standard extends Mvc_Controller_Abstract {
 	 *
 	 */
 	public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters ) {
-		$this->router->getFrontController()->handleAccessDenied();
+        Mvc::getCurrentSite()->handleAccessDenied();
 	}
 
 }

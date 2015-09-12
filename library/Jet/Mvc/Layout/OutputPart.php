@@ -23,7 +23,7 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @var string
 	 */
-	protected $step_ID = '';
+	protected $content_ID = '';
 
 	/**
 	 *
@@ -56,20 +56,15 @@ class Mvc_Layout_OutputPart extends Object{
 	protected $module_name = '';
 
 	/**
-	 * @var bool
-	 */
-	protected $is_static = true;
-
-	/**
-	 * @param string $step_ID
+	 * @param string $content_ID
 	 * @param string $output
 	 * @param string $position
 	 * @param bool $position_required
 	 * @param int $position_order
 	 * @param string $module_name
 	 */
-	public function __construct($step_ID, $output, $position, $position_required, $position_order, $module_name) {
-		$this->step_ID = $step_ID;
+	public function __construct($content_ID, $output, $position, $position_required, $position_order, $module_name) {
+		$this->content_ID = $content_ID;
 		$this->output = $output;
 		$this->position = $position;
 		$this->position_required = $position_required;
@@ -80,8 +75,8 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @return string
 	 */
-	public function getStepID() {
-		return $this->step_ID;
+	public function getContentID() {
+		return $this->content_ID;
 	}
 
 	/**
@@ -152,21 +147,6 @@ class Mvc_Layout_OutputPart extends Object{
 	 */
 	public function setModuleName($module_name) {
 		$this->module_name = $module_name;
-	}
-
-
-	/**
-	 * @param bool $is_static
-	 */
-	public function setIsStatic($is_static) {
-		$this->is_static = $is_static;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsStatic() {
-		return $this->is_static;
 	}
 
 }

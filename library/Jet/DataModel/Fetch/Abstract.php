@@ -60,6 +60,7 @@ abstract class DataModel_Fetch_Abstract extends Object implements Object_Seriali
 	 */
 	public function setPagination( $limit, $offset ) {
 		$this->pagination_enabled = true;
+
 		$this->query->setLimit( $limit, $offset );
 	}
 
@@ -86,7 +87,6 @@ abstract class DataModel_Fetch_Abstract extends Object implements Object_Seriali
 	 */
 	public function getCount() {
 		if($this->count===null) {
-			$this->_fetch();
 			$this->count = $this->data_model_definition->getBackendInstance()->getCount( $this->query );
 		}
 		return $this->count;

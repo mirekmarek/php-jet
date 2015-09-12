@@ -32,7 +32,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $WYSIWYG_editor = 'TinyMCE';
+	protected $WYSIWYG_editor = 'Jet\\Javascript_Lib_TinyMCE';
 
 	/**
 	 * @param Form_Parser_TagData $tag_data
@@ -40,7 +40,14 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-		$this->__form->getLayout()->requireJavascriptLib( $this->WYSIWYG_editor );
+        $class_name = $this->WYSIWYG_editor;
+
+        /**
+         * @var JavaScript_Lib_TinyMCE $WYSIWYG
+         */
+        $WYSIWYG = new $class_name();
+
+		$this->__form->getLayout()->requireJavascriptLib( $WYSIWYG );
 
 		$tag_data->setProperty('name', $this->getName());
 		$tag_data->setProperty('id', $this->getID());

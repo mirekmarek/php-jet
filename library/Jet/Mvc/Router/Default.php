@@ -27,28 +27,12 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $_request_URL = '';
+	protected $request_URL = '';
 
 	/**
 	 * @var Http_URL
 	 */
-	protected $_parsed_request_URL;
-
-	/**
-	 *  Example:
-	 *
-	 * http://host/path
-	 *
-	 * base URL is = http://host
-	 *
-	 * http://host:8443/path
-	 *
-	 * base URL is = http://host:8443
-	 *
-	 *
-	 * @var string
-	 */
-	protected $_base_URL = '';
+	protected $parsed_request_URL;
 
 	/**
 	 * Request path fragments (http://host/path-fragment-0/path-fragment-1/ )
@@ -58,101 +42,18 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	protected $path_fragments = array();
 
 	/**
-	 * Path fragments that have been used by modules.
-	 * It must resolve if the URL is valid or not. In other words it must prevent duplicities.
-	 *
-	 * So each module which is using path fragment must let route known about it.
-	 *
-	 *
-	 * @var string[]
-	 */
-	protected $used_path_fragments = array();
-
-	/**
 	 * Is it SSL (https) request?
 	 * @var bool
 	 */
-	protected $_is_SSL_request = false;
+	protected $is_SSL_request = false;
+
 
 	//------------------------------------------------------------------
 
 	/**
 	 * @var string
 	 */
-	protected $page_URL;
-
-	/**
-	 *
-	 * @var Mvc_Sites_Site_ID_Abstract
-	 */
-	protected $site_ID;
-
-	/**
-	 * Current Site data
-	 *
-	 * @see Mvc_Sites
-	 * @see Mvc/readme.txt
-	 *
-	 * @var Mvc_Sites_Site_Abstract
-	 */
-	protected $site;
-
-	/**
-	 *
-	 * @var Mvc_Pages_Page_ID_Abstract
-	 */
-	protected $page_ID;
-
-	/**
-	 * Current page data
-	 * Is null if:
-	 *	- It is non-standard service type (AJAX, SYS, REST and so on)
-	 *
-	 * @see Mvc_Pages
-	 * @see Mvc/readme.txt
-	 *
-	 * @var Mvc_Pages_Page_Abstract
-	 */
-	protected $page;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_admin_UI = false;
-
-	/**
-	 * @var bool
-	 */
-	protected $page_is_publicly_accessible = false;
-
-	/**
-	 *
-	 * @var Mvc_Layout
-	 */
-	protected $layout;
-
-	//------------------------------------------------------------------
-
-	/**
-	 * @var string
-	 */
-	protected $public_file_path = '';
-
-	//------------------------------------------------------------------
-
-	/**
-	 * Service type.
-	 * Options: Standard, AJAX, REST, SYS, .... @see Mvc_Router_Abstract::$path_fragments_service_types_map
-	 *
-	 * Also defined a constant JET_SERVICE_TYPE
-	 *
-	 * @see Mvc/readme.txt
-	 *
-	 * @var string
-	 */
-	protected $service_type = '';
-
+	protected $public_file_name = '';
 
 	//------------------------------------------------------------------
 	/**
@@ -188,65 +89,24 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	//-----------------------------------------------------------------
 
 	/**
-	 * @var Mvc_Dispatcher_Queue
-	 */
-	protected $dispatch_queue;
-	//----------------------------------------------------------------
-
-	/**
 	 * @var bool
 	 */
 	protected $_cache_loaded = false;
 
-	/**
-	 * @var Mvc_Layout_OutputPart[]
-	 */
-	protected $cache_output_parts = array();
-
-	/**
-	 * @var string|null
-	 */
-	protected $cache_output = null;
 
 	//-----------------------------------------------------------------
 
-	/**
-	 * @var bool
-	 */
-	protected $_authentication_required = true;
-
-	/**
-	 *
-	 * @var Mvc_FrontControllerModule_Abstract
-	 */
-	protected $_front_controller_instance = null;
-
-	/**
-	 *
-	 * @var Auth_ControllerModule_Abstract
-	 */
-	protected $_auth_controller_instance = null;
-
-	/**
-	 * @var Mvc_Dispatcher_Abstract
-	 */
-	protected $_dispatcher_instance = null;
-
-	/**
-	 * @var Mvc_Router_Map_Abstract
-	 */
-	protected $_map;
 
 	/**
 	 * Initializes the router.
 	 *
-	 * @see Mvc/readme.txt
 	 *
 	 * @param string $request_URL
 	 * @param bool|null $cache_enabled (optional, default: by configuration)
 	 *
-	 * @throws Mvc_Router_Exception
-	 * @return bool
+     * @return void
+     *
+     * @throws Mvc_Router_Exception
 	 */
 	public function initialize( $request_URL, $cache_enabled=null ) {
 
@@ -260,29 +120,32 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		if($cache_enabled!==null) {
 			$this->cache_enabled = (bool)$cache_enabled;
 		} else {
-			$this->cache_enabled = $this->_config->getCacheEnabled();
+			$this->cache_enabled = $this->getConfig()->getCacheEnabled();
 		}
-        $this->output_cache_enabled = $this->cache_enabled;
 
-		$this->_request_URL = $request_URL;
+		$this->request_URL = $request_URL;
 
 
-		$this->_parsed_request_URL = Http_URL::parseURL($request_URL);
-		$this->_is_SSL_request = $this->_parsed_request_URL->getIsSSL();
+        if($this->cache_enabled) {
+            if( $this->cacheRead($this->request_URL) ) {
+                return;
+            }
 
-		if( !$this->_parsed_request_URL->getIsValid() ) {
+            register_shutdown_function( array( $this, 'cacheSave' ) );
+        }
+
+
+		$this->parsed_request_URL = Http_URL::parseRequestURL($request_URL);
+		$this->is_SSL_request = $this->parsed_request_URL->getIsSSL();
+
+		if( !$this->parsed_request_URL->getIsValid() ) {
 			throw new Mvc_Router_Exception(
 				'Unable to parse URL',
 				Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
 			);
 		}
 
-		$this->_base_URL = $this->_parsed_request_URL->getScheme().'://'.$this->_parsed_request_URL->getHost();
-		if($this->_parsed_request_URL->getPort()) {
-			$this->_base_URL .= ':'.$this->_parsed_request_URL->getPort();
-		}
-
-		$this->path_fragments = explode( '/', $this->_parsed_request_URL->getPath() );
+		$this->path_fragments = explode( '/', $this->parsed_request_URL->getPath() );
 
 		array_shift( $this->path_fragments );
 
@@ -292,200 +155,225 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		}
 
 
-		if(!$this->validateURIFormat()) {
-			$this->sendSignal('/router/initialized');
-
-			return true;
+		if( !$this->validateURIFormat() ) {
+			return;
 		}
 
-		$this->sendSignal('/router/initialized');
+        if( !$this->resolveSiteAndLocale() ) {
+            return;
+        }
 
-		return $this->resolve();
-	}
+        if( $this->resolvePublicFile() ) {
+            return;
+        }
 
-	/**
-	 * @return Mvc_Router_Map_Abstract
-	 */
-	public function generateMap() {
-		$map = Mvc_Factory::getRouterMapInstance();
-		$map->generate();
+        if( !$this->resolvePage() ) {
+            return;
+        }
 
-		$this->_map = $map;
 
-		$this->getMapCacheBackendInstance()->save($map);
-
-		return $map;
-	}
-
-	/**
-	 * @return Mvc_Router_Map_Abstract
-	 */
-	public function getMap() {
-
-		if(!$this->_map) {
-			$cache = $this->getMapCacheBackendInstance();
-
-			$map = $cache->load();
-
-			if(!$map) {
-				$map = Mvc_Factory::getRouterMapInstance();
-				$map->generate();
-
-				$cache->save( $map );
-			}
-
-			$this->_map = $map;
-		}
-
-		return $this->_map;
+		$this->resolveAuthentication();
 	}
 
 
-	/**
-	 * Resolve:
-	 *  - site
-	 *  - page
-	 *  - service type
-	 *  (- module and action)
-	 *  (- resolve path fragments )
-	 * @see Mvc/readme.txt
-	 *
-	 * @return bool
-	 */
-	protected function resolve() {
-		if( $this->cacheRead($this->_request_URL) ) {
-			$this->sendSignal('/router/resolved');
+    /**
+     * @return bool
+     */
+    protected function resolveSiteAndLocale() {
+        $site_i = Mvc_Factory::getSiteInstance();
 
-			return true;
-		}
-
-		$map = $this->getMap();
-
-		$path = $this->path_fragments;
-
-		$URLs = array();
-		$URIs = array();
-		for($i=count($this->path_fragments); $i>=0; $i--) {
-			if($i>0) {
-				$URI = '/'.implode('/', $path).'/';
-				unset($path[count($path)-1]);
-			} else {
-				$URI = '/';
-			}
-
-			$URIs[] = $URI;
-			$URLs[] = $this->_base_URL.$URI;
-		}
+        $site_URLs_map = $site_i->getUrlsMap();
 
 
-		$page_URL = $map->findPage( $URLs );
+        $known_URLs = array_keys($site_URLs_map);
 
-		if(!$page_URL) {
-			$default_URL = $map->getDefaultURL();
-
-			if(!$default_URL) {
-				return false;
-			}
-
-			$this->setIsRedirect($default_URL, Mvc_Router::REDIRECT_TYPE_TEMPORARY);
-			$this->sendSignal('/router/resolved');
-
-			return true;
-		}
+        usort( $known_URLs, function($a,$b){
+            return strlen($b)-strlen($a);
+        } );
 
 
-		$URL_index = array_search( (string)$page_URL, $URLs);
+        /**
+         * @var Mvc_Site_LocalizedData_URL_Abstract $current_site_URL
+         */
+        $current_site_URL = null;
 
-		$i = count($this->path_fragments) - $URL_index;
-
-		for($c=0; $c<$i; $c++) {
-			array_shift( $this->path_fragments );
-		}
-
-		if(!$page_URL->getIsMain()) {
-			//OK, we have page. But given URL is not default URL. So redirect to default ...
-
-			$redirect_default_URL = $map->findMainURL( $page_URL->getPageID() );
-
-			if(!$redirect_default_URL) {
-				$this->sendSignal('/router/resolved');
-
-				return false;
-			}
-
-			if($redirect_default_URL) {
-				$this->setIsRedirect(
-					$redirect_default_URL
-						. implode('/', $this->path_fragments)
-						. ( $this->path_fragments ? '/' : '' )
-						. $this->_parsed_request_URL->getQuery()
-				);
-
-				$this->sendSignal('/router/resolved');
-
-				return true;
-			}
-		}
+        $current_host = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
+        if( $this->parsed_request_URL->getPort() ) {
+            $current_host .= ':'.$this->parsed_request_URL->getPort();
+        }
 
 
-		$this->site_ID = $page_URL->getPageID()->getSiteID();
-		$this->site = Mvc_Sites::getSite($this->site_ID);
+        foreach( $known_URLs as $URL ) {
+
+            $current_compare = $current_host;
+            $slashes_count = 0;
+
+            if($this->path_fragments) {
+                $slashes_count = substr_count($URL, '/')-2;
+
+                if( $slashes_count ) {
+                    $path_part = array_slice($this->path_fragments, 0, $slashes_count);
+                    $path_part = implode('/', $path_part);
+
+                    $current_compare .= '/'.$path_part;
+                }
+            }
+
+            if($current_compare==$URL) {
+                $current_site_URL = $site_URLs_map[$URL];
+                if($slashes_count) {
+                    $this->path_fragments = array_slice($this->path_fragments, $slashes_count);
+                }
+                break;
+            }
+
+        }
+
+        if(!$current_site_URL) {
+            $this->setIs404();
+
+            return false;
+        }
+
+        $this->is_SSL_request = $current_site_URL->getIsSSL();
+
+        $this->setSite( Mvc_Site::get( $current_site_URL->getSiteID() ) );
+        $this->setLocale( $current_site_URL->getLocale() );
 
 
-		$page_i = Mvc_Factory::getPageInstance();
 
-		/**
-		 * @var Mvc_Pages_Page_Abstract $page
-		 */
-		$page = $page_i->load( $page_URL->getPageID() );
+        if(!$current_site_URL->getIsDefault() ) {
 
-		if(!$page) {
-			$this->setIs404();
+            $this->setIsRedirect(
+                $this->getSite()->getDefaultURL( $this->getLocale() )
+                    . implode('/', $this->path_fragments)
+                    . ( $this->path_fragments ? '/' : '' )
+                    . $this->parsed_request_URL->getQuery()
+            );
 
-			$this->sendSignal('/router/resolved');
+            return false;
+        }
 
-			return true;
-		}
+        return true;
+    }
 
-		$this->page_URL = (string)$page_URL;
-		$this->page_ID = $page->getID();
-		$this->page = $page;
-		$this->is_admin_UI = $this->page->getIsAdminUI();
+    /**
+     * @return bool
+     */
+    protected function resolvePublicFile() {
+        $path_fragments = $this->getPathFragments();
 
-		if(
-			$this->page->getIsAdminUI() ||
-			$this->page->getAuthenticationRequired()
-		) {
-			$this->page_is_publicly_accessible = false;
-            $this->output_cache_enabled = false;
-		} else {
-			$this->page_is_publicly_accessible = true;
-		}
+        if(
+            count($this->path_fragments)==1 &&
+            $this->getSite()->getPublicFileExists( $path_fragments[0] )
+        ) {
+
+            $this->setIsPublicFile($path_fragments[0]);
+            $this->shiftPathFragments();
+
+            return true;
+        }
+
+        return false;
+    }
 
 
-		$this->service_type = Mvc_Router::SERVICE_TYPE_STANDARD;
+    /**
+     * @return bool
+     *
+     * @throws Mvc_Router_Exception
+     */
+    protected function resolvePage() {
+        $path = $this->path_fragments;
 
-		$front_controller = $this->getFrontController();
+        $URIs = array();
+        for($i=count($this->path_fragments); $i>=0; $i--) {
 
-		$front_controller->handlePreDispatch();
+            if($i>0) {
+                $URI = '/'.implode('/', $path).'/';
+                unset($path[count($path)-1]);
+            } else {
+                $URI = '/';
+            }
 
-		$this->dispatch_queue = $front_controller->getDispatchQueue();
+            $URIs[] =$URI;
+        }
 
-		if( $this->getIsThereAnyUnusedPathFragment() ) {
-			$this->setIs404();
-		}
 
-		$this->sendSignal('/router/resolved');
+        $page_i = Mvc_Factory::getPageInstance();
+
+        $page = null;
+        foreach( $URIs as $i=>$URI ) {
+            $page = $page_i->getByRelativeURI($this->getSite(), $this->getLocale(), $URI);
+            if($page) {
+                if($i) {
+                    $this->path_fragments = array_slice($this->path_fragments, -1*$i);
+                } else {
+                    $this->path_fragments = array();
+                }
+
+                break;
+            }
+        }
+
+        if(!$page) {
+            throw new Mvc_Router_Exception('Failed to find page ...');
+        }
+
+        if($page->getSSLRequired() && !$this->is_SSL_request) {
+            $this->setIsRedirect(
+                $page->getSslURL( $_GET, $this->path_fragments )
+            );
+
+            return false;
+
+        }
+
+
+        $this->setPage( $page );
+
+        if($this->path_fragments) {
+            if(!$this->getPage()->parseRequestURL()) {
+                Mvc::unsetCurrentPage();
+                $this->setIs404();
+
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     *
+     * @throws Mvc_Router_Exception
+     * @return bool
+     */
+	protected function resolveAuthentication() {
+
+        if(
+            $this->getPage()->getIsAdminUI() ||
+            $this->getPage()->getAuthenticationRequired()
+        ) {
+            $auth_controller = Auth::getCurrentAuthController();
+
+            $this->cache_enabled = false;
+
+            if( $auth_controller->getAuthenticationRequired() ) {
+                $this->setPage( $auth_controller->getAuthenticationPage() );
+            }
+        }
+
 
 		return true;
 	}
 
 	/**
-	 * @param string $public_file_path
+	 * @param string $public_file_name
 	 */
-	public function setIsPublicFile( $public_file_path ) {
-		$this->public_file_path = $public_file_path;
-		$this->cacheSave();
+	public function setIsPublicFile( $public_file_name ) {
+		$this->public_file_name = $public_file_name;
 	}
 
 	/**
@@ -494,25 +382,17 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return bool
 	 */
 	public function getIsPublicFile() {
-		return (bool)$this->public_file_path;
+		return (bool)$this->public_file_name;
 	}
 
+    /**
+     * @return string
+     */
+    public function getPublicFileName()
+    {
+        return $this->public_file_name;
+    }
 
-	/**
-	 * Try to download site public files (example: sitemap.xml, robot.txt, favicon.ico, ....)
-	 *
-	 */
-	public function handlePublicFile() {
-		if( !$this->public_file_path ) {
-			return;
-		}
-
-		$this->cacheSave();
-
-		IO_File::download(
-			$this->public_file_path
-		);
-	}
 
 	/**
 	 * Sets the request is unknown page
@@ -521,7 +401,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	public function setIs404() {
 		$this->is_404 = true;
-		//$this->cacheSave();
 	}
 
 	/**
@@ -534,35 +413,19 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 *
-	 */
-	public function handle404() {
-		if(!$this->is_404) {
-			return;
-		}
-
-		//$this->cacheSave();
-		$this->getFrontController()->handle404();
-	}
-
-
-
-
-	/**
 	 * Sets the redirect. Redirection is not performed immediately, but after operations such as storage of records to cache and so on.
 	 *
 	 * @param string $target_URL
-	 * @param string $type (optional), options: temporary, permanent, default: Mvc_Router::REDIRECT_TYPE_TEMPORARY
+	 * @param string $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
 	 */
-	public function setIsRedirect( $target_URL, $type=null ) {
-		if(!$type ) {
-			$type = Mvc_Router::REDIRECT_TYPE_TEMPORARY;
+	public function setIsRedirect( $target_URL, $http_code=null ) {
+		if(!$http_code ) {
+			$http_code = Http_Headers::CODE_302_MOVED_TEMPORARY;
 		}
 
 		$this->is_redirect = true;
 		$this->redirect_target_URL = $target_URL;
-		$this->redirect_type = $type;
-		$this->cacheSave();
+		$this->redirect_type = $http_code;
 	}
 
 
@@ -591,13 +454,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * Redirect if needed
 	 */
 	public function handleRedirect() {
-		if( !$this->is_redirect ) {
-			return;
-		}
 
-		$this->cacheSave();
-
-		if($this->redirect_type==Mvc_Router::REDIRECT_TYPE_PERMANENTLY) {
+		if($this->redirect_type==Http_Headers::CODE_301_MOVED_PERMANENTLY) {
 			Http_Headers::movedPermanently($this->redirect_target_URL);
 		} else {
 			Http_Headers::movedTemporary($this->redirect_target_URL);
@@ -617,11 +475,16 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		$end_i = count($this->path_fragments)-1;
 
+        $base_URL = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
+        if($this->parsed_request_URL->getPort()) {
+            $base_URL .= ':'.$this->parsed_request_URL->getPort();
+        }
+
 
 		//last char in URI path must be /
 		if( $this->path_fragments[$end_i]==='' ) {
 
-			$this->_request_URL = $this->_base_URL.'/'.implode('/', $this->path_fragments);
+			$this->request_URL = $base_URL.'/'.implode('/', $this->path_fragments);
 
 			unset($this->path_fragments[$end_i]);
 
@@ -630,185 +493,35 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 		//... or some opened document, or XML and so on
 		if( strpos( $this->path_fragments[$end_i], '.')!==false ) {
-			$this->_request_URL = $this->_base_URL.'/'.implode('/', $this->path_fragments);
+			$this->request_URL = $base_URL.'/'.implode('/', $this->path_fragments);
 
 			return true;
 		}
 
 
 		$this->setIsRedirect(
-			$this->_base_URL
-				. $this->_parsed_request_URL->getPath() . '/'
-				. (($this->_parsed_request_URL->getQuery()) ? '?'.$this->_parsed_request_URL->getQuery() : ''),
+			$base_URL
+				. $this->parsed_request_URL->getPath() . '/'
+				. (($this->parsed_request_URL->getQuery()) ? '?'.$this->parsed_request_URL->getQuery() : ''),
 
-			Mvc_Router::REDIRECT_TYPE_PERMANENTLY
+			Http_Headers::CODE_301_MOVED_PERMANENTLY
 		);
 
 		return false;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function getPageIsPubliclyAccessible() {
-		return $this->page_is_publicly_accessible;
-	}
-
-	/**
-	 * Returns name of main site UI module
-	 *
-	 * @return string
-	 */
-	public function getFrontControllerModuleName() {
-		if($this->page) {
-			$force_front_controller_module_name = $this->page->getForceFrontControllerModuleName();
-		} else {
-			$force_front_controller_module_name = null;
-		}
-
-
-		if( $force_front_controller_module_name ) {
-			return $force_front_controller_module_name;
-		} else {
-
-			if($this->is_admin_UI) {
-				return $this->_config->getDefaultAdminFrontControllerModuleName();
-			} else {
-				return $this->_config->getDefaultSiteFrontControllerModuleName();
-			}
-
-		}
-	}
-
-	/**
-	 * Returns instance of main site UI module
-	 *
-	 * @throws Mvc_Router_Exception
-	 *
-	 * @return Mvc_FrontControllerModule_Abstract
-	 */
-	public function getFrontController() {
-		if($this->_front_controller_instance) {
-			return $this->_front_controller_instance;
-		}
-
-		$module_name = $this->getFrontControllerModuleName();
-
-		$module_instance = Application_Modules::getModuleInstance( $module_name );
-
-		if(!$module_instance instanceof Mvc_FrontControllerModule_Abstract) {
-			throw new Mvc_Router_Exception(
-				'Invalid Front Controller module class. Main \''.$module_name.'\' module class must be subclass of Mvc_FrontControllerModule_Abstract',
-				Mvc_Router_Exception::CODE_INVALID_SITE_UI_CLASS
-			);
-
-		}
-
-		$this->_front_controller_instance = $module_instance;
-		$this->_front_controller_instance->setupRouter( $this );
-
-		return $this->_front_controller_instance;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getAuthControllerModuleName() {
-		return $this->_config->getDefaultAuthControllerModuleName();
-	}
-
-	/**
-	 *
-	 * @return Auth_ControllerModule_Abstract
-	 */
-	public function getAuthController() {
-		return $this->_auth_controller_instance;
-	}
-
-	/**
-	 * Setup error handler if any changes from default settings
-	 *
-	 */
-	public function setupErrorHandler() {
-		$dir = $this->site->getBasePath() . 'error_pages/';
-		if(IO_Dir::exists($dir)) {
-			Debug_ErrorHandler::setHTTPErrorPagesDir( $dir );
-		}
-	}
-
-	/**
-	 * @param Auth_ControllerModule_Abstract $auth_controller_module_instance
-	 */
-	public function setAuthController( Auth_ControllerModule_Abstract $auth_controller_module_instance ) {
-		$this->_auth_controller_instance = $auth_controller_module_instance;
-		$this->_auth_controller_instance->setupRouter($this);
-
-		if(!$this->page_is_publicly_accessible) {
-			$this->_authentication_required = $this->_auth_controller_instance->getAuthenticationRequired();
-
-			if( $this->_authentication_required ) {
-				$this->_front_controller_instance = $this->_auth_controller_instance;
-			}
-		} else {
-			$this->_authentication_required = false;
-		}
-	}
-
-	/**
-	 *
-	 */
-	public function setupLayout() {
-		if($this->layout) {
-			return;
-		}
-
-		if(
-			$this->service_type!=Mvc_Router::SERVICE_TYPE_REST
-		) {
-			$this->layout = $this->_front_controller_instance->initializeLayout();
-		}
-	}
-
-	/**
-	 * @return Mvc_Dispatcher_Queue
-	 */
-	public function getDispatchQueue() {
-		if($this->_authentication_required) {
-			return $this->_front_controller_instance->getDispatchQueue();
-		}
-
-		return $this->dispatch_queue;
-	}
-
-
-	/**
-	 * @param Mvc_Dispatcher_Abstract $dispatcher_instance
-	 */
-	public function setDispatcherInstance( Mvc_Dispatcher_Abstract $dispatcher_instance) {
-		$this->_dispatcher_instance = $dispatcher_instance;
-	}
-
-	/**
-	 * @return Mvc_Dispatcher_Abstract
-	 */
-	public function getDispatcherInstance() {
-		return $this->_dispatcher_instance;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getRequestURL() {
-		return $this->_request_URL;
+		return $this->request_URL;
 	}
 
 	/**
 	 * @return Http_URL
 	 */
 	public function getParsedRequestURL() {
-		return $this->_parsed_request_URL;
+		return $this->parsed_request_URL;
 	}
 
 	/**
@@ -843,7 +556,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 		$value = $this->parsePathFragmentValue($template, $fragment_index, '[0-9]{1,}');
 
 		if($value===null) {
-			$value = $default_value;
+            return $default_value;
 		}
 
 		return (int)$value;
@@ -872,7 +585,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 			$matches = array();
 			if(preg_match( $regexp, $path_fragments[$fragment_index], $matches )) {
 				$value = $matches[1];
-				$this->putUsedPathFragment( $path_fragments[$fragment_index] );
 			}
 		}
 
@@ -881,261 +593,59 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 * It must resolve if the URL is valid or not. In other words it must prevent duplicities.
-	 *
-	 * So each module which is using path fragment must let route known about it.
-	 *
-	 * @param string $used_path_fragment
-	 */
-	public function putUsedPathFragment( $used_path_fragment ) {
-
-		if(!in_array($used_path_fragment, $this->used_path_fragments)) {
-			$this->used_path_fragments[] = $used_path_fragment;
-		}
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsThereAnyUnusedPathFragment() {
-
-		if( $this->service_type!=Mvc_Router::SERVICE_TYPE_STANDARD ) {
-			return false;
-		}
-
-		if( count($this->path_fragments) != count($this->used_path_fragments) ) {
-			return true;
-		}
-
-		$unused = array_diff( $this->path_fragments, $this->used_path_fragments );
-
-		if( count( $unused ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
 	 * @return bool
 	 */
 	public function getIsSSLRequest() {
-		return $this->_is_SSL_request;
+		return $this->is_SSL_request;
 	}
 
-	/**
-	 * @return Mvc_Sites_Site_ID_Abstract
-	 */
-	public function getSiteID() {
-		return $this->site_ID;
-	}
+    /**
+     * @param Mvc_Site_Abstract $site
+     */
+    protected function setSite( Mvc_Site_Abstract $site)
+    {
+        Mvc::setCurrentSite( $site );
+    }
 
 	/**
 	 *
-	 * @return Mvc_Sites_Site_Abstract
+	 * @return Mvc_Site_Abstract
 	 */
-	public function getSite() {
-		return $this->site;
+    protected function getSite() {
+		return Mvc::getCurrentSite();
 	}
+
+    /**
+     * @param Locale $locale
+     */
+    protected function setLocale( Locale $locale)
+    {
+        Mvc::setCurrentLocale( $locale );
+    }
+
+
 
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() {
-		return $this->getPage()->getLocale();
+    protected function getLocale() {
+        return Mvc::getCurrentLocale();
 	}
 
-	/**
-	 * @return Mvc_Pages_Page_ID_Abstract
-	 */
-	public function getPageID() {
-		return $this->page_ID;
-	}
 
 	/**
 	 *
-	 * @return Mvc_Pages_Page_Abstract
+	 * @return Mvc_Page_Abstract
 	 */
-	public function getPage() {
-		return $this->page;
+    protected function getPage() {
+		return Mvc::getCurrentPage();
 	}
 
-	/**
-	 * @param Mvc_Pages_Page_Abstract $page
-	 */
-	public function setPage( Mvc_Pages_Page_Abstract $page ) {
-		$this->page = $page;
-		$this->page_ID = $page->getID();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getServiceType() {
-		return $this->service_type;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getBaseURI() {
-		return JET_BASE_URI;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getBaseURL() {
-		return JET_BASE_URI;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModulesBaseURI() {
-		return $this->getBaseURI().'modules/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModulesBaseURL() {
-		return $this->getBaseURL().'modules/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPublicURI() {
-		return $this->getBaseURI().'public/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPublicURL() {
-		return $this->getBaseURL().'public/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPublicFilesPath() {
-		return $this->site->getPublicFilesPath();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteBaseURI() {
-		return JET_SITES_URI . $this->site_ID . '/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteImagesURI() {
-		return JET_SITES_URI . $this->site_ID . '/images/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteImagesPath() {
-		return $this->site->getBasePath() . 'images/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteScriptsURI() {
-		return JET_SITES_URI . $this->site_ID . '/scripts/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteScriptsPath() {
-		return $this->site->getBasePath() . 'scripts/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteStylesURI() {
-		return JET_SITES_URI . $this->site_ID . '/styles/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSiteStylesPath() {
-		return $this->site->getBasePath() . 'styles/';
-	}
-
-	/**
-	 *
-	 * @return Mvc_Layout
-	 */
-	public function getLayout() {
-		return $this->layout;
-	}
-
-	/**
-	 * @param Mvc_Layout $layout
-	 */
-	public function setLayout( Mvc_Layout $layout) {
-		$this->layout = $layout;
-	}
-
-
-	/**
-	 * @param Mvc_Sites_Site_ID_Abstract $site_ID
-	 */
-	public function setSiteID(Mvc_Sites_Site_ID_Abstract $site_ID) {
-		$this->site_ID = $site_ID;
-		$this->site = Mvc_Sites::getSite($site_ID);
-	}
-
-	/**
-	 * @param Mvc_Pages_Page_ID_Abstract $page_ID
-	 */
-	public function setPageID( Mvc_Pages_Page_ID_Abstract $page_ID ) {
-		$this->page_ID = $page_ID;
-		$this->page = Mvc_Pages::getPage($page_ID);
-	}
-
-	/**
-	 * @param string $service_type
-	 */
-	public function setServiceType($service_type) {
-		$this->service_type = $service_type;
-		if($service_type!=Mvc_Router::SERVICE_TYPE_STANDARD) {
-			$this->output_cache_enabled = false;
-		}
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsAdminUI() {
-		return $this->is_admin_UI;
-	}
-
-	/**
-	 * @param bool $is_admin_UI
-	 */
-	public function setIsAdminUI($is_admin_UI) {
-		$this->is_admin_UI = (bool)$is_admin_UI;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getAuthenticationRequired() {
-		return $this->_authentication_required;
+    /**
+     * @param Mvc_Page_Abstract $page
+     */
+    protected function setPage( Mvc_Page_Abstract $page ) {
+        Mvc::setCurrentPage( $page );
 	}
 
 	/**
@@ -1144,27 +654,33 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 * @return bool
 	 */
 	protected function cacheRead( $URL ) {
+
 		if(!$this->cache_enabled) {
 			return false;
 		}
 
-		$cached_router = $this->getCacheBackendInstance()->load( $URL );
+		$data = $this->getCacheBackendInstance()->load( $URL );
 
-		if(!$cached_router) {
+		if(!$data) {
 			return false;
 		}
+        foreach( get_object_vars($data['router']) as $k=>$v ) {
+            $this->{$k} = $v;
+        }
 
-		foreach( get_object_vars($cached_router) as $property=>$value ) {
-			if($property[0]=='_') {
-				continue;
-			}
-			$this->{$property} = $value;
-		}
-		$this->_cache_loaded = true;
+        Mvc_Factory::getSiteInstance()->readCachedData( $data );
 
-		if($this->layout) {
-			$this->layout->setRouter($this);
-		}
+
+        Mvc::setCurrentSite( $data['site'] );
+        Mvc::setCurrentLocale( $data['locale'] );
+
+        if(isset($data['page'])) {
+            Mvc_Factory::getPageInstance()->readCachedData( $data );
+
+            Mvc::setCurrentPage( $data['page'] );
+        }
+
+        $this->_cache_loaded = true;
 
 		return true;
 	}
@@ -1174,15 +690,37 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	public function cacheSave() {
 		if(
+            $this->_cache_loaded ||
 			!$this->cache_enabled ||
-			$this->_cache_loaded ||
-			!$this->page_URL ||
-			$this->_authentication_required
+            (
+                $this->getPage() &&
+                $this->getPage()->getAuthenticationRequired()
+            ) ||
+            Debug_ErrorHandler::getLastError()
 		) {
 			return;
 		}
 
-		$this->getCacheBackendInstance()->save($this->_request_URL, $this);
+        $site = Mvc::getCurrentSite();
+
+        $data = array(
+            'site' => $site,
+            'router' => Mvc::getCurrentRouter(),
+            'locale' => Mvc::getCurrentLocale(),
+        );
+
+        $site->writeCachedData( $data );
+
+        $page = Mvc::getCurrentPage();
+        if($page) {
+            $data['page'] = $page;
+
+            $page->writeCachedData( $data );
+        }
+
+
+
+		$this->getCacheBackendInstance()->save($this->request_URL, $data);
 	}
 
 	/**
@@ -1203,97 +741,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 */
 	public function getCacheLoaded() {
 		return $this->_cache_loaded;
-	}
-
-
-
-	/**
-	 * @param string $step_ID
-	 * @param Mvc_Layout_OutputPart $output_part
-	 */
-	public function addCacheOutputPart( $step_ID, Mvc_Layout_OutputPart $output_part ) {
-        if(!$this->output_cache_enabled) {
-            return;
-        }
-
-		$_output_part = clone $output_part;
-		if(!$output_part->getIsStatic()) {
-			$_output_part->setOutput('');
-		}
-
-		if(!isset($this->cache_output_parts[$step_ID])) {
-			$this->cache_output_parts[$step_ID] = [];
-		}
-
-		$this->cache_output_parts[$step_ID][] = $_output_part;
-	}
-
-	/**
-	 * @param string $step_ID
-	 *
-	 * @return array|Mvc_Layout_OutputPart[]
-	 */
-	public function getCacheOutputParts( $step_ID ) {
-        if(!$this->output_cache_enabled) {
-            return null;
-        }
-		return isset($this->cache_output_parts[$step_ID]) ? $this->cache_output_parts[$step_ID] : null;
-	}
-
-
-	/**
-	 *
-	 * @param $output
-	 */
-	public function setCacheOutput( $output ) {
-        if(!$this->output_cache_enabled) {
-            return;
-        }
-
-		$this->cache_output_parts = array();
-		$this->cache_output = $output;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getCacheOutput() {
-        if(!$this->output_cache_enabled) {
-            return null;
-        }
-		return $this->cache_output;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function __sleep() {
-		$dat = array();
-		foreach(get_object_vars($this) as $var=>$val) {
-			if($var[0]=='_' ||
-                ($var=='layout' && !$this->output_cache_enabled)
-            ) {
-				continue;
-			}
-			$dat[] = $var;
-		}
-
-		return $dat;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function helper_mapCache_getCreateCommand() {
-		return $this->getMapCacheBackendInstance()->helper_getCreateCommand();
-	}
-
-	/**
-	 *
-	 */
-	public function helper_mapCache_create() {
-		$this->getMapCacheBackendInstance()->helper_create();
 	}
 
 	/**

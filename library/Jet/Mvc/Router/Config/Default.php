@@ -53,50 +53,7 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	 */
 	protected $cache_backend_options;
 
-	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'PHPFile'
-	 * @JetConfig:is_required = false
-	 * @JetConfig:form_field_label = 'Map Cache backend type: '
-	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getMapCacheBackendTypesList']
-	 *
-	 * @var string
-	 */
-	protected $map_cache_backend_type;
 
-	/**
-	 * @var array
-	 */
-	protected $map_cache_backend_options;
-
-	
-	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\SiteUIDefault'
-	 * @JetConfig:description = 'Default site Front Controller module name'
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Default site Front Controller module: '
-	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getSiteFrontControllerModulesList']
-	 * 
-	 * @var string
-	 */
-	protected $default_site_front_controller_module_name;
-	
-	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\AdminUIDefault'
-	 * @JetConfig:description = 'Default admin Front Controller module name'
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Default administration Front Controller module: '
-	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAdminFrontControllerModulesList']
-	 * 
-	 * @var string
-	 */
-	protected $default_admin_front_controller_module_name;
-	
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:default_value = 'Jet\AuthDefault'
@@ -134,34 +91,6 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	/**
 	 * @return string
 	 */
-	public function getMapCacheBackendType() {
-		return $this->map_cache_backend_type;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getMapCacheBackendOptions() {
-		return $this->map_cache_backend_options;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultAdminFrontControllerModuleName() {
-		return $this->default_admin_front_controller_module_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultSiteFrontControllerModuleName() {
-		return $this->default_site_front_controller_module_name;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getDefaultAuthControllerModuleName() {
 		return $this->default_auth_controller_module_name;
 	}
@@ -173,57 +102,6 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Mvc/Router/Cache/Backend/' );
 	}
 
-	/**
-	 * @return array
-	 */
-	public static function getMapCacheBackendTypesList() {
-		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Mvc/Router/Map/Cache/Backend/' );
-	}
-
-	/**
-	 * @static
-	 * @return array
-	 */
-	public static function getSiteFrontControllerModulesList() {
-		$result = array();
-		$modules = Application_Modules::getActivatedModulesList();
-		foreach($modules as $module_manifest) {
-			/**
-			 * @var Application_Modules_Module_Manifest $module_manifest
-			 */
-			if(!$module_manifest->getIsSiteFrontController()) {
-				continue;
-			}
-
-			$result[$module_manifest->getName()] = $module_manifest->getLabel();
-
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @static
-	 * @return array
-	 */
-	public static function getAdminFrontControllerModulesList() {
-		$result = array();
-
-		/**
-		 * @var Application_Modules_Module_Manifest[] $modules
-		 */
-		$modules = Application_Modules::getActivatedModulesList();
-		foreach($modules as $module) {
-			if(!$module->getIsAdminFrontController()) {
-				continue;
-			}
-
-			$result[$module->getName()] = $module->getLabel();
-
-		}
-
-		return $result;
-	}
 
 	/**
 	 * @static

@@ -256,8 +256,6 @@ class Mvc_MicroRouter_Action extends Object {
 
 		$this->action_parameters = $matches;
 
-		$micro_router->getRouterInstance()->putUsedPathFragment( $path_fragment );
-
 		return true;
 	}
 

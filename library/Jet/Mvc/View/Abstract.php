@@ -412,29 +412,25 @@ abstract class Mvc_View_Abstract extends Object {
 
 
 				$module_name = $properties['data-module-name'];
-                $action = isset($properties['data-action']) ? $properties['data-action'] : Mvc_Dispatcher::DEFAULT_ACTION;
+                $action = isset($properties['data-action']) ? $properties['data-action'] : '';
 				$action_params = isset($properties['data-action-params']) ? json_decode( htmlspecialchars_decode($properties['data-action-params']), true ) : [];
 
 //				var_dump($module_name, $action, $action_params);
-
-				$content_data = Mvc_Factory::getPageContentInstance();
 
 				if($action_params) {
 					$action_params = array($action_params);
 				}
 
-				$qi = new Mvc_Dispatcher_Queue_Item(
-					$module_name,
-					$action,
-					$action_params,
-					$content_data
-				);
 
-				$qi->setCustomServiceType( Mvc_Router::SERVICE_TYPE_STANDARD );
+                $page_content = Mvc_Factory::getPageContentInstance();
 
-				$output = Mvc_Router::getCurrentRouterInstance()->getDispatcherInstance()->renderQueueItem($qi);
+                $page_content->setModuleName( $module_name );
+                $page_content->setControllerAction( $action );
+                $page_content->setControllerActionParameters($action_params);
 
-				//var_dump($output);
+
+				$output = Mvc::getCurrentPage()->renderContentItem($page_content);
+
 
 				$result = str_replace($orig_str, $output, $result);
 

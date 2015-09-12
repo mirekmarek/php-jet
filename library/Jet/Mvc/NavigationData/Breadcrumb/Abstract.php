@@ -28,13 +28,8 @@ namespace Jet;
 abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 
 	/**
-	 * @var Mvc_Pages_Page_ID_Abstract
-	 */
-	protected $page_ID;
-
-	/**
 	 *
-	 * @var Mvc_Pages_Page_Abstract
+	 * @var Mvc_Page_Abstract
 	 */
 	protected $page = null;
 
@@ -51,46 +46,27 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	protected $URI = '';
 
 	/**
-	 * @var Mvc_Router_Map_URL_Abstract
-	 */
-	protected $map_URL_object;
-
-	/**
 	 *
 	 * @var bool
 	 */
 	protected $is_last = false;
 
 	/**
-	 *
-	 * @return Mvc_Pages_Page_Abstract
+	 * @param Mvc_Page_Abstract $page
 	 */
-	public function getPage() {
-		if( !$this->page && $this->page_ID ) {
-			$this->page = Mvc_Pages::getPage( $this->page_ID );
-		}
-		return $this->page;
-	}
-
-	/**
-	 * @param Mvc_Pages_Page_Abstract $page
-	 */
-	public function setPage( Mvc_Pages_Page_Abstract $page ) {
+	public function setPage( Mvc_Page_Abstract $page ) {
 		$this->page = $page;
-		$this->page_ID = $page->getID();
 		$this->URI = $page->getURI();
 		$this->title = $page->getBreadcrumbTitle();
 	}
 
-	/**
-	 *
-	 * @param Mvc_Pages_Page_ID_Abstract $page_ID
-	 *
-	 */
-	public function setPageID( Mvc_Pages_Page_ID_Abstract $page_ID) {
-		$this->page_ID = $page_ID;
-		$this->page = null;
-	}
+    /**
+     *
+     * @return Mvc_Page_Abstract|null
+     */
+    public function getPage() {
+        return $this->page;
+    }
 
 	/**
 	 *
@@ -102,7 +78,7 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 
 	/**
 	 *
-	 * @param <type> $title
+	 * @param string $title
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
@@ -139,20 +115,5 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	public function setIsLast($is_last) {
 		$this->is_last = (bool)$is_last;
 	}
-
-	/**
-	 * @param Mvc_Router_Map_URL_Abstract $map_URL_object
-	 */
-	public function setMapURLObject( Mvc_Router_Map_URL_Abstract $map_URL_object) {
-		$this->map_URL_object = $map_URL_object;
-	}
-
-	/**
-	 * @return Mvc_Router_Map_URL_Abstract|null
-	 */
-	public function getMapURLObject() {
-		return $this->map_URL_object;
-	}
-
 
 }

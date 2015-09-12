@@ -17,8 +17,8 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 
 	public function main() {
-		/** @noinspection PhpUndefinedMethodInspection */
-		if(Mvc_Sites::getAllSitesList()->getCount()) {
+
+		if (!count(Mvc_Site::getList()) ) {
 			$this->render('site-created');
 			if(Http_Request::POST()->exists('go')) {
 				$this->installer->goNext();
@@ -47,7 +47,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			$session->setValue('site', $site);
 		} else {
 			/**
-			 * @var Mvc_Sites_Site_Abstract $site
+			 * @var Mvc_Site_Abstract $site
 			 */
 			$site = $session->getValue('site');
 			$site->setIsNew();
@@ -73,7 +73,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 				$site->setIsNew();
 
 				ob_start();
-				Mvc_Sites::createSite($site, $session->getValue('template'), true);
+				Mvc_Site::createSite($site, $session->getValue('template'), true);
 				ob_end_clean();
 
 				Http_Headers::movedPermanently('?');
@@ -180,7 +180,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 					Form_Factory::field('Select','template', 'Site template: ', '', true)
 				)
 			);
-			$templates_list = Mvc_Sites::getAvailableTemplatesList();
+			$templates_list = Mvc_Site::getAvailableTemplatesList();
 
 			$create_form->getField('template')->setSelectOptions($templates_list);
 

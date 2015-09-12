@@ -39,8 +39,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	const MANIFEST_FILE_NAME = 'manifest.php';
 
 	const MODULE_TYPE_GENERAL = 'general';
-	const MODULE_TYPE_SITE_FRONT_CONTROLLER = 'site_front_controller';
-	const MODULE_TYPE_ADMIN_FRONT_CONTROLLER = 'admin_front_controller';
 	const MODULE_TYPE_AUTH_CONTROLLER = 'auth_controller';
 	const MODULE_TYPE_PRE_DISPATCH = 'pre_dispatch';
 	const MODULE_TYPE_OUTPUT_FILTER = 'output_filter';
@@ -58,8 +56,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 */
 	protected static $module_types_list = array(
 		self::MODULE_TYPE_GENERAL => 'General module',
-		self::MODULE_TYPE_SITE_FRONT_CONTROLLER => 'Site Front Controller module',
-		self::MODULE_TYPE_ADMIN_FRONT_CONTROLLER => 'Administration Front Controller module',
 		self::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
 		self::MODULE_TYPE_PRE_DISPATCH => 'Pre dispatch',
 		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
@@ -435,21 +431,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	public function getHasType( $type ) {
 		return in_array( $type, $this->types );
 	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSiteFrontController() {
-		return $this->getHasType( static::MODULE_TYPE_SITE_FRONT_CONTROLLER );
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsAdminFrontController() {
-		return $this->getHasType( static::MODULE_TYPE_ADMIN_FRONT_CONTROLLER );
-	}
-
 
 	/**
 	 * @return bool
