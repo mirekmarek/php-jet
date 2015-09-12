@@ -26,12 +26,39 @@ class Auth extends Object {
 	 */
 	const PRIVILEGE_MODULE_ACTION = 'module_action';
 
+    /**
+     * @var Auth_Config_Abstract
+     */
+    protected static $config;
+
 	/**
 	 * Auth module instance
 	 *
 	 * @var Auth_ControllerModule_Abstract
 	 */
 	protected static $current_auth_controller;
+
+    /**
+     * @param Auth_Config_Abstract $config
+     */
+    public static function setConfig( Auth_Config_Abstract $config)
+    {
+        self::$config = $config;
+    }
+
+    /**
+     * @return Auth_Config_Abstract
+     */
+    public static function getConfig()
+    {
+        if(!self::$config) {
+            self::$config = Auth_Factory::getConfigInstance();
+        }
+
+        return self::$config;
+    }
+
+
 
     /**
      * @param Auth_ControllerModule_Abstract $current_auth_controller

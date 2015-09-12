@@ -279,23 +279,6 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	 */
 	protected $contents;
 
-	/**
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
-	 * @JetDataModel:getter_name = 'getParentURL'
-	 *
-	 * @var string
-	 */
-	protected $parent_URL = '';
-
-	/**
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
-	 * @JetDataModel:getter_name = 'getDefaultURL'
-	 *
-	 * @var string
-	 */
-	protected $default_URL = '';
-
-
     /**
      *
      * @var Mvc_NavigationData_Breadcrumb_Abstract[]
@@ -474,17 +457,17 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
         return $this->getSite()->getLocalizedData($this->getLocale());
     }
 
-	/**
-	 * @return Mvc_Page_ID_Abstract
-	 */
-	public function getParentID() {
+    /**
+     * @return Mvc_Page_ID_Abstract|string
+     */
+    public function getParentID() {
 		return Mvc_Factory::getPageIDInstance()->createID($this->site_ID, $this->locale, $this->parent_ID);
 	}
 
-	/**
-	 * @param string $parent_ID
-	 */
-	public function setParentID( $parent_ID ) {
+    /**
+     * @param string $parent_ID
+     */
+    public function setParentID( $parent_ID ) {
         if($this->parent_ID==$parent_ID) {
             return;
         }
@@ -571,18 +554,6 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	}
 
 	/**
-	 * Example: http://domain.tld/parent-page/this-is-url-fragment/
-	 *
-	 * @param string $URL_fragment
-	 */
-	public function setURLFragment( $URL_fragment ) {
-
-		$this->URL_fragment = rawurldecode($this->URL_fragment);
-        //TODO: upravit URI
-        //TODO: upravit potomky
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getUrlFragment() {
@@ -598,13 +569,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      */
     protected function _createURL( $base_URL, array $GET_params, array $path_fragments ) {
         $URL = $base_URL;
-
-        if(substr($base_URL, -1)=='/') {
-            $URL .= substr($this->relative_URI, 1);
-        } else {
-            $URL .= $this->relative_URI;
-        }
-
+        $URL .= $this->relative_URI;
 
 
         if($path_fragments) {
@@ -1746,7 +1711,8 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
             return '';
 
         }
-        return Mvc::getCurrentRouter()->getConfig()->getDefaultAuthControllerModuleName();
+
+        return Auth::getConfig()->getDefaultAuthControllerModuleName();
     }
 
 

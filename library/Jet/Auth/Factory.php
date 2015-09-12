@@ -18,11 +18,43 @@
 namespace Jet;
 
 class Auth_Factory extends Factory {
-	
+
+    const DEFAULT_CONFIG_CLASS = 'Jet\Auth_Config_Default';
 	const DEFAULT_USER_CLASS = 'Jet\Auth_User_Default';
 	const DEFAULT_USER_ROLES_CLASS = 'Jet\Auth_User_Roles';
 	const DEFAULT_ROLE_CLASS = 'Jet\Auth_Role_Default';
 	const DEFAULT_PRIVILEGE_CLASS = 'Jet\Auth_Role_Privilege_Default';
+
+    /**
+     * @return string
+     */
+    public static function getConfigClassName() {
+        return static::getClassName( static::DEFAULT_CONFIG_CLASS );
+    }
+
+    /**
+     * @see Factory
+     *
+     * @param string $class_name
+     */
+    public static function setConfigClassName( $class_name ) {
+        static::setClassName(static::DEFAULT_CONFIG_CLASS, $class_name);
+    }
+
+    /**
+     *
+     * @param bool $soft_mode (optional, default:false)
+     *
+     * @return Auth_Config_Abstract
+     */
+    public static function getConfigInstance( $soft_mode=false ) {
+        $class_name =  static::getConfigClassName();
+        $instance = new $class_name($soft_mode);
+
+        //static::checkInstance(static::DEFAULT_CONFIG_CLASS, $instance);
+        return $instance;
+    }
+
 
 	/**
 	 * @return string
@@ -31,21 +63,21 @@ class Auth_Factory extends Factory {
 		return static::getClassName( static::DEFAULT_USER_CLASS );
 	}
 
-	/**
-	 * Returns instance of Auth User class @see Factory
-	 *
-	 * @param string|null $login
-	 * @param string|null $password
-	 *
-	 * @return Auth_User_Abstract
-	 */
-	public static function getUserInstance( $login=null, $password=null ) {
-		$class_name =  static::getUserClassName();
-		$instance = new $class_name( $login, $password );
+    /**
+     * Returns instance of Auth User class @see Factory
+     *
+     * @param string|null $login
+     * @param string|null $password
+     *
+     * @return Auth_User_Abstract
+     */
+    public static function getUserInstance( $login=null, $password=null ) {
+        $class_name =  static::getUserClassName();
+        $instance = new $class_name( $login, $password );
 
-		//static::checkInstance(static::DEFAULT_USER_CLASS, $instance);
-		return $instance;
-	}
+        //static::checkInstance(static::DEFAULT_USER_CLASS, $instance);
+        return $instance;
+    }
 
 	/**
 	 * @return string

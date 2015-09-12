@@ -347,4 +347,9 @@ abstract class Mvc_Site_Abstract extends DataModel {
      */
     abstract public function writeCachedData(&$data);
 
+    /**
+     * @param string $template
+     */
+    abstract public function create( $template );
+
 }

@@ -18,7 +18,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 	public function main() {
 
-		if (!count(Mvc_Site::getList()) ) {
+		if( count(Mvc_Site::getList() ) ) {
 			$this->render('site-created');
 			if(Http_Request::POST()->exists('go')) {
 				$this->installer->goNext();
@@ -50,14 +50,6 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			 * @var Mvc_Site_Abstract $site
 			 */
 			$site = $session->getValue('site');
-			$site->setIsNew();
-			foreach( $site->getLocales() as $locale ) {
-				$ld = $site->getLocalizedData( $locale );
-				$ld->setIsNew();
-				foreach($ld->getURLs() as $URL ) {
-					$URL->setIsNew();
-				}
-			}
 		}
 
 		if(
@@ -70,14 +62,14 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 				$this->render('in-progress');
 
 			} else {
-				$site->setIsNew();
+                $site->setIsDefault(true);
+                $site->setIsActive(true);
 
-				ob_start();
-				Mvc_Site::createSite($site, $session->getValue('template'), true);
-				ob_end_clean();
+                //ob_start();
+                $site->create( $session->getValue('template') );
+                //ob_end_clean();
 
 				Http_Headers::movedPermanently('?');
-
 			}
 
 		}

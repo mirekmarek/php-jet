@@ -29,6 +29,7 @@ class Installer {
 		'InstallModules',
 		'CreateDB',
 		'MvcRouter',
+        'Auth',
 		'CreateAdministrator',
 		'CreateSite',
 		//'jsLibs',

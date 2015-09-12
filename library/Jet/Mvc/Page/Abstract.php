@@ -150,14 +150,6 @@ abstract class Mvc_Page_Abstract extends DataModel {
 	 */
 	abstract public function setBreadcrumbTitle($breadcrumb_title);
 
-    /**
-     * Example: http://domain.tld/parent-page/this-is-url-fragment/
-     *
-     * @param string $URL_fragment
-     *
-     */
-	abstract public function setURLFragment( $URL_fragment );
-
 	/**
 	 * @return string
 	 */

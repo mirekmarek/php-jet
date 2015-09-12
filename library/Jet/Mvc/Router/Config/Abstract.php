@@ -44,9 +44,5 @@ abstract class Mvc_Router_Config_Abstract extends Config_Application {
 	 */
 	abstract public function getCacheBackendType();
 
-	/**
-	 * @return string
-	 */
-	abstract public function getDefaultAuthControllerModuleName();
 
 }

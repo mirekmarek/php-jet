@@ -504,10 +504,11 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 	}
 
     /**
-     * @param DataModel_ID_Abstract $ID
+     * @param DataModel_ID_Abstract|string $ID
      * @return string
      */
-    protected static function getSiteDataFilePath( DataModel_ID_Abstract $ID ) {
+    protected static function getSiteDataFilePath( $ID )
+    {
         return JET_SITES_PATH.$ID.'/'.static::SITE_DATA_FILE_NAME;
     }
 
@@ -653,7 +654,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
         $site->name = $data['name'];
         $site->is_active = $data['is_active'];
 
-        foreach( $data['locales'] as $locale_str=>$localized_data ) {
+        foreach( $data['localized_data'] as $locale_str=>$localized_data ) {
             $locale = new Locale($locale_str);
 
             $site->addLocale( $locale );
@@ -667,7 +668,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
             $meta_tags = array();
 
-            foreach($localized_data['meta_tags'] as $m_data) {
+            foreach($localized_data['default_meta_tags'] as $m_data) {
                 $meta_tags[] = Mvc_Factory::getLocalizedSiteMetaTagInstance( $m_data['content'], $m_data['attribute'], $m_data['attribute_value']);
             }
 
@@ -736,54 +737,34 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
         foreach( $site_URL_map_data as $key=>$URLs ) {
             list( $site_ID, $locale_str ) = explode('/', $key);
 
-            $non_SSL_URL_is_default = true;
-            $SSL_URL_is_default = true;
-
             $site_default_SSL_URL = null;
             $site_default_non_SSL_URL = null;
 
             foreach( $URLs as $URL ) {
-                $is_SSL = false;
+                $URL_i = Mvc_Factory::getLocalizedSiteURLInstance( $URL );
+                $URL_i->setSiteID($site_ID);
+                $URL_i->setLocale( new Locale($locale_str) );
 
-                if(substr($URL,0, 4)=='SSL:') {
-                    $is_SSL = true;
-                    $URL = substr( $URL, 4 );
-                }
-
-                if(substr($URL,0, 6)=='https:') {
-                    $is_SSL = true;
-                }
-
-
-                if($is_SSL) {
+                if($URL_i->getIsSSL()) {
                     if(!$site_default_SSL_URL) {
                         $site_default_SSL_URL = $URL;
+                        $URL_i->setIsDefault(true);
                     }
                 } else {
                     if(!$site_default_non_SSL_URL) {
                         $site_default_non_SSL_URL = $URL;
+                        $URL_i->setIsDefault(true);
                     }
                 }
+
+                $URL = $URL_i->toString();
 
                 if(isset($URL_map[$URL])) {
                     throw new Mvc_Router_Exception('Duplicated site URL: \''.$URL.'\' ');
                 }
 
-                $URL_i = Mvc_Factory::getLocalizedSiteURLInstance( $URL, $is_SSL ? $SSL_URL_is_default : $non_SSL_URL_is_default );
-
-                $URL_i->setSiteID($site_ID);
-                $URL_i->setLocale( new Locale($locale_str) );
-                $URL_i->setIsSSL($is_SSL);
-
                 $URL_map[$URL] = $URL_i;
-
-                if($is_SSL) {
-                    $SSL_URL_is_default = false;
-                } else {
-                    $non_SSL_URL_is_default = false;
-                }
             }
-
         }
 
         static::$URL_map = $URL_map;
@@ -821,5 +802,125 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
     }
 
+    /**
+     * @param string $template
+     */
+    public function create( $template )
+    {
+
+        IO_Dir::copy( JET_TEMPLATES_SITES_PATH . $template, $this->getBasePath());
+
+        $pages_root_path = $this->getPagesDataPath();
+
+        $default_pages_path = $pages_root_path.'_default/';
+
+        $locales = array();
+        foreach( $this->getLocales() as $locale ) {
+            $pages_path = $this->getPagesDataPath($locale);
+
+            if(!IO_Dir::exists($pages_path)) {
+                IO_Dir::copy( $default_pages_path, $pages_path);
+            }
+
+            $locales[(string)$locale] = true;
+        }
+
+        $sub_dirs = IO_Dir::getSubdirectoriesList($pages_root_path);
+
+        foreach( $sub_dirs as $path=>$dir ) {
+            if(!isset($locales[$dir])) {
+                IO_Dir::remove($path);
+            }
+        }
+
+        //- DATA FILE
+        $data = $this->jsonSerialize();
+
+        foreach( $data['localized_data'] as $locale=>$ld ) {
+            unset($data['localized_data'][$locale]['site_ID']);
+            unset($data['localized_data'][$locale]['locale']);
+            unset($data['localized_data'][$locale]['URLs']);
+        }
+
+        $ar = new Data_Array($data);
+
+        $data = '<?php'.JET_EOL.'return '.$ar->export().'';
+
+        $data_file_path = static::getSiteDataFilePath($this->getID());
+
+
+        IO_File::write($data_file_path, $data);
+
+        //- MAP
+        $URLs_map_data = array();
+        if(static::$URL_map) {
+            foreach(static::$URL_map as $key=>$URLs) {
+                $URLs_map_data[$key] = array();
+
+                foreach( $URLs as $URL ) {
+                    /**
+                     * @var Mvc_Site_LocalizedData_URL_Abstract $URL
+                     */
+                    if($URL->getIsSSL()) {
+                        $URL = 'SSL:'.$URL;
+                    }
+
+                    $URLs_map_data[$key][] = (string)$URL;
+                }
+            }
+        }
+
+        foreach( $this->localized_data as $ld ) {
+
+            $key = $this->getID().'/'.$ld->getLocale();
+
+            $URLs_map_data[$key] = array();
+
+            foreach( $ld->getURLs() as $URL ) {
+                if(!$URL->getIsDefault()) {
+                    continue;
+                }
+
+                if($URL->getIsSSL()) {
+                    continue;
+                }
+
+                $URLs_map_data[$key][] = $URL->toString();
+            }
+
+            foreach( $ld->getURLs() as $URL ) {
+                if(!$URL->getIsDefault()) {
+                    continue;
+                }
+
+                if(!$URL->getIsSSL()) {
+                    continue;
+                }
+
+                $URLs_map_data[$key][] = 'SSL:'.$URL->toString();
+            }
+
+            foreach( $ld->getURLs() as $URL ) {
+                if($URL->getIsDefault()) {
+                    continue;
+                }
+
+                if($URL->getIsSSL()) {
+                    $URLs_map_data[$key][] = 'SSL:'.$URL->toString();
+                } else {
+                    $URLs_map_data[$key][] = $URL->toString();
+                }
+            }
+        }
+
+        $ar = new Data_Array($URLs_map_data);
+
+        IO_File::write(
+            static::getUrlMapFilePath(),
+            '<?php'.JET_EOL.'return '.$ar->export().''
+        );
+
+        Mvc::truncateRouterCache();
+    }
 
 }

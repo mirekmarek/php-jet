@@ -30,5 +30,10 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'e4b2daae7be882a94dbd0226535fd861' => array(
+		'phrase' => 'Authentication configuration',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
 ;

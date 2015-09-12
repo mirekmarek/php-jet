@@ -184,7 +184,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
         $site_URLs_map = $site_i->getUrlsMap();
 
-
         $known_URLs = array_keys($site_URLs_map);
 
         usort( $known_URLs, function($a,$b){

@@ -175,6 +175,13 @@ class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abst
 			);
 		}
 
+        $force_ssl = false;
+        if(substr($URL, 0, 4)=='SSL:') {
+            $force_ssl = true;
+
+            $URL = substr($URL, 4);
+        }
+
 		$parse_data = parse_url($URL);
 		if(
 			$parse_data===false ||
@@ -189,11 +196,16 @@ class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abst
 			);
 		}
 
-		if(empty($parse_data['path']) || $parse_data['path'][strlen($parse_data['path'])-1]!='/') {
-			$URL .= '/';
+        if(!isset($parse_data['path'])) {
+            $parse_data['path'] = '';
+        }
+
+		if( substr($parse_data['path'], -1) == '/' ) {
+			$URL = substr($URL, 0, -1);
+            $parse_data['path'] = substr($parse_data['path'], 0, -1);
 		}
 
-		$this->is_SSL = $parse_data['scheme']=='https';
+		$this->is_SSL = ($force_ssl || $parse_data['scheme']=='https');
 
 		$this->URL = $URL;
 		$this->parsed_URL_data = $parse_data;
@@ -267,9 +279,6 @@ class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abst
 		if(!$this->parsed_URL_data) {
 			$this->parsed_URL_data = parse_url($this->URL);
 		}
-        if(!isset($this->parsed_URL_data['path'])) {
-            $this->parsed_URL_data['path'] = '/';
-        }
 
 		if(!$this->parsed_URL_data) {
 			return false;

@@ -1,0 +1,18 @@
+<?php
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+
+?>
+<jet_form name="<?=$form->getName();?>">
+	<jet_form_common_error_message class="formError"/>
+
+	<div class="form-group">
+		<jet_form_field_label name="default_auth_controller_module_name"/>
+		<jet_form_field_error_msg name="default_auth_controller_module_name" class="form-error"/>
+		<jet_form_field name="default_auth_controller_module_name" class="form-control"/>
+	</div>
+
+	<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+</jet_form>

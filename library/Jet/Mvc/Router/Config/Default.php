@@ -55,19 +55,6 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\AuthDefault'
-	 * @JetConfig:description = 'Default Authentication and Authorization Controller module name'
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Authentication and Authorization Controller module: '
-	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getAuthControllerModulesList']
-	 * 
-	 * @var string
-	 */
-	protected $default_auth_controller_module_name;
-
-	/**
 	 * @return boolean
 	 */
 	public function getCacheEnabled() {
@@ -89,39 +76,10 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getDefaultAuthControllerModuleName() {
-		return $this->default_auth_controller_module_name;
-	}
-
-	/**
 	 * @return array
 	 */
 	public static function getCacheBackendTypesList() {
 		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/Mvc/Router/Cache/Backend/' );
 	}
 
-
-	/**
-	 * @static
-	 * @return array
-	 */
-	public static function getAuthControllerModulesList() {
-		$result = array();
-		$modules = Application_Modules::getActivatedModulesList();
-		foreach($modules as $module) {
-			/**
-			 * @var Application_Modules_Module_Manifest $module
-			 */
-			if(!$module->getIsAuthController()) {
-				continue;
-			}
-
-			$result[$module->getName()] = $module->getLabel();
-
-		}
-
-		return $result;
-	}
 }
