@@ -53,7 +53,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $public_file_name = '';
+	protected $file_name = '';
 
 	//------------------------------------------------------------------
 	/**
@@ -163,10 +163,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
             return;
         }
 
-        if( $this->resolvePublicFile() ) {
-            return;
-        }
-
         if( !$this->resolvePage() ) {
             return;
         }
@@ -254,26 +250,6 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
         }
 
         return true;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function resolvePublicFile() {
-        $path_fragments = $this->getPathFragments();
-
-        if(
-            count($this->path_fragments)==1 &&
-            $this->getSite()->getPublicFileExists( $path_fragments[0] )
-        ) {
-
-            $this->setIsPublicFile($path_fragments[0]);
-            $this->shiftPathFragments();
-
-            return true;
-        }
-
-        return false;
     }
 
 
@@ -371,8 +347,8 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	/**
 	 * @param string $public_file_name
 	 */
-	public function setIsPublicFile( $public_file_name ) {
-		$this->public_file_name = $public_file_name;
+	public function setIsFile( $public_file_name ) {
+		$this->file_name = $public_file_name;
 	}
 
 	/**
@@ -380,16 +356,16 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function getIsPublicFile() {
-		return (bool)$this->public_file_name;
+	public function getIsFile() {
+		return (bool)$this->file_name;
 	}
 
     /**
      * @return string
      */
-    public function getPublicFileName()
+    public function getFileName()
     {
-        return $this->public_file_name;
+        return $this->file_name;
     }
 
 

@@ -331,8 +331,6 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\IO_File::moveUploadedFile
 	 */
 	public function testMoveUploadedFile() {
-		//TODO: how to do it?
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -369,20 +367,14 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\IO_File::send
-	 * @todo   Implement testDownload().
 	 */
 	public function testSend() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
 	 * @covers Jet\IO_File::sendDownloadFileHeaders
-	 * @todo   Implement testSendDownloadFileHeaders().
 	 */
 	public function testSendDownloadFileHeaders() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 }

@@ -103,8 +103,6 @@ class Mvc_View extends Mvc_View_Abstract {
 
 		$result = ob_get_clean();
 
-        $this->handleParts($result);
-		$this->handleModules($result);
 		$this->handlePostProcessors($result);
 
 		$this->handleConstants($result);

@@ -282,8 +282,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendCountQuery( DataModel_Query $query ) {
-		return 'SELECT count(*)'
-			.'FROM'.JET_EOL
+		return 'SELECT count(*) FROM'.JET_EOL
 			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 			.$this->_getSQLqueryWherePart($query->getWhere())

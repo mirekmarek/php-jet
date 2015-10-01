@@ -84,7 +84,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 			);
 		}
 
-		$data = '<?php'.JET_EOL.' return '.(new Data_Array($data))->export().';'.JET_EOL;
+		$data = '<?php'.JET_EOL.'return '.(new Data_Array($data))->export();
 
 		IO_File::write($file_path, $data);
 	}

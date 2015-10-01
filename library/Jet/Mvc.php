@@ -177,12 +177,6 @@ class Mvc {
             return;
 		}
 
-
-        if( $router->getIsPublicFile() ) {
-            $site->handlePublicFile( $router->getPublicFileName() );
-            return;
-        }
-
         if( $router->getIs404() ) {
             $site->handle404();
             return;
@@ -191,6 +185,11 @@ class Mvc {
 
         if( !Mvc::getCurrentPage()->getAccessAllowed() ) {
             $site->handleAccessDenied();
+            return;
+        }
+
+        if( $router->getIsFile() ) {
+            $page->handleFile( $router->getFileName() );
             return;
         }
 

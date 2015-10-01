@@ -7,10 +7,6 @@ return [
 	'title' => 'Podstránka 3-2-1',
 	'menu_title' => 'Podstránka 3-2-1',
 	'breadcrumb_title' => 'Podstránka 3-2-1',
-	'layout_script_name' => 'default',
-	'headers_suffix' => 'Header suffix: cs_CZ ',
-	'body_prefix' => 'Body prefix: cs_CZ',
-	'body_suffix' => 'Body suffix: cs_CZ',
 	'meta_tags' => array(
 			array(
 				'attribute'   => 'Meta1attribute',
@@ -28,29 +24,29 @@ return [
 				'content' => 'Meta 3 content'
 			),
 	 ),
-	'contents' => array(
-				array(
-                    'is_dynamic' => true,
-					'module_name' => 'JetExample\TestModule',
-					'controller_action' => 'test_action2',
-					'output_position' => 'right',
-					'output_position_required' => true,
-					'output_position_order' => 1
-				),
-				array(
-					'module_name' => 'JetExample\TestModule2',
-					'controller_action' => 'test_action1',
-					'output_position' => 'top',
-					'output_position_required' => true,
-					'output_position_order' => 1
-				),
-				array(
-					'module_name' => 'JetExample\TestModule2',
-					'controller_action' => 'test_action2',
-					'output_position' => '',
-					'output_position_required' => true,
-					'output_position_order' => 1
-				)
-			)
-
+    'contents' => array(
+        array(
+            'is_dynamic' => true,
+            'module_name' => 'JetExample\TestModule',
+            'controller_action' => 'test_action2',
+            'output_position' => '',
+            'output_position_required' => true,
+            'output_position_order' => 1
+        ),
+        array(
+            'module_name' => 'JetExample\TestModule2',
+            'controller_action' => 'test_action1',
+            'output_position' => 'right',
+            'output_position_required' => true,
+            'output_position_order' => 1
+        ),
+        array(
+            'is_dynamic' => true,
+            'module_name' => 'JetExample\TestModule2',
+            'controller_action' => 'test_action2',
+            'output_position' => 'right',
+            'output_position_required' => true,
+            'output_position_order' => 1
+        ),
+    )
 ];

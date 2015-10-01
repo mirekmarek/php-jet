@@ -31,17 +31,17 @@ abstract class Mvc_Page_Abstract extends DataModel {
 	/**
 	 * @param string $ID
 	 */
-	abstract protected function setID( $ID );
+	abstract public function setID( $ID );
 
     /**
      * @param string $site_ID
      */
-	abstract protected function setSiteID( $site_ID );
+	abstract public function setSiteID( $site_ID );
 
     /**
      * @param Locale $locale
      */
-	abstract protected function setLocale( Locale $locale );
+	abstract public function setLocale( Locale $locale );
 
 	/**
 	 * @return Mvc_Site_ID_Abstract
@@ -461,6 +461,13 @@ abstract class Mvc_Page_Abstract extends DataModel {
      */
     abstract public function parseRequestURL();
 
+
+    /**
+     * @param string $file_path
+     */
+    abstract public function handleFile( $file_path );
+
+
     /**
      * @param string $auth_controller_module_name
      */
@@ -497,20 +504,6 @@ abstract class Mvc_Page_Abstract extends DataModel {
      * @return string|null
      */
     abstract public function getOutput();
-
-    /**
-     * @param Mvc_Page_Content_Abstract $page_content
-     *
-     */
-    abstract protected function dispatchContentItem( Mvc_Page_Content_Abstract $page_content );
-
-    /**
-     * @param Mvc_Page_Content_Abstract $page_content
-     *
-     * @return string
-     */
-    abstract public function renderContentItem( Mvc_Page_Content_Abstract $page_content );
-
 
     /**
      * @param array &$data

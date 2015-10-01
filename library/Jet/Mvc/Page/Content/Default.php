@@ -218,6 +218,15 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 	}
 
     /**
+     * @param mixed $ID
+     *
+     */
+    public function setID( $ID ) {
+        $this->ID = $ID;
+    }
+
+
+    /**
      * @param bool $is_dynamic
      */
     public function setIsDynamic($is_dynamic)
@@ -356,7 +365,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
      *
      * @return Mvc_Controller_Abstract
      */
-    public function getControllerInstance( Mvc_Page_Abstract $page ) {
+    protected function getControllerInstance( Mvc_Page_Abstract $page ) {
         if($this->_controller_instance!==null) {
             return $this->_controller_instance;
         }
@@ -401,6 +410,74 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
         return $this->output_parts;
     }
 
+    /**
+     * @param Mvc_Page_Abstract $page
+     */
+    public function dispatch( Mvc_Page_Abstract $page ) {
+
+        $module_name = $this->getModuleName();
+        $controller_action = $this->getControllerAction();
+        $service_type = $this->getCustomServiceType() ? $this->getCustomServiceType() : $page->getServiceType();
+
+        $block_name =  $module_name.':'.$service_type.':'.$controller_action;
+
+        Debug_Profiler::blockStart( 'Dispatch '.$block_name );
+
+
+        $controller = $this->getControllerInstance( $page );
+
+        if(!$controller) {
+
+            Debug_Profiler::message('Module is not installed and/or activated - skipping');
+
+        } else {
+            Debug_Profiler::message('Content ID:'.$this->getID()->toString() );
+
+            $layout = $page->getLayout();
+
+            if(
+                !$this->getIsDynamic() &&
+                ($output_parts=$this->getOutputParts())
+            ) {
+
+                Debug_Profiler::message( 'CACHED - skipping' );
+
+                foreach( $output_parts as $op ) {
+                    $layout->setOutputPart($op);
+                }
+
+
+            } else {
+                Translator::setCurrentNamespace( $module_name );
+
+                $module_instance = Application_Modules::getModuleInstance( $module_name );
+                $module_instance->callControllerAction(
+                    $controller,
+                    $controller_action,
+                    $this->getControllerActionParameters()
+                );
+
+
+
+                if( $this->getIsDynamic() ) {
+                    Debug_Profiler::message('Is dynamic');
+
+                    $this->setIsDynamic(true);
+                } else {
+                    Debug_Profiler::message('Is static');
+
+                    if( ($output_parts = $layout->getContentOutputParts( $this->getID()->toString() )) ) {
+                        $this->setOutputParts( $output_parts );
+                    }
+                }
+
+            }
+
+        }
+
+        Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
+
+    }
 
 
 }

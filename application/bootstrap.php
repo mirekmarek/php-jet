@@ -11,8 +11,8 @@
  */
 namespace Jet;
 
-require('defines.php');
-require('defines_URI.php');
+require('config/defines.php');
+require('config/defines_URI.php');
 
 if( JET_DEBUG_PROFILER_ENABLED ) {
 	require( JET_APPLICATION_PATH . 'init/Profiler.php' );

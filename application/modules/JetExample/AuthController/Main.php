@@ -203,7 +203,6 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 
 		Jet\Session::destroy();
 		$this->current_user = null;
-		Jet\Http_Headers::reload();
 	}
 
 	/**

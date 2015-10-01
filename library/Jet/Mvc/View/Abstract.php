@@ -17,7 +17,6 @@ namespace Jet;
 
 abstract class Mvc_View_Abstract extends Object {
 	const TAG_MODULE = 'jet_module';
-	const TAG_PART = 'jet_view_part';
 	const SCRIPT_FILE_SUFFIX = 'phtml';
 
 	/**
@@ -47,7 +46,7 @@ abstract class Mvc_View_Abstract extends Object {
 	 *
 	 * @var bool
 	 */
-	protected static $_add_script_path_info = JET_DEBUG_MODE;
+	protected static $_add_script_path_info = JET_DEVEL_MODE;
 
 	/**
 	 * View or layout script variables.
@@ -298,57 +297,6 @@ abstract class Mvc_View_Abstract extends Object {
 
 
 	/**
-	 * Handle the parts tag ( <jet_view_part name='part-name'/> or <jet_layout_part name='part-name'/> )
-	 *
-	 * Sometimes it is appropriate or necessary to make the view consisted of several parts.
-	 * Each of the view part must be placed in the directory 'parts':
-	 *
-	 * view-dir/parts/view-part.phtml
-	 *
-	 * View part file name format: [a-z0-9\-]*.phtml
-	 *
-	 * @param string &$result
-	 * @throws Mvc_View_Exception
-	 */
-	protected function handleParts( &$result ) {
-		$matches = array();
-		if(preg_match_all('/<'.static::TAG_PART.'[ ]{1,}name="([a-z0-9\-]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
-
-			foreach( $matches as $match ) {
-				$orig = $match[0];
-				$part = $match[1];
-
-				$file = $this->_scripts_dir . 'parts/'.$part.'.'.static::SCRIPT_FILE_SUFFIX;
-
-				if( !IO_File::exists($file) ) {
-					throw new Mvc_View_Exception(
-						'File \''.$file.'\' does not exist',
-						Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
-					);
-				}
-
-				if( !IO_File::isReadable($file) ) {
-					throw new Mvc_View_Exception(
-						'File \''.$file.'\' is not readable',
-						Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
-					);
-				}
-
-				unset($file);
-
-				ob_start();
-				/** @noinspection PhpIncludeInspection */
-				include $this->_scripts_dir . 'parts/'.$part.'.phtml';
-				$part = ob_get_clean();
-
-				$result = str_replace($orig, $part, $result);
-			}
-		}
-
-	}
-
-
-	/**
 	 * Gets if adding path info into the output is enabled
 	 *
 	 * @return bool
@@ -365,78 +313,6 @@ abstract class Mvc_View_Abstract extends Object {
 	 */
 	public static function setAddScriptPathInfoEnabled($enabled=true){
 		static::$_add_script_path_info = (bool)$enabled;
-	}
-
-	/**
-	 * Handle the Module tag  ( <jet_module> )
-	 *
-	 * In fact it search and dispatch all modules included by the tag
-	 *
-	 * @see Mvc/readme.txt
-	 *
-	 * @param string &$result
-	 */
-	protected function handleModules(&$result) {
-
-		$matches = array();
-
-		if( preg_match_all('/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER) ) {
-
-			foreach($matches as $match) {
-				$orig_str = $match[0];
-
-				$_properties = substr(trim($match[1]), 0, -1);
-				$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
-				$_properties = explode( '" ', $_properties );
-
-
-				$properties = array();
-
-
-				foreach( $_properties as $property ) {
-					if( !$property || strpos($property, '=')===false ) {
-						continue;
-					}
-
-					$property = explode('=', $property);
-
-					$property_name = array_shift($property);
-					$property_value = implode('=', $property);
-
-					$property_name = strtolower($property_name);
-					$property_value = str_replace('"', '', $property_value);
-
-					$properties[$property_name] = $property_value;
-
-				}
-
-
-				$module_name = $properties['data-module-name'];
-                $action = isset($properties['data-action']) ? $properties['data-action'] : '';
-				$action_params = isset($properties['data-action-params']) ? json_decode( htmlspecialchars_decode($properties['data-action-params']), true ) : [];
-
-//				var_dump($module_name, $action, $action_params);
-
-				if($action_params) {
-					$action_params = array($action_params);
-				}
-
-
-                $page_content = Mvc_Factory::getPageContentInstance();
-
-                $page_content->setModuleName( $module_name );
-                $page_content->setControllerAction( $action );
-                $page_content->setControllerActionParameters($action_params);
-
-
-				$output = Mvc::getCurrentPage()->renderContentItem($page_content);
-
-
-				$result = str_replace($orig_str, $output, $result);
-
-			}
-		}
-
 	}
 
 }

@@ -303,6 +303,11 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	public function setDefaultValue( $default_value ) {
 
 		$this->default_value = $default_value;
+
+        if( $default_value instanceof DataModel_ID_Abstract ) {
+            $default_value = $default_value->toString();
+        }
+
 		if(
 			is_array($default_value) ||
 			(
@@ -330,6 +335,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 		} else {
 			$this->_value = trim(Data_Text::htmlSpecialChars($default_value));
 		}
+
 		$this->_value_raw = $default_value;
 	}
 	

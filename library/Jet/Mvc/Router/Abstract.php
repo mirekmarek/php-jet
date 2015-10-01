@@ -97,19 +97,19 @@ abstract class Mvc_Router_Abstract extends Object {
 	 *
 	 * @param string $public_file_name
 	 */
-	abstract public function setIsPublicFile( $public_file_name );
+	abstract public function setIsFile( $public_file_name );
 
 	/**
 	 * @abstract
 	 *
 	 * @return bool
 	 */
-	abstract public function getIsPublicFile();
+	abstract public function getIsFile();
 
     /**
      * @return string
      */
-    abstract public function getPublicFileName();
+    abstract public function getFileName();
 
 
 	/**

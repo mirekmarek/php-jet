@@ -67,24 +67,6 @@ abstract class Mvc_Site_Abstract extends DataModel {
 	/**
 	 * @return string
 	 */
-	abstract public function getPublicFilesPath();
-
-    /**
-     * @param string $file_name
-     *
-     * @return bool
-     */
-    abstract public function getPublicFileExists( $file_name );
-
-    /**
-     * @param $file_name
-     */
-    abstract public function handlePublicFile( $file_name );
-
-
-	/**
-	 * @return string
-	 */
 	abstract public function getLayoutsPath();
 
     /**

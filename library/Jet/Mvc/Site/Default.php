@@ -211,49 +211,6 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
         return $this->getBasePath().static::LAYOUTS_DIR.'/';
     }
 
-    /**
-     * @return string
-     */
-    public function getPublicFilesPath() {
-        return $this->getBasePath().static::PUBLIC_FILES_DIR.'/';
-    }
-
-    /**
-     * @param string $file_name
-     *
-     * @return bool
-     */
-    public function getPublicFileExists( $file_name ) {
-
-        if(
-            strpos($file_name, '.')!==false &&
-            $file_name[0] != '.' &&
-            strpos($file_name, '..')===false
-        ) {
-            $file_path = $this->getPublicFilesPath().$file_name;
-
-            if(IO_File::isReadable($file_path)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $file_name
-     */
-    public function handlePublicFile( $file_name ) {
-        if( $this->getPublicFileExists($file_name) ) {
-
-
-            IO_File::send(
-                $this->getPublicFilesPath().$file_name
-            );
-
-        }
-    }
-
 	/**
 	 * Returns default locale
 	 *
@@ -844,7 +801,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
         $ar = new Data_Array($data);
 
-        $data = '<?php'.JET_EOL.'return '.$ar->export().'';
+        $data = '<?php'.JET_EOL.'return '.$ar->export();
 
         $data_file_path = static::getSiteDataFilePath($this->getID());
 
@@ -917,7 +874,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
         IO_File::write(
             static::getUrlMapFilePath(),
-            '<?php'.JET_EOL.'return '.$ar->export().''
+            '<?php'.JET_EOL.'return '.$ar->export()
         );
 
         Mvc::truncateRouterCache();

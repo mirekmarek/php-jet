@@ -33,10 +33,6 @@ class Main extends Jet\Application_Modules_Module_Abstract implements Mvc_Layout
      * @param Mvc_Layout $layout
      */
     public function initializeLayout( Mvc_Layout $layout ) {
-        //TODO: to je hack ...
-		if( Jet\Http_Request::GET()->exists('logout') ) {
-			Jet\Auth::logout();
-		}
 
         $container_ID = Jet\Http_Request::GET()->getString(static::CONTAINER_ID_GET_PARAMETER);
 

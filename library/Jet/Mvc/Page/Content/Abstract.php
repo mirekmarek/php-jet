@@ -31,6 +31,12 @@ namespace Jet;
 abstract class Mvc_Page_Content_Abstract extends DataModel_Related_1toN {
 
     /**
+     * @param mixed $ID
+     *
+     */
+    abstract public function setID( $ID );
+
+    /**
      * @param array $data
      * @return void
      */
@@ -128,12 +134,6 @@ abstract class Mvc_Page_Content_Abstract extends DataModel_Related_1toN {
      */
     abstract function getParserURLMethodName();
 
-    /**
-     * @param Mvc_Page_Abstract $page
-     *
-     * @return Mvc_Controller_Abstract
-     */
-    abstract public function getControllerInstance( Mvc_Page_Abstract $page );
 
     /**
      * @param array|Mvc_Layout_OutputPart[] $output_parts
@@ -144,5 +144,10 @@ abstract class Mvc_Page_Content_Abstract extends DataModel_Related_1toN {
      * @return Mvc_Layout_OutputPart[]|null
      */
     abstract public function getOutputParts();
+
+    /**
+     * @param Mvc_Page_Abstract $page
+     */
+    abstract public function dispatch( Mvc_Page_Abstract $page );
 
 }

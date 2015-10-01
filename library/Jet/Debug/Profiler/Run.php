@@ -92,6 +92,12 @@ class Debug_Profiler_Run {
 			/** @noinspection PhpUndefinedFunctionInspection */
 			xhprof_enable( XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY );
 		}
+
+        if(extension_loaded('tideways')) {
+            /** @noinspection PhpUndefinedConstantInspection */
+            /** @noinspection PhpUndefinedFunctionInspection */
+            tideways_enable( TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY );
+        }
 	}
 
 	/**
@@ -297,6 +303,11 @@ class Debug_Profiler_Run {
 			/** @noinspection PhpUndefinedFunctionInspection */
 			$this->XHP_data = xhprof_disable();
 		}
+
+        if(extension_loaded('tideways')) {
+            /** @noinspection PhpUndefinedFunctionInspection */
+            $this->XHP_data = tideways_disable();
+        }
 
 	}
 

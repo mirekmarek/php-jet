@@ -1,4 +1,5 @@
 <?php
+use Jet\Tr;
 /**
  * @var Jet\Form $form
  */
@@ -14,5 +15,5 @@ $form = $this->form;
 		<jet_form_field name="default_auth_controller_module_name" class="form-control"/>
 	</div>
 
-	<input type="submit" value="<?=Jet\Tr::_('Next', array(), Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<input type="submit" value="<?=Tr::_('Next', array(), Tr::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
 </jet_form>

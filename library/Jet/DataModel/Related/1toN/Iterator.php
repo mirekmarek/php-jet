@@ -68,7 +68,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
     public function getValidationErrors() {
         $result = array();
 
-        foreach( $this-> items as $i=>$item) {
+        foreach( $this-> items as $item) {
             foreach( $item->getValidationErrors() as $error ) {
                 $result[] = $error;
             }

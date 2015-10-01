@@ -505,7 +505,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 
 		$original_data->set( $config_data_path, $this->toArray());
 
-		$config_data = '<?php'.JET_EOL.' return '.$original_data->export().';';
+		$config_data = '<?php'.JET_EOL.'return '.$original_data->export();
 
 		if(!$target_file_path) {
 			$target_file_path = $this->config_file_path;

@@ -28,6 +28,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
+        'logout' => false,
 		'default' => false,
 		'signpost' => false,
 		'ria_default' => false,
@@ -42,6 +43,15 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
         $JetML_postprocessor->setIconsURL( $this->module_instance->getPublicURI().'icons/' );
         $JetML_postprocessor->setFlagsURL( $this->module_instance->getPublicURI().'flags/' );
 	}
+
+    /**
+     *
+     */
+    public function logout_Action() {
+        Jet\Auth::logout();
+
+        Jet\Http_Headers::movedTemporary( Jet\Mvc_Page::get('admin')->getURL() );
+    }
 
     /**
      *

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<jet_layout_part name="header"/>
+    <?php require 'parts/header.phtml'; ?>
 	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"/>
 </head>
 <body>
@@ -13,7 +13,7 @@
 
 	<div style="position: absolute;top:5px; right: 10px;">
 		<?=Jet\Tr::_('Current user: %USERNAME%', array('USERNAME' => Jet\Auth::getCurrentUser()->getLogin()));?>
-		<a href="?logout" class="btn btn-default"><?=Jet\Tr::_('LOGOUT');?></a>
+		<a href="<?=Jet\Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Jet\Tr::_('LOGOUT');?></a>
 	</div>
 
 	<div style="height: 25px;"></div>

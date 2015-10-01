@@ -34,7 +34,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	const JS_PACKAGES_DIR_NAME = 'js_packages/';
 	const CSS_PACKAGES_DIR_NAME = 'css_packages/';
 
-	const TAG_PART = 'jet_layout_part';
 	const TAG_POSITION = 'jet_layout_position';
 	const TAG_MAIN_POSITION = 'jet_layout_main_position';
 
@@ -60,6 +59,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @var Mvc_Layout_OutputPart[]
 	 */
 	protected $output_parts = array();
+
+    /**
+     * @var array
+     */
+    protected $virtual_positions = array();
 
 	/**
 	 * @see Mvc_Layout::requireJavascript();
@@ -546,6 +550,78 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 	}
 
+
+    /**
+     *
+     */
+    public function parseContent() {
+
+        $result = $this->_render();
+
+        $matches = array();
+
+        if( preg_match_all('/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER) ) {
+
+            foreach($matches as $match) {
+                $orig_str = $match[0];
+
+                $_properties = substr(trim($match[1]), 0, -1);
+                $_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
+                $_properties = explode( '" ', $_properties );
+
+
+                $properties = array();
+
+
+                foreach( $_properties as $property ) {
+                    if( !$property || strpos($property, '=')===false ) {
+                        continue;
+                    }
+
+                    $property = explode('=', $property);
+
+                    $property_name = array_shift($property);
+                    $property_value = implode('=', $property);
+
+                    $property_name = strtolower($property_name);
+                    $property_value = str_replace('"', '', $property_value);
+
+                    $properties[$property_name] = $property_value;
+
+                }
+
+
+                $module_name = $properties['data-module-name'];
+                $action = isset($properties['data-action']) ? $properties['data-action'] : '';
+                $action_params = isset($properties['data-action-params']) ? json_decode( htmlspecialchars_decode($properties['data-action-params']), true ) : [];
+
+
+                if($action_params) {
+                    $action_params = array($action_params);
+                }
+
+                $position_name = 'module_content_'.md5($orig_str);
+
+                $this->virtual_positions[$orig_str] = $position_name;
+
+                $page_content = Mvc_Factory::getPageContentInstance();
+
+                $page_content->setModuleName( $module_name );
+                $page_content->setControllerAction( $action );
+                $page_content->setControllerActionParameters($action_params);
+                $page_content->setOutputPosition( $position_name );
+                $page_content->setOutputPositionOrder(1);
+                $page_content->setOutputPositionRequired(true);
+
+                $this->page->addContent( $page_content );
+
+            }
+        }
+
+
+    }
+
+
 	/**
 	 * Returns rendered layout according to specified .phtml file name
 	 * and also does the output postprocessing by relevant objects
@@ -559,7 +635,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$result = $this->_render();
 
-		$this->handleModules( $result );
 
 		foreach($this->output_parts as $o) {
 
@@ -567,13 +642,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			 * @var Mvc_Layout_OutputPart $o
 			 */
 			$res = $o->getOutput();
-			$this->handleModules($res);
 			$this->handleModulesJavaScripts($res, $o->getModuleName());
 			$o->setOutput($res);
 
 		}
-
-		$this->handleParts( $result );
 
 		$this->handlePostprocessor( $result );
 
@@ -643,6 +715,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handlePositions( &$result ) {
+        foreach( $this->virtual_positions as $original_string=>$position ) {
+            $result = str_replace($original_string, '<'.self::TAG_POSITION.' name="'.$position.'" />', $result);
+        }
+
+
 		$output = array();
 		$sort_hash = array();
 

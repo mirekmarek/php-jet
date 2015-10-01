@@ -27,6 +27,11 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     const PAGE_DATA_FILE_NAME = 'page_data.php';
     const PAGE_DIRECT_INDEX_FILE_NAME = 'index.php';
 
+    /**
+     * @var array
+     */
+    protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7'];
+
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
@@ -337,6 +342,13 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     public function getDataFilePath()
     {
         return $this->data_file_path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDataDirPath() {
+        return dirname($this->getDataFilePath()).'/';
     }
 
 
@@ -801,6 +813,8 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
             }
         }
 
+        $this->layout->parseContent();
+
 
         return $this->layout;
     }
@@ -1001,6 +1015,8 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	 * @param Mvc_Page_Content_Abstract $content
 	 */
 	public function addContent( Mvc_Page_Content_Abstract $content) {
+        $content->setID( count($this->contents) );
+
 		$this->contents[] = $content;
 	}
 
@@ -1495,6 +1511,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 			$form->getField('layout_script_name')->setSelectOptions( $this->getLayoutsList() );
 		}
 
+
 		return $form;
 	}
 
@@ -1667,6 +1684,21 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      * @return bool
      */
     public function parseRequestURL() {
+        $router = Mvc::getCurrentRouter();
+
+        $path = implode('/', $router->getPathFragments());
+
+        if(strpos($path, '..')==false) {
+            $path = $this->getDataDirPath().$path;
+
+            if(IO_File::exists($path)) {
+                $router->setIsFile( $path );
+
+                return true;
+            }
+
+        }
+
 
         foreach( $this->getContents() as $content ) {
 
@@ -1687,6 +1719,27 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
         return false;
     }
+
+
+    /**
+     * @param string $file_path
+     */
+    public function handleFile( $file_path ) {
+
+        $ext = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+
+        if(in_array($ext, static::$php_file_extensions)) {
+
+            /** @noinspection PhpIncludeInspection */
+            require $file_path;
+        } else {
+            IO_File::send($file_path);
+        }
+
+        Application::end();
+
+    }
+
 
     /**
      * @param string $auth_controller_module_name
@@ -1757,7 +1810,11 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
         Translator::setCurrentNamespace( $translator_namespace );
 
         foreach( $this->getContents() as $content ) {
-            $this->dispatchContentItem($content);
+            $this->_current_content = $content;
+
+            $content->dispatch($this);
+
+            $this->_current_content = null;
 
             if(!$this->getIsDynamic() && $content->getIsDynamic()) {
                 $this->setIsDynamic(true);
@@ -1785,144 +1842,6 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     public function getOutput()
     {
         return $this->output;
-    }
-
-
-
-    /**
-     * @param Mvc_Page_Content_Abstract $page_content
-     *
-     */
-    protected function dispatchContentItem( Mvc_Page_Content_Abstract $page_content ) {
-
-        $this->_current_content = $page_content;
-
-        $module_name = $page_content->getModuleName();
-        $controller_action = $page_content->getControllerAction();
-        $service_type = $page_content->getCustomServiceType() ? $page_content->getCustomServiceType() : $this->getServiceType();
-
-        $block_name =  $module_name.':'.$service_type.':'.$controller_action;
-
-        Debug_Profiler::blockStart( 'Dispatch '.$block_name );
-
-
-        $controller = $page_content->getControllerInstance( $this );
-
-        if(!$controller) {
-
-            Debug_Profiler::message('Module is not installed and/or activated - skipping');
-
-        } else {
-            Debug_Profiler::message('Content ID:'.$page_content->getID()->toString() );
-
-            $layout = $this->getLayout();
-
-            if(
-                !$page_content->getIsDynamic() &&
-                ($output_parts=$page_content->getOutputParts())
-            ) {
-
-                Debug_Profiler::message( 'CACHED - skipping' );
-
-                foreach( $output_parts as $op ) {
-                    $layout->setOutputPart($op);
-                }
-
-
-            } else {
-                Translator::setCurrentNamespace( $module_name );
-
-                $module_instance = Application_Modules::getModuleInstance( $module_name );
-                $module_instance->callControllerAction(
-                    $controller,
-                    $controller_action,
-                    $page_content->getControllerActionParameters()
-                );
-
-
-
-                if( $page_content->getIsDynamic() ) {
-                    Debug_Profiler::message('Is dynamic');
-
-                    $this->setIsDynamic(true);
-                } else {
-                    Debug_Profiler::message('Is static');
-
-                    if( ($output_parts = $layout->getContentOutputParts( $page_content->getID()->toString() )) ) {
-                        $page_content->setOutputParts( $output_parts );
-                    }
-                }
-
-            }
-
-        }
-
-
-
-        $this->_current_content = null;
-
-
-        Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
-
-    }
-
-    /**
-     * @param Mvc_Page_Content_Abstract $page_content
-     *
-     * @return string
-     */
-    public function renderContentItem( Mvc_Page_Content_Abstract $page_content ) {
-        //TOTO je hack ... neslo by to bez toho?
-
-        $current_queue_item = $this->_current_content;
-        $current_translator_namespace = Translator::getCurrentNamespace();
-
-
-        $module_name = $page_content->getModuleName();
-        $controller_action = $page_content->getControllerAction();
-        $service_type = $page_content->getCustomServiceType() ? $page_content->getCustomServiceType() : $this->getServiceType();
-
-        $block_name =  $module_name.':'.$service_type.':'.$controller_action;
-
-
-        if(!Application_Modules::getModuleIsActivated($module_name)) {
-            return false;
-        }
-
-        $module_instance = Application_Modules::getModuleInstance( $module_name );
-        if(!$module_instance) {
-            return false;
-        }
-
-
-        $this->_current_content = $page_content;
-
-        $layout = $this->getLayout();
-
-
-        Translator::setCurrentNamespace( $module_name );
-
-
-        $controller = $module_instance->getControllerInstance( $service_type );
-        $module_instance->callControllerAction(
-            $controller,
-            $controller_action,
-            $page_content->getControllerActionParameters()
-        );
-
-        $output_parts = $layout->getContentOutputParts( $page_content->getID()->toString() );
-        $output = '';
-
-        foreach( $output_parts as $output_part ) {
-            $output .= $output_part->getOutput();
-        }
-        $layout->unsetContentOutputParts( $page_content->getID()->toString() );
-
-
-        $this->_current_content = $current_queue_item;
-        Translator::setCurrentNamespace( $current_translator_namespace );
-
-        return $output;
     }
 
 

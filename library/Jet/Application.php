@@ -129,7 +129,7 @@ class Application extends Object {
 	 * @return bool
 	 */
 	public static function getIsDebugMode(){
-		return defined('JET_DEBUG_MODE') && JET_DEBUG_MODE;
+		return defined('JET_DEVEL_MODE') && JET_DEVEL_MODE;
 	}
 
 }
