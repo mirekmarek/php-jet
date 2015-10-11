@@ -20,7 +20,7 @@ return [
 	),
 	'contents' => array(
 			array(
-				'module_name' => 'JetExample\Images',
+				'module_name' => 'JetExample.Images',
                 'parser_URL_method_name' => 'parseRequestURL_Public',
 				'controller_action' => 'default',
 				'output_position' => '',

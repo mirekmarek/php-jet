@@ -24,5 +24,7 @@ require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 //require( JET_APPLICATION_PATH . '_installer/install.php' );
 
 Application::start( JET_APPLICATION_CONFIGURATION_NAME );
+
+
 Mvc::run();
 Application::end();

@@ -7,8 +7,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Images
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
@@ -115,7 +113,7 @@ class Gallery_Image extends Jet\DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetApplicationModule\JetExample\Images\Gallery_Image_Thumbnail'
+	 * @JetDataModel:data_model_class = 'module:JetExample.Images\Gallery_Image_Thumbnail'
 	 *
 	 * @var Gallery_Image_Thumbnail[]
 	 */

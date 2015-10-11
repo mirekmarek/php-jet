@@ -156,4 +156,3 @@
 		'is_translated' => false,
 	),
 );
-;

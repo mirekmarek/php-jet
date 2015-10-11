@@ -888,9 +888,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
         $module_manifest = Application_Modules::getModuleManifest($module_name);
 
         if( ($container_ID=Mvc::getCurrentPage()->getLayout()->getUIContainerID()) ) {
-            return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\', \''.$container_ID.'\').';
+            return 'Jet.modules.getModuleInstance(\''.$module_manifest->getName().'\', \''.$container_ID.'\').';
         } else {
-            return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
+            return 'Jet.modules.getModuleInstance(\''.$module_manifest->getName().'\').';
         }
 
     }
@@ -908,7 +908,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
             return false;
         }
 
-        return 'Jet.modules.getModuleInstance(\''.$module_manifest->getDottedName().'\').';
+        return 'Jet.modules.getModuleInstance(\''.$module_manifest->getName().'\').';
     }
 
 

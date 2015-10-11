@@ -6,4 +6,3 @@
 		'is_translated' => false,
 	),
 );
-;

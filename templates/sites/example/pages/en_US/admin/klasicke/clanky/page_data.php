@@ -12,7 +12,7 @@ return [
 			array(
 				array(
                     'is_dynamic' => true,
-					'module_name' => 'JetExample\Articles',
+					'module_name' => 'JetExample.Articles',
                     'parser_URL_method_name' => 'parseRequestURL_Admin',
 					'controller_action' => 'default',
 					'output_position' => '',

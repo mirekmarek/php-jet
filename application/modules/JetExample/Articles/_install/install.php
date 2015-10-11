@@ -1,2 +1,2 @@
 <?php
-Jet\DataModel::helper_create('JetApplicationModule\JetExample\Articles\Article');
+Jet\DataModel::helper_create('module:JetExample.Articles\Article');

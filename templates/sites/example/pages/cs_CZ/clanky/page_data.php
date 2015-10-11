@@ -20,7 +20,7 @@ return [
 	),
 	'contents' => array(
 			array(
-				'module_name' => 'JetExample\Articles',
+				'module_name' => 'JetExample.Articles',
                 'parser_URL_method_name' => 'parseRequestURL_Public',
 				'controller_action' => 'default',
 				'output_position' => '',

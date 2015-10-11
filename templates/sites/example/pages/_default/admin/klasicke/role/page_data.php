@@ -12,7 +12,7 @@ return [
 			array(
 				array(
                     'is_dynamic' => true,
-					'module_name' => 'JetExample\AdminRoles',
+					'module_name' => 'JetExample.AdminRoles',
                     'parser_URL_method_name' => 'parseRequestURL',
 					'controller_action' => 'default',
 					'output_position' => '',

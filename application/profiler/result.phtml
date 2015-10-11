@@ -7,16 +7,30 @@ namespace Jet;
 
 $blocks = $run->getBlocks();
 
+/**
+ * @param int $b
+ * @return string
+ */
 function formatBytes( $b ) {
-	echo ($b/1024)."&nbsp;KiB";
+	return ($b/1024)."&nbsp;KiB";
 }
 
+/**
+ * @param int $duration
+ * @return string
+ */
 function formatDuration( $duration ) {
 	$duration = round($duration*1000, 3);
 
 	return $duration."&nbsp;ms";
 }
 
+/**
+* @param string $query
+* @param array $query_data
+ *
+ * @return string
+ */
 function formatQuery($query, array $query_data=array()) {
 
 	if(!$query_data){
@@ -54,7 +68,9 @@ function formatQuery($query, array $query_data=array()) {
 
 }
 
-
+/**
+* @param Debug_Profiler_Run_Block $block
+ */
 function showRunBlock( Debug_Profiler_Run_Block $block ) {
 	$ID = $block->getID();
 	$is_root = $block->getIsRoot();

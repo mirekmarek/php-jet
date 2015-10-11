@@ -13,9 +13,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_AdminUsers
- * @subpackage JetApplicationModule_AdminUsers_Controller
  */
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
@@ -120,7 +117,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		/**
 		 * @var UIElements\Main $UI_m
 		 */
-		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
+		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample.UIElements');
 		$grid = $UI_m->getDataGridInstance();
 
 		$grid->setIsPersistent('admin_classic_users_list_grid');

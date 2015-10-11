@@ -102,7 +102,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	) {
 		$controller_suffix = 'Controller_'.$service_type;
 
-		$controller_class_name = JET_APPLICATION_MODULE_NAMESPACE.'\\'.$this->module_manifest->getName().'\\'.$controller_suffix;
+		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
 
 		return $controller_class_name;
 	}
@@ -311,13 +311,6 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 */
 	public function getModuleManifest() {
 		return $this->module_manifest;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPublicURI() {
-		return JET_MODULES_URI.$this->module_manifest->getUriReadyName().'/public/';
 	}
 
 }

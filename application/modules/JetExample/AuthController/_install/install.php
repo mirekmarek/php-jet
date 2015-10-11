@@ -1,2 +1,2 @@
 <?php
-Jet\DataModel::helper_create('JetApplicationModule\JetExample\AuthController\Event');
+Jet\DataModel::helper_create('module:JetExample.AuthController\Event');

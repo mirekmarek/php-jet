@@ -11,8 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Images
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
@@ -43,7 +41,10 @@ class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
 
 		$this->view->setVar('form', $form);
 
-		//TODO: $this->view->setVar('upload_URL', $this->module_instance->getRestURL('image'));
+		$this->view->setVar('upload_URL', Jet\Mvc_Page::get('admin/ria/rest_api')->getURI(array(), array(
+            $this->module_manifest->getName(),
+            'image'
+        )));
 
 		$upload_form = new Jet\Form('upload_form', array());
 		$upload_form->enableDecorator('Dojo');

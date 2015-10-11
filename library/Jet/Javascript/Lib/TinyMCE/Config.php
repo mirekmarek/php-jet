@@ -73,6 +73,11 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 */
 	protected $editor_configs;
 
+    /**
+     * @var string
+     */
+    protected $language = '';
+
 	/**
 	 * @return string
 	 */
@@ -94,6 +99,24 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 //		return Data_Text::replaceSystemConstants($this->URI, $replacements);
 	}
 
+    /**
+     * @param string $language
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+
+
 
 	/**
 	 * @return array
@@ -113,7 +136,6 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 			}
 
 			foreach($this->editor_configs as $name=>$cfg) {
-				//TODO: $cfg['language'] = Mvc::getCurrentLocale()->getLanguage();
 
 				if(isset($cfg['content_css'])) {
 					$cfg['content_css'] = Data_Text::replaceSystemConstants($cfg['content_css']);
@@ -145,7 +167,13 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 			);
 		}
 
-		return $this->_editor_configs[$editor_config_name];
+        $cfg = $this->_editor_configs[$editor_config_name];
+
+        if( ($language = $this->getLanguage()) ) {
+            $cfg['language'] = Mvc::getCurrentLocale()->getLanguage();
+        }
+
+		return $cfg;
 	}
 
 	/**

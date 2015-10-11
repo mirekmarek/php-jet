@@ -13,9 +13,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_DefaultAdminUI
- * @subpackage JetApplicationModule_DefaultAdminUI_Controller
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;
@@ -40,8 +37,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function initialize() {
         $JetML_postprocessor = Jet\Mvc::getCurrentPage()->getLayout()->enableJetML();
-        $JetML_postprocessor->setIconsURL( $this->module_instance->getPublicURI().'icons/' );
-        $JetML_postprocessor->setFlagsURL( $this->module_instance->getPublicURI().'flags/' );
+        $JetML_postprocessor->setIconsURL( $this->module_manifest->getPublicURI().'icons/' );
+        $JetML_postprocessor->setFlagsURL( $this->module_manifest->getPublicURI().'flags/' );
 	}
 
     /**
@@ -108,7 +105,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
         $Jet->setAJAXBaseURL( Jet\Mvc_Page::get('admin/ria/ajax')->getURL() );
         $Jet->setRESTBaseURL( Jet\Mvc_Page::get('admin/ria/rest_api')->getURL() );
         $Jet->setComponentsBaseURL( Jet\Mvc_Page::get('admin/ria/js')->getURL() );
-        $Jet->setUIModuleName( $this->module_manifest->getDottedName() );
+        $Jet->setUIModuleName( $this->module_manifest->getName() );
 
 		$Jet->requireComponent('Jet.Form');
 		$Jet->requireComponent('Jet.Trash');

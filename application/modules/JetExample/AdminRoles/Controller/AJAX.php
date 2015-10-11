@@ -11,9 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_AdminRoles
- * @subpackage JetApplicationModule_AdminRoles_Controller
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;

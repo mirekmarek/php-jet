@@ -7,8 +7,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Images
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
@@ -44,7 +42,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 
 		$this->view->setVar('children', $children);
 		$this->view->setVar('gallery', $gallery);
-		$this->view->setVar('icons_URI', $this->module_instance->getPublicURI().'icons/');
+		$this->view->setVar('icons_URI', $this->module_manifest->getPublicURI().'icons/');
 
 		$this->render('default');
 	}

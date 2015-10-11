@@ -8,9 +8,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_DefaultAuth
- * @subpackage JetApplicationModule_DefaultAuth_Controller
  */
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet;

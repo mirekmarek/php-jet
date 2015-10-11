@@ -10,7 +10,6 @@ Jet.require('Jet.modules.Module');
 Jet.require('Jet.Form');
 Jet.require('Jet.Trash');
 Jet.require('Jet.Formatter');
-Jet.require('Jet.MultiUploader');
 
 
 
@@ -203,6 +202,7 @@ Jet.declare('Jet.module.JetExample.Images.Main', [Jet.modules.Module], {
 		});
 
 
+        //TODO: ne, projekt neni o psani existujicich uploaderu :)
 		this.uploader = new Jet.MultiUploader(	'image/', this, 'upload_images' );
 		this.uploader.onUploadDone = function() {
 			dojo.publish(_this.module_name+'/image/upload');

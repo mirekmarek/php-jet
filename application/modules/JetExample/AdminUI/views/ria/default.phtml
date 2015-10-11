@@ -11,6 +11,11 @@ use Jet;
 		<jetml_form_button title="Users" icon="module/JetExample.AdminUsers/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.AdminUsers');" />
 		<jetml_form_button title="Test module" icon="module/JetExample.TestModule/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.TestModule');" />
 
+        <div style="position: absolute;top:5px; right: 10px;">
+            <?=Jet\Tr::_('Current user: %USERNAME%', array('USERNAME' => Jet\Auth::getCurrentUser()->getLogin()));?>
+            <a href="<?=Jet\Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Jet\Tr::_('LOGOUT');?></a>
+        </div>
+
 	</jetml_layout_toolbar>
 
 	<jetml_layout_tabs region="center" tabPosition="top" id="_jet_modules_tabs_">

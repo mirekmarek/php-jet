@@ -658,13 +658,18 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		if($this->form_field_get_select_options_callback) {
 			$callback = $this->form_field_get_select_options_callback;
 
-			if(
-				is_array($callback) &&
-				$callback[0]=='this'
-			) {
-				$callback[0] = $this->data_model_class_name;
-			}
+            if(is_array($callback)) {
+                if(
+                    $callback[0]=='this'
+                ) {
+                    $callback[0] = $this->data_model_class_name;
+                } else {
+                    $callback[0] = Factory::parseModuleClassName($callback[0]);
+                }
+
+            }
 			if(!is_callable($callback)) {
+                var_dump($callback);
 				throw new DataModel_Exception($this->data_model_class_name.'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
 			}
 

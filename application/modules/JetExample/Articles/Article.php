@@ -11,9 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_Articles
- * @subpackage JetApplicationModule\JetExample\Articles
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
@@ -163,7 +160,7 @@ class Article extends Jet\DataModel {
     public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=false ) {
 
         if($remove_accents) {
-            $URI_fragment = Data_Text::removeAccents($URI_fragment);
+            $URI_fragment = Jet\Data_Text::removeAccents($URI_fragment);
         }
 
         $URI_fragment = str_replace(' ', '-', $URI_fragment);

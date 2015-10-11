@@ -94,7 +94,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 */
 	protected function _initParents() {
 
-		$parent_model_class_name = Object_Reflection::get( $this->class_name, 'data_model_parent_model_class_name' );
+		$parent_model_class_name = Factory::parseModuleClassName( Object_Reflection::get( $this->class_name, 'data_model_parent_model_class_name' ) );
 
 		if(!$parent_model_class_name) {
 			throw new DataModel_Exception(

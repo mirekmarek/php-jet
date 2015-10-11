@@ -29,7 +29,10 @@ if($gallery) {
 </div>
 
 <?php foreach( $images as $image ):
-	$thumbnail = $image->getThumbnail( 120, 120 );
+    /**
+     * @var Gallery_Image $image
+     */
+    $thumbnail = $image->getThumbnail( 120, 120 );
 	?>
 	<a href="<?=$image->getURI();?>" target="_blank"><img src="<?=$thumbnail->getURI();?>" class="img-thumbnail" style="margin: 3px;" /></a>
 <?php endforeach; ?>

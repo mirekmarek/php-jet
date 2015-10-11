@@ -137,9 +137,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
         $path_fragments = $router->getPathFragments();
 
 
-        $module_name = Application_Modules::getHandler()->normalizeName(
-            $path_fragments[0]
-        );
+        $module_name = $path_fragments[0];
 
         $path_fragments = $router->shiftPathFragments();
 

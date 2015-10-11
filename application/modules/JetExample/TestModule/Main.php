@@ -11,30 +11,44 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_TestModule
  */
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
 
 class Main extends Jet\Application_Modules_Module_Abstract {
-	function getMyValue(){
+    /**
+     * @return string
+     */
+    public function getMyValue(){
 		return 'My value';
 	}
-	
-	function testAck(Jet\Application_Signals_Signal $signal){
+
+    /**
+     * @param Jet\Application_Signals_Signal $signal
+     */
+    public function testAck(Jet\Application_Signals_Signal $signal){
 		echo 'TestModule: ACK signal received.\n';
 		var_dump($signal->getName(), $signal->getData(), $signal->getSender());
 	}
-	
-	function sendReceived(){
+
+    /**
+     * @return Jet\Application_Signals_Signal
+     */
+    public function sendReceived(){
 		echo 'TestModule: sending test/received\n';
 		return $this->sendSignal('test/received', 'HELLO!');
 	}
-	
-	function sendMultiple(){
+
+    /**
+     * @return Jet\Application_Signals_Signal
+     */
+    public function sendMultiple(){
 		echo 'TestModule: sending test/multiple\n';
 		return $this->sendSignal('test/multiple', 'HELLO MULTIPLE!');
 	}
+
+    public function testInstall() {
+
+    }
 
 }

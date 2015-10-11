@@ -140,7 +140,7 @@ class Mvc_View extends Mvc_View_Abstract {
 		if($this->module_name) {
 			$module_manifest = Application_Modules::getModuleManifest($this->module_name);
 
-			$module_name = $module_manifest ? $module_manifest->getDottedName() : $this->module_name;
+			$module_name = $module_manifest ? $module_manifest->getName() : $this->module_name;
 
 			$data['JET_CURRENT_MODULE_NAME'] = $module_name;
 		}

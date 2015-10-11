@@ -11,8 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\UIElements
  */
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;

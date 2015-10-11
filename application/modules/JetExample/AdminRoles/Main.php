@@ -8,8 +8,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_AdminRoles
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;

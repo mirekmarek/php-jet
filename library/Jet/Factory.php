@@ -22,7 +22,7 @@
  *  Example: Do you want to implement your own Site?
  *  In addition to creating your own module (a class that will implement a specific interface or extend an abstract class) is sufficient to overload the original class:
  *
- *  Jet\Mvc_Sites_Factory: setSiteClass( 'JetApplicationModule_MySite_MySite');
+ *  Jet\Mvc_Sites_Factory: setSiteClass( 'module:My.Module\My_Site');
  *
  * Next possibility how to specify class overload is 'factory_overload_map' directive in the modules manifest file. @see Mvc_Modules_ModuleInfo
  *
@@ -48,6 +48,27 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	protected static $overload_map = null;
 
 
+    /**
+     * @param string $class_name
+     * @return string
+     */
+    public static function parseModuleClassName( $class_name ) {
+        $prefix = 'module:';
+        $prefix_len = strlen($prefix);
+
+        if(substr($class_name,0, $prefix_len)==$prefix) {
+
+            list($module_name, $class_name) = explode('\\', substr($class_name, $prefix_len));
+
+            $module_manifest = Application_Modules::getModuleManifest($module_name);
+
+            $class_name = $module_manifest->getNamespace().$class_name;
+        }
+
+        return $class_name;
+
+    }
+
 	/**
 	 * @see Jet\Factory
 	 *
@@ -55,6 +76,9 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 * @param string $overloaded_name
 	 */
 	public static function setClassName( $default_name, $overloaded_name ) {
+
+        $default_name = static::parseModuleClassName( $default_name );
+        $overloaded_name = static::parseModuleClassName( $overloaded_name );
 
 		if(self::$overload_map === null) {
 			self::initOverloadMap();
@@ -70,6 +94,8 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 * @return string
 	 */
 	public static function getClassName( $default_name ) {
+
+        $default_name = static::parseModuleClassName( $default_name );
 
 		if(self::$overload_map === null) {
 			self::initOverloadMap();
@@ -93,6 +119,8 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 * @return object
 	 */
 	public static function getInstance( $class_name ) {
+
+        $class_name = static::parseModuleClassName($class_name);
 
 		$definition = Factory_ClassDefinition::getClassDefinition( $class_name );
 
@@ -134,6 +162,7 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 	 * @throws Factory_Exception
 	 */
 	public static function checkInstance( $default_class_name, Object_Interface $instance ) {
+        $default_class_name = static::parseModuleClassName($default_class_name);
 
 		$required_class = Factory_ClassDefinition::getClassDefinition( $default_class_name )->getFactoryMandatoryParentClass();
 

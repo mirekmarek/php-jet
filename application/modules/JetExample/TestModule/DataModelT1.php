@@ -4,16 +4,11 @@
  *
  *
  *
- *
- *
  * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_TestModule
- * @subpackage JetApplicationModule_TestModule_DataModelT1
  */
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
@@ -120,7 +115,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
 	 * @JetDataModel:form_field_label = 'Select: '
 	 * @JetDataModel:form_field_type = 'Select'
-	 * @JetDataModel:form_field_get_select_options_callback = ['JetApplicationModule\JetExample\TestModule\DataModelT1', 'getSelectOptions']
+	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
 	 *
 	 * @var string
 	 */
@@ -132,7 +127,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Multi Select: '
 	 * @JetDataModel:form_field_type = 'MultiSelect'
-	 * @JetDataModel:form_field_get_select_options_callback = ['JetApplicationModule\JetExample\TestModule\DataModelT1', 'getSelectOptions']
+	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
 	 *
 	 * @var array
 	 */
@@ -145,7 +140,7 @@ class DataModelT1 extends Jet\DataModel {
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Radio Button: '
 	 * @JetDataModel:form_field_type = 'RadioButton'
-	 * @JetDataModel:form_field_get_select_options_callback = ['JetApplicationModule\JetExample\TestModule\DataModelT1', 'getSelectOptions']
+	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
 	 *
 	 * @var array
 	 */

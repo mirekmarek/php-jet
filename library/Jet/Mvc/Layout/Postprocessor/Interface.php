@@ -7,7 +7,7 @@
  * This can be done in the following way:
  *
  * <code>
- * class JetApplicationModule_MyModule_MyLayoutFilter implements Mvc_Layout_Postprocessor_Interface {
+ * class JetApplicationModule\MyModule\MyLayoutFilter implements Mvc_Layout_Postprocessor_Interface {
  *	public function finalPostProcess( &$result, Mvc_Layout $layout ) {
  *		$tidy = new tidy;
  *		$tidy->parseString($result, array());
@@ -20,7 +20,7 @@
  * Then we can pass to layout an instance of this class. For example, the Controller script code:
  *
  * <code>
- *	$layout->my_output_filter = new JetApplicationModule_MyModule_MyLayoutFilter();
+ *	$layout->my_output_filter = new JetApplicationModule\MyModule\MyLayoutFilter();
  * </code>
  *
  * JetApplicationModule_MyModule_MyLayoutFilter::finalPostProcess method is automatically called after the rendering output.

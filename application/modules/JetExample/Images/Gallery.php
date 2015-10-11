@@ -7,8 +7,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Images
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
@@ -19,7 +17,7 @@ use Jet;
  * @JetDataModel:name = 'ImageGallery'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries'
  *
- * @JetDataModel:relation = ['JetApplicationModule\JetExample\Images\Gallery_Image', ['ID'=>'gallery_ID'], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['ID'=>'gallery_ID'], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */
 class Gallery extends Jet\DataModel {
 

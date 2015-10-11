@@ -11,4 +11,3 @@
 		'is_translated' => false,
 	),
 );
-;

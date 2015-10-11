@@ -11,7 +11,7 @@ return [
 	'meta_tags' => array(),
 	'contents' => array(
 					array(
-                        'module_name' => 'JetExample\AdminUI',
+                        'module_name' => 'JetExample.AdminUI',
                         'parser_URL_method_name' => 'parseRequestURL',
 						'controller_action' => 'default',
 					)

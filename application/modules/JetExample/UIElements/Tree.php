@@ -11,8 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\UIElements
  */
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;
@@ -155,7 +153,7 @@ class Tree extends Jet\Object {
 		$view = $this->module_instance->getViewInstance();
 		$view->setVar( 'tree', $this );
 
-		$view->setVar( 'images_uri', $this->module_instance->getPublicURI().'images/' );
+		$view->setVar( 'images_uri', $this->module_instance->getModuleManifest()->getPublicURI().'images/' );
 
 		return $view->render('Tree/tree');
 

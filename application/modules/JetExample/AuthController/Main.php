@@ -13,7 +13,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule\JetExample\AuthController
  */
 
 namespace JetApplicationModule\JetExample\AuthController;
@@ -108,13 +107,6 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 * @return Jet\Mvc_Page_Abstract
 	 */
 	public function getAuthenticationPage() {
-		$service_type = Jet\Mvc::getCurrentPage()->getServiceType();
-
-		if($service_type!=Jet\Mvc::SERVICE_TYPE_STANDARD) {
-            //TODO:
-			Jet\Http_Headers::authorizationRequired();
-			die();
-		}
 
         $page = Jet\Mvc::getCurrentPage();
 

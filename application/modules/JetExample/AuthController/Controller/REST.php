@@ -13,12 +13,14 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule\JetExample\AuthController
  */
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet;
+use Jet\Mvc_Controller_REST;
+use Jet\Http_Headers;
+use Jet\Auth;
 
-class Controller_REST extends Jet\Mvc_Controller_REST {
+class Controller_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main
@@ -28,7 +30,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 
 	const ERR_CODE_AUTHORIZATION_REQUIRED = 'AuthorizationRequired';
 	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Jet\Http_Headers::CODE_401_UNAUTHORIZED, 'Authorization required'),
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => array( Http_Headers::CODE_401_UNAUTHORIZED, 'Authorization required'),
 	);
 
 	protected static $ACL_actions_check_map = array(
@@ -45,8 +47,26 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	}
 
 
-	public function login_Action() {
-		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User is not logged in'));
+    /**
+     *
+     */
+    public function login_Action() {
+
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            header('WWW-Authenticate: Basic realm="Login"');
+
+            $this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User is not logged in'));
+        } else {
+
+            if(Auth::login( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] )) {
+                Http_Headers::reload();
+            } else {
+                header('WWW-Authenticate: Basic realm="Login"');
+
+                $this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'Incorrect username or password'));
+            }
+
+        }
 	}
 	
 

@@ -12,7 +12,7 @@ return [
 			array(
 				array(
                     'is_dynamic' => true,
-					'module_name' => 'JetExample\Images',
+					'module_name' => 'JetExample.Images',
                     'parser_URL_method_name' => 'parseRequestURL_Admin',
 					'controller_action' => 'default',
 					'output_position' => '',

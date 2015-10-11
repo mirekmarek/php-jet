@@ -395,7 +395,7 @@ class JetCompatibilityTester {
 
 
 					if(!$result) {
-						$test_result->setResultMessage('upload_tmp_dir is '.$upload_tmp_dir.' but open_basedir is '.$open_basedir);
+						$test_result->setResultMessage('upload_tmp_dir is '.$upload_tmp_dir.' but open_basedir is '.$open_base_dirs);
 					}
 
 					return $result;
@@ -420,7 +420,7 @@ class JetCompatibilityTester {
 					}
 
 					if(!$result) {
-						$test_result->setResultMessage('session.save_path is '.$session_save_path.' but open_basedir is '.$open_basedir);
+						$test_result->setResultMessage('session.save_path is '.$session_save_path.' but open_basedir is '.$open_base_dirs);
 					}
 
 					return $result;

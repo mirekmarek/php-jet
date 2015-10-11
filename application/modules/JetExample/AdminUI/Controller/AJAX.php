@@ -11,9 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_DefaultAdminUI
- * @subpackage JetApplicationModule_DefaultAdminUI_Controller
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;

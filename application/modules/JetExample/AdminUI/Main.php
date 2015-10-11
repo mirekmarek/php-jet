@@ -11,8 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_DefaultAdminUI
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;
@@ -45,7 +43,7 @@ class Main extends Jet\Application_Modules_Module_Abstract implements Mvc_Layout
 
 
 
-		$public_URI = $this->getPublicURI();
+		$public_URI = $this->module_manifest->getPublicURI();
 		$JetML_postprocessor = $layout->enableJetML();
 		$JetML_postprocessor->setIconsURL( $public_URI.'icons/' );
 		$JetML_postprocessor->setFlagsURL( $public_URI.'flags/' );

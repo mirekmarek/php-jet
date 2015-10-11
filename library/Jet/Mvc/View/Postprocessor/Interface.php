@@ -9,7 +9,7 @@
  * Create a class that implements the interface Mvc_View_Postprocessor_Interface.
  * For example:
  *
- * class JetApplicationModule_MyModule_MyViewFilter implements Mvc_View_Postprocessor_Interface {
+ * class JetApplicationModule\MyModule\MyViewFilter implements Mvc\View\Postprocessor\Interface {
  *	public function viewPostProcess( &$result, Mvc_View $view ) {
  *		$result = nl2br( $result );
  *	}
@@ -17,10 +17,10 @@
  *
  * Then we can pass to view an instance of this class. For example, the Controller script code:
  *
- *	$this->view->my_output_filter = new JetApplicationModule_MyModule_MyViewFilter();
+ *	$this->view->my_output_filter = new JetApplicationModule\MyModule\MyViewFilter();
  *
  *
- * JetApplicationModule_MyModule_MyViewFilter::ViewPostProcess method is automatically called after the rendering output.
+ * JetApplicationModule\MyModule\MyViewFilter::ViewPostProcess method is automatically called after the rendering output.
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>

@@ -351,8 +351,17 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 * @return string
 	 */
 	public function getModuleDir() {
-		return JET_MODULES_PATH . str_replace('\\', '/', $this->name) . '/';
+		return JET_MODULES_PATH . str_replace('.', '/', $this->name) . '/';
 	}
+
+
+    /**
+     * @return string
+     */
+    public function getPublicURI() {
+        return JET_MODULES_URI.str_replace('.', '/', $this->name).'/public/';
+    }
+
 
 	/**
 	 * @return string
@@ -361,20 +370,9 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		return $this->name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDottedName() {
-		return str_replace('\\','.',$this->name);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUriReadyName() {
-		return str_replace('\\','/',$this->name);
-	}
-
+    public function getNamespace() {
+        return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace('.','\\',$this->name).'\\';
+    }
 
 	/**
 	 * @return string

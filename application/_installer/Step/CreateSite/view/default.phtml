@@ -1,5 +1,8 @@
 <?php
 namespace Jet;
+/**
+ * @var Mvc_View $this
+ */
 
 /**
  *  @var Form $main_form
@@ -49,7 +52,7 @@ $add_locale_form = $this->getRaw('add_locale_form');
 				<a href="?remove_locale=<?=$locale;?>" class="btn-xs btn-danger"><?=Tr::_('remove');?></a>
 			</td>
 			<td>
-				&nbsp;<b><?=$locale->getName( $this->current_locale );?></b>
+				&nbsp;<b><?=$locale->getName( $this->getRaw('current_locale') );?></b>
 			</td>
 		</tr></table>
 

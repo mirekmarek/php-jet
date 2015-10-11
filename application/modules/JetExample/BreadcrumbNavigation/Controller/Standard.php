@@ -11,9 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule_BreadcrumbNavigation
- * @subpackage JetApplicationModule_BreadcrumbNavigation_Controller
  */
 namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
 use Jet;

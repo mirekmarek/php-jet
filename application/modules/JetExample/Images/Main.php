@@ -11,8 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Articles
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
@@ -63,7 +61,7 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 			$controller_suffix = 'Controller_'.$service_type;
 		}
 
-		$controller_class_name = JET_APPLICATION_MODULE_NAMESPACE.'\\'.$this->module_manifest->getName().'\\'.$controller_suffix;
+		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
 
 		return $controller_class_name;
 	}

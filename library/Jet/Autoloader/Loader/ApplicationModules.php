@@ -32,15 +32,17 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 	 */
 	public function getClassPath($class_name) {
 
+        $namespace_len = strlen(JET_APPLICATION_MODULE_NAMESPACE.'\\');
+
 		if(
-			substr($class_name, 0, 21)!='JetApplicationModule\\'
+			substr($class_name, 0, $namespace_len)!=JET_APPLICATION_MODULE_NAMESPACE.'\\'
 		) {
 			return false;
 		}
 
 		$pos = strrpos($class_name, '\\');
 
-		$module_name = substr( $class_name , 21, $pos-21 );
+		$module_name = str_replace('\\', '.', substr( $class_name , $namespace_len, $pos-$namespace_len ));
 		$class_name = substr( $class_name,  $pos+1);
 
 		if( $this->modules_list===null ){

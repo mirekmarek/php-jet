@@ -10,7 +10,7 @@ return array(
 	'description' => 'Jet test module ...',
 
 	'require' => array(
-		'JetExample\TestModule'
+		'JetExample.TestModule'
 	),
 
 	'factory_overload_map' => array()

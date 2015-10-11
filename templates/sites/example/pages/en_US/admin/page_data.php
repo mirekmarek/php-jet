@@ -1,7 +1,7 @@
 <?php
 namespace Jet;
 
-$UI_module = Application_Modules::getModuleInstance('JetExample\AdminUI');
+$UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
 
 
 return [
@@ -16,7 +16,7 @@ return [
 	'meta_tags' => array(),
 	'contents' => array(
 					array(
-						'module_name' => 'JetExample\AdminUI',
+						'module_name' => 'JetExample.AdminUI',
 						'controller_action' => 'signpost',
 						'output_position' => '',
 						'output_position_required' => true,

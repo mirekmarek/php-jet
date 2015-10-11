@@ -11,8 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\UIElements
  */
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;
@@ -172,7 +170,10 @@ class DataGrid extends Jet\Object {
 
 		if($this->paginator) {
 			if(is_array($data)) {
-				$this->paginator->setData( $data );
+                /**
+                 * @var array $data
+                 */
+                $this->paginator->setData( $data );
 			}
 
 			if(
@@ -229,7 +230,7 @@ class DataGrid extends Jet\Object {
 		$view = $this->module_instance->getViewInstance();
 		$view->setVar( 'grid', $this );
 
-		$view->setVar( 'images_uri', $this->module_instance->getPublicURI().'images/' );
+		$view->setVar( 'images_uri', $this->module_instance->getModuleManifest()->getPublicURI().'images/' );
 
 		return $view->render('DataGrid/header');
 

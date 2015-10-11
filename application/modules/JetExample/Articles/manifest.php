@@ -8,7 +8,7 @@ return array(
 	'description' => '',
 
 	'require' => array(
-		'JetExample\UIElements'
+		'JetExample.UIElements'
 	),
 
 	'signals_callbacks' => array(),

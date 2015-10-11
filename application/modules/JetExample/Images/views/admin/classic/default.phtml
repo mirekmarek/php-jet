@@ -33,12 +33,13 @@ $edit_form = $this->edit_form;
 /**
  * @var UIElements\Main $UI_m
  */
-$UI_m = Jet\Application_Modules::getModuleInstance('JetExample\UIElements');
+$UI_m = Jet\Application_Modules::getModuleInstance('JetExample.UIElements');
 $tree = $UI_m->getTreeInstance();
 
 $tree->setData( $galleries );
 $tree->setSelectedID( $this->selected_ID );
 
+/** @noinspection PhpUnusedParameterInspection */
 $tree->setNormalDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) use ( $router)  {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
@@ -49,6 +50,7 @@ $tree->setNormalDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 	<?php
 } );
 
+/** @noinspection PhpUnusedParameterInspection */
 $tree->setSelectedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) {
 	?>
 	<strong><?=$data['title'];?></strong>
@@ -87,7 +89,7 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 			?>
 		<div style="padding: 5px;">
 			<a href="<?=$router->getActionURI('add', $parent_ID);?>" class="btn btn-default" style="width: 100%;">
-				<jetml_icon icon="module/JetExample\Images/module" size="large"/>
+				<jetml_icon icon="module/JetExample.Images/module" size="large"/>
 				<?=Jet\Tr::_('Create new gallery');?>
 			</a>
 		</div>

@@ -12,7 +12,7 @@ return [
 	'contents' => array(
 					array(
                         'is_dynamic' => true,
-						'module_name' => 'JetExample\AdminUI',
+						'module_name' => 'JetExample.AdminUI',
 						'controller_action' => 'classic_default',
 						'output_position' => '',
 						'output_position_required' => true,

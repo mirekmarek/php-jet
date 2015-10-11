@@ -1666,6 +1666,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_getCreateCommand( $class ) {
 		//DO NOT use factory here!
+        $class = Factory::parseModuleClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1683,6 +1684,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_create( $class, $including_history_backend=true, $including_cache_backend=true ) {
 		//DO NOT use factory here!
+
+        $class = Factory::parseModuleClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1718,6 +1721,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_getUpdateCommand( $class ) {
 		//DO NOT use factory here!
+        $class = Factory::parseModuleClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */

@@ -11,7 +11,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule\JetExample\TestModule2;
  */
 namespace JetApplicationModule\JetExample\TestModule2;
 use Jet;

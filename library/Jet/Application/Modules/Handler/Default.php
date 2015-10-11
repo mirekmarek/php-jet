@@ -96,18 +96,18 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 */
 	public function checkModuleNameFormat( $module_name ) {
 
-		if(!preg_match('/^([a-zA-Z0-9\\\\]{3,50})$/', $module_name)) {
+		if(!preg_match('/^([a-zA-Z0-9\.]{3,50})$/', $module_name)) {
 			return false;
 		}
-		if(strpos($module_name, '\\\\')!==false) {
-			return false;
-		}
-
-		if($module_name[0]=='\\') {
+		if(strpos($module_name, '..')!==false) {
 			return false;
 		}
 
-		if( $module_name[strlen($module_name)-1]=='\\' ) {
+		if($module_name[0]=='.') {
+			return false;
+		}
+
+		if( $module_name[strlen($module_name)-1]=='.' ) {
 			return false;
 		}
 
@@ -217,7 +217,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return bool
 	 */
 	public function getModuleExists( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		if( $this->activated_modules_list === null) {
 			$this->getActivatedModulesList();
@@ -246,7 +245,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return bool
 	 */
 	public function getModuleIsInstalled( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		if( $this->installed_modules_list === null) {
 			$this->getInstalledModulesList();
@@ -267,7 +265,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return bool
 	 */
 	public function getModuleIsActivated( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		if( $this->activated_modules_list === null) {
 			$this->getActivatedModulesList();
@@ -291,7 +288,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return Application_Modules_Module_Manifest
 	 */
 	public function getModuleManifest( $module_name, $only_activated=false ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		if( $this->activated_modules_list === null) {
 			$this->getActivatedModulesList();
@@ -322,7 +318,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function installModule( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		$this->_hardCheckModuleExists($module_name);
 
@@ -399,7 +394,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function uninstallModule( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		$this->_hardCheckModuleExists($module_name);
 		$this->_checkModuleDependencies($module_name);
@@ -456,7 +450,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function activateModule( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		$this->_hardCheckModuleExists($module_name);
 
@@ -508,7 +501,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @throws Application_Modules_Exception
 	 */
 	public function deactivateModule( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		$this->_hardCheckModuleExists($module_name);
 		$this->_checkModuleDependencies($module_name);
@@ -538,7 +530,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @param string $module_name
 	 */
 	public function reloadModuleManifest( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		$this->_hardCheckModuleExists($module_name);
 
@@ -573,7 +564,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 * @return Application_Modules_Module_Abstract
 	 */
 	public function getModuleInstance( $module_name ) {
-		$module_name = $this->normalizeName( $module_name );
 
 		if(isset($this->module_instance[$module_name])) {
 			return $this->module_instance[$module_name];
@@ -600,7 +590,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 		/** @noinspection PhpIncludeInspection */
 		require_once $module_dir . 'Main.php';
 
-		$class_name = '\\'.JET_APPLICATION_MODULE_NAMESPACE.'\\'.$module_name.'\Main';
+		$class_name = $module_manifest->getNamespace().'Main';
 
 		if(!class_exists($class_name)) {
 			throw new Application_Modules_Exception(

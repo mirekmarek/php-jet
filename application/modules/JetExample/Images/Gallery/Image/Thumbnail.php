@@ -7,8 +7,6 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetApplicationModule
- * @package JetApplicationModule\JetExample\Images
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
@@ -18,7 +16,7 @@ use Jet;
  *
  * @JetDataModel:name = 'Image_Thumbnails'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images_Thumbnails'
- * @JetDataModel:parent_model_class_name = 'JetApplicationModule\JetExample\Images\Gallery_Image'
+ * @JetDataModel:parent_model_class_name = 'module:JetExample.Images\Gallery_Image'
  */
 class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
