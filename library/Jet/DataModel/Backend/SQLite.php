@@ -14,7 +14,7 @@
  *		key_type:
  *				string: default: null
  *				Type of the key. Options: INDEX(default), UNIQUE
- *		autoincrement:
+ *		auto_increment:
  *				bool, default: false
  *				Use auto increment for ID
  *
@@ -190,7 +190,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$_new_cols = array_diff( array_keys($actual_cols), $exists_cols );
 		$new_cols = new DataModel_RecordData($data_model_definition);
 		foreach($_new_cols as $new_col) {
-			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue( $data_model ));
+			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue());
 		}
 		$new_cols = $this->_getRecord($new_cols);
 
@@ -962,7 +962,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
 
-				if( isset($backend_options['autoincrement']) && $backend_options['autoincrement']  ) {
+				if( isset($backend_options['auto_increment']) && $backend_options['auto_increment']  ) {
 
 					return 'INTEGER auto_increment';
 				} else {

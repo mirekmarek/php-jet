@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess, \Iterator, \Countable  {
+abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface  {
 
 	/**
 	 * @var string|null
@@ -58,6 +58,7 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	private $N_data = array();
 
+
 	/**
 	 * @param $data_model_class_name
 	 *
@@ -67,13 +68,41 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );
 	}
 
+    /**
+     * @param DataModel $main_model_instance
+     */
+    public function setMainDataModelInstance( DataModel $main_model_instance ) {
+        $this->__main_model_instance = $main_model_instance;
+
+        /**
+         * @var DataModel $M_instance
+         */
+        $M_model_name = $main_model_instance->getDataModelDefinition()->getModelName();
+
+        if($this->getDataModelDefinition()->getRelatedModelDefinition($M_model_name)  ) {
+            $this->setMRelatedModel();
+        }
+
+    }
+
+    public function setParentDataModelInstance( DataModel_Related_Abstract $parent_model_instance ) {
+        $this->__parent_model_instance = $parent_model_instance;
+
+        $this->setMRelatedModel();
+    }
 
 	/**
-	 * @param DataModel $M_instance
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setMRelatedModel( DataModel $M_instance ) {
+	protected function setMRelatedModel() {
+
+        if($this->__parent_model_instance) {
+            $M_instance = $this->__parent_model_instance;
+        } else {
+            $M_instance = $this->__main_model_instance;
+        }
+
 
 		/**
 		 * @var DataModel $M_instance
@@ -116,41 +145,12 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	}
 
 
-
 	/**
-	 * Loads DataModel.
-	 *
-	 * @param DataModel $main_model_instance
-	 * @param DataModel_Related_Abstract $parent_model_instance
-	 *
-	 * @return DataModel
+     *
 	 */
-	public function loadRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
+	public function __wakeup_relatedItems() {
 
-		if($parent_model_instance) {
-			$M = $parent_model_instance;
-		} else {
-			$M = $main_model_instance;
-		}
-
-		$this->setMRelatedModel( $M );
-
-		return $this;
-	}
-
-	/**
-	 * @param DataModel $main_model_instance
-	 * @param DataModel_Related_Abstract $parent_model_instance
-	 */
-	public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-
-		if($parent_model_instance) {
-			$M = $parent_model_instance;
-		} else {
-			$M = $main_model_instance;
-		}
-
-		$this->setMRelatedModel( $M );
+		$this->setMRelatedModel();
 	}
 
 	/**
@@ -163,37 +163,15 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	}
 
 	/**
-	 * @throws DataModel_Exception
-	 */
-	public function save() {
-
-		$main_class = $this->getDataModelDefinition()->getMModelClassName();
-
-		throw new DataModel_Exception(
-			'Please use '.$main_class.'->save() ',
-			DataModel_Exception::CODE_PERMISSION_DENIED
-		);
-	}
-
-
-	/**
 	 *
-	 * @param DataModel $main_model_instance (optional)
-	 * @param DataModel_Related_Abstract $parent_model_instance (optional)
 	 *
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 *
 	 */
-	public function saveRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+	public function save() {
 
-		if($parent_model_instance) {
-			$M_instance = $parent_model_instance;
-		} else {
-			$M_instance = $main_model_instance;
-		}
-
-		$this->setMRelatedModel($M_instance);
+		$this->setMRelatedModel();
 
 		$this->_fetchNData();
 
@@ -567,10 +545,16 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 				$N_ID[$N_ID_prop->getRelatedToPropertyName()] = $ID[$N_ID_prop_name];
 			}
 
-			$key = $this->getArrayKeyByID( $N_ID );
+            $N_instance = $this->_get($N_ID);
 
-			$this->N_IDs[$key] = $N_ID;
-            $this->N_data[(string)$N_ID] = null;
+            if($N_instance) {
+                $key = $this->getArrayKeyByID( $N_ID );
+
+
+                $this->N_IDs[$key] = $N_ID;
+                $this->N_data[(string)$N_ID] = null;
+
+            }
 		}
 
 
@@ -604,5 +588,52 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 
 	public function __wakeup() {
 	}
+
+    /**
+     * @return DataModel_Related_Interface
+     */
+    public function createNewRelatedDataModelInstance()
+    {
+        return new static();
+    }
+
+    /**
+     * @return array
+     */
+    public function loadRelatedData()
+    {
+        return array();
+    }
+
+    /**
+     * @param array &$loaded_related_data
+     * @return mixed
+     */
+    public function createRelatedInstancesFromLoadedRelatedData(array &$loaded_related_data)
+    {
+        return $this;
+    }
+
+    /**
+     * @param string $parent_field_name
+     * @param string $related_form_getter_method_name
+     *
+     * @return Form_Field_Abstract[]
+     */
+    public function getRelatedFormFields($parent_field_name, $related_form_getter_method_name)
+    {
+        return array();
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return bool
+     */
+    public function catchRelatedForm(array $values)
+    {
+        return true;
+    }
+
 
 }

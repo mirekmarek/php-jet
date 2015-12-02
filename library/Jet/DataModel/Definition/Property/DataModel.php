@@ -55,26 +55,19 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
-	 * @param DataModel $data_model
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue( DataModel $data_model ) {
+	public function getDefaultValue() {
+		$class_name =  $this->getValueDataModelClass();
 
-		$class_name =  $this->getDataModelClass();
+        /**
+         * @var DataModel_Related_Interface $default_value
+         */
+        $default_value = new $class_name();
 
-		$default_value = new $class_name();
+        return $default_value->createNewRelatedDataModelInstance();
 
-		if($default_value instanceof DataModel_Related_MtoN) {
-			$default_value->setMRelatedModel( $data_model );
-		}
-
-        if($default_value instanceof DataModel_Related_1toN) {
-            $default_value = new DataModel_Related_1toN_Iterator( $class_name );
-        }
-
-
-		return $default_value;
 	}
 
 	/**
@@ -90,7 +83,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @return string
 	 */
-	public function getDataModelClass() {
+	public function getValueDataModelClass() {
 		return Factory::getClassName($this->data_model_class);
 	}
 }

@@ -390,14 +390,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	}
 
 	/**
-	 * @param DataModel $data_model
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue(
-		/** @noinspection PhpUnusedParameterInspection */
-		DataModel $data_model
-	) {
+	public function getDefaultValue() {
 		return $this->default_value;
 	}
 

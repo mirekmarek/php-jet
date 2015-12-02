@@ -114,7 +114,7 @@ class Form_Field_File extends Form_Field_Abstract {
 	public function catchValue( Data_Array $data ) {
 
 		$this->_value = null;
-		$this->_has_value = isset($_FILES[$this->_name]);
+		$this->_has_value = isset($_FILES[$this->_name]) && !empty($_FILES[$this->_name]['tmp_name']);
 
 		if($this->_has_value) {
 			$this->_value_raw = $_FILES[$this->_name];
@@ -132,6 +132,15 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @return bool
 	 */
 	public function validateValue() {
+
+        if(!$this->_has_value) {
+            if($this->is_required) {
+                $this->setValueError('empty');
+            }
+
+            return true;
+        }
+
 		if($this->maximal_file_size) {
 			$file_size = IO_File::getSize( $this->_value );
 			if( $file_size>$this->maximal_file_size ) {

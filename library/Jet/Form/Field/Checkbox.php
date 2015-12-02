@@ -30,6 +30,8 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 			$this->_value_raw = $data->getRaw($this->_name);
 			$this->_value = $data->getBool($this->_name);
 		}
+
+        $data->set($this->_name, $this->_value);
 	}
 
 	/**

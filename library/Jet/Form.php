@@ -218,7 +218,6 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
 	}
 
-
 	/**
 	 * returns language independent fields
 	 *
@@ -258,7 +257,17 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		return $this->fields[$name];
 	}
 
-	/**
+
+    /**
+     * @param string $field_name
+     */
+    public function removeField( $field_name ) {
+        if(isset($this->fields[$field_name])) {
+            unset($this->fields[$field_name]);
+        }
+    }
+
+    /**
 	 * @param $name
 	 * @param Form_Field_Abstract $field
 	 */

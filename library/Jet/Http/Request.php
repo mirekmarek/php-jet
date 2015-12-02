@@ -115,6 +115,49 @@ class Http_Request extends Object {
 		return self::$is_initialized;
 	}
 
+    /**
+     *
+     * @param array $set_GET_params (optional)
+     * @param array $unset_GET_params (optional)
+     * @param null|string $set_anchor (optional, default: do not change current state)
+     *
+     * @return string
+     */
+    public static function getCurrentURI( array $set_GET_params=array(), array $unset_GET_params=array(), $set_anchor=null ) {
+        if($set_GET_params || $unset_GET_params) {
+            list($URI) = explode('?', $_SERVER['REQUEST_URI']);
+
+            $GET = Http_Request::GET()->getRawData();
+
+            foreach($set_GET_params as $k=>$v) {
+                $GET[$k] = $v;
+            }
+
+            foreach($unset_GET_params as $k) {
+                if(isset($GET[$k])) {
+                    unset( $GET[$k] );
+                }
+            }
+
+            if($GET) {
+                $URI .= '?'.http_build_query( $GET );
+            }
+        } else {
+            $URI = $_SERVER['REQUEST_URI'];
+        }
+
+        if($set_anchor!==null) {
+            list($URI) = explode('#', $URI);
+
+            if($set_anchor) {
+                $URI .= '#'.$set_anchor;
+            }
+
+        }
+
+        return $URI;
+    }
+
 
 	/**
 	 * Get $_POST replacement instance

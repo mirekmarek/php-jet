@@ -406,27 +406,31 @@ class Http_Headers {
 	}
 
 
-	/**
-	 *
-	 * @param Form $form
-	 *
-	 * @param bool $application_end (optional, default: true)
-	 */
-	public static function formSent( Form $form, $application_end = true ) {
-		static::sendHeader('Location: #'.$form->getName());
+    /**
+     *
+     * @param Form $form
+     * @param array $set_GET_params (optional)
+     * @param array $unset_GET_params (optional)
+     * @param bool $application_end (optional, default: true)
+     */
+	public static function formSent( Form $form, array $set_GET_params=array(), array $unset_GET_params=array(), $application_end = true ) {
+		static::sendHeader('Location: '.Http_Request::getCurrentURI($set_GET_params, $unset_GET_params, $form->getName()));
 		if($application_end){
 			Debug_Profiler::setOutputEnabled(false);
 			Application::end();
 		}
 	}
 
-	/**
-	 * Reload current page
-	 *
-	 * @param bool $application_end (optional, default: true)
-	 */
-	public static function reload( $application_end = true ) {
-		static::sendHeader('Location: ?#');
+    /**
+     * Reload current page
+     * @param array $set_GET_params (optional)
+     * @param array $unset_GET_params (optional)
+     * @param null|string $set_anchor (optional, default: do not change current state)
+     *
+     * @param bool $application_end (optional, default: true)
+     */
+	public static function reload( array $set_GET_params=array(), array $unset_GET_params=array(), $set_anchor=null, $application_end = true ) {
+		static::sendHeader('Location: '.Http_Request::getCurrentURI($set_GET_params, $unset_GET_params, $set_anchor));
 		if($application_end){
 			Debug_Profiler::setOutputEnabled(false);
 			Application::end();

@@ -310,7 +310,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				$property_definition = $this->_initGlueProperty($property_name, $property_dd['related_to'], $property_dd);
 			} else {
 				$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this->class_name, $property_name, $property_dd);
-
 			}
 
 			if($property_definition->getIsID()) {
@@ -478,7 +477,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			 * @var DataModel_Definition_Model_Related_Abstract $related_data_model_definition
 			 * @var DataModel_Definition_Property_DataModel $property
 			 */
-			$related_data_model_definition = DataModel::getDataModelDefinition( $property->getDataModelClass() );
+			$related_data_model_definition = DataModel::getDataModelDefinition( $property->getValueDataModelClass() );
 
 			$internal_relations = $related_data_model_definition->getInternalRelations( $this->class_name );
 
@@ -944,6 +943,20 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			case 'N_model_class_name':
 				$reflection_data['N_model_class_name'] = (string)$value;
 				break;
+            case 'default_order_by':
+
+                if(
+                    !is_array($value)
+                ) {
+                    throw new Object_Reflection_Exception(
+                        'Relation definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'property_name\' ]',
+                        Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+                    );
+
+                }
+
+                $reflection_data['default_order_by'] = $value;
+                break;
 			default:
 				throw new Object_Reflection_Exception(
 					'Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ',

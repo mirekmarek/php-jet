@@ -195,7 +195,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$_new_cols = array_diff( array_keys($actual_cols), $exists_cols );
 		$new_cols = new DataModel_RecordData($data_model_definition);
 		foreach($_new_cols as $new_col) {
-			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue( $data_model ));
+			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue());
 		}
 
 

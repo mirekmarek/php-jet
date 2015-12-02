@@ -16,9 +16,26 @@
  */
 namespace Jet;
 
+/**
+ * Available annotation:
+ *
+ * @JetDataModel:default_order_by = ['property_name','-next_property_name', '+some_property_name']
+ */
+
+/**
+ * Class DataModel_Related_1toN
+ */
 abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 
 
+    /**
+     * @return DataModel_Related_Interface
+     */
+    public function createNewRelatedDataModelInstance() {
+        $i = new DataModel_Related_1toN_Iterator( get_called_class() );
+
+        return $i;
+    }
 
 	/**
 	 * @param $data_model_class_name
@@ -29,6 +46,85 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 		return new DataModel_Definition_Model_Related_1toN( $data_model_class_name );
 	}
 
+    /**
+     * @return array
+     */
+    public function loadRelatedData() {
+        $data_model_definition = $this->getDataModelDefinition();
+
+        $query = $this->getLoadRelatedDataQuery();
+
+        $order_by = $data_model_definition->getDefaultOrderBy();
+        if($order_by) {
+            $query->setOrderBy( $order_by );
+        }
+
+        return $this->getBackendInstance()->fetchAll( $query );
+    }
+
+    /**
+     * @param array &$loaded_related_data
+     * @return mixed
+     */
+    public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
+
+        $items = array();
+
+        $parent_ID_values = array();
+        if($this->__parent_model_instance) {
+            $parent_ID = $this->__parent_model_instance->getID();
+
+            $definition = $this->getDataModelDefinition();
+            foreach( $definition->getParentModelRelationIDProperties() as $property ) {
+
+                /**
+                 * @var DataModel_Definition_Property_Abstract $property
+                 */
+                $parent_ID_values[$property->getName()] = $parent_ID[$property->getRelatedToPropertyName()];
+
+            }
+        }
+
+        $class_name = get_called_class();
+        if(!empty($loaded_related_data[$class_name])) {
+            foreach( $loaded_related_data[$class_name] as $i=>$dat ) {
+                if($parent_ID_values) {
+                    foreach($parent_ID_values as $k=>$v) {
+                        if($dat[$k]!=$v) {
+                            continue 2;
+                        }
+                    }
+                }
+
+                /**
+                 * @var DataModel_Related_1toN $loaded_instance
+                 */
+                $loaded_instance = static::createInstanceFromData( $dat );
+                $this->setupParentObjects($loaded_instance);
+
+
+                unset($loaded_related_data[$class_name][$i]);
+
+                /**
+                 * @var DataModel_Related_1toN $loaded_instance
+                 */
+                $key = $loaded_instance->getArrayKeyValue();
+                if(is_object($key)) {
+                    $key = (string)$key;
+                }
+
+                if($key!==null) {
+                    $items[$key] = $loaded_instance;
+                } else {
+                    $items[] = $loaded_instance;
+                }
+
+            }
+        }
+
+        return $items;
+    }
+
 
 	/**
 	 * @return mixed|null
@@ -38,63 +134,22 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 	}
 
     /**
-     * Loads DataModel.
+     * @param string $parent_field_name
+     * @param string$related_form_getter_method_name
      *
-     * @param DataModel $main_model_instance
-     * @param DataModel_Related_Abstract $parent_model_instance
-     *
-     * @throws DataModel_Exception
-     * @return DataModel
+     * @return Form_Field_Abstract[]
      */
-    public function loadRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-        $backend = $this->getBackendInstance();
-
-        $model_definition = $this->getDataModelDefinition();
-
-        $query = new DataModel_Query( $model_definition );
-        $query->setWhere(array());
-
-        $query->getWhere()->attach(
-            $main_model_instance->getID()->getQuery(  $model_definition->getMainModelRelationIDProperties() )->getWhere()
-        );
-
-        if($parent_model_instance) {
-            $query->getWhere()->attach(
-                $parent_model_instance->getID()->getQuery(  $model_definition->getParentModelRelationIDProperties() )->getWhere()
-            );
-        }
-
-        $query->setSelect( $model_definition->getProperties() );
-
-        $data = $backend->fetchRow( $query );
-
-        if(!$data) {
-            return null;
-        }
-
-        $loaded_instance = $this->createInstance( $data, $main_model_instance );
-
-        return $loaded_instance;
-
+    public function getRelatedFormFields( $parent_field_name, $related_form_getter_method_name ) {
+        return array();
     }
 
     /**
-     * @param DataModel $main_model_instance
-     * @param DataModel_Related_Abstract $parent_model_instance
+     * @param array $values
+     *
+     * @return bool
      */
-    public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-        foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property ) {
-            if(!$property->getIsDataModel()) {
-                continue;
-            }
-
-            /**
-             * @var DataModel_Related_Abstract $p
-             */
-            $p = $this->{$property_name};
-
-            $p->wakeUp( $main_model_instance, $this );
-        }
+    public function catchRelatedForm( array $values ) {
+        return false;
     }
 
 }

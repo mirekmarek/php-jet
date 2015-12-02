@@ -16,7 +16,8 @@
  */
 namespace Jet;
 
-class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Countable, Object_Serializable_REST   {
+class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
+
 
     /**
      * @var string
@@ -33,6 +34,20 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
      */
     protected $deleted_items = array();
 
+    /**
+     * @var DataModel
+     */
+    protected $__main_model_instance;
+
+    /**
+     * @var DataModel_Related_Abstract
+     */
+    protected $__parent_model_instance;
+
+    /**
+     * @var DataModel_Related_1toN
+     */
+    protected $__empty_item_instance;
 
     /**
      * @param $item_class_name
@@ -43,24 +58,180 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
 
     /**
-     * Returns model definition
-     *
-     *
-     * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_MtoN
+     * @return DataModel_Related_1toN
      */
-    public function getDataModelDefinition()  {
+    protected function _getEmptyItemInstance() {
+        if(!$this->__empty_item_instance) {
+            $this->__empty_item_instance = new $this->item_class_name();
 
-        return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->item_class_name );
+            $this->__empty_item_instance->setMainDataModelInstance( $this->__main_model_instance );
+            if($this->__parent_model_instance) {
+                $this->__empty_item_instance->setMainDataModelInstance( $this->__parent_model_instance );
+            }
+        }
+
+        return $this->__empty_item_instance;
+
     }
 
     /**
-     * Returns backend instance
-     *
-     * @return DataModel_Backend_Abstract
+     * @return DataModel_Related_Interface|null
      */
-    public function getBackendInstance() {
-        return $this->getDataModelDefinition()->getBackendInstance();
+    public function createNewRelatedDataModelInstance() {
+        return $this;
     }
+
+    /**
+     * @param DataModel $main_model_instance
+     */
+    public function setMainDataModelInstance( DataModel $main_model_instance ) {
+        $this->__main_model_instance = $main_model_instance;
+
+        if($this->__empty_item_instance) {
+            $this->__empty_item_instance->setMainDataModelInstance($main_model_instance);
+        }
+
+        if($this->items) {
+            foreach( $this->items as $item ) {
+                $item->setMainDataModelInstance( $main_model_instance );
+            }
+        }
+    }
+
+    /**
+     * @param DataModel_Related_Abstract $parent_model_instance
+     */
+    public function setParentDataModelInstance( DataModel_Related_Abstract $parent_model_instance ) {
+        $this->__parent_model_instance = $parent_model_instance;
+
+        if($this->__empty_item_instance) {
+            $this->__empty_item_instance->setParentDataModelInstance($parent_model_instance);
+        }
+
+        if($this->items) {
+            foreach( $this->items as $item ) {
+                $item->setParentDataModelInstance( $parent_model_instance );
+            }
+        }
+    }
+
+    /**
+     * @return array|DataModel_Definition_Property_DataModel[]
+     */
+    public function getAllRelatedPropertiesDefinitions() {
+
+        $class_name = $this->item_class_name;
+
+        /**
+         * @var DataModel_Related_1toN $data_model
+         */
+        $data_model = new $class_name();
+
+        return $data_model->getAllRelatedPropertiesDefinitions();
+    }
+
+
+    /**
+     * @return array|void
+     */
+    public function loadRelatedData() {
+
+        return $this->_getEmptyItemInstance()->loadRelatedData();
+    }
+
+    /**
+     * @param array &$loaded_related_data
+     * @return mixed
+     */
+    public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
+        $this->deleted_items = array();
+
+        $this->items = $this->_getEmptyItemInstance()->createRelatedInstancesFromLoadedRelatedData($loaded_related_data);
+
+        return $this;
+    }
+
+    /**
+     * @param string $parent_field_name
+     * @param string$related_form_getter_method_name
+     *
+     * @return Form_Field_Abstract[]
+     */
+    public function getRelatedFormFields( $parent_field_name, $related_form_getter_method_name ) {
+
+        $fields = array();
+        if(!$this->items) {
+            return $fields;
+
+        }
+
+        foreach($this->items as $key=>$related_instance) {
+
+            /**
+             * @var DataModel_Related_1toN $related_instance
+             * @var Form $related_form
+             */
+            $related_form = $related_instance->{$related_form_getter_method_name}();
+
+            foreach($related_form->getFields() as $field) {
+
+                if(
+                    $field instanceof Form_Field_Hidden
+                ) {
+                    continue;
+                }
+
+                $field_name = $field->getName();
+
+                if($field_name[0]=='/') {
+                    $field->setName('/'.$parent_field_name.'/'.$key.$field_name );
+                } else {
+                    $field->setName('/'.$parent_field_name.'/'.$key.'/'.$field_name );
+                }
+
+
+                $fields[] = $field;
+            }
+
+        }
+
+        return $fields;
+    }
+
+
+    /**
+     * @param array $values
+     *
+     * @return bool
+     */
+    public function catchRelatedForm( array $values ) {
+
+        $ok = true;
+        if(!$this->items) {
+            return $ok;
+
+        }
+
+        foreach( $this->items as $r_key=>$r_instance ) {
+
+            $values = isset( $values[$r_key] ) ? $values[$r_key] : array();
+
+            /**
+             * @var DataModel $r_instance
+             */
+            //$r_form = $r_instance->getForm( '', array_keys($values) );
+            $r_form = $r_instance->getCommonForm();
+
+            if(!$r_instance->catchForm( $r_form, $values, true )) {
+                $ok = false;
+            }
+
+        }
+
+        return $ok;
+    }
+
+
 
     /**
      * @return DataModel_Validation_Error[]
@@ -79,80 +250,13 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
 
     /**
-     * Loads DataModel.
      *
-     * @param DataModel $main_model_instance
-     * @param DataModel_Related_Abstract $parent_model_instance
-     *
-     * @throws DataModel_Exception
-     * @return DataModel
      */
-    public function loadRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-
-        $backend = $this->getBackendInstance();
-
-        $model_definition = $this->getDataModelDefinition();
-
-        $query = new DataModel_Query( $model_definition );
-        $query->setWhere(array());
-
-        $query->getWhere()->attach(
-            $main_model_instance->getID()->getQuery(  $model_definition->getMainModelRelationIDProperties() )->getWhere()
-        );
-
-        if($parent_model_instance) {
-            $query->getWhere()->attach(
-                $parent_model_instance->getID()->getQuery(  $model_definition->getParentModelRelationIDProperties() )->getWhere()
-            );
-        }
-
-        $query->setSelect( $model_definition->getProperties() );
-
-        $data = $backend->fetchAll( $query );
-
-        $this->items = array();
-
-        if(!$data) {
-            return $this;
-        }
-
-        $class_name = $this->item_class_name;
-
-        foreach($data as $dat) {
-
-            /**
-             * @var DataModel_Related_1toN $loaded_instance
-             */
-            /** @noinspection PhpUndefinedMethodInspection */
-            $loaded_instance = $class_name::createInstance( $dat, $main_model_instance );
-
-            /**
-             * @var DataModel_Related_1toN $loaded_instance
-             */
-            $key = $loaded_instance->getArrayKeyValue();
-            if(is_object($key)) {
-                $key = (string)$key;
+    public function __wakeup_relatedItems() {
+        if($this->items) {
+            foreach( $this->items as $item ) {
+                $item->__wakeup_relatedItems();
             }
-
-            if($key!==null) {
-                $this->items[$key] = $loaded_instance;
-            } else {
-                $this->items[] = $loaded_instance;
-            }
-        }
-
-        $this->deleted_items = array();
-
-        return $this;
-    }
-
-    /**
-     * @param DataModel $main_model_instance
-     * @param DataModel_Related_Abstract $parent_model_instance
-     */
-    public function wakeUp( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null  ) {
-        foreach( $this->items as $item ) {
-            $item->wakeUp( $main_model_instance, $parent_model_instance );
         }
     }
 
@@ -181,13 +285,11 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
      * Save data.
      * CAUTION: Call validateProperties first!
      *
-     * @param DataModel $main_model_instance (optional)
-     * @param DataModel_Related_Abstract $parent_model_instance (optional)
      *
      * @throws Exception
      * @throws DataModel_Exception
      */
-    public function saveRelated( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+    public function save() {
 
         foreach($this->deleted_items as $item) {
             /**
@@ -202,14 +304,8 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
             return;
         }
 
-        if($parent_model_instance) {
-            foreach($this->items as $d) {
-                $d->saveRelated( $main_model_instance, $parent_model_instance );
-            }
-        } else {
-            foreach($this->items as $d) {
-                $d->saveRelated( $main_model_instance );
-            }
+        foreach($this->items as $d) {
+            $d->save();
         }
 
     }

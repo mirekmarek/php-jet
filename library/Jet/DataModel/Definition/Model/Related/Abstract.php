@@ -49,6 +49,11 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 */
 	protected $parent_model_relation_join_items = array();
 
+    /**
+     * @var array
+     */
+    protected $default_order_by = array();
+
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
@@ -79,6 +84,8 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			$this->_initBackendsConfig();
 			$this->_initProperties();
 			$this->_initKeys();
+
+            $this->default_order_by = Object_Reflection::get( $this->class_name, 'default_order_by', array() );
 
 			if(!$this->ID_properties) {
 				throw new DataModel_Exception(
@@ -366,4 +373,22 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	public function getParentRelatedModelDefinition() {
 		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->parent_model_class_name );
 	}
+
+    /**
+     * @param array $default_order_by
+     */
+    public function setDefaultOrderBy($default_order_by)
+    {
+        $this->default_order_by = $default_order_by;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultOrderBy()
+    {
+        return $this->default_order_by;
+    }
+
+
 }

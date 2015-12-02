@@ -108,11 +108,10 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 	/**
 	 *
-	 * @param DataModel_Definition_Property_Abstract[] $relation_ID_properties (optional)
 	 *
 	 * @return DataModel_Query
 	 */
-	public function getQuery( $relation_ID_properties=null ) {
+	public function getQuery() {
 		$data_model_definition = $this->getDataModelDefinition();
 
 		$query = new DataModel_Query( $data_model_definition );
@@ -122,36 +121,17 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
-		if($relation_ID_properties) {
-			foreach($relation_ID_properties as $related_property) {
-				/**
-				 * @var DataModel_Definition_Property_Abstract $related_property
-				 */
-				$property_name = $related_property->getRelatedToPropertyName();
+        $properties = $data_model_definition->getProperties();
 
-				$value = $this->values[$property_name];
-
-				if($value===null)  {
-					continue;
-				}
-
-				$where->addAND();
-				$where->addExpression( $related_property, DataModel_Query::O_EQUAL, $value);
-			}
-
-		} else {
-			$properties = $data_model_definition->getProperties();
-
-			foreach($this->values as $property_name => $value) {
-				if($value===null) {
-					continue;
-				}
+        foreach($this->values as $property_name => $value) {
+            if($value===null) {
+                continue;
+            }
 
 
-				$where->addAND();
-				$where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value);
-			}
-		}
+            $where->addAND();
+            $where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value);
+        }
 
 		return $query;
 	}

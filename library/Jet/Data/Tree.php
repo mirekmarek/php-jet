@@ -363,6 +363,45 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		return $path;
 	}
 
+
+    /**
+     * @param array $item
+     *
+     * @throws Data_Tree_Exception
+     *
+     * @return
+     */
+    protected function getDataItemID( $item ) {
+
+        if(!isset($item[$this->ID_key])) {
+            throw new Data_Tree_Exception(
+                'Missing \''.$this->ID_key.'\' key in item data',
+                Data_Tree_Exception::CODE_MISSING_VALUE
+            );
+
+        }
+        return $item[$this->ID_key];
+    }
+
+    /**
+     * @param array $item
+     *
+     * @throws Data_Tree_Exception
+     *
+     * @return
+     */
+    protected function getDataParentItemID( $item ) {
+        if(!isset($item[$this->parent_ID_key])) {
+            throw new Data_Tree_Exception(
+                'Missing \''.$this->parent_ID_key.'\' key in item data',
+                Data_Tree_Exception::CODE_MISSING_VALUE
+            );
+
+        }
+        return $item[$this->parent_ID_key];
+    }
+
+
 	/**
 	 *
 	 * @param array $item_data
@@ -372,20 +411,8 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function appendNode( array $item_data ){
 
-		if( !isset($item_data[$this->ID_key]) ){
-			throw new Data_Tree_Exception(
-				'Missing \''.$this->ID_key.'\' key in item data',
-				Data_Tree_Exception::CODE_MISSING_VALUE
-			);
-		}
-		if( !isset($item_data[$this->parent_ID_key]) ){
-			throw new Data_Tree_Exception(
-				'Missing \''.$this->parent_ID_key.'\' key in item data',
-				Data_Tree_Exception::CODE_MISSING_VALUE
-			);
-		}
-
-		$ID = $item_data[$this->ID_key];
+		$ID = $this->getDataItemID($item_data);
+        $this->getDataParentItemID($item_data);
 
 		if( isset($this->nodes[$ID]) ){
 			throw new Data_Tree_Exception(
@@ -404,7 +431,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$this->orphans_nodes[$ID] = $this->nodes[$ID];
 		}
 
-		$this->resetIteratorMap();
+		//$this->resetIteratorMap();
 
 		return $this->nodes[$ID];
 	}
@@ -435,7 +462,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	protected function _setData( $items ){
 
-
 		$this->__parent_map = array();
 
 		$root_item = null;
@@ -443,15 +469,8 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$IDs = [];
 
 		foreach( $items as $item ) {
-            if(!isset($item[$this->ID_key])) {
-                throw new Data_Tree_Exception(
-                    'Missing \''.$this->ID_key.'\' key in item data',
-                    Data_Tree_Exception::CODE_MISSING_VALUE
-                );
-
-            }
-			$ID = $item[$this->ID_key];
-			$parent_ID = $item[$this->parent_ID_key];
+			$ID = $this->getDataItemID($item);
+			$parent_ID = $this->getDataParentItemID($item);
 
 			$IDs[] = $ID;
 
@@ -505,6 +524,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 
 		if($this->__parent_map ) {
 			if($this->adopt_orphans) {
+
 				$parent_IDs = array_keys($this->__parent_map);
 
 				$non_exists_parent_IDs = array_diff($parent_IDs, $IDs);
@@ -561,7 +581,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	/**
 	 *
 	 */
-	protected function resetIteratorMap() {
+	public function resetIteratorMap() {
 		$this->_iterator_map = [];
 
 		foreach($this->nodes as $node) {

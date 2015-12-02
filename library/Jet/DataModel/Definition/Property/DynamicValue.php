@@ -55,13 +55,12 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	}
 
 	/**
-	 * @param DataModel $data_model
 	 *
 	 * @return void
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getDefaultValue( DataModel $data_model ) {
+	public function getDefaultValue() {
 		throw new DataModel_Exception('You can not use getDefaultValue for the property that is DynamicValue (property: '.$this->_name.')');
 	}
 

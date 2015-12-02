@@ -86,26 +86,6 @@ class Form_Field_FileImage extends Form_Field_File {
 	}
 
 
-
-	/**
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchValue( Data_Array $data ) {
-
-		$this->_value = null;
-		$this->_has_value = isset($_FILES[$this->_name]);
-
-		if($this->_has_value) {
-			$this->_value_raw = $_FILES[$this->_name];
-			$this->_value = $_FILES[$this->_name]['tmp_name'];
-			$this->tmp_file_path = $_FILES[$this->_name]['tmp_name'];
-			$this->file_name = $_FILES[$this->_name]['name'];
-		} else {
-			$this->_value_raw = null;
-		}
-	}
-
 	/**
 	 * validate value
 	 *
@@ -117,19 +97,22 @@ class Form_Field_FileImage extends Form_Field_File {
 			return false;
 		}
 
-		if(
-			$this->maximal_width &&
-			$this->maximal_height
-		) {
-			try {
-				$image = new Image( $this->_value );
-				$image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
-			} catch( Image_Exception $e ) {
-				$this->setValueError('disallowed_file_type');
+        if($this->_value) {
+            if(
+                $this->maximal_width &&
+                $this->maximal_height
+            ) {
+                try {
+                    $image = new Image( $this->_value );
+                    $image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
+                } catch( Image_Exception $e ) {
+                    $this->setValueError('disallowed_file_type');
 
-				return false;
-			}
-		}
+                    return false;
+                }
+            }
+        }
+
 
 		$this->_setValueIsValid();
 
