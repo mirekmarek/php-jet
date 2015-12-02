@@ -1,5 +1,5 @@
 <?php
- return array(
+return array(
 	'9c40c64539f9c4f39b5b1744ebb702b9' => array(
 		'phrase' => 'Create administrator account',
 		'translation' => '',
@@ -72,6 +72,11 @@
 	),
 	'e319804121c6ae56f9a4061b6ef8e82a' => array(
 		'phrase' => 'thin_password',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'a2e4822a98337283e39f7b60acf85ec9' => array(
+		'phrase' => 'empty',
 		'translation' => '',
 		'is_translated' => false,
 	),

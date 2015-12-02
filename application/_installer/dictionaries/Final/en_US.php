@@ -1,5 +1,5 @@
 <?php
- return array(
+return array(
 	'f92965e2c8a7afb3c1b9a5c09a263636' => array(
 		'phrase' => 'Done',
 		'translation' => '',
@@ -30,5 +30,9 @@
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'af8fe8323336f232c4c98a731b8f65b4' => array(
+		'phrase' => 'This application is in the development mode. It is bad for performace. Please change JET_DEVEL_MODE constant value (script: application/config/defines.php) if you want. ',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
-

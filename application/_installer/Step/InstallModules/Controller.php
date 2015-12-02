@@ -29,7 +29,6 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		$this->all_modules = Application_Modules::getAllModulesList(true);
 
 
-
 		$form = new Form('modules_select_form', array(
 			Form_Factory::field('MultiSelect', 'modules')
 		));

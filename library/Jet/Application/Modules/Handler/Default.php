@@ -620,6 +620,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	protected function _readModulesList( $ignore_corrupted_modules, $base_dir, $module_name_prefix ) {
 		$modules = IO_Dir::getSubdirectoriesList( $base_dir );
 
+
 		foreach( $modules as $module_dir ) {
 			if( !IO_File::exists( $base_dir.$module_dir.'/'.static::MODULE_MANIFEST_FILE_PATH ) ) {
 
@@ -632,7 +633,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 				continue;
 			}
 
-			$module_name = $module_name_prefix.$module_dir;
+			$module_name = str_replace('\\', '.', $module_name_prefix.$module_dir);
 
 			if(isset($this->installed_modules_list[$module_name])) {
 				$this->all_modules_list[$module_name] = $this->installed_modules_list[$module_name];
