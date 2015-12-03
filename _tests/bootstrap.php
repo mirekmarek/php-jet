@@ -62,6 +62,8 @@ define('JET_APPLICATION_MODULES_LIST_PATH', JET_TESTS_TMP.'modules_list.php');
 define('JET_IO_CHMOD_MASK_DIR', 0777);
 define('JET_IO_CHMOD_MASK_FILE', 0666);
 
+define('JET_HTML_SPECIALCHARS_CHARSET', 'UTF-8');
+
 require '_mock/Jet/Object.php';
 
 Jet\Config::setApplicationConfigFilePath( __DIR__.'/application-test-config.php' );

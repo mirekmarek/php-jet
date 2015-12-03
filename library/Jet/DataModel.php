@@ -179,16 +179,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	protected $___data_model_data_validation_errors = array();
 
     /**
-     * @var DataModel
-     */
-    protected $__main_model_instance;
-
-    /**
-     * @var DataModel_Related_Abstract
-     */
-    protected $__parent_model_instance;
-
-    /**
      * @var bool
      */
     protected $__backend_transaction_started = false;
@@ -666,7 +656,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 					$related_object = $loaded_instance->{$property_name};
 
 					if($related_object) {
-                        $loaded_instance->setupParentObjects( $related_object );
+                        $related_object->setupParentObjects( $loaded_instance );
 
 					}
 				}
@@ -707,9 +697,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
             /**
              * @var DataModel_Related_Interface $related_object
              */
-            $related_object = $related_property->getDefaultValue( $loaded_instance );
-
-            $loaded_instance->setupParentObjects( $related_object );
+            $related_object = $related_property->getDefaultValue();
+            $related_object->setupParentObjects( $loaded_instance );
 
 
             $related_data = $related_object->loadRelatedData();
@@ -736,12 +725,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		return $loaded_instance;
 	}
 
-    /**
-     * @param DataModel_Related_Interface $related_object
-     */
-    public function setupParentObjects( DataModel_Related_Interface $related_object ) {
-        $related_object->setMainDataModelInstance($this);
-    }
 
     /**
      * @param array &$loaded_related_data
@@ -761,7 +744,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
              */
             $property = $this->{$property_name};
 
-            $this->setupParentObjects($property);
+            $property->setupParentObjects( $this );
 
             $this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
         }
@@ -771,12 +754,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
     /**
      * @param array $data
-     * @param array $loaded_related_data
      *
      * @return DataModel
      *
      */
-	public static function createInstanceFromData( $data, array &$loaded_related_data=array() ) {
+	public static function createInstanceFromData( $data ) {
 
 		/**
 		 * @var DataModel $loaded_instance
@@ -795,10 +777,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$loaded_instance->$property_name = $data[$property_name];
 			$property_definition->checkValueType( $loaded_instance->$property_name );
 		}
-
-        if($loaded_related_data) {
-            $loaded_instance->initRelatedProperties( $loaded_related_data );
-        }
 
 
 		$loaded_instance->__wakeup();
@@ -913,17 +891,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
         $record = new DataModel_RecordData( $definition );
 
-        $related_model_properties = array();
-
         $this->generateID();
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            if($property_definition->getIsDynamicValue()) {
-                continue;
-            }
-
-            if( $property_definition->getIsDataModel() ) {
-                $related_model_properties[$property_name]  = $property_definition;
-
+            if(
+                $property_definition->getIsDynamicValue() ||
+                $property_definition->getIsDataModel()
+            ) {
                 continue;
             }
 
@@ -935,19 +908,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
         $this->generateID( true, $backend_result );
 
-        foreach( $related_model_properties as $property_name=>$property_definition ) {
-            if($this->{$property_name}!==null) {
-                /**
-                 * @var DataModel_Related_Interface $prop
-                 */
-                $prop = $this->{$property_name};
-
-                $this->setupParentObjects($prop);
-
-                $prop->save();
-            }
-        }
-
+        $this->_saveRelatedObjects();
 
     }
 
@@ -960,19 +921,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
         $record = new DataModel_RecordData( $definition );
 
-        $related_model_properties = array();
 
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
             if(
                 $property_definition->getIsID() ||
-                $property_definition->getIsDynamicValue()
+                $property_definition->getIsDynamicValue() ||
+                $property_definition->getIsDataModel()
             ) {
-                continue;
-            }
-
-            if( $property_definition->getIsDataModel() ) {
-                $related_model_properties[$property_name]  = $property_definition;
-
                 continue;
             }
 
@@ -983,19 +938,35 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
             $backend->update($record, $this->getID()->getQuery() );
         }
 
-        foreach( $related_model_properties as $property_name=>$property_definition ) {
-            if($this->{$property_name}!==null) {
-                /**
-                 * @var DataModel_Related_Interface $prop
-                 */
-                $prop = $this->{$property_name};
+        $this->_saveRelatedObjects();
 
-                $this->setupParentObjects($prop);
+    }
 
-                $prop->save();
+
+    /**
+     *
+     */
+    protected function _saveRelatedObjects() {
+        $definition = $this->getDataModelDefinition();
+
+        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+
+            if(
+                !$property_definition->getIsDataModel() ||
+                $this->{$property_name}===null
+            ) {
+                continue;
             }
-        }
 
+            /**
+             * @var DataModel_Related_Interface $prop
+             */
+            $prop = $this->{$property_name};
+
+            $prop->setupParentObjects( $this );
+            $prop->save();
+
+        }
     }
 
 

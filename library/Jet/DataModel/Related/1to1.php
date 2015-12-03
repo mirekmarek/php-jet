@@ -74,8 +74,8 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
                  * @var DataModel_Related_1to1 $loaded_instance
                  */
                 $loaded_instance = static::createInstanceFromData( $dat );
-
-                $this->setupParentObjects( $loaded_instance );
+                $loaded_instance->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
+                $loaded_instance->initRelatedProperties( $loaded_related_data );
 
                 unset($loaded_related_data[$class_name][$i]);
 

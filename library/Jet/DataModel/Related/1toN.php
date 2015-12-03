@@ -85,6 +85,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
             }
         }
 
+
         $class_name = get_called_class();
         if(!empty($loaded_related_data[$class_name])) {
             foreach( $loaded_related_data[$class_name] as $i=>$dat ) {
@@ -100,7 +101,8 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
                  * @var DataModel_Related_1toN $loaded_instance
                  */
                 $loaded_instance = static::createInstanceFromData( $dat );
-                $this->setupParentObjects($loaded_instance);
+                $loaded_instance->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+                $loaded_instance->initRelatedProperties( $loaded_related_data );
 
 
                 unset($loaded_related_data[$class_name][$i]);
@@ -124,6 +126,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 
         return $items;
     }
+
 
 
 	/**

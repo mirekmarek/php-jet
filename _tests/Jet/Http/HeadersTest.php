@@ -280,7 +280,9 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_Headers::reload
 	 */
 	public function testReload() {
-		Http_Headers::reload( false );
+        $_SERVER['REQUEST_URI'] = '/path/?unset_param=value&resist_param=value';
+
+		Http_Headers::reload( array('get_param_1'=>'value'), array('unset_param'), 'anchor' );
 
 		$this->assertEquals( array( array(
 			'header' => 'Location: ?#',

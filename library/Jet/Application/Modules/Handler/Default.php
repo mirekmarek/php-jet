@@ -672,7 +672,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	protected function _hardCheckModuleExists( $module_name ) {
 		if( !$this->checkModuleNameFormat($module_name) ) {
 			throw new Application_Modules_Exception(
-				'Module name \''.$module_name.'\' is not valid ([a-zA-Z0-9] {3,50}) ',
+				'Module name \''.$module_name.'\' is not valid ( ^([a-zA-Z0-9\.]{3,50})$ ) ',
 				Application_Modules_Exception::CODE_MODULE_NAME_FORMAT_IS_NOT_VALID
 			);
 		}

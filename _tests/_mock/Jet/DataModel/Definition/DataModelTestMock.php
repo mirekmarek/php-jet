@@ -173,6 +173,10 @@ class DataModel_Definition_DataModelTestMock extends DataModel {
 	}
 
 
+    public function createNewRelatedDataModelInstance() {
+        return new static();
+    }
+
 	/**
 	 */
 	public function __construct() {

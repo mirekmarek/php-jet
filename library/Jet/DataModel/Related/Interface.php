@@ -23,16 +23,14 @@ interface DataModel_Related_Interface extends Object_Serializable_REST {
      */
     public function createNewRelatedDataModelInstance();
 
-    /**
-     * @param DataModel $main_model_instance
-     */
-    public function setMainDataModelInstance( DataModel $main_model_instance );
 
     /**
+     * @param DataModel $main_model_instance
+     * @param DataModel_Related_Abstract $parent_model_instance (optional)
      *
-     * @param DataModel_Related_Abstract $parent_model_instance
      */
-    public function setParentDataModelInstance( DataModel_Related_Abstract $parent_model_instance );
+    public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null );
+
 
     /**
      * @return array|DataModel_Definition_Property_DataModel[]

@@ -13,7 +13,7 @@ return array(
 
 	'description' => 'Test module 2...',
 
-	'require' => array( 'Vendor\\Package\\TestModule' ),
+	'require' => array( 'Vendor.Package.TestModule' ),
 
 	'factory_overload_map' => array()
 );

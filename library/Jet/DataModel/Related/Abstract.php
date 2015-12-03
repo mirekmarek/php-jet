@@ -18,6 +18,17 @@ namespace Jet;
 
 abstract class DataModel_Related_Abstract extends DataModel implements DataModel_Related_Interface {
 
+
+    /**
+     * @var DataModel
+     */
+    protected $__main_model_instance;
+
+    /**
+     * @var DataModel_Related_Abstract
+     */
+    protected $__parent_model_instance;
+
     /**
      * @return DataModel_Related_Interface
      */
@@ -70,19 +81,6 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
         }
 
         return true;
-    }
-
-
-    /**
-     * @param DataModel_Related_Interface $related_object
-     */
-    public function setupParentObjects( DataModel_Related_Interface $related_object ) {
-
-        if($this->__main_model_instance) {
-            $related_object->setMainDataModelInstance( $this->__main_model_instance );
-        }
-        $related_object->setParentDataModelInstance( $this );
-
     }
 
 
@@ -140,20 +138,47 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
                 }
 
             } else {
-                die('WTF???');
-                //TODO: zarvat
+                throw new DataModel_Exception('Parents are not set!');
             }
         }
 
         return $query;
     }
 
+    /**
+     * @param array &$loaded_related_data
+     * @return mixed
+     */
+    protected function initRelatedProperties( array &$loaded_related_data ) {
+        $definition = static::getDataModelDefinition();
+
+        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+            if(!$property_definition->getIsDataModel()) {
+                continue;
+            }
+
+            /**
+             * @var DataModel_Definition_Property_DataModel $property_definition
+             * @var DataModel_Related_Interface $property
+             */
+            $property = $this->{$property_name};
+            $property->setupParentObjects( $this->__main_model_instance, $this );
+
+            $this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
+        }
+
+    }
+
 
     /**
      * @param DataModel $main_model_instance
+     * @param DataModel_Related_Abstract $parent_model_instance (optional)
+     *
      */
-    public function setMainDataModelInstance( DataModel $main_model_instance ) {
+    public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+
         $this->__main_model_instance = $main_model_instance;
+        $this->__parent_model_instance = $parent_model_instance;
 
         $main_ID = $main_model_instance->getID();
         $definition = $this->getDataModelDefinition();
@@ -172,6 +197,26 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
             }
         }
 
+        if($parent_model_instance) {
+            $parent_ID = $parent_model_instance->getID();
+
+            foreach( $definition->getParentModelRelationIDProperties() as $property_definition ) {
+
+                if(
+                    $this->getIsSaved() &&
+                    $this->{$property_definition->getName()} != $parent_ID[$property_definition->getRelatedToPropertyName()]
+                ) {
+                    $this->setIsNew();
+                }
+
+                if(isset($parent_ID[$property_definition->getRelatedToPropertyName()])) {
+                    $this->{$property_definition->getName()} = $parent_ID[$property_definition->getRelatedToPropertyName()];
+                }
+            }
+
+        }
+
+
         foreach( $definition->getProperties() as $property_definition ) {
             if(!$property_definition->getIsDataModel()) {
                 continue;
@@ -185,51 +230,41 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
                 continue;
             }
 
-            $property->setMainDataModelInstance($main_model_instance);
+            $property->setupParentObjects($this->__main_model_instance, $this);
 
         }
+
+
     }
+
 
     /**
-     * @param DataModel_Related_Abstract $parent_model_instance
+     *
      */
-    public function setParentDataModelInstance( DataModel_Related_Abstract $parent_model_instance ) {
-        $this->__parent_model_instance = $parent_model_instance;
-
-        $parent_ID = $parent_model_instance->getID();
+    protected function _saveRelatedObjects() {
         $definition = $this->getDataModelDefinition();
 
-        foreach( $definition->getParentModelRelationIDProperties() as $property_definition ) {
+        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
             if(
-                $this->getIsSaved() &&
-                $this->{$property_definition->getName()} != $parent_ID[$property_definition->getRelatedToPropertyName()]
+                !$property_definition->getIsDataModel() ||
+                $this->{$property_name}===null
             ) {
-                $this->setIsNew();
-            }
-
-            if(isset($parent_ID[$property_definition->getRelatedToPropertyName()])) {
-                $this->{$property_definition->getName()} = $parent_ID[$property_definition->getRelatedToPropertyName()];
-            }
-        }
-
-        foreach( $definition->getProperties() as $property_definition ) {
-            if(!$property_definition->getIsDataModel()) {
                 continue;
             }
 
             /**
-             * @var DataModel_Related_Interface $property
+             * @var DataModel_Related_Interface $prop
              */
-            $property = $this->{$property_definition->getName()};
-            if(!$property) {
-                continue;
-            }
+            $prop = $this->{$property_name};
 
-            $property->setParentDataModelInstance($this);
+            $prop->setupParentObjects( $this->__main_model_instance, $this );
+            $prop->save();
 
         }
     }
+
+
 
     /**
      *

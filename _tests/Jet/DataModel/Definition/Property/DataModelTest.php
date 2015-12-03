@@ -83,9 +83,9 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_DataModel::getDataModelClass
+	 * @covers Jet\DataModel_Definition_Property_DataModel::getValueDataModelClass
 	 */
-	public function testGetDataModelClass() {
-		$this->assertEquals($this->property_options['data_model_class'], $this->object->getDataModelClass());
+	public function testGetValueDataModelClass() {
+		$this->assertEquals($this->property_options['data_model_class'], $this->object->getValueDataModelClass());
 	}
 }

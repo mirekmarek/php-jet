@@ -64,10 +64,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
         if(!$this->__empty_item_instance) {
             $this->__empty_item_instance = new $this->item_class_name();
 
-            $this->__empty_item_instance->setMainDataModelInstance( $this->__main_model_instance );
-            if($this->__parent_model_instance) {
-                $this->__empty_item_instance->setMainDataModelInstance( $this->__parent_model_instance );
-            }
+            $this->__empty_item_instance->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
         }
 
         return $this->__empty_item_instance;
@@ -83,36 +80,23 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
     /**
      * @param DataModel $main_model_instance
-     */
-    public function setMainDataModelInstance( DataModel $main_model_instance ) {
-        $this->__main_model_instance = $main_model_instance;
-
-        if($this->__empty_item_instance) {
-            $this->__empty_item_instance->setMainDataModelInstance($main_model_instance);
-        }
-
-        if($this->items) {
-            foreach( $this->items as $item ) {
-                $item->setMainDataModelInstance( $main_model_instance );
-            }
-        }
-    }
-
-    /**
      * @param DataModel_Related_Abstract $parent_model_instance
      */
-    public function setParentDataModelInstance( DataModel_Related_Abstract $parent_model_instance ) {
+    public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+        $this->__main_model_instance = $main_model_instance;
         $this->__parent_model_instance = $parent_model_instance;
 
         if($this->__empty_item_instance) {
-            $this->__empty_item_instance->setParentDataModelInstance($parent_model_instance);
+            $this->__empty_item_instance->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
         }
 
         if($this->items) {
             foreach( $this->items as $item ) {
-                $item->setParentDataModelInstance( $parent_model_instance );
+                $item->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
             }
         }
+
+
     }
 
     /**
@@ -214,7 +198,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
         foreach( $this->items as $r_key=>$r_instance ) {
 
-            $values = isset( $values[$r_key] ) ? $values[$r_key] : array();
+            $r_values = isset( $values[$r_key] ) ? $values[$r_key] : array();
 
             /**
              * @var DataModel $r_instance
@@ -222,7 +206,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
             //$r_form = $r_instance->getForm( '', array_keys($values) );
             $r_form = $r_instance->getCommonForm();
 
-            if(!$r_instance->catchForm( $r_form, $values, true )) {
+            if(!$r_instance->catchForm( $r_form, $r_values, true )) {
                 $ok = false;
             }
 
@@ -306,8 +290,9 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
             return;
         }
 
-        foreach($this->items as $d) {
-            $d->save();
+        foreach($this->items as $item) {
+            $item->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+            $item->save();
         }
 
     }
