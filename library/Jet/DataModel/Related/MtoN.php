@@ -37,6 +37,17 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	private $__data_model_current_N_model_name = null;
 
 
+    /**
+     * @var DataModel
+     */
+    protected $__main_model_instance;
+
+    /**
+     * @var DataModel_Related_Abstract
+     */
+    protected $__parent_model_instance;
+
+
 	/**
 	 * @var DataModel_ID_Abstract
 	 */
