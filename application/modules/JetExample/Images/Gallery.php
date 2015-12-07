@@ -16,6 +16,7 @@ use Jet;
  *
  * @JetDataModel:name = 'ImageGallery'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  *
  * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['ID'=>'gallery_ID'], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */

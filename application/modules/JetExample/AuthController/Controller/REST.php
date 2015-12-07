@@ -25,7 +25,7 @@ class Controller_REST extends Mvc_Controller_REST {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 
 	const ERR_CODE_AUTHORIZATION_REQUIRED = 'AuthorizationRequired';

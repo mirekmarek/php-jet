@@ -20,7 +20,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
 	protected static $ACL_actions_check_map = array(
 		'get_pages_tree' => false

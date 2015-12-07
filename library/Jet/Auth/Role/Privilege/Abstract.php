@@ -26,6 +26,7 @@ namespace Jet;
  *
  * @JetDataModel:name = 'role_privilege'
  * @JetDataModel:parent_model_class_name = 'Jet\Auth_Role_Abstract'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {
 

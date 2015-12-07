@@ -20,6 +20,7 @@ use Jet;
  *
  * @JetDataModel:name = 'Article'
  * @JetDataModel:database_table_name = 'Jet_Articles'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 class Article extends Jet\DataModel {
 

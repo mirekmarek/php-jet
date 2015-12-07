@@ -23,6 +23,7 @@ use Jet;
  * @JetDataModel:database_table_name = 'Jet_Auth_Events'
  * @JetDataModel:forced_history_enabled = false
  * @JetDataModel:forced_cache_enabled = false
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 class Event extends Jet\DataModel {
 

@@ -19,10 +19,6 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	 * @var string
 	 */
 	protected $_type = DataModel::TYPE_ARRAY;
-	/**
-	 * @var bool
-	 */
-	protected $_is_array = true;
 
 	/**
 	 * @var array
@@ -80,6 +76,14 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	public function getItemType() {
 		return $this->item_type;
 	}
+
+    /**
+     * @return bool
+     */
+    public function getMustBeSerializedBeforeStore() {
+        return true;
+    }
+
 
 	/**
 	 * @param mixed $value

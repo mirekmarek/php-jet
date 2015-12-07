@@ -100,22 +100,6 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
     }
 
     /**
-     * @return array|DataModel_Definition_Property_DataModel[]
-     */
-    public function getAllRelatedPropertiesDefinitions() {
-
-        $class_name = $this->item_class_name;
-
-        /**
-         * @var DataModel_Related_1toN $data_model
-         */
-        $data_model = new $class_name();
-
-        return $data_model->getAllRelatedPropertiesDefinitions();
-    }
-
-
-    /**
      * @return array|void
      */
     public function loadRelatedData() {
@@ -136,12 +120,12 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
     }
 
     /**
-     * @param string $parent_field_name
-     * @param string$related_form_getter_method_name
+     *
+     * @param DataModel_Definition_Property_Abstract $parent_property_definition
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( $parent_field_name, $related_form_getter_method_name ) {
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition ) {
 
         $fields = array();
         if(!$this->items) {
@@ -149,13 +133,15 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
         }
 
+        $parent_field_name = $parent_property_definition->getName();
+
         foreach($this->items as $key=>$related_instance) {
 
             /**
              * @var DataModel_Related_1toN $related_instance
              * @var Form $related_form
              */
-            $related_form = $related_instance->{$related_form_getter_method_name}();
+            $related_form = $related_instance->getCommonForm();
 
             foreach($related_form->getFields() as $field) {
 

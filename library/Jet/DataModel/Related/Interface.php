@@ -31,12 +31,6 @@ interface DataModel_Related_Interface extends Object_Serializable_REST {
      */
     public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null );
 
-
-    /**
-     * @return array|DataModel_Definition_Property_DataModel[]
-     */
-    public function getAllRelatedPropertiesDefinitions();
-
     /**
      * @return array
      */
@@ -65,12 +59,12 @@ interface DataModel_Related_Interface extends Object_Serializable_REST {
     public function delete();
 
     /**
-     * @param string $parent_field_name
-     * @param string$related_form_getter_method_name
+     *
+     * @param DataModel_Definition_Property_Abstract $parent_property_definition
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( $parent_field_name, $related_form_getter_method_name );
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition );
 
     /**
      * @param array $values

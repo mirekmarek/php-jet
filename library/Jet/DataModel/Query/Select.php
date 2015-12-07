@@ -37,20 +37,17 @@ class DataModel_Query_Select extends Object implements \Iterator {
 			}
 
 			if($val instanceof DataModel_Definition_Property_Abstract) {
-				if(
-					$val->getIsDataModel() ||
-					$val->getIsDynamicValue()
-				) {
+				if( !$val->getCanBeInSelectPartOfQuery() ) {
 					continue;
 				}
 
 				if(is_string($key)) {
-					$save_as = $key;
+					$select_as = $key;
 				} else {
-					$save_as = $val->getName();
+					$select_as = $val->getName();
 				}
 
-				$item = new DataModel_Query_Select_Item($val, $save_as);
+				$item = new DataModel_Query_Select_Item($val, $select_as);
 				$this->addItem($item);
 
 				continue;
@@ -92,9 +89,9 @@ class DataModel_Query_Select extends Object implements \Iterator {
 					);
 				}
 
-				$save_as = $key;
+				$select_as = $key;
 
-				$item = new DataModel_Query_Select_Item($val, $save_as);
+				$item = new DataModel_Query_Select_Item($val, $select_as);
 
 				$this->addItem($item);
 				continue;

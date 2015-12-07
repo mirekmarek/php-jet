@@ -58,6 +58,15 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		}
 	}
 
+    /**
+     * @param array $options
+     */
+    public function setOptions( array $options ) {
+        foreach( $options as $key=>$val ) {
+            $this->{$key} = $val;
+        }
+    }
+
 	/**
 	 * @return string
 	 */

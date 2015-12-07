@@ -33,11 +33,11 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 	/**
 	 * @var int
 	 */
-	protected $min_value = NULL;
+	protected $min_value = null;
 	/**
 	 * @var int
 	 */
-	protected $max_value = NULL;
+	protected $max_value = null;
 
 
 	/**

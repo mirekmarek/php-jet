@@ -16,6 +16,7 @@ use Jet;
  *
  * @JetDataModel:name = 'Image'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 class Gallery_Image extends Jet\DataModel {
 	const THUMBNAILS_DIR_NAME = '_t_';

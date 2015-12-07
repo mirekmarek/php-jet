@@ -244,7 +244,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	}
 
 	/**
-	 * Get root node if defined, else NULL
+	 * Get root node if defined, else null
 	 *
 	 * @return Data_Tree_Node
 	 */

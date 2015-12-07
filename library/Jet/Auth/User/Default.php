@@ -49,7 +49,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:is_key = true
@@ -134,7 +134,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:default_value = NULL
+	 * @JetDataModel:default_value = null
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var DateTime
@@ -154,7 +154,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:default_value = NULL
+	 * @JetDataModel:default_value = null
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var DateTime
@@ -185,9 +185,11 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
+     * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
 	 * @JetDataModel:form_field_type = 'MultiSelect'
 	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Auth', 'getRolesList']
+     * @JetDataModel:form_catch_value_method_name = 'setRoles'
 	 *
 	 * @var Auth_User_Roles
 	 */
@@ -527,6 +529,19 @@ class Auth_User_Default extends Auth_User_Abstract {
 			'this.login' => $login
 		) );
 	}
+
+
+    /**
+     * @param DataModel_Definition_Property_Abstract $property
+     *
+     * @return Form_Field_Abstract
+     */
+    public function createRolesFormField( DataModel_Definition_Property_Abstract $property ) {
+        $field = $property->getFormField();
+        $field->setDefaultValue( $this->roles );
+
+        return $field;
+    }
 
 	/**
 	 * @abstract

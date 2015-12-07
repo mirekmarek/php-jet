@@ -62,7 +62,7 @@ class Mvc_Site extends Object {
 
 
 	/**
-	 * Returns site data object (or NULL if does not exist)
+	 * Returns site data object (or null if does not exist)
 	 *
 	 * @see Mvc_Site_Abstract
 	 * @see Mvc_Site_Factory

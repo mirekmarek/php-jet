@@ -13,7 +13,7 @@ namespace Jet;
 
 require_once '_mock/Jet/DataModel/ID/DataModelTestMock.php';
 
-class Test_DataModel_ID_Default extends DataModel_ID_Default {
+class Test_DataModel_ID_UniqueString extends DataModel_ID_UniqueString {
 	/**
 	 *
 	 * @return bool
@@ -43,9 +43,9 @@ class Test_DataModel_ID_Default extends DataModel_ID_Default {
 }
 
 
-class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
+class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var DataModel_ID_Default
+	 * @var DataModel_ID_UniqueString
 	 */
 	protected $ID_object;
 
@@ -68,7 +68,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$this->data_model_object = new DataModel_ID_DataModelTestMock();
-		$this->ID_object = new Test_DataModel_ID_Default( $this->data_model_object->getDataModelDefinition() );
+		$this->ID_object = new Test_DataModel_ID_UniqueString( $this->data_model_object->getDataModelDefinition() );
 
 		foreach($this->ID_data as $k=>$v) {
 			$this->ID_object[$k] = $v;
@@ -166,15 +166,15 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_ID_Default::getMaxLength
+	 * @covers Jet\DataModel_ID_UniqueString::getMaxLength
 	 */
 	public function testGetMaxLength() {
-		$this->assertEquals(DataModel_ID_Default::MAX_LEN, $this->ID_object->getMaxLength());
+		$this->assertEquals(DataModel_ID_UniqueString::MAX_LEN, $this->ID_object->getMaxLength());
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_ID_Default::generateID
+	 * @covers Jet\DataModel_ID_UniqueString::generateID
 	 */
 	public function testGenerateID() {
 
@@ -191,7 +191,7 @@ class DataModel_ID_DefaultTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_ID_Default::checkFormat
+	 * @covers Jet\DataModel_ID_UniqueString::checkFormat
 	 */
 	public function testCheckFormat() {
 		$this->assertTrue($this->ID_object->checkFormat('valid_id_1'));

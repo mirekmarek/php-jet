@@ -173,6 +173,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 */
 	abstract public function fetchOne($query, array $query_data = array(), $column = null);
 
+
 	/**
 	 *
 	 */

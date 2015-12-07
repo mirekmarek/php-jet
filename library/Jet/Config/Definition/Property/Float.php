@@ -33,12 +33,12 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	/**
 	 * @var float
 	 */
-	protected $min_value = NULL;
+	protected $min_value = null;
 
 	/**
 	 * @var float
 	 */
-	protected $max_value = NULL;
+	protected $max_value = null;
 
 
 	/**

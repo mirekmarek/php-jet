@@ -50,6 +50,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
      * @return array
      */
     public function loadRelatedData() {
+        /**
+         * @var DataModel_Definition_Model_Related_1toN $data_model_definition
+         */
         $data_model_definition = $this->getDataModelDefinition();
 
         $query = $this->getLoadRelatedDataQuery();
@@ -68,14 +71,16 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
      */
     public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
 
-        $items = array();
+        /**
+         * @var DataModel_Definition_Model_Related_1toN $data_model_definition
+         */
+        $data_model_definition = $this->getDataModelDefinition();
 
         $parent_ID_values = array();
         if($this->__parent_model_instance) {
             $parent_ID = $this->__parent_model_instance->getID();
 
-            $definition = $this->getDataModelDefinition();
-            foreach( $definition->getParentModelRelationIDProperties() as $property ) {
+            foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
 
                 /**
                  * @var DataModel_Definition_Property_Abstract $property
@@ -86,42 +91,46 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
         }
 
 
-        $class_name = get_called_class();
-        if(!empty($loaded_related_data[$class_name])) {
-            foreach( $loaded_related_data[$class_name] as $i=>$dat ) {
-                if($parent_ID_values) {
-                    foreach($parent_ID_values as $k=>$v) {
-                        if($dat[$k]!=$v) {
-                            continue 2;
-                        }
+        $model_name = $data_model_definition->getModelName();
+        $items = array();
+
+        if(empty($loaded_related_data[$model_name])) {
+            return $items;
+        }
+
+        foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
+            if($parent_ID_values) {
+                foreach($parent_ID_values as $k=>$v) {
+                    if($dat[$k]!=$v) {
+                        continue 2;
                     }
                 }
-
-                /**
-                 * @var DataModel_Related_1toN $loaded_instance
-                 */
-                $loaded_instance = static::createInstanceFromData( $dat );
-                $loaded_instance->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
-                $loaded_instance->initRelatedProperties( $loaded_related_data );
-
-
-                unset($loaded_related_data[$class_name][$i]);
-
-                /**
-                 * @var DataModel_Related_1toN $loaded_instance
-                 */
-                $key = $loaded_instance->getArrayKeyValue();
-                if(is_object($key)) {
-                    $key = (string)$key;
-                }
-
-                if($key!==null) {
-                    $items[$key] = $loaded_instance;
-                } else {
-                    $items[] = $loaded_instance;
-                }
-
             }
+
+            /**
+             * @var DataModel_Related_1toN $loaded_instance
+             */
+            $loaded_instance = static::createInstanceFromData( $dat );
+            $loaded_instance->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+            $loaded_instance->initRelatedProperties( $loaded_related_data );
+
+
+            unset($loaded_related_data[$model_name][$i]);
+
+            /**
+             * @var DataModel_Related_1toN $loaded_instance
+             */
+            $key = $loaded_instance->getArrayKeyValue();
+            if(is_object($key)) {
+                $key = (string)$key;
+            }
+
+            if($key!==null) {
+                $items[$key] = $loaded_instance;
+            } else {
+                $items[] = $loaded_instance;
+            }
+
         }
 
         return $items;
@@ -137,12 +146,12 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 	}
 
     /**
-     * @param string $parent_field_name
-     * @param string$related_form_getter_method_name
+     *
+     * @param DataModel_Definition_Property_Abstract $parent_property_definition
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( $parent_field_name, $related_form_getter_method_name ) {
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition ) {
         return array();
     }
 

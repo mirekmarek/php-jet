@@ -99,10 +99,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$_columns = array();
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-			if(
-				$property->getIsDataModel() ||
-				$property->getIsDynamicValue()
-			) {
+			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 
@@ -186,10 +183,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
-			if(
-				$property->getIsDataModel() ||
-				$property->getIsDynamicValue()
-			) {
+            if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 			$actual_cols[$property_name] = $property;
@@ -479,7 +473,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 					continue;
 				}
 
-				if($property->getIsArray()) {
+				if($property->getMustBeSerializedBeforeStore()) {
 					$data[$i] = $this->unserialize( $data[$i] );
 				}
 

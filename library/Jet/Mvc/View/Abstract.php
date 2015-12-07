@@ -156,7 +156,7 @@ abstract class Mvc_View_Abstract extends Object {
 
 
 	/**
-	 * Returns a view variable (or NULL if variable is not set)
+	 * Returns a view variable (or null if variable is not set)
 	 *
 	 * @param string $key
 	 *

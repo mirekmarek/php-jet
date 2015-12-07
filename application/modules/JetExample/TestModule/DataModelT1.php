@@ -18,6 +18,7 @@ use Jet;
  *
  * @JetDataModel:name = 'DataModelT1'
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 class DataModelT1 extends Jet\DataModel {
 

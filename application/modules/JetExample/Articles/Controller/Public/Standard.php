@@ -16,7 +16,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = NULL;
+	protected $module_instance = null;
 
     /**
      * @var int

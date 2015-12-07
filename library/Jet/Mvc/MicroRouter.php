@@ -105,7 +105,6 @@ class Mvc_MicroRouter extends Object {
      */
     public function resolve( Mvc_Page_Content_Abstract $page_content ) {
 
-
 		if($this->default_action_name) {
 			$action_name = $this->default_action_name;
 			$action_parameters = [];

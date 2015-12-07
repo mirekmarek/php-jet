@@ -85,10 +85,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-			if(
-				$property->getIsDataModel() ||
-				$property->getIsDynamicValue()
-			) {
+            if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 			$name = $this->_getColumnName($name);
@@ -161,73 +158,14 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$this->_db_write->execCommand( $this->helper_getDropCommand( $data_model ) );
 	}
 
-	/**
-	 * @param DataModel $data_model
-	 *
-	 * @return array
-	 */
+    /**
+     * @param DataModel $data_model
+     *
+     * @throws DataModel_Exception
+     * @return array
+     */
 	public function helper_getUpdateCommand( DataModel $data_model ) {
-		//TODO: check it and port it
-		$data_model_definition = $data_model->getDataModelDefinition();
-		$table_name = $this->_getTableName($data_model_definition);
-
-		$update_prefix = '_UP'.date('YmdHis').'_';
-		$exists_cols = $this->_db_write->fetchCol('DESCRIBE '.$table_name);
-
-		$updated_table_name = $update_prefix.$table_name;
-
-		$create_command = $this->helper_getCreateCommand( $data_model, $updated_table_name );
-
-
-		$properties = $data_model_definition->getProperties();
-		$actual_cols = array();
-		foreach($properties as $property_name=>$property) {
-			if(
-				$property->getIsDataModel() ||
-				$property->getIsDynamicValue()
-			) {
-				continue;
-			}
-			$actual_cols[$property_name] = $property;
-		}
-
-		$common_cols = array_intersect(array_keys($actual_cols), $exists_cols);
-		$_new_cols = array_diff( array_keys($actual_cols), $exists_cols );
-		$new_cols = new DataModel_RecordData($data_model_definition);
-		foreach($_new_cols as $new_col) {
-			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue());
-		}
-
-
-		$data_migration_command = 'INSERT INTO '.$updated_table_name.'
-					("'.implode('","', $common_cols).'")
-				SELECT
-					"'.implode('","', $common_cols).'"
-				FROM '.$table_name.';';
-
-		$update_default_values = '';
-		if( ($new_cols = $this->_getRecord($new_cols)) ) {
-
-			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = $c.'='.$v;
-			}
-			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode(','.JET_EOL, $_new_cols);
-		}
-
-
-		$rename_command1 = 'RENAME TABLE '.$table_name.' TO '.$update_prefix.'b_'.$table_name.' ;'.JET_EOL;
-		$rename_command2 = 'RENAME TABLE '.$updated_table_name.' TO  '.$table_name.'; ';
-
-		$update_command = array();
-		$update_command[] = $create_command;
-		$update_command[] = $data_migration_command;
-		if($update_default_values) {
-			$update_command[] = $update_default_values;
-		}
-		$update_command[] = $rename_command1;
-		$update_command[] = $rename_command2;
-
-		return $update_command;
+        throw new DataModel_Exception('Not implemented ... Sorry ... :-/');
 	}
 
 	/**
@@ -464,8 +402,8 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					continue;
 				}
 
-				if($property->getIsArray()) {
-					$data[$i] = unserialize( $data[$i] );
+				if($property->getMustBeSerializedBeforeStore()) {
+					$data[$i] = $this->unserialize( $data[$i] );
 				}
 
 				if(
@@ -555,7 +493,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					$_d = $data[$i][$key];
 					unset( $data[$i][$key] );
 
-					if($property->getIsArray()) {
+					if($property->getMustBeSerializedBeforeStore()) {
 						$data[$i][$select_as] = $this->unserialize( $_d );
 					} else {
 						$data[$i][$select_as] = $_d;

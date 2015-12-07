@@ -273,7 +273,7 @@ abstract class DataModel_Backend_Abstract extends Object {
 
 					$key = $item->getSelectAs();
 
-					if($property->getIsArray()) {
+					if($property->getMustBeSerializedBeforeStore()) {
 						$data[$i][$key] = $this->unserialize( $data[$i][$key] );
 					}
 

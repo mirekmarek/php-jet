@@ -28,6 +28,7 @@ namespace Jet;
  *
  * @JetDataModel:name = 'site_localized_data_meta_tag'
  * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Sites_LocalizedData_Abstract'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 abstract class Mvc_Site_LocalizedData_MetaTag_Abstract extends DataModel_Related_1toN {
 

@@ -16,6 +16,7 @@
  */
 namespace Jet;
 
+//TODO: tady to bude chcit komplexni refactoring
 abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface  {
 
 	/**
@@ -36,17 +37,10 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	private $__data_model_current_N_model_name = null;
 
-
     /**
      * @var DataModel
      */
-    protected $__main_model_instance;
-
-    /**
-     * @var DataModel_Related_Abstract
-     */
-    protected $__parent_model_instance;
-
+    private $M_instance;
 
 	/**
 	 * @var DataModel_ID_Abstract
@@ -84,76 +78,69 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
      * @param DataModel $main_model_instance
      * @param DataModel_Related_Abstract $parent_model_instance (optional)
      *
+     * @throws DataModel_Exception
      */
     public function setupParentObjects(DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance = null)
     {
-        $this->__main_model_instance = $main_model_instance;
-        $this->__parent_model_instance = $parent_model_instance;
 
-        $this->setMRelatedModel();
-    }
-
-
-	/**
-	 *
-	 * @throws DataModel_Exception
-	 */
-	protected function setMRelatedModel() {
-
-        if($this->__parent_model_instance) {
-            $M_instance = $this->__parent_model_instance;
+        if( $parent_model_instance ) {
+            $M_instance = $parent_model_instance;
         } else {
-            $M_instance = $this->__main_model_instance;
+            $M_instance = $main_model_instance;
         }
 
 
-		/**
-		 * @var DataModel $M_instance
-		 */
-		$M_model_name = $M_instance->getDataModelDefinition()->getModelName();
+        /**
+         * @var DataModel $M_instance
+         */
+        $M_model_name = $M_instance->getDataModelDefinition()->getModelName();
 
-		if(!$this->getDataModelDefinition()->getRelatedModelDefinition($M_model_name)  ) {
-			throw new DataModel_Exception(
-				'Class \''.get_class($M_instance).'\' (model name: \''.$M_model_name.'\') is not related to \''.get_class($this).'\'  (class: \''.get_called_class().'\') ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
+        /**
+         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+         */
+        $data_model_definition = $this->getDataModelDefinition();
 
-		if(
-			$M_model_name==$this->__data_model_current_M_model_name
-		) {
-			$this->M_ID = $M_instance->getID();
-			return;
-		}
+        if(!$data_model_definition->getRelatedModelDefinition($M_model_name)  ) {
+            throw new DataModel_Exception(
+                'Class \''.get_class($M_instance).'\' (model name: \''.$M_model_name.'\') is not related to \''.get_class($this).'\'  (class: \''.get_called_class().'\') ',
+                DataModel_Exception::CODE_DEFINITION_NONSENSE
+            );
+        }
+
+        $this->M_instance = $M_instance;
+
+        if(
+            $M_model_name==$this->__data_model_current_M_model_name
+        ) {
+            $this->M_ID = $M_instance->getID();
+            return;
+        }
 
 
-		$N_model_name = $this->getDataModelDefinition()->getNModelName($M_model_name);
+        $N_model_name = $data_model_definition->getNModelName($M_model_name);
 
 
-		$this->__data_model_current_M_model_name = $M_model_name;
-		$this->__data_model_current_N_model_name = $N_model_name;
+        $this->__data_model_current_M_model_name = $M_model_name;
+        $this->__data_model_current_N_model_name = $N_model_name;
 
 
-		$this->__data_model_current_M_model_class_name = $this->getDataModelDefinition()->getRelatedModelDefinition($M_model_name)->getClassName();
-		$this->__data_model_current_N_model_class_name = $this->getDataModelDefinition()->getRelatedModelDefinition($N_model_name)->getClassName();
+        $this->__data_model_current_M_model_class_name = $data_model_definition->getRelatedModelDefinition($M_model_name)->getClassName();
+        $this->__data_model_current_N_model_class_name = $data_model_definition->getRelatedModelDefinition($N_model_name)->getClassName();
 
-		/**
-		 * @var DataModel $M_instance
-		 */
-		$this->M_ID = $M_instance->getID();
+        /**
+         * @var DataModel $M_instance
+         */
+        $this->M_ID = $M_instance->getID();
 
-		$this->N_IDs = null;
-		$this->N_data = array();
-
-	}
+        $this->N_IDs = null;
+        $this->N_data = array();
+    }
 
 
 	/**
      *
 	 */
 	public function __wakeup_relatedItems() {
-
-		$this->setMRelatedModel();
 	}
 
 	/**
@@ -174,11 +161,9 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 	 */
 	public function save() {
 
-		$this->setMRelatedModel();
-
 		$this->_fetchNData();
 
-		$definition = $this->getDataModelDefinition();
+
 		$backend = $this->getBackendInstance();
 
 		$q_M = $this->_getMIdQuery();
@@ -189,10 +174,15 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			return;
 		}
 
-		$M_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_M_model_name);
-		$N_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_N_model_name);
+        /**
+         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+         */
+        $data_model_definition = $this->getDataModelDefinition();
 
-		$main_record = new DataModel_RecordData($definition);
+		$M_ID_properties = $data_model_definition->getRelationIDProperties($this->__data_model_current_M_model_name);
+		$N_ID_properties = $data_model_definition->getRelationIDProperties($this->__data_model_current_N_model_name);
+
+		$main_record = new DataModel_RecordData($data_model_definition);
 
 		foreach($M_ID_properties as $property) {
 			/**
@@ -289,9 +279,13 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
+        /**
+         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+         */
+        $data_model_definition = $this->getDataModelDefinition();
 
-		$M_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_M_model_name);
-		$N_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_N_model_name);
+		$M_ID_properties = $data_model_definition->getRelationIDProperties($this->__data_model_current_M_model_name);
+		$N_ID_properties = $data_model_definition->getRelationIDProperties($this->__data_model_current_N_model_name);
 
 		foreach($M_ID_properties as $M_ID_property) {
 			/**
@@ -520,7 +514,12 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			return;
 		}
 
-		$N_ID_properties = $this->getDataModelDefinition()->getRelationIDProperties($this->__data_model_current_N_model_name);
+        /**
+         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+         */
+        $data_model_definition = $this->getDataModelDefinition();
+
+		$N_ID_properties = $data_model_definition->getRelationIDProperties($this->__data_model_current_N_model_name);
 
 
 		/**
@@ -574,9 +573,10 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
 			return $this->N_data[$s_ID];
 		}
 
+        $n_class_name = Factory::getClassName(  $this->__data_model_current_N_model_class_name  );
 
-		$this->N_data[$s_ID] = Factory::getInstance( $this->__data_model_current_N_model_class_name );
-		$this->N_data[$s_ID] = $this->N_data[$s_ID]->load( $ID );
+        /** @noinspection PhpUndefinedMethodInspection */
+        $this->N_data[$s_ID] = $n_class_name::load($ID);
 
 		return $this->N_data[$s_ID];
 	}
@@ -618,13 +618,12 @@ abstract class DataModel_Related_MtoN extends DataModel implements \ArrayAccess,
     }
 
     /**
-     * @param string $parent_field_name
-     * @param string $related_form_getter_method_name
+     *
+     * @param DataModel_Definition_Property_Abstract $parent_property_definition
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields($parent_field_name, $related_form_getter_method_name)
-    {
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition ) {
         return array();
     }
 

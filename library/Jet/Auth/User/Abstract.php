@@ -36,6 +36,7 @@ namespace Jet;
  * @JetApplication_Signals:signal_object_class_name = 'Jet\Auth_User_Signal'
  *
  * @JetDataModel:name = 'user'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 abstract class Auth_User_Abstract extends DataModel {
 

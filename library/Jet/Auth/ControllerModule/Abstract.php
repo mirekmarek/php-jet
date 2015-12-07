@@ -130,7 +130,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	}
 
 	/**
-	 * Get role data by it's ID or NULL if not found
+	 * Get role data by it's ID or null if not found
 	 *
 	 * @param string $ID
 	 *
@@ -173,7 +173,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	}
 
 	/**
-	 * Get user data by ID or NULL if not found
+	 * Get user data by ID or null if not found
 	 *
 	 * @param string $ID
 	 *

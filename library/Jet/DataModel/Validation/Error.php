@@ -43,7 +43,7 @@ class DataModel_Validation_Error extends Object {
 	 *
 	 * @var mixed
 	 */
-	protected $property_value = NULL;
+	protected $property_value = null;
 
 
 	/**

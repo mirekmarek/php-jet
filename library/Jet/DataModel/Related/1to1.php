@@ -43,12 +43,15 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
      */
     public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
 
+        /**
+         * @var DataModel_Definition_Model_Related_1to1 $definition
+         */
+        $definition = $this->getDataModelDefinition();
 
         $parent_ID_values = array();
         if($this->__parent_model_instance) {
             $parent_ID = $this->__parent_model_instance->getID();
 
-            $definition = $this->getDataModelDefinition();
             foreach( $definition->getParentModelRelationIDProperties() as $property ) {
 
                 /**
@@ -59,9 +62,9 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
             }
         }
 
-        $class_name = get_called_class();
-        if(!empty($loaded_related_data[$class_name])) {
-            foreach( $loaded_related_data[$class_name] as $i=>$dat ) {
+        $model_name = $definition->getModelName();
+        if(!empty($loaded_related_data[$model_name])) {
+            foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
                 if($parent_ID_values) {
                     foreach($parent_ID_values as $k=>$v) {
                         if($dat[$k]!=$v) {
@@ -77,7 +80,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
                 $loaded_instance->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
                 $loaded_instance->initRelatedProperties( $loaded_related_data );
 
-                unset($loaded_related_data[$class_name][$i]);
+                unset($loaded_related_data[$model_name][$i]);
 
                 return $loaded_instance;
             }
@@ -88,19 +91,19 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 
     /**
-     * @param string $parent_field_name
-     * @param string$related_form_getter_method_name
+     *
+     * @param DataModel_Definition_Property_Abstract $parent_property_definition
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( $parent_field_name, $related_form_getter_method_name ) {
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition ) {
 
         $fields = array();
 
         /**
          * @var Form $related_form
          */
-        $related_form = $this->{$related_form_getter_method_name}();
+        $related_form = $this->getCommonForm();
 
         foreach($related_form->getFields() as $field) {
 
@@ -110,7 +113,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
                 continue;
             }
 
-            $field->setName('/'.$parent_field_name.'/'.$field->getName() );
+            $field->setName('/'.$parent_property_definition->getName().'/'.$field->getName() );
 
             $fields[] = $field;
         }

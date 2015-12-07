@@ -58,19 +58,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @var string
 	 */
 	protected $_type = null;
-	/**
-	 * @var bool
-	 */
-	protected $_is_array = false;
-	/**
-	 * @var bool
-	 */
-	protected $_is_data_model = false;
 
-	/**
-	 * @var bool
-	 */
-	protected $_is_dynamic_value = false;
 
 	/**
 	 * @var string
@@ -102,7 +90,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @var bool
 	 */
-	protected $do_not_serialize = false;
+	protected $do_not_export = false;
 
 	/**
 	 * @var string
@@ -174,6 +162,11 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	protected $form_field_get_select_options_callback;
 
+    /**
+     * @var string
+     */
+    protected $form_catch_value_method_name;
+
 	/**
 	 *
 	 * @var array
@@ -222,20 +215,6 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 			if( $this->is_ID ) {
 				if(!isset($definition_data['form_field_type'])) {
 					$this->form_field_type = Form::TYPE_HIDDEN;
-				}
-
-				if( $this->_is_data_model ) {
-					throw new DataModel_Exception(
-						$this->data_model_class_name.'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
-						DataModel_Exception::CODE_DEFINITION_NONSENSE
-					);
-
-				}
-				if( $this->_is_array ) {
-					throw new DataModel_Exception(
-						$this->data_model_class_name.'::'.$this->_name.' property type is Array. Can\'t be ID! ',
-						DataModel_Exception::CODE_DEFINITION_NONSENSE
-					);
 				}
 			}
 
@@ -339,33 +318,9 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * @return boolean
 	 */
-	public function getDoNotSerialize() {
-		return $this->do_not_serialize;
+	public function doNotExport() {
+		return $this->do_not_export;
 	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsArray() {
-		return $this->_is_array;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function getIsDataModel() {
-		return $this->_is_data_model;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsDynamicValue() {
-		return $this->_is_dynamic_value;
-	}
-
-
 
 	/**
 	 * @return bool
@@ -373,6 +328,51 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	public function getIsID() {
 		return $this->is_ID;
 	}
+
+    /**
+     * @return bool
+     */
+    public function getMustBeSerializedBeforeStore() {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeTableField() {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeInSelectPartOfQuery() {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeInInsertRecord() {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeInUpdateRecord() {
+        if($this->getIsID()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeFormField() {
+        return true;
+    }
 
 
 	/**
@@ -388,6 +388,18 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	public function getIsRequired() {
 		return $this->is_required;
 	}
+
+    /**
+     * @param &$property
+     */
+    public function initPropertyDefaultValue( &$property ) {
+
+        if(!$property) {
+            $property = $this->getDefaultValue();
+
+            $this->checkValueType( $property );
+        }
+    }
 
 	/**
 	 *
@@ -455,26 +467,46 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	abstract public function checkValueType( &$value );
 
+    /**
+     * @param mixed &$property
+     * @param mixed $data
+     *
+     */
+     public function loadPropertyValue( &$property, array $data ) {
+        $property = $data[$this->getName()];
 
-	/**
-	 * @param mixed &$value
-	 * @param DataModel_Validation_Error[] &$errors
-	 *
-	 *
-	 * @return bool
-	 */
-	public function validateProperties( &$value, &$errors ) {
-		$this->checkValueType($value);
+        $this->checkValueType( $property );
+    }
 
-		if(!$this->_validateProperties_test_required($value, $errors )) {
+
+    /**
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     * @param DataModel_Validation_Error[] &$errors
+     *
+     *
+     * @return bool
+     */
+	public function validatePropertyValue( DataModel $data_model_instance, &$property, &$errors ) {
+
+        $validation_method_name = $this->getValidationMethodName();
+
+
+        if($validation_method_name) {
+            return $data_model_instance->{$validation_method_name}($this, $property, $errors);
+        }
+
+		$this->checkValueType($property);
+
+		if(!$this->_validatePropertyValue_test_required($property, $errors )) {
 			return false;
 		}
 		if($this->list_of_valid_options) {
-			if(!$this->_validateProperties_test_validOptions($value, $errors )) {
+			if(!$this->_validatePropertyValue_test_validOptions($property, $errors )) {
 				return false;
 			}
 		}
-		return $this->_validateProperties_test_value($value, $errors );
+		return $this->_validatePropertyValue_test_value($property, $errors );
 
 	}
 
@@ -482,21 +514,21 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * Property required test
 	 *
-	 * @param mixed &$value
+	 * @param mixed &$property
 	 * @param DataModel_Validation_Error[] &$errors[]
 	 *
 	 * @return bool
 	 */
-	public function _validateProperties_test_required( &$value, &$errors ) {
+	public function _validatePropertyValue_test_required( &$property, &$errors ) {
 		if( !$this->is_required ) {
 			return true;
 		}
 
-		if(!$value) {
+		if(!$property) {
 			$errors[] = new DataModel_Validation_Error(
 					DataModel_Validation_Error::CODE_REQUIRED,
 					$this, 
-					$value
+					$property
 				);
 
 			return false;
@@ -508,17 +540,17 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	/**
 	 * Property value test - value must be in list of valid options
 	 *
-	 * @param mixed &$value
+	 * @param mixed &$property
 	 * @param DataModel_Validation_Error[] &$errors
 
 	 * @return bool
 	 */
-	public function _validateProperties_test_validOptions( &$value, &$errors ) {
-		if(!in_array($value, $this->list_of_valid_options)) {
+	public function _validatePropertyValue_test_validOptions( &$property, &$errors ) {
+		if(!in_array($property, $this->list_of_valid_options)) {
 
 			$errors[] = new DataModel_Validation_Error(
 						DataModel_Validation_Error::CODE_INVALID_VALUE,
-						$this, $value
+						$this, $property
 					);
 
 			return false;
@@ -536,9 +568,9 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @return bool
 	 */
 	/** @noinspection PhpUnusedParameterInspection */
-	public function _validateProperties_test_value(
+	public function _validatePropertyValue_test_value(
 					/** @noinspection PhpUnusedParameterInspection */
-					&$value,
+					&$property,
 					/** @noinspection PhpUnusedParameterInspection */
 	                                &$errors) {
 		return true;
@@ -586,6 +618,22 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		return $this->form_field_get_select_options_callback;
 	}
 
+    /**
+     * @param string $form_catch_value_method_name
+     */
+    public function setFormCatchValueMethodName($form_catch_value_method_name)
+    {
+        $this->form_catch_value_method_name = $form_catch_value_method_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormCatchValueMethodName()
+    {
+        return $this->form_catch_value_method_name;
+    }
+
 
 
 	/**
@@ -621,6 +669,40 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		return $error_messages;
 	}
 
+    /**
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed $property_value
+     *
+     * @throws DataModel_Exception
+     * @return Form_Field_Abstract|Form_Field_Abstract[]
+     */
+    public function createFormField( DataModel $data_model_instance, $property_value ) {
+
+        $field_creator_method_name = $this->getFormFieldCreatorMethodName();
+
+        if( $field_creator_method_name ) {
+            return $data_model_instance->{$field_creator_method_name}( $this );
+        }
+
+
+        $field = $this->getFormField();
+
+        if(!$field) {
+
+            $class = $data_model_instance->getDataModelDefinition()->getClassName();
+
+            throw new DataModel_Exception(
+                'The property '.$class.'::'.$this->getName().' is required for form definition. But property definition '.get_class($this).' prohibits the use of property as form field. ',
+                DataModel_Exception::CODE_DEFINITION_NONSENSE
+            );
+        }
+
+        $field->setDefaultValue( $property_value );
+
+        return $field;
+
+    }
 
 	/**
 	 *
@@ -675,6 +757,28 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		return $field;
 	}
 
+    /**
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     * @param mixed $value
+     */
+    public function catchFormField( DataModel $data_model_instance, &$property, $value ) {
+
+        if( ($method_name = $this->getFormCatchValueMethodName()) ) {
+            $data_model_instance->{$method_name}($value);
+            return;
+        }
+
+        $setter_method_name = $data_model_instance->getSetterMethodName( $this->getName() );
+
+        if(method_exists($data_model_instance, $setter_method_name)) {
+            $data_model_instance->{$setter_method_name}($value);
+        } else {
+            $data_model_instance->_setPropertyValue($this->getName(), $value);
+        }
+
+    }
+
 	/**
 	 * @return string
 	 */
@@ -699,17 +803,48 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		return $res;
 	}
 
-	/**
-	 * Converts property form jsonSerialize
-	 *
-	 * Example: Locale to string
-	 *
-	 * @param mixed $property_value
-	 * @return mixed
-	 */
-	public function getValueForJsonSerialize( $property_value ) {
-		return $property_value;
+    /**
+     * Converts property form jsonSerialize
+     *
+     * Example: Locale to string
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     *
+     * @return mixed
+     */
+	public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
+		return $property;
 	}
+
+
+    /**
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     *
+     * @return mixed
+     */
+    public function getXMLexportValue( DataModel $data_model_instance, &$property ) {
+        return $property;
+    }
+
+    /**
+     *
+     * @param array|DataModel_Definition_Property_DataModel[] &$related_definitions
+     * @throws DataModel_Exception
+     */
+    public function getAllRelatedPropertyDefinitions( array &$related_definitions ) {
+    }
+
+    /**
+     *
+     * @param array|DataModel_Definition_Property_DataModel[] &$internal_relations
+     * @throws DataModel_Exception
+     */
+    public function getInternalRelations( array &$internal_relations ) {
+
+    }
 
 
 	/**

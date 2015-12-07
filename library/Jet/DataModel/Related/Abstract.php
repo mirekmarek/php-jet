@@ -55,7 +55,7 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
             return true;
         }
 
-        return $this->__backend_transaction_started;
+        return $this->__data_model_backend_transaction_started;
     }
 
     /**
@@ -85,9 +85,13 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 
 
     /**
+     * @throws DataModel_Exception
      * @return DataModel_Query
      */
     protected function getLoadRelatedDataQuery() {
+        /**
+         * @var DataModel_Definition_Model_Related_Abstract $data_model_definition
+         */
         $data_model_definition = $this->getDataModelDefinition();
 
         $query = new DataModel_Query( $data_model_definition );
@@ -153,15 +157,15 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
         $definition = static::getDataModelDefinition();
 
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            if(!$property_definition->getIsDataModel()) {
-                continue;
-            }
 
             /**
-             * @var DataModel_Definition_Property_DataModel $property_definition
              * @var DataModel_Related_Interface $property
              */
             $property = $this->{$property_name};
+            if(!($property instanceof DataModel_Related_Interface)) {
+                continue;
+            }
+
             $property->setupParentObjects( $this->__main_model_instance, $this );
 
             $this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
@@ -181,6 +185,9 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
         $this->__parent_model_instance = $parent_model_instance;
 
         $main_ID = $main_model_instance->getID();
+        /**
+         * @var DataModel_Definition_Model_Related_Abstract $definition
+         */
         $definition = $this->getDataModelDefinition();
 
         foreach( $definition->getMainModelRelationIDProperties() as $property_definition ) {
@@ -217,16 +224,13 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
         }
 
 
-        foreach( $definition->getProperties() as $property_definition ) {
-            if(!$property_definition->getIsDataModel()) {
-                continue;
-            }
+        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
             /**
              * @var DataModel_Related_Interface $property
              */
-            $property = $this->{$property_definition->getName()};
-            if(!$property) {
+            $property = $this->{$property_name};
+            if(!($property instanceof DataModel_Related_Interface)) {
                 continue;
             }
 
@@ -246,20 +250,16 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
-            if(
-                !$property_definition->getIsDataModel() ||
-                $this->{$property_name}===null
-            ) {
+            /**
+             * @var DataModel_Related_Interface $property
+             */
+            $property = $this->{$property_name};
+            if(!($property instanceof DataModel_Related_Interface)) {
                 continue;
             }
 
-            /**
-             * @var DataModel_Related_Interface $prop
-             */
-            $prop = $this->{$property_name};
-
-            $prop->setupParentObjects( $this->__main_model_instance, $this );
-            $prop->save();
+            $property->setupParentObjects( $this->__main_model_instance, $this );
+            $property->save();
 
         }
     }
@@ -322,17 +322,17 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
      *
      */
     public function __wakeup_relatedItems() {
-        foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property ) {
-            if(!$property->getIsDataModel()) {
+        foreach( $this->getDataModelDefinition()->getProperties() as $property_name=>$property_definition ) {
+
+            /**
+             * @var DataModel_Related_Interface $property
+             */
+            $property = $this->{$property_name};
+            if(!($property instanceof DataModel_Related_Interface)) {
                 continue;
             }
 
-            /**
-             * @var DataModel_Related_Abstract $p
-             */
-            $p = $this->{$property_name};
-
-            $p->__wakeup_relatedItems();
+            $property->__wakeup_relatedItems();
         }
     }
 

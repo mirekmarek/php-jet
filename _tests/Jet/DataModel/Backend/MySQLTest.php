@@ -348,7 +348,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 		$record = new DataModel_RecordData( $definition );
 
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-			if( $property_definition->getIsDataModel() || $property_definition->getIsDynamicValue() ) {
+			if( !$property_definition->getCanBeInInsertRecord() ) {
 				continue;
 			}
 
@@ -386,7 +386,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 		$record = new DataModel_RecordData( $definition );
 
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-			if( $property_definition->getIsDataModel() || $property_definition->getIsDynamicValue() ) {
+			if( !$property_definition->getCanBeInUpdateRecord() ) {
 				continue;
 			}
 

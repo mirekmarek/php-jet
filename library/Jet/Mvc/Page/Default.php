@@ -1494,13 +1494,11 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 * @param string $form_name
-	 * @param bool $include_related_objects (optional, default=false)
-	 * @param bool $skip_hidden_fields (optional, default=false)
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name='', $include_related_objects=true, $skip_hidden_fields=false ) {
-		$form = parent::getCommonForm( $form_name, $include_related_objects, $skip_hidden_fields );
+	public function getCommonForm( $form_name='' ) {
+		$form = parent::getCommonForm( $form_name );
 
 		if( $this->ID!=Mvc_Page::HOMEPAGE_ID ) {
 			$form->getField('URL_fragment')->setIsRequired(true);

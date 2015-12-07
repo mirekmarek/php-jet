@@ -37,7 +37,7 @@ class DataModel_ID_Name extends DataModel_ID_Abstract {
 
 		if(!array_key_exists($this->ID_property_name, $this->values)) {
 			throw new DataModel_Exception(
-				'Class \''.$data_model_instance->getDataModelDefinition()->getClassName().'\': Property \''.$this->ID_property_name.'\' does not exist. Please define that property or create your own ID class.',
+				'Class \''.$data_model_instance->getDataModelDefinition()->getClassName().'\': Property \''.$this->ID_property_name.'\' does not exist. Please configure ID class by @JetDataModel:ID_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

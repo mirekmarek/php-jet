@@ -47,7 +47,7 @@ class DataModel_Query_DataModelRelated1TONTestMock extends DataModel_Related_1to
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:validation_regexp = '/^([a-z0-9]{1,10})$/'
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:is_ID = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]

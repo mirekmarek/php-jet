@@ -28,6 +28,7 @@ namespace Jet;
  *
  * @JetDataModel:name = 'page_meta_tag'
  * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Page_Abstract'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
 abstract class Mvc_Page_MetaTag_Abstract extends DataModel_Related_1toN {
 

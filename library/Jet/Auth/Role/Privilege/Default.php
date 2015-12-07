@@ -152,6 +152,7 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 		$form_field = $values_property_def->getFormField();
 		$form_field->setLabel( $privilege_data->getLabel() );
 		$form_field->setSelectOptions( $privilege_data->getValuesList() );
+        $form_field->setDefaultValue( $this->values );
 
 		return $form_field;
 	}

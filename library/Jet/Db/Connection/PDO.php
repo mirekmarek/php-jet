@@ -115,8 +115,6 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 		$res = $this->fetchAll($query, $query_data);
 
 		foreach( $res as $row) {
-			//Debug_Profiler::SQLQueryEnd(1);
-
 			return $row;
 		}
 		return false;
@@ -219,57 +217,9 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	}
 
 
-	/**
-	 * Begin a transaction.
-	 */
-	public function beginTransaction() {
-		parent::beginTransaction();
-		/*
-		try {
-			parent::beginTransaction();
-		} catch(\PDOException $e) {
-			if($e->getMessage()!='There is already an active transaction') {
-				throw $e;
-			}
-		}
-		*/
-
-	}
-
-	/**
-	 * Roll back a transaction
-	 *
-	 */
-	public function rollBack() {
-		parent::rollBack();
-		/*
-		try {
-			parent::rollBack();
-		} catch(\PDOException $e) {
-			if($e->getMessage()!='There is no active transaction') {
-				throw $e;
-			}
-		}
-		*/
-	}
-
-	/**
-	 * Commit a transaction
-	 */
-	public function commit() {
-		parent::commit();
-		/*
-		try {
-			parent::commit();
-		} catch(\PDOException $e) {
-			if($e->getMessage()!='There is no active transaction') {
-				throw $e;
-			}
-		}
-		*/
-	}
-
-	public function disconnect() {
-
+    /**
+     *
+     */
+    public function disconnect() {
 	}
 }

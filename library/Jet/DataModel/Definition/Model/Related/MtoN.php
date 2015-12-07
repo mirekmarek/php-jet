@@ -61,6 +61,13 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	}
 
 
+    /**
+     * @throws DataModel_Exception
+     */
+    protected function _initIDclass() {
+    }
+
+
 	/**
 	 * @throws DataModel_Exception
 	 */

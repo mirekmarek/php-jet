@@ -19,10 +19,6 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	 * @var string
 	 */
 	protected $_type = DataModel::TYPE_DYNAMIC_VALUE;
-	/**
-	 * @var bool
-	 */
-	protected $_is_dynamic_value = true;
 
 	/**
 	 * @var string
@@ -54,6 +50,97 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
 	}
 
+
+    /**
+     * @param &$property
+     */
+    public function initPropertyDefaultValue( &$property ) {
+    }
+
+    /**
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     * @param DataModel_Validation_Error[] &$errors
+     *
+     *
+     * @return bool
+     */
+    public function validatePropertyValue( DataModel $data_model_instance, &$property, &$errors ) {
+        return true;
+    }
+
+    /**
+     * Converts property form jsonSerialize
+     *
+     * Example: Locale to string
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     *
+     * @return mixed
+     */
+    public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
+        return $data_model_instance->{$this->getGetterName()}();
+    }
+
+    /**
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     *
+     * @return mixed
+     */
+    public function getXMLexportValue( DataModel $data_model_instance, &$property ) {
+        return $data_model_instance->{$this->getGetterName()}();
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getCanBeTableField() {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeInSelectPartOfQuery() {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeInInsertRecord() {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeInUpdateRecord() {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanBeFormField() {
+        return false;
+    }
+
+    /**
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed $property_value
+     *
+     * @throws DataModel_Exception
+     * @return Form_Field_Abstract|Form_Field_Abstract[]
+     */
+    public function createFormField( DataModel $data_model_instance, $property_value ) {
+    }
+
 	/**
 	 *
 	 * @return void
@@ -63,6 +150,14 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	public function getDefaultValue() {
 		throw new DataModel_Exception('You can not use getDefaultValue for the property that is DynamicValue (property: '.$this->_name.')');
 	}
+
+    /**
+     * @param mixed &$property
+     * @param mixed $data
+     *
+     */
+    public function loadPropertyValue( &$property, array $data ) {
+    }
 
 	/**
 	 * @param mixed $value

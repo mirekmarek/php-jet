@@ -70,7 +70,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:validation_regexp = '/^([a-z0-9]{1,10})$/'
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:is_ID = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
@@ -91,7 +91,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var Locale
 	 */
@@ -103,7 +103,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 2
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:min_value = 1
 	 * @JetDataModel:max_value = 4
 	 *
@@ -117,7 +117,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 2
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:min_value = 1.23
 	 * @JetDataModel:max_value = 4.56
 	 *
@@ -144,7 +144,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = false
+	 * @JetDataModel:do_not_export = false
 	 *
 	 * @var array
 	 */
@@ -156,7 +156,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var DateTime
 	 */
@@ -168,7 +168,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var DateTime
 	 */
@@ -181,7 +181,7 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
-	 * @JetDataModel:do_not_serialize = true
+	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var DataModel_Definition_DataModelTestMock[]
 	 */

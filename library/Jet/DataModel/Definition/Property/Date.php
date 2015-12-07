@@ -53,23 +53,25 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 	}
 
 
-	/**
-	 * Converts property form jsonSerialize
-	 *
-	 * DateTime to string
-	 *
-	 * @param DateTime $property_value
-	 * @return mixed
-	 */
-	public function getValueForJsonSerialize( $property_value ) {
+    /**
+     * Converts property form jsonSerialize
+     *
+     * Example: Locale to string
+     *
+     * @param DataModel $data_model_instance
+     * @param mixed &$property
+     *
+     * @return mixed
+     */
+    public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
 		/**
 		 * @var DateTime $property_value
 		 */
-		if(!$property_value) {
-			return $property_value;
+		if(!$property) {
+			return $property;
 		}
 
-		return (string)$property_value;
+		return (string)$property;
 	}
 
 }

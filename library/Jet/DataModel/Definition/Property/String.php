@@ -78,22 +78,22 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * Column value test - checks format
 	 *
-	 * @param mixed &$value
+	 * @param mixed &$property
 	 * @param DataModel_Validation_Error &$errors
 	 * @param string $locale_str
 	 *
 	 * @return bool
 	 */
-	public function _validateProperties_test_value( &$value, &$errors, $locale_str=null ) {
+	public function _validatePropertyValue_test_value( &$property, &$errors, $locale_str=null ) {
 
 		if(!$this->validation_regexp) {
 			return true;
 		}
 		
-		if(!preg_match($this->validation_regexp, $value)) {
+		if(!preg_match($this->validation_regexp, $property)) {
 			$errors[] = new DataModel_Validation_Error(
 					DataModel_Validation_Error::CODE_INVALID_FORMAT,
-					$this, $value, $locale_str
+					$this, $property, $locale_str
 				);
 
 			return false;

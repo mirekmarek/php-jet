@@ -120,11 +120,11 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getDoNotSerialize
+	 * @covers Jet\DataModel_Definition_Property_Abstract::doNotExport
 	 */
-	public function testGetDoNotSerialize() {
-		$this->assertEquals($this->property_options['do_not_serialize'], $this->object->getDoNotSerialize());
-		$this->assertEquals(false, $this->ID_object->getDoNotSerialize());
+	public function testGetDoNotExport() {
+		$this->assertEquals($this->property_options['do_not_export'], $this->object->doNotExport());
+		$this->assertEquals(false, $this->ID_object->doNotExport());
 	}
 
 	/**
@@ -135,21 +135,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$this->assertSame($this->data_model->getDataModelDefinition(), $this->ID_object->getDataModelDefinition());
 	}
 
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getIsArray
-	 */
-	public function testGetIsArray() {
-		$this->assertFalse($this->object->getIsArray());
-		$this->assertFalse($this->ID_object->getIsArray());
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getIsDataModel
-	 */
-	public function testGetIsDataModel() {
-		$this->assertFalse($this->object->getIsDataModel());
-		$this->assertFalse($this->ID_object->getIsDataModel());
-	}
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_String::setUp
@@ -337,7 +322,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	public function testGetValueForJsonSerialize() {
 		$value = 'value';
 
-		$this->assertEquals($value, $this->object->getValueForJsonSerialize($value));
+		$this->assertEquals($value, $this->object->getValueForJsonSerialize($this->data_model, $value));
 	}
 
 
@@ -368,14 +353,14 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateProperties_test_required
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
+	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_required
 	 */
 	public function testValidatePropertiesFailedEmpty() {
 		$value = '';
 		$errors = array();
 
-		$this->assertFalse($this->object->validateProperties($value, $errors));
+		$this->assertFalse($this->object->validatePropertyValue($value, $errors));
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -387,14 +372,14 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateProperties_test_validOptions
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
+	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_validOptions
 	 */
 	public function testValidatePropertiesFailedInvalidValue() {
 		$value = 'invalid value';
 		$errors = array();
 
-		$this->assertFalse($this->object->validateProperties($value, $errors));
+		$this->assertFalse($this->object->validatePropertyValue($value, $errors));
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -406,14 +391,14 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validateProperties_test_value
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
+	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_value
 	 */
 	public function testValidatePropertiesFailedInvaliudFormat() {
 		$value = '_#invalid';
 		$errors = array();
 
-		$this->assertFalse( $this->object->validateProperties($value, $errors) );
+		$this->assertFalse( $this->object->validatePropertyValue($value, $errors) );
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -426,12 +411,12 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
 	 */
 	public function testValidateProperties() {
 		$value = 'option1';
 		$errors = array();
-		$this->assertTrue( $this->object->validateProperties($value, $errors) );
+		$this->assertTrue( $this->object->validatePropertyValue($value, $errors) );
 	}
 
 

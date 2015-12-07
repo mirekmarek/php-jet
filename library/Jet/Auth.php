@@ -163,7 +163,7 @@ class Auth extends Object {
 	}
 
 	/**
-	 * Get role data by it's ID or NULL if not found
+	 * Get role data by it's ID or null if not found
 	 *
 	 * @param string $ID
 	 *
@@ -201,7 +201,7 @@ class Auth extends Object {
 	}
 
 	/**
-	 * Get user data by ID or NULL if not found
+	 * Get user data by ID or null if not found
 	 *
 	 * @param string $ID
 	 *

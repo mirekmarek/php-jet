@@ -64,6 +64,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 
         $validator = function( &$parameters ) {
+
             $role_i = Jet\Auth_Factory::getRoleInstance();
 
             $role = $role_i->load( $role_i->createID($parameters[0]) );

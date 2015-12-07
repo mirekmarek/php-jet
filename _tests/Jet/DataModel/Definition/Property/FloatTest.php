@@ -91,14 +91,14 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validateProperties
-	 * @covers Jet\DataModel_Definition_Property_Float::_validateProperties_test_value
+	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
+	 * @covers Jet\DataModel_Definition_Property_Float::_validatePropertyValue_test_value
 	 */
 	public function testValidatePropertiesFailedOutOfRange() {
 		$value = '10.9876';
 		$errors = array();
 
-		$this->assertFalse( $this->object->validateProperties($value, $errors) );
+		$this->assertFalse( $this->object->validatePropertyValue($value, $errors) );
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -116,7 +116,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	public function testValidateProperties() {
 		$value = 2.222;
 		$errors = array();
-		$this->assertTrue( $this->object->validateProperties($value, $errors) );
+		$this->assertTrue( $this->object->validatePropertyValue($value, $errors) );
 	}
 
 	/**
