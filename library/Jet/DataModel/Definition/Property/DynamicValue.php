@@ -134,11 +134,11 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
      *
      * @param DataModel $data_model_instance
      * @param mixed $property_value
+     * @param array $related_data
      *
-     * @throws DataModel_Exception
      * @return Form_Field_Abstract|Form_Field_Abstract[]
      */
-    public function createFormField( DataModel $data_model_instance, $property_value ) {
+    public function createFormField( DataModel $data_model_instance, $property_value, array $related_data ) {
     }
 
 	/**

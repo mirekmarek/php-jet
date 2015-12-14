@@ -27,6 +27,12 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	protected $related_model_class_names = array();
 
 
+    /**
+     * @var array
+     */
+    protected $default_order_by = array();
+
+
 	/**
 	 * @var DataModel_Definition_Property_Abstract[][]
 	 */
@@ -59,13 +65,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 			$this->_initKeys();
 		}
 	}
-
-
-    /**
-     * @throws DataModel_Exception
-     */
-    protected function _initIDclass() {
-    }
 
 
 	/**
@@ -226,6 +225,22 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		return $this->M_model_class_name;
 	}
 
+    /**
+     *
+     * @throws DataModel_Exception
+     *
+     * @return DataModel_Definition_Relation_Internal[]
+     */
+    public function getInternalRelations() {
+        $relations = array();
+        foreach( $this->related_model_class_names as $class_name ) {
+            foreach( $this->_getInternalRelations($class_name) as $key=>$relation ) {
+                $relations[$key] = $relation;
+            }
+        }
+        return $relations;
+    }
+
 
 	/**
 	 * @param string $parent_model_class_name
@@ -234,7 +249,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 *
 	 * @return DataModel_Definition_Relation_Internal[]
 	 */
-	public function getInternalRelations( $parent_model_class_name ) {
+	public function _getInternalRelations( $parent_model_class_name ) {
 
 		$M_model_name = DataModel::getDataModelDefinition( $parent_model_class_name )->getModelName();
 
@@ -285,6 +300,52 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		return $relations;
 	}
+
+    /**
+     * @param string $parent_model_class_name
+     *
+     * @throws DataModel_Exception
+     *
+     * @return DataModel_Definition_Relation_Internal
+     */
+    public function getNrelation( $parent_model_class_name ) {
+        $M_model_name = DataModel::getDataModelDefinition( $parent_model_class_name )->getModelName();
+
+        $is_related = false;
+
+        $N_model_name = null;
+        $N_class_name = null;
+
+        foreach( $this->related_model_class_names as $model_name=>$class_name ) {
+            if( $M_model_name==$model_name ) {
+                $is_related = true;
+            } else {
+                $N_model_name = $model_name;
+                $N_class_name = $class_name;
+
+            }
+        }
+
+        if(!$is_related) {
+            throw new DataModel_Exception(
+                'Class \''.$parent_model_class_name.'\' is not related to me (Class: \''.$this->class_name.'\')',
+                DataModel_Exception::CODE_DEFINITION_NONSENSE
+            );
+        }
+
+
+        $N_model_definition = DataModel_Definition_Model_Abstract::getDataModelDefinition($N_class_name);
+
+        /**
+         * @var DataModel_Definition_Relation_JoinBy_Item[] $glue_n_relation_join_by
+         */
+        $glue_n_relation_join_by = $this->join_by[$N_model_name];
+        $relation = new DataModel_Definition_Relation_Internal( $N_model_definition, $glue_n_relation_join_by );
+
+
+        return $relation;
+
+    }
 
 	/**
 	 * @param string $model_name
@@ -337,5 +398,21 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->related_model_class_names[$model_name] );
 	}
+
+    /**
+     * @param array $default_order_by
+     */
+    public function setDefaultOrderBy($default_order_by)
+    {
+        $this->default_order_by = $default_order_by;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultOrderBy()
+    {
+        return $this->default_order_by;
+    }
 
 }

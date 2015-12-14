@@ -320,6 +320,14 @@ class DataModel_Query extends Object {
 		return $this->relations;
 	}
 
+    /**
+     * @param string $related_data_model_name
+     * @param DataModel_Definition_Relation_Abstract $relation
+     */
+    public function addRelation( $related_data_model_name, DataModel_Definition_Relation_Abstract $relation ) {
+        $this->relations[$related_data_model_name] = $relation;
+    }
+
 	/**
 	 * @param string $related_data_model_name
 	 *

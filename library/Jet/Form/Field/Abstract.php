@@ -118,11 +118,6 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	/**
 	 * @var callable
 	 */
-	protected $catch_data_callback = null;
-
-	/**
-	 * @var callable
-	 */
 	protected $validate_data_callback = null;
 
 	/**
@@ -727,21 +722,6 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 
 		return $vars;
 	}
-
-	/**
-	 * @return callable
-	 */
-	public function getCatchDataCallback() {
-		return $this->catch_data_callback;
-	}
-
-	/**
-	 * @param callable $catch_data_callback
-	 */
-	public function setCatchDataCallback( callable $catch_data_callback) {
-		$this->catch_data_callback = $catch_data_callback;
-	}
-
 
 	/**
 	 * @return mixed

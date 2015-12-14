@@ -595,7 +595,14 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
         }
 
         if($GET_params) {
+            foreach( $GET_params as $k=>$v ) {
+                if(is_object($v)) {
+                    $GET_params[$k] = (string)$v;
+                }
+            }
+
             $query = http_build_query( $GET_params );
+
             $URL .= '?'.$query;
         }
 

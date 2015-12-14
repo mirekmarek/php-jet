@@ -92,14 +92,6 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 	/**
 	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::getIsArray
-	 */
-	public function testGetIsArray() {
-		$this->assertFalse( $this->object->getIsArray() );
-	}
-
-	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
 	 * @covers Jet\Config_Definition_Property_Abstract::setDescription
 	 * @covers Jet\Config_Definition_Property_Abstract::getDescription
 	 */

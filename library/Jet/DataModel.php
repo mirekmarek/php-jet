@@ -503,8 +503,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @param DataModel_ID_Abstract|array $ID
 	 *
-	 * @return DataModel|null
-	 *
 	 * @throws DataModel_Exception
 	 *
 	 * @return DataModel
@@ -1138,25 +1136,31 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
     /**
      *
      * @param string $form_name
-     * @param array $only_properties
+     * @param array $properties_list
      * @throws DataModel_Exception
      *
      * @return Form
      */
-	protected function getForm( $form_name, array $only_properties ) {
+	protected function getForm( $form_name, array $properties_list ) {
 
 		$definition = $this->getDataModelDefinition();
+        $propertied_definition = $definition->getProperties();
 
-		$fields = array();
+		$form_fields = array();
 
-		foreach($definition->getProperties() as $property_name=>$property) {
-			if( !in_array($property_name, $only_properties) ) {
-				continue;
-			}
+        foreach( $properties_list as $key=>$val ) {
+            if(is_array($val)) {
+                $property_name = $key;
+                $related_data = $val;
+            } else {
+                $property_name = $val;
+                $related_data = array();
+            }
 
-            $property_value = $this->{$property_name};
+            $property_definition = $propertied_definition[$property_name];
+            $property = $this->{$property_name};
 
-            $created_field = $property->createFormField( $this, $property_value );
+            $created_field = $property_definition->createFormField( $this, $property, $related_data );
 
             if(!$created_field) {
                 continue;
@@ -1164,15 +1168,17 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
             if(is_array($created_field)) {
                 foreach( $created_field as $f ) {
-                    $fields[] = $f;
+                    $form_fields[] = $f;
                 }
             } else {
-                $fields[] = $created_field;
+                $form_fields[] = $created_field;
             }
 
-		}
 
-		return new Form( $form_name, $fields );
+        }
+
+
+		return new Form( $form_name, $form_fields );
 
 	}
 
@@ -1182,28 +1188,47 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return Form
 	 */
 	public function getCommonForm( $form_name='' ) {
-		$definition = $this->getDataModelDefinition();
 
-
-		$only_properties = array();
-
-		foreach($definition->getProperties() as $property_name => $property) {
-			if(
-                !$property->getCanBeFormField() ||
-                $property->getFormFieldType()===false
-            ) {
-				continue;
-			}
-
-			$only_properties[] = $property_name;
-		}
+        $properties_list = $this->getCommonFormPropertiesList();
 
 		if(!$form_name) {
+            $definition = $this->getDataModelDefinition();
 			$form_name = $definition->getModelName();
 		}
 
-		return $this->getForm($form_name, $only_properties );
+		return $this->getForm($form_name, $properties_list );
 	}
+
+
+    /**
+     * @return array
+     */
+    public function getCommonFormPropertiesList() {
+        $definition = $this->getDataModelDefinition();
+        $properties_list = array();
+
+        foreach($definition->getProperties() as $property_name => $property_definition) {
+            if(
+                !$property_definition->getCanBeFormField() ||
+                $property_definition->getFormFieldType()===false
+            ) {
+                continue;
+            }
+
+            $property = $this->{$property_name};
+
+            if($property instanceof DataModel_Related_Interface) {
+                $properties_list[$property_name] = $property->getCommonFormPropertiesList();
+
+            } else {
+                $properties_list[] = $property_name;
+            }
+
+        }
+
+        return $properties_list;
+
+    }
 
 	/**
 	 * @param Form $form

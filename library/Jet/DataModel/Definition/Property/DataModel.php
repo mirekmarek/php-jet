@@ -220,16 +220,16 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
      *
      * @param DataModel $data_model_instance
      * @param mixed $property_value
+     * @param array $related_data
      *
-     * @throws DataModel_Exception
      * @return Form_Field_Abstract|Form_Field_Abstract[]
      */
-    public function createFormField( DataModel $data_model_instance, $property_value ) {
+    public function createFormField( DataModel $data_model_instance, $property_value, array $related_data ) {
 
         $field_creator_method_name = $this->getFormFieldCreatorMethodName();
 
         if( $field_creator_method_name ) {
-            return $data_model_instance->{$field_creator_method_name}( $this );
+            return $data_model_instance->{$field_creator_method_name}( $this, $related_data );
         }
 
 
@@ -241,7 +241,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
         }
 
         $fields = array();
-        foreach( $property_value->getRelatedFormFields( $this  ) as $field ) {
+        foreach( $property_value->getRelatedFormFields( $this, $related_data  ) as $field ) {
             $fields[] = $field;
         }
 

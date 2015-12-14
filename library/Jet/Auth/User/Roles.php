@@ -39,4 +39,5 @@ class Auth_User_Roles extends DataModel_Related_MtoN {
 	 */
 	protected $role_ID = '';
 
+
 }

@@ -427,14 +427,6 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		$properties = $this->getPropertiesDefinition();
 
 		foreach( $data as $key=>$val ) {
-			$field = $form->getField($key);
-
-			$callback = $field->getCatchDataCallback();
-
-			if($callback) {
-				$callback( $field->getValueRaw() );
-				continue;
-			}
 
 			if( !isset($properties[$key]) ) {
 				continue;

@@ -122,7 +122,6 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 * @return Auth_User_Abstract[]
 	 */
 	public function getUsers() {
-
 		return $this->users;
 	}
 
@@ -242,14 +241,14 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	/**
 	 *
 	 * @param string $form_name
-	 * @param array $only_properties
+	 * @param array $properties_list
 	 *
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	protected function getForm( $form_name, array $only_properties ) {
+	protected function getForm( $form_name, array $properties_list ) {
 		$this->_initPrivileges();
 
-		return parent::getForm($form_name, $only_properties);
+		return parent::getForm($form_name, $properties_list);
 	}
 }

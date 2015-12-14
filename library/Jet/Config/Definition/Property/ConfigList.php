@@ -18,10 +18,6 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	 * @var string
 	 */
 	protected $_type = Config::TYPE_CONFIG_LIST;
-	/**
-	 * @var bool
-	 */
-	protected $_is_array = true;
 
 	/**
 	 * @var array

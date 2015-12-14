@@ -3,7 +3,7 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2015 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -30,7 +30,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
     protected $items = null;
 
     /**
-     * @var DataModel_Related_1to1[]
+     * @var DataModel_Related_1toN[]
      */
     protected $deleted_items = array();
 
@@ -99,6 +99,15 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
     }
 
+
+    /**
+     * @param array $order_by
+     */
+    public function setLoadRealtedDataOrderBy( array $order_by)
+    {
+        $this->_getEmptyItemInstance()->setLoadRealtedDataOrderBy( $order_by );
+    }
+
     /**
      * @return array|void
      */
@@ -120,12 +129,20 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
     }
 
     /**
+     * @return array
+     */
+    public function getCommonFormPropertiesList() {
+        return $this->_getEmptyItemInstance()->getCommonFormPropertiesList();
+    }
+
+    /**
      *
      * @param DataModel_Definition_Property_Abstract $parent_property_definition
+     * @param array $properties_list
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition ) {
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
 
         $fields = array();
         if(!$this->items) {
@@ -141,15 +158,9 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
              * @var DataModel_Related_1toN $related_instance
              * @var Form $related_form
              */
-            $related_form = $related_instance->getCommonForm();
+            $related_form = $related_instance->getRelatedFormFields( $parent_property_definition, $properties_list );
 
             foreach($related_form->getFields() as $field) {
-
-                if(
-                    $field instanceof Form_Field_Hidden
-                ) {
-                    continue;
-                }
 
                 $field_name = $field->getName();
 
@@ -368,6 +379,9 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
+    /**
+     *
+     */
     public function clearData() {
         if($this->items) {
             $this->deleted_items = $this->items;

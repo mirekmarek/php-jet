@@ -22,10 +22,6 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 	 */
 	protected $_type = Config::TYPE_ARRAY;
 	/**
-	 * @var bool
-	 */
-	protected $_is_array = true;
-	/**
 	 * @var array
 	 */
 	protected $default_value = array();

@@ -33,11 +33,6 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	protected $_type;
 
 	/**
-	 * @var bool
-	 */
-	protected $_is_array = false;
-
-	/**
 	 * @var Config
 	 */
 	protected $_configuration;
@@ -195,13 +190,6 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 */
 	public function getName() {
 		return $this->name;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsArray() {
-		return $this->_is_array;
 	}
 
 	/**
@@ -443,11 +431,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 		$this->checkValueType($value);
 
 		if($this->_validateProperties_test_required( $value )) {
-			/*if($this->list_of_valid_options) {
-				$this->_validateProperties_test_validOptions( $value );
-			} else */ {
-				return $this->_validateProperties_test_value( $value );
-			}
+            return $this->_validateProperties_test_value( $value );
 		}
 
 		return true;

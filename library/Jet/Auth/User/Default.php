@@ -191,7 +191,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Auth', 'getRolesList']
      * @JetDataModel:form_catch_value_method_name = 'setRoles'
 	 *
-	 * @var Auth_User_Roles
+	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator
 	 */
 	protected $roles;
 
@@ -565,6 +565,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 			$roles[] = $role;
 		}
 		$this->roles->setItems( $roles );
+
 	}
 
 	/**

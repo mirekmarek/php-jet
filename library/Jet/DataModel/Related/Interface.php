@@ -59,12 +59,18 @@ interface DataModel_Related_Interface extends Object_Serializable_REST {
     public function delete();
 
     /**
+     * @return array
+     */
+    public function getCommonFormPropertiesList();
+
+    /**
      *
      * @param DataModel_Definition_Property_Abstract $parent_property_definition
+     * @param array $properties_list
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition );
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list );
 
     /**
      * @param array $values

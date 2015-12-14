@@ -93,25 +93,20 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
     /**
      *
      * @param DataModel_Definition_Property_Abstract $parent_property_definition
+     * @param array $properties_list
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition ) {
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
 
         $fields = array();
 
         /**
          * @var Form $related_form
          */
-        $related_form = $this->getCommonForm();
+        $related_form = $this->getForm('', $properties_list);
 
         foreach($related_form->getFields() as $field) {
-
-            if(
-                $field instanceof Form_Field_Hidden
-            ) {
-                continue;
-            }
 
             $field->setName('/'.$parent_property_definition->getName().'/'.$field->getName() );
 
