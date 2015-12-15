@@ -61,7 +61,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 		self::MODULE_TYPE_SYSTEM => 'System module',
 	);
-	
+
 	/**
 	*
 	* @var string
@@ -158,7 +158,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 * @var array 
 	 */
 	protected $signals_callbacks = array();
-	
+
 
 	//--------------------------------------------------------------------------
 
@@ -355,12 +355,12 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	}
 
 
-    /**
-     * @return string
-     */
-    public function getPublicURI() {
-        return JET_MODULES_URI.str_replace('.', '/', $this->name).'/public/';
-    }
+	/**
+	 * @return string
+	 */
+	public function getPublicURI() {
+		return JET_MODULES_URI.str_replace('.', '/', $this->name).'/public/';
+	}
 
 
 	/**
@@ -370,9 +370,9 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		return $this->name;
 	}
 
-    public function getNamespace() {
-        return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace('.','\\',$this->name).'\\';
-    }
+	public function getNamespace() {
+		return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace('.','\\',$this->name).'\\';
+	}
 
 	/**
 	 * @return string

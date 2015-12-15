@@ -66,8 +66,8 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 		}
 
 		$this->_db_write->execCommand('INSERT INTO '.$this->_table_name.'
-						                (
-						                    operation_ID,
+										(
+											operation_ID,
 											class_name,
 											model_name,
 											object_ID,
@@ -77,10 +77,10 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 											user_ID,
 											object,
 											operation_in_progress
-						                )
-						                VALUES
-						                (
-						                    :operation_ID,
+										)
+										VALUES
+										(
+											:operation_ID,
 											:class_name,
 											:model_name,
 											:object_ID,
@@ -91,7 +91,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 											:object,
 											:operation_in_progress
 
-						                )
+										)
 					',array(
 					'operation_ID' => $this->_current_operation_ID,
 					'class_name' => get_class($this->_current_data_model),
@@ -174,5 +174,5 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 		$data = base64_decode($string);
 		return unserialize($data);
 	}
-	
+
 }

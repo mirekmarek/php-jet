@@ -25,7 +25,7 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	 * @var string
 	 */
 	protected $directory_path = '%JET_DATA_PATH%';
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true

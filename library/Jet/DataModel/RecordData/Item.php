@@ -49,5 +49,5 @@ class DataModel_RecordData_Item {
 	public function getValue() {
 		return $this->value;
 	}
-	
+
 }

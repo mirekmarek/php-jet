@@ -65,7 +65,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 		}
 
 		$this->_db_write->execCommand('INSERT INTO `'.$this->_table_name.'` SET
- 					`operation_ID`=:operation_ID,
+					`operation_ID`=:operation_ID,
 					`class_name`=:class_name,
 					`model_name`=:model_name,
 					`object_ID`=:object_ID,
@@ -131,5 +131,5 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 		$this->_db_write->execCommand( $this->helper_getCreateCommand() );
 	}
 
-	
+
 }

@@ -23,7 +23,7 @@ class Data_Text {
 	 * @var array
 	 */
 	protected static $_defined_constants = array();
-	
+
 	/**
 	 * Removes accents from text
 	 * 
@@ -46,7 +46,7 @@ class Data_Text {
 
 		}
 	}
-	
+
 	/**
 	 *
 	 * @param string $text
@@ -84,8 +84,8 @@ class Data_Text {
 		}
 		return $shortened;
 	}
-	
-	
+
+
 	/**
 	 * Replace data in text by given values
 	 *

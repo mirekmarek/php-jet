@@ -88,7 +88,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$_columns = array();
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-            if( !$property->getCanBeTableField() ) {
+			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 
@@ -123,7 +123,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$q .= implode(','.JET_EOL, $_columns);
 		$q .= implode('', $keys);
 		$q .= JET_EOL.') '.$_options.';'.$create_index_query.JET_EOL.JET_EOL;
-		
+
 		return $q;
 	}
 
@@ -174,7 +174,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$properties = $data_model_definition->getProperties();
 		$actual_cols = array();
 		foreach($properties as $property_name=>$property) {
-            if( !$property->getCanBeTableField() ) {
+			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 			$actual_cols[$property_name] = $property;
@@ -807,18 +807,18 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			case DataModel_Query::O_NOT_LIKE:
 				$res .=' NOT LIKE '.$value;
 				break;
-            case DataModel_Query::O_GREATER_THAN:
-	            $res .='>'.$value.' ';
-                break;
-            case DataModel_Query::O_LESS_THAN:
-	            $res .='<'.$value.' ';
-                break;
-            case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-	            $res .='>='.$value.' ';
-                break;
-            case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-	            $res .='<='.$value.' ';
-                break;
+			case DataModel_Query::O_GREATER_THAN:
+				$res .='>'.$value.' ';
+				break;
+			case DataModel_Query::O_LESS_THAN:
+				$res .='<'.$value.' ';
+				break;
+			case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
+				$res .='>='.$value.' ';
+				break;
+			case DataModel_Query::O_LESS_THAN_OR_EQUAL:
+				$res .='<='.$value.' ';
+				break;
 
 			default:
 				throw new DataModel_Backend_Exception(

@@ -185,11 +185,11 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 *
 	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
-     * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
+	 * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
 	 * @JetDataModel:form_field_type = 'MultiSelect'
 	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Auth', 'getRolesList']
-     * @JetDataModel:form_catch_value_method_name = 'setRoles'
+	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
 	 *
 	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator
 	 */
@@ -531,17 +531,17 @@ class Auth_User_Default extends Auth_User_Abstract {
 	}
 
 
-    /**
-     * @param DataModel_Definition_Property_Abstract $property
-     *
-     * @return Form_Field_Abstract
-     */
-    public function createRolesFormField( DataModel_Definition_Property_Abstract $property ) {
-        $field = $property->getFormField();
-        $field->setDefaultValue( $this->roles );
+	/**
+	 * @param DataModel_Definition_Property_Abstract $property
+	 *
+	 * @return Form_Field_Abstract
+	 */
+	public function createRolesFormField( DataModel_Definition_Property_Abstract $property ) {
+		$field = $property->getFormField();
+		$field->setDefaultValue( $this->roles );
 
-        return $field;
-    }
+		return $field;
+	}
 
 	/**
 	 * @abstract

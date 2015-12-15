@@ -26,7 +26,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @var string
 	 */
 	protected $connection_read = '';
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
@@ -37,7 +37,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @var string
 	 */
 	protected $connection_write= '';
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
@@ -47,7 +47,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @var string
 	 */
 	protected $engine= '';
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
@@ -57,7 +57,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @var string
 	 */
 	protected $default_charset= '';
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true

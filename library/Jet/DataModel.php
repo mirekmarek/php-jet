@@ -182,10 +182,10 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	protected $___data_model_data_validation_errors = array();
 
-    /**
-     * @var bool
-     */
-    protected $__data_model_backend_transaction_started = false;
+	/**
+	 * @var bool
+	 */
+	protected $__data_model_backend_transaction_started = false;
 
 	/**
 	 *
@@ -206,7 +206,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		foreach( $this->getDataModelDefinition()->getProperties() as $property_name => $property_definition ) {
 
-            $property_definition->initPropertyDefaultValue( $this->{$property_name} );
+			$property_definition->initPropertyDefaultValue( $this->{$property_name} );
 
 		}
 
@@ -344,9 +344,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$property_definition = $properties[$property_name];
 
-        $errors = array();
+		$errors = array();
 
-        $property_definition->validatePropertyValue($this, $value, $errors);
+		$property_definition->validatePropertyValue($this, $value, $errors);
 
 		if($errors) {
 			if($throw_exception) {
@@ -394,7 +394,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		foreach( $this->getDataModelDefinition()->getProperties()  as $property_name=>$property_definition ) {
 
-            $property_definition->validatePropertyValue($this, $this->{$property_name}, $this->___data_model_data_validation_errors);
+			$property_definition->validatePropertyValue($this, $this->{$property_name}, $this->___data_model_data_validation_errors);
 		}
 
 		if(count($this->___data_model_data_validation_errors)) {
@@ -509,14 +509,14 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function load( $ID ) {
 
-        /**
-         * @var DataModel $loaded_instance
-         */
-        $loaded_instance = new static();
-        foreach( $ID as $key=>$val ) {
-            $loaded_instance->{$key} = $val;
-        }
-        $ID = $loaded_instance->getID();
+		/**
+		 * @var DataModel $loaded_instance
+		 */
+		$loaded_instance = new static();
+		foreach( $ID as $key=>$val ) {
+			$loaded_instance->{$key} = $val;
+		}
+		$ID = $loaded_instance->getID();
 
 
 		$definition = static::getDataModelDefinition();
@@ -540,13 +540,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 					$related_object = $cached_instance->{$property_name};
 
 					if($related_object instanceof DataModel_Related_Interface) {
-                        $related_object->setupParentObjects( $cached_instance );
+						$related_object->setupParentObjects( $cached_instance );
 
 					}
 				}
 
-                $cached_instance->setIsSaved();
-                $cached_instance->afterLoad();
+				$cached_instance->setIsSaved();
+				$cached_instance->afterLoad();
 
 				return $cached_instance;
 			}
@@ -555,7 +555,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 
-        $query = $ID->getQuery();
+		$query = $ID->getQuery();
 		$query->setMainDataModel($loaded_instance);
 
 		$query->setSelect( $definition->getProperties() );
@@ -568,34 +568,34 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 
-        static::createInstanceFromData( $data, $loaded_instance );
+		static::createInstanceFromData( $data, $loaded_instance );
 
 
-        $related_properties = $definition->getAllRelatedPropertyDefinitions();
+		$related_properties = $definition->getAllRelatedPropertyDefinitions();
 
-        $loaded_related_data = array();
+		$loaded_related_data = array();
 
-        foreach( $related_properties as $related_model_name=>$related_property ) {
+		foreach( $related_properties as $related_model_name=>$related_property ) {
 
-            /**
-             * @var DataModel_Related_Interface $related_object
-             */
-            $related_object = $related_property->getDefaultValue();
-            $related_object->setupParentObjects( $loaded_instance );
+			/**
+			 * @var DataModel_Related_Interface $related_object
+			 */
+			$related_object = $related_property->getDefaultValue();
+			$related_object->setupParentObjects( $loaded_instance );
 
 
-            $related_data = $related_object->loadRelatedData();
+			$related_data = $related_object->loadRelatedData();
 
-            if(!isset($loaded_related_data[$related_model_name])) {
-                $loaded_related_data[$related_model_name] = array();
+			if(!isset($loaded_related_data[$related_model_name])) {
+				$loaded_related_data[$related_model_name] = array();
 
-                foreach($related_data as $rd) {
-                    $loaded_related_data[$related_model_name][] = $rd;
-                }
-            }
-        }
+				foreach($related_data as $rd) {
+					$loaded_related_data[$related_model_name][] = $rd;
+				}
+			}
+		}
 
-        $loaded_instance->initRelatedProperties( $loaded_related_data );
+		$loaded_instance->initRelatedProperties( $loaded_related_data );
 
 
 		if($cache) {
@@ -608,97 +608,97 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 
-    /**
-     * @param array &$loaded_related_data
-     * @return mixed
-     */
-    protected function initRelatedProperties( array &$loaded_related_data ) {
-        $definition = static::getDataModelDefinition();
+	/**
+	 * @param array &$loaded_related_data
+	 * @return mixed
+	 */
+	protected function initRelatedProperties( array &$loaded_related_data ) {
+		$definition = static::getDataModelDefinition();
 
-        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
-            /**
-             * @var DataModel_Definition_Property_DataModel $property_definition
-             * @var DataModel_Related_Interface $property
-             */
-            $property = $this->{$property_name};
-            if(!($property instanceof DataModel_Related_Interface)) {
-                continue;
-            }
+			/**
+			 * @var DataModel_Definition_Property_DataModel $property_definition
+			 * @var DataModel_Related_Interface $property
+			 */
+			$property = $this->{$property_name};
+			if(!($property instanceof DataModel_Related_Interface)) {
+				continue;
+			}
 
-            $property->setupParentObjects( $this );
+			$property->setupParentObjects( $this );
 
-            $this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
-        }
+			$this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
+		}
 
-    }
+	}
 
 
-    /**
-     * @param array $data
-     * @param DataModel $instance
-     *
-     * @return DataModel
-     */
+	/**
+	 * @param array $data
+	 * @param DataModel $instance
+	 *
+	 * @return DataModel
+	 */
 	public static function createInstanceFromData( $data, DataModel $instance=null ) {
 
-        if(!$instance) {
-            $instance = new static();
-        }
+		if(!$instance) {
+			$instance = new static();
+		}
 
 		$definition = static::getDataModelDefinition();
 
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            $property_definition->loadPropertyValue( $instance->$property_name, $data );
+			$property_definition->loadPropertyValue( $instance->$property_name, $data );
 		}
 
-        $instance->__wakeup();
-        $instance->setIsSaved();
+		$instance->__wakeup();
+		$instance->setIsSaved();
 
 		return $instance;
 	}
 
-    /**
-     * @return bool
-     */
-    public function getBackendTransactionStarted() {
-        return $this->__data_model_backend_transaction_started;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getBackendTransactionStarted() {
+		return $this->__data_model_backend_transaction_started;
+	}
 
-    /**
-     * @return bool
-     */
-    public function getBackendTransactionStartedByThisInstance() {
-        return $this->__data_model_backend_transaction_started;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getBackendTransactionStartedByThisInstance() {
+		return $this->__data_model_backend_transaction_started;
+	}
 
-    /**
-     * @param DataModel_Backend_Abstract $backend
-     */
-    public function startBackendTransaction( DataModel_Backend_Abstract $backend ) {
-        if(!$this->getBackendTransactionStarted()) {
-            $this->__data_model_backend_transaction_started = true;
+	/**
+	 * @param DataModel_Backend_Abstract $backend
+	 */
+	public function startBackendTransaction( DataModel_Backend_Abstract $backend ) {
+		if(!$this->getBackendTransactionStarted()) {
+			$this->__data_model_backend_transaction_started = true;
 
-            $backend->transactionStart();;
-        }
-    }
+			$backend->transactionStart();;
+		}
+	}
 
-    /**
-     * @param DataModel_Backend_Abstract $backend
-     */
-    public function commitBackendTransaction( DataModel_Backend_Abstract $backend ) {
-        if($this->getBackendTransactionStartedByThisInstance()) {
-            $backend->transactionCommit();
-            $this->__data_model_backend_transaction_started = false;
-        }
-    }
+	/**
+	 * @param DataModel_Backend_Abstract $backend
+	 */
+	public function commitBackendTransaction( DataModel_Backend_Abstract $backend ) {
+		if($this->getBackendTransactionStartedByThisInstance()) {
+			$backend->transactionCommit();
+			$this->__data_model_backend_transaction_started = false;
+		}
+	}
 
-    /**
-     * @param DataModel_Backend_Abstract $backend
-     */
-    public function rollbackBackendTransaction( DataModel_Backend_Abstract $backend ) {
-        $backend->transactionRollback();
-    }
+	/**
+	 * @param DataModel_Backend_Abstract $backend
+	 */
+	public function rollbackBackendTransaction( DataModel_Backend_Abstract $backend ) {
+		$backend->transactionRollback();
+	}
 
 	/**
 	 * Save data.
@@ -713,7 +713,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$backend = $this->getBackendInstance();
 
-        $this->startBackendTransaction( $backend );
+		$this->startBackendTransaction( $backend );
 
 
 		if( $this->getIsNew() ) {
@@ -726,25 +726,25 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$h_operation = DataModel_History_Backend_Abstract::OPERATION_UPDATE;
 		}
 
-        if($this->getBackendTransactionStartedByThisInstance()) {
-    		$this->dataModelHistoryOperationStart( $h_operation );
-        }
+		if($this->getBackendTransactionStartedByThisInstance()) {
+			$this->dataModelHistoryOperationStart( $h_operation );
+		}
 
 
 		try {
 			$this->{'_'.$operation}( $backend );
 		} catch (Exception $e) {
-            $this->rollbackBackendTransaction($backend);
+			$this->rollbackBackendTransaction($backend);
 
 			throw $e;
 		}
 
-        if($this->getBackendTransactionStartedByThisInstance()) {
-            $this->updateDataModelCache( $operation );
-            $this->commitBackendTransaction( $backend );
+		if($this->getBackendTransactionStartedByThisInstance()) {
+			$this->updateDataModelCache( $operation );
+			$this->commitBackendTransaction( $backend );
 
-            $this->dataModelHistoryOperationDone();
-        }
+			$this->dataModelHistoryOperationDone();
+		}
 
 
 		$this->___data_model_saved = true;
@@ -755,80 +755,80 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 
-    /**
-     *
-     * @param DataModel_Backend_Abstract $backend
-     */
-    protected function _save( DataModel_Backend_Abstract $backend ) {
-        $definition = $this->getDataModelDefinition();
+	/**
+	 *
+	 * @param DataModel_Backend_Abstract $backend
+	 */
+	protected function _save( DataModel_Backend_Abstract $backend ) {
+		$definition = $this->getDataModelDefinition();
 
-        $record = new DataModel_RecordData( $definition );
+		$record = new DataModel_RecordData( $definition );
 
-        $this->generateID();
-        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            if( !$property_definition->getCanBeInInsertRecord() ) {
-                continue;
-            }
+		$this->generateID();
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+			if( !$property_definition->getCanBeInInsertRecord() ) {
+				continue;
+			}
 
-            $record->addItem($property_definition, $this->{$property_name});
-        }
-
-
-        $backend_result = $backend->save( $record );
-
-        $this->generateID( true, $backend_result );
-
-        $this->_saveRelatedObjects();
-
-    }
-
-    /**
-     *
-     * @param DataModel_Backend_Abstract $backend
-     */
-    protected function _update( DataModel_Backend_Abstract $backend ) {
-        $definition = $this->getDataModelDefinition();
-
-        $record = new DataModel_RecordData( $definition );
+			$record->addItem($property_definition, $this->{$property_name});
+		}
 
 
-        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            if( !$property_definition->getCanBeInUpdateRecord() ) {
-                continue;
-            }
+		$backend_result = $backend->save( $record );
 
-            $record->addItem($property_definition, $this->{$property_name});
-        }
+		$this->generateID( true, $backend_result );
 
-        if(!$record->getIsEmpty()) {
-            $backend->update($record, $this->getID()->getQuery() );
-        }
+		$this->_saveRelatedObjects();
 
-        $this->_saveRelatedObjects();
+	}
 
-    }
+	/**
+	 *
+	 * @param DataModel_Backend_Abstract $backend
+	 */
+	protected function _update( DataModel_Backend_Abstract $backend ) {
+		$definition = $this->getDataModelDefinition();
+
+		$record = new DataModel_RecordData( $definition );
 
 
-    /**
-     *
-     */
-    protected function _saveRelatedObjects() {
-        $definition = $this->getDataModelDefinition();
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+			if( !$property_definition->getCanBeInUpdateRecord() ) {
+				continue;
+			}
 
-        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+			$record->addItem($property_definition, $this->{$property_name});
+		}
 
-            /**
-             * @var DataModel_Related_Interface $prop
-             */
-            $prop = $this->{$property_name};
-            if(!($prop instanceof DataModel_Related_Interface)) {
-                continue;
-            }
+		if(!$record->getIsEmpty()) {
+			$backend->update($record, $this->getID()->getQuery() );
+		}
 
-            $prop->setupParentObjects( $this );
-            $prop->save();
-        }
-    }
+		$this->_saveRelatedObjects();
+
+	}
+
+
+	/**
+	 *
+	 */
+	protected function _saveRelatedObjects() {
+		$definition = $this->getDataModelDefinition();
+
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+
+			/**
+			 * @var DataModel_Related_Interface $prop
+			 */
+			$prop = $this->{$property_name};
+			if(!($prop instanceof DataModel_Related_Interface)) {
+				continue;
+			}
+
+			$prop->setupParentObjects( $this );
+			$prop->save();
+		}
+	}
 
 
 	/**
@@ -891,18 +891,18 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$backend = $this->getBackendInstance();
 		$definition = $this->getDataModelDefinition();
 
-        $this->startBackendTransaction( $backend );
+		$this->startBackendTransaction( $backend );
 
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            $prop = $this->{$property_name};
-            if( $prop instanceof DataModel_Related_Interface ) {
-                $prop->delete();
-            }
+			$prop = $this->{$property_name};
+			if( $prop instanceof DataModel_Related_Interface ) {
+				$prop->delete();
+			}
 		}
 
 		$backend->delete( $this->getID()->getQuery() );
 
-        $this->commitBackendTransaction( $backend );
+		$this->commitBackendTransaction( $backend );
 
 		$this->dataModelHistoryOperationDone();
 
@@ -910,7 +910,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$this->deleteDataModelCache();
 
 		$this->afterDelete();
- 	}
+	}
 
 	/**
 	 *
@@ -1133,49 +1133,49 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 
-    /**
-     *
-     * @param string $form_name
-     * @param array $properties_list
-     * @throws DataModel_Exception
-     *
-     * @return Form
-     */
+	/**
+	 *
+	 * @param string $form_name
+	 * @param array $properties_list
+	 * @throws DataModel_Exception
+	 *
+	 * @return Form
+	 */
 	protected function getForm( $form_name, array $properties_list ) {
 
 		$definition = $this->getDataModelDefinition();
-        $propertied_definition = $definition->getProperties();
+		$propertied_definition = $definition->getProperties();
 
 		$form_fields = array();
 
-        foreach( $properties_list as $key=>$val ) {
-            if(is_array($val)) {
-                $property_name = $key;
-                $related_data = $val;
-            } else {
-                $property_name = $val;
-                $related_data = array();
-            }
+		foreach( $properties_list as $key=>$val ) {
+			if(is_array($val)) {
+				$property_name = $key;
+				$related_data = $val;
+			} else {
+				$property_name = $val;
+				$related_data = array();
+			}
 
-            $property_definition = $propertied_definition[$property_name];
-            $property = $this->{$property_name};
+			$property_definition = $propertied_definition[$property_name];
+			$property = $this->{$property_name};
 
-            $created_field = $property_definition->createFormField( $this, $property, $related_data );
+			$created_field = $property_definition->createFormField( $this, $property, $related_data );
 
-            if(!$created_field) {
-                continue;
-            }
+			if(!$created_field) {
+				continue;
+			}
 
-            if(is_array($created_field)) {
-                foreach( $created_field as $f ) {
-                    $form_fields[] = $f;
-                }
-            } else {
-                $form_fields[] = $created_field;
-            }
+			if(is_array($created_field)) {
+				foreach( $created_field as $f ) {
+					$form_fields[] = $f;
+				}
+			} else {
+				$form_fields[] = $created_field;
+			}
 
 
-        }
+		}
 
 
 		return new Form( $form_name, $form_fields );
@@ -1189,10 +1189,10 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function getCommonForm( $form_name='' ) {
 
-        $properties_list = $this->getCommonFormPropertiesList();
+		$properties_list = $this->getCommonFormPropertiesList();
 
 		if(!$form_name) {
-            $definition = $this->getDataModelDefinition();
+			$definition = $this->getDataModelDefinition();
 			$form_name = $definition->getModelName();
 		}
 
@@ -1200,35 +1200,35 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 
-    /**
-     * @return array
-     */
-    public function getCommonFormPropertiesList() {
-        $definition = $this->getDataModelDefinition();
-        $properties_list = array();
+	/**
+	 * @return array
+	 */
+	public function getCommonFormPropertiesList() {
+		$definition = $this->getDataModelDefinition();
+		$properties_list = array();
 
-        foreach($definition->getProperties() as $property_name => $property_definition) {
-            if(
-                !$property_definition->getCanBeFormField() ||
-                $property_definition->getFormFieldType()===false
-            ) {
-                continue;
-            }
+		foreach($definition->getProperties() as $property_name => $property_definition) {
+			if(
+				!$property_definition->getCanBeFormField() ||
+				$property_definition->getFormFieldType()===false
+			) {
+				continue;
+			}
 
-            $property = $this->{$property_name};
+			$property = $this->{$property_name};
 
-            if($property instanceof DataModel_Related_Interface) {
-                $properties_list[$property_name] = $property->getCommonFormPropertiesList();
+			if($property instanceof DataModel_Related_Interface) {
+				$properties_list[$property_name] = $property->getCommonFormPropertiesList();
 
-            } else {
-                $properties_list[] = $property_name;
-            }
+			} else {
+				$properties_list[] = $property_name;
+			}
 
-        }
+		}
 
-        return $properties_list;
+		return $properties_list;
 
-    }
+	}
 
 	/**
 	 * @param Form $form
@@ -1265,9 +1265,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			if(isset($properties[$key])) {
 
 				$property_definition = $properties[$key];
-                $property_name = $property_definition->getName();
+				$property_name = $property_definition->getName();
 
-                $property_definition->catchFormField( $this, $this->{$property_name}, $val );
+				$property_definition->catchFormField( $this, $this->{$property_name}, $val );
 
 			}
 
@@ -1313,7 +1313,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 			$result .= $prefix.JET_TAB.'<!-- '.$property->getTechnicalDescription().' -->'.JET_EOL;
 
-            $val = $property->getXMLexportValue( $this, $this->{$property_name} );
+			$val = $property->getXMLexportValue( $this, $this->{$property_name} );
 
 
 			if( ($val instanceof DataModel_Related_Interface)) {
@@ -1364,7 +1364,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				continue;
 			}
 
-            $result[$property_name] = $property->getValueForJsonSerialize( $this, $this->{$property_name} );
+			$result[$property_name] = $property->getValueForJsonSerialize( $this, $this->{$property_name} );
 
 		}
 
@@ -1377,7 +1377,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return array
 	 */
 	public function __sleep() {
-        return parent::__sleep();
+		return parent::__sleep();
 		//return array_keys($this->getDataModelDefinition()->getProperties());
 	}
 
@@ -1407,7 +1407,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_getCreateCommand( $class ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-        $class = Factory::parseModuleClassName($class);
+		$class = Factory::parseModuleClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1426,7 +1426,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	public static function helper_create( $class, $including_history_backend=true, $including_cache_backend=true ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
 
-        $class = Factory::parseModuleClassName($class);
+		$class = Factory::parseModuleClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1462,7 +1462,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_getUpdateCommand( $class ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-        $class = Factory::parseModuleClassName($class);
+		$class = Factory::parseModuleClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */

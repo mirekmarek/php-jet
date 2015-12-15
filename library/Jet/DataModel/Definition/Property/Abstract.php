@@ -763,7 +763,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
      * @param mixed &$property
      * @param mixed $value
      */
-    public function catchFormField( DataModel $data_model_instance, &$property, $value ) {
+    public function catchFormField( DataModel $data_model_instance, /** @noinspection PhpUnusedParameterInspection */ &$property, $value ) {
 
         if( ($method_name = $this->getFormCatchValueMethodName()) ) {
             $data_model_instance->{$method_name}($value);
@@ -814,7 +814,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
      *
      * @return mixed
      */
-	public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
+	public function getValueForJsonSerialize( /** @noinspection PhpUnusedParameterInspection */ DataModel $data_model_instance, &$property ) {
 		return $property;
 	}
 
@@ -826,7 +826,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
      *
      * @return mixed
      */
-    public function getXMLexportValue( DataModel $data_model_instance, &$property ) {
+    public function getXMLexportValue( /** @noinspection PhpUnusedParameterInspection */ DataModel $data_model_instance, &$property ) {
         return $property;
     }
 

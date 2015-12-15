@@ -94,7 +94,7 @@ class DataModel_Cache_Backend_Oracle extends DataModel_Cache_Backend_Abstract {
 						:data
 					);
 				EXCEPTION WHEN dup_val_on_index THEN
-				      null;
+					  null;
 				END;
 				',
 				array(

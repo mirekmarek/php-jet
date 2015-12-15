@@ -85,7 +85,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
-            if( !$property->getCanBeTableField() ) {
+			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 			$name = $this->_getColumnName($name);
@@ -158,14 +158,14 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$this->_db_write->execCommand( $this->helper_getDropCommand( $data_model ) );
 	}
 
-    /**
-     * @param DataModel $data_model
-     *
-     * @throws DataModel_Exception
-     * @return array
-     */
+	/**
+	 * @param DataModel $data_model
+	 *
+	 * @throws DataModel_Exception
+	 * @return array
+	 */
 	public function helper_getUpdateCommand( DataModel $data_model ) {
-        throw new DataModel_Exception('Not implemented ... Sorry ... :-/');
+		throw new DataModel_Exception('Not implemented ... Sorry ... :-/');
 	}
 
 	/**
@@ -836,18 +836,18 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			case DataModel_Query::O_NOT_LIKE:
 				$res .=' NOT LIKE'.$value.' ';
 				break;
-            case DataModel_Query::O_GREATER_THAN:
-	            $res .='>'.$value.' ';
-                break;
-            case DataModel_Query::O_LESS_THAN:
-	            $res .='<'.$value.' ';
-                break;
-            case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-	            $res .='>='.$value.' ';
-                break;
-            case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-	            $res .='<='.$value.' ';
-                break;
+			case DataModel_Query::O_GREATER_THAN:
+				$res .='>'.$value.' ';
+				break;
+			case DataModel_Query::O_LESS_THAN:
+				$res .='<'.$value.' ';
+				break;
+			case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
+				$res .='>='.$value.' ';
+				break;
+			case DataModel_Query::O_LESS_THAN_OR_EQUAL:
+				$res .='<='.$value.' ';
+				break;
 
 			default:
 				throw new DataModel_Backend_Exception(

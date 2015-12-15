@@ -41,7 +41,7 @@ class DataModel_Config extends Config_Application {
 	 * @var bool
 	 */
 	protected $history_enabled;
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true
@@ -62,7 +62,7 @@ class DataModel_Config extends Config_Application {
 	 * @var bool
 	 */
 	protected $cache_enabled;
-	
+
 	/**
 	 * @JetConfig:type = Jet\Config::TYPE_STRING
 	 * @JetConfig:is_required = true

@@ -65,7 +65,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 
 		$this->_db->execCommand('INSERT INTO `'.$this->_table_name.'`
 					(
-	                    `operation_ID`,
+						`operation_ID`,
 						`class_name`,
 						`model_name`,
 						`object_ID`,
@@ -77,7 +77,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 						`operation_in_progress`
 
 					) VALUES (
-	                    :operation_ID,
+						:operation_ID,
 						:class_name,
 						:model_name,
 						:object_ID,
@@ -164,5 +164,5 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 		return unserialize($data);
 	}
 
-	
+
 }

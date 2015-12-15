@@ -99,11 +99,11 @@ class Mvc_MicroRouter extends Object {
 	}
 
 
-    /**
-     * @param Mvc_Page_Content_Abstract $page_content
-     * @return bool
-     */
-    public function resolve( Mvc_Page_Content_Abstract $page_content ) {
+	/**
+	 * @param Mvc_Page_Content_Abstract $page_content
+	 * @return bool
+	 */
+	public function resolve( Mvc_Page_Content_Abstract $page_content ) {
 
 		if($this->default_action_name) {
 			$action_name = $this->default_action_name;
@@ -133,10 +133,10 @@ class Mvc_MicroRouter extends Object {
 			$page_content->setControllerAction( $action_name );
 			$page_content->setControllerActionParameters( $action_parameters );
 
-            return true;
+			return true;
 		}
 
-        return false;
+		return false;
 
 	}
 

@@ -58,14 +58,14 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		}
 	}
 
-    /**
-     * @param array $options
-     */
-    public function setOptions( array $options ) {
-        foreach( $options as $key=>$val ) {
-            $this->{$key} = $val;
-        }
-    }
+	/**
+	 * @param array $options
+	 */
+	public function setOptions( array $options ) {
+		foreach( $options as $key=>$val ) {
+			$this->{$key} = $val;
+		}
+	}
 
 	/**
 	 * @return string
@@ -130,17 +130,17 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		$query->setWhere(array());
 		$where = $query->getWhere();
 
-        $properties = $data_model_definition->getProperties();
+		$properties = $data_model_definition->getProperties();
 
-        foreach($this->values as $property_name => $value) {
-            if($value===null) {
-                continue;
-            }
+		foreach($this->values as $property_name => $value) {
+			if($value===null) {
+				continue;
+			}
 
 
-            $where->addAND();
-            $where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value);
-        }
+			$where->addAND();
+			$where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value);
+		}
 
 		return $query;
 	}

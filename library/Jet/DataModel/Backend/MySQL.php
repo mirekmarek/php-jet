@@ -125,12 +125,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$table_name = $this->_getTableName( $data_model_definition );
 
 		$table_name = $force_table_name ? $force_table_name : $table_name;
-		
+
 		$q = 'CREATE TABLE IF NOT EXISTS `'.$table_name.'` ('.JET_EOL;
 		$q .= implode(','.JET_EOL, $_columns);
 		$q .= implode('', $_keys);
 		$q .= JET_EOL.') '.$_options.';'.JET_EOL.JET_EOL;
-		
+
 		return $q;
 	}
 
@@ -183,7 +183,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
-            if( !$property->getCanBeTableField() ) {
+			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 			$actual_cols[$property_name] = $property;
@@ -827,18 +827,18 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			case DataModel_Query::O_NOT_LIKE:
 				$res .=' NOT LIKE '.$value;
 				break;
-            case DataModel_Query::O_GREATER_THAN:
-	            $res .='>'.$value;
-                break;
-            case DataModel_Query::O_LESS_THAN:
-	            $res .='<'.$value;
-                break;
-            case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
-	            $res .='>='.$value;
-                break;
-            case DataModel_Query::O_LESS_THAN_OR_EQUAL:
-	            $res .='<='.$value;
-                break;
+			case DataModel_Query::O_GREATER_THAN:
+				$res .='>'.$value;
+				break;
+			case DataModel_Query::O_LESS_THAN:
+				$res .='<'.$value;
+				break;
+			case DataModel_Query::O_GREATER_THAN_OR_EQUAL:
+				$res .='>='.$value;
+				break;
+			case DataModel_Query::O_LESS_THAN_OR_EQUAL:
+				$res .='<='.$value;
+				break;
 
 			default:
 				throw new DataModel_Backend_Exception(

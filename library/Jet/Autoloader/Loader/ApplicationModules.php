@@ -15,7 +15,7 @@ namespace Jet;
 
 class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 
-		
+
 	/**
 	 * Installed and activated modules list
 	 *
@@ -32,7 +32,7 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 	 */
 	public function getClassPath($class_name) {
 
-        $namespace_len = strlen(JET_APPLICATION_MODULE_NAMESPACE.'\\');
+		$namespace_len = strlen(JET_APPLICATION_MODULE_NAMESPACE.'\\');
 
 		if(
 			substr($class_name, 0, $namespace_len)!=JET_APPLICATION_MODULE_NAMESPACE.'\\'

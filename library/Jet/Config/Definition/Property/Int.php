@@ -146,7 +146,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
-		
+
 		if(
 			$this->max_value!==null &&
 			$value>$this->max_value

@@ -18,115 +18,115 @@ namespace Jet;
 
 class Mvc {
 
-    const SERVICE_TYPE_AJAX = 'AJAX';
-    const SERVICE_TYPE_REST = 'REST';
-    const SERVICE_TYPE_STANDARD = 'Standard';
-    const SERVICE_TYPE_JET_JS = 'JetJS';
+	const SERVICE_TYPE_AJAX = 'AJAX';
+	const SERVICE_TYPE_REST = 'REST';
+	const SERVICE_TYPE_STANDARD = 'Standard';
+	const SERVICE_TYPE_JET_JS = 'JetJS';
 
-    /**
-     *
-     * @var Mvc_Router_Abstract
-     */
-    protected static $current_router = null;
-
-
-    /**
-     * @var Mvc_Site_Abstract
-     */
-    protected static $current_site;
-
-    /**
-     * @var Locale
-     */
-    protected static $current_locale;
-
-    /**
-     * @var Mvc_Page_Abstract
-     */
-    protected static $current_page;
-
-    /**
-     * @param Mvc_Router_Abstract $current_router
-     */
-    public static function setCurrentRouter( Mvc_Router_Abstract $current_router)
-    {
-        self::$current_router = $current_router;
-    }
-
-    /**
-     * @return Mvc_Router_Abstract
-     */
-    public static function getCurrentRouter()
-    {
-        if(!self::$current_router) {
-            self::$current_router = Mvc_Factory::getRouterInstance();
-        }
-
-        return self::$current_router;
-    }
+	/**
+	 *
+	 * @var Mvc_Router_Abstract
+	 */
+	protected static $current_router = null;
 
 
+	/**
+	 * @var Mvc_Site_Abstract
+	 */
+	protected static $current_site;
 
-    /**
-     * @param Mvc_Site_Abstract $current_site
-     */
-    public static function setCurrentSite( Mvc_Site_Abstract $current_site)
-    {
-        self::$current_site = $current_site;
-    }
+	/**
+	 * @var Locale
+	 */
+	protected static $current_locale;
 
-    /**
-     *
-     * @return Mvc_Site_Abstract
-     */
-    public static function getCurrentSite()
-    {
-        return static::$current_site;
-    }
+	/**
+	 * @var Mvc_Page_Abstract
+	 */
+	protected static $current_page;
+
+	/**
+	 * @param Mvc_Router_Abstract $current_router
+	 */
+	public static function setCurrentRouter( Mvc_Router_Abstract $current_router)
+	{
+		self::$current_router = $current_router;
+	}
+
+	/**
+	 * @return Mvc_Router_Abstract
+	 */
+	public static function getCurrentRouter()
+	{
+		if(!self::$current_router) {
+			self::$current_router = Mvc_Factory::getRouterInstance();
+		}
+
+		return self::$current_router;
+	}
 
 
-    /**
-     * @param Locale $current_locale
-     */
-    public static function setCurrentLocale( Locale $current_locale)
-    {
-        self::$current_locale = $current_locale;
-    }
 
-    /**
-     *
-     * @return Locale
-     */
-    public static function getCurrentLocale()
-    {
-        return static::$current_locale;
-    }
+	/**
+	 * @param Mvc_Site_Abstract $current_site
+	 */
+	public static function setCurrentSite( Mvc_Site_Abstract $current_site)
+	{
+		self::$current_site = $current_site;
+	}
 
-    /**
-     * @param Mvc_Page_Abstract $current_page
-     */
-    public static function setCurrentPage( Mvc_Page_Abstract $current_page )
-    {
-        self::$current_page = $current_page;
-    }
+	/**
+	 *
+	 * @return Mvc_Site_Abstract
+	 */
+	public static function getCurrentSite()
+	{
+		return static::$current_site;
+	}
 
-    /**
-     *
-     */
-    public static function unsetCurrentPage()
-    {
-        self::$current_page = null;
-    }
 
-    /**
-     *
-     *
-     * @return Mvc_Page_Abstract
-     */
-    public static function getCurrentPage()
-    {
-        return static::$current_page;
-    }
+	/**
+	 * @param Locale $current_locale
+	 */
+	public static function setCurrentLocale( Locale $current_locale)
+	{
+		self::$current_locale = $current_locale;
+	}
+
+	/**
+	 *
+	 * @return Locale
+	 */
+	public static function getCurrentLocale()
+	{
+		return static::$current_locale;
+	}
+
+	/**
+	 * @param Mvc_Page_Abstract $current_page
+	 */
+	public static function setCurrentPage( Mvc_Page_Abstract $current_page )
+	{
+		self::$current_page = $current_page;
+	}
+
+	/**
+	 *
+	 */
+	public static function unsetCurrentPage()
+	{
+		self::$current_page = null;
+	}
+
+	/**
+	 *
+	 *
+	 * @return Mvc_Page_Abstract
+	 */
+	public static function getCurrentPage()
+	{
+		return static::$current_page;
+	}
 
 
 	/**
@@ -151,49 +151,49 @@ class Mvc {
 		$router->initialize($URL, $cache_enabled);
 
 
-        $site = Mvc::getCurrentSite();
-        $locale = Mvc::getCurrentLocale();
-        $page = Mvc::getCurrentPage();
+		$site = Mvc::getCurrentSite();
+		$locale = Mvc::getCurrentLocale();
+		$page = Mvc::getCurrentPage();
 
-        if( $page && ($output=$page->getOutput() )!==null ) {
-            echo $output;
+		if( $page && ($output=$page->getOutput() )!==null ) {
+			echo $output;
 
-            return;
-        }
+			return;
+		}
 
-        if($router->getIsRedirect()) {
-            $router->handleRedirect();
-        }
+		if($router->getIsRedirect()) {
+			$router->handleRedirect();
+		}
 
-        $site->setupErrorPagesDir();
+		$site->setupErrorPagesDir();
 
 		if( !$site->getIsActive() ) {
-            $site->handleDeactivatedSite();
-            return;
+			$site->handleDeactivatedSite();
+			return;
 		}
 
 		if( !$site->getLocalizedData($locale)->getIsActive() ) {
-            $site->handleDeactivatedLocale();
-            return;
+			$site->handleDeactivatedLocale();
+			return;
 		}
 
-        if( $router->getIs404() ) {
-            $site->handle404();
-            return;
-        }
+		if( $router->getIs404() ) {
+			$site->handle404();
+			return;
+		}
 
 
-        if( !Mvc::getCurrentPage()->getAccessAllowed() ) {
-            $site->handleAccessDenied();
-            return;
-        }
+		if( !Mvc::getCurrentPage()->getAccessAllowed() ) {
+			$site->handleAccessDenied();
+			return;
+		}
 
-        if( $router->getIsFile() ) {
-            $page->handleFile( $router->getFileName() );
-            return;
-        }
+		if( $router->getIsFile() ) {
+			$page->handleFile( $router->getFileName() );
+			return;
+		}
 
-        $output = $page->render();
+		$output = $page->render();
 
 		echo $output;
 
@@ -201,20 +201,20 @@ class Mvc {
 
 
 	/**
-     * @throws Mvc_Controller_Exception
-     */
-    public static function checkCurrentContentIsDynamic() {
-        $page=static::getCurrentPage();
+	 * @throws Mvc_Controller_Exception
+	 */
+	public static function checkCurrentContentIsDynamic() {
+		$page=static::getCurrentPage();
 
-        if( $page ) {
-            $content = $page->getCurrentContent();
+		if( $page ) {
+			$content = $page->getCurrentContent();
 
-            if($content) {
-                if(!$content->getIsDynamic()) {
-                    throw new Mvc_Controller_Exception('Content '.$content->getID()->toString().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
-                }
-            }
-        }
+			if($content) {
+				if(!$content->getIsDynamic()) {
+					throw new Mvc_Controller_Exception('Content '.$content->getID()->toString().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
+				}
+			}
+		}
 
 	}
 
@@ -315,7 +315,7 @@ class Mvc {
 	 *
 	 */
 	public static function requireJavascriptFile( $URI ) {
-        static::getCurrentPage()->getLayout()->requireJavascriptFile( $URI );
+		static::getCurrentPage()->getLayout()->requireJavascriptFile( $URI );
 	}
 
 	/**
@@ -329,7 +329,7 @@ class Mvc {
 	public static function requireSiteJavascriptFile( $file ) {
 		$path = Mvc::getCurrentSite()->getScriptsPath();
 
-        static::getCurrentPage()->getLayout()->requireJavascriptFile( $path.$file );
+		static::getCurrentPage()->getLayout()->requireJavascriptFile( $path.$file );
 	}
 
 	/**
@@ -342,7 +342,7 @@ class Mvc {
 	 *
 	 */
 	public static function requireInitialJavascriptCode( $code ) {
-        static::getCurrentPage()->getLayout()->requireInitialJavascriptCode( $code );
+		static::getCurrentPage()->getLayout()->requireInitialJavascriptCode( $code );
 	}
 
 	/**
@@ -355,7 +355,7 @@ class Mvc {
 	 *
 	 */
 	public static function requireJavascriptCode( $code ) {
-        static::getCurrentPage()->getLayout()->requireJavascriptCode( $code );
+		static::getCurrentPage()->getLayout()->requireJavascriptCode( $code );
 	}
 
 
@@ -369,7 +369,7 @@ class Mvc {
 	 * @param string $media (optional)
 	 */
 	public static function requireCssFile( $URI, $media='' ) {
-        static::getCurrentPage()->getLayout()->requireCssFile( $URI, $media );
+		static::getCurrentPage()->getLayout()->requireCssFile( $URI, $media );
 	}
 
 	/**
@@ -383,7 +383,7 @@ class Mvc {
 	public static function requireSiteCssFile( $file, $media='' ) {
 		$path = Mvc::getCurrentSite()->getStylesPath();
 
-        static::getCurrentPage()->getLayout()->requireCssFile( $path.$file, $media );
+		static::getCurrentPage()->getLayout()->requireCssFile( $path.$file, $media );
 	}
 
 	/**
@@ -393,7 +393,7 @@ class Mvc {
 	 *
 	 */
 	public static function handle404() {
-        static::getCurrentSite()->handle404();
+		static::getCurrentSite()->handle404();
 	}
 
 }

@@ -43,10 +43,10 @@ namespace Jet;
 class Mvc_Site extends Object {
 
 
-    /**
-     * @var array|Mvc_Site_Abstract[]
-     */
-    protected static $_loaded = array();
+	/**
+	 * @var array|Mvc_Site_Abstract[]
+	 */
+	protected static $_loaded = array();
 
 	/**
 	 * Returns a list of all sites
@@ -55,9 +55,9 @@ class Mvc_Site extends Object {
 	 */
 	public static function getList() {
 
-        $site = Mvc_Factory::getSiteInstance();
+		$site = Mvc_Factory::getSiteInstance();
 
-        return $site->getList();
+		return $site->getList();
 	}
 
 
@@ -72,22 +72,22 @@ class Mvc_Site extends Object {
 	 */
 	public static function get( $ID ) {
 
-        $ID_s = (string)$ID;
+		$ID_s = (string)$ID;
 
-        if(!isset(static::$_loaded[$ID_s])) {
-            if(is_string($ID)) {
-                $ID = Mvc_Factory::getSiteIDInstance()->createID( $ID );
-            }
+		if(!isset(static::$_loaded[$ID_s])) {
+			if(is_string($ID)) {
+				$ID = Mvc_Factory::getSiteIDInstance()->createID( $ID );
+			}
 
-            $class_name = Mvc_Factory::getSiteClassName();
-            /**
-             * @var Mvc_Site_Abstract $class_name
-             */
-            static::$_loaded[$ID_s] = $class_name::load( $ID );
+			$class_name = Mvc_Factory::getSiteClassName();
+			/**
+			 * @var Mvc_Site_Abstract $class_name
+			 */
+			static::$_loaded[$ID_s] = $class_name::load( $ID );
 
-        }
+		}
 
-        return static::$_loaded[$ID_s];
+		return static::$_loaded[$ID_s];
 	}
 
 	/**
@@ -101,38 +101,38 @@ class Mvc_Site extends Object {
 		return array_combine($res, $res);
 	}
 
-    /**
-     * Returns a list of all locales for all sites
-     *
-     * @param bool $get_as_string (optional; if TRUE, string values of locales are returned; default: false)
-     *
-     * @return Locale[]|string[]
-     */
-    public static function getAllLocalesList($get_as_string = true) {
-        $sites = static::getList();
-        $locales = array();
+	/**
+	 * Returns a list of all locales for all sites
+	 *
+	 * @param bool $get_as_string (optional; if TRUE, string values of locales are returned; default: false)
+	 *
+	 * @return Locale[]|string[]
+	 */
+	public static function getAllLocalesList($get_as_string = true) {
+		$sites = static::getList();
+		$locales = array();
 
-        if($get_as_string) {
+		if($get_as_string) {
 
-            foreach( $sites as $site ) {
-                foreach( $site->getLocales(false) as $locale ) {
-                    $locales[(string)$locale] = $locale->getName();
-                }
-            }
+			foreach( $sites as $site ) {
+				foreach( $site->getLocales(false) as $locale ) {
+					$locales[(string)$locale] = $locale->getName();
+				}
+			}
 
-            asort($locales);
+			asort($locales);
 
-        } else {
-            foreach( $sites as $site ) {
-                /**
-                 * @var Mvc_Site_Abstract $site
-                 */
-                foreach( $site->getLocales(false) as $locale ) {
-                    $locales[(string)$locale] = $locale;
-                }
-            }
-        }
+		} else {
+			foreach( $sites as $site ) {
+				/**
+				 * @var Mvc_Site_Abstract $site
+				 */
+				foreach( $site->getLocales(false) as $locale ) {
+					$locales[(string)$locale] = $locale;
+				}
+			}
+		}
 
-        return $locales;
-    }
+		return $locales;
+	}
 }

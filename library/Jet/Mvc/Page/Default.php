@@ -1674,11 +1674,11 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
         $layout->addOutputPart(
             $output,
-            $output_ID,
-            $module_name,
             $position,
             $position_required,
-            $position_order
+            $position_order,
+            $output_ID,
+            $module_name
         );
 
     }

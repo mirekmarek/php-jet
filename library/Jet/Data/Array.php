@@ -16,7 +16,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 
 	const PATH_DELIMITER = '/';
 
-		
+
 	/**
 	 *
 	 * @var array 
@@ -270,7 +270,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	public function getInt($key, $default_value = 0){
 		return (int)$this->getRaw($key, $default_value);
 	}
-	
+
 	/**
 	 *
 	 * @param string $key
@@ -281,7 +281,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	public function getFloat($key, $default_value = 0.0){
 		return (float)$this->getRaw($key, $default_value);
 	}
-	
+
 	/**
 	 *
 	 * @param string $key

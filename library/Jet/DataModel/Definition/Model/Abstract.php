@@ -42,10 +42,10 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	protected $ID_class_name = '';
 
-    /**
-     * @var array
-     */
-    protected $ID_options = array();
+	/**
+	 * @var array
+	 */
+	protected $ID_options = array();
 
 	/**
 	 *
@@ -53,7 +53,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	protected $ID_properties = array();
 
-	
+
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
@@ -143,27 +143,27 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 
 
-    /**
-     *
-     * @param $data_model_class_name (optional)
-     *
-     * @throws DataModel_Exception
-     */
-    public function  __construct( $data_model_class_name='' ) {
+	/**
+	 *
+	 * @param $data_model_class_name (optional)
+	 *
+	 * @throws DataModel_Exception
+	 */
+	public function  __construct( $data_model_class_name='' ) {
 
-        if($data_model_class_name) {
-            $this->_mainInit( $data_model_class_name );
-            $this->_initProperties();
-            $this->_initKeys();
+		if($data_model_class_name) {
+			$this->_mainInit( $data_model_class_name );
+			$this->_initProperties();
+			$this->_initKeys();
 
-            if(!$this->ID_properties) {
-                throw new DataModel_Exception(
-                    'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
-                    DataModel_Exception::CODE_DEFINITION_NONSENSE
-                );
-            }
-        }
-    }
+			if(!$this->ID_properties) {
+				throw new DataModel_Exception(
+					'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
+				);
+			}
+		}
+	}
 
 
 	/**
@@ -171,7 +171,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 *
 	 * @param string $class_name
 	 *
-     * @return DataModel_Definition_Model_Abstract
+	 * @return DataModel_Definition_Model_Abstract
 	 */
 	public static function getDataModelDefinition( $class_name )  {
 
@@ -264,49 +264,49 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$this->class_name = (string)$data_model_class_name;
 
-        $this->model_name = $this->_getModelNameDefinition( $data_model_class_name );
+		$this->model_name = $this->_getModelNameDefinition( $data_model_class_name );
 
-        $this->_initIDclass();
-        $this->_initDatabaseTableName();
+		$this->_initIDclass();
+		$this->_initDatabaseTableName();
 
 	}
 
-    /**
-     * @throws DataModel_Exception
-     */
-    protected function _initIDclass() {
-        $this->ID_class_name = Object_Reflection::get( $this->class_name, 'data_model_ID_class_name' );
+	/**
+	 * @throws DataModel_Exception
+	 */
+	protected function _initIDclass() {
+		$this->ID_class_name = Object_Reflection::get( $this->class_name, 'data_model_ID_class_name' );
 
-        if(!$this->ID_class_name) {
-            throw new DataModel_Exception(
-                'DataModel \''.$this->class_name.'\' does not have ID class name! Please specify it by @JetDataModel:data_model_ID_class_name ',
-                DataModel_Exception::CODE_DEFINITION_NONSENSE
-            );
+		if(!$this->ID_class_name) {
+			throw new DataModel_Exception(
+				'DataModel \''.$this->class_name.'\' does not have ID class name! Please specify it by @JetDataModel:data_model_ID_class_name ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
 
-        }
+		}
 
-        $this->ID_options = Object_Reflection::get( $this->class_name, 'ID_options', array() );
+		$this->ID_options = Object_Reflection::get( $this->class_name, 'ID_options', array() );
 
 
-    }
+	}
 
-    /**
-     * @throws DataModel_Exception
-     */
-    protected function _initDatabaseTableName() {
-        $this->database_table_name = Object_Reflection::get( $this->class_name, 'database_table_name', '' );
+	/**
+	 * @throws DataModel_Exception
+	 */
+	protected function _initDatabaseTableName() {
+		$this->database_table_name = Object_Reflection::get( $this->class_name, 'database_table_name', '' );
 
-        if(
-            !is_string($this->database_table_name) ||
-            !$this->database_table_name
-        ) {
-            throw new DataModel_Exception(
-                'DataModel \''.$this->class_name.'\' does not have database table name! Please specify it by @JetDataModel:database_table_name ',
-                DataModel_Exception::CODE_DEFINITION_NONSENSE
-            );
-        }
+		if(
+			!is_string($this->database_table_name) ||
+			!$this->database_table_name
+		) {
+			throw new DataModel_Exception(
+				'DataModel \''.$this->class_name.'\' does not have database table name! Please specify it by @JetDataModel:database_table_name ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
 
-    }
+	}
 
 	/**
 	 *
@@ -392,7 +392,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	protected function _initGlueProperty( $property_name,
 										/** @noinspection PhpUnusedParameterInspection */
-	                                      $related_to,
+										  $related_to,
 										/** @noinspection PhpUnusedParameterInspection */
 										  $property_definition_data ) {
 		throw new DataModel_Exception(
@@ -418,7 +418,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	}
 
 
-	
+
 	/**
 	 * Returns DataModel class name
 	 *
@@ -435,13 +435,13 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		return $this->ID_class_name;
 	}
 
-    /**
-     * @return array
-     */
-    public function getIDOptions()
-    {
-        return $this->ID_options;
-    }
+	/**
+	 * @return array
+	 */
+	public function getIDOptions()
+	{
+		return $this->ID_options;
+	}
 
 
 
@@ -451,15 +451,15 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	public function getEmptyIDInstance() {
 		$ID_class_name = $this->getIDClassName();
 
-        /**
-         * @var DataModel_ID_Abstract $empty_ID
-         */
-        $empty_ID = new $ID_class_name( $this );
+		/**
+		 * @var DataModel_ID_Abstract $empty_ID
+		 */
+		$empty_ID = new $ID_class_name( $this );
 
-        $options = $this->getIDOptions();
-        if($options) {
-            $empty_ID->setOptions( $options );
-        }
+		$options = $this->getIDOptions();
+		if($options) {
+			$empty_ID->setOptions( $options );
+		}
 
 		return $empty_ID;
 	}
@@ -491,24 +491,24 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		return $this->properties[$property_name];
 	}
 
-    /**
-     * @throws DataModel_Exception
-     *
-     * @return array|DataModel_Definition_Property_DataModel[]
-     */
-    public function getAllRelatedPropertyDefinitions() {
+	/**
+	 * @throws DataModel_Exception
+	 *
+	 * @return array|DataModel_Definition_Property_DataModel[]
+	 */
+	public function getAllRelatedPropertyDefinitions() {
 
-        /**
-         * @var DataModel_Definition_Property_DataModel[] $related_definitions
-         */
-        $related_definitions = array();
-        foreach( $this->getProperties() as $property ) {
+		/**
+		 * @var DataModel_Definition_Property_DataModel[] $related_definitions
+		 */
+		$related_definitions = array();
+		foreach( $this->getProperties() as $property ) {
 
-            $property->getAllRelatedPropertyDefinitions( $related_definitions );
-        }
+			$property->getAllRelatedPropertyDefinitions( $related_definitions );
+		}
 
-        return $related_definitions;
-    }
+		return $related_definitions;
+	}
 
 
 	/**
@@ -525,54 +525,54 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$this->relations = array();
 
-        foreach( $this->getExternalRelations() as $related_model_name=>$relation ) {
-            $this->addRelation($related_model_name, $relation);
-        }
+		foreach( $this->getExternalRelations() as $related_model_name=>$relation ) {
+			$this->addRelation($related_model_name, $relation);
+		}
 
 
-        foreach( $this->getInternalRelations() as $related_model_name=>$relation ) {
-            $this->addRelation($related_model_name, $relation);
-        }
+		foreach( $this->getInternalRelations() as $related_model_name=>$relation ) {
+			$this->addRelation($related_model_name, $relation);
+		}
 
 
 		return $this->relations;
 	}
 
-    /**
-     * @return DataModel_Definition_Relation_External[]
-     */
-    public function getExternalRelations() {
+	/**
+	 * @return DataModel_Definition_Relation_External[]
+	 */
+	public function getExternalRelations() {
 
-        $class = $this->class_name;
+		$class = $this->class_name;
 
-        $relations_definitions_data = Object_Reflection::get( $class, 'data_model_outer_relations_definition', array());
+		$relations_definitions_data = Object_Reflection::get( $class, 'data_model_outer_relations_definition', array());
 
-        $external_relations = array();
-        foreach( $relations_definitions_data as $definition_data ) {
-            $relation = new DataModel_Definition_Relation_External( $this, $definition_data );
+		$external_relations = array();
+		foreach( $relations_definitions_data as $definition_data ) {
+			$relation = new DataModel_Definition_Relation_External( $this, $definition_data );
 
-            $related_model_name = $relation->getRelatedDataModelName();
+			$related_model_name = $relation->getRelatedDataModelName();
 
-            $external_relations[$related_model_name] = $relation;
-        }
+			$external_relations[$related_model_name] = $relation;
+		}
 
-        return $external_relations;
-    }
+		return $external_relations;
+	}
 
-    /**
-     *
-     * @return DataModel_Definition_Relation_Internal[]
-     */
-    public function getInternalRelations() {
-        $internal_relations = array();
-        foreach( $this->properties as $related_property_definition ) {
+	/**
+	 *
+	 * @return DataModel_Definition_Relation_Internal[]
+	 */
+	public function getInternalRelations() {
+		$internal_relations = array();
+		foreach( $this->properties as $related_property_definition ) {
 
-            $related_property_definition->getInternalRelations( $internal_relations );
+			$related_property_definition->getInternalRelations( $internal_relations );
 
-        }
+		}
 
-        return $internal_relations;
-    }
+		return $internal_relations;
+	}
 
 
 	/**
@@ -856,7 +856,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 		return $config;
 	}
-	
+
 
 	/**
 	 * Default serialize rules (don't serialize __* properties)
@@ -1027,20 +1027,20 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			case 'N_model_class_name':
 				$reflection_data['N_model_class_name'] = (string)$value;
 				break;
-            case 'default_order_by':
+			case 'default_order_by':
 
-                if(
-                    !is_array($value)
-                ) {
-                    throw new Object_Reflection_Exception(
-                        'Relation definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'property_name\' ]',
-                        Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
-                    );
+				if(
+					!is_array($value)
+				) {
+					throw new Object_Reflection_Exception(
+						'Relation definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'property_name\' ]',
+						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					);
 
-                }
+				}
 
-                $reflection_data['default_order_by'] = $value;
-                break;
+				$reflection_data['default_order_by'] = $value;
+				break;
 			default:
 				throw new Object_Reflection_Exception(
 					'Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ',

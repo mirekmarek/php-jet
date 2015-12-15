@@ -79,9 +79,7 @@ abstract class Installer_Step_Controller {
 		$output = $this->view->render( $name );
 
 		$this->layout->addOutputPart(
-				$output,
-				$this->installer->getCurrentStepName(),
-				$this->installer->getCurrentStepName()
+				$output
 			);
 	}
 

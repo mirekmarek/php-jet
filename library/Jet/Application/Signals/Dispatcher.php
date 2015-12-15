@@ -16,7 +16,7 @@
 namespace Jet;
 
 class Application_Signals_Dispatcher extends Object {
-	
+
 	/**
 	 * Callbacks array
 	 * array(

@@ -23,7 +23,7 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @var string
 	 */
-	protected $content_ID = '';
+	protected $output_ID = '';
 
 	/**
 	 *
@@ -64,7 +64,7 @@ class Mvc_Layout_OutputPart extends Object{
 	 * @param string $module_name
 	 */
 	public function __construct($content_ID, $output, $position, $position_required, $position_order, $module_name) {
-		$this->content_ID = $content_ID;
+		$this->output_ID = $content_ID;
 		$this->output = $output;
 		$this->position = $position;
 		$this->position_required = $position_required;
@@ -75,8 +75,8 @@ class Mvc_Layout_OutputPart extends Object{
 	/**
 	 * @return string
 	 */
-	public function getContentID() {
-		return $this->content_ID;
+	public function getOutputID() {
+		return $this->output_ID;
 	}
 
 	/**

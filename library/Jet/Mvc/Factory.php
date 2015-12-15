@@ -28,7 +28,7 @@ class Mvc_Factory extends Factory {
 	protected static $router_cache_backend_class_name_prefix = 'Jet\Mvc_Router_Cache_Backend_';
 
 
-    const DEFAULT_PAGE_ID_CLASS = 'Jet\Mvc_Page_ID_Default';
+	const DEFAULT_PAGE_ID_CLASS = 'Jet\Mvc_Page_ID_Default';
 	const DEFAULT_PAGE_CLASS = 'Jet\Mvc_Page_Default';
 	const DEFAULT_PAGE_META_TAG_CLASS = 'Jet\Mvc_Page_MetaTag_Default';
 	const DEFAULT_PAGE_CONTENT_CLASS = 'Jet\Mvc_Page_Content_Default';
@@ -61,34 +61,34 @@ class Mvc_Factory extends Factory {
 
 
 
-    /**
-     * @return string
-     */
-    public static function getPageIDClassName() {
-        return static::getClassName( static::DEFAULT_PAGE_ID_CLASS );
-    }
+	/**
+	 * @return string
+	 */
+	public static function getPageIDClassName() {
+		return static::getClassName( static::DEFAULT_PAGE_ID_CLASS );
+	}
 
-    /**
-     * @param string $class_name
-     */
-    public static function setPageIDClass( $class_name ) {
-        static::setClassName(static::DEFAULT_PAGE_ID_CLASS, $class_name);
-    }
+	/**
+	 * @param string $class_name
+	 */
+	public static function setPageIDClass( $class_name ) {
+		static::setClassName(static::DEFAULT_PAGE_ID_CLASS, $class_name);
+	}
 
-    /**
-     * Returns instance of Page ID class @see Factory
-     *
-     * @return Mvc_Page_ID_Abstract
-     */
-    public static function getPageIDInstance() {
-        $class_name = static::getClassName(static::DEFAULT_PAGE_ID_CLASS);
+	/**
+	 * Returns instance of Page ID class @see Factory
+	 *
+	 * @return Mvc_Page_ID_Abstract
+	 */
+	public static function getPageIDInstance() {
+		$class_name = static::getClassName(static::DEFAULT_PAGE_ID_CLASS);
 
-        $definition = static::getPageInstance()->getDataModelDefinition();
+		$definition = static::getPageInstance()->getDataModelDefinition();
 
-        $instance = new $class_name($definition);
+		$instance = new $class_name($definition);
 
-        return $instance;
-    }
+		return $instance;
+	}
 
 	/**
 	 * @return string
@@ -97,12 +97,12 @@ class Mvc_Factory extends Factory {
 		return static::getClassName( static::DEFAULT_PAGE_CLASS );
 	}
 
-    /**
-     * @param string $class_name
-     */
-    public static function setPageClass( $class_name ) {
-        static::setClassName(static::DEFAULT_PAGE_CLASS, $class_name);
-    }
+	/**
+	 * @param string $class_name
+	 */
+	public static function setPageClass( $class_name ) {
+		static::setClassName(static::DEFAULT_PAGE_CLASS, $class_name);
+	}
 
 	/**
 	 * Returns instance of Page class @see Factory

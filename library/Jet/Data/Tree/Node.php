@@ -42,7 +42,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	protected $parent;
 
-	
+
 	/**
 	 * Node data
 	 *
@@ -57,14 +57,14 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 * @var Data_Tree_Node[]
 	 */
 	protected $children = array();
-	
+
 	/**
 	 * Range from root
 	 *
 	 * @var int 
 	 */
 	protected $depth = 0;
-	
+
 	/**
 	 * Is node root?
 	 *
@@ -433,18 +433,18 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 
 		if($next_children && $this->children){
 
-            if(
-	            $this->is_root ||
-	            !$this->tree->getLazyMode()
-            ) {
-	            $item[$children_key] = array();
+			if(
+				$this->is_root ||
+				!$this->tree->getLazyMode()
+			) {
+				$item[$children_key] = array();
 
-                foreach($this->children as $child) {
-                    $child->_toArray( $item[$children_key], $max_depth, $root_depth );
-                }
-            } else {
-                $item[$children_key] = true;
-            }
+				foreach($this->children as $child) {
+					$child->_toArray( $item[$children_key], $max_depth, $root_depth );
+				}
+			} else {
+				$item[$children_key] = true;
+			}
 
 
 		}

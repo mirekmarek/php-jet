@@ -25,10 +25,10 @@ class DataModel_Query extends Object {
 	const O_NOT_EQUAL = '!=';
 	const O_LIKE = '*';
 	const O_NOT_LIKE = '!*';
-    const O_GREATER_THAN = '>';
-    const O_LESS_THAN = '<';
-    const O_GREATER_THAN_OR_EQUAL = '>=';
-    const O_LESS_THAN_OR_EQUAL = '<=';
+	const O_GREATER_THAN = '>';
+	const O_LESS_THAN = '<';
+	const O_GREATER_THAN_OR_EQUAL = '>=';
+	const O_LESS_THAN_OR_EQUAL = '<=';
 
 
 	const JOIN_TYPE_LEFT_JOIN = 'LEFT_JOIN';
@@ -40,12 +40,12 @@ class DataModel_Query extends Object {
 	public static $_available_operators = array(
 		self::O_NOT_EQUAL,
 		self::O_NOT_LIKE,
-        self::O_GREATER_THAN_OR_EQUAL,
-        self::O_LESS_THAN_OR_EQUAL,
+		self::O_GREATER_THAN_OR_EQUAL,
+		self::O_LESS_THAN_OR_EQUAL,
 		self::O_EQUAL,
 		self::O_LIKE,
-        self::O_GREATER_THAN,
-        self::O_LESS_THAN,
+		self::O_GREATER_THAN,
+		self::O_LESS_THAN,
 
 	);
 
@@ -320,13 +320,13 @@ class DataModel_Query extends Object {
 		return $this->relations;
 	}
 
-    /**
-     * @param string $related_data_model_name
-     * @param DataModel_Definition_Relation_Abstract $relation
-     */
-    public function addRelation( $related_data_model_name, DataModel_Definition_Relation_Abstract $relation ) {
-        $this->relations[$related_data_model_name] = $relation;
-    }
+	/**
+	 * @param string $related_data_model_name
+	 * @param DataModel_Definition_Relation_Abstract $relation
+	 */
+	public function addRelation( $related_data_model_name, DataModel_Definition_Relation_Abstract $relation ) {
+		$this->relations[$related_data_model_name] = $relation;
+	}
 
 	/**
 	 * @param string $related_data_model_name

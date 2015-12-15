@@ -25,7 +25,7 @@
 namespace Jet;
 
 class Translator extends Object {
-	
+
 	const COMMON_NAMESPACE = '_COMMON_';
 
 	/**
@@ -120,7 +120,7 @@ class Translator extends Object {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets translation of given text
 	 * 
@@ -200,9 +200,9 @@ class Translator extends Object {
 	 * @return Locale
 	 */
 	public static function getCurrentLocale() {
-        if(!static::$current_locale) {
-            static::$current_locale = Mvc::getCurrentLocale();
-        }
+		if(!static::$current_locale) {
+			static::$current_locale = Mvc::getCurrentLocale();
+		}
 		return static::$current_locale;
 	}
 

@@ -16,7 +16,7 @@ namespace Jet;
 
 class DataModel_ID_AutoIncrement extends DataModel_ID_Abstract {
 	/**
-     *
+	 *
 	 * @var string
 	 */
 	protected $ID_property_name = 'ID';

@@ -466,7 +466,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
                 } else {
                     Debug_Profiler::message('Is static');
 
-                    if( ($output_parts = $layout->getContentOutputParts( $this->getID()->toString() )) ) {
+                    if( ($output_parts = $layout->getOutputParts( $this->getID()->toString() )) ) {
                         $this->setOutputParts( $output_parts );
                     }
                 }

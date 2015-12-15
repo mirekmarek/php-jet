@@ -19,7 +19,7 @@ namespace Jet;
 
 class Mvc_Site_Exception extends Exception {
 
-        const CODE_DATA_CHECK_FATAL_ERROR = 20;
+	const CODE_DATA_CHECK_FATAL_ERROR = 20;
 
 	const CODE_URL_NOT_DEFINED = 100;
 	const CODE_URL_INVALID_FORMAT = 101;
