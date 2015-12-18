@@ -1,0 +1,28 @@
+<h1><?=Jet\Tr::_('Done!');?></h1>
+
+<div style="border: 5px solid red;padding: 10px;margin: 5px;">
+	<?=Jet\Tr::_('Please copy <b>%SRC%</b> to <b>%TG%</b>', ['SRC'=>$this->source, 'TG'=>$this->target]);?>
+	<p>
+		<?=Jet\Tr::_('I can\'t do that, because ...'); ?>
+	</p>
+	<p>
+		<span style="color:red;"><?=$this->message;?></span>
+	</p>
+
+</div>
+
+<p>
+	<?=Jet\Tr::_('Please remove this line from application/bootstrap.php:');?>
+</p>
+
+<code>
+	require( JET_APPLICATION_PATH . '_install/_installer/install.php' );
+</code>
+
+<p>
+	<?=Jet\Tr::_('It is possible (and recommended) to delete _installer directory.');?>
+</p>
+
+<p>
+	<?=Jet\Tr::_('Enjoy!! :-)');?>
+</p>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+
+/**
+ * @var Jet\Config $config
+ */
+$config = $this->config;
+
+/**
+ * @var Jet\Config_Definition_Property_Abstract[] $config_props
+ */
+$config_props = $config->getPropertiesDefinition();
+
+$form->helper_getBasicHTML('div');
+
+?>
+<jet_form name="<?=$form->getName();?>">
+	<jet_form_common_error_message class="formError"/>
+
+	<?php foreach( $form->getFields() as $field ): ?>
+		<?=$field->helper_getBasicHTML(); ?>
+	<?php endforeach; ?>
+
+	<input type="submit" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+
+</jet_form>

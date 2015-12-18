@@ -1,0 +1,234 @@
+
+<jet_form name="<?=$form->getName();?>">
+	<jet_form_common_error_message class="formError"/>
+
+	<div class="form-group"><jet_form_field_label name="name"/><jet_form_field_error_msg name="name" class="form-error"/><jet_form_field name="name" class="form-control"/></div>
+	<div class="form-group">
+		<jet_form_field_label name="driver"/>
+		<jet_form_field_error_msg name="driver" class="form-error"/>
+		<jet_form_field name="driver" class="form-control" onChange="DSN_wizard.setDriver(this.options[this.selectedIndex].value);"/>
+	</div>
+
+	<div class="form-group" id="_dns_w_host_g">
+		<label for="_dns_w_host"><?=Jet\Tr::_('Host');?></label>
+		<input id="_dns_w_host" class="form-control" onchange="DSN_wizard.createDSN();"/>
+	</div>
+	<div class="form-group" id="_dns_w_port_g">
+		<label for="_dns_w_port"><?=Jet\Tr::_('Port');?></label>
+		<input id="_dns_w_port" class="form-control" onchange="DSN_wizard.createDSN();"/>
+	</div>
+	<div class="form-group" id="_dns_w_dbname_g">
+		<label for="_dns_w_dbname"><?=Jet\Tr::_('Database name');?></label>
+		<input id="_dns_w_dbname" class="form-control" onchange="DSN_wizard.createDSN();"/>
+	</div>
+	<div class="form-group" id="_dns_w_unix_socket_g">
+		<label for="_dns_w_unix_socket"><?=Jet\Tr::_('Unix socket');?></label>
+		<input id="_dns_w_unix_socket" class="form-control" onchange="DSN_wizard.createDSN();"/>
+	</div>
+	<div class="form-group" id="_dns_w_charset_g">
+		<label for="_dns_w_charset"><?=Jet\Tr::_('Charset');?></label>
+		<input id="_dns_w_charset" class="form-control" onchange="DSN_wizard.createDSN();"/>
+	</div>
+	<div class="form-group" id="_dns_w_path_g">
+		<label for="_dns_w_path"><?=Jet\Tr::_('Path');?></label>
+		<input id="_dns_w_path" class="form-control" onchange="DSN_wizard.createDSN();"/>
+	</div>
+
+	<div class="form-group"><jet_form_field_label name="DSN"/><jet_form_field_error_msg name="DSN" class="form-error"/><jet_form_field name="DSN" class="form-control"/></div>
+	<div class="form-group"><jet_form_field_label name="username"/><jet_form_field_error_msg name="username" class="form-error"/><jet_form_field name="username" class="form-control"/></div>
+	<div class="form-group"><jet_form_field_label name="password"/><jet_form_field_error_msg name="password" class="form-error"/><jet_form_field name="password" class="form-control"/></div>
+
+	<input type="submit" value="<?=Jet\Tr::_($btn_label, [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+
+</jet_form>
+
+<script type="text/javascript">
+	var DSN_wizard = {
+		current_driver_name: null,
+
+		all_fields: ['host','port','dbname','unix_socket','charset','path'],
+
+		drivers: {
+			sqlite: {
+				path: '%JET_DATA_PATH%some_db_name.sq3',
+				parser: function( DSN ) {
+					document.getElementById('_dns_w_path').value = DSN;
+				},
+				wizard: function() {
+					return document.getElementById('_dns_w_path').value;
+				}
+			},
+			mysql: {
+				host: 'localhost',
+				port: 3306,
+				dbname: '',
+				unix_socket: '',
+				charset: 'utf8',
+				parser: function( DSN ) {
+					var host = this.host;
+					var port = this.port;
+					var dbname = this.dbname;
+					var unix_socket = this.unix_socket;
+					var charset = this.charset;
+
+					var data = DSN.split(';');
+
+					for(var i=0; i<data.length;i++) {
+						var s = data[i].split('=');
+
+						if(s.length!=2) {
+							continue;
+						}
+
+						var key = s[0];
+						var val = s[1];
+
+						switch(key) {
+							case 'host': host=val;break;
+							case 'port': port=val;break;
+							case 'dbname': dbname=val;break;
+							case 'unix_socket': unix_socket=val;break;
+							case 'charset': charset=val;break;
+						}
+
+					}
+
+					document.getElementById('_dns_w_host').value = host;
+					document.getElementById('_dns_w_port').value = port;
+					document.getElementById('_dns_w_dbname').value = dbname;
+					document.getElementById('_dns_w_unix_socket').value = unix_socket;
+					document.getElementById('_dns_w_charset').value = charset;
+				},
+				wizard: function() {
+
+					var host = document.getElementById('_dns_w_host').value;
+					var port = document.getElementById('_dns_w_port').value;
+					var dbname = document.getElementById('_dns_w_dbname').value;
+					var unix_socket = document.getElementById('_dns_w_unix_socket').value;
+					var charset = document.getElementById('_dns_w_charset').value;
+
+					var DSN = '';
+
+					if(unix_socket) {
+						DSN += 'unix_socket='+unix_socket;
+					} else {
+						DSN += 'host='+host;
+						if(port) {
+							DSN += ';port='+port;
+						}
+					}
+
+					DSN += ';dbname='+dbname;
+
+					if(charset) {
+						DSN += ';charset='+charset;
+					}
+
+					return DSN;
+
+				}
+
+			},
+			oci: {
+				host: 'localhost',
+				port: 1521,
+				dbname: '',
+				parser: function( DSN ) {
+					var host = this.host;
+					var port = this.port;
+					var dbname = this.dbname;
+
+					var data = DSN.split(';');
+
+					for(var i=0; i<data.length;i++) {
+						var s = data[i].split('=');
+
+						if(s.length!=2) {
+							continue;
+						}
+
+						var key = s[0];
+						var val = s[1];
+
+						switch(key) {
+							case 'host': host=val;break;
+							case 'port': port=val;break;
+							case 'dbname': dbname=val;break;
+						}
+
+					}
+
+					document.getElementById('_dns_w_host').value = host;
+					document.getElementById('_dns_w_port').value = port;
+					document.getElementById('_dns_w_dbname').value = dbname;
+
+				},
+				wizard: function() {
+
+					var host = document.getElementById('_dns_w_host').value;
+					var port = document.getElementById('_dns_w_port').value;
+					var dbname = document.getElementById('_dns_w_dbname').value;
+
+					var DSN = '';
+
+					DSN += 'host='+host;
+					if(port) {
+						DSN += ';port='+port;
+					}
+
+					DSN += ';dbname='+dbname;
+
+
+					return DSN;
+
+				}
+
+			}
+		},
+
+		setDriver: function( driver_name, do_not_create ) {
+			var driver = this.drivers[driver_name];
+
+			this.current_driver_name = driver_name;
+
+			for(var i=0;i<this.all_fields.length;i++) {
+				var field = this.all_fields[i];
+
+				if(driver[field]===undefined) {
+					document.getElementById('_dns_w_'+field+'_g').style.display='none';
+
+					continue;
+				}
+
+				document.getElementById('_dns_w_'+field+'_g').style.display='block';
+
+				var f = document.getElementById('_dns_w_'+field);
+
+				f.value = driver[field];
+			}
+
+			if(!do_not_create) {
+				this.createDSN();
+			}
+
+		},
+
+		parse: function() {
+			var DSN = document.getElementById('<?=$form->getField('DSN')->getID();?>').value;
+
+			if(DSN) {
+				this.drivers[this.current_driver_name].parser(DSN);
+			}
+
+		},
+
+		createDSN: function() {
+			document.getElementById('<?=$form->getField('DSN')->getID();?>').value = this.drivers[this.current_driver_name].wizard();
+		}
+	};
+
+
+	DSN_wizard.setDriver( '<?=$form->getField('driver')->getDefaultValue();?>', true );
+	DSN_wizard.parse();
+	DSN_wizard.createDSN();
+</script>

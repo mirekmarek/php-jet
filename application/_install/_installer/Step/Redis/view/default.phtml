@@ -1,0 +1,55 @@
+<?php
+/**
+ * @var Jet\Redis_Config $config
+ */
+$config = $this->config;
+
+/**
+ * @var Jet\Form $form
+ */
+$form = $this->form;
+
+?>
+
+<?php if($config->getConnections()): ?>
+	<a href="?add_connection" class="btn btn-success"><?=Jet\Tr::_('Add new connection');?></a>
+
+	<jet_form name="<?=$form->getName();?>">
+
+	<table class="table table-striped">
+	<thead>
+	<tr>
+		<th></th>
+		<th nowrap><?=Jet\Tr::_('Is default?');?></th>
+		<th><?=Jet\Tr::_('Name');?></th>
+		<th nowrap><?=Jet\Tr::_('Host or socket');?></th>
+		<th><?=Jet\Tr::_('Port');?></th>
+	</tr>
+	</thead>
+	<?php foreach( $config->getConnections() as $name => $connection ): ?>
+	<tr>
+		<td nowrap>
+			<a href="?edit_connection=<?=rawurlencode($name);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+			&nbsp;
+			<a href="?delete_connection=<?=rawurlencode($name);?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+			&nbsp;
+			<a href="?test_connection=<?=rawurlencode($name);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Test');?></a>
+		</td>
+		<td style="text-align: center;"><input type="radio" name="default_connection_name" value="<?=htmlspecialchars($name);?>"
+		                                       <?php if($name==$config->getDefaultConnectionName()): ?>checked="checked" <?php endif;?>
+				/></td>
+		<td nowrap style="padding-right: 20px;"><?=$connection->getName();?></td>
+		<td nowrap style="padding-right: 20px;"><?=$connection->getHost();?></td>
+		<td nowrap style="padding-right: 20px;width: 100%"><?=$connection->getPort();?></td>
+	</tr>
+	<?php endforeach; ?>
+	</table>
+
+		<input type="submit" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	</jet_form>
+<?php else: ?>
+	<form method="post">
+		<input type="hidden" name="go" value="1">
+		<input type="submit" value="<?=Jet\Tr::_('Next - skip it');?>" class="btn"/>
+	</form>
+<?php endif; ?>
