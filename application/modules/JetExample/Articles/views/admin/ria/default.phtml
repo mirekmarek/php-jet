@@ -5,14 +5,14 @@ use Jet\Form;
  */
 $form = $this->form;
 ?>
-<jetml_editarea id="article_edit" title="Articles" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
+<jetml_dojo_editarea id="article_edit" title="Articles" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
 
-	<jetml_editarea_dialog area_id="article_edit">
-		<jetml_layout_toolbar region="top">
-			<jetml_form_button_save id="article_save" onClick="Jet.modules.CURRENT_MODULE.save();"/>
-			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
-		</jetml_layout_toolbar>
-		<jetml_layout_pane region="center">
+	<jetml_dojo_editarea_dialog area_id="article_edit">
+		<jetml_dojo_layout_toolbar region="top">
+			<jetml_dojo_form_button_save id="article_save" onClick="Jet.modules.CURRENT_MODULE.save();"/>
+			<jetml_dojo_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
+		</jetml_dojo_layout_toolbar>
+		<jetml_dojo_layout_pane region="center">
 
 			<jet_form name="<?=$form->getName();?>">
 				<jetml_data id="article_form_fields_definition"><?=json_encode( $form->getFields() ); ?></jetml_data>
@@ -44,26 +44,26 @@ $form = $this->form;
 				</table>
 			</jet_form>
 
-		</jetml_layout_pane>
-	</jetml_editarea_dialog>
+		</jetml_dojo_layout_pane>
+	</jetml_dojo_editarea_dialog>
 
-	<jetml_editarea_list area_id="article_edit">
+	<jetml_dojo_editarea_list area_id="article_edit">
 
-		<jetml_layout_toolbar region="top">
-			<jetml_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
-			<jetml_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
-			<jetml_trash_button trash_id="article_trash"/>
-		</jetml_layout_toolbar>
+		<jetml_dojo_layout_toolbar region="top">
+			<jetml_dojo_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
+			<jetml_dojo_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
+			<jetml_dojo_trash_button trash_id="article_trash"/>
+		</jetml_dojo_layout_toolbar>
 
-		<jetml_layout_pane region="center" gutters="false" style="padding:0;">
+		<jetml_dojo_layout_pane region="center" gutters="false" style="padding:0;">
 
-			<jetml_datagrid id="articles_grid">
-				<jetml_datagrid_column field="title" title="Title" width="80%"/>
-				<jetml_datagrid_column field="locale" title="Locale" width="10%"/>
-				<jetml_datagrid_column field="date_time" title="Date and time" width="10%" formatter="Jet.Formatter.DateTime"/>
-			</jetml_datagrid>
-		</jetml_layout_pane>
-	</jetml_editarea_list>
-</jetml_editarea>
+			<jetml_dojo_datagrid id="articles_grid">
+				<jetml_dojo_datagrid_column field="title" title="Title" width="80%"/>
+				<jetml_dojo_datagrid_column field="locale" title="Locale" width="10%"/>
+				<jetml_dojo_datagrid_column field="date_time" title="Date and time" width="10%" formatter="Jet.Formatter.DateTime"/>
+			</jetml_dojo_datagrid>
+		</jetml_dojo_layout_pane>
+	</jetml_dojo_editarea_list>
+</jetml_dojo_editarea>
 
-<jetml_trash_dialog trash_id="article_trash"/>
+<jetml_dojo_trash_dialog trash_id="article_trash"/>

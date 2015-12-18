@@ -48,6 +48,11 @@ interface Object_Interface {
 	public function __clone();
 
 	/**
+	 * @return string
+	 */
+	public function getObjectIdentificationKey();
+
+	/**
 	 * @param $signal_name
 	 *
 	 * @return bool

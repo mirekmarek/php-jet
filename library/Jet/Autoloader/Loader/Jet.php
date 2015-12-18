@@ -23,7 +23,7 @@ class Autoloader_Loader_Jet extends Autoloader_Loader_Abstract {
 	 */
 	public function getClassPath($class_name) {
 		if(
-			substr($class_name, 0, 4)!='Jet\\'
+			substr($class_name, 0, 4)!=__NAMESPACE__.'\\'
 		) {
 			return false;
 		}

@@ -123,9 +123,9 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			$this->is_sub_related_model = true;
 		}
 
-		if( !is_subclass_of( $main_model_class_name, 'Jet\DataModel' ) ) {
+		if( !is_subclass_of( $main_model_class_name, __NAMESPACE__.'\DataModel' ) ) {
 			throw new DataModel_Exception(
-				'Main parent class '.$main_model_class_name.' is not subclass of Jet\DataModel ',
+				'Main parent class '.$main_model_class_name.' is not subclass of '.__NAMESPACE__.'\DataModel ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

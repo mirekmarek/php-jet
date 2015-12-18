@@ -14,13 +14,6 @@
  */
 namespace Jet;
 
-/**
- * Class Form_Decorator_Abstract
- *
- * @JetFactory:class = 'UI_Factory'
- * @JetFactory:method = 'getFormDecoratorInstance'
- * @JetFactory:mandatory_parent_class = 'Form_Decorator_Abstract'
- */
 abstract class Form_Decorator_Abstract extends Object {
 
 	/**

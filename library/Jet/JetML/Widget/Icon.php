@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Icon extends JetML_Widget_Dojo_Abstract {
+class JetML_Widget_Icon extends JetML_Widget_Dojo_Abstract {
 
 	/**
 	 * @var bool|string
@@ -36,12 +36,14 @@ class JetML_Widget_Dojo_Icon extends JetML_Widget_Dojo_Abstract {
 
 		$icon_data = $this->parser->getIconSizeData($size);
 
-		$this->node->setAttribute('src', $icon_URL);
-		foreach($icon_data as $k=>$v ) {
-			$this->node->setAttribute($k, $v);
-		}
+		$attributes = $this->getNodeAttributes();
 
-		return parent::getReplacement();
+		$attributes['src'] = $icon_URL;
+		$attributes['width'] = $icon_data['width'];
+		$attributes['height'] = $icon_data['height'];
+
+		return $this->createNode('img', false, $attributes);
+
 	}
 
 }

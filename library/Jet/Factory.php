@@ -38,7 +38,7 @@
 
 namespace Jet;
 
-class Factory extends Object implements Object_Reflection_ParserInterface {
+class Factory extends Object {
 
 	/**
 	 * Map of overloaded classes where the key is the original class name and the value is new class name
@@ -79,81 +79,11 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 			return self::$overload_map[$default_name];
 		}
 
+		if(strpos($default_name,'\\')===false) {
+			$default_name = __NAMESPACE__.'\\'.$default_name;
+		}
 		return $default_name;
 	}
-
-
-	/**
-	 * Try to get instance by factory if the class has defined @JetFactory:class and @JetFactory:method
-	 * Otherwise returns new $class_name
-	 *
-	 * @param string $class_name
-	 *
-	 * @throws Factory_Exception
-	 * @return object
-	 */
-	public static function getInstance( $class_name ) {
-
-
-		$definition = Factory_ClassDefinition::getClassDefinition( $class_name );
-
-		$factory_class_name = $definition->getFactoryClass();
-		$factory_method = $definition->getFactoryMethod();
-
-		if(
-			$factory_class_name &&
-			$factory_method
-		){
-			$factory_callback = [$factory_class_name, $factory_method];
-
-			if(!is_callable($factory_callback)){
-				throw new Factory_Exception(
-					$factory_callback[0].'::'.$factory_callback[1].' is not valid factory callback.',
-					Factory_Exception::CODE_INVALID_CALLBACK
-				);
-			}
-
-			return $factory_callback();
-		}
-
-
-		$orig_name = $class_name;
-		// get real class name
-		$class_name = self::getClassName($orig_name);
-
-		return new $class_name();
-	}
-
-	/**
-	 * @deprecated
-	 *
-	 * Checks if the instance is instance of @JetFactory::must_be_instance_of class
-	 *
-	 * @param string $default_class_name
-	 * @param Object_Interface|Object $instance
-	 *
-	 * @throws Factory_Exception
-	 */
-	public static function checkInstance( $default_class_name, Object_Interface $instance ) {
-
-		$required_class = Factory_ClassDefinition::getClassDefinition( $default_class_name )->getFactoryMandatoryParentClass();
-
-		if(!$required_class){
-			throw new Factory_Exception(
-				$default_class_name.' @JetFactory:mandatory_parent_class must be defined.',
-				Factory_Exception::CODE_MISSING_INSTANCEOF_CLASS_NAME
-			);
-		}
-
-
-		if(!($instance instanceof $required_class) ) {
-			throw new Factory_Exception(
-				'Class ' . get_class($instance) . ' must be descendant of '.$required_class.'.',
-				Factory_Exception::CODE_INVALID_CLASS_INSTANCE
-			);
-		}
-	}
-
 
 	/**
 	 * Loads overload map from installed and activated modules
@@ -175,31 +105,7 @@ class Factory extends Object implements Object_Reflection_ParserInterface {
 				self::$overload_map = $module_manifest->getFactoryOverloadMap() + self::$overload_map;
 			}
 		}
-	}
 
-	/**
-	 * @param &$reflection_data
-	 * @param string $key
-	 * @param string $definition
-	 * @param mixed $value
-	 *
-	 * @throws Object_Reflection_Exception
-	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
-		Factory_ClassDefinition::parseClassDocComment( $reflection_data, $key, $definition, $value );
-	}
-
-	/**
-	 * @param array &$reflection_data
-	 * @param string $property_name
-	 * @param string $key
-	 * @param string $definition
-	 * @param mixed $value
-	 *
-	 * @throws Object_Reflection_Exception
-	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
-		Factory_ClassDefinition::parsePropertyDocComment( $reflection_data,$property_name, $key, $definition, $value );
 	}
 
 }

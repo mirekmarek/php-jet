@@ -13,10 +13,18 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Div extends JetML_Widget_Dojo_Abstract {
+class JetML_Widget_Div extends JetML_Widget_Abstract {
+
 	/**
-	 * @var bool|string
+	 *
+	 * @return \DOMElement
 	 */
-	protected $dojo_type = false;
+	public function getReplacement() {
+
+		$attributes = $this->getNodeAttributes();
+
+		return $this->createNode('div', true, $attributes);
+
+	}
 
 }

@@ -19,14 +19,6 @@
  */
 namespace Jet;
 
-/**
- * Class Mvc_Router_Config_Abstract
- *
- * @JetFactory:class = 'Mvc_Factory'
- * @JetFactory:method = 'getRouterConfigInstance'
- * @JetFactory:mandatory_parent_class = 'Mvc_Router_Config_Abstract'
- *
- */
 abstract class Mvc_Router_Config_Abstract extends Config_Application {
 
 	/**

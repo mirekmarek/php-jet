@@ -22,10 +22,6 @@ namespace Jet;
 /**
  * Class Mvc_Site_LocalizedData_URL_Abstract
  *
- * @JetFactory:class = 'Mvc_Factory'
- * @JetFactory:mandatory_parent_class = 'Mvc_Site_LocalizedData_URL_Abstract'
- * @JetFactory:method = 'getLocalizedSiteURLInstance'
- *
  * @JetDataModel:name = 'site_localized_data_URL'
  * @JetDataModel:parent_model_class_name = 'Mvc_Sites_LocalizedData_Abstract'
  */

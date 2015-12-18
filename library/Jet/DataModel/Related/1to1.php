@@ -48,9 +48,18 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 		 */
 		$definition = $this->getDataModelDefinition();
 
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		/**
+		 * @var DataModel $this_parent_model_instance
+		 */
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
 		$parent_ID_values = [];
-		if($this->__parent_model_instance) {
-			$parent_ID = $this->__parent_model_instance->getID();
+		if($this_parent_model_instance) {
+			$parent_ID = $this_parent_model_instance->getID();
 
 			foreach( $definition->getParentModelRelationIDProperties() as $property ) {
 
@@ -64,6 +73,8 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 
 		$model_name = $definition->getModelName();
 		if(!empty($loaded_related_data[$model_name])) {
+
+
 			foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
 				if($parent_ID_values) {
 					foreach($parent_ID_values as $k=>$v) {
@@ -77,7 +88,10 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 				 * @var DataModel_Related_1to1 $loaded_instance
 				 */
 				$loaded_instance = static::createInstanceFromData( $dat );
-				$loaded_instance->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
+				$loaded_instance->setupParentObjects(
+					$this_main_model_instance,
+					$this_parent_model_instance
+				);
 				$loaded_instance->initRelatedProperties( $loaded_related_data );
 
 				unset($loaded_related_data[$model_name][$i]);

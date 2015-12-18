@@ -28,7 +28,7 @@ class IO_File {
 	 * @return array
 	 */
 	protected static function _getLastError() {
-		if(class_exists('Jet\Debug_ErrorHandler', false)) {
+		if(class_exists(__NAMESPACE__.'\Debug_ErrorHandler', false)) {
 			return Debug_ErrorHandler::getLastError();
 		} else {
 			return error_get_last();

@@ -18,13 +18,6 @@
  */
 namespace Jet;
 
-/**
- * Class Javascript_Lib_Abstract
- *
- * @JetFactory:class = 'Javascript_Factory'
- * @JetFactory:method = 'getJavascriptLibInstance'
- * @JetFactory:mandatory_parent_class = 'Javascript_Lib_Abstract'
- */
 abstract class Javascript_Lib_Abstract extends Object {
 
 	/**

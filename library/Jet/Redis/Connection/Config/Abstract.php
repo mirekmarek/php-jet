@@ -11,13 +11,6 @@
  */
 namespace Jet;
 
-/**
- * Class Redis_Connection_Config_Abstract
- *
- * @JetFactory:class = null
- * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Redis_Connection_Config_Abstract'
- */
 abstract class Redis_Connection_Config_Abstract extends Config_Section {
 
 

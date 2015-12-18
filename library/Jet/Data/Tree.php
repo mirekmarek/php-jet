@@ -49,7 +49,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @var string 
 	 */
-	protected $nodes_class_name = 'Jet\Data_Tree_Node';
+	protected $nodes_class_name = 'Data_Tree_Node';
 
 	/**
 	 *
@@ -103,6 +103,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function __construct($ID_key = 'ID', $parent_ID_key = 'parent_ID' ) {
 		$this->ID_key = $ID_key;
 		$this->parent_ID_key = $parent_ID_key;
+		$this->setNodeClassName(__NAMESPACE__.'\\'.$this->nodes_class_name);
 
 	}
 
@@ -129,7 +130,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function setNodeClassName( $nodes_class_name ) {
 		if(
-			$nodes_class_name !== 'Jet\Data_Tree_Node' &&
+			$nodes_class_name !== __NAMESPACE__.'\Data_Tree_Node' &&
 			!is_subclass_of($nodes_class_name, __NAMESPACE__.'\Data_Tree_Node')
 		) {
 			throw new Data_Tree_Exception(

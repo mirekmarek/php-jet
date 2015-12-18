@@ -22,9 +22,6 @@ namespace Jet;
 /**
  * Class Auth_User_Abstract
  *
- * @JetFactory:class = 'Auth_Factory'
- * @JetFactory:method = 'getUserInstance'
- * @JetFactory:mandatory_parent_class = 'Auth_User_Abstract'
  *
  * @JetApplication_Signals:signal = '/user/new'
  * @JetApplication_Signals:signal = '/user/deleted'

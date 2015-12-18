@@ -20,10 +20,6 @@ namespace Jet;
 /**
  * Class Auth_Role_Privilege_Abstract
  *
- * @JetFactory:class = 'Auth_Factory'
- * @JetFactory:method = 'getPrivilegeInstance'
- * @JetFactory:mandatory_parent_class = 'Auth_Role_Privilege_Abstract'
- *
  * @JetDataModel:name = 'role_privilege'
  * @JetDataModel:parent_model_class_name = 'Auth_Role_Abstract'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'

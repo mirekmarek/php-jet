@@ -19,31 +19,31 @@ namespace Jet;
 
 class Mvc_Factory extends Factory {
 
-	const DEFAULT_ROUTER_CLASS = 'Jet\Mvc_Router_Default';
-	const DEFAULT_ROUTER_CONFIG_CLASS = 'Jet\Mvc_Router_Config_Default';
+	const DEFAULT_ROUTER_CLASS = 'Mvc_Router_Default';
+	const DEFAULT_ROUTER_CONFIG_CLASS = 'Mvc_Router_Config_Default';
 
 	/**
 	 * @var string
 	 */
-	protected static $router_cache_backend_class_name_prefix = 'Jet\Mvc_Router_Cache_Backend_';
+	protected static $router_cache_backend_class_name_prefix = 'Mvc_Router_Cache_Backend_';
 
 
-	const DEFAULT_PAGE_ID_CLASS = 'Jet\Mvc_Page_ID_Default';
-	const DEFAULT_PAGE_CLASS = 'Jet\Mvc_Page_Default';
-	const DEFAULT_PAGE_META_TAG_CLASS = 'Jet\Mvc_Page_MetaTag_Default';
-	const DEFAULT_PAGE_CONTENT_CLASS = 'Jet\Mvc_Page_Content_Default';
+	const DEFAULT_PAGE_ID_CLASS = 'Mvc_Page_ID_Default';
+	const DEFAULT_PAGE_CLASS = 'Mvc_Page_Default';
+	const DEFAULT_PAGE_META_TAG_CLASS = 'Mvc_Page_MetaTag_Default';
+	const DEFAULT_PAGE_CONTENT_CLASS = 'Mvc_Page_Content_Default';
 
-	const DEFAULT_SITE_CLASS = 'Jet\Mvc_Site_Default';
-	const DEFAULT_LOCALIZED_SITE_CLASS = 'Jet\Mvc_Site_LocalizedData_Default';
-	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Jet\Mvc_Site_LocalizedData_MetaTag_Default';
-	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Jet\Mvc_Site_LocalizedData_URL_Default';
+	const DEFAULT_SITE_CLASS = 'Mvc_Site_Default';
+	const DEFAULT_LOCALIZED_SITE_CLASS = 'Mvc_Site_LocalizedData_Default';
+	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Mvc_Site_LocalizedData_MetaTag_Default';
+	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Mvc_Site_LocalizedData_URL_Default';
 
-	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = 'Jet\Mvc_NavigationData_Breadcrumb_Default';
-	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = 'Jet\Mvc_NavigationData_Menu_Default';
-	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = 'Jet\Mvc_NavigationData_Menu_Item_Default';
+	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = 'Mvc_NavigationData_Breadcrumb_Default';
+	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = 'Mvc_NavigationData_Menu_Default';
+	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = 'Mvc_NavigationData_Menu_Item_Default';
 
-	const DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS = 'Jet\Mvc_Layout_PackageCreator_CSS_Default';
-	const DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS = 'Jet\Mvc_Layout_PackageCreator_JavaScript_Default';
+	const DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS = 'Mvc_Layout_PackageCreator_CSS_Default';
+	const DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS = 'Mvc_Layout_PackageCreator_JavaScript_Default';
 
 	/**
 	 * @param string $router_cache_backend_class_name_prefix

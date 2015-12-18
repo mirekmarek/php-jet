@@ -14,15 +14,15 @@ $available_privileges_list = $this->available_privileges_list;
  */
 $form = $this->form;
 ?>
-<jetml_editarea id="role_edit" title="Roles" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
-	<jetml_editarea_dialog area_id="role_edit">
-		<jetml_layout_toolbar region="top">
-			<jetml_form_button_save id="role_save" onClick="Jet.modules.CURRENT_MODULE.save();"/>
-			<jetml_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
-		</jetml_layout_toolbar>
-		<jetml_layout_tabs region="center">
+<jetml_dojo_editarea id="role_edit" title="Roles" icon="module/%JET_CURRENT_MODULE_NAME%/module" onClose="Jet.modules.CURRENT_MODULE.close();">
+	<jetml_dojo_editarea_dialog area_id="role_edit">
+		<jetml_dojo_layout_toolbar region="top">
+			<jetml_dojo_form_button_save id="role_save" onClick="Jet.modules.CURRENT_MODULE.save();"/>
+			<jetml_dojo_form_button_cancel onClick="Jet.modules.CURRENT_MODULE.close();"/>
+		</jetml_dojo_layout_toolbar>
+		<jetml_dojo_layout_tabs region="center">
 			<jet_form name="<?=$form->getName();?>">
-			<jetml_layout_pane title="Basic info">
+			<jetml_dojo_layout_pane title="Basic info">
 				<jetml_data id="role_form_fields_definition"><?=json_encode( $form->getFields() ); ?></jetml_data>
 				<jetml_data id="role_privileges_scope"><?=json_encode($available_privileges_list);?></jetml_data>
 
@@ -37,34 +37,34 @@ $form = $this->form;
 							<td><jet_form_field name="description" style="width:400px;height:300px;"/></td>
 						</tr>
 					</table>
-			</jetml_layout_pane>
+			</jetml_dojo_layout_pane>
 			<?php foreach($available_privileges_list as $privilege=>$pd ): ?>
-			<jetml_layout_pane title="<?=$pd->getLabel();?>" id="role_access_<?=$privilege;?>_pane">
+			<jetml_dojo_layout_pane title="<?=$pd->getLabel();?>" id="role_access_<?=$privilege;?>_pane">
 				<?php /*
 				<jet_form_field_label name="/privileges/<?=$privilege;?>/values"/>
                 */ ?>
 				<jet_form_field_error_msg name="/privileges/<?=$privilege;?>/values" class="error"/>
 				<jet_form_field name="/privileges/<?=$privilege;?>/values" class="form-control" style="width: 300px;height: 500px;"/>
-			</jetml_layout_pane>
+			</jetml_dojo_layout_pane>
 			<?php endforeach; ?>
 			</jet_form>
-		</jetml_layout_tabs>
-	</jetml_editarea_dialog>
-	<jetml_editarea_list area_id="role_edit">
-		<jetml_layout_toolbar region="top">
-			<jetml_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
-			<jetml_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
-			<jetml_trash_button trash_id="role_trash"/>
-		</jetml_layout_toolbar>
+		</jetml_dojo_layout_tabs>
+	</jetml_dojo_editarea_dialog>
+	<jetml_dojo_editarea_list area_id="role_edit">
+		<jetml_dojo_layout_toolbar region="top">
+			<jetml_dojo_form_button icon="reload" onclick="Jet.modules.CURRENT_MODULE.reloadGrid();"/>
+			<jetml_dojo_form_button icon="add" title="Add new" onclick="Jet.modules.CURRENT_MODULE.add();"/>
+			<jetml_dojo_trash_button trash_id="role_trash"/>
+		</jetml_dojo_layout_toolbar>
 
-		<jetml_layout_pane region="center" gutters="false" style="padding:0;">
-			<jetml_datagrid id="roles_grid">
-				<jetml_datagrid_column field="name" title="Name" width="20%"/>
-				<jetml_datagrid_column field="description" title="Description" width="60%"/>
-				<jetml_datagrid_column field="ID" title="" width="20%"/>
-			</jetml_datagrid>
-		</jetml_layout_pane>
-	</jetml_editarea_list>
-</jetml_editarea>
+		<jetml_dojo_layout_pane region="center" gutters="false" style="padding:0;">
+			<jetml_dojo_datagrid id="roles_grid">
+				<jetml_dojo_datagrid_column field="name" title="Name" width="20%"/>
+				<jetml_dojo_datagrid_column field="description" title="Description" width="60%"/>
+				<jetml_dojo_datagrid_column field="ID" title="" width="20%"/>
+			</jetml_dojo_datagrid>
+		</jetml_dojo_layout_pane>
+	</jetml_dojo_editarea_list>
+</jetml_dojo_editarea>
 
-<jetml_trash_dialog trash_id="role_trash"/>
+<jetml_dojo_trash_dialog trash_id="role_trash"/>

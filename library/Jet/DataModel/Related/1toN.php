@@ -29,11 +29,6 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 
 
 	/**
-	 * @var array
-	 */
-	protected $load_related_data_order_by = [];
-
-	/**
 	 * @return DataModel_Related_Interface
 	 */
 	public function createNewRelatedDataModelInstance() {
@@ -57,7 +52,8 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 	 */
 	public function setLoadRelatedDataOrderBy(array $order_by)
 	{
-		$this->load_related_data_order_by = $order_by;
+		$this_load_related_data_order_by = &DataModel_ObjectState::getVar($this, 'load_related_data_order_by' );
+		$this_load_related_data_order_by = $order_by;
 	}
 
 	/**
@@ -70,7 +66,9 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 		 */
 		$data_model_definition = $this->getDataModelDefinition();
 
-		return $this->load_related_data_order_by ? $this->load_related_data_order_by : $data_model_definition->getDefaultOrderBy();
+		$this_load_related_data_order_by = &DataModel_ObjectState::getVar($this, 'load_related_data_order_by' );
+
+		return $this_load_related_data_order_by ? $this_load_related_data_order_by : $data_model_definition->getDefaultOrderBy();
 	}
 
 
@@ -100,9 +98,18 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 		 */
 		$data_model_definition = $this->getDataModelDefinition();
 
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		/**
+		 * @var DataModel_Related_Abstract $this_parent_model_instance
+		 */
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
 		$parent_ID_values = [];
-		if($this->__parent_model_instance) {
-			$parent_ID = $this->__parent_model_instance->getID();
+		if($this_parent_model_instance) {
+			$parent_ID = $this_parent_model_instance->getID();
 
 			foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
 
@@ -122,6 +129,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 			return $items;
 		}
 
+
 		foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
 			if($parent_ID_values) {
 				foreach($parent_ID_values as $k=>$v) {
@@ -135,7 +143,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 			 * @var DataModel_Related_1toN $loaded_instance
 			 */
 			$loaded_instance = static::createInstanceFromData( $dat );
-			$loaded_instance->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+			$loaded_instance->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
 			$loaded_instance->initRelatedProperties( $loaded_related_data );
 
 

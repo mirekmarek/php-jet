@@ -13,13 +13,6 @@
  */
 namespace Jet;
 
-/**
- * Class JetML
- *
- * @JetFactory:class = 'JetML_Factory';
- * @JetFactory:method = 'getJetMLPostprocessorInstance';
- * @JetFactory:mandatory_parent_class = 'JetML';
- */
 class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
 	const TAGS_PREFIX = 'jetml';
@@ -28,11 +21,6 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	 * @var \DOMDocument
 	 */
 	protected $_DOM_document;
-
-	/**
-	 * @var string
-	 */
-	protected $toolkit = 'Dojo';
 
 	/**
 	 * @var Mvc_Layout
@@ -162,21 +150,6 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	 */
 	public function getLayout() {
 		return $this->layout;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getToolkit() {
-		return $this->toolkit;
-	}
-
-	/**
-	 * @param string $toolkit
-	 */
-	public function setToolkit($toolkit) {
-		$this->toolkit = $toolkit;
 	}
 
 	/**
@@ -314,7 +287,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 			$tag_name = static::$_tag_class_map_cache[$tag_name];
 		}
 
-		return JetML_Factory::getJetMLWidgetInstance($this, $this->toolkit, $tag_name, $node);
+		return JetML_Factory::getJetMLWidgetInstance($this, $tag_name, $node);
 	}
 
 

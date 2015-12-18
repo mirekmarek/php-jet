@@ -21,9 +21,9 @@ class JetML_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $jetml_widget_class_name_prefix = 'Jet\JetML_Widget_';
+	protected static $jetml_widget_class_name_prefix = 'JetML_Widget_';
 
-	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = 'Jet\JetML';
+	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = 'JetML';
 
 	/**
 	 * @param string $jetml_widget_class_name_prefix
@@ -59,7 +59,6 @@ class JetML_Factory extends Factory {
 	 * @static
 	 *
 	 * @param JetML $postprocessor
-	 * @param string $toolkit
 	 * @param $tag_name
 	 * @param \DOMElement $node
 	 *
@@ -67,9 +66,9 @@ class JetML_Factory extends Factory {
 
 	 * @return JetML_Widget_Abstract
 	 */
-	public static function getJetMLWidgetInstance(  JetML $postprocessor, $toolkit, $tag_name,\DOMElement $node) {
+	public static function getJetMLWidgetInstance(  JetML $postprocessor, $tag_name,\DOMElement $node) {
 
-		$class_name =  static::getClassName( static::$jetml_widget_class_name_prefix.$toolkit.'_'.$tag_name );
+		$class_name =  static::getClassName( static::$jetml_widget_class_name_prefix.$tag_name );
 
 		/* @var $tag_instance JetML_Widget_Abstract */
 		$tag_instance = new $class_name($postprocessor, $node);

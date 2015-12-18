@@ -17,12 +17,12 @@ class Form_Factory extends Factory {
 	/**
 	 * @var string
 	 */
-	protected static $form_field_class_name_prefix = 'Jet\Form_Field_';
+	protected static $form_field_class_name_prefix = 'Form_Field_';
 
 	/**
 	 * @var string
 	 */
-	protected static $form_decorator_class_name_prefix = 'Jet\Form_Decorator_';
+	protected static $form_decorator_class_name_prefix = 'Form_Decorator_';
 
 
 	/**

@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Flag extends JetML_Widget_Dojo_Abstract {
+class JetML_Widget_Flag extends JetML_Widget_Abstract {
 
 	/**
 	 * @var bool|string
@@ -37,13 +37,16 @@ class JetML_Widget_Dojo_Flag extends JetML_Widget_Dojo_Abstract {
 
 		$icon_data = $this->parser->getIconSizeData('flag_'.$size);
 
-		$this->node->setAttribute('src', $icon_URL);
-		$this->node->setAttribute('title', $title);
-		$this->node->setAttribute('width', $icon_data['width']);
-		$this->node->setAttribute('height', $icon_data['height']);
 
+		$attributes = $this->getNodeAttributes();
 
-		return parent::getReplacement();
+		$attributes['src'] = $icon_URL;
+		$attributes['title'] = $title;
+		$attributes['width'] = $icon_data['width'];
+		$attributes['height'] = $icon_data['height'];
+
+		return $this->createNode('img', false, $attributes);
+
 	}
 
 }

@@ -17,6 +17,14 @@ namespace Jet;
 trait Object_Trait {
 
 	/**
+	 * @return string
+	 */
+	public function getObjectIdentificationKey() {
+		$object_key = get_class($this).':'.spl_object_hash($this);
+		return $object_key;
+	}
+
+	/**
 	 * @param $signal_name
 	 *
 	 * @return bool
@@ -37,7 +45,7 @@ trait Object_Trait {
 		/** @noinspection PhpUnusedParameterInspection */
 		$signal_name
 	) {
-		return Object_Reflection::get( get_class($this), 'signal_object_class_name', Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME );
+		return Object_Reflection::get( get_class($this), 'signal_object_class_name', __NAMESPACE__.'\\'.Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME );
 	}
 
 	/**

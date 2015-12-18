@@ -18,13 +18,6 @@
 
 namespace Jet;
 
-/**
- * Class Translator_Backend_Abstract
- *
- * @JetFactory:class = null
- * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Translator_Backend_Abstract'
- */
 abstract class Translator_Backend_Abstract extends Object {
 
 	/**

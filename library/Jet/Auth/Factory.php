@@ -19,11 +19,11 @@ namespace Jet;
 
 class Auth_Factory extends Factory {
 
-	const DEFAULT_CONFIG_CLASS = 'Jet\Auth_Config_Default';
-	const DEFAULT_USER_CLASS = 'Jet\Auth_User_Default';
-	const DEFAULT_USER_ROLES_CLASS = 'Jet\Auth_User_Roles';
-	const DEFAULT_ROLE_CLASS = 'Jet\Auth_Role_Default';
-	const DEFAULT_PRIVILEGE_CLASS = 'Jet\Auth_Role_Privilege_Default';
+	const DEFAULT_CONFIG_CLASS = 'Auth_Config_Default';
+	const DEFAULT_USER_CLASS = 'Auth_User_Default';
+	const DEFAULT_USER_ROLES_CLASS = 'Auth_User_Roles';
+	const DEFAULT_ROLE_CLASS = 'Auth_Role_Default';
+	const DEFAULT_PRIVILEGE_CLASS = 'Auth_Role_Privilege_Default';
 
 	/**
 	 * @return string

@@ -18,17 +18,6 @@ namespace Jet;
 
 abstract class DataModel_Related_Abstract extends DataModel implements DataModel_Related_Interface {
 
-
-	/**
-	 * @var DataModel
-	 */
-	protected $__main_model_instance;
-
-	/**
-	 * @var DataModel_Related_Abstract
-	 */
-	protected $__parent_model_instance;
-
 	/**
 	 * @return DataModel_Related_Interface
 	 */
@@ -41,21 +30,32 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 	 * @return bool
 	 */
 	public function getBackendTransactionStarted() {
+		/**
+		 * @var DataModel $main_model_instance
+		 */
+		$main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+
 		if(
-			$this->__main_model_instance &&
-			$this->__main_model_instance->getBackendTransactionStarted()
+			$main_model_instance &&
+			$main_model_instance->getBackendTransactionStarted()
 		) {
 			return true;
 		}
 
+		/**
+		 * @var DataModel_Related_Abstract $parent_model_instance
+		 */
+		$parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 		if(
-			$this->__parent_model_instance &&
-			$this->__parent_model_instance->getBackendTransactionStarted()
+			$parent_model_instance &&
+			$parent_model_instance->getBackendTransactionStarted()
 		) {
 			return true;
 		}
 
-		return $this->__data_model_backend_transaction_started;
+		$backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
+
+		return $backend_transaction_started;
 	}
 
 	/**
@@ -66,16 +66,24 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 			return false;
 		}
 
+		/**
+		 * @var DataModel $main_model_instance
+		 */
+		$main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 		if(
-			$this->__main_model_instance &&
-			$this->__main_model_instance->getBackendTransactionStarted()
+			$main_model_instance &&
+			$main_model_instance->getBackendTransactionStarted()
 		) {
 			return false;
 		}
 
+		/**
+		 * @var DataModel_Related_Abstract $parent_model_instance
+		 */
+		$parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 		if(
-			$this->__parent_model_instance &&
-			$this->__parent_model_instance->getBackendTransactionStarted()
+			$parent_model_instance &&
+			$parent_model_instance->getBackendTransactionStarted()
 		) {
 			return false;
 		}
@@ -101,8 +109,17 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 
 		$where = $query->getWhere();
 
-		if( $this->__main_model_instance ) {
-			$main_model_ID = $this->__main_model_instance->getID();
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		/**
+		 * @var DataModel_Related_Abstract $this_parent_model_instance
+		 */
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
+		if( $this_main_model_instance ) {
+			$main_model_ID = $this_main_model_instance->getID();
 
 			foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
 				/**
@@ -121,8 +138,8 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 
 			}
 		} else {
-			if( $this->__parent_model_instance ) {
-				$parent_model_ID = $this->__parent_model_instance->getID();
+			if( $this_parent_model_instance ) {
+				$parent_model_ID = $this_parent_model_instance->getID();
 
 				foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
 					/**
@@ -156,6 +173,11 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 	protected function initRelatedProperties( array &$loaded_related_data ) {
 		$definition = static::getDataModelDefinition();
 
+		/**
+		 * var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
 			/**
@@ -166,7 +188,7 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 				continue;
 			}
 
-			$property->setupParentObjects( $this->__main_model_instance, $this );
+			$property->setupParentObjects( $this_main_model_instance, $this );
 
 			$this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
 		}
@@ -181,8 +203,11 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 	 */
 	public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
 
-		$this->__main_model_instance = $main_model_instance;
-		$this->__parent_model_instance = $parent_model_instance;
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_main_model_instance = $main_model_instance;
+
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+		$this_parent_model_instance = $parent_model_instance;
 
 		$main_ID = $main_model_instance->getID();
 		/**
@@ -234,7 +259,7 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 				continue;
 			}
 
-			$property->setupParentObjects($this->__main_model_instance, $this);
+			$property->setupParentObjects($this_main_model_instance, $this);
 
 		}
 
@@ -248,6 +273,8 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 	protected function _saveRelatedObjects() {
 		$definition = $this->getDataModelDefinition();
 
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
 			/**
@@ -258,7 +285,7 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 				continue;
 			}
 
-			$property->setupParentObjects( $this->__main_model_instance, $this );
+			$property->setupParentObjects( $this_main_model_instance, $this );
 			$property->save();
 
 		}
@@ -269,40 +296,56 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 	 * @param string $operation
 	 */
 	public function updateDataModelCache( $operation ) {
-		if(!$this->__main_model_instance) {
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		if(!$this_main_model_instance) {
 			return;
 		}
-		$this->__main_model_instance->updateDataModelCache($operation);
+		$this_main_model_instance->updateDataModelCache($operation);
 	}
 
 	/**
 	 *
 	 */
 	public function deleteDataModelCache() {
-		if(!$this->__main_model_instance) {
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		if(!$this_main_model_instance) {
 			return;
 		}
-		$this->__main_model_instance->deleteDataModelCache();
+		$this_main_model_instance->deleteDataModelCache();
 	}
 
 	/**
 	 * @param string $operation
 	 */
 	protected function dataModelHistoryOperationStart( $operation ) {
-		if(!$this->__main_model_instance) {
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		if(!$this_main_model_instance) {
 			return;
 		}
-		$this->__main_model_instance->dataModelHistoryOperationStart( $operation );
+		$this_main_model_instance->dataModelHistoryOperationStart( $operation );
 	}
 
 	/**
 	 *
 	 */
 	protected function dataModelHistoryOperationDone() {
-		if(!$this->__main_model_instance) {
+		/**
+		 * @var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		if(!$this_main_model_instance) {
 			return;
 		}
-		$this->__main_model_instance->dataModelHistoryOperationDone();
+		$this_main_model_instance->dataModelHistoryOperationDone();
 	}
 
 

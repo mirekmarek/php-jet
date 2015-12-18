@@ -19,14 +19,6 @@
  */
 namespace Jet;
 
-/**
- * Class Auth_Config_Abstract
- *
- * @JetFactory:class = 'Auth_Factory'
- * @JetFactory:method = 'getAuthConfigInstance'
- * @JetFactory:mandatory_parent_class = 'Auth_Config_Abstract'
- *
- */
 abstract class Auth_Config_Abstract extends Config_Application {
 
 	/**

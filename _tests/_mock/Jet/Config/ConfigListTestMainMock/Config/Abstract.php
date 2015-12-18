@@ -11,13 +11,6 @@
  */
 namespace Jet;
 
-/**
- * Class ConfigListTestMainMock_Config_Abstract
- *
- * @JetFactory:class = null
- * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'ConfigListTestMainMock_Config_Abstract'
- */
 abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
 
 

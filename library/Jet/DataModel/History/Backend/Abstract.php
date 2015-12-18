@@ -16,13 +16,6 @@
  */
 namespace Jet;
 
-/**
- * Class DataModel_History_Backend_Abstract
- *
- * @JetFactory:class = null
- * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'DataModel_History_Backend_Abstract'
- */
 abstract class DataModel_History_Backend_Abstract extends Object {
 
 	const OPERATION_SAVE = 'save';

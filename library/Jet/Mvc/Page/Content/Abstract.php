@@ -21,10 +21,6 @@ namespace Jet;
 /**
  * Class Mvc_Page_Content_Abstract
  *
- * @JetFactory:class = 'Mvc_Factory'
- * @JetFactory:method = 'getPageContentInstance'
- * @JetFactory:mandatory_parent_class = 'Mvc_Page_Content_Abstract'
- *
  * @JetDataModel:name = 'page_content'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page_Abstract'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'

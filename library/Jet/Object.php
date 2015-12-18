@@ -24,12 +24,6 @@ namespace Jet;
  *          Signal object class name:
  *              @JetApplication_Signals:signal_object_class_name = 'Some\Custom_Class_Name'
  *
- *      Factory: @see Factory
- *          @JetFactory:class = 'Some\Factory_Class'
- *                     - optional
- *          @JetFactory:method = 'someMethodName'
- *                     - optional
- *          @JetFactory:mandatory_parent_class = 'Some_Mandatory_Abstract_Class'
  */
 
 

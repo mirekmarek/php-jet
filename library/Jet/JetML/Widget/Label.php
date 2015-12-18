@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Label extends JetML_Widget_Dojo_Abstract {
+class JetML_Widget_Label extends JetML_Widget_Dojo_Abstract {
 	/**
 	 *
 	 * @var string|array|bool $dojo_type
@@ -32,13 +32,14 @@ class JetML_Widget_Dojo_Label extends JetML_Widget_Dojo_Abstract {
 
 		$for = $this->node->getAttribute('for');
 
+		$attributes = $this->getNodeAttributes();
 		if($for) {
 			$for = $this->parser->getLayout()->getUIContainerIDPrefix().$for;
 
-			$this->node->setAttribute('for', $for);
+			$attributes['for'] = $for;
 		}
 
-		return parent::getReplacement();
+		return $this->createNode('label', true, $attributes);
 	}
 
 }

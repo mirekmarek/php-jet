@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class JetML_Widget_Dojo_Data extends JetML_Widget_Abstract {
+class JetML_Widget_Data extends JetML_Widget_Abstract {
 
 
 	/**

@@ -16,10 +16,6 @@ namespace Jet;
 /**
  * Class Auth_Role_Abstract
  *
- * @JetFactory:class = 'Auth_Factory'
- * @JetFactory:method = 'getRoleInstance'
- * @JetFactory:mandatory_parent_class = 'Auth_Role_Abstract'
- *
  * @JetApplication_Signals:signal = '/role/new'
  * @JetApplication_Signals:signal = '/role/updated'
  * @JetApplication_Signals:signal = '/role/deleted'

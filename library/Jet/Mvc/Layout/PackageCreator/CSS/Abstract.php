@@ -13,15 +13,7 @@
  */
 namespace Jet;
 
-/**
- *
- * @JetFactory:class = 'Mvc_Factory'
- * @JetFactory:method = 'getLayoutCssPackageCreatorInstance'
- * @JetFactory:mandatory_parent_class = 'Mvc_Layout_PackageCreator_CSS_Abstract'
- *
- */
-abstract class
-Mvc_Layout_PackageCreator_CSS_Abstract extends Mvc_Layout_PackageCreator_Abstract {
+abstract class Mvc_Layout_PackageCreator_CSS_Abstract extends Mvc_Layout_PackageCreator_Abstract {
 
 	/**
 	 * @var string

@@ -73,6 +73,29 @@ abstract class JetML_Widget_Abstract extends Object {
 
 	}
 
+
+	/**
+	 * @return array
+	 */
+	protected function getNodeAttributes() {
+		$attributes = [];
+
+		foreach($this->node->attributes as $attribute){
+			/**
+			 * @var \DOMAttr $attribute
+			 */
+
+			$a_name = $attribute->name;
+			$a_value = $attribute->value;
+
+			$attributes[$a_name] = $a_value;
+
+		}
+
+		return $attributes;
+	}
+
+
 	/**
 	 * @param string $attribute
 	 * @param string $default_value
@@ -85,6 +108,35 @@ abstract class JetML_Widget_Abstract extends Object {
 				$default_value;
 	}
 
+	/**
+	 * @param string $tag_name
+	 * @param bool $append_children
+	 * @param array $attributes
+	 *
+	 * @return \DOMElement
+	 */
+	public function createNode( $tag_name, $append_children, array $attributes=[] ) {
+
+		$node  = $this->parser->getDOMDocument()->createElement( $tag_name );
+
+		if($append_children) {
+			$children = [];
+			foreach( $this->node->childNodes as $child ) {
+				$children[] = $child;
+			}
+
+			foreach( $children as $child ) {
+				$node->appendChild($child);
+			}
+		}
+
+		foreach($attributes as $a_name=>$a_value) {
+			$node->setAttribute($a_name, $a_value);
+		}
+
+		return $node;
+
+	}
 
 	/**
 	 * @return \DOMElement

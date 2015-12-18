@@ -152,40 +152,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	const KEY_TYPE_INDEX = 'INDEX';
 	const KEY_TYPE_UNIQUE = 'UNIQUE';
 
-	/**
-	 *
-	 * @var DataModel_ID_Abstract
-	 */
-	private $__ID;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	private $___data_model_saved = false;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	private $___data_model_ready_to_save = false;
-
-	/**
-	 *
-	 * @var DataModel_History_Backend_Abstract
-	 */
-	private $___data_model_history_backend_instance = null;
-
-	/**
-	 *
-	 * @var DataModel_Validation_Error[]
-	 */
-	protected $___data_model_data_validation_errors = [];
-
-	/**
-	 * @var bool
-	 */
-	protected $__data_model_backend_transaction_started = false;
 
 	/**
 	 *
@@ -195,13 +161,21 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 	/**
+	 *
+	 */
+	public function __destruct() {
+		DataModel_ObjectState::destruct($this);
+	}
+
+	/**
 	 * Initializes new DataModel
 	 *
 	 */
 	protected function initNewObject() {
+		$this->setIsNew();
 
-		$this->___data_model_ready_to_save = false;
-		$this->___data_model_saved = false;
+		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
+		$ready_to_save = false;
 
 
 		foreach( $this->getDataModelDefinition()->getProperties() as $property_name => $property_definition ) {
@@ -219,15 +193,18 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_ID_Abstract
 	 */
 	public function getID() {
-		if(!$this->__ID) {
-			$this->__ID = $this->getEmptyIDInstance();
+
+		$ID = &DataModel_ObjectState::getVar($this, 'ID');
+
+		if(!$ID) {
+			$ID = $this->getEmptyIDInstance();
 		}
 
-		foreach($this->__ID as $property_name => $value) {
-			$this->__ID[$property_name] = $this->{$property_name};
+		foreach($ID as $property_name => $value) {
+			$ID[$property_name] = $this->{$property_name};
 		}
 
-		return $this->__ID;
+		return $ID;
 	}
 
 
@@ -257,15 +234,15 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_ID_Abstract
 	 */
 	public function resetID() {
-		$this->getID();
+		$ID = $this->getID();
 
-		$this->__ID->reset();
+		$ID->reset();
 
-		foreach( $this->__ID as $property_name=>$value ) {
+		foreach( $ID as $property_name=>$value ) {
 			$this->{$property_name} = $value;
 		}
 
-		return $this->__ID;
+		return $ID;
 
 	}
 
@@ -298,28 +275,30 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return bool
 	 */
 	public function getIsNew() {
-		return !$this->___data_model_saved;
+		return !DataModel_ObjectState::getVar($this, 'data_model_saved', false);
 	}
 
 	/**
 	 *
 	 */
 	public function setIsNew() {
-		$this->___data_model_saved = false;
+		$data_model_saved = &DataModel_ObjectState::getVar($this, 'data_model_saved', false);
+		$data_model_saved = false;
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function getIsSaved() {
-		return $this->___data_model_saved;
+		return DataModel_ObjectState::getVar($this, 'data_model_saved', false);
 	}
 
 	/**
 	 *
 	 */
 	public function setIsSaved() {
-		$this->___data_model_saved = true;
+		$data_model_saved = &DataModel_ObjectState::getVar($this, 'data_model_saved', false);
+		$data_model_saved = true;
 	}
 
 
@@ -388,20 +367,22 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function validateProperties() {
 
-		$this->___data_model_data_validation_errors = [];
+		$validation_errors = &DataModel_ObjectState::getVar($this, 'validation_errors',[]);
+		$validation_errors = [];
 
-		$this->___data_model_ready_to_save = false;
+		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
+		$ready_to_save = false;
 
 		foreach( $this->getDataModelDefinition()->getProperties()  as $property_name=>$property_definition ) {
 
-			$property_definition->validatePropertyValue($this, $this->{$property_name}, $this->___data_model_data_validation_errors);
+			$property_definition->validatePropertyValue($this, $this->{$property_name}, $validation_errors);
 		}
 
-		if(count($this->___data_model_data_validation_errors)) {
+		if(count($validation_errors)) {
 			return false;
 		}
 
-		$this->___data_model_ready_to_save = true;
+		$ready_to_save = true;
 
 		return true;
 	}
@@ -411,7 +392,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return DataModel_Validation_Error[]
 	 */
 	public function getValidationErrors() {
-		return $this->___data_model_data_validation_errors;
+		$validation_errors = &DataModel_ObjectState::getVar($this, 'validation_errors',[]);
+
+		return $validation_errors;
 	}
 
 
@@ -487,15 +470,17 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			return false;
 		}
 
-		if(!$this->___data_model_history_backend_instance) {
-			$this->___data_model_history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
+		$history_backend_instance = &DataModel_ObjectState::getVar($this, 'history_backend_instance' );
+
+		if(!$history_backend_instance) {
+			$history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
 				$definition->getHistoryBackendType(),
 				$definition->getHistoryBackendConfig()
 			);
 
 		}
 
-		return $this->___data_model_history_backend_instance;
+		return $history_backend_instance;
 	}
 
 	/**
@@ -662,14 +647,18 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @return bool
 	 */
 	public function getBackendTransactionStarted() {
-		return $this->__data_model_backend_transaction_started;
+		$backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
+
+		return $backend_transaction_started;
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function getBackendTransactionStartedByThisInstance() {
-		return $this->__data_model_backend_transaction_started;
+		$backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
+
+		return $backend_transaction_started;
 	}
 
 	/**
@@ -677,7 +666,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function startBackendTransaction( DataModel_Backend_Abstract $backend ) {
 		if(!$this->getBackendTransactionStarted()) {
-			$this->__data_model_backend_transaction_started = true;
+			$backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
+			$backend_transaction_started = true;
 
 			$backend->transactionStart();;
 		}
@@ -689,7 +679,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	public function commitBackendTransaction( DataModel_Backend_Abstract $backend ) {
 		if($this->getBackendTransactionStartedByThisInstance()) {
 			$backend->transactionCommit();
-			$this->__data_model_backend_transaction_started = false;
+
+			$backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
+			$backend_transaction_started = false;
 		}
 	}
 
@@ -747,9 +739,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 
-		$this->___data_model_saved = true;
-
-
+		$this->setIsSaved();
 
 		$this->{$after_method_name}();
 	}
@@ -859,7 +849,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @throws DataModel_Exception
 	 */
 	protected function _checkBeforeSave() {
-		if(!$this->___data_model_ready_to_save) {
+		if(! DataModel_ObjectState::getVar($this, 'ready_to_save',false) ) {
 
 			$errors = $this->getValidationErrors();
 			foreach($errors as $i=>$e) {
@@ -1386,8 +1376,9 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 */
 	public function __wakeup() {
-		$this->___data_model_saved = true;
-		$this->___data_model_ready_to_save = false;
+		$this->setIsSaved();
+		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
+		$ready_to_save = false;
 	}
 
 	/**

@@ -16,71 +16,17 @@
  */
 namespace Jet;
 
-class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
+class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
 
 	/**
 	 * @var string
 	 */
 	protected $item_class_name = '';
 
-
-	/**
-	 * @var DataModel_Related_MtoN
-	 */
-	protected $__empty_item_instance;
-
-	/**
-	 * @var DataModel
-	 */
-	protected $__main_model_instance;
-
-	/**
-	 * @var DataModel_Related_Abstract
-	 */
-	protected $__parent_model_instance;
-
-
-	/**
-	 * @var string|null
-	 */
-	protected $__data_model_current_M_model_class_name = null;
-	/**
-	 * @var string|null
-	 */
-	protected $__data_model_current_N_model_class_name = null;
-
-	/**
-	 * @var string|null
-	 */
-	protected $__data_model_current_M_model_name = null;
-	/**
-	 * @var string|null
-	 */
-	protected $__data_model_current_N_model_name = null;
-
-
-	/**
-	 * @var DataModel
-	 */
-	protected $M_instance;
-
-	/**
-	 * @var DataModel_ID_Abstract
-	 */
-	protected $M_ID = null;
-
-
 	/**
 	 * @var DataModel_Related_MtoN[]
 	 */
-	protected $items = null;
-
-	/**
-	 * @var DataModel_Related_MtoN[]
-	 */
-	protected $deleted_items = [];
-
-
+	protected $items;
 
 	/**
 	 * @param $item_class_name
@@ -94,13 +40,27 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return DataModel_Related_MtoN
 	 */
 	protected function _getEmptyItemInstance() {
-		if(!$this->__empty_item_instance) {
-			$this->__empty_item_instance = new $this->item_class_name();
+		/**
+		 * @var DataModel_Related_MtoN $this_empty_item_instance
+		 */
+		$this_empty_item_instance = &DataModel_ObjectState::getVar($this, 'empty_item_instance');
 
-			$this->__empty_item_instance->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
+		if(!$this_empty_item_instance) {
+			/**
+			 * @var DataModel $this_main_model_instance
+			 */
+			$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+			/**
+			 * @var DataModel_Related_Abstract $this_parent_model_instance
+			 */
+			$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
+			$this_empty_item_instance = new $this->item_class_name();
+
+			$this_empty_item_instance->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
 		}
 
-		return $this->__empty_item_instance;
+		return $this_empty_item_instance;
 
 	}
 
@@ -138,8 +98,11 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function setupParentObjects(DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance = null)
 	{
-		$this->__main_model_instance = $main_model_instance;
-		$this->__parent_model_instance = $parent_model_instance;
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
+		$this_main_model_instance = $main_model_instance;
+		$this_parent_model_instance = $parent_model_instance;
 
 		if( $parent_model_instance ) {
 			$M_instance = $parent_model_instance;
@@ -152,6 +115,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 		 * @var DataModel $M_instance
 		 */
 		$M_model_name = $M_instance->getDataModelDefinition()->getModelName();
+
 
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
@@ -168,15 +132,24 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 		$N_model_name = $data_model_definition->getNModelName($M_model_name);
 
 
-		$this->__data_model_current_M_model_name = $M_model_name;
-		$this->__data_model_current_N_model_name = $N_model_name;
+		$this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
+		$this_M_model_name = $M_model_name;
 
-		$this->__data_model_current_M_model_class_name = $data_model_definition->getRelatedModelDefinition($M_model_name)->getClassName();
-		$this->__data_model_current_N_model_class_name = $data_model_definition->getRelatedModelDefinition($N_model_name)->getClassName();
+		$this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
+		$this_N_model_name = $N_model_name;
+
+		$this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
+		$this_M_model_class_name = $data_model_definition->getRelatedModelDefinition($M_model_name)->getClassName();
+
+		$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
+		$this_N_model_class_name = $data_model_definition->getRelatedModelDefinition($N_model_name)->getClassName();
 
 
-		$this->M_instance = $M_instance;
-		$this->M_ID = $M_instance->getID();
+		$this_M_instance = &DataModel_ObjectState::getVar($this, 'M_instance');
+		$this_M_instance = $M_instance;
+
+		$this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID');
+		$this_M_ID = $M_instance->getID();
 
 		$this->_getEmptyItemInstance()->setupParentObjects($main_model_instance, $parent_model_instance);
 
@@ -198,8 +171,9 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @throws DataModel_Exception
 	 */
 	public function save() {
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
 
-		foreach($this->deleted_items as $item) {
+		foreach($this_deleted_items as $item) {
 			/**
 			 * @var DataModel_Related_MtoN $item
 			 */
@@ -212,8 +186,11 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 			return;
 		}
 
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
 		foreach($this->items as $item) {
-			$item->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+			$item->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
 			$item->save();
 		}
 
@@ -225,7 +202,12 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @throws DataModel_Exception
 	 */
 	public function delete() {
-		foreach($this->deleted_items as $item) {
+		/**
+		 * @var DataModel_Related_MtoN[] $this_deleted_items
+		 */
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+
+		foreach($this_deleted_items as $item) {
 			$item->delete();
 		}
 
@@ -246,7 +228,8 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function removeAllItems() {
 		if($this->items) {
-			$this->deleted_items = $this->items;
+			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+			$this_deleted_items = $this->items;
 		}
 		$this->items = [];
 	}
@@ -355,7 +338,8 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	public function createRelatedInstancesFromLoadedRelatedData(array &$loaded_related_data)
 	{
 
-		$this->deleted_items = [];
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+		$this_deleted_items = [];
 
 		$this->items = $this->_getEmptyItemInstance()->createRelatedInstancesFromLoadedRelatedData($loaded_related_data);
 
@@ -542,8 +526,9 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @throws DataModel_Exception
 	 */
 	public function offsetSet( $offset , $value ) {
+		$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name');
 
-		$valid_class_name = Factory::getClassName( $this->__data_model_current_N_model_class_name );
+		$valid_class_name = Factory::getClassName( $this_N_model_class_name );
 
 		if(!is_object($value)) {
 			throw new DataModel_Exception(
@@ -567,11 +552,14 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 			);
 		}
 
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
 		/**
 		 * @var DataModel_Related_MtoN $item
 		 */
 		$item = new $this->item_class_name();
-		$item->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
+		$item->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
 		$item->setIsNew();
 
 		$item->_setNDataModelInstance( $value );
@@ -600,7 +588,8 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @param mixed $offset
 	 */
 	public function offsetUnset( $offset )	{
-		$this->deleted_items[] = $this->items[$offset];
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+		$this_deleted_items[] = $this->items[$offset];
 
 		unset( $this->items[$offset] );
 	}

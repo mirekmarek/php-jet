@@ -29,12 +29,6 @@
  */
 namespace Jet;
 
-/**
- * Class Application_Modules_Module_Manifest
- *
- * @JetFactory:mandatory_parent_class = 'Application_Modules_Module_Manifest'
- */
-
 class Application_Modules_Module_Manifest extends Object implements \JsonSerializable {
 	const MANIFEST_FILE_NAME = 'manifest.php';
 
@@ -471,6 +465,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 * @return array
 	 */
 	public function getFactoryOverloadMap() {
+		//TODO: pri instalaci modulu proparsovat pomoci Object_Reflection::parseClassName
 		return $this->factory_overload_map;
 	}
 

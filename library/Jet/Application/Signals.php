@@ -19,7 +19,7 @@
 namespace Jet;
 
 class Application_Signals extends Object implements Object_Reflection_ParserInterface {
-	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = 'Jet\Application_Signals_Signal';
+	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = 'Application_Signals_Signal';
 
 	/**
 	 * @param Object_Interface $sender

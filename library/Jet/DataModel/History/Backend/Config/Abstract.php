@@ -19,9 +19,6 @@ namespace Jet;
 /**
  * Class DataModel_History_Backend_Config_Abstract
  *
- * @JetFactory:class = null
- * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'DataModel_History_Backend_Config_Abstract'
  *
  * @JetConfig:data_path = '/data_model/history_backend_options'
  *

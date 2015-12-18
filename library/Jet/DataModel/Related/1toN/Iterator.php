@@ -16,8 +16,7 @@
  */
 namespace Jet;
 
-class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
-
+class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
 
 	/**
 	 * @var string
@@ -27,32 +26,13 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	/**
 	 * @var DataModel_Related_1toN[]
 	 */
-	protected $items = null;
-
-	/**
-	 * @var DataModel_Related_1toN[]
-	 */
-	protected $deleted_items = [];
-
-	/**
-	 * @var DataModel
-	 */
-	protected $__main_model_instance;
-
-	/**
-	 * @var DataModel_Related_Abstract
-	 */
-	protected $__parent_model_instance;
-
-	/**
-	 * @var DataModel_Related_1toN
-	 */
-	protected $__empty_item_instance;
+	protected $items;
 
 	/**
 	 * @param $item_class_name
 	 */
 	public function __construct( $item_class_name ) {
+
 		$this->item_class_name = $item_class_name;
 	}
 
@@ -61,13 +41,23 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return DataModel_Related_1toN
 	 */
 	protected function _getEmptyItemInstance() {
-		if(!$this->__empty_item_instance) {
-			$this->__empty_item_instance = new $this->item_class_name();
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 
-			$this->__empty_item_instance->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
+		/**
+		 * @var DataModel_Related_1toN $this_empty_item_instance
+		 */
+		$this_empty_item_instance = &DataModel_ObjectState::getVar($this, 'empty_item_instance');
+
+		if(!$this_empty_item_instance) {
+			$class_name = $this->item_class_name;
+
+			$this_empty_item_instance = new $class_name();
+
+			$this_empty_item_instance->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
 		}
 
-		return $this->__empty_item_instance;
+		return $this_empty_item_instance;
 
 	}
 
@@ -83,16 +73,25 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @param DataModel_Related_Abstract $parent_model_instance
 	 */
 	public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
-		$this->__main_model_instance = $main_model_instance;
-		$this->__parent_model_instance = $parent_model_instance;
 
-		if($this->__empty_item_instance) {
-			$this->__empty_item_instance->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
+		$this_main_model_instance = $main_model_instance;
+		$this_parent_model_instance = $parent_model_instance;
+
+		/**
+		 * @var DataModel_Related_1toN $this_empty_item_instance
+		 */
+		$this_empty_item_instance = &DataModel_ObjectState::getVar($this, 'empty_item_instance');
+
+		if($this_empty_item_instance) {
+			$this_empty_item_instance->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
 		}
 
 		if($this->items) {
 			foreach( $this->items as $item ) {
-				$item->setupParentObjects( $this->__main_model_instance, $this->__parent_model_instance );
+				$item->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
 			}
 		}
 
@@ -121,7 +120,8 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return mixed
 	 */
 	public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
-		$this->deleted_items = [];
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+		$this_deleted_items = [];
 
 		$this->items = $this->_getEmptyItemInstance()->createRelatedInstancesFromLoadedRelatedData($loaded_related_data);
 
@@ -273,8 +273,11 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @throws DataModel_Exception
 	 */
 	public function save() {
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
 
-		foreach($this->deleted_items as $item) {
+		foreach($this_deleted_items as $item) {
 			/**
 			 * @var DataModel_Related_1toN $item
 			 */
@@ -288,7 +291,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 		}
 
 		foreach($this->items as $item) {
-			$item->setupParentObjects($this->__main_model_instance, $this->__parent_model_instance);
+			$item->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
 			$item->save();
 		}
 
@@ -300,7 +303,12 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @throws DataModel_Exception
 	 */
 	public function delete() {
-		foreach($this->deleted_items as $item) {
+		/**
+		 * @var DataModel_Related_1toN[] $this_deleted_items
+		 */
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+
+		foreach($this_deleted_items as $item) {
 			$item->delete();
 		}
 
@@ -384,7 +392,8 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function clearData() {
 		if($this->items) {
-			$this->deleted_items = $this->items;
+			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+			$this_deleted_items = $this->items;
 		}
 		$this->items = [];
 	}
@@ -427,6 +436,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function offsetSet( $offset , $value ) {
 
+
 		$valid_class = $this->item_class_name;
 
 		if( !($value instanceof $valid_class) ) {
@@ -458,7 +468,8 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @param mixed $offset
 	 */
 	public function offsetUnset( $offset )	{
-		$this->deleted_items[] = $this->items[$offset];
+		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+		$this_deleted_items[] = $this->items[$offset];
 
 		unset( $this->items[$offset] );
 	}
@@ -529,7 +540,8 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	public function __wakeup() {
 		if(!$this->items) {
 			$this->items = [];
-			$this->deleted_items = [];
+			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+			$this_deleted_items = [];
 		} else {
 			$this->validateKeys();
 		}
