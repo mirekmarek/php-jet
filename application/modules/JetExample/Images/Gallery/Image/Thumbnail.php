@@ -10,6 +10,9 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\DataModel_Related_1toN;
+use Jet\Image;
+use Jet\IO_File;
 
 /**
  * Class Gallery_Image_Thumbnail
@@ -17,8 +20,9 @@ use Jet;
  * @JetDataModel:name = 'Image_Thumbnails'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images_Thumbnails'
  * @JetDataModel:parent_model_class_name = 'module:JetExample.Images\Gallery_Image'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
+class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
@@ -27,7 +31,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:is_ID = true
 	 *
@@ -37,7 +41,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -47,7 +51,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -57,7 +61,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -67,7 +71,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -77,7 +81,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -87,7 +91,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -97,7 +101,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -217,7 +221,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 	 */
 	public function recreate() {
 
-		$image_file = new Jet\Image( $this->__image->getFilePath() );
+		$image_file = new Image( $this->__image->getFilePath() );
 
 		$target_path = $this->getPath();
 
@@ -226,7 +230,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 		$this->real_size_w = $created_image_file->getWidth();
 		$this->real_size_h = $created_image_file->getHeight();
 		$this->file_mime_type = $created_image_file->getMimeType();
-		$this->file_size = Jet\IO_File::getSize( $target_path );
+		$this->file_size = IO_File::getSize( $target_path );
 
 		$this->validateProperties();
 
@@ -255,7 +259,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 		$thumbnail->file_name = $key.'_'.$image->getFileName();
 
-		$image_file = new Jet\Image( $image->getFilePath() );
+		$image_file = new Image( $image->getFilePath() );
 
 		$target_path = $image->getThumbnailsDirPath().$thumbnail->file_name;
 
@@ -269,7 +273,7 @@ class Gallery_Image_Thumbnail extends Jet\DataModel_Related_1toN {
 
 		$thumbnail->file_name = $created_image_file->getFileName();
 		$thumbnail->file_mime_type = $created_image_file->getMimeType();
-		$thumbnail->file_size = Jet\IO_File::getSize( $target_path );
+		$thumbnail->file_size = IO_File::getSize( $target_path );
 
 		$thumbnail->__image = $image;
 

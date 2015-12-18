@@ -19,12 +19,12 @@ namespace Jet;
 /**
  * Class Mvc_Page_Abstract
  *
- * @JetFactory:class = 'Jet\Mvc_Factory'
+ * @JetFactory:class = 'Mvc_Factory'
  * @JetFactory:method = 'getPageInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Page_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Mvc_Page_Abstract'
  *
  * @JetDataModel:name = 'page'
- * @JetDataModel:ID_class_name = 'Jet\Mvc_Page_ID_Abstract'
+ * @JetDataModel:ID_class_name = 'Mvc_Page_ID_Abstract'
  */
 abstract class Mvc_Page_Abstract extends DataModel {
 
@@ -160,7 +160,7 @@ abstract class Mvc_Page_Abstract extends DataModel {
      * @param array $path_fragments
      * @return string
      */
-    abstract public function getURL( array $GET_params=array(), array $path_fragments=array() );
+    abstract public function getURL(array $GET_params= [], array $path_fragments= []);
 
     /**
      * @param array $GET_params
@@ -168,7 +168,7 @@ abstract class Mvc_Page_Abstract extends DataModel {
      *
      * @return string
      */
-    abstract public function getURI( array $GET_params=array(), array $path_fragments=array() );
+    abstract public function getURI(array $GET_params= [], array $path_fragments= []);
 
 	/**
 	 * Example: //domain/page/
@@ -178,7 +178,7 @@ abstract class Mvc_Page_Abstract extends DataModel {
 	 *
 	 * @return string
 	 */
-	abstract public function getNonSchemaURL( array $GET_params=array(), array $path_fragments=array() );
+	abstract public function getNonSchemaURL(array $GET_params= [], array $path_fragments= []);
 
 	/**
 	 * Example: http://domain/page/
@@ -188,7 +188,7 @@ abstract class Mvc_Page_Abstract extends DataModel {
 	 *
 	 * @return string
 	 */
-	abstract public function getNonSslURL( array $GET_params=array(), array $path_fragments=array() );
+	abstract public function getNonSslURL(array $GET_params= [], array $path_fragments= []);
 
 	/**
 	 * Example: https://domain/page/
@@ -198,7 +198,7 @@ abstract class Mvc_Page_Abstract extends DataModel {
 	 *
 	 * @return string
 	 */
-	abstract public function getSslURL( array $GET_params=array(), array $path_fragments=array() );
+	abstract public function getSslURL(array $GET_params= [], array $path_fragments= []);
 
     /**
      * @return string
@@ -444,7 +444,6 @@ abstract class Mvc_Page_Abstract extends DataModel {
      * @param bool $position_required (optional, default: by current dispatcher queue item, @see Mvc_Layout)
      * @param int $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)
      *
-     * @internal param string $output
      */
     abstract public function renderView(
         Mvc_View $view,

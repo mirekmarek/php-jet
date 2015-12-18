@@ -13,8 +13,12 @@
  */
 namespace JetApplicationModule\JetExample\TestModule2;
 use Jet;
+use Jet\Form;
+use Jet\Form_Factory;
+use Jet\Form_Field_Int;
+use Jet\Mvc_Controller_Standard;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -42,11 +46,11 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 	public function test_action2_Action() {
 
-		$form = new Jet\Form( 'TestForm', array(
-			Jet\Form_Factory::field('Input','input', 'Input: '),
-			Jet\Form_Factory::field('Select','select', 'Select: '),
-			Jet\Form_Factory::field('Checkbox','checkbox', 'Checkbox: '),
-			Jet\Form_Factory::field('Int','int', 'Int: '),
+		$form = new Form( 'TestForm', array(
+			Form_Factory::field('Input','input', 'Input: '),
+			Form_Factory::field('Select','select', 'Select: '),
+			Form_Factory::field('Checkbox','checkbox', 'Checkbox: '),
+			Form_Factory::field('Int','int', 'Int: '),
 		) );
 
 		$form->getField('select')->setSelectOptions(
@@ -59,7 +63,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			);
 
 		/**
-		 * @var Jet\Form_Field_Int $int_field
+		 * @var Form_Field_Int $int_field
 		 */
 		$int_field = $form->getField('int');
 		$int_field->setMinValue(10);
@@ -77,22 +81,6 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$form->enableDecorator('Dojo');
 		$this->view->setVar('form', $form);
 
-        /*
-		$page = Jet\Mvc::getCurrentPage();
-		$page_form = $page->getCommonForm('', false);
-
-
-		if( $page->catchForm( $page_form ) ) {
-			$page->validateProperties();
-			$page->save();
-			Jet\Mvc::truncateRouterCache();
-			Jet\Http_Headers::formSent($page_form);
-		}
-
-		$page_form->enableDecorator('Dojo');
-
-		$this->view->setVar('page_form', $page_form);
-        */
 
 		$this->render( 'test-action2' );
 	}

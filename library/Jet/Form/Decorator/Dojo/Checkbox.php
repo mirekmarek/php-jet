@@ -20,10 +20,10 @@ class Form_Decorator_Dojo_Checkbox extends Form_Decorator_Dojo_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $decoratable_tags = array(
-		'field' => array(
+	protected $decoratable_tags = [
+		'field' => [
 			'dojo_type' => 'dijit.form.CheckBox',
 			'get_dojo_props_method_name' => ''
-		)
-	);
+		]
+	];
 }

@@ -56,12 +56,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	/**
 	 * @var array
 	 */
-	protected static $valid_key_types = array(
+	protected static $valid_key_types = [
 		DataModel::KEY_TYPE_PRIMARY,
 		DataModel::KEY_TYPE_INDEX,
 		DataModel::KEY_TYPE_UNIQUE,
 		//DataModel::KEY_TYPE_FULLTEXT
-	);
+	];
 
 
 	/**
@@ -81,13 +81,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	public function helper_getCreateCommand( DataModel $data_model, $force_table_name=null ) {
 
 		$data_model_definition = $data_model->getDataModelDefinition();
-		$options = array();
+		$options = [];
 
 		$options['ENGINE'] = $this->config->getEngine();
 		$options['DEFAULT CHARSET'] = $this->config->getDefaultCharset();
 		$options['COLLATE'] = $this->config->getCollate();
 
-		$_options = array();
+		$_options = [];
 
 		foreach($options as $o=>$v) {
 			$_options[] = $o.'='.$v;
@@ -96,7 +96,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$_options = implode(' ', $_options);
 
 
-		$_columns = array();
+		$_columns = [];
 
 		foreach( $data_model_definition->getProperties() as $name=>$property ) {
 			if( !$property->getCanBeTableField() ) {
@@ -106,7 +106,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property );
 		}
 
-		$_keys = array();
+		$_keys = [];
 		foreach( $data_model_definition->getKeys() as $key_name=>$key ) {
 
 			switch( $key->getType() ) {
@@ -178,7 +178,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 		$properties = $data_model_definition->getProperties();
-		$actual_cols = array();
+		$actual_cols = [];
 		foreach($properties as $property_name=>$property) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
@@ -201,7 +201,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$update_default_values = '';
 		if($new_cols) {
-			$_new_cols = array();
+			$_new_cols = [];
 			foreach($new_cols as $c=>$v) {
 				$_new_cols[] = '`'.$c.'`='.$this->_getValue($v, true);
 			}
@@ -212,7 +212,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$rename_command1 = 'RENAME TABLE `'.$table_name.'` TO `'.$update_prefix.'b_'.$table_name.'`;';
 		$rename_command2 = 'RENAME TABLE `'.$updated_table_name.'` TO  `'.$table_name.'`;';
 
-		$update_command = array();
+		$update_command = [];
 		$update_command[] = $create_command;
 		$update_command[] = $data_migration_command;
 		if($update_default_values) {
@@ -261,11 +261,11 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 
-			.$this->_getSQLqueryWherePart($query->getWhere())
-			.$this->_getSQLQueryGroupPart($query)
-			.$this->_getSQLQueryHavingPart($query->getHaving())
-			.$this->_getSQLQueryOrderByPart($query)
-			.$this->_getSQLQueryLimitPart($query);
+			.$this->_getSqlQueryWherePart($query->getWhere())
+			.$this->_getSqlQueryGroupPart($query)
+			.$this->_getSqlQueryHavingPart($query->getHaving())
+			.$this->_getSqlQueryOrderByPart($query)
+			.$this->_getSqlQueryLimitPart($query);
 
 	}
 
@@ -279,9 +279,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		return 'SELECT count(*) FROM'.JET_EOL
 			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
-			.$this->_getSQLqueryWherePart($query->getWhere())
-			.$this->_getSQLQueryGroupPart($query)
-			.$this->_getSQLQueryHavingPart($query->getHaving());
+			.$this->_getSqlQueryWherePart($query->getWhere())
+			.$this->_getSqlQueryGroupPart($query)
+			.$this->_getSqlQueryHavingPart($query->getHaving());
 	}
 
 	/**
@@ -296,7 +296,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$set = array();
+		$set = [];
 
 		foreach($this->_getRecord($record) as $k=>$v) {
 			if($v===null) {
@@ -325,7 +325,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$data_model_definition = $record->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$set = array();
+		$set = [];
 
 		foreach($this->_getRecord($record) as $k=>$v) {
 			if($v===null) {
@@ -340,7 +340,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$set = implode(','.JET_EOL, $set);
 
-		$where = $this->_getSQLqueryWherePart($where->getWhere());
+		$where = $this->_getSqlQueryWherePart($where->getWhere());
 
 		return 'UPDATE `'.$table_name.'` SET '.JET_EOL.$set.$where;
 
@@ -353,7 +353,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
 		$table_name = $this->_getTableName($where->getMainDataModelDefinition());
-		return 'DELETE FROM `'.$table_name.'`'.$this->_getSQLqueryWherePart($where->getWhere());
+		return 'DELETE FROM `'.$table_name.'`'.$this->_getSqlQueryWherePart($where->getWhere());
 	}
 
 	/**
@@ -541,7 +541,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQuerySelectPart( DataModel_Query $query ) {
-		$columns_qp = array();
+		$columns_qp = [];
 
 
 		$mapper = function(DataModel_Definition_Property_Abstract $property) {
@@ -622,7 +622,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				break;
 			}
 
-			$j = array();
+			$j = [];
 			$join_by_properties = $relation->getJoinBy();
 
 
@@ -657,7 +657,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryWherePart( DataModel_Query_Where $query=null, $level=0 ) {
+	protected function _getSqlQueryWherePart(DataModel_Query_Where $query=null, $level=0 ) {
 		if(!$query) {
 			return '';
 		}
@@ -671,7 +671,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSQLqueryWherePart($qp, $next_level).JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryWherePart($qp, $next_level).JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -718,7 +718,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryHavingPart( DataModel_Query_Having $query=null, $level=0 ) {
+	protected function _getSqlQueryHavingPart(DataModel_Query_Having $query=null, $level=0 ) {
 		if(!$query) {
 			return '';
 		}
@@ -732,7 +732,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSQLQueryHavingPart($qp, $next_level ).JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryHavingPart($qp, $next_level ).JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -780,7 +780,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		if(is_array($value)) {
 
-			$sq = array();
+			$sq = [];
 
 			/**
 			 * @var array $value
@@ -859,13 +859,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryGroupPart( DataModel_Query $query=null ) {
+	protected function _getSqlQueryGroupPart(DataModel_Query $query=null ) {
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
 			return '';
 		}
 
-		$group_by_qp = array();
+		$group_by_qp = [];
 
 		foreach($group_by as $val) {
 			/**
@@ -894,14 +894,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryOrderByPart( DataModel_Query $query ) {
+	protected function _getSqlQueryOrderByPart(DataModel_Query $query ) {
 		$order_by = $query->getOrderBy();
 
 		if(!$order_by) {
 			return '';
 		}
 
-		$order_qp = array();
+		$order_qp = [];
 
 		foreach($order_by  as $ob ) {
 			/**
@@ -938,7 +938,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryLimitPart( DataModel_Query $query ) {
+	protected function _getSqlQueryLimitPart(DataModel_Query $query ) {
 		$limit_qp = '';
 
 		$offset = (int)$query->getOffset();
@@ -1041,7 +1041,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return array
 	 */
 	protected function _getRecord( DataModel_RecordData $record ) {
-		$_record = array();
+		$_record = [];
 
 		foreach($record as $item) {
 			/**

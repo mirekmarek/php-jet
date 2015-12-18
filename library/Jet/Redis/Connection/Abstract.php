@@ -16,7 +16,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Redis_Connection_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Redis_Connection_Abstract'
  */
 abstract class Redis_Connection_Abstract extends \Redis implements Object_Interface {
 

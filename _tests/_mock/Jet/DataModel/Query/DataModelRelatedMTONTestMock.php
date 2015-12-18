@@ -27,7 +27,7 @@ namespace Jet;
 class DataModel_Query_DataModelRelatedMTONTestMock extends DataModel_Related_MtoN {
 
 	/**
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 */
 	protected $ID;

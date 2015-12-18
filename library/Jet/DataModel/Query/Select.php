@@ -19,7 +19,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 	/**
 	 * @var DataModel_Query_Select_Item[]
 	 */
-	protected $items = array();
+	protected $items = [];
 
 
 	/**
@@ -29,7 +29,7 @@ class DataModel_Query_Select extends Object implements \Iterator {
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, array $items=array() ) {
+	public function __construct( DataModel_Query $query, array $items= []) {
 
 		foreach( $items as $key=>$val ) {
 			if(is_string($val) && strpos($val, '.')) {
@@ -64,10 +64,10 @@ class DataModel_Query_Select extends Object implements \Iterator {
 
 				$property_names = $val[0];
 				if(!is_array($property_names)) {
-					$property_names = array($property_names);
+					$property_names = [$property_names];
 				}
 
-				$properties = array();
+				$properties = [];
 				foreach($property_names as $property_name) {
 					if($property_name instanceof DataModel_Definition_Property_Abstract) {
 						$properties[] = $property_name;

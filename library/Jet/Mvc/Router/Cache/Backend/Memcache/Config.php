@@ -17,18 +17,18 @@ namespace Jet;
 class Mvc_Router_Cache_Backend_Memcache_Config extends Mvc_Router_Cache_Backend_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Cache_Backend_Memcache_Config', 'getMemcacheConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Cache_Backend_Memcache_Config', 'getMemcacheConnectionsList']
 	 *
 	 * @var string
 	 */
 	protected $connection = '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'mvc_c'
 	 * @JetConfig:form_field_label = 'Cache key prefix: '

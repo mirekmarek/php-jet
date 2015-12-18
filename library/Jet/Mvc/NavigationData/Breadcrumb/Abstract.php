@@ -21,9 +21,9 @@ namespace Jet;
 /**
  * Class Mvc_NavigationData_Breadcrumb_Abstract
  *
- * @JetFactory:class = 'Jet\Mvc_NavigationData_Factory'
+ * @JetFactory:class = 'Mvc_NavigationData_Factory'
  * @JetFactory:method = 'getBreadcrumbInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_NavigationData_Breadcrumb_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Mvc_NavigationData_Breadcrumb_Abstract'
  */
 abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 

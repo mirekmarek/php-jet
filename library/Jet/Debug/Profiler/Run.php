@@ -32,7 +32,7 @@ class Debug_Profiler_Run {
 	/**
 	 * @var Debug_Profiler_Run_Block[]
 	 */
-	protected $blocks = array();
+	protected $blocks = [];
 
 	/**
 	 * @var
@@ -52,7 +52,7 @@ class Debug_Profiler_Run {
 	/**
 	 * @var Debug_Profiler_Run_Block[]
 	 */
-	protected $__block_stack = array();
+	protected $__block_stack = [];
 
 	/**
 	 * @var int
@@ -140,7 +140,7 @@ class Debug_Profiler_Run {
 	 * @return Debug_Profiler_Run_SQLQueryData[]
 	 */
 	public function getSqlQueries() {
-		$r = array();
+		$r = [];
 
 		foreach($this->blocks as $block) {
 			$r = array_merge($r, $block->getSQLQueries());
@@ -166,7 +166,7 @@ class Debug_Profiler_Run {
 		if( $this->__block_stack ) {
 			$timestamp = microtime(true);
 
-			$_labels = array();
+			$_labels = [];
 
 			do {
 				/**
@@ -210,7 +210,7 @@ class Debug_Profiler_Run {
 
 		if( $this->__current_block_level>1 ) {
 
-			$_labels = array();
+			$_labels = [];
 
 			do {
 				/**
@@ -230,7 +230,7 @@ class Debug_Profiler_Run {
 		$block = array_pop( $this->__block_stack );
 		$block->setEnd($timestamp);
 
-		$this->__block_stack = array();
+		$this->__block_stack = [];
 		$this->__current_block_level = 0;
 
 		$this->MainBlockStart("", true);
@@ -325,7 +325,7 @@ class Debug_Profiler_Run {
 	/**
 	 * @param $rows_count
 	 */
-	public function SQLQueryDone( $rows_count ) {
+	public function SqlQueryDone($rows_count ) {
 		$this->__current_block->SQLQueryDone( $rows_count );
 	}
 

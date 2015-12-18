@@ -37,7 +37,7 @@ class Factory_ClassDefinition extends Object {
 	/**
 	 * @var Factory_ClassDefinition
 	 */
-	protected static $class_definitions = array();
+	protected static $class_definitions = [];
 
 	/**
 	 * @param string $class_name (optional)
@@ -100,7 +100,7 @@ class Factory_ClassDefinition extends Object {
 					!isset($reflection_data['factory_class']) ||
 					!$reflection_data['factory_class']
 				) */ {
-					$reflection_data['factory_class'] = (string)$value;
+					$reflection_data['factory_class'] = Object_Reflection::parseClassName( (string)$value );
 				}
 				break;
 			case 'method':
@@ -112,12 +112,7 @@ class Factory_ClassDefinition extends Object {
 				}
 				break;
 			case 'mandatory_parent_class':
-				/*if(
-					!isset($reflection_data['factory_mandatory_parent_class']) ||
-					!$reflection_data['factory_mandatory_parent_class']
-				) */ {
-					$reflection_data['factory_mandatory_parent_class'] = (string)$value;
-				}
+					$reflection_data['factory_mandatory_parent_class'] = Object_Reflection::parseClassName( (string)$value );
 				break;
 			default:
 				throw new Object_Reflection_Exception(

@@ -33,7 +33,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 *
 	 * @var Data_Tree[]
 	 */
-	protected $trees = array();
+	protected $trees = [];
 
 	/**
 	 * @param string $label_key
@@ -142,7 +142,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 */
 	public function toArray( $max_depth=null ){
 
-		$output = array();
+		$output = [];
 		foreach($this->trees as $tree){
 			if($max_depth) {
 				$tree->getRootNode()->setMaxDepth( $max_depth );
@@ -154,12 +154,12 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	}
 
 
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
 
 	/**
 	 * @return string
@@ -184,17 +184,17 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	 * @return array
 	 */
 	public function jsonSerialize() {
-		$data = array();
+		$data = [];
 
 		foreach($this->trees as $tree) {
 			$data = array_merge($data, $tree->toArray());
 		}
 
-		$data = array(
+		$data = [
 			'identifier' => $this->ID_key,
 			'label' => $this->label_key,
 			'items' => $data
-		);
+		];
 
 		return $data;
 

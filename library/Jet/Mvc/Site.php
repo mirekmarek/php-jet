@@ -46,7 +46,7 @@ class Mvc_Site extends Object {
 	/**
 	 * @var array|Mvc_Site_Abstract[]
 	 */
-	protected static $_loaded = array();
+	protected static $_loaded = [];
 
 	/**
 	 * Returns a list of all sites
@@ -110,7 +110,7 @@ class Mvc_Site extends Object {
 	 */
 	public static function getAllLocalesList($get_as_string = true) {
 		$sites = static::getList();
-		$locales = array();
+		$locales = [];
 
 		if($get_as_string) {
 

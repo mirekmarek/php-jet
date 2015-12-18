@@ -1,16 +1,19 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
-use JetApplicationModule\JetExample\UIElements;
+use JetApplicationModule\JetExample\UIElements\DataGrid;
+use Jet\Mvc_MicroRouter;
+use Jet\Tr;
+use Jet\Locale;
 
 /**
- * @var UIElements\DataGrid $grid
+ * @var DataGrid $grid
  */
 $grid = $this->grid;
 
 
 /**
- * @var Jet\Mvc_MicroRouter $router
+ * @var Mvc_MicroRouter $router
  */
 $router = $this->router;
 
@@ -18,11 +21,11 @@ $c_edit = $grid->getColumn('_edit_');
 $c_edit->setDisplayCallback( function( Article $item ) use ( $router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-	<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+	<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Tr::_('Edit');?></a>
 	<?php endif; ?>
 	&nbsp;
 	<?php if($router->getActionAllowed('delete')): ?>
-	<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+	<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Tr::_('Delete');?></a>
 	<?php endif; ?>
 	<?php
 } );
@@ -41,7 +44,7 @@ $grid->getColumn('title')->setDisplayCallback( function( Article $item ) use ( $
 
 $c_date_time = $grid->getColumn('date_time');
 $c_date_time->setDisplayCallback( function( Article $item ) {
-	echo Jet\Locale::dateAndTime( $item->getDateTime() );
+	echo Locale::dateAndTime( $item->getDateTime() );
 } );
 
 $c_date_time->setCssStyle( 'width:200px;' );
@@ -51,7 +54,7 @@ $c_date_time->setCssStyle( 'width:200px;' );
 <div style="padding: 10px;">
 
 <?php if($router->getActionAllowed('add')): ?>
-<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Jet\Tr::_('Create new article');?></a>
+<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Tr::_('Create new article');?></a>
 <?php endif; ?>
 
 <?=$grid->render(); ?>

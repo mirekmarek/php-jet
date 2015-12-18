@@ -22,12 +22,12 @@ class Db_Config extends Config_Application {
 
 	/**
 	 * @JetConfig:form_field_label = 'Default connection:'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'Connection name default value for Db::get() / Db::getConnection()'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Db_Config', 'getConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Db_Config', 'getConnectionsList']
 	 * 
 	 * @var string
 	 */
@@ -35,9 +35,9 @@ class Db_Config extends Config_Application {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
 	 * @JetConfig:data_path = 'connections'
-	 * @JetConfig:config_factory_class_name = 'Jet\Db_Factory'
+	 * @JetConfig:config_factory_class_name = 'Db_Factory'
 	 * @JetConfig:config_factory_method_name = 'getConnectionConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
@@ -99,7 +99,7 @@ class Db_Config extends Config_Application {
 	public static function getConnectionsList( $driver_type_filter='' ) {
 		$i = new self(true);
 
-		$connections = array();
+		$connections = [];
 
 		foreach( $i->getConnections() as $name=>$connection) {
 			if(

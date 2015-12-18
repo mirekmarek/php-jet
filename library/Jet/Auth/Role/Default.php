@@ -21,13 +21,13 @@ namespace Jet;
  * Class Auth_Role_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Name'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_Name'
  */
 class Auth_Role_Default extends Auth_Role_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -36,7 +36,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_label = 'Name'
@@ -48,7 +48,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Description'
 	 *
@@ -58,8 +58,8 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Auth_Role_Privilege_Default'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Auth_Role_Privilege_Default'
 	 * @JetDataModel:is_required = false
 	 *
 	 * @var Auth_Role_Privilege_Abstract[]
@@ -68,8 +68,8 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Auth_User_Roles'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Auth_User_Abstract[]
@@ -141,7 +141,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 	 */
 	public function getPrivilegeValues( $privilege ) {
 		if(!isset($this->privileges[$privilege])) {
-			return array();
+			return [];
 		} else {
 			return $this->privileges[$privilege]->getValues();
 		}
@@ -232,7 +232,7 @@ class Auth_Role_Default extends Auth_Role_Abstract {
 
 		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
 			if(!isset($this->privileges[$privilege])) {
-				$this->setPrivilege( $privilege, array() );
+				$this->setPrivilege( $privilege, []);
 			}
 		}
 

@@ -17,11 +17,11 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var string
 	 */
-	protected $dojo_type = array(
+	protected $dojo_type = [
 		'dojox.grid.EnhancedGrid',
 		'dojox.grid.enhanced.plugins.Pagination',
 		'dojox.grid.enhanced.plugins.IndirectSelection',
-	);
+	];
 	
 	/**
 	 *
@@ -33,10 +33,10 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var array 
 	 */
-	protected $required_css = array(
+	protected $required_css = [
 			'dojox/grid/enhanced/resources/%THEME%/EnhancedGrid.css',
 			'dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',
-		);
+	];
 
 
 	/**
@@ -45,10 +45,10 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 	public function getReplacement() {
 
 		if(!$this->node->hasAttribute('plugins')) {
-			$plugins = array();
+			$plugins = [];
 
 			if($this->_getProp('pagination', true)) {
-				$plugins['pagination'] = array(
+				$plugins['pagination'] = [
 					'pageSizes' => $this->_getProp('pagination_pageSizes', ['25', '50', '100']),
 					'defaultPageSize' => (int)$this->_getProp('pagination_defaultPageSize', 25),
 					'description' => (bool)$this->_getProp('pagination_description', true),
@@ -57,16 +57,16 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 					'gotoButton' => (bool)$this->_getProp('pagination_gotoButton', true),
 					'maxPageStep' => (int)$this->_getProp('pagination_maxPageStep', 25),
 					'position' => $this->_getProp('pagination_position', 'bottom')
-				);
+				];
 			}
 
 			if($this->_getProp('indirectSelection', true)) {
-				$plugins['indirectSelection'] = array(
+				$plugins['indirectSelection'] = [
 					'headerSelector' => (bool)$this->_getProp('indirectSelection_headerSelector', true),
 					'name' => $this->_getProp('indirectSelection_name', 'Selection'),
 					'width' => $this->_getProp('indirectSelection_width', '20px'),
 					'styles' => $this->_getProp('indirectSelection_style', 'text-align: center;')
-				);
+				];
 			}
 
 			if($plugins) {
@@ -109,7 +109,7 @@ class JetML_Widget_Dojo_Datagrid extends JetML_Widget_Dojo_Abstract {
 
 		$thead->appendChild($tr);
 
-		$child_nodes = array();
+		$child_nodes = [];
 		foreach( $this->node->childNodes as $child ) {
 			$child_nodes[] = $child;
 		}

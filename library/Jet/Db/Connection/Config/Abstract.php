@@ -16,14 +16,14 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Db_Connection_Config_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Db_Connection_Config_Abstract'
  */
 abstract class Db_Connection_Config_Abstract extends Config_Section {
 
 
 	/**
 	 * @JetConfig:form_field_label = 'Connection name'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:is_required = true
 	 *
@@ -33,12 +33,12 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Driver'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'PDO driver'
 	 * @JetConfig:default_value = 'mysql'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Db_Connection_PDO_Config', 'getPDODrivers']
+	 * @JetConfig:form_field_get_select_options_callback = ['Db_Connection_PDO_Config', 'getPDODrivers']
 	 *
 	 * @var string
 	 */
@@ -46,7 +46,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'DSN'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = ''
 	 * @JetConfig:is_required = true
 	 *
@@ -56,7 +56,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Username'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = null
 	 * @JetConfig:is_required = false
 	 *
@@ -66,7 +66,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Password'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = null
 	 * @JetConfig:is_required = false
 	 *

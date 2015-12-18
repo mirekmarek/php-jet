@@ -1,9 +1,11 @@
 <?php
 namespace JetApplicationModule\JetExample\TestModule2;
 use Jet;
+use Jet\Form;
+use Jet\Mvc;
 
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
 
@@ -13,15 +15,15 @@ M2: Test Action 2
 <table>
 	<tr>
 		<td>Current site ID:</td>
-		<td><?=Jet\Mvc::getCurrentSite()->getID();?></td>
+		<td><?=Mvc::getCurrentSite()->getID();?></td>
 	</tr>
 	<tr>
 		<td>Current locale:</td>
-		<td><?=Jet\Mvc::getCurrentLocale();?></td>
+		<td><?=Mvc::getCurrentLocale();?></td>
 	</tr>
 	<tr>
 		<td>Current page ID:</td>
-		<td><?=Jet\Mvc::getCurrentPage()->getID();?></td>
+		<td><?=Mvc::getCurrentPage()->getID();?></td>
 	</tr>
 </table>
 
@@ -50,7 +52,7 @@ M2: Test Action 2
 </p>
 
 <?php
-//foreach( Jet\Mvc::getCurrentPage()->getChildren() as $chld ) {
+//foreach( Mvc::getCurrentPage()->getChildren() as $chld ) {
 //	echo (string)$chld->getID().JET_EOL;
 //}
 ?>

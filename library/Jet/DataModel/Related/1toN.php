@@ -31,7 +31,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $load_realted_data_order_by = array();
+	protected $load_related_data_order_by = [];
 
 	/**
 	 * @return DataModel_Related_Interface
@@ -55,22 +55,22 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 	/**
 	 * @param array $order_by
 	 */
-	public function setLoadRealtedDataOrderBy( array $order_by)
+	public function setLoadRelatedDataOrderBy(array $order_by)
 	{
-		$this->load_realted_data_order_by = $order_by;
+		$this->load_related_data_order_by = $order_by;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getLoadRealtedDataOrderBy()
+	public function getLoadRelatedDataOrderBy()
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $data_model_definition
 		 */
 		$data_model_definition = $this->getDataModelDefinition();
 
-		return $this->load_realted_data_order_by ? $this->load_realted_data_order_by : $data_model_definition->getDefaultOrderBy();
+		return $this->load_related_data_order_by ? $this->load_related_data_order_by : $data_model_definition->getDefaultOrderBy();
 	}
 
 
@@ -81,7 +81,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 
 		$query = $this->getLoadRelatedDataQuery();
 
-		$order_by = $this->getLoadRealtedDataOrderBy();
+		$order_by = $this->getLoadRelatedDataOrderBy();
 		if($order_by) {
 			$query->setOrderBy( $order_by );
 		}
@@ -100,7 +100,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 		 */
 		$data_model_definition = $this->getDataModelDefinition();
 
-		$parent_ID_values = array();
+		$parent_ID_values = [];
 		if($this->__parent_model_instance) {
 			$parent_ID = $this->__parent_model_instance->getID();
 
@@ -116,7 +116,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 
 
 		$model_name = $data_model_definition->getModelName();
-		$items = array();
+		$items = [];
 
 		if(empty($loaded_related_data[$model_name])) {
 			return $items;

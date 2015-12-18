@@ -1,33 +1,36 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
-use JetApplicationModule\JetExample\UIElements;
+use Jet\Auth_Role_Abstract;
+use JetApplicationModule\JetExample\UIElements\DataGrid;
+use Jet\Tr;
+use Jet\Mvc_MicroRouter;
 
 /**
- * @var UIElements\DataGrid $grid
+ * @var DataGrid $grid
  */
 $grid = $this->grid;
 
 /**
- * @var Jet\Mvc_MicroRouter $router
+ * @var Mvc_MicroRouter $router
  */
 $router = $this->router;
 
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) use ($router) {
+$c_edit->setDisplayCallback( function( Auth_Role_Abstract $item ) use ($router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Tr::_('Edit');?></a>
 	<?php endif; ?>
 	&nbsp;
 	<?php if($router->getActionAllowed('delete')): ?>
-		<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+		<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Tr::_('Delete');?></a>
 	<?php endif; ?>
 <?php
 } );
 $c_edit->setCssStyle( 'width:120px;' );
 
-$grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) use ($router) {
+$grid->getColumn('ID')->setDisplayCallback( function( Auth_Role_Abstract $item ) use ($router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
 		<a href="<?=$router->getActionURI('edit', $item);?>"><?=$item->getName();?></a>
@@ -37,10 +40,10 @@ $grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_Role_Abstract $it
 <?php
 } );
 
-$grid->getColumn('name')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+$grid->getColumn('name')->setDisplayCallback( function( Auth_Role_Abstract $item ) {
 	echo $item->getName();
 } );
-$grid->getColumn('description')->setDisplayCallback( function( Jet\Auth_Role_Abstract $item ) {
+$grid->getColumn('description')->setDisplayCallback( function( Auth_Role_Abstract $item ) {
 	echo $item->getDescription();
 } );
 
@@ -51,7 +54,7 @@ $grid->getColumn('description')->setDisplayCallback( function( Jet\Auth_Role_Abs
 <div style="padding: 10px;">
 
 	<?php if($router->getActionAllowed('add')): ?>
-		<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Jet\Tr::_('Add new role');?></a>
+		<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Tr::_('Add new role');?></a>
 	<?php endif; ?>
 
 

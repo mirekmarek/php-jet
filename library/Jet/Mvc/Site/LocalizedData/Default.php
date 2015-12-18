@@ -25,8 +25,8 @@ namespace Jet;
  * Class Mvc_Site_LocalizedData_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData'
- * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Site_Default'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Passive'
+ * @JetDataModel:parent_model_class_name = 'Mvc_Site_Default'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
 class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
@@ -38,7 +38,7 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:is_ID = true
 	 * @JetDataModel:form_field_type = false
@@ -49,7 +49,7 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -60,7 +60,7 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Title:'
 	 *
@@ -70,7 +70,7 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Header Suffix:'
 	 *
@@ -80,7 +80,7 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Body Prefix:'
 	 *
@@ -90,7 +90,7 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Body Suffix:'
 	 *
@@ -100,8 +100,8 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Mvc_Site_LocalizedData_URL_Default'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Mvc_Site_LocalizedData_URL_Default'
 	 *
 	 * @var Mvc_Site_LocalizedData_URL_Abstract[]|DataModel_Related_1toN_Iterator
 	 */
@@ -109,8 +109,8 @@ class Mvc_Site_LocalizedData_Default extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Mvc_Site_LocalizedData_MetaTag_Default'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Mvc_Site_LocalizedData_MetaTag_Default'
 	 *
 	 * @var Mvc_Site_LocalizedData_MetaTag_Abstract[]|DataModel_Related_1toN_Iterator
 	 */

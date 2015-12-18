@@ -16,7 +16,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Db_Connection_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Db_Connection_Abstract'
  */
 abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 
@@ -68,14 +68,14 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return string
 	 */
-	public function prepareQuery($query, array $query_data=array()) {
+	public function prepareQuery($query, array $query_data= []) {
 
 		if(!$query_data){
 			return $query;
 		}
 
 
-		$replacements = array();
+		$replacements = [];
 
 		foreach($query_data as $key => $value){
 
@@ -113,7 +113,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return int
 	 */
-	abstract public function execCommand($query, array $query_data = array());
+	abstract public function execCommand($query, array $query_data = []);
 
 	/**
 	 *
@@ -121,7 +121,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 * @param array $query_data (optional)
 	 * @return array
 	 */
-	abstract public function fetchAll($query, array $query_data = array());
+	abstract public function fetchAll($query, array $query_data = []);
 
 	/**
 	 *
@@ -130,7 +130,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return array|bool
 	 */
-	abstract public function fetchRow($query, array $query_data = array());
+	abstract public function fetchRow($query, array $query_data = []);
 
 	/**
 	 *
@@ -140,7 +140,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return array
 	 */
-	abstract public function fetchAssoc($query, array $query_data = array(), $key_column = null);
+	abstract public function fetchAssoc($query, array $query_data = [], $key_column = null);
 
 	/**
 	 *
@@ -150,7 +150,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return array
 	 */
-	abstract function fetchCol($query, array $query_data = array(), $column = null);
+	abstract function fetchCol($query, array $query_data = [], $column = null);
 
 	/**
 	 *
@@ -161,7 +161,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return array
 	 */
-	abstract public function fetchPairs($query, array $query_data = array(), $key_column = null, $value_column = null);
+	abstract public function fetchPairs($query, array $query_data = [], $key_column = null, $value_column = null);
 
 	/**
 	 *
@@ -171,7 +171,7 @@ abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchOne($query, array $query_data = array(), $column = null);
+	abstract public function fetchOne($query, array $query_data = [], $column = null);
 
 
 	/**

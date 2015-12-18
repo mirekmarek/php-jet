@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
+use Jet\Mvc_Factory;
+use Jet\Mvc_Controller_REST;
 
-class Controller_REST extends Jet\Mvc_Controller_REST {
+class Controller_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main
@@ -34,6 +36,6 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 
 
 	public function get_pages_tree_Action() {
-		$this->responseData( Jet\Mvc_Factory::getPageInstance()->getAllPagesTree() );
+		$this->responseData( Mvc_Factory::getPageInstance()->getAllPagesTree() );
 	}
 }

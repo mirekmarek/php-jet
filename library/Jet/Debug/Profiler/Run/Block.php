@@ -62,22 +62,22 @@ class Debug_Profiler_Run_Block {
 	/**
 	 * @var array
 	 */
-	protected $backtrace_start = array();
+	protected $backtrace_start = [];
 
 	/**
 	 * @var array
 	 */
-	protected $backtrace_end = array();
+	protected $backtrace_end = [];
 
 	/**
 	 * @var Debug_Profiler_Run_SQLQueryData[]
 	 */
-	protected $SQL_queries = array();
+	protected $SQL_queries = [];
 
 	/**
 	 * @var Debug_Profiler_Run_Block_Message[]
 	 */
-	protected $messages = array();
+	protected $messages = [];
 
 	/**
 	 * @var int
@@ -92,7 +92,7 @@ class Debug_Profiler_Run_Block {
 	/**
 	 * @var Debug_Profiler_Run_Block[]
 	 */
-	protected $children = array();
+	protected $children = [];
 
 	/**
 	 * @var null|Debug_Profiler_Run_SQLQueryData
@@ -133,7 +133,7 @@ class Debug_Profiler_Run_Block {
 	}
 
 	/**
-	 *
+	 * @param float $timestamp_end (optional, default: current)
 	 */
 	public function setEnd( $timestamp_end=null ) {
 		if($this->timestamp_end) {

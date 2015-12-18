@@ -14,8 +14,11 @@
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
+use Jet\Mvc_Controller_AJAX;
+use Jet\Auth;
+use Jet\Auth_Factory;
 
-class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
+class Controller_AJAX extends Mvc_Controller_AJAX {
 	/**
 	 *
 	 * @var Main
@@ -36,12 +39,12 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 
 
 	function default_Action() {
-		$role = Jet\Auth_Factory::getRoleInstance();
+		$role = Auth_Factory::getRoleInstance();
 		$form = $role->getCommonForm();
 		$form->enableDecorator('Dojo');
 
 		$this->view->setVar('form', $form);
-		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList());
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList());
 
 		$this->render('ria/default');
 	}

@@ -64,9 +64,9 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 		$data = $this->_db_read->fetchOne('SELECT data FROM '.$this->_table_name.'
 				WHERE
 					URL_hash=:URL_hash',
-			array(
+			[
 				'URL_hash' => md5($URL)
-			)
+			]
 		);
 		if(!$data) {
 			return null;
@@ -82,11 +82,11 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 	 *
 	 */
 	public function save($URL, array $item) {
-		$data = array(
+		$data = [
 			'URL' => $URL,
 			'URL_hash' => md5($URL),
 			'data' => $this->serialize($item),
-		);
+		];
 
 		$this->_db_write->execCommand('
 				BEGIN
@@ -128,15 +128,15 @@ class Mvc_Router_Cache_Backend_Oracle extends Mvc_Router_Cache_Backend_Abstract 
 			if(is_array($URL)) {
 				foreach($URL as $_URL) {
 					$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE URL_hash=:URL_hash',
-						array(
+						[
 							'URL_hash' => md5($_URL),
-						));
+						]);
 				}
 			} else {
 				$this->_db_write->execCommand('DELETE FROM '.$this->_table_name.' WHERE URL_hash=:URL_hash',
-					array(
+					[
 						'URL_hash' => md5($URL),
-					));
+					]);
 
 			}
 		}

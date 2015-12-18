@@ -16,24 +16,24 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $dojo_type = array('dijit.Dialog', 'dijit.form.Button', 'dojox.form.BusyButton');
+	protected $dojo_type = ['dijit.Dialog', 'dijit.form.Button', 'dojox.form.BusyButton'];
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'trash_id' );
+	protected $internal_properties = ['icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'trash_id'];
 
 	/**
 	 * @var array
 	 */
-	public static $default_texts = array(
+	public static $default_texts = [
 		'dialog_title' => 'Delete item?',
 		'confirm_msg' => 'Do you really want to delete item?',
 		'deleting_msg' => 'Deleting ...',
 		'yes_button_label' => 'Yes',
 		'no_button_label' => 'NO',
-	);
+	];
 
 	/**
 	 * @return \DOMElement

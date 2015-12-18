@@ -5,8 +5,6 @@
  *
  * Default admin UI module
  *
- * @see Jet\Mvc/readme.txt
- *
  *
  * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
@@ -15,10 +13,22 @@
  *
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
+
 use Jet;
+use Jet\Application_Modules;
+use Jet\Auth;
+use Jet\Auth_Factory;
+use Jet\Auth_Role_Abstract;
+use Jet\Http_Headers;
+use Jet\Http_Request;
+use Jet\Mvc;
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_MicroRouter;
+use Jet\Mvc_Page_Content_Abstract;
+use Jet\Tr;
 use JetApplicationModule\JetExample\UIElements;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -26,7 +36,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Jet\Mvc_MicroRouter
+	 * @var Mvc_MicroRouter
 	 */
 	protected $micro_router;
 
@@ -42,8 +52,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-		Jet\Mvc::checkCurrentContentIsDynamic();
-		Jet\Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
+		Mvc::checkCurrentContentIsDynamic();
+		Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
 		$this->getMicroRouter();
 		$this->view->setVar( 'router', $this->micro_router );
 	}
@@ -51,21 +61,21 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
     /**
      *
-     * @return Jet\Mvc_MicroRouter
+     * @return Mvc_MicroRouter
      */
     public function getMicroRouter() {
         if($this->micro_router) {
             return $this->micro_router;
         }
 
-        $router = Jet\Mvc::getCurrentRouter();
+        $router = Mvc::getCurrentRouter();
 
-        $router = new Jet\Mvc_MicroRouter( $router, $this->module_instance );
+        $router = new Mvc_MicroRouter( $router, $this->module_instance );
 
 
         $validator = function( &$parameters ) {
 
-            $role_i = Jet\Auth_Factory::getRoleInstance();
+            $role_i = Auth_Factory::getRoleInstance();
 
             $role = $role_i->load( $role_i->createID($parameters[0]) );
             if(!$role) {
@@ -77,21 +87,21 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
         };
 
-        $base_URI = Jet\Mvc::getCurrentURI();
+        $base_URI = Mvc::getCurrentURI();
 
         $router->addAction('add', '/^add$/', 'add_role', true)
             ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
         $router->addAction('edit', '/^edit:([\S]+)$/', 'update_role', true)
-            ->setCreateURICallback( function( Jet\Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('view', '/^view:([\S]+)$/', 'get_role', true)
-            ->setCreateURICallback( function( Jet\Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_role', true)
-            ->setCreateURICallback( function( Jet\Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $this->micro_router = $router;
@@ -101,11 +111,11 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 
 
     /**
-     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Abstract $page_content
      *
      * @return bool
      */
-    public function parseRequestURL( Jet\Mvc_Page_Content_Abstract $page_content=null ) {
+    public function parseRequestURL( Mvc_Page_Content_Abstract $page_content=null ) {
         $router = $this->getMicroRouter();
 
         return $router->resolve( $page_content );
@@ -120,17 +130,17 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		/**
 		 * @var UIElements\Main $UI_m
 		 */
-		$UI_m = Jet\Application_Modules::getModuleInstance('JetExample.UIElements');
+		$UI_m = Application_Modules::getModuleInstance('JetExample.UIElements');
 		$grid = $UI_m->getDataGridInstance();
 
 		$grid->setIsPersistent('admin_classic_roles_list_grid');
 
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
-		$grid->addColumn('ID', Jet\Tr::_('ID'));
-		$grid->addColumn('name', Jet\Tr::_('Name'));
-		$grid->addColumn('description', Jet\Tr::_('Description'));
+		$grid->addColumn('ID', Tr::_('ID'));
+		$grid->addColumn('name', Tr::_('Name'));
+		$grid->addColumn('description', Tr::_('Description'));
 
-		$grid->setData( Jet\Auth::getRolesList() );
+		$grid->setData( Auth::getRolesList() );
 
 		$this->view->setVar('grid', $grid);
 
@@ -143,81 +153,81 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function add_Action() {
 
-		$role = Jet\Auth::getNewRole();
+		$role = Auth::getNewRole();
 
 		$form = $role->getCommonForm();
 
 		if( $role->catchForm( $form ) ) {
 			$role->validateProperties();
 			$role->save();
-			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
 		}
 
-		Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( Jet\Tr::_('New role') );
+		Mvc::getCurrentPage()->addBreadcrumbNavigationData( Tr::_('New role') );
 
 
-		$this->view->setVar('btn_label', Jet\Tr::_('ADD') );
+		$this->view->setVar('btn_label', Tr::_('ADD') );
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
-		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList(true));
 
 		$this->render('classic/edit');
 	}
 
 	/**
-	 * @param Jet\Auth_Role_Abstract $role
+	 * @param Auth_Role_Abstract $role
 	 */
-	public function edit_Action( Jet\Auth_Role_Abstract $role ) {
+	public function edit_Action( Auth_Role_Abstract $role ) {
 
 		$form = $role->getCommonForm();
 
 		if( $role->catchForm( $form ) ) {
 			$role->validateProperties();
 			$role->save();
-			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
 		}
 
-        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
+        Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
 
-		$this->view->setVar('btn_label', Jet\Tr::_('SAVE') );
+		$this->view->setVar('btn_label', Tr::_('SAVE') );
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList(true));
 
 		$this->render('classic/edit');
 	}
 
 	/**
-	 * @param Jet\Auth_Role_Abstract $role
+	 * @param Auth_Role_Abstract $role
 	 */
-	public function view_Action( Jet\Auth_Role_Abstract $role ) {
+	public function view_Action( Auth_Role_Abstract $role ) {
 
-        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
+        Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
 
 		$form = $role->getCommonForm();
 		$this->view->setVar('has_access', false);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Jet\Auth::getAvailablePrivilegesList(true));
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList(true));
 
 		$this->render('classic/edit');
 	}
 
 
 	/**
-	 * @param Jet\Auth_Role_Abstract $role
+	 * @param Auth_Role_Abstract $role
 	 */
-	public function delete_action( Jet\Auth_Role_Abstract $role ) {
+	public function delete_action( Auth_Role_Abstract $role ) {
 
-		if( Jet\Http_Request::POST()->getString('delete')=='yes' ) {
+		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$role->delete();
 
-			Jet\Http_Headers::movedTemporary( Jet\Mvc::getCurrentURI() );
+			Http_Headers::movedTemporary( Mvc::getCurrentURI() );
 		}
 
 
-        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData('Delete role');
+        Mvc::getCurrentPage()->addBreadcrumbNavigationData('Delete role');
 
 		$this->view->setVar( 'role', $role );
 

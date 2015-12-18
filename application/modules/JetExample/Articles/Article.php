@@ -14,19 +14,28 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\DataModel;
+use Jet\Locale;
+use Jet\DateTime;
+use Jet\Mvc;
+use Jet\Mvc_Router_Abstract;
+use Jet\Data_Text;
+use Jet\DataModel_Fetch_Object_Abstract;
+use Jet\DataModel_Fetch_Data_Assoc;
+use Jet\Data_Paginator_DataSource_Interface;
 
 /**
  * Class Article
  *
  * @JetDataModel:name = 'Article'
  * @JetDataModel:database_table_name = 'Jet_Articles'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Article extends Jet\DataModel {
+class Article extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -35,18 +44,18 @@ class Article extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc_Site','getAllLocalesList']
 	 *
-	 * @var Jet\Locale
+	 * @var Locale
 	 */
 	protected $locale;
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
@@ -58,7 +67,7 @@ class Article extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
@@ -69,7 +78,7 @@ class Article extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Annotation'
 	 *
@@ -79,7 +88,7 @@ class Article extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 655360
 	 * @JetDataModel:form_field_label = 'Text'
 	 * @JetDataModel:form_field_type = 'WYSIWYG'
@@ -90,26 +99,26 @@ class Article extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time'
 	 *
-	 * @var Jet\DateTime
+	 * @var DateTime
 	 */
 	protected $date_time;
 
 	/**
-	 * @return Jet\Locale
+	 * @return Locale
 	 */
 	public function getLocale() {
 		return $this->locale;
 	}
 
 	/**
-	 * @param Jet\Locale|string $locale
+	 * @param Locale|string $locale
 	 */
 	public function setLocale( $locale) {
-		if(!($locale instanceof Jet\Locale) ) {
-			$locale = new Jet\Locale($locale);
+		if(!($locale instanceof Locale) ) {
+			$locale = new Locale($locale);
 		}
 
 		$this->locale = $locale;
@@ -126,7 +135,7 @@ class Article extends Jet\DataModel {
      * @return string
      */
     public function getURL() {
-        return Jet\Mvc::getCurrentPage()->getURL().$this->getURIFragment();
+        return Mvc::getCurrentPage()->getURL().$this->getURIFragment();
     }
 
 	/**
@@ -161,7 +170,7 @@ class Article extends Jet\DataModel {
     public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=false ) {
 
         if($remove_accents) {
-            $URI_fragment = Jet\Data_Text::removeAccents($URI_fragment);
+            $URI_fragment = Data_Text::removeAccents($URI_fragment);
         }
 
         $URI_fragment = str_replace(' ', '-', $URI_fragment);
@@ -250,18 +259,18 @@ class Article extends Jet\DataModel {
 
 
 	/**
-	 * @return Jet\DateTime
+	 * @return DateTime
 	 */
 	public function getDateTime() {
 		return $this->date_time;
 	}
 
 	/**
-	 * @param Jet\DateTime|string $date_time
+	 * @param DateTime|string $date_time
 	 */
 	public function setDateTime( $date_time) {
-		if(!($date_time instanceof Jet\DateTime)) {
-			$date_time = new Jet\DateTime($date_time);
+		if(!($date_time instanceof DateTime)) {
+			$date_time = new DateTime($date_time);
 		}
 		$this->date_time = $date_time;
 	}
@@ -292,7 +301,7 @@ class Article extends Jet\DataModel {
 	 *
 	 * @param array $query (optional)
 	 *
-	 * @return Article[]|Jet\DataModel_Fetch_Object_Abstract
+	 * @return Article[]|DataModel_Fetch_Object_Abstract
 	 */
 	public static function getList( $query=array() ) {
 		return (new self())->fetchObjects($query);
@@ -301,11 +310,11 @@ class Article extends Jet\DataModel {
 	/**
 	 * @static
 	 *
-	 * @return Jet\DataModel_Fetch_Data_Assoc
+	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getListAsData() {
 		/**
-		 * @var Jet\DataModel $i;
+		 * @var DataModel $i;
 		 */
 		$i = new self();
 		$props = $i->getDataModelDefinition()->getProperties();
@@ -313,11 +322,11 @@ class Article extends Jet\DataModel {
 	}
 
 	/**
-	 * @return Article[]|Jet\Data_Paginator_DataSource_Interface
+	 * @return Article[]Data_Paginator_DataSource_Interface
 	 */
 	public function getListForCurrentLocale() {
 		$list = $this->fetchObjects(array(
-			'this.locale' => Jet\Mvc::getCurrentLocale()
+			'this.locale' => Mvc::getCurrentLocale()
 		));
 		$list->getQuery()->setOrderBy('-date_time');
 
@@ -325,11 +334,11 @@ class Article extends Jet\DataModel {
 	}
 
 	/**
-	 * @param Jet\Mvc_Router_Abstract $router
+	 * @param Mvc_Router_Abstract $router
 	 *
 	 * @return Article|null
 	 */
-	public function resolveArticleByURL( Jet\Mvc_Router_Abstract $router ) {
+	public function resolveArticleByURL( Mvc_Router_Abstract $router ) {
 		$current_article = null;
 		$param = $router->getPathFragments();
 

@@ -20,7 +20,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 	/**
 	 * @var DataModel_Query_Where_Expression[]
 	 */
-	protected $expressions = array();
+	protected $expressions = [];
 
 
 	/**
@@ -30,7 +30,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, array $where=array() ) {
+	public function __construct( DataModel_Query $query, array $where= []) {
 		$this->query = $query;
 
 
@@ -162,7 +162,7 @@ class DataModel_Query_Where extends Object implements \Iterator {
 	 * @return string
 	 */
 	public function toString() {
-		$result = array();
+		$result = [];
 
 		foreach($this as $expression) {
 			if(is_object($expression)) {

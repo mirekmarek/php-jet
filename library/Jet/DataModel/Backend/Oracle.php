@@ -49,12 +49,12 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	/**
 	 * @var array
 	 */
-	protected static $valid_key_types = array(
+	protected static $valid_key_types = [
 		DataModel::KEY_TYPE_PRIMARY,
 		DataModel::KEY_TYPE_INDEX,
 		DataModel::KEY_TYPE_UNIQUE,
 		//DataModel::KEY_TYPE_FULLTEXT
-	);
+	];
 
 
 	/**
@@ -77,7 +77,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$data_model_definition = $data_model->getDataModelDefinition();
 
 
-		$_columns = array();
+		$_columns = [];
 
 		$table_name = $this->_getTableName( $data_model_definition );
 
@@ -93,9 +93,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			$_columns[] = JET_TAB.'\''.$name.'\' '.$this->_getSQLType( $data_model, $property );
 		}
 
-		$create_index_query = array();
+		$create_index_query = [];
 
-		$keys = array();
+		$keys = [];
 		foreach($data_model_definition->getKeys() as $key_name=>$key) {
 
 			$columns = implode('', $this->_getColumnName($key->getPropertyNames()) );
@@ -208,12 +208,12 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			$q .= ',ROWNUM AS '.static::ROW_NUM_KEY;
 		}
 		$q .= JET_EOL.'FROM'.JET_EOL
-			.JET_TAB.$this->_getSQLQueryTableName($query)
-			.$this->_getSQLQueryJoinPart($query)
+			.JET_TAB.$this->_getSqlQueryTableName($query)
+			.$this->_getSqlQueryJoinPart($query)
 
-			.$this->_getSQLqueryWherePart($query->getWhere())
-			.$this->_getSQLQueryGroupPart($query)
-			.$this->_getSQLQueryHavingPart($query->getHaving())
+			.$this->_getSqlQueryWherePart($query->getWhere())
+			.$this->_getSqlQueryGroupPart($query)
+			.$this->_getSqlQueryHavingPart($query->getHaving())
 			.$this->_getSQLQueryOrderByPart($query)
 			.$limit_part;
 
@@ -229,11 +229,11 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendCountQuery( DataModel_Query $query ) {
 		return 'SELECT count(*) FROM'.JET_EOL.JET_TAB
-			.$this->_getSQLQueryTableName($query)
-			.$this->_getSQLQueryJoinPart($query)
-			.$this->_getSQLqueryWherePart($query->getWhere())
-			.$this->_getSQLQueryGroupPart($query)
-			.$this->_getSQLQueryHavingPart($query->getHaving());
+			.$this->_getSqlQueryTableName($query)
+			.$this->_getSqlQueryJoinPart($query)
+			.$this->_getSqlQueryWherePart($query->getWhere())
+			.$this->_getSqlQueryGroupPart($query)
+			.$this->_getSqlQueryHavingPart($query->getHaving());
 	}
 
 	/**
@@ -266,7 +266,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$data_model_definition = $record->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$set = array();
+		$set = [];
 
 		foreach($this->_getRecord($record) as $k=>$v) {
 			$set[] = $k.'='.$v;
@@ -275,7 +275,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 		$set = implode(','.JET_EOL, $set);
 
-		$where = $this->_getSQLqueryWherePart($where->getWhere());
+		$where = $this->_getSqlQueryWherePart($where->getWhere());
 
 		return 'UPDATE '.$table_name.' SET '.JET_EOL.$set.$where;
 
@@ -288,7 +288,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
 		$table_name = $this->_getTableName($where->getMainDataModelDefinition());
-		return 'DELETE FROM '.$table_name.$this->_getSQLqueryWherePart($where->getWhere());
+		return 'DELETE FROM '.$table_name.$this->_getSqlQueryWherePart($where->getWhere());
 	}
 
 	/**
@@ -550,7 +550,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQuerySelectPart( DataModel_Query $query ) {
-		$columns_qp = array();
+		$columns_qp = [];
 
 
 		$mapper = function(DataModel_Definition_Property_Abstract $property) {
@@ -595,7 +595,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryTableName( DataModel_Query $query ) {
+	protected function _getSqlQueryTableName(DataModel_Query $query ) {
 		$main_model_definition = $query->getMainDataModelDefinition();
 		return $this->_getTableName( $main_model_definition );
 
@@ -607,7 +607,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected  function _getSQLQueryJoinPart( DataModel_Query $query ) {
+	protected  function _getSqlQueryJoinPart(DataModel_Query $query ) {
 		$join_qp = '';
 
 		foreach($query->getRelations() as $relation) {
@@ -631,7 +631,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				break;
 			}
 
-			$j = array();
+			$j = [];
 			$join_by_properties = $relation->getJoinBy();
 
 
@@ -669,7 +669,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryWherePart( DataModel_Query_Where $query=null, $level=0 ) {
+	protected function _getSqlQueryWherePart(DataModel_Query_Where $query=null, $level=0 ) {
 		if(!$query) {
 			return '';
 		}
@@ -683,7 +683,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSQLqueryWherePart($qp, $next_level).' '.JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryWherePart($qp, $next_level).' '.JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -729,7 +729,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryHavingPart( DataModel_Query_Having $query=null, $level=0 ) {
+	protected function _getSqlQueryHavingPart(DataModel_Query_Having $query=null, $level=0 ) {
 		if(!$query) {
 			return '';
 		}
@@ -743,7 +743,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Query_Having $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSQLQueryHavingPart($qp, $next_level ).' '.JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryHavingPart($qp, $next_level ).' '.JET_EOL.JET_TAB.')';
 				continue;
 			}
 
@@ -790,7 +790,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$res = '';
 
 		if(is_array($value)) {
-			$sq = array();
+			$sq = [];
 
 			/**
 			 * @var array $value
@@ -868,13 +868,13 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 *
 	 * @return string
 	 */
-	protected function _getSQLQueryGroupPart( DataModel_Query $query=null ) {
+	protected function _getSqlQueryGroupPart(DataModel_Query $query=null ) {
 		$group_by = $query->getGroupBy();
 		if( !$group_by ) {
 			return '';
 		}
 
-		$group_by_qp = array();
+		$group_by_qp = [];
 
 		foreach($group_by as $val) {
 			/**
@@ -910,7 +910,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			return '';
 		}
 
-		$order_qp = array();
+		$order_qp = [];
 
 		foreach($order_by  as $ob ) {
 			/**
@@ -1043,7 +1043,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return array
 	 */
 	protected function _getRecord( DataModel_RecordData $record ) {
-		$_record = array();
+		$_record = [];
 
 
 		foreach($record as $item) {
@@ -1076,7 +1076,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	 * @return array
 	 */
 	protected function _getRecordValues( DataModel_RecordData $record ) {
-		$_record = array();
+		$_record = [];
 
 
 		foreach($record as $item) {

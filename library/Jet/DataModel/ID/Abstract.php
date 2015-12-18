@@ -44,7 +44,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 *
 	 * @var array
 	 */
-	protected $values = array();
+	protected $values = [];
 
 
 	/**
@@ -127,7 +127,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 		if($this->data_model_instance) {
 			$query->setMainDataModel( $this->data_model_instance );
 		}
-		$query->setWhere(array());
+		$query->setWhere([]);
 		$where = $query->getWhere();
 
 		$properties = $data_model_definition->getProperties();
@@ -259,14 +259,15 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	}
 
 
-	/**
+	/**  @noinspection PhpMissingParentCallMagicInspection
+	 *
 	 * @return array
 	 */
 	public function __sleep() {
-		return array(
+		return [
 			'data_model_class_name',
 			'values'
-		);
+		];
 	}
 
 	/**

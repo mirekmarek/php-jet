@@ -64,7 +64,7 @@ class Form_Factory extends Factory {
 	 * @param array|string $error_messages
 	 *
 	 * @throws Form_Exception
-	 * @internal param string $required
+	 *
 	 * @return Form_Field_Abstract
 	 */
 	public static function getFieldInstance(
@@ -74,7 +74,7 @@ class Form_Factory extends Factory {
 								$default_value='',
 								$is_required=false,
 								$validation_regexp=null,
-								array $error_messages = array()
+								array $error_messages = []
 							) {
 
 		if(!$type) {
@@ -142,7 +142,7 @@ class Form_Factory extends Factory {
 								$default_value='',
 								$required=false,
 								$validation_regexp=null,
-								array $error_messages = array()
+								array $error_messages = []
 							) {
 		return static::getFieldInstance($type, $name, $label, $default_value, $required, $validation_regexp, $error_messages);
 	}

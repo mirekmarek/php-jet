@@ -387,7 +387,7 @@ class IO_File {
 		$max_upload = ini_get('upload_max_filesize');
 		$max_post = ini_get('post_max_size');
 
-		$units = array('' => 1, 'K'=>1024, 'M'=>1024*1024, 'G'=>1024*1024*1024);
+		$units = ['' => 1, 'K'=>1024, 'M'=>1024*1024, 'G'=>1024*1024*1024];
 
 		$max_post_unit = substr($max_post, -1);
 		$max_upload_unit = substr($max_upload, -1);

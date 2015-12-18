@@ -17,22 +17,22 @@ namespace Jet;
 class DataModel_Backend_Oracle_Config extends DataModel_Backend_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - read: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 *
 	 * @var string
 	 */
 	protected $connection_read = '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - write: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 *
 	 * @var string
 	 */

@@ -1,11 +1,7 @@
 <?php
 /**
  *
- *
- *
  * Default admin UI module
- *
- * @see Jet\Mvc/readme.txt
  *
  *
  * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -16,8 +12,16 @@
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;
+use Jet\Mvc_Controller_Standard;
+use Jet\Auth;
+use Jet\Mvc;
+use Jet\Mvc_Page;
+use Jet\Http_Headers;
+use Jet\Javascript_Lib_Dojo;
+use Jet\Javascript_Lib_Jet;
+use Jet\Javascript_Lib_TinyMCE;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -36,7 +40,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-        $JetML_postprocessor = Jet\Mvc::getCurrentPage()->getLayout()->enableJetML();
+        $JetML_postprocessor = Mvc::getCurrentPage()->getLayout()->enableJetML();
         $JetML_postprocessor->setIconsURL( $this->module_manifest->getPublicURI().'icons/' );
         $JetML_postprocessor->setFlagsURL( $this->module_manifest->getPublicURI().'flags/' );
 	}
@@ -45,9 +49,9 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
      *
      */
     public function logout_Action() {
-        Jet\Auth::logout();
+        Auth::logout();
 
-        Jet\Http_Headers::movedTemporary( Jet\Mvc_Page::get('admin')->getURL() );
+        Http_Headers::movedTemporary( Mvc_Page::get('admin')->getURL() );
     }
 
     /**
@@ -61,7 +65,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
      *
      */
     public function classic_default_Action() {
-        Jet\Mvc::getCurrentPage()->breadcrumbNavigationShift( -1 );
+        Mvc::getCurrentPage()->breadcrumbNavigationShift( -1 );
 
 		$this->render('classic/default');
 
@@ -73,7 +77,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
     public function ria_default_Action() {
 
 
-        $Dojo = new Jet\Javascript_Lib_Dojo();
+        $Dojo = new Javascript_Lib_Dojo();
 
 		$Dojo->requireComponent('dojo.store.JsonRest');
 		$Dojo->requireComponent('dojo.data.ObjectStore');
@@ -97,26 +101,26 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		$Dojo->requireComponent('dojox.grid.enhanced.plugins.Pagination');
 		$Dojo->requireComponent('dojox.grid.enhanced.plugins.IndirectSelection');
 
-        Jet\Mvc::requireJavascriptLib( $Dojo );
+        Mvc::requireJavascriptLib( $Dojo );
 
 
 
-        $Jet = new Jet\Javascript_Lib_Jet();
-        $Jet->setAJAXBaseURL( Jet\Mvc_Page::get('admin/ria/ajax')->getURL() );
-        $Jet->setRESTBaseURL( Jet\Mvc_Page::get('admin/ria/rest_api')->getURL() );
-        $Jet->setComponentsBaseURL( Jet\Mvc_Page::get('admin/ria/js')->getURL() );
+        $Jet = new Javascript_Lib_Jet();
+        $Jet->setAJAXBaseURL( Mvc_Page::get('admin/ria/ajax')->getURL() );
+        $Jet->setRESTBaseURL( Mvc_Page::get('admin/ria/rest_api')->getURL() );
+        $Jet->setComponentsBaseURL( Mvc_Page::get('admin/ria/js')->getURL() );
         $Jet->setUIModuleName( $this->module_manifest->getName() );
 
 		$Jet->requireComponent('Jet.Form');
 		$Jet->requireComponent('Jet.Trash');
 
 
-        Jet\Mvc::requireJavascriptLib( $Jet );
+        Mvc::requireJavascriptLib( $Jet );
 
 
-        $TinyMCE = new Jet\Javascript_Lib_TinyMCE();
+        $TinyMCE = new Javascript_Lib_TinyMCE();
 
-        Jet\Mvc::requireJavascriptLib( $TinyMCE );
+        Mvc::requireJavascriptLib( $TinyMCE );
 
 
 		$this->render('ria/default');

@@ -1,6 +1,9 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Mvc_MicroRouter;
+use Jet\Tr;
+use Jet\Mvc;
 
 /**
  * @var Article $article
@@ -8,7 +11,7 @@ use Jet;
 $article = $this->article;
 
 /**
- * @var Jet\Mvc_MicroRouter $router
+ * @var Mvc_MicroRouter $router
  */
 $router = $this->router;
 
@@ -16,16 +19,16 @@ $router = $this->router;
 
 <div style="padding: 10px;">
 
-	<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
+	<a href="<?=Mvc::getCurrentURI();?>" class="btn btn-default"><?=Tr::_('&lt Back');?></a>
 
 	<p>
-	<?=Jet\Tr::_('Do you really want to delete this article?');?>
+	<?=Tr::_('Do you really want to delete this article?');?>
 	<br/>
 	<a href="<?=$router->getActionURI('edit', $article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($article->getID());?>" method="post">
 		<input type="hidden" name="delete" value="yes">
-		<input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
+		<input type="submit" value="<?=Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
 	</form>
 </div>

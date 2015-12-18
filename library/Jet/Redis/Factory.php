@@ -59,7 +59,7 @@ class Redis_Factory extends Factory {
 	 *
 	 * @return Redis_Connection_Config_Abstract
 	 */
-	public static function getConnectionConfigInstance(array $config_data=array(), Redis_Config $config=null ){
+	public static function getConnectionConfigInstance(array $config_data= [], Redis_Config $config=null ){
 		$default_class_name = static::$connection_class_prefix.static::$connection_adapter.'_Config';
 
 		$config_class = static::getClassName( $default_class_name );

@@ -17,29 +17,29 @@ namespace Jet;
 class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - read: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 * 
 	 * @var string
 	 */
 	protected $connection_read = '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - write: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 * 
 	 * @var string
 	 */
 	protected $connection_write= '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'InnoDB'
 	 * @JetConfig:form_field_label = 'Engine: '
@@ -49,7 +49,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	protected $engine= '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'utf8'
 	 * @JetConfig:form_field_label = 'Default charset: '
@@ -59,7 +59,7 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	protected $default_charset= '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'utf8_general_ci'
 	 * @JetConfig:form_field_label = 'Default collate: '

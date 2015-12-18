@@ -39,7 +39,7 @@ class Mvc_MicroRouter_Action extends Object {
 	/**
 	 * @var array
 	 */
-	protected $action_parameters = array();
+	protected $action_parameters = [];
 
 	/**
 	 * @var callable
@@ -239,7 +239,7 @@ class Mvc_MicroRouter_Action extends Object {
 			return false;
 		}
 
-		$matches = array();
+		$matches = [];
 		if( !preg_match( $this->regexp, $path_fragment, $matches ) ) {
 			return false;
 		}

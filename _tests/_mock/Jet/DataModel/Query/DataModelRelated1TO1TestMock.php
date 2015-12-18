@@ -35,7 +35,7 @@ class DataModel_Query_DataModelRelated1TO1TestMock extends DataModel_Related_1to
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -44,7 +44,7 @@ class DataModel_Query_DataModelRelated1TO1TestMock extends DataModel_Related_1to
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true

@@ -60,8 +60,8 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected static $ACL_actions_check_map = array(
-	);
+	protected static $ACL_actions_check_map = [
+	];
 
 	/**
 	 * Sometime you need to have some context data for privilege check
@@ -80,8 +80,8 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected static $ACL_actions_context_getter_map = array(
-	);
+	protected static $ACL_actions_context_getter_map = [
+	];
 
 
 	/**
@@ -144,7 +144,7 @@ abstract class Mvc_Controller_Abstract extends Object {
 		if($log_event) {
 			Auth::logEvent(
 				'action:'.$this->module_manifest->getName().':'.$module_action,
-				array('action_params'=>$action_parameters),
+				['action_params'=>$action_parameters],
 				'Allowed action: '.$this->module_manifest->getName().':'.$action
 			);
 		}

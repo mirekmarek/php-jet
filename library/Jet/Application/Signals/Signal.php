@@ -39,7 +39,7 @@ class Application_Signals_Signal extends Object {
 	 *
 	 * @var mixed
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 *
@@ -47,7 +47,7 @@ class Application_Signals_Signal extends Object {
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Object_Interface $sender, $name, array $data=array() ) {
+	public function __construct( Object_Interface $sender, $name, array $data= []) {
 		$this->sender = $sender;
 		$this->name = $name;
 		$this->data = $data;

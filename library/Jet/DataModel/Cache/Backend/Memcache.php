@@ -176,7 +176,7 @@ class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract 
 
 		$list = $this->memcache->get( $list_key );
 		if(!$list) {
-			$list = array();
+			$list = [];
 		} else {
 			$list = unserialize($list);
 		}

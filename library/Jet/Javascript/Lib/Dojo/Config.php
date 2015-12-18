@@ -26,7 +26,7 @@ namespace Jet;
 class Javascript_Lib_Dojo_Config extends Config_Application {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = '1.9.2'
 	 * @JetConfig:is_required = false
 	 * @JetConfig:form_field_label = 'Dojo version'
@@ -36,7 +36,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	protected $version;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:validation_regexp = '/^[a-zA-Z0-9_\-]+$/'
 	 * @JetConfig:default_value = 'claro'
 	 * @JetConfig:is_required = false
@@ -47,7 +47,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	protected $default_theme;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dojo/dojo.js'
 	 * @JetConfig:default_value = '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dojo/dojo.js'
 	 * @JetConfig:is_required = false
@@ -58,7 +58,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	protected $dojo_js_URI = '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
 	 * @JetConfig:default_value = '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css'
 	 * @JetConfig:is_required = false
@@ -70,7 +70,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Create package'
 	 * @JetConfig:is_required = false
@@ -79,7 +79,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	protected $package_enabled = true;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Parse on load'
 	 * @JetConfig:is_required = false
@@ -89,7 +89,7 @@ class Javascript_Lib_Dojo_Config extends Config_Application {
 	protected $parse_on_load;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = false
 	 * @JetConfig:form_field_label = 'Dojo debug'
 	 * @JetConfig:is_required = false

@@ -27,7 +27,7 @@ class Debug_Profiler_Run_Block_Message {
 	/**
 	 * @var array
 	 */
-	protected $backtrace = array();
+	protected $backtrace = [];
 
 	/**
 	 * @param $text

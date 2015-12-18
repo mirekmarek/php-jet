@@ -22,7 +22,7 @@ class Data_Text {
 	/**
 	 * @var array
 	 */
-	protected static $_defined_constants = array();
+	protected static $_defined_constants = [];
 
 	/**
 	 * Removes accents from text
@@ -123,7 +123,7 @@ class Data_Text {
 	 *
 	 * @return string
 	 */
-	public static function replaceSystemConstants( $input, array $default_replacement=array() ) {
+	public static function replaceSystemConstants( $input, array $default_replacement= []) {
 		if(!static::$_defined_constants) {
 			static::$_defined_constants = get_defined_constants(true);
 			static::$_defined_constants = static::$_defined_constants['user'];

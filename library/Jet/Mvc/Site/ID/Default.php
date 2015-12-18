@@ -19,9 +19,9 @@ namespace Jet;
 /**
  * Class Mvc_Site_ID_Default
  *
- * @JetFactory:class = 'Jet\Mvc_Factory'
+ * @JetFactory:class = 'Mvc_Factory'
  * @JetFactory:method = 'getSiteIDInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Site_ID_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Mvc_Site_ID_Abstract'
  */
 class Mvc_Site_ID_Default extends Mvc_Site_ID_Abstract {
 

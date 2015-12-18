@@ -16,6 +16,7 @@ namespace Jet;
 interface Mvc_Layout_Initializer_Interface {
 
     /**
+     * @param Mvc_Layout $layout
      *
      */
     public function initializeLayout( Mvc_Layout $layout );

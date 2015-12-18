@@ -24,7 +24,8 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	protected $property;
 
 
-	/**
+	/** @noinspection PhpMissingParentConstructorInspection
+	 *
 	 * @param DataModel_Query_Select_Item $property
 	 * @param string $operator
 	 * @param mixed $value

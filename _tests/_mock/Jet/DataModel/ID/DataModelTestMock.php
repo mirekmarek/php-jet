@@ -22,7 +22,7 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -31,7 +31,7 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:is_ID = true
 	 * @JetDataModel:max_len = 50
 	 *
@@ -41,7 +41,7 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var Locale
@@ -50,7 +50,7 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var int

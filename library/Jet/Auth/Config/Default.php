@@ -28,13 +28,13 @@ class Auth_Config_Default extends Auth_Config_Abstract {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
-	 * @JetConfig:default_value = 'Jet\AuthDefault'
+	 * @JetConfig:type = Config::TYPE_STRING
+	 * @JetConfig:default_value = 'AuthDefault'
 	 * @JetConfig:description = 'Default Authentication and Authorization Controller module name'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Authentication and Authorization Controller module: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Auth_Config_Default', 'getAuthControllerModulesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Auth_Config_Default', 'getAuthControllerModulesList']
 	 * 
 	 * @var string
 	 */
@@ -54,7 +54,7 @@ class Auth_Config_Default extends Auth_Config_Abstract {
 	 * @return array
 	 */
 	public static function getAuthControllerModulesList() {
-		$result = array();
+		$result = [];
 		$modules = Application_Modules::getActivatedModulesList();
 		foreach($modules as $module) {
 			/**

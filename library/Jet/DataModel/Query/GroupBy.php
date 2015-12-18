@@ -19,7 +19,7 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 	/**
 	 * @var DataModel_Query_Select_Item[]|DataModel_Definition_Property_Abstract[]
 	 */
-	protected $items = array();
+	protected $items = [];
 
 
 	/**
@@ -32,11 +32,11 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 	 */
 	public function __construct( DataModel_Query $query, $group_by ) {
 		if(!is_array($group_by)) {
-			$group_by = array($group_by);
+			$group_by = [$group_by];
 		}
 
 		$select = $query->getSelect();
-		$this->items = array();
+		$this->items = [];
 		foreach($group_by as $gb) {
 
 			$property = null;

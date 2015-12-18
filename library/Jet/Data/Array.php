@@ -21,14 +21,14 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	 *
 	 * @var array 
 	 */
-	protected $data = array();
+	protected $data = [];
 
 
 	/**
 	 *
 	 * @param array $data
 	 */
-	public function __construct(array $data = array()) {
+	public function __construct(array $data = []) {
 		$this->data = $data;
 	}
 
@@ -61,7 +61,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	 *
 	 */
 	public function clearData() {
-		$this->data = array();
+		$this->data = [];
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 				}
 
 				if( !isset($target[$part]) ){
-					$target[$part] = array();
+					$target[$part] = [];
 				}
 
 				$target = &$target[$part];
@@ -316,7 +316,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	 *
 	 * @return string
 	 */
-	public function export(array $comments = array()){
+	public function export(array $comments = []){
 		$result = $this->_export( '', $this->data, 0, $comments );
 
 		$result .= ';'.JET_EOL;
@@ -372,6 +372,9 @@ class Data_Array extends Object implements Object_Serializable_REST {
 				$class_name = get_class( $value );
 
 				if( is_subclass_of( $value, '\JsonSerializable' ) ) {
+					/**
+					 * @var \JsonSerializable $value
+					 */
 					$object_values = $value->jsonSerialize();
 				} else {
 					$object_values = get_object_vars( $value );
@@ -426,6 +429,9 @@ class Data_Array extends Object implements Object_Serializable_REST {
 			}
 
 			if( is_subclass_of( $val, '\JsonSerializable' ) ) {
+				/**
+				 * @var \JsonSerializable $val
+				 */
 				$data[$key] = $val->jsonSerialize();
 				continue;
 			}

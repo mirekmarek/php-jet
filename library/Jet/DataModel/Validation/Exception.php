@@ -30,7 +30,7 @@ class DataModel_Validation_Exception extends Exception {
 	/**
 	 * @var DataModel_Validation_Error[]
 	 */
-	protected $errors = array();
+	protected $errors = [];
 
 	/**
 	 * @param DataModel $data_model_instance
@@ -71,7 +71,7 @@ class DataModel_Validation_Exception extends Exception {
 	}
 
 	/**
-	 * @return \Jet\DataModel_Definition_Property_Abstract
+	 * @return DataModel_Definition_Property_Abstract
 	 */
 	public function getPropertyDefinitionInstance() {
 		return $this->property_definition_instance;

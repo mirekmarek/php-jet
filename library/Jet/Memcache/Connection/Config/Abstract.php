@@ -16,13 +16,13 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Memcache_Connection_Config_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Memcache_Connection_Config_Abstract'
  */
 abstract class Memcache_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Connection name'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:is_required = true
 	 * 
@@ -32,7 +32,7 @@ abstract class Memcache_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Host or socket'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = '127.0.0.1'
 	 * @JetConfig:is_required = true
 	 * 
@@ -42,7 +42,7 @@ abstract class Memcache_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Port'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 11211
 	 * @JetConfig:is_required = false
 	 * 

@@ -38,10 +38,10 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return \PDOStatement|void
 	 */
-	public function query( $statement, $fetch_method=0, $column_no_or_class_name_or_object, $class_constructor_arguments=array() ) {
+	public function query( $statement, $fetch_method=0, $column_no_or_class_name_or_object, $class_constructor_arguments= []) {
 		Debug_Profiler::SQLQueryStart( $statement );
 
-		$result = parent::query( $statement, $fetch_method, $column_no_or_class_name_or_object, $class_constructor_arguments );
+		$result = parent::query( $statement, $fetch_method, $column_no_or_class_name_or_object );
 
 		Debug_Profiler::SQLQueryDone();
 
@@ -56,7 +56,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return int
 	 */
-	public function execCommand($query, array $query_data = array()) {
+	public function execCommand($query, array $query_data = []) {
 		Debug_Profiler::SQLQueryStart( $query,$query_data );
 
 		$statement = $this->prepare($query);
@@ -92,7 +92,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 * @param array $query_data (optional)
 	 * @return array
 	 */
-	public function fetchAll($query, array $query_data = array()) {
+	public function fetchAll($query, array $query_data = []) {
 		$q = $this->prepareQuery($query, $query_data);
 
 		Debug_Profiler::SQLQueryStart( $q, $query_data );
@@ -111,7 +111,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return array|bool
 	 */
-	public function fetchRow($query, array $query_data = array()) {
+	public function fetchRow($query, array $query_data = []) {
 		$res = $this->fetchAll($query, $query_data);
 
 		foreach( $res as $row) {
@@ -128,10 +128,10 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return array
 	 */
-	public function fetchAssoc($query, array $query_data = array(), $key_column = null) {
+	public function fetchAssoc($query, array $query_data = [], $key_column = null) {
 		$res = $this->fetchAll($query, $query_data);
 
-		$result = array();
+		$result = [];
 
 		foreach( $res as $row) {
 			if($key_column===null) {
@@ -154,10 +154,10 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return array
 	 */
-	public function fetchCol($query, array $query_data = array(), $column = null) {
+	public function fetchCol($query, array $query_data = [], $column = null) {
 		$res = $this->fetchAll($query, $query_data);
 
-		$result = array();
+		$result = [];
 		foreach( $res as $row) {
 			if($column===null) {
 				list($column) = array_keys($row);
@@ -177,10 +177,10 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return array
 	 */
-	public function fetchPairs($query, array $query_data = array(), $key_column = null, $value_column = null) {
+	public function fetchPairs($query, array $query_data = [], $key_column = null, $value_column = null) {
 		$res = $this->fetchAll($query, $query_data);
 
-		$result = array();
+		$result = [];
 
 		foreach( $res as $row) {
 			if($key_column===null) {
@@ -202,7 +202,7 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 	 *
 	 * @return mixed
 	 */
-	public function fetchOne($query, array $query_data = array(), $column = null) {
+	public function fetchOne($query, array $query_data = [], $column = null) {
 		$res = $this->fetchAll($query, $query_data);
 
 		foreach( $res as $row) {

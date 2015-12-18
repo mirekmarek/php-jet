@@ -1,14 +1,16 @@
 <?php
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\Form;
+use Jet\Tr;
 
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
 
 /**
- * @var Jet\Form $upload_form
+ * @var Form $upload_form
  */
 //$upload_form = $this->upload_form;
 ?>
@@ -83,7 +85,7 @@ $form = $this->form;
 	<jetml_dialog_buttons>
         <label>
             <jetml_form_checkbox id="copy_overwrite_if_exists"/>
-            <?=Jet\Tr::_('Overwrite if exists');?>
+            <?=Tr::_('Overwrite if exists');?>
         </label>
 
 		<jetml_form_button_busy title="Copy selected images" onClick="Jet.modules.CURRENT_MODULE.copyImages();" id="copy_image_button"></jetml_form_button_busy>

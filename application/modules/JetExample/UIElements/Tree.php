@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;
+use Jet\Object;
+use Jet\Data_Tree;
 
-class Tree extends Jet\Object {
+class Tree extends Object {
 
 	/**
 	 * @var Main
@@ -23,7 +25,7 @@ class Tree extends Jet\Object {
 	protected $module_instance;
 
 	/**
-	 * @var Jet\Data_Tree
+	 * @var Data_Tree
 	 */
 	protected $data;
 
@@ -60,14 +62,14 @@ class Tree extends Jet\Object {
 	}
 
 	/**
-	 * @param Jet\Data_Tree $data
+	 * @param Data_Tree $data
 	 */
-	public function setData(Jet\Data_Tree $data) {
+	public function setData(Data_Tree $data) {
 		$this->data = $data;
 	}
 
 	/**
-	 * @return Jet\Data_Tree
+	 * @return Data_Tree
 	 */
 	public function getData() {
 		return $this->data;

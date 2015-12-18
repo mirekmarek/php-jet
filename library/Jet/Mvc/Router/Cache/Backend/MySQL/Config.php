@@ -22,29 +22,29 @@ namespace Jet;
 class Mvc_Router_Cache_Backend_MySQL_Config extends Mvc_Router_Cache_Backend_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - read: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 *
 	 * @var string
 	 */
 	protected $connection_read = '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection - write: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
 	 *
 	 * @var string
 	 */
 	protected $connection_write= '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'InnoDB'
 	 * @JetConfig:form_field_label = 'Engine: '
@@ -54,7 +54,7 @@ class Mvc_Router_Cache_Backend_MySQL_Config extends Mvc_Router_Cache_Backend_Con
 	protected $engine= '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'jet_mvc_router_cache'
 	 * @JetConfig:form_field_label = 'Table name: '

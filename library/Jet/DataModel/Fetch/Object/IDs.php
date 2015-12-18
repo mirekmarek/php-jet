@@ -112,7 +112,7 @@ class DataModel_Fetch_Object_IDs extends DataModel_Fetch_Object_Abstract impleme
 	public function toArray() {
 		$this->_fetch();
 
-		$result = array();
+		$result = [];
 
 		foreach( $this->IDs as $ID ) {
 			$result[] = $ID->toString();

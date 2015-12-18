@@ -92,6 +92,7 @@ class Mvc_Router_Cache_Backend_Redis extends Mvc_Router_Cache_Backend_Abstract {
 			$pattern = $this->key_prefix;
 			$pattern .= '*';
 
+			/** @noinspection PhpVoidFunctionResultUsedInspection */
 			$keys = $this->redis->getKeys($pattern);
 
 			foreach( $keys as $key ) {

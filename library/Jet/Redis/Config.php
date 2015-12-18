@@ -20,13 +20,13 @@ namespace Jet;
 class Redis_Config extends Config_Application {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'Default connection name for Redis::get() / Redis::getConnection()'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:form_field_label = 'Default connection:'
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Redis_Config', 'getConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Redis_Config', 'getConnectionsList']
 	 *
 	 * @var string
 	 */
@@ -34,9 +34,9 @@ class Redis_Config extends Config_Application {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
 	 * @JetConfig:data_path = 'connections'
-	 * @JetConfig:config_factory_class_name = 'Jet\Redis_Factory'
+	 * @JetConfig:config_factory_class_name = 'Redis_Factory'
 	 * @JetConfig:config_factory_method_name = 'getConnectionConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
@@ -96,7 +96,7 @@ class Redis_Config extends Config_Application {
 	public static function getConnectionsList() {
 		$i = new self(true);
 
-		$connections = array();
+		$connections = [];
 
 		foreach( $i->getConnections() as $name=>$connection) {
 

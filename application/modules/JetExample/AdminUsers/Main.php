@@ -14,8 +14,9 @@
  */
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
+use Jet\Application_Modules_Module_Abstract;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
 	protected $ACL_actions = array(
 		'get_user' => 'Get user(s) data',
 		'add_user' => 'Add new user',

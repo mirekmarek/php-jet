@@ -40,11 +40,11 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create('mvc_router_cache_sqlite_connection', array(
+		$this->_db = Db::create('mvc_router_cache_sqlite_connection', [
 			'name' => 'mvc_router_cache_sqlite_connection',
-			'driver' => DB::DRIVER_SQLITE,
+			'driver' => Db::DRIVER_SQLITE,
 			'DSN' => $this->config->getDSN()
-		));
+		]);
 
 		$this->_table_name = $this->config->getTableName();
 	}
@@ -62,10 +62,10 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 		$data = $this->_db->fetchOne('SELECT `data` FROM `'.$this->_table_name.'`
 				WHERE
 					`URL_hash`=:URL_hash',
-			array(
+			[
 				'URL_hash' => md5($URL)
 
-			)
+			]
 		);
 		if(!$data) {
 			return null;
@@ -87,11 +87,11 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 	 *
 	 */
 	public function save($URL, array $item) {
-		$data = array(
+		$data = [
 			'URL' => $URL,
 			'URL_hash' => md5($URL),
 			'data' => $this->serialize($item),
-		);
+		];
 
 		$this->_db->execCommand('INSERT OR IGNORE INTO `'.$this->_table_name.'` (
 								`URL`,
@@ -125,15 +125,15 @@ class Mvc_Router_Cache_Backend_SQLite extends Mvc_Router_Cache_Backend_Abstract 
 			if(is_array($URL)) {
 				foreach($URL as $_URL) {
 					$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `URL_hash`=:URL_hash',
-						array(
+						[
 							'URL_hash' => md5($_URL),
-						));
+						]);
 				}
 			} else {
 				$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `URL_hash`=:URL_hash',
-					array(
+					[
 						'URL_hash' => md5($URL),
-					));
+					]);
 
 			}
 		}

@@ -1,15 +1,18 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
+use Jet\Mvc;
+use Jet\Tr;
+use Jet\Form;
 
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
 ?>
 <div style="padding: 10px;">
 
-<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
+<a href="<?=Mvc::getCurrentURI();?>" class="btn btn-warning"><?=Tr::_('&lt; go back');?></a>
 
 <jet_form name="<?=$form->getName();?>" autocomplete="off">
 	<jet_form_common_error_message class="formError"/>
@@ -61,7 +64,7 @@ $form = $this->form;
 	</div>
 
 	<?php if($this->has_access): ?>
-	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+	<input type="submit" value="<?=Tr::_("Save");?>" class="btn btn-primary"/>
 	<?php endif; ?>
 </jet_form>
 

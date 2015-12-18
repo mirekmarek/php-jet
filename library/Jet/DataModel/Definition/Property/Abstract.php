@@ -19,7 +19,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\DataModel_Definition_Property_Abstract'
+ * @JetFactory:mandatory_parent_class = 'DataModel_Definition_Property_Abstract'
  */
 abstract class DataModel_Definition_Property_Abstract extends Object {
 
@@ -28,12 +28,12 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 *
 	 * @var array(code=>message)
 	 */
-	public static $default_error_messages = array(
+	public static $default_error_messages = [
 		DataModel_Validation_Error::CODE_REQUIRED => 'Item is required',
 		DataModel_Validation_Error::CODE_INVALID_VALUE => 'Invalid value',
 		DataModel_Validation_Error::CODE_INVALID_FORMAT => 'Invalid format',
 		DataModel_Validation_Error::CODE_OUT_OF_RANGE => 'Out of range',
-	);
+	];
 
 
 	/**
@@ -125,7 +125,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected $error_messages = array();
+	protected $error_messages = [];
 
 	/**
 	 * @var string
@@ -146,9 +146,9 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 	/**
 	 *
-	 * @var string
+	 * @var array
 	 */
-	protected $form_field_error_messages = array();
+	protected $form_field_error_messages = [];
 
 	/**
 	 *
@@ -171,7 +171,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected $form_field_options = array();
+	protected $form_field_options = [];
 
 
 	/**
@@ -424,7 +424,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 */
 	public function getBackendOptions( $backend_type ) {
 		if(!isset($this->backend_options[$backend_type])) {
-			return array();
+			return [];
 		}
 		return $this->backend_options[$backend_type];
 	}
@@ -559,20 +559,19 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 		return true;
 	}
 
-	/**
+	/** @noinspection PhpUnusedParameterInspection
 	 * Property value test - can be specific for each column type (eg: min and max value for number, string format ...)
 	 *
-	 * @param mixed &$value
+	 * @param mixed &$property
 	 * @param DataModel_Validation_Error[] &$errors
 	 *
 	 * @return bool
 	 */
-	/** @noinspection PhpUnusedParameterInspection */
 	public function _validatePropertyValue_test_value(
 					/** @noinspection PhpUnusedParameterInspection */
 					&$property,
 					/** @noinspection PhpUnusedParameterInspection */
-	                                &$errors) {
+					&$errors) {
 		return true;
 	}
 
@@ -658,7 +657,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	public function getFormFieldErrorMessages() {
 		$error_messages = $this->form_field_error_messages;
@@ -721,6 +720,14 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
 		if($this->form_field_get_default_value_callback) {
 			$callback = $this->form_field_get_default_value_callback;
+			if(is_array($callback)) {
+				if(
+					$callback[0]=='this'
+				) {
+					$callback[0] = $this->data_model_class_name;
+				}
+			}
+
 			$this->default_value = $callback();
 		}
 
@@ -742,13 +749,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
                     $callback[0]=='this'
                 ) {
                     $callback[0] = $this->data_model_class_name;
-                } else {
-                    $callback[0] = Factory::parseModuleClassName($callback[0]);
                 }
 
             }
 			if(!is_callable($callback)) {
-                var_dump($callback);
 				throw new DataModel_Exception($this->data_model_class_name.'::'.$this->_name.'::form_field_get_select_options_callback is not callable');
 			}
 
@@ -826,7 +830,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
      *
      * @return mixed
      */
-    public function getXMLexportValue( /** @noinspection PhpUnusedParameterInspection */ DataModel $data_model_instance, &$property ) {
+    public function getXmlExportValue( /** @noinspection PhpUnusedParameterInspection */DataModel $data_model_instance, &$property ) {
         return $property;
     }
 

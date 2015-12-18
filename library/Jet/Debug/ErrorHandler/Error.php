@@ -54,11 +54,11 @@ class Debug_ErrorHandler_Error {
 	/**
 	 * @var array
 	 */
-	public $backtrace = array();
+	public $backtrace = [];
 	/**
 	 * @var array
 	 */
-	public $context = array();
+	public $context = [];
 
 	/**
 	 * @var bool
@@ -70,7 +70,7 @@ class Debug_ErrorHandler_Error {
 	 *
 	 * @var array
 	 */
-	public static $PHP_errors_txt = array(
+	public static $PHP_errors_txt = [
 		E_ERROR => 'PHP Error',
 		E_WARNING => 'PHP Warning',
 		E_PARSE => 'PHP Parsing Error',
@@ -84,14 +84,14 @@ class Debug_ErrorHandler_Error {
 		E_USER_WARNING => 'PHP User Warning',
 		E_USER_NOTICE => 'PHP User Notice',
 		E_STRICT => 'PHP Runtime Notice'
-	);
+	];
 
 	/**
 	 * Fatal errors list
 	 *
 	 * @var array
 	 */
-	public static $PHP_fatal_errors = array(
+	public static $PHP_fatal_errors = [
 		E_ERROR,
 		E_PARSE,
 		E_CORE_ERROR,
@@ -100,7 +100,7 @@ class Debug_ErrorHandler_Error {
 		E_COMPILE_WARNING,
 		E_USER_ERROR,
 		E_RECOVERABLE_ERROR
-	);
+	];
 
 	/**
 	 *

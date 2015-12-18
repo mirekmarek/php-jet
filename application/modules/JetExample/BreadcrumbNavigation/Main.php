@@ -14,8 +14,9 @@
  */
 namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
 use Jet;
+use Jet\Application_Modules_Module_Abstract;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
 	
 	/**
 	 * Initialization method 

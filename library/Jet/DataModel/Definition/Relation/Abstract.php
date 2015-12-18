@@ -31,7 +31,7 @@ abstract class DataModel_Definition_Relation_Abstract extends Object {
 	/**
 	 * @var DataModel_Definition_Relation_JoinBy_Item[]
 	 */
-	protected $join_by = array();
+	protected $join_by = [];
 
 	/**
 	 * @var string
@@ -41,7 +41,7 @@ abstract class DataModel_Definition_Relation_Abstract extends Object {
 	/**
 	 * @var array
 	 */
-	protected $required_relations = array();
+	protected $required_relations = [];
 
 	/**
 	 * @return string
@@ -101,7 +101,7 @@ abstract class DataModel_Definition_Relation_Abstract extends Object {
 	 * @param array $items
 	 */
 	public function setJoinBy( array $items ) {
-		$this->join_by = array();
+		$this->join_by = [];
 
 		foreach( $items as $item ) {
 			$this->addJoinBy($item);

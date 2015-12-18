@@ -1,40 +1,40 @@
 <?php
 namespace Jet;
 
-if(!function_exists('\Jet\showMenu')) {
-    /**
-     * @param Mvc_Page_Abstract[] $pages
-     */
-	function showMenu( $pages ){
 
-		if(!$pages) return;
+$show_menu = function( $pages ) use (&$show_menu) {
+	/**
+	 * @var Mvc_Page_Abstract[] $pages
+	 */
 
-		$current_page_ID = Mvc::getCurrentPage()->getID()->toString();
-		?>
-    	<ul>
+	if(!$pages) return;
+
+	$current_page_ID = Mvc::getCurrentPage()->getID()->toString();
+	?>
+	<ul>
 		<?php foreach($pages as $page):
-                if($page->getIsAdminUI()) {
-                    continue;
-                }
-            ?>
-            <li>
-            <?php if($current_page_ID==$page->getID()->toString() ): ?>
-                <i><?=$page->getMenuTitle(); ?></i>
-            <?php else: ?>
-                <a href="<?=$page->getURL(); ?>"><?=$page->getMenuTitle(); ?></a>
-            <?php endif; ?>
-                <?php showMenu($page->getChildren()); ?>
-            </li>
+			if($page->getIsAdminUI()) {
+				continue;
+			}
+			?>
+			<li>
+				<?php if($current_page_ID==$page->getID()->toString() ): ?>
+					<i><?=$page->getMenuTitle(); ?></i>
+				<?php else: ?>
+					<a href="<?=$page->getURL(); ?>"><?=$page->getMenuTitle(); ?></a>
+				<?php endif; ?>
+				<?php $show_menu($page->getChildren()); ?>
+			</li>
 		<?php endforeach; ?>
-    	</ul>
-	    <?php
-	}
-}
+	</ul>
+<?php
+
+};
 ?>
 
 <div style="margin:5px;border-top: 1px solid black;">
 	<strong>Site map [current locale: <?=Mvc::getCurrentLocale();?>]:</strong>
-	<?php showMenu( $this->site_tree_current ); ?>
+	<?php $show_menu( $this->site_tree_current ); ?>
 </div>
 
 
@@ -46,6 +46,6 @@ if(!function_exists('\Jet\showMenu')) {
 	?>
 <div style="margin:5px;border-top: 1px solid black;">
 	<strong>Site map [<?php echo $locale;?>]:</strong>
-	<?php showMenu( [$home_page] ); ?>
+	<?php $show_menu( [$home_page] ); ?>
 </div>
 <?php endforeach; ?>

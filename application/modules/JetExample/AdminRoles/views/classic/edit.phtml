@@ -1,18 +1,25 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
+use Jet\Auth_Role_Default;
+use Jet\Form;
+use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
+use Jet\Tr;
+use Jet\Mvc_Page;
+use Jet\Auth_User_Abstract;
+use Jet\Mvc;
 
 /**
- * @var Jet\Auth_Role_Default $role
+ * @var Auth_Role_Default $role
  */
 $role = $this->role;
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
 
 /**
- * @var Jet\Auth_Role_Privilege_AvailablePrivilegesListItem[] $available_privileges_list
+ * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $available_privileges_list
  */
 $available_privileges_list = $this->available_privileges_list;
 
@@ -21,7 +28,7 @@ $available_privileges_list = $this->available_privileges_list;
 
 <div style="padding: 10px;">
 
-<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-warning"><?=Jet\Tr::_('&lt; go back');?></a>
+<a href="<?=Mvc::getCurrentURI();?>" class="btn btn-warning"><?=Tr::_('&lt; go back');?></a>
 
 
 <jet_form name="<?=$form->getName();?>" role="form">
@@ -39,7 +46,7 @@ $available_privileges_list = $this->available_privileges_list;
 		<jet_form_field name="description" class="form-control"/>
 	</div>
 	<fieldset>
-		<legend><?=Jet\Tr::_('Privileges');?></legend>
+		<legend><?=Tr::_('Privileges');?></legend>
 		<?php foreach($available_privileges_list as $privilege=>$pd ): ?>
 		<div class="form-group">
 				<jet_form_field_label name="/privileges/<?=$privilege;?>/values"/>
@@ -50,7 +57,7 @@ $available_privileges_list = $this->available_privileges_list;
 	</fieldset>
 
 	<?php if($this->has_access): ?>
-	<input type="submit" value="<?=Jet\Tr::_("Save");?>" class="btn btn-primary"/>
+	<input type="submit" value="<?=Tr::_("Save");?>" class="btn btn-primary"/>
 	<?php endif; ?>
 
 </jet_form>
@@ -60,21 +67,21 @@ $available_privileges_list = $this->available_privileges_list;
 	<br/>
 <?php if($role && count($role->getUsers())): ?>
 	<fieldset>
-		<legend><?=Jet\Tr::_('Users');?></legend>
+		<legend><?=Tr::_('Users');?></legend>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th><?=Jet\Tr::_('Login');?></th>
+						<th><?=Tr::_('Login');?></th>
 					</tr>
 				</thead>
 				<tbody>
 			<?php foreach( $role->getUsers() as $user ):
 				/**
-				 * @var Jet\Auth_User_Abstract $user
+				 * @var Auth_User_Abstract $user
 				 */
 				?>
 				<tr>
-					<td><a href="<?=Jet\Mvc_Page::get('admin/classic/users')->getURL( ['ID'=>$user->getID()] );?>"><?=$user->getLogin(); ?></a></td>
+					<td><a href="<?=Mvc_Page::get('admin/classic/users')->getURL( ['ID'=>$user->getID()] );?>"><?=$user->getLogin(); ?></a></td>
 				</tr>
 			<?php endforeach; ?>
 				</tbody>

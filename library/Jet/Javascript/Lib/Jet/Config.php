@@ -20,7 +20,7 @@ namespace Jet;
  */
 class Javascript_Lib_Jet_Config extends Config_Application {
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Create package'
 	 * @JetConfig:is_required = false

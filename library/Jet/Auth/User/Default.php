@@ -26,7 +26,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -35,7 +35,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:is_key = true
@@ -48,7 +48,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
@@ -63,7 +63,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = false
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -73,7 +73,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'E-mail'
 	 *
@@ -83,9 +83,9 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_label = 'Locale'
-	 * @JetDataModel:form_field_get_select_options_callback = [ 'Jet\Mvc_Site','getAllLocalesList']
+	 * @JetDataModel:form_field_get_select_options_callback = [ 'Mvc_Site','getAllLocalesList']
 	 *
 	 * @var Locale
 	 */
@@ -93,7 +93,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_label = 'First name'
 	 *
@@ -103,7 +103,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_label = 'Surname'
 	 *
@@ -113,7 +113,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Description'
 	 *
@@ -123,7 +123,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -133,7 +133,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:default_value = null
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -143,7 +143,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = false
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -153,7 +153,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:default_value = null
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -163,7 +163,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -173,7 +173,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:default_value = ''
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -183,12 +183,12 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Auth_User_Roles'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Auth_User_Roles'
 	 * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
 	 * @JetDataModel:form_field_type = 'MultiSelect'
 	 * @JetDataModel:form_field_label = 'Roles'
-	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Auth', 'getRolesList']
+	 * @JetDataModel:form_field_get_select_options_callback = ['Auth', 'getRolesList']
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
 	 *
 	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator
@@ -218,15 +218,15 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 */
 	public function getLoginExists( $login ) {
 		if($this->getIsNew()) {
-			$q = array(
+			$q = [
 				'this.login' => $login
-			);
+			];
 		} else {
-			$q = array(
+			$q = [
 				'this.login' => $login,
 				'AND',
 				'this.ID!=' => $this->ID
-			);
+			];
 		}
 		return (bool)$this->getBackendInstance()->getCount( $this->createQuery( $q ) );
 	}
@@ -468,11 +468,11 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 */
 	public function getUsersList( $role_ID=null ) {
 		if($role_ID) {
-			$query = array(
+			$query = [
 				'Auth_Role_Default.ID' => $role_ID
-			);
+			];
 		} else {
-			$query = array();
+			$query = [];
 		}
 
 		$list = $this->fetchObjects( $query );
@@ -488,7 +488,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public function getUsersListAsData( $role_ID=null ) {
-		$query = array();
+		$query = [];
 
 		if($role_ID) {
 			$query['Auth_Role_Default.ID'] = $role_ID;
@@ -510,11 +510,11 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 */
 	public function getByIdentity(  $login, $password  ) {
 
-		return $this->fetchOneObject( array(
+		return $this->fetchOneObject( [
 			'this.login' => $login,
 			'AND',
 			'this.password' => $this->encryptPassword($password)
-		));
+		]);
 	}
 
 
@@ -525,9 +525,9 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 */
 	public function getGetByLogin(  $login  ) {
 
-		return $this->fetchOneObject( array(
+		return $this->fetchOneObject( [
 			'this.login' => $login
-		) );
+		]);
 	}
 
 
@@ -555,7 +555,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @param array $roles_IDs
 	 */
 	public function setRoles( array $roles_IDs ) {
-		$roles = array();
+		$roles = [];
 
 		foreach($roles_IDs as $role_ID) {
 			$role = Auth::getRole($role_ID);
@@ -614,7 +614,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 	 * @return array
 	 */
 	public function getPrivilegeValues($privilege) {
-		$result = array();
+		$result = [];
 		foreach($this->roles as $role) {
 			/**
 			 * @var Auth_Role_Abstract $role
@@ -659,7 +659,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 
 		}
 
-		$form = $this->getForm($form_name, array('login', 'password', 'email'));
+		$form = $this->getForm($form_name, ['login', 'password', 'email']);
 
 		$this->_setupForm($form);
 
@@ -687,7 +687,7 @@ class Auth_User_Default extends Auth_User_Abstract {
 				$field->setErrorMessage(
 					Tr::_(
 						'Sorry, but username %LOGIN% is registered.',
-						array('LOGIN'=>$login)
+						['LOGIN'=>$login]
 					)
 				);
 				return false;

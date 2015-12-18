@@ -30,7 +30,7 @@ class Mvc_MicroRouter extends Object {
 	/**
 	 * @var Mvc_MicroRouter_Action[]
 	 */
-	protected $actions = array();
+	protected $actions = [];
 
 	/**
 	 * @var string

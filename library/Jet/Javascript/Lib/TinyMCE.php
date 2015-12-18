@@ -112,7 +112,7 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 	 * @param array $parameters(optional)
 	 *
 	 */
-	public function requireComponent( $component, $parameters=array() ) {
+	public function requireComponent( $component, $parameters= []) {
 	}
 
 	/**

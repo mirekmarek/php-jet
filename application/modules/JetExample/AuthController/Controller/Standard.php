@@ -11,8 +11,14 @@
  */
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet;
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Exception;
+use Jet\Form;
+use Jet\Auth_User_Abstract;
+use Jet\Http_Headers;
+use Jet\Auth;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -23,7 +29,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 * @param string $action
 	 * @param array $action_parameters
 	 *
-	 * @throws Jet\Mvc_Controller_Exception
+	 * @throws Mvc_Controller_Exception
 	 * 
 	 * @return bool
 	 */
@@ -44,7 +50,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
     public function login_Action() {
 
 		/**
-		 * @var Jet\Form $form
+		 * @var Form $form
 		 */
 		$form = $this->module_instance->getLoginForm();
 
@@ -53,8 +59,8 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$form->validateValues()
 		) {
 			$data = $form->getValues();
-			if(Jet\Auth::login( $data['login'], $data['password'] )) {
-				Jet\Http_Headers::reload();
+			if(Auth::login( $data['login'], $data['password'] )) {
+				Http_Headers::reload();
 			} else {
 				$this->view->setVar('incorrect_login', true);
 			}
@@ -85,7 +91,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
      */
 	public function mustChangePassword_Action() {
 		/**
-		 * @var Jet\Form $form
+		 * @var Form $form
 		 */
 		$form = $this->module_instance->getChangePasswordForm();
 
@@ -95,7 +101,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 		) {
 			$data = $form->getValues();
 			/**
-			 * @var Jet\Auth_User_Abstract $user
+			 * @var Auth_User_Abstract $user
 			 */
 			$user = $this->module_instance->getCurrentUser();
 			$user->setPassword( $data['password'] );
@@ -104,7 +110,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 			$user->validateProperties();
 			$user->save();
 
-			Jet\Http_Headers::reload();
+			Http_Headers::reload();
 		}
 
 		$this->view->setVar('form', $form);

@@ -29,7 +29,7 @@ namespace Jet;
  *                     - optional
  *          @JetFactory:method = 'someMethodName'
  *                     - optional
- *          @JetFactory:mandatory_parent_class = 'Some\Mandatory_Abstract_Class'
+ *          @JetFactory:mandatory_parent_class = 'Some_Mandatory_Abstract_Class'
  */
 
 

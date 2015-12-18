@@ -75,7 +75,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 					`user_ID`=:user_ID,
 					`object`=:object,
 					`operation_in_progress`=:operation_in_progress
-				',array(
+				', [
 					'operation_ID' => $this->_current_operation_ID,
 					'class_name' => get_class($this->_current_data_model),
 					'model_name' => $this->_current_data_model->getDataModelDefinition()->getModelName(),
@@ -85,7 +85,7 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 					'user_ID' => $user_ID,
 					'object' => serialize( $this->_current_data_model ),
 					'operation_in_progress' => 1,
-				));
+		]);
 
 	}
 
@@ -95,9 +95,9 @@ class DataModel_History_Backend_MySQL extends DataModel_History_Backend_Abstract
 	public function operationDone() {
 		$this->_db_write->execCommand(
 			'UPDATE `'.$this->_table_name.'` SET `operation_in_progress`=0, `operation_done`=1, `done_date_and_time`=NOW() WHERE `operation_ID`=:operation_ID',
-			array(
+			[
 				'operation_ID' => $this->_current_operation_ID,
-			)
+			]
 		);
 	}
 

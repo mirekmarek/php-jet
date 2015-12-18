@@ -215,7 +215,7 @@ class Debug_Profiler {
 	 * @param string $query
 	 * @param array $query_data
 	 */
-	public static function SQLQueryStart( $query, $query_data=array() ) {
+	public static function SQLQueryStart( $query, $query_data= []) {
 		if(
 			!static::$enabled ||
 			!static::$log_SQL_queries
@@ -237,7 +237,7 @@ class Debug_Profiler {
 			return;
 		}
 
-		static::$run->SQLqueryDone($rows_count);
+		static::$run->SqlQueryDone($rows_count);
 	}
 
 	/**
@@ -313,7 +313,7 @@ class Debug_Profiler {
 			}
 		}
 
-		$backtrace = array();
+		$backtrace = [];
 
 		foreach($_backtrace as $bt) {
 			if(!isset($bt['file'])) {

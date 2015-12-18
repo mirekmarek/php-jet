@@ -45,11 +45,11 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $djConfig = array(
+	protected $djConfig = [
 			'parseOnLoad' => true,
 			'locale' => 'en-us',
 			'isDebug' => false,
-		);
+	];
 
 	/**
      *
@@ -184,7 +184,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 * @param string $component - dojo module
 	 * @param array $parameters(optional)
 	 */
-	public function requireComponent( $component, $parameters=array() ) {
+	public function requireComponent( $component, $parameters= []) {
 		if( in_array( $component, $this->required_components ) ) {
 			return;
 		}
@@ -195,7 +195,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 			$parameters['css']
 		){
 			if(!is_array($parameters['css'])){
-				$parameters['css'] = array($parameters['css']);
+				$parameters['css'] = [$parameters['css']];
 			} 
 			foreach($parameters['css'] as $css){
 				if(in_array($css, $this->required_components_CSS)){
@@ -268,10 +268,10 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	protected function replaceConstants($value){
 
-		$replacements = array(
+		$replacements = [
 			'VERSION' => $this->config->getVersion(),
 			'THEME' => $this->theme
-		);
+		];
 
 		return Data_Text::replaceData($value, $replacements);
 		//return Data_Text::replaceSystemConstants($value, $replacements);
@@ -285,9 +285,9 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 * @param Mvc_Layout $layout
 	 */
 	public function finalPostProcess( &$result, Mvc_Layout $layout ) {
-		$replace_data = array(
+		$replace_data = [
 			'DOJO_THEME' => $this->theme
-		);
+		];
 
 		$result = Data_Text::replaceData($result, $replace_data);
 	}

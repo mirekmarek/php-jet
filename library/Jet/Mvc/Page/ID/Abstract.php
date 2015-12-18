@@ -19,9 +19,9 @@ namespace Jet;
 /**
  * Class Mvc_Page_ID_Abstract
  *
- * @JetFactory:class = 'Jet\Mvc_Factory'
+ * @JetFactory:class = 'Mvc_Factory'
  * @JetFactory:method = 'getPageIDInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Page_ID_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Mvc_Page_ID_Abstract'
  */
 abstract class Mvc_Page_ID_Abstract extends DataModel_ID_Name {
 

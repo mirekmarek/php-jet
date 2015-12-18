@@ -23,12 +23,12 @@ namespace Jet;
 /**
  * Class Mvc_Site_LocalizedData_Abstract
  *
- * @JetFactory:class = 'Jet\Mvc_Factory'
+ * @JetFactory:class = 'Mvc_Factory'
  * @JetFactory:method = 'getLocalizedSiteInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Site_LocalizedData_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Mvc_Site_LocalizedData_Abstract'
  *
  * @JetDataModel:name = 'site_localized_data'
- * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Site_Abstract'
+ * @JetDataModel:parent_model_class_name = 'Mvc_Site_Abstract'
  */
 abstract class Mvc_Site_LocalizedData_Abstract extends DataModel_Related_1toN {
 

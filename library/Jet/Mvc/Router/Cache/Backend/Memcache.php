@@ -140,7 +140,7 @@ class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstrac
 
 		$list = $this->memcache->get( $list_key );
 		if(!$list) {
-			$list = array();
+			$list = [];
 		} else {
 			$list = unserialize($list);
 		}

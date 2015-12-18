@@ -121,7 +121,7 @@ class Auth_Factory extends Factory {
 	 *
 	 * @return Auth_Role_Privilege_Abstract
 	 */
-	public static function getPrivilegeInstance( $privilege='', array $values=array() ) {
+	public static function getPrivilegeInstance( $privilege='', array $values= []) {
 		$class_name =  static::getClassName( static::DEFAULT_PRIVILEGE_CLASS );
 		$instance = new $class_name( $privilege, $values );
 		//static::checkInstance(static::DEFAULT_PRIVILEGE_CLASS, $instance);

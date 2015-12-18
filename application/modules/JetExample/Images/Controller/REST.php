@@ -14,8 +14,13 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\Http_Headers;
+use Jet\Http_Request;
+use Jet\Mvc;
+use Jet\Mvc_Controller_REST;
+use Jet\Form_Field_FileImage;
 
-class Controller_REST extends Jet\Mvc_Controller_REST {
+class Controller_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main
@@ -42,15 +47,15 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 	);
 
 	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Jet\Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '),
-		self::ERR_CODE_ACCESS_DENIED => array(Jet\Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
-		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'),
-		self::ERR_CODE_FORM_ERRORS => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'),
-		self::ERR_CODE_UNKNOWN_ITEM => array(Jet\Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'),
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '),
+		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
+		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'),
+		self::ERR_CODE_FORM_ERRORS => array(Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'),
+		self::ERR_CODE_UNKNOWN_ITEM => array(Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'),
 
-		self::ERR_CODE_NO_FILE => array( Jet\Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent' ),
-		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => array( Jet\Http_Headers::CODE_409_CONFLICT, 'Image allready uploaded' ),
-		self::ERR_CODE_UNKNOWN_ERROR => array(Jet\Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error'),
+		self::ERR_CODE_NO_FILE => array( Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent' ),
+		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => array( Http_Headers::CODE_409_CONFLICT, 'Image allready uploaded' ),
+		self::ERR_CODE_UNKNOWN_ERROR => array(Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error'),
 	);
 
 	/**
@@ -67,15 +72,15 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			$image = $this->_getImage($ID);
 			$this->responseData($image);
 		} else {
-			$gallery_ID = Jet\Http_Request::GET()->getString('gallery_ID');
+			$gallery_ID = Http_Request::GET()->getString('gallery_ID');
 
 			/**
 			 * @var Config $config
 			 */
 			$config = $this->module_instance->getConfig();
 
-			$thumbnail_max_size_w = Jet\Http_Request::GET()->getInt('thumbnail_max_size_w', $config->getDefaultThbMaxW() );
-			$thumbnail_max_size_h = Jet\Http_Request::GET()->getInt('thumbnail_max_size_h', $config->getDefaultThbMaxH() );
+			$thumbnail_max_size_w = Http_Request::GET()->getInt('thumbnail_max_size_w', $config->getDefaultThbMaxW() );
+			$thumbnail_max_size_h = Http_Request::GET()->getInt('thumbnail_max_size_h', $config->getDefaultThbMaxH() );
 
 			$list = Gallery_Image::getListAsData( $gallery_ID );
 			if($thumbnail_max_size_w>0 && $thumbnail_max_size_h>0) {
@@ -104,7 +109,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$upload_form = $gallery->getUploadForm();
 
 		/**
-		 * @var Jet\Form_Field_FileImage $image_field
+		 * @var Form_Field_FileImage $image_field
 		 */
 		$image_field = $upload_form->getField('file');
 		/**
@@ -194,7 +199,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 
 		$URI = $image->getThumbnail($maximal_size_w, $maximal_size_h)->getURI();
 
-		Jet\Http_Headers::movedPermanently( $URI );
+		Http_Headers::movedPermanently( $URI );
 	}
 
 
@@ -253,7 +258,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
 			$gallery->validateProperties();
 			$gallery->save();
-			Jet\Mvc::truncateRouterCache();
+			Mvc::truncateRouterCache();
 
 			$this->responseData($gallery);
 		} else {
@@ -274,7 +279,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 			$gallery->validateProperties();
 			$gallery->save();
 
-			Jet\Mvc::truncateRouterCache();
+			Mvc::truncateRouterCache();
 
 			$this->responseData($gallery);
 		} else {
@@ -289,7 +294,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$gallery = $this->_getGallery($ID);
 
 		$gallery->delete();
-		Jet\Mvc::truncateRouterCache();
+		Mvc::truncateRouterCache();
 
 		$this->responseOK();
 

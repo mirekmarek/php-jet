@@ -21,7 +21,7 @@ namespace Jet;
  * Class Auth_Role_Privilege_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
- * @JetDataModel:parent_model_class_name = 'Jet\Auth_Role_Default'
+ * @JetDataModel:parent_model_class_name = 'Auth_Role_Default'
  */
 class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
@@ -32,7 +32,7 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -41,7 +41,7 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
@@ -52,13 +52,13 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_creator_method_name = 'getFormField'
 	 *
 	 * @var array
 	 */
-	protected $values = array ();
+	protected $values = [];
 
 	/**
 	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
@@ -139,7 +139,7 @@ class Auth_Role_Privilege_Default extends Auth_Role_Privilege_Abstract {
 
 
 		if(!self::$available_privileges_list) {
-			self::$available_privileges_list = Auth::getAvailablePrivilegesList(true);
+			self::$available_privileges_list = Auth::getAvailablePrivilegesList();
 
 		}
 

@@ -19,7 +19,7 @@ class DataModel_Definition_Relation_Internal extends DataModel_Definition_Relati
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $join_by_properties = array();
+	protected $join_by_properties = [];
 
 
 	/**

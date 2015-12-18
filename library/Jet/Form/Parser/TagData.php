@@ -35,7 +35,7 @@ class Form_Parser_TagData extends Object {
 	/**
 	 * @var array
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @param array $regexp_match
@@ -50,7 +50,7 @@ class Form_Parser_TagData extends Object {
 			$this->tag = substr($tag, 1);
 		}
 
-		$this->properties = array();
+		$this->properties = [];
 		$this->name = false;
 		$_properties = substr(trim($regexp_match[2]), 0, -1);
 

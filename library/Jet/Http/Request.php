@@ -123,7 +123,7 @@ class Http_Request extends Object {
      *
      * @return string
      */
-    public static function getCurrentURI( array $set_GET_params=array(), array $unset_GET_params=array(), $set_anchor=null ) {
+    public static function getCurrentURI(array $set_GET_params= [], array $unset_GET_params= [], $set_anchor=null ) {
         if($set_GET_params || $unset_GET_params) {
             list($URI) = explode('?', $_SERVER['REQUEST_URI']);
 
@@ -307,7 +307,7 @@ class Http_Request extends Object {
 			$headers = apache_request_headers();
 		} else {
 
-			$headers = array();
+			$headers = [];
 			foreach($_SERVER as $key => $value) {
 				if(substr($key, 0, 5) != 'HTTP_') {
 					continue;

@@ -33,7 +33,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -42,7 +42,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:description = 'ID Description'
 	 * @JetDataModel:default_value = 'ID default value'
 	 * @JetDataModel:is_required = false
@@ -55,7 +55,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
@@ -77,7 +77,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
@@ -89,7 +89,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 2
 	 * @JetDataModel:is_required = true
@@ -103,7 +103,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_FLOAT
+	 * @JetDataModel:type = DataModel::TYPE_FLOAT
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 2
 	 * @JetDataModel:is_required = true
@@ -117,7 +117,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:description = 'Bool property:'
 	 * @JetDataModel:is_required = false
 	 * @JetDataModel:default_value = true
@@ -129,7 +129,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
@@ -142,7 +142,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
@@ -154,7 +154,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE
+	 * @JetDataModel:type = DataModel::TYPE_DATE
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true
@@ -166,7 +166,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = 'Jet\\DataModel_Definition_DataModelTestMock'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'

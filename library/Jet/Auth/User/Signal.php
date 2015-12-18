@@ -21,7 +21,7 @@ class Auth_User_Signal extends Application_Signals_Signal {
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Auth_User_Abstract $sender, $name, array $data=array() ) {
+	public function __construct( Auth_User_Abstract $sender, $name, array $data= []) {
 		parent::__construct($sender, $name, $data);
 	}
 

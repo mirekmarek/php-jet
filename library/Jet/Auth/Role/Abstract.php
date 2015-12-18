@@ -16,18 +16,18 @@ namespace Jet;
 /**
  * Class Auth_Role_Abstract
  *
- * @JetFactory:class = 'Jet\Auth_Factory'
+ * @JetFactory:class = 'Auth_Factory'
  * @JetFactory:method = 'getRoleInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Auth_Role_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Auth_Role_Abstract'
  *
  * @JetApplication_Signals:signal = '/role/new'
  * @JetApplication_Signals:signal = '/role/updated'
  * @JetApplication_Signals:signal = '/role/deleted'
  *
- * @JetApplication_Signals:signal_object_class_name = 'Jet\Auth_Role_Signal'
+ * @JetApplication_Signals:signal_object_class_name = 'Auth_Role_Signal'
  *
  * @JetDataModel:name = 'role'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Name'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_Name'
  */
 abstract class Auth_Role_Abstract extends DataModel {
 

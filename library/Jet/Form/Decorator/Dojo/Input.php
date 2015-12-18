@@ -20,11 +20,11 @@ class Form_Decorator_Dojo_Input extends Form_Decorator_Dojo_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $decoratable_tags = array(
-		'field' => array(
+	protected $decoratable_tags = [
+		'field' => [
 			'get_dojo_type_method_name' => 'getDojoType'
-		)
-	);
+		]
+	];
 
 	/**
 	 * @param Form_Parser_TagData $tag_data

@@ -25,7 +25,7 @@ namespace Jet;
  * Class Mvc_Site_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
- * @JetDataModel:ID_class_name = 'Jet\Mvc_Site_ID_Default'
+ * @JetDataModel:ID_class_name = 'Mvc_Site_ID_Default'
  */
 class Mvc_Site_Default extends Mvc_Site_Abstract {
 
@@ -40,7 +40,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -49,7 +49,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Site name:'
 	 *
@@ -59,7 +59,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
@@ -68,7 +68,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
@@ -77,7 +77,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -87,8 +87,8 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Mvc_Site_LocalizedData_Default'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Mvc_Site_LocalizedData_Default'
 	 *
 	 * @var Mvc_Site_LocalizedData_Abstract[]
 	 */
@@ -102,7 +102,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
     /**
      * @var array|Mvc_Site_Default[]
      */
-    protected static $loaded_sites = array();
+    protected static $loaded_sites = [];
 
 
 	/**
@@ -361,7 +361,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 	 */
 	public function getLocales( $get_as_string=false ) {
 
-		$result = array();
+		$result = [];
 
 		foreach( $this->localized_data as $ld ) {
 			$locale = $ld->getLocale();
@@ -542,7 +542,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
     public function getList() {
         $dirs = IO_Dir::getSubdirectoriesList( JET_SITES_PATH );
 
-        $sites = array();
+        $sites = [];
 
         foreach( $dirs as $ID ) {
             $site = Mvc_Site::get( $ID );
@@ -580,8 +580,6 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
      * Loads DataModel.
      *
      * @param DataModel_ID_Abstract $ID
-     *
-     * @return \Jet\DataModel|mixed|null
      *
      * @throws DataModel_Exception
      *
@@ -623,7 +621,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
             $l_data->setDefaultBodyPrefix($localized_data['default_body_prefix']);
             $l_data->setDefaultBodySuffix($localized_data['default_body_suffix']);
 
-            $meta_tags = array();
+            $meta_tags = [];
 
             foreach($localized_data['default_meta_tags'] as $m_data) {
                 $meta_tags[] = Mvc_Factory::getLocalizedSiteMetaTagInstance( $m_data['content'], $m_data['attribute'], $m_data['attribute_value']);
@@ -631,7 +629,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
             $l_data->setDefaultMetaTags( $meta_tags );
 
-            $URLs = array();
+            $URLs = [];
 
             foreach( $URL_map as $URL_data ) {
                 if(
@@ -771,7 +769,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
         $default_pages_path = $pages_root_path.'_default/';
 
-        $locales = array();
+        $locales = [];
         foreach( $this->getLocales() as $locale ) {
             $pages_path = $this->getPagesDataPath($locale);
 
@@ -809,10 +807,10 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
         IO_File::write($data_file_path, $data);
 
         //- MAP
-        $URLs_map_data = array();
+        $URLs_map_data = [];
         if(static::$URL_map) {
             foreach(static::$URL_map as $key=>$URLs) {
-                $URLs_map_data[$key] = array();
+                $URLs_map_data[$key] = [];
 
                 foreach( $URLs as $URL ) {
                     /**
@@ -831,7 +829,7 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
 
             $key = $this->getID().'/'.$ld->getLocale();
 
-            $URLs_map_data[$key] = array();
+            $URLs_map_data[$key] = [];
 
             foreach( $ld->getURLs() as $URL ) {
                 if(!$URL->getIsDefault()) {

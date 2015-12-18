@@ -31,7 +31,7 @@ class DataModel_Definition_Key extends Object {
 	/**
 	 * @var array
 	 */
-	protected $property_names = array();
+	protected $property_names = [];
 
 
 	/**
@@ -41,16 +41,16 @@ class DataModel_Definition_Key extends Object {
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function __construct($name, $type=DataModel::KEY_TYPE_INDEX, array $property_names=array() ) {
+	public function __construct($name, $type=DataModel::KEY_TYPE_INDEX, array $property_names= []) {
 		if(!$property_names) {
 			$property_names[] = $name;
 		}
 
-		if(!in_array($type, array(
+		if(!in_array($type, [
 			DataModel::KEY_TYPE_INDEX,
 			DataModel::KEY_TYPE_PRIMARY,
 			DataModel::KEY_TYPE_UNIQUE
-		))) {
+		])) {
 			throw new DataModel_Exception(
 				'Unknown key type',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

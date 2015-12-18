@@ -22,19 +22,19 @@ namespace Jet;
 class DataModel_Config extends Config_Application {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:form_field_label = 'Default backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Config', 'getBackendTypesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Config', 'getBackendTypesList']
 	 * 
 	 * @var string
 	 */
 	protected $backend_type;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Enable data history:'
 	 * 
@@ -43,19 +43,19 @@ class DataModel_Config extends Config_Application {
 	protected $history_enabled;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:form_field_label = 'History backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Config', 'getHistoryBackendTypesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Config', 'getHistoryBackendTypesList']
 	 * 
 	 * @var string
 	 */
 	protected $history_backend_type;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Enable data cache:'
 	 * 
@@ -64,12 +64,12 @@ class DataModel_Config extends Config_Application {
 	protected $cache_enabled;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:form_field_label = 'Cache backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\DataModel_Config', 'getCacheBackendTypesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Config', 'getCacheBackendTypesList']
 	 * 
 	 * @var string
 	 */

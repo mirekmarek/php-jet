@@ -53,8 +53,14 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		$tag_data->setProperty('id', $this->getID());
 
 
-		$result = '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>'.JET_EOL;
-		$result .= '<script type="text/javascript">Jet_WYSIWYG.init('.json_encode($this->getID()).','.json_encode($this->editor_config_name).');</script>'.JET_EOL;
+		$result = /** @lang text */
+			'<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>'.JET_EOL;
+
+		$ID = json_encode($this->getID());
+		$config_name = json_encode($this->editor_config_name);
+
+		$result .= /** @lang text */
+			'<script type="text/javascript">Jet_WYSIWYG.init('.$ID.','.$config_name.');</script>'.JET_EOL;
 
 		return $result;
 	}

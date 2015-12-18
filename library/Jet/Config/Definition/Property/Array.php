@@ -24,7 +24,7 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 	/**
 	 * @var array
 	 */
-	protected $default_value = array();
+	protected $default_value = [];
 	/**
 	 * @var string
 	 */
@@ -54,7 +54,7 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 	 */
 	public function checkValueType( &$value ) {
 		if(!is_array($value)) {
-			$value = array();
+			$value = [];
 		}
 	}
 

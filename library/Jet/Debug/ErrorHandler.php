@@ -29,7 +29,7 @@ class Debug_ErrorHandler {
 	/**
 	 * @var Debug_ErrorHandler_Handler_Abstract[]
 	 */
-	protected static $handlers = array();
+	protected static $handlers = [];
 
 	/**
 	 * @var array|null
@@ -49,9 +49,9 @@ class Debug_ErrorHandler {
 
 		$class_name = get_called_class();
 
-		set_error_handler(array($class_name, 'handleError'));
-		set_exception_handler(array($class_name, 'handleException'));
-		register_shutdown_function(array($class_name, 'handleShutdown'));
+		set_error_handler([$class_name, 'handleError']);
+		set_exception_handler([$class_name, 'handleException']);
+		register_shutdown_function([$class_name, 'handleShutdown']);
 
 
 		if(file_exists('ini_set')) {
@@ -95,7 +95,7 @@ class Debug_ErrorHandler {
 	 *
 	 * @return Debug_ErrorHandler_Handler_Abstract
 	 */
-	public static function registerHandler( $handler_name, $handler_class_name, $handler_script_path, array $handler_options=array() ){
+	public static function registerHandler( $handler_name, $handler_class_name, $handler_script_path, array $handler_options= []){
 		/** @noinspection PhpIncludeInspection */
 		require_once $handler_script_path;
 
@@ -233,12 +233,12 @@ class Debug_ErrorHandler {
 			return;
 		}
 
-		self::$last_error = array(
+		self::$last_error = [
 			'type' => $code,
 			'message' => $message,
 			'file' => $file,
 			'line' => $line
-		);
+		];
 
 		if (
 			strpos($file, __NAMESPACE__.'/IO/') !== false ||

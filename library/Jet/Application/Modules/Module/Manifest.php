@@ -5,7 +5,7 @@
  *
  * Class that contains basic information about the module
  *
- * @see Jet\Application_Modules
+ * @see Application_Modules_Module_Abstract
  *
  * Each module has manifest file (~/application/modules/Module/manifest.php), that contains these specifications:
  *  - label (required)
@@ -32,7 +32,7 @@ namespace Jet;
 /**
  * Class Application_Modules_Module_Manifest
  *
- * @JetFactory:mandatory_parent_class = 'Jet\Application_Modules_Module_Manifest'
+ * @JetFactory:mandatory_parent_class = 'Application_Modules_Module_Manifest'
  */
 
 class Application_Modules_Module_Manifest extends Object implements \JsonSerializable {
@@ -54,13 +54,13 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 *
 	 * @var array
 	 */
-	protected static $module_types_list = array(
+	protected static $module_types_list = [
 		self::MODULE_TYPE_GENERAL => 'General module',
 		self::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
 		self::MODULE_TYPE_PRE_DISPATCH => 'Pre dispatch',
 		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 		self::MODULE_TYPE_SYSTEM => 'System module',
-	);
+	];
 
 	/**
 	*
@@ -114,7 +114,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 *
 	 * @var string[]
 	 */
-	protected $types = array( self::MODULE_TYPE_GENERAL );
+	protected $types = [self::MODULE_TYPE_GENERAL];
 
 	/**
 	 * Manifest value
@@ -123,7 +123,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 *
 	 * @var string[]
 	 */
-	protected $require = array();
+	protected $require = [];
 
 	/**
 	 * Manifest value
@@ -140,7 +140,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 *
 	 * @var array
 	 */
-	protected $factory_overload_map = array();
+	protected $factory_overload_map = [];
 
 	/**
 	 * Manifest value
@@ -157,7 +157,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 *
 	 * @var array 
 	 */
-	protected $signals_callbacks = array();
+	protected $signals_callbacks = [];
 
 
 	//--------------------------------------------------------------------------
@@ -278,7 +278,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 
 			if(!isset($modules_types[$type])){
 				throw new Application_Modules_Exception(
-					'Invalid module type \''.$type.'\' ! See Jet\Application_Modules_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
+					'Invalid module type \''.$type.'\' ! See '.__NAMESPACE__.'\Application_Modules_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}
@@ -370,6 +370,9 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		return $this->name;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getNamespace() {
 		return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace('.','\\',$this->name).'\\';
 	}

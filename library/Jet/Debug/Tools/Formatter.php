@@ -57,10 +57,10 @@ class Debug_Tools_Formatter {
 	 *
 	 */
 	public static function formatBacktrace(array $debug_backtrace, $expand_call_arguments=true){
-		$output = array();
+		$output = [];
 		foreach ($debug_backtrace as $d) {
 			$file = isset($d['file']) ? $d['file'] : '?';
-			$args = isset($d['args']) ? $d['args'] : array();
+			$args = isset($d['args']) ? $d['args'] : [];
 			$class = isset($d['class']) ? $d['class'] : '';
 			$type = isset($d['type']) ? $d['type'] : '';
 			$function = isset($d['function']) ? $d['function'] : '';
@@ -70,7 +70,7 @@ class Debug_Tools_Formatter {
 			if($class){
 				$content .= $class.$type;
 			}
-			$args_array = array();
+			$args_array = [];
 			if($function){
 				$content .= $function . '(';
 				if($args){
@@ -86,7 +86,7 @@ class Debug_Tools_Formatter {
 				$content .= ')';
 			}
 
-			$output[] = array(
+			$output[] = [
 				'file' => $file,
 				'line' => $line,
 				'class' => $class,
@@ -94,7 +94,7 @@ class Debug_Tools_Formatter {
 				'function' => $function,
 				'args' => $args_array,
 				'call' => $content
-			);
+			];
 		}
 		return $output;
 	}
@@ -135,7 +135,7 @@ class Debug_Tools_Formatter {
 	public static function formatErrorMessage_HTML( Debug_ErrorHandler_Error $e  ){
 		$bg_color = '#c9ffc9';
 
-		$report = array();
+		$report = [];
 
 		$report[] = '<br /><div style="background-color: '.$bg_color.';padding:5px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';
 		$report[] = '<h2 style="padding:0;margin:0;">'.static::encodeForHTML($e->txt).'</h2><br/>';
@@ -178,7 +178,7 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatErrorContext_HTML(array $error_context){
-		$output = array();
+		$output = [];
 		$output[] = '<br /><strong>Error context:</strong><br />';
 		$output[] = '<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">';
 		$output[] = '<tr><th align="left">Variable</th><th align="left">Value</th></tr>';
@@ -200,7 +200,7 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatBacktrace_HTML(array $debug_backtrace){
-		$output = array();
+		$output = [];
 		$output[] = '<br /><strong>Debug backtrace:</strong><br />';
 		$output[] = '<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">';
 		$output[] = '<tr><th align="left">File</th><th align="left">Line</th><th align="left">Call</th></tr>';
@@ -233,7 +233,7 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatErrorMessage_TXT( Debug_ErrorHandler_Error $e ){
-		$report = array();
+		$report = [];
 
 		$url = static::getCurrentURL();
 
@@ -268,7 +268,7 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatErrorContext_TXT(array $error_context){
-		$output = array();
+		$output = [];
 		$output[] = 'Error context:';
 		$output[] = '';
 
@@ -287,7 +287,7 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatBacktrace_TXT(array $debug_backtrace){
-		$output = array();
+		$output = [];
 		$output[] = 'Debug backtrace:';
 		$output[] = '';
 

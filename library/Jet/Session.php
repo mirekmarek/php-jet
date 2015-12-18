@@ -46,7 +46,7 @@ class Session extends Object {
 		}
 
 		if(!isset($_SESSION[$this->namespace])) {
-			$_SESSION[$this->namespace] = array();
+			$_SESSION[$this->namespace] = [];
 		}
 	}
 
@@ -133,6 +133,6 @@ class Session extends Object {
 	 */
 	public static function destroy() {
 		session_destroy();
-		$_SESSION = array();
+		$_SESSION = [];
 	}
 }

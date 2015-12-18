@@ -20,9 +20,9 @@ namespace Jet;
 /**
  * Class Form_Decorator_Abstract
  *
- * @JetFactory:class = 'Jet\UI_Factory'
+ * @JetFactory:class = 'UI_Factory'
  * @JetFactory:method = 'getFormDecoratorInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Form_Decorator_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Form_Decorator_Abstract'
  */
 abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 	const DOJO_TYPE_PROPERTY = 'data-dojo-type';
@@ -31,19 +31,19 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $decoratable_tags = array(
-		'field' => array(
+	protected $decoratable_tags = [
+		'field' => [
 			'dojo_type' => 'dijit.form.TextBox',
 			'get_dojo_type_method_name' => '',
 			'get_dojo_props_method_name' => '',
 
-		)
-	);
+		]
+	];
 
 	/**
 	 * @var array
 	 */
-	protected $_dojo_properties = array();
+	protected $_dojo_properties = [];
 
 	/**
 	 *
@@ -78,7 +78,7 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 
         $this->form->getLayout()->requireJavascriptLib($Dojo);
 
-		$_dojo_props = array();
+		$_dojo_props = [];
 		foreach( $this->_dojo_properties as $k=>$val) {
 			$_dojo_props[] = $k.':'.json_encode($val);
 		}

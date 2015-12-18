@@ -30,13 +30,13 @@ abstract class JetML_Widget_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'custom_translator_namespace', 'custom_translator_locale', 'translation_data' );
+	protected $internal_properties = ['icon', 'icon_size', 'flag', 'flag_size', 'custom_translator_namespace', 'custom_translator_locale', 'translation_data'];
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $HTML_properties = array('style', 'class', 'id', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseover', 'onmouseout', 'onmouseup', 'onkeydown', 'onkeypress', 'onkeyup', 'onblur', 'onchange', 'onfocus', 'onreset', 'onselect' );
+	protected $HTML_properties = ['style', 'class', 'id', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseover', 'onmouseout', 'onmouseup', 'onkeydown', 'onkeypress', 'onkeyup', 'onblur', 'onchange', 'onfocus', 'onreset', 'onselect'];
 
 
 	/**
@@ -197,7 +197,7 @@ abstract class JetML_Widget_Abstract extends Object {
 				$img->setAttribute($k, $v);
 			}
 
-			return array( $img, $span );
+			return [$img, $span];
 		} else {
 			return $span;
 		}
@@ -221,7 +221,7 @@ abstract class JetML_Widget_Abstract extends Object {
 			$this->custom_translator_locale = $this->getNodeAttribute('custom_translator_locale', '');
 
 			$this->do_not_translate_texts = (strtolower($this->do_not_translate_texts)=='true');
-			$this->translation_data = $this->translation_data ? json_decode( $this->translation_data ) : array();
+			$this->translation_data = $this->translation_data ? json_decode( $this->translation_data ) : [];
 			$this->custom_translator_namespace = $this->custom_translator_namespace ? $this->custom_translator_namespace : null;
 			$this->custom_translator_locale = $this->custom_translator_locale ? $this->custom_translator_locale : null;
 		}

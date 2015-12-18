@@ -67,7 +67,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 * @return array
 	 */
 	public function jsonSerialize() {
-		$result = array();
+		$result = [];
 
 		foreach($this as $key=>$val) {
 			foreach($val as $k=>$v) {

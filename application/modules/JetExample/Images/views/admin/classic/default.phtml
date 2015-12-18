@@ -2,15 +2,22 @@
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
 use JetApplicationModule\JetExample\UIElements;
+use Jet\Application_Modules;
+use Jet\Mvc_MicroRouter;
+use Jet\Data_Tree;
+use Jet\Data_Tree_Node;
+use Jet\Tr;
+use Jet\Form;
+use Jet\Mvc;
 
 /**
- * @var Jet\Mvc_MicroRouter $router
+ * @var Mvc_MicroRouter $router
  */
 $router = $this->router;
 
 
 /**
- * @var Jet\Data_Tree $galleries
+ * @var Data_Tree $galleries
  */
 $galleries = $this->galleries;
 
@@ -20,12 +27,12 @@ $galleries = $this->galleries;
 $gallery = $this->gallery;
 
 /**
- * @var Jet\Form $upload_form
+ * @var Form $upload_form
  */
 $upload_form = $this->upload_form;
 
 /**
- * @var Jet\Form $edit_form
+ * @var Form $edit_form
  */
 $edit_form = $this->edit_form;
 
@@ -33,14 +40,14 @@ $edit_form = $this->edit_form;
 /**
  * @var UIElements\Main $UI_m
  */
-$UI_m = Jet\Application_Modules::getModuleInstance('JetExample.UIElements');
+$UI_m = Application_Modules::getModuleInstance('JetExample.UIElements');
 $tree = $UI_m->getTreeInstance();
 
 $tree->setData( $galleries );
 $tree->setSelectedID( $this->selected_ID );
 
 /** @noinspection PhpUnusedParameterInspection */
-$tree->setNormalDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) use ( $router)  {
+$tree->setNormalDisplayCallback( function( Data_Tree_Node $node, array $data ) use ( $router)  {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
 		<a href="<?=$router->getActionURI('edit', $data['ID']);?>"><?=$data['title'];?></a>
@@ -51,16 +58,16 @@ $tree->setNormalDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 } );
 
 /** @noinspection PhpUnusedParameterInspection */
-$tree->setSelectedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) {
+$tree->setSelectedDisplayCallback( function( Data_Tree_Node $node, array $data ) {
 	?>
 	<strong><?=$data['title'];?></strong>
 	<?php
 });
 
-$tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data ) use ( $router)  {
+$tree->setOpenedDisplayCallback( function( Data_Tree_Node $node, array $data ) use ( $router)  {
 	if($node->getIsRoot()):
 		?>
-		<a href="<?=Jet\Mvc::getCurrentURI();?>" style="font-style: italic;"><?=$data['title'];?></a>
+		<a href="<?=Mvc::getCurrentURI();?>" style="font-style: italic;"><?=$data['title'];?></a>
 		<?php
 		return;
 	endif;
@@ -90,7 +97,7 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 		<div style="padding: 5px;">
 			<a href="<?=$router->getActionURI('add', $parent_ID);?>" class="btn btn-default" style="width: 100%;">
 				<jetml_icon icon="module/JetExample.Images/module" size="large"/>
-				<?=Jet\Tr::_('Create new gallery');?>
+				<?=Tr::_('Create new gallery');?>
 			</a>
 		</div>
 		<?php endif; ?>
@@ -113,7 +120,7 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 						<jet_form_field name="title" class="form-control"/>
 					</div>
 					<?php if($this->has_access): ?>
-					<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Save');?>"/>
+					<input type="submit" class="btn btn-primary" value="<?=Tr::_('Save');?>"/>
 					<?php endif; ?>
 				</fieldset>
 			</jet_form>
@@ -133,7 +140,7 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 						<jet_form_field_error_msg name="overwrite_if_exists" class="form-error"/>
 						<jet_form_field name="overwrite_if_exists"/>
 					</div>
-					<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Upload');?>"/>
+					<input type="submit" class="btn btn-primary" value="<?=Tr::_('Upload');?>"/>
 
 				</jet_form>
 			</div>
@@ -168,7 +175,7 @@ $tree->setOpenedDisplayCallback( function( Jet\Data_Tree_Node $node, array $data
 						<?php endforeach; ?>
 					</div>
 					<?php if($this->can_delete_image): ?>
-					<input type="submit" class="btn btn-danger" value="<?=Jet\Tr::_('Delete selected images');?>">
+					<input type="submit" class="btn btn-danger" value="<?=Tr::_('Delete selected images');?>">
 					<?php endif; ?>
 				</form>
 				<?php endif; ?>

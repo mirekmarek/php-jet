@@ -35,7 +35,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	/**
 	 * @var DataModel[]
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * Internal iterator position index
@@ -53,7 +53,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	final public function __construct( DataModel_Query $query ) {
 
 		parent::__construct($query);
-		$load_properties = array();
+		$load_properties = [];
 		//$group_by = array();
 
 		foreach( $this->data_model_definition->getIDProperties() as $property_definition ) {
@@ -72,7 +72,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 * @return array
 	 */
 	public function jsonSerialize() {
-		$result = array();
+		$result = [];
 
 		foreach($this as $val) {
 			/**
@@ -120,7 +120,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 * @return array
 	 */
 	public function toArray() {
-		$result = array();
+		$result = [];
 
 		foreach($this as $key=>$val) {
 			/**
@@ -142,7 +142,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 			return;
 		}
 
-		$this->IDs = array();
+		$this->IDs = [];
 
 		$backend = $this->data_model_definition->getBackendInstance();
 

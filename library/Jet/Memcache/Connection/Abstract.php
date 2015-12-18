@@ -16,7 +16,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Memcache_Connection_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Memcache_Connection_Abstract'
  */
 abstract class Memcache_Connection_Abstract extends \Memcache implements Object_Interface {
 

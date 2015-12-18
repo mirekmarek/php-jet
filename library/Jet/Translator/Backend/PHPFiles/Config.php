@@ -27,7 +27,7 @@ namespace Jet;
 class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = '%JET_DATA_PATH%/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php'
 	 * @JetConfig:form_field_label = 'Dictionaries storage path: '
@@ -44,10 +44,10 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	 */
 	public function getDictionaryPath( $namespace, Locale $locale ) {
 
-		return Data_Text::replaceSystemConstants( Data_Text::replaceData( $this->dictionaries_path, array(
+		return Data_Text::replaceSystemConstants( Data_Text::replaceData( $this->dictionaries_path, [
 			'TRANSLATOR_NAMESPACE' => str_replace( '\\','/', $namespace),
 			'TRANSLATOR_LOCALE' => (string)$locale
-		)));
+		]));
 	}
 
 }

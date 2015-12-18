@@ -32,7 +32,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	/**
 	 * @var DataModel_Related_1toN[]
 	 */
-	protected $deleted_items = array();
+	protected $deleted_items = [];
 
 	/**
 	 * @var DataModel
@@ -103,9 +103,9 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	/**
 	 * @param array $order_by
 	 */
-	public function setLoadRealtedDataOrderBy( array $order_by)
+	public function setLoadRelatedDataOrderBy(array $order_by)
 	{
-		$this->_getEmptyItemInstance()->setLoadRealtedDataOrderBy( $order_by );
+		$this->_getEmptyItemInstance()->setLoadRelatedDataOrderBy( $order_by );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return mixed
 	 */
 	public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
-		$this->deleted_items = array();
+		$this->deleted_items = [];
 
 		$this->items = $this->_getEmptyItemInstance()->createRelatedInstancesFromLoadedRelatedData($loaded_related_data);
 
@@ -144,7 +144,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
 
-		$fields = array();
+		$fields = [];
 		if(!$this->items) {
 			return $fields;
 
@@ -195,7 +195,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 
 		foreach( $this->items as $r_key=>$r_instance ) {
 
-			$r_values = isset( $values[$r_key] ) ? $values[$r_key] : array();
+			$r_values = isset( $values[$r_key] ) ? $values[$r_key] : [];
 
 			/**
 			 * @var DataModel $r_instance
@@ -218,7 +218,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return DataModel_Validation_Error[]
 	 */
 	public function getValidationErrors() {
-		$result = array();
+		$result = [];
 
 		if($this->items) {
 			foreach( $this->items as $item) {
@@ -321,7 +321,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function jsonSerialize() {
 
-		$res = array();
+		$res = [];
 
 		if(!$this->items) {
 			return $res;
@@ -339,7 +339,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return string
 	 */
 	public function toXML() {
-		$res = array();
+		$res = [];
 		if(is_array($this->items)) {
 			foreach($this->items as $d) {
 				/**
@@ -386,7 +386,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 		if($this->items) {
 			$this->deleted_items = $this->items;
 		}
-		$this->items = array();
+		$this->items = [];
 	}
 
 	/**
@@ -520,7 +520,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	public function __sleep() {
 		$this->validateKeys();
 
-		return array('item_class_name', 'items');
+		return ['item_class_name', 'items'];
 	}
 
 	/**
@@ -528,8 +528,8 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function __wakeup() {
 		if(!$this->items) {
-			$this->items = array();
-			$this->deleted_items = array();
+			$this->items = [];
+			$this->deleted_items = [];
 		} else {
 			$this->validateKeys();
 		}
@@ -542,7 +542,7 @@ class DataModel_Related_1toN_Iterator implements \ArrayAccess, \Iterator, \Count
 		if(!$this->items) {
 			return;
 		}
-		$items = array();
+		$items = [];
 		foreach($this->items as $key=>$item) {
 
 			$new_key = $item->getArrayKeyValue();

@@ -21,7 +21,7 @@ class Javascript extends Object {
 	public static function translateJavaScript( $JS ) {
 		preg_match_all('~Jet.translate\((".*"|\'.*\')\)~isU', $JS, $matches, PREG_SET_ORDER);
 
-		$replacements = array();
+		$replacements = [];
 		foreach($matches as $match){
 			list($search, $text) = $match;
 			$text = stripslashes(trim($text, $text[0] == '\'' ? '\'' : '"'));
@@ -29,7 +29,7 @@ class Javascript extends Object {
 			$text = json_encode(Tr::_($text));
 			$JS = str_replace($search, $text, $JS);
 		}
-		$JS = Data_Text::replaceData($JS, $replacements, true);
+		$JS = Data_Text::replaceData( $JS, $replacements );
 
 		return $JS;
 	}

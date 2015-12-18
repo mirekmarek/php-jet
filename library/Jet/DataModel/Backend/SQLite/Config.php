@@ -17,7 +17,7 @@ namespace Jet;
 class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = '%JET_DATA_PATH%'
 	 * @JetConfig:form_field_label = 'Data directory path: '
@@ -27,7 +27,7 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	protected $directory_path = '%JET_DATA_PATH%';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'database'
 	 * @JetConfig:form_field_label = 'Database name: '

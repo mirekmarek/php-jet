@@ -44,10 +44,10 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	 *
 	 * @var array
 	 */
-	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '),
-		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
-	);
+	protected static $errors = [
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '],
+		self::ERR_CODE_ACCESS_DENIED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '],
+	];
 
     /**
      * @param Mvc_Page_Content_Abstract $page_content
@@ -119,10 +119,10 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 		if(!Auth::getCurrentUser()) {
 			$this->responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );
 		} else {
-			$this->responseError( self::ERR_CODE_ACCESS_DENIED , array(
+			$this->responseError( self::ERR_CODE_ACCESS_DENIED , [
 				'module_action' => $module_action,
 				'controller_action' => $controller_action
-			));
+			]);
 		}
 	}
 
@@ -142,16 +142,16 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 		list($http_code, $error_message) = static::$errors[$code];
 
 		$error_code = get_class($this).':'.$code;
-		$error = array(
+		$error = [
 			'error_code' => $error_code,
 			'error_msg' => $error_message
-		);
+		];
 
 		if($data) {
 			$error['error_data'] = $data;
 		}
 
-		$this->_response(json_encode( $error ), array(), $http_code, $error_message);
+		$this->_response(json_encode( $error ), [], $http_code, $error_message);
 	}
 
 	/**
@@ -160,7 +160,7 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	 * @param int $http_code
 	 * @param string $http_message
 	 */
-	protected function _response( $response_text, array $http_headers=array(), $http_code = 200, $http_message='OK' ) {
+	protected function _response($response_text, array $http_headers= [], $http_code = 200, $http_message='OK' ) {
 		header( 'HTTP/1.1 '.$http_code.' '.$http_message );
 		header('Content-type:text/json;charset=UTF-8');
 

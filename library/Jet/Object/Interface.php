@@ -69,7 +69,7 @@ interface Object_Interface {
 	 *
 	 * @return Application_Signals_Signal
 	 */
-	public function sendSignal( $signal_name, array $signal_data=array() );
+	public function sendSignal( $signal_name, array $signal_data= []);
 
 
 	/**

@@ -240,7 +240,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
             return false;
         }
 
-        $fields = array();
+        $fields = [];
         foreach( $property_value->getRelatedFormFields( $this, $related_data  ) as $field ) {
             $fields[] = $field;
         }
@@ -291,7 +291,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
             $prev = $related_definitions[$related_model_name]->getValueDataModelClass();
             $current = $this->getValueDataModelClass();
 
-            throw new DataModel_Exception('Data model name colision: '.$prev.' vs '.$current, DataModel_Exception::CODE_DEFINITION_NONSENSE);
+            throw new DataModel_Exception('Data model name collision: '.$prev.' vs '.$current, DataModel_Exception::CODE_DEFINITION_NONSENSE);
         }
 
 
@@ -325,7 +325,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
             $prev = $internal_relations[$related_model_name]->getValueDataModelClass();
             $current = $this->getValueDataModelClass();
 
-            throw new DataModel_Exception('Data model name colision: '.$prev.' vs '.$current, DataModel_Exception::CODE_DEFINITION_NONSENSE);
+            throw new DataModel_Exception('Data model name collision: '.$prev.' vs '.$current, DataModel_Exception::CODE_DEFINITION_NONSENSE);
         }
 
 

@@ -10,8 +10,11 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Page_Content_Abstract;
+use Jet\Mvc;
 
-class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Public_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -49,17 +52,17 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 
 
     /**
-     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Abstract $page_content
      * @return bool
      */
-    public function parseRequestURL_Public( Jet\Mvc_Page_Content_Abstract $page_content=null ) {
+    public function parseRequestURL_Public( Mvc_Page_Content_Abstract $page_content=null ) {
         $gallery_ID = '_root_';
         $gallery = null;
 
 
-        $path_fragments = Jet\Mvc::getCurrentRouter()->getPathFragments();
+        $path_fragments = Mvc::getCurrentRouter()->getPathFragments();
 
-        $URI = Jet\Mvc::getCurrentPage()->getURI();
+        $URI = Mvc::getCurrentPage()->getURI();
 
         if($path_fragments) {
 
@@ -70,7 +73,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
                     $gallery_ID = $gallery->getID();
                     $URI .= rawurlencode($gallery->getTitle()).'/';
 
-                    Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
+                    Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
 
                 } else {
                     return false;

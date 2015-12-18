@@ -39,8 +39,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @var array
 	 */
-	public static $HTML_templates = array(
-		'table' => array(
+	public static $HTML_templates = [
+		'table' => [
 			'form_start' => '<table>',
 			'form_end' => '</table>',
 			'form_common_error_message_class' => 'form-error',
@@ -48,8 +48,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			'field' => '\t<tr>\n\t\t<td valign="top">%LABEL%</td>\n\t\t<td>\n\t\t\t%FIELD%\n\t\t</td>\n\t</tr>',
 			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
 			'field_required' => '<em class="form-required">*</em> %LABEL%',
-		),
-		'div' => array(
+		],
+		'div' => [
 			'form_start' => '\t<fieldset>',
 			'form_end' => '\t</fieldset>',
 			'form_common_error_message_class' => 'form-error',
@@ -57,8 +57,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			'field' => '\t\t<div class="form-group">\n\t\t\t%LABEL%\n\t\t\t%FIELD%\n\t\t</div>',
 			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
 			'field_required' => '<em class="form-required">*</em> %LABEL%',
-		)
-	);
+		]
+	];
 
 	/**
 	 * Form name
@@ -96,7 +96,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @var Form_Field_Abstract[]
 	 */
-	protected $fields=array();
+	protected $fields= [];
 	
 	/**
 	 * @var bool
@@ -199,7 +199,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @throws Form_Exception
 	 */
 	public function setFields(array $fields) {
-		$this->fields = array();
+		$this->fields = [];
 		
 		foreach($fields as $field) {
 			$this->addField($field);
@@ -302,7 +302,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		}
 
 		if($data===false) {
-			$data = array();
+			$data = [];
 		}
 
 		if(!$data instanceof Data_Array) {
@@ -326,7 +326,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	}
 
 	/**
-	 * @return \Jet\Data_Array
+	 * @return Data_Array
 	 */
 	public function getRawData() {
 		return $this->raw_data;
@@ -410,7 +410,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return array
 	 */
 	public function getAllErrors() {
-		$result = array();
+		$result = [];
 
 		if($this->common_error_message) {
 			$result[self::COMMON_ERROR_MESSAGE_KEY] = $this->common_error_message;
@@ -441,7 +441,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			return false;
 		}
 			
-		$result = array();
+		$result = [];
 		foreach($this->fields as $key=>$field) {
 
 			$value = $field->getValue();
@@ -593,9 +593,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 */
 	protected function _parseTags( $form_output_part) {
 		
-		$result = array();		
+		$result = [];
 		
-		$matches = array();
+		$matches = [];
 		if(preg_match_all('/<'.static::FORM_TAG.'([a-zA-Z_]*) ([^>]*)>/i', $form_output_part, $matches, PREG_SET_ORDER)) {
 
 			foreach($matches as $match) {
@@ -637,9 +637,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @param string $template
 	 */
 	public function helper_showBasicHTML( $template='div' ) {
-		Http_Headers::responseOK( array(
+		Http_Headers::responseOK( [
 			     'Content-type' => 'text/plain'
-			) );
+		]);
 
 		echo $this->helper_getBasicHTML( $template );
 		Application::end();
@@ -776,7 +776,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @return string
 	 */
-	public function getTranslation( $phrase, $data=array() ) {
+	public function getTranslation( $phrase, $data= []) {
 		if($this->do_not_translate_texts) {
 			return $phrase;
 		}

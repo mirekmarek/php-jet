@@ -24,7 +24,7 @@ class Db extends Object {
 	/**
 	 * @var Db_Connection_Abstract[]
 	 */
-	protected static $connections = array();
+	protected static $connections = [];
 
 	/**
 	 * Get connection instance (configured PDO database adapter)

@@ -57,12 +57,12 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 					`class_name`=:class_name AND
 					`model_name`=:model_name AND
 					`object_ID`=:object_ID',
-			array(
+			[
 				'class_name' => $data_model_definition->getClassName(),
 				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID,
 
-			)
+			]
 		);
 		if(!$data) {
 			return false;
@@ -78,12 +78,12 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function save(DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data) {
 
-		$data = array(
+		$data = [
 			'class_name' => $data_model_definition->getClassName(),
 			'model_name' => $data_model_definition->getModelName(),
 			'object_ID' => (string)$ID,
 			'data' => serialize($data)
-		);
+		];
 
 		$this->_db_write->execCommand('INSERT IGNORE INTO `'.$this->_table_name.'` SET
 					`class_name`=:class_name,
@@ -109,12 +109,12 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 						`model_name`=:model_name AND
 						`object_ID`=:object_ID
 						',
-			array(
+			[
 				'data' => serialize($data),
 				'class_name' => $data_model_definition->getClassName(),
 				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID
-			) );
+			]);
 	}
 
 
@@ -124,11 +124,11 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function delete(DataModel_Definition_Model_Abstract $data_model_definition, $ID) {
 		$this->_db_write->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `class_name`=:class_name AND `model_name`=:model_name AND `object_ID`=:object_ID',
-			array(
+			[
 				'class_name' => $data_model_definition->getClassName(),
 				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID,
-			));
+			]);
 	}
 
 
@@ -140,9 +140,9 @@ class DataModel_Cache_Backend_MySQL extends DataModel_Cache_Backend_Abstract {
 			$this->_db_write->execCommand('TRUNCATE TABLE `'.$this->_table_name.'`');
 		} else {
 			$this->_db_write->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `model_name`=:model_name',
-				array(
+				[
 					'model_name' => $model_name,
-				));
+				]);
 		}
 	}
 

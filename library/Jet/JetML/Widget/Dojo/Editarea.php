@@ -64,7 +64,7 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 		$icon = $this->getIcon();
 		if($icon) {
 			if(!is_array($icon)) {
-				$icon = array($icon);
+				$icon = [$icon];
 			}
 			foreach($icon as $ic) {
 				$a_js->appendChild($ic);
@@ -83,7 +83,7 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 		$icon = $this->getIcon();
 		if($icon) {
 			if(!is_array($icon)) {
-				$icon = array($icon);
+				$icon = [$icon];
 			}
 			foreach($icon as $ic) {
 				$list_title_closed->appendChild($ic);
@@ -96,7 +96,7 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 		$item_title->setAttribute('class', 'editAreaBnActiveTitle');
 		$b_navigation->appendChild($item_title);
 
-		$child_nodes = array();
+		$child_nodes = [];
 		foreach( $this->node->childNodes as $child ) {
 			$child_nodes[] = $child;
 		}

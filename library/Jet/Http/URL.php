@@ -184,7 +184,7 @@ class Http_URL extends Object {
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 				@parse_str($this->query, $this->query_data);
 				if(!is_array($this->query_data)){
-					$this->query_data = array();
+					$this->query_data = [];
 				}
 			}
 		}

@@ -23,7 +23,7 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Config_Definition_Property_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Config_Definition_Property_Abstract'
  */
 abstract class Config_Definition_Property_Abstract extends Object {
 
@@ -86,14 +86,14 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 	/**
 	 *
-	 * @var string
+	 * @var array
 	 */
-	protected $form_field_error_messages = array();
+	protected $form_field_error_messages = [];
 
 	/**
 	 * @var array
 	 */
-	protected $form_field_options = array();
+	protected $form_field_options = [];
 
 	/**
 	 *
@@ -173,6 +173,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 			$this->{$key} = $val;
 		}
+
 
 		$this->is_required = (bool)$this->is_required;
 	}
@@ -323,14 +324,14 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	}
 
 	/**
-	 * @param string $form_field_error_messages
+	 * @param array $form_field_error_messages
 	 */
-	public function setFormFieldErrorMessages($form_field_error_messages) {
+	public function setFormFieldErrorMessages(array $form_field_error_messages) {
 		$this->form_field_error_messages = $form_field_error_messages;
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	public function getFormFieldErrorMessages() {
 		$error_messages = $this->form_field_error_messages;

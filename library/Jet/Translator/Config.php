@@ -26,19 +26,19 @@ namespace Jet;
 class Translator_Config extends Config_Application {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'PHPFiles'
 	 * @JetConfig:form_field_label = 'Default backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Translator_Config', 'getBackendTypesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Translator_Config', 'getBackendTypesList']
 	 * 
 	 * @var string
 	 */
 	protected $backend_type;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:form_field_label = 'Auto append unknown phrase: '
 	 * 

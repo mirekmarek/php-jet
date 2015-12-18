@@ -15,9 +15,9 @@ namespace Jet;
 
 /**
  *
- * @JetFactory:class = 'Jet\Mvc_Factory'
+ * @JetFactory:class = 'Mvc_Factory'
  * @JetFactory:method = 'getLayoutCssPackageCreatorInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Mvc_Layout_PackageCreator_CSS_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Mvc_Layout_PackageCreator_CSS_Abstract'
  *
  */
 abstract class

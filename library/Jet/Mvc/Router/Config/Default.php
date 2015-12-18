@@ -27,7 +27,7 @@ namespace Jet;
 class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Enable cache: '
@@ -37,12 +37,12 @@ class Mvc_Router_Config_Default extends Mvc_Router_Config_Abstract {
 	protected $cache_enabled;
 	
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Cache backend type: '
 	 * @JetConfig:form_field_type = 'Select'
-	 * @JetConfig:form_field_get_select_options_callback = ['Jet\Mvc_Router_Config_Default', 'getCacheBackendTypesList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Mvc_Router_Config_Default', 'getCacheBackendTypesList']
 	 * 
 	 * @var string
 	 */

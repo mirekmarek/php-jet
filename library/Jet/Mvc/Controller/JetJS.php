@@ -98,9 +98,9 @@ abstract class Mvc_Controller_JetJS extends Mvc_Controller_Abstract {
         */
 
         Http_Headers::responseOK(
-            array(
+            [
                 'Content-type' => 'text/javascript;charset=utf-8'
-            )
+            ]
         );
 
         echo $JS;

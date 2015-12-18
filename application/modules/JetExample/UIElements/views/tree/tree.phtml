@@ -1,6 +1,7 @@
 <?php
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;
+use Jet\Data_Tree_Node;
 
 /**
  * @var Tree $tree
@@ -18,7 +19,7 @@ $images_URI = $this->images_uri;
 	<?php foreach( $tree->getData() as $node ):
 
 		/**
-		 * @var Jet\Data_Tree_Node $node
+		 * @var Data_Tree_Node $node
 		 */
 		if(
 			!$tree->getShowAll() &&

@@ -38,7 +38,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	/**
 	 * @var Config[]
 	 */
-	protected $config = array();
+	protected $config = [];
 
 	/**
 	 * action => Human readable action description
@@ -56,8 +56,8 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 * @var array
 	 */
-	protected $ACL_actions = array(
-	);
+	protected $ACL_actions = [
+	];
 
 
 	/**
@@ -142,7 +142,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 *
 	 * @throws Exception
 	 */
-	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters=array() ) {
+	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters= []) {
 		$method = $action.'_Action';
 
 		if( !method_exists($controller, $method) ) {
@@ -155,7 +155,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 			return;
 		}
 
-		call_user_func_array(array( $controller, $method ), $action_parameters);
+		call_user_func_array([$controller, $method], $action_parameters);
 	}
 
 	/**
@@ -245,7 +245,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 
 
 	/**
-	 * @see Jet\Mvc_Modules_Module::$ACL_actions_check_map
+	 * @see Application_Modules_Module_Abstract::$ACL_actions_check_map
 	 *
 	 * @return array
 	 */
@@ -259,7 +259,7 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @throws Application_Modules_Exception
-	 * @internal param array $action_parameters
+	 *
 	 * @return bool
 	 */
 	public function checkAclCanDoAction( $action, Auth_Role_Privilege_ContextObject_Interface $action_context=null, $log_if_false=true ) {

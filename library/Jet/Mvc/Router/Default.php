@@ -39,7 +39,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 	 *
 	 * @var string[]
 	 */
-	protected $path_fragments = array();
+	protected $path_fragments = [];
 
 	/**
 	 * Is it SSL (https) request?
@@ -131,7 +131,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
                 return;
             }
 
-            register_shutdown_function( array( $this, 'cacheSave' ) );
+            register_shutdown_function( [$this, 'cacheSave']);
         }
 
 
@@ -261,7 +261,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
     protected function resolvePage() {
         $path = $this->path_fragments;
 
-        $URIs = array();
+        $URIs = [];
         for($i=count($this->path_fragments); $i>=0; $i--) {
 
             if($i>0) {
@@ -284,7 +284,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
                 if($i) {
                     $this->path_fragments = array_slice($this->path_fragments, -1*$i);
                 } else {
-                    $this->path_fragments = array();
+                    $this->path_fragments = [];
                 }
 
                 break;
@@ -557,7 +557,7 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
 			$regexp = '/^'.str_replace( '%VAL%', '('.$reg_exp_part.')' , $template ).'$/';
 
-			$matches = array();
+			$matches = [];
 			if(preg_match( $regexp, $path_fragments[$fragment_index], $matches )) {
 				$value = $matches[1];
 			}
@@ -678,11 +678,11 @@ class Mvc_Router_Default extends Mvc_Router_Abstract {
 
         $site = Mvc::getCurrentSite();
 
-        $data = array(
+        $data = [
             'site' => $site,
             'router' => Mvc::getCurrentRouter(),
             'locale' => Mvc::getCurrentLocale(),
-        );
+        ];
 
         $site->writeCachedData( $data );
 

@@ -24,31 +24,31 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	/**
 	 * @var string[]
 	 */
-	protected $related_model_class_names = array();
+	protected $related_model_class_names = [];
 
 
 	/**
 	 * @var array
 	 */
-	protected $default_order_by = array();
+	protected $default_order_by = [];
 
 
 	/**
 	 * @var DataModel_Definition_Property_Abstract[][]
 	 */
-	protected $relation_ID_properties = array();
+	protected $relation_ID_properties = [];
 
 	/**
 	 * @var DataModel_Definition_Relation_JoinBy_Item[][]
 	 */
-	protected $join_by = array();
+	protected $join_by = [];
 
 	/**
 	 * @var array
 	 */
-	protected $_glue_defined = array();
+	protected $_glue_defined = [];
 
-	/**
+	/** @noinspection PhpMissingParentConstructorInspection
 	 *
 	 * @param string $data_model_class_name (optional)
 	 *
@@ -97,14 +97,14 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$N_model_name = $this->_getModelNameDefinition( $N_model_class_name );
 
 
-		$this->relation_ID_properties[$M_model_name] = array();
-		$this->relation_ID_properties[$N_model_name] = array();
+		$this->relation_ID_properties[$M_model_name] = [];
+		$this->relation_ID_properties[$N_model_name] = [];
 
-		$this->join_by[$M_model_name] = array();
-		$this->join_by[$N_model_name] = array();
+		$this->join_by[$M_model_name] = [];
+		$this->join_by[$N_model_name] = [];
 
-		$this->_glue_defined[$M_model_name] = array();
-		$this->_glue_defined[$N_model_name] = array();
+		$this->_glue_defined[$M_model_name] = [];
+		$this->_glue_defined[$N_model_name] = [];
 
 		$this->M_model_class_name = $M_model_class_name;
 
@@ -232,7 +232,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 * @return DataModel_Definition_Relation_Internal[]
 	 */
 	public function getInternalRelations() {
-		$relations = array();
+		$relations = [];
 		foreach( $this->related_model_class_names as $class_name ) {
 			foreach( $this->_getInternalRelations($class_name) as $key=>$relation ) {
 				$relations[$key] = $relation;
@@ -278,7 +278,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		/**
 		 * @var DataModel_Definition_Relation_Internal[] $relations
 		 */
-		$relations = array();
+		$relations = [];
 
 
 		/**
@@ -295,7 +295,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		 */
 		$glue_n_relation_join_by = $this->join_by[$N_model_name];
 		$relations[ $N_model_name ] = new DataModel_Definition_Relation_Internal( $N_model_definition, $glue_n_relation_join_by );
-		$relations[ $N_model_name ]->setRequiredRelations( array( $this->getModelName() ) );
+		$relations[ $N_model_name ]->setRequiredRelations( [$this->getModelName()]);
 
 
 		return $relations;
@@ -308,7 +308,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 *
 	 * @return DataModel_Definition_Relation_Internal
 	 */
-	public function getNrelation( $parent_model_class_name ) {
+	public function getRelationToN($parent_model_class_name ) {
 		$M_model_name = DataModel::getDataModelDefinition( $parent_model_class_name )->getModelName();
 
 		$is_related = false;

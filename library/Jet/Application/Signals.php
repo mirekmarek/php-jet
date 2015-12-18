@@ -29,7 +29,7 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 	 * @throws Application_Signals_Exception
 	 * @return Application_Signals_Signal
 	 */
-	public static function createSignal( Object_Interface $sender, $signal_name, array $signal_data=array() ) {
+	public static function createSignal( Object_Interface $sender, $signal_name, array $signal_data= []) {
 		if( !$sender->getHasSignal( $signal_name ) ) {
 			throw new Application_Signals_Exception(
 				'Unknown signal \''.$signal_name.'\'. Please add definition to the '.get_class($sender).' ( @JetApplication_Signals:signal=\''.$signal_name.'\' ) ',
@@ -43,7 +43,7 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 
 		if( !($signal instanceof Application_Signals_Signal) ) {
 			throw new Application_Signals_Exception(
-				'Signal must be instance of \Jet\Application_Signals_Signal! (Signal: \''.$signal_name.'\', Signal object class name: \''.get_class($signal).'\' ) ',
+				'Signal must be instance of '.__NAMESPACE__.'\Application_Signals_Signal! (Signal: \''.$signal_name.'\', Signal object class name: \''.get_class($signal).'\' ) ',
 				Application_Signals_Exception::INVALID_SIGNAL_OBJECT_CLASS
 			);
 		}
@@ -64,7 +64,7 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 
 		switch($key) {
 			case 'signal_object_class_name':
-				$reflection_data['signal_object_class_name'] = (string)$value;
+				$reflection_data['signal_object_class_name'] = Object_Reflection::parseClassName( (string)$value );
 				break;
 			case 'signal':
 				$reflection_data['signals'][] = (string)$value;

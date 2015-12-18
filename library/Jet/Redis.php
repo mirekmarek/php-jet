@@ -21,7 +21,7 @@ class Redis extends Object {
 	/**
 	 * @var Redis_Connection_Abstract[]
 	 */
-	protected static $connections = array();
+	protected static $connections = [];
 
 	/**
 	 * Get connection instance (configured Redis client)

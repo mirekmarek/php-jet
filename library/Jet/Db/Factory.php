@@ -59,7 +59,7 @@ class Db_Factory extends Factory {
 	 *
 	 * @return Db_Connection_Config_Abstract
 	 */
-	public static function getConnectionConfigInstance(array $config_data=array(), Db_Config $config=null ){
+	public static function getConnectionConfigInstance(array $config_data= [], Db_Config $config=null ){
 		$default_class_name = static::$connection_class_prefix.static::$connection_adapter.'_Config';
 
 		$config_class = static::getClassName( $default_class_name );

@@ -75,13 +75,13 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 						);
 		}
 
-		$data = array();
+		$data = [];
 		foreach($dictionary->getPhrases() as $phrase) {
-			$data[$phrase->getHash()] = array(
+			$data[$phrase->getHash()] = [
 				'phrase' => $phrase->getPhrase(),
 				'translation' => $phrase->getTranslationRaw(),
 				'is_translated' => $phrase->getIsTranslated()
-			);
+			];
 		}
 
 		$data = '<?php'.JET_EOL.'return '.(new Data_Array($data))->export();

@@ -25,7 +25,7 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'some_table_name'
  *
  * @JetDataModel:ID_class_name = 'Some\ID_Class_Name'
- *      - You can create your ID class or use one of those: Jet\DataModel_ID_UniqueString, Jet\DataModel_ID_Name, Jet\DataModel_ID_AutoIncrement, Jet\DataModel_ID_Passive
+ *      - You can create your ID class or use one of those: DataModel_ID_UniqueString, DataModel_ID_Name, DataModel_ID_AutoIncrement, DataModel_ID_Passive
  *
  * @JetDataModel:ID_options = ['option'=>'value', 'next_option'=>123]
  *      - A practical example: @JetDataModel:ID_options = ['ID_property_name'=>'some_id_property_name']
@@ -45,15 +45,15 @@ namespace Jet;
  *
  * Property definition:
  *      /**
- *       * @JetDataModel:type = Jet\DataModel::TYPE_*
+ *       * @JetDataModel:type = DataModel::TYPE_*
  *       * @JetDataModel:is_ID = bool
  *       *      - optional
  *       * @JetDataModel:default_value = 'some default value'
  *       *      - optional
  *       * @JetDataModel:is_key = bool
  *       *      - optional, default: false or true if is_ID
- *       * @JetDataModel:key_type = Jet\DataModel::KEY_TYPE_*
- *       *      - optional, default: Jet\DataModel::KEY_TYPE_INDEX
+ *       * @JetDataModel:key_type = DataModel::KEY_TYPE_*
+ *       *      - optional, default: DataModel::KEY_TYPE_INDEX
  *       * @JetDataModel:description = 'Some description ...'
  *       *      - optional
  *       * @JetDataModel:do_not_export = bool
@@ -69,13 +69,13 @@ namespace Jet;
  *       *      - optional
  *       *   @JetDataModel:list_of_valid_options = ['option1'=>'Valid option 1','option2'=>'Valid option 2']
  *       *      - optional
- *       * Validation (type Jet\DataModel::TYPE_STRING):
+ *       * Validation (type DataModel::TYPE_STRING):
  *       *   @JetDataModel:is_required = bool
  *       *   @JetDataModel:max_len = 255
  *       *   @JetDataModel:validation_regexp = '/some_regexp/'
  *       *      - optional
  *       *
- *       * Validation (type Jet\DataModel::TYPE_INT,Jet\DataModel::TYPE_FLOAT):
+ *       * Validation (type DataModel::TYPE_INT,DataModel::TYPE_FLOAT):
  *       *   @JetDataModel:min_value = 1
  *       *      - optional
  *       *   @JetDataModel:max_value = 999
@@ -92,7 +92,7 @@ namespace Jet;
  *       *              return $form_field
  *       *          }
  *       *
- *       *   @JetDataModel:form_field_type = Jet\Form::TYPE_*
+ *       *   @JetDataModel:form_field_type = Form::TYPE_*
  *       *      - optional, default: autodetect
  *       *   @JetDataModel:form_field_label = 'Field label:'
  *       *   @JetDataModel:form_field_options = ['option'=>'value','option'=>'value']
@@ -105,11 +105,11 @@ namespace Jet;
  *       *   @JetDataModel:form_catch_value_method_name = 'someMethodName'
  *       *      - optional
  *       *
- *       * Specific (type Jet\DataModel::TYPE_DATA_MODEL):
+ *       * Specific (type DataModel::TYPE_DATA_MODEL):
  *       *   @JetDataModel:data_model_class = 'Some\Related_Model_Class_Name'
  *       *
- *       * Specific (type Jet\DataModel::TYPE_ARRAY):
- *       *   @JetDataModel:item_type = Jet\DataModel::TYPE_*
+ *       * Specific (type DataModel::TYPE_ARRAY):
+ *       *   @JetDataModel:item_type = DataModel::TYPE_*
  *       *
  *       *
  *       * @var string          //some PHP type ...
@@ -118,13 +118,13 @@ namespace Jet;
  *
  *
  * Relation on foreign model definition:
- *      @JetDataModel:relation = [ 'Some\RelatedClass', [ 'property_name'=>'related_property_name', 'another_property_name' => 'another_related_property_name' ], Jet\DataModel_Query::JOIN_TYPE_* ]
+ *      @JetDataModel:relation = [ 'Some\RelatedClass', [ 'property_name'=>'related_property_name', 'another_property_name' => 'another_related_property_name' ], DataModel_Query::JOIN_TYPE_* ]
  *
  *          Warning!
  *          This kind of relation has no affect on saving or deleting object (like DataModel_Related_* models has).
  *
  * Composite keys definition:
- *      @JetDataModel:key = ['key_name', ['property_name', 'next_property_name'], Jet\DataModel::KEY_TYPE_*]
+ *      @JetDataModel:key = ['key_name', ['property_name', 'next_property_name'], DataModel::KEY_TYPE_*]
  *
  */
 
@@ -180,7 +180,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @var DataModel_Validation_Error[]
 	 */
-	protected $___data_model_data_validation_errors = array();
+	protected $___data_model_data_validation_errors = [];
 
 	/**
 	 * @var bool
@@ -344,7 +344,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$property_definition = $properties[$property_name];
 
-		$errors = array();
+		$errors = [];
 
 		$property_definition->validatePropertyValue($this, $value, $errors);
 
@@ -388,7 +388,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function validateProperties() {
 
-		$this->___data_model_data_validation_errors = array();
+		$this->___data_model_data_validation_errors = [];
 
 		$this->___data_model_ready_to_save = false;
 
@@ -573,7 +573,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 		$related_properties = $definition->getAllRelatedPropertyDefinitions();
 
-		$loaded_related_data = array();
+		$loaded_related_data = [];
 
 		foreach( $related_properties as $related_model_name=>$related_property ) {
 
@@ -587,7 +587,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$related_data = $related_object->loadRelatedData();
 
 			if(!isset($loaded_related_data[$related_model_name])) {
-				$loaded_related_data[$related_model_name] = array();
+				$loaded_related_data[$related_model_name] = [];
 
 				foreach($related_data as $rd) {
 					$loaded_related_data[$related_model_name][] = $rd;
@@ -649,7 +649,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$definition = static::getDataModelDefinition();
 
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-			$property_definition->loadPropertyValue( $instance->$property_name, $data );
+			$property_definition->loadPropertyValue( $instance->{$property_name}, $data );
 		}
 
 		$instance->__wakeup();
@@ -833,6 +833,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 	/**
 	 *
+	 * @param string $operation
 	 */
 	public function updateDataModelCache( $operation ) {
 		$cache = $this->getCacheBackendInstance();
@@ -1015,7 +1016,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Query
 	 */
-	protected function createQuery( array $where=array() ) {
+	protected function createQuery( array $where= []) {
 		$query = new DataModel_Query($this->getDataModelDefinition() );
 		$query->setMainDataModel( $this );
 		$query->setWhere( $where );
@@ -1046,7 +1047,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $where
 	 * @return DataModel_Fetch_Object_Assoc
 	 */
-	protected function fetchObjects( array  $where=array() ) {
+	protected function fetchObjects( array  $where= []) {
 		return new DataModel_Fetch_Object_Assoc( $this->createQuery($where) );
 	}
 
@@ -1055,7 +1056,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $where
 	 * @return DataModel_Fetch_Object_IDs
 	 */
-	protected function fetchObjectIDs( array $where=array() ) {
+	protected function fetchObjectIDs( array $where= []) {
 		return new DataModel_Fetch_Object_IDs(  $this->createQuery($where)  );
 	}
 
@@ -1066,7 +1067,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $where
 	 * @return DataModel_Fetch_Data_All
 	 */
-	protected function fetchDataAll( array $load_items, array  $where=array() ) {
+	protected function fetchDataAll( array $load_items, array  $where= []) {
 		return new DataModel_Fetch_Data_All( $load_items, $this->createQuery($where) );
 	}
 
@@ -1076,7 +1077,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $where
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
-	protected function fetchDataAssoc( array $load_items, array  $where=array() ) {
+	protected function fetchDataAssoc( array $load_items, array  $where= []) {
 		return new DataModel_Fetch_Data_Assoc( $load_items, $this->createQuery($where) );
 	}
 
@@ -1086,7 +1087,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $where
 	 * @return DataModel_Fetch_Data_Pairs
 	 */
-	protected function fetchDataPairs( array $load_items, array  $where=array() ) {
+	protected function fetchDataPairs( array $load_items, array  $where= []) {
 		return new DataModel_Fetch_Data_Pairs( $load_items, $this->createQuery($where) );
 	}
 
@@ -1096,7 +1097,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @param array $where
 	 * @return mixed|null
 	 */
-	protected function fetchDataRow( array $load_items, array  $where=array() ) {
+	protected function fetchDataRow( array $load_items, array  $where= []) {
 		$query = $this->createQuery( $where );
 		$query->setSelect($load_items);
 
@@ -1111,7 +1112,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return mixed|null
 	 */
-	protected function fetchDataOne( $load_item, array  $where=array() ) {
+	protected function fetchDataOne( $load_item, array  $where= []) {
 
 		$query = $this->createQuery( $where );
 		$query->setSelect( [$load_item] );
@@ -1126,7 +1127,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 *
 	 * @return DataModel_Fetch_Data_Col
 	 */
-	protected function fetchDataCol( $load_item, array  $where=array() ) {
+	protected function fetchDataCol( $load_item, array  $where= []) {
 		$query = $this->createQuery( $where );
 
 		return new DataModel_Fetch_Data_Col( $load_item, $query );
@@ -1146,7 +1147,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$definition = $this->getDataModelDefinition();
 		$propertied_definition = $definition->getProperties();
 
-		$form_fields = array();
+		$form_fields = [];
 
 		foreach( $properties_list as $key=>$val ) {
 			if(is_array($val)) {
@@ -1154,7 +1155,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				$related_data = $val;
 			} else {
 				$property_name = $val;
-				$related_data = array();
+				$related_data = [];
 			}
 
 			$property_definition = $propertied_definition[$property_name];
@@ -1205,7 +1206,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function getCommonFormPropertiesList() {
 		$definition = $this->getDataModelDefinition();
-		$properties_list = array();
+		$properties_list = [];
 
 		foreach($definition->getProperties() as $property_name => $property_definition) {
 			if(
@@ -1313,7 +1314,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 			$result .= $prefix.JET_TAB.'<!-- '.$property->getTechnicalDescription().' -->'.JET_EOL;
 
-			$val = $property->getXMLexportValue( $this, $this->{$property_name} );
+			$val = $property->getXmlExportValue( $this, $this->{$property_name} );
 
 
 			if( ($val instanceof DataModel_Related_Interface)) {
@@ -1355,7 +1356,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	public function jsonSerialize() {
 		$properties = $this->getDataModelDefinition()->getProperties();
 
-		$result = array();
+		$result = [];
 		foreach($properties as $property_name=>$property) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
@@ -1407,7 +1408,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_getCreateCommand( $class ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-		$class = Factory::parseModuleClassName($class);
+		$class = Object_Reflection::parseClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1426,7 +1427,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	public static function helper_create( $class, $including_history_backend=true, $including_cache_backend=true ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
 
-		$class = Factory::parseModuleClassName($class);
+		$class = Object_Reflection::parseClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1462,7 +1463,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_getUpdateCommand( $class ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-		$class = Factory::parseModuleClassName($class);
+		$class = Object_Reflection::parseClassName($class);
 		/**
 		 * @var DataModel $_this
 		 */

@@ -25,13 +25,13 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	/**
 	 * @var DataModel_Definition_Relation_JoinBy_Item[]
 	 */
-	protected $main_model_relation_join_items = array();
+	protected $main_model_relation_join_items = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $main_model_relation_ID_properties = array();
+	protected $main_model_relation_ID_properties = [];
 
 	/**
 	 *
@@ -47,31 +47,32 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	/**
 	 * @var DataModel_Definition_Relation_JoinBy_Item[]
 	 */
-	protected $parent_model_relation_join_items = array();
+	protected $parent_model_relation_join_items = [];
 
 	/**
 	 * @var array
 	 */
-	protected $default_order_by = array();
+	protected $default_order_by = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $parent_model_relation_ID_properties = array();
+	protected $parent_model_relation_ID_properties = [];
 
 	/**
 	 * @var array
 	 */
-	protected $__main_ID_glue_defined = array();
+	protected $__main_ID_glue_defined = [];
 
 	/**
 	 * @var array
 	 */
-	protected $__parent_ID_glue_defined = array();
+	protected $__parent_ID_glue_defined = [];
 
 
-	/**
+	/** @noinspection PhpMissingParentConstructorInspection
+	 *
 	 * @param string $data_model_class_name (optional)
 	 *
 	 * @throws DataModel_Exception
@@ -85,7 +86,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			$this->_initProperties();
 			$this->_initKeys();
 
-			$this->default_order_by = Object_Reflection::get( $this->class_name, 'default_order_by', array() );
+			$this->default_order_by = Object_Reflection::get( $this->class_name, 'default_order_by', []);
 
 			if(!$this->ID_properties) {
 				throw new DataModel_Exception(
@@ -101,7 +102,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 */
 	protected function _initParents() {
 
-		$parent_model_class_name = Factory::parseModuleClassName( Object_Reflection::get( $this->class_name, 'data_model_parent_model_class_name' ) );
+		$parent_model_class_name = Object_Reflection::get( $this->class_name, 'data_model_parent_model_class_name' );
 
 		if(!$parent_model_class_name) {
 			throw new DataModel_Exception(

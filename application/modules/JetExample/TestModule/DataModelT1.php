@@ -12,19 +12,21 @@
  */
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
+use Jet\DataModel;
+use Jet\DateTime;
 
 /**
  * Class DataModelT1
  *
  * @JetDataModel:name = 'DataModelT1'
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class DataModelT1 extends Jet\DataModel {
+class DataModelT1 extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -33,7 +35,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_label = 'Checkbox: '
 	 *
 	 * @var bool
@@ -42,25 +44,25 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE
+	 * @JetDataModel:type = DataModel::TYPE_DATE
 	 * @JetDataModel:form_field_label = 'Date: '
 	 *
-	 * @var Jet\DateTime
+	 * @var DateTime
 	 */
 	protected $date;
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time: '
 	 *
-	 * @var Jet\DateTime
+	 * @var DateTime
 	 */
 	protected $date_time;
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_FLOAT
+	 * @JetDataModel:type = DataModel::TYPE_FLOAT
 	 * @JetDataModel:form_field_label = 'Float: '
 	 * @JetDataModel:min_value = 0
 	 * @JetDataModel:max_value = 999
@@ -71,7 +73,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:form_field_label = 'Int: '
 	 * @JetDataModel:min_value = 0
 	 * @JetDataModel:max_value = 999
@@ -82,7 +84,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Text: '
 	 *
@@ -92,7 +94,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:form_field_label = 'Long text:'
 	 *
@@ -102,7 +104,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 655360
 	 * @JetDataModel:form_field_label = 'WYSIWYG:'
 	 * @JetDataModel:form_field_type = 'WYSIWYG'
@@ -113,7 +115,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:form_field_label = 'Select: '
 	 * @JetDataModel:form_field_type = 'Select'
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
@@ -124,7 +126,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Multi Select: '
 	 * @JetDataModel:form_field_type = 'MultiSelect'
@@ -137,7 +139,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Radio Button: '
 	 * @JetDataModel:form_field_type = 'RadioButton'
@@ -149,7 +151,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Password: '
 	 * @JetDataModel:form_field_type = 'Password'
@@ -161,7 +163,7 @@ class DataModelT1 extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Password (no check field): '
 	 * @JetDataModel:form_field_type = 'Password'
@@ -203,28 +205,28 @@ class DataModelT1 extends Jet\DataModel {
 
 
 	/**
-	 * @param Jet\DateTime $date
+	 * @param DateTime $date
 	 */
 	public function setDate($date) {
 		$this->date = $date;
 	}
 
 	/**
-	 * @return Jet\DateTime
+	 * @return DateTime
 	 */
 	public function getDate() {
 		return $this->date;
 	}
 
 	/**
-	 * @param Jet\DateTime $date_time
+	 * @param DateTime $date_time
 	 */
 	public function setDateTime($date_time) {
 		$this->date_time = $date_time;
 	}
 
 	/**
-	 * @return Jet\DateTime
+	 * @return DateTime
 	 */
 	public function getDateTime() {
 		return $this->date_time;

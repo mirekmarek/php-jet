@@ -26,11 +26,11 @@ namespace Jet;
  *
  *      Config Property Definition:
  *          /**
- *           * @JetConfig:type = Jet\Config::TYPE_*,
+ *           * @JetConfig:type = Config::TYPE_*,
  *           * @JetConfig:description = 'Some description ...',
  *           * @JetConfig:is_required = true
  *           * @JetConfig:default_value = 'some default value'
- *           * @JetConfig:form_field_type = Jet\Form::TYPE_*
+ *           * @JetConfig:form_field_type = Form::TYPE_*
  *           *     - (optional, default: autodetect)
  *           * @JetConfig:form_field_label = 'Some form filed label:'
  *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
@@ -122,7 +122,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 *
 	 * @var Data_Array[]
 	 */
-	protected static $configs_data = array();
+	protected static $configs_data = [];
 
 	/**
 	 * @var Config_Definition_Config
@@ -187,7 +187,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 				$this->soft_mode &&
 				!is_readable($config_file_path)
 			) {
-				static::$configs_data[$config_file_path] = new Data_Array( array() );
+				static::$configs_data[$config_file_path] = new Data_Array( []);
 				return static::$configs_data[$config_file_path];
 			}
 
@@ -287,7 +287,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 
 			$config_section_is_obligatory = $definition->getSectionIsObligatory();
 
-			$this_config_data = array();
+			$this_config_data = [];
 
 			if( !$data->exists($config_data_path) ) {
 				if(
@@ -341,7 +341,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		$definition = $this->getPropertiesDefinition();
 
 
-		$only_properties = array();
+		$only_properties = [];
 
 		foreach($definition as $property_name => $property) {
 			$field = $property->getFormField();
@@ -371,7 +371,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	protected function getForm( $form_name, array $only_properties ) {
 		$definition = $this->getPropertiesDefinition();
 
-		$fields = array();
+		$fields = [];
 
 		foreach($definition as $property_name=>$property) {
 			/**
@@ -463,7 +463,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	public function toArray() {
 		$definition = $this->getPropertiesDefinition();
 
-		$result = array();
+		$result = [];
 
 		foreach($definition as $name=>$def) {
 			if(is_object($this->{$name})) {
@@ -485,7 +485,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 */
 	public function save( $target_file_path=null ) {
 		if(!is_readable($this->config_file_path)) {
-			$original_data = array();
+			$original_data = [];
 		} else {
 			/** @noinspection PhpIncludeInspection */
 			$original_data = require $this->config_file_path;
@@ -507,7 +507,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		try {
 			IO_File::write($target_file_path, $config_data);
 		} catch(Exception $e) {}
-		static::$configs_data = array();
+		static::$configs_data = [];
 	}
 
 	/**

@@ -32,7 +32,7 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 	public function setOptions( array $options ) {
 		foreach($options as $k=>$v) {
 			if(property_exists($this, $k)) {
-				$this->$k = $v;
+				$this->{$k} = $v;
 			}
 		}
 	}

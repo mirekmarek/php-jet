@@ -16,14 +16,14 @@ namespace Jet;
  *
  * @JetFactory:class = null
  * @JetFactory:method = null
- * @JetFactory:mandatory_parent_class = 'Jet\Redis_Connection_Config_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Redis_Connection_Config_Abstract'
  */
 abstract class Redis_Connection_Config_Abstract extends Config_Section {
 
 
 	/**
 	 * @JetConfig:form_field_label = 'Connection name'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:is_required = true
 	 *
@@ -33,7 +33,7 @@ abstract class Redis_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Host or socket'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = '127.0.0.1'
 	 * @JetConfig:is_required = true
 	 *
@@ -43,7 +43,7 @@ abstract class Redis_Connection_Config_Abstract extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'Port'
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 6379
 	 * @JetConfig:is_required = false
 	 *

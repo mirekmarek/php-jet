@@ -27,12 +27,12 @@ class Debug_Profiler_Run_SQLQueryData {
 	/**
 	 * @var array
 	 */
-	protected $query_data = array();
+	protected $query_data = [];
 
 	/**
 	 * @var array
 	 */
-	protected $backtrace = array();
+	protected $backtrace = [];
 
 	/**
 	 * @var float

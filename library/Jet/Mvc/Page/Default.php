@@ -20,7 +20,7 @@ namespace Jet;
  * Class Mvc_Page_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages'
- * @JetDataModel:ID_class_name = 'Jet\Mvc_Page_ID_Default'
+ * @JetDataModel:ID_class_name = 'Mvc_Page_ID_Default'
  */
 class Mvc_Page_Default extends Mvc_Page_Abstract{
 
@@ -34,7 +34,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -43,7 +43,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_ID = true
 	 *
@@ -53,7 +53,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_LOCALE
+	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_ID = true
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -63,7 +63,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:form_field_label = 'Parent page'
@@ -85,7 +85,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+     * @JetDataModel:type = DataModel::TYPE_STRING
      * @JetDataModel:max_len = 255
      * @JetDataModel:default_value = 'Standard'
      *
@@ -95,7 +95,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+     * @JetDataModel:type = DataModel::TYPE_BOOL
      * @JetDataModel:default_value = false
      *
      * @var bool
@@ -110,7 +110,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:error_messages = array (  'required' => 'Name was not specified',)
@@ -122,7 +122,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_label = 'Is admin UI'
 	 *
 	 * @var bool
@@ -131,7 +131,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Title'
 	 *
@@ -141,7 +141,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Title for menu item'
 	 *
@@ -151,7 +151,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Title for breadcrumb navigation'
 	 *
@@ -161,7 +161,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'URL fragment'
 	 *
@@ -176,7 +176,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     protected $relative_URI = '';
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+     * @JetDataModel:type = DataModel::TYPE_STRING
      * @JetDataModel:is_required = false
      * @JetDataModel:max_len = 255
      * @JetDataModel:form_field_label = 'Custom layouts dir'
@@ -187,7 +187,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Layout'
@@ -198,7 +198,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
     /**
      *
-     * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+     * @JetDataModel:type = DataModel::TYPE_STRING
      * @JetDataModel:is_required = false
      * @JetDataModel:max_len = 255
      * @JetDataModel:form_field_label = 'Layout initializer module'
@@ -209,7 +209,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
 	 * @JetDataModel:form_field_label = 'Headers suffix'
 	 *
@@ -219,7 +219,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
 	 * @JetDataModel:form_field_label = 'Body prefix'
 	 *
@@ -229,7 +229,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
 	 * @JetDataModel:form_field_label = 'Body suffix'
 	 *
@@ -239,8 +239,8 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Mvc_Page_MetaTag_Default'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Mvc_Page_MetaTag_Default'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Mvc_Page_MetaTag_Abstract[]
@@ -249,7 +249,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_label = 'Authentication required'
 	 *
 	 * @var bool
@@ -257,7 +257,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	protected $authentication_required = false;
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+     * @JetDataModel:type = DataModel::TYPE_STRING
      * @JetDataModel:max_len = 50
      * @JetDataModel:form_field_label = 'Auth controller'
      *
@@ -267,7 +267,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_label = 'Secure connection required'
 	 *
 	 * @var bool
@@ -276,8 +276,8 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\Mvc_Page_Content_Default'
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Mvc_Page_Content_Default'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Mvc_Page_Content_Abstract[]
@@ -288,10 +288,10 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
      * @var Mvc_NavigationData_Breadcrumb_Abstract[]
      */
-    protected $breadcrumb_navigation = array();
+    protected $breadcrumb_navigation = [];
 
 	/**
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DYNAMIC_VALUE
+	 * @JetDataModel:type = DataModel::TYPE_DYNAMIC_VALUE
 	 * @JetDataModel:getter_name = 'getLayoutsList'
 	 *
 	 * @var string
@@ -316,17 +316,17 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     /**
      * @var bool
      */
-    protected static $site_pages_loaded_flag = array();
+    protected static $site_pages_loaded_flag = [];
 
     /**
      * @var Mvc_Page_Abstract[]
      */
-    protected static $loaded_pages = array();
+    protected static $loaded_pages = [];
 
     /**
      * @var string[]
      */
-    protected static $relative_URIs_map = array();
+    protected static $relative_URIs_map = [];
 
     /**
      * @param string $data_file_path
@@ -617,7 +617,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
      * @return string
      */
-    public function getURL( array $GET_params=array(), array $path_fragments=array() ) {
+    public function getURL(array $GET_params= [], array $path_fragments= []) {
 
         if(
             (string)$this->site_ID == Mvc::getCurrentSite()->getID()->toString() &&
@@ -638,7 +638,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
      * @return string
 	 */
-	public function getURI( array $GET_params=array(), array $path_fragments=array() ) {
+	public function getURI(array $GET_params= [], array $path_fragments= []) {
         $site = $this->getSite();
 
         if($this->getSSLRequired()) {
@@ -657,7 +657,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
      * @return string
      */
-    public function getFullURL( array $GET_params=array(), array $path_fragments=array() ) {
+    public function getFullURL(array $GET_params= [], array $path_fragments= []) {
         $site = $this->getSite();
 
         if($this->getSSLRequired()) {
@@ -679,7 +679,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
 	 * @return string
 	 */
-	public function getNonSchemaURL( array $GET_params=array(), array $path_fragments=array() ) {
+	public function getNonSchemaURL(array $GET_params= [], array $path_fragments= []) {
 
         $site = $this->getSite();
 
@@ -700,7 +700,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
 	 * @return string
 	 */
-	public function getNonSslURL( array $GET_params=array(), array $path_fragments=array() ) {
+	public function getNonSslURL(array $GET_params= [], array $path_fragments= []) {
         $site = $this->getSite();
 
         $base_URL = $site->getDefaultURL( $this->locale );
@@ -716,7 +716,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      *
 	 * @return string
 	 */
-	public function getSslURL( array $GET_params=array(), array $path_fragments=array() ) {
+	public function getSslURL(array $GET_params= [], array $path_fragments= []) {
         $site = $this->getSite();
 
         $base_URL = $site->getDefaultSslURL( $this->locale );
@@ -812,7 +812,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
             $initializer = Application_Modules::getModuleInstance( $this->getLayoutInitializerModuleName() );
 
             if( !($initializer instanceof Mvc_Layout_Initializer_Interface) ) {
-                throw new Exception('Layout initializer (module:'.$this->getLayoutInitializerModuleName() .') must implement Jet\Mvc_Layout_Initializer_Interface  ');
+                throw new Exception('Layout initializer (module:'.$this->getLayoutInitializerModuleName() .') must implement '.__NAMESPACE__.'\Mvc_Layout_Initializer_Interface  ');
             }
 
             if( $initializer ) {
@@ -959,7 +959,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	 */
 	public function getMetaTags( $get_default=false ) {
         if($get_default) {
-            $meta_tags = array();
+            $meta_tags = [];
 
             foreach($this->getSiteLocalizedData()->getDefaultMetaTags() as $mt) {
                 $key = $mt->getAttribute().':'.$mt->getAttributeValue();
@@ -1063,7 +1063,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
         $homepage = $site->getHomepage( $locale );
 
-        $result = array();
+        $result = [];
 
         $this->_getList($homepage, $result);
 
@@ -1153,7 +1153,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      */
     public static function _loadPages_createPage( array $data, Mvc_Page_Default $parent_page=null ) {
 
-        //TOTO musi byt bleskurychle ...
+        //This must be really fast
 
         /**
          * @var Mvc_Page_Default $page
@@ -1191,7 +1191,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
         $page->relative_URI = $data['relative_URI'];
         */
 
-        $meta_tags = array();
+        $meta_tags = [];
         //$meta_tag_form = Mvc_Factory::getPageMetaTagInstance()->getCommonForm('');
 
         foreach( $data['meta_tags']  as $i=>$m_dat) {
@@ -1225,7 +1225,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
 
 
-        $contents = array();
+        $contents = [];
         //$content_form = Mvc_Factory::getPageContentInstance()->getCommonForm();
 
         foreach( $data['contents']  as $i=>$c_dat) {
@@ -1351,11 +1351,11 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      * @param $data
      */
     protected function _getAllPagesTree( Mvc_Page_Abstract $page, &$data ) {
-        $data[$page->getID()->toString()] = array(
+        $data[$page->getID()->toString()] = [
             'ID' => $page->getID()->toString(),
             'parent_ID' => $page->getParent() ? $page->getParent()->getID()->toString() : '',
             'name' => $page->getName()
-        );
+        ];
 
         foreach( $page->getChildren() as $page ) {
             $this->_getAllPagesTree($page, $data);
@@ -1374,7 +1374,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
         foreach( Mvc_Site::getList() as $site ) {
             foreach($site->getLocales() as $locale) {
-                $data = array();
+                $data = [];
 
                 $homepage = $site->getHomepage( $locale );
 
@@ -1442,7 +1442,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	 * @return DataModel_Fetch_Object_IDs
 	 */
 	public function getChildrenIDs() {
-        $result = array();
+        $result = [];
 
         foreach( $this->getChildren() as $page ) {
             $result[] = $page->getID();
@@ -1464,7 +1464,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 	 */
 	public function getLayoutsList() {
         if(!$this->site_ID) {
-            return array();
+            return [];
         }
 
         $path = $this->getLayoutsPath();
@@ -1472,7 +1472,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
         $_lj = IO_Dir::getFilesList( $path, '*.phtml');
 
-        $layouts = array();
+        $layouts = [];
 
         foreach($_lj as $lj) {
             $lj = substr($lj, 0, -6);
@@ -1526,7 +1526,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     public function getBreadcrumbNavigation() {
 
         if( !$this->breadcrumb_navigation ) {
-            $this->breadcrumb_navigation = array();
+            $this->breadcrumb_navigation = [];
 
             $navigation_data = Mvc_Factory::getNavigationDataBreadcrumbInstance();
             $navigation_data->setPage( $this );
@@ -1606,7 +1606,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
      */
     public function setBreadcrumbNavigation( $data ) {
 
-        $this->breadcrumb_navigation = array();
+        $this->breadcrumb_navigation = [];
 
         foreach( $data as $dat ) {
             $this->addBreadcrumbNavigationItem( $dat );

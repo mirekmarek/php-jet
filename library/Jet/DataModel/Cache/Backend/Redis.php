@@ -111,6 +111,7 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 
 		$pattern .= '*';
 
+		/** @noinspection PhpVoidFunctionResultUsedInspection */
 		$keys = $this->redis->getKeys($pattern);
 
 		foreach( $keys as $key ) {

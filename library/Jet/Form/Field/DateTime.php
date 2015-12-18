@@ -113,13 +113,13 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 			$template = $this->__form->getTemplate_field();
 		}
 
-		return Data_Text::replaceData($template, array(
+		return Data_Text::replaceData($template, [
 			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
 			'FIELD' =>
 				'<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>'.JET_EOL
 				.'<jet_form_field name="'.$this->_name.'" class="form-control"/>'.JET_EOL
 				.'<jet_form_field_time name="'.$this->_name.'" class="form-control"/>'
-		));
+		]);
 	}
 
 

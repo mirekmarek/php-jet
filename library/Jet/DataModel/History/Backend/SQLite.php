@@ -37,11 +37,11 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create('datamodel_history_sqlite_connection', array(
+		$this->_db = Db::create('datamodel_history_sqlite_connection', [
 			'name' => 'datamodel_history_sqlite_connection',
-			'driver' => DB::DRIVER_SQLITE,
+			'driver' => Db::DRIVER_SQLITE,
 			'DSN' => $this->config->getDSN()
-		));
+		]);
 
 		$this->_table_name = $this->config->getTableName();
 	}
@@ -89,7 +89,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 						:operation_in_progress
 
 					)
-				',array(
+				', [
 					'operation_ID' => $this->_current_operation_ID,
 					'class_name' => get_class($this->_current_data_model),
 					'model_name' => $this->_current_data_model->getDataModelDefinition()->getModelName(),
@@ -99,7 +99,7 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 					'user_ID' => $user_ID,
 					'object' => $this->serialize( $this->_current_data_model ),
 					'operation_in_progress' => 1,
-				));
+		]);
 
 	}
 
@@ -109,9 +109,9 @@ class DataModel_History_Backend_SQLite extends DataModel_History_Backend_Abstrac
 	public function operationDone() {
 		$this->_db->execCommand(
 			'UPDATE `'.$this->_table_name.'` SET `operation_in_progress`=0, `operation_done`=1, `done_date_and_time`=datetime(\'now\') WHERE `operation_ID`=:operation_ID',
-			array(
+			[
 				'operation_ID' => $this->_current_operation_ID,
-			)
+			]
 		);
 	}
 

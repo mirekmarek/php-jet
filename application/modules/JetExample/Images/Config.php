@@ -18,7 +18,7 @@ use Jet;
 class Config extends Jet\Config {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_INT
+	 * @JetConfig:type = Config::TYPE_INT
 	 * @JetConfig:default_value = 800
 	 * @JetConfig:is_required = false
 	 *
@@ -27,7 +27,7 @@ class Config extends Jet\Config {
 	protected $default_max_w;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_INT
+	 * @JetConfig:type = Config::TYPE_INT
 	 * @JetConfig:default_value = 600
 	 * @JetConfig:is_required = false
 	 *
@@ -36,7 +36,7 @@ class Config extends Jet\Config {
 	protected $default_max_h;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_INT
+	 * @JetConfig:type = Config::TYPE_INT
 	 * @JetConfig:default_value = 100
 	 * @JetConfig:is_required = false
 	 *
@@ -45,7 +45,7 @@ class Config extends Jet\Config {
 	protected $default_thb_max_w;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_INT
+	 * @JetConfig:type = Config::TYPE_INT
 	 * @JetConfig:default_value = 100
 	 * @JetConfig:is_required = false
 	 *

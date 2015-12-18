@@ -1,12 +1,15 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Data_Paginator;
+use Jet\Locale;
+
 /**
  * @var Article[] $articles_list
  */
 $articles_list = $this->articles_list;
 /**
- * @var Jet\Data_Paginator $paginator
+ * @var Data_Paginator $paginator
  */
 $paginator = $this->paginator;
 
@@ -16,7 +19,7 @@ $paginator = $this->paginator;
 <div>
 	<a href="<?=$article->getURL();?>"><?=$article->getTitle();?></a>
 	<br/>
-	<span style="font-size: 10px;"><?=Jet\Locale::dateAndTime($article->getDateTime());?></span>
+	<span style="font-size: 10px;"><?=Locale::dateAndTime($article->getDateTime());?></span>
 	<p><?=$article->getAnnotation();?></p>
 </div>
 <hr/>

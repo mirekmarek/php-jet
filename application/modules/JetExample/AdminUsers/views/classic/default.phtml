@@ -2,7 +2,9 @@
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
 use JetApplicationModule\JetExample\UIElements;
-
+use Jet\Mvc_MicroRouter;
+use Jet\Auth_User_Abstract;
+use Jet\Tr;
 
 /**
  * @var UIElements\DataGrid $grid
@@ -10,25 +12,25 @@ use JetApplicationModule\JetExample\UIElements;
 $grid = $this->grid;
 
 /**
- * @var Jet\Mvc_MicroRouter $router
+ * @var Mvc_MicroRouter $router
  */
 $router = $this->router;
 
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) use ($router) {
+$c_edit->setDisplayCallback( function( Auth_User_Abstract $item ) use ($router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Jet\Tr::_('Edit');?></a>
+		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Tr::_('Edit');?></a>
 	<?php endif; ?>
 	&nbsp;
 	<?php if($router->getActionAllowed('delete')): ?>
-		<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Jet\Tr::_('Delete');?></a>
+		<a href="<?=$router->getActionURI('delete', $item);?>" class="btn btn-danger btn-xs"><?=Tr::_('Delete');?></a>
 	<?php endif; ?>
 <?php
 } );
 $c_edit->setCssStyle( 'width:120px;' );
 
-$grid->getColumn('login')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) use ($router) {
+$grid->getColumn('login')->setDisplayCallback( function( Auth_User_Abstract $item ) use ($router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
 		<a href="<?=$router->getActionURI('edit', $item);?>"><?=$item->getLogin();?></a>
@@ -38,7 +40,7 @@ $grid->getColumn('login')->setDisplayCallback( function( Jet\Auth_User_Abstract 
 <?php
 } );
 
-$grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_User_Abstract $item ) {
+$grid->getColumn('ID')->setDisplayCallback( function( Auth_User_Abstract $item ) {
 	echo $item->getID();
 } );
 
@@ -48,7 +50,7 @@ $grid->getColumn('ID')->setDisplayCallback( function( Jet\Auth_User_Abstract $it
 <div style="padding: 10px;">
 
 <?php if($router->getActionAllowed('add')): ?>
-	<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Jet\Tr::_('Add new user');?></a>
+	<a href="<?=$router->getActionURI('add');?>" class="btn btn-primary"><?=Tr::_('Add new user');?></a>
 <?php endif; ?>
 
 <?=$grid->render();?>

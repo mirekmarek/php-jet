@@ -22,9 +22,9 @@ namespace Jet;
 /**
  * Class Auth_User_Abstract
  *
- * @JetFactory:class = 'Jet\Auth_Factory'
+ * @JetFactory:class = 'Auth_Factory'
  * @JetFactory:method = 'getUserInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Auth_User_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Auth_User_Abstract'
  *
  * @JetApplication_Signals:signal = '/user/new'
  * @JetApplication_Signals:signal = '/user/deleted'
@@ -33,10 +33,10 @@ namespace Jet;
  * @JetApplication_Signals:signal = '/user/unblocked'
  * @JetApplication_Signals:signal = '/user/activated'
  *
- * @JetApplication_Signals:signal_object_class_name = 'Jet\Auth_User_Signal'
+ * @JetApplication_Signals:signal_object_class_name = 'Auth_User_Signal'
  *
  * @JetDataModel:name = 'user'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 abstract class Auth_User_Abstract extends DataModel {
 

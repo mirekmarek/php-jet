@@ -20,7 +20,7 @@ namespace Jet;
  * Class Mvc_Page_Content_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
- * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Page_Default'
+ * @JetDataModel:parent_model_class_name = 'Mvc_Page_Default'
  */
 class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
     const DEFAULT_CONTROLLER_ACTION = 'default';
@@ -42,7 +42,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -50,7 +50,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 	protected $ID = '';
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+     * @JetDataModel:type = DataModel::TYPE_BOOL
      * @JetDataModel:default_value = false
      *
      * @var bool
@@ -58,7 +58,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
     protected $is_dynamic = false;
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+     * @JetDataModel:type = DataModel::TYPE_STRING
      * @JetDataModel:max_len = 255
      * @JetDataModel:default_value = ''
      *
@@ -69,7 +69,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
@@ -77,7 +77,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 	protected $module_name = '';
 
     /**
-     * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+     * @JetDataModel:type = DataModel::TYPE_STRING
      * @JetDataModel:max_len = 50
      *
      * @var string
@@ -86,7 +86,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
@@ -95,17 +95,17 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:item_type = 'String'
 	 *
 	 * @var array
 	 */
-	protected $controller_action_parameters = array (
-	);
+	protected $controller_action_parameters = [
+	];
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
@@ -114,7 +114,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 *
 	 * @var bool
 	 */
@@ -122,7 +122,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 *
 	 * @var int
 	 */
@@ -149,7 +149,7 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
 	public function __construct(
 		$module_name='',
 		$controller_action='',
-		$controller_action_parameters=array(),
+		$controller_action_parameters= [],
 		$output_position='',
 		$output_position_required=true,
 		$output_position_order=0
@@ -174,13 +174,13 @@ class Mvc_Page_Content_Default extends Mvc_Page_Content_Abstract {
      */
     public function setData( array $data ) {
         if(!isset($data['controller_action_parameters'])) {
-            $data['controller_action_parameters'] = array();
+            $data['controller_action_parameters'] = [];
         }
 
         if(!is_array($data['controller_action_parameters']) && $data['controller_action_parameters']) {
-            $data['controller_action_parameters'] = array( $data['controller_action_parameters'] );
+            $data['controller_action_parameters'] = [$data['controller_action_parameters']];
         } else {
-            $data['controller_action_parameters'] = array();
+            $data['controller_action_parameters'] = [];
         }
 
         foreach( $data as $key=>$val ) {

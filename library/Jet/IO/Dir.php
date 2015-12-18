@@ -321,12 +321,12 @@ class IO_Dir {
 					IO_Dir_Exception::CODE_OPEN_FAILED
 				);
 			} else {
-				return array();
+				return [];
 			}
 		}
 
 
-		$result = array();
+		$result = [];
 		foreach( $files as $file_path ) {
 			$file_name = basename($file_path);
 

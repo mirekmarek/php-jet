@@ -10,7 +10,7 @@
  * Proper translation module/class should be installed/defined for correct function, default
  * class does not provide translation functionality.
  *
- * Class @see \Jet\Tr is recommended to use instead of \Jet\Translator for shorter code.
+ * Class @see Tr is recommended to use instead of Translator for shorter code.
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -54,7 +54,7 @@ class Translator extends Object {
 	/**
 	 * @var Translator_Dictionary[]
 	 */
-	protected static $dictionaries = array();
+	protected static $dictionaries = [];
 
 	/**
 	 * Gets translator backend instance
@@ -88,7 +88,7 @@ class Translator extends Object {
 		if(static::$backend_instance === null){
 			static::$backend_instance = Translator_Factory::getBackendInstance( static::getConfig()->getBackendType() );
 
-			register_shutdown_function( array('\Jet\Translator', 'saveUpdatedDictionaries') );
+			register_shutdown_function( ['\\'.__NAMESPACE__.'\Translator', 'saveUpdatedDictionaries']);
 		}
 		return static::$backend_instance;
 	}
@@ -100,7 +100,7 @@ class Translator extends Object {
 	 */
 	public static function setBackendInstance( Translator_Backend_Abstract $backend_instance ) {
 		if(static::$backend_instance === null){
-			register_shutdown_function( array('\Jet\Translator', 'saveUpdatedDictionaries') );
+			register_shutdown_function( ['\\'.__NAMESPACE__.'\Translator', 'saveUpdatedDictionaries']);
 		}
 		static::$backend_instance = $backend_instance;
 	}
@@ -131,7 +131,7 @@ class Translator extends Object {
 	 * @param string|Locale $locale(optional) - target locale
 	 * @return string
 	 */
-	public static function getTranslation($phrase, $data=array(), $namespace=null, $locale=null ){
+	public static function getTranslation($phrase, $data= [], $namespace=null, $locale=null ){
 
 		if(!$namespace){
 			$namespace = static::$current_namespace;
@@ -174,7 +174,7 @@ class Translator extends Object {
 	 * @param string $locale(optional) - target locale
 	 * @return string
 	 */
-	public static function _($text, $data=array(), $namespace=null, $locale=null){
+	public static function _($text, $data= [], $namespace=null, $locale=null){
 		return static::getTranslation($text, $data, $namespace, $locale);
 	}
 

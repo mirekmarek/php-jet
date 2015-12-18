@@ -18,7 +18,7 @@ namespace Jet;
  *
  * @JetFactory:class = 'JetML_Factory';
  * @JetFactory:method = 'getJetMLPostprocessorInstance';
- * @JetFactory:mandatory_parent_class = 'Jet\JetML';
+ * @JetFactory:mandatory_parent_class = 'JetML';
  */
 class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 
@@ -52,46 +52,46 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	/**
 	 * @var array
 	 */
-	protected $icon_sizes = array(
-		'small' => array(
+	protected $icon_sizes = [
+		'small' => [
 			'width' => 16,
 			'height' => 16,
 			'wspace' => 4,
 			'hspace' => 4,
-		),
-		'normal' => array(
+		],
+		'normal' => [
 			'width' => 22,
 			'height' => 22,
 			'wspace' => 4,
 			'hspace' => 4,
-		),
-		'large' => array(
+		],
+		'large' => [
 			'width' => 32,
 			'height' => 32,
 			'wspace' => 4,
 			'hspace' => 4,
-		),
+		],
 
-		'flag_small' => array(
+		'flag_small' => [
 			'width' => 16,
 			'height' => 10,
 			'wspace' => 4,
 			'hspace' => 4,
-		),
-		'flag_normal' => array(
+		],
+		'flag_normal' => [
 			'width' => 24,
 			'height' => 15,
 			'wspace' => 4,
 			'hspace' => 4,
-		),
-		'flag_large' => array(
+		],
+		'flag_large' => [
 			'width' => 38,
 			'height' => 24,
 			'wspace' => 4,
 			'hspace' => 4,
-		)
+		]
 
-	);
+	];
 
 	/**
 	 * @var string
@@ -113,7 +113,7 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	/**
 	 * @var array
 	 */
-	protected static $_tag_class_map_cache = array();
+	protected static $_tag_class_map_cache = [];
 
 
 	/**
@@ -379,12 +379,12 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 			$height,
 			$wspace,
 			$hspace ) {
-		$this->icon_sizes[$size_name] = array(
+		$this->icon_sizes[$size_name] = [
 			'width' => $width,
 			'height' => $height,
 			'wspace' => $wspace,
 			'hspace' => $hspace,
-		);
+		];
 	}
 
 	/**

@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Mvc;
+use Jet\Mvc_Controller_REST;
 
-class Controller_REST extends Jet\Mvc_Controller_REST {
+class Controller_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main
@@ -57,7 +59,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
 			$article->validateProperties();
 			$article->save();
-			Jet\Mvc::truncateRouterCache();
+			Mvc::truncateRouterCache();
 			$this->responseData($article);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
@@ -73,7 +75,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
 			$article->validateProperties();
 			$article->save();
-			Jet\Mvc::truncateRouterCache();
+			Mvc::truncateRouterCache();
 			$this->responseData($article);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
@@ -84,7 +86,7 @@ class Controller_REST extends Jet\Mvc_Controller_REST {
 		$article = $this->_getArticle($ID);
 
 		$article->delete();
-		Jet\Mvc::truncateRouterCache();
+		Mvc::truncateRouterCache();
 
 		$this->responseOK();
 

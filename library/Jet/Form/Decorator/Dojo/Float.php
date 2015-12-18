@@ -17,11 +17,11 @@ class Form_Decorator_Dojo_Float extends Form_Decorator_Dojo_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $decoratable_tags = array(
-		'field' => array(
+	protected $decoratable_tags = [
+		'field' => [
 			'dojo_type' => 'dijit.form.NumberTextBox'
-		)
-	);
+		]
+	];
 
 	/**
 	 * @var Form_Field_Float
@@ -42,7 +42,7 @@ class Form_Decorator_Dojo_Float extends Form_Decorator_Dojo_Abstract {
 		$max = $this->field->getMaxValue();
 		$places = $this->field->getPlaces();
 
-		$constraints = array();
+		$constraints = [];
 		if($min !== null) {
 			$constraints['min'] = $min;
 		}

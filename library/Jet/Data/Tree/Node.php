@@ -48,7 +48,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 * @var array 
 	 */
-	protected $data = array();
+	protected $data = [];
 
 
 	/**
@@ -56,7 +56,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $children = array();
+	protected $children = [];
 
 	/**
 	 * Range from root
@@ -81,7 +81,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $_iterator_map = array();
+	protected $_iterator_map = [];
 
 	/**
 	 * @var int
@@ -304,7 +304,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 * @return Data_Tree_Node[]
 	 */
 	public function getPathToRoot(){
-		$result = array();
+		$result = [];
 
 		$result[$this->ID] = $this;
 		$_node = $this;
@@ -333,16 +333,16 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	public function jsonSerialize(){
 
-		$props = array(
+		$props = [
 			'ID',
 			'parent_ID',
 			'depth',
 			'data',
 			'children',
 			'is_root'
-		);
+		];
 
-		$output = array();
+		$output = [];
 		foreach($props as $prop){
 			$output[$prop] = $this->{$prop};
 		}
@@ -351,20 +351,21 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		return $output;
 	}
 
-	/**
+	/**  @noinspection PhpMissingParentCallMagicInspection
+	 *
 	 * Don't serialize bound tree
 	 *
 	 * @return array
 	 */
 	public function __sleep(){
-		return array(
+		return [
 			'ID',
 			'data',
 			'parent',
 			'children',
 			'depth',
 			'is_root'
-		);
+		];
 	}
 
 	/**
@@ -401,7 +402,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	public function toArray(){
 
-		$result = array();
+		$result = [];
 		$this->_toArray($result, $this->_max_depth, $this->depth);
 
 		return $result;
@@ -437,7 +438,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 				$this->is_root ||
 				!$this->tree->getLazyMode()
 			) {
-				$item[$children_key] = array();
+				$item[$children_key] = [];
 
 				foreach($this->children as $child) {
 					$child->_toArray( $item[$children_key], $max_depth, $root_depth );
@@ -462,7 +463,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 */
 	public function resetIteratorMap() {
-		$this->_iterator_map = array();
+		$this->_iterator_map = [];
 	}
 
 	/**

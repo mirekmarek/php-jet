@@ -116,7 +116,7 @@ class Data_Paginator extends Object {
 	/**
 	 * @var array
 	 */
-	protected $pages_URL = array();
+	protected $pages_URL = [];
 
 	/**
 	 *
@@ -202,7 +202,7 @@ class Data_Paginator extends Object {
 
 		$data_map = array_keys($this->data);
 
-		$result = array();
+		$result = [];
 
 		for( $i=$this->data_index_start; $i<=$this->data_index_end; $i++ ) {
 			$result[$data_map[$i]] = $this->data[$data_map[$i]];
@@ -245,7 +245,7 @@ class Data_Paginator extends Object {
 
 		$this->prev_page_URL = null;
 		$this->next_page_URL = null;
-		$this->pages_URL = array();
+		$this->pages_URL = [];
 
 		if($this->URL_template) {
 			if($this->prev_page_no) {

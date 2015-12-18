@@ -10,8 +10,17 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\Form;
+use Jet\Mvc;
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_MicroRouter;
+use Jet\Mvc_Router_Abstract;
+use Jet\Mvc_Page_Content_Abstract;
+use Jet\Http_Headers;
+use Jet\Http_Request;
+use Jet\Form_Field_FileImage;
 
-class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -19,12 +28,12 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Jet\Mvc_MicroRouter
+	 * @var Mvc_MicroRouter
 	 */
 	protected $micro_router;
 
     /**
-     * @var Jet\Mvc_MicroRouter
+     * @var Mvc_MicroRouter
      */
     protected $_standard_admin_micro_router;
 
@@ -39,29 +48,29 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-		Jet\Mvc::checkCurrentContentIsDynamic();
-        Jet\Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
+		Mvc::checkCurrentContentIsDynamic();
+        Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
 		$this->micro_router = $this->getMicroRouter();
 		$this->view->setVar( 'router', $this->micro_router );
 	}
 
     /**
-     * @param Jet\Mvc_Router_Abstract $router
+     * @param Mvc_Router_Abstract $router
      *
-     * @return Jet\Mvc_MicroRouter
+     * @return Mvc_MicroRouter
      */
-    public function getMicroRouter( Jet\Mvc_Router_Abstract $router=null ) {
+    public function getMicroRouter( Mvc_Router_Abstract $router=null ) {
         if($this->_standard_admin_micro_router) {
             return $this->_standard_admin_micro_router;
         }
 
         if(!$router) {
-            $router = Jet\Mvc::getCurrentRouter();
+            $router = Mvc::getCurrentRouter();
         }
 
-        $router = new Jet\Mvc_MicroRouter( $router, $this->module_instance );
+        $router = new Mvc_MicroRouter( $router, $this->module_instance );
 
-        $base_URI = Jet\Mvc::getCurrentURI();
+        $base_URI = Mvc::getCurrentURI();
 
         $gallery_validator = function( &$parameters ) {
             $gallery = Gallery::get( $parameters[0] );
@@ -108,11 +117,11 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 
     /**
-     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Abstract $page_content
      * @return bool
      */
-    public function parseRequestURL_Admin( Jet\Mvc_Page_Content_Abstract $page_content=null ) {
-        $router = $this->getMicroRouter( Jet\Mvc::getCurrentRouter() );
+    public function parseRequestURL_Admin( Mvc_Page_Content_Abstract $page_content=null ) {
+        $router = $this->getMicroRouter( Mvc::getCurrentRouter() );
 
         return $router->resolve( $page_content );
     }
@@ -145,7 +154,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 			$gallery->validateProperties();
 			$gallery->save();
 
-			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
 		}
 
 		$this->view->setVar('has_access', true);
@@ -170,7 +179,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 			$gallery->validateProperties();
 			$gallery->save();
 
-			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
 		}
 
 
@@ -209,13 +218,13 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 	/**
 	 * @param Gallery $gallery
-	 * @return \Jet\Form
+	 * @return Form
 	 */
 	protected function getUploadForm( Gallery $gallery ) {
 		$upload_form = $gallery->getUploadForm();
 
 		/**
-		 * @var Jet\Form_Field_FileImage $image_field
+		 * @var Form_Field_FileImage $image_field
 		 */
 		$image_field = $upload_form->getField('file');
 		/**
@@ -255,7 +264,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 					$config->getDefaultThbMaxH()
 				);
 
-				Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+				Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
 			}
 
 		}
@@ -272,7 +281,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 
 		$this->view->setVar('can_delete_image', true);
 
-		$POST = Jet\Http_Request::POST();
+		$POST = Http_Request::POST();
 
 		if( $POST->exists('images') ) {
 
@@ -282,7 +291,7 @@ class Controller_Admin_Standard extends Jet\Mvc_Controller_Standard {
 					$image->delete();
 				}
 			}
-			Jet\Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
 		}
 	}
 }

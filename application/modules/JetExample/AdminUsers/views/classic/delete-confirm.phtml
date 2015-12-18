@@ -1,14 +1,18 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Auth_User_Abstract;
+use Jet\Mvc_MicroRouter;
+use Jet\Mvc;
+use Jet\Tr;
 
 /**
- * @var Jet\Auth_User_Abstract $user
+ * @var Auth_User_Abstract $user
  */
 $user = $this->user;
 
 /**
- * @var Jet\Mvc_MicroRouter $router
+ * @var Mvc_MicroRouter $router
  */
 $router = $this->router;
 
@@ -16,16 +20,16 @@ $router = $this->router;
 
 <div style="padding: 10px;">
 
-	<a href="<?=Jet\Mvc::getCurrentURI();?>" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
+	<a href="<?=Mvc::getCurrentURI();?>" class="btn btn-default"><?=Tr::_('&lt Back');?></a>
 
 	<p>
-	<?=Jet\Tr::_('Do you really want to delete this user?');?>
+	<?=Tr::_('Do you really want to delete this user?');?>
 	<br/>
 	<a href="<?=$router->getActionURI('edit', $user);?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getLogin();?>)</a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($user->getID());?>" method="post">
 		<input type="hidden" name="delete" value="yes">
-		<input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
+		<input type="submit" value="<?=Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
 	</form>
 </div>

@@ -14,8 +14,12 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\Mvc_Controller_AJAX;
+use Jet\Mvc_Page;
+use Jet\Form_Factory;
+use Jet\Form;
 
-class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
+class Controller_Admin_AJAX extends Mvc_Controller_AJAX {
 	/**
 	 *
 	 * @var Main
@@ -41,15 +45,15 @@ class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
 
 		$this->view->setVar('form', $form);
 
-		$this->view->setVar('upload_URL', Jet\Mvc_Page::get('admin/ria/rest_api')->getURI(array(), array(
+		$this->view->setVar('upload_URL', Mvc_Page::get('admin/ria/rest_api')->getURI(array(), array(
             $this->module_manifest->getName(),
             'image'
         )));
 
-		$upload_form = new Jet\Form('upload_form', array());
+		$upload_form = new Form('upload_form', array());
 		$upload_form->enableDecorator('Dojo');
 		$upload_form->addField(
-			Jet\Form_Factory::field('Checkbox', 'overwrite_if_exists', 'Overwrite image if exists')
+			Form_Factory::field('Checkbox', 'overwrite_if_exists', 'Overwrite image if exists')
 		);
 		$this->view->setVar('upload_form', $upload_form);
 

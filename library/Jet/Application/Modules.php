@@ -60,9 +60,9 @@
  *    |- layouts
  *    |     \- [*.phtml]
  *    |- Main.php
- *    |- Config.php @see Jet\Config
+ *    |- Config.php @see Config
  *    |- [*.php]
- *    \- manifest.php ......................... @see Jet\Mvc_Modules_ModuleInfo
+ *    \- manifest.php ......................... @see Application_Modules_Module_Manifest
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>

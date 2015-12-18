@@ -20,13 +20,13 @@ namespace Jet;
 /**
  * Class Auth_Role_Privilege_Abstract
  *
- * @JetFactory:class = 'Jet\Auth_Factory'
+ * @JetFactory:class = 'Auth_Factory'
  * @JetFactory:method = 'getPrivilegeInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Auth_Role_Privilege_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Auth_Role_Privilege_Abstract'
  *
  * @JetDataModel:name = 'role_privilege'
- * @JetDataModel:parent_model_class_name = 'Jet\Auth_Role_Abstract'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:parent_model_class_name = 'Auth_Role_Abstract'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {
 
@@ -35,7 +35,7 @@ abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {
 	 * @param $privilege
 	 * @param mixed[] $values
 	 */
-	public function __construct( $privilege='', array $values=array() ) {
+	public function __construct( $privilege='', array $values= []) {
 
 		if($privilege) {
 			$this->setPrivilege($privilege);

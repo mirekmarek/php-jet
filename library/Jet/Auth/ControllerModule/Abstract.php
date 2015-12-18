@@ -5,7 +5,7 @@
  *
  * Abstract users, roles and privileges management class implementation
  *
- * @see \Jet\Auth
+ * @see Auth
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -248,7 +248,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 		}
 
 
-		$chars = array();
+		$chars = [];
 		$password_len = strlen($password);
 
 		for($c=0;$c<$password_len;$c++) {

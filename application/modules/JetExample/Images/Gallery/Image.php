@@ -10,20 +10,25 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\Image;
+use Jet\IO_File;
+use Jet\IO_Dir;
+use Jet\DataModel;
+use Jet\DataModel_Fetch_Data_Assoc;
 
 /**
  * Class Gallery_Image
  *
  * @JetDataModel:name = 'Image'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Gallery_Image extends Jet\DataModel {
+class Gallery_Image extends DataModel {
 	const THUMBNAILS_DIR_NAME = '_t_';
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 *
 	 * @var string
 	 */
@@ -31,7 +36,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -40,7 +45,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -50,7 +55,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = false
 	 * @JetDataModel:form_field_label = 'Title: '
@@ -61,7 +66,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
@@ -72,7 +77,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_type = false
@@ -83,7 +88,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -93,7 +98,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -103,7 +108,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_INT
+	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
@@ -113,7 +118,7 @@ class Gallery_Image extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = 'module:JetExample.Images\Gallery_Image_Thumbnail'
 	 *
 	 * @var Gallery_Image_Thumbnail[]
@@ -343,14 +348,14 @@ class Gallery_Image extends Jet\DataModel {
 	}
 
 	public function overwrite( $new_source_file_path ) {
-		Jet\IO_File::copy($new_source_file_path, $this->getFilePath() );
+		IO_File::copy($new_source_file_path, $this->getFilePath() );
 
-		$source_image_file = new Jet\Image( $new_source_file_path );
+		$source_image_file = new Image( $new_source_file_path );
 
 		$this->setImageSizeH( $source_image_file->getHeight() );
 		$this->setImageSizeW( $source_image_file->getWidth() );
 		$this->setFileMimeType( $source_image_file->getMimeType() );
-		$this->setFileSize( Jet\IO_File::getSize( $new_source_file_path ) );
+		$this->setFileSize( IO_File::getSize( $new_source_file_path ) );
 
 		foreach( $this->thumbnails as $thumbnail ) {
 			$thumbnail->setImage($this);
@@ -381,23 +386,23 @@ class Gallery_Image extends Jet\DataModel {
 
 		$image->setOffset( $offset );
 
-		$source_image_file = new Jet\Image( $source_file_path );
+		$source_image_file = new Image( $source_file_path );
 
 		$image->setImageSizeH( $source_image_file->getHeight() );
 		$image->setImageSizeW( $source_image_file->getWidth() );
 		$image->setFileName( $source_file_name ? $source_file_name : $source_image_file->getFileName() );
 		$image->setFileMimeType( $source_image_file->getMimeType() );
-		$image->setFileSize( Jet\IO_File::getSize( $source_file_path ) );
+		$image->setFileSize( IO_File::getSize( $source_file_path ) );
 
 		$offset_dir = $image->getOffsetDirPath();
 
-		if( !Jet\IO_Dir::exists($offset_dir) ) {
-			Jet\IO_Dir::create( $offset_dir );
+		if( !IO_Dir::exists($offset_dir) ) {
+			IO_Dir::create( $offset_dir );
 		}
-		Jet\IO_Dir::create( $image->getDirPath() );
-		Jet\IO_Dir::create( $image->getThumbnailsDirPath() );
+		IO_Dir::create( $image->getDirPath() );
+		IO_Dir::create( $image->getThumbnailsDirPath() );
 
-		Jet\IO_File::copy($source_file_path, $image->getFilePath() );
+		IO_File::copy($source_file_path, $image->getFilePath() );
 
 		$image->validateProperties();
 		if(!$do_not_save_imindietly) {
@@ -429,11 +434,11 @@ class Gallery_Image extends Jet\DataModel {
 	 *
 	 * @param string $gallery_ID (optional)
 	 *
-	 * @return Jet\DataModel_Fetch_Data_Assoc
+	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getListAsData( $gallery_ID='' ) {
 		/**
-		 * @var Jet\DataModel $i;
+		 * @var DataModel $i;
 		 */
 		$i = new self();
 		$props = $i->getDataModelDefinition()->getProperties();

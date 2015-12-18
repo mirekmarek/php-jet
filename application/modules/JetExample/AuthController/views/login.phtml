@@ -1,5 +1,8 @@
+<?php
+use Jet\Tr;
+?>
 <?php if($this->incorrect_login): ?>
-	<?=Jet\Tr::_('Invalid user name or password!');?>
+	<?=Tr::_('Invalid user name or password!');?>
 <?php endif; ?>
 
 <div style="width: 400px;text-align: left;">
@@ -18,7 +21,7 @@
 		<jet_form_field name="password" class="form-control"/>
 	</div>
 
-	<input type="submit" value="<?=Jet\Tr::_('Login');?>" class="btn btn-primary"/>
+	<input type="submit" value="<?=Tr::_('Login');?>" class="btn btn-primary"/>
 
 </jet_form>
 

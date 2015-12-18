@@ -1,6 +1,9 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;
+use Jet\Tr;
+use Jet\Mvc_Page;
+use Jet\Auth;
 ?>
 
 <jetml_layout_container id="_jet_main_border_" gutters="false" style="width:100%;height:100%;">
@@ -12,8 +15,8 @@ use Jet;
 		<jetml_form_button title="Test module" icon="module/JetExample.TestModule/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.TestModule');" />
 
         <div style="position: absolute;top:5px; right: 10px;">
-            <?=Jet\Tr::_('Current user: %USERNAME%', array('USERNAME' => Jet\Auth::getCurrentUser()->getLogin()));?>
-            <a href="<?=Jet\Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Jet\Tr::_('LOGOUT');?></a>
+            <?=Tr::_('Current user: %USERNAME%', array('USERNAME' => Auth::getCurrentUser()->getLogin()));?>
+            <a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Tr::_('LOGOUT');?></a>
         </div>
 
 	</jetml_layout_toolbar>

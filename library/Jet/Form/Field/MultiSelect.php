@@ -26,12 +26,12 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $error_messages = array(
+	protected $error_messages = [
 				'input_missing' => 'input_missing',
 				'empty' => 'empty',
 				'invalid_format' => 'invalid_format',
 				'invalid_value' => 'invalid_value'
-			);
+	];
 
 	/**
 	 * Validates values
@@ -41,11 +41,11 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	public function validateValue() {
 		$options = $this->select_options;
 		if(!$this->_value) {
-			$this->_value = array();
+			$this->_value = [];
 		}
 
 		if(!is_array($this->_value)) {
-			$this->_value = array( $this->_value );
+			$this->_value = [$this->_value];
 		}
 
 		foreach($this->_value as $item){
@@ -90,17 +90,17 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 
 			if(is_array($this->_value_raw)){
 				if(!empty($this->_value_raw)){
-					$this->_value = array();
+					$this->_value = [];
 					foreach($this->_value_raw as $item){
 						$this->_value[]=$item;
 					}
 				}			
 			}else{
-				$this->_value = array( $this->_value_raw );
+				$this->_value = [$this->_value_raw];
 			}
 		} else {
 			$this->_value_raw = null;
-			$this->_value = array();
+			$this->_value = [];
 		}
 	}
 

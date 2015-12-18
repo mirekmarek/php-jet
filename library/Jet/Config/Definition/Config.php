@@ -22,7 +22,7 @@ class Config_Definition_Config extends Object {
 	/**
 	 * Property definition classes names prefix
 	 */
-	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Jet\Config_Definition_Property';
+	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Config_Definition_Property';
 
 	/**
 	 * @var string
@@ -43,7 +43,7 @@ class Config_Definition_Config extends Object {
 	/**
 	 * @var Config_Definition_Property_Abstract[]
 	 */
-	protected $properties_definition = array();
+	protected $properties_definition = [];
 
 	/**
 	 * @param string $class_name
@@ -60,9 +60,9 @@ class Config_Definition_Config extends Object {
 		$this->data_path = Object_Reflection::get( $class_name, 'config_data_path', '' );
 		$this->section_is_obligatory = Object_Reflection::get( $class_name, 'config_section_is_obligatory', true );
 
-		$propertied_definition_data = Object_Reflection::get( $class_name, 'config_properties_definition', array() );
+		$propertied_definition_data = Object_Reflection::get( $class_name, 'config_properties_definition', []);
 
-		$this->properties_definition = array();
+		$this->properties_definition = [];
 		foreach( $propertied_definition_data as $property_name=>$definition_data ) {
 			if(
 				!isset($definition_data['type']) ||
@@ -75,13 +75,11 @@ class Config_Definition_Config extends Object {
 
 			}
 
-			$class_name = static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_'.$definition_data['type'];
+			$class_name = __NAMESPACE__.'\\'.static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_'.$definition_data['type'];
 
 			unset($definition_data['type']);
 
 			$property = new $class_name( $class_name, $property_name, $definition_data );
-
-			//Factory::checkInstance(static::BASE_PROPERTY_DEFINITION_CLASS_NAME.'_Abstract', $property);
 
 			$this->properties_definition[$property_name] = $property;
 
@@ -193,11 +191,22 @@ class Config_Definition_Config extends Object {
 		$definition,
 		$value
 	) {
+		switch($key) {
+			case 'config_factory_class_name':
+				$value = Object_Reflection::parseClassName($value);
+				break;
+			case 'form_field_get_default_value_callback':
+			case 'form_field_get_select_options_callback':
+				$value = Object_Reflection::parseCallback($value);
+				break;
+
+		}
+
 		if(!isset($reflection_data['config_properties_definition'])) {
-			$reflection_data['config_properties_definition'] = array();
+			$reflection_data['config_properties_definition'] = [];
 		}
 		if(!isset($reflection_data['config_properties_definition'][$property_name])) {
-			$reflection_data['config_properties_definition'][$property_name] = array();
+			$reflection_data['config_properties_definition'][$property_name] = [];
 		}
 
 		$reflection_data['config_properties_definition'][$property_name][$key] = $value;

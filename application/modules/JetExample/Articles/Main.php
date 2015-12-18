@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Application_Modules_Module_Abstract;
+use Jet\Mvc;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
 	protected $ACL_actions = array(
 		'get_article' => 'Get article(s) data',
 		'add_article' => 'Add new article',
@@ -32,7 +34,7 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	public function getViewsDir() {
 		$dir = parent::getViewsDir();
 
-		if(Jet\Mvc::getIsAdminUIRequest()) {
+		if(Mvc::getIsAdminUIRequest()) {
 			return $dir.'admin/';
 		} else {
 			return $dir.'public/';
@@ -46,8 +48,8 @@ class Main extends Jet\Application_Modules_Module_Abstract {
      */
 	protected function getControllerClassName( $service_type ) {
 
-		if($service_type!=Jet\Mvc::SERVICE_TYPE_REST) {
-			if( Jet\Mvc::getIsAdminUIRequest() ) {
+		if($service_type!=Mvc::SERVICE_TYPE_REST) {
+			if( Mvc::getIsAdminUIRequest() ) {
 				$controller_suffix = 'Controller_Admin_'.$service_type;
 
 			} else {

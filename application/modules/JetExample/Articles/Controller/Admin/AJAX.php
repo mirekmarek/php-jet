@@ -14,8 +14,9 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Mvc_Controller_AJAX;
 
-class Controller_Admin_AJAX extends Jet\Mvc_Controller_AJAX {
+class Controller_Admin_AJAX extends Mvc_Controller_AJAX {
 	/**
 	 *
 	 * @var Main

@@ -21,7 +21,7 @@ class Memcache extends Object {
 	/**
 	 * @var Memcache_Connection_Abstract[]
 	 */
-	protected static $connections = array();
+	protected static $connections = [];
 
 	/**
 	 * Get connection instance (configured Memcache client)

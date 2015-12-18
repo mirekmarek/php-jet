@@ -35,11 +35,11 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 
 
 	public function initialize() {
-		$this->_db = Db::create('datamodel_sqlite_connection', array(
+		$this->_db = Db::create('datamodel_sqlite_connection', [
 			'name' => 'datamodel_cache_sqlite_connection',
-			'driver' => DB::DRIVER_SQLITE,
+			'driver' => Db::DRIVER_SQLITE,
 			'DSN' => $this->config->getDSN()
-		));
+		]);
 
 		$this->_table_name = $this->config->getTableName();
 	}
@@ -56,12 +56,12 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 					`class_name`=:class_name AND
 					`model_name`=:model_name AND
 					`object_ID`=:object_ID',
-				array(
+				[
 					'class_name' => $data_model_definition->getClassName(),
 					'model_name' => $data_model_definition->getModelName(),
 					'object_ID' => (string)$ID,
 
-				)
+				]
 			);
 		if(!$data) {
 			return false;
@@ -85,12 +85,12 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function save(DataModel_Definition_Model_Abstract $data_model_definition, $ID, $data) {
 
-		$data = array(
+		$data = [
 			'class_name' => $data_model_definition->getClassName(),
 			'model_name' => $data_model_definition->getModelName(),
 			'object_ID' => (string)$ID,
 			'data' => $this->serialize($data)
-		);
+		];
 
 		$this->_db->execCommand('INSERT OR IGNORE INTO `'.$this->_table_name.'`
 					(
@@ -125,12 +125,12 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 						`model_name`=:model_name AND
 						`object_ID`=:object_ID
 						',
-			array(
+			[
 				'data' => $this->serialize($data),
 				'class_name' => $data_model_definition->getClassName(),
 				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID
-			) );
+			]);
 	}
 
 
@@ -140,11 +140,11 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 	 */
 	public function delete(DataModel_Definition_Model_Abstract $data_model_definition,$ID) {
 		$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `class_name`=:class_name AND `model_name`=:model_name AND `object_ID`=:object_ID',
-			array(
+			[
 				'class_name' => $data_model_definition->getClassName(),
 				'model_name' => $data_model_definition->getModelName(),
 				'object_ID' => (string)$ID,
-			));
+			]);
 	}
 
 
@@ -156,9 +156,9 @@ class DataModel_Cache_Backend_SQLite extends DataModel_Cache_Backend_Abstract {
 			$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'`');
 		} else {
 			$this->_db->execCommand('DELETE FROM `'.$this->_table_name.'` WHERE `model_name`=:model_name',
-				array(
+				[
 					'model_name' => $model_name,
-				));
+				]);
 		}
 	}
 

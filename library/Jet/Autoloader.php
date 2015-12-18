@@ -25,13 +25,13 @@ class Autoloader {
 	/**
 	 * @var Autoloader_Loader_Abstract[]
 	 */
-	protected static $loaders = array();
+	protected static $loaders = [];
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected static $classes_paths_map = array();
+	protected static $classes_paths_map = [];
 
 	/**
 	 *
@@ -78,7 +78,7 @@ class Autoloader {
 		self::$is_initialized = true;
 
 
-		spl_autoload_register( array('\Jet\Autoloader', 'load'), true, true );
+		spl_autoload_register( [__NAMESPACE__.'\Autoloader', 'load'], true, true );
 
 	}
 
@@ -199,7 +199,7 @@ class Autoloader {
 
 		if( ! ($loader instanceof Autoloader_Loader_Abstract) ){
 			throw new Autoloader_Exception(
-				'Autoloader class \''.$loader_class_name.'\' must extend Jet\Autoloader_Loader_Abstract class.',
+				'Autoloader class \''.$loader_class_name.'\' must extend '.__NAMESPACE__.'\Autoloader_Loader_Abstract class.',
 				Autoloader_Exception::CODE_INVALID_AUTOLOADER_CLASS
 			);
 		}

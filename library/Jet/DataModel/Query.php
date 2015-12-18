@@ -37,7 +37,7 @@ class DataModel_Query extends Object {
 	/**
 	 * @var array
 	 */
-	public static $_available_operators = array(
+	public static $_available_operators = [
 		self::O_NOT_EQUAL,
 		self::O_NOT_LIKE,
 		self::O_GREATER_THAN_OR_EQUAL,
@@ -47,7 +47,7 @@ class DataModel_Query extends Object {
 		self::O_GREATER_THAN,
 		self::O_LESS_THAN,
 
-	);
+	];
 
 	/**
 	 * @var string
@@ -69,7 +69,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @var DataModel_Definition_Relation_Abstract[]
 	 */
-	protected $relations = array();
+	protected $relations = [];
 
 
 	/**
@@ -136,7 +136,7 @@ class DataModel_Query extends Object {
 	 * @throws DataModel_Query_Exception
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( DataModel_Definition_Model_Abstract $main_data_model_definition, array $where=array() ) {
+	public static function createQuery( DataModel_Definition_Model_Abstract $main_data_model_definition, array $where= []) {
 
 		$result = new self( $main_data_model_definition );
 		if($where) {
@@ -181,7 +181,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @param array $items
 	 *
-	 * @return \Jet\DataModel_Query
+	 * @return DataModel_Query
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
@@ -201,7 +201,7 @@ class DataModel_Query extends Object {
 	/**
 	 * @param array $where
 	 *
-	 * @return \Jet\DataModel_Query
+	 * @return DataModel_Query
 	 */
 	public function setWhere( array $where ) {
 		$this->where = new DataModel_Query_Where( $this, $where );
@@ -220,7 +220,7 @@ class DataModel_Query extends Object {
 	/**
 	 * @param array $having
 	 *
-	 * @return \Jet\DataModel_Query
+	 * @return DataModel_Query
 	 */
 	public function setHaving( array $having ) {
 		$this->having = new DataModel_Query_Having( $this, $having );
@@ -241,7 +241,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @param string[]|string $group_by
 	 *
-	 * @return \Jet\DataModel_Query
+	 * @return DataModel_Query
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
@@ -264,7 +264,7 @@ class DataModel_Query extends Object {
 	 *
 	 * @param string[]|string $order_by
 	 *
-	 * @return \Jet\DataModel_Query
+	 * @return DataModel_Query
 	 *
 	 * @throws DataModel_Query_Exception
 	 *
@@ -289,7 +289,7 @@ class DataModel_Query extends Object {
 	 * @param int $limit
 	 * @param int $offset (optional)
 	 *
-	 * @return \Jet\DataModel_Query
+	 * @return DataModel_Query
 	 */
 	public function setLimit( $limit, $offset=null ) {
 		$this->limit = (int)$limit;

@@ -60,7 +60,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	 *
 	 * @var Application_Modules_Module_Abstract[]
 	 */
-	protected $module_instance = array();
+	protected $module_instance = [];
 
 	/**
 	 * Internal flag. Used in autoloader
@@ -143,8 +143,8 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 		$path = $this->modules_list_file_path;
 
 		if(!IO_File::exists($path)) {
-			$this->installed_modules_list = array();
-			return array();
+			$this->installed_modules_list = [];
+			return [];
 		}
 
 		if(!is_readable($path)){
@@ -174,7 +174,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 			return $this->all_modules_list;
 		}
 
-		$this->all_modules_list = array();
+		$this->all_modules_list = [];
 
 		$this->getInstalledModulesList();
 
@@ -194,7 +194,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 		}
 
 		$installed_modules_list = $this->getInstalledModulesList();
-		$this->activated_modules_list = array();
+		$this->activated_modules_list = [];
 
 		foreach($installed_modules_list as $module_name=>$module_manifest) {
 			/**
@@ -339,7 +339,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 
 		$all_modules = $this->getAllModulesList();
 
-		$required_modules = array();
+		$required_modules = [];
 
 		foreach( $module_manifest->getRequire() as $required_module_name ) {
 
@@ -411,6 +411,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 		$this->installation_in_progress = true;
 		$this->installation_in_progress_module_name = $module_name;
 
+		/**
+		 * @var Application_Modules_Exception $uninstall_exception
+		 */
 		$uninstall_exception = null;
 
 		try {
@@ -455,7 +458,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 
 		$activated_modules = $this->getActivatedModulesList();
 
-		$required_modules = array();
+		$required_modules = [];
 
 		$module_manifest = $this->getModuleManifest( $module_name );
 
@@ -489,7 +492,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 
 		$module_manifest->setIsActivated(true);
 
-		$this->_saveInstalledModulesList($this->installed_modules_list);
+		$this->_saveInstalledModulesList();
 		$this->activated_modules_list[$module_name] = $module_manifest;
 	}
 
@@ -521,7 +524,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 		$module_manifest->setIsActivated(false);
 
 		unset($this->activated_modules_list[$module_name]);
-		$this->_saveInstalledModulesList($this->installed_modules_list);
+		$this->_saveInstalledModulesList();
 	}
 
 	/**
@@ -603,7 +606,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 
 		if( !$module instanceof Application_Modules_Module_Abstract ) {
 			throw new Application_Modules_Exception(
-				'Class \''.$module_name.'\' is not instance of Jet\Application_Modules_Module_Abstract',
+				'Class \''.$module_name.'\' is not instance of '.__NAMESPACE__.'\Application_Modules_Module_Abstract',
 				Application_Modules_Exception::CODE_ERROR_CREATING_MODULE_INSTANCE
 			);
 		}
@@ -699,7 +702,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler_Ab
 	protected function _checkModuleDependencies( $module_name ) {
 		$activated_modules = $this->getActivatedModulesList();
 
-		$dependent_modules = array();
+		$dependent_modules = [];
 
 		foreach( $activated_modules as $d_module_name => $module_manifest ) {
 			/**

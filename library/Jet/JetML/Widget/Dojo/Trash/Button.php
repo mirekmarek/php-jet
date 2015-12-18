@@ -29,7 +29,7 @@ class JetML_Widget_Dojo_Trash_Button extends JetML_Widget_Dojo_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'trash_id' );
+	protected $internal_properties = ['icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'trash_id'];
 
 	/**
 	 * @return \DOMElement

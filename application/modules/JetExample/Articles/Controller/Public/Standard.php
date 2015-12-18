@@ -10,8 +10,12 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Page_Content_Abstract;
+use Jet\Mvc;
+use Jet\Data_Paginator;
 
-class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Public_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -36,13 +40,13 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
 	}
 
     /**
-     * @param Jet\Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Abstract $page_content
      *
      * @return bool
      */
-    public function parseRequestURL_Public( Jet\Mvc_Page_Content_Abstract $page_content ) {
+    public function parseRequestURL_Public( Mvc_Page_Content_Abstract $page_content ) {
 
-        $router = Jet\Mvc::getCurrentRouter();
+        $router = Mvc::getCurrentRouter();
 
         if( count($router->getPathFragments())>1 ) {
             return false;
@@ -83,12 +87,12 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
      */
     public function list_Action() {
         $article = new Article();
-        $router = Jet\Mvc::getCurrentRouter();
+        $router = Mvc::getCurrentRouter();
 
-        $paginator = new Jet\Data_Paginator(
+        $paginator = new Data_Paginator(
             $router->parsePathFragmentIntValue( 'page:%VAL%', 1 ),
             $this->public_list_items_per_page,
-            Jet\Mvc::getCurrentPage()->getURI().'page:'.Jet\Data_Paginator::URL_PAGE_NO_KEY.'/'
+            Mvc::getCurrentPage()->getURI().'page:'.Data_Paginator::URL_PAGE_NO_KEY.'/'
         );
 
 
@@ -107,7 +111,7 @@ class Controller_Public_Standard extends Jet\Mvc_Controller_Standard {
      * @param Article $article
      */
     public function detail_Action( Article $article ) {
-        Jet\Mvc::getCurrentPage()->addBreadcrumbNavigationData($article->getTitle());
+        Mvc::getCurrentPage()->addBreadcrumbNavigationData($article->getTitle());
 
 		$this->view->setVar('article', $article);
 

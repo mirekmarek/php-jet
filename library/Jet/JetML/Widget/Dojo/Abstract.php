@@ -33,23 +33,23 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $required_css = array();
+	protected $required_css = [];
 
 	/**
 	 *
 	 * @var array
 	 */
-	protected $internal_properties = array('icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'custom_translator_namespace', 'custom_translator_locale', 'translation_data' );
+	protected $internal_properties = ['icon', 'icon_size', 'flag', 'flag_size', 'dojotype', 'custom_translator_namespace', 'custom_translator_locale', 'translation_data'];
 
 	/**
 	 * @var array
 	 */
-	protected $translate_properties = array('title');
+	protected $translate_properties = ['title'];
 
 	/**
 	 * @var array
 	 */
-	protected $dojo_props_real_names_map = array();
+	protected $dojo_props_real_names_map = [];
 
 
 	/**
@@ -71,13 +71,13 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 					is_array($this->required_css) &&
 					isset($this->required_css[$dojo_component])
 				) {
-					$dojo->requireComponent($dojo_component, array( 'css' => $this->required_css[$dojo_component] ));
+					$dojo->requireComponent($dojo_component, ['css' => $this->required_css[$dojo_component]]);
 				} else {
-					$dojo->requireComponent($dojo_component, array());
+					$dojo->requireComponent($dojo_component, []);
 				}
 			}
 		} else {
-			$dojo->requireComponent($this->dojo_type, array( 'css' => $this->required_css ));
+			$dojo->requireComponent($this->dojo_type, ['css' => $this->required_css]);
 		}
 
         Mvc::requireJavascriptLib($dojo);
@@ -90,9 +90,9 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	public function getReplacement() {
 
 
-		$dojo_props = array();
+		$dojo_props = [];
 
-		$attributes = array();
+		$attributes = [];
 
 		foreach($this->node->attributes as $attribute){
 			/**
@@ -151,10 +151,10 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 
 		$tag_content = $this->_getTagContent();
 
-		$child_nodes = array();
+		$child_nodes = [];
 		if($tag_content!==null) {
 			if(!is_array($tag_content)) {
-				$tag_content = array($tag_content);
+				$tag_content = [$tag_content];
 			}
 
 			$child_nodes = $tag_content;
@@ -182,7 +182,7 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	 * @return array
 	 */
 	protected function _formatDojoProps( array $dojo_props ) {
-		$_dojo_props = array();
+		$_dojo_props = [];
 		foreach( $dojo_props as $k=>$val) {
 			if(
 				is_string($val) &&

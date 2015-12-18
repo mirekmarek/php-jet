@@ -14,8 +14,9 @@
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;
+use Jet\Mvc_Controller_JetJS;
 
-class Controller_JetJS extends Jet\Mvc_Controller_JetJS {
+class Controller_JetJS extends Mvc_Controller_JetJS {
     /**
      *
      * @var Main

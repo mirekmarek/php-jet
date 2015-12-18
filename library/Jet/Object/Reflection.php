@@ -2,7 +2,7 @@
 /**
  *
  *
- * @copyright Copyright (c) 2014 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2014-2015 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -28,12 +28,89 @@ class Object_Reflection {
 	/**
 	 * @var array
 	 */
-	protected static $_save_list = array();
+	protected static $_save_list = [];
 
 	/**
 	 * @var array
 	 */
-	protected static $_reflections = array();
+	protected static $_reflections = [];
+
+
+	/**
+	 * @param string $class_name
+	 * @return string
+	 */
+	public static function parseClassName( $class_name ) {
+
+		$prefix = 'module:';
+		$prefix_len = strlen($prefix);
+
+		if(substr($class_name,0, $prefix_len)==$prefix) {
+
+			list($module_name, $class_name) = explode('\\', substr($class_name, $prefix_len));
+
+			$module_manifest = Application_Modules::getModuleManifest($module_name);
+
+			$class_name = $module_manifest->getNamespace().$class_name;
+
+			return $class_name;
+		}
+
+		if(strpos($class_name,'\\')===false) {
+			$class_name = __NAMESPACE__.'\\'.$class_name;
+		}
+
+		return $class_name;
+
+	}
+
+	/**
+	 * @param callable|array $callback
+	 *
+	 * @return array
+	 */
+	public static function parseCallback( $callback ) {
+		if(is_array($callback)) {
+			if($callback[0]!='this') {
+				$callback[0] = static::parseClassName($callback[0]);
+			}
+		}
+
+		return $callback;
+	}
+
+	/**
+	 * @param string $class
+	 * @param \ReflectionClass $reflection
+	 * @param string $definition
+	 * @param string $value_raw
+	 * @return mixed
+	 *
+	 * @throws Object_Reflection_Exception
+	 */
+	public static function parseValue(
+							$class,
+							/** @noinspection PhpUnusedParameterInspection */
+							\ReflectionClass $reflection,
+							$definition,
+							$value_raw
+						) {
+		$value = null;
+
+		$eval_code = '';
+		$eval_code .= 'namespace '.__NAMESPACE__.';';
+		$eval_code .= '$value='.$value_raw.'; return true;';
+
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
+		$eval_res = @eval($eval_code);
+
+		if( !$eval_res ) {
+			throw new Object_Reflection_Exception( 'Value parse error! Class:\''.$class.'\', Definition: \''.$definition.'\' ' );
+		}
+
+		return $value;
+	}
+
 
 	/**
 	 * @param $class
@@ -59,7 +136,7 @@ class Object_Reflection {
 			}
 		}
 
-		$reflection_data = array();
+		$reflection_data = [];
 
 
 		$reflection = new \ReflectionClass( $class );
@@ -67,7 +144,7 @@ class Object_Reflection {
 		/**
 		 * @var \ReflectionClass[] $reflections
 		 */
-		$reflections = array();
+		$reflections = [];
 
 		while($reflection) {
 
@@ -92,7 +169,7 @@ class Object_Reflection {
 			 */
 			$doc_comment=$reflection->getDocComment();
 
-			$matches = array();
+			$matches = [];
 
 			preg_match_all('/@Jet([a-zA-Z_]*):([^=]*)=(.*)/', $doc_comment, $matches, PREG_SET_ORDER);
 
@@ -103,18 +180,13 @@ class Object_Reflection {
 				$key = trim($m[2]);
 				$value_raw = trim($m[3]);
 
-				$value = null;
-				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				$eval_res = @eval('$value='.$value_raw.'; return true;');
+				$value = static::parseValue( $class, $reflection, $definition, $value_raw );
 
-				if( !$eval_res ) {
-					throw new Object_Reflection_Exception( 'Value parse error! Class:\''.$class.'\', Definition: \''.$definition.'\' ' );
-				}
 
 				/**
 				 * @var Object_Reflection_ParserInterface $_class_name
 				 */
-				$_class_name = 'Jet\\'.$class_name;
+				$_class_name = __NAMESPACE__.'\\'.$class_name;
 
 				$_class_name::parseClassDocComment( $reflection_data, $key, $definition, $value );
 
@@ -127,7 +199,7 @@ class Object_Reflection {
 
 				$comment = $prop_ref->getDocComment();
 
-				$matches = array();
+				$matches = [];
 
 				preg_match_all('/@Jet([a-zA-Z]*):([^=]*)=(.*)/', $comment, $matches, PREG_SET_ORDER);
 
@@ -143,18 +215,13 @@ class Object_Reflection {
 					$key = trim($m[2]);
 					$raw_value = trim($m[3]);
 
-					$value = null;
-					/** @noinspection PhpUsageOfSilenceOperatorInspection */
-					$eval_res = @eval('$value='.$raw_value.'; return true;');
+					$value = static::parseValue( $class, $reflection, $definition, $raw_value );
 
-					if( !$eval_res ) {
-						throw new Object_Reflection_Exception( 'Value parse error! Class:\''.$class.'\', Definition: \''.$definition.'\' ' );
-					}
 
 					/**
 					 * @var Object_Reflection_ParserInterface $_class_name
 					 */
-					$_class_name = 'Jet\\'.$class_name;
+					$_class_name = __NAMESPACE__.'\\'.$class_name;
 
 					$_class_name::parsePropertyDocComment( $reflection_data, $property_name, $key, $definition, $value );
 				}

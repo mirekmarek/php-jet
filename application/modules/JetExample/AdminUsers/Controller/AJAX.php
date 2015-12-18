@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
+use Jet\Mvc_Controller_AJAX;
+use Jet\Auth_Factory;
 
-class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
+class Controller_AJAX extends Mvc_Controller_AJAX {
 	/**
 	 *
 	 * @var Main
@@ -35,7 +37,7 @@ class Controller_AJAX extends Jet\Mvc_Controller_AJAX {
 
 
 	function default_Action() {
-		$role = Jet\Auth_Factory::getUserInstance();
+		$role = Auth_Factory::getUserInstance();
 		$form = $role->getCommonForm();
 		$form->enableDecorator('Dojo');
 

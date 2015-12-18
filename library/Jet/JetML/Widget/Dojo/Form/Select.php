@@ -28,7 +28,7 @@ class JetML_Widget_Dojo_Form_Select extends JetML_Widget_Dojo_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $dojo_props_real_names_map = array(
+	protected $dojo_props_real_names_map = [
 				'fetchProperties'=>'sortByLabel',
 				'fetchproperties'=>'fetchProperties',
 				'hasdownarrow' => 'hasDownArrow',
@@ -39,6 +39,6 @@ class JetML_Widget_Dojo_Form_Select extends JetML_Widget_Dojo_Abstract {
 				'valueattr' => 'valueAttr',
 				'labelattr' => 'labelAttr',
 				'labeltype' => 'labelType',
-			);
+	];
 
 }

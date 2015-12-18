@@ -19,12 +19,12 @@ class DataModel_RecordData implements \Iterator {
 	/**
 	 * @var DataModel_RecordData_Item[]
 	 */
-	protected $items = array();
+	protected $items = [];
 
 	/**
 	 * @var DataModel_Definition_Model_Abstract
 	 */
-	protected $data_model;
+	protected $data_model_definition;
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $data_model_definition

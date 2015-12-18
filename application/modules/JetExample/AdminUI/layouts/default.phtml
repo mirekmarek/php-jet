@@ -1,3 +1,8 @@
+<?php
+use Jet\Tr;
+use Jet\Mvc_Page;
+use Jet\Auth;
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,8 +17,8 @@
 	</div>
 
 	<div style="position: absolute;top:5px; right: 10px;">
-		<?=Jet\Tr::_('Current user: %USERNAME%', array('USERNAME' => Jet\Auth::getCurrentUser()->getLogin()));?>
-		<a href="<?=Jet\Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Jet\Tr::_('LOGOUT');?></a>
+		<?=Tr::_('Current user: %USERNAME%', array('USERNAME' => Auth::getCurrentUser()->getLogin()));?>
+		<a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Tr::_('LOGOUT');?></a>
 	</div>
 
 	<div style="height: 25px;"></div>

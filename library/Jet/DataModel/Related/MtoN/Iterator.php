@@ -78,7 +78,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	/**
 	 * @var DataModel_Related_MtoN[]
 	 */
-	protected $deleted_items = array();
+	protected $deleted_items = [];
 
 
 
@@ -107,17 +107,17 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	/**
 	 * @param array $where
 	 */
-	public function setLoadRealtedDataWhereQueryPart( array $where)
+	public function setLoadRelatedDataWhereQueryPart(array $where)
 	{
-		$this->_getEmptyItemInstance()->setLoadRealtedDataWhereQueryPart($where);
+		$this->_getEmptyItemInstance()->setLoadRelatedDataWhereQueryPart($where);
 	}
 
 	/**
 	 * @param array $order_by
 	 */
-	public function setLoadRealtedDataOrderBy( array $order_by)
+	public function setLoadRelatedDataOrderBy(array $order_by)
 	{
-		$this->_getEmptyItemInstance()->setLoadRealtedDataOrderBy( $order_by );
+		$this->_getEmptyItemInstance()->setLoadRelatedDataOrderBy( $order_by );
 	}
 
 	/**
@@ -248,7 +248,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 		if($this->items) {
 			$this->deleted_items = $this->items;
 		}
-		$this->items = array();
+		$this->items = [];
 	}
 
 	/**
@@ -269,7 +269,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function setItems( $N_instances ) {
 
-		$add_items = array();
+		$add_items = [];
 
 		foreach( $this->items as $i=>$item ) {
 			$exists = false;
@@ -311,7 +311,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return DataModel_ID_Abstract[]
 	 */
 	public function getIDs() {
-		$IDs = array();
+		$IDs = [];
 
 		foreach( $this->items as $item ) {
 			$IDs[] = $item->getNID();
@@ -326,7 +326,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return array
 	 */
 	public function __sleep() {
-		return array();
+		return [];
 	}
 
 	public function __wakeup() {
@@ -355,7 +355,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	public function createRelatedInstancesFromLoadedRelatedData(array &$loaded_related_data)
 	{
 
-		$this->deleted_items = array();
+		$this->deleted_items = [];
 
 		$this->items = $this->_getEmptyItemInstance()->createRelatedInstancesFromLoadedRelatedData($loaded_related_data);
 
@@ -367,7 +367,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return array
 	 */
 	public function getCommonFormPropertiesList() {
-		return array();
+		return [];
 	}
 
 
@@ -379,7 +379,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return Form_Field_Abstract[]
 	 */
 	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
-		return array();
+		return [];
 	}
 
 	/**
@@ -398,7 +398,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function getValidationErrors()
 	{
-		$result = array();
+		$result = [];
 
 		if($this->items) {
 			foreach( $this->items as $item) {
@@ -449,7 +449,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 */
 	public function jsonSerialize() {
 
-		$res = array();
+		$res = [];
 
 		if(!$this->items) {
 			return $res;
@@ -467,7 +467,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return string
 	 */
 	public function toXML() {
-		$res = array();
+		$res = [];
 		if(is_array($this->items)) {
 			foreach($this->items as $d) {
 				/**
@@ -663,7 +663,7 @@ class DataModel_Related_MtoN_Iterator implements \ArrayAccess, \Iterator, \Count
 	 * @return DataModel_Related_MtoN
 	 */
 	protected function _getCurrentItem( DataModel_Related_MtoN $item ) {
-		return $item->getNinstance();
+		return $item->getInstanceOfN();
 	}
 
 	/**

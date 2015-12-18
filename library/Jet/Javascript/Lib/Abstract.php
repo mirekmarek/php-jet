@@ -21,9 +21,9 @@ namespace Jet;
 /**
  * Class Javascript_Lib_Abstract
  *
- * @JetFactory:class = 'Jet\Javascript_Factory'
+ * @JetFactory:class = 'Javascript_Factory'
  * @JetFactory:method = 'getJavascriptLibInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Javascript_Lib_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Javascript_Lib_Abstract'
  */
 abstract class Javascript_Lib_Abstract extends Object {
 
@@ -39,22 +39,25 @@ abstract class Javascript_Lib_Abstract extends Object {
 	 *
 	 * @var string[]
 	 */
-	protected $required_components = array();
+	protected $required_components = [];
 
 	/**
 	 * Required CSS files to components.
 	 *
 	 * @var string[]
 	 */
-	protected $required_components_CSS = array();
+	protected $required_components_CSS = [];
 
 	/**
 	 * Some options
 	 *
 	 * @var mixed[]
 	 */
-	protected $options = array();
+	protected $options = [];
 
+	/**
+	 *
+	 */
 	public function __construct(  ) {
 	}
 
@@ -101,7 +104,7 @@ abstract class Javascript_Lib_Abstract extends Object {
 	public function requireComponent(
 		$component,
 		/** @noinspection PhpUnusedParameterInspection */
-		$parameters=array()
+		$parameters= []
 	) {
 		if( in_array( $component, $this->required_components ) ) {
 			return;

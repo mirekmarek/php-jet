@@ -22,12 +22,13 @@ trait Object_Trait {
 	 * @return bool
 	 */
 	public function getHasSignal( $signal_name ) {
-		$signals = Object_Reflection::get( get_class($this), 'signals', array() );
+		$signals = Object_Reflection::get( get_class($this), 'signals', []);
 
 		return in_array( $signal_name, $signals );
 	}
 
 	/**
+	 *
 	 * @param string $signal_name
 	 *
 	 * @return string
@@ -47,7 +48,7 @@ trait Object_Trait {
 	 *
 	 * @return Application_Signals_Signal
 	 */
-	public function sendSignal( $signal_name, array $signal_data=array() ) {
+	public function sendSignal( $signal_name, array $signal_data= []) {
 
 		/** @var $this Object_Interface */
 		$signal = Application_Signals::createSignal( $this, $signal_name, $signal_data );

@@ -34,23 +34,23 @@ class Form_Field_FileImage extends Form_Field_File {
 	/**
 	 * @var array
 	 */
-	protected $error_messages = array(
+	protected $error_messages = [
 		'input_missing' => 'input_missing',
 		'empty' => 'empty',
 		'file_is_too_large' => 'file_is_too_large',
 		'disallowed_file_type' => 'disallowed_file_type'
-	);
+	];
 
 	/**
 	 * @var array
 	 */
-	protected $allowed_mime_types = array(
+	protected $allowed_mime_types = [
 		'image/pjpeg',
 		'image/jpeg',
 		'image/jpg',
 		'image/gif',
 		'image/png'
-	);
+	];
 
 	/**
 	 * @var null|int

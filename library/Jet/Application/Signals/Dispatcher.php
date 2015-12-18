@@ -26,12 +26,12 @@ class Application_Signals_Dispatcher extends Object {
 	 *
 	 * @var array 
 	 */
-	protected static $callbacks = array();
+	protected static $callbacks = [];
 
 	/**
 	 * @var Application_Signals_Signal[]
 	 */
-	protected static $signal_queue = array();
+	protected static $signal_queue = [];
 
 	/**
 	 * @var Application_Signals_Signal
@@ -50,7 +50,7 @@ class Application_Signals_Dispatcher extends Object {
 	 */
 	public static function addCallback( $signal_name, callable $callback ) {
 		if(!isset(static::$callbacks[$signal_name])) {
-			static::$callbacks[$signal_name] = array();
+			static::$callbacks[$signal_name] = [];
 		}
 
 		$callback_ID = $signal_name.'~'.count( static::$callbacks[$signal_name] );
@@ -140,7 +140,7 @@ class Application_Signals_Dispatcher extends Object {
 				}
 			}
 
-			$active_modules = array();
+			$active_modules = [];
 			try {
 				$active_modules = Application_Modules::getActivatedModulesList();
 			} catch( Application_Modules_Exception $e ) {
@@ -163,7 +163,7 @@ class Application_Signals_Dispatcher extends Object {
 
 				$callbacks = $signal_callbacks[$signal_name];
 				if( !is_array($callbacks) ){
-					$callbacks = array($callbacks);
+					$callbacks = [$callbacks];
 				}
 
 
@@ -175,7 +175,7 @@ class Application_Signals_Dispatcher extends Object {
 		}
 
 		static::$current_signal = null;
-		static::$signal_queue = array();
+		static::$signal_queue = [];
 	}
 
 	/**

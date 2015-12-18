@@ -1,6 +1,9 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
+use Jet\Tr;
+use Jet\Locale;
+
 /**
  * @var Article $article
  */
@@ -15,6 +18,6 @@ $article = $this->article;
 <?=$article->getText();?>
 
 <div>
-	<?=Jet\Tr::_('Date:');?>
-	<?=Jet\Locale::dateAndTime($article->getDateTime());?>
+	<?=Tr::_('Date:');?>
+	<?=Locale::dateAndTime($article->getDateTime());?>
 </div>

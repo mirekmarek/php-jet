@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;
+use Jet\Mvc_View;
+use Jet\Application_Modules_Module_Abstract;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
 
 	/**
 	 * @return DataGrid
@@ -32,9 +34,9 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	}
 
 	/**
-	 * @return Jet\Mvc_View
+	 * @return Mvc_View
 	 */
 	public function getViewInstance() {
-		return new Jet\Mvc_View( $this->getViewsDir() );
+		return new Mvc_View( $this->getViewsDir() );
 	}
 }

@@ -135,7 +135,7 @@ class Mvc_View extends Mvc_View_Abstract {
 	 */
 	protected function handleConstants(&$result) {
 
-		$data = array();
+		$data = [];
 
 		if($this->module_name) {
 			$module_manifest = Application_Modules::getModuleManifest($this->module_name);

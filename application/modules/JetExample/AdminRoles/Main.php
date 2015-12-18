@@ -11,8 +11,10 @@
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
+use Jet\Application_Modules_Module_Abstract;
+use Jet\Mvc_MicroRouter;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
 	protected $ACL_actions = array(
 		'get_role' => 'Get role(s) data',
 		'add_role' => 'Add new role',
@@ -26,7 +28,7 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	protected $public_list_items_per_page = 10;
 
 	/**
-	 * @var Jet\Mvc_MicroRouter
+	 * @var Mvc_MicroRouter
 	 */
 	protected $_micro_router;
 

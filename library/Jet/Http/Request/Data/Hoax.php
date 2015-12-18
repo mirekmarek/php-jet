@@ -25,6 +25,8 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param string $name
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function __get($name) {
@@ -32,6 +34,9 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param string $name
+	 * @param mixed $value
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function __set($name, $value) {
@@ -39,6 +44,8 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param string $name
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function __unset($name) {
@@ -46,6 +53,8 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param string $name
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function __isset($name) {
@@ -88,6 +97,9 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param mixed $offset
+	 * @param mixed $value
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetSet($offset, $value) {
@@ -95,6 +107,10 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param mixed $offset
+	 *
+	 * @return bool
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetExists($offset) {
@@ -102,6 +118,8 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param mixed $offset
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetUnset($offset) {
@@ -109,6 +127,9 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	}
 
 	/**
+	 * @param mixed $offset
+	 * @return mixed
+	 *
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetGet($offset) {

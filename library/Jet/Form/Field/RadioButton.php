@@ -27,12 +27,12 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $error_messages = array(
+	protected $error_messages = [
 				'input_missing' => 'input_missing',
 				'empty' => 'empty',
 				'invalid_format' => 'invalid_format',
 				'invalid_value' => 'invalid_value'
-			);
+	];
 
 
 	/**
@@ -146,10 +146,10 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 
 		}
 
-		return Data_Text::replaceData($template, array(
+		return Data_Text::replaceData($template, [
 			'LABEL' => $label,
 			'FIELD' => $field
-		));
+		]);
 
 	}	
 	

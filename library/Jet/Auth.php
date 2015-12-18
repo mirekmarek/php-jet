@@ -92,11 +92,11 @@ class Auth extends Object {
 	 */
 	public static function login( $login, $password ) {
 		if(!static::getCurrentAuthController()->login( $login, $password )) {
-			static::logEvent('login_failed', array('login'=>$login), 'Login failed. Login: \''.$login.'\'');
+			static::logEvent('login_failed', ['login'=>$login], 'Login failed. Login: \''.$login.'\'');
 			return false;
 		} else {
 			$user_ID = static::getCurrentUser()->getID();
-			static::logEvent('login', array('login'=>$login, 'user_ID'=>$user_ID), 'Login successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
+			static::logEvent('login', ['login'=>$login, 'user_ID'=>$user_ID], 'Login successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 			return true;
 		}
 	}
@@ -111,7 +111,7 @@ class Auth extends Object {
 		if($user) {
 			$login = $user->getLogin();
 			$user_ID = $user->getID();
-			static::logEvent('logout', array('login'=>$login, 'user_ID'=>$user_ID), 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
+			static::logEvent('logout', ['login'=>$login, 'user_ID'=>$user_ID], 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_ID.'\'');
 		}
 
 		return static::getCurrentAuthController()->logout();
@@ -253,7 +253,7 @@ class Auth extends Object {
 	public static function getAvailablePrivilegesList() {
 
 		if(!static::getCurrentAuthController()) {
-			return array();
+			return [];
 		}
 
 		return static::getCurrentAuthController()->getAvailablePrivilegesList();

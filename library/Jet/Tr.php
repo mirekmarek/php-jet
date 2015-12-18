@@ -3,7 +3,7 @@
  *
  *
  *
- * Simplified class calling @see Jet\Translator (just to shorten code)
+ * Simplified class calling @see Translator (just to shorten code)
  *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>

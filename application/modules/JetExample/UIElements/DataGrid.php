@@ -14,8 +14,15 @@
  */
 namespace JetApplicationModule\JetExample\UIElements;
 use Jet;
+use Jet\Object;
+use Jet\Data_Paginator;
+use Jet\DataModel_Fetch_Data_Abstract;
+use Jet\DataModel_Fetch_Object_Abstract;
+use Jet\DataModel_Query;
+use Jet\Session;
+use Jet\Http_Request;
 
-class DataGrid extends Jet\Object {
+class DataGrid extends Object {
 
 	/**
 	 * @var Main
@@ -28,7 +35,7 @@ class DataGrid extends Jet\Object {
 	protected $columns = array();
 
 	/**
-	 * @var Jet\Data_Paginator
+	 * @var Data_Paginator
 	 */
 	protected $paginator;
 
@@ -127,14 +134,14 @@ class DataGrid extends Jet\Object {
 
 	/**
 	 *
-	 * @param Jet\Data_Paginator $paginator
+	 * @param Data_Paginator $paginator
 	 */
-	public function setPaginator( Jet\Data_Paginator $paginator) {
+	public function setPaginator( Data_Paginator $paginator) {
 		$this->paginator = $paginator;
 	}
 
 	/**
-	 * @return Jet\Data_Paginator|null
+	 * @return Data_Paginator|null
 	 */
 	public function getPaginator() {
 		return $this->paginator;
@@ -154,14 +161,14 @@ class DataGrid extends Jet\Object {
 
 		if(
 			(
-				$data instanceof Jet\DataModel_Fetch_Data_Abstract ||
-				$data instanceof Jet\DataModel_Fetch_Object_Abstract
+				$data instanceof DataModel_Fetch_Data_Abstract ||
+				$data instanceof DataModel_Fetch_Object_Abstract
 			) &&
 			($sort = $this->handleSortRequest())
 		) {
 			/**
-			 * @var Jet\DataModel_Fetch_Data_Abstract $data
-			 * @var Jet\DataModel_Query $query
+			 * @var DataModel_Fetch_Data_Abstract $data
+			 * @var DataModel_Query $query
 			 */
 			$query = $data->getQuery();
 
@@ -177,8 +184,8 @@ class DataGrid extends Jet\Object {
 			}
 
 			if(
-				$data instanceof Jet\DataModel_Fetch_Data_Abstract ||
-				$data instanceof Jet\DataModel_Fetch_Object_Abstract
+				$data instanceof DataModel_Fetch_Data_Abstract ||
+				$data instanceof DataModel_Fetch_Object_Abstract
 			){
 				$this->paginator->setDataSource( $data );
 			}
@@ -197,7 +204,7 @@ class DataGrid extends Jet\Object {
 		if($this->paginator) {
 
 			if($this->session_name) {
-				$session = new Jet\Session( $this->session_name );
+				$session = new Session( $this->session_name );
 				$session->setValue('page_no', $this->paginator->getCurrentPageNo());
 			}
 
@@ -374,16 +381,16 @@ class DataGrid extends Jet\Object {
 
 		if($this->root_URI) {
 			if(strpos($this->root_URI, '?')===false) {
-				$URL_template = $this->root_URI.'?'.$this->paginator_get_parameter.'='.Jet\Data_Paginator::URL_PAGE_NO_KEY;
+				$URL_template = $this->root_URI.'?'.$this->paginator_get_parameter.'='.Data_Paginator::URL_PAGE_NO_KEY;
 			} else {
-				$URL_template = $this->root_URI.'&amp;'.$this->paginator_get_parameter.'='.Jet\Data_Paginator::URL_PAGE_NO_KEY;
+				$URL_template = $this->root_URI.'&amp;'.$this->paginator_get_parameter.'='.Data_Paginator::URL_PAGE_NO_KEY;
 			}
 		} else {
-			$URL_template = '?'.$this->paginator_get_parameter.'='.Jet\Data_Paginator::URL_PAGE_NO_KEY;
+			$URL_template = '?'.$this->paginator_get_parameter.'='.Data_Paginator::URL_PAGE_NO_KEY;
 		}
 
 		if($this->session_name) {
-			$session = new Jet\Session( $this->session_name );
+			$session = new Session( $this->session_name );
 			$default_page_no = $session->getValue('page_no', 1);
 		} else {
 			$default_page_no = 1;
@@ -392,8 +399,8 @@ class DataGrid extends Jet\Object {
 
 
 
-		$this->paginator = new Jet\Data_Paginator(
-			Jet\Http_Request::GET()->getInt($this->paginator_get_parameter, $default_page_no),
+		$this->paginator = new Data_Paginator(
+			Http_Request::GET()->getInt($this->paginator_get_parameter, $default_page_no),
 			$this->paginator_items_per_page,
 			$URL_template
 		);
@@ -420,7 +427,7 @@ class DataGrid extends Jet\Object {
 
 		$session = false;
 		if($this->session_name) {
-			$session = new Jet\Session( $this->session_name );
+			$session = new Session( $this->session_name );
 		}
 
 
@@ -430,7 +437,7 @@ class DataGrid extends Jet\Object {
 			$this->sort_by = $sort_options[0];
 		}
 
-		if( $sort = Jet\Http_Request::GET()->getString($this->sort_get_parameter) ) {
+		if( $sort = Http_Request::GET()->getString($this->sort_get_parameter) ) {
 			if( in_array($sort, $sort_options) ) {
 				$this->sort_by = $sort;
 			}

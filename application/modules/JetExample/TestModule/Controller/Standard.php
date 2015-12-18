@@ -13,8 +13,10 @@
  */
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc;
 
-class Controller_Standard extends Jet\Mvc_Controller_Standard {
+class Controller_Standard extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -45,7 +47,7 @@ class Controller_Standard extends Jet\Mvc_Controller_Standard {
 	 */
 	public function main_menu_Action() {
 
-        $this->view->setVar('site_tree_current', [Jet\Mvc::getCurrentSite()->getHomepage( Jet\Mvc::getCurrentLocale() )]  );
+        $this->view->setVar('site_tree_current', [Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() )]  );
 
 		$this->render('main-menu' );
 	}

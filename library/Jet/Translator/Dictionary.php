@@ -31,7 +31,7 @@ class Translator_Dictionary extends Object {
 	/**
 	 * @var Translator_Dictionary_Phrase[]
 	 */
-	protected $phrases = array();
+	protected $phrases = [];
 
 	/**
 	 * @var bool
@@ -164,12 +164,12 @@ class Translator_Dictionary extends Object {
 
 				$locale = new Locale($locale);
 
-				return array($namespace, $locale);
+				return [$namespace, $locale];
 			}
 
 		}
 
-		return array(false, false);
+		return [false, false];
 	}
 
 	/**

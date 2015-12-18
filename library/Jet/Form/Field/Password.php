@@ -32,13 +32,13 @@ class Form_Field_Password extends Form_Field_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $error_messages = array(
+	protected $error_messages = [
 				'input_missing' => 'input_missing',
 				'empty' => 'empty',
 				'check_empty' => 'check_empty',
 				'check_not_match' => 'check_not_match',
 				'thin_password' => 'thin_password'
-			);
+	];
 
 
 	/**
@@ -204,10 +204,10 @@ class Form_Field_Password extends Form_Field_Abstract {
 			$this->is_required &&
 			$label
 		) {
-			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), array('LABEL'=>$label));
+			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), ['LABEL'=>$label]);
 		}
 
-		$tag_data->setProperty('for', $this->getID(),'_check' );
+		$tag_data->setProperty('for', $this->getID().'_check' );
 
 
 		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
@@ -241,17 +241,17 @@ class Form_Field_Password extends Form_Field_Abstract {
 			$template = $this->__form->getTemplate_field();
 		}
 
-		$result = Data_Text::replaceData($template, array(
+		$result = Data_Text::replaceData($template, [
 			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
 			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'"/>'
 					  .'<jet_form_field name="'.$this->_name.'" class="form-control"/>'
-		));
+		]);
 
 		if( !$this->disable_check ) {
-			$result .= Data_Text::replaceData($template, array(
+			$result .= Data_Text::replaceData($template, [
 				'LABEL' => '<jet_form_field_check_label name="'.$this->_name.'"/>',
 				'FIELD' => '<jet_form_field_check name="'.$this->_name.'" class="form-control"/>'
-			));
+			]);
 		}
 
 		return $result;

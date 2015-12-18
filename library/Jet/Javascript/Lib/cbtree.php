@@ -93,7 +93,7 @@ class Javascript_Lib_cbtree extends Javascript_Lib_Abstract {
 	 * @param string $component
 	 * @param array $parameters(optional)
 	 */
-	public function requireComponent( $component, $parameters=array() ) {
+	public function requireComponent( $component, $parameters= []) {
         $dojo = new Javascript_Lib_Dojo();
 
         $dojo->requireComponent( $component );

@@ -15,6 +15,9 @@
 
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet;
+use Jet\DataModel;
+use Jet\DateTime;
+use Jet\Http_Request;
 
 /**
  * Class Event
@@ -23,13 +26,13 @@ use Jet;
  * @JetDataModel:database_table_name = 'Jet_Auth_Events'
  * @JetDataModel:forced_history_enabled = false
  * @JetDataModel:forced_cache_enabled = false
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Event extends Jet\DataModel {
+class Event extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -38,16 +41,16 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_DATE_TIME
+	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:is_required = true
 	 *
-	 * @var Jet\DateTime
+	 * @var DateTime
 	 */
 	protected $date_time;
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = true
 	 *
@@ -57,7 +60,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 1024
 	 * @JetDataModel:is_required = true
 	 *
@@ -67,7 +70,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 134217728
 	 * @JetDataModel:is_required = true
 	 *
@@ -77,7 +80,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = false
 	 *
@@ -87,7 +90,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:is_required = false
 	 *
@@ -97,7 +100,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
 	 * @JetDataModel:is_required = true
 	 *
@@ -107,7 +110,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 134217728
 	 * @JetDataModel:is_required = false
 	 *
@@ -117,7 +120,7 @@ class Event extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 45
 	 * @JetDataModel:is_required = true
 	 *
@@ -127,7 +130,7 @@ class Event extends Jet\DataModel {
 
 
 	/**
-	 * @return Jet\DateTime
+	 * @return DateTime
 	 */
 	public function getDateTime() {
 		return $this->date_time;
@@ -203,17 +206,17 @@ class Event extends Jet\DataModel {
 	public static function logEvent( $event, $event_data, $event_txt, $user_ID, $user_login ) {
 		$event_i = new self();
 
-		$event_i->date_time = Jet\DateTime::now();
+		$event_i->date_time = DateTime::now();
 		$event_i->event = $event;
 		$event_i->event_data = json_encode($event_data);
 		$event_i->event_txt = $event_txt;
 		$event_i->user_ID = $user_ID;
 		$event_i->user_login = $user_login;
 
-		$event_i->request_URL = Jet\Http_Request::getURL();
-		$event_i->remote_IP = Jet\Http_Request::getClientIP();
+		$event_i->request_URL = Http_Request::getURL();
+		$event_i->remote_IP = Http_Request::getClientIP();
 
-		$request_data = Jet\Http_Request::getRawPostData();
+		$request_data = Http_Request::getRawPostData();
 
 		$event_i->request_data = json_encode($request_data);
 

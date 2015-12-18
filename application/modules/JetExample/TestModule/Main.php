@@ -14,8 +14,10 @@
  */
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
+use Jet\Application_Signals_Signal;
+use Jet\Application_Modules_Module_Abstract;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
     /**
      * @return string
      */
@@ -24,15 +26,15 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	}
 
     /**
-     * @param Jet\Application_Signals_Signal $signal
+     * @param Application_Signals_Signal $signal
      */
-    public function testAck(Jet\Application_Signals_Signal $signal){
+    public function testAck(Application_Signals_Signal $signal){
 		echo 'TestModule: ACK signal received.\n';
 		var_dump($signal->getName(), $signal->getData(), $signal->getSender());
 	}
 
     /**
-     * @return Jet\Application_Signals_Signal
+     * @return Application_Signals_Signal
      */
     public function sendReceived(){
 		echo 'TestModule: sending test/received\n';
@@ -40,7 +42,7 @@ class Main extends Jet\Application_Modules_Module_Abstract {
 	}
 
     /**
-     * @return Jet\Application_Signals_Signal
+     * @return Application_Signals_Signal
      */
     public function sendMultiple(){
 		echo 'TestModule: sending test/multiple\n';

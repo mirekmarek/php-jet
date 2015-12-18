@@ -265,9 +265,8 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 	}
 
 
-
 	/**
-	 *
+	 * @param string $operation
 	 */
 	public function updateDataModelCache( $operation ) {
 		if(!$this->__main_model_instance) {

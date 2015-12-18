@@ -21,8 +21,8 @@ namespace Jet;
  * Class Mvc_Site_LocalizedData_URL_Default
  *
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_URLs'
- * @JetDataModel:parent_model_class_name = 'Jet\Mvc_Site_LocalizedData_Default'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Passive'
+ * @JetDataModel:parent_model_class_name = 'Mvc_Site_LocalizedData_Default'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
 class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abstract {
 
@@ -44,10 +44,10 @@ class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abst
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_label = 'URL:'
-	 * @JetDataModel:form_field_type = Jet\Form::TYPE_INPUT
+	 * @JetDataModel:form_field_type = Form::TYPE_INPUT
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -56,7 +56,7 @@ class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abst
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
@@ -65,7 +65,7 @@ class Mvc_Site_LocalizedData_URL_Default extends Mvc_Site_LocalizedData_URL_Abst
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_BOOL
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool

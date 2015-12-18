@@ -22,7 +22,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	/**
 	 * @var array
 	 */
-	protected $default_value = array();
+	protected $default_value = [];
 
 	/**
 	 * @var string
@@ -52,12 +52,12 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	/**
 	 * @var Config_Section[]
 	 */
-	protected $_configs = array();
+	protected $_configs = [];
 
 	/**
 	 * @var string[]
 	 */
-	protected $_deleted_configs = array();
+	protected $_deleted_configs = [];
 
 
 	/**
@@ -71,6 +71,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 		}
 
 		parent::setUp($definition_data);
+
 	}
 
 	/**
@@ -111,7 +112,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 		/**
 		 * @var callable $callback
 		 */
-		$callback = array( $this->config_factory_class_name, $this->config_factory_method_name );
+		$callback = [$this->config_factory_class_name, $this->config_factory_method_name];
 
 		$this->_configs[$name] = $callback(
 			$data->getRaw($config_path),
@@ -133,7 +134,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 
 		if(!$data->exists($this->data_path)) {
 			if($this->_configuration->getSoftMode()) {
-				$data->set($this->data_path, array());
+				$data->set($this->data_path, []);
 			} else {
 				throw new Config_Exception(
 					'There is not \''.$this->data_path.'\' section in the config file '.$this->_configuration->getConfigFilePath().'!',
@@ -181,7 +182,7 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	public function toArray() {
 		$this->getAllConfigurationItems();
 
-		$result = array();
+		$result = [];
 		foreach($this->_configs as $name=>$cfg) {
 			if(in_array($name, $this->_deleted_configs)) {
 				continue;

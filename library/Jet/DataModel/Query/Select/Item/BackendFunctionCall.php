@@ -21,7 +21,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends Object {
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * Example:
@@ -46,7 +46,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends Object {
 	 */
 	public function  __construct( $properties, $backend_function  ) {
 		if(!is_array($properties)) {
-			$properties = array($properties);
+			$properties = [$properties];
 		}
 
 		foreach($properties as $property) {

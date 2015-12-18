@@ -55,7 +55,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $nodes = array();
+	protected $nodes = [];
 
 	/**
 	 *
@@ -87,7 +87,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $_iterator_map = array();
+	protected $_iterator_map = [];
 
 	/**
 	 * @var array
@@ -130,10 +130,10 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function setNodeClassName( $nodes_class_name ) {
 		if(
 			$nodes_class_name !== 'Jet\Data_Tree_Node' &&
-			!is_subclass_of($nodes_class_name, 'Jet\Data_Tree_Node')
+			!is_subclass_of($nodes_class_name, __NAMESPACE__.'\Data_Tree_Node')
 		) {
 			throw new Data_Tree_Exception(
-				'Tree node class \''.$nodes_class_name.'\' must be Jet\Data_Tree_Node class or descendant class',
+				'Tree node class \''.$nodes_class_name.'\' must be '.__NAMESPACE__.'\Data_Tree_Node class or descendant class',
 				Data_Tree_Exception::CODE_INVALID_NODES_CLASS
 			);
 		}
@@ -350,7 +350,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			return false;
 		}
 
-		$path = array();
+		$path = [];
 		$path[] = $target_node->getID();
 
 		while( ($parent=$target_node->getParent()) ) {
@@ -462,13 +462,19 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	protected function _setData( $items ){
 
-		$this->__parent_map = array();
+		$this->__parent_map = [];
 
+		/**
+		 * @var array $root_item
+		 */
 		$root_item = null;
 
 		$IDs = [];
 
 		foreach( $items as $item ) {
+			/**
+			 * @var array $item
+			 */
 			$ID = $this->getDataItemID($item);
 			$parent_ID = $this->getDataParentItemID($item);
 
@@ -499,7 +505,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			} else {
 
 				if( !isset($this->__parent_map[$parent_ID]) ) {
-					$this->__parent_map[$parent_ID] = array();
+					$this->__parent_map[$parent_ID] = [];
 				}
 
 				$this->__parent_map[$parent_ID][$ID] = $item;
@@ -611,12 +617,12 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	}
 
 
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Jet\Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
+	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
 
 	/**
 	 * @return string
@@ -643,11 +649,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	public function jsonSerialize() {
 
 
-		$data = array(
+		$data = [
 			'identifier' => $this->ID_key,
 			'label' => $this->label_key,
 			'items' => $this->toArray()
-		);
+		];
 
 		return $data;
 

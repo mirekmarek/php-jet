@@ -19,7 +19,7 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 	/**
 	 * @var DataModel_Query_Where_Expression[]
 	 */
-	protected $items = array();
+	protected $items = [];
 
 
 	/**
@@ -28,11 +28,11 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 	 * @param string[]|string $order_by
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return \Jet\DataModel_Query_OrderBy
+	 * @return DataModel_Query_OrderBy
 	 */
 	public function __construct( DataModel_Query $query, $order_by ) {
 		if(!is_array($order_by)) {
-			$order_by = array($order_by);
+			$order_by = [$order_by];
 		}
 
 		$select = $query->getSelect();
@@ -45,7 +45,7 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 
 		}
 
-		$this->items = array();
+		$this->items = [];
 		foreach($order_by as $ob) {
 			if(!$ob) {
 				continue;

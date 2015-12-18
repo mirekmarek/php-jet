@@ -10,21 +10,30 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
+use Jet\DataModel;
+use Jet\DataModel_Fetch_Data_Assoc;
+use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\Form;
+use Jet\Form_Factory;
+use Jet\Form_Field_FileImage;
+use Jet\Tr;
+use Jet\Data_Tree;
+use Jet\IO_Dir;
 
 /**
  * Class Gallery
  *
  * @JetDataModel:name = 'ImageGallery'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  *
- * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['ID'=>'gallery_ID'], Jet\DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['ID'=>'gallery_ID'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */
-class Gallery extends Jet\DataModel {
+class Gallery extends DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_required = true
 	 *
 	 * @var string
@@ -33,7 +42,7 @@ class Gallery extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_ID
+	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -42,7 +51,7 @@ class Gallery extends Jet\DataModel {
 
 	/**
 	 *
-	 * @JetDataModel:type = Jet\DataModel::TYPE_STRING
+	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
@@ -100,8 +109,8 @@ class Gallery extends Jet\DataModel {
 	 */
 	public function getBaseDirPath() {
 		$base_dir = JET_PUBLIC_PATH.'imagegallery/';
-		if(!Jet\IO_Dir::exists($base_dir)) {
-			Jet\IO_Dir::create( $base_dir );
+		if(!IO_Dir::exists($base_dir)) {
+			IO_Dir::create( $base_dir );
 		}
 
 		return $base_dir;
@@ -178,24 +187,24 @@ class Gallery extends Jet\DataModel {
 
 
 	/**
-	 * @return Jet\Form
+	 * @return Form
 	 */
 	public function getUploadForm() {
-		$form = new Jet\Form('gallery_image_upload', array(
-			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_FILE_IMAGE, 'file', 'Upload image' ),
-			Jet\Form_Factory::getFieldInstance( Jet\Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
+		$form = new Form('gallery_image_upload', array(
+			Form_Factory::getFieldInstance( Form::TYPE_FILE_IMAGE, 'file', 'Upload image' ),
+			Form_Factory::getFieldInstance( Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
 		));
 
 		return $form;
 	}
 
 	/**
-	 * @param Jet\Form $form
+	 * @param Form $form
 	 * @param bool $force_catch
 	 *
 	 * @return bool|Gallery_Image
 	 */
-	public function catchUploadForm( Jet\Form $form, $force_catch=false ) {
+	public function catchUploadForm( Form $form, $force_catch=false ) {
 
 		if(
 			!$form->catchValues(null, $force_catch) ||
@@ -208,7 +217,7 @@ class Gallery extends Jet\DataModel {
 
 
 		/**
-		 * @var Jet\Form_Field_FileImage $img_field
+		 * @var Form_Field_FileImage $img_field
 		 */
 		$img_field = $form->getField('file');
 
@@ -219,7 +228,7 @@ class Gallery extends Jet\DataModel {
 			!$overwrite_if_exists &&
 			$this->getImageExists( $file_name )
 		) {
-			$form->setCommonErrorMessage( Jet\Tr::_('Image is already uploaded. Use \'Overwrite image if exists\' option if you want to overwrite it. ') );
+			$form->setCommonErrorMessage( Tr::_('Image is already uploaded. Use \'Overwrite image if exists\' option if you want to overwrite it. ') );
 
 			return false;
 		}
@@ -231,7 +240,7 @@ class Gallery extends Jet\DataModel {
 				$overwrite_if_exists
 			);
 		} catch( Exception $e ) {
-			$form->setCommonErrorMessage( Jet\Tr::_($e->getMessage()) );
+			$form->setCommonErrorMessage( Tr::_($e->getMessage()) );
 
 			return false;
 		}
@@ -293,11 +302,11 @@ class Gallery extends Jet\DataModel {
 	/**
 	 * @static
 	 *
-	 * @return Jet\DataModel_Fetch_Data_Assoc
+	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getListAsData() {
 		/**
-		 * @var Jet\DataModel $i;
+		 * @var DataModel $i;
 		 */
 		$i = new self();
 		$props = $i->getDataModelDefinition()->getProperties();
@@ -307,7 +316,7 @@ class Gallery extends Jet\DataModel {
 	/**
 	 * @param string $parent_ID
 	 *
-	 * @return Jet\DataModel_Fetch_Object_Assoc|Gallery[]
+	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
 	 */
 	public static function getChildren( $parent_ID ) {
 		return (new self())->fetchObjects( [[ 'this.parent_ID'=>$parent_ID ]]);
@@ -325,7 +334,7 @@ class Gallery extends Jet\DataModel {
 
 
 	/**
-	 * @returnJet\Data_Tree
+	 * @return Data_Tree
 	 */
 	public static function getTree() {
 		$data = (new self())->getListAsData()->toArray();
@@ -334,12 +343,12 @@ class Gallery extends Jet\DataModel {
 			array(
 				'ID'=>'_root_',
 				'parent_ID' => '',
-				'title' => Jet\Tr::_('Galleries')
+				'title' => Tr::_('Galleries')
 			)
 		);
 
 
-		$tree = new Jet\Data_Tree();
+		$tree = new Data_Tree();
 		$tree->setData( array_merge($root, $data) );
 		$tree->setLabelKey( 'title' );
 

@@ -25,7 +25,7 @@ namespace Jet;
 
 /**
  *
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_Passive'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
 abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 
@@ -50,12 +50,12 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $load_realted_data_where_query_part = array();
+	protected $load_related_data_where_query_part = [];
 
 	/**
 	 * @var array
 	 */
-	protected $load_realted_data_order_by = array();
+	protected $load_related_data_order_by = [];
 
 	/**
 	 * @var DataModel_ID_Abstract
@@ -207,11 +207,11 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 
 		$query->setSelect( $data_model_definition->getProperties() );
 
-		$relation = $data_model_definition->getNrelation( $this->__data_model_current_M_model_class_name );
+		$relation = $data_model_definition->getRelationToN( $this->__data_model_current_M_model_class_name );
 		$query->addRelation($this->__data_model_current_N_model_name, $relation);
 
 
-		$order_by = $this->getLoadRealtedDataOrderBy();
+		$order_by = $this->getLoadRelatedDataOrderBy();
 		if($order_by) {
 			$query->setOrderBy( $order_by );
 		}
@@ -222,37 +222,37 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	/**
 	 * @param array $where
 	 */
-	public function setLoadRealtedDataWhereQueryPart( array $where)
+	public function setLoadRelatedDataWhereQueryPart(array $where)
 	{
-		$this->load_realted_data_where_query_part = $where;
+		$this->load_related_data_where_query_part = $where;
 	}
 
 	/**
 	 * @return array
 	 */
 	protected function getLoadRelatedDataWhereQueryPart() {
-		return $this->load_realted_data_where_query_part;
+		return $this->load_related_data_where_query_part;
 	}
 
 	/**
 	 * @param array $order_by
 	 */
-	public function setLoadRealtedDataOrderBy( array $order_by)
+	public function setLoadRelatedDataOrderBy(array $order_by)
 	{
-		$this->load_realted_data_order_by = $order_by;
+		$this->load_related_data_order_by = $order_by;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getLoadRealtedDataOrderBy()
+	public function getLoadRelatedDataOrderBy()
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
 		$data_model_definition = $this->getDataModelDefinition();
 
-		return $this->load_realted_data_order_by ? $this->load_realted_data_order_by : $data_model_definition->getDefaultOrderBy();
+		return $this->load_related_data_order_by ? $this->load_related_data_order_by : $data_model_definition->getDefaultOrderBy();
 	}
 
 
@@ -271,7 +271,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 
 
 		$model_name = $data_model_definition->getModelName();
-		$items = array();
+		$items = [];
 
 		if(empty($loaded_related_data[$model_name])) {
 			return $items;
@@ -390,7 +390,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	/**
 	 * @return DataModel|null
 	 */
-	public function getNinstance() {
+	public function getInstanceOfN() {
 		if(!$this->N_instance) {
 
 			$n_class_name = Factory::getClassName(  $this->__data_model_current_N_model_class_name  );
@@ -413,12 +413,17 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 			 */
 			$data_model_definition = $this->getDataModelDefinition();
 
+			/**
+			 * @var DataModel_Definition_Property_Abstract[] $N_ID_properties
+			 */
 			$N_ID_properties = $data_model_definition->getRelationIDProperties($this->__data_model_current_N_model_name);
+
+			$n_class_name = Factory::getClassName(  $this->__data_model_current_N_model_class_name  );
 
 			/**
 			 * @var DataModel $N_model_instance
 			 */
-			$N_model_instance = Factory::getInstance($this->__data_model_current_N_model_class_name);
+			$N_model_instance = new $n_class_name();
 			$this->N_ID = $N_model_instance->getEmptyIDInstance();
 
 			foreach( $N_ID_properties as $N_ID_prop_name=>$N_ID_prop) {
@@ -459,15 +464,15 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	public function __wakeup_relatedItems() {
 	}
 
-	/**
+	/** @noinspection PhpMissingParentCallMagicInspection
 	 *
 	 * @return array
 	 */
 	public function __sleep() {
-		return array();
+		return [];
 	}
 
-	/**
+	/** @noinspection PhpMissingParentCallMagicInspection
 	 *
 	 */
 	public function __wakeup() {
@@ -481,7 +486,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	 * @return Form_Field_Abstract[]
 	 */
 	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
-		return array();
+		return [];
 	}
 
 	/**

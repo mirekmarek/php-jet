@@ -24,13 +24,13 @@ class JetML_Widget_Dojo_Form_Button_Busy extends JetML_Widget_Dojo_Form_Button {
 	/**
 	 * @var array
 	 */
-	protected $translate_properties = array('title', 'busylabel');
+	protected $translate_properties = ['title', 'busylabel'];
 
 	/**
 	 * @var array
 	 */
-	protected $dojo_props_real_names_map = array(
+	protected $dojo_props_real_names_map = [
 		'busylabel' => 'busyLabel'
-	);
+	];
 
 }

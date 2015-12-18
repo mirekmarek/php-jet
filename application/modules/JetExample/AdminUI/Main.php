@@ -16,9 +16,10 @@ namespace JetApplicationModule\JetExample\AdminUI;
 use Jet;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Layout_Initializer_Interface;
+use Jet\Application_Modules_Module_Abstract;
+use Jet\Http_Request;
 
-
-class Main extends Jet\Application_Modules_Module_Abstract implements Mvc_Layout_Initializer_Interface {
+class Main extends Application_Modules_Module_Abstract implements Mvc_Layout_Initializer_Interface {
     const CONTAINER_ID_GET_PARAMETER = 'container_ID';
 
 	/**
@@ -32,7 +33,7 @@ class Main extends Jet\Application_Modules_Module_Abstract implements Mvc_Layout
      */
     public function initializeLayout( Mvc_Layout $layout ) {
 
-        $container_ID = Jet\Http_Request::GET()->getString(static::CONTAINER_ID_GET_PARAMETER);
+        $container_ID = Http_Request::GET()->getString(static::CONTAINER_ID_GET_PARAMETER);
 
         if(
             $container_ID &&

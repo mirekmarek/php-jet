@@ -20,7 +20,7 @@ class Locale extends Object {
 	/**
 	 * @var string[]
 	 */
-	protected static $all_locales = array(
+	protected static $all_locales = [
 		'af_ZA', 'am_ET', 'ar_AE', 'ar_BH', 'ar_DZ', 'ar_EG', 'ar_IQ', 'ar_JO', 'ar_KW', 'ar_LB', 'ar_LY', 'ar_MA',
 		'arn_CL', 'ar_OM', 'ar_QA', 'ar_SA', 'ar_SY', 'ar_TN', 'ar_YE', 'as_IN', 'az_Cyrl_AZ', 'az_Latn_AZ', 'ba_RU',
 		'be_BY', 'bg_BG', 'bn_BD', 'bn_IN', 'bo_CN', 'br_FR', 'bs_Cyrl_BA', 'bs_Latn_BA', 'ca_ES', 'co_FR', 'cs_CZ',
@@ -40,7 +40,7 @@ class Locale extends Object {
 		'sv_SE', 'sw_KE', 'syr_SY', 'ta_IN', 'te_IN', 'tg_Cyrl_TJ', 'th_TH', 'tk_TM', 'tn_ZA', 'tr_TR', 'tt_RU',
 		'tzm_Latn_DZ', 'ug_CN', 'uk_UA', 'ur_PK', 'uz_Cyrl_UZ', 'uz_Latn_UZ', 'vi_VN', 'wo_SN', 'xh_ZA', 'yo_NG',
 		'zh_CN', 'zh_HK', 'zh_MO', 'zh_SG', 'zh_TW', 'zu_ZA'
-	);
+	];
 
 	/**
 	 * Example en_US, cs_CZ and so on
@@ -456,13 +456,13 @@ class Locale extends Object {
 	 */
 	public function formatSize( $bytes, $unit = 'B', $max_places = 2, $glue=' ' ) {
 
-		$units = array(
+		$units = [
 			$unit,
 			'K'.$unit,
 			'M'.$unit,
 			'B'.$unit,
 			'T'.$unit
-		);
+		];
 
 		if( $bytes<=0){
 			return '0'.$glue.$units[0];
@@ -512,7 +512,7 @@ class Locale extends Object {
 			$in_locale = Mvc::getCurrentLocale();
 		}
 
-		$result = array();
+		$result = [];
 
 		if(!class_exists('\Locale', false)) {
 			foreach(static::$all_locales as $locale) {

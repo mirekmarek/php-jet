@@ -30,7 +30,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'Version of TinyMCE'
 	 * @//JetConfig:default_value = '3.5.6'
 	 * @JetConfig:default_value = '4.1'
@@ -41,7 +41,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	protected $version;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'TinyMCE scripts URI or URL'
 	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%tiny_mce/%VERSION%/tiny_mce.js'
 	 * @JetConfig:default_value = '//tinymce.cachefly.net/%VERSION%/tinymce.min.js'
@@ -52,7 +52,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	protected $URI;
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = false
 	 * @//JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE35.js'
 	 * @JetConfig:default_value = '%JET_PUBLIC_SCRIPTS_URI%Jet/WYSIWYG/TinyMCE40.js'
@@ -63,9 +63,9 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_ARRAY
-	 * @JetConfig:item_type = Jet\Config::TYPE_STRING
-	 * @JetConfig:description = 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. For content_css directive can be used Jet\* constants.'
+	 * @JetConfig:type = Config::TYPE_ARRAY
+	 * @JetConfig:item_type = Config::TYPE_STRING
+	 * @JetConfig:description = 'Editor configurations. See http://www.tinymce.com/wiki.php/Configuration. Language directive is set according to current language. JET constants can be used for content_css directive .'
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = array( 'default' => array( 'mode' => 'exact', 'theme' => 'modern', 'apply_source_formatting' => true, 'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true, 'content_css' => '%JET_PUBLIC_STYLES_URI%wysiwyg.css' ) )
 	 *
@@ -91,9 +91,9 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	 * @return string
 	 */
 	public function getURI(){
-		$replacements = array(
+		$replacements = [
 			'VERSION' => $this->version,
-		);
+		];
 
 		return Data_Text::replaceData($this->URI, $replacements);
 //		return Data_Text::replaceSystemConstants($this->URI, $replacements);
@@ -125,7 +125,7 @@ class Javascript_Lib_TinyMCE_Config extends Config_Application {
 	public function getEditorConfigs() {
 		if( $this->_editor_configs===null ) {
 
-			$this->_editor_configs = array();
+			$this->_editor_configs = [];
 
 			if(!$this->editor_configs) {
 				throw new Javascript_Lib_TinyMCE_Exception(

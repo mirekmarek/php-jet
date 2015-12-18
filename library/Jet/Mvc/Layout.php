@@ -58,40 +58,40 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 *
 	 * @var Mvc_Layout_OutputPart[]
 	 */
-	protected $output_parts = array();
+	protected $output_parts = [];
 
 	/**
 	 * @var array
 	 */
-	protected $virtual_positions = array();
+	protected $virtual_positions = [];
 
 	/**
 	 * @see Mvc_Layout::requireJavascript();
 	 *
 	 * @var Javascript_Lib_Abstract[]
 	 */
-	protected $required_javascript_libs = array();
+	protected $required_javascript_libs = [];
 
 
 	/**
 	 * @var string
 	 */
-	protected $required_javascript_files = array();
+	protected $required_javascript_files = [];
 
 	/**
 	 * @var string[]
 	 */
-	protected $required_initial_javascript_code = array();
+	protected $required_initial_javascript_code = [];
 
 	/**
 	 * @var string[]
 	 */
-	protected $required_javascript_code = array();
+	protected $required_javascript_code = [];
 
 	/**
 	 * @var string[][]
 	 */
-	protected $required_css_files = array();
+	protected $required_css_files = [];
 
 	/**
 	 * @var Mvc_Page_Abstract
@@ -142,7 +142,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @return \Jet\Mvc_Page_Abstract
+	 * @return Mvc_Page_Abstract
 	 */
 	public function getPage()
 	{
@@ -278,9 +278,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @return array
 	 */
 	public function getPositionsFromResult( $result, $include_tag=false ) {
-		$positions = array();
+		$positions = [];
 
-		$matches = array();
+		$matches = [];
 		if(preg_match_all('/<'.Mvc_Layout::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
 
 			foreach($matches as $match) {
@@ -380,7 +380,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param Mvc_Layout_OutputPart[] $output_parts
 	 */
 	public function setOutputParts(array $output_parts) {
-		$this->output_parts = array();
+		$this->output_parts = [];
 		foreach($output_parts as $output_part) {
 			$this->setOutputPart($output_part);
 		}
@@ -544,7 +544,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		//$key = $URI.':'.$media;
 
 		if( !isset($this->required_css_files[$media]) ) {
-			$this->required_css_files[$media] = array();
+			$this->required_css_files[$media] = [];
 		}
 
 		$this->required_css_files[$media][] = $URI;
@@ -559,7 +559,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$result = $this->_render();
 
-		$matches = array();
+		$matches = [];
 
 		if( preg_match_all('/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER) ) {
 
@@ -571,7 +571,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				$_properties = explode( '" ', $_properties );
 
 
-				$properties = array();
+				$properties = [];
 
 
 				foreach( $_properties as $property ) {
@@ -598,7 +598,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 
 				if($action_params) {
-					$action_params = array($action_params);
+					$action_params = [$action_params];
 				}
 
 				$position_name = 'module_content_'.md5($orig_str);
@@ -669,7 +669,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$js->finalPostProcess($result, $this);
 		}
 
-		$this->output_parts = array();
+		$this->output_parts = [];
 
 		return $result;
 	}
@@ -721,8 +721,8 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		}
 
 
-		$output = array();
-		$sort_hash = array();
+		$output = [];
+		$sort_hash = [];
 
 		foreach( $this->output_parts as $o_ID=>$o ) {
 			$sort_hash[ $o_ID ] = $o->getPositionOrder();
@@ -771,7 +771,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected function _handlePositions( &$result, $handle_main_position ) {
 
 		$matches_count = 0;
-		$matches = array();
+		$matches = [];
 
 		if(preg_match_all('/<'.self::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER)) {
 
@@ -832,7 +832,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected function handleConstants( &$result ) {
 		if($this->getPage()) {
 
-			$data = array();
+			$data = [];
 
 			$data['JET_SITE_BASE_URI'] = $this->getPage()->getSite()->getBaseURI();
 			$data['JET_SITE_IMAGES_URI'] = $this->getPage()->getSite()->getImagesURI();
@@ -853,7 +853,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handleSitePageTags( &$result ) {
-		$dat = array();
+		$dat = [];
 		$dat[static::TAG_META_TAGS] = '';
 		$dat[static::TAG_HEADER_SUFFIX] = '';
 		$dat[static::TAG_BODY_PREFIX] = '';
@@ -919,9 +919,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	protected function handleModulesJavaScripts( &$result, $current_module_name) {
 
-		$matches = array();
+		$matches = [];
 		preg_match_all(static::JS_REPLACEMENT_REGEXP, $result, $matches, PREG_SET_ORDER);
-		$replacements = array();
+		$replacements = [];
 
 		foreach($matches as $match) {
 			list($search, $module_name) = $match;
@@ -1121,7 +1121,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @return mixed
 	 */
 	protected function _replaceTagByValue( $output, $tag, $snippet ) {
-		$matches = array();
+		$matches = [];
 
 		if( preg_match_all('/<[ ]*'.$tag.'[ ]*\/>/i', $output, $matches, PREG_SET_ORDER) ) {
 			$orig = $matches[0][0];

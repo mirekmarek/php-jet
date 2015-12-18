@@ -20,7 +20,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	/**
 	 * @var DataModel_Query_Having_Expression[]
 	 */
-	protected $expressions = array();
+	protected $expressions = [];
 
 	/**
 	 *
@@ -29,7 +29,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, array $having=array() ) {
+	public function __construct( DataModel_Query $query, array $having= []) {
 		$this->query = $query;
 
 
@@ -168,7 +168,7 @@ class DataModel_Query_Having extends Object implements \Iterator{
 	 * @return string
 	 */
 	public function toString() {
-		$result = array();
+		$result = [];
 
 		foreach($this as $expression) {
 			if(is_object($expression)) {

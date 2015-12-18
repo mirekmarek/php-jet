@@ -24,11 +24,12 @@ abstract class Config_Section extends Config {
 	 */
 	protected $_data;
 
-	/**
+	/** @noinspection PhpMissingParentConstructorInspection
+	 *
 	 * @param array $data
 	 * @param Config $configuration
 	 */
-	public function __construct( array $data, Config $configuration=null ) {
+	public function __construct(array $data, Config $configuration=null ) {
 		if($configuration) {
 			$this->config_file_path = $configuration->getConfigFilePath();
 			$this->soft_mode = $configuration->getSoftMode();

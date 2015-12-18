@@ -5,7 +5,6 @@
  *
  * Default authentication and authorization module
  *
- * @see Jet\Auth
  *
  *
  * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -17,6 +16,25 @@
 
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet;
+use Jet\Application_Modules;
+use Jet\Auth;
+use Jet\Auth_Factory;
+use Jet\Auth_ControllerModule_Abstract;
+use Jet\Auth_User_Abstract;
+use Jet\Auth_Role_Privilege_Provider_Interface;
+use Jet\Auth_Role_Privilege_ContextObject_Interface;
+use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
+use Jet\Mvc;
+use Jet\Mvc_Factory;
+use Jet\Mvc_Layout;
+use Jet\Mvc_Page_Abstract;
+use Jet\DateTime;
+use Jet\Session;
+use Jet\Data_Tree;
+use Jet\Data_Tree_Forest;
+use Jet\Form;
+use Jet\Form_Factory;
+use Jet\Form_Field_Password;
 
 /**
  * Class Main
@@ -24,18 +42,18 @@ use Jet;
  * @JetApplication_Signals:signal = '/user/login'
  * @JetApplication_Signals:signal = '/user/logout'
  */
-class Main extends Jet\Auth_ControllerModule_Abstract {
+class Main extends Auth_ControllerModule_Abstract {
 
 	/**
 	 * @var array
 	 */
 	protected $standard_privileges = array(
-		Jet\Auth::PRIVILEGE_VISIT_PAGE => array(
+		Auth::PRIVILEGE_VISIT_PAGE => array(
 			'label' => 'Sites and pages',
 			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
 		),
 
-		Jet\Auth::PRIVILEGE_MODULE_ACTION => array(
+		Auth::PRIVILEGE_MODULE_ACTION => array(
 			'label' => 'Modules and actions',
 			'get_available_values_list_method_name' => 'getAclActionValuesList_ModulesActions'
 		)
@@ -45,7 +63,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Currently logged user
 	 *
-	 * @var Jet\Auth_User_Abstract
+	 * @var Auth_User_Abstract
 	 */
 	protected $current_user;
 
@@ -71,7 +89,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 			$till = $user->getIsBlockedTill();
 			if(
 				$till!==null &&
-				$till<=Jet\DateTime::now()
+				$till<=DateTime::now()
 			) {
 				$user->unBlock();
 				$user->validateProperties();
@@ -86,7 +104,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 
 			if(
 				$pwd_valid_till!==null &&
-				$pwd_valid_till<=Jet\DateTime::now()
+				$pwd_valid_till<=DateTime::now()
 			) {
 				$user->setPasswordIsValid(false);
 				$user->validateProperties();
@@ -104,11 +122,11 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Returns dispatch queue (example: show login dialog )
 	 *
-	 * @return Jet\Mvc_Page_Abstract
+	 * @return Mvc_Page_Abstract
 	 */
 	public function getAuthenticationPage() {
 
-        $page = Jet\Mvc::getCurrentPage();
+        $page = Mvc::getCurrentPage();
 
 
 		$action = 'login';
@@ -129,7 +147,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 
 
         $page_content = array();
-        $page_content_item = Jet\Mvc_Factory::getPageContentInstance();
+        $page_content_item = Mvc_Factory::getPageContentInstance();
 
         $page_content_item->setModuleName( $this->module_manifest->getName() );
         $page_content_item->setControllerAction( $action );
@@ -141,7 +159,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
         $page->setContents( $page_content );
 
 
-        $layout = new Jet\Mvc_Layout( $this->getLayoutsDir(), 'default' );
+        $layout = new Mvc_Layout( $this->getLayoutsDir(), 'default' );
 
         $page->setLayout( $layout );
 
@@ -151,13 +169,13 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 
 
 	/**
-	 * @return Jet\Session
+	 * @return Session
 	 */
 	protected function getSession() {
-		if( Jet\Mvc::getIsAdminUIRequest() ) {
-			return new Jet\Session('auth_admin');
+		if( Mvc::getIsAdminUIRequest() ) {
+			return new Session('auth_admin');
 		} else {
-			return new Jet\Session('auth_web');
+			return new Session('auth_web');
 		}
 
 	}
@@ -171,7 +189,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 * @return bool
 	 */
 	public function login( $login, $password ) {
-		$user = Jet\Auth_Factory::getUserInstance()->getByIdentity(  $login, $password  );
+		$user = Auth_Factory::getUserInstance()->getByIdentity(  $login, $password  );
 
 		if(!$user)  {
 			return false;
@@ -193,14 +211,14 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	public function logout() {
 		$this->sendSignal('/user/logout');
 
-		Jet\Session::destroy();
+		Session::destroy();
 		$this->current_user = null;
 	}
 
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Jet\Auth_User_Abstract|bool
+	 * @return Auth_User_Abstract|bool
 	 */
 	public function getCurrentUser() {
 		if($this->current_user!==null) {
@@ -216,7 +234,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 		}
 
 
-		$this->current_user = Jet\Auth::getUser($user_ID);
+		$this->current_user = Auth::getUser($user_ID);
 
 		return $this->current_user;
 	}
@@ -227,12 +245,12 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 *
 	 * @param string $privilege
 	 * @param mixed $value
-	 * @param Jet\Auth_Role_Privilege_ContextObject_Interface $context_object (optional)
+	 * @param Auth_Role_Privilege_ContextObject_Interface $context_object (optional)
 	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @return bool
 	 */
-	public function getCurrentUserHasPrivilege( $privilege, $value, Jet\Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true ) {
+	public function getCurrentUserHasPrivilege( $privilege, $value, Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true ) {
 		$res = false;
 
 		$current_user = $this->getCurrentUser();
@@ -310,17 +328,17 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Get login form instance
 	 *
-	 * @return Jet\Form
+	 * @return Form
 	 */
 	function getLoginForm() {
-		$form = new Jet\Form('login', array(
-			Jet\Form_Factory::field('Input', 'login', 'User name: '),
-			Jet\Form_Factory::field('Password', 'password', 'Password:')
+		$form = new Form('login', array(
+			Form_Factory::field('Input', 'login', 'User name: '),
+			Form_Factory::field('Password', 'password', 'Password:')
 		));
 
 		$form->getField('login')->setIsRequired( true );
 		/**
-		 * @var Jet\Form_Field_Password $password
+		 * @var Form_Field_Password $password
 		 */
 		$password = $form->getField('password');
 		$password->setDisableCheck( true );
@@ -330,11 +348,11 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	}
 
 	/**
-	 * @return \Jet\Form
+	 * @return Form
 	 */
 	function getChangePasswordForm() {
-		$form = new Jet\Form('login', array(
-			Jet\Form_Factory::field('Password', 'password', 'Password')
+		$form = new Form('login', array(
+			Form_Factory::field('Password', 'password', 'Password')
 		));
 
 		$form->getField('password')->setIsRequired( true );
@@ -346,7 +364,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 * Get list of available privileges
 	 *
 	 *
-	 * @return Jet\Auth_Role_Privilege_AvailablePrivilegesListItem[]
+	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	public function getAvailablePrivilegesList() {
 		$data = array();
@@ -356,16 +374,16 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 
 			$available_values_list = $this->{$d['get_available_values_list_method_name']}();
 
-			$item = new Jet\Auth_Role_Privilege_AvailablePrivilegesListItem( $privilege, $d['label'], $available_values_list );
+			$item = new Auth_Role_Privilege_AvailablePrivilegesListItem( $privilege, $d['label'], $available_values_list );
 
 			$data[$privilege] = $item;
 		}
 
-		foreach( Jet\Application_Modules::getActivatedModulesList() as $manifest ) {
-			$module = Jet\Application_Modules::getModuleInstance( $manifest->getName() );
-			if( $module instanceof Jet\Auth_Role_Privilege_Provider_Interface ) {
+		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
+			$module = Application_Modules::getModuleInstance( $manifest->getName() );
+			if( $module instanceof Auth_Role_Privilege_Provider_Interface ) {
 				/**
-				 * @var Jet\Auth_Role_Privilege_AvailablePrivilegesListItem[] $av
+				 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $av
 				 */
 				$av = $module->getAvailablePrivileges();
 
@@ -383,7 +401,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	 *
 	 * @param $privilege
 	 *
-	 * @return Jet\Data_Tree_Forest
+	 * @return Data_Tree_Forest
 	 */
 	public function getAvailablePrivilegeValuesList( $privilege ) {
 		$available_privileges = $this->getAvailablePrivilegesList();
@@ -398,18 +416,18 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Get modules and actions ACL values list
 	 *
-	 * @return Jet\Data_Tree_Forest
+	 * @return Data_Tree_Forest
 	 */
 	public function getAclActionValuesList_ModulesActions() {
-		$forest = new Jet\Data_Tree_Forest();
+		$forest = new Data_Tree_Forest();
 		$forest->setLabelKey('name');
 		$forest->setIDKey('ID');
 
-		$modules = Jet\Application_Modules::getActivatedModulesList();
+		$modules = Application_Modules::getActivatedModulesList();
 
 		foreach( $modules as $module_name=>$module_info ) {
 
-			$module = Jet\Application_Modules::getModuleInstance($module_name);
+			$module = Application_Modules::getModuleInstance($module_name);
 
 			$actions = $module->getAclActions();
 
@@ -435,7 +453,7 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 				);
 			}
 
-			$tree = new Jet\Data_Tree();
+			$tree = new Data_Tree();
 			$tree->setData($data);
 
 			$forest->appendTree($tree);
@@ -448,10 +466,10 @@ class Main extends Jet\Auth_ControllerModule_Abstract {
 	/**
 	 * Get sites and pages ACL values list
 	 *
-	 * @return Jet\Data_Tree_Forest
+	 * @return Data_Tree_Forest
 	 */
 	public function getAclActionValuesList_Pages() {
-		return Jet\Mvc_Factory::getPageInstance()->getAllPagesTree();
+		return Mvc_Factory::getPageInstance()->getAllPagesTree();
 	}
 
 }

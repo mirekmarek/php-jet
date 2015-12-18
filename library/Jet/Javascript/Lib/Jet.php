@@ -102,14 +102,14 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 */
 	public function getHTMLSnippet(){
 
-		$Jet_config = array(
+		$Jet_config = [
 			'components_base_URL' => $this->getComponentsBaseURL(),
 			'REST_base_URL' => $this->getRESTBaseURL(),
 			'AJAX_base_URL' => $this->getAJAXBaseURL(),
 			'auto_initialize' => true,
 			'current_locale' => $this->layout->getPage()->getLocale(),
 			'UI_module_name' => $this->getUIModuleName()
-		);
+		];
 		
 		
 
@@ -226,9 +226,9 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 * @return array
 	 */
 	protected function _getDataForReplacement(){
-		$data = array(
+		$data = [
 			'JETJS_URI' => $this->getComponentsBaseURL(),
-		);
+		];
 		return $data;
 	}
 
@@ -270,7 +270,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 * @param string $component - JetJS module
 	 * @param array $parameters(optional)
 	 */
-	public function requireComponent( $component, $parameters=array() ) {
+	public function requireComponent( $component, $parameters= []) {
 		if( in_array( $component, $this->required_components ) ) {
 			return;
 		}
@@ -278,7 +278,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		$this->required_components[] = $component;
 		if(isset($parameters['css']) && $parameters['css']){
 			if(!is_array($parameters['css'])){
-				$parameters['css'] = array($parameters['css']);
+				$parameters['css'] = [$parameters['css']];
 			} 
 			foreach($parameters['css'] as $css){
 				if(in_array($css, $this->required_components_CSS)){

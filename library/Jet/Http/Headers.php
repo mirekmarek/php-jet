@@ -72,7 +72,7 @@ class Http_Headers {
 	 *
 	 * @var array
 	 */
-	protected static $response_messages = array(
+	protected static $response_messages = [
 		200 => 'OK',
 		201 => 'Created',
 		202 => 'Accepted',
@@ -125,7 +125,7 @@ class Http_Headers {
 		511 => 'Network Authentication Required',
 		598 => 'Network read timeout error',
 		599 => 'Network connect timeout error',
-	);
+	];
 
 
 	/**
@@ -223,7 +223,7 @@ class Http_Headers {
 	 *
 	 * @return bool
 	 */
-	public static function response($code, array $headers = array()){
+	public static function response($code, array $headers = []){
 
 
 		$header = static::getResponseHeader($code);
@@ -273,7 +273,7 @@ class Http_Headers {
 	 * @param array $headers (optional)
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function responseOK( array $headers = array() ){
+	public static function responseOK( array $headers = []){
 		static::response(static::CODE_200_OK, $headers);
 	}
 
@@ -286,13 +286,13 @@ class Http_Headers {
 	 * @param array $headers (optional, default: none)
 	 *
 	 */
-	public static function movedPermanently($target_URL, $application_end = true,  array $headers = array()){
+	public static function movedPermanently($target_URL, $application_end = true,  array $headers = []){
 		static::response(
 			static::CODE_301_MOVED_PERMANENTLY,
 			array_merge(
-				array(
+				[
 					'Location' => $target_URL
-				),
+				],
 				$headers
 			)
 		);
@@ -310,13 +310,13 @@ class Http_Headers {
 	 * @param bool $application_end (optional, default: true)
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function movedTemporary($target_URL, $application_end = true,  array $headers = array()){
+	public static function movedTemporary($target_URL, $application_end = true,  array $headers = []){
 		static::response(
 			static::CODE_302_MOVED_TEMPORARY,
 			array_merge(
-				array(
+				[
 					'Location' => $target_URL
-				),
+				],
 				$headers
 			)
 		);
@@ -334,13 +334,13 @@ class Http_Headers {
 	 * @param bool $application_end (optional, default: true)
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function seeOther( $target_URL, $application_end = true,  array $headers = array() ){
+	public static function seeOther( $target_URL, $application_end = true,  array $headers = []){
 		static::response(
 			static::CODE_303_SEE_OTHER,
 			array_merge(
-				array(
+				[
 					'Location' => $target_URL
-				),
+				],
 				$headers
 			)
 		);
@@ -356,7 +356,7 @@ class Http_Headers {
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function notFound( array $headers = array() ){
+	public static function notFound( array $headers = []){
 		static::response( static::CODE_404_NOT_FOUND, $headers );
 	}
 
@@ -365,7 +365,7 @@ class Http_Headers {
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function notModified( array $headers = array() ){
+	public static function notModified( array $headers = []){
 		static::response( static::CODE_304_NOT_MODIFIED, $headers);
 	}
 
@@ -375,7 +375,7 @@ class Http_Headers {
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function authorizationRequired( array $headers = array() ){
+	public static function authorizationRequired( array $headers = []){
 		static::response( static::CODE_401_UNAUTHORIZED, $headers );
 	}
 
@@ -384,7 +384,7 @@ class Http_Headers {
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function badRequest( array $headers = array() ){
+	public static function badRequest( array $headers = []){
 		static::response( static::CODE_400_BAD_REQUEST, $headers );
 	}
 
@@ -393,15 +393,15 @@ class Http_Headers {
 	 *
 	 * @param array $headers (optional, default: none)
 	 */
-	public static function forbidden( array $headers = array() ){
+	public static function forbidden( array $headers = []){
 		static::response( static::CODE_403_FORBIDDEN, $headers );
 	}
 
 	/**
 	 * Internal server error - 500
-	 *
+	 * @param array $headers (optional)
 	 */
-	public static function internalServerError( array $headers = array() ){
+	public static function internalServerError( array $headers = []){
 		static::response( static::CODE_500_INTERNAL_SERVER_ERROR, $headers  );
 	}
 
@@ -413,7 +413,7 @@ class Http_Headers {
      * @param array $unset_GET_params (optional)
      * @param bool $application_end (optional, default: true)
      */
-	public static function formSent( Form $form, array $set_GET_params=array(), array $unset_GET_params=array(), $application_end = true ) {
+	public static function formSent(Form $form, array $set_GET_params= [], array $unset_GET_params= [], $application_end = true ) {
 		static::sendHeader('Location: '.Http_Request::getCurrentURI($set_GET_params, $unset_GET_params, $form->getName()));
 		if($application_end){
 			Debug_Profiler::setOutputEnabled(false);
@@ -429,7 +429,7 @@ class Http_Headers {
      *
      * @param bool $application_end (optional, default: true)
      */
-	public static function reload( array $set_GET_params=array(), array $unset_GET_params=array(), $set_anchor=null, $application_end = true ) {
+	public static function reload(array $set_GET_params= [], array $unset_GET_params= [], $set_anchor=null, $application_end = true ) {
 		static::sendHeader('Location: '.Http_Request::getCurrentURI($set_GET_params, $unset_GET_params, $set_anchor));
 		if($application_end){
 			Debug_Profiler::setOutputEnabled(false);

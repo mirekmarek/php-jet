@@ -48,7 +48,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 		 */
 		$definition = $this->getDataModelDefinition();
 
-		$parent_ID_values = array();
+		$parent_ID_values = [];
 		if($this->__parent_model_instance) {
 			$parent_ID = $this->__parent_model_instance->getID();
 
@@ -99,7 +99,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 	 */
 	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
 
-		$fields = array();
+		$fields = [];
 
 		/**
 		 * @var Form $related_form

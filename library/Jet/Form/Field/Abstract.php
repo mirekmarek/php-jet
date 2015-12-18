@@ -17,9 +17,9 @@ namespace Jet;
 /**
  * Class Form_Field_Abstract
  *
- * @JetFactory:class = 'Jet\UI_Factory'
+ * @JetFactory:class = 'UI_Factory'
  * @JetFactory:method = 'getFormFieldInstance'
- * @JetFactory:mandatory_parent_class = 'Jet\Form_Field_Abstract'
+ * @JetFactory:mandatory_parent_class = 'Form_Field_Abstract'
  */
 abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 
@@ -123,11 +123,11 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	/**
 	 * @var array
 	 */
-	protected $error_messages = array(
+	protected $error_messages = [
 			//'input_missing' => 'input_missing',
 			'empty' => 'empty',
 			'invalid_format' => 'invalid_format'
-		);
+	];
 			
 
 	/**
@@ -135,7 +135,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 *
 	 * @var array
 	 */
-	protected $select_options = array();
+	protected $select_options = [];
 
 
 	/**
@@ -153,7 +153,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 				$default_value='', 
 				$is_required=false,
 				$validation_regexp=null, 
-				array $error_messages = array()
+				array $error_messages = []
 			) {
 
 		$this->_name = $name;
@@ -235,7 +235,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 		if(is_object($options)) {
 
 			$_o = $options;
-			$options = array();
+			$options = [];
 
 			foreach($_o as $k=>$v) {
 				$options[$k] = (string)$v;
@@ -310,7 +310,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 				$default_value instanceof \Iterator
 			)
 		) {
-			$this->_value = array();
+			$this->_value = [];
 			foreach($default_value as $k=>$v) {
 				if(
 					is_object($v) &&
@@ -604,7 +604,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 			$this->is_required &&
 			$label
 		) {
-			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), array('LABEL'=>$label));
+			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), ['LABEL'=>$label]);
 		}
 
 		$tag_data->setProperty('for', $this->getID());
@@ -628,7 +628,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 
 		$template = $this->__form->getTemplate_field_error_msg();
 
-		return Data_Text::replaceData($template, array('ERROR_MSG'=>$msg));
+		return Data_Text::replaceData($template, ['ERROR_MSG'=>$msg]);
 	}
 
 	/**
@@ -693,11 +693,11 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 			$template = $this->__form->getTemplate_field();
 		}
 
-		return Data_Text::replaceData($template, array(
+		return Data_Text::replaceData($template, [
 			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
 			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'" class="form-error"/>'.JET_EOL
 					.JET_TAB.JET_TAB.JET_TAB.'<jet_form_field name="'.$this->_name.'" class="form-control"/>'
-		));
+		]);
 	}
 
 	/**
@@ -705,7 +705,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function jsonSerialize() {
 
-		$vars = array();
+		$vars = [];
 
 		$vars['ID'] = $this->getID();
 
@@ -752,7 +752,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 *
 	 * @return string
 	 */
-	public function getTranslation( $phrase, $data=array() ) {
+	public function getTranslation( $phrase, $data= []) {
 		return $this->__form->getTranslation($phrase, $data );
 	}
 }
