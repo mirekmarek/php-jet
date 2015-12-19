@@ -175,8 +175,21 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	public static function getDataModelDefinition( $class_name )  {
 
-		$s_class_name = $class_name;
-		$file_path = JET_DATAMODEL_DEFINITION_CACHE_PATH.str_replace('\\', '__', $s_class_name.'.php');
+
+		if( isset(self::$__definitions[$class_name])) {
+			return self::$__definitions[$class_name];
+		}
+
+		return static::_loadDataModelDefinition($class_name);
+	}
+
+	/**
+	 * @param $class_name
+	 * @return mixed
+	 */
+	protected static function _loadDataModelDefinition($class_name )  {
+
+		$file_path = JET_DATAMODEL_DEFINITION_CACHE_PATH.str_replace('\\', '__', $class_name.'.php');
 
 		if( JET_DATAMODEL_DEFINITION_CACHE_LOAD ) {
 
@@ -184,29 +197,25 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				/** @noinspection PhpIncludeInspection */
 				$definition = require $file_path;
 
-				static::$__definitions[$s_class_name] = $definition;
+				static::$__definitions[$class_name] = $definition;
 
 				return $definition;
 			}
 		}
 
+		/**
+		 * @var DataModel $class_name
+		 */
+		self::$__definitions[$class_name] = $class_name::_getDataModelDefinitionInstance($class_name);
 
-		if( !isset(self::$__definitions[$s_class_name])) {
-
-			/**
-			 * @var DataModel $class_name
-			 */
-			self::$__definitions[$s_class_name] = $class_name::_getDataModelDefinitionInstance($s_class_name);
-
-			if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
-				try {
-					IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$s_class_name], true).';' );
-				} catch(Exception $e) {}
-			}
+		if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
+			try {
+				IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$class_name], true).';' );
+			} catch(Exception $e) {}
 		}
 
+		return self::$__definitions[$class_name];
 
-		return self::$__definitions[$s_class_name];
 	}
 
 

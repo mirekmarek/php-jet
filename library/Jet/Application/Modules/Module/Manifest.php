@@ -229,7 +229,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 
 		/** @noinspection PhpIncludeInspection */
 		$manifest_data = require $manifest_file;
-
+		
 		return $manifest_data;
 	}
 
@@ -325,6 +325,14 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 					'Unknown manifest property \''.$key.'\' (Module: \''.$this->name.'\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
+			}
+
+			switch( $key ) {
+				case 'factory_overload_map':
+					foreach($val as $k=>$v) {
+						$val = Object_Reflection::parseClassName($v);
+					}
+					break;
 			}
 
 			$this->{$key} = $val;
@@ -465,7 +473,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 * @return array
 	 */
 	public function getFactoryOverloadMap() {
-		//TODO: pri instalaci modulu proparsovat pomoci Object_Reflection::parseClassName
 		return $this->factory_overload_map;
 	}
 
