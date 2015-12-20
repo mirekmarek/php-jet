@@ -31,6 +31,8 @@ use Jet\IO_Dir;
  */
 class Gallery extends DataModel {
 
+	const ROOT_ID = '_root_';
+
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
@@ -339,17 +341,14 @@ class Gallery extends DataModel {
 	public static function getTree() {
 		$data = (new self())->getListAsData()->toArray();
 
-		$root = array(
-			array(
-				'ID'=>'_root_',
-				'parent_ID' => '',
-				'title' => Tr::_('Galleries')
-			)
-		);
 
 
 		$tree = new Data_Tree();
-		$tree->setData( array_merge($root, $data) );
+		$tree->getRootNode()->setID(Gallery::ROOT_ID);
+
+		$tree->getRootNode()->setLabel( Tr::_('Galleries') );
+
+		$tree->setData( $data );
 		$tree->setLabelKey( 'title' );
 
 		return $tree;

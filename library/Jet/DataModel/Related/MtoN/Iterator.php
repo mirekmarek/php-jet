@@ -304,7 +304,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 	}
 
 
-	/**
+	/** @noinspection PhpMissingParentCallMagicInspection
 	 *
 	 * @return array
 	 */

@@ -20,11 +20,6 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	protected $object;
 
 	protected $tree1_data = array(
-		'root1' => array(
-			'ID' => 'root1',
-			'parent_ID' => '',
-			'name' => 'Root T1',
-		),
 		't1-1' => array(
 			'ID' => 't1-1',
 			'parent_ID' => 'root1',
@@ -82,11 +77,6 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 		),
 	);
 	protected $tree2_data = array(
-		'root2' => array(
-			'ID' => 'root2',
-			'parent_ID' => '',
-			'name' => 'Root T2',
-		),
 		't2-1' => array(
 			'ID' => 't2-1',
 			'parent_ID' => 'root2',
@@ -144,11 +134,6 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 		),
 	);
 	protected $tree3_data = array(
-		'root3' => array(
-			'ID' => 'root3',
-			'parent_ID' => '',
-			'name' => 'Root T3',
-		),
 		't3-1' => array(
 			'ID' => 't3-1',
 			'parent_ID' => 'root3',
@@ -227,6 +212,11 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function getTree1() {
 		$tree = new Data_Tree();
+
+		$tree->getRootNode()->setID('root1');
+		$tree->getRootNode()->setLabel('Root T1');
+
+
 		$tree->setData($this->tree1_data);
 		return $tree;
 	}
@@ -235,6 +225,9 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function getTree2() {
 		$tree = new Data_Tree();
+		$tree->getRootNode()->setID('root2');
+		$tree->getRootNode()->setLabel('Root T2');
+
 		$tree->setData($this->tree2_data);
 		return $tree;
 	}
@@ -243,6 +236,9 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function getTree3() {
 		$tree = new Data_Tree();
+		$tree->getRootNode()->setID('root3');
+		$tree->getRootNode()->setLabel('Root T3');
+
 		$tree->setData($this->tree3_data);
 		return $tree;
 	}

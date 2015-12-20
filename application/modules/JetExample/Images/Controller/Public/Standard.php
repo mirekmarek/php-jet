@@ -35,7 +35,7 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
 	 * @param string $gallery_ID
 	 * @param Gallery $gallery (optional)
 	 */
-	public function default_Action( $gallery_ID='_root_', Gallery $gallery=null ) {
+	public function default_Action( $gallery_ID=Gallery::ROOT_ID, Gallery $gallery=null ) {
 
         if(!$gallery) {
             $gallery = Gallery::get($gallery_ID);
@@ -56,7 +56,7 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
      * @return bool
      */
     public function parseRequestURL_Public( Mvc_Page_Content_Abstract $page_content=null ) {
-        $gallery_ID = '_root_';
+        $gallery_ID = Gallery::ROOT_ID;
         $gallery = null;
 
 

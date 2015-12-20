@@ -21,11 +21,10 @@ class DataModel_ObjectState extends Object {
 	protected static $data = [];
 
 	/**
-	 * @param Object $instance
+	 * @param \Jet\Object $instance
 	 * @param string $key
 	 * @param mixed $default_value (optional)
-	 *
-	 * @return &mixed
+	 * @return  &mixed
 	 */
 	public static function &getVar( Object $instance, $key, $default_value=null ) {
 

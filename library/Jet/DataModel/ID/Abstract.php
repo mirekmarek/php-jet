@@ -166,19 +166,10 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	) {
 		$this->data_model_instance = $data_model_instance;
 
-		//do {
-		$time = floor(microtime(true) * 1000);
-
-		$unique_ID = uniqid('', true);
-
-		$u_name = substr(php_uname('n'), 0,14);
-
-		$ID = $u_name.$time .$unique_ID;
-
-		$ID = substr( preg_replace('~[^a-zA-Z0-9]~', '_', $ID), 0, 50);
+		/** @noinspection SpellCheckingInspection */
+		$ID = uniqid(date('Ymdhis'), false);
 
 		$this->values[$ID_property_name] = $ID;
-		//} while( $this->getExists() );
 	}
 
 

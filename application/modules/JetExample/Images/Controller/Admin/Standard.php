@@ -86,7 +86,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
         $router->addAction('add', '/^add:([\S]+)$/', 'add_gallery', true)
             ->setCreateURICallback( function( $parent_ID ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_ID).'/'; } )
             ->setParametersValidatorCallback( function(&$parameters) use ($gallery_validator) {
-                if($parameters[0]=='_root_') {
+                if($parameters[0]==Gallery::ROOT_ID) {
                     return true;
                 }
 
@@ -132,7 +132,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	 */
 	public function default_Action() {
 
-		$this->view->setVar('selected_ID', '_root_');
+		$this->view->setVar('selected_ID', Gallery::ROOT_ID);
 
 		$this->view->setVar('galleries', Gallery::getTree() );
 

@@ -79,7 +79,7 @@ abstract class Mvc_Layout_PackageCreator_JavaScript_Abstract extends Mvc_Layout_
 	 * @return string
 	 */
 	public function getPackageDataPath() {
-		return JET_PUBLIC_PATH.$this->getPackageRelativeFileName().'.dat';
+		return JET_DATA_PATH.$this->getPackageRelativeFileName().'.dat';
 	}
 
 	/**

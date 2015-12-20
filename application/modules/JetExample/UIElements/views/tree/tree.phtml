@@ -10,7 +10,10 @@ $tree = $this->tree;
 
 $selected_ID = $tree->getSelectedID();
 
-$path = ($selected_ID) ? $tree->getData()->getPath( $selected_ID ) : array('_root_');
+
+$path = $selected_ID ? $tree->getData()->getPath( $selected_ID ) : false;
+
+$path = $path ? $path : [$tree->getData()->getRootNode()->getID()];
 
 $images_URI = $this->images_uri;
 ?>

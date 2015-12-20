@@ -206,13 +206,13 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		/**
 		 * @var DataModel $class_name
 		 */
-		self::$__definitions[$class_name] = $class_name::_getDataModelDefinitionInstance($class_name);
+		self::$__definitions[(string)$class_name] = $class_name::_getDataModelDefinitionInstance($class_name);
 
 		if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
-			IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$class_name], true).';' );
+			IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[(string)$class_name], true).';' );
 		}
 
-		return self::$__definitions[$class_name];
+		return self::$__definitions[(string)$class_name];
 
 	}
 

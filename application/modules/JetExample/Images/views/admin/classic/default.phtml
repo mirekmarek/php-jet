@@ -47,35 +47,35 @@ $tree->setData( $galleries );
 $tree->setSelectedID( $this->selected_ID );
 
 /** @noinspection PhpUnusedParameterInspection */
-$tree->setNormalDisplayCallback( function( Data_Tree_Node $node, array $data ) use ( $router)  {
+$tree->setNormalDisplayCallback( function( Data_Tree_Node $node ) use ( $router)  {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-		<a href="<?=$router->getActionURI('edit', $data['ID']);?>"><?=$data['title'];?></a>
+		<a href="<?=$router->getActionURI('edit', $node->getID());?>"><?=$node->getLabel();?></a>
 	<?php else: ?>
-		<a href="<?=$router->getActionURI('view', $data['ID']);?>"><?=$data['title'];?></a>
+		<a href="<?=$router->getActionURI('view', $node->getID());?>"><?=$node->getLabel();?></a>
 	<?php endif; ?>
 	<?php
 } );
 
 /** @noinspection PhpUnusedParameterInspection */
-$tree->setSelectedDisplayCallback( function( Data_Tree_Node $node, array $data ) {
+$tree->setSelectedDisplayCallback( function( Data_Tree_Node $node ) {
 	?>
-	<strong><?=$data['title'];?></strong>
+	<strong><?=$node->getLabel();?></strong>
 	<?php
 });
 
-$tree->setOpenedDisplayCallback( function( Data_Tree_Node $node, array $data ) use ( $router)  {
+$tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)  {
 	if($node->getIsRoot()):
 		?>
-		<a href="<?=Mvc::getCurrentURI();?>" style="font-style: italic;"><?=$data['title'];?></a>
+		<a href="<?=Mvc::getCurrentURI();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 		<?php
 		return;
 	endif;
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-		<a href="<?=$router->getActionURI('edit', $data['ID']);?>" style="font-style: italic;"><?=$data['title'];?></a>
+		<a href="<?=$router->getActionURI('edit', $node->getID());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 	<?php else: ?>
-		<a href="<?=$router->getActionURI('view', $data['ID']);?>" style="font-style: italic;"><?=$data['title'];?></a>
+		<a href="<?=$router->getActionURI('view', $node->getID());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 	<?php endif; ?>
 <?php
 });
@@ -92,7 +92,7 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node, array $data ) u
 				!$gallery->getIsNew()
 			)
 		):
-			$parent_ID = $gallery ? $gallery->getID(): '_root_';
+			$parent_ID = $gallery ? $gallery->getID(): Gallery::ROOT_ID;
 			?>
 		<div style="padding: 5px;">
 			<a href="<?=$router->getActionURI('add', $parent_ID);?>" class="btn btn-default" style="width: 100%;">

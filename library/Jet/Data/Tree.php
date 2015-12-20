@@ -64,11 +64,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	protected $root_node = null;
 
 	/**
-	 * @var string
-	 */
-	protected $root_node_ID = '';
-
-	/**
 	 * @var bool
 	 */
 	protected $lazy_mode = false;
@@ -77,6 +72,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @var bool
 	 */
 	protected $adopt_orphans = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $ignore_orphans = false;
 
 	/**
 	 * @var Data_Tree_Node[]
@@ -106,21 +106,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$this->setNodeClassName(__NAMESPACE__.'\\'.$this->nodes_class_name);
 
 	}
-
-	/**
-	 * @param string $root_node_parent_ID
-	 */
-	public function setRootNodeID($root_node_parent_ID) {
-		$this->root_node_ID = $root_node_parent_ID;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRootNodeID() {
-		return $this->root_node_ID;
-	}
-
 
 	/**
 	 * @param string $nodes_class_name
@@ -167,17 +152,33 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	}
 
 	/**
-	 * @param boolean $adopt_orphans
+	 * @param bool $adopt_orphans
 	 */
 	public function setAdoptOrphans($adopt_orphans) {
 		$this->adopt_orphans = $adopt_orphans;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getAdoptOrphans() {
 		return $this->adopt_orphans;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isIgnoreOrphans()
+	{
+		return $this->ignore_orphans;
+	}
+
+	/**
+	 * @param bool $ignore_orphans
+	 */
+	public function setIgnoreOrphans($ignore_orphans)
+	{
+		$this->ignore_orphans = $ignore_orphans;
 	}
 
 
@@ -251,20 +252,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 */
 	public function getRootNode(){
 		if(!$this->root_node) {
-			return null;
+			$this->root_node = new $this->nodes_class_name( $this, [], true );
 		}
 		return $this->root_node;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getRootID(){
-		if(!$this->root_node) {
-			return null;
-		}
-		return $this->root_node->getID();
 	}
 
 	/**
@@ -331,9 +321,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$result[] = $this->root_node->toArray();
 		}
 
+		/*
 		foreach( $this->orphans_nodes as $orphan ) {
 			$result = array_merge( $result, $orphan->toArray() );
 		}
+		*/
 
 		return $result;
 	}
@@ -408,7 +400,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @param array $item_data
 	 *
 	 * @throws Data_Tree_Exception
-	 * @return Data_Tree_Node
+	 * @return Data_Tree_Node|null
 	 */
 	public function appendNode( array $item_data ){
 
@@ -422,15 +414,43 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			);
 		}
 
-		$this->nodes[$ID] = new $this->nodes_class_name( $this, $item_data );
+		/**
+		 * @var Data_Tree_Node $new_node
+		 */
+		$new_node = new $this->nodes_class_name( $this, $item_data );
 
-		if( $this->nodes[$ID]->getIsRoot() ){
-			$this->root_node = $this->nodes[$ID];
+		$parent = $this->getNode( $new_node->getParentID() );
+
+		if(!$parent) {
+			if($this->ignore_orphans) {
+				return null;
+			}
+
+			if($this->adopt_orphans) {
+				$parent = $this->getRootNode();
+
+				$new_node->setIsOrphan(true);
+
+			} else {
+				throw new Data_Tree_Exception(
+					'Inconsistent tree data. Parent node \''.$new_node->getParentID().'\' does not exist. Node ID: \''.$new_node->getID().'\' ',
+					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
+				);
+
+			}
 		}
 
-		if( $this->nodes[$ID]->getIsOrphan() ) {
+		$new_node->setParent( $parent );
+
+		$this->nodes[$ID] = $new_node;
+
+		$parent->appendChild($new_node);
+
+		/*
+		if( $new_node->getIsOrphan() ) {
 			$this->orphans_nodes[$ID] = $this->nodes[$ID];
 		}
+		*/
 
 		//$this->resetIteratorMap();
 
@@ -462,7 +482,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @return Data_Tree
 	 */
 	protected function _setData( $items ){
-
 		$this->__parent_map = [];
 
 		/**
@@ -485,51 +504,32 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 				$parent_ID = '';
 			}
 
-			if(
-				!$this->root_node_ID &&
-				!$parent_ID
-			) {
-				$this->root_node_ID = $ID;
+
+			if( !isset($this->__parent_map[$parent_ID]) ) {
+				$this->__parent_map[$parent_ID] = [];
 			}
 
-			if($ID==$this->root_node_ID) {
-
-				if($root_item) {
-					throw new Data_Tree_Exception(
-						'Multiple roots in items (root ID: \''.$this->root_node_ID.'\') ',
-						Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-					);
-
-				}
-
-				$root_item = $item;
-			} else {
-
-				if( !isset($this->__parent_map[$parent_ID]) ) {
-					$this->__parent_map[$parent_ID] = [];
-				}
-
-				$this->__parent_map[$parent_ID][$ID] = $item;
-			}
-
+			$this->__parent_map[$parent_ID][$ID] = $item;
 
 		}
 
-		if(!$root_item) {
-			if(!$this->adopt_orphans) {
-				throw new Data_Tree_Exception(
-					'No root item defined (root ID: \''.$this->root_node_ID.'\')',
-					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-				);
-			}
-		} else {
-			$this->appendNode( $root_item );
 
-			$this->__setData( $this->root_node_ID );
-		}
+		$root_node = $this->getRootNode();
+		$root_ID = $root_node->getID();
+
+		$this->nodes[$root_ID] = $root_node;
+
+		$this->__setData( $root_ID );
+
 
 
 		if($this->__parent_map ) {
+			if($this->ignore_orphans) {
+				$this->__parent_map = [];
+
+				return;
+			}
+
 			if($this->adopt_orphans) {
 
 				$parent_IDs = array_keys($this->__parent_map);
@@ -543,13 +543,15 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 						$this->__setData( $orphan_ID );
 					}
 				}
-			} else {
-				throw new Data_Tree_Exception(
-					'Inconsistent tree data. There are orphans.',
-					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-				);
 
+				return;
 			}
+
+			throw new Data_Tree_Exception(
+				'Inconsistent tree data. There are orphans.',
+				Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
+			);
+
 		}
 	}
 
@@ -610,9 +612,11 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 			$this->_iterator_map = $this->root_node->getIteratorMap();
 		}
 
+		/*
 		foreach( $this->orphans_nodes as $orphan ) {
 			$this->_iterator_map += $orphan->getIteratorMap();
 		}
+		*/
 
 		return $this->_iterator_map;
 	}

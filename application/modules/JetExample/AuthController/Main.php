@@ -436,24 +436,21 @@ class Main extends Auth_ControllerModule_Abstract {
 			}
 
 
-			$data = array();
-
-			$data[] = array(
-				'ID' => $module_name,
-				'parent_ID' => '',
-				'name' => $module_info->getLabel().' ('.$module_name.')'
-			);
+			$data = [];
 
 
 			foreach($actions as $action=>$action_description) {
-				$data[] = array(
+				$data[] = [
 					'ID' => $module_name.':'.$action,
 					'parent_ID' => $module_name,
 					'name' => $action_description
-				);
+				];
 			}
 
 			$tree = new Data_Tree();
+			$tree->getRootNode()->setLabel( $module_info->getLabel().' ('.$module_name.')' );
+			$tree->getRootNode()->setID($module_name);
+
 			$tree->setData($data);
 
 			$forest->appendTree($tree);

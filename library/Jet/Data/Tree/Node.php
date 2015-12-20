@@ -33,7 +33,12 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 * @var string
 	 */
-	protected $parent_ID;
+	protected $parent_ID = '';
+	/**
+	 *
+	 * @var string
+	 */
+	protected $real_parent_ID = '';
 
 	/**
 	 * Parent node
@@ -42,6 +47,10 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	protected $parent;
 
+	/**
+	 * @var string|null
+	 */
+	protected $label;
 
 	/**
 	 * Node data
@@ -93,47 +102,22 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 *
 	 * @param Data_Tree $tree
 	 * @param array $data
+	 * @param bool $is_root
 	 *
 	 * @throws Data_Tree_Exception
 	 */
-	public function __construct( Data_Tree $tree, array $data ){
+	public function __construct( Data_Tree $tree, array $data, $is_root=false ){
 		$this->tree = $tree;
-		$this->ID = $data[$tree->getIDKey()];
-		$this->parent_ID = $data[$tree->getParentIDKey()];
+		$this->is_root = $is_root;
 		$this->data = $data;
 
-
-
-		$this->is_root = ($this->ID==$tree->getRootNodeID());
-
 		if( !$this->is_root ) {
-
-			$this->parent = $tree->getNode( $this->parent_ID );
-
-			if(!$this->parent) {
-				if($tree->getAdoptOrphans()) {
-					$this->is_orphan = true;
-				} else {
-					throw new Data_Tree_Exception(
-						'Inconsistent tree data. Parent node \''.$this->parent_ID.'\' does not exist. Node ID: \''.$this->ID.'\' ',
-						Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-					);
-
-				}
-			} else {
-				$this->depth = $this->parent->getDepth() + 1;
-
-				$this->parent->appendChild($this);
-			}
-
+			$this->ID = $data[$tree->getIDKey()];
+			$this->parent_ID = $data[$tree->getParentIDKey()];
+			$this->real_parent_ID = $this->parent_ID;
 		} else {
-			$root_node = $this->tree->getRootNode();
-			if( $root_node ) {
-				throw new Data_Tree_Exception(
-					'Multiple roots in items (root ID: \''.$this->ID.'\') ',
-					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
-				);
-
+			if(isset($data[$tree->getIDKey()])) {
+				$this->ID = $data[$tree->getIDKey()];
 			}
 		}
 
@@ -150,7 +134,6 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		$ID = $node->getID();
 
 		if(
-			$this->tree->getNodeExists($ID) ||
 			isset($this->children[$ID])
 		) {
 			throw new Data_Tree_Exception(
@@ -172,6 +155,14 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	}
 
 	/**
+	 * @param string $ID
+	 */
+	public function setID($ID)
+	{
+		$this->ID = $ID;
+	}
+
+	/**
 	 * Node ID
 	 *
 	 * @return string 
@@ -187,6 +178,25 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	 */
 	public function getParentID(){
 		return $this->parent_ID;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRealParentID()
+	{
+		return $this->real_parent_ID;
+	}
+
+	/**
+	 * @param Data_Tree_Node $parent
+	 */
+	public function setParent( Data_Tree_Node $parent)
+	{
+		$this->parent = $parent;
+		$this->parent_ID = $parent->getID();
+
+		$this->depth = $parent->getDepth() + 1;
 	}
 
 	/**
@@ -383,14 +393,26 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 	}
 
 	/**
+	 * @param string $label
+	 */
+	public function setLabel($label)
+	{
+		$this->label = $label;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getLabel() {
+		if($this->label!==null) {
+			return $this->label;
+		}
+
 		if( !$this->tree->getLabelKey() ) {
 			return $this->ID;
 		}
 
-		return $this->data[$this->tree->getLabelKey()];
+		return isset($this->data[$this->tree->getLabelKey()]) ? $this->data[$this->tree->getLabelKey()] : '';
 	}
 
 
@@ -419,6 +441,7 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 		$parent_ID_key = $this->tree->getParentIDKey();
 		$children_key = $this->tree->getChildrenKey();
 		$depth_key = $this->tree->getDepthKey();
+		$label_key = $this->tree->getLabelKey();
 
 		$next_children = true;
 		if($max_depth) {
@@ -429,7 +452,8 @@ class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSeria
 
 		$item = $this->data;
 		$item[$ID_key] = $this->ID;
-		$item[$parent_ID_key] = $this->parent_ID;
+		$item[$parent_ID_key] = $this->is_orphan ? $this->real_parent_ID : $this->parent_ID;
+		$item[$label_key] = $this->getLabel();
 		$item[$depth_key] = $this->depth;
 
 		if($next_children && $this->children){

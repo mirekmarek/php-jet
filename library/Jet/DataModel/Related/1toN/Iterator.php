@@ -524,7 +524,7 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 		return key($this->items)!==null;
 	}
 
-	/**
+	/** @noinspection PhpMissingParentCallMagicInspection
 	 *
 	 * @return array
 	 */

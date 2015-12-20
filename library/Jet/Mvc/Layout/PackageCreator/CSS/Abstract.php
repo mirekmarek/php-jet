@@ -67,7 +67,7 @@ abstract class Mvc_Layout_PackageCreator_CSS_Abstract extends Mvc_Layout_Package
 	 * @return string
 	 */
 	public function getPackageDataPath() {
-		return JET_PUBLIC_PATH.$this->getPackageRelativeFileName().'.dat';
+		return JET_DATA_PATH.$this->getPackageRelativeFileName().'.dat';
 	}
 
 	/**

@@ -1353,7 +1353,7 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
     protected function _getAllPagesTree( Mvc_Page_Abstract $page, &$data ) {
         $data[$page->getID()->toString()] = [
             'ID' => $page->getID()->toString(),
-            'parent_ID' => $page->getParent() ? $page->getParent()->getID()->toString() : '',
+            'parent_ID' => $page->getParent()->getID()->toString(),
             'name' => $page->getName()
         ];
 
@@ -1374,19 +1374,23 @@ class Mvc_Page_Default extends Mvc_Page_Abstract{
 
         foreach( Mvc_Site::getList() as $site ) {
             foreach($site->getLocales() as $locale) {
-                $data = [];
 
                 $homepage = $site->getHomepage( $locale );
 
-                $this->_getAllPagesTree( $homepage, $data );
+	            $tree = new Data_Tree();
+	            $tree->getRootNode()->setID( $homepage->getID()->toString() );
+	            $tree->getRootNode()->setLabel( $homepage->getName() );
 
-                if($data) {
-                    $tree = new Data_Tree();
-                    $tree->setData($data);
+	            $pages = [];
+	            foreach( $homepage->getChildren() as $page ) {
+	                $this->_getAllPagesTree($page, $pages);
+	            }
 
-                    $forest->appendTree($tree);
+	            $tree->setData($pages);
 
-                }
+	            $forest->appendTree($tree);
+
+
             }
         }
 
