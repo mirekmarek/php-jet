@@ -68,7 +68,7 @@ if($data===null) {
 }
 
 if($installer) {
-	require JET_BASE_PATH."_installer/Installer.php";
+	require JET_APPLICATION_PATH."_install/_installer/Installer.php";
 	Installer::initTranslator();
 }
 

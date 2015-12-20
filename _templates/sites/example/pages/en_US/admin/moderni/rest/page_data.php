@@ -8,12 +8,12 @@ return [
 	'title' => ' ',
 	'menu_title' => ' ',
 	'breadcrumb_title' => ' ',
-	'meta_tags' => array(),
-	'contents' => array(
-					array(
+	'meta_tags' => [],
+	'contents' => [
+					[
                         'module_name' => 'JetExample.AdminUI',
                         'parser_URL_method_name' => 'parseRequestURL',
 						'controller_action' => 'default',
-					)
-			)
+					]
+	]
 ];

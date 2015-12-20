@@ -38,7 +38,7 @@ if(!isset($argv[2])){
 
 if(isset($argv[3])) {
 	if($argv[3]=="installer") {
-		require JET_BASE_PATH."_installer/Installer.php";
+		require JET_APPLICATION_PATH."_install/_installer/Installer.php";
 		Installer::initTranslator();
 	} else {
 		show_usage();

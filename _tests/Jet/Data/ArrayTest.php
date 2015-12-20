@@ -11,9 +11,9 @@
  */
 namespace Jet;
 
+
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-class Data_ArrayTest_testObject {
+class  Data_ArrayTest_testObject {
 	public $v_int = 1;
 	public $v_float = 3.14;
 	public $v_string = '<script>alert("Shady!");</script>';

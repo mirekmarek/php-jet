@@ -9,8 +9,8 @@ return [
     'headers_suffix' => '',
     'body_prefix' => '',
     'body_suffix' => '',
-    'meta_tags' => array(
-    ),
-    'contents' => array(
-    )
+    'meta_tags' => [
+    ],
+    'contents' => [
+    ]
 ];

@@ -1396,7 +1396,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	/**
 	 * @param string $class
 	 *
-	 * @return string[]
+	 * @return string
 	 */
 	public static function helper_getCreateCommand( $class ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
