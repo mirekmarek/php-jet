@@ -227,18 +227,19 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	/**
 	 *
-	 * @throws DataModel_Exception
+	 * @param DataModel_Definition_Relations $internal_relations
+	 * @param string $parent_model_class_name
 	 *
-	 * @return DataModel_Definition_Relation_Internal[]
 	 */
-	public function getInternalRelations() {
-		$relations = [];
-		foreach( $this->related_model_class_names as $class_name ) {
-			foreach( $this->_getInternalRelations($class_name) as $key=>$relation ) {
-				$relations[$key] = $relation;
-			}
+	public function getInternalRelations(
+		DataModel_Definition_Relations $internal_relations,
+		$parent_model_class_name=''
+
+	) {
+
+		foreach( $this->_getInternalRelations($parent_model_class_name) as $key=>$relation ) {
+			$internal_relations[$key] = $relation;
 		}
-		return $relations;
 	}
 
 
@@ -296,7 +297,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$glue_n_relation_join_by = $this->join_by[$N_model_name];
 		$relations[ $N_model_name ] = new DataModel_Definition_Relation_Internal( $N_model_definition, $glue_n_relation_join_by );
 		$relations[ $N_model_name ]->setRequiredRelations( [$this->getModelName()]);
-
 
 		return $relations;
 	}

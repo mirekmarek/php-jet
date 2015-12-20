@@ -75,7 +75,8 @@ class Application_Signals_SignalTest_Sender extends Object {
 	 * @return string
 	 */
 	public function getSignalObjectClassName( $signal_name ) {
-		return $this->_test_signals_signal_object_class_name;
+
+		return Object_Reflection::parseClassName( $this->_test_signals_signal_object_class_name );
 	}
 
 

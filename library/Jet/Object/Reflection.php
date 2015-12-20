@@ -127,7 +127,7 @@ class Object_Reflection {
 		if( JET_OBJECT_REFLECTION_CACHE_LOAD ) {
 			$file_path = JET_OBJECT_REFLECTION_CACHE_PATH.str_replace('\\', '__', $class.'.php');
 
-			if(IO_File::isReadable($file_path)) {
+			if(IO_File::exists($file_path)) {
 				/** @noinspection PhpIncludeInspection */
 				static::$_reflections[$class] = require $file_path;
 
@@ -254,9 +254,7 @@ class Object_Reflection {
 		foreach( static::$_save_list as $class ) {
 			$file_path = JET_OBJECT_REFLECTION_CACHE_PATH.str_replace('\\', '__', $class.'.php');
 
-			try {
-				IO_File::write($file_path, '<?php return '.var_export( static::$_reflections[$class], true ).';' );
-			} catch(Exception $e) {}
+			IO_File::write($file_path, '<?php return '.var_export( static::$_reflections[$class], true ).';' );
 		}
 	}
 

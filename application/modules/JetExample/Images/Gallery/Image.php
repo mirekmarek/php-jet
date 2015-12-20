@@ -367,11 +367,11 @@ class Gallery_Image extends DataModel {
 	 * @param Gallery $gallery
 	 * @param string $source_file_path
 	 * @param string|null $source_file_name
-	 * @param bool $do_not_save_imindietly
+	 * @param bool $do_not_save_immediately
 	 *
 	 * @return Gallery_Image
 	 */
-	public static function getNewImage( Gallery $gallery, $source_file_path, $source_file_name=null, $do_not_save_imindietly=false  ) {
+	public static function getNewImage(Gallery $gallery, $source_file_path, $source_file_name=null, $do_not_save_immediately=false  ) {
 
 		/**
 		 * @var Gallery_Image $image
@@ -405,7 +405,7 @@ class Gallery_Image extends DataModel {
 		IO_File::copy($source_file_path, $image->getFilePath() );
 
 		$image->validateProperties();
-		if(!$do_not_save_imindietly) {
+		if(!$do_not_save_immediately) {
 			$image->save();
 		}
 

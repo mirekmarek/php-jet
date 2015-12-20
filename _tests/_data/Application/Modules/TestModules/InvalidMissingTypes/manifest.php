@@ -15,9 +15,9 @@ return array(
 		),
 
 	'factory_overload_map' => array(
-		'OldClass1' => 'MyClass1',
-		'OldClass2' => 'MyClass2',
-		'OldClass3' => 'MyClass3',
+		'OldClass1' => 'MyNs\MyClass1',
+		'OldClass2' => 'MyNs\MyClass2',
+		'OldClass3' => 'MyNs\MyClass3',
 	),
 
 	'signals_callbacks' => array(

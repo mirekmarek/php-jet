@@ -18,10 +18,10 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'm2n_data_model_test_mock'
  *
  * Model name: data_model_test_mock
- * @JetDataModel:M_model_class_name = 'Jet\\DataModel_Definition_DataModelTestMock'
+ * @JetDataModel:M_model_class_name = 'DataModel_Definition_DataModelTestMock'
  *
  * Model name: n_related_data_model_test_mock
- * @JetDataModel:N_model_class_name = 'Jet\\DataModel_Definition_NRelatedDataModelTestMock'
+ * @JetDataModel:N_model_class_name = 'DataModel_Definition_NRelatedDataModelTestMock'
  */
 class DataModel_Definition_M2NDataModelTestMock extends DataModel_Related_MtoN {
 

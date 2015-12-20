@@ -51,10 +51,15 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	}
 
 
-    /**
-     * @param &$property
-     */
-    public function initPropertyDefaultValue( &$property ) {
+	/**
+	 * @param &$property
+	 * @param DataModel $data_model_instance
+	 */
+	public function initPropertyDefaultValue(
+		&$property,
+		/** @noinspection PhpUnusedParameterInspection */
+		DataModel $data_model_instance
+	) {
     }
 
     /**

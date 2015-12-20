@@ -67,7 +67,7 @@ class DataModel_Definition_Property_LocaleTest extends \PHPUnit_Framework_TestCa
 	 */
 	public function testGetValueForJsonSerialize() {
 		$locale_object = new Locale('cs_CZ');
-		$value = $this->object->getValueForJsonSerialize($locale_object);
+		$value = $this->object->getValueForJsonSerialize($this->data_model, $locale_object);
 		$this->assertEquals($locale_object->toString(), $value);
 	}
 }

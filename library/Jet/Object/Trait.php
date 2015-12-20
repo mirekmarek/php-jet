@@ -45,6 +45,7 @@ trait Object_Trait {
 		/** @noinspection PhpUnusedParameterInspection */
 		$signal_name
 	) {
+
 		return Object_Reflection::get( get_class($this), 'signal_object_class_name', __NAMESPACE__.'\\'.Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME );
 	}
 

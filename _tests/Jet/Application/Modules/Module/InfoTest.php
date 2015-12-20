@@ -244,9 +244,9 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	public function testGetFactoryOverloadMap() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
 		$this->assertEquals( array(
-			'OldClass1' => 'MyClass1',
-			'OldClass2' => 'MyClass2',
-			'OldClass3' => 'MyClass3',
+			'OldClass1' => 'MyNs\MyClass1',
+			'OldClass2' => 'MyNs\MyClass2',
+			'OldClass3' => 'MyNs\MyClass3',
 		), $module_info->getFactoryOverloadMap() );
 	}
 

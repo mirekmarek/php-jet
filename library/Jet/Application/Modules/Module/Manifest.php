@@ -330,7 +330,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 			switch( $key ) {
 				case 'factory_overload_map':
 					foreach($val as $k=>$v) {
-						$val = Object_Reflection::parseClassName($v);
+						$val[$k] = Object_Reflection::parseClassName($v);
 					}
 					break;
 			}

@@ -235,7 +235,6 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 			'label' => 'Form field label',
 			'is_required' => true,
 			'validation_regexp' => $this->validation_regexp,
-			'catch_data_callback' => null,
 			'validate_data_callback' => null,
 			'select_options' =>
 			array (

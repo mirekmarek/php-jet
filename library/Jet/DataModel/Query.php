@@ -432,25 +432,17 @@ class DataModel_Query extends Object {
 			do {
 				$related_data_model_name = array_shift( $property_name_parts );
 
+				$all_relations = $data_model_definition->getRelations();
+
 				/**
-				 * @var DataModel_Definition_Relation_Abstract[] $_relations
+				 * @var DataModel_Definition_Relation_Abstract $relevant_relation
 				 */
-				$_relations = $data_model_definition->getRelations();
-
-				if(!isset($_relations[$related_data_model_name])) {
-
-					throw new DataModel_Query_Exception(
-						'Unknown relation to class \''.$data_model_definition->getModelName().'\' <-> \''.$related_data_model_name.'\' (Class: \''.$this->main_data_model_class_name.'\') ',
-						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-					);
-				}
-
-				$relevant_relation = clone $_relations[$related_data_model_name];
+				$relevant_relation = clone $all_relations->getRelation($related_data_model_name);
 
 				if( ($required_relations=$relevant_relation->getRequiredRelations()) ) {
 					foreach($required_relations as $required_relation) {
 						if(!isset($this->relations[$required_relation])) {
-							$this->relations[$required_relation] = clone $_relations[$required_relation];
+							$this->relations[$required_relation] = clone $all_relations->getRelation($required_relation);
 						}
 					}
 				}

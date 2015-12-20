@@ -384,8 +384,13 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
     /**
      * @param &$property
+     * @param DataModel $data_model_instance
      */
-    public function initPropertyDefaultValue( &$property ) {
+	public function initPropertyDefaultValue(
+		&$property,
+		/** @noinspection PhpUnusedParameterInspection */
+		DataModel $data_model_instance
+	) {
 
         if(!$property) {
             $property = $this->getDefaultValue();
@@ -837,10 +842,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 
     /**
      *
-     * @param array|DataModel_Definition_Property_DataModel[] &$internal_relations
+     * @param DataModel_Definition_Relations $internal_relations
      * @throws DataModel_Exception
      */
-    public function getInternalRelations( array &$internal_relations ) {
+    public function getInternalRelations( DataModel_Definition_Relations $internal_relations ) {
 
     }
 

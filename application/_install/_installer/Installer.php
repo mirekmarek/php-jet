@@ -195,7 +195,6 @@ class Installer {
 					$this->step_controllers[$_step_name]->setIsLast(false);
 				}
 
-				//var_dump($steps);die();
 			}
 
 

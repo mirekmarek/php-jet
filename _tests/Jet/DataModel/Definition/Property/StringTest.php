@@ -265,7 +265,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'label' => $this->property_options['form_field_label'],
 			'is_required' => true,
 			'validation_regexp' => $this->property_options['validation_regexp'],
-			'catch_data_callback' => null,
 			'validate_data_callback' => null,
 			'select_options' =>
 			array (
@@ -289,7 +288,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'label' => '',
 			'is_required' => false,
 			'validation_regexp' => '',
-			'catch_data_callback' => null,
 			'validate_data_callback' => null,
 			'select_options' =>
 			array (
@@ -360,7 +358,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$value = '';
 		$errors = array();
 
-		$this->assertFalse($this->object->validatePropertyValue($value, $errors));
+		$this->assertFalse($this->object->validatePropertyValue($this->data_model, $value, $errors));
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -379,7 +377,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$value = 'invalid value';
 		$errors = array();
 
-		$this->assertFalse($this->object->validatePropertyValue($value, $errors));
+		$this->assertFalse($this->object->validatePropertyValue($this->data_model, $value, $errors));
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -398,7 +396,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$value = '_#invalid';
 		$errors = array();
 
-		$this->assertFalse( $this->object->validatePropertyValue($value, $errors) );
+		$this->assertFalse( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -416,7 +414,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	public function testValidateProperties() {
 		$value = 'option1';
 		$errors = array();
-		$this->assertTrue( $this->object->validatePropertyValue($value, $errors) );
+		$this->assertTrue( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 	}
 
 

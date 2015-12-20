@@ -193,7 +193,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		if( JET_DATAMODEL_DEFINITION_CACHE_LOAD ) {
 
-			if(IO_File::isReadable($file_path)) {
+			if(IO_File::exists($file_path)) {
 				/** @noinspection PhpIncludeInspection */
 				$definition = require $file_path;
 
@@ -209,9 +209,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		self::$__definitions[$class_name] = $class_name::_getDataModelDefinitionInstance($class_name);
 
 		if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
-			try {
-				IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$class_name], true).';' );
-			} catch(Exception $e) {}
+			IO_File::write( $file_path, '<?php return '.var_export(self::$__definitions[$class_name], true).';' );
 		}
 
 		return self::$__definitions[$class_name];
@@ -524,7 +522,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 *
 	 * @throws DataModel_Exception
 	 *
-	 * @return DataModel_Definition_Relation_Abstract[]
+	 * @return DataModel_Definition_Relations|DataModel_Definition_Relation_Abstract[]
 	 */
 	public function getRelations() {
 
@@ -532,15 +530,21 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			return $this->relations;
 		}
 
-		$this->relations = [];
+		$this->relations = new DataModel_Definition_Relations( $this );
 
-		foreach( $this->getExternalRelations() as $related_model_name=>$relation ) {
-			$this->addRelation($related_model_name, $relation);
+		$external_relations = new DataModel_Definition_Relations( $this );
+		$this->getExternalRelations( $external_relations );
+
+
+		$internal_relations = new DataModel_Definition_Relations( $this );
+		$this->getInternalRelations( $internal_relations );
+
+		foreach( $external_relations as $related_model_name=>$relation ) {
+			$this->relations->addRelation($related_model_name, $relation);
 		}
 
-
-		foreach( $this->getInternalRelations() as $related_model_name=>$relation ) {
-			$this->addRelation($related_model_name, $relation);
+		foreach( $internal_relations as $related_model_name=>$relation ) {
+			$this->relations->addRelation($related_model_name, $relation);
 		}
 
 
@@ -548,15 +552,15 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	}
 
 	/**
-	 * @return DataModel_Definition_Relation_External[]
+	 * @param DataModel_Definition_Relations $external_relations
+	 *
 	 */
-	public function getExternalRelations() {
+	public function getExternalRelations( DataModel_Definition_Relations $external_relations ) {
 
 		$class = $this->class_name;
 
 		$relations_definitions_data = Object_Reflection::get( $class, 'data_model_outer_relations_definition', []);
 
-		$external_relations = [];
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this, $definition_data );
 
@@ -565,42 +569,28 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			$external_relations[$related_model_name] = $relation;
 		}
 
-		return $external_relations;
 	}
 
 	/**
 	 *
-	 * @return DataModel_Definition_Relation_Internal[]
+	 * @param DataModel_Definition_Relations $internal_relations
+	 * @param string $parent_model_class_name
+	 *
 	 */
-	public function getInternalRelations() {
-		$internal_relations = [];
+	public function getInternalRelations(
+		DataModel_Definition_Relations $internal_relations,
+		/** @noinspection PhpUnusedParameterInspection */
+		$parent_model_class_name=''
+	) {
+
 		foreach( $this->properties as $related_property_definition ) {
 
 			$related_property_definition->getInternalRelations( $internal_relations );
 
 		}
 
-		return $internal_relations;
 	}
 
-
-	/**
-	 * @param string $related_model_name
-	 * @param DataModel_Definition_Relation_Abstract $relation
-	 *
-	 * @throws DataModel_Exception
-	 */
-	protected function addRelation( $related_model_name, DataModel_Definition_Relation_Abstract $relation) {
-		if(isset($this->relations[ $related_model_name ])) {
-			throw new DataModel_Exception(
-				'Class \''.$this->getClassName().'\': duplicate relation \''.$related_model_name.'\' ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-		$this->relations[$related_model_name] = $relation;
-
-	}
 
 	/**
 	 * @return DataModel_Definition_Key[]
@@ -867,16 +857,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	}
 
 
-	/**
-	 * Default serialize rules (don't serialize __* properties)
-	 *
-	 * @return array
-	 */
-	public function __sleep(){
-		$this->getRelations();
-
-		return parent::__sleep();
-	}
 
 	/**
 	 * @param string $class_name

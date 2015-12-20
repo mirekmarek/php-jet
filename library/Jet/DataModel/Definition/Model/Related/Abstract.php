@@ -343,6 +343,31 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	}
 
 	/**
+	 *
+	 * @param DataModel_Definition_Relations $internal_relations
+	 * @param string $parent_model_class_name
+	 *
+	 */
+	public function getInternalRelations(
+		DataModel_Definition_Relations $internal_relations,
+		/** @noinspection PhpUnusedParameterInspection */
+		$parent_model_class_name=''
+
+	) {
+
+		$internal_relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(
+			$this,
+			$this->getMainModelRelationJoinItems()
+		);
+
+		foreach( $this->properties as $related_property_definition ) {
+			$related_property_definition->getInternalRelations( $internal_relations );
+		}
+
+	}
+
+
+	/**
 	 * @param array $default_order_by
 	 */
 	public function setDefaultOrderBy($default_order_by)

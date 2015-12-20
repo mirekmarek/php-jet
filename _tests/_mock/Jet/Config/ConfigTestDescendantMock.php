@@ -14,7 +14,7 @@ namespace Jet;
 class ConfigTestDescendantMock extends ConfigTestMock {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'Next string property'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default value'

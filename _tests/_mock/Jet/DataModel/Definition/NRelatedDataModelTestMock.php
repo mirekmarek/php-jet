@@ -16,7 +16,7 @@ namespace Jet;
  *
  * @JetDataModel:name = 'n_related_data_model_test_mock'
  * @JetDataModel:database_table_name = 'n_related_data_model_test_mock'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 
@@ -156,7 +156,7 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\DataModel_Definition_DataModelTestMock'
+	 * @JetDataModel:data_model_class = 'DataModel_Definition_DataModelTestMock'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true

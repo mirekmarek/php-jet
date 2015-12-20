@@ -54,7 +54,7 @@ class DataModel_Query_DataModel2TestMock extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\DataModel_Query_DataModel2Related1TONTestMock'
+	 * @JetDataModel:data_model_class = 'DataModel_Query_DataModel2Related1TONTestMock'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true

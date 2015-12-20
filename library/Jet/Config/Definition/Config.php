@@ -58,8 +58,8 @@ class Config_Definition_Config extends Object {
 		$this->class_name = $class_name;
 
 		$this->data_path = Object_Reflection::get( $class_name, 'config_data_path', '' );
-		$this->section_is_obligatory = Object_Reflection::get( $class_name, 'config_section_is_obligatory', true );
 
+		$this->section_is_obligatory = Object_Reflection::get( $class_name, 'config_section_is_obligatory', true );
 		$propertied_definition_data = Object_Reflection::get( $class_name, 'config_properties_definition', []);
 
 		$this->properties_definition = [];
@@ -127,7 +127,7 @@ class Config_Definition_Config extends Object {
 
 		if( JET_CONFIG_DEFINITION_CACHE_LOAD ) {
 
-			if(IO_File::isReadable($file_path)) {
+			if(IO_File::exists($file_path)) {
 				/** @noinspection PhpIncludeInspection */
 				$definition = require $file_path;
 
@@ -138,10 +138,8 @@ class Config_Definition_Config extends Object {
 		$definition = new static( $class_name );
 
 		if(JET_CONFIG_DEFINITION_CACHE_SAVE) {
-			try {
-				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
-			} catch(Exception $e) {}
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
+			IO_File::write( $file_path, '<?php return '.@var_export($definition, true).';' );
 		}
 
 

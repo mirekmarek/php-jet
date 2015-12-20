@@ -17,7 +17,7 @@ require_once '_mock/Jet/Config/ConfigListTestMainMock/Config/Abstract.php';
 class ConfigListTestMainMock_AdapterA_Config extends ConfigListTestMainMock_Config_Abstract {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_type = false
 	 * @JetConfig:default_value = 'AdapterA'
@@ -27,7 +27,7 @@ class ConfigListTestMainMock_AdapterA_Config extends ConfigListTestMainMock_Conf
 	protected $adapter = '';
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = ''
 	 * @JetConfig:is_required = true
 	 * 

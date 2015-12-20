@@ -59,11 +59,16 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 
-    /**
-     * @param &$property
-     */
-    public function initPropertyDefaultValue( &$property ) {
+	/**
+	 * @param &$property
+	 * @param DataModel $data_model_instance
+	 */
+	public function initPropertyDefaultValue(
+		&$property,
+		DataModel $data_model_instance
+	) {
         $property = $this->getDefaultValue();
+		$property->setupParentObjects( $data_model_instance );
     }
 
     /**
@@ -307,36 +312,16 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
     /**
      *
-     * @param array|DataModel_Definition_Property_DataModel[] &$internal_relations
+     * @param DataModel_Definition_Relations $internal_relations
      *
      * @throws DataModel_Exception
      */
-    public function getInternalRelations( array &$internal_relations ) {
-
-        /**
-         * @var DataModel_Definition_Property_DataModel[] $internal_relations
-         */
+    public function getInternalRelations( DataModel_Definition_Relations $internal_relations ) {
 
         $related_model_definition = $this->getValueDataModelDefinition();
 
-        $related_model_name = $related_model_definition->getModelName();
+	    $related_model_definition->getInternalRelations( $internal_relations, $this->getDataModelDefinition()->getClassName() );
 
-        if(isset($internal_relations[$related_model_name])) {
-            $prev = $internal_relations[$related_model_name]->getValueDataModelClass();
-            $current = $this->getValueDataModelClass();
-
-            throw new DataModel_Exception('Data model name collision: '.$prev.' vs '.$current, DataModel_Exception::CODE_DEFINITION_NONSENSE);
-        }
-
-
-        $internal_relations[$related_model_name] = new DataModel_Definition_Relation_Internal(
-            $related_model_definition,
-            $related_model_definition->getMainModelRelationJoinItems()
-        );
-
-        foreach( $related_model_definition->getProperties() as $related_property_definition ) {
-            $related_property_definition->getInternalRelations( $internal_relations );
-        }
 
     }
 

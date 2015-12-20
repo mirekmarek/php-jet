@@ -19,7 +19,7 @@ namespace Jet;
 class ConfigTestMock extends Config {
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'String property'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default value'
@@ -30,7 +30,7 @@ class ConfigTestMock extends Config {
 	protected $string_property = '';
 	
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_INT
+	 * @JetConfig:type = Config::TYPE_INT
 	 * @JetConfig:description = 'Int property'
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 123
@@ -41,7 +41,7 @@ class ConfigTestMock extends Config {
 	protected $int_property = 0;
 	
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_FLOAT
+	 * @JetConfig:type = Config::TYPE_FLOAT
 	 * @JetConfig:description = ''
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 123.45
@@ -52,7 +52,7 @@ class ConfigTestMock extends Config {
 	protected $float_property = 0.0;
 	
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_BOOL
+	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:description = 'Bool property:'
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = true

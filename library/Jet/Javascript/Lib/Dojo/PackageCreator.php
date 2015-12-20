@@ -191,17 +191,6 @@ class Javascript_Lib_Dojo_PackageCreator extends Object {
 
 		if(!in_array($namespace, $this->packages)) {
 
-			/*
-			$script = $this->getScript($component, $base_path);
-
-
-			list($components, $requires, $templates) = $this->parseDependencies( $component, $script, true );
-
-
-			var_dump($namespace, $components, $requires, $templates, $script);
-			die('???');
-			*/
-
 			$script = $this->getScript($component, JET_PUBLIC_SCRIPTS_PATH);
 
 			$this->component_scripts[$component] = $script;

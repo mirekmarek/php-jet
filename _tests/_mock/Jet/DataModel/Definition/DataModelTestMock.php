@@ -16,7 +16,7 @@ namespace Jet;
  *
  * @JetDataModel:name = 'data_model_test_mock'
  * @JetDataModel:database_table_name = 'data_model_test_mock'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 class DataModel_Definition_DataModelTestMock extends DataModel {
 
@@ -54,7 +54,7 @@ class DataModel_Definition_DataModelTestMock extends DataModel {
 	 * @JetDataModel:is_ID = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
-	 * @JetDataModel:validation_method_name = 'string_validation_method_1'
+	 * @JetDataModel:validation_method_name = ''
 	 * @JetDataModel:form_field_label = 'Form field label'
 	 * @JetDataModel:form_field_error_messages = [  'error_1' => 'Error 1',  'error_2' => 'Error 2',  'error_3' => 'Error 3' ]
 	 * @JetDataModel:form_field_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
@@ -157,7 +157,7 @@ class DataModel_Definition_DataModelTestMock extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Jet\\DataModel_Definition_DataModelTestMock'
+	 * @JetDataModel:data_model_class = 'DataModel_Definition_DataModelTestMock'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:is_required = true

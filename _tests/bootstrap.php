@@ -20,11 +20,13 @@ spl_autoload_register( function( $class_name ) {
 	) {
 		return false;
 	}
+//var_dump($class_name);
 
 	$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 	$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 	//var_dump($lib_dir, _JET_TEST_LIB_DIR, $class_name, $lib_dir.$class_name.'.php');
-
+//var_dump($class_name);
+//debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 	require _JET_TEST_LIB_DIR.$class_name.'.php';
 
 	return true;

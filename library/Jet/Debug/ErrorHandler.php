@@ -102,13 +102,13 @@ class Debug_ErrorHandler {
 		if(
 			!class_exists($handler_class_name, false)
 		) {
-			die('Error handler: Handler class \''.$handler_class_name.'\' does not exist. Should be in script: \''.$handler_script_path.'\' ');
+			trigger_error('Error handler: Handler class \''.$handler_class_name.'\' does not exist. Should be in script: \''.$handler_script_path.'\' ', E_USER_ERROR);
 		}
 
 		$handler = new $handler_class_name( $handler_options );
 
 		if( ! ($handler instanceof Debug_ErrorHandler_Handler_Abstract) ){
-			die('Error handler: Handler class \''.$handler_class_name.'\' must extend Debug_ErrorHandler_Handler_Abstract class.');
+			trigger_error('Error handler: Handler class \''.$handler_class_name.'\' must extend Debug_ErrorHandler_Handler_Abstract class.', E_USER_ERROR);
 		}
 
 		static::$handlers[$handler_name] = $handler;

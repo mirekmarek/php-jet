@@ -16,9 +16,30 @@ namespace Jet;
  *
  * @JetDataModel:name = 'data_model_test_mock_related_1toN'
  * @JetDataModel:database_table_name = 'data_model_test_mock_related_1toN'
- * @JetDataModel:parent_model_class_name = 'Jet\\DataModel_Query_DataModelTestMock'
+ * @JetDataModel:parent_model_class_name = 'DataModel_Query_DataModelTestMock'
+ * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
  */
-class DataModel_Query_DataModelRelated21TONTestMock extends DataModel_Related_1toN {
+
+
+class DataModel_Query_DataModel2Related1TONTestMock extends DataModel_Related_1toN {
+
+	/**
+	 *
+	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var string
+	 */
+	protected $main_ID = '';
+
+	/**
+	 *
+	 * @JetDataModel:related_to = 'main.ID_property'
+	 * @JetDataModel:is_ID = true
+	 *
+	 * @var string
+	 */
+	protected $main_ID_property = '';
 
 	/**
 	 *

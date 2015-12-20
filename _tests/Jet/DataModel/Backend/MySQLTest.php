@@ -398,8 +398,6 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 		}
 
 		$valid_query = 'UPDATE `data_model_test_mock` SET '.JET_EOL
-			.'`ID`=\'id_value_123\','.JET_EOL
-			.'`ID_property`=\'ID default value\','.JET_EOL
 			.'`string_property`=\'default value\','.JET_EOL
 			.'`locale_property`=\'default value\','.JET_EOL
 			.'`int_property`=2,'.JET_EOL

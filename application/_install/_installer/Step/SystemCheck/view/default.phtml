@@ -181,7 +181,7 @@ class JetCompatibilityTester {
 		        ] as $required_function) {
 
 			if( !function_exists($required_function) ) {
-				die('Error: function \''.$required_function.'\' is required!');
+				trigger_error('Error: function \''.$required_function.'\' is required!', E_USER_ERROR);
 			}
 		}
 

@@ -98,7 +98,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 		$value = '10';
 		$errors = array();
 
-		$this->assertFalse( $this->object->validatePropertyValue($value, $errors) );
+		$this->assertFalse( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 
 		$this->assertArrayHasKey(0, $errors);
 		/**
@@ -116,7 +116,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 	public function testValidateProperties() {
 		$value = 2;
 		$errors = array();
-		$this->assertTrue( $this->object->validatePropertyValue($value, $errors) );
+		$this->assertTrue( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 	}
 
 	/**
@@ -146,7 +146,6 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 			'is_required' => $this->property_options['is_required'],
 			'min_value' => $this->property_options['min_value'],
 			'max_value' => $this->property_options['max_value'],
-			'catch_data_callback' => null,
 			'validate_data_callback' => null,
 			'select_options' =>
 			array (

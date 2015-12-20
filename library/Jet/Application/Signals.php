@@ -37,6 +37,7 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 			);
 		}
 
+
 		$signal_object_class_name = $sender->getSignalObjectClassName($signal_name);
 
 		$signal = new $signal_object_class_name( $sender, $signal_name, $signal_data );

@@ -669,8 +669,6 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 		$test_XML = $this->object->toXML();
 
-		//var_dump($test_XML);die();
-
 		$valid_XML = str_replace("\r", '', $valid_XML);
 		$test_XML = str_replace("\r", '', $test_XML);
 		$valid_XML = str_replace("\t", '', $valid_XML);

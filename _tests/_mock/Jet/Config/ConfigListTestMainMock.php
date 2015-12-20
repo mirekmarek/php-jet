@@ -24,7 +24,7 @@ class ConfigListTestMainMock extends Config {
 	/**
 	 * Database adapters and configurations for general usage
 	 *
-	 * @JetConfig:type = Jet\Config::TYPE_CONFIG_LIST
+	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
 	 * @JetConfig:data_path = 'connections'
 	 * @JetConfig:config_factory_class_name = 'ConfigListTestMainMock'
 	 * @JetConfig:config_factory_method_name = 'getAdapterConfigInstance'

@@ -177,10 +177,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
 		$ready_to_save = false;
 
+		$data_model_definition = $this->getDataModelDefinition();
 
-		foreach( $this->getDataModelDefinition()->getProperties() as $property_name => $property_definition ) {
+		foreach( $data_model_definition->getProperties() as $property_name => $property_definition ) {
 
-			$property_definition->initPropertyDefaultValue( $this->{$property_name} );
+			$property_definition->initPropertyDefaultValue( $this->{$property_name}, $this );
 
 		}
 

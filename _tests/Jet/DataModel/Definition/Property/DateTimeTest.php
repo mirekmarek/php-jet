@@ -67,7 +67,7 @@ class DataModel_Definition_Property_DateTimeTest extends \PHPUnit_Framework_Test
 	 */
 	public function testGetValueForJsonSerialize() {
 		$date_object = new DateTime('1980-08-13 05:55:55');
-		$value = $this->object->getValueForJsonSerialize($date_object);
+		$value = $this->object->getValueForJsonSerialize($this->data_model, $date_object);
 		$this->assertEquals($date_object->toString(), $value);
 	}
 }

@@ -15,7 +15,7 @@ abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
 
 
 	/**
-	 * @JetConfig:type = Jet\Config::TYPE_STRING
+	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_type = false
 	 *
