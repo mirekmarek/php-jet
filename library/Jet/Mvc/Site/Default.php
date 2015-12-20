@@ -32,11 +32,8 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
     const SITE_DATA_FILE_NAME = 'site_data.php';
     const URL_MAP_FILE_NAME = 'urls_map.php';
     const PAGES_DIR = 'pages';
-    const IMAGES_DIR = 'images';
-    const SCRIPTS_DIR = 'scripts';
-    const STYLES_DIR = 'styles';
     const LAYOUTS_DIR = 'layouts';
-    const PUBLIC_FILES_DIR = 'public_files';
+    const PUBLIC_DIR = 'public';
 
 	/**
 	 *
@@ -162,48 +159,20 @@ class Mvc_Site_Default extends Mvc_Site_Abstract {
         return JET_SITES_URI . $this->getID() . '/';
     }
 
-    /**
-     * @return string
-     */
-    public function getImagesURI() {
-        return $this->getBaseURI() . static::IMAGES_DIR.'/';
-    }
+	/**
+	 * @return string
+	 */
+	public function getPublicURI() {
+		return $this->getBaseURI() . static::PUBLIC_DIR.'/';
+	}
 
-    /**
-     * @return string
-     */
-    public function getImagesPath() {
-        return $this->getBasePath() . static::IMAGES_DIR.'/';
-    }
+	/**
+	 * @return string
+	 */
+	public function getPublicPath() {
+		return $this->getBasePath() . static::PUBLIC_DIR.'/';
+	}
 
-
-    /**
-     * @return string
-     */
-    public function getScriptsURI() {
-        return $this->getBaseURI() . static::SCRIPTS_DIR.'/';
-    }
-
-    /**
-     * @return string
-     */
-    public function getScriptsPath() {
-        return $this->getBasePath() . static::SCRIPTS_DIR.'/';
-    }
-
-    /**
-     * @return string
-     */
-    public function getStylesURI() {
-        return $this->getBaseURI(). static::STYLES_DIR.'/';
-    }
-
-    /**
-     * @return string
-     */
-    public function getStylesPath() {
-        return $this->getBasePath() . static::STYLES_DIR.'/';
-    }
     /**
      * @return string
      */

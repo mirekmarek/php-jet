@@ -70,36 +70,16 @@ abstract class Mvc_Site_Abstract extends DataModel {
      */
     abstract public function getBaseURI();
 
-    /**
-     * @return string
-     */
-    abstract public function getImagesURI();
+	/**
+	 * @return string
+	 */
+	abstract public function getPublicURI();
 
-    /**
-     * @return string
-     */
-    abstract public function getImagesPath();
+	/**
+	 * @return string
+	 */
+	abstract public function getPublicPath();
 
-
-    /**
-     * @return string
-     */
-    abstract public function getScriptsURI();
-
-    /**
-     * @return string
-     */
-    abstract public function getScriptsPath();
-
-    /**
-     * @return string
-     */
-    abstract public function getStylesURI();
-
-    /**
-     * @return string
-     */
-    abstract public function getStylesPath();
 
 	/**
 	 * Returns default locale

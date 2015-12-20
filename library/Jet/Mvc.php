@@ -327,7 +327,7 @@ class Mvc {
 	 *
 	 */
 	public static function requireSiteJavascriptFile( $file ) {
-		$path = Mvc::getCurrentSite()->getScriptsPath();
+		$path = Mvc::getCurrentSite()->getPublicPath();
 
 		static::getCurrentPage()->getLayout()->requireJavascriptFile( $path.$file );
 	}
@@ -381,7 +381,7 @@ class Mvc {
 	 * @param string $media (optional)
 	 */
 	public static function requireSiteCssFile( $file, $media='' ) {
-		$path = Mvc::getCurrentSite()->getStylesPath();
+		$path = Mvc::getCurrentSite()->getPublicPath();
 
 		static::getCurrentPage()->getLayout()->requireCssFile( $path.$file, $media );
 	}

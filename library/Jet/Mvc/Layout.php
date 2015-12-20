@@ -830,23 +830,26 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string &$result
 	 */
 	protected function handleConstants( &$result ) {
-		if($this->getPage()) {
+		$data = [];
 
-			$data = [];
+		if( ($page=$this->getPage()) ) {
 
-			$data['JET_SITE_BASE_URI'] = $this->getPage()->getSite()->getBaseURI();
-			$data['JET_SITE_IMAGES_URI'] = $this->getPage()->getSite()->getImagesURI();
+			$site = $page->getSite();
+			$locale = $page->getLocale();
 
-			$data['JET_UI_CONTAINER_ID'] = $this->getUIContainerID();
-			$data['JET_UI_CONTAINER_ID_PREFIX'] = $this->getUIContainerIDPrefix();
-			$data['JET_PAGE_TITLE'] = $this->getPage()->getTitle();
 
-			$data['JET_SITE_TITLE'] = $this->getPage()->getSite()->getLocalizedData($this->getPage()->getLocale())->getTitle();
-			$data['JET_LANGUAGE'] = $this->getPage()->getLocale()->getLanguage();
+			$data['JET_SITE_BASE_URI'] = $site->getBaseURI();
+			$data['JET_SITE_PUBLIC_URI'] = $site->getPublicURI();
+			$data['JET_SITE_TITLE'] = $site->getLocalizedData($locale)->getTitle();
+			$data['JET_PAGE_TITLE'] = $page->getTitle();
 
-			$result = Data_Text::replaceData($result, $data );
+			$data['JET_LANGUAGE'] = $locale->getLanguage();
 		}
 
+		$data['JET_UI_CONTAINER_ID'] = $this->getUIContainerID();
+		$data['JET_UI_CONTAINER_ID_PREFIX'] = $this->getUIContainerIDPrefix();
+
+		$result = Data_Text::replaceData($result, $data );
 	}
 
 	/**

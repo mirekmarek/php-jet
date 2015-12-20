@@ -39,7 +39,7 @@ if(!$got_base_URI){
 define('JET_BASE_URI', $base_URI);
 
 define('JET_MODULES_URI', JET_BASE_URI . 'application/modules/');
-define('JET_SITES_URI', JET_BASE_URI . 'application/sites/');
+define('JET_SITES_URI', JET_BASE_URI . 'sites/');
 
 define('JET_PUBLIC_URI', JET_BASE_URI . 'public/');
 define('JET_PUBLIC_FILES_URI', JET_PUBLIC_URI . 'files/');

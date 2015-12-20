@@ -148,7 +148,7 @@ class Debug_Profiler {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@chmod($dir, 0777);
 		}
-		$file_path = $dir.$run_ID.".jpd";
+		$file_path = $dir.$run_ID.'.jpd';
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@file_put_contents( $file_path, serialize($run) );
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
@@ -163,14 +163,13 @@ class Debug_Profiler {
 	 * @throws \Exception
 	 */
 	public static function loadRun( $run_ID ) {
-		if( strpos($run_ID, ".")!==false ) {
-			//throw new \Exception( "Incorrect run ID" );
+		if( strpos($run_ID, '.')!==false ) {
 			return null;
 		}
 
 		$dir = static::getRunSaveDirectoryPath();
 
-		$file_path = $dir.$run_ID.".jpd";
+		$file_path = $dir.$run_ID.'.jpd';
 
 		if(!file_exists($file_path)) {
 			return null;
@@ -204,7 +203,7 @@ class Debug_Profiler {
 	 */
 	public static function getRunSaveDirectoryPath() {
 		if(!static::$run_save_directory_path) {
-			static::$run_save_directory_path = JET_TMP_PATH.'profiler/';
+			static::$run_save_directory_path = JET_TMP_PATH.'_profiler/';
 		}
 		return static::$run_save_directory_path;
 	}
