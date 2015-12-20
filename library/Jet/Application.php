@@ -31,49 +31,18 @@ class Application extends Object {
 	protected static $config = null;
 
 	/**
-	 *
-	 */
-	public static function installCommonDictionaries() {
-		$dictionaries_path = JET_APPLICATION_PATH."_install/dictionaries/";
-
-		$list = IO_Dir::getList( $dictionaries_path, '*.php' );
-
-		$tr_backend_type = 'PHPFiles';
-
-		$backend = Translator_Factory::getBackendInstance( $tr_backend_type );
-
-		foreach( $list as $path=>$file_name ) {
-			list($locale) = explode('.', $file_name);
-			$locale = new Locale($locale);
-
-			$dictionary = $backend->loadDictionary( Tr::COMMON_NAMESPACE, $locale, $path );
-
-			$backend->saveDictionary( $dictionary );
-		}
-	}
-
-	/**
 	 * Start application
 	 *
 	 * @static
 	 *
-	 * @param string $configuration_name
-	 *
 	 * @throws Application_Exception
 	 */
-	public static function start( $configuration_name ){
+	public static function start(){
 
 		Debug_Profiler::MainBlockStart('Application init');
 
-		if( strpos($configuration_name, '.')!==false ) {
-			throw new Application_Exception(
-				'Invalid configuration name \''.$configuration_name.'\'',
-				Application_Exception::CODE_INVALID_CONFIGURATION_NAME
 
-			);
-		}
-
-		$config_file_path = JET_CONFIG_PATH . $configuration_name.'.php';
+		$config_file_path = JET_CONFIG_PATH . JET_APPLICATION_CONFIGURATION_NAME.'.php';
 
 		Debug_Profiler::blockStart('Configuration init');
 			Config::setApplicationConfigFilePath( $config_file_path );
@@ -107,12 +76,12 @@ class Application extends Object {
 	 *
 	 */
 	public static function end(){
+		$app = new self();
+		$app->sendSignal('/application/ended');
+
 		if(!static::$do_not_end) {
 			exit();
 		}
-
-		$app = new self();
-		$app->sendSignal('/application/ended');
 	}
 
 	/**
@@ -128,7 +97,7 @@ class Application extends Object {
 	 *
 	 * @return bool
 	 */
-	public static function getIsDebugMode(){
+	public static function getIsInDevelMode(){
 		return defined('JET_DEVEL_MODE') && JET_DEVEL_MODE;
 	}
 

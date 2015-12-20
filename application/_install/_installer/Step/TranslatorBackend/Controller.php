@@ -27,7 +27,22 @@ class Installer_Step_TranslatorBackend_Controller extends Installer_Step_Control
 
 			Translator::helper_create();
 
-			Application::installCommonDictionaries();
+
+			$dictionaries_path = JET_APPLICATION_PATH."_install/dictionaries/";
+
+			$list = IO_Dir::getList( $dictionaries_path, '*.php' );
+
+			$backend = Translator::getBackendInstance();
+
+			foreach( $list as $path=>$file_name ) {
+				list($locale) = explode('.', $file_name);
+				$locale = new Locale($locale);
+
+				$dictionary = $backend->loadDictionary( Tr::COMMON_NAMESPACE, $locale, $path );
+
+				$backend->saveDictionary( $dictionary );
+			}
+
 
 			$this->installer->goNext();
 		}

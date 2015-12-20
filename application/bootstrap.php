@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2014 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2015 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -11,8 +11,15 @@
  */
 namespace Jet;
 
-require('config/defines.php');
-require('config/defines_URI.php');
+define('JET_CONFIG_ENVIRONMENT', 'development');
+
+/** @noinspection PhpIncludeInspection */
+require('config/'.JET_CONFIG_ENVIRONMENT.'/defines.php');
+/** @noinspection PhpIncludeInspection */
+require('config/'.JET_CONFIG_ENVIRONMENT.'/defines_URI.php');
+
+/** @noinspection PhpIncludeInspection */
+require('config/'.JET_CONFIG_ENVIRONMENT.'/php_setup.php');
 
 if( JET_DEBUG_PROFILER_ENABLED ) {
 	require( JET_APPLICATION_PATH . 'init/Profiler.php' );
@@ -23,8 +30,6 @@ require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
 //require( JET_APPLICATION_PATH . '_install/_installer/install.php' );
 
-Application::start( JET_APPLICATION_CONFIGURATION_NAME );
-
-
+Application::start();
 Mvc::run();
 Application::end();

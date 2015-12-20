@@ -1,7 +1,7 @@
 library/Zend
 library/Stubs
 application/sites/**
-application/config/**
+application/config/**/config.php
 application/logs/**
 application/tmp/**
 application/cache/**
