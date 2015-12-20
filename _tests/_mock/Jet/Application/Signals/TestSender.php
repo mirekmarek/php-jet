@@ -66,7 +66,10 @@ class Application_Signals_SignalTest_Sender extends Object {
 		return in_array( $signal_name, $this->signals );
 	}
 
-	public function setSignalRecived( $signal_name ) {
+	/**
+	 * @param $signal_name
+	 */
+	public function setSignalReceived($signal_name ) {
 		$this->received_signals[] = $signal_name;
 	}
 	/**

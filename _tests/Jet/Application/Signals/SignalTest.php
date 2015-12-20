@@ -26,7 +26,8 @@ class Application_Signals_SignalTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $sender;
 	protected $signal = '/test/signal1';
-	protected $data = ['val1', 'a' => 'valb'];
+	protected /** @noinspection SpellCheckingInspection */
+		$data = ['val1', 'a' => 'valb'];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

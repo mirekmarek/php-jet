@@ -1,21 +1,21 @@
 <?php
 use Jet\Application_Modules_Module_Manifest;
 
-return array(
+return [
 	'API_version' => 201401,
 
 	'vendor' => 'Jet (example)',
 	'label' => 'Test Module',
-	'types' => array(Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
+	'types' => [Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL],
 	'description' => 'Jet test module ...',
 
-	'require' => array(  ),
+	'require' => [],
 
-	'factory_overload_map' => array(
+	'factory_overload_map' => [
 
-	),
+	],
 
-	'signals_callbacks' => array(
+	'signals_callbacks' => [
 		'/test/ack' => 'testAck',
-	)
-);
+	]
+];

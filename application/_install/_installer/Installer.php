@@ -73,7 +73,7 @@ class Installer {
 
 	public function main() {
 		Http_Request::initialize(true);
-		Config::setApplicationConfigFilePath( $this->getTmpConfigFilePath() );
+		Application::setConfigFilePath( $this->getTmpConfigFilePath() );
 
 
 		static::initTranslator();

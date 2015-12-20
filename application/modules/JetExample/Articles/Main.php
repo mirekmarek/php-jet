@@ -18,12 +18,12 @@ use Jet\Application_Modules_Module_Abstract;
 use Jet\Mvc;
 
 class Main extends Application_Modules_Module_Abstract {
-	protected $ACL_actions = array(
+	protected $ACL_actions = [
 		'get_article' => 'Get article(s) data',
 		'add_article' => 'Add new article',
 		'update_article' => 'Update article',
 		'delete_article' => 'Delete article',
-	);
+	];
 
 
 	/**

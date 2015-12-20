@@ -70,7 +70,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__contruct
+	 * @covers Jet\DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -86,7 +86,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__contruct
+	 * @covers Jet\DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -104,7 +104,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__contruct
+	 * @covers Jet\DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -122,7 +122,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__contruct
+	 * @covers Jet\DataModel_Query_Select::__construct
 	 * @covers Jet\DataModel_Query_Select::addItem
 	 * @covers Jet\DataModel_Query_Select::getHasItem
 	 */
@@ -135,7 +135,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__contruct
+	 * @covers Jet\DataModel_Query_Select::__construct
 	 * @covers Jet\DataModel_Query_Select::addItem
 	 * @covers Jet\DataModel_Query_Select::getItem
 	 */
@@ -147,7 +147,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__contruct
+	 * @covers Jet\DataModel_Query_Select::__construct
 	 * @covers Jet\DataModel_Query_Select::addItem
 	 * @covers Jet\DataModel_Query_Select::current
 	 * @covers Jet\DataModel_Query_Select::key

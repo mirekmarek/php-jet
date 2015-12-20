@@ -17,12 +17,12 @@ use Jet;
 use Jet\Application_Modules_Module_Abstract;
 
 class Main extends Application_Modules_Module_Abstract {
-	protected $ACL_actions = array(
+	protected $ACL_actions = [
 		'get_user' => 'Get user(s) data',
 		'add_user' => 'Add new user',
 		'update_user' => 'Update user',
 		'delete_user' => 'Delete user',
-	);
+	];
 
 
 }

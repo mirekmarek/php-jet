@@ -174,12 +174,12 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 			'this.ID_property'
 		]);
 
-		$gorup_by_data = ['int_property', 'string_property', 'ID_property'];
+		$group_by_data = ['int_property', 'string_property', 'ID_property'];
 
 		$this->assertNull($this->object->getGroupBy());
-		$this->assertSame($this->object, $this->object->setGroupBy($gorup_by_data));
+		$this->assertSame($this->object, $this->object->setGroupBy($group_by_data));
 
-		$group_by = new DataModel_Query_GroupBy($this->object, $gorup_by_data );
+		$group_by = new DataModel_Query_GroupBy($this->object, $group_by_data );
 
 		$this->assertEquals($group_by, $this->object->getGroupBy());
 	}

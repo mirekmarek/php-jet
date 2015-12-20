@@ -26,9 +26,9 @@ class Controller_JetJS extends Mvc_Controller_JetJS {
     /**
      * @var array
      */
-    protected static $ACL_actions_check_map = array(
+    protected static $ACL_actions_check_map = [
         'default' => false
-    );
+    ];
 
     public function default_Action() {
     }

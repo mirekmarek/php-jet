@@ -4,5 +4,7 @@ require 'bootstrap.php';
 /** @noinspection PhpIncludeInspection */
 require 'SebastianBergmann/PHPUnit/SkeletonGenerator/autoload.php';
 
-$textui = new SebastianBergmann\PHPUnit\SkeletonGenerator\Command;
-$textui->main();
+use SebastianBergmann\PHPUnit\SkeletonGenerator\Command;
+
+$text_ui = new Command();
+$text_ui->main();

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SpellCheckingInspection */
  return [
 	'd4400c34998c3fcce50dcc45c14572b3' => [
 		'phrase' => 'Translator configuration',

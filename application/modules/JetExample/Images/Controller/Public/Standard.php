@@ -21,9 +21,9 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => false
-	);
+	];
 
 	/**
 	 *

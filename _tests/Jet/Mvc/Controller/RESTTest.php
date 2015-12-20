@@ -82,7 +82,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 											<!--  Type: ID, required: yes  -->
 											<parent_ID>_root_</parent_ID>
 											<!--  Type: String, max length: 100, required: yes  -->
-											<title>Gellery 3</title>
+											<title>Gallery 3</title>
 											<comment>aaa</comment>
 
 											<item>
@@ -98,7 +98,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			'comment' => 'aaa',
 			'ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
 			'parent_ID' => '_root_',
-			'title' => 'Gellery 3',
+			'title' => 'Gallery 3',
 			'item' =>
 			[
 				'str_val' => 'string',
@@ -108,6 +108,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 		], $data);
 
+		/** @noinspection SpellCheckingInspection */
 		$data = $this->object->decodeRequestDataXML('<list model_name=\'Jet_ImageGallery_Images\'>
 											<item>
 												<ID>linux_2m_MF137301722026651d69484411740_57557045</ID>
@@ -196,6 +197,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 											</list>');
 
 
+		/** @noinspection SpellCheckingInspection */
 		$this->assertEquals([
 			0 =>
 			[

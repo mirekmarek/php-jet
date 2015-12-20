@@ -146,7 +146,7 @@ class Article extends DataModel {
 
 		$article_i = $this;
 
-		$this->URI_fragment = $this->generateURLfragment($this->title, function( $URI_fragment ) use ( $article_i ) {
+		$this->URI_fragment = $this->generateUrlFragment($this->title, function( $URI_fragment ) use ( $article_i ) {
 			return $article_i->getURIfragmentExists( $URI_fragment );
 		}, '.html');
 	}
@@ -176,7 +176,7 @@ class Article extends DataModel {
         $URI_fragment = str_replace(' ', '-', $URI_fragment);
         $URI_fragment = preg_replace( '~([-]{2,})~', '-' , $URI_fragment );
 
-        $replace = array('!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'','"' ,'/','<','>',';','?','{','}','[',']','|');
+        $replace = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'','"' ,'/','<','>',';','?','{','}','[',']','|'];
         $URI_fragment = str_replace($replace, '', $URI_fragment);
 
         $URI_fragment = rawurlencode($URI_fragment);
@@ -208,15 +208,15 @@ class Article extends DataModel {
 	 */
 	public function getURIfragmentExists( $URI_fragment ) {
 		if($this->getIsNew()) {
-			$q = array(
+			$q = [
 				'this.URI_fragment' => $URI_fragment
-			);
+			];
 		} else {
-			$q = array(
+			$q = [
 				'this.URI_fragment' => $URI_fragment,
 				'AND',
 				'this.ID!=' => $this->ID
-			);
+			];
 		}
 		return (bool)$this->getBackendInstance()->getCount( $this->createQuery($q) );
 	}
@@ -303,7 +303,7 @@ class Article extends DataModel {
 	 *
 	 * @return Article[]|DataModel_Fetch_Object_Abstract
 	 */
-	public static function getList( $query=array() ) {
+	public static function getList( $query= []) {
 		return (new self())->fetchObjects($query);
 	}
 
@@ -318,16 +318,16 @@ class Article extends DataModel {
 		 */
 		$i = new self();
 		$props = $i->getDataModelDefinition()->getProperties();
-		return $i->fetchDataAssoc($props, array());
+		return $i->fetchDataAssoc($props, []);
 	}
 
 	/**
-	 * @return Article[]Data_Paginator_DataSource_Interface
+	 * @return Article[]|Data_Paginator_DataSource_Interface
 	 */
 	public function getListForCurrentLocale() {
-		$list = $this->fetchObjects(array(
+		$list = $this->fetchObjects([
 			'this.locale' => Mvc::getCurrentLocale()
-		));
+		]);
 		$list->getQuery()->setOrderBy('-date_time');
 
 		return $list;
@@ -344,9 +344,9 @@ class Article extends DataModel {
 
 		if(isset($param[0]) && substr($param[0], -5)=='.html' ) {
 
-			$current_article = $this->fetchOneObject( array(
+			$current_article = $this->fetchOneObject( [
 				'this.URI_fragment' => 	$param[0]
-			) );
+			]);
 
 		}
 

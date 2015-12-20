@@ -26,16 +26,16 @@ class Controller_REST extends Mvc_Controller_REST {
 
 
 	const ERR_CODE_AUTHORIZATION_REQUIRED = 'AuthorizationRequired';
-	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array( Http_Headers::CODE_401_UNAUTHORIZED, 'Authorization required'),
-	);
+	protected static $errors = [
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Authorization required'],
+	];
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'login' => false,
 		'isNotActivated' => false,
 		'isBlocked' => false,
 		'mustChangePassword' => false
-	);
+	];
 
 	/**
 	 *
@@ -52,7 +52,7 @@ class Controller_REST extends Mvc_Controller_REST {
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
             header('WWW-Authenticate: Basic realm="Login"');
 
-            $this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User is not logged in'));
+            $this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, ['message'=>'User is not logged in']);
         } else {
 
             if(Auth::login( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] )) {
@@ -60,7 +60,7 @@ class Controller_REST extends Mvc_Controller_REST {
             } else {
                 header('WWW-Authenticate: Basic realm="Login"');
 
-                $this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'Incorrect username or password'));
+                $this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, ['message'=>'Incorrect username or password']);
             }
 
         }
@@ -68,14 +68,14 @@ class Controller_REST extends Mvc_Controller_REST {
 	
 
 	public function isNotActivated_Action() {
-		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User is not activated'));
+		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, ['message'=>'User is not activated']);
 	}
 
 	public function isBlocked_Action() {
-		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User is blocked'));
+		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, ['message'=>'User is blocked']);
 	}
 
 	public function mustChangePassword_Action() {
-		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, array('message'=>'User must change password'));
+		$this->responseError(self::ERR_CODE_AUTHORIZATION_REQUIRED, ['message'=>'User must change password']);
 	}
 }

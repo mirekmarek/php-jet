@@ -145,7 +145,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
 	 */
-	public function testCopyFaildImaginarySource() {
+	public function testCopyFailedImaginarySource() {
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::copy($this->imaginary_dir_path, $this->copy_test_target_path);
 	}
@@ -158,7 +158,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
-	public function testCopyFaildImaginaryTarget() {
+	public function testCopyFieldImaginaryTarget() {
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::copy($this->copy_test_source_path, $this->imaginary_dir_path);
 	}
@@ -172,7 +172,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
 	 */
-	public function testCopyFaildExists() {
+	public function testCopyFailedExists() {
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::copy($this->copy_test_source_path, $this->copy_test_source_path, false);
 	}

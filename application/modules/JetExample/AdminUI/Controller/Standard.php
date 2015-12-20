@@ -28,13 +28,13 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
         'logout' => false,
 		'default' => false,
 		'signpost' => false,
 		'ria_default' => false,
 		'classic_default' => false
-	);
+	];
 
 	/**
 	 *
@@ -91,10 +91,10 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$Dojo->requireComponent('dijit.form.NumberTextBox');
 		$Dojo->requireComponent('dijit.form.SimpleTextarea');
 		$Dojo->requireComponent('dijit.TooltipDialog');
-		$Dojo->requireComponent('dojox.grid.EnhancedGrid', array('css'=>array(
+		$Dojo->requireComponent('dojox.grid.EnhancedGrid', ['css'=> [
 			'dojox/grid/enhanced/resources/%THEME%/EnhancedGrid.css',
 			'dojox/grid/enhanced/resources/EnhancedGrid_rtl.css',
-		)));
+		]]);
 
 
 		$Dojo->requireComponent('dojox.form.BusyButton');

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SpellCheckingInspection */
  return [
 	'55c5ec181df3c5195a098543ee0e1605' => [
 		'phrase' => 'Modules installation',

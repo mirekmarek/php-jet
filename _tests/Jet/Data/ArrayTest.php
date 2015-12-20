@@ -12,6 +12,7 @@
 namespace Jet;
 
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Data_ArrayTest_testObject {
 	public $v_int = 1;
 	public $v_float = 3.14;
@@ -67,7 +68,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 				'bool' => true,
 
 			],
-			'subai' => [
+			'sub_ai' => [
 				1,
 				'string',
 				123.456
@@ -293,7 +294,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 						.JET_TAB.JET_TAB.JET_TAB.JET_TAB.'\'v_string\' => \'<script>alert("Shady!");</script>\','.JET_EOL
 					.JET_TAB.JET_TAB.JET_TAB.') ),'.JET_EOL
                 .JET_TAB.JET_TAB.'),'.JET_EOL
-				.JET_TAB.JET_TAB.'\'subai\' => array('.JET_EOL
+				.JET_TAB.JET_TAB.'\'sub_ai\' => array('.JET_EOL
 				.JET_TAB.JET_TAB.JET_TAB.'1,'.JET_EOL
 				.JET_TAB.JET_TAB.JET_TAB.'\'string\','.JET_EOL
 				.JET_TAB.JET_TAB.JET_TAB.'123.456,'.JET_EOL

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SpellCheckingInspection */
  return [
 	'25407b0ace59e7c6fbedf77145cecaf3' => [
 		'phrase' => 'History configuration',

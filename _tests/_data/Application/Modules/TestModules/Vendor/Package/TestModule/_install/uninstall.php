@@ -1,5 +1,7 @@
 <?php
+namespace JetApplicationModule\Vendor\Package\TestModule;
+
 /**
- * @var JetApplicationModule\Vendor\TestModule\Main $module_instance
+ * @var Main $module_instance
  */
 $module_instance->testUninstall();

@@ -64,7 +64,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckValueType() {
 
-		$value = 'notarray';
+		$value = 'not_array';
 
 		$this->object->checkValueType( $value );
 
@@ -89,6 +89,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testCheckValue() {
+		/** @noinspection SpellCheckingInspection */
 		$value = ['testvalue1', 'testvalue2'];
 
 		$this->assertTrue( $this->object->checkValue( $value ) );

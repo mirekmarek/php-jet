@@ -399,7 +399,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
 	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_value
 	 */
-	public function testValidatePropertiesFailedInvaliudFormat() {
+	public function testValidatePropertiesFailedInvalidFormat() {
 		$value = '_#invalid';
 		$errors = [];
 

@@ -24,9 +24,9 @@ class Controller_Admin_AJAX extends Mvc_Controller_AJAX {
 	protected $module_instance = null;
 
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => false
-	);
+	];
 
 	/**
 	 *

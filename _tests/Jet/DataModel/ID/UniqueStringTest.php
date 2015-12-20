@@ -57,7 +57,8 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $data_model_object;
 
-	protected $ID_data = [
+	protected /** @noinspection SpellCheckingInspection */
+		$ID_data = [
 			'ID' => 'myID',
 			'ID_property_1' => 'abcdefg',
 			'ID_property_2' => 'cs_CZ',
@@ -107,6 +108,7 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::toString
 	 */
 	public function testToString() {
+		/** @noinspection SpellCheckingInspection */
 		$this->assertSame('myID:abcdefg:cs_CZ:1234', $this->ID_object->toString());
 	}
 
@@ -114,6 +116,7 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_ID_Abstract::unserialize
 	 */
 	public function testUnserialize() {
+		/** @noinspection SpellCheckingInspection */
 		$this->ID_object->unserialize('myID-t:abcdefg-t:sk_SK:12345');
 
 		$ID_data = [];
@@ -121,6 +124,7 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 			$ID_data[$k] = $v;
 		}
 
+		/** @noinspection SpellCheckingInspection */
 		$valid_ID_data = [
 			'ID' => 'myID-t',
 			'ID_property_1' => 'abcdefg-t',
@@ -146,7 +150,7 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testOffsetUnset() {
 		//do nothing
-		unset($this->ID_object['nothning']);
+		unset($this->ID_object['nothing']);
 	}
 
 	/**

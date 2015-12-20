@@ -47,18 +47,18 @@ class Main extends Auth_ControllerModule_Abstract {
 	/**
 	 * @var array
 	 */
-	protected $standard_privileges = array(
-		Auth::PRIVILEGE_VISIT_PAGE => array(
+	protected $standard_privileges = [
+		Auth::PRIVILEGE_VISIT_PAGE => [
 			'label' => 'Sites and pages',
 			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
-		),
+		],
 
-		Auth::PRIVILEGE_MODULE_ACTION => array(
+		Auth::PRIVILEGE_MODULE_ACTION => [
 			'label' => 'Modules and actions',
 			'get_available_values_list_method_name' => 'getAclActionValuesList_ModulesActions'
-		)
+		]
 
-	);
+	];
 
 	/**
 	 * Currently logged user
@@ -146,7 +146,7 @@ class Main extends Auth_ControllerModule_Abstract {
 		}
 
 
-        $page_content = array();
+        $page_content = [];
         $page_content_item = Mvc_Factory::getPageContentInstance();
 
         $page_content_item->setModuleName( $this->module_manifest->getName() );
@@ -277,10 +277,10 @@ class Main extends Auth_ControllerModule_Abstract {
 			}
 
 			static::logEvent('privilege_access_denied',
-				array(
+				[
 					'privilege'=>$privilege,
 					'value'=>$value
-				),
+				],
 				'Privilege access denied. Login: \''.$login.'\', User ID: \''.$user_ID.'\', Privilege: \''.$privilege.'\', Value: \''.$value.'\''
 			);
 		}
@@ -331,10 +331,10 @@ class Main extends Auth_ControllerModule_Abstract {
 	 * @return Form
 	 */
 	function getLoginForm() {
-		$form = new Form('login', array(
+		$form = new Form('login', [
 			Form_Factory::field('Input', 'login', 'User name: '),
 			Form_Factory::field('Password', 'password', 'Password:')
-		));
+		]);
 
 		$form->getField('login')->setIsRequired( true );
 		/**
@@ -351,9 +351,9 @@ class Main extends Auth_ControllerModule_Abstract {
 	 * @return Form
 	 */
 	function getChangePasswordForm() {
-		$form = new Form('login', array(
+		$form = new Form('login', [
 			Form_Factory::field('Password', 'password', 'Password')
-		));
+		]);
 
 		$form->getField('password')->setIsRequired( true );
 
@@ -367,7 +367,7 @@ class Main extends Auth_ControllerModule_Abstract {
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	public function getAvailablePrivilegesList() {
-		$data = array();
+		$data = [];
 
 		foreach( $this->standard_privileges as $privilege=>$d) {
 			$available_values_list = null;

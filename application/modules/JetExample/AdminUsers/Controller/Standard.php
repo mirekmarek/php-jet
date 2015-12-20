@@ -41,13 +41,13 @@ class Controller_Standard extends Mvc_Controller_Standard {
     protected $micro_router;
 
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => 'get_user',
 		'add' => 'add_user',
 		'edit' => 'update_user',
 		'view' => 'get_user',
 		'delete' => 'delete_user',
-	);
+	];
 
 
 	/**

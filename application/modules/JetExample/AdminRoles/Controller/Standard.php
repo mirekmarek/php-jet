@@ -40,13 +40,13 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	 */
 	protected $micro_router;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => 'get_role',
 		'add' => 'add_role',
 		'edit' => 'update_role',
 		'view' => 'get_role',
 		'delete' => 'delete_role',
-	);
+	];
 
 	/**
 	 *
@@ -169,7 +169,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$this->view->setVar('btn_label', Tr::_('ADD') );
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
-		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList(true));
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList() );
 
 		$this->render('classic/edit');
 	}
@@ -193,7 +193,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList(true));
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList() );
 
 		$this->render('classic/edit');
 	}
@@ -209,7 +209,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', false);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList(true));
+		$this->view->setVar('available_privileges_list', Auth::getAvailablePrivilegesList() );
 
 		$this->render('classic/edit');
 	}

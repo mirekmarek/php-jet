@@ -16,9 +16,9 @@ Debug_ErrorHandler::registerHandler(
 	'Log',
 	__NAMESPACE__.'\Debug_ErrorHandler_Handler_Log',
 	JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler/Handler/Log.php',
-	array(
+	[
 		/** options */
-	)
+	]
 );
 
 if(JET_DEVEL_MODE) {
@@ -26,9 +26,9 @@ if(JET_DEVEL_MODE) {
 		'Display',
 		__NAMESPACE__.'\Debug_ErrorHandler_Handler_Display',
 		JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler/Handler/Display.php',
-		array(
+		[
 			/** options */
-		)
+		]
 	);
 
 }

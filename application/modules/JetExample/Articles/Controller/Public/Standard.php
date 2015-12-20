@@ -27,11 +27,11 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
      */
     protected $public_list_items_per_page = 2;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => false,
 		'list' => false,
 		'detail' => false
-	);
+	];
 
 	/**
 	 *

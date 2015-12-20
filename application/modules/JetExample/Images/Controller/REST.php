@@ -31,7 +31,7 @@ class Controller_REST extends Mvc_Controller_REST {
 	const ERR_CODE_IMAGE_ALLREADY_EXISTS = 'ImageAllreadyExists';
 	const ERR_CODE_UNKNOWN_ERROR = 'UnknownError';
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'get_image' => 'get_image',
 		'get_image_thumbnail' => false,
 		'post_image' => 'add_image',
@@ -44,19 +44,19 @@ class Controller_REST extends Mvc_Controller_REST {
 		'post_gallery' => 'add_gallery',
 		'put_gallery' => 'update_gallery',
 		'delete_gallery' => 'delete_gallery'
-	);
+	];
 
-	protected static $errors = array(
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '),
-		self::ERR_CODE_ACCESS_DENIED => array(Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '),
-		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => array(Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'),
-		self::ERR_CODE_FORM_ERRORS => array(Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'),
-		self::ERR_CODE_UNKNOWN_ITEM => array(Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'),
+	protected static $errors = [
+		self::ERR_CODE_AUTHORIZATION_REQUIRED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '],
+		self::ERR_CODE_ACCESS_DENIED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '],
+		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => [Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'],
+		self::ERR_CODE_FORM_ERRORS => [Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'],
+		self::ERR_CODE_UNKNOWN_ITEM => [Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'],
 
-		self::ERR_CODE_NO_FILE => array( Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent' ),
-		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => array( Http_Headers::CODE_409_CONFLICT, 'Image allready uploaded' ),
-		self::ERR_CODE_UNKNOWN_ERROR => array(Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error'),
-	);
+		self::ERR_CODE_NO_FILE => [Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent'],
+		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => [Http_Headers::CODE_409_CONFLICT, 'Image allready uploaded'],
+		self::ERR_CODE_UNKNOWN_ERROR => [Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error'],
+	];
 
 	/**
 	 *
@@ -216,7 +216,7 @@ class Controller_REST extends Mvc_Controller_REST {
 	}
 
 	/**
-	 *
+	 * @param string $parent_ID (optional)
 	 */
 	public function get_gallery_tree_lazy_action( $parent_ID="" ) {
 		$tree = Gallery::getTree();

@@ -31,14 +31,14 @@ function formatDuration( $duration ) {
  *
  * @return string
  */
-function formatQuery($query, array $query_data=array()) {
+function formatQuery($query, array $query_data= []) {
 
 	if(!$query_data){
 		return $query;
 	}
 
 
-	$replacements = array();
+	$replacements = [];
 
 	foreach($query_data as $key => $value){
 
@@ -297,7 +297,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 			<?php
 			$total_count = 0;
 			$total_duration = 0;
-			foreach( $run->getSQLQueries() as $q ):
+			foreach( $run->getSqlQueries() as $q ):
 				$total_count++;
 				$total_duration = $total_duration + $q->getDuration();
 				?>

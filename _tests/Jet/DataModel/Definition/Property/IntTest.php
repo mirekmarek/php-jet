@@ -95,7 +95,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
 	 * @covers Jet\DataModel_Definition_Property_Float::_validatePropertyValue_test_value
 	 */
-	public function testvalidatePropertiesFailedOutOfRange() {
+	public function testValidatePropertiesFailedOutOfRange() {
 		$value = '10';
 		$errors = [];
 

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SpellCheckingInspection */
  return [
 	'7cca3cf4ba3f6184efea2827781368f4' => [
 		'phrase' => 'Cache configuration',

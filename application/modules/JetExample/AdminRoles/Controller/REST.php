@@ -26,13 +26,13 @@ class Controller_REST extends Mvc_Controller_REST {
 	 */
 	protected $module_instance = null;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'get_role' => 'get_role',
 		'post_role' => 'add_role',
 		'put_role' => 'update_role',
 		'delete_role' => 'delete_role',
 		'get_privilege_values_scope' => false
-	);
+	];
 
 	/**
 	 *

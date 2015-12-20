@@ -37,12 +37,12 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
      */
     protected $_standard_admin_micro_router;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => 'get_gallery',
 		'view' => 'get_gallery',
 		'edit' => 'update_gallery',
 		'add' => 'add_gallery',
-	);
+	];
 
 	/**
 	 *

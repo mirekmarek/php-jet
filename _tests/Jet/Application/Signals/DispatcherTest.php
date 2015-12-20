@@ -88,7 +88,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
 			 */
 			$sender = $signal->getSender();
-			$sender->setSignalRecived('/test/signal1');
+			$sender->setSignalReceived('/test/signal1');
 			$sender->getTestCase()->assertEquals( '/test/signal1', Application_Signals_Dispatcher::getCurrentSignal()->getName() );
 
 			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal2', ['value'=>1]);
@@ -100,7 +100,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
 			 */
 			$sender = $signal->getSender();
-			$sender->setSignalRecived('/test/signal2');
+			$sender->setSignalReceived('/test/signal2');
 			$sender->getTestCase()->assertEquals( '/test/signal2', Application_Signals_Dispatcher::getCurrentSignal()->getName() );
 
 			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal3', ['value'=>1]);
@@ -111,7 +111,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
 			 */
 			$sender = $signal->getSender();
-			$sender->setSignalRecived('/test/signal3');
+			$sender->setSignalReceived('/test/signal3');
 			$sender->getTestCase()->assertEquals( '/test/signal3', Application_Signals_Dispatcher::getCurrentSignal()->getName() );
 		});
 

@@ -134,8 +134,8 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @var array
 	 */
-	protected $multi_select = array (
-	);
+	protected $multi_select = [
+	];
 
 	/**
 	 *
@@ -147,7 +147,7 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @var array
 	 */
-	protected $radio_button = array ();
+	protected $radio_button = [];
 
 	/**
 	 *
@@ -247,13 +247,13 @@ class DataModelT1 extends DataModel {
 	}
 
 	public static function getSelectOptions() {
-		return array(
+		return [
 				'value1' => 'Option 1',
 				'value2' => 'Option 2',
 				'value3' => 'Option 3',
 				'value4' => 'Option 4',
 				'value5' => 'Option 5',
-		);
+		];
 	}
 
 

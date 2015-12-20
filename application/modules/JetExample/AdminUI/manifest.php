@@ -1,24 +1,24 @@
 <?php
 use Jet\Application_Modules_Module_Manifest;
 
-return array(
+return [
 	'API_version' => 201401,
 	'vendor' => 'Jet (example)',
 
 	'label' => 'Admin UI',
-	'types' => array( Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
+	'types' => [Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL],
 	'description' => '',
 
-	'require' => array(),
+	'require' => [],
 
-	'factory_overload_map' => array(),
+	'factory_overload_map' => [],
 
-	'signals_callbacks' => array(
+	'signals_callbacks' => [
 		'/test/received' => 'testReceived',
-		'/test/multiple' => array(
+		'/test/multiple' => [
 			'testMultiple1',
 			'testMultiple2'
-		),
-	),
+		],
+	],
 
-);
+];

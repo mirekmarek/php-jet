@@ -15,7 +15,7 @@ use Jet\Auth;
 		<jetml_dojo_form_button title="Test module" icon="module/JetExample.TestModule/module" icon_size="large" onClick="Jet.modules.CURRENT_MODULE.openModule('JetExample.TestModule');" />
 
         <div style="position: absolute;top:5px; right: 10px;">
-            <?=Tr::_('Current user: %USERNAME%', array('USERNAME' => Auth::getCurrentUser()->getLogin()));?>
+            <?=Tr::_('Current user: %USERNAME%', ['USERNAME' => Auth::getCurrentUser()->getLogin()]);?>
             <a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Tr::_('LOGOUT');?></a>
         </div>
 

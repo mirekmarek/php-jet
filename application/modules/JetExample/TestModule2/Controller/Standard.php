@@ -25,11 +25,11 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => false,
 		'test_action1' => false,
 		'test_action2' => false,
-	);
+	];
 
 	/**
 	 *
@@ -46,20 +46,20 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 	public function test_action2_Action() {
 
-		$form = new Form( 'TestForm', array(
+		$form = new Form( 'TestForm', [
 			Form_Factory::field('Input','input', 'Input: '),
 			Form_Factory::field('Select','select', 'Select: '),
 			Form_Factory::field('Checkbox','checkbox', 'Checkbox: '),
 			Form_Factory::field('Int','int', 'Int: '),
-		) );
+		]);
 
 		$form->getField('select')->setSelectOptions(
-				array(
+				[
 					'o1' => 'Option 1',
 					'o2' => 'Option 2',
 					'o3' => 'Option 3',
 					'o4' => 'Option 4',
-				)
+				]
 			);
 
 		/**

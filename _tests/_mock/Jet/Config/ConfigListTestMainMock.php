@@ -75,11 +75,11 @@ class ConfigListTestMainMock extends Config {
 
 	/**
 	 * @param $connection_name
-	 * @param ConfigListTestMainMock_Config_Abstract $connection_configuragion
+	 * @param ConfigListTestMainMock_Config_Abstract $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, ConfigListTestMainMock_Config_Abstract $connection_configuragion ) {
-		$this->connections->addConfigurationItem( $connection_name, $connection_configuragion );
+	public function addConnection( $connection_name, ConfigListTestMainMock_Config_Abstract $connection_configuration ) {
+		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
 	}
 
 	/**

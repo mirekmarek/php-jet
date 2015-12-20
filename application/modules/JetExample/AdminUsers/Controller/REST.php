@@ -26,12 +26,12 @@ class Controller_REST extends Mvc_Controller_REST {
 	protected $module_instance = null;
 
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'get_user' => 'get_user',
 		'post_user' => 'add_user',
 		'put_user' => 'update_user',
 		'delete_user' => 'delete_user',
-	);
+	];
 
 	/**
 	 *

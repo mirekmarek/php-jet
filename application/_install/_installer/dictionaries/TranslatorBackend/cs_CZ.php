@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SpellCheckingInspection */
  return [
 	'e0b0a4acb1ca0dc0c84b976ba576d3cd' => [
 		'phrase' => 'Backend configuration',

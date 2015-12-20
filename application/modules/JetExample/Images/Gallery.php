@@ -72,7 +72,7 @@ class Gallery extends DataModel {
 	/**
 	 * @var Gallery
 	 */
-	protected static $__galleries = array();
+	protected static $__galleries = [];
 
 	/**
 	 * @param string $parent_ID
@@ -192,10 +192,10 @@ class Gallery extends DataModel {
 	 * @return Form
 	 */
 	public function getUploadForm() {
-		$form = new Form('gallery_image_upload', array(
+		$form = new Form('gallery_image_upload', [
 			Form_Factory::getFieldInstance( Form::TYPE_FILE_IMAGE, 'file', 'Upload image' ),
 			Form_Factory::getFieldInstance( Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
-		));
+		]);
 
 		return $form;
 	}
@@ -312,7 +312,7 @@ class Gallery extends DataModel {
 		 */
 		$i = new self();
 		$props = $i->getDataModelDefinition()->getProperties();
-		return $i->fetchDataAssoc($props, array());
+		return $i->fetchDataAssoc($props, []);
 	}
 
 	/**

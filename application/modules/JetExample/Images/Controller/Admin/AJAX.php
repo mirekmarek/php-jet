@@ -27,9 +27,9 @@ class Controller_Admin_AJAX extends Mvc_Controller_AJAX {
 	protected $module_instance = null;
 
 
-	protected static $ACL_actions_check_map = array(
+	protected static $ACL_actions_check_map = [
 		'default' => false
-	);
+	];
 
 	/**
 	 *
@@ -45,12 +45,12 @@ class Controller_Admin_AJAX extends Mvc_Controller_AJAX {
 
 		$this->view->setVar('form', $form);
 
-		$this->view->setVar('upload_URL', Mvc_Page::get('admin/ria/rest_api')->getURI(array(), array(
+		$this->view->setVar('upload_URL', Mvc_Page::get('admin/ria/rest_api')->getURI([], [
             $this->module_manifest->getName(),
             'image'
-        )));
+		]));
 
-		$upload_form = new Form('upload_form', array());
+		$upload_form = new Form('upload_form', []);
 		$upload_form->enableDecorator('Dojo');
 		$upload_form->addField(
 			Form_Factory::field('Checkbox', 'overwrite_if_exists', 'Overwrite image if exists')

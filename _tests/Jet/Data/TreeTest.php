@@ -13,6 +13,7 @@
 namespace Jet;
 
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class TreeTest_Node_Invalid {
 
 }

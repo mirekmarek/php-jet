@@ -74,7 +74,7 @@ class DataModel_Query_OrderBy_ItemTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers Jet\DataModel_Query_OrderBy_Item::getItem
 	 */
-	public function testGetIten() {
+	public function testGetItem() {
 		$this->assertSame($this->properties['string_property'], $this->object_string->getItem()->getItem() );
 		$this->assertSame($this->properties['int_property'], $this->object_int->getItem()->getItem() );
 	}

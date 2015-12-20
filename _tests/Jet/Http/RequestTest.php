@@ -267,9 +267,9 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetHeaders() {
 		$headers = [
-			'Header-1' => 'Hrader 1 value',
-			'Header-2' => 'Hrader 2 value',
-			'Header-3' => 'Hrader 3 value',
+			'Header-1' => 'Header 1 value',
+			'Header-2' => 'Header 2 value',
+			'Header-3' => 'Header 3 value',
 		];
 
 		foreach( $headers as $key=>$val ) {

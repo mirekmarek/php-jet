@@ -26,9 +26,9 @@ class Controller_REST extends Mvc_Controller_REST {
     /**
      * @var array
      */
-    protected static $ACL_actions_check_map = array(
+    protected static $ACL_actions_check_map = [
         'default' => false
-	);
+    ];
 
 	/**
 	 *

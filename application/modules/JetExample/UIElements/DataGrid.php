@@ -32,7 +32,7 @@ class DataGrid extends Object {
 	/**
 	 * @var DataGrid_Column[]
 	 */
-	protected $columns = array();
+	protected $columns = [];
 
 	/**
 	 * @var Data_Paginator
@@ -42,7 +42,7 @@ class DataGrid extends Object {
 	/**
 	 * @var array
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * @var string
@@ -413,7 +413,7 @@ class DataGrid extends Object {
 	 */
 	public function handleSortRequest() {
 
-		$sort_options = array();
+		$sort_options = [];
 		foreach( $this->columns as $column ) {
 			if($column->getAllowSort()) {
 				$sort_options[] = $column->getName();
@@ -437,7 +437,7 @@ class DataGrid extends Object {
 			$this->sort_by = $sort_options[0];
 		}
 
-		if( $sort = Http_Request::GET()->getString($this->sort_get_parameter) ) {
+		if( ($sort = Http_Request::GET()->getString($this->sort_get_parameter)) ) {
 			if( in_array($sort, $sort_options) ) {
 				$this->sort_by = $sort;
 			}

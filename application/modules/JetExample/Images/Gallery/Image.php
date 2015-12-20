@@ -420,7 +420,7 @@ class Gallery_Image extends DataModel {
 	 * @return Gallery_Image[]
 	 */
 	public static function getList( $gallery_ID='' ) {
-		$query = array();
+		$query = [];
 
 		if($gallery_ID) {
 			$query['this.gallery_ID'] = $gallery_ID;
@@ -442,10 +442,10 @@ class Gallery_Image extends DataModel {
 		 */
 		$i = new self();
 		$props = $i->getDataModelDefinition()->getProperties();
-		$data = $i->fetchDataAssoc($props, array());
+		$data = $i->fetchDataAssoc($props, []);
 
 		if($gallery_ID) {
-			$data->getQuery()->setWhere( array('this.gallery_ID'=>$gallery_ID) );
+			$data->getQuery()->setWhere( ['this.gallery_ID'=>$gallery_ID]);
 		}
 
 		return $data;

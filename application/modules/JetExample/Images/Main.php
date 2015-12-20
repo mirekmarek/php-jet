@@ -18,7 +18,7 @@ use Jet\Application_Modules_Module_Abstract;
 use Jet\Mvc;
 
 class Main extends Application_Modules_Module_Abstract {
-	protected $ACL_actions = array(
+	protected $ACL_actions = [
 		'get_gallery' => 'Get article(s) data',
 		'add_gallery' => 'Add new gallery',
 		'update_gallery' => 'Update gallery',
@@ -28,7 +28,7 @@ class Main extends Application_Modules_Module_Abstract {
 		'add_image' => 'Add new image',
 		'update_image' => 'Update image',
 		'delete_image' => 'Delete image',
-	);
+	];
 
 	/**
 	 * Returns module views directory
