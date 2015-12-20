@@ -187,6 +187,7 @@ class DataModel_Definition_RelatedDataModelTestMock extends DataModel_Related_1t
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 

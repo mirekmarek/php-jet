@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
@@ -22,7 +23,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @var DataModel_Query_Having
@@ -44,39 +45,39 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->query = new DataModel_Query($this->data_model->getDataModelDefinition());
-		$this->query->setSelect(array(
+		$this->query->setSelect([
 			'int_property' => 'this.int_property',
 			'string_property' => 'this.string_property',
 			'my_ID' => 'this.ID_property',
-			'my_value' => array(
-				array('this.int_property'),
+			'my_value' => [
+				['this.int_property'],
 				'MAX(%int_property%)'
-			),
-		));
+			],
+		]);
 
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'my_value <=' => 10,
 			'AND',
 			'int_property =' => 1234,
 			'AND',
 			'string_property !=' => 'test',
 			'OR',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 
 		$query = new DataModel_Query($this->data_model->getDataModelDefinition());
-		$query->setSelect(array(
+		$query->setSelect([
 			'float_property' => 'this.float_property'
-		));
+		]);
 
 
-		$query = new DataModel_Query_Having($query, array(
+		$query = new DataModel_Query_Having($query, [
 			'float_property =' => 3.14
-		));
+		]);
 
 		$this->object->attach($query);
 
@@ -97,16 +98,16 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
 	public function testConstructFailed1() {
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'int_property =' => 1234,
 			'string_property !=' => 'test',
 			'OR',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 	}
 
 	/**
@@ -116,18 +117,18 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
 	public function testConstructFailed2() {
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'int_property =' => 1234,
 			'AND',
 			'AND',
 			'string_property !=' => 'test',
 			'OR',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 	}
 
 
@@ -138,18 +139,18 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
 	public function testConstructFailed3() {
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'int_property =' => 1234,
 			'AND',
 			'string_property !=' => 'test',
 			'OR',
 			'OR',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 	}
 
 
@@ -160,16 +161,16 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
 	public function testConstructFailed4() {
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'int_property =' => 1234,
 			'AND',
 			'string_property !=' => 'test',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 	}
 
 
@@ -180,17 +181,17 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function testConstructFailed5() {
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'int_property =' => 1234,
 			'imaginary_AND',
 			'string_property !=' => 'test',
 			'OR',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 	}
 
 
@@ -201,17 +202,17 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
 	public function testConstructFailed6() {
-		$this->object = new DataModel_Query_Having($this->query, array(
+		$this->object = new DataModel_Query_Having($this->query, [
 			'imaginary_property =' => 1234,
 			'AND',
 			'string_property !=' => 'test',
 			'OR',
-			array(
+			[
 				'my_ID *' => 'test%',
 				'AND',
 				'int_property' => 54321
-			)
-		));
+			]
+		]);
 	}
 
 

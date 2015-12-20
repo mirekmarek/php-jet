@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Framework_TestCase {
@@ -23,7 +24,7 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @var DataModel_Query_Select_Item_BackendFunctionCall
@@ -41,10 +42,10 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->object = new DataModel_Query_Select_Item_BackendFunctionCall(
-				array(
+				[
 					$this->properties['float_property'],
 					$this->properties['int_property']
-				),
+				],
 				'SUM(%float_property%)+%int_property%'
 		);
 	}
@@ -69,10 +70,10 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->object = new DataModel_Query_Select_Item_BackendFunctionCall(
-			array(
+			[
 				$this->properties['float_property'],
 				$this->properties['int_property']
-			),
+			],
 			'SUM(%float_property%)'
 		);
 	}
@@ -90,9 +91,9 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->object = new DataModel_Query_Select_Item_BackendFunctionCall(
-			array(
+			[
 				'hoax'
-			),
+			],
 			'SUM(%float_property%)'
 		);
 	}
@@ -104,10 +105,10 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 	 */
 	public function testGetProperties() {
 		$this->assertEquals(
-			array(
+			[
 				$this->properties['float_property'],
 				$this->properties['int_property']
-			),
+			],
 			$this->object->getProperties()
 		);
 	}

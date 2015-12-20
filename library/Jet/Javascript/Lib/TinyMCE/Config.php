@@ -21,7 +21,7 @@ namespace Jet;
  * @JetConfig:data_path = '/js_libs/TinyMCE'
  * @JetConfig:section_is_obligatory = false
  */
-class Javascript_Lib_TinyMCE_Config extends Config_Application {
+class Javascript_Lib_TinyMCE_Config extends Application_Config {
 
 	/**
 	 * @var array

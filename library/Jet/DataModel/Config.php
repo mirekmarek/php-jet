@@ -19,7 +19,7 @@ namespace Jet;
  *
  * @JetConfig:data_path = 'data_model'
  */
-class DataModel_Config extends Config_Application {
+class DataModel_Config extends Application_Config {
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING

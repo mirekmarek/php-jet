@@ -24,11 +24,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail.jpg');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail.gif');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail.png');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail2.jpg');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail2.gif');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail2.png');
 	}
 
@@ -37,11 +43,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail.jpg');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail.gif');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail.png');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail2.jpg');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail2.gif');
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'thumbnail2.png');
 	}
 
@@ -52,7 +64,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
 	 */
 	public function testFailedFileDoesNotExist() {
-		$image = new Image( IMAGE_TEST_BASEDIR.'imaginary_file' );
+		new Image( IMAGE_TEST_BASEDIR.'imaginary_file' );
 	}
 
 	/**
@@ -62,7 +74,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 	 */
 	public function testFailedUnsupportedImageType() {
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage.sgi' );
+		new Image( IMAGE_TEST_BASEDIR.'TestImage.sgi' );
 	}
 
 	/**

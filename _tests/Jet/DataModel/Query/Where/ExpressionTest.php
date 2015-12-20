@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
@@ -22,7 +23,7 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @var DataModel_Query_Where_Expression

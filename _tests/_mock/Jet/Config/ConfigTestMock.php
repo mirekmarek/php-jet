@@ -70,6 +70,7 @@ class ConfigTestMock extends Config {
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 

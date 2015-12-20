@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once "_mock/Jet/Config/ConfigListTestMainMock/Config/Abstract.php";
 
 

@@ -60,6 +60,7 @@ class DataModel_ID_DataModelTestMock extends DataModel {
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 }

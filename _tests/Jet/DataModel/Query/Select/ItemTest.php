@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Select_ItemTest extends \PHPUnit_Framework_TestCase {
@@ -27,7 +28,7 @@ class DataModel_Query_Select_ItemTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

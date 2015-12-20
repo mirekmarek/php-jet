@@ -6,28 +6,32 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
- * @category JetJET_TAB.ests
  * @package Data
  * @subpackage Data_Array
  */
 namespace Jet;
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Data_ArrayTest_testObject {
 	public $v_int = 1;
 	public $v_float = 3.14;
 	public $v_string = '<script>alert("Shady!");</script>';
 }
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Data_ArrayTest_testObject2 {
 	public $v_int = 1;
 	protected $v_float = 3.14;
-	private $v_string = '<script>alert("Shady!");</script>';
+	private /** @noinspection PhpUnusedPrivateFieldInspection */
+		$v_string = '<script>alert("Shady!");</script>';
 }
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Data_ArrayTest_testObject3 implements \JsonSerializable {
 	public $v_int = 1;
 	protected $v_float = 3.14;
-	private $v_string = '<script>alert("Shady!");</script>';
+	private /** @noinspection PhpUnusedPrivateFieldInspection */
+		$v_string = '<script>alert("Shady!");</script>';
 
 	/**
 	 * @return array
@@ -38,39 +42,40 @@ class Data_ArrayTest_testObject3 implements \JsonSerializable {
 
 }
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var Data_Array
 	 */
 	protected $object;
 
-	protected $data = array(
+	protected $data = [
 		'int' => 1,
 		'float' => 3.14,
 		'string' => '<script>alert("Shady!");</script>',
 		'bool' => true,
-		'sub1' => array(
+		'sub1' => [
 			'int' => 2,
 			'float' => 6.28,
 			'string' => '<script>alert("Shady!!");</script>',
 			'bool' => false,
 
-			'sub2' => array(
+			'sub2' => [
 				'int' => 4,
 				'float' => 12.56,
 				'string' => '<script>alert("Shady!!!");</script>',
 				'bool' => true,
 
-			),
-			'subai' => array(
+			],
+			'subai' => [
 				1,
 				'string',
 				123.456
-			)
-		)
-	);
+			]
+		]
+	];
 
-	protected $comments = array(
+	protected $comments = [
 		'/int' => '/int comment',
 		'/float' => '/float comment',
 		'/string' => '/string comment',
@@ -83,7 +88,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 		'/sub1/sub2/float' => '/sub1/sub2/float comment',
 		'/sub1/sub2/string' => '/sub1/sub2/string comment',
 		'/sub1/sub2/test_object' => '/sub1/sub2/test_object comment',
-	);
+	];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -115,7 +120,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Data_Array::appendData
 	 */
 	public function testAppendData() {
-		$new_data = array('merge_test'=>'test');
+		$new_data = ['merge_test'=>'test'];
 
 		$this->object->appendData( $new_data );
 		$this->assertEquals(
@@ -128,7 +133,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	* @covers Jet\Data_Array::setData
 	*/
 	public function testSetData() {
-		$new_data = array('merge_test'=>'test');
+		$new_data = ['merge_test'=>'test'];
 
 		$this->object->setData( $new_data );
 		$this->assertEquals(
@@ -143,7 +148,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	public function testClearData() {
 		$this->object->clearData();
 		$this->assertEquals(
-			array(),
+			[],
 			$this->object->getRawData()
 		);
 	}

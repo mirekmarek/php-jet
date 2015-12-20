@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {

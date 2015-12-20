@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
@@ -30,14 +31,14 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	protected $default_value = true;
 
 
-	protected $property_options = array(
+	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => '',
 		'is_required' => true,
 		'error_message' => 'Error Message',
 		'label' => 'Label',
 		'form_field_label' => 'Form field label'
-	);
+	];
 
 
 	/**
@@ -101,7 +102,10 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 	public function testGetFormField() {
 		$field = new Form_Field_Checkbox('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_type' => 'Checkbox',
 			'_name' => 'BoolTest',
 			'_value' => true,
@@ -110,9 +114,9 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 			'label' => 'Form field label',
 			'is_required' => false,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 	}

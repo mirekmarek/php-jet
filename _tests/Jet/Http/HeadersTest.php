@@ -12,16 +12,16 @@
 namespace Jet;
 
 function header_test( $header, $replace=true, $http_response_code=0 ) {
-	$GLOBALS['_test_Http_Headers_sent_headers'][] = array(
+	$GLOBALS['_test_Http_Headers_sent_headers'][] = [
 		'header' => $header,
 		'replace' => $replace,
 		'http_response_code' => $http_response_code
-	);
+	];
 }
 
 class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
-	protected $http_codes = array(
+	protected $http_codes = [
 			200 => 'OK',
 			201 => 'Created',
 			202 => 'Accepted',
@@ -74,20 +74,20 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 			511 => 'Network Authentication Required',
 			598 => 'Network read timeout error',
 			599 => 'Network connect timeout error',
-			);
+	];
 
-	protected $test_headers = array(
+	protected $test_headers = [
 			'Test-header'=>'test_value',
 			'Test-header-wo-value',
-			'Test-header-array' => array('value 1', 'value 2', 'value 3')
-		);
+			'Test-header-array' => ['value 1', 'value 2', 'value 3']
+	];
 
 	protected $redirect_target = 'http://somewhere/over/the/rainbow/';
 
 	protected function setUp() {
 
 		Http_Headers::setHeaderFunctionName('\Jet\header_test');
-		$GLOBALS['_test_Http_Headers_sent_headers'] = array();
+		$GLOBALS['_test_Http_Headers_sent_headers'] = [];
 	}
 
 	protected function tearDown() {
@@ -136,7 +136,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 	protected  function getValidDataTestResponse( $code, $add_redirect_target=false ) {
 
-		$headers = array();
+		$headers = [];
 
 		foreach($this->test_headers as $header=>$value) {
 			if(is_int($header)) {
@@ -150,24 +150,24 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 
-		$res = array();
+		$res = [];
 
-		$res[] = array( 'header' => 'HTTP/1.1 '.$code.' '.$this->http_codes[$code], 'replace' => true, 'http_response_code' => $code );
+		$res[] = ['header' => 'HTTP/1.1 '.$code.' '.$this->http_codes[$code], 'replace' => true, 'http_response_code' => $code];
 
 		if($add_redirect_target) {
-			$res[] = array(
+			$res[] = [
 					'header' => 'Location: '.$this->redirect_target,
 					'replace' => true,
 					'http_response_code' => 0
-				);
+			];
 		}
 
 		foreach( $headers as $h ) {
-			$res[] = array(
+			$res[] = [
 				'header' => $h,
 				'replace' => true,
 				'http_response_code' => 0
-			);
+			];
 
 		}
 

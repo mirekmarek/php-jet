@@ -1,5 +1,5 @@
 <?php
-return array(
-	"section" => array(
-	)
-);
+return [
+	"section" => [
+	]
+];

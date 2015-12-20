@@ -19,177 +19,177 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
-	protected $tree1_data = array(
-		't1-1' => array(
+	protected $tree1_data = [
+		't1-1' => [
 			'ID' => 't1-1',
 			'parent_ID' => 'root1',
 			'name' => 'Node T1 1',
-		),
-		't1-1-1' => array(
+		],
+		't1-1-1' => [
 			'ID' => 't1-1-1',
 			'parent_ID' => 't1-1',
 			'name' => 'Node T1 1-1',
-		),
-		't1-1-2' => array(
+		],
+		't1-1-2' => [
 			'ID' => 't1-1-2',
 			'parent_ID' => 't1-1',
 			'name' => 'Node T1 1-2',
-		),
-		't1-1-2-1' => array(
+		],
+		't1-1-2-1' => [
 			'ID' => 't1-1-2-1',
 			'parent_ID' => 't1-1-2',
 			'name' => 'Node T1 1-2-1',
-		),
-		't1-1-2-2' => array(
+		],
+		't1-1-2-2' => [
 			'ID' => 't1-1-2-2',
 			'parent_ID' => 't1-1-2',
 			'name' => 'Node T1 1-2-2',
-		),
-		't1-1-2-2-1' => array(
+		],
+		't1-1-2-2-1' => [
 			'ID' => 't1-1-2-2-1',
 			'parent_ID' => 't1-1-2-2',
 			'name' => 'Node T1 1-2-2-1',
-		),
-		't1-1-2-2-2' => array(
+		],
+		't1-1-2-2-2' => [
 			'ID' => 't1-1-2-2-2',
 			'parent_ID' => 't1-1-2-2',
 			'name' => 'Node T1 1-2-2-2',
-		),
-		't1-1-2-3' => array(
+		],
+		't1-1-2-3' => [
 			'ID' => 't1-1-2-3',
 			'parent_ID' => 't1-1-2',
 			'name' => 'Node T1 1-2-3',
-		),
-		't1-1-3' => array(
+		],
+		't1-1-3' => [
 			'ID' => 't1-1-3',
 			'parent_ID' => 't1-1',
 			'name' => 'Node T1 1-3',
-		),
-		't1-2' => array(
+		],
+		't1-2' => [
 			'ID' => 't1-2',
 			'parent_ID' => 'root1',
 			'name' => 'Node T1 2',
-		),
-		't1-3' => array(
+		],
+		't1-3' => [
 			'ID' => 't1-3',
 			'parent_ID' => 'root1',
 			'name' => 'Node T1 3',
-		),
-	);
-	protected $tree2_data = array(
-		't2-1' => array(
+		],
+	];
+	protected $tree2_data = [
+		't2-1' => [
 			'ID' => 't2-1',
 			'parent_ID' => 'root2',
 			'name' => 'Node T2 1',
-		),
-		't2-1-1' => array(
+		],
+		't2-1-1' => [
 			'ID' => 't2-1-1',
 			'parent_ID' => 't2-1',
 			'name' => 'Node T2 1-1',
-		),
-		't2-1-2' => array(
+		],
+		't2-1-2' => [
 			'ID' => 't2-1-2',
 			'parent_ID' => 't2-1',
 			'name' => 'Node T2 1-2',
-		),
-		't2-1-2-1' => array(
+		],
+		't2-1-2-1' => [
 			'ID' => 't2-1-2-1',
 			'parent_ID' => 't2-1-2',
 			'name' => 'Node T2 1-2-1',
-		),
-		't2-1-2-2' => array(
+		],
+		't2-1-2-2' => [
 			'ID' => 't2-1-2-2',
 			'parent_ID' => 't2-1-2',
 			'name' => 'Node T2 1-2-2',
-		),
-		't2-1-2-2-1' => array(
+		],
+		't2-1-2-2-1' => [
 			'ID' => 't2-1-2-2-1',
 			'parent_ID' => 't2-1-2-2',
 			'name' => 'Node T2 1-2-2-1',
-		),
-		't2-1-2-2-2' => array(
+		],
+		't2-1-2-2-2' => [
 			'ID' => 't2-1-2-2-2',
 			'parent_ID' => 't2-1-2-2',
 			'name' => 'Node T2 1-2-2-2',
-		),
-		't2-1-2-3' => array(
+		],
+		't2-1-2-3' => [
 			'ID' => 't2-1-2-3',
 			'parent_ID' => 't2-1-2',
 			'name' => 'Node T2 1-2-3',
-		),
-		't2-1-3' => array(
+		],
+		't2-1-3' => [
 			'ID' => 't2-1-3',
 			'parent_ID' => 't2-1',
 			'name' => 'Node T2 1-3',
-		),
-		't2-2' => array(
+		],
+		't2-2' => [
 			'ID' => 't2-2',
 			'parent_ID' => 'root2',
 			'name' => 'Node T2 2',
-		),
-		't2-3' => array(
+		],
+		't2-3' => [
 			'ID' => 't2-3',
 			'parent_ID' => 'root2',
 			'name' => 'Node T2 3',
-		),
-	);
-	protected $tree3_data = array(
-		't3-1' => array(
+		],
+	];
+	protected $tree3_data = [
+		't3-1' => [
 			'ID' => 't3-1',
 			'parent_ID' => 'root3',
 			'name' => 'Node T3 1',
-		),
-		't3-1-1' => array(
+		],
+		't3-1-1' => [
 			'ID' => 't3-1-1',
 			'parent_ID' => 't3-1',
 			'name' => 'Node T3 1-1',
-		),
-		't3-1-2' => array(
+		],
+		't3-1-2' => [
 			'ID' => 't3-1-2',
 			'parent_ID' => 't3-1',
 			'name' => 'Node T3 1-2',
-		),
-		't3-1-2-1' => array(
+		],
+		't3-1-2-1' => [
 			'ID' => 't3-1-2-1',
 			'parent_ID' => 't3-1-2',
 			'name' => 'Node T3 1-2-1',
-		),
-		't3-1-2-2' => array(
+		],
+		't3-1-2-2' => [
 			'ID' => 't3-1-2-2',
 			'parent_ID' => 't3-1-2',
 			'name' => 'Node T3 1-2-2',
-		),
-		't3-1-2-2-1' => array(
+		],
+		't3-1-2-2-1' => [
 			'ID' => 't3-1-2-2-1',
 			'parent_ID' => 't3-1-2-2',
 			'name' => 'Node T3 1-2-2-1',
-		),
-		't3-1-2-2-2' => array(
+		],
+		't3-1-2-2-2' => [
 			'ID' => 't3-1-2-2-2',
 			'parent_ID' => 't3-1-2-2',
 			'name' => 'Node T3 1-2-2-2',
-		),
-		't3-1-2-3' => array(
+		],
+		't3-1-2-3' => [
 			'ID' => 't3-1-2-3',
 			'parent_ID' => 't3-1-2',
 			'name' => 'Node T3 1-2-3',
-		),
-		't3-1-3' => array(
+		],
+		't3-1-3' => [
 			'ID' => 't3-1-3',
 			'parent_ID' => 't3-1',
 			'name' => 'Node T3 1-3',
-		),
-		't3-2' => array(
+		],
+		't3-2' => [
 			'ID' => 't3-2',
 			'parent_ID' => 'root3',
 			'name' => 'Node T3 2',
-		),
-		't3-3' => array(
+		],
+		't3-3' => [
 			'ID' => 't3-3',
 			'parent_ID' => 'root3',
 			'name' => 'Node T3 3',
-		),
-	);
+		],
+	];
 
 
 	/**
@@ -247,11 +247,11 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 * @return array
 	 */
 	protected function appendTrees() {
-		$trees = array(
+		$trees = [
 			'root1' => $this->getTree1(),
 			'root2' => $this->getTree2(),
 			'root3' => $this->getTree3()
-		);
+		];
 
 		$this->object->appendTree($trees['root1']);
 		$this->object->appendTree($trees['root2']);
@@ -346,7 +346,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 * @covers Jet\Data_Tree_Forest::getTreeExists
 	 */
 	public function testGetTreeExists() {
-		$trees = $this->appendTrees();
+		$this->appendTrees();
 
 		$this->assertTrue( $this->object->getTreeExists('root2') );
 
@@ -361,296 +361,296 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	public function testToArray() {
 		$this->appendTrees();
 
-		$valid = array (
+		$valid = [
 			0 =>
-			array (
+			[
 				'ID' => 'root1',
 				'parent_ID' => '',
 				'name' => 'Root T1',
 				'depth' => 0,
 				'children' =>
-				array (
+				[
 					0 =>
-					array (
+					[
 						'ID' => 't1-1',
 						'parent_ID' => 'root1',
 						'name' => 'Node T1 1',
 						'depth' => 1,
 						'children' =>
-						array (
+						[
 							0 =>
-							array (
+							[
 								'ID' => 't1-1-1',
 								'parent_ID' => 't1-1',
 								'name' => 'Node T1 1-1',
 								'depth' => 2
-							),
+							],
 							1 =>
-							array (
+							[
 								'ID' => 't1-1-2',
 								'parent_ID' => 't1-1',
 								'name' => 'Node T1 1-2',
 								'depth' => 2,
 								'children' =>
-								array (
+								[
 									0 =>
-									array (
+									[
 										'ID' => 't1-1-2-1',
 										'parent_ID' => 't1-1-2',
 										'name' => 'Node T1 1-2-1',
 										'depth' => 3,
-									),
+									],
 									1 =>
-									array (
+									[
 										'ID' => 't1-1-2-2',
 										'parent_ID' => 't1-1-2',
 										'name' => 'Node T1 1-2-2',
 										'depth' => 3,
 										'children' =>
-										array (
+										[
 											0 =>
-											array (
+											[
 												'ID' => 't1-1-2-2-1',
 												'parent_ID' => 't1-1-2-2',
 												'name' => 'Node T1 1-2-2-1',
 												'depth' => 4,
-											),
+											],
 											1 =>
-											array (
+											[
 												'ID' => 't1-1-2-2-2',
 												'parent_ID' => 't1-1-2-2',
 												'name' => 'Node T1 1-2-2-2',
 												'depth' => 4,
-											),
-										),
-									),
+											],
+										],
+									],
 									2 =>
-									array (
+									[
 										'ID' => 't1-1-2-3',
 										'parent_ID' => 't1-1-2',
 										'name' => 'Node T1 1-2-3',
 										'depth' => 3,
-									),
-								),
-							),
+									],
+								],
+							],
 							2 =>
-							array (
+							[
 								'ID' => 't1-1-3',
 								'parent_ID' => 't1-1',
 								'name' => 'Node T1 1-3',
 								'depth' => 2,
-							),
-						),
-					),
+							],
+						],
+					],
 					1 =>
-					array (
+					[
 						'ID' => 't1-2',
 						'parent_ID' => 'root1',
 						'name' => 'Node T1 2',
 						'depth' => 1,
-					),
+					],
 					2 =>
-					array (
+					[
 						'ID' => 't1-3',
 						'parent_ID' => 'root1',
 						'name' => 'Node T1 3',
 						'depth' => 1,
-					),
-				),
-			),
+					],
+				],
+			],
 			1 =>
-			array (
+			[
 				'ID' => 'root2',
 				'parent_ID' => '',
 				'name' => 'Root T2',
 				'depth' => 0,
 				'children' =>
-				array (
+				[
 					0 =>
-					array (
+					[
 						'ID' => 't2-1',
 						'parent_ID' => 'root2',
 						'name' => 'Node T2 1',
 						'depth' => 1,
 						'children' =>
-						array (
+						[
 							0 =>
-							array (
+							[
 								'ID' => 't2-1-1',
 								'parent_ID' => 't2-1',
 								'name' => 'Node T2 1-1',
 								'depth' => 2,
-							),
+							],
 							1 =>
-							array (
+							[
 								'ID' => 't2-1-2',
 								'parent_ID' => 't2-1',
 								'name' => 'Node T2 1-2',
 								'depth' => 2,
 								'children' =>
-								array (
+								[
 									0 =>
-									array (
+									[
 										'ID' => 't2-1-2-1',
 										'parent_ID' => 't2-1-2',
 										'name' => 'Node T2 1-2-1',
 										'depth' => 3,
-									),
+									],
 									1 =>
-									array (
+									[
 										'ID' => 't2-1-2-2',
 										'parent_ID' => 't2-1-2',
 										'name' => 'Node T2 1-2-2',
 										'depth' => 3,
 										'children' =>
-										array (
+										[
 											0 =>
-											array (
+											[
 												'ID' => 't2-1-2-2-1',
 												'parent_ID' => 't2-1-2-2',
 												'name' => 'Node T2 1-2-2-1',
 												'depth' => 4,
-											),
+											],
 											1 =>
-											array (
+											[
 												'ID' => 't2-1-2-2-2',
 												'parent_ID' => 't2-1-2-2',
 												'name' => 'Node T2 1-2-2-2',
 												'depth' => 4,
-											),
-										),
-									),
+											],
+										],
+									],
 									2 =>
-									array (
+									[
 										'ID' => 't2-1-2-3',
 										'parent_ID' => 't2-1-2',
 										'name' => 'Node T2 1-2-3',
 										'depth' => 3,
-									),
-								),
-							),
+									],
+								],
+							],
 							2 =>
-							array (
+							[
 								'ID' => 't2-1-3',
 								'parent_ID' => 't2-1',
 								'name' => 'Node T2 1-3',
 								'depth' => 2,
-							),
-						),
-					),
+							],
+						],
+					],
 					1 =>
-					array (
+					[
 						'ID' => 't2-2',
 						'parent_ID' => 'root2',
 						'name' => 'Node T2 2',
 						'depth' => 1,
-					),
+					],
 					2 =>
-					array (
+					[
 						'ID' => 't2-3',
 						'parent_ID' => 'root2',
 						'name' => 'Node T2 3',
 						'depth' => 1,
-					),
-				),
-			),
+					],
+				],
+			],
 			2 =>
-			array (
+			[
 				'ID' => 'root3',
 				'parent_ID' => '',
 				'name' => 'Root T3',
 				'depth' => 0,
 				'children' =>
-				array (
+				[
 					0 =>
-					array (
+					[
 						'ID' => 't3-1',
 						'parent_ID' => 'root3',
 						'name' => 'Node T3 1',
 						'depth' => 1,
 						'children' =>
-						array (
+						[
 							0 =>
-							array (
+							[
 								'ID' => 't3-1-1',
 								'parent_ID' => 't3-1',
 								'name' => 'Node T3 1-1',
 								'depth' => 2,
-							),
+							],
 							1 =>
-							array (
+							[
 								'ID' => 't3-1-2',
 								'parent_ID' => 't3-1',
 								'name' => 'Node T3 1-2',
 								'depth' => 2,
 								'children' =>
-								array (
+								[
 									0 =>
-									array (
+									[
 										'ID' => 't3-1-2-1',
 										'parent_ID' => 't3-1-2',
 										'name' => 'Node T3 1-2-1',
 										'depth' => 3,
-									),
+									],
 									1 =>
-									array (
+									[
 										'ID' => 't3-1-2-2',
 										'parent_ID' => 't3-1-2',
 										'name' => 'Node T3 1-2-2',
 										'depth' => 3,
 										'children' =>
-										array (
+										[
 											0 =>
-											array (
+											[
 												'ID' => 't3-1-2-2-1',
 												'parent_ID' => 't3-1-2-2',
 												'name' => 'Node T3 1-2-2-1',
 												'depth' => 4,
-											),
+											],
 											1 =>
-											array (
+											[
 												'ID' => 't3-1-2-2-2',
 												'parent_ID' => 't3-1-2-2',
 												'name' => 'Node T3 1-2-2-2',
 												'depth' => 4,
-											),
-										),
-									),
+											],
+										],
+									],
 									2 =>
-									array (
+									[
 										'ID' => 't3-1-2-3',
 										'parent_ID' => 't3-1-2',
 										'name' => 'Node T3 1-2-3',
 										'depth' => 3,
-									),
-								),
-							),
+									],
+								],
+							],
 							2 =>
-							array (
+							[
 								'ID' => 't3-1-3',
 								'parent_ID' => 't3-1',
 								'name' => 'Node T3 1-3',
 								'depth' => 2,
-							),
-						),
-					),
+							],
+						],
+					],
 					1 =>
-					array (
+					[
 						'ID' => 't3-2',
 						'parent_ID' => 'root3',
 						'name' => 'Node T3 2',
 						'depth' => 1,
-					),
+					],
 					2 =>
-					array (
+					[
 						'ID' => 't3-3',
 						'parent_ID' => 'root3',
 						'name' => 'Node T3 3',
 						'depth' => 1,
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 
 		$this->assertEquals( $valid, $this->object->toArray() );
 	}
@@ -959,7 +959,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	public function testIterator() {
 		$this->appendTrees();
 
-		$valid_data = array (
+		$valid_data = [
 			'root1' => 'Root T1',
 			't1-1' => 'Node T1 1',
 			't1-1-1' => 'Node T1 1-1',
@@ -996,9 +996,9 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 			't3-1-3' => 'Node T3 1-3',
 			't3-2' => 'Node T3 2',
 			't3-3' => 'Node T3 3',
-		);
+		];
 
-		$test_data = array();
+		$test_data = [];
 
 
 		foreach($this->object as $ID=>$item) {

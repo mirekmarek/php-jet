@@ -23,7 +23,7 @@ namespace Jet;
  * @JetConfig:data_path = 'translator'
  * @JetConfig:section_is_obligatory = false
  */
-class Translator_Config extends Config_Application {
+class Translator_Config extends Application_Config {
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING

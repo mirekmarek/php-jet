@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_IDTest extends \PHPUnit_Framework_TestCase {
@@ -28,14 +29,14 @@ class DataModel_Definition_Property_IDTest extends \PHPUnit_Framework_TestCase {
 
 	protected $property_name = 'IDTest';
 
-	protected $property_options = array(
+	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => 'default value',
 		'is_required' => true,
 		'do_not_export' => true,
 
 
-	);
+	];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

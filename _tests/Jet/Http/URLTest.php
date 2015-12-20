@@ -106,7 +106,7 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_URL::getQueryData
 	 */
 	public function testGetQueryData() {
-		$this->assertEquals( array('query' => 'value'), $this->object->getQueryData() );
+		$this->assertEquals( ['query' => 'value'], $this->object->getQueryData() );
 	}
 
 	/**

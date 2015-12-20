@@ -66,9 +66,9 @@ define('JET_AUTOLOADER_CACHE_PATH', JET_DATA_PATH );
 define('JET_IO_CHMOD_MASK_DIR', 0777);
 define('JET_IO_CHMOD_MASK_FILE', 0666);
 
-define('JET_HTML_SPECIALCHARS_CHARSET', 'UTF-8');
-
 define('JET_HIDE_HTTP_REQUEST', true);
+
+define('JET_CHARSET', 'UTF-8');
 
 define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);

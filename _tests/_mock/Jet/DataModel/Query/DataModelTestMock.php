@@ -193,18 +193,19 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 
 
 	public static function setBackendType( $backend_type ) {
 		static::getDataModelDefinition()->__test_set('forced_backend_type', $backend_type);
-		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', array());
+		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', []);
 	}
 
 	public static function setBackendOptions( $backend_config ) {
 		static::getDataModelDefinition()->__test_set('forced_backend_config', $backend_config);
-		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', array());
+		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', []);
 	}
 
 }

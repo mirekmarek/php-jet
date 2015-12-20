@@ -2,22 +2,22 @@
 /**
  * @see Jet\Application_Modules_Module_Info
  */
-return array(
+return [
 	'API_version' => 201401,
 
 	'vendor' => 'Vendor',
 	
 	'label' => 'Test Module 1',
-	'types' => array(Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
+	'types' => [Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL],
 	'description' => 'Test module 1...',
 
-	'require' => array(),
+	'require' => [],
 
-	'factory_overload_map' => array(
+	'factory_overload_map' => [
 
-	),
+	],
 
-	'signals_callbacks' => array(
+	'signals_callbacks' => [
 		'/test/ack' => 'testAck',
-	)
-);
+	]
+];

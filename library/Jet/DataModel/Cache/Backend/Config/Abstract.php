@@ -20,5 +20,5 @@ namespace Jet;
  *
  * @JetConfig:data_path = '/data_model/cache_backend_options'
  */
-abstract class DataModel_Cache_Backend_Config_Abstract extends Config_Application {
+abstract class DataModel_Cache_Backend_Config_Abstract extends Application_Config {
 }

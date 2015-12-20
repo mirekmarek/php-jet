@@ -11,8 +11,10 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/ID/DataModelTestMock.php';
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Test_DataModel_ID_UniqueString extends DataModel_ID_UniqueString {
 	/**
 	 *
@@ -43,6 +45,7 @@ class Test_DataModel_ID_UniqueString extends DataModel_ID_UniqueString {
 }
 
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_ID_UniqueString
@@ -54,13 +57,13 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $data_model_object;
 
-	protected $ID_data = array(
+	protected $ID_data = [
 			'ID' => 'myID',
 			'ID_property_1' => 'abcdefg',
 			'ID_property_2' => 'cs_CZ',
 			'ID_property_3' => 1234,
 
-		);
+	];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -90,7 +93,7 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 		$data = serialize($this->ID_object);
 		$new_object = unserialize($data);
 
-		$ID_data = array();
+		$ID_data = [];
 		foreach($new_object as $k=>$v) {
 			$ID_data[$k] = $v;
 		}
@@ -113,18 +116,18 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	public function testUnserialize() {
 		$this->ID_object->unserialize('myID-t:abcdefg-t:sk_SK:12345');
 
-		$ID_data = array();
+		$ID_data = [];
 		foreach($this->ID_object as $k=>$v) {
 			$ID_data[$k] = $v;
 		}
 
-		$valid_ID_data = array(
+		$valid_ID_data = [
 			'ID' => 'myID-t',
 			'ID_property_1' => 'abcdefg-t',
 			'ID_property_2' => 'sk_SK',
 			'ID_property_3' => 12345,
 
-		);
+		];
 
 		$this->assertEquals($valid_ID_data, $ID_data);
 	}
@@ -157,7 +160,7 @@ class DataModel_ID_UniqueStringTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testIterator() {
 
-		$ID_data = array();
+		$ID_data = [];
 		foreach($this->ID_object as $k=>$v) {
 			$ID_data[$k] = $v;
 		}

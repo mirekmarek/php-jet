@@ -17,7 +17,7 @@ namespace Jet;
  *
  * @JetConfig:data_path = 'database'
  */
-class Db_Config extends Config_Application {
+class Db_Config extends Application_Config {
 
 
 	/**

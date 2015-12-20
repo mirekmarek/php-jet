@@ -17,7 +17,7 @@ namespace Jet;
  *
  * @JetConfig:data_path = 'redis'
  */
-class Redis_Config extends Config_Application {
+class Redis_Config extends Application_Config {
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING

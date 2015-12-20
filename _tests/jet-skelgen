@@ -15,6 +15,7 @@ if( !is_readable( $class_script ) ) {
     die( 'ERROR: File \''.$class_script.'\' is not readable!'.PHP_EOL.PHP_EOL );
 }
 
+/** @noinspection PhpUsageOfSilenceOperatorInspection */
 @mkdir($test_dir, 0700, true);
 
 $command = './phpunit-skelgen --test -- '.escapeshellarg($class).' '.escapeshellarg($class_script).' '.escapeshellarg($test_class).' '.escapeshellarg($test_script);

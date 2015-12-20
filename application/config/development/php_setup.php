@@ -21,3 +21,5 @@ set_include_path(
 if(!ini_get('date.timezone')){
 	date_default_timezone_set('UTC');
 }
+
+ini_set( 'default_charset', JET_CHARSET );

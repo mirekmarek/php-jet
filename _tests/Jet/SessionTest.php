@@ -63,19 +63,19 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( $this->object->getValueExists('key') );
 		$this->assertEquals('value', $this->object->getValue('key'));
 
-		$this->assertEquals(array (
-			'test-namespace' => array (
+		$this->assertEquals([
+			'test-namespace' => [
 				'key' => 'value',
-			),
-		), $_SESSION);
+			],
+		], $_SESSION);
 
 		$this->object->unsetValue('key');
 		$this->assertFalse( $this->object->getValueExists('key') );
 
-		$this->assertEquals(array (
-			'test-namespace' => array (
-			),
-		), $_SESSION);
+		$this->assertEquals([
+			'test-namespace' => [
+			],
+		], $_SESSION);
 	}
 
 	/**
@@ -90,6 +90,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testDestroy() {
 		$this->object->destroy();
-		$this->assertEquals(array (), $_SESSION);
+		$this->assertEquals([], $_SESSION);
 	}
 }

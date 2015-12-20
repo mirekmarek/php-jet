@@ -26,6 +26,6 @@ namespace Jet;
  * @JetConfig:data_path = '/translator/backend_options'
  * @JetConfig:section_is_obligatory = false
  */
-abstract class Translator_Backend_Config_Abstract extends Config_Application {
+abstract class Translator_Backend_Config_Abstract extends Application_Config {
 
 }

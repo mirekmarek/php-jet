@@ -11,7 +11,9 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once "_mock/Jet/Config/ConfigListTestMainMock/AdapterA/Config.php";
+/** @noinspection PhpIncludeInspection */
 require_once "_mock/Jet/Config/ConfigListTestMainMock/AdapterB/Config.php";
 
 /**
@@ -31,10 +33,11 @@ class ConfigListTestMainMock extends Config {
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */
-	protected $connections = array();
+	protected $connections = [];
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 
@@ -98,7 +101,7 @@ class ConfigListTestMainMock extends Config {
 	 *
 	 * @return ConfigListTestMainMock_Config_Abstract
 	 */
-	public static function getAdapterConfigInstance(array $config_data=array(), ConfigListTestMainMock $config ){
+	public static function getAdapterConfigInstance(array $config_data= [], ConfigListTestMainMock $config ){
 		$adapter_name = $config_data["adapter"];
 
 		$config_class = "Jet\\ConfigListTestMainMock_".$adapter_name."_Config";

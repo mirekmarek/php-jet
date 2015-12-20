@@ -71,6 +71,7 @@ class DataModel_Query_DataModelRelated1TONTestMock extends DataModel_Related_1to
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 

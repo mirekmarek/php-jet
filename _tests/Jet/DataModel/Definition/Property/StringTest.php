@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase {
@@ -43,9 +44,9 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	protected $ID_property_name = 'ID_property';
 
-	protected $property_options = array();
+	protected $property_options = [];
 
-	protected $ID_property_options = array();
+	protected $ID_property_options = [];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -160,8 +161,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 * @covers Jet\DataModel_Definition_Property_Abstract::getDefaultValue
 	 */
 	public function testGetDefaultValue() {
-		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue( $this->data_model ) );
-		$this->assertEquals($this->ID_property_options['default_value'], $this->ID_object->getDefaultValue( $this->data_model ) );
+		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue() );
+		$this->assertEquals($this->ID_property_options['default_value'], $this->ID_object->getDefaultValue() );
 	}
 
 	/**
@@ -253,7 +254,10 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	public function testGetFormField() {
 		$field = new Form_Field_Input('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_name' => $this->property_name,
 			'_value_raw' => $this->property_options['default_value'],
 			'_value' => $this->property_options['default_value'],
@@ -267,16 +271,19 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'validation_regexp' => $this->property_options['validation_regexp'],
 			'validate_data_callback' => null,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 
 
 		$field = new Form_Field_Hidden('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_name' => $this->ID_property_name,
 			'_value_raw' => $this->ID_property_options['default_value'],
 			'_value' => $this->ID_property_options['default_value'],
@@ -290,9 +297,9 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'validation_regexp' => '',
 			'validate_data_callback' => null,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->ID_object->getFormField());
 
@@ -356,7 +363,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 */
 	public function testValidatePropertiesFailedEmpty() {
 		$value = '';
-		$errors = array();
+		$errors = [];
 
 		$this->assertFalse($this->object->validatePropertyValue($this->data_model, $value, $errors));
 
@@ -375,7 +382,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 */
 	public function testValidatePropertiesFailedInvalidValue() {
 		$value = 'invalid value';
-		$errors = array();
+		$errors = [];
 
 		$this->assertFalse($this->object->validatePropertyValue($this->data_model, $value, $errors));
 
@@ -394,7 +401,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 */
 	public function testValidatePropertiesFailedInvaliudFormat() {
 		$value = '_#invalid';
-		$errors = array();
+		$errors = [];
 
 		$this->assertFalse( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 
@@ -413,7 +420,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 */
 	public function testValidateProperties() {
 		$value = 'option1';
-		$errors = array();
+		$errors = [];
 		$this->assertTrue( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 	}
 

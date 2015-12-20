@@ -54,7 +54,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Data_Paginator::getShowTo
 	 */
 	public function testSetData() {
-		$data = array();
+		$data = [];
 		for( $i=0; $i<123; $i++ ) {
 			$data[$i] = 'Item '.$i;
 		}
@@ -82,7 +82,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(9, $this->object->getDataIndexEnd());
 		$this->assertEquals(1, $this->object->getShowFrom());
 		$this->assertEquals(10, $this->object->getShowTo());
-		$this->assertEquals( array (
+		$this->assertEquals( [
 			0 => 'Item 0',
 			1 => 'Item 1',
 			2 => 'Item 2',
@@ -93,7 +93,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 			7 => 'Item 7',
 			8 => 'Item 8',
 			9 => 'Item 9',
-		), $this->object->getData());
+		], $this->object->getData());
 		$this->assertFalse( $this->object->getCurrentPageNoIsInRange() );
 		$this->assertNull( $this->object->getPrevPageURL() );
 		$this->assertEquals('test:2', $this->object->getNextPageURL());
@@ -110,7 +110,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(49, $this->object->getDataIndexEnd());
 		$this->assertEquals(41, $this->object->getShowFrom());
 		$this->assertEquals(50, $this->object->getShowTo());
-		$this->assertEquals( array (
+		$this->assertEquals( [
 			40 => 'Item 40',
 			41 => 'Item 41',
 			42 => 'Item 42',
@@ -121,7 +121,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 			47 => 'Item 47',
 			48 => 'Item 48',
 			49 => 'Item 49',
-		), $this->object->getData());
+		], $this->object->getData());
 		$this->assertTrue( $this->object->getCurrentPageNoIsInRange() );
 		$this->assertEquals('test:4', $this->object->getPrevPageURL());
 		$this->assertEquals('test:6', $this->object->getNextPageURL());
@@ -137,16 +137,16 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(122, $this->object->getDataIndexEnd());
 		$this->assertEquals(121, $this->object->getShowFrom());
 		$this->assertEquals(123, $this->object->getShowTo());
-		$this->assertEquals( array (
+		$this->assertEquals( [
 			120 => 'Item 120',
 			121 => 'Item 121',
 			122 => 'Item 122'
-		), $this->object->getData());
+		], $this->object->getData());
 		$this->assertFalse( $this->object->getCurrentPageNoIsInRange() );
 		$this->assertEquals('test:12', $this->object->getPrevPageURL());
 		$this->assertNull($this->object->getNextPageURL());
 
-		$this->assertEquals(array (
+		$this->assertEquals([
 					1 => 'test:1',
 					2 => 'test:2',
 					3 => 'test:3',
@@ -160,12 +160,12 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 					11 => 'test:11',
 					12 => 'test:12',
 					13 => 'test:13',
-				), $this->object->getPagesURL() );
+		], $this->object->getPagesURL() );
 
 
 
 
-		$data = array();
+		$data = [];
 		for( $i=0; $i<3; $i++ ) {
 			$data[$i] = 'Item '.$i;
 		}
@@ -181,9 +181,9 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $this->object->getShowFrom());
 		$this->assertEquals(3, $this->object->getShowTo());
 
-		$this->assertEquals( array (
+		$this->assertEquals( [
 			2 => 'Item 2'
-		), $this->object->getData());
+		], $this->object->getData());
 
 	}
 

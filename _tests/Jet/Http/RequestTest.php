@@ -266,11 +266,11 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Http_Request::getHeaders
 	 */
 	public function testGetHeaders() {
-		$headers = array(
+		$headers = [
 			'Header-1' => 'Hrader 1 value',
 			'Header-2' => 'Hrader 2 value',
 			'Header-3' => 'Hrader 3 value',
-		);
+		];
 
 		foreach( $headers as $key=>$val ) {
 			$_SERVER['HTTP_'.strtoupper(str_replace('-', '_',strtoupper($key)))] = $val;

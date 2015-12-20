@@ -13,11 +13,11 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var array
 	 */
-	protected $matches = array(
+	protected $matches = [
 			'<jet_form_tag name =  "name1" prop1="prop1_value"  prop2="prop2 value"   >',
 			'_tag',
 			'name =  "name1" prop1="prop1_value"  prop2="prop2 value"   '
-	);
+	];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -59,7 +59,7 @@ class Form_Parser_TagDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Form_Parser_TagData::getProperties
 	 */
 	public function testGetProperties() {
-		$this->assertEquals(array('prop1' => 'prop1_value', 'prop2' => 'prop2 value'), $this->object->getProperties());
+		$this->assertEquals(['prop1' => 'prop1_value', 'prop2' => 'prop2 value'], $this->object->getProperties());
 
 	}
 

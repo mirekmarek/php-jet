@@ -73,6 +73,7 @@ class DataModel_Query_DataModel2TestMock extends DataModel {
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 

@@ -23,7 +23,7 @@ namespace Jet;
  * @JetConfig:data_path = '/js_libs/Dojo'
  * @JetConfig:section_is_obligatory = false
  */
-class Javascript_Lib_Dojo_Config extends Config_Application {
+class Javascript_Lib_Dojo_Config extends Application_Config {
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING

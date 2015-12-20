@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
@@ -22,23 +23,23 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @var DataModel_RecordData
 	 */
 	protected $object;
 
-	protected $values = array(
+	protected $values = [
 		'ID' => 'ID123',
 		'ID_property' => 'myID',
 		'string_property' => 'My Test',
 		'int_property' => 1234,
 		'float_property' => 3.14,
 		'bool_property' => true,
-		'array_property' => array('a','b','c')
+		'array_property' => ['a','b','c']
 
-	);
+	];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -79,7 +80,7 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_RecordData::valid
 	 */
 	public function testMain() {
-		$data = array();
+		$data = [];
 		foreach($this->object as $item) {
 			/**
 			 * @var DataModel_RecordData_Item $item

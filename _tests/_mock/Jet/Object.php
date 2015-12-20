@@ -1,14 +1,18 @@
 <?php
 namespace JetTest;
 
-use Jet;
+use Jet\Object_Interface;
+use Jet\Object_Trait;
+use Jet\Object_Trait_MagicSleep;
+use Jet\Object_Trait_MagicSet;
+use Jet\Object_Trait_MagicClone;
 
-class Object implements Jet\Object_Interface {
+class Object implements Object_Interface {
 
-	use Jet\Object_Trait;
-	use Jet\Object_Trait_MagicSleep;
-	use Jet\Object_Trait_MagicSet;
-	use Jet\Object_Trait_MagicClone;
+	use Object_Trait;
+	use Object_Trait_MagicSleep;
+	use Object_Trait_MagicSet;
+	use Object_Trait_MagicClone;
 
 	/**
 	 * @param string $property_name
@@ -16,9 +20,9 @@ class Object implements Jet\Object_Interface {
 	 * @throws \Exception
 	 */
 	public function __get( $property_name ) {
-		if(isset($this->$property_name)) {
+		if(isset($this->{$property_name})) {
 			//workaround for tests
-			return $this->$property_name;
+			return $this->{$property_name};
 		}
 
 		throw new \Exception('Undefined class property '.get_class($this).'::'.$property_name );

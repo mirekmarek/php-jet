@@ -23,6 +23,7 @@ class TreeTest_Node_Valid extends Data_Tree_Node {
 }
 
 
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 class Data_TreeTest extends \PHPUnit_Framework_TestCase
 {
 	/**
@@ -195,6 +196,7 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	public function testSetGetLabelKey() {
 		$this->assertEquals('name' ,$this->object->getLabelKey() );
 		$this->object->setLabelKey('label_key_test');
+
 		$this->assertEquals('label_key_test' ,$this->object->label_key );
 		$this->assertEquals('label_key_test' ,$this->object->getLabelKey() );
 	}

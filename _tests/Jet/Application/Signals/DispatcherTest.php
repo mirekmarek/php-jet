@@ -12,6 +12,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Application/Signals/TestSender.php';
 
 class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
@@ -28,6 +29,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink(JET_TESTS_TMP.'modules_list_test.php');
 	}
 
@@ -81,7 +83,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	public function testDispatchSignal() {
 
 
-		$callback_ID_1 = Application_Signals_Dispatcher::addCallback('/test/signal1', function( Application_Signals_Signal $signal ) {
+		/*$callback_ID_1 = */Application_Signals_Dispatcher::addCallback('/test/signal1', function( Application_Signals_Signal $signal ) {
 			/**
 			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
 			 */
@@ -89,11 +91,11 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			$sender->setSignalRecived('/test/signal1');
 			$sender->getTestCase()->assertEquals( '/test/signal1', Application_Signals_Dispatcher::getCurrentSignal()->getName() );
 
-			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal2', array('value'=>1) );
+			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal2', ['value'=>1]);
 			Application_Signals_Dispatcher::dispatchSignal( $signal );
 
 		});
-		$callback_ID_2 = Application_Signals_Dispatcher::addCallback('/test/signal2', function( Application_Signals_Signal $signal ) {
+		/*$callback_ID_2 = */Application_Signals_Dispatcher::addCallback('/test/signal2', function( Application_Signals_Signal $signal ) {
 			/**
 			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
 			 */
@@ -101,10 +103,10 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			$sender->setSignalRecived('/test/signal2');
 			$sender->getTestCase()->assertEquals( '/test/signal2', Application_Signals_Dispatcher::getCurrentSignal()->getName() );
 
-			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal3', array('value'=>1) );
+			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal3', ['value'=>1]);
 			Application_Signals_Dispatcher::dispatchSignal( $signal );
 		});
-		$callback_ID_3 = Application_Signals_Dispatcher::addCallback('/test/signal3', function( Application_Signals_Signal $signal ) {
+		/*$callback_ID_3 = */Application_Signals_Dispatcher::addCallback('/test/signal3', function( Application_Signals_Signal $signal ) {
 			/**
 			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
 			 */
@@ -119,14 +121,14 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$sender_mock->addSignal('/test/signal1');
 		$sender_mock->addSignal('/test/signal2');
 		$sender_mock->addSignal('/test/signal3');
-		$signal = Application_Signals::createSignal( $sender_mock, '/test/signal1', array('value'=>1) );
+		$signal = Application_Signals::createSignal( $sender_mock, '/test/signal1', ['value'=>1]);
 		Application_Signals_Dispatcher::dispatchSignal( $signal );
 
-		$this->assertEquals( array(
+		$this->assertEquals( [
 			'/test/signal1',
 			'/test/signal2',
 			'/test/signal3'
-		), $sender_mock->getRecivedSignals());
+		], $sender_mock->getReceivedSignals());
 	}
 
 }

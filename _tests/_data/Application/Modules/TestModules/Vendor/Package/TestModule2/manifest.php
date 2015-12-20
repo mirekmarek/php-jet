@@ -2,18 +2,18 @@
 /**
  * @see Jet\Application\Modules_Module_Info
  */
-return array(
+return [
 	'API_version' => 201401,
 	
 	'label' => 'Test Module 2',
 
 	'vendor' => 'Vendor',
 	
-	'types' => array(Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL),
+	'types' => [Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL],
 
 	'description' => 'Test module 2...',
 
-	'require' => array( 'Vendor.Package.TestModule' ),
+	'require' => ['Vendor.Package.TestModule'],
 
-	'factory_overload_map' => array()
-);
+	'factory_overload_map' => []
+];

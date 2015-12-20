@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
@@ -29,14 +30,14 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 	protected $default_value = 10.11;
 
-	protected $property_options = array(
+	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => '',
 		'is_required' => true,
 		'error_message' => 'Error Message',
 		'label' => 'Label',
 		'form_field_label' => 'Form field label'
-	);
+	];
 
 
 	/**
@@ -169,7 +170,10 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 		$field = new Form_Field_Float('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_type' => 'Float',
 			'_value' => 10.11,
 			'_value_raw' => 10.11,
@@ -180,9 +184,9 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 			'label' => 'Form field label',
 			'is_required' => true,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 	}

@@ -11,8 +11,11 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/M2NDataModelTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/NRelatedDataModelTestMock.php';
 
 class DataModel_Definition_Model_Related_MtoNTest extends \PHPUnit_Framework_TestCase {

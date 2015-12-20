@@ -11,7 +11,9 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestDescendantMock.php';
 
 if(!defined('CONFIG_TEST_BASEDIR')) {
@@ -53,19 +55,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Config::setApplicationConfigFilePath
-	 * @covers Config::getApplicationConfigFilePath
-	 */
-	public function testSetGetMainConfigFilePath() {
-		ConfigTestMock::setApplicationConfigFilePath('/test/path');
-		$this->assertEquals('/test/path', ConfigTestMock::getApplicationConfigFilePath());
-	}
-
-	/**
 	 * @covers Config::getAvailableHandlersList
 	 */
 	public function testGetAvailableHandlersList() {
-		$valid_handlers_list = array('Handler1', 'Handler2', 'Handler3');
+		$valid_handlers_list = ['Handler1', 'Handler2', 'Handler3'];
 		$valid_handlers_list = array_combine($valid_handlers_list, $valid_handlers_list);
 
 		$this->assertEquals(
@@ -176,13 +169,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	public function testGetCommonForm() {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );
 
-		$valid_form = new Form('Jet_ConfigTestDescendantMock', array(
+		$valid_form = new Form('Jet_ConfigTestDescendantMock', [
 			new Form_Field_Input('string_property', 'String property:', 'String config value', true),
 			new Form_Field_Int('int_property', 'Int property:', 123, false),
 			new Form_Field_Float('float_property', 'Float property:', 1.3, true),
 			new Form_Field_Checkbox('bool_property', 'Bool property:', false, false),
 			new Form_Field_Input('next_string_property', 'Next string property:', 'Next string config value', true),
-		));
+		]);
 
 		$this->assertEquals($valid_form,  $this->object->getCommonForm() );
 	}
@@ -195,13 +188,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );
 		$form = $this->object->getCommonForm();
 
-		$data = array (
+		$data = [
 			'string_property' => 'String config value - updated',
 			'float_property' => 1.4,
 			'int_property' => 123456789,
 			'bool_property' => true,
 			'next_string_property' => 'Next string config value - updated',
-		);
+		];
 
 		$this->object->catchForm($form, $data, true );
 
@@ -211,19 +204,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 		$this->object->save( $save_path );
 
-		$this->assertEquals(array (
+		/** @noinspection PhpIncludeInspection */
+		$this->assertEquals([
 			'section' =>
-			array (
+			[
 				'subsection' =>
-				array (
+				[
 					'string_property' => 'String config value - updated',
 					'int_property' => 123456789,
 					'float_property' => 1.4,
 					'bool_property' => true,
 					'next_string_property' => 'Next string config value - updated',
-				),
-			),
-		), require $save_path );
+				],
+			],
+		], require $save_path );
 
 		unlink($save_path);
 	}
@@ -234,12 +228,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	public function testToArray() {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );
 
-		$this->assertEquals( array (
+		$this->assertEquals( [
 			'string_property' => 'String config value',
 			'int_property' => 123,
 			'float_property' => 1.3,
 			'bool_property' => false,
 			'next_string_property' => 'Next string config value',
-		), $this->object->toArray());
+		], $this->object->toArray());
 	}
 }

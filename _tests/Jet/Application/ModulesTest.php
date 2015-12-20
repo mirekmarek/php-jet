@@ -39,6 +39,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@unlink( JET_TESTS_TMP.'modules_list.php' );
 		//@unlink( JET_TESTS_TMP.'module-install-test' );
 	}
@@ -64,88 +65,88 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Application_Modules_Handler_Default::getAllModulesList
 	 */
 	public function testGetAllModulesList() {
-		$valid_data = array (
+		$valid_data = [
 			'Vendor.Package.TestModule' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'Vendor.Package.TestModule',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
-				),
+				[
+				],
 				'factory_overload_map' =>
-				array (
-				),
+				[
+				],
 				'signals_callbacks' =>
-				array (
+				[
 					'/test/ack' => 'testAck',
-				),
+				],
 				'module_dir' => '',
 				'is_installed' => false,
 				'is_activated' => false,
-			)),
+			]),
 			'Vendor.Package.TestModule2' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'Vendor.Package.TestModule2',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
+				[
 					0 => 'Vendor.Package.TestModule',
-				),
+				],
 				'factory_overload_map' =>
-				array (
-				),
+				[
+				],
 				'signals_callbacks' =>
-				array (
-				),
+				[
+				],
 				'module_dir' => '',
 				'is_installed' => false,
 				'is_activated' => false,
-			)),
+			]),
 			'ValidModule' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'ValidModule',
 				'label' => 'Test Module',
 				'description' => 'Unit test module',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
+				[
 					0 => 'RequireModule1',
 					1 => 'RequireModule2',
-				),
+				],
 				'factory_overload_map' =>
-				array (
+				[
 					'OldClass1' => 'MyNs\MyClass1',
 					'OldClass2' => 'MyNs\MyClass2',
 					'OldClass3' => 'MyNs\MyClass3',
-				),
+				],
 				'signals_callbacks' =>
-				array (
-					'/test/signal1' => 'CallbackMoeduleMethodName1',
-					'/test/signal2' => 'CallbackMoeduleMethodName2',
-				),
+				[
+					'/test/signal1' => 'CallbackModuleMethodName1',
+					'/test/signal2' => 'CallbackModuleMethodName2',
+				],
 				'module_dir' => '',
 				'is_installed' => false,
 				'is_activated' => false,
-			)),
-		);
+			]),
+		];
 
 		$this->assertEquals( $valid_data, $this->object->getAllModulesList( true ) );
 	}
@@ -164,35 +165,35 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	public function testGetModuleInfo() {
 		$this->assertNull( $this->object->getModuleManifest('ImaginaryModule') );
 
-		$valid_data = Application_Modules_Module_Manifest::__set_state(array(
+		$valid_data = Application_Modules_Module_Manifest::__set_state([
 			'name' => 'ValidModule',
 			'label' => 'Test Module',
 			'description' => 'Unit test module',
 			'API_version' => 201401,
 			'types' =>
-			array (
+			[
 				0 => 'general',
-			),
+			],
 			'require' =>
-			array (
+			[
 				0 => 'RequireModule1',
 				1 => 'RequireModule2',
-			),
+			],
 			'factory_overload_map' =>
-			array (
+			[
 				'OldClass1' => 'MyNs\MyClass1',
 				'OldClass2' => 'MyNs\MyClass2',
 				'OldClass3' => 'MyNs\MyClass3',
-			),
+			],
 			'signals_callbacks' =>
-			array (
-				'/test/signal1' => 'CallbackMoeduleMethodName1',
-				'/test/signal2' => 'CallbackMoeduleMethodName2',
-			),
+			[
+				'/test/signal1' => 'CallbackModuleMethodName1',
+				'/test/signal2' => 'CallbackModuleMethodName2',
+			],
 			'module_dir' => '',
 			'is_installed' => false,
 			'is_activated' => false,
-		));
+		]);
 
 		$this->assertEquals($valid_data, $this->object->getModuleManifest('ValidModule'));
 	}
@@ -231,58 +232,58 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( file_exists(JET_TESTS_TMP.'module-install-test') );
 
-		$valid_data = array (
+		$valid_data = [
 			'Vendor.Package.TestModule' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'Vendor.Package.TestModule',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
-				),
+				[
+				],
 				'factory_overload_map' =>
-				array (
-				),
+				[
+				],
 				'signals_callbacks' =>
-				array (
+				[
 					'/test/ack' => 'testAck',
-				),
+				],
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => false,
-			)),
+			]),
 			'Vendor.Package.TestModule2' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'Vendor.Package.TestModule2',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
+				[
 					0 => 'Vendor.Package.TestModule',
-				),
+				],
 				'factory_overload_map' =>
-				array (
-				),
+				[
+				],
 				'signals_callbacks' =>
-				array (
-				),
+				[
+				],
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => false,
-			)),
-		);
+			]),
+		];
 		$this->assertEquals( $valid_data, $this->object->getInstalledModulesList() );
 
 		$this->assertFalse( $this->object->getModuleIsActivated('Vendor.Package.TestModule') );
@@ -292,58 +293,58 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 		$this->object->activateModule('Vendor.Package.TestModule2');
 
 
-		$valid_data = array (
+		$valid_data = [
 			'Vendor.Package.TestModule' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'Vendor.Package.TestModule',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 1',
 				'description' => 'Test module 1...',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
-				),
+				[
+				],
 				'factory_overload_map' =>
-				array (
-				),
+				[
+				],
 				'signals_callbacks' =>
-				array (
+				[
 					'/test/ack' => 'testAck',
-				),
+				],
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => true,
-			)),
+			]),
 			'Vendor.Package.TestModule2' =>
-			Application_Modules_Module_Manifest::__set_state(array(
+			Application_Modules_Module_Manifest::__set_state([
 				'name' => 'Vendor.Package.TestModule2',
 				'vendor' => 'Vendor',
 				'label' => 'Test Module 2',
 				'description' => 'Test module 2...',
 				'API_version' => 201401,
 				'types' =>
-				array (
+				[
 					0 => 'general',
-				),
+				],
 				'require' =>
-				array (
+				[
 					0 => 'Vendor.Package.TestModule',
-				),
+				],
 				'factory_overload_map' =>
-				array (
-				),
+				[
+				],
 				'signals_callbacks' =>
-				array (
-				),
+				[
+				],
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => true,
-			)),
-		);
+			]),
+		];
 		$this->assertEquals( $valid_data, $this->object->getActivatedModulesList() );
 
 		$this->assertTrue( $this->object->getModuleIsActivated('Vendor.Package.TestModule') );
@@ -354,8 +355,8 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertFalse( file_exists(JET_TESTS_TMP.'module-install-test') );
 
-		$this->assertEquals( array(), $this->object->getActivatedModulesList() );
-		$this->assertEquals( array(), $this->object->getInstalledModulesList() );
+		$this->assertEquals( [], $this->object->getActivatedModulesList() );
+		$this->assertEquals( [], $this->object->getInstalledModulesList() );
 
 	}
 

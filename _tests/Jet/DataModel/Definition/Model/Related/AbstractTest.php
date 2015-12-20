@@ -11,7 +11,9 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/RelatedDataModelTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/SubRelatedDataModelTestMock.php';
 
 class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework_TestCase {

@@ -34,8 +34,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 
 	const MODULE_TYPE_GENERAL = 'general';
 	const MODULE_TYPE_AUTH_CONTROLLER = 'auth_controller';
-	const MODULE_TYPE_PRE_DISPATCH = 'pre_dispatch';
-	const MODULE_TYPE_OUTPUT_FILTER = 'output_filter';
 	const MODULE_TYPE_SYSTEM = 'system';
 
 	/**
@@ -51,8 +49,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	protected static $module_types_list = [
 		self::MODULE_TYPE_GENERAL => 'General module',
 		self::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
-		self::MODULE_TYPE_PRE_DISPATCH => 'Pre dispatch',
-		self::MODULE_TYPE_OUTPUT_FILTER => 'Output filter module',
 		self::MODULE_TYPE_SYSTEM => 'System module',
 	];
 
@@ -442,19 +438,7 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		return $this->getHasType( static::MODULE_TYPE_AUTH_CONTROLLER );
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getIsPreDispatch() {
-		return $this->getHasType( self::MODULE_TYPE_PRE_DISPATCH );
-	}
 
-	/**
-	 * @return bool
-	 */
-	public function getIsOutputFilter() {
-		return $this->getHasType( self::MODULE_TYPE_OUTPUT_FILTER );
-	}
 
 	/**
 	 * Returns required module names ([module1, module2, ....])

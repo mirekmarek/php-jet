@@ -26,9 +26,36 @@ class Application extends Object {
 	protected static $do_not_end = false;
 
 	/**
+	 * @var string
+	 */
+	protected static $config_file_path;
+
+	/**
 	 * @var Application_Config
 	 */
 	protected static $config = null;
+
+	/**
+	 * @return string
+	 */
+	public static function getConfigFilePath()
+	{
+		if(!self::$config_file_path) {
+			static::$config_file_path = JET_CONFIG_PATH . JET_APPLICATION_CONFIGURATION_NAME.'.php';
+		}
+
+		return self::$config_file_path;
+	}
+
+	/**
+	 * @param string $config_file_path
+	 */
+	public static function setConfigFilePath($config_file_path)
+	{
+		self::$config_file_path = $config_file_path;
+	}
+
+
 
 	/**
 	 * Start application
@@ -41,13 +68,6 @@ class Application extends Object {
 
 		Debug_Profiler::MainBlockStart('Application init');
 
-
-		$config_file_path = JET_CONFIG_PATH . JET_APPLICATION_CONFIGURATION_NAME.'.php';
-
-		Debug_Profiler::blockStart('Configuration init');
-			Config::setApplicationConfigFilePath( $config_file_path );
-			static::getConfig();
-		Debug_Profiler::blockEnd('Configuration init');
 
 		Debug_Profiler::blockStart('Http request init');
 			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
@@ -65,7 +85,9 @@ class Application extends Object {
 	 */
 	public static function getConfig() {
 		if(!static::$config) {
+			Debug_Profiler::blockStart('Configuration init');
 			static::$config = new Application_Config();
+			Debug_Profiler::blockEnd('Configuration init');
 		}
 
 		return static::$config;

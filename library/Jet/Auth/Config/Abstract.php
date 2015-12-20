@@ -19,7 +19,7 @@
  */
 namespace Jet;
 
-abstract class Auth_Config_Abstract extends Config_Application {
+abstract class Auth_Config_Abstract extends Application_Config {
 
 	/**
 	 * @return string

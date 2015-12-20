@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase {
@@ -37,14 +38,14 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 	protected $default_value = 'default value';
 
-	protected $property_options = array(
+	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => '',
 		'is_required' => true,
 		'error_message' => 'Error Message',
 		'label' => 'Label',
 		'form_field_label' => 'Form field label'
-	);
+	];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -163,10 +164,10 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getFormFieldOptions
 	 */
 	public function testSetGetFormFieldOptions() {
-		$options = array(
+		$options = [
 			'option_1' => 'Option 1',
 			'option_2' => 'Option 2',
-		);
+		];
 		$this->object->setFormFieldOptions($options);
 		$this->assertEquals($options, $this->object->getFormFieldOptions());
 	}
@@ -203,11 +204,11 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 * @covers Jet\Config_Definition_Property_Abstract::getFormFieldErrorMessages
 	 */
 	public function testSetGetFormFieldErrorMessages() {
-		$error_messages = array(
+		$error_messages = [
 			'input_missing' => 'Input is missing',
 			'empty' => 'Input is empty',
 			'invalid_format' => 'Invalid format'
-		);
+		];
 
 
 		$this->object->setFormFieldErrorMessages($error_messages);
@@ -223,7 +224,10 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 		$field = new Form_Field_Input('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_name' => 'StringTest',
 			'_value_raw' => 'default value',
 			'_value' => 'default value',
@@ -237,9 +241,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 			'validation_regexp' => $this->validation_regexp,
 			'validate_data_callback' => null,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 	}

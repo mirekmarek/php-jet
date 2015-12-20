@@ -25,6 +25,6 @@ namespace Jet;
  * @JetConfig:data_path = '/mvc_router/cache_backend_options'
  *
  */
-abstract class Mvc_Router_Cache_Backend_Config_Abstract extends Config_Application {
+abstract class Mvc_Router_Cache_Backend_Config_Abstract extends Application_Config {
 
 }

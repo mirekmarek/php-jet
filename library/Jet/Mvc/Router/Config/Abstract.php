@@ -19,7 +19,7 @@
  */
 namespace Jet;
 
-abstract class Mvc_Router_Config_Abstract extends Config_Application {
+abstract class Mvc_Router_Config_Abstract extends Application_Config {
 
 	/**
 	 * @return boolean

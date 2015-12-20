@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
@@ -28,7 +29,7 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 
 	protected $property_name = 'array_property';
 
-	protected $property_options = array();
+	protected $property_options = [];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -110,6 +111,6 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 		$orig_value = 'value 1';
 		$value = $orig_value;
 		$this->object->checkValueType($value);
-		$this->assertEquals(array($orig_value), $value);
+		$this->assertEquals([$orig_value], $value);
 	}
 }

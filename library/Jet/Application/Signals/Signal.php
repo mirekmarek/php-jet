@@ -55,7 +55,7 @@ class Application_Signals_Signal extends Object {
 
 	/**
 	 *
-	 * @return Object
+	 * @return Object_Interface
 	 */
 	public function getSender(){
 		return $this->sender;

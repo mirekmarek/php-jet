@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_TestCase {
@@ -28,7 +29,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 
 	protected $property_name = 'data_model_property';
 
-	protected $property_options = array();
+	protected $property_options = [];
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -70,7 +71,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	 */
 	public function testGetDefaultValue() {
 		$data_model = new $this->property_options['data_model_class']();
-		$this->assertEquals($data_model, $this->object->getDefaultValue( $this->data_model ));
+		$this->assertEquals($data_model, $this->object->getDefaultValue());
 	}
 
 	/**

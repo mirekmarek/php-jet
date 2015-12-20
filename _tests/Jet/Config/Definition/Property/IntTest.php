@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
@@ -29,14 +30,14 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 
 	protected $default_value = 10;
 
-	protected $property_options = array(
+	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => '',
 		'is_required' => true,
 		'error_message' => 'Error Message',
 		'label' => 'Label',
 		'form_field_label' => 'Form field label'
-	);
+	];
 
 	/**
 	 * @var ConfigTestMock
@@ -167,7 +168,10 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 
 		$field = new Form_Field_Int('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_type' => 'Int',
 			'_value' => 10,
 			'_value_raw' => 10,
@@ -177,9 +181,9 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 			'default_value' => $this->default_value,
 			'label' => 'Form field label',
 			'is_required' => true,
-			'select_options' => array (
-			),
-		));
+			'select_options' => [
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 	}

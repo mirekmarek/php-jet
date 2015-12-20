@@ -100,6 +100,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testCreateImaginaryDirectory() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::create( $this->imaginary_dir_path);
 	}
 
@@ -119,6 +120,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_REMOVE_FAILED
 	 */
 	public function testRemoveImaginaryDirectory() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::remove( $this->imaginary_dir_path);
 	}
 
@@ -144,6 +146,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFaildImaginarySource() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::copy($this->imaginary_dir_path, $this->copy_test_target_path);
 	}
 
@@ -156,6 +159,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testCopyFaildImaginaryTarget() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::copy($this->copy_test_source_path, $this->imaginary_dir_path);
 	}
 
@@ -169,6 +173,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFaildExists() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_Dir::copy($this->copy_test_source_path, $this->copy_test_source_path, false);
 	}
 
@@ -186,17 +191,17 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function getValidDataGetListTest( $get_dirs=true, $get_files=true, $filter=false ) {
-		$files_list = array (
+		$files_list = [
 			'SubDir1',
 			'SubDir2',
 			'SubDirN',
 			'file1.txt',
 			'file2.txt',
 			'fileN.txt',
-		);
+		];
 
 
-		$valid_data = array();
+		$valid_data = [];
 		foreach( $files_list as $f ) {
 			$path = IO_DIR_TEST_BASEDIR.'getlist'.DIRECTORY_SEPARATOR.$f;
 

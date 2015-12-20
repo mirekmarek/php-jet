@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_LocaleTest extends \PHPUnit_Framework_TestCase {
@@ -28,7 +29,7 @@ class DataModel_Definition_Property_LocaleTest extends \PHPUnit_Framework_TestCa
 
 	protected $property_name = 'locale_property';
 
-	protected $property_options = array();
+	protected $property_options = [];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

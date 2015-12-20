@@ -18,7 +18,7 @@ namespace Jet;
  * @JetConfig:data_path = '/js_libs/Jet'
  * @JetConfig:section_is_obligatory = false
  */
-class Javascript_Lib_Jet_Config extends Config_Application {
+class Javascript_Lib_Jet_Config extends Application_Config {
 	/**
 	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true

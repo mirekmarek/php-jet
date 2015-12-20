@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 
@@ -73,7 +74,7 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	public function testGetProperties() {
 		$properties = $this->object->getProperties();
 
-		$property_names = array(
+		$property_names = [
 			'ID',
 			'ID_property',
 			'string_property',
@@ -85,7 +86,7 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 			'date_time_property',
 			'date_property',
 			'data_model_property'
-		);
+		];
 
 		foreach($property_names as $property_name) {
 			$this->assertArrayHasKey($property_name, $properties);

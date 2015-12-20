@@ -1,11 +1,17 @@
 <?php
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelRelated1TONTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelRelated1TO1TestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelRelatedMTONTestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModel2TestMock.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModel2Related1TONTestMock.php';
 
 class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
@@ -37,10 +43,10 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 
 		$this->config = new DataModel_Backend_MySQL_Config( true );
-		$this->config->setData( array(
+		$this->config->setData( [
 							'connection_read' => 'test_mysql',
 							'connection_write' => 'test_mysql',
-					), false
+		], false
 				);
 
 		$this->object = new DataModel_Backend_MySQL( $this->config );
@@ -48,14 +54,14 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 		$this->data_model = new DataModel_Query_DataModelTestMock();
 		$this->data_model->setBackendType('MySQL');
-		$this->data_model->setBackendOptions( array(
+		$this->data_model->setBackendOptions( [
 			'connection_read' => 'test_mysql',
 			'connection_write' => 'test_mysql',
-		) );
+		]);
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
-		$this->select_data = array(
+		$this->select_data = [
 			$this->properties['ID_property'],
 			'my_string_property' => $this->properties['string_property'],
 			'my_sum' => [
@@ -70,9 +76,9 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				'COUNT(%int_property%)'
 			],
 			'data_model_test_mock_related_1toN.string_property'
-		);
+		];
 
-		$this->where_data = array(
+		$this->where_data = [
 			'data_model_2_test_mock.string_property' => 'test',
 			'AND',
 			'this.int_property =' => 1234,
@@ -92,9 +98,9 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				'AND',
 				'this.int_property' => 54321
 			]
-		);
+		];
 
-		$this->having_data = array(
+		$this->having_data = [
 			'my_count =' => 1234,
 			'AND',
 			'my_string_property !=' => 'test',
@@ -104,7 +110,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				'AND',
 				'my_count' => 54321
 			]
-		);
+		];
 
 
 	}
@@ -176,7 +182,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 		$timestamp = date('YmdHis');
 
-		$valid_d = array (
+		$valid_d = [
 			0 => 'CREATE TABLE IF NOT EXISTS `_UP'.$timestamp.'_data_model_test_mock` ('.JET_EOL
                     .JET_TAB.'`ID` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT \'\','.JET_EOL
                     .JET_TAB.'`ID_property` varchar(50) COLLATE utf8_bin NOT NULL  DEFAULT \'\','.JET_EOL
@@ -195,7 +201,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			2 => 'UPDATE `_UP'.$timestamp.'_data_model_test_mock` SET `int_property`=2, `date_property`=\'default value\'',
 			3 => 'RENAME TABLE `data_model_test_mock` TO `_UP'.$timestamp.'_b_data_model_test_mock`;',
 			4 => 'RENAME TABLE `_UP'.$timestamp.'_data_model_test_mock` TO  `data_model_test_mock`;',
-		);
+		];
 
 		$this->assertEquals( $valid_d, $this->object->helper_getUpdateCommand( $this->data_model ) );
 
@@ -212,8 +218,8 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			->setRelationJoinType('data_model_test_mock_related_MtoN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setRelationJoinType('data_model_test_mock_related_1toN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setHaving($this->having_data)
-			->setOrderBy( array('+my_string_property', '-my_count', 'this.int_property') )
-			->setGroupBy( array('ID_property', 'my_string_property', 'this.int_property') )
+			->setOrderBy( ['+my_string_property', '-my_count', 'this.int_property'])
+			->setGroupBy( ['ID_property', 'my_string_property', 'this.int_property'])
 			->setLimit(100, 10);
 
 		$valid_query =
@@ -286,8 +292,8 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			->setRelationJoinType('data_model_test_mock_related_MtoN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setRelationJoinType('data_model_test_mock_related_1toN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setHaving($this->having_data)
-			->setOrderBy( array('+my_string_property', '-my_count') )
-			->setGroupBy( array('ID_property', 'my_string_property') )
+			->setOrderBy( ['+my_string_property', '-my_count'])
+			->setGroupBy( ['ID_property', 'my_string_property'])
 			->setLimit(100, 10);
 
 
@@ -352,7 +358,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				continue;
 			}
 
-			$value = $property_definition->getDefaultValue( $this->data_model );
+			$value = $property_definition->getDefaultValue();
 			if($property_name=='ID') {
 				$value = 'id_value_123';
 			}
@@ -390,7 +396,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				continue;
 			}
 
-			$value = $property_definition->getDefaultValue( $this->data_model );
+			$value = $property_definition->getDefaultValue();
 			if($property_name=='ID') {
 				$value = 'id_value_123';
 			}

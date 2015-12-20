@@ -1,11 +1,11 @@
 <?php
-return array(
-	"section" => array(
-		"subsection" => array(
+return [
+	"section" => [
+		"subsection" => [
 			"float_property" => 1.3
 			/**
 			 * other items intentionally missing
 			 */
-		)
-	)
-);
+		]
+	]
+];

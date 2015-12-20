@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase {
@@ -23,7 +24,7 @@ class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase 
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @var DataModel_Query_Having_Expression
@@ -50,10 +51,10 @@ class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->backend_function_call = new DataModel_Query_Select_Item_BackendFunctionCall(
-			array(
+			[
 				$this->properties['float_property'],
 				$this->properties['int_property']
-			),
+			],
 			'SUM(%float_property%)+%int_property%'
 		);
 

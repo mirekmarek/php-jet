@@ -31,9 +31,9 @@ class Application_Signals_SignalTest_Sender extends Object {
 	 *
 	 * @var array
 	 */
-	protected $signals = array();
+	protected $signals = [];
 
-	protected $recived_signals = array();
+	protected $received_signals = [];
 
 	/**
 	 * @var \PHPUnit_Framework_TestCase
@@ -54,8 +54,8 @@ class Application_Signals_SignalTest_Sender extends Object {
 		return $this->test_case;
 	}
 
-	public function getRecivedSignals() {
-		return $this->recived_signals;
+	public function getReceivedSignals() {
+		return $this->received_signals;
 	}
 
 	public function addSignal( $signal ) {
@@ -67,7 +67,7 @@ class Application_Signals_SignalTest_Sender extends Object {
 	}
 
 	public function setSignalRecived( $signal_name ) {
-		$this->recived_signals[] = $signal_name;
+		$this->received_signals[] = $signal_name;
 	}
 	/**
 	 * @param string $signal_name

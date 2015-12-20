@@ -13,20 +13,16 @@ $lib_dir = dirname(__DIR__).'/library/';
 define( '_JET_TEST_LIB_DIR', $lib_dir );
 
 spl_autoload_register( function( $class_name ) {
-	global $lib_dir;
 
 	if(
 		substr($class_name, 0, 4)!='Jet\\'
 	) {
 		return false;
 	}
-//var_dump($class_name);
 
 	$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 	$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
-	//var_dump($lib_dir, _JET_TEST_LIB_DIR, $class_name, $lib_dir.$class_name.'.php');
-//var_dump($class_name);
-//debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+	/** @noinspection PhpIncludeInspection */
 	require _JET_TEST_LIB_DIR.$class_name.'.php';
 
 	return true;
@@ -64,5 +60,5 @@ define('JET_HTML_SPECIALCHARS_CHARSET', 'UTF-8');
 
 require '_mock/Jet/Object.php';
 
-Jet\Config::setApplicationConfigFilePath( __DIR__.'/application-test-config.php' );
+Jet\Application::setConfigFilePath( __DIR__.'/application-test-config.php' );
 Jet\Application::doNotEnd();

@@ -33,7 +33,7 @@ class Data_Text {
 	public static function removeAccents( $text ){
 
 		if( !class_exists('\Transliterator', false) ) {
-			$text = iconv('UTF8', 'ASCII//TRANSLIT', $text);
+			$text = iconv(JET_CHARSET, 'ASCII//TRANSLIT', $text);
 			return preg_replace('/[^a-zA-Z0-9]/', '_', $text);
 		} else {
 			/** @noinspection PhpUndefinedClassInspection */
@@ -140,7 +140,7 @@ class Data_Text {
 	 * @return string
 	 */
 	public static function htmlSpecialChars( $input ) {
-		return htmlspecialchars( $input, ENT_QUOTES, JET_HTML_SPECIALCHARS_CHARSET );
+		return htmlspecialchars( $input, ENT_QUOTES, JET_CHARSET );
 	}
 
 }

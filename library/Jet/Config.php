@@ -109,13 +109,6 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	protected $_config_data = null;
 
 	/**
-	 * File path to application config file (usually JET_CONFIG_PATH/[JET_APPLICATION_ENVIRONMENT].php)
-	 *
-	 * @var string
-	 */
-	protected static $application_config_file_path = '';
-
-	/**
 	 * Configuration data (content of config data array wrapped to Data_Array)
 	 *
 	 * Array key = config file path
@@ -134,27 +127,6 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 */
 	private $properties_definition;
 
-
-	/**
-	 * Sets application config file path
-	 *
-	 * @static
-	 *
-	 * @param string $application_config_file_path
-	 */
-	public static function setApplicationConfigFilePath( $application_config_file_path ) {
-		static::$application_config_file_path = $application_config_file_path;
-	}
-
-	/**
-	 * Gets application config file path
-	 *
-	 * @static
-	 * @return string
-	 */
-	public static function getApplicationConfigFilePath() {
-		return static::$application_config_file_path;
-	}
 
 	/**
 	 * @param string $config_file_path

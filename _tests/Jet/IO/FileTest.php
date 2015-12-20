@@ -115,6 +115,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testWriteImaginaryDirectory() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::write($this->imaginary_file_path, 'data');
 	}
 
@@ -125,6 +126,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_WRITE_FAILED
 	 */
 	public function testWriteFailed() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::write(IO_FILE_TEST_BASEDIR . '/not-writable-dir/file.txt', 'data');
 	}
 
@@ -143,6 +145,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_CHMOD_FAILED
 	 */
 	public function testChmodFailed() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::chmod($this->imaginary_file_path);
 	}
 
@@ -176,6 +179,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
 	 */
 	public function testAppendFailed() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::append($this->imaginary_file_path, 'data');
 	}
 
@@ -197,6 +201,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_READ_FAILED
 	 */
 	public function testReadFailed() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::read($this->imaginary_file_path);
 	}
 
@@ -214,6 +219,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_DELETE_FAILED
 	 */
 	public function testDeleteFailed() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::delete($this->imaginary_file_path);
 	}
 
@@ -236,6 +242,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFailedImaginarySource() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::copy($this->imaginary_file_path, $this->copy_test_target_path);
 	}
 
@@ -246,6 +253,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFailedImaginaryTarget() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::copy($this->copy_test_source_path, $this->imaginary_file_path);
 	}
 
@@ -257,6 +265,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
 	public function testCopyFailedExists() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::copy($this->copy_test_target_path, $this->copy_test_target_path, false);
 	}
 
@@ -279,6 +288,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
 	public function testRenameFailedImaginarySource() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::rename($this->imaginary_file_path, $this->rename_test_target_path);
 	}
 
@@ -290,6 +300,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
 	public function testRenameFailedImaginaryTarget() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::rename($this->rename_test_source_path, $this->imaginary_file_path);
 	}
 
@@ -302,6 +313,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
 	 */
 	public function testRenameFailedExists() {
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@IO_File::rename($this->rename_test_target_path, $this->rename_test_target_path, false);
 	}
 
@@ -351,7 +363,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 		$max_upload = ini_get('upload_max_filesize');
 		$max_post = ini_get('post_max_size');
 
-		$units = array('' => 1, 'K'=>1024, 'M'=>1024*1024, 'G'=>1024*1024*1024);
+		$units = ['' => 1, 'K'=>1024, 'M'=>1024*1024, 'G'=>1024*1024*1024];
 
 		$max_post_unit = substr($max_post, -1);
 		$max_upload_unit = substr($max_upload, -1);

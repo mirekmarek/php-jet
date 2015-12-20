@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
 class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
@@ -28,7 +29,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 
 	protected $property_name = 'float_property';
 
-	protected $property_options = array();
+	protected $property_options = [];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -96,7 +97,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 */
 	public function testValidatePropertiesFailedOutOfRange() {
 		$value = '10.9876';
-		$errors = array();
+		$errors = [];
 
 		$this->assertFalse( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 
@@ -115,7 +116,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	 */
 	public function testValidateProperties() {
 		$value = 2.222;
-		$errors = array();
+		$errors = [];
 		$this->assertTrue( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
 	}
 
@@ -137,7 +138,10 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 	public function testGetFormField() {
 		$field = new Form_Field_Float('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_name' => $this->property_name,
 			'_value_raw' => $this->property_options['default_value'],
 			'_value' => '2',
@@ -147,9 +151,9 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 			'max_value' => $this->property_options['max_value'],
 			'validate_data_callback' => null,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 

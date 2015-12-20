@@ -12,7 +12,9 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Application/Signals/TestSender.php';
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Application/Signals/FakeSignalClass.php';
 
 class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
@@ -40,7 +42,7 @@ class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 		$sender_mock->addSignal('/test/signal');
 		$sender_mock->setSignalsSignalObjectClassName('Jet\\FakeSignalClass');
 
-		Application_Signals::createSignal( $sender_mock, '/test/signal', array() );
+		Application_Signals::createSignal( $sender_mock, '/test/signal', []);
 	}
 
 	/**

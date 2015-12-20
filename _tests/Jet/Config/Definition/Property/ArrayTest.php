@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/Config/ConfigTestMock.php';
 
 class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
@@ -27,7 +28,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 
 	protected $property_default_form_field_type = 'MultiSelect';
 
-	protected $default_value = array('val1','val2');
+	protected $default_value = ['val1','val2'];
 
 	/**
 	 * @var ConfigTestMock
@@ -35,14 +36,14 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	protected $config;
 
 
-	protected $property_options = array(
+	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => '',
 		'is_required' => true,
 		'error_message' => 'Error Message',
 		'label' => 'Label',
 		'form_field_label' => 'Form field label'
-	);
+	];
 
 
 	/**
@@ -67,7 +68,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 
 		$this->object->checkValueType( $value );
 
-		$this->assertSame(array(), $value);
+		$this->assertSame([], $value);
 	}
 
 
@@ -88,7 +89,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 */
 	public function testCheckValue() {
-		$value = array('testvalue1', 'testvalue2');
+		$value = ['testvalue1', 'testvalue2'];
 
 		$this->assertTrue( $this->object->checkValue( $value ) );
 	}
@@ -101,7 +102,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
 	 */
 	public function testCheckValueFailedEmpty() {
-		$value = array();
+		$value = [];
 
 		$this->object->checkValue( $value );
 	}
@@ -114,18 +115,21 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	public function testGetFormField() {
 		$field = new Form_Field_MultiSelect('');
 
-		$field->__test_set_state(array(
+		/**
+		 * @var \JetTest\Object $field
+		 */
+		$field->__test_set_state([
 			'_type' => 'MultiSelect',
 			'_name' => 'ArrayTest',
-			'_value' => array('val1','val2'),
-			'_value_raw' => array('val1','val2'),
+			'_value' => ['val1','val2'],
+			'_value_raw' => ['val1','val2'],
 			'default_value' => $this->default_value,
 			'label' => 'Form field label',
 			'is_required' => true,
 			'select_options' =>
-			array (
-			),
-		));
+			[
+			],
+		]);
 
 		$this->assertEquals($field, $this->object->getFormField());
 	}

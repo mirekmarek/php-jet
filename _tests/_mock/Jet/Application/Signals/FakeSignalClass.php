@@ -19,7 +19,7 @@ class FakeSignalClass {
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Object_Interface $sender, $name, array $data=array() ) {
+	public function __construct( Object_Interface $sender, $name, array $data= []) {
 	}
 
 }

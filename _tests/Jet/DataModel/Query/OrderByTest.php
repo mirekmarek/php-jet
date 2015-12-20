@@ -11,6 +11,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
 class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
@@ -22,7 +23,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * @var DataModel_Query
@@ -44,15 +45,15 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->query = new DataModel_Query($this->data_model->getDataModelDefinition());
-		$this->query->setSelect(array(
+		$this->query->setSelect([
 			'this.string_property',
-			'my_value' => array(
-							array('this.int_property'),
+			'my_value' => [
+							['this.int_property'],
 							'MAX(%int_property%)'
-						),
-		));
+			],
+		]);
 
-		$this->object = new DataModel_Query_OrderBy($this->query, array('+this.int_property', '+my_value','-string_property', 'this.ID_property') );
+		$this->object = new DataModel_Query_OrderBy($this->query, ['+this.int_property', '+my_value','-string_property', 'this.ID_property']);
 	}
 
 	/**
@@ -69,7 +70,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
 	public function test__constructFailed() {
-		$this->object = new DataModel_Query_OrderBy($this->query, array('+imaginary') );
+		$this->object = new DataModel_Query_OrderBy($this->query, ['+imaginary']);
 
 	}
 
@@ -82,7 +83,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\DataModel_Query_OrderBy::valid
 	 */
 	public function testIterator() {
-		$data = array();
+		$data = [];
 		foreach($this->object as $k=>$v) {
 			/**
 			 * @var DataModel_Query_OrderBy_Item $v
@@ -99,12 +100,12 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 			}
 		}
 
-		$this->assertEquals( array (
+		$this->assertEquals( [
 			'+int_property',
 			'+my_value',
 			'-string_property',
 			'+ID_property',
-		), $data);
+		], $data);
 	}
 
 }

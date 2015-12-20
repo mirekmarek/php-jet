@@ -180,6 +180,7 @@ class DataModel_Definition_DataModelTestMock extends DataModel {
 
 	/**
 	 */
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {
 	}
 
