@@ -17,7 +17,6 @@ define('JET_CONFIG_ENVIRONMENT', 'development');
 require('config/'.JET_CONFIG_ENVIRONMENT.'/defines.php');
 /** @noinspection PhpIncludeInspection */
 require('config/'.JET_CONFIG_ENVIRONMENT.'/defines_URI.php');
-
 /** @noinspection PhpIncludeInspection */
 require('config/'.JET_CONFIG_ENVIRONMENT.'/php_setup.php');
 
