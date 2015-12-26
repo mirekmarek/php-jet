@@ -303,18 +303,6 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 		return $IDs;
 	}
 
-
-	/** @noinspection PhpMissingParentCallMagicInspection
-	 *
-	 * @return array
-	 */
-	public function __sleep() {
-		return [];
-	}
-
-	public function __wakeup() {
-	}
-
 	/**
 	 * @return DataModel_Related_Interface
 	 */
@@ -396,17 +384,6 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 	}
 
 	/**
-	 *
-	 */
-	public function __wakeup_relatedItems() {
-		if($this->items) {
-			foreach( $this->items as $item ) {
-				$item->__wakeup_relatedItems();
-			}
-		}
-	}
-
-	/**
 	 * Validates data and returns true if everything is OK and ready to save
 	 *
 	 * @throws DataModel_Exception
@@ -470,6 +447,30 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 	public function toJSON() {
 		$data = $this->jsonSerialize();
 		return json_encode($data);
+	}
+
+
+
+	/** @noinspection PhpMissingParentCallMagicInspection
+	 *
+	 * @return array
+	 */
+	public function __sleep() {
+		return [];
+	}
+
+	public function __wakeup() {
+	}
+
+	/**
+	 *
+	 */
+	public function __wakeup_relatedItems() {
+		if($this->items) {
+			foreach( $this->items as $item ) {
+				$item->__wakeup_relatedItems();
+			}
+		}
 	}
 
 //-------------------------------------------------------------------------------------------------------------------

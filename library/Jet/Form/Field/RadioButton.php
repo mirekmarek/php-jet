@@ -28,7 +28,6 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				'input_missing' => 'input_missing',
 				'empty' => 'empty',
 				'invalid_format' => 'invalid_format',
 				'invalid_value' => 'invalid_value'

@@ -96,21 +96,4 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Array::getItemType
-	 */
-	public function testGetItemType() {
-		$this->assertEquals($this->property_options['item_type'], $this->object->getItemType());
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Array::checkValueType
-	 */
-	public function testCheckValueType() {
-		$orig_value = 'value 1';
-		$value = $orig_value;
-		$this->object->checkValueType($value);
-		$this->assertEquals([$orig_value], $value);
-	}
 }

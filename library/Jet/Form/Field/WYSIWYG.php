@@ -78,7 +78,6 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 			$this->_value = trim( $data->getRaw($this->_name) );
 		} else {
 			$this->_value_raw = null;
-			$this->setValueError('input_missing');
 		}
 	}
 

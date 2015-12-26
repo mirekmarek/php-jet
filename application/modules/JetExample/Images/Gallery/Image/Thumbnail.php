@@ -232,8 +232,6 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 		$this->file_mime_type = $created_image_file->getMimeType();
 		$this->file_size = IO_File::getSize( $target_path );
 
-		$this->validateProperties();
-
 	}
 
 	/**
@@ -276,8 +274,6 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 		$thumbnail->file_size = IO_File::getSize( $target_path );
 
 		$thumbnail->__image = $image;
-
-		$thumbnail->validateProperties();
 
 		return $thumbnail;
 	}

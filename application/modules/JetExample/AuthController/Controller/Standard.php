@@ -107,7 +107,6 @@ class Controller_Standard extends Mvc_Controller_Standard {
 			$user->setPassword( $data['password'] );
 			$user->setPasswordIsValid(true);
 			$user->setPasswordIsValidTill(null);
-			$user->validateProperties();
 			$user->save();
 
 			Http_Headers::reload();

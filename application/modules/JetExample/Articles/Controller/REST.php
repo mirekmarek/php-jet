@@ -57,7 +57,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $article->getCommonForm();
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
-			$article->validateProperties();
 			$article->save();
 			Mvc::truncateRouterCache();
 			$this->responseData($article);
@@ -73,7 +72,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $article->getCommonForm();
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
-			$article->validateProperties();
 			$article->save();
 			Mvc::truncateRouterCache();
 			$this->responseData($article);

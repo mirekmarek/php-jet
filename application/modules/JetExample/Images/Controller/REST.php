@@ -256,7 +256,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $gallery->getCommonForm();
 
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
-			$gallery->validateProperties();
 			$gallery->save();
 			Mvc::truncateRouterCache();
 
@@ -276,7 +275,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $gallery->getCommonForm();
 
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
-			$gallery->validateProperties();
 			$gallery->save();
 
 			Mvc::truncateRouterCache();

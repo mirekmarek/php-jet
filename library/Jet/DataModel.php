@@ -64,7 +64,6 @@ namespace Jet;
  *       *      - optional
  *       *
  *       * Validation:
- *       *   @JetDataModel:error_messages = ['error_code'=>'Massage ...','error_code'=>'Massage ...']
  *       *   @JetDataModel:validation_method = 'someCustomValidationMethodName'
  *       *      - optional
  *       *   @JetDataModel:list_of_valid_options = ['option1'=>'Valid option 1','option2'=>'Valid option 2']
@@ -80,6 +79,9 @@ namespace Jet;
  *       *      - optional
  *       *   @JetDataModel:max_value = 999
  *       *      - optional
+ *
+ *       * Specific (type DataModel::TYPE_DATA_MODEL):
+ *       *   @JetDataModel:data_model_class = 'Some\Related_Model_Class_Name'
  *       *
  *       * Form field options:
  *       *   @JetDataModel:form_field_creator_method_name = 'someMethodName'
@@ -105,11 +107,7 @@ namespace Jet;
  *       *   @JetDataModel:form_catch_value_method_name = 'someMethodName'
  *       *      - optional
  *       *
- *       * Specific (type DataModel::TYPE_DATA_MODEL):
- *       *   @JetDataModel:data_model_class = 'Some\Related_Model_Class_Name'
  *       *
- *       * Specific (type DataModel::TYPE_ARRAY):
- *       *   @JetDataModel:item_type = DataModel::TYPE_*
  *       *
  *       *
  *       * @var string          //some PHP type ...
@@ -850,6 +848,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 * @throws DataModel_Exception
 	 */
 	protected function _checkBeforeSave() {
+		$this->validateProperties();
+
 		if(! DataModel_ObjectState::getVar($this, 'ready_to_save',false) ) {
 
 			$errors = $this->getValidationErrors();
@@ -862,7 +862,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 
 			throw new DataModel_Exception(
-				'Call '.get_class($this).'::validateProperties first! (Validation errors: '.implode(',', $errors).')',
+				'Object '.get_class($this).' is not valid! (Validation errors: '.implode(',', $errors).')',
 				DataModel_Exception::CODE_SAVE_ERROR_VALIDATE_DATA_FIRST
 			);
 		}

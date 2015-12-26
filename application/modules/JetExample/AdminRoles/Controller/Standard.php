@@ -158,7 +158,6 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$form = $role->getCommonForm();
 
 		if( $role->catchForm( $form ) ) {
-			$role->validateProperties();
 			$role->save();
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
 		}
@@ -182,7 +181,6 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$form = $role->getCommonForm();
 
 		if( $role->catchForm( $form ) ) {
-			$role->validateProperties();
 			$role->save();
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
 		}

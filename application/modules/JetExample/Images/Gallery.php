@@ -148,7 +148,6 @@ class Gallery extends DataModel {
 			if($overwrite_if_exists) {
 				$existing_image->overwrite( $source_file_path );
 
-				$existing_image->validateProperties();
 				$existing_image->save();
 
 				return $existing_image;
@@ -163,7 +162,6 @@ class Gallery extends DataModel {
 		}
 
 		$image = Gallery_Image::getNewImage($this, $source_file_path, $source_file_name );
-		$image->validateProperties();
 
 		$this->__images[] = $image;
 

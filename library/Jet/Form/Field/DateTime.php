@@ -35,7 +35,6 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 				$this->_value .= ' '.trim( $data->getRaw($name) );
 			} else {
 				$this->_value_raw = null;
-				$this->setValueError('input_missing');
 			}
 		}
 

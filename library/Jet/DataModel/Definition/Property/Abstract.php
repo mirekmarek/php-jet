@@ -21,7 +21,7 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 *
 	 * @var array(code=>message)
 	 */
-	public static $default_error_messages = [
+	public static $property_validation_error_messages = [
 		DataModel_Validation_Error::CODE_REQUIRED => 'Item is required',
 		DataModel_Validation_Error::CODE_INVALID_VALUE => 'Invalid value',
 		DataModel_Validation_Error::CODE_INVALID_FORMAT => 'Invalid format',
@@ -108,17 +108,6 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @var array
 	 */
 	protected $list_of_valid_options = null;
-	/**
-	 * Format:
-	 * <code>
-	 * [
-	 *      'error_code' = 'Error message'
-	 * ]
-	 * </code>
-	 *
-	 * @var array
-	 */
-	protected $error_messages = [];
 
 	/**
 	 * @var string
@@ -446,13 +435,10 @@ abstract class DataModel_Definition_Property_Abstract extends Object {
 	 * @param string $error_code
 	 * @return string
 	 */
-	public function getErrorMessage( $error_code ) {
-		if(isset($this->error_messages[$error_code])) {
-			return $this->error_messages[$error_code];
-		}
+	public function getPropertyValidationErrorMessage($error_code ) {
 
-		if(isset(self::$default_error_messages[$error_code])) {
-			return self::$default_error_messages[$error_code];
+		if(isset(static::$property_validation_error_messages[$error_code])) {
+			return static::$property_validation_error_messages[$error_code];
 		}
 
 		return 'Unknown ERROR (code: '.$error_code.')';

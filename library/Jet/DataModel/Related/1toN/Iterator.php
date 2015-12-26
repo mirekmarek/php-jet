@@ -231,18 +231,6 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 		return $result;
 	}
 
-
-	/**
-	 *
-	 */
-	public function __wakeup_relatedItems() {
-		if($this->items) {
-			foreach( $this->items as $item ) {
-				$item->__wakeup_relatedItems();
-			}
-		}
-	}
-
 	/**
 	 * Validates data and returns true if everything is OK and ready to save
 	 *
@@ -368,6 +356,41 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 		return json_encode($data);
 	}
 
+
+	/** @noinspection PhpMissingParentCallMagicInspection
+	 *
+	 * @return array
+	 */
+	public function __sleep() {
+		$this->validateKeys();
+
+		return ['item_class_name', 'items'];
+	}
+
+	/**
+	 *
+	 */
+	public function __wakeup() {
+		if(!$this->items) {
+			$this->items = [];
+			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
+			$this_deleted_items = [];
+		} else {
+			$this->validateKeys();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public function __wakeup_relatedItems() {
+		if($this->items) {
+			foreach( $this->items as $item ) {
+				$item->__wakeup_relatedItems();
+			}
+		}
+	}
 
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -524,28 +547,6 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 		return key($this->items)!==null;
 	}
 
-	/** @noinspection PhpMissingParentCallMagicInspection
-	 *
-	 * @return array
-	 */
-	public function __sleep() {
-		$this->validateKeys();
-
-		return ['item_class_name', 'items'];
-	}
-
-	/**
-	 *
-	 */
-	public function __wakeup() {
-		if(!$this->items) {
-			$this->items = [];
-			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
-			$this_deleted_items = [];
-		} else {
-			$this->validateKeys();
-		}
-	}
 
 	/**
 	 *

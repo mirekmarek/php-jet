@@ -337,7 +337,6 @@ class Gallery_Image extends DataModel {
 		if(!isset($this->thumbnails[$key])) {
 			$this->thumbnails[$key] = Gallery_Image_Thumbnail::getNewThumbnail($this, $maximal_size_w, $maximal_size_h);
 			if(!$do_not_save_now) {
-				$this->validateProperties();
 				$this->save();
 			}
 		}
@@ -404,7 +403,6 @@ class Gallery_Image extends DataModel {
 
 		IO_File::copy($source_file_path, $image->getFilePath() );
 
-		$image->validateProperties();
 		if(!$do_not_save_immediately) {
 			$image->save();
 		}

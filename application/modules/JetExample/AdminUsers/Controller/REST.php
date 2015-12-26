@@ -59,7 +59,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $user->getCommonForm();
 
 		if($user->catchForm( $form, $this->getRequestData(), true )) {
-			$user->validateProperties();
 			$user->save();
 			$this->responseData($user);
 		} else {
@@ -73,7 +72,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $user->getCommonForm();
 
 		if($user->catchForm( $form, $this->getRequestData(), true )) {
-			$user->validateProperties();
 			$user->save();
 			$this->responseData($user);
 		} else {

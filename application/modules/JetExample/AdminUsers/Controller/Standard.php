@@ -155,7 +155,6 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$form = $user->getCommonForm();
 
 		if( $user->catchForm( $form ) ) {
-			$user->validateProperties();
 			$user->save();
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $user ) );
 		}
@@ -179,7 +178,6 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$form = $user->getCommonForm();
 
 		if( $user->catchForm( $form ) ) {
-			$user->validateProperties();
 			$user->save();
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $user ) );
 		}

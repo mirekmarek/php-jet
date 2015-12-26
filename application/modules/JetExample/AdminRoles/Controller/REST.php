@@ -59,7 +59,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $role->getCommonForm();
 
 		if($role->catchForm( $form, $this->getRequestData(), true )) {
-			$role->validateProperties();
 			$role->save();
 			$this->responseData($role);
 		} else {
@@ -74,7 +73,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$form = $role->getCommonForm();
 
 		if($role->catchForm( $form, $this->getRequestData(), true )) {
-			$role->validateProperties();
 			$role->save();
 			$this->responseData($role);
 		} else {

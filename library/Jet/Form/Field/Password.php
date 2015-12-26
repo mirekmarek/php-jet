@@ -33,7 +33,6 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				'input_missing' => 'input_missing',
 				'empty' => 'empty',
 				'check_empty' => 'check_empty',
 				'check_not_match' => 'check_not_match',

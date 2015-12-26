@@ -195,14 +195,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		);
 	}
 
-	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getErrorMessage
-	 */
-	public function testGetErrorMessage() {
-		$this->assertEquals( $this->property_options['error_messages']['error_1'], $this->object->getErrorMessage('error_1') );
-		$this->assertEquals( $this->property_options['error_messages']['error_3'], $this->object->getErrorMessage('error_3') );
-	}
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_String::setUp

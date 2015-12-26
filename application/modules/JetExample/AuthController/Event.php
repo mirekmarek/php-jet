@@ -220,7 +220,6 @@ class Event extends DataModel {
 
 		$event_i->request_data = json_encode($request_data);
 
-		$event_i->validateProperties();
 		$event_i->save();
 
 		return $event_i;

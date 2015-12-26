@@ -57,7 +57,7 @@ class DataModel_Validation_Error extends Object {
 		$this->property = $property;
 		$this->property_value = $property_value;
 
-		$this->message = $property->getErrorMessage($code);
+		$this->message = $property->getPropertyValidationErrorMessage($code);
 
 	}
 

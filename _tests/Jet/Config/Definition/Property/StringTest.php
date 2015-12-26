@@ -205,7 +205,6 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	public function testSetGetFormFieldErrorMessages() {
 		$error_messages = [
-			'input_missing' => 'Input is missing',
 			'empty' => 'Input is empty',
 			'invalid_format' => 'Invalid format'
 		];

@@ -255,9 +255,9 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Data_Array::getString
 	 */
 	public function testGetString() {
-	    $this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('string') );
-	    $this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('/string') );
-	    $this->assertEquals( Data_Text::htmlSpecialChars( $this->data['sub1']['sub2']['string'] ), $this->object->getString('/sub1/sub2/string') );
+		$this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('string') );
+		$this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('/string') );
+		$this->assertEquals( Data_Text::htmlSpecialChars( $this->data['sub1']['sub2']['string'] ), $this->object->getString('/sub1/sub2/string') );
 	}
 
 	/**
@@ -266,20 +266,20 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	public function testExport() {
 		$valid_result =
 		'array('.JET_EOL
-            .JET_TAB.'\'int\' => 1'.JET_TAB.'/* /int comment */,'.JET_EOL
-            .JET_TAB.'\'float\' => 3.14'.JET_TAB.'/* /float comment */,'.JET_EOL
-            .JET_TAB.'\'string\' => \'<script>alert("Shady!");</script>\''.JET_TAB.'/* /string comment */,'.JET_EOL
-            .JET_TAB.'\'bool\' => true,'.JET_EOL
-            .JET_TAB.'\'sub1\' => array('.JET_TAB.'/* /sub1 comment */'.JET_EOL
-                .JET_TAB.JET_TAB.'\'int\' => 2'.JET_TAB.'/* /sub1/int comment */,'.JET_EOL
-                .JET_TAB.JET_TAB.'\'float\' => 6.28'.JET_TAB.'/* /sub1/float comment */,'.JET_EOL
-                .JET_TAB.JET_TAB.'\'string\' => \'<script>alert("Shady!!");</script>\''.JET_TAB.'/* /sub1/string comment */,'.JET_EOL
-                .JET_TAB.JET_TAB.'\'bool\' => false,'.JET_EOL
-                .JET_TAB.JET_TAB.'\'sub2\' => array('.JET_TAB.'/* /sub1/sub2 comment */'.JET_EOL
-                    .JET_TAB.JET_TAB.JET_TAB.'\'int\' => 4'.JET_TAB.'/* /sub1/sub2/int comment */,'.JET_EOL
+			.JET_TAB.'\'int\' => 1'.JET_TAB.'/* /int comment */,'.JET_EOL
+			.JET_TAB.'\'float\' => 3.14'.JET_TAB.'/* /float comment */,'.JET_EOL
+			.JET_TAB.'\'string\' => \'<script>alert("Shady!");</script>\''.JET_TAB.'/* /string comment */,'.JET_EOL
+			.JET_TAB.'\'bool\' => true,'.JET_EOL
+			.JET_TAB.'\'sub1\' => array('.JET_TAB.'/* /sub1 comment */'.JET_EOL
+				.JET_TAB.JET_TAB.'\'int\' => 2'.JET_TAB.'/* /sub1/int comment */,'.JET_EOL
+				.JET_TAB.JET_TAB.'\'float\' => 6.28'.JET_TAB.'/* /sub1/float comment */,'.JET_EOL
+				.JET_TAB.JET_TAB.'\'string\' => \'<script>alert("Shady!!");</script>\''.JET_TAB.'/* /sub1/string comment */,'.JET_EOL
+				.JET_TAB.JET_TAB.'\'bool\' => false,'.JET_EOL
+				.JET_TAB.JET_TAB.'\'sub2\' => array('.JET_TAB.'/* /sub1/sub2 comment */'.JET_EOL
+					.JET_TAB.JET_TAB.JET_TAB.'\'int\' => 4'.JET_TAB.'/* /sub1/sub2/int comment */,'.JET_EOL
 					.JET_TAB.JET_TAB.JET_TAB.'\'float\' => 12.56'.JET_TAB.'/* /sub1/sub2/float comment */,'.JET_EOL
-                    .JET_TAB.JET_TAB.JET_TAB.'\'string\' => \'<script>alert("Shady!!!");</script>\''.JET_TAB.'/* /sub1/sub2/string comment */,'.JET_EOL
-                    .JET_TAB.JET_TAB.JET_TAB.'\'bool\' => true,'.JET_EOL
+					.JET_TAB.JET_TAB.JET_TAB.'\'string\' => \'<script>alert("Shady!!!");</script>\''.JET_TAB.'/* /sub1/sub2/string comment */,'.JET_EOL
+					.JET_TAB.JET_TAB.JET_TAB.'\'bool\' => true,'.JET_EOL
 					.JET_TAB.JET_TAB.JET_TAB.'\'test_object\' => Jet\Data_ArrayTest_testObject::__set_state( array('.JET_TAB.'/* /sub1/sub2/test_object comment */'.JET_EOL
 						.JET_TAB.JET_TAB.JET_TAB.JET_TAB.'\'v_int\' => 1,'.JET_EOL
 						.JET_TAB.JET_TAB.JET_TAB.JET_TAB.'\'v_float\' => 3.14,'.JET_EOL
@@ -293,13 +293,13 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 						.JET_TAB.JET_TAB.JET_TAB.JET_TAB.'\'v_float\' => 3.14,'.JET_EOL
 						.JET_TAB.JET_TAB.JET_TAB.JET_TAB.'\'v_string\' => \'<script>alert("Shady!");</script>\','.JET_EOL
 					.JET_TAB.JET_TAB.JET_TAB.') ),'.JET_EOL
-                .JET_TAB.JET_TAB.'),'.JET_EOL
+				.JET_TAB.JET_TAB.'),'.JET_EOL
 				.JET_TAB.JET_TAB.'\'sub_ai\' => array('.JET_EOL
 				.JET_TAB.JET_TAB.JET_TAB.'1,'.JET_EOL
 				.JET_TAB.JET_TAB.JET_TAB.'\'string\','.JET_EOL
 				.JET_TAB.JET_TAB.JET_TAB.'123.456,'.JET_EOL
 				.JET_TAB.JET_TAB.'),'.JET_EOL
-            .JET_TAB.'),'.JET_EOL
+			.JET_TAB.'),'.JET_EOL
 		.');'.JET_EOL
 		;
 		$this->assertEquals( $valid_result, $this->object->export( $this->comments ) );

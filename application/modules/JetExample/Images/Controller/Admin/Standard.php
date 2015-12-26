@@ -151,7 +151,6 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 
 		if($gallery->catchForm($edit_form)) {
 
-			$gallery->validateProperties();
 			$gallery->save();
 
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
@@ -176,7 +175,6 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 
 		if($gallery->catchForm($edit_form)) {
 
-			$gallery->validateProperties();
 			$gallery->save();
 
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );

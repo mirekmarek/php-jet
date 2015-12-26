@@ -28,7 +28,6 @@ class Form_Field_Select extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				'input_missing' => 'input_missing',
 				'empty' => 'empty',
 				'invalid_format' => 'invalid_format',
 				'invalid_value' => 'invalid_value'
@@ -80,7 +79,7 @@ class Form_Field_Select extends Form_Field_Abstract {
 			}
 
 
-			if($val==$value) {
+			if( ((string)$val)==((string)$value) ) {
 				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" selected="selected">'.$prefix.Data_Text::htmlSpecialChars($label).'</option>'.JET_EOL;
 			} else {
 				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'">'.$prefix.Data_Text::htmlSpecialChars($label).'</option>'.JET_EOL;

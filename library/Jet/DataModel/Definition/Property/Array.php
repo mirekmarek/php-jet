@@ -28,11 +28,6 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	/**
 	 * @var string
 	 */
-	protected $item_type = null;
-
-	/**
-	 * @var string
-	 */
 	protected $form_field_type = Form::TYPE_MULTI_SELECT;
 
 	/**
@@ -54,27 +49,6 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 			);
 		}
 
-		if( !$this->item_type ) {
-			throw new DataModel_Exception(
-				'Property '.$this->data_model_class_name.'::'.$this->_name.' is Array, but item_type is missing in definition data.',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-		if( $this->item_type==DataModel::TYPE_DATA_MODEL ) {
-			throw new DataModel_Exception(
-				'Property '.$this->data_model_class_name.'::'.$this->_name.' is Array and item_type=\'DataModel::TYPE_DATA_MODEL\'. Item type can not be \'DataModel::TYPE_DATA_MODEL\'! Please use Related1toN. Example: @JetDataModel:type = DataModel::TYPE_DATA_MODEL @JetDataModel:data_model_class = \'SomeRelatedDataModelClass\' ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getItemType() {
-		return $this->item_type;
 	}
 
     /**

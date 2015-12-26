@@ -92,7 +92,6 @@ class Main extends Auth_ControllerModule_Abstract {
 				$till<=DateTime::now()
 			) {
 				$user->unBlock();
-				$user->validateProperties();
 				$user->save();
 			} else {
 				return true;
@@ -107,7 +106,6 @@ class Main extends Auth_ControllerModule_Abstract {
 				$pwd_valid_till<=DateTime::now()
 			) {
 				$user->setPasswordIsValid(false);
-				$user->validateProperties();
 				$user->save();
 
 				return true;

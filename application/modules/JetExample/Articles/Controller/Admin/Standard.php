@@ -155,7 +155,6 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 		$form = $article->getCommonForm();
 
 		if( $article->catchForm( $form ) ) {
-			$article->validateProperties();
 			$article->save();
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
 		}
@@ -178,7 +177,6 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 		$form = $article->getCommonForm();
 
 		if( $article->catchForm( $form ) ) {
-			$article->validateProperties();
 			$article->save();
 			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
 		}

@@ -31,7 +31,6 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 
 		if($user->catchForm( $form )) {
 			$user->setIsSuperuser(true);
-			$user->validateProperties();
 			$user->save();
 			$this->installer->goNext();
 		}
