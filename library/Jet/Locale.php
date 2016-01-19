@@ -227,12 +227,12 @@ class Locale extends Object {
 	/**
 	 * Returns date and time formatted by locale
 	 *
-	 * @param DateTime $date_and_time
+	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public function formatDateAndTime( DateTime $date_and_time, $format=null ) {
+	public function formatDateAndTime(Data_DateTime $date_and_time, $format=null ) {
 		if(!$date_and_time){
 			return '';
 		}
@@ -261,24 +261,24 @@ class Locale extends Object {
 	 *
 	 * Alias of: Mvc::getCurrentLocale()->formatDateAdnTime($date_and_time);
 	 *
-	 * @param DateTime $date_and_time
+	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public static function dateAndTime( DateTime $date_and_time, $format=null ) {
+	public static function dateAndTime(Data_DateTime $date_and_time, $format=null ) {
 		return Mvc::getCurrentLocale()->formatDateAndTime($date_and_time, $format);
 	}
 
 	/**
 	 * Returns date formatted by locale
 	 *
-	 * @param DateTime $date_and_time
+	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public function formatDate(  DateTime $date_and_time, $format=null ) {
+	public function formatDate(Data_DateTime $date_and_time, $format=null ) {
 		if(!$date_and_time){
 			return '';
 		}
@@ -309,24 +309,24 @@ class Locale extends Object {
 	 *
 	 * Alias of: Mvc::getCurrentLocale()->formatDate($date_and_time);
 	 *
-	 * @param DateTime $date_and_time
+	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public static function date(  DateTime $date_and_time, $format=null ) {
+	public static function date(Data_DateTime $date_and_time, $format=null ) {
 		return Mvc::getCurrentLocale()->formatDate($date_and_time, $format);
 	}
 
 	/**
 	 * Returns date formatted by locale
 	 *
-	 * @param DateTime $date_and_time
+	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public function formatTime(  DateTime $date_and_time, $format=null  ) {
+	public function formatTime(Data_DateTime $date_and_time, $format=null  ) {
 		if(!$date_and_time){
 			return '';
 		}
@@ -357,12 +357,12 @@ class Locale extends Object {
 	 *
 	 * Alias of: Mvc::getCurrentLocale()->formatTime($date_and_time)
 	 *
-	 * @param DateTime $date_and_time
+	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public function time(  DateTime $date_and_time, $format=null  ) {
+	public function time(Data_DateTime $date_and_time, $format=null  ) {
 		return Mvc::getCurrentLocale()->formatTime($date_and_time, $format);
 	}
 

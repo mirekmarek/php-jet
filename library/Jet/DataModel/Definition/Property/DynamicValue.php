@@ -63,18 +63,6 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
     }
 
     /**
-     * @param DataModel $data_model_instance
-     * @param mixed &$property
-     * @param DataModel_Validation_Error[] &$errors
-     *
-     *
-     * @return bool
-     */
-    public function validatePropertyValue( DataModel $data_model_instance, &$property, &$errors ) {
-        return true;
-    }
-
-    /**
      * Converts property form jsonSerialize
      *
      * Example: Locale to string

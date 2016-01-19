@@ -25,28 +25,19 @@ class Config_Definition_Property_Array extends Config_Definition_Property_Abstra
 	 * @var array
 	 */
 	protected $default_value = [];
-	/**
-	 * @var string
-	 */
-	protected $form_field_type = 'MultiSelect';
+
 
 	/**
-	 * @var string
+	 * @param array|null $definition_data
+	 * @throws Config_Exception
 	 */
-	protected $item_type = null;
+	public function setUp(array $definition_data = null )
+	{
+		parent::setUp($definition_data);
 
-	/**
-	 * @param string $item_type
-	 */
-	public function setItemType($item_type) {
-		$this->item_type = $item_type;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getItemType() {
-		return $this->item_type;
+		if($this->form_field_type===null) {
+			$this->form_field_type = Form::TYPE_MULTI_SELECT;
+		}
 	}
 
 	/**

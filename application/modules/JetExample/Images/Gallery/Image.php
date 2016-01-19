@@ -10,7 +10,7 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
-use Jet\Image;
+use Jet\Data_Image;
 use Jet\IO_File;
 use Jet\IO_Dir;
 use Jet\DataModel;
@@ -46,7 +46,7 @@ class Gallery_Image extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:min_value = 1
+	 * @JetDataModel:form_field_min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -57,7 +57,7 @@ class Gallery_Image extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_is_required = false
 	 * @JetDataModel:form_field_label = 'Title: '
 	 *
 	 * @var string
@@ -68,7 +68,7 @@ class Gallery_Image extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
@@ -79,7 +79,7 @@ class Gallery_Image extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
@@ -89,7 +89,7 @@ class Gallery_Image extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:min_value = 1
+	 * @JetDataModel:form_field_min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -99,7 +99,7 @@ class Gallery_Image extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:min_value = 1
+	 * @JetDataModel:form_field_min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -109,7 +109,7 @@ class Gallery_Image extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:min_value = 1
+	 * @JetDataModel:form_field_min_value = 1
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -349,7 +349,7 @@ class Gallery_Image extends DataModel {
 	public function overwrite( $new_source_file_path ) {
 		IO_File::copy($new_source_file_path, $this->getFilePath() );
 
-		$source_image_file = new Image( $new_source_file_path );
+		$source_image_file = new Data_Image( $new_source_file_path );
 
 		$this->setImageSizeH( $source_image_file->getHeight() );
 		$this->setImageSizeW( $source_image_file->getWidth() );
@@ -385,7 +385,7 @@ class Gallery_Image extends DataModel {
 
 		$image->setOffset( $offset );
 
-		$source_image_file = new Image( $source_file_path );
+		$source_image_file = new Data_Image( $source_file_path );
 
 		$image->setImageSizeH( $source_image_file->getHeight() );
 		$image->setImageSizeW( $source_image_file->getWidth() );

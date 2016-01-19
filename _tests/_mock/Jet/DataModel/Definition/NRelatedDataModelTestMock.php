@@ -34,7 +34,7 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:description = 'ID Description'
 	 * @JetDataModel:default_value = 'ID default value'
-	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_is_required = false
 	 * @JetDataModel:is_ID = true
 	 * @JetDataModel:max_len = 50
 	 *
@@ -47,18 +47,15 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
-	 * @JetDataModel:validation_regexp = '/^([a-z0-9]{1,10})$/'
 	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:is_ID = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
-	 * @JetDataModel:validation_method_name = 'string_validation_method_1'
 	 * @JetDataModel:form_field_label = 'Form field label'
 	 * @JetDataModel:form_field_error_messages = array (  'error_1' => 'Error 1',  'error_2' => 'Error 2',  'error_3' => 'Error 3',)
-	 * @JetDataModel:form_field_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
-	 * @JetDataModel:list_of_valid_options = array (  0 => 'option1',  1 => 'option2',  2 => 'option3',  3 => '_#invalid',)
-	 * @JetDataModel:error_messages = array (  'error_1' => 'Message 1',  'error_2' => 'Message 2',  'error_3' => 'Message 3',)
+	 * @JetDataModel:form_field_options = ['validation_regexp' => '/^([a-z0-9]{1,10})$/']
+	 * @JetDataModel:form_field_is_required = true
+	 * @JetDataModel:form_field_validation_regexp = '/^([a-z0-9]{1,10})$/'
 	 *
 	 * @var string
 	 */
@@ -69,7 +66,7 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var Locale
@@ -81,10 +78,10 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 2
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
-	 * @JetDataModel:min_value = 1
-	 * @JetDataModel:max_value = 4
+	 * @JetDataModel:form_field_min_value = 1
+	 * @JetDataModel:form_field_max_value = 4
 	 *
 	 * @var int
 	 */
@@ -95,10 +92,10 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_FLOAT
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 2
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
-	 * @JetDataModel:min_value = 1.23
-	 * @JetDataModel:max_value = 4.56
+	 * @JetDataModel:form_field_min_value = 1.23
+	 * @JetDataModel:form_field_max_value = 4.56
 	 *
 	 * @var float
 	 */
@@ -108,7 +105,7 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:description = 'Bool property:'
-	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_is_required = false
 	 * @JetDataModel:default_value = true
 	 * @JetDataModel:form_field_label = 'Bool property:'
 	 *
@@ -119,10 +116,9 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
-	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = false
 	 *
 	 * @var array
@@ -134,10 +130,10 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
 	 *
-	 * @var DateTime
+	 * @var Data_DateTime
 	 */
 	protected $date_time_property;
 
@@ -146,10 +142,10 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_DATE
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
 	 *
-	 * @var DateTime
+	 * @var Data_DateTime
 	 */
 	protected $date_property;
 
@@ -159,7 +155,7 @@ class DataModel_Definition_NRelatedDataModelTestMock extends DataModel {
 	 * @JetDataModel:data_model_class = 'DataModel_Definition_DataModelTestMock'
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var DataModel_Definition_DataModelTestMock[]

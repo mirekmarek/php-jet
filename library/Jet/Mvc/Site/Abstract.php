@@ -258,7 +258,7 @@ abstract class Mvc_Site_Abstract extends DataModel {
 	 *
 	 * @return Mvc_Site_Abstract[]
 	 */
-	abstract public function getList();
+	abstract protected function _getList();
 
 	/**
 	 * Returns default site data

@@ -97,7 +97,7 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::getFormField
+	 * @covers Jet\Config_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_Checkbox('');
@@ -118,7 +118,7 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->getFormField());
+		$this->assertEquals($field, $this->object->createFormField());
 	}
 
 

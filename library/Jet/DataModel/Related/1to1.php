@@ -41,7 +41,7 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 	 * @param array &$loaded_related_data
 	 * @return mixed
 	 */
-	public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
+	public function loadRelatedInstances(array &$loaded_related_data ) {
 
 		/**
 		 * @var DataModel_Definition_Model_Related_1to1 $definition
@@ -87,12 +87,13 @@ abstract class DataModel_Related_1to1 extends DataModel_Related_Abstract {
 				/**
 				 * @var DataModel_Related_1to1 $loaded_instance
 				 */
-				$loaded_instance = static::createInstanceFromData( $dat );
+				$loaded_instance = new static();
 				$loaded_instance->setupParentObjects(
 					$this_main_model_instance,
 					$this_parent_model_instance
 				);
-				$loaded_instance->initRelatedProperties( $loaded_related_data );
+
+				$loaded_instance->_setRelatedData( $dat, $loaded_related_data );
 
 				unset($loaded_related_data[$model_name][$i]);
 

@@ -32,6 +32,11 @@ class Auth extends Object {
 	protected static $config;
 
 	/**
+	 * @var string
+	 */
+	protected static $auth_controller_module_name;
+
+	/**
 	 * Auth module instance
 	 *
 	 * @var Auth_ControllerModule_Abstract
@@ -59,6 +64,34 @@ class Auth extends Object {
 	}
 
 
+	/**
+	 * @param string $auth_controller_module_name
+	 */
+	public static function setAuthControllerModuleName($auth_controller_module_name)
+	{
+		if( self::$current_auth_controller ) {
+			//TODO: zarvat
+		}
+		static::$auth_controller_module_name = $auth_controller_module_name;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public static function getAuthControllerModuleName()
+	{
+		if(static::$auth_controller_module_name) {
+			return static::$auth_controller_module_name;
+		}
+
+		if(Mvc::getCurrentPage() && Mvc::getCurrentPage()->getAuthControllerModuleName()) {
+			return Mvc::getCurrentPage()->getAuthControllerModuleName();
+		}
+
+
+		return Auth::getConfig()->getDefaultAuthControllerModuleName();
+	}
 
 	/**
 	 * @param Auth_ControllerModule_Abstract $current_auth_controller
@@ -76,7 +109,7 @@ class Auth extends Object {
 	public static function getCurrentAuthController()
 	{
 		if(!static::$current_auth_controller) {
-			static::$current_auth_controller = Mvc::getCurrentPage()->getAuthController();
+			static::$current_auth_controller = Application_Modules::getModuleInstance( static::getAuthControllerModuleName() );
 		}
 
 		return static::$current_auth_controller;
@@ -123,9 +156,6 @@ class Auth extends Object {
 	 * @return Auth_User_Abstract|bool
 	 */
 	public static function getCurrentUser() {
-		if(!static::getCurrentAuthController()) {
-			return null;
-		}
 		return static::getCurrentAuthController()->getCurrentUser();
 	}
 

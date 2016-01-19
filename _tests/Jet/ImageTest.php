@@ -15,7 +15,7 @@ define('IMAGE_TEST_BASEDIR', JET_TESTS_DATA . 'Image/');
 
 class ImageTest extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var Image
+	 * @var Data_Image
 	 */
 	protected $object;
 
@@ -60,21 +60,21 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers Jet\Image::__construct
 	 *
-	 * @expectedException \Jet\Image_Exception
-	 * @expectedExceptionCode \Jet\Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
+	 * @expectedException \Jet\Data_Image_Exception
+	 * @expectedExceptionCode \Jet\Data_Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
 	 */
 	public function testFailedFileDoesNotExist() {
-		new Image( IMAGE_TEST_BASEDIR.'imaginary_file' );
+		new Data_Image( IMAGE_TEST_BASEDIR.'imaginary_file' );
 	}
 
 	/**
 	 * @covers Jet\Image::__construct
 	 *
-	 * @expectedException \Jet\Image_Exception
-	 * @expectedExceptionCode \Jet\Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
+	 * @expectedException \Jet\Data_Image_Exception
+	 * @expectedExceptionCode \Jet\Data_Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
 	 */
 	public function testFailedUnsupportedImageType() {
-		new Image( IMAGE_TEST_BASEDIR.'TestImage.sgi' );
+		new Data_Image( IMAGE_TEST_BASEDIR.'TestImage.sgi' );
 	}
 
 	/**
@@ -89,60 +89,60 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetPath() {
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.gif' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.gif' );
 		$this->assertEquals('TestImage1.gif', $image->getFileName());
 		$this->assertEquals( IMAGE_TEST_BASEDIR.'TestImage1.gif', $image->getPath() );
 		$this->assertEquals( IMAGE_TEST_BASEDIR, $image->getDirectory() );
 		$this->assertSame( 500, $image->getWidth() );
 		$this->assertSame( 300, $image->getHeight() );
-		$this->assertSame( Image::TYPE_GIF, $image->getImgType());
+		$this->assertSame( Data_Image::TYPE_GIF, $image->getImgType());
 		$this->assertEquals( 'image/gif', $image->getMimeType() );
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.png' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.png' );
 		$this->assertEquals('TestImage1.png', $image->getFileName());
 		$this->assertEquals( IMAGE_TEST_BASEDIR.'TestImage1.png', $image->getPath() );
 		$this->assertEquals( IMAGE_TEST_BASEDIR, $image->getDirectory() );
 		$this->assertSame( 500, $image->getWidth() );
 		$this->assertSame( 300, $image->getHeight() );
-		$this->assertSame( Image::TYPE_PNG, $image->getImgType());
+		$this->assertSame( Data_Image::TYPE_PNG, $image->getImgType());
 		$this->assertEquals( 'image/png', $image->getMimeType() );
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
 		$this->assertEquals('TestImage1.jpg', $image->getFileName());
 		$this->assertEquals( IMAGE_TEST_BASEDIR.'TestImage1.jpg', $image->getPath() );
 		$this->assertEquals( IMAGE_TEST_BASEDIR, $image->getDirectory() );
 		$this->assertSame( 500, $image->getWidth() );
 		$this->assertSame( 300, $image->getHeight() );
-		$this->assertSame( Image::TYPE_JPG, $image->getImgType());
+		$this->assertSame( Data_Image::TYPE_JPG, $image->getImgType());
 		$this->assertEquals( 'image/jpeg', $image->getMimeType() );
 
 
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage2.gif' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage2.gif' );
 		$this->assertEquals('TestImage2.gif', $image->getFileName());
 		$this->assertEquals( IMAGE_TEST_BASEDIR.'TestImage2.gif', $image->getPath() );
 		$this->assertEquals( IMAGE_TEST_BASEDIR, $image->getDirectory() );
 		$this->assertSame( 300, $image->getWidth() );
 		$this->assertSame( 500, $image->getHeight() );
-		$this->assertSame( Image::TYPE_GIF, $image->getImgType());
+		$this->assertSame( Data_Image::TYPE_GIF, $image->getImgType());
 		$this->assertEquals( 'image/gif', $image->getMimeType() );
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage2.png' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage2.png' );
 		$this->assertEquals('TestImage2.png', $image->getFileName());
 		$this->assertEquals( IMAGE_TEST_BASEDIR.'TestImage2.png', $image->getPath() );
 		$this->assertEquals( IMAGE_TEST_BASEDIR, $image->getDirectory() );
 		$this->assertSame( 300, $image->getWidth() );
 		$this->assertSame( 500, $image->getHeight() );
-		$this->assertSame( Image::TYPE_PNG, $image->getImgType());
+		$this->assertSame( Data_Image::TYPE_PNG, $image->getImgType());
 		$this->assertEquals( 'image/png', $image->getMimeType() );
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage2.jpg' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage2.jpg' );
 		$this->assertEquals('TestImage2.jpg', $image->getFileName());
 		$this->assertEquals( IMAGE_TEST_BASEDIR.'TestImage2.jpg', $image->getPath() );
 		$this->assertEquals( IMAGE_TEST_BASEDIR, $image->getDirectory() );
 		$this->assertSame( 300, $image->getWidth() );
 		$this->assertSame( 500, $image->getHeight() );
-		$this->assertSame( Image::TYPE_JPG, $image->getImgType());
+		$this->assertSame( Data_Image::TYPE_JPG, $image->getImgType());
 		$this->assertEquals( 'image/jpeg', $image->getMimeType() );
 
 	}
@@ -155,7 +155,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Image::getImageQuality
 	 */
 	public function testSetGetImageQuality() {
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
 
 		$this->assertEquals(85, $image->getImageQuality());
 		$image->setImageQuality(90);
@@ -167,32 +167,32 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Jet\Image::saveAs
 	 */
 	public function testCreateThumbnailAndSaveAs() {
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.gif' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.gif' );
 		$thumbnail = $image->createThumbnail(JET_TESTS_TMP.'thumbnail.gif', 30, 30);
 		$this->assertEquals(30, $thumbnail->getWidth());
 		$this->assertEquals(18, $thumbnail->getHeight());
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
 		$thumbnail = $image->createThumbnail(JET_TESTS_TMP.'thumbnail.jpg', 30, 30);
 		$this->assertEquals(30, $thumbnail->getWidth());
 		$this->assertEquals(18, $thumbnail->getHeight());
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage1.png' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.png' );
 		$thumbnail = $image->createThumbnail(JET_TESTS_TMP.'thumbnail.png', 30, 30);
 		$this->assertEquals(30, $thumbnail->getWidth());
 		$this->assertEquals(18, $thumbnail->getHeight());
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage2.gif' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage2.gif' );
 		$thumbnail = $image->createThumbnail(JET_TESTS_TMP.'thumbnail2.gif', 30, 30);
 		$this->assertEquals(18, $thumbnail->getWidth());
 		$this->assertEquals(30, $thumbnail->getHeight());
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage2.jpg' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage2.jpg' );
 		$thumbnail = $image->createThumbnail(JET_TESTS_TMP.'thumbnail2.jpg', 30, 30);
 		$this->assertEquals(18, $thumbnail->getWidth());
 		$this->assertEquals(30, $thumbnail->getHeight());
 
-		$image = new Image( IMAGE_TEST_BASEDIR.'TestImage2.png' );
+		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage2.png' );
 		$thumbnail = $image->createThumbnail(JET_TESTS_TMP.'thumbnail2.png', 30, 30);
 		$this->assertEquals(18, $thumbnail->getWidth());
 		$this->assertEquals(30, $thumbnail->getHeight());

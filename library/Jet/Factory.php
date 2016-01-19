@@ -10,11 +10,11 @@
  *
  * Do not do this:
  *
- *  $site_data  = new Mvc_Site_Default();
+ *  $site_data  = new Mvc_Site();
  *
  * But use the method of the factory class Mvc_Sites_Factory:
  *
- *  $site_data = Mvc_Sites_Factory::getSiteInstance();
+ *  $site_data = Mvc_Factory::getSiteInstance();
  *
  *
  *  The purpose is to ensure exchangeable system components and overall system flexibility.

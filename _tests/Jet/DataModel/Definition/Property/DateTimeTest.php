@@ -59,7 +59,7 @@ class DataModel_Definition_Property_DateTimeTest extends \PHPUnit_Framework_Test
 		$date = '1980-08-13 05:55:55';
 		$this->object->checkValueType($date);
 
-		$date_object = new DateTime('1980-08-13 05:55:55');
+		$date_object = new Data_DateTime('1980-08-13 05:55:55');
 		$this->assertEquals($date_object, $date);
 	}
 
@@ -67,7 +67,7 @@ class DataModel_Definition_Property_DateTimeTest extends \PHPUnit_Framework_Test
 	 * @covers Jet\DataModel_Definition_Property_Date::getValueForJsonSerialize
 	 */
 	public function testGetValueForJsonSerialize() {
-		$date_object = new DateTime('1980-08-13 05:55:55');
+		$date_object = new Data_DateTime('1980-08-13 05:55:55');
 		$value = $this->object->getValueForJsonSerialize($this->data_model, $date_object);
 		$this->assertEquals($date_object->toString(), $value);
 	}

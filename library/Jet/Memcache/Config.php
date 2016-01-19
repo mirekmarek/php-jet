@@ -50,14 +50,14 @@ class Memcache_Config extends Application_Config {
 	 * @param $connection_name
 	 *
 	 * @throws Memcache_Exception
-	 * @return Memcache_Connection_Config_Abstract
+	 * @return Memcache_Connection_Config
 	 */
 	public function getConnection($connection_name){
 		return $this->connections->getConfigurationListItem( $connection_name );
 	}
 
 	/**
-	 * @return Memcache_Connection_Config_Abstract[]
+	 * @return Memcache_Connection_Config[]
 	 */
 	public function getConnections() {
 		return $this->connections->getAllConfigurationItems();
@@ -74,10 +74,10 @@ class Memcache_Config extends Application_Config {
 
 	/**
 	 * @param $connection_name
-	 * @param Memcache_Connection_Config_Abstract $connection_configuration
+	 * @param Memcache_Connection_Config $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, Memcache_Connection_Config_Abstract $connection_configuration ) {
+	public function addConnection( $connection_name, Memcache_Connection_Config $connection_configuration ) {
 		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
 	}
 

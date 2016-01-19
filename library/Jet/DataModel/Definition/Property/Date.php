@@ -31,7 +31,7 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 	protected $form_field_type = Form::TYPE_DATE;
 
 	/**
-	 * @param DateTime|string $value
+	 * @param Data_DateTime|string $value
 	 */
 	public function checkValueType( &$value ) {
 
@@ -44,10 +44,10 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 		}
 
 		if(!is_object($value)) {
-			$value = new DateTime( $value.' 00:00:00' );
+			$value = new Data_DateTime( $value.' 00:00:00' );
 		} else {
-			if(!$value instanceof  DateTime) {
-				$value = new DateTime();
+			if(!$value instanceof  Data_DateTime) {
+				$value = new Data_DateTime();
 			}
 		}
 	}
@@ -65,7 +65,7 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
      */
     public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
 		/**
-		 * @var DateTime $property_value
+		 * @var Data_DateTime $property_value
 		 */
 		if(!$property) {
 			return $property;

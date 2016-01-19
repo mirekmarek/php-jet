@@ -23,7 +23,7 @@ class Mvc_Router_Cache_Backend_Redis extends Mvc_Router_Cache_Backend_Abstract {
 
 	/**
 	 *
-	 * @var Redis_Connection_Abstract
+	 * @var Redis_Connection
 	 */
 	private $redis = null;
 

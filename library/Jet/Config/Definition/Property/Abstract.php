@@ -18,7 +18,8 @@
  */
 namespace Jet;
 
-abstract class Config_Definition_Property_Abstract extends Object {
+abstract class Config_Definition_Property_Abstract extends Object implements Form_Field_Definition_Interface {
+	use Form_Field_Definition_Trait;
 
 	/**
 	 * @var string
@@ -65,40 +66,6 @@ abstract class Config_Definition_Property_Abstract extends Object {
 	 */
 	protected $error_message = '';
 
-	/**
-	 *
-	 * @var string
-	 */
-	protected $form_field_type = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $form_field_label = '';
-
-	/**
-	 *
-	 * @var array
-	 */
-	protected $form_field_error_messages = [];
-
-	/**
-	 * @var array
-	 */
-	protected $form_field_options = [];
-
-	/**
-	 *
-	 * @var callable
-	 */
-	protected $form_field_get_default_value_callback;
-
-	/**
-	 *
-	 * @var callable
-	 */
-	protected $form_field_get_select_options_callback;
 
 	/**
 	 *
@@ -169,6 +136,9 @@ abstract class Config_Definition_Property_Abstract extends Object {
 
 
 		$this->is_required = (bool)$this->is_required;
+		if($this->is_required) {
+			$this->form_field_is_required = true;
+		}
 	}
 
 	/**
@@ -258,132 +228,7 @@ abstract class Config_Definition_Property_Abstract extends Object {
 		return $this->label;
 	}
 
-	/**
-	 * @param string $form_field_type
-	 */
-	public function setFormFieldType($form_field_type) {
-		$this->form_field_type = $form_field_type;
-	}
 
-	/**
-	 * @return string
-	 */
-	public function getFormFieldType() {
-		return $this->form_field_type;
-	}
-
-	/**
-	 * @param array $form_field_options
-	 */
-	public function setFormFieldOptions( array $form_field_options ) {
-		$this->form_field_options = $form_field_options;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getFormFieldOptions() {
-		return $this->form_field_options;
-	}
-
-	/**
-	 * @param string $form_field_label
-	 */
-	public function setFormFieldLabel($form_field_label) {
-		$this->form_field_label = $form_field_label;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldLabel() {
-		return $this->form_field_label;
-	}
-
-
-	/**
-	 * @param callable $form_field_get_select_options_callback
-	 */
-	public function setFormFieldGetSelectOptionsCallback( callable $form_field_get_select_options_callback ) {
-		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
-	}
-
-	/**
-	 *
-	 * @return callable
-	 */
-	public function getFormFieldGetSelectOptionsCallback() {
-		return $this->form_field_get_select_options_callback;
-	}
-
-	/**
-	 * @param array $form_field_error_messages
-	 */
-	public function setFormFieldErrorMessages(array $form_field_error_messages) {
-		$this->form_field_error_messages = $form_field_error_messages;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getFormFieldErrorMessages() {
-		$error_messages = $this->form_field_error_messages;
-
-		foreach($error_messages as $k=>$m) {
-			$error_messages[$k] = $m;
-		}
-		return $error_messages;
-	}
-
-
-	/**
-	 *
-	 * @throws Config_Exception
-	 *
-	 * @return Form_Field_Abstract
-	 */
-	public function getFormField() {
-		$type = $this->getFormFieldType();
-
-		if(!$type) {
-			return null;
-		}
-
-		if($this->form_field_get_default_value_callback) {
-			$callback = $this->form_field_get_default_value_callback;
-			$this->default_value = $callback();
-		}
-
-		$field = Form_Factory::getFieldInstance(
-			$type,
-			$this->name,
-			$this->getFormFieldLabel(),
-			$this->default_value,
-			$this->is_required
-		);
-
-		$field->setOptions( $this->getFormFieldOptions() );
-
-		if($this->form_field_get_select_options_callback) {
-
-			$callback = $this->form_field_get_select_options_callback;
-
-			if(
-				is_array($callback) &&
-				$callback[0]=='this'
-			) {
-				$callback[0] = $this->_configuration_class;
-			}
-
-			if(!is_callable($callback)) {
-				throw new Config_Exception($this->_configuration_class.'::'.$this->name.'::form_field_get_select_options_callback is not callable');
-			}
-
-			$field->setSelectOptions( $callback() );
-		}
-
-		return $field;
-	}
 
 	/**
 	 * @return string
@@ -484,5 +329,30 @@ abstract class Config_Definition_Property_Abstract extends Object {
 		return $i;
 	}
 
+
+
+	/**
+	 * @return string
+	 */
+	public function getFormFieldName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFormFieldContextClassName()
+	{
+		return $this->_configuration_class;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFormFieldContextPropertyName()
+	{
+		return $this->name;
+	}
 
 }

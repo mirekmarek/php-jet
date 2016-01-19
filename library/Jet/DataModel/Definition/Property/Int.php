@@ -26,15 +26,6 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	protected $default_value = 0;
 
 	/**
-	 * @var null|int
-	 */
-	protected $min_value = null;
-	/**
-	 * @var null|int
-	 */
-	protected $max_value = null;
-
-	/**
 	 * @var string
 	 */
 	protected $form_field_type = Form::TYPE_INT;
@@ -50,11 +41,11 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 
 		parent::setUp($definition_data);
 
-		if($this->min_value!==null) {
-			$this->min_value = (int)$this->min_value;
+		if($this->form_field_min_value!==null) {
+			$this->form_field_min_value = (int)$this->form_field_min_value;
 		}
-		if($this->max_value!==null) {
-			$this->max_value = (int)$this->max_value;
+		if($this->form_field_max_value!==null) {
+			$this->form_field_max_value = (int)$this->form_field_max_value;
 		}
 
 	}
@@ -67,100 +58,12 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getFormFieldOptions() {
-		if($this->min_value!==null) {
-			$this->form_field_options['min_value'] = $this->min_value;
-		}
-		if($this->max_value!==null) {
-			$this->form_field_options['max_value'] = $this->max_value;
-		}
-
-		return $this->form_field_options;
-	}
-
-	/**
-	 * @return int|null
-	 */
-	public function getMinValue() {
-		return $this->min_value;
-	}
-
-	/**
-	 * @return int|null
-	 */
-	public function getMaxValue() {
-		return $this->max_value;
-	}
-
-
-	/**
-	 * Column value test - checks range
-	 *
-	 * @param mixed &$property
-	 * @param DataModel_Validation_Error &$errors
-	 *
-	 * @return bool
-	 */
-	public function _validatePropertyValue_test_value( &$property, &$errors ) {
-		if($this->min_value===null && $this->max_value===null) {
-			return true;
-		}
-
-		if(
-			$this->min_value!==null &&
-			$property<$this->min_value
-		) {
-			$errors[] = new DataModel_Validation_Error(
-					DataModel_Validation_Error::CODE_OUT_OF_RANGE,
-					$this,
-					$property
-				);
-
-			return false;
-
-		}
-		
-		if(
-			$this->max_value!==null &&
-			$property>$this->max_value
-		) {
-			$errors[] = new DataModel_Validation_Error(
-					DataModel_Validation_Error::CODE_OUT_OF_RANGE,
-					$this,
-					$property
-				);
-
-			return false;
-
-		}
-
-		return true;
-	}
-
-
-    /**
-     * Property required test
-     * Has no effect for numbers!
-     *
-     * @param mixed &$property
-     * @param DataModel_Validation_Error[] &$errors[]
-     *
-     * @return bool
-     */
-    public function _validatePropertyValue_test_required( &$property, &$errors ) {
-        return true;
-    }
-
-
-	/**
 	 * @return string
 	 */
 	public function getTechnicalDescription() {
 		$res = 'Type: '.$this->getType().' ';
 
-		$res .= ', required: '.($this->is_required ? 'yes':'no');
+		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
 
 		if($this->is_ID) {
 			$res .= ', is ID';
@@ -170,12 +73,12 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 			$res .= ', default value: '.$this->default_value;
 		}
 
-		if($this->min_value) {
-			$res .= ', min. value: '.$this->min_value;
+		if($this->form_field_min_value) {
+			$res .= ', min. value: '.$this->form_field_min_value;
 		}
 
-		if($this->max_value) {
-			$res .= ', max. value: '.$this->max_value;
+		if($this->form_field_max_value) {
+			$res .= ', max. value: '.$this->form_field_max_value;
 		}
 
 		if($this->description) {

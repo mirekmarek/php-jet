@@ -30,12 +30,24 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_INPUT;
+	protected $validation_regexp = null;
 
 	/**
-	 * @var string
+	 * @param array|null $definition_data
+	 * @throws Config_Exception
 	 */
-	protected $validation_regexp = null;
+	public function setUp(array $definition_data = null ) {
+		parent::setUp($definition_data);
+
+		if($this->validation_regexp!==null) {
+			$this->form_field_validation_regexp = $this->validation_regexp;
+		}
+
+		if($this->form_field_type===null) {
+			$this->form_field_type = Form::TYPE_INPUT;
+		}
+
+	}
 
 	/**
 	 * @param mixed &$value
@@ -56,20 +68,6 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	 */
 	public function setValidationRegexp($validation_regexp) {
 		$this->validation_regexp = $validation_regexp;
-	}
-
-	/**
-	 *
-	 * @return Form_Field_Abstract
-	 */
-	public function getFormField() {
-		$field = parent::getFormField();
-
-		if($this->validation_regexp) {
-			$field->setValidationRegexp( $this->validation_regexp );
-		}
-
-		return $field;
 	}
 
 	/**

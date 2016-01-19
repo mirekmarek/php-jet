@@ -40,13 +40,7 @@ interface DataModel_Related_Interface extends Object_Serializable_REST {
 	 * @param array &$loaded_related_data
 	 * @return mixed
 	 */
-	public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data );
-
-
-	/**
-	 * @return DataModel_Validation_Error[]
-	 */
-	public function getValidationErrors();
+	public function loadRelatedInstances(array &$loaded_related_data );
 
 	/**
 	 *

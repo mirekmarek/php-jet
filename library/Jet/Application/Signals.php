@@ -54,30 +54,32 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 	}
 
 	/**
-	 * @param &$reflection_data
+	 * @param array $reflection_data
+	 * @param $class_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
+	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
 
 		switch($key) {
 			case 'signal_object_class_name':
-				$reflection_data['signal_object_class_name'] = Object_Reflection::parseClassName( (string)$value );
+				$reflection_data['signal_object_class_name'] = Object_Reflection::parseClassName( (string)$value, $class_name );
 				break;
 			case 'signal':
 				$reflection_data['signals'][] = (string)$value;
 				break;
 			default:
-				throw new Object_Reflection_Exception('Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ');
+				throw new Object_Reflection_Exception('Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ');
 		}
 
 	}
 
 	/**
 	 * @param array &$reflection_data
+	 * @param $class_name
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
@@ -85,9 +87,9 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
+	public static function parsePropertyDocComment(&$reflection_data, $class_name, $property_name, $key, $definition, $value) {
 		throw new Object_Reflection_Exception(
-			'Unknown definition! Class: \''.get_called_class().'\', property: \''.$property_name.'\', definition: \''.$definition.'\' ',
+			'Unknown definition! Class: \''.$class_name().'\', property: \''.$property_name.'\', definition: \''.$definition.'\' ',
 			Object_Reflection_Exception::CODE_UNKNOWN_PROPERTY_DEFINITION
 		);
 	}

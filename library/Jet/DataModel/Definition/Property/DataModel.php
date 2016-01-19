@@ -71,54 +71,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		$property->setupParentObjects( $data_model_instance );
     }
 
-    /**
-     * @param DataModel $data_model_instance
-     * @param mixed &$property
-     * @param DataModel_Validation_Error[] &$errors
-     *
-     *
-     * @throws DataModel_Exception
-     *
-     * @return bool
-     */
-    public function validatePropertyValue( DataModel $data_model_instance, &$property, &$errors ) {
-
-        $validation_method_name = $this->getValidationMethodName();
-
-
-        if($validation_method_name) {
-            return $data_model_instance->{$validation_method_name}($this, $property, $errors);
-        }
-
-
-        if( !$property ) {
-            return true;
-        }
-
-        if(!is_object($property)) {
-
-            throw new DataModel_Exception(
-                get_class($data_model_instance).'::'.$this->getName().' should be an Object! ',
-                DataModel_Exception::CODE_INVALID_PROPERTY_TYPE
-            );
-        }
-
-        /**
-         * @var DataModel $property
-         */
-        $property->validateProperties();
-
-        $_errors = $property->getValidationErrors();
-        if($_errors) {
-            $errors = array_merge( $errors, $_errors );
-
-            return false;
-        }
-
-        return true;
-
-    }
-
 
     /**
      * Converts property form jsonSerialize
@@ -189,11 +141,14 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 
     /**
-     * @param mixed &$property
-     * @param mixed $data
+     * @param DataModel_Related_Interface &$property
+     * @param array $data
      *
      */
     public function loadPropertyValue( &$property, array $data ) {
+
+	    $property = $property->loadRelatedInstances( $data );
+
     }
 
 	/**
@@ -221,49 +176,17 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
         return DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
     }
 
-    /**
-     *
-     * @param DataModel $data_model_instance
-     * @param mixed $property_value
-     * @param array $related_data
-     *
-     * @return Form_Field_Abstract|Form_Field_Abstract[]
-     */
-    public function createFormField( DataModel $data_model_instance, $property_value, array $related_data ) {
-
-        $field_creator_method_name = $this->getFormFieldCreatorMethodName();
-
-        if( $field_creator_method_name ) {
-            return $data_model_instance->{$field_creator_method_name}( $this, $related_data );
-        }
-
-
-        /**
-         * @var DataModel_Related_Interface $property_value
-         */
-        if(!$property_value) {
-            return false;
-        }
-
-        $fields = [];
-        foreach( $property_value->getRelatedFormFields( $this, $related_data  ) as $field ) {
-            $fields[] = $field;
-        }
-
-        return $fields;
-
-    }
 
 
     /**
-     * @param DataModel $data_model_instance
+     * @param DataModel $object_instance
      * @param mixed &$property
      * @param mixed $value
      */
-    public function catchFormField( DataModel $data_model_instance, &$property, $value ) {
+    public function catchFormField(DataModel $object_instance, &$property, $value ) {
 
         if( ($method_name = $this->getFormCatchValueMethodName()) ) {
-            $data_model_instance->{$method_name}($value);
+            $object_instance->{$method_name}($value);
             return;
         }
 

@@ -24,7 +24,7 @@ class DataModel_Cache_Backend_Memcache extends DataModel_Cache_Backend_Abstract 
 
 	/**
 	 *
-	 * @var Memcache_Connection_Abstract
+	 * @var Memcache_Connection
 	 */
 	private $memcache = null;
 

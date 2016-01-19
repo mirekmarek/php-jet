@@ -16,7 +16,7 @@ namespace JetApplicationModule\JetExample\Articles;
 use Jet;
 use Jet\DataModel;
 use Jet\Locale;
-use Jet\DateTime;
+use Jet\Data_DateTime;
 use Jet\Mvc;
 use Jet\Mvc_Router_Abstract;
 use Jet\Data_Text;
@@ -45,7 +45,7 @@ class Article extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc_Site','getAllLocalesList']
 	 *
@@ -57,7 +57,7 @@ class Article extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 * @JetDataModel:is_key = true
 	 *
@@ -69,7 +69,7 @@ class Article extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
 	 *
 	 * @var string
@@ -102,7 +102,7 @@ class Article extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time'
 	 *
-	 * @var DateTime
+	 * @var Data_DateTime
 	 */
 	protected $date_time;
 
@@ -259,18 +259,18 @@ class Article extends DataModel {
 
 
 	/**
-	 * @return DateTime
+	 * @return Data_DateTime
 	 */
 	public function getDateTime() {
 		return $this->date_time;
 	}
 
 	/**
-	 * @param DateTime|string $date_time
+	 * @param Data_DateTime|string $date_time
 	 */
 	public function setDateTime( $date_time) {
-		if(!($date_time instanceof DateTime)) {
-			$date_time = new DateTime($date_time);
+		if(!($date_time instanceof Data_DateTime)) {
+			$date_time = new Data_DateTime($date_time);
 		}
 		$this->date_time = $date_time;
 	}

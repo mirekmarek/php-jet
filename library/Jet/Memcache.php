@@ -19,7 +19,7 @@ class Memcache extends Object {
 	protected static $config = null;
 
 	/**
-	 * @var Memcache_Connection_Abstract[]
+	 * @var Memcache_Connection[]
 	 */
 	protected static $connections = [];
 
@@ -28,7 +28,7 @@ class Memcache extends Object {
 	 *
 	 * @param $connection_name (optional)
 	 *
-	 * @return Memcache_Connection_Abstract
+	 * @return Memcache_Connection
 	 * @throws Memcache_Exception
 	 */
 	public static function getConnection( $connection_name=null ){
@@ -39,15 +39,15 @@ class Memcache extends Object {
 	 * @param string $connection_name
 	 * @param array $connection_config_data
 	 *
-	 * @return Memcache_Connection_Abstract
+	 * @return Memcache_Connection
 	 */
 	public static function create( $connection_name, array $connection_config_data ) {
 		if(isset(static::$connections[$connection_name])){
 			return static::$connections[$connection_name];
 		}
 
-		$config = Memcache_Factory::getConnectionConfigInstance( $connection_config_data );
-		$connection = Memcache_Factory::getConnectionInstance( $config );
+		$config = new Memcache_Connection_Config( $connection_config_data );
+		$connection = new Memcache_Connection( $config );
 
 		static::$connections[$connection_name] = $connection;
 
@@ -60,7 +60,7 @@ class Memcache extends Object {
 	 *
 	 * @param $connection_name (optional)
 	 *
-	 * @return Memcache_Connection_Abstract
+	 * @return Memcache_Connection
 	 * @throws Memcache_Exception
 	 */
 	public static function get( $connection_name=null ){
@@ -83,7 +83,7 @@ class Memcache extends Object {
 			);
 		}
 
-		static::$connections[$connection_name] = Memcache_Factory::getConnectionInstance( $connection_config );
+		static::$connections[$connection_name] = new Memcache_Connection( $connection_config );
 
 		return static::$connections[$connection_name];
 	}

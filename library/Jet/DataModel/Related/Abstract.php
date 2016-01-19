@@ -190,7 +190,7 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 
 			$property->setupParentObjects( $this_main_model_instance, $this );
 
-			$this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
+			$this->{$property_name} = $property->loadRelatedInstances( $loaded_related_data );
 		}
 
 	}
@@ -359,6 +359,43 @@ abstract class DataModel_Related_Abstract extends DataModel implements DataModel
 		return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
 	}
 
+	/**
+	 * @param array $data
+	 * @param array &$loaded_related_data
+	 */
+	public function _setRelatedData($data, array &$loaded_related_data=array() ) {
+
+		$definition = static::getDataModelDefinition();
+
+		/**
+		 * var DataModel $this_main_model_instance
+		 */
+		$this_main_model_instance = DataModel_ObjectState::getVar($this, 'main_model_instance');
+		if(!$this_main_model_instance ) {
+			$this_main_model_instance  = $this;
+			$parent_model_instance = null;
+		} else {
+			$parent_model_instance = $this;
+
+		}
+
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+
+			if(($this->{$property_name} instanceof DataModel_Related_Interface)) {
+
+				$this->{$property_name}->setupParentObjects( $this_main_model_instance, $parent_model_instance );
+				if($loaded_related_data) {
+					$property_definition->loadPropertyValue( $this->{$property_name}, $loaded_related_data );
+				}
+			} else {
+				$property_definition->loadPropertyValue( $this->{$property_name}, $data );
+			}
+
+		}
+
+		$this->setIsSaved();
+
+	}
 
 	/**
 	 *

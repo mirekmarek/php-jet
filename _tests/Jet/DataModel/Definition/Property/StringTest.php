@@ -149,11 +149,11 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getIsRequired
+	 * @covers Jet\getFormFiledIsRequired::getFormFiledIsRequired
 	 */
 	public function testGetIsRequired() {
-		$this->assertEquals($this->property_options['is_required'], $this->object->getIsRequired());
-		$this->assertEquals($this->ID_property_options['is_required'], $this->ID_object->getIsRequired());
+		$this->assertEquals($this->property_options['form_field_is_required'], $this->object->getFormFieldIsRequired());
+		$this->assertEquals($this->ID_property_options['form_field_is_required'], $this->ID_object->getFormFieldIsRequired());
 	}
 
 	/**
@@ -171,28 +171,6 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 */
 	public function testGetBackendOptions() {
 		$this->assertEquals($this->property_options['backend_options']['test'], $this->object->getBackendOptions('test'));
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getValidationMethodName
-	 */
-	public function testGetValidationMethodName() {
-		$this->assertEquals(
-			$this->property_options['validation_method_name'],
-			$this->object->getValidationMethodName()
-		);
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getListOfValidOptions
-	 */
-	public function testGetListOfValidOptions() {
-		$this->assertEquals(
-			$this->property_options['list_of_valid_options'],
-			$this->object->getListOfValidOptions()
-		);
 	}
 
 
@@ -241,7 +219,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormField
+	 * @covers Jet\DataModel_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_Input('');
@@ -260,14 +238,18 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'default_value' => $this->property_options['default_value'],
 			'label' => $this->property_options['form_field_label'],
 			'is_required' => true,
-			'validation_regexp' => $this->property_options['validation_regexp'],
+			'validation_regexp' => $this->property_options['form_field_validation_regexp'],
 			'validate_data_callback' => null,
+			'error_messages' => [
+				'empty' => 'Is empty',
+				'invalid_format' => 'Invalid format',
+			],
 			'select_options' =>
 			[
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->getFormField());
+		$this->assertEquals($field, $this->object->createFormField($this->property_options['default_value']));
 
 
 		$field = new Form_Field_Hidden('');
@@ -286,14 +268,14 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'default_value' => $this->ID_property_options['default_value'],
 			'label' => '',
 			'is_required' => false,
-			'validation_regexp' => '',
+			'validation_regexp' => null,
 			'validate_data_callback' => null,
 			'select_options' =>
 			[
 			],
 		]);
 
-		$this->assertEquals($field, $this->ID_object->getFormField());
+		$this->assertEquals($field, $this->ID_object->createFormField($this->ID_property_options['default_value']));
 
 	}
 
@@ -325,10 +307,10 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_String::getValidationRegexp
+	 * @covers Jet\getFormFieldValidationRegexp::getFormfieldValidationRegexp
 	 */
 	public function testGetValidationRegexp() {
-		$this->assertEquals($this->property_options['validation_regexp'], $this->object->getValidationRegexp());
+		$this->assertEquals($this->property_options['form_field_validation_regexp'], $this->object->getFormFieldValidationRegexp());
 	}
 
 	/**
@@ -348,74 +330,5 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$this->object->checkValueType($value);
 		$this->assertSame('123', $value);
 	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_required
-	 */
-	public function testValidatePropertiesFailedEmpty() {
-		$value = '';
-		$errors = [];
-
-		$this->assertFalse($this->object->validatePropertyValue($this->data_model, $value, $errors));
-
-		$this->assertArrayHasKey(0, $errors);
-		/**
-		 * @var DataModel_Validation_Error $error
-		 */
-		$error = $errors[0];
-
-		$this->assertEquals(DataModel_Validation_Error::CODE_REQUIRED, $error->getCode());
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_validOptions
-	 */
-	public function testValidatePropertiesFailedInvalidValue() {
-		$value = 'invalid value';
-		$errors = [];
-
-		$this->assertFalse($this->object->validatePropertyValue($this->data_model, $value, $errors));
-
-		$this->assertArrayHasKey(0, $errors);
-		/**
-		 * @var DataModel_Validation_Error $error
-		 */
-		$error = $errors[0];
-
-		$this->assertEquals(DataModel_Validation_Error::CODE_INVALID_VALUE, $error->getCode());
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
-	 * @covers Jet\DataModel_Definition_Property_Abstract::_validatePropertyValue_test_value
-	 */
-	public function testValidatePropertiesFailedInvalidFormat() {
-		$value = '_#invalid';
-		$errors = [];
-
-		$this->assertFalse( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
-
-		$this->assertArrayHasKey(0, $errors);
-		/**
-		 * @var DataModel_Validation_Error $error
-		 */
-		$error = $errors[0];
-
-		$this->assertEquals(DataModel_Validation_Error::CODE_INVALID_FORMAT, $error->getCode());
-	}
-
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
-	 */
-	public function testValidateProperties() {
-		$value = 'option1';
-		$errors = [];
-		$this->assertTrue( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
-	}
-
-
 
 }

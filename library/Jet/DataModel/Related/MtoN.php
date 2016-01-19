@@ -84,7 +84,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 
 		if(!$data_model_definition->getRelatedModelDefinition($M_model_name)  ) {
 			throw new DataModel_Exception(
-				'Class \''.get_class($M_instance).'\' (model name: \''.$M_model_name.'\') is not related to \''.get_class($this).'\'  (class: \''.get_called_class().'\') ',
+				'Class \''.get_class($M_instance).'\' (model name: \''.$M_model_name.'\') is not related to \''.get_class($this).'\'  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -230,7 +230,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	 * @param array &$loaded_related_data
 	 * @return mixed
 	 */
-	public function createRelatedInstancesFromLoadedRelatedData(array &$loaded_related_data)
+	public function loadRelatedInstances(array &$loaded_related_data)
 	{
 
 		/**
@@ -246,34 +246,31 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 			return $items;
 		}
 
+		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+		$this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
+		$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
+		$this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
+		$this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
+
 		foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
 
 			/**
 			 * @var DataModel_Related_MtoN $loaded_instance
 			 */
-			$loaded_instance = static::createInstanceFromData( $dat );
-
-			$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-			$loaded_main_model_instance = &DataModel_ObjectState::getVar($loaded_instance, 'main_model_instance');
-			$loaded_main_model_instance = $this_main_model_instance;
-
-			$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-			$loaded_parent_model_instance = &DataModel_ObjectState::getVar($loaded_instance, 'parent_model_instance');
-			$loaded_parent_model_instance = $this_parent_model_instance;
+			$loaded_instance = new static();
+			$loaded_instance->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
+			$loaded_instance->_setRelatedData( $dat );
 
 
-			$this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
+
 			$loaded_instance_M_model_class_name = &DataModel_ObjectState::getVar($loaded_instance, 'M_model_class_name' );
-
-			$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
 			$loaded_instance_N_model_class_name = &DataModel_ObjectState::getVar($loaded_instance, 'N_model_class_name' );
 
 			$loaded_instance_M_model_class_name = $this_M_model_class_name;
 			$loaded_instance_N_model_class_name = $this_N_model_class_name;
 
-			$this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
 			$loaded_instance_M_model_name = &DataModel_ObjectState::getVar($loaded_instance, 'M_model_name' );
-			$this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
 			$loaded_instance_N_model_name = &DataModel_ObjectState::getVar($loaded_instance, 'N_model_name' );
 
 			$loaded_instance_M_model_name = $this_M_model_name;

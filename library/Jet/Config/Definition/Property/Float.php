@@ -25,10 +25,6 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	 * @var float
 	 */
 	protected $default_value = 0.0;
-	/**
-	 * @var string
-	 */
-	protected $form_field_type = Form::TYPE_FLOAT;
 
 	/**
 	 * @var float
@@ -40,6 +36,25 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 	 */
 	protected $max_value = null;
 
+	/**
+	 * @param array|null $definition_data
+	 * @throws Config_Exception
+	 */
+	public function setUp(array $definition_data = null ) {
+		parent::setUp($definition_data);
+
+		if($this->min_value!==null) {
+			$this->form_field_min_value = $this->min_value;
+		}
+
+		if($this->max_value!==null) {
+			$this->form_field_max_value = $this->max_value;
+		}
+
+		if($this->form_field_type===null) {
+			$this->form_field_type = Form::TYPE_FLOAT;
+		}
+	}
 
 	/**
 	 * @param float $min_value
@@ -78,27 +93,6 @@ class Config_Definition_Property_Float extends Config_Definition_Property_Abstra
 		$value = (float)$value;
 	}
 
-	/**
-	 *
-	 * @return Form_Field_Abstract
-	 */
-	public function getFormField() {
-		/**
-		 * @var Form_Field_Float $field
-		 */
-		$field = parent::getFormField();
-
-		if($this->min_value!==null) {
-			$field->setMinValue( $this->min_value );
-		}
-
-
-		if($this->max_value!==null) {
-			$field->setMaxValue( $this->max_value );
-		}
-
-		return $field;
-	}
 
 	/**
 	 * @return string

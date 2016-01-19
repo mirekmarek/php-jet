@@ -42,7 +42,7 @@ define('JET_PUBLIC_STYLES_PATH', JET_BASE_PATH.'public/styles/');
 define('JET_PUBLIC_LIBS_PATH', JET_BASE_PATH.'public/libs/');
 
 define('JET_APPLICATION_CONFIGURATION_NAME', 'config');
-define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Handler_Default');
+define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Handler');
 define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Module_Manifest');
 define('JET_APPLICATION_MODULE_NAMESPACE', 'JetApplicationModule');
 define('JET_APPLICATION_MODULES_LIST_PATH', JET_DATA_PATH.'modules_list.php');

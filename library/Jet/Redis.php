@@ -19,7 +19,7 @@ class Redis extends Object {
 	protected static $config = null;
 
 	/**
-	 * @var Redis_Connection_Abstract[]
+	 * @var Redis_Connection[]
 	 */
 	protected static $connections = [];
 
@@ -28,7 +28,7 @@ class Redis extends Object {
 	 *
 	 * @param $connection_name (optional)
 	 *
-	 * @return Redis_Connection_Abstract
+	 * @return Redis_Connection
 	 * @throws Redis_Exception
 	 */
 	public static function getConnection( $connection_name=null ){
@@ -39,15 +39,15 @@ class Redis extends Object {
 	 * @param string $connection_name
 	 * @param array $connection_config_data
 	 *
-	 * @return Redis_Connection_Abstract
+	 * @return Redis_Connection
 	 */
 	public static function create( $connection_name, array $connection_config_data ) {
 		if(isset(static::$connections[$connection_name])){
 			return static::$connections[$connection_name];
 		}
 
-		$config = Redis_Factory::getConnectionConfigInstance( $connection_config_data );
-		$connection = Redis_Factory::getConnectionInstance( $config );
+		$config = new Redis_Connection_Config( $connection_config_data );
+		$connection = new Redis_Connection( $config );
 
 		static::$connections[$connection_name] = $connection;
 
@@ -60,7 +60,7 @@ class Redis extends Object {
 	 *
 	 * @param $connection_name (optional)
 	 *
-	 * @return Redis_Connection_Abstract
+	 * @return Redis_Connection
 	 * @throws Redis_Exception
 	 */
 	public static function get( $connection_name=null ){
@@ -83,7 +83,7 @@ class Redis extends Object {
 			);
 		}
 
-		static::$connections[$connection_name] = Redis_Factory::getConnectionInstance( $connection_config );
+		static::$connections[$connection_name] = new Redis_Connection( $connection_config );
 
 		return static::$connections[$connection_name];
 	}

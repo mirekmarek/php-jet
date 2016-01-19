@@ -16,7 +16,7 @@
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet;
 use Jet\DataModel;
-use Jet\DateTime;
+use Jet\Data_DateTime;
 use Jet\Http_Request;
 
 /**
@@ -42,9 +42,9 @@ class Event extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
-	 * @var DateTime
+	 * @var Data_DateTime
 	 */
 	protected $date_time;
 
@@ -52,7 +52,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -62,7 +62,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 1024
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -72,7 +72,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 134217728
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -82,7 +82,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var string
 	 */
@@ -92,7 +92,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var string
 	 */
@@ -102,7 +102,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -112,7 +112,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 134217728
-	 * @JetDataModel:is_required = false
+	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var string
 	 */
@@ -122,7 +122,7 @@ class Event extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 45
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -130,7 +130,7 @@ class Event extends DataModel {
 
 
 	/**
-	 * @return DateTime
+	 * @return Data_DateTime
 	 */
 	public function getDateTime() {
 		return $this->date_time;
@@ -206,7 +206,7 @@ class Event extends DataModel {
 	public static function logEvent( $event, $event_data, $event_txt, $user_ID, $user_login ) {
 		$event_i = new self();
 
-		$event_i->date_time = DateTime::now();
+		$event_i->date_time = Data_DateTime::now();
 		$event_i->event = $event;
 		$event_i->event_data = json_encode($event_data);
 		$event_i->event_txt = $event_txt;

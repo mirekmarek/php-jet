@@ -216,7 +216,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 	/**
 	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::getFormField
+	 * @covers Jet\Config_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$this->object->setValidationRegexp($this->validation_regexp);
@@ -244,7 +244,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->getFormField());
+		$this->assertEquals($field, $this->object->createFormField());
 	}
 
 	/**

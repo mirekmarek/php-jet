@@ -64,18 +64,18 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_Float::setUp
-	 * @covers Jet\DataModel_Definition_Property_Float::getMinValue
+	 * @covers Jet\getFormFieldMinValue::getFormfieldMinValue
 	 */
 	public function testGetMinValue() {
-		$this->assertSame($this->property_options['min_value'], $this->object->getMinValue());
+		$this->assertSame($this->property_options['form_field_min_value'], $this->object->getFormFieldMinValue());
 	}
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_Float::setUp
-	 * @covers Jet\DataModel_Definition_Property_Float::getMaxValue
+	 * @covers Jet\getFormFieldMaxValue::getFormfieldMaxValue
 	 */
 	public function testGetMaxValue() {
-		$this->assertSame($this->property_options['max_value'], $this->object->getMaxValue());
+		$this->assertSame($this->property_options['form_field_max_value'], $this->object->getFormFieldMaxValue());
 	}
 
 	/**
@@ -87,38 +87,10 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 		$this->assertArrayHasKey('min_value', $options);
 		$this->assertArrayHasKey('max_value', $options);
 
-		$this->assertSame($this->property_options['min_value'], $options['min_value']);
-		$this->assertSame($this->property_options['max_value'], $options['max_value']);
+		$this->assertSame($this->property_options['form_field_min_value'], $options['min_value']);
+		$this->assertSame($this->property_options['form_field_max_value'], $options['max_value']);
 	}
 
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::validatePropertyValue
-	 * @covers Jet\DataModel_Definition_Property_Float::_validatePropertyValue_test_value
-	 */
-	public function testValidatePropertiesFailedOutOfRange() {
-		$value = '10';
-		$errors = [];
-
-		$this->assertFalse( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
-
-		$this->assertArrayHasKey(0, $errors);
-		/**
-		 * @var DataModel_Validation_Error $error
-		 */
-		$error = $errors[0];
-
-		$this->assertEquals(DataModel_Validation_Error::CODE_OUT_OF_RANGE, $error->getCode());
-	}
-
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::validateProperties
-	 */
-	public function testValidateProperties() {
-		$value = 2;
-		$errors = [];
-		$this->assertTrue( $this->object->validatePropertyValue($this->data_model, $value, $errors) );
-	}
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_Float::getTechnicalDescription
@@ -134,7 +106,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 
 	/**
 	 * @covers Jet\DataModel_Definition_Property_Int::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormField
+	 * @covers Jet\DataModel_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_Int('');
@@ -147,16 +119,16 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 			'_value_raw' => $this->property_options['default_value'],
 			'_value' => '2',
 			'default_value' => $this->property_options['default_value'],
-			'is_required' => $this->property_options['is_required'],
-			'min_value' => $this->property_options['min_value'],
-			'max_value' => $this->property_options['max_value'],
+			'is_required' => $this->property_options['form_field_is_required'],
+			'min_value' => $this->property_options['form_field_min_value'],
+			'max_value' => $this->property_options['form_field_max_value'],
 			'validate_data_callback' => null,
 			'select_options' =>
 			[
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->getFormField());
+		$this->assertEquals($field, $this->object->createFormField( $this->property_options['default_value'] ));
 
 	}
 

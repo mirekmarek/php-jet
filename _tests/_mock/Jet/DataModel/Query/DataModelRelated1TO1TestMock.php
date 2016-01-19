@@ -47,18 +47,15 @@ class DataModel_Query_DataModelRelated1TO1TestMock extends DataModel_Related_1to
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
-	 * @JetDataModel:is_required = true
-	 * @JetDataModel:validation_regexp = '/^([a-z0-9]{1,10})$/'
 	 * @JetDataModel:do_not_export = true
 	 * @JetDataModel:is_ID = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
-	 * @JetDataModel:validation_method_name = 'string_validation_method_1'
 	 * @JetDataModel:form_field_label = 'Form field label'
 	 * @JetDataModel:form_field_error_messages = array (  'error_1' => 'Error 1',  'error_2' => 'Error 2',  'error_3' => 'Error 3',)
-	 * @JetDataModel:form_field_options = array (  'option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,)
-	 * @JetDataModel:list_of_valid_options = array (  0 => 'option1',  1 => 'option2',  2 => 'option3',  3 => '_#invalid',)
-	 * @JetDataModel:error_messages = array (  'error_1' => 'Message 1',  'error_2' => 'Message 2',  'error_3' => 'Message 3',)
+	 * @JetDataModel:form_field_options = ['validation_regexp' => '/^([a-z0-9]{1,10})$/']
+	 * @JetDataModel:form_field_is_required = true
+	 * @JetDataModel:form_field_validation_regexp = '/^([a-z0-9]{1,10})$/'
 	 *
 	 * @var string
 	 */

@@ -102,9 +102,9 @@ class Form_Field_FileImage extends Form_Field_File {
                 $this->maximal_height
             ) {
                 try {
-                    $image = new Image( $this->_value );
+                    $image = new Data_Image( $this->_value );
                     $image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
-                } catch( Image_Exception $e ) {
+                } catch( Data_Image_Exception $e ) {
                     $this->setValueError('disallowed_file_type');
 
                     return false;

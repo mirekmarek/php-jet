@@ -71,7 +71,7 @@ class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 	 *
 	 */
 	protected function _addConnection() {
-		$connection_config = Redis_Factory::getConnectionConfigInstance([], $this->main_config);
+		$connection_config = new Redis_Connection_Config([], $this->main_config);
 
 		$form = $connection_config->getCommonForm();
 

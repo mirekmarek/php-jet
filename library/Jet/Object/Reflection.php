@@ -66,12 +66,15 @@ class Object_Reflection {
 
 	/**
 	 * @param callable|array $callback
+	 * @param string $class_name
 	 *
 	 * @return array
 	 */
-	public static function parseCallback( $callback ) {
+	public static function parseCallback( $callback, $class_name ) {
 		if(is_array($callback)) {
-			if($callback[0]!='this') {
+			if($callback[0]=='this') {
+				$callback[0] = $class_name;
+			} else {
 				$callback[0] = static::parseClassName($callback[0]);
 			}
 		}
@@ -176,7 +179,7 @@ class Object_Reflection {
 			foreach( $matches as $m ) {
 
 				$definition = $m[0];
-				$class_name = $m[1];
+				$reflection_parser_class_name = $m[1];
 				$key = trim($m[2]);
 				$value_raw = trim($m[3]);
 
@@ -184,11 +187,11 @@ class Object_Reflection {
 
 
 				/**
-				 * @var Object_Reflection_ParserInterface $_class_name
+				 * @var Object_Reflection_ParserInterface $_reflection_parser_class_name
 				 */
-				$_class_name = __NAMESPACE__.'\\'.$class_name;
+				$_reflection_parser_class_name = __NAMESPACE__.'\\'.$reflection_parser_class_name;
 
-				$_class_name::parseClassDocComment( $reflection_data, $key, $definition, $value );
+				$_reflection_parser_class_name::parseClassDocComment($reflection_data, $class, $key, $definition, $value);
 
 			}
 
@@ -211,7 +214,7 @@ class Object_Reflection {
 
 				foreach( $matches as $m ) {
 					$definition = $m[0];
-					$class_name = $m[1];
+					$reflection_parser_class_name = $m[1];
 					$key = trim($m[2]);
 					$raw_value = trim($m[3]);
 
@@ -221,9 +224,9 @@ class Object_Reflection {
 					/**
 					 * @var Object_Reflection_ParserInterface $_class_name
 					 */
-					$_class_name = __NAMESPACE__.'\\'.$class_name;
+					$_reflection_parser_class_name = __NAMESPACE__.'\\'.$reflection_parser_class_name;
 
-					$_class_name::parsePropertyDocComment( $reflection_data, $property_name, $key, $definition, $value );
+					$_reflection_parser_class_name::parsePropertyDocComment($reflection_data, $class, $property_name, $key, $definition, $value);
 				}
 
 

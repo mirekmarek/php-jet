@@ -47,7 +47,7 @@ define('JET_CONFIG_DEFINITION_CACHE_LOAD', false );
 define('JET_CONFIG_DEFINITION_CACHE_SAVE', false );
 define('JET_CONFIG_DEFINITION_CACHE_PATH', JET_TESTS_TMP.'config_definitions/' );
 
-define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', 'Jet\Application_Modules_Handler_Default');
+define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', 'Jet\Application_Modules_Handler');
 define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', 'Jet\Application_Modules_Module_Manifest');
 define('JET_APPLICATION_MODULE_NAMESPACE', 'JetApplicationModule');
 define('JET_APPLICATION_MODULES_LIST_PATH', JET_TESTS_TMP.'modules_list.php');

@@ -13,7 +13,7 @@
 namespace JetApplicationModule\JetExample\TestModule;
 use Jet;
 use Jet\DataModel;
-use Jet\DateTime;
+use Jet\Data_DateTime;
 
 /**
  * Class DataModelT1
@@ -47,7 +47,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_DATE
 	 * @JetDataModel:form_field_label = 'Date: '
 	 *
-	 * @var DateTime
+	 * @var Data_DateTime
 	 */
 	protected $date;
 
@@ -56,7 +56,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time: '
 	 *
-	 * @var DateTime
+	 * @var Data_DateTime
 	 */
 	protected $date_time;
 
@@ -64,8 +64,8 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_FLOAT
 	 * @JetDataModel:form_field_label = 'Float: '
-	 * @JetDataModel:min_value = 0
-	 * @JetDataModel:max_value = 999
+	 * @JetDataModel:form_field_min_value = 0
+	 * @JetDataModel:form_field_max_value = 999
 	 *
 	 * @var float
 	 */
@@ -75,8 +75,8 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
 	 * @JetDataModel:form_field_label = 'Int: '
-	 * @JetDataModel:min_value = 0
-	 * @JetDataModel:max_value = 999
+	 * @JetDataModel:form_field_min_value = 0
+	 * @JetDataModel:form_field_max_value = 999
 	 *
 	 * @var int
 	 */
@@ -127,7 +127,6 @@ class DataModelT1 extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
-	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Multi Select: '
 	 * @JetDataModel:form_field_type = 'MultiSelect'
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
@@ -140,7 +139,6 @@ class DataModelT1 extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
-	 * @JetDataModel:item_type = 'String'
 	 * @JetDataModel:form_field_label = 'Radio Button: '
 	 * @JetDataModel:form_field_type = 'RadioButton'
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
@@ -205,28 +203,28 @@ class DataModelT1 extends DataModel {
 
 
 	/**
-	 * @param DateTime $date
+	 * @param Data_DateTime $date
 	 */
 	public function setDate($date) {
 		$this->date = $date;
 	}
 
 	/**
-	 * @return DateTime
+	 * @return Data_DateTime
 	 */
 	public function getDate() {
 		return $this->date;
 	}
 
 	/**
-	 * @param DateTime $date_time
+	 * @param Data_DateTime $date_time
 	 */
 	public function setDateTime($date_time) {
 		$this->date_time = $date_time;
 	}
 
 	/**
-	 * @return DateTime
+	 * @return Data_DateTime
 	 */
 	public function getDateTime() {
 		return $this->date_time;

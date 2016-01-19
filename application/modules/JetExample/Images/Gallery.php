@@ -36,7 +36,7 @@ class Gallery extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -55,7 +55,7 @@ class Gallery extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
 	 *
 	 * @var string

@@ -32,7 +32,6 @@ class DataModel_Definition_Property_IDTest extends \PHPUnit_Framework_TestCase {
 	protected $property_options = [
 		'description' => 'Description',
 		'default_value' => 'default value',
-		'is_required' => true,
 		'do_not_export' => true,
 
 

@@ -71,7 +71,7 @@ class Installer_Step_Memcache_Controller extends Installer_Step_Controller {
 	 *
 	 */
 	protected function _addConnection() {
-		$connection_config = Memcache_Factory::getConnectionConfigInstance([], $this->main_config);
+		$connection_config = new Memcache_Connection_Config([], $this->main_config);
 
 		$form = $connection_config->getCommonForm();
 

@@ -71,21 +71,6 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 	 * @expectedException \Jet\DataModel_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
 	 */
-	public function testSetUpFailedNotItemType() {
-		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
-
-		$this->data_model = new DataModel_Definition_DataModelTestMock();
-
-		unset($this->property_options['item_type']);
-
-		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
-	}
-
-	/**
-	 * @covers Jet\DataModel_Definition_Property_Array::setUp
-	 * @expectedException \Jet\DataModel_Exception
-	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
-	 */
 	public function testSetUpFailedItemTypeIsDo() {
 		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 

@@ -410,7 +410,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					$property instanceof DataModel_Definition_Property_DateTime ||
 					$property instanceof DataModel_Definition_Property_Date
 				) {
-					$data[$i] = DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i]);
+					$data[$i] = Data_DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i]);
 				}
 
 
@@ -464,7 +464,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					$property instanceof DataModel_Definition_Property_DateTime ||
 					$property instanceof DataModel_Definition_Property_Date
 				) {
-					$d = DateTime::createFromFormat('d#M#y H#i#s*A', $d );
+					$d = Data_DateTime::createFromFormat('d#M#y H#i#s*A', $d );
 				}
 
 				$property->checkValueType( $d );
@@ -503,7 +503,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 						$property instanceof DataModel_Definition_Property_DateTime ||
 						$property instanceof DataModel_Definition_Property_Date
 					) {
-						$data[$i][$select_as] = DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i][$select_as]);
+						$data[$i][$select_as] = Data_DateTime::createFromFormat('d#M#y H#i#s*A', $data[$i][$select_as]);
 					}
 
 					$property->checkValueType( $data[$i][$select_as] );
@@ -1125,7 +1125,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			return (float)$value;
 		}
 
-		if($value instanceof DateTime) {
+		if($value instanceof Data_DateTime) {
 			return 'TO_TIMESTAMP_TZ(\''.$value.'\', \'YYYY-MM-DD"T"HH24:MI:SSTZHTZM\')';
 		}
 

@@ -28,7 +28,7 @@ use Jet\Mvc;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page_Abstract;
-use Jet\DateTime;
+use Jet\Data_DateTime;
 use Jet\Session;
 use Jet\Data_Tree;
 use Jet\Data_Tree_Forest;
@@ -89,7 +89,7 @@ class Main extends Auth_ControllerModule_Abstract {
 			$till = $user->getIsBlockedTill();
 			if(
 				$till!==null &&
-				$till<=DateTime::now()
+				$till<=Data_DateTime::now()
 			) {
 				$user->unBlock();
 				$user->save();
@@ -103,7 +103,7 @@ class Main extends Auth_ControllerModule_Abstract {
 
 			if(
 				$pwd_valid_till!==null &&
-				$pwd_valid_till<=DateTime::now()
+				$pwd_valid_till<=Data_DateTime::now()
 			) {
 				$user->setPasswordIsValid(false);
 				$user->save();

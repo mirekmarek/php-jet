@@ -474,15 +474,8 @@ abstract class Mvc_Page_Abstract extends DataModel {
      *
      * @return string
      */
-    abstract public function getAuthControllerModuleName( $return_default=false );
+    abstract public function getAuthControllerModuleName();
 
-
-    /**
-     * Returns Auth module instance
-     *
-     * @return Auth_ControllerModule_Abstract
-     */
-    abstract public function getAuthController();
 
     /**
      * @return Mvc_Page_Content_Abstract

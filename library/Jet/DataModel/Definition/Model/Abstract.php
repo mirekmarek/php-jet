@@ -857,17 +857,16 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	}
 
 
-
 	/**
-	 * @param string $class_name
 	 * @param array $reflection_data
+	 * @param string $class_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( $class_name, &$reflection_data, $key, $definition, $value ) {
+	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
 
 
 		switch($key) {
@@ -983,6 +982,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			case 'ID_class_name':
 				$reflection_data['data_model_ID_class_name'] = Object_Reflection::parseClassName( (string)$value );
 				break;
+			case 'ID_options':
+				$reflection_data['ID_options'] = $value;
+				break;
 			case 'parent_model_class_name':
 				$reflection_data['data_model_parent_model_class_name'] = Object_Reflection::parseClassName( (string)$value );
 				break;
@@ -1040,22 +1042,16 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	}
 
 	/**
-	 * @param $class_name
 	 * @param array &$reflection_data
+	 * @param $class_name
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
-	 *
 	 */
 	public static function parsePropertyDocComment(
 		/** @noinspection PhpUnusedParameterInspection */
-		$class_name,
-		&$reflection_data,
-		$property_name,
-		$key,
-		$definition,
-		$value
+		&$reflection_data, $class_name, $property_name, $key, $definition, $value
 	) {
 
 		if(!isset($reflection_data['data_model_properties_definition'])) {
@@ -1069,9 +1065,8 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			case 'data_model_class':
 				$value = Object_Reflection::parseClassName($value);
 				break;
-			case 'form_field_get_default_value_callback':
 			case 'form_field_get_select_options_callback':
-				$value = Object_Reflection::parseCallback($value);
+				$value = Object_Reflection::parseCallback($value, $class_name);
 				break;
 
 

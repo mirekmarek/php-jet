@@ -23,7 +23,7 @@ class DataModel_Cache_Backend_Redis extends DataModel_Cache_Backend_Abstract {
 
 	/**
 	 *
-	 * @var Redis_Connection_Abstract
+	 * @var Redis_Connection
 	 */
 	private $redis = null;
 

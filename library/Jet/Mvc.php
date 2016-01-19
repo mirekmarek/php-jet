@@ -261,11 +261,14 @@ class Mvc {
 	/**
 	 * Returns true if request is admin
 	 *
-	 * Equivalent of Mvc::getCurrentPage()->getIsAdminUI()
 	 *
 	 * @return bool
 	 */
 	public static function getIsAdminUIRequest() {
+		if(!static::getCurrentPage()) {
+			return false;
+		}
+
 		return static::getCurrentPage()->getIsAdminUI();
 	}
 

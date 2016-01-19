@@ -20,10 +20,6 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 */
 	protected $_type = DataModel::TYPE_STRING;
 
-	/**
-	 * @var null|string
-	 */
-	protected $validation_regexp = null;
 
 	/**
 	 * @var int
@@ -61,45 +57,10 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	}
 
 	/**
-	 * @return string|null
-	 */
-	public function getValidationRegexp() {
-		return $this->validation_regexp;
-	}
-
-	/**
 	 * @return int|null
 	 */
 	public function getMaxLen() {
 		return $this->max_len;
-	}
-
-
-	/**
-	 * Column value test - checks format
-	 *
-	 * @param mixed &$property
-	 * @param DataModel_Validation_Error &$errors
-	 * @param string $locale_str
-	 *
-	 * @return bool
-	 */
-	public function _validatePropertyValue_test_value( &$property, &$errors, $locale_str=null ) {
-
-		if(!$this->validation_regexp) {
-			return true;
-		}
-		
-		if(!preg_match($this->validation_regexp, $property)) {
-			$errors[] = new DataModel_Validation_Error(
-					DataModel_Validation_Error::CODE_INVALID_FORMAT,
-					$this, $property, $locale_str
-				);
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -112,21 +73,10 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 		}
 
 		if($this->max_len<=255) {
-			return 'Input';
+			return Form::TYPE_INPUT;
 		} else {
-			return 'Textarea';
+			return Form::TYPE_TEXTAREA;
 		}
-	}
-
-	/**
-	 * @return array|Form_Field_Abstract
-	 */
-	public function getFormField() {
-		$field = parent::getFormField();
-		if($this->validation_regexp) {
-			$field->setValidationRegexp($this->validation_regexp);
-		}
-		return $field;
 	}
 
 
@@ -136,7 +86,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	public function getTechnicalDescription() {
 		$res = 'Type: '.$this->getType().', max length: '.$this->max_len;
 
-		$res .= ', required: '.($this->is_required ? 'yes':'no');
+		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
 
 		if($this->is_ID) {
 			$res .= ', is ID';
@@ -146,9 +96,9 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 			$res .= ', default value: '.$this->default_value;
 		}
 
-		if($this->validation_regexp) {
+		if($this->form_field_validation_regexp) {
 
-			$res .= ', validation regexp: '.$this->validation_regexp;
+			$res .= ', validation regexp: '.$this->form_field_validation_regexp;
 		}
 
 		if($this->description) {

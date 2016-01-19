@@ -184,13 +184,13 @@ abstract class Auth_User_Abstract extends DataModel {
 
 	/**
 	 * @abstract
-	 * @return DateTime
+	 * @return Data_DateTime
 	 */
 	abstract public function getPasswordIsValidTill();
 
 	/**
 	 * @abstract
-	 * @param string|DateTime $password_is_valid_till
+	 * @param string|Data_DateTime $password_is_valid_till
 	 * @return mixed
 	 */
 	abstract public function setPasswordIsValidTill( $password_is_valid_till );
@@ -204,13 +204,13 @@ abstract class Auth_User_Abstract extends DataModel {
 	/**
 	 *
 	 * @abstract
-	 * @return DateTime|null
+	 * @return Data_DateTime|null
 	 */
 	abstract public function getIsBlockedTill();
 
 	/**
 	 * @abstract
-	 * @param DateTime|string|null $till
+	 * @param Data_DateTime|string|null $till
 	 */
 	abstract public function block( $till=null );
 

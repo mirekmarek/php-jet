@@ -17,7 +17,7 @@ namespace Jet;
 class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var Application_Modules_Handler_Default
+	 * @var Application_Modules_Handler
 	 */
 	protected $object;
 
@@ -26,7 +26,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->object = new Application_Modules_Handler_Default(
+		$this->object = new Application_Modules_Handler(
 			JET_TESTS_DATA.'Application/Modules/TestModules/',
 			JET_TESTS_TMP.'modules_list.php',
 			'JetApplicationModule',
@@ -47,7 +47,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::checkModuleNameFormat
+	 * @covers Jet\Application_Modules_Handler::checkModuleNameFormat
 	 */
 	public function testCheckModuleNameFormat() {
 		$this->assertTrue( $this->object->checkModuleNameFormat('Vendor.ValidModuleName123') );
@@ -62,7 +62,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getAllModulesList
+	 * @covers Jet\Application_Modules_Handler::getAllModulesList
 	 */
 	public function testGetAllModulesList() {
 		$valid_data = [
@@ -152,7 +152,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleExists
+	 * @covers Jet\Application_Modules_Handler::getModuleExists
 	 */
 	public function testGetModuleExists() {
 		$this->assertTrue( $this->object->getModuleExists('ValidModule') );
@@ -160,7 +160,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleManifest
+	 * @covers Jet\Application_Modules_Handler::getModuleManifest
 	 */
 	public function testGetModuleInfo() {
 		$this->assertNull( $this->object->getModuleManifest('ImaginaryModule') );
@@ -199,7 +199,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::installModule
+	 * @covers Jet\Application_Modules_Handler::installModule
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
@@ -209,15 +209,15 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleIsInstalled
-	 * @covers Jet\Application_Modules_Handler_Default::installModule
-	 * @covers Jet\Application_Modules_Handler_Default::getInstalledModulesList
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleIsActivated
-	 * @covers Jet\Application_Modules_Handler_Default::activateModule
-	 * @covers Jet\Application_Modules_Handler_Default::deactivateModule
-	 * @covers Jet\Application_Modules_Handler_Default::getActivatedModulesList
-	 * @covers Jet\Application_Modules_Handler_Default::uninstallModule
-	 * @covers Jet\Application_Modules_Handler_Default::getInstallationInProgress
+	 * @covers Jet\Application_Modules_Handler::getModuleIsInstalled
+	 * @covers Jet\Application_Modules_Handler::installModule
+	 * @covers Jet\Application_Modules_Handler::getInstalledModulesList
+	 * @covers Jet\Application_Modules_Handler::getModuleIsActivated
+	 * @covers Jet\Application_Modules_Handler::activateModule
+	 * @covers Jet\Application_Modules_Handler::deactivateModule
+	 * @covers Jet\Application_Modules_Handler::getActivatedModulesList
+	 * @covers Jet\Application_Modules_Handler::uninstallModule
+	 * @covers Jet\Application_Modules_Handler::getInstallationInProgress
 	 *
 	 */
 	public function testInstallUninstall() {
@@ -362,7 +362,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::reloadModuleManifest
+	 * @covers Jet\Application_Modules_Handler::reloadModuleManifest
 	 */
 	public function testReloadModuleManifest() {
 		$this->object->installModule('Vendor.Package.TestModule');
@@ -371,8 +371,8 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleInstance
-	 * @covers Jet\Application_Modules_Handler_Default::getInstallationInProgress
+	 * @covers Jet\Application_Modules_Handler::getModuleInstance
+	 * @covers Jet\Application_Modules_Handler::getInstallationInProgress
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_UNKNOWN_MODULE
@@ -384,8 +384,8 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleInstance
-	 * @covers Jet\Application_Modules_Handler_Default::getInstallationInProgress
+	 * @covers Jet\Application_Modules_Handler::getModuleInstance
+	 * @covers Jet\Application_Modules_Handler::getInstallationInProgress
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_UNKNOWN_MODULE
@@ -397,7 +397,7 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Modules_Handler_Default::getModuleInstance
+	 * @covers Jet\Application_Modules_Handler::getModuleInstance
 	 */
 	public function testGetModuleInstance() {
 		$this->object->installModule('Vendor.Package.TestModule');

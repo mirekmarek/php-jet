@@ -36,8 +36,6 @@ namespace Jet;
  *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
  *           *      - optional
  *           * @JetConfig:form_field_error_messages = ['error_code' => 'Message' ]
- *           * @JetConfig:form_field_get_default_value_callback = callable
- *           *      - optional
  *           * @JetConfig:form_field_get_select_options_callback = callable
  *           *     - optional
  *           *
@@ -156,18 +154,16 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		}
 
 		if(!isset(static::$configs_data[$config_file_path])) {
-			if(
-				$this->soft_mode &&
-				!is_readable($config_file_path)
-			) {
-				static::$configs_data[$config_file_path] = new Data_Array( []);
-				return static::$configs_data[$config_file_path];
-			}
-
-
 			$_config_file_path = stream_resolve_include_path( $config_file_path );
 
+
 			if(!IO_File::isReadable($_config_file_path)) {
+				if($this->soft_mode) {
+					static::$configs_data[$config_file_path] = new Data_Array( []);
+					return static::$configs_data[$config_file_path];
+
+				}
+
 				throw new Config_Exception(
 					'Config file \''.$config_file_path.'\' does not exist or is not readable',
 					Config_Exception::CODE_CONFIG_FILE_IS_NOT_READABLE
@@ -311,70 +307,79 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 * @return Form
 	 */
 	public function getCommonForm( $form_name='' ) {
-		$definition = $this->getPropertiesDefinition();
 
+		$properties_list = $this->getCommonFormPropertiesList();
 
-		$only_properties = [];
-
-		foreach($definition as $property_name => $property) {
-			$field = $property->getFormField();
-
-			if(!$field) {
-				continue;
-			}
-
-			$only_properties[] = $property_name;
-		}
 
 		if(!$form_name) {
 			$form_name = str_replace( '\\','_', get_class($this) );
 		}
 
-		return $this->getForm($form_name, $only_properties);
+		return $this->getForm($form_name, $properties_list);
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getCommonFormPropertiesList() {
+		$definition = $this->getPropertiesDefinition();
+		$properties_list = [];
+
+		foreach($definition as $property_name => $property_definition) {
+			if(
+				$property_definition->getFormFieldType()===false
+			) {
+				continue;
+			}
+
+			$properties_list[] = $property_name;
+		}
+
+		return $properties_list;
+
+	}
+
 
 	/**
 	 *
 	 * @param string $form_name
-	 * @param array $only_properties
+	 * @param array $properties_list
 	 *
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	protected function getForm( $form_name, array $only_properties ) {
-		$definition = $this->getPropertiesDefinition();
+	protected function getForm( $form_name, array $properties_list ) {
+		$properties_definition = $this->getPropertiesDefinition();
 
-		$fields = [];
+		$form_fields = [];
 
-		foreach($definition as $property_name=>$property) {
-			/**
-			 * @var Config_Definition_Property_Abstract $property
-			 */
-			if( !in_array($property_name, $only_properties) ) {
+		foreach( $properties_list as $property_name ) {
+
+			$property_definition = $properties_definition[$property_name];
+			$property = $this->{$property_name};
+
+			if( ($field_creator_method_name = $property_definition->getFormFieldCreatorMethodName()) ) {
+				$created_field = $this->{$field_creator_method_name}( $property_definition );
+			} else {
+				$created_field = $property_definition->createFormField( $property );
+			}
+
+			if(!$created_field) {
 				continue;
 			}
 
-			$field = $property->getFormField();
-			if(!$field) {
-				$class = get_class($this);
-
-				throw new DataModel_Exception(
-					'The property '.$class.'::'.$property.' is required for form definition. But property definition '.get_class($property).' prohibits the use of property as form field. ',
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
-
+			if(is_array($created_field)) {
+				foreach( $created_field as $f ) {
+					$form_fields[] = $f;
+				}
+			} else {
+				$form_fields[] = $created_field;
 			}
 
-			$field->setDefaultValue( $property->getDefaultValue() );
 
-			if($this->_config_data->exists($property_name)) {
-				$field->setDefaultValue( $this->{$property_name} );
-			}
-
-			$fields[] = $field;
 		}
 
-		return new Form( $form_name, $fields );
+		return new Form( $form_name, $form_fields );
 
 	}
 
@@ -404,6 +409,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 			if( !isset($properties[$key]) ) {
 				continue;
 			}
+
 
 			$properties[$key]->checkValueType($val);
 
@@ -517,28 +523,29 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 
 
 	/**
-	 * @param &$reflection_data
+	 * @param array $reflection_data
+	 * @param $class_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
-		Config_Definition_Config::parseClassDocComment( $reflection_data, $key, $definition, $value );
+	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
+		Config_Definition_Config::parseClassDocComment( $reflection_data, $class_name, $key, $definition, $value );
 	}
 
 	/**
 	 * @param array &$reflection_data
+	 * @param string $class_name
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
 	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
-		Config_Definition_Config::parsePropertyDocComment( $reflection_data,$property_name, $key, $definition, $value );
+	public static function parsePropertyDocComment(&$reflection_data, $class_name, $property_name, $key, $definition, $value) {
+		Config_Definition_Config::parsePropertyDocComment( $reflection_data,$class_name, $property_name, $key, $definition, $value );
 	}
 
 }

@@ -174,6 +174,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	public function setOptions( array $options ) {
 		foreach($options as $o_k=>$o_v) {
 			if(!$this->getHasProperty($o_k)) {
+				//TODO: zarvat
 				continue;
 			}
 
@@ -387,6 +388,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function setErrorMessages(array $error_messages) {
 		foreach($error_messages as $key=>$message) {
+			//TODO: overit platnost chyboveho kodu
 			$this->error_messages[$key] = $message;
 		}
 	}

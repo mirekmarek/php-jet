@@ -30,12 +30,6 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	protected $item_type;
 
 	/**
-	 * @var string|bool
-	 */
-	protected $form_field_type = false;
-
-
-	/**
 	 * @var string
 	 */
 	protected $data_path = '';
@@ -66,11 +60,11 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	 * @return void
 	 */
 	public function setUp(array $definition_data = null ) {
-		if(!$definition_data) {
-			return;
-		}
-
 		parent::setUp($definition_data);
+
+		if($this->form_field_type===null) {
+			$this->form_field_type = false;
+		}
 
 	}
 

@@ -61,27 +61,13 @@ namespace Jet;
  *       *      - optional, default: false
  *       * @JetDataModel:backend_options = ['BackendType'=>['option'=>'value','option'=>'value']]
  *       *      - optional
- *       *      - optional
  *       *
- *       * Validation:
- *       *   @JetDataModel:validation_method = 'someCustomValidationMethodName'
- *       *      - optional
- *       *   @JetDataModel:list_of_valid_options = ['option1'=>'Valid option 1','option2'=>'Valid option 2']
- *       *      - optional
- *       * Validation (type DataModel::TYPE_STRING):
- *       *   @JetDataModel:is_required = bool
- *       *   @JetDataModel:max_len = 255
- *       *   @JetDataModel:validation_regexp = '/some_regexp/'
- *       *      - optional
- *       *
- *       * Validation (type DataModel::TYPE_INT,DataModel::TYPE_FLOAT):
- *       *   @JetDataModel:min_value = 1
- *       *      - optional
- *       *   @JetDataModel:max_value = 999
- *       *      - optional
- *
  *       * Specific (type DataModel::TYPE_DATA_MODEL):
- *       *   @JetDataModel:data_model_class = 'Some\Related_Model_Class_Name'
+ *       * @JetDataModel:data_model_class = 'Some\Related_Model_Class_Name'
+ *       *
+ *       * Specific (type DataModel::TYPE_STRING):
+ *       * @JetDataModel:max_len = 255
+ *       *
  *       *
  *       * Form field options:
  *       *   @JetDataModel:form_field_creator_method_name = 'someMethodName'
@@ -96,12 +82,18 @@ namespace Jet;
  *       *
  *       *   @JetDataModel:form_field_type = Form::TYPE_*
  *       *      - optional, default: autodetect
+ *       *   @JetDataModel:form_field_is_required = bool
+ *       *      - optional, default: false
  *       *   @JetDataModel:form_field_label = 'Field label:'
  *       *   @JetDataModel:form_field_options = ['option'=>'value','option'=>'value']
  *       *      - optional
- *       *   @JetDataModel:form_field_error_messages = ['error_code'=>'message','error_code'=>'message']
- *       *   @JetDataModel:form_field_get_default_value_callback = callable
+ *       *   @JetDataModel:form_field_validation_regexp = '/some_regexp/'
  *       *      - optional
+ *       *   @JetDataModel:form_field_min_value = 1
+ *       *      - optional
+ *       *   @JetDataModel:form_field_max_value = 999
+ *       *      - optional
+ *       *   @JetDataModel:form_field_error_messages = ['error_code'=>'message','error_code'=>'message']
  *       *   @JetDataModel:form_field_get_select_options_callback = callable
  *       *      - optional
  *       *   @JetDataModel:form_catch_value_method_name = 'someMethodName'
@@ -171,9 +163,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	protected function initNewObject() {
 		$this->setIsNew();
-
-		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
-		$ready_to_save = false;
 
 		$data_model_definition = $this->getDataModelDefinition();
 
@@ -300,43 +289,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		$data_model_saved = true;
 	}
 
-
-	/**
-	 * @param string $property_name
-	 * @param mixed &$value
-	 * @param bool $throw_exception (optional, default: true)
-	 *
-	 * @throws DataModel_Exception
-	 * @throws DataModel_Validation_Exception
-	 *
-	 * @return bool
-	 */
-	public function validatePropertyValue( $property_name,&$value, $throw_exception=true ) {
-		$properties = $this->getDataModelDefinition()->getProperties();
-		if( !isset($properties[$property_name]) ) {
-			throw new DataModel_Exception(
-				'Unknown property \''.$property_name.'\'',
-				DataModel_Exception::CODE_UNKNOWN_PROPERTY
-			);
-		}
-
-		$property_definition = $properties[$property_name];
-
-		$errors = [];
-
-		$property_definition->validatePropertyValue($this, $value, $errors);
-
-		if($errors) {
-			if($throw_exception) {
-				throw new DataModel_Validation_Exception( $this, $property_definition, $errors );
-			} else {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	/**
 	 * @param string $property_name
 	 * @param mixed &$value
@@ -352,51 +304,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			);
 		}
 
-		$this->validatePropertyValue( $property_name, $value );
-
 		$this->{$property_name} = $value;
 	}
-
-
-	/**
-	 * Validates data and returns true if everything is OK and ready to save
-	 *
-	 * @throws DataModel_Exception
-	 * @return bool
-	 */
-	public function validateProperties() {
-
-		$validation_errors = &DataModel_ObjectState::getVar($this, 'validation_errors',[]);
-		$validation_errors = [];
-
-		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
-		$ready_to_save = false;
-
-		foreach( $this->getDataModelDefinition()->getProperties()  as $property_name=>$property_definition ) {
-
-			$property_definition->validatePropertyValue($this, $this->{$property_name}, $validation_errors);
-		}
-
-		if(count($validation_errors)) {
-			return false;
-		}
-
-		$ready_to_save = true;
-
-		return true;
-	}
-
-	/**
-	 *
-	 * @return DataModel_Validation_Error[]
-	 */
-	public function getValidationErrors() {
-		$validation_errors = &DataModel_ObjectState::getVar($this, 'validation_errors',[]);
-
-		return $validation_errors;
-	}
-
-
 
 	/**
 	 * Returns model definition
@@ -552,7 +461,13 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 		}
 
 
-		static::createInstanceFromData( $data, $loaded_instance );
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+
+			if(!($loaded_instance->{$property_name} instanceof DataModel_Related_Interface)) {
+				$property_definition->loadPropertyValue( $loaded_instance->{$property_name}, $data );
+			}
+		}
+		$loaded_instance->setIsSaved();
 
 
 		$related_properties = $definition->getAllRelatedPropertyDefinitions();
@@ -579,7 +494,21 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			}
 		}
 
-		$loaded_instance->initRelatedProperties( $loaded_related_data );
+
+
+		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+
+			/**
+			 * @var DataModel_Definition_Property_DataModel $property_definition
+			 */
+			if(($loaded_instance->{$property_name} instanceof DataModel_Related_Interface)) {
+				$loaded_instance->{$property_name}->setupParentObjects( $loaded_instance );
+				$property_definition->loadPropertyValue( $loaded_instance->{$property_name}, $loaded_related_data );
+			}
+
+		}
+
+		//$loaded_instance->initRelatedProperties( $loaded_related_data );
 
 
 		if($cache) {
@@ -612,35 +541,12 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 			$property->setupParentObjects( $this );
 
-			$this->{$property_name} = $property->createRelatedInstancesFromLoadedRelatedData( $loaded_related_data );
+			$this->{$property_name} = $property->loadRelatedInstances( $loaded_related_data );
 		}
 
 	}
 
 
-	/**
-	 * @param array $data
-	 * @param DataModel $instance
-	 *
-	 * @return DataModel
-	 */
-	public static function createInstanceFromData( $data, DataModel $instance=null ) {
-
-		if(!$instance) {
-			$instance = new static();
-		}
-
-		$definition = static::getDataModelDefinition();
-
-		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-			$property_definition->loadPropertyValue( $instance->{$property_name}, $data );
-		}
-
-		$instance->__wakeup();
-		$instance->setIsSaved();
-
-		return $instance;
-	}
 
 	/**
 	 * @return bool
@@ -692,15 +598,11 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	}
 
 	/**
-	 * Save data.
-	 * CAUTION: Call validateProperties first!
 	 *
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 */
 	public function save() {
-
-		$this->_checkBeforeSave();
 
 		$backend = $this->getBackendInstance();
 
@@ -841,31 +743,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			$cache->delete($this->getDataModelDefinition(), $this->getID() );
 		}
 
-	}
-
-
-	/**
-	 * @throws DataModel_Exception
-	 */
-	protected function _checkBeforeSave() {
-		$this->validateProperties();
-
-		if(! DataModel_ObjectState::getVar($this, 'ready_to_save',false) ) {
-
-			$errors = $this->getValidationErrors();
-			foreach($errors as $i=>$e) {
-				$errors[$i] = (string)$e;
-			}
-
-			if(!$errors) {
-				$errors[] = 'none';
-			}
-
-			throw new DataModel_Exception(
-				'Object '.get_class($this).' is not valid! (Validation errors: '.implode(',', $errors).')',
-				DataModel_Exception::CODE_SAVE_ERROR_VALIDATE_DATA_FIRST
-			);
-		}
 	}
 
 
@@ -1136,7 +1013,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	protected function getForm( $form_name, array $properties_list ) {
 
 		$definition = $this->getDataModelDefinition();
-		$propertied_definition = $definition->getProperties();
+		$properties_definition = $definition->getProperties();
 
 		$form_fields = [];
 
@@ -1149,10 +1026,23 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 				$related_data = [];
 			}
 
-			$property_definition = $propertied_definition[$property_name];
+			$property_definition = $properties_definition[$property_name];
 			$property = $this->{$property_name};
 
-			$created_field = $property_definition->createFormField( $this, $property, $related_data );
+			if( ($field_creator_method_name = $property_definition->getFormFieldCreatorMethodName()) ) {
+				$created_field = $this->{$field_creator_method_name}( $property_definition, $related_data );
+			} else {
+				if($property instanceof DataModel_Related_Interface) {
+					$created_field = [];
+					foreach( $property->getRelatedFormFields( $property_definition, $related_data  ) as $field ) {
+						$created_field[] = $field;
+					}
+
+				} else {
+					$created_field = $property_definition->createFormField( $property );
+
+				}
+			}
 
 			if(!$created_field) {
 				continue;
@@ -1240,6 +1130,7 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 			return false;
 		}
 
+		//TODO: RAW data ne ... vezmeme si data pekne od formulare
 		$data= $form->getRawData()->getRawData();
 
 		$properties = $this->getDataModelDefinition()->getProperties();
@@ -1370,7 +1261,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function __sleep() {
 		return parent::__sleep();
-		//return array_keys($this->getDataModelDefinition()->getProperties());
 	}
 
 	/**
@@ -1378,8 +1268,6 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public function __wakeup() {
 		$this->setIsSaved();
-		$ready_to_save = &DataModel_ObjectState::getVar($this, 'ready_to_save',false);
-		$ready_to_save = false;
 	}
 
 	/**
@@ -1474,6 +1362,8 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 	 */
 	public static function helper_update( $class, $including_history_backend=true, $including_cache_backend=true  ) {
 		//DO NOT CHANGE CLASS NAME BY FACTORY HERE!
+		$class = Object_Reflection::parseClassName($class);
+
 		/**
 		 * @var DataModel $_this
 		 */
@@ -1527,28 +1417,29 @@ abstract class DataModel extends Object implements Object_Serializable_REST, Obj
 
 
 	/**
-	 * @param &$reflection_data
+	 * @param array $reflection_data
+	 * @param string $class_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
-		DataModel_Definition_Model_Abstract::parseClassDocComment( get_called_class(), $reflection_data, $key, $definition, $value );
+	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
+		DataModel_Definition_Model_Abstract::parseClassDocComment($reflection_data, $class_name, $key, $definition, $value);
 	}
 
 	/**
 	 * @param array &$reflection_data
+	 * @param string $class_name
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
 	 */
-	public static function parsePropertyDocComment( &$reflection_data,$property_name, $key, $definition, $value ) {
-		DataModel_Definition_Model_Abstract::parsePropertyDocComment( get_called_class(), $reflection_data,$property_name, $key, $definition, $value );
+	public static function parsePropertyDocComment(&$reflection_data, $class_name, $property_name, $key, $definition, $value) {
+		DataModel_Definition_Model_Abstract::parsePropertyDocComment($reflection_data, $class_name, $property_name, $key, $definition, $value);
 	}
 
 }

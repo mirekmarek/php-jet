@@ -27,10 +27,19 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	 */
 	protected $default_value = false;
 
+
 	/**
-	 * @var string
+	 * @param array|null $definition_data
+	 * @throws Config_Exception
 	 */
-	protected $form_field_type = Form::TYPE_CHECKBOX;
+	public function setUp(array $definition_data = null )
+	{
+		parent::setUp($definition_data);
+
+		if($this->form_field_type===null) {
+			$this->form_field_type = Form::TYPE_CHECKBOX;
+		}
+	}
 
 	/**
 	 * @param mixed &$value
@@ -39,18 +48,6 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 		$value = (bool)$value;
 	}
 
-	/**
-	 *
-	 * @throws Config_Exception
-	 *
-	 * @return Form_Field_Abstract
-	 */
-	public function getFormField() {
-		$field = parent::getFormField();
-		$field->setIsRequired(false);
-
-		return $field;
-	}
 
 	/**
 	 * Property required test

@@ -24,7 +24,7 @@ class Mvc_Router_Cache_Backend_Memcache extends Mvc_Router_Cache_Backend_Abstrac
 
 	/**
 	 *
-	 * @var Memcache_Connection_Abstract
+	 * @var Memcache_Connection
 	 */
 	private $memcache = null;
 

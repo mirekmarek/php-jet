@@ -1051,7 +1051,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 			return (float)$value;
 		}
 
-		if($value instanceof DateTime) {
+		if($value instanceof Data_DateTime) {
 			$value = $value->toString();
 		}
 

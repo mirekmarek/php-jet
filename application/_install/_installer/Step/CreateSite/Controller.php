@@ -54,8 +54,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 		if(
 			Http_Request::GET()->exists('create') &&
-			count($site->getLocales()) &&
-			$site->validateProperties()
+			count($site->getLocales())
 		) {
 			if(!$session->getValue('creating')) {
 				$session->setValue('creating', true);
@@ -166,7 +165,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		}
 
 		//----------------------------------------------------------------------
-		if( count($site->getLocales()) && $site->validateProperties() ) {
+		if( count($site->getLocales()) ) {
 			$create_form = new Form('create',
 				[
 					Form_Factory::field('Select','template', 'Site template: ', '', true)

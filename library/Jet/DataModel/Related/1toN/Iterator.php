@@ -26,7 +26,7 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 	/**
 	 * @var DataModel_Related_1toN[]
 	 */
-	protected $items;
+	protected $items = [];
 
 	/**
 	 * @param $item_class_name
@@ -119,11 +119,11 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 	 * @param array &$loaded_related_data
 	 * @return mixed
 	 */
-	public function createRelatedInstancesFromLoadedRelatedData( array &$loaded_related_data ) {
+	public function loadRelatedInstances(array &$loaded_related_data ) {
 		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
 		$this_deleted_items = [];
 
-		$this->items = $this->_getEmptyItemInstance()->createRelatedInstancesFromLoadedRelatedData($loaded_related_data);
+		$this->items = $this->_getEmptyItemInstance()->loadRelatedInstances($loaded_related_data);
 
 		return $this;
 	}
@@ -215,47 +215,6 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 
 
 	/**
-	 * @return DataModel_Validation_Error[]
-	 */
-	public function getValidationErrors() {
-		$result = [];
-
-		if($this->items) {
-			foreach( $this->items as $item) {
-				foreach( $item->getValidationErrors() as $error ) {
-					$result[] = $error;
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Validates data and returns true if everything is OK and ready to save
-	 *
-	 * @throws DataModel_Exception
-	 * @return bool
-	 */
-	public function validateProperties() {
-		if( !$this->items ) {
-			return true;
-		}
-
-		foreach($this->items as $d) {
-			if( !$d->validateProperties() ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-
-	/**
-	 * Save data.
-	 * CAUTION: Call validateProperties first!
-	 *
 	 *
 	 * @throws Exception
 	 * @throws DataModel_Exception

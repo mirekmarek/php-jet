@@ -31,7 +31,7 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	protected $form_field_type = Form::TYPE_DATE_TIME;
 
 	/**
-	 * @param DateTime $value
+	 * @param Data_DateTime $value
 	 */
 	public function checkValueType( &$value ) {
 		if($value==='') {
@@ -43,10 +43,10 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 		}
 		
 		if(!is_object($value)) {
-			$value = new DateTime( $value );
+			$value = new Data_DateTime( $value );
 		} else {
-			if(!$value instanceof DateTime) {
-				$value = new DateTime();
+			if(!$value instanceof Data_DateTime) {
+				$value = new Data_DateTime();
 			}
 		}
 	}

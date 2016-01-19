@@ -19,8 +19,8 @@ namespace Jet;
 
 class Mvc_Factory extends Factory {
 
-	const DEFAULT_ROUTER_CLASS = 'Mvc_Router_Default';
-	const DEFAULT_ROUTER_CONFIG_CLASS = 'Mvc_Router_Config_Default';
+	const DEFAULT_ROUTER_CLASS = 'Mvc_Router';
+	const DEFAULT_ROUTER_CONFIG_CLASS = 'Mvc_Router_Config';
 
 	/**
 	 * @var string
@@ -28,22 +28,20 @@ class Mvc_Factory extends Factory {
 	protected static $router_cache_backend_class_name_prefix = 'Mvc_Router_Cache_Backend_';
 
 
-	const DEFAULT_PAGE_ID_CLASS = 'Mvc_Page_ID_Default';
-	const DEFAULT_PAGE_CLASS = 'Mvc_Page_Default';
-	const DEFAULT_PAGE_META_TAG_CLASS = 'Mvc_Page_MetaTag_Default';
-	const DEFAULT_PAGE_CONTENT_CLASS = 'Mvc_Page_Content_Default';
+	const DEFAULT_PAGE_ID_CLASS = 'Mvc_Page_ID';
+	const DEFAULT_PAGE_CLASS = 'Mvc_Page';
+	const DEFAULT_PAGE_META_TAG_CLASS = 'Mvc_Page_MetaTag';
+	const DEFAULT_PAGE_CONTENT_CLASS = 'Mvc_Page_Content';
 
-	const DEFAULT_SITE_CLASS = 'Mvc_Site_Default';
-	const DEFAULT_LOCALIZED_SITE_CLASS = 'Mvc_Site_LocalizedData_Default';
-	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Mvc_Site_LocalizedData_MetaTag_Default';
-	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Mvc_Site_LocalizedData_URL_Default';
+	const DEFAULT_SITE_CLASS = 'Mvc_Site';
+	const DEFAULT_LOCALIZED_SITE_CLASS = 'Mvc_Site_LocalizedData';
+	const DEFAULT_LOCALIZED_SITE_META_TAG_CLASS = 'Mvc_Site_LocalizedData_MetaTag';
+	const DEFAULT_LOCALIZED_SITE_URL_CLASS = 'Mvc_Site_LocalizedData_URL';
 
-	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = 'Mvc_NavigationData_Breadcrumb_Default';
-	const DEFAULT_NAVIGATION_DATA_MENU_CLASS = 'Mvc_NavigationData_Menu_Default';
-	const DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS = 'Mvc_NavigationData_Menu_Item_Default';
+	const DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS = 'Mvc_NavigationData_Breadcrumb';
 
-	const DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS = 'Mvc_Layout_PackageCreator_CSS_Default';
-	const DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS = 'Mvc_Layout_PackageCreator_JavaScript_Default';
+	const DEFAULT_LAYOUT_CSS_PACKAGE_CREATOR_CLASS = 'Mvc_Layout_PackageCreator_CSS';
+	const DEFAULT_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS = 'Mvc_Layout_PackageCreator_JavaScript';
 
 	/**
 	 * @param string $router_cache_backend_class_name_prefix
@@ -402,24 +400,6 @@ class Mvc_Factory extends Factory {
 	 */
 	public static function setNavigationDataBreadcrumbClass( $class_name ) {
 		static::setClassName(static::DEFAULT_NAVIGATION_DATA_BREADCRUMB_CLASS, $class_name);
-	}
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setNavigationDataMenuClass( $class_name ) {
-		static::setClassName(static::DEFAULT_NAVIGATION_DATA_MENU_CLASS, $class_name);
-	}
-
-	/**
-	 * @see Factory
-	 *
-	 * @param string $class_name
-	 */
-	public static function setNavigationDataMenuItemClass( $class_name ) {
-		static::setClassName(static::DEFAULT_NAVIGATION_DATA_MENU_ITEM_CLASS, $class_name);
 	}
 
 

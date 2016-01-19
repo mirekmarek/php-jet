@@ -11,7 +11,7 @@
 namespace JetApplicationModule\JetExample\Images;
 use Jet;
 use Jet\DataModel_Related_1toN;
-use Jet\Image;
+use Jet\Data_Image;
 use Jet\IO_File;
 
 /**
@@ -32,7 +32,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:is_ID = true
 	 *
 	 * @var string
@@ -42,7 +42,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -52,7 +52,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -62,7 +62,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -72,7 +72,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -82,7 +82,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_required = true
+	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var int
@@ -221,7 +221,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 	 */
 	public function recreate() {
 
-		$image_file = new Image( $this->__image->getFilePath() );
+		$image_file = new Data_Image( $this->__image->getFilePath() );
 
 		$target_path = $this->getPath();
 
@@ -257,7 +257,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 
 		$thumbnail->file_name = $key.'_'.$image->getFileName();
 
-		$image_file = new Image( $image->getFilePath() );
+		$image_file = new Data_Image( $image->getFilePath() );
 
 		$target_path = $image->getThumbnailsDirPath().$thumbnail->file_name;
 

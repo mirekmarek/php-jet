@@ -50,14 +50,14 @@ class Redis_Config extends Application_Config {
 	 * @param $connection_name
 	 *
 	 * @throws Redis_Exception
-	 * @return Redis_Connection_Config_Abstract
+	 * @return Redis_Connection_Config
 	 */
 	public function getConnection($connection_name){
 		return $this->connections->getConfigurationListItem( $connection_name );
 	}
 
 	/**
-	 * @return Redis_Connection_Config_Abstract[]
+	 * @return Redis_Connection_Config[]
 	 */
 	public function getConnections() {
 		return $this->connections->getAllConfigurationItems();
@@ -74,10 +74,10 @@ class Redis_Config extends Application_Config {
 
 	/**
 	 * @param $connection_name
-	 * @param Redis_Connection_Config_Abstract $connection_configuration
+	 * @param Redis_Connection_Config $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, Redis_Connection_Config_Abstract $connection_configuration ) {
+	public function addConnection( $connection_name, Redis_Connection_Config $connection_configuration ) {
 		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
 	}
 

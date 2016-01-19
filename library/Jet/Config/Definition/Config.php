@@ -148,13 +148,14 @@ class Config_Definition_Config extends Object {
 
 	/**
 	 * @param &$reflection_data
+	 * @param string $class_name
 	 * @param string $key
 	 * @param string $definition
 	 * @param mixed $value
 	 *
 	 * @throws Object_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $key, $definition, $value ) {
+	public static function parseClassDocComment( &$reflection_data, $class_name, $key, $definition, $value ) {
 
 		switch($key) {
 			case 'section_is_obligatory':
@@ -165,7 +166,7 @@ class Config_Definition_Config extends Object {
 				break;
 			default:
 				throw new Object_Reflection_Exception(
-					'Unknown definition! Class: \''.get_called_class().'\', definition: \''.$definition.'\' ',
+					'Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ',
 					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}
@@ -174,6 +175,7 @@ class Config_Definition_Config extends Object {
 
 	/**
 	 * @param array &$reflection_data
+	 * @param string $class_name
 	 * @param string $property_name
 	 * @param string $key
 	 * @param string $definition
@@ -183,6 +185,7 @@ class Config_Definition_Config extends Object {
 	 */
 	public static function parsePropertyDocComment(
 		&$reflection_data,
+		$class_name,
 		$property_name,
 		$key,
 		/** @noinspection PhpUnusedParameterInspection */
@@ -193,9 +196,8 @@ class Config_Definition_Config extends Object {
 			case 'config_factory_class_name':
 				$value = Object_Reflection::parseClassName($value);
 				break;
-			case 'form_field_get_default_value_callback':
 			case 'form_field_get_select_options_callback':
-				$value = Object_Reflection::parseCallback($value);
+				$value = Object_Reflection::parseCallback($value, $class_name);
 				break;
 
 		}
