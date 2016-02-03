@@ -15,5 +15,4 @@ return [
 		'JetExample.TestModule'
 	],
 
-	'factory_overload_map' => []
 ];

@@ -24,6 +24,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = 'Auth_Role_Abstract'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
+//TODO: predelat na interface
 abstract class Auth_Role_Privilege_Abstract extends DataModel_Related_1toN {
 
 

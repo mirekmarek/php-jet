@@ -51,7 +51,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 			 */
 			$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 			/**
-			 * @var DataModel_Related_Abstract $this_parent_model_instance
+			 * @var DataModel_Related_Interface $this_parent_model_instance
 			 */
 			$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 
@@ -91,12 +91,12 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 
 
 	/**
-	 * @param DataModel $main_model_instance
-	 * @param DataModel_Related_Abstract $parent_model_instance (optional)
+	 * @param DataModel_Interface $main_model_instance
+	 * @param DataModel_Related_Interface $parent_model_instance (optional)
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setupParentObjects(DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance = null)
+	public function setupParentObjects(DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance = null)
 	{
 		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
@@ -484,7 +484,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 	public function offsetSet( $offset , $value ) {
 		$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name');
 
-		$valid_class_name = Factory::getClassName( $this_N_model_class_name );
+		$valid_class_name = $this_N_model_class_name;
 
 		if(!is_object($value)) {
 			throw new DataModel_Exception(

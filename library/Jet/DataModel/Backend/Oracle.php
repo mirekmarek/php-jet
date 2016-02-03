@@ -67,12 +67,12 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 * @param string|null $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	public function helper_getCreateCommand( DataModel $data_model, $force_table_name=null ) {
+	public function helper_getCreateCommand( DataModel_Interface $data_model, $force_table_name=null ) {
 
 		$data_model_definition = $data_model->getDataModelDefinition();
 
@@ -133,18 +133,18 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 */
-	public function helper_create( DataModel $data_model ) {
+	public function helper_create( DataModel_Interface $data_model ) {
 		$this->_db_write->execCommand( $this->helper_getCreateCommand( $data_model ) );
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 *
 	 * @return string
 	 */
-	public function helper_getDropCommand( DataModel $data_model ) {
+	public function helper_getDropCommand( DataModel_Interface $data_model ) {
 		$table_name = $this->_getTableName( $data_model->getDataModelDefinition() );
 		$ui_prefix = '_d'.date('YmdHis');
 
@@ -152,28 +152,28 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 */
-	public function helper_drop( DataModel $data_model ) {
+	public function helper_drop( DataModel_Interface $data_model ) {
 		$this->_db_write->execCommand( $this->helper_getDropCommand( $data_model ) );
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 *
 	 * @throws DataModel_Exception
 	 * @return array
 	 */
-	public function helper_getUpdateCommand( DataModel $data_model ) {
+	public function helper_getUpdateCommand( DataModel_Interface $data_model ) {
 		throw new DataModel_Exception('Not implemented ... Sorry ... :-/');
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 *
 	 * @throws \Exception|Exception
 	 */
-	public function helper_update( DataModel $data_model ) {
+	public function helper_update( DataModel_Interface $data_model ) {
 		$this->transactionStart();
 		try {
 			foreach($this->helper_getUpdateCommand( $data_model ) as $q) {
@@ -968,14 +968,14 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 * @param DataModel_Definition_Property_Abstract $column
 	 *
 	 * @throws DataModel_Exception
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel $data_model, DataModel_Definition_Property_Abstract $column ) {
+	protected function _getSQLType( DataModel_Interface $data_model, DataModel_Definition_Property_Abstract $column ) {
 		$backend_options = $column->getBackendOptions( 'Oracle' );
 
 		$name = $column->getName();

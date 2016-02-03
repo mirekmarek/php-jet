@@ -147,9 +147,9 @@ class DataModel_Query extends Object {
 	}
 
 	/**
-	 * @param DataModel $main_data_model
+	 * @param DataModel_Interface $main_data_model
 	 */
-	public function setMainDataModel( DataModel $main_data_model ) {
+	public function setMainDataModel( DataModel_Interface $main_data_model ) {
 		$this->main_data_model = $main_data_model;
 	}
 

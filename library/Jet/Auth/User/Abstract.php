@@ -35,6 +35,7 @@ namespace Jet;
  * @JetDataModel:name = 'user'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
+//TODO: predelat na interface
 abstract class Auth_User_Abstract extends DataModel {
 
 	/**

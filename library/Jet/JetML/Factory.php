@@ -16,29 +16,7 @@
  */
 namespace Jet;
 
-class JetML_Factory extends Factory {
-
-	/**
-	 * @var string
-	 */
-	protected static $jetml_widget_class_name_prefix = 'JetML_Widget_';
-
-	const DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME = 'JetML';
-
-	/**
-	 * @param string $jetml_widget_class_name_prefix
-	 */
-	public static function setJetmlWidgetClassNamePrefix($jetml_widget_class_name_prefix) {
-		static::$jetml_widget_class_name_prefix = $jetml_widget_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getJetmlWidgetClassNamePrefix() {
-		return static::$jetml_widget_class_name_prefix;
-	}
-
+class JetML_Factory {
 
 	/**
 	 * Gets JetML layout postprocessor
@@ -47,12 +25,9 @@ class JetML_Factory extends Factory {
 	 */
 	public static function getJetMLPostprocessorInstance(){
 
-		$class_name =  static::getClassName( static::DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME );
+		$class_name =  JET_JETML_LAYOUT_POSTPROCESSOR_CLASS;
 
-		$layout_postprocessor_instance = new $class_name();
-		//static::checkInstance(static::DEFAULT_JETML_LAYOUT_POSTPROCESSOR_CLASS_NAME, $layout_postprocessor_instance);
-
-		return $layout_postprocessor_instance;
+		return new $class_name();
 	}
 
 	/**
@@ -68,7 +43,7 @@ class JetML_Factory extends Factory {
 	 */
 	public static function getJetMLWidgetInstance(  JetML $postprocessor, $tag_name,\DOMElement $node) {
 
-		$class_name =  static::getClassName( static::$jetml_widget_class_name_prefix.$tag_name );
+		$class_name =  JET_JETML_WIDGET_CLASS_NAME_PREFIX.$tag_name;
 
 		/* @var $tag_instance JetML_Widget_Abstract */
 		$tag_instance = new $class_name($postprocessor, $node);

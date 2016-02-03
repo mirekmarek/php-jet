@@ -94,7 +94,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected $required_css_files = [];
 
 	/**
-	 * @var Mvc_Page_Abstract
+	 * @var Mvc_Page_Interface
 	 */
 	protected $page;
 
@@ -135,14 +135,14 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param Mvc_Page_Abstract $page
+	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Abstract $page ) {
+	public function setPage( Mvc_Page_Interface $page ) {
 		$this->page = $page;
 	}
 
 	/**
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	public function getPage()
 	{

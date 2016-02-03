@@ -27,7 +27,7 @@ use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
 use Jet\Mvc;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
-use Jet\Mvc_Page_Abstract;
+use Jet\Mvc_Page_Interface;
 use Jet\Data_DateTime;
 use Jet\Session;
 use Jet\Data_Tree;
@@ -120,7 +120,7 @@ class Main extends Auth_ControllerModule_Abstract {
 	/**
 	 * Returns dispatch queue (example: show login dialog )
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	public function getAuthenticationPage() {
 

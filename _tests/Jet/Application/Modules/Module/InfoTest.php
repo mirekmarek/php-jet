@@ -127,16 +127,6 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 	 */
-	public function testReadManifestDataInvalidFactoryOverloadMapIsNotArray() {
-		new Application_Modules_Module_Manifest('InvalidFactoryOverloadMapIsNotArray');
-	}
-
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::readManifestData
-	 *
-	 * @expectedException \Jet\Application_Modules_Exception
-	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-	 */
 	public function testReadManifestDataInvalidSignalsCallbacksIsNotArray() {
 		new Application_Modules_Module_Manifest('InvalidSignalsCallbacksIsNotArray');
 	}
@@ -226,18 +216,6 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 			'RequireModule1',
 			'RequireModule2'
 		], $module_info->getRequire() );
-	}
-
-	/**
-	 * @covers Jet\Application_Modules_Module_Info::getFactoryOverloadMap
-	 */
-	public function testGetFactoryOverloadMap() {
-		$module_info = new Application_Modules_Module_Manifest('ValidModule');
-		$this->assertEquals( [
-			'OldClass1' => 'MyNs\MyClass1',
-			'OldClass2' => 'MyNs\MyClass2',
-			'OldClass3' => 'MyNs\MyClass3',
-		], $module_info->getFactoryOverloadMap() );
 	}
 
 	/**

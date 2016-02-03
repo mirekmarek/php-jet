@@ -122,7 +122,10 @@ class Mvc_Layout_PackageCreator_CSS extends Mvc_Layout_PackageCreator_CSS_Abstra
 		$package_path = $this->getPackagePath();
 		$package_data_path = $this->getPackageDataPath();
 
-		if(!IO_File::exists($package_path)) {
+		if(
+            !IO_File::exists($package_path) ||
+            !IO_File::exists($package_data_path)
+        ) {
 
 			IO_File::write(
 				$package_path,

@@ -1,15 +1,6 @@
 <?php
 /**
  *
- *
- *
- * Default class describing Site Localized Data (@see Mvc_Sites, @see Mvc_Site_LocalizedData_Abstract)
- *
- * A class can be replaced by another class (@see Factory, @see Mvc_Factory), but they must expand Mvc_Site_LocalizedData_Abstract
- *
- * @see Factory
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -23,11 +14,12 @@ namespace Jet;
 
 /**
  *
+ * @JetDataModel:name = 'site_localized_data'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData'
- * @JetDataModel:parent_model_class_name = 'Mvc_Site'
+ * @JetDataModel:parent_model_class_name = JET_MVC_SITE_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
+class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 *
@@ -100,20 +92,33 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Mvc_Site_LocalizedData_URL'
+	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_URL_CLASS
 	 *
-	 * @var Mvc_Site_LocalizedData_URL_Abstract[]|DataModel_Related_1toN_Iterator
+	 * @var Mvc_Site_LocalizedData_URL_Interface[]|DataModel_Related_1toN_Iterator
 	 */
 	protected $URLs;
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Mvc_Site_LocalizedData_MetaTag'
+	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_META_TAG_CLASS
 	 *
-	 * @var Mvc_Site_LocalizedData_MetaTag_Abstract[]|DataModel_Related_1toN_Iterator
+	 * @var Mvc_Site_LocalizedData_MetaTag_Interface[]|DataModel_Related_1toN_Iterator
 	 */
 	protected $default_meta_tags;
+
+
+    /**
+     * @param Locale $locale (optional)
+     */
+    public function __construct( Locale $locale=null) {
+
+        if($locale) {
+            $this->setLocale($locale);
+        }
+
+        parent::__construct();
+    }
 
 	/**
 	 * @param Locale $locale
@@ -211,14 +216,14 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Abstract[]
+	 * @return Mvc_Site_LocalizedData_URL_Interface[]
 	 */
 	public function getURLs() {
 		return $this->URLs;
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Abstract[]|string[] $URLs
+	 * @param Mvc_Site_LocalizedData_URL_Interface[]|string[] $URLs
 	 */
 	public function setURLs($URLs) {
 		$this->URLs->clearData();
@@ -229,20 +234,20 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Abstract|string $URL
+	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
 	 */
 	public function addURL( $URL ) {
 		$this->_addURL($URL );
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Abstract|string $URL
+	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
 	 */
 	public function removeURL( $URL ) {
 		$index = null;
 
 		/**
-		 * @var Mvc_Site_LocalizedData_URL_Abstract $e_URL
+		 * @var Mvc_Site_LocalizedData_URL_Interface $e_URL
 		 */
 		foreach($this->URLs as $i=>$e_URL) {
 			if( (string)$URL==(string)$e_URL  ) {
@@ -272,7 +277,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Abstract|string $URL
+	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
 	 * @return bool
 	 */
 	public function setDefaultURL( $URL ) {
@@ -280,7 +285,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Abstract
+	 * @return Mvc_Site_LocalizedData_URL_Interface
 	 */
 	public function getDefaultURL( ) {
 		return $this->_getDefaultURL( false );
@@ -288,7 +293,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Abstract|string $URL
+	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
 	 * @return bool
 	 */
 	public function setDefaultSslURL( $URL ) {
@@ -296,7 +301,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Abstract
+	 * @return Mvc_Site_LocalizedData_URL_Interface
 	 */
 	public function getDefaultSslURL( ) {
 		return $this->_getDefaultURL( true );
@@ -317,7 +322,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 			}
 		}
 
-		$new_URL_instance = Mvc_Factory::getLocalizedSiteURLInstance();
+		$new_URL_instance = Mvc_Factory::getSiteLocalizedURLInstance();
 		$new_URL_instance->setURL( (string)$URL );
 		$is_SSL = $new_URL_instance->getIsSSL();
 
@@ -357,7 +362,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 	/**
 	 * @param bool $is_SSL
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Abstract
+	 * @return Mvc_Site_LocalizedData_URL_Interface
 	 */
 	protected function _getDefaultURL( $is_SSL ) {
 		foreach($this->URLs as $e_URL) {
@@ -372,7 +377,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @return Mvc_Site_LocalizedData_MetaTag_Abstract[]
+	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
 	 */
 	public function getDefaultMetaTags() {
 		return $this->default_meta_tags;
@@ -380,9 +385,9 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @param Mvc_Site_LocalizedData_MetaTag_Abstract $default_meta_tag
+	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag
 	 */
-	public function addDefaultMetaTag( Mvc_Site_LocalizedData_MetaTag_Abstract $default_meta_tag ) {
+	public function addDefaultMetaTag( Mvc_Site_LocalizedData_MetaTag_Interface $default_meta_tag ) {
 		$this->default_meta_tags[] = $default_meta_tag;
 	}
 
@@ -396,7 +401,7 @@ class Mvc_Site_LocalizedData extends Mvc_Site_LocalizedData_Abstract {
 
 	/**
 	 *
-	 * @param Mvc_Site_LocalizedData_MetaTag_Abstract[] $default_meta_tags
+	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $default_meta_tags
 	 */
 	public function setDefaultMetaTags($default_meta_tags) {
 		$this->default_meta_tags->clearData();

@@ -50,10 +50,10 @@ abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 	];
 
     /**
-     * @param Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Interface $page_content
      * @return bool
      */
-    public function parseRequestURL( Mvc_Page_Content_Abstract $page_content) {
+    public function parseRequestURL( Mvc_Page_Content_Interface $page_content) {
 
         $router = Mvc::getCurrentRouter();
 

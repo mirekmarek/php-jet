@@ -187,8 +187,9 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 			[
 			],
 		]);
+		$property = &$this->default_value;
 
-		$this->assertEquals($field, $this->object->createFormField());
+		$this->assertEquals($field, $this->object->createFormField( $property ));
 	}
 
 

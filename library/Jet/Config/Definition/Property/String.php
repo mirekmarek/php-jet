@@ -68,6 +68,7 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	 */
 	public function setValidationRegexp($validation_regexp) {
 		$this->validation_regexp = $validation_regexp;
+		$this->form_field_validation_regexp = $validation_regexp;
 	}
 
 	/**

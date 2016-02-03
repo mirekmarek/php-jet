@@ -19,10 +19,12 @@ namespace Jet;
 /**
  * Class Mvc_Page_Content
  *
- * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
+ * @JetDataModel:name = 'page_content'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
  */
-class Mvc_Page_Content extends Mvc_Page_Content_Abstract {
+class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Content_Interface {
     const DEFAULT_CONTROLLER_ACTION = 'default';
 
 	/**
@@ -360,11 +362,11 @@ class Mvc_Page_Content extends Mvc_Page_Content_Abstract {
 
 
     /**
-     * @param Mvc_Page_Abstract $page
+     * @param Mvc_Page_Interface $page
      *
      * @return Mvc_Controller_Abstract
      */
-    protected function getControllerInstance( Mvc_Page_Abstract $page ) {
+    protected function getControllerInstance( Mvc_Page_Interface $page ) {
         if($this->_controller_instance!==null) {
             return $this->_controller_instance;
         }
@@ -410,9 +412,9 @@ class Mvc_Page_Content extends Mvc_Page_Content_Abstract {
     }
 
     /**
-     * @param Mvc_Page_Abstract $page
+     * @param Mvc_Page_Interface $page
      */
-    public function dispatch( Mvc_Page_Abstract $page ) {
+    public function dispatch( Mvc_Page_Interface $page ) {
 
         $module_name = $this->getModuleName();
         $controller_action = $this->getControllerAction();

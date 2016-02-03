@@ -212,7 +212,7 @@ class Gallery_Image extends DataModel {
 	 * @param string $title
 	 */
 	public function setTitle($title) {
-		$this->_setPropertyValue('title', $title);
+		$this->title = $title;
 	}
 
 
@@ -222,42 +222,42 @@ class Gallery_Image extends DataModel {
 	 * @param string $file_mime_type
 	 */
 	protected function setFileMimeType($file_mime_type) {
-		$this->_setPropertyValue('file_mime_type', $file_mime_type);
+        $this->file_mime_type = $file_mime_type;
 	}
 
 	/**
 	 * @param string $file_name
 	 */
 	protected function setFileName($file_name) {
-		$this->_setPropertyValue('file_name', $file_name);
+		$this->file_name = $file_name;
 	}
 
 	/**
 	 * @param int $file_size
 	 */
 	protected function setFileSize($file_size) {
-		$this->_setPropertyValue('file_size', $file_size);
+		$this->file_size = (int)$file_size;
 	}
 
 	/**
 	 * @param int $image_size_h
 	 */
 	protected function setImageSizeH($image_size_h) {
-		$this->_setPropertyValue('image_size_h', $image_size_h);
+		$this->image_size_h = (int)$image_size_h;
 	}
 
 	/**
 	 * @param int $image_size_w
 	 */
 	protected function setImageSizeW($image_size_w) {
-		$this->_setPropertyValue('image_size_w', $image_size_w);
+		$this->image_size_w = (int)$image_size_w;
 	}
 
 	/**
 	 * @param int $offset
 	 */
 	protected function setOffset($offset) {
-		$this->_setPropertyValue('offset', $offset);
+		$this->offset = (int)$offset;
 	}
 
 	/**

@@ -69,10 +69,10 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 	}
 
 	/**
-	 * @param DataModel $main_model_instance
-	 * @param DataModel_Related_Abstract $parent_model_instance
+	 * @param DataModel_Interface $main_model_instance
+	 * @param DataModel_Related_Interface $parent_model_instance
 	 */
-	public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null ) {
+	public function setupParentObjects( DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance=null ) {
 
 		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');

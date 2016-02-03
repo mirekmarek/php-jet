@@ -53,12 +53,12 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
 	/**
 	 * @param &$property
-	 * @param DataModel $data_model_instance
+	 * @param DataModel_Interface $data_model_instance
 	 */
 	public function initPropertyDefaultValue(
 		&$property,
 		/** @noinspection PhpUnusedParameterInspection */
-		DataModel $data_model_instance
+        DataModel_Interface $data_model_instance
 	) {
     }
 
@@ -67,23 +67,23 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
      *
      * Example: Locale to string
      *
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      * @param mixed &$property
      *
      * @return mixed
      */
-    public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
+    public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property ) {
         return $data_model_instance->{$this->getGetterName()}();
     }
 
     /**
      *
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      * @param mixed &$property
      *
      * @return mixed
      */
-    public function getXmlExportValue(DataModel $data_model_instance, &$property ) {
+    public function getXmlExportValue(DataModel_Interface $data_model_instance, &$property ) {
         return $data_model_instance->{$this->getGetterName()}();
     }
 
@@ -125,13 +125,13 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
     /**
      *
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      * @param mixed $property_value
      * @param array $related_data
      *
      * @return Form_Field_Abstract|Form_Field_Abstract[]
      */
-    public function createFormField( DataModel $data_model_instance, $property_value, array $related_data ) {
+    public function createFormField( DataModel_Interface $data_model_instance, $property_value, array $related_data ) {
     }
 
 	/**

@@ -19,10 +19,12 @@ namespace Jet;
 
 /**
  *
+ * @JetDataModel:name = 'page'
+ * @JetDataModel:ID_class_name = 'Mvc_Page_ID_Abstract'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages'
  * @JetDataModel:ID_class_name = 'Mvc_Page_ID'
  */
-class Mvc_Page extends Mvc_Page_Abstract {
+class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	const HOMEPAGE_ID = '_homepage_';
 
 	const PAGE_DATA_FILE_NAME = 'page_data.php';
@@ -75,12 +77,12 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	protected $parent_ID = '';
 
 	/**
-	 * @var Mvc_Page_Abstract
+	 * @var Mvc_Page_Interface
 	 */
 	protected $_parent;
 
 	/**
-	 * @var Mvc_Page_Abstract[]
+	 * @var Mvc_Page_Interface[]
 	 */
 	protected $_children = [];
 
@@ -240,10 +242,10 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Mvc_Page_MetaTag'
+	 * @JetDataModel:data_model_class = JET_MVC_PAGE_META_TAG_CLASS
 	 * @JetDataModel:form_field_type = false
 	 *
-	 * @var Mvc_Page_MetaTag_Abstract[]
+	 * @var Mvc_Page_MetaTag_Interface[]
 	 */
 	protected $meta_tags;
 
@@ -277,10 +279,10 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Mvc_Page_Content'
+	 * @JetDataModel:data_model_class = JET_MVC_PAGE_CONTENT_CLASS
 	 * @JetDataModel:form_field_type = false
 	 *
-	 * @var Mvc_Page_Content_Abstract[]
+	 * @var Mvc_Page_Content_Interface[]
 	 */
 	protected $contents;
 
@@ -309,7 +311,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	protected $output;
 
 	/**
-	 * @var Mvc_Page_Content_Abstract
+	 * @var Mvc_Page_Content_Interface
 	 */
 	protected $_current_content;
 
@@ -319,7 +321,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	protected static $site_pages_loaded_flag = [];
 
 	/**
-	 * @var Mvc_Page_Abstract[]
+	 * @var Mvc_Page_Interface[]
 	 */
 	protected static $loaded_pages = [];
 
@@ -336,7 +338,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 * @param string $site_ID
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Page_Abstract[]
+	 * @return Mvc_Page_Interface[]
 	 */
 	public static function getPagesList( $site_ID, Locale $locale ) {
 		$page = Mvc_Factory::getPageInstance();
@@ -354,14 +356,14 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 * @param string|Locale|null $locale (optional, null = current)
 	 * @param string|Mvc_Site_ID_Abstract|null $site_ID (optional, null = current)
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	public static function get( $page_ID=null, $locale=null, $site_ID=null  ) {
 		if(!$page_ID) {
 			return Mvc::getCurrentPage();
 		}
 
-		$page_i = Mvc_Factory::getPageInstance();
+		$page_i = new static();
 
 		if( !($page_ID instanceof Mvc_Page_ID_Abstract) ) {
 
@@ -372,7 +374,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 				$site_ID = Mvc::getCurrentSite()->getID();
 			}
 
-			$page_ID = Mvc_Factory::getPageIDInstance()->createID( $site_ID, $locale, $page_ID );
+			$page_ID = static::getEmptyIDInstance()->createID( $site_ID, $locale, $page_ID );
 
 		}
 
@@ -432,7 +434,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 * @return Mvc_Site_ID_Abstract
 	 */
 	public function getSiteID() {
-		return Mvc_Factory::getSiteIDInstance()->createID( $this->site_ID );
+		return Mvc_Factory::getSiteInstance()->getEmptyIDInstance()->createID( $this->site_ID );
 	}
 
 	/**
@@ -507,14 +509,14 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @return Mvc_Site_Abstract
+	 * @return Mvc_Site_Interface
 	 */
 	public function getSite() {
 		return Mvc_Site::get( $this->site_ID );
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_Abstract
+	 * @return Mvc_Site_LocalizedData_Interface
 	 */
 	public function getSiteLocalizedData() {
 		return $this->getSite()->getLocalizedData($this->getLocale());
@@ -524,7 +526,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 * @return Mvc_Page_ID_Abstract|string
 	 */
 	public function getParentID() {
-		return Mvc_Factory::getPageIDInstance()->createID($this->site_ID, $this->locale, $this->parent_ID);
+		return static::getEmptyIDInstance()->createID($this->site_ID, $this->locale, $this->parent_ID);
 	}
 
 	/**
@@ -568,7 +570,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 
 	/**
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	public function getParent() {
 		return $this->_parent;
@@ -1006,7 +1008,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	/**
 	 * @param bool $get_default (optional)
 	 *
-	 * @return Mvc_Page_MetaTag_Abstract[]
+	 * @return Mvc_Page_MetaTag_Interface[]
 	 */
 	public function getMetaTags( $get_default=false ) {
 		if($get_default) {
@@ -1036,9 +1038,9 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Page_MetaTag_Abstract $meta_tag
+	 * @param Mvc_Page_MetaTag_Interface $meta_tag
 	 */
-	public function addMetaTag( Mvc_Page_MetaTag_Abstract $meta_tag) {
+	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag) {
 		$this->meta_tags[] = $meta_tag;
 	}
 
@@ -1050,7 +1052,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Page_MetaTag_Abstract[] $meta_tags
+	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
 	 */
 	public function  setMetaTags( $meta_tags ) {
 		/** @noinspection PhpUndefinedMethodInspection */
@@ -1063,16 +1065,16 @@ class Mvc_Page extends Mvc_Page_Abstract {
 
 	/**
 	 *
-	 * @return Mvc_Page_Content_Abstract[]
+	 * @return Mvc_Page_Content_Interface[]
 	 */
 	public function getContents() {
 		return $this->contents;
 	}
 
 	/**
-	 * @param Mvc_Page_Content_Abstract $content
+	 * @param Mvc_Page_Content_Interface $content
 	 */
-	public function addContent( Mvc_Page_Content_Abstract $content) {
+	public function addContent( Mvc_Page_Content_Interface $content) {
 		$content->setID( count($this->contents) );
 
 		$this->contents[] = $content;
@@ -1086,7 +1088,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Page_Content_Abstract[] $contents
+	 * @param Mvc_Page_Content_Interface[] $contents
 	 */
 	public function setContents( $contents ) {
 
@@ -1102,7 +1104,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 * @param string $site_ID
 	 * @param Locale|string $locale (optional)
 	 *
-	 * @return Mvc_Page_Abstract[]
+	 * @return Mvc_Page_Interface[]
 	 */
 	public function getList( $site_ID, $locale ) {
 
@@ -1122,10 +1124,10 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Page_Abstract $parent
+	 * @param Mvc_Page_Interface $parent
 	 * @param array $result
 	 */
-	protected function _getList( Mvc_Page_Abstract $parent, array &$result ) {
+	protected function _getList( Mvc_Page_Interface $parent, array &$result ) {
 		$result[] = $parent;
 		foreach( $parent->getChildren() as $page ) {
 			$this->_getList($page, $result);
@@ -1134,7 +1136,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 
 
 	/**
-	 * @param Mvc_Site_Abstract $site
+	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 * @param string $data_file_path
 	 *
@@ -1144,7 +1146,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 * @throws Mvc_Page_Exception
 	 * @return array
 	 */
-	public static function _loadPages_readPageDataFile( Mvc_Site_Abstract $site, Locale $locale, $data_file_path, $URL_fragment, array $parent_page_data=null ) {
+	public static function _loadPages_readPageDataFile( Mvc_Site_Interface $site, Locale $locale, $data_file_path, $URL_fragment, array $parent_page_data=null ) {
 
 		if(!IO_File::isReadable($data_file_path)) {
 			throw new Mvc_Page_Exception( 'Page data file is not readable: '.$data_file_path, Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA );
@@ -1337,7 +1339,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 
 
 	/**
-	 * @param Mvc_Site_Abstract $site
+	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 * @param string $root_dir
 	 * @param array $parent_page_data (optional)
@@ -1345,7 +1347,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 *
 	 * @return array
 	 */
-	protected static function _loadPages_readDir( Mvc_Site_Abstract $site, Locale $locale, $root_dir, array $parent_page_data=null, Mvc_Page $parent_page=null ) {
+	protected static function _loadPages_readDir( Mvc_Site_Interface $site, Locale $locale, $root_dir, array $parent_page_data=null, Mvc_Page $parent_page=null ) {
 		$list = IO_Dir::getList( $root_dir, '*', true, false );
 
 		if(!$parent_page_data) {
@@ -1377,12 +1379,12 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Site_Abstract $site
+	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 *
 	 * @return Data_Tree
 	 */
-	public static function loadPages( Mvc_Site_Abstract $site, Locale $locale ) {
+	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) {
 
 		$key = $site->getID().':'.$locale;
 
@@ -1398,10 +1400,10 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Page_Abstract $page
+	 * @param Mvc_Page_Interface $page
 	 * @param $data
 	 */
-	protected function _getAllPagesTree( Mvc_Page_Abstract $page, &$data ) {
+	protected function _getAllPagesTree( Mvc_Page_Interface $page, &$data ) {
 		$data[$page->getID()->toString()] = [
 			'ID' => $page->getID()->toString(),
 			'parent_ID' => $page->getParent()->getID()->toString(),
@@ -1449,12 +1451,12 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @param Mvc_Site_Abstract $site
+	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 * @param string $relative_URI
-	 * @return Mvc_Page_Abstract|null
+	 * @return Mvc_Page_Interface|null
 	 */
-	public function getByRelativeURI( Mvc_Site_Abstract $site, Locale $locale, $relative_URI ) {
+	public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI ) {
 		static::loadPages($site, $locale);
 
 		if(!isset(static::$relative_URIs_map[$relative_URI])) {
@@ -1472,7 +1474,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	 *
 	 * @param Mvc_Page_ID_Abstract $ID
 	 *
-	 * @return Mvc_Page_Abstract|null
+	 * @return Mvc_Page_Interface|null
 	 *
 	 * @throws DataModel_Exception
 	 */
@@ -1507,7 +1509,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 	}
 
 	/**
-	 * @return Mvc_Page_Abstract[]
+	 * @return Mvc_Page_Interface[]
 	 */
 	public function getChildren() {
 		return $this->_children;
@@ -1820,7 +1822,7 @@ class Mvc_Page extends Mvc_Page_Abstract {
 
 
 	/**
-	 * @return Mvc_Page_Content_Abstract
+	 * @return Mvc_Page_Content_Interface
 	 */
 	public function getCurrentContent()
 	{

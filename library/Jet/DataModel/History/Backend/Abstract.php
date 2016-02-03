@@ -54,12 +54,12 @@ abstract class DataModel_History_Backend_Abstract extends Object {
 	abstract function initialize();
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 * @param string $operation
 	 *
 	 * @return
 	 */
-	abstract function operationStart( DataModel $data_model, $operation );
+	abstract function operationStart( DataModel_Interface $data_model, $operation );
 
 	/**
 	 *

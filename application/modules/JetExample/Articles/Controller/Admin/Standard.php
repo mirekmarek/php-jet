@@ -16,7 +16,7 @@ use Jet\Mvc;
 use Jet\Mvc_MicroRouter;
 use Jet\Mvc_Router_Abstract;
 use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_Page_Content_Abstract;
+use Jet\Mvc_Page_Content_Interface;
 use Jet\Http_Headers;
 use Jet\Tr;
 use Jet\Http_Request;
@@ -110,10 +110,10 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 
 
     /**
-     * @param Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Interface $page_content
      * @return bool
      */
-    public function parseRequestURL_Admin( Mvc_Page_Content_Abstract $page_content=null ) {
+    public function parseRequestURL_Admin( Mvc_Page_Content_Interface $page_content=null ) {
 
         $router = $this->getStandardAdminMicroRouter( Mvc::getCurrentRouter() );
 

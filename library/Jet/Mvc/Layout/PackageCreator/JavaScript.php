@@ -78,7 +78,10 @@ class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_Jav
 		$package_path = $this->getPackagePath();
 		$package_data_path = $this->getPackageDataPath();
 
-		if(!IO_File::exists($package_path)) {
+		if(
+            !IO_File::exists($package_path) ||
+            !IO_File::exists($package_data_path)
+        ) {
 
 			IO_File::write(
 				$package_path,

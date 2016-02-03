@@ -15,5 +15,4 @@ return [
 
 	'require' => ['Vendor.Package.TestModule'],
 
-	'factory_overload_map' => []
 ];

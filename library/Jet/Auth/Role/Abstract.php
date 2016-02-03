@@ -25,6 +25,7 @@ namespace Jet;
  * @JetDataModel:name = 'role'
  * @JetDataModel:ID_class_name = 'DataModel_ID_Name'
  */
+//TODO: predelat na interface
 abstract class Auth_Role_Abstract extends DataModel {
 
 	/**

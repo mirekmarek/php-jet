@@ -49,7 +49,7 @@ class Mvc_Page_ID extends Mvc_Page_ID_Abstract {
 	 * @return Mvc_Site_ID_Abstract
 	 */
 	public function getSiteID() {
-		return Mvc_Factory::getSiteIDInstance()->createID( $this->values['site_ID'] );
+		return Mvc_Factory::getSiteInstance()->getEmptyIDInstance()->createID( $this->values['site_ID'] );
 	}
 
 	/**

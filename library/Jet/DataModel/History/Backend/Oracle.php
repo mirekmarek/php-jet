@@ -49,10 +49,10 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 	}
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 * @param string $operation
 	 */
-	public function operationStart( DataModel $data_model, $operation ) {
+	public function operationStart( DataModel_Interface $data_model, $operation ) {
 		$this->_current_operation_ID = $this->generateOperationID();
 		$this->_current_data_model = $data_model;
 

@@ -19,11 +19,12 @@ namespace Jet;
 
 /**
  *
+ * @JetDataModel:name = 'site_localized_data_URL'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_URLs'
- * @JetDataModel:parent_model_class_name = 'Mvc_Site_LocalizedData'
+ * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-class Mvc_Site_LocalizedData_URL extends Mvc_Site_LocalizedData_URL_Abstract {
+class Mvc_Site_LocalizedData_URL extends DataModel_Related_1toN implements Mvc_Site_LocalizedData_URL_Interface {
 
 	/**
 	 *
@@ -89,6 +90,13 @@ class Mvc_Site_LocalizedData_URL extends Mvc_Site_LocalizedData_URL_Abstract {
 		parent::__construct();
 	}
 
+    /**
+     * @return string
+     */
+    public function  __toString() {
+        return $this->toString();
+    }
+
 	/**
 	 * @param string $site_ID
 	 */
@@ -118,14 +126,6 @@ class Mvc_Site_LocalizedData_URL extends Mvc_Site_LocalizedData_URL_Abstract {
     {
         return $this->locale;
     }
-
-
-	/**
-	 * @return string
-	 */
-	public function  __toString() {
-		return $this->toString();
-	}
 
 	/**
 	 * @return string

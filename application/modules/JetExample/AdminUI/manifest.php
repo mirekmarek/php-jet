@@ -11,8 +11,6 @@ return [
 
 	'require' => [],
 
-	'factory_overload_map' => [],
-
 	'signals_callbacks' => [
 		'/test/received' => 'testReceived',
 		'/test/multiple' => [

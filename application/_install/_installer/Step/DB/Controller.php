@@ -73,6 +73,8 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 		$form = $connection_config->getCommonForm();
 
 		if( $connection_config->catchForm($form) ) {
+            var_dump($connection_config->toArray());
+
 			$this->main_config->addConnection( $connection_config->getName(), $connection_config);
 			$this->main_config->save();
 			Http_Headers::movedTemporary('?test_connection='.$connection_config->getName());

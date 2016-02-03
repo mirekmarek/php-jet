@@ -177,7 +177,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 			new Form_Field_Input('next_string_property', 'Next string property:', 'Next string config value', true),
 		]);
 
-		$this->assertEquals($valid_form,  $this->object->getCommonForm() );
+		$fake = function() {};
+
+		$generated_form = $this->object->getCommonForm();
+
+		foreach($generated_form->getFields() as $field) {
+			$field->setCatchDataCallback($fake);
+		}
+		foreach($valid_form->getFields() as $field) {
+			$field->setCatchDataCallback($fake);
+		}
+
+		$this->assertEquals($valid_form,  $generated_form );
 	}
 
 	/**

@@ -47,7 +47,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			$session->setValue('site', $site);
 		} else {
 			/**
-			 * @var Mvc_Site_Abstract $site
+			 * @var Mvc_Site_Interface $site
 			 */
 			$site = $session->getValue('site');
 		}

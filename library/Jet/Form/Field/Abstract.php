@@ -106,12 +106,17 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * 
 	 * @var string
 	 */
-	protected $validation_regexp = null;
+	protected $validation_regexp;
 
 	/**
 	 * @var callable
 	 */
-	protected $validate_data_callback = null;
+	protected $validate_data_callback;
+
+    /**
+     * @var callable
+     */
+    protected $catch_data_callback;
 
 	/**
 	 * @var array
@@ -307,7 +312,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 			foreach($default_value as $k=>$v) {
 				if(
 					is_object($v) &&
-					$v instanceof DataModel
+					$v instanceof DataModel_Interface
 				) {
 					/**
 					 * @var DataModel $v
@@ -491,6 +496,37 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	public function isValid() {
 		return $this->_is_valid;
 	}
+
+    /**
+     * @param callable $catch_data_callback
+     */
+    public function setCatchDataCallback( callable $catch_data_callback)
+    {
+        $this->catch_data_callback = $catch_data_callback;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getCatchDataCallback()
+    {
+        return $this->catch_data_callback;
+    }
+
+    /**
+     * @return bool
+     */
+    public function catchData() {
+        if( !($callback=$this->getCatchDataCallback()) ) {
+            return false;
+        }
+
+        $callback( $this->getValue() );
+
+        return true;
+    }
+
+
 	
 	/**
 	 * return last error key (key = this->error_messages hash key)

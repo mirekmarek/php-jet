@@ -13,9 +13,6 @@ return [
 		'JetExample.UIElements'
 	],
 
-	'factory_overload_map' => [
-	],
-
 	'signals_callbacks' => [],
 
 ];

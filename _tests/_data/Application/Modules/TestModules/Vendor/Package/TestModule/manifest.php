@@ -13,10 +13,6 @@ return [
 
 	'require' => [],
 
-	'factory_overload_map' => [
-
-	],
-
 	'signals_callbacks' => [
 		'/test/ack' => 'testAck',
 	]

@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-interface DataModel_Related_Interface extends Object_Serializable_REST {
+interface DataModel_Related_Interface {
 
 	/**
 	 * @return DataModel_Related_Interface
@@ -25,11 +25,11 @@ interface DataModel_Related_Interface extends Object_Serializable_REST {
 
 
 	/**
-	 * @param DataModel $main_model_instance
-	 * @param DataModel_Related_Abstract $parent_model_instance (optional)
+	 * @param DataModel_Interface $main_model_instance
+	 * @param DataModel_Related_Interface $parent_model_instance (optional)
 	 *
 	 */
-	public function setupParentObjects( DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance=null );
+	public function setupParentObjects( DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance=null );
 
 	/**
 	 * @return array

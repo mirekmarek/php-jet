@@ -24,7 +24,7 @@ use Jet\Http_Request;
 use Jet\Mvc;
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_MicroRouter;
-use Jet\Mvc_Page_Content_Abstract;
+use Jet\Mvc_Page_Content_Interface;
 use Jet\Tr;
 use JetApplicationModule\JetExample\UIElements;
 
@@ -111,11 +111,11 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 
     /**
-     * @param Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Interface $page_content
      *
      * @return bool
      */
-    public function parseRequestURL( Mvc_Page_Content_Abstract $page_content=null ) {
+    public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
         $router = $this->getMicroRouter();
 
         return $router->resolve( $page_content );

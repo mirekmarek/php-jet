@@ -190,6 +190,7 @@ abstract class Config_Definition_Property_Abstract extends Object implements For
 	 */
 	public function setIsRequired($is_required) {
 		$this->is_required = $is_required;
+		$this->form_field_is_required = $is_required;
 	}
 
 	/**

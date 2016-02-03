@@ -11,7 +11,7 @@
 namespace JetApplicationModule\JetExample\Articles;
 use Jet;
 use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_Page_Content_Abstract;
+use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 use Jet\Data_Paginator;
 
@@ -40,11 +40,11 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
 	}
 
     /**
-     * @param Mvc_Page_Content_Abstract $page_content
+     * @param Mvc_Page_Content_Interface $page_content
      *
      * @return bool
      */
-    public function parseRequestURL_Public( Mvc_Page_Content_Abstract $page_content ) {
+    public function parseRequestURL_Public( Mvc_Page_Content_Interface $page_content ) {
 
         $router = Mvc::getCurrentRouter();
 

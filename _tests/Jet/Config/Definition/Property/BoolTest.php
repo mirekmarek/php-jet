@@ -108,17 +108,20 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 		$field->__test_set_state([
 			'_type' => 'Checkbox',
 			'_name' => 'BoolTest',
-			'_value' => true,
+			'_value' => '1',
 			'_value_raw' => true,
 			'default_value' => $this->default_value,
 			'label' => 'Form field label',
-			'is_required' => false,
+			'is_required' => true,
 			'select_options' =>
 			[
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->createFormField());
+		$property = &$this->default_value;
+
+
+		$this->assertEquals($field, $this->object->createFormField( $property ));
 	}
 
 

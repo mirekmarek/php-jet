@@ -356,7 +356,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 		foreach( $properties_list as $property_name ) {
 
 			$property_definition = $properties_definition[$property_name];
-			$property = $this->{$property_name};
+			$property = &$this->{$property_name};
 
 			if( ($field_creator_method_name = $property_definition->getFormFieldCreatorMethodName()) ) {
 				$created_field = $this->{$field_creator_method_name}( $property_definition );
@@ -368,13 +368,17 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 				continue;
 			}
 
-			if(is_array($created_field)) {
-				foreach( $created_field as $f ) {
-					$form_fields[] = $f;
-				}
-			} else {
-				$form_fields[] = $created_field;
-			}
+            $key = $created_field->getName();
+
+            $created_field->setCatchDataCallback( function( $value ) use ($property_definition, &$property, $key) {
+
+                $property_definition->catchFormField( $this, $property, $value );
+
+                $this->_config_data->set($key, $value);
+
+            } );
+
+            $form_fields[] = $created_field;
 
 
 		}
@@ -400,31 +404,8 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 			return false;
 		}
 
-		$data = $form->getValues();
+        return $form->catchData();
 
-		$properties = $this->getPropertiesDefinition();
-
-		foreach( $data as $key=>$val ) {
-
-			if( !isset($properties[$key]) ) {
-				continue;
-			}
-
-
-			$properties[$key]->checkValueType($val);
-
-			$setter_method_name = $this->getSetterMethodName( $key );
-
-			if(method_exists($this, $setter_method_name)) {
-				$this->{$setter_method_name}($val);
-			} else {
-				$this->{$key} = $val;
-			}
-
-			$this->_config_data->set($key, $this->{$key});
-		}
-
-		return true;
 	}
 
 	/**

@@ -22,7 +22,7 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 
 	/**
 	 *
-	 * @var Mvc_Page_Abstract
+	 * @var Mvc_Page_Interface
 	 */
 	protected $page = null;
 
@@ -45,9 +45,9 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 	protected $is_last = false;
 
 	/**
-	 * @param Mvc_Page_Abstract $page
+	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage( Mvc_Page_Abstract $page ) {
+	public function setPage( Mvc_Page_Interface $page ) {
 		$this->page = $page;
 		$this->URI = $page->getURI();
 		$this->title = $page->getBreadcrumbTitle();
@@ -55,7 +55,7 @@ abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
 
     /**
      *
-     * @return Mvc_Page_Abstract|null
+     * @return Mvc_Page_Interface|null
      */
     public function getPage() {
         return $this->page;

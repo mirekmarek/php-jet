@@ -13,45 +13,7 @@
  */
 namespace Jet;
 
-class Form_Factory extends Factory {
-	/**
-	 * @var string
-	 */
-	protected static $form_field_class_name_prefix = 'Form_Field_';
-
-	/**
-	 * @var string
-	 */
-	protected static $form_decorator_class_name_prefix = 'Form_Decorator_';
-
-
-	/**
-	 * @param string $form_field_class_name_prefix
-	 */
-	public static function setFormFieldClassNamePrefix($form_field_class_name_prefix) {
-		static::$form_field_class_name_prefix = $form_field_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getFormFieldClassNamePrefix() {
-		return static::$form_field_class_name_prefix;
-	}
-
-	/**
-	 * @param string $form_decorator_class_name_prefix
-	 */
-	public static function setFormDecoratorClassNamePrefix($form_decorator_class_name_prefix) {
-		static::$form_decorator_class_name_prefix = $form_decorator_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getFormDecoratorClassNamePrefix() {
-		return static::$form_decorator_class_name_prefix;
-	}
+class Form_Factory {
 
 	/**
 	 *
@@ -84,10 +46,9 @@ class Form_Factory extends Factory {
 			);
 		}
 
-		$default_class_name = static::$form_field_class_name_prefix.$type;
+		$class_name = JET_FORM_FIELD_CLASS_NAME_PREFIX.$type;
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name(
+		return new $class_name(
 			$name,
 			$label,
 			$default_value,
@@ -95,8 +56,6 @@ class Form_Factory extends Factory {
 			$validation_regexp,
 			$error_messages
 		);
-		//static::checkInstance( $default_class_name, $instance);
-		return $instance;
 	}
 
 	/**
@@ -114,12 +73,9 @@ class Form_Factory extends Factory {
 		Form $form,
 		Form_Field_Abstract $field
 	) {
-		$default_class_name = static::$form_decorator_class_name_prefix.$decorator.'_'.$field_type;
+		$class_name = JET_FORM_DECORATOR_CLASS_NAME_PREFIX.$decorator.'_'.$field_type;
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name($form, $field);
-		//static::checkInstance( $default_class_name, $instance);
-		return $instance;
+		return new $class_name($form, $field);
 	}
 
 
@@ -145,24 +101,6 @@ class Form_Factory extends Factory {
 								array $error_messages = []
 							) {
 		return static::getFieldInstance($type, $name, $label, $default_value, $required, $validation_regexp, $error_messages);
-	}
-
-	/**
-	 *
-	 * @param string $type
-	 * @param string $class_name
-	 */
-	public static function setFieldClass( $type, $class_name ) {
-		static::setClassName( static::$form_field_class_name_prefix.$type, $class_name );
-	}
-
-	/**
-	 *
-	 * @param string $type
-	 * @param string $class_name
-	 */
-	public static function setDecoratorClass( $type, $class_name ) {
-		static::setClassName( static::$form_decorator_class_name_prefix.$type, $class_name );
 	}
 
 }

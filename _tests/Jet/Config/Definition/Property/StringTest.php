@@ -154,8 +154,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	 */
 	public function testSetGetFormFieldType() {
 		$this->assertEquals( $this->property_default_form_field_type, $this->object->getFormFieldType() );
-		$this->object->setFormFieldType('Select');
-		$this->assertEquals( 'Select', $this->object->getFormFieldType() );
+		$this->object->setFormFieldType(Form::TYPE_SELECT);
+		$this->assertEquals( Form::TYPE_SELECT, $this->object->getFormFieldType() );
 	}
 
 	/**
@@ -244,7 +244,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->createFormField());
+		$property = &$this->default_value;
+
+		$this->assertEquals($field, $this->object->createFormField($property));
 	}
 
 	/**

@@ -185,7 +185,9 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 			],
 		]);
 
-		$this->assertEquals($field, $this->object->createFormField());
+		$property = &$this->default_value;
+
+		$this->assertEquals($field, $this->object->createFormField( $property ));
 	}
 
 

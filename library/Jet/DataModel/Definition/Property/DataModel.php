@@ -61,11 +61,11 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 	/**
 	 * @param &$property
-	 * @param DataModel $data_model_instance
+	 * @param DataModel_Interface $data_model_instance
 	 */
 	public function initPropertyDefaultValue(
 		&$property,
-		DataModel $data_model_instance
+        DataModel_Interface $data_model_instance
 	) {
         $property = $this->getDefaultValue();
 		$property->setupParentObjects( $data_model_instance );
@@ -77,12 +77,12 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
      *
      * Example: Locale to string
      *
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      * @param mixed &$property
      *
      * @return mixed
      */
-    public function getValueForJsonSerialize( DataModel $data_model_instance, &$property ) {
+    public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property ) {
         if(!$property) {
             return null;
         }
@@ -165,7 +165,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 * @return string
 	 */
 	public function getValueDataModelClass() {
-		return Factory::getClassName($this->data_model_class);
+		return $this->data_model_class;
 	}
 
     /**
@@ -179,11 +179,11 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 
     /**
-     * @param DataModel $object_instance
+     * @param $object_instance
      * @param mixed &$property
      * @param mixed $value
      */
-    public function catchFormField(DataModel $object_instance, &$property, $value ) {
+    public function catchFormField( $object_instance, &$property, $value ) {
 
         if( ($method_name = $this->getFormCatchValueMethodName()) ) {
             $object_instance->{$method_name}($value);

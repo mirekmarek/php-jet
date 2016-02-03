@@ -20,10 +20,13 @@ namespace Jet;
 /**
  * Class Mvc_Page_MetaTag
  *
+ * @JetDataModel:name = 'page_meta_tag'
+ * @JetDataModel:parent_model_class_name = 'Mvc_Page'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_MetaTags'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page'
  */
-class Mvc_Page_MetaTag extends Mvc_Page_MetaTag_Abstract {
+class Mvc_Page_MetaTag extends DataModel_Related_1toN implements Mvc_Page_MetaTag_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.site_ID'
@@ -80,6 +83,28 @@ class Mvc_Page_MetaTag extends Mvc_Page_MetaTag_Abstract {
 	 */
 	protected $content = '';
 
+    /**
+     * @param string $content (optional)
+     * @param string $attribute (optional)
+     * @param string $attribute_value (optional)
+     */
+    public function __construct($content='', $attribute='', $attribute_value='') {
+
+        if($content) {
+            $this->setContent( $content );
+            $this->setAttribute( $attribute );
+            $this->setAttributeValue( $attribute_value );
+        }
+
+        parent::__construct();
+    }
+
+    /**
+     * @return string
+     */
+    public function  __toString() {
+        return $this->toString();
+    }
 
 	/**
 	 * @return string

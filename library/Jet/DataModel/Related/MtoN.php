@@ -27,7 +27,8 @@ namespace Jet;
  *
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
+abstract class DataModel_Related_MtoN extends Object implements DataModel_Related_Interface, DataModel_Interface {
+    use DataModel_Related_Trait;
 
 	/**
 	 * @return DataModel_Related_Interface
@@ -50,12 +51,12 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 
 
 	/**
-	 * @param DataModel $main_model_instance
-	 * @param DataModel_Related_Abstract $parent_model_instance (optional)
+	 * @param DataModel_Interface $main_model_instance
+	 * @param DataModel_Related_Interface $parent_model_instance (optional)
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setupParentObjects(DataModel $main_model_instance, DataModel_Related_Abstract $parent_model_instance = null)
+	public function setupParentObjects(DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance = null)
 	{
 
 		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
@@ -305,9 +306,9 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	}
 
 	/**
-	 * @param DataModel $M_instance
+	 * @param DataModel_Interface $M_instance
 	 */
-	public function _setMDataModelInstance( DataModel $M_instance ) {
+	public function _setMDataModelInstance( DataModel_Interface $M_instance ) {
 
 		$this_M_instance = &DataModel_ObjectState::getVar($this, 'M_instance' );
 		$this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID' );
@@ -351,9 +352,9 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	}
 
 	/**
-	 * @param DataModel $N_instance
+	 * @param DataModel_Interface $N_instance
 	 */
-	public function _setNDataModelInstance( DataModel $N_instance ) {
+	public function _setNDataModelInstance( DataModel_Interface $N_instance ) {
 		$this_N_instance = &DataModel_ObjectState::getVar($this, 'N_instance' );
 		$this_N_ID = &DataModel_ObjectState::getVar($this, 'N_ID' );
 
@@ -403,7 +404,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 
 			$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
 
-			$n_class_name = Factory::getClassName(  $this_N_model_class_name  );
+			$n_class_name = $this_N_model_class_name;
 
 			/** @noinspection PhpUndefinedMethodInspection */
 			$this_N_instance = $n_class_name::load($this->getNID());
@@ -432,7 +433,7 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 			$N_ID_properties = $data_model_definition->getRelationIDProperties($this_N_model_name);
 
 			$this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
-			$n_class_name = Factory::getClassName(  $this_N_model_class_name  );
+			$n_class_name = $this_N_model_class_name;
 
 			/**
 			 * @var DataModel $N_model_instance
@@ -513,5 +514,34 @@ abstract class DataModel_Related_MtoN extends DataModel_Related_Abstract {
 	{
 		return true;
 	}
+
+
+    /**
+     *
+     */
+    public function afterLoad() {
+
+    }
+
+    /**
+     *
+     */
+    public function afterAdd() {
+
+    }
+
+    /**
+     *
+     */
+    public function afterUpdate() {
+
+    }
+
+    /**
+     *
+     */
+    public function afterDelete() {
+
+    }
 
 }

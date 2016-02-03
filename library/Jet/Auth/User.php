@@ -184,9 +184,9 @@ class Auth_User extends Auth_User_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Auth_User_Roles'
+	 * @JetDataModel:data_model_class = JET_AUTH_USER_ROLES_CLASS
 	 * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
-	 * @JetDataModel:form_field_type = 'MultiSelect'
+	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
 	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Auth', 'getRolesList']
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'

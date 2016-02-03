@@ -19,10 +19,12 @@ namespace Jet;
 
 /**
  *
+ * @JetDataModel:name = 'site_localized_data_meta_tag'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_MetaTags'
- * @JetDataModel:parent_model_class_name = 'Mvc_Site_LocalizedData'
+ * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Mvc_Site_LocalizedData_MetaTag extends Mvc_Site_LocalizedData_MetaTag_Abstract {
+class Mvc_Site_LocalizedData_MetaTag extends DataModel_Related_1toN implements Mvc_Site_LocalizedData_MetaTag_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
@@ -74,6 +76,28 @@ class Mvc_Site_LocalizedData_MetaTag extends Mvc_Site_LocalizedData_MetaTag_Abst
 	 * @var string
 	 */
 	protected $content = '';
+
+    /**
+     * @param string $content (optional)
+     * @param string $attribute (optional)
+     * @param string $attribute_value (optional)
+     */
+    public function __construct($content='', $attribute='', $attribute_value='') {
+        if($content) {
+            $this->setContent( $content );
+            $this->setAttribute( $attribute );
+            $this->setAttributeValue( $attribute_value );
+        }
+
+        parent::__construct();
+    }
+
+    /**
+     * @return string
+     */
+    public function  __toString() {
+        return $this->toString();
+    }
 
 
 	/**

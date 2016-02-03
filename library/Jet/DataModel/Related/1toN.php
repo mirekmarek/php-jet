@@ -25,7 +25,8 @@ namespace Jet;
 /**
  * Class DataModel_Related_1toN
  */
-abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
+abstract class DataModel_Related_1toN extends Object implements DataModel_Related_Interface, DataModel_Interface {
+    use DataModel_Related_Trait;
 
 
 	/**
@@ -103,7 +104,7 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 		 */
 		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 		/**
-		 * @var DataModel_Related_Abstract $this_parent_model_instance
+		 * @var DataModel_Related_Interface|DataModel_Interface $this_parent_model_instance
 		 */
 		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 
@@ -201,5 +202,34 @@ abstract class DataModel_Related_1toN extends DataModel_Related_Abstract {
 	public function catchRelatedForm( array $values ) {
 		return false;
 	}
+
+
+    /**
+     *
+     */
+    public function afterLoad() {
+
+    }
+
+    /**
+     *
+     */
+    public function afterAdd() {
+
+    }
+
+    /**
+     *
+     */
+    public function afterUpdate() {
+
+    }
+
+    /**
+     *
+     */
+    public function afterDelete() {
+
+    }
 
 }

@@ -21,12 +21,15 @@ class DataModel_ObjectState extends Object {
 	protected static $data = [];
 
 	/**
-	 * @param \Jet\Object $instance
+	 * @param $instance
 	 * @param string $key
 	 * @param mixed $default_value (optional)
 	 * @return  &mixed
 	 */
-	public static function &getVar( Object $instance, $key, $default_value=null ) {
+	public static function &getVar( $instance, $key, $default_value=null ) {
+        /**
+         * @var Object $instance
+         */
 
 		$object_key = $instance->getObjectIdentificationKey();
 
@@ -42,11 +45,14 @@ class DataModel_ObjectState extends Object {
 	}
 
 	/**
-	 * @param $instance
+     * @param $instance
 	 */
-	public static function destruct( Object $instance ) {
+	public static function destruct( $instance ) {
+        /**
+         * @var Object $instance
+         */
 
-		$object_key = $instance->getObjectIdentificationKey();
+        $object_key = $instance->getObjectIdentificationKey();
 
 		if(array_key_exists($object_key, static::$data)) {
 			unset(static::$data[$object_key]);

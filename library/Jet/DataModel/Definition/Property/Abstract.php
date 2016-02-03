@@ -297,12 +297,12 @@ abstract class DataModel_Definition_Property_Abstract extends Object implements 
 
     /**
      * @param &$property
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      */
 	public function initPropertyDefaultValue(
 		&$property,
 		/** @noinspection PhpUnusedParameterInspection */
-		DataModel $data_model_instance
+        DataModel_Interface $data_model_instance
 	) {
 
         if($property===null) {
@@ -403,24 +403,24 @@ abstract class DataModel_Definition_Property_Abstract extends Object implements 
      *
      * Example: Locale to string
      *
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      * @param mixed &$property
      *
      * @return mixed
      */
-	public function getValueForJsonSerialize( /** @noinspection PhpUnusedParameterInspection */ DataModel $data_model_instance, &$property ) {
+	public function getValueForJsonSerialize( /** @noinspection PhpUnusedParameterInspection */ DataModel_Interface $data_model_instance, &$property ) {
 		return $property;
 	}
 
 
     /**
      *
-     * @param DataModel $data_model_instance
+     * @param DataModel_Interface $data_model_instance
      * @param mixed &$property
      *
      * @return mixed
      */
-    public function getXmlExportValue( /** @noinspection PhpUnusedParameterInspection */DataModel $data_model_instance, &$property ) {
+    public function getXmlExportValue( /** @noinspection PhpUnusedParameterInspection */DataModel_Interface $data_model_instance, &$property ) {
         return $property;
     }
 

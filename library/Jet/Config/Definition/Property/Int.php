@@ -61,6 +61,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 	 */
 	public function setMinValue($min_value) {
 		$this->min_value = (int)$min_value;
+		$this->form_field_min_value = $this->min_value;
 	}
 
 	/**
@@ -75,6 +76,7 @@ class Config_Definition_Property_Int extends Config_Definition_Property_Abstract
 	 */
 	public function setMaxValue($max_value) {
 		$this->max_value = (int)$max_value;
+		$this->form_field_max_value = $this->max_value;
 	}
 
 	/**

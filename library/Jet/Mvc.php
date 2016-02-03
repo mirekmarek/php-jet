@@ -31,7 +31,7 @@ class Mvc {
 
 
 	/**
-	 * @var Mvc_Site_Abstract
+	 * @var Mvc_Site_Interface
 	 */
 	protected static $current_site;
 
@@ -41,7 +41,7 @@ class Mvc {
 	protected static $current_locale;
 
 	/**
-	 * @var Mvc_Page_Abstract
+	 * @var Mvc_Page_Interface
 	 */
 	protected static $current_page;
 
@@ -68,16 +68,16 @@ class Mvc {
 
 
 	/**
-	 * @param Mvc_Site_Abstract $current_site
+	 * @param Mvc_Site_Interface $current_site
 	 */
-	public static function setCurrentSite( Mvc_Site_Abstract $current_site)
+	public static function setCurrentSite( Mvc_Site_Interface $current_site)
 	{
 		self::$current_site = $current_site;
 	}
 
 	/**
 	 *
-	 * @return Mvc_Site_Abstract
+	 * @return Mvc_Site_Interface
 	 */
 	public static function getCurrentSite()
 	{
@@ -103,9 +103,9 @@ class Mvc {
 	}
 
 	/**
-	 * @param Mvc_Page_Abstract $current_page
+	 * @param Mvc_Page_Interface $current_page
 	 */
-	public static function setCurrentPage( Mvc_Page_Abstract $current_page )
+	public static function setCurrentPage( Mvc_Page_Interface $current_page )
 	{
 		self::$current_page = $current_page;
 	}
@@ -121,7 +121,7 @@ class Mvc {
 	/**
 	 *
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	public static function getCurrentPage()
 	{

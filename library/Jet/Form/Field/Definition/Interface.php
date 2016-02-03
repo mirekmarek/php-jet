@@ -20,6 +20,16 @@ interface Form_Field_Definition_Interface
 	/**
 	 * @return string
 	 */
+	public function getFormFieldType();
+
+	/**
+	 * @param string $type
+	 */
+	public function setFormFieldType( $type );
+
+	/**
+	 * @return string
+	 */
 	public function getFormFieldName();
 
 	/**
@@ -31,11 +41,6 @@ interface Form_Field_Definition_Interface
 	 * @return string
 	 */
 	public function getFormFieldContextPropertyName();
-
-		/**
-	 * @return string
-	 */
-	public function getFormFieldType();
 
 	/**
 	 * @param string $form_field_creator_method_name
@@ -91,14 +96,33 @@ interface Form_Field_Definition_Interface
 	public function getFormFieldMaxValue();
 
 	/**
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function setFormFieldOptions( array $options );
+
+	/**
 	 * @return array
 	 */
 	public function getFormFieldOptions();
+
+
+	/**
+	 * @param string $label
+	 *
+	 */
+	public function setFormFieldLabel( $label );
 
 	/**
 	 * @return string
 	 */
 	public function getFormFieldLabel();
+
+	/**
+	 * @param array $messages
+	 *
+	 */
+	public function setFormFieldErrorMessages( array $messages );
 
 	/**
 	 * @return array
@@ -122,10 +146,10 @@ interface Form_Field_Definition_Interface
 	public function createFormField( $property_value );
 
 	/**
-	 * @param \Jet\Object $object_instance
+	 * @param $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */
-	public function catchFormField(Object $object_instance, &$property, $value );
+	public function catchFormField( $object_instance, &$property, $value );
 
 }

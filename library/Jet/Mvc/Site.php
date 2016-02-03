@@ -42,10 +42,11 @@ namespace Jet;
 
 /**
  *
+ * @JetDataModel:name = 'site'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
- * @JetDataModel:ID_class_name = 'Mvc_Site_ID'
+ * @JetDataModel:ID_class_name = JET_MVC_SITE_ID_CLASS
  */
-class Mvc_Site extends Mvc_Site_Abstract {
+class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	const SITE_DATA_FILE_NAME = 'site_data.php';
 	const URL_MAP_FILE_NAME = 'urls_map.php';
 	const PAGES_DIR = 'pages';
@@ -102,30 +103,30 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Mvc_Site_LocalizedData'
+	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_CLASS
 	 *
-	 * @var Mvc_Site_LocalizedData_Abstract[]
+	 * @var Mvc_Site_LocalizedData_Interface[]
 	 */
 	protected $localized_data;
 
 	/**
-	 * @var array|Mvc_Site_LocalizedData_URL_Abstract[]
+	 * @var array|Mvc_Site_LocalizedData_URL_Interface[]
 	 */
 	protected static $URL_map;
 
 	/**
-	 * @var array|Mvc_Site_Abstract[]
+	 * @var array|Mvc_Site_Interface[]
 	 */
 	protected static $_loaded = [];
 
 	/**
 	 * Returns a list of all sites
 	 *
-	 * @return Mvc_Site_Abstract[]
+	 * @return Mvc_Site_Interface[]
 	 */
 	public static function getList() {
 
-		$site = Mvc_Factory::getSiteInstance();
+		$site = new static();
 
 		return $site->_getList();
 	}
@@ -138,7 +139,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	 * @see Mvc_Site_Factory
 	 *
 	 * @param Mvc_Site_ID_Abstract|string $ID
-	 * @return Mvc_Site_Abstract
+	 * @return Mvc_Site_Interface
 	 */
 	public static function get( $ID ) {
 
@@ -146,7 +147,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 
 		if(!isset(static::$_loaded[$ID_s])) {
 			if(is_string($ID)) {
-				$ID = Mvc_Factory::getSiteIDInstance()->createID( $ID );
+				$ID = static::getEmptyIDInstance()->createID( $ID );
 			}
 
 			static::load( $ID );
@@ -195,7 +196,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 		} else {
 			foreach( $sites as $site ) {
 				/**
-				 * @var Mvc_Site_Abstract $site
+				 * @var Mvc_Site_Interface $site
 				 */
 				foreach( $site->getLocales(false) as $locale ) {
 					$locales[(string)$locale] = $locale;
@@ -307,7 +308,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	/**
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_Abstract
+	 * @return Mvc_Site_LocalizedData_Interface
 	 */
 	public function getLocalizedData( Locale $locale ) {
 		return $this->localized_data[$locale->toString()];
@@ -317,7 +318,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Abstract[]
+	 * @return Mvc_Site_LocalizedData_URL_Interface[]
 	 */
 	public function getURLs( Locale $locale ) {
 		return $this->localized_data[(string)$locale]->getURLs();
@@ -358,7 +359,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Abstract
+	 * @return Mvc_Site_LocalizedData_URL_Interface
 	 */
 	public function getDefaultURL( Locale $locale ) {
 
@@ -382,7 +383,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Abstract
+	 * @return Mvc_Site_LocalizedData_URL_Interface
 	 */
 	public function getDefaultSslURL( Locale $locale ) {
 		return $this->localized_data[(string)$locale]->getDefaultSslURL();
@@ -392,7 +393,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	/**
 	 *
 	 * @param Locale $locale
-	 * @return Mvc_Site_LocalizedData_MetaTag_Abstract[]
+	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
 	 */
 	public function getDefaultMetaTags( Locale $locale ) {
 		return $this->localized_data[(string)$locale]->getDefaultMetaTags();
@@ -400,9 +401,9 @@ class Mvc_Site extends Mvc_Site_Abstract {
 
 	/**
 	 * @param Locale $locale
-	 * @param Mvc_Site_LocalizedData_MetaTag_Abstract $meta_tag
+	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag
 	 */
-	public function addDefaultMetaTag( Locale $locale, Mvc_Site_LocalizedData_MetaTag_Abstract $meta_tag) {
+	public function addDefaultMetaTag( Locale $locale, Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag) {
 		$this->localized_data[(string)$locale]->addDefaultMetaTag($meta_tag);
 	}
 
@@ -416,7 +417,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 
 	/**
 	 * @param Locale $locale
-	 * @param Mvc_Site_LocalizedData_MetaTag_Abstract[] $meta_tags
+	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $meta_tags
 	 */
 	public function  setDefaultMetaTags( Locale $locale, $meta_tags ) {
 		$this->localized_data[(string)$locale]->setDefaultMetaTags( $meta_tags );
@@ -610,7 +611,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	/**
 	 * Returns a list of all sites
 	 *
-	 * @return Mvc_Site_Abstract[]
+	 * @return Mvc_Site_Interface[]
 	 */
 	protected function _getList() {
 		$dirs = IO_Dir::getSubdirectoriesList( JET_SITES_PATH );
@@ -623,7 +624,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 			$sites[ $ID ] = $site;
 		}
 
-		uasort( $sites, function( Mvc_Site_Abstract $site_a, Mvc_Site_Abstract $site_b ) {
+		uasort( $sites, function( Mvc_Site_Interface $site_a, Mvc_Site_Interface $site_b ) {
 			return strcmp( $site_a->getName(), $site_b->getName() );
 		} );
 
@@ -633,7 +634,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	/**
 	 * Returns default site data
 	 *
-	 * @return Mvc_Site_Abstract
+	 * @return Mvc_Site_Interface
 	 */
 	public function getDefault() {
 		$sites = $this->getList();
@@ -697,7 +698,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 			$meta_tags = [];
 
 			foreach($localized_data['default_meta_tags'] as $m_data) {
-				$meta_tags[] = Mvc_Factory::getLocalizedSiteMetaTagInstance( $m_data['content'], $m_data['attribute'], $m_data['attribute_value']);
+				$meta_tags[] = Mvc_Factory::getSiteLocalizedMetaTagInstance( $m_data['content'], $m_data['attribute'], $m_data['attribute_value']);
 			}
 
 			$l_data->setDefaultMetaTags( $meta_tags );
@@ -728,7 +729,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	/**
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	public function getHomepage( Locale $locale ) {
 		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getID() );
@@ -743,7 +744,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 	}
 
 	/**
-	 * @return array|Mvc_Site_LocalizedData_URL_Abstract[]
+	 * @return array|Mvc_Site_LocalizedData_URL_Interface[]
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
@@ -769,7 +770,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 			$site_default_non_SSL_URL = null;
 
 			foreach( $URLs as $URL ) {
-				$URL_i = Mvc_Factory::getLocalizedSiteURLInstance( $URL );
+				$URL_i = Mvc_Factory::getSiteLocalizedURLInstance( $URL );
 				$URL_i->setSiteID($site_ID);
 				$URL_i->setLocale( new Locale($locale_str) );
 
@@ -887,7 +888,7 @@ class Mvc_Site extends Mvc_Site_Abstract {
 
 				foreach( $URLs as $URL ) {
 					/**
-					 * @var Mvc_Site_LocalizedData_URL_Abstract $URL
+					 * @var Mvc_Site_LocalizedData_URL_Interface $URL
 					 */
 					if($URL->getIsSSL()) {
 						$URL = 'SSL:'.$URL;

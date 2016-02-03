@@ -74,6 +74,24 @@ trait Form_Field_Definition_Trait {
 	 */
 	protected $form_field_options = [];
 
+
+	/**
+	 * @return string
+	 */
+	public function getFormFieldType()
+	{
+		return $this->form_field_type;
+	}
+
+
+	/**
+	 * @param string $type
+	 */
+	public function setFormFieldType( $type )
+	{
+		$this->form_field_type = $type;
+	}
+
 	/**
 	 * @param string $form_field_creator_method_name
 	 */
@@ -119,15 +137,6 @@ trait Form_Field_Definition_Trait {
 	}
 
 
-
-	/**
-	 * @return string
-	 */
-	public function getFormFieldType() {
-		return $this->form_field_type;
-	}
-
-
 	/**
 	 * @return bool
 	 */
@@ -156,6 +165,14 @@ trait Form_Field_Definition_Trait {
 	 */
 	public function getFormFieldMaxValue() {
 		return $this->form_field_max_value;
+	}
+
+	/**
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function setFormFieldOptions( array $options ) {
+		$this->form_field_options = $options;
 	}
 
 	/**
@@ -188,11 +205,28 @@ trait Form_Field_Definition_Trait {
 		return $this->form_field_options;
 	}
 
+
+	/**
+	 * @param string $label
+	 */
+	public function setFormFieldLabel( $label ) {
+		$this->form_field_label = $label;
+	}
+
 	/**
 	 * @return string
 	 */
 	public function getFormFieldLabel() {
 		return $this->form_field_label;
+	}
+
+
+	/**
+	 * @param array $messages
+	 *
+	 */
+	public function setFormFieldErrorMessages( array $messages ){
+		$this->form_field_error_messages = $messages;
 	}
 
 	/**
@@ -261,12 +295,13 @@ trait Form_Field_Definition_Trait {
 
 
 	/**
-	 * @param \Jet\Object $object_instance
+	 * @param $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */
-	public function catchFormField(Object $object_instance, &$property, $value ) {
+	public function catchFormField( $object_instance, &$property, $value ) {
 		/**
+         * @var Object $object_instance
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
 

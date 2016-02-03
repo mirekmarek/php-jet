@@ -40,7 +40,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-        $class_name = Factory::getClassName($this->WYSIWYG_editor);
+        $class_name = Object_Reflection::parseClassName($this->WYSIWYG_editor);
 
         /**
          * @var JavaScript_Lib_TinyMCE $WYSIWYG

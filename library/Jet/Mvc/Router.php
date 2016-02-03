@@ -188,7 +188,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 
 
         /**
-         * @var Mvc_Site_LocalizedData_URL_Abstract $current_site_URL
+         * @var Mvc_Site_LocalizedData_URL_Interface $current_site_URL
          */
         $current_site_URL = null;
 
@@ -579,16 +579,16 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	}
 
     /**
-     * @param Mvc_Site_Abstract $site
+     * @param Mvc_Site_Interface $site
      */
-    protected function setSite( Mvc_Site_Abstract $site)
+    protected function setSite( Mvc_Site_Interface $site)
     {
         Mvc::setCurrentSite( $site );
     }
 
 	/**
 	 *
-	 * @return Mvc_Site_Abstract
+	 * @return Mvc_Site_Interface
 	 */
     protected function getSite() {
 		return Mvc::getCurrentSite();
@@ -614,16 +614,16 @@ class Mvc_Router extends Mvc_Router_Abstract {
 
 	/**
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
     protected function getPage() {
 		return Mvc::getCurrentPage();
 	}
 
     /**
-     * @param Mvc_Page_Abstract $page
+     * @param Mvc_Page_Interface $page
      */
-    protected function setPage( Mvc_Page_Abstract $page ) {
+    protected function setPage( Mvc_Page_Interface $page ) {
         Mvc::setCurrentPage( $page );
 	}
 

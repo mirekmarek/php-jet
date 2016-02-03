@@ -93,13 +93,13 @@ class DataModel_RecordData implements \Iterator {
 	/**
 	 * @static
 	 *
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 * @param array $properties_and_values - property_name => value
 	 *
 	 * @throws DataModel_Exception
 	 * @return DataModel_RecordData
 	 */
-	public static function createRecordData( DataModel $data_model, array $properties_and_values ) {
+	public static function createRecordData( DataModel_Interface $data_model, array $properties_and_values ) {
 		$definition = $data_model->getDataModelDefinition();
 		$result = new self( $definition );
 		$properties = $definition->getProperties();

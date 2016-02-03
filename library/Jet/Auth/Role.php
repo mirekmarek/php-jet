@@ -59,7 +59,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Auth_Role_Privilege'
+	 * @JetDataModel:data_model_class = JET_AUTH_ROLE_PRIVILEGE_CLASS
 	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var Auth_Role_Privilege_Abstract[]
@@ -69,7 +69,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Auth_User_Roles'
+	 * @JetDataModel:data_model_class = JET_AUTH_USER_ROLES_CLASS
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Auth_User_Abstract[]
@@ -246,7 +246,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	protected function getForm( $form_name, array $properties_list ) {
+	public function getForm( $form_name, array $properties_list ) {
 		$this->_initPrivileges();
 
 		return parent::getForm($form_name, $properties_list);

@@ -462,6 +462,24 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		return $result;
 	}
 
+    /**
+     *
+     * @return bool
+     */
+    public function catchData() {
+        if(!$this->is_valid) {
+            return false;
+        }
+
+        foreach($this->fields as $field) {
+            if(!$field->catchData()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
 	/**
 	 * replace <jet_form_* magic tags by real HTML in given output of view

@@ -57,43 +57,43 @@ abstract class DataModel_Backend_Abstract extends Object {
 	abstract public function initialize();
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 * @param string|null $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getCreateCommand( DataModel $data_model, $force_table_name=null );
+	abstract public function helper_getCreateCommand( DataModel_Interface $data_model, $force_table_name=null );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 */
-	abstract public function helper_create( DataModel $data_model );
+	abstract public function helper_create( DataModel_Interface $data_model );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getDropCommand( DataModel $data_model );
+	abstract public function helper_getDropCommand( DataModel_Interface $data_model );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 */
-	abstract public function helper_drop( DataModel $data_model );
+	abstract public function helper_drop( DataModel_Interface $data_model );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 *
 	 * @return array
 	 */
-	abstract public function helper_getUpdateCommand( DataModel $data_model );
+	abstract public function helper_getUpdateCommand( DataModel_Interface $data_model );
 
 	/**
-	 * @param DataModel $data_model
+	 * @param DataModel_Interface $data_model
 	 *
 	 * @throws Exception
 	 */
-	abstract public function helper_update( DataModel $data_model );
+	abstract public function helper_update( DataModel_Interface $data_model );
 
 
 	/**

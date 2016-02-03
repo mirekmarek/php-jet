@@ -100,10 +100,10 @@ class Mvc_MicroRouter extends Object {
 
 
 	/**
-	 * @param Mvc_Page_Content_Abstract $page_content
+	 * @param Mvc_Page_Content_Interface $page_content
 	 * @return bool
 	 */
-	public function resolve( Mvc_Page_Content_Abstract $page_content ) {
+	public function resolve( Mvc_Page_Content_Interface $page_content ) {
 
 		if($this->default_action_name) {
 			$action_name = $this->default_action_name;

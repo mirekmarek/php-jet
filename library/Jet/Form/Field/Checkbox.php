@@ -38,11 +38,6 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	 * @return bool
 	 */
 	public function checkValueIsNotEmpty() {
-		if(!$this->_value && $this->is_required) {
-			$this->setValueError('empty');
-			return false;	
-		}
-		
 		return true;
 	}
 

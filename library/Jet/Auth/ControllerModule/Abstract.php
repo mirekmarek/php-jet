@@ -42,7 +42,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	/**
 	 * Returns dispatch queue (example: show login dialog )
 	 *
-	 * @return Mvc_Page_Abstract
+	 * @return Mvc_Page_Interface
 	 */
 	abstract public function getAuthenticationPage();
 
@@ -137,7 +137,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	 * @return Auth_Role_Abstract|null
 	 */
 	public static function getRole( $ID ) {
-		$role_class_name = Auth_Factory::getRoleClassName();
+		$role_class_name = JET_AUTH_USER_CLASS;
 
 		/**
 		 * @var Auth_Role_Abstract $role_class_name
@@ -180,7 +180,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	 * @return Auth_User_Abstract|null
 	 */
 	public static function getUser( $ID ) {
-		$user_class_name = Auth_Factory::getUserClassName();
+		$user_class_name = JET_AUTH_USER_CLASS;
 
 		/**
 		 * @var Auth_User_Abstract $user_class_name

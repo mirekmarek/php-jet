@@ -2,9 +2,6 @@
 /**
  *
  *
- *
- * @see Factory
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -16,87 +13,10 @@
  */
 namespace Jet;
 
-class DataModel_Factory extends Factory {
-	/**
-	 * @var string
-	 */
-	protected static $backend_class_name_prefix = 'DataModel_Backend_';
-
-	/**
-	 * @var string
-	 */
-	protected static $history_backend_class_name_prefix = 'DataModel_History_Backend_';
-
-	/**
-	 * @var string
-	 */
-	protected static $cache_backend_class_name_prefix = 'DataModel_Cache_Backend_';
-
-	/**
-	 * @var string
-	 */
-	protected static $property_definition_class_name_prefix = 'DataModel_Definition_Property_';
-
-	/**
-	 * @param string $backend_class_name_prefix
-	 */
-	public static function setBackendClassNamePrefix($backend_class_name_prefix) {
-		static::$backend_class_name_prefix = $backend_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getBackendClassNamePrefix() {
-		return static::$backend_class_name_prefix;
-	}
-
-	/**
-	 * @param string $cache_backend_class_name_prefix
-	 */
-	public static function setCacheBackendClassNamePrefix($cache_backend_class_name_prefix) {
-		static::$cache_backend_class_name_prefix = $cache_backend_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getCacheBackendClassNamePrefix() {
-		return static::$cache_backend_class_name_prefix;
-	}
-
-	/**
-	 * @param string $history_backend_class_name_prefix
-	 */
-	public static function setHistoryBackendClassNamePrefix($history_backend_class_name_prefix) {
-		static::$history_backend_class_name_prefix = $history_backend_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getHistoryBackendClassNamePrefix() {
-		return static::$history_backend_class_name_prefix;
-	}
-
-	/**
-	 * @param string $property_definition_class_name_prefix
-	 */
-	public static function setPropertyDefinitionClassNamePrefix($property_definition_class_name_prefix) {
-		static::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getPropertyDefinitionClassNamePrefix() {
-		return static::$property_definition_class_name_prefix;
-	}
-
+class DataModel_Factory {
 
 	/**
 	 * Returns instance of Property class
-	 * @see Factory
 	 *
 	 * @param string $data_model_class_name
 	 * @param string $name
@@ -117,19 +37,14 @@ class DataModel_Factory extends Factory {
 
 		}
 
-		$default_class_name = static::$property_definition_class_name_prefix.$definition_data['type'];
+		$class_name = JET_DATA_MODEL_PROPERTY_DEFINITION_CLASS_NAME_PREFIX.$definition_data['type'];
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $data_model_class_name, $name, $definition_data );
-		//static::checkInstance( $default_class_name, $instance );
-		return $instance;
+		return new $class_name( $data_model_class_name, $name, $definition_data );
 	}
 
 
 	/**
 	 * Returns instance of DataModel Backend Config class
-	 *
-	 * @see Factory
 	 *
 	 * @param string $type
 	 * @param bool $soft_mode @see Config
@@ -137,17 +52,13 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Backend_Config_Abstract
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$backend_class_name_prefix.$type.'_Config';
+		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type.'_Config';
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name($soft_mode);
-		//static::checkInstance( $default_class_name, $instance );
-		return $instance;
+		return new $class_name($soft_mode);
 	}
 
 	/**
 	 * Returns instance of DataModel Backend class
-	 * @see Factory
 	 *
 	 * @param string $type
 	 * @param DataModel_Backend_Config_Abstract $backend_config
@@ -155,18 +66,13 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Backend_Abstract
 	 */
 	public static function getBackendInstance( $type, DataModel_Backend_Config_Abstract $backend_config ) {
-		$default_class_name = static::$backend_class_name_prefix.$type;
+		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type;
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $backend_config );
-		//static::checkInstance( $default_class_name, $instance );
-		return $instance;
+		return new $class_name( $backend_config );
 	}
 
 	/**
 	 * Returns instance of DataModel History Backend Config class
-	 *
-	 * @see Factory
 	 *
 	 * @param string $type
 	 * @param bool $soft_mode @see Config
@@ -174,16 +80,13 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Config_Abstract
 	 */
 	public static function getHistoryBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$history_backend_class_name_prefix.$type.'_Config';
+		$class_name = JET_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX.$type.'_Config';
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $soft_mode );
-		//static::checkInstance( $default_class_name, $instance );
-		return $instance;
+		return new $class_name( $soft_mode );
 	}
 
 	/**
-	 * Returns instance of DataModel History Backend class @see Factory
+	 * Returns instance of DataModel History Backend class
 	 *
 	 * @param string $type
 	 * @param DataModel_History_Backend_Config_Abstract $config
@@ -191,23 +94,17 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_History_Backend_Abstract
 	 */
 	public static function getHistoryBackendInstance( $type, DataModel_History_Backend_Config_Abstract $config ) {
-		$default_class_name = static::$history_backend_class_name_prefix.$type;
-
-		$class_name =  static::getClassName( $default_class_name );
+		$class_name = JET_DATA_MODEL_HISTORY_BACKEND_CLASS_NAME_PREFIX.$type;
 
 		/**
 		 * @var DataModel_History_Backend_Abstract $instance
 		 */
-		$instance = new $class_name( $config );
-		//static::checkInstance( $default_class_name, $instance );
-		return $instance;
+		return new $class_name( $config );
 	}
 
 
 	/**
 	 * Returns instance of DataModel Cache Backend Config class
-	 *
-	 * @see Factory
 	 *
 	 * @param string $type
 	 * @param bool $soft_mode @see Config
@@ -215,16 +112,13 @@ class DataModel_Factory extends Factory {
 	 * @return DataModel_Cache_Backend_Config_Abstract
 	 */
 	public static function getCacheBackendConfigInstance( $type, $soft_mode=false ) {
-		$default_class_name = static::$cache_backend_class_name_prefix.$type.'_Config';
+		$class_name = JET_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX.$type.'_Config';
 
-		$class_name =  static::getClassName( $default_class_name );
-		$instance = new $class_name( $soft_mode );
-		//static::checkInstance( $default_class_name, $instance );
-		return $instance;
+		return new $class_name( $soft_mode );
 	}
 
 	/**
-	 * Returns instance of DataModel Class Backend class @see Factory
+	 * Returns instance of DataModel Class Backend class
 	 *
 	 * @param string $type
 	 * @param DataModel_Cache_Backend_Config_Abstract $config
@@ -233,16 +127,11 @@ class DataModel_Factory extends Factory {
 	 */
 	public static function getCacheBackendInstance( $type, DataModel_Cache_Backend_Config_Abstract $config ) {
 
-		$default_class_name = static::$cache_backend_class_name_prefix.$type;
-
-		$class_name =  static::getClassName( $default_class_name );
+		$class_name = JET_DATA_MODEL_CACHE_BACKEND_CLASS_NAME_PREFIX.$type;
 		/**
 		 * @var DataModel_History_Backend_Abstract $instance
 		 */
-		$instance = new $class_name( $config );
-		//static::checkInstance( $default_class_name, $instance );
-
-		return $instance;
+		return new $class_name( $config );
 	}
 
 }

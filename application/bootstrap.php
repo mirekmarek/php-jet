@@ -13,10 +13,14 @@ namespace Jet;
 
 define('JET_CONFIG_ENVIRONMENT', 'development');
 
+require('config/class_names.php');
+
 /** @noinspection PhpIncludeInspection */
 require('config/'.JET_CONFIG_ENVIRONMENT.'/defines.php');
+
 /** @noinspection PhpIncludeInspection */
 require('config/'.JET_CONFIG_ENVIRONMENT.'/defines_URI.php');
+
 /** @noinspection PhpIncludeInspection */
 require('config/'.JET_CONFIG_ENVIRONMENT.'/php_setup.php');
 
@@ -27,7 +31,7 @@ require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
 
-require( JET_APPLICATION_PATH . '_install/_installer/install.php' );
+//require( JET_APPLICATION_PATH . '_install/_installer/install.php' );
 
 Application::start();
 Mvc::run();

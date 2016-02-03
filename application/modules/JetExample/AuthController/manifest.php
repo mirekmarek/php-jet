@@ -12,5 +12,4 @@ return [
 
 	'require' => [],
 
-	'factory_overload_map' => [],
 ];

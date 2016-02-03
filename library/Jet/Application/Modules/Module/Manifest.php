@@ -13,7 +13,6 @@
  *  - type (required)
  *  - description (optional)
  *  - require (optional)
- *  - factory_overload_map (optional)
  *  - signals_callbacks (optional)
  *
  * See class variables description for more details
@@ -114,23 +113,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 	 * @var string[]
 	 */
 	protected $require = [];
-
-	/**
-	 * Manifest value
-	 *
-	 * @see Factory
-	 *
-	 * Each module can specify which class overloads
-	 *
-	 * @see Factory::$overload_map
-	 *
-	 *  array(
-	 *       'originalClassName' => 'overloadClassName'
-	 *  )
-	 *
-	 * @var array
-	 */
-	protected $factory_overload_map = [];
 
 	/**
 	 * Manifest value
@@ -285,16 +267,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		}
 
 		if(
-			isset($manifest_data['factory_overload_map']) &&
-			!is_array($manifest_data['factory_overload_map'])
-		){
-			throw new Application_Modules_Exception(
-				'Factory overload map must be an array like [source_class_name => replaced_by_class_name]! (Module: \''.$this->name.'\')',
-				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-			);
-		}
-
-		if(
 			isset($manifest_data['signals_callbacks']) &&
 			!is_array($manifest_data['signals_callbacks'])
 		){
@@ -323,13 +295,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 				);
 			}
 
-			switch( $key ) {
-				case 'factory_overload_map':
-					foreach($val as $k=>$v) {
-						$val[$k] = Object_Reflection::parseClassName($v);
-					}
-					break;
-			}
 
 			$this->{$key} = $val;
 		}
@@ -449,16 +414,6 @@ class Application_Modules_Module_Manifest extends Object implements \JsonSeriali
 		return $this->require;
 	}
 
-	/**
-	 * array(
-	 *      'originalClassName' => 'overloadClassName'
-	 * )
-	 *
-	 * @return array
-	 */
-	public function getFactoryOverloadMap() {
-		return $this->factory_overload_map;
-	}
 
 	/**
 	 * array(

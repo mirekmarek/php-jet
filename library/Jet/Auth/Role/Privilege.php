@@ -21,7 +21,7 @@ namespace Jet;
  * Class Auth_Role_Privilege
  *
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
- * @JetDataModel:parent_model_class_name = 'Auth_Role'
+ * @JetDataModel:parent_model_class_name = JET_AUTH_ROLE_CLASS
  */
 class Auth_Role_Privilege extends Auth_Role_Privilege_Abstract {
 

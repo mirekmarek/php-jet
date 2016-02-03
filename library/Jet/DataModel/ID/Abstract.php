@@ -107,13 +107,13 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	}
 
 	/**
-	 * @param DataModel $data_model_instance
+	 * @param DataModel_Interface $data_model_instance
 	 * @param bool $called_after_save
 	 * @param mixed $backend_save_result
 	 *
 	 * @return void
 	 */
-	abstract public function generate( DataModel $data_model_instance, $called_after_save = false, $backend_save_result = null );
+	abstract public function generate( DataModel_Interface $data_model_instance, $called_after_save = false, $backend_save_result = null );
 
 	/**
 	 *
@@ -157,11 +157,11 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 
 	/**
-	 * @param DataModel $data_model_instance
+	 * @param DataModel_Interface $data_model_instance
 	 * @param string $ID_property_name
 	 */
 	public function generateUniqueID(
-		DataModel $data_model_instance,
+        DataModel_Interface $data_model_instance,
 		$ID_property_name
 	) {
 		$this->data_model_instance = $data_model_instance;
@@ -175,7 +175,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 
 	/**
 	 *
-	 * @param DataModel $data_model_instance
+	 * @param DataModel_Interface $data_model_instance
 	 * @param string $ID_property_name
 	 * @param string $object_name
 	 *
@@ -183,7 +183,7 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @return string
 	 */
 	public function generateNameID(
-		DataModel $data_model_instance,
+        DataModel_Interface $data_model_instance,
 		$ID_property_name, $object_name
 	) {
 		$this->data_model_instance = $data_model_instance;

@@ -80,9 +80,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 				],
-				'factory_overload_map' =>
-				[
-				],
 				'signals_callbacks' =>
 				[
 					'/test/ack' => 'testAck',
@@ -106,9 +103,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				[
 					0 => 'Vendor.Package.TestModule',
 				],
-				'factory_overload_map' =>
-				[
-				],
 				'signals_callbacks' =>
 				[
 				],
@@ -130,12 +124,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				[
 					0 => 'RequireModule1',
 					1 => 'RequireModule2',
-				],
-				'factory_overload_map' =>
-				[
-					'OldClass1' => 'MyNs\MyClass1',
-					'OldClass2' => 'MyNs\MyClass2',
-					'OldClass3' => 'MyNs\MyClass3',
 				],
 				'signals_callbacks' =>
 				[
@@ -178,12 +166,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 			[
 				0 => 'RequireModule1',
 				1 => 'RequireModule2',
-			],
-			'factory_overload_map' =>
-			[
-				'OldClass1' => 'MyNs\MyClass1',
-				'OldClass2' => 'MyNs\MyClass2',
-				'OldClass3' => 'MyNs\MyClass3',
 			],
 			'signals_callbacks' =>
 			[
@@ -247,9 +229,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 				],
-				'factory_overload_map' =>
-				[
-				],
 				'signals_callbacks' =>
 				[
 					'/test/ack' => 'testAck',
@@ -272,9 +251,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 					0 => 'Vendor.Package.TestModule',
-				],
-				'factory_overload_map' =>
-				[
 				],
 				'signals_callbacks' =>
 				[
@@ -308,9 +284,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 				],
-				'factory_overload_map' =>
-				[
-				],
 				'signals_callbacks' =>
 				[
 					'/test/ack' => 'testAck',
@@ -333,9 +306,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 					0 => 'Vendor.Package.TestModule',
-				],
-				'factory_overload_map' =>
-				[
 				],
 				'signals_callbacks' =>
 				[
