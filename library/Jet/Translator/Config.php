@@ -32,7 +32,8 @@ class Translator_Config extends Application_Config {
 	 * @JetConfig:form_field_label = 'Default backend type: '
 	 * @JetConfig:form_field_type = 'Select'
 	 * @JetConfig:form_field_get_select_options_callback = ['Translator_Config', 'getBackendTypesList']
-	 * 
+     * @JetConfig:form_field_error_messages = ['invalid_value'=>'Please select backend type', 'empty'=>'Please select backend type']
+	 *
 	 * @var string
 	 */
 	protected $backend_type;

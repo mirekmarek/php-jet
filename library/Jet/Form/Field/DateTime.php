@@ -17,7 +17,16 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = 'DateTime';
+	protected $_type = Form::TYPE_DATE_TIME;
+
+	/**
+	 * @var array
+	 */
+	protected $error_messages = [
+		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_INVALID_FORMAT => ''
+	];
+
 
 	/**
 	 *
@@ -57,7 +66,7 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if(!@strtotime($this->_value)) {
-			$this->setValueError('invalid_format');
+			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
 			return false;
 		}
 
@@ -122,4 +131,18 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	}
 
 
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+		$codes[] = self::ERROR_CODE_INVALID_FORMAT;
+
+		return $codes;
+	}
 }

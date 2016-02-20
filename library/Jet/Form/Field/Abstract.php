@@ -15,6 +15,8 @@
 namespace Jet;
 
 abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
+	const ERROR_CODE_EMPTY = 'empty';
+	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
 
 	/**
 	 * @var string
@@ -25,6 +27,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @var bool
 	 */
 	protected $_possible_to_decorate = true;
+
 
 	/**
 	 * filed name equals $_POST(or $_GET) key
@@ -122,8 +125,8 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @var array
 	 */
 	protected $error_messages = [
-			'empty' => 'empty',
-			'invalid_format' => 'invalid_format'
+			self::ERROR_CODE_EMPTY => '',
+			self::ERROR_CODE_INVALID_FORMAT => ''
 	];
 			
 
@@ -169,18 +172,19 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function setName($name) {
 		$this->_name = $name;
-	}  
+	}
 
 	/**
 	 * Set field options
 	 *
 	 * @param array $options
+	 *
+	 * @throws Form_Exception
 	 */
 	public function setOptions( array $options ) {
 		foreach($options as $o_k=>$o_v) {
 			if(!$this->getHasProperty($o_k)) {
-				//TODO: zarvat
-				continue;
+				throw new Form_Exception('Unknown form field option: '.$o_k);
 			}
 
 			$this->{$o_k} = $o_v;
@@ -196,6 +200,11 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 		$this->__form = $form;
 		$this->__form_name = $form->getName();
 	}
+
+	/**
+	 * @return array
+	 */
+	abstract public function getRequiredErrorCodes();
 		
 	/**
 	 * returns field name
@@ -338,7 +347,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @return string
 	 */
 	public function getLabel() {
-		return $this->label;	
+		return $this->getTranslation($this->label);
 	}
 	
 	/**
@@ -385,15 +394,20 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	public function setValidationRegexp( $validation_regexp ) {
 		$this->validation_regexp = $validation_regexp;
 	}
-	
-	
+
+
 	/**
 	 * sets error messages
 	 * @param array $error_messages
+	 *
+	 * @throws Form_Exception
 	 */
 	public function setErrorMessages(array $error_messages) {
 		foreach($error_messages as $key=>$message) {
-			//TODO: overit platnost chyboveho kodu
+			if(!array_key_exists($key, $this->error_messages)) {
+				throw new Form_Exception('Unknown form field error code: '.$key.'! Field: '.$this->_name);
+			}
+
 			$this->error_messages[$key] = $message;
 		}
 	}
@@ -419,8 +433,8 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 					$this->error_messages[$key]
 					:
 					false;
-		
-		return $message;
+		return $this->getTranslation($message);
+
 	}
 
 	/**
@@ -447,7 +461,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function checkValueIsNotEmpty() {
 		if($this->_value==='' && $this->is_required) {
-			$this->setValueError('empty');
+			$this->setValueError(self::ERROR_CODE_EMPTY);
 			return false;	
 		}
 		
@@ -470,7 +484,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 */
 	public function validateValue() {
 		if(!$this->_validateFormat()) {
-			$this->setValueError('invalid_format');
+			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
 			return false;
 		}
 		
@@ -621,13 +635,13 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @return string
 	 */
 	protected function _getReplacement_field_label( Form_Parser_TagData $tag_data ) {
-		$label = $this->label;
+		$label = $this->getLabel();
 
+        /*
 		if(!$label) {
 			$label = $this->_name.': ';
 		}
-
-		$label = $this->getTranslation( $label );
+        */
 
 		if(
 			$this->is_required &&
@@ -652,8 +666,6 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 		if(!$msg) {
 			return '';
 		}
-
-		$msg = $this->getTranslation($msg);
 
 		$template = $this->__form->getTemplate_field_error_msg();
 

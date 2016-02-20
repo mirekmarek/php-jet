@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages'
  * @JetDataModel:ID_class_name = 'Mvc_Page_ID'
  */
-class Mvc_Page extends DataModel implements Mvc_Page_Interface {
+class Mvc_Page extends Object implements Mvc_Page_Interface {
 	const HOMEPAGE_ID = '_homepage_';
 
 	const PAGE_DATA_FILE_NAME = 'page_data.php';
@@ -42,7 +42,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $page_ID = '';
 
 	/**
 	 *
@@ -352,9 +352,9 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 * @see Mvc_Page_Abstract
 	 * @see Mvc_Page_Factory
 	 *
-	 * @param Mvc_Page_ID_Abstract|string $page_ID (optional, null = current)
+	 * @param string $page_ID (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
-	 * @param string|Mvc_Site_ID_Abstract|null $site_ID (optional, null = current)
+	 * @param string|null $site_ID (optional, null = current)
 	 *
 	 * @return Mvc_Page_Interface
 	 */
@@ -363,22 +363,14 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 			return Mvc::getCurrentPage();
 		}
 
-		$page_i = new static();
-
-		if( !($page_ID instanceof Mvc_Page_ID_Abstract) ) {
-
-			if(!$locale) {
-				$locale = Mvc::getCurrentLocale();
-			}
-			if(!$site_ID) {
-				$site_ID = Mvc::getCurrentSite()->getID();
-			}
-
-			$page_ID = static::getEmptyIDInstance()->createID( $site_ID, $locale, $page_ID );
-
+		if(!$locale) {
+			$locale = Mvc::getCurrentLocale();
+		}
+		if(!$site_ID) {
+			$site_ID = Mvc::getCurrentSite()->getSiteID();
 		}
 
-		return $page_i->load( $page_ID );
+		return static::_load( $site_ID, $locale, $page_ID );
 	}
 
 	/**
@@ -404,21 +396,39 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 		return dirname($this->getDataFilePath()).'/';
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getPageKey() {
+		return $this->site_ID.':'.$this->locale.':'.$this->page_ID;
+	}
 
 	/**
 	 * @param string $ID
 	 */
-	public function setID( $ID ) {
-		$this->ID = $ID;
-		$this->setIsNew();
+	public function setPageID( $ID ) {
+		$this->page_ID = $ID;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPageID() {
+		return $this->page_ID;
 	}
 
 	/**
 	 * @param string $site_ID
 	 */
-	public function setSiteID( $site_ID ) {
+	public function setSiteId( $site_ID ) {
 		$this->site_ID = $site_ID;
-		$this->setIsNew();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSiteID() {
+		return $this->site_ID;
 	}
 
 	/**
@@ -427,14 +437,6 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 */
 	public function setLocale( Locale $locale ) {
 		$this->locale = $locale;
-		$this->setIsNew();
-	}
-
-	/**
-	 * @return Mvc_Site_ID_Abstract
-	 */
-	public function getSiteID() {
-		return Mvc_Factory::getSiteInstance()->getEmptyIDInstance()->createID( $this->site_ID );
 	}
 
 	/**
@@ -523,10 +525,10 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	}
 
 	/**
-	 * @return Mvc_Page_ID_Abstract|string
+	 * @return string
 	 */
 	public function getParentID() {
-		return static::getEmptyIDInstance()->createID($this->site_ID, $this->locale, $this->parent_ID);
+		return $this->parent_ID;
 	}
 
 	/**
@@ -546,7 +548,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 				/**
 				 * @var Mvc_Page $ch
 				 */
-				if($ch->ID==$this->ID ) {
+				if($ch->page_ID==$this->page_ID ) {
 					unset($this->_children[$i]);
 
 					break;
@@ -559,7 +561,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 		/**
 		 * @var Mvc_Page $parent
 		 */
-		$parent = static::get( $this->ID, $this->locale, $this->site_ID );
+		$parent = static::get( $this->page_ID, $this->locale, $this->site_ID );
 
 		if($parent) {
 			$this->_parent = $parent;
@@ -673,7 +675,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	public function getURL(array $GET_params= [], array $path_fragments= []) {
 
 		if(
-			(string)$this->site_ID == Mvc::getCurrentSite()->getID()->toString() &&
+			(string)$this->site_ID == Mvc::getCurrentSite()->getSiteID() &&
 			(string)$this->locale == Mvc::getCurrentLocale() &&
 			$this->getSSLRequired() == Mvc::getIsSSLRequest()
 		) {
@@ -975,7 +977,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 			return true;
 		}
 
-		if( Auth::getCurrentUserHasPrivilege( Auth::PRIVILEGE_VISIT_PAGE, (string)$this->getID() ) ) {
+		if( Auth::getCurrentUserHasPrivilege( Auth::PRIVILEGE_VISIT_PAGE, $this->getPageKey() ) ) {
 			return true;
 		}
 
@@ -1055,8 +1057,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
 	 */
 	public function  setMetaTags( $meta_tags ) {
-		/** @noinspection PhpUndefinedMethodInspection */
-		$this->meta_tags->clearData();
+		$this->meta_tags = [];
 
 		foreach( $meta_tags as $meta_tag ) {
 			$this->addMetaTag( $meta_tag );
@@ -1075,7 +1076,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 * @param Mvc_Page_Content_Interface $content
 	 */
 	public function addContent( Mvc_Page_Content_Interface $content) {
-		$content->setID( count($this->contents) );
+		$content->setContentID( count($this->contents) );
 
 		$this->contents[] = $content;
 	}
@@ -1091,9 +1092,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 * @param Mvc_Page_Content_Interface[] $contents
 	 */
 	public function setContents( $contents ) {
-
-		/** @noinspection PhpUndefinedMethodInspection */
-		$this->contents->clearData();
+		$this->contents = [];
 
 		foreach( $contents as $content ) {
 			$this->addContent( $content );
@@ -1157,7 +1156,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 
 		$current_page_data['URL_fragment'] = rawurlencode($URL_fragment);
 		$current_page_data['data_file_path'] = $data_file_path;
-		$current_page_data['site_ID'] = $site->getID();
+		$current_page_data['site_ID'] = $site->getSiteID();
 		$current_page_data['locale'] = $locale;
 
 		if($parent_page_data) {
@@ -1215,7 +1214,9 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 
 		$page->setSiteID( $data['site_ID'] );
 		$page->setLocale( $data['locale'] );
-		$page->setID( $data['ID'] );
+		$page->setPageID( $data['ID'] );
+		unset( $data['ID'] );
+
 		$page->parent_ID = $data['parent_ID'];
 		$page->data_file_path = $data['data_file_path'];
 
@@ -1229,46 +1230,18 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 			$data['menu_title'] = $data['title'];
 		}
 
-		/*
-		$page_form = $page->getCommonForm();
-		foreach( $page_form->getFields() as $field_name=>$field ) {
-			if(!isset($data[$field_name])) {
-				$data[$field_name] = '';
-			}
-		}
-
-		if(!$page->catchForm( $page_form, $data, true )) {
-			throw new Mvc_Page_Exception( 'Page data error. Page ID: '.$page->getID().', errors: '.implode(', ', $page_form->getAllErrors()), Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID );
-		}
-
-		$page->relative_URI = $data['relative_URI'];
-		*/
 
 		$meta_tags = [];
-		//$meta_tag_form = Mvc_Factory::getPageMetaTagInstance()->getCommonForm('');
 
 		foreach( $data['meta_tags']  as $i=>$m_dat) {
-			$m_dat['site_ID'] = $data['site_ID'];
-			$m_dat['locale'] = $data['locale'];
-			$m_dat['page_ID'] = $data['ID'];
-			$m_dat['ID'] = $i;
+			$m_dat['site_ID'] = $page->getSiteID();
+			$m_dat['locale'] = $page->getLocale();
+			$m_dat['page_ID'] = $page->getPageID();
+			$m_dat['meta_tag_ID'] = $i;
 
 			$mtg = Mvc_Factory::getPageMetaTagInstance();
 
 			$mtg->setData( $m_dat );
-			/*
-			foreach( $meta_tag_form->getFields() as $field_name=>$field ) {
-				if(!isset($m_dat[$field_name])) {
-					$m_dat[$field_name] = '';
-				}
-			}
-
-
-
-			if(!$mtg->catchForm( $meta_tag_form, $m_dat, true )) {
-				throw new Mvc_Page_Exception( 'Page data error [meta tag data]. Page ID: '.$page->getID().', errors: '.implode(', ', $page_form->getAllErrors()), Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID );
-			}
-			*/
 
 			$meta_tags[] = $mtg;
 
@@ -1283,31 +1256,14 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 
 		foreach( $data['contents']  as $i=>$c_dat) {
 
-			/*
-			foreach( $content_form->getFields() as $field_name=>$field ) {
-				if(!isset($c_dat[$field_name])) {
-					$c_dat[$field_name] = '';
-				}
-			}
-			*/
 
-
-			//$content_form->getField('controller_action_parameters')->setSelectOptions( array_combine($c_dat['controller_action_parameters'], $c_dat['controller_action_parameters']) );
-
-
-			$c_dat['site_ID'] = $data['site_ID'];
-			$c_dat['locale'] = $data['locale'];
-			$c_dat['page_ID'] = $data['ID'];
-			$c_dat['ID'] = $i;
+			$m_dat['site_ID'] = $page->getSiteID();
+			$m_dat['locale'] = $page->getLocale();
+			$m_dat['page_ID'] = $page->getPageID();
+			$c_dat['content_ID'] = $i;
 
 			$cnt = Mvc_Factory::getPageContentInstance();
 			$cnt->setData($c_dat);
-
-			/*
-			if(!$cnt->catchForm( $content_form, $c_dat, true )) {
-				throw new Mvc_Page_Exception( 'Page data error [content data]. Page ID: '.$page->getID().', errors: '.implode(', ', $page_form->getAllErrors()), Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID );
-			}
-			*/
 
 			$contents[] = $cnt;
 		}
@@ -1324,14 +1280,14 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 			$parent_page->_children[] = $page;
 		}
 
-		$ID_s = $page->getID()->toString();
+		$page_key = $page->getPageKey();
 
-		if(isset(static::$loaded_pages[$ID_s])) {
-			throw new Mvc_Page_Exception( 'Duplicates page ID: \''.$ID_s.'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
+		if(isset(static::$loaded_pages[$page_key])) {
+			throw new Mvc_Page_Exception( 'Duplicates page key: \''.$page_key.'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
 		}
 
-		static::$loaded_pages[$ID_s] = $page;
-		static::$relative_URIs_map[rawurldecode($page->relative_URI)] = $ID_s;
+		static::$loaded_pages[$page_key] = $page;
+		static::$relative_URIs_map[rawurldecode($page->relative_URI)] = $page_key;
 
 
 		return $page;
@@ -1386,7 +1342,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 */
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) {
 
-		$key = $site->getID().':'.$locale;
+		$key = $site->getSiteID().':'.$locale;
 
 		if(isset(static::$site_pages_loaded_flag[$key])) {
 			return;
@@ -1404,9 +1360,9 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	 * @param $data
 	 */
 	protected function _getAllPagesTree( Mvc_Page_Interface $page, &$data ) {
-		$data[$page->getID()->toString()] = [
-			'ID' => $page->getID()->toString(),
-			'parent_ID' => $page->getParent()->getID()->toString(),
+		$data[$page->getPageKey()] = [
+			'ID' => $page->getPageKey(),
+			'parent_ID' => $page->getParent()->getPageKey(),
 			'name' => $page->getName()
 		];
 
@@ -1431,7 +1387,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 				$homepage = $site->getHomepage( $locale );
 
 				$tree = new Data_Tree();
-				$tree->getRootNode()->setID( $homepage->getID()->toString() );
+				$tree->getRootNode()->setID( $homepage->getPageKey() );
 				$tree->getRootNode()->setLabel( $homepage->getName() );
 
 				$pages = [];
@@ -1470,27 +1426,26 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 
 
 	/**
-	 * Loads DataModel.
 	 *
-	 * @param Mvc_Page_ID_Abstract $ID
+	 *
+	 * @param string $site_ID
+	 * @param Locale $locale
+	 * @param string $page_ID
 	 *
 	 * @return Mvc_Page_Interface|null
-	 *
-	 * @throws DataModel_Exception
 	 */
-	public static function load( Mvc_Page_ID_Abstract $ID ) {
-		$site =  Mvc_Site::get( $ID->getSiteID() );
-		$locale = $ID->getLocale();
+	public static function _load( $site_ID, $locale, $page_ID) {
+		$site =  Mvc_Site::get( $site_ID );
 
 		static::loadPages($site, $locale);
 
-		$ID_s = $ID->toString();
+		$key = $site_ID.':'.$locale.':'.$page_ID;
 
-		if(!isset(static::$loaded_pages[$ID_s])) {
+		if(!isset(static::$loaded_pages[$key])) {
 			return null;
 		}
 
-		return static::$loaded_pages[$ID_s];
+		return static::$loaded_pages[$key];
 
 	}
 
@@ -1502,7 +1457,20 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 		$result = [];
 
 		foreach( $this->getChildren() as $page ) {
-			$result[] = $page->getID();
+			$result[] = $page->getPageID();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return DataModel_Fetch_Object_IDs
+	 */
+	public function getChildrenKeys() {
+		$result = [];
+
+		foreach( $this->getChildren() as $page ) {
+			$result[] = $page->getPageKey();
 		}
 
 		return $result;
@@ -1555,27 +1523,6 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 
 	}
 
-
-	/**
-	 * @param string $form_name
-	 *
-	 * @return Form
-	 */
-	public function getCommonForm( $form_name='' ) {
-		$form = parent::getCommonForm( $form_name );
-
-		if( $this->ID!=Mvc_Page::HOMEPAGE_ID ) {
-			$form->getField('URL_fragment')->setIsRequired(true);
-		}
-
-
-		if($this->site_ID) {
-			$form->getField('layout_script_name')->setSelectOptions( $this->getLayoutsList() );
-		}
-
-
-		return $form;
-	}
 
 	/**
 	 * @return Mvc_NavigationData_Breadcrumb_Abstract[]
@@ -1644,11 +1591,9 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 	}
 
 	/**
-	 * @param Mvc_Page_ID_Abstract  $page_ID (optional)
+	 * @param Mvc_Page_Interface $page
 	 */
-	public function addBreadcrumbNavigationPage( Mvc_Page_ID_Abstract $page_ID ) {
-
-		$page = Mvc_Page::get($page_ID);
+	public function addBreadcrumbNavigationPage( Mvc_Page_Interface $page ) {
 
 		$bn = Mvc_Factory::getNavigationDataBreadcrumbInstance();
 		$bn->setPage( $page );
@@ -1709,7 +1654,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 		$output = $view->render( $script );
 
 		$current_page_content = $this->_current_content;
-		$output_ID = $current_page_content->getID()->toString();
+		$output_ID = $current_page_content->getContentKey();
 
 		$module_name = $current_page_content->getModuleName();
 
@@ -1915,7 +1860,7 @@ class Mvc_Page extends DataModel implements Mvc_Page_Interface {
 		 */
 		$page = $data['page'];
 
-		$data['page'] = $page->getID()->toString();
+		$data['page'] = $page->getPageKey();
 	}
 
 

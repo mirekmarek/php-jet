@@ -16,7 +16,16 @@ class Form_Field_Date extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = 'Date';
+	protected $_type = Form::TYPE_DATE;
+
+	/**
+	 * @var array
+	 */
+	protected $error_messages = [
+		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_INVALID_FORMAT => ''
+	];
+
 
 	/**
 	 * validate value
@@ -30,7 +39,7 @@ class Form_Field_Date extends Form_Field_Abstract {
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		if(!@strtotime($this->_value.' 00:00:00')) {
-			$this->setValueError('invalid_format');
+			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
 			return false;
 		}
 
@@ -49,5 +58,21 @@ class Form_Field_Date extends Form_Field_Abstract {
 		if($this->_value) {
 			$this->_value = date('Y-m-d',strtotime($this->_value));
 		}
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+		$codes[] = self::ERROR_CODE_INVALID_FORMAT;
+
+		return $codes;
 	}
 }

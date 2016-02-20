@@ -3,13 +3,6 @@
  *
  *
  *
- * class representing single form field - type float
- *
- * specific options:
- *
- * specific errors:
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -21,10 +14,13 @@
 namespace Jet;
 
 class Form_Field_FileImage extends Form_Field_File {
+	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
+	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
+
 	/**
 	 * @var string
 	 */
-	protected $_type = 'FileImage';
+	protected $_type = Form::TYPE_FILE_IMAGE;
 
 	/**
 	 * @var bool
@@ -35,9 +31,9 @@ class Form_Field_FileImage extends Form_Field_File {
 	 * @var array
 	 */
 	protected $error_messages = [
-		'empty' => 'empty',
-		'file_is_too_large' => 'file_is_too_large',
-		'disallowed_file_type' => 'disallowed_file_type'
+		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
+		self::ERROR_CODE_DISALLOWED_FILE_TYPE => ''
 	];
 
 	/**
@@ -105,7 +101,7 @@ class Form_Field_FileImage extends Form_Field_File {
                     $image = new Data_Image( $this->_value );
                     $image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
                 } catch( Data_Image_Exception $e ) {
-                    $this->setValueError('disallowed_file_type');
+                    $this->setValueError(self::ERROR_CODE_DISALLOWED_FILE_TYPE);
 
                     return false;
                 }
@@ -133,5 +129,27 @@ class Form_Field_FileImage extends Form_Field_File {
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+		if($this->maximal_file_size) {
+			$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
+		}
+
+		if($this->allowed_mime_types) {
+			$codes[] = self::ERROR_CODE_DISALLOWED_FILE_TYPE;
+		}
+
+		return $codes;
+	}
 
 }

@@ -22,7 +22,7 @@ use Jet\Mvc_MicroRouter;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Auth;
 use Jet\Auth_Factory;
-use Jet\Auth_User_Abstract;
+use Jet\Auth_User_Interface;
 use Jet\Auth_ControllerModule_Abstract;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -102,15 +102,15 @@ class Controller_Standard extends Mvc_Controller_Standard {
             ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
         $router->addAction('edit', '/^edit:([\S]+)$/', 'update_user', true)
-            ->setCreateURICallback( function( Auth_User_Abstract $user ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($user->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_User_Interface $user ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($user->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('view', '/^view:([\S]+)$/', 'get_user', true)
-            ->setCreateURICallback( function( Auth_User_Abstract $user ) use($base_URI) { return $base_URI.'view:'.rawurlencode($user->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_User_Interface $user ) use($base_URI) { return $base_URI.'view:'.rawurlencode($user->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_user', true)
-            ->setCreateURICallback( function( Auth_User_Abstract $user ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($user->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_User_Interface $user ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($user->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $this->micro_router = $router;
@@ -171,9 +171,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_User_Abstract $user
+	 * @param Auth_User_Interface $user
 	 */
-	public function edit_Action( Auth_User_Abstract $user ) {
+	public function edit_Action( Auth_User_Interface $user ) {
 
 		$form = $user->getCommonForm();
 
@@ -196,9 +196,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_User_Abstract $user
+	 * @param Auth_User_Interface $user
 	 */
-	public function view_Action( Auth_User_Abstract $user ) {
+	public function view_Action( Auth_User_Interface $user ) {
 
 		$form = $user->getCommonForm();
 
@@ -217,9 +217,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 
 	/**
-	 * @param Auth_User_Abstract $user
+	 * @param Auth_User_Interface $user
 	 */
-	public function delete_Action( Auth_User_Abstract $user ) {
+	public function delete_Action( Auth_User_Interface $user ) {
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$user->delete();

@@ -3,16 +3,6 @@
  *
  *
  *
- * class representing single form field - type string
- *
- *
- *
- *
- * specific options:
- * 		password_check_caption: 2nd (check) input box caption
- * 		disable_check
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -24,26 +14,26 @@
 namespace Jet;
 
 class Form_Field_Password extends Form_Field_Abstract {
+	const ERROR_CODE_CHECK_EMPTY = 'check_empty';
+	const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
+	const ERROR_CODE_WEAK_PASSWORD = 'weak_password';
+
 	/**
 	 * @var string
 	 */
-	protected $_type = 'Password';
+	protected $_type = Form::TYPE_PASSWORD;
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-				'empty' => 'empty',
-				'check_empty' => 'check_empty',
-				'check_not_match' => 'check_not_match',
-				'thin_password' => 'thin_password'
+				self::ERROR_CODE_EMPTY => '',
+				self::ERROR_CODE_CHECK_EMPTY => '',
+				self::ERROR_CODE_CHECK_NOT_MATCH => '',
+				self::ERROR_CODE_WEAK_PASSWORD => ''
 	];
 
 
-	/**
-	 * @var int
-	 */
-	protected $minimal_password_strength = 50;
 	/**
 	 * @var bool
 	 */
@@ -59,20 +49,27 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 */
 	protected $password_check_label = '';
 
+	/**
+	 * @var callable
+	 */
+	protected $password_strength_check_callback;
 
 	/**
-	 * @return int
+	 * @param callable $password_strength_check_callback
 	 */
-	public function getMinimalPasswordStrength() {
-		return $this->minimal_password_strength;
+	public function setPasswordStrengthCheckCallback($password_strength_check_callback)
+	{
+		$this->password_strength_check_callback = $password_strength_check_callback;
 	}
 
 	/**
-	 * @param int $minimal_password_strength
+	 * @return callable
 	 */
-	public function setMinimalPasswordStrength( $minimal_password_strength ) {
-		$this->minimal_password_strength = (int)$minimal_password_strength;
+	public function getPasswordStrengthCheckCallback()
+	{
+		return $this->password_strength_check_callback;
 	}
+
 
 	/**
 	 * @return bool
@@ -135,7 +132,7 @@ class Form_Field_Password extends Form_Field_Abstract {
 				$this->_value &&
 				!$this->password_check_value
 			) {
-				$this->setValueError('check_empty');
+				$this->setValueError(self::ERROR_CODE_CHECK_EMPTY);
 				return false;
 			}
 		}
@@ -153,15 +150,17 @@ class Form_Field_Password extends Form_Field_Abstract {
 			$this->_value
 		) {
 			if( $this->_value!=$this->password_check_value ) {
-				$this->setValueError('check_not_match');
+				$this->setValueError(self::ERROR_CODE_CHECK_NOT_MATCH);
 				return false;
 			}
 
-			$password_strength = Auth::getPasswordStrength( $this->_value );
+			$check_callback = $this->getPasswordStrengthCheckCallback();
 
-			if( $password_strength < $this->minimal_password_strength ) {
-				$this->setValueError('thin_password');
-				return false;
+			if($check_callback) {
+				if( !$check_callback($this->_value) ) {
+					$this->setValueError(self::ERROR_CODE_WEAK_PASSWORD);
+					return false;
+				}
 			}
 		}
 
@@ -255,5 +254,30 @@ class Form_Field_Password extends Form_Field_Abstract {
 
 		return $result;
 
-	}	
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+		if(!$this->disable_check) {
+			$codes[] = self::ERROR_CODE_CHECK_EMPTY;
+			$codes[] = self::ERROR_CODE_CHECK_NOT_MATCH;
+		}
+
+		if($this->password_strength_check_callback) {
+			$codes[] = self::ERROR_CODE_WEAK_PASSWORD;
+		}
+
+		return $codes;
+	}
+
 }

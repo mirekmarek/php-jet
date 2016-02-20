@@ -3,16 +3,6 @@
  *
  *
  *
- * class representing single form field - type float
- *
- * specific options:
- * 	min_value: min. value
- *      max_value: max. value
- *
- * specific errors:
- *  out_of_range
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -24,18 +14,19 @@
 namespace Jet;
 
 class Form_Field_Float extends Form_Field_Abstract {
+	const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
+
 	/**
 	 * @var string
 	 */
-	protected $_type = 'Float';
+	protected $_type = Form::TYPE_FLOAT;
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-				'empty' => 'empty',
-				'invalid_format' => 'invalid_format',
-				'out_of_range' => 'out_of_range',
+				self::ERROR_CODE_EMPTY => '',
+				self::ERROR_CODE_OUT_OF_RANGE => '',
 	];
 
 	/**
@@ -114,7 +105,7 @@ class Form_Field_Float extends Form_Field_Abstract {
 			$min!==null &&
 			$this->_value < $min
 		) {
-			$this->setValueError('out_of_range');
+			$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
 			return false;
 		}
 		
@@ -122,7 +113,7 @@ class Form_Field_Float extends Form_Field_Abstract {
 			$max!==null &&
 			$this->_value > $max
 		) {
-			$this->setValueError('out_of_range');
+			$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
 			return false;
 		}
 		
@@ -130,6 +121,24 @@ class Form_Field_Float extends Form_Field_Abstract {
 		
 		return true;
 		
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+		if($this->min_value!==null || $this->max_value!==null) {
+			$codes[] = self::ERROR_CODE_OUT_OF_RANGE;
+		}
+
+		return $codes;
 	}
 
 }

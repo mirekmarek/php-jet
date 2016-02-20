@@ -33,7 +33,7 @@ class Auth_Factory {
 	 * @param string|null $login
 	 * @param string|null $password
 	 *
-	 * @return Auth_User_Abstract
+	 * @return Auth_User_Interface
 	 */
 	public static function getUserInstance( $login=null, $password=null ) {
 		$class_name =  JET_AUTH_USER_CLASS;
@@ -43,7 +43,7 @@ class Auth_Factory {
 	/**
 	 * Returns instance of Auth Role class
 	 *
-	 * @return Auth_Role_Abstract
+	 * @return Auth_Role_Interface
 	 */
 	public static function getRoleInstance() {
 		$class_name =  JET_AUTH_ROLE_CLASS;
@@ -56,7 +56,7 @@ class Auth_Factory {
 	 * @param string $privilege
 	 * @param mixed[] $values
 	 *
-	 * @return Auth_Role_Privilege_Abstract
+	 * @return Auth_Role_Privilege_Interface
 	 */
 	public static function getPrivilegeInstance( $privilege='', array $values= []) {
 		$class_name =  JET_AUTH_ROLE_PRIVILEGE_CLASS;

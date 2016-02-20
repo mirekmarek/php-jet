@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
  */
-class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Content_Interface {
+class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
     const DEFAULT_CONTROLLER_ACTION = 'default';
 
 	/**
@@ -49,7 +49,7 @@ class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Conten
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $content_ID = '';
 
     /**
      * @JetDataModel:type = DataModel::TYPE_BOOL
@@ -166,7 +166,6 @@ class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Conten
 			$this->output_position_order = (int)$output_position_order;
 		}
 
-		parent::__construct();
 	}
 
     /**
@@ -194,7 +193,7 @@ class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Conten
 	 * @return mixed|null
 	 */
 	public function getArrayKeyValue() {
-		return $this->ID;
+		return $this->content_ID;
 	}
 
 	/**
@@ -218,14 +217,27 @@ class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Conten
 		return $this->page_ID;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getContentKey() {
+		return $this->site_ID.':'.$this->locale.':'.$this->page_ID.':'.$this->content_ID;
+	}
+
     /**
      * @param mixed $ID
      *
      */
-    public function setID( $ID ) {
-        $this->ID = $ID;
+    public function setContentID( $ID ) {
+        $this->content_ID = $ID;
     }
 
+	/**
+	 * @return string
+	 */
+	public function getContentID() {
+		return $this->content_ID;
+	}
 
     /**
      * @param bool $is_dynamic
@@ -432,7 +444,7 @@ class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Conten
             Debug_Profiler::message('Module is not installed and/or activated - skipping');
 
         } else {
-            Debug_Profiler::message('Content ID:'.$this->getID()->toString() );
+            Debug_Profiler::message('Content:'.$this->getContentKey() );
 
             $layout = $page->getLayout();
 
@@ -467,7 +479,7 @@ class Mvc_Page_Content extends DataModel_Related_1toN implements Mvc_Page_Conten
                 } else {
                     Debug_Profiler::message('Is static');
 
-                    if( ($output_parts = $layout->getOutputParts( $this->getID()->toString() )) ) {
+                    if( ($output_parts = $layout->getOutputParts( $this->getContentKey() )) ) {
                         $this->setOutputParts( $output_parts );
                     }
                 }

@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Mvc_Site_LocalizedData_MetaTag extends DataModel_Related_1toN implements Mvc_Site_LocalizedData_MetaTag_Interface {
+class Mvc_Site_LocalizedData_MetaTag extends Object implements Mvc_Site_LocalizedData_MetaTag_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
@@ -89,7 +89,6 @@ class Mvc_Site_LocalizedData_MetaTag extends DataModel_Related_1toN implements M
             $this->setAttributeValue( $attribute_value );
         }
 
-        parent::__construct();
     }
 
     /**
@@ -165,5 +164,12 @@ class Mvc_Site_LocalizedData_MetaTag extends DataModel_Related_1toN implements M
 	 */
 	public function setContent($content) {
 		$this->content = $content;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		return get_object_vars($this);
 	}
 }

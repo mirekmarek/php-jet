@@ -284,6 +284,21 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		return isset($this->fields[$name]);
 	}
 
+	/**
+	 * @throws Form_Exception
+	 */
+	public function checkFieldsHasErrorMessages() {
+		foreach( $this->fields as $field ) {
+			$required_error_codes = $field->getRequiredErrorCodes();
+
+			foreach( $required_error_codes as $code ) {
+				if(!$field->getErrorMessage($code)) {
+					throw new Form_Exception('Form field error message is not set. Form:'.$this->name.' Field:'. $field->getName().' Error code:'.$code);
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * catch values from input ($_POST is default)
@@ -338,15 +353,20 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return bool
 	 */
 	public function validateValues() {
+		$this->checkFieldsHasErrorMessages();
 
 		$this->common_error_message = '';
 		$this->is_valid = true;
 		foreach($this->fields as $field) {
-			/*
-			if(!$field->getHasValue()) {
+
+			$callback = $field->getValidateDataCallback();
+			if($callback) {
+				if(!$callback( $field )) {
+					$this->is_valid = false;
+				}
+
 				continue;
 			}
-			*/
 
 			if(!$field->checkValueIsNotEmpty()) {
 				$this->is_valid = false;
@@ -355,14 +375,6 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 			
 			if(!$field->validateValue()) {
 				$this->is_valid = false;
-			}
-
-
-			$callback = $field->getValidateDataCallback();
-			if($callback) {
-				if(!$callback( $field )) {
-					$this->is_valid = false;
-				}
 			}
 
 		}
@@ -493,6 +505,8 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function viewPostProcess( &$result, Mvc_View $view) {
+		$this->checkFieldsHasErrorMessages();
+
 		$this->__layout = $view->getLayout();
 
 		$form_output_part = strstr( $result, '<'.static::FORM_TAG.' name="'.$this->name.'"' );

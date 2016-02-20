@@ -3,10 +3,6 @@
  *
  *
  *
- * specific errors:
- *  invalid_value
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -18,18 +14,19 @@
 namespace Jet;
 
 class Form_Field_MultiSelect extends Form_Field_Abstract {
+	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
+
 	/**
 	 * @var string
 	 */
-	protected $_type = 'MultiSelect';
+	protected $_type = Form::TYPE_MULTI_SELECT;
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-				'empty' => 'empty',
-				'invalid_format' => 'invalid_format',
-				'invalid_value' => 'invalid_value'
+				self::ERROR_CODE_EMPTY => '',
+				self::ERROR_CODE_INVALID_VALUE => ''
 	];
 
 	/**
@@ -49,7 +46,7 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 
 		foreach($this->_value as $item){
 			if(!isset($options[$item])) {
-				$this->setValueError('invalid_value');
+				$this->setValueError(self::ERROR_CODE_INVALID_VALUE);
 				return false;
 			}
 		}
@@ -68,7 +65,7 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 */
 	public function checkValueIsNotEmpty() {
 		if(!$this->_value && $this->is_required) {
-			$this->setValueError('empty');
+			$this->setValueError(self::ERROR_CODE_EMPTY );
 			return false;
 		}
 
@@ -157,6 +154,24 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 		$result .= '</select>'.JET_EOL;
 
 		return $result;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		$codes[] = self::ERROR_CODE_INVALID_VALUE;
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+
+		return $codes;
 	}
 
 }

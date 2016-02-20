@@ -66,11 +66,12 @@ class Auth extends Object {
 
 	/**
 	 * @param string $auth_controller_module_name
+	 * @throws Exception
 	 */
 	public static function setAuthControllerModuleName($auth_controller_module_name)
 	{
 		if( self::$current_auth_controller ) {
-			//TODO: zarvat
+			throw new Exception('Auth Controller has been already set! It is not possible to setup it\'s name.');
 		}
 		static::$auth_controller_module_name = $auth_controller_module_name;
 	}
@@ -153,7 +154,7 @@ class Auth extends Object {
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Auth_User_Abstract|bool
+	 * @return Auth_User_Interface|bool
 	 */
 	public static function getCurrentUser() {
 		return static::getCurrentAuthController()->getCurrentUser();
@@ -186,7 +187,7 @@ class Auth extends Object {
 	/**
 	 * Get new role data
 	 *
-	 * @return Auth_Role_Abstract
+	 * @return Auth_Role_Interface
 	 */
 	public static function getNewRole() {
 		return static::getCurrentAuthController()->getNewRole();
@@ -197,7 +198,7 @@ class Auth extends Object {
 	 *
 	 * @param string $ID
 	 *
-	 * @return Auth_Role_Abstract|null
+	 * @return Auth_Role_Interface|null
 	 */
 	public static function getRole( $ID ) {
 		return static::getCurrentAuthController()->getRole( $ID );
@@ -206,7 +207,7 @@ class Auth extends Object {
 	/**
 	 * Get list of all roles
 	 *
-	 * @return Auth_Role_Abstract[]
+	 * @return Auth_Role_Interface[]
 	 */
 	public static function getRolesList() {
 		return static::getCurrentAuthController()->getRolesList();
@@ -224,7 +225,7 @@ class Auth extends Object {
 	/**
 	 * Get new user data
 	 *
-	 * @return Auth_User_Abstract
+	 * @return Auth_User_Interface
 	 */
 	public static function getNewUser() {
 		return static::getCurrentAuthController()->getNewUser();
@@ -235,7 +236,7 @@ class Auth extends Object {
 	 *
 	 * @param string $ID
 	 *
-	 * @return Auth_User_Abstract|null
+	 * @return Auth_User_Interface|null
 	 */
 	public static function getUser( $ID ) {
 		return static::getCurrentAuthController()->getUser( $ID );
@@ -246,7 +247,7 @@ class Auth extends Object {
 	 *
 	 * @param string $role_ID
 	 *
-	 * @return Auth_User_Abstract[]
+	 * @return Auth_User_Interface[]
 	 */
 	public static function getUsersList( $role_ID=null ) {
 		return static::getCurrentAuthController()->getUsersList( $role_ID );

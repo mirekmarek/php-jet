@@ -26,7 +26,12 @@ interface Mvc_Site_Interface {
 	 * @param string $ID
 	 *
 	 */
-	public function setID( $ID );
+	public function setSiteID( $ID );
+
+	/**
+	 * @return string
+	 */
+	public function getSiteID();
 
 	/**
 	 * Returns site name

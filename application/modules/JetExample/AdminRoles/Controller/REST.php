@@ -17,7 +17,7 @@ namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
 use Jet\Mvc_Controller_REST;
 use Jet\Auth;
-use Jet\Auth_Role_Abstract;
+use Jet\Auth_Role_Interface;
 
 class Controller_REST extends Mvc_Controller_REST {
 	/**
@@ -91,7 +91,7 @@ class Controller_REST extends Mvc_Controller_REST {
 
 	/**
 	 * @param $ID
-	 * @return Auth_Role_Abstract
+	 * @return Auth_Role_Interface
 	 */
 	protected  function _getRole($ID) {
 		$role = Auth::getRole($ID);

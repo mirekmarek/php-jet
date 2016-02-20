@@ -16,7 +16,13 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = 'Checkbox';
+	protected $_type = Form::TYPE_CHECKBOX;
+
+	/**
+	 * @var array
+	 */
+	protected $error_messages = [];
+
 
 	/**
 	 * @param Data_Array $data
@@ -73,5 +79,12 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 
 	}
-	
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		return [];
+	}
 }

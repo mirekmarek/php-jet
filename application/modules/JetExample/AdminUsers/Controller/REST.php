@@ -15,7 +15,7 @@
 namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet;
 use Jet\Mvc_Controller_REST;
-use Jet\Auth_User_Abstract;
+use Jet\Auth_User_Interface;
 use Jet\Auth;
 
 class Controller_REST extends Mvc_Controller_REST {
@@ -89,7 +89,7 @@ class Controller_REST extends Mvc_Controller_REST {
 
 	/**
 	 * @param $ID
-	 * @return Auth_User_Abstract
+	 * @return Auth_User_Interface
 	 */
 	protected  function _getUser($ID) {
 		$user = Auth::getUser($ID);

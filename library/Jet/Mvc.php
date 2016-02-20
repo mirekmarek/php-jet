@@ -211,7 +211,7 @@ class Mvc {
 
 			if($content) {
 				if(!$content->getIsDynamic()) {
-					throw new Mvc_Controller_Exception('Content '.$content->getID()->toString().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
+					throw new Mvc_Controller_Exception('Content '.$content->getContentKey().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
 				}
 			}
 		}

@@ -18,7 +18,7 @@ use Jet;
 use Jet\Application_Modules;
 use Jet\Auth;
 use Jet\Auth_Factory;
-use Jet\Auth_Role_Abstract;
+use Jet\Auth_Role_Interface;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc;
@@ -93,15 +93,15 @@ class Controller_Standard extends Mvc_Controller_Standard {
             ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
         $router->addAction('edit', '/^edit:([\S]+)$/', 'update_role', true)
-            ->setCreateURICallback( function( Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role_Interface $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('view', '/^view:([\S]+)$/', 'get_role', true)
-            ->setCreateURICallback( function( Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role_Interface $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_role', true)
-            ->setCreateURICallback( function( Auth_Role_Abstract $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role_Interface $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $this->micro_router = $router;
@@ -174,9 +174,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_Role_Abstract $role
+	 * @param Auth_Role_Interface $role
 	 */
-	public function edit_Action( Auth_Role_Abstract $role ) {
+	public function edit_Action( Auth_Role_Interface $role ) {
 
 		$form = $role->getCommonForm();
 
@@ -197,9 +197,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_Role_Abstract $role
+	 * @param Auth_Role_Interface $role
 	 */
-	public function view_Action( Auth_Role_Abstract $role ) {
+	public function view_Action( Auth_Role_Interface $role ) {
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
 
@@ -214,9 +214,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 
 	/**
-	 * @param Auth_Role_Abstract $role
+	 * @param Auth_Role_Interface $role
 	 */
-	public function delete_action( Auth_Role_Abstract $role ) {
+	public function delete_action( Auth_Role_Interface $role ) {
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$role->delete();

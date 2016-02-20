@@ -18,12 +18,14 @@
 namespace Jet;
 
 /**
- * Class Auth_Role_Privilege
  *
+ * @JetDataModel:name = 'role_privilege'
+ * @JetDataModel:parent_model_class_name = 'Auth_Role_Interface'
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
  * @JetDataModel:parent_model_class_name = JET_AUTH_ROLE_CLASS
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Auth_Role_Privilege extends Auth_Role_Privilege_Abstract {
+class Auth_Role_Privilege extends DataModel implements Auth_Role_Privilege_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
@@ -63,6 +65,22 @@ class Auth_Role_Privilege extends Auth_Role_Privilege_Abstract {
 	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	private static $available_privileges_list;
+
+
+
+	/**
+	 * @param $privilege
+	 * @param mixed[] $values
+	 */
+	public function __construct( $privilege='', array $values= []) {
+
+		if($privilege) {
+			$this->setPrivilege($privilege);
+			$this->setValues($values);
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string

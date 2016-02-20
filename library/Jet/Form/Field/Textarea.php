@@ -3,9 +3,6 @@
  *
  *
  *
- * class representing single form field - type string
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -20,7 +17,14 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = 'Textarea';
+	protected $_type = Form::TYPE_TEXTAREA;
+	/**
+	 * @var array
+	 */
+	protected $error_messages = [
+		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_INVALID_FORMAT => ''
+	];
 
 	/**
 	 * @param Form_Parser_TagData $tag_data
@@ -33,5 +37,24 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 
 		return '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>';
 	}
-	
+
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+		if($this->validation_regexp) {
+			$codes[] = self::ERROR_CODE_INVALID_FORMAT;
+		}
+
+		return $codes;
+	}
+
 }

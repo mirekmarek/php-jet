@@ -73,7 +73,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Auth_User_Abstract|bool
+	 * @return Auth_User_Interface|bool
 	 */
 	abstract public function getCurrentUser();
 
@@ -123,7 +123,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	/**
 	 * Get new role data
 	 *
-	 * @return Auth_Role_Abstract
+	 * @return Auth_Role_Interface
 	 */
 	public static function getNewRole() {
 		return Auth_Factory::getRoleInstance();
@@ -134,13 +134,13 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	 *
 	 * @param string $ID
 	 *
-	 * @return Auth_Role_Abstract|null
+	 * @return Auth_Role_Interface|null
 	 */
 	public static function getRole( $ID ) {
 		$role_class_name = JET_AUTH_USER_CLASS;
 
 		/**
-		 * @var Auth_Role_Abstract $role_class_name
+		 * @var Auth_Role_Interface $role_class_name
 		 */
 		return $role_class_name::load( $role_class_name::createID($ID) );
 	}
@@ -148,7 +148,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	/**
 	 * Get list of all roles
 	 *
-	 * @return Auth_Role_Abstract[]
+	 * @return Auth_Role_Interface[]
 	 */
 	public static function getRolesList() {
 		return Auth_Factory::getRoleInstance()->getRolesList();
@@ -166,7 +166,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	/**
 	 * Get new user data
 	 *
-	 * @return Auth_User_Abstract
+	 * @return Auth_User_Interface
 	 */
 	public static function getNewUser() {
 		return Auth_Factory::getUserInstance();
@@ -177,13 +177,13 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	 *
 	 * @param string $ID
 	 *
-	 * @return Auth_User_Abstract|null
+	 * @return Auth_User_Interface|null
 	 */
 	public static function getUser( $ID ) {
 		$user_class_name = JET_AUTH_USER_CLASS;
 
 		/**
-		 * @var Auth_User_Abstract $user_class_name
+		 * @var Auth_User_Interface $user_class_name
 		 */
 		return $user_class_name::load( $user_class_name::createID($ID) );
 	}
@@ -192,7 +192,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	 * Get list of users
 	 *
 	 * @param string $role_ID
-	 * @return Auth_User_Abstract[]
+	 * @return Auth_User_Interface[]
 	 */
 	public static function getUsersList( $role_ID=null ) {
 		return Auth_Factory::getUserInstance()->getUsersList( $role_ID );

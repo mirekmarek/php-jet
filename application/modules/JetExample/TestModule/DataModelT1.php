@@ -46,6 +46,7 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE
 	 * @JetDataModel:form_field_label = 'Date: '
+	 * @JetDataModel:form_field_error_messages = ['invalid_format'=>'Invalid date format']
 	 *
 	 * @var Data_DateTime
 	 */
@@ -55,6 +56,7 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time: '
+	 * @JetDataModel:form_field_error_messages = ['invalid_format'=>'Invalid date format']
 	 *
 	 * @var Data_DateTime
 	 */
@@ -66,6 +68,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Float: '
 	 * @JetDataModel:form_field_min_value = 0
 	 * @JetDataModel:form_field_max_value = 999
+	 * @JetDataModel:form_field_error_messages = ['out_of_range'=>'Number is out of range (0-999)']
 	 *
 	 * @var float
 	 */
@@ -77,6 +80,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Int: '
 	 * @JetDataModel:form_field_min_value = 0
 	 * @JetDataModel:form_field_max_value = 999
+	 * @JetDataModel:form_field_error_messages = ['out_of_range'=>'Number is out of range (0-999)']
 	 *
 	 * @var int
 	 */
@@ -119,6 +123,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Select: '
 	 * @JetDataModel:form_field_type = 'Select'
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
+	 * @JetDataModel:form_field_error_messages = ['invalid_value'=>'Invalid value']
 	 *
 	 * @var string
 	 */
@@ -130,6 +135,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Multi Select: '
 	 * @JetDataModel:form_field_type = 'MultiSelect'
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
+	 * @JetDataModel:form_field_error_messages = ['invalid_value'=>'Invalid value']
 	 *
 	 * @var array
 	 */
@@ -142,6 +148,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Radio Button: '
 	 * @JetDataModel:form_field_type = 'RadioButton'
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
+	 * @JetDataModel:form_field_error_messages = ['invalid_value'=>'Invalid value']
 	 *
 	 * @var array
 	 */
@@ -153,7 +160,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Password: '
 	 * @JetDataModel:form_field_type = 'Password'
-	 * @JetDataModel:form_field_options = array (  'disable_check' => false,  'minimal_password_strength' => 0,)
+	 * @JetDataModel:form_field_options = ['disable_check' => false]
 	 *
 	 * @var string
 	 */
@@ -165,7 +172,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Password (no check field): '
 	 * @JetDataModel:form_field_type = 'Password'
-	 * @JetDataModel:form_field_options = array (  'disable_check' => true,)
+	 * @JetDataModel:form_field_options = ['disable_check' => true]
 	 *
 	 * @var string
 	 */

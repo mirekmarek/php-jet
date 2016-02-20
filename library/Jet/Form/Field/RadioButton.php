@@ -4,9 +4,6 @@
  *
  *
  *
- * specific errors:
- *  invalid_value
- *
  *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
@@ -19,18 +16,19 @@
 namespace Jet;
 
 class Form_Field_RadioButton extends Form_Field_Abstract {
+	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
+
 	/**
 	 * @var string
 	 */
-	protected $_type = 'RadioButton';
+	protected $_type = Form::TYPE_RADIO_BUTTON;
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-				'empty' => 'empty',
-				'invalid_format' => 'invalid_format',
-				'invalid_value' => 'invalid_value'
+				self::ERROR_CODE_EMPTY => '',
+				self::ERROR_CODE_INVALID_VALUE => ''
 	];
 
 
@@ -63,7 +61,7 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		$options = $this->select_options;
 		
 		if(!isset($options[$this->_value])) {
-			$this->setValueError('invalid_value');
+			$this->setValueError(self::ERROR_CODE_INVALID_VALUE);
 			return false;
 		}
 		
@@ -86,9 +84,7 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		$tag_data->unsetProperty( 'key' );
 		$tag_data->setProperty( 'for', $this->getID().'_'.$key );
 
-		$label = $this->getTranslation( $this->select_options[ $key ] );
-
-		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
+		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->select_options[ $key ].'</label>';
 
 	}
 
@@ -150,6 +146,24 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 			'FIELD' => $field
 		]);
 
-	}	
-	
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		$codes[] = self::ERROR_CODE_INVALID_VALUE;
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+
+		return $codes;
+	}
+
 }

@@ -14,7 +14,7 @@ use Jet;
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Controller_Exception;
 use Jet\Form;
-use Jet\Auth_User_Abstract;
+use Jet\Auth_User_Interface;
 use Jet\Http_Headers;
 use Jet\Auth;
 
@@ -101,7 +101,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		) {
 			$data = $form->getValues();
 			/**
-			 * @var Auth_User_Abstract $user
+			 * @var Auth_User_Interface $user
 			 */
 			$user = $this->module_instance->getCurrentUser();
 			$user->setPassword( $data['password'] );

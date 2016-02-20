@@ -3,13 +3,6 @@
  *
  *
  *
- * class representing single form field - type float
- *
- * specific options:
- *
- * specific errors:
- *
- *
  * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -21,10 +14,13 @@
 namespace Jet;
 
 class Form_Field_File extends Form_Field_Abstract {
+	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
+	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
+
 	/**
 	 * @var string
 	 */
-	protected $_type = 'File';
+	protected $_type = Form::TYPE_FILE;
 
 	/**
 	 * @var bool
@@ -35,9 +31,9 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-		'empty' => 'empty',
-		'file_is_too_large' => 'file_is_too_large',
-		'disallowed_file_type' => 'disallowed_file_type'
+		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
+		self::ERROR_CODE_DISALLOWED_FILE_TYPE => ''
 	];
 
 	/**
@@ -134,7 +130,8 @@ class Form_Field_File extends Form_Field_Abstract {
 
         if(!$this->_has_value) {
             if($this->is_required) {
-                $this->setValueError('empty');
+                $this->setValueError(self::ERROR_CODE_EMPTY
+);
             }
 
             return true;
@@ -143,7 +140,7 @@ class Form_Field_File extends Form_Field_Abstract {
 		if($this->maximal_file_size) {
 			$file_size = IO_File::getSize( $this->_value );
 			if( $file_size>$this->maximal_file_size ) {
-				$this->setValueError('file_is_too_large');
+				$this->setValueError(self::ERROR_CODE_FILE_IS_TOO_LARGE);
 
 				return false;
 			}
@@ -154,7 +151,7 @@ class Form_Field_File extends Form_Field_Abstract {
 				IO_File::getMimeType( $this->_value ),
 				$this->allowed_mime_types
 			)) {
-				$this->setValueError('disallowed_file_type');
+				$this->setValueError(self::ERROR_CODE_DISALLOWED_FILE_TYPE);
 
 				return false;
 			}
@@ -180,5 +177,26 @@ class Form_Field_File extends Form_Field_Abstract {
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getRequiredErrorCodes()
+	{
+		$codes = [];
+
+		if($this->is_required ) {
+			$codes[] = self::ERROR_CODE_EMPTY;
+		}
+
+		if($this->maximal_file_size) {
+			$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
+		}
+
+		if($this->allowed_mime_types) {
+			$codes[] = self::ERROR_CODE_DISALLOWED_FILE_TYPE;
+		}
+
+		return $codes;
+	}
 
 }

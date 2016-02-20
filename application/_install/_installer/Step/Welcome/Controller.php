@@ -29,15 +29,22 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 			$translations[$tr] = $lng;
 		}
 
+        $locale_field = Form_Factory::field('Select','locale', 'Please select locale: ');
+        $locale_field->setSelectOptions( $translations );
+        $locale_field->setIsRequired(true);
+        $locale_field->setDefaultValue($this->installer->getCurrentLocale());
+        $locale_field->setErrorMessages([
+            'invalid_value'=>'Please select locale',
+            'empty'=>'Please select locale'
+        ]);
 
 		$select_locale_form = new Form('select_locale_form',
 			[
-				Form_Factory::field('Select','locale', 'Please select locale: '),
+				$locale_field,
 			]
 		);
-		$select_locale_form->getField('locale')->setSelectOptions( $translations );
-		$select_locale_form->getField('locale')->setIsRequired(true);
-		$select_locale_form->getField('locale')->setDefaultValue($this->installer->getCurrentLocale());
+
+
 
 		if($select_locale_form->catchValues() && $select_locale_form->validateValues()) {
 			$d = $select_locale_form->getValues();

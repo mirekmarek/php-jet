@@ -1,7 +1,7 @@
 <?php
 namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
-use Jet\Auth_Role_Abstract;
+use Jet\Auth_Role_Interface;
 use JetApplicationModule\JetExample\UIElements\DataGrid;
 use Jet\Tr;
 use Jet\Mvc_MicroRouter;
@@ -17,7 +17,7 @@ $grid = $this->grid;
 $router = $this->router;
 
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Auth_Role_Abstract $item ) use ($router) {
+$c_edit->setDisplayCallback( function( Auth_Role_Interface $item ) use ($router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
 		<a href="<?=$router->getActionURI('edit', $item);?>" class="btn btn-default btn-xs"><?=Tr::_('Edit');?></a>
@@ -30,7 +30,7 @@ $c_edit->setDisplayCallback( function( Auth_Role_Abstract $item ) use ($router) 
 } );
 $c_edit->setCssStyle( 'width:120px;' );
 
-$grid->getColumn('ID')->setDisplayCallback( function( Auth_Role_Abstract $item ) use ($router) {
+$grid->getColumn('ID')->setDisplayCallback( function( Auth_Role_Interface $item ) use ($router) {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
 		<a href="<?=$router->getActionURI('edit', $item);?>"><?=$item->getName();?></a>
@@ -40,10 +40,10 @@ $grid->getColumn('ID')->setDisplayCallback( function( Auth_Role_Abstract $item )
 <?php
 } );
 
-$grid->getColumn('name')->setDisplayCallback( function( Auth_Role_Abstract $item ) {
+$grid->getColumn('name')->setDisplayCallback( function( Auth_Role_Interface $item ) {
 	echo $item->getName();
 } );
-$grid->getColumn('description')->setDisplayCallback( function( Auth_Role_Abstract $item ) {
+$grid->getColumn('description')->setDisplayCallback( function( Auth_Role_Interface $item ) {
 	echo $item->getDescription();
 } );
 

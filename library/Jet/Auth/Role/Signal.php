@@ -17,24 +17,24 @@ class Auth_Role_Signal extends Application_Signals_Signal {
 
 	/**
 	 *
-	 * @param Auth_Role_Abstract $sender
+	 * @param Auth_Role_Interface $sender
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Auth_Role_Abstract $sender, $name, array $data= []) {
+	public function __construct( Auth_Role_Interface $sender, $name, array $data= []) {
 		parent::__construct($sender, $name, $data);
 	}
 
 	/**
 	 *
-	 * @return Auth_Role_Abstract
+	 * @return Auth_Role_Interface
 	 */
 	public function getSender(){
 		return $this->sender;
 	}
 
 	/**
-	 * @return Auth_Role_Abstract
+	 * @return Auth_Role_Interface
 	 */
 	public function getRole() {
 		return $this->data['role'];

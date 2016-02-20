@@ -18,12 +18,17 @@
 namespace Jet;
 
 /**
- * Class Auth_Role
+ * @JetApplication_Signals:signal = '/role/new'
+ * @JetApplication_Signals:signal = '/role/updated'
+ * @JetApplication_Signals:signal = '/role/deleted'
  *
- * @JetDataModel:database_table_name = 'Jet_Auth_Roles'
+ * @JetApplication_Signals:signal_object_class_name = 'Auth_Role_Signal'
+
+ * @JetDataModel:name = 'role'
  * @JetDataModel:ID_class_name = 'DataModel_ID_Name'
+ * @JetDataModel:database_table_name = 'Jet_Auth_Roles'
  */
-class Auth_Role extends Auth_Role_Abstract {
+class Auth_Role extends DataModel implements Auth_Role_Interface {
 
 	/**
 	 *
@@ -62,7 +67,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	 * @JetDataModel:data_model_class = JET_AUTH_ROLE_PRIVILEGE_CLASS
 	 * @JetDataModel:form_field_is_required = false
 	 *
-	 * @var Auth_Role_Privilege_Abstract[]
+	 * @var Auth_Role_Privilege_Interface[]
 	 */
 	protected $privileges;
 
@@ -72,7 +77,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	 * @JetDataModel:data_model_class = JET_AUTH_USER_ROLES_CLASS
 	 * @JetDataModel:form_field_type = false
 	 *
-	 * @var Auth_User_Abstract[]
+	 * @var Auth_User_Interface[]
 	 */
 	protected $users;
 
@@ -119,7 +124,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	}
 
 	/**
-	 * @return Auth_User_Abstract[]
+	 * @return Auth_User_Interface[]
 	 */
 	public function getUsers() {
 		return $this->users;
@@ -127,7 +132,7 @@ class Auth_Role extends Auth_Role_Abstract {
 
 
 	/**
-	 * @return Auth_Role_Privilege_Abstract[]
+	 * @return Auth_Role_Privilege_Interface[]
 	 */
 	public function getPrivileges() {
 		return $this->privileges;
@@ -206,7 +211,7 @@ class Auth_Role extends Auth_Role_Abstract {
 	}
 
 	/**
-	 * @return Auth_Role_Abstract[]
+	 * @return Auth_Role_Interface[]
 	 */
 	public function getRolesList() {
 		$list = $this->fetchObjects();
@@ -251,4 +256,26 @@ class Auth_Role extends Auth_Role_Abstract {
 
 		return parent::getForm($form_name, $properties_list);
 	}
+
+	/**
+	 *
+	 */
+	public function afterAdd() {
+		$this->sendSignal('/role/new', ['role'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterUpdate() {
+		$this->sendSignal('/role/updated', ['role'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete() {
+		$this->sendSignal('/role/deleted', ['role'=>$this]);
+	}
+
 }

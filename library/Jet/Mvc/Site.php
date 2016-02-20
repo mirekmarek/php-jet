@@ -2,34 +2,7 @@
 /**
  *
  *
- *
- * Site is the main entity of the system.
- *
- * System is able to operate N of Sites.
- * There is always one Site which has default flag in the system.
- *
- * Each site has from 1 to N locales.
- *
- * Locale consists of the language code (ISO 639-1) and the country code (ISO 3166)
- * One locale always has default flag.
- * The system operates locales as instances of Locale
- *
- * Each Site Locale has from 1 to N URIs. Each URI must be unique in the system.
- *
- * The format of the URI can be:
- *
- * domain.tld
- * subdomain.domain.tld
- * domain.tld/path
- * subdomain.domain.tld/directory
- *
- * One URI always has default flag.
- *
- * When the system catches the request for an URI that is not default, then then request is redirected to the default URI.
- * When the system catches the request for an URI which does not exist in the system, then then request is redirected to the default URI of the default site.
- *
- *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -46,7 +19,7 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
  * @JetDataModel:ID_class_name = JET_MVC_SITE_ID_CLASS
  */
-class Mvc_Site extends DataModel implements Mvc_Site_Interface {
+class Mvc_Site extends Object implements Mvc_Site_Interface {
 	const SITE_DATA_FILE_NAME = 'site_data.php';
 	const URL_MAP_FILE_NAME = 'urls_map.php';
 	const PAGES_DIR = 'pages';
@@ -60,7 +33,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $site_ID = '';
 
 	/**
 	 *
@@ -105,30 +78,42 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_CLASS
 	 *
-	 * @var Mvc_Site_LocalizedData_Interface[]
+	 * @var Mvc_Site_LocalizedData[]
 	 */
 	protected $localized_data;
 
 	/**
-	 * @var array|Mvc_Site_LocalizedData_URL_Interface[]
+	 * @var array|Mvc_Site_LocalizedData_URL[]
 	 */
 	protected static $URL_map;
 
 	/**
-	 * @var array|Mvc_Site_Interface[]
+	 * @var array|Mvc_Site[]
 	 */
 	protected static $_loaded = [];
 
 	/**
 	 * Returns a list of all sites
 	 *
-	 * @return Mvc_Site_Interface[]
+	 * @return Mvc_Site[]
 	 */
 	public static function getList() {
 
-		$site = new static();
+		$dirs = IO_Dir::getSubdirectoriesList( JET_SITES_PATH );
 
-		return $site->_getList();
+		$sites = [];
+
+		foreach( $dirs as $ID ) {
+			$site = Mvc_Site::get( $ID );
+
+			$sites[ $ID ] = $site;
+		}
+
+		uasort( $sites, function( Mvc_Site_Interface $site_a, Mvc_Site_Interface $site_b ) {
+			return strcmp( $site_a->getName(), $site_b->getName() );
+		} );
+
+		return $sites;
 	}
 
 
@@ -138,7 +123,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	 * @see Mvc_Site_Abstract
 	 * @see Mvc_Site_Factory
 	 *
-	 * @param Mvc_Site_ID_Abstract|string $ID
+	 * @param string $ID
 	 * @return Mvc_Site_Interface
 	 */
 	public static function get( $ID ) {
@@ -146,11 +131,8 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 		$ID_s = (string)$ID;
 
 		if(!isset(static::$_loaded[$ID_s])) {
-			if(is_string($ID)) {
-				$ID = static::getEmptyIDInstance()->createID( $ID );
-			}
 
-			static::load( $ID );
+			static::_load( $ID );
 
 		}
 
@@ -160,6 +142,78 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 
 		return static::$_loaded[$ID_s];
 	}
+
+
+	/**
+	 * @param string $ID
+	 *
+	 * @return Mvc_Site|Mvc_Site_Interface|null
+	 */
+	public static function _load( $ID ) {
+
+		if(isset(static::$_loaded[$ID])) {
+			return static::$_loaded[$ID];
+		}
+
+		$data_file_path = static::getSiteDataFilePath($ID);
+
+		if(!IO_File::exists($data_file_path)) {
+			return null;
+		}
+
+		/** @noinspection PhpIncludeInspection */
+		$data = require $data_file_path;
+
+		$site = new self();
+
+		$URL_map = $site->getUrlsMap();
+
+		$site->site_ID = $ID;
+		$site->name = $data['name'];
+		$site->is_active = $data['is_active'];
+
+		foreach( $data['localized_data'] as $locale_str=>$localized_data ) {
+			$locale = new Locale($locale_str);
+
+			$site->addLocale( $locale );
+
+			$l_data = $site->localized_data[$locale_str];
+
+			$l_data->setIsActive($localized_data['is_active']);
+			$l_data->setDefaultHeadersSuffix($localized_data['default_headers_suffix']);
+			$l_data->setDefaultBodyPrefix($localized_data['default_body_prefix']);
+			$l_data->setDefaultBodySuffix($localized_data['default_body_suffix']);
+
+			$meta_tags = [];
+
+			foreach($localized_data['default_meta_tags'] as $m_data) {
+				$meta_tags[] = Mvc_Factory::getSiteLocalizedMetaTagInstance( $m_data['content'], $m_data['attribute'], $m_data['attribute_value']);
+			}
+
+			$l_data->setDefaultMetaTags( $meta_tags );
+
+			$URLs = [];
+
+			foreach( $URL_map as $URL_data ) {
+				if(
+					$URL_data->getSiteID()!=(string)$ID ||
+					$URL_data->getLocale()!=$locale_str
+				) {
+					continue;
+				}
+
+				$URLs[] = $URL_data;
+			}
+
+
+			$l_data->setURLs( $URLs );
+		}
+
+		static::$_loaded[$ID] = $site;
+
+		return $site;
+	}
+
 
 	/**
 	 * @static
@@ -208,11 +262,18 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getSiteID() {
+		return $this->site_ID;
+	}
+
+	/**
 	 * @param string $ID
 	 *
 	 */
-	public function setID( $ID ) {
-		$this->ID = $ID;
+	public function setSiteID( $ID ) {
+		$this->site_ID = $ID;
 	}
 
 	/**
@@ -238,7 +299,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	 * @return string
 	 */
 	public function getBasePath() {
-		return JET_SITES_PATH . $this->ID.'/';
+		return JET_SITES_PATH . $this->site_ID.'/';
 	}
 
 
@@ -261,7 +322,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	 * @return string
 	 */
 	public function getBaseURI() {
-		return JET_SITES_URI . $this->getID() . '/';
+		return JET_SITES_URI . $this->getSiteID() . '/';
 	}
 
 	/**
@@ -607,30 +668,6 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 	}
 
 
-
-	/**
-	 * Returns a list of all sites
-	 *
-	 * @return Mvc_Site_Interface[]
-	 */
-	protected function _getList() {
-		$dirs = IO_Dir::getSubdirectoriesList( JET_SITES_PATH );
-
-		$sites = [];
-
-		foreach( $dirs as $ID ) {
-			$site = Mvc_Site::get( $ID );
-
-			$sites[ $ID ] = $site;
-		}
-
-		uasort( $sites, function( Mvc_Site_Interface $site_a, Mvc_Site_Interface $site_b ) {
-			return strcmp( $site_a->getName(), $site_b->getName() );
-		} );
-
-		return $sites;
-	}
-
 	/**
 	 * Returns default site data
 	 *
@@ -651,88 +688,12 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 
 
 	/**
-	 * Loads DataModel.
-	 *
-	 * @param DataModel_ID_Abstract $ID
-	 *
-	 * @throws DataModel_Exception
-	 *
-	 * @return DataModel
-	 */
-	public static function load( DataModel_ID_Abstract $ID ) {
-		$ID_str = $ID->toString();
-
-		if(isset(static::$_loaded[$ID_str])) {
-			return static::$_loaded[$ID_str];
-		}
-
-		$data_file_path = static::getSiteDataFilePath($ID);
-
-		if(!IO_File::exists($data_file_path)) {
-			return null;
-		}
-
-		/** @noinspection PhpIncludeInspection */
-		$data = require $data_file_path;
-
-		$site = new self();
-
-		$URL_map = $site->getUrlsMap();
-
-		$site->ID = $ID;
-		$site->name = $data['name'];
-		$site->is_active = $data['is_active'];
-
-		foreach( $data['localized_data'] as $locale_str=>$localized_data ) {
-			$locale = new Locale($locale_str);
-
-			$site->addLocale( $locale );
-
-			$l_data = $site->localized_data[$locale_str];
-
-			$l_data->setIsActive($localized_data['is_active']);
-			$l_data->setDefaultHeadersSuffix($localized_data['default_headers_suffix']);
-			$l_data->setDefaultBodyPrefix($localized_data['default_body_prefix']);
-			$l_data->setDefaultBodySuffix($localized_data['default_body_suffix']);
-
-			$meta_tags = [];
-
-			foreach($localized_data['default_meta_tags'] as $m_data) {
-				$meta_tags[] = Mvc_Factory::getSiteLocalizedMetaTagInstance( $m_data['content'], $m_data['attribute'], $m_data['attribute_value']);
-			}
-
-			$l_data->setDefaultMetaTags( $meta_tags );
-
-			$URLs = [];
-
-			foreach( $URL_map as $URL_data ) {
-				if(
-					$URL_data->getSiteID()!=(string)$ID ||
-					$URL_data->getLocale()!=$locale_str
-				) {
-					continue;
-				}
-
-				$URLs[] = $URL_data;
-			}
-
-
-			$l_data->setURLs( $URLs );
-		}
-
-		static::$_loaded[$ID_str] = $site;
-
-		return $site;
-	}
-
-
-	/**
 	 * @param Locale $locale
 	 *
 	 * @return Mvc_Page_Interface
 	 */
 	public function getHomepage( Locale $locale ) {
-		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getID() );
+		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getSiteID() );
 	}
 
 
@@ -827,7 +788,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 
 		$data['loaded_sites'] = static::$_loaded;
 		$data['URL_map'] = static::$URL_map;
-		$data['site'] = (string)$site->getID();
+		$data['site'] = $site->getSiteID();
 
 	}
 
@@ -863,7 +824,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 		}
 
 		//- DATA FILE
-		$data = $this->jsonSerialize();
+		$data = $this->toArray();
 
 		foreach( $data['localized_data'] as $locale=>$ld ) {
 			unset($data['localized_data'][$locale]['site_ID']);
@@ -875,7 +836,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 
 		$data = '<?php'.JET_EOL.'return '.$ar->export();
 
-		$data_file_path = static::getSiteDataFilePath($this->getID());
+		$data_file_path = static::getSiteDataFilePath($this->getSiteID());
 
 
 		IO_File::write($data_file_path, $data);
@@ -901,7 +862,7 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 
 		foreach( $this->localized_data as $ld ) {
 
-			$key = $this->getID().'/'.$ld->getLocale();
+			$key = $this->getSiteID().'/'.$ld->getLocale();
 
 			$URLs_map_data[$key] = [];
 
@@ -950,6 +911,27 @@ class Mvc_Site extends DataModel implements Mvc_Site_Interface {
 		);
 
 		Mvc::truncateRouterCache();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+
+		$data = [
+			'ID' => $this->site_ID,
+			'name' => $this->name,
+			'is_default' => $this->is_default,
+			'is_active' => $this->is_active,
+			'default_locale' => $this->default_locale->toString(),
+			'localized_data' => []
+		];
+
+		foreach( $this->localized_data as $locale_str=>$ld ) {
+			$data[$locale_str] = $ld->toArray();
+		}
+
+		return $data;
 	}
 
 }

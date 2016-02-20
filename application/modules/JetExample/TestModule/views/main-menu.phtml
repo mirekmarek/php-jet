@@ -9,7 +9,7 @@ $show_menu = function( $pages ) use (&$show_menu) {
 
 	if(!$pages) return;
 
-	$current_page_ID = Mvc::getCurrentPage()->getID()->toString();
+	$current_page_key = Mvc::getCurrentPage()->getPageKey();
 	?>
 	<ul>
 		<?php foreach($pages as $page):
@@ -18,7 +18,7 @@ $show_menu = function( $pages ) use (&$show_menu) {
 			}
 			?>
 			<li>
-				<?php if($current_page_ID==$page->getID()->toString() ): ?>
+				<?php if($current_page_key==$page->getPageKey() ): ?>
 					<i><?=$page->getMenuTitle(); ?></i>
 				<?php else: ?>
 					<a href="<?=$page->getURL(); ?>"><?=$page->getMenuTitle(); ?></a>

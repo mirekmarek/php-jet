@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-class Mvc_Site_LocalizedData_URL extends DataModel_Related_1toN implements Mvc_Site_LocalizedData_URL_Interface {
+class Mvc_Site_LocalizedData_URL extends Object implements Mvc_Site_LocalizedData_URL_Interface {
 
 	/**
 	 *
@@ -87,7 +87,6 @@ class Mvc_Site_LocalizedData_URL extends DataModel_Related_1toN implements Mvc_S
 			$this->setIsDefault($is_default);
 		}
 
-		parent::__construct();
 	}
 
     /**
@@ -284,6 +283,13 @@ class Mvc_Site_LocalizedData_URL extends DataModel_Related_1toN implements Mvc_S
 		}
 
 		return $this->parsed_URL_data[$return_what];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		return get_object_vars($this);
 	}
 
 }

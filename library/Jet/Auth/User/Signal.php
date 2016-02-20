@@ -17,24 +17,24 @@ class Auth_User_Signal extends Application_Signals_Signal {
 
 	/**
 	 *
-	 * @param Auth_User_Abstract $sender
+	 * @param Auth_User_Interface $sender
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Auth_User_Abstract $sender, $name, array $data= []) {
+	public function __construct( Auth_User_Interface $sender, $name, array $data= []) {
 		parent::__construct($sender, $name, $data);
 	}
 
 	/**
 	 *
-	 * @return Auth_User_Abstract
+	 * @return Auth_User_Interface
 	 */
 	public function getSender(){
 		return $this->sender;
 	}
 
 	/**
-	 * @return Auth_User_Abstract
+	 * @return Auth_User_Interface
 	 */
 	public function getUser() {
 		return $this->data['user'];

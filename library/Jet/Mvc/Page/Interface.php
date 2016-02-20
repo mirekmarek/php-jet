@@ -23,24 +23,35 @@ namespace Jet;
 interface Mvc_Page_Interface {
 
 	/**
+	 * @return string
+	 */
+	public function getPageKey();
+
+	/**
 	 * @param string $ID
 	 */
-	public function setID( $ID );
+	public function setPageID( $ID );
+
+	/**
+	 * @return string
+	 */
+	public function getPageID();
 
     /**
      * @param string $site_ID
      */
 	public function setSiteID( $site_ID );
 
-    /**
-     * @param Locale $locale
-     */
-	public function setLocale( Locale $locale );
-
 	/**
-	 * @return Mvc_Site_ID_Abstract
+	 * @return string
 	 */
 	public function getSiteID();
+
+	/**
+	 * @param Locale $locale
+	 *
+	 */
+	public function setLocale( Locale $locale );
 
 	/**
 	 *
@@ -386,9 +397,14 @@ interface Mvc_Page_Interface {
 	public function getAllPagesTree();
 
 	/**
-	 * @return DataModel_Fetch_Object_IDs
+	 * @return string
 	 */
 	public function getChildrenIDs();
+
+	/**
+	 * @return string
+	 */
+	public function getChildrenKeys();
 
 	/**
 	 * @return Mvc_Page_Interface[]
@@ -412,10 +428,10 @@ interface Mvc_Page_Interface {
      */
     public function addBreadcrumbNavigationData( $title, $URI='' );
 
-    /**
-     * @param Mvc_Page_ID_Abstract  $page_ID (optional)
-     */
-    public function addBreadcrumbNavigationPage( Mvc_Page_ID_Abstract $page_ID );
+	/**
+	 * @param Mvc_Page_Interface $page
+	 */
+	public function addBreadcrumbNavigationPage( Mvc_Page_Interface $page );
 
 
     /**

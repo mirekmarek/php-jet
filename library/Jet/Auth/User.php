@@ -18,11 +18,21 @@
 namespace Jet;
 
 /**
- * Class Auth_User
  *
+ * @JetApplication_Signals:signal = '/user/new'
+ * @JetApplication_Signals:signal = '/user/deleted'
+ * @JetApplication_Signals:signal = '/user/updated'
+ * @JetApplication_Signals:signal = '/user/blocked'
+ * @JetApplication_Signals:signal = '/user/unblocked'
+ * @JetApplication_Signals:signal = '/user/activated'
+ *
+ * @JetApplication_Signals:signal_object_class_name = 'Auth_User_Signal'
+ *
+ * @JetDataModel:name = 'user'
+ * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Auth_Users'
  */
-class Auth_User extends Auth_User_Abstract {
+class Auth_User extends DataModel implements Auth_User_Interface {
 
 	/**
 	 *
@@ -195,6 +205,21 @@ class Auth_User extends Auth_User_Abstract {
 	 */
 	protected $roles;
 
+	/**
+	 * @param string|null $login
+	 * @param string|null $password
+	 */
+	public function __construct( $login=null, $password=null ) {
+
+		if($login!==null) {
+			$this->setLogin($login);
+		}
+		if($password!==null) {
+			$this->setPassword($password);
+		}
+
+		parent::__construct();
+	}
 
 	/**
 	 * @return string
@@ -464,7 +489,7 @@ class Auth_User extends Auth_User_Abstract {
 
 	/**
 	 * @param string|null $role_ID (optional)
-	 * @return Auth_User_Abstract[]
+	 * @return Auth_User_Interface[]
 	 */
 	public function getUsersList( $role_ID=null ) {
 		if($role_ID) {
@@ -506,7 +531,7 @@ class Auth_User extends Auth_User_Abstract {
 	/**
 	 * @param string $login
 	 * @param string $password
-	 * @return Auth_User_Abstract|null
+	 * @return Auth_User_Interface|null
 	 */
 	public function getByIdentity(  $login, $password  ) {
 
@@ -521,7 +546,7 @@ class Auth_User extends Auth_User_Abstract {
 	/**
 	 * @param string $login
 	 *
-	 * @return null|Auth_User_Abstract|DataModel
+	 * @return null|Auth_User_Interface|DataModel
 	 */
 	public function getGetByLogin(  $login  ) {
 
@@ -543,7 +568,7 @@ class Auth_User extends Auth_User_Abstract {
 
 	/**
 	 * @abstract
-	 * @return Auth_Role_Abstract[]
+	 * @return Auth_Role_Interface[]
 	 */
 	public function getRoles() {
 		return $this->roles;
@@ -574,7 +599,7 @@ class Auth_User extends Auth_User_Abstract {
 	public function getHasRole( $role_ID ) {
 		foreach($this->roles as $role) {
 			/**
-			 * @var Auth_Role_Abstract $role
+			 * @var Auth_Role_Interface $role
 			 */
 			if( $role->getID()==$role_ID ) {
 				return true;
@@ -596,7 +621,7 @@ class Auth_User extends Auth_User_Abstract {
 
 		foreach($this->roles as $role) {
 			/**
-			 * @var Auth_Role_Abstract $role
+			 * @var Auth_Role_Interface $role
 			 */
 			if($role->getHasPrivilege( $privilege, $value )) {
 				return true;
@@ -615,7 +640,7 @@ class Auth_User extends Auth_User_Abstract {
 		$result = [];
 		foreach($this->roles as $role) {
 			/**
-			 * @var Auth_Role_Abstract $role
+			 * @var Auth_Role_Interface $role
 			 */
 
 			$result = array_merge(
@@ -694,4 +719,27 @@ class Auth_User extends Auth_User_Abstract {
 		});
 
 	}
+
+
+	/**
+	 *
+	 */
+	public function afterAdd() {
+		$this->sendSignal('/user/new', ['user'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterUpdate() {
+		$this->sendSignal('/user/updated', ['user'=>$this]);
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete() {
+		$this->sendSignal('/user/deleted', ['user'=>$this]);
+	}
+
 }

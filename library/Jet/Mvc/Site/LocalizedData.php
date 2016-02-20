@@ -19,7 +19,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_LocalizedData_Interface {
+class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 *
@@ -94,7 +94,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_URL_CLASS
 	 *
-	 * @var Mvc_Site_LocalizedData_URL_Interface[]|DataModel_Related_1toN_Iterator
+	 * @var Mvc_Site_LocalizedData_URL[]
 	 */
 	protected $URLs;
 
@@ -103,7 +103,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
 	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_META_TAG_CLASS
 	 *
-	 * @var Mvc_Site_LocalizedData_MetaTag_Interface[]|DataModel_Related_1toN_Iterator
+	 * @var Mvc_Site_LocalizedData_MetaTag[]
 	 */
 	protected $default_meta_tags;
 
@@ -117,7 +117,6 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
             $this->setLocale($locale);
         }
 
-        parent::__construct();
     }
 
 	/**
@@ -216,17 +215,17 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface[]
+	 * @return Mvc_Site_LocalizedData_URL[]
 	 */
 	public function getURLs() {
 		return $this->URLs;
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface[]|string[] $URLs
+	 * @param Mvc_Site_LocalizedData_URL[]|string[] $URLs
 	 */
 	public function setURLs($URLs) {
-		$this->URLs->clearData();
+		$this->URLs = [];
 
 		foreach($URLs as $URL) {
             $this->URLs[] = $URL;
@@ -234,20 +233,20 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
+	 * @param Mvc_Site_LocalizedData_URL|string $URL
 	 */
 	public function addURL( $URL ) {
 		$this->_addURL($URL );
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
+	 * @param Mvc_Site_LocalizedData_URL|string $URL
 	 */
 	public function removeURL( $URL ) {
 		$index = null;
 
 		/**
-		 * @var Mvc_Site_LocalizedData_URL_Interface $e_URL
+		 * @var Mvc_Site_LocalizedData_URL $e_URL
 		 */
 		foreach($this->URLs as $i=>$e_URL) {
 			if( (string)$URL==(string)$e_URL  ) {
@@ -277,7 +276,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
+	 * @param Mvc_Site_LocalizedData_URL|string $URL
 	 * @return bool
 	 */
 	public function setDefaultURL( $URL ) {
@@ -285,7 +284,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @return Mvc_Site_LocalizedData_URL
 	 */
 	public function getDefaultURL( ) {
 		return $this->_getDefaultURL( false );
@@ -293,7 +292,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
+	 * @param Mvc_Site_LocalizedData_URL|string $URL
 	 * @return bool
 	 */
 	public function setDefaultSslURL( $URL ) {
@@ -301,7 +300,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @return Mvc_Site_LocalizedData_URL
 	 */
 	public function getDefaultSslURL( ) {
 		return $this->_getDefaultURL( true );
@@ -362,7 +361,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 	/**
 	 * @param bool $is_SSL
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @return Mvc_Site_LocalizedData_URL
 	 */
 	protected function _getDefaultURL( $is_SSL ) {
 		foreach($this->URLs as $e_URL) {
@@ -377,7 +376,7 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 
 	/**
 	 *
-	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
+	 * @return Mvc_Site_LocalizedData_MetaTag[]
 	 */
 	public function getDefaultMetaTags() {
 		return $this->default_meta_tags;
@@ -401,13 +400,32 @@ class Mvc_Site_LocalizedData extends DataModel_Related_1toN implements Mvc_Site_
 
 	/**
 	 *
-	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $default_meta_tags
+	 * @param Mvc_Site_LocalizedData_MetaTag[] $default_meta_tags
 	 */
 	public function setDefaultMetaTags($default_meta_tags) {
-		$this->default_meta_tags->clearData();
+		$this->default_meta_tags = [];
 
 		foreach( $default_meta_tags as $default_meta_tag ) {
 			$this->addDefaultMetaTag($default_meta_tag);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		$data = get_object_vars($this);
+		$data['default_meta_tags'] = [];
+		$data['URLs'] = [];
+
+		foreach( $this->default_meta_tags as $meta_tag ) {
+			$data['default_meta_tags'][] = $meta_tag->toArray();
+		}
+
+		foreach( $this->URLs as $URL ) {
+			$data['URLs'][] = $URL->toArray();
+		}
+
+		return $data;
 	}
 }

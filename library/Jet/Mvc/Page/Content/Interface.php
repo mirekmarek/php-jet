@@ -24,11 +24,22 @@ namespace Jet;
  */
 interface Mvc_Page_Content_Interface {
 
+	/**
+	 * @return string
+	 */
+	public function getContentKey();
+
     /**
      * @param mixed $ID
      *
      */
-    public function setID( $ID );
+    public function setContentID( $ID );
+
+	/**
+	 * @return string
+	 */
+	public function getContentID();
+
 
     /**
      * @param array $data
