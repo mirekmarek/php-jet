@@ -155,4 +155,24 @@ return array(
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'40f7c9cfbd31d617eb76065a0c3e3b2e' => array(
+		'phrase' => 'Please select site template',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'2e5f3fa5081fcf456dfc9b4037cbd35c' => array(
+		'phrase' => 'Please select locale',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'5e0051db19205efd10e2e93b16c0c2b7' => array(
+		'phrase' => 'Please specify site name',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'256e0305272f140dec6c15d6a8a1e3bb' => array(
+		'phrase' => 'Please specify URL',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );

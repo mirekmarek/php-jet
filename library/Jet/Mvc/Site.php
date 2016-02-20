@@ -293,7 +293,26 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 		$this->name = $name;
 	}
 
-	/**
+
+    /**
+     *
+     */
+    public function generateID() {
+
+        $name  = trim( $this->name );
+
+        $ID = Data_Text::removeAccents( $name );
+        $ID = str_replace(' ', '_', $ID);
+        $ID = preg_replace('/[^a-z0-9_]/i', '', $ID);
+        $ID = strtolower($ID);
+        $ID = preg_replace( '~([_]{2,})~', '_' , $ID );
+        $ID = substr($ID, 0, 50);
+
+        $this->site_ID = $ID;
+    }
+
+
+    /**
 	 * Returns root directory path
 	 *
 	 * @return string
@@ -798,6 +817,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	public function create( $template )
 	{
 
+
 		IO_Dir::copy( JET_TEMPLATES_SITES_PATH . $template, $this->getBasePath());
 
 		$pages_root_path = $this->getPagesDataPath();
@@ -823,14 +843,16 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 			}
 		}
 
+
 		//- DATA FILE
 		$data = $this->toArray();
 
-		foreach( $data['localized_data'] as $locale=>$ld ) {
+		foreach( $this->getLocales(true) as $locale ) {
 			unset($data['localized_data'][$locale]['site_ID']);
 			unset($data['localized_data'][$locale]['locale']);
 			unset($data['localized_data'][$locale]['URLs']);
 		}
+
 
 		$ar = new Data_Array($data);
 
@@ -924,11 +946,11 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 			'is_default' => $this->is_default,
 			'is_active' => $this->is_active,
 			'default_locale' => $this->default_locale->toString(),
-			'localized_data' => []
+            'localized_data' => [],
 		];
 
 		foreach( $this->localized_data as $locale_str=>$ld ) {
-			$data[$locale_str] = $ld->toArray();
+			$data['localized_data'][$locale_str] = $ld->toArray();
 		}
 
 		return $data;

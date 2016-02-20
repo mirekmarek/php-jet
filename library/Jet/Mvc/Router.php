@@ -712,7 +712,9 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	 * @param null|string|array $URL
 	 */
 	public function cacheTruncate( $URL=null ) {
-		$this->getCacheBackendInstance()->truncate($URL);
+        if($this->getConfig()->getCacheEnabled()) {
+            $this->getCacheBackendInstance()->truncate($URL);
+        }
 	}
 
 	/**

@@ -53,7 +53,7 @@ class Controller_Admin_AJAX extends Mvc_Controller_AJAX {
 		$upload_form = new Form('upload_form', []);
 		$upload_form->enableDecorator('Dojo');
 		$upload_form->addField(
-			Form_Factory::field('Checkbox', 'overwrite_if_exists', 'Overwrite image if exists')
+			Form_Factory::field(Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists')
 		);
 		$this->view->setVar('upload_form', $upload_form);
 

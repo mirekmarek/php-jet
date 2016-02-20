@@ -46,6 +46,11 @@ interface Mvc_Site_Interface {
 	 */
 	public function setName($name);
 
+    /**
+     *
+     */
+    public function generateID();
+
 	/**
 	 * Returns root directory path
 	 *

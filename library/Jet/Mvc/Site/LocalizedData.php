@@ -96,7 +96,7 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 	 *
 	 * @var Mvc_Site_LocalizedData_URL[]
 	 */
-	protected $URLs;
+	protected $URLs = [];
 
 	/**
 	 *
@@ -105,7 +105,7 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 	 *
 	 * @var Mvc_Site_LocalizedData_MetaTag[]
 	 */
-	protected $default_meta_tags;
+	protected $default_meta_tags = [];
 
 
     /**
@@ -415,6 +415,11 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 	 */
 	public function toArray() {
 		$data = get_object_vars($this);
+        foreach( $data as $k=>$v ) {
+            if($k[0]=='_') {
+                unset($data[$k]);
+            }
+        }
 		$data['default_meta_tags'] = [];
 		$data['URLs'] = [];
 

@@ -64,7 +64,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:is_key = true
-	 * @JetDataModel:form_field_type = 'Password'
+	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
 	 * @JetDataModel:form_field_label = 'Password'
 	 * @JetDataModel:form_field_options = ['password_check_label'=>'Confirm password']
      * @JetDataModel:form_field_error_messages = ['empty'=>'Please type password', 'check_empty'=>'Please type confirm password', 'check_not_match'=>'Passwords do not match']

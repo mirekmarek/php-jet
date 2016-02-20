@@ -68,7 +68,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 */
 	public function getFormFieldType() {
 
-		if($this->form_field_type!='Input') {
+		if($this->form_field_type!=Form::TYPE_INPUT) {
 			return $this->form_field_type;
 		}
 

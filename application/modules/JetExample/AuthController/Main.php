@@ -330,8 +330,8 @@ class Main extends Auth_ControllerModule_Abstract {
 	 */
 	function getLoginForm() {
 		$form = new Form('login', [
-			Form_Factory::field('Input', 'login', 'User name: '),
-			Form_Factory::field('Password', 'password', 'Password:')
+			Form_Factory::field(Form::TYPE_INPUT, 'login', 'User name: '),
+			Form_Factory::field(Form::TYPE_PASSWORD, 'password', 'Password:')
 		]);
 
 		$form->getField('login')->setIsRequired( true );
@@ -350,7 +350,7 @@ class Main extends Auth_ControllerModule_Abstract {
 	 */
 	function getChangePasswordForm() {
 		$form = new Form('login', [
-			Form_Factory::field('Password', 'password', 'Password')
+			Form_Factory::field(Form::TYPE_PASSWORD, 'password', 'Password')
 		]);
 
 		$form->getField('password')->setIsRequired( true );

@@ -179,8 +179,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormFieldType
 	 */
 	public function testGetFormFieldType() {
-		$this->assertEquals('Input', $this->object->getFormFieldType() );
-		$this->assertEquals('Hidden', $this->ID_object->getFormFieldType() );
+		$this->assertEquals(Form::TYPE_INPUT, $this->object->getFormFieldType() );
+		$this->assertEquals(Form::TYPE_HIDDEN, $this->ID_object->getFormFieldType() );
 	}
 
 	/**

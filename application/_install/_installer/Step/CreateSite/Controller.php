@@ -38,7 +38,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
 
 			$site->setName('Example Site');
-			$site->setSiteID('examle_site');
+			$site->generateID();
 
 			$site->addLocale( $default_locale );
 			$site->addURL( $default_locale, $nonSSL );
@@ -83,14 +83,20 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		}
 
 
+        $locale_field = Form_Factory::field(Form::TYPE_SELECT,'locale', 'Select new locale');
+        $locale_field->setSelectOptions( $avl_locales );
+        $locale_field->setIsRequired(true);
+        $locale_field->setErrorMessages([
+            Form_Field_Select::ERROR_CODE_EMPTY=>'Please select locale',
+            Form_Field_Select::ERROR_CODE_INVALID_VALUE=>'Please select locale'
+        ]);
+
 		$add_locale_form = new Form('locale_add',
 			[
-				Form_Factory::field(Form::TYPE_SELECT,'locale', 'Select new locale'),
+                $locale_field
 			]
 		);
 
-		$add_locale_form->getField('locale')->setSelectOptions( $avl_locales );
-		$add_locale_form->getField('locale')->setIsRequired(true);
 
 		if($add_locale_form->catchValues() && $add_locale_form->validateValues()) {
 			$d = $add_locale_form->getValues();
@@ -119,8 +125,12 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 
 		//----------------------------------------------------------------------
+        $name_field = Form_Factory::field(Form::TYPE_INPUT,'name', 'Site name', $site->getName(), true);
+        $name_field->setErrorMessages([
+            Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify site name'
+        ]);
 		$main_form_fields = [
-			Form_Factory::field('Input','name', 'Site name', $site->getName(), true),
+            $name_field,
 		];
 
 		foreach($site->getLocales() as $locale ) {
@@ -137,8 +147,17 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 				}
 			}
 
-			$main_form_fields[] = Form_Factory::field('Input','/'.$locale.'/nonSSL', 'URL ', $nonSSL, true);
-			$main_form_fields[] = Form_Factory::field('Input','/'.$locale.'/SSL', 'SSL URL ', $SSL, false);
+            $nonSSL_URL_field = Form_Factory::field(Form::TYPE_INPUT,'/'.$locale.'/nonSSL', 'URL ', $nonSSL, true);
+            $nonSSL_URL_field->setErrorMessages([
+                Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL'
+            ]);
+            $SSL_URL_field = Form_Factory::field(Form::TYPE_INPUT,'/'.$locale.'/SSL', 'SSL URL ', $SSL, false);
+            $SSL_URL_field->setErrorMessages([
+                Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL'
+            ]);
+
+			$main_form_fields[] = $nonSSL_URL_field;
+			$main_form_fields[] = $SSL_URL_field;
 		}
 
 		$main_form = new Form('main', $main_form_fields );
@@ -149,7 +168,6 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		) {
 			$data = $main_form->getValues();
 
-			$site->resetID();
 			$site->setName( $data['name'] );
 			$site->generateID();
 
@@ -166,14 +184,20 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 		//----------------------------------------------------------------------
 		if( count($site->getLocales()) ) {
+            $templates_list = Mvc_Site::getAvailableTemplatesList();
+
+            $select_template_field = Form_Factory::field(Form::TYPE_SELECT,'template', 'Site template: ', '', true);
+            $select_template_field->setSelectOptions($templates_list);
+            $select_template_field->setErrorMessages([
+                Form_Field_Select::ERROR_CODE_EMPTY => 'Please select site template',
+                Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select site template'
+            ]);
+
 			$create_form = new Form('create',
 				[
-					Form_Factory::field(Form::TYPE_SELECT,'template', 'Site template: ', '', true)
+                    $select_template_field
 				]
 			);
-			$templates_list = Mvc_Site::getAvailableTemplatesList();
-
-			$create_form->getField('template')->setSelectOptions($templates_list);
 
 			$this->view->setVar('create_form', $create_form);
 
