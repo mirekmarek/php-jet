@@ -36,7 +36,6 @@ class Gallery extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */
@@ -57,6 +56,7 @@ class Gallery extends DataModel {
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
+     * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please type title']
 	 *
 	 * @var string
 	 */
@@ -190,8 +190,15 @@ class Gallery extends DataModel {
 	 * @return Form
 	 */
 	public function getUploadForm() {
+        $image_field = Form_Factory::getFieldInstance( Form::TYPE_FILE_IMAGE, 'file', 'Upload image' );
+        $image_field->setIsRequired(true);
+        $image_field->setErrorMessages([
+            Form_Field_FileImage::ERROR_CODE_EMPTY => 'Please select image',
+            Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Uploaded file is not supported image'
+        ]);
+
 		$form = new Form('gallery_image_upload', [
-			Form_Factory::getFieldInstance( Form::TYPE_FILE_IMAGE, 'file', 'Upload image' ),
+            $image_field,
 			Form_Factory::getFieldInstance( Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
 		]);
 

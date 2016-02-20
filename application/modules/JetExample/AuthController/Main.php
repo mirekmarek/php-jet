@@ -329,9 +329,18 @@ class Main extends Auth_ControllerModule_Abstract {
 	 * @return Form
 	 */
 	function getLoginForm() {
+        $login_field = Form_Factory::field(Form::TYPE_INPUT, 'login', 'User name: ');
+        $login_field->setErrorMessages([
+            Jet\Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
+        ]);
+        $password_field = Form_Factory::field(Form::TYPE_PASSWORD, 'password', 'Password:');
+        $password_field->setErrorMessages([
+            Jet\Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
+        ]);
+
 		$form = new Form('login', [
-			Form_Factory::field(Form::TYPE_INPUT, 'login', 'User name: '),
-			Form_Factory::field(Form::TYPE_PASSWORD, 'password', 'Password:')
+            $login_field,
+            $password_field
 		]);
 
 		$form->getField('login')->setIsRequired( true );

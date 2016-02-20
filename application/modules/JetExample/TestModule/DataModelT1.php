@@ -161,6 +161,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Password: '
 	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
 	 * @JetDataModel:form_field_options = ['disable_check' => false]
+     * @JetDataModel:form_field_error_messages = [Form_Field_Password::ERROR_CODE_EMPTY=>'Please type password', Form_Field_Password::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_Password::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */

@@ -83,7 +83,9 @@ class Debug_ErrorHandler_Error {
 		E_USER_ERROR => 'PHP User Error',
 		E_USER_WARNING => 'PHP User Warning',
 		E_USER_NOTICE => 'PHP User Notice',
-		E_STRICT => 'PHP Runtime Notice'
+		E_STRICT => 'PHP Runtime Notice',
+        E_DEPRECATED => 'PHP Deprecated'
+
 	];
 
 	/**

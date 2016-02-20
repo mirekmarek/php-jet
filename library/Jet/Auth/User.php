@@ -98,6 +98,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = [ 'Mvc_Site','getAllLocalesList']
+     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale']
 	 *
 	 * @var Locale
 	 */
@@ -202,6 +203,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Auth', 'getRolesList']
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
+     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
 	 *
 	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator
 	 */

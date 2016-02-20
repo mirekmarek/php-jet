@@ -127,11 +127,11 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @return bool
 	 */
 	public function validateValue() {
-
         if(!$this->_has_value) {
             if($this->is_required) {
-                $this->setValueError(self::ERROR_CODE_EMPTY
-);
+                $this->setValueError(self::ERROR_CODE_EMPTY);
+
+                return false;
             }
 
             return true;

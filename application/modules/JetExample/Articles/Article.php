@@ -48,6 +48,7 @@ class Article extends DataModel {
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc_Site','getAllLocalesList']
+     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale', Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale']
 	 *
 	 * @var Locale
 	 */
@@ -71,6 +72,7 @@ class Article extends DataModel {
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
+     * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please type title']
 	 *
 	 * @var string
 	 */
@@ -101,6 +103,7 @@ class Article extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time'
+     * @JetDataModel:form_field_error_messages = [Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date and time format']
 	 *
 	 * @var Data_DateTime
 	 */

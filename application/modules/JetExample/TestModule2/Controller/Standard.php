@@ -53,7 +53,8 @@ class Controller_Standard extends Mvc_Controller_Standard {
 			Form_Factory::field(Form::TYPE_INT,'int', 'Int: '),
 		]);
 
-		$form->getField('select')->setSelectOptions(
+        $select_field = $form->getField('select');
+        $select_field->setSelectOptions(
 				[
 					'o1' => 'Option 1',
 					'o2' => 'Option 2',
@@ -61,6 +62,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 					'o4' => 'Option 4',
 				]
 			);
+        $select_field->setErrorMessages([
+            Jet\Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value'
+        ]);
 
 		/**
 		 * @var Form_Field_Int $int_field
@@ -68,6 +72,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$int_field = $form->getField('int');
 		$int_field->setMinValue(10);
 		$int_field->setMaxValue(100);
+        $int_field->setErrorMessages([
+            Form_Field_Int::ERROR_CODE_OUT_OF_RANGE => 'Out of range'
+        ]);
 
 		if(
 			$form->catchValues() &&
