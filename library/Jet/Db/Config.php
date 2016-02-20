@@ -28,7 +28,8 @@ class Db_Config extends Application_Config {
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Db_Config', 'getConnectionsList']
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select default connection', 'invalid_value'=>'Please select default connection']
+	 *
 	 * @var string
 	 */
 	protected $default_connection_name = 'default';

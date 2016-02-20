@@ -25,9 +25,22 @@ class Installer_Step_MvcRouterCache_Controller extends Installer_Step_Controller
 		if( $config->catchForm($form) ) {
 			$config->save();
 
-            Mvc_Factory::getRouterInstance()->helper_cache_create();
+            $OK = true;
+            $e = null;
+            try {
+                Mvc_Factory::getRouterInstance()->helper_cache_create();
+            } catch( Exception $e) {
+                $OK = false;
+            }
 
-			$this->installer->goNext();
+            if($OK) {
+                $this->installer->goNext();
+            } else {
+                $this->view->setVar('backend_error', $e->getMessage());
+
+                $this->render('backend_error');
+                return;
+            }
 		}
 
 		$this->view->setVar('form', $form);

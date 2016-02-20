@@ -25,7 +25,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = JET_AUTH_ROLE_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Auth_Role_Privilege extends DataModel implements Auth_Role_Privilege_Interface {
+class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'

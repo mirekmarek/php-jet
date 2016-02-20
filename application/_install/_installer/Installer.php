@@ -252,6 +252,8 @@ class Installer {
 	 *
 	 */
 	public function goNext() {
+        $this->next_step_controller = null;
+
 		$this->getStepControllers();
 
 		Http_Headers::movedTemporary( $this->next_step_controller->getURL() );

@@ -19,10 +19,11 @@ class DataModel_Cache_Backend_Redis_Config extends DataModel_Cache_Backend_Confi
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Connection: '
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Cache_Backend_Redis_Config', 'getRedisConnectionsList']
-	 * 
+     * @JetConfig:form_field_label = 'Connection: '
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select Redis connection', 'invalid_value'=>'Please select Redis connection']
+	 *
 	 * @var string
 	 */
 	protected $connection = '';
@@ -32,7 +33,8 @@ class DataModel_Cache_Backend_Redis_Config extends DataModel_Cache_Backend_Confi
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'do_c'
 	 * @JetConfig:form_field_label = 'Cache key prefix: '
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify cache key prefix']
+	 *
 	 * @var string
 	 */
 	protected $key_prefix = 'do_c';

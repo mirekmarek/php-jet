@@ -18,26 +18,13 @@ $config_props = $config->getPropertiesDefinition();
 <jet_form name="<?=$form->getName();?>">
 	<jet_form_common_error_message class="formError"/>
 
-	<div class="form-group">
-		<jet_form_field_label name="connection_read"/>
-		<jet_form_field_error_msg name="connection_read" class="form-error"/>
-		<jet_form_field name="connection_read" class="form-control"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="connection_write"/>
-		<jet_form_field_error_msg name="connection_write" class="form-error"/>
-		<jet_form_field name="connection_write" class="form-control"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="engine"/>
-		<jet_form_field_error_msg name="engine" class="form-error"/>
-		<jet_form_field name="engine" class="form-control"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="table_name"/>
-		<jet_form_field_error_msg name="table_name" class="form-error"/>
-		<jet_form_field name="table_name" class="form-control"/>
-	</div>
+    <?php foreach( $form->getFields() as $field ): ?>
+        <div class="form-group">
+            <jet_form_field_label name="<?=$field->getName()?>"/>
+            <jet_form_field_error_msg name="<?=$field->getName()?>" class="form-error"/>
+            <jet_form_field name="<?=$field->getName()?>" class="form-control"/>
+        </div>
+    <?php endforeach; ?>
 
 	<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>"/>
 

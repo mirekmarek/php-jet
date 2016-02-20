@@ -21,7 +21,8 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = '%JET_DATA_PATH%'
 	 * @JetConfig:form_field_label = 'Data directory path: '
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify data directory path']
+	 *
 	 * @var string
 	 */
 	protected $directory_path = '%JET_DATA_PATH%';
@@ -31,7 +32,8 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'database'
 	 * @JetConfig:form_field_label = 'Database name: '
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify database name']
+	 *
 	 * @var string
 	 */
 	protected $database_name= 'database';

@@ -19,10 +19,11 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Connection - read: '
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
-	 * 
+     * @JetConfig:form_field_label = 'Connection - read: '
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select database connection', 'invalid_value'=>'Please select database connection']
+	 *
 	 * @var string
 	 */
 	protected $connection_read = '';
@@ -30,10 +31,11 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Connection - write: '
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_MySQL_Config', 'getDbConnectionsList']
-	 * 
+     * @JetConfig:form_field_label = 'Connection - write: '
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select database connection', 'invalid_value'=>'Please select database connection']
+	 *
 	 * @var string
 	 */
 	protected $connection_write= '';
@@ -43,7 +45,8 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'InnoDB'
 	 * @JetConfig:form_field_label = 'Engine: '
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify table engine']
+	 *
 	 * @var string
 	 */
 	protected $engine= '';
@@ -53,7 +56,8 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'utf8'
 	 * @JetConfig:form_field_label = 'Default charset: '
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify charset']
+	 *
 	 * @var string
 	 */
 	protected $default_charset= '';
@@ -63,7 +67,8 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'utf8_general_ci'
 	 * @JetConfig:form_field_label = 'Default collate: '
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify default collate']
+	 *
 	 * @var string
 	 */
 	protected $collate= '';

@@ -29,13 +29,19 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		$this->all_modules = Application_Modules::getAllModulesList(true);
 
 
+        $modules_field = Form_Factory::field('MultiSelect', 'modules');
+        $modules_field->setSelectOptions( $this->all_modules );
+        $modules_field->setErrorMessages([
+            'empty'=>'Please select module',
+            'invalid_value'=>'Please select module'
+        ]);
+
 		$form = new Form('modules_select_form', [
-			Form_Factory::field('MultiSelect', 'modules')
+			$modules_field
 		]);
 
 		$this->view->setVar('modules', $this->all_modules);
 
-		$form->getField('modules')->setSelectOptions( $this->all_modules );
 
 		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();

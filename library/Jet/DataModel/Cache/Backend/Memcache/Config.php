@@ -19,9 +19,10 @@ class DataModel_Cache_Backend_Memcache_Config extends DataModel_Cache_Backend_Co
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Connection: '
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Cache_Backend_Redis_Config', 'getRedisConnectionsList']
+     * @JetConfig:form_field_label = 'Connection: '
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select Memcache connection', 'invalid_value'=>'Please select Memcache connection']
 	 *
 	 * @var string
 	 */
@@ -32,6 +33,7 @@ class DataModel_Cache_Backend_Memcache_Config extends DataModel_Cache_Backend_Co
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'do_c'
 	 * @JetConfig:form_field_label = 'Cache key prefix: '
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify cache key prefix']
 	 *
 	 * @var string
 	 */

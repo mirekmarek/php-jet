@@ -51,6 +51,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:is_unique = true
 	 * @JetDataModel:form_field_label = 'User name'
+     * @JetDataModel:form_field_error_messages = ['empty'=>'Please specify user name']
 	 *
 	 * @var string
 	 */
@@ -66,6 +67,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_type = 'Password'
 	 * @JetDataModel:form_field_label = 'Password'
 	 * @JetDataModel:form_field_options = ['password_check_label'=>'Confirm password']
+     * @JetDataModel:form_field_error_messages = ['empty'=>'Please type password', 'check_empty'=>'Please type confirm password', 'check_not_match'=>'Passwords do not match']
 	 *
 	 * @var string
 	 */

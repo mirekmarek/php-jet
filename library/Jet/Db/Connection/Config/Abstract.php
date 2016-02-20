@@ -15,33 +15,36 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 
 
 	/**
-	 * @JetConfig:form_field_label = 'Connection name'
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:is_required = true
+     * @JetConfig:form_field_label = 'Connection name'
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify connection name']
 	 *
 	 * @var string
 	 */
 	protected $name;
 
 	/**
-	 * @JetConfig:form_field_label = 'Driver'
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:description = 'PDO driver'
 	 * @JetConfig:default_value = 'mysql'
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['Db_Connection_PDO_Config', 'getPDODrivers']
+     * @JetConfig:form_field_type = Form::TYPE_SELECT
+     * @JetConfig:form_field_get_select_options_callback = ['Db_Connection_PDO_Config', 'getPDODrivers']
+     * @JetConfig:form_field_label = 'Driver'
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select driver', 'invalid_value'=>'Please select driver']
 	 *
 	 * @var string
 	 */
 	protected $driver;
 
 	/**
-	 * @JetConfig:form_field_label = 'DSN'
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = ''
 	 * @JetConfig:is_required = true
+     * @JetConfig:form_field_label = 'DSN'
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify connection DSN']
 	 *
 	 * @var string
 	 */
