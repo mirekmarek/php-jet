@@ -19,7 +19,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:is_required = true
      * @JetConfig:form_field_label = 'Connection name'
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify connection name']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify connection name']
 	 *
 	 * @var string
 	 */
@@ -33,7 +33,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
      * @JetConfig:form_field_type = Form::TYPE_SELECT
      * @JetConfig:form_field_get_select_options_callback = ['Db_Connection_PDO_Config', 'getPDODrivers']
      * @JetConfig:form_field_label = 'Driver'
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please select driver', 'invalid_value'=>'Please select driver']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select driver', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select driver']
 	 *
 	 * @var string
 	 */
@@ -44,7 +44,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	 * @JetConfig:default_value = ''
 	 * @JetConfig:is_required = true
      * @JetConfig:form_field_label = 'DSN'
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify connection DSN']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify connection DSN']
 	 *
 	 * @var string
 	 */

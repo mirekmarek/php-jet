@@ -241,8 +241,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'validation_regexp' => $this->property_options['form_field_validation_regexp'],
 			'validate_data_callback' => null,
 			'error_messages' => [
-				'empty' => 'Is empty',
-				'invalid_format' => 'Invalid format',
+				Form_Field_Abstract::ERROR_CODE_EMPTY => 'Is empty',
+				Form_Field_Abstract::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			],
 			'select_options' =>
 			[

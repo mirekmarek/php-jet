@@ -92,7 +92,7 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 
 			$this->_dojo_properties['missingMessage'] = $tag_data->getProperty(
 								'missingMessage',
-								$this->field->getErrorMessage('empty')
+								$this->field->getErrorMessage(Form_Field_Abstract::ERROR_CODE_EMPTY)
 			);
 			$tag_data->unsetProperty('missingMessage');
 		}
@@ -104,7 +104,7 @@ abstract class Form_Decorator_Dojo_Abstract extends Form_Decorator_Abstract {
 
 			$this->_dojo_properties['invalidMessage'] = $tag_data->getProperty(
 				'invalidMessage',
-				$this->field->getErrorMessage('empty')
+				$this->field->getErrorMessage(Form_Field_Abstract::ERROR_CODE_EMPTY)
 			);
 			$tag_data->unsetProperty('invalidMessage');
 		}

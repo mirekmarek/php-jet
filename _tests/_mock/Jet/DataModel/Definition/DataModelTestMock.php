@@ -53,7 +53,7 @@ class DataModel_Definition_DataModelTestMock extends DataModel {
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
 	 * @JetDataModel:form_field_label = 'Form field label'
-	 * @JetDataModel:form_field_error_messages = [  'empty'=>'Is empty', 'invalid_format' => 'Invalid format' ]
+	 * @JetDataModel:form_field_error_messages = [  Form_Field_Abstract::ERROR_CODE_EMPTY=>'Is empty', Form_Field_Abstract::ERROR_CODE_INVALID_FORMAT => 'Invalid format' ]
 	 * @JetDataModel:form_field_options = ['validation_regexp' => '/^([a-z0-9]{1,10})$/']
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_validation_regexp = '/^([a-z0-9]{1,10})$/'

@@ -17,7 +17,7 @@ class Redis_Connection_Config extends Config_Section {
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:is_required = true
      * @JetConfig:form_field_label = 'Connection name'
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify connection name']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify connection name']
 	 *
 	 * @var string
 	 */
@@ -28,7 +28,7 @@ class Redis_Connection_Config extends Config_Section {
 	 * @JetConfig:default_value = '127.0.0.1'
 	 * @JetConfig:is_required = true
      * @JetConfig:form_field_label = 'Host or socket'
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify Redis server host or socket']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify Redis server host or socket']
 	 *
 	 * @var string
 	 */
@@ -39,7 +39,7 @@ class Redis_Connection_Config extends Config_Section {
 	 * @JetConfig:default_value = 6379
 	 * @JetConfig:is_required = false
      * @JetConfig:form_field_label = 'Port'
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify Redis server port']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify Redis server port']
 	 *
 	 * @var string
 	 */

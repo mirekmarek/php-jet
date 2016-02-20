@@ -27,7 +27,7 @@ class Memcache_Config extends Application_Config {
 	 * @JetConfig:form_field_label = 'Default connection:'
      * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Memcache_Config', 'getConnectionsList']
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please select default connection', 'invalid_value'=>'Please select default connection']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection']
 	 *
 	 * @var string
 	 */

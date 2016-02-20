@@ -21,7 +21,7 @@ class DataModel_Cache_Backend_SQLite_Config extends DataModel_Cache_Backend_Conf
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = '%JET_DATA_PATH%'
 	 * @JetConfig:form_field_label = 'Data directory path: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify data directory path']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify data directory path']
 	 *
 	 * @var string
 	 */
@@ -32,7 +32,7 @@ class DataModel_Cache_Backend_SQLite_Config extends DataModel_Cache_Backend_Conf
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'datamodel_cache'
 	 * @JetConfig:form_field_label = 'Database name: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify database name']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify database name']
 	 *
 	 * @var string
 	 */
@@ -43,7 +43,7 @@ class DataModel_Cache_Backend_SQLite_Config extends DataModel_Cache_Backend_Conf
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'jet_datamodel_cache'
 	 * @JetConfig:form_field_label = 'Table name: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify table name']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify table name']
 	 *
 	 * @var string
 	 */

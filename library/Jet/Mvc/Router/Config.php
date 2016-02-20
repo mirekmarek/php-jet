@@ -43,7 +43,7 @@ class Mvc_Router_Config extends Mvc_Router_Config_Abstract {
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Mvc_Router_Config', 'getCacheBackendTypesList']
      * @JetConfig:form_field_label = 'Cache backend type: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please select cache backend type', 'invalid_value'=>'Please select cache backend type']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select cache backend type', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select cache backend type']
 	 *
 	 * @var string
 	 */

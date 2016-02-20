@@ -32,8 +32,8 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
         $modules_field = Form_Factory::field(Form::TYPE_MULTI_SELECT, 'modules');
         $modules_field->setSelectOptions( $this->all_modules );
         $modules_field->setErrorMessages([
-            'empty'=>'Please select module',
-            'invalid_value'=>'Please select module'
+            Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select module',
+            Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select module'
         ]);
 
 		$form = new Form('modules_select_form', [

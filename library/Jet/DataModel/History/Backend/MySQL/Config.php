@@ -24,7 +24,7 @@ class DataModel_History_Backend_MySQL_Config extends DataModel_History_Backend_C
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = array('DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
      * @JetConfig:form_field_label = 'Connection - read: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please select database connection', 'invalid_value'=>'Please select database connection']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection']
 	 *
 	 * @var string
 	 */
@@ -36,7 +36,7 @@ class DataModel_History_Backend_MySQL_Config extends DataModel_History_Backend_C
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = array('DataModel_Backend_MySQL_Config', 'getDbConnectionsList')
      * @JetConfig:form_field_label = 'Connection - write: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please select database connection', 'invalid_value'=>'Please select database connection']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection']
 	 *
 	 * @var string
 	 */
@@ -47,7 +47,7 @@ class DataModel_History_Backend_MySQL_Config extends DataModel_History_Backend_C
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'InnoDB'
 	 * @JetConfig:form_field_label = 'Engine: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify table engine']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify table engine']
 	 *
 	 * @var string
 	 */
@@ -58,7 +58,7 @@ class DataModel_History_Backend_MySQL_Config extends DataModel_History_Backend_C
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'jet_datamodel_history'
 	 * @JetConfig:form_field_label = 'Table name: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify table name']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify table name']
 	 *
 	 * @var string
 	 */

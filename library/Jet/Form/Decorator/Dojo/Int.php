@@ -36,7 +36,7 @@ class Form_Decorator_Dojo_Int extends Form_Decorator_Dojo_Abstract {
 			$this->_dojo_properties['rangeMessage'] = Tr::_($properties['rangeMessage']);
 			unset($properties['rangeMessage']);
 		} else {
-			$this->_dojo_properties['rangeMessage'] = Tr::_($this->field->getErrorMessage('out_of_range'));
+			$this->_dojo_properties['rangeMessage'] = Tr::_($this->field->getErrorMessage(Form_Field_Float::ERROR_CODE_OUT_OF_RANGE));
 		}
 
 		$min = $this->field->getMinValue();

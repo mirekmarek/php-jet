@@ -34,7 +34,7 @@ class Form_Decorator_Dojo_Float extends Form_Decorator_Dojo_Abstract {
 	protected function getDojoProperties( Form_Parser_TagData $tag_data ) {
 		$this->_dojo_properties['rangeMessage'] = $tag_data->getProperty(
 			'rangeMessage',
-			$this->field->getErrorMessage('out_of_range')
+			$this->field->getErrorMessage(Form_Field_Float::ERROR_CODE_OUT_OF_RANGE)
 		);
 		$tag_data->unsetProperty('rangeMessage');
 

@@ -34,8 +34,8 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
         $locale_field->setIsRequired(true);
         $locale_field->setDefaultValue($this->installer->getCurrentLocale());
         $locale_field->setErrorMessages([
-            'invalid_value'=>'Please select locale',
-            'empty'=>'Please select locale'
+            Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select locale',
+            Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select locale'
         ]);
 
 		$select_locale_form = new Form('select_locale_form',

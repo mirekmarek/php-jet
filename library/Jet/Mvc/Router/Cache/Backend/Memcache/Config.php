@@ -22,7 +22,7 @@ class Mvc_Router_Cache_Backend_Memcache_Config extends Mvc_Router_Cache_Backend_
 	 * @JetConfig:form_field_label = 'Connection: '
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Cache_Backend_Memcache_Config', 'getMemcacheConnectionsList']
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please select Memcache connection', 'invalid_value'=>'Please select Memcache connection']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select Memcache connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select Memcache connection']
 	 *
 	 * @var string
 	 */
@@ -33,7 +33,7 @@ class Mvc_Router_Cache_Backend_Memcache_Config extends Mvc_Router_Cache_Backend_
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'mvc_c'
 	 * @JetConfig:form_field_label = 'Cache key prefix: '
-     * @JetConfig:form_field_error_messages = ['empty'=>'Please specify cache key prefix']
+     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify cache key prefix']
 	 *
 	 * @var string
 	 */
