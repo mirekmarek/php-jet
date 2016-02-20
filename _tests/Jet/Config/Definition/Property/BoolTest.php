@@ -26,7 +26,7 @@ class Config_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase {
 
 	protected $property_class_name = 'Config_Definition_Property_Bool';
 
-	protected $property_default_form_field_type = 'Checkbox';
+	protected $property_default_form_field_type = Form::TYPE_CHECKBOX;
 
 	protected $default_value = true;
 

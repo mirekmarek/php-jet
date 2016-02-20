@@ -25,9 +25,10 @@ class Memcache_Config extends Application_Config {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:form_field_label = 'Default connection:'
-	 * @JetConfig:form_field_type = 'Select'
+     * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Memcache_Config', 'getConnectionsList']
-	 * 
+     * @JetConfig:form_field_error_messages = ['empty'=>'Please select default connection', 'invalid_value'=>'Please select default connection']
+	 *
 	 * @var string
 	 */
 	protected $default_connection_name = 'default';
@@ -36,7 +37,7 @@ class Memcache_Config extends Application_Config {
 	/**
 	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
 	 * @JetConfig:data_path = 'connections'
-	 * @JetConfig:config_factory_class_name = 'Memcache_Factory'
+	 * @JetConfig:config_factory_class_name = 'Memcache_Config'
 	 * @JetConfig:config_factory_method_name = 'getConnectionConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
@@ -105,4 +106,16 @@ class Memcache_Config extends Application_Config {
 
 		return array_combine($connections, $connections);
 	}
+
+
+    /**
+     * @param array $data
+     *
+     * @return Memcache_Connection_Config
+     */
+    public static function getConnectionConfigInstance( $data ) {
+        $config = new Memcache_Connection_Config( $data );
+
+        return $config;
+    }
 }

@@ -111,7 +111,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 655360
 	 * @JetDataModel:form_field_label = 'WYSIWYG:'
-	 * @JetDataModel:form_field_type = 'WYSIWYG'
+	 * @JetDataModel:form_field_type = Form::TYPE_WYSIWYG
 	 *
 	 * @var string
 	 */
@@ -121,7 +121,7 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:form_field_label = 'Select: '
-	 * @JetDataModel:form_field_type = 'Select'
+	 * @JetDataModel:form_field_type = Form::TYPE_SELECT
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
 	 * @JetDataModel:form_field_error_messages = ['invalid_value'=>'Invalid value']
 	 *
@@ -133,7 +133,7 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:form_field_label = 'Multi Select: '
-	 * @JetDataModel:form_field_type = 'MultiSelect'
+	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
 	 * @JetDataModel:form_field_error_messages = ['invalid_value'=>'Invalid value']
 	 *
@@ -146,7 +146,7 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:form_field_label = 'Radio Button: '
-	 * @JetDataModel:form_field_type = 'RadioButton'
+	 * @JetDataModel:form_field_type = Form::TYPE_RADIO_BUTTON
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
 	 * @JetDataModel:form_field_error_messages = ['invalid_value'=>'Invalid value']
 	 *
@@ -159,7 +159,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Password: '
-	 * @JetDataModel:form_field_type = 'Password'
+	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
 	 * @JetDataModel:form_field_options = ['disable_check' => false]
 	 *
 	 * @var string
@@ -171,7 +171,7 @@ class DataModelT1 extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'Password (no check field): '
-	 * @JetDataModel:form_field_type = 'Password'
+	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
 	 * @JetDataModel:form_field_options = ['disable_check' => true]
 	 *
 	 * @var string

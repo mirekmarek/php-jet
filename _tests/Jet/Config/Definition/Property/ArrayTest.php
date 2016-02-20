@@ -26,7 +26,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 
 	protected $property_class_name = 'Config_Definition_Property_Array';
 
-	protected $property_default_form_field_type = 'MultiSelect';
+	protected $property_default_form_field_type = Form::TYPE_MULTI_SELECT;
 
 	protected $default_value = ['val1','val2'];
 

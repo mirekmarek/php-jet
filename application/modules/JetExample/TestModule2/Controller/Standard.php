@@ -47,10 +47,10 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	public function test_action2_Action() {
 
 		$form = new Form( 'TestForm', [
-			Form_Factory::field('Input','input', 'Input: '),
-			Form_Factory::field('Select','select', 'Select: '),
-			Form_Factory::field('Checkbox','checkbox', 'Checkbox: '),
-			Form_Factory::field('Int','int', 'Int: '),
+			Form_Factory::field(Form::TYPE_INPUT,'input', 'Input: '),
+			Form_Factory::field(Form::TYPE_SELECT,'select', 'Select: '),
+			Form_Factory::field(Form::TYPE_CHECKBOX,'checkbox', 'Checkbox: '),
+			Form_Factory::field(Form::TYPE_INT,'int', 'Int: '),
 		]);
 
 		$form->getField('select')->setSelectOptions(

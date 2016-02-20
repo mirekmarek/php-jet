@@ -32,7 +32,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 	protected $property_name = 'StringTest';
 
-	protected $property_default_form_field_type = 'Input';
+	protected $property_default_form_field_type = Form::TYPE_INPUT;
 
 	protected $validation_regexp = '/^([a-z0-9]{1,10})$/';
 

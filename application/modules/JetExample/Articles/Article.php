@@ -91,7 +91,7 @@ class Article extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 655360
 	 * @JetDataModel:form_field_label = 'Text'
-	 * @JetDataModel:form_field_type = 'WYSIWYG'
+	 * @JetDataModel:form_field_type = Form::TYPE_WYSIWYG
 	 *
 	 * @var string
 	 */

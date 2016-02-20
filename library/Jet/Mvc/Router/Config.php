@@ -41,7 +41,7 @@ class Mvc_Router_Config extends Mvc_Router_Config_Abstract {
 	 * @JetConfig:default_value = 'MySQL'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Cache backend type: '
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Mvc_Router_Config', 'getCacheBackendTypesList']
 	 * 
 	 * @var string

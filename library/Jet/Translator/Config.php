@@ -30,7 +30,7 @@ class Translator_Config extends Application_Config {
 	 * @JetConfig:is_required = false
 	 * @JetConfig:default_value = 'PHPFiles'
 	 * @JetConfig:form_field_label = 'Default backend type: '
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Translator_Config', 'getBackendTypesList']
      * @JetConfig:form_field_error_messages = ['invalid_value'=>'Please select backend type', 'empty'=>'Please select backend type']
 	 *

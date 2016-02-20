@@ -26,7 +26,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 	protected $property_class_name = 'Config_Definition_Property_Float';
 
-	protected $property_default_form_field_type = 'Float';
+	protected $property_default_form_field_type = Form::TYPE_FLOAT;
 
 	protected $default_value = 10.11;
 

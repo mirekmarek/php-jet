@@ -33,7 +33,7 @@ class Auth_Config extends Auth_Config_Abstract {
 	 * @JetConfig:description = 'Default Authentication and Authorization Controller module name'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Authentication and Authorization Controller module: '
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Auth_Config', 'getAuthControllerModulesList']
 	 * 
 	 * @var string

@@ -26,7 +26,7 @@ class Db_Config extends Application_Config {
 	 * @JetConfig:description = 'Connection name default value for Db::get() / Db::getConnection()'
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default'
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Db_Config', 'getConnectionsList']
 	 * 
 	 * @var string

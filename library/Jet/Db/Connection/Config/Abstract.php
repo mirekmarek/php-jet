@@ -30,7 +30,7 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	 * @JetConfig:description = 'PDO driver'
 	 * @JetConfig:default_value = 'mysql'
 	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_type = 'Select'
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Db_Connection_PDO_Config', 'getPDODrivers']
 	 *
 	 * @var string

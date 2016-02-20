@@ -26,7 +26,7 @@ class Config_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase {
 
 	protected $property_class_name = 'Config_Definition_Property_Int';
 
-	protected $property_default_form_field_type = 'Int';
+	protected $property_default_form_field_type = Form::TYPE_INT;
 
 	protected $default_value = 10;
 

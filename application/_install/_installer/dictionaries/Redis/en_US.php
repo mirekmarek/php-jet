@@ -125,4 +125,19 @@ return array(
 		'translation' => '',
 		'is_translated' => false,
 	),
+	'5f9e6b931d07729f771d03314857c45b' => array(
+		'phrase' => 'Please specify connection name',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'9db697b9350c01c8c75bff89cf3738f0' => array(
+		'phrase' => 'Please specify Redis server host or socket',
+		'translation' => '',
+		'is_translated' => false,
+	),
+	'c340609699e5bb0a3d1c7609f4963482' => array(
+		'phrase' => 'Please select default connection',
+		'translation' => '',
+		'is_translated' => false,
+	),
 );
