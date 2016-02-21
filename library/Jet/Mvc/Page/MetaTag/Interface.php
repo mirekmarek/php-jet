@@ -33,6 +33,11 @@ interface Mvc_Page_MetaTag_Interface {
 	 */
 	public function setIdentifier( $ID );
 
+	/**
+	 * @return string
+	 */
+	public function __toString();
+
 
 	/**
 	 * @return string

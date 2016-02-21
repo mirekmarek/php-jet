@@ -90,6 +90,8 @@ class Mvc {
 	 */
 	public static function setCurrentLocale( Locale $current_locale)
 	{
+		Translator::setCurrentLocale( $current_locale );
+
 		self::$current_locale = $current_locale;
 	}
 

@@ -150,7 +150,7 @@ class Article extends DataModel {
 		$article_i = $this;
 
 		$this->URI_fragment = $this->generateUrlFragment($this->title, function( $URI_fragment ) use ( $article_i ) {
-			return $article_i->getURIfragmentExists( $URI_fragment );
+			return $article_i->getUriFragmentExists( $URI_fragment );
 		}, '.html');
 	}
 
@@ -209,7 +209,7 @@ class Article extends DataModel {
 	 *
 	 * @return bool
 	 */
-	public function getURIfragmentExists( $URI_fragment ) {
+	public function getUriFragmentExists( $URI_fragment ) {
 		if($this->getIsNew()) {
 			$q = [
 				'this.URI_fragment' => $URI_fragment

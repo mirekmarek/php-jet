@@ -293,7 +293,7 @@ Jet.declare('Jet.module.JetExample.Images.Main', [Jet.modules.Module], {
 
 	},
 
-	treereload: function() {
+	treeReload: function() {
 		this.tree.reload();
 	},
 

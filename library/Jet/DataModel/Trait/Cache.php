@@ -23,6 +23,7 @@ trait DataModel_Trait_Cache {
      * @return bool
      */
     public static function getCacheEnabled() {
+        /** @noinspection PhpUndefinedMethodInspection */
         return static::getDataModelDefinition()->getCacheEnabled();
     }
 
@@ -32,6 +33,7 @@ trait DataModel_Trait_Cache {
      * @return DataModel_Cache_Backend_Abstract
      */
     public static function getCacheBackendInstance() {
+        /** @noinspection PhpUndefinedMethodInspection */
         return static::getDataModelDefinition()->getCacheBackendInstance();
     }
 

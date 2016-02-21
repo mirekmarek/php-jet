@@ -21,6 +21,9 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 			$this->installer->goNext();
 		}
 
+		/**
+		 * @var Auth_User $user
+		 */
 		$user = Auth_Factory::getUserInstance();
 
 		$form = $user->getSimpleForm();

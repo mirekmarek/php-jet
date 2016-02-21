@@ -364,7 +364,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 		}
 
         if(!$page_ID) {
-            $page_ID = Mvc::getCurrentPage()->getPageID();
+            $page_ID = Mvc::getCurrentPage()->getPageId();
         }
 
 		if(!$locale) {
@@ -410,14 +410,14 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	/**
 	 * @param string $ID
 	 */
-	public function setPageID( $ID ) {
+	public function setPageId( $ID ) {
 		$this->page_ID = $ID;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPageID() {
+	public function getPageId() {
 		return $this->page_ID;
 	}
 
@@ -1216,9 +1216,9 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 		 */
 		$page = new static();
 
-		$page->setSiteID( $data['site_ID'] );
+		$page->setSiteId( $data['site_ID'] );
 		$page->setLocale( $data['locale'] );
-		$page->setPageID( $data['ID'] );
+		$page->setPageId( $data['ID'] );
 		unset( $data['ID'] );
 
 		$page->parent_ID = $data['parent_ID'];
@@ -1240,7 +1240,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 		foreach( $data['meta_tags']  as $i=>$m_dat) {
 			$m_dat['site_ID'] = $page->getSiteID();
 			$m_dat['locale'] = $page->getLocale();
-			$m_dat['page_ID'] = $page->getPageID();
+			$m_dat['page_ID'] = $page->getPageId();
 			$m_dat['meta_tag_ID'] = $i;
 
 			$mtg = Mvc_Factory::getPageMetaTagInstance();
@@ -1263,7 +1263,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 
 			$m_dat['site_ID'] = $page->getSiteID();
 			$m_dat['locale'] = $page->getLocale();
-			$m_dat['page_ID'] = $page->getPageID();
+			$m_dat['page_ID'] = $page->getPageId();
 			$c_dat['content_ID'] = $i;
 
 			$cnt = Mvc_Factory::getPageContentInstance();
@@ -1461,7 +1461,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 		$result = [];
 
 		foreach( $this->getChildren() as $page ) {
-			$result[] = $page->getPageID();
+			$result[] = $page->getPageId();
 		}
 
 		return $result;

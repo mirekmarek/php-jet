@@ -47,13 +47,15 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 			/** @noinspection PhpIncludeInspection */
 			$data = require $file_path;
 
-			foreach($data as $hash=>$phrase_dat) {
+			foreach( $data as $phrase=>$translation ) {
+				$is_translated = ($translation!=='');
+
 				$phrase = new Translator_Dictionary_Phrase(
-					$phrase_dat['phrase'],
-					$phrase_dat['translation'],
-					$phrase_dat['is_translated'],
-					$hash
+					$phrase,
+					$translation,
+					$is_translated
 				);
+
 				$dictionary->addPhrase($phrase, false);
 			}
 		}
@@ -77,11 +79,12 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 
 		$data = [];
 		foreach($dictionary->getPhrases() as $phrase) {
-			$data[$phrase->getHash()] = [
-				'phrase' => $phrase->getPhrase(),
-				'translation' => $phrase->getTranslationRaw(),
-				'is_translated' => $phrase->getIsTranslated()
-			];
+			$key = $phrase->getPhrase();
+			if($phrase->getIsTranslated()) {
+				$data[$key] = $phrase->getTranslationRaw();
+			} else {
+				$data[$key] = '';
+			}
 		}
 
 		$data = '<?php'.JET_EOL.'return '.(new Data_Array($data))->export();

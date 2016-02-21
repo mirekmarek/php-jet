@@ -133,11 +133,10 @@ class Debug_Tools_Formatter {
 	 * @return string
 	 */
 	public static function formatErrorMessage_HTML( Debug_ErrorHandler_Error $e  ){
-		$bg_color = '#c9ffc9';
 
 		$report = [];
 
-		$report[] = '<br /><div style="background-color: '.$bg_color.';padding:5px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';
+		$report[] = '<br /><div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';
 		$report[] = '<h2 style="padding:0;margin:0;">'.static::encodeForHTML($e->txt).'</h2><br/>';
 		$report[] = '<strong>'.static::encodeForHTML($e->message).'</strong><br/>';
 		$report[] = '<hr/>';

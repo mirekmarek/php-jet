@@ -105,12 +105,8 @@ class Translator_Dictionary_Phrase extends Object {
 	 *
 	 * @return string
 	 */
-	public function getTranslation( $only_if_is_translated=false ) {
-		if(
-			(!$this->translation && !$this->is_translated)
-			||
-			($only_if_is_translated && !$this->is_translated)
-		) {
+	public function getTranslation() {
+		if( !$this->is_translated ) {
 			return $this->phrase;
 		}
 		return $this->translation;

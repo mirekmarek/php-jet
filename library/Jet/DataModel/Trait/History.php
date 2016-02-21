@@ -23,6 +23,7 @@ trait DataModel_Trait_History {
      * @return bool
      */
     public static function getHistoryEnabled() {
+        /** @noinspection PhpUndefinedMethodInspection */
         return static::getDataModelDefinition()->getHistoryEnabled();
     }
 

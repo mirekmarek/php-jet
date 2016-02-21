@@ -46,6 +46,7 @@ trait DataModel_Trait_IdObject {
      * @return DataModel_ID_Abstract
      */
     public static function getEmptyIdObject() {
+        /** @noinspection PhpUndefinedMethodInspection */
         return static::getDataModelDefinition()->getEmptyIDInstance();
     }
 

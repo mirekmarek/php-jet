@@ -177,7 +177,11 @@ trait DataModel_Related_1toN_Trait {
      *
      * @return Form_Field_Abstract[]
      */
-    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
+    public function getRelatedFormFields(
+        /** @noinspection PhpUnusedParameterInspection */
+        DataModel_Definition_Property_Abstract $parent_property_definition,
+        array $properties_list
+    ) {
         /**
          * @var Form $related_form
          */
@@ -191,7 +195,10 @@ trait DataModel_Related_1toN_Trait {
      *
      * @return bool
      */
-    public function catchRelatedForm( array $values ) {
+    public function catchRelatedForm(
+        /** @noinspection PhpUnusedParameterInspection */
+        array $values
+    ) {
         return false;
     }
 

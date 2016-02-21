@@ -66,7 +66,7 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 
 		switch($key) {
 			case 'signal_object_class_name':
-				$reflection_data['signal_object_class_name'] = Object_Reflection::parseClassName( (string)$value, $class_name );
+				$reflection_data['signal_object_class_name'] = Object_Reflection::parseClassName( (string)$value );
 				break;
 			case 'signal':
 				$reflection_data['signals'][] = (string)$value;

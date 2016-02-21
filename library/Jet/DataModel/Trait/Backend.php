@@ -24,6 +24,7 @@ trait DataModel_Trait_Backend {
      * @return DataModel_Backend_Abstract
      */
     public static function getBackendInstance() {
+        /** @noinspection PhpUndefinedMethodInspection */
         return static::getDataModelDefinition()->getBackendInstance();
     }
 

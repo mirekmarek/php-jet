@@ -23,6 +23,7 @@ use Jet\Mvc_Page_Content_Interface;
 use Jet\Auth;
 use Jet\Auth_Factory;
 use Jet\Auth_User_Interface;
+use Jet\Auth_User;
 use Jet\Auth_ControllerModule_Abstract;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -149,6 +150,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	 */
 	public function add_Action() {
 
+		/**
+		 * @var Auth_User $user
+		 */
 		$user = Auth_Factory::getUserInstance();
 
 

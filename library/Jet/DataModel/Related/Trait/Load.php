@@ -210,7 +210,7 @@ trait DataModel_Related_Trait_Load {
      * @param array $data
      * @param array &$loaded_related_data
      */
-    public function _setRelatedData($data, array &$loaded_related_data=array() ) {
+    public function _setRelatedData($data, array &$loaded_related_data=[] ) {
         /**
          * @var DataModel_Interface $this
          */

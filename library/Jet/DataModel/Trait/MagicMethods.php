@@ -45,6 +45,7 @@ trait DataModel_Trait_MagicMethods {
         /**
          * @var DataModel $this
          */
+        /** @noinspection PhpUndefinedClassInspection */
         parent::__clone();
 
         $this->resetIdObject();

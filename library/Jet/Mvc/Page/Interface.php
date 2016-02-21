@@ -30,12 +30,12 @@ interface Mvc_Page_Interface {
 	/**
 	 * @param string $ID
 	 */
-	public function setPageID( $ID );
+	public function setPageId( $ID );
 
 	/**
 	 * @return string
 	 */
-	public function getPageID();
+	public function getPageId();
 
     /**
      * @param string $site_ID

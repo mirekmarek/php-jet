@@ -21,6 +21,7 @@ use Jet\Auth;
 use Jet\Auth_Factory;
 use Jet\Auth_ControllerModule_Abstract;
 use Jet\Auth_User_Interface;
+use Jet\Auth_User;
 use Jet\Auth_Role_Privilege_Provider_Interface;
 use Jet\Auth_Role_Privilege_ContextObject_Interface;
 use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
@@ -216,7 +217,7 @@ class Main extends Auth_ControllerModule_Abstract {
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Auth_User_Interface|bool
+	 * @return Auth_User|bool
 	 */
 	public function getCurrentUser() {
 		if($this->current_user!==null) {

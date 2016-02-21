@@ -43,6 +43,10 @@ interface Mvc_Site_LocalizedData_URL_Interface {
      */
     public function getLocale();
 
+	/**
+	 * @return string
+	 */
+	public function __toString();
 
 	/**
 	 * @return string
