@@ -18,7 +18,7 @@ namespace Jet;
 
 trait DataModel_Trait {
     use DataModel_Trait_Definition;
-    use DataModel_Trait_ID;
+    use DataModel_Trait_IdObject;
     use DataModel_Trait_InternalState;
     use DataModel_Trait_MagicMethods;
     use DataModel_Trait_Backend;

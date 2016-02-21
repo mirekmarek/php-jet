@@ -142,7 +142,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 		/**
 		 * @var Auth_Role_Interface $role_class_name
 		 */
-		return $role_class_name::load( $role_class_name::createID($ID) );
+		return $role_class_name::get( $ID );
 	}
 
 	/**
@@ -185,7 +185,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 		/**
 		 * @var Auth_User_Interface $user_class_name
 		 */
-		return $user_class_name::load( $user_class_name::createID($ID) );
+		return $user_class_name::get( $ID );
 	}
 
 	/**

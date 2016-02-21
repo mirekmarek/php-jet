@@ -359,9 +359,13 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	 * @return Mvc_Page_Interface
 	 */
 	public static function get( $page_ID=null, $locale=null, $site_ID=null  ) {
-		if(!$page_ID) {
+		if(!$page_ID && !$locale && !$site_ID) {
 			return Mvc::getCurrentPage();
 		}
+
+        if(!$page_ID) {
+            $page_ID = Mvc::getCurrentPage()->getPageID();
+        }
 
 		if(!$locale) {
 			$locale = Mvc::getCurrentLocale();

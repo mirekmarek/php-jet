@@ -25,8 +25,8 @@ trait DataModel_Trait_Delete {
         /**
          * @var DataModel $this
          */
-        if( !$this->getID() || !$this->getIsSaved() ) {
-            throw new DataModel_Exception('Nothing to delete... Object was not loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getID().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
+        if( !$this->getIdObject() || !$this->getIsSaved() ) {
+            throw new DataModel_Exception('Nothing to delete... Object was not loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
         }
 
         $this->dataModelHistoryOperationStart( DataModel_History_Backend_Abstract::OPERATION_DELETE );
@@ -43,7 +43,7 @@ trait DataModel_Trait_Delete {
             }
         }
 
-        $backend->delete( $this->getID()->getQuery() );
+        $backend->delete( $this->getIdObject()->getQuery() );
 
         $this->commitBackendTransaction( $backend );
 

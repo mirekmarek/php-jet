@@ -400,7 +400,7 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 
 	/**
 	 *
-	 * @param Mvc_Site_LocalizedData_MetaTag[] $default_meta_tags
+	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $default_meta_tags
 	 */
 	public function setDefaultMetaTags($default_meta_tags) {
 		$this->default_meta_tags = [];

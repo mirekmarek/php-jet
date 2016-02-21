@@ -91,15 +91,15 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
             ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
         $router->addAction('edit', '/^edit:([\S]+)$/', 'update_article', true)
-            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getID()).'/'; } )
+            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getIdObject()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('view', '/^view:([\S]+)$/', 'get_article', true)
-            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getID()).'/'; } )
+            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getIdObject()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_article', true)
-            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getID()).'/'; } )
+            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getIdObject()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $this->_standard_admin_micro_router = $router;

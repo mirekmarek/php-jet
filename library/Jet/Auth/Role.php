@@ -81,6 +81,23 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 */
 	protected $users;
 
+    /**
+     * @param string $ID
+     *
+     * @return Auth_Role_Interface
+     */
+    public static function get( $ID ) {
+        return static::load( static::createIdObject($ID) );
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getID() {
+        return $this->getIdObject()->toString();
+    }
+
 	/**
 	 * @return string
 	 */

@@ -47,7 +47,7 @@ trait DataModel_Trait_MagicMethods {
          */
         parent::__clone();
 
-        $this->resetID();
+        $this->resetIdObject();
         $this->setIsNew();
     }
 

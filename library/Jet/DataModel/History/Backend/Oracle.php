@@ -96,7 +96,7 @@ class DataModel_History_Backend_Oracle extends DataModel_History_Backend_Abstrac
 					'operation_ID' => $this->_current_operation_ID,
 					'class_name' => get_class($this->_current_data_model),
 					'model_name' => $this->_current_data_model->getDataModelDefinition()->getModelName(),
-					'object_ID' => (string)$this->_current_data_model->getID(),
+					'object_ID' => (string)$this->_current_data_model->getIdObject(),
 					'operation' => $operation,
 					'user_name' => $user_name,
 					'user_ID' => $user_ID,

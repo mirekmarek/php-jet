@@ -81,7 +81,7 @@ trait DataModel_Trait_Save {
 
         $record = new DataModel_RecordData( $definition );
 
-        $this->generateID();
+        $this->generateIdObject();
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
             if( !$property_definition->getCanBeInInsertRecord() ) {
                 continue;
@@ -93,7 +93,7 @@ trait DataModel_Trait_Save {
 
         $backend_result = $backend->save( $record );
 
-        $this->generateID( true, $backend_result );
+        $this->generateIdObject( true, $backend_result );
 
         /**
          * @var DataModel_Trait_Save $this
@@ -124,7 +124,7 @@ trait DataModel_Trait_Save {
         }
 
         if(!$record->getIsEmpty()) {
-            $backend->update($record, $this->getID()->getQuery() );
+            $backend->update($record, $this->getIdObject()->getQuery() );
         }
 
         /**

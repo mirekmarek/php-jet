@@ -77,7 +77,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
             $role_i = Auth_Factory::getRoleInstance();
 
-            $role = $role_i->load( $role_i->createID($parameters[0]) );
+            $role = $role_i->get($parameters[0]);
             if(!$role) {
                 return false;
             }

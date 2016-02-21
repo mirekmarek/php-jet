@@ -53,7 +53,7 @@ trait DataModel_Related_Trait_Load {
         $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 
         if( $this_main_model_instance ) {
-            $main_model_ID = $this_main_model_instance->getID();
+            $main_model_ID = $this_main_model_instance->getIdObject();
 
             foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
                 /**
@@ -73,7 +73,7 @@ trait DataModel_Related_Trait_Load {
             }
         } else {
             if( $this_parent_model_instance ) {
-                $parent_model_ID = $this_parent_model_instance->getID();
+                $parent_model_ID = $this_parent_model_instance->getIdObject();
 
                 foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
                     /**
@@ -149,7 +149,7 @@ trait DataModel_Related_Trait_Load {
         $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
         $this_parent_model_instance = $parent_model_instance;
 
-        $main_ID = $main_model_instance->getID();
+        $main_ID = $main_model_instance->getIdObject();
         /**
          * @var DataModel_Definition_Model_Related_Abstract $definition
          */
@@ -170,7 +170,7 @@ trait DataModel_Related_Trait_Load {
         }
 
         if($parent_model_instance) {
-            $parent_ID = $parent_model_instance->getID();
+            $parent_ID = $parent_model_instance->getIdObject();
 
             foreach( $definition->getParentModelRelationIDProperties() as $property_definition ) {
 

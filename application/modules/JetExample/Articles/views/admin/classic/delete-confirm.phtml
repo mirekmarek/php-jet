@@ -27,7 +27,7 @@ $router = $this->router;
 	<a href="<?=$router->getActionURI('edit', $article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
 	</p>
 
-	<form action="?delete=<?=rawurlencode($article->getID());?>" method="post">
+	<form action="?delete=<?=rawurlencode($article->getIdObject());?>" method="post">
 		<input type="hidden" name="delete" value="yes">
 		<input type="submit" value="<?=Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
 	</form>

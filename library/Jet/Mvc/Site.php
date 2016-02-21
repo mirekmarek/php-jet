@@ -848,7 +848,10 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 		$data = $this->toArray();
 
 		foreach( $this->getLocales(true) as $locale ) {
-			unset($data['localized_data'][$locale]['site_ID']);
+            /**
+             * @var string $locale
+             */
+            unset($data['localized_data'][$locale]['site_ID']);
 			unset($data['localized_data'][$locale]['locale']);
 			unset($data['localized_data'][$locale]['URLs']);
 		}

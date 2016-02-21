@@ -43,26 +43,26 @@ interface DataModel_Interface extends Object_Serializable_REST, Object_Reflectio
      *
      * @return DataModel_ID_Abstract
      */
-    public function getID();
+    public function getIdObject();
 
 
     /**
      * @return DataModel_ID_Abstract
      */
-    public static function getEmptyIDInstance();
+    public static function getEmptyIdObject();
 
     /**
      * @param string $ID
      *
      * @return DataModel_ID_Abstract
      */
-    public static function createID( $ID );
+    public static function createIdObject( $ID );
 
 
     /**
      * @return DataModel_ID_Abstract
      */
-    public function resetID();
+    public function resetIdObject();
 
     /**
      * Generate unique ID
@@ -72,7 +72,7 @@ interface DataModel_Interface extends Object_Serializable_REST, Object_Reflectio
      *
      * @throws DataModel_Exception
      */
-    public function generateID(  $called_after_save = false, $backend_save_result = null  );
+    public function generateIdObject(  $called_after_save = false, $backend_save_result = null  );
 
 //-- InternalState ------------------------------
     /**

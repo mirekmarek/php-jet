@@ -153,7 +153,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 
 			$gallery->save();
 
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
 		}
 
 		$this->view->setVar('has_access', true);
@@ -177,7 +177,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 
 			$gallery->save();
 
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
 		}
 
 
@@ -189,7 +189,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('gallery', $gallery);
 		$this->view->setVar('edit_form', $edit_form);
-		$this->view->setVar('selected_ID', $gallery->getID() );
+		$this->view->setVar('selected_ID', $gallery->getIdObject() );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
 		$this->render('classic/default');
@@ -207,7 +207,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', false);
 		$this->view->setVar('gallery', $gallery);
 		$this->view->setVar('edit_form', $edit_form);
-		$this->view->setVar('selected_ID', $gallery->getID() );
+		$this->view->setVar('selected_ID', $gallery->getIdObject() );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
 		$this->render('classic/default');
@@ -262,7 +262,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 					$config->getDefaultThbMaxH()
 				);
 
-				Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+				Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
 			}
 
 		}
@@ -289,7 +289,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 					$image->delete();
 				}
 			}
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getID() ) );
+			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
 		}
 	}
 }

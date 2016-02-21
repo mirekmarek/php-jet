@@ -13,12 +13,24 @@
  */
 namespace Jet;
 
-interface Auth_Role_Interface {
+interface Auth_Role_Interface extends Object_Interface {
 
-	/**
+    /**
+     * @param string $ID
+     *
+     * @return Auth_Role_Interface
+     */
+    public static function get( $ID );
+
+    /**
 	 * @return string
 	 */
 	public function toString();
+
+    /**
+     * @return string
+     */
+    public function getID();
 
 	/**
 	 * @return string

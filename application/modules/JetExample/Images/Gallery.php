@@ -283,7 +283,7 @@ class Gallery extends DataModel {
 		if(!isset(static::$__galleries[$ID])) {
 			$s_ID = $ID;
 
-			$ID = static::createID($ID);
+			$ID = static::createIdObject($ID);
 
 			if( !($instance = static::load($ID)) ) {
 				return null;

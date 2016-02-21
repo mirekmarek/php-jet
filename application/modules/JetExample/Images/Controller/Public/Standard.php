@@ -70,7 +70,7 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
 
                 if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_ID )) ) {
                     $gallery = $_g;
-                    $gallery_ID = $gallery->getID();
+                    $gallery_ID = $gallery->getIdObject();
                     $URI .= rawurlencode($gallery->getTitle()).'/';
 
                     Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );

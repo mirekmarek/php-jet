@@ -45,7 +45,7 @@ trait DataModel_Trait_Cache {
          */
         $cache = $this->getCacheBackendInstance();
         if($cache) {
-            $cache->{$operation}($this->getDataModelDefinition(), $this->getID(), $this);
+            $cache->{$operation}($this->getDataModelDefinition(), $this->getIdObject(), $this);
         }
     }
 
@@ -59,7 +59,7 @@ trait DataModel_Trait_Cache {
 
         $cache = $this->getCacheBackendInstance();
         if($cache) {
-            $cache->delete($this->getDataModelDefinition(), $this->getID() );
+            $cache->delete($this->getDataModelDefinition(), $this->getIdObject() );
         }
 
     }

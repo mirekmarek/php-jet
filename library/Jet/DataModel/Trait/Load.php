@@ -36,7 +36,7 @@ trait DataModel_Trait_Load {
         foreach( $ID as $key=>$val ) {
             $loaded_instance->{$key} = $val;
         }
-        $ID = $loaded_instance->getID();
+        $ID = $loaded_instance->getIdObject();
 
 
         $definition = $loaded_instance->getDataModelDefinition();

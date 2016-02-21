@@ -92,7 +92,7 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)
 				!$gallery->getIsNew()
 			)
 		):
-			$parent_ID = $gallery ? $gallery->getID(): Gallery::ROOT_ID;
+			$parent_ID = $gallery ? $gallery->getIdObject(): Gallery::ROOT_ID;
 			?>
 		<div style="padding: 5px;">
 			<a href="<?=$router->getActionURI('add', $parent_ID);?>" class="btn btn-default" style="width: 100%;">
@@ -154,7 +154,7 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)
 				<?php
 				$images=$gallery->getImages();
 				if( count($images) ): ?>
-				<form action="?ID=<?=$gallery->getID();?>&amp;delete_images" method="post">
+				<form action="?ID=<?=$gallery->getIdObject();?>&amp;delete_images" method="post">
 					<div style="padding: 10px;">
 						<?php foreach( $images as $image ): ?>
 						<div class="img-thumbnail">
@@ -164,9 +164,9 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)
 							<div style="width: 150px;height: 40px;overflow: hidden;text-align: left;">
 									<table><tr>
 										<?php if($this->can_delete_image): ?>
-										<td style="vertical-align: top; padding: 5px;"><input type="checkbox" name="images[]" value="<?=$image->getID();?>" id="image_<?=$image->getID();?>"></td>
+										<td style="vertical-align: top; padding: 5px;"><input type="checkbox" name="images[]" value="<?=$image->getIdObject();?>" id="image_<?=$image->getIdObject();?>"></td>
 										<?php endif; ?>
-										<td><label for="image_<?=$image->getID();?>"><?=$image->getFileName();?></label></td>
+										<td><label for="image_<?=$image->getIdObject();?>"><?=$image->getFileName();?></label></td>
 									</tr></table>
 
 

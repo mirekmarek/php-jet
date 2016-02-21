@@ -296,7 +296,7 @@ class Article extends DataModel {
 	 */
 	public static function get( $ID ) {
 
-		return static::load( static::createID($ID) );
+		return static::load( static::createIdObject($ID) );
 	}
 
 	/**

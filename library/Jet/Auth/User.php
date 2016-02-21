@@ -225,6 +225,23 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		parent::__construct();
 	}
 
+
+    /**
+     * @param string $ID
+     *
+     * @return Auth_User_Interface
+     */
+    public static function get( $ID ) {
+        return static::load( static::createIdObject($ID) );
+    }
+
+    /**
+     * @return string
+     */
+    public function getID() {
+        return $this->getIdObject()->toString();
+    }
+
 	/**
 	 * @return string
 	 */

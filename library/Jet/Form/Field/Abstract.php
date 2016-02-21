@@ -326,7 +326,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 					/**
 					 * @var DataModel $v
 					 */
-					$v = (string)$v->getID();
+					$v = (string)$v->getIdObject();
 				}
 				if(is_array($v)) {
 					$v = $k;

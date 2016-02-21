@@ -152,7 +152,7 @@ class Gallery_Image extends DataModel {
 	 * @param Gallery $gallery
 	 */
 	public function setGallery(Gallery $gallery ) {
-		$this->gallery_ID = $gallery->getID()->toString();
+		$this->gallery_ID = $gallery->getIdObject()->toString();
 
 		$this->__gallery = $gallery;
 	}
@@ -276,7 +276,7 @@ class Gallery_Image extends DataModel {
 	 * @return Gallery_Image
 	 */
 	public static function get( $ID ) {
-		return static::load( static::createID($ID) );
+		return static::load( static::createIdObject($ID) );
 	}
 
 
@@ -298,7 +298,7 @@ class Gallery_Image extends DataModel {
 	 * @return string
 	 */
 	public function getDirPath() {
-		return $this->getOffsetDirPath().$this->getID().'/';
+		return $this->getOffsetDirPath().$this->getIdObject().'/';
 	}
 
 	/**
@@ -312,7 +312,7 @@ class Gallery_Image extends DataModel {
 	 * @return string
 	 */
 	public function getURI() {
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getID().'/'.rawurldecode($this->getFileName());
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/'.rawurldecode($this->getFileName());
 	}
 
 
@@ -320,7 +320,7 @@ class Gallery_Image extends DataModel {
 	 * @return string
 	 */
 	public function getThumbnailsBaseURI() {
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getID().'/'.static::THUMBNAILS_DIR_NAME.'/';
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/'.static::THUMBNAILS_DIR_NAME.'/';
 	}
 
 	/**
@@ -376,7 +376,7 @@ class Gallery_Image extends DataModel {
 		 * @var Gallery_Image $image
 		 */
 		$image = new static();
-		$image->generateID();
+		$image->generateIdObject();
 
 		$image->setGallery($gallery);
 

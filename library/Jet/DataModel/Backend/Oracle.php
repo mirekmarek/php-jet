@@ -988,7 +988,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
 
-					$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
+					$max_len = (int)$data_model->getEmptyIdObject()->getMaxLength();
 
 					return 'varchar('.$max_len.') NOT NULL';
 				break;

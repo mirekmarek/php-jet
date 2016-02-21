@@ -16,14 +16,14 @@
  */
 namespace Jet;
 
-trait DataModel_Trait_ID {
+trait DataModel_Trait_IdObject {
 
     /**
      * Returns ID
      *
      * @return DataModel_ID_Abstract
      */
-    public function getID() {
+    public function getIdObject() {
         /**
          * @var DataModel $this
          */
@@ -31,7 +31,7 @@ trait DataModel_Trait_ID {
         $ID = &DataModel_ObjectState::getVar($this, 'ID');
 
         if(!$ID) {
-            $ID = $this->getEmptyIDInstance();
+            $ID = $this->getEmptyIdObject();
         }
 
         foreach($ID as $property_name => $value) {
@@ -45,7 +45,7 @@ trait DataModel_Trait_ID {
     /**
      * @return DataModel_ID_Abstract
      */
-    public static function getEmptyIDInstance() {
+    public static function getEmptyIdObject() {
         return static::getDataModelDefinition()->getEmptyIDInstance();
     }
 
@@ -54,21 +54,21 @@ trait DataModel_Trait_ID {
      *
      * @return DataModel_ID_Abstract
      */
-    public static function createID(
+    public static function createIdObject(
         /** @noinspection PhpUnusedParameterInspection */
         $ID
     ) {
         $arguments = func_get_args();
 
-        return call_user_func_array( [static::getEmptyIDInstance(),'createID'], $arguments );
+        return call_user_func_array( [static::getEmptyIdObject(),'createID'], $arguments );
     }
 
 
     /**
      * @return DataModel_ID_Abstract
      */
-    public function resetID() {
-        $ID = $this->getID();
+    public function resetIdObject() {
+        $ID = $this->getIdObject();
 
         $ID->reset();
 
@@ -90,12 +90,12 @@ trait DataModel_Trait_ID {
      *
      * @throws DataModel_Exception
      */
-    public function generateID(  $called_after_save = false, $backend_save_result = null  ) {
+    public function generateIdObject(  $called_after_save = false, $backend_save_result = null  ) {
         /**
          * @var DataModel $this
          */
 
-        $ID = $this->getID();
+        $ID = $this->getIdObject();
 
         $ID->generate( $this, $called_after_save, $backend_save_result );
 

@@ -148,7 +148,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 		$this_M_instance = $M_instance;
 
 		$this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID');
-		$this_M_ID = $M_instance->getID();
+		$this_M_ID = $M_instance->getIdObject();
 
 		$this->_getEmptyItemInstance()->setupParentObjects($main_model_instance, $parent_model_instance);
 
@@ -252,7 +252,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 		foreach( $this->items as $i=>$item ) {
 			$exists = false;
 			foreach( $N_instances as $N_instance ) {
-				if($item->getNID()->toString()==$N_instance->getID()->toString()) {
+				if($item->getNID()->toString()==$N_instance->getIdObject()->toString()) {
 					$exists = true;
 					break;
 				}
@@ -267,7 +267,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 		foreach( $N_instances as $N_instance ) {
 			$exists = false;
 			foreach( $this->items as $item ) {
-				if($item->getNID()->toString()==$N_instance->getID()->toString()) {
+				if($item->getNID()->toString()==$N_instance->getIdObject()->toString()) {
 					$exists = true;
 					break;
 				}

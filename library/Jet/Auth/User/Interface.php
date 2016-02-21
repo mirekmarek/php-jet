@@ -19,14 +19,25 @@
  */
 namespace Jet;
 
-interface Auth_User_Interface {
+interface Auth_User_Interface extends Object_Interface {
 
+    /**
+     * @param string $ID
+     *
+     * @return Auth_User_Interface
+     */
+    public static function get( $ID );
 
 	/**
 	 * @abstract
 	 * @return string
 	 */
 	public function getLogin();
+
+    /**
+     * @return string
+     */
+    public function getID();
 
 
 	/**
