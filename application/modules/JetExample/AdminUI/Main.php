@@ -49,5 +49,7 @@ class Main extends Application_Modules_Module_Abstract implements Mvc_Layout_Ini
 		$JetML_postprocessor->setIconsURL( $public_URI.'icons/' );
 		$JetML_postprocessor->setFlagsURL( $public_URI.'flags/' );
 
+
+        $layout->requireCssFile( $public_URI.'css/main.css' );
 	}
 }

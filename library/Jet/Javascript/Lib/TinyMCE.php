@@ -90,9 +90,11 @@ class Javascript_Lib_TinyMCE extends Javascript_Lib_Abstract {
 		$layout->requireJavascriptFile( $this->config->getWrapperURI() );
 
 
+        /*
 		foreach( $themes as $theme ) {
 			$layout->requireJavascriptFile( $base_URI.'themes/'.$theme.'/theme.js' );
 		}
+        */
 
 		foreach( $plugins as $plugin ) {
 			$layout->requireJavascriptFile( $base_URI.'plugins/'.$plugin.'/plugin.js' );
