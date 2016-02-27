@@ -1,12 +1,15 @@
 <?php
-Jet\Mvc::requireSiteCssFile( 'styles/main.css' );
-Jet\Mvc::requireCssFile( '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css' );
-Jet\Mvc::requireSiteJavascriptFile( 'scripts/test.js' );
+use Jet\Mvc;
+use Jet\Tr;
+
+Mvc::requireSiteCssFile( 'styles/main.css' );
+Mvc::requireCssFile( '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css' );
+Mvc::requireSiteJavascriptFile( 'scripts/test.js' );
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Test : %JET_SITE_TITLE% - %JET_PAGE_TITLE%</title>
+	<title><?=Tr::_('Jet Example Application')?> : %JET_SITE_TITLE% - %JET_PAGE_TITLE%</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="%JET_LANGUAGE%" />
 
@@ -21,30 +24,31 @@ Jet\Mvc::requireSiteJavascriptFile( 'scripts/test.js' );
 	<jet_layout_body_prefix/>
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-		<h1><?=Jet\Tr::_("Hello WORLD!");?></h1>
+<div class="container" id="container" style="width: 100%">
+	<div class="row" style="background-color: #000000;color: #ffffff;">
+		<div style="margin-bottom: 10px;margin-left: 10px;">
+			<h1><?=Tr::_("PHP Jet Example Application - Hello WORLD!");?></h1>
+		</div>
 
 		<jet_layout_position name="top"/>
 	</div>
+
+	<div class="row" style="background-color: #e9e9e9;">
+		<div class="clear"></div>
+
+		<div class="col-md-2">
+			<jet_module data-module-name="JetExample.TestModule" data-action="main_menu"/>
+			<jet_layout_position name="left"/>
+		</div>
+		<div class="col-md-5" style="background-color: #ffffff;padding-top: 10px;padding-bottom: 20px;">
+			<jet_module data-module-name="JetExample.BreadcrumbNavigation" data-action-parameters="{view:default}" />
+			<jet_layout_main_position/>
+		</div>
+		<div class="col-md-5">
+			<jet_layout_position name="right"/>
+		</div>
+	</div>
 </div>
-
-<div class="row">
-	<div class="clear"></div>
-
-	<div class="col-md-2">
-		<jet_module data-module-name="JetExample.TestModule" data-action="main_menu"/>
-		<jet_layout_position name="left"/>
-	</div>
-	<div class="col-md-5">
-		<jet_module data-module-name="JetExample.BreadcrumbNavigation" data-action-parameters="{view:default}" />
-		<jet_layout_main_position/>
-	</div>
-	<div class="col-md-5">
-		<jet_layout_position name="right"/>
-	</div>
-</div>
-
 
 <div style="display: none;">
 	<jet_layout_body_suffix/>

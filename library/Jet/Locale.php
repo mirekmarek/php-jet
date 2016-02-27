@@ -204,7 +204,7 @@ class Locale extends Object {
 	 *
 	 * Example: cs_CZ locale name in cs_CZ locale: čeština (Česká republika)
 	 *
-	 * @see Locale::getDisplayName
+	 * @see \Locale::getDisplayName
 	 *
 	 * @param string|Locale $in_locale (optional, default: current locale)
 	 *
@@ -221,6 +221,54 @@ class Locale extends Object {
 		}
 
 		return \Locale::getDisplayName( $this->locale, (string)$in_locale );
+	}
+
+	/**
+	 * Returns language name in locale
+	 *
+	 * Example: cs_CZ locale name in cs_CZ locale: čeština
+	 *
+	 * @see \Locale::getDisplayLanguage
+	 *
+	 * @param string|Locale $in_locale (optional, default: current locale)
+	 *
+	 * @return string
+	 */
+	public function getLanguageName( $in_locale=null ) {
+		if(!$in_locale) {
+			$in_locale = Mvc::getCurrentLocale();
+		}
+
+		if(!class_exists('\Locale', false)) {
+			//?? not supported ... take care about it ???
+			return $this->locale;
+		}
+
+		return \Locale::getDisplayLanguage( $this->locale, (string)$in_locale );
+	}
+
+	/**
+	 * Returns region name in locale
+	 *
+	 * Example: cs_CZ region name in cs_CZ locale: Česká republika
+	 *
+	 * @see \Locale::getDisplayRegion
+	 *
+	 * @param string|Locale $in_locale (optional, default: current locale)
+	 *
+	 * @return string
+	 */
+	public function getRegionName( $in_locale=null ) {
+		if(!$in_locale) {
+			$in_locale = Mvc::getCurrentLocale();
+		}
+
+		if(!class_exists('\Locale', false)) {
+			//?? not supported ... take care about it ???
+			return $this->locale;
+		}
+
+		return \Locale::getDisplayRegion( $this->locale, (string)$in_locale );
 	}
 
 

@@ -84,7 +84,7 @@ class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
      *
      * @var string
      */
-    protected $parser_URL_method_name;
+    protected $URL_parser_method_name;
 
 	/**
 	 *
@@ -357,19 +357,19 @@ class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
 	}
 
     /**
-     * @param string $parser_URL_method_name
+     * @param string $URL_parser_method_name
      */
-    public function setParserURLMethodName($parser_URL_method_name)
+    public function setUrlParserMethodName($URL_parser_method_name)
     {
-        $this->parser_URL_method_name = $parser_URL_method_name;
+        $this->URL_parser_method_name = $URL_parser_method_name;
     }
 
     /**
      * @return string
      */
-    public function getParserURLMethodName()
+    public function getUrlParserMethodName()
     {
-        return $this->parser_URL_method_name;
+        return $this->URL_parser_method_name;
     }
 
 

@@ -3,10 +3,10 @@ namespace Jet;
 
 return [
     'ID' => 'admin/classic',
-    'name' => 'Admin',
+    'name' => 'Administrace',
 	'title' => 'Administrační rozhraní (klasické)',
-	'menu_title' => 'Hlavní stránka',
 	'breadcrumb_title' => 'Hlavní stránka',
+	'menu_title' => 'Hlavní stránka',
 	'layout_script_name' => 'default',
 	'meta_tags' => [],
 	'contents' => [

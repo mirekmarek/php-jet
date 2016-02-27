@@ -3,7 +3,7 @@ namespace Jet;
 
 return [
     'ID' => 'images',
-    'name' => 'Images',
+    'name' => 'Obrázky',
 	'title' => 'Obrázky',
 	'menu_title' => 'Obrázky',
 	'breadcrumb_title' => 'Obrázky',
@@ -15,13 +15,13 @@ return [
 		[
 			'attribute'   => 'name',
 			'attribute_value' => 'description',
-			'content' => 'Images'
+			'content' => 'Obrázky'
 		],
 	],
 	'contents' => [
 			[
 				'module_name' => 'JetExample.Images',
-                'parser_URL_method_name' => 'parseRequestURL_Public',
+                'URL_parser_method_name' => 'parseRequestURL_Public',
 				'controller_action' => 'default',
 				'output_position' => '',
 				'output_position_required' => true,

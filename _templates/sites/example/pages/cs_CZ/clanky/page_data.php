@@ -3,7 +3,7 @@ namespace Jet;
 
 return [
     'ID' => 'articles',
-    'name' => 'Articles',
+    'name' => 'Články',
 	'title' => 'Články',
 	'menu_title' => 'Články',
 	'breadcrumb_title' => 'Články',
@@ -15,13 +15,13 @@ return [
 		[
 			'attribute'   => 'name',
 			'attribute_value' => 'description',
-			'content' => 'Articles'
+			'content' => 'Články'
 		],
 	],
 	'contents' => [
 			[
 				'module_name' => 'JetExample.Articles',
-                'parser_URL_method_name' => 'parseRequestURL_Public',
+                'URL_parser_method_name' => 'parseRequestURL_Public',
 				'controller_action' => 'default',
 				'output_position' => '',
 				'output_position_required' => true,

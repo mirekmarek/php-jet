@@ -8,7 +8,7 @@ use Jet\Mvc_NavigationData_Breadcrumb_Abstract;
  */
 $data = $this->data;
 ?>
-<div>
+<div style="background-color: #eeeeee;border-top: 1px solid #000000;border-bottom: 1px solid #000000;padding: 5px;margin-bottom: 10px;margin-top: 5px;">
 	<?php foreach( $data as $d ): ?>
 		<?php if(!$d->getIsLast()): ?>
 			<a href="<?=$d->getURI(); ?>"><?=$d->getTitle(); ?></a>&nbsp;&gt;&nbsp;

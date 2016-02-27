@@ -88,6 +88,10 @@ class Mvc_Layout_PackageCreator_CSS extends Mvc_Layout_PackageCreator_CSS_Abstra
 						$_base_URI = dirname($_base_URI);
 					}
 
+					if($_base_URI=='/') {
+						$_base_URI = '';
+					}
+
 					$URL = $_base_URI.'/'.implode('/', $path);
 
 				} else {

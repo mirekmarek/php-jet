@@ -6,10 +6,10 @@ $UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
 
 return [
     'ID' => 'admin',
-    'name' => 'Admin',
-	'title' => 'Administrace - Rozcestník',
-	'menu_title' => 'Administrace - Rozcestník',
-	'breadcrumb_title' => 'Rozcestník',
+    'name' => 'Administration - signpost',
+	'title' => 'Administration - Signpost',
+	'menu_title' => 'Administration - Signpost',
+	'breadcrumb_title' => 'Signpost',
     'custom_layouts_path' => $UI_module->getLayoutsDir(),
 	'layout_script_name' => 'default',
 	'is_admin_UI' => true,

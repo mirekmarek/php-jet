@@ -3,13 +3,13 @@ namespace Jet;
 
 return [
     'name' => 'Homepage',
-    'title' => 'Hlavní stránka',
-    'menu_title' => 'Hlavní stránka',
-    'breadcrumb_title' => 'Hlavní stránka',
+    'title' => 'Homepage',
+    'menu_title' => 'Homepage',
+    'breadcrumb_title' => 'Homepage',
     'layout_script_name' => 'default',
-    'headers_suffix' => '<!-- Kód do hlavičky -->',
-    'body_prefix' => '<!-- Kód na začátek stránky -->',
-    'body_suffix' => '<!-- Kód na konec stránky -->',
+    'headers_suffix' => '<!-- some header code -->',
+    'body_prefix' => '<!-- some body prefix code -->',
+    'body_suffix' => '<!-- some body suffix code -->',
     'meta_tags' => [
         [
             'attribute'   => 'Meta1attribute',
@@ -49,7 +49,7 @@ return [
             'controller_action' => 'test_action2',
             'output_position' => 'right',
             'output_position_required' => true,
-            'output_position_order' => 1
+            'output_position_order' => 2
         ],
     ]
 ];

@@ -25,24 +25,30 @@ $paginator = $this->paginator;
 <hr/>
 <?php endforeach; ?>
 
-<table>
-	<tr>
+<div style="background-color: #eeeeee;padding: 10px;">
+	<div style="display: inline-block;width: 30px;">
 		<?php if( ($p_URL=$paginator->getPrevPageURL()) ): ?>
-		<td><a href="<?=$p_URL; ?>">&lt;</a></td>
+			<a href="<?=$p_URL; ?>" class="btn btn-default">&lt;</a>
 		<?php endif ?>
-		<td width="100%" align="center">
-			<?php foreach($paginator->getPagesURL() as $p_no => $p_URL): ?>
+	</div>
+	<div style="display: inline-block;width: 400px;text-align: center">
+		<?php foreach($paginator->getPagesURL() as $p_no => $p_URL): ?>
 			<?php if($p_no==$paginator->getCurrentPageNo()): ?>
-				<strong><?php echo $p_no; ?></strong>
-				<?php else: ?>
-				<a href="<?=$p_URL; ?>"><?=$p_no; ?></a>
-				<?php endif; ?>
-			<?php endforeach; ?>
-		</td>
-		<?php if( ($p_URL=$paginator->getNextPageURL()) ): ?>
-		<td><a href="<?=$p_URL; ?>">&gt;</a></td>
-		<?php endif ?>
+				<strong class="btn btn-info"><?php echo $p_no; ?></strong>
+			<?php else: ?>
+				<a href="<?=$p_URL; ?>" class="btn btn-default btn-sm"><?=$p_no; ?></a>
+			<?php endif; ?>
+		<?php endforeach; ?>
 
-		<td nowrap>[<?=$paginator->getShowFrom();?>-<?=$paginator->getShowTo();?>/<?=$paginator->getDataItemsCount();?>]</td>
-	</tr>
-</table>
+	</div>
+	<div style="display: inline-block;width: 30px;">
+		<?php if( ($p_URL=$paginator->getNextPageURL()) ): ?>
+			<a href="<?=$p_URL; ?>" class="btn btn-default">&gt;</a>
+		<?php endif ?>
+	</div>
+
+	<div style="display: inline-block;float:right;" class="btn">
+		<?=$paginator->getShowFrom();?> - <?=$paginator->getShowTo();?> / <?=$paginator->getDataItemsCount();?>
+	</div>
+</div>
+

@@ -6,10 +6,10 @@ $UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
 
 return [
     'ID' => 'admin/logout',
-    'name' => 'Admin logout',
-    'title' => 'Administrace - logout',
-    'menu_title' => 'Administrace - odhlášení',
-    'breadcrumb_title' => 'Odhlášení',
+    'name' => 'Administration - logout',
+    'title' => 'Administration - Logout',
+    'menu_title' => 'Logout',
+    'breadcrumb_title' => 'Logout',
     'custom_layouts_path' => $UI_module->getLayoutsDir(),
     'layout_script_name' => 'default',
     'is_admin_UI' => true,

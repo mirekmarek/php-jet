@@ -130,14 +130,14 @@ interface Mvc_Page_Content_Interface {
 
 
     /**
-     * @param string $parser_URL_method_name
+     * @param string $URL_parser_method_name
      */
-    public function setParserURLMethodName($parser_URL_method_name);
+    public function setUrlParserMethodName($URL_parser_method_name);
 
     /**
      * @return string
      */
-    public function getParserURLMethodName();
+    public function getUrlParserMethodName();
 
 
     /**

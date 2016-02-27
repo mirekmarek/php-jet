@@ -1713,7 +1713,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 
 		foreach( $this->getContents() as $content ) {
 
-			if( ($method_name= $content->getParserURLMethodName())) {
+			if( ($method_name= $content->getUrlParserMethodName())) {
 				$module = Application_Modules::getModuleInstance($content->getModuleName());
 
 				if(!$module) {
