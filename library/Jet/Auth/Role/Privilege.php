@@ -29,6 +29,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:form_field_type = false
 	 */
 	protected $role_ID = '';
 
@@ -36,6 +37,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */

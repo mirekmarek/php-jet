@@ -15,20 +15,30 @@ Mvc::requireCssFile('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min
 <body>
 	<jet_layout_body_prefix/>
 
-	<div style="position: absolute;top:12px; left: 10px;">
-		<jet_module data-module-name="JetExample.BreadcrumbNavigation" data-action-parameters="{view:'default'}"/>
+	<div class="container" id="container" style="width: 100%">
+		<div class="row" style="background-color: #000000;color: #ffffff;">
+			<div style="float: left">
+				<h1><?=Tr::_("PHP Jet Example Application - Administration");?></h1>
+			</div>
+
+			<div class="btn btn-default" style="float:right;margin: 10px;">
+				<?=Tr::_('Current user: %USERNAME%', ['USERNAME' => Auth::getCurrentUser()->getLogin()]);?>
+				<a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-danger"><?=Tr::_('LOGOUT');?></a>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<jet_module module="JetExample.BreadcrumbNavigation" view="admin"/>
+		</div>
+		<div class="row">
+			<jet_layout_main_position/>
+		</div>
 	</div>
 
-	<div style="position: absolute;top:5px; right: 10px;">
-		<?=Tr::_('Current user: %USERNAME%', ['USERNAME' => Auth::getCurrentUser()->getLogin()]);?>
-		<a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-default"><?=Tr::_('LOGOUT');?></a>
-	</div>
+	<?php /*
 
-	<div style="height: 25px;"></div>
-
-	<hr/>
-
-	<jet_layout_main_position/>
 	<jet_layout_body_suffix/>
+    */ ?>
 </body>
 </html>

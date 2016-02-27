@@ -592,10 +592,17 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 				}
 
 
-				$module_name = $properties['data-module-name'];
-				$action = isset($properties['data-action']) ? $properties['data-action'] : '';
-				$action_params = isset($properties['data-action-params']) ? json_decode( htmlspecialchars_decode($properties['data-action-params']), true ) : [];
+				$module_name = $properties['module'];
+				$action = isset($properties['action']) ? $properties['action'] : '';
+				$action_params = [];
 
+				foreach($properties as $k=>$v) {
+					if( $k=='module' || $k=='action' ) {
+						continue;
+					}
+
+					$action_params[$k] = $v;
+				}
 
 				if($action_params) {
 					$action_params = [$action_params];

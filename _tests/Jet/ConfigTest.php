@@ -177,6 +177,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 			new Form_Field_Input('next_string_property', 'Next string property:', 'Next string config value', true),
 		]);
 
+		$valid_form->getField('string_property')->setErrorMessages([Form_Field_Input::ERROR_CODE_EMPTY=>'empty']);
+
 		$fake = function() {};
 
 		$generated_form = $this->object->getCommonForm();
