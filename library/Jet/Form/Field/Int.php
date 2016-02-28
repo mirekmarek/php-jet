@@ -102,29 +102,27 @@ class Form_Field_Int extends Form_Field_Input {
 			return true;
 		}
 
-		//TODO: pouzit filter_var
-		
 		$this->_value = (int)$this->_value_raw;
-		
-		$min = $this->min_value;
-		$max = $this->max_value;
-		
-		if(
-			$min!==null &&
-			$this->_value < $min
-		) {
-			$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
-			return false;
+
+		$options = [];
+
+		if($this->min_value!==null) {
+			$options['min_range'] = $this->min_value;
 		}
-		
-		if(
-			$max!==null &&
-			$this->_value > $max
-		) {
-			$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
-			return false;
+
+		if($this->max_value!==null) {
+			$options['max_range'] = $this->max_value;
 		}
-		
+
+
+		if($options) {
+			if(!filter_var($this->_value, FILTER_VALIDATE_INT, ['options'=>$options] )) {
+				$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
+				return false;
+			}
+
+		}
+
 		$this->_setValueIsValid();
 		
 		return true;
@@ -158,10 +156,10 @@ class Form_Field_Int extends Form_Field_Input {
 		parent::_getReplacement_field_prepareParams($tag_data);
 
 		if($this->min_value!==null) {
-			$tag_data->setProperty( 'min', $this->min_value);
+			//$tag_data->setProperty( 'min', $this->min_value);
 		}
 		if($this->max_value!==null) {
-			$tag_data->setProperty( 'max', $this->max_value);
+			//$tag_data->setProperty( 'max', $this->max_value);
 		}
 		if($this->step!==null) {
 			$tag_data->setProperty( 'step', $this->step);

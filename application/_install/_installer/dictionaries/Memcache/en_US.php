@@ -1,4 +1,22 @@
 <?php
-return array(
+return [
 	'Memcache connections' => '',
-);
+	'Add new connection' => '',
+	'Is default?' => '',
+	'Name' => '',
+	'Host or socket' => '',
+	'Port' => '',
+	'Edit' => '',
+	'Delete' => '',
+	'Test' => '',
+	'Please select default connection' => '',
+	'&lt Back' => '',
+	'Edit connection \'%CONNECTION%\' ' => '',
+	'Save' => '',
+	'Please specify connection name' => '',
+	'Please specify Memcache server host or socket' => '',
+	'Connection name' => '',
+	'Connection \'%CONNECTION%\' Test' => '',
+	'Error:' => '',
+	'Edit connection' => '',
+];

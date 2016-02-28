@@ -41,7 +41,7 @@ class Translator_Config extends Application_Config {
 	/**
 	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
-	 * @JetConfig:form_field_label = 'Auto append unknown phrase: '
+	 * @JetConfig:form_field_label = 'Auto append unknown phrase'
 	 * 
 	 * @var bool
 	 */

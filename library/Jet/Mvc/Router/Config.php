@@ -29,8 +29,7 @@ class Mvc_Router_Config extends Mvc_Router_Config_Abstract {
 	/**
 	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
-	 * @JetConfig:is_required = true
-	 * @JetConfig:form_field_label = 'Enable cache: '
+	 * @JetConfig:form_field_label = 'Enable cache'
 	 * 
 	 * @var bool
 	 */

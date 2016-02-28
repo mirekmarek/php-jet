@@ -37,7 +37,7 @@ class DataModel_Config extends Application_Config {
 	/**
 	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
-	 * @JetConfig:form_field_label = 'Enable data history:'
+	 * @JetConfig:form_field_label = 'Enable data history'
 	 * 
 	 * @var bool
 	 */
@@ -59,7 +59,7 @@ class DataModel_Config extends Application_Config {
 	/**
 	 * @JetConfig:type = Config::TYPE_BOOL
 	 * @JetConfig:default_value = true
-	 * @JetConfig:form_field_label = 'Enable data cache:'
+	 * @JetConfig:form_field_label = 'Enable data cache'
 	 * 
 	 * @var bool
 	 */

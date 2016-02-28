@@ -124,11 +124,10 @@ class Form_Field_Float extends Form_Field_Input {
 
 		$this->_value = (float)$this->_value_raw;
 
-		//TODO: pouzit filter_var
 
-		$min = $this->min_value;
-		$max = $this->max_value;
-		
+		$min = (float)$this->min_value;
+		$max = (float)$this->max_value;
+
 		if(
 			$min!==null &&
 			$this->_value < $min
@@ -136,7 +135,7 @@ class Form_Field_Float extends Form_Field_Input {
 			$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
 			return false;
 		}
-		
+
 		if(
 			$max!==null &&
 			$this->_value > $max

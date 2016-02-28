@@ -1,4 +1,8 @@
 <?php
-return array(
+return [
 	'Welcome' => '',
-);
+	'Welcome!' => '',
+	'Select' => '',
+	'Please select locale' => '',
+	'Please select locale: ' => '',
+];

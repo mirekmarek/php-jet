@@ -1,4 +1,6 @@
 <?php
-return array(
+return [
 	'Create database' => '',
-);
+	'Class' => '',
+	'Status' => '',
+];

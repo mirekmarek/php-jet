@@ -1,4 +1,5 @@
 <?php
-return array(
+return [
 	'Create site' => '',
-);
+	'Site created :-) ' => '',
+];
