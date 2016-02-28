@@ -149,26 +149,18 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @param string $label
 	 * @param string $default_value
 	 * @param bool $is_required
-	 * @param string $validation_regexp
-	 * @param array $error_messages
 	 */
 	public function __construct(
 				$name, 
 				$label='', 
 				$default_value='', 
-				$is_required=false,
-				$validation_regexp=null, 
-				array $error_messages = []
+				$is_required=false
 			) {
 
 		$this->_name = $name;
 		$this->default_value = $default_value;
 		$this->label = $label;
 		$this->setIsRequired($is_required);
-		if($validation_regexp) {
-			$this->validation_regexp = $validation_regexp;
-		}
-		$this->setErrorMessages($error_messages);
 		$this->setDefaultValue( $default_value );
 	}
 
@@ -603,6 +595,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @return bool|int
 	 */
 	protected function _validateFormat() {
+
 		if(!$this->validation_regexp) {
 			return true;
 		}

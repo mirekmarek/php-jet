@@ -26,11 +26,6 @@ class Form_Field_Input extends Form_Field_Abstract {
 	protected $placeholder = '';
 
 	/**
-	 * @var string
-	 */
-	protected $title = '';
-
-	/**
 	 * @var array
 	 */
 	protected $error_messages = [
@@ -73,22 +68,6 @@ class Form_Field_Input extends Form_Field_Abstract {
 		$this->placeholder = $placeholder;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		return $this->getTranslation($this->title);
-	}
-
-	/**
-	 * @param string $title
-	 */
-	public function setTitle($title)
-	{
-		$this->title = $title;
-	}
-
 
 
 	/**
@@ -97,7 +76,15 @@ class Form_Field_Input extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+		$this->_getReplacement_field_prepareParams( $tag_data );
 
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
+	}
+
+	/**
+	 * @param Form_Parser_TagData $tag_data
+	 */
+	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data ) {
 		$tag_data->setProperty( 'name', $this->getName() );
 		$tag_data->setProperty( 'id', $this->getID() );
 		$tag_data->setProperty( 'type', $this->_input_type );
@@ -107,19 +94,20 @@ class Form_Field_Input extends Form_Field_Abstract {
 			$tag_data->setProperty('placeholder', $placeholder);
 		}
 
-		if( ($title=$this->getTitle()) ) {
-			$tag_data->setProperty('title', $title);
-		}
 
 		if($this->is_required) {
 			$tag_data->setProperty('required', 'required');
 		}
 
 		if($this->validation_regexp) {
-			$tag_data->setProperty('pattern', $this->validation_regexp);
+			$regexp = $this->validation_regexp;
+			if($regexp[0]=='/') {
+				$regexp = substr($regexp, 1);
+				$regexp = substr($regexp, 0, strrpos($regexp, '/'));
+			}
+			$tag_data->setProperty('pattern', $regexp);
 		}
 
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
 

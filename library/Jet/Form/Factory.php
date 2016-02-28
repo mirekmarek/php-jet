@@ -22,8 +22,6 @@ class Form_Factory {
 	 * @param string $label
 	 * @param string $default_value
 	 * @param bool $is_required
-	 * @param string $validation_regexp
-	 * @param array|string $error_messages
 	 *
 	 * @throws Form_Exception
 	 *
@@ -34,9 +32,7 @@ class Form_Factory {
 								$name,
 								$label='',
 								$default_value='',
-								$is_required=false,
-								$validation_regexp=null,
-								array $error_messages = []
+								$is_required=false
 							) {
 
 		if(!$type) {
@@ -52,9 +48,7 @@ class Form_Factory {
 			$name,
 			$label,
 			$default_value,
-			$is_required,
-			$validation_regexp,
-			$error_messages
+			$is_required
 		);
 	}
 
@@ -87,8 +81,6 @@ class Form_Factory {
 	 * @param string $label (optional)
 	 * @param string $default_value (optional)
 	 * @param bool $required (optional, default: false)
-	 * @param string $validation_regexp (optional)
-	 * @param array $error_messages (optional)
 	 *
 	 * @return Form_Field_Abstract
 	 */
@@ -96,11 +88,9 @@ class Form_Factory {
 								$name,
 								$label='',
 								$default_value='',
-								$required=false,
-								$validation_regexp=null,
-								array $error_messages = []
+								$required=false
 							) {
-		return static::getFieldInstance($type, $name, $label, $default_value, $required, $validation_regexp, $error_messages);
+		return static::getFieldInstance($type, $name, $label, $default_value, $required );
 	}
 
 }

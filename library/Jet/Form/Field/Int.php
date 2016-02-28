@@ -101,7 +101,8 @@ class Form_Field_Int extends Form_Field_Input {
 			$this->_setValueIsValid();
 			return true;
 		}
-		
+
+		//TODO: pouzit filter_var
 		
 		$this->_value = (int)$this->_value_raw;
 		
@@ -151,18 +152,10 @@ class Form_Field_Int extends Form_Field_Input {
 
 	/**
 	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
 	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', $this->_input_type );
-
-		if($this->step!==null) {
-			$tag_data->setProperty( 'step', $this->step);
-		}
+	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data )
+	{
+		parent::_getReplacement_field_prepareParams($tag_data);
 
 		if($this->min_value!==null) {
 			$tag_data->setProperty( 'min', $this->min_value);
@@ -170,11 +163,9 @@ class Form_Field_Int extends Form_Field_Input {
 		if($this->max_value!==null) {
 			$tag_data->setProperty( 'max', $this->max_value);
 		}
-
-		$tag_data->setProperty( 'value', $this->getValue() );
-
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
+		if($this->step!==null) {
+			$tag_data->setProperty( 'step', $this->step);
+		}
 	}
 
 }

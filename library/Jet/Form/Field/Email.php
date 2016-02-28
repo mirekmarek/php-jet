@@ -13,16 +13,16 @@
  */
 namespace Jet;
 
-class Form_Field_DateTime extends Form_Field_Input {
+class Form_Field_Email extends Form_Field_Input {
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_DATE_TIME;
+	protected $_type = Form::TYPE_EMAIL;
 
 	/**
 	 * @var string
 	 */
-	protected $_input_type = 'datetime-local';
+	protected $_input_type = 'email';
 
 	/**
 	 * @var array
@@ -42,10 +42,7 @@ class Form_Field_DateTime extends Form_Field_Input {
 			return true;
 		}
 
-
-		$check = \DateTime::createFromFormat('Y-m-d\TH:i', $this->_value);
-
-		if(!$check) {
+		if(!filter_var( $this->_value, FILTER_VALIDATE_EMAIL )) {
 			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
 			return false;
 		}
@@ -53,15 +50,6 @@ class Form_Field_DateTime extends Form_Field_Input {
 		$this->_setValueIsValid();
 
 		return true;
-	}
-
-	/**
-	 * returns field value
-	 *
-	 * @return mixed
-	 */
-	public function getValue() {
-		return $this->_value;
 	}
 
 
@@ -78,25 +66,5 @@ class Form_Field_DateTime extends Form_Field_Input {
 		$codes[] = self::ERROR_CODE_INVALID_FORMAT;
 
 		return $codes;
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 */
-	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data )
-	{
-		parent::_getReplacement_field_prepareParams($tag_data);
-
-		$value = '';
-		if($this->_value) {
-			$date = new \DateTime( $this->_value );
-
-			if($date) {
-				$value = $date->format('Y-m-d\TH:i');
-			}
-		}
-
-		$tag_data->setProperty( 'value', $value );
-
 	}
 }

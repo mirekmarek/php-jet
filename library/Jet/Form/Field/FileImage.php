@@ -115,20 +115,6 @@ class Form_Field_FileImage extends Form_Field_File {
 		return true;
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', 'file' );
-		$tag_data->setProperty( 'value', $this->getValue() );
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-	}
 
 
 	/**

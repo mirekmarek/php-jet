@@ -36,7 +36,7 @@ class DataModelT1 extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Checkbox: '
+	 * @JetDataModel:form_field_label = 'Checkbox'
 	 *
 	 * @var bool
 	 */

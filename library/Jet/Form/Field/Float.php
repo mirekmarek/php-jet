@@ -123,8 +123,9 @@ class Form_Field_Float extends Form_Field_Input {
 		}
 
 		$this->_value = (float)$this->_value_raw;
-		
-		
+
+		//TODO: pouzit filter_var
+
 		$min = $this->min_value;
 		$max = $this->max_value;
 		
@@ -168,18 +169,13 @@ class Form_Field_Float extends Form_Field_Input {
 		return $codes;
 	}
 
+
 	/**
 	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
 	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', $this->_input_type );
-
-		$tag_data->setProperty( 'step', $this->step);
+	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data )
+	{
+		parent::_getReplacement_field_prepareParams($tag_data);
 
 		if($this->min_value!==null) {
 			$tag_data->setProperty( 'min', $this->min_value);
@@ -188,11 +184,8 @@ class Form_Field_Float extends Form_Field_Input {
 			$tag_data->setProperty( 'max', $this->max_value);
 		}
 
-		$tag_data->setProperty( 'value', $this->getValue() );
+		$tag_data->setProperty( 'step', $this->step);
 
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
-
 
 }

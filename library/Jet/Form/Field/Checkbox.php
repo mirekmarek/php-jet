@@ -81,6 +81,21 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	}
 
 	/**
+	 * @param null|string $template (optional)
+	 *
+	 * @return string
+	 */
+	public function helper_getBasicHTML($template=null) {
+
+		return '<div class="checkbox">'.JET_EOL
+				.JET_TAB.'<jet_form_field_error_msg name="'.$this->_name.'" class="form-error"/>'.JET_EOL
+				.JET_TAB.'<jet_form_field_label name="'.$this->_name.'"/>'.JET_EOL
+				.JET_TAB.'<jet_form_field name="'.$this->_name.'"/>'.JET_EOL
+				.'</div>';
+
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getRequiredErrorCodes()

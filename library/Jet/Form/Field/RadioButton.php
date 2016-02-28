@@ -127,25 +127,21 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 * @return string
 	 */
 	public function helper_getBasicHTML($template=null) {
-		if(!$template) {
-			$template = $this->__form->getTemplate_field();
-		}
 
+		$field = '';
 
-		$label = '<jet_form_field_label name="'.$this->_name.'"/>';
-		$field = '<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>';
+		$field .= '<jet_form_field_label name="'.$this->_name.'"/>'.JET_EOL;
+		$field .= '<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>';
 
 		foreach($this->select_options as $key=>$val) {
-			$field .= JET_TAB.JET_TAB.JET_TAB.'<jet_form_field_option name="'.$this->_name.'" key="'.$key.'"/>'.JET_EOL;
-			$field .= JET_TAB.JET_TAB.JET_TAB.'<jet_form_field_option_label name="'.$this->_name.'" key="'.$key.'"/><br/>'.JET_EOL;
+			$field .= '<div class="radio">'.JET_EOL
+			.JET_TAB.'<jet_form_field_option name="'.$this->_name.'" key="'.$key.'"/>'.JET_EOL
+			.JET_TAB.'<jet_form_field_option_label name="'.$this->_name.'" key="'.$key.'"/><br/>'.JET_EOL
+			.'</div>';
 
 		}
 
-		return Data_Text::replaceData($template, [
-			'LABEL' => $label,
-			'FIELD' => $field
-		]);
-
+		return $field;
 	}
 
 
