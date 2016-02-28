@@ -22,7 +22,7 @@ class Data_DateTime extends \DateTime {
 	 * @return string
 	 */
 	public function  __toString() {
-		return (string)$this->format(self::ISO8601);
+		return (string)$this->format('Y-m-d\TH:i:s');
 	}
 
 	/**

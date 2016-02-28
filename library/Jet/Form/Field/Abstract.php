@@ -24,6 +24,11 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	protected $_type = '';
 
 	/**
+	 * @var string
+	 */
+	protected $_input_type = 'text';
+
+	/**
 	 * @var bool
 	 */
 	protected $_possible_to_decorate = true;
@@ -681,7 +686,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 
 		$tag_data->setProperty( 'name', $this->getName() );
 		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', 'text' );
+		$tag_data->setProperty( 'type', $this->_input_type );
 		$tag_data->setProperty( 'value', $this->getValue() );
 
 

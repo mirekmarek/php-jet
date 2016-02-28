@@ -16,6 +16,7 @@ namespace Jet;
 class Form_Field_FileImage extends Form_Field_File {
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
+//TODO: html5
 
 	/**
 	 * @var string

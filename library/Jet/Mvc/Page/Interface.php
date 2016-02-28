@@ -40,12 +40,12 @@ interface Mvc_Page_Interface {
     /**
      * @param string $site_ID
      */
-	public function setSiteID( $site_ID );
+	public function setSiteId( $site_ID );
 
 	/**
 	 * @return string
 	 */
-	public function getSiteID();
+	public function getSiteId();
 
 	/**
 	 * @param Locale $locale
@@ -112,12 +112,23 @@ interface Mvc_Page_Interface {
 	/**
 	 * @return string
 	 */
-	public function getParentID();
+	public function getParentId();
 
     /**
      * @param string $parent_ID
      */
-	public function setParentID( $parent_ID );
+	public function setParentId( $parent_ID );
+
+	/**
+	 * @return int
+	 */
+	public function getOrder();
+
+	/**
+	 * @param int $order
+	 *
+	 */
+	public function setOrder( $order );
 
 	/**
 	 *
@@ -395,6 +406,11 @@ interface Mvc_Page_Interface {
 	 * @return Data_Tree_Forest
 	 */
 	public function getAllPagesTree();
+
+	/**
+	 *
+	 */
+	public function sortChildren();
 
 	/**
 	 * @return string

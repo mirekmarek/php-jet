@@ -13,13 +13,17 @@
  */
 namespace Jet;
 
-class Form_Field_Float extends Form_Field_Abstract {
+class Form_Field_Float extends Form_Field_Input {
 	const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
 
 	/**
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_FLOAT;
+	/**
+	 * @var string
+	 */
+	protected $_input_type = 'number';
 
 	/**
 	 * @var array
@@ -37,6 +41,12 @@ class Form_Field_Float extends Form_Field_Abstract {
 	 * @var null|float
 	 */
 	protected $max_value = null;
+
+	/**
+	 * @var float
+	 */
+	protected $step = 0.01;
+
 	/**
 	 * @var null|int
 	 */
@@ -69,6 +79,23 @@ class Form_Field_Float extends Form_Field_Abstract {
 	public function setMaxValue($max) {
 		$this->max_value = (float)$max;
 	}
+
+	/**
+	 * @return float
+	 */
+	public function getStep()
+	{
+		return $this->step;
+	}
+
+	/**
+	 * @param float $step
+	 */
+	public function setStep($step)
+	{
+		$this->step = $step;
+	}
+
 
 	/**
 	 * @return int|null
@@ -140,5 +167,32 @@ class Form_Field_Float extends Form_Field_Abstract {
 
 		return $codes;
 	}
+
+	/**
+	 * @param Form_Parser_TagData $tag_data
+	 *
+	 * @return string
+	 */
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', $this->_input_type );
+
+		$tag_data->setProperty( 'step', $this->step);
+
+		if($this->min_value!==null) {
+			$tag_data->setProperty( 'min', $this->min_value);
+		}
+		if($this->max_value!==null) {
+			$tag_data->setProperty( 'max', $this->max_value);
+		}
+
+		$tag_data->setProperty( 'value', $this->getValue() );
+
+
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
+	}
+
 
 }

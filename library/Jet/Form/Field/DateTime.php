@@ -13,11 +13,16 @@
  */
 namespace Jet;
 
-class Form_Field_DateTime extends Form_Field_Abstract {
+class Form_Field_DateTime extends Form_Field_Input {
 	/**
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_DATE_TIME;
+
+	/**
+	 * @var string
+	 */
+	protected $_input_type = 'datetime-local';
 
 	/**
 	 * @var array
@@ -26,33 +31,6 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 		self::ERROR_CODE_EMPTY => '',
 		self::ERROR_CODE_INVALID_FORMAT => ''
 	];
-
-
-	/**
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchValue( Data_Array $data ) {
-		parent::catchValue($data);
-
-		if($this->_has_value) {
-
-			$name = $this->_name.'_time';
-
-			if($data->exists($name)) {
-				$this->_value_raw .= ' '.$data->getRaw($name);
-				$this->_value .= ' '.trim( $data->getRaw($name) );
-			} else {
-				$this->_value_raw = null;
-			}
-		}
-
-		$this->_value = trim($this->_value);
-
-		if($this->_value) {
-			$this->_value = date('c',strtotime($this->_value));
-		}
-	}
 
 	/**
 	 * validate value
@@ -64,8 +42,10 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 			return true;
 		}
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		if(!@strtotime($this->_value)) {
+
+		$check = \DateTime::createFromFormat('Y-m-d\TH:i', $this->_value);
+
+		if(!$check) {
 			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
 			return false;
 		}
@@ -76,58 +56,12 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param Form_Parser_TagData $tag_data
+	 * returns field value
 	 *
-	 * @return string
+	 * @return mixed
 	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$value = $this->getValue();
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', 'text' );
-		$tag_data->setProperty( 'value', $value ? date('Y-m-d', strtotime($value)):'' );
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field_time( Form_Parser_TagData $tag_data ) {
-
-		$value = $this->getValue();
-
-		$tag_data->setProperty( 'name', $this->getName().'_time');
-		$tag_data->setProperty( 'id', $this->getID().'_time');
-		$tag_data->setProperty( 'type', 'text');
-		$tag_data->setProperty( 'value', $value ? 'T'.date('H:i:s', strtotime($value)):'' );
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-
-	}
-
-	/**
-	 * @param null|string $template (optional)
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML($template=null) {
-
-		if(!$template) {
-			$template = $this->__form->getTemplate_field();
-		}
-
-		return Data_Text::replaceData($template, [
-			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
-			'FIELD' =>
-				'<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>'.JET_EOL
-				.'<jet_form_field name="'.$this->_name.'" class="form-control"/>'.JET_EOL
-				.'<jet_form_field_time name="'.$this->_name.'" class="form-control"/>'
-		]);
+	public function getValue() {
+		return $this->_value;
 	}
 
 
@@ -145,4 +79,47 @@ class Form_Field_DateTime extends Form_Field_Abstract {
 
 		return $codes;
 	}
+
+
+	/**
+	 * @param Form_Parser_TagData $tag_data
+	 *
+	 * @return string
+	 */
+	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+
+		$tag_data->setProperty( 'name', $this->getName() );
+		$tag_data->setProperty( 'id', $this->getID() );
+		$tag_data->setProperty( 'type', $this->_input_type );
+
+		$value = '';
+		if($this->_value) {
+			$date = new \DateTime( $this->_value );
+
+			if($date) {
+				$value = $date->format('Y-m-d\TH:i');
+			}
+		}
+
+		$tag_data->setProperty( 'value', $value );
+
+		if( ($placeholder=$this->getPlaceholder()) ) {
+			$tag_data->setProperty('placeholder', $placeholder);
+		}
+
+		if( ($title=$this->getTitle()) ) {
+			$tag_data->setProperty('title', $title);
+		}
+
+		if($this->is_required) {
+			$tag_data->setProperty('required', 'required');
+		}
+
+		if($this->validation_regexp) {
+			$tag_data->setProperty('pattern', $this->validation_regexp);
+		}
+
+		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
+	}
+
 }

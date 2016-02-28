@@ -12,11 +12,15 @@
  */
 namespace Jet;
 
-class Form_Field_Date extends Form_Field_Abstract {
+class Form_Field_Date extends Form_Field_Input {
 	/**
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_DATE;
+	/**
+	 * @var string
+	 */
+	protected $_input_type = 'date';
 
 	/**
 	 * @var array
@@ -37,8 +41,9 @@ class Form_Field_Date extends Form_Field_Abstract {
 			return true;
 		}
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		if(!@strtotime($this->_value.' 00:00:00')) {
+		$check = \DateTime::createFromFormat('Y-m-d', $this->_value);
+
+		if(!$check) {
 			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
 			return false;
 		}
@@ -47,19 +52,6 @@ class Form_Field_Date extends Form_Field_Abstract {
 
 		return true;
 	}
-
-	/**
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchValue( Data_Array $data ) {
-		parent::catchValue($data);
-
-		if($this->_value) {
-			$this->_value = date('Y-m-d',strtotime($this->_value));
-		}
-	}
-
 
 	/**
 	 * @return array
@@ -75,4 +67,5 @@ class Form_Field_Date extends Form_Field_Abstract {
 
 		return $codes;
 	}
+
 }

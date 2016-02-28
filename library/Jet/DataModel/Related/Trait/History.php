@@ -21,7 +21,7 @@ trait DataModel_Related_Trait_History {
     /**
      * @param string $operation
      */
-    protected function dataModelHistoryOperationStart( $operation ) {
+    public function dataModelHistoryOperationStart( $operation ) {
         /**
          * @var DataModel $this_main_model_instance
          */
@@ -35,7 +35,7 @@ trait DataModel_Related_Trait_History {
     /**
      *
      */
-    protected function dataModelHistoryOperationDone() {
+    public function dataModelHistoryOperationDone() {
         /**
          * @var DataModel $this_main_model_instance
          */

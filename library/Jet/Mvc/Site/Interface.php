@@ -26,12 +26,17 @@ interface Mvc_Site_Interface {
 	 * @param string $ID
 	 *
 	 */
-	public function setSiteID( $ID );
+	public function setSiteId( $ID );
 
 	/**
 	 * @return string
 	 */
-	public function getSiteID();
+	public function getSiteId();
+
+	/**
+	 *
+	 */
+	public function generateSiteId();
 
 	/**
 	 * Returns site name
@@ -45,11 +50,6 @@ interface Mvc_Site_Interface {
 	 * @param string $name
 	 */
 	public function setName($name);
-
-    /**
-     *
-     */
-    public function generateID();
 
 	/**
 	 * Returns root directory path

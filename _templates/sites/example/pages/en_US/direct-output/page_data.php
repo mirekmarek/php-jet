@@ -3,6 +3,7 @@ namespace Jet;
 
 return [
     'ID' => 'direct_output',
+    'order' => 4,
     'name' => 'Direct output',
     'title' => 'Fast direct output',
     'layout_script_name' => 'default',

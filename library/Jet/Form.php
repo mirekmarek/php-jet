@@ -24,11 +24,16 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	const TYPE_INPUT = 'Input';
 	const TYPE_INT = 'Int';
 	const TYPE_MULTI_SELECT = 'MultiSelect';
+	//TODO: const TYPE_SEARCH = 'UserNameRegistration'
 	const TYPE_PASSWORD = 'Password';
+	//TODO: const TYPE_SEARCH = 'PasswordRegistration'
 	const TYPE_RADIO_BUTTON = 'RadioButton';
 	const TYPE_SELECT = 'Select';
 	const TYPE_TEXTAREA = 'Textarea';
 	const TYPE_WYSIWYG = 'WYSIWYG';
+	//TODO: const TYPE_EMAIL = 'Email'
+	//TODO: const TYPE_URL = 'Url'
+	//TODO: const TYPE_SEARCH = 'Search'
 
 	const FORM_SENT_KEY = '_jet_form_sent_';
 	const FORM_TAG = 'jet_form';
@@ -809,6 +814,9 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getTranslation( $phrase, $data= []) {
+		if(!$phrase) {
+			return $phrase;
+		}
 		if($this->do_not_translate_texts) {
 			return $phrase;
 		}

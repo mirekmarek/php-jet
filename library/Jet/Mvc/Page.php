@@ -33,6 +33,15 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	/**
 	 * @var array
 	 */
+	protected static $do_not_inherit_properties = [
+		'breadcrumb_title',
+		'menu_title',
+		'order'
+	];
+
+	/**
+	 * @var array
+	 */
 	protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7'];
 
 	/**
@@ -82,10 +91,24 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	protected $_parent;
 
 	/**
+	 * @var bool
+	 */
+	protected $_children_sorted = false;
+
+	/**
 	 * @var Mvc_Page_Interface[]
 	 */
 	protected $_children = [];
 
+
+	/**
+	 * @JetDataModel:type = DataModel::TYPE_INT
+	 *
+	 * @JetDataModel:form_field_label = 'Order'
+	 *
+	 * @var int
+	 */
+	protected $order = 0;
 
 	/**
 	 * @JetDataModel:type = DataModel::TYPE_STRING
@@ -371,7 +394,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 			$locale = Mvc::getCurrentLocale();
 		}
 		if(!$site_ID) {
-			$site_ID = Mvc::getCurrentSite()->getSiteID();
+			$site_ID = Mvc::getCurrentSite()->getSiteId();
 		}
 
 		return static::_load( $site_ID, $locale, $page_ID );
@@ -431,7 +454,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	/**
 	 * @return string
 	 */
-	public function getSiteID() {
+	public function getSiteId() {
 		return $this->site_ID;
 	}
 
@@ -531,14 +554,14 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	/**
 	 * @return string
 	 */
-	public function getParentID() {
+	public function getParentId() {
 		return $this->parent_ID;
 	}
 
 	/**
 	 * @param string $parent_ID
 	 */
-	public function setParentID( $parent_ID ) {
+	public function setParentId( $parent_ID ) {
 		if($this->parent_ID==$parent_ID) {
 			return;
 		}
@@ -581,6 +604,23 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	public function getParent() {
 		return $this->_parent;
 	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getOrder() {
+		return $this->order;
+	}
+
+	/**
+	 * @param int $order
+	 *
+	 */
+	public function setOrder( $order ) {
+		$this->order = (int)$order;
+	}
+
 
 	/**
 	 * @return string
@@ -679,7 +719,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	public function getURL(array $GET_params= [], array $path_fragments= []) {
 
 		if(
-			(string)$this->site_ID == Mvc::getCurrentSite()->getSiteID() &&
+			(string)$this->site_ID == Mvc::getCurrentSite()->getSiteId() &&
 			(string)$this->locale == Mvc::getCurrentLocale() &&
 			$this->getSSLRequired() == Mvc::getIsSSLRequest()
 		) {
@@ -1160,7 +1200,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 
 		$current_page_data['URL_fragment'] = rawurlencode($URL_fragment);
 		$current_page_data['data_file_path'] = $data_file_path;
-		$current_page_data['site_ID'] = $site->getSiteID();
+		$current_page_data['site_ID'] = $site->getSiteId();
 		$current_page_data['locale'] = $locale;
 
 		if($parent_page_data) {
@@ -1174,12 +1214,10 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 			unset($parent_page_data['ID']);
 
 			foreach( $parent_page_data as $k=>$v ) {
-				if(
-					$k=='breadcrumb_title' ||
-					$k=='menu_title'
-				) {
+				if( in_array($k, static::$do_not_inherit_properties) ) {
 					continue;
 				}
+
 				if(!array_key_exists($k, $current_page_data)) {
 					$current_page_data[$k] = $v;
 				}
@@ -1238,7 +1276,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 		$meta_tags = [];
 
 		foreach( $data['meta_tags']  as $i=>$m_dat) {
-			$m_dat['site_ID'] = $page->getSiteID();
+			$m_dat['site_ID'] = $page->getSiteId();
 			$m_dat['locale'] = $page->getLocale();
 			$m_dat['page_ID'] = $page->getPageId();
 			$m_dat['meta_tag_ID'] = $i;
@@ -1261,7 +1299,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 		foreach( $data['contents']  as $i=>$c_dat) {
 
 
-			$m_dat['site_ID'] = $page->getSiteID();
+			$m_dat['site_ID'] = $page->getSiteId();
 			$m_dat['locale'] = $page->getLocale();
 			$m_dat['page_ID'] = $page->getPageId();
 			$c_dat['content_ID'] = $i;
@@ -1346,7 +1384,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	 */
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) {
 
-		$key = $site->getSiteID().':'.$locale;
+		$key = $site->getSiteId().':'.$locale;
 
 		if(isset(static::$site_pages_loaded_flag[$key])) {
 			return;
@@ -1364,6 +1402,9 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	 * @param $data
 	 */
 	protected function _getAllPagesTree( Mvc_Page_Interface $page, &$data ) {
+		/**
+		 * @var Mvc_Page $page
+		 */
 		$data[$page->getPageKey()] = [
 			'ID' => $page->getPageKey(),
 			'parent_ID' => $page->getParent()->getPageKey(),
@@ -1481,9 +1522,33 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	}
 
 	/**
+	 *
+	 */
+	public function sortChildren() {
+		if($this->_children_sorted) {
+			return;
+		}
+
+		uasort( $this->_children, function( Mvc_Page $a, Mvc_Page $b ) {
+			$a_order = $a->getOrder();
+			$b_order = $b->getOrder();
+
+			if($a_order==$b_order) {
+				return 0;
+			}
+
+			return ($a_order < $b_order) ? -1 : 1;
+		} );
+
+		$this->_children_sorted = true;
+	}
+
+	/**
 	 * @return Mvc_Page_Interface[]
 	 */
 	public function getChildren() {
+		$this->sortChildren();
+
 		return $this->_children;
 	}
 

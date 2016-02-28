@@ -3,6 +3,7 @@ namespace Jet;
 
 return [
     'ID' => 'subpage',
+    'order' => 3,
     'name' => 'Podstránka',
 	'title' => 'Podstránka',
 	'menu_title' => 'Podstránka',

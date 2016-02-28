@@ -71,7 +71,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		) {
 			$this->view->setVar('form_data', $form->getValues());
 		}
-		$form->enableDecorator('Dojo');
+		//$form->enableDecorator('Dojo');
 		$this->view->setVar('form', $form);
 
 		$this->view->setVar('parameter_1', $parameter_1);

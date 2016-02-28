@@ -3,6 +3,7 @@ namespace Jet;
 
 return [
     'ID' => 'images',
+	'order' => 2,
     'name' => 'Images',
 	'title' => 'Images',
 	'menu_title' => 'Images',

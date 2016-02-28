@@ -38,7 +38,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
 
 			$site->setName('Example Site');
-			$site->generateID();
+			$site->generateSiteId();
 
 			$site->addLocale( $default_locale );
 			$site->addURL( $default_locale, $nonSSL );
@@ -169,7 +169,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			$data = $main_form->getValues();
 
 			$site->setName( $data['name'] );
-			$site->generateID();
+			$site->generateSiteId();
 
 			foreach( $site->getLocales() as $locale ) {
 				foreach( $site->getLocalizedData($locale)->getURLs() as $URL ) {

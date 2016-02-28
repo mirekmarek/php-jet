@@ -58,7 +58,7 @@ trait DataModel_Trait_History {
     /**
      * @param string $operation
      */
-    protected function dataModelHistoryOperationStart( $operation ) {
+    public function dataModelHistoryOperationStart( $operation ) {
         $backend = $this->getHistoryBackendInstance();
 
         if( !$backend ) {
@@ -74,7 +74,7 @@ trait DataModel_Trait_History {
     /**
      *
      */
-    protected function dataModelHistoryOperationDone() {
+    public function dataModelHistoryOperationDone() {
         $backend = $this->getHistoryBackendInstance();
 
         if( !$backend ) {

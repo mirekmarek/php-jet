@@ -345,7 +345,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 		}
 
 
-		$result .= 'array('.$comment.JET_EOL;
+		$result .= '['.$comment.JET_EOL;
 
 		$my_root_path = $path . static::PATH_DELIMITER;
 
@@ -362,7 +362,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 				$result .= $indent.JET_TAB;
 
 			} else {
-				$result .= $indent.JET_TAB.'\''.$key.'\' => ';
+				$result .= $indent.JET_TAB.'\''.addslashes($key).'\' => ';
 			}
 
 			if(is_array($value)) {
@@ -389,7 +389,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 			$result .= ','.JET_EOL;
 
 		}
-		$result .= $indent . ')';
+		$result .= $indent . ']';
 
 		return $result;
 

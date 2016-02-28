@@ -20,6 +20,7 @@
  */
 namespace Jet;
 
+//TODO: vyradit z jadra, bude to ciste vec UI kontroleru
 abstract class Mvc_Controller_JetJS extends Mvc_Controller_Abstract {
 
 

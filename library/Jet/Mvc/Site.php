@@ -264,7 +264,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	/**
 	 * @return string
 	 */
-	public function getSiteID() {
+	public function getSiteId() {
 		return $this->site_ID;
 	}
 
@@ -272,7 +272,24 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	 * @param string $ID
 	 *
 	 */
-	public function setSiteID( $ID ) {
+	public function setSiteId( $ID ) {
+		$this->site_ID = $ID;
+	}
+
+	/**
+	 *
+	 */
+	public function generateSiteId() {
+
+		$name  = trim( $this->name );
+
+		$ID = Data_Text::removeAccents( $name );
+		$ID = str_replace(' ', '_', $ID);
+		$ID = preg_replace('/[^a-z0-9_]/i', '', $ID);
+		$ID = strtolower($ID);
+		$ID = preg_replace( '~([_]{2,})~', '_' , $ID );
+		$ID = substr($ID, 0, 50);
+
 		$this->site_ID = $ID;
 	}
 
@@ -292,24 +309,6 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	public function setName($name) {
 		$this->name = $name;
 	}
-
-
-    /**
-     *
-     */
-    public function generateID() {
-
-        $name  = trim( $this->name );
-
-        $ID = Data_Text::removeAccents( $name );
-        $ID = str_replace(' ', '_', $ID);
-        $ID = preg_replace('/[^a-z0-9_]/i', '', $ID);
-        $ID = strtolower($ID);
-        $ID = preg_replace( '~([_]{2,})~', '_' , $ID );
-        $ID = substr($ID, 0, 50);
-
-        $this->site_ID = $ID;
-    }
 
 
     /**
@@ -341,7 +340,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	 * @return string
 	 */
 	public function getBaseURI() {
-		return JET_SITES_URI . $this->getSiteID() . '/';
+		return JET_SITES_URI . $this->getSiteId() . '/';
 	}
 
 	/**
@@ -712,7 +711,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	 * @return Mvc_Page_Interface
 	 */
 	public function getHomepage( Locale $locale ) {
-		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getSiteID() );
+		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getSiteId() );
 	}
 
 
@@ -807,7 +806,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 
 		$data['loaded_sites'] = static::$_loaded;
 		$data['URL_map'] = static::$URL_map;
-		$data['site'] = $site->getSiteID();
+		$data['site'] = $site->getSiteId();
 
 	}
 
@@ -861,7 +860,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 
 		$data = '<?php'.JET_EOL.'return '.$ar->export();
 
-		$data_file_path = static::getSiteDataFilePath($this->getSiteID());
+		$data_file_path = static::getSiteDataFilePath($this->getSiteId());
 
 
 		IO_File::write($data_file_path, $data);
@@ -887,7 +886,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 
 		foreach( $this->localized_data as $ld ) {
 
-			$key = $this->getSiteID().'/'.$ld->getLocale();
+			$key = $this->getSiteId().'/'.$ld->getLocale();
 
 			$URLs_map_data[$key] = [];
 
