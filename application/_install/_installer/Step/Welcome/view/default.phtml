@@ -14,7 +14,8 @@ $form = $this->form;
 		<jet_form_field_error_msg name="locale" class="form-error"/>
 		<jet_form_field name="locale" class="form-control"/>
 	</div>
-	<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Select');?>"/>
+
+	<?=\Jet\Installer::buttonNext();?>
 
 
 </jet_form>

@@ -18,6 +18,5 @@ $form = $this->form;
 		<jet_form_field_error_msg name="auto_append_unknown_phrase" class="form-error"/>
 		<jet_form_field name="auto_append_unknown_phrase"/>
 	</div>
-	<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>"/>
-
+	<?=\Jet\Installer::buttonNext();?>
 </jet_form>

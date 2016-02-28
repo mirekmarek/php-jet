@@ -10,7 +10,6 @@ return [
 	'Delete' => '',
 	'Test' => '',
 	'Please select default connection' => '',
-	'&lt Back' => '',
 	'Edit connection \'%CONNECTION%\' ' => '',
 	'Host' => '',
 	'Port' => '',

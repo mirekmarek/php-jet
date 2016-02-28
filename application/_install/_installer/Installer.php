@@ -260,4 +260,41 @@ class Installer {
 	}
 
 
+	/**
+	 * @return string
+	 */
+	public static function buttonBack() {
+		?>
+		<a href="?"><button type="submit" class="btn btn-warning">
+			<i class="glyphicon glyphicon-chevron-left"></i>
+			<?=Tr::_('Go Back', [], Tr::COMMON_NAMESPACE);?>
+		</button></a>
+		<?php
+		return '';
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function buttonNext() {
+		?>
+		<button type="submit" class="btn btn-primary">
+			<?=Tr::_('Go Ahead', [], Tr::COMMON_NAMESPACE);?><i class="glyphicon glyphicon-chevron-right"></i>
+		</button>
+		<?php
+		return '';
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function buttonNextSkipIt() {
+		?>
+		<button type="submit" class="btn btn-info">
+			<?=Tr::_('Skip this step', [], Tr::COMMON_NAMESPACE);?><i class="glyphicon glyphicon-chevron-right"></i>
+		</button>
+		<?php
+		return '';
+	}
+
 }

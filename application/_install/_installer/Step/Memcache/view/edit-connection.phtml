@@ -15,7 +15,7 @@ $config = $this->config;
 $config_props = $config->getPropertiesDefinition();
 ?>
 
-<a href="?" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a>
+<?=\Jet\Installer::buttonBack()?>
 
 <h3><?=Jet\Tr::_('Edit connection \'%CONNECTION%\' ', ['CONNECTION'=>$this->connection_name]);?></h3>
 

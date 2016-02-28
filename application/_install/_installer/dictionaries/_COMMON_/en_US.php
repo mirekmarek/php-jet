@@ -47,6 +47,9 @@ return [
 	'Enable form' => '',
 	'Hello WORLD!' => '',
 	'Login' => '',
-	'Next' => '',
+	'Go ahead' => '',
 	'PHP Jet Platform - Example Project Installer' => '',
+	'Go ahead - skip this step' => '',
+	'Go Ahead' => '',
+	'Skip this step' => '',
 ];

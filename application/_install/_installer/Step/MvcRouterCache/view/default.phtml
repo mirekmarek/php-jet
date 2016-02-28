@@ -24,6 +24,6 @@ $form->helper_getBasicHTML('div');
 		<?=$field->helper_getBasicHTML(); ?>
 	<?php endforeach; ?>
 
-	<input type="submit" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 
 </jet_form>

@@ -47,12 +47,12 @@ $config = $this->config;
 </table>
 
 
-	<input type="submit" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 </jet_form>
 <?php else: ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Jet\Tr::_('Next - skip it');?>" class="btn"/>
+	<?=\Jet\Installer::buttonNextSkipIt()?>
 </form>
 <?php endif; ?>
 

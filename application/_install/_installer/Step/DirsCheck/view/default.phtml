@@ -71,6 +71,6 @@
 <?php if($this->getBool('is_OK')): ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-<input type="submit" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 </form>
 <?php endif ;?>

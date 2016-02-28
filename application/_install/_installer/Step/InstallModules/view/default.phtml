@@ -45,5 +45,5 @@ $modules = $this->getRaw('modules');
 	<?php endforeach; ?>
 </table>
 
-	<input type="submit" value="<?=Tr::_('Install and activate selected modules');?>" class="btn btn-primary">
+	<?=\Jet\Installer::buttonNext();?>
 </jet_form>

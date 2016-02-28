@@ -10,7 +10,6 @@ return [
 	'Delete' => '',
 	'Test' => '',
 	'Please select default connection' => '',
-	'&lt Back' => '',
 	'Edit connection \'%CONNECTION%\' ' => '',
 	'Save' => '',
 	'Please specify connection name' => '',
@@ -19,4 +18,8 @@ return [
 	'Connection \'%CONNECTION%\' Test' => '',
 	'Error:' => '',
 	'Edit connection' => '',
+	'Delete connection \'%CONNECTION%\' ' => '',
+	'YES! Delete it!' => '',
+	'Add new Memcache connection' => '',
+	'Add' => '',
 ];

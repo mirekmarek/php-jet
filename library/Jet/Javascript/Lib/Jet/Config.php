@@ -12,6 +12,8 @@
  */
 namespace Jet;
 
+//TODO: asi zcela vyradit
+
 /**
  * Class Javascript_Lib_Jet_Config
  *

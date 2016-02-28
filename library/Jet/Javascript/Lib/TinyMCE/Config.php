@@ -15,6 +15,8 @@
  */
 namespace Jet;
 
+
+//TODO: prevest na konstanty
 /**
  * Class Javascript_Lib_TinyMCE_Config
  *

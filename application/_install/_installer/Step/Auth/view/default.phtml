@@ -16,5 +16,5 @@ $form = $this->form;
 		<jet_form_field name="default_auth_controller_module_name" class="form-control"/>
 	</div>
 
-	<input type="submit" value="<?=Tr::_('Next', [], Tr::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 </jet_form>

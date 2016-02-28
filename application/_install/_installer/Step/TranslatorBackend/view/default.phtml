@@ -24,6 +24,5 @@ $config_props = $config->getPropertiesDefinition();
 		<jet_form_field name="dictionaries_path" class="form-control"/>
 	</div>
 
-	<input type="submit" class="btn btn-primary" value="<?=Jet\Tr::_('Next', [], Jet\Translator::COMMON_NAMESPACE);?>"/>
-
+	<?=\Jet\Installer::buttonNext();?>
 </jet_form>

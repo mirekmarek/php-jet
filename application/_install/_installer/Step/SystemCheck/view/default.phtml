@@ -542,7 +542,7 @@ $tester = new JetCompatibilityTester();
 	<?php $tester->showResult(); ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-<input type="submit" value="Next" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 </form>
 <?php else: ?>
 	<?php $tester->showResult(); ?>

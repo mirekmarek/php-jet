@@ -30,11 +30,12 @@ $form = $this->form;
 		<jet_form_field name="email" class="form-control"/>
 	</div>
 
-	<input type="submit" value="<?=Tr::_('Create');?>" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 </jet_form>
 
 
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Tr::_('Next - skip it');?>" class="btn"/>
+	<?=\Jet\Installer::buttonNextSkipIt()?>
+
 </form>

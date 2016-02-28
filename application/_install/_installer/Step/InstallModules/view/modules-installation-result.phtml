@@ -52,13 +52,10 @@ $OK = $this->getBool('OK');
 <?php if($OK): ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Tr::_('Next', [], Tr::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<?=\Jet\Installer::buttonNext();?>
 </form>
 <?php endif; ?>
 
 <?php if(!$OK): ?>
-<form method="post">
-	<input type="hidden" name="back" value="1">
-	<input type="submit" value="<?=Tr::_('&lt; Back');?>" class="btn btn-default"/>
-</form>
+	<?=\Jet\Installer::buttonBack()?>
 <?php endif; ?>

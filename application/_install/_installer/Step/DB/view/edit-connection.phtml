@@ -18,7 +18,9 @@ $btn_label = 'Save';
 
 ?>
 
-<a href="?" class="btn btn-default"><?=Jet\Tr::_('&lt Back');?></a> <h3><?=Jet\Tr::_('Edit connection \'%CONNECTION%\' ', ['CONNECTION'=>$this->connection_name]);?></h3>
+<?=\Jet\Installer::buttonBack()?>
+
+	<h3><?=Jet\Tr::_('Edit connection \'%CONNECTION%\' ', ['CONNECTION'=>$this->connection_name]);?></h3>
 
 <?php
 require 'parts/connection.phtml';
