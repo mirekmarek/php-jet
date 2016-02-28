@@ -1,0 +1,17 @@
+<?php
+use Jet\Mvc;
+?>
+<table>
+	<tr>
+		<td>Current site ID:</td>
+		<td><?=Mvc::getCurrentSite()->getSiteId();?></td>
+	</tr>
+	<tr>
+		<td>Current locale:</td>
+		<td><?=Mvc::getCurrentLocale();?></td>
+	</tr>
+	<tr>
+		<td>Current page ID:</td>
+		<td><?=Mvc::getCurrentPage()->getPageId();?></td>
+	</tr>
+</table>

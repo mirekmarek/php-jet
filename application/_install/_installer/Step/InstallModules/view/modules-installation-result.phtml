@@ -1,5 +1,7 @@
 <?php
-namespace Jet;
+use Jet\Mvc_View;
+use Jet\Tr;
+use Jet\Application_Modules_Module_Manifest;
 /**
  * @var Mvc_View $this
  */
@@ -50,7 +52,7 @@ $OK = $this->getBool('OK');
 <?php if($OK): ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<input type="submit" value="<?=Tr::_('Next', [], Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<input type="submit" value="<?=Tr::_('Next', [], Tr::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
 </form>
 <?php endif; ?>
 

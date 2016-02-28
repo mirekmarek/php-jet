@@ -1,6 +1,4 @@
 <?php
-namespace Jet;
-
 return [
     'ID' => 'direct_output',
     'order' => 4,

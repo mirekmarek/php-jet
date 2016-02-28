@@ -1,6 +1,4 @@
 <?php
-namespace Jet;
-
 return [
     'name' => 'Homepage',
     'title' => 'Homepage',

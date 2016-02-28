@@ -1,6 +1,4 @@
 <?php
-namespace Jet;
-
 return [
     'ID' => 'admin/ria',
     'name' => 'Admin',

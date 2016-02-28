@@ -1,5 +1,7 @@
 <?php
-namespace Jet;
+use Jet\Mvc;
+use Jet\Mvc_View;
+use Jet\Mvc_Page;
 /**
  * @var Mvc_View $this
  * @var Mvc_Page[] $pages
@@ -9,7 +11,7 @@ $pages = $this->getRaw('site_tree_current');
 
 $show_menu = function( $pages ) use (&$show_menu) {
 	/**
-	 * @var Mvc_Page_Interface[] $pages
+	 * @var Mvc_Page[] $pages
 	 */
 
 	if(!$pages) return;

@@ -1,5 +1,5 @@
 <?php
-namespace Jet;
+use Jet\Mvc;
 
 return [
     'ID' => 'admin/ria/ajax',

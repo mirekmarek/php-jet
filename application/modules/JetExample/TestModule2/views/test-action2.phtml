@@ -1,6 +1,4 @@
 <?php
-namespace JetApplicationModule\JetExample\TestModule2;
-use Jet;
 use Jet\Form;
 use Jet\Mvc;
 
@@ -11,21 +9,6 @@ $form = $this->form;
 
 ?>
 M2: Test Action 2
-
-<table>
-	<tr>
-		<td>Current site ID:</td>
-		<td><?=Mvc::getCurrentSite()->getSiteId();?></td>
-	</tr>
-	<tr>
-		<td>Current locale:</td>
-		<td><?=Mvc::getCurrentLocale();?></td>
-	</tr>
-	<tr>
-		<td>Current page ID:</td>
-		<td><?=Mvc::getCurrentPage()->getPageId();?></td>
-	</tr>
-</table>
 
 <p>
 	<?php if($this->form_sent): ?>
@@ -43,16 +26,3 @@ M2: Test Action 2
 	<?=$form->helper_getBasicHTML();?>
 </p>
 
-
-
-<p>
-
-<?php //echo $page_form->helper_getBasicHTML(); ?>
-
-</p>
-
-<?php
-//foreach( Mvc::getCurrentPage()->getChildren() as $chld ) {
-//	echo (string)$chld->getID().JET_EOL;
-//}
-?>

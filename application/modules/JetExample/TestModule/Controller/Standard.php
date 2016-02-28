@@ -27,6 +27,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		'default' => false,
 		'main_menu' => false,
 		'test_action2' => false,
+		'test_mvc_info' => false,
 	];
 
 	/**
@@ -79,5 +80,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 		$this->render('test-action2' );
  	}
+
+	public function test_mvc_info_Action() {
+		$this->render('test-mvc-info');
+	}
 
 }

@@ -1,6 +1,4 @@
 <?php
-namespace Jet;
-
 return [
     'ID' => 'admin/classic/images',
 	'name' => 'Administration - images',

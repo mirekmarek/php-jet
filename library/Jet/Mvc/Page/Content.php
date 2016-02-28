@@ -52,6 +52,14 @@ class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
 	protected $content_ID = '';
 
     /**
+     * @JetDataModel:type = DataModel::TYPE_STRING
+     * @JetDataModel:max_len = 999999
+     *
+     * @var string
+     */
+    protected $static_content = '';
+
+    /**
      * @JetDataModel:type = DataModel::TYPE_BOOL
      * @JetDataModel:default_value = false
      *
@@ -238,6 +246,24 @@ class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
 	public function getContentID() {
 		return $this->content_ID;
 	}
+
+    /**
+     * @return string
+     */
+    public function getStaticContent()
+    {
+        return $this->static_content;
+    }
+
+    /**
+     * @param string $static_content
+     */
+    public function setStaticContent($static_content)
+    {
+        $this->static_content = $static_content;
+    }
+
+
 
     /**
      * @param bool $is_dynamic
@@ -427,6 +453,19 @@ class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
      * @param Mvc_Page_Interface $page
      */
     public function dispatch( Mvc_Page_Interface $page ) {
+
+        if($this->getStaticContent()) {
+
+            Mvc::getCurrentPage()->getLayout()->addOutputPart(
+                $this->getStaticContent(),
+                $this->output_position,
+                $this->output_position_required,
+                $this->output_position_order,
+                $this->getContentKey()
+            );
+
+            return;
+        }
 
         $module_name = $this->getModuleName();
         $controller_action = $this->getControllerAction();

@@ -1,6 +1,4 @@
 <?php
-namespace Jet;
-
 return [
     'ID' => 'images',
 	'order' => 2,

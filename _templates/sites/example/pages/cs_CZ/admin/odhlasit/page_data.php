@@ -1,5 +1,5 @@
 <?php
-namespace Jet;
+use Jet\Application_Modules;
 
 $UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
 

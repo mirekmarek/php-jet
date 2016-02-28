@@ -48,6 +48,16 @@ interface Mvc_Page_Content_Interface {
     public function setData( array $data );
 
     /**
+     * @return string
+     */
+    public function getStaticContent();
+
+    /**
+     * @param string $static_content
+     */
+    public function setStaticContent($static_content);
+
+    /**
      * @param bool $is_dynamic
      */
     public function setIsDynamic($is_dynamic);

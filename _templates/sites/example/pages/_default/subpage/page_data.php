@@ -1,8 +1,9 @@
 <?php
-namespace Jet;
+$content = require 'common_content.php';
 
 return [
     'ID' => 'subpage',
+    'order' => 3,
     'name' => 'Subpage',
 	'title' => 'Subpage',
 	'menu_title' => 'Subpage',
@@ -25,29 +26,5 @@ return [
 				'content' => 'Meta 3 content'
 			],
 	],
-    'contents' => [
-        [
-            'is_dynamic' => true,
-            'module_name' => 'JetExample.TestModule',
-            'controller_action' => 'test_action2',
-            'output_position' => '',
-            'output_position_required' => true,
-            'output_position_order' => 1
-        ],
-        [
-            'module_name' => 'JetExample.TestModule2',
-            'controller_action' => 'test_action1',
-            'output_position' => 'right',
-            'output_position_required' => true,
-            'output_position_order' => 1
-        ],
-        [
-            'is_dynamic' => true,
-            'module_name' => 'JetExample.TestModule2',
-            'controller_action' => 'test_action2',
-            'output_position' => 'right',
-            'output_position_required' => true,
-            'output_position_order' => 2
-        ],
-    ]
+    'contents' => $content
 ];

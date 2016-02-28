@@ -1,6 +1,4 @@
 <?php
-namespace Jet;
-
 return [
     'ID' => 'admin/classic/users',
 	'name' => 'Administrace - uživatelé',
