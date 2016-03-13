@@ -52,10 +52,12 @@ class DataModel_ObjectState extends Object {
          * @var Object $instance
          */
 
-        $object_key = $instance->getObjectIdentificationKey();
+		$keys = $instance->getObjectIdentificationKeys();
 
-		if(array_key_exists($object_key, static::$data)) {
-			unset(static::$data[$object_key]);
+		foreach( $keys as $key ) {
+			if(array_key_exists($key, static::$data)) {
+				unset(static::$data[$key]);
+			}
 		}
 	}
 

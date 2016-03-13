@@ -17,28 +17,6 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 
 
 	public function main() {
-		try {
-			(new Javascript_Lib_Dojo_Config(true))->save();
-		} catch( IO_File_Exception $e ) {
-			if($e->getCode()!=IO_File_Exception::CODE_CHMOD_FAILED) {
-				throw $e;
-			}
-		}
-		try {
-			(new Javascript_Lib_Jet_Config(true))->save();
-		} catch( IO_File_Exception $e ) {
-			if($e->getCode()!=IO_File_Exception::CODE_CHMOD_FAILED) {
-				throw $e;
-			}
-		}
-		try {
-			(new Javascript_Lib_TinyMCE_Config(true))->save();
-		} catch( IO_File_Exception $e ) {
-			if($e->getCode()!=IO_File_Exception::CODE_CHMOD_FAILED) {
-				throw $e;
-			}
-		}
-
 
 		$cp_conf_source = $this->installer->getTmpConfigFilePath();
 		$cp_conf_target = JET_CONFIG_PATH.JET_APPLICATION_CONFIGURATION_NAME.'.php';

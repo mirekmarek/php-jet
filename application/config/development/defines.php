@@ -15,7 +15,7 @@ define('JET_DEVEL_MODE', true);
 define('JET_DEBUG_PROFILER_ENABLED', false);
 
 define('JET_LAYOUT_CSS_PACKAGER_ENABLED', true);
-define('JET_LAYOUT_JS_PACKAGER_ENABLED', true);
+define('JET_LAYOUT_JS_PACKAGER_ENABLED', false);
 
 define('JET_BASE_PATH', dirname(dirname(dirname(__DIR__))).'/');
 define('JET_LIBRARY_PATH', JET_BASE_PATH.'library/');
@@ -72,4 +72,3 @@ define('JET_CHARSET', 'UTF-8');
 
 define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);
-

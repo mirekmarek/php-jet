@@ -188,15 +188,15 @@ trait Form_Field_Definition_Trait {
 		}
 
 		if(
-			$this->form_field_min_value &&
-			!isset($this->form_field_options['min_value'])
+			$this->form_field_min_value!==null &&
+			!array_key_exists('min_value', $this->form_field_options)
 		) {
 			$this->form_field_options['min_value'] = $this->form_field_min_value;
 		}
 
 		if(
-			$this->form_field_max_value &&
-			!isset($this->form_field_options['max_value'])
+			$this->form_field_max_value!==null &&
+			!array_key_exists('max_value', $this->form_field_options)
 		) {
 			$this->form_field_options['max_value'] = $this->form_field_max_value;
 		}

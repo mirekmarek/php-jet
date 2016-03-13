@@ -95,7 +95,11 @@ class Mvc_Layout_PackageCreator_CSS extends Mvc_Layout_PackageCreator_CSS_Abstra
 					$URL = $_base_URI.'/'.implode('/', $path);
 
 				} else {
-					$URL = $base_URI.$path;
+					if($path[0]=='/') {
+						$URL = $path;
+					} else {
+						$URL = $base_URI.$path;
+					}
 				}
 
 				$CSS_file_data = str_replace($orig_str, 'url("'.$URL.'")', $CSS_file_data);

@@ -13,17 +13,17 @@
  */
 namespace Jet;
 
-class Form_Field_Float extends Form_Field_Input {
+class Form_Field_Range extends Form_Field_Input {
 	const ERROR_CODE_OUT_OF_RANGE = 'out_of_range';
 
 	/**
 	 * @var string
 	 */
-	protected $_type = Form::TYPE_FLOAT;
+	protected $_type = Form::TYPE_RANGE;
 	/**
 	 * @var string
 	 */
-	protected $_input_type = 'number';
+	protected $_input_type = 'range';
 
 	/**
 	 * @var array
@@ -34,54 +34,50 @@ class Form_Field_Float extends Form_Field_Input {
 	];
 
 	/**
-	 * @var null|float
+	 * @var null|int
 	 */
 	protected $min_value = null;
 	/**
-	 * @var null|float
+	 * @var null|int
 	 */
 	protected $max_value = null;
 
 	/**
-	 * @var float
+	 * @var int
 	 */
-	protected $step = 0.01;
+	protected $step = null;
+
 
 	/**
-	 * @var null|int
-	 */
-	protected $places = null;
-
-	/**
-	 * @return float|null
+	 * @return int|null
 	 */
 	public function getMinValue() {
 		return $this->min_value;
 	}
 
 	/**
-	 * @param float $min
+	 * @param int $min
 	 */
 	public function setMinValue($min) {
-		$this->min_value = (float)$min;
+		$this->min_value = (int)$min;
 	}
 
 	/**
-	 * @return float|null
+	 * @return int|null
 	 */
 	public function getMaxValue() {
 		return $this->max_value;
 	}
 
 	/**
-	 * @param float $max
+	 * @param int $max
 	 */
 	public function setMaxValue($max) {
-		$this->max_value = (float)$max;
+		$this->max_value = (int)$max;
 	}
 
 	/**
-	 * @return float
+	 * @return int
 	 */
 	public function getStep()
 	{
@@ -89,42 +85,24 @@ class Form_Field_Float extends Form_Field_Input {
 	}
 
 	/**
-	 * @param float $step
+	 * @param int $step
 	 */
 	public function setStep($step)
 	{
 		$this->step = $step;
 	}
 
-
-	/**
-	 * @return int|null
-	 */
-	public function getPlaces() {
-		return $this->places;
-	}
-
-	/**
-	 * @param int $places
-	 */
-	public function setPlaces($places) {
-		$this->places = (int)$places;
-	}
-
-
 	/**
 	 * @return bool
 	 */
 	public function validateValue() {
-
+		
 		if(!$this->is_required && $this->_value_raw === ''){
 			$this->_setValueIsValid();
 			return true;
 		}
 
-		$this->_value = (float)$this->_value_raw;
-
-
+		$this->_value = (int)$this->_value_raw;
 
 		if(
 			$this->min_value!==null &&
@@ -141,12 +119,13 @@ class Form_Field_Float extends Form_Field_Input {
 			$this->setValueError(self::ERROR_CODE_OUT_OF_RANGE);
 			return false;
 		}
-		
+
 		$this->_setValueIsValid();
 		
 		return true;
 		
 	}
+
 
 	/**
 	 * @return array
@@ -166,7 +145,6 @@ class Form_Field_Float extends Form_Field_Input {
 		return $codes;
 	}
 
-
 	/**
 	 * @param Form_Parser_TagData $tag_data
 	 */
@@ -180,9 +158,32 @@ class Form_Field_Float extends Form_Field_Input {
 		if($this->max_value!==null) {
 			$tag_data->setProperty( 'max', $this->max_value);
 		}
-
-		$tag_data->setProperty( 'step', $this->step);
-
+		if($this->step!==null) {
+			$tag_data->setProperty( 'step', $this->step);
+		}
 	}
+
+	/**
+	 * @param null|string $template
+	 *
+	 * @return string
+	 */
+	public function helper_getBasicHTML($template=null) {
+
+		$field = '';
+
+		$field .= '<jet_form_field_label name="'.$this->_name.'"/>'.JET_EOL;
+		$field .= '<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>';
+
+
+		$field .= '<div class="slider">'.JET_EOL
+			.JET_TAB.'<jet_form_field name="'.$this->_name.'"/>'.JET_EOL
+			.'</div>';
+
+
+
+		return $field;
+	}
+
 
 }

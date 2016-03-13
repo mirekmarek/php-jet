@@ -28,18 +28,123 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		self::ERROR_CODE_INVALID_FORMAT => ''
 	];
 
+	/**
+	 * @var array
+	 */
+	protected $WYSIWYG_editor_CSS_files = [
+		'screen' => []
+	];
 
 	/**
-	 * Editor config name in main configuration /js_libs/TinyMCE/editor_configs/CONFIG_NAME
-	 *
-	 * @var string
+	 * @var array
 	 */
-	protected $editor_config_name = 'default';
+	protected $WYSIWYG_editor_JavaScript_files = [
+		'//tinymce.cachefly.net/4.3/tinymce.min.js'
+	];
 
 	/**
-	 * @var string
+	 * @var array
 	 */
-	protected $WYSIWYG_editor = 'Javascript_Lib_TinyMCE';
+	protected $WISIWYG_editor_config = [
+		'mode' => 'exact',
+		'theme' => 'modern',
+		'apply_source_formatting' => true,
+		'remove_linebreaks' => false,
+		'entity_encoding' => 'raw',
+		'convert_urls' => false,
+		'verify_html' => true,
+		'auto_focus' => false,
+	];
+
+	/**
+	 * @var callable
+	 */
+	protected $WYSIWYG_editor_initialize_code_generator;
+
+	/**
+	 * @return array
+	 */
+	public function getWYSIWYGEditorCSSFiles()
+	{
+		return $this->WYSIWYG_editor_CSS_files;
+	}
+
+	/**
+	 * @param array $WYSIWYG_editor_CSS_files
+	 */
+	public function setWYSIWYGEditorCSSFiles( array $WYSIWYG_editor_CSS_files)
+	{
+		$this->WYSIWYG_editor_CSS_files = $WYSIWYG_editor_CSS_files;
+	}
+
+	/**
+	 * @param string $URI
+	 * @param string $media
+	 */
+	public function appendWYSIWYGEditorCSSFile( $URI, $media='screen' ) {
+		if(!isset($this->WYSIWYG_editor_CSS_files[$media])) {
+			$this->WYSIWYG_editor_CSS_files[$media] = [];
+		}
+
+		$this->WYSIWYG_editor_CSS_files[$media][] = $URI;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getWYSIWYGEditorJavaScriptFiles()
+	{
+		return $this->WYSIWYG_editor_JavaScript_files;
+	}
+
+	/**
+	 * @param array $WYSIWYG_editor_JavaScript_files
+	 */
+	public function setWYSIWYGEditorJavaScriptFiles( array $WYSIWYG_editor_JavaScript_files)
+	{
+		$this->WYSIWYG_editor_JavaScript_files = $WYSIWYG_editor_JavaScript_files;
+	}
+
+	/**
+	 * @param $URI
+	 */
+	public function appendWYSIWYGEditorJavaScriptFile( $URI ) {
+		$this->WYSIWYG_editor_JavaScript_files[] = $URI;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getWISIWYGEditorConfig()
+	{
+		return $this->WISIWYG_editor_config;
+	}
+
+	/**
+	 * @param array $WISIWYG_editor_config
+	 */
+	public function setWISIWYGEditorConfig( array $WISIWYG_editor_config)
+	{
+		$this->WISIWYG_editor_config = $WISIWYG_editor_config;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getWYSIWYGEditorInitializeCodeGenerator()
+	{
+		return $this->WYSIWYG_editor_initialize_code_generator;
+	}
+
+	/**
+	 * @param callable $WYSIWYG_editor_initialize_code_generator
+	 */
+	public function setWYSIWYGEditorInitializeCodeGenerator(callable $WYSIWYG_editor_initialize_code_generator)
+	{
+		$this->WYSIWYG_editor_initialize_code_generator = $WYSIWYG_editor_initialize_code_generator;
+	}
+
+
 
 	/**
 	 * @param Form_Parser_TagData $tag_data
@@ -47,27 +152,37 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-        $class_name = Object_Reflection::parseClassName($this->WYSIWYG_editor);
 
-        /**
-         * @var JavaScript_Lib_TinyMCE $WYSIWYG
-         */
-        $WYSIWYG = new $class_name();
+		$layout = $this->__form->getLayout();
 
-		$this->__form->getLayout()->requireJavascriptLib( $WYSIWYG );
+		foreach( $this->WYSIWYG_editor_CSS_files as $media=>$CSS_files ) {
+			foreach( $CSS_files as $URI ) {
+				$layout->requireCssFile($URI, $media);
+			}
+		}
 
-		$tag_data->setProperty('name', $this->getName());
+		foreach( $this->WYSIWYG_editor_JavaScript_files as $URI ) {
+			$layout->requireJavascriptFile($URI);
+		}
+
 		$tag_data->setProperty('id', $this->getID());
 
 
 		$result = /** @lang text */
 			'<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>'.JET_EOL;
 
-		$ID = json_encode($this->getID());
-		$config_name = json_encode($this->editor_config_name);
+		if(!$this->WYSIWYG_editor_initialize_code_generator) {
+			$this->WYSIWYG_editor_initialize_code_generator = function( $node_ID, $editor_config ) {
+				$editor_config['selector'] = '#'.$node_ID;
+				return '<script type="text/javascript">'
+						.'tinymce.init('.json_encode($editor_config).');'
+					.'</script>'.JET_EOL;
+			};
+		}
 
-		$result .= /** @lang text */
-			'<script type="text/javascript">Jet_WYSIWYG.init('.$ID.','.$config_name.');</script>'.JET_EOL;
+		$callback = $this->WYSIWYG_editor_initialize_code_generator;
+
+		$result .= $callback( $this->getID(), $this->WISIWYG_editor_config );
 
 		return $result;
 	}
@@ -87,36 +202,6 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 			$this->_value_raw = null;
 		}
 	}
-
-
-	/**
-	 * @param $editor_config_name
-	 */
-	public function setEditorConfigName($editor_config_name) {
-		$this->editor_config_name = $editor_config_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEditorConfigName() {
-		return $this->editor_config_name;
-	}
-
-	/**
-	 * @param string $WYSIWYG_editor
-	 */
-	public function setWYSIWYGEditor($WYSIWYG_editor) {
-		$this->WYSIWYG_editor = $WYSIWYG_editor;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getWYSIWYGEditor() {
-		return $this->WYSIWYG_editor;
-	}
-
 
 	/**
 	 * @return array

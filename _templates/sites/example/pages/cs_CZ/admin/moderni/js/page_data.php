@@ -3,7 +3,7 @@ use Jet\Mvc;
 
 return [
     'ID' => 'admin/ria/js',
-    'service_type' => Mvc::SERVICE_TYPE_JET_JS,
+    'service_type' => Mvc::SERVICE_TYPE_STANDARD,
 	'name' => 'Administrace - JS rozhraní',
 	'title' => '',
 	'menu_title' => '',

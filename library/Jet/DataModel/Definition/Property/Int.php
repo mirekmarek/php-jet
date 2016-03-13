@@ -35,6 +35,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property_Ab
 	 *
 	 */
 	public function setUp( $definition_data ) {
+
 		if(!$definition_data) {
 			return;
 		}

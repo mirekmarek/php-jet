@@ -17,7 +17,7 @@ M2: Test Action 2
 		<?php foreach($this->form_values as $k=>$v): ?>
 		<tr>
 			<td><?=$k;?>:</td>
-			<td><?=$v;?></td>
+			<td><?=is_array($v) ? implode(',',$v) : $v;?></td>
 		</tr>
 		<?php endforeach; ?>
 	</table>

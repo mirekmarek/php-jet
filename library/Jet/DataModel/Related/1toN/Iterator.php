@@ -29,6 +29,11 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 	protected $items = [];
 
 	/**
+	 * @var DataModel_Related_1toN
+	 */
+	protected $_empty_item_instance;
+
+	/**
 	 * @param $item_class_name
 	 */
 	public function __construct( $item_class_name ) {
@@ -41,23 +46,18 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 	 * @return DataModel_Related_1toN
 	 */
 	protected function _getEmptyItemInstance() {
-		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 
-		/**
-		 * @var DataModel_Related_1toN $this_empty_item_instance
-		 */
-		$this_empty_item_instance = &DataModel_ObjectState::getVar($this, 'empty_item_instance');
+		if(!$this->_empty_item_instance) {
 
-		if(!$this_empty_item_instance) {
-			$class_name = $this->item_class_name;
+			$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+			$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
 
-			$this_empty_item_instance = new $class_name();
+			$this->_empty_item_instance = new $this->item_class_name();
 
-			$this_empty_item_instance->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
+			$this->_empty_item_instance->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
 		}
 
-		return $this_empty_item_instance;
+		return $this->_empty_item_instance;
 
 	}
 

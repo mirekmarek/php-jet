@@ -21,7 +21,6 @@ class Mvc {
 	const SERVICE_TYPE_AJAX = 'AJAX';
 	const SERVICE_TYPE_REST = 'REST';
 	const SERVICE_TYPE_STANDARD = 'Standard';
-	const SERVICE_TYPE_JET_JS = 'JetJS';
 
 	/**
 	 *

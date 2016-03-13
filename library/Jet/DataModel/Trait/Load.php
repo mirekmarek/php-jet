@@ -109,8 +109,8 @@ trait DataModel_Trait_Load {
             $related_object = $related_property->getDefaultValue();
             $related_object->setupParentObjects( $loaded_instance );
 
-
             $related_data = $related_object->loadRelatedData();
+            unset($related_object);
 
             if(!isset($loaded_related_data[$related_model_name])) {
                 $loaded_related_data[$related_model_name] = [];

@@ -158,10 +158,10 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Password: '
-	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
-	 * @JetDataModel:form_field_options = ['disable_check' => false]
-     * @JetDataModel:form_field_error_messages = [Form_Field_Password::ERROR_CODE_EMPTY=>'Please type password', Form_Field_Password::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_Password::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
+	 * @JetDataModel:form_field_label = 'Password (user registration): '
+	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
+	 * @JetDataModel:form_field_options = []
+     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please type password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */
@@ -171,9 +171,8 @@ class DataModelT1 extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Password (no check field): '
+	 * @JetDataModel:form_field_label = 'Password: '
 	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
-	 * @JetDataModel:form_field_options = ['disable_check' => true]
 	 *
 	 * @var string
 	 */

@@ -53,6 +53,11 @@ interface Object_Interface {
 	public function getObjectIdentificationKey();
 
 	/**
+	 * @return array
+	 */
+	public function getObjectIdentificationKeys();
+
+	/**
 	 * @param $signal_name
 	 *
 	 * @return bool

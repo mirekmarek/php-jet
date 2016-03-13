@@ -17,38 +17,41 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	const TYPE_HIDDEN = 'Hidden';
 
 	const TYPE_INPUT = 'Input';
+
 	const TYPE_INT = 'Int';
 	const TYPE_FLOAT = 'Float';
+	const TYPE_RANGE = 'Range';
+
 	const TYPE_DATE = 'Date';
 	const TYPE_DATE_TIME = 'DateTime';
+	const TYPE_MONTH = 'Month';
+	const TYPE_WEEK = 'Week';
+	const TYPE_TIME = 'Time';
+
 	const TYPE_EMAIL = 'Email';
-	const TYPE_URL = 'Url';
 	const TYPE_TEL = 'Tel';
+
+	const TYPE_URL = 'Url';
 	const TYPE_SEARCH = 'Search';
 
-
-	//TODO: range
-	//TODO: month
-	//TODO: week
-	//TODO: time
-	//TODO: color
-
-	//TODO: const TYPE_REGISTRATION_USER_NAME = 'RegistrationUserName'
-	//TODO: const TYPE_REGISTRATION_SEARCH = 'RegistrationEmail'
-	//TODO: const TYPE_REGISTRATION_PASSWORD = 'RegistrationPassword'
-	const TYPE_PASSWORD = 'Password';
-
-	const TYPE_TEXTAREA = 'Textarea';
-	const TYPE_WYSIWYG = 'WYSIWYG';
-
-	const TYPE_FILE = 'File';
-	const TYPE_FILE_IMAGE = 'FileImage';
+	const TYPE_COLOR = 'Color';
 
 	const TYPE_SELECT = 'Select';
 	const TYPE_MULTI_SELECT = 'MultiSelect';
 
 	const TYPE_CHECKBOX = 'Checkbox';
 	const TYPE_RADIO_BUTTON = 'RadioButton';
+
+	const TYPE_TEXTAREA = 'Textarea';
+	const TYPE_WYSIWYG = 'WYSIWYG';
+
+	const TYPE_REGISTRATION_USER_NAME = 'RegistrationUserName';
+	const TYPE_REGISTRATION_EMAIL = 'RegistrationEmail';
+	const TYPE_REGISTRATION_PASSWORD = 'RegistrationPassword';
+	const TYPE_PASSWORD = 'Password';
+
+	const TYPE_FILE = 'File';
+	const TYPE_FILE_IMAGE = 'FileImage';
 
 
 	const FORM_SENT_KEY = '_jet_form_sent_';

@@ -728,11 +728,16 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 */
 	public function getBackendInstance() {
 		$backend_type = $this->getBackendType();
-		$backend_config = $this->getBackendConfig();
 
-		$key = $backend_type.':'.md5(serialize($backend_config));
+		$key = $backend_type;
+
+		if($this->forced_backend_config!==null) {
+			$key .= ':' . md5(serialize($this->forced_backend_config));
+		}
 
 		if(!isset(self::$__backend_instances[$key])) {
+			$backend_config = $this->getBackendConfig();
+
 			self::$__backend_instances[$key] = DataModel_Factory::getBackendInstance(
 				$backend_type,
 				$backend_config
@@ -800,11 +805,16 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		}
 
 		$backend_type = $this->getCacheBackendType();
-		$backend_config = $this->getCacheBackendConfig();
 
-		$key = $backend_type.md5(serialize($backend_config));
+		$key = $backend_type;
+		if($this->forced_cache_backend_config!==null) {
+			$key .= ':'.md5(serialize($this->forced_cache_backend_config));
+		}
+
 
 		if(!isset(self::$__cache_backend_instance[$key])) {
+			$backend_config = $this->getCacheBackendConfig();
+
 			self::$__cache_backend_instance[$key] = DataModel_Factory::getCacheBackendInstance(
 				$backend_type,
 				$backend_config

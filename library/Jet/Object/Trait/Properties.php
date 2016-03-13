@@ -32,6 +32,61 @@ trait Object_Trait_Properties {
         return $this->__object_identification_key;
     }
 
+    /**
+     * @return array
+     */
+    public function getObjectIdentificationKeys() {
+
+        $result = [ $this->getObjectIdentificationKey() ];
+
+        $reflect = new \ReflectionClass($this);
+        $properties = $reflect->getProperties( \ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED );
+
+        foreach($properties as $r) {
+            $name = $r->getName();
+            if(!isset($this->{$name})) {
+                continue;
+            }
+            $property = $this->{$name};
+
+            $result = $this->_getObjectIdentificationKeys( $property, $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Object $property
+     * @param array &$result
+     * @return array
+     */
+    protected function _getObjectIdentificationKeys( $property, &$result ) {
+
+
+        if(is_object($property)) {
+            if(
+                method_exists($property, 'getObjectIdentificationKey') &&
+                method_exists($property, 'getObjectIdentificationKeys')
+            ) {
+                $key = $property->getObjectIdentificationKey();
+                if(!in_array($key, $result)) {
+                    $result[] = $key;
+                    $this->_getObjectIdentificationKeys( $property, $result );
+                }
+            }
+
+        }
+
+        if(is_array($property)) {
+            foreach( $property as $_k=>$i ) {
+                $this->_getObjectIdentificationKeys($i, $result);
+            }
+        }
+
+        return $result;
+
+    }
+
 
     /**
      * @param $property_name

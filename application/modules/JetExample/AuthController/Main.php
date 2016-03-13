@@ -349,7 +349,6 @@ class Main extends Auth_ControllerModule_Abstract {
 		 * @var Form_Field_Password $password
 		 */
 		$password = $form->getField('password');
-		$password->setDisableCheck( true );
 		$password->setIsRequired( true );
 
 		return $form;

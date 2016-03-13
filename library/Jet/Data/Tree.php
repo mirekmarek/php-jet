@@ -347,6 +347,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$path[] = $target_node->getID();
 
 		while( ($parent=$target_node->getParent()) ) {
+			if($parent->getID()===null) {
+				break;
+			}
 			$path[] = $parent->getID();
 			$target_node = $parent;
 		}

@@ -64,10 +64,10 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:is_key = true
-	 * @JetDataModel:form_field_type = Form::TYPE_PASSWORD
+	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
 	 * @JetDataModel:form_field_label = 'Password'
 	 * @JetDataModel:form_field_options = ['password_check_label'=>'Confirm password']
-     * @JetDataModel:form_field_error_messages = [Form_Field_Password::ERROR_CODE_EMPTY=>'Please type password', Form_Field_Password::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_Password::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
+     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please type password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */
