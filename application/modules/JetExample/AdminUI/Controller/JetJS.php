@@ -19,7 +19,8 @@ use Jet\Mvc_Controller_Abstract;
 use Jet\Application_Modules;
 use Jet\Translator;
 use Jet\IO_File;
-use Jet\Javascript;
+use Jet\Data_Text;
+use Jet\Tr;
 use Jet\Http_Headers;
 use Jet\Debug_Profiler;
 
@@ -71,11 +72,13 @@ class Controller_JetJS extends Mvc_Controller_Abstract {
 
         $JS_file_path = null;
 
+        $base_dir = $this->module_manifest->getModuleDir().'public/javascript/';
+
         if($group=='Jet.js') {
-            $JS_file_path = JET_PUBLIC_SCRIPTS_PATH.'Jet/Jet.js';
+            $JS_file_path = $base_dir.'Jet.js';
         } else {
             if($group=='Jet') {
-                $JS_file_path = JET_PUBLIC_SCRIPTS_PATH.'Jet/Jet/'.implode('/',$path_fragments);
+                $JS_file_path = $base_dir.'Jet/'.implode('/',$path_fragments);
             } else {
                 if($group=='modules') {
                     $module_name = array_shift($path_fragments);
@@ -91,7 +94,7 @@ class Controller_JetJS extends Mvc_Controller_Abstract {
                             }
 
 
-                            $JS_file_path = $module_manifest->getModuleDir().'JS/'.implode('/', $path_fragments).'.js';
+                            $JS_file_path = $module_manifest->getModuleDir().'public/javascript/'.implode('/', $path_fragments).'.js';
 
                         }
 
@@ -113,7 +116,7 @@ class Controller_JetJS extends Mvc_Controller_Abstract {
         $JS = IO_File::read($JS_file_path);
 
 
-        $JS = Javascript::translateJavaScript($JS);
+        $JS = static::translateJavaScript($JS);
 
         /*
         if($get_as_string){
@@ -135,6 +138,25 @@ class Controller_JetJS extends Mvc_Controller_Abstract {
         return true;
     }
 
+    /**
+     * @param string $JS
+     * @return string
+     */
+    public static function translateJavaScript( $JS ) {
+        preg_match_all('~Jet.translate\((".*"|\'.*\')\)~isU', $JS, $matches, PREG_SET_ORDER);
+
+        $replacements = [];
+        foreach($matches as $match){
+            list($search, $text) = $match;
+            $text = stripslashes(trim($text, $text[0] == '\'' ? '\'' : '"'));
+
+            $text = json_encode(Tr::_($text));
+            $JS = str_replace($search, $text, $JS);
+        }
+        $JS = Data_Text::replaceData( $JS, $replacements );
+
+        return $JS;
+    }
 
 
     /**

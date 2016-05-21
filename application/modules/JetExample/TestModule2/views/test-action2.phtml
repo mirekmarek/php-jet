@@ -1,28 +1,59 @@
 <?php
 use Jet\Form;
 use Jet\Mvc;
+use Jet\Tr;
+use Jet\Form_Field_FileImage;
+use Jet\Form_Field_File;
 
-/**
- * @var Form $form
- */
-$form = $this->form;
+$forms = $this->forms;
 
 ?>
-M2: Test Action 2
+<?=Tr::_('M2: Test Action 2')?>
 
+<h2><?=Tr::_('Forms test')?></h2>
 <p>
-	<?php if($this->form_sent): ?>
-	Form SENT:
-	<table>
-		<?php foreach($this->form_values as $k=>$v): ?>
-		<tr>
-			<td><?=$k;?>:</td>
-			<td><?=is_array($v) ? implode(',',$v) : $v;?></td>
-		</tr>
-		<?php endforeach; ?>
-	</table>
-	<?php endif; ?>
+    <?php foreach( $forms as $form_name=>$d ):
+        /**
+         * @var Form $form
+         */
+        $form = $d['form'];
 
-	<?=$form->helper_getBasicHTML();?>
+    ?>
+    <fieldset style="margin-bottom: 40px">
+        <legend><?=$d['title']?></legend>
+        <?=$form->helper_getBasicHTML();?>
+
+
+
+        <?php if($d['form_sent']): ?>
+            <hr>
+            <?=Tr::_('Form sent:')?>
+
+            <?php if($form_name=='upload_image_form'):
+                /**
+                 * @var Form_Field_FileImage $image_field
+                 */
+                $image_field = $form->getField('upload_image');
+
+                ?>
+                <img src="<?=JET_PUBLIC_URI?>test_uploads/<?=$image_field->getFileName()?>">
+            <?php else: ?>
+                <table>
+                    <?php foreach($d['form_values'] as $k=>$v): ?>
+                        <tr>
+                            <td><?=$k;?>:</td>
+                            <td><?=is_array($v) ? implode(',',$v) : $v;?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
+        <?php endif; ?>
+
+    </fieldset>
+    <?php endforeach; ?>
+
+
+
+
 </p>
 

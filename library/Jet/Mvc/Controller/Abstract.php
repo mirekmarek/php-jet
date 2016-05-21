@@ -38,6 +38,11 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 */
 	protected $view;
 
+    /**
+     * @var array
+     */
+    protected $action_parameters = [];
+
 	/**
 	 * Format:
 	 *
@@ -152,6 +157,28 @@ abstract class Mvc_Controller_Abstract extends Object {
 		return true;
 	}
 
+    /**
+     * @param string $action
+     * @param array $action_parameters
+     *
+     * @throws Exception
+     */
+    public function callAction( $action, array $action_parameters ) {
+
+        $method = $action.'_Action';
+
+        if( !method_exists($this, $method) ) {
+            throw new Exception(
+                'Controller method '. get_class($this).'::'.$method.'() does not exist'
+            );
+        }
+
+        $this->setActionParameters($action_parameters);
+
+        $this->{$method}();
+
+    }
+
 
 	/**
 	 * @param string $module_action
@@ -160,6 +187,45 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 *
 	 */
 	abstract public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters );
+
+    /**
+     * @param array $action_parameters
+     */
+    public function setActionParameters( array $action_parameters)
+    {
+        $this->action_parameters = $action_parameters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionParameters()
+    {
+        return $this->action_parameters;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $default_value
+     *
+     * @return mixed
+     */
+    public function getActionParameterValue( $key, $default_value=null ) {
+        if(!array_key_exists($key, $this->action_parameters)) {
+            return $default_value;
+        }
+
+        return $this->action_parameters[$key];
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function getActionParameterExists( $key ) {
+        return array_key_exists($key, $this->action_parameters);
+    }
 
 
 	/**

@@ -12,18 +12,16 @@
  *
  * @category Jet
  * @package Javascript
- * @subpackage Javascript_Lib
+ * @subpackage JavaScriptLib
  */
-namespace Jet;
+namespace JetApplicationModule\JetExample\AdminUI;
 
-class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
-	
-	/**
-	 * Framework config
-	 *
-	 * @var Javascript_Lib_Jet_Config
-	 */
-	protected $config = null;
+use Jet\JavaScriptLib_Abstract;
+use Jet\Mvc_Layout;
+use Jet\JavaScriptLib_Dojo;
+use Jet\Data_Text;
+
+class JetJavaScriptLib extends JavaScriptLib_Abstract {
 
     /**
      * @var string
@@ -48,10 +46,8 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	/**
 	 *
 	 *
-	 * @throws Javascript_Exception
 	 */
 	public function __construct() {
-		$this->config = new Javascript_Lib_Jet_Config();
 	}
 
     /**
@@ -60,18 +56,18 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
     public function setLayout( Mvc_Layout $layout ) {
         parent::setLayout($layout);
 
-        $dojo = new Javascript_Lib_Dojo();
+        $dojo = new JavaScriptLib_Dojo();
         $layout->requireJavascriptLib($dojo);
     }
 
 
     /**
-     * @param Javascript_Lib_Abstract $lib
+     * @param JavaScriptLib_Abstract $lib
      * @return void
      */
-    public function adopt( Javascript_Lib_Abstract $lib ) {
+    public function adopt( JavaScriptLib_Abstract $lib ) {
         /**
-         * @var Javascript_Lib_Jet $lib
+         * @var JetJavaScriptLib $lib
          */
 
 
@@ -124,34 +120,17 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 		$this->layout->requireInitialJavascriptCode(JET_TAB.'var Jet_config = '.json_encode($Jet_config).';');
 
 
-		if( $this->config->getPackageEnabled()) {
-			$package_creator = new Javascript_Lib_Jet_PackageCreator(
-				$this->getBasePath(),
-				$this->layout->getPage()->getLocale(),
-				$this->required_components
-			);
+		$this->layout->requireJavascriptFile( $this->getComponentURI('Jet') );
 
-
-			$package_creator->generatePackageFile();
-
-			$package_URI = $package_creator->getPackageURI();
-
-			$this->layout->requireJavascriptFile( $package_URI );
-
-		} else {
-			$this->layout->requireJavascriptFile( $this->getComponentURI('Jet') );
-
-
-			if($this->required_components){
-				foreach( $this->required_components as $rc ) {
-					if($rc == 'Jet'){
-						continue;
-					}
-					$this->layout->requireJavascriptFile( $this->getComponentURI($rc) );
+		if($this->required_components){
+			foreach( $this->required_components as $rc ) {
+				if($rc == 'Jet'){
+					continue;
 				}
+				$this->layout->requireJavascriptFile( $this->getComponentURI($rc) );
 			}
-
 		}
+
 
 		return '';
 	}
@@ -295,7 +274,7 @@ class Javascript_Lib_Jet extends Javascript_Lib_Abstract {
 	 * @return string
 	 */
 	public function getVersionNumber() {
-		return Version::getVersionNumber();
+		return 1;
 	}
 
 	/**

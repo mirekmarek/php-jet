@@ -35,13 +35,9 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 
-	public function default_Action( $view='default' ) {
+	public function default_Action() {
 
-		//TODO: toto neni moc elegantni
-		//named params emulation
-		if(is_array($view)) {
-			extract($view, EXTR_IF_EXISTS);
-		}
+        $view = $this->getActionParameterValue('view', 'default');
 
 		$this->view->setVar('data', Mvc::getCurrentPage()->getBreadcrumbNavigation());
 

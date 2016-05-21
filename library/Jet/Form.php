@@ -14,6 +14,13 @@ namespace Jet;
 
 class Form extends Object implements Mvc_View_Postprocessor_Interface{
 
+    const METHOD_POST = 'POST';
+    const METHOD_GET = 'GET';
+
+    const ENCTYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
+    const ENCTYPE_FORM_DATA = 'multipart/form-data';
+    const ENCTYPE_TEXT_PLAIN = 'text/plain';
+
 	const TYPE_HIDDEN = 'Hidden';
 
 	const TYPE_INPUT = 'Input';
@@ -113,8 +120,39 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @var string
 	 */
-	protected $method = 'POST';
-	
+	protected $method = self::METHOD_POST;
+
+    /**
+     * @var string
+     */
+    protected $enctype = '';
+
+    /**
+     * @var string
+     */
+    protected $action = '';
+
+    /**
+     * @var string
+     */
+    protected $target = '';
+
+    /**
+     * @var string
+     */
+    protected $accept_charset = '';
+
+    /**
+     * @var bool|null
+     */
+    protected $novalidate;
+
+    /**
+     * @var bool|null
+     */
+    protected $autocomplete;
+
+
 	/**
 	 * Form fields
 	 *
@@ -178,11 +216,125 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @param Form_Field_Abstract[] $fields
 	 * @param string $method - POST or GET (optional, default: POST)
 	 */
-	public function __construct( $name, array $fields, $method='POST' ) {
+	public function __construct( $name, array $fields, $method=self::METHOD_POST ) {
 		$this->name = $name;			
 		$this->method = $method;
 		$this->setFields($fields);
 	}
+
+    /**
+     * @param string $method
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @param string $enctype
+     */
+    public function setEnctype($enctype)
+    {
+        $this->enctype = $enctype;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnctype()
+    {
+        return $this->enctype;
+    }
+
+    /**
+     * @param string $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param string $target
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * @param string $accept_charset
+     */
+    public function setAcceptCharset($accept_charset)
+    {
+        $this->accept_charset = $accept_charset;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcceptCharset()
+    {
+        return $this->accept_charset;
+    }
+
+    /**
+     * @param bool $novalidate
+     */
+    public function setNovalidate($novalidate)
+    {
+        $this->novalidate = (bool)$novalidate;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getNovalidate()
+    {
+        return $this->novalidate;
+    }
+
+    /**
+     * @param bool|null $autocomplete
+     */
+    public function setAutocomplete($autocomplete)
+    {
+        $this->autocomplete = $autocomplete;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAutocomplete()
+    {
+        return $this->autocomplete;
+    }
+
+
 
 	/**
 	 * Get form name
@@ -337,7 +489,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 		$this->is_valid = false;
 		
 		if($data===null) {
-			$data = $this->method=='GET' ? Http_Request::GET()->getRawData() : Http_Request::POST()->getRawData();
+			$data = $this->method==self::METHOD_GET ? Http_Request::GET()->getRawData() : Http_Request::POST()->getRawData();
 		}
 
 		if($data===false) {
@@ -607,7 +759,31 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	protected function _getReplacement_form( Form_Parser_TagData $tag_data ) {
 		$tag_data->setProperty('id', $this->getID() );
 		$tag_data->setProperty('name', $this->name );
-		$tag_data->setProperty('method', ($this->method=='GET') ? 'GET' : 'POST' );
+		$tag_data->setProperty('method', ($this->method==static::METHOD_GET) ? static::METHOD_GET : static::METHOD_POST );
+
+        if( ($enctype=$this->getEnctype()) ) {
+            $tag_data->setProperty('enctype', $enctype );
+        }
+
+        if( ($action=$this->getAction()) ) {
+            $tag_data->setProperty('action', $action );
+        }
+
+        if( ($target=$this->getTarget()) ) {
+            $tag_data->setProperty('target', $target );
+        }
+
+        if( ($accept_charset=$this->getAcceptCharset()) ) {
+            $tag_data->setProperty('accept-charset', $accept_charset );
+        }
+
+        if( ($this->getNovalidate()) ) {
+            $tag_data->setProperty('novalidate', 'novalidate' );
+        }
+
+        if( ( $autocomplete= $this->getAutocomplete())!==null ) {
+            $tag_data->setProperty('autocomplete', $autocomplete ? 'on' : 'off' );
+        }
 
 		$replacement = '<form ';
 		foreach($tag_data->getProperties() as $property=>$val) {

@@ -137,7 +137,7 @@ abstract class Auth_ControllerModule_Abstract extends Application_Modules_Module
 	 * @return Auth_Role_Interface|null
 	 */
 	public static function getRole( $ID ) {
-		$role_class_name = JET_AUTH_USER_CLASS;
+		$role_class_name = JET_AUTH_ROLE_CLASS;
 
 		/**
 		 * @var Auth_Role_Interface $role_class_name

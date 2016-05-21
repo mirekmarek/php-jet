@@ -67,7 +67,9 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
             }
 
             $page_content->setControllerAction('detail');
-            $page_content->setControllerActionParameters( [$current_article] );
+            $page_content->setControllerActionParameters( [
+                'article' => $current_article
+            ] );
 
             return true;
         }
@@ -108,9 +110,14 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
 	}
 
     /**
-     * @param Article $article
+     *
      */
-    public function detail_Action( Article $article ) {
+    public function detail_Action() {
+        /**
+         * @var Article $article
+         */
+        $article = $this->getActionParameterValue('article');
+
         Mvc::getCurrentPage()->addBreadcrumbNavigationData($article->getTitle());
 
 		$this->view->setVar('article', $article);

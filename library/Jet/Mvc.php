@@ -299,20 +299,18 @@ class Mvc {
 	/**
 	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireJavascriptLib( $javascript )
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireJavascriptLib()
 	 *
-	 * @param Javascript_Lib_Abstract $lib
+	 * @param JavaScriptLib_Abstract $lib
 	 *
 	 */
-	public static function requireJavascriptLib( Javascript_Lib_Abstract $lib ) {
+	public static function requireJavascriptLib( JavaScriptLib_Abstract $lib ) {
 		static::getCurrentPage()->getLayout()->requireJavascriptLib( $lib );
 	}
 
 	/**
 	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireJavascriptFile( $URI )
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireJavascriptFile()
 	 *
 	 * @param string $URI
@@ -324,7 +322,6 @@ class Mvc {
 
 	/**
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireJavascriptFile()
 	 *
 	 * @param string $file
@@ -339,7 +336,6 @@ class Mvc {
 	/**
 	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireInitialJavascriptCode( $code )
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireInitialJavascriptCode()
 	 *
 	 * @param string $code
@@ -352,7 +348,6 @@ class Mvc {
 	/**
 	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireJavascriptCode( $code )
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireJavascriptCode()
 	 *
 	 * @param string $code
@@ -366,7 +361,6 @@ class Mvc {
 	/**
 	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireCssFile( $URI )
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireCssFile()
 	 *
 	 * @param string $URI
@@ -378,7 +372,6 @@ class Mvc {
 
 	/**
 	 *
-	 * @see JavaScript
 	 * @see Mvc_Layout::requireCssFile()
 	 *
 	 * @param string $file

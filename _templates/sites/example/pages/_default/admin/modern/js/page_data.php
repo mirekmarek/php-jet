@@ -1,9 +1,8 @@
 <?php
-use Jet\Mvc;
 
 return [
     'ID' => 'admin/ria/js',
-    'service_type' => Mvc::SERVICE_TYPE_STANDARD,
+    'service_type' => 'JetJS',
     'name' => 'Admin - Jet JavaScript Service',
 	'title' => '',
 	'menu_title' => '',

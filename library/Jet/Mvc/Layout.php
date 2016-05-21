@@ -68,7 +68,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	/**
 	 * @see Mvc_Layout::requireJavascript();
 	 *
-	 * @var Javascript_Lib_Abstract[]
+	 * @var JavaScriptLib_Abstract[]
 	 */
 	protected $required_javascript_libs = [];
 
@@ -478,7 +478,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * Do it like this:
 	 *
 	 * <code>
-	 *    $Dojo = new Javascript_Lib_Dojo();
+	 *    $Dojo = new JavaScriptLib_Dojo();
 	 *    $Dojo->requireComponent('dijit.form.InputBox');
 	 *
 	 *    $layout->requireJavascriptLib( $Dojo );
@@ -493,11 +493,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @see JavaScript_Abstract
 	 * @see Mvc/readme.txt
 	 *
-	 * @param Javascript_Lib_Abstract $lib
+	 * @param JavaScriptLib_Abstract $lib
 	 *
-	 * @return Javascript_Lib_Abstract
+	 * @return JavaScriptLib_Abstract
 	 */
-	public function requireJavascriptLib( Javascript_Lib_Abstract $lib ) {
+	public function requireJavascriptLib( JavaScriptLib_Abstract $lib ) {
 		$class = get_class($lib);
 
 		if( !isset($this->required_javascript_libs[$class]) ) {
@@ -602,10 +602,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 					}
 
 					$action_params[$k] = $v;
-				}
-
-				if($action_params) {
-					$action_params = [$action_params];
 				}
 
 				$position_name = 'module_content_'.md5($orig_str);

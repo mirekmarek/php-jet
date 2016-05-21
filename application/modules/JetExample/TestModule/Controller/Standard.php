@@ -54,10 +54,12 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param string $parameter_1
-	 * @param string $parameter_2
+     *
 	 */
-	public function test_action2_Action( $parameter_1 = 'undefined', $parameter_2 = 'undefined' ) {
+	public function test_action2_Action() {
+
+        $parameter_1 = $this->getActionParameterValue('parameter_1', 'undefined');
+        $parameter_2 = $this->getActionParameterValue('parameter_2', 'undefined');
 
 		$this->view->setVar('parameter_1', $parameter_1);
 		$this->view->setVar('parameter_2', $parameter_2);

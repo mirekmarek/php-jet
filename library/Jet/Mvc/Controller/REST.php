@@ -114,6 +114,28 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 		self::ERR_CODE_COMMON => [Http_Headers::CODE_400_BAD_REQUEST, 'Common error'],
 	];
 
+    /**
+     * @param string $action
+     * @param array $action_parameters
+     *
+     * @throws Exception
+     */
+    public function callAction( $action, array $action_parameters ) {
+
+        $method = $action.'_Action';
+
+        if( !method_exists($this, $method) ) {
+            throw new Exception(
+                'Controller method '. get_class($this).'::'.$method.'() does not exist'
+            );
+        }
+
+        $this->setActionParameters($action_parameters);
+
+        call_user_func_array([$this, $method], $action_parameters);
+    }
+
+
 	/**
 	 * @param null|string $response_format
 	 */

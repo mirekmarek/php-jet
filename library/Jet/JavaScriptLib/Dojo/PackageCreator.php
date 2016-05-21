@@ -10,11 +10,11 @@
  *
  * @category Jet
  * @package Javascript
- * @subpackage Javascript_Lib
+ * @subpackage JavaScriptLib
  */
 namespace Jet;
 
-class Javascript_Lib_Dojo_PackageCreator extends Object {
+class JavaScriptLib_Dojo_PackageCreator extends Object {
 
 	/**
 	 * @var string

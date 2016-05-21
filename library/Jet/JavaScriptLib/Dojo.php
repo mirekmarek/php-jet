@@ -9,17 +9,16 @@
  * @version <%VERSION%>
  *
  * @category Jet
- * @package Javascript
- * @subpackage Javascript_Lib
+ * @package JavaScriptLib
  */
 namespace Jet;
 
-class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
+class JavaScriptLib_Dojo extends JavaScriptLib_Abstract {
 	
 	/**
 	 * Dojo configuration
 	 *
-	 * @var Javascript_Lib_Dojo_Config
+	 * @var JavaScriptLib_Dojo_Config
 	 */
 	protected $config = null;
 
@@ -56,7 +55,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 */
 	public function __construct() {
 
-		$this->config = new Javascript_Lib_Dojo_Config();
+		$this->config = new JavaScriptLib_Dojo_Config();
 
 	}
 
@@ -79,12 +78,12 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
     }
 
     /**
-     * @param Javascript_Lib_Abstract $lib
+     * @param JavaScriptLib_Abstract $lib
      * @return void
      */
-    public function adopt( Javascript_Lib_Abstract $lib ) {
+    public function adopt( JavaScriptLib_Abstract $lib ) {
         /**
-         * @var Javascript_Lib_Dojo $lib
+         * @var JavaScriptLib_Dojo $lib
          */
 
         foreach( $lib->packages as $package ) {
@@ -157,7 +156,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	 * @param string $option
 	 * @param mixed $value
 	 *
-	 * @throws Javascript_Exception
+	 * @throws JavaScriptLib_Dojo_Exception
 	 */
 	public function setOption( $option, $value ) {
 
@@ -169,9 +168,9 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 			break;
 
 			default:
-				throw new Javascript_Exception(
+				throw new JavaScriptLib_Dojo_Exception(
 					'Unknown Dojo option: \''.$option.'\'',
-					Javascript_Exception::CODE_UNKNOWN_JS_LIB_OPTION
+					JavaScriptLib_Dojo_Exception::CODE_UNKNOWN_OPTION
 				);
 			break;
 		}
@@ -209,7 +208,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 	/**
 	 * Returns generated HTML code that replaces <jet_layout_javascripts/> in layout
 	 *
-	 * @throws Javascript_Exception
+	 * @throws JavaScriptLib_Dojo_Exception
 	 * @return string
 	 */
 	public function getHTMLSnippet() {
@@ -230,7 +229,7 @@ class Javascript_Lib_Dojo extends Javascript_Lib_Abstract {
 
 		if($this->config->getPackageEnabled()) {
 
-			$package_creator = new Javascript_Lib_Dojo_PackageCreator(
+			$package_creator = new JavaScriptLib_Dojo_PackageCreator(
 				$this->replaceConstants($this->config->getBaseURI()),
 				$this->layout->getPage()->getLocale(),
 				$this->packages,

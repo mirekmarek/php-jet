@@ -94,7 +94,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
                 return false;
             }
 
-            $parameters[0] = $user;
+            $parameters['user'] = $user;
             return true;
 
         };
@@ -175,9 +175,14 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_User_Interface $user
+     *
 	 */
-	public function edit_Action( Auth_User_Interface $user ) {
+	public function edit_Action() {
+
+        /**
+         * @Auth_User_Interface $user
+         */
+        $user = $this->getActionParameterValue('user');
 
 		$form = $user->getCommonForm();
 
@@ -200,9 +205,14 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_User_Interface $user
+     *
 	 */
-	public function view_Action( Auth_User_Interface $user ) {
+	public function view_Action() {
+
+        /**
+         * @Auth_User_Interface $user
+         */
+        $user = $this->getActionParameterValue('user');
 
 		$form = $user->getCommonForm();
 
@@ -221,9 +231,14 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 
 	/**
-	 * @param Auth_User_Interface $user
+     *
 	 */
-	public function delete_Action( Auth_User_Interface $user ) {
+	public function delete_Action() {
+
+        /**
+         * @Auth_User_Interface $user
+         */
+        $user = $this->getActionParameterValue('user');
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$user->delete();

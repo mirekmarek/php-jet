@@ -16,7 +16,7 @@ namespace Jet;
 class Form_Field_File extends Form_Field_Abstract {
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
-//TODO: html5
+
 	/**
 	 * @var string
 	 */
@@ -55,6 +55,25 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @var string
 	 */
 	protected $file_name;
+
+    /**
+     * @var string
+     */
+    protected $uploaded_file_path;
+
+    /**
+     * set form instance
+     *
+     * @param Form $form
+     */
+    public function setForm(Form $form) {
+        parent::setForm($form);
+
+        if(!$form->getEnctype()) {
+            $form->setEnctype(Form::ENCTYPE_FORM_DATA);
+        }
+        $form->setMethod(Form::METHOD_POST);
+    }
 
 
 	/**
@@ -98,6 +117,25 @@ class Form_Field_File extends Form_Field_Abstract {
 	public function getTmpFilePath() {
 		return $this->tmp_file_path;
 	}
+
+    /**
+     * @param string $uploaded_file_path
+     */
+    public function setUploadedFilePath($uploaded_file_path)
+    {
+        $this->uploaded_file_path = $uploaded_file_path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploadedFilePath()
+    {
+        if(!$this->uploaded_file_path) {
+            return $this->getTmpFilePath();
+        }
+        return $this->uploaded_file_path;
+    }
 
 
 

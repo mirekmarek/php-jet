@@ -59,7 +59,7 @@ class JetML_Widget_Dojo_Abstract extends JetML_Widget_Abstract {
 	public function __construct(  JetML $parser, \DOMElement $node){
 		parent::__construct( $parser, $node);
 
-		$dojo = new Javascript_Lib_Dojo();
+		$dojo = new JavaScriptLib_Dojo();
 
 		if(!$this->dojo_type) {
 			return;

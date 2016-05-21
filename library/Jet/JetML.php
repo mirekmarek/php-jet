@@ -163,8 +163,8 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 	 *
 	 * @param string $data
 	 *
-	 * @throws Javascript_Exception
 	 * @return string
+	 * @throws JetML_Exception
 	 */
 	public function parse( $data ) {
 
@@ -219,9 +219,9 @@ class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
 					$xml_snippet .= ($xml_error->line+1).': '.$data_per_lines[$xml_error->line].JET_EOL;
 				}
 
-				throw new Javascript_Exception(
+				throw new JetML_Exception(
 					'JetML XML parse error: '.$xml_error->message.' on line: '.$xml_error->line.JET_EOL.JET_EOL.$xml_snippet,
-					Javascript_Exception::CODE_PARSE_ERROR
+					JetML_Exception::CODE_PARSE_ERROR
 				);
 			}
 

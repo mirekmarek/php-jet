@@ -45,8 +45,10 @@ class Controller_REST extends Mvc_Controller_REST {
 	 * @param null|int $ID
 	 */
 	public function get_role_Action( $ID=null ) {
+
 		if($ID) {
 			$role = $this->_getRole($ID);
+
 			$this->responseData($role);
 		} else {
 			$this->responseDataModelsList( Auth::getRolesListAsData() );

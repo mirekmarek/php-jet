@@ -23,7 +23,7 @@ class JetML_Widget_Dojo_Editarea extends JetML_Widget_Abstract {
 
 		$ID = $this->getNodeAttribute('id');
 
-        $Dojo = new Javascript_Lib_Dojo();
+        $Dojo = new JavaScriptLib_Dojo();
         $Dojo->requireComponent('dijit.layout.BorderContainer');
         $Dojo->requireComponent('dijit.layout.ContentPane');
         $Dojo->requireComponent('dijit.Toolbar');

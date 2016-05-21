@@ -32,10 +32,15 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param string $gallery_ID
-	 * @param Gallery $gallery (optional)
+     *
 	 */
-	public function default_Action( $gallery_ID=Gallery::ROOT_ID, Gallery $gallery=null ) {
+	public function default_Action() {
+
+        /**
+         * @var Gallery $gallery
+         */
+        $gallery_ID = $this->getActionParameterValue('gallery_ID', Gallery::ROOT_ID);
+        $gallery = $this->getActionParameterValue('gallery');
 
         if(!$gallery) {
             $gallery = Gallery::get($gallery_ID);
@@ -82,7 +87,10 @@ class Controller_Public_Standard extends Mvc_Controller_Standard {
             }
         }
 
-        $page_content->setControllerActionParameters( [ $gallery_ID, $gallery ]);
+        $page_content->setControllerActionParameters( [
+            'gallery_ID' => $gallery_ID,
+            'gallery' => $gallery
+        ]);
 
         return true;
     }

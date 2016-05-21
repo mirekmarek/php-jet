@@ -2,15 +2,14 @@
 use Jet\Tr;
 use Jet\Mvc;
 
-//TODO: bootstrap podporovat jako DoJo
-Mvc::requireCssFile('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css');
+Mvc::requireCssFile(BOOTSTRAP_CSS_URI);
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><?=Tr::_('Login');?></title>
 
+<jet_layout_meta_tags/>
+<jet_layout_css/>
 <jet_layout_javascripts/>
-
-<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"/>
 
 <style type="text/css">
 	html, body {

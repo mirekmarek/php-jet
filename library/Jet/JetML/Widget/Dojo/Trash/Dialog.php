@@ -40,7 +40,7 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 	 */
 	public function getReplacement() {
 
-        $Dojo = new Javascript_Lib_Dojo();
+        $Dojo = new JavaScriptLib_Dojo();
         $Dojo->requireComponent('dijit.Dialog');
         $Dojo->requireComponent('dijit.form.Button');
         $Dojo->requireComponent('dojox.form.BusyButton');

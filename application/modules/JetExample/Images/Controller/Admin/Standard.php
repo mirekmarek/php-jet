@@ -78,7 +78,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
                 return false;
             }
 
-            $parameters[0] = $gallery;
+            $parameters['gallery'] = $gallery;
             return true;
 
         };
@@ -86,12 +86,16 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
         $router->addAction('add', '/^add:([\S]+)$/', 'add_gallery', true)
             ->setCreateURICallback( function( $parent_ID ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_ID).'/'; } )
             ->setParametersValidatorCallback( function(&$parameters) use ($gallery_validator) {
+
+                $parameters['parent_ID'] = $parameters[0];
+
                 if($parameters[0]==Gallery::ROOT_ID) {
                     return true;
                 }
 
                 $gallery = Gallery::get( $parameters[0] );
                 if(!$gallery) {
+                    unset($parameters['parent_ID']);
                     return false;
                 }
 
@@ -140,9 +144,11 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param string $parent_ID
+     *
 	 */
-	public function add_Action( $parent_ID ) {
+	public function add_Action() {
+
+        $parent_ID = $this->getActionParameterValue('parent_ID');
 
 		$gallery = new Gallery();
 		$gallery->setParentID( $parent_ID );
@@ -167,9 +173,14 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Gallery $gallery
+     *
 	 */
-	public function edit_Action( Gallery $gallery ) {
+	public function edit_Action() {
+
+        /**
+         * @var Gallery $gallery
+         */
+        $gallery = $this->getActionParameterValue('gallery');
 
 		$edit_form = $gallery->getCommonForm();
 
@@ -198,9 +209,14 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 
 
 	/**
-	 * @param Gallery $gallery
+     *
 	 */
-	public function view_Action( Gallery $gallery ) {
+	public function view_Action() {
+
+        /**
+         * @var Gallery $gallery
+         */
+        $gallery = $this->getActionParameterValue('gallery');
 
 		$edit_form = $gallery->getCommonForm();
 

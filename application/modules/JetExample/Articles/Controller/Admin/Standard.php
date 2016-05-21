@@ -82,7 +82,7 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
                 return false;
             }
 
-            $parameters[0] = $article;
+            $parameters['article'] = $article;
             return true;
 
         };
@@ -170,9 +170,14 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param  Article $article
+     *
 	 */
-	public function edit_Action( Article $article ) {
+	public function edit_Action() {
+
+        /**
+         * @var Article $article
+         */
+        $article = $this->getActionParameterValue('article');
 
 		$form = $article->getCommonForm();
 
@@ -191,9 +196,14 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param  Article $article
+     *
 	 */
-	public function view_Action(  Article $article  ) {
+	public function view_Action() {
+
+        /**
+         * @var Article $article
+         */
+        $article = $this->getActionParameterValue('article');
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
 
@@ -205,9 +215,14 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param  Article $article
+     *
 	 */
-	public function delete_action(  Article $article  ) {
+	public function delete_action() {
+
+        /**
+         * @var Article $article
+         */
+        $article = $this->getActionParameterValue('article');
 
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {

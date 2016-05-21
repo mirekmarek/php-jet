@@ -143,19 +143,13 @@ abstract class Application_Modules_Module_Abstract extends Object {
 	 * @throws Exception
 	 */
 	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters= []) {
-		$method = $action.'_Action';
 
-		if( !method_exists($controller, $method) ) {
-			throw new Exception(
-				'Controller method '. get_class($controller).'::'.$method.'() does not exist'
-			);
-		}
 
 		if(!$controller->checkACL($action, $action_parameters)) {
 			return;
 		}
 
-		call_user_func_array([$controller, $method], $action_parameters);
+        $controller->callAction($action, $action_parameters);
 	}
 
 	/**

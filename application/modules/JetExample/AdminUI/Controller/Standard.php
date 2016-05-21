@@ -17,9 +17,7 @@ use Jet\Auth;
 use Jet\Mvc;
 use Jet\Mvc_Page;
 use Jet\Http_Headers;
-use Jet\Javascript_Lib_Dojo;
-use Jet\Javascript_Lib_Jet;
-use Jet\Javascript_Lib_TinyMCE;
+use Jet\JavaScriptLib_Dojo;
 
 class Controller_Standard extends Mvc_Controller_Standard {
 	/**
@@ -77,7 +75,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
     public function ria_default_Action() {
 
 
-        $Dojo = new Javascript_Lib_Dojo();
+        $Dojo = new JavaScriptLib_Dojo();
 
 		$Dojo->requireComponent('dojo.store.JsonRest');
 		$Dojo->requireComponent('dojo.data.ObjectStore');
@@ -105,7 +103,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 
 
-        $Jet = new Javascript_Lib_Jet();
+        $Jet = new JetJavaScriptLib();
         $Jet->setAJAXBaseURL( Mvc_Page::get('admin/ria/ajax')->getURL() );
         $Jet->setRESTBaseURL( Mvc_Page::get('admin/ria/rest_api')->getURL() );
         $Jet->setComponentsBaseURL( Mvc_Page::get('admin/ria/js')->getURL() );
@@ -114,14 +112,14 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$Jet->requireComponent('Jet.Form');
 		$Jet->requireComponent('Jet.Trash');
 
-
         Mvc::requireJavascriptLib( $Jet );
 
 
-        $TinyMCE = new Javascript_Lib_TinyMCE();
+	    /*
+        $TinyMCE = new JavaScriptLib_TinyMCE();
 
         Mvc::requireJavascriptLib( $TinyMCE );
-
+		*/
 
 		$this->render('ria/default');
 	}

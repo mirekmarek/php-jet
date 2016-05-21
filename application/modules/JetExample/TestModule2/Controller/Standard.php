@@ -13,6 +13,8 @@
  */
 namespace JetApplicationModule\JetExample\TestModule2;
 use Jet;
+use Jet\Tr;
+
 use Jet\Form;
 use Jet\Form_Field_Input;
 
@@ -48,9 +50,12 @@ use Jet\Form_Field_RegistrationEmail;
 use Jet\Form_Field_RegistrationPassword;
 use Jet\Form_Field_Password;
 
+use Jet\Form_Field_File;
+use Jet\Form_Field_FileImage;
 
-//TODO: const TYPE_FILE = 'File';
-//TODO: const TYPE_FILE_IMAGE = 'FileImage';
+use Jet\IO_File;
+
+
 
 
 use Jet\Mvc_Controller_Standard;
@@ -300,59 +305,173 @@ class Controller_Standard extends Mvc_Controller_Standard {
 		$password_field = new Form_Field_Password('password_field', 'Password');
 
 
-		$form = new Form( 'TestForm', [
-			$input_field,
-			$validated_input_field,
+        $upload_image_field = new Form_Field_FileImage('upload_image', 'Upload image');
+        $upload_image_field->setMaximalSize(200,150);
+        $upload_image_field->setMaximalFileSize( 2*1024*1024 );
+        $upload_image_field->setErrorMessages([
+            Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
+            Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE => 'Maximal file size is 2MiB'
+        ]);
+        $upload_image_field->setCatchDataCallback( function( $tmp_file ) use ($upload_image_field) {
 
-			$int_field,
-			$float_field,
-			$range_field,
+            $target_dir = JET_PUBLIC_PATH.'test_uploads/';
 
-			$date_field,
-			$date_time_field,
-			$time_field,
-			$week_field,
-			$month_field,
+            Jet\IO_Dir::create($target_dir);
 
-			$email_field,
-			$tel_field,
+            $target_path = $target_dir.$upload_image_field->getFileName();
 
-			$url_field,
-			$search_field,
+            Jet\IO_File::copy( $tmp_file, $target_path );
 
-			$color_field,
+            $upload_image_field->setUploadedFilePath($target_path);
 
-			$select_field,
-			$multi_select_field,
+        } );
 
-			$checkbox_field,
-			$radio_field,
+        $upload_file_field = new Form_Field_File('upload_file', 'Upload file');
+        $upload_file_field->setMaximalFileSize( 2*1024*1024 );
+        $upload_file_field->setErrorMessages([
+            Form_Field_File::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
+            Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE => 'Maximal file size is 2MiB'
+        ]);
+        $upload_file_field->setCatchDataCallback( function( $tmp_file ) use ($upload_file_field) {
 
-			$textarea_field,
-			$wysiwyg_field,
+            /*
+            $target_dir = JET_PUBLIC_PATH.'test_uploads/';
 
-			$registration_user_name_field,
-			$registration_email_field,
-			$registration_password_field,
+            Jet\IO_Dir::create($target_dir);
 
-			$password_field
-		]);
+            $target_path = $target_dir.$upload_file_field->getFileName();
 
+            Jet\IO_File::copy( $tmp_file, $target_path );
 
+            $upload_file_field->setUploadedFilePath($target_path);
+            */
 
-		if(
-			$form->catchValues() &&
-			$form->validateValues()
-		) {
-			$this->view->setVar('form_sent', true);
-			$this->view->setVar('form_values', $form->getValues());
-		}
+        } );
 
 
-		//$form->enableDecorator('Dojo');
-		$this->view->setVar('form', $form);
+
+        $forms = [];
+
+        $forms['common_form'] = [
+            'title' => Tr::_('Common form'),
+            'form' => new Form( 'common_form', [
+                $input_field,
+                $validated_input_field,
+            ]),
+        ];
+
+        $forms['numbers_form'] = [
+            'title' => Tr::_('Numbers form'),
+            'form' => new Form( 'numbers_form', [
+                $int_field,
+                $float_field,
+                $range_field,
+            ]),
+        ];
+
+        $forms['date_form'] = [
+            'title' => Tr::_('Time and date form'),
+            'form' => new Form( 'date_form', [
+                $date_field,
+                $date_time_field,
+                $time_field,
+                $week_field,
+                $month_field,
+            ])
+        ];
+
+        $forms['contacts_form'] = [
+            'title' => Tr::_('Contacts form'),
+            'form' => new Form( 'contacts_form', [
+                $email_field,
+                $tel_field,
+            ])
+        ];
+
+        $forms['select_form'] = [
+            'title' => Tr::_('Select form'),
+            'form' => new Form( 'select_form', [
+                $select_field,
+                $multi_select_field,
+                $checkbox_field,
+                $radio_field,
+
+            ])
+        ];
+
+        $forms['text_form'] = [
+            'title' => Tr::_('Text form'),
+            'form' => new Form( 'text_form', [
+                $textarea_field,
+                $wysiwyg_field,
+            ])
+        ];
+
+        $forms['registration_form'] = [
+            'title' => Tr::_('Registration form'),
+            'form' => new Form( 'registration_form', [
+                $registration_user_name_field,
+                $registration_email_field,
+                $registration_password_field,
+            ])
+        ];
+
+        $forms['special_form'] = [
+            'title' => Tr::_('Special fields form'),
+            'form' => new Form( 'special_form', [
+                $password_field,
+                $url_field,
+                $search_field,
+                $color_field,
+            ])
+        ];
 
 
+        $forms['upload_file_form'] = [
+            'title' => Tr::_('File upload form'),
+            'form' => new Form( 'upload_file_form', [
+                $upload_file_field
+            ])
+        ];
+
+
+        $forms['upload_image_form'] = [
+            'title' => Tr::_('Image upload form'),
+            'form' => new Form( 'upload_image_form', [
+                $upload_image_field
+            ])
+        ];
+
+
+        foreach( $forms as $form_name => $d ) {
+            /**
+             * @var Form $form
+             */
+            $form = $d['form'];
+
+            $form->setAction('#'.$form->getID());
+            //$form->enableDecorator('Dojo');
+
+            if(
+                $form->catchValues() &&
+                $form->validateValues()
+            ) {
+                $form->catchData();
+
+                $forms[$form_name]['form_sent'] = true;
+                $forms[$form_name]['form_values'] = $form->getValues();
+            } else {
+                $forms[$form_name]['form_sent'] = false;
+                $forms[$form_name]['form_values'] = null;
+
+            }
+
+            $this->view->setVar($form_name, $form );
+        }
+
+
+
+		$this->view->setVar('forms', $forms);
 		$this->render( 'test-action2' );
 	}
 

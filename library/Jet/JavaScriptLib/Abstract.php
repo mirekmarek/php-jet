@@ -13,12 +13,11 @@
  * @abstract
  *
  * @category Jet
- * @package Javascript
- * @subpackage Javascript_Lib
+ * @package JavaScriptLib
  */
 namespace Jet;
 
-abstract class Javascript_Lib_Abstract extends Object {
+abstract class JavaScriptLib_Abstract extends Object {
 
 	/**
 	 * The layout instance
@@ -63,10 +62,10 @@ abstract class Javascript_Lib_Abstract extends Object {
     }
 
     /**
-     * @param Javascript_Lib_Abstract $lib
+     * @param JavaScriptLib_Abstract $lib
      * @return void
      */
-    abstract public function adopt( Javascript_Lib_Abstract $lib );
+    abstract public function adopt( JavaScriptLib_Abstract $lib );
 
 	/**
 	 * Returns HTML snippet that initialize Java Script and is included into layout

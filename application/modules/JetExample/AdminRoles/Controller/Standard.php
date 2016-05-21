@@ -17,6 +17,7 @@ namespace JetApplicationModule\JetExample\AdminRoles;
 use Jet;
 use Jet\Application_Modules;
 use Jet\Auth;
+use Jet\Auth_Role;
 use Jet\Auth_Factory;
 use Jet\Auth_Role_Interface;
 use Jet\Http_Headers;
@@ -82,7 +83,7 @@ class Controller_Standard extends Mvc_Controller_Standard {
                 return false;
             }
 
-            $parameters[0] = $role;
+            $parameters['role'] = $role;
             return true;
 
         };
@@ -153,7 +154,10 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	 */
 	public function add_Action() {
 
-		$role = Auth::getNewRole();
+        /**
+         * @var Auth_Role $role
+         */
+        $role = Auth::getNewRole();
 
 		$form = $role->getCommonForm();
 
@@ -174,9 +178,13 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_Role_Interface $role
 	 */
-	public function edit_Action( Auth_Role_Interface $role ) {
+	public function edit_Action() {
+
+        /**
+         * @var Auth_Role $role
+         */
+        $role = $this->getActionParameterValue('role');
 
 		$form = $role->getCommonForm();
 
@@ -197,9 +205,14 @@ class Controller_Standard extends Mvc_Controller_Standard {
 	}
 
 	/**
-	 * @param Auth_Role_Interface $role
+     *
 	 */
-	public function view_Action( Auth_Role_Interface $role ) {
+	public function view_Action() {
+
+        /**
+         * @var Auth_Role $role
+         */
+        $role = $this->getActionParameterValue('role');
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
 
@@ -214,9 +227,15 @@ class Controller_Standard extends Mvc_Controller_Standard {
 
 
 	/**
-	 * @param Auth_Role_Interface $role
+     *
 	 */
-	public function delete_action( Auth_Role_Interface $role ) {
+	public function delete_action() {
+
+        /**
+         * @var Auth_Role $role
+         */
+        $role = $this->getActionParameterValue('role');
+
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$role->delete();
