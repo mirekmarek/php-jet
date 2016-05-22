@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class Form_Decorator_Dojo_Password extends Form_Decorator_Dojo_Abstract {
+class Form_Decorator_Dojo_RegistrationPassword extends Form_Decorator_Dojo_Abstract {
 	/**
 	 * @var array
 	 */
@@ -20,5 +20,8 @@ class Form_Decorator_Dojo_Password extends Form_Decorator_Dojo_Abstract {
 		'field' => [
 			'dojo_type' => 'dijit.form.TextBox'
 		],
+		'field_check' => [
+			'dojo_type' => 'dijit.form.TextBox'
+		]
 	];
 }

@@ -76,7 +76,7 @@ define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);
 
 
-define('DOJO_VERSION', '1.10');
+define('DOJO_VERSION', '1.10.1');
 define('DOJO_DEFAULT_THEME', 'claro');
 define('DOJO_JS_URI', '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dojo/dojo.js');
 define('DOJO_THEME_URI', '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css');
