@@ -22,12 +22,11 @@ trait DataModel_Trait_Load {
      * Loads DataModel.
      *
      * @param DataModel_ID_Abstract|array $ID
-     *
-     * @throws DataModel_Exception
+     * @param array $load_only_properties
      *
      * @return DataModel
      */
-    public static function load( $ID ) {
+    public static function load( $ID, array $load_only_properties=[] ) {
 
         /**
          * @var DataModel $loaded_instance
@@ -43,47 +42,74 @@ trait DataModel_Trait_Load {
 
         $cache = $loaded_instance->getCacheBackendInstance();
 
+        $data = [];
+        $cache_loaded = false;
 
-        if($cache) {
-            $cached_instance = $cache->get( $definition, $ID);
-
-            if($cached_instance) {
-                /**
-                 * @var DataModel $loaded_instance
-                 */
-
-                foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-
-                    /**
-                     * @var DataModel_Related_Interface $related_object
-                     */
-                    $related_object = $cached_instance->{$property_name};
-
-                    if($related_object instanceof DataModel_Related_Interface) {
-                        $related_object->setupParentObjects( $cached_instance );
-
-                    }
-                }
-
-                $cached_instance->setIsSaved();
-                $cached_instance->afterLoad();
-
-                return $cached_instance;
+        if(
+            !$load_only_properties &&
+            $cache &&
+            ($data = $cache->get( $definition, $ID))
+        ) {
+            if(
+                !is_array($data) ||
+                !array_key_exists('main_data', $data) ||
+                !array_key_exists('related_data', $data) ||
+                !is_array($data['main_data']) ||
+                !is_array($data['related_data'])
+            ) {
+                $data = [];
+            } else {
+                $cache_loaded = true;
             }
+
         }
-
-
 
 
         $query = $ID->getQuery();
         $query->setMainDataModel($loaded_instance);
 
-        $query->setSelect( $definition->getProperties() );
+
+        if(!$load_only_properties) {
+            $load_only_related_properties = null;
+            $select = $definition->getProperties();
+        } else {
+            $select = [];
+            $load_only_related_properties = [];
+
+            foreach( $load_only_properties as $lp ) {
+                $property_name = null;
+
+                if(strpos($lp, '.')===false) {
+                    $property_name = $lp;
+                } else {
+                    list($model_name, $_property_name) = explode('.', $lp);
+
+                    if($model_name=='this' || $model_name==$definition->getModelName()) {
+                        $property_name = $_property_name;
+                    } else {
+                        if(!isset($load_only_related_properties[$model_name])) {
+                            $load_only_related_properties[$model_name] = [];
+                        }
+                        $load_only_related_properties[$model_name][] = $_property_name;
+                    }
+
+                }
+
+                if($property_name===null) {
+                    continue;
+                }
+
+                $select[] = $definition->getProperty($property_name);
+            }
+        }
+        $query->setSelect( $select );
 
 
-        $data = $loaded_instance->getBackendInstance()->fetchRow( $query );
+        if(!isset($data['main_data'])) {
+            $data['main_data'] = $loaded_instance->getBackendInstance()->fetchRow( $query );
+        }
 
-        if(!$data) {
+        if(!$data['main_data']) {
             return null;
         }
 
@@ -91,7 +117,7 @@ trait DataModel_Trait_Load {
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
             if(!($loaded_instance->{$property_name} instanceof DataModel_Related_Interface)) {
-                $property_definition->loadPropertyValue( $loaded_instance->{$property_name}, $data );
+                $property_definition->loadPropertyValue( $loaded_instance->{$property_name}, $data['main_data'] );
             }
         }
         $loaded_instance->setIsSaved();
@@ -99,45 +125,58 @@ trait DataModel_Trait_Load {
 
         $related_properties = $definition->getAllRelatedPropertyDefinitions();
 
-        $loaded_related_data = [];
 
-        foreach( $related_properties as $related_model_name=>$related_property ) {
+        if(!isset($data['related_data'])) {
+            $data['related_data'] = [];
+            foreach( $related_properties as $related_model_name=>$related_property ) {
 
-            /**
-             * @var DataModel_Related_Interface $related_object
-             */
-            $related_object = $related_property->getDefaultValue();
-            $related_object->setupParentObjects( $loaded_instance );
+                if($load_only_related_properties!==null) {
+                    if(!isset($load_only_related_properties[$related_model_name])) {
+                        continue;
+                    }
+                }
 
-            $related_data = $related_object->loadRelatedData();
-            unset($related_object);
+                /**
+                 * @var DataModel_Related_Interface $related_object
+                 */
+                $related_object = $related_property->getDefaultValue();
+                $related_object->setupParentObjects( $loaded_instance );
 
-            if(!isset($loaded_related_data[$related_model_name])) {
-                $loaded_related_data[$related_model_name] = [];
+                if($load_only_related_properties) {
+                    $_related_data = $related_object->loadRelatedData( $load_only_related_properties );
+                } else {
+                    $_related_data = $related_object->loadRelatedData();
+                }
+                unset($related_object);
 
-                foreach($related_data as $rd) {
-                    $loaded_related_data[$related_model_name][] = $rd;
+                if(!isset($related_data[$related_model_name])) {
+                    $data['related_data'][$related_model_name] = [];
+
+                    foreach($_related_data as $rd) {
+                        $data['related_data'][$related_model_name][] = $rd;
+                    }
                 }
             }
+
         }
-
-
 
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
             $property = $loaded_instance->{$property_name};
 
             if(($property instanceof DataModel_Related_Interface)) {
                 $property->setupParentObjects( $loaded_instance );
-                $property_definition->loadPropertyValue( $property, $loaded_related_data );
+                $property_definition->loadPropertyValue( $property, $data['related_data'] );
             }
 
         }
 
-        //$loaded_instance->initRelatedProperties( $loaded_related_data );
 
-
-        if($cache) {
-            $cache->save($definition, $ID, $loaded_instance);
+        if(
+            !$load_only_properties &&
+            $cache &&
+            !$cache_loaded
+        ) {
+            $cache->save($definition, $ID, $data);
         }
 
         $loaded_instance->afterLoad();

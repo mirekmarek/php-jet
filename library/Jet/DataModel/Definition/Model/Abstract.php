@@ -275,7 +275,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$this->_initIdClass();
 		$this->_initDatabaseTableName();
-
 	}
 
 	/**

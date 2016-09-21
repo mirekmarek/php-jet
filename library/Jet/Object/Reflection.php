@@ -38,6 +38,7 @@ class Object_Reflection {
 
 	/**
 	 * @param string $class_name
+	 * @throws Application_Modules_Exception
 	 * @return string
 	 */
 	public static function parseClassName( $class_name ) {
@@ -50,6 +51,10 @@ class Object_Reflection {
 			list($module_name, $class_name) = explode('\\', substr($class_name, $prefix_len));
 
 			$module_manifest = Application_Modules::getModuleManifest($module_name);
+
+			if(!$module_manifest) {
+				throw new Application_Modules_Exception('Unknown module '.$module_name);
+			}
 
 			$class_name = $module_manifest->getNamespace().$class_name;
 

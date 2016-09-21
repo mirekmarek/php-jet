@@ -107,12 +107,13 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 		$this->_getEmptyItemInstance()->setLoadRelatedDataOrderBy( $order_by );
 	}
 
-	/**
-	 * @return array|void
-	 */
-	public function loadRelatedData() {
-
-		return $this->_getEmptyItemInstance()->loadRelatedData();
+    /**
+     * @param array $load_only_related_properties
+     *
+     * @return mixed
+     */
+    public function loadRelatedData( array $load_only_related_properties=[] ) {
+		return $this->_getEmptyItemInstance()->loadRelatedData( $load_only_related_properties );
 	}
 
 	/**

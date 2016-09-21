@@ -28,12 +28,15 @@ trait DataModel_Related_1to1_Trait {
         return new DataModel_Definition_Model_Related_1to1( $data_model_class_name );
     }
 
-    /**
-     * @return array
-     */
-    public function loadRelatedData() {
 
-        $query = $this->getLoadRelatedDataQuery();
+    /**
+     * @param array $load_only_related_properties
+     *
+     * @return mixed
+     */
+    public function loadRelatedData( array $load_only_related_properties=[] ) {
+
+        $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
 
         return $this->getBackendInstance()->fetchAll( $query );
     }
@@ -95,6 +98,7 @@ trait DataModel_Related_1to1_Trait {
                 );
 
                 $loaded_instance->_setRelatedData( $dat, $loaded_related_data );
+                $loaded_instance->afterLoad();
 
                 unset($loaded_related_data[$model_name][$i]);
 

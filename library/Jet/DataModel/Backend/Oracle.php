@@ -98,17 +98,24 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$keys = [];
 		foreach($data_model_definition->getKeys() as $key_name=>$key) {
 
-			$columns = implode('', $this->_getColumnName($key->getPropertyNames()) );
+            $key_columns = [];
+            foreach( $key->getPropertyNames() as $property_name ) {
+                $property = $data_model_definition->getProperty($property_name);
+                $key_columns[] = $this->_getColumnName( $property );
+            }
+
+            $key_columns = implode(', ', $key_columns);
+
 
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$keys[$key_name] = JET_EOL.',CONSTRAINT "'.$this->_getColumnName($key_name).'" PRIMARY KEY ("'.$columns.'")';
+					$keys[$key_name] = JET_EOL.',CONSTRAINT "'.$this->_getColumnName($key_name).'" PRIMARY KEY ('.$key_columns.')';
 				break;
 				case DataModel::KEY_TYPE_INDEX:
-					$create_index_query[] = JET_EOL.'CREATE INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ("'.$columns.'")';
+					$create_index_query[] = JET_EOL.'CREATE INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ('.$key_columns.')';
 				break;
 				default:
-					$create_index_query[] = JET_EOL.'CREATE '.$key['type'].' INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ("'.$columns.'")';
+					$create_index_query[] = JET_EOL.'CREATE '.$key['type'].' INDEX "'.$this->_getColumnName($table_name.'_'.$key_name).'" ON '.$table_name.' ('.$key_columns.')';
 				break;
 			}
 		}
@@ -489,6 +496,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					}
 
 					$select_as = $item->getSelectAs();
+
 					$key = strtoupper($this->_getColumnName($select_as));
 					$_d = $data[$i][$key];
 					unset( $data[$i][$key] );
@@ -824,12 +832,20 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 		$res = '';
 
 		switch($operator) {
-			case DataModel_Query::O_EQUAL:
-				$res .='='.$value.' ';
-				break;
-			case DataModel_Query::O_NOT_EQUAL:
-				$res .='<>'.$value.' ';
-				break;
+            case DataModel_Query::O_EQUAL:
+                if($value==='null') {
+                    $res .=' IS NULL';
+                } else {
+                    $res .='='.$value;
+                }
+                break;
+            case DataModel_Query::O_NOT_EQUAL:
+                if($value==='null') {
+                    $res .=' IS NOT NULL';
+                } else {
+                    $res .='<>'.$value;
+                }
+                break;
 			case DataModel_Query::O_LIKE:
 				$res .=' LIKE'.$value.' ';
 				break;
@@ -1052,8 +1068,7 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 			 */
 
 			$definition = $item->getPropertyDefinition();
-			$property_name = $definition->getName();
-			$column_name = $this->_getColumnName($property_name);
+			$column_name = $this->_getColumnName($definition);
 
 
 			$value = ':'.$column_name;
@@ -1159,27 +1174,16 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 
 
 	/**
-	 * Oracle has some limits ... :-(
 	 *
-	 * @param array|DataModel_Definition_Property_Abstract|string $column
-	 * @return array|string
+	 * @param DataModel_Definition_Property_Abstract $property_definition
+	 * @return string
 	 */
-	protected function _getColumnName( $column ) {
-		if($column instanceof DataModel_Definition_Property_Abstract) {
-			$property_table_name = $this->_getTableName( $column->getDataModelDefinition() );
+	protected function _getColumnName( DataModel_Definition_Property_Abstract $property_definition ) {
 
-			return $property_table_name.'."'.$this->_getColumnName($column->getName()).'"';
-		}
+        $table_name = $this->_getTableName( $property_definition->getDataModelDefinition() );
+        $column_name = $this->_OracleWorkaround($property_definition->getDatabaseColumnName());
 
-
-		if(is_array($column)) {
-			foreach($column as $i=>$c) {
-				$column[$i] = $this->_getColumnName($c);
-			}
-			return $column;
-		}
-
-		return $this->_OracleWorkaround($column);
+        return $table_name.'."'.$column_name.'"';
 	}
 
 	/**

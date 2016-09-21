@@ -110,21 +110,25 @@ trait DataModel_Related_MtoN_Trait {
 
 
     /**
-     * @return array
+     * @param array $load_only_related_properties
+     *
+     * @return mixed
      */
-    public function loadRelatedData()
+    public function loadRelatedData( array $load_only_related_properties=[] )
     {
 
-        $query = $this->getLoadRelatedDataQuery();
+        $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
 
         return $this->getBackendInstance()->fetchAll( $query );
     }
 
     /**
-     * @throws DataModel_Exception
+     *
+     * @param $load_only_related_properties
      * @return DataModel_Query
      */
-    protected function getLoadRelatedDataQuery() {
+    protected function getLoadRelatedDataQuery( $load_only_related_properties ) {
+
         $query = new DataModel_Query( $this->getDataModelDefinition() );
 
         $query->setWhere($this->getLoadRelatedDataWhereQueryPart());
@@ -155,7 +159,29 @@ trait DataModel_Related_MtoN_Trait {
             $where->addExpression( $M_ID_property, DataModel_Query::O_EQUAL, $value);
         }
 
-        $query->setSelect( $data_model_definition->getProperties() );
+
+        $data_model_definition = $this->getDataModelDefinition();
+
+        $query = new DataModel_Query( $data_model_definition );
+
+        if(!$load_only_related_properties) {
+            $select = $data_model_definition->getProperties();
+        } else {
+            $select = [];
+
+            foreach( $load_only_related_properties as $lp ) {
+
+                list($model_name, $property_name) = explode('.', $lp);
+
+                if($model_name!=$data_model_definition->getModelName()) {
+                    continue;
+                }
+
+                $select[] = $data_model_definition->getProperty($property_name);
+            }
+        }
+
+        $query->setSelect( $select );
 
         $this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
 

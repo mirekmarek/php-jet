@@ -66,11 +66,12 @@ trait DataModel_Related_1toN_Trait {
 
 
     /**
-     * @return array
+     * @param array $load_only_related_properties
+     * @return mixed
      */
-    public function loadRelatedData() {
+    public function loadRelatedData( array $load_only_related_properties=[] ) {
 
-        $query = $this->getLoadRelatedDataQuery();
+        $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
 
         $order_by = $this->getLoadRelatedDataOrderBy();
         if($order_by) {
@@ -141,6 +142,8 @@ trait DataModel_Related_1toN_Trait {
 
 
             unset($loaded_related_data[$model_name][$i]);
+
+            $loaded_instance->afterLoad();
 
             /**
              * @var DataModel_Related_1toN $loaded_instance

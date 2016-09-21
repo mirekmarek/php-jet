@@ -57,7 +57,7 @@ class DataModel_Query_Select_Item extends Object {
 	}
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
 	public function getSelectAs() {
 		return $this->select_as;

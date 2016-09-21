@@ -24,7 +24,8 @@ class ConfigTestMock extends Config {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default value'
 	 * @JetConfig:form_field_label = 'String property:'
-	 * 
+     * @JetConfig:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY=>'string is empty']
+	 *
 	 * @var string
 	 */
 	protected $string_property = '';
@@ -46,7 +47,8 @@ class ConfigTestMock extends Config {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 123.45
 	 * @JetConfig:form_field_label = 'Float property:'
-	 * 
+     * @JetConfig:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY=>'float is empty']
+	 *
 	 * @var float
 	 */
 	protected $float_property = 0.0;

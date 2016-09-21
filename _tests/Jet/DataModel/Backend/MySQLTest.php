@@ -260,22 +260,22 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 						.JET_TAB.JET_TAB.'`data_model_test_mock`.`int_property`=54321'.JET_EOL
 						.JET_TAB.')'.JET_EOL.JET_EOL
 				.'GROUP BY'.JET_EOL
-					.JET_TAB.'ID_property,'.JET_EOL
-					.JET_TAB.'my_string_property,'.JET_EOL
+					.JET_TAB.'`ID_property`,'.JET_EOL
+					.JET_TAB.'`my_string_property`,'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`.`int_property`'.JET_EOL.JET_EOL
 				.'HAVING'.JET_EOL
-					.JET_TAB.'my_count=1234'.JET_EOL
+					.JET_TAB.'`my_count`=1234'.JET_EOL
 					.JET_TAB.'AND'.JET_EOL
-					.JET_TAB.'my_string_property<>\'test\''.JET_EOL
+					.JET_TAB.'`my_string_property`<>\'test\''.JET_EOL
 					.JET_TAB.'OR'.JET_EOL
 					.JET_TAB.'('.JET_EOL
-						.JET_TAB.JET_TAB.'my_string_property LIKE \'test%\''.JET_EOL
+						.JET_TAB.JET_TAB.'`my_string_property` LIKE \'test%\''.JET_EOL
 						.JET_TAB.JET_TAB.'AND'.JET_EOL
-						.JET_TAB.JET_TAB.'my_count=54321'.JET_EOL
+						.JET_TAB.JET_TAB.'`my_count`=54321'.JET_EOL
 					.JET_TAB.')'.JET_EOL.JET_EOL
 				.'ORDER BY'.JET_EOL
-					.JET_TAB.'my_string_property ASC,'.JET_EOL
-					.JET_TAB.'my_count DESC,'.JET_EOL
+					.JET_TAB.'`my_string_property` ASC,'.JET_EOL
+					.JET_TAB.'`my_count` DESC,'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`.`int_property` ASC'.JET_EOL.JET_EOL
 				.'LIMIT 10,100'.JET_EOL;
 
@@ -328,17 +328,17 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 						.JET_TAB.JET_TAB.'`data_model_test_mock`.`int_property`=54321'.JET_EOL
 					.JET_TAB.')'.JET_EOL.JET_EOL
 				.'GROUP BY'.JET_EOL
-					.JET_TAB.'ID_property,'.JET_EOL
-					.JET_TAB.'my_string_property'.JET_EOL.JET_EOL
+					.JET_TAB.'`ID_property`,'.JET_EOL
+					.JET_TAB.'`my_string_property`'.JET_EOL.JET_EOL
 				.'HAVING'.JET_EOL
-					.JET_TAB.'my_count=1234'.JET_EOL
+					.JET_TAB.'`my_count`=1234'.JET_EOL
 					.JET_TAB.'AND'.JET_EOL
-					.JET_TAB.'my_string_property<>\'test\''.JET_EOL
+					.JET_TAB.'`my_string_property`<>\'test\''.JET_EOL
 					.JET_TAB.'OR'.JET_EOL
 					.JET_TAB.'('.JET_EOL
-						.JET_TAB.JET_TAB.'my_string_property LIKE \'test%\''.JET_EOL
+						.JET_TAB.JET_TAB.'`my_string_property` LIKE \'test%\''.JET_EOL
 						.JET_TAB.JET_TAB.'AND'.JET_EOL
-						.JET_TAB.JET_TAB.'my_count=54321'.JET_EOL
+						.JET_TAB.JET_TAB.'`my_count`=54321'.JET_EOL
 					.JET_TAB.')'.JET_EOL;
 
 		//var_dump( $this->object->getBackendCountQuery($query) );

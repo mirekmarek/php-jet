@@ -138,7 +138,10 @@ class Controller_Admin_Standard extends Mvc_Controller_Standard {
 		$grid->addColumn('title', Tr::_('Title'));
 		$grid->addColumn('date_time', Tr::_('Date and time'));
 
-		$grid->setData( Article::getList() );
+
+        $list = Article::getList();
+
+		$grid->setData( $list );
 
 		$this->view->setVar('grid', $grid);
 

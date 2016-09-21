@@ -101,7 +101,6 @@ class Translator_Dictionary_Phrase extends Object {
 	}
 
 	/**
-	 * @param bool $only_if_is_translated (optional, default: false)
 	 *
 	 * @return string
 	 */

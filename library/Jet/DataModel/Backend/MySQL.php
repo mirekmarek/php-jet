@@ -98,35 +98,53 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		$_columns = [];
 
-		foreach( $data_model_definition->getProperties() as $name=>$property ) {
+		foreach( $data_model_definition->getProperties() as $property ) {
 			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
 
-			$_columns[] = JET_TAB.'`'.$name.'` '.$this->_getSQLType( $data_model, $property );
+			$_columns[] = JET_TAB.$this->_getColumnName($property, true, false).' '.$this->_getSQLType( $data_model, $property );
 		}
 
 		$_keys = [];
 		foreach( $data_model_definition->getKeys() as $key_name=>$key ) {
 
+            $key_columns = [];
+            foreach( $key->getPropertyNames() as $property_name ) {
+                $property = $data_model_definition->getProperty($property_name);
+                $key_columns[] = $this->_getColumnName( $property, true, false );
+            }
+
+            $key_columns = implode(', ', $key_columns);
+
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY (`'.implode('`, `', $key->getPropertyNames()).'`)';
+                    foreach( $key->getPropertyNames() as $property_name ) {
+                        $property = $data_model_definition->getProperty($property_name);
+                        if(!$property->getRelatedToPropertyName()) {
+                            $backend_options = $property->getBackendOptions( 'MySQL' );
+                            if(!empty($backend_options['auto_increment'])) {
+                                $key_columns = $this->_getColumnName( $property, true, false );
+                                break;
+                            }
+                        }
+                    }
+
+
+					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY ('.$key_columns.')';
 				break;
 				case DataModel::KEY_TYPE_INDEX:
-					$_keys[$key_name] = JET_EOL.JET_TAB.',KEY `'.$key_name.'`  (`'.implode('`, `', $key->getPropertyNames()).'`)';
+					$_keys[$key_name] = JET_EOL.JET_TAB.',KEY '.$this->_quoteName($key_name).' ('.$key_columns.')';
 				break;
 				default:
-					$_keys[$key_name] = JET_EOL.JET_TAB.','.$key->getType().' KEY `'.$key_name.'`  (`'.implode('`, `', $key->getPropertyNames()).'`)';
+					$_keys[$key_name] = JET_EOL.JET_TAB.','.$key->getType().' KEY '.$this->_quoteName($key_name).' ('.$key_columns.')';
 				break;
 			}
 		}
 
-		$table_name = $this->_getTableName( $data_model_definition );
+		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $data_model_definition );
 
-		$table_name = $force_table_name ? $force_table_name : $table_name;
-
-		$q = 'CREATE TABLE IF NOT EXISTS `'.$table_name.'` ('.JET_EOL;
+		$q = 'CREATE TABLE IF NOT EXISTS '.$table_name.' ('.JET_EOL;
 		$q .= implode(','.JET_EOL, $_columns);
 		$q .= implode('', $_keys);
 		$q .= JET_EOL.') '.$_options.';'.JET_EOL.JET_EOL;
@@ -147,10 +165,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function helper_getDropCommand( DataModel_Interface $data_model ) {
-		$table_name = $this->_getTableName( $data_model->getDataModelDefinition() );
+		$table_name = $this->_getTableName( $data_model->getDataModelDefinition(), false );
 		$ui_prefix = '_d'.date('YmdHis');
 
-		return 'RENAME TABLE `'.$table_name.'` TO `'.$ui_prefix.$table_name.'`';
+		return 'RENAME TABLE '.$this->_quoteName($table_name).' TO '.$this->_quoteName($ui_prefix.$table_name).'';
 	}
 
 	/**
@@ -169,48 +187,59 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$data_model_definition = $data_model->getDataModelDefinition();
 		$table_name = $this->_getTableName($data_model_definition);
 
-		$update_prefix = '_UP'.date('YmdHis').'_';
-		$exists_cols = $this->_db_write->fetchCol('DESCRIBE `'.$table_name.'`');
+		$exists_cols = $this->_db_write->fetchCol('DESCRIBE '.$table_name.'');
 
-		$updated_table_name = $update_prefix.$table_name;
+        $update_prefix = '_UP'.date('YmdHis').'_';
+		$updated_table_name = $this->_quoteName($update_prefix.$this->_getTableName($data_model_definition, false));
+        $backup_table_name = $this->_quoteName($update_prefix.'b_'.$this->_getTableName($data_model_definition, false));
 
 		$create_command = $this->helper_getCreateCommand( $data_model, $updated_table_name );
 
 
 		$properties = $data_model_definition->getProperties();
 		$actual_cols = [];
-		foreach($properties as $property_name=>$property) {
+		foreach($properties as $property) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
 			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
-			$actual_cols[$property_name] = $property;
+			$actual_cols[$this->_getColumnName($property, false)] = $property;
 		}
+
 
 		$common_cols = array_intersect(array_keys($actual_cols), $exists_cols);
 		$_new_cols = array_diff( array_keys($actual_cols), $exists_cols );
 		$new_cols = new DataModel_RecordData($data_model_definition);
 		foreach($_new_cols as $new_col) {
-			$new_cols->addItem($properties[$new_col], $properties[$new_col]->getDefaultValue());
-		}
-		$new_cols = $this->_getRecord($new_cols);
+            foreach($properties as $property) {
+                if( $this->_getColumnName($property, false)==$new_col ) {
+                    $new_cols->addItem($property, $property->getDefaultValue());
 
-		$data_migration_command = 'INSERT INTO `'.$updated_table_name.'` (`'.implode('`,`', $common_cols).'`) SELECT `'.implode('`,`', $common_cols).'` FROM `'.$table_name.'`;';
+                    continue 2;
+                }
+            }
+		}
+        foreach( $common_cols as $i=>$col ) {
+            $common_cols[$i] = $this->_quoteName($col);
+        }
+
+		$data_migration_command = 'INSERT INTO '.$updated_table_name.' ('.implode(',', $common_cols).') SELECT '.implode(',', $common_cols).' FROM '.$table_name.';';
 
 		$update_default_values = '';
 		if($new_cols) {
+            $new_cols = $this->_getRecord($new_cols);
 			$_new_cols = [];
 			foreach($new_cols as $c=>$v) {
-				$_new_cols[] = '`'.$c.'`='.$this->_getValue($v, true);
+				$_new_cols[] = $c.'='.$v;
 			}
-			$update_default_values = 'UPDATE `'.$updated_table_name.'` SET '.implode(', ', $_new_cols);
+			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode(', ', $_new_cols);
 		}
 
 
-		$rename_command1 = 'RENAME TABLE `'.$table_name.'` TO `'.$update_prefix.'b_'.$table_name.'`;';
-		$rename_command2 = 'RENAME TABLE `'.$updated_table_name.'` TO  `'.$table_name.'`;';
+		$rename_command1 = 'RENAME TABLE '.$table_name.' TO '.$backup_table_name.';';
+		$rename_command2 = 'RENAME TABLE '.$updated_table_name.' TO  '.$table_name.';';
 
 		$update_command = [];
 		$update_command[] = $create_command;
@@ -299,20 +328,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$set = [];
 
 		foreach($this->_getRecord($record) as $k=>$v) {
-			if($v===null) {
-				$set[] = '`'.$k.'`=null';
-			} else
-			if(is_string($v)) {
-				$set[] = '`'.$k.'`='.$this->_db_write->quote($v);
-			} else {
-				$set[] = '`'.$k.'`='.$v;
-			}
+            $set[] = $k.'='.$v;
 		}
 
 		$set = implode(','.JET_EOL, $set);
 
 
-		return 'INSERT INTO `'.$table_name.'` SET '.JET_EOL.$set;
+		return 'INSERT INTO '.$table_name.' SET '.JET_EOL.$set;
 	}
 
 	/**
@@ -328,21 +350,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$set = [];
 
 		foreach($this->_getRecord($record) as $k=>$v) {
-			if($v===null) {
-				$set[] = '`'.$k.'`=null';
-			} else
-			if(is_string($v)) {
-				$set[] = '`'.$k.'`='.$this->_db_write->quote($v);
-			} else {
-				$set[] = '`'.$k.'`='.$v;
-			}
+            $set[] = $k.'='.$v;
 		}
 
 		$set = implode(','.JET_EOL, $set);
 
 		$where = $this->_getSqlQueryWherePart($where->getWhere());
 
-		return 'UPDATE `'.$table_name.'` SET '.JET_EOL.$set.$where;
+		return 'UPDATE '.$table_name.' SET '.JET_EOL.$set.$where;
 
 	}
 
@@ -353,7 +368,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	public function getBackendDeleteQuery( DataModel_Query $where ) {
 		$table_name = $this->_getTableName($where->getMainDataModelDefinition());
-		return 'DELETE FROM `'.$table_name.'`'.$this->_getSqlQueryWherePart($where->getWhere());
+		return 'DELETE FROM '.$table_name.''.$this->_getSqlQueryWherePart($where->getWhere());
 	}
 
 	/**
@@ -559,7 +574,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				/**
 				 * @var DataModel_Definition_Property_Abstract $property
 				 */
-				$columns_qp[] = $this->_getColumnName($property).' AS `'.$select_as.'`';
+				$columns_qp[] = $this->_getColumnName($property).' AS '.$this->_quoteName($select_as).'';
 
 				continue;
 			}
@@ -572,7 +587,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 				$backend_function_call = $property->toString( $mapper );
 
-				$columns_qp[] = $backend_function_call.' AS `'.$select_as.'`';
+				$columns_qp[] = $backend_function_call.' AS '.$this->_quoteName($select_as).'';
 				continue;
 			}
 
@@ -587,8 +602,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	protected function _getSQLQueryTableName( DataModel_Query $query ) {
-		$main_model_definition = $query->getMainDataModelDefinition();
-		return '`'.$this->_getTableName( $main_model_definition ).'`';
+		return  $this->_getTableName( $query->getMainDataModelDefinition() );
 
 	}
 
@@ -609,10 +623,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 			switch( $relation->getJoinType() ) {
 				case DataModel_Query::JOIN_TYPE_LEFT_JOIN:
-					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'JOIN `'.$r_table_name.'` ON'.JET_EOL;
+					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'JOIN '.$r_table_name.' ON'.JET_EOL;
 				break;
 				case DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN:
-					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'LEFT OUTER JOIN `'.$r_table_name.'` ON'.JET_EOL;
+					$join_qp .= JET_EOL.JET_TAB.JET_TAB.'LEFT OUTER JOIN '.$r_table_name.' ON'.JET_EOL;
 				break;
 				default:
 					throw new DataModel_Backend_Exception(
@@ -632,11 +646,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 					continue;
 				}
 
-				if($related_value instanceof DataModel_Definition_Property_Abstract) {
-					$related_value = $this->_getColumnName($related_value);
-				} else {
-					$related_value = $this->_db_read->quote($related_value);
-				}
+                $related_value = $this->_getValue($related_value);
 
 				$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName($join_by_property->getRelatedProperty()).' = '.$related_value;
 
@@ -692,12 +702,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			 */
 			$prop = $qp->getProperty();
 
-			$table_name = $this->_getTableName( $prop->getDataModelDefinition() );
-			$property_name = '`'.$table_name.'`.`'.$prop->getName().'`';
-
 
 			$res .= $tab.$this->_getSQLQueryWherePart_handleExpression(
-				$property_name,
+				$this->_getColumnName( $prop ),
 				$qp->getOperator(),
 				$qp->getValue()
 			);
@@ -755,7 +762,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 
 			$res .= $tab.$this->_getSQLQueryWherePart_handleExpression(
-				$item,
+				$this->_quoteName($item),
 				$qp->getOperator(),
 				$qp->getValue()
 			);
@@ -815,12 +822,20 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$res = '';
 
 		switch($operator) {
-			case DataModel_Query::O_EQUAL:
-				$res .='='.$value;
-				break;
-			case DataModel_Query::O_NOT_EQUAL:
-				$res .='<>'.$value;
-				break;
+            case DataModel_Query::O_EQUAL:
+                if($value==='NULL') {
+                    $res .=' IS NULL';
+                } else {
+                    $res .='='.$value;
+                }
+                break;
+            case DataModel_Query::O_NOT_EQUAL:
+                if($value==='NULL') {
+                    $res .=' IS NOT NULL';
+                } else {
+                    $res .='<>'.$value;
+                }
+                break;
 			case DataModel_Query::O_LIKE:
 				$res .=' LIKE '.$value;
 				break;
@@ -878,7 +893,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$val = $this->_getColumnName($val);
 			} else
 			if($val instanceof DataModel_Query_Select_Item) {
-				$val = $val->getSelectAs();
+				$val = $this->_quoteName($val->getSelectAs());
 			}
 
 			$group_by_qp[] = $val;
@@ -912,7 +927,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$item = $this->_getColumnName($item);
 			} else
 			if($item instanceof DataModel_Query_Select_Item) {
-				$item = $item->getSelectAs();
+				$item = $this->_quoteName($item->getSelectAs());
 			}
 			$order_by_desc = $ob->getDesc();
 
@@ -977,9 +992,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
-
 				if( isset($backend_options['auto_increment']) && $backend_options['auto_increment']  ) {
-					return 'bigint UNSIGNED auto_increment';
+				    if($column->getRelatedToPropertyName()) {
+                        return 'bigint UNSIGNED';
+
+                    } else {
+                        return 'bigint UNSIGNED auto_increment';
+                    }
 				} else {
 					$max_len = (int)$data_model->getEmptyIdObject()->getMaxLength();
 
@@ -994,7 +1013,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 					if($column->getIsID()) {
 						return 'varchar('.((int)$max_len).') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
 					} else {
-						return 'varchar('.((int)$max_len).') DEFAULT '.$this->_db_write->quote($default_value);
+						return 'varchar('.((int)$max_len).') DEFAULT '.$this->_getValue($default_value);
 					}
 				}
 
@@ -1014,7 +1033,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				return 'float DEFAULT '.(float)$default_value;
 				break;
 			case DataModel::TYPE_LOCALE:
-				return 'varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '.$this->_db_write->quote($default_value);
+				return 'varchar(20) COLLATE utf8_bin NOT NULL';
 				break;
 			case DataModel::TYPE_DATE:
 				return 'date DEFAULT NULL';
@@ -1035,12 +1054,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		}
 	}
 
-	/**
-	 * @param DataModel_RecordData $record
-	 *
-	 * @return array
-	 */
-	protected function _getRecord( DataModel_RecordData $record ) {
+    /**
+     * @param DataModel_RecordData $record
+     * @param bool $quote
+     * @param bool $add_table_name
+     * @return array
+     */
+    protected function _getRecord( DataModel_RecordData $record, $quote=true, $add_table_name=false ) {
 		$_record = [];
 
 		foreach($record as $item) {
@@ -1048,7 +1068,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			 * @var DataModel_RecordData_Item $item
 			 */
 
-			$_record[$item->getPropertyDefinition()->getName()] = $this->_getValue($item->getValue(), false);
+			$_record[$this->_getColumnName( $item->getPropertyDefinition(), $quote, $add_table_name )] = $this->_getValue($item->getValue());
 		}
 
 		return $_record;
@@ -1056,21 +1076,16 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 	/**
 	 * @param mixed $value
-	 * @param bool $quote (optional, default:true)
 	 *
 	 * @return mixed
 	 */
-	protected function _getValue( $value, $quote=true ) {
+	protected function _getValue( $value ) {
 		if($value instanceof DataModel_Definition_Property_Abstract) {
 			return $this->_getColumnName( $value );
 		}
 
 		if($value===null) {
-			if($quote) {
-				return 'NULL';
-			} else {
-				return null;
-			}
+            return 'NULL';
 		}
 
 		if(is_bool($value)) {
@@ -1097,33 +1112,58 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 			$value = (string)$value;
 		}
 
-		if(!$quote) {
-			return $value;
-		}
-
 		return $this->_db_read->quote( $value );
 	}
 
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $model_definition
+     * @param bool $quote
 	 *
 	 * @return string
 	 */
-	protected function _getTableName(DataModel_Definition_Model_Abstract $model_definition) {
-		return strtolower($model_definition->getDatabaseTableName());
+	protected function _getTableName(DataModel_Definition_Model_Abstract $model_definition, $quote=true) {
+		$table_name = strtolower($model_definition->getDatabaseTableName());
+
+        if(!$quote) {
+            return $table_name;
+        }
+
+        return $this->_quoteName($table_name);
 	}
 
-	/**
-	 * @param DataModel_Definition_Property_Abstract $property
-	 *
-	 * @return string
-	 */
-	protected function _getColumnName(DataModel_Definition_Property_Abstract $property) {
-		$property_table_name = $this->_getTableName( $property->getDataModelDefinition() );
-		$property_name = $property->getName();
 
-		return '`'.$property_table_name.'`.`'.$property_name.'`';
+    /**
+     * @param DataModel_Definition_Property_Abstract $property_definition
+     * @param bool $quote
+     * @param bool $add_table_name
+     *
+     * @return string
+     */
+    protected function _getColumnName(DataModel_Definition_Property_Abstract $property_definition, $quote=true, $add_table_name=true) {
+        $column_name = $property_definition->getDatabaseColumnName();
+
+        if(!$quote) {
+            return $column_name;
+        }
+
+        $column_name = $this->_quoteName($column_name);
+
+        if(!$add_table_name) {
+            return $column_name;
+        }
+
+		$table_name = $this->_getTableName( $property_definition->getDataModelDefinition(), true );
+
+		return $table_name.'.'.$column_name;
 	}
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function _quoteName( $name ) {
+        return '`'.$name.'`';
+    }
 
 }

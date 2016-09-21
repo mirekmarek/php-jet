@@ -268,9 +268,9 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	 * @JetDataModel:data_model_class = JET_MVC_PAGE_META_TAG_CLASS
 	 * @JetDataModel:form_field_type = false
 	 *
-	 * @var Mvc_Page_MetaTag_Interface[]
+	 * @var Mvc_Page_MetaTag[]
 	 */
-	protected $meta_tags;
+	protected $meta_tags = [];
 
 	/**
 	 *
@@ -599,7 +599,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 
 	/**
 	 *
-	 * @return Mvc_Page_Interface
+	 * @return Mvc_Page
 	 */
 	public function getParent() {
 		return $this->_parent;
@@ -665,10 +665,41 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	}
 
 	/**
+	 * @param string $URL_fragment
+	 */
+	public function setUrlFragment( $URL_fragment ) {
+
+		$this->URL_fragment = rawurlencode($URL_fragment);
+
+		if( ($parent=$this->getParent()) ) {
+			$this->setRelativeUrl($parent->getRelativeUrl().$this->URL_fragment.'/');
+		}
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getUrlFragment() {
 		return $this->URL_fragment;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected  function getRelativeUrl() {
+		return $this->relative_URI;
+	}
+
+	/**
+	 * @param string $URI
+	 */
+	protected function setRelativeUrl( $URI ) {
+		$this->relative_URI = $URI;
+	}
+
+	/**
+	public function setRelativeUrl( $relative_URI ) {
+		$this->relative_URI = $relative_URI;
 	}
 
 
@@ -1380,7 +1411,6 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale $locale
 	 *
-	 * @return Data_Tree
 	 */
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) {
 

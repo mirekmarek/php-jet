@@ -20,7 +20,7 @@ use Jet\Data_DateTime;
 use Jet\Mvc;
 use Jet\Mvc_Router_Abstract;
 use Jet\Data_Text;
-use Jet\DataModel_Fetch_Object_Abstract;
+use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\DataModel_Fetch_Data_Assoc;
 use Jet\Data_Paginator_DataSource_Interface;
 
@@ -304,24 +304,18 @@ class Article extends DataModel {
 	 *
 	 * @param array $query (optional)
 	 *
-	 * @return Article[]|DataModel_Fetch_Object_Abstract
+	 * @return Article[]|DataModel_Fetch_Object_Assoc
 	 */
 	public static function getList( $query= []) {
-		return (new self())->fetchObjects($query);
-	}
+		$list = (new self())->fetchObjects($query);
+		$list->setLoadOnlyProperties([
+			'ID',
+			'locale',
+			'title',
+			'date_time'
+		]);
 
-	/**
-	 * @static
-	 *
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public static function getListAsData() {
-		/**
-		 * @var DataModel $i;
-		 */
-		$i = new self();
-		$props = $i->getDataModelDefinition()->getProperties();
-		return $i->fetchDataAssoc($props, []);
+		return $list;
 	}
 
 	/**

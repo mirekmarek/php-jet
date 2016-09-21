@@ -171,6 +171,12 @@ interface Mvc_Page_Interface {
 	 */
 	public function getUrlFragment();
 
+	/**
+	 * @param string $URL_fragment
+	 */
+	public function setUrlFragment( $URL_fragment );
+
+
     /**
      * @param array $GET_params
      * @param array $path_fragments

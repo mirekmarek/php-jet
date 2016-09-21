@@ -26,10 +26,13 @@ trait DataModel_Related_Trait_Load {
     }
 
     /**
+     *
+     * @param array $load_only_related_properties
      * @throws DataModel_Exception
      * @return DataModel_Query
      */
-    protected function getLoadRelatedDataQuery() {
+    protected function getLoadRelatedDataQuery(array $load_only_related_properties=[]) {
+
         /**
          * @var DataModel_Interface|DataModel_Related_Interface $this
          * @var DataModel_Definition_Model_Related_Abstract $data_model_definition
@@ -38,7 +41,25 @@ trait DataModel_Related_Trait_Load {
 
         $query = new DataModel_Query( $data_model_definition );
 
-        $query->setSelect( $data_model_definition->getProperties() );
+        if(!$load_only_related_properties) {
+            $select = $data_model_definition->getProperties();
+        } else {
+            $select = [];
+
+            foreach( $load_only_related_properties as $lp ) {
+
+                list($model_name, $property_name) = explode('.', $lp);
+
+                if($model_name!=$data_model_definition->getModelName()) {
+                    continue;
+                }
+
+                $select[] = $data_model_definition->getProperty($property_name);
+            }
+            $select = [];
+        }
+
+        $query->setSelect( $select );
         $query->setWhere([]);
 
         $where = $query->getWhere();

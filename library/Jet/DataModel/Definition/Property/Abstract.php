@@ -46,6 +46,11 @@ abstract class DataModel_Definition_Property_Abstract extends Object implements 
 	 */
 	protected $_name = '';
 
+    /**
+     *
+     * @var string
+     */
+    protected $database_column_name = '';
 
 	/**
 	 * @var bool
@@ -205,6 +210,18 @@ abstract class DataModel_Definition_Property_Abstract extends Object implements 
 		return $this->_name;
 	}
 
+    /**
+     * @return string
+     */
+    public function getDatabaseColumnName()
+    {
+        if(!$this->database_column_name) {
+            return $this->getName();
+        }
+
+        return $this->database_column_name;
+    }
+
 	/**
 	 * @return bool
 	 */
@@ -347,10 +364,14 @@ abstract class DataModel_Definition_Property_Abstract extends Object implements 
      *
      */
      public function loadPropertyValue( &$property, array $data ) {
-        $property = $data[$this->getName()];
+		if(!array_key_exists($this->getName(), $data)) {
+		    return;
+		}
 
-        $this->checkValueType( $property );
-    }
+		$property = $data[$this->getName()];
+
+		$this->checkValueType( $property );
+	 }
 
 	/**
 	 * @return string

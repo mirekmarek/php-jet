@@ -45,6 +45,7 @@ namespace Jet;
  *
  * Property definition:
  *      /**
+ *       * @JetDataModel:database_column_name = 'some_column_name' (optional, property name is default database column name)
  *       * @JetDataModel:type = DataModel::TYPE_*
  *       * @JetDataModel:is_ID = bool
  *       *      - optional

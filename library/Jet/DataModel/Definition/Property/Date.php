@@ -44,7 +44,8 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property_A
 		}
 
 		if(!is_object($value)) {
-			$value = new Data_DateTime( $value.' 00:00:00' );
+            $value = new Data_DateTime( $value );
+            $value->setTime(0,0,0);
 		} else {
 			if(!$value instanceof  Data_DateTime) {
 				$value = new Data_DateTime();

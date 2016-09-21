@@ -167,23 +167,5 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		}
 	}
 
-	/**
-	 * @param DataModel_ID_Abstract|string $ID
-	 * @return DataModel
-	 */
-	protected function _get( $ID ) {
-		$s_ID = (string)$ID;
-		if(isset($this->data[$s_ID])) {
-			return $this->data[$s_ID];
-		}
 
-		$class_name = $this->data_model_definition->getClassName();
-
-		/**
-		 * @var DataModel $class_name
-		 */
-		$this->data[$s_ID] = $class_name::load( $ID );
-
-		return $this->data[$s_ID];
-	}
 }

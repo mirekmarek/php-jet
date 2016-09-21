@@ -240,9 +240,22 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 	}
 
 	/**
+	 * @param string $URL
+	 * @return string
+	 */
+	protected function _checkUrlFormat( $URL ) {
+		$URL_i = Mvc_Factory::getSiteLocalizedURLInstance();
+		$URL_i->setURL($URL);
+		return $URL_i->toString();
+
+	}
+
+	/**
 	 * @param Mvc_Site_LocalizedData_URL|string $URL
 	 */
 	public function removeURL( $URL ) {
+		$URL = $this->_checkUrlFormat($URL);
+
 		$index = null;
 
 		/**
@@ -312,6 +325,8 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 	 * @throws Mvc_Site_Exception
 	 */
 	protected function _addURL(  $URL ) {
+		$URL = $this->_checkUrlFormat($URL);
+
 		foreach($this->URLs as $e_URL) {
 			if( (string)$URL==(string)$e_URL  ) {
 				throw new Mvc_Site_Exception(
@@ -345,6 +360,8 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 	 * @return bool
 	 */
 	protected function _setDefaultURL( $URL, $is_SSL ) {
+		$URL = $this->_checkUrlFormat($URL);
+
 		$set = false;
 		foreach($this->URLs as $e_URL) {
 			if($e_URL->getIsSSL()==$is_SSL) {

@@ -15,6 +15,28 @@
 namespace Jet;
 
 class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract implements Data_Paginator_DataSource_Interface,\ArrayAccess, \Iterator, \Countable  {
+
+    /**
+     * @var array
+     */
+    protected $load_only_properties = [];
+
+    /**
+     * @param array $load_only_properties
+     */
+    public function setLoadOnlyProperties($load_only_properties)
+    {
+        $this->load_only_properties = $load_only_properties;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLoadOnlyProperties()
+    {
+        return $this->load_only_properties;
+    }
+
 	/**
 	 * @see Countable
 	 *
@@ -110,4 +132,23 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 		return isset( $this->IDs[$this->iterator_position] );
 	}
 
+    /**
+     * @param DataModel_ID_Abstract|string $ID
+     * @return DataModel
+     */
+    protected function _get( $ID ) {
+        $s_ID = (string)$ID;
+        if(isset($this->data[$s_ID])) {
+            return $this->data[$s_ID];
+        }
+
+        $class_name = $this->data_model_definition->getClassName();
+
+        /**
+         * @var DataModel $class_name
+         */
+        $this->data[$s_ID] = $class_name::load( $ID, $this->load_only_properties );
+
+        return $this->data[$s_ID];
+    }
 }

@@ -153,7 +153,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	/**
 	 * @param DataModel_Definition_Property_Abstract $values_property_definition
 	 *
-	 * @return Form_Field_Abstract
+	 * @return Form_Field_Abstract|bool
 	 */
 	public function getFormField( DataModel_Definition_Property_Abstract $values_property_definition ) {
 

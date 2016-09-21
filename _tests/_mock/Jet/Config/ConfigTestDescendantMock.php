@@ -19,7 +19,7 @@ class ConfigTestDescendantMock extends ConfigTestMock {
 	 * @JetConfig:is_required = true
 	 * @JetConfig:default_value = 'default value'
 	 * @JetConfig:form_field_label = 'Next string property:'
-	 * @JetConfig:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY=>'empty']
+	 * @JetConfig:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY=>'string is empty']
 	 *
 	 * @var string
 	 */

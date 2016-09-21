@@ -47,7 +47,7 @@ class Controller_REST extends Mvc_Controller_REST {
 			$article = $this->_getArticle($ID);
 			$this->responseData($article);
 		} else {
-			$this->responseDataModelsList( Article::getListAsData() );
+			$this->responseDataModelsList( Article::getList() );
 		}
 	}
 

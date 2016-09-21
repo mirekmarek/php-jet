@@ -333,7 +333,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$output_ID = '',
 		$module_name = ''
 	) {
-
 		if(!$position) {
 			$position = static::DEFAULT_OUTPUT_POSITION;
 		}
