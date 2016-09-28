@@ -19,7 +19,7 @@
  */
 namespace Jet;
 
-abstract class Application_Modules_Module_Abstract extends Object {
+abstract class Application_Modules_Module_Abstract extends BaseObject {
 
 	const INSTALL_DIR = '_install/';
 	const INSTALL_DICTIONARIES_PATH = '_install/dictionaries/';

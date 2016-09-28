@@ -49,7 +49,7 @@ trait DataModel_Trait_Definition {
      * @param string $definition
      * @param mixed $value
      *
-     * @throws Object_Reflection_Exception
+     * @throws BaseObject_Reflection_Exception
      */
     public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
         DataModel_Definition_Model_Abstract::parseClassDocComment($reflection_data, $class_name, $key, $definition, $value);

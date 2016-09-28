@@ -17,7 +17,7 @@
  */
 namespace Jet;
 
-class DataModel_Query extends Object {
+class DataModel_Query extends BaseObject {
 	const L_O_OR = 'OR';
 	const L_O_AND = 'AND';
 
@@ -91,7 +91,7 @@ class DataModel_Query extends Object {
 	/**
 	 * Order by columns (items definition or custom columns defined load_properties)
 	 *
-	 * @var DataModel_Query_OrderBy_Item[]
+	 * @var DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]
 	 */
 	protected $order_by;
 
@@ -276,7 +276,7 @@ class DataModel_Query extends Object {
 	}
 
 	/**
-	 * @return DataModel_Query_OrderBy
+	 * @return DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]
 	 */
 	public function getOrderBy() {
 		return $this->order_by;

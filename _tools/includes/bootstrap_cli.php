@@ -16,6 +16,7 @@ define('JET_CONFIG_ENVIRONMENT', 'development');
 $application_dir = dirname(dirname(__DIR__)).'/application/';
 
 require_once( $application_dir . 'config/'.JET_CONFIG_ENVIRONMENT.'/defines.php' );
+require_once( $application_dir . 'config/class_names.php' );
 require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 
 Debug_ErrorHandler::registerHandler(

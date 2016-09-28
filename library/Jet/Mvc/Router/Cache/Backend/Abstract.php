@@ -18,7 +18,7 @@
  */
 namespace Jet;
 
-abstract class Mvc_Router_Cache_Backend_Abstract extends Object {
+abstract class Mvc_Router_Cache_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @var Mvc_Router_Cache_Backend_Config_Abstract

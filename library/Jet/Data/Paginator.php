@@ -17,7 +17,7 @@
  */
 namespace Jet;
 
-class Data_Paginator extends Object {
+class Data_Paginator extends BaseObject {
 	const URL_PAGE_NO_KEY = '%PAGE_NO%';
 
 	const DEFAULT_ITEMS_PER_PAGE = 50;

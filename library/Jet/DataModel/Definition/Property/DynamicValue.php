@@ -132,6 +132,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
      * @return Form_Field_Abstract|Form_Field_Abstract[]
      */
     public function createFormField( DataModel_Interface $data_model_instance, $property_value, array $related_data ) {
+    	return null;
     }
 
 	/**

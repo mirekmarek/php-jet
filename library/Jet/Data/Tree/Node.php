@@ -15,7 +15,7 @@
 namespace Jet;
 
 
-class Data_Tree_Node extends Object implements \Iterator, \Countable, \JsonSerializable  {
+class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable  {
 
 	/**
 	 *

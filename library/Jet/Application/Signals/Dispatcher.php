@@ -15,7 +15,7 @@
  */
 namespace Jet;
 
-class Application_Signals_Dispatcher extends Object {
+class Application_Signals_Dispatcher extends BaseObject {
 
 	/**
 	 * Callbacks array
@@ -67,7 +67,6 @@ class Application_Signals_Dispatcher extends Object {
 	 *
 	 * @throws Application_Signals_Exception
 	 *
-	 * @return bool
 	 */
 	public static function removeCallback( $callback_ID ) {
 		if( strpos($callback_ID, '~')===false ) {

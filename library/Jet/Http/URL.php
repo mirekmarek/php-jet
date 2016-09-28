@@ -13,7 +13,7 @@
  */
 namespace Jet;
 
-class Http_URL extends Object {
+class Http_URL extends BaseObject {
 	
 	/**
 	 *

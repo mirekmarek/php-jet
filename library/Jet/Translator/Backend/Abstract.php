@@ -18,7 +18,7 @@
 
 namespace Jet;
 
-abstract class Translator_Backend_Abstract extends Object {
+abstract class Translator_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @var Translator_Backend_Config_Abstract

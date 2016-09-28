@@ -315,8 +315,6 @@ class Debug_Profiler_Run {
 	/**
 	 * @param $query
 	 * @param $query_data
-	 *
-	 * @return Debug_Profiler_Run_SQLQueryData
 	 */
 	public function SQLQueryStart(  $query, $query_data  ) {
 		$this->__current_block->SQLQueryStart($query, $query_data);

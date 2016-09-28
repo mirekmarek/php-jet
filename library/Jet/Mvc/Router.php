@@ -376,7 +376,6 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	/**
 	 * Sets the request is unknown page
 	 *
-	 * @return mixed
 	 */
 	public function setIs404() {
 		$this->is_404 = true;

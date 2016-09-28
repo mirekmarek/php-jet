@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Definition_Key extends Object {
+class DataModel_Definition_Key extends BaseObject {
 
 	/**
 	 * @var string

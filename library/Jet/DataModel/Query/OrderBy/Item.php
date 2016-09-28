@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_OrderBy_Item extends Object {
+class DataModel_Query_OrderBy_Item extends BaseObject {
 
 	/**
 	 * Property instance

@@ -18,12 +18,12 @@
 
 namespace Jet;
 
-class Application_Signals_Signal extends Object {
+class Application_Signals_Signal extends BaseObject {
 
 	/**
 	 * Instance of the sender
 	 *
-	 * @var Object|Object_Interface
+	 * @var Object|BaseObject_Interface
 	 */
 	protected $sender;
 
@@ -43,11 +43,11 @@ class Application_Signals_Signal extends Object {
 
 	/**
 	 *
-	 * @param Object_Interface $sender
+	 * @param BaseObject_Interface $sender
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Object_Interface $sender, $name, array $data= []) {
+	public function __construct(BaseObject_Interface $sender, $name, array $data= []) {
 		$this->sender = $sender;
 		$this->name = $name;
 		$this->data = $data;
@@ -55,7 +55,7 @@ class Application_Signals_Signal extends Object {
 
 	/**
 	 *
-	 * @return Object_Interface
+	 * @return BaseObject_Interface
 	 */
 	public function getSender(){
 		return $this->sender;

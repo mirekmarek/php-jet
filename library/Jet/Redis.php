@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-class Redis extends Object {
+class Redis extends BaseObject {
 
 	/**
 	 * @var Redis_Config

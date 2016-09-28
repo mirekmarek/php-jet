@@ -15,7 +15,7 @@
  */
 namespace Jet;
 
-abstract class Mvc_View_Abstract extends Object {
+abstract class Mvc_View_Abstract extends BaseObject {
 	const TAG_MODULE = 'jet_module';
 	const SCRIPT_FILE_SUFFIX = 'phtml';
 
@@ -151,6 +151,7 @@ abstract class Mvc_View_Abstract extends Object {
 
 		$this->_script_path = $file;
 
+		return $this->_script_path;
 	}
 
 

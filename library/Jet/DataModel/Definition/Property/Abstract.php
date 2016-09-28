@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Definition_Property_Abstract extends Object implements Form_Field_Definition_Interface{
+abstract class DataModel_Definition_Property_Abstract extends BaseObject implements Form_Field_Definition_Interface{
 	use Form_Field_Definition_Trait;
 
 	/**

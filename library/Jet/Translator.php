@@ -24,7 +24,7 @@
 
 namespace Jet;
 
-class Translator extends Object {
+class Translator extends BaseObject {
 
 	const COMMON_NAMESPACE = '_COMMON_';
 
@@ -41,7 +41,7 @@ class Translator extends Object {
 
 	/**
 	 *
-	 * @var Translator_Backend_Config_Abstract
+	 * @var Translator_Config
 	 */
 	protected static $config;
 

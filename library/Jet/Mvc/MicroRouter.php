@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class Mvc_MicroRouter extends Object {
+class Mvc_MicroRouter extends BaseObject {
 
 	/**
 	 * @var Application_Modules_Module_Abstract
@@ -78,7 +78,7 @@ class Mvc_MicroRouter extends Object {
 	}
 
 	/**
-	 * @return Mvc_MicroRouter[]
+	 * @return Mvc_MicroRouter_Action[]
 	 */
 	public function getActions() {
 		return $this->actions;

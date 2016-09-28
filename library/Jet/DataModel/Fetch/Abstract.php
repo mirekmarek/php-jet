@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Fetch_Abstract extends Object implements Object_Serializable_REST, Data_Paginator_DataSource_Interface  {
+abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject_Serializable_REST, Data_Paginator_DataSource_Interface  {
 
 	/**
 	 * DataModel instance

@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_Select extends Object implements \Iterator {
+class DataModel_Query_Select extends BaseObject implements \Iterator {
 
 	/**
 	 * @var DataModel_Query_Select_Item[]

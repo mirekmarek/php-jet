@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_Having extends Object implements \Iterator{
+class DataModel_Query_Having extends BaseObject implements \Iterator{
 	use DataModel_Query_Where_Trait;
 
 	/**

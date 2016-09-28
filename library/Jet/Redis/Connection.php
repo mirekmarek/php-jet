@@ -11,13 +11,13 @@
  */
 namespace Jet;
 
-class Redis_Connection extends \Redis implements Object_Interface {
+class Redis_Connection extends \Redis implements BaseObject_Interface {
 
-	use Object_Trait;
-	use Object_Trait_MagicSleep;
+	use BaseObject_Trait;
+	use BaseObject_Trait_MagicSleep;
 	//use Object_Trait_MagicGet;
 	//use Object_Trait_MagicSet;
-	use Object_Trait_MagicClone;
+	use BaseObject_Trait_MagicClone;
 
 	/**
 	 *

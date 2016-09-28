@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
  */
-class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
+class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface {
     const DEFAULT_CONTROLLER_ACTION = 'default';
 
 	/**
@@ -402,7 +402,7 @@ class Mvc_Page_Content extends Object implements Mvc_Page_Content_Interface {
     /**
      * @param Mvc_Page_Interface $page
      *
-     * @return Mvc_Controller_Abstract
+     * @return Mvc_Controller_Abstract|bool
      */
     protected function getControllerInstance( Mvc_Page_Interface $page ) {
         if($this->_controller_instance!==null) {

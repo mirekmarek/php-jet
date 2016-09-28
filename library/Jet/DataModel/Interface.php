@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-interface DataModel_Interface extends Object_Serializable_REST, Object_Reflection_ParserInterface {
+interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_Reflection_ParserInterface {
 //-- Definition ---------------------------------
 
     /**

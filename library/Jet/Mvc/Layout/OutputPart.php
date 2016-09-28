@@ -19,7 +19,7 @@
  */
 namespace Jet;
 
-class Mvc_Layout_OutputPart extends Object{
+class Mvc_Layout_OutputPart extends BaseObject{
 	/**
 	 * @var string
 	 */

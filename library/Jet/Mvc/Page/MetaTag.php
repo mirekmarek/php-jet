@@ -26,7 +26,7 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_MetaTags'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page'
  */
-class Mvc_Page_MetaTag extends Object implements Mvc_Page_MetaTag_Interface {
+class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.site_ID'

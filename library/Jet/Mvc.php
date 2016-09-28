@@ -90,6 +90,7 @@ class Mvc {
 	public static function setCurrentLocale( Locale $current_locale)
 	{
 		Translator::setCurrentLocale( $current_locale );
+		Locale::setCurrentLocale( $current_locale );
 
 		self::$current_locale = $current_locale;
 	}
@@ -139,8 +140,6 @@ class Mvc {
 	 * @param bool|null $cache_enabled (optional; default: null = by configuration)
 	 *
 	 * @throws Mvc_Router_Exception
-	 *
-	 * @return null|string
 	 */
 	public static function run( $URL=null, $cache_enabled=null  ) {
 		$router = Mvc::getCurrentRouter();
@@ -241,7 +240,7 @@ class Mvc {
 	 *
 	 * @return string
 	 */
-	public static function getCurrentURI() {
+	public static function getCurrentPageURI() {
 		return static::getCurrentPage()->getURI();
 	}
 

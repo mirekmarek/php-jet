@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class JavaScriptLib_Dojo_PackageCreator extends Object {
+class JavaScriptLib_Dojo_PackageCreator extends BaseObject {
 
 	/**
 	 * @var string

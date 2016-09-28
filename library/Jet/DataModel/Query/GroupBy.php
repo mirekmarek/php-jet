@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_GroupBy extends Object implements \Iterator {
+class DataModel_Query_GroupBy extends BaseObject implements \Iterator {
 
 	/**
 	 * @var DataModel_Query_Select_Item[]|DataModel_Definition_Property_Abstract[]
@@ -28,7 +28,6 @@ class DataModel_Query_GroupBy extends Object implements \Iterator {
 	 * @param string[]|string $group_by
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return DataModel_Query_GroupBy
 	 */
 	public function __construct( DataModel_Query $query, $group_by ) {
 		if(!is_array($group_by)) {

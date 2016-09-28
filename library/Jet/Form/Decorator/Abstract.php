@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class Form_Decorator_Abstract extends Object {
+abstract class Form_Decorator_Abstract extends BaseObject {
 
 	/**
 	 * @var Form

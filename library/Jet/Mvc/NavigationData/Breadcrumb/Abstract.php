@@ -18,7 +18,7 @@
  */
 namespace Jet;
 
-abstract class Mvc_NavigationData_Breadcrumb_Abstract extends Object {
+abstract class Mvc_NavigationData_Breadcrumb_Abstract extends BaseObject {
 
 	/**
 	 *

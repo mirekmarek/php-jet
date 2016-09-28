@@ -76,7 +76,7 @@
  */
 namespace Jet;
 
-class Application_Modules extends Object {
+class Application_Modules extends BaseObject {
 
 	/**
 	 * @var Application_Modules_Handler_Abstract

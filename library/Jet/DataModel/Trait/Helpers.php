@@ -24,7 +24,7 @@ trait DataModel_Trait_Helpers {
      */
     public static function helper_getCreateCommand( $class ) {
         //DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-        $class = Object_Reflection::parseClassName($class);
+        $class = BaseObject_Reflection::parseClassName($class);
         /**
          * @var DataModel $_this
          */
@@ -43,7 +43,7 @@ trait DataModel_Trait_Helpers {
     public static function helper_create( $class, $including_history_backend=true, $including_cache_backend=true ) {
         //DO NOT CHANGE CLASS NAME BY FACTORY HERE!
 
-        $class = Object_Reflection::parseClassName($class);
+        $class = BaseObject_Reflection::parseClassName($class);
         /**
          * @var DataModel $_this
          */
@@ -79,7 +79,7 @@ trait DataModel_Trait_Helpers {
      */
     public static function helper_getUpdateCommand( $class ) {
         //DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-        $class = Object_Reflection::parseClassName($class);
+        $class = BaseObject_Reflection::parseClassName($class);
         /**
          * @var DataModel $_this
          */
@@ -98,7 +98,7 @@ trait DataModel_Trait_Helpers {
      */
     public static function helper_update( $class, $including_history_backend=true, $including_cache_backend=true  ) {
         //DO NOT CHANGE CLASS NAME BY FACTORY HERE!
-        $class = Object_Reflection::parseClassName($class);
+        $class = BaseObject_Reflection::parseClassName($class);
 
         /**
          * @var DataModel $_this

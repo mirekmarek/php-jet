@@ -115,6 +115,8 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	 */
 	public function offsetExists($offset) {
 		$this->hoax();
+
+		return false;
 	}
 
 	/**
@@ -134,6 +136,8 @@ class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
 	 */
 	public function offsetGet($offset) {
 		$this->hoax();
+
+		return null;
 	}
 
 	/**

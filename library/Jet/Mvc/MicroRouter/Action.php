@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class Mvc_MicroRouter_Action extends Object {
+class Mvc_MicroRouter_Action extends BaseObject {
 
 	/**
 	 * @var string

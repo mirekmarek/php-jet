@@ -30,7 +30,12 @@ class Auth_User_Signal extends Application_Signals_Signal {
 	 * @return Auth_User_Interface
 	 */
 	public function getSender(){
-		return $this->sender;
+		$sender = $this->sender;
+		/**
+		 * @var Auth_User_Interface $sender
+		 */
+
+		return $sender;
 	}
 
 	/**

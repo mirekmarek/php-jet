@@ -13,7 +13,7 @@
  */
 namespace Jet;
 
-interface Auth_Role_Interface extends Object_Interface {
+interface Auth_Role_Interface extends BaseObject_Interface {
 
     /**
      * @param string $ID

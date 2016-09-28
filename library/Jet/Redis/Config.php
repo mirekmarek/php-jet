@@ -61,7 +61,11 @@ class Redis_Config extends Application_Config {
 	 * @return Redis_Connection_Config[]
 	 */
 	public function getConnections() {
-		return $this->connections->getAllConfigurationItems();
+		/**
+		 * @var Redis_Connection_Config[] $c_cfg
+		 */
+		$c_cfg = $this->connections->getAllConfigurationItems();
+		return $c_cfg;
 	}
 
 	/**

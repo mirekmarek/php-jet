@@ -14,7 +14,7 @@
 
 namespace Jet;
 
-class Auth extends Object {
+class Auth extends BaseObject {
 
 	/**
 	 * Privilege to sites/page

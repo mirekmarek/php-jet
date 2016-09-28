@@ -20,7 +20,7 @@
  */
 namespace Jet;
 
-abstract class Mvc_Controller_Abstract extends Object {
+abstract class Mvc_Controller_Abstract extends BaseObject {
 	/**
 	 *
 	 * @var Application_Modules_Module_Abstract
@@ -37,6 +37,11 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 * @var Mvc_View
 	 */
 	protected $view;
+
+	/**
+	 * @var string
+	 */
+	protected $current_action = '';
 
     /**
      * @var array
@@ -105,56 +110,95 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 */
 	abstract public function initialize();
 
+	/**
+	 * @param $controller_action
+	 * @return string|bool
+	 *
+	 * @throws Mvc_Controller_Exception
+	 */
+	public static function getModuleAction( $controller_action )
+	{
+		if(!isset(static::$ACL_actions_check_map[$controller_action])) {
+			throw new Mvc_Controller_Exception(
+				'Action \''.$controller_action.'\' is not specified in ACL check map! Please specify the ACL rules. Add '.get_call_stack().'::$ACL_actions_check_map['.$controller_action.'] entry.',
+				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
+			);
+		}
+
+		return static::$ACL_actions_check_map[$controller_action];
+	}
+
+
+	/**
+	 * @param string $controller_action
+	 *
+	 * @return string|null
+	 */
+	public static function getActionContextGetter( $controller_action )
+	{
+		if(isset(static::$ACL_actions_context_getter_map[$controller_action])) {
+
+			return static::$ACL_actions_context_getter_map[$controller_action];
+		}
+
+		return null;
+	}
 
 	/**
 	 * @param string $action
 	 * @param array $action_parameters
-	 * @param bool $log_event (optional, default: true)
+	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @throws Mvc_Controller_Exception
 	 *
 	 * @return bool
 	 */
-	public function checkACL( $action, $action_parameters, $log_event=true ) {
-		if(!isset(static::$ACL_actions_check_map[$action])) {
-			throw new Mvc_Controller_Exception(
-				'Action \''.$action.'\' is not specified in ACL check map! Please specify the ACL rules. Add '.get_class($this).'::$ACL_actions_check_map['.$action.'] entry.',
-				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
-			);
-		}
+	public function checkACL( $action, $action_parameters, $log_if_false=true ) {
 
-		if(static::$ACL_actions_check_map[$action]===false) {
+		$module_action = $this->getModuleAction($action);
+
+		if($module_action===false) {
 			return true;
 		}
 
 		$context = null;
-		if(isset(static::$ACL_actions_context_getter_map[$action])) {
-			/**
-			 * @var callable $getter
-			 */
-			$getter = [$this, static::$ACL_actions_context_getter_map[$action]];
-
-			$context = call_user_func_array($getter, $action_parameters);
+		$context_getter = $this->getActionContextGetter( $action );
+		if($context_getter) {
+			$context = call_user_func_array([$this, $context_getter], $action_parameters);
 		}
 
-		$module_action = static::$ACL_actions_check_map[$action];
 
-
-		if( !$this->module_instance->checkAclCanDoAction( $module_action, $context, $log_event ) ) {
+		if( !$this->module_instance->checkAclCanDoAction( $module_action, $context, $log_if_false ) ) {
 			$this->responseAclAccessDenied( $module_action, $action, $action_parameters );
 
 			return false;
 		}
 
-		if($log_event) {
-			Auth::logEvent(
-				'action:'.$this->module_manifest->getName().':'.$module_action,
-				['action_params'=>$action_parameters],
-				'Allowed action: '.$this->module_manifest->getName().':'.$action
-			);
+		return true;
+	}
+
+	/**
+	 * @param mixed $action_parameters
+	 * @param string|null $action
+	 */
+	public function logAllowedAction( $action_parameters=null, $action=null )
+	{
+		if( $action_parameters && $action_parameters instanceof BaseObject_Serializable_JSON) {
+			$action_parameters = $action_parameters->jsonSerialize();
 		}
 
-		return true;
+		$action_parameters = ($action_parameters!==null) ? $action_parameters : $this->action_parameters;
+		$action = ($action) ?
+			$action
+			:
+			$this->module_manifest->getName().':'.static::$ACL_actions_check_map[$this->current_action];
+
+		Auth::logEvent(
+			'action:'.$action,
+			['action_params'=>$action_parameters],
+			'Allowed action: '.$action
+		);
+
 	}
 
     /**
@@ -174,6 +218,7 @@ abstract class Mvc_Controller_Abstract extends Object {
         }
 
         $this->setActionParameters($action_parameters);
+	    $this->setCurrentAction($action);
 
         $this->{$method}();
 
@@ -187,6 +232,22 @@ abstract class Mvc_Controller_Abstract extends Object {
 	 *
 	 */
 	abstract public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters );
+
+	/**
+	 * @return string
+	 */
+	public function getCurrentAction()
+	{
+		return $this->current_action;
+	}
+
+	/**
+	 * @param string $current_action
+	 */
+	public function setCurrentAction($current_action)
+	{
+		$this->current_action = $current_action;
+	}
 
     /**
      * @param array $action_parameters

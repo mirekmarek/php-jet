@@ -22,7 +22,8 @@ trait DataModel_Related_Trait_Load {
      * @return DataModel_Related_Interface
      */
     public function createNewRelatedDataModelInstance() {
-        return new static();
+	    /** @noinspection PhpIncompatibleReturnTypeInspection */
+	    return new static();
     }
 
     /**
@@ -123,7 +124,6 @@ trait DataModel_Related_Trait_Load {
 
     /**
      * @param array &$loaded_related_data
-     * @return mixed
      */
     protected function initRelatedProperties( array &$loaded_related_data ) {
         /**

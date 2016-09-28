@@ -205,7 +205,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
      * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
 	 *
-	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator
+	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Role[]
 	 */
 	protected $roles;
 
@@ -229,10 +229,14 @@ class Auth_User extends DataModel implements Auth_User_Interface {
     /**
      * @param string $ID
      *
-     * @return Auth_User_Interface
+     * @return Auth_User
      */
     public static function get( $ID ) {
-        return static::load( static::createIdObject($ID) );
+	    /**
+	     * @var Auth_User $user
+	     */
+	    $user = static::load( static::createIdObject($ID) );
+        return $user;
     }
 
     /**
@@ -510,7 +514,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 	/**
 	 * @param string|null $role_ID (optional)
-	 * @return Auth_User_Interface[]
+	 * @return DataModel_Fetch_Object_Assoc|Auth_User[]
 	 */
 	public function getUsersList( $role_ID=null ) {
 		if($role_ID) {
@@ -552,28 +556,37 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @param string $login
 	 * @param string $password
-	 * @return Auth_User_Interface|null
+	 * @return Auth_User|bool
 	 */
 	public function getByIdentity(  $login, $password  ) {
 
-		return $this->fetchOneObject( [
+		/**
+		 * @var Auth_User $user
+		 */
+		$user = $this->fetchOneObject( [
 			'this.login' => $login,
 			'AND',
 			'this.password' => $this->encryptPassword($password)
 		]);
+
+		return $user;
 	}
 
 
 	/**
 	 * @param string $login
 	 *
-	 * @return null|Auth_User_Interface|DataModel
+	 * @return Auth_User|bool
 	 */
 	public function getGetByLogin(  $login  ) {
-
-		return $this->fetchOneObject( [
+		/**
+		 * @var Auth_User $user
+		 */
+		$user = $this->fetchOneObject( [
 			'this.login' => $login
 		]);
+
+		return $user;
 	}
 
 
@@ -589,7 +602,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 	/**
 	 * @abstract
-	 * @return Auth_Role_Interface[]
+	 * @return Auth_Role[]
 	 */
 	public function getRoles() {
 		return $this->roles;

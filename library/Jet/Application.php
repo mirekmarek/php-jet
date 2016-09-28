@@ -18,7 +18,7 @@ namespace Jet;
  * @JetApplication_Signals:signal = '/application/ended'
  *
  */
-class Application extends Object {
+class Application extends BaseObject {
 
 	/**
 	 * @var bool

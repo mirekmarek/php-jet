@@ -13,7 +13,7 @@
 
 namespace Jet;
 
-class Session extends Object {
+class Session extends BaseObject {
 
 	/**
 	 * @var bool

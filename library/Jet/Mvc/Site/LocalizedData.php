@@ -19,7 +19,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_Interface {
+class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 *
@@ -241,12 +241,13 @@ class Mvc_Site_LocalizedData extends Object implements Mvc_Site_LocalizedData_In
 
 	/**
 	 * @param string $URL
-	 * @return string
+	 * @return Mvc_Site_LocalizedData_URL_Interface
 	 */
 	protected function _checkUrlFormat( $URL ) {
 		$URL_i = Mvc_Factory::getSiteLocalizedURLInstance();
 		$URL_i->setURL($URL);
-		return $URL_i->toString();
+
+		return $URL_i;
 
 	}
 

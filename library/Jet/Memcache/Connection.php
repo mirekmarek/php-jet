@@ -11,12 +11,12 @@
  */
 namespace Jet;
 
-class Memcache_Connection extends \Memcache implements Object_Interface {
-	use Object_Trait;
-	use Object_Trait_MagicSleep;
+class Memcache_Connection extends \Memcache implements BaseObject_Interface {
+	use BaseObject_Trait;
+	use BaseObject_Trait_MagicSleep;
 	//use Object_Trait_MagicGet;
 	//use Object_Trait_MagicSet;
-	use Object_Trait_MagicClone;
+	use BaseObject_Trait_MagicClone;
 
 	/**
 	 *

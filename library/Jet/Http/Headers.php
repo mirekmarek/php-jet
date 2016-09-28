@@ -259,7 +259,6 @@ class Http_Headers {
 	 * @param bool $replace
 	 * @param int $http_response_code
 	 *
-	 * @return bool
 	 */
 	public static function sendHeader( $header, $replace=true, $http_response_code=0 ) {
 		$f_name = static::$header_function_name;

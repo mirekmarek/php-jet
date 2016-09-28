@@ -68,6 +68,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 *
 	 */
 	public function initialize() {
+		//TODO: make it configurable by definition ...
 		$this->_db_read = Db::get( $this->config->getConnectionRead() );
 		$this->_db_write = Db::get( $this->config->getConnectionWrite() );
 	}
@@ -228,12 +229,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		$data_migration_command = 'INSERT INTO '.$updated_table_name.' ('.implode(',', $common_cols).') SELECT '.implode(',', $common_cols).' FROM '.$table_name.';';
 
 		$update_default_values = '';
-		if($new_cols) {
+
+		if($_new_cols) {
             $new_cols = $this->_getRecord($new_cols);
 			$_new_cols = [];
 			foreach($new_cols as $c=>$v) {
 				$_new_cols[] = $c.'='.$v;
 			}
+
 			$update_default_values = 'UPDATE '.$updated_table_name.' SET '.implode(', ', $_new_cols);
 		}
 

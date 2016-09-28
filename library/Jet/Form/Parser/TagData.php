@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-class Form_Parser_TagData extends Object {
+class Form_Parser_TagData extends BaseObject {
 	/**
 	 * @var string
 	 */

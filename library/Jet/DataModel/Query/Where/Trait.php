@@ -30,6 +30,7 @@ trait DataModel_Query_Where_Trait {
 	protected function _determineLogicalOperatorOrSubExpressions($val) {
 		if(is_array($val)) {
 			/** @noinspection PhpUndefinedMethodInspection */
+			/** @noinspection PhpParamsInspection */
 			$this->addSubExpressions( new self( $this->query, $val ) );
 		} else {
 			switch( strtoupper($val) ) {

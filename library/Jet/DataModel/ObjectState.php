@@ -13,7 +13,7 @@
  */
 namespace Jet;
 
-class DataModel_ObjectState extends Object {
+class DataModel_ObjectState extends BaseObject {
 
 	/**
 	 * @var array

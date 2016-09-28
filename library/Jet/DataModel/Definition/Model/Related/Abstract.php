@@ -86,7 +86,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			$this->_initProperties();
 			$this->_initKeys();
 
-			$this->default_order_by = Object_Reflection::get( $this->class_name, 'default_order_by', []);
+			$this->default_order_by = BaseObject_Reflection::get( $this->class_name, 'default_order_by', []);
 
 			if(!$this->ID_properties) {
 				throw new DataModel_Exception(
@@ -102,7 +102,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 */
 	protected function _initParents() {
 
-		$parent_model_class_name = Object_Reflection::get( $this->class_name, 'data_model_parent_model_class_name' );
+		$parent_model_class_name = BaseObject_Reflection::get( $this->class_name, 'data_model_parent_model_class_name' );
 
 		if(!$parent_model_class_name) {
 			throw new DataModel_Exception(
@@ -116,7 +116,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 		$main_model_class_name = $parent_model_class_name;
 
 		// Traversing and seeking for main model
-		while( ($_parent = Object_Reflection::get( $main_model_class_name, 'data_model_parent_model_class_name' )) ) {
+		while( ($_parent = BaseObject_Reflection::get( $main_model_class_name, 'data_model_parent_model_class_name' )) ) {
 
 			$main_model_class_name = $_parent;
 
@@ -140,16 +140,16 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	protected function _initBackendsConfig() {
 		$main_class_name = $this->main_model_class_name;
 
-		$this->forced_backend_type = Object_Reflection::get( $main_class_name, 'data_model_forced_backend_type', null );
-		$this->forced_backend_config = Object_Reflection::get( $main_class_name, 'data_model_forced_backend_config', null );
+		$this->forced_backend_type = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_backend_type', null );
+		$this->forced_backend_config = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_backend_config', null );
 
-		$this->forced_cache_enabled = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_enabled', null );
-		$this->forced_cache_backend_type = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_type', null );
-		$this->forced_cache_backend_config = Object_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_config', null );
+		$this->forced_cache_enabled = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_enabled', null );
+		$this->forced_cache_backend_type = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_type', null );
+		$this->forced_cache_backend_config = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_config', null );
 
-		$this->forced_history_enabled = Object_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
-		$this->forced_history_backend_type = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
-		$this->forced_history_backend_config = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
+		$this->forced_history_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
+		$this->forced_history_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
+		$this->forced_history_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**

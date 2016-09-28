@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-abstract class Application_Modules_Handler_Abstract extends Object {
+abstract class Application_Modules_Handler_Abstract extends BaseObject {
 
 
 

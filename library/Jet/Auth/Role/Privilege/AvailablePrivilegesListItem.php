@@ -17,7 +17,7 @@
  */
 namespace Jet;
 
-class Auth_Role_Privilege_AvailablePrivilegesListItem extends Object {
+class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject {
 	/**
 	 * @var string
 	 */

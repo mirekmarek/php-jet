@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class JetML_Widget_Abstract extends Object {
+abstract class JetML_Widget_Abstract extends BaseObject {
 
 	/**
 	 * @var JetML
@@ -65,12 +65,10 @@ abstract class JetML_Widget_Abstract extends Object {
 	 * @param JetML $parser
 	 * @param \DOMElement $node
 	 *
-	 * @return JetML_Widget_Abstract
 	 */
 	public function __construct( JetML $parser, \DOMElement $node){
 		$this->parser = $parser;
 		$this->node = $node;
-
 	}
 
 

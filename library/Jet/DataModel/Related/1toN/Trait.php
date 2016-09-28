@@ -190,7 +190,7 @@ trait DataModel_Related_1toN_Trait {
          */
         $related_form = $this->getForm('', $properties_list);
 
-        return $related_form;
+        return $related_form->getFields();
     }
 
     /**

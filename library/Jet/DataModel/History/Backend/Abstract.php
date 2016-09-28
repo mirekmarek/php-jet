@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_History_Backend_Abstract extends Object {
+abstract class DataModel_History_Backend_Abstract extends BaseObject {
 
 	const OPERATION_SAVE = 'save';
 	const OPERATION_UPDATE = 'update';

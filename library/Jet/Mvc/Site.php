@@ -19,7 +19,7 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
  * @JetDataModel:ID_class_name = JET_MVC_SITE_ID_CLASS
  */
-class Mvc_Site extends Object implements Mvc_Site_Interface {
+class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	const SITE_DATA_FILE_NAME = 'site_data.php';
 	const URL_MAP_FILE_NAME = 'urls_map.php';
 	const PAGES_DIR = 'pages';
@@ -124,7 +124,7 @@ class Mvc_Site extends Object implements Mvc_Site_Interface {
 	 * @see Mvc_Site_Factory
 	 *
 	 * @param string $ID
-	 * @return Mvc_Site_Interface
+	 * @return Mvc_Site|bool
 	 */
 	public static function get( $ID ) {
 

@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Definition_Model_Abstract extends Object {
+abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 
 	/**
 	 * DataModel name
@@ -224,7 +224,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @throws DataModel_Exception
 	 */
 	protected function _getPropertiesDefinitionData( $class_name ) {
-		$properties_definition_data = Object_Reflection::get( $class_name , 'data_model_properties_definition', false);
+		$properties_definition_data = BaseObject_Reflection::get( $class_name , 'data_model_properties_definition', false);
 
 		if(
 			!is_array($properties_definition_data) ||
@@ -246,7 +246,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @throws DataModel_Exception
 	 */
 	protected function _getModelNameDefinition( $class_name ) {
-		$model_name = Object_Reflection::get( $class_name, 'data_model_name', '' );
+		$model_name = BaseObject_Reflection::get( $class_name, 'data_model_name', '' );
 
 		if(
 			!is_string($model_name) ||
@@ -264,7 +264,6 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	/**
 	 * @param string $data_model_class_name
 	 *
-	 * @return array
 	 * @throws DataModel_Exception
 	 */
 	protected function _mainInit( $data_model_class_name ) {
@@ -281,7 +280,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @throws DataModel_Exception
 	 */
 	protected function _initIdClass() {
-		$this->ID_class_name = Object_Reflection::get( $this->class_name, 'data_model_ID_class_name' );
+		$this->ID_class_name = BaseObject_Reflection::get( $this->class_name, 'data_model_ID_class_name' );
 
 		if(!$this->ID_class_name) {
 			throw new DataModel_Exception(
@@ -291,7 +290,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		}
 
-		$this->ID_options = Object_Reflection::get( $this->class_name, 'ID_options', []);
+		$this->ID_options = BaseObject_Reflection::get( $this->class_name, 'ID_options', []);
 
 
 	}
@@ -300,7 +299,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @throws DataModel_Exception
 	 */
 	protected function _initDatabaseTableName() {
-		$this->database_table_name = Object_Reflection::get( $this->class_name, 'database_table_name', '' );
+		$this->database_table_name = BaseObject_Reflection::get( $this->class_name, 'database_table_name', '' );
 
 		if(
 			!is_string($this->database_table_name) ||
@@ -318,16 +317,16 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 *
 	 */
 	protected function _initBackendsConfig() {
-		$this->forced_backend_type = Object_Reflection::get( $this->class_name, 'data_model_forced_backend_type', null );
-		$this->forced_backend_config = Object_Reflection::get( $this->class_name, 'data_model_forced_backend_config', null );
+		$this->forced_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_backend_type', null );
+		$this->forced_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_backend_config', null );
 
-		$this->forced_cache_enabled = Object_Reflection::get( $this->class_name, 'data_model_forced_cache_enabled', null );
-		$this->forced_cache_backend_type = Object_Reflection::get( $this->class_name, 'data_model_forced_cache_backend_type', null );
-		$this->forced_cache_backend_config = Object_Reflection::get( $this->class_name, 'data_model_forced_cache_backend_config', null );
+		$this->forced_cache_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_cache_enabled', null );
+		$this->forced_cache_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_cache_backend_type', null );
+		$this->forced_cache_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_cache_backend_config', null );
 
-		$this->forced_history_enabled = Object_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
-		$this->forced_history_backend_type = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
-		$this->forced_history_backend_config = Object_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
+		$this->forced_history_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
+		$this->forced_history_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
+		$this->forced_history_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**
@@ -378,7 +377,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 			$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->ID_properties) );
 		}
 
-		$keys_definition_data = Object_Reflection::get( $this->class_name, 'data_model_keys_definition', []);
+		$keys_definition_data = BaseObject_Reflection::get( $this->class_name, 'data_model_keys_definition', []);
 
 		foreach( $keys_definition_data as $kd ) {
 			$this->addKey( $kd['name'], $kd['type'], $kd['property_names'] );
@@ -539,10 +538,16 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 		$this->getInternalRelations( $internal_relations );
 
 		foreach( $external_relations as $related_model_name=>$relation ) {
+			/**
+			 * @var DataModel_Definition_Relation_Abstract $relation
+			 */
 			$this->relations->addRelation($related_model_name, $relation);
 		}
 
 		foreach( $internal_relations as $related_model_name=>$relation ) {
+			/**
+			 * @var DataModel_Definition_Relation_Abstract $relation
+			 */
 			$this->relations->addRelation($related_model_name, $relation);
 		}
 
@@ -558,7 +563,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		$class = $this->class_name;
 
-		$relations_definitions_data = Object_Reflection::get( $class, 'data_model_outer_relations_definition', []);
+		$relations_definitions_data = BaseObject_Reflection::get( $class, 'data_model_outer_relations_definition', []);
 
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this, $definition_data );
@@ -796,7 +801,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 	/**
 	 *
-	 * @return DataModel_Cache_Backend_Abstract
+	 * @return DataModel_Cache_Backend_Abstract|bool
 	 */
 	public function getCacheBackendInstance() {
 		if(!$this->getCacheEnabled()) {
@@ -873,7 +878,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
+	 * @throws BaseObject_Reflection_Exception
 	 */
 	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
 
@@ -887,9 +892,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					!is_array($value[1]) ||
 					!is_string($value[0])
 				) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Key definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], DataModel::KEY_TYPE_INDEX ]',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -902,9 +907,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					$value[2]!= DataModel::KEY_TYPE_INDEX &&
 					$value[2]!= DataModel::KEY_TYPE_UNIQUE
 				) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Unknown key type. Class: \''.$class_name.'\', definition: \''.$definition.'\', Use DataModel::KEY_TYPE_INDEX or DataModel::KEY_TYPE_UNIQUE',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 				}
 
@@ -913,7 +918,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				}
 
 				if(isset( $reflection_data['data_model_keys_definition'][ $value[0] ] )) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Duplicate key! Class: \''.$class_name.'\', definition: \''.$definition.'\''
 					);
 
@@ -935,9 +940,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					!is_array($value[1]) ||
 					!is_string($value[0])
 				) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Relation definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -950,9 +955,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 					$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_JOIN &&
 					$value[2]!= DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
 				) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Unknown relation type. Class: \''.$class_name.'\', definition: \''.$definition.'\', Use DataModel_Query::JOIN_TYPE_LEFT_JOIN or DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -962,14 +967,14 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				}
 
 				if(isset( $reflection_data['data_model_outer_relations_definition'][ $value[0] ] )) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Duplicate relation! Class: \''.$class_name.'\', definition: \''.$definition.'\''
 					);
 
 				}
 
 				$reflection_data['data_model_outer_relations_definition'][ $value[0] ] = [
-					'related_to_class_name' => Object_Reflection::parseClassName($value[0]),
+					'related_to_class_name' => BaseObject_Reflection::parseClassName($value[0]),
 					'join_by_properties' => $value[1],
 					'join_type' => $value[2]
 				];
@@ -978,7 +983,7 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				break;
 			case 'name':
 				if(!empty($reflection_data['data_model_name'])) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'@Jet_DataModel:model_name is defined by parent and can\'t be overloaded! '
 					);
 
@@ -989,13 +994,13 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				$reflection_data['database_table_name'] = (string)$value;
 				break;
 			case 'ID_class_name':
-				$reflection_data['data_model_ID_class_name'] = Object_Reflection::parseClassName( (string)$value );
+				$reflection_data['data_model_ID_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'ID_options':
 				$reflection_data['ID_options'] = $value;
 				break;
 			case 'parent_model_class_name':
-				$reflection_data['data_model_parent_model_class_name'] = Object_Reflection::parseClassName( (string)$value );
+				$reflection_data['data_model_parent_model_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'forced_backend_type':
 				$reflection_data['data_model_forced_backend_type'] = (string)$value;
@@ -1022,19 +1027,19 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				$reflection_data['data_model_forced_cache_backend_config'] = (array)$value;
 				break;
 			case 'M_model_class_name':
-				$reflection_data['M_model_class_name'] = Object_Reflection::parseClassName( (string)$value );
+				$reflection_data['M_model_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'N_model_class_name':
-				$reflection_data['N_model_class_name'] = Object_Reflection::parseClassName( (string)$value );
+				$reflection_data['N_model_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'default_order_by':
 
 				if(
 					!is_array($value)
 				) {
-					throw new Object_Reflection_Exception(
+					throw new BaseObject_Reflection_Exception(
 						'Relation definition parse error. Class: \''.$class_name.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'property_name\' ]',
-						Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -1042,9 +1047,9 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 				$reflection_data['default_order_by'] = $value;
 				break;
 			default:
-				throw new Object_Reflection_Exception(
+				throw new BaseObject_Reflection_Exception(
 					'Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}
 
@@ -1072,10 +1077,10 @@ abstract class DataModel_Definition_Model_Abstract extends Object {
 
 		switch($key) {
 			case 'data_model_class':
-				$value = Object_Reflection::parseClassName($value);
+				$value = BaseObject_Reflection::parseClassName($value);
 				break;
 			case 'form_field_get_select_options_callback':
-				$value = Object_Reflection::parseCallback($value, $class_name);
+				$value = BaseObject_Reflection::parseCallback($value, $class_name);
 				break;
 
 

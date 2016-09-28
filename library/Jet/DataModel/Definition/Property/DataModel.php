@@ -172,8 +172,12 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
      * @return DataModel_Definition_Model_Related_Abstract
      */
     public function getValueDataModelDefinition() {
+	    /**
+	     * @var DataModel_Definition_Model_Related_Abstract $definition
+	     */
+	    $definition = DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
 
-        return DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
+        return $definition;
     }
 
 

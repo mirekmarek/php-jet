@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_OrderBy extends Object implements \Iterator {
+class DataModel_Query_OrderBy extends BaseObject implements \Iterator {
 
 	/**
 	 * @var DataModel_Query_Where_Expression[]
@@ -28,7 +28,6 @@ class DataModel_Query_OrderBy extends Object implements \Iterator {
 	 * @param string[]|string $order_by
 	 *
 	 * @throws DataModel_Query_Exception
-	 * @return DataModel_Query_OrderBy
 	 */
 	public function __construct( DataModel_Query $query, $order_by ) {
 		if(!is_array($order_by)) {

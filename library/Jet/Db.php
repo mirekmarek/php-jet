@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-class Db extends Object {
+class Db extends BaseObject {
 	const DRIVER_MYSQL = 'mysql';
 	const DRIVER_SQLITE = 'sqlite';
 	const DRIVER_OCI = 'oci';

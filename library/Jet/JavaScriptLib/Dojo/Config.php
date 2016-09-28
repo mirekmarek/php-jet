@@ -20,7 +20,7 @@ namespace Jet;
  * Class JavaScriptLib_Dojo_Config
  *
  */
-class JavaScriptLib_Dojo_Config extends Object {
+class JavaScriptLib_Dojo_Config extends BaseObject {
 
 	/**
 	 *

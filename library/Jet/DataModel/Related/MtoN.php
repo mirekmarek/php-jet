@@ -27,7 +27,7 @@ namespace Jet;
  *
  * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
  */
-abstract class DataModel_Related_MtoN extends Object implements DataModel_Related_MtoN_Interface {
+abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Related_MtoN_Interface {
     use DataModel_Related_MtoN_Trait;
 
     /**

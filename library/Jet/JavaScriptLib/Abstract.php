@@ -17,7 +17,7 @@
  */
 namespace Jet;
 
-abstract class JavaScriptLib_Abstract extends Object {
+abstract class JavaScriptLib_Abstract extends BaseObject {
 
 	/**
 	 * The layout instance

@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Cache_Backend_Abstract extends Object {
+abstract class DataModel_Cache_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @var DataModel_Cache_Backend_Config_Abstract

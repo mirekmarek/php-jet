@@ -25,7 +25,7 @@ namespace Jet;
 /**
  * Class DataModel_Related_1toN
  */
-abstract class DataModel_Related_1toN extends Object implements DataModel_Related_1toN_Interface {
+abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Related_1toN_Interface {
 
     use DataModel_Related_1toN_Trait;
 

@@ -346,9 +346,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	}
 
 	/**
-	 * @param Object_Serializable_REST $data
+	 * @param BaseObject_Serializable_REST $data
 	 */
-	public function responseData( Object_Serializable_REST $data ) {
+	public function responseData(BaseObject_Serializable_REST $data ) {
 		if($this->responseFormatDetection()==static::RESPONSE_FORMAT_XML) {
 			$this->_response( $data->toXML() );
 		} else {

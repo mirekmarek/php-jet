@@ -125,7 +125,7 @@ namespace Jet;
  * Class DataModel
  *
  */
-abstract class DataModel extends Object implements DataModel_Interface {
+abstract class DataModel extends BaseObject implements DataModel_Interface {
 
     use DataModel_Trait;
 

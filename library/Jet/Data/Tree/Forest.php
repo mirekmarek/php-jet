@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Serializable_REST {
+class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseObject_Serializable_REST {
 
 	/**
 	 *
@@ -240,7 +240,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 	//- Iterator ----------------------------------------------------------------------------------
 
 	/**
-	 * @return Data_Tree
+	 * @return Data_Tree_Node
 	 */
 	public function current(){
 		$current_tree_ID = key($this->trees);
@@ -250,7 +250,7 @@ class Data_Tree_Forest extends Object implements \Iterator,\Countable, Object_Se
 
 	/**
 	 *
-	 * @return Data_Tree_Node
+	 * @return Data_Tree_Node|bool
 	 */
 	public function next(){
 		$current_tree_ID = key($this->trees);

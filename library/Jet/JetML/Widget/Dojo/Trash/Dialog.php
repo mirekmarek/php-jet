@@ -93,7 +93,7 @@ class JetML_Widget_Dojo_Trash_Dialog extends JetML_Widget_Dojo_Abstract {
 	 * @return string
 	 */
 	public function getHtmlStart() {
-
+		return '';
 	}
 
 }

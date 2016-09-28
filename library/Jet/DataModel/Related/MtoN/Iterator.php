@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
+class DataModel_Related_MtoN_Iterator extends BaseObject implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
 
 	/**
 	 * @var string
@@ -84,7 +84,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 	/**
 	 * @param $data_model_class_name
 	 *
-	 * @return DataModel_Definition_Model_Related_Abstract
+	 * @return DataModel_Definition_Model_Related_MtoN
 	 */
 	public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
 		return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );
@@ -608,7 +608,7 @@ class DataModel_Related_MtoN_Iterator extends Object implements \ArrayAccess, \I
 	/**
 	 * @param DataModel_Related_MtoN $item
 	 *
-	 * @return DataModel_Related_MtoN
+	 * @return DataModel
 	 */
 	protected function _getCurrentItem( DataModel_Related_MtoN $item ) {
 		return $item->getInstanceOfN();

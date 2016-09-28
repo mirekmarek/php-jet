@@ -9,7 +9,7 @@
  * @version <%VERSION%>
  *
  * @category Jet
- * @pacackage Form
+ * @package Form
  */
 namespace Jet;
 

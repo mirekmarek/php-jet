@@ -32,7 +32,7 @@ trait DataModel_Related_MtoN_Trait {
     /**
      * @param $data_model_class_name
      *
-     * @return DataModel_Definition_Model_Related_Abstract
+     * @return DataModel_Definition_Model_Related_MtoN
      */
     public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
         return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );

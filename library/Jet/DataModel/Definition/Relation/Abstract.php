@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_Definition_Relation_Abstract extends Object {
+abstract class DataModel_Definition_Relation_Abstract extends BaseObject {
 
 	/**
 	 * @var string

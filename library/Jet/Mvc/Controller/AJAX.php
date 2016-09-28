@@ -20,6 +20,7 @@
  */
 namespace Jet;
 
+//TODO: is deprecated
 abstract class Mvc_Controller_AJAX extends Mvc_Controller_Abstract {
 
 

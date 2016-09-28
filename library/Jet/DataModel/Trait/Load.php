@@ -28,9 +28,9 @@ trait DataModel_Trait_Load {
      */
     public static function load( $ID, array $load_only_properties=[] ) {
 
-        /**
-         * @var DataModel $loaded_instance
-         */
+	    /**
+	     * @var DataModel|DataModel_Trait_Load $loaded_instance
+	     */
         $loaded_instance = new static();
         foreach( $ID as $key=>$val ) {
             $loaded_instance->{$key} = $val;
@@ -66,7 +66,8 @@ trait DataModel_Trait_Load {
 
 
         $query = $ID->getQuery();
-        $query->setMainDataModel($loaded_instance);
+	    /** @noinspection PhpParamsInspection */
+	    $query->setMainDataModel($loaded_instance);
 
 
         if(!$load_only_properties) {
@@ -140,6 +141,7 @@ trait DataModel_Trait_Load {
                  * @var DataModel_Related_Interface $related_object
                  */
                 $related_object = $related_property->getDefaultValue();
+	            /** @noinspection PhpParamsInspection */
                 $related_object->setupParentObjects( $loaded_instance );
 
                 if($load_only_related_properties) {
@@ -164,6 +166,7 @@ trait DataModel_Trait_Load {
             $property = $loaded_instance->{$property_name};
 
             if(($property instanceof DataModel_Related_Interface)) {
+	            /** @noinspection PhpParamsInspection */
                 $property->setupParentObjects( $loaded_instance );
                 $property_definition->loadPropertyValue( $property, $data['related_data'] );
             }
@@ -179,15 +182,20 @@ trait DataModel_Trait_Load {
             $cache->save($definition, $ID, $data);
         }
 
-        $loaded_instance->afterLoad();
+	    /**
+	     * @var DataModel $loaded_instance
+	     */
 
-        return $loaded_instance;
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $loaded_instance->afterLoad();
+
+	    /** @noinspection PhpIncompatibleReturnTypeInspection */
+	    return $loaded_instance;
     }
 
 
     /**
      * @param array &$loaded_related_data
-     * @return mixed
      */
     protected function initRelatedProperties( array &$loaded_related_data ) {
         /**

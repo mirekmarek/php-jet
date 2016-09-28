@@ -19,7 +19,6 @@ class DataModel_Definition_Model_Main extends DataModel_Definition_Model_Abstrac
     /**
      * @param string $data_model_class_name
      *
-     * @return array
      * @throws DataModel_Exception
      */
     protected function _mainInit( $data_model_class_name ) {

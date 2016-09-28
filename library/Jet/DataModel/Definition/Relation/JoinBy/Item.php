@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Definition_Relation_JoinBy_Item extends Object {
+class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 
 	/**
 	 * @var string
@@ -40,8 +40,6 @@ class DataModel_Definition_Relation_JoinBy_Item extends Object {
 	 * @param string $related_to_property_name
 	 *
 	 * @throws DataModel_Query_Exception
-	 *
-	 * @return DataModel_Definition_Relation_JoinBy_Item
 	 */
 	public function __construct( DataModel_Definition_Model_Abstract $this_model_definition=null, $this_model_property_definition='', $related_to_class_name='', $related_to_property_name='' ) {
 		if(!$this_model_definition) {
@@ -88,8 +86,6 @@ class DataModel_Definition_Relation_JoinBy_Item extends Object {
 					break;
 			}
 		}
-
-
 	}
 
 	/**

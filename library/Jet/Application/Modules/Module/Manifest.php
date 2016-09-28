@@ -28,7 +28,7 @@
  */
 namespace Jet;
 
-class Application_Modules_Module_Manifest extends Object implements \JsonSerializable {
+class Application_Modules_Module_Manifest extends BaseObject implements \JsonSerializable {
 	const MANIFEST_FILE_NAME = 'manifest.php';
 
 	const MODULE_TYPE_GENERAL = 'general';

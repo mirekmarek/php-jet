@@ -25,6 +25,8 @@ class Translator_Factory {
 	 *
 	 * @param string $type
 	 * @param bool $soft_mode @see Config
+	 *
+	 * @return Translator_Backend_Config_Abstract
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode=false ){
 		$class_name = JET_TRANSLATOR_BACKEND_CLASS_NAME_PREFIX.$type.'_Config';

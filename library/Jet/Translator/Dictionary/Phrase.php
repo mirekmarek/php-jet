@@ -17,7 +17,7 @@
  */
 namespace Jet;
 
-class Translator_Dictionary_Phrase extends Object {
+class Translator_Dictionary_Phrase extends BaseObject {
 	/**
 	 * @var string
 	 */

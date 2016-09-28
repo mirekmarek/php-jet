@@ -15,7 +15,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_Where_Expression extends Object {
+class DataModel_Query_Where_Expression extends BaseObject {
 
 	/**
 	 * Property instance

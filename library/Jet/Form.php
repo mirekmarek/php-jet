@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class Form extends Object implements Mvc_View_Postprocessor_Interface{
+class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
@@ -622,7 +622,7 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @param bool $escape_values - example: for database usage *
 	 * @param bool $force_skip_is_valid
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
 	public function getValues( $escape_values = false, $force_skip_is_valid = false ) {
 		if(!$this->is_valid && !$force_skip_is_valid) {
@@ -678,7 +678,6 @@ class Form extends Object implements Mvc_View_Postprocessor_Interface{
 	 * @throws Form_Exception
 	 * @internal param string $output
 	 *
-	 * @return string
 	 */
 	public function viewPostProcess( &$result, Mvc_View $view) {
 		$this->checkFieldsHasErrorMessages();

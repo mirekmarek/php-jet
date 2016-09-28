@@ -62,7 +62,11 @@ class Db_Config extends Application_Config {
 	 * @return Db_Connection_Config_Abstract[]
 	 */
 	public function getConnections() {
-		return $this->connections->getAllConfigurationItems();
+		/**
+		 * @var Db_Connection_Config_Abstract[] $c_cfg
+		 */
+		$c_cfg = $this->connections->getAllConfigurationItems();
+		return $c_cfg;
 	}
 
 	/**

@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class Data_Array extends Object implements Object_Serializable_REST {
+class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 
 	const PATH_DELIMITER = '/';
 
@@ -166,7 +166,6 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	 * Unset value from data/path
 	 *
 	 * @param string $key
-	 * @return bool
 	 */
 	public function remove( $key ) {
 		if(!$key) {
@@ -215,7 +214,7 @@ class Data_Array extends Object implements Object_Serializable_REST {
 	 * @param string $key
 	 * @param mixed $default_value (optional; default: null)
 	 *
-	 * @return array()
+	 * @return mixed
 	 */
 	public function getRaw($key, $default_value = null ){
 		if(!$key) {

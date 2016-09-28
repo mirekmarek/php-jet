@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Definition_Relation_JoinBy_Item_ObjectGetter extends Object {
+class DataModel_Definition_Relation_JoinBy_Item_ObjectGetter extends BaseObject {
 
 	/**
 	 * @var DataModel_Definition_Model_Abstract

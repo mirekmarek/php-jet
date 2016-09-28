@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages'
  * @JetDataModel:ID_class_name = 'Mvc_Page_ID'
  */
-class Mvc_Page extends Object implements Mvc_Page_Interface {
+class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	const HOMEPAGE_ID = '_homepage_';
 
 	const PAGE_DATA_FILE_NAME = 'page_data.php';
@@ -86,7 +86,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	protected $parent_ID = '';
 
 	/**
-	 * @var Mvc_Page_Interface
+	 * @var Mvc_Page
 	 */
 	protected $_parent;
 
@@ -96,7 +96,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	protected $_children_sorted = false;
 
 	/**
-	 * @var Mvc_Page_Interface[]
+	 * @var Mvc_Page[]
 	 */
 	protected $_children = [];
 
@@ -1374,7 +1374,6 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	 * @param array $parent_page_data (optional)
 	 * @param Mvc_Page $parent_page
 	 *
-	 * @return array
 	 */
 	protected static function _loadPages_readDir( Mvc_Site_Interface $site, Locale $locale, $root_dir, array $parent_page_data=null, Mvc_Page $parent_page=null ) {
 		$list = IO_Dir::getList( $root_dir, '*', true, false );
@@ -1526,7 +1525,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 
 
 	/**
-	 * @return DataModel_Fetch_Object_IDs
+	 * @return array
 	 */
 	public function getChildrenIDs() {
 		$result = [];
@@ -1539,7 +1538,7 @@ class Mvc_Page extends Object implements Mvc_Page_Interface {
 	}
 
 	/**
-	 * @return DataModel_Fetch_Object_IDs
+	 * @return array
 	 */
 	public function getChildrenKeys() {
 		$result = [];

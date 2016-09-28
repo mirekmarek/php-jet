@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializable_REST {
+class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_Serializable_REST {
 
 	/**
 	 *
@@ -347,6 +347,9 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 		$path[] = $target_node->getID();
 
 		while( ($parent=$target_node->getParent()) ) {
+			/**
+			 * @var Data_Tree_Node $parent
+			 */
 			if($parent->getID()===null) {
 				break;
 			}
@@ -365,7 +368,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @throws Data_Tree_Exception
 	 *
-	 * @return
+	 * @return string
 	 */
 	protected function getDataItemID( $item ) {
 
@@ -384,7 +387,7 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 *
 	 * @throws Data_Tree_Exception
 	 *
-	 * @return
+	 * @return string
 	 */
 	protected function getDataParentItemID( $item ) {
 		if(!isset($item[$this->parent_ID_key])) {
@@ -482,7 +485,6 @@ class Data_Tree extends Object implements \Iterator, \Countable,Object_Serializa
 	 * @param array|DataModel_Fetch_Data_Abstract $items
 	 *
 	 * @throws Data_Tree_Exception
-	 * @return Data_Tree
 	 */
 	protected function _setData( $items ){
 		$this->__parent_map = [];

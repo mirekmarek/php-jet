@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
+class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
 
 	/**
 	 * @var string
@@ -157,11 +157,10 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 
 			/**
 			 * @var DataModel_Related_1toN $related_instance
-			 * @var Form $related_form
 			 */
-			$related_form = $related_instance->getRelatedFormFields( $parent_property_definition, $properties_list );
+			$related_form_fields = $related_instance->getRelatedFormFields( $parent_property_definition, $properties_list );
 
-			foreach($related_form->getFields() as $field) {
+			foreach($related_form_fields as $field) {
 
 				$field_name = $field->getName();
 
@@ -402,7 +401,7 @@ class DataModel_Related_1toN_Iterator extends Object implements \ArrayAccess, \I
 	 * @see \ArrayAccess
 	 * @param mixed $offset
 	 *
-	 * @return DataModel
+	 * @return DataModel_Related_1toN
 	 */
 	public function offsetGet( $offset ) {
 		return $this->items[$offset];

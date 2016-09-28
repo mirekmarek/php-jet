@@ -84,10 +84,14 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
     /**
      * @param string $ID
      *
-     * @return Auth_Role_Interface
+     * @return Auth_Role
      */
     public static function get( $ID ) {
-        return static::load( static::createIdObject($ID) );
+    	$role =  static::load( static::createIdObject($ID) );
+	    /**
+	     * @var Auth_Role $role
+	     */
+        return $role;
     }
 
 
@@ -228,7 +232,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	}
 
 	/**
-	 * @return Auth_Role_Interface[]
+	 * @return DataModel_Fetch_Object_Assoc|Auth_Role[]
 	 */
 	public function getRolesList() {
 		$list = $this->fetchObjects();

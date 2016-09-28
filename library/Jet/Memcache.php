@@ -11,7 +11,7 @@
  */
 namespace Jet;
 
-class Memcache extends Object {
+class Memcache extends BaseObject {
 
 	/**
 	 * @var Memcache_Config

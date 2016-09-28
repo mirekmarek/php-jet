@@ -30,7 +30,7 @@ trait DataModel_Trait_History {
     /**
      * Returns history backend instance
      *
-     * @return DataModel_History_Backend_Abstract
+     * @return DataModel_History_Backend_Abstract|bool
      */
     public function getHistoryBackendInstance() {
         /**

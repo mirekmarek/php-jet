@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
+abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializable {
 	const ERROR_CODE_EMPTY = 'empty';
 	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
 
@@ -400,6 +400,7 @@ abstract class Form_Field_Abstract extends Object implements \JsonSerializable {
 	 * @throws Form_Exception
 	 */
 	public function setErrorMessages(array $error_messages) {
+
 		foreach($error_messages as $key=>$message) {
 			if(!array_key_exists($key, $this->error_messages)) {
 				throw new Form_Exception('Unknown form field error code: '.$key.'! Field: '.$this->_name);

@@ -20,7 +20,7 @@
  */
 namespace Jet;
 
-abstract class Mvc_Router_Abstract extends Object {
+abstract class Mvc_Router_Abstract extends BaseObject {
 
 	/**
 	 *

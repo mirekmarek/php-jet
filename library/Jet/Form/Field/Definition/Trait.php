@@ -169,7 +169,6 @@ trait Form_Field_Definition_Trait {
 
 	/**
 	 * @param array $options
-	 * @return mixed
 	 */
 	public function setFormFieldOptions( array $options ) {
 		$this->form_field_options = $options;

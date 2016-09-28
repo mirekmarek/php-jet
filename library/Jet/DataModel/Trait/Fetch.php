@@ -37,7 +37,7 @@ trait DataModel_Trait_Fetch {
     /**
      *
      * @param array| $where
-     * @return DataModel
+     * @return DataModel|bool
      */
     public function fetchOneObject( array $where ) {
 

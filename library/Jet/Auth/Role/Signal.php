@@ -30,7 +30,11 @@ class Auth_Role_Signal extends Application_Signals_Signal {
 	 * @return Auth_Role_Interface
 	 */
 	public function getSender(){
-		return $this->sender;
+		/**
+		 * @var Auth_Role_Interface $sender
+		 */
+		$sender = $this->sender;
+		return $sender;
 	}
 
 	/**

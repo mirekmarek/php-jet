@@ -11,12 +11,12 @@
  */
 namespace Jet;
 
-abstract class Db_Connection_Abstract extends \PDO implements Object_Interface {
+abstract class Db_Connection_Abstract extends \PDO implements BaseObject_Interface {
 
-	use Object_Trait;
-	use Object_Trait_MagicGet;
-	use Object_Trait_MagicSet;
-	use Object_Trait_MagicClone;
+	use BaseObject_Trait;
+	use BaseObject_Trait_MagicGet;
+	use BaseObject_Trait_MagicSet;
+	use BaseObject_Trait_MagicClone;
 
 	/**
 	 *

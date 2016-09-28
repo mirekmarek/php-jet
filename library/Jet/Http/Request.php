@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class Http_Request extends Object {
+class Http_Request extends BaseObject {
 
 
 	/**

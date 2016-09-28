@@ -493,8 +493,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @see Mvc/readme.txt
 	 *
 	 * @param JavaScriptLib_Abstract $lib
-	 *
-	 * @return JavaScriptLib_Abstract
 	 */
 	public function requireJavascriptLib( JavaScriptLib_Abstract $lib ) {
 		$class = get_class($lib);

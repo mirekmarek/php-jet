@@ -18,7 +18,7 @@
  */
 namespace Jet;
 
-abstract class Config_Definition_Property_Abstract extends Object implements Form_Field_Definition_Interface {
+abstract class Config_Definition_Property_Abstract extends BaseObject implements Form_Field_Definition_Interface {
 	use Form_Field_Definition_Trait;
 
 	/**
@@ -73,7 +73,6 @@ abstract class Config_Definition_Property_Abstract extends Object implements For
 	 * @param string $name
 	 * @param array $definition_data (optional)
 	 *
-	 * @return Config_Definition_Property_Abstract
 	 */
 	public function __construct( $configuration_class_name, $name, array $definition_data=null ) {
 		if(is_object($configuration_class_name)) {

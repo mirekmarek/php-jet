@@ -18,7 +18,7 @@
  */
 namespace Jet;
 
-class Config_Definition_Config extends Object {
+class Config_Definition_Config extends BaseObject {
 	/**
 	 * Property definition classes names prefix
 	 */
@@ -57,10 +57,10 @@ class Config_Definition_Config extends Object {
 
 		$this->class_name = $class_name;
 
-		$this->data_path = Object_Reflection::get( $class_name, 'config_data_path', '' );
+		$this->data_path = BaseObject_Reflection::get( $class_name, 'config_data_path', '' );
 
-		$this->section_is_obligatory = Object_Reflection::get( $class_name, 'config_section_is_obligatory', true );
-		$propertied_definition_data = Object_Reflection::get( $class_name, 'config_properties_definition', []);
+		$this->section_is_obligatory = BaseObject_Reflection::get( $class_name, 'config_section_is_obligatory', true );
+		$propertied_definition_data = BaseObject_Reflection::get( $class_name, 'config_properties_definition', []);
 
 		$this->properties_definition = [];
 		foreach( $propertied_definition_data as $property_name=>$definition_data ) {
@@ -153,7 +153,7 @@ class Config_Definition_Config extends Object {
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
+	 * @throws BaseObject_Reflection_Exception
 	 */
 	public static function parseClassDocComment( &$reflection_data, $class_name, $key, $definition, $value ) {
 
@@ -165,9 +165,9 @@ class Config_Definition_Config extends Object {
 				$reflection_data['config_data_path'] = (string)$value;
 				break;
 			default:
-				throw new Object_Reflection_Exception(
+				throw new BaseObject_Reflection_Exception(
 					'Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ',
-					Object_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}
 
@@ -181,7 +181,7 @@ class Config_Definition_Config extends Object {
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
+	 * @throws BaseObject_Reflection_Exception
 	 */
 	public static function parsePropertyDocComment(
 		&$reflection_data,
@@ -194,10 +194,10 @@ class Config_Definition_Config extends Object {
 	) {
 		switch($key) {
 			case 'config_factory_class_name':
-				$value = Object_Reflection::parseClassName($value);
+				$value = BaseObject_Reflection::parseClassName($value);
 				break;
 			case 'form_field_get_select_options_callback':
-				$value = Object_Reflection::parseCallback($value, $class_name);
+				$value = BaseObject_Reflection::parseCallback($value, $class_name);
 				break;
 
 		}

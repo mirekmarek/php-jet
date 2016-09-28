@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-class DataModel_Query_Select_Item_BackendFunctionCall extends Object {
+class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
 
 	/**
 	 * Property instance

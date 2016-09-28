@@ -24,7 +24,7 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
-class Mvc_Site_LocalizedData_MetaTag extends Object implements Mvc_Site_LocalizedData_MetaTag_Interface {
+class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_LocalizedData_MetaTag_Interface {
 
 	/**
 	 * @JetDataModel:related_to = 'main.ID'

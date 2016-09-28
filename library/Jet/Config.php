@@ -50,7 +50,7 @@ namespace Jet;
  * Class Config
  *
  */
-abstract class Config extends Object implements Object_Reflection_ParserInterface {
+abstract class Config extends BaseObject implements BaseObject_Reflection_ParserInterface {
 
 
 
@@ -121,7 +121,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	private $definition;
 
 	/**
-	 * @var Config_Definition_Property_Abstract
+	 * @var Config_Definition_Property_Abstract[]
 	 */
 	private $properties_definition;
 
@@ -510,7 +510,7 @@ abstract class Config extends Object implements Object_Reflection_ParserInterfac
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
+	 * @throws BaseObject_Reflection_Exception
 	 */
 	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
 		Config_Definition_Config::parseClassDocComment( $reflection_data, $class_name, $key, $definition, $value );

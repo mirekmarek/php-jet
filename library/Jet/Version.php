@@ -12,7 +12,7 @@
 
 namespace Jet;
 
-class Version extends Object {
+class Version extends BaseObject {
 
 	const API_VERSION = 201401;
 

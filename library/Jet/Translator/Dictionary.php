@@ -17,7 +17,7 @@
  */
 namespace Jet;
 
-class Translator_Dictionary extends Object {
+class Translator_Dictionary extends BaseObject {
 	/**
 	 * @var Locale
 	 */

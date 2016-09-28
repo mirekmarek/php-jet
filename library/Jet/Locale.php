@@ -16,7 +16,13 @@
  */
 namespace Jet;
 
-class Locale extends Object {
+class Locale extends BaseObject {
+
+	/**
+	 * @var Locale
+	 */
+	protected static $current_locale;
+
 	/**
 	 * @var string[]
 	 */
@@ -80,6 +86,23 @@ class Locale extends Object {
 	 * @var int
 	 */
 	protected $_calendar;
+
+	/**
+	 * @return Locale
+	 */
+	public static function getCurrentLocale()
+	{
+		return static::$current_locale;
+	}
+
+	/**
+	 * @param Locale $current_locale
+	 */
+	public static function setCurrentLocale( Locale $current_locale)
+	{
+		static::$current_locale = $current_locale;
+	}
+
 
 
 	/**
@@ -212,7 +235,7 @@ class Locale extends Object {
 	 */
 	public function getName( $in_locale=null ) {
 		if(!$in_locale) {
-			$in_locale = Mvc::getCurrentLocale();
+			$in_locale = static::getCurrentLocale();
 		}
 
 		if(!class_exists('\Locale', false)) {
@@ -236,7 +259,7 @@ class Locale extends Object {
 	 */
 	public function getLanguageName( $in_locale=null ) {
 		if(!$in_locale) {
-			$in_locale = Mvc::getCurrentLocale();
+			$in_locale = static::getCurrentLocale();
 		}
 
 		if(!class_exists('\Locale', false)) {
@@ -260,7 +283,7 @@ class Locale extends Object {
 	 */
 	public function getRegionName( $in_locale=null ) {
 		if(!$in_locale) {
-			$in_locale = Mvc::getCurrentLocale();
+			$in_locale = static::getCurrentLocale();
 		}
 
 		if(!class_exists('\Locale', false)) {
@@ -307,7 +330,7 @@ class Locale extends Object {
 	/**
 	 * Returns date and time formatted by current locale
 	 *
-	 * Alias of: Mvc::getCurrentLocale()->formatDateAdnTime($date_and_time);
+	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
 	 *
 	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
@@ -315,7 +338,7 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public static function dateAndTime(Data_DateTime $date_and_time, $format=null ) {
-		return Mvc::getCurrentLocale()->formatDateAndTime($date_and_time, $format);
+		return static::getCurrentLocale()->formatDateAndTime($date_and_time, $format);
 	}
 
 	/**
@@ -355,7 +378,7 @@ class Locale extends Object {
 	/**
 	 * Returns date formatted by current locale
 	 *
-	 * Alias of: Mvc::getCurrentLocale()->formatDate($date_and_time);
+	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
 	 *
 	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
@@ -363,7 +386,7 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public static function date(Data_DateTime $date_and_time, $format=null ) {
-		return Mvc::getCurrentLocale()->formatDate($date_and_time, $format);
+		return static::getCurrentLocale()->formatDate($date_and_time, $format);
 	}
 
 	/**
@@ -403,7 +426,7 @@ class Locale extends Object {
 	/**
 	 * Returns date formatted by current locale
 	 *
-	 * Alias of: Mvc::getCurrentLocale()->formatTime($date_and_time)
+	 * Alias of: Locale::getCurrentLocale()->formatTime($date_and_time)
 	 *
 	 * @param Data_DateTime $date_and_time
 	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
@@ -411,7 +434,7 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public function time(Data_DateTime $date_and_time, $format=null  ) {
-		return Mvc::getCurrentLocale()->formatTime($date_and_time, $format);
+		return static::getCurrentLocale()->formatTime($date_and_time, $format);
 	}
 
 	/**
@@ -439,14 +462,14 @@ class Locale extends Object {
 	/**
 	 * Format number according to current locale
 	 *
-	 * Alias of: Mvc::getCurrentLocale()->formatInt($number)
+	 * Alias of: Locale::getCurrentLocale()->formatInt($number)
 	 *
 	 * @param int $number
 	 *
 	 * @return string
 	 */
 	public static function int( $number ) {
-		return Mvc::getCurrentLocale()->formatInt($number);
+		return static::getCurrentLocale()->formatInt($number);
 	}
 
 	/**
@@ -476,7 +499,7 @@ class Locale extends Object {
 	/**
 	 * Format number according to current locale
 	 *
-	 * Alias of: Mvc::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits)
+	 * Alias of: Locale::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits)
 	 *
 	 * @param float $number
 	 * @param int $min_fraction_digits
@@ -485,7 +508,7 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public static function float( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
-		return Mvc::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits);
+		return static::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits);
 	}
 
 	/**
@@ -546,7 +569,7 @@ class Locale extends Object {
 	 * @return string
 	 */
 	public static function size( $bytes, $unit = 'B', $max_places = 2, $glue=' ' ) {
-		return Mvc::getCurrentLocale()->formatSize($bytes, $unit, $max_places, $glue);
+		return static::getCurrentLocale()->formatSize($bytes, $unit, $max_places, $glue);
 	}
 
 	/**
@@ -557,7 +580,7 @@ class Locale extends Object {
 	 */
 	public static function getAllLocalesList( $in_locale=null ) {
 		if(!$in_locale) {
-			$in_locale = Mvc::getCurrentLocale();
+			$in_locale = static::getCurrentLocale();
 		}
 
 		$result = [];

@@ -33,7 +33,7 @@ interface Mvc_Page_Interface {
 	public function setPageId( $ID );
 
 	/**
-	 * @return string
+	 * @return $parent
 	 */
 	public function getPageId();
 

@@ -13,7 +13,7 @@
  */
 namespace Jet;
 
-class JetML extends Object implements Mvc_Layout_Postprocessor_Interface {
+class JetML extends BaseObject implements Mvc_Layout_Postprocessor_Interface {
 
 	const TAGS_PREFIX = 'jetml';
 

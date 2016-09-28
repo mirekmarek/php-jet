@@ -18,18 +18,18 @@
 
 namespace Jet;
 
-class Application_Signals extends Object implements Object_Reflection_ParserInterface {
+class Application_Signals extends BaseObject implements BaseObject_Reflection_ParserInterface {
 	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = 'Application_Signals_Signal';
 
 	/**
-	 * @param Object_Interface $sender
+	 * @param BaseObject_Interface $sender
 	 * @param $signal_name
 	 * @param array $signal_data (optional)
 	 *
 	 * @throws Application_Signals_Exception
 	 * @return Application_Signals_Signal
 	 */
-	public static function createSignal( Object_Interface $sender, $signal_name, array $signal_data= []) {
+	public static function createSignal(BaseObject_Interface $sender, $signal_name, array $signal_data= []) {
 		if( !$sender->getHasSignal( $signal_name ) ) {
 			throw new Application_Signals_Exception(
 				'Unknown signal \''.$signal_name.'\'. Please add definition to the '.get_class($sender).' ( @JetApplication_Signals:signal=\''.$signal_name.'\' ) ',
@@ -60,19 +60,19 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
+	 * @throws BaseObject_Reflection_Exception
 	 */
 	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
 
 		switch($key) {
 			case 'signal_object_class_name':
-				$reflection_data['signal_object_class_name'] = Object_Reflection::parseClassName( (string)$value );
+				$reflection_data['signal_object_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'signal':
 				$reflection_data['signals'][] = (string)$value;
 				break;
 			default:
-				throw new Object_Reflection_Exception('Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ');
+				throw new BaseObject_Reflection_Exception('Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ');
 		}
 
 	}
@@ -85,12 +85,12 @@ class Application_Signals extends Object implements Object_Reflection_ParserInte
 	 * @param string $definition
 	 * @param mixed $value
 	 *
-	 * @throws Object_Reflection_Exception
+	 * @throws BaseObject_Reflection_Exception
 	 */
 	public static function parsePropertyDocComment(&$reflection_data, $class_name, $property_name, $key, $definition, $value) {
-		throw new Object_Reflection_Exception(
+		throw new BaseObject_Reflection_Exception(
 			'Unknown definition! Class: \''.$class_name().'\', property: \''.$property_name.'\', definition: \''.$definition.'\' ',
-			Object_Reflection_Exception::CODE_UNKNOWN_PROPERTY_DEFINITION
+			BaseObject_Reflection_Exception::CODE_UNKNOWN_PROPERTY_DEFINITION
 		);
 	}
 

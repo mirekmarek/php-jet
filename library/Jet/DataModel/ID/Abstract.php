@@ -14,7 +14,7 @@
  */
 namespace Jet;
 
-abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Iterator {
+abstract class DataModel_ID_Abstract extends BaseObject implements \ArrayAccess,\Iterator {
 	const MIN_LEN = 3;
 	const MAX_LEN = 50;
 	const MAX_SUFFIX_NO = 9999;
@@ -180,7 +180,6 @@ abstract class DataModel_ID_Abstract extends Object implements \ArrayAccess,\Ite
 	 * @param string $object_name
 	 *
 	 * @throws DataModel_ID_Exception
-	 * @return string
 	 */
 	public function generateNameID(
         DataModel_Interface $data_model_instance,

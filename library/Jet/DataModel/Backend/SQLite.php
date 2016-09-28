@@ -214,7 +214,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 				FROM '.$table_name.';';
 
 		$update_default_values = '';
-		if($new_cols) {
+		if($_new_cols) {
 			$_new_cols = [];
 			foreach($new_cols as $c=>$v) {
 				$_new_cols[] = $c.'='.$v;

@@ -15,7 +15,7 @@
 namespace Jet;
 
 
-class DataModel_Definition_Relations extends Object implements \ArrayAccess, \Iterator, \Countable {
+class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess, \Iterator, \Countable {
 
 	/**
 	 * @var DataModel_Definition_Model_Abstract
