@@ -18,6 +18,11 @@ namespace Jet;
 
 trait DataModel_Trait_History {
 
+	/**
+	 * @var DataModel_History_Backend_Abstract
+	 */
+	private $_history_backend_instance;
+
     /**
      *
      * @return bool
@@ -42,17 +47,15 @@ trait DataModel_Trait_History {
             return false;
         }
 
-        $history_backend_instance = &DataModel_ObjectState::getVar($this, 'history_backend_instance' );
-
-        if(!$history_backend_instance) {
-            $history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
+        if(!$this->_history_backend_instance) {
+            $this->_history_backend_instance = DataModel_Factory::getHistoryBackendInstance(
                 $definition->getHistoryBackendType(),
                 $definition->getHistoryBackendConfig()
             );
 
         }
 
-        return $history_backend_instance;
+        return $this->_history_backend_instance;
     }
 
     /**

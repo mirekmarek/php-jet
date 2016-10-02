@@ -22,10 +22,6 @@ trait DataModel_Trait_MagicMethods {
      *
      */
     public function __destruct() {
-        /**
-         * @var DataModel $this
-         */
-        DataModel_ObjectState::destruct($this);
     }
 
     /**

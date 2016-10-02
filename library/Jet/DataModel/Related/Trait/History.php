@@ -22,28 +22,22 @@ trait DataModel_Related_Trait_History {
      * @param string $operation
      */
     public function dataModelHistoryOperationStart( $operation ) {
-        /**
-         * @var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        if(!$this_main_model_instance) {
+        if(!$this->_main_model_instance) {
             return;
         }
-        $this_main_model_instance->dataModelHistoryOperationStart( $operation );
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->_main_model_instance->dataModelHistoryOperationStart( $operation );
     }
 
     /**
      *
      */
     public function dataModelHistoryOperationDone() {
-        /**
-         * @var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        if(!$this_main_model_instance) {
+        if(!$this->_main_model_instance) {
             return;
         }
-        $this_main_model_instance->dataModelHistoryOperationDone();
+	    /** @noinspection PhpUndefinedMethodInspection */
+        $this->_main_model_instance->dataModelHistoryOperationDone();
     }
 
 

@@ -22,32 +22,24 @@ trait DataModel_Related_Trait_Backend {
      * @return bool
      */
     public function getBackendTransactionStarted() {
-        /**
-         * @var DataModel_Interface $main_model_instance
-         */
-        $main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 
+	    /** @noinspection PhpUndefinedMethodInspection */
         if(
-            $main_model_instance &&
-            $main_model_instance->getBackendTransactionStarted()
+            $this->_main_model_instance &&
+            $this->_main_model_instance->getBackendTransactionStarted()
         ) {
             return true;
         }
 
-        /**
-         * @var DataModel_Related_Interface|DataModel_Interface $parent_model_instance
-         */
-        $parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+	    /** @noinspection PhpUndefinedMethodInspection */
         if(
-            $parent_model_instance &&
-            $parent_model_instance->getBackendTransactionStarted()
+            $this->_parent_model_instance &&
+            $this->_parent_model_instance->getBackendTransactionStarted()
         ) {
             return true;
         }
 
-        $backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
-
-        return $backend_transaction_started;
+        return $this->_backend_transaction_started;
     }
 
     /**
@@ -58,24 +50,19 @@ trait DataModel_Related_Trait_Backend {
             return false;
         }
 
-        /**
-         * @var DataModel $main_model_instance
-         */
-        $main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
+	    /** @noinspection PhpUndefinedMethodInspection */
         if(
-            $main_model_instance &&
-            $main_model_instance->getBackendTransactionStarted()
+            $this->_main_model_instance &&
+            $this->_main_model_instance->getBackendTransactionStarted()
         ) {
             return false;
         }
 
-        /**
-         * @var DataModel_Related_Interface|DataModel_Interface $parent_model_instance
-         */
-        $parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+
+	    /** @noinspection PhpUndefinedMethodInspection */
         if(
-            $parent_model_instance &&
-            $parent_model_instance->getBackendTransactionStarted()
+            $this->_parent_model_instance &&
+            $this->_parent_model_instance->getBackendTransactionStarted()
         ) {
             return false;
         }

@@ -45,6 +45,9 @@ class Form_Field_Password extends Form_Field_Abstract {
 		$tag_data->setProperty( 'id', $this->getID() );
 		$tag_data->setProperty( 'type', 'password' );
 		$tag_data->setProperty( 'value', '' );
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty( 'readonly', 'readonly' );
+		}
 
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 

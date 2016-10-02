@@ -18,6 +18,11 @@ namespace Jet;
 
 trait DataModel_Trait_Backend {
 
+	/**
+	 * @var bool
+	 */
+	private $_backend_transaction_started = false;
+
     /**
      * Returns backend instance
      *
@@ -33,24 +38,15 @@ trait DataModel_Trait_Backend {
      * @return bool
      */
     public function getBackendTransactionStarted() {
-        /**
-         * @var DataModel $this
-         */
-        $backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
 
-        return $backend_transaction_started;
+        return $this->_backend_transaction_started;
     }
 
     /**
      * @return bool
      */
     public function getBackendTransactionStartedByThisInstance() {
-        /**
-         * @var DataModel $this
-         */
-        $backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
-
-        return $backend_transaction_started;
+        return $this->_backend_transaction_started;
     }
 
     /**
@@ -61,10 +57,9 @@ trait DataModel_Trait_Backend {
          * @var DataModel $this
          */
         if(!$this->getBackendTransactionStarted()) {
-            $backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
-            $backend_transaction_started = true;
+            $this->_backend_transaction_started = true;
 
-            $backend->transactionStart();;
+            $backend->transactionStart();
         }
     }
 
@@ -78,8 +73,7 @@ trait DataModel_Trait_Backend {
         if($this->getBackendTransactionStartedByThisInstance()) {
             $backend->transactionCommit();
 
-            $backend_transaction_started = &DataModel_ObjectState::getVar($this, 'backend_transaction_started', false );
-            $backend_transaction_started = false;
+            $this->_backend_transaction_started = false;
         }
     }
 
@@ -88,6 +82,7 @@ trait DataModel_Trait_Backend {
      */
     public function rollbackBackendTransaction( DataModel_Backend_Abstract $backend ) {
         $backend->transactionRollback();
+	    $this->_backend_transaction_started = false;
     }
 
 }

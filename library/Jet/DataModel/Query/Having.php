@@ -56,6 +56,13 @@ class DataModel_Query_Having extends BaseObject implements \Iterator{
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getIsEmpty() {
+		return (count($this->expressions)==0);
+	}
+
 
 	/**
 	 *

@@ -15,7 +15,7 @@
 namespace Jet;
 
 
-class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable  {
+class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable, Form_Field_Select_Option_Interface  {
 
 	/**
 	 *
@@ -97,6 +97,15 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 */
 	protected $_max_depth;
 
+	/**
+	 * @var string
+	 */
+	protected $select_option_css_style = '';
+
+	/**
+	 * @var string
+	 */
+	protected $select_option_css_class = '';
 
 	/**
 	 *
@@ -594,4 +603,40 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		return count( $this->toArray() );
 	}
 
+	//- Form_Field_Select_Option_Interface --------------------------------------------------------
+	//- Form_Field_Select_Option_Interface --------------------------------------------------------
+	//- Form_Field_Select_Option_Interface --------------------------------------------------------
+	//- Form_Field_Select_Option_Interface --------------------------------------------------------
+	//- Form_Field_Select_Option_Interface --------------------------------------------------------
+	/**
+	 * @param string $css_style
+	 */
+	public function setSelectOptionCssStyle($css_style)
+	{
+		$this->select_option_css_style = $css_style;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSelectOptionCssStyle()
+	{
+		return $this->select_option_css_style;
+	}
+
+	/**
+	 * @param string $css_class
+	 */
+	public function setSelectOptionCssClass($css_class)
+	{
+		$this->select_option_css_class = $css_class;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSelectOptionCssClass()
+	{
+		return $this->select_option_css_class;
+	}
 }

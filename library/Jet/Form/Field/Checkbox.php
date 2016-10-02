@@ -68,6 +68,9 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 		$tag_data->setProperty( 'id', $this->getID() );
 		$tag_data->setProperty( 'type', 'checkbox' );
 		$tag_data->setProperty( 'value', 1);
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty('disabled', 'disabled');
+		}
 
 
 		if($this->getValue()) {

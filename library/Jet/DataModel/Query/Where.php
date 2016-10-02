@@ -50,6 +50,12 @@ class DataModel_Query_Where extends BaseObject implements \Iterator {
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getIsEmpty() {
+		return (count($this->expressions)==0);
+	}
 
 	/**
 	 *

@@ -29,15 +29,4 @@ interface DataModel_Related_1toN_Interface extends DataModel_Related_Interface, 
      * @return null
      */
     public function getArrayKeyValue();
-
-    /**
-     * @param array $order_by
-     */
-    public function setLoadRelatedDataOrderBy(array $order_by);
-
-    /**
-     * @return array
-     */
-    public function getLoadRelatedDataOrderBy();
-
 }

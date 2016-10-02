@@ -34,6 +34,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
@@ -74,7 +75,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_AUTH_USER_ROLES_CLASS
+	 * @JetDataModel:data_model_class = JET_AUTH_ROLE_USERS_CLASS
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Auth_User_Interface[]

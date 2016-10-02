@@ -18,6 +18,11 @@ namespace Jet;
 
 trait DataModel_Trait_InternalState {
 
+	/**
+	 * @var bool
+	 */
+	private $_data_model_saved = false;
+
     /**
      * Initializes new DataModel
      *
@@ -47,42 +52,28 @@ trait DataModel_Trait_InternalState {
      * @return bool
      */
     public function getIsNew() {
-        /**
-         * @var DataModel $this
-         */
-        return !DataModel_ObjectState::getVar($this, 'data_model_saved', false);
+        return !$this->_data_model_saved;
     }
 
     /**
      *
      */
     public function setIsNew() {
-        /**
-         * @var DataModel $this
-         */
-        $data_model_saved = &DataModel_ObjectState::getVar($this, 'data_model_saved', false);
-        $data_model_saved = false;
+        $this->_data_model_saved = false;
     }
 
     /**
      * @return bool
      */
     public function getIsSaved() {
-        /**
-         * @var DataModel $this
-         */
-        return DataModel_ObjectState::getVar($this, 'data_model_saved', false);
+	    return $this->_data_model_saved;
     }
 
     /**
      *
      */
     public function setIsSaved() {
-        /**
-         * @var DataModel $this
-         */
-        $data_model_saved = &DataModel_ObjectState::getVar($this, 'data_model_saved', false);
-        $data_model_saved = true;
+        $this->_data_model_saved = true;
     }
 
 }

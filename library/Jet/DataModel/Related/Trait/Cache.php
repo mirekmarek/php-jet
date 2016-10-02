@@ -22,28 +22,22 @@ trait DataModel_Related_Trait_Cache {
      * @param string $operation
      */
     public function updateDataModelCache( $operation ) {
-        /**
-         * @var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        if(!$this_main_model_instance) {
+        if(!$this->_main_model_instance) {
             return;
         }
-        $this_main_model_instance->updateDataModelCache($operation);
+	    /** @noinspection PhpUndefinedMethodInspection */
+        $this->_main_model_instance->updateDataModelCache($operation);
     }
 
     /**
      *
      */
     public function deleteDataModelCache() {
-        /**
-         * @var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        if(!$this_main_model_instance) {
+        if(!$this->_main_model_instance) {
             return;
         }
-        $this_main_model_instance->deleteDataModelCache();
+	    /** @noinspection PhpUndefinedMethodInspection */
+        $this->_main_model_instance->deleteDataModelCache();
     }
 
 }

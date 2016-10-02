@@ -29,17 +29,96 @@ trait DataModel_Related_1to1_Trait {
     }
 
 
-    /**
-     * @param array $load_only_related_properties
-     *
-     * @return mixed
-     */
-    public function loadRelatedData( array $load_only_related_properties=[] ) {
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 *
+	 * @return array
+	 */
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+    {
+	    if(
+		    $load_only_related_properties &&
+		    !$load_only_related_properties->getAllowToLoadModel( $this->getDataModelDefinition()->getModelName() )
+	    ) {
+		    return [];
+	    }
 
         $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
 
         return $this->getBackendInstance()->fetchAll( $query );
     }
+
+	/**
+	 *
+	 * @param array $load_only_related_properties
+	 * @throws DataModel_Exception
+	 * @return DataModel_Query
+	 */
+	protected function getLoadRelatedDataQuery(array $load_only_related_properties=[]) {
+
+		/**
+		 * @var DataModel_Interface|DataModel_Related_Interface $this
+		 * @var DataModel_Definition_Model_Related_Abstract $data_model_definition
+		 */
+		$data_model_definition = $this->getDataModelDefinition();
+
+		$query = new DataModel_Query( $data_model_definition );
+
+		$select = DataModel_Load_OnlyProperties::getSelectProperties( $data_model_definition, $load_only_related_properties );
+
+		$query->setSelect( $select );
+		$query->setWhere([]);
+
+		$where = $query->getWhere();
+
+		if( $this->_main_model_instance ) {
+			$main_model_ID = $this->_main_model_instance->getIdObject();
+
+			foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
+				/**
+				 * @var DataModel_Definition_Property_Abstract $property
+				 */
+				$property_name = $property->getRelatedToPropertyName();
+				$value = $main_model_ID[ $property_name ];
+
+				$where->addAND();
+				$where->addExpression(
+					$property,
+					DataModel_Query::O_EQUAL,
+					$value
+
+				);
+
+			}
+		} else {
+			if( $this->_parent_model_instance ) {
+				$parent_model_ID = $this->_parent_model_instance->getIdObject();
+
+				foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
+					/**
+					 * @var DataModel_Definition_Property_Abstract $property
+					 */
+					$property_name = $property->getRelatedToPropertyName();
+					$value = $parent_model_ID[ $property_name ];
+
+					$where->addAND();
+					$where->addExpression(
+						$property,
+						DataModel_Query::O_EQUAL,
+						$value
+
+					);
+
+				}
+
+			} else {
+				throw new DataModel_Exception('Parents are not set!');
+			}
+		}
+
+		return $query;
+	}
+
 
     /**
      * @param array &$loaded_related_data
@@ -52,18 +131,9 @@ trait DataModel_Related_1to1_Trait {
          */
         $definition = $this->getDataModelDefinition();
 
-        /**
-         * @var DataModel_Interface $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        /**
-         * @var DataModel_Interface $this_parent_model_instance
-         */
-        $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-
         $parent_ID_values = [];
-        if($this_parent_model_instance) {
-            $parent_ID = $this_parent_model_instance->getIdObject();
+        if($this->_parent_model_instance) {
+            $parent_ID = $this->_parent_model_instance->getIdObject();
 
             foreach( $definition->getParentModelRelationIDProperties() as $property ) {
 
@@ -93,8 +163,8 @@ trait DataModel_Related_1to1_Trait {
                  */
                 $loaded_instance = new static();
                 $loaded_instance->setupParentObjects(
-                    $this_main_model_instance,
-                    $this_parent_model_instance
+                    $this->_main_model_instance,
+                    $this->_parent_model_instance
                 );
 
                 $loaded_instance->_setRelatedData( $dat, $loaded_related_data );

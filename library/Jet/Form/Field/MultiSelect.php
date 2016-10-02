@@ -110,6 +110,9 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 		$tag_data->setProperty( 'name', $this->getName().'[]' );
 		$tag_data->setProperty( 'id', $this->getID() );
 		$tag_data->setProperty( 'multiple', 'multiple' );
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty( 'disabled', 'disabled' );
+		}
 
 		$result = '<select '.$this->_getTagPropertiesAsString( $tag_data ).'>'.JET_EOL;
 
@@ -132,23 +135,25 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 				}
 			}
 
-			$prefix = '';
-
-			if($label instanceof Data_Tree_Node) {
+			$css = '';
+			if($label instanceof Form_Field_Select_Option_Interface) {
 				/**
-				 * @var Data_Tree_Node $label
+				 * @var Form_Field_Select_Option_Interface $label
 				 */
 
-				$prefix = '';
-				$prefix = str_pad( $prefix , $label->getDepth()*2 , ' ' ,  STR_PAD_LEFT );
-				$prefix = str_replace(' ', '&nbsp;', $prefix);
+				if( ($class = $label->getSelectOptionCssClass()) ) {
+					$css .= ' class="'.$class.'"';
+				}
+				if( ($style = $label->getSelectOptionCssStyle()) ) {
+					$css .= ' style="'.$style.'"';
+				}
 			}
 
 			if($selected){
-				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" selected="selected">'.$prefix.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
+				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" '.$css.'selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
 			}
 			else{
-				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'">'.$prefix.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
+				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
 			}
 		}
 		$result .= '</select>'.JET_EOL;

@@ -208,6 +208,11 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	 * @var Locale|null
 	 */
 	protected $custom_translator_locale = null;
+
+	/**
+	 * @var bool
+	 */
+	protected $is_readonly = false;
 	
 	/**
 	 * constructor
@@ -220,6 +225,26 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 		$this->name = $name;			
 		$this->method = $method;
 		$this->setFields($fields);
+	}
+
+	/**
+	 *
+	 */
+	public function setIsReadonly()
+	{
+		$this->is_readonly = true;
+
+		foreach( $this->getFields() as $field ) {
+			$field->setIsReadonly(true);
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsReadonly()
+	{
+		return $this->is_readonly;
 	}
 
     /**
@@ -790,7 +815,10 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 		}
 
 		$replacement .= '>'.JET_EOL;
-		$replacement .= '<input type="hidden" name="'.self::FORM_SENT_KEY.'" value="'.Data_Text::htmlSpecialChars($this->name).'" />'.JET_EOL;
+
+		if(!$this->getIsReadonly()) {
+			$replacement .= '<input type="hidden" name="'.self::FORM_SENT_KEY.'" value="'.Data_Text::htmlSpecialChars($this->name).'" />'.JET_EOL;
+		}
 
 		return $replacement;
 	}

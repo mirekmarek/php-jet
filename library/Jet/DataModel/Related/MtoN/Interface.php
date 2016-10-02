@@ -30,37 +30,22 @@ interface DataModel_Related_MtoN_Interface extends DataModel_Related_Interface, 
      */
     public function getArrayKeyValue();
 
+	/**
+	 * @param DataModel_Interface $M_instance
+	 */
+	public function setMInstance(DataModel_Interface $M_instance );
 
-    /**
-     * @param array $where
-     */
-    public function setLoadRelatedDataWhereQueryPart(array $where);
-
-
-    /**
-     * @param array $order_by
-     */
-    public function setLoadRelatedDataOrderBy(array $order_by);
-
-    /**
-     * @return array
-     */
-    public function getLoadRelatedDataOrderBy();
-
-
-    /**
-     * @param DataModel_Interface $M_instance
-     */
-    public function _setMDataModelInstance( DataModel_Interface $M_instance );
     /**
      * @param DataModel_Interface $N_instance
      */
-    public function _setNDataModelInstance( DataModel_Interface $N_instance );
+    public function setNInstance(DataModel_Interface $N_instance );
 
-    /**
-     * @return DataModel|null
-     */
-    public function getInstanceOfN();
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 *
+	 * @return DataModel|null
+	 */
+	public function getNInstance( DataModel_Load_OnlyProperties $load_only_related_properties=null );
 
     /**
      * @return DataModel_ID_Abstract

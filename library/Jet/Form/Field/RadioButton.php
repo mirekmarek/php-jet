@@ -110,6 +110,9 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 			$tag_data->setProperty('class', 'radio');
 			$properties['class'] = 'radio';
 		}
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty( 'disabled', 'disabled' );
+		}
 
 
 		if($this->_value==$key) {

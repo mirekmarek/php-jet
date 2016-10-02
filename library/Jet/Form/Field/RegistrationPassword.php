@@ -153,7 +153,24 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	 *
 	 * @return string
 	 */
+	protected function _getReplacement_field_label( Form_Parser_TagData $tag_data ) {
+		if($this->getIsReadonly()) {
+			return '';
+		}
+
+		return parent::_getReplacement_field_label( $tag_data );
+	}
+
+	/**
+	 * @param Form_Parser_TagData $tag_data
+	 *
+	 * @return string
+	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
+
+		if($this->getIsReadonly()) {
+			return '';
+		}
 
 		$tag_data->setProperty( 'name', $this->getName() );
 		$tag_data->setProperty( 'id', $this->getID() );
@@ -170,6 +187,9 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field_check_label( Form_Parser_TagData $tag_data ) {
+		if($this->getIsReadonly()) {
+			return '';
+		}
 
 		$label = $this->getTranslation($this->password_check_label);
 
@@ -192,6 +212,9 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	 * @return string
 	 */
 	protected function _getReplacement_field_check( Form_Parser_TagData $tag_data ) {
+		if($this->getIsReadonly()) {
+			return '';
+		}
 
 		$tag_data->setProperty( 'name', $this->getName().'_check' );
 		$tag_data->setProperty( 'id', $this->getID().'_check' );

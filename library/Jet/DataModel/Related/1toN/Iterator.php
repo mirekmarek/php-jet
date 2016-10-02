@@ -16,12 +16,12 @@
  */
 namespace Jet;
 
-class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
+class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Related_1toN_Iterator_Interface {
 
 	/**
-	 * @var string
+	 * @var DataModel_Definition_Model_Related_1toN
 	 */
-	protected $item_class_name = '';
+	protected $item_definition;
 
 	/**
 	 * @var DataModel_Related_1toN[]
@@ -34,11 +34,30 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	protected $_empty_item_instance;
 
 	/**
-	 * @param $item_class_name
+	 * @var DataModel_Related_1toN[]
 	 */
-	public function __construct( $item_class_name ) {
+	private $_deleted_items = [];
+	/**
+	 * @var DataModel_Interface
+	 */
+	private $_main_model_instance;
 
-		$this->item_class_name = $item_class_name;
+	/**
+	 * @var DataModel_Interface
+	 */
+	private $_parent_model_instance;
+
+	/**
+	 * @var array
+	 */
+	private $_load_related_data_order_by = [];
+
+	/**
+	 * @param DataModel_Definition_Model_Related_1toN $item_definition
+	 */
+	public function __construct( DataModel_Definition_Model_Related_1toN $item_definition ) {
+
+		$this->item_definition = $item_definition;
 	}
 
 
@@ -49,12 +68,8 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 
 		if(!$this->_empty_item_instance) {
 
-			$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-			$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-
-			$this->_empty_item_instance = new $this->item_class_name();
-
-			$this->_empty_item_instance->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
+			$class_name = $this->item_definition->getClassName();
+			$this->_empty_item_instance = new $class_name();
 		}
 
 		return $this->_empty_item_instance;
@@ -74,24 +89,14 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	 */
 	public function setupParentObjects( DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance=null ) {
 
-		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
+		$this->_main_model_instance = $main_model_instance;
+		$this->_parent_model_instance = $parent_model_instance;
 
-		$this_main_model_instance = $main_model_instance;
-		$this_parent_model_instance = $parent_model_instance;
-
-		/**
-		 * @var DataModel_Related_1toN $this_empty_item_instance
-		 */
-		$this_empty_item_instance = &DataModel_ObjectState::getVar($this, 'empty_item_instance');
-
-		if($this_empty_item_instance) {
-			$this_empty_item_instance->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
-		}
+		$this->_getEmptyItemInstance()->setupParentObjects($this->_main_model_instance, $this->_parent_model_instance);
 
 		if($this->items) {
 			foreach( $this->items as $item ) {
-				$item->setupParentObjects( $this_main_model_instance, $this_parent_model_instance );
+				$item->setupParentObjects( $this->_main_model_instance, $this->_parent_model_instance );
 			}
 		}
 
@@ -104,25 +109,118 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	 */
 	public function setLoadRelatedDataOrderBy(array $order_by)
 	{
-		$this->_getEmptyItemInstance()->setLoadRelatedDataOrderBy( $order_by );
+		$this->_load_related_data_order_by = $order_by;
 	}
 
-    /**
-     * @param array $load_only_related_properties
-     *
-     * @return mixed
-     */
-    public function loadRelatedData( array $load_only_related_properties=[] ) {
-		return $this->_getEmptyItemInstance()->loadRelatedData( $load_only_related_properties );
+	/**
+	 * @return array
+	 */
+	public function getLoadRelatedDataOrderBy()
+	{
+		return $this->_load_related_data_order_by ? $this->_load_related_data_order_by : $this->item_definition->getDefaultOrderBy();
 	}
+
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 *
+	 * @return array
+	 */
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+    {
+    	if(
+    		$load_only_related_properties &&
+		    !$load_only_related_properties->getAllowToLoadModel( $this->item_definition->getModelName() )
+	    ) {
+    		return [];
+	    }
+
+	    $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
+
+	    return $this->_getEmptyItemInstance()->getBackendInstance()->fetchAll($query);
+	}
+
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 * @return DataModel_Query
+	 * @throws DataModel_Exception
+	 */
+	protected function getLoadRelatedDataQuery( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+	{
+
+		/**
+		 * @var DataModel_Interface|DataModel_Related_Interface $this
+		 */
+
+		$query = new DataModel_Query( $this->item_definition );
+
+		$select = DataModel_Load_OnlyProperties::getSelectProperties( $this->item_definition, $load_only_related_properties );
+
+		$query->setSelect( $select );
+		$query->setWhere([]);
+
+		$where = $query->getWhere();
+
+		if( $this->_main_model_instance ) {
+			$main_model_ID = $this->_main_model_instance->getIdObject();
+
+			foreach( $this->item_definition->getMainModelRelationIDProperties() as $property ) {
+				/**
+				 * @var DataModel_Definition_Property_Abstract $property
+				 */
+				$property_name = $property->getRelatedToPropertyName();
+				$value = $main_model_ID[ $property_name ];
+
+				$where->addAND();
+				$where->addExpression(
+					$property,
+					DataModel_Query::O_EQUAL,
+					$value
+
+				);
+
+			}
+		} else {
+			if( $this->_parent_model_instance ) {
+				$parent_model_ID = $this->_parent_model_instance->getIdObject();
+
+				foreach( $this->item_definition->getParentModelRelationIDProperties() as $property ) {
+					/**
+					 * @var DataModel_Definition_Property_Abstract $property
+					 */
+					$property_name = $property->getRelatedToPropertyName();
+					$value = $parent_model_ID[ $property_name ];
+
+					$where->addAND();
+					$where->addExpression(
+						$property,
+						DataModel_Query::O_EQUAL,
+						$value
+
+					);
+
+				}
+
+			} else {
+				throw new DataModel_Exception('Parents are not set!');
+			}
+		}
+
+		$order_by = $this->getLoadRelatedDataOrderBy();
+		if($order_by) {
+			$query->setOrderBy( $order_by );
+		}
+
+
+		return $query;
+	}
+
 
 	/**
 	 * @param array &$loaded_related_data
 	 * @return mixed
 	 */
 	public function loadRelatedInstances(array &$loaded_related_data ) {
-		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
-		$this_deleted_items = [];
+		$this->_deleted_items = [];
 
 		$this->items = $this->_getEmptyItemInstance()->loadRelatedInstances($loaded_related_data);
 
@@ -220,11 +318,8 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	 * @throws DataModel_Exception
 	 */
 	public function save() {
-		$this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-		$this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
 
-		foreach($this_deleted_items as $item) {
+		foreach($this->_deleted_items as $item) {
 			/**
 			 * @var DataModel_Related_1toN $item
 			 */
@@ -238,7 +333,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 		}
 
 		foreach($this->items as $item) {
-			$item->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
+			$item->setupParentObjects($this->_main_model_instance, $this->_parent_model_instance);
 			$item->save();
 		}
 
@@ -253,9 +348,8 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 		/**
 		 * @var DataModel_Related_1toN[] $this_deleted_items
 		 */
-		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
 
-		foreach($this_deleted_items as $item) {
+		foreach($this->_deleted_items as $item) {
 			$item->delete();
 		}
 
@@ -316,30 +410,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	}
 
 
-	/** @noinspection PhpMissingParentCallMagicInspection
-	 *
-	 * @return array
-	 */
-	public function __sleep() {
-		$this->validateKeys();
-
-		return ['item_class_name', 'items'];
-	}
-
-	/**
-	 *
-	 */
-	public function __wakeup() {
-		if(!$this->items) {
-			$this->items = [];
-			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
-			$this_deleted_items = [];
-		} else {
-			$this->validateKeys();
-		}
-	}
-
-
 	/**
 	 *
 	 */
@@ -372,10 +442,9 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	/**
 	 *
 	 */
-	public function clearData() {
+	public function removeAllItems() {
 		if($this->items) {
-			$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
-			$this_deleted_items = $this->items;
+			$this->_deleted_items = $this->items;
 		}
 		$this->items = [];
 	}
@@ -419,7 +488,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	public function offsetSet( $offset , $value ) {
 
 
-		$valid_class = $this->item_class_name;
+		$valid_class = $this->item_definition->getClassName();
 
 		if( !($value instanceof $valid_class) ) {
 			throw new DataModel_Exception(
@@ -450,8 +519,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 	 * @param mixed $offset
 	 */
 	public function offsetUnset( $offset )	{
-		$this_deleted_items = &DataModel_ObjectState::getVar($this, 'deleted_items', []);
-		$this_deleted_items[] = $this->items[$offset];
+		$this->_deleted_items[] = $this->items[$offset];
 
 		unset( $this->items[$offset] );
 	}
@@ -504,36 +572,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements \ArrayAccess
 			return false;
 		}
 		return key($this->items)!==null;
-	}
-
-
-	/**
-	 *
-	 */
-	protected function validateKeys() {
-		if(!$this->items) {
-			return;
-		}
-		$items = [];
-		foreach($this->items as $key=>$item) {
-
-			$new_key = $item->getArrayKeyValue();
-			$key = $new_key!==null ? $new_key : $key;
-
-			if(is_object($key)) {
-				$key = (string)$key;
-			}
-
-			if(!$key) {
-				$items[] = $item;
-			} else {
-				$items[$key] = $item;
-			}
-
-		}
-
-		$this->items = $items;
-
 	}
 
 }

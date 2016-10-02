@@ -38,6 +38,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
@@ -61,7 +62,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:do_not_export = true
-	 * @JetDataModel:max_len = 100
+	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
@@ -138,7 +139,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = true
-	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:form_field_label = 'Password is valid'
 	 *
 	 * @var bool
 	 */
@@ -148,7 +149,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:default_value = null
-	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:form_field_label = 'Password is valid till'
 	 *
 	 * @var Data_DateTime
 	 */
@@ -158,7 +159,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = false
-	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:form_field_label = 'User is blocked'
 	 *
 	 * @var bool
 	 */
@@ -168,7 +169,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:default_value = null
-	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:form_field_label = 'User is blocked till'
 	 *
 	 * @var Data_DateTime
 	 */
@@ -178,7 +179,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:default_value = true
-	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:form_field_label = 'User is activated'
 	 *
 	 * @var bool
 	 */
@@ -303,7 +304,16 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @return string
 	 */
 	public function encryptPassword( $password ) {
-		return md5($password);
+		return password_hash( $password, PASSWORD_DEFAULT );
+	}
+
+	/**
+	 * @param string $plain_password\
+	 *
+	 * @return bool
+	 */
+	public function verifyPassword( $plain_password ) {
+		return password_verify( $plain_password, $this->password );
 	}
 
 	/**
@@ -565,9 +575,15 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		 */
 		$user = $this->fetchOneObject( [
 			'this.login' => $login,
-			'AND',
-			'this.password' => $this->encryptPassword($password)
 		]);
+
+		if(!$user) {
+			return false;
+		}
+
+		if(!$user->verifyPassword($password)) {
+			return false;
+		}
 
 		return $user;
 	}
@@ -649,6 +665,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @return bool
 	 */
 	public function getHasPrivilege( $privilege, $value ) {
+
 		if($this->getIsSuperuser()) {
 			return true;
 		}
@@ -736,6 +753,13 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 		$user = $this;
 
+		$form->getField('password_is_valid_till')->setErrorMessages([
+			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format'
+		]);
+		$form->getField('user_is_blocked_till')->setErrorMessages([
+			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format'
+		]);
+
 		$form->getField('login')->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
 			$login = $field->getValue();
 
@@ -753,7 +777,6 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		});
 
 	}
-
 
 	/**
 	 *

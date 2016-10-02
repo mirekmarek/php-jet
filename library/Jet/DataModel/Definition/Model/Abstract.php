@@ -341,6 +341,7 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 		$this->properties = [];
 
 		foreach( $properties_definition_data as $property_name=>$property_dd ) {
+
 			if(isset($property_dd['related_to'])) {
 				$property_definition = $this->_initGlueProperty($property_name, $property_dd['related_to'], $property_dd);
 			} else {
@@ -995,6 +996,9 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 				break;
 			case 'ID_class_name':
 				$reflection_data['data_model_ID_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
+				break;
+			case 'iterator_class_name':
+				$reflection_data['iterator_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'ID_options':
 				$reflection_data['ID_options'] = $value;

@@ -1041,7 +1041,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 * @return bool
 	 */
 	public function getAuthenticationRequired() {
-		return $this->authentication_required;
+		return $this->authentication_required || $this->getIsAdminUI();
 	}
 
 	/**

@@ -212,6 +212,9 @@ class Form_Field_File extends Form_Field_Abstract {
 		$tag_data->setProperty( 'type', 'file' );
 		$tag_data->setProperty( 'required', 'required');
 		//$tag_data->setProperty( 'value', $this->getValue() );
+		if($this->getIsReadonly()) {
+			return '';
+		}
 
 		if($this->allowed_mime_types) {
 			$tag_data->setProperty( 'accept', implode(',', $this->allowed_mime_types) );

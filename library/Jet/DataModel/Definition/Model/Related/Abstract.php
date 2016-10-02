@@ -159,12 +159,12 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		parent::_initProperties();
 
-
 		$related_definition_data = $this->_getPropertiesDefinitionData( $this->main_model_class_name );
 		foreach( $related_definition_data as $property_name=>$pd ) {
 			if(empty($pd['is_ID'])) {
 				continue;
 			}
+
 			if(
 				!in_array($property_name, $this->__main_ID_glue_defined)
 			) {
@@ -175,12 +175,16 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			}
 		}
 
-
 		if($this->is_sub_related_model) {
 			$related_definition_data = $this->_getPropertiesDefinitionData( $this->parent_model_class_name );
+
 			foreach( $related_definition_data as $property_name=>$pd ) {
 
-				if(empty($pd['is_ID'])) {
+				if(
+					empty($pd['is_ID']) ||
+					!empty($pd['related_to'])
+				)
+				{
 					continue;
 				}
 
@@ -208,6 +212,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	protected function _initGlueProperty( $this_ID_property_name, $related_to, $property_definition_data ) {
 
 		$related_to = explode('.', $related_to);
+
 		if(count($related_to)!=2) {
 			throw new DataModel_Exception(
 				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.ID\', @JetDataModel:related_to=\'main.ID\'  ',
@@ -345,14 +350,10 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	/**
 	 *
 	 * @param DataModel_Definition_Relations $internal_relations
-	 * @param string $parent_model_class_name
 	 *
 	 */
 	public function getInternalRelations(
-		DataModel_Definition_Relations $internal_relations,
-		/** @noinspection PhpUnusedParameterInspection */
-		$parent_model_class_name=''
-
+		DataModel_Definition_Relations $internal_relations
 	) {
 
 		$internal_relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(

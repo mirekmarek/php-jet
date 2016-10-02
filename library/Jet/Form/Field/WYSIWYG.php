@@ -153,6 +153,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
+
 		$layout = $this->__form->getLayout();
 
 		foreach( $this->WYSIWYG_editor_CSS_files as $media=>$CSS_files ) {
@@ -174,6 +175,10 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		if(!$this->WYSIWYG_editor_initialize_code_generator) {
 			$this->WYSIWYG_editor_initialize_code_generator = function( $node_ID, $editor_config ) {
 				$editor_config['selector'] = '#'.$node_ID;
+				if($this->getIsReadonly()) {
+					$editor_config['readonly'] = 1;
+				}
+
 				return '<script type="text/javascript">'
 						.'tinymce.init('.json_encode($editor_config).');'
 					.'</script>'.JET_EOL;

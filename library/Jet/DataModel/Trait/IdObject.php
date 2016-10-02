@@ -18,6 +18,11 @@ namespace Jet;
 
 trait DataModel_Trait_IdObject {
 
+	/**
+	 * @var DataModel_ID_Abstract
+	 */
+	private $_ID_object;
+
     /**
      * Returns ID
      *
@@ -28,17 +33,15 @@ trait DataModel_Trait_IdObject {
          * @var DataModel $this
          */
 
-        $ID = &DataModel_ObjectState::getVar($this, 'ID');
-
-        if(!$ID) {
-            $ID = $this->getEmptyIdObject();
+        if(!$this->_ID_object) {
+	        $this->_ID_object = $this->getEmptyIdObject();
         }
 
-        foreach($ID as $property_name => $value) {
-            $ID[$property_name] = $this->{$property_name};
+        foreach($this->_ID_object as $property_name => $value) {
+	        $this->_ID_object[$property_name] = $this->{$property_name};
         }
 
-        return $ID;
+        return $this->_ID_object;
     }
 
 

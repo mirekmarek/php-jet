@@ -26,101 +26,6 @@ trait DataModel_Related_Trait_Load {
 	    return new static();
     }
 
-    /**
-     *
-     * @param array $load_only_related_properties
-     * @throws DataModel_Exception
-     * @return DataModel_Query
-     */
-    protected function getLoadRelatedDataQuery(array $load_only_related_properties=[]) {
-
-        /**
-         * @var DataModel_Interface|DataModel_Related_Interface $this
-         * @var DataModel_Definition_Model_Related_Abstract $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
-
-        $query = new DataModel_Query( $data_model_definition );
-
-        if(!$load_only_related_properties) {
-            $select = $data_model_definition->getProperties();
-        } else {
-            $select = [];
-
-            foreach( $load_only_related_properties as $lp ) {
-
-                list($model_name, $property_name) = explode('.', $lp);
-
-                if($model_name!=$data_model_definition->getModelName()) {
-                    continue;
-                }
-
-                $select[] = $data_model_definition->getProperty($property_name);
-            }
-            $select = [];
-        }
-
-        $query->setSelect( $select );
-        $query->setWhere([]);
-
-        $where = $query->getWhere();
-
-        /**
-         * @var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        /**
-         * @var DataModel_Interface $this_parent_model_instance
-         */
-        $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-
-        if( $this_main_model_instance ) {
-            $main_model_ID = $this_main_model_instance->getIdObject();
-
-            foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
-                /**
-                 * @var DataModel_Definition_Property_Abstract $property
-                 */
-                $property_name = $property->getRelatedToPropertyName();
-                $value = $main_model_ID[ $property_name ];
-
-                $where->addAND();
-                $where->addExpression(
-                    $property,
-                    DataModel_Query::O_EQUAL,
-                    $value
-
-                );
-
-            }
-        } else {
-            if( $this_parent_model_instance ) {
-                $parent_model_ID = $this_parent_model_instance->getIdObject();
-
-                foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
-                    /**
-                     * @var DataModel_Definition_Property_Abstract $property
-                     */
-                    $property_name = $property->getRelatedToPropertyName();
-                    $value = $parent_model_ID[ $property_name ];
-
-                    $where->addAND();
-                    $where->addExpression(
-                        $property,
-                        DataModel_Query::O_EQUAL,
-                        $value
-
-                    );
-
-                }
-
-            } else {
-                throw new DataModel_Exception('Parents are not set!');
-            }
-        }
-
-        return $query;
-    }
 
     /**
      * @param array &$loaded_related_data
@@ -132,10 +37,6 @@ trait DataModel_Related_Trait_Load {
          */
         $definition = $this->getDataModelDefinition();
 
-        /**
-         * var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
 
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
@@ -147,7 +48,7 @@ trait DataModel_Related_Trait_Load {
                 continue;
             }
 
-            $property->setupParentObjects( $this_main_model_instance, $this );
+            $property->setupParentObjects( $this->_main_model_instance, $this );
 
             $this->{$property_name} = $property->loadRelatedInstances( $loaded_related_data );
         }
@@ -164,11 +65,8 @@ trait DataModel_Related_Trait_Load {
          * @var DataModel_Interface|DataModel_Related_Interface $this
          */
 
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        $this_main_model_instance = $main_model_instance;
-
-        $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-        $this_parent_model_instance = $parent_model_instance;
+        $this->_main_model_instance = $main_model_instance;
+        $this->_parent_model_instance = $parent_model_instance;
 
         $main_ID = $main_model_instance->getIdObject();
         /**
@@ -220,7 +118,7 @@ trait DataModel_Related_Trait_Load {
                 continue;
             }
 
-            $property->setupParentObjects($this_main_model_instance, $this);
+            $property->setupParentObjects($this->_main_model_instance, $this);
 
         }
 
@@ -241,9 +139,9 @@ trait DataModel_Related_Trait_Load {
         /**
          * var DataModel $this_main_model_instance
          */
-        $this_main_model_instance = DataModel_ObjectState::getVar($this, 'main_model_instance');
-        if(!$this_main_model_instance ) {
-            $this_main_model_instance  = $this;
+
+        if(!$this->_main_model_instance ) {
+            $this->_main_model_instance  = $this;
             $parent_model_instance = null;
         } else {
             $parent_model_instance = $this;
@@ -254,7 +152,7 @@ trait DataModel_Related_Trait_Load {
 
             if(($this->{$property_name} instanceof DataModel_Related_Interface)) {
 
-                $this->{$property_name}->setupParentObjects( $this_main_model_instance, $parent_model_instance );
+                $this->{$property_name}->setupParentObjects( $this->_main_model_instance, $parent_model_instance );
                 if($loaded_related_data) {
                     $property_definition->loadPropertyValue( $this->{$property_name}, $loaded_related_data );
                 }

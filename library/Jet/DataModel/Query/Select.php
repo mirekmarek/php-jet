@@ -108,6 +108,13 @@ class DataModel_Query_Select extends BaseObject implements \Iterator {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function getIsEmpty() {
+		return (count($this->items)==0);
+	}
+
+	/**
 	 *
 	 *
 	 * @param DataModel_Query_Select_Item|DataModel_Query_Select_Item $item

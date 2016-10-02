@@ -19,13 +19,18 @@ namespace Jet;
 trait DataModel_Related_1toN_Trait {
     use DataModel_Related_Trait;
 
-
-
     /**
      * @return DataModel_Related_Interface
      */
     public function createNewRelatedDataModelInstance() {
-        $i = new DataModel_Related_1toN_Iterator( get_called_class() );
+	    /**
+	     * @var DataModel_Definition_Model_Related_1toN $data_model_definition
+	     */
+	    $data_model_definition = $this->getDataModelDefinition();
+
+	    $iterator_class_name = $data_model_definition->getIteratorClassName();
+
+        $i = new $iterator_class_name( $data_model_definition );
 
         return $i;
     }
@@ -40,45 +45,15 @@ trait DataModel_Related_1toN_Trait {
     }
 
 
-    /**
-     * @param array $order_by
-     */
-    public function setLoadRelatedDataOrderBy(array $order_by)
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 *
+	 * @return array
+	 */
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
     {
-        $this_load_related_data_order_by = &DataModel_ObjectState::getVar($this, 'load_related_data_order_by' );
-        $this_load_related_data_order_by = $order_by;
-    }
 
-    /**
-     * @return array
-     */
-    public function getLoadRelatedDataOrderBy()
-    {
-        /**
-         * @var DataModel_Definition_Model_Related_1toN $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
-
-        $this_load_related_data_order_by = &DataModel_ObjectState::getVar($this, 'load_related_data_order_by' );
-
-        return $this_load_related_data_order_by ? $this_load_related_data_order_by : $data_model_definition->getDefaultOrderBy();
-    }
-
-
-    /**
-     * @param array $load_only_related_properties
-     * @return mixed
-     */
-    public function loadRelatedData( array $load_only_related_properties=[] ) {
-
-        $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
-
-        $order_by = $this->getLoadRelatedDataOrderBy();
-        if($order_by) {
-            $query->setOrderBy( $order_by );
-        }
-
-        return $this->getBackendInstance()->fetchAll( $query );
+        return [];
     }
 
     /**
@@ -92,18 +67,9 @@ trait DataModel_Related_1toN_Trait {
          */
         $data_model_definition = $this->getDataModelDefinition();
 
-        /**
-         * @var DataModel $this_main_model_instance
-         */
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        /**
-         * @var DataModel_Related_Interface|DataModel_Interface $this_parent_model_instance
-         */
-        $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-
         $parent_ID_values = [];
-        if($this_parent_model_instance) {
-            $parent_ID = $this_parent_model_instance->getIdObject();
+        if($this->_parent_model_instance) {
+            $parent_ID = $this->_parent_model_instance->getIdObject();
 
             foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
 
@@ -137,7 +103,7 @@ trait DataModel_Related_1toN_Trait {
              * @var DataModel_Related_1toN $loaded_instance
              */
             $loaded_instance = new static();
-            $loaded_instance->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
+            $loaded_instance->setupParentObjects($this->_main_model_instance, $this->_parent_model_instance);
             $loaded_instance->_setRelatedData( $dat, $loaded_related_data );
 
 

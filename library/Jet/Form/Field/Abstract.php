@@ -108,6 +108,11 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @var bool
 	 */
 	protected $is_required = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $is_readonly = false;
 	
 	/**
 	 * validation regexp
@@ -165,13 +170,6 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	}
 
 	/**
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->_name = $name;
-	}
-
-	/**
 	 * Set field options
 	 *
 	 * @param array $options
@@ -189,23 +187,15 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	}
 
 	/**
-	 * set form instance
-	 * 
-	 * @param Form $form
+	 * @param string $name
 	 */
-	public function setForm(Form $form) {
-		$this->__form = $form;
-		$this->__form_name = $form->getName();
+	public function setName($name) {
+		$this->_name = $name;
 	}
 
 	/**
-	 * @return array
-	 */
-	abstract public function getRequiredErrorCodes();
-		
-	/**
 	 * returns field name
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getName() {
@@ -220,6 +210,37 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	public function getID() {
 		return $this->__form->getID().'__'.str_replace('/', '___', $this->getName());
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getIsReadonly()
+	{
+		return $this->is_readonly;
+	}
+
+	/**
+	 * @param boolean $is_readonly
+	 */
+	public function setIsReadonly($is_readonly)
+	{
+		$this->is_readonly = $is_readonly;
+	}
+
+	/**
+	 * set form instance
+	 * 
+	 * @param Form $form
+	 */
+	public function setForm(Form $form) {
+		$this->__form = $form;
+		$this->__form_name = $form->getName();
+	}
+
+	/**
+	 * @return array
+	 */
+	abstract public function getRequiredErrorCodes();
 
 	/**
 	 * Options for Select, MultiSelect and so on ...
@@ -242,9 +263,8 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 			$options = [];
 
 			foreach($_o as $k=>$v) {
-				$options[$k] = (string)$v;
+				$options[$k] = $v;
 			}
-
 		}
 
 		$this->select_options = $options;
@@ -682,6 +702,10 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 		$tag_data->setProperty( 'id', $this->getID() );
 		$tag_data->setProperty( 'type', $this->_input_type );
 		$tag_data->setProperty( 'value', $this->getValue() );
+
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty('readonly', 'readonly');
+		}
 
 
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';

@@ -145,7 +145,7 @@ class Mvc_MicroRouter extends BaseObject {
 	 * @param $action_name
 	 * @param ...
 	 *
-	 * @return string
+	 * @return string|bool
 	 */
 	public function getActionURI( $action_name ) {
 

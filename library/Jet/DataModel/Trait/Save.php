@@ -102,10 +102,11 @@ trait DataModel_Trait_Save {
 
     }
 
-    /**
-     *
-     * @param DataModel_Backend_Abstract $backend
-     */
+	/**
+	 * @param DataModel_Backend_Abstract $backend
+	 *
+	 * @throws DataModel_Exception
+	 */
     protected function _update( DataModel_Backend_Abstract $backend ) {
         /**
          * @var DataModel $this
@@ -124,7 +125,12 @@ trait DataModel_Trait_Save {
         }
 
         if(!$record->getIsEmpty()) {
-            $backend->update($record, $this->getIdObject()->getQuery() );
+	        $where_query = $this->getIdObject()->getQuery();
+	        if($where_query->getWhere()->getIsEmpty()) {
+		        throw  new DataModel_Exception('Empty WHERE!');
+	        }
+
+            $backend->update($record, $where_query );
         }
 
         /**
@@ -139,6 +145,7 @@ trait DataModel_Trait_Save {
      *
      */
     protected function _saveRelatedObjects() {
+
         /**
          * @var DataModel $this
          */
@@ -153,8 +160,8 @@ trait DataModel_Trait_Save {
             if(!($prop instanceof DataModel_Related_Interface)) {
                 continue;
             }
-
             $prop->setupParentObjects( $this );
+
             $prop->save();
         }
     }

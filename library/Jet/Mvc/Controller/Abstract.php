@@ -120,7 +120,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	{
 		if(!isset(static::$ACL_actions_check_map[$controller_action])) {
 			throw new Mvc_Controller_Exception(
-				'Action \''.$controller_action.'\' is not specified in ACL check map! Please specify the ACL rules. Add '.get_call_stack().'::$ACL_actions_check_map['.$controller_action.'] entry.',
+				'Action \''.$controller_action.'\' is not specified in ACL check map! Please specify the ACL rules. Add '.get_called_class().'::$ACL_actions_check_map['.$controller_action.'] entry.',
 				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}

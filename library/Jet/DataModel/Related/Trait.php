@@ -17,6 +17,16 @@
 namespace Jet;
 
 trait DataModel_Related_Trait {
+	/**
+	 * @var DataModel
+	 */
+	private $_main_model_instance;
+
+	/**
+	 * @var DataModel
+	 */
+	private $_parent_model_instance;
+
     use DataModel_Trait;
 
     use DataModel_Related_Trait_Definition {

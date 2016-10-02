@@ -247,7 +247,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
         $related_model_definition = $this->getValueDataModelDefinition();
 
-	    $related_model_definition->getInternalRelations( $internal_relations, $this->getDataModelDefinition()->getClassName() );
+	    $related_model_definition->getInternalRelations( $internal_relations );
 
 
     }

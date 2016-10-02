@@ -89,6 +89,10 @@ class Form_Field_Input extends Form_Field_Abstract {
 		$tag_data->setProperty( 'id', $this->getID() );
 		$tag_data->setProperty( 'type', $this->_input_type );
 		$tag_data->setProperty( 'value', $this->getValue() );
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty('readonly', 'readonly');
+		}
+
 
 		if( ($placeholder=$this->getPlaceholder()) ) {
 			$tag_data->setProperty('placeholder', $placeholder);

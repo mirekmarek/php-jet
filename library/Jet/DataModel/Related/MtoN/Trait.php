@@ -19,12 +19,29 @@ namespace Jet;
 trait DataModel_Related_MtoN_Trait {
     use DataModel_Related_Trait;
 
+	/**
+	 * @var DataModel_ID_Abstract
+	 */
+	private $_N_ID;
+
+	/**
+	 * @var DataModel
+	 */
+	private $_N_instance;
+
     /**
      * @return DataModel_Related_Interface
      */
     public function createNewRelatedDataModelInstance()
     {
-        $i = new DataModel_Related_MtoN_Iterator( get_called_class() );
+	    /**
+	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+	     */
+	    $data_model_definition = $this->getDataModelDefinition();
+
+	    $iterator_class_name = $data_model_definition->getIteratorClassName();
+
+        $i = new $iterator_class_name( $data_model_definition );
 
         return $i;
     }
@@ -47,55 +64,16 @@ trait DataModel_Related_MtoN_Trait {
      */
     public function setupParentObjects(DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance = null)
     {
+    	$this->_main_model_instance = $main_model_instance;
+	    $this->_parent_model_instance = $parent_model_instance;
 
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        $this_main_model_instance = $main_model_instance;
+	    if( $parent_model_instance ) {
+		    $M_instance = $parent_model_instance;
+	    } else {
+		    $M_instance = $main_model_instance;
+	    }
 
-        $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-        $this_parent_model_instance = $parent_model_instance;
-
-
-        if( $parent_model_instance ) {
-            $M_instance = $parent_model_instance;
-        } else {
-            $M_instance = $main_model_instance;
-        }
-
-
-        /**
-         * @var DataModel $M_instance
-         */
-        $M_model_name = $M_instance->getDataModelDefinition()->getModelName();
-
-        /**
-         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
-
-        if(!$data_model_definition->getRelatedModelDefinition($M_model_name)  ) {
-            throw new DataModel_Exception(
-                'Class \''.get_class($M_instance).'\' (model name: \''.$M_model_name.'\') is not related to \''.get_class($this).'\'  ',
-                DataModel_Exception::CODE_DEFINITION_NONSENSE
-            );
-        }
-
-
-        $N_model_name = $data_model_definition->getNModelName($M_model_name);
-
-        $this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
-        $this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
-
-        $this_M_model_name = $M_model_name;
-        $this_N_model_name = $N_model_name;
-
-
-        $this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
-        $this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
-
-        $this_M_model_class_name = $data_model_definition->getRelatedModelDefinition($M_model_name)->getClassName();
-        $this_N_model_class_name = $data_model_definition->getRelatedModelDefinition($N_model_name)->getClassName();
-
-        $this->_setMDataModelInstance( $M_instance );
+	    $this->setMInstance( $M_instance );
 
     }
 
@@ -109,137 +87,15 @@ trait DataModel_Related_MtoN_Trait {
     }
 
 
-    /**
-     * @param array $load_only_related_properties
-     *
-     * @return mixed
-     */
-    public function loadRelatedData( array $load_only_related_properties=[] )
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 *
+	 * @return array
+	 */
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
     {
-
-        $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
-
-        return $this->getBackendInstance()->fetchAll( $query );
+    	return [];
     }
-
-    /**
-     *
-     * @param $load_only_related_properties
-     * @return DataModel_Query
-     */
-    protected function getLoadRelatedDataQuery( $load_only_related_properties ) {
-
-        $query = new DataModel_Query( $this->getDataModelDefinition() );
-
-        $query->setWhere($this->getLoadRelatedDataWhereQueryPart());
-
-        $where = $query->getWhere();
-
-        /**
-         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
-
-        $this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
-        $M_ID_properties = $data_model_definition->getRelationIDProperties($this_M_model_name);
-
-        $this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID' );
-
-        foreach($M_ID_properties as $M_ID_property) {
-            /**
-             * @var DataModel_Definition_Property_Abstract $M_ID_property
-             */
-            $value = $this_M_ID[$M_ID_property->getRelatedToPropertyName()];
-
-            if($value===null)  {
-                continue;
-            }
-
-            $where->addAND();
-            $where->addExpression( $M_ID_property, DataModel_Query::O_EQUAL, $value);
-        }
-
-
-        $data_model_definition = $this->getDataModelDefinition();
-
-        $query = new DataModel_Query( $data_model_definition );
-
-        if(!$load_only_related_properties) {
-            $select = $data_model_definition->getProperties();
-        } else {
-            $select = [];
-
-            foreach( $load_only_related_properties as $lp ) {
-
-                list($model_name, $property_name) = explode('.', $lp);
-
-                if($model_name!=$data_model_definition->getModelName()) {
-                    continue;
-                }
-
-                $select[] = $data_model_definition->getProperty($property_name);
-            }
-        }
-
-        $query->setSelect( $select );
-
-        $this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
-
-        $relation = $data_model_definition->getRelationToN( $this_M_model_class_name );
-        $this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
-        $query->addRelation($this_N_model_name, $relation);
-
-
-        $order_by = $this->getLoadRelatedDataOrderBy();
-        if($order_by) {
-            $query->setOrderBy( $order_by );
-        }
-
-        return $query;
-    }
-
-    /**
-     * @param array $where
-     */
-    public function setLoadRelatedDataWhereQueryPart(array $where)
-    {
-        $this_load_related_data_where_query_part = &DataModel_ObjectState::getVar($this, 'load_related_data_where_query_part' );
-        $this_load_related_data_where_query_part = $where;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getLoadRelatedDataWhereQueryPart() {
-        $this_load_related_data_where_query_part = &DataModel_ObjectState::getVar($this, 'load_related_data_where_query_part', [] );
-
-        return $this_load_related_data_where_query_part;
-    }
-
-    /**
-     * @param array $order_by
-     */
-    public function setLoadRelatedDataOrderBy(array $order_by)
-    {
-        $this_load_related_data_order_by = &DataModel_ObjectState::getVar($this, 'load_related_data_order_by' );
-        $this_load_related_data_order_by = $order_by;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLoadRelatedDataOrderBy()
-    {
-        /**
-         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
-
-        $this_load_related_data_order_by = &DataModel_ObjectState::getVar($this, 'load_related_data_order_by' );
-
-        return $this_load_related_data_order_by ? $this_load_related_data_order_by : $data_model_definition->getDefaultOrderBy();
-    }
-
 
 
     /**
@@ -262,12 +118,6 @@ trait DataModel_Related_MtoN_Trait {
             return $items;
         }
 
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-        $this_parent_model_instance = &DataModel_ObjectState::getVar($this, 'parent_model_instance');
-        $this_M_model_class_name = &DataModel_ObjectState::getVar($this, 'M_model_class_name' );
-        $this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
-        $this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
-        $this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
 
         foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
 
@@ -275,32 +125,7 @@ trait DataModel_Related_MtoN_Trait {
              * @var DataModel_Related_MtoN $loaded_instance
              */
             $loaded_instance = new static();
-            $loaded_instance->setupParentObjects($this_main_model_instance, $this_parent_model_instance);
             $loaded_instance->_setRelatedData( $dat );
-
-
-
-            $loaded_instance_M_model_class_name = &DataModel_ObjectState::getVar($loaded_instance, 'M_model_class_name' );
-            $loaded_instance_N_model_class_name = &DataModel_ObjectState::getVar($loaded_instance, 'N_model_class_name' );
-
-            $loaded_instance_M_model_class_name = $this_M_model_class_name;
-            $loaded_instance_N_model_class_name = $this_N_model_class_name;
-
-            $loaded_instance_M_model_name = &DataModel_ObjectState::getVar($loaded_instance, 'M_model_name' );
-            $loaded_instance_N_model_name = &DataModel_ObjectState::getVar($loaded_instance, 'N_model_name' );
-
-            $loaded_instance_M_model_name = $this_M_model_name;
-            $loaded_instance_N_model_name = $this_N_model_name;
-
-            $this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID' );
-            $loaded_instance_M_ID = &DataModel_ObjectState::getVar($loaded_instance, 'M_ID' );
-
-            $loaded_instance_M_ID = $this_M_ID;
-
-            $this_M_instance = &DataModel_ObjectState::getVar($this, 'M_instance' );
-            $loaded_instance_M_instance = &DataModel_ObjectState::getVar($loaded_instance, 'M_instance' );
-
-            $loaded_instance_M_instance = $this_M_instance;
 
             unset($loaded_related_data[$model_name][$i]);
 
@@ -320,122 +145,89 @@ trait DataModel_Related_MtoN_Trait {
         return $items;
     }
 
-    /**
-     * @param DataModel_Interface $M_instance
-     */
-    public function _setMDataModelInstance( DataModel_Interface $M_instance ) {
 
-        $this_M_instance = &DataModel_ObjectState::getVar($this, 'M_instance' );
-        $this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID' );
+	/**
+	 * @param DataModel_Interface $M_instance
+	 */
+	public function setMInstance( DataModel_Interface $M_instance )
+	{
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+		 */
+		$data_model_definition = $this->getDataModelDefinition();
 
-        $this_M_instance = $M_instance;
-        $this_M_ID = $M_instance->getIdObject();
+		$M_ID = $M_instance->getIdObject();
+		$M_ID_properties = $data_model_definition->getMRelationIDProperties();
 
-        /**
-         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
 
-        $this_M_model_name = &DataModel_ObjectState::getVar($this, 'M_model_name' );
+		foreach($M_ID_properties as $M_ID_property) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $M_ID_property
+			 */
+			$value = $M_ID[$M_ID_property->getRelatedToPropertyName()];
 
-        $ID_properties = $data_model_definition->getRelationIDProperties($this_M_model_name);
+			$this->{$M_ID_property->getName()} = $value;
+		}
 
-        $this_M_ID = &DataModel_ObjectState::getVar($this, 'M_ID' );
-
-        foreach($ID_properties as $ID_property) {
-            /**
-             * @var DataModel_Definition_Property_Abstract $ID_property
-             */
-
-            if(!isset($this_M_ID[$ID_property->getRelatedToPropertyName()])) {
-                continue;
-            }
-
-            $ID_value = $this_M_ID[$ID_property->getRelatedToPropertyName()];
-
-            if(
-                $this->getIsSaved() &&
-                $this->{$ID_property->getName()} != $ID_value
-            ) {
-                $this->setIsNew();
-            }
-
-            $this->{$ID_property->getName()} = $ID_value;
-
-        }
-
-    }
+	}
 
     /**
      * @param DataModel_Interface $N_instance
      */
-    public function _setNDataModelInstance( DataModel_Interface $N_instance ) {
-        $this_N_instance = &DataModel_ObjectState::getVar($this, 'N_instance' );
-        $this_N_ID = &DataModel_ObjectState::getVar($this, 'N_ID' );
+    public function setNInstance( DataModel_Interface $N_instance ) {
+    	$this->_N_instance = $N_instance;
+	    $this->_N_instance = $N_instance->getIdObject();
 
-        $this_N_instance = $N_instance;
-        $this_N_ID = $N_instance->getIdObject();
+	    /**
+	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+	     */
+	    $data_model_definition = $this->getDataModelDefinition();
 
-        /**
-         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-         */
-        $data_model_definition = $this->getDataModelDefinition();
-
-        $this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
-        $ID_properties = $data_model_definition->getRelationIDProperties($this_N_model_name);
+	    $N_ID = $N_instance->getIdObject();
+	    $N_ID_properties = $data_model_definition->getNRelationIDProperties();
 
 
-        foreach($ID_properties as $ID_property) {
-            /**
-             * @var DataModel_Definition_Property_Abstract $ID_property
-             */
+	    foreach($N_ID_properties as $N_ID_property) {
+		    /**
+		     * @var DataModel_Definition_Property_Abstract $M_ID_property
+		     */
+		    $value = $N_ID[$N_ID_property->getRelatedToPropertyName()];
 
-            if(!isset($this_N_ID[$ID_property->getRelatedToPropertyName()])) {
-                continue;
-            }
-
-            $ID_value = $this_N_ID[$ID_property->getRelatedToPropertyName()];
-
-            if(
-                $this->getIsSaved() &&
-                $this->{$ID_property->getName()} != $ID_value
-            ) {
-                $this->setIsNew();
-            }
-
-            $this->{$ID_property->getName()} = $ID_value;
-
-        }
+		    $this->{$N_ID_property->getName()} = $value;
+	    }
 
     }
 
-    /**
-     * @return DataModel|null
-     */
-    public function getInstanceOfN() {
-        $this_N_instance = &DataModel_ObjectState::getVar($this, 'N_instance' );
+	/**
+	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 *
+	 * @return DataModel|null
+	 */
+    public function getNInstance( DataModel_Load_OnlyProperties $load_only_related_properties=null ) {
 
-        if(!$this_N_instance) {
+        if(!$this->_N_instance) {
 
-            $this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
+	        /**
+	         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+	         */
+	        $data_model_definition = $this->getDataModelDefinition();
 
-            $n_class_name = $this_N_model_class_name;
+            $n_class_name = $data_model_definition->getNModelClassName();
 
             /** @noinspection PhpUndefinedMethodInspection */
-            $this_N_instance = $n_class_name::load($this->getNID());
+	        $this->_N_instance = $n_class_name::load($this->getNID(), $load_only_related_properties);
 
         }
 
-        return $this_N_instance;
+        return $this->_N_instance;
     }
 
     /**
      * @return DataModel_ID_Abstract
      */
     public function getNID() {
-        $this_N_ID = &DataModel_ObjectState::getVar($this, 'N_ID' );
 
-        if(!$this_N_ID) {
+        if(!$this->_N_ID) {
             /**
              * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
              */
@@ -444,25 +236,22 @@ trait DataModel_Related_MtoN_Trait {
             /**
              * @var DataModel_Definition_Property_Abstract[] $N_ID_properties
              */
-            $this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
-            $N_ID_properties = $data_model_definition->getRelationIDProperties($this_N_model_name);
-
-            $this_N_model_class_name = &DataModel_ObjectState::getVar($this, 'N_model_class_name' );
-            $n_class_name = $this_N_model_class_name;
+            $N_ID_properties = $data_model_definition->getNRelationIDProperties();
+            $n_class_name = $data_model_definition->getNModelClassName();
 
             /**
              * @var DataModel $N_model_instance
              */
             $N_model_instance = new $n_class_name();
-            $this_N_ID = $N_model_instance->getEmptyIdObject();
+            $this->_N_ID = $N_model_instance->getEmptyIdObject();
 
             foreach( $N_ID_properties as $N_ID_prop_name=>$N_ID_prop) {
-                $this_N_ID[$N_ID_prop->getRelatedToPropertyName()] = $this->{$N_ID_prop_name};
+                $this->_N_ID[$N_ID_prop->getRelatedToPropertyName()] = $this->{$N_ID_prop_name};
             }
 
         }
 
-        return $this_N_ID;
+        return $this->_N_ID;
     }
 
 
@@ -474,8 +263,13 @@ trait DataModel_Related_MtoN_Trait {
      * @return string
      */
     public function XMLSerialize($prefix='' ) {
-        $this_N_model_name = &DataModel_ObjectState::getVar($this, 'N_model_name' );
-        $N_class_name = $this_N_model_name;
+
+	    /**
+	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+	     */
+	    $data_model_definition = $this->getDataModelDefinition();
+
+        $N_class_name = $data_model_definition->getNModelClassName();
 
         $result = '';
 

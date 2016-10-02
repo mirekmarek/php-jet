@@ -361,7 +361,7 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 				$result .= $indent.JET_TAB;
 
 			} else {
-				$result .= $indent.JET_TAB.'\''.addslashes($key).'\' => ';
+				$result .= $indent.JET_TAB.'\''.str_replace("'","\\'",$key).'\' => ';
 			}
 
 			if(is_array($value)) {

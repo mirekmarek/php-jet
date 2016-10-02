@@ -27,8 +27,6 @@ trait DataModel_Related_Trait_Save {
          */
         $definition = $this->getDataModelDefinition();
 
-        $this_main_model_instance = &DataModel_ObjectState::getVar($this, 'main_model_instance');
-
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
             /**
@@ -39,7 +37,7 @@ trait DataModel_Related_Trait_Save {
                 continue;
             }
 
-            $property->setupParentObjects( $this_main_model_instance, $this );
+            $property->setupParentObjects( $this->_main_model_instance, $this );
             $property->save();
 
         }

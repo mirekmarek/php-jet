@@ -34,6 +34,9 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 		$tag_data->setProperty( 'name', $this->getName() );
 		$tag_data->setProperty( 'id', $this->getID() );
+		if($this->getIsReadonly()) {
+			$tag_data->setProperty( 'readonly', 'readonly' );
+		}
 
 		return '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>';
 	}
