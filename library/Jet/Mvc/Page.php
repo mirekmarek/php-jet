@@ -110,15 +110,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	protected $order = 0;
 
-	/**
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:default_value = 'Standard'
-	 *
-	 * @var string
-	 */
-	protected $service_type = Mvc::SERVICE_TYPE_STANDARD;
-
 
 	/**
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
@@ -487,23 +478,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	public function setName($name) {
 		$this->name = $name;
 	}
-
-	/**
-	 * @param string $service_type
-	 */
-	public function setServiceType($service_type)
-	{
-		$this->service_type = $service_type;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getServiceType()
-	{
-		return $this->service_type;
-	}
-
 
 	/**
 	 * @param boolean $is_dynamic
@@ -927,10 +901,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 			return $this->layout;
 		}
 
-		$layout_script = false;
-		if($this->getServiceType() ==Mvc::SERVICE_TYPE_STANDARD ) {
-			$layout_script = $this->getLayoutScriptName();
-		}
+		$layout_script = $this->getLayoutScriptName();
 
 		$this->layout = new Mvc_Layout( $this->getLayoutsPath(), $layout_script );
 		$this->layout->setPage($this);
@@ -1293,9 +1264,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		$page->parent_ID = $data['parent_ID'];
 		$page->data_file_path = $data['data_file_path'];
 
-		if(!isset($data['service_type'])) {
-			$data['service_type'] = $page->getServiceType();
-		}
 		if(!isset($data['breadcrumb_title'])) {
 			$data['breadcrumb_title'] = $data['title'];
 		}
@@ -1814,7 +1782,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 					continue;
 				}
 
-				$controller = $module->getControllerInstance( $this->getServiceType() );
+				$controller = $module->getControllerInstance( $content );
 
 				if( $controller->{$method_name}( $content ) ) {
 					return true;

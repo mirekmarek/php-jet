@@ -75,7 +75,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
      *
      * @var string
      */
-    protected $custom_service_type = '';
+    protected $custom_controller = '';
 
 	/**
 	 *
@@ -282,19 +282,19 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
     }
 
     /**
-     * @param string $custom_service_type
+     * @param string $custom_controller
      */
-    public function setCustomServiceType($custom_service_type)
+    public function setCustomController($custom_controller)
     {
-        $this->custom_service_type = $custom_service_type;
+        $this->custom_controller = $custom_controller;
     }
 
     /**
      * @return string
      */
-    public function getCustomServiceType()
+    public function getCustomController()
     {
-        return $this->custom_service_type;
+        return $this->custom_controller;
     }
 
 
@@ -411,9 +411,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
 
         $module_name = $this->getModuleName();
-        $service_type = $this->getCustomServiceType() ? $this->getCustomServiceType() : $page->getServiceType();
-
-
 
         if(!Application_Modules::getModuleIsActivated($module_name)) {
             $this->_controller_instance = false;
@@ -428,7 +425,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
             return false;
         }
 
-        $this->_controller_instance = $module_instance->getControllerInstance( $service_type );
+        $this->_controller_instance = $module_instance->getControllerInstance( $this );
 
         return $this->_controller_instance;
     }
@@ -469,9 +466,8 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
         $module_name = $this->getModuleName();
         $controller_action = $this->getControllerAction();
-        $service_type = $this->getCustomServiceType() ? $this->getCustomServiceType() : $page->getServiceType();
 
-        $block_name =  $module_name.':'.$service_type.':'.$controller_action;
+        $block_name =  $module_name.':'.$controller_action;
 
         Debug_Profiler::blockStart( 'Dispatch '.$block_name );
 

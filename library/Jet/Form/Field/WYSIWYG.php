@@ -167,6 +167,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		}
 
 		$tag_data->setProperty('id', $this->getID());
+		$tag_data->setProperty( 'name', $this->getName() );
 
 
 		$result = /** @lang text */

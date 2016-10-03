@@ -18,10 +18,6 @@ namespace Jet;
 
 class Mvc {
 
-	const SERVICE_TYPE_AJAX = 'AJAX';
-	const SERVICE_TYPE_REST = 'REST';
-	const SERVICE_TYPE_STANDARD = 'Standard';
-
 	/**
 	 *
 	 * @var Mvc_Router_Abstract
@@ -282,17 +278,6 @@ class Mvc {
 	 */
 	public static function getIsSSLRequest() {
 		return static::getCurrentRouter()->getIsSSLRequest();
-	}
-
-	/**
-	 * Returns current service type
-	 *
-	 * Equivalent of Mvc::getCurrentPage()->getServiceType()
-	 *
-	 * @return string
-	 */
-	public static function getCurrentServiceType() {
-		return static::getCurrentPage()->getServiceType();
 	}
 
 	/**

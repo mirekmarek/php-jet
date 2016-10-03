@@ -36,6 +36,8 @@ class Data_DateTime extends \DateTime {
 	 * @return Data_DateTime
 	 */
 	public static function now() {
-		return new self(date(self::ISO8601));
+		$date = new static(date('Y-m-d\TH:i:s'));
+
+		return $date;
 	}
 }

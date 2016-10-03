@@ -68,15 +68,15 @@ interface Mvc_Page_Content_Interface {
     public function getIsDynamic();
 
 
-    /**
-     * @param string $custom_service_type
-     */
-    public function setCustomServiceType($custom_service_type);
+	/**
+	 * @param string $custom_controller
+	 */
+	public function setCustomController($custom_controller);
 
-    /**
-     * @return string
-     */
-    public function getCustomServiceType();
+	/**
+	 * @return string
+	 */
+	public function getCustomController();
 
 	/**
 	 * @return string

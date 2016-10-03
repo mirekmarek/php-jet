@@ -59,15 +59,6 @@ interface Mvc_Page_Interface {
 	 */
 	public function getLocale();
 
-    /**
-     * @param string $service_type
-     */
-    public function setServiceType($service_type);
-
-    /**
-     * @return string
-     */
-    public function getServiceType();
 
     /**
      * @param boolean $is_dynamic

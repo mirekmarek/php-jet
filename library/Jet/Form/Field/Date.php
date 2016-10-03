@@ -38,6 +38,7 @@ class Form_Field_Date extends Form_Field_Input {
 	 */
 	public function validateValue() {
 		if(!$this->is_required && $this->_value==='') {
+			$this->_value = null;
 			return true;
 		}
 

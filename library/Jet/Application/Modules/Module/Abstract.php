@@ -93,14 +93,19 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	}
 
 	/**
-	 * @param string $service_type
+	 *
+	 * @param Mvc_Page_Content_Interface $content
 	 *
 	 * @return string
 	 */
-	protected function getControllerClassName(
-		$service_type
-	) {
-		$controller_suffix = 'Controller_'.$service_type;
+	protected function getControllerClassName( Mvc_Page_Content_Interface $content ) {
+		$controller_name = 'Main';
+
+		if($content->getCustomController()) {
+			$controller_name = $content->getCustomController();
+		}
+
+		$controller_suffix = 'Controller_'.$controller_name;
 
 		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
 
@@ -110,15 +115,13 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	/**
 	 * Returns controller instance
 	 *
-	 * @param string $service_type
-	 *
-	 * @throws Exception
-	 *
+	 * @param Mvc_Page_Content_Interface $content
 	 * @return Mvc_Controller_Abstract
+	 * @throws Exception
 	 */
-	public function getControllerInstance( $service_type ) {
+	public function getControllerInstance( Mvc_Page_Content_Interface $content ) {
 
-		$controller_class_name = $this->getControllerClassName( $service_type );
+		$controller_class_name = $this->getControllerClassName( $content );
 
 		$controller = new $controller_class_name( $this );
 
