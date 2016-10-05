@@ -156,14 +156,17 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 
 		$layout = $this->__form->getLayout();
 
-		foreach( $this->WYSIWYG_editor_CSS_files as $media=>$CSS_files ) {
-			foreach( $CSS_files as $URI ) {
-				$layout->requireCssFile($URI, $media);
+		if($layout) {
+			foreach( $this->WYSIWYG_editor_CSS_files as $media=>$CSS_files ) {
+				foreach( $CSS_files as $URI ) {
+					$layout->requireCssFile($URI, $media);
+				}
 			}
-		}
 
-		foreach( $this->WYSIWYG_editor_JavaScript_files as $URI ) {
-			$layout->requireJavascriptFile($URI);
+			foreach( $this->WYSIWYG_editor_JavaScript_files as $URI ) {
+				$layout->requireJavascriptFile($URI);
+			}
+
 		}
 
 		$tag_data->setProperty('id', $this->getID());
@@ -207,6 +210,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		} else {
 			$this->_value_raw = null;
 		}
+
 	}
 
 	/**
