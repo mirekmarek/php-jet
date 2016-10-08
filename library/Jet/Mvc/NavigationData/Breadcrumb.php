@@ -16,7 +16,7 @@
  * @subpackage Mvc_NavigationData
  */
 namespace Jet;
-
+//TODO: toto nebude v Jetu
 class Mvc_NavigationData_Breadcrumb extends Mvc_NavigationData_Breadcrumb_Abstract{
 
 }

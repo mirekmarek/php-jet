@@ -10,11 +10,10 @@
  *
  * @category Jet
  * @package Mvc
- * @subpackage Mvc_Controller_MicroRouter
  */
 namespace Jet;
 
-class Mvc_MicroRouter_Action extends BaseObject {
+class Mvc_Controller_Router_Action extends BaseObject {
 
 	/**
 	 * @var string
@@ -78,7 +77,7 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * @param string $action_name
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setActionName($action_name) {
 		$this->action_name = $action_name;
@@ -96,7 +95,7 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * @param array $action_parameters
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setActionParameters($action_parameters) {
 		$this->action_parameters = $action_parameters;
@@ -146,7 +145,7 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * @param string $regexp
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setRegexp($regexp) {
 		$this->regexp = $regexp;
@@ -164,13 +163,13 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * Callback prototype:
 	 *
-	 * someCallback( Mvc_Controller_MicroRouter $micro_router, Mvc_Controller_MicroRouter_Action $action )
+	 * someCallback( Mvc_Controller_Router $router, Mvc_Controller_Router_Action $action )
 	 *
 	 * Callback return value: bool, true if resolved
 	 *
 	 * @param callable $resolve_callback
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setResolveCallback( callable $resolve_callback) {
 		$this->resolve_callback = $resolve_callback;
@@ -181,13 +180,13 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * Callback prototype:
 	 *
-	 * someCallback( Mvc_Controller_MicroRouter $micro_router, Mvc_Controller_MicroRouter_Action $action )
+	 * someCallback( Mvc_Controller_Router $router, Mvc_Controller_Router_Action $action )
 	 *
 	 * Callback return value: string or false
 	 *
 	 * @param callable $get_path_fragment_callback
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setGetPathFragmentCallback($get_path_fragment_callback) {
 		$this->get_path_fragment_callback = $get_path_fragment_callback;
@@ -196,20 +195,20 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	}
 
 	/**
-	 * @param Mvc_MicroRouter $micro_router
+	 * @param Mvc_Controller_Router $router
 	 * @return string|bool
 	 */
-	protected function getPathFragment( Mvc_MicroRouter $micro_router  ) {
+	protected function getPathFragment(Mvc_Controller_Router $router  ) {
 		if($this->get_path_fragment_callback) {
 			$callback = $this->get_path_fragment_callback;
 
-			return $callback( $micro_router, $this );
+			return $callback( $router, $this );
 		}
 
 
-		$router = $micro_router->getRouterInstance();
+		$main_router = $router->getRouterInstance();
 
-		$path_fragments = $router->getPathFragments();
+		$path_fragments = $main_router->getPathFragments();
 		if(!$path_fragments) {
 			return false;
 		}
@@ -221,19 +220,19 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * Returns true if resolved
 	 *
-	 * @param Mvc_MicroRouter $micro_router
+	 * @param Mvc_Controller_Router $router
 	 *
 	 * @return bool
 	 */
-	public function resolve( Mvc_MicroRouter $micro_router ) {
+	public function resolve(Mvc_Controller_Router $router ) {
 		if($this->resolve_callback) {
 			$callback = $this->resolve_callback;
 
-			return $callback( $micro_router, $this );
+			return $callback( $router, $this );
 		}
 
 
-		$path_fragment = $this->getPathFragment( $micro_router );
+		$path_fragment = $this->getPathFragment( $router );
 
 		if(!$path_fragment) {
 			return false;
@@ -262,7 +261,7 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * @param callable $create_URI_callback
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setCreateURICallback(callable $create_URI_callback){
 		$this->create_URI_callback = $create_URI_callback;
@@ -273,7 +272,7 @@ class Mvc_MicroRouter_Action extends BaseObject {
 	/**
 	 * @param callable $parameters_validator_callback
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function setParametersValidatorCallback(callable $parameters_validator_callback){
 		$this->parameters_validator_callback = $parameters_validator_callback;

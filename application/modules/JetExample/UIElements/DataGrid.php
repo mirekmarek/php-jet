@@ -16,8 +16,7 @@ namespace JetApplicationModule\JetExample\UIElements;
 
 use Jet\BaseObject;
 use Jet\Data_Paginator;
-use Jet\DataModel_Fetch_Data_Abstract;
-use Jet\DataModel_Fetch_Object_Abstract;
+use Jet\DataModel_Fetch_Abstract;
 use Jet\DataModel_Query;
 use Jet\Session;
 use Jet\Http_Request;
@@ -161,13 +160,12 @@ class DataGrid extends BaseObject {
 
 		if(
 			(
-				$data instanceof DataModel_Fetch_Data_Abstract ||
-				$data instanceof DataModel_Fetch_Object_Abstract
+				$data instanceof DataModel_Fetch_Abstract
 			) &&
 			($sort = $this->handleSortRequest())
 		) {
 			/**
-			 * @var DataModel_Fetch_Data_Abstract $data
+			 * @var DataModel_Fetch_Abstract $data
 			 * @var DataModel_Query $query
 			 */
 			$query = $data->getQuery();
@@ -184,8 +182,7 @@ class DataGrid extends BaseObject {
 			}
 
 			if(
-				$data instanceof DataModel_Fetch_Data_Abstract ||
-				$data instanceof DataModel_Fetch_Object_Abstract
+				$data instanceof DataModel_Fetch_Abstract
 			){
 				$this->paginator->setDataSource( $data );
 			}

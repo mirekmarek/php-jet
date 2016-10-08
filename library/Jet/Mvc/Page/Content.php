@@ -38,6 +38,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	protected $page_ID;
 
 	/**
+	 * @var Mvc_Page
+	 */
+	protected $page;
+
+	/**
 	 * @JetDataModel:related_to = 'main.locale'
 	 */
 	protected $locale;
@@ -85,14 +90,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 * @var string
 	 */
 	protected $module_name = '';
-
-    /**
-     * @JetDataModel:type = DataModel::TYPE_STRING
-     * @JetDataModel:max_len = 50
-     *
-     * @var string
-     */
-    protected $URL_parser_method_name;
 
 	/**
 	 *
@@ -194,8 +191,25 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
         foreach( $data as $key=>$val ) {
             $this->{$key} = $val;
         }
-
     }
+
+	/**
+	 * @return Mvc_Page_Interface
+	 */
+	public function getPage()
+	{
+		return $this->page;
+	}
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 */
+	public function setPage(Mvc_Page_Interface $page)
+	{
+		$this->page = $page;
+	}
+
+
 
 	/**
 	 * @return mixed|null
@@ -383,23 +397,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	}
 
     /**
-     * @param string $URL_parser_method_name
-     */
-    public function setUrlParserMethodName($URL_parser_method_name)
-    {
-        $this->URL_parser_method_name = $URL_parser_method_name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrlParserMethodName()
-    {
-        return $this->URL_parser_method_name;
-    }
-
-
-    /**
      *
      * @return Mvc_Controller_Abstract|bool
      */
@@ -446,10 +443,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
     }
 
     /**
-     * @param Mvc_Page_Interface $page
+     *
      */
-    public function dispatch( Mvc_Page_Interface $page ) {
-	    //TODO: page bude vlastnost
+    public function dispatch() {
 
         if($this->getStaticContent()) {
 
@@ -481,7 +477,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
         } else {
             Debug_Profiler::message('Content:'.$this->getContentKey() );
 
-            $layout = $page->getLayout();
+            $layout = $this->getPage()->getLayout();
 
             if(
                 !$this->getIsDynamic() &&

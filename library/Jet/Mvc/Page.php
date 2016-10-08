@@ -1121,6 +1121,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	public function addContent( Mvc_Page_Content_Interface $content) {
 		$content->setContentID( count($this->contents) );
+		$content->setPage( $this );
 
 		$this->contents[] = $content;
 	}
@@ -1773,18 +1774,16 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 
 		foreach( $this->getContents() as $content ) {
 
-			if( ($method_name= $content->getUrlParserMethodName())) {
-				$module = Application_Modules::getModuleInstance($content->getModuleName());
+			$module = Application_Modules::getModuleInstance($content->getModuleName());
 
-				if(!$module) {
-					continue;
-				}
+			if(!$module) {
+				continue;
+			}
 
-				$controller = $module->getControllerInstance( $content );
+			$controller = $module->getControllerInstance( $content );
 
-				if( $controller->{$method_name}( $content ) ) {
-					return true;
-				}
+			if($controller->parseRequestURL($content)) {
+				return true;
 			}
 		}
 
@@ -1864,7 +1863,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		foreach( $this->getContents() as $content ) {
 			$this->_current_content = $content;
 
-			$content->dispatch($this);
+			$content->dispatch();
 
 			$this->_current_content = null;
 

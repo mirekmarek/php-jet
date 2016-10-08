@@ -30,31 +30,33 @@ trait DataModel_Related_1to1_Trait {
 
 
 	/**
-	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 * @param DataModel_Load_OnlyProperties|null $load_only_properties
 	 *
 	 * @return array
 	 */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_properties=null )
     {
 	    if(
-		    $load_only_related_properties &&
-		    !$load_only_related_properties->getAllowToLoadModel( $this->getDataModelDefinition()->getModelName() )
+		    $load_only_properties
 	    ) {
-		    return [];
+	    	if(!$load_only_properties->getAllowToLoadModel( $this->getDataModelDefinition()->getModelName() )) {
+			    return [];
+		    }
+
+		    $this->setLoadOnlyProperties($load_only_properties);
 	    }
 
-        $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
+        $query = $this->getLoadRelatedDataQuery();
 
         return $this->getBackendInstance()->fetchAll( $query );
     }
 
 	/**
 	 *
-	 * @param array $load_only_related_properties
 	 * @throws DataModel_Exception
 	 * @return DataModel_Query
 	 */
-	protected function getLoadRelatedDataQuery(array $load_only_related_properties=[]) {
+	protected function getLoadRelatedDataQuery() {
 
 		/**
 		 * @var DataModel_Interface|DataModel_Related_Interface $this
@@ -64,7 +66,7 @@ trait DataModel_Related_1to1_Trait {
 
 		$query = new DataModel_Query( $data_model_definition );
 
-		$select = DataModel_Load_OnlyProperties::getSelectProperties( $data_model_definition, $load_only_related_properties );
+		$select = DataModel_Load_OnlyProperties::getSelectProperties( $data_model_definition, $this->getLoadOnlyProperties() );
 
 		$query->setSelect( $select );
 		$query->setWhere([]);
@@ -166,6 +168,8 @@ trait DataModel_Related_1to1_Trait {
                     $this->_main_model_instance,
                     $this->_parent_model_instance
                 );
+
+	            $loaded_instance->setLoadOnlyProperties($this->getLoadOnlyProperties());
 
                 $loaded_instance->_setRelatedData( $dat, $loaded_related_data );
                 $loaded_instance->afterLoad();

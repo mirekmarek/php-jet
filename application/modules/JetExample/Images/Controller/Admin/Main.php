@@ -13,7 +13,7 @@ namespace JetApplicationModule\JetExample\Images;
 use Jet\Form;
 use Jet\Mvc;
 use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_MicroRouter;
+use Jet\Mvc_Controller_Router;
 use Jet\Mvc_Router_Abstract;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Http_Headers;
@@ -28,12 +28,12 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Mvc_MicroRouter
+	 * @var Mvc_Controller_Router
 	 */
 	protected $micro_router;
 
     /**
-     * @var Mvc_MicroRouter
+     * @var Mvc_Controller_Router
      */
     protected $_standard_admin_micro_router;
 
@@ -57,7 +57,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
     /**
      * @param Mvc_Router_Abstract $router
      *
-     * @return Mvc_MicroRouter
+     * @return Mvc_Controller_Router
      */
     public function getMicroRouter( Mvc_Router_Abstract $router=null ) {
         if($this->_standard_admin_micro_router) {
@@ -68,7 +68,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
             $router = Mvc::getCurrentRouter();
         }
 
-        $router = new Mvc_MicroRouter( $router, $this->module_instance );
+        $router = new Mvc_Controller_Router( $router, $this->module_instance );
 
         $base_URI = Mvc::getCurrentPageURI();
 

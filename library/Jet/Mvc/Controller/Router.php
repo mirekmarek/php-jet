@@ -10,11 +10,10 @@
  *
  * @category Jet
  * @package Mvc
- * @subpackage Mvc_Controller_MicroRouter
  */
 namespace Jet;
 
-class Mvc_MicroRouter extends BaseObject {
+class Mvc_Controller_Router extends BaseObject {
 
 	/**
 	 * @var Application_Modules_Module_Abstract
@@ -28,7 +27,7 @@ class Mvc_MicroRouter extends BaseObject {
 
 
 	/**
-	 * @var Mvc_MicroRouter_Action[]
+	 * @var Mvc_Controller_Router_Action[]
 	 */
 	protected $actions = [];
 
@@ -53,10 +52,10 @@ class Mvc_MicroRouter extends BaseObject {
 	 * @param string $ACL_action
 	 * @param bool $disable_routing_cache (optional, default: false)
 	 *
-	 * @return Mvc_MicroRouter_Action
+	 * @return Mvc_Controller_Router_Action
 	 */
 	public function addAction( $action_name, $regexp, $ACL_action, $disable_routing_cache=false ) {
-		$action = new Mvc_MicroRouter_Action( $action_name, $regexp, $ACL_action, $disable_routing_cache );
+		$action = new Mvc_Controller_Router_Action( $action_name, $regexp, $ACL_action, $disable_routing_cache );
 
 		$this->actions[$action_name] = $action;
 
@@ -78,7 +77,7 @@ class Mvc_MicroRouter extends BaseObject {
 	}
 
 	/**
-	 * @return Mvc_MicroRouter_Action[]
+	 * @return Mvc_Controller_Router_Action[]
 	 */
 	public function getActions() {
 		return $this->actions;

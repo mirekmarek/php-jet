@@ -107,6 +107,8 @@ trait DataModel_Related_1toN_Trait {
              */
             $loaded_instance = new static();
             $loaded_instance->setupParentObjects($this->_main_model_instance, $this->_parent_model_instance);
+	        $loaded_instance->setLoadOnlyProperties($this->getLoadOnlyProperties());
+
             $loaded_instance->_setRelatedData( $dat, $loaded_related_data );
 
 

@@ -34,6 +34,11 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	protected $module_manifest;
 
 	/**
+	 * @var Mvc_Controller_Router
+	 */
+	protected static $controller_router;
+
+	/**
 	 * @var Mvc_View
 	 */
 	protected $view;
@@ -85,6 +90,32 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 
 		$this->initializeDefaultView();
 	}
+
+
+	/**
+	 * @param Mvc_Page_Content_Interface $page_content
+	 *
+	 * @return bool
+	 */
+	public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
+		$router = static::getControllerRouter();
+
+		if(!$router) {
+			return false;
+		}
+
+		return $router->resolve( $page_content );
+	}
+
+
+	/**
+	 *
+	 * @return Mvc_Controller_Router|null
+	 */
+	public static function getControllerRouter() {
+		return null;
+	}
+
 
 	/**
 	 * Is called after controller instance is created

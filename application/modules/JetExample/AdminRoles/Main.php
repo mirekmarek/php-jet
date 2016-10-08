@@ -17,7 +17,7 @@ use Jet\Data_Tree;
 use Jet\Data_Tree_Forest;
 use Jet\Application_Modules;
 use Jet\Application_Modules_Module_Abstract;
-use Jet\Mvc_MicroRouter;
+use Jet\Mvc_Controller_Router;
 use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
 use Jet\Mvc_Factory;
 
@@ -36,7 +36,7 @@ class Main extends Application_Modules_Module_Abstract {
 	protected $public_list_items_per_page = 10;
 
 	/**
-	 * @var Mvc_MicroRouter
+	 * @var Mvc_Controller_Router
 	 */
 	protected $_micro_router;
 

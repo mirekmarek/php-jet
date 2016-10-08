@@ -43,6 +43,11 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	private $_main_model_instance;
 
 	/**
+	 * @var DataModel_Load_OnlyProperties
+	 */
+	private $_load_only_properties;
+
+	/**
 	 * @var DataModel_Interface
 	 */
 	private $_parent_model_instance;
@@ -70,6 +75,8 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 
 			$class_name = $this->item_definition->getClassName();
 			$this->_empty_item_instance = new $class_name();
+
+			$this->_empty_item_instance->setLoadOnlyProperties($this->_load_only_properties);
 		}
 
 		return $this->_empty_item_instance;
@@ -121,30 +128,32 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 * @param DataModel_Load_OnlyProperties|null $load_only_properties
 	 *
 	 * @return array
 	 */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_properties=null )
     {
-    	if(
-    		$load_only_related_properties &&
-		    !$load_only_related_properties->getAllowToLoadModel( $this->item_definition->getModelName() )
-	    ) {
-    		return [];
+    	if($load_only_properties) {
+		    if(
+			    !$load_only_properties->getAllowToLoadModel( $this->item_definition->getModelName() )
+		    ) {
+			    return [];
+		    }
+
+		    $this->_load_only_properties = $load_only_properties;
 	    }
 
-	    $query = $this->getLoadRelatedDataQuery( $load_only_related_properties );
+	    $query = $this->getLoadRelatedDataQuery();
 
 	    return $this->_getEmptyItemInstance()->getBackendInstance()->fetchAll($query);
 	}
 
 	/**
-	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
 	 * @return DataModel_Query
 	 * @throws DataModel_Exception
 	 */
-	protected function getLoadRelatedDataQuery( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+	protected function getLoadRelatedDataQuery()
 	{
 
 		/**
@@ -153,7 +162,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 
 		$query = new DataModel_Query( $this->item_definition );
 
-		$select = DataModel_Load_OnlyProperties::getSelectProperties( $this->item_definition, $load_only_related_properties );
+		$select = DataModel_Load_OnlyProperties::getSelectProperties( $this->item_definition, $this->_load_only_properties );
 
 		$query->setSelect( $select );
 		$query->setWhere([]);

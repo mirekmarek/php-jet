@@ -27,6 +27,10 @@ trait DataModel_Trait_Save {
          * @var DataModel $this
          */
 
+	    if( $this->getLoadOnlyProperties() ) {
+		    throw new DataModel_Exception('Nothing to save... Object is not completely loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')');
+	    }
+
         $backend = $this->getBackendInstance();
 
         $this->startBackendTransaction( $backend );

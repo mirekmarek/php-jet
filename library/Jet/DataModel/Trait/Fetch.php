@@ -34,18 +34,22 @@ trait DataModel_Trait_Fetch {
         return $query;
     }
 
-    /**
-     *
-     * @param array| $where
-     * @return DataModel|bool
-     */
-    public function fetchOneObject( array $where ) {
-	    //TODO: nahravane vlastnosti rovnou jako parametr
+	/**
+	 *
+	 * @param array| $where
+	 * @param array $load_only_properties (optional)
+	 *
+	 * @return bool|DataModel
+	 */
+    public function fetchOneObject( array $where, array $load_only_properties=[] ) {
 
         $query = $this->createQuery( $where );
         $query->setLimit(1);
 
         $fetch = new DataModel_Fetch_Object_Assoc( $query );
+	    if($load_only_properties) {
+	    	$fetch->setLoadOnlyProperties($load_only_properties);
+	    }
 
         foreach($fetch as $object) {
             return $object;
@@ -54,14 +58,21 @@ trait DataModel_Trait_Fetch {
         return false;
     }
 
-    /**
-     *
-     * @param array $where
-     * @return DataModel_Fetch_Object_Assoc
-     */
-    public function fetchObjects( array  $where= []) {
-    	//TODO: nahravane vlastnosti rovnou jako parametr
-        return new DataModel_Fetch_Object_Assoc( $this->createQuery($where) );
+	/**
+	 *
+	 * @param array $where
+	 * @param array $load_only_properties (optional)
+	 *
+	 * @return DataModel_Fetch_Object_Assoc
+	 */
+    public function fetchObjects( array $where= [], array $load_only_properties=[] ) {
+
+        $fetch = new DataModel_Fetch_Object_Assoc( $this->createQuery($where) );
+	    if($load_only_properties) {
+		    $fetch->setLoadOnlyProperties($load_only_properties);
+	    }
+
+		return $fetch;
     }
 
     /**

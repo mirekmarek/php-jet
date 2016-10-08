@@ -32,11 +32,11 @@ interface DataModel_Related_Interface {
 	public function setupParentObjects( DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance=null );
 
     /**
-     * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+     * @param DataModel_Load_OnlyProperties|null $load_only_properties
      *
      * @return array
      */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null );
+	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_properties=null );
 
 	/**
 	 * @param array &$loaded_related_data

@@ -23,6 +23,15 @@ namespace Jet;
  *
  */
 interface Mvc_Page_Content_Interface {
+	/**
+	 * @param Mvc_Page_Interface $page
+	 */
+	public function setPage(Mvc_Page_Interface $page);
+
+	/**
+	 * @return Mvc_Page_Interface
+	 */
+	public function getPage();
 
 	/**
 	 * @return string
@@ -138,18 +147,6 @@ interface Mvc_Page_Content_Interface {
 	 */
 	public function setOutputPositionOrder( $output_position_order );
 
-
-    /**
-     * @param string $URL_parser_method_name
-     */
-    public function setUrlParserMethodName($URL_parser_method_name);
-
-    /**
-     * @return string
-     */
-    public function getUrlParserMethodName();
-
-
     /**
      * @param array|Mvc_Layout_OutputPart[] $output_parts
      */
@@ -161,8 +158,8 @@ interface Mvc_Page_Content_Interface {
     public function getOutputParts();
 
     /**
-     * @param Mvc_Page_Interface $page
+     *
      */
-    public function dispatch( Mvc_Page_Interface $page );
+    public function dispatch();
 
 }

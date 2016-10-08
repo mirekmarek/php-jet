@@ -24,7 +24,7 @@ use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc;
 use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_MicroRouter;
+use Jet\Mvc_Controller_Router;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Tr;
 use JetApplicationModule\JetExample\UIElements;
@@ -37,7 +37,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Mvc_MicroRouter
+	 * @var Mvc_Controller_Router
 	 */
 	protected $micro_router;
 
@@ -62,7 +62,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 
     /**
      *
-     * @return Mvc_MicroRouter
+     * @return Mvc_Controller_Router
      */
     public function getMicroRouter() {
         if($this->micro_router) {
@@ -71,7 +71,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 
         $router = Mvc::getCurrentRouter();
 
-        $router = new Mvc_MicroRouter( $router, $this->module_instance );
+        $router = new Mvc_Controller_Router( $router, $this->module_instance );
 
 
         $validator = function( &$parameters ) {
