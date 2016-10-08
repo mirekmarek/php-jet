@@ -10,11 +10,19 @@
  *
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
-use Jet;
+
+use Jet\Auth;
+use Jet\Auth_Role_Privilege_Provider_Interface;
+use Jet\Data_Tree;
+use Jet\Data_Tree_Forest;
+use Jet\Application_Modules;
 use Jet\Application_Modules_Module_Abstract;
 use Jet\Mvc_MicroRouter;
+use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
+use Jet\Mvc_Factory;
 
 class Main extends Application_Modules_Module_Abstract {
+
 	protected $ACL_actions = [
 		'get_role' => 'Get role(s) data',
 		'add_role' => 'Add new role',

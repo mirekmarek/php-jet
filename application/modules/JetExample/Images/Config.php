@@ -10,12 +10,12 @@
  *
  */
 namespace JetApplicationModule\JetExample\Images;
-use Jet;
+use Jet\Config as Jet_Config;
 
 /**
  *
  */
-class Config extends Jet\Config {
+class Config extends Jet_Config {
 
 	/**
 	 * @JetConfig:type = Config::TYPE_INT

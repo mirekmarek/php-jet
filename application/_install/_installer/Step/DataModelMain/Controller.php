@@ -36,21 +36,11 @@ class Installer_Step_DataModelMain_Controller extends Installer_Step_Controller 
 	}
 
 	public function getStepsAfter() {
-		$config = new DataModel_Config(true);
 
 		$result = [];
 
-		if($config->getCacheEnabled()) {
-			$result[] = 'DataModelHistory';
-		}
-
-		if($config->getCacheEnabled()) {
-			$result[] = 'DataModelCache';
-		}
-
 		$result[] = 'DataModelBackend';
 
-		//return array('DataModelBackend');
 
 		return $result;
 	}

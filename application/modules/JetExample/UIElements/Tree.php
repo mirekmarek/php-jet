@@ -13,11 +13,11 @@
  *
  */
 namespace JetApplicationModule\JetExample\UIElements;
-use Jet;
-use Jet\Object;
+
+use Jet\BaseObject;
 use Jet\Data_Tree;
 
-class Tree extends Object {
+class Tree extends BaseObject {
 
 	/**
 	 * @var Main

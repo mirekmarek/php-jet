@@ -50,45 +50,21 @@ trait DataModel_Trait_Load {
 	    }
 
 
-        $cache = $loaded_instance->getCacheBackendInstance();
 
         $data = [];
-        $cache_loaded = false;
-
-        if(
-            !$load_only_properties &&
-            $cache &&
-            ($data = $cache->get( $definition, $ID))
-        ) {
-            if(
-                !is_array($data) ||
-                !array_key_exists('main_data', $data) ||
-                !array_key_exists('related_data', $data) ||
-                !is_array($data['main_data']) ||
-                !is_array($data['related_data'])
-            ) {
-                $data = [];
-            } else {
-                $cache_loaded = true;
-            }
-
-        }
 
 
 
+        $query = $ID->getQuery();
+        /** @noinspection PhpParamsInspection */
+        $query->setMainDataModel($loaded_instance);
 
+        $select = DataModel_Load_OnlyProperties::getSelectProperties( $definition, $load_only_properties );
 
-        if(!isset($data['main_data'])) {
-	        $query = $ID->getQuery();
-	        /** @noinspection PhpParamsInspection */
-	        $query->setMainDataModel($loaded_instance);
+        $query->setSelect( $select );
 
-	        $select = DataModel_Load_OnlyProperties::getSelectProperties( $definition, $load_only_properties );
-
-	        $query->setSelect( $select );
-
-            $data['main_data'] = $loaded_instance->getBackendInstance()->fetchRow( $query );
-        }
+	    //TODO: uz tu neni cache a navic bude dobre mit moznost nastavit data z venci, tedy refactoring
+        $data['main_data'] = $loaded_instance->getBackendInstance()->fetchRow( $query );
 
         if(!$data['main_data']) {
             return null;
@@ -106,30 +82,27 @@ trait DataModel_Trait_Load {
 
         $related_properties = $definition->getAllRelatedPropertyDefinitions();
 
+        $data['related_data'] = [];
+        foreach( $related_properties as $related_model_name=>$related_property ) {
 
-        if(!isset($data['related_data'])) {
-            $data['related_data'] = [];
-            foreach( $related_properties as $related_model_name=>$related_property ) {
+            /**
+             * @var DataModel_Related_Interface $related_object
+             */
+            $related_object = $related_property->getDefaultValue();
+            /** @noinspection PhpParamsInspection */
+            $related_object->setupParentObjects( $loaded_instance );
+            $_related_data = $related_object->loadRelatedData( $load_only_properties );
+            unset($related_object);
 
+            if(!isset($related_data[$related_model_name])) {
+                $data['related_data'][$related_model_name] = [];
 
-                /**
-                 * @var DataModel_Related_Interface $related_object
-                 */
-                $related_object = $related_property->getDefaultValue();
-	            /** @noinspection PhpParamsInspection */
-                $related_object->setupParentObjects( $loaded_instance );
-	            $_related_data = $related_object->loadRelatedData( $load_only_properties );
-                unset($related_object);
-
-                if(!isset($related_data[$related_model_name])) {
-                    $data['related_data'][$related_model_name] = [];
-
-                    foreach($_related_data as $rd) {
-                        $data['related_data'][$related_model_name][] = $rd;
-                    }
+                foreach($_related_data as $rd) {
+                    $data['related_data'][$related_model_name][] = $rd;
                 }
             }
         }
+
 
 
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
@@ -142,19 +115,6 @@ trait DataModel_Trait_Load {
                 $property_definition->loadPropertyValue( $property, $data['related_data'] );
             }
         }
-
-
-        if(
-            !$load_only_properties &&
-            $cache &&
-            !$cache_loaded
-        ) {
-            $cache->save($definition, $ID, $data);
-        }
-
-	    /**
-	     * @var DataModel $loaded_instance
-	     */
 
 	    /** @noinspection PhpUndefinedMethodInspection */
 	    $loaded_instance->afterLoad();

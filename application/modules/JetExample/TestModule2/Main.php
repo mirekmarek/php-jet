@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\TestModule2;
-use Jet;
+
 use Jet\Application_Modules_Module_Abstract;
 
 class Main extends Application_Modules_Module_Abstract {

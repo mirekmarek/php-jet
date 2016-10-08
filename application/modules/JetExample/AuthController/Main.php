@@ -15,27 +15,22 @@
  */
 
 namespace JetApplicationModule\JetExample\AuthController;
-use Jet;
-use Jet\Application_Modules;
-use Jet\Auth;
+
+use Jet\Application_Modules_Module_Abstract;
 use Jet\Auth_Factory;
-use Jet\Auth_ControllerModule_Abstract;
+use Jet\Auth_Controller_Interface;
 use Jet\Auth_User_Interface;
 use Jet\Auth_User;
-use Jet\Auth_Role_Privilege_Provider_Interface;
-use Jet\Auth_Role_Privilege_ContextObject_Interface;
-use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
+use Jet\Form_Field_RegistrationPassword;
 use Jet\Mvc;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
 use Jet\Mvc_Page_Interface;
 use Jet\Data_DateTime;
 use Jet\Session;
-use Jet\Data_Tree;
-use Jet\Data_Tree_Forest;
 use Jet\Form;
-use Jet\Form_Factory;
 use Jet\Form_Field_Password;
+use Jet\Form_Field_Input;
 
 /**
  * Class Main
@@ -43,47 +38,37 @@ use Jet\Form_Field_Password;
  * @JetApplication_Signals:signal = '/user/login'
  * @JetApplication_Signals:signal = '/user/logout'
  */
-class Main extends Auth_ControllerModule_Abstract {
-
-	/**
-	 * @var array
-	 */
-	protected $standard_privileges = [
-		Auth::PRIVILEGE_VISIT_PAGE => [
-			'label' => 'Sites and pages',
-			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
-		],
-
-		Auth::PRIVILEGE_MODULE_ACTION => [
-			'label' => 'Modules and actions',
-			'get_available_values_list_method_name' => 'getAclActionValuesList_ModulesActions'
-		]
-
-	];
+class Main extends Application_Modules_Module_Abstract  implements Auth_Controller_Interface{
 
 	/**
 	 * Currently logged user
 	 *
-	 * @var Auth_User_Interface
+	 * @var Auth_User
 	 */
 	protected $current_user;
 
 	/**
-	 * Returns true if authentication (for example login dialog...) is required
+	 * Is called after controller instance is created
+	 */
+	public function initialize()
+	{
+	}
+
+	/**
 	 *
 	 * @return bool
 	 */
-	public function getAuthenticationRequired() {
+	public function getUserIsLoggedIn() {
 
 		$user = $this->getCurrentUser();
 		if(!$user) {
-			return true;
+			return false;
 		}
 
 		if(
 			!$user->getIsActivated()
 		) {
-			return true;
+			return false;
 		}
 
 		if($user->getIsBlocked()) {
@@ -95,27 +80,25 @@ class Main extends Auth_ControllerModule_Abstract {
 				$user->unBlock();
 				$user->save();
 			} else {
-				return true;
+				return false;
 			}
 		}
 
-		if( $user->getPasswordIsValid() ) {
-			$pwd_valid_till = $user->getPasswordIsValidTill();
-
-			if(
-				$pwd_valid_till!==null &&
-				$pwd_valid_till<=Data_DateTime::now()
-			) {
-				$user->setPasswordIsValid(false);
-				$user->save();
-
-				return true;
-			}
-		} else {
-			return true;
+		if( !$user->getPasswordIsValid() ) {
+			return false;
 		}
 
-		return false;
+		if(
+			($pwd_valid_till = $user->getPasswordIsValidTill())!==null &&
+			$pwd_valid_till<=Data_DateTime::now()
+		) {
+			$user->setPasswordIsValid(false);
+			$user->save();
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -157,11 +140,9 @@ class Main extends Auth_ControllerModule_Abstract {
 
         $page->setContents( $page_content );
 
-
         $layout = new Mvc_Layout( $this->getLayoutsDir(), 'default' );
 
         $page->setLayout( $layout );
-
 
 		return $page;
 	}
@@ -232,60 +213,15 @@ class Main extends Auth_ControllerModule_Abstract {
 			return null;
 		}
 
+		$user_class_name = JET_AUTH_USER_CLASS;
 
-		$this->current_user = Auth::getUser($user_ID);
+		/**
+		 * @var Auth_User_Interface $user_class_name
+		 */
+
+		$this->current_user = $user_class_name::get($user_ID);
 
 		return $this->current_user;
-	}
-
-
-	/**
-	 * Does current user have given privilege?
-	 *
-	 * @param string $privilege
-	 * @param mixed $value
-	 * @param Auth_Role_Privilege_ContextObject_Interface $context_object (optional)
-	 * @param bool $log_if_false (optional, default: true)
-	 *
-	 * @return bool
-	 */
-	public function getCurrentUserHasPrivilege( $privilege, $value, Auth_Role_Privilege_ContextObject_Interface $context_object = null, $log_if_false=true ) {
-		$res = false;
-
-		$current_user = $this->getCurrentUser();
-		if($current_user) {
-			$res = $current_user->getHasPrivilege( $privilege, $value );
-		}
-
-		if($res && $context_object) {
-			$res = $context_object->getHasACLPrivilege( $privilege, $value );
-		}
-
-		if(!$res && $log_if_false) {
-			$login = 'unknown';
-			$user_ID = 'unknown';
-
-
-			if($current_user) {
-				$login = $current_user->getLogin();
-				$user_ID = $current_user->getID();
-			}
-
-			if(is_array($value)) {
-				$value = implode(',', $value);
-			}
-
-			static::logEvent('privilege_access_denied',
-				[
-					'privilege'=>$privilege,
-					'value'=>$value
-				],
-				'Privilege access denied. Login: \''.$login.'\', User ID: \''.$user_ID.'\', Privilege: \''.$privilege.'\', Value: \''.$value.'\''
-			);
-		}
-
-
-		return $res;
 	}
 
 	/**
@@ -330,13 +266,13 @@ class Main extends Auth_ControllerModule_Abstract {
 	 * @return Form
 	 */
 	function getLoginForm() {
-        $login_field = Form_Factory::field(Form::TYPE_INPUT, 'login', 'User name: ');
+        $login_field = new Form_Field_Input('login', 'User name: ');
         $login_field->setErrorMessages([
-            Jet\Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
+            Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
         ]);
-        $password_field = Form_Factory::field(Form::TYPE_PASSWORD, 'password', 'Password:');
+        $password_field = new Form_Field_Password('password', 'Password:');
         $password_field->setErrorMessages([
-            Jet\Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
+            Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
         ]);
 
 		$form = new Form('login', [
@@ -359,7 +295,7 @@ class Main extends Auth_ControllerModule_Abstract {
 	 */
 	function getChangePasswordForm() {
 		$form = new Form('login', [
-			Form_Factory::field(Form::TYPE_PASSWORD, 'password', 'Password')
+			new Form_Field_RegistrationPassword( 'password', 'Password')
 		]);
 
 		$form->getField('password')->setIsRequired( true );
@@ -367,113 +303,5 @@ class Main extends Auth_ControllerModule_Abstract {
 		return $form;
 	}
 
-	/**
-	 * Get list of available privileges
-	 *
-	 *
-	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
-	 */
-	public function getAvailablePrivilegesList() {
-		$data = [];
-
-		foreach( $this->standard_privileges as $privilege=>$d) {
-			$available_values_list = null;
-
-			$available_values_list = $this->{$d['get_available_values_list_method_name']}();
-
-			$item = new Auth_Role_Privilege_AvailablePrivilegesListItem( $privilege, $d['label'], $available_values_list );
-
-			$data[$privilege] = $item;
-		}
-
-		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
-			$module = Application_Modules::getModuleInstance( $manifest->getName() );
-			if( $module instanceof Auth_Role_Privilege_Provider_Interface ) {
-				/**
-				 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $av
-				 */
-				$av = $module->getAvailablePrivileges();
-
-				foreach( $av as $item ) {
-					$data[$item->getPrivilege()] = $item;
-				}
-			}
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Get list of available privilege values or false if the privilege does not exist
-	 *
-	 * @param $privilege
-	 *
-	 * @return Data_Tree_Forest
-	 */
-	public function getAvailablePrivilegeValuesList( $privilege ) {
-		$available_privileges = $this->getAvailablePrivilegesList();
-
-		if(!isset($available_privileges[$privilege])) {
-			return false;
-		}
-
-		return $available_privileges[$privilege]->getValuesList();
-	}
-
-	/**
-	 * Get modules and actions ACL values list
-	 *
-	 * @return Data_Tree_Forest
-	 */
-	public function getAclActionValuesList_ModulesActions() {
-		$forest = new Data_Tree_Forest();
-		$forest->setLabelKey('name');
-		$forest->setIDKey('ID');
-
-		$modules = Application_Modules::getActivatedModulesList();
-
-		foreach( $modules as $module_name=>$module_info ) {
-
-			$module = Application_Modules::getModuleInstance($module_name);
-
-			$actions = $module->getAclActions();
-
-			if(!$actions) {
-				continue;
-			}
-
-
-			$data = [];
-
-
-			foreach($actions as $action=>$action_description) {
-				$data[] = [
-					'ID' => $module_name.':'.$action,
-					'parent_ID' => $module_name,
-					'name' => $action_description
-				];
-			}
-
-			$tree = new Data_Tree();
-			$tree->getRootNode()->setLabel( $module_info->getLabel().' ('.$module_name.')' );
-			$tree->getRootNode()->setID($module_name);
-
-			$tree->setData($data);
-
-			$forest->appendTree($tree);
-
-		}
-
-		return $forest;
-	}
-
-	/**
-	 * Get sites and pages ACL values list
-	 *
-	 * @return Data_Tree_Forest
-	 */
-	public function getAclActionValuesList_Pages() {
-		return Mvc_Factory::getPageInstance()->getAllPagesTree();
-	}
 
 }

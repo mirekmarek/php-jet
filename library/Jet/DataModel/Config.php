@@ -35,83 +35,12 @@ class DataModel_Config extends Application_Config {
 	protected $backend_type;
 
 	/**
-	 * @JetConfig:type = Config::TYPE_BOOL
-	 * @JetConfig:default_value = true
-	 * @JetConfig:form_field_label = 'Enable data history'
-	 * 
-	 * @var bool
-	 */
-	protected $history_enabled;
-
-	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'MySQL'
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Config', 'getHistoryBackendTypesList']
-     * @JetConfig:form_field_label = 'History backend type: '
-     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select history backend type', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select history backend type']
-	 *
-	 * @var string
-	 */
-	protected $history_backend_type;
-
-	/**
-	 * @JetConfig:type = Config::TYPE_BOOL
-	 * @JetConfig:default_value = true
-	 * @JetConfig:form_field_label = 'Enable data cache'
-	 * 
-	 * @var bool
-	 */
-	protected $cache_enabled;
-
-	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'MySQL'
-	 * @JetConfig:form_field_label = 'Cache backend type: '
-	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Config', 'getCacheBackendTypesList']
-     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select cache backend type', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select cache backend type']
-	 *
-	 * @var string
-	 */
-	protected $cache_backend_type;
-
-	/**
 	 * @return string
 	 */
 	public function getBackendType() {
 		return $this->backend_type;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getCacheBackendType() {
-		return $this->cache_backend_type;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getCacheEnabled() {
-		return $this->cache_enabled;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getHistoryBackendType() {
-		return $this->history_backend_type;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getHistoryEnabled() {
-		return $this->history_enabled;
-	}
 
 	/**
 	 * @return array
@@ -120,18 +49,5 @@ class DataModel_Config extends Application_Config {
 		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/DataModel/Backend/' );
 	}
 
-	/**
-	 * @return array
-	 */
-	public static function getHistoryBackendTypesList() {
-		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/DataModel/History/Backend/' );
-	}
 
-
-	/**
-	 * @return array
-	 */
-	public static function getCacheBackendTypesList() {
-		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/DataModel/Cache/Backend/' );
-	}
 }

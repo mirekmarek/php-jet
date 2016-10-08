@@ -83,7 +83,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		}
 
 
-        $locale_field = Form_Factory::field(Form::TYPE_SELECT,'locale', 'Select new locale');
+        $locale_field = new Form_Field_Select('locale', 'Select new locale');
         $locale_field->setSelectOptions( $avl_locales );
         $locale_field->setIsRequired(true);
         $locale_field->setErrorMessages([
@@ -125,7 +125,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 
 		//----------------------------------------------------------------------
-        $name_field = Form_Factory::field(Form::TYPE_INPUT,'name', 'Site name', $site->getName(), true);
+        $name_field = new Form_Field_Input('name', 'Site name', $site->getName(), true);
         $name_field->setErrorMessages([
             Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify site name'
         ]);
@@ -147,11 +147,11 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 				}
 			}
 
-            $nonSSL_URL_field = Form_Factory::field(Form::TYPE_INPUT,'/'.$locale.'/nonSSL', 'URL ', $nonSSL, true);
+            $nonSSL_URL_field = new Form_Field_Input('/'.$locale.'/nonSSL', 'URL ', $nonSSL, true);
             $nonSSL_URL_field->setErrorMessages([
                 Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL'
             ]);
-            $SSL_URL_field = Form_Factory::field(Form::TYPE_INPUT,'/'.$locale.'/SSL', 'SSL URL ', $SSL, false);
+            $SSL_URL_field = new Form_Field_Input('/'.$locale.'/SSL', 'SSL URL ', $SSL, false);
             $SSL_URL_field->setErrorMessages([
                 Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL'
             ]);
@@ -186,7 +186,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		if( count($site->getLocales()) ) {
             $templates_list = Mvc_Site::getAvailableTemplatesList();
 
-            $select_template_field = Form_Factory::field(Form::TYPE_SELECT,'template', 'Site template: ', '', true);
+            $select_template_field = new Form_Field_Select('template', 'Site template: ', '', true);
             $select_template_field->setSelectOptions($templates_list);
             $select_template_field->setErrorMessages([
                 Form_Field_Select::ERROR_CODE_EMPTY => 'Please select site template',

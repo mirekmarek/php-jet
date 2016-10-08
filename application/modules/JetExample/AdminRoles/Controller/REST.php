@@ -14,9 +14,7 @@
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 
-use Jet;
 use Jet\Mvc_Controller_REST;
-use Jet\Auth;
 use Jet\Auth_Role;
 
 class Controller_REST extends Mvc_Controller_REST {
@@ -51,7 +49,7 @@ class Controller_REST extends Mvc_Controller_REST {
 
 			$this->responseData($role);
 		} else {
-			$this->responseDataModelsList( Auth::getRolesListAsData() );
+			$this->responseDataModelsList( (new Auth_Role())->getList() );
 		}
 	}
 
@@ -59,7 +57,7 @@ class Controller_REST extends Mvc_Controller_REST {
 		/**
 		 * @var Auth_Role $role
 		 */
-		$role = Auth::getNewRole();
+		$role = new Auth_Role();
 
 		$form = $role->getCommonForm();
 
@@ -99,7 +97,7 @@ class Controller_REST extends Mvc_Controller_REST {
 	 * @return Auth_Role
 	 */
 	protected  function _getRole($ID) {
-		$role = Auth::getRole($ID);
+		$role = Auth_Role::get($ID);
 
 		if(!$role) {
 			$this->responseUnknownItem($ID);
@@ -108,18 +106,5 @@ class Controller_REST extends Mvc_Controller_REST {
 		return $role;
 	}
 
-	/**
-	 * @param string $privilege
-	 */
-	public function get_privilege_values_scope_Action( $privilege ) {
-
-		$values = Auth::getAvailablePrivilegeValuesList($privilege);
-
-		if(!$values) {
-			$this->responseUnknownItem( $privilege );
-		}
-
-		$this->responseData($values);
-	}
 
 }

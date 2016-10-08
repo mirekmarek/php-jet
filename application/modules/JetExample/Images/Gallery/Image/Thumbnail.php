@@ -9,7 +9,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\Images;
-use Jet;
+
 use Jet\DataModel_Related_1toN;
 use Jet\Data_Image;
 use Jet\IO_File;

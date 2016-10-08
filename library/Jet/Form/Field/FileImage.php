@@ -23,11 +23,6 @@ class Form_Field_FileImage extends Form_Field_File {
 	protected $_type = Form::TYPE_FILE_IMAGE;
 
 	/**
-	 * @var bool
-	 */
-	protected $_possible_to_decorate = false;
-
-	/**
 	 * @var array
 	 */
 	protected $error_messages = [

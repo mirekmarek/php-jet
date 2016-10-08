@@ -144,6 +144,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 
         $class_name = $this->data_model_definition->getClassName();
 
+	    //TODO: pokud jsou nastavene vlastnosti k nahrani, tak prednacist vse ...
         /**
          * @var DataModel $class_name
          */

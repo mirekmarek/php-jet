@@ -142,14 +142,6 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		$this->forced_backend_type = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_backend_type', null );
 		$this->forced_backend_config = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_backend_config', null );
-
-		$this->forced_cache_enabled = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_enabled', null );
-		$this->forced_cache_backend_type = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_type', null );
-		$this->forced_cache_backend_config = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_config', null );
-
-		$this->forced_history_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
-		$this->forced_history_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
-		$this->forced_history_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**
@@ -337,6 +329,22 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 */
 	public function getMainModelDefinition() {
 		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->main_model_class_name );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMainModelClassName()
+	{
+		return $this->main_model_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getParentModelClassName()
+	{
+		return $this->parent_model_class_name;
 	}
 
 	/**

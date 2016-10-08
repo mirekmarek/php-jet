@@ -83,37 +83,6 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	protected $forced_backend_config;
 
 	/**
-	 * @var null|bool
-	 */
-	protected $forced_cache_enabled;
-
-	/**
-	 * @var null|string
-	 */
-	protected $forced_cache_backend_type;
-
-	/**
-	 * @var null|array
-	 */
-	protected $forced_cache_backend_config;
-
-	/**
-	 * @var null|bool
-	 */
-	protected $forced_history_enabled;
-
-	/**
-	 * @var null|string
-	 */
-	protected $forced_history_backend_type;
-
-	/**
-	 * @var null|array
-	 */
-	protected $forced_history_backend_config;
-
-
-	/**
 	 * @var DataModel_Config
 	 */
 	protected static $__main_config;
@@ -125,15 +94,6 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	 * @var DataModel_Backend_Abstract[]
 	 */
 	protected static $__backend_instances = [];
-
-	/**
-	 * Cache Backend instance
-	 * @see getCacheBackendInstance()
-	 *
-	 * @var DataModel_Cache_Backend_Abstract[]
-	 */
-	protected static $__cache_backend_instance = [];
-
 
 	/**
 	 *
@@ -319,14 +279,6 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	protected function _initBackendsConfig() {
 		$this->forced_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_backend_type', null );
 		$this->forced_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_backend_config', null );
-
-		$this->forced_cache_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_cache_enabled', null );
-		$this->forced_cache_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_cache_backend_type', null );
-		$this->forced_cache_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_cache_backend_config', null );
-
-		$this->forced_history_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
-		$this->forced_history_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
-		$this->forced_history_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**
@@ -649,48 +601,6 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 		return $this->forced_backend_type;
 	}
 
-	/**
-	 * @return array|null
-	 */
-	public function getForcedCacheBackendConfig() {
-		return $this->forced_cache_backend_config;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getForcedCacheBackendType() {
-		return $this->forced_cache_backend_type;
-	}
-
-	/**
-	 * @return bool|null
-	 */
-	public function getForcedCacheEnabled() {
-		return $this->forced_cache_enabled;
-	}
-
-	/**
-	 * @return array|null
-	 */
-	public function getForcedHistoryBackendConfig() {
-		return $this->forced_history_backend_config;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getForcedHistoryBackendType() {
-		return $this->forced_history_backend_type;
-	}
-
-	/**
-	 * @return bool|null
-	 */
-	public function getForcedHistoryEnabled() {
-		return $this->forced_history_enabled;
-	}
-
 
 	/**
 	 * Returns backend type (example: MySQL)
@@ -752,123 +662,6 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 		}
 
 		return self::$__backend_instances[$key];
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function getCacheEnabled() {
-
-		if($this->forced_cache_enabled!==null) {
-			return $this->forced_cache_enabled;
-		}
-		return static::_getMainConfig()->getCacheEnabled();
-	}
-
-
-	/**
-	 * Returns cache backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	public function getCacheBackendType() {
-
-		if($this->forced_cache_backend_type!==null) {
-			return $this->forced_cache_backend_type;
-		}
-
-		return static::_getMainConfig()->getCacheBackendType();
-	}
-
-	/**
-	 * Returns Cache Backend options
-	 *
-	 * @return DataModel_Cache_Backend_Config_Abstract
-	 */
-	public function getCacheBackendConfig() {
-
-		if($this->forced_cache_backend_config!==null) {
-			$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getCacheBackendType(), true );
-
-			$config->setData( $this->forced_cache_backend_config, false );
-
-		} else {
-			$config = DataModel_Factory::getCacheBackendConfigInstance( $this->getCacheBackendType() );
-		}
-
-		return $config;
-	}
-
-	/**
-	 *
-	 * @return DataModel_Cache_Backend_Abstract|bool
-	 */
-	public function getCacheBackendInstance() {
-		if(!$this->getCacheEnabled()) {
-			return false;
-		}
-
-		$backend_type = $this->getCacheBackendType();
-
-		$key = $backend_type;
-		if($this->forced_cache_backend_config!==null) {
-			$key .= ':'.md5(serialize($this->forced_cache_backend_config));
-		}
-
-
-		if(!isset(self::$__cache_backend_instance[$key])) {
-			$backend_config = $this->getCacheBackendConfig();
-
-			self::$__cache_backend_instance[$key] = DataModel_Factory::getCacheBackendInstance(
-				$backend_type,
-				$backend_config
-			);
-		}
-
-		return self::$__cache_backend_instance[$key];
-	}
-
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function getHistoryEnabled() {
-		if($this->forced_history_enabled!==null) {
-			return $this->forced_history_enabled;
-		}
-		return static::_getMainConfig()->getHistoryEnabled();
-	}
-
-
-	/**
-	 * Returns history backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	public function getHistoryBackendType() {
-		if($this->forced_history_backend_type!==null) {
-			return $this->forced_history_backend_type;
-		}
-		return static::_getMainConfig()->getHistoryBackendType();
-	}
-
-	/**
-	 * Returns history Backend options
-	 *
-	 * @return DataModel_History_Backend_Config_Abstract
-	 */
-	public function getHistoryBackendConfig() {
-
-		if($this->forced_history_backend_config!==null) {
-			$config = DataModel_Factory::getHistoryBackendConfigInstance( $this->getHistoryBackendType(), true );
-
-			$config->setData( $this->forced_history_backend_config, false );
-		} else {
-			$config = DataModel_Factory::getHistoryBackendConfigInstance( $this->getHistoryBackendType() );
-		}
-		return $config;
 	}
 
 
@@ -1011,24 +804,6 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 				break;
 			case 'forced_backend_config':
 				$reflection_data['data_model_forced_backend_config'] = (array)$value;
-				break;
-			case 'forced_history_enabled':
-				$reflection_data['data_model_forced_history_enabled'] = (bool)$value;
-				break;
-			case 'forced_history_backend_type':
-				$reflection_data['data_model_forced_history_backend_type'] = (string)$value;
-				break;
-			case 'forced_history_backend_config':
-				$reflection_data['data_model_forced_history_backend_config'] = (array)$value;
-				break;
-			case 'forced_cache_enabled':
-				$reflection_data['data_model_forced_cache_enabled'] = (bool)$value;
-				break;
-			case 'forced_cache_backend_type':
-				$reflection_data['data_model_forced_cache_backend_type'] = (string)$value;
-				break;
-			case 'forced_cache_backend_config':
-				$reflection_data['data_model_forced_cache_backend_config'] = (array)$value;
 				break;
 			case 'M_model_class_name':
 				$reflection_data['M_model_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );

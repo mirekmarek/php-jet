@@ -29,12 +29,6 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	protected $_input_type = 'text';
 
 	/**
-	 * @var bool
-	 */
-	protected $_possible_to_decorate = true;
-
-
-	/**
 	 * filed name equals $_POST(or $_GET) key
 	 * 
 	 * @var string
@@ -717,15 +711,6 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @return string
 	 */
 	protected function _getTagPropertiesAsString( Form_Parser_TagData $tag_data ) {
-		if($this->_possible_to_decorate) {
-			$decorator = $this->__form->getDecoratorInstance( $this );
-			if($decorator) {
-				/**
-				 * @var Form_Decorator_Abstract $decorator
-				 */
-				$decorator->decorate( $tag_data );
-			}
-		}
 
 		$result = '';
 

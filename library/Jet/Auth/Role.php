@@ -31,6 +31,32 @@ namespace Jet;
 class Auth_Role extends DataModel implements Auth_Role_Interface {
 
 	/**
+	 * Privilege to sites/page
+	 */
+	const PRIVILEGE_VISIT_PAGE = 'visit_page';
+
+	/**
+	 * Privilege for modules/actions
+	 */
+	const PRIVILEGE_MODULE_ACTION = 'module_action';
+
+	/**
+	 * @var array
+	 */
+	protected static $standard_privileges = [
+		self::PRIVILEGE_VISIT_PAGE => [
+			'label' => 'Sites and pages',
+			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
+		],
+
+		self::PRIVILEGE_MODULE_ACTION => [
+			'label' => 'Modules and actions',
+			'get_available_values_list_method_name' => 'getAclActionValuesList_ModulesActions'
+		]
+
+	];
+
+	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:is_ID = true
@@ -235,34 +261,21 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 * @return DataModel_Fetch_Object_Assoc|Auth_Role[]
 	 */
-	public function getRolesList() {
-		$list = $this->fetchObjects();
+	public static function getList() {
+
+		/**
+		 * @var Auth_Role $_this
+		 */
+		$_this = new static();
+
+		$list = $_this->fetchObjects();
+		$list->setLoadOnlyProperties([
+			'this.ID',
+			'this.name',
+			'this.description'
+		]);
 		$list->getQuery()->setOrderBy('name');
 		return $list;
-	}
-
-	/**
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public function getRolesListAsData() {
-		$list = $this->fetchDataAssoc( $this->getDataModelDefinition()->getProperties() );
-		$list->getQuery()->setOrderBy('name');
-		return $list;
-	}
-
-
-	/**
-	 *
-	 */
-	protected function _initPrivileges() {
-		$available_privileges_list = Auth::getAvailablePrivilegesList();
-
-		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
-			if(!isset($this->privileges[$privilege])) {
-				$this->setPrivilege( $privilege, []);
-			}
-		}
-
 	}
 
 	/**
@@ -274,7 +287,14 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 * @return Form
 	 */
 	public function getForm( $form_name, array $properties_list ) {
-		$this->_initPrivileges();
+		$available_privileges_list = static::getAvailablePrivilegesList();
+
+		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
+			if(!isset($this->privileges[$privilege])) {
+				$this->setPrivilege( $privilege, []);
+			}
+		}
+
 
 		return parent::getForm($form_name, $properties_list);
 	}
@@ -298,6 +318,109 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 */
 	public function afterDelete() {
 		$this->sendSignal('/role/deleted', ['role'=>$this]);
+	}
+
+
+	/**
+	 * Get list of available privileges
+	 *
+	 *
+	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
+	 */
+	public static function getAvailablePrivilegesList() {
+		$data = [];
+
+		foreach( static::$standard_privileges as $privilege=>$d) {
+			$available_values_list = null;
+
+			/**
+			 * @var callable $callback
+			 */
+			$callback = [ get_called_class(), $d['get_available_values_list_method_name'] ];
+
+			$available_values_list = $callback();
+
+			$item = new Auth_Role_Privilege_AvailablePrivilegesListItem(
+				$privilege,
+				$d['label'],
+				$available_values_list
+			);
+
+			$data[$privilege] = $item;
+		}
+
+		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
+			$module = Application_Modules::getModuleInstance( $manifest->getName() );
+			if( $module instanceof Auth_Role_Privilege_Provider_Interface ) {
+				/**
+				 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $av
+				 */
+				$av = $module->getAvailablePrivileges();
+
+				foreach( $av as $item ) {
+					$data[$item->getPrivilege()] = $item;
+				}
+			}
+		}
+
+		return $data;
+	}
+
+
+	/**
+	 * Get modules and actions ACL values list
+	 *
+	 * @return Data_Tree_Forest
+	 */
+	public static function getAclActionValuesList_ModulesActions() {
+		$forest = new Data_Tree_Forest();
+		$forest->setLabelKey('name');
+		$forest->setIDKey('ID');
+
+		$modules = Application_Modules::getActivatedModulesList();
+
+		foreach( $modules as $module_name=>$module_info ) {
+
+			$module = Application_Modules::getModuleInstance($module_name);
+
+			$actions = $module->getAclActions();
+
+			if(!$actions) {
+				continue;
+			}
+
+
+			$data = [];
+
+
+			foreach($actions as $action=>$action_description) {
+				$data[] = [
+					'ID' => $module_name.':'.$action,
+					'parent_ID' => $module_name,
+					'name' => $action_description
+				];
+			}
+
+			$tree = new Data_Tree();
+			$tree->getRootNode()->setLabel( $module_info->getLabel().' ('.$module_name.')' );
+			$tree->getRootNode()->setID($module_name);
+
+			$tree->setData($data);
+
+			$forest->appendTree($tree);
+
+		}
+
+		return $forest;
+	}
+
+	/**
+	 * Get sites and pages ACL values list
+	 *
+	 * @return Data_Tree_Forest
+	 */
+	public static function getAclActionValuesList_Pages() {
+		return Mvc_Factory::getPageInstance()->getAllPagesTree();
 	}
 
 }

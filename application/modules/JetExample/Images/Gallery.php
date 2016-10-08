@@ -9,12 +9,12 @@
  *
  */
 namespace JetApplicationModule\JetExample\Images;
-use Jet;
+
 use Jet\DataModel;
 use Jet\DataModel_Fetch_Data_Assoc;
 use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\Form;
-use Jet\Form_Factory;
+use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_FileImage;
 use Jet\Tr;
 use Jet\Data_Tree;
@@ -190,7 +190,7 @@ class Gallery extends DataModel {
 	 * @return Form
 	 */
 	public function getUploadForm() {
-        $image_field = Form_Factory::getFieldInstance( Form::TYPE_FILE_IMAGE, 'file', 'Upload image' );
+        $image_field = new Form_Field_FileImage('file', 'Upload image' );
         $image_field->setIsRequired(true);
         $image_field->setErrorMessages([
             Form_Field_FileImage::ERROR_CODE_EMPTY => 'Please select image',
@@ -199,7 +199,7 @@ class Gallery extends DataModel {
 
 		$form = new Form('gallery_image_upload', [
             $image_field,
-			Form_Factory::getFieldInstance( Form::TYPE_CHECKBOX, 'overwrite_if_exists', 'Overwrite image if exists' )
+			new Form_Field_Checkbox('overwrite_if_exists', 'Overwrite image if exists' )
 		]);
 
 		return $form;

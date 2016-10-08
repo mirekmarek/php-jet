@@ -36,11 +36,10 @@ trait DataModel_Trait_Helpers {
     /**
      *
      * @param string $class
-     * @param bool $including_history_backend (optional, default: true)
-     * @param bool $including_cache_backend (optional, default: true)
+     *
      * @return bool
      */
-    public static function helper_create( $class, $including_history_backend=true, $including_cache_backend=true ) {
+    public static function helper_create( $class ) {
         //DO NOT CHANGE CLASS NAME BY FACTORY HERE!
 
         $class = BaseObject_Reflection::parseClassName($class);
@@ -48,23 +47,6 @@ trait DataModel_Trait_Helpers {
          * @var DataModel $_this
          */
         $_this = new $class();
-
-        if( $including_history_backend ) {
-            $h_backend = $_this->getHistoryBackendInstance();
-
-            if($h_backend) {
-                $h_backend->helper_create();
-            }
-        }
-
-        if($including_cache_backend) {
-            $c_backend = $_this->getCacheBackendInstance();
-
-            if($c_backend) {
-                $c_backend->helper_create();
-            }
-
-        }
 
         return $_this->getBackendInstance()->helper_create( $_this );
     }
@@ -91,12 +73,9 @@ trait DataModel_Trait_Helpers {
     /**
      * Update (actualize) DB table or tables
      *
-     * @param bool $including_history_backend (optional, default: true)
-     * @param bool $including_cache_backend (optional, default: true)
-     *
      * @param string $class
      */
-    public static function helper_update( $class, $including_history_backend=true, $including_cache_backend=true  ) {
+    public static function helper_update( $class ) {
         //DO NOT CHANGE CLASS NAME BY FACTORY HERE!
         $class = BaseObject_Reflection::parseClassName($class);
 
@@ -105,29 +84,8 @@ trait DataModel_Trait_Helpers {
          */
         $_this = new $class();
 
-        if( $including_history_backend ) {
-            $h_backend = $_this->getHistoryBackendInstance();
-
-            if($h_backend) {
-                $h_backend->helper_create();
-            }
-        }
-
-        if($including_cache_backend) {
-            $c_backend = $_this->getCacheBackendInstance();
-
-            if($c_backend) {
-                $c_backend->helper_create();
-            }
-
-        }
-
         $_this->getBackendInstance()->helper_update( $_this );
 
-        $cache = $_this->getCacheBackendInstance();
-        if($cache) {
-            $cache->truncate( $_this->getDataModelDefinition()->getModelName() );
-        }
     }
 
     /**
@@ -143,12 +101,6 @@ trait DataModel_Trait_Helpers {
         $_this = new $class();
 
         $_this->getBackendInstance()->helper_drop( $_this );
-
-        $cache = $_this->getCacheBackendInstance();
-        if($cache) {
-            $cache->truncate( $_this->getDataModelDefinition()->getModelName() );
-        }
-
     }
 
 }

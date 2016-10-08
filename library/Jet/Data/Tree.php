@@ -17,10 +17,20 @@ namespace Jet;
 class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_Serializable_REST {
 
 	/**
+	 * @var bool
+	 */
+	protected $use_objects = false;
+
+	/**
 	 *
 	 * @var string 
 	 */
 	protected $ID_key = 'ID';
+
+	/**
+	 * @var string
+	 */
+	protected $ID_getter_method_name = 'getId';
 
 	/**
 	 *
@@ -29,10 +39,20 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	protected $parent_ID_key = 'parent_ID';
 
 	/**
+	 * @var string
+	 */
+	protected $parent_ID_getter_method_name = 'getParentId';
+
+	/**
 	 *
 	 * @var string
 	 */
 	protected $label_key = 'name';
+
+	/**
+	 * @var string
+	 */
+	protected $label_getter_method_name = 'getName';
 
 	/**
 	 *
@@ -168,7 +188,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	/**
 	 * @return bool
 	 */
-	public function isIgnoreOrphans()
+	public function getIgnoreOrphans()
 	{
 		return $this->ignore_orphans;
 	}
@@ -193,12 +213,60 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	}
 
 	/**
+	 * @param string $ID_key
+	 */
+	public function setIDKey($ID_key)
+	{
+		$this->ID_key = $ID_key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIDGetterMethodName()
+	{
+		return $this->ID_getter_method_name;
+	}
+
+	/**
+	 * @param string $ID_getter_method_name
+	 */
+	public function setIDGetterMethodName($ID_getter_method_name)
+	{
+		$this->ID_getter_method_name = $ID_getter_method_name;
+	}
+
+	/**
 	 * Key in data item representing parent ID
 	 *
 	 * @return string 
 	 */
 	public function getParentIDKey(){
 		return $this->parent_ID_key;
+	}
+
+	/**
+	 * @param string $parent_ID_key
+	 */
+	public function setParentIDKey($parent_ID_key)
+	{
+		$this->parent_ID_key = $parent_ID_key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getParentIDGetterMethodName()
+	{
+		return $this->parent_ID_getter_method_name;
+	}
+
+	/**
+	 * @param string $parent_ID_getter_method_name
+	 */
+	public function setParentIDGetterMethodName($parent_ID_getter_method_name)
+	{
+		$this->parent_ID_getter_method_name = $parent_ID_getter_method_name;
 	}
 
 	/**
@@ -213,6 +281,22 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 */
 	public function getLabelKey() {
 		return $this->label_key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLabelGetterMethodName()
+	{
+		return $this->label_getter_method_name;
+	}
+
+	/**
+	 * @param string $label_getter_method_name
+	 */
+	public function setLabelGetterMethodName($label_getter_method_name)
+	{
+		$this->label_getter_method_name = $label_getter_method_name;
 	}
 
 	/**
@@ -252,7 +336,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 */
 	public function getRootNode(){
 		if(!$this->root_node) {
-			$this->root_node = new $this->nodes_class_name( $this, [], true );
+			$this->root_node = new $this->nodes_class_name( $this, [], true, 0, 0, '' );
 		}
 		return $this->root_node;
 	}
@@ -366,11 +450,14 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	/**
 	 * @param array $item
 	 *
-	 * @throws Data_Tree_Exception
-	 *
 	 * @return string
+	 * @throws Data_Tree_Exception
 	 */
-	protected function getDataItemID( $item ) {
+	protected function getNodeData_ID($item ) {
+
+		if($this->use_objects) {
+			return $item->{$this->ID_getter_method_name}();
+		}
 
 		if(!isset($item[$this->ID_key])) {
 			throw new Data_Tree_Exception(
@@ -389,7 +476,11 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 *
 	 * @return string
 	 */
-	protected function getDataParentItemID( $item ) {
+	protected function getNodeData_parentID($item ) {
+		if($this->use_objects) {
+			return $item->{$this->parent_ID_getter_method_name}();
+		}
+
 		if(!isset($item[$this->parent_ID_key])) {
 			throw new Data_Tree_Exception(
 				'Missing \''.$this->parent_ID_key.'\' key in item data',
@@ -400,6 +491,29 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 		return $item[$this->parent_ID_key];
 	}
 
+	/**
+	 * @param array $item
+	 *
+	 * @return string
+	 * @throws Data_Tree_Exception
+	 */
+	protected function getNodeData_label($item ) {
+
+		if($this->use_objects) {
+			return $item->{$this->label_getter_method_name}();
+		}
+
+		if(!isset($item[$this->label_key])) {
+			throw new Data_Tree_Exception(
+				'Missing \''.$this->label_key.'\' key in item data',
+				Data_Tree_Exception::CODE_MISSING_VALUE
+			);
+
+		}
+		return $item[$this->label_key];
+	}
+
+
 
 	/**
 	 *
@@ -408,10 +522,10 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 * @throws Data_Tree_Exception
 	 * @return Data_Tree_Node|null
 	 */
-	public function appendNode( array $item_data ){
+	public function appendNode( $item_data ){
 
-		$ID = $this->getDataItemID($item_data);
-		$this->getDataParentItemID($item_data);
+		$ID = $this->getNodeData_ID($item_data);
+		$parent_ID = $this->getNodeData_parentID($item_data);
 
 		if( isset($this->nodes[$ID]) ){
 			throw new Data_Tree_Exception(
@@ -423,7 +537,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 		/**
 		 * @var Data_Tree_Node $new_node
 		 */
-		$new_node = new $this->nodes_class_name( $this, $item_data );
+		$new_node = new $this->nodes_class_name( $this, $item_data, false, $ID, $parent_ID, $this->getNodeData_label($item_data) );
 
 		$parent = $this->getNode( $new_node->getParentID() );
 
@@ -469,20 +583,22 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 * @param array $data
 	 */
 	public function setData( array $data ) {
+		$this->use_objects = false;
 		$this->_setData( $data );
 	}
 
 	/**
 	 *
-	 * @param DataModel_Fetch_Data_Abstract $data
+	 * @param \Iterator $data
 	 */
-	public function setDataSource( DataModel_Fetch_Data_Abstract $data ) {
-		$this->_setData($data);
+	public function setDataSource( \Iterator $data ) {
+		$this->use_objects = true;
+		$this->_setData( $data );
 	}
 
 	/**
 	 *
-	 * @param array|DataModel_Fetch_Data_Abstract $items
+	 * @param array|\Iterator $items
 	 *
 	 * @throws Data_Tree_Exception
 	 */
@@ -500,8 +616,8 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 			/**
 			 * @var array $item
 			 */
-			$ID = $this->getDataItemID($item);
-			$parent_ID = $this->getDataParentItemID($item);
+			$ID = $this->getNodeData_ID($item);
+			$parent_ID = $this->getNodeData_parentID($item);
 
 			$IDs[] = $ID;
 

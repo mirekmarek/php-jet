@@ -22,17 +22,6 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 		}
 
 		$classes = [
-            /*
-			JET_MVC_PAGE_CLASS,
-			JET_MVC_PAGE_META_TAG_CLASS,
-			JET_MVC_PAGE_CONTENT_CLASS,
-
-			JET_MVC_SITE_CLASS,
-			JET_MVC_SITE_LOCALIZED_CLASS,
-			JET_MVC_SITE_LOCALIZED_META_TAG_CLASS,
-			JET_MVC_SITE_LOCALIZED_URL_CLASS,
-            */
-
             JET_AUTH_ROLE_CLASS,
             JET_AUTH_ROLE_PRIVILEGE_CLASS,
             JET_AUTH_USER_CLASS,

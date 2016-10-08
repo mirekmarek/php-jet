@@ -328,6 +328,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	protected function resolveAuthentication() {
 
         if(
+        	$this->getPage()->getIsAdminUI() ||
             $this->getPage()->getAuthenticationRequired()
         ) {
 
@@ -335,11 +336,14 @@ class Mvc_Router extends Mvc_Router_Abstract {
 
             $this->cache_enabled = false;
 
-            if( $auth_controller->getAuthenticationRequired() ) {
-
-                $this->setPage( $auth_controller->getAuthenticationPage() );
-	            $this->getPage()->setAuthenticationRequired(false);
+            if( $auth_controller->getUserIsLoggedIn() ) {
+				return true;
             }
+
+	        $this->setPage( $auth_controller->getAuthenticationPage() );
+	        $this->getPage()->setAuthenticationRequired(false);
+
+	        return false;
 
         }
 

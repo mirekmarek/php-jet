@@ -32,7 +32,6 @@ class Installer {
         'Auth',
 		'CreateAdministrator',
 		'CreateSite',
-		//'jsLibs',
 		'Final'
 	];
 

@@ -13,14 +13,15 @@
  *
  */
 namespace JetApplicationModule\Vendor\Package\TestModule;
-use Jet;
+use Jet\Application_Modules_Module_Abstract;
+use Jet\Application_Signals_Signal;
 
-class Main extends Jet\Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract {
 	public function getMyValue(){
 		return 'My value';
 	}
 
-	public function testAck(Jet\Application_Signals_Signal $signal){
+	public function testAck( Application_Signals_Signal $signal){
 		echo 'TestModule: ACK signal received.\n';
 		var_dump($signal->getName(), $signal->getData(), $signal->getSender());
 	}

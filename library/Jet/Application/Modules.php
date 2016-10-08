@@ -21,13 +21,6 @@
  *    |  |- install.php
  *    |  \- uninstall.php
  *    |
- *    |- _tests
- *    |  \- [*_Test.php]
- *    |
- *    |- doc
- *    |  |- readme.html
- *    |  \- [*.html]
- *    |
  *    |- config
  *    |  \- config.php
  *    |
@@ -46,14 +39,8 @@
  *    |  \- [images and so on]
  *    |
  *    |- Controllers
- *    |  |- Standard.php
- *    |  |- AJAX.php
- *    |  |- SYS.php
- *    |  \- REST.php
- *    |
- *    |- JS
- *    |  |- Main.js
- *    |  \- [*.js]
+ *    |  |- Main.php
+ *    |  \- [REST.php]
  *    |
  *    |- views
  *    |     \- [*.phtml]

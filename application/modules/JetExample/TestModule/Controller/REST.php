@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\TestModule;
-use Jet;
+
 use Jet\Mvc_Factory;
 use Jet\Mvc_Controller_REST;
 

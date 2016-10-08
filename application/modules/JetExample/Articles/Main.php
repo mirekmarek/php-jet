@@ -13,8 +13,8 @@
  *
  */
 namespace JetApplicationModule\JetExample\Articles;
-use Jet;
 use Jet\Application_Modules_Module_Abstract;
+use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 
 class Main extends Application_Modules_Module_Abstract {
@@ -42,21 +42,22 @@ class Main extends Application_Modules_Module_Abstract {
 	}
 
 	/**
-	 * @param string $service_type
 	 *
+	 * @param Mvc_Page_Content_Interface $content
 	 * @return string
-     */
-	protected function getControllerClassName( $service_type ) {
+	 */
+	protected function getControllerClassName(  Mvc_Page_Content_Interface $content  ) {
+		$controller_name = 'Main';
 
-		if($service_type!=Mvc::SERVICE_TYPE_REST) {
-			if( Mvc::getIsAdminUIRequest() ) {
-				$controller_suffix = 'Controller_Admin_'.$service_type;
+		if($content->getCustomController()) {
+			$controller_name = $content->getCustomController();
+		}
 
-			} else {
-				$controller_suffix = 'Controller_Public_'.$service_type;
-			}
+		if( Mvc::getIsAdminUIRequest() ) {
+			$controller_suffix = 'Controller_Admin_'.$controller_name;
+
 		} else {
-			$controller_suffix = 'Controller_'.$service_type;
+			$controller_suffix = 'Controller_Public_'.$controller_name;
 		}
 
 		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;

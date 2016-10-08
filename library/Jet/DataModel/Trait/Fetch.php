@@ -24,7 +24,7 @@ trait DataModel_Trait_Fetch {
      *
      * @return DataModel_Query
      */
-    public function createQuery( array $where= []) {
+    public function createQuery( array $where=[] ) {
         /**
          * @var DataModel $this
          */
@@ -40,6 +40,7 @@ trait DataModel_Trait_Fetch {
      * @return DataModel|bool
      */
     public function fetchOneObject( array $where ) {
+	    //TODO: nahravane vlastnosti rovnou jako parametr
 
         $query = $this->createQuery( $where );
         $query->setLimit(1);
@@ -59,6 +60,7 @@ trait DataModel_Trait_Fetch {
      * @return DataModel_Fetch_Object_Assoc
      */
     public function fetchObjects( array  $where= []) {
+    	//TODO: nahravane vlastnosti rovnou jako parametr
         return new DataModel_Fetch_Object_Assoc( $this->createQuery($where) );
     }
 
@@ -74,43 +76,43 @@ trait DataModel_Trait_Fetch {
 
     /**
      *
-     * @param array $load_items
+     * @param array $load_properties
      * @param array $where
      * @return DataModel_Fetch_Data_All
      */
-    public function fetchDataAll( array $load_items, array  $where= []) {
-        return new DataModel_Fetch_Data_All( $load_items, $this->createQuery($where) );
+    public function fetchDataAll( array $load_properties, array  $where= []) {
+        return new DataModel_Fetch_Data_All( $load_properties, $this->createQuery($where) );
     }
 
     /**
      *
-     * @param array $load_items
+     * @param array $load_properties
      * @param array $where
      * @return DataModel_Fetch_Data_Assoc
      */
-    public function fetchDataAssoc( array $load_items, array  $where= []) {
-        return new DataModel_Fetch_Data_Assoc( $load_items, $this->createQuery($where) );
+    public function fetchDataAssoc( array $load_properties, array  $where= []) {
+        return new DataModel_Fetch_Data_Assoc( $load_properties, $this->createQuery($where) );
     }
 
     /**
      *
-     * @param array $load_items
+     * @param array $load_properties
      * @param array $where
      * @return DataModel_Fetch_Data_Pairs
      */
-    public function fetchDataPairs( array $load_items, array  $where= []) {
-        return new DataModel_Fetch_Data_Pairs( $load_items, $this->createQuery($where) );
+    public function fetchDataPairs( array $load_properties, array  $where= []) {
+        return new DataModel_Fetch_Data_Pairs( $load_properties, $this->createQuery($where) );
     }
 
     /**
      *
-     * @param array $load_items
+     * @param array $load_properties
      * @param array $where
      * @return mixed|null
      */
-    public function fetchDataRow( array $load_items, array  $where= []) {
+    public function fetchDataRow( array $load_properties, array  $where= []) {
         $query = $this->createQuery( $where );
-        $query->setSelect($load_items);
+        $query->setSelect($load_properties);
 
         /**
          * @var DataModel $this

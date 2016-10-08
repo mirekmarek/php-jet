@@ -14,7 +14,7 @@
  */
 
 namespace JetApplicationModule\JetExample\AuthController;
-use Jet;
+
 use Jet\DataModel;
 use Jet\Data_DateTime;
 use Jet\Http_Request;
@@ -24,8 +24,6 @@ use Jet\Http_Request;
  *
  * @JetDataModel:name = 'Auth_Event'
  * @JetDataModel:database_table_name = 'Jet_Auth_Events'
- * @JetDataModel:forced_history_enabled = false
- * @JetDataModel:forced_cache_enabled = false
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 class Event extends DataModel {

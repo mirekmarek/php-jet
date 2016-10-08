@@ -202,7 +202,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
 	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
 	 * @JetDataModel:form_field_label = 'Roles'
-	 * @JetDataModel:form_field_get_select_options_callback = ['Auth', 'getRolesList']
+	 * @JetDataModel:form_field_get_select_options_callback = [JET_AUTH_ROLE_CLASS, 'getList']
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
      * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
 	 *
@@ -526,7 +526,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @param string|null $role_ID (optional)
 	 * @return DataModel_Fetch_Object_Assoc|Auth_User[]
 	 */
-	public function getUsersList( $role_ID=null ) {
+	public static function getList($role_ID=null ) {
 		if($role_ID) {
 			$query = [
 				'Auth_Role.ID' => $role_ID
@@ -535,33 +535,24 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			$query = [];
 		}
 
-		$list = $this->fetchObjects( $query );
+		/**
+		 * @var Auth_User $_this
+		 */
+		$_this = new static();
+		$list = $_this->fetchObjects( $query );
+		$list->setLoadOnlyProperties([
+			'this.ID',
+			'this.login',
+			'this.first_name',
+			'this.surname',
+			'this.locale'
+		]);
 		$list->getQuery()->setOrderBy('login');
 
 		return $list;
 
 	}
 
-	/**
-	 * @param string|null $role_ID
-	 *
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public function getUsersListAsData( $role_ID=null ) {
-		$query = [];
-
-		if($role_ID) {
-			$query['role.ID'] = $role_ID;
-		}
-
-		$properties = $this->getDataModelDefinition()->getProperties();
-		unset($properties['password']);
-
-		$list = $this->fetchDataAssoc( $properties, $query );
-		$list->getQuery()->setOrderBy('login');
-
-		return $list;
-	}
 
 	/**
 	 * @param string $login
@@ -631,7 +622,23 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		$roles = [];
 
 		foreach($roles_IDs as $role_ID) {
-			$role = Auth::getRole($role_ID);
+			/**
+			 * @var DataModel_Definition_Property_DataModel $roles_property_def
+			 */
+			$roles_property_def = static::getDataModelDefinition()->getProperty('roles');
+			/**
+			 * @var DataModel_Definition_Model_Related_MtoN $role_definition
+			 */
+			$role_definition = $roles_property_def->getValueDataModelDefinition();
+
+			$role_class_name = $role_definition->getNModelClassName();
+
+			/**
+			 * @var callable $call_back
+			 */
+			$call_back = [$role_class_name, 'get'];
+
+			$role = $call_back($role_ID);
 			if(!$role) {
 				continue;
 			}

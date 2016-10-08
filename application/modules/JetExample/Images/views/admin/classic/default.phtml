@@ -66,7 +66,7 @@ $tree->setSelectedDisplayCallback( function( Data_Tree_Node $node ) {
 $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)  {
 	if($node->getIsRoot()):
 		?>
-		<a href="<?=Mvc::getCurrentURI();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+		<a href="<?=Mvc::getCurrentPageURI();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 		<?php
 		return;
 	endif;

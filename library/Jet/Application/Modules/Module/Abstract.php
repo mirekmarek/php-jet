@@ -252,14 +252,12 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 
 	/**
 	 * @param string $action
-	 * @param Auth_Role_Privilege_ContextObject_Interface $action_context (optional)
-	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @throws Application_Modules_Exception
 	 *
 	 * @return bool
 	 */
-	public function checkAclCanDoAction( $action, Auth_Role_Privilege_ContextObject_Interface $action_context=null, $log_if_false=true ) {
+	public function checkAclCanDoAction( $action ) {
 		$ACL_actions = $this->getAclActions();
 
 		if(!isset($ACL_actions[$action])) {
@@ -270,12 +268,11 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 		}
 
 
+
 		$module_name = $this->module_manifest->getName();
 		return Auth::getCurrentUserHasPrivilege(
-				Auth::PRIVILEGE_MODULE_ACTION,
-				$module_name.':'.$action,
-				$action_context,
-				$log_if_false
+				Auth_Role::PRIVILEGE_MODULE_ACTION,
+				$module_name.':'.$action
 			);
 	}
 

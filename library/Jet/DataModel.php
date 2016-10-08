@@ -36,12 +36,6 @@ namespace Jet;
  * Overrides the default settings:
  *      @JetDataModel:forced_backend_type = 'SomeBackendType'
  *      @JetDataModel:forced_backend_config = ['option'=>'value','option'=>'value']
- *      @JetDataModel:forced_history_enabled = bool
- *      @JetDataModel:forced_history_backend_type = 'SomeBackendType'
- *      @JetDataModel:forced_history_backend_config = ['option'=>'value','option'=>'value']
- *      @JetDataModel:forced_cache_enabled = bool
- *      @JetDataModel:forced_cache_backend_type = 'SomeBackendType'
- *      @JetDataModel:forced_cache_backend_config = ['option'=>'value','option'=>'value']
  *
  * Property definition:
  *      /**

@@ -124,6 +124,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
                         $property = $data_model_definition->getProperty($property_name);
                         if(!$property->getRelatedToPropertyName()) {
                             $backend_options = $property->getBackendOptions( 'MySQL' );
+	                        //TODO: autoincrement bude typ ID a ne pres backend option
                             if(!empty($backend_options['auto_increment'])) {
                                 $key_columns = $this->_getColumnName( $property, true, false );
                                 break;

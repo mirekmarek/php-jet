@@ -8,7 +8,6 @@
  * @version <%VERSION%>
  *
  * @category Jet
- * @package JetML
  */
 namespace Jet;
 

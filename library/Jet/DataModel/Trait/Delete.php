@@ -29,8 +29,6 @@ trait DataModel_Trait_Delete {
             throw new DataModel_Exception('Nothing to delete... Object was not loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
         }
 
-        $this->dataModelHistoryOperationStart( DataModel_History_Backend_Abstract::OPERATION_DELETE );
-
         $backend = $this->getBackendInstance();
         $definition = $this->getDataModelDefinition();
 
@@ -46,11 +44,6 @@ trait DataModel_Trait_Delete {
         $backend->delete( $this->getIdObject()->getQuery() );
 
         $this->commitBackendTransaction( $backend );
-
-        $this->dataModelHistoryOperationDone();
-
-
-        $this->deleteDataModelCache();
 
         $this->afterDelete();
     }

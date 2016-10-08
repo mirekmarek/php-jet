@@ -400,11 +400,10 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
 
     /**
-     * @param Mvc_Page_Interface $page
      *
      * @return Mvc_Controller_Abstract|bool
      */
-    protected function getControllerInstance( Mvc_Page_Interface $page ) {
+    protected function getControllerInstance() {
         if($this->_controller_instance!==null) {
             return $this->_controller_instance;
         }
@@ -450,6 +449,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
      * @param Mvc_Page_Interface $page
      */
     public function dispatch( Mvc_Page_Interface $page ) {
+	    //TODO: page bude vlastnost
 
         if($this->getStaticContent()) {
 
@@ -472,7 +472,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
         Debug_Profiler::blockStart( 'Dispatch '.$block_name );
 
 
-        $controller = $this->getControllerInstance( $page );
+        $controller = $this->getControllerInstance();
 
         if(!$controller) {
 

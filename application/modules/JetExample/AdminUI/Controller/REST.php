@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\AdminUI;
-use Jet;
+
 use Jet\Mvc_Controller_REST;
 
 class Controller_REST extends Mvc_Controller_REST {

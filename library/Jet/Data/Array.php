@@ -295,12 +295,19 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @param string $key
 	 * @param string $default_value (optional, default = '')
+	 * @param array $valid_values (optional)
 	 *
 	 * @return string
 	 */
-	public function getString($key, $default_value = ''){
+	public function getString($key, $default_value = '', array $valid_values=[]){
 
 		$value = $this->getRaw($key, $default_value);
+
+		if($valid_values) {
+			if(!in_array($value, $valid_values)) {
+				$value = $default_value;
+			}
+		}
 
 		if(is_bool($value)){
 			$value = $value?1:0;

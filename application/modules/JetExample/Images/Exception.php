@@ -9,9 +9,9 @@
  *
  */
 namespace JetApplicationModule\JetExample\Images;
-use Jet;
+use Jet\Exception as Jet_Exception;
 
-class Exception extends Jet\Exception {
+class Exception extends Jet_Exception {
 	const CODE_IMAGE_ALLREADY_EXIST = 1;
 	const CODE_ILLEGAL_THUMBNAIL_DIMENSION = 100;
 }

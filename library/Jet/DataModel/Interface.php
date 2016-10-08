@@ -288,19 +288,6 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
      */
     public function fetchDataCol( $load_item, array  $where= []);
 
-//-- History ------------------------------------
-    /**
-     *
-     * @return bool
-     */
-    public static function getHistoryEnabled();
-
-//-- Cache --------------------------------------
-    /**
-     *
-     * @return bool
-     */
-    public static function getCacheEnabled();
 
 //-- Events -------------------------------------
     /**
@@ -335,11 +322,9 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     /**
      *
      * @param string $class
-     * @param bool $including_history_backend (optional, default: true)
-     * @param bool $including_cache_backend (optional, default: true)
      * @return bool
      */
-    public static function helper_create( $class, $including_history_backend=true, $including_cache_backend=true );
+    public static function helper_create( $class );
 
 
     /**
@@ -354,12 +339,10 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     /**
      * Update (actualize) DB table or tables
      *
-     * @param bool $including_history_backend (optional, default: true)
-     * @param bool $including_cache_backend (optional, default: true)
      *
      * @param string $class
      */
-    public static function helper_update( $class, $including_history_backend=true, $including_cache_backend=true  );
+    public static function helper_update( $class );
 
     /**
      * Drop (only rename by default) DB table or tables

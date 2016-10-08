@@ -11,7 +11,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\TestModule;
-use Jet;
+
 use Jet\DataModel;
 use Jet\Data_DateTime;
 

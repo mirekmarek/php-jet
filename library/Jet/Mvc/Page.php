@@ -890,8 +890,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 
 
 	/**
-	 * Setups layout. Example: turn on JetML, setup icons URL and so on.
-	 *
 	 * @throws Exception
 	 *
 	 * @return Mvc_Layout
@@ -1012,7 +1010,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 * @return bool
 	 */
 	public function getAuthenticationRequired() {
-		return $this->authentication_required || $this->getIsAdminUI();
+		return $this->authentication_required;
 	}
 
 	/**
@@ -1023,7 +1021,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 			return true;
 		}
 
-		if( Auth::getCurrentUserHasPrivilege( Auth::PRIVILEGE_VISIT_PAGE, $this->getPageKey() ) ) {
+		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getPageKey() ) ) {
 			return true;
 		}
 

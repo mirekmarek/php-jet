@@ -13,8 +13,8 @@
  *
  */
 namespace JetApplicationModule\JetExample\UIElements;
-use Jet;
-use Jet\Object;
+
+use Jet\BaseObject;
 use Jet\Data_Paginator;
 use Jet\DataModel_Fetch_Data_Abstract;
 use Jet\DataModel_Fetch_Object_Abstract;
@@ -22,7 +22,7 @@ use Jet\DataModel_Query;
 use Jet\Session;
 use Jet\Http_Request;
 
-class DataGrid extends Object {
+class DataGrid extends BaseObject {
 
 	/**
 	 * @var Main

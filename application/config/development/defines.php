@@ -74,13 +74,4 @@ define('JET_TAB', "\t");
 define('JET_EOL', PHP_EOL);
 
 
-
-define('DOJO_VERSION', '1.10.1');
-define('DOJO_DEFAULT_THEME', 'claro');
-define('DOJO_JS_URI', '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dojo/dojo.js');
-define('DOJO_THEME_URI', '//ajax.googleapis.com/ajax/libs/dojo/%VERSION%/dijit/themes/%THEME%/%THEME%.css');
-define('DOJO_PACKAGE_ENABLED', true);
-define('DOJO_PARSE_ON_LOAD', true);
-define('DOJO_IS_DEBUG', false);
-
 define('BOOTSTRAP_CSS_URI', '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css');

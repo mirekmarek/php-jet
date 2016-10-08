@@ -12,7 +12,6 @@
  *
  */
 namespace JetApplicationModule\JetExample\AuthController;
-use Jet;
 use Jet\Mvc_Controller_REST;
 use Jet\Http_Headers;
 use Jet\Auth;

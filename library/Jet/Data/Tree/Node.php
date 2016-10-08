@@ -55,9 +55,9 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 * Node data
 	 *
-	 * @var array 
+	 * @var mixed
 	 */
-	protected $data = [];
+	protected $data;
 
 
 	/**
@@ -110,25 +110,20 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 *
 	 * @param Data_Tree $tree
-	 * @param array $data
+	 * @param mixed $data
 	 * @param bool $is_root
-	 *
-	 * @throws Data_Tree_Exception
+	 * @param int|string $ID
+	 * @param int|string $parent_ID
+	 * @param string $label
 	 */
-	public function __construct( Data_Tree $tree, array $data, $is_root=false ){
+	public function __construct( Data_Tree $tree, $data, $is_root=false, $ID, $parent_ID, $label ){
 		$this->tree = $tree;
 		$this->is_root = $is_root;
-		$this->data = $data;
+		$this->ID = $ID;
+		$this->parent_ID = $parent_ID;
+		$this->label = $label;
 
-		if( !$this->is_root ) {
-			$this->ID = $data[$tree->getIDKey()];
-			$this->parent_ID = $data[$tree->getParentIDKey()];
-			$this->real_parent_ID = $this->parent_ID;
-		} else {
-			if(isset($data[$tree->getIDKey()])) {
-				$this->ID = $data[$tree->getIDKey()];
-			}
-		}
+		$this->data = $data;
 
 	}
 
@@ -258,20 +253,18 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 
 	/**
 	 *
-	 * @return array
+	 * @return mixed
 	 */
 	public function getData(){
 		return $this->data;
 	}
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 */
 	public function setData($data) {
 		$this->data = $data;
 	}
-
-
 
 	/**
 	 *
@@ -413,15 +406,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return string
 	 */
 	public function getLabel() {
-		if($this->label!==null) {
-			return $this->label;
-		}
-
-		if( !$this->tree->getLabelKey() ) {
-			return $this->ID;
-		}
-
-		return isset($this->data[$this->tree->getLabelKey()]) ? $this->data[$this->tree->getLabelKey()] : '';
+		return $this->label;
 	}
 
 
@@ -462,7 +447,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$item = $this->data;
 		$item[$ID_key] = $this->ID;
 		$item[$parent_ID_key] = $this->is_orphan ? $this->real_parent_ID : $this->parent_ID;
-		$item[$label_key] = $this->getLabel();
+		$item[$label_key] = $this->label;
 		$item[$depth_key] = $this->depth;
 
 		if($next_children && $this->children){

@@ -120,12 +120,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	/**
 	 * @return Auth_Role_Interface[]
 	 */
-	public function getRolesList();
-
-	/**
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public function getRolesListAsData();
+	public static function getList();
 
 
 

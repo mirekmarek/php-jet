@@ -92,7 +92,10 @@ trait DataModel_Related_MtoN_Trait {
 	 *
 	 * @return array
 	 */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_related_properties=null )
+	public function loadRelatedData(
+		/** @noinspection PhpUnusedParameterInspection */
+		DataModel_Load_OnlyProperties $load_only_related_properties=null
+	)
     {
     	return [];
     }

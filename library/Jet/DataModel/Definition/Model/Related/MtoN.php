@@ -158,14 +158,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		$this->forced_backend_type = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_backend_type', null );
 		$this->forced_backend_config = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_backend_config', null );
-
-		$this->forced_cache_enabled = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_enabled', null );
-		$this->forced_cache_backend_type = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_type', null );
-		$this->forced_cache_backend_config = BaseObject_Reflection::get( $main_class_name, 'data_model_forced_cache_backend_config', null );
-
-		$this->forced_history_enabled = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_enabled', null );
-		$this->forced_history_backend_type = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_type', null );
-		$this->forced_history_backend_config = BaseObject_Reflection::get( $this->class_name, 'data_model_forced_history_backend_config', null );
 	}
 
 	/**

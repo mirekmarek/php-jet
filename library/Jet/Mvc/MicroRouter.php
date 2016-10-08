@@ -168,7 +168,7 @@ class Mvc_MicroRouter extends BaseObject {
 			return true;
 		}
 
-		return $this->module_instance->checkAclCanDoAction($ACL_action_name , null, false );
+		return $this->module_instance->checkAclCanDoAction($ACL_action_name);
 	}
 
 }

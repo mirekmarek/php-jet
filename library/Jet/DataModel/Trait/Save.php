@@ -35,17 +35,10 @@ trait DataModel_Trait_Save {
         if( $this->getIsNew() ) {
             $after_method_name = 'afterAdd';
             $operation = 'save';
-            $h_operation = DataModel_History_Backend_Abstract::OPERATION_SAVE;
         } else {
             $after_method_name = 'afterUpdate';
             $operation = 'update';
-            $h_operation = DataModel_History_Backend_Abstract::OPERATION_UPDATE;
         }
-
-        if($this->getBackendTransactionStartedByThisInstance()) {
-            $this->dataModelHistoryOperationStart( $h_operation );
-        }
-
 
         try {
             $this->{'_'.$operation}( $backend );
@@ -56,10 +49,7 @@ trait DataModel_Trait_Save {
         }
 
         if($this->getBackendTransactionStartedByThisInstance()) {
-            $this->updateDataModelCache( $operation );
             $this->commitBackendTransaction( $backend );
-
-            $this->dataModelHistoryOperationDone();
         }
 
 
@@ -175,12 +165,6 @@ trait DataModel_Trait_Save {
         /**
          * @var DataModel $this
          */
-        $cache_enabled = $this->getCacheEnabled();
-
-        $affected_IDs = null;
-        if($cache_enabled) {
-            $affected_IDs = $this->fetchObjectIDs($where);
-        }
 
         $this->getBackendInstance()->update(
             DataModel_RecordData::createRecordData( $this,
@@ -191,11 +175,5 @@ trait DataModel_Trait_Save {
             )
         );
 
-        /**
-         * @var DataModel_ID_Abstract[] $affected_IDs
-         */
-        if(count($affected_IDs)) {
-            $this->deleteDataModelCacheIDs( $affected_IDs );
-        }
     }
 }

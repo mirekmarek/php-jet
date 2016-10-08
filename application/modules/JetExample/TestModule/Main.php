@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\TestModule;
-use Jet;
+
 use Jet\Application_Signals_Signal;
 use Jet\Application_Modules_Module_Abstract;
 

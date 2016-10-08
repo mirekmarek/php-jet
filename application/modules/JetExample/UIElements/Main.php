@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\UIElements;
-use Jet;
+
 use Jet\Mvc_View;
 use Jet\Application_Modules_Module_Abstract;
 

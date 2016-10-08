@@ -73,25 +73,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	protected static $ACL_actions_check_map = [
 	];
 
-	/**
-	 * Sometime you need to have some context data for privilege check
-	 *
-	 * Context must be an object witch implements Auth_Role_Privilege_ContextObject_Interface
-	 *
-	 * Example:
-	 *
-	 * <code>
-	 * protected static $ACL_actions_context_getter_map = array(
-	 *      'controller_action' => 'contextGetterMethodName',
-	 *      'controller_action2' => 'contextGetterMethodName',
-	 *      'controller_action3' => 'anotherContextGetterMethodName',
-	 * );
-	 * </code>
-	 *
-	 * @var array
-	 */
-	protected static $ACL_actions_context_getter_map = [
-	];
 
 
 	/**
@@ -130,21 +111,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 
 
 	/**
-	 * @param string $controller_action
-	 *
-	 * @return string|null
-	 */
-	public static function getActionContextGetter( $controller_action )
-	{
-		if(isset(static::$ACL_actions_context_getter_map[$controller_action])) {
-
-			return static::$ACL_actions_context_getter_map[$controller_action];
-		}
-
-		return null;
-	}
-
-	/**
 	 * @param string $action
 	 * @param array $action_parameters
 	 * @param bool $log_if_false (optional, default: true)
@@ -161,14 +127,11 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 			return true;
 		}
 
-		$context = null;
-		$context_getter = $this->getActionContextGetter( $action );
-		if($context_getter) {
-			$context = call_user_func_array([$this, $context_getter], $action_parameters);
-		}
+		if( !$this->module_instance->checkAclCanDoAction( $module_action ) ) {
+			if($log_if_false) {
+				//TODO: log
+			}
 
-
-		if( !$this->module_instance->checkAclCanDoAction( $module_action, $context, $log_if_false ) ) {
 			$this->responseAclAccessDenied( $module_action, $action, $action_parameters );
 
 			return false;

@@ -274,15 +274,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 * @param string $role_ID (optional)
 	 * @return Auth_User_Interface[]
 	 */
-	public function getUsersList( $role_ID=null );
-
-	/**
-	 * @abstract
-	 *
-	 * @param string $role_ID (optional)
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public function getUsersListAsData( $role_ID=null );
+	public static function getList($role_ID=null );
 
 	/**
 	 * @abstract
@@ -301,13 +293,6 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 * @return Auth_User_Interface|null
 	 */
 	public function getGetByLogin(  $login  );
-
-	/**
-	 * @param string $form_name
-	 *
-	 * @return Form
-	 */
-	public function getSimpleForm( $form_name='' );
 
 
 }

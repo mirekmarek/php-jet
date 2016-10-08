@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\AdminUsers;
-use Jet;
+
 use Jet\Mvc_Controller_REST;
 use Jet\Auth_User;
 use Jet\Auth;
@@ -48,7 +48,7 @@ class Controller_REST extends Mvc_Controller_REST {
 			$user = $this->_getUser($ID);
 			$this->responseData($user);
 		} else {
-			$this->responseDataModelsList( Auth::getUsersListAsData() );
+			$this->responseDataModelsList( Auth_User::getList() );
 		}
 
 	}
@@ -57,7 +57,7 @@ class Controller_REST extends Mvc_Controller_REST {
 		/**
 		 * @var Auth_User $user
 		 */
-		$user = Auth::getNewUser();
+		$user = new Auth_User();
 
 		$form = $user->getCommonForm();
 
@@ -95,7 +95,7 @@ class Controller_REST extends Mvc_Controller_REST {
 	 * @return Auth_User
 	 */
 	protected  function _getUser($ID) {
-		$user = Auth::getUser($ID);
+		$user = Auth_User::get($ID);
 
 		if(!$user) {
 			$this->responseUnknownItem($ID);

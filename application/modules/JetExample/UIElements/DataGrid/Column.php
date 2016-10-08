@@ -13,10 +13,10 @@
  *
  */
 namespace JetApplicationModule\JetExample\UIElements;
-use Jet;
-use Jet\Object;
 
-class DataGrid_Column extends Object {
+use Jet\BaseObject;
+
+class DataGrid_Column extends BaseObject {
 
 	/**
 	 * @var string

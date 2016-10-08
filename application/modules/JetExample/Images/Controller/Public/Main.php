@@ -1,0 +1,97 @@
+<?php
+/**
+ *
+ *
+ * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @version <%VERSION%>
+ *
+ */
+namespace JetApplicationModule\JetExample\Images;
+
+use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Page_Content_Interface;
+use Jet\Mvc;
+
+class Controller_Public_Main extends Mvc_Controller_Standard {
+	/**
+	 *
+	 * @var Main
+	 */
+	protected $module_instance = null;
+
+	protected static $ACL_actions_check_map = [
+		'default' => false
+	];
+
+	/**
+	 *
+	 */
+	public function initialize() {
+	}
+
+	/**
+     *
+	 */
+	public function default_Action() {
+
+        /**
+         * @var Gallery $gallery
+         */
+        $gallery_ID = $this->getActionParameterValue('gallery_ID', Gallery::ROOT_ID);
+        $gallery = $this->getActionParameterValue('gallery');
+
+        if(!$gallery) {
+            $gallery = Gallery::get($gallery_ID);
+        }
+
+		$children = Gallery::getChildren( $gallery_ID );
+
+		$this->view->setVar('children', $children);
+		$this->view->setVar('gallery', $gallery);
+		$this->view->setVar('icons_URI', $this->module_manifest->getPublicURI().'icons/');
+
+		$this->render('default');
+	}
+
+
+    /**
+     * @param Mvc_Page_Content_Interface $page_content
+     * @return bool
+     */
+    public function parseRequestURL_Public( Mvc_Page_Content_Interface $page_content=null ) {
+        $gallery_ID = Gallery::ROOT_ID;
+        $gallery = null;
+
+
+        $path_fragments = Mvc::getCurrentRouter()->getPathFragments();
+
+        $URI = Mvc::getCurrentPage()->getURI();
+
+        if($path_fragments) {
+
+            foreach( $path_fragments as $pf ) {
+
+                if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_ID )) ) {
+                    $gallery = $_g;
+                    $gallery_ID = $gallery->getIdObject();
+                    $URI .= rawurlencode($gallery->getTitle()).'/';
+
+                    Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
+
+                } else {
+                    return false;
+                }
+
+            }
+        }
+
+        $page_content->setControllerActionParameters( [
+            'gallery_ID' => $gallery_ID,
+            'gallery' => $gallery
+        ]);
+
+        return true;
+    }
+}

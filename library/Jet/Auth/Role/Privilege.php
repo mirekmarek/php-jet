@@ -20,9 +20,8 @@ namespace Jet;
 /**
  *
  * @JetDataModel:name = 'role_privilege'
- * @JetDataModel:parent_model_class_name = 'Auth_Role_Interface'
- * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
  * @JetDataModel:parent_model_class_name = JET_AUTH_ROLE_CLASS
+ * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface {
@@ -159,8 +158,15 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 
 
 		if(!self::$available_privileges_list) {
-			self::$available_privileges_list = Auth::getAvailablePrivilegesList();
+			/** @noinspection PhpUndefinedMethodInspection */
+			$role_class = static::getDataModelDefinition()->getParentModelClassName();
 
+			/**
+			 * @var callable $callback
+			 */
+			$callback = [$role_class, 'getAvailablePrivilegesList'];
+
+			self::$available_privileges_list = $callback();
 		}
 
 		if(!isset( self::$available_privileges_list[ $this->privilege ]) ) {
@@ -183,6 +189,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 		$form_field->setSelectOptions( $privilege_data->getValuesList() );
 
 		return $form_field;
+
 	}
 
 }

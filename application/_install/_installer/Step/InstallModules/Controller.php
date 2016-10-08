@@ -29,7 +29,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		$this->all_modules = Application_Modules::getAllModulesList(true);
 
 
-        $modules_field = Form_Factory::field(Form::TYPE_MULTI_SELECT, 'modules');
+        $modules_field = new Form_Field_Select('modules');
         $modules_field->setSelectOptions( $this->all_modules );
         $modules_field->setErrorMessages([
             Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select module',

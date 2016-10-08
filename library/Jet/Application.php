@@ -94,6 +94,74 @@ class Application extends BaseObject {
 	}
 
 	/**
+	 * Initializes system and run dispatch.
+	 *
+	 * @static
+	 *
+	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
+	 * @param bool|null $cache_enabled (optional; default: null = by configuration)
+	 *
+	 * @throws Mvc_Router_Exception
+	 */
+	public static function runMvc( $URL=null, $cache_enabled=null  ) {
+		$router = Mvc::getCurrentRouter();
+
+		if(!$URL) {
+			$URL = Http_Request::getURL();
+		}
+
+		$router->initialize($URL, $cache_enabled);
+
+
+		$site = Mvc::getCurrentSite();
+		$locale = Mvc::getCurrentLocale();
+		$page = Mvc::getCurrentPage();
+
+		if( $page && ($output=$page->getOutput() )!==null ) {
+			echo $output;
+
+			return;
+		}
+
+		if($router->getIsRedirect()) {
+			$router->handleRedirect();
+		}
+
+		$site->setupErrorPagesDir();
+
+		if( !$site->getIsActive() ) {
+			$site->handleDeactivatedSite();
+			return;
+		}
+
+		if( !$site->getLocalizedData($locale)->getIsActive() ) {
+			$site->handleDeactivatedLocale();
+			return;
+		}
+
+		if( $router->getIs404() ) {
+			$site->handle404();
+			return;
+		}
+
+
+		if( !Mvc::getCurrentPage()->getAccessAllowed() ) {
+			$site->handleAccessDenied();
+			return;
+		}
+
+		if( $router->getIsFile() ) {
+			$page->handleFile( $router->getFileName() );
+			return;
+		}
+
+		$output = $page->render();
+
+		echo $output;
+
+	}
+
+	/**
 	 * @static
 	 *
 	 */

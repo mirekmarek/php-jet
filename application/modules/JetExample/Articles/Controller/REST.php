@@ -13,7 +13,6 @@
  *
  */
 namespace JetApplicationModule\JetExample\Articles;
-use Jet;
 use Jet\Mvc;
 use Jet\Mvc_Controller_REST;
 

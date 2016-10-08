@@ -250,7 +250,6 @@ interface Mvc_Page_Interface {
     public function getLayoutInitializerModuleName();
 
     /**
-     * Setups layout. Example: turn on JetML, setup icons URL and so on.
      *
      * @throws Exception
      *

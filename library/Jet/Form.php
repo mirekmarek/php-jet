@@ -171,11 +171,6 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	protected $__layout;
 
 	/**
-	 * @var string
-	 */
-	protected $decorator = '';
-
-	/**
 	 * @var Data_Array
 	 */
 	protected $raw_data;
@@ -376,19 +371,7 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	 * @return string
 	 */
 	public function getID() {
-		if($this->container_ID===null) {
-			if( ($current_page=Mvc::getCurrentPage()) ) {
-				$this->container_ID = $current_page->getLayout()->getUIContainerID();
-				if($this->container_ID) {
-					$this->container_ID_prefix = $this->container_ID . '_';
-				} else {
-					$this->container_ID_prefix = '';
-				}
-			}
-
-		}
-
-		return $this->container_ID_prefix.$this->name;
+		return $this->name;
 	}
 
 
@@ -902,49 +885,6 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 
 		echo $this->helper_getBasicHTML( $template );
 		Application::end();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDecorator() {
-		return $this->decorator;
-	}
-
-	/**
-	 * @param string $decorator
-	 *
-	 * @return Form
-	 */
-	public function enableDecorator($decorator) {
-		$this->decorator = $decorator;
-
-		return $this;
-	}
-
-	/**
-	 *
-	 * @return Form
-	 */
-	public function disableDecorator() {
-		$this->decorator = '';
-
-		return $this;
-	}
-
-	/**
-	 * @param Form_Field_Abstract $field
-	 *
-	 * @return Form_Decorator_Abstract|bool|null
-	 */
-	public function getDecoratorInstance( Form_Field_Abstract $field ) {
-		if(!$this->decorator) {
-			return false;
-		}
-
-		$field_type = explode('_',get_class($field));
-		$field_type = $field_type[count($field_type)-1];
-		return Form_Factory::getDecoratorInstance($this->decorator, $field_type, $this, $field);
 	}
 
 	/**

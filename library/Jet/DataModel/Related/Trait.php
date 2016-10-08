@@ -42,13 +42,5 @@ trait DataModel_Related_Trait {
     use DataModel_Related_Trait_Save {
         DataModel_Related_Trait_Save::_saveRelatedObjects insteadof DataModel_Trait;
     }
-    use DataModel_Related_Trait_History {
-        DataModel_Related_Trait_History::dataModelHistoryOperationStart insteadof DataModel_Trait;
-        DataModel_Related_Trait_History::dataModelHistoryOperationDone insteadof DataModel_Trait;
-    }
-    use DataModel_Related_Trait_Cache {
-        DataModel_Related_Trait_Cache::updateDataModelCache insteadof DataModel_Trait;
-        DataModel_Related_Trait_Cache::deleteDataModelCache insteadof DataModel_Trait;
-    }
 
 }

@@ -52,45 +52,4 @@ class Form_Factory {
 		);
 	}
 
-	/**
-	 *
-	 * @param $decorator (example: Dojo)
-	 * @param $field_type (example: Checkbox)
-	 * @param Form $form
-	 * @param Form_Field_Abstract $field
-	 *
-	 * @return Form_Decorator_Abstract|null
-	 */
-	public static function getDecoratorInstance(
-		$decorator,
-		$field_type,
-		Form $form,
-		Form_Field_Abstract $field
-	) {
-		$class_name = JET_FORM_DECORATOR_CLASS_NAME_PREFIX.$decorator.'_'.$field_type;
-
-		return new $class_name($form, $field);
-	}
-
-
-	/**
-	 * Alias of getFormFieldInstance
-	 *
-	 * @param $type
-	 * @param string $name
-	 * @param string $label (optional)
-	 * @param string $default_value (optional)
-	 * @param bool $required (optional, default: false)
-	 *
-	 * @return Form_Field_Abstract
-	 */
-	public static function field( $type,
-								$name,
-								$label='',
-								$default_value='',
-								$required=false
-							) {
-		return static::getFieldInstance($type, $name, $label, $default_value, $required );
-	}
-
 }

@@ -23,11 +23,6 @@ class Form_Field_File extends Form_Field_Abstract {
 	protected $_type = Form::TYPE_FILE;
 
 	/**
-	 * @var bool
-	 */
-	protected $_possible_to_decorate = false;
-
-	/**
 	 * @var array
 	 */
 	protected $error_messages = [

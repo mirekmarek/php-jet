@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\AdminUI;
-use Jet;
+
 use Jet\Mvc_Layout;
 use Jet\Mvc_Layout_Initializer_Interface;
 use Jet\Application_Modules_Module_Abstract;
@@ -33,21 +33,7 @@ class Main extends Application_Modules_Module_Abstract implements Mvc_Layout_Ini
      */
     public function initializeLayout( Mvc_Layout $layout ) {
 
-        $container_ID = Http_Request::GET()->getString(static::CONTAINER_ID_GET_PARAMETER);
-
-        if(
-            $container_ID &&
-            preg_match('~^[a-zA-Z0-9_-]+$~', $container_ID)
-        ){
-            $layout->setUIContainerID( $container_ID );
-        }
-
-
-
 		$public_URI = $this->module_manifest->getPublicURI();
-		$JetML_postprocessor = $layout->enableJetML();
-		$JetML_postprocessor->setIconsURL( $public_URI.'icons/' );
-		$JetML_postprocessor->setFlagsURL( $public_URI.'flags/' );
 
 
         $layout->requireCssFile( $public_URI.'css/main.css' );

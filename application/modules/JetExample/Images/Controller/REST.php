@@ -13,7 +13,7 @@
  *
  */
 namespace JetApplicationModule\JetExample\Images;
-use Jet;
+
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc;

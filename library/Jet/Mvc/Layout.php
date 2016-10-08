@@ -48,10 +48,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 	const DEFAULT_OUTPUT_POSITION = '__main__';
 
-	const JS_REPLACEMENT_REGEXP = '~Jet\.modules\.([a-zA-Z_]+)\.~sU';
-
-	const JS_REPLACEMENT_CURRENT_MODULE = 'CURRENT_MODULE';
-
 
 	/**
 	 * Data of the output that will be placed into the layout
@@ -64,13 +60,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @var array
 	 */
 	protected $virtual_positions = [];
-
-	/**
-	 * @see Mvc_Layout::requireJavascript();
-	 *
-	 * @var JavaScriptLib_Abstract[]
-	 */
-	protected $required_javascript_libs = [];
 
 
 	/**
@@ -97,16 +86,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @var Mvc_Page_Interface
 	 */
 	protected $page;
-
-	/**
-	 * @var string
-	 */
-	protected $UI_container_ID = '';
-
-	/**
-	 * @var string
-	 */
-	protected $UI_container_ID_prefix = '';
 
 	/**
 	 * @var bool
@@ -175,69 +154,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 */
 	public function getJSPackagerEnabled() {
 		return $this->JS_packager_enabled;
-	}
-
-
-
-	/**
-	 * @param string $UI_container_ID
-	 */
-	public function setUIContainerID($UI_container_ID) {
-		$this->UI_container_ID = $UI_container_ID;
-
-		if($this->UI_container_ID) {
-			$this->UI_container_ID_prefix = $this->UI_container_ID.'_';
-		} else {
-			$this->UI_container_ID_prefix = '';
-		}
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getUIContainerID() {
-		return $this->UI_container_ID;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUIContainerIDPrefix() {
-		return $this->UI_container_ID_prefix;
-	}
-
-
-	/**
-	 * Enables JetML postprocessor
-	 * @return JetML
-	 */
-	public function enableJetML() {
-		if($this->_data->exists('JetML_postprocessor')) {
-			return $this->_data->getRaw('JetML_postprocessor');
-		}
-
-		$this->setVar('JetML_postprocessor', JetML_Factory::getJetMLPostprocessorInstance() );
-
-		return $this->_data->getRaw('JetML_postprocessor');
-	}
-
-	/**
-	 *
-	 * @return JetML
-	 */
-	public function getJetMLParserInstance() {
-		if(!$this->_data->exists('JetML_postprocessor')) {
-			return null;
-		}
-		return $this->_data->getRaw('JetML_postprocessor');
-	}
-
-	/**
-	 * Disables JetML
-	 */
-	public function disableJetML() {
-		$this->unsetVar('JetML_postprocessor');
 	}
 
 	/**
@@ -451,61 +367,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		return $result;
 	}
 
-
-	/**
-	 * Create instance of class that provides JavaScript toolkit initialization and its including into layout.
-	 *
-	 * Example:
-	 *
-	 * We want to initialize Dojo toolkit and to use dijit.form.InputBox class (component)
-	 * Well. We had to add some code layout. Something like this:
-	 *
-	 * <code>
-	 * <script type='text/javascript'>
-	 *  var djConfig = {'parseOnLoad':false,'locale':'en-us'};
-	 * </script>
-	 *
-	 * <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/claroGrid.css">
-	 * <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" charset="utf-8"></script>
-	 * <script type="text/javascript">
-	 * dojo.require('dijit.form.InputBox');
-	 * </script>
-	 * </code>
-	 * .... and more ...
-	 *
-	 * How to do it? Manually? It is not a good idea.
-	 * Do it like this:
-	 *
-	 * <code>
-	 *    $Dojo = new JavaScriptLib_Dojo();
-	 *    $Dojo->requireComponent('dijit.form.InputBox');
-	 *
-	 *    $layout->requireJavascriptLib( $Dojo );
-	 * </code>
-	 *
-	 * And that's all!
-	 *
-	 * ATTENTION:
-	 * The JavaScript tag ( <jet_layout_javascripts/> ) MUST exist in layout script !!!
-	 *
-	 *
-	 * @see JavaScript_Abstract
-	 * @see Mvc/readme.txt
-	 *
-	 * @param JavaScriptLib_Abstract $lib
-	 */
-	public function requireJavascriptLib( JavaScriptLib_Abstract $lib ) {
-		$class = get_class($lib);
-
-		if( !isset($this->required_javascript_libs[$class]) ) {
-			$lib->setLayout($this);
-			$this->required_javascript_libs[$class] = $lib;
-		} else {
-			$this->required_javascript_libs[$class]->adopt( $lib );
-		}
-
-	}
-
 	/**
 	 * @param string $URI
 	 */
@@ -637,27 +498,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$result = $this->_render();
 
 
-		foreach($this->output_parts as $o) {
-
-			/**
-			 * @var Mvc_Layout_OutputPart $o
-			 */
-			$res = $o->getOutput();
-			$this->handleModulesJavaScripts($res, $o->getModuleName());
-			$o->setOutput($res);
-
-		}
-
 		$this->handlePostprocessor( $result );
 
 		$this->handlePositions( $result );
 
 		$this->handleSitePageTags( $result );
-
-		$current_module_name = '';
-
-		$this->handleModulesJavaScripts($result, $current_module_name);
-
 		$this->handleFinalPostprocessor($result);
 
 
@@ -665,9 +510,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$this->handleCss( $result );
 		$this->handleConstants( $result );
 
-		foreach($this->required_javascript_libs as $js) {
-			$js->finalPostProcess($result, $this);
-		}
 
 		$this->output_parts = [];
 
@@ -846,8 +688,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$data['JET_LANGUAGE'] = $locale->getLanguage();
 		}
 
-		$data['JET_UI_CONTAINER_ID'] = $this->getUIContainerID();
-		$data['JET_UI_CONTAINER_ID_PREFIX'] = $this->getUIContainerIDPrefix();
 
 		$result = Data_Text::replaceData($result, $data );
 	}
@@ -882,67 +722,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 	}
 
-
-	/**
-	 * @param string $module_name
-	 *
-	 * @return string
-	 */
-	public function getLayoutJsReplacementCurrentModule($module_name) {
-		$module_manifest = Application_Modules::getModuleManifest($module_name);
-
-		if( ($container_ID=Mvc::getCurrentPage()->getLayout()->getUIContainerID()) ) {
-			return 'Jet.modules.getModuleInstance(\''.$module_manifest->getName().'\', \''.$container_ID.'\').';
-		} else {
-			return 'Jet.modules.getModuleInstance(\''.$module_manifest->getName().'\').';
-		}
-
-	}
-
-
-	/**
-	 * @param string $module_name
-	 *
-	 * @return string
-	 */
-	public function getLayoutJsReplacementModule($module_name) {
-		$module_manifest = Application_Modules::getModuleManifest($module_name);
-
-		if(!$module_manifest) {
-			return false;
-		}
-
-		return 'Jet.modules.getModuleInstance(\''.$module_manifest->getName().'\').';
-	}
-
-
-	/**
-	 * @param string &$result
-	 * @param string $current_module_name
-	 */
-	protected function handleModulesJavaScripts( &$result, $current_module_name) {
-
-		$matches = [];
-		preg_match_all(static::JS_REPLACEMENT_REGEXP, $result, $matches, PREG_SET_ORDER);
-		$replacements = [];
-
-		foreach($matches as $match) {
-			list($search, $module_name) = $match;
-			switch( $module_name) {
-				case static::JS_REPLACEMENT_CURRENT_MODULE:
-					$replacements[$search] = $this->getLayoutJsReplacementCurrentModule($current_module_name);
-					break;
-				default:
-					$replacement = $this->getLayoutJsReplacementModule($module_name);
-					if($replacement) {
-						$replacements[$search] = $replacement;
-					}
-			}
-		}
-
-		$result = str_replace(array_keys($replacements), array_values($replacements), $result);
-
-	}
 
 	/**
 	 * Handle the CSS tag  ( <jet_layout_css/> )
@@ -1037,12 +816,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$this->required_javascript_files = [];
 		$this->required_javascript_code = [];
 
-		$libs_snippet = '';
-		if($this->required_javascript_libs) {
-			foreach( $this->required_javascript_libs as $JS ) {
-				$libs_snippet .= $JS->getHTMLSnippet();
-			}
-		}
 
 		$this->required_initial_javascript_code = array_unique( array_merge($this->required_initial_javascript_code, $required_initial_javascript_code) );
 		$this->required_javascript_files = array_unique( array_merge($this->required_javascript_files, $required_javascript_files ) );
@@ -1110,7 +883,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		}
 
-		$snippet .= $libs_snippet;
 
 		$result = $this->_replaceTagByValue($result, static::TAG_JAVASCRIPT, $snippet);
 

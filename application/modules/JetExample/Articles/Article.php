@@ -13,7 +13,6 @@
  *
  */
 namespace JetApplicationModule\JetExample\Articles;
-use Jet;
 use Jet\DataModel;
 use Jet\Locale;
 use Jet\Data_DateTime;
@@ -21,7 +20,6 @@ use Jet\Mvc;
 use Jet\Mvc_Router_Abstract;
 use Jet\Data_Text;
 use Jet\DataModel_Fetch_Object_Assoc;
-use Jet\DataModel_Fetch_Data_Assoc;
 use Jet\Data_Paginator_DataSource_Interface;
 
 /**
