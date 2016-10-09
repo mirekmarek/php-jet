@@ -4,7 +4,7 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -20,7 +20,7 @@ namespace Jet;
  * Available annotation:
  *
  * @JetDataModel:name = 'some_model_name'
- *      - Internal model name. It does not name a database table! The name is used mainly in queries.
+ *      - Internal model name. It is not name of database table! The name is used mainly in queries.
  *
  * @JetDataModel:database_table_name = 'some_table_name'
  *
@@ -124,6 +124,7 @@ abstract class DataModel extends BaseObject implements DataModel_Interface {
     use DataModel_Trait;
 
 	const TYPE_ID = 'ID';
+	const TYPE_ID_AUTOINCREMENT = 'IDAutoIncrement';
 	const TYPE_STRING = 'String';
 	const TYPE_BOOL = 'Bool';
 	const TYPE_INT = 'Int';

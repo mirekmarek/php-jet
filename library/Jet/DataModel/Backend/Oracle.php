@@ -15,7 +15,7 @@
  *				string: default: null
  *				Type of the key. Options: INDEX(default), UNIQUE
  *
- * @copyright Copyright (c) 2014 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -26,6 +26,7 @@
  */
 namespace Jet;
 
+//TODO: cele to zrevidovat a upravit (jestli stale o dinosaura jako je oracle stojim ...)
 class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 	const PRIMARY_KEY_NAME = 'PRIMARY';
 	const ROW_NUM_KEY = 'RN____';
@@ -1007,6 +1008,9 @@ class DataModel_Backend_Oracle extends DataModel_Backend_Abstract {
 					$max_len = (int)$data_model->getEmptyIdObject()->getMaxLength();
 
 					return 'varchar('.$max_len.') NOT NULL';
+				break;
+			case DataModel::TYPE_ID_AUTOINCREMENT:
+				//TODO:
 				break;
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();

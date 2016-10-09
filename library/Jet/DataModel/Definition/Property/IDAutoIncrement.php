@@ -14,27 +14,32 @@
  */
 namespace Jet;
 
-class DataModel_Definition_Property_Bool extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_IDAutoIncrement extends DataModel_Definition_Property_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_BOOL;
+	protected $_type = DataModel::TYPE_ID;
+
+	/**
+	 * @var null
+	 */
+	protected $default_value = null;
 
 	/**
 	 * @var bool
 	 */
-	protected $default_value = false;
+	protected $is_ID = false;
 
 	/**
 	 * @var string
 	 */
-	protected $form_field_type = Form::TYPE_CHECKBOX;
+	protected $form_field_type = Form::TYPE_HIDDEN;
 
 	/**
+	 * Do nothing
+	 *
 	 * @param mixed $value
 	 */
 	public function checkValueType( &$value ) {
-		$value = (bool)$value;
 	}
-
 }

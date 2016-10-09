@@ -3,7 +3,7 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -26,23 +26,11 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 
 
 	/**
-	 * Data items 
-	 * 
-	 * @var DataModel_ID_Abstract[]
-	 */
-	protected $IDs = null;
-
-	/**
-	 * @var DataModel[]
-	 */
-	protected $data = [];
-
-	/**
-	 * Internal iterator position index
 	 *
-	 * @var int
+	 * @var array
 	 */
-	protected $iterator_position = 0;
+	protected $data;
+
 
 	/**
 	 *
@@ -119,53 +107,102 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	/**
 	 * @return array
 	 */
-	public function toArray() {
-		$result = [];
-
-		foreach($this as $key=>$val) {
-			/**
-			 * @var DataModel $val
-			 */
-			$result[$key] = $val->jsonSerialize();
-		}
-
-		return $result;
-	}
-
+	abstract public function toArray();
 
 	/**
-	 * Fetches IDs...
+	 * @see Countable
 	 *
+	 * @return int
 	 */
-	public function _fetch() {
-		if($this->IDs!==null) {
-			return;
-		}
-
-		$this->IDs = [];
-
-		$backend = $this->data_model_definition->getBackendInstance();
-
-		$pm = $backend->getDataPaginationMode();
-		$backend->setDataPaginationMode( $this->pagination_enabled );
-
-		$l = $backend->fetchAll( $this->query );
-
-		$backend->setDataPaginationMode($pm);
-
-		foreach( $l as $ID ) {
-			$l_ID = clone $this->empty_ID_instance;
-
-			foreach($ID as $k=>$v) {
-				$l_ID[$k] = $v;
-			}
-			$this->IDs[] = $l_ID;
-		}
-
-		foreach($this->IDs as $ID) {
-			$this->data[(string)$ID] = null;
-		}
+	public function count() {
+		return $this->getCount();
 	}
 
+	/**
+	 * @see ArrayAccess
+	 * @param int $offset
+	 * @return bool
+	 */
+	public function offsetExists( $offset  ) {
+		$this->_fetch();
+		return array_key_exists($offset, $this->data);
+	}
+
+	/**
+	 * Do nothing - DataModel_FetchAll is readonly
+	 *
+	 * @see ArrayAccess
+	 * @param int $offset
+	 * @param mixed $value
+	 */
+	public function offsetSet( $offset , $value ) {}
+
+	/**
+	 * @see ArrayAccess
+	 * @param int $offset
+	 *
+	 * @return DataModel
+	 */
+	public function offsetGet( $offset ) {
+		$this->_fetch();
+		return $this->_get($this->data[$offset]);
+	}
+
+	/**
+	 * @see ArrayAccess
+	 * @param int $offset
+	 */
+	public function offsetUnset( $offset )	{
+		$this->_fetch();
+		unset( $this->data[$offset] );
+	}
+
+	/**
+	 * @see Iterator
+	 *
+	 * @return DataModel
+	 */
+	public function current() {
+		$this->_fetch();
+
+		return $this->_get( current($this->data) );
+	}
+
+	/**
+	 * @see Iterator
+	 * @return string
+	 */
+	public function key() {
+		$this->_fetch();
+		return key($this->data);
+	}
+	/**
+	 * @see Iterator
+	 */
+	public function next() {
+		$this->_fetch();
+		next($this->data);
+	}
+	/**
+	 * @see Iterator
+	 */
+	public function rewind() {
+		$this->_fetch();
+		reset($this->data);
+	}
+	/**
+	 * @see Iterator
+	 * @return bool
+	 */
+	public function valid()	{
+		$this->_fetch();
+		return key($this->data)!==null;
+	}
+
+	/**
+	 * @param $item
+	 * @return DataModel|DataModel_ID_Abstract
+	 */
+	abstract protected function _get( $item );
 
 }

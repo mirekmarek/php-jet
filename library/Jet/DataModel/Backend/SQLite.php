@@ -14,12 +14,9 @@
  *		key_type:
  *				string: default: null
  *				Type of the key. Options: INDEX(default), UNIQUE
- *		auto_increment:
- *				bool, default: false
- *				Use auto increment for ID
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -960,16 +957,15 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
-
-				if( isset($backend_options['auto_increment']) && $backend_options['auto_increment']  ) {
-
-					return 'INTEGER auto_increment';
-				} else {
-					//$max_len = (int)$data_model->getEmptyIDInstance()->getMaxLength();
-
 					return 'TEXT';
-				}
+				break;
+			case DataModel::TYPE_ID_AUTOINCREMENT:
+				if($column->getRelatedToPropertyName()) {
+					return 'INTEGER';
 
+				} else {
+					return 'INTEGER auto_increment';
+				}
 				break;
 			case DataModel::TYPE_STRING:
 

@@ -14,12 +14,9 @@
  *		key_type:
  *				string: default: null
  *				Type of the key. Options: INDEX(default), UNIQUE
- *		auto_increment:
- *				bool, default: false
- *				Use auto increment for ID
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -59,16 +56,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	protected static $valid_key_types = [
 		DataModel::KEY_TYPE_PRIMARY,
 		DataModel::KEY_TYPE_INDEX,
-		DataModel::KEY_TYPE_UNIQUE,
-		//DataModel::KEY_TYPE_FULLTEXT
+		DataModel::KEY_TYPE_UNIQUE
 	];
-
 
 	/**
 	 *
 	 */
 	public function initialize() {
-		//TODO: make it configurable by definition ...
 		$this->_db_read = Db::get( $this->config->getConnectionRead() );
 		$this->_db_write = Db::get( $this->config->getConnectionWrite() );
 	}
@@ -122,14 +116,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				case DataModel::KEY_TYPE_PRIMARY:
                     foreach( $key->getPropertyNames() as $property_name ) {
                         $property = $data_model_definition->getProperty($property_name);
-                        if(!$property->getRelatedToPropertyName()) {
-                            $backend_options = $property->getBackendOptions( 'MySQL' );
-	                        //TODO: autoincrement bude typ ID a ne pres backend option
-                            if(!empty($backend_options['auto_increment'])) {
-                                $key_columns = $this->_getColumnName( $property, true, false );
-                                break;
-                            }
-                        }
+
+	                    if(
+	                    	$property->getType()==DataModel::TYPE_ID_AUTOINCREMENT &&
+		                    !$property->getRelatedToPropertyName()
+	                    ) {
+		                    $key_columns = $this->_getColumnName( $property, true, false );
+		                    break;
+	                    }
                     }
 
 
@@ -996,20 +990,20 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
-				if( isset($backend_options['auto_increment']) && $backend_options['auto_increment']  ) {
-				    if($column->getRelatedToPropertyName()) {
-                        return 'bigint UNSIGNED';
-
-                    } else {
-                        return 'bigint UNSIGNED auto_increment';
-                    }
-				} else {
 					$max_len = (int)$data_model->getEmptyIdObject()->getMaxLength();
 
 					return 'varchar('.$max_len.') COLLATE utf8_bin NOT NULL DEFAULT \'\'';
-				}
+				break;
+			case DataModel::TYPE_ID_AUTOINCREMENT:
+					if($column->getRelatedToPropertyName()) {
+						return 'bigint UNSIGNED';
+
+					} else {
+						return 'bigint UNSIGNED auto_increment';
+					}
 
 				break;
+
 			case DataModel::TYPE_STRING:
 				$max_len = (int)$column->getMaxLen();
 

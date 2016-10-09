@@ -7,7 +7,7 @@
  * @see Mvc/readme.txt
  *
  *
- * @copyright Copyright (c) 2011-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -144,13 +144,12 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	/**
 	 * @param string $action
 	 * @param array $action_parameters
-	 * @param bool $log_if_false (optional, default: true)
 	 *
 	 * @throws Mvc_Controller_Exception
 	 *
 	 * @return bool
 	 */
-	public function checkACL( $action, $action_parameters, $log_if_false=true ) {
+	public function checkACL( $action, $action_parameters ) {
 
 		$module_action = $this->getModuleAction($action);
 
@@ -159,10 +158,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 		}
 
 		if( !$this->module_instance->checkAclCanDoAction( $module_action ) ) {
-			if($log_if_false) {
-				//TODO: log
-			}
-
 			$this->responseAclAccessDenied( $module_action, $action, $action_parameters );
 
 			return false;

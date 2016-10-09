@@ -94,7 +94,7 @@ trait DataModel_Trait_Load {
 	/**
 	 * @return array|bool
 	 */
-    protected function loadMainData() {
+    public function loadMainData() {
 	    /**
 	     * @var DataModel $this
 	     */
@@ -120,7 +120,7 @@ trait DataModel_Trait_Load {
 	/**
 	 * @return array|bool
 	 */
-	protected function loadRelatedData()
+	public function loadRelatedData()
 	{
 		/**
 		 * @var DataModel $this
@@ -139,6 +139,10 @@ trait DataModel_Trait_Load {
 			$related_object->setupParentObjects( $this );
 			$_related_data = $related_object->loadRelatedData( $this->getLoadOnlyProperties() );
 			unset($related_object);
+
+			if(!$_related_data) {
+				continue;
+			}
 
 			if(!isset($related_data[$related_model_name])) {
 				$related_data[$related_model_name] = [];
@@ -162,6 +166,9 @@ trait DataModel_Trait_Load {
 	    $definition = $this->getDataModelDefinition();
 
 	    foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+	    	if(!array_key_exists($property_name, $data)) {
+	    		continue;
+		    }
 
 		    if(!($this->{$property_name} instanceof DataModel_Related_Interface)) {
 			    $property_definition->loadPropertyValue( $this->{$property_name}, $data );
@@ -181,6 +188,10 @@ trait DataModel_Trait_Load {
 
 		$definition = $this->getDataModelDefinition();
 		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+			if(!array_key_exists($property_name, $related_data)) {
+				continue;
+			}
+
 			$property = $this->{$property_name};
 
 			if(($property instanceof DataModel_Related_Interface)) {
