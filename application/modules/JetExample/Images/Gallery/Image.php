@@ -276,7 +276,8 @@ class Gallery_Image extends DataModel {
 	 * @return Gallery_Image
 	 */
 	public static function get( $ID ) {
-		return static::load( static::createIdObject($ID) );
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return static::load( $ID );
 	}
 
 
@@ -376,7 +377,6 @@ class Gallery_Image extends DataModel {
 		 * @var Gallery_Image $image
 		 */
 		$image = new static();
-		$image->generateIdObject();
 
 		$image->setGallery($gallery);
 
@@ -424,6 +424,7 @@ class Gallery_Image extends DataModel {
 			$query['this.gallery_ID'] = $gallery_ID;
 		}
 
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return (new self())->fetchObjects($query);
 	}
 

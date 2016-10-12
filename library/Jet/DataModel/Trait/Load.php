@@ -19,30 +19,29 @@ namespace Jet;
 trait DataModel_Trait_Load {
 
 	/**
-	 * @var DataModel_Load_OnlyProperties
+	 * @var DataModel_PropertyFilter
 	 */
-	protected $load_only_properties;
+	protected $_load_filter;
 
     /**
      * Loads DataModel.
      *
-     * @param array|DataModel_ID_Abstract $ID
-     * @param array|DataModel_Load_OnlyProperties $load_only_properties
+     * @param array|string|int $ID
+     * @param array|DataModel_PropertyFilter $load_filter
      *
      * @return DataModel
      */
-    public static function load( $ID, $load_only_properties=null ) {
+    public static function load($ID, $load_filter=null ) {
 
 	    /**
 	     * @var DataModel $_this
 	     */
         $_this = new static();
-        foreach( $ID as $key=>$val ) {
-            $_this->{$key} = $val;
-        }
+	    $_this->getIdObject()->init( $ID );
 
-	    if($load_only_properties) {
-	    	$_this->setLoadOnlyProperties($load_only_properties);
+
+	    if($load_filter) {
+	    	$_this->setLoadFilter($load_filter);
 	    }
 
 	    $main_data = $_this->loadMainData();
@@ -51,43 +50,39 @@ trait DataModel_Trait_Load {
             return null;
         }
 
-	    $_this->setState($main_data);
-
-	    $_this->setRelatedState(
-		    $_this->loadRelatedData()
+	    $_this->setState(
+	    	$main_data,
+		    $_this->loadMainRelatedData()
 	    );
-
-	    /** @noinspection PhpUndefinedMethodInspection */
-	    $_this->afterLoad();
 
 	    /** @noinspection PhpIncompatibleReturnTypeInspection */
 	    return $_this;
     }
 
 	/**
-	 * @return DataModel_Load_OnlyProperties
+	 * @return DataModel_PropertyFilter
 	 */
-	public function getLoadOnlyProperties()
+	public function getLoadFilter()
 	{
-		return $this->load_only_properties;
+		return $this->_load_filter;
 	}
 
 	/**
-	 * @param DataModel_Load_OnlyProperties|array $load_only_properties
+	 * @param DataModel_PropertyFilter|array $_load_filter
 	 */
-	public function setLoadOnlyProperties($load_only_properties)
+	public function setLoadFilter($_load_filter)
 	{
-		if(!$load_only_properties) {
-			$this->load_only_properties = null;
+		if(!$_load_filter) {
+			$this->_load_filter = null;
 			return;
 		}
 
 		$definition = $this->getDataModelDefinition();
 
-		if(!($load_only_properties instanceof DataModel_Load_OnlyProperties)) {
-			$this->load_only_properties = new DataModel_Load_OnlyProperties( $definition, $load_only_properties );
+		if(!($_load_filter instanceof DataModel_PropertyFilter)) {
+			$this->_load_filter = new DataModel_PropertyFilter( $definition, $_load_filter );
 		} else {
-			$this->load_only_properties = $load_only_properties;
+			$this->_load_filter = $_load_filter;
 		}
 	}
 
@@ -99,17 +94,9 @@ trait DataModel_Trait_Load {
 	     * @var DataModel $this
 	     */
 
-	    $ID = $this->getIdObject();
+	    $query = $this->getIdObject()->getQuery();
 
-	    $definition = $this->getDataModelDefinition();
-
-	    $query = $ID->getQuery();
-
-
-	    /** @noinspection PhpParamsInspection */
-	    $query->setMainDataModel($this);
-
-	    $select = DataModel_Load_OnlyProperties::getSelectProperties( $definition, $this->getLoadOnlyProperties() );
+	    $select = DataModel_PropertyFilter::getQuerySelect( $this->getDataModelDefinition(), $this->getLoadFilter() );
 
 	    $query->setSelect( $select );
 
@@ -120,7 +107,7 @@ trait DataModel_Trait_Load {
 	/**
 	 * @return array|bool
 	 */
-	public function loadRelatedData()
+	public function loadMainRelatedData()
 	{
 		/**
 		 * @var DataModel $this
@@ -131,14 +118,13 @@ trait DataModel_Trait_Load {
 
 		$related_data = [];
 		foreach( $related_properties as $related_model_name=>$related_property ) {
-
 			/**
-			 * @var DataModel_Related_Interface $related_object
+			 * @var DataModel_Definition_Property_DataModel $related_property
+			 * @var DataModel_Related_Item_Interface $class_name
 			 */
-			$related_object = $related_property->getDefaultValue();
-			$related_object->setupParentObjects( $this );
-			$_related_data = $related_object->loadRelatedData( $this->getLoadOnlyProperties() );
-			unset($related_object);
+			$class_name = $related_property->getValueDataModelClass();
+
+			$_related_data = $class_name::loadRelatedData( $this->getIdObject(), $this->getLoadFilter() );
 
 			if(!$_related_data) {
 				continue;
@@ -152,82 +138,46 @@ trait DataModel_Trait_Load {
 				}
 			}
 		}
-
 		return $related_data;
 	}
 
 	/**
-	 * @param array $data
+	 * @param array $this_data
+	 * @param array $related_data
 	 */
-    public function setState( array $data ) {
+    public function setState(array $this_data, $related_data=[] ) {
 	    /**
 	     * @var DataModel $this
 	     */
 	    $definition = $this->getDataModelDefinition();
 
+
 	    foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-	    	if(!array_key_exists($property_name, $data)) {
-	    		continue;
-		    }
 
 		    if(!($this->{$property_name} instanceof DataModel_Related_Interface)) {
-			    $property_definition->loadPropertyValue( $this->{$property_name}, $data );
+			    $property_definition->loadPropertyValue( $this->{$property_name}, $this_data );
 		    }
 	    }
 	    $this->setIsSaved();
+
+	    $is_related = ($this instanceof DataModel_Related_Interface);
+	    $parent_id = $is_related ? $this->getIdObject() : null;
+
+	    foreach( $definition->getProperties() as $property_name=>$property_definition ) {
+
+		    if(
+		    	($this->{$property_name} instanceof DataModel_Related_Interface)
+		    ) {
+			    /**
+			     * @var DataModel_Related_Item_Interface $class_name
+			     * @var DataModel_Definition_Property_DataModel $property_definition
+			     */
+			    $class_name = $property_definition->getValueDataModelClass();
+
+			    $this->{$property_name} = $class_name::loadRelatedInstances( $related_data, $parent_id, $this->getLoadFilter() );
+		    }
+	    }
+
+	    $this->afterLoad();
     }
-
-	/**
-	 * @param array $related_data
-	 */
-	public function setRelatedState( array $related_data )
-	{
-		/**
-		 * @var DataModel $this
-		 */
-
-		$definition = $this->getDataModelDefinition();
-		foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-			if(!array_key_exists($property_name, $related_data)) {
-				continue;
-			}
-
-			$property = $this->{$property_name};
-
-			if(($property instanceof DataModel_Related_Interface)) {
-				$property->setupParentObjects( $this );
-				$property_definition->loadPropertyValue( $property, $related_data );
-			}
-		}
-	}
-
-
-    /**
-     * @param array &$loaded_related_data
-     */
-    protected function initRelatedProperties( array &$loaded_related_data ) {
-        /**
-         * @var DataModel $this
-         */
-        $definition = $this->getDataModelDefinition();
-
-        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-
-            /**
-             * @var DataModel_Definition_Property_DataModel $property_definition
-             * @var DataModel_Related_Interface $property
-             */
-            $property = $this->{$property_name};
-            if(!($property instanceof DataModel_Related_Interface)) {
-                continue;
-            }
-
-            $property->setupParentObjects( $this );
-
-            $this->{$property_name} = $property->loadRelatedInstances( $loaded_related_data );
-        }
-
-    }
-
-
 }

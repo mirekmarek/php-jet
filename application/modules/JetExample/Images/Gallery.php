@@ -283,8 +283,10 @@ class Gallery extends DataModel {
 		if(!isset(static::$__galleries[$ID])) {
 			$s_ID = $ID;
 
-			$ID = static::createIdObject($ID);
 
+			/**
+			 * @var Gallery $instance
+			 */
 			if( !($instance = static::load($ID)) ) {
 				return null;
 			}
@@ -300,7 +302,7 @@ class Gallery extends DataModel {
 	/**
 	 * @static
 	 *
-	 * @return Gallery[]
+	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
 	 */
 	public static function getList() {
 		return (new self())->fetchObjects();
@@ -336,6 +338,7 @@ class Gallery extends DataModel {
 	 * @return Gallery|null
 	 */
 	public static function getByTitle( $title, $parent_ID ) {
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return (new self())->fetchOneObject( [[ 'this.title'=>$title, 'AND', 'this.parent_ID'=>$parent_ID ]]);
 	}
 

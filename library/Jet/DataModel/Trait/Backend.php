@@ -19,9 +19,9 @@ namespace Jet;
 trait DataModel_Trait_Backend {
 
 	/**
-	 * @var bool
+	 * @var DataModel_Backend_Abstract
 	 */
-	private $_backend_transaction_started = false;
+	protected static $_backend = false;
 
     /**
      * Returns backend instance
@@ -29,60 +29,78 @@ trait DataModel_Trait_Backend {
      * @return DataModel_Backend_Abstract
      */
     public static function getBackendInstance() {
-        /** @noinspection PhpUndefinedMethodInspection */
-        return static::getDataModelDefinition()->getBackendInstance();
+
+	    if(!static::$_backend) {
+		    /** @noinspection PhpUndefinedMethodInspection */
+		    static::$_backend = static::getDataModelDefinition()->getBackendInstance();
+
+	    }
+
+	    return static::$_backend;
     }
 
 
-    /**
-     * @return bool
-     */
+	/**
+	 * @return bool
+	 */
     public function getBackendTransactionStarted() {
-
-        return $this->_backend_transaction_started;
+        return $this->getBackendInstance()->getTransactionStarted();
     }
 
-    /**
-     * @return bool
-     */
+	/**
+	 * @return bool
+	 */
     public function getBackendTransactionStartedByThisInstance() {
-        return $this->_backend_transaction_started;
+	    /**
+	     * @var DataModel $this
+	     */
+    	$starter = $this->getBackendInstance()->getTransactionStarter();
+	    if(!$starter) {
+	    	return false;
+	    }
+
+	    if(get_class($starter)!=get_class($this)) {
+	    	return false;
+	    }
+
+	    if($starter->getIdObject()->toString()!=$this->getIdObject()->toString()) {
+	    	return false;
+	    }
+
+	    return true;
     }
 
     /**
-     * @param DataModel_Backend_Abstract $backend
+     *
      */
-    public function startBackendTransaction( DataModel_Backend_Abstract $backend ) {
+    public function startBackendTransaction() {
         /**
          * @var DataModel $this
          */
         if(!$this->getBackendTransactionStarted()) {
-            $this->_backend_transaction_started = true;
-
-            $backend->transactionStart();
+	        $this->getBackendInstance()->setTransactionStarter($this);
+	        $this->getBackendInstance()->transactionStart();
         }
     }
 
     /**
-     * @param DataModel_Backend_Abstract $backend
+     *
      */
-    public function commitBackendTransaction( DataModel_Backend_Abstract $backend ) {
+    public function commitBackendTransaction() {
         /**
          * @var DataModel $this
          */
         if($this->getBackendTransactionStartedByThisInstance()) {
-            $backend->transactionCommit();
-
-            $this->_backend_transaction_started = false;
+	        $this->getBackendInstance()->transactionCommit();
+	        $this->getBackendInstance()->setTransactionStarter(null);
         }
     }
 
     /**
-     * @param DataModel_Backend_Abstract $backend
+     *
      */
-    public function rollbackBackendTransaction( DataModel_Backend_Abstract $backend ) {
-        $backend->transactionRollback();
-	    $this->_backend_transaction_started = false;
+    public function rollbackBackendTransaction() {
+	    $this->getBackendInstance()->transactionRollback();
     }
 
 }

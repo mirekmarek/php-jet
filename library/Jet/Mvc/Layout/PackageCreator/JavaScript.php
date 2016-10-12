@@ -96,7 +96,6 @@ class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_Jav
 				])
 			);
 
-
 		} else {
 			$data = IO_File::read($package_data_path);
 			$data = unserialize( $data );

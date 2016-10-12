@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-interface DataModel_Related_MtoN_Interface extends DataModel_Related_Interface, DataModel_Interface {
+interface DataModel_Related_MtoN_Interface extends DataModel_Related_Item_Interface, DataModel_Interface {
 
     /**
      * @param $data_model_class_name
@@ -30,10 +30,6 @@ interface DataModel_Related_MtoN_Interface extends DataModel_Related_Interface, 
      */
     public function getArrayKeyValue();
 
-	/**
-	 * @param DataModel_Interface $M_instance
-	 */
-	public function setMInstance(DataModel_Interface $M_instance );
 
     /**
      * @param DataModel_Interface $N_instance
@@ -41,11 +37,11 @@ interface DataModel_Related_MtoN_Interface extends DataModel_Related_Interface, 
     public function setNInstance(DataModel_Interface $N_instance );
 
 	/**
-	 * @param DataModel_Load_OnlyProperties|null $load_only_related_properties
+	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel|null
 	 */
-	public function getNInstance( DataModel_Load_OnlyProperties $load_only_related_properties=null );
+	public function getNInstance(DataModel_PropertyFilter $load_filter=null );
 
     /**
      * @return DataModel_ID_Abstract

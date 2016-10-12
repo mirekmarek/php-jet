@@ -21,7 +21,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @var DataModel_Definition_Model_Related_1toN
 	 */
-	protected $item_definition;
+	protected $_item_definition;
 
 	/**
 	 * @var DataModel_Related_1toN[]
@@ -37,32 +37,26 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	 * @var DataModel_Related_1toN[]
 	 */
 	private $_deleted_items = [];
-	/**
-	 * @var DataModel_Interface
-	 */
-	private $_main_model_instance;
 
 	/**
-	 * @var DataModel_Load_OnlyProperties
+	 * @var DataModel_PropertyFilter
 	 */
-	private $_load_only_properties;
+	private $_load_filter;
 
-	/**
-	 * @var DataModel_Interface
-	 */
-	private $_parent_model_instance;
-
-	/**
-	 * @var array
-	 */
-	private $_load_related_data_order_by = [];
 
 	/**
 	 * @param DataModel_Definition_Model_Related_1toN $item_definition
+	 * @param DataModel_Related_1toN[] $items
 	 */
-	public function __construct( DataModel_Definition_Model_Related_1toN $item_definition ) {
+	public function __construct( DataModel_Definition_Model_Related_1toN $item_definition, array $items=[] ) {
 
-		$this->item_definition = $item_definition;
+		$this->_item_definition = $item_definition;
+		$this->items = [];
+		$this->_deleted_items = [];
+
+		foreach( $items as $item ) {
+			$this->items[$item->getArrayKeyValue()] = $item;
+		}
 	}
 
 
@@ -73,189 +67,50 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 
 		if(!$this->_empty_item_instance) {
 
-			$class_name = $this->item_definition->getClassName();
+			$class_name = $this->_item_definition->getClassName();
 			$this->_empty_item_instance = new $class_name();
 
-			$this->_empty_item_instance->setLoadOnlyProperties($this->_load_only_properties);
+			$this->_empty_item_instance->setLoadFilter($this->_load_filter);
 		}
 
 		return $this->_empty_item_instance;
 
 	}
 
-	/**
-	 * @return DataModel_Related_Interface|null
-	 */
-	public function createNewRelatedDataModelInstance() {
-		return $this;
-	}
 
 	/**
-	 * @param DataModel_Interface $main_model_instance
-	 * @param DataModel_Related_Interface $parent_model_instance
+	 * @param DataModel_ID_Abstract $parent_ID
 	 */
-	public function setupParentObjects( DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance=null ) {
-
-		$this->_main_model_instance = $main_model_instance;
-		$this->_parent_model_instance = $parent_model_instance;
-
-		$this->_getEmptyItemInstance()->setupParentObjects($this->_main_model_instance, $this->_parent_model_instance);
-
-		if($this->items) {
-			foreach( $this->items as $item ) {
-				$item->setupParentObjects( $this->_main_model_instance, $this->_parent_model_instance );
-			}
+	public function actualizeParentID( DataModel_ID_Abstract $parent_ID ) {
+		foreach( $this->items as $item ) {
+			$item->actualizeParentID( $parent_ID );
 		}
-
-
-	}
-
-
-	/**
-	 * @param array $order_by
-	 */
-	public function setLoadRelatedDataOrderBy(array $order_by)
-	{
-		$this->_load_related_data_order_by = $order_by;
 	}
 
 	/**
-	 * @return array
+	 * @param DataModel_ID_Abstract $main_ID
 	 */
-	public function getLoadRelatedDataOrderBy()
-	{
-		return $this->_load_related_data_order_by ? $this->_load_related_data_order_by : $this->item_definition->getDefaultOrderBy();
-	}
-
-	/**
-	 * @param DataModel_Load_OnlyProperties|null $load_only_properties
-	 *
-	 * @return array
-	 */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_properties=null )
-    {
-    	if($load_only_properties) {
-		    if(
-			    !$load_only_properties->getAllowToLoadModel( $this->item_definition->getModelName() )
-		    ) {
-			    return [];
-		    }
-
-		    $this->_load_only_properties = $load_only_properties;
-	    }
-
-	    $query = $this->getLoadRelatedDataQuery();
-
-	    return $this->_getEmptyItemInstance()->getBackendInstance()->fetchAll($query);
-	}
-
-	/**
-	 * @return DataModel_Query
-	 * @throws DataModel_Exception
-	 */
-	protected function getLoadRelatedDataQuery()
-	{
-
-		/**
-		 * @var DataModel_Interface|DataModel_Related_Interface $this
-		 */
-
-		$query = new DataModel_Query( $this->item_definition );
-
-		$select = DataModel_Load_OnlyProperties::getSelectProperties( $this->item_definition, $this->_load_only_properties );
-
-		$query->setSelect( $select );
-		$query->setWhere([]);
-
-		$where = $query->getWhere();
-
-		if( $this->_main_model_instance ) {
-			$main_model_ID = $this->_main_model_instance->getIdObject();
-
-			foreach( $this->item_definition->getMainModelRelationIDProperties() as $property ) {
-				/**
-				 * @var DataModel_Definition_Property_Abstract $property
-				 */
-				$property_name = $property->getRelatedToPropertyName();
-				$value = $main_model_ID[ $property_name ];
-
-				$where->addAND();
-				$where->addExpression(
-					$property,
-					DataModel_Query::O_EQUAL,
-					$value
-
-				);
-
-			}
-		} else {
-			if( $this->_parent_model_instance ) {
-				$parent_model_ID = $this->_parent_model_instance->getIdObject();
-
-				foreach( $this->item_definition->getParentModelRelationIDProperties() as $property ) {
-					/**
-					 * @var DataModel_Definition_Property_Abstract $property
-					 */
-					$property_name = $property->getRelatedToPropertyName();
-					$value = $parent_model_ID[ $property_name ];
-
-					$where->addAND();
-					$where->addExpression(
-						$property,
-						DataModel_Query::O_EQUAL,
-						$value
-
-					);
-
-				}
-
-			} else {
-				throw new DataModel_Exception('Parents are not set!');
-			}
+	public function actualizeMainID( DataModel_ID_Abstract $main_ID ) {
+		foreach( $this->items as $item ) {
+			$item->actualizeMainID( $main_ID );
 		}
-
-		$order_by = $this->getLoadRelatedDataOrderBy();
-		if($order_by) {
-			$query->setOrderBy( $order_by );
-		}
-
-
-		return $query;
 	}
 
-
-	/**
-	 * @param array &$loaded_related_data
-	 * @return mixed
-	 */
-	public function loadRelatedInstances(array &$loaded_related_data ) {
-		$this->_deleted_items = [];
-
-		$this->items = $this->_getEmptyItemInstance()->loadRelatedInstances($loaded_related_data);
-
-		return $this;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getCommonFormPropertiesList() {
-		return $this->_getEmptyItemInstance()->getCommonFormPropertiesList();
-	}
 
 	/**
 	 *
 	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
-	 * @param array $properties_list
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form_Field_Abstract[]
+	 *
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
+	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter=null )
+	{
 
 		$fields = [];
 		if(!$this->items) {
 			return $fields;
-
 		}
 
 		$parent_field_name = $parent_property_definition->getName();
@@ -265,7 +120,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 			/**
 			 * @var DataModel_Related_1toN $related_instance
 			 */
-			$related_form_fields = $related_instance->getRelatedFormFields( $parent_property_definition, $properties_list );
+			$related_form_fields = $related_instance->getRelatedFormFields( $parent_property_definition, $property_filter );
 
 			foreach($related_form_fields as $field) {
 
@@ -285,40 +140,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 
 		return $fields;
 	}
-
-
-	/**
-	 * @param array $values
-	 *
-	 * @return bool
-	 */
-	public function catchRelatedForm( array $values ) {
-
-		$ok = true;
-		if(!$this->items) {
-			return $ok;
-
-		}
-
-		foreach( $this->items as $r_key=>$r_instance ) {
-
-			$r_values = isset( $values[$r_key] ) ? $values[$r_key] : [];
-
-			/**
-			 * @var DataModel $r_instance
-			 */
-			//$r_form = $r_instance->getForm( '', array_keys($values) );
-			$r_form = $r_instance->getCommonForm();
-
-			if(!$r_instance->catchForm( $r_form, $r_values, true )) {
-				$ok = false;
-			}
-
-		}
-
-		return $ok;
-	}
-
 
 
 	/**
@@ -342,7 +163,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 		}
 
 		foreach($this->items as $item) {
-			$item->setupParentObjects($this->_main_model_instance, $this->_parent_model_instance);
 			$item->save();
 		}
 
@@ -419,17 +239,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 
-	/**
-	 *
-	 */
-	public function __wakeup_relatedItems() {
-		if($this->items) {
-			foreach( $this->items as $item ) {
-				$item->__wakeup_relatedItems();
-			}
-		}
-	}
-
 
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
@@ -497,7 +306,7 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	public function offsetSet( $offset , $value ) {
 
 
-		$valid_class = $this->item_definition->getClassName();
+		$valid_class = $this->_item_definition->getClassName();
 
 		if( !($value instanceof $valid_class) ) {
 			throw new DataModel_Exception(

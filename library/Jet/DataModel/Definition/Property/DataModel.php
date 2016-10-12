@@ -68,7 +68,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
         DataModel_Interface $data_model_instance
 	) {
         $property = $this->getDefaultValue();
-		$property->setupParentObjects( $data_model_instance );
     }
 
 
@@ -131,7 +130,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		$class_name =  $this->getValueDataModelClass();
 
         /**
-         * @var DataModel_Related_Interface $default_value
+         * @var DataModel_Related_Item_Interface $default_value
          */
         $default_value = new $class_name();
 
@@ -146,9 +145,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
      *
      */
     public function loadPropertyValue( &$property, array $data ) {
-
-	    $property = $property->loadRelatedInstances( $data );
-
     }
 
 	/**
@@ -197,8 +193,6 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
         if(!($property instanceof DataModel_Related_Interface)) {
             return;
         }
-
-        $property->catchRelatedForm($value);
 
     }
 

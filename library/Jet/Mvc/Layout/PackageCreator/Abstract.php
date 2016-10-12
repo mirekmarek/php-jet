@@ -42,6 +42,7 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 
 		try {
 			$content = IO_File::read( $_URI );
+
 		} catch( IO_File_Exception $e ) {
 			$this->omitted_URIs[] = $URI;
 

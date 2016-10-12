@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-interface DataModel_Related_1toN_Interface extends DataModel_Related_Interface, DataModel_Interface {
+interface DataModel_Related_1toN_Interface extends DataModel_Related_Item_Interface, DataModel_Interface {
 
     /**
      * @param $data_model_class_name

@@ -259,7 +259,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 * @param Gallery $gallery
 	 */
 	public function handleUploadImage( Gallery $gallery ) {
-		if(!$this->module_instance->checkAclCanDoAction('add_image', null, false)) {
+		if(!$this->module_instance->checkAclCanDoAction('add_image')) {
 			return;
 		}
 
@@ -289,7 +289,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 * @param Gallery $gallery
 	 */
 	public function handleDeleteImages( Gallery $gallery ) {
-		if(!$this->module_instance->checkAclCanDoAction('delete_image', null, false)) {
+		if(!$this->module_instance->checkAclCanDoAction('delete_image')) {
 			return;
 		}
 

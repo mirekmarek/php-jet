@@ -236,7 +236,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	    /**
 	     * @var Auth_User $user
 	     */
-	    $user = static::load( static::createIdObject($ID) );
+	    $user = static::load( $ID );
         return $user;
     }
 
@@ -540,7 +540,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		 */
 		$_this = new static();
 		$list = $_this->fetchObjects( $query );
-		$list->setLoadOnlyProperties([
+		$list->setLoadFilter([
 			'this.ID',
 			'this.login',
 			'this.first_name',

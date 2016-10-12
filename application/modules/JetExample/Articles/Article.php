@@ -294,7 +294,8 @@ class Article extends DataModel {
 	 */
 	public static function get( $ID ) {
 
-		return static::load( static::createIdObject($ID) );
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return static::load( $ID );
 	}
 
 	/**
@@ -305,8 +306,11 @@ class Article extends DataModel {
 	 * @return Article[]|DataModel_Fetch_Object_Assoc
 	 */
 	public static function getList( $query= []) {
-		$list = (new self())->fetchObjects($query);
-		$list->setLoadOnlyProperties([
+
+		/**
+		 * @var DataModel_Fetch_Object_Assoc $list
+		 */
+		$list = (new self())->fetchObjects($query, [
 			'ID',
 			'locale',
 			'title',
@@ -345,6 +349,9 @@ class Article extends DataModel {
 
 		}
 
+		/**
+		 * @var Article $current_article
+		 */
 		return $current_article;
 	}
 }

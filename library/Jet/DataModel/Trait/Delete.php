@@ -25,7 +25,7 @@ trait DataModel_Trait_Delete {
         /**
          * @var DataModel $this
          */
-        if( $this->getLoadOnlyProperties() ) {
+        if( $this->getLoadFilter() ) {
 	        throw new DataModel_Exception('Nothing to delete... Object is not completely loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
         }
 
@@ -36,18 +36,25 @@ trait DataModel_Trait_Delete {
         $backend = $this->getBackendInstance();
         $definition = $this->getDataModelDefinition();
 
-        $this->startBackendTransaction( $backend );
+        $this->startBackendTransaction();
 
-        foreach( $definition->getProperties() as $property_name=>$property_definition ) {
-            $prop = $this->{$property_name};
-            if( $prop instanceof DataModel_Related_Interface ) {
-                $prop->delete();
-            }
-        }
+	    try {
 
-        $backend->delete( $this->getIdObject()->getQuery() );
+		    foreach ($definition->getProperties() as $property_name => $property_definition) {
+			    $prop = $this->{$property_name};
+			    if ($prop instanceof DataModel_Related_Interface) {
+				    $prop->delete();
+			    }
+		    }
 
-        $this->commitBackendTransaction( $backend );
+		    $backend->delete($this->getIdObject()->getQuery());
+	    } catch (Exception $e) {
+		    $this->rollbackBackendTransaction();
+
+		    throw $e;
+	    }
+
+        $this->commitBackendTransaction();
 
         $this->afterDelete();
     }

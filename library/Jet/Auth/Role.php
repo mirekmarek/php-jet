@@ -114,7 +114,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
      * @return Auth_Role
      */
     public static function get( $ID ) {
-    	$role =  static::load( static::createIdObject($ID) );
+    	$role =  static::load( $ID );
 	    /**
 	     * @var Auth_Role $role
 	     */
@@ -269,7 +269,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 		$_this = new static();
 
 		$list = $_this->fetchObjects();
-		$list->setLoadOnlyProperties([
+		$list->setLoadFilter([
 			'this.ID',
 			'this.name',
 			'this.description'
@@ -281,12 +281,12 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 *
 	 * @param string $form_name
-	 * @param array $properties_list
+	 * @param DataModel_PropertyFilter $property_filter
 	 *
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	public function getForm( $form_name, array $properties_list ) {
+	public function getForm( $form_name, DataModel_PropertyFilter $property_filter=null ) {
 		$available_privileges_list = static::getAvailablePrivilegesList();
 
 		foreach( $available_privileges_list as $privilege=>$privilege_data ) {
@@ -296,7 +296,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 		}
 
 
-		return parent::getForm($form_name, $properties_list);
+		return parent::getForm($form_name, $property_filter);
 	}
 
 	/**

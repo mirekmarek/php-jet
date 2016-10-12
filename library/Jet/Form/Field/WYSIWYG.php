@@ -28,32 +28,46 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		self::ERROR_CODE_INVALID_FORMAT => ''
 	];
 
+	//TODO: poresit vychozi konfiguraci
+
 	/**
 	 * @var array
 	 */
 	protected $WYSIWYG_editor_CSS_files = [
-		'screen' => []
+		'' => [
+			'//cdn.tinymce.com/4/skins/lightgray/skin.min.css',
+			//'//cdn.tinymce.com/4/skins/lightgray/content.min.css',
+		]
 	];
 
 	/**
 	 * @var array
 	 */
 	protected $WYSIWYG_editor_JavaScript_files = [
-		'//tinymce.cachefly.net/4.3/tinymce.min.js'
+		'//cdn.tinymce.com/4/tinymce.min.js'
 	];
 
 	/**
 	 * @var array
 	 */
 	protected $WISIWYG_editor_config = [
-		'mode' => 'exact',
-		'theme' => 'modern',
-		'apply_source_formatting' => true,
-		'remove_linebreaks' => false,
-		'entity_encoding' => 'raw',
-		'convert_urls' => false,
-		'verify_html' => true,
-		'auto_focus' => false,
+			'mode' => 'exact',
+			'theme' => 'modern',
+			'apply_source_formatting' => true,
+			'remove_linebreaks' => false,
+			'entity_encoding' => 'raw',
+			'convert_urls' => false,
+			'verify_html' => true,
+
+			'force_br_newlines' => false,
+			'force_p_newlines' => false,
+			'forced_root_block' => '',
+
+			'plugins' => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
+			'paste_as_text' => true,
+
+			//'content_css' => '%JET_PUBLIC_STYLES_URI%wysiwyg.css',
+			//'language_url' => JET_PUBLIC_SCRIPTS_URI.'tinymce/language/cs_CZ.js'
 	];
 
 	/**

@@ -51,29 +51,6 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
      */
     public static function getEmptyIdObject();
 
-    /**
-     * @param string $ID
-     *
-     * @return DataModel_ID_Abstract
-     */
-    public static function createIdObject( $ID );
-
-
-    /**
-     * @return DataModel_ID_Abstract
-     */
-    public function resetIdObject();
-
-    /**
-     * Generate unique ID
-     *
-     * @param bool $called_after_save (optional, default = false)
-     * @param mixed $backend_save_result  (optional, default = null)
-     *
-     * @throws DataModel_Exception
-     */
-    public function generateIdObject(  $called_after_save = false, $backend_save_result = null  );
-
 //-- InternalState ------------------------------
     /**
      * Initializes new DataModel
@@ -123,19 +100,19 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     public function getBackendTransactionStartedByThisInstance();
 
     /**
-     * @param DataModel_Backend_Abstract $backend
+     *
      */
-    public function startBackendTransaction( DataModel_Backend_Abstract $backend );
+    public function startBackendTransaction();
 
     /**
-     * @param DataModel_Backend_Abstract $backend
+     *
      */
-    public function commitBackendTransaction( DataModel_Backend_Abstract $backend );
+    public function commitBackendTransaction();
 
     /**
-     * @param DataModel_Backend_Abstract $backend
+     *
      */
-    public function rollbackBackendTransaction( DataModel_Backend_Abstract $backend );
+    public function rollbackBackendTransaction();
 
 //-- Load ---------------------------------------
 
@@ -177,12 +154,12 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     /**
      *
      * @param string $form_name
-     * @param array $properties_list
+     * @param array|DataModel_PropertyFilter|null $property_filter
      * @throws DataModel_Exception
      *
      * @return Form
      */
-    public function getForm( $form_name, array $properties_list );
+    public function getForm( $form_name, $property_filter=null );
 
     /**
      * @param string $form_name
@@ -190,12 +167,6 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
      * @return Form
      */
     public function getCommonForm( $form_name='' );
-
-
-    /**
-     * @return array
-     */
-    public function getCommonFormPropertiesList();
 
     /**
      * @param Form $form

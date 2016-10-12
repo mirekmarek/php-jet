@@ -30,33 +30,36 @@ trait DataModel_Related_1to1_Trait {
 
 
 	/**
-	 * @param DataModel_Load_OnlyProperties|null $load_only_properties
+	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return array
+	 * @return array|mixed
 	 */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_properties=null )
+	public function loadRelatedData(DataModel_ID_Abstract $main_ID, DataModel_PropertyFilter $load_filter=null )
     {
 	    if(
-		    $load_only_properties
+		    $load_filter
 	    ) {
-	    	if(!$load_only_properties->getAllowToLoadModel( $this->getDataModelDefinition()->getModelName() )) {
+	    	if(!$load_filter->getModelAllowed( $this->getDataModelDefinition()->getModelName() )) {
 			    return [];
 		    }
 
-		    $this->setLoadOnlyProperties($load_only_properties);
+		    $this->setLoadFilter($load_filter);
 	    }
 
-        $query = $this->getLoadRelatedDataQuery();
+        $query = $this->getLoadRelatedDataQuery($main_ID, $load_filter);
 
         return $this->getBackendInstance()->fetchAll( $query );
     }
 
 	/**
+	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 * @return DataModel_Query
 	 *
 	 * @throws DataModel_Exception
-	 * @return DataModel_Query
 	 */
-	protected function getLoadRelatedDataQuery() {
+	protected function getLoadRelatedDataQuery(DataModel_ID_Abstract $main_ID, DataModel_PropertyFilter $load_filter=null ) {
 
 		/**
 		 * @var DataModel_Interface|DataModel_Related_Interface $this
@@ -66,67 +69,41 @@ trait DataModel_Related_1to1_Trait {
 
 		$query = new DataModel_Query( $data_model_definition );
 
-		$select = DataModel_Load_OnlyProperties::getSelectProperties( $data_model_definition, $this->getLoadOnlyProperties() );
+		$select = DataModel_PropertyFilter::getQuerySelect( $data_model_definition, $load_filter );
 
 		$query->setSelect( $select );
 		$query->setWhere([]);
 
 		$where = $query->getWhere();
 
-		if( $this->_main_model_instance ) {
-			$main_model_ID = $this->_main_model_instance->getIdObject();
+		foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $property
+			 */
+			$property_name = $property->getRelatedToPropertyName();
+			$value = $main_ID[ $property_name ];
 
-			foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
-				/**
-				 * @var DataModel_Definition_Property_Abstract $property
-				 */
-				$property_name = $property->getRelatedToPropertyName();
-				$value = $main_model_ID[ $property_name ];
+			$where->addAND();
+			$where->addExpression(
+				$property,
+				DataModel_Query::O_EQUAL,
+				$value
 
-				$where->addAND();
-				$where->addExpression(
-					$property,
-					DataModel_Query::O_EQUAL,
-					$value
+			);
 
-				);
-
-			}
-		} else {
-			if( $this->_parent_model_instance ) {
-				$parent_model_ID = $this->_parent_model_instance->getIdObject();
-
-				foreach( $data_model_definition->getParentModelRelationIDProperties() as $property ) {
-					/**
-					 * @var DataModel_Definition_Property_Abstract $property
-					 */
-					$property_name = $property->getRelatedToPropertyName();
-					$value = $parent_model_ID[ $property_name ];
-
-					$where->addAND();
-					$where->addExpression(
-						$property,
-						DataModel_Query::O_EQUAL,
-						$value
-
-					);
-
-				}
-
-			} else {
-				throw new DataModel_Exception('Parents are not set!');
-			}
 		}
 
 		return $query;
 	}
 
 
-    /**
-     * @param array &$loaded_related_data
-     * @return mixed
-     */
-    public function loadRelatedInstances(array &$loaded_related_data ) {
+	/**
+	 * @param array &$loaded_related_data
+	 * @param DataModel_ID_Abstract|null $parent_ID
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 * @return mixed
+	 */
+    public function loadRelatedInstances(array &$loaded_related_data, DataModel_ID_Abstract $parent_ID=null, DataModel_PropertyFilter $load_filter=null ) {
 
         /**
          * @var DataModel_Definition_Model_Related_1to1 $definition
@@ -134,8 +111,7 @@ trait DataModel_Related_1to1_Trait {
         $definition = $this->getDataModelDefinition();
 
         $parent_ID_values = [];
-        if($this->_parent_model_instance) {
-            $parent_ID = $this->_parent_model_instance->getIdObject();
+        if($parent_ID) {
 
             foreach( $definition->getParentModelRelationIDProperties() as $property ) {
 
@@ -164,15 +140,10 @@ trait DataModel_Related_1to1_Trait {
                  * @var DataModel_Related_1to1 $loaded_instance
                  */
                 $loaded_instance = new static();
-                $loaded_instance->setupParentObjects(
-                    $this->_main_model_instance,
-                    $this->_parent_model_instance
-                );
 
-	            $loaded_instance->setLoadOnlyProperties($this->getLoadOnlyProperties());
+	            $loaded_instance->setLoadFilter($load_filter);
 
-                $loaded_instance->_setRelatedData( $dat, $loaded_related_data );
-                $loaded_instance->afterLoad();
+                $loaded_instance->setState( $dat, $loaded_related_data );
 
                 unset($loaded_related_data[$model_name][$i]);
 
@@ -184,21 +155,21 @@ trait DataModel_Related_1to1_Trait {
     }
 
 
-    /**
-     *
-     * @param DataModel_Definition_Property_Abstract $parent_property_definition
-     * @param array $properties_list
-     *
-     * @return Form_Field_Abstract[]
-     */
-    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list ) {
+	/**
+	 *
+	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
+	 * @param DataModel_PropertyFilter $property_filter
+	 *
+	 * @return Form_Field_Abstract[]
+	 */
+    public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter=null ) {
 
         $fields = [];
 
         /**
          * @var Form $related_form
          */
-        $related_form = $this->getForm('', $properties_list);
+        $related_form = $this->getForm('', $property_filter);
 
         foreach($related_form->getFields() as $field) {
 
@@ -209,20 +180,6 @@ trait DataModel_Related_1to1_Trait {
 
 
         return $fields;
-    }
-
-
-    /**
-     * @param array $values
-     *
-     * @return bool
-     */
-    public function catchRelatedForm( array $values ) {
-
-        //$r_form = $this->getForm( '', array_keys($values) );
-        $r_form = $this->getCommonForm();
-
-        return $this->catchForm( $r_form, $values, true );
     }
 
 

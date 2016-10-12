@@ -16,7 +16,6 @@ namespace JetApplicationModule\JetExample\AdminRoles;
 
 
 use Jet\Application_Modules;
-use Jet\Auth;
 use Jet\Auth_Role;
 use Jet\Auth_Factory;
 use Jet\Auth_Role_Interface;
@@ -172,7 +171,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('btn_label', Tr::_('ADD') );
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
-		$this->view->setVar('available_privileges_list', $this->module_instance->getAvailablePrivilegesList() );
+		$this->view->setVar('available_privileges_list', $role->getAvailablePrivilegesList() );
 
 		$this->render('classic/edit');
 	}
@@ -199,7 +198,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', $this->module_instance->getAvailablePrivilegesList() );
+		$this->view->setVar('available_privileges_list', $role->getAvailablePrivilegesList() );
 
 		$this->render('classic/edit');
 	}
@@ -220,7 +219,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', false);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', $this->module_instance->getAvailablePrivilegesList() );
+		$this->view->setVar('available_privileges_list', $role->getAvailablePrivilegesList() );
 
 		$this->render('classic/edit');
 	}

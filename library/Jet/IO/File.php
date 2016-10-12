@@ -23,6 +23,10 @@ class IO_File {
 	 */
 	protected static $default_chmod_mask = null;
 
+	/**
+	 * @var array
+	 */
+	protected static $http_response_header;
 
 	/**
 	 * @return array
@@ -184,7 +188,24 @@ class IO_File {
 	 * @return string
 	 */
 	public static function read($file_path){
+		static::$http_response_header = null;
 		$data = file_get_contents($file_path);
+
+		if(isset($http_response_header)) {
+			static::$http_response_header = $http_response_header;
+
+			foreach($http_response_header as $header)
+			{
+				if(
+					stristr($header, 'content-encoding') &&
+					stristr($header, 'gzip')
+				)
+				{
+					$data = gzdecode($data);
+				}
+			}
+
+		}
 
 		if($data===false) {
 			$error = static::_getLastError();
@@ -196,6 +217,15 @@ class IO_File {
 
 		return $data;
 	}
+
+	/**
+	 * @return array
+	 */
+	public static function getHttpResponseHeader()
+	{
+		return self::$http_response_header;
+	}
+
 
 	/**
 	 * Deletes file.

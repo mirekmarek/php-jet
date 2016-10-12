@@ -412,12 +412,8 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 		/**
 		 * @var DataModel_ID_Abstract $empty_ID
 		 */
-		$empty_ID = new $ID_class_name( $this );
+		$empty_ID = new $ID_class_name( $this, $this->getIDOptions() );
 
-		$options = $this->getIDOptions();
-		if($options) {
-			$empty_ID->setOptions( $options );
-		}
 
 		return $empty_ID;
 	}

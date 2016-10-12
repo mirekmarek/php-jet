@@ -37,5 +37,6 @@ class BaseObject implements BaseObject_Interface {
 	use BaseObject_Trait_MagicGet;
 	use BaseObject_Trait_MagicSet;
 	use BaseObject_Trait_MagicClone;
+	use BaseObject_Trait_MagicDebug;
 
 }

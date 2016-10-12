@@ -265,12 +265,16 @@ trait Form_Field_Definition_Trait {
 	 * @param mixed $property_value
 	 *
 	 * @throws DataModel_Exception
-	 * @return Form_Field_Abstract|Form_Field_Abstract[]
+	 * @return Form_Field_Abstract|null|Form_Field_Abstract[]
 	 */
 	public function createFormField( $property_value ) {
 		/**
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
+
+		if(!$this->getFormFieldType()) {
+			return null;
+		}
 
 		$field = Form_Factory::getFieldInstance(
 			$this->getFormFieldType(),

@@ -16,33 +16,13 @@
  */
 namespace Jet;
 
-interface DataModel_Related_MtoN_Iterator_Interface extends \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface   {
+interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable   {
 
 
 	/**
 	 * @param DataModel_Definition_Model_Related_MtoN $item_definition
 	 */
 	public function __construct( DataModel_Definition_Model_Related_MtoN $item_definition );
-
-	/**
-	 * @param array $where
-	 */
-	public function setLoadRelatedDataWhereQueryPart(array $where);
-
-	/**
-	 * @return array
-	 */
-	public function getLoadRelatedDataWhereQueryPart();
-
-	/**
-	 * @param array $order_by
-	 */
-	public function setLoadRelatedDataOrderBy(array $order_by);
-
-	/**
-	 * @return array
-	 */
-	public function getLoadRelatedDataOrderBy();
 
 	/**
 	 *

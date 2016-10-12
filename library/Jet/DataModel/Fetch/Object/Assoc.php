@@ -17,40 +17,40 @@ namespace Jet;
 class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract implements Data_Paginator_DataSource_Interface,\ArrayAccess, \Iterator, \Countable  {
 
     /**
-     * @var array|DataModel_Load_OnlyProperties
+     * @var array|DataModel_PropertyFilter
      */
-    protected $load_only_properties;
+    protected $load_filter;
 
 
     /**
-     * @param array|DataModel_Load_OnlyProperties $load_only_properties
+     * @param array|DataModel_PropertyFilter $load_filter
      */
-    public function setLoadOnlyProperties($load_only_properties)
+    public function setLoadFilter($load_filter)
     {
-    	if($load_only_properties) {
+    	if($load_filter) {
 
-    		if( !($load_only_properties instanceof DataModel_Load_OnlyProperties) ) {
-			    $load_only_properties = new DataModel_Load_OnlyProperties(
+    		if( !($load_filter instanceof DataModel_PropertyFilter) ) {
+			    $load_filter = new DataModel_PropertyFilter(
 				    $this->data_model_definition,
-				    $load_only_properties
+				    $load_filter
 			    );
 		    }
 
 		    $this->query->setSelect(
-			    DataModel_Load_OnlyProperties::getSelectProperties( $this->data_model_definition, $load_only_properties )
+			    DataModel_PropertyFilter::getQuerySelect( $this->data_model_definition, $load_filter )
 		    );
 
 	    }
 
-        $this->load_only_properties = $load_only_properties;
+        $this->load_filter = $load_filter;
     }
 
     /**
-     * @return array|DataModel_Load_OnlyProperties
+     * @return array|DataModel_PropertyFilter
      */
-    public function getLoadOnlyProperties()
+    public function getLoadFilter()
     {
-        return $this->load_only_properties;
+        return $this->load_filter;
     }
 
 
@@ -72,18 +72,15 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 		     * @var DataModel $_i
 		     */
 	    	$_i = new $class_name();
-		    $_i->setLoadOnlyProperties($this->load_only_properties);
-		    $_i->setState($item['__data']);
-		    if( ($related_data = $_i->loadRelatedData()) ) {
-			    $_i->setRelatedState( $related_data );
-		    }
+		    $_i->setLoadFilter($this->load_filter);
+		    $_i->setState($item['__data'], $_i->loadMainRelatedData());
 
 		    $_i->afterLoad();
 	    } else {
 		    /**
 		     * @var DataModel $class_name
 		     */
-		    $_i =$class_name::load( $item['__ID'], $this->load_only_properties );
+		    $_i =$class_name::load( $item['__ID'], $this->load_filter );
 	    }
 
 	    $this->data[$_i->getIdObject()->toString()]['__instance'] = $item;
@@ -112,7 +109,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 
 		$backend->setDataPaginationMode($pm);
 
-		if($this->load_only_properties) {
+		if($this->load_filter) {
 			foreach( $l as $item ) {
 				$l_ID = clone $this->empty_ID_instance;
 

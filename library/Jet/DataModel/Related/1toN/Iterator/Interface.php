@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-interface DataModel_Related_1toN_Iterator_Interface extends \ArrayAccess, \Iterator, \Countable, DataModel_Related_Interface {
+interface DataModel_Related_1toN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable {
 
 
 	/**
@@ -25,35 +25,14 @@ interface DataModel_Related_1toN_Iterator_Interface extends \ArrayAccess, \Itera
 	public function __construct( DataModel_Definition_Model_Related_1toN $item_definition );
 
 	/**
-	 * @param array $order_by
-	 */
-	public function setLoadRelatedDataOrderBy(array $order_by);
-
-	/**
-	 * @return array
-	 */
-	public function getLoadRelatedDataOrderBy();
-
-	/**
-	 * @return array
-	 */
-	public function getCommonFormPropertiesList();
-
-	/**
 	 *
 	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
-	 * @param array $properties_list
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form_Field_Abstract[]
-	 */
-	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list );
-
-	/**
-	 * @param array $values
 	 *
-	 * @return bool
 	 */
-	public function catchRelatedForm( array $values );
+	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter=null );
 
 	/**
 	 *

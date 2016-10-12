@@ -18,32 +18,17 @@ namespace Jet;
 
 interface DataModel_Related_Interface {
 
-	/**
-	 * @return DataModel_Related_Interface
-	 */
-	public function createNewRelatedDataModelInstance();
-
 
 	/**
-	 * @param DataModel_Interface $main_model_instance
-	 * @param DataModel_Related_Interface $parent_model_instance (optional)
-	 *
+	 * @param DataModel_ID_Abstract $parent_ID
 	 */
-	public function setupParentObjects( DataModel_Interface $main_model_instance, DataModel_Related_Interface $parent_model_instance=null );
-
-    /**
-     * @param DataModel_Load_OnlyProperties|null $load_only_properties
-     *
-     * @return array
-     */
-	public function loadRelatedData( DataModel_Load_OnlyProperties $load_only_properties=null );
+	public function actualizeParentID( DataModel_ID_Abstract $parent_ID );
 
 	/**
-	 * @param array &$loaded_related_data
-	 *
-	 * @return mixed
+	 * @param DataModel_ID_Abstract $main_ID
 	 */
-	public function loadRelatedInstances(array &$loaded_related_data );
+	public function actualizeMainID( DataModel_ID_Abstract $main_ID );
+
 
 	/**
 	 *
@@ -56,31 +41,14 @@ interface DataModel_Related_Interface {
 	public function delete();
 
 	/**
-	 * @return array
-	 */
-	public function getCommonFormPropertiesList();
-
-	/**
 	 *
 	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
-	 * @param array $properties_list
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form_Field_Abstract[]
-	 */
-	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, array $properties_list );
-
-	/**
-	 * @param array $values
-	 *
-	 * @return bool
-	 */
-	public function catchRelatedForm( array $values );
-
-
-	/**
 	 *
 	 */
-	public function __wakeup_relatedItems();
+	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter=null );
 
 
 

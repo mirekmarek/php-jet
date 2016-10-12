@@ -323,13 +323,6 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 
 
-	/**
-	 *
-	 * @return DataModel_Definition_Model_Main
-	 */
-	public function getMainModelDefinition() {
-		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->main_model_class_name );
-	}
 
 	/**
 	 * @return string
@@ -337,6 +330,14 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	public function getMainModelClassName()
 	{
 		return $this->main_model_class_name;
+	}
+
+	/**
+	 *
+	 * @return DataModel_Definition_Model_Main
+	 */
+	public function getMainModelDefinition() {
+		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->main_model_class_name );
 	}
 
 	/**
@@ -393,4 +394,13 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	}
 
 
+	/**
+	 * Returns backend instance
+	 *
+	 * @return DataModel_Backend_Abstract
+	 */
+	public function getBackendInstance()
+	{
+		return $this->getMainModelDefinition()->getBackendInstance();
+	}
 }

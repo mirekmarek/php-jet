@@ -13,7 +13,6 @@
 
 namespace Jet;
 
-//We do not have multiple inheritance in PHP :-(
 trait BaseObject_Trait_MagicSet {
 
 	/**

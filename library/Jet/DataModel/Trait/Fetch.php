@@ -37,18 +37,18 @@ trait DataModel_Trait_Fetch {
 	/**
 	 *
 	 * @param array| $where
-	 * @param array $load_only_properties (optional)
+	 * @param array $load_filter (optional)
 	 *
 	 * @return bool|DataModel
 	 */
-    public function fetchOneObject( array $where, array $load_only_properties=[] ) {
+    public function fetchOneObject( array $where, array $load_filter=[] ) {
 
         $query = $this->createQuery( $where );
         $query->setLimit(1);
 
         $fetch = new DataModel_Fetch_Object_Assoc( $query );
-	    if($load_only_properties) {
-	    	$fetch->setLoadOnlyProperties($load_only_properties);
+	    if($load_filter) {
+	    	$fetch->setLoadFilter($load_filter);
 	    }
 
         foreach($fetch as $object) {
@@ -61,15 +61,15 @@ trait DataModel_Trait_Fetch {
 	/**
 	 *
 	 * @param array $where
-	 * @param array $load_only_properties (optional)
+	 * @param array $load_filter (optional)
 	 *
 	 * @return DataModel_Fetch_Object_Assoc
 	 */
-    public function fetchObjects( array $where= [], array $load_only_properties=[] ) {
+    public function fetchObjects( array $where= [], array $load_filter=[] ) {
 
         $fetch = new DataModel_Fetch_Object_Assoc( $this->createQuery($where) );
-	    if($load_only_properties) {
-		    $fetch->setLoadOnlyProperties($load_only_properties);
+	    if($load_filter) {
+		    $fetch->setLoadFilter($load_filter);
 	    }
 
 		return $fetch;

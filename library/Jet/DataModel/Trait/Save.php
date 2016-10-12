@@ -27,13 +27,13 @@ trait DataModel_Trait_Save {
          * @var DataModel $this
          */
 
-	    if( $this->getLoadOnlyProperties() ) {
+	    if( $this->getLoadFilter() ) {
 		    throw new DataModel_Exception('Nothing to save... Object is not completely loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')');
 	    }
 
         $backend = $this->getBackendInstance();
 
-        $this->startBackendTransaction( $backend );
+        $this->startBackendTransaction();
 
 
         if( $this->getIsNew() ) {
@@ -47,14 +47,12 @@ trait DataModel_Trait_Save {
         try {
             $this->{'_'.$operation}( $backend );
         } catch (Exception $e) {
-            $this->rollbackBackendTransaction($backend);
+            $this->rollbackBackendTransaction();
 
             throw $e;
         }
 
-        if($this->getBackendTransactionStartedByThisInstance()) {
-            $this->commitBackendTransaction( $backend );
-        }
+	    $this->commitBackendTransaction();
 
 
         $this->setIsSaved();
@@ -75,7 +73,9 @@ trait DataModel_Trait_Save {
 
         $record = new DataModel_RecordData( $definition );
 
-        $this->generateIdObject();
+	    $ID = $this->getIdObject();
+
+        $ID->generate();
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
             if( !$property_definition->getCanBeInInsertRecord() ) {
                 continue;
@@ -87,7 +87,7 @@ trait DataModel_Trait_Save {
 
         $backend_result = $backend->save( $record );
 
-        $this->generateIdObject( true, $backend_result );
+	    $ID->afterSave($backend_result);
 
         /**
          * @var DataModel_Trait_Save $this
@@ -145,6 +145,7 @@ trait DataModel_Trait_Save {
          */
         $definition = $this->getDataModelDefinition();
 
+	    $is_related = ($this instanceof DataModel_Related_Interface);
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
 
             /**
@@ -154,7 +155,12 @@ trait DataModel_Trait_Save {
             if(!($prop instanceof DataModel_Related_Interface)) {
                 continue;
             }
-            $prop->setupParentObjects( $this );
+
+            if($is_related) {
+	            $prop->actualizeParentID( $this->getIdObject() );
+            } else {
+	            $prop->actualizeMainID( $this->getIdObject() );
+            }
 
             $prop->save();
         }

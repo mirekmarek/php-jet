@@ -16,7 +16,6 @@ namespace JetApplicationModule\JetExample\AdminUsers;
 
 use Jet\Mvc_Controller_REST;
 use Jet\Auth_User;
-use Jet\Auth;
 
 class Controller_REST extends Mvc_Controller_REST {
 	/**

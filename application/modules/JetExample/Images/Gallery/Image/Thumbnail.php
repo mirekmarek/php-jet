@@ -253,7 +253,6 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 		 * @var Gallery_Image_Thumbnail $thumbnail
 		 */
 		$thumbnail = new static();
-		$thumbnail->generateIdObject();
 
 		$thumbnail->file_name = $key.'_'.$image->getFileName();
 

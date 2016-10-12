@@ -17,6 +17,11 @@ namespace Jet;
 abstract class DataModel_Backend_Abstract extends BaseObject {
 
 	/**
+	 * @var DataModel
+	 */
+	protected $_transaction_starter;
+
+	/**
 	 * @var DataModel_Backend_Config_Abstract
 	 */
 	protected $config;
@@ -33,6 +38,32 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	public function  __construct( DataModel_Backend_Config_Abstract $config ) {
 		$this->config = $config;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getTransactionStarted()
+	{
+		return (bool)$this->_transaction_starter;
+	}
+
+	/**
+	 * @return DataModel
+	 */
+	public function getTransactionStarter()
+	{
+		return $this->_transaction_starter;
+	}
+
+	/**
+	 * @param DataModel $transaction_starter
+	 */
+	public function setTransactionStarter($transaction_starter)
+	{
+		$this->_transaction_starter = $transaction_starter;
+	}
+
+
 
 	/**
 	 * @param bool $data_pagination_mode

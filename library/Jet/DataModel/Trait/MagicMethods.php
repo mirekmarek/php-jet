@@ -21,18 +21,28 @@ trait DataModel_Trait_MagicMethods {
     /**
      *
      */
-    public function __destruct() {
-    }
-
-    /**
-     *
-     */
     public function __wakeup() {
         /**
          * @var DataModel $this
          */
         $this->setIsSaved();
     }
+
+	/**
+	 * @return array
+	 */
+	public function __debugInfo() {
+		/** @noinspection PhpUndefinedClassInspection */
+		$r = parent::__debugInfo();
+
+		$r['_data_model_saved'] = $this->getIsSaved();
+
+		if($this->getLoadFilter()) {
+			$r['_load_filter'] = $this->getLoadFilter();
+		}
+
+		return $r;
+	}
 
     /**
      *
@@ -44,7 +54,6 @@ trait DataModel_Trait_MagicMethods {
         /** @noinspection PhpUndefinedClassInspection */
         parent::__clone();
 
-        $this->resetIdObject();
         $this->setIsNew();
     }
 

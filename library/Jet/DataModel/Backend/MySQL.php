@@ -98,7 +98,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				continue;
 			}
 
-			$_columns[] = JET_TAB.$this->_getColumnName($property, true, false).' '.$this->_getSQLType( $data_model, $property );
+			$_columns[] = JET_TAB.$this->_getColumnName($property, true, false).' '.$this->_getSQLType( $property );
 		}
 
 		$_keys = [];
@@ -125,7 +125,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 		                    break;
 	                    }
                     }
-
 
 					$_keys[$key_name] = JET_EOL.JET_TAB.',PRIMARY KEY ('.$key_columns.')';
 				break;
@@ -969,14 +968,13 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
 	 * @param DataModel_Definition_Property_Abstract $column
 	 *
 	 * @throws DataModel_Exception
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel_Interface $data_model, DataModel_Definition_Property_Abstract $column ) {
+	protected function _getSQLType( DataModel_Definition_Property_Abstract $column ) {
 		$backend_options = $column->getBackendOptions( 'MySQL' );
 
 		$name = $column->getName();
@@ -990,9 +988,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 
 		switch($column->getType()) {
 			case DataModel::TYPE_ID:
-					$max_len = (int)$data_model->getEmptyIdObject()->getMaxLength();
-
-					return 'varchar('.$max_len.') COLLATE utf8_bin NOT NULL DEFAULT \'\'';
+					return 'varchar(64) COLLATE utf8_bin NOT NULL DEFAULT \'\'';
 				break;
 			case DataModel::TYPE_ID_AUTOINCREMENT:
 					if($column->getRelatedToPropertyName()) {

@@ -23,23 +23,31 @@ class DataModel_ID_UniqueString extends DataModel_ID_Abstract {
 
 	/**
 	 *
-	 * @param DataModel_Interface $data_model_instance
-	 * @param bool $called_after_save (optional, default = false)
-	 * @param mixed $backend_save_result  (optional, default = null)
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function generate( DataModel_Interface $data_model_instance, $called_after_save = false, $backend_save_result = null ) {
+	public function generate() {
 
-		if(!array_key_exists($this->ID_property_name, $this->values)) {
+		if(!array_key_exists($this->ID_property_name, $this->_values)) {
 			throw new DataModel_Exception(
-				'Class \''.$data_model_instance->getDataModelDefinition()->getClassName().'\': Property \''.$this->ID_property_name.'\' does not exist. Please configure ID class by @JetDataModel:ID_options, or define that property, or create your own ID class.',
+				'Class \''.$this->_data_model_class_name.'\': Property \''.$this->ID_property_name.'\' does not exist. Please configure ID class by @JetDataModel:ID_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
-		if(!$this->values[$this->ID_property_name]) {
-			$this->generateUniqueID( $data_model_instance, $this->ID_property_name );
+		if(!$this->_values[$this->ID_property_name]) {
+			$ID = uniqid(date('Ymdhis'), false);
+
+			$this->_values[$this->ID_property_name] = $ID;
 		}
 	}
+
+	/**
+	 * @param mixed $backend_save_result
+	 *
+	 */
+	public function afterSave($backend_save_result)
+	{
+	}
+
 }

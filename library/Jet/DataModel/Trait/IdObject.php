@@ -35,11 +35,14 @@ trait DataModel_Trait_IdObject {
 
         if(!$this->_ID_object) {
 	        $this->_ID_object = $this->getEmptyIdObject();
+
+	        $this->_ID_object->joinDataModel($this);
+	        foreach($this->_ID_object as $property_name => $value) {
+		        $this->_ID_object->joinObjectProperty( $property_name, $this->{$property_name});
+	        }
+
         }
 
-        foreach($this->_ID_object as $property_name => $value) {
-	        $this->_ID_object[$property_name] = $this->{$property_name};
-        }
 
         return $this->_ID_object;
     }
@@ -52,62 +55,5 @@ trait DataModel_Trait_IdObject {
         /** @noinspection PhpUndefinedMethodInspection */
         return static::getDataModelDefinition()->getEmptyIDInstance();
     }
-
-    /**
-     * @param string $ID
-     *
-     * @return DataModel_ID_Abstract
-     */
-    public static function createIdObject(
-        /** @noinspection PhpUnusedParameterInspection */
-        $ID
-    ) {
-        $arguments = func_get_args();
-
-        return call_user_func_array( [static::getEmptyIdObject(),'createID'], $arguments );
-    }
-
-
-    /**
-     * @return DataModel_ID_Abstract
-     */
-    public function resetIdObject() {
-        $ID = $this->getIdObject();
-
-        $ID->reset();
-
-        foreach( $ID as $property_name=>$value ) {
-            $this->{$property_name} = $value;
-        }
-
-        return $ID;
-
-    }
-
-
-
-    /**
-     * Generate unique ID
-     *
-     * @param bool $called_after_save (optional, default = false)
-     * @param mixed $backend_save_result  (optional, default = null)
-     *
-     * @throws DataModel_Exception
-     */
-    public function generateIdObject(  $called_after_save = false, $backend_save_result = null  ) {
-        /**
-         * @var DataModel $this
-         */
-
-        $ID = $this->getIdObject();
-
-        $ID->generate( $this, $called_after_save, $backend_save_result );
-
-        foreach( $ID as $property_name=>$value ) {
-            $this->{$property_name} = $value;
-        }
-
-    }
-
 
 }

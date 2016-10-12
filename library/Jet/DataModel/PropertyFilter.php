@@ -16,7 +16,7 @@
  */
 namespace Jet;
 
-class DataModel_Load_OnlyProperties extends BaseObject {
+class DataModel_PropertyFilter extends BaseObject {
 
 	/**
 	 * @var array
@@ -56,7 +56,7 @@ class DataModel_Load_OnlyProperties extends BaseObject {
 	 * @param string $model_name
 	 * @return bool
 	 */
-	public function getAllowToLoadModel( $model_name ) {
+	public function getModelAllowed($model_name ) {
 		return array_key_exists($model_name, $this->only_properties);
 	}
 
@@ -66,7 +66,7 @@ class DataModel_Load_OnlyProperties extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function getAllowToLoadProperty( $model_name, $property_name ) {
+	public function getPropertyAllowed($model_name, $property_name ) {
 		if(!array_key_exists($model_name, $this->only_properties)) {
 			return false;
 		}
@@ -79,7 +79,7 @@ class DataModel_Load_OnlyProperties extends BaseObject {
 	 *
 	 * @return array
 	 */
-	public function getLoadPropertyNames( $model_name ) {
+	public function getPropertyNames($model_name ) {
 		if(!array_key_exists($model_name, $this->only_properties)) {
 			return [];
 		}
@@ -87,15 +87,16 @@ class DataModel_Load_OnlyProperties extends BaseObject {
 		return $this->only_properties[$model_name];
 	}
 
+
 	/**
 	 * @param DataModel_Definition_Model_Abstract $model_definition
-	 * @param DataModel_Load_OnlyProperties|null $load_only_properties
+	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array|DataModel_Definition_Property_Abstract[]
 	 */
-	public static function getSelectProperties( DataModel_Definition_Model_Abstract $model_definition, DataModel_Load_OnlyProperties $load_only_properties=null ) {
+	public static function getQuerySelect(DataModel_Definition_Model_Abstract $model_definition, DataModel_PropertyFilter $load_filter=null ) {
 
-		if(!$load_only_properties) {
+		if(!$load_filter) {
 			$select = $model_definition->getProperties();
 		} else {
 			$select = [];
@@ -103,7 +104,7 @@ class DataModel_Load_OnlyProperties extends BaseObject {
 			foreach( $model_definition->getProperties() as $property ) {
 				if(
 					!$property->getIsID() &&
-					!$load_only_properties->getAllowToLoadProperty(
+					!$load_filter->getPropertyAllowed(
 						$model_definition->getModelName(),
 						$property->getName()
 					)
