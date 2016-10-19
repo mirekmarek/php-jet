@@ -21,11 +21,6 @@ class Form_Field_Input extends Form_Field_Abstract {
 	protected $_type = Form::TYPE_INPUT;
 
 	/**
-	 * @var string
-	 */
-	protected $placeholder = '';
-
-	/**
 	 * @var array
 	 */
 	protected $error_messages = [
@@ -51,68 +46,5 @@ class Form_Field_Input extends Form_Field_Abstract {
 
 		return $codes;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getPlaceholder()
-	{
-		return $this->getTranslation($this->placeholder);
-	}
-
-	/**
-	 * @param string $placeholder
-	 */
-	public function setPlaceholder($placeholder)
-	{
-		$this->placeholder = $placeholder;
-	}
-
-
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-		$this->_getReplacement_field_prepareParams( $tag_data );
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 */
-	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data ) {
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', $this->_input_type );
-		$tag_data->setProperty( 'value', $this->getValue() );
-		if($this->getIsReadonly()) {
-			$tag_data->setProperty('readonly', 'readonly');
-		}
-
-
-		if( ($placeholder=$this->getPlaceholder()) ) {
-			$tag_data->setProperty('placeholder', $placeholder);
-		}
-
-
-		if($this->is_required) {
-			$tag_data->setProperty('required', 'required');
-		}
-
-		if($this->validation_regexp) {
-			$regexp = $this->validation_regexp;
-			if($regexp[0]=='/') {
-				$regexp = substr($regexp, 1);
-				$regexp = substr($regexp, 0, strrpos($regexp, '/'));
-			}
-			$tag_data->setProperty('pattern', $regexp);
-		}
-
-	}
-
 
 }

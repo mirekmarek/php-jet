@@ -44,7 +44,7 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
      *
      * @return bool
      */
-    public function parseRequestURL_Public( Mvc_Page_Content_Interface $page_content ) {
+    public function parseRequestURL( Mvc_Page_Content_Interface $page_content ) {
 
         $router = Mvc::getCurrentRouter();
 

@@ -167,22 +167,4 @@ class Form_Field_Float extends Form_Field_Input {
 	}
 
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 */
-	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data )
-	{
-		parent::_getReplacement_field_prepareParams($tag_data);
-
-		if($this->min_value!==null) {
-			$tag_data->setProperty( 'min', $this->min_value);
-		}
-		if($this->max_value!==null) {
-			$tag_data->setProperty( 'max', $this->max_value);
-		}
-
-		$tag_data->setProperty( 'step', $this->step);
-
-	}
-
 }

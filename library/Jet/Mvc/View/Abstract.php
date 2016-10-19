@@ -62,17 +62,14 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 *     <p>Hello world!</p>
 	 *
 	 *
-	 * NOTICE:
-	 *
-	 * Variable can be an Object. If variable is an object and instance of Mvc_Layout_Postprocessor_Interface or Mvc_View_Postprocessor_Interface then the output is processed by the object
-	 * @see Mvc_Layout_Postprocessor_Interface
-	 * @see Mvc_View_Postprocessor_Interface
-	 *
-	 *
 	 * @var Data_Array
 	 */
 	protected $_data;
 
+	/**
+	 * @var callable[]
+	 */
+	protected $_postprocessors = [];
 
 	/**
 	 * @param string $scripts_dir
@@ -314,6 +311,23 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 */
 	public static function setAddScriptPathInfoEnabled($enabled=true){
 		static::$_add_script_path_info = (bool)$enabled;
+	}
+
+
+	/**
+	 * @param string &$result
+	 */
+	protected function handlePostprocessors( &$result ) {
+		foreach($this->_postprocessors as $pp ) {
+			$pp($result);
+		}
+	}
+
+	/**
+	 * @param callable $postprocessor
+	 */
+	public function addPostProcessor( callable $postprocessor ) {
+		$this->_postprocessors[] = $postprocessor;
 	}
 
 }

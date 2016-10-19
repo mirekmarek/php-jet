@@ -196,26 +196,15 @@ class Form_Field_File extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
 	 * @return string
 	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', 'file' );
-		$tag_data->setProperty( 'required', 'required');
-		//$tag_data->setProperty( 'value', $this->getValue() );
+	public function render()
+	{
 		if($this->getIsReadonly()) {
 			return '';
 		}
 
-		if($this->allowed_mime_types) {
-			$tag_data->setProperty( 'accept', implode(',', $this->allowed_mime_types) );
-		}
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).' class="file"/>';
+		return parent::render();
 	}
 
 	/**

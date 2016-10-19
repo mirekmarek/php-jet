@@ -449,7 +449,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
         if($this->getStaticContent()) {
 
-            Mvc::getCurrentPage()->getLayout()->addOutputPart(
+	        Mvc_Layout::getCurrentLayout()->addOutputPart(
                 $this->getStaticContent(),
                 $this->output_position,
                 $this->output_position_required,
@@ -477,7 +477,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
         } else {
             Debug_Profiler::message('Content:'.$this->getContentKey() );
 
-            $layout = $this->getPage()->getLayout();
+            $layout = Mvc_Layout::getCurrentLayout();
 
             if(
                 !$this->getIsDynamic() &&

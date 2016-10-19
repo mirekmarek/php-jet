@@ -149,6 +149,13 @@ abstract class DataModel extends BaseObject implements DataModel_Interface {
 
     }
 
+	/**
+	 *
+	 */
+    public function beforeSave() {
+
+    }
+
     /**
      *
      */

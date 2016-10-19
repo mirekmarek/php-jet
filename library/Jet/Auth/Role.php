@@ -349,20 +349,6 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 			$data[$privilege] = $item;
 		}
 
-		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
-			$module = Application_Modules::getModuleInstance( $manifest->getName() );
-			if( $module instanceof Auth_Role_Privilege_Provider_Interface ) {
-				/**
-				 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $av
-				 */
-				$av = $module->getAvailablePrivileges();
-
-				foreach( $av as $item ) {
-					$data[$item->getPrivilege()] = $item;
-				}
-			}
-		}
-
 		return $data;
 	}
 

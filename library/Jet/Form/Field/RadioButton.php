@@ -70,10 +70,6 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		return true;
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 * @return string
-	 */
 	protected function _getReplacement_field_option_label( Form_Parser_TagData $tag_data ) {
 		$key = $tag_data->getProperty('key');
 
@@ -88,11 +84,6 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
 	protected function _getReplacement_field_option( Form_Parser_TagData $tag_data ) {
 		$key = $tag_data->getProperty('key');
 
@@ -125,30 +116,6 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	}
 
 	/**
-	 * @param null|string $template
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML($template=null) {
-
-		$field = '';
-
-		$field .= '<jet_form_field_label name="'.$this->_name.'"/>'.JET_EOL;
-		$field .= '<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>';
-
-		foreach($this->select_options as $key=>$val) {
-			$field .= '<div class="radio">'.JET_EOL
-			.JET_TAB.'<jet_form_field_option name="'.$this->_name.'" key="'.$key.'"/>'.JET_EOL
-			.JET_TAB.'<jet_form_field_option_label name="'.$this->_name.'" key="'.$key.'"/><br/>'.JET_EOL
-			.'</div>';
-
-		}
-
-		return $field;
-	}
-
-
-	/**
 	 * @return array
 	 */
 	public function getRequiredErrorCodes()
@@ -165,4 +132,9 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		return $codes;
 	}
 
+	public function __toString()
+	{
+		//TODO:
+		return '';
+	}
 }

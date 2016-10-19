@@ -286,7 +286,7 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 * @return Config
 	 */
 	public function getConfig( $config_name = 'main' ){
-
+//TODO: odstranit
 		if(!isset($this->config[$config_name]) ) {
 
 			$class_name = get_called_class();

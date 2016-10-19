@@ -100,67 +100,6 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 		}
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName().'[]' );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'multiple', 'multiple' );
-		if($this->getIsReadonly()) {
-			$tag_data->setProperty( 'disabled', 'disabled' );
-		}
-
-		$result = '<select '.$this->_getTagPropertiesAsString( $tag_data ).'>'.JET_EOL;
-
-		$value = $this->_value;
-
-		foreach($this->select_options as $val=>$label) {
-			$selected = false;
-
-			if(is_array($value) && !empty($value)){
-				foreach($value as $valIn){
-					if((string)$val == (string)$valIn){
-						$selected = true;
-						continue;
-					}
-				}
-			}
-			else{
-				if($val==$value) {
-					$selected = true;
-				}
-			}
-
-			$css = '';
-			if($label instanceof Form_Field_Select_Option_Interface) {
-				/**
-				 * @var Form_Field_Select_Option_Interface $label
-				 */
-
-				if( ($class = $label->getSelectOptionCssClass()) ) {
-					$css .= ' class="'.$class.'"';
-				}
-				if( ($style = $label->getSelectOptionCssStyle()) ) {
-					$css .= ' style="'.$style.'"';
-				}
-			}
-
-			if($selected){
-				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" '.$css.'selected="selected">'.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
-			}
-			else{
-				$result .= '<option value="'.Data_Text::htmlSpecialChars($val).'" '.$css.'>'.Data_Text::htmlSpecialChars( $label ).'</option>'.JET_EOL;
-			}
-		}
-		$result .= '</select>'.JET_EOL;
-
-		return $result;
-	}
-
 
 	/**
 	 * @return array

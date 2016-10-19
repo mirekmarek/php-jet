@@ -157,6 +157,16 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	abstract public function handleRedirect();
 
 	/**
+	 * @return bool
+	 */
+	abstract public function getLoginRequired();
+
+	/**
+	 * @param bool $login_required
+	 */
+	abstract public function setLoginRequired($login_required);
+
+	/**
 	 * @abstract
 	 * @return string
 	 */

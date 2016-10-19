@@ -101,14 +101,14 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		return true;
 	}
 
-	/**
-	 * Returns dispatch queue (example: show login dialog )
-	 *
-	 * @return Mvc_Page_Interface
-	 */
-	public function getAuthenticationPage() {
 
-        $page = Mvc::getCurrentPage();
+	/**
+	 *
+	 */
+	public function handleLogin()
+	{
+
+		$page = Mvc::getCurrentPage();
 
 
 		$action = 'login';
@@ -128,23 +128,23 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		}
 
 
-        $page_content = [];
-        $page_content_item = Mvc_Factory::getPageContentInstance();
+		$page_content = [];
+		$page_content_item = Mvc_Factory::getPageContentInstance();
 
-        $page_content_item->setModuleName( $this->module_manifest->getName() );
-        $page_content_item->setControllerAction( $action );
-        $page_content_item->setIsDynamic(true);
+		$page_content_item->setModuleName( $this->module_manifest->getName() );
+		$page_content_item->setControllerAction( $action );
+		$page_content_item->setIsDynamic(true);
 
 
-        $page_content[] = $page_content_item;
+		$page_content[] = $page_content_item;
 
-        $page->setContents( $page_content );
+		$page->setContents( $page_content );
 
-        $layout = new Mvc_Layout( $this->getLayoutsDir(), 'default' );
+		$layout = new Mvc_Layout( $this->getLayoutsDir(), 'default' );
 
-        $page->setLayout( $layout );
+		Mvc_Layout::setCurrentLayout($layout);
 
-		return $page;
+		echo $page->render();
 	}
 
 

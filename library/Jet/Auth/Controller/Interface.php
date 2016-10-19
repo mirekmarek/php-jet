@@ -69,10 +69,8 @@ interface Auth_Controller_Interface {
 	public function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null );
 
 	/**
-	 * Returns Mvc page with contains some ACL actions (example: show login dialog )
 	 *
-	 * @return Mvc_Page_Interface
 	 */
-	public function getAuthenticationPage();
+	public function handleLogin();
 
 }

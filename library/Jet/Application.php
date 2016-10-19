@@ -144,6 +144,10 @@ class Application extends BaseObject {
 			return;
 		}
 
+		if($router->getLoginRequired()) {
+			Auth::getCurrentAuthController()->handleLogin();
+			return;
+		}
 
 		if( !Mvc::getCurrentPage()->getAccessAllowed() ) {
 			$site->handleAccessDenied();

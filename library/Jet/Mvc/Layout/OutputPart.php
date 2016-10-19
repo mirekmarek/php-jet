@@ -50,26 +50,19 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	protected $position_order = 0.0;
 
 	/**
-	 *
-	 * @var string
-	 */
-	protected $module_name = '';
-
-	/**
 	 * @param string $content_ID
 	 * @param string $output
 	 * @param string $position
 	 * @param bool $position_required
 	 * @param int $position_order
-	 * @param string $module_name
 	 */
-	public function __construct($content_ID, $output, $position, $position_required, $position_order, $module_name) {
+	public function __construct($content_ID, $output, $position, $position_required, $position_order ) {
 		$this->output_ID = $content_ID;
 		$this->output = $output;
 		$this->position = $position;
 		$this->position_required = $position_required;
 		$this->position_order = $position_order;
-		$this->module_name = $module_name;
+
 	}
 
 	/**
@@ -133,20 +126,6 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	 */
 	public function setPositionOrder($position_order) {
 		$this->position_order = (int)$position_order;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModuleName() {
-		return $this->module_name;
-	}
-
-	/**
-	 * @param string $module_name
-	 */
-	public function setModuleName($module_name) {
-		$this->module_name = $module_name;
 	}
 
 }

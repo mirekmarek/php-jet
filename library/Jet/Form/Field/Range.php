@@ -145,45 +145,4 @@ class Form_Field_Range extends Form_Field_Input {
 		return $codes;
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 */
-	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data )
-	{
-		parent::_getReplacement_field_prepareParams($tag_data);
-
-		if($this->min_value!==null) {
-			$tag_data->setProperty( 'min', $this->min_value);
-		}
-		if($this->max_value!==null) {
-			$tag_data->setProperty( 'max', $this->max_value);
-		}
-		if($this->step!==null) {
-			$tag_data->setProperty( 'step', $this->step);
-		}
-	}
-
-	/**
-	 * @param null|string $template
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML($template=null) {
-
-		$field = '';
-
-		$field .= '<jet_form_field_label name="'.$this->_name.'"/>'.JET_EOL;
-		$field .= '<jet_form_field_error_msg name="'.$this->_name.'" class="error"/>';
-
-
-		$field .= '<div class="slider">'.JET_EOL
-			.JET_TAB.'<jet_form_field name="'.$this->_name.'"/>'.JET_EOL
-			.'</div>';
-
-
-
-		return $field;
-	}
-
-
 }

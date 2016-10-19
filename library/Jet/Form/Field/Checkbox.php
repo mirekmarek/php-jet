@@ -57,46 +57,6 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 		return true;
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', 'checkbox' );
-		$tag_data->setProperty( 'value', 1);
-		if($this->getIsReadonly()) {
-			$tag_data->setProperty('disabled', 'disabled');
-		}
-
-
-		if($this->getValue()) {
-			$tag_data->setProperty('checked', 'checked');
-		} else {
-			$tag_data->unsetProperty('checked');
-		}
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-
-	}
-
-	/**
-	 * @param null|string $template (optional)
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML($template=null) {
-
-		return '<div class="checkbox">'.JET_EOL
-				.JET_TAB.'<jet_form_field_error_msg name="'.$this->_name.'" class="form-error"/>'.JET_EOL
-				.JET_TAB.'<jet_form_field_label name="'.$this->_name.'"/>'.JET_EOL
-				.JET_TAB.'<jet_form_field name="'.$this->_name.'"/>'.JET_EOL
-				.'</div>';
-
-	}
 
 	/**
 	 * @return array

@@ -285,7 +285,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 */
 	protected function initializeDefaultView() {
 		$this->view = new Mvc_View( $this->module_instance->getViewsDir() );
-		$this->view->setModuleName( $this->module_instance->getModuleManifest()->getName() );
 	}
 
 	/**
@@ -303,12 +302,34 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 		$position_required = null,
 		$position_order = null
 	) {
-		Mvc::getCurrentPage()->renderView(
+
+		$current_content = Mvc::getCurrentContent();
+
+		if(!$position) {
+			$position = $current_content->getOutputPosition();
+		}
+
+		if($position_required===null) {
+			$position_required = $current_content->getOutputPositionRequired();
+		}
+
+		if($position_order===null) {
+			$position_order = $current_content->getOutputPositionOrder();
+		}
+
+		if(!$position) {
+			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
+		}
+
+		$output_ID = $current_content->getContentKey();
+
+		Mvc_Layout::getCurrentLayout()->renderView(
 			$this->view,
 			$script,
 			$position,
 			$position_required,
-			$position_order
+			$position_order,
+			$output_ID
 		);
 
 		return;

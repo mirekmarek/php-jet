@@ -2,23 +2,22 @@
 /**
  *
  *
+ *
  * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
  * @category Jet
- * @package Mvc
- * @subpackage Mvc_Layout
+ * @package Form
  */
 namespace Jet;
 
-interface Mvc_Layout_Initializer_Interface {
+class Form_Renderer_Bootstrap_Field_Time extends Form_Renderer_Bootstrap_Field_Input  {
 
-    /**
-     * @param Mvc_Layout $layout
-     *
-     */
-    public function initializeLayout( Mvc_Layout $layout );
+	/**
+	 * @var string
+	 */
+	protected $_input_type = 'time';
 
 }

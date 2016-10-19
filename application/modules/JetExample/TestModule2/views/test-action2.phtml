@@ -15,11 +15,22 @@ $forms = $this->forms;
          * @var Form $form
          */
         $form = $d['form'];
-
     ?>
     <fieldset style="margin-bottom: 40px">
         <legend><?=$d['title']?></legend>
-        <?=$form->helper_getBasicHTML();?>
+        <?php
+        echo $form->start();
+        foreach($form->getFields() as $field) {
+            echo $field;
+        }
+        ?>
+    <div class="row">
+        <div class="col-md-offset-4">
+            <input type="submit" class="btn btn-default" value="<?=Tr::_('Submit')?>"/>
+        </div>
+    </div>
+        <?=$form->end()?>
+
 
 
 
@@ -39,8 +50,8 @@ $forms = $this->forms;
                 <table>
                     <?php foreach($d['form_values'] as $k=>$v): ?>
                         <tr>
-                            <td><?=$k;?>:</td>
-                            <td><?=is_array($v) ? implode(',',$v) : $v;?></td>
+                            <td><?=$k?>:</td>
+                            <td><?=is_array($v) ? implode(',',$v) : $v?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

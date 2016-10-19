@@ -89,7 +89,23 @@ interface Mvc_Page_Interface {
 	 * @param bool $is_admin_UI
 	 */
 	public function setIsAdminUI($is_admin_UI);
+	
+	/**
+	 * @return bool
+	 */
+	public function getIsNonpublic();
 
+	/**
+	 * @param bool $is_non_public
+	 */
+	public function setIsNonpublic($is_non_public);
+
+	/**
+	 * @return bool
+	 */
+	public function getAccessAllowed();
+
+	
 	/**
 	 * @return Mvc_Site_Interface
 	 */
@@ -238,35 +254,12 @@ interface Mvc_Page_Interface {
 	 */
 	public function setLayoutScriptName($layout);
 
-
-    /**
-     * @param string $layout_initializer_module_name
-     */
-    public function setLayoutInitializerModuleName($layout_initializer_module_name);
-
-    /**
-     * @return string
-     */
-    public function getLayoutInitializerModuleName();
-
     /**
      *
      * @throws Exception
      *
-     * @return Mvc_Layout
      */
     public function initializeLayout();
-
-    /**
-     *
-     * @return Mvc_Layout
-     */
-    public function getLayout();
-
-    /**
-     * @param Mvc_Layout $layout
-     */
-    public function setLayout( Mvc_Layout $layout);
 
 
 	/**
@@ -305,21 +298,7 @@ interface Mvc_Page_Interface {
 	 */
 	public function setBodySuffix( $body_suffix );
 
-	/**
-	 * @return bool
-	 */
-	public function getAuthenticationRequired();
-
-    /**
-     * @return bool
-     */
-    public function getAccessAllowed();
-
-	/**
-	 * @param bool $authentication_required
-	 */
-	public function setAuthenticationRequired($authentication_required);
-
+	
 	/**
 	 * @return bool
 	 */
@@ -460,24 +439,6 @@ interface Mvc_Page_Interface {
 
     /**
      *
-     * @param Mvc_View $view
-     * @param $script
-     * @param string $position (optional, default:  by current dispatcher queue item, @see Mvc_Layout)
-     * @param bool $position_required (optional, default: by current dispatcher queue item, @see Mvc_Layout)
-     * @param int $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)
-     *
-     */
-    public function renderView(
-        Mvc_View $view,
-        $script,
-        $position = null,
-        $position_required = null,
-        $position_order = null
-    );
-
-
-    /**
-     *
      * @return bool
      */
     public function parseRequestURL();
@@ -500,13 +461,6 @@ interface Mvc_Page_Interface {
      * @return string
      */
     public function getAuthControllerModuleName();
-
-
-    /**
-     * @return Mvc_Page_Content_Interface
-     */
-    public function getCurrentContent();
-
 
     /**
      * @return string

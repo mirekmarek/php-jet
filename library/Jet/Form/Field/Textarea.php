@@ -18,6 +18,7 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_TEXTAREA;
+
 	/**
 	 * @var array
 	 */
@@ -25,22 +26,6 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 		self::ERROR_CODE_EMPTY => '',
 		self::ERROR_CODE_INVALID_FORMAT => ''
 	];
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		if($this->getIsReadonly()) {
-			$tag_data->setProperty( 'readonly', 'readonly' );
-		}
-
-		return '<textarea '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->getValue().'</textarea>';
-	}
-
 
 	/**
 	 * @return array
@@ -59,5 +44,4 @@ class Form_Field_Textarea extends Form_Field_Abstract {
 
 		return $codes;
 	}
-
 }

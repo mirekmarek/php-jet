@@ -91,6 +91,13 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	/**
 	 * @var bool
 	 */
+	protected $login_required = false;
+	//-----------------------------------------------------------------
+
+
+	/**
+	 * @var bool
+	 */
 	protected $_cache_loaded = false;
 
 
@@ -166,7 +173,6 @@ class Mvc_Router extends Mvc_Router_Abstract {
         if( !$this->resolvePage() ) {
             return;
         }
-
 
 		$this->resolveAuthentication();
 	}
@@ -328,27 +334,23 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	protected function resolveAuthentication() {
 
         if(
-        	$this->getPage()->getIsAdminUI() ||
-            $this->getPage()->getAuthenticationRequired()
+        	!$this->getPage()->getIsAdminUI() &&
+            !$this->getPage()->getIsNonpublic()
         ) {
-
-            $auth_controller = Auth::getCurrentAuthController();
-
-            $this->cache_enabled = false;
-
-            if( $auth_controller->getUserIsLoggedIn() ) {
-				return true;
-            }
-
-	        $this->setPage( $auth_controller->getAuthenticationPage() );
-	        $this->getPage()->setAuthenticationRequired(false);
-
-	        return false;
-
+	        return true;
         }
 
+		$this->cache_enabled = false;
 
-		return true;
+
+		if( Auth::getCurrentAuthController()->getUserIsLoggedIn() ) {
+			return true;
+		}
+
+		$this->login_required = true;
+
+		return false;
+
 	}
 
 	/**
@@ -441,6 +443,22 @@ class Mvc_Router extends Mvc_Router_Abstract {
 		} else {
 			Http_Headers::movedTemporary($this->redirect_target_URL);
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getLoginRequired()
+	{
+		return $this->login_required;
+	}
+
+	/**
+	 * @param bool $login_required
+	 */
+	public function setLoginRequired($login_required)
+	{
+		$this->login_required = $login_required;
 	}
 
 
@@ -675,7 +693,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 			!$this->cache_enabled ||
             (
                 $this->getPage() &&
-                $this->getPage()->getAuthenticationRequired()
+                $this->getPage()->getIsNonpublic()
             ) ||
             Debug_ErrorHandler::getLastError()
 		) {

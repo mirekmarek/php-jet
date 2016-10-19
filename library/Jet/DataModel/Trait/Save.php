@@ -31,6 +31,8 @@ trait DataModel_Trait_Save {
 		    throw new DataModel_Exception('Nothing to save... Object is not completely loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')');
 	    }
 
+	    $this->beforeSave();
+
         $backend = $this->getBackendInstance();
 
         $this->startBackendTransaction();

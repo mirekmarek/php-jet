@@ -11,8 +11,6 @@ $form = $this->form;
  * @var Mvc_View $view
  */
 $view = $this;
-
-
 ?>
 <p>
 	M1: Test Action 2<br>
@@ -21,7 +19,13 @@ $view = $this;
 </p>
 
 <p>
-	<?=$form->helper_getBasicHTML(); ?>
+	<?php
+	echo $form->start();
+	foreach($form->getFields() as $field) {
+		echo $field;
+	}
+	echo $form->end();
+	?>
 
 	<?php if($view->varExists('form_data')): ?>
 		<table>

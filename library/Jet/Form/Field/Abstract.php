@@ -38,13 +38,13 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	/**
 	 * @var Form
 	 */
-	protected $__form = null;
+	protected $_form = null;
 	/**
 	 * form name
 	 * 
 	 * @var string 
 	 */
-	protected $__form_name = '';
+	protected $_form_name = '';
 
 	/**
 	 * raw value from input (input = most often $_POST)
@@ -97,7 +97,12 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @var string
 	 */
 	protected $label = '';
-	
+
+	/**
+	 * @var string
+	 */
+	protected $placeholder = '';
+
 	/**
 	 * @var bool
 	 */
@@ -124,6 +129,28 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
      * @var callable
      */
     protected $catch_data_callback;
+
+
+	/**
+	 * @return Form_Renderer_Abstract_Container|Form_Renderer_Bootstrap_Container
+	 */
+	protected $_tag_container;
+
+	/**
+	 * @return Form_Renderer_Abstract_Label|Form_Renderer_Bootstrap_Label
+	 */
+	protected $_tag_label;
+
+	/**
+	 * @return Form_Renderer_Abstract_ErrorMessage|Form_Renderer_Bootstrap_ErrorMessage
+	 */
+	protected $_tag_error;
+
+	/**
+	 * @return Form_Renderer_Abstract_Field_Abstract|Form_Renderer_Bootstrap_Field_Abstract
+	 */
+	protected $_tag_field;
+
 
 	/**
 	 * @var array
@@ -202,7 +229,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @return string
 	 */
 	public function getID() {
-		return $this->__form->getID().'__'.str_replace('/', '___', $this->getName());
+		return $this->_form->getID().'__'.str_replace('/', '___', $this->getName());
 	}
 
 	/**
@@ -227,8 +254,16 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @param Form $form
 	 */
 	public function setForm(Form $form) {
-		$this->__form = $form;
-		$this->__form_name = $form->getName();
+		$this->_form = $form;
+		$this->_form_name = $form->getName();
+	}
+
+	/**
+	 * @return Form
+	 */
+	public function getForm()
+	{
+		return $this->_form;
 	}
 
 	/**
@@ -274,11 +309,15 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 *
 	 * to: object[property][sub_property]
 	 *
-	 * @param $name
+	 * @param string|null $name
 	 *
 	 * @return string
 	 */
-	public function getNameTagValue( $name ) {
+	public function getTagNameValue( $name=null ) {
+		if(!$name) {
+			$name = $this->getName();
+		}
+
 		if($name[0]!='/') {
 			return $name;
 		}
@@ -296,7 +335,6 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 			}
 		}
 		return implode('', $name);
-
 	}
 
 	/**
@@ -369,7 +407,25 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	public function setLabel( $label ) {
 		$this->label = $label;
 	}
-	
+
+
+	/**
+	 * @return string
+	 */
+	public function getPlaceholder()
+	{
+		return $this->getTranslation($this->placeholder);
+	}
+
+	/**
+	 * @param string $placeholder
+	 */
+	public function setPlaceholder($placeholder)
+	{
+		$this->placeholder = $placeholder;
+	}
+
+
 	/**
 	 * returns field is_required value
 	 * 
@@ -599,7 +655,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 */
 	public function setErrorMessage($error_message) {
 		$this->_is_valid = false;
-		$this->__form->setIsNotValid();
+		$this->_form->setIsNotValid();
 		$this->_last_error = $error_message;
 		$this->_last_error_message = $error_message;
 	}
@@ -626,128 +682,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 		}
 
 	}
-	
 
-
-	/**
-	 * replace magic mf_form* tags by real HTML for this form field
-	 *
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	public function getReplacement( Form_Parser_TagData $tag_data ) {
-
-		$method_name = str_replace(':', '_', '_getReplacement_'.$tag_data->getTag() );
-		return $this->{$method_name}($tag_data);
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field_label( Form_Parser_TagData $tag_data ) {
-		$label = $this->getLabel();
-
-        /*
-		if(!$label) {
-			$label = $this->_name.': ';
-		}
-        */
-
-		if(
-			$this->is_required &&
-			$label
-		) {
-			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), ['LABEL'=>$label]);
-		}
-
-		$tag_data->setProperty('for', $this->getID());
-
-		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field_error_msg( /** @noinspection PhpUnusedParameterInspection */
-		Form_Parser_TagData $tag_data ) {
-		$msg = $this->getLastErrorMessage();
-		if(!$msg) {
-			return '';
-		}
-
-		$template = $this->__form->getTemplate_field_error_msg();
-
-		return Data_Text::replaceData($template, ['ERROR_MSG'=>$msg]);
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', $this->_input_type );
-		$tag_data->setProperty( 'value', $this->getValue() );
-
-		if($this->getIsReadonly()) {
-			$tag_data->setProperty('readonly', 'readonly');
-		}
-
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
-	protected function _getTagPropertiesAsString( Form_Parser_TagData $tag_data ) {
-
-		$result = '';
-
-		foreach($tag_data->getProperties() as $property=>$val) {
-			if($property=='name') {
-				$val = $this->getNameTagValue( $val );
-			}
-
-			if($property=='value') {
-				$result .= ' '.$property.'="'.$val.'"';
-			} else {
-				$result .= ' '.$property.'="'.Data_Text::htmlSpecialChars($val).'"';
-			}
-
-		}
-
-		return $result;
-	}
-
-
-	/**
-	 * @param null|string $template (optional)
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML($template=null) {
-
-		if(!$template) {
-			$template = $this->__form->getTemplate_field();
-		}
-
-		return Data_Text::replaceData($template, [
-			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
-			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'" class="form-error"/>'.JET_EOL
-					.JET_TAB.JET_TAB.JET_TAB.'<jet_form_field name="'.$this->_name.'" class="form-control"/>'
-		]);
-	}
 
 	/**
 	 * @return array
@@ -802,6 +737,93 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @return string
 	 */
 	public function getTranslation( $phrase, $data= []) {
-		return $this->__form->getTranslation($phrase, $data );
+		return $this->_form->getTranslation($phrase, $data );
+	}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	/**
+	 * @param string $element
+	 * @return Form_Renderer_Abstract_Tag
+	 */
+	protected function _getRenderer( $element ) {
+		$class_name = $this->_form->getRendererClassName().'_'.$element;
+
+		return new $class_name( $this );
+	}
+
+	/**
+	 * @return Form_Renderer_Abstract_Container|Form_Renderer_Bootstrap_Container
+	 */
+	public function container() {
+		if(!$this->_tag_container) {
+			$this->_tag_container = $this->_getRenderer('Container');
+		}
+
+		return $this->_tag_container;
+	}
+
+	/**
+	 * @return Form_Renderer_Abstract_Label|Form_Renderer_Bootstrap_Label
+	 */
+	public function label() {
+		if(!$this->_tag_label) {
+			$this->_tag_label = $this->_getRenderer('Label');
+		}
+
+		return $this->_tag_label;
+	}
+
+	/**
+	 * @return Form_Renderer_Abstract_ErrorMessage|Form_Renderer_Bootstrap_ErrorMessage
+	 */
+	public function error() {
+		if(!$this->_tag_error) {
+			$this->_tag_error = $this->_getRenderer('ErrorMessage');
+		}
+
+		return $this->_tag_error;
+	}
+
+	/**
+	 * @return Form_Renderer_Abstract_Field_Abstract|Form_Renderer_Bootstrap_Field_Abstract
+	 */
+	public function field() {
+		if(!$this->_tag_field) {
+			$this->_tag_field = $this->_getRenderer('Field_'.$this->_type);
+		}
+
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return $this->_tag_field;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function render() {
+
+		try{
+
+			return
+				$this->container()
+				.$this->error()
+				.$this->label()
+				.$this->field()
+				.$this->container()->end();
+		} catch( Exception $e) {
+			var_dump($e);
+			die('ERROR');
+		}
+		return '';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->render();
 	}
 }
+
+

@@ -1,0 +1,41 @@
+<?php
+/**
+ *
+ *
+ *
+ * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @version <%VERSION%>
+ *
+ * @category Jet
+ * @package Form
+ */
+namespace Jet;
+
+class Form_Renderer_Bootstrap_ErrorMessage extends Form_Renderer_Abstract_ErrorMessage {
+
+	/**
+	 * @return string
+	 */
+	public function render()
+	{
+		if(!$this->_field->getLastErrorMessage()) {
+			return '';
+		}
+
+		$lb = $this->_field->field();
+		$fl = $this->_field->label();
+
+		$result = '<div class="form-group row has-error has-feedback">
+				<label class="col-'.$lb->getSize().'-'.$lb->getWidth().' control-label"/></label>
+				<div class="col-'.$fl->getSize().'-'.$fl->getWidth().'">
+					'.$this->_field->getLastErrorMessage().'
+				</div>
+			</div>';
+
+		return $result;
+
+	}
+
+}

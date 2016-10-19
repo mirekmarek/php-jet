@@ -41,6 +41,11 @@ class Mvc {
 	protected static $current_page;
 
 	/**
+	 * @var Mvc_Page_Content_Interface
+	 */
+	protected static $current_content;
+
+	/**
 	 * @param Mvc_Router_Abstract $current_router
 	 */
 	public static function setCurrentRouter( Mvc_Router_Abstract $current_router)
@@ -118,7 +123,6 @@ class Mvc {
 
 	/**
 	 *
-	 *
 	 * @return Mvc_Page_Interface
 	 */
 	public static function getCurrentPage()
@@ -126,20 +130,40 @@ class Mvc {
 		return static::$current_page;
 	}
 
+	/**
+	 * @param Mvc_Page_Content_Interface $current_content
+	 */
+	public static function setCurrentContent(Mvc_Page_Content_Interface $current_content)
+	{
+		static::$current_content = $current_content;
+	}
+
+	/**
+	 *
+	 */
+	public static function unsetCurrentContent()
+	{
+		static::$current_content = null;
+
+	}
+
+	/**
+	 * @return Mvc_Page_Content_Interface
+	 */
+	public static function getCurrentContent() {
+		return static::$current_content;
+	}
+
 
 	/**
 	 * @throws Mvc_Controller_Exception
 	 */
 	public static function checkCurrentContentIsDynamic() {
-		$page=static::getCurrentPage();
+		$content = Mvc::getCurrentContent();
 
-		if( $page ) {
-			$content = $page->getCurrentContent();
-
-			if($content) {
-				if(!$content->getIsDynamic()) {
-					throw new Mvc_Controller_Exception('Content '.$content->getContentKey().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
-				}
+		if($content) {
+			if(!$content->getIsDynamic()) {
+				throw new Mvc_Controller_Exception('Content '.$content->getContentKey().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
 			}
 		}
 
@@ -212,7 +236,7 @@ class Mvc {
 	}
 
 	/**
-	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireJavascriptFile( $URI )
+	 * Equivalent of Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI )
 	 *
 	 * @see Mvc_Layout::requireJavascriptFile()
 	 *
@@ -220,7 +244,7 @@ class Mvc {
 	 *
 	 */
 	public static function requireJavascriptFile( $URI ) {
-		static::getCurrentPage()->getLayout()->requireJavascriptFile( $URI );
+		Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $URI );
 	}
 
 	/**
@@ -233,11 +257,11 @@ class Mvc {
 	public static function requireSiteJavascriptFile( $file ) {
 		$path = Mvc::getCurrentSite()->getPublicPath();
 
-		static::getCurrentPage()->getLayout()->requireJavascriptFile( $path.$file );
+		Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $path.$file );
 	}
 
 	/**
-	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireInitialJavascriptCode( $code )
+	 * Equivalent of Mvc_Layout::getCurrentLayout()->requireInitialJavascriptCode( $code )
 	 *
 	 * @see Mvc_Layout::requireInitialJavascriptCode()
 	 *
@@ -245,24 +269,22 @@ class Mvc {
 	 *
 	 */
 	public static function requireInitialJavascriptCode( $code ) {
-		static::getCurrentPage()->getLayout()->requireInitialJavascriptCode( $code );
+		Mvc_Layout::getCurrentLayout()->requireInitialJavascriptCode( $code );
 	}
 
 	/**
-	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireJavascriptCode( $code )
-	 *
-	 * @see Mvc_Layout::requireJavascriptCode()
+	 * Equivalent of Mvc_Layout::getCurrentLayout()->requireJavascriptCode( $code )
 	 *
 	 * @param string $code
 	 *
 	 */
 	public static function requireJavascriptCode( $code ) {
-		static::getCurrentPage()->getLayout()->requireJavascriptCode( $code );
+		Mvc_Layout::getCurrentLayout()->requireJavascriptCode( $code );
 	}
 
 
 	/**
-	 * Equivalent of Mvc::getCurrentPage()->getLayout()->requireCssFile( $URI )
+	 * Equivalent of Mvc_Layout::getCurrentLayout()->requireCssFile( $URI )
 	 *
 	 * @see Mvc_Layout::requireCssFile()
 	 *
@@ -270,7 +292,7 @@ class Mvc {
 	 * @param string $media (optional)
 	 */
 	public static function requireCssFile( $URI, $media='' ) {
-		static::getCurrentPage()->getLayout()->requireCssFile( $URI, $media );
+		Mvc_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
 	}
 
 	/**
@@ -283,7 +305,7 @@ class Mvc {
 	public static function requireSiteCssFile( $file, $media='' ) {
 		$path = Mvc::getCurrentSite()->getPublicPath();
 
-		static::getCurrentPage()->getLayout()->requireCssFile( $path.$file, $media );
+		Mvc_Layout::getCurrentLayout()->requireCssFile( $path.$file, $media );
 	}
 
 	/**

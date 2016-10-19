@@ -15,7 +15,6 @@
  * - Handles the tags for layout parts including (tag: <jet_layout_part name="part-name"/>), @see Mvc_Layout::handleParts()
  * - Handles the tags for modules dispatching (tag: <jet_module data-module-name="ModuleName" data-action="controllerAction" data-action-params="{param:value}" />)
  *
- * NOTICE: @see Mvc_Layout_Postprocessor_Interface
  *
  *
  * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -48,6 +47,10 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 	const DEFAULT_OUTPUT_POSITION = '__main__';
 
+	/**
+	 * @var Mvc_Layout
+	 */
+	protected static $current_layout;
 
 	/**
 	 * Data of the output that will be placed into the layout
@@ -83,11 +86,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected $required_css_files = [];
 
 	/**
-	 * @var Mvc_Page_Interface
-	 */
-	protected $page;
-
-	/**
 	 * @var bool
 	 */
 	protected $JS_packager_enabled = true;
@@ -114,19 +112,33 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param string $scripts_dir
+	 * @param string $script_name
+	 * @return Mvc_Layout
 	 */
-	public function setPage( Mvc_Page_Interface $page ) {
-		$this->page = $page;
+	public static function initCurrentLayout( $scripts_dir, $script_name ) {
+		static::$current_layout = new static($scripts_dir, $script_name);
+		return static::$current_layout;
 	}
 
 	/**
-	 * @return Mvc_Page_Interface
+	 * @return Mvc_Layout
 	 */
-	public function getPage()
+	public static function getCurrentLayout()
 	{
-		return $this->page;
+		return self::$current_layout;
 	}
+
+	/**
+	 * @param Mvc_Layout $current_layout
+	 */
+	public static function setCurrentLayout( Mvc_Layout $current_layout)
+	{
+		self::$current_layout = $current_layout;
+	}
+
+
+
 
 	/**
 	 * @param bool $CSS_packager_enabled
@@ -231,6 +243,59 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
+	 *
+	 * @param Mvc_View $view
+	 * @param $script
+	 * @param string $position (optional, default:  by current dispatcher queue item, @see Mvc_Layout)
+	 * @param bool $position_required (optional, default: by current dispatcher queue item, @see Mvc_Layout)
+	 * @param int $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)
+	 * @param string|null $output_ID
+	 *
+	 * @internal param string $output
+	 */
+	public function renderView(
+		Mvc_View $view,
+		$script,
+		$position = null,
+		$position_required = null,
+		$position_order = null,
+		$output_ID = null
+	) {
+
+		$output = $view->render( $script );
+
+		if(!$position) {
+			$position = Mvc::getCurrentContent()->getOutputPosition();
+		}
+
+		if($position_required===null) {
+			$position_required = Mvc::getCurrentContent()->getOutputPositionRequired();
+		}
+
+		if($position_order===null) {
+			$position_order = Mvc::getCurrentContent()->getOutputPositionOrder();
+		}
+
+		if(!$position) {
+			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
+		}
+
+		if(!$output_ID) {
+			$output_ID = Mvc::getCurrentContent()->getContentKey();
+		}
+
+		$this->addOutputPart(
+			$output,
+			$position,
+			$position_required,
+			$position_order,
+			$output_ID
+		);
+
+	}
+
+
+	/**
 	 * Adds output to specified position
 	 *
 	 * @param string $output
@@ -238,7 +303,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param bool $position_required (optional, default:true)
 	 * @param int $position_order (optional, default:null)
 	 * @param string $output_ID (optional)
-	 * @param string $module_name (optional)
 	 *
 	 */
 	public function addOutputPart(
@@ -246,8 +310,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$position = null,
 		$position_required = true,
 		$position_order = null,
-		$output_ID = '',
-		$module_name = ''
+		$output_ID = ''
 	) {
 		if(!$position) {
 			$position = static::DEFAULT_OUTPUT_POSITION;
@@ -285,7 +348,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$position_order = $current_max_position_order + 0.001;
 		}
 
-		$o = new Mvc_Layout_OutputPart($output_ID, $output, $position, $position_required, $position_order, $module_name );
+		$o = new Mvc_Layout_OutputPart($output_ID, $output, $position, $position_required, $position_order );
 
 		$this->output_parts[] = $o;
 	}
@@ -399,7 +462,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string $media (optional)
 	 */
 	public function requireCssFile( $URI, $media='' ) {
-		//$key = $URI.':'.$media;
 
 		if( !isset($this->required_css_files[$media]) ) {
 			$this->required_css_files[$media] = [];
@@ -411,83 +473,82 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 
 	/**
+	 * @param string $result
 	 *
+	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function parseContent() {
-
-		$result = $this->_render();
+	public function parseContent( &$result ) {
 
 		$matches = [];
-
-		if( preg_match_all('/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER) ) {
-
-			foreach($matches as $match) {
-				$orig_str = $match[0];
-
-				$_properties = substr(trim($match[1]), 0, -1);
-				$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
-				$_properties = explode( '" ', $_properties );
-
-
-				$properties = [];
-
-
-				foreach( $_properties as $property ) {
-					if( !$property || strpos($property, '=')===false ) {
-						continue;
-					}
-
-					$property = explode('=', $property);
-
-					$property_name = array_shift($property);
-					$property_value = implode('=', $property);
-
-					$property_name = strtolower($property_name);
-					$property_value = str_replace('"', '', $property_value);
-
-					$properties[$property_name] = $property_value;
-
-				}
-
-
-				$module_name = $properties['module'];
-				$action = isset($properties['action']) ? $properties['action'] : '';
-				$action_params = [];
-
-				foreach($properties as $k=>$v) {
-					if( $k=='module' || $k=='action' ) {
-						continue;
-					}
-
-					$action_params[$k] = $v;
-				}
-
-				$position_name = 'module_content_'.md5($orig_str);
-
-				$this->virtual_positions[$orig_str] = $position_name;
-
-				$page_content = Mvc_Factory::getPageContentInstance();
-
-				$page_content->setModuleName( $module_name );
-				$page_content->setControllerAction( $action );
-				$page_content->setControllerActionParameters($action_params);
-				$page_content->setOutputPosition( $position_name );
-				$page_content->setOutputPositionOrder(1);
-				$page_content->setOutputPositionRequired(true);
-
-				$this->page->addContent( $page_content );
-
-			}
+		if( !preg_match_all('/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER) ) {
+			return [];
 		}
 
+		$content = [];
 
+		foreach($matches as $match) {
+			$orig_str = $match[0];
+
+			$_properties = substr(trim($match[1]), 0, -1);
+			$_properties = preg_replace('/[ ]{2,}/i', ' ', $_properties);
+			$_properties = explode( '" ', $_properties );
+
+
+			$properties = [];
+
+
+			foreach( $_properties as $property ) {
+				if( !$property || strpos($property, '=')===false ) {
+					continue;
+				}
+
+				$property = explode('=', $property);
+
+				$property_name = array_shift($property);
+				$property_value = implode('=', $property);
+
+				$property_name = strtolower($property_name);
+				$property_value = str_replace('"', '', $property_value);
+
+				$properties[$property_name] = $property_value;
+
+			}
+
+
+			$module_name = $properties['module'];
+			$action = isset($properties['action']) ? $properties['action'] : '';
+			$action_params = [];
+
+			foreach($properties as $k=>$v) {
+				if( $k=='module' || $k=='action' ) {
+					continue;
+				}
+
+				$action_params[$k] = $v;
+			}
+
+			$position_name = 'module_content_'.md5($orig_str);
+
+			$this->virtual_positions[$orig_str] = $position_name;
+
+			$page_content = Mvc_Factory::getPageContentInstance();
+
+			$page_content->setModuleName( $module_name );
+			$page_content->setControllerAction( $action );
+			$page_content->setControllerActionParameters($action_params);
+			$page_content->setOutputPosition( $position_name );
+			$page_content->setOutputPositionOrder(1);
+			$page_content->setOutputPositionRequired(true);
+
+			$content[] = $page_content;
+		}
+
+		return $content;
 	}
 
 
 	/**
 	 * Returns rendered layout according to specified .phtml file name
-	 * and also does the output postprocessing by relevant objects
-	 * (@see Mvc_Layout_Postprocessor_Interface, @see  Mvc_Layout::$data )
 	 *
 	 * @throws Mvc_Layout_Exception
 	 *
@@ -497,19 +558,18 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$result = $this->_render();
 
-
-		$this->handlePostprocessor( $result );
+		$this->handleContent( $result );
 
 		$this->handlePositions( $result );
 
 		$this->handleSitePageTags( $result );
-		$this->handleFinalPostprocessor($result);
 
 
 		$this->handleJavascripts( $result );
 		$this->handleCss( $result );
 		$this->handleConstants( $result );
 
+		$this->handlePostprocessors( $result );
 
 		$this->output_parts = [];
 
@@ -517,41 +577,18 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param string &$result
+	 * @param $result
 	 */
-	public function handlePostprocessor( &$result ) {
-		foreach( $this->_data->getRawData() as $item ) {
-			if(
-				!is_object($item) ||
-				!$item instanceof Mvc_Layout_Postprocessor_Interface
-			) {
-				continue;
-			}
+	protected function handleContent( &$result ) {
 
-			/**
-			 * @var Mvc_Layout_Postprocessor_Interface $item
-			 */
-			$item->layoutPostProcess( $result, $this, $this->output_parts );
+		$content = $this->parseContent( $result );
+
+		foreach( $content as $c ) {
+			Mvc::setCurrentContent($c);
+			$c->dispatch();
+			Mvc::unsetCurrentContent();
 		}
-	}
 
-	/**
-	 * @param string &$result
-	 */
-	public function handleFinalPostprocessor( &$result ) {
-		foreach( $this->_data->getRawData() as $item ) {
-			if(
-				!is_object($item) ||
-				!$item instanceof Mvc_Layout_Postprocessor_Interface
-			) {
-				continue;
-			}
-
-			/**
-			 * @var Mvc_Layout_Postprocessor_Interface $item
-			 */
-			$item->finalPostProcess( $result, $this );
-		}
 	}
 
 	/**
@@ -674,7 +711,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	protected function handleConstants( &$result ) {
 		$data = [];
 
-		if( ($page=$this->getPage()) ) {
+		if( ($page=Mvc::getCurrentPage()) ) {
 
 			$site = $page->getSite();
 			$locale = $page->getLocale();
@@ -703,7 +740,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$dat[static::TAG_BODY_SUFFIX] = '';
 
 		if(
-			($page = $this->getPage())
+			($page = Mvc::getCurrentPage())
 		) {
 
 			foreach($page->getMetaTags(true) as $mt) {

@@ -29,6 +29,13 @@ abstract class DataModel_Related_1toN extends BaseObject implements DataModel_Re
 
     use DataModel_Related_1toN_Trait;
 
+	/**
+	 *
+	 */
+	public function beforeSave() {
+
+	}
+
     /**
      *
      */

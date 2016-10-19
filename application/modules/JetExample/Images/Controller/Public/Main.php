@@ -60,7 +60,7 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
      * @param Mvc_Page_Content_Interface $page_content
      * @return bool
      */
-    public function parseRequestURL_Public( Mvc_Page_Content_Interface $page_content=null ) {
+    public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
         $gallery_ID = Gallery::ROOT_ID;
         $gallery = null;
 

@@ -2,12 +2,6 @@
 /**
  *
  *
- *
- * @see Mvc/readme.txt
- *
- * NOTICE: @see Mvc_View_Postprocessor_Interface
- *
- *
  * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -21,15 +15,6 @@ namespace Jet;
 
 class Mvc_View extends Mvc_View_Abstract {
 
-	/**
-	 * @var Mvc_Layout
-	 */
-	protected $layout;
-
-	/**
-	 * @var string
-	 */
-	protected $module_name = '';
 
 	/**
 	* Constructor
@@ -42,37 +27,6 @@ class Mvc_View extends Mvc_View_Abstract {
 
 		$this->_data = new Data_Array();
 	}
-
-
-	/**
-	 * @return Mvc_Layout
-	 */
-	public function getLayout() {
-		return $this->layout;
-	}
-
-	/**
-	 * @param Mvc_Layout Mvc_Layout $layout
-	 */
-	public function setLayout($layout) {
-		$this->layout = $layout;
-	}
-
-	/**
-	 * @param string $module_name
-	 */
-	public function setModuleName($module_name) {
-		$this->module_name = $module_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModuleName() {
-		return $this->module_name;
-	}
-
-
 
 
 	/**
@@ -103,47 +57,9 @@ class Mvc_View extends Mvc_View_Abstract {
 
 		$result = ob_get_clean();
 
-		$this->handlePostProcessors($result);
-
-		$this->handleConstants($result);
-
+		$this->handlePostprocessors($result);
 
 		return $result;
 	}
 
-	/**
-	 * @param string &$result
-	 */
-	protected function handlePostProcessors(&$result) {
-		foreach( $this->_data->getRawData() as $item ) {
-
-			if(
-				is_object($item) &&
-				($item instanceof Mvc_View_Postprocessor_Interface)
-			) {
-				/**
-				 * @var Mvc_View_Postprocessor_Interface $item
-				 */
-				$item->viewPostProcess( $result, $this );
-			}
-		}
-
-	}
-
-	/**
-	 * @param string &$result
-	 */
-	protected function handleConstants(&$result) {
-
-		$data = [];
-
-		if($this->module_name) {
-			$module_manifest = Application_Modules::getModuleManifest($this->module_name);
-
-			$module_name = $module_manifest ? $module_manifest->getName() : $this->module_name;
-
-			$data['JET_CURRENT_MODULE_NAME'] = $module_name;
-		}
-		$result = Data_Text::replaceData($result, $data );
-	}
 }

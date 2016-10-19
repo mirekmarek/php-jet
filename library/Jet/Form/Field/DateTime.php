@@ -82,23 +82,4 @@ class Form_Field_DateTime extends Form_Field_Input {
 		return $codes;
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 */
-	protected function _getReplacement_field_prepareParams( Form_Parser_TagData $tag_data )
-	{
-		parent::_getReplacement_field_prepareParams($tag_data);
-
-		$value = '';
-		if($this->_value) {
-			$date = new \DateTime( $this->_value );
-
-			if($date) {
-				$value = $date->format('Y-m-d\TH:i');
-			}
-		}
-
-		$tag_data->setProperty( 'value', $value );
-
-	}
 }

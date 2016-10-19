@@ -12,7 +12,7 @@
  */
 namespace Jet;
 
-class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
+class Form extends BaseObject {
 
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
@@ -52,7 +52,7 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	const TYPE_TEXTAREA = 'Textarea';
 	const TYPE_WYSIWYG = 'WYSIWYG';
 
-	const TYPE_REGISTRATION_USER_NAME = 'RegistrationUserName';
+	const TYPE_REGISTRATION_USER_NAME = 'RegistrationUsername';
 	const TYPE_REGISTRATION_EMAIL = 'RegistrationEmail';
 	const TYPE_REGISTRATION_PASSWORD = 'RegistrationPassword';
 	const TYPE_PASSWORD = 'Password';
@@ -60,36 +60,7 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	const TYPE_FILE = 'File';
 	const TYPE_FILE_IMAGE = 'FileImage';
 
-
 	const FORM_SENT_KEY = '_jet_form_sent_';
-	const FORM_TAG = 'jet_form';
-	const FORM_COMMON_ERROR_MESSAGE_TAG = 'common_error_message';
-
-	const COMMON_ERROR_MESSAGE_KEY = '__common_message__';
-
-	/**
-	 * @var array
-	 */
-	public static $HTML_templates = [
-		'table' => [
-			'form_start' => '<table>',
-			'form_end' => '</table>',
-			'form_common_error_message_class' => 'form-error',
-			'form_submit_button' => '\t<tr>\n\t\t<td colspan="2" align="center">\n\t\t\t<input type="submit" class="btn btn-primary"/>\n\t\t</td>\n\t</tr>',
-			'field' => '\t<tr>\n\t\t<td valign="top">%LABEL%</td>\n\t\t<td>\n\t\t\t%FIELD%\n\t\t</td>\n\t</tr>',
-			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
-			'field_required' => '<em class="form-required">*</em> %LABEL%',
-		],
-		'div' => [
-			'form_start' => '\t<fieldset>',
-			'form_end' => '\t</fieldset>',
-			'form_common_error_message_class' => 'form-error',
-			'form_submit_button' => '\t<input type="submit" class="btn btn-primary"/>',
-			'field' => '\t\t<div class="form-group">\n\t\t\t%LABEL%\n\t\t\t%FIELD%\n\t\t</div>',
-			'field_error_msg' => '<div class="form-error">%ERROR_MSG%</div>',
-			'field_required' => '<em class="form-required">*</em> %LABEL%',
-		]
-	];
 
 	/**
 	 * Form name
@@ -98,19 +69,6 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	protected $name = '';
 
 	/**
-	 * @var string
-	 */
-	protected $container_ID = null;
-
-	/**
-	 * container_ID_prefix = container_ID ? container_ID.'_' : ''
-	 *
-	 * @var string
-	 */
-	protected $container_ID_prefix = null;
-
-	/**
-	 * Form ID (container_ID_prefix.name)
 	 * @var string $name
 	 */
 	protected $ID = '';
@@ -143,15 +101,14 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
     protected $accept_charset = '';
 
     /**
-     * @var bool|null
+     * @var bool
      */
-    protected $novalidate;
+    protected $novalidate = false;
 
     /**
-     * @var bool|null
+     * @var bool
      */
-    protected $autocomplete;
-
+    protected $autocomplete = true;
 
 	/**
 	 * Form fields
@@ -166,28 +123,17 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	protected $is_valid = false;
 
 	/**
-	 * @var Mvc_Layout
-	 */
-	protected $__layout;
-
-	/**
 	 * @var Data_Array
 	 */
 	protected $raw_data;
 
-	/**
-	 * One of $HTML_templates
-	 *
-	 * @var string
-	 */
-	protected $selected_HTML_template_name = 'table';
 
 	/**
 	 * Common error message (without field context)
 	 *
 	 * @var string
 	 */
-	protected $common_error_message = '';
+	protected $common_message = '';
 
 	/**
 	 * @var bool
@@ -208,6 +154,32 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	 * @var bool
 	 */
 	protected $is_readonly = false;
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_class_name = __NAMESPACE__.'\Form_Renderer_Bootstrap';
+
+	/**
+	 * @var int
+	 */
+	protected $default_label_width = 4;
+
+	/**
+	 * @var int
+	 */
+	protected $default_field_width = 8;
+
+	/**
+	 * @var string
+	 */
+	protected $default_size = 'md';
+
+	/**
+	 * @var Form_Renderer_Abstract_Form|Form_Renderer_Bootstrap_Form
+	 */
+	protected $_tag;
+
 	
 	/**
 	 * constructor
@@ -339,7 +311,7 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
     }
 
     /**
-     * @param bool|null $autocomplete
+     * @param bool $autocomplete
      */
     public function setAutocomplete($autocomplete)
     {
@@ -347,14 +319,12 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
     public function getAutocomplete()
     {
         return $this->autocomplete;
     }
-
-
 
 	/**
 	 * Get form name
@@ -372,6 +342,54 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	 */
 	public function getID() {
 		return $this->name;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDefaultLabelWidth()
+	{
+		return $this->default_label_width;
+	}
+
+	/**
+	 * @param int $default_label_width
+	 */
+	public function setDefaultLabelWidth($default_label_width)
+	{
+		$this->default_label_width = $default_label_width;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDefaultFieldWidth()
+	{
+		return $this->default_field_width;
+	}
+
+	/**
+	 * @param int $default_field_width
+	 */
+	public function setDefaultFieldWidth($default_field_width)
+	{
+		$this->default_field_width = $default_field_width;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultSize()
+	{
+		return $this->default_size;
+	}
+
+	/**
+	 * @param string $default_size
+	 */
+	public function setDefaultSize($default_size)
+	{
+		$this->default_size = $default_size;
 	}
 
 
@@ -441,6 +459,18 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 		return $this->fields[$name];
 	}
 
+	/**
+	 *
+	 * @alias getField
+	 *
+	 * @param string $name
+	 *
+	 * @throws Form_Exception
+	 * @return Form_Field_Abstract
+	 */
+	public function field($name) {
+		return $this->getField($name);
+	}
 
     /**
      * @param string $field_name
@@ -464,14 +494,14 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	 * @param $name
 	 * @return bool
 	 */
-	public function getFieldExists( $name ) {
+	public function fieldExists($name ) {
 		return isset($this->fields[$name]);
 	}
 
 	/**
 	 * @throws Form_Exception
 	 */
-	public function checkFieldsHasErrorMessages() {
+	protected function checkFieldsHasErrorMessages() {
 		foreach( $this->fields as $field ) {
 			$required_error_codes = $field->getRequiredErrorCodes();
 
@@ -525,13 +555,6 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	}
 
 	/**
-	 * @return Data_Array
-	 */
-	public function getRawData() {
-		return $this->raw_data;
-	}
-	
-	/**
 	 * validate form values
 	 *
 	 * @return bool
@@ -539,7 +562,7 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	public function validateValues() {
 		$this->checkFieldsHasErrorMessages();
 
-		$this->common_error_message = '';
+		$this->common_message = '';
 		$this->is_valid = true;
 		foreach($this->fields as $field) {
 
@@ -585,8 +608,8 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	/**
 	 * @param $message
 	 */
-	public function setCommonErrorMessage( $message ) {
-		$this->common_error_message = $message;
+	public function setCommonMessage($message ) {
+		$this->common_message = $message;
 		$this->is_valid = false;
 	}
 
@@ -594,8 +617,8 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	 *
 	 * @return string
 	 */
-	public function getCommonErrorMessage() {
-		return $this->common_error_message;
+	public function getCommonMessage() {
+		return $this->common_message;
 	}
 
 
@@ -608,10 +631,6 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 	public function getAllErrors() {
 		$result = [];
 
-		if($this->common_error_message) {
-			$result[self::COMMON_ERROR_MESSAGE_KEY] = $this->common_error_message;
-		}
-		
 		foreach($this->fields as $key=>$field) {
 			$last_error = $field->getLastErrorMessage();
 			
@@ -623,6 +642,13 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 		return $result;
 	}
 
+
+	/**
+	 * @return Data_Array
+	 */
+	public function getRawData() {
+		return $this->raw_data;
+	}
 
 	/**
 	 * returns field values if form is valid otherwise false
@@ -675,294 +701,6 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 
         return true;
     }
-
-
-	/**
-	 * replace <jet_form_* magic tags by real HTML in given output of view
-	 *
-	 * @param string &$result
-	 * @param Mvc_View $view
-	 *
-	 * @throws Form_Exception
-	 * @internal param string $output
-	 *
-	 */
-	public function viewPostProcess( &$result, Mvc_View $view) {
-		$this->checkFieldsHasErrorMessages();
-
-		$this->__layout = $view->getLayout();
-
-		$form_output_part = strstr( $result, '<'.static::FORM_TAG.' name="'.$this->name.'"' );
-		
-		if(!$form_output_part) {
-			return;
-		}
-
-		Mvc::checkCurrentContentIsDynamic();
-		
-		$form_output_part_pos = strpos($form_output_part, '</'.static::FORM_TAG.'>' );
-		
-		if(!$form_output_part_pos) {
-			throw new Form_Exception(
-					'Parse error: '.static::FORM_TAG.' end tag missing...',
-					Form_Exception::CODE_VIEW_PARSE_ERROR
-				);
-		}
-
-		$form_output_part = substr($form_output_part, 0, $form_output_part_pos + strlen('</'.static::FORM_TAG.'>'));
-
-		$form_output_part_replacement = $form_output_part;
-
-		$tags = $this->_parseTags($form_output_part_replacement);
-
-		foreach( $tags as $tag_data ) {
-			/**
-			 * @var Form_Parser_TagData $tag_data
-			 */
-			$replacement = '';
-
-			switch( $tag_data->getTag() ) {
-				case self::FORM_COMMON_ERROR_MESSAGE_TAG:
-					$replacement = $this->_getReplacement_common_error_message($tag_data);
-				break;
-				case 'form':
-					if($tag_data->getPropertyIsSet('id')) {
-						throw new Form_Exception(
-							'Parse error: Form \''.$this->name.'\' has set ID property! Please do not set ID property yourself. It will be done by parser with regard to container_ID. ',
-							Form_Exception::CODE_VIEW_PARSE_ERROR
-						);
-					}
-
-					$replacement = $this->_getReplacement_form($tag_data);
-				break;
-				default:
-					if(isset($this->fields[$tag_data->getName()])) {
-						$field = $this->fields[$tag_data->getName()];
-
-						$replacement = $field->getReplacement( $tag_data );
-					}
-				break;
-			}
-
-			$form_output_part_replacement = str_replace($tag_data->getOriginalString(), $replacement, $form_output_part_replacement);
-
-		}
-
-		$form_output_part_replacement = str_replace('</'.static::FORM_TAG.'>', '</form>', $form_output_part_replacement);
-
-
-		$result = str_replace(
-					$form_output_part,
-					$form_output_part_replacement,
-					$result
-				);
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 * @return string
-	 *
-	 */
-	protected function _getReplacement_form( Form_Parser_TagData $tag_data ) {
-		$tag_data->setProperty('id', $this->getID() );
-		$tag_data->setProperty('name', $this->name );
-		$tag_data->setProperty('method', ($this->method==static::METHOD_GET) ? static::METHOD_GET : static::METHOD_POST );
-
-        if( ($enctype=$this->getEnctype()) ) {
-            $tag_data->setProperty('enctype', $enctype );
-        }
-
-        if( ($action=$this->getAction()) ) {
-            $tag_data->setProperty('action', $action );
-        }
-
-        if( ($target=$this->getTarget()) ) {
-            $tag_data->setProperty('target', $target );
-        }
-
-        if( ($accept_charset=$this->getAcceptCharset()) ) {
-            $tag_data->setProperty('accept-charset', $accept_charset );
-        }
-
-        if( ($this->getNovalidate()) ) {
-            $tag_data->setProperty('novalidate', 'novalidate' );
-        }
-
-        if( ( $autocomplete= $this->getAutocomplete())!==null ) {
-            $tag_data->setProperty('autocomplete', $autocomplete ? 'on' : 'off' );
-        }
-
-		$replacement = '<form ';
-		foreach($tag_data->getProperties() as $property=>$val) {
-			$replacement .= ' '.$property.'="'.Data_Text::htmlSpecialChars($val).'"';
-		}
-
-		$replacement .= '>'.JET_EOL;
-
-		if(!$this->getIsReadonly()) {
-			$replacement .= '<input type="hidden" name="'.self::FORM_SENT_KEY.'" value="'.Data_Text::htmlSpecialChars($this->name).'" />'.JET_EOL;
-		}
-
-		return $replacement;
-	}
-
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 * @return string
-	 */
-	protected function _getReplacement_common_error_message( Form_Parser_TagData $tag_data ) {
-		$replacement = '';
-
-		if($this->common_error_message) {
-
-			$replacement = '<div ';
-			foreach($tag_data->getProperties() as $property=>$val) {
-				$replacement .= ' '.$property.'="'.Data_Text::htmlSpecialChars($val).'"';
-			}
-			$replacement .= '>'.Data_Text::htmlSpecialChars($this->common_error_message).'</div>'.JET_EOL;
-		}
-
-		return $replacement;
-	}
-	
-	
-	/**
-	 * parse jet_form* tags data from given string
-	 * 
-	 * @param string $form_output_part
-	 * 
-	 * @return Form_Parser_TagData[]
-	 */
-	protected function _parseTags( $form_output_part) {
-		
-		$result = [];
-		
-		$matches = [];
-		if(preg_match_all('/<'.static::FORM_TAG.'([a-zA-Z_]*) ([^>]*)>/i', $form_output_part, $matches, PREG_SET_ORDER)) {
-
-			foreach($matches as $match) {
-				$result[] = new Form_Parser_TagData( $match );
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param string $template
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML( $template='div' ) {
-
-		$this->selected_HTML_template_name = $template;
-
-		$result = '<'.static::FORM_TAG.' name="'.$this->name.'">'.JET_EOL;
-		$result .= '<'.static::FORM_TAG.'_'.static::FORM_COMMON_ERROR_MESSAGE_TAG.' class="'.$this->getTemplate_form_common_error_message_class().'"/>'.JET_EOL;
-		$result .= $this->getTemplate_form_start();
-
-		foreach($this->fields as $field) {
-			$result .= $field->helper_getBasicHTML();
-		}
-
-		$result .= $this->getTemplate_form_end();
-
-		$result .= '</'.static::FORM_TAG.'>';
-
-		$result = str_replace('\n', JET_EOL, $result);
-		$result = str_replace('\t', JET_TAB, $result);
-
-		return $result;
-	}
-
-	/**
-	 * @param string $template
-	 */
-	public function helper_showBasicHTML( $template='div' ) {
-		Http_Headers::responseOK( [
-			     'Content-type' => 'text/plain'
-		]);
-
-		echo $this->helper_getBasicHTML( $template );
-		Application::end();
-	}
-
-	/**
-	 * @return Mvc_Layout
-	 */
-	public function getLayout() {
-		return $this->__layout;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSelectedHTMLTemplateName() {
-		return $this->selected_HTML_template_name;
-	}
-
-	/**
-	 * @param string $HTML_template
-	 */
-	public function setSelectedHTMLTemplateName($HTML_template) {
-		$this->selected_HTML_template_name = $HTML_template;
-	}
-
-	/**
-	 * @param string $result
-	 * @return string
-	 */
-	protected function getTemplate_setNlAndTab( $result ) {
-		$result = str_replace('\n', JET_EOL, $result);
-		$result = str_replace('\t', JET_TAB, $result);
-
-		return $result;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTemplate_form_start() {
-		return $this->getTemplate_setNlAndTab( static::$HTML_templates[$this->selected_HTML_template_name]['form_start'].JET_EOL );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTemplate_form_end() {
-		return $this->getTemplate_setNlAndTab( static::$HTML_templates[$this->selected_HTML_template_name]['form_submit_button'].JET_EOL
-			.static::$HTML_templates[$this->selected_HTML_template_name]['form_end'].JET_EOL );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTemplate_form_common_error_message_class() {
-		return $this->getTemplate_setNlAndTab( static::$HTML_templates[$this->selected_HTML_template_name]['form_common_error_message_class'] );
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function getTemplate_field() {
-		return $this->getTemplate_setNlAndTab( static::$HTML_templates[$this->selected_HTML_template_name]['field'].JET_EOL );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTemplate_field_error_msg() {
-		return $this->getTemplate_setNlAndTab( static::$HTML_templates[$this->selected_HTML_template_name]['field_error_msg'].JET_EOL );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTemplate_field_required() {
-		return $this->getTemplate_setNlAndTab( static::$HTML_templates[$this->selected_HTML_template_name]['field_required'].JET_EOL );
-	}
 
 
 	/**
@@ -1035,6 +773,55 @@ class Form extends BaseObject implements Mvc_View_Postprocessor_Interface{
 		foreach($this->fields as $field) {
 			$field->setForm($this);
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererClassName()
+	{
+		//TODO: bude tam staticka vlastnost jako vychozi
+		return $this->renderer_class_name;
+	}
+
+	/**
+	 * @param string $renderer_class_name
+	 */
+	public function setRendererClassName($renderer_class_name)
+	{
+		$this->renderer_class_name = $renderer_class_name;
+	}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	/**
+	 * @return Form_Renderer_Abstract_Form|Form_Renderer_Bootstrap_Form
+	 */
+	public function start() {
+		if(!$this->_tag) {
+			$this->checkFieldsHasErrorMessages();
+
+			$class_name = $this->getRendererClassName().'_Form';
+			$this->_tag = new $class_name($this);
+		}
+
+		return $this->_tag;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function end() {
+		return $this->_tag->end();
+	}
+
+	/**
+	 *
+	 * @return Form_Renderer_Abstract_Form_Message|Form_Renderer_Bootstrap_Form_Message
+	 */
+	public function message() {
+		$class_name = $this->renderer_class_name.'_Form_Message';
+		return new $class_name($this);
 	}
 
 }

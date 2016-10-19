@@ -215,17 +215,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:form_field_is_required = false
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Layout initializer module'
-	 *
-	 * @var string
-	 */
-	protected $layout_initializer_module_name = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 65535
 	 * @JetDataModel:form_field_label = 'Headers suffix'
 	 *
@@ -313,21 +302,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 * @var string
 	 */
 	protected $layouts_list = [];
-	/**
-	 *
-	 * @var Mvc_Layout
-	 */
-	protected $layout;
 
 	/**
 	 * @var string
 	 */
 	protected $output;
-
-	/**
-	 * @var Mvc_Page_Content_Interface
-	 */
-	protected $_current_content;
 
 	/**
 	 * @var bool
@@ -510,6 +489,40 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	public function setIsAdminUI($is_admin_UI) {
 		$this->is_admin_UI = (bool)$is_admin_UI;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsNonpublic() {
+		return $this->authentication_required;
+	}
+
+	/**
+	 * @param bool $is_non_public
+	 */
+	public function setIsNonpublic($is_non_public) {
+		$this->authentication_required = (bool)$is_non_public;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getAccessAllowed() {
+		if(
+			!$this->getIsNonpublic() &&
+			!$this->getIsAdminUI()
+		) {
+			return true;
+		}
+
+		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getPageKey() ) ) {
+			return true;
+		}
+
+		return false;
+
+	}
+
 
 	/**
 	 * @return Mvc_Site_Interface
@@ -873,77 +886,19 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	}
 
 	/**
-	 * @param string $layout_initializer_module_name
-	 */
-	public function setLayoutInitializerModuleName($layout_initializer_module_name)
-	{
-		$this->layout_initializer_module_name = $layout_initializer_module_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLayoutInitializerModuleName()
-	{
-		return $this->layout_initializer_module_name;
-	}
-
-
-	/**
 	 * @throws Exception
 	 *
-	 * @return Mvc_Layout
 	 */
 	public function initializeLayout() {
-		if($this->layout) {
-			return $this->layout;
+		if(Mvc_Layout::getCurrentLayout()) {
+			return;
 		}
 
-		$layout_script = $this->getLayoutScriptName();
-
-		$this->layout = new Mvc_Layout( $this->getLayoutsPath(), $layout_script );
-		$this->layout->setPage($this);
-
-		if($this->getLayoutInitializerModuleName()) {
-			/**
-			 * @var Mvc_Layout_Initializer_Interface $initializer
-			 */
-			$initializer = Application_Modules::getModuleInstance( $this->getLayoutInitializerModuleName() );
-
-			if( !($initializer instanceof Mvc_Layout_Initializer_Interface) ) {
-				throw new Exception('Layout initializer (module:'.$this->getLayoutInitializerModuleName() .') must implement '.__NAMESPACE__.'\Mvc_Layout_Initializer_Interface  ');
-			}
-
-			if( $initializer ) {
-				$initializer->initializeLayout( $this->layout );
-			}
-		}
-
-		$this->layout->parseContent();
-
-
-		return $this->layout;
+		Mvc_Layout::initCurrentLayout(
+			$this->getLayoutsPath(),
+			$this->getLayoutScriptName()
+		);
 	}
-
-
-	/**
-	 *
-	 * @return Mvc_Layout
-	 */
-	public function getLayout() {
-		return $this->layout;
-	}
-
-	/**
-	 * @param Mvc_Layout $layout
-	 */
-	public function setLayout( Mvc_Layout $layout) {
-		$layout->setPage($this);
-		$this->layout = $layout;
-	}
-
-
-
 
 	/**
 	 * @param bool $get_default
@@ -1004,36 +959,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	public function setBodySuffix( $body_suffix ) {
 		$this->body_suffix = $body_suffix;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getAuthenticationRequired() {
-		return $this->authentication_required;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getAccessAllowed() {
-		if(!$this->getAuthenticationRequired()) {
-			return true;
-		}
-
-		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getPageKey() ) ) {
-			return true;
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * @param bool $authentication_required
-	 */
-	public function setAuthenticationRequired($authentication_required) {
-		$this->authentication_required = (bool)$authentication_required;
 	}
 
 	/**
@@ -1696,59 +1621,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		}
 	}
 
-	/**
-	 *
-	 * @param Mvc_View $view
-	 * @param $script
-	 * @param string $position (optional, default:  by current dispatcher queue item, @see Mvc_Layout)
-	 * @param bool $position_required (optional, default: by current dispatcher queue item, @see Mvc_Layout)
-	 * @param int $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)
-	 *
-	 * @internal param string $output
-	 */
-	public function renderView(
-		Mvc_View $view,
-		$script,
-		$position = null,
-		$position_required = null,
-		$position_order = null
-	) {
-
-		$layout = $this->getLayout();
-		$view->setLayout($layout);
-		$output = $view->render( $script );
-
-		$current_page_content = $this->_current_content;
-		$output_ID = $current_page_content->getContentKey();
-
-		$module_name = $current_page_content->getModuleName();
-
-		if(!$position) {
-			$position = $current_page_content->getOutputPosition();
-		}
-
-		if($position_required===null) {
-			$position_required = $current_page_content->getOutputPositionRequired();
-		}
-
-		if($position_order===null) {
-			$position_order = $current_page_content->getOutputPositionOrder();
-		}
-
-		if(!$position) {
-			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
-		}
-
-		$layout->addOutputPart(
-			$output,
-			$position,
-			$position_required,
-			$position_order,
-			$output_ID,
-			$module_name
-		);
-
-	}
 
 
 	/**
@@ -1830,15 +1702,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 
 
 	/**
-	 * @return Mvc_Page_Content_Interface
-	 */
-	public function getCurrentContent()
-	{
-		return $this->_current_content;
-	}
-
-
-	/**
 	 * @return string
 	 */
 	public function render() {
@@ -1861,11 +1724,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		Translator::setCurrentNamespace( $translator_namespace );
 
 		foreach( $this->getContents() as $content ) {
-			$this->_current_content = $content;
+			Mvc::setCurrentContent($content);
 
 			$content->dispatch();
 
-			$this->_current_content = null;
+			Mvc::unsetCurrentContent();
 
 			if(!$this->getIsDynamic() && $content->getIsDynamic()) {
 				$this->setIsDynamic(true);
@@ -1874,7 +1737,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 
 		Translator::setCurrentNamespace( $translator_namespace );
 
-		$output = $this->getLayout()->render();
+		$output = Mvc_Layout::getCurrentLayout()->render();
 
 		if(!$this->getIsDynamic()) {
 			$this->output = $output;

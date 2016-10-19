@@ -148,11 +148,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		return true;
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
 	protected function _getReplacement_field_label( Form_Parser_TagData $tag_data ) {
 		if($this->getIsReadonly()) {
 			return '';
@@ -161,11 +156,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		return parent::_getReplacement_field_label( $tag_data );
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
 	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
 
 		if($this->getIsReadonly()) {
@@ -181,11 +171,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
 	protected function _getReplacement_field_check_label( Form_Parser_TagData $tag_data ) {
 		if($this->getIsReadonly()) {
 			return '';
@@ -197,7 +182,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 			$this->is_required &&
 			$label
 		) {
-			$label = Data_Text::replaceData($this->__form->getTemplate_field_required(), ['LABEL'=>$label]);
+			$label = Data_Text::replaceData($this->_form->getTemplate_field_required(), ['LABEL'=>$label]);
 		}
 
 		$tag_data->setProperty('for', $this->getID().'_check' );
@@ -206,11 +191,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
 	}
 
-	/**
-	 * @param Form_Parser_TagData $tag_data
-	 *
-	 * @return string
-	 */
 	protected function _getReplacement_field_check( Form_Parser_TagData $tag_data ) {
 		if($this->getIsReadonly()) {
 			return '';
@@ -222,32 +202,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		$tag_data->setProperty( 'value', '' );
 
 		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-	}
-
-	/**
-	 * @param string|null $template
-	 *
-	 * @return string
-	 */
-	public function helper_getBasicHTML($template=null) {
-		if(!$template) {
-			$template = $this->__form->getTemplate_field();
-		}
-
-		$result = Data_Text::replaceData($template, [
-			'LABEL' => '<jet_form_field_label name="'.$this->_name.'"/>',
-			'FIELD' => '<jet_form_field_error_msg name="'.$this->_name.'"/>'
-					  .'<jet_form_field name="'.$this->_name.'" class="form-control"/>'
-		]);
-
-		$result .= Data_Text::replaceData($template, [
-			'LABEL' => '<jet_form_field_check_label name="'.$this->_name.'"/>',
-			'FIELD' => '<jet_form_field_check name="'.$this->_name.'" class="form-control"/>'
-		]);
-
-
-		return $result;
-
 	}
 
 
@@ -271,4 +225,9 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		return $codes;
 	}
 
+	public function __toString()
+	{
+		//TODO:
+		return '';
+	}
 }
