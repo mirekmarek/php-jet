@@ -46,6 +46,16 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 */
 	protected $custom_size;
 
+    /**
+     * @var string
+     */
+    protected $label = '';
+
+    /**
+     * @var string
+     */
+    protected $for;
+
 	/**
 	 *
 	 * @param Form_Field_Abstract $form_field
@@ -53,7 +63,42 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	public function __construct(Form_Field_Abstract $form_field)
 	{
 		$this->_field = $form_field;
+        $this->label = $form_field->getLabel();
+        $this->for = $form_field->getID();
 	}
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFor()
+    {
+        return $this->for;
+    }
+
+    /**
+     * @param string $for
+     */
+    public function setFor($for)
+    {
+        $this->for = $for;
+    }
+
 
 	/**
 	 * @param int $width
@@ -116,9 +161,10 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 
 
 		$tag_options = [
+		    'for' => $this->for
 		];
 
-		$label = $this->_field->getLabel();
+		$label = $this->label;
 
 		if($this->_field->getIsRequired()) {
 			$label = '<em class="form-required">*</em> '.$label;

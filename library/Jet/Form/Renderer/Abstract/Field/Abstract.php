@@ -56,6 +56,16 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	 */
 	protected $custom_size;
 
+    /**
+     * @var string
+     */
+    protected $tag_id;
+
+    /**
+     * @var string
+     */
+    protected $tag_name_value;
+
 	/**
 	 *
 	 * @param Form_Field_Abstract $form_field
@@ -63,7 +73,41 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	public function __construct(Form_Field_Abstract $form_field)
 	{
 		$this->_field = $form_field;
+        $this->tag_name_value = $this->_field->getTagNameValue();
+        $this->tag_id = $this->_field->getID();
 	}
+
+    /**
+     * @return string
+     */
+    public function getTagId()
+    {
+        return $this->tag_id;
+    }
+
+    /**
+     * @param string $tag_id
+     */
+    public function setTagId($tag_id)
+    {
+        $this->tag_id = $tag_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTagNameValue()
+    {
+        return $this->tag_name_value;
+    }
+
+    /**
+     * @param string $tag_name_value
+     */
+    public function setTagNameValue($tag_name_value)
+    {
+        $this->tag_name_value = $tag_name_value;
+    }
 
 	/**
 	 * @param int $width
@@ -120,10 +164,10 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	 */
 	public function render() {
 		$tag_options = [
-			'id' => $this->_field->getID(),
-			'name' => $this->_field->getTagNameValue(),
+            'type' => $this->_input_type,
+			'id' => $this->tag_id,
+			'name' => $this->tag_name_value,
 			'value' => $this->_field->getValue(),
-			'type' => $this->_input_type
 		];
 
 		if(($placeholder=$this->_field->getPlaceholder())) {

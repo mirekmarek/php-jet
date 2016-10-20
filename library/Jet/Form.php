@@ -158,7 +158,7 @@ class Form extends BaseObject {
 	/**
 	 * @var string
 	 */
-	protected $renderer_class_name = __NAMESPACE__.'\Form_Renderer_Bootstrap';
+	protected $renderer_class_name;
 
 	/**
 	 * @var int
@@ -180,6 +180,10 @@ class Form extends BaseObject {
 	 */
 	protected $_tag;
 
+    /**
+     * @var string
+     */
+    protected static $default_renderer_class_name = __NAMESPACE__.'\Form_Renderer_Bootstrap';
 	
 	/**
 	 * constructor
@@ -193,6 +197,22 @@ class Form extends BaseObject {
 		$this->method = $method;
 		$this->setFields($fields);
 	}
+
+    /**
+     * @return string
+     */
+    public static function getDefaultRendererClassName()
+    {
+        return self::$default_renderer_class_name;
+    }
+
+    /**
+     * @param string $default_renderer_class_name
+     */
+    public static function setDefaultRendererClassName($default_renderer_class_name)
+    {
+        self::$default_renderer_class_name = $default_renderer_class_name;
+    }
 
 	/**
 	 *
@@ -780,7 +800,10 @@ class Form extends BaseObject {
 	 */
 	public function getRendererClassName()
 	{
-		//TODO: bude tam staticka vlastnost jako vychozi
+	    if(!$this->renderer_class_name) {
+	        $this->renderer_class_name = static::getDefaultRendererClassName();
+        }
+
 		return $this->renderer_class_name;
 	}
 

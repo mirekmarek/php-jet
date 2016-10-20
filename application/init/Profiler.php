@@ -5,6 +5,7 @@ if(!JET_DEBUG_PROFILER_ENABLED) {
 	return;
 }
 
+/** @noinspection PhpIncludeInspection */
 require JET_LIBRARY_PATH . 'Jet/Debug/Profiler.php';
 
 if(

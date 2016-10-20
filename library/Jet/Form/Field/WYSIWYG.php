@@ -45,7 +45,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		'//cdn.tinymce.com/4/tinymce.min.js'
 	];
 
-	/**
+    /**
 	 * @var array
 	 */
 	protected static $default_editor_config = [

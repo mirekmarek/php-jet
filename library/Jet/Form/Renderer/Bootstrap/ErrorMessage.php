@@ -24,8 +24,8 @@ class Form_Renderer_Bootstrap_ErrorMessage extends Form_Renderer_Abstract_ErrorM
 			return '';
 		}
 
-		$lb = $this->_field->field();
-		$fl = $this->_field->label();
+		$fl = $this->_field->field();
+		$lb = $this->_field->label();
 
 		$result = '<div class="form-group row has-error has-feedback">
 				<label class="col-'.$lb->getSize().'-'.$lb->getWidth().' control-label"/></label>

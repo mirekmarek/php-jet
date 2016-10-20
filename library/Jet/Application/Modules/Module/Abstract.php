@@ -36,11 +36,6 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	protected $module_manifest;
 
 	/**
-	 * @var Config[]
-	 */
-	protected $config = [];
-
-	/**
 	 * action => Human readable action description
 	 *
 	 * Example:
@@ -274,30 +269,6 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 				Auth_Role::PRIVILEGE_MODULE_ACTION,
 				$module_name.':'.$action
 			);
-	}
-
-
-	/**
-	 * Gets module config
-	 *
-	 *
-	 * @param string $config_name (optional, default: main)
-	 *
-	 * @return Config
-	 */
-	public function getConfig( $config_name = 'main' ){
-//TODO: odstranit
-		if(!isset($this->config[$config_name]) ) {
-
-			$class_name = get_called_class();
-
-			$class_name = substr($class_name, 0, strrpos($class_name, '\\')).'\Config';
-
-			$this->config[$config_name] = new $class_name( $this->getModuleManifest()->getModuleDir().'config/'.$config_name.'.php' );
-
-		}
-
-		return $this->config[$config_name];
 	}
 
 	/**

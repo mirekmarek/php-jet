@@ -20,7 +20,6 @@ return [
 	'contents' => [
 			[
 				'module_name' => 'JetExample.Images',
-                'URL_parser_method_name' => 'parseRequestURL_Public',
 				'controller_action' => 'default',
 				'output_position' => '',
 				'output_position_required' => true,

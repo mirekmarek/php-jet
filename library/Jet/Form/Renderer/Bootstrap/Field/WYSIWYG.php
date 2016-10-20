@@ -39,8 +39,8 @@ class Form_Renderer_Bootstrap_Field_WYSIWYG extends Form_Renderer_Bootstrap_Fiel
 		$value = $this->_field->getValue();
 
 		$tag_options = [
-			'name' => $this->_field->getTagNameValue(),
-			'id' => $this->_field->getID()
+            'name' => $this->getTagNameValue(),
+            'id' => $this->getTagId(),
 		];
 
 		if($this->_field->getIsReadonly()) {

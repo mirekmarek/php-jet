@@ -12,6 +12,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/SQLQueryData.php';
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block/Message.php';
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block.php';

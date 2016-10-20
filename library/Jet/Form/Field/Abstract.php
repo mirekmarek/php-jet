@@ -814,7 +814,6 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 			var_dump($e);
 			die('ERROR');
 		}
-		return '';
 	}
 
 	/**

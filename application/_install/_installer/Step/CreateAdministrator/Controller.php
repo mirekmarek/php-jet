@@ -24,7 +24,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		/**
 		 * @var Auth_User $user
 		 */
-		$user = Auth_Factory::getUserInstance();
+		$user = new Auth_User();
 
 		$form = $user->getSimpleForm();
 		$user->setLocale( $this->installer->getCurrentLocale() );

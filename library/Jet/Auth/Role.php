@@ -230,7 +230,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 */
 	public function setPrivilege( $privilege, array $values ) {
 		if(!isset($this->privileges[$privilege])) {
-			$this->privileges[$privilege] = Auth_Factory::getPrivilegeInstance( $privilege, $values );
+			$this->privileges[$privilege] = new Auth_Role_Privilege( $privilege, $values );
 		} else {
 			$this->privileges[$privilege]->setValues( $values );
 		}

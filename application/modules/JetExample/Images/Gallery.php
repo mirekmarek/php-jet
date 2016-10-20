@@ -235,7 +235,7 @@ class Gallery extends DataModel {
 			!$overwrite_if_exists &&
 			$this->getImageExists( $file_name )
 		) {
-			$form->setCommonErrorMessage( Tr::_('Image is already uploaded. Use \'Overwrite image if exists\' option if you want to overwrite it. ') );
+			$form->setCommonMessage( Tr::_('Image is already uploaded. Use \'Overwrite image if exists\' option if you want to overwrite it. ') );
 
 			return false;
 		}
@@ -247,7 +247,7 @@ class Gallery extends DataModel {
 				$overwrite_if_exists
 			);
 		} catch( Exception $e ) {
-			$form->setCommonErrorMessage( Tr::_($e->getMessage()) );
+			$form->setCommonMessage( Tr::_($e->getMessage()) );
 
 			return false;
 		}

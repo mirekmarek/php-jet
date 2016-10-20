@@ -1,28 +1,15 @@
 <?php
+use Jet\Form;
+use Jet\Installer;
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
 
-/**
- * @var Jet\Config $config
- */
-$config = $this->config;
-
-/**
- * @var Jet\Config_Definition_Property_Abstract[] $config_props
- */
-$config_props = $config->getPropertiesDefinition();
-
+$form->setDefaultLabelWidth(3);
+$form->setDefaultFieldWidth(9);
 ?>
-<jet_form name="<?=$form->getName();?>">
-	<jet_form_common_error_message class="formError"/>
-
-	<div class="form-group">
-		<jet_form_field_label name="dictionaries_path"/>
-		<jet_form_field_error_msg name="dictionaries_path" class="form-error"/>
-		<jet_form_field name="dictionaries_path" class="form-control"/>
-	</div>
-
-	<?=\Jet\Installer::buttonNext();?>
-</jet_form>
+<?=$form->start()?>
+	<?=$form->field('dictionaries_path')?>
+	<?=Installer::buttonNext();?>
+<?=$form->end()?>

@@ -16,7 +16,7 @@ return [
 	'contents' => [
 					[
 						'module_name' => 'JetExample.AdminUI',
-						'controller_action' => 'signpost',
+						'controller_action' => 'default',
 						'output_position' => '',
 						'output_position_required' => true,
 						'output_position_order' => 0

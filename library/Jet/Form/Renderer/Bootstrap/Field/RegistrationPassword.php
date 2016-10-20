@@ -1,21 +1,23 @@
 <?php
 /**
  *
+ *
+ *
  * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
  * @category Jet
- * @package Memcache
- * @subpackage Memcache_Exception
+ * @package Form
  */
 namespace Jet;
 
-class Memcache_Exception extends Exception {
+class Form_Renderer_Bootstrap_Field_RegistrationPassword extends Form_Renderer_Bootstrap_Field_Input  {
 
-	const CODE_UNKNOWN_CONNECTION = 1;
-	const CODE_CONFIG_ERROR = 3;
+	/**
+	 * @var string
+	 */
+	protected $_input_type = 'password';
 
-	const CODE_UNABLE_TO_CONNECT = 100;
 }

@@ -241,15 +241,10 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		 * @var Form_Field_FileImage $image_field
 		 */
 		$image_field = $upload_form->getField('file');
-		/**
-		 * @var Config $config
-		 */
-		$config = $this->module_instance->getConfig();
-
 
 		$image_field->setMaximalSize(
-			$config->getDefaultMaxW(),
-			$config->getDefaultMaxH()
+            Config::getDefaultMaxW(),
+            Config::getDefaultMaxH()
 		);
 
 		return $upload_form;
@@ -268,14 +263,9 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		if($upload_form->catchValues()) {
 			if( ($image=$gallery->catchUploadForm( $upload_form )) ) {
 
-				/**
-				 * @var Config $config
-				 */
-				$config = $this->module_instance->getConfig();
-
 				$image->getThumbnail(
-					$config->getDefaultThbMaxW(),
-					$config->getDefaultThbMaxH()
+                    Config::getDefaultThbMaxW(),
+                    Config::getDefaultThbMaxH()
 				);
 
 				Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );

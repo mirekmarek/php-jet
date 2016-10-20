@@ -74,13 +74,9 @@ class Controller_REST extends Mvc_Controller_REST {
 		} else {
 			$gallery_ID = Http_Request::GET()->getString('gallery_ID');
 
-			/**
-			 * @var Config $config
-			 */
-			$config = $this->module_instance->getConfig();
 
-			$thumbnail_max_size_w = Http_Request::GET()->getInt('thumbnail_max_size_w', $config->getDefaultThbMaxW() );
-			$thumbnail_max_size_h = Http_Request::GET()->getInt('thumbnail_max_size_h', $config->getDefaultThbMaxH() );
+			$thumbnail_max_size_w = Http_Request::GET()->getInt('thumbnail_max_size_w', Config::getDefaultThbMaxW() );
+			$thumbnail_max_size_h = Http_Request::GET()->getInt('thumbnail_max_size_h', Config::getDefaultThbMaxH() );
 
 			$list = Gallery_Image::getListAsData( $gallery_ID );
 			if($thumbnail_max_size_w>0 && $thumbnail_max_size_h>0) {
@@ -112,22 +108,17 @@ class Controller_REST extends Mvc_Controller_REST {
 		 * @var Form_Field_FileImage $image_field
 		 */
 		$image_field = $upload_form->getField('file');
-		/**
-		 * @var Config $config
-		 */
-		$config = $this->module_instance->getConfig();
-
 
 		$image_field->setMaximalSize(
-			$config->getDefaultMaxW(),
-			$config->getDefaultMaxH()
+            Config::getDefaultMaxW(),
+            Config::getDefaultMaxH()
 		);
 
 		if( ($image=$gallery->catchUploadForm( $upload_form, true )) ) {
 
 			$image->getThumbnail(
-				$config->getDefaultThbMaxW(),
-				$config->getDefaultThbMaxH()
+                Config::getDefaultThbMaxW(),
+                Config::getDefaultThbMaxH()
 			);
 
 			$this->responseOK();
@@ -146,11 +137,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$data = $this->getRequestData();
 		$gallery = $this->_getGallery( $data['target_gallery_ID'] );
 
-		/**
-		 * @var Config $config
-		 */
-		$config = $this->module_instance->getConfig();
-
         if(
             (
                 !isset($data['overwrite_if_exists']) ||
@@ -165,8 +151,8 @@ class Controller_REST extends Mvc_Controller_REST {
 		$image = $gallery->addImage( $image->getFilePath(), $image->getFileName(), true );
 
 		$image->getThumbnail(
-			$config->getDefaultThbMaxW(),
-			$config->getDefaultThbMaxH()
+            Config::getDefaultThbMaxW(),
+            Config::getDefaultThbMaxH()
 		);
 
 		$this->responseOK();

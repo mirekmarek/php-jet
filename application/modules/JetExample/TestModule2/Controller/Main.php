@@ -84,7 +84,6 @@ class Controller_Main extends Mvc_Controller_Standard {
 	}
 
 	public function test_action2_Action() {
-
 		$input_field = new Form_Field_Input( 'input', 'Input');
 		$input_field->setPlaceholder('Input field without validation');
 
@@ -284,7 +283,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 
 
 		$registration_password_field = new Form_Field_RegistrationPassword('registration_password_field', 'Registration - password');
-		$registration_password_field->setPasswordCheckLabel('Registration - Confirm password');
+		$registration_password_field->setPasswordConfirmationLabel('Registration - Confirm password');
 		$registration_password_field->setPasswordStrengthCheckCallback( function( $password ) {
 			if($password=='stupidpassword') {
 				return false;
@@ -295,7 +294,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$registration_password_field->setErrorMessages([
 			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password and it\'s confirmations does not match.',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password does not match the confirm password',
 			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Your password is weak. Please type some better password.'
 		]);
 
@@ -464,7 +463,6 @@ class Controller_Main extends Mvc_Controller_Standard {
 
             $this->view->setVar($form_name, $form );
         }
-
 
 
 		$this->view->setVar('forms', $forms);

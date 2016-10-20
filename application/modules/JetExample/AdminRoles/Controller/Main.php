@@ -17,8 +17,6 @@ namespace JetApplicationModule\JetExample\AdminRoles;
 
 use Jet\Application_Modules;
 use Jet\Auth_Role;
-use Jet\Auth_Factory;
-use Jet\Auth_Role_Interface;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc;
@@ -75,9 +73,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 
         $validator = function( &$parameters ) {
 
-            $role_i = Auth_Factory::getRoleInstance();
-
-            $role = $role_i->get($parameters[0]);
+            $role = Auth_Role::get($parameters[0]);
             if(!$role) {
                 return false;
             }
@@ -93,15 +89,15 @@ class Controller_Main extends Mvc_Controller_Standard {
             ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
         $router->addAction('edit', '/^edit:([\S]+)$/', 'update_role', true)
-            ->setCreateURICallback( function( Auth_Role_Interface $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('view', '/^view:([\S]+)$/', 'get_role', true)
-            ->setCreateURICallback( function( Auth_Role_Interface $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_role', true)
-            ->setCreateURICallback( function( Auth_Role_Interface $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
+            ->setCreateURICallback( function( Auth_Role $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
         $this->micro_router = $router;

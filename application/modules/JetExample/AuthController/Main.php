@@ -17,15 +17,12 @@
 namespace JetApplicationModule\JetExample\AuthController;
 
 use Jet\Application_Modules_Module_Abstract;
-use Jet\Auth_Factory;
 use Jet\Auth_Controller_Interface;
-use Jet\Auth_User_Interface;
 use Jet\Auth_User;
 use Jet\Form_Field_RegistrationPassword;
 use Jet\Mvc;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
-use Jet\Mvc_Page_Interface;
 use Jet\Data_DateTime;
 use Jet\Session;
 use Jet\Form;
@@ -169,7 +166,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return bool
 	 */
 	public function login( $login, $password ) {
-		$user = Auth_Factory::getUserInstance()->getByIdentity(  $login, $password  );
+		$user = (new Auth_User())->getByIdentity(  $login, $password  );
 
 		if(!$user)  {
 			return false;
@@ -216,7 +213,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		$user_class_name = JET_AUTH_USER_CLASS;
 
 		/**
-		 * @var Auth_User_Interface $user_class_name
+		 * @var Auth_User $user_class_name
 		 */
 
 		$this->current_user = $user_class_name::get($user_ID);

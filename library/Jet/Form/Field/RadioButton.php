@@ -70,51 +70,6 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		return true;
 	}
 
-	protected function _getReplacement_field_option_label( Form_Parser_TagData $tag_data ) {
-		$key = $tag_data->getProperty('key');
-
-		if(!isset($this->select_options[$key])) {
-			return '';
-		}
-
-		$tag_data->unsetProperty( 'key' );
-		$tag_data->setProperty( 'for', $this->getID().'_'.$key );
-
-		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$this->select_options[ $key ].'</label>';
-
-	}
-
-	protected function _getReplacement_field_option( Form_Parser_TagData $tag_data ) {
-		$key = $tag_data->getProperty('key');
-
-		if(!isset($this->select_options[$key])) {
-			return '';
-		}
-
-		$tag_data->unsetProperty( 'key' );
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID().'_'.$key );
-		$tag_data->setProperty( 'type', 'radio' );
-		$tag_data->setProperty( 'value', $key );
-
-		if(!$tag_data->getPropertyIsSet('class')){
-			$tag_data->setProperty('class', 'radio');
-			$properties['class'] = 'radio';
-		}
-		if($this->getIsReadonly()) {
-			$tag_data->setProperty( 'disabled', 'disabled' );
-		}
-
-
-		if($this->_value==$key) {
-			$tag_data->setProperty('checked', 'checked');
-		} else {
-			$tag_data->unsetProperty('checked');
-		}
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-	}
-
 	/**
 	 * @return array
 	 */
@@ -132,9 +87,4 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 		return $codes;
 	}
 
-	public function __toString()
-	{
-		//TODO:
-		return '';
-	}
 }

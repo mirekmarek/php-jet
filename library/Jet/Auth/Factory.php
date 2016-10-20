@@ -27,40 +27,4 @@ class Auth_Factory {
 
 	}
 
-	/**
-	 * Returns instance of Auth User class
-	 *
-	 * @param string|null $login
-	 * @param string|null $password
-	 *
-	 * @return Auth_User_Interface
-	 */
-	public static function getUserInstance( $login=null, $password=null ) {
-		$class_name =  JET_AUTH_USER_CLASS;
-		return new $class_name( $login, $password );
-	}
-
-	/**
-	 * Returns instance of Auth Role class
-	 *
-	 * @return Auth_Role_Interface
-	 */
-	public static function getRoleInstance() {
-		$class_name =  JET_AUTH_ROLE_CLASS;
-		return new $class_name();
-	}
-
-	/**
-	 * Returns instance of Auth Privilege class
-	 *
-	 * @param string $privilege
-	 * @param mixed[] $values
-	 *
-	 * @return Auth_Role_Privilege_Interface
-	 */
-	public static function getPrivilegeInstance( $privilege='', array $values= []) {
-		$class_name =  JET_AUTH_ROLE_PRIVILEGE_CLASS;
-		return new $class_name( $privilege, $values );
-	}
-
 }

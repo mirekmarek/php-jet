@@ -41,17 +41,27 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	/**
 	 * @var string
 	 */
-	protected $password_check_value = '';
+	protected $password_confirmation_value = '';
 
 	/**
 	 * @var string
 	 */
-	protected $password_check_label = '';
+	protected $password_confirmation_label = '';
 
 	/**
 	 * @var callable
 	 */
 	protected $password_strength_check_callback;
+
+    /**
+     * @return Form_Renderer_Abstract_Label|Form_Renderer_Bootstrap_Label
+     */
+    protected $_tag_label_confirmation;
+
+    /**
+     * @return Form_Renderer_Abstract_Field_Abstract|Form_Renderer_Bootstrap_Field_Abstract
+     */
+    protected $_tag_field_confirmation;
 
 	/**
 	 * @param callable $password_strength_check_callback
@@ -73,16 +83,16 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	/**
 	 * @return string
 	 */
-	public function getPasswordCheckLabel() {
-		return $this->password_check_label;
+	public function getPasswordConfirmationLabel() {
+		return $this->getTranslation($this->password_confirmation_label);
 	}
 
 	/**
-	 * @param string $password_check_label
+	 * @param string $password_confirmation_label
 	 */
-	public function setPasswordCheckLabel($password_check_label) {
-		$this->password_check_label = $password_check_label;
-	}
+	public function setPasswordConfirmationLabel($password_confirmation_label) {
+		$this->password_confirmation_label = $password_confirmation_label;
+    }
 
 
 
@@ -92,11 +102,11 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	 */
 	public function catchValue( Data_Array $data ) {
 
-		$this->password_check_value = '';
-		$name = $this->_name.'_check';
+		$this->password_confirmation_value = '';
+		$name = $this->_name.'_confirmation';
 
 		if($data->exists($name)) {
-			$this->password_check_value = trim( $data->getString($name ) );
+			$this->password_confirmation_value = trim( $data->getString($name ) );
 		}
 		
 		parent::catchValue($data);
@@ -112,7 +122,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 			return false;
 		}
 
-		if(!$this->password_check_value) {
+		if(!$this->password_confirmation_value) {
 			$this->setValueError(self::ERROR_CODE_CHECK_EMPTY);
 
 			return false;
@@ -127,7 +137,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	public function validateValue() {
 
 
-		if( $this->_value!=$this->password_check_value ) {
+		if( $this->_value!=$this->password_confirmation_value ) {
 			$this->setValueError(self::ERROR_CODE_CHECK_NOT_MATCH);
 			return false;
 		}
@@ -146,62 +156,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		$this->_setValueIsValid();
 		
 		return true;
-	}
-
-	protected function _getReplacement_field_label( Form_Parser_TagData $tag_data ) {
-		if($this->getIsReadonly()) {
-			return '';
-		}
-
-		return parent::_getReplacement_field_label( $tag_data );
-	}
-
-	protected function _getReplacement_field( Form_Parser_TagData $tag_data ) {
-
-		if($this->getIsReadonly()) {
-			return '';
-		}
-
-		$tag_data->setProperty( 'name', $this->getName() );
-		$tag_data->setProperty( 'id', $this->getID() );
-		$tag_data->setProperty( 'type', 'password' );
-		$tag_data->setProperty( 'value', '' );
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
-
-	}
-
-	protected function _getReplacement_field_check_label( Form_Parser_TagData $tag_data ) {
-		if($this->getIsReadonly()) {
-			return '';
-		}
-
-		$label = $this->getTranslation($this->password_check_label);
-
-		if(
-			$this->is_required &&
-			$label
-		) {
-			$label = Data_Text::replaceData($this->_form->getTemplate_field_required(), ['LABEL'=>$label]);
-		}
-
-		$tag_data->setProperty('for', $this->getID().'_check' );
-
-
-		return '<label '.$this->_getTagPropertiesAsString( $tag_data ).'>'.$label.'</label>';
-	}
-
-	protected function _getReplacement_field_check( Form_Parser_TagData $tag_data ) {
-		if($this->getIsReadonly()) {
-			return '';
-		}
-
-		$tag_data->setProperty( 'name', $this->getName().'_check' );
-		$tag_data->setProperty( 'id', $this->getID().'_check' );
-		$tag_data->setProperty( 'type', 'password' );
-		$tag_data->setProperty( 'value', '' );
-
-		return '<input '.$this->_getTagPropertiesAsString($tag_data).'/>';
 	}
 
 
@@ -225,9 +179,64 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		return $codes;
 	}
 
-	public function __toString()
-	{
-		//TODO:
-		return '';
-	}
+    /**
+     * @return Form_Renderer_Abstract_Field_Abstract|Form_Renderer_Bootstrap_Field_Abstract
+     */
+    public function field_confirmation() {
+        if(!$this->_tag_field_confirmation) {
+            /**
+             * @var Form_Renderer_Abstract_Field_Abstract $field
+             */
+            $field = $this->_getRenderer('Field_'.$this->_type);
+            $field->setTagNameValue( $this->getTagNameValue().'_confirmation' );
+            $field->setTagId( $this->getID().'_confirmation' );
+
+            $this->_tag_field_confirmation = $field;
+        }
+
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->_tag_field_confirmation;
+    }
+
+
+    /**
+     * @return Form_Renderer_Abstract_Label|Form_Renderer_Bootstrap_Label
+     */
+    public function label_confirmation() {
+        if(!$this->_tag_label_confirmation) {
+
+            /**
+             * @var Form_Renderer_Abstract_Label $label
+             */
+            $label = $this->_getRenderer('Label');
+            $label->setLabel( $this->getPasswordConfirmationLabel() );
+            $label->setFor( $this->getID().'_confirmation' );
+
+            $this->_tag_label_confirmation = $label;
+        }
+
+        return $this->_tag_label_confirmation;
+    }
+
+    /**
+     * @return string
+     */
+	public function render()
+    {
+        if($this->getIsReadonly()) {
+            return '';
+        }
+
+        return
+            $this->container()
+            .$this->error()
+            .$this->label()
+            .$this->field()
+            .$this->container()->end()
+            .$this->container()
+            .$this->label_confirmation()
+            .$this->field_confirmation()
+            .$this->container()->end()
+            ;
+    }
 }

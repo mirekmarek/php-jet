@@ -77,8 +77,8 @@ class Form_Renderer_Bootstrap_Field_MultiSelect extends Form_Renderer_Bootstrap_
 
 
 		$tag_options = [
-			'name' => $this->_field->getTagNameValue(),
-			'id' => $this->_field->getID(),
+			'name' => $this->getTagNameValue(),
+			'id' => $this->getTagId(),
 			'multiple' => 'multiple'
 		];
 

@@ -23,7 +23,6 @@ class Installer {
 		'DirsCheck',
 		'Translator',
 		'Redis',
-		'Memcache',
 		'DB',
 		'DataModelMain',
 		'InstallModules',

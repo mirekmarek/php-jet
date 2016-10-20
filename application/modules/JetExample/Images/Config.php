@@ -10,76 +10,62 @@
  *
  */
 namespace JetApplicationModule\JetExample\Images;
-use Jet\Config as Jet_Config;
 
 /**
  *
  */
-class Config extends Jet_Config {
+class Config {
 
 	/**
-	 * @JetConfig:type = Config::TYPE_INT
-	 * @JetConfig:default_value = 800
-	 * @JetConfig:is_required = false
 	 *
 	 * @var int
 	 */
-	protected $default_max_w;
+	protected static $default_max_w = 800;
 
 	/**
-	 * @JetConfig:type = Config::TYPE_INT
-	 * @JetConfig:default_value = 600
-	 * @JetConfig:is_required = false
 	 *
 	 * @var int
 	 */
-	protected $default_max_h;
+	protected static $default_max_h = 600;
 
 	/**
-	 * @JetConfig:type = Config::TYPE_INT
-	 * @JetConfig:default_value = 100
-	 * @JetConfig:is_required = false
 	 *
 	 * @var int
 	 */
-	protected $default_thb_max_w;
+	protected static $default_thb_max_w = 50;
 
 	/**
-	 * @JetConfig:type = Config::TYPE_INT
-	 * @JetConfig:default_value = 100
-	 * @JetConfig:is_required = false
-	 *
 	 * @var int
 	 */
-	protected $default_thb_max_h;
+	protected static $default_thb_max_h = 50;
 
 	/**
 	 * @return int
 	 */
-	public function getDefaultMaxH() {
-		return $this->default_max_h;
+	public static function getDefaultMaxH() {
+		return static::$default_max_h;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getDefaultMaxW() {
-		return $this->default_max_w;
+	public static function getDefaultMaxW() {
+        return static::$default_max_w;
 	}
 
 
 	/**
 	 * @return int
 	 */
-	public function getDefaultThbMaxH() {
-		return $this->default_thb_max_h;
+	public static function getDefaultThbMaxH() {
+        return static::$default_thb_max_h;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getDefaultThbMaxW() {
-		return $this->default_thb_max_w;
+	public static function getDefaultThbMaxW() {
+        return static::$default_thb_max_w;
 	}
 
 

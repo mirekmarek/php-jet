@@ -24,10 +24,6 @@ define('JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX',             __NAMESPACE__.'\D
 define('JET_DATA_MODEL_PROPERTY_DEFINITION_CLASS_NAME_PREFIX', __NAMESPACE__.'\DataModel_Definition_Property_');
 
 define('JET_AUTH_CONFIG_CLASS',        __NAMESPACE__.'\Auth_Config');
-define('JET_AUTH_USER_CLASS',          __NAMESPACE__.'\Auth_User');
-define('JET_AUTH_USER_ROLES_CLASS',    __NAMESPACE__.'\Auth_User_Roles');
-define('JET_AUTH_ROLE_CLASS',          __NAMESPACE__.'\Auth_Role');
-define('JET_AUTH_ROLE_PRIVILEGE_CLASS',__NAMESPACE__.'\Auth_Role_Privilege');
 
 define('JET_DB_CONNECTION_CLASS_PREFIX', __NAMESPACE__.'\Db_Connection_');
 define('JET_DB_CONNECTION_ADAPTER', 'PDO');

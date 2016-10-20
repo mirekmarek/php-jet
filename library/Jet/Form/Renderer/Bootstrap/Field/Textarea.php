@@ -34,8 +34,8 @@ class Form_Renderer_Bootstrap_Field_Textarea extends Form_Renderer_Bootstrap_Fie
 		$value = $this->_field->getValue();
 
 		$tag_options = [
-			'name' => $this->_field->getTagNameValue(),
-			'id' => $this->_field->getID()
+            'name' => $this->getTagNameValue(),
+            'id' => $this->getTagId(),
 		];
 
 		if($this->_field->getIsReadonly()) {

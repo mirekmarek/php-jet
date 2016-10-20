@@ -12,6 +12,7 @@
  */
 namespace Jet;
 
+/** @noinspection PhpIncludeInspection */
 require_once JET_LIBRARY_PATH.'Jet/Debug/Tools/Formatter.php';
 
 class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler_Abstract {

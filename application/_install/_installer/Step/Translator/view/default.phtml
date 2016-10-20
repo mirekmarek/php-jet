@@ -1,22 +1,16 @@
 <?php
+use Jet\Form;
+use Jet\Installer;
 /**
  * @var Jet\Form $form
  */
 $form = $this->form;
 
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(4);
 ?>
-<jet_form name="<?=$form->getName();?>">
-	<jet_form_common_error_message class="formError"/>
-
-	<div class="form-group">
-		<jet_form_field_label name="backend_type"/>
-		<jet_form_field_error_msg name="backend_type" class="form-error"/>
-		<jet_form_field name="backend_type" class="form-control"/>
-	</div>
-	<div class="form-group checkbox">
-		<jet_form_field_label name="auto_append_unknown_phrase"/>
-		<jet_form_field_error_msg name="auto_append_unknown_phrase" class="form-error"/>
-		<jet_form_field name="auto_append_unknown_phrase"/>
-	</div>
-	<?=\Jet\Installer::buttonNext();?>
-</jet_form>
+<?=$form->start()?>
+	<?=$form->field('backend_type')?>
+	<?=$form->field('auto_append_unknown_phrase')?>
+	<?=Installer::buttonNext();?>
+<?=$form->end()?>

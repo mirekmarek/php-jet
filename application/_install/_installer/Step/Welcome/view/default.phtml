@@ -1,21 +1,17 @@
 <?php
+use Jet\Tr;
+use Jet\Form;
+use Jet\Installer;
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
-
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(4);
 ?>
-<h1><?=Jet\Tr::_('Welcome!');?></h1>
-<jet_form name="<?=$form->getName();?>">
-	<jet_form_common_error_message class="formError"/>
+<h1><?=Tr::_('Welcome!');?></h1>
 
-	<div class="form-group">
-		<jet_form_field_label name="locale"/>
-		<jet_form_field_error_msg name="locale" class="form-error"/>
-		<jet_form_field name="locale" class="form-control"/>
-	</div>
-
-	<?=\Jet\Installer::buttonNext();?>
-
-
-</jet_form>
+<?=$form->start()?>
+	<?=$form->field('locale')?>
+	<?=Installer::buttonNext();?>
+<?=$form->end()?>
