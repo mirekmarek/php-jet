@@ -33,7 +33,7 @@ trait DataModel_Related_Trait {
 		/**
 		 * @var DataModel_Definition_Model_Related_Abstract $definition
 		 */
-		$definition = $this->getDataModelDefinition();
+		$definition = static::getDataModelDefinition();
 
 		foreach( $definition->getParentModelRelationIDProperties() as $property_definition ) {
 			$property_name = $property_definition->getName();
@@ -60,7 +60,7 @@ trait DataModel_Related_Trait {
 		/**
 		 * @var DataModel_Definition_Model_Related_Abstract $definition
 		 */
-		$definition = $this->getDataModelDefinition();
+		$definition = static::getDataModelDefinition();
 
 		foreach( $definition->getMainModelRelationIDProperties() as $property_definition ) {
 

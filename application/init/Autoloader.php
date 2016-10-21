@@ -27,3 +27,8 @@ Autoloader::registerLoader(
 	__NAMESPACE__.'\Autoloader_Loader_Zend',
 	JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Zend.php'
 );
+
+Autoloader::registerLoader(
+    '\JetExampleApp\Autoloader',
+    JET_APPLICATION_PATH.'classes/Autoloader.php'
+);

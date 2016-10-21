@@ -1,0 +1,291 @@
+<?php
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ * @copyright Copyright (c) 2014 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @version <%VERSION%>
+ *
+ */
+namespace JetExampleApp;
+use Jet\BaseObject;
+use Jet\Data_Tree;
+use Jet\Data_Tree_Node;
+use Jet\Mvc_View;
+
+class UI_tree extends BaseObject {
+	/**
+	 * @var Data_Tree
+	 */
+	protected $data;
+
+	/**
+	 * @var string
+	 */
+	protected $selected_ID = '';
+
+	/**
+	 * @var array
+	 */
+	protected $root_id = [];
+
+	/**
+	 * @var bool
+	 */
+	protected $show_all = false;
+
+	/**
+	 * @var callable
+	 */
+	protected $selected_display_callback;
+
+	/**
+	 * @var callable
+	 */
+	protected $opened_display_callback;
+
+	/**
+	 * @var callable
+	 */
+	protected $normal_display_callback;
+
+	/**
+	 *
+	 */
+	public function __construct() {
+	}
+
+	/**
+	 * @param Data_Tree $data
+	 */
+	public function setData(Data_Tree $data) {
+		$this->data = $data;
+	}
+
+	/**
+	 * @return Data_Tree
+	 */
+	public function getData() {
+		return $this->data;
+	}
+
+	/**
+	 * @param string $selected_ID
+	 */
+	public function setSelectedID($selected_ID) {
+		$this->selected_ID = $selected_ID;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSelectedID() {
+		return $this->selected_ID;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRootId()
+	{
+		return $this->root_id;
+	}
+
+	/**
+	 * @param array $root_id
+	 */
+	public function setRootId($root_id)
+	{
+		$this->root_id = $root_id;
+	}
+
+
+
+	/**
+	 * @param boolean $show_all
+	 */
+	public function setShowAll($show_all) {
+		$this->show_all = $show_all;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowAll() {
+		return $this->show_all;
+	}
+
+	/**
+	 * @param callable $normal_display_callback
+	 */
+	public function setNormalDisplayCallback( callable $normal_display_callback) {
+		$this->normal_display_callback = $normal_display_callback;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getNormalDisplayCallback() {
+		return $this->normal_display_callback;
+	}
+
+	/**
+	 * @param callable $opened_display_callback
+	 */
+	public function setOpenedDisplayCallback( callable $opened_display_callback) {
+		$this->opened_display_callback = $opened_display_callback;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getOpenedDisplayCallback() {
+		return $this->opened_display_callback;
+	}
+
+	/**
+	 * @param callable $selected_display_callback
+	 */
+	public function setSelectedDisplayCallback( callable $selected_display_callback) {
+		$this->selected_display_callback = $selected_display_callback;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getSelectedDisplayCallback() {
+		return $this->selected_display_callback;
+	}
+
+	/**
+	 * @return Mvc_View
+	 */
+	protected function getView() {
+		$view = new Mvc_View( JET_APPLICATION_PATH.'views/' );
+		$view->setVar( 'tree', $this );
+		$view->setVar( 'images_uri', JET_PUBLIC_URI.'images/' );
+
+		return $view;
+	}
+
+	/**
+	 * @return array|bool
+	 */
+	protected function getSelectedPath() {
+
+		$selected_ID = $this->getSelectedID();
+
+		$tree_data = $this->getData();
+
+		$path = $selected_ID ? $tree_data->getPath( $selected_ID ) : false;
+		$path = $path ? $path : [$tree_data->getRootNode()->getID()];
+
+		return $path;
+	}
+
+	/**
+	 * @param Data_Tree_Node $node
+	 *
+	 * @return bool
+	 */
+	public function nodeFilter( Data_Tree_Node $node ) {
+
+		$tree_data = $this->getData();
+
+		$selected_path = $this->getSelectedPath();
+
+		$root_id = $this->getRootId();
+
+		if( $root_id ) {
+
+			$node_path = $tree_data->getPath( $node->getID() );
+
+			if(!in_array($root_id, $node_path)) {
+				return false;
+			}
+		}
+
+
+
+		if(
+			!$this->getShowAll() &&
+			$selected_path
+		) {
+			if(
+				!(
+					in_array($node->getParentID(), $selected_path) ||
+					in_array($node->getID(), $selected_path)
+				)
+			) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param Data_Tree_Node $node
+	 *
+	 * @return bool
+	 */
+	public function nodeOpened( Data_Tree_Node $node ) {
+		return in_array($node->getID(), $this->getSelectedPath());
+	}
+
+	/**
+	 * @param Data_Tree_Node $node
+	 * @return bool
+	 */
+	public function nodeSelected( Data_Tree_Node $node ) {
+		return ($node->getID()==$this->getSelectedID());
+	}
+
+	/**
+	 * @param Data_Tree_Node $node
+	 *
+	 * @return callable
+	 */
+	public function nodeDisplayCallback( Data_Tree_Node $node ) {
+		$callback = $this->getNormalDisplayCallback();
+		if($this->nodeSelected($node)) {
+			$callback = $this->getSelectedDisplayCallback();
+		} else if( $this->nodeOpened($node) ) {
+			$callback = $this->getOpenedDisplayCallback();
+		}
+
+		return $callback;
+	}
+
+	/**
+	 * @param Data_Tree_Node $node
+	 *
+	 * @return string
+	 */
+	public function nodeIcon( Data_Tree_Node $node ) {
+		$icon = 'file';
+		if($node->getHasChildren()) {
+			if($this->nodeOpened($node)) {
+				$icon = 'folder-open';
+			} else {
+				$icon = 'folder-close';
+			}
+		}
+
+		return $icon;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function render() {
+		$view = $this->getView();
+
+		return $view->render('Tree/tree');
+	}
+}

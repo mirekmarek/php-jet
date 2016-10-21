@@ -40,8 +40,5 @@ if(!$this->OK) {
 	<?=$form->field('port')?>
 
 	<a href="?edit_connection=<?=$this->connection_name;?>" class="btn btn-default"><?=Tr::_('Edit connection');?></a>
-<?php if($this->OK): ?>
-	<input type="submit" value="<?=Tr::_('OK');?>" class="btn btn-primary"/>
-<?php endif; ?>
 
 <?=$form->end()?>

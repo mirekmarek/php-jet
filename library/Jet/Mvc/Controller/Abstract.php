@@ -151,7 +151,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 */
 	public function checkACL( $action, $action_parameters ) {
 
-		$module_action = $this->getModuleAction($action);
+		$module_action = static::getModuleAction($action);
 
 		if($module_action===false) {
 			return true;

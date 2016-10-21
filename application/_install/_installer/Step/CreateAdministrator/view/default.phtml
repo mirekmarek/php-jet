@@ -1,40 +1,27 @@
 <?php
 use Jet\Form;
+use Jet\Installer;
 /**
  * @var Form $form
  */
 
 $form = $this->form;
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(4);
 ?>
-<jet_form name="<?=$form->getName();?>" autocomplete="off">
-	<jet_form_common_error_message class="formError"/>
+<?=$form->start()?>
+	<?=$form->message()?>
 
-	<div class="form-group">
-		<jet_form_field_label name="login"/>
-		<jet_form_field_error_msg name="login" class="form-error"/>
-		<jet_form_field name="login" class="form-control"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="password"/>
-		<jet_form_field_error_msg name="password"/>
-		<jet_form_field name="password" class="form-control"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_check_label name="password"/>
-		<jet_form_field_check name="password" class="form-control"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="email"/>
-		<jet_form_field_error_msg name="email" class="form-error"/>
-		<jet_form_field name="email" class="form-control"/>
-	</div>
+	<?=$form->field('login')?>
+	<?=$form->field('password')?>
+	<?=$form->field('email')?>
 
-	<?=\Jet\Installer::buttonNext();?>
-</jet_form>
+	<?=Installer::buttonNext();?>
+<?=$form->end()?>
 
 
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<?=\Jet\Installer::buttonNextSkipIt()?>
+	<?=Installer::buttonNextSkipIt()?>
 
 </form>

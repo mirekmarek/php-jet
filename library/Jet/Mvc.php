@@ -248,19 +248,6 @@ class Mvc {
 	}
 
 	/**
-	 *
-	 * @see Mvc_Layout::requireJavascriptFile()
-	 *
-	 * @param string $file
-	 *
-	 */
-	public static function requireSiteJavascriptFile( $file ) {
-		$path = Mvc::getCurrentSite()->getPublicPath();
-
-		Mvc_Layout::getCurrentLayout()->requireJavascriptFile( $path.$file );
-	}
-
-	/**
 	 * Equivalent of Mvc_Layout::getCurrentLayout()->requireInitialJavascriptCode( $code )
 	 *
 	 * @see Mvc_Layout::requireInitialJavascriptCode()
@@ -293,19 +280,6 @@ class Mvc {
 	 */
 	public static function requireCssFile( $URI, $media='' ) {
 		Mvc_Layout::getCurrentLayout()->requireCssFile( $URI, $media );
-	}
-
-	/**
-	 *
-	 * @see Mvc_Layout::requireCssFile()
-	 *
-	 * @param string $file
-	 * @param string $media (optional)
-	 */
-	public static function requireSiteCssFile( $file, $media='' ) {
-		$path = Mvc::getCurrentSite()->getPublicPath();
-
-		Mvc_Layout::getCurrentLayout()->requireCssFile( $path.$file, $media );
 	}
 
 	/**

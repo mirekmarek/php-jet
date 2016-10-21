@@ -91,7 +91,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_AUTH_ROLE_PRIVILEGE_CLASS
+	 * @JetDataModel:data_model_class = 'Auth_Role_Privilege'
 	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var Auth_Role_Privilege_Interface[]
@@ -101,7 +101,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_AUTH_ROLE_USERS_CLASS
+	 * @JetDataModel:data_model_class = 'Auth_Role_Users'
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Auth_User_Interface[]
@@ -230,7 +230,14 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 */
 	public function setPrivilege( $privilege, array $values ) {
 		if(!isset($this->privileges[$privilege])) {
-			$this->privileges[$privilege] = new Auth_Role_Privilege( $privilege, $values );
+
+            /**
+             * @var DataModel_Definition_Property_DataModel $def
+             */
+		    $def = static::getDataModelDefinition()->getProperty('privileges');
+            $class = $def->getValueDataModelClass();
+
+			$this->privileges[$privilege] = new $class( $privilege, $values );
 		} else {
 			$this->privileges[$privilege]->setValues( $values );
 		}

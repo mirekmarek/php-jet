@@ -7,7 +7,7 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -18,7 +18,6 @@ namespace JetApplicationModule\JetExample\AuthController;
 
 use Jet\Application_Modules_Module_Abstract;
 use Jet\Auth_Controller_Interface;
-use Jet\Auth_User;
 use Jet\Form_Field_RegistrationPassword;
 use Jet\Mvc;
 use Jet\Mvc_Factory;
@@ -26,8 +25,11 @@ use Jet\Mvc_Layout;
 use Jet\Data_DateTime;
 use Jet\Session;
 use Jet\Form;
-use Jet\Form_Field_Password;
 use Jet\Form_Field_Input;
+use Jet\Form_Field_Password;
+
+use Jet\Auth_User as User;
+
 
 /**
  * Class Main
@@ -35,17 +37,16 @@ use Jet\Form_Field_Input;
  * @JetApplication_Signals:signal = '/user/login'
  * @JetApplication_Signals:signal = '/user/logout'
  */
-class Main extends Application_Modules_Module_Abstract  implements Auth_Controller_Interface{
+class Main extends Application_Modules_Module_Abstract  implements Auth_Controller_Interface {
 
 	/**
 	 * Currently logged user
 	 *
-	 * @var Auth_User
+	 * @var User
 	 */
 	protected $current_user;
 
 	/**
-	 * Is called after controller instance is created
 	 */
 	public function initialize()
 	{
@@ -63,7 +64,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		}
 
 		if(
-			!$user->getIsActivated()
+		!$user->getIsActivated()
 		) {
 			return false;
 		}
@@ -98,7 +99,6 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		return true;
 	}
 
-
 	/**
 	 *
 	 */
@@ -114,13 +114,13 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 
 		if($user) {
 			if(!$user->getIsActivated()) {
-				$action = 'isNotActivated';
+				$action = 'is_not_activated';
 			} else
 				if($user->getIsBlocked()) {
-					$action = 'isBlocked';
+					$action = 'is_blocked';
 				} else
 					if(!$user->getPasswordIsValid()) {
-						$action = 'mustChangePassword';
+						$action = 'must_change_password';
 					}
 		}
 
@@ -166,7 +166,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return bool
 	 */
 	public function login( $login, $password ) {
-		$user = (new Auth_User())->getByIdentity(  $login, $password  );
+		$user = (new User())->getByIdentity(  $login, $password  );
 
 		if(!$user)  {
 			return false;
@@ -195,7 +195,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Auth_User|bool
+	 * @return User|bool
 	 */
 	public function getCurrentUser() {
 		if($this->current_user!==null) {
@@ -207,19 +207,15 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		$user_ID = $session->getValue( 'user_ID', null );
 		if(!$user_ID) {
 			$this->current_user = false;
-			return null;
+		} else {
+			$this->current_user = User::get($user_ID);
 		}
 
-		$user_class_name = JET_AUTH_USER_CLASS;
 
-		/**
-		 * @var Auth_User $user_class_name
-		 */
-
-		$this->current_user = $user_class_name::get($user_ID);
 
 		return $this->current_user;
 	}
+
 
 	/**
 	 * Log auth event
@@ -263,7 +259,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	function getLoginForm() {
-        $login_field = new Form_Field_Input('login', 'User name: ');
+        $login_field =  new Form_Field_Input('login', 'User name: ');
         $login_field->setErrorMessages([
             Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
         ]);
@@ -291,14 +287,56 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	function getChangePasswordForm() {
-		$form = new Form('login', [
-			new Form_Field_RegistrationPassword( 'password', 'Password')
+
+		$current_password = new Form_Field_Password('current_password', 'Current password');
+		$current_password->setIsRequired( true );
+		$current_password->setErrorMessages([
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
 		]);
 
+		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
+		$new_password->setPasswordConfirmationLabel('Confirm new password');
+
+		$new_password->setIsRequired( true );
+		$new_password->setErrorMessages([
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match'
+		]);
+
+
+		$form = new Form('change_password', [
+			$current_password,
+			$new_password
+		]);
+
+
+
+
+
+		return $form;
+	}
+
+
+	/**
+	 * @return Form
+	 */
+	function getMustChangePasswordForm() {
+		$form = new Form('change_password', [
+			new Form_Field_RegistrationPassword('password', 'New password: ')
+		]);
+
+
+		$form->getField('password')->setErrorMessages([
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match'
+		]);
 		$form->getField('password')->setIsRequired( true );
 
 		return $form;
 	}
+
 
 
 }

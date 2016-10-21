@@ -6,4 +6,5 @@ return [
 	'Cache key prefix: ' => '',
 	'Cache configuration' => '',
 	'MVC Router Cache backend error' => '',
+	'Please select Redis connection' => '',
 ];

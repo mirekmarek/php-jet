@@ -14,5 +14,8 @@
 namespace Jet;
 
 class Form_Renderer_Bootstrap_Form extends Form_Renderer_Abstract_Form {
-	protected $base_css_class = 'form-horizontal';
+    /**
+     * @var string
+     */
+    protected $base_css_class = 'form-horizontal';
 }

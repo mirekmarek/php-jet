@@ -230,10 +230,10 @@ class JetCompatibilityTester {
 
 		$this->test(
 			'PHP version',
-			'PHP 5.4.4 or newer is required',
+			'PHP 5.5.4 or newer is required',
 			function( JetCompatibilityTester_TestResult $test_result ) {
 				$test_result->setResultMessage('PHP version: '.PHP_VERSION);
-				return version_compare(PHP_VERSION, '5.4.4', '>=');
+				return version_compare(PHP_VERSION, '5.5.4', '>=');
 			}
 		);
 

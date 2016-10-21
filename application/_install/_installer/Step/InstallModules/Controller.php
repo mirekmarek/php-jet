@@ -29,7 +29,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		$this->all_modules = Application_Modules::getAllModulesList(true);
 
 
-        $modules_field = new Form_Field_Select('modules');
+        $modules_field = new Form_Field_MultiSelect('modules');
         $modules_field->setSelectOptions( $this->all_modules );
         $modules_field->setErrorMessages([
             Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select module',
@@ -48,8 +48,16 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		}
 
 		if($form->catchValues() && $form->validateValues()) {
+            $this->selected_modules = [];
+
+            foreach($this->all_modules as $m) {
+                if($m->getIsAuthController()) {
+                    $this->selected_modules[] = $m->getName();
+                }
+            }
+
 			$d = $form->getValues();
-			$this->selected_modules = $d['modules'];
+			$this->selected_modules = array_merge($this->selected_modules, $d['modules']);
 
 			while( !$this->resolveDependencies() ) {}
 

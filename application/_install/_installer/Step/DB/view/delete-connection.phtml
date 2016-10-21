@@ -1,53 +1,38 @@
 <?php
+use Jet\Installer;
+use Jet\Tr;
+
 /**
  * @var Jet\Form $form
  */
 $form = $this->form;
 
-/**
- * @var Jet\Config $config
- */
-$config = $this->config;
+$form->setDefaultLabelWidth(2);
 
-/**
- * @var Jet\Config_Definition_Property_Abstract[] $config_props
- */
-$config_props = $config->getPropertiesDefinition();
+$form->field('name')->setIsReadonly(true);
+$form->field('driver')->setIsReadonly(true);
+
+
+$form->field('DSN')->setIsReadonly(true);
+$form->field('username')->setIsReadonly(true);
+$form->field('username')->setIsReadonly(true);
+
 ?>
 
-<?=\Jet\Installer::buttonBack()?>
+<?=Installer::buttonBack()?>
 
-<h3><?=Jet\Tr::_('Delete connection \'%CONNECTION%\' ', ["CONNECTION"=>$this->connection_name]);?></h3>
+<h3><?=Tr::_('Delete connection \'%CONNECTION%\' ', ["CONNECTION"=>$this->connection_name]);?></h3>
 
-<jet_form name="<?=$form->getName();?>">
-	<jet_form_common_error_message class="formError"/>
+<?=$form->start()?>
+<?=$form->message()?>
 
-	<div class="form-group">
-		<jet_form_field_label name="name"/>
-		<jet_form_field_error_msg name="name" class="form-error"/>
-		<jet_form_field name="name" class="form-control" readonly="readonly"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="driver"/>
-		<jet_form_field_error_msg name="driver" class="form-error"/>
-		<jet_form_field name="driver" class="form-control" readonly="readonly"/>
-	</div>
+<?=$form->field('name')?>
+<?=$form->field('driver')?>
 
-	<div class="form-group">
-		<jet_form_field_label name="DSN"/>
-		<jet_form_field_error_msg name="DSN" class="form-error"/>
-		<jet_form_field name="DSN" class="form-control" readonly="readonly"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="username"/>
-		<jet_form_field_error_msg name="username" class="form-error"/>
-		<jet_form_field name="username" class="form-control" readonly="readonly"/>
-	</div>
-	<div class="form-group">
-		<jet_form_field_label name="password"/>
-		<jet_form_field_error_msg name="password" class="form-error"/>
-		<jet_form_field name="password" class="form-control" readonly="readonly"/>
-	</div>
 
-	<input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
-</jet_form>
+<?=$form->field('DSN')?>
+<?=$form->field('username')?>
+
+<input type="submit" value="<?=Jet\Tr::_('YES! Delete it!');?>" class="btn btn-danger"/>
+
+<?=$form->end()?>

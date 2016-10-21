@@ -1,29 +1,21 @@
 <?php
+use Jet\Form;
+use Jet\Installer;
+
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
 
-/**
- * @var Jet\Config $config
- */
-$config = $this->config;
-
-/**
- * @var Jet\Config_Definition_Property_Abstract[] $config_props
- */
-$config_props = $config->getPropertiesDefinition();
-
-$form->helper_getBasicHTML('div');
-
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(4);
 ?>
-<jet_form name="<?=$form->getName();?>">
-	<jet_form_common_error_message class="formError"/>
 
-	<?php foreach( $form->getFields() as $field ): ?>
-		<?=$field->helper_getBasicHTML(); ?>
-	<?php endforeach; ?>
+<?=$form->start()?>
+	<?=$form->message()?>
 
-	<?=\Jet\Installer::buttonNext();?>
-
-</jet_form>
+	<?php foreach( $form->getFields() as $field ):
+		echo $field;
+	endforeach; ?>
+	<?=Installer::buttonNext();?>
+<?=$form->end()?>

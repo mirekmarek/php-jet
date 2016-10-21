@@ -63,14 +63,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 * @param string|null $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	public function helper_getCreateCommand( DataModel_Interface $data_model, $force_table_name=null ) {
+	public function helper_getCreateCommand( DataModel_Definition_Model_Abstract $definition, $force_table_name=null ) {
 
-		$data_model_definition = $data_model->getDataModelDefinition();
 		$options = [];
 
 		$_options = [];
@@ -84,7 +83,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 		$_columns = [];
 
-		foreach( $data_model_definition->getProperties() as $property ) {
+		foreach( $definition->getProperties() as $property ) {
 			if( !$property->getCanBeTableField() ) {
 				continue;
 			}
@@ -92,15 +91,15 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
             $_columns[] = JET_TAB.$this->_getColumnName($property, true, false).' '.$this->_getSQLType( $property );
 		}
 
-		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $data_model_definition );
+		$table_name = $force_table_name ? $force_table_name : $this->_getTableName( $definition );
 
 		$create_index_query = [];
 		$keys = [];
 
-		foreach($data_model_definition->getKeys() as $key_name=>$key) {
+		foreach($definition->getKeys() as $key_name=>$key) {
             $key_columns = [];
             foreach( $key->getPropertyNames() as $property_name ) {
-                $property = $data_model_definition->getProperty($property_name);
+                $property = $definition->getProperty($property_name);
                 $key_columns[] = $this->_getColumnName( $property, true, false );
             }
 
@@ -131,53 +130,52 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 */
-	public function helper_create( DataModel_Interface $data_model ) {
-		$this->_db->execCommand( $this->helper_getCreateCommand( $data_model ) );
+	public function helper_create( DataModel_Definition_Model_Abstract $definition ) {
+		$this->_db->execCommand( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 *
 	 * @return string
 	 */
-	public function helper_getDropCommand( DataModel_Interface $data_model ) {
-		$table_name = $this->_getTableName( $data_model->getDataModelDefinition() );
+	public function helper_getDropCommand( DataModel_Definition_Model_Abstract $definition ) {
+		$table_name = $this->_getTableName( $definition );
 		$ui_prefix = '_d'.date('YmdHis');
 
 		return 'RENAME TABLE '.$table_name.' TO '.$this->_quoteName($ui_prefix.$table_name).'';
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 */
-	public function helper_drop( DataModel_Interface $data_model ) {
-		$this->_db->execCommand( $this->helper_getDropCommand( $data_model ) );
+	public function helper_drop( DataModel_Definition_Model_Abstract $definition ) {
+		$this->_db->execCommand( $this->helper_getDropCommand( $definition ) );
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 *
 	 * @return array
 	 */
-	public function helper_getUpdateCommand( DataModel_Interface $data_model ) {
-		$data_model_definition = $data_model->getDataModelDefinition();
-		$table_name = $this->_getTableName($data_model_definition);
+	public function helper_getUpdateCommand( DataModel_Definition_Model_Abstract $definition ) {
+		$table_name = $this->_getTableName($definition);
 
 		$exists_cols = $this->_db->fetchCol('PRAGMA table_info('.$table_name.')', [], 'name');
 
 
         $update_prefix = '_UP'.date('YmdHis').'_';
-        $updated_table_name = $this->_quoteName($update_prefix.$this->_getTableName($data_model_definition, false));
-        $backup_table_name = $this->_quoteName($update_prefix.'b_'.$this->_getTableName($data_model_definition, false));
+        $updated_table_name = $this->_quoteName($update_prefix.$this->_getTableName($definition, false));
+        $backup_table_name = $this->_quoteName($update_prefix.'b_'.$this->_getTableName($definition, false));
 
 
 
-        $create_command = $this->helper_getCreateCommand( $data_model, $updated_table_name );
+        $create_command = $this->helper_getCreateCommand( $definition, $updated_table_name );
 
 
-		$properties = $data_model_definition->getProperties();
+		$properties = $definition->getProperties();
 		$actual_cols = [];
 		foreach($properties as $property) {
 			if( !$property->getCanBeTableField() ) {
@@ -188,7 +186,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
         $common_cols = array_intersect(array_keys($actual_cols), $exists_cols);
         $_new_cols = array_diff( array_keys($actual_cols), $exists_cols );
-        $new_cols = new DataModel_RecordData($data_model_definition);
+        $new_cols = new DataModel_RecordData($definition);
         foreach($_new_cols as $new_col) {
             foreach($properties as $property) {
                 if( $this->_getColumnName($property, false)==$new_col ) {
@@ -236,14 +234,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	}
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 *
-	 * @throws \Exception|Exception
+	 * @throws Exception
 	 */
-	public function helper_update( DataModel_Interface $data_model ) {
+	public function helper_update( DataModel_Definition_Model_Abstract $definition ) {
 		$this->transactionStart();
 		try {
-			foreach($this->helper_getUpdateCommand( $data_model ) as $q) {
+			foreach($this->helper_getUpdateCommand( $definition ) as $q) {
 				$this->_db->execCommand( $q );
 			}
 		} catch (Exception $e) {

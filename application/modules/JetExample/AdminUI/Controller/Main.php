@@ -26,10 +26,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 
 	protected static $ACL_actions_check_map = [
         'logout' => false,
-		'default' => false,
-		'signpost' => false,
-		'ria_default' => false,
-		'classic_default' => false
+		'default' => false
 	];
 
 	/**
@@ -50,17 +47,10 @@ class Controller_Main extends Mvc_Controller_Standard {
     /**
      *
      */
-    public function signpost_Action() {
-		$this->render('signpost');
-	}
-
-    /**
-     *
-     */
-    public function classic_default_Action() {
+    public function default_Action() {
         Mvc::getCurrentPage()->breadcrumbNavigationShift( -1 );
 
-		$this->render('classic/default');
+		$this->render('default');
 
 	}
 

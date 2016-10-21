@@ -51,7 +51,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-		Mvc::checkCurrentContentIsDynamic();
         Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
 		$this->micro_router = $this->getStandardAdminMicroRouter();
 		$this->view->setVar( 'router', $this->micro_router );

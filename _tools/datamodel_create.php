@@ -29,6 +29,6 @@ try {
 	die();
 }
 
-echo DataModel::helper_getCreateCommand($class);
-DataModel::helper_create($class);
+echo DataModel_Helper::getCreateCommand($class);
+DataModel_Helper::create($class);
 echo JET_EOL.JET_EOL;;

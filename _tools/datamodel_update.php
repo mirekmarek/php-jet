@@ -29,6 +29,6 @@ try {
 	die();
 }
 
-echo implode(JET_EOL, DataModel::helper_getUpdateCommand($class));
-DataModel::helper_update($class);
+echo implode(JET_EOL, DataModel_Helper::getUpdateCommand($class));
+DataModel_Helper::update($class);
 echo JET_EOL.JET_EOL;

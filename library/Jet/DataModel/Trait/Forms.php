@@ -28,10 +28,11 @@ trait DataModel_Trait_Forms {
     public function getForm( $form_name, $property_filter=null ) {
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
          */
 
 
-        $definition = $this->getDataModelDefinition();
+        $definition = static::getDataModelDefinition();
 
 	    if(
 	        $property_filter &&
@@ -98,10 +99,11 @@ trait DataModel_Trait_Forms {
     public function getCommonForm( $form_name='' ) {
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
          */
 
         if(!$form_name) {
-            $definition = $this->getDataModelDefinition();
+            $definition = static::getDataModelDefinition();
             $form_name = $definition->getModelName();
         }
 

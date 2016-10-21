@@ -33,8 +33,12 @@ trait DataModel_Trait_Delete {
             throw new DataModel_Exception('Nothing to delete... Object was not loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
         }
 
-        $backend = $this->getBackendInstance();
-        $definition = $this->getDataModelDefinition();
+        /**
+         * @var DataModel_Backend_Abstract $backend
+         * @var DataModel_Definition_Model_Abstract $definition
+         */
+        $backend = static::getBackendInstance();
+        $definition = static::getDataModelDefinition();
 
         $this->startBackendTransaction();
 

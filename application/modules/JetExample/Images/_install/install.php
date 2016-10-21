@@ -1,6 +1,6 @@
 <?php
-use Jet\DataModel;
+use Jet\DataModel_Helper;
 
-DataModel::helper_create('module:JetExample.Images\Gallery');
-DataModel::helper_create('module:JetExample.Images\Gallery_Image');
-DataModel::helper_create('module:JetExample.Images\Gallery_Image_Thumbnail');
+DataModel_Helper::create('module:JetExample.Images\Gallery');
+DataModel_Helper::create('module:JetExample.Images\Gallery_Image');
+DataModel_Helper::create('module:JetExample.Images\Gallery_Image_Thumbnail');

@@ -33,7 +33,7 @@ trait DataModel_Trait_Save {
 
 	    $this->beforeSave();
 
-        $backend = $this->getBackendInstance();
+        $backend = static::getBackendInstance();
 
         $this->startBackendTransaction();
 
@@ -70,8 +70,9 @@ trait DataModel_Trait_Save {
     protected function _save( DataModel_Backend_Abstract $backend ) {
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
          */
-        $definition = $this->getDataModelDefinition();
+        $definition = static::getDataModelDefinition();
 
         $record = new DataModel_RecordData( $definition );
 
@@ -106,8 +107,9 @@ trait DataModel_Trait_Save {
     protected function _update( DataModel_Backend_Abstract $backend ) {
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
          */
-        $definition = $this->getDataModelDefinition();
+        $definition = static::getDataModelDefinition();
 
         $record = new DataModel_RecordData( $definition );
 
@@ -144,8 +146,10 @@ trait DataModel_Trait_Save {
 
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
+         *
          */
-        $definition = $this->getDataModelDefinition();
+        $definition = static::getDataModelDefinition();
 
 	    $is_related = ($this instanceof DataModel_Related_Interface);
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
@@ -176,13 +180,16 @@ trait DataModel_Trait_Save {
     public function updateData( array $data, array $where ) {
         /**
          * @var DataModel $this
+         * @var DataModel_Backend_Abstract $backend
          */
 
-        $this->getBackendInstance()->update(
+        $backend = static::getBackendInstance();
+
+        $backend->update(
             DataModel_RecordData::createRecordData( $this,
                 $data
             ),
-            DataModel_Query::createQuery( $this->getDataModelDefinition(),
+            DataModel_Query::createQuery( static::getDataModelDefinition(),
                 $where
             )
         );

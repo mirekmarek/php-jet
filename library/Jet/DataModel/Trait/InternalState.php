@@ -32,8 +32,9 @@ trait DataModel_Trait_InternalState {
 
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $data_model_definition
          */
-        $data_model_definition = $this->getDataModelDefinition();
+        $data_model_definition = static::getDataModelDefinition();
 
         foreach( $data_model_definition->getProperties() as $property_name => $property_definition ) {
 

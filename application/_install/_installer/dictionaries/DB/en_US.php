@@ -29,4 +29,6 @@ return [
 	'Connection \'%CONNECTION%\' Test' => '',
 	'Edit connection' => '',
 	'OK' => '',
+	'Add new DB (PDO) connection' => '',
+	'Error:' => '',
 ];

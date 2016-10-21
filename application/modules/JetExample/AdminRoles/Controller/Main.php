@@ -50,7 +50,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-		Mvc::checkCurrentContentIsDynamic();
+
 		Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
 		$this->getMicroRouter();
 		$this->view->setVar( 'router', $this->micro_router );

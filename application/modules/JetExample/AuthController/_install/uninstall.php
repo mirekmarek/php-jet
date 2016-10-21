@@ -1,4 +1,4 @@
 <?php
-use Jet\DataModel;
+use Jet\DataModel_Helper;
 
-DataModel::helper_drop('module:JetExample.AuthController\Event');
+DataModel_Helper::drop('module:AuthController\Event');

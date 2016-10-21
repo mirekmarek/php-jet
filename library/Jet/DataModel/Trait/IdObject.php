@@ -34,7 +34,7 @@ trait DataModel_Trait_IdObject {
          */
 
         if(!$this->_ID_object) {
-	        $this->_ID_object = $this->getEmptyIdObject();
+	        $this->_ID_object = static::getEmptyIdObject();
 
 	        $this->_ID_object->joinDataModel($this);
 	        foreach($this->_ID_object as $property_name => $value) {

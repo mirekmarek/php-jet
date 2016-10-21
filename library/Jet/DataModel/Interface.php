@@ -281,45 +281,4 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
      */
     public function afterDelete();
 
-
-//-- Helpers ------------------------------------
-    /**
-     * @param string $class
-     *
-     * @return string
-     */
-    public static function helper_getCreateCommand( $class );
-
-    /**
-     *
-     * @param string $class
-     * @return bool
-     */
-    public static function helper_create( $class );
-
-
-    /**
-     * Update (actualize) DB table or tables
-     *
-     * @param string $class
-     *
-     * @return string
-     */
-    public static function helper_getUpdateCommand( $class );
-
-    /**
-     * Update (actualize) DB table or tables
-     *
-     *
-     * @param string $class
-     */
-    public static function helper_update( $class );
-
-    /**
-     * Drop (only rename by default) DB table or tables
-     *
-     * @param string $class
-     */
-    public static function helper_drop( $class );
-
 }

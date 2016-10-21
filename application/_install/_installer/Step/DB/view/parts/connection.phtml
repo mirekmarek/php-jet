@@ -1,46 +1,70 @@
+<?php
+use Jet\Form;
+use Jet\Tr;
 
-<jet_form name="<?=$form->getName();?>">
-	<jet_form_common_error_message class="formError"/>
+/**
+ * @var Form $form
+ */
+$form = $this->form;
+$form->setDefaultLabelWidth(2);
 
-	<div class="form-group"><jet_form_field_label name="name"/><jet_form_field_error_msg name="name" class="form-error"/><jet_form_field name="name" class="form-control"/></div>
-	<div class="form-group">
-		<jet_form_field_label name="driver"/>
-		<jet_form_field_error_msg name="driver" class="form-error"/>
-		<jet_form_field name="driver" class="form-control" onChange="DSN_wizard.setDriver(this.options[this.selectedIndex].value);"/>
-	</div>
+if(!$form->getIsReadonly()) {
+	$form->field('driver')->field()->addJsAction('onchange', "DSN_wizard.setDriver(this.value)");
+}
+?>
 
-	<div class="form-group" id="_dns_w_host_g">
-		<label for="_dns_w_host"><?=Jet\Tr::_('Host');?></label>
-		<input id="_dns_w_host" class="form-control" onchange="DSN_wizard.createDSN();"/>
-	</div>
-	<div class="form-group" id="_dns_w_port_g">
-		<label for="_dns_w_port"><?=Jet\Tr::_('Port');?></label>
-		<input id="_dns_w_port" class="form-control" onchange="DSN_wizard.createDSN();"/>
-	</div>
-	<div class="form-group" id="_dns_w_dbname_g">
-		<label for="_dns_w_dbname"><?=Jet\Tr::_('Database name');?></label>
-		<input id="_dns_w_dbname" class="form-control" onchange="DSN_wizard.createDSN();"/>
-	</div>
-	<div class="form-group" id="_dns_w_unix_socket_g">
-		<label for="_dns_w_unix_socket"><?=Jet\Tr::_('Unix socket');?></label>
-		<input id="_dns_w_unix_socket" class="form-control" onchange="DSN_wizard.createDSN();"/>
-	</div>
-	<div class="form-group" id="_dns_w_charset_g">
-		<label for="_dns_w_charset"><?=Jet\Tr::_('Charset');?></label>
-		<input id="_dns_w_charset" class="form-control" onchange="DSN_wizard.createDSN();"/>
-	</div>
-	<div class="form-group" id="_dns_w_path_g">
-		<label for="_dns_w_path"><?=Jet\Tr::_('Path');?></label>
-		<input id="_dns_w_path" class="form-control" onchange="DSN_wizard.createDSN();"/>
-	</div>
+<?=$form->start()?>
+	<?=$form->message()?>
 
-	<div class="form-group"><jet_form_field_label name="DSN"/><jet_form_field_error_msg name="DSN" class="form-error"/><jet_form_field name="DSN" class="form-control"/></div>
-	<div class="form-group"><jet_form_field_label name="username"/><jet_form_field_error_msg name="username" class="form-error"/><jet_form_field name="username" class="form-control"/></div>
-	<div class="form-group"><jet_form_field_label name="password"/><jet_form_field_error_msg name="password" class="form-error"/><jet_form_field name="password" class="form-control"/></div>
+	<?=$form->field('name')?>
+	<?=$form->field('driver')?>
 
-	<input type="submit" value="<?=Jet\Tr::_($btn_label, [], Jet\Translator::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+	<?php if(!$form->getIsReadonly()): ?>
+	<div class="form-group row" id="_dns_w_host_g">
+		<label for="_dns_w_host" class="col-md-2 control-label"><?=Tr::_('Host');?></label>
+		<div class="col-md-8">
+			<input id="_dns_w_host" class="form-control" onchange="DSN_wizard.createDSN();"/>
+		</div>
+	</div>
+	<div class="form-group row" id="_dns_w_port_g">
+		<label for="_dns_w_port" class="col-md-2 control-label"><?=Tr::_('Port');?></label>
+		<div class="col-md-8">
+			<input id="_dns_w_port" class="form-control" onchange="DSN_wizard.createDSN();"/>
+		</div>
+	</div>
+	<div class="form-group row" id="_dns_w_dbname_g">
+		<label for="_dns_w_dbname" class="col-md-2 control-label"><?=Tr::_('Database name');?></label>
+		<div class="col-md-8">
+			<input id="_dns_w_dbname" class="form-control" onchange="DSN_wizard.createDSN();"/>
+		</div>
+	</div>
+	<div class="form-group row" id="_dns_w_unix_socket_g">
+		<label for="_dns_w_unix_socket" class="col-md-2 control-label"><?=Tr::_('Unix socket');?></label>
+		<div class="col-md-8">
+			<input id="_dns_w_unix_socket" class="form-control" onchange="DSN_wizard.createDSN();"/>
+		</div>
+	</div>
+	<div class="form-group row" id="_dns_w_charset_g">
+		<label for="_dns_w_charset" class="col-md-2 control-label"><?=Tr::_('Charset');?></label>
+		<div class="col-md-8">
+			<input id="_dns_w_charset" class="form-control" onchange="DSN_wizard.createDSN();"/>
+		</div>
+	</div>
+	<div class="form-group row" id="_dns_w_path_g">
+		<label for="_dns_w_path" class="col-md-2 control-label"><?=Tr::_('Path');?></label>
+		<div class="col-md-8">
+			<input id="_dns_w_path" class="form-control" onchange="DSN_wizard.createDSN();"/>
+		</div>
+	</div>
+	<?php endif?>
 
-</jet_form>
+	<?=$form->field('DSN')?>
+	<?=$form->field('username')?>
+	<?=$form->field('password')?>
+
+	<input type="submit" value="<?=Tr::_($btn_label, [], Tr::COMMON_NAMESPACE);?>" class="btn btn-primary"/>
+
+<?=$form->end()?>
 
 <script type="text/javascript">
 	var DSN_wizard = {

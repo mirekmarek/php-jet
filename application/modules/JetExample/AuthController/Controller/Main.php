@@ -3,19 +3,22 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
  *
  */
-namespace JetApplicationModule\JetExample\AuthController;
+namespace JetShopAdminModule\JetExample\AuthController;
+use Jet\Tr;
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Controller_Exception;
 use Jet\Form;
-use Jet\Auth_User;
 use Jet\Http_Headers;
+use Jet\Http_Request;
 use Jet\Auth;
+use Jet\Mvc_Page as Page;
+use Jet\Auth_User as User;
 
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
@@ -40,6 +43,13 @@ class Controller_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
+		$GET = Http_Request::GET();
+
+		if($GET->exists('logout')) {
+			Auth::logout();
+
+			Http_Headers::movedTemporary( Page::get(Page::HOMEPAGE_ID)->getURI() );
+		}
 	}
 
 
@@ -54,14 +64,17 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$form = $this->module_instance->getLoginForm();
 
 		if(
-			$form->catchValues() &&
-			$form->validateValues()
+			$form->catchValues()
 		) {
-			$data = $form->getValues();
-			if(Auth::login( $data['login'], $data['password'] )) {
-				Http_Headers::reload();
+			if($form->validateValues()) {
+				$data = $form->getValues();
+				if(Auth::login( $data['login'], $data['password'] )) {
+					Http_Headers::reload();
+				} else {
+					$form->setCommonMessage( Tr::_('Invalid user name or password!') );
+				}
 			} else {
-				$this->view->setVar('incorrect_login', true);
+				$form->setCommonMessage( Tr::_('Please type user name and password') );
 			}
 		}
 
@@ -74,25 +87,25 @@ class Controller_Main extends Mvc_Controller_Standard {
     /**
      *
      */
-	public function isNotActivated_Action() {
+	public function is_not_activated_Action() {
 		$this->render('is-not-activated');
 	}
 
     /**
      *
      */
-	public function isBlocked_Action() {
+	public function is_blocked_Action() {
 		$this->render('is-blocked');
 	}
 
     /**
      *
      */
-	public function mustChangePassword_Action() {
+	public function must_change_password_Action() {
 		/**
 		 * @var Form $form
 		 */
-		$form = $this->module_instance->getChangePasswordForm();
+		$form = $this->module_instance->getMustChangePasswordForm();
 
 		if(
 			$form->catchValues() &&
@@ -100,15 +113,20 @@ class Controller_Main extends Mvc_Controller_Standard {
 		) {
 			$data = $form->getValues();
 			/**
-			 * @var Auth_User $user
+			 * @var User $user
 			 */
 			$user = $this->module_instance->getCurrentUser();
-			$user->setPassword( $data['password'] );
-			$user->setPasswordIsValid(true);
-			$user->setPasswordIsValidTill(null);
-			$user->save();
 
-			Http_Headers::reload();
+			if(!$user->verifyPassword($data['password'])) {
+				$user->setPassword( $data['password'] );
+				$user->setPasswordIsValid(true);
+				$user->setPasswordIsValidTill(null);
+				$user->save();
+
+				Http_Headers::reload();
+			} else {
+				$form->getField('password')->setErrorMessage( Tr::_('Please type new password') );
+			}
 		}
 
 		$this->view->setVar('form', $form);

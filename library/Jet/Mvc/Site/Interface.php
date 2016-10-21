@@ -69,21 +69,6 @@ interface Mvc_Site_Interface {
 	 */
 	public function getLayoutsPath();
 
-    /**
-     * @return string
-     */
-    public function getBaseURI();
-
-	/**
-	 * @return string
-	 */
-	public function getPublicURI();
-
-	/**
-	 * @return string
-	 */
-	public function getPublicPath();
-
 
 	/**
 	 * Returns default locale

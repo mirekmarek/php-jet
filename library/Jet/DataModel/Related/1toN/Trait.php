@@ -31,7 +31,7 @@ trait DataModel_Related_1toN_Trait {
 	    /**
 	     * @var DataModel_Definition_Model_Related_1toN $data_model_definition
 	     */
-	    $data_model_definition = $this->getDataModelDefinition();
+	    $data_model_definition = static::getDataModelDefinition();
 
 	    $iterator_class_name = $data_model_definition->getIteratorClassName();
 

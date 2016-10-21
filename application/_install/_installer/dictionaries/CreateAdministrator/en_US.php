@@ -11,4 +11,8 @@ return [
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
+	'Please select locale' => '',
+	'Invalid format' => '',
+	'Please select role' => '',
+	'Sorry, but username %LOGIN% is registered.' => '',
 ];

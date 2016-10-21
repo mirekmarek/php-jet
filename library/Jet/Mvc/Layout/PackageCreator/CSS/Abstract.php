@@ -13,6 +13,10 @@
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Layout_PackageCreator_CSS_Abstract
+ * @package Jet
+ */
 abstract class Mvc_Layout_PackageCreator_CSS_Abstract extends Mvc_Layout_PackageCreator_Abstract {
 
 	/**

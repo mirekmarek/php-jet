@@ -27,6 +27,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 			return;
 		}
 
+
 		$default_locale = $this->installer->getCurrentLocale();
 
 		$session = new Session( 'create_site_session' );

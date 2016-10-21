@@ -1,18 +1,21 @@
 <?php
 use Jet\Mvc_View;
 use Jet\Tr;
+use Jet\Form;
 use Jet\Application_Modules_Module_Manifest;
+use Jet\Installer;
 /**
  * @var Mvc_View $this
- */
-
-/**
+ * @var Form $form
  * @var Application_Modules_Module_Manifest[] $modules
  */
+
 $modules = $this->getRaw('modules');
+
+$form = $this->getRaw('form');
+
 ?>
-<jet_form name="modules_select_form">
-<jet_form_common_error_message class="formError"/>
+<?=$form->start()?>
 
 <table class="table table-striped">
 	<thead>
@@ -27,9 +30,18 @@ $modules = $this->getRaw('modules');
 	<?php foreach( $modules as $info ): ?>
 	<tr>
 		<td>
-			<?php if(!$info->getIsActivated()): ?>
-			<input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked"/>
-			<?php endif; ?>
+			<?php if(!$info->getIsActivated()):
+
+				if( $info->getIsAuthController() ):
+					?>
+					<input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked" disabled="disabled"/>
+					<?php
+				else:
+					?>
+					<input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked"/>
+					<?php
+				endif;
+			endif; ?>
 		</td>
 		<td><?=$info->getVendor();?></td>
 		<td>
@@ -45,5 +57,5 @@ $modules = $this->getRaw('modules');
 	<?php endforeach; ?>
 </table>
 
-	<?=\Jet\Installer::buttonNext();?>
-</jet_form>
+	<?=Installer::buttonNext();?>
+<?=$form->end()?>

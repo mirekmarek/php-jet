@@ -101,6 +101,10 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	 */
 	protected static $__definitions = [];
 
+    /**
+     * @var string
+     */
+    private $_backend_key;
 
 
 	/**
@@ -640,11 +644,15 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	public function getBackendInstance() {
 		$backend_type = $this->getBackendType();
 
-		$key = $backend_type;
+        if(!$this->_backend_key) {
+            $this->_backend_key = $backend_type;
 
-		if($this->forced_backend_config!==null) {
-			$key .= ':' . md5(serialize($this->forced_backend_config));
-		}
+            if($this->forced_backend_config!==null) {
+                $this->_backend_key .= ':' . md5(serialize($this->forced_backend_config));
+            }
+        }
+
+        $key = $this->_backend_key;
 
 		if(!isset(self::$__backend_instances[$key])) {
 			$backend_config = $this->getBackendConfig();

@@ -20,7 +20,7 @@ namespace Jet;
 /**
  *
  * @JetDataModel:name = 'role_privilege'
- * @JetDataModel:parent_model_class_name = JET_AUTH_ROLE_CLASS
+ * @JetDataModel:parent_model_class_name = 'Auth_Role'
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */

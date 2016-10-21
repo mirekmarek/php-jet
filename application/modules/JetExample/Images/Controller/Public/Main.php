@@ -50,7 +50,6 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
 
 		$this->view->setVar('children', $children);
 		$this->view->setVar('gallery', $gallery);
-		$this->view->setVar('icons_URI', $this->module_manifest->getPublicURI().'icons/');
 
 		$this->render('default');
 	}

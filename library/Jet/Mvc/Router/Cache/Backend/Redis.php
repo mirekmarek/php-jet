@@ -33,7 +33,13 @@ class Mvc_Router_Cache_Backend_Redis extends Mvc_Router_Cache_Backend_Abstract {
 	protected $key_prefix = '';
 
 
-	public function initialize() {
+    /**
+     * Initializes the cache backend
+     *
+     * @abstract
+     *
+     */
+    public function initialize() {
 		$this->redis = Redis::get($this->config->getConnection());
 
 		$this->key_prefix = $this->config->getKeyPrefix().':';

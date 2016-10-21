@@ -88,43 +88,43 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	abstract public function initialize();
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 * @param string|null $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getCreateCommand( DataModel_Interface $data_model, $force_table_name=null );
+	abstract public function helper_getCreateCommand( DataModel_Definition_Model_Abstract $definition, $force_table_name=null );
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 */
-	abstract public function helper_create( DataModel_Interface $data_model );
+	abstract public function helper_create( DataModel_Definition_Model_Abstract $definition );
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getDropCommand( DataModel_Interface $data_model );
+	abstract public function helper_getDropCommand( DataModel_Definition_Model_Abstract $definition );
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 */
-	abstract public function helper_drop( DataModel_Interface $data_model );
+	abstract public function helper_drop( DataModel_Definition_Model_Abstract $definition );
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 *
 	 * @return array
 	 */
-	abstract public function helper_getUpdateCommand( DataModel_Interface $data_model );
+	abstract public function helper_getUpdateCommand( DataModel_Definition_Model_Abstract $definition );
 
 	/**
-	 * @param DataModel_Interface $data_model
+	 * @param DataModel_Definition_Model_Abstract $definition
 	 *
 	 * @throws Exception
 	 */
-	abstract public function helper_update( DataModel_Interface $data_model );
+	abstract public function helper_update( DataModel_Definition_Model_Abstract $definition );
 
 
 	/**

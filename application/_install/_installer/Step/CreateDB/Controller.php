@@ -22,10 +22,10 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 		}
 
 		$classes = [
-            JET_AUTH_ROLE_CLASS,
-            JET_AUTH_ROLE_PRIVILEGE_CLASS,
-            JET_AUTH_USER_CLASS,
-            JET_AUTH_USER_ROLES_CLASS,
+            __NAMESPACE__.'\Auth_Role',
+            __NAMESPACE__.'\Auth_Role_Privilege',
+            __NAMESPACE__.'\Auth_User',
+            __NAMESPACE__.'\Auth_User_Roles',
 		];
 
 		$result = [];
@@ -35,7 +35,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 			$result[$class] = true;
 
 			try {
-				DataModel::helper_create( $class );
+				DataModel_Helper::create( $class );
 			} catch(Exception $e) {
 				$result[$class] = $e->getMessage();
 				$OK = false;

@@ -1,5 +1,24 @@
 <?php
 use Jet\Tr;
+use JetExampleApp\UI;
 ?>
-<p><?=Tr::_('Your account is blocked ...');?></p>
-<a href="?logout" class="btn btn-default"><?=Tr::_('Logout');?></a>
+
+<div style="margin-top:25%;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+	<div class="panel panel-default" >
+		<div class="panel-heading">
+			<div class="panel-title"><?=Tr::_('Account is blocked')?></div>
+		</div>
+		<div class="panel-body" >
+
+			<?=UI::icon('remove-sign')->setSize(50)->setTag('div')?>
+
+			<div style="display: inline-block;position:relative;top:  -10px;">
+				<?=Tr::_('<b>Your account is blocked!</b><br/>Please contact your system administrator.');?>
+			</div>
+
+			<div style="padding-top: 10px">
+				<a href="?logout" class="btn btn-default"><?=Tr::_('Logout');?></a>
+			</div>
+		</div>
+	</div>
+</div>

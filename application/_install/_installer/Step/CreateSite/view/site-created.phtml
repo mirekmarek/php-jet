@@ -1,6 +1,10 @@
-<h1><?=Jet\Tr::_('Site created :-) ');?></h1>
+<?php
+use Jet\Tr;
+use Jet\Installer;
+?>
+<h1><?=Tr::_('Site created :-) ');?></h1>
 
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<?=\Jet\Installer::buttonNext();?>
+	<?=Installer::buttonNext();?>
 </form>

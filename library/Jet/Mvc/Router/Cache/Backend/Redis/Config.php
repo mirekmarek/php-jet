@@ -21,7 +21,7 @@ class Mvc_Router_Cache_Backend_Redis_Config extends Mvc_Router_Cache_Backend_Con
 	 * @JetConfig:is_required = true
 	 * @JetConfig:form_field_label = 'Connection: '
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
-	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Cache_Backend_Redis_Config', 'getRedisConnectionsList']
+	 * @JetConfig:form_field_get_select_options_callback = ['Mvc_Router_Cache_Backend_Redis_Config', 'getRedisConnectionsList']
      * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select Redis connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select Redis connection']
 	 *
 	 * @var string

@@ -8,4 +8,6 @@ return [
 	'Yes' => '',
 	'Install and activate selected modules' => '',
 	'Please select module' => '',
+	'NO' => '',
+	'Result' => '',
 ];

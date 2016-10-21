@@ -20,7 +20,10 @@ class Form_Renderer_Bootstrap_Label extends Form_Renderer_Abstract_Label {
 	 */
 	protected $base_css_class;
 
-	public function getBaseCssClass()
+    /**
+     * @return string
+     */
+    public function getBaseCssClass()
 	{
 		if($this->base_css_class) {
 			return $this->base_css_class;

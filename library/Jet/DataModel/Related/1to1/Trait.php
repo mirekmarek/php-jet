@@ -40,7 +40,7 @@ trait DataModel_Related_1to1_Trait {
 	    if(
 		    $load_filter
 	    ) {
-	    	if(!$load_filter->getModelAllowed( $this->getDataModelDefinition()->getModelName() )) {
+	    	if(!$load_filter->getModelAllowed( static::getDataModelDefinition()->getModelName() )) {
 			    return [];
 		    }
 
@@ -49,7 +49,7 @@ trait DataModel_Related_1to1_Trait {
 
         $query = $this->getLoadRelatedDataQuery($main_ID, $load_filter);
 
-        return $this->getBackendInstance()->fetchAll( $query );
+        return static::getBackendInstance()->fetchAll( $query );
     }
 
 	/**
@@ -108,7 +108,7 @@ trait DataModel_Related_1to1_Trait {
         /**
          * @var DataModel_Definition_Model_Related_1to1 $definition
          */
-        $definition = $this->getDataModelDefinition();
+        $definition = static::getDataModelDefinition();
 
         $parent_ID_values = [];
         if($parent_ID) {

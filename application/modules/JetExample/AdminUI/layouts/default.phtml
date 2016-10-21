@@ -22,7 +22,9 @@ Mvc::requireCssFile(BOOTSTRAP_CSS_URI);
 
 			<div class="btn btn-default" style="float:right;margin: 10px;">
 				<?=Tr::_('Current user: %USERNAME%', ['USERNAME' => Auth::getCurrentUser()->getLogin()]);?>
+				<?php /*
 				<a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-danger"><?=Tr::_('LOGOUT');?></a>
+ 				*/ ?>
 			</div>
 
 		</div>

@@ -41,9 +41,10 @@ trait DataModel_Trait_Exports {
      */
     public function XMLSerialize( $prefix='' ) {
         /**
+         * @var DataModel_Definition_Model_Abstract $definition
          * @var DataModel $this
          */
-        $definition = $this->getDataModelDefinition();
+        $definition = static::getDataModelDefinition();
         $properties = $definition->getProperties();
 
         $model_name = $definition->getModelName();
@@ -101,8 +102,10 @@ trait DataModel_Trait_Exports {
     public function jsonSerialize() {
         /**
          * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
          */
-        $properties = $this->getDataModelDefinition()->getProperties();
+        $definition = static::getDataModelDefinition();
+        $properties = $definition->getProperties();
 
         $result = [];
         foreach($properties as $property_name=>$property) {

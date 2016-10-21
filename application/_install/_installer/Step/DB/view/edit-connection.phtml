@@ -1,26 +1,19 @@
 <?php
+use Jet\Form;
+use Jet\Installer;
+use Jet\Tr;
+
 /**
- * @var Jet\Form $form
+ * @var Form $form
  */
 $form = $this->form;
-
-/**
- * @var Jet\Config $config
- */
-$config = $this->config;
-
-/**
- * @var Jet\Config_Definition_Property_Abstract[] $config_props
- */
-$config_props = $config->getPropertiesDefinition();
 
 $btn_label = 'Save';
 
 ?>
+<?=Installer::buttonBack()?>
 
-<?=\Jet\Installer::buttonBack()?>
-
-	<h3><?=Jet\Tr::_('Edit connection \'%CONNECTION%\' ', ['CONNECTION'=>$this->connection_name]);?></h3>
+	<h3><?=Tr::_('Edit connection \'%CONNECTION%\' ', ['CONNECTION'=>$this->connection_name]);?></h3>
 
 <?php
 require 'parts/connection.phtml';

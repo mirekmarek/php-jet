@@ -567,7 +567,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		$this->handleJavascripts( $result );
 		$this->handleCss( $result );
-		$this->handleConstants( $result );
 
 		$this->handlePostprocessors( $result );
 
@@ -703,30 +702,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 		return $matches_count;
 
-	}
-
-	/**
-	 * @param string &$result
-	 */
-	protected function handleConstants( &$result ) {
-		$data = [];
-
-		if( ($page=Mvc::getCurrentPage()) ) {
-
-			$site = $page->getSite();
-			$locale = $page->getLocale();
-
-
-			$data['JET_SITE_BASE_URI'] = $site->getBaseURI();
-			$data['JET_SITE_PUBLIC_URI'] = $site->getPublicURI();
-			$data['JET_SITE_TITLE'] = $site->getLocalizedData($locale)->getTitle();
-			$data['JET_PAGE_TITLE'] = $page->getTitle();
-
-			$data['JET_LANGUAGE'] = $locale->getLanguage();
-		}
-
-
-		$result = Data_Text::replaceData($result, $data );
 	}
 
 	/**

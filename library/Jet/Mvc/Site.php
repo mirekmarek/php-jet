@@ -339,27 +339,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	/**
 	 * @return string
 	 */
-	public function getBaseURI() {
-		return JET_SITES_URI . $this->getSiteId() . '/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPublicURI() {
-		return $this->getBaseURI() . static::PUBLIC_DIR.'/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPublicPath() {
-		return $this->getBasePath() . static::PUBLIC_DIR.'/';
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getLayoutsPath() {
 		return $this->getBasePath().static::LAYOUTS_DIR.'/';
 	}
@@ -692,7 +671,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @return Mvc_Site_Interface
 	 */
 	public function getDefault() {
-		$sites = $this->getList();
+		$sites = static::getList();
 
 		foreach( $sites as $site ) {
 			if($site->getIsDefault()) {

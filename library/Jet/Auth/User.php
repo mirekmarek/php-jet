@@ -67,7 +67,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
 	 * @JetDataModel:form_field_label = 'Password'
-	 * @JetDataModel:form_field_options = ['password_check_label'=>'Confirm password']
+	 * @JetDataModel:form_field_options = ['password_confirmation_label'=>'Confirm password']
      * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please type password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
@@ -198,11 +198,11 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_AUTH_USER_ROLES_CLASS
+	 * @JetDataModel:data_model_class = 'Auth_User_Roles'
 	 * @JetDataModel:form_field_creator_method_name = 'createRolesFormField'
 	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
 	 * @JetDataModel:form_field_label = 'Roles'
-	 * @JetDataModel:form_field_get_select_options_callback = [JET_AUTH_ROLE_CLASS, 'getList']
+	 * @JetDataModel:form_field_get_select_options_callback = ['Auth_Role', 'getList']
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
      * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
 	 *
@@ -279,7 +279,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 				'this.ID!=' => $this->ID
 			];
 		}
-		return (bool)$this->getBackendInstance()->getCount( $this->createQuery( $q ) );
+		return (bool)static::getBackendInstance()->getCount( $this->createQuery( $q ) );
 	}
 
 
@@ -735,14 +735,21 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	public function getSimpleForm( $form_name='' ) {
 
 		if(!$form_name) {
-			$definition = $this->getDataModelDefinition();
+			$definition = static::getDataModelDefinition();
 			$form_name = $definition->getModelName();
 
 		}
 
-		$form = $this->getForm($form_name, ['login', 'password', 'email']);
+		$form = $this->getForm($form_name );
 
-		$this->_setupForm($form);
+        $this->_setupForm($form);
+
+        foreach( $form->getFields() as $field ) {
+            if(!in_array($field->getName(), ['login', 'password', 'email'])) {
+                $form->removeField($field->getName());
+            }
+        }
+
 
 		return $form;
 

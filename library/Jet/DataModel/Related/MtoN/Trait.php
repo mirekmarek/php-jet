@@ -48,7 +48,7 @@ trait DataModel_Related_MtoN_Trait {
 	    /**
 	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 	     */
-	    $data_model_definition = $this->getDataModelDefinition();
+	    $data_model_definition = static::getDataModelDefinition();
 
 	    $iterator_class_name = $data_model_definition->getIteratorClassName();
 
@@ -279,7 +279,7 @@ trait DataModel_Related_MtoN_Trait {
 	    /**
 	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 	     */
-	    $data_model_definition = $this->getDataModelDefinition();
+	    $data_model_definition = static::getDataModelDefinition();
 
 	    $N_ID = $N_instance->getIdObject();
 	    $N_ID_properties = $data_model_definition->getNRelationIDProperties();
@@ -308,7 +308,7 @@ trait DataModel_Related_MtoN_Trait {
 	        /**
 	         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 	         */
-	        $data_model_definition = $this->getDataModelDefinition();
+	        $data_model_definition = static::getDataModelDefinition();
 
             $n_class_name = $data_model_definition->getNModelClassName();
 
@@ -329,7 +329,7 @@ trait DataModel_Related_MtoN_Trait {
             /**
              * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
              */
-            $data_model_definition = $this->getDataModelDefinition();
+            $data_model_definition = static::getDataModelDefinition();
 
             /**
              * @var DataModel_Definition_Property_Abstract[] $N_ID_properties
@@ -342,7 +342,7 @@ trait DataModel_Related_MtoN_Trait {
              */
             $N_model_instance = new $n_class_name();
 
-            $this->_N_ID = $N_model_instance->getEmptyIdObject();
+            $this->_N_ID = $N_model_instance::getEmptyIdObject();
 
             foreach( $N_ID_properties as $N_ID_prop_name=>$N_ID_prop) {
                 $this->_N_ID[$N_ID_prop->getRelatedToPropertyName()] = $this->{$N_ID_prop_name};
@@ -366,7 +366,7 @@ trait DataModel_Related_MtoN_Trait {
 	    /**
 	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 	     */
-	    $data_model_definition = $this->getDataModelDefinition();
+	    $data_model_definition = static::getDataModelDefinition();
 
         $N_class_name = $data_model_definition->getNModelClassName();
 
@@ -419,7 +419,7 @@ trait DataModel_Related_MtoN_Trait {
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
-		$data_model_definition = $this->getDataModelDefinition();
+		$data_model_definition = static::getDataModelDefinition();
 
 		if($M_ID->getDataModelClassName()!=$data_model_definition->getMModelClassName()) {
 			return;
@@ -428,7 +428,7 @@ trait DataModel_Related_MtoN_Trait {
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
-		$data_model_definition = $this->getDataModelDefinition();
+		$data_model_definition = static::getDataModelDefinition();
 
 		$M_ID_properties = $data_model_definition->getMRelationIDProperties();
 

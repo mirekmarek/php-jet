@@ -122,6 +122,7 @@ class Form_Field_Float extends Form_Field_Input {
 			return true;
 		}
 
+        $this->_value_raw = str_replace(',', '.', $this->_value_raw);
 		$this->_value = (float)$this->_value_raw;
 
 

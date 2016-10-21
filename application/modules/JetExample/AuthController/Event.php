@@ -6,7 +6,7 @@
  *
  *
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2012-2013 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -14,7 +14,6 @@
  */
 
 namespace JetApplicationModule\JetExample\AuthController;
-
 use Jet\DataModel;
 use Jet\Data_DateTime;
 use Jet\Http_Request;
@@ -23,7 +22,7 @@ use Jet\Http_Request;
  * Class Event
  *
  * @JetDataModel:name = 'Auth_Event'
- * @JetDataModel:database_table_name = 'Jet_Auth_Events'
+ * @JetDataModel:database_table_name = 'jet_auth_events'
  * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
  */
 class Event extends DataModel {

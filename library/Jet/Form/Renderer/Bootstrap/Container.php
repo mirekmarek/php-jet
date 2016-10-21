@@ -20,7 +20,10 @@ class Form_Renderer_Bootstrap_Container extends Form_Renderer_Abstract_Container
 	 */
 	protected $base_css_class;
 
-	public function getBaseCssClass()
+    /**
+     * @return string
+     */
+    public function getBaseCssClass()
 	{
 		if($this->base_css_class) {
 			$class = $this->base_css_class;

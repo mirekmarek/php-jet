@@ -28,7 +28,7 @@ trait DataModel_Trait_Fetch {
         /**
          * @var DataModel $this
          */
-        $query = new DataModel_Query($this->getDataModelDefinition() );
+        $query = new DataModel_Query(static::getDataModelDefinition() );
         $query->setMainDataModel( $this );
         $query->setWhere( $where );
         return $query;
@@ -127,8 +127,10 @@ trait DataModel_Trait_Fetch {
 
         /**
          * @var DataModel $this
+         * @var DataModel_Backend_Abstract $backend
          */
-        return $this->getBackendInstance()->fetchRow( $query );
+        $backend = static::getBackendInstance();
+        return $backend->fetchRow( $query );
 
     }
 
@@ -146,8 +148,10 @@ trait DataModel_Trait_Fetch {
 
         /**
          * @var DataModel $this
+         * @var DataModel_Backend_Abstract $backend
          */
-        return $this->getBackendInstance()->fetchOne( $query );
+        $backend = static::getBackendInstance();
+        return $backend->fetchOne( $query );
     }
 
     /**

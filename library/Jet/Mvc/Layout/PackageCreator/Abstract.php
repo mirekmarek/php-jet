@@ -78,7 +78,6 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 			'JET_PUBLIC_STYLES',
 			'JET_PUBLIC_SCRIPTS',
 			'JET_PUBLIC_DATA',
-			'JET_MODULES'
 
 		] );
 		if($_URI) {

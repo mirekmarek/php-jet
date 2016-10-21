@@ -77,7 +77,7 @@ trait DataModel_Trait_Load {
 			return;
 		}
 
-		$definition = $this->getDataModelDefinition();
+		$definition = static::getDataModelDefinition();
 
 		if(!($_load_filter instanceof DataModel_PropertyFilter)) {
 			$this->_load_filter = new DataModel_PropertyFilter( $definition, $_load_filter );
@@ -92,15 +92,17 @@ trait DataModel_Trait_Load {
     public function loadMainData() {
 	    /**
 	     * @var DataModel $this
+         * @var DataModel_Backend_Abstract $backend
 	     */
 
 	    $query = $this->getIdObject()->getQuery();
 
-	    $select = DataModel_PropertyFilter::getQuerySelect( $this->getDataModelDefinition(), $this->getLoadFilter() );
+	    $select = DataModel_PropertyFilter::getQuerySelect( static::getDataModelDefinition(), $this->getLoadFilter() );
 
 	    $query->setSelect( $select );
+        $backend = static::getBackendInstance();
 
-	    return $this->getBackendInstance()->fetchRow( $query );
+	    return $backend->fetchRow( $query );
 
     }
 
@@ -111,9 +113,10 @@ trait DataModel_Trait_Load {
 	{
 		/**
 		 * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
 		 */
 
-		$definition = $this->getDataModelDefinition();
+		$definition = static::getDataModelDefinition();
 		$related_properties = $definition->getAllRelatedPropertyDefinitions();
 
 		$related_data = [];
@@ -148,8 +151,9 @@ trait DataModel_Trait_Load {
     public function setState(array $this_data, $related_data=[] ) {
 	    /**
 	     * @var DataModel $this
+         * @var DataModel_Definition_Model_Abstract $definition
 	     */
-	    $definition = $this->getDataModelDefinition();
+	    $definition = static::getDataModelDefinition();
 
 
 	    foreach( $definition->getProperties() as $property_name=>$property_definition ) {

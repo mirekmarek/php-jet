@@ -1,3 +1,4 @@
 <?php
-use Jet\DataModel;
-DataModel::helper_create('module:JetExample.Articles\Article');
+use Jet\DataModel_Helper;
+
+DataModel_Helper::create('module:JetExample.Articles\Article');

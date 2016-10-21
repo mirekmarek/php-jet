@@ -3,6 +3,7 @@ use Jet\Tr;
 use Jet\Mvc;
 
 Mvc::requireCssFile(BOOTSTRAP_CSS_URI);
+Mvc::requireCssFile( JET_PUBLIC_URI.'styles/flags.css' );
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><?=Tr::_('Login');?></title>
@@ -18,5 +19,11 @@ Mvc::requireCssFile(BOOTSTRAP_CSS_URI);
 		overflow: hidden;
 		padding: 0 0 0 0;
 		margin: 0 0 0 0;
+
+		background: #c9c9c9;
+		background: -webkit-linear-gradient(#c9c9c9, #ffffff);
+		background: -o-linear-gradient(#c9c9c9, #ffffff);
+		background: -moz-linear-gradient(#c9c9c9, #ffffff);
+		background: linear-gradient(#c9c9c9, #ffffff);
 	}
 </style>

@@ -317,15 +317,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 		return JET_MODULES_PATH . str_replace('.', '/', $this->name) . '/';
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public function getPublicURI() {
-		return JET_MODULES_URI.str_replace('.', '/', $this->name).'/public/';
-	}
-
-
 	/**
 	 * @return string
 	 */
