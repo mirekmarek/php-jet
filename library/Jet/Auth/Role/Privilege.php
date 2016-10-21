@@ -64,6 +64,11 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	protected $values = [];
 
 	/**
+	 * @var Auth_Role
+	 */
+	protected $_role;
+
+	/**
 	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	private static $available_privileges_list;
@@ -82,6 +87,14 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 		}
 
 		parent::__construct();
+	}
+
+	/**
+	 * @param Auth_Role_Interface $role
+	 */
+	public function setRole(Auth_Role_Interface$role)
+	{
+		$this->_role = $role;
 	}
 
 	/**
@@ -157,24 +170,14 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	public function getFormField( DataModel_Definition_Property_Abstract $values_property_definition ) {
 
 
-		if(!self::$available_privileges_list) {
-			/** @noinspection PhpUndefinedMethodInspection */
-			$role_class = static::getDataModelDefinition()->getParentModelClassName();
+		/** @noinspection PhpStaticAsDynamicMethodCallInspection */
+		$available_privileges_list = $this->_role->getAvailablePrivilegesList();
 
-			/**
-			 * @var callable $callback
-			 */
-			$callback = [$role_class, 'getAvailablePrivilegesList'];
-
-			self::$available_privileges_list = $callback();
-		}
-
-		if(!isset( self::$available_privileges_list[ $this->privilege ]) ) {
+		if(!isset( $available_privileges_list[ $this->privilege ]) ) {
 			return false;
 		}
 
-		$privilege_data = self::$available_privileges_list[ $this->privilege ];
-
+		$privilege_data = $available_privileges_list[ $this->privilege ];
 
 		$form_field = Form_Factory::getFieldInstance(
 			$values_property_definition->getFormFieldType(),

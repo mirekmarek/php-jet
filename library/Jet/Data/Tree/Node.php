@@ -21,7 +21,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @var Data_Tree
 	 */
-	protected $tree;
+	protected $_tree;
 
 	/**
 	 *
@@ -45,7 +45,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @var Data_Tree_Node
 	 */
-	protected $parent;
+	protected $_parent;
 
 	/**
 	 * @var string|null
@@ -65,7 +65,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @var Data_Tree_Node[]
 	 */
-	protected $children = [];
+	protected $_children = [];
 
 	/**
 	 * Range from root
@@ -117,7 +117,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @param string $label
 	 */
 	public function __construct( Data_Tree $tree, $data, $is_root=false, $ID, $parent_ID, $label ){
-		$this->tree = $tree;
+		$this->_tree = $tree;
 		$this->is_root = $is_root;
 		$this->ID = $ID;
 		$this->parent_ID = $parent_ID;
@@ -138,7 +138,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$ID = $node->getID();
 
 		if(
-			isset($this->children[$ID])
+			isset($this->_children[$ID])
 		) {
 			throw new Data_Tree_Exception(
 				'Child \''.$ID.'\' already exists!',
@@ -146,7 +146,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 			);
 		}
 
-		$this->children[$ID] = $node;
+		$this->_children[$ID] = $node;
 	}
 
 
@@ -155,7 +155,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return Data_Tree
 	 */
 	public function getTree(){
-		return $this->tree;
+		return $this->_tree;
 	}
 
 	/**
@@ -193,14 +193,14 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	}
 
 	/**
-	 * @param Data_Tree_Node $parent
+	 * @param Data_Tree_Node $_parent
 	 */
-	public function setParent( Data_Tree_Node $parent)
+	public function setParent( Data_Tree_Node $_parent)
 	{
-		$this->parent = $parent;
-		$this->parent_ID = $parent->getID();
+		$this->_parent = $_parent;
+		$this->parent_ID = $_parent->getID();
 
-		$this->depth = $parent->getDepth() + 1;
+		$this->depth = $_parent->getDepth() + 1;
 	}
 
 	/**
@@ -208,7 +208,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return Data_Tree_Node
 	 */
 	public function getParent(){
-		return $this->parent;
+		return $this->_parent;
 	}
 
 
@@ -271,14 +271,14 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return bool
 	 */
 	public function getHasChildren(){
-		return (bool)$this->children;
+		return (bool)$this->_children;
 	}
 
 	/**
 	 *
 	 */
 	public function setHasChildren(){
-		$this->children = true;
+		$this->_children = true;
 	}
 
 	/**
@@ -286,7 +286,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return array
 	 */
 	public function getChildren(){
-		return $this->children;
+		return $this->_children;
 	}
 
 	/**
@@ -296,7 +296,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return bool
 	 */
 	public function getChildExists($ID){
-		return isset( $this->children[$ID] );
+		return isset( $this->_children[$ID] );
 	}
 
 
@@ -307,7 +307,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @return Data_Tree_Node
 	 */
 	public function getChild($child_ID){
-		return $this->children[$child_ID];
+		return $this->_children[$child_ID];
 	}
 
 
@@ -321,8 +321,8 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$result[$this->ID] = $this;
 		$_node = $this;
 
-		while( $_node->parent ){
-			$_node = $_node->parent;
+		while( $_node->_parent ){
+			$_node = $_node->_parent;
 			$result[$_node->ID] = $_node;
 		}
 
@@ -431,11 +431,11 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 */
 	public function _toArray( &$_result, $max_depth, $root_depth ){
 
-		$ID_key = $this->tree->getIDKey();
-		$parent_ID_key = $this->tree->getParentIDKey();
-		$children_key = $this->tree->getChildrenKey();
-		$depth_key = $this->tree->getDepthKey();
-		$label_key = $this->tree->getLabelKey();
+		$ID_key = $this->_tree->getIDKey();
+		$parent_ID_key = $this->_tree->getParentIDKey();
+		$children_key = $this->_tree->getChildrenKey();
+		$depth_key = $this->_tree->getDepthKey();
+		$label_key = $this->_tree->getLabelKey();
 
 		$next_children = true;
 		if($max_depth) {
@@ -450,15 +450,15 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$item[$label_key] = $this->label;
 		$item[$depth_key] = $this->depth;
 
-		if($next_children && $this->children){
+		if($next_children && $this->_children){
 
 			if(
 				$this->is_root ||
-				!$this->tree->getLazyMode()
+				!$this->_tree->getLazyMode()
 			) {
 				$item[$children_key] = [];
 
-				foreach($this->children as $child) {
+				foreach($this->_children as $child) {
 					$child->_toArray( $item[$children_key], $max_depth, $root_depth );
 				}
 			} else {
@@ -512,7 +512,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 			}
 		}
 
-		foreach($this->children as $child){
+		foreach($this->_children as $child){
 			$child->_prepareIteratorMap( $result, $max_depth, $root_depth );
 		}
 

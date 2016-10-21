@@ -26,6 +26,13 @@ abstract class DataModel_Related_1to1 extends BaseObject implements DataModel_Re
 
     }
 
+	/**
+	 *
+	 */
+	public function beforeSave() {
+
+	}
+
     /**
      *
      */

@@ -14,8 +14,6 @@ namespace Jet;
 /**
  * Class Application
  *
- * @JetApplication_Signals:signal = '/application/started'
- * @JetApplication_Signals:signal = '/application/ended'
  *
  */
 class Application extends BaseObject {
@@ -74,9 +72,6 @@ class Application extends BaseObject {
 		Debug_Profiler::blockEnd('Http request init');
 
 		Debug_Profiler::MainBlockEnd('Application init');
-
-		$app = new self();
-		$app->sendSignal('/application/started');
 
 	}
 
@@ -170,8 +165,6 @@ class Application extends BaseObject {
 	 *
 	 */
 	public static function end(){
-		$app = new self();
-		$app->sendSignal('/application/ended');
 
 		if(!static::$do_not_end) {
 			exit();

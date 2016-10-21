@@ -37,6 +37,13 @@ abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Re
 
     }
 
+	/**
+	 *
+	 */
+    public function beforeSave() {
+
+    }
+
     /**
      *
      */

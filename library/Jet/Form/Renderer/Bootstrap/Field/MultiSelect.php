@@ -34,7 +34,6 @@ class Form_Renderer_Bootstrap_Field_MultiSelect extends Form_Renderer_Bootstrap_
 		$value = $this->_field->getValue();
 		$options = $this->_field->getSelectOptions();
 
-
 		$options_str = '';
 		foreach($options as $val=>$label) {
 
@@ -77,7 +76,7 @@ class Form_Renderer_Bootstrap_Field_MultiSelect extends Form_Renderer_Bootstrap_
 
 
 		$tag_options = [
-			'name' => $this->getTagNameValue(),
+			'name' => $this->getTagNameValue().'[]',
 			'id' => $this->getTagId(),
 			'multiple' => 'multiple'
 		];

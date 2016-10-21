@@ -94,7 +94,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 * @JetDataModel:data_model_class = 'Auth_Role_Privilege'
 	 * @JetDataModel:form_field_is_required = false
 	 *
-	 * @var Auth_Role_Privilege_Interface[]
+	 * @var Auth_Role_Privilege[]
 	 */
 	protected $privileges;
 
@@ -104,9 +104,14 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 * @JetDataModel:data_model_class = 'Auth_Role_Users'
 	 * @JetDataModel:form_field_type = false
 	 *
-	 * @var Auth_User_Interface[]
+	 * @var Auth_User[]
 	 */
 	protected $users;
+
+	/**
+	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
+	 */
+	protected static $available_privileges_list;
 
     /**
      * @param string $ID
@@ -241,6 +246,8 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 		} else {
 			$this->privileges[$privilege]->setValues( $values );
 		}
+
+		$this->privileges[$privilege]->setRole($this);
 	}
 
 	/**
@@ -309,6 +316,16 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 *
 	 */
+	public function afterLoad()
+	{
+		foreach( $this->privileges as $privilege ) {
+			$privilege->setRole($this);
+		}
+	}
+
+	/**
+	 *
+	 */
 	public function afterAdd() {
 		$this->sendSignal('/role/new', ['role'=>$this]);
 	}
@@ -335,28 +352,32 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
 	public static function getAvailablePrivilegesList() {
-		$data = [];
 
-		foreach( static::$standard_privileges as $privilege=>$d) {
-			$available_values_list = null;
+		if(static::$available_privileges_list===null) {
+			static::$available_privileges_list = [];
 
-			/**
-			 * @var callable $callback
-			 */
-			$callback = [ get_called_class(), $d['get_available_values_list_method_name'] ];
+			foreach( static::$standard_privileges as $privilege=>$d) {
+				$available_values_list = null;
 
-			$available_values_list = $callback();
+				/**
+				 * @var callable $callback
+				 */
+				$callback = [ get_called_class(), $d['get_available_values_list_method_name'] ];
 
-			$item = new Auth_Role_Privilege_AvailablePrivilegesListItem(
-				$privilege,
-				$d['label'],
-				$available_values_list
-			);
+				$available_values_list = $callback();
 
-			$data[$privilege] = $item;
+				$item = new Auth_Role_Privilege_AvailablePrivilegesListItem(
+					$privilege,
+					$d['label'],
+					$available_values_list
+				);
+
+				static::$available_privileges_list[$privilege] = $item;
+			}
+
 		}
 
-		return $data;
+		return static::$available_privileges_list;
 	}
 
 
