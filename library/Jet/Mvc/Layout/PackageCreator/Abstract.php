@@ -135,9 +135,7 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 			'JET_PUBLIC',
 			'JET_PUBLIC_STYLES',
 			'JET_PUBLIC_SCRIPTS',
-			'JET_PUBLIC_DATA',
-			'JET_MODULES'
-
+			'JET_PUBLIC_DATA'
 		] );
 		if($_URI) {
 			return Data_Text::replaceSystemConstants($_URI);
