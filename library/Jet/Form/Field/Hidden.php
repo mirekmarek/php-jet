@@ -46,4 +46,12 @@ class Form_Field_Hidden extends Form_Field_Abstract {
 		return $codes;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function render() {
+		return (string)$this->field();
+	}
+
+
 }

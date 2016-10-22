@@ -108,7 +108,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		if($data->exists($name)) {
 			$this->password_confirmation_value = trim( $data->getString($name ) );
 		}
-		
 		parent::catchValue($data);
 	}
 
@@ -136,7 +135,6 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 	 */
 	public function validateValue() {
 
-
 		if( $this->_value!=$this->password_confirmation_value ) {
 			$this->setValueError(self::ERROR_CODE_CHECK_NOT_MATCH);
 			return false;
@@ -152,9 +150,8 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
 		}
 
 
-
 		$this->_setValueIsValid();
-		
+
 		return true;
 	}
 

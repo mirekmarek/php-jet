@@ -69,21 +69,21 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 *
 	 * @var bool
 	 */
-	protected $_is_valid = false;
+	protected $is_valid = false;
 
 	/**
 	 * last validation error key (key = this->error_messages hash key)
 	 *
 	 * @var string
 	 */
-	protected $_last_error = '';
+	protected $last_error = '';
 
 	/**
 	 * last validation error message
 	 *
 	 * @var string
 	 */
-	protected $_last_error_message = '';
+	protected $last_error_message = '';
 
 	
 	/**
@@ -576,7 +576,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @return bool
 	 */
 	public function isValid() {
-		return $this->_is_valid;
+		return $this->is_valid;
 	}
 
     /**
@@ -616,7 +616,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @return string
 	 */
 	public function getLastError() {
-		return $this->_last_error;
+		return $this->last_error;
 	}
 	
 	/**
@@ -625,16 +625,16 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @return string
 	 */
 	public function getLastErrorMessage() {
-		return $this->_last_error_message;
+		return $this->last_error_message;
 	}
 
 	/**
 	 * set value is OK
 	 */
 	protected function _setValueIsValid() {
-		$this->_is_valid = true;
-		$this->_last_error = false;
-		$this->_last_error_message = false;
+		$this->is_valid = true;
+		$this->last_error = false;
+		$this->last_error_message = false;
 	}
 	
 	/**
@@ -643,9 +643,9 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @param string $key
 	 */
 	public function setValueError($key) {
-		$this->_is_valid = false;
-		$this->_last_error = $key;
-		$this->_last_error_message = $this->getErrorMessage($key);
+		$this->is_valid = false;
+		$this->last_error = $key;
+		$this->last_error_message = $this->getErrorMessage($key);
 	}
 
 	/**
@@ -654,10 +654,10 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	 * @param
 	 */
 	public function setErrorMessage($error_message) {
-		$this->_is_valid = false;
+		$this->is_valid = false;
 		$this->_form->setIsNotValid();
-		$this->_last_error = $error_message;
-		$this->_last_error_message = $error_message;
+		$this->last_error = $error_message;
+		$this->last_error_message = $error_message;
 	}
 		
 	/**

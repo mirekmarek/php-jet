@@ -49,13 +49,6 @@ abstract class Form_Renderer_Abstract_Container extends Form_Renderer_Abstract_T
 	 * @return string
 	 */
 	public function render() {
-		if(
-			$this->_field instanceof Form_Field_Hidden
-		) {
-			$this->is_pair = false;
-
-			return '';
-		}
 
 		$tag_options = [
 		];

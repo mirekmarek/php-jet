@@ -226,7 +226,7 @@ trait DataModel_Related_MtoN_Trait {
         $items = [];
 
         if(empty($loaded_related_data[$model_name])) {
-            return $items;
+	        $loaded_related_data[$model_name] = [];
         }
 
 

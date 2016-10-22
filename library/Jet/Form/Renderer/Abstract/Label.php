@@ -77,10 +77,14 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 
     /**
      * @param string $label
+     *
+     * @return $this
      */
     public function setLabel($label)
     {
         $this->label = $label;
+
+	    return $this;
     }
 
     /**
@@ -93,10 +97,14 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 
     /**
      * @param string $for
+     *
+     * @return $this
      */
     public function setFor($for)
     {
         $this->for = $for;
+
+	    return $this;
     }
 
 
@@ -153,8 +161,7 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 */
 	public function render() {
 		if(
-			$this->_field instanceof Form_Field_Checkbox ||
-			$this->_field instanceof Form_Field_Hidden
+			$this->_field instanceof Form_Field_Checkbox
 		) {
 			return '';
 		}
