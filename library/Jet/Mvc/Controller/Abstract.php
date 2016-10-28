@@ -34,11 +34,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	protected $module_manifest;
 
 	/**
-	 * @var Mvc_Controller_Router
-	 */
-	protected static $controller_router;
-
-	/**
 	 * @var Mvc_View
 	 */
 	protected $view;
@@ -77,7 +72,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 */
 	protected static $ACL_actions_check_map = [
 	];
-
 
 
 	/**

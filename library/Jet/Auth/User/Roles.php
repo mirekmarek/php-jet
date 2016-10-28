@@ -18,7 +18,6 @@
 namespace Jet;
 
 /**
- * Class Auth_User_Roles
  *
  * @JetDataModel:name = 'user_roles'
  *

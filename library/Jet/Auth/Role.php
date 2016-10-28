@@ -273,16 +273,30 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	}
 
 	/**
+	 *
+	 * @param string $search
+	 *
 	 * @return DataModel_Fetch_Object_Assoc|Auth_Role[]
 	 */
-	public static function getList() {
+	public static function getList( $search='' ) {
+
+		$where = [];
+		if($search) {
+			$search = '%'.$search.'%';
+
+			$where[] = [
+				'this.name *' => $search,
+				'OR',
+				'this.description *' => $search
+			];
+		}
 
 		/**
 		 * @var Auth_Role $_this
 		 */
 		$_this = new static();
 
-		$list = $_this->fetchObjects();
+		$list = $_this->fetchObjects( $where );
 		$list->setLoadFilter([
 			'this.ID',
 			'this.name',

@@ -526,13 +526,30 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @param string|null $role_ID (optional)
 	 * @return DataModel_Fetch_Object_Assoc|Auth_User[]
 	 */
-	public static function getList($role_ID=null ) {
+	public static function getList($role_ID=null, $search='' ) {
+		$query = [];
+
 		if($role_ID) {
 			$query = [
 				'Auth_Role.ID' => $role_ID
 			];
-		} else {
-			$query = [];
+		}
+
+		if($search) {
+			if($query) {
+				$query [] = 'AND';
+			}
+
+			$search = '%'.$search.'%';
+			$query[] = [
+				'this.login *' => $search,
+				'OR',
+				'this.first_name *' => $search,
+				'OR',
+				'this.surname *' => $search,
+				'OR',
+				'this.email *' => $search,
+			];
 		}
 
 		/**

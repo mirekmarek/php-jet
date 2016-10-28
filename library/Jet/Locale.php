@@ -88,6 +88,11 @@ class Locale extends BaseObject {
 	protected $_calendar;
 
 	/**
+	 * @var array
+	 */
+	protected $_currency_formatter = [];
+
+	/**
 	 * @return Locale
 	 */
 	public static function getCurrentLocale()
@@ -120,27 +125,15 @@ class Locale extends BaseObject {
 	 */
 	protected function _setLocale( $locale ) {
 
-		if(!class_exists('\Locale', false)) {
-			$locale = substr($locale, 0, 5);
-
-			if(!in_array($locale, static::$all_locales )) {
-				return;
-			}
-
-			$this->locale = $locale;
-			list( $this->region, $this->language ) = explode('_', $locale);
-
-		} else {
-			$data = \Locale::parseLocale($locale);
-			if(
-				$data &&
-				!empty($data['language']) &&
-				!empty($data['region'])
-			) {
-				$this->region = $data['region'];
-				$this->language = $data['language'];
-				$this->locale = $this->language.'_'.$this->region;
-			}
+		$data = \Locale::parseLocale($locale);
+		if(
+			$data &&
+			!empty($data['language']) &&
+			!empty($data['region'])
+		) {
+			$this->region = $data['region'];
+			$this->language = $data['language'];
+			$this->locale = $this->language.'_'.$this->region;
 		}
 
 	}
@@ -168,11 +161,7 @@ class Locale extends BaseObject {
 	 */
 	public function getCalendar() {
 		if($this->_calendar===null) {
-			if(class_exists('\IntlDateFormatter', false)) {
-				$this->_calendar = \IntlDateFormatter::GREGORIAN;
-			} else {
-				$this->_calendar = 1;
-			}
+			$this->_calendar = \IntlDateFormatter::GREGORIAN;
 		}
 
 		return $this->_calendar;
@@ -238,11 +227,6 @@ class Locale extends BaseObject {
 			$in_locale = static::getCurrentLocale();
 		}
 
-		if(!class_exists('\Locale', false)) {
-			//?? not supported ... take care about it ???
-			return $this->locale;
-		}
-
 		return \Locale::getDisplayName( $this->locale, (string)$in_locale );
 	}
 
@@ -260,11 +244,6 @@ class Locale extends BaseObject {
 	public function getLanguageName( $in_locale=null ) {
 		if(!$in_locale) {
 			$in_locale = static::getCurrentLocale();
-		}
-
-		if(!class_exists('\Locale', false)) {
-			//?? not supported ... take care about it ???
-			return $this->locale;
 		}
 
 		return \Locale::getDisplayLanguage( $this->locale, (string)$in_locale );
@@ -286,11 +265,6 @@ class Locale extends BaseObject {
 			$in_locale = static::getCurrentLocale();
 		}
 
-		if(!class_exists('\Locale', false)) {
-			//?? not supported ... take care about it ???
-			return $this->locale;
-		}
-
 		return \Locale::getDisplayRegion( $this->locale, (string)$in_locale );
 	}
 
@@ -306,11 +280,6 @@ class Locale extends BaseObject {
 	public function formatDateAndTime(Data_DateTime $date_and_time, $format=null ) {
 		if(!$date_and_time){
 			return '';
-		}
-
-		if(!class_exists('\IntlDateFormatter', false)) {
-			//?? not supported ... take care about it ???
-			return $date_and_time;
 		}
 
 		if(!$format) {
@@ -352,11 +321,6 @@ class Locale extends BaseObject {
 	public function formatDate(Data_DateTime $date_and_time, $format=null ) {
 		if(!$date_and_time){
 			return '';
-		}
-
-		if(!class_exists('\IntlDateFormatter', false)) {
-			//?? not supported ... take care about it ???
-			return $date_and_time;
 		}
 
 		if(!$format) {
@@ -402,11 +366,6 @@ class Locale extends BaseObject {
 			return '';
 		}
 
-		if(!class_exists('\IntlDateFormatter', false)) {
-			//?? not supported ... take care about it ???
-			return $date_and_time;
-		}
-
 		if(!$format) {
 			$format=\IntlDateFormatter::MEDIUM;
 		}
@@ -446,11 +405,6 @@ class Locale extends BaseObject {
 	 */
 	public function formatInt( $number ) {
 
-		if(!class_exists('\NumberFormatter', false)) {
-			//?? not supported ... take care about it ???
-			return (int)$number;
-		}
-
 		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL);
 
 		$f->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 0);
@@ -482,11 +436,6 @@ class Locale extends BaseObject {
 	 * @return string
 	 */
 	public function formatFloat( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
-
-		if(!class_exists('\NumberFormatter', false)) {
-			//?? not supported ... take care about it ???
-			return round( $number, $max_fraction_digits );
-		}
 
 		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL);
 
@@ -556,6 +505,23 @@ class Locale extends BaseObject {
 	}
 
 	/**
+	 *  ISO 4217
+	 *
+	 * @param string $currency_code
+	 *
+	 * @return \NumberFormatter
+	 */
+	public function getCurrencyFormatter( $currency_code ) {
+
+		if(!isset($this->_currency_formatter[$currency_code])) {
+			$this->_currency_formatter[$currency_code] = new \NumberFormatter( $this.'@currency='.$currency_code, \NumberFormatter::CURRENCY );
+		}
+
+		return $this->_currency_formatter[$currency_code];
+
+	}
+
+	/**
 	 * Format file or memory size according to current locale
 	 *
 	 * Example:
@@ -585,17 +551,8 @@ class Locale extends BaseObject {
 
 		$result = [];
 
-		if(!class_exists('\Locale', false)) {
-			foreach(static::$all_locales as $locale) {
-				//?? not supported ... take care about it ???
-				$result[$locale] = $locale;
-			}
-
-		} else {
-			foreach(static::$all_locales as $locale) {
-				$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
-			}
-
+		foreach(static::$all_locales as $locale) {
+			$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
 		}
 
 		asort($result);

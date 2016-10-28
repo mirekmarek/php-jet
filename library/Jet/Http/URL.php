@@ -134,10 +134,26 @@ class Http_URL extends BaseObject {
 	}
 
 	/**
+	 * @param string $fragment
+	 */
+	public function setFragment($fragment)
+	{
+		$this->fragment = $fragment;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getHost() {
 		return $this->host;
+	}
+
+	/**
+	 * @param string $host
+	 */
+	public function setHost($host)
+	{
+		$this->host = $host;
 	}
 
 	/**
@@ -150,8 +166,31 @@ class Http_URL extends BaseObject {
 	/**
 	 * @return string
 	 */
+	public function getUser() {
+		return $this->user;
+	}
+
+	/**
+	 * @param string $user
+	 */
+	public function setUser($user)
+	{
+		$this->user = $user;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getPassword() {
 		return $this->pass;
+	}
+
+	/**
+	 * @param string $pass
+	 */
+	public function setPassword($pass)
+	{
+		$this->pass = $pass;
 	}
 
 	/**
@@ -162,6 +201,14 @@ class Http_URL extends BaseObject {
 	}
 
 	/**
+	 * @param string $path
+	 */
+	public function setPath($path)
+	{
+		$this->path = $path;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getPort() {
@@ -169,10 +216,27 @@ class Http_URL extends BaseObject {
 	}
 
 	/**
+	 * @param int $port
+	 */
+	public function setPort($port)
+	{
+		$this->port = $port;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getQuery() {
 		return $this->query;
+	}
+
+	/**
+	 * @param string $query
+	 */
+	public function setQuery($query)
+	{
+		$this->query = $query;
+		$this->query_data = null;
 	}
 
 	/**
@@ -200,10 +264,11 @@ class Http_URL extends BaseObject {
 	}
 
 	/**
-	 * @return string
+	 * @param string $scheme
 	 */
-	public function getUser() {
-		return $this->user;
+	public function setScheme($scheme)
+	{
+		$this->scheme = $scheme;
 	}
 
 	/**
@@ -213,5 +278,43 @@ class Http_URL extends BaseObject {
 		return ($this->scheme=='https');
 	}
 
+	/**
+	 * @return string
+	 */
+	public function toString() {
+		$res = $this->getScheme().'://';
+
+		if(
+			$this->getUser() &&
+			$this->getPassword()
+		) {
+			$res .= $this->getUser().':'.$this->getPassword();
+		}
+
+		$res .= $this->getHost();
+		if($this->getPort()) {
+			$res .= ':'.$this->getPort();
+		}
+
+		$res .= $this->getPath();
+
+		if($this->getQuery()) {
+			$res .= '?'.$this->getQuery();
+		}
+
+		if($this->getFragment()) {
+			$res .= '#'.$this->getFragment();
+		}
+
+		return $res;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
 
 }
