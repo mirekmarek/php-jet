@@ -283,7 +283,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 
 	/**
 	 *
-	 * @return array
+	 * @return Data_Tree_Node[]
 	 */
 	public function getChildren(){
 		return $this->_children;

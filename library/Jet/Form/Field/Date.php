@@ -37,16 +37,19 @@ class Form_Field_Date extends Form_Field_Input {
 	 * @return bool
 	 */
 	public function validateValue() {
+
 		if(!$this->is_required && $this->_value==='') {
 			$this->_value = null;
 			return true;
 		}
 
-		$check = \DateTime::createFromFormat('Y-m-d', $this->_value);
+		if($this->_value) {
+			$check = \DateTime::createFromFormat('Y-m-d', $this->_value);
 
-		if(!$check) {
-			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
-			return false;
+			if(!$check) {
+				$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
+				return false;
+			}
 		}
 
 		$this->_setValueIsValid();

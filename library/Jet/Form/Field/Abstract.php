@@ -599,6 +599,13 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
      * @return bool
      */
     public function catchData() {
+    	if(
+    		$this->getIsReadonly() ||
+		    !$this->getHasValue()
+	    ) {
+    		return true;
+	    }
+
         if( !($callback=$this->getCatchDataCallback()) ) {
             return false;
         }

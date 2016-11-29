@@ -467,7 +467,9 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$this->required_css_files[$media] = [];
 		}
 
-		$this->required_css_files[$media][] = $URI;
+		if(!in_array($URI, $this->required_css_files[$media])) {
+			$this->required_css_files[$media][] = $URI;
+		}
 
 	}
 
