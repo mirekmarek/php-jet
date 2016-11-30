@@ -108,16 +108,32 @@ class IO_Dir {
 			}
 		}
 
-		if( !mkdir($dir_path, self::getDefaultChmodMask(), true) ){
-			$error = static::_getLastError();
+		$create = [
+			$dir_path
+		];
 
-			throw new IO_Dir_Exception(
-				'Failed to create directory \''.$dir_path.'\'. Error message: '.$error['message'],
-				IO_Dir_Exception::CODE_CREATE_FAILED
-			);
+		while( $dir_path=dirname($dir_path) ) {
+			if(static::exists($dir_path)) {
+				break;
+			}
+
+			$create[] = $dir_path;
 		}
 
-		chmod($dir_path, self::getDefaultChmodMask());
+		$create = array_reverse($create);
+
+		foreach($create as $dir_path) {
+			if( !mkdir($dir_path, self::getDefaultChmodMask(), true) ){
+				$error = static::_getLastError();
+
+				throw new IO_Dir_Exception(
+					'Failed to create directory \''.$dir_path.'\'. Error message: '.$error['message'],
+					IO_Dir_Exception::CODE_CREATE_FAILED
+				);
+			}
+
+			chmod($dir_path, self::getDefaultChmodMask());
+		}
 	}
 
 	/**

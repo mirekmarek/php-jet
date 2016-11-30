@@ -524,7 +524,8 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 	/**
 	 * @param string|null $role_ID (optional)
-	 * @return DataModel_Fetch_Object_Assoc|Auth_User[]
+	 * @param string $search
+	 * @return Auth_User[]|DataModel_Fetch_Object_Assoc
 	 */
 	public static function getList($role_ID=null, $search='' ) {
 		$query = [];

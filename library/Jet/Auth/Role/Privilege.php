@@ -69,13 +69,6 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	protected $_role;
 
 	/**
-	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
-	 */
-	private static $available_privileges_list;
-
-
-
-	/**
 	 * @param $privilege
 	 * @param mixed[] $values
 	 */

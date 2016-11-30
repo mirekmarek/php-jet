@@ -100,6 +100,7 @@ class DataModel_RecordData implements \Iterator {
 	 * @return DataModel_RecordData
 	 */
 	public static function createRecordData( DataModel_Interface $data_model, array $properties_and_values ) {
+		/** @noinspection PhpStaticAsDynamicMethodCallInspection */
 		$definition = $data_model->getDataModelDefinition();
 		$result = new self( $definition );
 		$properties = $definition->getProperties();

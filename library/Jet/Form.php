@@ -566,6 +566,9 @@ class Form extends BaseObject {
 		}
 
 		foreach($this->fields as $field) {
+			if($field->getIsReadonly()) {
+				continue;
+			}
 			$field->catchValue($data);
 		}
 
@@ -585,6 +588,9 @@ class Form extends BaseObject {
 		$this->common_message = '';
 		$this->is_valid = true;
 		foreach($this->fields as $field) {
+			if($field->getIsReadonly()) {
+				continue;
+			}
 
 			$callback = $field->getValidateDataCallback();
 			if($callback) {
@@ -710,6 +716,34 @@ class Form extends BaseObject {
 		return $result;
 	}
 
+	/**
+	 * @param bool $force_skip_is_valid
+	 *
+	 * @return Data_Array|null
+	 */
+	public function getData( $force_skip_is_valid=false ) {
+		if(!$this->is_valid && !$force_skip_is_valid) {
+			return null;
+		}
+
+		$data = new Data_Array();
+
+		foreach($this->fields as $key=>$field) {
+			if(
+				$field->getIsReadonly() ||
+				!$field->getHasValue()
+			) {
+				continue;
+			}
+
+			$value = $field->getValue();
+
+			$data->set($key, $value);
+		}
+
+		return $data;
+	}
+
     /**
      *
      * @return bool
@@ -720,9 +754,7 @@ class Form extends BaseObject {
         }
 
         foreach($this->fields as $field) {
-            if(!$field->catchData()) {
-                return false;
-            }
+	        $field->catchData();
         }
 
         return true;
