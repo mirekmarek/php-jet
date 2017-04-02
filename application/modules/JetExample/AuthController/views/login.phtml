@@ -1,6 +1,6 @@
 <?php
 use Jet\Tr;
-use JetExampleApp\UI;
+use JetUI\UI;
 use Jet\Form;
 use Jet\Mvc_View;
 
@@ -15,15 +15,25 @@ $form->field('password')->setPlaceholder('password');
 
 ?>
 
-<div style="margin-top:25%;" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-	<div class="panel panel-default" >
-		<div class="panel-heading">
-			<div class="panel-title"><?=Tr::_('Sign In')?></div>
-		</div>
+	<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+		<div class="panel panel-default" >
+			<div class="panel-heading">
+				<div class="panel-title"><?=Tr::_('Sign In')?></div>
+			</div>
 
-		<div class="panel-body" >
-
-			<?=$form->start()?>
+			<div class="panel-body" >
+				<?=$form->start()?>
+				<div  class="row">
+					<div class="col-sm-12 controls">
+						<div style="float: right;margin: 15px">
+							<?php /* foreach(AdminMain::getUiLocalesList() as $locale ): ?>
+								<a href="?locale=<?=$locale?>"><?=UI::flag($locale)?></a>
+							<?php endforeach;
+ 							*/
+ 							?>
+						</div>
+					</div>
+				</div>
 
 				<?php if($form->getCommonMessage()): ?>
 					<div id="login-alert" class="alert alert-danger col-sm-12">
@@ -32,7 +42,7 @@ $form->field('password')->setPlaceholder('password');
 				<?php endif; ?>
 
 				<div style="margin-bottom: 25px" class="input-group">
-					<span class="input-group-addon"><?=UI::icon('user')->setTag('i')?></span>
+					<span class="input-group-addon"><?=UI::icon('user')?></span>
 					<?=$form->field('login')->field()->noContainer()?>
 				</div>
 
@@ -44,13 +54,13 @@ $form->field('password')->setPlaceholder('password');
 				<div style="margin-top:10px" class="form-group">
 					<div class="col-sm-12 controls">
 						<div style="float: right">
-							<input type="submit" class="btn btn-primary" value="<?=Tr::_('Login')?>"/>
+							<input type="submit" class="btn btn-primary" value="<?=Tr::_('Sign In')?>"/>
 						</div>
 					</div>
 				</div>
 
-			<?=$form->end()?>
+				<?=$form->end()?>
 
+			</div>
 		</div>
 	</div>
-</div>

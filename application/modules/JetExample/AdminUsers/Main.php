@@ -17,12 +17,67 @@ namespace JetApplicationModule\JetExample\AdminUsers;
 use Jet\Application_Modules_Module_Abstract;
 
 class Main extends Application_Modules_Module_Abstract {
+	const MODULE_NAME = 'JetExample.AdminUsers';
+	const PAGE_USERS = 'admin/users';
+
+	const ACTION_GET_USER = 'get_user';
+	const ACTION_ADD_USER = 'add_user';
+	const ACTION_UPDATE_USER = 'update_user';
+	const ACTION_DELETE_USER = 'delete_user';
+
+	/**
+	 * @var array
+	 */
 	protected $ACL_actions = [
-		'get_user' => 'Get user(s) data',
-		'add_user' => 'Add new user',
-		'update_user' => 'Update user',
-		'delete_user' => 'Delete user',
+		self::ACTION_GET_USER => 'Get user(s) data',
+		self::ACTION_ADD_USER => 'Add new user',
+		self::ACTION_UPDATE_USER => 'Update user',
+		self::ACTION_DELETE_USER => 'Delete user',
 	];
 
+	/**
+	 *
+	 * @return string|bool
+	 */
+	public function getUserAddURI()
+	{
+		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::ADD_ACTION );
+	}
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return string|bool
+	 */
+	public function getUserEditURI( $user_id )
+	{
+		$uri = Controller_Main::getControllerRouter()->getActionURI( Controller_Main::EDIT_ACTION, $user_id );
+		if(!$uri) {
+			$uri = Controller_Main::getControllerRouter()->getActionURI( Controller_Main::VIEW_ACTION, $user_id );
+		}
+
+		return $uri;
+	}
+
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return string|bool
+	 */
+	public function getUserViewURI( $user_id )
+	{
+		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::VIEW_ACTION, $user_id );
+	}
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return string|bool
+	 */
+	public function getUserDeleteURI( $user_id )
+	{
+		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::DELETE_ACTION, $user_id );
+	}
 
 }

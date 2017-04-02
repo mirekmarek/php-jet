@@ -1,0 +1,34 @@
+<?php
+use JetUI\UI;
+use JetApplicationModule\JetExample\Articles\Article;
+use Jet\Mvc_Controller_Router;
+use Jet\Tr;
+use Jet\Mvc;
+
+/**
+ * @var Article $article
+ */
+$article = $this->article;
+
+/**
+ * @var Mvc_Controller_Router $router
+ */
+$router = $this->router;
+
+?>
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+
+	<p>
+	<?=Tr::_('Do you really want to delete this article?');?>
+	<br/>
+	<a href="<?=$router->getActionURI('view', $article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
+	</p>
+
+	<form action="?delete=<?=rawurlencode($article->getIdObject());?>" method="post">
+		<input type="hidden" name="delete" value="yes">
+		<?=UI::button_delete()->setType('submit')?>
+	</form>
+</div>

@@ -80,7 +80,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 		    /**
 		     * @var DataModel $class_name
 		     */
-		    $_i =$class_name::load( $item['__ID'], $this->load_filter );
+		    $_i =$class_name::load( $item['__id'], $this->load_filter );
 	    }
 
 	    $this->data[$_i->getIdObject()->toString()]['__instance'] = $item;
@@ -111,28 +111,28 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 
 		if($this->load_filter) {
 			foreach( $l as $item ) {
-				$l_ID = clone $this->empty_ID_instance;
+				$l_id = clone $this->empty_id_instance;
 
-				foreach($l_ID as $k=>$v) {
-					$l_ID[$k] = $item[$k];
+				foreach($l_id as $k=>$v) {
+					$l_id[$k] = $item[$k];
 				}
 
 
-				$this->data[(string)$l_ID] = [
-					'__ID' => $l_ID,
+				$this->data[(string)$l_id] = [
+					'__id' => $l_id,
 					'__data' => $item
 				];
 			}
 		} else {
 			foreach( $l as $item ) {
-				$l_ID = clone $this->empty_ID_instance;
+				$l_id = clone $this->empty_id_instance;
 
-				foreach($l_ID as $k=>$v) {
-					$l_ID[$k] = $item[$k];
+				foreach($l_id as $k=>$v) {
+					$l_id[$k] = $item[$k];
 				}
 
-				$this->data[(string)$l_ID] = [
-					'__ID' => $l_ID,
+				$this->data[(string)$l_id] = [
+					'__id' => $l_id,
 				];
 			}
 		}

@@ -25,9 +25,9 @@ use Jet\IO_Dir;
  *
  * @JetDataModel:name = 'ImageGallery'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  *
- * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['ID'=>'gallery_ID'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['id'=>'gallery_id'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */
 class Gallery extends DataModel {
 
@@ -39,16 +39,16 @@ class Gallery extends DataModel {
 	 *
 	 * @var string
 	 */
-	protected $parent_ID = '';
+	protected $parent_id = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -75,17 +75,17 @@ class Gallery extends DataModel {
 	protected static $__galleries = [];
 
 	/**
-	 * @param string $parent_ID
+	 * @param string $parent_id
 	 */
-	public function setParentID($parent_ID) {
-		$this->parent_ID = (string)$parent_ID;
+	public function setParentId($parent_id) {
+		$this->parent_id = (string)$parent_id;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getParentID() {
-		return $this->parent_ID;
+	public function getParentId() {
+		return $this->parent_id;
 	}
 
 
@@ -123,7 +123,7 @@ class Gallery extends DataModel {
 	 */
 	public function getImages() {
 		if($this->__images===null) {
-			$this->__images=Gallery_Image::getList( $this->ID );
+			$this->__images=Gallery_Image::getList( $this->id );
 		}
 		return $this->__images;
 	}
@@ -275,28 +275,28 @@ class Gallery extends DataModel {
 	/**
 	 * @static
 	 *
-	 * @param string $ID
+	 * @param string $id
 	 *
 	 * @return Gallery
 	 */
-	public static function get( $ID ) {
-		if(!isset(static::$__galleries[$ID])) {
-			$s_ID = $ID;
+	public static function get( $id ) {
+		if(!isset(static::$__galleries[$id])) {
+            $s_id = $id;
 
 
 			/**
 			 * @var Gallery $instance
 			 */
-			if( !($instance = static::load($ID)) ) {
+			if( !($instance = static::load($id)) ) {
 				return null;
 			}
 
-			static::$__galleries[$s_ID]=$instance;
+			static::$__galleries[$s_id]=$instance;
 
 			return $instance;
 		}
 
-		return static::$__galleries[$ID];
+		return static::$__galleries[$id];
 	}
 
 	/**
@@ -323,23 +323,23 @@ class Gallery extends DataModel {
 	}
 
 	/**
-	 * @param string $parent_ID
+	 * @param string $parent_id
 	 *
 	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
 	 */
-	public static function getChildren( $parent_ID ) {
-		return (new self())->fetchObjects( [[ 'this.parent_ID'=>$parent_ID ]]);
+	public static function getChildren( $parent_id ) {
+		return (new self())->fetchObjects( [[ 'this.parent_id'=>$parent_id ]]);
 	}
 
 	/**
 	 * @param string $title
-	 * @param string $parent_ID
+	 * @param string $parent_id
 	 *
 	 * @return Gallery|null
 	 */
-	public static function getByTitle( $title, $parent_ID ) {
+	public static function getByTitle( $title, $parent_id ) {
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return (new self())->fetchOneObject( [[ 'this.title'=>$title, 'AND', 'this.parent_ID'=>$parent_ID ]]);
+		return (new self())->fetchOneObject( [[ 'this.title'=>$title, 'AND', 'this.parent_id'=>$parent_id ]]);
 	}
 
 
@@ -352,7 +352,7 @@ class Gallery extends DataModel {
 
 
 		$tree = new Data_Tree();
-		$tree->getRootNode()->setID(Gallery::ROOT_ID);
+		$tree->getRootNode()->setId(Gallery::ROOT_ID);
 
 		$tree->getRootNode()->setLabel( Tr::_('Galleries') );
 

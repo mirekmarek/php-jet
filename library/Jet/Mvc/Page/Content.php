@@ -21,21 +21,21 @@ namespace Jet;
  *
  * @JetDataModel:name = 'page_content'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
  */
 class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface {
     const DEFAULT_CONTROLLER_ACTION = 'default';
 
 	/**
-	 * @JetDataModel:related_to = 'main.site_ID'
+	 * @JetDataModel:related_to = 'main.site_id'
 	 */
-	protected $site_ID;
+	protected $site_id;
 
 	/**
-	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:related_to = 'main.id'
 	 */
-	protected $page_ID;
+	protected $page_id;
 
 	/**
 	 * @var Mvc_Page
@@ -50,11 +50,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $content_ID = '';
+	protected $content_id = '';
 
     /**
      * @JetDataModel:type = DataModel::TYPE_STRING
@@ -215,14 +215,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 * @return mixed|null
 	 */
 	public function getArrayKeyValue() {
-		return $this->content_ID;
+		return $this->content_id;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSiteID() {
-		return $this->site_ID;
+	public function getSiteId() {
+		return $this->site_id;
 	}
 
 	/**
@@ -235,30 +235,30 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	/**
 	 * @return string
 	 */
-	public function getPageID() {
-		return $this->page_ID;
+	public function getPageId() {
+		return $this->page_id;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getContentKey() {
-		return $this->site_ID.':'.$this->locale.':'.$this->page_ID.':'.$this->content_ID;
+		return $this->site_id.':'.$this->locale.':'.$this->page_id.':'.$this->content_id;
 	}
 
     /**
-     * @param mixed $ID
+     * @param mixed $id
      *
      */
-    public function setContentID( $ID ) {
-        $this->content_ID = $ID;
+    public function setContentId($id ) {
+        $this->content_id = $id;
     }
 
 	/**
 	 * @return string
 	 */
-	public function getContentID() {
-		return $this->content_ID;
+	public function getContentId() {
+		return $this->content_id;
 	}
 
     /**

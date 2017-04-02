@@ -28,8 +28,9 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 
-use Jet\Auth_User as User;
 
+use JetExampleApp\Auth_Administrator_User;
+use JetExampleApp\Auth_Visitor_User;
 
 /**
  * Class Main
@@ -42,7 +43,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	/**
 	 * Currently logged user
 	 *
-	 * @var User
+	 * @var Auth_Administrator_User|Auth_Visitor_User
 	 */
 	protected $current_user;
 
@@ -166,14 +167,20 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return bool
 	 */
 	public function login( $login, $password ) {
-		$user = (new User())->getByIdentity(  $login, $password  );
+		if(Mvc::getIsAdminUIRequest()) {
+			$user = new Auth_Administrator_User();
+		} else {
+			$user = new Auth_Visitor_User();
+		}
+
+		$user = $user->getByIdentity(  $login, $password  );
 
 		if(!$user)  {
 			return false;
 		}
 
 		$session = $this->getSession();
-		$session->setValue( 'user_ID', $user->getID() );
+		$session->setValue( 'user_id', $user->getId() );
 
 		$this->current_user = $user;
 
@@ -195,7 +202,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return User|bool
+	 * @return Auth_Administrator_User|Auth_Visitor_User|bool
 	 */
 	public function getCurrentUser() {
 		if($this->current_user!==null) {
@@ -204,14 +211,18 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 
 		$session = $this->getSession();
 
-		$user_ID = $session->getValue( 'user_ID', null );
-		if(!$user_ID) {
+		$user_id = $session->getValue('user_id', null);
+
+		if(!$user_id) {
 			$this->current_user = false;
 		} else {
-			$this->current_user = User::get($user_ID);
+			if(Mvc::getIsAdminUIRequest()) {
+				$this->current_user = Auth_Administrator_User::get($user_id);
+
+			} else {
+				$this->current_user = Auth_Visitor_User::get($user_id);
+			}
 		}
-
-
 
 		return $this->current_user;
 	}
@@ -223,24 +234,24 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @param string $event
 	 * @param mixed $event_data
 	 * @param string $event_txt
-	 * @param string $user_ID (optional; default: null = current user ID)
+	 * @param string $user_id (optional; default: null = current user ID)
 	 * @param string $user_login (optional; default: null = current user login)
 	 */
-	public function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null ) {
-		if($user_ID===null) {
+	public function logEvent( $event, $event_data, $event_txt, $user_id=null, $user_login=null ) {
+		if($user_id===null) {
 			$c_user = $this->getCurrentUser();
 
 			if($c_user) {
-				$user_ID = (string)$c_user->getID();
+				$user_id = (string)$c_user->getId();
 				$user_login = $c_user->getLogin();
 			} else {
-				$user_ID = '';
+				$user_id = '';
 				$user_login = '';
 			}
 
 		}
 
-		Event::logEvent($event, $event_data, $event_txt, $user_ID, $user_login);
+		Event::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -322,17 +333,19 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	function getMustChangePasswordForm() {
+		$password = new Form_Field_RegistrationPassword('password', 'New password: ');
 		$form = new Form('change_password', [
-			new Form_Field_RegistrationPassword('password', 'New password: ')
+			$password
 		]);
 
 
-		$form->getField('password')->setErrorMessages([
+		$password->setErrorMessages([
 			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match'
 		]);
-		$form->getField('password')->setIsRequired( true );
+		$password->setIsRequired( true );
+		$password->setPasswordConfirmationLabel('Confirm new password');
 
 		return $form;
 	}

@@ -186,7 +186,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
              */
             $field = $this->_getRenderer('Field_'.$this->_type);
             $field->setTagNameValue( $this->getTagNameValue().'_confirmation' );
-            $field->setTagId( $this->getID().'_confirmation' );
+            $field->setTagId( $this->getId().'_confirmation' );
 
             $this->_tag_field_confirmation = $field;
         }
@@ -207,7 +207,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract {
              */
             $label = $this->_getRenderer('Label');
             $label->setLabel( $this->getPasswordConfirmationLabel() );
-            $label->setFor( $this->getID().'_confirmation' );
+            $label->setFor( $this->getId().'_confirmation' );
 
             $this->_tag_label_confirmation = $label;
         }

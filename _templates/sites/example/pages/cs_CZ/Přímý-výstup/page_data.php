@@ -1,6 +1,6 @@
 <?php
 return [
-    'ID' => 'direct_output',
+    'id' => 'direct_output',
     'order' => 4,
     'name' => 'Primy vystup',
     'title' => 'Stranka s rychlym primym vystupem',

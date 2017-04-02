@@ -22,11 +22,11 @@ namespace Jet;
 interface Auth_User_Interface extends BaseObject_Interface {
 
     /**
-     * @param string $ID
+     * @param string $id
      *
      * @return Auth_User_Interface
      */
-    public static function get( $ID );
+    public static function get($id );
 
 	/**
 	 * @abstract
@@ -37,7 +37,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
     /**
      * @return string
      */
-    public function getID();
+    public function getId();
 
 
 	/**
@@ -233,9 +233,9 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 * @abstract
 	 *
-	 * @param string[] $roles_IDs
+	 * @param string[] $roles_ids
 	 */
-	public function setRoles( array $roles_IDs );
+	public function setRoles( array $roles_ids );
 
 	/**
 	 * @abstract
@@ -246,10 +246,10 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 * @abstract
 	 *
-	 * @param string $role_ID
+	 * @param string $role_id
 	 * @return bool
 	 */
-	public function getHasRole( $role_ID );
+	public function getHasRole($role_id );
 
 	/**
 	 * @abstract
@@ -271,10 +271,10 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 * @abstract
 	 *
-	 * @param string $role_ID (optional)
+	 * @param string $role_id (optional)
 	 * @return Auth_User_Interface[]
 	 */
-	public static function getList($role_ID=null );
+	public static function getList($role_id=null );
 
 	/**
 	 * @abstract

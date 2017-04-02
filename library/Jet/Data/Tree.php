@@ -25,23 +25,23 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 *
 	 * @var string 
 	 */
-	protected $ID_key = 'ID';
+	protected $id_key = 'id';
 
 	/**
 	 * @var string
 	 */
-	protected $ID_getter_method_name = 'getId';
+	protected $id_getter_method_name = 'getId';
 
 	/**
 	 *
 	 * @var string 
 	 */
-	protected $parent_ID_key = 'parent_ID';
+	protected $parent_id_key = 'parent_id';
 
 	/**
 	 * @var string
 	 */
-	protected $parent_ID_getter_method_name = 'getParentId';
+	protected $parent_id_getter_method_name = 'getParentId';
 
 	/**
 	 *
@@ -116,13 +116,13 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 	/**
 	 *
-	 * @param string $ID_key (optional, default: ID)
-	 * @param string $parent_ID_key (optional,default: parent_ID)
+	 * @param string $id_key (optional, default: id)
+	 * @param string $parent_id_key (optional,default: parent_id)
 	 *
 	 */
-	public function __construct($ID_key = 'ID', $parent_ID_key = 'parent_ID' ) {
-		$this->ID_key = $ID_key;
-		$this->parent_ID_key = $parent_ID_key;
+	public function __construct($id_key = 'id', $parent_id_key = 'parent_id' ) {
+		$this->id_key = $id_key;
+		$this->parent_id_key = $parent_id_key;
 		$this->setNodeClassName(__NAMESPACE__.'\\'.$this->nodes_class_name);
 
 	}
@@ -204,69 +204,69 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 
 	/**
-	 * Key in data item representing ID
+	 * Key in data item representing id
 	 *
 	 * @return string 
 	 */
-	public function getIDKey(){
-		return $this->ID_key;
+	public function getIdKey(){
+		return $this->id_key;
 	}
 
 	/**
-	 * @param string $ID_key
+	 * @param string $id_key
 	 */
-	public function setIDKey($ID_key)
+	public function setIdKey($id_key)
 	{
-		$this->ID_key = $ID_key;
+		$this->id_key = $id_key;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getIDGetterMethodName()
+	public function getIdGetterMethodName()
 	{
-		return $this->ID_getter_method_name;
+		return $this->id_getter_method_name;
 	}
 
 	/**
-	 * @param string $ID_getter_method_name
+	 * @param string $id_getter_method_name
 	 */
-	public function setIDGetterMethodName($ID_getter_method_name)
+	public function setIdGetterMethodName($id_getter_method_name)
 	{
-		$this->ID_getter_method_name = $ID_getter_method_name;
+		$this->id_getter_method_name = $id_getter_method_name;
 	}
 
 	/**
-	 * Key in data item representing parent ID
+	 * Key in data item representing parent id
 	 *
 	 * @return string 
 	 */
-	public function getParentIDKey(){
-		return $this->parent_ID_key;
+	public function getParentIdKey(){
+		return $this->parent_id_key;
 	}
 
 	/**
-	 * @param string $parent_ID_key
+	 * @param string $parent_id_key
 	 */
-	public function setParentIDKey($parent_ID_key)
+	public function setParentIdKey($parent_id_key)
 	{
-		$this->parent_ID_key = $parent_ID_key;
+		$this->parent_id_key = $parent_id_key;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getParentIDGetterMethodName()
+	public function getParentIdGetterMethodName()
 	{
-		return $this->parent_ID_getter_method_name;
+		return $this->parent_id_getter_method_name;
 	}
 
 	/**
-	 * @param string $parent_ID_getter_method_name
+	 * @param string $parent_id_getter_method_name
 	 */
-	public function setParentIDGetterMethodName($parent_ID_getter_method_name)
+	public function setParentIdGetterMethodName($parent_id_getter_method_name)
 	{
-		$this->parent_ID_getter_method_name = $parent_ID_getter_method_name;
+		$this->parent_id_getter_method_name = $parent_id_getter_method_name;
 	}
 
 	/**
@@ -354,16 +354,16 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 	/**
 	 *
-	 * @param string $node_ID
+	 * @param string $node_id
 	 *
 	 * @return Data_Tree_Node|null
 	 */
-	public function getNode($node_ID){
-		if(!isset($this->nodes[$node_ID])) {
+	public function getNode($node_id){
+		if(!isset($this->nodes[$node_id])) {
 			return null;
 		}
 
-		return $this->nodes[$node_ID];
+		return $this->nodes[$node_id];
 	}
 
 
@@ -380,18 +380,18 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 *
 	 * @return string[]
 	 */
-	public function getNodesIDs(){
+	public function getNodesIds(){
 		return array_keys($this->nodes);
 	}
 
 	/**
 	 *
-	 * @param string $node_ID
+	 * @param string $node_id
 	 *
 	 * @return bool
 	 */
-	public function getNodeExists($node_ID) {
-		return isset($this->nodes[$node_ID]);
+	public function getNodeExists($node_id) {
+		return isset($this->nodes[$node_id]);
 	}
 
 	/**
@@ -416,28 +416,28 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 
 	/**
-	 * @param string $target_node_ID
+	 * @param string $target_node_id
 	 * @return array|bool
 	 */
-	public function getPath( $target_node_ID ) {
-		$target_node_ID = (string)$target_node_ID;
-		$target_node = $this->getNode( $target_node_ID );
+	public function getPath($target_node_id ) {
+		$target_node_id = (string)$target_node_id;
+		$target_node = $this->getNode( $target_node_id );
 
 		if(!$target_node) {
 			return false;
 		}
 
 		$path = [];
-		$path[] = $target_node->getID();
+		$path[] = $target_node->getId();
 
 		while( ($parent=$target_node->getParent()) ) {
 			/**
 			 * @var Data_Tree_Node $parent
 			 */
-			if($parent->getID()===null) {
+			if($parent->getId()===null) {
 				break;
 			}
-			$path[] = $parent->getID();
+			$path[] = $parent->getId();
 			$target_node = $parent;
 		}
 
@@ -453,20 +453,20 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 * @return string
 	 * @throws Data_Tree_Exception
 	 */
-	protected function getNodeData_ID($item ) {
+	protected function getNodeData_id($item ) {
 
 		if($this->use_objects) {
-			return $item->{$this->ID_getter_method_name}();
+			return $item->{$this->id_getter_method_name}();
 		}
 
-		if(!isset($item[$this->ID_key])) {
+		if(!isset($item[$this->id_key])) {
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->ID_key.'\' key in item data',
+				'Missing \''.$this->id_key.'\' key in item data',
 				Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 
 		}
-		return $item[$this->ID_key];
+		return $item[$this->id_key];
 	}
 
 	/**
@@ -476,19 +476,19 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 *
 	 * @return string
 	 */
-	protected function getNodeData_parentID($item ) {
+	protected function getNodeData_parentId($item ) {
 		if($this->use_objects) {
-			return $item->{$this->parent_ID_getter_method_name}();
+			return $item->{$this->parent_id_getter_method_name}();
 		}
 
-		if(!isset($item[$this->parent_ID_key])) {
+		if(!isset($item[$this->parent_id_key])) {
 			throw new Data_Tree_Exception(
-				'Missing \''.$this->parent_ID_key.'\' key in item data',
+				'Missing \''.$this->parent_id_key.'\' key in item data',
 				Data_Tree_Exception::CODE_MISSING_VALUE
 			);
 
 		}
-		return $item[$this->parent_ID_key];
+		return $item[$this->parent_id_key];
 	}
 
 	/**
@@ -524,12 +524,12 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 */
 	public function appendNode( $item_data ){
 
-		$ID = $this->getNodeData_ID($item_data);
-		$parent_ID = $this->getNodeData_parentID($item_data);
+		$id = $this->getNodeData_id($item_data);
+		$parent_id = $this->getNodeData_parentId($item_data);
 
-		if( isset($this->nodes[$ID]) ){
+		if( isset($this->nodes[$id]) ){
 			throw new Data_Tree_Exception(
-				'Node \''.$ID.'\' already exists',
+				'Node \''.$id.'\' already exists',
 				Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
 			);
 		}
@@ -537,9 +537,9 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 		/**
 		 * @var Data_Tree_Node $new_node
 		 */
-		$new_node = new $this->nodes_class_name( $this, $item_data, false, $ID, $parent_ID, $this->getNodeData_label($item_data) );
+		$new_node = new $this->nodes_class_name( $this, $item_data, false, $id, $parent_id, $this->getNodeData_label($item_data) );
 
-		$parent = $this->getNode( $new_node->getParentID() );
+		$parent = $this->getNode( $new_node->getParentId() );
 
 		if(!$parent) {
 			if($this->ignore_orphans) {
@@ -553,7 +553,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 			} else {
 				throw new Data_Tree_Exception(
-					'Inconsistent tree data. Parent node \''.$new_node->getParentID().'\' does not exist. Node ID: \''.$new_node->getID().'\' ',
+					'Inconsistent tree data. Parent node \''.$new_node->getParentId().'\' does not exist. Node ID: \''.$new_node->getId().'\' ',
 					Data_Tree_Exception::CODE_INCONSISTENT_TREE_DATA
 				);
 
@@ -562,19 +562,11 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 		$new_node->setParent( $parent );
 
-		$this->nodes[$ID] = $new_node;
+		$this->nodes[$id] = $new_node;
 
 		$parent->appendChild($new_node);
 
-		/*
-		if( $new_node->getIsOrphan() ) {
-			$this->orphans_nodes[$ID] = $this->nodes[$ID];
-		}
-		*/
-
-		//$this->resetIteratorMap();
-
-		return $this->nodes[$ID];
+		return $this->nodes[$id];
 	}
 
 	/**
@@ -610,37 +602,37 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 		 */
 		$root_item = null;
 
-		$IDs = [];
+		$ids = [];
 
 		foreach( $items as $item ) {
 			/**
 			 * @var array $item
 			 */
-			$ID = $this->getNodeData_ID($item);
-			$parent_ID = $this->getNodeData_parentID($item);
+			$id = $this->getNodeData_id($item);
+			$parent_id = $this->getNodeData_parentId($item);
 
-			$IDs[] = $ID;
+			$ids[] = $id;
 
-			if(!$parent_ID) {
-				$parent_ID = '';
+			if(!$parent_id) {
+				$parent_id = '';
 			}
 
 
-			if( !isset($this->__parent_map[$parent_ID]) ) {
-				$this->__parent_map[$parent_ID] = [];
+			if( !isset($this->__parent_map[$parent_id]) ) {
+				$this->__parent_map[$parent_id] = [];
 			}
 
-			$this->__parent_map[$parent_ID][$ID] = $item;
+			$this->__parent_map[$parent_id][$id] = $item;
 
 		}
 
 
 		$root_node = $this->getRootNode();
-		$root_ID = $root_node->getID();
+		$root_id = $root_node->getId();
 
-		$this->nodes[$root_ID] = $root_node;
+		$this->nodes[$root_id] = $root_node;
 
-		$this->__setData( $root_ID );
+		$this->__setData( $root_id );
 
 
 
@@ -653,15 +645,15 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 			if($this->adopt_orphans) {
 
-				$parent_IDs = array_keys($this->__parent_map);
+				$parent_ids = array_keys($this->__parent_map);
 
-				$non_exists_parent_IDs = array_diff($parent_IDs, $IDs);
+				$non_exists_parent_ids = array_diff($parent_ids, $ids);
 
-				foreach( $non_exists_parent_IDs as $non_exists_parent_ID ) {
-					foreach( $this->__parent_map[$non_exists_parent_ID] as $orphan_ID=>$orphan_item ) {
+				foreach( $non_exists_parent_ids as $non_exists_parent_id ) {
+					foreach( $this->__parent_map[$non_exists_parent_id] as $orphan_id=>$orphan_item ) {
 						$this->appendNode( $orphan_item );
 
-						$this->__setData( $orphan_ID );
+						$this->__setData( $orphan_id );
 					}
 				}
 
@@ -677,33 +669,33 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	}
 
 	/**
-	 * @param string $parent_ID
+	 * @param string $parent_id
 	 */
-	protected function __setData( $parent_ID ) {
-		if(!isset($this->__parent_map[$parent_ID])) {
+	protected function __setData($parent_id ) {
+		if(!isset($this->__parent_map[$parent_id])) {
 			return;
 		}
 
-		foreach( $this->__parent_map[$parent_ID] as $ID=>$item_data ) {
+		foreach($this->__parent_map[$parent_id] as $id=> $item_data ) {
 			$node = $this->appendNode( $item_data );
-			unset($this->__parent_map[$parent_ID][$ID]);
+			unset($this->__parent_map[$parent_id][$id]);
 
 			if(!$this->lazy_mode) {
-				$this->__setData($ID);
+				$this->__setData($id);
 			} else {
 				if(
 					$node->getDepth()<1
 				) {
-					$this->__setData($ID);
+					$this->__setData($id);
 				} else {
-					if(!empty($this->__parent_map[$ID])) {
+					if(!empty($this->__parent_map[$id])) {
 						$node->setHasChildren();
 					}
 				}
 
 			}
 		}
-		unset( $this->__parent_map[$parent_ID] );
+		unset( $this->__parent_map[$parent_id] );
 
 	}
 
@@ -776,7 +768,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 
 
 		$data = [
-			'identifier' => $this->ID_key,
+			'identifier' => $this->id_key,
 			'label' => $this->label_key,
 			'items' => $this->toArray()
 		];

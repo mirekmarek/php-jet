@@ -29,7 +29,7 @@ namespace Jet;
  * @JetApplication_Signals:signal_object_class_name = 'Auth_User_Signal'
  *
  * @JetDataModel:name = 'user'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Auth_Users'
  */
 class Auth_User extends DataModel implements Auth_User_Interface {
@@ -37,12 +37,12 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -228,22 +228,22 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 
     /**
-     * @param string $ID
+     * @param string $id
      *
      * @return Auth_User
      */
-    public static function get( $ID ) {
+    public static function get($id ) {
 	    /**
 	     * @var Auth_User $user
 	     */
-	    $user = static::load( $ID );
+	    $user = static::load( $id );
         return $user;
     }
 
     /**
      * @return string
      */
-    public function getID() {
+    public function getId() {
         return $this->getIdObject()->toString();
     }
 
@@ -276,7 +276,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			$q = [
 				'this.login' => $login,
 				'AND',
-				'this.ID!=' => $this->ID
+				'this.id!=' => $this->id
 			];
 		}
 		return (bool)static::getBackendInstance()->getCount( $this->createQuery( $q ) );
@@ -523,16 +523,16 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @param string|null $role_ID (optional)
+	 * @param string|null $role_id (optional)
 	 * @param string $search
 	 * @return Auth_User[]|DataModel_Fetch_Object_Assoc
 	 */
-	public static function getList($role_ID=null, $search='' ) {
+	public static function getList($role_id=null, $search='' ) {
 		$query = [];
 
-		if($role_ID) {
+		if($role_id) {
 			$query = [
-				'Auth_Role.ID' => $role_ID
+				'Auth_Role.id' => $role_id
 			];
 		}
 
@@ -559,7 +559,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		$_this = new static();
 		$list = $_this->fetchObjects( $query );
 		$list->setLoadFilter([
-			'this.ID',
+			'this.id',
 			'this.login',
 			'this.first_name',
 			'this.surname',
@@ -634,12 +634,12 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @param array $roles_IDs
+	 * @param array $roles_ids
 	 */
-	public function setRoles( array $roles_IDs ) {
+	public function setRoles( array $roles_ids ) {
 		$roles = [];
 
-		foreach($roles_IDs as $role_ID) {
+		foreach($roles_ids as $role_id) {
 			/**
 			 * @var DataModel_Definition_Property_DataModel $roles_property_def
 			 */
@@ -656,7 +656,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			 */
 			$call_back = [$role_class_name, 'get'];
 
-			$role = $call_back($role_ID);
+			$role = $call_back($role_id);
 			if(!$role) {
 				continue;
 			}
@@ -667,16 +667,16 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @param string $role_ID
+	 * @param string $role_id
 	 *
 	 * @return bool
 	 */
-	public function getHasRole( $role_ID ) {
+	public function getHasRole($role_id ) {
 		foreach($this->roles as $role) {
 			/**
 			 * @var Auth_Role_Interface $role
 			 */
-			if( $role->getID()==$role_ID ) {
+			if( $role->getId()==$role_id ) {
 				return true;
 			}
 		}

@@ -17,21 +17,21 @@ namespace Jet;
  * @JetDataModel:name = 'site_localized_data'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData'
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_CLASS
- * @JetDataModel:ID_class_name = 'DataModel_ID_Passive'
+ * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
  */
 class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 *
-	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:related_to = 'main.id'
 	 */
-	protected $site_ID = '';
+	protected $site_id = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Locale

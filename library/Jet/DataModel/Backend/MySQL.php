@@ -1001,7 +1001,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 				$max_len = (int)$column->getMaxLen();
 
 				if($max_len<=255) {
-					if($column->getIsID()) {
+					if($column->getIsId()) {
 						return 'varchar('.((int)$max_len).') COLLATE utf8_bin NOT NULL  DEFAULT \'\'';
 					} else {
 						return 'varchar('.((int)$max_len).') DEFAULT '.$this->_getValue($default_value);
@@ -1154,7 +1154,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
      * @return string
      */
     protected function _quoteName( $name ) {
-        return '`'.$name.'`';
+        return '`'.substr($name,0,64).'`';
     }
 
 }

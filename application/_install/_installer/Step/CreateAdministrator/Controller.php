@@ -13,6 +13,8 @@
  */
 namespace Jet;
 
+use JetExampleApp\Auth_Administrator_User;
+
 class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Controller {
 
 
@@ -20,11 +22,8 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
-
-		/**
-		 * @var Auth_User $user
-		 */
-		$user = new Auth_User();
+		
+		$user = new Auth_Administrator_User();
 
 		$form = $user->getSimpleForm();
 		$user->setLocale( $this->installer->getCurrentLocale() );

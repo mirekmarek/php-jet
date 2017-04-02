@@ -73,13 +73,13 @@ function formatQuery($query, array $query_data= []) {
 * @param Debug_Profiler_Run_Block $block
  */
 function showRunBlock( Debug_Profiler_Run_Block $block ) {
-	$ID = $block->getID();
+	$id = $block->getId();
 	$is_root = $block->getIsRoot();
 	?>
 
-	<div id="run_block_<?=$ID;?>" class="run_block">
+	<div id="run_block_<?=$id;?>" class="run_block">
 
-	<div id="run_block_label_<?=$ID;?>" class="run_block_label">
+	<div id="run_block_label_<?=$id;?>" class="run_block_label">
 		<table>
 			<tr>
 				<td rowspan="2" valign="top">
@@ -102,20 +102,20 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 
 
 		<?php if(!$is_root): ?>
-			<a href="#" onClick="toggleDisplay('run_block_details_<?=$ID;?>');">Details &gt;&gt;&gt;</a>
+			<a href="#" onClick="toggleDisplay('run_block_details_<?=$id;?>');">Details &gt;&gt;&gt;</a>
 		<?php endif; ?>
 
 	</div>
 
-	<div id="run_block_details_<?=$ID;?>" class="run_block_details" style="display: none;">
+	<div id="run_block_details_<?=$id;?>" class="run_block_details" style="display: none;">
 		<table>
 
 			<?php if($block->getMessages()): ?>
 				<tr>
 					<td></td>
 					<td>
-						<a href="#" onClick="toggleDisplay('run_block_details_messages_<?=$ID;?>');">Messages</a>
-						<div class="run_block_details_backtrace" id="run_block_details_messages_<?=$ID;?>" style="display: block">
+						<a href="#" onClick="toggleDisplay('run_block_details_messages_<?=$id;?>');">Messages</a>
+						<div class="run_block_details_backtrace" id="run_block_details_messages_<?=$id;?>" style="display: block">
 							<ul>
 								<?php foreach( $block->getMessages() as $msg ): ?>
 									<li>
@@ -133,8 +133,8 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 				<tr>
 					<td></td>
 					<td>
-						<a href="#" onClick="toggleDisplay('run_block_details_queries_<?=$ID;?>');">SQL queries</a>
-						<div class="run_block_details_backtrace" id="run_block_details_queries_<?=$ID;?>" style="display: block">
+						<a href="#" onClick="toggleDisplay('run_block_details_queries_<?=$id;?>');">SQL queries</a>
+						<div class="run_block_details_backtrace" id="run_block_details_queries_<?=$id;?>" style="display: block">
 								<table border="1">
 									<thead>
 									<tr>
@@ -183,8 +183,8 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 				<tr>
 					<td></td>
 					<td>
-						<a href="#" onClick="toggleDisplay('run_block_details_backtrace_<?=$ID;?>');">Backtrace</a>
-						<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?=$ID;?>" style="display: none">
+						<a href="#" onClick="toggleDisplay('run_block_details_backtrace_<?=$id;?>');">Backtrace</a>
+						<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?=$id;?>" style="display: none">
 							<strong>Block start backtrace:</strong>
 							<ul>
 								<?php foreach( $block->getBacktraceStart() as $bt ): ?>
@@ -206,7 +206,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 
 		<?php if( ($children=$block->getChildren()) ): ?>
 
-		<div class="run_block_children" id="run_block_children_<?=$ID;?>">
+		<div class="run_block_children" id="run_block_children_<?=$id;?>">
 			<?php foreach( $children as $child ): ?>
 				<?php showRunBlock($child); ?>
 			<?php endforeach; ?>
@@ -251,8 +251,8 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 
 		</style>
 		<script type="text/javascript">
-			function toggleDisplay( ID ) {
-				var e = document.getElementById( ID );
+			function toggleDisplay( id ) {
+				var e = document.getElementById( id );
 				e.style.display = (e.style.display=='block') ? 'none' : 'block';
 			}
 
@@ -261,8 +261,8 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 	<body>
 		<table>
 			<tr>
-				<td>Run ID:</td>
-				<td><?=$run->getID();?></td>
+				<td>Run id:</td>
+				<td><?=$run->getId();?></td>
 			</tr>
 			<tr>
 				<td>Request URL:</td>
@@ -303,7 +303,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 				$total_duration = $total_duration + $q->getDuration();
 				?>
 				<tr>
-					<td><a href="#run_block_<?=$q->getBlockID();?>"><?=$blocks[$q->getBlockID()]->getLabel();?></a></td>
+					<td><a href="#run_block_<?=$q->getBlockId();?>"><?=$blocks[$q->getBlockId()]->getLabel();?></a></td>
 					<td valign="top"><?=formatQuery( $q->getQuery(), $q->getQueryData() );?></td>
 					<td valign="top"><?=formatDuration($q->getDuration());?></td>
 					<td valign="top"><?=$q->getRowsCount();?></td>
@@ -328,7 +328,7 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 
 		<hr/>
 		<?php if( $run->getXHPData() ): ?>
-		<a href="?JPR&run=<?=$run->getID();?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
+		<a href="?JPR&run=<?=$run->getId();?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
 
 		<?php else: ?>
 			<strong>XHProf data not available</strong>

@@ -93,10 +93,10 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 */
 	public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
 		$router = static::getControllerRouter();
-
 		if(!$router) {
 			return false;
 		}
+
 
 		return $router->resolve( $page_content );
 	}
@@ -315,7 +315,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
 		}
 
-		$output_ID = $current_content->getContentKey();
+		$output_id = $current_content->getContentKey();
 
 		Mvc_Layout::getCurrentLayout()->renderView(
 			$this->view,
@@ -323,7 +323,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 			$position,
 			$position_required,
 			$position_order,
-			$output_ID
+			$output_id
 		);
 
 		return;

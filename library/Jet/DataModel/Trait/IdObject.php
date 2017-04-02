@@ -19,41 +19,41 @@ namespace Jet;
 trait DataModel_Trait_IdObject {
 
 	/**
-	 * @var DataModel_ID_Abstract
+	 * @var DataModel_Id_Abstract
 	 */
-	private $_ID_object;
+	private $_id_object;
 
     /**
      * Returns ID
      *
-     * @return DataModel_ID_Abstract
+     * @return DataModel_Id_Abstract
      */
     public function getIdObject() {
         /**
          * @var DataModel $this
          */
 
-        if(!$this->_ID_object) {
-	        $this->_ID_object = static::getEmptyIdObject();
+        if(!$this->_id_object) {
+	        $this->_id_object = static::getEmptyIdObject();
 
-	        $this->_ID_object->joinDataModel($this);
-	        foreach($this->_ID_object as $property_name => $value) {
-		        $this->_ID_object->joinObjectProperty( $property_name, $this->{$property_name});
+	        $this->_id_object->joinDataModel($this);
+	        foreach($this->_id_object as $property_name => $value) {
+		        $this->_id_object->joinObjectProperty( $property_name, $this->{$property_name});
 	        }
 
         }
 
 
-        return $this->_ID_object;
+        return $this->_id_object;
     }
 
 
     /**
-     * @return DataModel_ID_Abstract
+     * @return DataModel_Id_Abstract
      */
     public static function getEmptyIdObject() {
         /** @noinspection PhpUndefinedMethodInspection */
-        return static::getDataModelDefinition()->getEmptyIDInstance();
+        return static::getDataModelDefinition()->getEmptyIdInstance();
     }
 
 }

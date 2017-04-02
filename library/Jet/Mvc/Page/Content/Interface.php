@@ -39,15 +39,15 @@ interface Mvc_Page_Content_Interface {
 	public function getContentKey();
 
     /**
-     * @param mixed $ID
+     * @param mixed $id
      *
      */
-    public function setContentID( $ID );
+    public function setContentId( $id );
 
 	/**
 	 * @return string
 	 */
-	public function getContentID();
+	public function getContentId();
 
 
     /**

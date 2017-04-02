@@ -1,0 +1,27 @@
+<?php
+use JetUI\UI;
+use JetExampleApp\Auth_Administrator_Role;
+use Jet\Mvc;
+use Jet\Tr;
+
+/**
+ * @var Auth_Administrator_Role $role
+ */
+$role = $this->role;
+?>
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+
+	<p>
+	<?=Tr::_('Do you really want to delete this role?');?>
+	<br/>
+	<a href="<?=$role->getEditURI();?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getId();?>)</a>
+	</p>
+
+	<form action="?delete=<?=rawurlencode($role->getId());?>" method="post">
+		<input type="hidden" name="delete" value="yes">
+		<?=UI::button_delete()->setType('submit')?>
+	</form>
+</div>

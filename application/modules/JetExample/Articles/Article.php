@@ -27,18 +27,18 @@ use Jet\Data_Paginator_DataSource_Interface;
  *
  * @JetDataModel:name = 'Article'
  * @JetDataModel:database_table_name = 'Jet_Articles'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Article extends DataModel {
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -185,10 +185,10 @@ class Article extends DataModel {
         $max_suffix_no = 9999;
 
         if( $exists_check( $URI_fragment.$suffix ) ) {
-            $_ID = substr($URI_fragment, 0, 255 - strlen( (string)$max_suffix_no )  );
+            $_id = substr($URI_fragment, 0, 255 - strlen( (string)$max_suffix_no )  );
 
             for($c=1; $c<=$max_suffix_no; $c++) {
-                $URI_fragment = $_ID.$c;
+                $URI_fragment = $_id.$c;
 
                 if( !$exists_check( $URI_fragment.$suffix ) ) {
                     break;
@@ -216,7 +216,7 @@ class Article extends DataModel {
 			$q = [
 				'this.URI_fragment' => $URI_fragment,
 				'AND',
-				'this.ID!=' => $this->ID
+				'this.id!=' => $this->id
 			];
 		}
 		return (bool)$this->getBackendInstance()->getCount( $this->createQuery($q) );
@@ -288,14 +288,14 @@ class Article extends DataModel {
 	/**
 	 * @static
 	 *
-	 * @param string $ID
+	 * @param string $id
 	 *
 	 * @return Article
 	 */
-	public static function get( $ID ) {
+	public static function get( $id ) {
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return static::load( $ID );
+		return static::load( $id );
 	}
 
 	/**

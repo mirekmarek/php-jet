@@ -28,9 +28,9 @@ interface Mvc_Page_Interface {
 	public function getPageKey();
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 */
-	public function setPageId( $ID );
+	public function setPageId( $id );
 
 	/**
 	 * @return $parent
@@ -38,9 +38,9 @@ interface Mvc_Page_Interface {
 	public function getPageId();
 
     /**
-     * @param string $site_ID
+     * @param string $site_id
      */
-	public function setSiteId( $site_ID );
+	public function setSiteId( $site_id );
 
 	/**
 	 * @return string
@@ -122,9 +122,9 @@ interface Mvc_Page_Interface {
 	public function getParentId();
 
     /**
-     * @param string $parent_ID
+     * @param string $parent_id
      */
-	public function setParentId( $parent_ID );
+	public function setParentId( $parent_id );
 
 	/**
 	 * @return int
@@ -355,12 +355,12 @@ interface Mvc_Page_Interface {
 
 
 	/**
-	 * @param string $site_ID
+	 * @param string $site_id
 	 * @param Locale|string $locale (optional)
 	 *
 	 * @return Mvc_Page_Interface[]
 	 */
-	public function getList( $site_ID, $locale );
+	public function getList($site_id, $locale );
 
     /**
      * @param Mvc_Site_Interface $site
@@ -390,7 +390,7 @@ interface Mvc_Page_Interface {
 	/**
 	 * @return string
 	 */
-	public function getChildrenIDs();
+	public function getChildrenIds();
 
 	/**
 	 * @return string

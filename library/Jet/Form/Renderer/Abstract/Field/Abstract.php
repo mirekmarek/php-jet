@@ -74,7 +74,7 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	{
 		$this->_field = $form_field;
         $this->tag_name_value = $this->_field->getTagNameValue();
-        $this->tag_id = $this->_field->getID();
+        $this->tag_id = $this->_field->getId();
 	}
 
     /**

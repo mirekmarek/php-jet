@@ -224,12 +224,12 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	}
 
 	/**
-	 * Returns field ID
+	 * Returns field id
 	 *
 	 * @return string
 	 */
-	public function getID() {
-		return $this->_form->getID().'__'.str_replace('/', '___', $this->getName());
+	public function getId() {
+		return $this->_form->getId().'__'.str_replace('/', '___', $this->getName());
 	}
 
 	/**
@@ -355,7 +355,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 
 		$this->default_value = $default_value;
 
-        if( $default_value instanceof DataModel_ID_Abstract ) {
+        if( $default_value instanceof DataModel_Id_Abstract ) {
             $default_value = $default_value->toString();
         }
 
@@ -696,7 +696,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 
 		$vars = [];
 
-		$vars['ID'] = $this->getID();
+		$vars['id'] = $this->getId();
 
 		foreach(get_object_vars($this) as $k=>$v) {
 			if($k=='_type') {

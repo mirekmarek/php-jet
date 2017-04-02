@@ -27,7 +27,6 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 */
 	protected $items = [];
 
-
 	/**
 	 * @var DataModel_PropertyFilter|null
 	 */
@@ -56,20 +55,21 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 
 
 	/**
-	 * @param DataModel_ID_Abstract $parent_ID
+	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentID( DataModel_ID_Abstract $parent_ID ) {
+	public function actualizeParentId(DataModel_Id_Abstract $parent_id ) {
 		foreach( $this->items as $item ) {
-			$item->actualizeParentID( $parent_ID );
+			$item->actualizeParentId( $parent_id );
 		}
 	}
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 */
-	public function actualizeMainID( DataModel_ID_Abstract $main_ID ) {
+	public function actualizeMainId(DataModel_Id_Abstract $main_id ) {
+
 		foreach( $this->items as $item ) {
-			$item->actualizeMainID( $main_ID );
+			$item->actualizeMainId( $main_id );
 		}
 	}
 
@@ -156,7 +156,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		foreach( $this->items as $i=>$item ) {
 			$exists = false;
 			foreach( $N_instances as $N_instance ) {
-				if($item->getNID()->toString()==$N_instance->getIdObject()->toString()) {
+				if($item->getNId()->toString()==$N_instance->getIdObject()->toString()) {
 					$exists = true;
 					break;
 				}
@@ -171,7 +171,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		foreach( $N_instances as $N_instance ) {
 			$exists = false;
 			foreach( $this->items as $item ) {
-				if($item->getNID()->toString()==$N_instance->getIdObject()->toString()) {
+				if($item->getNId()->toString()==$N_instance->getIdObject()->toString()) {
 					$exists = true;
 					break;
 				}
@@ -189,16 +189,16 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @return DataModel_ID_Abstract[]
+	 * @return DataModel_Id_Abstract[]
 	 */
-	public function getIDs() {
-		$IDs = [];
+	public function getIds() {
+		$ids = [];
 
 		foreach( $this->items as $item ) {
-			$IDs[] = $item->getNID();
+			$ids[] = $item->getNId();
 		}
 
-		return $IDs;
+		return $ids;
 	}
 
 	/**
@@ -273,6 +273,17 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 	/**
+	 * @param string $key
+	 * @return DataModel_Related_MtoN|null
+	 */
+	public function getGlueItem( $key ) {
+		if(!isset($this->items[$key])) {
+			return null;
+		}
+		return $this->items[$key];
+	}
+
+	/**
 	 * @see \Countable
 	 *
 	 * @return int
@@ -340,7 +351,6 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		 */
 		$item = new $class_name();
 		$item->setIsNew();
-
 		$item->setNInstance( $value );
 
 

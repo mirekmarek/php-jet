@@ -26,11 +26,11 @@ trait DataModel_Trait_Delete {
          * @var DataModel $this
          */
         if( $this->getLoadFilter() ) {
-	        throw new DataModel_Exception('Nothing to delete... Object is not completely loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
+	        throw new DataModel_Exception('Nothing to delete... Object is not completely loaded. (Class: \''.get_class($this).'\', Id:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
         }
 
         if( !$this->getIdObject() || !$this->getIsSaved() ) {
-            throw new DataModel_Exception('Nothing to delete... Object was not loaded. (Class: \''.get_class($this).'\', ID:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
+            throw new DataModel_Exception('Nothing to delete... Object was not loaded. (Class: \''.get_class($this).'\', Id:\''.$this->getIdObject().'\')', DataModel_Exception::CODE_NOTHING_TO_DELETE);
         }
 
         /**

@@ -1,0 +1,28 @@
+<?php
+use JetUI\UI;
+use JetExampleApp\Auth_Administrator_User;
+use Jet\Mvc;
+use Jet\Tr;
+
+/**
+ * @var Auth_Administrator_User $user
+ */
+$user = $this->user;
+
+?>
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+
+	<p>
+	<?=Tr::_('Do you really want to delete this user?');?>
+	<br/>
+	<a href="<?=$user->getEditURI();?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getLogin();?>)</a>
+	</p>
+
+	<form action="?delete=<?=rawurlencode($user->getId());?>" method="post">
+		<input type="hidden" name="delete" value="yes">
+		<?=UI::button_delete()->setType('submit')?>
+	</form>
+</div>

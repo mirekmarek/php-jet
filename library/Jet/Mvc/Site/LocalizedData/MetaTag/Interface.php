@@ -28,9 +28,9 @@ interface Mvc_Site_LocalizedData_MetaTag_Interface {
 	public function  toString();
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 */
-	public function setIdentifier( $ID );
+	public function setIdentifier($id );
 
 	/**
 	 * @return string

@@ -238,7 +238,7 @@ if(!$form->getIsReadonly()) {
 		},
 
 		parse: function() {
-			var DSN = document.getElementById('<?=$form->getField('DSN')->getID();?>').value;
+			var DSN = document.getElementById('<?=$form->getField('DSN')->getId();?>').value;
 
 			if(DSN) {
 				this.drivers[this.current_driver_name].parser(DSN);
@@ -247,7 +247,7 @@ if(!$form->getIsReadonly()) {
 		},
 
 		createDSN: function() {
-			document.getElementById('<?=$form->getField('DSN')->getID();?>').value = this.drivers[this.current_driver_name].wizard();
+			document.getElementById('<?=$form->getField('DSN')->getId();?>').value = this.drivers[this.current_driver_name].wizard();
 		}
 	};
 

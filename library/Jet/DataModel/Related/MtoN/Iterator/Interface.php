@@ -44,8 +44,8 @@ interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_In
 	public function setItems( $N_instances );
 
 	/**
-	 * @return DataModel_ID_Abstract[]
+	 * @return DataModel_Id_Abstract[]
 	 */
-	public function getIDs();
+	public function getIds();
 
 }

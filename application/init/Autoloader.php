@@ -28,7 +28,13 @@ Autoloader::registerLoader(
 	JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Zend.php'
 );
 
+
 Autoloader::registerLoader(
     '\JetExampleApp\Autoloader',
     JET_APPLICATION_PATH.'classes/Autoloader.php'
+);
+
+Autoloader::registerLoader(
+    '\JetUI\Autoloader',
+    JET_LIBRARY_PATH.'JetUI/Autoloader.php'
 );

@@ -16,11 +16,11 @@ namespace Jet;
 interface Auth_Role_Interface extends BaseObject_Interface {
 
     /**
-     * @param string $ID
+     * @param string $id
      *
      * @return Auth_Role_Interface
      */
-    public static function get( $ID );
+    public static function get($id );
 
     /**
 	 * @return string
@@ -30,7 +30,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
     /**
      * @return string
      */
-    public function getID();
+    public function getId();
 
 	/**
 	 * @return string
@@ -88,7 +88,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 * Example:
 	 *
 	 * privilege: save_object
-	 * values: object_ID_1,object_ID_2, object_ID_N
+	 * values: object_id_1,object_id_2, object_id_N
 	 *
 	 *
 	 * @param string $privilege
@@ -109,7 +109,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 * Example:
 	 *
 	 * privilege: save_object
-	 * values: object_ID_1
+	 * values: object_id_1
 	 *
 	 * @param string $privilege
 	 * @param mixed $value

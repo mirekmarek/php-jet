@@ -22,22 +22,22 @@ namespace Jet;
  * @JetDataModel:name = 'site_localized_data_meta_tag'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_MetaTags'
  * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_LocalizedData_MetaTag_Interface {
 
 	/**
-	 * @JetDataModel:related_to = 'main.ID'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:related_to = 'main.id'
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $site_ID = '';
+	protected $site_id = '';
 
 	/**
 	 *
 	 * @JetDataModel:related_to = 'parent.locale'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var Locale
 	 */
@@ -47,11 +47,11 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -103,7 +103,7 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	 * @return mixed|null|string
 	 */
 	public function getArrayKeyValue() {
-		return $this->ID;
+		return $this->id;
 	}
 
 	/**
@@ -118,10 +118,10 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	}
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 */
-	public function setIdentifier( $ID ) {
-		$this->ID = $ID;
+	public function setIdentifier( $id ) {
+		$this->id = $id;
 	}
 
 	/**

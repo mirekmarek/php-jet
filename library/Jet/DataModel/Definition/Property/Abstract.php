@@ -55,7 +55,7 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
 	/**
 	 * @var bool
 	 */
-	protected $is_ID = false;
+	protected $is_id = false;
 
 	/**
 	 * @var bool
@@ -125,12 +125,12 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
 				$this->{$key} = $val;
 			}
 
-			$this->is_ID = (bool)$this->is_ID;
+			$this->is_id = (bool)$this->is_id;
 			$this->is_key = (bool)$this->is_key;
 			$this->is_unique = (bool)$this->is_unique;
 			$this->form_field_is_required = (bool)$this->form_field_is_required;
 
-			if( $this->is_ID ) {
+			if( $this->is_id ) {
 				if(!isset($definition_data['form_field_type'])) {
 					$this->form_field_type = Form::TYPE_HIDDEN;
 				}
@@ -255,8 +255,8 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
 	/**
 	 * @return bool
 	 */
-	public function getIsID() {
-		return $this->is_ID;
+	public function getIsId() {
+		return $this->is_id;
 	}
 
     /**
@@ -291,7 +291,7 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
      * @return bool
      */
     public function getCanBeInUpdateRecord() {
-        if($this->getIsID()) {
+        if($this->getIsId()) {
             return false;
         }
         return true;
@@ -404,8 +404,8 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
 		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
 
 
-		if($this->is_ID) {
-			$res .= ', is ID';
+		if($this->is_id) {
+			$res .= ', is id';
 		}
 
 		if($this->default_value) {

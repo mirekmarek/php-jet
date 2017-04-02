@@ -238,7 +238,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 
         $this->is_SSL_request = $current_site_URL->getIsSSL();
 
-        $this->setSite( Mvc_Site::get( $current_site_URL->getSiteID() ) );
+        $this->setSite( Mvc_Site::get( $current_site_URL->getSiteId() ) );
         $this->setLocale( $current_site_URL->getLocale() );
 
 

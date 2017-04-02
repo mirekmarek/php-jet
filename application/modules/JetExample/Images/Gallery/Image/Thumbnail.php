@@ -20,24 +20,24 @@ use Jet\IO_File;
  * @JetDataModel:name = 'Image_Thumbnails'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images_Thumbnails'
  * @JetDataModel:parent_model_class_name = 'module:JetExample.Images\Gallery_Image'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 
 	/**
-	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:related_to = 'main.id'
 	 */
-	protected $image_ID;
+	protected $image_id;
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
 	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *

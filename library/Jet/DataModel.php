@@ -24,11 +24,11 @@ namespace Jet;
  *
  * @JetDataModel:database_table_name = 'some_table_name'
  *
- * @JetDataModel:ID_class_name = 'Some\ID_Class_Name'
- *      - You can create your ID class or use one of those: DataModel_ID_UniqueString, DataModel_ID_Name, DataModel_ID_AutoIncrement, DataModel_ID_Passive
+ * @JetDataModel:id_class_name = 'Some\Id_Class_Name'
+ *      - You can create your ID class or use one of those: DataModel_Id_UniqueString, DataModel_Id_Name, DataModel_Id_AutoIncrement, DataModel_Id_Passive
  *
- * @JetDataModel:ID_options = ['option'=>'value', 'next_option'=>123]
- *      - A practical example: @JetDataModel:ID_options = ['ID_property_name'=>'some_id_property_name']
+ * @JetDataModel:id_options = ['option'=>'value', 'next_option'=>123]
+ *      - A practical example: @JetDataModel:id_options = ['id_property_name'=>'some_id_property_name']
  *
  * @JetDataModel:parent_model_class_name = 'Some\Parent_Class_Name'
  *      - ONLY FOR RELATED MODELS!
@@ -41,12 +41,12 @@ namespace Jet;
  *      /**
  *       * @JetDataModel:database_column_name = 'some_column_name' (optional, property name is default database column name)
  *       * @JetDataModel:type = DataModel::TYPE_*
- *       * @JetDataModel:is_ID = bool
+ *       * @JetDataModel:is_id = bool
  *       *      - optional
  *       * @JetDataModel:default_value = 'some default value'
  *       *      - optional
  *       * @JetDataModel:is_key = bool
- *       *      - optional, default: false or true if is_ID
+ *       *      - optional, default: false (or default is true if is_id is true)
  *       * @JetDataModel:key_type = DataModel::KEY_TYPE_*
  *       *      - optional, default: DataModel::KEY_TYPE_INDEX
  *       * @JetDataModel:description = 'Some description ...'
@@ -123,8 +123,8 @@ abstract class DataModel extends BaseObject implements DataModel_Interface {
 
     use DataModel_Trait;
 
-	const TYPE_ID = 'ID';
-	const TYPE_ID_AUTOINCREMENT = 'IDAutoIncrement';
+	const TYPE_ID = 'Id';
+	const TYPE_ID_AUTOINCREMENT = 'IdAutoIncrement';
 	const TYPE_STRING = 'String';
 	const TYPE_BOOL = 'Bool';
 	const TYPE_INT = 'Int';

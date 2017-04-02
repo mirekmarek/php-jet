@@ -1,45 +1,57 @@
 <?php
-use Jet\Tr;
-use Jet\Mvc_Page;
-use Jet\Auth;
-use Jet\Mvc;
-
-Mvc::requireCssFile(BOOTSTRAP_CSS_URI);
+require_once 'parts/init_libs.php';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-    <?php require 'parts/header.phtml'; ?>
+	<title><?=$this->getString('page_title', 'JetExampleApp admin')?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<jet_layout_meta_tags/>
+	<jet_layout_css/>
+	<jet_layout_javascripts/>
+
+	<jet_layout_header_suffix/>
 </head>
 <body>
-	<jet_layout_body_prefix/>
+<?php /*<jet_layout_body_prefix/>*/ ?>
 
-	<div class="container" id="container" style="width: 100%">
-		<div class="row" style="background-color: #000000;color: #ffffff;">
-			<div style="float: left">
-				<h1><?=Tr::_("PHP Jet Example Application - Administration");?></h1>
+
+<div class="container" id="container" style="width: 100%;min-height: 100%;height: 100%;">
+	<div class="row" style="height: 50px;">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<jet_module module="JetExample.AdminUI" action="main_menu"/>
 			</div>
+		</nav>
+	</div>
 
-			<div class="btn btn-default" style="float:right;margin: 10px;">
-				<?=Tr::_('Current user: %USERNAME%', ['USERNAME' => Auth::getCurrentUser()->getLogin()]);?>
-				<?php /*
-				<a href="<?=Mvc_Page::get('admin/logout')->getURL(); ?>" class="btn btn-danger"><?=Tr::_('LOGOUT');?></a>
- 				*/ ?>
-			</div>
+	<div class="row">
+		<jet_module module="JetExample.AdminUI" action="breadcrumb_navigation"/>
+	</div>
 
-		</div>
-
-		<div class="row">
-			<jet_module module="JetExample.BreadcrumbNavigation" view="admin"/>
-		</div>
-		<div class="row">
-			<jet_layout_main_position/>
+	<div class="row">
+		<div class="col-xs-12" id="system-messages-area">
+			<jet_module module="JetExample.AdminUI" action="messages"/>
 		</div>
 	</div>
 
-	<?php /*
 
-	<jet_layout_body_suffix/>
-    */ ?>
+	<div class="row main-row">
+		<jet_layout_main_position/>
+	</div>
+</div>
+
+<jet_layout_body_suffix/>
+
+
+<div id="__progress__">
+
+	<div class="loading" align="center">
+		<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+		<span class="sr-only">Loading...</span>
+	</div>
+</div>
+
 </body>
 </html>

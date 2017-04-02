@@ -17,17 +17,17 @@ class Mvc_Factory {
 
 	/**
 	 *
-	 * @param string $site_ID
+	 * @param string $site_id
 	 * @param Locale $locale
 	 * @param string $name
-	 * @param string $parent_ID (optional)
-	 * @param string $ID (optional)
+	 * @param string $parent_id (optional)
+	 * @param string $id (optional)
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public static function getPageInstance( $site_ID='', Locale $locale=null , $name='', $parent_ID='', $ID=null ) {
+	public static function getPageInstance( $site_id='', Locale $locale=null , $name='', $parent_id='', $id=null ) {
 		$class_name = JET_MVC_PAGE_CLASS;
-		return new $class_name( $site_ID, $locale , $name, $parent_ID, $ID );
+		return new $class_name( $site_id, $locale , $name, $parent_id, $id );
 	}
 
 	/**
@@ -55,13 +55,13 @@ class Mvc_Factory {
 	/**
      *
 	 * @param string $name (optional)
-	 * @param string $ID (optional)
+	 * @param string $id (optional)
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public static function getSiteInstance( $name='', $ID=null ) {
+	public static function getSiteInstance( $name='', $id=null ) {
 		$class_name = JET_MVC_SITE_CLASS;
-		return new $class_name( $name, $ID );
+		return new $class_name( $name, $id );
 	}
 
 	/**

@@ -37,17 +37,16 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     public static function _getDataModelDefinitionInstance( $data_model_class_name );
 
 
-//-- ID -----------------------------------------
+//-- Id -----------------------------------------
     /**
-     * Returns ID
      *
-     * @return DataModel_ID_Abstract
+     * @return DataModel_Id_Abstract
      */
     public function getIdObject();
 
 
     /**
-     * @return DataModel_ID_Abstract
+     * @return DataModel_Id_Abstract
      */
     public static function getEmptyIdObject();
 
@@ -119,13 +118,13 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     /**
      * Loads DataModel.
      *
-     * @param DataModel_ID_Abstract|array $ID
+     * @param DataModel_Id_Abstract|array $id
      *
      * @throws DataModel_Exception
      *
      * @return DataModel
      */
-    public static function load( $ID );
+    public static function load( $id );
 
 //-- Save ---------------------------------------
 
@@ -204,7 +203,7 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
     /**
      *
      * @param array $where
-     * @return DataModel_Fetch_Object_IDs
+     * @return DataModel_Fetch_Object_Ids
      */
     public function fetchObjectIDs( array $where= []);
 

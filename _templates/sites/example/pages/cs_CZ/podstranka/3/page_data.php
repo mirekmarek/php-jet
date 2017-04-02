@@ -2,7 +2,7 @@
 $content = require __DIR__.'/../common_content.php';
 
 return [
-    'ID' => 'subpage_3',
+    'id' => 'subpage_3',
     'order' => 3,
     'name' => 'Podstránka 3',
 	'title' => 'Podstránka 3',

@@ -27,55 +27,53 @@ trait DataModel_Related_Trait {
     use DataModel_Related_Trait_Load;
 
 	/**
-	 * @param DataModel_ID_Abstract $parent_ID
+	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentID( DataModel_ID_Abstract $parent_ID ) {
+	public function actualizeParentId(DataModel_Id_Abstract $parent_id ) {
 		/**
 		 * @var DataModel_Definition_Model_Related_Abstract $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
-		foreach( $definition->getParentModelRelationIDProperties() as $property_definition ) {
+		foreach($definition->getParentModelRelationIdProperties() as $property_definition ) {
 			$property_name = $property_definition->getName();
 
-			//if(isset($parent_ID[$property_definition->getRelatedToPropertyName()])) {
+
 			if(
 				$this->getIsSaved() &&
-				$this->{$property_name} != $parent_ID[$property_definition->getRelatedToPropertyName()]
+				$this->{$property_name} != $parent_id[$property_definition->getRelatedToPropertyName()]
 			) {
 				$this->setIsNew();
 			}
 
-			$this->{$property_name} = $parent_ID[$property_definition->getRelatedToPropertyName()];
-			//}
+			$this->{$property_name} = $parent_id[$property_definition->getRelatedToPropertyName()];
+
 		}
 
 	}
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 */
-	public function actualizeMainID( DataModel_ID_Abstract $main_ID ) {
+	public function actualizeMainId(DataModel_Id_Abstract $main_id ) {
 
 		/**
 		 * @var DataModel_Definition_Model_Related_Abstract $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
-		foreach( $definition->getMainModelRelationIDProperties() as $property_definition ) {
+		foreach($definition->getMainModelRelationIdProperties() as $property_definition ) {
 
 			$property_name = $property_definition->getName();
 
-			//if(isset($main_ID[$property_definition->getRelatedToPropertyName()])) {
 			if(
 				$this->getIsSaved() &&
-				$this->{$property_name} != $main_ID[$property_definition->getRelatedToPropertyName()]
+				$this->{$property_name} != $main_id[$property_definition->getRelatedToPropertyName()]
 			) {
 				$this->setIsNew();
 			}
 
-			$this->{$property_name} = $main_ID[$property_definition->getRelatedToPropertyName()];
-			//}
+			$this->{$property_name} = $main_id[$property_definition->getRelatedToPropertyName()];
 
 		}
 
@@ -83,7 +81,7 @@ trait DataModel_Related_Trait {
 			$property_name = $property_definition->getName();
 
 			if( $this->{$property_name} instanceof  DataModel_Related_Interface ) {
-				$this->{$property_name}->actualizeMainID( $main_ID );
+				$this->{$property_name}->actualizeMainId( $main_id );
 			}
 		}
 

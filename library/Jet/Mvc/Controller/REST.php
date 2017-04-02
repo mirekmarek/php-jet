@@ -403,13 +403,13 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
 	}
 
 	/**
-	 * @param string|array $ID
+	 * @param string|array $id
 	 */
-	public function responseUnknownItem( $ID ) {
-		if(!is_array($ID)) {
-			$ID = ['ID'=>$ID];
+	public function responseUnknownItem($id ) {
+		if(!is_array($id)) {
+			$id = ['id'=>$id];
 		}
-		$this->responseError(self::ERR_CODE_UNKNOWN_ITEM, $ID);
+		$this->responseError(self::ERR_CODE_UNKNOWN_ITEM, $id);
 	}
 
 	/**

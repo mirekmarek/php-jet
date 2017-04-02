@@ -71,7 +71,7 @@ class Form extends BaseObject {
 	/**
 	 * @var string $name
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 * POST (default) or GET
@@ -356,11 +356,10 @@ class Form extends BaseObject {
 
 
 	/**
-	 * Get form ID
 	 *
 	 * @return string
 	 */
-	public function getID() {
+	public function getId() {
 		return $this->name;
 	}
 

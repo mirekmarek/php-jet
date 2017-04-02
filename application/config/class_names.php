@@ -1,11 +1,16 @@
 <?php
 namespace Jet;
 
+define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Handler');
+//define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Module_Manifest');
+define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', 'JetExampleApp\Application_Modules_Module_Manifest');
+
 define('JET_MVC_ROUTER_CLASS',          __NAMESPACE__.'\Mvc_Router');
 define('JET_MVC_ROUTER_CONFIG_CLASS',   __NAMESPACE__.'\Mvc_Router_Config');
 define('JET_MVC_ROUTER_CACHE_BACKEND_CLASS_NAME_PREFIX', __NAMESPACE__.'\Mvc_Router_Cache_Backend_');
 
-define('JET_MVC_PAGE_CLASS',          __NAMESPACE__.'\Mvc_Page');
+//define('JET_MVC_PAGE_CLASS',          __NAMESPACE__.'\Mvc_Page');
+define('JET_MVC_PAGE_CLASS',          'JetExampleApp\Mvc_Page');
 define('JET_MVC_PAGE_META_TAG_CLASS', __NAMESPACE__.'\Mvc_Page_MetaTag');
 define('JET_MVC_PAGE_CONTENT_CLASS',  __NAMESPACE__.'\Mvc_Page_Content');
 
@@ -31,3 +36,4 @@ define('JET_DB_CONNECTION_ADAPTER', 'PDO');
 define('JET_FORM_FIELD_CLASS_NAME_PREFIX', __NAMESPACE__.'\Form_Field_');
 
 define('JET_TRANSLATOR_BACKEND_CLASS_NAME_PREFIX', __NAMESPACE__.'\Translator_Backend_');
+

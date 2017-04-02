@@ -29,14 +29,14 @@ namespace Jet;
 class Auth_Role_Users extends DataModel_Related_MtoN {
 
 	/**
-	 * @JetDataModel:related_to = 'user.ID'
+	 * @JetDataModel:related_to = 'user.id'
 	 */
-	protected $user_ID = '';
+	protected $user_id = '';
 
 	/**
-	 * @JetDataModel:related_to = 'role.ID'
+	 * @JetDataModel:related_to = 'role.id'
 	 */
-	protected $role_ID = '';
+	protected $role_id = '';
 
 
 }

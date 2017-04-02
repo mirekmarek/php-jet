@@ -21,7 +21,7 @@ use Jet\DataModel_Fetch_Data_Assoc;
  *
  * @JetDataModel:name = 'Image'
  * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Gallery_Image extends DataModel {
 	const THUMBNAILS_DIR_NAME = '_t_';
@@ -32,16 +32,16 @@ class Gallery_Image extends DataModel {
 	 *
 	 * @var string
 	 */
-	protected $gallery_ID = '';
+	protected $gallery_id = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -133,8 +133,8 @@ class Gallery_Image extends DataModel {
 	/**
 	 * @return string
 	 */
-	public function getGalleryID() {
-		return $this->gallery_ID;
+	public function getGalleryId() {
+		return $this->gallery_id;
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Gallery_Image extends DataModel {
 	 */
 	public function getGallery() {
 		if(!$this->__gallery) {
-			$this->__gallery = Gallery::get( $this->gallery_ID );
+			$this->__gallery = Gallery::get( $this->gallery_id );
 		}
 
 		return $this->__gallery;
@@ -152,7 +152,7 @@ class Gallery_Image extends DataModel {
 	 * @param Gallery $gallery
 	 */
 	public function setGallery(Gallery $gallery ) {
-		$this->gallery_ID = $gallery->getIdObject()->toString();
+		$this->gallery_id = $gallery->getIdObject()->toString();
 
 		$this->__gallery = $gallery;
 	}
@@ -271,13 +271,13 @@ class Gallery_Image extends DataModel {
 	/**
 	 * @static
 	 *
-	 * @param string $ID
+	 * @param string $id
 	 *
 	 * @return Gallery_Image
 	 */
-	public static function get( $ID ) {
+	public static function get( $id ) {
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return static::load( $ID );
+		return static::load( $id );
 	}
 
 
@@ -413,15 +413,15 @@ class Gallery_Image extends DataModel {
 	/**
 	 * @static
 	 *
-	 * @param string $gallery_ID (optional)
+	 * @param string $gallery_id (optional)
 	 *
 	 * @return Gallery_Image[]
 	 */
-	public static function getList( $gallery_ID='' ) {
+	public static function getList( $gallery_id='' ) {
 		$query = [];
 
-		if($gallery_ID) {
-			$query['this.gallery_ID'] = $gallery_ID;
+		if($gallery_id) {
+			$query['this.gallery_id'] = $gallery_id;
 		}
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -431,11 +431,11 @@ class Gallery_Image extends DataModel {
 	/**
 	 * @static
 	 *
-	 * @param string $gallery_ID (optional)
+	 * @param string $gallery_id (optional)
 	 *
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
-	public static function getListAsData( $gallery_ID='' ) {
+	public static function getListAsData( $gallery_id='' ) {
 		/**
 		 * @var DataModel $i;
 		 */
@@ -443,8 +443,8 @@ class Gallery_Image extends DataModel {
 		$props = $i->getDataModelDefinition()->getProperties();
 		$data = $i->fetchDataAssoc($props, []);
 
-		if($gallery_ID) {
-			$data->getQuery()->setWhere( ['this.gallery_ID'=>$gallery_ID]);
+		if($gallery_id) {
+			$data->getQuery()->setWhere( ['this.gallery_id'=>$gallery_id]);
 		}
 
 		return $data;

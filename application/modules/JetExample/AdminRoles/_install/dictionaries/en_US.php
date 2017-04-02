@@ -1,6 +1,6 @@
 <?php
 return array(
-	'ID' => '',
+	'id' => '',
 	'Name' => '',
 	'Description' => '',
 	'Add new role' => '',

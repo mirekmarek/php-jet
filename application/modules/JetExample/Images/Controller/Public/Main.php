@@ -39,14 +39,14 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
         /**
          * @var Gallery $gallery
          */
-        $gallery_ID = $this->getActionParameterValue('gallery_ID', Gallery::ROOT_ID);
+        $gallery_id = $this->getActionParameterValue('gallery_id', Gallery::ROOT_ID);
         $gallery = $this->getActionParameterValue('gallery');
 
         if(!$gallery) {
-            $gallery = Gallery::get($gallery_ID);
+            $gallery = Gallery::get($gallery_id);
         }
 
-		$children = Gallery::getChildren( $gallery_ID );
+		$children = Gallery::getChildren( $gallery_id );
 
 		$this->view->setVar('children', $children);
 		$this->view->setVar('gallery', $gallery);
@@ -60,7 +60,7 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
      * @return bool
      */
     public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
-        $gallery_ID = Gallery::ROOT_ID;
+        $gallery_id = Gallery::ROOT_ID;
         $gallery = null;
 
 
@@ -72,9 +72,9 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
 
             foreach( $path_fragments as $pf ) {
 
-                if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_ID )) ) {
+                if( ($_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_id )) ) {
                     $gallery = $_g;
-                    $gallery_ID = $gallery->getIdObject();
+                    $gallery_id = $gallery->getIdObject();
                     $URI .= rawurlencode($gallery->getTitle()).'/';
 
                     Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
@@ -87,7 +87,7 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
         }
 
         $page_content->setControllerActionParameters( [
-            'gallery_ID' => $gallery_ID,
+            'gallery_id' => $gallery_id,
             'gallery' => $gallery
         ]);
 

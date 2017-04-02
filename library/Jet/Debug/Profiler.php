@@ -68,7 +68,7 @@ class Debug_Profiler {
 		register_shutdown_function( function() {
 			$run = Debug_Profiler::getRun();
 			$run->runEnd();
-			$run_ID = $run->getID();
+			$run_id = $run->getId();
 
 			Debug_Profiler::saveRun();
 
@@ -76,7 +76,7 @@ class Debug_Profiler {
 				return;
 			}
 
-			$URL = '?JPR&run='.$run_ID;
+			$URL = '?JPR&run='.$run_id;
 
 			if( static::$output_is_XML ) {
 				echo '<!-- profiler: '.$URL.' -->';
@@ -139,7 +139,7 @@ class Debug_Profiler {
 	 */
 	public static function saveRun() {
 		$run = static::getRun();
-		$run_ID = $run->getID();
+		$run_id = $run->getId();
 
 		$dir = static::getRunSaveDirectoryPath();
 
@@ -149,7 +149,7 @@ class Debug_Profiler {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@chmod($dir, 0777);
 		}
-		$file_path = $dir.$run_ID.'.jpd';
+		$file_path = $dir.$run_id.'.jpd';
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@file_put_contents( $file_path, serialize($run) );
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
@@ -158,19 +158,19 @@ class Debug_Profiler {
 
 
 	/**
-	 * @param $run_ID
+	 * @param $run_id
 	 *
 	 * @return Debug_Profiler_Run|null
 	 * @throws \Exception
 	 */
-	public static function loadRun( $run_ID ) {
-		if( strpos($run_ID, '.')!==false ) {
+	public static function loadRun( $run_id ) {
+		if( strpos($run_id, '.')!==false ) {
 			return null;
 		}
 
 		$dir = static::getRunSaveDirectoryPath();
 
-		$file_path = $dir.$run_ID.'.jpd';
+		$file_path = $dir.$run_id.'.jpd';
 
 		if(!file_exists($file_path)) {
 			return null;

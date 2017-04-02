@@ -63,10 +63,10 @@ interface Auth_Controller_Interface {
 	 * @param string $event
 	 * @param mixed $event_data
 	 * @param string $event_txt
-	 * @param string $user_ID (optional; default: null = current user ID)
+	 * @param string $user_id (optional; default: null = current user ID)
 	 * @param string $user_login (optional; default: null = current user login)
 	 */
-	public function logEvent( $event, $event_data, $event_txt, $user_ID=null, $user_login=null );
+	public function logEvent( $event, $event_data, $event_txt, $user_id=null, $user_login=null );
 
 	/**
 	 *

@@ -21,11 +21,17 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 			$this->installer->goNext();
 		}
 
+
 		$classes = [
-            __NAMESPACE__.'\Auth_Role',
-            __NAMESPACE__.'\Auth_Role_Privilege',
-            __NAMESPACE__.'\Auth_User',
-            __NAMESPACE__.'\Auth_User_Roles',
+            'JetExampleApp\Auth_Administrator_Role',
+			'JetExampleApp\Auth_Administrator_Role_Privilege',
+			'JetExampleApp\Auth_Administrator_User',
+			'JetExampleApp\Auth_Administrator_User_Roles',
+
+			'JetExampleApp\Auth_Visitor_Role',
+			'JetExampleApp\Auth_Visitor_Role_Privilege',
+			'JetExampleApp\Auth_Visitor_User',
+			'JetExampleApp\Auth_Visitor_User_Roles',
 		];
 
 		$result = [];

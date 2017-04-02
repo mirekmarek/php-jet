@@ -17,7 +17,6 @@ namespace Jet;
  *
  * @JetDataModel:name = 'site'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
- * @JetDataModel:ID_class_name = JET_MVC_SITE_ID_CLASS
  */
 class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	const SITE_DATA_FILE_NAME = 'site_data.php';
@@ -29,11 +28,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $site_ID = '';
+	protected $site_id = '';
 
 	/**
 	 *
@@ -103,10 +102,10 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 		$sites = [];
 
-		foreach( $dirs as $ID ) {
-			$site = Mvc_Site::get( $ID );
+		foreach( $dirs as $id ) {
+			$site = Mvc_Site::get( $id );
 
-			$sites[ $ID ] = $site;
+			$sites[ $id ] = $site;
 		}
 
 		uasort( $sites, function( Mvc_Site_Interface $site_a, Mvc_Site_Interface $site_b ) {
@@ -123,39 +122,39 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @see Mvc_Site_Abstract
 	 * @see Mvc_Site_Factory
 	 *
-	 * @param string $ID
+	 * @param string $id
 	 * @return Mvc_Site|bool
 	 */
-	public static function get( $ID ) {
+	public static function get( $id ) {
 
-		$ID_s = (string)$ID;
+		$id_s = (string)$id;
 
-		if(!isset(static::$_loaded[$ID_s])) {
+		if(!isset(static::$_loaded[$id_s])) {
 
-			static::_load( $ID );
+			static::_load( $id );
 
 		}
 
-		if(!isset(static::$_loaded[$ID_s])) {
+		if(!isset(static::$_loaded[$id_s])) {
 			return false;
 		}
 
-		return static::$_loaded[$ID_s];
+		return static::$_loaded[$id_s];
 	}
 
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 *
 	 * @return Mvc_Site|Mvc_Site_Interface|null
 	 */
-	public static function _load( $ID ) {
+	public static function _load( $id ) {
 
-		if(isset(static::$_loaded[$ID])) {
-			return static::$_loaded[$ID];
+		if(isset(static::$_loaded[$id])) {
+			return static::$_loaded[$id];
 		}
 
-		$data_file_path = static::getSiteDataFilePath($ID);
+		$data_file_path = static::getSiteDataFilePath($id);
 
 		if(!IO_File::exists($data_file_path)) {
 			return null;
@@ -168,7 +167,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 		$URL_map = $site->getUrlsMap();
 
-		$site->site_ID = $ID;
+		$site->site_id = $id;
 		$site->name = $data['name'];
 		$site->is_active = $data['is_active'];
 
@@ -196,7 +195,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 			foreach( $URL_map as $URL_data ) {
 				if(
-					$URL_data->getSiteID()!=(string)$ID ||
+					$URL_data->getSiteId()!=(string)$id ||
 					$URL_data->getLocale()!=$locale_str
 				) {
 					continue;
@@ -209,7 +208,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 			$l_data->setURLs( $URLs );
 		}
 
-		static::$_loaded[$ID] = $site;
+		static::$_loaded[$id] = $site;
 
 		return $site;
 	}
@@ -265,15 +264,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @return string
 	 */
 	public function getSiteId() {
-		return $this->site_ID;
+		return $this->site_id;
 	}
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 *
 	 */
-	public function setSiteId( $ID ) {
-		$this->site_ID = $ID;
+	public function setSiteId( $id ) {
+		$this->site_id = $id;
 	}
 
 	/**
@@ -283,14 +282,14 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 		$name  = trim( $this->name );
 
-		$ID = Data_Text::removeAccents( $name );
-		$ID = str_replace(' ', '_', $ID);
-		$ID = preg_replace('/[^a-z0-9_]/i', '', $ID);
-		$ID = strtolower($ID);
-		$ID = preg_replace( '~([_]{2,})~', '_' , $ID );
-		$ID = substr($ID, 0, 50);
+		$id = Data_Text::removeAccents( $name );
+		$id = str_replace(' ', '_', $id);
+		$id = preg_replace('/[^a-z0-9_]/i', '', $id);
+		$id = strtolower($id);
+		$id = preg_replace( '~([_]{2,})~', '_' , $id );
+		$id = substr($id, 0, 50);
 
-		$this->site_ID = $ID;
+		$this->site_id = $id;
 	}
 
 	/**
@@ -317,7 +316,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @return string
 	 */
 	public function getBasePath() {
-		return JET_SITES_PATH . $this->site_ID.'/';
+		return JET_SITES_PATH . $this->site_id.'/';
 	}
 
 
@@ -485,7 +484,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	/**
 	 * Returns site locales
 	 *
-	 * @see Site
+	 * @see Mvc_Site
 	 *
 	 * @param bool $get_as_string (optional), default: false
 	 *
@@ -593,12 +592,12 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	}
 
 	/**
-	 * @param DataModel_ID_Abstract|string $ID
+	 * @param DataModel_Id_Abstract|string $id
 	 * @return string
 	 */
-	protected static function getSiteDataFilePath( $ID )
+	protected static function getSiteDataFilePath( $id )
 	{
-		return JET_SITES_PATH.$ID.'/'.static::SITE_DATA_FILE_NAME;
+		return JET_SITES_PATH.$id.'/'.static::SITE_DATA_FILE_NAME;
 	}
 
 	/**
@@ -722,14 +721,14 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 		$URL_map = [];
 
 		foreach( $site_URL_map_data as $key=>$URLs ) {
-			list( $site_ID, $locale_str ) = explode('/', $key);
+			list( $site_id, $locale_str ) = explode('/', $key);
 
 			$site_default_SSL_URL = null;
 			$site_default_non_SSL_URL = null;
 
 			foreach( $URLs as $URL ) {
 				$URL_i = Mvc_Factory::getSiteLocalizedURLInstance( $URL );
-				$URL_i->setSiteID($site_ID);
+				$URL_i->setSiteId($site_id);
 				$URL_i->setLocale( new Locale($locale_str) );
 
 				if($URL_i->getIsSSL()) {
@@ -829,7 +828,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
             /**
              * @var string $locale
              */
-            unset($data['localized_data'][$locale]['site_ID']);
+            unset($data['localized_data'][$locale]['site_id']);
 			unset($data['localized_data'][$locale]['locale']);
 			unset($data['localized_data'][$locale]['URLs']);
 		}
@@ -922,7 +921,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	public function toArray() {
 
 		$data = [
-			'ID' => $this->site_ID,
+			'id' => $this->site_id,
 			'name' => $this->name,
 			'is_default' => $this->is_default,
 			'is_active' => $this->is_active,

@@ -4,7 +4,7 @@ use Jet\Application_Modules;
 $UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
 
 return [
-    'ID' => 'admin',
+    'id' => 'admin',
     'name' => 'Admin',
 	'title' => 'Administrace - Rozcestník',
 	'menu_title' => 'Administrace - Rozcestník',

@@ -1,0 +1,40 @@
+<?php
+use Jet\Mvc;
+use Jet\Tr;
+use Jet\Mvc_View;
+use Jet\Form;
+
+use JetUI\UI;
+/**
+ * @var Mvc_View $this
+ * @var Form $form
+ */
+
+$form = $this->getRaw('form');
+
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(9);
+
+?>
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<?=$form->start();?>
+
+	<div class="toolbar" id="main-toolbar">
+		<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+
+		<?php if(!$form->getIsReadonly()): ?>
+			<?=UI::button_save()?>
+		<?php endif; ?>
+	</div>
+
+	<?=$form->field('locale')?>
+	<?=$form->field('title')?>
+	<?=$form->field('annotation')?>
+	<?=$form->field('text')?>
+	<?=$form->field('date_time')?>
+
+	<?=$form->end();?>
+
+
+</div>

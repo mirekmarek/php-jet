@@ -445,7 +445,7 @@ class Controller_Main extends Mvc_Controller_Standard {
              */
             $form = $d['form'];
 
-            $form->setAction('#'.$form->getID());
+            $form->setAction('#'.$form->getId());
 
             if(
                 $form->catchValues() &&

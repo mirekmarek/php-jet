@@ -20,14 +20,14 @@ interface DataModel_Related_Interface {
 
 
 	/**
-	 * @param DataModel_ID_Abstract $parent_ID
+	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentID( DataModel_ID_Abstract $parent_ID );
+	public function actualizeParentId(DataModel_Id_Abstract $parent_id );
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 */
-	public function actualizeMainID( DataModel_ID_Abstract $main_ID );
+	public function actualizeMainId(DataModel_Id_Abstract $main_id );
 
 
 	/**

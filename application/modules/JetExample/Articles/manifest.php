@@ -10,9 +10,24 @@ return [
 	'description' => '',
 
 	'require' => [
-		'JetExample.UIElements'
 	],
 
 	'signals_callbacks' => [],
+
+	'admin_sections' => [
+		'admin/articles' => [
+			'title' => 'Articles',
+			'URL_fragment' => 'articles',
+		]
+	],
+
+	'admin_menu_items' => [
+		'articles' => [
+			'label' => 'Articles',
+			'parent_menu_id' => 'content',
+			'page_id' => 'admin/articles',
+			'icon' => 'file-text'
+		]
+	]
 
 ];

@@ -10,33 +10,33 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
-use JetApplicationModule\JetExample\UIElements;
+use JetExampleApp\Mvc_Controller_AdminStandard;
+use JetExampleApp\Mvc_Page;
+
+use JetUI\UI;
+use JetUI\dataGrid;
+use JetUI\breadcrumbNavigation;
+use JetUI\messages;
+
 use Jet\Application_Modules;
 use Jet\Mvc;
 use Jet\Mvc_Controller_Router;
-use Jet\Mvc_Router_Abstract;
-use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_Page_Content_Interface;
 use Jet\Http_Headers;
 use Jet\Tr;
 use Jet\Http_Request;
 
-class Controller_Admin_Main extends Mvc_Controller_Standard {
+class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
 
+
 	/**
 	 * @var Mvc_Controller_Router
 	 */
-	protected $micro_router;
-
-    /**
-     * @var Mvc_Controller_Router
-     */
-    protected $_standard_admin_micro_router;
+	protected static $controller_router;
 
 
 	protected static $ACL_actions_check_map = [
@@ -52,26 +52,22 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 */
 	public function initialize() {
         Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
-		$this->micro_router = $this->getStandardAdminMicroRouter();
-		$this->view->setVar( 'router', $this->micro_router );
+		$this->view->setVar( 'router', static::getControllerRouter() );
 	}
 
 
     /**
-     * @param Mvc_Router_Abstract $router
      *
      * @return Mvc_Controller_Router
      */
-    public function getStandardAdminMicroRouter( Mvc_Router_Abstract $router=null ) {
-        if($this->_standard_admin_micro_router) {
-            return $this->_standard_admin_micro_router;
-        }
+    public static function getControllerRouter() {
+	    if(static::$controller_router) {
+		    return static::$controller_router;
+	    }
 
-        if(!$router) {
-            $router = Mvc::getCurrentRouter();
-        }
+	    $router = Mvc::getCurrentRouter();
 
-        $router = new Mvc_Controller_Router( $router, $this->module_instance );
+	    $router = new Mvc_Controller_Router( $router, Application_Modules::getModuleInstance(Main::MODULE_NAME) );
 
         $base_URI = Mvc::getCurrentPageURI();
 
@@ -101,35 +97,41 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
             ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getIdObject()).'/'; } )
             ->setParametersValidatorCallback( $validator );
 
-        $this->_standard_admin_micro_router = $router;
+	    static::$controller_router = $router;
 
         return $router;
     }
 
 
+	/**
+	 * @param string $current_label
+	 */
+	protected function _setBreadcrumbNavigation($current_label='' ) {
+		$icon = $this->getModuleManifest()->getMenuItems()['content/articles']->getIcon();
 
-    /**
-     * @param Mvc_Page_Content_Interface $page_content
-     * @return bool
-     */
-    public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
+		breadcrumbNavigation::addItem(
+			UI::icon($icon).'&nbsp;&nbsp;'.
+			Tr::_('Articles'),
+			Mvc_Page::get('admin/articles')->getURL()
+		);
+		if($current_label) {
+			breadcrumbNavigation::addItem( $current_label );
 
-        $router = $this->getStandardAdminMicroRouter( Mvc::getCurrentRouter() );
-
-        return $router->resolve( $page_content );
-    }
+		}
+	}
 
 
 	/**
 	 *
 	 */
 	public function default_Action() {
+		$this->_setBreadcrumbNavigation();
 
-		/**
-		 * @var UIElements\Main $UI_m
-		 */
-		$UI_m = Application_Modules::getModuleInstance('JetExample.UIElements');
-		$grid = $UI_m->getDataGridInstance();
+		$search_form = UI::searchForm('article');
+		$this->view->setVar('search_form', $search_form);
+
+
+		$grid = new dataGrid();
 
 		$grid->setIsPersistent('admin_classic_articles_list_grid');
 
@@ -144,13 +146,14 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 		$this->view->setVar('grid', $grid);
 
-		$this->render('classic/default');
+		$this->render('default');
 	}
 
 	/**
 	 *
 	 */
 	public function add_Action() {
+		$this->_setBreadcrumbNavigation( Tr::_('Create a new Article') );
 
 		$article = new Article();
 
@@ -158,7 +161,12 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 		if( $article->catchForm( $form ) ) {
 			$article->save();
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
+
+			$this->logAllowedAction( $article );
+
+			messages::success( Tr::_('Article <b>%TITLE%</b> has been created', ['TITLE'=>$article->getTitle() ]) );
+
+			Http_Headers::movedTemporary( static::getControllerRouter()->getActionURI( 'edit', $article ) );
 		}
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( Tr::_('New article') );
@@ -168,7 +176,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
 
-		$this->render('classic/edit');
+		$this->render('edit');
 	}
 
 	/**
@@ -181,20 +189,28 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
          */
         $article = $this->getActionParameterValue('article');
 
+		$this->_setBreadcrumbNavigation( Tr::_('Edit article <b>%TITLE%</b>', ['TITLE'=>$article->getTitle() ]) );
+
+
 		$form = $article->getCommonForm();
 
 		if( $article->catchForm( $form ) ) {
 			$article->save();
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $article ) );
+
+			$this->logAllowedAction( $article );
+
+			messages::success( Tr::_('Article <b>%TITLE%</b> has been updated', ['TITLE'=>$article->getTitle() ]) );
+
+			Http_Headers::movedTemporary( static::getControllerRouter()->getActionURI( 'edit', $article ) );
 		}
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
 
 		$this->view->setVar('btn_label', Tr::_('SAVE') );
-		$this->view->setVar('has_access', true);
+
 		$this->view->setVar('form', $form);
 
-		$this->render('classic/edit');
+		$this->render('edit');
 	}
 
 	/**
@@ -207,13 +223,16 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
          */
         $article = $this->getActionParameterValue('article');
 
+		$this->_setBreadcrumbNavigation( Tr::_('Article detail <b>%TITLE%</b>', ['TITLE'=>$article->getTitle() ]) );
+
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
 
 		$form = $article->getCommonForm();
-		$this->view->setVar('has_access', false);
+		$form->setIsReadonly();
+
 		$this->view->setVar('form', $form);
 
-		$this->render('classic/edit');
+		$this->render('edit');
 	}
 
 	/**
@@ -226,9 +245,16 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
          */
         $article = $this->getActionParameterValue('article');
 
+		$this->_setBreadcrumbNavigation( Tr::_('Delete article <b>%TITLE%</b>', ['TITLE'=>$article->getTitle() ]) );
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
+
 			$article->delete();
+
+			$this->logAllowedAction( $article );
+
+			messages::info( Tr::_('Article <b>%TITLE%</b> has been deleted', ['TITLE'=>$article->getTitle() ]) );
+
 
 			Http_Headers::movedTemporary( Mvc::getCurrentPageURI() );
 		}
@@ -238,7 +264,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 		$this->view->setVar( 'article', $article );
 
-		$this->render('classic/delete-confirm');
+		$this->render('delete-confirm');
 	}
 
 

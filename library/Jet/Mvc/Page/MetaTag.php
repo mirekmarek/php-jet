@@ -22,29 +22,29 @@ namespace Jet;
  *
  * @JetDataModel:name = 'page_meta_tag'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_MetaTags'
  * @JetDataModel:parent_model_class_name = 'Mvc_Page'
  */
 class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface {
 
 	/**
-	 * @JetDataModel:related_to = 'main.site_ID'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:related_to = 'main.site_id'
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 */
-	protected $site_ID;
+	protected $site_id;
 
 	/**
-	 * @JetDataModel:related_to = 'main.ID'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:related_to = 'main.id'
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 */
-	protected $page_ID;
+	protected $page_id;
 
 	/**
 	 * @JetDataModel:related_to = 'main.locale'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 */
 	protected $locale;
@@ -52,12 +52,12 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
-	protected $meta_tag_ID = '';
+	protected $meta_tag_id = '';
 
 	/**
 	 *
@@ -131,14 +131,14 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface 
 	 * @return mixed|null|string
 	 */
 	public function getArrayKeyValue() {
-		return $this->meta_tag_ID;
+		return $this->meta_tag_id;
 	}
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 */
-	public function setIdentifier( $ID ) {
-		$this->meta_tag_ID = $ID;
+	public function setId($id ) {
+		$this->meta_tag_id = $id;
 	}
 
 	/**

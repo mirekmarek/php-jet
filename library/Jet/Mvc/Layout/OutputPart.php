@@ -23,7 +23,7 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	/**
 	 * @var string
 	 */
-	protected $output_ID = '';
+	protected $output_id = '';
 
 	/**
 	 *
@@ -50,14 +50,14 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	protected $position_order = 0.0;
 
 	/**
-	 * @param string $content_ID
+	 * @param string $content_id
 	 * @param string $output
 	 * @param string $position
 	 * @param bool $position_required
 	 * @param int $position_order
 	 */
-	public function __construct($content_ID, $output, $position, $position_required, $position_order ) {
-		$this->output_ID = $content_ID;
+	public function __construct($content_id, $output, $position, $position_required, $position_order ) {
+		$this->output_id = $content_id;
 		$this->output = $output;
 		$this->position = $position;
 		$this->position_required = $position_required;
@@ -68,8 +68,8 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	/**
 	 * @return string
 	 */
-	public function getOutputID() {
-		return $this->output_ID;
+	public function getOutputId() {
+		return $this->output_id;
 	}
 
 	/**

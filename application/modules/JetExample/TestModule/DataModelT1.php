@@ -20,18 +20,18 @@ use Jet\Data_DateTime;
  *
  * @JetDataModel:name = 'DataModelT1'
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class DataModelT1 extends DataModel {
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *

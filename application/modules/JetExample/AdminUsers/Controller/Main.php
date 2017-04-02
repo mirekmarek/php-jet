@@ -14,130 +14,215 @@
  */
 namespace JetApplicationModule\JetExample\AdminUsers;
 
-use JetApplicationModule\JetExample\UIElements;
+use JetExampleApp\Mvc_Page;
+use JetExampleApp\Auth_Administrator_User as User;
+use JetExampleApp\Mvc_Controller_AdminStandard;
+
+use JetUI\UI;
+use JetUI\dataGrid;
+use JetUI\breadcrumbNavigation;
+use JetUI\messages;
+
+
 use Jet\Application_Modules;
 use Jet\Mvc;
-use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Controller_Router;
-use Jet\Mvc_Page_Content_Interface;
-use Jet\Auth_User;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
+use Jet\Form;
 
-class Controller_Main extends Mvc_Controller_Standard {
+class Controller_Main extends Mvc_Controller_AdminStandard {
+	const DEFAULT_ACTION = 'default';
+
+	const ADD_ACTION = 'add';
+	const ADD_ACTION_URI = 'add';
+
+	const EDIT_ACTION = 'edit';
+	const EDIT_ACTION_URI = 'edit';
+
+	const VIEW_ACTION = 'view';
+	const VIEW_ACTION_URI = 'view';
+
+	const DELETE_ACTION = 'delete';
+	const DELETE_ACTION_URI = 'delete';
+
+	/**
+	 * @var array
+	 */
+	protected static $action_URI = [
+		self::ADD_ACTION => self::ADD_ACTION_URI,
+		self::EDIT_ACTION => self::EDIT_ACTION_URI,
+		self::VIEW_ACTION => self::VIEW_ACTION_URI,
+		self::DELETE_ACTION => self::DELETE_ACTION_URI,
+	];
+
+	/**
+	 * @var array
+	 */
+	protected static $action_regexp = [
+		self::ADD_ACTION => '/^'.self::ADD_ACTION_URI.'$/',
+		self::EDIT_ACTION => '/^'.self::EDIT_ACTION_URI.':([0-9]+)$/',
+		self::VIEW_ACTION => '/^'.self::VIEW_ACTION_URI.':([0-9]+)$/',
+		self::DELETE_ACTION => '/^'.self::DELETE_ACTION_URI.':([0-9]+)$/',
+	];
+
+
+	/**
+	 * @var array
+	 */
+	protected static $ACL_actions_check_map = [
+		self::DEFAULT_ACTION => Main::ACTION_GET_USER,
+		self::ADD_ACTION => Main::ACTION_ADD_USER,
+		self::EDIT_ACTION => Main::ACTION_UPDATE_USER,
+		self::VIEW_ACTION => Main::ACTION_GET_USER,
+		self::DELETE_ACTION => Main::ACTION_DELETE_USER,
+	];
+
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
 
-    /**
-     * @var Mvc_Controller_Router
-     */
-    protected $micro_router;
-
-
-	protected static $ACL_actions_check_map = [
-		'default' => 'get_user',
-		'add' => 'add_user',
-		'edit' => 'update_user',
-		'view' => 'get_user',
-		'delete' => 'delete_user',
-	];
+	/**
+	 * @var Mvc_Controller_Router
+	 */
+	protected static $controller_router;
 
 
 	/**
 	 *
 	 */
 	public function initialize() {
-
-        Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
-		$this->getMicroRouter();
-		$this->view->setVar( 'router', $this->micro_router );
+		Mvc::checkCurrentContentIsDynamic();
 	}
 
-    /**
-     * @param Mvc_Page_Content_Interface $page_content
-     *
-     * @return bool
-     */
-    public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
-        $router = $this->getMicroRouter();
+	/**
+	 * @param string $action
+	 * @return string
+	 */
+	public static function getActionURI( $action )
+	{
+		return self::$action_URI[$action];
+	}
 
-        return $router->resolve( $page_content );
-    }
+	/**
+	 * @param string $action
+	 * @return string
+	 */
+	public static function getActionRegexp( $action )
+	{
+		return self::$action_regexp[$action];
+	}
 
-    /**
-     *
-     * @return Mvc_Controller_Router
-     */
-    public function getMicroRouter() {
-        if($this->micro_router) {
-            return $this->micro_router;
-        }
+	/**
+	 *
+	 * @return Mvc_Controller_Router
+	 */
+	public static function getControllerRouter() {
+		if(static::$controller_router) {
+			return static::$controller_router;
+		}
 
-        $router = Mvc::getCurrentRouter();
+		$router = Mvc::getCurrentRouter();
 
-        $router = new Mvc_Controller_Router( $router, $this->module_instance );
+		$router = new Mvc_Controller_Router( $router, Application_Modules::getModuleInstance(Main::MODULE_NAME) );
 
-        $base_URI = Mvc::getCurrentPageURI();
 
-        $validator = function( &$parameters ) {
+		$validator = function( &$parameters ) {
 
-            $user = Auth_User::get( $parameters[0] );
-            if(!$user) {
-                return false;
-            }
+			$user = User::get($parameters[0]);
 
-            $parameters['user'] = $user;
-            return true;
+			if(!$user) {
+				return false;
+			}
 
-        };
+			$parameters['user'] = $user;
+			return true;
 
-        $router->addAction('add', '/^add$/', 'add_user', true)
-            ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
+		};
 
-        $router->addAction('edit', '/^edit:([\S]+)$/', 'update_user', true)
-            ->setCreateURICallback( function( Auth_User $user ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($user->getID()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
+		$base_URI = Mvc_Page::get(Main::PAGE_USERS)->getURI();
 
-        $router->addAction('view', '/^view:([\S]+)$/', 'get_user', true)
-            ->setCreateURICallback( function( Auth_User $user ) use($base_URI) { return $base_URI.'view:'.rawurlencode($user->getID()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
+		$URI_creator = function( $action, $id=0 ) use ($router, $base_URI) {
+			if(!$router->getActionAllowed($action)) {
+				return false;
+			}
 
-        $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_user', true)
-            ->setCreateURICallback( function( Auth_User $user ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($user->getID()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
+			$action_uri = Controller_Main::getActionURI( $action );
 
-        $this->micro_router = $router;
+			if(!$id) {
+				return $action_uri.'/';
+			}
 
-        return $router;
-    }
+			return $base_URI.$action_uri.':'.((int)$id).'/';
+		};
 
+
+		$router->addAction(static::ADD_ACTION, static::getActionRegexp(static::ADD_ACTION), static::getModuleAction( static::ADD_ACTION ), true)
+			->setCreateURICallback( function() use($URI_creator) { return $URI_creator(static::ADD_ACTION); } );
+
+		$router->addAction(static::EDIT_ACTION, static::getActionRegexp(static::EDIT_ACTION), static::getModuleAction( static::EDIT_ACTION ), true)
+			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::EDIT_ACTION, $id); } )
+			->setParametersValidatorCallback( $validator );
+
+		$router->addAction(static::VIEW_ACTION, static::getActionRegexp(static::VIEW_ACTION), static::getModuleAction( static::VIEW_ACTION ), true)
+			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::VIEW_ACTION, $id); } )
+			->setParametersValidatorCallback( $validator );
+
+		$router->addAction(static::DELETE_ACTION, static::getActionRegexp(static::DELETE_ACTION), static::getModuleAction( static::DELETE_ACTION ), true)
+			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::DELETE_ACTION, $id); } )
+			->setParametersValidatorCallback( $validator );
+
+		static::$controller_router = $router;
+
+		return $router;
+	}
+
+
+	/**
+	 * @param string $current_label
+	 */
+	protected function _setBreadcrumbNavigation($current_label='' ) {
+		$icon = $this->getModuleManifest()->getMenuItems()['system/users']->getIcon();
+
+		breadcrumbNavigation::addItem(
+			UI::icon($icon).'&nbsp;&nbsp;'.
+			Tr::_('Users'),
+			Mvc_Page::get('admin/users')->getURL()
+		);
+		if($current_label) {
+			breadcrumbNavigation::addItem( $current_label );
+
+		}
+	}
 
 	/**
 	 *
 	 */
 	public function default_Action() {
+		$this->_setBreadcrumbNavigation();
 
-		/**
-		 * @var UIElements\Main $UI_m
-		 */
-		$UI_m = Application_Modules::getModuleInstance('JetExample.UIElements');
-		$grid = $UI_m->getDataGridInstance();
+		$search_form = UI::searchForm('user');
+		$this->view->setVar('search_form', $search_form);
 
-		$grid->setIsPersistent('admin_classic_users_list_grid');
+		$grid = new dataGrid();
+
+		$grid->setDefaultSort('login');
+		$grid->setIsPersistent('admin_users_list_grid');
 
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
+		$grid->addColumn('id', Tr::_('ID') );
 		$grid->addColumn('login', Tr::_('Login') );
-		$grid->addColumn('ID', Tr::_('ID') );
+		$grid->addColumn('first_name', Tr::_('First name') );
+		$grid->addColumn('surname', Tr::_('Surname') );
 
-		$grid->setData( Auth_User::getList() );
+		$grid->setData( User::getList(null, $search_form->getValue()) );
 
 		$this->view->setVar('grid', $grid);
 
-		$this->render('classic/default');
+		$this->render('default');
 
 	}
 
@@ -145,108 +230,111 @@ class Controller_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function add_Action() {
+		$this->_setBreadcrumbNavigation( Tr::_('Create a new User') );
 
-		/**
-		 * @var Auth_User $user
-		 */
-		$user = new Auth_User();
+		$user = new User();
 
 
 		$form = $user->getCommonForm();
 
 		if( $user->catchForm( $form ) ) {
 			$user->save();
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $user ) );
+			$this->logAllowedAction( $user );
+			messages::success( Tr::_('User <b>%LOGIN%</b> has been created', ['LOGIN'=>$user->getLogin() ]) );
+
+			Http_Headers::movedTemporary( $user->getEditURI() );
 		}
 
-		$this->view->setVar('bnt_label', 'ADD');
-
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData('New user');
-
-		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
+		$this->view->setVar('user', $user);
 
-		$this->render('classic/edit');
+		$this->render('edit');
 
 	}
 
 	/**
-     *
+	 *
 	 */
 	public function edit_Action() {
 
-        /**
-         * @Auth_User $user
-         */
-        $user = $this->getActionParameterValue('user');
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getActionParameterValue('user');
 
+		$this->_setBreadcrumbNavigation( Tr::_('Edit user account <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
+
+		/**
+		 * @var Form $form
+		 */
 		$form = $user->getCommonForm();
+		$form->removeField('password');
 
 		if( $user->catchForm( $form ) ) {
+
 			$user->save();
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $user ) );
+			$this->logAllowedAction( $user );
+			messages::success( Tr::_('User <b>%LOGIN%</b> has been updated', ['LOGIN'=>$user->getLogin() ]) );
+
+			Http_Headers::movedTemporary( $user->getEditURI() );
 		}
 
-
-		$this->view->setVar('bnt_label', 'SAVE' );
-
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData( $user->getLogin() );
-
-
-		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
+		$this->view->setVar('user', $user);
 
-		$this->render('classic/edit');
+		$this->render('edit');
 
 	}
 
 	/**
-     *
+	 *
 	 */
 	public function view_Action() {
 
-        /**
-         * @Auth_User $user
-         */
-        $user = $this->getActionParameterValue('user');
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getActionParameterValue('user');
+
+		$this->_setBreadcrumbNavigation( Tr::_('User account detail <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
 
 		$form = $user->getCommonForm();
 
-		$this->view->setVar('bnt_label', 'SAVE' );
+		$form->setIsReadonly();
 
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData( $user->getLogin() );
-
-
-		$this->view->setVar('has_access', false);
 		$this->view->setVar('form', $form);
+		$this->view->setVar('user', $user);
 
-		$this->render('classic/edit');
+		$this->render('edit');
 
 	}
 
 
 
 	/**
-     *
+	 *
 	 */
 	public function delete_Action() {
 
-        /**
-         * @Auth_User $user
-         */
-        $user = $this->getActionParameterValue('user');
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getActionParameterValue('user');
+
+		$this->_setBreadcrumbNavigation( Tr::_('Delete user account <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$user->delete();
+			$this->logAllowedAction( $user );
+			messages::info( Tr::_('User <b>%LOGIN%</b> has been deleted', ['LOGIN'=>$user->getLogin() ]) );
+
 			Http_Headers::movedTemporary( Mvc::getCurrentPageURI() );
 		}
 
 
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData('Delete user');
-
 		$this->view->setVar( 'user', $user );
 
-		$this->render('classic/delete-confirm');
+		$this->render('delete-confirm');
 	}
 
 

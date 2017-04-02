@@ -25,7 +25,7 @@ namespace Jet;
  * @JetApplication_Signals:signal_object_class_name = 'Auth_Role_Signal'
 
  * @JetDataModel:name = 'role'
- * @JetDataModel:ID_class_name = 'DataModel_ID_Name'
+ * @JetDataModel:id_class_name = 'DataModel_Id_Name'
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles'
  */
 class Auth_Role extends DataModel implements Auth_Role_Interface {
@@ -59,12 +59,12 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -114,12 +114,12 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	protected static $available_privileges_list;
 
     /**
-     * @param string $ID
+     * @param string $id
      *
      * @return Auth_Role
      */
-    public static function get( $ID ) {
-    	$role =  static::load( $ID );
+    public static function get($id ) {
+    	$role =  static::load( $id );
 	    /**
 	     * @var Auth_Role $role
 	     */
@@ -130,7 +130,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
     /**
      * @return string
      */
-    public function getID() {
+    public function getId() {
         return $this->getIdObject()->toString();
     }
 
@@ -227,7 +227,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 * Example:
 	 *
 	 * privilege: save_object
-	 * values: object_ID_1,object_ID_2, object_ID_N
+	 * values: object_id_1,object_id_2, object_id_N
 	 *
 	 *
 	 * @param string $privilege
@@ -298,7 +298,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 
 		$list = $_this->fetchObjects( $where );
 		$list->setLoadFilter([
-			'this.ID',
+			'this.id',
 			'this.name',
 			'this.description'
 		]);
@@ -403,7 +403,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	public static function getAclActionValuesList_ModulesActions() {
 		$forest = new Data_Tree_Forest();
 		$forest->setLabelKey('name');
-		$forest->setIDKey('ID');
+		$forest->setIdKey('id');
 
 		$modules = Application_Modules::getActivatedModulesList();
 
@@ -423,15 +423,15 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 
 			foreach($actions as $action=>$action_description) {
 				$data[] = [
-					'ID' => $module_name.':'.$action,
-					'parent_ID' => $module_name,
+					'id' => $module_name.':'.$action,
+					'parent_id' => $module_name,
 					'name' => $action_description
 				];
 			}
 
 			$tree = new Data_Tree();
 			$tree->getRootNode()->setLabel( $module_info->getLabel().' ('.$module_name.')' );
-			$tree->getRootNode()->setID($module_name);
+			$tree->getRootNode()->setId($module_name);
 
 			$tree->setData($data);
 

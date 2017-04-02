@@ -54,7 +54,7 @@ abstract class Form_Renderer_Abstract_Form extends Form_Renderer_Abstract_Tag {
 
 		$tag_options = [
 			'name' => $form->getName(),
-			'id' => $form->getID(),
+			'id' => $form->getId(),
 			'method' => $form->getMethod()
 		];
 

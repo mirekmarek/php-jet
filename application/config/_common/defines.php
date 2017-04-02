@@ -25,9 +25,6 @@ define('JET_PUBLIC_SCRIPTS_PATH', JET_BASE_PATH.'public/scripts/');
 define('JET_PUBLIC_STYLES_PATH', JET_BASE_PATH.'public/styles/');
 
 const JET_APPLICATION_CONFIGURATION_NAME = 'config';
-const JET_APPLICATION_MODULES_HANDLER_CLASS_NAME = 'Jet\Application_Modules_Handler';
-
-const JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME = 'Jet\Application_Modules_Module_Manifest';
 
 
 const JET_APPLICATION_MODULE_NAMESPACE = 'JetApplicationModule';

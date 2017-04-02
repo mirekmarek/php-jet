@@ -39,11 +39,11 @@ class Controller_REST extends Mvc_Controller_REST {
 
 
 	/**
-	 * @param null|int $ID
+	 * @param null|int $id
 	 */
-	public function get_article_Action( $ID=null ) {
-		if($ID) {
-			$article = $this->_getArticle($ID);
+	public function get_article_Action( $id=null ) {
+		if($id) {
+			$article = $this->_getArticle($id);
 			$this->responseData($article);
 		} else {
 			$this->responseDataModelsList( Article::getList() );
@@ -65,8 +65,8 @@ class Controller_REST extends Mvc_Controller_REST {
 
 	}
 
-	public function put_article_Action( $ID ) {
-		$article = $this->_getArticle($ID);
+	public function put_article_Action( $id ) {
+		$article = $this->_getArticle($id);
 
 		$form = $article->getCommonForm();
 
@@ -79,8 +79,8 @@ class Controller_REST extends Mvc_Controller_REST {
 		}
 	}
 
-	public function delete_article_Action( $ID ) {
-		$article = $this->_getArticle($ID);
+	public function delete_article_Action( $id ) {
+		$article = $this->_getArticle($id);
 
 		$article->delete();
 		Mvc::truncateRouterCache();
@@ -90,14 +90,14 @@ class Controller_REST extends Mvc_Controller_REST {
 	}
 
 	/**
-	 * @param $ID
+	 * @param $id
 	 * @return Article
 	 */
-	protected  function _getArticle($ID) {
-		$article = Article::get($ID);
+	protected  function _getArticle($id) {
+		$article = Article::get($id);
 
 		if(!$article) {
-			$this->responseUnknownItem($ID);
+			$this->responseUnknownItem($id);
 		}
 
 		return $article;

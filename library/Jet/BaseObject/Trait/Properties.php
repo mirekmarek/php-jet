@@ -20,6 +20,20 @@ trait BaseObject_Trait_Properties {
      */
     protected $__object_identification_key;
 
+	/**
+	 * @return string
+	 */
+	public function getMyNamespace() {
+		$class_name = get_class($this);
+
+		if( ($pos = strrpos($class_name, '\\')) )  {
+			return '\\'.substr($class_name, 0, $pos + 1);
+		}
+
+		return '\\';
+
+	}
+
     /**
      * @return string
      */

@@ -1,0 +1,18 @@
+<?php
+use JetUI\breadcrumbNavigation;
+use JetUI\breadcrumbNavigation_item;
+
+$items = breadcrumbNavigation::getItems();
+?>
+<ol class="breadcrumb" style="margin-bottom: 0;">
+	<?php foreach( $items as $item ):
+		/**
+		 * @var breadcrumbNavigation_item $item
+		 */
+		?>
+		<?php if($item->getIsActive()): ?><li class="active"><?php else: ?><li><?php endif; ?>
+		<?php if(!$item->getIsLast()): ?><a href="<?=$item->getURL(); ?>"><?=$item->getLabel(); ?></a>
+	<?php else: ?><?=$item->getLabel(); ?><?php endif; ?>
+		</li>
+	<?php endforeach; ?>
+</ol>

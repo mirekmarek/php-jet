@@ -1,6 +1,6 @@
 <?php
 return [
-    'ID' => 'articles',
+    'id' => 'articles',
 	'order' => 1,
     'name' => 'Articles',
 	'title' => 'Articles',

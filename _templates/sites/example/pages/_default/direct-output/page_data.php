@@ -1,6 +1,6 @@
 <?php
 return [
-    'ID' => 'direct_output',
+    'id' => 'direct_output',
     'order' => 4,
     'name' => 'Direct output',
     'title' => 'Fast direct output',

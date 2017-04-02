@@ -14,19 +14,70 @@
  */
 namespace JetApplicationModule\JetExample\AdminRoles;
 
+use JetExampleApp\Mvc_Page;
+use JetExampleApp\Auth_Administrator_Role as Role;
+use JetExampleApp\Mvc_Controller_AdminStandard;
+
+use JetUI\UI;
+use JetUI\dataGrid;
+use JetUI\breadcrumbNavigation;
+use JetUI\messages;
 
 use Jet\Application_Modules;
-use Jet\Auth_Role;
+use Jet\Mvc;
+use Jet\Mvc_Controller_Router;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc;
-use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_Controller_Router;
-use Jet\Mvc_Page_Content_Interface;
 use Jet\Tr;
-use JetApplicationModule\JetExample\UIElements;
 
-class Controller_Main extends Mvc_Controller_Standard {
+
+class Controller_Main extends Mvc_Controller_AdminStandard {
+	const DEFAULT_ACTION = 'default';
+
+	const ADD_ACTION = 'add';
+	const ADD_ACTION_URI = 'add';
+
+	const EDIT_ACTION = 'edit';
+	const EDIT_ACTION_URI = 'edit';
+
+	const VIEW_ACTION = 'view';
+	const VIEW_ACTION_URI = 'view';
+
+	const DELETE_ACTION = 'delete';
+	const DELETE_ACTION_URI = 'delete';
+
+	/**
+	 * @var array
+	 */
+	protected static $action_URI = [
+		self::ADD_ACTION => self::ADD_ACTION_URI,
+		self::EDIT_ACTION => self::EDIT_ACTION_URI,
+		self::VIEW_ACTION => self::VIEW_ACTION_URI,
+		self::DELETE_ACTION => self::DELETE_ACTION_URI,
+	];
+
+	/**
+	 * @var array
+	 */
+	protected static $action_regexp = [
+		self::ADD_ACTION => '/^'.self::ADD_ACTION_URI.'$/',
+		self::EDIT_ACTION => '/^'.self::EDIT_ACTION_URI.':([0-9]+)$/',
+		self::VIEW_ACTION => '/^'.self::VIEW_ACTION_URI.':([0-9]+)$/',
+		self::DELETE_ACTION => '/^'.self::DELETE_ACTION_URI.':([0-9]+)$/',
+	];
+
+
+	/**
+	 * @var array
+	 */
+	protected static $ACL_actions_check_map = [
+		self::DEFAULT_ACTION => Main::ACTION_GET_ROLE,
+		self::ADD_ACTION => Main::ACTION_ADD_ROLE,
+		self::EDIT_ACTION => Main::ACTION_UPDATE_ROLE,
+		self::VIEW_ACTION => Main::ACTION_GET_ROLE,
+		self::DELETE_ACTION => Main::ACTION_DELETE_ROLE,
+	];
+
 	/**
 	 *
 	 * @var Main
@@ -36,111 +87,124 @@ class Controller_Main extends Mvc_Controller_Standard {
 	/**
 	 * @var Mvc_Controller_Router
 	 */
-	protected $micro_router;
+	protected static $controller_router;
 
-	protected static $ACL_actions_check_map = [
-		'default' => 'get_role',
-		'add' => 'add_role',
-		'edit' => 'update_role',
-		'view' => 'get_role',
-		'delete' => 'delete_role',
-	];
 
 	/**
 	 *
 	 */
 	public function initialize() {
-
-		Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
-		$this->getMicroRouter();
-		$this->view->setVar( 'router', $this->micro_router );
+		Mvc::checkCurrentContentIsDynamic();
 	}
 
 
-    /**
-     *
-     * @return Mvc_Controller_Router
-     */
-    public function getMicroRouter() {
-        if($this->micro_router) {
-            return $this->micro_router;
-        }
+	/**
+	 *
+	 * @return Mvc_Controller_Router
+	 */
+	public static function getControllerRouter() {
+		if(static::$controller_router) {
+			return static::$controller_router;
+		}
 
-        $router = Mvc::getCurrentRouter();
+		$router = Mvc::getCurrentRouter();
 
-        $router = new Mvc_Controller_Router( $router, $this->module_instance );
-
-
-        $validator = function( &$parameters ) {
-
-            $role = Auth_Role::get($parameters[0]);
-            if(!$role) {
-                return false;
-            }
-
-            $parameters['role'] = $role;
-            return true;
-
-        };
-
-        $base_URI = Mvc::getCurrentPageURI();
-
-        $router->addAction('add', '/^add$/', 'add_role', true)
-            ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
-
-        $router->addAction('edit', '/^edit:([\S]+)$/', 'update_role', true)
-            ->setCreateURICallback( function( Auth_Role $role ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($role->getID()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
-
-        $router->addAction('view', '/^view:([\S]+)$/', 'get_role', true)
-            ->setCreateURICallback( function( Auth_Role $role ) use($base_URI) { return $base_URI.'view:'.rawurlencode($role->getID()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
-
-        $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_role', true)
-            ->setCreateURICallback( function( Auth_Role $role ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($role->getID()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
-
-        $this->micro_router = $router;
-
-        return $router;
-    }
+		$router = new Mvc_Controller_Router( $router, Application_Modules::getModuleInstance(Main::MODULE_NAME) );
 
 
-    /**
-     * @param Mvc_Page_Content_Interface $page_content
-     *
-     * @return bool
-     */
-    public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
-        $router = $this->getMicroRouter();
+		$validator = function( &$parameters ) {
 
-        return $router->resolve( $page_content );
-    }
+			$role = Role::get($parameters[0]);
+
+			if(!$role) {
+				return false;
+			}
+
+			$parameters['role'] = $role;
+			return true;
+
+		};
+
+		$base_URI = Mvc_Page::get(Main::PAGE_ROLES)->getURI();
+
+		$URI_creator = function( $action, $id=0 ) use ($router, $base_URI) {
+			if(!$router->getActionAllowed($action)) {
+				return false;
+			}
+
+			$action_uri = Controller_Main::getActionURI( $action );
+
+			if(!$id) {
+				return $action_uri.'/';
+			}
+
+			return $base_URI.$action_uri.':'.((int)$id).'/';
+		};
 
 
+		$router->addAction(static::ADD_ACTION, static::getActionRegexp(static::ADD_ACTION), static::getModuleAction( static::ADD_ACTION ), true)
+			->setCreateURICallback( function() use($URI_creator) { return $URI_creator(static::ADD_ACTION); } );
+
+		$router->addAction(static::EDIT_ACTION, static::getActionRegexp(static::EDIT_ACTION), static::getModuleAction( static::EDIT_ACTION ), true)
+			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::EDIT_ACTION, $id); } )
+			->setParametersValidatorCallback( $validator );
+
+		$router->addAction(static::VIEW_ACTION, static::getActionRegexp(static::VIEW_ACTION), static::getModuleAction( static::VIEW_ACTION ), true)
+			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::VIEW_ACTION, $id); } )
+			->setParametersValidatorCallback( $validator );
+
+		$router->addAction(static::DELETE_ACTION, static::getActionRegexp(static::DELETE_ACTION), static::getModuleAction( static::DELETE_ACTION ), true)
+			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::DELETE_ACTION, $id); } )
+			->setParametersValidatorCallback( $validator );
+
+		static::$controller_router = $router;
+
+		return $router;
+	}
+
+
+	/**
+	 * @param string $current_label
+	 */
+	protected function _setBreadcrumbNavigation($current_label='' ) {
+		$icon = $this->getModuleManifest()->getMenuItems()['system/roles']->getIcon();
+
+		breadcrumbNavigation::addItem(
+			UI::icon($icon).'&nbsp;&nbsp;'.
+			Tr::_('Roles'),
+			Mvc_Page::get(Main::PAGE_ROLES)->getURL()
+		);
+		if($current_label) {
+			breadcrumbNavigation::addItem( $current_label );
+
+		}
+	}
 
 	/**
 	 *
 	 */
 	public function default_Action() {
-		/**
-		 * @var UIElements\Main $UI_m
-		 */
-		$UI_m = Application_Modules::getModuleInstance('JetExample.UIElements');
-		$grid = $UI_m->getDataGridInstance();
+		$this->_setBreadcrumbNavigation();
 
-		$grid->setIsPersistent('admin_classic_roles_list_grid');
+		$search_form = UI::searchForm('role');
+		$this->view->setVar('search_form', $search_form);
+
+
+		$grid = new dataGrid();
+
+		$grid->setIsPersistent('admin_roles_list_grid');
+		$grid->setDefaultSort('name');
 
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
-		$grid->addColumn('ID', Tr::_('ID'));
+		$grid->addColumn('id', Tr::_('ID'));
 		$grid->addColumn('name', Tr::_('Name'));
 		$grid->addColumn('description', Tr::_('Description'));
 
-		$grid->setData( (new Auth_Role())->getList() );
+		$grid->setData( Role::getList($search_form->getValue()) );
 
 		$this->view->setVar('grid', $grid);
 
-		$this->render('classic/default');
+		$this->render('default');
 	}
 
 
@@ -148,102 +212,107 @@ class Controller_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function add_Action() {
+		$this->_setBreadcrumbNavigation( Tr::_('Create a new Role') );
 
-        /**
-         * @var Auth_Role $role
-         */
-        $role = new Auth_Role();
+		/**
+		 * @var Role $role
+		 */
+		$role = new Role();
 
 		$form = $role->getCommonForm();
 
 		if( $role->catchForm( $form ) ) {
 			$role->save();
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
+			$this->logAllowedAction( $role );
+			messages::success( Tr::_('Role <b>%ROLE_NAME%</b> has been created', ['ROLE_NAME'=>$role->getName() ]) );
+
+			Http_Headers::movedTemporary( $role->getEditURI() );
 		}
 
-		Mvc::getCurrentPage()->addBreadcrumbNavigationData( Tr::_('New role') );
 
 
-		$this->view->setVar('btn_label', Tr::_('ADD') );
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
-		$this->view->setVar('available_privileges_list', $role->getAvailablePrivilegesList() );
+		$this->view->setVar('available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->render('classic/edit');
+		$this->render('edit');
 	}
 
 	/**
 	 */
 	public function edit_Action() {
 
-        /**
-         * @var Auth_Role $role
-         */
-        $role = $this->getActionParameterValue('role');
+		/**
+		 * @var Role $role
+		 */
+		$role = $this->getActionParameterValue('role');
+
+		$this->_setBreadcrumbNavigation( Tr::_('Edit role <b>%ROLE_NAME%</b>', ['ROLE_NAME'=>$role->getName() ]) );
 
 		$form = $role->getCommonForm();
 
 		if( $role->catchForm( $form ) ) {
 			$role->save();
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $role ) );
+			$this->logAllowedAction( $role );
+			messages::success( Tr::_('Role <b>%ROLE_NAME%</b> has been updated', ['ROLE_NAME'=>$role->getName() ]) );
+
+			Http_Headers::movedTemporary( $role->getEditURI() );
 		}
 
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
-
-		$this->view->setVar('btn_label', Tr::_('SAVE') );
-		$this->view->setVar('has_access', true);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', $role->getAvailablePrivilegesList() );
+		$this->view->setVar('available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->render('classic/edit');
+		$this->render('edit');
 	}
 
 	/**
-     *
+	 *
 	 */
 	public function view_Action() {
 
-        /**
-         * @var Auth_Role $role
-         */
-        $role = $this->getActionParameterValue('role');
+		/**
+		 * @var Role $role
+		 */
+		$role = $this->getActionParameterValue('role');
 
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData( $role->getName() );
+		$this->_setBreadcrumbNavigation( Tr::_('Role detail <b>%ROLE_NAME%</b>', ['ROLE_NAME'=>$role->getName() ]) );
 
 		$form = $role->getCommonForm();
 		$this->view->setVar('has_access', false);
 		$this->view->setVar('form', $form);
 		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', $role->getAvailablePrivilegesList() );
+		$this->view->setVar('available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->render('classic/edit');
+		$form->setIsReadonly();
+
+		$this->render('edit');
 	}
 
 
 	/**
-     *
+	 *
 	 */
 	public function delete_action() {
 
-        /**
-         * @var Auth_Role $role
-         */
-        $role = $this->getActionParameterValue('role');
+		/**
+		 * @var Role $role
+		 */
+		$role = $this->getActionParameterValue('role');
 
+		$this->_setBreadcrumbNavigation( Tr::_('Delete role <b>%ROLE_NAME%</b>', ['ROLE_NAME'=>$role->getName() ]) );
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$role->delete();
-
+			$this->logAllowedAction( $role );
+			messages::info( Tr::_('Role <b>%ROLE_NAME%</b> has been deleted', ['ROLE_NAME'=>$role->getName() ]) );
 			Http_Headers::movedTemporary( Mvc::getCurrentPageURI() );
 		}
 
 
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData('Delete role');
-
 		$this->view->setVar( 'role', $role );
 
-		$this->render('classic/delete-confirm');
+		$this->render('delete-confirm');
 	}
 
 

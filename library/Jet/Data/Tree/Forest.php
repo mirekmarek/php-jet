@@ -26,7 +26,7 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @var string
 	 */
-	protected $ID_key;
+	protected $id_key;
 
 	/**
 	 * Trees instances
@@ -50,21 +50,21 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	}
 
 	/**
-	 * Key in data item representing ID
+	 * Key in data item representing id
 	 *
 	 * @return string
 	 */
-	public function getIDKey(){
-		return $this->ID_key;
+	public function getIdKey(){
+		return $this->id_key;
 	}
 
 	/**
-	 * Key in data item representing ID
+	 * Key in data item representing id
 	 *
-	 * @param $ID_key
+	 * @param $id_key
 	 */
-	public function setIDKey( $ID_key ) {
-		$this->ID_key = $ID_key;
+	public function setIdKey($id_key ) {
+		$this->id_key = $id_key;
 	}
 
 
@@ -75,23 +75,23 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 * @throws Data_Tree_Exception
 	 */
 	public function appendTree( Data_Tree $tree ){
-		$tree_ID = $tree->getRootNode()->getID();
+		$tree_id = $tree->getRootNode()->getId();
 
-		if( isset($this->trees[$tree_ID]) ){
+		if( isset($this->trees[$tree_id]) ){
 			throw new Data_Tree_Exception(
-				'Tree \''.$tree_ID.'\' already exists in the forest',
+				'Tree \''.$tree_id.'\' already exists in the forest',
 				Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
 			);
 		}
 
-		if( !$this->ID_key ) {
-			$this->ID_key = $tree->getIDKey();
+		if( !$this->id_key ) {
+			$this->id_key = $tree->getIdKey();
 			$this->label_key = $tree->getLabelKey();
 		}
 
 
 
-		$this->trees[$tree_ID] = $tree;
+		$this->trees[$tree_id] = $tree;
 	}
 
 	/**
@@ -104,33 +104,33 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 
 	/**
 	 *
-	 * @param string $tree_ID
+	 * @param string $tree_id
 	 *
 	 * @return Data_Tree
 	 */
-	public function getTree( $tree_ID ){
-		return $this->trees[$tree_ID];
+	public function getTree( $tree_id ){
+		return $this->trees[$tree_id];
 	}
 
 	/**
 	 *
-	 * @param string $tree_ID
+	 * @param string $tree_id
 	 */
-	public function removeTree( $tree_ID ) {
-		if( !isset($this->trees[$tree_ID]) ){
+	public function removeTree( $tree_id ) {
+		if( !isset($this->trees[$tree_id]) ){
 			return;
 		}
-		unset($this->trees[$tree_ID]);
+		unset($this->trees[$tree_id]);
 	}
 
 	/**
 	 *
-	 * @param string $tree_ID
+	 * @param string $tree_id
 	 *
 	 * @return bool
 	 */
-	public function getTreeExists( $tree_ID ){
-		return isset( $this->trees[$tree_ID] );
+	public function getTreeExists( $tree_id ){
+		return isset( $this->trees[$tree_id] );
 	}
 
 
@@ -147,7 +147,7 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 			if($max_depth) {
 				$tree->getRootNode()->setMaxDepth( $max_depth );
 			}
-			//$output[$tree->getRootNode()->getID()] = $tree->toArray();
+
 			$output = array_merge($output, $tree->toArray());
 		}
 		return $output;
@@ -191,7 +191,7 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 		}
 
 		$data = [
-			'identifier' => $this->ID_key,
+			'identifier' => $this->id_key,
 			'label' => $this->label_key,
 			'items' => $data
 		];
@@ -243,9 +243,9 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 * @return Data_Tree_Node
 	 */
 	public function current(){
-		$current_tree_ID = key($this->trees);
+		$current_tree_id = key($this->trees);
 
-		return $this->trees[$current_tree_ID]->current();
+		return $this->trees[$current_tree_id]->current();
 	}
 
 	/**
@@ -253,16 +253,16 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 * @return Data_Tree_Node|bool
 	 */
 	public function next(){
-		$current_tree_ID = key($this->trees);
+		$current_tree_id = key($this->trees);
 
-		$this->trees[$current_tree_ID]->next();
+		$this->trees[$current_tree_id]->next();
 
 
-		if( $this->trees[$current_tree_ID]->valid() ) {
+		if( $this->trees[$current_tree_id]->valid() ) {
 			return false;
 		}
 
-		$this->trees[$current_tree_ID]->rewind();
+		$this->trees[$current_tree_id]->rewind();
 		$next_tree = next($this->trees);
 		if(!$next_tree) {
 			return false;
@@ -277,9 +277,9 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 * @return string
 	 */
 	public function key(){
-		$current_tree_ID = key($this->trees);
+		$current_tree_id = key($this->trees);
 
-		return $this->trees[$current_tree_ID]->key();
+		return $this->trees[$current_tree_id]->key();
 	}
 
 	/**
@@ -290,9 +290,9 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 		if(!key($this->trees)) {
 			return false;
 		}
-		$current_tree_ID = key($this->trees);
+		$current_tree_id = key($this->trees);
 
-		return $this->trees[$current_tree_ID]->valid();
+		return $this->trees[$current_tree_id]->valid();
 	}
 
 	/**

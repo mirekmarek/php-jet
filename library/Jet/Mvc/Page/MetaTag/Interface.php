@@ -29,9 +29,9 @@ interface Mvc_Page_MetaTag_Interface {
     public function setData( array $data );
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 */
-	public function setIdentifier( $ID );
+	public function setId($id );
 
 	/**
 	 * @return string

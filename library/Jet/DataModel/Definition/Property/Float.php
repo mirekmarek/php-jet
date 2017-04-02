@@ -65,8 +65,8 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 
 		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
 
-		if($this->is_ID) {
-			$res .= ', is ID';
+		if($this->is_id) {
+			$res .= ', is id';
 		}
 
 		if($this->default_value) {

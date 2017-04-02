@@ -20,9 +20,9 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 
 	/**
 	 *
-	 * @var DataModel_ID_Abstract
+	 * @var DataModel_Id_Abstract
 	 */
-	protected $empty_ID_instance;
+	protected $empty_id_instance;
 
 
 	/**
@@ -44,7 +44,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		$load_properties = [];
 		//$group_by = array();
 
-		foreach( $this->data_model_definition->getIDProperties() as $property_definition ) {
+		foreach($this->data_model_definition->getIdProperties() as $property_definition ) {
 			$load_properties[] = $property_definition;
 			//$group_by[] = $property_definition->getName();
 		}
@@ -52,7 +52,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 		$this->query->setSelect($load_properties);
 		//$this->query->setGroupBy($group_by);
 
-		$this->empty_ID_instance = $this->data_model_definition->getEmptyIDInstance();
+		$this->empty_id_instance = $this->data_model_definition->getEmptyIdInstance();
 	}
 
 
@@ -201,7 +201,7 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 
 	/**
 	 * @param $item
-	 * @return DataModel|DataModel_ID_Abstract
+	 * @return DataModel|DataModel_Id_Abstract
 	 */
 	abstract protected function _get( $item );
 

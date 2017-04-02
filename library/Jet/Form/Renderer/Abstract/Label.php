@@ -64,7 +64,7 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	{
 		$this->_field = $form_field;
         $this->label = $form_field->getLabel();
-        $this->for = $form_field->getID();
+        $this->for = $form_field->getId();
 	}
 
     /**

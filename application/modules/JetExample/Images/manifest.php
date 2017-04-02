@@ -12,4 +12,21 @@ return [
 
 	'signals_callbacks' => [],
 
+	'admin_sections' => [
+		'admin/images' => [
+			'title' => 'Images',
+			'URL_fragment' => 'images',
+		]
+	],
+
+	'admin_menu_items' => [
+		'images' => [
+			'label' => 'Images',
+			'parent_menu_id' => 'content',
+			'page_id' => 'admin/images',
+			'icon' => ''
+		]
+	]
+
+
 ];

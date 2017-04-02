@@ -40,7 +40,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		if($definition_data) {
 			parent::setUp($definition_data);
 
-            if( $this->is_ID ) {
+            if( $this->is_id ) {
                 throw new DataModel_Exception(
                     $this->data_model_class_name.'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
                     DataModel_Exception::CODE_DEFINITION_NONSENSE

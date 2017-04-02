@@ -88,7 +88,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 
 		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
 
-		if($this->is_ID) {
+		if($this->is_id) {
 			$res .= ', is ID';
 		}
 

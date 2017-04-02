@@ -23,18 +23,18 @@ use Jet\Http_Request;
  *
  * @JetDataModel:name = 'Auth_Event'
  * @JetDataModel:database_table_name = 'jet_auth_events'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Event extends DataModel {
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -83,7 +83,7 @@ class Event extends DataModel {
 	 *
 	 * @var string
 	 */
-	protected $user_ID = '';
+	protected $user_id = '';
 
 	/**
 	 *
@@ -178,8 +178,8 @@ class Event extends DataModel {
 	/**
 	 * @return string
 	 */
-	public function getUserID() {
-		return $this->user_ID;
+	public function getUserId() {
+		return $this->user_id;
 	}
 
 	/**
@@ -195,19 +195,19 @@ class Event extends DataModel {
 	 * @param string $event
 	 * @param mixed $event_data
 	 * @param string $event_txt
-	 * @param string $user_ID
+	 * @param string $user_id
 	 * @param string $user_login
 	 *
 	 * @return Event
 	 */
-	public static function logEvent( $event, $event_data, $event_txt, $user_ID, $user_login ) {
+	public static function logEvent( $event, $event_data, $event_txt, $user_id, $user_login ) {
 		$event_i = new self();
 
 		$event_i->date_time = Data_DateTime::now();
 		$event_i->event = $event;
 		$event_i->event_data = json_encode($event_data);
 		$event_i->event_txt = $event_txt;
-		$event_i->user_ID = $user_ID;
+		$event_i->user_id = $user_id;
 		$event_i->user_login = $user_login;
 
 		$event_i->request_URL = Http_Request::getURL();

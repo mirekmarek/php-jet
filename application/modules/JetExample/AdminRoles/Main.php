@@ -12,25 +12,70 @@
 namespace JetApplicationModule\JetExample\AdminRoles;
 
 use Jet\Application_Modules_Module_Abstract;
-use Jet\Mvc_Controller_Router;
 
 class Main extends Application_Modules_Module_Abstract {
+	const MODULE_NAME = 'JetExample.AdminRoles';
+	const PAGE_ROLES = 'admin/roles';
 
+	const ACTION_GET_ROLE = 'get_role';
+	const ACTION_ADD_ROLE = 'add_role';
+	const ACTION_UPDATE_ROLE = 'update_role';
+	const ACTION_DELETE_ROLE = 'delete_role';
+
+	/**
+	 * @var array
+	 */
 	protected $ACL_actions = [
-		'get_role' => 'Get role(s) data',
-		'add_role' => 'Add new role',
-		'update_role' => 'Update role',
-		'delete_role' => 'Delete role',
+		self::ACTION_GET_ROLE => 'Get role(s) data',
+		self::ACTION_ADD_ROLE => 'Add new role',
+		self::ACTION_UPDATE_ROLE => 'Update role',
+		self::ACTION_DELETE_ROLE => 'Delete role',
 	];
 
 	/**
-	 * @var int
+	 *
+	 * @return string|bool
 	 */
-	protected $public_list_items_per_page = 10;
+	public function getRoleAddURI()
+	{
+		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::ADD_ACTION );
+	}
 
 	/**
-	 * @var Mvc_Controller_Router
+	 * @param int $role_id
+	 *
+	 * @return string|bool
 	 */
-	protected $_micro_router;
+	public function getRoleEditURI( $role_id )
+	{
+		$uri = Controller_Main::getControllerRouter()->getActionURI( Controller_Main::EDIT_ACTION, $role_id );
+		if(!$uri) {
+			$uri = Controller_Main::getControllerRouter()->getActionURI( Controller_Main::VIEW_ACTION, $role_id );
+		}
+
+		return $uri;
+	}
+
+
+	/**
+	 * @param int $role_id
+	 *
+	 * @return string|bool
+	 */
+	public function getRoleViewURI( $role_id )
+	{
+		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::VIEW_ACTION, $role_id );
+	}
+
+	/**
+	 * @param int $role_id
+	 *
+	 * @return string|bool
+	 */
+	public function getRoleDeleteURI( $role_id )
+	{
+		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::DELETE_ACTION, $role_id );
+	}
+
 
 }

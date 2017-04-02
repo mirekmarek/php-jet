@@ -17,7 +17,7 @@ class Debug_Profiler_Run {
 	/**
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 * @var string
@@ -76,7 +76,7 @@ class Debug_Profiler_Run {
 		$this->date_and_time = date('Y-m-d H:i:s');
 
 		srand();
-		$this->ID = md5( $this->request_URL.microtime(true).rand().rand().rand() );
+		$this->id = md5( $this->request_URL.microtime(true).rand().rand().rand() );
 
 		$root_block = new Debug_Profiler_Run_Block( false, 'root', 0 );
 
@@ -103,8 +103,8 @@ class Debug_Profiler_Run {
 	/**
 	 * @return string
 	 */
-	public function getID() {
-		return $this->ID;
+	public function getId() {
+		return $this->id;
 	}
 
 
@@ -189,7 +189,7 @@ class Debug_Profiler_Run {
 
 		$block = new Debug_Profiler_Run_Block( $is_anonymous, $label, $this->__current_block_level, $this->__root_block );
 
-		$this->blocks[$block->getID()] = $block;
+		$this->blocks[$block->getId()] = $block;
 		$this->__current_block = $block;
 		$this->__block_stack[] = $block;
 
@@ -252,7 +252,7 @@ class Debug_Profiler_Run {
 
 
 		$this->__current_block_level++;
-		$this->blocks[$block->getID()] = $block;
+		$this->blocks[$block->getId()] = $block;
 		$this->__block_stack[] = $block;
 
 		$this->__current_block = $block;

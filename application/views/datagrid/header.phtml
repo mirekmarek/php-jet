@@ -1,0 +1,43 @@
+<?php
+use JetUI\UI;
+use JetUI\dataGrid;
+
+/**
+ * @var dataGrid $grid
+ */
+$grid = $this->grid;
+?>
+<table class="table table-striped">
+
+<thead>
+<tr>
+	<?php foreach( $grid->getColumns() as $column ):
+		$style = $column->getCssStyle() ? ' style="'.$column->getCssStyle().'"':'';
+		$class = $column->getCssClass() ? ' class="'.$column->getCssClass().'"':'';
+		?>
+		<th<?=$class;?><?=$style;?>>
+
+			<?php if($column->getAllowSort()): ?>
+				<?php if($column->getSortByAsc()):?>
+					<?=UI::icon('sort-amount-asc')->setSize(11)?>
+				<?php else: ?>
+					<a href="<?=$grid->getSortURL($column->getName());?>">
+						<?=UI::icon('sort-amount-asc')->setSize(11)?>
+					</a>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?=$column->getTitle();?>
+
+			<?php if($column->getAllowSort()): ?>
+				<?php if($column->getSortByDesc()):?>
+					<?=UI::icon('sort-amount-desc')->setSize(11)?>
+				<?php else: ?>
+					<a href="<?=$grid->getSortURL($column->getName(), true);?>">
+						<?=UI::icon('sort-amount-desc')->setSize(11)?>
+					</a>
+				<?php endif; ?>
+			<?php endif; ?>
+		</th>
+	<?php endforeach; ?>
+</tr>
+</thead>

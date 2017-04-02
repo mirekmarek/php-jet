@@ -23,10 +23,10 @@ namespace Jet;
 interface Mvc_Site_Interface {
 
 	/**
-	 * @param string $ID
+	 * @param string $id
 	 *
 	 */
-	public function setSiteId( $ID );
+	public function setSiteId( $id );
 
 	/**
 	 * @return string
@@ -178,7 +178,7 @@ interface Mvc_Site_Interface {
 	/**
 	 * Returns site locales
 	 *
-	 * @see Site
+	 * @see Mvc_Site
 	 *
 	 * @param bool $get_as_string (optional, default: false)
 	 *

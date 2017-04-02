@@ -19,11 +19,10 @@ class Debug_ErrorHandler_Handler_Display extends Debug_ErrorHandler_Handler_Abst
 
 
 	/**
-	 * Internal elements ID counter
 	 *
 	 * @var int
 	 */
-	protected static $ID_counter = 0;
+	protected static $id_counter = 0;
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error

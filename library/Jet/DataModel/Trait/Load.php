@@ -26,18 +26,18 @@ trait DataModel_Trait_Load {
     /**
      * Loads DataModel.
      *
-     * @param array|string|int $ID
+     * @param array|string|int $id
      * @param array|DataModel_PropertyFilter $load_filter
      *
      * @return DataModel
      */
-    public static function load($ID, $load_filter=null ) {
+    public static function load($id, $load_filter=null ) {
 
 	    /**
 	     * @var DataModel $_this
 	     */
         $_this = new static();
-	    $_this->getIdObject()->init( $ID );
+	    $_this->getIdObject()->init( $id );
 
 
 	    if($load_filter) {

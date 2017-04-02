@@ -30,12 +30,12 @@ trait DataModel_Related_1to1_Trait {
 
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array|mixed
 	 */
-	public function loadRelatedData(DataModel_ID_Abstract $main_ID, DataModel_PropertyFilter $load_filter=null )
+	public function loadRelatedData(DataModel_Id_Abstract $main_id, DataModel_PropertyFilter $load_filter=null )
     {
 	    if(
 		    $load_filter
@@ -47,19 +47,19 @@ trait DataModel_Related_1to1_Trait {
 		    $this->setLoadFilter($load_filter);
 	    }
 
-        $query = $this->getLoadRelatedDataQuery($main_ID, $load_filter);
+        $query = $this->getLoadRelatedDataQuery($main_id, $load_filter);
 
         return static::getBackendInstance()->fetchAll( $query );
     }
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 * @return DataModel_Query
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function getLoadRelatedDataQuery(DataModel_ID_Abstract $main_ID, DataModel_PropertyFilter $load_filter=null ) {
+	protected function getLoadRelatedDataQuery(DataModel_Id_Abstract $main_id, DataModel_PropertyFilter $load_filter=null ) {
 
 		/**
 		 * @var DataModel_Interface|DataModel_Related_Interface $this
@@ -76,12 +76,12 @@ trait DataModel_Related_1to1_Trait {
 
 		$where = $query->getWhere();
 
-		foreach( $data_model_definition->getMainModelRelationIDProperties() as $property ) {
+		foreach($data_model_definition->getMainModelRelationIdProperties() as $property ) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
 			$property_name = $property->getRelatedToPropertyName();
-			$value = $main_ID[ $property_name ];
+			$value = $main_id[ $property_name ];
 
 			$where->addAND();
 			$where->addExpression(
@@ -99,26 +99,26 @@ trait DataModel_Related_1to1_Trait {
 
 	/**
 	 * @param array &$loaded_related_data
-	 * @param DataModel_ID_Abstract|null $parent_ID
+	 * @param DataModel_Id_Abstract|null $parent_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 * @return mixed
 	 */
-    public function loadRelatedInstances(array &$loaded_related_data, DataModel_ID_Abstract $parent_ID=null, DataModel_PropertyFilter $load_filter=null ) {
+    public function loadRelatedInstances(array &$loaded_related_data, DataModel_Id_Abstract $parent_id=null, DataModel_PropertyFilter $load_filter=null ) {
 
         /**
          * @var DataModel_Definition_Model_Related_1to1 $definition
          */
         $definition = static::getDataModelDefinition();
 
-        $parent_ID_values = [];
-        if($parent_ID) {
+        $parent_id_values = [];
+        if($parent_id) {
 
-            foreach( $definition->getParentModelRelationIDProperties() as $property ) {
+            foreach($definition->getParentModelRelationIdProperties() as $property ) {
 
                 /**
                  * @var DataModel_Definition_Property_Abstract $property
                  */
-                $parent_ID_values[$property->getName()] = $parent_ID[$property->getRelatedToPropertyName()];
+                $parent_id_values[$property->getName()] = $parent_id[$property->getRelatedToPropertyName()];
 
             }
         }
@@ -128,8 +128,8 @@ trait DataModel_Related_1to1_Trait {
 
 
             foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
-                if($parent_ID_values) {
-                    foreach($parent_ID_values as $k=>$v) {
+                if($parent_id_values) {
+                    foreach($parent_id_values as $k=>$v) {
                         if($dat[$k]!=$v) {
                             continue 2;
                         }

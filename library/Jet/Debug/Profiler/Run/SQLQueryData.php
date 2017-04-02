@@ -17,7 +17,7 @@ class Debug_Profiler_Run_SQLQueryData {
 	/**
 	 * @var string
 	 */
-	protected $block_ID = "";
+	protected $block_id = "";
 
 	/**
 	 * @var string
@@ -71,12 +71,12 @@ class Debug_Profiler_Run_SQLQueryData {
 	protected $rows_count = 0;
 
 	/**
-	 * @param string $block_ID
+	 * @param string $block_id
 	 * @param string $query
 	 * @param array $query_data
 	 */
-	public function __construct( $block_ID, $query, $query_data ) {
-		$this->block_ID = $block_ID;
+	public function __construct($block_id, $query, $query_data ) {
+		$this->block_id = $block_id;
 
 		$this->query = $query;
 		$this->query_data;
@@ -101,8 +101,8 @@ class Debug_Profiler_Run_SQLQueryData {
 	/**
 	 * @return string
 	 */
-	public function getBlockID() {
-		return $this->block_ID;
+	public function getBlockId() {
+		return $this->block_id;
 	}
 
 	/**

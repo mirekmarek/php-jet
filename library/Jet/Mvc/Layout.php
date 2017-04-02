@@ -249,7 +249,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string $position (optional, default:  by current dispatcher queue item, @see Mvc_Layout)
 	 * @param bool $position_required (optional, default: by current dispatcher queue item, @see Mvc_Layout)
 	 * @param int $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)
-	 * @param string|null $output_ID
+	 * @param string|null $output_id
 	 *
 	 * @internal param string $output
 	 */
@@ -259,7 +259,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$position = null,
 		$position_required = null,
 		$position_order = null,
-		$output_ID = null
+		$output_id = null
 	) {
 
 		$output = $view->render( $script );
@@ -280,8 +280,8 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
 		}
 
-		if(!$output_ID) {
-			$output_ID = Mvc::getCurrentContent()->getContentKey();
+		if(!$output_id) {
+			$output_id = Mvc::getCurrentContent()->getContentKey();
 		}
 
 		$this->addOutputPart(
@@ -289,7 +289,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$position,
 			$position_required,
 			$position_order,
-			$output_ID
+			$output_id
 		);
 
 	}
@@ -302,7 +302,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @param string $position (optional, default: main position)
 	 * @param bool $position_required (optional, default:true)
 	 * @param int $position_order (optional, default:null)
-	 * @param string $output_ID (optional)
+	 * @param string $output_id (optional)
 	 *
 	 */
 	public function addOutputPart(
@@ -310,7 +310,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$position = null,
 		$position_required = true,
 		$position_order = null,
-		$output_ID = ''
+		$output_id = ''
 	) {
 		if(!$position) {
 			$position = static::DEFAULT_OUTPUT_POSITION;
@@ -348,7 +348,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$position_order = $current_max_position_order + 0.001;
 		}
 
-		$o = new Mvc_Layout_OutputPart($output_ID, $output, $position, $position_required, $position_order );
+		$o = new Mvc_Layout_OutputPart($output_id, $output, $position, $position_required, $position_order );
 
 		$this->output_parts[] = $o;
 	}
@@ -365,19 +365,19 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param string|null $output_ID
+	 * @param string|null $output_id
 	 *
 	 * @return array|Mvc_Layout_OutputPart[]
 	 */
-	public function getOutputParts( $output_ID=null ) {
-		if($output_ID===null) {
+	public function getOutputParts( $output_id=null ) {
+		if($output_id===null) {
 			return $this->output_parts;
 		}
 
 		$result = [];
 
 		foreach( $this->output_parts as $output_part ) {
-			if($output_part->getOutputID()==$output_ID) {
+			if($output_part->getOutputId()==$output_id) {
 				$result[] = $output_part;
 			}
 		}
@@ -394,11 +394,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	}
 
 	/**
-	 * @param string $output_ID
+	 * @param string $output_id
 	 */
-	public function unsetOutputParts( $output_ID ) {
+	public function unsetOutputParts( $output_id ) {
 		foreach( $this->output_parts as $i=>$output_part ) {
-			if($output_part->getOutputID()==$output_ID) {
+			if($output_part->getOutputId()==$output_id) {
 				unset($this->output_parts[$i]);
 			}
 		}
@@ -604,13 +604,13 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		$output = [];
 		$sort_hash = [];
 
-		foreach( $this->output_parts as $o_ID=>$o ) {
-			$sort_hash[ $o_ID ] = $o->getPositionOrder();
+		foreach( $this->output_parts as $o_id=>$o ) {
+			$sort_hash[ $o_id ] = $o->getPositionOrder();
 		}
 
 		asort( $sort_hash );
-		foreach( array_keys($sort_hash) as $o_ID  ) {
-			$output[ $o_ID ] = $this->output_parts[ $o_ID ];
+		foreach( array_keys($sort_hash) as $o_id  ) {
+			$output[ $o_id ] = $this->output_parts[ $o_id ];
 		}
 
 		$this->output_parts = $output;
@@ -663,13 +663,13 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 
 				$output_on_position = '';
 
-				foreach( $this->output_parts as $o_ID=>$o ) {
+				foreach( $this->output_parts as $o_id=>$o ) {
 					if($o->getPosition()!=$position) {
 						continue;
 					}
 
 					$output_on_position .= $o->getOutput();
-					unset( $this->output_parts[$o_ID] );
+					unset( $this->output_parts[$o_id] );
 				}
 
 				$result = str_replace($orig, $output_on_position, $result);
@@ -685,17 +685,17 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$orig = $matches[0][0];
 			$output_on_position = '';
 
-			foreach( $this->output_parts as $o_ID=>$o ) {
+			foreach( $this->output_parts as $o_id=>$o ) {
 				if( $o->getPosition()==self::DEFAULT_OUTPUT_POSITION ) {
 					$output_on_position .= $o->getOutput();
-					unset( $this->output_parts[$o_ID] );
+					unset( $this->output_parts[$o_id] );
 				}
 			}
 
-			foreach( $this->output_parts as $o_ID=>$o ) {
+			foreach( $this->output_parts as $o_id=>$o ) {
 				if( !$o->getPositionRequired() ) {
 					$output_on_position .= $o->getOutput();
-					unset( $this->output_parts[$o_ID] );
+					unset( $this->output_parts[$o_id] );
 				}
 			}
 

@@ -22,25 +22,25 @@ namespace Jet;
  * @JetDataModel:name = 'role_privilege'
  * @JetDataModel:parent_model_class_name = 'Auth_Role'
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
- * @JetDataModel:ID_class_name = 'DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface {
 
 	/**
-	 * @JetDataModel:related_to = 'main.ID'
+	 * @JetDataModel:related_to = 'main.id'
 	 * @JetDataModel:form_field_type = false
 	 */
-	protected $role_ID = '';
+	protected $role_id = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *

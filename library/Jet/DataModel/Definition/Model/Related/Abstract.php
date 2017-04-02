@@ -31,7 +31,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $main_model_relation_ID_properties = [];
+	protected $main_model_relation_id_properties = [];
 
 	/**
 	 *
@@ -58,17 +58,17 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $parent_model_relation_ID_properties = [];
+	protected $parent_model_relation_id_properties = [];
 
 	/**
 	 * @var array
 	 */
-	protected $__main_ID_glue_defined = [];
+	protected $__main_id_glue_defined = [];
 
 	/**
 	 * @var array
 	 */
-	protected $__parent_ID_glue_defined = [];
+	protected $__parent_id_glue_defined = [];
 
 
 	/** @noinspection PhpMissingParentConstructorInspection
@@ -88,7 +88,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 			$this->default_order_by = BaseObject_Reflection::get( $this->class_name, 'default_order_by', []);
 
-			if(!$this->ID_properties) {
+			if(!$this->id_properties) {
 				throw new DataModel_Exception(
 					'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -153,12 +153,12 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		$related_definition_data = $this->_getPropertiesDefinitionData( $this->main_model_class_name );
 		foreach( $related_definition_data as $property_name=>$pd ) {
-			if(empty($pd['is_ID'])) {
+			if(empty($pd['is_id'])) {
 				continue;
 			}
 
 			if(
-				!in_array($property_name, $this->__main_ID_glue_defined)
+				!in_array($property_name, $this->__main_id_glue_defined)
 			) {
 				throw new DataModel_Exception(
 					'Class: \''.$this->class_name.'\'  Main model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \'main.'.$property_name.'\' ',
@@ -173,7 +173,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			foreach( $related_definition_data as $property_name=>$pd ) {
 
 				if(
-					empty($pd['is_ID']) ||
+					empty($pd['is_id']) ||
 					!empty($pd['related_to'])
 				)
 				{
@@ -181,7 +181,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 				}
 
 				if(
-					!in_array($property_name, $this->__parent_ID_glue_defined)
+					!in_array($property_name, $this->__parent_id_glue_defined)
 				) {
 					throw new DataModel_Exception(
 						'Class: \''.$this->class_name.'\'  parent model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \'parent.'.$property_name.'\' ',
@@ -193,7 +193,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	}
 
 	/**
-	 * @param string $this_ID_property_name
+	 * @param string $this_id_property_name
 	 * @param string $related_to
 	 * @param array $property_definition_data
 	 *
@@ -201,13 +201,13 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 * @return DataModel_Definition_Property_Abstract
 	 *
 	 */
-	protected function _initGlueProperty( $this_ID_property_name, $related_to, $property_definition_data ) {
+	protected function _initGlueProperty($this_id_property_name, $related_to, $property_definition_data ) {
 
 		$related_to = explode('.', $related_to);
 
 		if(count($related_to)!=2) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.ID\', @JetDataModel:related_to=\'main.ID\'  ',
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\'  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -222,7 +222,7 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 			!$related_to_property_name
 		) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.ID\', @JetDataModel:related_to=\'main.ID\'  ',
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\'  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -241,17 +241,17 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 		if($what=='parent') {
 			$related_to_class_name = $this->parent_model_class_name;
 			$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
-			$target_properties_array = &$this->parent_model_relation_ID_properties;
+			$target_properties_array = &$this->parent_model_relation_id_properties;
 			$target_join_array = &$this->parent_model_relation_join_items;
-			$target_glue_defined = &$this->__parent_ID_glue_defined;
+			$target_glue_defined = &$this->__parent_id_glue_defined;
 		}
 
 		if($what=='main') {
 			$related_to_class_name = $this->main_model_class_name;
 			$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
-			$target_properties_array = &$this->main_model_relation_ID_properties;
+			$target_properties_array = &$this->main_model_relation_id_properties;
 			$target_join_array = &$this->main_model_relation_join_items;
-			$target_glue_defined = &$this->__main_ID_glue_defined;
+			$target_glue_defined = &$this->__main_id_glue_defined;
 		}
 
 		if(!isset($related_definition_data[$related_to_property_name])) {
@@ -262,31 +262,31 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 
 		}
 
-		$parent_ID_property_data = $related_definition_data[$related_to_property_name];
+		$parent_id_property_data = $related_definition_data[$related_to_property_name];
 
-		$parent_ID_property_data['is_key'] = true;
+		$parent_id_property_data['is_key'] = true;
 
-		$parent_ID_property_data['is_ID'] = isset($property_definition_data['is_ID']) ? $property_definition_data['is_ID'] : true;
+		$parent_id_property_data['is_id'] = isset($property_definition_data['is_id']) ? $property_definition_data['is_id'] : true;
 		if(isset($property_definition_data['form_field_type'])) {
-			$parent_ID_property_data['form_field_type'] = $property_definition_data['form_field_type'];
+			$parent_id_property_data['form_field_type'] = $property_definition_data['form_field_type'];
 		}
 
-		$this_ID_property = DataModel_Factory::getPropertyDefinitionInstance(
+		$this_id_property = DataModel_Factory::getPropertyDefinitionInstance(
 			$this->class_name,
-			$this_ID_property_name,
-			$parent_ID_property_data
+			$this_id_property_name,
+			$parent_id_property_data
 		);
 
-		$this_ID_property->setUpRelation($related_to_class_name, $related_to_property_name);
+		$this_id_property->setUpRelation($related_to_class_name, $related_to_property_name);
 
-		$this->properties[$this_ID_property_name] = $this_ID_property;
-		$target_properties_array[$this_ID_property_name] = $this_ID_property;
+		$this->properties[$this_id_property_name] = $this_id_property;
+		$target_properties_array[$this_id_property_name] = $this_id_property;
 
-		$target_join_array[] = new DataModel_Definition_Relation_JoinBy_Item( $this, $this_ID_property, $related_to_class_name, $related_to_property_name );
+		$target_join_array[] = new DataModel_Definition_Relation_JoinBy_Item( $this, $this_id_property, $related_to_class_name, $related_to_property_name );
 
 		$target_glue_defined[] = $related_to_property_name;
 
-		return $this_ID_property;
+		return $this_id_property;
 
 	}
 
@@ -295,16 +295,16 @@ class DataModel_Definition_Model_Related_Abstract extends DataModel_Definition_M
 	 *
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
-	public function getMainModelRelationIDProperties() {
-		return $this->main_model_relation_ID_properties;
+	public function getMainModelRelationIdProperties() {
+		return $this->main_model_relation_id_properties;
 	}
 
 	/**
 	 *
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
-	public function getParentModelRelationIDProperties() {
-		return $this->parent_model_relation_ID_properties;
+	public function getParentModelRelationIdProperties() {
+		return $this->parent_model_relation_id_properties;
 	}
 
 	/**

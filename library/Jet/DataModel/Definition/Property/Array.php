@@ -42,7 +42,7 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 
 		parent::setUp($definition_data);
 
-		if( $this->is_ID ) {
+		if( $this->is_id ) {
 			throw new DataModel_Exception(
 				'Property '.$this->data_model_class_name.'::'.$this->_name.' is Array and Array can\'t be ID.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

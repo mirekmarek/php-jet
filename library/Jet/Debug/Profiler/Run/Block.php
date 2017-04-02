@@ -17,7 +17,7 @@ class Debug_Profiler_Run_Block {
 	/**
 	 * @var string
 	 */
-	protected $ID = "";
+	protected $id = "";
 
 	/**
 	 * @var bool
@@ -117,7 +117,7 @@ class Debug_Profiler_Run_Block {
 		$this->memory_start = memory_get_usage( true );
 		$this->memory_peak_start = memory_get_peak_usage( true );
 
-		$this->ID = md5( $this->label.$this->timestamp_start );
+		$this->id = md5( $this->label.$this->timestamp_start );
 
 		if($parent_block) {
 			$this->parent_block = $parent_block;
@@ -156,8 +156,8 @@ class Debug_Profiler_Run_Block {
 	/**
 	 * @return string
 	 */
-	public function getID() {
-		return $this->ID;
+	public function getId() {
+		return $this->id;
 	}
 
 	/**
@@ -293,7 +293,7 @@ class Debug_Profiler_Run_Block {
 	 * @return Debug_Profiler_Run_SQLQueryData
 	 */
 	public function SQLQueryStart(  $query, $query_data  ) {
-		$q = new Debug_Profiler_Run_SQLqueryData( $this->ID, $query, $query_data);
+		$q = new Debug_Profiler_Run_SQLqueryData( $this->id, $query, $query_data);
 
 		$this->SQL_queries[] = $q;
 

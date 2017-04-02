@@ -103,7 +103,7 @@ class DataModel_PropertyFilter extends BaseObject {
 
 			foreach( $model_definition->getProperties() as $property ) {
 				if(
-					!$property->getIsID() &&
+					!$property->getIsId() &&
 					!$load_filter->getPropertyAllowed(
 						$model_definition->getModelName(),
 						$property->getName()

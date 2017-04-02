@@ -1,6 +1,8 @@
 <?php
 use JetApplicationModule\JetExample\Images\Gallery;
-use JetApplicationModule\JetExample\UIElements;
+
+use JetUI\tree;
+
 use Jet\Application_Modules;
 use Jet\Mvc_Controller_Router;
 use Jet\Data_Tree;
@@ -36,22 +38,18 @@ $upload_form = $this->upload_form;
 $edit_form = $this->edit_form;
 
 
-/**
- * @var UIElements\Main $UI_m
- */
-$UI_m = Application_Modules::getModuleInstance('JetExample.UIElements');
-$tree = $UI_m->getTreeInstance();
+$tree = new tree();
 
 $tree->setData( $galleries );
-$tree->setSelectedID( $this->selected_ID );
+$tree->setSelectedId( $this->selected_id );
 
 /** @noinspection PhpUnusedParameterInspection */
 $tree->setNormalDisplayCallback( function( Data_Tree_Node $node ) use ( $router)  {
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-		<a href="<?=$router->getActionURI('edit', $node->getID());?>"><?=$node->getLabel();?></a>
+		<a href="<?=$router->getActionURI('edit', $node->getId());?>"><?=$node->getLabel();?></a>
 	<?php else: ?>
-		<a href="<?=$router->getActionURI('view', $node->getID());?>"><?=$node->getLabel();?></a>
+		<a href="<?=$router->getActionURI('view', $node->getId());?>"><?=$node->getLabel();?></a>
 	<?php endif; ?>
 	<?php
 } );
@@ -72,9 +70,9 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)
 	endif;
 	?>
 	<?php if($router->getActionAllowed('edit')): ?>
-		<a href="<?=$router->getActionURI('edit', $node->getID());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+		<a href="<?=$router->getActionURI('edit', $node->getId());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 	<?php else: ?>
-		<a href="<?=$router->getActionURI('view', $node->getID());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+		<a href="<?=$router->getActionURI('view', $node->getId());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
 	<?php endif; ?>
 <?php
 });
@@ -91,10 +89,10 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)
 				!$gallery->getIsNew()
 			)
 		):
-			$parent_ID = $gallery ? $gallery->getIdObject(): Gallery::ROOT_ID;
+			$parent_id = $gallery ? $gallery->getIdObject(): Gallery::ROOT_ID;
 			?>
 		<div style="padding: 5px;">
-			<a href="<?=$router->getActionURI('add', $parent_ID);?>" class="btn btn-default" style="width: 100%;">
+			<a href="<?=$router->getActionURI('add', $parent_id);?>" class="btn btn-default" style="width: 100%;">
 				<jetml_icon icon="module/JetExample.Images/module" size="large"/>
 				<?=Tr::_('Create new gallery');?>
 			</a>
@@ -111,8 +109,6 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)
 			<jet_form name="<?=$edit_form->getName();?>">
 				<jet_form_common_error_message class="form-error"/>
 				<fieldset>
-					<jet_form_field name="parent_ID"/>
-					<jet_form_field name="ID"/>
 					<div class="form-group">
 						<jet_form_field_label name="title"/>
 						<jet_form_field_error_msg name="title" class="form-error"/>

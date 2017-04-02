@@ -1,12 +1,21 @@
 <?php
-use Jet\Tr;
-use Jet\Mvc;
+use Jet\Mvc_Layout;
+/**
+ * @var Mvc_Layout $this
+ */
 
-Mvc::requireCssFile(BOOTSTRAP_CSS_URI);
-Mvc::requireCssFile( JET_PUBLIC_URI.'styles/flags.css' );
+$this->requireCssFile('http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css');
+$this->requireCssFile('https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css');
+$this->requireCssFile( '%JET_PUBLIC_URI%styles/main.css' );
+$this->requireCssFile( '%JET_PUBLIC_URI%styles/flags.css' );
+
+$this->requireJavascriptFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
+$this->requireJavascriptFile('http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js');
+
+
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><?=Tr::_('Login');?></title>
+<title></title>
 
 <jet_layout_meta_tags/>
 <jet_layout_css/>
@@ -24,6 +33,15 @@ Mvc::requireCssFile( JET_PUBLIC_URI.'styles/flags.css' );
 		background: -webkit-linear-gradient(#c9c9c9, #ffffff);
 		background: -o-linear-gradient(#c9c9c9, #ffffff);
 		background: -moz-linear-gradient(#c9c9c9, #ffffff);
-		background: linear-gradient(#c9c9c9, #ffffff);
+		background: linear-gradient(#aaaaaa, #bbbbbb);
+	}
+
+	.container-table {
+		height: 100%;
+		display: table;
+	}
+	.vertical-center-row {
+		display: table-cell;
+		vertical-align: middle;
 	}
 </style>

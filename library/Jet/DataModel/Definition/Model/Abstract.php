@@ -40,18 +40,18 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	/**
 	 * @var string
 	 */
-	protected $ID_class_name = '';
+	protected $id_class_name = '';
 
 	/**
 	 * @var array
 	 */
-	protected $ID_options = [];
+	protected $id_options = [];
 
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract[]
 	 */
-	protected $ID_properties = [];
+	protected $id_properties = [];
 
 
 	/**
@@ -120,7 +120,7 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 			$this->_initProperties();
 			$this->_initKeys();
 
-			if(!$this->ID_properties) {
+			if(!$this->id_properties) {
 				throw new DataModel_Exception(
 					'There are not any ID properties in DataModel \''.$this->getClassName().'\' definition',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -244,17 +244,17 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	 * @throws DataModel_Exception
 	 */
 	protected function _initIdClass() {
-		$this->ID_class_name = BaseObject_Reflection::get( $this->class_name, 'data_model_ID_class_name' );
+		$this->id_class_name = BaseObject_Reflection::get( $this->class_name, 'data_model_id_class_name' );
 
-		if(!$this->ID_class_name) {
+		if(!$this->id_class_name) {
 			throw new DataModel_Exception(
-				'DataModel \''.$this->class_name.'\' does not have ID class name! Please specify it by @JetDataModel:data_model_ID_class_name ',
+				'DataModel \''.$this->class_name.'\' does not have ID class name! Please specify it by @JetDataModel:data_model_id_class_name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
 		}
 
-		$this->ID_options = BaseObject_Reflection::get( $this->class_name, 'ID_options', []);
+		$this->id_options = BaseObject_Reflection::get( $this->class_name, 'id_options', []);
 
 
 	}
@@ -304,8 +304,8 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 				$property_definition = DataModel_Factory::getPropertyDefinitionInstance($this->class_name, $property_name, $property_dd);
 			}
 
-			if($property_definition->getIsID()) {
-				$this->ID_properties[$property_definition->getName()] = $property_definition;
+			if($property_definition->getIsId()) {
+				$this->id_properties[$property_definition->getName()] = $property_definition;
 			}
 
 			$property_name = $property_definition->getName();
@@ -330,8 +330,8 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 			}
 		}
 
-		if($this->ID_properties) {
-			$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->ID_properties) );
+		if($this->id_properties) {
+			$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys($this->id_properties) );
 		}
 
 		$keys_definition_data = BaseObject_Reflection::get( $this->class_name, 'data_model_keys_definition', []);
@@ -393,33 +393,33 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getIDClassName() {
-		return $this->ID_class_name;
+	public function getIdClassName() {
+		return $this->id_class_name;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getIDOptions()
+	public function getIdOptions()
 	{
-		return $this->ID_options;
+		return $this->id_options;
 	}
 
 
 
 	/**
-	 * @return DataModel_ID_Abstract
+	 * @return DataModel_Id_Abstract
 	 */
-	public function getEmptyIDInstance() {
-		$ID_class_name = $this->getIDClassName();
+	public function getEmptyIdInstance() {
+		$id_class_name = $this->getIdClassName();
 
 		/**
-		 * @var DataModel_ID_Abstract $empty_ID
+		 * @var DataModel_Id_Abstract $empty_id
 		 */
-		$empty_ID = new $ID_class_name( $this, $this->getIDOptions() );
+		$empty_id = new $id_class_name( $this, $this->getIdOptions() );
 
 
-		return $empty_ID;
+		return $empty_id;
 	}
 
 
@@ -427,8 +427,8 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	 *
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
-	public function getIDProperties() {
-		return $this->ID_properties;
+	public function getIdProperties() {
+		return $this->id_properties;
 	}
 
 
@@ -791,14 +791,14 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 			case 'database_table_name':
 				$reflection_data['database_table_name'] = (string)$value;
 				break;
-			case 'ID_class_name':
-				$reflection_data['data_model_ID_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
+			case 'id_class_name':
+				$reflection_data['data_model_id_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
 			case 'iterator_class_name':
 				$reflection_data['iterator_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );
 				break;
-			case 'ID_options':
-				$reflection_data['ID_options'] = $value;
+			case 'id_options':
+				$reflection_data['id_options'] = $value;
 				break;
 			case 'parent_model_class_name':
 				$reflection_data['data_model_parent_model_class_name'] = BaseObject_Reflection::parseClassName( (string)$value );

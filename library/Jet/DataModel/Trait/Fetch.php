@@ -78,10 +78,10 @@ trait DataModel_Trait_Fetch {
     /**
      *
      * @param array $where
-     * @return DataModel_Fetch_Object_IDs
+     * @return DataModel_Fetch_Object_Ids
      */
-    public function fetchObjectIDs( array $where= []) {
-        return new DataModel_Fetch_Object_IDs(  $this->createQuery($where)  );
+    public function fetchObjectIds(array $where= []) {
+        return new DataModel_Fetch_Object_Ids(  $this->createQuery($where)  );
     }
 
 

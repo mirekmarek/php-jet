@@ -228,8 +228,8 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	public function getEditorInitializeCodeGenerator()
 	{
 		if(!$this->editor_initialize_code_generator) {
-			$this->editor_initialize_code_generator = function($node_ID, $editor_config ) {
-				$editor_config['selector'] = '#'.$node_ID;
+			$this->editor_initialize_code_generator = function($node_id, $editor_config ) {
+				$editor_config['selector'] = '#'.$node_id;
 				if($this->getIsReadonly()) {
 					$editor_config['readonly'] = 1;
 				}
@@ -269,7 +269,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 
 		$callback = $this->getEditorInitializeCodeGenerator();
 
-		return $callback( $this->getID(), $this->editor_config );
+		return $callback( $this->getId(), $this->editor_config );
 
 	}
 

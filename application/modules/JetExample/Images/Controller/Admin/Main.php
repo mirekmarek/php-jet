@@ -83,10 +83,10 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
         };
 
         $router->addAction('add', '/^add:([\S]+)$/', 'add_gallery', true)
-            ->setCreateURICallback( function( $parent_ID ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_ID).'/'; } )
+            ->setCreateURICallback( function( $parent_id ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_id).'/'; } )
             ->setParametersValidatorCallback( function(&$parameters) use ($gallery_validator) {
 
-                $parameters['parent_ID'] = $parameters[0];
+                $parameters['parent_id'] = $parameters[0];
 
                 if($parameters[0]==Gallery::ROOT_ID) {
                     return true;
@@ -94,7 +94,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
                 $gallery = Gallery::get( $parameters[0] );
                 if(!$gallery) {
-                    unset($parameters['parent_ID']);
+                    unset($parameters['parent_id']);
                     return false;
                 }
 
@@ -102,15 +102,15 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
             } );
 
         $router->addAction('edit', '/^edit:([\S]+)$/', 'update_gallery', true)
-            ->setCreateURICallback( function( $gallery_ID ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($gallery_ID).'/'; } )
+            ->setCreateURICallback( function( $gallery_id ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($gallery_id).'/'; } )
             ->setParametersValidatorCallback( $gallery_validator );
 
         $router->addAction('view', '/^view:([\S]+)$/', 'get_gallery', true)
-            ->setCreateURICallback( function( $gallery_ID ) use($base_URI) { return $base_URI.'view:'.rawurlencode($gallery_ID).'/'; } )
+            ->setCreateURICallback( function( $gallery_id ) use($base_URI) { return $base_URI.'view:'.rawurlencode($gallery_id).'/'; } )
             ->setParametersValidatorCallback( $gallery_validator );
 
         $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_gallery', true)
-            ->setCreateURICallback( function( $gallery_ID ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($gallery_ID).'/'; } )
+            ->setCreateURICallback( function( $gallery_id ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($gallery_id).'/'; } )
             ->setParametersValidatorCallback( $gallery_validator );
 
         $this->_standard_admin_micro_router = $router;
@@ -135,7 +135,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 */
 	public function default_Action() {
 
-		$this->view->setVar('selected_ID', Gallery::ROOT_ID);
+		$this->view->setVar('selected_id', Gallery::ROOT_ID);
 
 		$this->view->setVar('galleries', Gallery::getTree() );
 
@@ -147,10 +147,10 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 */
 	public function add_Action() {
 
-        $parent_ID = $this->getActionParameterValue('parent_ID');
+        $parent_id = $this->getActionParameterValue('parent_id');
 
 		$gallery = new Gallery();
-		$gallery->setParentID( $parent_ID );
+		$gallery->setParentId( $parent_id );
 
 		$edit_form = $gallery->getCommonForm();
 
@@ -164,7 +164,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('gallery', $gallery );
 		$this->view->setVar('edit_form', $edit_form);
-		$this->view->setVar('selected_ID', $parent_ID );
+		$this->view->setVar('selected_id', $parent_id );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
 		$this->render('classic/default');
@@ -199,7 +199,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', true);
 		$this->view->setVar('gallery', $gallery);
 		$this->view->setVar('edit_form', $edit_form);
-		$this->view->setVar('selected_ID', $gallery->getIdObject() );
+		$this->view->setVar('selected_id', $gallery->getIdObject() );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
 		$this->render('classic/default');
@@ -222,7 +222,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('has_access', false);
 		$this->view->setVar('gallery', $gallery);
 		$this->view->setVar('edit_form', $edit_form);
-		$this->view->setVar('selected_ID', $gallery->getIdObject() );
+		$this->view->setVar('selected_id', $gallery->getIdObject() );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
 		$this->render('classic/default');
@@ -288,8 +288,8 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 		if( $POST->exists('images') ) {
 
-			foreach( $POST->getRaw('images') as $image_ID ) {
-				$image = Gallery_Image::get( $image_ID );
+			foreach( $POST->getRaw('images') as $image_id ) {
+				$image = Gallery_Image::get( $image_id );
 				if($image) {
 					$image->delete();
 				}

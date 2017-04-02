@@ -20,9 +20,9 @@ trait DataModel_Related_MtoN_Trait {
     use DataModel_Related_Trait;
 
 	/**
-	 * @var DataModel_ID_Abstract
+	 * @var DataModel_Id_Abstract
 	 */
-	private $_N_ID;
+	private $_N_id;
 
 	/**
 	 * @var DataModel
@@ -70,18 +70,18 @@ trait DataModel_Related_MtoN_Trait {
      * @return null
      */
     public function getArrayKeyValue() {
-        return $this->getNID()->toString();
+        return $this->getNId()->toString();
     }
 
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array
 	 */
 	public static function loadRelatedData(
-		DataModel_ID_Abstract $main_ID,
+		DataModel_Id_Abstract $main_id,
 		DataModel_PropertyFilter $load_filter=null
 	)
     {
@@ -104,7 +104,7 @@ trait DataModel_Related_MtoN_Trait {
 	    }
 
 
-	    $query = static::getLoadRelatedDataQuery( $main_ID, $load_filter );
+	    $query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
 
 	    return $definition->getBackendInstance()->fetchAll($query);
 
@@ -112,14 +112,14 @@ trait DataModel_Related_MtoN_Trait {
 
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel_Query
 	 */
 	protected static function getLoadRelatedDataQuery(
 		/** @noinspection PhpUnusedParameterInspection */
-		DataModel_ID_Abstract $main_ID,
+		DataModel_Id_Abstract $main_id,
 		DataModel_PropertyFilter $load_filter=null
 	) {
 		/**
@@ -134,18 +134,18 @@ trait DataModel_Related_MtoN_Trait {
 		$where = $query->getWhere();
 
 
-		$M_ID_properties = $definition->getMRelationIDProperties();
+		$m_id_properties = $definition->getMRelationIdProperties();
 
 
-		foreach($M_ID_properties as $M_ID_property) {
+		foreach($m_id_properties as $m_id_property) {
 
 			/**
-			 * @var DataModel_Definition_Property_Abstract $M_ID_property
+			 * @var DataModel_Definition_Property_Abstract $m_id_property
 			 */
-			$value = $main_ID[$M_ID_property->getRelatedToPropertyName()];
+			$value = $main_id[$m_id_property->getRelatedToPropertyName()];
 
 			$where->addAND();
-			$where->addExpression( $M_ID_property, DataModel_Query::O_EQUAL, $value);
+			$where->addExpression( $m_id_property, DataModel_Query::O_EQUAL, $value);
 		}
 
 		$query->setSelect( $definition->getProperties() );
@@ -203,15 +203,15 @@ trait DataModel_Related_MtoN_Trait {
 
 	/**
 	 * @param array $loaded_related_data
-	 * @param DataModel_ID_Abstract|null $parent_ID
+	 * @param DataModel_Id_Abstract|null $parent_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return mixed
 	 */
     public static function loadRelatedInstances(
 	    /** @noinspection PhpUnusedParameterInspection */
-    	array &$loaded_related_data,
-	    DataModel_ID_Abstract $parent_ID=null,
+	    array &$loaded_related_data,
+	    DataModel_Id_Abstract $parent_id=null,
 	    DataModel_PropertyFilter $load_filter=null
     )
     {
@@ -238,6 +238,7 @@ trait DataModel_Related_MtoN_Trait {
             $loaded_instance = new static();
 	        $loaded_instance->setLoadFilter($load_filter);
             $loaded_instance->setState( $dat );
+	        $loaded_instance->getNId();
 
             unset($loaded_related_data[$model_name][$i]);
 
@@ -281,17 +282,17 @@ trait DataModel_Related_MtoN_Trait {
 	     */
 	    $data_model_definition = static::getDataModelDefinition();
 
-	    $N_ID = $N_instance->getIdObject();
-	    $N_ID_properties = $data_model_definition->getNRelationIDProperties();
+	    $n_id = $N_instance->getIdObject();
+	    $n_id_properties = $data_model_definition->getNRelationIdProperties();
 
 
-	    foreach($N_ID_properties as $N_ID_property) {
+	    foreach($n_id_properties as $n_id_property) {
 		    /**
-		     * @var DataModel_Definition_Property_Abstract $M_ID_property
+		     * @var DataModel_Definition_Property_Abstract $n_id_property
 		     */
-		    $value = $N_ID[$N_ID_property->getRelatedToPropertyName()];
+		    $value = $n_id[$n_id_property->getRelatedToPropertyName()];
 
-		    $this->{$N_ID_property->getName()} = $value;
+		    $this->{$n_id_property->getName()} = $value;
 	    }
 
     }
@@ -313,7 +314,7 @@ trait DataModel_Related_MtoN_Trait {
             $n_class_name = $data_model_definition->getNModelClassName();
 
             /** @noinspection PhpUndefinedMethodInspection */
-	        $this->_N_instance = $n_class_name::load($this->getNID(), $load_filter);
+	        $this->_N_instance = $n_class_name::load($this->getNId(), $load_filter);
 
         }
 
@@ -321,38 +322,62 @@ trait DataModel_Related_MtoN_Trait {
     }
 
     /**
-     * @return DataModel_ID_Abstract
+     * @return DataModel_Id_Abstract
      */
-    public function getNID() {
+    public function getNId() {
 
-        if(!$this->_N_ID) {
+        if(!$this->_N_id) {
             /**
              * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
              */
             $data_model_definition = static::getDataModelDefinition();
 
             /**
-             * @var DataModel_Definition_Property_Abstract[] $N_ID_properties
+             * @var DataModel_Definition_Property_Abstract[] $n_id_properties
              */
-            $N_ID_properties = $data_model_definition->getNRelationIDProperties();
+            $n_id_properties = $data_model_definition->getNRelationIdProperties();
             $n_class_name = $data_model_definition->getNModelClassName();
 
-            /**
-             * @var DataModel $N_model_instance
-             */
-            $N_model_instance = new $n_class_name();
 
-            $this->_N_ID = $N_model_instance::getEmptyIdObject();
+	        /** @noinspection PhpUndefinedMethodInspection */
+	        $this->_N_id = $n_class_name::getEmptyIdObject();
 
-            foreach( $N_ID_properties as $N_ID_prop_name=>$N_ID_prop) {
-                $this->_N_ID[$N_ID_prop->getRelatedToPropertyName()] = $this->{$N_ID_prop_name};
+            foreach( $n_id_properties as $n_id_prop_name=>$n_id_prop) {
+                $this->_N_id[$n_id_prop->getRelatedToPropertyName()] = $this->{$n_id_prop_name};
             }
 
         }
 
-        return $this->_N_ID;
+        return $this->_N_id;
     }
 
+
+	/**
+	 * @return DataModel_Id_Abstract
+	 */
+	public function getMId() {
+
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+		 */
+		$data_model_definition = static::getDataModelDefinition();
+
+		/**
+		 * @var DataModel_Definition_Property_Abstract[] $m_id_properties
+		 */
+		$m_id_properties = $data_model_definition->getMRelationIdProperties();
+		$m_class_name = $data_model_definition->getMModelClassName();
+
+
+		/** @noinspection PhpUndefinedMethodInspection */
+		$m_id = $m_class_name::getEmptyIdObject();
+
+		foreach( $m_id_properties as $m_id_prop_name=>$m_id_prop) {
+			$m_id[$m_id_prop->getRelatedToPropertyName()] = $this->{$m_id_prop_name};
+		}
+
+		return $m_id;
+	}
 
 
 
@@ -373,8 +398,8 @@ trait DataModel_Related_MtoN_Trait {
         $result = '';
 
         $result .= $prefix . JET_TAB.'<'.$N_class_name.'>'.JET_EOL;
-        foreach($this->getNID() as $ID_k=>$ID_v) {
-            $result .= $prefix . JET_TAB.JET_TAB.'<'.$ID_k.'>'.Data_Text::htmlSpecialChars($ID_v).'</'.$ID_k.'>'.JET_EOL;
+        foreach($this->getNId() as $id_k=> $id_v) {
+            $result .= $prefix . JET_TAB.JET_TAB.'<'.$id_k.'>'.Data_Text::htmlSpecialChars($id_v).'</'.$id_k.'>'.JET_EOL;
         }
         $result .= $prefix . JET_TAB.'</'.$N_class_name.'>'.JET_EOL;
 
@@ -398,30 +423,30 @@ trait DataModel_Related_MtoN_Trait {
     }
 
 	/**
-	 * @param DataModel_ID_Abstract $parent_ID
+	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentID( DataModel_ID_Abstract $parent_ID ) {
-		$this->setMid($parent_ID);
+	public function actualizeParentId(DataModel_Id_Abstract $parent_id ) {
+		$this->setMid($parent_id);
 	}
 
 	/**
-	 * @param DataModel_ID_Abstract $main_ID
+	 * @param DataModel_Id_Abstract $main_id
 	 */
-	public function actualizeMainID( DataModel_ID_Abstract $main_ID ) {
-		$this->setMid($main_ID);
+	public function actualizeMainId(DataModel_Id_Abstract $main_id ) {
+		$this->setMid($main_id);
 	}
 
 	/**
-	 * @param DataModel_ID_Abstract $M_ID
+	 * @param DataModel_Id_Abstract $m_id
 	 */
-	protected function setMid( DataModel_ID_Abstract $M_ID )
+	public function setMid(DataModel_Id_Abstract $m_id )
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		if($M_ID->getDataModelClassName()!=$data_model_definition->getMModelClassName()) {
+		if($m_id->getDataModelClassName()!=$data_model_definition->getMModelClassName()) {
 			return;
 		}
 
@@ -430,16 +455,16 @@ trait DataModel_Related_MtoN_Trait {
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		$M_ID_properties = $data_model_definition->getMRelationIDProperties();
+		$m_id_properties = $data_model_definition->getMRelationIdProperties();
 
 
-		foreach($M_ID_properties as $M_ID_property) {
+		foreach($m_id_properties as $m_id_property) {
 			/**
-			 * @var DataModel_Definition_Property_Abstract $M_ID_property
+			 * @var DataModel_Definition_Property_Abstract $m_id_property
 			 */
-			$value = $M_ID[$M_ID_property->getRelatedToPropertyName()];
+			$value = $m_id[$m_id_property->getRelatedToPropertyName()];
 
-			$this->{$M_ID_property->getName()} = $value;
+			$this->{$m_id_property->getName()} = $value;
 		}
 
 	}

@@ -76,9 +76,9 @@ trait DataModel_Trait_Save {
 
         $record = new DataModel_RecordData( $definition );
 
-	    $ID = $this->getIdObject();
+	    $id = $this->getIdObject();
 
-        $ID->generate();
+        $id->generate();
         foreach( $definition->getProperties() as $property_name=>$property_definition ) {
             if( !$property_definition->getCanBeInInsertRecord() ) {
                 continue;
@@ -90,7 +90,7 @@ trait DataModel_Trait_Save {
 
         $backend_result = $backend->save( $record );
 
-	    $ID->afterSave($backend_result);
+	    $id->afterSave($backend_result);
 
         /**
          * @var DataModel_Trait_Save $this
@@ -163,9 +163,9 @@ trait DataModel_Trait_Save {
             }
 
             if($is_related) {
-	            $prop->actualizeParentID( $this->getIdObject() );
+	            $prop->actualizeParentId( $this->getIdObject() );
             } else {
-	            $prop->actualizeMainID( $this->getIdObject() );
+	            $prop->actualizeMainId( $this->getIdObject() );
             }
 
             $prop->save();

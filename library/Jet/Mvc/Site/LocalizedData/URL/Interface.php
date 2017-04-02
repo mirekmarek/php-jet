@@ -23,14 +23,14 @@ interface Mvc_Site_LocalizedData_URL_Interface {
 
 
 	/**
-	 * @param string $site_ID
+	 * @param string $site_id
 	 */
-	public function setSiteID($site_ID);
+	public function setSiteId($site_id);
 
 	/**
 	 * @return string
 	 */
-	public function getSiteID();
+	public function getSiteId();
 
 
     /**

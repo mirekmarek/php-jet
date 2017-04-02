@@ -123,7 +123,7 @@ class Session extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getSessionID() {
+	public function getSessionId() {
 		return session_id();
 	}
 
