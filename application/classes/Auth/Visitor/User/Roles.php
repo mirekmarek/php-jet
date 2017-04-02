@@ -22,7 +22,7 @@ use Jet\Auth_User_Roles;
 /**
  *
  *
- * @JetDataModel:database_table_name = 'visitors_roles'
+ * @JetDataModel:database_table_name = 'users_visitors_roles'
  *
  * @JetDataModel:M_model_class_name = 'JetExampleApp\Auth_Visitor_User'
  * @JetDataModel:N_model_class_name = 'JetExampleApp\Auth_Visitor_Role'

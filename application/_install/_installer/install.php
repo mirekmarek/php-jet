@@ -11,7 +11,7 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
 
 if( version_compare(PHP_VERSION, '5.5.4', '<') ) {
 	if(!headers_sent()) {
@@ -21,8 +21,13 @@ if( version_compare(PHP_VERSION, '5.5.4', '<') ) {
 	die();
 }
 
-define('JET_INSTALLER_PATH', JET_APPLICATION_PATH.'_install/_installer/');
-define('JET_INSTALLER_URI', JET_BASE_URI.'application/_install/_installer/');
+define('JET_EXAMPLE_APP_INSTALLER_PATH', JET_APPLICATION_PATH.'_install/_installer/');
+define('JET_EXAMPLE_APP_INSTALLER_URI', JET_BASE_URI.'application/_install/_installer/');
 
-require 'Installer.php';
-(new Installer())->main();
+require 'classes/Installer.php';
+
+$installer = new Installer();
+
+
+
+$installer->main();

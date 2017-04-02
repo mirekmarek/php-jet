@@ -11,7 +11,19 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Http_Request;
+use Jet\Http_Headers;
+use Jet\Session;
+use Jet\Mvc_Site;
+use Jet\Mvc_Factory;
+use Jet\Mvc_Site_Interface;
+use Jet\Locale;
+use Jet\Form;
+use Jet\Form_Field_Select;
+use Jet\Form_Field_Input;
+use Jet\Tr;
 
 class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 

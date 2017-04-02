@@ -11,7 +11,14 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Redis_Config;
+use Jet\Redis_Connection_Config;
+use Jet\Redis;
+use Jet\Http_Request;
+use Jet\Http_Headers;
+use Jet\Tr;
 
 class Installer_Step_Redis_Controller extends Installer_Step_Controller {
 

@@ -1,7 +1,8 @@
 <?php
 use Jet\Mvc_View;
 use Jet\Tr;
-use Jet\Application_Modules_Module_Manifest;
+use JetExampleApp\Application_Modules_Module_Manifest;
+use JetExampleApp\Installer;
 /**
  * @var Mvc_View $this
  */
@@ -52,10 +53,10 @@ $OK = $this->getBool('OK');
 <?php if($OK): ?>
 <form method="post">
 	<input type="hidden" name="go" value="1">
-	<?=\Jet\Installer::buttonNext();?>
+	<?=Installer::buttonNext();?>
 </form>
 <?php endif; ?>
 
 <?php if(!$OK): ?>
-	<?=\Jet\Installer::buttonBack()?>
+	<?=Installer::buttonBack()?>
 <?php endif; ?>

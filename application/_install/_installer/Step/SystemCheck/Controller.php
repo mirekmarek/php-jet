@@ -11,7 +11,10 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Http_Request;
+use Jet\Tr;
 
 class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller {
 

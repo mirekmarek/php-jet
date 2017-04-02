@@ -11,7 +11,11 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Mvc_Factory;
+use Jet\Exception;
+use Jet\Tr;
 
 class Installer_Step_MvcRouterCache_Controller extends Installer_Step_Controller {
 

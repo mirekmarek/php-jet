@@ -1,6 +1,7 @@
 <?php
 use Jet\Form;
 use Jet\Tr;
+use JetExampleApp\Installer;
 /**
  * @var Form $form
  */
@@ -10,7 +11,7 @@ $form->setDefaultLabelWidth(2);
 $form->setDefaultFieldWidth(4);
 ?>
 
-<?=\Jet\Installer::buttonBack()?>
+<?=Installer::buttonBack()?>
 
 <h3><?=Jet\Tr::_('Edit connection \'%CONNECTION%\' ', ['CONNECTION'=>$this->connection_name]);?></h3>
 

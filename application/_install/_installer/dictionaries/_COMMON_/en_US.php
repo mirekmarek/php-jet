@@ -49,5 +49,6 @@ return [
 	'Login' => '',
 	'Go Ahead' => '',
 	'PHP Jet Platform - Example Project Installer' => '',
+	'Go Back' => '',
 	'Skip this step' => '',
 ];

@@ -11,7 +11,10 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Mvc_Layout;
+use Jet\Mvc_View;
 
 abstract class Installer_Step_Controller {
 	/**

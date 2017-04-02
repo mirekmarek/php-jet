@@ -11,7 +11,13 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Translator_Config;
+use Jet\Translator;
+use Jet\IO_Dir;
+use Jet\Locale;
+use Jet\Tr;
 
 class Installer_Step_TranslatorBackend_Controller extends Installer_Step_Controller {
 

@@ -1,7 +1,10 @@
-<h1><?=Jet\Tr::_('Done!');?></h1>
+<?php
+use Jet\Tr;
+?>
+<h1><?=Tr::_('Done!');?></h1>
 
 <p>
-	<?=Jet\Tr::_('Please remove this line from bootstrap.php:');?>
+	<?=Tr::_('Please remove this line from bootstrap.php:');?>
 </p>
 
 <code>
@@ -9,9 +12,9 @@
 </code>
 
 <p>
-	<?=Jet\Tr::_('It is possible (and recommended) to delete application/_installer directory.');?>
+	<?=Tr::_('It is possible (and recommended) to delete application/_installer directory.');?>
 </p>
 
 <p>
-	<?=Jet\Tr::_('Enjoy!! :-)');?>
+	<?=Tr::_('Enjoy!! :-)');?>
 </p>

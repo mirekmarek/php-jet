@@ -11,9 +11,10 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
 
-use JetExampleApp\Auth_Administrator_User;
+use Jet\Http_Request;
+use Jet\Tr;
 
 class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Controller {
 
@@ -22,7 +23,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		if(Http_Request::POST()->exists('go')) {
 			$this->installer->goNext();
 		}
-		
+
 		$user = new Auth_Administrator_User();
 
 		$form = $user->getSimpleForm();

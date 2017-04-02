@@ -11,7 +11,11 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\IO_File;
+use Jet\IO_File_Exception;
+use Jet\Tr;
 
 class Installer_Step_Final_Controller extends Installer_Step_Controller {
 
@@ -19,6 +23,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 	public function main() {
 
 		$cp_conf_source = $this->installer->getTmpConfigFilePath();
+		//TODO: zapis do adresare _common
 		$cp_conf_target = JET_CONFIG_PATH.JET_APPLICATION_CONFIGURATION_NAME.'.php';
 
 		$copy_OK = true;

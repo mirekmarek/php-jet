@@ -11,7 +11,11 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\DataModel_Config;
+use Jet\DataModel_Factory;
+use Jet\Tr;
 
 class Installer_Step_DataModelBackend_Controller extends Installer_Step_Controller {
 

@@ -11,7 +11,10 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Auth_Factory;
+use Jet\Tr;
 
 class Installer_Step_Auth_Controller extends Installer_Step_Controller {
 

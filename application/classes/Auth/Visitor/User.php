@@ -6,7 +6,7 @@ use Jet\Auth_User;
 
 /**
  *
- * @JetDataModel:database_table_name = 'visitors'
+ * @JetDataModel:database_table_name = 'users_visitors'
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
  */

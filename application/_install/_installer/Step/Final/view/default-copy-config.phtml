@@ -1,9 +1,12 @@
-<h1><?=Jet\Tr::_('Done!');?></h1>
+<?php
+use Jet\Tr;
+?>
+<h1><?=Tr::_('Done!');?></h1>
 
 <div style="border: 5px solid red;padding: 10px;margin: 5px;">
-	<?=Jet\Tr::_('Please copy <b>%SRC%</b> to <b>%TG%</b>', ['SRC'=>$this->source, 'TG'=>$this->target]);?>
+	<?=Tr::_('Please copy <b>%SRC%</b> to <b>%TG%</b>', ['SRC'=>$this->source, 'TG'=>$this->target]);?>
 	<p>
-		<?=Jet\Tr::_('I can\'t do that, because ...'); ?>
+		<?=Tr::_('I can\'t do that, because ...'); ?>
 	</p>
 	<p>
 		<span style="color:red;"><?=$this->message;?></span>
@@ -12,7 +15,7 @@
 </div>
 
 <p>
-	<?=Jet\Tr::_('Please remove this line from application/bootstrap.php:');?>
+	<?=Tr::_('Please remove this line from application/bootstrap.php:');?>
 </p>
 
 <code>
@@ -20,9 +23,9 @@
 </code>
 
 <p>
-	<?=Jet\Tr::_('It is possible (and recommended) to delete _installer directory.');?>
+	<?=Tr::_('It is possible (and recommended) to delete _installer directory.');?>
 </p>
 
 <p>
-	<?=Jet\Tr::_('Enjoy!! :-)');?>
+	<?=Tr::_('Enjoy!! :-)');?>
 </p>

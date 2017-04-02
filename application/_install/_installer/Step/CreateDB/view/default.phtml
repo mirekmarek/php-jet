@@ -1,8 +1,12 @@
+<?php
+use Jet\Tr;
+use JetExampleApp\Installer;
+?>
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th><?=Jet\Tr::_('Class');?></th>
-			<th><?=Jet\Tr::_('Status');?></th>
+			<th><?=Tr::_('Class');?></th>
+			<th><?=Tr::_('Status');?></th>
 		</tr>
 	</thead>
 	<?php foreach($this->result as $class=>$state): ?>
@@ -21,6 +25,6 @@
 <?php if($this->OK): ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
-	<?=\Jet\Installer::buttonNext();?>
+	<?=Installer::buttonNext();?>
 </form>
 <?php endif; ?>

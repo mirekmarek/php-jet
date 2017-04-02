@@ -14,10 +14,7 @@ use Jet\Mvc_Controller_Standard;
 use Jet\Form;
 use Jet\Tr;
 use Jet\Http_Headers;
-use JetShop\Admin\Custom\User;
-use JetShop\Admin\Custom\Page;
 use JetUI\messages;
-use JetUI_breadcrumbNavigation;
 
 class Controller_SystemPages extends Mvc_Controller_Standard {
 	/**

@@ -2,9 +2,7 @@
 use Jet\Mvc;
 use Jet\Tr;
 
-Mvc::requireSiteCssFile( 'styles/main.css' );
 Mvc::requireCssFile( '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css' );
-Mvc::requireSiteJavascriptFile( 'scripts/test.js' );
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,27 +22,27 @@ Mvc::requireSiteJavascriptFile( 'scripts/test.js' );
 	<jet_layout_body_prefix/>
 </div>
 
-<div class="container" id="container" style="width: 100%">
-	<div class="row" style="background-color: #000000;color: #ffffff;">
-		<div style="margin-bottom: 10px;margin-left: 10px;">
-			<h1><?=Tr::_("PHP Jet Example Application - Hello WORLD!");?></h1>
-		</div>
+<div class="container" style="width: 100%">
+	<div class="page-header">
+		<h1><?=Tr::_('Hello WORLD!')?></h1>
+		<small><?=Tr::_("PHP Jet Example Application");?></small>
+	</div>
 
-		<jet_layout_position name="top"/>
+	<div class="row">
+		<jet_module module="JetExample.BreadcrumbNavigation" view="default" />
 	</div>
 
 	<div class="row" style="background-color: #e9e9e9;">
 		<div class="clear"></div>
 
-		<div class="col-md-2">
+		<div class="col-md-3">
 			<jet_module module="JetExample.TestModule" action="main_menu"/>
 			<jet_layout_position name="left"/>
 		</div>
-		<div class="col-md-5" style="background-color: #ffffff;padding-top: 10px;padding-bottom: 20px;">
-			<jet_module module="JetExample.BreadcrumbNavigation" view="default" />
+		<div class="col-md-7" style="background-color: #ffffff;padding-top: 10px;padding-bottom: 20px;">
 			<jet_layout_main_position/>
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-2">
 			<jet_layout_position name="right"/>
 		</div>
 	</div>

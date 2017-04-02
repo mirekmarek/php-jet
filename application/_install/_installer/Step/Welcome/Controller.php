@@ -11,7 +11,12 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Form;
+use Jet\Form_Field_Select;
+use Jet\Locale;
+use Jet\Tr;
 
 class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 
@@ -34,8 +39,8 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
         $locale_field->setIsRequired(true);
         $locale_field->setDefaultValue($this->installer->getCurrentLocale());
         $locale_field->setErrorMessages([
-            Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select locale',
-            Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select locale'
+	        Form_Field_Select::ERROR_CODE_INVALID_VALUE=>'Please select locale',
+	        Form_Field_Select::ERROR_CODE_EMPTY=>'Please select locale'
         ]);
 
 		$select_locale_form = new Form('select_locale_form',

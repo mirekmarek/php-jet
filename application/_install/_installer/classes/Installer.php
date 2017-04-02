@@ -11,12 +11,26 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
 
-require JET_INSTALLER_PATH.'Step/Controller.php';
+use Jet\Http_Request;
+use Jet\Http_Headers;
+use Jet\Application;
+use Jet\Mvc_Layout;
+use Jet\Locale;
+use Jet\Translator;
+use Jet\Translator_Config;
+use Jet\Translator_Backend_PHPFiles_Config;
+use Jet\Translator_Backend_PHPFiles;
+use Jet\Tr;
+
+require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/Step/Controller.php';
+
+
 
 class Installer {
 
+	//TODO: ven ze tridy
 	protected static $steps = [
 		'SystemCheck',
 		'Welcome',
@@ -80,7 +94,7 @@ class Installer {
 			$_SESSION['current_locale'] = new Locale('en_US');
 		}
 
-		$this->layout = new Mvc_Layout(JET_INSTALLER_PATH.'layout/', 'default');
+		$this->layout = new Mvc_Layout(JET_EXAMPLE_APP_INSTALLER_PATH.'layout/', 'default');
 
 		list($first_step) = self::$steps;
 
@@ -149,7 +163,7 @@ class Installer {
 		while($steps) {
 			$_step_name = array_shift($steps);
 
-			$step_base_path = JET_INSTALLER_PATH.'Step/'.$_step_name.'/';
+			$step_base_path = JET_EXAMPLE_APP_INSTALLER_PATH.'Step/'.$_step_name.'/';
 
 			/** @noinspection PhpIncludeInspection */
 			require_once $step_base_path.'Controller.php';

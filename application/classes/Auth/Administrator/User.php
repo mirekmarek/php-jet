@@ -9,7 +9,7 @@ use JetApplicationModule\JetExample\AdminUsers\Main as Admin_Administrator_Users
 
 /**
  *
- * @JetDataModel:database_table_name = 'administrators'
+ * @JetDataModel:database_table_name = 'users_administrators'
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
  */

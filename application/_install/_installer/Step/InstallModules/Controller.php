@@ -11,7 +11,14 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Application_Modules;
+use Jet\Form;
+use Jet\Form_Field_MultiSelect;
+use Jet\Http_Request;
+use Jet\Exception;
+use Jet\Tr;
 
 class Installer_Step_InstallModules_Controller extends Installer_Step_Controller {
 
@@ -32,7 +39,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
         $modules_field = new Form_Field_MultiSelect('modules');
         $modules_field->setSelectOptions( $this->all_modules );
         $modules_field->setErrorMessages([
-            Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select module',
+	        Form_Field_MultiSelect::ERROR_CODE_EMPTY=>'Please select module',
             Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select module'
         ]);
 

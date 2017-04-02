@@ -14,4 +14,6 @@ return [
 	'SSL URL ' => '',
 	'Please select site template' => '',
 	'Site template: ' => '',
+	'Site creation in progress ...' => '',
+	'Please be patient. ' => '',
 ];

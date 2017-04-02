@@ -11,7 +11,12 @@
  * @category Jet
  * @package Installer
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Http_Request;
+use Jet\DataModel_Helper;
+use Jet\Exception;
+use Jet\Tr;
 
 class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 

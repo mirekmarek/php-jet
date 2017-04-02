@@ -17,9 +17,8 @@ use Jet\Form;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Auth;
-use JetShop\Admin\Custom\AdminMain;
-use JetShop\Admin\Custom\Page;
-use JetShop\Admin\Custom\User;
+use JetExampleApp\Mvc_Page;
+use JetExampleApp\Auth_Administrator_User;
 
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
@@ -46,15 +45,17 @@ class Controller_Main extends Mvc_Controller_Standard {
 	public function initialize() {
 		$GET = Http_Request::GET();
 
+		/*
 		if(($locale=$GET->getString('locale')) ) {
 			AdminMain::setCurrentUiLocale( $locale );
 			Http_Headers::movedTemporary( Page::get(Page::HOMEPAGE_ID)->getURI() );
 		}
+		*/
 
 		if($GET->exists('logout')) {
 			Auth::logout();
 
-			Http_Headers::movedTemporary( Page::get(Page::HOMEPAGE_ID)->getURI() );
+			Http_Headers::movedTemporary( Mvc_Page::get(Mvc_Page::HOMEPAGE_ID)->getURI() );
 		}
 	}
 
@@ -119,7 +120,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		) {
 			$data = $form->getValues();
 			/**
-			 * @var User $user
+			 * @var Auth_Administrator_User $user
 			 */
 			$user = $this->module_instance->getCurrentUser();
 
