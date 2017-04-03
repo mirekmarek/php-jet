@@ -21,13 +21,13 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 
 	public function main() {
 		if(Http_Request::POST()->exists('go')) {
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		$user = new Auth_Administrator_User();
 
 		$form = $user->getSimpleForm();
-		$user->setLocale( $this->installer->getCurrentLocale() );
+		$user->setLocale( Installer::getCurrentLocale() );
 
 		$this->view->setVar('form', $form);
 
@@ -35,7 +35,8 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		if($user->catchForm( $form )) {
 			$user->setIsSuperuser(true);
 			$user->save();
-			$this->installer->goNext();
+
+			Installer::goNext();
 		}
 
 		$this->render('default');

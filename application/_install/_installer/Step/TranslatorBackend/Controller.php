@@ -50,7 +50,7 @@ class Installer_Step_TranslatorBackend_Controller extends Installer_Step_Control
 			}
 
 
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		$this->view->setVar('form', $form);

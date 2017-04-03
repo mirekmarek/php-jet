@@ -1,0 +1,172 @@
+<?php
+use JetApplicationModule\JetExample\Images\Gallery;
+
+use JetUI\tree;
+
+use Jet\Application_Modules;
+use Jet\Mvc_Controller_Router;
+use Jet\Data_Tree;
+use Jet\Data_Tree_Node;
+use Jet\Tr;
+use Jet\Form;
+use Jet\Mvc;
+
+/**
+ * @var Mvc_Controller_Router $router
+ */
+$router = $this->router;
+
+
+/**
+ * @var Data_Tree $galleries
+ */
+$galleries = $this->galleries;
+
+/**
+ * @var Gallery $gallery
+ */
+$gallery = $this->gallery;
+
+/**
+ * @var Form $upload_form
+ */
+$upload_form = $this->upload_form;
+
+/**
+ * @var Form $edit_form
+ */
+$edit_form = $this->edit_form;
+
+
+$tree = new tree();
+
+$tree->setData( $galleries );
+$tree->setSelectedId( $this->selected_id );
+
+/** @noinspection PhpUnusedParameterInspection */
+$tree->setNormalDisplayCallback( function( Data_Tree_Node $node ) use ( $router)  {
+	?>
+	<?php if($router->getActionAllowed('edit')): ?>
+		<a href="<?=$router->getActionURI('edit', $node->getId());?>"><?=$node->getLabel();?></a>
+	<?php else: ?>
+		<a href="<?=$router->getActionURI('view', $node->getId());?>"><?=$node->getLabel();?></a>
+	<?php endif; ?>
+	<?php
+} );
+
+/** @noinspection PhpUnusedParameterInspection */
+$tree->setSelectedDisplayCallback( function( Data_Tree_Node $node ) {
+	?>
+	<strong><?=$node->getLabel();?></strong>
+	<?php
+});
+
+$tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ( $router)  {
+	if($node->getIsRoot()):
+		?>
+		<a href="<?=Mvc::getCurrentPageURI();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+		<?php
+		return;
+	endif;
+	?>
+	<?php if($router->getActionAllowed('edit')): ?>
+		<a href="<?=$router->getActionURI('edit', $node->getId());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+	<?php else: ?>
+		<a href="<?=$router->getActionURI('view', $node->getId());?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+	<?php endif; ?>
+<?php
+});
+
+?>
+
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+<div class="row">
+	<div class="col-md-2">
+		<?php if(
+			$router->getActionAllowed('add') &&
+			(
+				!$gallery ||
+				!$gallery->getIsNew()
+			)
+		):
+			$parent_id = $gallery ? $gallery->getIdObject(): Gallery::ROOT_ID;
+			?>
+		<div style="padding: 5px;">
+			<a href="<?=$router->getActionURI('add', $parent_id);?>" class="btn btn-default" style="width: 100%;">
+				<jetml_icon icon="module/JetExample.Images/module" size="large"/>
+				<?=Tr::_('Create new gallery');?>
+			</a>
+		</div>
+		<?php endif; ?>
+
+		<?=$tree->render();?>
+
+	</div>
+	<div class="col-md-9">
+
+		<?php if($gallery): ?>
+
+			<?=$edit_form->start()?>
+
+				<fieldset>
+					<?=$edit_form->field('title')?>
+
+					<?php if(!$edit_form->getIsReadonly()): ?>
+					<input type="submit" class="btn btn-primary" value="<?=Tr::_('Save');?>"/>
+					<?php endif; ?>
+				</fieldset>
+			<?=$edit_form->end()?>
+
+			<?php if($upload_form): ?>
+			<div>
+				<?=$upload_form->start()?>
+
+				<?=$upload_form->field('file')?>
+				<?=$upload_form->field('overwrite_if_exists')?>
+
+				<input type="submit" class="btn btn-primary" value="<?=Tr::_('Upload');?>"/>
+
+				<?=$upload_form->end()?>
+			</div>
+			<?php endif; ?>
+
+			<?php if(
+				$gallery &&
+				$gallery->getIsSaved()
+			): ?>
+
+				<?php
+				$images=$gallery->getImages();
+				if( count($images) ): ?>
+				<form action="?ID=<?=$gallery->getIdObject();?>&amp;delete_images" method="post">
+					<div style="padding: 10px;">
+						<?php foreach( $images as $image ): ?>
+						<div class="img-thumbnail">
+							<div style="width: 150px;height: 150px;vertical-align: middle;text-align: center;">
+								<a href="<?=$image->getURI();?>" target="_blank"><img src="<?=$image->getThumbnail(150, 150)->getURI();?>" /></a>
+							</div>
+							<div style="width: 150px;height: 40px;overflow: hidden;text-align: left;">
+									<table><tr>
+										<?php if($this->can_delete_image): ?>
+										<td style="vertical-align: top; padding: 5px;"><input type="checkbox" name="images[]" value="<?=$image->getIdObject();?>" id="image_<?=$image->getIdObject();?>"></td>
+										<?php endif; ?>
+										<td><label for="image_<?=$image->getIdObject();?>"><?=$image->getFileName();?></label></td>
+									</tr></table>
+
+
+							</div>
+						</div>
+						<?php endforeach; ?>
+					</div>
+					<?php if($this->can_delete_image): ?>
+					<input type="submit" class="btn btn-danger" value="<?=Tr::_('Delete selected images');?>">
+					<?php endif; ?>
+				</form>
+				<?php endif; ?>
+			<?php endif; ?>
+
+		<?php endif; ?>
+	</div>
+</div>
+</div>

@@ -18,10 +18,6 @@ use Jet\Mvc_View;
 
 abstract class Installer_Step_Controller {
 	/**
-	 * @var Installer
-	 */
-	protected $installer;
-	/**
 	 * @var Mvc_Layout
 	 */
 	protected $layout;
@@ -53,9 +49,18 @@ abstract class Installer_Step_Controller {
 	protected $URL = '';
 
 
-	public function __construct( Installer $installator, $step_base_path, $is_prev, $is_current, $is_next, $is_last, $URL ) {
-		$this->installer = $installator;
-		$this->layout = $this->installer->getLayout();
+	/**
+	 *
+	 * @param string $step_base_path
+	 * @param bool $is_prev
+	 * @param bool $is_current
+	 * @param bool $is_next
+	 * @param bool $is_last
+	 * @param string $URL
+	 */
+	public function __construct( $step_base_path, $is_prev, $is_current, $is_next, $is_last, $URL ) {
+
+		$this->layout = Installer::getLayout();
 		$this->is_prev = $is_prev;
 		$this->is_current = $is_current;
 		$this->is_next = $is_next;
@@ -66,6 +71,9 @@ abstract class Installer_Step_Controller {
 
 	}
 
+	/**
+	 *
+	 */
 	abstract function main();
 
 	/**

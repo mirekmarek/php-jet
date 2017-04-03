@@ -23,7 +23,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 
 	public function main() {
 		if(Http_Request::POST()->exists('go')) {
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 

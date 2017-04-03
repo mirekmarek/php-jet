@@ -329,14 +329,18 @@ class Gallery_Image extends DataModel {
 	 * @param $maximal_size_h
 	 * @param bool $do_not_save_now
 	 *
-	 * @return Gallery_Image_Thumbnail
+	 * @return Gallery_Image_Thumbnail|null
 	 */
 	public function getThumbnail( $maximal_size_w, $maximal_size_h, $do_not_save_now=false ) {
 		$key = Gallery_Image_Thumbnail::createKey( $maximal_size_w, $maximal_size_h );
 
 
 		if(!isset($this->thumbnails[$key])) {
-			$this->thumbnails[$key] = Gallery_Image_Thumbnail::getNewThumbnail($this, $maximal_size_w, $maximal_size_h);
+			$thb = Gallery_Image_Thumbnail::getNewThumbnail($this, $maximal_size_w, $maximal_size_h);
+			if(!$thb) {
+				return null;
+			}
+			$this->thumbnails[$key] = $thb;
 			if(!$do_not_save_now) {
 				$this->save();
 			}

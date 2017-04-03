@@ -1,0 +1,82 @@
+<?php
+use JetUI\UI;
+use JetExampleApp\Auth_Visitor_User;
+use JetExampleApp\Auth_Visitor_Role;
+use Jet\Form;
+use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
+use Jet\Tr;
+use Jet\Mvc;
+
+/**
+ * @var Auth_Visitor_Role $role
+ */
+$role = $this->role;
+/**
+ * @var Form $form
+ */
+$form = $this->form;
+
+/**
+ * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $available_privileges_list
+ */
+$available_privileges_list = $this->getRaw('available_privileges_list');
+
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(4);
+
+?>
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<?=$form->start()?>
+
+		<div class="toolbar" id="main-toolbar">
+			<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+
+			<?php if(!$form->getIsReadonly()): ?>
+				<?=UI::button_save()?>
+			<?php endif; ?>
+		</div>
+
+		<?=$form->field('name')?>
+		<?=$form->field('description')?>
+
+		<fieldset>
+			<legend><?=Tr::_('Privileges');?></legend>
+			<?php foreach($available_privileges_list as $privilege=>$pd ):
+				$fl = $form->field('/privileges/'.$privilege.'/values');
+
+				$fl->field()->addCustomCssStyle('height:300px');
+				?>
+				<?=$fl?>
+			<?php endforeach; ?>
+		</fieldset>
+
+	<?=$form->end()?>
+
+
+	<?php if($role && count($role->getUsers())): ?>
+		<fieldset style="margin-top: 30px">
+			<legend><?=Tr::_('Users');?></legend>
+			<table class="table table-striped">
+				<thead>
+				<tr>
+					<th><?=Tr::_('Login');?></th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php foreach( $role->getUsers() as $user ):
+					/**
+					 * @var Auth_Visitor_User $user
+					 */
+					?>
+					<tr>
+						<td><a href="<?=$user->getEditURI();?>"><?=$user->getLogin(); ?></a></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		</fieldset>
+	<?php endif; ?>
+
+</div>

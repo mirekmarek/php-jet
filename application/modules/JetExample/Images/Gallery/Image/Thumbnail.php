@@ -12,6 +12,7 @@ namespace JetApplicationModule\JetExample\Images;
 
 use Jet\DataModel_Related_1toN;
 use Jet\Data_Image;
+use Jet\Data_Image_Exception;
 use Jet\IO_File;
 
 /**
@@ -256,23 +257,28 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN {
 
 		$thumbnail->file_name = $key.'_'.$image->getFileName();
 
-		$image_file = new Data_Image( $image->getFilePath() );
+		try {
+			$image_file = new Data_Image( $image->getFilePath() );
 
-		$target_path = $image->getThumbnailsDirPath().$thumbnail->file_name;
+			$target_path = $image->getThumbnailsDirPath().$thumbnail->file_name;
 
-		$created_image_file = $image_file->createThumbnail($target_path, $maximal_size_w, $maximal_size_h);
+			$created_image_file = $image_file->createThumbnail($target_path, $maximal_size_w, $maximal_size_h);
 
-		$thumbnail->real_size_w = $created_image_file->getWidth();
-		$thumbnail->real_size_h = $created_image_file->getHeight();
+			$thumbnail->real_size_w = $created_image_file->getWidth();
+			$thumbnail->real_size_h = $created_image_file->getHeight();
 
-		$thumbnail->maximal_size_w = $maximal_size_w;
-		$thumbnail->maximal_size_h = $maximal_size_h;
+			$thumbnail->maximal_size_w = $maximal_size_w;
+			$thumbnail->maximal_size_h = $maximal_size_h;
 
-		$thumbnail->file_name = $created_image_file->getFileName();
-		$thumbnail->file_mime_type = $created_image_file->getMimeType();
-		$thumbnail->file_size = IO_File::getSize( $target_path );
+			$thumbnail->file_name = $created_image_file->getFileName();
+			$thumbnail->file_mime_type = $created_image_file->getMimeType();
+			$thumbnail->file_size = IO_File::getSize( $target_path );
 
-		$thumbnail->__image = $image;
+			$thumbnail->__image = $image;
+
+		} catch( Data_Image_Exception $e ) {
+			return null;
+		}
 
 		return $thumbnail;
 	}

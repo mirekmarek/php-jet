@@ -29,7 +29,7 @@ class Installer_Step_DataModelBackend_Controller extends Installer_Step_Controll
 		if( $config->catchForm($form) ) {
 			$config->save();
 
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		$this->view->setVar('form', $form);

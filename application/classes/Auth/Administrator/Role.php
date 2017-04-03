@@ -10,7 +10,7 @@ use Jet\Data_Tree;
 use Jet\Tr;
 use Jet\Mvc;
 
-use JetApplicationModule\JetExample\AdminRoles\Main as Admin_Administrator_Roles_Module;
+use JetApplicationModule\JetExample\Admin\Administrators\Roles\Main as Admin_Administrator_Roles_Module;
 
 /**
  *

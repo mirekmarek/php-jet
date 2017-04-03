@@ -1,0 +1,67 @@
+<?php
+use JetUI\dataGrid;
+use JetUI\UI;
+use JetExampleApp\Auth_Visitor_User;
+use Jet\Tr;
+
+/**
+ * @var dataGrid $grid
+ */
+$grid = $this->grid;
+
+
+$c_edit = $grid->getColumn('_edit_');
+$c_edit->setDisplayCallback( function(Auth_Visitor_User $item ) {
+	if(($edit_uri=$item->getEditURI())):
+		echo UI::button_edit()->setUrl($edit_uri);
+	endif;
+	echo '&nbsp;';
+	if(($delete_uri=$item->getDeleteURI())):
+		echo UI::button_delete()->setUrl($delete_uri);
+	endif;
+
+} );
+$c_edit->setCssStyle( 'width:180px;' );
+
+$grid->getColumn('id')->setCssStyle( 'width:120px;' );
+
+$grid->getColumn('login')->setDisplayCallback( function(Auth_Visitor_User $item ) {
+	$edit_uri=$item->getEditURI();
+	?>
+	<a href="<?=$edit_uri;?>"><?=$item->getLogin();?></a>
+	<?php
+} );
+
+$grid->getColumn('id')->setDisplayCallback( function(Auth_Visitor_User $item ) {
+	$edit_uri=$item->getEditURI();
+	?>
+	<a href="<?=$edit_uri;?>"><?=$item->getId();?></a>
+	<?php
+} );
+
+$grid->getColumn('first_name')->setDisplayCallback( function(Auth_Visitor_User $item ) {
+	echo $item->getFirstName();
+} );
+
+$grid->getColumn('surname')->setDisplayCallback( function(Auth_Visitor_User $item ) {
+	echo $item->getSurname();
+} );
+
+
+?>
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<div class="toolbar">
+		<div class="col-lg-3">
+			<?=$this->getRaw('search_form')?>
+		</div>
+		&nbsp;
+
+	<?php if( ($add_uri = Auth_Visitor_User::getAddURI() ) ): ?>
+		<?=UI::button_create(Tr::_('Create a new User'))->setUrl($add_uri)?>
+	<?php endif; ?>
+	</div>
+	<?=$grid->render();?>
+
+</div>

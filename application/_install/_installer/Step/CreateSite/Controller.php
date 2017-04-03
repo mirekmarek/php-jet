@@ -33,14 +33,14 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		if( count(Mvc_Site::getList() ) ) {
 			$this->render('site-created');
 			if(Http_Request::POST()->exists('go')) {
-				$this->installer->goNext();
+				Installer::goNext();
 			}
 
 			return;
 		}
 
 
-		$default_locale = $this->installer->getCurrentLocale();
+		$default_locale = Installer::getCurrentLocale();
 
 		$session = new Session( 'create_site_session' );
 

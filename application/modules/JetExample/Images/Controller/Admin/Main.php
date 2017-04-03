@@ -139,7 +139,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 		$this->view->setVar('galleries', Gallery::getTree() );
 
-		$this->render('classic/default');
+		$this->render('default');
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('selected_id', $parent_id );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
-		$this->render('classic/default');
+		$this->render('default');
 
 	}
 
@@ -202,7 +202,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('selected_id', $gallery->getIdObject() );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
-		$this->render('classic/default');
+		$this->render('default');
 
 	}
 
@@ -225,7 +225,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('selected_id', $gallery->getIdObject() );
 		$this->view->setVar('galleries', Gallery::getTree() );
 
-		$this->render('classic/default');
+		$this->render('default');
 
 	}
 

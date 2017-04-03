@@ -1,0 +1,59 @@
+<?php
+use JetExampleApp\Auth_Visitor_Role;
+use JetUI\dataGrid;
+use JetUI\UI;
+use Jet\Tr;
+
+/**
+ * @var dataGrid $grid
+ */
+$grid = $this->grid;
+
+
+$c_edit = $grid->getColumn('_edit_');
+$c_edit->setDisplayCallback( function(Auth_Visitor_Role $item ) {
+
+	if(($edit_uri=$item->getEditURI())):
+		echo UI::button_edit()->setUrl($edit_uri);
+	endif;
+	echo '&nbsp;';
+	if(($delete_uri=$item->getDeleteURI())):
+		echo UI::button_delete()->setUrl($delete_uri);
+	endif;
+} );
+$c_edit->setCssStyle( 'width:180px;' );
+$grid->getColumn('id')->setCssStyle( 'width:120px;' );
+
+
+$grid->getColumn('id')->setDisplayCallback( function(Auth_Visitor_Role $item ) {
+	$edit_uri=$item->getEditURI();
+
+	?><a href="<?=$edit_uri?>"><?=$item->getId();?></a><?php
+} );
+
+$grid->getColumn('name')->setDisplayCallback( function(Auth_Visitor_Role $item ) {
+	$edit_uri=$item->getEditURI();
+
+	?><a href="<?=$edit_uri?>"><?=$item->getName();?></a><?php
+} );
+$grid->getColumn('description')->setDisplayCallback( function(Auth_Visitor_Role $item ) {
+	echo $item->getDescription();
+} );
+?>
+
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+	<div class="toolbar">
+		<div class="col-lg-3">
+			<?=$this->getRaw('search_form')?>
+		</div>
+		&nbsp;
+
+
+	<?php if( ($add_uri = Auth_Visitor_Role::getAddURI() ) ): ?>
+		<?=UI::button_create(Tr::_('Create a new Role'))->setUrl($add_uri)?>
+	<?php endif; ?>
+	</div>
+
+	<?=$grid->render();?>
+</div>

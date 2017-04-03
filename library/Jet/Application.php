@@ -39,7 +39,7 @@ class Application extends BaseObject {
 	public static function getConfigFilePath()
 	{
 		if(!self::$config_file_path) {
-			static::$config_file_path = JET_CONFIG_PATH . JET_APPLICATION_CONFIGURATION_NAME.'.php';
+			static::$config_file_path = JET_CONFIG_PATH . JET_CONFIG_ENVIRONMENT.'/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
 		}
 
 		return self::$config_file_path;

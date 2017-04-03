@@ -38,7 +38,7 @@ class Installer_Step_MvcRouterCache_Controller extends Installer_Step_Controller
             }
 
             if($OK) {
-                $this->installer->goNext();
+	            Installer::goNext();
             } else {
                 $this->view->setVar('backend_error', $e->getMessage());
 

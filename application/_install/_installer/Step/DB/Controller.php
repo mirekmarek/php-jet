@@ -30,7 +30,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 
 	public function main() {
 		if(Http_Request::POST()->exists('go')) {
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		$this->main_config = new Db_Config(true);
@@ -60,7 +60,7 @@ class Installer_Step_DB_Controller extends Installer_Step_Controller {
 			if( $this->main_config->catchForm($form) ) {
 				$this->main_config->save();
 
-				$this->installer->goNext();
+				Installer::goNext();
 			}
 
 			$this->view->setVar('config', $this->main_config);

@@ -26,8 +26,30 @@ define('JET_EXAMPLE_APP_INSTALLER_URI', JET_BASE_URI.'application/_install/_inst
 
 require 'classes/Installer.php';
 
-$installer = new Installer();
+/** @noinspection PhpTraditionalSyntaxArrayLiteralInspection */
+Installer::setSteps(
+	array(
+		'Welcome',
+		'SystemCheck',
+		'DirsCheck',
+		'Translator',
+		'Redis',
+		'DB',
+		'DataModelMain',
+		'InstallModules',
+		'CreateDB',
+		'MvcRouter',
+		'Auth',
+		'CreateAdministrator',
+		'CreateSite',
+		'Final'
+	)
+);
 
+/** @noinspection PhpTraditionalSyntaxArrayLiteralInspection */
+Installer::setTranslations(array(
+	'en_US' => 'English',
+	'cs_CZ' => 'Česky'
+));
 
-
-$installer->main();
+Installer::main();

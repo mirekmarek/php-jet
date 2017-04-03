@@ -1,0 +1,72 @@
+<?php
+use JetUI\UI;
+use JetExampleApp\Auth_Visitor_User;
+use Jet\Mvc;
+use Jet\Mvc_View;
+use Jet\Form;
+
+/**
+ * @var Mvc_View $this
+ * @var Form $form
+ * @var Auth_Visitor_User $user
+ */
+$form = $this->getRaw('form');
+
+$form->setAutocomplete(false);
+$form->setDefaultLabelWidth(2);
+$form->setDefaultFieldWidth(4);
+
+$user = $this->getRaw('user');
+
+//TODO: reset hesla
+//TODO: poslani uvitani
+?>
+<div class="col-md-12 main-col" style="padding-top: 5px;">
+
+
+	<?=$form->start()?>
+
+	<div class="toolbar" id="main-toolbar">
+		<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+		<?php if(!$form->getIsReadonly()): ?>
+			<?=UI::button_save()?>
+
+			<?php if(!$user->getIsNew()): ?>
+			<div class="btn-group" style="margin-left: 10px">
+				<a href="" class="btn btn-warning">
+					<?=UI::icon('refresh')?>
+					Reset password
+				</a>
+				<a href="" class="btn btn-info">
+					<?=UI::icon('send')?>
+					Send welcome e-mail
+				</a>
+			</div>
+			<?php endif; ?>
+		<?php endif; ?>
+
+	</div>
+
+
+		<?=$form->field('login')?>
+
+		<?=$form->fieldExists('password')?$form->field('password'):''?>
+		<?=$form->field('email')?>
+		<?=$form->field('locale')?>
+		<?=$form->field('first_name')?>
+		<?=$form->field('surname')?>
+		<?=$form->field('description')?>
+		<?=$form->field('roles')?>
+
+		<hr class="separator">
+		<?=$form->field('user_is_activated')?>
+		<hr class="separator">
+		<?=$form->field('user_is_blocked')?>
+		<?=$form->field('user_is_blocked_till')?>
+		<hr class="separator">
+		<?=$form->field('password_is_valid')?>
+		<?=$form->field('password_is_valid_till')?>
+		<hr class="separator">
+
+	<?=$form->end()?>
+</div>

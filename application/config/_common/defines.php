@@ -7,7 +7,7 @@ define('JET_LIBRARY_PATH', JET_BASE_PATH.'library/');
 
 
 define('JET_ERROR_PAGES_PATH', JET_APPLICATION_PATH.'error_pages/');
-define('JET_CONFIG_PATH', JET_APPLICATION_PATH.'config/'.JET_CONFIG_ENVIRONMENT.'/');
+define('JET_CONFIG_PATH', JET_APPLICATION_PATH.'config/');
 define('JET_MODULES_PATH', JET_APPLICATION_PATH.'modules/');
 define('JET_SITES_PATH', JET_BASE_PATH.'sites/');
 define('JET_DATA_PATH', JET_APPLICATION_PATH.'data/');

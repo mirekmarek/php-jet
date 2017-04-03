@@ -28,7 +28,7 @@ class Installer_Step_Auth_Controller extends Installer_Step_Controller {
 		if( $config->catchForm($form) ) {
 			$config->save();
 
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		$this->view->setVar('form', $form);

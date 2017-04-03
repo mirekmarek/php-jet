@@ -352,6 +352,9 @@ class Gallery extends DataModel {
 
 
 		$tree = new Data_Tree();
+
+		$tree->setLabelKey('title');
+
 		$tree->getRootNode()->setId(Gallery::ROOT_ID);
 
 		$tree->getRootNode()->setLabel( Tr::_('Galleries') );

@@ -24,6 +24,19 @@ class CompatibilityTester {
 	 */
 	protected $test_results = [];
 
+	/**
+	 * @var bool
+	 */
+	protected $is_compatible;
+
+	/**
+	 * @var bool
+	 */
+	protected $has_warnings;
+
+	/**
+	 *
+	 */
 	public function __construct() {
 		foreach([
 			        'function_exists',
@@ -47,6 +60,58 @@ class CompatibilityTester {
 		ob_end_clean();
 
 	}
+
+	/**
+	 * @param array $tests
+	 * @return bool
+	 */
+	public function testSystem( array $tests ) {
+
+		foreach( $tests as $test ) {
+			$this->{$test}();
+		}
+
+		$this->is_compatible = true;
+		$this->has_warnings = false;
+
+		foreach($this->test_results as $test_result) {
+			if($test_result->getIsError()) {
+				$this->is_compatible = false;
+			}
+			if($test_result->getIsWarning()) {
+				$this->has_warnings = true;
+			}
+		}
+
+
+		return $this->is_compatible;
+	}
+
+	/**
+	 * @return CompatibilityTester_TestResult[]
+	 */
+	public function getTestResults()
+	{
+		return $this->test_results;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isCompatible()
+	{
+		return $this->is_compatible;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function hasWarnings()
+	{
+		return $this->has_warnings;
+	}
+
+
 
 	/**
 	 * @param string $title
@@ -79,8 +144,10 @@ class CompatibilityTester {
 	}
 
 
-	public function testSystem() {
-
+	/**
+	 *
+	 */
+	public function test_PHPVersion() {
 		$this->test(
 			'PHP version',
 			'PHP 5.5.4 or newer is required',
@@ -90,6 +157,12 @@ class CompatibilityTester {
 			}
 		);
 
+	}
+
+	/**
+	 *
+	 */
+	public function test_PDOExtension() {
 		$this->test(
 			'PDO extension',
 			'PHP PDO extension must be activated',
@@ -97,6 +170,12 @@ class CompatibilityTester {
 				return extension_loaded('PDO');
 			}
 		);
+	}
+
+	/**
+	 *
+	 */
+	public function check_INTLExtension() {
 		$this->check(
 			'INTL extension',
 			'PHP Internationalization Functions extension must be activated',
@@ -110,7 +189,12 @@ class CompatibilityTester {
 				return $result;
 			}
 		);
+	}
 
+	/**
+	 *
+	 */
+	public function test_RequestUriVar() {
 		$this->test(
 			'$_SERVER["REQUEST_URI"] value',
 			'PHP $_SERVER["REQUEST_URI"] value must be available',
@@ -119,7 +203,12 @@ class CompatibilityTester {
 			}
 		);
 
+	}
 
+	/**
+	 *
+	 */
+	public function check_Redis() {
 		$this->check(
 			'Redis support',
 			'',
@@ -132,21 +221,12 @@ class CompatibilityTester {
 				return $result;
 			}
 		);
+	}
 
-		$this->check(
-			'Memcache support',
-			'',
-			function(CompatibilityTester_TestResult $test_result ) {
-				$result = extension_loaded('memcache');
-				if(!$result) {
-					$test_result->setResultMessage( 'Memcache support is not available (memcache extension is not loaded).<br/>Use Redis or Memcached for better performance.' );
-				}
-
-				return $result;
-			}
-		);
-
-
+	/**
+	 *
+	 */
+	public function check_GDExtension() {
 		if( $this->check(
 			'GD extension',
 			'PHP GD extension should be activated', function() {
@@ -179,7 +259,12 @@ class CompatibilityTester {
 				}
 			);
 		}
+	}
 
+	/**
+	 *
+	 */
+	public function check_FileInfoExtension() {
 		$this->check(
 			'FileInfo extension',
 			'PHP FileInfo extension should be activated',
@@ -187,7 +272,12 @@ class CompatibilityTester {
 				return extension_loaded('fileinfo');
 			}
 		);
+	}
 
+	/**
+	 *
+	 */
+	public function check_MaxUploadFileSize() {
 		$this->check(
 			'PHP configuration: Max upload file size',
 			'',
@@ -221,7 +311,12 @@ class CompatibilityTester {
 			}
 		);
 
+	}
 
+	/**
+	 *
+	 */
+	public function check_PHPConfigPaths() {
 		if( $this->check(
 			'PHP configurations - paths',
 			'open_basedir, upload_tmp_dir and session.save_path',
@@ -291,48 +386,8 @@ class CompatibilityTester {
 
 		}
 
-		foreach($this->test_results as $test_result) {
-			if($test_result->getIsError()) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
-	public function showResult() {
-		$errors_count = 0;
-		$warnings_count = 0;
-		?>
-		<table>
-			<?php foreach($this->test_results as $test_result):
-				if($test_result->getIsError()) {
-					$errors_count++;
-				}
-				if($test_result->getIsWarning()) {
-					$warnings_count++;
-				}
-				?>
-				<?php $test_result->showResultRow(); ?>
-			<?php endforeach; ?>
 
-			<?php
-			$is_compatible = $errors_count==0;
-			$all_passed = $warnings_count==0;
 
-			?>
-			<tr><td colspan="3">
-					<?php if($is_compatible): ?>
-						<?php if($all_passed): ?>
-							<div class="resultmsg isok">The system is fully compatible with PHP Jet Platform!</div>
-						<?php else: ?>
-							<div class="resultmsg warning">The system is compatible with PHP Jet Platform. Please take care about warnings!</div>
-						<?php endif; ?>
-					<?php else: ?>
-						<div class="resultmsg fail">Sorry, but the system is tom compatible with PHP Jet Platform!</div>
-					<?php endif; ?>
-				</td></tr>
-		</table>
-		<?php
-	}
 }

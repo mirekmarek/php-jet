@@ -21,7 +21,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller {
 
 	public function main() {
 		if(Http_Request::POST()->exists('go')) {
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		$dirs = [
@@ -41,7 +41,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller {
 				'is_required' => true,
 				'is_writeable' => false
 			],
-			JET_CONFIG_PATH => [
+			JET_CONFIG_PATH.'_common/' => [
 				'is_required' => false,
 				'is_writeable' => false,
 				'comment' => 'Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually.'

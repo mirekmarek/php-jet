@@ -22,9 +22,8 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 
 	public function main() {
 
-		$cp_conf_source = $this->installer->getTmpConfigFilePath();
-		//TODO: zapis do adresare _common
-		$cp_conf_target = JET_CONFIG_PATH.JET_APPLICATION_CONFIGURATION_NAME.'.php';
+		$cp_conf_source = Installer::getTmpConfigFilePath();
+		$cp_conf_target = JET_CONFIG_PATH.'_common/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
 
 		$copy_OK = true;
 		$copy_message = '';

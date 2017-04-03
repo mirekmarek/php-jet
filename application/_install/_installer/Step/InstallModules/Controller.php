@@ -51,7 +51,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 
 		if(Http_Request::POST()->exists('go')) {
-			$this->installer->goNext();
+			Installer::goNext();
 		}
 
 		if($form->catchValues() && $form->validateValues()) {
@@ -102,7 +102,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 			}
 
 			if(!$result) {
-				$this->installer->goNext();
+				Installer::goNext();
 			}
 
 			$this->view->setVar('result', $result);

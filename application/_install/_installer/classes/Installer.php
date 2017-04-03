@@ -30,73 +30,119 @@ require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/Step/Controller.php';
 
 class Installer {
 
-	//TODO: ven ze tridy
-	protected static $steps = [
-		'SystemCheck',
-		'Welcome',
-		'DirsCheck',
-		'Translator',
-		'Redis',
-		'DB',
-		'DataModelMain',
-		'InstallModules',
-		'CreateDB',
-		'MvcRouter',
-        'Auth',
-		'CreateAdministrator',
-		'CreateSite',
-		'Final'
-	];
+
+	/**
+	 * @var array
+	 */
+	protected static $steps = [];
+
+	/**
+	 * @var Installer_Step_Controller[]
+	 */
+	protected static $step_controllers = [];
+
+	/**
+	 * @var array
+	 */
+	protected static $translations = [];
+
+	/**
+	 * @var Locale
+	 */
+	protected static $current_locale;
 
 	/**
 	 * @var string
 	 */
-	protected $current_step_name;
+	protected static $current_step_name;
 
 	/**
 	 * @var Installer_Step_Controller
 	 */
-	protected $current_step_controller;
+	protected static $current_step_controller;
 
 	/**
 	 * @var string
 	 */
-	protected $next_step_name;
+	protected static $next_step_name;
 
 	/**
 	 * @var Installer_Step_Controller
 	 */
-	protected $next_step_controller;
+	protected static $next_step_controller;
 
 
 	/**
 	 * @var Mvc_Layout
 	 */
-	protected $layout;
+	protected static $layout;
 
 	/**
-	 * @var Installer_Step_Controller[]
+	 * @param array $steps
 	 */
-	protected $step_controllers = [];
+	public static function setSteps( array $steps)
+	{
+		static::$steps = $steps;
+		static::$step_controllers = [];
+	}
 
-	public function getTmpConfigFilePath() {
+
+	/**
+	 * @return array
+	 */
+	public static function getSteps() {
+		return static::$steps;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getTranslations()
+	{
+		return self::$translations;
+	}
+
+	/**
+	 * @param array $translations
+	 */
+	public static function setTranslations(array $translations)
+	{
+		self::$translations = $translations;
+
+		if(!static::$current_locale) {
+			$default_locale = array_keys($translations)[0];
+
+			static::$current_locale = new Locale( $default_locale );
+		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getTmpConfigFilePath() {
 		return JET_TMP_PATH.'config_install.php';
 	}
 
-	public function main() {
+	/**
+	 *
+	 */
+	public static function main() {
 		Http_Request::initialize(true);
-		Application::setConfigFilePath( $this->getTmpConfigFilePath() );
+		Application::setConfigFilePath( static::getTmpConfigFilePath() );
 
 
 		static::initTranslator();
 		session_start();
 		if(empty($_SESSION['current_locale'])) {
-			$_SESSION['current_locale'] = new Locale('en_US');
+			$_SESSION['current_locale'] = static::$current_locale;
+		} else {
+			static::$current_locale = $_SESSION['current_locale'];
 		}
 
-		$this->layout = new Mvc_Layout(JET_EXAMPLE_APP_INSTALLER_PATH.'layout/', 'default');
+		static::$layout = new Mvc_Layout(JET_EXAMPLE_APP_INSTALLER_PATH.'layout/', 'default');
 
-		list($first_step) = self::$steps;
+		list($first_step) = static::$steps;
 
 		if(empty($_SESSION['current_step'])) {
 			$_SESSION['current_step'] = $first_step;
@@ -107,28 +153,38 @@ class Installer {
 		}
 
 		Translator::setCurrentLocale($_SESSION['current_locale']);
-		$this->getStepControllers( $_SESSION['current_step'] );
-		Translator::setCurrentNamespace($this->current_step_name);
+		static::getStepControllers( $_SESSION['current_step'] );
+		Translator::setCurrentNamespace(static::$current_step_name);
 
-		$this->current_step_controller->main();
+		static::$current_step_controller->main();
 
-		$this->layout->setVar('steps', $this->step_controllers);
+		static::$layout->setVar('steps', static::$step_controllers);
 
 		Translator::setCurrentNamespace(Translator::COMMON_NAMESPACE);
-		echo $this->layout->render();
+		echo static::$layout->render();
 
 		exit();
 	}
 
-	public function getCurrentLocale() {
-		return $_SESSION['current_locale'];
+	/**
+	 * @return Locale
+	 */
+	public static function getCurrentLocale() {
+		return static::$current_locale;
 	}
 
-	public function setCurrentLocale( Locale $locale ) {
+	/**
+	 * @param Locale $locale
+	 */
+	public static function setCurrentLocale( Locale $locale ) {
+		static::$current_locale = $locale;
 		$_SESSION['current_locale'] = $locale;
 	}
 
 
+	/**
+	 *
+	 */
 	public static function initTranslator() {
 		$config = new Translator_Config(true);
 		$config->setData( [
@@ -151,12 +207,12 @@ class Installer {
 	/**
 	 * @param string $current_step_name
 	 */
-	protected function getStepControllers( $current_step_name=null ) {
+	protected static function getStepControllers( $current_step_name=null ) {
 		$got_current = false;
-		$steps = self::$steps;
+		$steps = static::$steps;
 
 		if(!$current_step_name) {
-			$current_step_name = $this->current_step_name;
+			$current_step_name = static::$current_step_name;
 		}
 
 
@@ -172,7 +228,7 @@ class Installer {
 
 			$is_current = ($_step_name==$current_step_name);
 			if($is_current) {
-				$this->current_step_name = $current_step_name;
+				static::$current_step_name = $current_step_name;
 				$got_current = true;
 				$is_prev = false;
 				$is_next = false;
@@ -191,28 +247,28 @@ class Installer {
 
 			$is_last = ($steps);
 
-			$this->step_controllers[$_step_name] = new $class_name( $this,  $step_base_path, $is_prev, $is_current, $is_next, $is_last, $URL );
+			static::$step_controllers[$_step_name] = new $class_name( $step_base_path, $is_prev, $is_current, $is_next, $is_last, $URL );
 
 			if($is_current) {
-				$this->current_step_controller = $this->step_controllers[$_step_name];
+				static::$current_step_controller = static::$step_controllers[$_step_name];
 			}
 
-			$steps_after = $this->step_controllers[$_step_name]->getStepsAfter();
+			$steps_after = static::$step_controllers[$_step_name]->getStepsAfter();
 
 			if($steps_after) {
 				foreach($steps_after as $sa) {
 					array_unshift($steps, $sa);
 				}
 				if($is_last) {
-					$this->step_controllers[$_step_name]->setIsLast(false);
+					static::$step_controllers[$_step_name]->setIsLast(false);
 				}
 
 			}
 
 
-			if($is_next && !$this->next_step_controller) {
-				$this->next_step_name = $_step_name;
-				$this->next_step_controller = $this->step_controllers[$_step_name];
+			if($is_next && !static::$next_step_controller) {
+				static::$next_step_name = $_step_name;
+				static::$next_step_controller = static::$step_controllers[$_step_name];
 			}
 
 		}
@@ -225,50 +281,43 @@ class Installer {
 	 * @return Installer_Step_Controller
 	 */
 	protected function getStepControllerInstance( $step_name ) {
-		if(isset($this->step_controllers[$step_name])) {
-			return $this->step_controllers[$step_name];
+		if(isset(static::$step_controllers[$step_name])) {
+			return static::$step_controllers[$step_name];
 		}
 
-		return $this->step_controllers[$step_name];
+		return static::$step_controllers[$step_name];
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getCurrentStepName() {
-		return $this->current_step_name;
+	public static function getCurrentStepName() {
+		return static::$current_step_name;
 	}
 
 	/**
 	 * @return Installer_Step_Controller
 	 */
-	public function getCurrentStepController() {
-		return $this->current_step_controller;
+	public static function getCurrentStepController() {
+		return static::$current_step_controller;
 	}
 
 	/**
 	 * @return Mvc_Layout
 	 */
-	public function getLayout() {
-		return $this->layout;
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getSteps() {
-		return self::$steps;
+	public static function getLayout() {
+		return static::$layout;
 	}
 
 	/**
 	 *
 	 */
-	public function goNext() {
-        $this->next_step_controller = null;
+	public static function goNext() {
+        static::$next_step_controller = null;
 
-		$this->getStepControllers();
+		static::getStepControllers();
 
-		Http_Headers::movedTemporary( $this->next_step_controller->getURL() );
+		Http_Headers::movedTemporary( static::$next_step_controller->getURL() );
 	}
 
 

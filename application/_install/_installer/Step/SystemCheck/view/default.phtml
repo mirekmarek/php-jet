@@ -1,70 +1,59 @@
 <?php
-require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/CompatibilityTester.php';
-require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/CompatibilityTester/TestResult.php';
-
 use JetExampleApp\Installer;
 use JetExampleApp\CompatibilityTester;
 
-$tester = new CompatibilityTester();
+use Jet\Mvc_View;
 
-//TODO: ikony nahradit Bootstrap ikonami
+use JetUI\messages;
+use JetUI\UI;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View $this
+ * @var CompatibilityTester $tester
+ */
+$tester = $this->getRaw('tester');
+
 ?>
 
-<style type="text/css">
+<table class="table table-striped">
+	<tbody>
+	<?php foreach($tester->getTestResults() as $test_result):
+		if($test_result->getPassed()) {
+			$icon = UI::icon('check');
+			$css_class = '';
+		} else {
+			if($test_result->getIsWarning()) {
+				$icon = UI::icon('meh-o');
+				$css_class = 'warning';
+			} else {
+				$icon = UI::icon('frown-o');
+				$css_class = 'danger';
+			}
+		}
+		?>
+		<tr class="<?=$css_class; ?>">
+			<td><?=$icon?></td>
+			<td><b><?=$test_result->getTitle();?></b><br/><?=$test_result->getDescription(); ?></td>
+			<td><?=$test_result->getResultMessage();?></td>
+		</tr>
+		<?php
+	endforeach; ?>
+	</tbody>
+</table>
 
-
-	.isok {
-		background-color: #aaaaaa;
-	}
-
-	.fail {
-		background-color: #ff1111;
-	}
-
-	.warning {
-		background-color: #ff9999;
-	}
-
-	table {
-		padding: 0;
-		margin: 0;
-		border-collapse: collapse;
-	}
-
-	table td, table th {
-		text-align: left;
-		padding: 10px;
-		vertical-align: top;
-		border: 0 solid #c9c9c9;
-		border-top-width: 1px;
-		background-color: inherit;
-	}
-
-	.resicon {
-	}
-
-	.restitle {
-	}
-
-	.resresult {
-	}
-
-	.resultmsg {
-		margin-top: 40px;
-		margin-bottom: 40px;
-		padding: 20px;
-		border: 1px solid #000000;
-	}
-
-</style>
-
-
-<?php if($tester->testSystem()) :?>
-	<?php $tester->showResult(); ?>
-<form method="post">
-<input type="hidden" name="go" value="1">
-	<?=Installer::buttonNext();?>
-</form>
-<?php else: ?>
-	<?php $tester->showResult(); ?>
-<?php endif; ?>
+<?php if($tester->isCompatible()):
+	if(!$tester->hasWarnings()):
+		echo messages::createSuccess( Tr::_('The system is fully compatible with PHP Jet Platform!') );
+	else:
+		echo messages::createWarning( Tr::_('The system is compatible with PHP Jet Platform. Please take care about warnings!') );
+	endif;
+	?>
+	<form method="post">
+		<input type="hidden" name="go" value="1">
+		<?=Installer::buttonNext();?>
+	</form>
+	<?php
+else:
+	echo messages::createDanger( Tr::_('Sorry, but the system is tom compatible with PHP Jet Platform!') );
+endif; ?>

@@ -5,7 +5,7 @@ use Jet\Application_Modules;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
 
-use JetApplicationModule\JetExample\AdminUsers\Main as Admin_Administrator_Users_Module;
+use JetApplicationModule\JetExample\Admin\Administrators\Users\Main as Admin_Administrator_Users_Module;
 
 /**
  *
@@ -62,7 +62,7 @@ class Auth_Administrator_User extends Auth_User{
 	 */
 	public function getEditURI()
 	{
-		return Auth_Administrator_User::editURI($this->getId());
+		return static::editURI($this->getId());
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Auth_Administrator_User extends Auth_User{
 	 */
 	public function getDeleteURI()
 	{
-		return Auth_Administrator_User::deleteURI($this->getId());
+		return static::deleteURI($this->getId());
 	}
 
 	/**
