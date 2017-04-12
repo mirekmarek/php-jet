@@ -32,6 +32,8 @@ use Jet\Http_Request;
 use Jet\Tr;
 use Jet\Form;
 
+use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
+
 class Controller_Main extends Mvc_Controller_AdminStandard {
 	const DEFAULT_ACTION = 'default';
 
@@ -185,11 +187,11 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	 * @param string $current_label
 	 */
 	protected function _setBreadcrumbNavigation($current_label='' ) {
-		$menu_item = $this->getModuleManifest()->getMenuItems()['system/visitor_users'];
+		$menu_item = AdminUI_module::getMenuItems()['system/visitor_users'];
 
 		breadcrumbNavigation::addItem(
 			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
-			Mvc_Page::get(Main::PAGE_USERS)->getURL()
+			$menu_item->getUrl()
 		);
 
 		if($current_label) {

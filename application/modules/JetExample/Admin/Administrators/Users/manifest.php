@@ -26,7 +26,7 @@ return [
 			'label' => 'Administrators - Users',
 			'parent_menu_id' => 'system',
 			'page_id' => 'admin/administrators-users',
-			'icon' => 'user'
+			'icon' => 'user-secret'
 		]
 	]
 

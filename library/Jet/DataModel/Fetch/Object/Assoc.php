@@ -83,7 +83,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 		    $_i =$class_name::load( $item['__id'], $this->load_filter );
 	    }
 
-	    $this->data[$_i->getIdObject()->toString()]['__instance'] = $item;
+	    $this->data[$_i->getIdObject()->toString()]['__instance'] = $_i;
 
 
 	    return $_i;

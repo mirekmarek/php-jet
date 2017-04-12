@@ -3,8 +3,9 @@ namespace JetExampleApp;
 
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role;
-use Jet\Mvc;
-use Jet\Mvc_Factory;
+use Jet\Mvc_Site;
+use Jet\Mvc_Page_Interface;
+use Jet\Data_Tree;
 use Jet\Data_Tree_Forest;
 use Jet\Application_Modules;
 
@@ -122,9 +123,76 @@ class Auth_Visitor_Role extends Auth_Role{
 	 * @return Data_Tree_Forest
 	 */
 	public static function getAclActionValuesList_Pages() {
-		$pages_tree =Mvc_Factory::getPageInstance()->getAllPagesTree();
 
-		return $pages_tree;
+		$forest = new Data_Tree_Forest();
+		$forest->setIdKey('id');
+		$forest->setLabelKey('name');
+
+		foreach( Mvc_Site::getList() as $site ) {
+			foreach($site->getLocales() as $locale) {
+
+				$homepage = $site->getHomepage( $locale );
+
+				$tree = new Data_Tree();
+				$tree->getRootNode()->setId( $homepage->getPageKey() );
+				$tree->getRootNode()->setLabel(
+					$homepage->getSite()->getName()
+					.' ('.$homepage->getLocale()->getName().')'
+					. ' - '
+					.$homepage->getName()
+				);
+
+				$pages = [];
+				foreach( $homepage->getChildren() as $page ) {
+					static::_getAllPagesTree($page, $pages);
+				}
+
+				$tree->setData($pages);
+
+				$forest->appendTree($tree);
+
+
+			}
+		}
+
+
+		foreach( $forest as $node ) {
+			//$node->setLabel( $node->getLabel().' ('.$node->getId().')' );
+
+			if($node->getIsRoot()) {
+				$node->setSelectOptionCssStyle('font-weight:bolder;font-size:15px;padding: 3px;');
+			} else {
+				$padding = 20*$node->getDepth();
+				$node->setSelectOptionCssStyle('padding-left: '.$padding.'px;padding-top:2px; padding-bottom:2px; font-size:12px;');
+			}
+
+		}
+
+		return $forest;
+	}
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 * @param $data
+	 */
+	protected static function _getAllPagesTree( Mvc_Page_Interface $page, &$data ) {
+		if($page->getIsAdminUI()) {
+			return;
+		}
+
+
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$data[$page->getPageKey()] = [
+			'id' => $page->getPageKey(),
+			'parent_id' => $page->getParent()->getPageKey(),
+			'name' => $page->getName()
+		];
+
+		foreach( $page->getChildren() as $page ) {
+			static::_getAllPagesTree($page, $data);
+		}
 	}
 
 }

@@ -26,7 +26,7 @@ return [
 			'label' => 'Administrators - User roles',
 			'parent_menu_id' => 'system',
 			'page_id' => 'admin/administrators-roles',
-			'icon' => 'lock'
+			'icon' => 'user-circle'
 		]
 	]
 

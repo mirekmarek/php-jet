@@ -15,6 +15,10 @@ use Jet\Form;
 use Jet\Tr;
 use Jet\Http_Headers;
 use JetUI\messages;
+use JetUI\breadcrumbNavigation;
+
+use JetExampleApp\Mvc_Page;
+use JetExampleApp\Auth_Administrator_User as User;
 
 class Controller_SystemPages extends Mvc_Controller_Standard {
 	/**
@@ -45,8 +49,8 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 		 */
 		$form = $this->module_instance->getChangePasswordForm();
 
-		UI_breadcrumbNavigation::addItem( Tr::_('Home page', [], Tr::COMMON_NAMESPACE), Page::get(Page::HOMEPAGE_ID)->getURL() );
-		UI_breadcrumbNavigation::addItem( Tr::_('Change password', [], Tr::COMMON_NAMESPACE), Page::get(Page::CHANGE_PASSWORD_ID)->getURL() );
+		breadcrumbNavigation::addItem( Tr::_('Home page', [], Tr::COMMON_NAMESPACE), Mvc_Page::get(Mvc_Page::ADMIN_HOMEPAGE_ID)->getURL() );
+		breadcrumbNavigation::addItem( Tr::_('Change password', [], Tr::COMMON_NAMESPACE), Mvc_Page::get(Mvc_Page::CHANGE_PASSWORD_ID)->getURL() );
 
 		if(
 			$form->catchValues() &&
@@ -59,7 +63,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 			$user = $this->module_instance->getCurrentUser();
 
 			if(!$user->verifyPassword($data['current_password'])) {
-				UI_messages::danger( Tr::_('Current password do not match') );
+				messages::danger( Tr::_('Current password do not match') );
 			} else {
 
 				$user->setPassword( $data['password'] );
@@ -67,7 +71,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 				$user->setPasswordIsValidTill(null);
 				$user->save();
 
-				UI_messages::success( Tr::_('Your password has been changed') );
+				messages::success( Tr::_('Your password has been changed') );
 			}
 
 

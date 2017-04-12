@@ -26,7 +26,7 @@ return [
 			'label' => 'Visitors - Users',
 			'parent_menu_id' => 'system',
 			'page_id' => 'admin/visitors-users',
-			'icon' => 'user'
+			'icon' => 'users'
 		]
 	]
 

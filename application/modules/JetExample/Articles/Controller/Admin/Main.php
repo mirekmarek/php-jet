@@ -25,6 +25,8 @@ use Jet\Http_Headers;
 use Jet\Tr;
 use Jet\Http_Request;
 
+use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
+
 class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	/**
 	 *
@@ -107,16 +109,15 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	 * @param string $current_label
 	 */
 	protected function _setBreadcrumbNavigation($current_label='' ) {
-		$icon = $this->getModuleManifest()->getMenuItems()['content/articles']->getIcon();
+		$menu_item = AdminUI_module::getMenuItems()['system/administrator_roles'];
 
 		breadcrumbNavigation::addItem(
-			UI::icon($icon).'&nbsp;&nbsp;'.
-			Tr::_('Articles'),
-			Mvc_Page::get('admin/articles')->getURL()
+			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
+			$menu_item->getUrl()
 		);
+
 		if($current_label) {
 			breadcrumbNavigation::addItem( $current_label );
-
 		}
 	}
 

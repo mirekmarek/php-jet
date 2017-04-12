@@ -1,6 +1,6 @@
 <?php
 use Jet\Application_Modules_Module_Manifest;
-//use JetExampleApp\Mvc_Page;
+use JetExampleApp\Mvc_Page;
 
 return [
 	'API_version' => 201401,
@@ -14,14 +14,12 @@ return [
 	'require' => [],
 
 	'admin_sections' => [
-		/*
 		Mvc_Page::CHANGE_PASSWORD_ID => [
 			'is_system_page' => true,
 			'title' => 'Change password',
 			'URL_fragment' => 'change-password',
 			'action' => 'change_password'
 		]
-		*/
 	]
 
 ];

@@ -112,7 +112,7 @@ class IO_Dir {
 			$dir_path
 		];
 
-		while( $dir_path=dirname($dir_path) ) {
+		while( ($dir_path=dirname($dir_path)) ) {
 			if(static::exists($dir_path)) {
 				break;
 			}

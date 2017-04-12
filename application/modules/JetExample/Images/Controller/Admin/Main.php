@@ -48,7 +48,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-        Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
 		$this->micro_router = $this->getMicroRouter();
 		$this->view->setVar( 'router', $this->micro_router );
 	}

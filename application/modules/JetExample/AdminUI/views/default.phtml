@@ -1,30 +1,26 @@
 <?php
-use Jet\Tr;
-use Jet\Mvc_Page;
+use JetUI\menu;
+use JetUI\UI;
 ?>
-<div style="width: 100%;vertical-align: middle;text-align: center;">
-<?php /*
-	<a href="<?=Mvc_Page::get('admin/classic/articles')->getURL(); ?>" class="btn btn-default" style="width: 200px;">
-		<jetml_icon icon="module/JetExample.Articles/module" size="large"></jetml_icon>
-		<?=Tr::_('Articles');?>
-	</a>
-	<a href="<?=Mvc_Page::get('admin/classic/images')->getURL(); ?>" class="btn btn-default" style="width: 200px;">
-		<jetml_icon icon="module/JetExample.Images/module" size="large"></jetml_icon>
-		<?=Tr::_('Images');?>
-	</a>
+<div class="col-md-12 main-col" style="padding-top: 5px;">
 
-	<br/>
-	<br/>
-	<br/>
+	<div class="row">
 
-	<a href="<?=Mvc_Page::get('admin/classic/roles')->getURL(); ?>" class="btn btn-default" style="width: 200px;">
-		<jetml_icon icon="module/JetExample.Admin.Administrators.Roles/module" size="large"></jetml_icon>
-		<?=Tr::_('Manage roles');?>
-	</a>
+	<?php foreach( menu::getMenus() as $menu ): ?>
+		<div class="col-md-2">
+			<h3><?=$menu->getLabel()?></h3>
+			<?php foreach( $menu->getItems() as $item ): ?>
+				<div style="margin: 10px">
+					<a href="<?=$item->getUrl()?>">
+						<?=UI::icon($item->getIcon())->setWidth(35)->setSize(25)?>
+						<span style="position: relative;top:-5px"><?=$item->getLabel()?></span>
+					</a>
+				</div>
+			<?php endforeach; ?>
 
-	<a href="<?=Mvc_Page::get('admin/classic/users')->getURL(); ?>" class="btn btn-default" style="width: 200px;">
-		<jetml_icon icon="module/JetExample.Admin.Administrators.Users/module" size="large"></jetml_icon>
-		<?=Tr::_('Manage users');?>
-	</a>
- */ ?>
+		</div>
+	<?php endforeach; ?>
+
+	</div>
+
 </div>

@@ -24,7 +24,7 @@ return [
 			'label' => 'Images',
 			'parent_menu_id' => 'content',
 			'page_id' => 'admin/images',
-			'icon' => ''
+			'icon' => 'picture-o'
 		]
 	]
 

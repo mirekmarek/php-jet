@@ -5,7 +5,7 @@ use JetUI\menu;
 use Jet\Auth;
 use Jet\Tr;
 use Jet\Locale;
-
+use Jet\Mvc;
 
 ?>
 
@@ -47,14 +47,18 @@ use Jet\Locale;
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<?php /*foreach(AdminMain::getUiLocalesList() as $locale ): ?>
+					<?php foreach(Mvc::getCurrentSite()->getLocales() as $locale ):
+						if(!($page = Mvc_Page::get(Mvc::getCurrentPage()->getPageId(), $locale))) {
+							continue;
+						}
+						?>
 						<li>
-							<a href="<?=Mvc_Page::get(Mvc_Page::HOMEPAGE_ID)->getURL(['locale'=>$locale->toString()])?>">
+							<a href="<?=$page->getURL()?>">
 								<?=UI::flag($locale)?>
 								<?=$locale->getName($locale)?>
 							</a>
 						</li>
-					<?php endforeach; */ ?>
+					<?php endforeach; ?>
 				</ul>
 			</li>
 
@@ -65,17 +69,16 @@ use Jet\Locale;
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<?php /*
-					<li><a href="<?=Page::get(Page::CHANGE_PASSWORD_ID)->getURL()?>">
+
+					<li><a href="<?=Mvc_Page::get(Mvc_Page::CHANGE_PASSWORD_ID)->getURL()?>">
 							<?=UI::icon('cog')?>
 							<?=Tr::_('Change password')?>
 						</a></li>
 					<li role="separator" class="divider"></li>
-					<li><a href="<?=Page::get(Page::HOMEPAGE_ID)->getURL(['logout'=>'logout'])?>">
+					<li><a href="<?=Mvc_Page::get(Mvc_Page::ADMIN_HOMEPAGE_ID)->getURL(['logout'=>'logout'])?>">
 							<?=UI::icon('sign-out')?>
 							<?=Tr::_('Logout')?>
 						</a></li>
-                    */ ?>
 				</ul>
 			</li>
 

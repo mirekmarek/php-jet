@@ -26,7 +26,7 @@ return [
 			'label' => 'Visitors - User roles',
 			'parent_menu_id' => 'system',
 			'page_id' => 'admin/visitors-roles',
-			'icon' => 'lock'
+			'icon' => 'street-view'
 		]
 	]
 

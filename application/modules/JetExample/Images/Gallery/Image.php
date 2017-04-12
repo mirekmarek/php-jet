@@ -264,7 +264,7 @@ class Gallery_Image extends DataModel {
 	 * @return int
 	 */
 	public function getAllImagesCount() {
-		return $this->fetchObjectIDs()->getCount();
+		return $this->fetchObjectIds()->getCount();
 	}
 
 
@@ -381,6 +381,7 @@ class Gallery_Image extends DataModel {
 		 * @var Gallery_Image $image
 		 */
 		$image = new static();
+		$image->getIdObject()->generate();
 
 		$image->setGallery($gallery);
 
@@ -391,6 +392,7 @@ class Gallery_Image extends DataModel {
 
 		$source_image_file = new Data_Image( $source_file_path );
 
+
 		$image->setImageSizeH( $source_image_file->getHeight() );
 		$image->setImageSizeW( $source_image_file->getWidth() );
 		$image->setFileName( $source_file_name ? $source_file_name : $source_image_file->getFileName() );
@@ -399,9 +401,11 @@ class Gallery_Image extends DataModel {
 
 		$offset_dir = $image->getOffsetDirPath();
 
+
 		if( !IO_Dir::exists($offset_dir) ) {
 			IO_Dir::create( $offset_dir );
 		}
+
 		IO_Dir::create( $image->getDirPath() );
 		IO_Dir::create( $image->getThumbnailsDirPath() );
 

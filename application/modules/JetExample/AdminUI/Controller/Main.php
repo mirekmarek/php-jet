@@ -12,13 +12,13 @@
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet\Mvc_Controller_Standard;
-use Jet\Application_Modules;
-use JetExampleApp\Application_Modules_Module_Manifest;
+
 use Jet\Auth;
 use Jet\Mvc;
-use Jet\Mvc_Page;
 use Jet\Http_Headers;
-use JetUI\menu;
+use Jet\Http_Request;
+
+use JetExampleApp\Mvc_Page;
 
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
@@ -35,35 +35,17 @@ class Controller_Main extends Mvc_Controller_Standard {
 		'main_menu' => false,
 	];
 
-	protected static $_menu_initialized = false;
 
 	/**
 	 *
 	 */
 	public function initialize() {
-		if(static::$_menu_initialized) {
-			return;
-		}
+		Main::getMenuItems();
 
-		static::$_menu_initialized = true;
+		$GET = Http_Request::GET();
 
-		menu::addMenu('content', 'Content', 1);
-		menu::addMenu('system', 'System', 3);
-
-		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
-			/**
-			 * @var Application_Modules_Module_Manifest $manifest
-			 */
-			foreach( $manifest->getMenuItems() as $menu_item ) {
-
-				if(!$menu_item->getAccessAllowed()) {
-					continue;
-				}
-
-				$menu = menu::getMenu( $menu_item->getParentMenuId() );
-				$menu->addMenuItem( $menu_item );
-			}
-
+		if($GET->exists('logout')) {
+			$this->logout_Action();
 		}
 
 	}
@@ -74,7 +56,7 @@ class Controller_Main extends Mvc_Controller_Standard {
     public function logout_Action() {
         Auth::logout();
 
-        Http_Headers::movedTemporary( Mvc_Page::get('admin')->getURL() );
+        Http_Headers::movedTemporary( Mvc_Page::get(Mvc_Page::HOMEPAGE_ID)->getURL() );
     }
 
     /**
