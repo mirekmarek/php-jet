@@ -62,6 +62,11 @@ class Gallery extends DataModel {
 	 */
 	protected $title = '';
 
+	/**
+	 * @var Data_Tree;
+	 */
+	protected static $_tree;
+
 
 	/**
 	 * @var Gallery_Image
@@ -74,6 +79,13 @@ class Gallery extends DataModel {
 	 */
 	protected static $__galleries = [];
 
+	/**
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 	/**
 	 * @param string $parent_id
 	 */
@@ -347,22 +359,18 @@ class Gallery extends DataModel {
 	 * @return Data_Tree
 	 */
 	public static function getTree() {
-		$data = (new self())->getListAsData()->toArray();
+		if(!static::$_tree) {
+			$data = (new self())->fetchObjects([]);
+
+			static::$_tree = new Data_Tree();
+			static::$_tree->setLabelGetterMethodName('getTitle');
+			static::$_tree->getRootNode()->setId(Gallery::ROOT_ID);
+			static::$_tree->getRootNode()->setLabel( Tr::_('Galleries') );
+			static::$_tree->setDataSource( $data );
+		}
 
 
-
-		$tree = new Data_Tree();
-
-		$tree->setLabelKey('title');
-
-		$tree->getRootNode()->setId(Gallery::ROOT_ID);
-
-		$tree->getRootNode()->setLabel( Tr::_('Galleries') );
-
-		$tree->setData( $data );
-		$tree->setLabelKey( 'title' );
-
-		return $tree;
+		return static::$_tree;
 	}
 
 

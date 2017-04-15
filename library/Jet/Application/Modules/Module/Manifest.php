@@ -106,6 +106,11 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	protected $types = [self::MODULE_TYPE_GENERAL];
 
 	/**
+	 * @var bool
+	 */
+	protected $is_mandatory = false;
+
+	/**
 	 * Manifest value
 	 *
 	 * List of modules (module names) that the module requires
@@ -288,7 +293,7 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	protected function setupProperties( $manifest_data ) {
 
 		foreach( $manifest_data as $key=>$val ) {
-			if(!$this->getHasProperty($key)) {
+			if(!$this->getObjectClassHasProperty($key)) {
 				throw new Application_Modules_Exception(
 					'Unknown manifest property \''.$key.'\' (Module: \''.$this->name.'\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -394,7 +399,13 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 		return $this->getHasType( static::MODULE_TYPE_AUTH_CONTROLLER );
 	}
 
-
+	/**
+	 * @return bool
+	 */
+	public function isMandatory()
+	{
+		return $this->is_mandatory;
+	}
 
 	/**
 	 * Returns required module names ([module1, module2, ....])

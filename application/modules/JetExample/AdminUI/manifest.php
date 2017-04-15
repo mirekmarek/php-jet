@@ -9,8 +9,9 @@ return [
 	'types' => [Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL],
 	'description' => '',
 
+	'is_mandatory' => true,
 	'require' => [],
-
+	
 	'signals_callbacks' => [
 		'/test/received' => 'testReceived',
 		'/test/multiple' => [

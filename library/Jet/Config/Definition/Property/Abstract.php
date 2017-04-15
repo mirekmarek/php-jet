@@ -123,7 +123,7 @@ abstract class Config_Definition_Property_Abstract extends BaseObject implements
 		}
 
 		foreach($definition_data as $key=>$val) {
-			if(!$this->getHasProperty($key)) {
+			if(!$this->getObjectClassHasProperty($key)) {
 				throw new Config_Exception(
 						$this->_configuration_class.'::'.$this->name.': unknown definition option \''.$key.'\'  ',
 						Config_Exception::CODE_DEFINITION_NONSENSE

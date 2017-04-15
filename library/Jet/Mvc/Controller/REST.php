@@ -205,7 +205,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
             return true;
         }
 
-        foreach( $page->getContents() as $content ) {
+        foreach($page->getContent() as $content ) {
             if($content->getModuleName()==$module_name) {
                 return true;
             }

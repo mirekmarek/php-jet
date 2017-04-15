@@ -38,7 +38,6 @@ class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller {
 			'test_RequestUriVar',
 
 			'check_INTLExtension',
-			'check_Redis',
 			'check_GDExtension',
 			'check_MaxUploadFileSize',
 			'check_PHPConfigPaths',

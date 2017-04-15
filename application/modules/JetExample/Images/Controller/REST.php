@@ -16,7 +16,6 @@ namespace JetApplicationModule\JetExample\Images;
 
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc;
 use Jet\Mvc_Controller_REST;
 use Jet\Form_Field_FileImage;
 
@@ -243,7 +242,6 @@ class Controller_REST extends Mvc_Controller_REST {
 
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
 			$gallery->save();
-			Mvc::truncateRouterCache();
 
 			$this->responseData($gallery);
 		} else {
@@ -263,8 +261,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
 			$gallery->save();
 
-			Mvc::truncateRouterCache();
-
 			$this->responseData($gallery);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
@@ -278,7 +274,6 @@ class Controller_REST extends Mvc_Controller_REST {
 		$gallery = $this->_getGallery($id);
 
 		$gallery->delete();
-		Mvc::truncateRouterCache();
 
 		$this->responseOK();
 

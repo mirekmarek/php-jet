@@ -77,6 +77,15 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
         $this->tag_id = $this->_field->getId();
 	}
 
+	/**
+	 * @return Form_Field_Abstract
+	 */
+	public function formField()
+	{
+		return $this->_field;
+	}
+
+
     /**
      * @return string
      */

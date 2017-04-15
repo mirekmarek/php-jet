@@ -1,7 +1,7 @@
 <?php
-use JetApplicationModule\JetExample\Articles\Article;
+namespace JetApplicationModule\JetExample\Articles;
+
 use JetUI\dataGrid;
-use Jet\Mvc_Controller_Router;
 use Jet\Tr;
 use Jet\Locale;
 use JetUI\UI;
@@ -11,21 +11,17 @@ use JetUI\UI;
  */
 $grid = $this->grid;
 
-
-/**
- * @var Mvc_Controller_Router $router
- */
-$router = $this->router;
+$router = Controller_Admin_Main::getControllerRouter();
 
 $c_edit = $grid->getColumn('_edit_');
 $c_edit->setDisplayCallback( function( Article $item ) use ( $router) {
 
-	if( ($edit_uri=$router->getActionURI('edit', $item)) ):
+	if( ($edit_uri=$router->getEditURI($item)) ):
 		echo UI::button_edit()->setUrl($edit_uri);
 	endif;
 	echo '&nbsp;';
 
-	if( ($delete_uri=$router->getActionURI('delete', $item)) ):
+	if( ($delete_uri=$router->getDeleteURI($item)) ):
 		echo UI::button_delete()->setUrl($delete_uri);
 	endif;
 } );
@@ -35,11 +31,7 @@ $c_edit->setCssStyle( 'width:180px;' );
 
 $grid->getColumn('title')->setDisplayCallback( function( Article $item ) use ( $router) {
 	?>
-	<?php if($router->getActionAllowed('edit')): ?>
-	<a href="<?=$router->getActionURI('edit', $item);?>"><?=$item->getTitle();?></a>
-	<?php else: ?>
-	<a href="<?=$router->getActionURI('view', $item);?>"><?=$item->getTitle();?></a>
-	<?php endif; ?>
+	<a href="<?=$router->getEditOrViewURI($item);?>"><?=$item->getTitle();?></a>
 	<?php
 } );
 
@@ -55,7 +47,7 @@ $c_date_time->setCssStyle( 'width:200px;' );
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
 	<div class="toolbar">
-		<?php if( ($add_uri=$router->getActionURI('add')) ): ?>
+		<?php if( ($add_uri=$router->getAddURI()) ): ?>
 			<?=UI::button_create(Tr::_('Create a new Article'))->setUrl($add_uri)?>
 		<?php endif; ?>
 

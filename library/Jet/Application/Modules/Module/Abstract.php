@@ -60,14 +60,8 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 */
 	final function __construct( Application_Modules_Module_Manifest $manifest ) {
 		$this->module_manifest = $manifest;
-		$this->initialize();
 	}
 
-	/**
-	 * Initialization method
-	 */
-	protected function initialize() {
-	}
 
 	/**
 	 * Returns module views directory
@@ -125,8 +119,6 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract'
 			);
 		}
-
-		$controller->initialize();
 
 		return $controller;
 	}

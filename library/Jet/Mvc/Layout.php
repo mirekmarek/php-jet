@@ -348,7 +348,11 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 			$position_order = $current_max_position_order + 0.001;
 		}
 
-		$o = new Mvc_Layout_OutputPart($output_id, $output, $position, $position_required, $position_order );
+		if(!$output_id) {
+			$output_id = $position.':'.$position_order;
+		}
+
+		$o = new Mvc_Layout_OutputPart($output, $position, $position_required, $position_order, $output_id );
 
 		$this->output_parts[] = $o;
 	}

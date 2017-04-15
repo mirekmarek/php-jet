@@ -15,6 +15,7 @@ namespace JetApplicationModule\JetExample\TestModule;
 
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc;
+use Jet\Mvc_Page;
 
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
@@ -26,6 +27,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 	protected static $ACL_actions_check_map = [
 		'default' => false,
 		'main_menu' => false,
+		'secret_area_menu' => false,
 		'test_action2' => false,
 		'test_mvc_info' => false,
 	];
@@ -51,6 +53,12 @@ class Controller_Main extends Mvc_Controller_Standard {
         $this->view->setVar('site_tree_current', [Mvc::getCurrentSite()->getHomepage( Mvc::getCurrentLocale() )]  );
 
 		$this->render('main-menu' );
+	}
+
+	public function secret_area_menu_Action() {
+		$this->view->setVar('site_tree_current', [Mvc_Page::get('secret_area')]  );
+
+		$this->render('secret-area-menu' );
 	}
 
 	/**

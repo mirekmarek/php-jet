@@ -111,47 +111,6 @@ class Mvc_Factory {
 	}
 
 
-
-	/**
-	 * Returns instance of Router configuration class
-	 *
-	 * @param bool $soft_mode (optional, default:false)
-	 *
-	 * @return Mvc_Router_Config_Abstract
-	 */
-	public static function getRouterConfigInstance( $soft_mode=false ) {
-		$class_name =  JET_MVC_ROUTER_CONFIG_CLASS;
-		return new $class_name( $soft_mode );
-	}
-
-	/**
-	 * Returns instance of Router Cache Backend
-	 *
-	 * @param string $backend_type
-	 * @param bool $soft_mode
-	 *
-	 * @return Mvc_Router_Cache_Backend_Config_Abstract
-	 */
-	public static function getRouterCacheBackendConfigInstance( $backend_type, $soft_mode=false ) {
-		$class_name =  JET_MVC_ROUTER_CACHE_BACKEND_CLASS_NAME_PREFIX.$backend_type.'_Config';
-		return new $class_name($soft_mode);
-	}
-
-	/**
-	 * Returns instance of Router Cache Backend
-	 *
-	 * @param string $backend_type
-	 * @param Mvc_Router_Cache_Backend_Config_Abstract $backend_config
-	 *
-	 * @return Mvc_Router_Cache_Backend_Abstract
-	 */
-	public static function getRouterCacheBackendInstance( $backend_type, Mvc_Router_Cache_Backend_Config_Abstract $backend_config ) {
-		$class_name = JET_MVC_ROUTER_CACHE_BACKEND_CLASS_NAME_PREFIX.$backend_type;
-
-		return new $class_name( $backend_config );
-	}
-
-
 	/**
 	 *
 	 * @return Mvc_NavigationData_Breadcrumb_Abstract

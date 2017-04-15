@@ -108,6 +108,14 @@ class Article extends DataModel {
 	protected $date_time;
 
 	/**
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * @return Locale
 	 */
 	public function getLocale() {

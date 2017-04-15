@@ -27,32 +27,35 @@ $form = $this->getRaw('form');
 		<th><?=Tr::_('Activated?');?></th>
 	</tr>
 	</thead>
-	<?php foreach( $modules as $info ): ?>
+	<?php foreach( $modules as $manifest ): ?>
 	<tr>
 		<td>
-			<?php if(!$info->getIsActivated()):
+			<?php if(!$manifest->getIsActivated()):
 
-				if( $info->getIsAuthController() ):
+				if( 
+					$manifest->isMandatory() || 
+					$manifest->getIsAuthController() 
+				):
 					?>
-					<input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked" disabled="disabled"/>
+					<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]" id="module_<?=$manifest->getName();?>" checked="checked" disabled="disabled"/>
 					<?php
 				else:
 					?>
-					<input type="checkbox" value="<?=$info->getName();?>" name="modules[]" id="module_<?=$info->getName();?>" checked="checked"/>
+					<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]" id="module_<?=$manifest->getName();?>" checked="checked"/>
 					<?php
 				endif;
 			endif; ?>
 		</td>
-		<td><?=$info->getVendor();?></td>
+		<td><?=$manifest->getVendor();?></td>
 		<td>
-			<label for="module_<?=$info->getName();?>"><?=$info->getLabel();?> </label>
+			<label for="module_<?=$manifest->getName();?>"><?=$manifest->getLabel();?> </label>
 			<br/>
-			<div style="font-size: 11px;"><?=$info->getName();?></div>
+			<div style="font-size: 11px;"><?=$manifest->getName();?></div>
 			<br/>
-			<?=$info->getDescription();?>
+			<?=$manifest->getDescription();?>
 		</td>
-		<td><?=Tr::_($info->getIsInstalled()?'Yes':'NO');?></td>
-		<td><?=Tr::_($info->getIsActivated()?'Yes':'NO');?></td>
+		<td><?=Tr::_($manifest->getIsInstalled()?'Yes':'NO');?></td>
+		<td><?=Tr::_($manifest->getIsActivated()?'Yes':'NO');?></td>
 	</tr>
 	<?php endforeach; ?>
 </table>

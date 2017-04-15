@@ -56,27 +56,6 @@ interface Mvc_Page_Content_Interface {
      */
     public function setData( array $data );
 
-    /**
-     * @return string
-     */
-    public function getStaticContent();
-
-    /**
-     * @param string $static_content
-     */
-    public function setStaticContent($static_content);
-
-    /**
-     * @param bool $is_dynamic
-     */
-    public function setIsDynamic($is_dynamic);
-
-    /**
-     * @return bool
-     */
-    public function getIsDynamic();
-
-
 	/**
 	 * @param string $custom_controller
 	 */
@@ -120,6 +99,16 @@ interface Mvc_Page_Content_Interface {
 	/**
 	 * @return string
 	 */
+	public function getOutput();
+
+	/**
+	 * @param string $output
+	 */
+	public function setOutput($output);
+
+	/**
+	 * @return string
+	 */
 	public function getOutputPosition();
 
 	/**
@@ -146,16 +135,6 @@ interface Mvc_Page_Content_Interface {
 	 * @param int $output_position_order
 	 */
 	public function setOutputPositionOrder( $output_position_order );
-
-    /**
-     * @param array|Mvc_Layout_OutputPart[] $output_parts
-     */
-    public function setOutputParts( array $output_parts);
-
-    /**
-     * @return Mvc_Layout_OutputPart[]|null
-     */
-    public function getOutputParts();
 
     /**
      *

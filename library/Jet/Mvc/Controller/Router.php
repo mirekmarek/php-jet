@@ -23,7 +23,7 @@ class Mvc_Controller_Router extends BaseObject {
 	/**
 	 * @var Mvc_Router_Abstract
 	 */
-	protected $router_instance;
+	protected $mvc_router;
 
 
 	/**
@@ -38,11 +38,14 @@ class Mvc_Controller_Router extends BaseObject {
 
 
 	/**
-	 * @param Mvc_Router_Abstract $router_instance
 	 * @param Application_Modules_Module_Abstract $module_instance
+	 * @param Mvc_Router_Abstract $mvc_router
 	 */
-	public function __construct( Mvc_Router_Abstract $router_instance, Application_Modules_Module_Abstract $module_instance ) {
-		$this->router_instance = $router_instance;
+	public function __construct( Application_Modules_Module_Abstract $module_instance, Mvc_Router_Abstract $mvc_router=null ) {
+		if(!$mvc_router) {
+			$mvc_router = Mvc::getCurrentRouter();
+		}
+		$this->mvc_router = $mvc_router;
 		$this->module_instance = $module_instance;
 	}
 
@@ -50,12 +53,11 @@ class Mvc_Controller_Router extends BaseObject {
 	 * @param string $action_name
 	 * @param string $regexp
 	 * @param string $ACL_action
-	 * @param bool $disable_routing_cache (optional, default: false)
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function addAction( $action_name, $regexp, $ACL_action, $disable_routing_cache=false ) {
-		$action = new Mvc_Controller_Router_Action( $action_name, $regexp, $ACL_action, $disable_routing_cache );
+	public function addAction( $action_name, $regexp, $ACL_action ) {
+		$action = new Mvc_Controller_Router_Action( $action_name, $regexp, $ACL_action );
 
 		$this->actions[$action_name] = $action;
 
@@ -93,8 +95,8 @@ class Mvc_Controller_Router extends BaseObject {
 	/**
 	 * @return Mvc_Router_Abstract
 	 */
-	public function getRouterInstance() {
-		return $this->router_instance;
+	public function getMvcRouter() {
+		return $this->mvc_router;
 	}
 
 
@@ -120,10 +122,6 @@ class Mvc_Controller_Router extends BaseObject {
 
 			$action_name = $action->getActionName();
 			$action_parameters = $action->getActionParameters();
-
-			if($action->getDisableRoutingCache()) {
-				$this->router_instance->disableCache();
-			}
 
 			break;
 		}

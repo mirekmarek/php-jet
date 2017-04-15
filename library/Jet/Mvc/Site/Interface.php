@@ -277,16 +277,6 @@ interface Mvc_Site_Interface {
     public function handle404();
 
     /**
-     * @param array &$data
-     */
-    public function readCachedData(&$data);
-
-    /**
-     * @param &$data
-     */
-    public function writeCachedData(&$data);
-
-    /**
      * @param string $template
      */
     public function create( $template );

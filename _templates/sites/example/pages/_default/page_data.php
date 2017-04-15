@@ -27,7 +27,6 @@ return [
     ],
     'contents' => [
         [
-            'is_dynamic' => true,
             'module_name' => 'JetExample.TestModule',
             'controller_action' => 'test_action2',
             'output_position' => '',
@@ -35,7 +34,6 @@ return [
             'output_position_order' => 2
         ],
         [
-            'is_dynamic' => true,
             'module_name' => 'JetExample.TestModule2',
             'controller_action' => 'test_action2',
             'output_position' => '',

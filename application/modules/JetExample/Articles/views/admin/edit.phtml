@@ -1,6 +1,7 @@
 <?php
+namespace JetApplicationModule\JetExample\Articles;
+
 use Jet\Mvc;
-use Jet\Tr;
 use Jet\Mvc_View;
 use Jet\Form;
 
@@ -31,7 +32,7 @@ $form->setDefaultFieldWidth(9);
 	<?=$form->field('locale')?>
 	<?=$form->field('title')?>
 	<?=$form->field('annotation')?>
-	<?=$form->field('text')?>
+	<?=$form->field('text')->field()->addCustomCssStyle('height:400px')->formField()?>
 	<?=$form->field('date_time')?>
 
 	<?=$form->end();?>

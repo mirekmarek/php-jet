@@ -59,17 +59,6 @@ interface Mvc_Page_Interface {
 	 */
 	public function getLocale();
 
-
-    /**
-     * @param boolean $is_dynamic
-     */
-    public function setIsDynamic($is_dynamic);
-
-    /**
-     * @return boolean
-     */
-    public function getIsDynamic();
-
 	/**
 	 * @return string
 	 */
@@ -79,6 +68,16 @@ interface Mvc_Page_Interface {
 	 * @param string $name
 	 */
 	public function setName($name);
+
+	/**
+	 * @return bool
+	 */
+	public function getIsActive();
+
+	/**
+	 * @param bool $is_active
+	 */
+	public function setIsActive($is_active);
 
 	/**
 	 * @return bool
@@ -93,12 +92,33 @@ interface Mvc_Page_Interface {
 	/**
 	 * @return bool
 	 */
-	public function getIsNonpublic();
+	public function getIsSecretPage();
 
 	/**
-	 * @param bool $is_non_public
+	 * @param bool $is_secret_page
 	 */
-	public function setIsNonpublic($is_non_public);
+	public function setIsSecretPage($is_secret_page);
+
+	/**
+	 * @return bool
+	 */
+	public function getIsDirectOutput();
+
+	/**
+	 * @param bool $is_direct_output
+	 */
+	public function setIsDirectOutput($is_direct_output);
+
+	/**
+	 * @return string
+	 */
+	public function getDirectOutputFileName();
+
+	/**
+	 * @param string $direct_output_file_name
+	 */
+	public function setDirectOutputFileName($direct_output_file_name);
+
 
 	/**
 	 * @return bool
@@ -309,6 +329,21 @@ interface Mvc_Page_Interface {
 	 */
 	public function setSSLRequired($SSL_required);
 
+	/**
+	 * @return array
+	 */
+	public function getHttpHeaders();
+
+	/**
+	 *
+	 */
+	public function handleHttpHeaders();
+
+	/**
+	 * @param array $http_headers
+	 */
+	public function setHttpHeaders( array $http_headers );
+
 
     /**
      * @param bool $get_default (optional)
@@ -333,10 +368,15 @@ interface Mvc_Page_Interface {
 	public function  setMetaTags( $meta_tags );
 
 	/**
+	 * @return string|null
+	 */
+	public function getOutput();
+
+	/**
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function getContents();
+	public function getContent();
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content
@@ -351,7 +391,7 @@ interface Mvc_Page_Interface {
 	/**
 	 * @param Mvc_Page_Content_Interface[] $contents
 	 */
-	public function setContents( $contents );
+	public function setContent($contents );
 
 
 	/**
@@ -467,19 +507,5 @@ interface Mvc_Page_Interface {
      */
     public function render();
 
-    /**
-     * @return string|null
-     */
-    public function getOutput();
-
-    /**
-     * @param array &$data
-     */
-    public function readCachedData(&$data);
-
-    /**
-     * @param &$data
-     */
-    public function writeCachedData(&$data);
 
 }

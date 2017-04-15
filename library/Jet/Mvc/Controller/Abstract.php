@@ -28,12 +28,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	protected $module_instance;
 
 	/**
-	 *
-	 * @var Application_Modules_Module_Manifest
-	 */
-	protected $module_manifest;
-
-	/**
 	 * @var Mvc_View
 	 */
 	protected $view;
@@ -80,7 +74,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 */
 	public function __construct( Application_Modules_Module_Abstract $module_instance ) {
 		$this->module_instance = $module_instance;
-		$this->module_manifest = $module_instance->getModuleManifest();
 
 		$this->initializeDefaultView();
 	}
@@ -114,7 +107,8 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	/**
 	 * Is called after controller instance is created
 	 */
-	abstract public function initialize();
+	public function initialize() {
+	}
 
 	/**
 	 * @param $controller_action
@@ -174,7 +168,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 		$action = ($action) ?
 			$action
 			:
-			$this->module_manifest->getName().':'.static::$ACL_actions_check_map[$this->current_action];
+			$this->module_instance->getModuleManifest()->getName().':'.static::$ACL_actions_check_map[$this->current_action];
 
 		Auth::logEvent(
 			'action:'.$action,

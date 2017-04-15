@@ -26,7 +26,12 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	const HOMEPAGE_ID = '_homepage_';
 
 	const PAGE_DATA_FILE_NAME = 'page_data.php';
-	const PAGE_DIRECT_INDEX_FILE_NAME = 'index.php';
+	const DEFAULT_DIRECT_INDEX_FILE_NAME = 'index.php';
+
+	/**
+	 * @var array
+	 */
+	protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7'];
 
 	/**
 	 * @var array
@@ -34,13 +39,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	protected static $do_not_inherit_properties = [
 		'breadcrumb_title',
 		'menu_title',
-		'order'
+		'order',
+		'is_direct_output',
+		'direct_output_file_name',
+		'output'
 	];
-
-	/**
-	 * @var array
-	 */
-	protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7'];
 
 	/**
 	 *
@@ -108,16 +111,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	protected $order = 0;
 
-
-	/**
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:default_value = false
-	 *
-	 * @var bool
-	 */
-	protected $is_dynamic = false;
-
-
 	/**
 	 * @var string
 	 */
@@ -137,11 +130,57 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Is active'
+	 *
+	 * @var bool
+	 */
+	protected $is_active = true;
+
+
+	/**
+	 *
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Is direct output'
+	 *
+	 * @var bool
+	 */
+	protected $is_direct_output = false;
+
+	/**
+	 * @JetDataModel:type = DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 255
+	 * @JetDataModel:form_field_label = 'Direct output file name'
+	 *
+	 * @var string
+	 */
+	protected $direct_output_file_name = self::DEFAULT_DIRECT_INDEX_FILE_NAME;
+
+	/**
+	 *
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Secure connection required'
+	 *
+	 * @var bool
+	 */
+	protected $SSL_required = false;
+
+	/**
+	 *
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 * @JetDataModel:form_field_label = 'Is admin UI'
 	 *
 	 * @var bool
 	 */
 	protected $is_admin_UI = false;
+
+	/**
+	 *
+	 * @JetDataModel:type = DataModel::TYPE_BOOL
+	 * @JetDataModel:form_field_label = 'Authentication required'
+	 *
+	 * @var bool
+	 */
+	protected $is_secret_page = false;
 
 	/**
 	 *
@@ -251,13 +290,12 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	protected $meta_tags = [];
 
 	/**
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
+	 * @JetDataModel:form_field_type = false
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Authentication required'
-	 *
-	 * @var bool
+	 * @var array
 	 */
-	protected $authentication_required = false;
+	protected $http_headers = [];
 
 	/**
 	 * @JetDataModel:type = DataModel::TYPE_STRING
@@ -269,13 +307,12 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	protected $auth_controller_module_name = '';
 
 	/**
+	 * @JetDataModel:type = DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 9999999
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_label = 'Secure connection required'
-	 *
-	 * @var bool
+	 * @var string
 	 */
-	protected $SSL_required = false;
+	protected $output;
 
 	/**
 	 *
@@ -285,26 +322,13 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 *
 	 * @var Mvc_Page_Content_Interface[]
 	 */
-	protected $contents;
+	protected $content;
 
 	/**
 	 *
 	 * @var Mvc_NavigationData_Breadcrumb_Abstract[]
 	 */
 	protected $breadcrumb_navigation = [];
-
-	/**
-	 * @JetDataModel:type = DataModel::TYPE_DYNAMIC_VALUE
-	 * @JetDataModel:getter_name = 'getLayoutsList'
-	 *
-	 * @var string
-	 */
-	protected $layouts_list = [];
-
-	/**
-	 * @var string
-	 */
-	protected $output;
 
 	/**
 	 * @var bool
@@ -457,22 +481,20 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	}
 
 	/**
-	 * @param boolean $is_dynamic
+	 * @return bool
 	 */
-	public function setIsDynamic($is_dynamic)
+	public function getIsActive()
 	{
-		$this->is_dynamic = $is_dynamic;
+		return $this->is_active;
 	}
 
 	/**
-	 * @return boolean
+	 * @param bool $is_active
 	 */
-	public function getIsDynamic()
+	public function setIsActive($is_active)
 	{
-		return $this->is_dynamic;
+		$this->is_active = $is_active;
 	}
-
-
 
 	/**
 	 * @return bool
@@ -491,15 +513,47 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	/**
 	 * @return bool
 	 */
-	public function getIsNonpublic() {
-		return $this->authentication_required;
+	public function getIsSecretPage() {
+		return $this->is_secret_page;
 	}
 
 	/**
-	 * @param bool $is_non_public
+	 * @param bool $is_secret_page
 	 */
-	public function setIsNonpublic($is_non_public) {
-		$this->authentication_required = (bool)$is_non_public;
+	public function setIsSecretPage($is_secret_page) {
+		$this->is_secret_page = (bool)$is_secret_page;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsDirectOutput()
+	{
+		return $this->is_direct_output;
+	}
+
+	/**
+	 * @param bool $is_direct_output
+	 */
+	public function setIsDirectOutput($is_direct_output)
+	{
+		$this->is_direct_output = $is_direct_output;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDirectOutputFileName()
+	{
+		return $this->direct_output_file_name;
+	}
+
+	/**
+	 * @param string $direct_output_file_name
+	 */
+	public function setDirectOutputFileName($direct_output_file_name)
+	{
+		$this->direct_output_file_name = $direct_output_file_name;
 	}
 
 	/**
@@ -507,7 +561,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	public function getAccessAllowed() {
 		if(
-			!$this->getIsNonpublic() &&
+			!$this->getIsSecretPage() &&
 			!$this->getIsAdminUI()
 		) {
 			return true;
@@ -681,12 +735,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	protected function setRelativeUrl( $URI ) {
 		$this->relative_URI = $URI;
 	}
-
-	/**
-	public function setRelativeUrl( $relative_URI ) {
-		$this->relative_URI = $relative_URI;
-	}
-
 
 	/**
 	 * @param $base_URL
@@ -973,6 +1021,41 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		$this->SSL_required = (bool)$SSL_required;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getHttpHeaders()
+	{
+		return $this->http_headers;
+	}
+
+	/**
+	 * @param array $http_headers
+	 */
+	public function setHttpHeaders( array $http_headers )
+	{
+		$this->http_headers = $http_headers;
+	}
+
+	/**
+	 *
+	 */
+	public function handleHttpHeaders()
+	{
+		foreach( $this->http_headers as $header=>$value ) {
+			if( is_int($header) ){
+				Http_Headers::sendHeader($value);
+			} else {
+				if(is_array($value)){
+					$value = implode('; ', $value);
+				}
+
+				Http_Headers::sendHeader( $header.': '.$value);
+			}
+
+		}
+
+	}
 
 	/**
 	 * @param bool $get_default (optional)
@@ -1031,39 +1114,48 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		}
 	}
 
+
+	/**
+	 * @return string|null
+	 */
+	public function getOutput()
+	{
+		return $this->output;
+	}
+
 	/**
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function getContents() {
-		return $this->contents;
+	public function getContent() {
+		return $this->content;
 	}
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 */
 	public function addContent( Mvc_Page_Content_Interface $content) {
-		$content->setContentId( count($this->contents) );
+		$content->setContentId( count($this->content) );
 		$content->setPage( $this );
 
-		$this->contents[] = $content;
+		$this->content[] = $content;
 	}
 
 	/**
 	 * @param int $index
 	 */
 	public function removeContent( $index ) {
-		unset( $this->contents[$index] );
+		unset( $this->content[$index] );
 	}
 
 	/**
-	 * @param Mvc_Page_Content_Interface[] $contents
+	 * @param Mvc_Page_Content_Interface[] $content
 	 */
-	public function setContents( $contents ) {
-		$this->contents = [];
+	public function setContent( $content ) {
+		$this->content = [];
 
-		foreach( $contents as $content ) {
-			$this->addContent( $content );
+		foreach($content as $c ) {
+			$this->addContent( $c );
 		}
 	}
 
@@ -1231,7 +1323,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 			$contents[] = $cnt;
 		}
 		unset($data['contents']);
-		$page->setContents($contents);
+		$page->setContent($contents);
 
 		foreach( $data as $key=>$var ) {
 			$page->{$key} = $var;
@@ -1500,15 +1592,14 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 *
 	 */
 	public function handleDirectOutput() {
-		$file_path = dirname( $this->getDataFilePath() ).'/'.static::PAGE_DIRECT_INDEX_FILE_NAME;
+		$file_path = dirname( $this->getDataFilePath() ).'/'.$this->getDirectOutputFileName();
 
-		if(IO_File::exists($file_path)) {
-			/** @noinspection PhpIncludeInspection */
-			require $file_path;
-
-			Application::end();
+		if(!IO_File::exists($file_path)) {
+			throw new Mvc_Page_Exception('Direct output file '.$file_path.' does not exist');
 		}
 
+		/** @noinspection PhpIncludeInspection */
+		require $file_path;
 	}
 
 
@@ -1642,7 +1733,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		}
 
 
-		foreach( $this->getContents() as $content ) {
+		foreach($this->getContent() as $content ) {
 
 			$module = Application_Modules::getModuleInstance($content->getModuleName());
 
@@ -1704,88 +1795,36 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	public function render() {
 		if(
-			!$this->getIsDynamic() &&
-			$this->output
+			($output=$this->getOutput())
 		) {
-			return $this->output;
+			return $output;
 		}
-
-		$this->handleDirectOutput();
 
 		$this->initializeLayout();
 
-		Debug_Profiler::MainBlockStart('Modules dispatch');
+		Debug_Profiler::MainBlockStart('Content dispatch');
 
 
 		$translator_namespace = Translator::COMMON_NAMESPACE;
 
 		Translator::setCurrentNamespace( $translator_namespace );
 
-		foreach( $this->getContents() as $content ) {
+		foreach($this->getContent() as $content ) {
 			Mvc::setCurrentContent($content);
 
 			$content->dispatch();
 
 			Mvc::unsetCurrentContent();
-
-			if(!$this->getIsDynamic() && $content->getIsDynamic()) {
-				$this->setIsDynamic(true);
-			}
 		}
 
 		Translator::setCurrentNamespace( $translator_namespace );
 
 		$output = Mvc_Layout::getCurrentLayout()->render();
 
-		if(!$this->getIsDynamic()) {
-			$this->output = $output;
-		}
-
-		Debug_Profiler::MainBlockEnd('Modules dispatch');
-
+		Debug_Profiler::MainBlockEnd('Content dispatch');
 
 		return $output;
 
 	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getOutput()
-	{
-		return $this->output;
-	}
-
-
-	/**
-	 * @param array &$data
-	 */
-	public function readCachedData(&$data)
-	{
-		static::$site_pages_loaded_flag = $data['site_pages_loaded_flag'];
-		static::$loaded_pages = $data['loaded_pages'];
-		static::$relative_URIs_map = $data['relative_URIs_map'];
-
-		$data['page'] = static::$loaded_pages[$data['page']];
-
-	}
-
-	/**
-	 * @param &$data
-	 */
-	public function writeCachedData(&$data)
-	{
-		$data['site_pages_loaded_flag'] = static::$site_pages_loaded_flag;
-		$data['loaded_pages'] = static::$loaded_pages;
-		$data['relative_URIs_map'] = static::$relative_URIs_map;
-
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$page = $data['page'];
-
-		$data['page'] = $page->getPageKey();
-	}
-
 
 }

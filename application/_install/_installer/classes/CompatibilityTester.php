@@ -205,23 +205,6 @@ class CompatibilityTester {
 
 	}
 
-	/**
-	 *
-	 */
-	public function check_Redis() {
-		$this->check(
-			'Redis support',
-			'',
-			function(CompatibilityTester_TestResult $test_result ) {
-				$result = class_exists('Redis', false);
-				if(!$result) {
-					$test_result->setResultMessage( 'Redis support is not available (class Redis does not exist).<br/>Use Redis or Memcached for better performance.' );
-				}
-
-				return $result;
-			}
-		);
-	}
 
 	/**
 	 *

@@ -11,14 +11,15 @@
 namespace JetApplicationModule\JetExample\Images;
 
 use Jet\Form;
-use Jet\Mvc;
 use Jet\Mvc_Controller_Standard;
-use Jet\Mvc_Controller_Router;
-use Jet\Mvc_Router_Abstract;
-use Jet\Mvc_Page_Content_Interface;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Form_Field_FileImage;
+use JetUI\UI;
+use JetUI\breadcrumbNavigation;
+use Jet\Tr;
+
+use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
 class Controller_Admin_Main extends Mvc_Controller_Standard {
 	/**
@@ -28,15 +29,13 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Mvc_Controller_Router
+	 * @var Controller_Admin_Main_Router
 	 */
-	protected $micro_router;
+	protected static $controller_router;
 
-    /**
-     * @var Mvc_Controller_Router
-     */
-    protected $_standard_admin_micro_router;
-
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
 		'default' => 'get_gallery',
 		'view' => 'get_gallery',
@@ -48,91 +47,65 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 *
 	 */
 	public function initialize() {
-		$this->micro_router = $this->getMicroRouter();
-		$this->view->setVar( 'router', $this->micro_router );
 	}
 
-    /**
-     * @param Mvc_Router_Abstract $router
-     *
-     * @return Mvc_Controller_Router
-     */
-    public function getMicroRouter( Mvc_Router_Abstract $router=null ) {
-        if($this->_standard_admin_micro_router) {
-            return $this->_standard_admin_micro_router;
-        }
+	/**
+	 * @param string $current_label
+	 * @param Gallery $gallery
+	 */
+	protected function _setBreadcrumbNavigation( $gallery=null, $current_label='' ) {
+		$menu_item = AdminUI_module::getMenuItems()['content/images'];
 
-        if(!$router) {
-            $router = Mvc::getCurrentRouter();
-        }
+		breadcrumbNavigation::addItem(
+			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
+			$menu_item->getUrl()
+		);
 
-        $router = new Mvc_Controller_Router( $router, $this->module_instance );
+		if($gallery) {
 
-        $base_URI = Mvc::getCurrentPageURI();
+			$path = [];
+			$tree = Gallery::getTree();
 
-        $gallery_validator = function( &$parameters ) {
-            $gallery = Gallery::get( $parameters[0] );
-            if(!$gallery) {
-                return false;
-            }
+			$parent = $tree->getNode($gallery->getId());
+			//var_dump($parent);die();
 
-            $parameters['gallery'] = $gallery;
-            return true;
+			//while($parent)
+			do {
+				$path[static::getControllerRouter()->getEditOrViewURI( $parent->getData() )] = $parent->getLabel();
 
-        };
+				$parent = $parent->getParent();
+			} while( $parent && !$parent->getIsRoot() );
 
-        $router->addAction('add', '/^add:([\S]+)$/', 'add_gallery', true)
-            ->setCreateURICallback( function( $parent_id ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_id).'/'; } )
-            ->setParametersValidatorCallback( function(&$parameters) use ($gallery_validator) {
+			$path = array_reverse($path);
 
-                $parameters['parent_id'] = $parameters[0];
+			foreach( $path as $url=>$title ) {
+				breadcrumbNavigation::addItem( $title, $url );
+			}
+		}
 
-                if($parameters[0]==Gallery::ROOT_ID) {
-                    return true;
-                }
+		if($current_label) {
+			breadcrumbNavigation::addItem( $current_label );
+		}
+	}
 
-                $gallery = Gallery::get( $parameters[0] );
-                if(!$gallery) {
-                    unset($parameters['parent_id']);
-                    return false;
-                }
+	/**
+	 *
+	 * @return Controller_Admin_Main_Router
+	 */
+	public static function getControllerRouter() {
+		if(!static::$controller_router) {
+			static::$controller_router = new Controller_Admin_Main_Router();
+		}
 
-                return true;
-            } );
-
-        $router->addAction('edit', '/^edit:([\S]+)$/', 'update_gallery', true)
-            ->setCreateURICallback( function( $gallery_id ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($gallery_id).'/'; } )
-            ->setParametersValidatorCallback( $gallery_validator );
-
-        $router->addAction('view', '/^view:([\S]+)$/', 'get_gallery', true)
-            ->setCreateURICallback( function( $gallery_id ) use($base_URI) { return $base_URI.'view:'.rawurlencode($gallery_id).'/'; } )
-            ->setParametersValidatorCallback( $gallery_validator );
-
-        $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_gallery', true)
-            ->setCreateURICallback( function( $gallery_id ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($gallery_id).'/'; } )
-            ->setParametersValidatorCallback( $gallery_validator );
-
-        $this->_standard_admin_micro_router = $router;
-
-        return $router;
-    }
-
-
-    /**
-     * @param Mvc_Page_Content_Interface $page_content
-     * @return bool
-     */
-    public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
-        $router = $this->getMicroRouter( Mvc::getCurrentRouter() );
-
-        return $router->resolve( $page_content );
-    }
-
+		return static::$controller_router;
+	}
 
 	/**
 	 *
 	 */
 	public function default_Action() {
+
+		$this->_setBreadcrumbNavigation( $this->getActionParameterValue('gallery') );
 
 		$this->view->setVar('selected_id', Gallery::ROOT_ID);
 
@@ -146,7 +119,11 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 */
 	public function add_Action() {
 
+
         $parent_id = $this->getActionParameterValue('parent_id');
+
+		$this->_setBreadcrumbNavigation( Gallery::get($parent_id), Tr::_('Create a new gallery') );
+
 
 		$gallery = new Gallery();
 		$gallery->setParentId( $parent_id );
@@ -157,7 +134,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 			$gallery->save();
 
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
+			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
 		}
 
 		$this->view->setVar('has_access', true);
@@ -174,6 +151,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
      *
 	 */
 	public function edit_Action() {
+		$this->_setBreadcrumbNavigation( $this->getActionParameterValue('gallery'));
 
         /**
          * @var Gallery $gallery
@@ -186,7 +164,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 			$gallery->save();
 
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
+			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
 		}
 
 
@@ -195,7 +173,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$this->handleDeleteImages( $gallery );
 
 
-		$this->view->setVar('has_access', true);
 		$this->view->setVar('gallery', $gallery);
 		$this->view->setVar('edit_form', $edit_form);
 		$this->view->setVar('selected_id', $gallery->getIdObject() );
@@ -210,6 +187,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
      *
 	 */
 	public function view_Action() {
+		$this->_setBreadcrumbNavigation( $this->getActionParameterValue('gallery'));
 
         /**
          * @var Gallery $gallery
@@ -217,8 +195,8 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
         $gallery = $this->getActionParameterValue('gallery');
 
 		$edit_form = $gallery->getCommonForm();
+		$edit_form->setIsReadonly();
 
-		$this->view->setVar('has_access', false);
 		$this->view->setVar('gallery', $gallery);
 		$this->view->setVar('edit_form', $edit_form);
 		$this->view->setVar('selected_id', $gallery->getIdObject() );
@@ -266,7 +244,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
                     Config::getDefaultThbMaxH()
 				);
 
-				Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
+				Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
 			}
 
 		}
@@ -293,7 +271,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 					$image->delete();
 				}
 			}
-			Http_Headers::movedTemporary( $this->micro_router->getActionURI( 'edit', $gallery->getIdObject() ) );
+			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
 		}
 	}
 }

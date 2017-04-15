@@ -759,34 +759,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	}
 
 
-	/**
-	 * @param array &$data
-	 *
-	 */
-	public function readCachedData(&$data)
-	{
-		static::$URL_map = $data['URL_map'];
-		static::$_loaded = $data['loaded_sites'];
-
-		$data['site'] = static::$_loaded[$data['site']];
-
-	}
-
-	/**
-	 * @param &$data
-	 */
-	public function writeCachedData(&$data)
-	{
-		/**
-		 * @var Mvc_Site $site
-		 */
-		$site = $data['site'];
-
-		$data['loaded_sites'] = static::$_loaded;
-		$data['URL_map'] = static::$URL_map;
-		$data['site'] = $site->getSiteId();
-
-	}
 
 	/**
 	 * @param string $template
@@ -912,7 +884,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 			'<?php'.JET_EOL.'return '.$ar->export()
 		);
 
-		Mvc::truncateRouterCache();
 	}
 
 	/**

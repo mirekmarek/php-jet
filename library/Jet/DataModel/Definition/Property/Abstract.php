@@ -115,7 +115,7 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
 			unset($definition_data['type']);
 
 			foreach($definition_data as $key=>$val) {
-				if( !$this->getHasProperty($key) ) {
+				if( !$this->getObjectClassHasProperty($key) ) {
 					throw new DataModel_Exception(
 						$this->data_model_class_name.'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE

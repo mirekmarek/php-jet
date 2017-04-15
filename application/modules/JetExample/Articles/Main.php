@@ -20,6 +20,9 @@ use Jet\Mvc;
 class Main extends Application_Modules_Module_Abstract {
 	const MODULE_NAME = 'JetExample.Articles';
 
+	/**
+	 * @var array
+	 */
 	protected $ACL_actions = [
 		'get_article' => 'Get article(s) data',
 		'add_article' => 'Add new article',

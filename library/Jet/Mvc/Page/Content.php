@@ -56,21 +56,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 */
 	protected $content_id = '';
 
-    /**
-     * @JetDataModel:type = DataModel::TYPE_STRING
-     * @JetDataModel:max_len = 999999
-     *
-     * @var string
-     */
-    protected $static_content = '';
-
-    /**
-     * @JetDataModel:type = DataModel::TYPE_BOOL
-     * @JetDataModel:default_value = false
-     *
-     * @var bool
-     */
-    protected $is_dynamic = false;
+	/**
+	 *
+	 * @JetDataModel:type = DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 50
+	 *
+	 * @var string
+	 */
+	protected $module_name = '';
 
     /**
      * @JetDataModel:type = DataModel::TYPE_STRING
@@ -89,15 +82,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 *
 	 * @var string
 	 */
-	protected $module_name = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 50
-	 *
-	 * @var string
-	 */
 	protected $controller_action = '';
 
 	/**
@@ -108,6 +92,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 */
 	protected $controller_action_parameters = [
 	];
+
+	/**
+	 * @JetDataModel:type = DataModel::TYPE_STRING
+	 * @JetDataModel:max_len = 999999
+	 *
+	 * @var string
+	 */
+	protected $output = '';
 
 	/**
 	 *
@@ -134,10 +126,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 */
 	protected $output_position_order = 0;
 
-    /**
-     * @var Mvc_Layout_OutputPart[]|null
-     */
-    protected $output_parts;
 
     /**
      * @var Mvc_Controller_Abstract
@@ -262,40 +250,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	}
 
     /**
-     * @return string
-     */
-    public function getStaticContent()
-    {
-        return $this->static_content;
-    }
-
-    /**
-     * @param string $static_content
-     */
-    public function setStaticContent($static_content)
-    {
-        $this->static_content = $static_content;
-    }
-
-
-
-    /**
-     * @param bool $is_dynamic
-     */
-    public function setIsDynamic($is_dynamic)
-    {
-        $this->is_dynamic = $is_dynamic;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getIsDynamic()
-    {
-        return $this->is_dynamic;
-    }
-
-    /**
      * @param string $custom_controller
      */
     public function setCustomController($custom_controller)
@@ -338,6 +292,23 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 */
 	public function setControllerAction( $controller_action ) {
 		$this->controller_action = $controller_action;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOutput()
+	{
+		return $this->output;
+	}
+
+	/**
+	 * @param string $output
+	 */
+	public function setOutput($output)
+	{
+		$this->output = $output;
 	}
 
 	/**
@@ -427,30 +398,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
     }
 
     /**
-     * @param array|Mvc_Layout_OutputPart[] $output_parts
-     */
-    public function setOutputParts( array $output_parts)
-    {
-        $this->output_parts = $output_parts;
-    }
-
-    /**
-     * @return Mvc_Layout_OutputPart[]|null
-     */
-    public function getOutputParts()
-    {
-        return $this->output_parts;
-    }
-
-    /**
      *
      */
     public function dispatch() {
 
-        if($this->getStaticContent()) {
+        if($this->getOutput()) {
 
 	        Mvc_Layout::getCurrentLayout()->addOutputPart(
-                $this->getStaticContent(),
+                $this->getOutput(),
                 $this->output_position,
                 $this->output_position_required,
                 $this->output_position_order,
@@ -475,48 +430,19 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
             Debug_Profiler::message('Module is not installed and/or activated - skipping');
 
         } else {
-            Debug_Profiler::message('Content:'.$this->getContentKey() );
+            Debug_Profiler::message('Dispatch:'.$this->getContentKey() );
 
-            $layout = Mvc_Layout::getCurrentLayout();
+	        $translator_namespace = Translator::getCurrentNamespace();
+	        Translator::setCurrentNamespace( $module_name );
 
-            if(
-                !$this->getIsDynamic() &&
-                ($output_parts=$this->getOutputParts())
-            ) {
+	        $module_instance = Application_Modules::getModuleInstance( $module_name );
+	        $module_instance->callControllerAction(
+		        $controller,
+		        $controller_action,
+		        $this->getControllerActionParameters()
+	        );
 
-                Debug_Profiler::message( 'CACHED - skipping' );
-
-                foreach( $output_parts as $op ) {
-                    $layout->setOutputPart($op);
-                }
-
-
-            } else {
-                Translator::setCurrentNamespace( $module_name );
-
-                $module_instance = Application_Modules::getModuleInstance( $module_name );
-                $module_instance->callControllerAction(
-                    $controller,
-                    $controller_action,
-                    $this->getControllerActionParameters()
-                );
-
-
-
-                if( $this->getIsDynamic() ) {
-                    Debug_Profiler::message('Is dynamic');
-
-                    $this->setIsDynamic(true);
-                } else {
-                    Debug_Profiler::message('Is static');
-
-                    if( ($output_parts = $layout->getOutputParts( $this->getContentKey() )) ) {
-                        $this->setOutputParts( $output_parts );
-                    }
-                }
-
-            }
-
+	        Translator::setCurrentNamespace( $translator_namespace );
         }
 
         Debug_Profiler::blockEnd( 'Dispatch '.$block_name );

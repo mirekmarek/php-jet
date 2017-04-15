@@ -31,11 +31,6 @@ class Mvc_Controller_Router_Action extends BaseObject {
 	protected $ACL_action = '';
 
 	/**
-	 * @var bool
-	 */
-	protected $disable_routing_cache = false;
-
-	/**
 	 * @var array
 	 */
 	protected $action_parameters = [];
@@ -64,13 +59,11 @@ class Mvc_Controller_Router_Action extends BaseObject {
 	 * @param string $controller_action_name
 	 * @param string $regexp
 	 * @param string $ACL_action
-	 * @param bool $disable_routing_cache
 	 */
-	public function __construct( $controller_action_name, $regexp, $ACL_action, $disable_routing_cache ) {
+	public function __construct( $controller_action_name, $regexp, $ACL_action ) {
 		$this->setActionName( $controller_action_name );
 		$this->setRegexp( $regexp );
 		$this->ACL_action = $ACL_action;
-		$this->disable_routing_cache = (bool)$disable_routing_cache;
 	}
 
 
@@ -124,23 +117,6 @@ class Mvc_Controller_Router_Action extends BaseObject {
 	public function getACLAction(){
 		return $this->ACL_action;
 	}
-
-	/**
-	 * @param bool $disable_routing_cache
-	 */
-	public function setDisableRoutingCache($disable_routing_cache) {
-		$this->disable_routing_cache = (bool)$disable_routing_cache;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getDisableRoutingCache() {
-		return $this->disable_routing_cache;
-	}
-
-
-
 
 	/**
 	 * @param string $regexp
@@ -206,7 +182,7 @@ class Mvc_Controller_Router_Action extends BaseObject {
 		}
 
 
-		$main_router = $router->getRouterInstance();
+		$main_router = $router->getMvcRouter();
 
 		$path_fragments = $main_router->getPathFragments();
 		if(!$path_fragments) {

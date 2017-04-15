@@ -1,6 +1,6 @@
 <?php
-use Jet\DataModel;
+use Jet\DataModel_Helper;
 
-DataModel::helper_drop('module:JetExample.Images\Gallery');
-DataModel::helper_drop('module:JetExample.Images\Gallery_Image');
-DataModel::helper_drop('module:JetExample.Images\Gallery_Image_Thumbnail');
+DataModel_Helper::drop('module:JetExample.Images\Gallery');
+DataModel_Helper::drop('module:JetExample.Images\Gallery_Image');
+DataModel_Helper::drop('module:JetExample.Images\Gallery_Image_Thumbnail');

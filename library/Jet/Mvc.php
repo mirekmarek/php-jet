@@ -154,39 +154,6 @@ class Mvc {
 		return static::$current_content;
 	}
 
-
-	/**
-	 * @throws Mvc_Controller_Exception
-	 */
-	public static function checkCurrentContentIsDynamic() {
-		$content = Mvc::getCurrentContent();
-
-		if($content) {
-			if(!$content->getIsDynamic()) {
-				throw new Mvc_Controller_Exception('Content '.$content->getContentKey().' (module:'.$content->getModuleName().', controller action:'.$content->getControllerAction().')  must be marked as dynamic');
-			}
-		}
-
-	}
-
-	/**
-	 * Truncate cache.
-	 *
-	 * Alias of: Mvc_Factory::getRouterInstance()->cacheTruncate($URL);
-	 *
-	 * URL can be:
-	 *
-	 * null - total cache truncate
-	 * string - delete record for specified URL
-	 * array - delete records for specified URLs
-	 *
-	 * @param null|string|array $URL
-	 */
-	public static function truncateRouterCache( $URL=null ) {
-		Mvc_Factory::getRouterInstance()->cacheTruncate($URL);
-	}
-
-
 	/**
 	 *
 	 * @return string

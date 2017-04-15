@@ -94,34 +94,23 @@ class Application extends BaseObject {
 	 * @static
 	 *
 	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
-	 * @param bool|null $cache_enabled (optional; default: null = by configuration)
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
-	public static function runMvc( $URL=null, $cache_enabled=null  ) {
+	public static function runMvc( $URL=null  ) {
 		$router = Mvc::getCurrentRouter();
 
 		if(!$URL) {
 			$URL = Http_Request::getURL();
 		}
 
-		$router->initialize($URL, $cache_enabled);
-
-
-		$site = Mvc::getCurrentSite();
-		$locale = Mvc::getCurrentLocale();
-		$page = Mvc::getCurrentPage();
-
-		if( $page && ($output=$page->getOutput() )!==null ) {
-			echo $output;
-
-			return;
-		}
+		$router->initialize( $URL );
 
 		if($router->getIsRedirect()) {
 			$router->handleRedirect();
 		}
 
+		$site = Mvc::getCurrentSite();
 		$site->setupErrorPagesDir();
 
 		if( !$site->getIsActive() ) {
@@ -129,6 +118,7 @@ class Application extends BaseObject {
 			return;
 		}
 
+		$locale = Mvc::getCurrentLocale();
 		if( !$site->getLocalizedData($locale)->getIsActive() ) {
 			$site->handleDeactivatedLocale();
 			return;
@@ -139,12 +129,18 @@ class Application extends BaseObject {
 			return;
 		}
 
+		$page = Mvc::getCurrentPage();
+
+		if(!$page->getIsActive()) {
+			$site->handle404();
+		}
+
 		if($router->getLoginRequired()) {
 			Auth::getCurrentAuthController()->handleLogin();
 			return;
 		}
 
-		if( !Mvc::getCurrentPage()->getAccessAllowed() ) {
+		if( !$page->getAccessAllowed() ) {
 			$site->handleAccessDenied();
 			return;
 		}
@@ -154,10 +150,18 @@ class Application extends BaseObject {
 			return;
 		}
 
-		$output = $page->render();
 
-		echo $output;
 
+		if( $page->getIsDirectOutput() ) {
+			$page->handleHttpHeaders();
+			$page->handleDirectOutput();
+		} else {
+			$result = $page->render();
+
+			$page->handleHttpHeaders();
+
+			echo $result;
+		}
 	}
 
 	/**

@@ -18,6 +18,11 @@ use Jet\Application_Modules_Module_Abstract;
 use Jet\Mvc;
 
 class Main extends Application_Modules_Module_Abstract {
+	const MODULE_NAME = 'JetExample.Images';
+
+	/**
+	 * @var array
+	 */
 	protected $ACL_actions = [
 		'get_gallery' => 'Get article(s) data',
 		'add_gallery' => 'Add new gallery',

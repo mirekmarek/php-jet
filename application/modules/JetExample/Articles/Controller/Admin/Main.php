@@ -11,16 +11,13 @@
 namespace JetApplicationModule\JetExample\Articles;
 
 use JetExampleApp\Mvc_Controller_AdminStandard;
-use JetExampleApp\Mvc_Page;
 
 use JetUI\UI;
 use JetUI\dataGrid;
 use JetUI\breadcrumbNavigation;
 use JetUI\messages;
 
-use Jet\Application_Modules;
 use Jet\Mvc;
-use Jet\Mvc_Controller_Router;
 use Jet\Http_Headers;
 use Jet\Tr;
 use Jet\Http_Request;
@@ -36,11 +33,14 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 
 
 	/**
-	 * @var Mvc_Controller_Router
+	 * @var Controller_Admin_Main_Router
 	 */
 	protected static $controller_router;
 
 
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
 		'default' => 'get_article',
 		'add' => 'add_article',
@@ -49,59 +49,17 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 		'delete' => 'delete_article',
 	];
 
-	/**
-	 *
-	 */
-	public function initialize() {
-        Mvc::getCurrentPage()->breadcrumbNavigationShift( -2 );
-		$this->view->setVar( 'router', static::getControllerRouter() );
-	}
-
 
     /**
      *
-     * @return Mvc_Controller_Router
+     * @return Controller_Admin_Main_Router
      */
     public static function getControllerRouter() {
-	    if(static::$controller_router) {
-		    return static::$controller_router;
+	    if(!static::$controller_router) {
+		    static::$controller_router = new Controller_Admin_Main_Router();
 	    }
 
-	    $router = Mvc::getCurrentRouter();
-
-	    $router = new Mvc_Controller_Router( $router, Application_Modules::getModuleInstance(Main::MODULE_NAME) );
-
-        $base_URI = Mvc::getCurrentPageURI();
-
-        $validator = function( &$parameters ) {
-            $article = Article::get( $parameters[0] );
-            if(!$article) {
-                return false;
-            }
-
-            $parameters['article'] = $article;
-            return true;
-
-        };
-
-        $router->addAction('add', '/^add$/', 'add_article', true)
-            ->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
-
-        $router->addAction('edit', '/^edit:([\S]+)$/', 'update_article', true)
-            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($article->getIdObject()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
-
-        $router->addAction('view', '/^view:([\S]+)$/', 'get_article', true)
-            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'view:'.rawurlencode($article->getIdObject()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
-
-        $router->addAction('delete', '/^delete:([\S]+)$/', 'delete_article', true)
-            ->setCreateURICallback( function( Article $article ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($article->getIdObject()).'/'; } )
-            ->setParametersValidatorCallback( $validator );
-
-	    static::$controller_router = $router;
-
-        return $router;
+	    return static::$controller_router;
     }
 
 
@@ -109,7 +67,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	 * @param string $current_label
 	 */
 	protected function _setBreadcrumbNavigation($current_label='' ) {
-		$menu_item = AdminUI_module::getMenuItems()['system/administrator_roles'];
+		$menu_item = AdminUI_module::getMenuItems()['content/articles'];
 
 		breadcrumbNavigation::addItem(
 			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
@@ -167,7 +125,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 
 			messages::success( Tr::_('Article <b>%TITLE%</b> has been created', ['TITLE'=>$article->getTitle() ]) );
 
-			Http_Headers::movedTemporary( static::getControllerRouter()->getActionURI( 'edit', $article ) );
+			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $article ) );
 		}
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( Tr::_('New article') );
@@ -202,7 +160,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 
 			messages::success( Tr::_('Article <b>%TITLE%</b> has been updated', ['TITLE'=>$article->getTitle() ]) );
 
-			Http_Headers::movedTemporary( static::getControllerRouter()->getActionURI( 'edit', $article ) );
+			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $article ) );
 		}
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );

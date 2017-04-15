@@ -1,4 +1,4 @@
 <?php
-use Jet\DataModel;
+use Jet\DataModel_Helper;
 
-DataModel::helper_drop('module:JetExample.Articles\Article');
+DataModel_Helper::drop('module:JetExample.Articles\Article');

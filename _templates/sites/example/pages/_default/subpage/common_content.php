@@ -4,7 +4,7 @@ return [
 		'output_position' => '',
 		'output_position_required' => true,
 		'output_position_order' => 1,
-		'static_content' => <<<EOT
+		'output' => <<<EOT
 <h1>Lorem ipsum dolor sit amet</h1>
 <p>Consectetur adipiscing elit. Nulla ornare faucibus lectus, nec venenatis ligula hendrerit at. Vivamus sed dolor id eros blandit iaculis nec ut est. Cras feugiat accumsan metus et auctor. Praesent volutpat id eros a tristique. Duis vulputate, ipsum nec feugiat pulvinar, nunc nulla interdum lorem, a tristique ligula eros tempor risus. Pellentesque luctus convallis est, eu tempor lorem dapibus sed. Vivamus ut risus ligula. Praesent libero magna, ultricies vitae varius at, laoreet eu ante. Sed dignissim faucibus vulputate. Fusce et porttitor tellus. Nullam laoreet blandit quam eget efficitur. Suspendisse a quam vel quam fringilla interdum id at risus. Aenean sed dictum orci.</p>
 <p>Nam mollis nec tortor at condimentum. Morbi egestas lorem id ultrices aliquet. Nam vitae purus suscipit mauris maximus placerat tincidunt id diam. Suspendisse pulvinar tincidunt gravida. Quisque ut nisi porta libero consequat posuere dignissim nec arcu. Etiam eu faucibus tortor. Mauris sodales turpis sed molestie rhoncus. Cras a odio ut lacus imperdiet lobortis. Morbi lobortis aliquam felis, eget maximus velit consectetur at. Curabitur nec diam velit.</p>

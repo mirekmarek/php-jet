@@ -96,7 +96,6 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	 *
 	 */
 	public function initialize() {
-		Mvc::checkCurrentContentIsDynamic();
 	}
 
 
@@ -109,9 +108,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			return static::$controller_router;
 		}
 
-		$router = Mvc::getCurrentRouter();
-
-		$router = new Mvc_Controller_Router( $router, Application_Modules::getModuleInstance(Main::MODULE_NAME) );
+		$router = new Mvc_Controller_Router( Application_Modules::getModuleInstance(Main::MODULE_NAME) );
 
 
 		$validator = function( &$parameters ) {
@@ -144,18 +141,18 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		};
 
 
-		$router->addAction(static::ADD_ACTION, static::getActionRegexp(static::ADD_ACTION), static::getModuleAction( static::ADD_ACTION ), true)
+		$router->addAction(static::ADD_ACTION, static::getActionRegexp(static::ADD_ACTION), static::getModuleAction( static::ADD_ACTION ) )
 			->setCreateURICallback( function() use($URI_creator) { return $URI_creator(static::ADD_ACTION); } );
 
-		$router->addAction(static::EDIT_ACTION, static::getActionRegexp(static::EDIT_ACTION), static::getModuleAction( static::EDIT_ACTION ), true)
+		$router->addAction(static::EDIT_ACTION, static::getActionRegexp(static::EDIT_ACTION), static::getModuleAction( static::EDIT_ACTION ) )
 			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::EDIT_ACTION, $id); } )
 			->setParametersValidatorCallback( $validator );
 
-		$router->addAction(static::VIEW_ACTION, static::getActionRegexp(static::VIEW_ACTION), static::getModuleAction( static::VIEW_ACTION ), true)
+		$router->addAction(static::VIEW_ACTION, static::getActionRegexp(static::VIEW_ACTION), static::getModuleAction( static::VIEW_ACTION ) )
 			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::VIEW_ACTION, $id); } )
 			->setParametersValidatorCallback( $validator );
 
-		$router->addAction(static::DELETE_ACTION, static::getActionRegexp(static::DELETE_ACTION), static::getModuleAction( static::DELETE_ACTION ), true)
+		$router->addAction(static::DELETE_ACTION, static::getActionRegexp(static::DELETE_ACTION), static::getModuleAction( static::DELETE_ACTION ) )
 			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::DELETE_ACTION, $id); } )
 			->setParametersValidatorCallback( $validator );
 

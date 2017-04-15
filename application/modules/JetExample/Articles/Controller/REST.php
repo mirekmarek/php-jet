@@ -13,7 +13,6 @@
  *
  */
 namespace JetApplicationModule\JetExample\Articles;
-use Jet\Mvc;
 use Jet\Mvc_Controller_REST;
 
 class Controller_REST extends Mvc_Controller_REST {
@@ -24,6 +23,9 @@ class Controller_REST extends Mvc_Controller_REST {
 	protected $module_instance = null;
 
 
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
 		'get_article' => 'get_article',
 		'post_article' => 'add_article',
@@ -39,7 +41,7 @@ class Controller_REST extends Mvc_Controller_REST {
 
 
 	/**
-	 * @param null|int $id
+	 * @param null|string $id
 	 */
 	public function get_article_Action( $id=null ) {
 		if($id) {
@@ -50,6 +52,9 @@ class Controller_REST extends Mvc_Controller_REST {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function post_article_Action() {
 		$article = Article::getNew();
 
@@ -57,7 +62,6 @@ class Controller_REST extends Mvc_Controller_REST {
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
 			$article->save();
-			Mvc::truncateRouterCache();
 			$this->responseData($article);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
@@ -65,6 +69,9 @@ class Controller_REST extends Mvc_Controller_REST {
 
 	}
 
+	/**
+	 * @param string $id
+	 */
 	public function put_article_Action( $id ) {
 		$article = $this->_getArticle($id);
 
@@ -72,18 +79,20 @@ class Controller_REST extends Mvc_Controller_REST {
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
 			$article->save();
-			Mvc::truncateRouterCache();
+
 			$this->responseData($article);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
 		}
 	}
 
+	/**
+	 * @param string $id
+	 */
 	public function delete_article_Action( $id ) {
 		$article = $this->_getArticle($id);
 
 		$article->delete();
-		Mvc::truncateRouterCache();
 
 		$this->responseOK();
 

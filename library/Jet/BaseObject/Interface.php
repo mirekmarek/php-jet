@@ -13,7 +13,7 @@
 
 namespace Jet;
 
-//We do not have multiple inheritance in PHP :-(
+//We don't have multiple inheritance in PHP :-(
 interface BaseObject_Interface {
 
 
@@ -48,16 +48,6 @@ interface BaseObject_Interface {
 	public function __clone();
 
 	/**
-	 * @return string
-	 */
-	public function getObjectIdentificationKey();
-
-	/**
-	 * @return array
-	 */
-	public function getObjectIdentificationKeys();
-
-	/**
 	 * @param $signal_name
 	 *
 	 * @return bool
@@ -83,11 +73,16 @@ interface BaseObject_Interface {
 
 
 	/**
+	 * @return string
+	 */
+	public function getObjectClassNamespace();
+
+	/**
 	 * @param $property_name
 	 *
 	 * @return bool
 	 */
-	public function getHasProperty( $property_name );
+	public function getObjectClassHasProperty($property_name );
 
 	/**
 	 * @param $property_name

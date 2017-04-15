@@ -22,53 +22,6 @@ namespace Jet;
 
 abstract class Mvc_Router_Abstract extends BaseObject {
 
-	/**
-	 *
-	 * @var Mvc_Router_Config_Abstract
-	 */
-	protected $_config;
-
-	/**
-	 * @var bool
-	 */
-	protected $cache_enabled;
-
-
-    /**
-     * @param Mvc_Router_Config_Abstract $config
-     */
-    public function setConfig(Mvc_Router_Config_Abstract $config)
-    {
-        $this->_config = $config;
-    }
-
-
-
-    /**
-     * @return Mvc_Router_Config_Abstract
-     */
-    public function getConfig()
-    {
-        if(!$this->_config) {
-            $this->_config = Mvc_Factory::getRouterConfigInstance();
-        }
-
-        return $this->_config;
-    }
-
-	/**
-	 * Enable router cache
-	 */
-	public function enableCache() {
-		$this->cache_enabled = true;
-	}
-
-	/**
-	 * Disable router cache
-	 */
-	public function disableCache() {
-		$this->cache_enabled = false;
-	}
 
 
 	/**
@@ -78,11 +31,10 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	 *
 	 * @abstract
 	 * @param string $request_URL
-	 * @param bool|null $cache_enabled (optional, default: by configuration)
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
-	abstract public function initialize( $request_URL, $cache_enabled=null );
+	abstract public function initialize( $request_URL );
 
 
 	/**
@@ -141,7 +93,7 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	abstract public function getRedirectType();
 
 	/**
-	 * Sets the redirect. Redirection is not performed immediately, but after operations such as storage of records to cache and so on.
+	 * Sets the redirect. Redirection is not performed immediately.
 	 *
 	 * @abstract
 	 * @param string $target_URL
@@ -213,56 +165,5 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	 * @return bool
 	 */
 	abstract public function getIsSSLRequest();
-
-	/**
-	 *
-	 * @return Mvc_Router_Cache_Backend_Abstract
-	 */
-	protected function getCacheBackendInstance() {
-		$backend_type = $this->getConfig()->getCacheBackendType();
-		return Mvc_Factory::getRouterCacheBackendInstance( $backend_type, Mvc_Factory::getRouterCacheBackendConfigInstance($backend_type) );
-	}
-
-
-	/**
-	 * @abstract
-	 *
-	 * @param string $URL
-	 *
-	 * @return bool
-	 */
-	abstract protected function cacheRead( $URL );
-
-	/**
-	 * @abstract
-	 */
-	abstract public function cacheSave();
-
-	/**
-	 * Truncate cache. URL can be:
-	 *
-	 * null - total cache truncate
-	 * string - delete record for specified URL
-	 * array - delete records for specified URLs
-	 *
-	 * @param null|string|array $URL
-	 */
-	abstract public function cacheTruncate( $URL=null );
-
-	/**
-	 * @return bool
-	 */
-	abstract public function getCacheLoaded();
-
-	/**
-	 * @abstract
-	 * @return mixed
-	 */
-	abstract function helper_cache_getCreateCommand();
-
-	/**
-	 * @abstract
-	 */
-	abstract function helper_cache_create();
 
 }

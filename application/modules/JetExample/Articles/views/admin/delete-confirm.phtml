@@ -1,20 +1,16 @@
 <?php
+namespace JetApplicationModule\JetExample\Articles;
+
+use Jet\Mvc_View;
 use JetUI\UI;
-use JetApplicationModule\JetExample\Articles\Article;
-use Jet\Mvc_Controller_Router;
 use Jet\Tr;
 use Jet\Mvc;
 
 /**
  * @var Article $article
+ * @var Mvc_View $this
  */
-$article = $this->article;
-
-/**
- * @var Mvc_Controller_Router $router
- */
-$router = $this->router;
-
+$article = $this->getRaw('article');
 ?>
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
@@ -24,7 +20,7 @@ $router = $this->router;
 	<p>
 	<?=Tr::_('Do you really want to delete this article?');?>
 	<br/>
-	<a href="<?=$router->getActionURI('view', $article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
+	<a href="<?=Controller_Admin_Main::getControllerRouter()->getViewURI($article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($article->getIdObject());?>" method="post">

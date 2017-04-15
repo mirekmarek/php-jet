@@ -1,6 +1,8 @@
 <?php
 use Jet\Tr;
 use JetUI\UI;
+use Jet\Mvc;
+use Jet\Mvc_Page;
 ?>
 
 <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -12,9 +14,18 @@ use JetUI\UI;
 			<div  class="row">
 				<div class="col-sm-12 controls">
 					<div style="float: right;margin: 15px">
-						<?php /*foreach(AdminMain::getUiLocalesList() as $locale ): ?>
-							<a href="?locale=<?=$locale?>"><?=UI::flag($locale)?></a>
-						<?php endforeach;*/?>
+						<?php foreach( Mvc::getCurrentLocalesList() as $locale ): ?>
+							<?php if($locale->toString()==Mvc::getCurrentLocale()->toString()): ?>
+								<?=UI::flag($locale)?>
+							<?php else:
+								$equal_page = Mvc_Page::get(null, $locale);
+								if(!$equal_page) {
+									$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
+								}
+								?>
+								<a href="<?=$equal_page->getURL()?>"><?=UI::flag($locale)?></a>
+							<?php endif; ?>
+						<?php endforeach; ?>
 					</div>
 				</div>
 			</div>

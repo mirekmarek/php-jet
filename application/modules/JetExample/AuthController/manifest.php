@@ -11,6 +11,7 @@ return [
 	'types' => [Application_Modules_Module_Manifest::MODULE_TYPE_AUTH_CONTROLLER],
 	'description' => '',
 
+	'is_mandatory' => true,
 	'require' => [],
 
 	'admin_sections' => [

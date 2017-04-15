@@ -179,9 +179,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 			}
 
 
-			$content->setIsDynamic(true);
-
-			$page->setContents([$content]);
+			$page->setContent([$content]);
 
 
 			$page_key = $page->getPageKey();

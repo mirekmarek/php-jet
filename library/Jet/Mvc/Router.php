@@ -96,26 +96,16 @@ class Mvc_Router extends Mvc_Router_Abstract {
 
 
 	/**
-	 * @var bool
-	 */
-	protected $_cache_loaded = false;
-
-
-	//-----------------------------------------------------------------
-
-
-	/**
 	 * Initializes the router.
 	 *
 	 *
 	 * @param string $request_URL
-	 * @param bool|null $cache_enabled (optional, default: by configuration)
 	 *
      * @return void
      *
      * @throws Mvc_Router_Exception
 	 */
-	public function initialize( $request_URL, $cache_enabled=null ) {
+	public function initialize( $request_URL ) {
 
 		if( !$request_URL ) {
 			throw new Mvc_Router_Exception(
@@ -124,22 +114,8 @@ class Mvc_Router extends Mvc_Router_Abstract {
 			);
 		}
 
-		if($cache_enabled!==null) {
-			$this->cache_enabled = (bool)$cache_enabled;
-		} else {
-			$this->cache_enabled = $this->getConfig()->getCacheEnabled();
-		}
-
 		$this->request_URL = $request_URL;
 
-
-        if($this->cache_enabled) {
-            if( $this->cacheRead($this->request_URL) ) {
-                return;
-            }
-
-            register_shutdown_function( [$this, 'cacheSave']);
-        }
 
 
 		$this->parsed_request_URL = Http_URL::parseRequestURL($request_URL);
@@ -335,13 +311,10 @@ class Mvc_Router extends Mvc_Router_Abstract {
 
         if(
         	!$this->getPage()->getIsAdminUI() &&
-            !$this->getPage()->getIsNonpublic()
+            !$this->getPage()->getIsSecretPage()
         ) {
 	        return true;
         }
-
-		$this->cache_enabled = false;
-
 
 		if( Auth::getCurrentAuthController()->getUserIsLoggedIn() ) {
 			return true;
@@ -396,7 +369,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 * Sets the redirect. Redirection is not performed immediately, but after operations such as storage of records to cache and so on.
+	 * Sets the redirect. Redirection is not performed immediately
 	 *
 	 * @param string $target_URL
 	 * @param string $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
@@ -647,114 +620,4 @@ class Mvc_Router extends Mvc_Router_Abstract {
         Mvc::setCurrentPage( $page );
 	}
 
-	/**
-	 * @param string $URL
-	 *
-	 * @return bool
-	 */
-	protected function cacheRead( $URL ) {
-
-		if(!$this->cache_enabled) {
-			return false;
-		}
-
-		$data = $this->getCacheBackendInstance()->load( $URL );
-
-		if(!$data) {
-			return false;
-		}
-        foreach( get_object_vars($data['router']) as $k=>$v ) {
-            $this->{$k} = $v;
-        }
-
-        Mvc_Factory::getSiteInstance()->readCachedData( $data );
-
-
-        Mvc::setCurrentSite( $data['site'] );
-        Mvc::setCurrentLocale( $data['locale'] );
-
-        if(isset($data['page'])) {
-            Mvc_Factory::getPageInstance()->readCachedData( $data );
-
-            Mvc::setCurrentPage( $data['page'] );
-        }
-
-        $this->_cache_loaded = true;
-
-		return true;
-	}
-
-	/**
-	 *
-	 */
-	public function cacheSave() {
-		if(
-            $this->_cache_loaded ||
-			!$this->cache_enabled ||
-            (
-                $this->getPage() &&
-                $this->getPage()->getIsNonpublic()
-            ) ||
-            Debug_ErrorHandler::getLastError()
-		) {
-			return;
-		}
-
-        $site = Mvc::getCurrentSite();
-
-        $data = [
-            'site' => $site,
-            'router' => Mvc::getCurrentRouter(),
-            'locale' => Mvc::getCurrentLocale(),
-        ];
-
-        $site->writeCachedData( $data );
-
-        $page = Mvc::getCurrentPage();
-        if($page) {
-            $data['page'] = $page;
-
-            $page->writeCachedData( $data );
-        }
-
-
-
-		$this->getCacheBackendInstance()->save($this->request_URL, $data);
-	}
-
-	/**
-	 * Truncate cache. URL can be:
-	 *
-	 * null - total cache truncate
-	 * string - delete record for specified URL
-	 * array - delete records for specified URLs
-	 *
-	 * @param null|string|array $URL
-	 */
-	public function cacheTruncate( $URL=null ) {
-        if($this->getConfig()->getCacheEnabled()) {
-            $this->getCacheBackendInstance()->truncate($URL);
-        }
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getCacheLoaded() {
-		return $this->_cache_loaded;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function helper_cache_getCreateCommand() {
-		return $this->getCacheBackendInstance()->helper_getCreateCommand();
-	}
-
-	/**
-	 *
-	 */
-	public function helper_cache_create() {
-		$this->getCacheBackendInstance()->helper_create();
-	}
 }

@@ -2,6 +2,8 @@
 use JetApplicationModule\JetExample\Images\Gallery;
 use JetApplicationModule\JetExample\Images\Gallery_Image;
 use Jet\DataModel_Fetch_Object_Assoc;
+use JetUI\UI;
+use Jet\Mvc_Layout;
 
 /**
  * @var DataModel_Fetch_Object_Assoc|Gallery[] $children
@@ -17,12 +19,15 @@ $images = [];
 if($gallery) {
 	$images = $gallery->getImages();
 }
+
+Mvc_Layout::getCurrentLayout()->requireCssFile('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
 ?>
 
 <div class="row">
 <?php foreach( $children as $gallery ): ?>
-	<a href="<?=rawurlencode($gallery->getTitle());?>/" class="img-thumbnail" style="width: 130px;height: 120px;text-align: center;overflow: hidden;margin: 3px;">
-		<img src="<?=JET_PUBLIC_URI?>icons/folder.png">
+	<a href="<?=rawurlencode($gallery->getTitle());?>/" class="img-thumbnail" style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;">
+		<?=UI::icon('folder-o')->setSize(80)?>
 		<br/>
 		<?=$gallery->getTitle();?>
 	</a>
