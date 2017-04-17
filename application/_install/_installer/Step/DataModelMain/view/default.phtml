@@ -1,12 +1,15 @@
 <?php
-use Jet\Form;
 use JetExampleApp\Installer;
+use Jet\Form;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var Form $form
  */
-$form = $this->form;
-$form->setDefaultLabelWidth(2);
+$form = $this->getRaw('form');
+$form->setDefaultLabelWidth(4);
+$form->setDefaultFieldWidth(4);
 ?>
 <?=$form->start()?>
 	<?=$form->message()?>

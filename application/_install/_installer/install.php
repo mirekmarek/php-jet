@@ -32,12 +32,10 @@ Installer::setSteps(
 		'Welcome',
 		'SystemCheck',
 		'DirsCheck',
-		'Translator',
 		'DB',
 		'DataModelMain',
 		'InstallModules',
 		'CreateDB',
-		'Auth',
 		'CreateAdministrator',
 		'CreateSite',
 		'Final'

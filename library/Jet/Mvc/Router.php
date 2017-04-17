@@ -316,7 +316,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	        return true;
         }
 
-		if( Auth::getCurrentAuthController()->getUserIsLoggedIn() ) {
+		if( Auth::getAuthController()->getUserIsLoggedIn() ) {
 			return true;
 		}
 

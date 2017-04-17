@@ -1,12 +1,14 @@
 <?php
+use JetExampleApp\Installer;
+use Jet\Mvc_View;
 use Jet\Form;
 use Jet\Tr;
-use JetExampleApp\Installer;
 
 /**
+ * @var Mvc_View $this
  * @var Form $form
  */
-$form = $this->form;
+$form = $this->getRaw('form');
 
 $form->setIsReadonly();
 $form->setDefaultLabelWidth(2);
@@ -14,14 +16,14 @@ $form->setDefaultLabelWidth(2);
 
 <?=Installer::buttonBack()?>
 
-<h3><?=Tr::_('Connection \'%CONNECTION%\' Test', ['CONNECTION'=>$this->connection_name]);?></h3>
+<h3><?=Tr::_('Connection \'%CONNECTION%\' Test', ['CONNECTION'=>$this->getString('connection_name')]);?></h3>
 
-<?php if($this->OK): ?>
+<?php if($this->getBool('OK')): ?>
 	<div class="OK" style="padding: 5px;margin: 5px;">OK</div>
 <?php else: ?>
 	<div class="error" style="padding: 5px;margin: 5px;">
 		<strong><?=Jet\Tr::_('Error:');?></strong>
-		<?=$this->error_message;?>
+		<?=$this->getString('error_message');?>
 	</div>
 <?php endif; ?>
 
@@ -37,7 +39,7 @@ $form->setDefaultLabelWidth(2);
 <?=$form->field('username')?>
 <?=$form->field('password')?>
 
-<a href="?edit_connection=<?=$this->connection_name;?>" class="btn btn-default"><?=Jet\Tr::_('Edit connection');?></a>
+<a href="?edit_connection=<?=$this->getString('connection_name');?>" class="btn btn-default"><?=Tr::_('Edit connection');?></a>
 
 <?=$form->end()?>
 

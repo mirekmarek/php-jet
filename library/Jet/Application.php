@@ -136,7 +136,7 @@ class Application extends BaseObject {
 		}
 
 		if($router->getLoginRequired()) {
-			Auth::getCurrentAuthController()->handleLogin();
+			Auth::getAuthController()->handleLogin();
 			return;
 		}
 

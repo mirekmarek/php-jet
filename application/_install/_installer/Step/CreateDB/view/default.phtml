@@ -1,6 +1,11 @@
 <?php
-use Jet\Tr;
 use JetExampleApp\Installer;
+use Jet\Tr;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ */
 ?>
 <table class="table table-striped">
 	<thead>
@@ -9,7 +14,7 @@ use JetExampleApp\Installer;
 			<th><?=Tr::_('Status');?></th>
 		</tr>
 	</thead>
-	<?php foreach($this->result as $class=>$state): ?>
+	<?php foreach($this->getRaw('result') as $class=>$state): ?>
 	<tr>
 		<td><?=$class;?></td>
 		<?php if($state===true): ?>
@@ -22,7 +27,7 @@ use JetExampleApp\Installer;
 </table>
 
 
-<?php if($this->OK): ?>
+<?php if($this->getBool('OK')): ?>
 <form method="post">
 <input type="hidden" name="go" value="1">
 	<?=Installer::buttonNext();?>

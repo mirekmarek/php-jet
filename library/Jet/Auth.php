@@ -16,10 +16,6 @@ namespace Jet;
 
 class Auth extends BaseObject {
 
-	/**
-	 * @var Auth_Config_Abstract
-	 */
-	protected static $config;
 
 	/**
 	 * @var string
@@ -27,32 +23,16 @@ class Auth extends BaseObject {
 	protected static $auth_controller_module_name;
 
 	/**
+	 * @var string
+	 */
+	protected static $auth_controller_class_name;
+
+	/**
 	 * Auth module instance
 	 *
 	 * @var Auth_Controller_Interface
 	 */
-	protected static $current_auth_controller;
-
-	/**
-	 * @param Auth_Config_Abstract $config
-	 */
-	public static function setConfig( Auth_Config_Abstract $config)
-	{
-		self::$config = $config;
-	}
-
-	/**
-	 * @return Auth_Config_Abstract
-	 */
-	public static function getConfig()
-	{
-		if(!self::$config) {
-			self::$config = Auth_Factory::getConfigInstance();
-		}
-
-		return self::$config;
-	}
-
+	protected static $auth_controller;
 
 	/**
 	 * @param string $auth_controller_module_name
@@ -60,9 +40,6 @@ class Auth extends BaseObject {
 	 */
 	public static function setAuthControllerModuleName($auth_controller_module_name)
 	{
-		if( self::$current_auth_controller ) {
-			throw new Exception('Auth Controller has been already set! It is not possible to setup it\'s name.');
-		}
 		static::$auth_controller_module_name = $auth_controller_module_name;
 	}
 
@@ -77,19 +54,47 @@ class Auth extends BaseObject {
 		}
 
 		if(Mvc::getCurrentPage() && Mvc::getCurrentPage()->getAuthControllerModuleName()) {
-			return Mvc::getCurrentPage()->getAuthControllerModuleName();
+			static::$auth_controller_module_name = Mvc::getCurrentPage()->getAuthControllerModuleName();
+		} else {
+			if(defined('JET_DEFAULT_AUTH_CONTROLLER_MODULE_NAME')) {
+				static::$auth_controller_module_name = JET_DEFAULT_AUTH_CONTROLLER_MODULE_NAME;
+			}
 		}
 
-
-		return Auth::getConfig()->getDefaultAuthControllerModuleName();
+		return static::$auth_controller_module_name;
 	}
 
 	/**
-	 * @param Auth_Controller_Interface $current_auth_controller
+	 * @return string
 	 */
-	public static function setCurrentAuthController(Auth_Controller_Interface $current_auth_controller)
+	public static function getAuthControllerClassName()
 	{
-		self::$current_auth_controller = $current_auth_controller;
+		if(
+			!self::$auth_controller_class_name &&
+			defined('JET_DEFAULT_AUTH_CONTROLLER_CLASS_NAME')
+		) {
+			self::$auth_controller_class_name = JET_DEFAULT_AUTH_CONTROLLER_CLASS_NAME;
+		}
+
+		return self::$auth_controller_class_name;
+	}
+
+	/**
+	 * @param string $auth_controller_class_name
+	 */
+	public static function setAuthControllerClassName($auth_controller_class_name)
+	{
+		self::$auth_controller_class_name = $auth_controller_class_name;
+	}
+
+
+
+	/**
+	 * @param Auth_Controller_Interface $auth_controller
+	 */
+	public static function setAuthController(Auth_Controller_Interface $auth_controller)
+	{
+		self::$auth_controller = $auth_controller;
 	}
 
 	/**
@@ -97,13 +102,19 @@ class Auth extends BaseObject {
 	 *
 	 * @return Auth_Controller_Interface
 	 */
-	public static function getCurrentAuthController()
+	public static function getAuthController()
 	{
-		if(!static::$current_auth_controller) {
-			static::$current_auth_controller = Application_Modules::getModuleInstance( static::getAuthControllerModuleName() );
+		if(!static::$auth_controller) {
+			if( ($module_name=static::getAuthControllerModuleName()) ) {
+				static::$auth_controller = Application_Modules::getModuleInstance( $module_name );
+			} else {
+				$class_name = static::getAuthControllerClassName();
+				static::$auth_controller = new $class_name();
+			}
+
 		}
 
-		return static::$current_auth_controller;
+		return static::$auth_controller;
 	}
 
 	/**
@@ -115,7 +126,7 @@ class Auth extends BaseObject {
 	 * @return bool
 	 */
 	public static function login( $login, $password ) {
-		if(!static::getCurrentAuthController()->login( $login, $password )) {
+		if(!static::getAuthController()->login( $login, $password )) {
 			static::logEvent('login_failed', ['login'=>$login], 'Login failed. Login: \''.$login.'\'');
 			return false;
 		} else {
@@ -138,7 +149,7 @@ class Auth extends BaseObject {
 			static::logEvent('logout', ['login'=>$login, 'user_id'=>$user_id], 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_id.'\'');
 		}
 
-		return static::getCurrentAuthController()->logout();
+		return static::getAuthController()->logout();
 	}
 
 	/**
@@ -147,7 +158,7 @@ class Auth extends BaseObject {
 	 * @return Auth_User_Interface|bool
 	 */
 	public static function getCurrentUser() {
-		return static::getCurrentAuthController()->getCurrentUser();
+		return static::getAuthController()->getCurrentUser();
 	}
 
 	/**
@@ -176,7 +187,7 @@ class Auth extends BaseObject {
 	 * @param string $user_login (optional; default: null = current user login)
 	 */
 	public static function logEvent($event, $event_data, $event_txt, $user_id=null, $user_login=null ) {
-		static::getCurrentAuthController()->logEvent( $event, $event_data, $event_txt, $user_id, $user_login );
+		static::getAuthController()->logEvent( $event, $event_data, $event_txt, $user_id, $user_login );
 	}
 
 }

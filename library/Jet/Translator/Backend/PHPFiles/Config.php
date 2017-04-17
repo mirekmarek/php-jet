@@ -36,7 +36,7 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	 *
 	 * @var string
 	 */
-	protected $dictionaries_path = '';
+	protected $dictionaries_path = JET_TRANSLATOR_DICTIONARIES_PATH;
 
 	/**
 	 * @param $namespace

@@ -1,18 +1,17 @@
 <?php
+use JetExampleApp\Installer;
 use Jet\Form;
 use Jet\Db_Config;
 use Jet\Tr;
-use JetExampleApp\Installer;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var Form $form
- */
-$form = $this->form;
-
-/**
  * @var Db_Config $config
  */
-$config = $this->config;
+$form = $this->getRaw('form');
+$config = $this->getRaw('config');
 ?>
 
 <?php if($config->getConnections()): ?>

@@ -36,7 +36,7 @@ class Translator_Config extends Application_Config {
 	 *
 	 * @var string
 	 */
-	protected $backend_type;
+	protected $backend_type = JET_TRANSLATOR_DEFAULT_BACKEND;
 
 	/**
 	 * @JetConfig:type = Config::TYPE_BOOL
@@ -45,7 +45,7 @@ class Translator_Config extends Application_Config {
 	 * 
 	 * @var bool
 	 */
-	protected $auto_append_unknown_phrase;
+	protected $auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
 
 	/**
 	 * @var Translator_Backend_Abstract

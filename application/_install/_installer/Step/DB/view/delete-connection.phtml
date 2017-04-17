@@ -1,11 +1,14 @@
 <?php
 use JetExampleApp\Installer;
 use Jet\Tr;
+use Jet\Form;
+use Jet\Mvc_View;
 
 /**
- * @var Jet\Form $form
+ * @var Mvc_View $this
+ * @var Form $form
  */
-$form = $this->form;
+$form = $this->getRaw('form');
 
 $form->setDefaultLabelWidth(2);
 
@@ -21,7 +24,7 @@ $form->field('username')->setIsReadonly(true);
 
 <?=Installer::buttonBack()?>
 
-<h3><?=Tr::_('Delete connection \'%CONNECTION%\' ', ["CONNECTION"=>$this->connection_name]);?></h3>
+<h3><?=Tr::_('Delete connection \'%CONNECTION%\' ', ["CONNECTION"=>$this->getString('connection_name')]);?></h3>
 
 <?=$form->start()?>
 <?=$form->message()?>

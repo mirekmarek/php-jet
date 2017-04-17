@@ -26,7 +26,6 @@ define('JET_MVC_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS', __NAMESPACE__.'\Mvc_La
 define('JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX',             __NAMESPACE__.'\DataModel_Backend_');
 define('JET_DATA_MODEL_PROPERTY_DEFINITION_CLASS_NAME_PREFIX', __NAMESPACE__.'\DataModel_Definition_Property_');
 
-define('JET_AUTH_CONFIG_CLASS',        __NAMESPACE__.'\Auth_Config');
 
 define('JET_DB_CONNECTION_CLASS_PREFIX', __NAMESPACE__.'\Db_Connection_');
 define('JET_DB_CONNECTION_ADAPTER', 'PDO');

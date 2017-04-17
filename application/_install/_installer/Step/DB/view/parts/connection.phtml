@@ -1,11 +1,13 @@
 <?php
+use Jet\Mvc_View;
 use Jet\Form;
 use Jet\Tr;
 
 /**
+ * @var Mvc_View $this
  * @var Form $form
  */
-$form = $this->form;
+$form = $this->getRaw('form');
 $form->setDefaultLabelWidth(2);
 
 if(!$form->getIsReadonly()) {

@@ -1,6 +1,13 @@
 <?php
 define('JET_BASE_PATH', dirname(dirname(dirname(__DIR__))).'/');
 
+const JET_TRANSLATOR_DEFAULT_BACKEND = 'PHPFiles';
+const JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = true;
+const JET_TRANSLATOR_DICTIONARIES_PATH = '%JET_DATA_PATH%/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php';
+
+const JET_DEFAULT_AUTH_CONTROLLER_MODULE_NAME = 'JetExample.AuthController';
+//const JET_DEFAULT_AUTH_CONTROLLER_CLASS_NAME = 'JetApplicationModule\JetExample\AuthController\Main';
+
 define('JET_APPLICATION_PATH', JET_BASE_PATH.'application/');
 
 define('JET_LIBRARY_PATH', JET_BASE_PATH.'library/');
