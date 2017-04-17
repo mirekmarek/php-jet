@@ -136,6 +136,12 @@ interface Mvc_Page_Content_Interface {
 	 */
 	public function setOutputPositionOrder( $output_position_order );
 
+	/**
+	 *
+	 * @return Mvc_Controller_Abstract|bool
+	 */
+	public function getControllerInstance();
+
     /**
      *
      */

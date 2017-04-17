@@ -1,23 +1,30 @@
 <?php
+namespace JetApplicationModule\JetExample\Admin\Administrators\Roles;
+
 use JetExampleApp\Auth_Administrator_Role;
 use JetUI\dataGrid;
 use JetUI\UI;
 use Jet\Tr;
+use Jet\Mvc;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
+ * @var Controller_Main_Router $router
  * @var dataGrid $grid
  */
-$grid = $this->grid;
+$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$grid = $this->getRaw('grid');
 
 
 $c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function(Auth_Administrator_Role $item ) {
+$c_edit->setDisplayCallback( function(Auth_Administrator_Role $item ) use ($router) {
 
-	if(($edit_uri=$item->getEditURI())):
+	if(($edit_uri=$router->getEditURI($item->getId()))):
 		echo UI::button_edit()->setUrl($edit_uri);
 	endif;
 	echo '&nbsp;';
-	if(($delete_uri=$item->getDeleteURI())):
+	if(($delete_uri=$router->getDeleteURI($item->getId()))):
 		echo UI::button_delete()->setUrl($delete_uri);
 	endif;
 } );
@@ -25,14 +32,14 @@ $c_edit->setCssStyle( 'width:180px;' );
 $grid->getColumn('id')->setCssStyle( 'width:120px;' );
 
 
-$grid->getColumn('id')->setDisplayCallback( function(Auth_Administrator_Role $item ) {
-	$edit_uri=$item->getEditURI();
+$grid->getColumn('id')->setDisplayCallback( function(Auth_Administrator_Role $item ) use ($router) {
+	$edit_uri=$router->getEditOrViewURI($item->getId());
 
 	?><a href="<?=$edit_uri?>"><?=$item->getId();?></a><?php
 } );
 
-$grid->getColumn('name')->setDisplayCallback( function(Auth_Administrator_Role $item ) {
-	$edit_uri=$item->getEditURI();
+$grid->getColumn('name')->setDisplayCallback( function(Auth_Administrator_Role $item ) use ($router) {
+	$edit_uri=$router->getEditOrViewURI($item->getId());
 
 	?><a href="<?=$edit_uri?>"><?=$item->getName();?></a><?php
 } );
@@ -50,7 +57,7 @@ $grid->getColumn('description')->setDisplayCallback( function(Auth_Administrator
 		&nbsp;
 
 
-	<?php if( ($add_uri = Auth_Administrator_Role::getAddURI() ) ): ?>
+	<?php if( ($add_uri = $router->getAddURI() ) ): ?>
 		<?=UI::button_create(Tr::_('Create a new Role'))->setUrl($add_uri)?>
 	<?php endif; ?>
 	</div>

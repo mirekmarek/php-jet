@@ -1,12 +1,13 @@
 <?php
-use JetUI\UI;
 use JetUI\dataGrid;
+use JetUI\UI;
+use Jet\Mvc_View;
 use Jet\Tr;
-
 /**
+ * @var Mvc_View $this
  * @var dataGrid $grid
  */
-$grid = $this->grid;
+$grid = $this->getRaw('grid');
 
 $paginator = $grid->getPaginator();
 ?>

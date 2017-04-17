@@ -35,11 +35,14 @@ class Controller_Main extends Mvc_Controller_Standard {
 		'main_menu' => false,
 	];
 
-
 	/**
-	 *
+	 * Controller_Main constructor.
+	 * @param Main $module_instance
 	 */
-	public function initialize() {
+	public function __construct(Main $module_instance)
+	{
+		parent::__construct($module_instance);
+
 		Main::getMenuItems();
 
 		$GET = Http_Request::GET();
@@ -47,8 +50,8 @@ class Controller_Main extends Mvc_Controller_Standard {
 		if($GET->exists('logout')) {
 			$this->logout_Action();
 		}
-
 	}
+
 
     /**
      *

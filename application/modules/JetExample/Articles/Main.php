@@ -18,7 +18,6 @@ use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 
 class Main extends Application_Modules_Module_Abstract {
-	const MODULE_NAME = 'JetExample.Articles';
 
 	/**
 	 * @var array
@@ -29,6 +28,11 @@ class Main extends Application_Modules_Module_Abstract {
 		'update_article' => 'Update article',
 		'delete_article' => 'Delete article',
 	];
+
+	/**
+	 * @var Controller_Admin_Main_Router
+	 */
+	protected $admin_controller_router;
 
 
 	/**
@@ -70,4 +74,15 @@ class Main extends Application_Modules_Module_Abstract {
 		return $controller_class_name;
 	}
 
+	/**
+	 * @return Controller_Admin_Main_Router
+	 */
+	public function getAdminControllerRouter() {
+
+		if(!$this->admin_controller_router) {
+			$this->admin_controller_router = new Controller_Admin_Main_Router( $this );
+		}
+
+		return $this->admin_controller_router;
+	}
 }

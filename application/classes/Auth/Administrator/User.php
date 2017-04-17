@@ -1,11 +1,8 @@
 <?php
 namespace JetExampleApp;
 
-use Jet\Application_Modules;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
-
-use JetApplicationModule\JetExample\Admin\Administrators\Users\Main as Admin_Administrator_Users_Module;
 
 /**
  *
@@ -41,55 +38,5 @@ class Auth_Administrator_User extends Auth_User{
 	{
 		return $this->id;
 	}
-
-	/**
-	 * @return Admin_Administrator_Users_Module
-	 */
-	public static function getAdminModule() {
-		return Application_Modules::getModuleInstance(Admin_Administrator_Users_Module::MODULE_NAME);
-	}
-
-
-	/**
-	 * @return string|bool
-	 */
-	public static function getAddURI() {
-		return static::getAdminModule()->getUserAddURI();
-	}
-
-	/**
-	 * @return string|bool
-	 */
-	public function getEditURI()
-	{
-		return static::editURI($this->getId());
-	}
-
-	/**
-	 * @param int $user_id
-	 * @return string|bool
-	 */
-	public static function editURI( $user_id ) {
-		return static::getAdminModule()->getUserEditURI( $user_id );
-	}
-
-
-	/**
-	 * @return string|bool
-	 */
-	public function getDeleteURI()
-	{
-		return static::deleteURI($this->getId());
-	}
-
-	/**
-	 * @param int $user_id
-	 * @return string|bool
-	 */
-	public static function deleteURI( $user_id ) {
-		return static::getAdminModule()->getUserDeleteURI( $user_id );
-	}
-
-
 
 }

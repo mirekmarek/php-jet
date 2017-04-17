@@ -2,15 +2,15 @@
 use JetApplicationModule\JetExample\Articles\Article;
 use Jet\Data_Paginator;
 use Jet\Locale;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var Article[] $articles_list
- */
-$articles_list = $this->articles_list;
-/**
  * @var Data_Paginator $paginator
  */
-$paginator = $this->paginator;
+$articles_list = $this->getRaw('articles_list');
+$paginator = $this->getRaw('paginator');
 
 ?>
 

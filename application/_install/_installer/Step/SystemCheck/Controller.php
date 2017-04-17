@@ -13,7 +13,9 @@
  */
 namespace JetExampleApp;
 
+/** @noinspection PhpIncludeInspection */
 require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/CompatibilityTester.php';
+/** @noinspection PhpIncludeInspection */
 require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/CompatibilityTester/TestResult.php';
 
 use Jet\Http_Request;

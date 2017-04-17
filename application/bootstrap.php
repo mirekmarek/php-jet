@@ -25,9 +25,12 @@ require('config/'.JET_CONFIG_ENVIRONMENT.'/defines_URI.php');
 require('config/'.JET_CONFIG_ENVIRONMENT.'/php_setup.php');
 
 if( JET_DEBUG_PROFILER_ENABLED ) {
+	/** @noinspection PhpIncludeInspection */
 	require( JET_APPLICATION_PATH . 'init/Profiler.php' );
 }
+/** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
+/** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
 

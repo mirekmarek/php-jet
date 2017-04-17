@@ -1,19 +1,18 @@
 <?php
-use JetApplicationModule\JetExample\Images\Gallery;
-use JetApplicationModule\JetExample\Images\Gallery_Image;
+namespace JetApplicationModule\JetExample\Images;
+
 use Jet\DataModel_Fetch_Object_Assoc;
 use JetUI\UI;
 use Jet\Mvc_Layout;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var DataModel_Fetch_Object_Assoc|Gallery[] $children
- */
-$children = $this->children;
-
-/**
  * @var Gallery $gallery
  */
-$gallery = $this->gallery;
+$children = $this->getRaw('children');
+$gallery = $this->getRaw('gallery');
 
 $images = [];
 if($gallery) {

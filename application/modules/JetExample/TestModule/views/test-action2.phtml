@@ -3,19 +3,15 @@ use Jet\Form;
 use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var Form $form
  */
-$form = $this->form;
-
-/**
- * @var Mvc_View $view
- */
-$view = $this;
+$form = $this->getRaw('form');
 ?>
 <p>
 	M1: Test Action 2<br>
-	<b>Parameter 1:</b> <?php echo $this->parameter_1; ?><br>
-	<b>Parameter 2:</b> <?php echo $this->parameter_2; ?>
+	<b>Parameter 1:</b> <?=$this->getString('parameter_1'); ?><br>
+	<b>Parameter 2:</b> <?=$this->getString('parameter_2'); ?>
 </p>
 
 <p>
@@ -27,7 +23,7 @@ $view = $this;
 	echo $form->end();
 	?>
 
-	<?php if($view->varExists('form_data')): ?>
+	<?php if($this->varExists('form_data')): ?>
 		<table>
 			<?php foreach($form->getValues() as $k=>$v): ?>
 			<tr>

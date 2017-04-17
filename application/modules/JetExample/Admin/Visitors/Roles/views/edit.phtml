@@ -1,25 +1,26 @@
 <?php
 use JetUI\UI;
-use JetExampleApp\Auth_Visitor_User;
 use JetExampleApp\Auth_Visitor_Role;
+use JetExampleApp\Auth_Visitor_User;
 use Jet\Form;
 use Jet\Auth_Role_Privilege_AvailablePrivilegesListItem;
 use Jet\Tr;
 use Jet\Mvc;
-
+use Jet\Mvc_View;
+use Jet\Application_Modules;
+use JetApplicationModule\JetExample\Admin\Visitors\Users\Main as UsersModule;
 /**
+ * @var Mvc_View $this
  * @var Auth_Visitor_Role $role
- */
-$role = $this->role;
-/**
  * @var Form $form
- */
-$form = $this->form;
-
-/**
  * @var Auth_Role_Privilege_AvailablePrivilegesListItem[] $available_privileges_list
+ * @var UsersModule $users_module
  */
+$role = $this->getRaw('role');
+$form = $this->getRaw('form');
 $available_privileges_list = $this->getRaw('available_privileges_list');
+$users_module = Application_Modules::getModuleInstance('JetExample.Admin.Visitors.Users');
+
 
 $form->setDefaultLabelWidth(2);
 $form->setDefaultFieldWidth(4);
@@ -71,7 +72,7 @@ $form->setDefaultFieldWidth(4);
 					 */
 					?>
 					<tr>
-						<td><a href="<?=$user->getEditURI();?>"><?=$user->getLogin(); ?></a></td>
+						<td><a href="<?=$users_module->getAdminControllerRouter()->getEditURI($user->getId());?>"><?=$user->getLogin(); ?></a></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>

@@ -151,26 +151,6 @@ abstract class Mvc_View_Abstract extends BaseObject {
 		return $this->_script_path;
 	}
 
-
-
-	/**
-	 * Returns a view variable (or null if variable is not set)
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function __get($key) {
-		$var = $this->_data->getRaw($key);
-		if(
-			is_object($var) ||
-			is_array($var)
-		) {
-			return $var;
-		}
-		return Data_Text::htmlSpecialChars($var);
-	}
-
 	/**
 	 * Allows testing with empty() and isset()
 	 *

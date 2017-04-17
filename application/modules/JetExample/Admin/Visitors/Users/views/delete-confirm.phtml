@@ -1,13 +1,19 @@
 <?php
+namespace JetApplicationModule\JetExample\Admin\Visitors\Users;
+
 use JetUI\UI;
 use JetExampleApp\Auth_Visitor_User;
 use Jet\Mvc;
 use Jet\Tr;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var Auth_Visitor_User $user
+ * @var Controller_Main_Router $router
  */
-$user = $this->user;
+$user = $this->getRaw('user');
+$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
 
 ?>
 
@@ -18,7 +24,7 @@ $user = $this->user;
 	<p>
 	<?=Tr::_('Do you really want to delete this user?');?>
 	<br/>
-	<a href="<?=$user->getEditURI();?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getLogin();?>)</a>
+	<a href="<?=$router->getViewURI($user->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getLogin();?>)</a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($user->getId());?>" method="post">

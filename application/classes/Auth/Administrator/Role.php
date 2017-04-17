@@ -10,8 +10,6 @@ use Jet\Data_Tree;
 use Jet\Tr;
 use Jet\Mvc;
 
-use JetApplicationModule\JetExample\Admin\Administrators\Roles\Main as Admin_Administrator_Roles_Module;
-
 /**
  *
  * @JetDataModel:database_table_name = 'roles_administrators'
@@ -73,53 +71,6 @@ class Auth_Administrator_Role extends Auth_Role{
 	public function getId()
 	{
 		return $this->id;
-	}
-
-	/**
-	 * @return Admin_Administrator_Roles_Module
-	 */
-	public static function getAdminModule() {
-		return Application_Modules::getModuleInstance(Admin_Administrator_Roles_Module::MODULE_NAME);
-	}
-
-	/**
-	 * @return string|bool
-	 */
-	public static function getAddURI() {
-		return static::getAdminModule()->getRoleAddURI();
-	}
-
-	/**
-	 * @return string|bool
-	 */
-	public function getEditURI()
-	{
-		return static::editURI($this->getId());
-	}
-
-	/**
-	 * @param int $role_id
-	 * @return string|bool
-	 */
-	public static function editURI( $role_id ) {
-		return static::getAdminModule()->getRoleEditURI( $role_id );
-	}
-
-
-	/**
-	 * @return string|bool
-	 */
-	public function getDeleteURI()
-	{
-		return static::deleteURI($this->getId());
-	}
-
-	/**
-	 * @param int $role_id
-	 * @return string|bool
-	 */
-	public static function deleteURI( $role_id ) {
-		return static::getAdminModule()->getRoleDeleteURI( $role_id );
 	}
 
 	/**

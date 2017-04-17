@@ -14,7 +14,6 @@
  */
 namespace JetApplicationModule\JetExample\Admin\Administrators\Users;
 
-use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_User as User;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
@@ -24,9 +23,7 @@ use JetUI\breadcrumbNavigation;
 use JetUI\messages;
 
 
-use Jet\Application_Modules;
 use Jet\Mvc;
-use Jet\Mvc_Controller_Router;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
@@ -35,51 +32,6 @@ use Jet\Form;
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
 class Controller_Main extends Mvc_Controller_AdminStandard {
-	const DEFAULT_ACTION = 'default';
-
-	const ADD_ACTION = 'add';
-	const ADD_ACTION_URI = 'add';
-
-	const EDIT_ACTION = 'edit';
-	const EDIT_ACTION_URI = 'edit';
-
-	const VIEW_ACTION = 'view';
-	const VIEW_ACTION_URI = 'view';
-
-	const DELETE_ACTION = 'delete';
-	const DELETE_ACTION_URI = 'delete';
-
-	/**
-	 * @var array
-	 */
-	protected static $action_URI = [
-		self::ADD_ACTION => self::ADD_ACTION_URI,
-		self::EDIT_ACTION => self::EDIT_ACTION_URI,
-		self::VIEW_ACTION => self::VIEW_ACTION_URI,
-		self::DELETE_ACTION => self::DELETE_ACTION_URI,
-	];
-
-	/**
-	 * @var array
-	 */
-	protected static $action_regexp = [
-		self::ADD_ACTION => '/^'.self::ADD_ACTION_URI.'$/',
-		self::EDIT_ACTION => '/^'.self::EDIT_ACTION_URI.':([0-9]+)$/',
-		self::VIEW_ACTION => '/^'.self::VIEW_ACTION_URI.':([0-9]+)$/',
-		self::DELETE_ACTION => '/^'.self::DELETE_ACTION_URI.':([0-9]+)$/',
-	];
-
-
-	/**
-	 * @var array
-	 */
-	protected static $ACL_actions_check_map = [
-		self::DEFAULT_ACTION => Main::ACTION_GET_USER,
-		self::ADD_ACTION => Main::ACTION_ADD_USER,
-		self::EDIT_ACTION => Main::ACTION_UPDATE_USER,
-		self::VIEW_ACTION => Main::ACTION_GET_USER,
-		self::DELETE_ACTION => Main::ACTION_DELETE_USER,
-	];
 
 	/**
 	 *
@@ -88,95 +40,22 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Mvc_Controller_Router
+	 * @var array
 	 */
-	protected static $controller_router;
-
+	protected static $ACL_actions_check_map = [
+		'default' => Main::ACTION_GET_USER,
+		'add' => Main::ACTION_ADD_USER,
+		'edit' => Main::ACTION_UPDATE_USER,
+		'view' => Main::ACTION_GET_USER,
+		'delete' => Main::ACTION_DELETE_USER,
+	];
 
 	/**
 	 *
+	 * @return Controller_Main_Router
 	 */
-	public function initialize() {
-	}
-
-	/**
-	 * @param string $action
-	 * @return string
-	 */
-	public static function getActionURI( $action )
-	{
-		return self::$action_URI[$action];
-	}
-
-	/**
-	 * @param string $action
-	 * @return string
-	 */
-	public static function getActionRegexp( $action )
-	{
-		return self::$action_regexp[$action];
-	}
-
-	/**
-	 *
-	 * @return Mvc_Controller_Router
-	 */
-	public static function getControllerRouter() {
-		if(static::$controller_router) {
-			return static::$controller_router;
-		}
-
-		$router = new Mvc_Controller_Router( Application_Modules::getModuleInstance(Main::MODULE_NAME) );
-
-
-		$validator = function( &$parameters ) {
-
-			$user = User::get($parameters[0]);
-
-			if(!$user) {
-				return false;
-			}
-
-			$parameters['user'] = $user;
-			return true;
-
-		};
-
-		$base_URI = Mvc_Page::get(Main::PAGE_USERS)->getURI();
-
-		$URI_creator = function( $action, $id=0 ) use ($router, $base_URI) {
-			if(!$router->getActionAllowed($action)) {
-				return false;
-			}
-
-			$action_uri = Controller_Main::getActionURI( $action );
-
-			if(!$id) {
-				return $action_uri.'/';
-			}
-
-			return $base_URI.$action_uri.':'.((int)$id).'/';
-		};
-
-
-		$router->addAction(static::ADD_ACTION, static::getActionRegexp(static::ADD_ACTION), static::getModuleAction( static::ADD_ACTION ) )
-			->setCreateURICallback( function() use($URI_creator) { return $URI_creator(static::ADD_ACTION); } );
-
-		$router->addAction(static::EDIT_ACTION, static::getActionRegexp(static::EDIT_ACTION), static::getModuleAction( static::EDIT_ACTION ) )
-			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::EDIT_ACTION, $id); } )
-			->setParametersValidatorCallback( $validator );
-
-		$router->addAction(static::VIEW_ACTION, static::getActionRegexp(static::VIEW_ACTION), static::getModuleAction( static::VIEW_ACTION ) )
-			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::VIEW_ACTION, $id); } )
-			->setParametersValidatorCallback( $validator );
-
-		$router->addAction(static::DELETE_ACTION, static::getActionRegexp(static::DELETE_ACTION), static::getModuleAction( static::DELETE_ACTION ) )
-			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator(static::DELETE_ACTION, $id); } )
-			->setParametersValidatorCallback( $validator );
-
-		static::$controller_router = $router;
-
-		return $router;
+	public function getControllerRouter() {
+		return $this->module_instance->getAdminControllerRouter();
 	}
 
 
@@ -241,7 +120,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$this->logAllowedAction( $user );
 			messages::success( Tr::_('User <b>%LOGIN%</b> has been created', ['LOGIN'=>$user->getLogin() ]) );
 
-			Http_Headers::movedTemporary( $user->getEditURI() );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
 		}
 
 		$this->view->setVar('form', $form);
@@ -275,7 +154,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$this->logAllowedAction( $user );
 			messages::success( Tr::_('User <b>%LOGIN%</b> has been updated', ['LOGIN'=>$user->getLogin() ]) );
 
-			Http_Headers::movedTemporary( $user->getEditURI() );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
 		}
 
 		$this->view->setVar('form', $form);
@@ -308,8 +187,6 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 	}
 
-
-
 	/**
 	 *
 	 */
@@ -335,6 +212,5 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		$this->render('delete-confirm');
 	}
-
 
 }

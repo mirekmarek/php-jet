@@ -10,7 +10,6 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 
-use Jet\Application_Modules;
 use Jet\Mvc;
 use Jet\Mvc_Controller_Router;
 
@@ -19,11 +18,11 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 	/**
 	 *
+	 * @param Main $module_instance
 	 */
-	public function __construct()
+	public function __construct( Main $module_instance )
 	{
 
-		$module_instance = Application_Modules::getModuleInstance(Main::MODULE_NAME);
 
 		parent::__construct( $module_instance);
 
@@ -61,15 +60,15 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 			} );
 
 		$this->addAction('edit', '/^edit:([\S]+)$/', 'update_gallery' )
-			->setCreateURICallback( function( Gallery $gallery ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($gallery->getIdObject()).'/'; } )
+			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $gallery_validator );
 
 		$this->addAction('view', '/^view:([\S]+)$/', 'get_gallery' )
-			->setCreateURICallback( function( Gallery $gallery ) use($base_URI) { return $base_URI.'view:'.rawurlencode($gallery->getIdObject()).'/'; } )
+			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'view:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $gallery_validator );
 
 		$this->addAction('delete', '/^delete:([\S]+)$/', 'delete_gallery' )
-			->setCreateURICallback( function( Gallery $gallery ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($gallery->getIdObject()).'/'; } )
+			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $gallery_validator );
 	}
 
@@ -83,39 +82,39 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 	}
 
 	/**
-	 * @param Gallery $gallery
+	 * @param string $id
 	 * @return bool|string
 	 */
-	public function getEditURI( Gallery $gallery ) {
-		return $this->getActionURI('edit', $gallery);
+	public function getEditURI( $id ) {
+		return $this->getActionURI('edit', $id);
 	}
 
 	/**
-	 * @param Gallery $gallery
+	 * @param string $id
 	 * @return bool|string
 	 */
-	public function getEditOrViewURI( Gallery $gallery ) {
-		if( !($uri=$this->getEditURI($gallery)) ) {
-			$uri = $this->getViewURI($gallery);
+	public function getEditOrViewURI( $id ) {
+		if( !($uri=$this->getEditURI($id)) ) {
+			$uri = $this->getViewURI($id);
 		}
 
 		return $uri;
 	}
 
 	/**
-	 * @param Gallery $gallery
+	 * @param string $id
 	 * @return bool|string
 	 */
-	public function getViewURI( Gallery $gallery ) {
-		return $this->getActionURI('view', $gallery);
+	public function getViewURI( $id ) {
+		return $this->getActionURI('view', $id);
 	}
 
 	/**
-	 * @param Gallery $gallery
+	 * @param string $id
 	 * @return bool|string
 	 */
-	public function getDeleteURI( Gallery $gallery ) {
-		return $this->getActionURI('delete', $gallery );
+	public function getDeleteURI( $id ) {
+		return $this->getActionURI('delete', $id );
 	}
 
 }

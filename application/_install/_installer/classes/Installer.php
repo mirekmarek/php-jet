@@ -24,6 +24,7 @@ use Jet\Translator_Backend_PHPFiles_Config;
 use Jet\Translator_Backend_PHPFiles;
 use Jet\Tr;
 
+/** @noinspection PhpIncludeInspection */
 require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/Step/Controller.php';
 
 

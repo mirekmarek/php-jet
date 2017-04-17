@@ -85,7 +85,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 * @return bool
 	 */
 	public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
-		$router = static::getControllerRouter();
+		$router = $this->getControllerRouter();
 		if(!$router) {
 			return false;
 		}
@@ -99,16 +99,10 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 *
 	 * @return Mvc_Controller_Router|null
 	 */
-	public static function getControllerRouter() {
+	public function getControllerRouter() {
 		return null;
 	}
 
-
-	/**
-	 * Is called after controller instance is created
-	 */
-	public function initialize() {
-	}
 
 	/**
 	 * @param $controller_action

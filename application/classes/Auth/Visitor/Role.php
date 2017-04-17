@@ -7,9 +7,6 @@ use Jet\Mvc_Site;
 use Jet\Mvc_Page_Interface;
 use Jet\Data_Tree;
 use Jet\Data_Tree_Forest;
-use Jet\Application_Modules;
-
-use JetApplicationModule\JetExample\Admin\Visitors\Roles\Main as Admin_Administrator_Roles_Module;
 
 
 /**
@@ -68,54 +65,6 @@ class Auth_Visitor_Role extends Auth_Role{
 	{
 		return $this->id;
 	}
-
-	/**
-	 * @return Admin_Administrator_Roles_Module
-	 */
-	public static function getAdminModule() {
-		return Application_Modules::getModuleInstance(Admin_Administrator_Roles_Module::MODULE_NAME);
-	}
-
-	/**
-	 * @return string|bool
-	 */
-	public static function getAddURI() {
-		return static::getAdminModule()->getRoleAddURI();
-	}
-
-	/**
-	 * @return string|bool
-	 */
-	public function getEditURI()
-	{
-		return static::editURI($this->getId());
-	}
-
-	/**
-	 * @param int $role_id
-	 * @return string|bool
-	 */
-	public static function editURI( $role_id ) {
-		return static::getAdminModule()->getRoleEditURI( $role_id );
-	}
-
-
-	/**
-	 * @return string|bool
-	 */
-	public function getDeleteURI()
-	{
-		return static::deleteURI($this->getId());
-	}
-
-	/**
-	 * @param int $role_id
-	 * @return string|bool
-	 */
-	public static function deleteURI( $role_id ) {
-		return static::getAdminModule()->getRoleDeleteURI( $role_id );
-	}
-
 
 	/**
 	 * Get sites and pages ACL values list

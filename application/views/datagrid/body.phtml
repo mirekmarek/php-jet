@@ -1,10 +1,12 @@
 <?php
 use JetUI\dataGrid;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var dataGrid $grid
  */
-$grid = $this->grid;
+$grid = $this->getRaw('grid');
 ?>
 <tbody>
 <?php foreach( $grid->getData() as $i=>$item ): ?>

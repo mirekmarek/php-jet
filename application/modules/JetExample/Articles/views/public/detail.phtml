@@ -2,11 +2,13 @@
 use JetApplicationModule\JetExample\Articles\Article;
 use Jet\Tr;
 use Jet\Locale;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var Article $article
  */
-$article = $this->article;
+$article = $this->getRaw('article');
 ?>
 
 <h1><?=$article->getTitle();?></h1>

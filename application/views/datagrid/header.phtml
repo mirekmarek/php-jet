@@ -1,11 +1,13 @@
 <?php
-use JetUI\UI;
 use JetUI\dataGrid;
+use JetUI\UI;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var dataGrid $grid
  */
-$grid = $this->grid;
+$grid = $this->getRaw('grid');
 ?>
 <table class="table table-striped">
 

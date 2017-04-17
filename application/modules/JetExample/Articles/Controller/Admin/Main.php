@@ -31,13 +31,6 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	 */
 	protected $module_instance = null;
 
-
-	/**
-	 * @var Controller_Admin_Main_Router
-	 */
-	protected static $controller_router;
-
-
 	/**
 	 * @var array
 	 */
@@ -54,12 +47,8 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
      *
      * @return Controller_Admin_Main_Router
      */
-    public static function getControllerRouter() {
-	    if(!static::$controller_router) {
-		    static::$controller_router = new Controller_Admin_Main_Router();
-	    }
-
-	    return static::$controller_router;
+    public function getControllerRouter() {
+    	return $this->module_instance->getAdminControllerRouter();
     }
 
 
@@ -125,7 +114,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 
 			messages::success( Tr::_('Article <b>%TITLE%</b> has been created', ['TITLE'=>$article->getTitle() ]) );
 
-			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $article ) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
 		}
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( Tr::_('New article') );
@@ -160,7 +149,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 
 			messages::success( Tr::_('Article <b>%TITLE%</b> has been updated', ['TITLE'=>$article->getTitle() ]) );
 
-			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $article ) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
 		}
 
         Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );

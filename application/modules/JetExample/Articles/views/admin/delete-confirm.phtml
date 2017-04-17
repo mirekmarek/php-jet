@@ -11,6 +11,12 @@ use Jet\Mvc;
  * @var Mvc_View $this
  */
 $article = $this->getRaw('article');
+
+/**
+ * @var Controller_Admin_Main_Router $router
+ */
+$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+
 ?>
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
@@ -20,7 +26,7 @@ $article = $this->getRaw('article');
 	<p>
 	<?=Tr::_('Do you really want to delete this article?');?>
 	<br/>
-	<a href="<?=Controller_Admin_Main::getControllerRouter()->getViewURI($article);?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
+	<a href="<?=$router->getViewURI($article->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($article->getIdObject());?>" method="post">

@@ -1,13 +1,18 @@
 <?php
+namespace JetApplicationModule\JetExample\Admin\Visitors\Roles;
 use JetUI\UI;
-use JetExampleApp\Auth_Visitor_Role;
+use JetExampleApp\Auth_Administrator_Role;
 use Jet\Mvc;
+use Jet\Mvc_View;
 use Jet\Tr;
 
 /**
- * @var Auth_Visitor_Role $role
+ * @var Mvc_View $this
+ * @var Controller_Main_Router $router
+ * @var Auth_Administrator_Role $role
  */
-$role = $this->role;
+$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$role = $this->getRaw('role');
 ?>
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
@@ -17,7 +22,7 @@ $role = $this->role;
 	<p>
 	<?=Tr::_('Do you really want to delete this role?');?>
 	<br/>
-	<a href="<?=$role->getEditURI();?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getId();?>)</a>
+		<a href="<?=$router->getViewURI($role->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getId();?>)</a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($role->getId());?>" method="post">

@@ -14,7 +14,6 @@ namespace JetApplicationModule\JetExample\Admin\Visitors\Roles;
 use Jet\Application_Modules_Module_Abstract;
 
 class Main extends Application_Modules_Module_Abstract {
-	const MODULE_NAME = 'JetExample.Admin.Visitors.Roles';
 	const PAGE_ROLES = 'admin/visitors-roles';
 
 	const ACTION_GET_ROLE = 'get_role';
@@ -33,49 +32,20 @@ class Main extends Application_Modules_Module_Abstract {
 	];
 
 	/**
-	 *
-	 * @return string|bool
+	 * @var Controller_Main_Router
 	 */
-	public function getRoleAddURI()
-	{
-		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::ADD_ACTION );
-	}
+	protected $admin_controller_router;
 
 	/**
-	 * @param int $role_id
-	 *
-	 * @return string|bool
+	 * @return Controller_Main_Router
 	 */
-	public function getRoleEditURI( $role_id )
-	{
-		$uri = Controller_Main::getControllerRouter()->getActionURI( Controller_Main::EDIT_ACTION, $role_id );
-		if(!$uri) {
-			$uri = Controller_Main::getControllerRouter()->getActionURI( Controller_Main::VIEW_ACTION, $role_id );
+	public function getAdminControllerRouter() {
+
+		if(!$this->admin_controller_router) {
+			$this->admin_controller_router = new Controller_Main_Router( $this );
 		}
 
-		return $uri;
+		return $this->admin_controller_router;
 	}
-
-
-	/**
-	 * @param int $role_id
-	 *
-	 * @return string|bool
-	 */
-	public function getRoleViewURI( $role_id )
-	{
-		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::VIEW_ACTION, $role_id );
-	}
-
-	/**
-	 * @param int $role_id
-	 *
-	 * @return string|bool
-	 */
-	public function getRoleDeleteURI( $role_id )
-	{
-		return Controller_Main::getControllerRouter()->getActionURI( Controller_Main::DELETE_ACTION, $role_id );
-	}
-
 
 }

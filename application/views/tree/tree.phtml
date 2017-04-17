@@ -2,11 +2,13 @@
 use JetUI\tree;
 use JetUI\UI;
 use Jet\Data_Tree_Node;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var tree $tree
  */
-$tree = $this->tree;
+$tree = $this->getRaw('tree');
 
 
 $icon_width = 22;

@@ -2,26 +2,32 @@
 namespace JetApplicationModule\JetExample\Articles;
 
 use JetUI\dataGrid;
+use JetUI\UI;
 use Jet\Tr;
 use Jet\Locale;
-use JetUI\UI;
+use Jet\Mvc;
+use Jet\Mvc_View;
 
 /**
+ * @var Mvc_View $this
  * @var dataGrid $grid
  */
-$grid = $this->grid;
+$grid = $this->getRaw('grid');
 
-$router = Controller_Admin_Main::getControllerRouter();
+/**
+ * @var Controller_Admin_Main_Router $router
+ */
+$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
 
 $c_edit = $grid->getColumn('_edit_');
 $c_edit->setDisplayCallback( function( Article $item ) use ( $router) {
 
-	if( ($edit_uri=$router->getEditURI($item)) ):
+	if( ($edit_uri=$router->getEditURI($item->getId())) ):
 		echo UI::button_edit()->setUrl($edit_uri);
 	endif;
 	echo '&nbsp;';
 
-	if( ($delete_uri=$router->getDeleteURI($item)) ):
+	if( ($delete_uri=$router->getDeleteURI($item->getId())) ):
 		echo UI::button_delete()->setUrl($delete_uri);
 	endif;
 } );
@@ -31,7 +37,7 @@ $c_edit->setCssStyle( 'width:180px;' );
 
 $grid->getColumn('title')->setDisplayCallback( function( Article $item ) use ( $router) {
 	?>
-	<a href="<?=$router->getEditOrViewURI($item);?>"><?=$item->getTitle();?></a>
+	<a href="<?=$router->getEditOrViewURI($item->getId());?>"><?=$item->getTitle();?></a>
 	<?php
 } );
 

@@ -17,6 +17,7 @@ $application_dir = dirname(dirname(__DIR__)).'/application/';
 
 require_once( $application_dir . 'config/'.JET_CONFIG_ENVIRONMENT.'/defines.php' );
 require_once( $application_dir . 'config/class_names.php' );
+/** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 
 Debug_ErrorHandler::registerHandler(
@@ -27,6 +28,7 @@ Debug_ErrorHandler::registerHandler(
 );
 
 
+/** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
 try {

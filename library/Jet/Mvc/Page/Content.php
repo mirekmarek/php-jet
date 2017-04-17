@@ -371,7 +371,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
      *
      * @return Mvc_Controller_Abstract|bool
      */
-    protected function getControllerInstance() {
+    public function getControllerInstance() {
         if($this->_controller_instance!==null) {
             return $this->_controller_instance;
         }

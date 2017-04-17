@@ -2,8 +2,14 @@
 use Jet\Form;
 use Jet\Tr;
 use Jet\Form_Field_FileImage;
+use Jet\Mvc_View;
 
-$forms = $this->forms;
+/**
+ * @var Mvc_View $this
+ * @var Form[] $forms
+ */
+
+$forms = $this->getRaw('forms');
 
 ?>
 <?=Tr::_('M2: Test Action 2')?>
@@ -11,9 +17,6 @@ $forms = $this->forms;
 <h2><?=Tr::_('Forms test')?></h2>
 <p>
     <?php foreach( $forms as $form_name=>$d ):
-        /**
-         * @var Form $form
-         */
         $form = $d['form'];
         //$form->setIsReadonly();
     ?>

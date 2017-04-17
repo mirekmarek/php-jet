@@ -29,11 +29,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var Controller_Admin_Main_Router
-	 */
-	protected static $controller_router;
-
-	/**
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
@@ -42,12 +37,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		'edit' => 'update_gallery',
 		'add' => 'add_gallery',
 	];
-
-	/**
-	 *
-	 */
-	public function initialize() {
-	}
 
 	/**
 	 * @param string $current_label
@@ -71,7 +60,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 			//while($parent)
 			do {
-				$path[static::getControllerRouter()->getEditOrViewURI( $parent->getData() )] = $parent->getLabel();
+				$path[static::getControllerRouter()->getEditOrViewURI( $parent->getId() )] = $parent->getLabel();
 
 				$parent = $parent->getParent();
 			} while( $parent && !$parent->getIsRoot() );
@@ -92,12 +81,8 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 *
 	 * @return Controller_Admin_Main_Router
 	 */
-	public static function getControllerRouter() {
-		if(!static::$controller_router) {
-			static::$controller_router = new Controller_Admin_Main_Router();
-		}
-
-		return static::$controller_router;
+	public function getControllerRouter() {
+		return $this->module_instance->getAdminControllerRouter();
 	}
 
 	/**
@@ -134,7 +119,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 			$gallery->save();
 
-			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 		}
 
 		$this->view->setVar('has_access', true);
@@ -164,7 +149,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 			$gallery->save();
 
-			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 		}
 
 
@@ -244,7 +229,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
                     Config::getDefaultThbMaxH()
 				);
 
-				Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
+				Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 			}
 
 		}
@@ -271,7 +256,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 					$image->delete();
 				}
 			}
-			Http_Headers::movedTemporary( static::getControllerRouter()->getEditURI( $gallery ) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 		}
 	}
 }
