@@ -21,10 +21,6 @@ define('JET_DATA_PATH', JET_APPLICATION_PATH.'data/');
 define('JET_LOGS_PATH', JET_APPLICATION_PATH.'logs/');
 define('JET_TMP_PATH', JET_APPLICATION_PATH.'tmp/');
 
-define('JET_TEMPLATES_PATH', JET_BASE_PATH.'_templates/');
-define('JET_TEMPLATES_SITES_PATH', JET_TEMPLATES_PATH.'sites/');
-define('JET_TEMPLATES_MODULES_PATH', JET_TEMPLATES_PATH.'modules/');
-
 define('JET_PUBLIC_PATH', JET_BASE_PATH.'public/');
 define('JET_PUBLIC_IMAGES_PATH', JET_BASE_PATH.'public/images/');
 define('JET_PUBLIC_DATA_PATH', JET_BASE_PATH.'public/data/');

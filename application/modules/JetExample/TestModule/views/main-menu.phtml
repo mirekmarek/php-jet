@@ -75,6 +75,12 @@ $show_menu = function( $pages ) use (&$show_menu) {
 $secret_area_page = Mvc_Page::get('secret_area');
 
 if($secret_area_page): ?>
-<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a>
+	<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
+<?php endif;
+
+$admin_page = Mvc_Page::get('admin');
+
+if($admin_page): ?>
+	<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
 <?php endif;
 

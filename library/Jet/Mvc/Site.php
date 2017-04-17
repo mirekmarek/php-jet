@@ -2,7 +2,7 @@
 /**
  *
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -220,7 +220,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @return array
 	 */
 	public static function getAvailableTemplatesList() {
-		$res = IO_Dir::getSubdirectoriesList(JET_TEMPLATES_SITES_PATH);
+		$res = IO_Dir::getSubdirectoriesList(JET_BASE_PATH.'_templates/sites/');
 
 		return array_combine($res, $res);
 	}
@@ -765,9 +765,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 */
 	public function create( $template )
 	{
+		//TODO: cast do instalatoru a vyradit template ze systemu
 
-
-		IO_Dir::copy( JET_TEMPLATES_SITES_PATH . $template, $this->getBasePath());
+		IO_Dir::copy( JET_BASE_PATH.'_templates/sites/' . $template, $this->getBasePath());
 
 		$pages_root_path = $this->getPagesDataPath();
 

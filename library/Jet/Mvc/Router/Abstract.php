@@ -7,7 +7,7 @@
  * @see Mvc/readme.txt
  *
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  * @version <%VERSION%>
@@ -25,9 +25,7 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 
 
 	/**
-	 * Initializes the router.
 	 *
-	 * @see Mvc/readme.txt
 	 *
 	 * @abstract
 	 * @param string $request_URL
