@@ -5,11 +5,11 @@ $UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
 
 return [
 	'id' => 'admin',
+	'is_admin_UI' => true,
 	'name' => 'Administration',
 	'title' => 'Administration',
 	'custom_layouts_path' => $UI_module->getLayoutsDir(),
 	'layout_script_name' => 'default',
-	'is_admin_UI' => true,
 	'meta_tags' => [],
 	'contents' => [
 		[

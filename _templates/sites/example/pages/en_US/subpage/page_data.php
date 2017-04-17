@@ -3,12 +3,19 @@ $content = require 'common_content.php';
 
 return [
     'id' => 'subpage',
+	'is_active' => true,
     'order' => 3,
     'name' => 'Subpage',
 	'title' => 'Subpage',
 	'menu_title' => 'Subpage',
 	'breadcrumb_title' => 'Subpage',
 	'layout_script_name' => 'default',
+	'http_headers' => [
+		'testHeader1' => 'test value 1',
+		'testHeader2' => 'test value 2',
+		'testHeader3' => 'test value 3',
+	],
+
 	'meta_tags' => [
 			[
 				'attribute'   => 'Meta1attribute',
