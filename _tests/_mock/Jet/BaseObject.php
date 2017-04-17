@@ -1,18 +1,18 @@
 <?php
 namespace JetTest;
 
-use Jet\Object_Interface;
-use Jet\Object_Trait;
-use Jet\Object_Trait_MagicSleep;
-use Jet\Object_Trait_MagicSet;
-use Jet\Object_Trait_MagicClone;
+use Jet\BaseObject_Interface;
+use Jet\BaseObject_Trait;
+use Jet\BaseObject_Trait_MagicSleep;
+use Jet\BaseObject_Trait_MagicSet;
+use Jet\BaseObject_Trait_MagicClone;
 
-class Object implements Object_Interface {
+class BaseObject implements BaseObject_Interface {
 
-	use Object_Trait;
-	use Object_Trait_MagicSleep;
-	use Object_Trait_MagicSet;
-	use Object_Trait_MagicClone;
+	use BaseObject_Trait;
+	use BaseObject_Trait_MagicSleep;
+	use BaseObject_Trait_MagicSet;
+	use BaseObject_Trait_MagicClone;
 
 	/**
 	 * @param string $property_name
@@ -61,7 +61,7 @@ class Object implements Object_Interface {
 	 *
 	 * @param array $data
 	 *
-	 * @return Object
+	 * @return BaseObject
 	 */
 	public static function __test_create_instance(array $data) {
 		$called_class = get_called_class();
@@ -74,6 +74,6 @@ class Object implements Object_Interface {
 	}
 
 }
-class_alias('JetTest\Object', 'Jet\Object');
+class_alias('JetTest\BaseObject', 'Jet\BaseObject');
 
 

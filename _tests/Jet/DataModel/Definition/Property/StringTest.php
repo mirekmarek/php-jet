@@ -225,7 +225,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$field = new Form_Field_Input('');
 
 		/**
-		 * @var \JetTest\Object $field
+		 * @var \JetTest\BaseObject $field
 		 */
 		$field->__test_set_state([
 			'_name' => $this->property_name,
@@ -255,7 +255,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$field = new Form_Field_Hidden('');
 
 		/**
-		 * @var \JetTest\Object $field
+		 * @var \JetTest\BaseObject $field
 		 */
 		$field->__test_set_state([
 			'_name' => $this->ID_property_name,

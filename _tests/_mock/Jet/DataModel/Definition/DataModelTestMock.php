@@ -165,7 +165,7 @@ class DataModel_Definition_DataModelTestMock extends DataModel {
 
 
 	public function _test_get_property_options( $property_name ) {
-		$data = Object_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
+		$data = BaseObject_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
 		return $data[ $property_name ];
 	}
 

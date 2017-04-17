@@ -16,13 +16,13 @@ function show_usage() {
 	global $argv;
 
 	echo "Usage: ".PHP_EOL;
-	echo "\t\tphp {$argv[0]}Namespace loclae".PHP_EOL;
+	echo "\t\tphp {$argv[0]}Namespace locale".PHP_EOL;
 	echo PHP_EOL;
 	echo "example: php {$argv[0]} ModuleName en_US".PHP_EOL;
-	echo "\t\texports module 'ModuleName' en_US dictionary ".PHP_EOL.PHP_EOL;
+	echo "\t\texport module 'ModuleName' en_US dictionary ".PHP_EOL.PHP_EOL;
 
 	echo "example: php {$argv[0]} ".Translator::COMMON_NAMESPACE." en_US".PHP_EOL.PHP_EOL;
-	echo "\t\texports common en_US dictionary ".PHP_EOL.PHP_EOL;
+	echo "\t\texport common en_US dictionary ".PHP_EOL.PHP_EOL;
 
 	die( );
 }

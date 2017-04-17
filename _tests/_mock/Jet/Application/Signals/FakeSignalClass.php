@@ -15,11 +15,11 @@ namespace Jet;
 class FakeSignalClass {
 	/**
 	 *
-	 * @param Object_Interface $sender
+	 * @param BaseObject_Interface $sender
 	 * @param string $name
 	 * @param array $data (optional)
 	 */
-	public function __construct( Object_Interface $sender, $name, array $data= []) {
+	public function __construct( BaseObject_Interface $sender, $name, array $data= []) {
 	}
 
 }

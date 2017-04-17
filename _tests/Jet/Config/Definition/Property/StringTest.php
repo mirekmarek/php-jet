@@ -224,7 +224,7 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 		$field = new Form_Field_Input('');
 
 		/**
-		 * @var \JetTest\Object $field
+		 * @var \JetTest\BaseObject $field
 		 */
 		$field->__test_set_state([
 			'_name' => 'StringTest',

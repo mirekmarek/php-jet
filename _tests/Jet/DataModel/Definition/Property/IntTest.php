@@ -112,7 +112,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 		$field = new Form_Field_Int('');
 
 		/**
-		 * @var \JetTest\Object $field
+		 * @var \JetTest\BaseObject $field
 		 */
 		$field->__test_set_state([
 			'_name' => $this->property_name,

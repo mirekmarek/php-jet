@@ -16,7 +16,7 @@ namespace Jet;
  * Class Application_Signals_SignalTest_Sender
  *
  */
-class Application_Signals_SignalTest_Sender extends Object {
+class Application_Signals_SignalTest_Sender extends BaseObject {
 
 	protected $_test_signals_signal_object_class_name = Application_Signals::DEFAULT_SIGNAL_OBJECT_CLASS_NAME;
 

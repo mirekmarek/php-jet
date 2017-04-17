@@ -110,7 +110,7 @@ class DataModel_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCas
 		$field = new Form_Field_Float('');
 
 		/**
-		 * @var \JetTest\Object $field
+		 * @var \JetTest\BaseObject $field
 		 */
 		$field->__test_set_state([
 			'_name' => $this->property_name,

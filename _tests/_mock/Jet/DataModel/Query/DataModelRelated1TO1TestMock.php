@@ -62,7 +62,7 @@ class DataModel_Query_DataModelRelated1TO1TestMock extends DataModel_Related_1to
 	protected $string_property = 'default value';
 
 	public function _test_get_property_options( $property_name ) {
-		$data = Object_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
+		$data = BaseObject_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
 		return $data[ $property_name ];
 	}
 
