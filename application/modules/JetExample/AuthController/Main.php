@@ -243,16 +243,20 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 			$c_user = $this->getCurrentUser();
 
 			if($c_user) {
-				$user_id = (string)$c_user->getId();
+				$user_id = $c_user->getId();
 				$user_login = $c_user->getLogin();
 			} else {
-				$user_id = '';
+				$user_id = 0;
 				$user_login = '';
 			}
 
 		}
 
-		Event::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
+		if(Mvc::getIsAdminUIRequest()) {
+			Event_Administration::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
+		} else {
+			Event_Site::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
+		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

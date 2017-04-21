@@ -82,10 +82,26 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	}
 
 	/**
+	 * @param string $collate
+	 */
+	public function setCollate($collate)
+	{
+		$this->collate = $collate;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getConnectionRead() {
 		return $this->connection_read;
+	}
+
+	/**
+	 * @param string $connection_read
+	 */
+	public function setConnectionRead($connection_read)
+	{
+		$this->connection_read = $connection_read;
 	}
 
 	/**
@@ -96,6 +112,14 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	}
 
 	/**
+	 * @param string $connection_write
+	 */
+	public function setConnectionWrite($connection_write)
+	{
+		$this->connection_write = $connection_write;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getDefaultCharset() {
@@ -103,10 +127,26 @@ class DataModel_Backend_MySQL_Config extends DataModel_Backend_Config_Abstract {
 	}
 
 	/**
+	 * @param string $default_charset
+	 */
+	public function setDefaultCharset($default_charset)
+	{
+		$this->default_charset = $default_charset;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getEngine() {
 		return $this->engine;
+	}
+
+	/**
+	 * @param string $engine
+	 */
+	public function setEngine($engine)
+	{
+		$this->engine = $engine;
 	}
 
 	/**

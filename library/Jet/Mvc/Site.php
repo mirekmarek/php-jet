@@ -213,18 +213,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 		return $site;
 	}
 
-
-	/**
-	 * @static
-	 *
-	 * @return array
-	 */
-	public static function getAvailableTemplatesList() {
-		$res = IO_Dir::getSubdirectoriesList(JET_BASE_PATH.'_templates/sites/');
-
-		return array_combine($res, $res);
-	}
-
 	/**
 	 * Returns a list of all locales for all sites
 	 *
@@ -605,7 +593,8 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 */
 	public function setupErrorPagesDir() {
 
-		$dir = $this->getBasePath() . 'error_pages/';
+		$dir = $this->getPagesDataPath( Mvc::getCurrentLocale() );
+
 		if(IO_Dir::exists($dir)) {
 			Debug_ErrorHandler::setErrorPagesDir( $dir );
 		}
@@ -761,46 +750,16 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 
 	/**
-	 * @param string $template
+	 *
 	 */
-	public function create( $template )
-	{
-		//TODO: cast do instalatoru a vyradit template ze systemu
-
-		IO_Dir::copy( JET_BASE_PATH.'_templates/sites/' . $template, $this->getBasePath());
-
-		$pages_root_path = $this->getPagesDataPath();
-
-		$default_pages_path = $pages_root_path.'_default/';
-
-		$locales = [];
-		foreach( $this->getLocales() as $locale ) {
-			$pages_path = $this->getPagesDataPath($locale);
-
-			if(!IO_Dir::exists($pages_path)) {
-				IO_Dir::copy( $default_pages_path, $pages_path);
-			}
-
-			$locales[(string)$locale] = true;
-		}
-
-		$sub_dirs = IO_Dir::getSubdirectoriesList($pages_root_path);
-
-		foreach( $sub_dirs as $path=>$dir ) {
-			if(!isset($locales[$dir])) {
-				IO_Dir::remove($path);
-			}
-		}
-
-
-		//- DATA FILE
+	public function saveDataFile() {
 		$data = $this->toArray();
 
 		foreach( $this->getLocales(true) as $locale ) {
-            /**
-             * @var string $locale
-             */
-            unset($data['localized_data'][$locale]['site_id']);
+			/**
+			 * @var string $locale
+			 */
+			unset($data['localized_data'][$locale]['site_id']);
 			unset($data['localized_data'][$locale]['locale']);
 			unset($data['localized_data'][$locale]['URLs']);
 		}
@@ -814,8 +773,12 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 
 		IO_File::write($data_file_path, $data);
+	}
 
-		//- MAP
+	/**
+	 *
+	 */
+	public function saveUrlMapFile() {
 		$URLs_map_data = [];
 		if(static::$URL_map) {
 			foreach(static::$URL_map as $key=>$URLs) {

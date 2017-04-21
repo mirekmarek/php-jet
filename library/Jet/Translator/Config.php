@@ -61,10 +61,26 @@ class Translator_Config extends Application_Config {
 	}
 
 	/**
-	 * @return boolean
+	 * @param string $backend_type
+	 */
+	public function setBackendType($backend_type)
+	{
+		$this->backend_type = $backend_type;
+	}
+
+	/**
+	 * @return bool
 	 */
 	public function getAutoAppendUnknownPhrase() {
 		return $this->auto_append_unknown_phrase;
+	}
+
+	/**
+	 * @param bool $auto_append_unknown_phrase
+	 */
+	public function setAutoAppendUnknownPhrase($auto_append_unknown_phrase)
+	{
+		$this->auto_append_unknown_phrase = (bool)$auto_append_unknown_phrase;
 	}
 
 	/**

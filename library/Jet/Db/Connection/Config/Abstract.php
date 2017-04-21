@@ -87,10 +87,26 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	}
 
 	/**
+	 * @param string $name
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getDriver() {
 		return $this->driver;
+	}
+
+	/**
+	 * @param string $driver
+	 */
+	public function setDriver($driver)
+	{
+		$this->driver = $driver;
 	}
 
 	/**
@@ -103,6 +119,14 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	}
 
 	/**
+	 * @param string $username
+	 */
+	public function setUsername($username)
+	{
+		$this->username = $username;
+	}
+
+	/**
 	 * Get authorization password
 	 *
 	 * @return string
@@ -112,9 +136,27 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	}
 
 	/**
+	 * @param string $password
+	 */
+	public function setPassword($password)
+	{
+		$this->password = $password;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getDsn() {
 		return $this->driver.':'.$this->DSN;
 	}
+
+	/**
+	 * @param string $DSN
+	 */
+	public function setDSN($DSN)
+	{
+		$this->DSN = $DSN;
+	}
+
+
 }

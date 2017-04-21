@@ -41,6 +41,14 @@ class DataModel_Config extends Application_Config {
 		return $this->backend_type;
 	}
 
+	/**
+	 * @param string $backend_type
+	 */
+	public function setBackendType($backend_type)
+	{
+		$this->backend_type = $backend_type;
+	}
+
 
 	/**
 	 * @return array

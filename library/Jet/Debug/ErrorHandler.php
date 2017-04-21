@@ -131,10 +131,6 @@ class Debug_ErrorHandler {
 	 * @return string
 	 */
 	public static function getHTTPErrorPagesDir(){
-		if(!static::$HTTP_error_pages_dir) {
-			static::$HTTP_error_pages_dir = JET_ERROR_PAGES_PATH;
-		}
-
 		return static::$HTTP_error_pages_dir;
 	}
 
@@ -169,6 +165,10 @@ class Debug_ErrorHandler {
 	 * @return bool|string
 	 */
 	public static function getErrorPageFilePath( $code ) {
+		if(!static::$HTTP_error_pages_dir) {
+			return false;
+		}
+
 		$code = (int)$code;
 		$path = static::$HTTP_error_pages_dir.$code.'.phtml';
 

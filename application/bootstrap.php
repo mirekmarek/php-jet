@@ -34,7 +34,7 @@ require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
 
 
-//require( JET_APPLICATION_PATH . '_install/_installer/install.php' );
+require( JET_BASE_PATH . '_installer/install.php' );
 
 Application::start();
 Application::runMvc();

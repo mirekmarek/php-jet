@@ -1,0 +1,49 @@
+<?php
+use JetExampleApp\Installer;
+use Jet\Mvc_View;
+use Jet\Form;
+use Jet\Tr;
+
+use JetUI\messages;
+
+/**
+ * @var Mvc_View $this
+ * @var Form $form
+ */
+$form = $this->getRaw('form');
+
+$form->setIsReadonly();
+$form->setDefaultLabelWidth(2);
+?>
+
+<?=Installer::buttonBack()?>
+
+<h3><?=Tr::_('Connection \'%CONNECTION%\' Test', ['CONNECTION'=>$this->getString('connection_name')]);?></h3>
+
+<?php if($this->getBool('OK')): ?>
+	<?=messages::createSuccess( Tr::_('OK! Database connection works correctly.') )?>
+<?php else: ?>
+	<?=messages::createDanger( Tr::_('Error connecting to database:').$this->getString('error_message') )?>
+<?php endif; ?>
+
+
+<?=$form->start()?>
+<?=$form->message()?>
+
+<?=$form->field('name')?>
+<?=$form->field('driver')?>
+
+
+<?=$form->field('DSN')?>
+<?=$form->field('username')?>
+<?=$form->field('password')?>
+
+<?=$form->end()?>
+
+
+<?php if($this->getBool('OK')): ?>
+<form method="post">
+	<input type="hidden" name="go" value="1">
+	<?=Installer::buttonNext();?>
+</form>
+<?php endif; ?>

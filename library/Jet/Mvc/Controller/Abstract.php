@@ -2,11 +2,6 @@
 /**
  *
  *
- *
- * Main controller class
- * @see Mvc/readme.txt
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
@@ -271,7 +266,6 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 
 	/**
 	 * Renders the output and adds it into the default layout.
-	 * @see Mvc/readme.txt
 	 *
 	 * @param string $script
 	 * @param string $position (optional, default: by current dispatcher queue item)

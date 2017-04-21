@@ -28,8 +28,3 @@ if(!$got_base_URI){
 define('JET_BASE_URI', $base_URI);
 
 define('JET_PUBLIC_URI', JET_BASE_URI . 'public/');
-define('JET_PUBLIC_FILES_URI', JET_PUBLIC_URI . 'files/');
-define('JET_PUBLIC_DATA_URI', JET_PUBLIC_URI . 'data/');
-define('JET_PUBLIC_IMAGES_URI', JET_PUBLIC_URI . 'images/');
-define('JET_PUBLIC_SCRIPTS_URI', JET_PUBLIC_URI . 'scripts/');
-define('JET_PUBLIC_STYLES_URI', JET_PUBLIC_URI . 'styles/');

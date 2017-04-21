@@ -1,0 +1,17 @@
+<?php
+use Jet\Form;
+use Jet\Tr;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var Form $form
+ */
+$form = $this->getRaw('form');
+
+?>
+<h3><?=Tr::_('Configure database connection');?></h3>
+<?php
+
+/** @noinspection PhpIncludeInspection */
+require 'parts/connection_'.$this->getString('connection_type').'.phtml';

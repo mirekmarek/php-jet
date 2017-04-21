@@ -11,7 +11,7 @@
  * Allows for each positions in the output place specific content.
  *
  * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name="positionName"/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
- * - Handles the tags for JavaScript initialization   (tag: <jet_layout_javascripts/> ), @see Mvc_Layout::handleJavascript(), @see Mvc_Layout::requireJavascriptLib(), @see JavaScript_Abstract, @see Mvc/readme.txt
+ * - Handles the tags for JavaScript initialization   (tag: <jet_layout_javascripts/> ), @see Mvc_Layout::handleJavascript(), @see Mvc_Layout::requireJavascriptLib()
  * - Handles the tags for layout parts including (tag: <jet_layout_part name="part-name"/>), @see Mvc_Layout::handleParts()
  * - Handles the tags for modules dispatching (tag: <jet_module data-module-name="ModuleName" data-action="controllerAction" data-action-params="{param:value}" />)
  *
@@ -814,7 +814,6 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 	 * @see Mvc_Layout::requireJavascriptFile();
 	 * @see Mvc_Layout::requireJavascriptCode();
 	 * @see JavaScript_Abstract
-	 * @see Mvc/readme.txt
 	 *
 	 * @param string &$result
 	 */

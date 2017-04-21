@@ -3,12 +3,6 @@
  *
  *
  *
- * Default controller
- * Applied for the standard mode.
- *
- * @see Mvc/readme.txt
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>

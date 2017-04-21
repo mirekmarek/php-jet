@@ -52,4 +52,12 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 		]));
 	}
 
+	/**
+	 * @param string $dictionaries_path
+	 */
+	public function setDictionariesPath($dictionaries_path)
+	{
+		$this->dictionaries_path = $dictionaries_path;
+	}
+
 }

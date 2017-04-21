@@ -276,9 +276,14 @@ interface Mvc_Site_Interface {
      */
     public function handle404();
 
-    /**
-     * @param string $template
-     */
-    public function create( $template );
+	/**
+	 *
+	 */
+	public function saveDataFile();
+
+	/**
+	 *
+	 */
+	public function saveUrlMapFile();
 
 }

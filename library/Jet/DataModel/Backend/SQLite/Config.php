@@ -47,10 +47,26 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	}
 
 	/**
+	 * @param string $directory_path
+	 */
+	public function setDirectoryPath($directory_path)
+	{
+		$this->directory_path = $directory_path;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getDatabaseName() {
 		return $this->database_name;
+	}
+
+	/**
+	 * @param string $database_name
+	 */
+	public function setDatabaseName($database_name)
+	{
+		$this->database_name = $database_name;
 	}
 
 	/**
