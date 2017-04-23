@@ -59,8 +59,8 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Int::setMinValue
-	 * @covers Jet\Config_Definition_Property_Int::getMinValue
+	 * @covers Config_Definition_Property_Int::setMinValue
+	 * @covers Config_Definition_Property_Int::getMinValue
 	 */
 	public function testSetGetMinValue() {
 		$this->object->setMinValue( 10.1 );
@@ -69,7 +69,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Int::setMaxValue
+	 * @covers Config_Definition_Property_Int::setMaxValue
 	 */
 	public function testSetGetMaxValue() {
 		$this->object->setMaxValue( 100.1 );
@@ -78,7 +78,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Int::checkValueType
+	 * @covers Config_Definition_Property_Int::checkValueType
 	 */
 	public function testCheckValueType() {
 
@@ -90,8 +90,8 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::checkValue
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::checkValue
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -106,8 +106,8 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::checkValue
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::checkValue
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -121,8 +121,8 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::checkValue
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::checkValue
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -135,8 +135,8 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::checkValue
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::checkValue
 	 *
 	 */
 	public function testCheckValue() {
@@ -148,7 +148,7 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Int::getTechnicalDescription
+	 * @covers Config_Definition_Property_Int::getTechnicalDescription
 	 */
 	public function testGetTechnicalDescription() {
 		$this->object->setMinValue(10.1);
@@ -161,8 +161,8 @@ class Config_Definition_Property_FloatTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::createFormField
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$this->object->setMinValue(10.1);

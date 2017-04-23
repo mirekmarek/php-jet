@@ -58,7 +58,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Image::__construct
+	 * @covers Image::__construct
 	 *
 	 * @expectedException \Jet\Data_Image_Exception
 	 * @expectedExceptionCode \Jet\Data_Image_Exception::CODE_IMAGE_FILE_DOES_NOT_EXIST
@@ -68,7 +68,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Image::__construct
+	 * @covers Image::__construct
 	 *
 	 * @expectedException \Jet\Data_Image_Exception
 	 * @expectedExceptionCode \Jet\Data_Image_Exception::CODE_UNSUPPORTED_IMAGE_TYPE
@@ -78,14 +78,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Image::__construct
-	 * @covers Jet\Image::getPath
-	 * @covers Jet\Image::getDirectory
-	 * @covers Jet\Image::getFileName
-	 * @covers Jet\Image::getWidth
-	 * @covers Jet\Image::getHeight
-	 * @covers Jet\Image::getImgType
-	 * @covers Jet\Image::getMimeType
+	 * @covers Image::__construct
+	 * @covers Image::getPath
+	 * @covers Image::getDirectory
+	 * @covers Image::getFileName
+	 * @covers Image::getWidth
+	 * @covers Image::getHeight
+	 * @covers Image::getImgType
+	 * @covers Image::getMimeType
 	 */
 	public function testGetPath() {
 
@@ -151,8 +151,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Image::setImageQuality
-	 * @covers Jet\Image::getImageQuality
+	 * @covers Image::setImageQuality
+	 * @covers Image::getImageQuality
 	 */
 	public function testSetGetImageQuality() {
 		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.jpg' );
@@ -163,8 +163,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Image::createThumbnail
-	 * @covers Jet\Image::saveAs
+	 * @covers Image::createThumbnail
+	 * @covers Image::saveAs
 	 */
 	public function testCreateThumbnailAndSaveAs() {
 		$image = new Data_Image( IMAGE_TEST_BASEDIR.'TestImage1.gif' );

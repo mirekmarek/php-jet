@@ -86,7 +86,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 
-		Http_Headers::setHeaderFunctionName('\Jet\header_test');
+		Http_Headers::setHeaderFunctionName(__NAMESPACE__.'\header_test');
 		$GLOBALS['_test_Http_Headers_sent_headers'] = [];
 	}
 
@@ -95,8 +95,8 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Http_Headers::getHttpVersion
-	 * @covers Jet\Http_Headers::setHttpVersion
+	 * @covers Http_Headers::getHttpVersion
+	 * @covers Http_Headers::setHttpVersion
 	 */
 	public function testSetGetHttpVersion() {
 		$this->assertEquals( '1.1', Http_Headers::getHttpVersion() );
@@ -108,14 +108,14 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Http_Headers::getResponseCodes
+	 * @covers Http_Headers::getResponseCodes
 	 */
 	public function testGetResponseCodes() {
 		$this->assertEquals( $this->http_codes, Http_Headers::getResponseCodes() );
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::getResponseMessage
+	 * @covers Http_Headers::getResponseMessage
 	 */
 	public function testGetResponseMessage() {
 		foreach($this->http_codes as $code=>$message) {
@@ -124,7 +124,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::getResponseHeader
+	 * @covers Http_Headers::getResponseHeader
 	 */
 	public function testGetResponseHeader() {
 		$this->assertEquals( false, Http_Headers::getResponseHeader( 99999 ) );
@@ -177,7 +177,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::response
+	 * @covers Http_Headers::response
 	 */
 	public function testResponse() {
 
@@ -187,7 +187,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::responseOK
+	 * @covers Http_Headers::responseOK
 	 */
 	public function testResponseOK() {
 		Http_Headers::responseOK( $this->test_headers);
@@ -196,7 +196,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::movedPermanently
+	 * @covers Http_Headers::movedPermanently
 	 */
 	public function testMovedPermanently() {
 		Http_Headers::movedPermanently( $this->redirect_target, false, $this->test_headers );
@@ -205,7 +205,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::movedTemporary
+	 * @covers Http_Headers::movedTemporary
 	 */
 	public function testMovedTemporary() {
 		Http_Headers::movedTemporary( $this->redirect_target, false, $this->test_headers );
@@ -214,7 +214,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::seeOther
+	 * @covers Http_Headers::seeOther
 	 */
 	public function testSeeOther() {
 		Http_Headers::seeOther( $this->redirect_target, false, $this->test_headers );
@@ -223,7 +223,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::notFound
+	 * @covers Http_Headers::notFound
 	 */
 	public function testNotFound() {
 		Http_Headers::notFound( $this->test_headers );
@@ -232,7 +232,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::notModified
+	 * @covers Http_Headers::notModified
 	 */
 	public function testNotModified() {
 		Http_Headers::notModified( $this->test_headers );
@@ -241,7 +241,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::authorizationRequired
+	 * @covers Http_Headers::authorizationRequired
 	 */
 	public function testAuthorizationRequired() {
 		Http_Headers::authorizationRequired( $this->test_headers );
@@ -250,7 +250,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::badRequest
+	 * @covers Http_Headers::badRequest
 	 */
 	public function testBadRequest() {
 		Http_Headers::badRequest( $this->test_headers );
@@ -259,7 +259,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::forbidden
+	 * @covers Http_Headers::forbidden
 	 */
 	public function testForbidden() {
 		Http_Headers::forbidden( $this->test_headers );
@@ -268,7 +268,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::internalServerError
+	 * @covers Http_Headers::internalServerError
 	 */
 	public function testInternalServerError() {
 		Http_Headers::internalServerError( $this->test_headers );
@@ -277,9 +277,12 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::reload
+	 * @covers Http_Headers::reload
 	 */
 	public function testReload() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
         //TODO:
 
         /*
@@ -300,7 +303,7 @@ class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Http_Headers::formSent
+	 * @covers Http_Headers::formSent
 	 */
 	public function testFormSent() {
         /*

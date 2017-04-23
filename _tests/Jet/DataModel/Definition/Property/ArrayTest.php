@@ -52,22 +52,22 @@ class DataModel_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Array::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Array::setUp
 	 * @expectedException \Jet\DataModel_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
 	 */
-	public function testSetUpFailedIsID() {
+	public function testSetUpFailedIsId() {
 		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
-		$this->property_options['is_ID'] = true;
+		$this->property_options['is_id'] = true;
 
 		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Array::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Array::setUp
 	 * @expectedException \Jet\DataModel_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
 	 */

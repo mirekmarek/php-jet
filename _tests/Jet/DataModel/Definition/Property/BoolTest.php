@@ -52,7 +52,7 @@ class DataModel_Definition_Property_BoolTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Bool::checkValueType
+	 * @covers DataModel_Definition_Property_Bool::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = 1;

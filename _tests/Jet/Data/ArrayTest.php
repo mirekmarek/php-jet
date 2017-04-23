@@ -111,14 +111,14 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::getRawData
+	 * @covers Data_Array::getRawData
 	 */
 	public function testGetRawData() {
 		$this->assertEquals( $this->data, $this->object->getRawData() );
 	}
 
 	/**
-	 * @covers Jet\Data_Array::appendData
+	 * @covers Data_Array::appendData
 	 */
 	public function testAppendData() {
 		$new_data = ['merge_test'=>'test'];
@@ -131,7 +131,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Array::setData
+	* @covers Data_Array::setData
 	*/
 	public function testSetData() {
 		$new_data = ['merge_test'=>'test'];
@@ -144,7 +144,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Array::clearData
+	* @covers Data_Array::clearData
 	*/
 	public function testClearData() {
 		$this->object->clearData();
@@ -155,7 +155,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Array::exists
+	* @covers Data_Array::exists
 	*/
 	public function testExists() {
 		$this->assertTrue( $this->object->exists('int') );
@@ -193,8 +193,8 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::set
-	 * @covers Jet\Data_Array::getRaw
+	 * @covers Data_Array::set
+	 * @covers Data_Array::getRaw
 	 */
 	public function testSet() {
 		$this->object->set('int', 54321);
@@ -205,7 +205,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::remove
+	 * @covers Data_Array::remove
 	 */
 	public function testRemove() {
 		$this->assertTrue($this->object->exists('/sub1/sub2/int'));
@@ -216,7 +216,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::getRaw
+	 * @covers Data_Array::getRaw
 	 */
 	public function testGetRaw() {
 		$this->assertEquals( $this->data['string'], $this->object->getRaw('string') );
@@ -225,7 +225,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Array::getInt
+	* @covers Data_Array::getInt
 	*/
 	public function testGetInt() {
 		$this->assertEquals( $this->data['int'], $this->object->getRaw('int') );
@@ -234,7 +234,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::getFloat
+	 * @covers Data_Array::getFloat
 	 */
 	public function testGetFloat() {
 		$this->assertEquals( $this->data['float'], $this->object->getRaw('float') );
@@ -243,7 +243,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::getBool
+	 * @covers Data_Array::getBool
 	 */
 	public function testGetBool() {
 		$this->assertEquals( $this->data['bool'], $this->object->getRaw('bool') );
@@ -252,7 +252,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::getString
+	 * @covers Data_Array::getString
 	 */
 	public function testGetString() {
 		$this->assertEquals( Data_Text::htmlSpecialChars( $this->data['string'] ), $this->object->getString('string') );
@@ -261,7 +261,7 @@ class Data_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Data_Array::export
+	 * @covers Data_Array::export
 	 */
 	public function testExport() {
 		$valid_result =

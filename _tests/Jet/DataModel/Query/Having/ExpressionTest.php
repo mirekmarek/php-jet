@@ -75,14 +75,14 @@ class DataModel_Query_Having_ExpressionTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Having_Expression::getProperty
+	 * @covers DataModel_Query_Having_Expression::getProperty
 	 */
 	public function testGetProperty() {
 		$this->assertEquals($this->select_item, $this->object->getProperty());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Having_Expression::toString
+	 * @covers DataModel_Query_Having_Expression::toString
 	 */
 	public function testToString() {
 		$this->assertEquals('SUM(data_model_test_mock::float_property)+data_model_test_mock::int_property != \'test\'', $this->object->toString());

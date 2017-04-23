@@ -47,21 +47,21 @@ class Application_Signals_SignalTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Signals_Signal::getSender
+	 * @covers Application_Signals_Signal::getSender
 	 */
 	public function testGetSender() {
 		$this->assertEquals( $this->sender, $this->object->getSender() );
 	}
 
 	/**
-	 * @covers Jet\Application_Signals_Signal::getName
+	 * @covers Application_Signals_Signal::getName
 	 */
 	public function testGetName() {
 		$this->assertEquals( $this->signal, $this->object->getName() );
 	}
 
 	/**
-	 * @covers Jet\Application_Signals_Signal::getData
+	 * @covers Application_Signals_Signal::getData
 	 */
 	public function testGetData() {
 		$this->assertEquals( $this->data, $this->object->getData() );

@@ -62,7 +62,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
 
 		$this->select_data = [
-			$this->properties['ID_property'],
+			$this->properties['id_property'],
 			'my_string_property' => $this->properties['string_property'],
 			'my_sum' => [
 				[
@@ -94,7 +94,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			'this.string_property !=' => 'test',
 			'OR',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -124,59 +124,59 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::helper_getCreateCommand
+	 * @covers DataModel_Backend_MySQL::helper_getCreateCommand
 	 */
 	public function testHelper_getCreateCommand() {
 		$data_model = new DataModel_Query_DataModelTestMock();
 
-		$q = $this->object->helper_getCreateCommand($data_model);
+		$q = $this->object->helper_getCreateCommand( $data_model->getDataModelDefinition() );
 
 		$valid_q = 'CREATE TABLE IF NOT EXISTS `data_model_test_mock` ('.JET_EOL
-				.JET_TAB.'`ID` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT \'\','.JET_EOL
-				.JET_TAB.'`ID_property` varchar(50) COLLATE utf8_bin NOT NULL  DEFAULT \'\','.JET_EOL
+				.JET_TAB.'`id` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT \'\','.JET_EOL
+				.JET_TAB.'`id_property` varchar(50) COLLATE utf8_bin NOT NULL  DEFAULT \'\','.JET_EOL
 				.JET_TAB.'`string_property` varchar(123) DEFAULT \'default value\','.JET_EOL
-				.JET_TAB.'`locale_property` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT \'default value\','.JET_EOL
+				.JET_TAB.'`locale_property` varchar(20) COLLATE utf8_bin NOT NULL,'.JET_EOL
 				.JET_TAB.'`int_property` int DEFAULT 2,'.JET_EOL
 				.JET_TAB.'`float_property` float DEFAULT 2.2,'.JET_EOL
 				.JET_TAB.'`bool_property` tinyint(1) DEFAULT 1,'.JET_EOL
 				.JET_TAB.'`array_property` longtext,'.JET_EOL
 				.JET_TAB.'`date_time_property` datetime DEFAULT NULL,'.JET_EOL
 				.JET_TAB.'`date_property` date DEFAULT NULL'.JET_EOL
-				.JET_TAB.',PRIMARY KEY (`ID`, `ID_property`)'.JET_EOL
+				.JET_TAB.',PRIMARY KEY (`id`, `id_property`)'.JET_EOL
 				.') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;'.JET_EOL.JET_EOL;
 
 		$this->assertEquals($valid_q, $q);
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::helper_getDropCommand
+	 * @covers DataModel_Backend_MySQL::helper_getDropCommand
 	 */
 	public function testHelper_getDropCommand() {
 		$data_model = new DataModel_Query_DataModelTestMock();
 
 		$valid_q = 'RENAME TABLE `data_model_test_mock` TO `_d'.date('YmdHis').'data_model_test_mock`';
 
-		$q = $this->object->helper_getDropCommand( $data_model );
+		$q = $this->object->helper_getDropCommand( $data_model->getDataModelDefinition() );
 
 		$this->assertEquals($valid_q, $q);
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::helper_getUpdateCommand
+	 * @covers DataModel_Backend_MySQL::helper_getUpdateCommand
 	 */
 	public function testHelper_getUpdateCommand() {
 		$pdo = Db::get('test_mysql');
 
 		$pdo->execCommand('CREATE TABLE IF NOT EXISTS `data_model_test_mock` (
-							`ID` varchar(50) COLLATE utf8_bin NOT NULL,
-					        `ID_property` varchar(50) COLLATE utf8_bin NOT NULL,
+							`id` varchar(64) COLLATE utf8_bin NOT NULL,
+					        `id_property` varchar(50) COLLATE utf8_bin NOT NULL,
 					        `string_property` varchar(123),
 					        `locale_property` varchar(20) COLLATE utf8_bin NOT NULL,
 					        `float_property` float,
 					        `bool_property` tinyint(1),
 					        `array_property` longtext,
 					        `date_time_property` datetime
-					        ,PRIMARY KEY (`ID`, `ID_property`)
+					        ,PRIMARY KEY (`id`, `id_property`)
 							) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;');
 
 
@@ -184,32 +184,32 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 		$valid_d = [
 			0 => 'CREATE TABLE IF NOT EXISTS `_UP'.$timestamp.'_data_model_test_mock` ('.JET_EOL
-                    .JET_TAB.'`ID` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT \'\','.JET_EOL
-                    .JET_TAB.'`ID_property` varchar(50) COLLATE utf8_bin NOT NULL  DEFAULT \'\','.JET_EOL
+                    .JET_TAB.'`id` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT \'\','.JET_EOL
+                    .JET_TAB.'`id_property` varchar(50) COLLATE utf8_bin NOT NULL  DEFAULT \'\','.JET_EOL
                     .JET_TAB.'`string_property` varchar(123) DEFAULT \'default value\','.JET_EOL
-                    .JET_TAB.'`locale_property` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT \'default value\','.JET_EOL
+                    .JET_TAB.'`locale_property` varchar(20) COLLATE utf8_bin NOT NULL,'.JET_EOL
                     .JET_TAB.'`int_property` int DEFAULT 2,'.JET_EOL
                     .JET_TAB.'`float_property` float DEFAULT 2.2,'.JET_EOL
                     .JET_TAB.'`bool_property` tinyint(1) DEFAULT 1,'.JET_EOL
                     .JET_TAB.'`array_property` longtext,'.JET_EOL
                     .JET_TAB.'`date_time_property` datetime DEFAULT NULL,'.JET_EOL
                     .JET_TAB.'`date_property` date DEFAULT NULL'.JET_EOL
-                    .JET_TAB.',PRIMARY KEY (`ID`, `ID_property`)'.JET_EOL
+                    .JET_TAB.',PRIMARY KEY (`id`, `id_property`)'.JET_EOL
                     .') ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;'.JET_EOL.JET_EOL,
 
-			1 => 'INSERT INTO `_UP'.$timestamp.'_data_model_test_mock` (`ID`,`ID_property`,`string_property`,`locale_property`,`float_property`,`bool_property`,`array_property`,`date_time_property`) SELECT `ID`,`ID_property`,`string_property`,`locale_property`,`float_property`,`bool_property`,`array_property`,`date_time_property` FROM `data_model_test_mock`;',
+			1 => 'INSERT INTO `_UP'.$timestamp.'_data_model_test_mock` (`id`,`id_property`,`string_property`,`locale_property`,`float_property`,`bool_property`,`array_property`,`date_time_property`) SELECT `id`,`id_property`,`string_property`,`locale_property`,`float_property`,`bool_property`,`array_property`,`date_time_property` FROM `data_model_test_mock`;',
 			2 => 'UPDATE `_UP'.$timestamp.'_data_model_test_mock` SET `int_property`=2, `date_property`=\'default value\'',
 			3 => 'RENAME TABLE `data_model_test_mock` TO `_UP'.$timestamp.'_b_data_model_test_mock`;',
 			4 => 'RENAME TABLE `_UP'.$timestamp.'_data_model_test_mock` TO  `data_model_test_mock`;',
 		];
 
-		$this->assertEquals( $valid_d, $this->object->helper_getUpdateCommand( $this->data_model ) );
+		$this->assertEquals( $valid_d, $this->object->helper_getUpdateCommand( $this->data_model->getDataModelDefinition() ) );
 
 		$pdo->execCommand('DROP TABLE IF EXISTS data_model_test_mock');
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::getBackendSelectQuery
+	 * @covers DataModel_Backend_MySQL::getBackendSelectQuery
 	 */
 	public function testGetBackendSelectQuery() {
 
@@ -219,12 +219,12 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			->setRelationJoinType('data_model_test_mock_related_1toN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setHaving($this->having_data)
 			->setOrderBy( ['+my_string_property', '-my_count', 'this.int_property'])
-			->setGroupBy( ['ID_property', 'my_string_property', 'this.int_property'])
+			->setGroupBy( ['id_property', 'my_string_property', 'this.int_property'])
 			->setLimit(100, 10);
 
 		$valid_query =
 				'SELECT'.JET_EOL
-					.JET_TAB.'`data_model_test_mock`.`ID_property` AS `ID_property`,'.JET_EOL
+					.JET_TAB.'`data_model_test_mock`.`id_property` AS `id_property`,'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`.`string_property` AS `my_string_property`,'.JET_EOL
 					.JET_TAB.'SUM(`data_model_test_mock`.`int_property`)+`data_model_test_mock`.`float_property` AS `my_sum`,'.JET_EOL
 					.JET_TAB.'COUNT(`data_model_test_mock`.`int_property`) AS `my_count`,'.JET_EOL
@@ -232,13 +232,13 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 				.'FROM'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_mton` ON'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID` AND'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID_property`'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id` = `data_model_test_mock_related_mton`.`data_model_test_mock_id` AND'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` = `data_model_test_mock_related_mton`.`data_model_test_mock_id_property`'.JET_EOL
 						.JET_TAB.JET_TAB.'JOIN `data_model_2_test_mock` ON'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_2_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_2_test_mock_ID`'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_2_test_mock`.`id` = `data_model_test_mock_related_mton`.`data_model_2_test_mock_id`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_1ton` ON'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_1ton`.`main_ID` AND'.JET_EOL
-							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_1ton`.`main_ID_property`'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id` = `data_model_test_mock_related_1ton`.`main_id` AND'.JET_EOL
+							.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` = `data_model_test_mock_related_1ton`.`main_id_property`'.JET_EOL
 				.'WHERE'.JET_EOL
 					.JET_TAB.'`data_model_2_test_mock`.`string_property`=\'test\''.JET_EOL
 					.JET_TAB.'AND'.JET_EOL
@@ -255,12 +255,12 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 					.JET_TAB.'`data_model_test_mock`.`string_property`<>\'test\''.JET_EOL
 					.JET_TAB.'OR'.JET_EOL
 					.JET_TAB.'('.JET_EOL
-						.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` LIKE \'test%\''.JET_EOL
+						.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` LIKE \'test%\''.JET_EOL
 						.JET_TAB.JET_TAB.'AND'.JET_EOL
 						.JET_TAB.JET_TAB.'`data_model_test_mock`.`int_property`=54321'.JET_EOL
 						.JET_TAB.')'.JET_EOL.JET_EOL
 				.'GROUP BY'.JET_EOL
-					.JET_TAB.'`ID_property`,'.JET_EOL
+					.JET_TAB.'`id_property`,'.JET_EOL
 					.JET_TAB.'`my_string_property`,'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`.`int_property`'.JET_EOL.JET_EOL
 				.'HAVING'.JET_EOL
@@ -284,7 +284,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::getBackendCountQuery
+	 * @covers DataModel_Backend_MySQL::getBackendCountQuery
 	 */
 	public function testGetBackendCountQuery() {
 		$query = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
@@ -293,20 +293,20 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			->setRelationJoinType('data_model_test_mock_related_1toN', DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN)
 			->setHaving($this->having_data)
 			->setOrderBy( ['+my_string_property', '-my_count'])
-			->setGroupBy( ['ID_property', 'my_string_property'])
+			->setGroupBy( ['id_property', 'my_string_property'])
 			->setLimit(100, 10);
 
 
 		$valid_query = 'SELECT count(*) FROM'.JET_EOL
 					.JET_TAB.'`data_model_test_mock`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_mton` ON'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID` AND'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_mton`.`data_model_test_mock_ID_property`'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id` = `data_model_test_mock_related_mton`.`data_model_test_mock_id` AND'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` = `data_model_test_mock_related_mton`.`data_model_test_mock_id_property`'.JET_EOL
 						.JET_TAB.JET_TAB.'JOIN `data_model_2_test_mock` ON'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_2_test_mock`.`ID` = `data_model_test_mock_related_mton`.`data_model_2_test_mock_ID`'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_2_test_mock`.`id` = `data_model_test_mock_related_mton`.`data_model_2_test_mock_id`'.JET_EOL
 						.JET_TAB.JET_TAB.'LEFT OUTER JOIN `data_model_test_mock_related_1ton` ON'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID` = `data_model_test_mock_related_1ton`.`main_ID` AND'.JET_EOL
-						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` = `data_model_test_mock_related_1ton`.`main_ID_property`'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id` = `data_model_test_mock_related_1ton`.`main_id` AND'.JET_EOL
+						.JET_TAB.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` = `data_model_test_mock_related_1ton`.`main_id_property`'.JET_EOL
 				.'WHERE'.JET_EOL
 					.JET_TAB.'`data_model_2_test_mock`.`string_property`=\'test\''.JET_EOL
 					.JET_TAB.'AND'.JET_EOL
@@ -323,12 +323,12 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 					.JET_TAB.'`data_model_test_mock`.`string_property`<>\'test\''.JET_EOL
 					.JET_TAB.'OR'.JET_EOL
 					.JET_TAB.'('.JET_EOL
-						.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` LIKE \'test%\''.JET_EOL
+						.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` LIKE \'test%\''.JET_EOL
 						.JET_TAB.JET_TAB.'AND'.JET_EOL
 						.JET_TAB.JET_TAB.'`data_model_test_mock`.`int_property`=54321'.JET_EOL
 					.JET_TAB.')'.JET_EOL.JET_EOL
 				.'GROUP BY'.JET_EOL
-					.JET_TAB.'`ID_property`,'.JET_EOL
+					.JET_TAB.'`id_property`,'.JET_EOL
 					.JET_TAB.'`my_string_property`'.JET_EOL.JET_EOL
 				.'HAVING'.JET_EOL
 					.JET_TAB.'`my_count`=1234'.JET_EOL
@@ -346,7 +346,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::getBackendInsertQuery
+	 * @covers DataModel_Backend_MySQL::getBackendInsertQuery
 	 */
 	public function testGetBackendInsertQuery() {
 		$definition = $this->data_model->getDataModelDefinition();
@@ -359,17 +359,17 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			}
 
 			$value = $property_definition->getDefaultValue();
-			if($property_name=='ID') {
+			if($property_name=='id') {
 				$value = 'id_value_123';
 			}
 			$record->addItem($property_definition, $value );
 		}
 
 		$valid_query = 'INSERT INTO `data_model_test_mock` SET '.JET_EOL
-			.'`ID`=\'id_value_123\','.JET_EOL
-			.'`ID_property`=\'ID default value\','.JET_EOL
+			.'`id`=\'id_value_123\','.JET_EOL
+			.'`id_property`=\'Id default value\','.JET_EOL
 			.'`string_property`=\'default value\','.JET_EOL
-			.'`locale_property`=\'default value\','.JET_EOL
+			.'`locale_property`=\'cs_CZ\','.JET_EOL
 			.'`int_property`=2,'.JET_EOL
 			.'`float_property`=2.2,'.JET_EOL
 			.'`bool_property`=1,'.JET_EOL
@@ -381,7 +381,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::getBackendUpdateQuery
+	 * @covers DataModel_Backend_MySQL::getBackendUpdateQuery
 	 */
 	public function testGetBackendUpdateQuery() {
 
@@ -397,7 +397,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			}
 
 			$value = $property_definition->getDefaultValue();
-			if($property_name=='ID') {
+			if($property_name=='id') {
 				$value = 'id_value_123';
 			}
 			$record->addItem($property_definition, $value );
@@ -405,7 +405,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 		$valid_query = 'UPDATE `data_model_test_mock` SET '.JET_EOL
 			.'`string_property`=\'default value\','.JET_EOL
-			.'`locale_property`=\'default value\','.JET_EOL
+			.'`locale_property`=\'cs_CZ\','.JET_EOL
 			.'`int_property`=2,'.JET_EOL
 			.'`float_property`=2.2,'.JET_EOL
 			.'`bool_property`=1,'.JET_EOL
@@ -428,7 +428,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			.JET_TAB.'`data_model_test_mock`.`string_property`<>\'test\''.JET_EOL
 			.JET_TAB.'OR'.JET_EOL
 			.JET_TAB.'('.JET_EOL
-			.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` LIKE \'test%\''.JET_EOL
+			.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` LIKE \'test%\''.JET_EOL
 			.JET_TAB.JET_TAB.'AND'.JET_EOL
 			.JET_TAB.JET_TAB.'`data_model_test_mock`.`int_property`=54321'.JET_EOL
 			.JET_TAB.')'.JET_EOL;
@@ -437,7 +437,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Backend_MySQL::getBackendDeleteQuery
+	 * @covers DataModel_Backend_MySQL::getBackendDeleteQuery
 	 */
 	public function testGetBackendDeleteQuery() {
 
@@ -460,7 +460,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 			.JET_TAB.'`data_model_test_mock`.`string_property`<>\'test\''.JET_EOL
 			.JET_TAB.'OR'.JET_EOL
 			.JET_TAB.'('.JET_EOL
-			.JET_TAB.JET_TAB.'`data_model_test_mock`.`ID_property` LIKE \'test%\''.JET_EOL
+			.JET_TAB.JET_TAB.'`data_model_test_mock`.`id_property` LIKE \'test%\''.JET_EOL
 			.JET_TAB.JET_TAB.'AND'.JET_EOL
 			.JET_TAB.JET_TAB.'`data_model_test_mock`.`int_property`=54321'.JET_EOL
 			.JET_TAB.')'.JET_EOL;

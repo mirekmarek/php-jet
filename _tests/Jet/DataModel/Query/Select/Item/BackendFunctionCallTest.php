@@ -59,7 +59,7 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select_Item_BackendFunctionCall::__construct
+	 * @covers DataModel_Query_Select_Item_BackendFunctionCall::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -80,7 +80,7 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select_Item_BackendFunctionCall::__construct
+	 * @covers DataModel_Query_Select_Item_BackendFunctionCall::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -101,7 +101,7 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select_Item_BackendFunctionCall::getProperties
+	 * @covers DataModel_Query_Select_Item_BackendFunctionCall::getProperties
 	 */
 	public function testGetProperties() {
 		$this->assertEquals(
@@ -114,7 +114,7 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select_Item_BackendFunctionCall::getBackendFunction
+	 * @covers DataModel_Query_Select_Item_BackendFunctionCall::getBackendFunction
 	 */
 	public function testGetBackendFunction() {
 		$this->assertEquals( 'SUM(%float_property%)+%int_property%', $this->object->getBackendFunction() );
@@ -122,7 +122,7 @@ class DataModel_Query_Select_Item_BackendFunctionCallTest extends \PHPUnit_Frame
 
 	/**
 	 *
-	 * @covers Jet\DataModel_Query_Select_Item_BackendFunctionCall::toString
+	 * @covers DataModel_Query_Select_Item_BackendFunctionCall::toString
 	 */
 	public function testToString() {
 

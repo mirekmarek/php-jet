@@ -38,6 +38,9 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 		//TODO:
 		/*
 		$this->data_model = new DataModel_Query_DataModelTestMock();
@@ -46,7 +49,7 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 
 		$this->object = new DataModel_Definition_Relation_Internal(
 			$this->data_model->getDataModelDefinition(),
-			$this->data_model->getIDProperties()
+			$this->data_model->getIdProperties()
 		);
 		*/
 	}
@@ -59,19 +62,22 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Relation_Item::setJoinByProperties
-	 * @covers Jet\DataModel_Query_Relation_Item::getJoinByProperties
+	 * @covers DataModel_Query_Relation_Item::setJoinByProperties
+	 * @covers DataModel_Query_Relation_Item::getJoinByProperties
 	 */
 	public function testGetSetJoinByProperties() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 		//TODO:
 		/*
 		$this->assertEquals(
-			$this->data_model->getIDProperties(),
+			$this->data_model->getIdProperties(),
 			$this->object->getJoinByProperties()
 		);
 
 		$new_join = array(
-			$this->properties['ID_property'],
+			$this->properties['id_property'],
 			$this->properties['string_property']
 		);
 
@@ -84,10 +90,13 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Relation_Item::setJoinType
-	 * @covers Jet\DataModel_Query_Relation_Item::getJoinType
+	 * @covers DataModel_Query_Relation_Item::setJoinType
+	 * @covers DataModel_Query_Relation_Item::getJoinType
 	 */
 	public function testGetSetJoinType() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 		//TODO:
 		/*
 		$this->assertEquals(DataModel_Query::JOIN_TYPE_LEFT_JOIN, $this->object->getJoinType());
@@ -98,9 +107,12 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Relation_Item::getRelatedDataModelDefinition
+	 * @covers DataModel_Query_Relation_Item::getRelatedDataModelDefinition
 	 */
 	public function testGetRelatedDataModelDefinition() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 		//TODO:
 		//$this->assertSame($this->data_model->getDataModelDefinition(), $this->object->getRelatedDataModelDefinition());
 	}

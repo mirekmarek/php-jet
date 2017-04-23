@@ -17,7 +17,7 @@ namespace Jet;
  * @JetDataModel:name = 'data_model_test_mock_related_1toN'
  * @JetDataModel:database_table_name = 'data_model_test_mock_related_1toN'
  * @JetDataModel:parent_model_class_name = 'DataModel_Query_DataModelTestMock'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'Jet\DataModel_Id_UniqueString'
  */
 
 
@@ -25,30 +25,30 @@ class DataModel_Query_DataModel2Related1TONTestMock extends DataModel_Related_1t
 
 	/**
 	 *
-	 * @JetDataModel:related_to = 'main.ID'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:related_to = 'main.id'
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $main_ID = '';
+	protected $main_id = '';
 
 	/**
 	 *
-	 * @JetDataModel:related_to = 'main.ID_property'
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:related_to = 'main.id_property'
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $main_ID_property = '';
+	protected $main_id_property = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
@@ -56,7 +56,7 @@ class DataModel_Query_DataModel2Related1TONTestMock extends DataModel_Related_1t
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:do_not_export = true
-	 * @JetDataModel:is_ID = false
+	 * @JetDataModel:is_id = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
 	 * @JetDataModel:form_field_label = 'Form field label'

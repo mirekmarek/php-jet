@@ -28,24 +28,24 @@ class DataModel_Query_DataModelRelatedMTONTestMock extends DataModel_Related_Mto
 
 	/**
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 */
-	protected $ID;
+	protected $id;
 
 	/**
-	 * @JetDataModel:related_to = 'data_model_test_mock.ID'
+	 * @JetDataModel:related_to = 'data_model_test_mock.id'
 	 */
-	protected $data_model_test_mock_ID;
-
-
-	/**
-	 * @JetDataModel:related_to = 'data_model_test_mock.ID_property'
-	 */
-	protected $data_model_test_mock_ID_property;
+	protected $data_model_test_mock_id;
 
 
 	/**
-	 * @JetDataModel:related_to = 'data_model_2_test_mock.ID'
+	 * @JetDataModel:related_to = 'data_model_test_mock.id_property'
 	 */
-	protected $data_model_2_test_mock_ID;
+	protected $data_model_test_mock_id_property;
+
+
+	/**
+	 * @JetDataModel:related_to = 'data_model_2_test_mock.id'
+	 */
+	protected $data_model_2_test_mock_id;
 }

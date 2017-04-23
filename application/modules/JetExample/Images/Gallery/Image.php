@@ -20,7 +20,7 @@ use Jet\DataModel_Fetch_Data_Assoc;
  * Class Gallery_Image
  *
  * @JetDataModel:name = 'Image'
- * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images'
+ * @JetDataModel:database_table_name = 'image_galleries_images'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Gallery_Image extends DataModel {

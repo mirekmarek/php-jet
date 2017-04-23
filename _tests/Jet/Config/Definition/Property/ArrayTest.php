@@ -60,7 +60,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Array::checkValueType
+	 * @covers Config_Definition_Property_Array::checkValueType
 	 */
 	public function testCheckValueType() {
 
@@ -73,7 +73,7 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Int::getTechnicalDescription
+	 * @covers Config_Definition_Property_Int::getTechnicalDescription
 	 */
 	public function testGetTechnicalDescription() {
 
@@ -84,8 +84,8 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::checkValue
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::checkValue
 	 *
 	 */
 	public function testCheckValue() {
@@ -96,8 +96,8 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::checkValue
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::checkValue
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -110,8 +110,8 @@ class Config_Definition_Property_ArrayTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_Abstract::setUp
-	 * @covers Jet\Config_Definition_Property_Abstract::createFormField
+	 * @covers Config_Definition_Property_Abstract::setUp
+	 * @covers Config_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_MultiSelect('');

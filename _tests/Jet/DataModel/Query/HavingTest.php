@@ -48,7 +48,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 		$this->query->setSelect([
 			'int_property' => 'this.int_property',
 			'string_property' => 'this.string_property',
-			'my_ID' => 'this.ID_property',
+			'my_id' => 'this.id_property',
 			'my_value' => [
 				['this.int_property'],
 				'MAX(%int_property%)'
@@ -63,7 +63,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'string_property !=' => 'test',
 			'OR',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -92,7 +92,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -103,7 +103,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'string_property !=' => 'test',
 			'OR',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -111,7 +111,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -124,7 +124,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'string_property !=' => 'test',
 			'OR',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -133,7 +133,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -146,7 +146,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'OR',
 			'OR',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -155,7 +155,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -166,7 +166,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'AND',
 			'string_property !=' => 'test',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -175,7 +175,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -187,7 +187,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'string_property !=' => 'test',
 			'OR',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -196,7 +196,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -208,7 +208,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 			'string_property !=' => 'test',
 			'OR',
 			[
-				'my_ID *' => 'test%',
+				'my_id *' => 'test%',
 				'AND',
 				'int_property' => 54321
 			]
@@ -217,18 +217,18 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Having::addExpression
-	 * @covers Jet\DataModel_Query_Having::addAND
-	 * @covers Jet\DataModel_Query_Having::addOR
-	 * @covers Jet\DataModel_Query_Having::addSubExpressions
-	 * @covers Jet\DataModel_Query_Having::attach
+	 * @covers DataModel_Query_Having::addExpression
+	 * @covers DataModel_Query_Having::addAND
+	 * @covers DataModel_Query_Having::addOR
+	 * @covers DataModel_Query_Having::addSubExpressions
+	 * @covers DataModel_Query_Having::attach
 	 *
-	 * @covers Jet\DataModel_Query_Having::current
-	 * @covers Jet\DataModel_Query_Having::key
-	 * @covers Jet\DataModel_Query_Having::rewind
-	 * @covers Jet\DataModel_Query_Having::valid
-	 * @covers Jet\DataModel_Query_Having::next
-	 * @covers Jet\DataModel_Query_Having::toString
+	 * @covers DataModel_Query_Having::current
+	 * @covers DataModel_Query_Having::key
+	 * @covers DataModel_Query_Having::rewind
+	 * @covers DataModel_Query_Having::valid
+	 * @covers DataModel_Query_Having::next
+	 * @covers DataModel_Query_Having::toString
 	 */
 	public function testGeneral() {
 
@@ -241,7 +241,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 				.'data_model_test_mock::string_property != \'test\' '
 				.'OR '
 				.'( '
-				        .'data_model_test_mock::ID_property * \'test%\' '
+				        .'data_model_test_mock::id_property * \'test%\' '
 				        .'AND '
 				        .'data_model_test_mock::int_property = \'54321\' '
 				 .') '

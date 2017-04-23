@@ -53,7 +53,7 @@ class DataModel_Definition_Property_LocaleTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Locale::checkValueType
+	 * @covers DataModel_Definition_Property_Locale::checkValueType
 	 */
 	public function testCheckValueType() {
 		$locale = 'cs_CZ';
@@ -64,7 +64,7 @@ class DataModel_Definition_Property_LocaleTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Locale::getValueForJsonSerialize
+	 * @covers DataModel_Definition_Property_Locale::getValueForJsonSerialize
 	 */
 	public function testGetValueForJsonSerialize() {
 		$locale_object = new Locale('cs_CZ');

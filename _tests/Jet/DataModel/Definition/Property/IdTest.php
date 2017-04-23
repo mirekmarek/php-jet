@@ -14,20 +14,20 @@ namespace Jet;
 /** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
-class DataModel_Definition_Property_IDTest extends \PHPUnit_Framework_TestCase {
+class DataModel_Definition_Property_IdTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var DataModel_Definition_DataModelTestMock
 	 */
 	protected $data_model;
 
 	/**
-	 * @var DataModel_Definition_Property_ID
+	 * @var DataModel_Definition_Property_Id
 	 */
 	protected $object;
 
-	protected $property_class_name = 'DataModel_Definition_Property_ID';
+	protected $property_class_name = 'DataModel_Definition_Property_Id';
 
-	protected $property_name = 'IDTest';
+	protected $property_name = 'IdTest';
 
 	protected $property_options = [
 		'description' => 'Description',
@@ -57,7 +57,7 @@ class DataModel_Definition_Property_IDTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_ID::checkValueType
+	 * @covers DataModel_Definition_Property_Id::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = 'do not change';

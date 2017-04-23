@@ -54,39 +54,39 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Related_Abstract::getMainModelRelationIDProperties
+	 * @covers DataModel_Definition_Model_Related_Abstract::getMainModelRelationIdProperties
 	 */
-	public function testGetMainModelRelationIDProperties() {
-		$main_model_ID_properties = $this->object->getMainModelRelationIDProperties();
-		$this->assertArrayHasKey('main_ID', $main_model_ID_properties);
-		$this->assertArrayHasKey('main_ID_property', $main_model_ID_properties);
-		$this->assertEquals('main_ID' , $main_model_ID_properties['main_ID']->getName());
-		$this->assertEquals('main_ID_property' , $main_model_ID_properties['main_ID_property']->getName());
+	public function testGetMainModelRelationIdProperties() {
+		$main_model_id_properties = $this->object->getMainModelRelationIdProperties();
+		$this->assertArrayHasKey('main_id', $main_model_id_properties);
+		$this->assertArrayHasKey('main_id_property', $main_model_id_properties);
+		$this->assertEquals('main_id' , $main_model_id_properties['main_id']->getName());
+		$this->assertEquals('main_id_property' , $main_model_id_properties['main_id_property']->getName());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Related_Abstract::getParentModelRelationIDProperties
+	 * @covers DataModel_Definition_Model_Related_Abstract::getParentModelRelationIdProperties
 	 */
-	public function testGetParentModelRelationIDProperties() {
-		$parent_model_ID_properties = $this->object->getParentModelRelationIDProperties();
+	public function testGetParentModelRelationIdProperties() {
+		$parent_model_id_properties = $this->object->getParentModelRelationIdProperties();
 
-		$this->assertArrayHasKey('parent_ID', $parent_model_ID_properties);
-		$this->assertArrayHasKey('parent_ID_property', $parent_model_ID_properties);
+		$this->assertArrayHasKey('parent_id', $parent_model_id_properties);
+		$this->assertArrayHasKey('parent_id_property', $parent_model_id_properties);
 
-		$this->assertEquals('parent_ID' , $parent_model_ID_properties['parent_ID']->getName());
-		$this->assertEquals('parent_ID_property' , $parent_model_ID_properties['parent_ID_property']->getName());
+		$this->assertEquals('parent_id' , $parent_model_id_properties['parent_id']->getName());
+		$this->assertEquals('parent_id_property' , $parent_model_id_properties['parent_id_property']->getName());
 
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Related_Abstract::getMainModelDefinition
+	 * @covers DataModel_Definition_Model_Related_Abstract::getMainModelDefinition
 	 */
 	public function testGetMainModelDefinition() {
 		$this->assertEquals('data_model_test_mock', $this->object->getMainModelDefinition()->getModelName());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Related_Abstract::getParentRelatedModelDefinition
+	 * @covers DataModel_Definition_Model_Related_Abstract::getParentRelatedModelDefinition
 	 */
 	public function testGetParentRelatedModelDefinition() {
 		$this->assertEquals('related_data_model_test_mock', $this->object->getParentRelatedModelDefinition()->getModelName());

@@ -45,14 +45,14 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Abstract::getModelName
+	 * @covers DataModel_Definition_Model_Abstract::getModelName
 	 */
 	public function testGetModelName() {
 		$this->assertEquals('data_model_test_mock', $this->object->getModelName());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Abstract::getClassName
+	 * @covers DataModel_Definition_Model_Abstract::getClassName
 	 */
 	public function testGetClassName() {
 
@@ -60,23 +60,23 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Abstract::getIDProperties
+	 * @covers DataModel_Definition_Model_Abstract::getIdProperties
 	 */
 	public function testGetIDProperties() {
-		$ID_properties = $this->object->getIDProperties();
-		$this->assertArrayHasKey('ID', $ID_properties);
-		$this->assertArrayHasKey('ID_property', $ID_properties);
+		$id_properties = $this->object->getIdProperties();
+		$this->assertArrayHasKey('id', $id_properties);
+		$this->assertArrayHasKey('id_property', $id_properties);
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Model_Abstract::getProperties
+	 * @covers DataModel_Definition_Model_Abstract::getProperties
 	 */
 	public function testGetProperties() {
 		$properties = $this->object->getProperties();
 
 		$property_names = [
-			'ID',
-			'ID_property',
+			'id',
+			'id_property',
 			'string_property',
 			'locale_property',
 			'int_property',

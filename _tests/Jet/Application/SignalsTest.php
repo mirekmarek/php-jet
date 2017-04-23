@@ -20,7 +20,7 @@ require_once '_mock/Jet/Application/Signals/FakeSignalClass.php';
 class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers Jet\Application_Signals::createSignal
+	 * @covers Application_Signals::createSignal
 	 *
 	 * @expectedException \Jet\Application_Signals_Exception
 	 * @expectedExceptionCode \Jet\Application_Signals_Exception::CODE_UNKNOWN_SIGNAL
@@ -32,7 +32,7 @@ class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Signals::createSignal
+	 * @covers Application_Signals::createSignal
 	 *
 	 * @expectedException \Jet\Application_Signals_Exception
 	 * @expectedExceptionCode \Jet\Application_Signals_Exception::INVALID_SIGNAL_OBJECT_CLASS
@@ -46,7 +46,7 @@ class Application_SignalsTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Signals::createSignal
+	 * @covers Application_Signals::createSignal
 	 *
 	 */
 	public function testCreateSignal() {

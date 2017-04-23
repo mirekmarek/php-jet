@@ -29,12 +29,12 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	/**
 	 * @var DataModel_Definition_Property_String
 	 */
-	protected $ID_object;
+	protected $id_object;
 
 	/**
 	 * @var DataModel_Definition_Property_String
 	 */
-	protected $ID_model_related;
+	protected $id_model_related;
 
 	protected $property_type = DataModel::TYPE_STRING;
 
@@ -42,11 +42,11 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 	protected $property_name = 'string_property';
 
-	protected $ID_property_name = 'ID_property';
+	protected $id_property_name = 'id_property';
 
 	protected $property_options = [];
 
-	protected $ID_property_options = [];
+	protected $id_property_options = [];
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -59,11 +59,11 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
 		$this->property_options = $this->data_model->_test_get_property_options($this->property_name);
-		$this->ID_property_options = $this->data_model->_test_get_property_options($this->ID_property_name);
+		$this->id_property_options = $this->data_model->_test_get_property_options($this->id_property_name);
 
 		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
-		$this->ID_object = new $class_name( get_class($this->data_model), $this->ID_property_name, $this->ID_property_options );
-		$this->ID_model_related = new $class_name( get_class($this->data_model), 'ID_related', $this->ID_property_options );
+		$this->id_object = new $class_name( get_class($this->data_model), $this->id_property_name, $this->id_property_options );
+		$this->id_model_related = new $class_name( get_class($this->data_model), 'id_related', $this->id_property_options );
 	}
 
 	/**
@@ -75,99 +75,99 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::setUpRelation
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getRelatedToPropertyName
+	 * @covers DataModel_Definition_Property_Abstract::setUpRelation
+	 * @covers DataModel_Definition_Property_Abstract::getRelatedToPropertyName
 	 */
 	public function testSetUpRelation() {
-		$this->assertNull( $this->ID_object->getRelatedToPropertyName() );
-		$this->ID_object->setUpRelation(
-					$this->ID_model_related->getDataModelClassName(),
-					$this->ID_model_related->getName()
+		$this->assertNull( $this->id_object->getRelatedToPropertyName() );
+		$this->id_object->setUpRelation(
+					$this->id_model_related->getDataModelClassName(),
+					$this->id_model_related->getName()
 		);
-		$this->assertSame($this->ID_model_related->getName(), $this->ID_object->getRelatedToPropertyName());
+		$this->assertSame($this->id_model_related->getName(), $this->id_object->getRelatedToPropertyName());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::toString
-	 * @covers Jet\DataModel_Definition_Property_Abstract::__toString
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::toString
+	 * @covers DataModel_Definition_Property_Abstract::__toString
 	 */
 	public function testToString() {
 		$this->assertEquals( 'Jet\DataModel_Definition_DataModelTestMock::'.$this->property_name, (string)$this->object );
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getType
+	 * @covers DataModel_Definition_Property_Abstract::getType
 	 */
 	public function testGetType() {
 		$this->assertEquals($this->property_type, $this->object->getType());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getName
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getName
 	 */
 	public function testGetName() {
 		$this->assertEquals($this->property_name, $this->object->getName());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getDescription
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getDescription
 	 */
 	public function testGetDescription() {
 		$this->assertEquals($this->property_options['description'], $this->object->getDescription());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::doNotExport
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::doNotExport
 	 */
 	public function testGetDoNotExport() {
 		$this->assertEquals($this->property_options['do_not_export'], $this->object->doNotExport());
-		$this->assertEquals(false, $this->ID_object->doNotExport());
+		$this->assertEquals(false, $this->id_object->doNotExport());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getDataModelDefinition
+	 * @covers DataModel_Definition_Property_Abstract::getDataModelDefinition
 	 */
 	public function testGetDataModelDefinition() {
 		$this->assertSame($this->data_model->getDataModelDefinition(), $this->object->getDataModelDefinition());
-		$this->assertSame($this->data_model->getDataModelDefinition(), $this->ID_object->getDataModelDefinition());
+		$this->assertSame($this->data_model->getDataModelDefinition(), $this->id_object->getDataModelDefinition());
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getIsID
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getIsId
 	 */
-	public function testGetIsID() {
-		$this->assertFalse( $this->object->getIsID() );
-		$this->assertTrue( $this->ID_object->getIsID() );
+	public function testGetIsId() {
+		$this->assertFalse( $this->object->getIsId() );
+		$this->assertTrue( $this->id_object->getIsId() );
 	}
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\getFormFiledIsRequired::getFormFiledIsRequired
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers getFormFiledIsRequired::getFormFiledIsRequired
 	 */
 	public function testGetIsRequired() {
 		$this->assertEquals($this->property_options['form_field_is_required'], $this->object->getFormFieldIsRequired());
-		$this->assertEquals($this->ID_property_options['form_field_is_required'], $this->ID_object->getFormFieldIsRequired());
+		$this->assertEquals($this->id_property_options['form_field_is_required'], $this->id_object->getFormFieldIsRequired());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getDefaultValue
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getDefaultValue
 	 */
 	public function testGetDefaultValue() {
 		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue() );
-		$this->assertEquals($this->ID_property_options['default_value'], $this->ID_object->getDefaultValue() );
+		$this->assertEquals($this->id_property_options['default_value'], $this->id_object->getDefaultValue() );
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getBackendOptions
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getBackendOptions
 	 */
 	public function testGetBackendOptions() {
 		$this->assertEquals($this->property_options['backend_options']['test'], $this->object->getBackendOptions('test'));
@@ -175,17 +175,17 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormFieldType
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getFormFieldType
 	 */
 	public function testGetFormFieldType() {
 		$this->assertEquals(Form::TYPE_INPUT, $this->object->getFormFieldType() );
-		$this->assertEquals(Form::TYPE_HIDDEN, $this->ID_object->getFormFieldType() );
+		$this->assertEquals(Form::TYPE_HIDDEN, $this->id_object->getFormFieldType() );
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormFieldOptions
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getFormFieldOptions
 	 */
 	public function testGetFormFieldOptions() {
 
@@ -196,8 +196,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormFieldLabel
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getFormFieldLabel
 	 */
 	public function testGetFormFieldLabel() {
 		$this->assertEquals(
@@ -207,8 +207,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getFormFieldErrorMessages
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getFormFieldErrorMessages
 	 */
 	public function testGetFormFieldErrorMessages() {
 		$this->assertEquals(
@@ -218,8 +218,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::createFormField
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_Input('');
@@ -232,9 +232,9 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			'_value_raw' => $this->property_options['default_value'],
 			'_value' => $this->property_options['default_value'],
 			'_has_value' => false,
-			'_is_valid' => false,
-			'_last_error' => '',
-			'_last_error_message' => '',
+			'is_valid' => false,
+			'last_error' => '',
+			'last_error_message' => '',
 			'default_value' => $this->property_options['default_value'],
 			'label' => $this->property_options['form_field_label'],
 			'is_required' => true,
@@ -258,14 +258,14 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 		 * @var \JetTest\BaseObject $field
 		 */
 		$field->__test_set_state([
-			'_name' => $this->ID_property_name,
-			'_value_raw' => $this->ID_property_options['default_value'],
-			'_value' => $this->ID_property_options['default_value'],
+			'_name' => $this->id_property_name,
+			'_value_raw' => $this->id_property_options['default_value'],
+			'_value' => $this->id_property_options['default_value'],
 			'_has_value' => false,
-			'_is_valid' => false,
-			'_last_error' => '',
-			'_last_error_message' => '',
-			'default_value' => $this->ID_property_options['default_value'],
+			'is_valid' => false,
+			'last_error' => '',
+			'last_error_message' => '',
+			'default_value' => $this->id_property_options['default_value'],
 			'label' => '',
 			'is_required' => false,
 			'validation_regexp' => null,
@@ -275,13 +275,13 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			],
 		]);
 
-		$this->assertEquals($field, $this->ID_object->createFormField($this->ID_property_options['default_value']));
+		$this->assertEquals($field, $this->id_object->createFormField($this->id_property_options['default_value']));
 
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getTechnicalDescription
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_Abstract::getTechnicalDescription
 	 */
 	public function testGetTechnicalDescription() {
 
@@ -290,13 +290,13 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 			$this->object->getTechnicalDescription()
 		);
 		$this->assertEquals(
-			'Type: String, max length: 50, required: no, is ID, default value: ID default value'.JET_EOL.JET_EOL.'ID Description',
-			$this->ID_object->getTechnicalDescription()
+			'Type: String, max length: 50, required: no, is ID, default value: Id default value'.JET_EOL.JET_EOL.'Id Description',
+			$this->id_object->getTechnicalDescription()
 		);
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Abstract::getValueForJsonSerialize
+	 * @covers DataModel_Definition_Property_Abstract::getValueForJsonSerialize
 	 */
 	public function testGetValueForJsonSerialize() {
 		$value = 'value';
@@ -306,16 +306,16 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\getFormFieldValidationRegexp::getFormfieldValidationRegexp
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers getFormFieldValidationRegexp::getFormfieldValidationRegexp
 	 */
 	public function testGetValidationRegexp() {
 		$this->assertEquals($this->property_options['form_field_validation_regexp'], $this->object->getFormFieldValidationRegexp());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::setUp
-	 * @covers Jet\DataModel_Definition_Property_String::getMaxLen
+	 * @covers DataModel_Definition_Property_String::setUp
+	 * @covers DataModel_Definition_Property_String::getMaxLen
 	 */
 	public function testGetMaxLen() {
 		$this->assertEquals($this->property_options['max_len'], $this->object->getMaxLen());
@@ -323,7 +323,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_String::checkValueType
+	 * @covers DataModel_Definition_Property_String::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = 123;

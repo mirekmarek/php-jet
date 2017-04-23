@@ -15,6 +15,7 @@
 namespace JetApplicationModule\JetExample\Articles;
 use Jet\Mvc_Controller_REST;
 
+//TODO: rozchodit REST
 class Controller_REST extends Mvc_Controller_REST {
 	/**
 	 *

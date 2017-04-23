@@ -89,6 +89,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_label = 'E-mail'
+	 * @JetDataModel:form_field_is_required = true
 	 *
 	 * @var string
 	 */

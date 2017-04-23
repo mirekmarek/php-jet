@@ -24,7 +24,7 @@ use Jet\IO_Dir;
  * Class Gallery
  *
  * @JetDataModel:name = 'ImageGallery'
- * @JetDataModel:database_table_name = 'Jet_ImageGalleries'
+ * @JetDataModel:database_table_name = 'image_galleries'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  *
  * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['id'=>'gallery_id'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]

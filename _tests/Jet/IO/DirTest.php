@@ -56,8 +56,8 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::setDefaultChmodMask
-	 * @covers Jet\IO_Dir::getDefaultChmodMask
+	 * @covers IO_Dir::setDefaultChmodMask
+	 * @covers IO_Dir::getDefaultChmodMask
 	 */
 	public function testSetGetDefaultChmodMask() {
 		$this->assertEquals(0777, IO_Dir::getDefaultChmodMask());
@@ -67,7 +67,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::exists
+	 * @covers IO_Dir::exists
 	 */
 	public function testExists() {
 		$this->assertFalse( IO_Dir::exists( IO_DIR_TEST_BASEDIR.'imaginary/' ) );
@@ -76,7 +76,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::isReadable
+	 * @covers IO_Dir::isReadable
 	 */
 	public function testIsReadable() {
 		$this->assertFalse( IO_Dir::isReadable( IO_DIR_TEST_BASEDIR.'imaginary/' ) );
@@ -85,7 +85,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::isWritable
+	 * @covers IO_Dir::isWritable
 	 */
 	public function testIsWritable() {
 		$this->assertFalse( IO_Dir::isWritable( IO_DIR_TEST_BASEDIR.'imaginary/' ) );
@@ -94,7 +94,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::create
+	 * @covers IO_Dir::create
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
@@ -106,7 +106,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::create
+	 * @covers IO_Dir::create
 	 */
 	public function testCreate() {
 		IO_Dir::create( $this->create_test_path );
@@ -114,7 +114,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::create
+	 * @covers IO_Dir::create
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_REMOVE_FAILED
@@ -126,9 +126,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::remove
-	 * @covers Jet\IO_Dir::rename
-	 * @covers Jet\IO_Dir::move
+	 * @covers IO_Dir::remove
+	 * @covers IO_Dir::rename
+	 * @covers IO_Dir::move
 	 */
 	public function testRemove() {
 		IO_Dir::create( $this->remove_test_path );
@@ -138,9 +138,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::copy
-	 * @covers Jet\IO_Dir::rename
-	 * @covers Jet\IO_Dir::move
+	 * @covers IO_Dir::copy
+	 * @covers IO_Dir::rename
+	 * @covers IO_Dir::move
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
@@ -151,9 +151,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::copy
-	 * @covers Jet\IO_Dir::rename
-	 * @covers Jet\IO_Dir::move
+	 * @covers IO_Dir::copy
+	 * @covers IO_Dir::rename
+	 * @covers IO_Dir::move
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
@@ -165,9 +165,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::copy
-	 * @covers Jet\IO_Dir::rename
-	 * @covers Jet\IO_Dir::move
+	 * @covers IO_Dir::copy
+	 * @covers IO_Dir::rename
+	 * @covers IO_Dir::move
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_COPY_FAILED
@@ -178,9 +178,9 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::copy
-	 * @covers Jet\IO_Dir::rename
-	 * @covers Jet\IO_Dir::move
+	 * @covers IO_Dir::copy
+	 * @covers IO_Dir::rename
+	 * @covers IO_Dir::move
 	 *
 	 */
 	public function testCopy() {
@@ -230,7 +230,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::getList
+	 * @covers IO_Dir::getList
 	 */
 	public function testGetList() {
 
@@ -243,7 +243,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\IO_Dir::getFilesList
+	 * @covers IO_Dir::getFilesList
 	 */
 	public function testGetFilesList() {
 		$this->assertEquals( $this->getValidDataGetListTest(false), IO_Dir::getFilesList( IO_DIR_TEST_BASEDIR.'getlist/' ));
@@ -253,7 +253,7 @@ class IO_DirTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\IO_Dir::getSubdirectoriesList
+	 * @covers IO_Dir::getSubdirectoriesList
 	 */
 	public function testGetSubdirectoriesList() {
 		$this->assertEquals( $this->getValidDataGetListTest(true, false), IO_Dir::getSubdirectoriesList( IO_DIR_TEST_BASEDIR.'getlist/' ));

@@ -76,7 +76,6 @@ abstract class Event_Abstract extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:max_len = 255
 	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var string

@@ -12,50 +12,49 @@
 namespace Jet;
 
 /**
- * Class DataModel_ID_DataModelTestMock
  *
  * @JetDataModel:name = 'data_model_test_mock'
  * @JetDataModel:database_table_name = 'data_model_test_mock'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'Jet\DataModel_Id_UniqueString'
  */
-class DataModel_ID_DataModelTestMock extends DataModel {
+class DataModel_Id_DataModelTestMock extends DataModel {
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
 	 */
-	protected $ID_property_1 = '';
+	protected $id_property_1 = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var Locale
 	 */
-	protected $ID_property_2;
+	protected $id_property_2;
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var int
 	 */
-	protected $ID_property_3 = 0;
+	protected $id_property_3 = 0;
 
 
 	/**

@@ -33,12 +33,12 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @var string
 	 */
-	protected $parent_id = '';
+	protected $parent_id = null;
 	/**
 	 *
 	 * @var string
 	 */
-	protected $real_parent_id = '';
+	protected $real_parent_id = null;
 
 	/**
 	 * Parent node
@@ -79,7 +79,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @var bool 
 	 */
-	protected $is_root = true;
+	protected $is_root = false;
 
 	/**
 	 * @var bool
@@ -111,18 +111,9 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @param Data_Tree $tree
 	 * @param mixed $data
-	 * @param bool $is_root
-	 * @param int|string $id
-	 * @param int|string $parent_id
-	 * @param string $label
 	 */
-	public function __construct(Data_Tree $tree, $data, $is_root=false, $id, $parent_id, $label ){
+	public function __construct(Data_Tree $tree, $data ){
 		$this->_tree = $tree;
-		$this->is_root = $is_root;
-		$this->id = $id;
-		$this->parent_id = $parent_id;
-		$this->label = $label;
-
 		$this->data = $data;
 
 	}
@@ -185,11 +176,28 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	}
 
 	/**
+	 * @param string $parent_id
+	 */
+	public function setParentId($parent_id)
+	{
+		$this->real_parent_id = $parent_id;
+		$this->parent_id = $parent_id;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getRealParentId()
 	{
 		return $this->real_parent_id;
+	}
+
+	/**
+	 * @param string $real_parent_id
+	 */
+	public function setRealParentId($real_parent_id)
+	{
+		$this->real_parent_id = $real_parent_id;
 	}
 
 	/**
@@ -199,6 +207,9 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	{
 		$this->_parent = $_parent;
 		$this->parent_id = $_parent->getId();
+		if(!$this->is_orphan) {
+			$this->real_parent_id = $_parent->getId();
+		}
 
 		$this->depth = $_parent->getDepth() + 1;
 	}
@@ -446,7 +457,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 
 		$item = $this->data;
 		$item[$id_key] = $this->id;
-		$item[$parent_id_key] = $this->is_orphan ? $this->real_parent_id : $this->parent_id;
+		$item[$parent_id_key] = $this->real_parent_id;
 		$item[$label_key] = $this->label;
 		$item[$depth_key] = $this->depth;
 

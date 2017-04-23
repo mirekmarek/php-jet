@@ -52,7 +52,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Array::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Array::setUp
 	 * @expectedException \Jet\DataModel_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_DEFINITION_NONSENSE
 	 */
@@ -67,7 +67,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_DataModel::getDefaultValue
+	 * @covers \Jet\DataModel_Definition_Property_DataModel::getDefaultValue
 	 */
 	public function testGetDefaultValue() {
 		$data_model = new $this->property_options['data_model_class']();
@@ -75,7 +75,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_DataModel::checkValueType
+	 * @covers \Jet\DataModel_Definition_Property_DataModel::checkValueType
 	 * @expectedException \Jet\DataModel_Exception
 	 */
 	public function testCheckValueType() {
@@ -84,7 +84,7 @@ class DataModel_Definition_Property_DataModelTest extends \PHPUnit_Framework_Tes
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_DataModel::getValueDataModelClass
+	 * @covers \Jet\DataModel_Definition_Property_DataModel::getValueDataModelClass
 	 */
 	public function testGetValueDataModelClass() {
 		$this->assertEquals($this->property_options['data_model_class'], $this->object->getValueDataModelClass());

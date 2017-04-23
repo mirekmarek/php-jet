@@ -19,7 +19,7 @@ use Jet\IO_File;
  * Class Gallery_Image_Thumbnail
  *
  * @JetDataModel:name = 'Image_Thumbnails'
- * @JetDataModel:database_table_name = 'Jet_ImageGalleries_Images_Thumbnails'
+ * @JetDataModel:database_table_name = 'image_galleries_images_thumbnails'
  * @JetDataModel:parent_model_class_name = 'module:JetExample.Images\Gallery_Image'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */

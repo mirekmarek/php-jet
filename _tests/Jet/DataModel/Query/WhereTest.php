@@ -48,7 +48,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 		$this->query->setSelect([
 			'this.int_property',
 			'this.string_property',
-			'this.ID_property'
+			'this.id_property'
 		]);
 
 		$this->object = new DataModel_Query_Where($this->query, [
@@ -57,7 +57,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			'this.string_property !=' => 'test',
 			'OR',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -86,7 +86,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -97,7 +97,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			'this.string_property !=' => 'test',
 			'OR',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -105,7 +105,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -118,7 +118,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			'this.string_property !=' => 'test',
 			'OR',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -127,7 +127,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -140,7 +140,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			'OR',
 			'OR',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -149,7 +149,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -160,7 +160,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			'AND',
 			'this.string_property !=' => 'test',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -169,7 +169,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -180,7 +180,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 			'imaginary_AND',
 			'this.string_property !=' => 'test',
 			[
-				'this.ID_property *' => 'test%',
+				'this.id_property *' => 'test%',
 				'AND',
 				'this.int_property' => 54321
 			]
@@ -189,19 +189,19 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Where::__construct
-	 * @covers Jet\DataModel_Query_Where::addExpression
-	 * @covers Jet\DataModel_Query_Where::addAND
-	 * @covers Jet\DataModel_Query_Where::addOR
-	 * @covers Jet\DataModel_Query_Where::addSubExpressions
-	 * @covers Jet\DataModel_Query_Where::attach
+	 * @covers DataModel_Query_Where::__construct
+	 * @covers DataModel_Query_Where::addExpression
+	 * @covers DataModel_Query_Where::addAND
+	 * @covers DataModel_Query_Where::addOR
+	 * @covers DataModel_Query_Where::addSubExpressions
+	 * @covers DataModel_Query_Where::attach
 	 *
-	 * @covers Jet\DataModel_Query_Where::current
-	 * @covers Jet\DataModel_Query_Where::key
-	 * @covers Jet\DataModel_Query_Where::rewind
-	 * @covers Jet\DataModel_Query_Where::valid
-	 * @covers Jet\DataModel_Query_Where::next
-	 * @covers Jet\DataModel_Query_Where::toString
+	 * @covers DataModel_Query_Where::current
+	 * @covers DataModel_Query_Where::key
+	 * @covers DataModel_Query_Where::rewind
+	 * @covers DataModel_Query_Where::valid
+	 * @covers DataModel_Query_Where::next
+	 * @covers DataModel_Query_Where::toString
 	 */
 	public function testGeneral() {
 		$this->assertSame(
@@ -211,7 +211,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 				.'data_model_test_mock::string_property != \'test\' '
 				.'OR '
 				.'( '
-				        .'data_model_test_mock::ID_property * \'test%\' '
+				        .'data_model_test_mock::id_property * \'test%\' '
 				        .'AND '
 				        .'data_model_test_mock::int_property = \'54321\' '
 				 .') '

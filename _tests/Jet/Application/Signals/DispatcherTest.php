@@ -34,37 +34,37 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Application_Signals_Dispatcher::addCallback
-	 * @covers Jet\Application_Signals_Dispatcher::removeCallback
+	 * @covers Application_Signals_Dispatcher::addCallback
+	 * @covers Application_Signals_Dispatcher::removeCallback
 	 */
 	public function testAddRemoveCallback() {
-		$callback_ID_1 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
-		$callback_ID_2 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
-		$callback_ID_3 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
+		$callback_id_1 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
+		$callback_id_2 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
+		$callback_id_3 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
 
-		Application_Signals_Dispatcher::removeCallback($callback_ID_2);
+		Application_Signals_Dispatcher::removeCallback($callback_id_2);
 
-		$callback_ID_4 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
+		$callback_id_4 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
 
-		$this->assertEquals('/test/signal~0', $callback_ID_1);
-		$this->assertEquals('/test/signal~1', $callback_ID_2);
-		$this->assertEquals('/test/signal~2', $callback_ID_3);
-		$this->assertEquals('/test/signal~3', $callback_ID_4);
+		$this->assertEquals('/test/signal~0', $callback_id_1);
+		$this->assertEquals('/test/signal~1', $callback_id_2);
+		$this->assertEquals('/test/signal~2', $callback_id_3);
+		$this->assertEquals('/test/signal~3', $callback_id_4);
 
 	}
 
 	/**
-	 * @covers Jet\Application_Signals_Dispatcher::removeCallback
+	 * @covers Application_Signals_Dispatcher::removeCallback
 	 *
 	 * @expectedException \Jet\Application_Signals_Exception
 	 * @expectedExceptionCode \Jet\Application_Signals_Exception::CODE_INVALID_SIGNAL_CALLBACK_ID
 	 */
 	public function testRemoveCallbackFailed1() {
-		Application_Signals_Dispatcher::removeCallback('invalid_callback_ID');
+		Application_Signals_Dispatcher::removeCallback('invalid_callback_id');
 	}
 
 	/**
-	 * @covers Jet\Application_Signals_Dispatcher::removeCallback
+	 * @covers Application_Signals_Dispatcher::removeCallback
 	 *
 	 * @expectedException \Jet\Application_Signals_Exception
 	 * @expectedExceptionCode \Jet\Application_Signals_Exception::CODE_INVALID_SIGNAL_CALLBACK_ID
@@ -76,16 +76,16 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Application_Signals_Dispatcher::dispatchSignal
-	 * @covers Jet\Application_Signals_Dispatcher::getCurrentSignal
-	 * @covers Jet\Application_Signals_Dispatcher::getSignalQueue
+	 * @covers Application_Signals_Dispatcher::dispatchSignal
+	 * @covers Application_Signals_Dispatcher::getCurrentSignal
+	 * @covers Application_Signals_Dispatcher::getSignalQueue
 	 */
 	public function testDispatchSignal() {
 
 
-		/*$callback_ID_1 = */Application_Signals_Dispatcher::addCallback('/test/signal1', function( Application_Signals_Signal $signal ) {
+		/*$callback_id_1 = */Application_Signals_Dispatcher::addCallback('/test/signal1', function( Application_Signals_Signal $signal ) {
 			/**
-			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
+			 * @var Application_Signals_SignalTest_Sender $sender
 			 */
 			$sender = $signal->getSender();
 			$sender->setSignalReceived('/test/signal1');
@@ -95,9 +95,9 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			Application_Signals_Dispatcher::dispatchSignal( $signal );
 
 		});
-		/*$callback_ID_2 = */Application_Signals_Dispatcher::addCallback('/test/signal2', function( Application_Signals_Signal $signal ) {
+		/*$callback_id_2 = */Application_Signals_Dispatcher::addCallback('/test/signal2', function( Application_Signals_Signal $signal ) {
 			/**
-			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
+			 * @var Application_Signals_SignalTest_Sender $sender
 			 */
 			$sender = $signal->getSender();
 			$sender->setSignalReceived('/test/signal2');
@@ -106,9 +106,9 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 			$signal = Application_Signals::createSignal( $signal->getSender(), '/test/signal3', ['value'=>1]);
 			Application_Signals_Dispatcher::dispatchSignal( $signal );
 		});
-		/*$callback_ID_3 = */Application_Signals_Dispatcher::addCallback('/test/signal3', function( Application_Signals_Signal $signal ) {
+		/*$callback_id_3 = */Application_Signals_Dispatcher::addCallback('/test/signal3', function( Application_Signals_Signal $signal ) {
 			/**
-			 * @var \Jet\Application_Signals_SignalTest_Sender $sender
+			 * @var Application_Signals_SignalTest_Sender $sender
 			 */
 			$sender = $signal->getSender();
 			$sender->setSignalReceived('/test/signal3');

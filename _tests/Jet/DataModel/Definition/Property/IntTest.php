@@ -53,7 +53,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::checkValueType
+	 * @covers DataModel_Definition_Property_Float::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = '3.14';
@@ -63,24 +63,24 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::setUp
-	 * @covers Jet\getFormFieldMinValue::getFormfieldMinValue
+	 * @covers DataModel_Definition_Property_Float::setUp
+	 * @covers getFormFieldMinValue::getFormfieldMinValue
 	 */
 	public function testGetMinValue() {
 		$this->assertSame($this->property_options['form_field_min_value'], $this->object->getFormFieldMinValue());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::setUp
-	 * @covers Jet\getFormFieldMaxValue::getFormfieldMaxValue
+	 * @covers DataModel_Definition_Property_Float::setUp
+	 * @covers getFormFieldMaxValue::getFormfieldMaxValue
 	 */
 	public function testGetMaxValue() {
 		$this->assertSame($this->property_options['form_field_max_value'], $this->object->getFormFieldMaxValue());
 	}
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::setUp
-	 * @covers Jet\DataModel_Definition_Property_Float::getFormFieldOptions
+	 * @covers DataModel_Definition_Property_Float::setUp
+	 * @covers DataModel_Definition_Property_Float::getFormFieldOptions
 	 */
 	public function testGetFormFieldOptions() {
 		$options = $this->object->getFormFieldOptions();
@@ -93,7 +93,7 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Float::getTechnicalDescription
+	 * @covers DataModel_Definition_Property_Float::getTechnicalDescription
 	 */
 	public function testGetTechnicalDescription() {
 
@@ -105,8 +105,8 @@ class DataModel_Definition_Property_IntTest extends \PHPUnit_Framework_TestCase 
 
 
 	/**
-	 * @covers Jet\DataModel_Definition_Property_Int::setUp
-	 * @covers Jet\DataModel_Definition_Property_Abstract::createFormField
+	 * @covers DataModel_Definition_Property_Int::setUp
+	 * @covers DataModel_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_Int('');

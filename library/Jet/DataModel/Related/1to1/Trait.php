@@ -35,21 +35,24 @@ trait DataModel_Related_1to1_Trait {
 	 *
 	 * @return array|mixed
 	 */
-	public function loadRelatedData(DataModel_Id_Abstract $main_id, DataModel_PropertyFilter $load_filter=null )
+	public static function loadRelatedData(DataModel_Id_Abstract $main_id, DataModel_PropertyFilter $load_filter=null )
     {
-	    if(
-		    $load_filter
-	    ) {
-	    	if(!$load_filter->getModelAllowed( static::getDataModelDefinition()->getModelName() )) {
+	    /**
+	     * @var DataModel_Definition_Model_Related_1toN $definition
+	     */
+	    $definition = static::getDataModelDefinition();
+
+	    if($load_filter) {
+		    if(
+		        !$load_filter->getModelAllowed( $definition->getModelName() )
+		    ) {
 			    return [];
 		    }
-
-		    $this->setLoadFilter($load_filter);
 	    }
 
-        $query = $this->getLoadRelatedDataQuery($main_id, $load_filter);
+	    $query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
 
-        return static::getBackendInstance()->fetchAll( $query );
+	    return $definition->getBackendInstance()->fetchAll($query);
     }
 
 	/**
@@ -103,7 +106,7 @@ trait DataModel_Related_1to1_Trait {
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 * @return mixed
 	 */
-    public function loadRelatedInstances(array &$loaded_related_data, DataModel_Id_Abstract $parent_id=null, DataModel_PropertyFilter $load_filter=null ) {
+    public static function loadRelatedInstances(array &$loaded_related_data, DataModel_Id_Abstract $parent_id=null, DataModel_PropertyFilter $load_filter=null ) {
 
         /**
          * @var DataModel_Definition_Model_Related_1to1 $definition

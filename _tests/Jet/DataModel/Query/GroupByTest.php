@@ -43,7 +43,7 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 			],
 		]);
 
-		$this->object = new DataModel_Query_GroupBy($this->query, ['this.int_property', 'my_value', 'string_property', 'this.ID_property']);
+		$this->object = new DataModel_Query_GroupBy($this->query, ['this.int_property', 'my_value', 'string_property', 'this.id_property']);
 
 	}
 
@@ -55,7 +55,7 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_GroupBy::__construct
+	 * @covers DataModel_Query_GroupBy::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -66,12 +66,12 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_GroupBy::__construct
-	 * @covers Jet\DataModel_Query_GroupBy::current
-	 * @covers Jet\DataModel_Query_GroupBy::key
-	 * @covers Jet\DataModel_Query_GroupBy::next
-	 * @covers Jet\DataModel_Query_GroupBy::rewind
-	 * @covers Jet\DataModel_Query_GroupBy::valid
+	 * @covers DataModel_Query_GroupBy::__construct
+	 * @covers DataModel_Query_GroupBy::current
+	 * @covers DataModel_Query_GroupBy::key
+	 * @covers DataModel_Query_GroupBy::next
+	 * @covers DataModel_Query_GroupBy::rewind
+	 * @covers DataModel_Query_GroupBy::valid
 	 */
 	public function testIterator() {
 		$data = [];
@@ -90,7 +90,7 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 			'int_property',
 			'my_value',
 			'string_property',
-			'ID_property',
+			'id_property',
 		], $data);
 	}
 }

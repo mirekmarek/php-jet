@@ -26,7 +26,7 @@ use Jet\Data_Paginator_DataSource_Interface;
  * Class Article
  *
  * @JetDataModel:name = 'Article'
- * @JetDataModel:database_table_name = 'Jet_Articles'
+ * @JetDataModel:database_table_name = 'articles'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Article extends DataModel {

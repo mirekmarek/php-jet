@@ -31,8 +31,8 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	protected $object;
 
 	protected $values = [
-		'ID' => 'ID123',
-		'ID_property' => 'myID',
+		'id' => 'Id123',
+		'id_property' => 'myId',
 		'string_property' => 'My Test',
 		'int_property' => 1234,
 		'float_property' => 3.14,
@@ -62,22 +62,22 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_RecordData::getDataModelDefinition
+	 * @covers DataModel_RecordData::getDataModelDefinition
 	 */
 	public function testGetDataModelDefinition() {
 		$this->assertSame( $this->data_model->getDataModelDefinition(), $this->object->getDataModelDefinition() );
 	}
 
 	/**
-	 * @covers Jet\DataModel_RecordData::createRecordData
+	 * @covers DataModel_RecordData::createRecordData
 	 *
-	 * @covers Jet\DataModel_RecordData::addItem
+	 * @covers DataModel_RecordData::addItem
 	 *
-	 * @covers Jet\DataModel_RecordData::current
-	 * @covers Jet\DataModel_RecordData::key
-	 * @covers Jet\DataModel_RecordData::next
-	 * @covers Jet\DataModel_RecordData::rewind
-	 * @covers Jet\DataModel_RecordData::valid
+	 * @covers DataModel_RecordData::current
+	 * @covers DataModel_RecordData::key
+	 * @covers DataModel_RecordData::next
+	 * @covers DataModel_RecordData::rewind
+	 * @covers DataModel_RecordData::valid
 	 */
 	public function testMain() {
 		$data = [];
@@ -94,7 +94,7 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_RecordData::createRecordData
+	 * @covers DataModel_RecordData::createRecordData
 	 *
 	 * @expectedException \Jet\DataModel_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_UNKNOWN_PROPERTY

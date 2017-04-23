@@ -62,19 +62,22 @@ class DataModel_Definition_Model_Related_MtoNTest extends \PHPUnit_Framework_Tes
 
 	/**
 	 */
-	public function testGetNModelRelationIDProperties() {
+	public function testGetNModelRelationIdProperties() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 		//TODO:
 		/*
-		$N_relation_ID_properties = $this->object->getNModelRelationIDProperties();
-		//var_dump(array_keys($N_relation_ID_properties));
-		$this->assertArrayHasKey('n_related_data_model_test_mock_ID', $N_relation_ID_properties);
-		$this->assertArrayHasKey('n_related_data_model_test_mock_ID_property', $N_relation_ID_properties);
+		$N_relation_id_properties = $this->object->getNModelRelationIdProperties();
+		//var_dump(array_keys($N_relation_id_properties));
+		$this->assertArrayHasKey('n_related_data_model_test_mock_id', $N_relation_id_properties);
+		$this->assertArrayHasKey('n_related_data_model_test_mock_id_property', $N_relation_id_properties);
 
-		$this->assertEquals('n_related_data_model_test_mock_ID', $N_relation_ID_properties['n_related_data_model_test_mock_ID']->getName());
-		$this->assertEquals('n_related_data_model_test_mock_ID_property', $N_relation_ID_properties['n_related_data_model_test_mock_ID_property']->getName());
+		$this->assertEquals('n_related_data_model_test_mock_id', $N_relation_id_properties['n_related_data_model_test_mock_id']->getName());
+		$this->assertEquals('n_related_data_model_test_mock_id_property', $N_relation_id_properties['n_related_data_model_test_mock_id_property']->getName());
 
-		$this->assertEquals('ID', $N_relation_ID_properties['n_related_data_model_test_mock_ID']->getRelatedToProperty()->getName());
-		$this->assertEquals('ID_property', $N_relation_ID_properties['n_related_data_model_test_mock_ID_property']->getRelatedToProperty()->getName());
+		$this->assertEquals('id', $N_relation_id_properties['n_related_data_model_test_mock_id']->getRelatedToProperty()->getName());
+		$this->assertEquals('id_property', $N_relation_id_properties['n_related_data_model_test_mock_id_property']->getRelatedToProperty()->getName());
 		*/
 	}
 }

@@ -7,4 +7,6 @@ return [
 	'Activated?' => '',
 	'Yes' => '',
 	'Modules installation' => '',
+	'Result' => '',
+	'NO' => '',
 ];

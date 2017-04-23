@@ -49,14 +49,14 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::checkValueType
+	 * @covers Config_Definition_Property_AdapterConfig::checkValueType
 	 */
 	public function testCheckValueType() {
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::setUp
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::getConfigurationListItem
+	 * @covers Config_Definition_Property_AdapterConfig::setUp
+	 * @covers Config_Definition_Property_AdapterConfig::getConfigurationListItem
 	 */
 	public function testGetConfigurationListItem() {
 		/*
@@ -73,8 +73,8 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::setUp
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::getAllAdaptersConfiguration
+	 * @covers Config_Definition_Property_AdapterConfig::setUp
+	 * @covers Config_Definition_Property_AdapterConfig::getAllAdaptersConfiguration
 	 */
 	public function testGetAllAdaptersConfiguration() {
 		/*
@@ -90,8 +90,8 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::setUp
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::toArray
+	 * @covers Config_Definition_Property_AdapterConfig::setUp
+	 * @covers Config_Definition_Property_AdapterConfig::toArray
 	 */
 	public function testToArray() {
 		/*
@@ -117,8 +117,8 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 
 
 	/**
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::setUp
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::addAdapterConfiguration
+	 * @covers Config_Definition_Property_AdapterConfig::setUp
+	 * @covers Config_Definition_Property_AdapterConfig::addAdapterConfiguration
 	 */
 	public function testAddAdapterConfiguration() {
 		/*
@@ -139,7 +139,7 @@ class Config_Definition_Property_ConfigListTest extends \PHPUnit_Framework_TestC
 	}
 
 	/**
-	 * @covers Jet\Config_Definition_Property_AdapterConfig::deleteAdapterConfiguration
+	 * @covers Config_Definition_Property_AdapterConfig::deleteAdapterConfiguration
 	 */
 	public function testDeleteAdapterConfiguration() {
 		/*

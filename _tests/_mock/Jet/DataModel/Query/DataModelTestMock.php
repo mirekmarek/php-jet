@@ -17,31 +17,31 @@ namespace Jet;
  *
  * @JetDataModel:name = 'data_model_test_mock'
  * @JetDataModel:database_table_name = 'data_model_test_mock'
- * @JetDataModel:ID_class_name = 'Jet\DataModel_ID_UniqueString'
+ * @JetDataModel:id_class_name = 'Jet\DataModel_Id_UniqueString'
  */
 class DataModel_Query_DataModelTestMock extends DataModel {
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $ID = '';
+	protected $id = '';
 
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:description = 'ID Description'
-	 * @JetDataModel:default_value = 'ID default value'
+	 * @JetDataModel:description = 'Id Description'
+	 * @JetDataModel:default_value = 'Id default value'
 	 * @JetDataModel:form_field_is_required = false
-	 * @JetDataModel:is_ID = true
+	 * @JetDataModel:is_id = true
 	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
 	 */
-	protected $ID_property = 'ID default value';
+	protected $id_property = 'Id default value';
 
 	/**
 	 *
@@ -49,7 +49,7 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @JetDataModel:description = 'Description'
 	 * @JetDataModel:default_value = 'default value'
 	 * @JetDataModel:do_not_export = true
-	 * @JetDataModel:is_ID = false
+	 * @JetDataModel:is_id = false
 	 * @JetDataModel:max_len = 123
 	 * @JetDataModel:backend_options = [  'test' => ['option_1' => 'Option 1',  'option_2' => true,  'option_3' => 123,] ]
 	 * @JetDataModel:form_field_label = 'Form field label'
@@ -66,7 +66,7 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:description = 'Description'
-	 * @JetDataModel:default_value = 'default value'
+	 * @JetDataModel:default_value = 'cs_CZ'
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:do_not_export = true
 	 *

@@ -15,7 +15,7 @@ namespace Jet;
 class Data_TextTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers Jet\Data_Text::removeAccents
+	 * @covers Data_Text::removeAccents
 	 */
 	public function testRemoveAccents() {
 
@@ -27,7 +27,7 @@ class Data_TextTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Text::shorten
+	* @covers Data_Text::shorten
 	*/
 	public function testShorten() {
 		/** @noinspection SpellCheckingInspection */
@@ -52,7 +52,7 @@ class Data_TextTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Text::replaceData
+	* @covers Data_Text::replaceData
 	*/
 	public function testReplaceData() {
 		$text = 'Value 1: %VALUE_1%, Value 2: %VALUE_2%';
@@ -64,7 +64,7 @@ class Data_TextTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @covers Jet\Data_Text::replaceSystemConstants
+	* @covers Data_Text::replaceSystemConstants
 	*/
 	public function testReplaceSystemConstants() {
 	}

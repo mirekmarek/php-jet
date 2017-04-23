@@ -336,7 +336,8 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 */
 	public function getRootNode(){
 		if(!$this->root_node) {
-			$this->root_node = new $this->nodes_class_name( $this, [], true, 0, 0, '' );
+			$this->root_node = new $this->nodes_class_name( $this, null );
+			$this->root_node->setIsRoot(true);
 		}
 		return $this->root_node;
 	}
@@ -537,7 +538,10 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 		/**
 		 * @var Data_Tree_Node $new_node
 		 */
-		$new_node = new $this->nodes_class_name( $this, $item_data, false, $id, $parent_id, $this->getNodeData_label($item_data) );
+		$new_node = new $this->nodes_class_name( $this, $item_data );
+		$new_node->setId($id);
+		$new_node->setParentId($parent_id);
+		$new_node->setLabel($this->getNodeData_label($item_data));
 
 		$parent = $this->getNode( $new_node->getParentId() );
 
@@ -547,10 +551,9 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 			}
 
 			if($this->adopt_orphans) {
-				$parent = $this->getRootNode();
-
 				$new_node->setIsOrphan(true);
 
+				$parent = $this->getRootNode();
 			} else {
 				throw new Data_Tree_Exception(
 					'Inconsistent tree data. Parent node \''.$new_node->getParentId().'\' does not exist. Node ID: \''.$new_node->getId().'\' ',

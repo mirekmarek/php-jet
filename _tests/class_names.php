@@ -5,12 +5,10 @@ define('JET_MVC_ROUTER_CLASS',          __NAMESPACE__.'\Mvc_Router');
 define('JET_MVC_ROUTER_CONFIG_CLASS',   __NAMESPACE__.'\Mvc_Router_Config');
 define('JET_MVC_ROUTER_CACHE_BACKEND_CLASS_NAME_PREFIX', __NAMESPACE__.'\Mvc_Router_Cache_Backend_');
 
-define('JET_MVC_PAGE_ID_CLASS',       __NAMESPACE__.'\Mvc_Page_ID');
 define('JET_MVC_PAGE_CLASS',          __NAMESPACE__.'\Mvc_Page');
 define('JET_MVC_PAGE_META_TAG_CLASS', __NAMESPACE__.'\Mvc_Page_MetaTag');
 define('JET_MVC_PAGE_CONTENT_CLASS',  __NAMESPACE__.'\Mvc_Page_Content');
 
-define('JET_MVC_SITE_ID_CLASS',                    __NAMESPACE__.'\Mvc_Site_ID');
 define('JET_MVC_SITE_CLASS',                    __NAMESPACE__.'\Mvc_Site');
 define('JET_MVC_SITE_LOCALIZED_CLASS',          __NAMESPACE__.'\Mvc_Site_LocalizedData');
 define('JET_MVC_SITE_LOCALIZED_META_TAG_CLASS', __NAMESPACE__.'\Mvc_Site_LocalizedData_MetaTag');

@@ -40,7 +40,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 
-		Http_Headers::setHeaderFunctionName('\Jet\header_test_rest');
+		Http_Headers::setHeaderFunctionName(__NAMESPACE__.'\header_test_rest');
 		$GLOBALS['_test_Http_Headers_sent_headers'] = [];
 
 		$this->object = new Mvc_Controller_REST_Test;
@@ -54,7 +54,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::decodeRequestDataJSON
+	 * @covers Mvc_Controller_REST::decodeRequestDataJSON
 	 */
 	public function testDecodeRequestDataJSON() {
 		$data = [];
@@ -72,15 +72,15 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::decodeRequestDataXML
+	 * @covers Mvc_Controller_REST::decodeRequestDataXML
 	 */
 	public function testDecodeRequestDataXML() {
 
 		$data = $this->object->decodeRequestDataXML('<Jet_ImageGallery>
 											<!--  Type: ID, required: no, is ID  -->
-											<ID>linux_2m_MF137301720954251d69479847362_23093172</ID>
+											<id>linux_2m_MF137301720954251d69479847362_23093172</id>
 											<!--  Type: ID, required: yes  -->
-											<parent_ID>_root_</parent_ID>
+											<parent_id>_root_</parent_id>
 											<!--  Type: String, max length: 100, required: yes  -->
 											<title>Gallery 3</title>
 											<comment>aaa</comment>
@@ -96,8 +96,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals([
 			'comment' => 'aaa',
-			'ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
-			'parent_ID' => '_root_',
+			'id' => 'linux_2m_MF137301720954251d69479847362_23093172',
+			'parent_id' => '_root_',
 			'title' => 'Gallery 3',
 			'item' =>
 			[
@@ -111,8 +111,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 		/** @noinspection SpellCheckingInspection */
 		$data = $this->object->decodeRequestDataXML('<list model_name=\'Jet_ImageGallery_Images\'>
 											<item>
-												<ID>linux_2m_MF137301722026651d69484411740_57557045</ID>
-												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
+												<id>linux_2m_MF137301722026651d69484411740_57557045</id>
+												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
 												<offset>1</offset>
 												<title/>
 												<file_name>Autumn Leaves.jpg</file_name>
@@ -125,8 +125,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												</thumbnail_URI>
 											</item>
 											<item>
-												<ID>linux_2m_MF137301723749651d69495794e07_69873685</ID>
-												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
+												<id>linux_2m_MF137301723749651d69495794e07_69873685</id>
+												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
 												<offset>1</offset>
 												<title/>
 												<file_name>Creek.jpg</file_name>
@@ -139,8 +139,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												</thumbnail_URI>
 											</item>
 											<item>
-												<ID>linux_2m_MF137301913198551d69bfbf0a916_83671300</ID>
-												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
+												<id>linux_2m_MF137301913198551d69bfbf0a916_83671300</id>
+												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
 												<offset>1</offset>
 												<title/>
 												<file_name>Green Sea Turtle.jpg</file_name>
@@ -153,8 +153,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												</thumbnail_URI>
 											</item>
 											<item>
-												<ID>linux_2m_MF137301915725751d69c153ef4a6_93300639</ID>
-												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
+												<id>linux_2m_MF137301915725751d69c153ef4a6_93300639</id>
+												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
 												<offset>1</offset>
 												<title/>
 												<file_name>Forest Flowers.jpg</file_name>
@@ -167,8 +167,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												</thumbnail_URI>
 											</item>
 											<item>
-												<ID>linux_2m_MF137301923837551d69c665b95f3_32899254</ID>
-												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
+												<id>linux_2m_MF137301923837551d69c665b95f3_32899254</id>
+												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
 												<offset>1</offset>
 												<title/>
 												<file_name>Waterfall.jpg</file_name>
@@ -181,8 +181,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												</thumbnail_URI>
 											</item>
 											<item>
-												<ID>linux_2m_MF137301928548251d69c9575b7c1_93699139</ID>
-												<gallery_ID>linux_2m_MF137301720954251d69479847362_23093172</gallery_ID>
+												<id>linux_2m_MF137301928548251d69c9575b7c1_93699139</id>
+												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
 												<offset>1</offset>
 												<title/>
 												<file_name>Forest.jpg</file_name>
@@ -201,8 +201,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals([
 			0 =>
 			[
-				'ID' => 'linux_2m_MF137301722026651d69484411740_57557045',
-				'gallery_ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
+				'id' => 'linux_2m_MF137301722026651d69484411740_57557045',
+				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
 				'offset' => '1',
 				'title' => '',
 				'file_name' => 'Autumn Leaves.jpg',
@@ -214,8 +214,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 			1 =>
 			[
-				'ID' => 'linux_2m_MF137301723749651d69495794e07_69873685',
-				'gallery_ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
+				'id' => 'linux_2m_MF137301723749651d69495794e07_69873685',
+				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
 				'offset' => '1',
 				'title' => '',
 				'file_name' => 'Creek.jpg',
@@ -227,8 +227,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 			2 =>
 			[
-				'ID' => 'linux_2m_MF137301913198551d69bfbf0a916_83671300',
-				'gallery_ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
+				'id' => 'linux_2m_MF137301913198551d69bfbf0a916_83671300',
+				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
 				'offset' => '1',
 				'title' => '',
 				'file_name' => 'Green Sea Turtle.jpg',
@@ -240,8 +240,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 			3 =>
 			[
-				'ID' => 'linux_2m_MF137301915725751d69c153ef4a6_93300639',
-				'gallery_ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
+				'id' => 'linux_2m_MF137301915725751d69c153ef4a6_93300639',
+				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
 				'offset' => '1',
 				'title' => '',
 				'file_name' => 'Forest Flowers.jpg',
@@ -253,8 +253,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 			4 =>
 			[
-				'ID' => 'linux_2m_MF137301923837551d69c665b95f3_32899254',
-				'gallery_ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
+				'id' => 'linux_2m_MF137301923837551d69c665b95f3_32899254',
+				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
 				'offset' => '1',
 				'title' => '',
 				'file_name' => 'Waterfall.jpg',
@@ -266,8 +266,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 			5 =>
 			[
-				'ID' => 'linux_2m_MF137301928548251d69c9575b7c1_93699139',
-				'gallery_ID' => 'linux_2m_MF137301720954251d69479847362_23093172',
+				'id' => 'linux_2m_MF137301928548251d69c9575b7c1_93699139',
+				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
 				'offset' => '1',
 				'title' => '',
 				'file_name' => 'Forest.jpg',
@@ -281,7 +281,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::getRequestData
+	 * @covers Mvc_Controller_REST::getRequestData
 	 * @todo   Implement testGetRequestData().
 	 */
 	public function testGetRequestData() {
@@ -292,7 +292,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseOK
+	 * @covers Mvc_Controller_REST::responseOK
 	 */
 	public function testResponseOKJSON() {
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_JSON );
@@ -322,7 +322,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseOK
+	 * @covers Mvc_Controller_REST::responseOK
 	 */
 	public function testResponseOKXML() {
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
@@ -350,7 +350,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseData
+	 * @covers Mvc_Controller_REST::responseData
 	 * @todo   Implement testResponseData().
 	 */
 	public function testResponseData() {
@@ -361,7 +361,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseDataModelsList
+	 * @covers Mvc_Controller_REST::responseDataModelsList
 	 * @todo   Implement testResponseDataModelsList().
 	 */
 	public function testResponseDataModelsList() {
@@ -372,7 +372,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseAclAccessDenied
+	 * @covers Mvc_Controller_REST::responseAclAccessDenied
 	 * @todo   Implement testResponseAclAccessDenied().
 	 */
 	public function testResponseAclAccessDenied() {
@@ -383,7 +383,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseFormErrors
+	 * @covers Mvc_Controller_REST::responseFormErrors
 	 * @todo   Implement testResponseFormErrors().
 	 */
 	public function testResponseFormErrors() {
@@ -394,8 +394,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseUnknownItem
-	 * @covers Jet\Mvc_Controller_REST::responseError
+	 * @covers Mvc_Controller_REST::responseUnknownItem
+	 * @covers Mvc_Controller_REST::responseError
 	 */
 	public function testResponseUnknownItemJSON() {
 
@@ -422,12 +422,12 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 			],
 		], $GLOBALS['_test_Http_Headers_sent_headers'] );
 
-		$this->assertEquals('{"error_code":"Jet\\\\Mvc_Controller_REST_Test:UnknownItem","error_msg":"Unknown item","error_data":{"ID":"Item_ID"}}', $d );
+		$this->assertEquals('{"error_code":"Jet\\\\Mvc_Controller_REST_Test:UnknownItem","error_msg":"Unknown item","error_data":{"id":"Item_ID"}}', $d );
 	}
 
 	/**
-	 * @covers Jet\Mvc_Controller_REST::responseUnknownItem
-	 * @covers Jet\Mvc_Controller_REST::responseError
+	 * @covers Mvc_Controller_REST::responseUnknownItem
+	 * @covers Mvc_Controller_REST::responseError
 	 */
 	public function testResponseUnknownItemXML() {
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
@@ -455,7 +455,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 					.JET_TAB.'<error_code>Jet\\Mvc_Controller_REST_Test:UnknownItem</error_code>'.JET_EOL
 					.JET_TAB.'<error_msg>Unknown item</error_msg>'.JET_EOL
 					.JET_TAB.'<error_data>'.JET_EOL
-					.JET_TAB.JET_TAB.'<ID>Item_ID</ID>'.JET_EOL
+					.JET_TAB.JET_TAB.'<id>Item_ID</id>'.JET_EOL
 					.JET_TAB.'</error_data>'.JET_EOL
 					.'</error>'.JET_EOL , $d );
 	}

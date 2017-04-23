@@ -87,7 +87,7 @@ trait DataModel_Related_1toN_Trait {
 
 		if($load_filter) {
 			if(
-			!$load_filter->getModelAllowed( $definition->getModelName() )
+				!$load_filter->getModelAllowed( $definition->getModelName() )
 			) {
 				return [];
 			}

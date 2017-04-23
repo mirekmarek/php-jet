@@ -53,7 +53,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 			],
 		]);
 
-		$this->object = new DataModel_Query_OrderBy($this->query, ['+this.int_property', '+my_value','-string_property', 'this.ID_property']);
+		$this->object = new DataModel_Query_OrderBy($this->query, ['+this.int_property', '+my_value','-string_property', 'this.id_property']);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_OrderBy::__construct
+	 * @covers DataModel_Query_OrderBy::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -75,12 +75,12 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_OrderBy::__construct
-	 * @covers Jet\DataModel_Query_OrderBy::current
-	 * @covers Jet\DataModel_Query_OrderBy::key
-	 * @covers Jet\DataModel_Query_OrderBy::next
-	 * @covers Jet\DataModel_Query_OrderBy::rewind
-	 * @covers Jet\DataModel_Query_OrderBy::valid
+	 * @covers DataModel_Query_OrderBy::__construct
+	 * @covers DataModel_Query_OrderBy::current
+	 * @covers DataModel_Query_OrderBy::key
+	 * @covers DataModel_Query_OrderBy::next
+	 * @covers DataModel_Query_OrderBy::rewind
+	 * @covers DataModel_Query_OrderBy::valid
 	 */
 	public function testIterator() {
 		$data = [];
@@ -104,7 +104,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 			'+int_property',
 			'+my_value',
 			'-string_property',
-			'+ID_property',
+			'+id_property',
 		], $data);
 	}
 

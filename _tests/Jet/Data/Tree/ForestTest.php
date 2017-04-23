@@ -21,172 +21,172 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 
 	protected $tree1_data = [
 		't1-1' => [
-			'ID' => 't1-1',
-			'parent_ID' => 'root1',
+			'id' => 't1-1',
+			'parent_id' => 'root1',
 			'name' => 'Node T1 1',
 		],
 		't1-1-1' => [
-			'ID' => 't1-1-1',
-			'parent_ID' => 't1-1',
+			'id' => 't1-1-1',
+			'parent_id' => 't1-1',
 			'name' => 'Node T1 1-1',
 		],
 		't1-1-2' => [
-			'ID' => 't1-1-2',
-			'parent_ID' => 't1-1',
+			'id' => 't1-1-2',
+			'parent_id' => 't1-1',
 			'name' => 'Node T1 1-2',
 		],
 		't1-1-2-1' => [
-			'ID' => 't1-1-2-1',
-			'parent_ID' => 't1-1-2',
+			'id' => 't1-1-2-1',
+			'parent_id' => 't1-1-2',
 			'name' => 'Node T1 1-2-1',
 		],
 		't1-1-2-2' => [
-			'ID' => 't1-1-2-2',
-			'parent_ID' => 't1-1-2',
+			'id' => 't1-1-2-2',
+			'parent_id' => 't1-1-2',
 			'name' => 'Node T1 1-2-2',
 		],
 		't1-1-2-2-1' => [
-			'ID' => 't1-1-2-2-1',
-			'parent_ID' => 't1-1-2-2',
+			'id' => 't1-1-2-2-1',
+			'parent_id' => 't1-1-2-2',
 			'name' => 'Node T1 1-2-2-1',
 		],
 		't1-1-2-2-2' => [
-			'ID' => 't1-1-2-2-2',
-			'parent_ID' => 't1-1-2-2',
+			'id' => 't1-1-2-2-2',
+			'parent_id' => 't1-1-2-2',
 			'name' => 'Node T1 1-2-2-2',
 		],
 		't1-1-2-3' => [
-			'ID' => 't1-1-2-3',
-			'parent_ID' => 't1-1-2',
+			'id' => 't1-1-2-3',
+			'parent_id' => 't1-1-2',
 			'name' => 'Node T1 1-2-3',
 		],
 		't1-1-3' => [
-			'ID' => 't1-1-3',
-			'parent_ID' => 't1-1',
+			'id' => 't1-1-3',
+			'parent_id' => 't1-1',
 			'name' => 'Node T1 1-3',
 		],
 		't1-2' => [
-			'ID' => 't1-2',
-			'parent_ID' => 'root1',
+			'id' => 't1-2',
+			'parent_id' => 'root1',
 			'name' => 'Node T1 2',
 		],
 		't1-3' => [
-			'ID' => 't1-3',
-			'parent_ID' => 'root1',
+			'id' => 't1-3',
+			'parent_id' => 'root1',
 			'name' => 'Node T1 3',
 		],
 	];
 	protected $tree2_data = [
 		't2-1' => [
-			'ID' => 't2-1',
-			'parent_ID' => 'root2',
+			'id' => 't2-1',
+			'parent_id' => 'root2',
 			'name' => 'Node T2 1',
 		],
 		't2-1-1' => [
-			'ID' => 't2-1-1',
-			'parent_ID' => 't2-1',
+			'id' => 't2-1-1',
+			'parent_id' => 't2-1',
 			'name' => 'Node T2 1-1',
 		],
 		't2-1-2' => [
-			'ID' => 't2-1-2',
-			'parent_ID' => 't2-1',
+			'id' => 't2-1-2',
+			'parent_id' => 't2-1',
 			'name' => 'Node T2 1-2',
 		],
 		't2-1-2-1' => [
-			'ID' => 't2-1-2-1',
-			'parent_ID' => 't2-1-2',
+			'id' => 't2-1-2-1',
+			'parent_id' => 't2-1-2',
 			'name' => 'Node T2 1-2-1',
 		],
 		't2-1-2-2' => [
-			'ID' => 't2-1-2-2',
-			'parent_ID' => 't2-1-2',
+			'id' => 't2-1-2-2',
+			'parent_id' => 't2-1-2',
 			'name' => 'Node T2 1-2-2',
 		],
 		't2-1-2-2-1' => [
-			'ID' => 't2-1-2-2-1',
-			'parent_ID' => 't2-1-2-2',
+			'id' => 't2-1-2-2-1',
+			'parent_id' => 't2-1-2-2',
 			'name' => 'Node T2 1-2-2-1',
 		],
 		't2-1-2-2-2' => [
-			'ID' => 't2-1-2-2-2',
-			'parent_ID' => 't2-1-2-2',
+			'id' => 't2-1-2-2-2',
+			'parent_id' => 't2-1-2-2',
 			'name' => 'Node T2 1-2-2-2',
 		],
 		't2-1-2-3' => [
-			'ID' => 't2-1-2-3',
-			'parent_ID' => 't2-1-2',
+			'id' => 't2-1-2-3',
+			'parent_id' => 't2-1-2',
 			'name' => 'Node T2 1-2-3',
 		],
 		't2-1-3' => [
-			'ID' => 't2-1-3',
-			'parent_ID' => 't2-1',
+			'id' => 't2-1-3',
+			'parent_id' => 't2-1',
 			'name' => 'Node T2 1-3',
 		],
 		't2-2' => [
-			'ID' => 't2-2',
-			'parent_ID' => 'root2',
+			'id' => 't2-2',
+			'parent_id' => 'root2',
 			'name' => 'Node T2 2',
 		],
 		't2-3' => [
-			'ID' => 't2-3',
-			'parent_ID' => 'root2',
+			'id' => 't2-3',
+			'parent_id' => 'root2',
 			'name' => 'Node T2 3',
 		],
 	];
 	protected $tree3_data = [
 		't3-1' => [
-			'ID' => 't3-1',
-			'parent_ID' => 'root3',
+			'id' => 't3-1',
+			'parent_id' => 'root3',
 			'name' => 'Node T3 1',
 		],
 		't3-1-1' => [
-			'ID' => 't3-1-1',
-			'parent_ID' => 't3-1',
+			'id' => 't3-1-1',
+			'parent_id' => 't3-1',
 			'name' => 'Node T3 1-1',
 		],
 		't3-1-2' => [
-			'ID' => 't3-1-2',
-			'parent_ID' => 't3-1',
+			'id' => 't3-1-2',
+			'parent_id' => 't3-1',
 			'name' => 'Node T3 1-2',
 		],
 		't3-1-2-1' => [
-			'ID' => 't3-1-2-1',
-			'parent_ID' => 't3-1-2',
+			'id' => 't3-1-2-1',
+			'parent_id' => 't3-1-2',
 			'name' => 'Node T3 1-2-1',
 		],
 		't3-1-2-2' => [
-			'ID' => 't3-1-2-2',
-			'parent_ID' => 't3-1-2',
+			'id' => 't3-1-2-2',
+			'parent_id' => 't3-1-2',
 			'name' => 'Node T3 1-2-2',
 		],
 		't3-1-2-2-1' => [
-			'ID' => 't3-1-2-2-1',
-			'parent_ID' => 't3-1-2-2',
+			'id' => 't3-1-2-2-1',
+			'parent_id' => 't3-1-2-2',
 			'name' => 'Node T3 1-2-2-1',
 		],
 		't3-1-2-2-2' => [
-			'ID' => 't3-1-2-2-2',
-			'parent_ID' => 't3-1-2-2',
+			'id' => 't3-1-2-2-2',
+			'parent_id' => 't3-1-2-2',
 			'name' => 'Node T3 1-2-2-2',
 		],
 		't3-1-2-3' => [
-			'ID' => 't3-1-2-3',
-			'parent_ID' => 't3-1-2',
+			'id' => 't3-1-2-3',
+			'parent_id' => 't3-1-2',
 			'name' => 'Node T3 1-2-3',
 		],
 		't3-1-3' => [
-			'ID' => 't3-1-3',
-			'parent_ID' => 't3-1',
+			'id' => 't3-1-3',
+			'parent_id' => 't3-1',
 			'name' => 'Node T3 1-3',
 		],
 		't3-2' => [
-			'ID' => 't3-2',
-			'parent_ID' => 'root3',
+			'id' => 't3-2',
+			'parent_id' => 'root3',
 			'name' => 'Node T3 2',
 		],
 		't3-3' => [
-			'ID' => 't3-3',
-			'parent_ID' => 'root3',
+			'id' => 't3-3',
+			'parent_id' => 'root3',
 			'name' => 'Node T3 3',
 		],
 	];
@@ -213,7 +213,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	protected function getTree1() {
 		$tree = new Data_Tree();
 
-		$tree->getRootNode()->setID('root1');
+		$tree->getRootNode()->setId('root1');
 		$tree->getRootNode()->setLabel('Root T1');
 
 
@@ -225,7 +225,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function getTree2() {
 		$tree = new Data_Tree();
-		$tree->getRootNode()->setID('root2');
+		$tree->getRootNode()->setId('root2');
 		$tree->getRootNode()->setLabel('Root T2');
 
 		$tree->setData($this->tree2_data);
@@ -236,7 +236,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected function getTree3() {
 		$tree = new Data_Tree();
-		$tree->getRootNode()->setID('root3');
+		$tree->getRootNode()->setId('root3');
 		$tree->getRootNode()->setLabel('Root T3');
 
 		$tree->setData($this->tree3_data);
@@ -261,7 +261,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::appendTree
+	 * @covers Data_Tree_Forest::appendTree
 	 */
 	public function testAppendTree() {
 		$this->object->appendTree($this->getTree1());
@@ -270,7 +270,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::appendTree
+	 * @covers Data_Tree_Forest::appendTree
 	 *
 	 * @expectedException \Jet\Data_Tree_Exception
 	 * @expectedExceptionCode \Jet\Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
@@ -281,8 +281,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::setLabelKey
-	 * @covers Jet\Data_Tree_Forest::getLabelKey
+	 * @covers Data_Tree_Forest::setLabelKey
+	 * @covers Data_Tree_Forest::getLabelKey
 	 */
 	public function testSetGetLabelKey() {
 		$tree = $this->getTree1();
@@ -296,23 +296,23 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::getIDKey
-	 * @covers Jet\Data_Tree_Forest::setIDKey
+	 * @covers Data_Tree_Forest::getIdKey
+	 * @covers Data_Tree_Forest::setIdKey
 	 */
-	public function testSetGetIDKey() {
+	public function testSetGetIdKey() {
 		$tree = $this->getTree1();
 
 		$this->object->appendTree( $tree );
-		$this->assertEquals( $tree->getIDKey(), $this->object->getIDKey() );
+		$this->assertEquals( $tree->getIdKey(), $this->object->getIdKey() );
 
-		$this->object->setIDKey('test');
-		$this->assertEquals( 'test', $this->object->getIDKey() );
+		$this->object->setIdKey('test');
+		$this->assertEquals( 'test', $this->object->getIdKey() );
 	}
 
 
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::getTrees
+	 * @covers Data_Tree_Forest::getTrees
 	 */
 	public function testGetTrees() {
 		$trees = $this->appendTrees();
@@ -321,7 +321,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::getTree
+	 * @covers Data_Tree_Forest::getTree
 	 */
 	public function testGetTree() {
 		$trees = $this->appendTrees();
@@ -331,7 +331,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::removeTree
+	 * @covers Data_Tree_Forest::removeTree
 	 */
 	public function testRemoveTree() {
 		$trees = $this->appendTrees();
@@ -343,7 +343,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::getTreeExists
+	 * @covers Data_Tree_Forest::getTreeExists
 	 */
 	public function testGetTreeExists() {
 		$this->appendTrees();
@@ -356,7 +356,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::toArray
+	 * @covers Data_Tree_Forest::toArray
 	 */
 	public function testToArray() {
 		$this->appendTrees();
@@ -364,61 +364,61 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 		$valid = [
 			0 =>
 			[
-				'ID' => 'root1',
-				'parent_ID' => '',
+				'id' => 'root1',
+				'parent_id' => '',
 				'name' => 'Root T1',
 				'depth' => 0,
 				'children' =>
 				[
 					0 =>
 					[
-						'ID' => 't1-1',
-						'parent_ID' => 'root1',
+						'id' => 't1-1',
+						'parent_id' => 'root1',
 						'name' => 'Node T1 1',
 						'depth' => 1,
 						'children' =>
 						[
 							0 =>
 							[
-								'ID' => 't1-1-1',
-								'parent_ID' => 't1-1',
+								'id' => 't1-1-1',
+								'parent_id' => 't1-1',
 								'name' => 'Node T1 1-1',
 								'depth' => 2
 							],
 							1 =>
 							[
-								'ID' => 't1-1-2',
-								'parent_ID' => 't1-1',
+								'id' => 't1-1-2',
+								'parent_id' => 't1-1',
 								'name' => 'Node T1 1-2',
 								'depth' => 2,
 								'children' =>
 								[
 									0 =>
 									[
-										'ID' => 't1-1-2-1',
-										'parent_ID' => 't1-1-2',
+										'id' => 't1-1-2-1',
+										'parent_id' => 't1-1-2',
 										'name' => 'Node T1 1-2-1',
 										'depth' => 3,
 									],
 									1 =>
 									[
-										'ID' => 't1-1-2-2',
-										'parent_ID' => 't1-1-2',
+										'id' => 't1-1-2-2',
+										'parent_id' => 't1-1-2',
 										'name' => 'Node T1 1-2-2',
 										'depth' => 3,
 										'children' =>
 										[
 											0 =>
 											[
-												'ID' => 't1-1-2-2-1',
-												'parent_ID' => 't1-1-2-2',
+												'id' => 't1-1-2-2-1',
+												'parent_id' => 't1-1-2-2',
 												'name' => 'Node T1 1-2-2-1',
 												'depth' => 4,
 											],
 											1 =>
 											[
-												'ID' => 't1-1-2-2-2',
-												'parent_ID' => 't1-1-2-2',
+												'id' => 't1-1-2-2-2',
+												'parent_id' => 't1-1-2-2',
 												'name' => 'Node T1 1-2-2-2',
 												'depth' => 4,
 											],
@@ -426,8 +426,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 									],
 									2 =>
 									[
-										'ID' => 't1-1-2-3',
-										'parent_ID' => 't1-1-2',
+										'id' => 't1-1-2-3',
+										'parent_id' => 't1-1-2',
 										'name' => 'Node T1 1-2-3',
 										'depth' => 3,
 									],
@@ -435,8 +435,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 							],
 							2 =>
 							[
-								'ID' => 't1-1-3',
-								'parent_ID' => 't1-1',
+								'id' => 't1-1-3',
+								'parent_id' => 't1-1',
 								'name' => 'Node T1 1-3',
 								'depth' => 2,
 							],
@@ -444,15 +444,15 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 					],
 					1 =>
 					[
-						'ID' => 't1-2',
-						'parent_ID' => 'root1',
+						'id' => 't1-2',
+						'parent_id' => 'root1',
 						'name' => 'Node T1 2',
 						'depth' => 1,
 					],
 					2 =>
 					[
-						'ID' => 't1-3',
-						'parent_ID' => 'root1',
+						'id' => 't1-3',
+						'parent_id' => 'root1',
 						'name' => 'Node T1 3',
 						'depth' => 1,
 					],
@@ -460,61 +460,61 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 			],
 			1 =>
 			[
-				'ID' => 'root2',
-				'parent_ID' => '',
+				'id' => 'root2',
+				'parent_id' => '',
 				'name' => 'Root T2',
 				'depth' => 0,
 				'children' =>
 				[
 					0 =>
 					[
-						'ID' => 't2-1',
-						'parent_ID' => 'root2',
+						'id' => 't2-1',
+						'parent_id' => 'root2',
 						'name' => 'Node T2 1',
 						'depth' => 1,
 						'children' =>
 						[
 							0 =>
 							[
-								'ID' => 't2-1-1',
-								'parent_ID' => 't2-1',
+								'id' => 't2-1-1',
+								'parent_id' => 't2-1',
 								'name' => 'Node T2 1-1',
 								'depth' => 2,
 							],
 							1 =>
 							[
-								'ID' => 't2-1-2',
-								'parent_ID' => 't2-1',
+								'id' => 't2-1-2',
+								'parent_id' => 't2-1',
 								'name' => 'Node T2 1-2',
 								'depth' => 2,
 								'children' =>
 								[
 									0 =>
 									[
-										'ID' => 't2-1-2-1',
-										'parent_ID' => 't2-1-2',
+										'id' => 't2-1-2-1',
+										'parent_id' => 't2-1-2',
 										'name' => 'Node T2 1-2-1',
 										'depth' => 3,
 									],
 									1 =>
 									[
-										'ID' => 't2-1-2-2',
-										'parent_ID' => 't2-1-2',
+										'id' => 't2-1-2-2',
+										'parent_id' => 't2-1-2',
 										'name' => 'Node T2 1-2-2',
 										'depth' => 3,
 										'children' =>
 										[
 											0 =>
 											[
-												'ID' => 't2-1-2-2-1',
-												'parent_ID' => 't2-1-2-2',
+												'id' => 't2-1-2-2-1',
+												'parent_id' => 't2-1-2-2',
 												'name' => 'Node T2 1-2-2-1',
 												'depth' => 4,
 											],
 											1 =>
 											[
-												'ID' => 't2-1-2-2-2',
-												'parent_ID' => 't2-1-2-2',
+												'id' => 't2-1-2-2-2',
+												'parent_id' => 't2-1-2-2',
 												'name' => 'Node T2 1-2-2-2',
 												'depth' => 4,
 											],
@@ -522,8 +522,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 									],
 									2 =>
 									[
-										'ID' => 't2-1-2-3',
-										'parent_ID' => 't2-1-2',
+										'id' => 't2-1-2-3',
+										'parent_id' => 't2-1-2',
 										'name' => 'Node T2 1-2-3',
 										'depth' => 3,
 									],
@@ -531,8 +531,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 							],
 							2 =>
 							[
-								'ID' => 't2-1-3',
-								'parent_ID' => 't2-1',
+								'id' => 't2-1-3',
+								'parent_id' => 't2-1',
 								'name' => 'Node T2 1-3',
 								'depth' => 2,
 							],
@@ -540,15 +540,15 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 					],
 					1 =>
 					[
-						'ID' => 't2-2',
-						'parent_ID' => 'root2',
+						'id' => 't2-2',
+						'parent_id' => 'root2',
 						'name' => 'Node T2 2',
 						'depth' => 1,
 					],
 					2 =>
 					[
-						'ID' => 't2-3',
-						'parent_ID' => 'root2',
+						'id' => 't2-3',
+						'parent_id' => 'root2',
 						'name' => 'Node T2 3',
 						'depth' => 1,
 					],
@@ -556,61 +556,61 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 			],
 			2 =>
 			[
-				'ID' => 'root3',
-				'parent_ID' => '',
+				'id' => 'root3',
+				'parent_id' => '',
 				'name' => 'Root T3',
 				'depth' => 0,
 				'children' =>
 				[
 					0 =>
 					[
-						'ID' => 't3-1',
-						'parent_ID' => 'root3',
+						'id' => 't3-1',
+						'parent_id' => 'root3',
 						'name' => 'Node T3 1',
 						'depth' => 1,
 						'children' =>
 						[
 							0 =>
 							[
-								'ID' => 't3-1-1',
-								'parent_ID' => 't3-1',
+								'id' => 't3-1-1',
+								'parent_id' => 't3-1',
 								'name' => 'Node T3 1-1',
 								'depth' => 2,
 							],
 							1 =>
 							[
-								'ID' => 't3-1-2',
-								'parent_ID' => 't3-1',
+								'id' => 't3-1-2',
+								'parent_id' => 't3-1',
 								'name' => 'Node T3 1-2',
 								'depth' => 2,
 								'children' =>
 								[
 									0 =>
 									[
-										'ID' => 't3-1-2-1',
-										'parent_ID' => 't3-1-2',
+										'id' => 't3-1-2-1',
+										'parent_id' => 't3-1-2',
 										'name' => 'Node T3 1-2-1',
 										'depth' => 3,
 									],
 									1 =>
 									[
-										'ID' => 't3-1-2-2',
-										'parent_ID' => 't3-1-2',
+										'id' => 't3-1-2-2',
+										'parent_id' => 't3-1-2',
 										'name' => 'Node T3 1-2-2',
 										'depth' => 3,
 										'children' =>
 										[
 											0 =>
 											[
-												'ID' => 't3-1-2-2-1',
-												'parent_ID' => 't3-1-2-2',
+												'id' => 't3-1-2-2-1',
+												'parent_id' => 't3-1-2-2',
 												'name' => 'Node T3 1-2-2-1',
 												'depth' => 4,
 											],
 											1 =>
 											[
-												'ID' => 't3-1-2-2-2',
-												'parent_ID' => 't3-1-2-2',
+												'id' => 't3-1-2-2-2',
+												'parent_id' => 't3-1-2-2',
 												'name' => 'Node T3 1-2-2-2',
 												'depth' => 4,
 											],
@@ -618,8 +618,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 									],
 									2 =>
 									[
-										'ID' => 't3-1-2-3',
-										'parent_ID' => 't3-1-2',
+										'id' => 't3-1-2-3',
+										'parent_id' => 't3-1-2',
 										'name' => 'Node T3 1-2-3',
 										'depth' => 3,
 									],
@@ -627,8 +627,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 							],
 							2 =>
 							[
-								'ID' => 't3-1-3',
-								'parent_ID' => 't3-1',
+								'id' => 't3-1-3',
+								'parent_id' => 't3-1',
 								'name' => 'Node T3 1-3',
 								'depth' => 2,
 							],
@@ -636,15 +636,15 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 					],
 					1 =>
 					[
-						'ID' => 't3-2',
-						'parent_ID' => 'root3',
+						'id' => 't3-2',
+						'parent_id' => 'root3',
 						'name' => 'Node T3 2',
 						'depth' => 1,
 					],
 					2 =>
 					[
-						'ID' => 't3-3',
-						'parent_ID' => 'root3',
+						'id' => 't3-3',
+						'parent_id' => 'root3',
 						'name' => 'Node T3 3',
 						'depth' => 1,
 					],
@@ -656,260 +656,260 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::toJSON
+	 * @covers Data_Tree_Forest::toJSON
 	 */
 	public function testToJSON() {
 		$this->appendTrees();
 
-		$valid_JSON = '{"identifier":"ID","label":"name","items":[{"ID":"root1","parent_ID":"","name":"Root T1","depth":0,"children":[{"ID":"t1-1","parent_ID":"root1","name":"Node T1 1","depth":1,"children":[{"ID":"t1-1-1","parent_ID":"t1-1","name":"Node T1 1-1","depth":2},{"ID":"t1-1-2","parent_ID":"t1-1","name":"Node T1 1-2","depth":2,"children":[{"ID":"t1-1-2-1","parent_ID":"t1-1-2","name":"Node T1 1-2-1","depth":3},{"ID":"t1-1-2-2","parent_ID":"t1-1-2","name":"Node T1 1-2-2","depth":3,"children":[{"ID":"t1-1-2-2-1","parent_ID":"t1-1-2-2","name":"Node T1 1-2-2-1","depth":4},{"ID":"t1-1-2-2-2","parent_ID":"t1-1-2-2","name":"Node T1 1-2-2-2","depth":4}]},{"ID":"t1-1-2-3","parent_ID":"t1-1-2","name":"Node T1 1-2-3","depth":3}]},{"ID":"t1-1-3","parent_ID":"t1-1","name":"Node T1 1-3","depth":2}]},{"ID":"t1-2","parent_ID":"root1","name":"Node T1 2","depth":1},{"ID":"t1-3","parent_ID":"root1","name":"Node T1 3","depth":1}]},{"ID":"root2","parent_ID":"","name":"Root T2","depth":0,"children":[{"ID":"t2-1","parent_ID":"root2","name":"Node T2 1","depth":1,"children":[{"ID":"t2-1-1","parent_ID":"t2-1","name":"Node T2 1-1","depth":2},{"ID":"t2-1-2","parent_ID":"t2-1","name":"Node T2 1-2","depth":2,"children":[{"ID":"t2-1-2-1","parent_ID":"t2-1-2","name":"Node T2 1-2-1","depth":3},{"ID":"t2-1-2-2","parent_ID":"t2-1-2","name":"Node T2 1-2-2","depth":3,"children":[{"ID":"t2-1-2-2-1","parent_ID":"t2-1-2-2","name":"Node T2 1-2-2-1","depth":4},{"ID":"t2-1-2-2-2","parent_ID":"t2-1-2-2","name":"Node T2 1-2-2-2","depth":4}]},{"ID":"t2-1-2-3","parent_ID":"t2-1-2","name":"Node T2 1-2-3","depth":3}]},{"ID":"t2-1-3","parent_ID":"t2-1","name":"Node T2 1-3","depth":2}]},{"ID":"t2-2","parent_ID":"root2","name":"Node T2 2","depth":1},{"ID":"t2-3","parent_ID":"root2","name":"Node T2 3","depth":1}]},{"ID":"root3","parent_ID":"","name":"Root T3","depth":0,"children":[{"ID":"t3-1","parent_ID":"root3","name":"Node T3 1","depth":1,"children":[{"ID":"t3-1-1","parent_ID":"t3-1","name":"Node T3 1-1","depth":2},{"ID":"t3-1-2","parent_ID":"t3-1","name":"Node T3 1-2","depth":2,"children":[{"ID":"t3-1-2-1","parent_ID":"t3-1-2","name":"Node T3 1-2-1","depth":3},{"ID":"t3-1-2-2","parent_ID":"t3-1-2","name":"Node T3 1-2-2","depth":3,"children":[{"ID":"t3-1-2-2-1","parent_ID":"t3-1-2-2","name":"Node T3 1-2-2-1","depth":4},{"ID":"t3-1-2-2-2","parent_ID":"t3-1-2-2","name":"Node T3 1-2-2-2","depth":4}]},{"ID":"t3-1-2-3","parent_ID":"t3-1-2","name":"Node T3 1-2-3","depth":3}]},{"ID":"t3-1-3","parent_ID":"t3-1","name":"Node T3 1-3","depth":2}]},{"ID":"t3-2","parent_ID":"root3","name":"Node T3 2","depth":1},{"ID":"t3-3","parent_ID":"root3","name":"Node T3 3","depth":1}]}]}';
+		$valid_JSON = '{"identifier":"id","label":"name","items":[{"id":"root1","parent_id":null,"name":"Root T1","depth":0,"children":[{"id":"t1-1","parent_id":"root1","name":"Node T1 1","depth":1,"children":[{"id":"t1-1-1","parent_id":"t1-1","name":"Node T1 1-1","depth":2},{"id":"t1-1-2","parent_id":"t1-1","name":"Node T1 1-2","depth":2,"children":[{"id":"t1-1-2-1","parent_id":"t1-1-2","name":"Node T1 1-2-1","depth":3},{"id":"t1-1-2-2","parent_id":"t1-1-2","name":"Node T1 1-2-2","depth":3,"children":[{"id":"t1-1-2-2-1","parent_id":"t1-1-2-2","name":"Node T1 1-2-2-1","depth":4},{"id":"t1-1-2-2-2","parent_id":"t1-1-2-2","name":"Node T1 1-2-2-2","depth":4}]},{"id":"t1-1-2-3","parent_id":"t1-1-2","name":"Node T1 1-2-3","depth":3}]},{"id":"t1-1-3","parent_id":"t1-1","name":"Node T1 1-3","depth":2}]},{"id":"t1-2","parent_id":"root1","name":"Node T1 2","depth":1},{"id":"t1-3","parent_id":"root1","name":"Node T1 3","depth":1}]},{"id":"root2","parent_id":null,"name":"Root T2","depth":0,"children":[{"id":"t2-1","parent_id":"root2","name":"Node T2 1","depth":1,"children":[{"id":"t2-1-1","parent_id":"t2-1","name":"Node T2 1-1","depth":2},{"id":"t2-1-2","parent_id":"t2-1","name":"Node T2 1-2","depth":2,"children":[{"id":"t2-1-2-1","parent_id":"t2-1-2","name":"Node T2 1-2-1","depth":3},{"id":"t2-1-2-2","parent_id":"t2-1-2","name":"Node T2 1-2-2","depth":3,"children":[{"id":"t2-1-2-2-1","parent_id":"t2-1-2-2","name":"Node T2 1-2-2-1","depth":4},{"id":"t2-1-2-2-2","parent_id":"t2-1-2-2","name":"Node T2 1-2-2-2","depth":4}]},{"id":"t2-1-2-3","parent_id":"t2-1-2","name":"Node T2 1-2-3","depth":3}]},{"id":"t2-1-3","parent_id":"t2-1","name":"Node T2 1-3","depth":2}]},{"id":"t2-2","parent_id":"root2","name":"Node T2 2","depth":1},{"id":"t2-3","parent_id":"root2","name":"Node T2 3","depth":1}]},{"id":"root3","parent_id":null,"name":"Root T3","depth":0,"children":[{"id":"t3-1","parent_id":"root3","name":"Node T3 1","depth":1,"children":[{"id":"t3-1-1","parent_id":"t3-1","name":"Node T3 1-1","depth":2},{"id":"t3-1-2","parent_id":"t3-1","name":"Node T3 1-2","depth":2,"children":[{"id":"t3-1-2-1","parent_id":"t3-1-2","name":"Node T3 1-2-1","depth":3},{"id":"t3-1-2-2","parent_id":"t3-1-2","name":"Node T3 1-2-2","depth":3,"children":[{"id":"t3-1-2-2-1","parent_id":"t3-1-2-2","name":"Node T3 1-2-2-1","depth":4},{"id":"t3-1-2-2-2","parent_id":"t3-1-2-2","name":"Node T3 1-2-2-2","depth":4}]},{"id":"t3-1-2-3","parent_id":"t3-1-2","name":"Node T3 1-2-3","depth":3}]},{"id":"t3-1-3","parent_id":"t3-1","name":"Node T3 1-3","depth":2}]},{"id":"t3-2","parent_id":"root3","name":"Node T3 2","depth":1},{"id":"t3-3","parent_id":"root3","name":"Node T3 3","depth":1}]}]}';
 		$this->assertEquals($valid_JSON, $this->object->toJSON());
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::toXML
+	 * @covers Data_Tree_Forest::toXML
 	 */
 	public function testToXML() {
 		$this->appendTrees();
 
 		$valid_XML = '<tree>
-			        <identifier>ID</identifier>
+			        <identifier>id</identifier>
 			        <label>name</label>
 			        <items>
 			                <item>
-			                        <ID>root1</ID>
-			                        <parent_ID></parent_ID>
+			                        <id>root1</id>
+			                        <parent_id></parent_id>
 			                        <name>Root T1</name>
 			                        <depth>0</depth>
 			                        <children>
 			                                <item>
-			                                        <ID>t1-1</ID>
-			                                        <parent_ID>root1</parent_ID>
+			                                        <id>t1-1</id>
+			                                        <parent_id>root1</parent_id>
 			                                        <name>Node T1 1</name>
 			                                        <depth>1</depth>
 			                                        <children>
 			                                                <item>
-			                                                        <ID>t1-1-1</ID>
-			                                                        <parent_ID>t1-1</parent_ID>
+			                                                        <id>t1-1-1</id>
+			                                                        <parent_id>t1-1</parent_id>
 			                                                        <name>Node T1 1-1</name>
 			                                                        <depth>2</depth>
 			                                                </item>
 			                                                <item>
-			                                                        <ID>t1-1-2</ID>
-			                                                        <parent_ID>t1-1</parent_ID>
+			                                                        <id>t1-1-2</id>
+			                                                        <parent_id>t1-1</parent_id>
 			                                                        <name>Node T1 1-2</name>
 			                                                        <depth>2</depth>
 			                                                        <children>
 			                                                                <item>
-			                                                                        <ID>t1-1-2-1</ID>
-			                                                                        <parent_ID>t1-1-2</parent_ID>
+			                                                                        <id>t1-1-2-1</id>
+			                                                                        <parent_id>t1-1-2</parent_id>
 			                                                                        <name>Node T1 1-2-1</name>
 			                                                                        <depth>3</depth>
 			                                                                </item>
 			                                                                <item>
-			                                                                        <ID>t1-1-2-2</ID>
-			                                                                        <parent_ID>t1-1-2</parent_ID>
+			                                                                        <id>t1-1-2-2</id>
+			                                                                        <parent_id>t1-1-2</parent_id>
 			                                                                        <name>Node T1 1-2-2</name>
 			                                                                        <depth>3</depth>
 			                                                                        <children>
 			                                                                                <item>
-			                                                                                        <ID>t1-1-2-2-1</ID>
-			                                                                                        <parent_ID>t1-1-2-2</parent_ID>
+			                                                                                        <id>t1-1-2-2-1</id>
+			                                                                                        <parent_id>t1-1-2-2</parent_id>
 			                                                                                        <name>Node T1 1-2-2-1</name>
 			                                                                                        <depth>4</depth>
 			                                                                                </item>
 			                                                                                <item>
-			                                                                                        <ID>t1-1-2-2-2</ID>
-			                                                                                        <parent_ID>t1-1-2-2</parent_ID>
+			                                                                                        <id>t1-1-2-2-2</id>
+			                                                                                        <parent_id>t1-1-2-2</parent_id>
 			                                                                                        <name>Node T1 1-2-2-2</name>
 			                                                                                        <depth>4</depth>
 			                                                                                </item>
 			                                                                        </children>
 			                                                                </item>
 			                                                                <item>
-			                                                                        <ID>t1-1-2-3</ID>
-			                                                                        <parent_ID>t1-1-2</parent_ID>
+			                                                                        <id>t1-1-2-3</id>
+			                                                                        <parent_id>t1-1-2</parent_id>
 			                                                                        <name>Node T1 1-2-3</name>
 			                                                                        <depth>3</depth>
 			                                                                </item>
 			                                                        </children>
 			                                                </item>
 			                                                <item>
-			                                                        <ID>t1-1-3</ID>
-			                                                        <parent_ID>t1-1</parent_ID>
+			                                                        <id>t1-1-3</id>
+			                                                        <parent_id>t1-1</parent_id>
 			                                                        <name>Node T1 1-3</name>
 			                                                        <depth>2</depth>
 			                                                </item>
 			                                        </children>
 			                                </item>
 			                                <item>
-			                                        <ID>t1-2</ID>
-			                                        <parent_ID>root1</parent_ID>
+			                                        <id>t1-2</id>
+			                                        <parent_id>root1</parent_id>
 			                                        <name>Node T1 2</name>
 			                                        <depth>1</depth>
 			                                </item>
 			                                <item>
-			                                        <ID>t1-3</ID>
-			                                        <parent_ID>root1</parent_ID>
+			                                        <id>t1-3</id>
+			                                        <parent_id>root1</parent_id>
 			                                        <name>Node T1 3</name>
 			                                        <depth>1</depth>
 			                                </item>
 			                        </children>
 			                </item>
 			                <item>
-			                        <ID>root2</ID>
-			                        <parent_ID></parent_ID>
+			                        <id>root2</id>
+			                        <parent_id></parent_id>
 			                        <name>Root T2</name>
 			                        <depth>0</depth>
 			                        <children>
 			                                <item>
-			                                        <ID>t2-1</ID>
-			                                        <parent_ID>root2</parent_ID>
+			                                        <id>t2-1</id>
+			                                        <parent_id>root2</parent_id>
 			                                        <name>Node T2 1</name>
 			                                        <depth>1</depth>
 			                                        <children>
 			                                                <item>
-			                                                        <ID>t2-1-1</ID>
-			                                                        <parent_ID>t2-1</parent_ID>
+			                                                        <id>t2-1-1</id>
+			                                                        <parent_id>t2-1</parent_id>
 			                                                        <name>Node T2 1-1</name>
 			                                                        <depth>2</depth>
 			                                                </item>
 			                                                <item>
-			                                                        <ID>t2-1-2</ID>
-			                                                        <parent_ID>t2-1</parent_ID>
+			                                                        <id>t2-1-2</id>
+			                                                        <parent_id>t2-1</parent_id>
 			                                                        <name>Node T2 1-2</name>
 			                                                        <depth>2</depth>
 			                                                        <children>
 			                                                                <item>
-			                                                                        <ID>t2-1-2-1</ID>
-			                                                                        <parent_ID>t2-1-2</parent_ID>
+			                                                                        <id>t2-1-2-1</id>
+			                                                                        <parent_id>t2-1-2</parent_id>
 			                                                                        <name>Node T2 1-2-1</name>
 			                                                                        <depth>3</depth>
 			                                                                </item>
 			                                                                <item>
-			                                                                        <ID>t2-1-2-2</ID>
-			                                                                        <parent_ID>t2-1-2</parent_ID>
+			                                                                        <id>t2-1-2-2</id>
+			                                                                        <parent_id>t2-1-2</parent_id>
 			                                                                        <name>Node T2 1-2-2</name>
 			                                                                        <depth>3</depth>
 			                                                                        <children>
 			                                                                                <item>
-			                                                                                        <ID>t2-1-2-2-1</ID>
-			                                                                                        <parent_ID>t2-1-2-2</parent_ID>
+			                                                                                        <id>t2-1-2-2-1</id>
+			                                                                                        <parent_id>t2-1-2-2</parent_id>
 			                                                                                        <name>Node T2 1-2-2-1</name>
 			                                                                                        <depth>4</depth>
 			                                                                                </item>
 			                                                                                <item>
-			                                                                                        <ID>t2-1-2-2-2</ID>
-			                                                                                        <parent_ID>t2-1-2-2</parent_ID>
+			                                                                                        <id>t2-1-2-2-2</id>
+			                                                                                        <parent_id>t2-1-2-2</parent_id>
 			                                                                                        <name>Node T2 1-2-2-2</name>
 			                                                                                        <depth>4</depth>
 			                                                                                </item>
 			                                                                        </children>
 			                                                                </item>
 			                                                                <item>
-			                                                                        <ID>t2-1-2-3</ID>
-			                                                                        <parent_ID>t2-1-2</parent_ID>
+			                                                                        <id>t2-1-2-3</id>
+			                                                                        <parent_id>t2-1-2</parent_id>
 			                                                                        <name>Node T2 1-2-3</name>
 			                                                                        <depth>3</depth>
 			                                                                </item>
 			                                                        </children>
 			                                                </item>
 			                                                <item>
-			                                                        <ID>t2-1-3</ID>
-			                                                        <parent_ID>t2-1</parent_ID>
+			                                                        <id>t2-1-3</id>
+			                                                        <parent_id>t2-1</parent_id>
 			                                                        <name>Node T2 1-3</name>
 			                                                        <depth>2</depth>
 			                                                </item>
 			                                        </children>
 			                                </item>
 			                                <item>
-			                                        <ID>t2-2</ID>
-			                                        <parent_ID>root2</parent_ID>
+			                                        <id>t2-2</id>
+			                                        <parent_id>root2</parent_id>
 			                                        <name>Node T2 2</name>
 			                                        <depth>1</depth>
 			                                </item>
 			                                <item>
-			                                        <ID>t2-3</ID>
-			                                        <parent_ID>root2</parent_ID>
+			                                        <id>t2-3</id>
+			                                        <parent_id>root2</parent_id>
 			                                        <name>Node T2 3</name>
 			                                        <depth>1</depth>
 			                                </item>
 			                        </children>
 			                </item>
 			                <item>
-			                        <ID>root3</ID>
-			                        <parent_ID></parent_ID>
+			                        <id>root3</id>
+			                        <parent_id></parent_id>
 			                        <name>Root T3</name>
 			                        <depth>0</depth>
 			                        <children>
 			                                <item>
-			                                        <ID>t3-1</ID>
-			                                        <parent_ID>root3</parent_ID>
+			                                        <id>t3-1</id>
+			                                        <parent_id>root3</parent_id>
 			                                        <name>Node T3 1</name>
 			                                        <depth>1</depth>
 			                                        <children>
 			                                                <item>
-			                                                        <ID>t3-1-1</ID>
-			                                                        <parent_ID>t3-1</parent_ID>
+			                                                        <id>t3-1-1</id>
+			                                                        <parent_id>t3-1</parent_id>
 			                                                        <name>Node T3 1-1</name>
 			                                                        <depth>2</depth>
 			                                                </item>
 			                                                <item>
-			                                                        <ID>t3-1-2</ID>
-			                                                        <parent_ID>t3-1</parent_ID>
+			                                                        <id>t3-1-2</id>
+			                                                        <parent_id>t3-1</parent_id>
 			                                                        <name>Node T3 1-2</name>
 			                                                        <depth>2</depth>
 			                                                        <children>
 			                                                                <item>
-			                                                                        <ID>t3-1-2-1</ID>
-			                                                                        <parent_ID>t3-1-2</parent_ID>
+			                                                                        <id>t3-1-2-1</id>
+			                                                                        <parent_id>t3-1-2</parent_id>
 			                                                                        <name>Node T3 1-2-1</name>
 			                                                                        <depth>3</depth>
 			                                                                </item>
 			                                                                <item>
-			                                                                        <ID>t3-1-2-2</ID>
-			                                                                        <parent_ID>t3-1-2</parent_ID>
+			                                                                        <id>t3-1-2-2</id>
+			                                                                        <parent_id>t3-1-2</parent_id>
 			                                                                        <name>Node T3 1-2-2</name>
 			                                                                        <depth>3</depth>
 			                                                                        <children>
 			                                                                                <item>
-			                                                                                        <ID>t3-1-2-2-1</ID>
-			                                                                                        <parent_ID>t3-1-2-2</parent_ID>
+			                                                                                        <id>t3-1-2-2-1</id>
+			                                                                                        <parent_id>t3-1-2-2</parent_id>
 			                                                                                        <name>Node T3 1-2-2-1</name>
 			                                                                                        <depth>4</depth>
 			                                                                                </item>
 			                                                                                <item>
-			                                                                                        <ID>t3-1-2-2-2</ID>
-			                                                                                        <parent_ID>t3-1-2-2</parent_ID>
+			                                                                                        <id>t3-1-2-2-2</id>
+			                                                                                        <parent_id>t3-1-2-2</parent_id>
 			                                                                                        <name>Node T3 1-2-2-2</name>
 			                                                                                        <depth>4</depth>
 			                                                                                </item>
 			                                                                        </children>
 			                                                                </item>
 			                                                                <item>
-			                                                                        <ID>t3-1-2-3</ID>
-			                                                                        <parent_ID>t3-1-2</parent_ID>
+			                                                                        <id>t3-1-2-3</id>
+			                                                                        <parent_id>t3-1-2</parent_id>
 			                                                                        <name>Node T3 1-2-3</name>
 			                                                                        <depth>3</depth>
 			                                                                </item>
 			                                                        </children>
 			                                                </item>
 			                                                <item>
-			                                                        <ID>t3-1-3</ID>
-			                                                        <parent_ID>t3-1</parent_ID>
+			                                                        <id>t3-1-3</id>
+			                                                        <parent_id>t3-1</parent_id>
 			                                                        <name>Node T3 1-3</name>
 			                                                        <depth>2</depth>
 			                                                </item>
 			                                        </children>
 			                                </item>
 			                                <item>
-			                                        <ID>t3-2</ID>
-			                                        <parent_ID>root3</parent_ID>
+			                                        <id>t3-2</id>
+			                                        <parent_id>root3</parent_id>
 			                                        <name>Node T3 2</name>
 			                                        <depth>1</depth>
 			                                </item>
 			                                <item>
-			                                        <ID>t3-3</ID>
-			                                        <parent_ID>root3</parent_ID>
+			                                        <id>t3-3</id>
+			                                        <parent_id>root3</parent_id>
 			                                        <name>Node T3 3</name>
 			                                        <depth>1</depth>
 			                                </item>
@@ -933,27 +933,27 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Jet\Data_Tree_Forest::rewind
-	 * @covers Jet\Data_Tree_Forest::current
-	 * @covers Jet\Data_Tree_Forest::key
-	 * @covers Jet\Data_Tree_Forest::next
-	 * @covers Jet\Data_Tree_Forest::valid
+	 * @covers Data_Tree_Forest::rewind
+	 * @covers Data_Tree_Forest::current
+	 * @covers Data_Tree_Forest::key
+	 * @covers Data_Tree_Forest::next
+	 * @covers Data_Tree_Forest::valid
 	 *
-	 * @covers Jet\Data_Tree::setData
-	 * @covers Jet\Data_Tree::appendNode
-	 * @covers Jet\Data_Tree::rewind
-	 * @covers Jet\Data_Tree::current
-	 * @covers Jet\Data_Tree::key
-	 * @covers Jet\Data_Tree::next
-	 * @covers Jet\Data_Tree::valid
+	 * @covers Data_Tree::setData
+	 * @covers Data_Tree::appendNode
+	 * @covers Data_Tree::rewind
+	 * @covers Data_Tree::current
+	 * @covers Data_Tree::key
+	 * @covers Data_Tree::next
+	 * @covers Data_Tree::valid
 	 *
-	 * @covers Jet\Data_Tree_Node::rewind
-	 * @covers Jet\Data_Tree_Node::current
-	 * @covers Jet\Data_Tree_Node::key
-	 * @covers Jet\Data_Tree_Node::next
-	 * @covers Jet\Data_Tree_Node::valid
-	 * @covers Jet\Data_Tree_Node::toString
-	 * @covers Jet\Data_Tree_Node::getLabel
+	 * @covers Data_Tree_Node::rewind
+	 * @covers Data_Tree_Node::current
+	 * @covers Data_Tree_Node::key
+	 * @covers Data_Tree_Node::next
+	 * @covers Data_Tree_Node::valid
+	 * @covers Data_Tree_Node::toString
+	 * @covers Data_Tree_Node::getLabel
 	 *
 	 */
 	public function testIterator() {
@@ -1001,8 +1001,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 		$test_data = [];
 
 
-		foreach($this->object as $ID=>$item) {
-			$test_data[$ID] = (string)$item;
+		foreach($this->object as $id=>$item) {
+			$test_data[$id] = (string)$item;
 		}
 
 		$this->assertEquals($valid_data, $test_data);

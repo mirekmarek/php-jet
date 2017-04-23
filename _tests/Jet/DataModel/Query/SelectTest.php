@@ -43,7 +43,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 		$query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
 
 		$this->object = new DataModel_Query_Select($query, [
-			$this->properties['ID_property'],
+			$this->properties['id_property'],
 			'my_string_property' => $this->properties['string_property'],
 			'my_sum' => [
 				[
@@ -70,7 +70,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__construct
+	 * @covers DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -86,7 +86,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__construct
+	 * @covers DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -104,7 +104,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__construct
+	 * @covers DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -122,12 +122,12 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__construct
-	 * @covers Jet\DataModel_Query_Select::addItem
-	 * @covers Jet\DataModel_Query_Select::getHasItem
+	 * @covers DataModel_Query_Select::__construct
+	 * @covers DataModel_Query_Select::addItem
+	 * @covers DataModel_Query_Select::getHasItem
 	 */
 	public function testGetHasItem() {
-		$this->assertTrue( $this->object->getHasItem('ID_property') );
+		$this->assertTrue( $this->object->getHasItem('id_property') );
 		$this->assertTrue( $this->object->getHasItem('my_string_property') );
 		$this->assertTrue( $this->object->getHasItem('my_sum') );
 		$this->assertTrue( $this->object->getHasItem('my_count') );
@@ -135,25 +135,25 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__construct
-	 * @covers Jet\DataModel_Query_Select::addItem
-	 * @covers Jet\DataModel_Query_Select::getItem
+	 * @covers DataModel_Query_Select::__construct
+	 * @covers DataModel_Query_Select::addItem
+	 * @covers DataModel_Query_Select::getItem
 	 */
 	public function testGetItem() {
-		$this->assertTrue($this->object->getItem('ID_property')->getItem() instanceof DataModel_Definition_Property_Abstract);
+		$this->assertTrue($this->object->getItem('id_property')->getItem() instanceof DataModel_Definition_Property_Abstract);
 		$this->assertTrue($this->object->getItem('my_string_property')->getItem() instanceof DataModel_Definition_Property_Abstract);
 		$this->assertTrue($this->object->getItem('my_count')->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall);
 		$this->assertTrue($this->object->getItem('my_sum')->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall);
 	}
 
 	/**
-	 * @covers Jet\DataModel_Query_Select::__construct
-	 * @covers Jet\DataModel_Query_Select::addItem
-	 * @covers Jet\DataModel_Query_Select::current
-	 * @covers Jet\DataModel_Query_Select::key
-	 * @covers Jet\DataModel_Query_Select::rewind
-	 * @covers Jet\DataModel_Query_Select::valid
-	 * @covers Jet\DataModel_Query_Select::next
+	 * @covers DataModel_Query_Select::__construct
+	 * @covers DataModel_Query_Select::addItem
+	 * @covers DataModel_Query_Select::current
+	 * @covers DataModel_Query_Select::key
+	 * @covers DataModel_Query_Select::rewind
+	 * @covers DataModel_Query_Select::valid
+	 * @covers DataModel_Query_Select::next
 	 */
 	public function testIterator() {
 		$items = [];
@@ -162,6 +162,6 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 			$items[] = $k;
 		}
 
-		$this->assertEquals( ['ID_property', 'my_string_property', 'my_sum', 'my_count'], $items );
+		$this->assertEquals( ['id_property', 'my_string_property', 'my_sum', 'my_count'], $items );
 	}
 }
