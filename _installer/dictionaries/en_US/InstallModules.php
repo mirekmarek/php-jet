@@ -1,0 +1,4 @@
+<?php
+return [
+	'Modules installation' => '',
+];
