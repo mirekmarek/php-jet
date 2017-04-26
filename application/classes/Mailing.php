@@ -9,7 +9,10 @@
  */
 namespace JetExampleApp;
 
-class Mailing {
+use Jet\BaseObject;
+use Jet\Locale;
+
+class Mailing extends BaseObject {
 	/**
 	 * @var Application_Config_Emails
 	 */
@@ -27,10 +30,10 @@ class Mailing {
 	}
 
 	/**
-	 * @param string $locale
+	 * @param string|Locale $locale
 	 * @return Application_Config_Emails_Sender
 	 */
-	public function getSenderConfig( $locale ) {
+	public static function getSenderConfig( $locale ) {
 		$locale = (string)$locale;
 
 		return static::getConfig()->getSender($locale);
@@ -43,7 +46,12 @@ class Mailing {
 	 * @param string|Locale $locale
 	 */
 	public static function sendTemplate( $to, $template_id, array $data=[], $locale=null ) {
-		//TODO:
+		if(!$locale) {
+			$locale = Locale::getCurrentLocale();
+		}
+
+		$template = new Mailing_Template( $template_id, $locale, $data );
+		$template->send($to);
 	}
 
 

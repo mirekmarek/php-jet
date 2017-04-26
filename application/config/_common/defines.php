@@ -44,3 +44,5 @@ const JET_TIMEZONE = 'Europe/Prague';
 
 const JET_TAB ="\t";
 const JET_EOL = PHP_EOL;
+
+define('JETAPP_EMAIL_TEMPLATES_PATH', JET_APPLICATION_PATH.'email_templates/');
