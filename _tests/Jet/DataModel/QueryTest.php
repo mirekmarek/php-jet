@@ -107,7 +107,7 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query::createQuery
+	 * @covers \Jet\DataModel_Query::createQuery
 	 */
 	public function testCreateQuery() {
 		$object = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
@@ -119,8 +119,8 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getSelect
-	 * @covers DataModel_Query::setSelect
+	 * @covers \Jet\DataModel_Query::getSelect
+	 * @covers \Jet\DataModel_Query::setSelect
 	 */
 	public function testGetSetSelect() {
 		$this->assertNull($this->object->getSelect());
@@ -132,8 +132,8 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::setWhere
-	 * @covers DataModel_Query::getWhere
+	 * @covers \Jet\DataModel_Query::setWhere
+	 * @covers \Jet\DataModel_Query::getWhere
 	 */
 	public function testGetSetWhere() {
 		$this->assertNull( $this->object->getWhere() );
@@ -145,8 +145,8 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::setHaving
-	 * @covers DataModel_Query::getHaving
+	 * @covers \Jet\DataModel_Query::setHaving
+	 * @covers \Jet\DataModel_Query::getHaving
 	 */
 	public function testGetSetHaving() {
 		$this->object->setSelect([
@@ -164,8 +164,8 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::setGroupBy
-	 * @covers DataModel_Query::getGroupBy
+	 * @covers \Jet\DataModel_Query::setGroupBy
+	 * @covers \Jet\DataModel_Query::getGroupBy
 	 */
 	public function testGetSetGroupBy() {
 		$this->object->setSelect([
@@ -186,8 +186,8 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::setOrderBy
-	 * @covers DataModel_Query::getOrderBy
+	 * @covers \Jet\DataModel_Query::setOrderBy
+	 * @covers \Jet\DataModel_Query::getOrderBy
 	 */
 	public function testGetSetOrderBy() {
 		$this->object->setSelect([
@@ -207,9 +207,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::setLimit
-	 * @covers DataModel_Query::getLimit
-	 * @covers DataModel_Query::getOffset
+	 * @covers \Jet\DataModel_Query::setLimit
+	 * @covers \Jet\DataModel_Query::getLimit
+	 * @covers \Jet\DataModel_Query::getOffset
 	 */
 	public function testGetSetLimit() {
 		$this->assertNull($this->object->getLimit());
@@ -225,9 +225,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 */
 	public function testRelationsMtoN() {
 		$property = $this->object->getPropertyAndSetRelation('data_model_2_test_mock.string_property');
@@ -259,9 +259,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 */
 	public function testRelations1toN() {
 		$property = $this->object->getPropertyAndSetRelation('data_model_test_mock_related_1toN.string_property');
@@ -291,9 +291,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	}
 
     /**
-     * @covers DataModel_Query::getPropertyAndSetRelation
-     * @covers DataModel_Query::getRelations
-     * @covers DataModel_Query::getRelation
+     * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+     * @covers \Jet\DataModel_Query::getRelations
+     * @covers \Jet\DataModel_Query::getRelation
      */
     public function testRelations1to1() {
 
@@ -345,9 +345,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -357,9 +357,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -370,9 +370,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -383,9 +383,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -396,9 +396,9 @@ class DataModel_QueryTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query::getPropertyAndSetRelation
-	 * @covers DataModel_Query::getRelations
-	 * @covers DataModel_Query::getRelation
+	 * @covers \Jet\DataModel_Query::getPropertyAndSetRelation
+	 * @covers \Jet\DataModel_Query::getRelations
+	 * @covers \Jet\DataModel_Query::getRelation
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR

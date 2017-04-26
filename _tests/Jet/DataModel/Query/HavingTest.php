@@ -92,7 +92,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -111,7 +111,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -133,7 +133,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -155,7 +155,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -175,7 +175,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -196,7 +196,7 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -217,18 +217,18 @@ class DataModel_Query_HavingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Having::addExpression
-	 * @covers DataModel_Query_Having::addAND
-	 * @covers DataModel_Query_Having::addOR
-	 * @covers DataModel_Query_Having::addSubExpressions
-	 * @covers DataModel_Query_Having::attach
+	 * @covers \Jet\DataModel_Query_Having::addExpression
+	 * @covers \Jet\DataModel_Query_Having::addAND
+	 * @covers \Jet\DataModel_Query_Having::addOR
+	 * @covers \Jet\DataModel_Query_Having::addSubExpressions
+	 * @covers \Jet\DataModel_Query_Having::attach
 	 *
-	 * @covers DataModel_Query_Having::current
-	 * @covers DataModel_Query_Having::key
-	 * @covers DataModel_Query_Having::rewind
-	 * @covers DataModel_Query_Having::valid
-	 * @covers DataModel_Query_Having::next
-	 * @covers DataModel_Query_Having::toString
+	 * @covers \Jet\DataModel_Query_Having::current
+	 * @covers \Jet\DataModel_Query_Having::key
+	 * @covers \Jet\DataModel_Query_Having::rewind
+	 * @covers \Jet\DataModel_Query_Having::valid
+	 * @covers \Jet\DataModel_Query_Having::next
+	 * @covers \Jet\DataModel_Query_Having::toString
 	 */
 	public function testGeneral() {
 

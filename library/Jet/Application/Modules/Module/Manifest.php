@@ -2,21 +2,6 @@
 /**
  *
  *
- *
- * Class that contains basic information about the module
- *
- * @see Application_Modules_Module_Abstract
- *
- * Each module has manifest file (~/application/modules/Module/manifest.php), that contains these specifications:
- *  - label (required)
- *  - API_version (required)
- *  - type (required)
- *  - description (optional)
- *  - require (optional)
- *  - signals_callbacks (optional)
- *
- * See class variables description for more details
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>

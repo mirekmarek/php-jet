@@ -53,7 +53,7 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_Date::checkValueType
+	 * @covers \Jet\DataModel_Definition_Property_Date::checkValueType
 	 */
 	public function testCheckValueType() {
 		$date = '1980-08-13';
@@ -64,7 +64,7 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_Date::getValueForJsonSerialize
+	 * @covers \Jet\DataModel_Definition_Property_Date::getValueForJsonSerialize
 	 */
 	public function testGetValueForJsonSerialize() {
 		$date_object = new Data_DateTime('1980-08-13');

@@ -86,7 +86,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -105,7 +105,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -127,7 +127,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -149,7 +149,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -169,7 +169,7 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -189,19 +189,19 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where::__construct
-	 * @covers DataModel_Query_Where::addExpression
-	 * @covers DataModel_Query_Where::addAND
-	 * @covers DataModel_Query_Where::addOR
-	 * @covers DataModel_Query_Where::addSubExpressions
-	 * @covers DataModel_Query_Where::attach
+	 * @covers \Jet\DataModel_Query_Where::__construct
+	 * @covers \Jet\DataModel_Query_Where::addExpression
+	 * @covers \Jet\DataModel_Query_Where::addAND
+	 * @covers \Jet\DataModel_Query_Where::addOR
+	 * @covers \Jet\DataModel_Query_Where::addSubExpressions
+	 * @covers \Jet\DataModel_Query_Where::attach
 	 *
-	 * @covers DataModel_Query_Where::current
-	 * @covers DataModel_Query_Where::key
-	 * @covers DataModel_Query_Where::rewind
-	 * @covers DataModel_Query_Where::valid
-	 * @covers DataModel_Query_Where::next
-	 * @covers DataModel_Query_Where::toString
+	 * @covers \Jet\DataModel_Query_Where::current
+	 * @covers \Jet\DataModel_Query_Where::key
+	 * @covers \Jet\DataModel_Query_Where::rewind
+	 * @covers \Jet\DataModel_Query_Where::valid
+	 * @covers \Jet\DataModel_Query_Where::next
+	 * @covers \Jet\DataModel_Query_Where::toString
 	 */
 	public function testGeneral() {
 		$this->assertSame(

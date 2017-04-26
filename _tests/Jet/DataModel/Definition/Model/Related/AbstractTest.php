@@ -54,7 +54,7 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Related_Abstract::getMainModelRelationIdProperties
+	 * @covers \Jet\DataModel_Definition_Model_Related_Abstract::getMainModelRelationIdProperties
 	 */
 	public function testGetMainModelRelationIdProperties() {
 		$main_model_id_properties = $this->object->getMainModelRelationIdProperties();
@@ -65,7 +65,7 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Related_Abstract::getParentModelRelationIdProperties
+	 * @covers \Jet\DataModel_Definition_Model_Related_Abstract::getParentModelRelationIdProperties
 	 */
 	public function testGetParentModelRelationIdProperties() {
 		$parent_model_id_properties = $this->object->getParentModelRelationIdProperties();
@@ -79,14 +79,14 @@ class DataModel_Definition_Model_Related_AbstractTest extends \PHPUnit_Framework
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Related_Abstract::getMainModelDefinition
+	 * @covers \Jet\DataModel_Definition_Model_Related_Abstract::getMainModelDefinition
 	 */
 	public function testGetMainModelDefinition() {
 		$this->assertEquals('data_model_test_mock', $this->object->getMainModelDefinition()->getModelName());
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Related_Abstract::getParentRelatedModelDefinition
+	 * @covers \Jet\DataModel_Definition_Model_Related_Abstract::getParentRelatedModelDefinition
 	 */
 	public function testGetParentRelatedModelDefinition() {
 		$this->assertEquals('related_data_model_test_mock', $this->object->getParentRelatedModelDefinition()->getModelName());

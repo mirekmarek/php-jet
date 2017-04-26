@@ -57,7 +57,7 @@ class DataModel_Definition_Property_IdTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_Id::checkValueType
+	 * @covers \Jet\DataModel_Definition_Property_Id::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = 'do not change';

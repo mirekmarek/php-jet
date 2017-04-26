@@ -26,7 +26,7 @@ use Jet\Translator_Backend_PHPFiles;
 use Jet\Tr;
 
 /** @noinspection PhpIncludeInspection */
-require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/Step/Controller.php';
+require JET_APP_INSTALLER_PATH.'classes/Step/Controller.php';
 
 
 
@@ -201,8 +201,10 @@ class Installer {
 			if($session->getValueExists('current_locale')) {
 				static::$current_locale = $session->getValue('current_locale');
 			} else {
-				list($locale) = static::$available_locales;
-				static::setCurrentLocale($locale);
+				foreach(static::$available_locales as $locale) {
+					static::setCurrentLocale($locale);
+					break;
+				}
 			}
 
 		}
@@ -232,7 +234,7 @@ class Installer {
 
 
 		$backend_config = new Translator_Backend_PHPFiles_Config(true);
-		$backend_config->setDictionariesPath( JET_EXAMPLE_APP_INSTALLER_PATH.'dictionaries/%TRANSLATOR_LOCALE%/%TRANSLATOR_NAMESPACE%.php' );
+		$backend_config->setDictionariesPath( JET_APP_INSTALLER_PATH.'dictionaries/%TRANSLATOR_LOCALE%/%TRANSLATOR_NAMESPACE%.php' );
 
 		$backend = new Translator_Backend_PHPFiles($backend_config);
 
@@ -254,7 +256,7 @@ class Installer {
 		while($steps) {
 			$step_name = array_shift($steps);
 
-			$step_base_path = JET_EXAMPLE_APP_INSTALLER_PATH.'Step/'.$step_name.'/';
+			$step_base_path = JET_APP_INSTALLER_PATH.'Step/'.$step_name.'/';
 
 			/** @noinspection PhpIncludeInspection */
 			require_once $step_base_path.'Controller.php';
@@ -442,7 +444,7 @@ class Installer {
 	public static function getLayout() {
 
 		if(!static::$layout) {
-			static::$layout = new Mvc_Layout(JET_EXAMPLE_APP_INSTALLER_PATH.'layout/', 'default');
+			static::$layout = new Mvc_Layout(JET_APP_INSTALLER_PATH.'layout/', 'default');
 		}
 
 		return static::$layout;

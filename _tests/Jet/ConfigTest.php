@@ -45,8 +45,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::setSoftMode
-	 * @covers Config::getSoftMode
+	 * @covers \Jet\Config::setSoftMode
+	 * @covers \Jet\Config::getSoftMode
 	 */
 	public function testSetGetSoftMode() {
 		$this->assertFalse( $this->object->getSoftMode() );
@@ -55,7 +55,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Config::getAvailableHandlersList
+	 * @covers \Jet\Config::getAvailableHandlersList
 	 */
 	public function testGetAvailableHandlersList() {
 		$valid_handlers_list = ['Handler1', 'Handler2', 'Handler3'];
@@ -70,7 +70,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::getPropertiesDefinition
+	 * @covers \Jet\Config::getPropertiesDefinition
 	 */
 	public function testGetPropertiesDefinition() {
 
@@ -91,7 +91,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Config::getConfigFilePath
+	 * @covers \Jet\Config::getConfigFilePath
 	 */
 	public function testGetConfigFilePath() {
 		$path = '/some/path/config.php';
@@ -101,8 +101,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::setData
-	 * @covers Config::getData
+	 * @covers \Jet\Config::setData
+	 * @covers \Jet\Config::getData
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_FILE_IS_NOT_READABLE
@@ -112,8 +112,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Config::setData
-	 * @covers Config::getData
+	 * @covers \Jet\Config::setData
+	 * @covers \Jet\Config::getData
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_FILE_IS_NOT_VALID
@@ -124,8 +124,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::setData
-	 * @covers Config::getData
+	 * @covers \Jet\Config::setData
+	 * @covers \Jet\Config::getData
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -137,8 +137,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::setData
-	 * @covers Config::getData
+	 * @covers \Jet\Config::setData
+	 * @covers \Jet\Config::getData
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -149,8 +149,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::setData
-	 * @covers Config::getData
+	 * @covers \Jet\Config::setData
+	 * @covers \Jet\Config::getData
 	 *
 	 */
 	public function testGetData() {
@@ -164,7 +164,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Config::getCommonForm
+	 * @covers \Jet\Config::getCommonForm
 	 */
 	public function testGetCommonForm() {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );
@@ -196,8 +196,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Config::catchForm
-	 * @covers Config::save
+	 * @covers \Jet\Config::catchForm
+	 * @covers \Jet\Config::save
 	 */
 	public function testCatchFormAndSave() {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );
@@ -238,7 +238,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Config::toArray
+	 * @covers \Jet\Config::toArray
 	 */
 	public function testToArray() {
 		$this->object->testInit( CONFIG_TEST_BASEDIR.'valid-config.php' );

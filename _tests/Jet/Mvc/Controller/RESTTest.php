@@ -54,7 +54,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::decodeRequestDataJSON
+	 * @covers \Jet\Mvc_Controller_REST::decodeRequestDataJSON
 	 */
 	public function testDecodeRequestDataJSON() {
 		$data = [];
@@ -72,7 +72,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::decodeRequestDataXML
+	 * @covers \Jet\Mvc_Controller_REST::decodeRequestDataXML
 	 */
 	public function testDecodeRequestDataXML() {
 
@@ -281,7 +281,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::getRequestData
+	 * @covers \Jet\Mvc_Controller_REST::getRequestData
 	 * @todo   Implement testGetRequestData().
 	 */
 	public function testGetRequestData() {
@@ -292,7 +292,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseOK
+	 * @covers \Jet\Mvc_Controller_REST::responseOK
 	 */
 	public function testResponseOKJSON() {
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_JSON );
@@ -322,7 +322,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseOK
+	 * @covers \Jet\Mvc_Controller_REST::responseOK
 	 */
 	public function testResponseOKXML() {
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
@@ -350,7 +350,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Mvc_Controller_REST::responseData
+	 * @covers \Jet\Mvc_Controller_REST::responseData
 	 * @todo   Implement testResponseData().
 	 */
 	public function testResponseData() {
@@ -361,7 +361,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseDataModelsList
+	 * @covers \Jet\Mvc_Controller_REST::responseDataModelsList
 	 * @todo   Implement testResponseDataModelsList().
 	 */
 	public function testResponseDataModelsList() {
@@ -372,7 +372,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseAclAccessDenied
+	 * @covers \Jet\Mvc_Controller_REST::responseAclAccessDenied
 	 * @todo   Implement testResponseAclAccessDenied().
 	 */
 	public function testResponseAclAccessDenied() {
@@ -383,7 +383,7 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseFormErrors
+	 * @covers \Jet\Mvc_Controller_REST::responseFormErrors
 	 * @todo   Implement testResponseFormErrors().
 	 */
 	public function testResponseFormErrors() {
@@ -394,8 +394,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseUnknownItem
-	 * @covers Mvc_Controller_REST::responseError
+	 * @covers \Jet\Mvc_Controller_REST::responseUnknownItem
+	 * @covers \Jet\Mvc_Controller_REST::responseError
 	 */
 	public function testResponseUnknownItemJSON() {
 
@@ -426,8 +426,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Mvc_Controller_REST::responseUnknownItem
-	 * @covers Mvc_Controller_REST::responseError
+	 * @covers \Jet\Mvc_Controller_REST::responseUnknownItem
+	 * @covers \Jet\Mvc_Controller_REST::responseError
 	 */
 	public function testResponseUnknownItemXML() {
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );

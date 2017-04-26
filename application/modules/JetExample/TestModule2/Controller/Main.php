@@ -357,7 +357,7 @@ class Controller_Main extends Mvc_Controller_Standard {
         ];
 
         $forms['numbers_form'] = [
-            'title' => Tr::_('Numbers form'),
+            'title' => Tr::_('Number form'),
             'form' => new Form( 'numbers_form', [
                 $int_field,
                 $float_field,
@@ -376,9 +376,9 @@ class Controller_Main extends Mvc_Controller_Standard {
             ])
         ];
 
-        $forms['contacts_form'] = [
-            'title' => Tr::_('Contacts form'),
-            'form' => new Form( 'contacts_form', [
+        $forms['contact_form'] = [
+            'title' => Tr::_('Contact form'),
+            'form' => new Form( 'contact_form', [
                 $email_field,
                 $tel_field,
             ])

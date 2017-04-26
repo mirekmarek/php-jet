@@ -68,33 +68,33 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::__toString
-	 * @covers Config_Definition_Property_Abstract::toString
+	 * @covers \Jet\Config_Definition_Property_Abstract::__toString
+	 * @covers \Jet\Config_Definition_Property_Abstract::toString
 	 */
 	public function testToString() {
 		$this->assertEquals( 'Jet\ConfigTestMock::'.$this->property_name, (string)$this->object );
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::getType
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::getType
 	 */
 	public function testGetType() {
 		$this->assertEquals($this->property_type, $this->object->getType() );
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::getName
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::getName
 	 */
 	public function testGetName() {
 		$this->assertEquals($this->property_name, $this->object->getName() );
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setDescription
-	 * @covers Config_Definition_Property_Abstract::getDescription
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setDescription
+	 * @covers \Jet\Config_Definition_Property_Abstract::getDescription
 	 */
 	public function testSetGetDescription() {
 		$this->assertEquals($this->property_options['description'], $this->object->getDescription());
@@ -103,9 +103,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setDefaultValue
-	 * @covers Config_Definition_Property_Abstract::getDefaultValue
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setDefaultValue
+	 * @covers \Jet\Config_Definition_Property_Abstract::getDefaultValue
 	 */
 	public function testSetGetDefaultValue() {
 		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue());
@@ -115,9 +115,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setIsRequired
-	 * @covers Config_Definition_Property_Abstract::getIsRequired
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setIsRequired
+	 * @covers \Jet\Config_Definition_Property_Abstract::getIsRequired
 	 */
 	public function testSetGetIsRequired() {
 		$this->assertTrue( $this->object->getIsRequired() );
@@ -126,9 +126,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setErrorMessage
-	 * @covers Config_Definition_Property_Abstract::getErrorMessage
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setErrorMessage
+	 * @covers \Jet\Config_Definition_Property_Abstract::getErrorMessage
 	 */
 	public function testSetGetErrorMessage() {
 		$this->assertEquals($this->property_options['error_message'], $this->object->getErrorMessage());
@@ -137,9 +137,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setLabel
-	 * @covers Config_Definition_Property_Abstract::getLabel
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setLabel
+	 * @covers \Jet\Config_Definition_Property_Abstract::getLabel
 	 */
 	public function testSetGetLabel() {
 		$this->assertEquals($this->property_options['label'], $this->object->getLabel());
@@ -148,9 +148,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setFormFieldType
-	 * @covers Config_Definition_Property_Abstract::getFormFieldType
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setFormFieldType
+	 * @covers \Jet\Config_Definition_Property_Abstract::getFormFieldType
 	 */
 	public function testSetGetFormFieldType() {
 		$this->assertEquals( $this->property_default_form_field_type, $this->object->getFormFieldType() );
@@ -159,9 +159,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setFormFieldOptions
-	 * @covers Config_Definition_Property_Abstract::getFormFieldOptions
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setFormFieldOptions
+	 * @covers \Jet\Config_Definition_Property_Abstract::getFormFieldOptions
 	 */
 	public function testSetGetFormFieldOptions() {
 		$options = [
@@ -173,9 +173,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setFormFieldLabel
-	 * @covers Config_Definition_Property_Abstract::getFormFieldLabel
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setFormFieldLabel
+	 * @covers \Jet\Config_Definition_Property_Abstract::getFormFieldLabel
 	 */
 	public function testSetGetFormFieldLabel() {
 		$this->assertEquals($this->property_options['form_field_label'], $this->object->getFormFieldLabel());
@@ -185,9 +185,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setFormFieldGetSelectOptionsCallback
-	 * @covers Config_Definition_Property_Abstract::getFormFieldGetSelectOptionsCallback
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setFormFieldGetSelectOptionsCallback
+	 * @covers \Jet\Config_Definition_Property_Abstract::getFormFieldGetSelectOptionsCallback
 	 */
 	public function testSetFormFieldGetSelectOptionsCallback() {
 		$callback = function() {
@@ -199,9 +199,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::setFormFieldErrorMessages
-	 * @covers Config_Definition_Property_Abstract::getFormFieldErrorMessages
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setFormFieldErrorMessages
+	 * @covers \Jet\Config_Definition_Property_Abstract::getFormFieldErrorMessages
 	 */
 	public function testSetGetFormFieldErrorMessages() {
 		$error_messages = [
@@ -215,8 +215,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::createFormField
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$this->object->setValidationRegexp($this->validation_regexp);
@@ -250,8 +250,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::getTechnicalDescription
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::getTechnicalDescription
 	 */
 	public function testGetTechnicalDescription() {
 		$this->object->setValidationRegexp($this->validation_regexp);
@@ -264,9 +264,9 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_String::getValidationRegexp
-	 * @covers Config_Definition_Property_String::setValidationRegexp
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_String::getValidationRegexp
+	 * @covers \Jet\Config_Definition_Property_String::setValidationRegexp
 	 */
 	public function testSetGetValidationRegexp() {
 		if($this->property_type == Config::TYPE_STRING) {
@@ -276,8 +276,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::checkValue
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::checkValue
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -289,8 +289,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::checkValue
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::checkValue
 	 *
 	 * @expectedException \Jet\Config_Exception
 	 * @expectedExceptionCode \Jet\Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -310,8 +310,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_Abstract::checkValue
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_Abstract::checkValue
 	 *
 	 */
 	public function testCheckValue() {
@@ -322,8 +322,8 @@ class Config_Definition_Property_StringTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	/**
-	 * @covers Config_Definition_Property_Abstract::setUp
-	 * @covers Config_Definition_Property_String::checkValueType
+	 * @covers \Jet\Config_Definition_Property_Abstract::setUp
+	 * @covers \Jet\Config_Definition_Property_String::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = 123.4;

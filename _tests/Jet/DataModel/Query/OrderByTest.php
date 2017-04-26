@@ -64,7 +64,7 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_OrderBy::__construct
+	 * @covers \Jet\DataModel_Query_OrderBy::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -75,12 +75,12 @@ class DataModel_Query_OrderByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_OrderBy::__construct
-	 * @covers DataModel_Query_OrderBy::current
-	 * @covers DataModel_Query_OrderBy::key
-	 * @covers DataModel_Query_OrderBy::next
-	 * @covers DataModel_Query_OrderBy::rewind
-	 * @covers DataModel_Query_OrderBy::valid
+	 * @covers \Jet\DataModel_Query_OrderBy::__construct
+	 * @covers \Jet\DataModel_Query_OrderBy::current
+	 * @covers \Jet\DataModel_Query_OrderBy::key
+	 * @covers \Jet\DataModel_Query_OrderBy::next
+	 * @covers \Jet\DataModel_Query_OrderBy::rewind
+	 * @covers \Jet\DataModel_Query_OrderBy::valid
 	 */
 	public function testIterator() {
 		$data = [];

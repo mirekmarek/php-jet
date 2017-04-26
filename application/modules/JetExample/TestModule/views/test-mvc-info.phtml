@@ -1,17 +1,18 @@
 <?php
 use Jet\Mvc;
+use Jet\Tr;
 ?>
 <table>
 	<tr>
-		<td>Current site id:</td>
+		<td><?=Tr::_('Current site id:')?></td>
 		<td><?=Mvc::getCurrentSite()->getSiteId();?></td>
 	</tr>
 	<tr>
-		<td>Current locale:</td>
+		<td><?=Tr::_('Current locale:')?></td>
 		<td><?=Mvc::getCurrentLocale();?></td>
 	</tr>
 	<tr>
-		<td>Current page id:</td>
+		<td><?=Tr::_('Current page id:')?></td>
 		<td><?=Mvc::getCurrentPage()->getPageId();?></td>
 	</tr>
 </table>

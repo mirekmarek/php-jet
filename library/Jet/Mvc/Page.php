@@ -1342,7 +1342,18 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		}
 
 		static::$loaded_pages[$page_key] = $page;
-		static::$relative_URIs_map[rawurldecode($page->relative_URI)] = $page_key;
+
+		$site_id = $page->getSiteId();
+		$locale = $page->getLocale()->toString();
+
+		if(!isset(static::$relative_URIs_map[$site_id])) {
+			static::$relative_URIs_map[$site_id] = [];
+		}
+		if(!isset(static::$relative_URIs_map[$site_id][$locale])) {
+			static::$relative_URIs_map[$site_id][$locale] = [];
+		}
+
+		static::$relative_URIs_map[$site_id][$locale][rawurldecode($page->relative_URI)] = $page_key;
 
 
 		return $page;
@@ -1471,11 +1482,13 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI ) {
 		static::loadPages($site, $locale);
 
-		if(!isset(static::$relative_URIs_map[$relative_URI])) {
+		$str_locale = (string)$locale;
+
+		if(!isset(static::$relative_URIs_map[$site->getSiteId()][$str_locale][$relative_URI])) {
 			return null;
 		}
 
-		$id_s = static::$relative_URIs_map[$relative_URI];
+		$id_s = static::$relative_URIs_map[$site->getSiteId()][$str_locale][$relative_URI];
 
 		return static::$loaded_pages[$id_s];
 	}

@@ -299,11 +299,18 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendCountQuery( DataModel_Query $query ) {
-		return 'SELECT count(*) FROM'.JET_EOL
+
+		$id_properties = [];
+		foreach($query->getMainDataModelDefinition()->getIdProperties() as $id_property) {
+			$id_properties[] = $this->_getColumnName($id_property);
+		}
+
+		$id_properties = implode(', ', $id_properties);
+
+		return 'SELECT count(DISTINCT '.$id_properties.') FROM'.JET_EOL
 			.JET_TAB.$this->_getSQLQueryTableName($query)
 			.$this->_getSQLQueryJoinPart($query)
 			.$this->_getSqlQueryWherePart($query->getWhere())
-			.$this->_getSqlQueryGroupPart($query)
 			.$this->_getSqlQueryHavingPart($query->getHaving());
 	}
 

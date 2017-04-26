@@ -32,7 +32,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Session::__construct
+	 * @covers \Jet\Session::__construct
 	 *
 	 * @expectedException \Jet\Session_Exception
 	 * @expectedExceptionCode \Jet\Session_Exception::CODE_INVALID_KEY
@@ -42,18 +42,18 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Session::__construct
-	 * @covers Session::getNamespace
+	 * @covers \Jet\Session::__construct
+	 * @covers \Jet\Session::getNamespace
 	 */
 	public function testGetNamespace() {
 		$this->assertEquals('test-namespace', $this->object->getNamespace() );
 	}
 
 	/**
-	 * @covers Session::setValue
-	 * @covers Session::unsetValue
-	 * @covers Session::getValueExists
-	 * @covers Session::getValue
+	 * @covers \Jet\Session::setValue
+	 * @covers \Jet\Session::unsetValue
+	 * @covers \Jet\Session::getValueExists
+	 * @covers \Jet\Session::getValue
 	 */
 	public function testGeneral() {
 		$this->assertFalse( $this->object->getValueExists('imaginary') );
@@ -79,14 +79,14 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Session::getSessionId
+	 * @covers \Jet\Session::getSessionId
 	 */
 	public function testGetSessionId() {
 		$this->assertEquals( session_id(), $this->object->getSessionId() );
 	}
 
 	/**
-	 * @covers Session::destroy
+	 * @covers \Jet\Session::destroy
 	 */
 	public function testDestroy() {
 		$this->object->destroy();

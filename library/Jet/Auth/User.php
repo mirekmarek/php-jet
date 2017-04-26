@@ -809,6 +809,11 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			return true;
 		});
 
+		$form->getField('email')->setErrorMessages([
+			Form_Field_Email::ERROR_CODE_EMPTY => 'Please enter valid e-mail address',
+			Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid e-mail address',
+		]);
+
 	}
 
 	/**

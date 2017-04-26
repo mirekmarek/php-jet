@@ -49,14 +49,14 @@ class DataModel_Query_Select_ItemTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Select_Item::getItem
+	 * @covers \Jet\DataModel_Query_Select_Item::getItem
 	 */
 	public function testGetItem() {
 		$this->assertEquals($this->properties['int_property'], $this->object->getItem());
 	}
 
 	/**
-	 * @covers DataModel_Query_Select_Item::getSelectAs
+	 * @covers \Jet\DataModel_Query_Select_Item::getSelectAs
 	 */
 	public function testGetSelectAs() {
 		$this->assertEquals('my_int_property', $this->object->getSelectAs());

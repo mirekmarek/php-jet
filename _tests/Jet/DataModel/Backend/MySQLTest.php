@@ -124,7 +124,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Backend_MySQL::helper_getCreateCommand
+	 * @covers \Jet\DataModel_Backend_MySQL::helper_getCreateCommand
 	 */
 	public function testHelper_getCreateCommand() {
 		$data_model = new DataModel_Query_DataModelTestMock();
@@ -149,7 +149,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::helper_getDropCommand
+	 * @covers \Jet\DataModel_Backend_MySQL::helper_getDropCommand
 	 */
 	public function testHelper_getDropCommand() {
 		$data_model = new DataModel_Query_DataModelTestMock();
@@ -162,7 +162,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::helper_getUpdateCommand
+	 * @covers \Jet\DataModel_Backend_MySQL::helper_getUpdateCommand
 	 */
 	public function testHelper_getUpdateCommand() {
 		$pdo = Db::get('test_mysql');
@@ -209,7 +209,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::getBackendSelectQuery
+	 * @covers \Jet\DataModel_Backend_MySQL::getBackendSelectQuery
 	 */
 	public function testGetBackendSelectQuery() {
 
@@ -284,7 +284,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::getBackendCountQuery
+	 * @covers \Jet\DataModel_Backend_MySQL::getBackendCountQuery
 	 */
 	public function testGetBackendCountQuery() {
 		$query = DataModel_Query::createQuery($this->data_model->getDataModelDefinition(), $this->where_data);
@@ -346,7 +346,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::getBackendInsertQuery
+	 * @covers \Jet\DataModel_Backend_MySQL::getBackendInsertQuery
 	 */
 	public function testGetBackendInsertQuery() {
 		$definition = $this->data_model->getDataModelDefinition();
@@ -381,7 +381,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::getBackendUpdateQuery
+	 * @covers \Jet\DataModel_Backend_MySQL::getBackendUpdateQuery
 	 */
 	public function testGetBackendUpdateQuery() {
 
@@ -437,7 +437,7 @@ class DataModel_Backend_MySQLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Backend_MySQL::getBackendDeleteQuery
+	 * @covers \Jet\DataModel_Backend_MySQL::getBackendDeleteQuery
 	 */
 	public function testGetBackendDeleteQuery() {
 

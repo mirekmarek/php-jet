@@ -34,8 +34,8 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_URL::getIsValid
-	 * @covers Http_URL::parseURL
+	 * @covers \Jet\Http_URL::getIsValid
+	 * @covers \Jet\Http_URL::parse
 	 */
 	public function testParseURL() {
 		$URL = new Http_URL('invalid~url');
@@ -45,16 +45,16 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getFragment
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getFragment
 	 */
 	public function testGetFragment() {
 		$this->assertEquals( 'fragment', $this->object->getFragment() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getHost
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getHost
 	 */
 	public function testGetHost() {
 		$this->assertEquals( 'www.domain.tld', $this->object->getHost() );
@@ -62,56 +62,56 @@ class Http_URLTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getUser
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getUser
 	 */
 	public function testGetUser() {
 		$this->assertEquals( 'user', $this->object->getUser() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getPassword
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getPassword
 	 */
 	public function testGetPassword() {
 		$this->assertEquals( 'pass', $this->object->getPassword() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getPath
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getPath
 	 */
 	public function testGetPath() {
 		$this->assertEquals( '/path/', $this->object->getPath() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getPort
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getPort
 	 */
 	public function testGetPort() {
 		$this->assertEquals( 8443, $this->object->getPort() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getQuery
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getQuery
 	 */
 	public function testGetQuery() {
 		$this->assertEquals( 'query=value', $this->object->getQuery() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getQueryData
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getQueryData
 	 */
 	public function testGetQueryData() {
 		$this->assertEquals( ['query' => 'value'], $this->object->getQueryData() );
 	}
 
 	/**
-	 * @covers Http_URL::parseURL
-	 * @covers Http_URL::getScheme
+	 * @covers \Jet\Http_URL::parse
+	 * @covers \Jet\Http_URL::getScheme
 	 */
 	public function testGetScheme() {
 		$this->assertEquals( 'https', $this->object->getScheme() );

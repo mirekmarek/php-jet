@@ -37,6 +37,11 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	/**
 	 * @var string
 	 */
+	protected $item_class_name = '';
+
+	/**
+	 * @var string
+	 */
 	protected $config_factory_class_name = '';
 	/**
 	 * @var string
@@ -103,17 +108,25 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 			);
 		}
 
-		/**
-		 * @var callable $callback
-		 */
-		$callback = [$this->config_factory_class_name, $this->config_factory_method_name];
+		if($this->item_class_name) {
+			$this->_configs[$name] = new $this->item_class_name(
+				$data->getRaw($config_path),
+				$this->_configuration
+			);
 
-		$this->_configs[$name] = $callback(
-			$data->getRaw($config_path),
-			$this->_configuration
-		);
+		} else {
+			/**
+			 * @var callable $callback
+			 */
+			$callback = [$this->config_factory_class_name, $this->config_factory_method_name];
 
-		//$this->_adapters[$name]->parseData();
+			$this->_configs[$name] = $callback(
+				$data->getRaw($config_path),
+				$this->_configuration
+			);
+
+		}
+
 
 		return $this->_configs[$name];
 	}

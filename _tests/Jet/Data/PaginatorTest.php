@@ -26,7 +26,7 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Data_Paginator::__construct
+	 * @covers \Jet\Data_Paginator::__construct
 	 *
 	 * @expectedException \Jet\Data_Paginator_Exception
 	 * @expectedExceptionCode \Jet\Data_Paginator_Exception::CODE_INCORRECT_URL_TEMPLATE_STRING
@@ -37,21 +37,21 @@ class Data_PaginatorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Data_Paginator::__construct
-	 * @covers Data_Paginator::setData
-	 * @covers Data_Paginator::setDataSource
-	 * @covers Data_Paginator::getDataItemsCount
-	 * @covers Data_Paginator::getPagesCount
-	 * @covers Data_Paginator::getPrevPageNo
-	 * @covers Data_Paginator::getCurrentPageNo
-	 * @covers Data_Paginator::getNextPageNo
-	 * @covers Data_Paginator::getDataIndexStart
-	 * @covers Data_Paginator::getDataIndexEnd
-	 * @covers Data_Paginator::getPrevPageURL
-	 * @covers Data_Paginator::getNextPageURL
-	 * @covers Data_Paginator::getPagesURL
-	 * @covers Data_Paginator::getShowFrom
-	 * @covers Data_Paginator::getShowTo
+	 * @covers \Jet\Data_Paginator::__construct
+	 * @covers \Jet\Data_Paginator::setData
+	 * @covers \Jet\Data_Paginator::setDataSource
+	 * @covers \Jet\Data_Paginator::getDataItemsCount
+	 * @covers \Jet\Data_Paginator::getPagesCount
+	 * @covers \Jet\Data_Paginator::getPrevPageNo
+	 * @covers \Jet\Data_Paginator::getCurrentPageNo
+	 * @covers \Jet\Data_Paginator::getNextPageNo
+	 * @covers \Jet\Data_Paginator::getDataIndexStart
+	 * @covers \Jet\Data_Paginator::getDataIndexEnd
+	 * @covers \Jet\Data_Paginator::getPrevPageURL
+	 * @covers \Jet\Data_Paginator::getNextPageURL
+	 * @covers \Jet\Data_Paginator::getPagesURL
+	 * @covers \Jet\Data_Paginator::getShowFrom
+	 * @covers \Jet\Data_Paginator::getShowTo
 	 */
 	public function testSetData() {
 		$data = [];

@@ -123,7 +123,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	public function __construct($id_key = 'id', $parent_id_key = 'parent_id' ) {
 		$this->id_key = $id_key;
 		$this->parent_id_key = $parent_id_key;
-		$this->setNodeClassName(__NAMESPACE__.'\\'.$this->nodes_class_name);
+		$this->setNodesClassName(__NAMESPACE__.'\\'.$this->nodes_class_name);
 
 	}
 
@@ -133,7 +133,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_S
 	 *
 	 * @throws Data_Tree_Exception
 	 */
-	public function setNodeClassName( $nodes_class_name ) {
+	public function setNodesClassName($nodes_class_name ) {
 		if(
 			$nodes_class_name !== __NAMESPACE__.'\Data_Tree_Node' &&
 			!is_subclass_of($nodes_class_name, __NAMESPACE__.'\Data_Tree_Node')

@@ -94,31 +94,20 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
                 $site->setIsDefault(true);
                 $site->setIsActive(true);
 
-				IO_Dir::copy( JET_EXAMPLE_APP_INSTALLER_DATA_PATH.'site_template/', $site->getBasePath());
+				IO_Dir::copy(
+					JET_APP_INSTALLER_DATA_PATH.'site_template/layouts/',
+					$site->getLayoutsPath()
+				);
 
-				$pages_root_path = $site->getPagesDataPath();
 
-				$default_pages_path = $pages_root_path.'_default/';
+				$template_base_path = JET_APP_INSTALLER_DATA_PATH.'site_template/pages/';
 
-				$locales = [];
 				foreach( $site->getLocales() as $locale ) {
-					$pages_path = $site->getPagesDataPath($locale);
-
-					if(!IO_Dir::exists($pages_path)) {
-						IO_Dir::copy( $default_pages_path, $pages_path);
-					}
-
-					$locales[(string)$locale] = true;
+					IO_Dir::copy(
+						$template_base_path.$locale,
+						$site->getPagesDataPath($locale)
+					);
 				}
-
-				$sub_dirs = IO_Dir::getSubdirectoriesList($pages_root_path);
-
-				foreach( $sub_dirs as $path=>$dir ) {
-					if(!isset($locales[$dir])) {
-						IO_Dir::remove($path);
-					}
-				}
-
 
 
 				$site->saveDataFile();

@@ -72,7 +72,7 @@ class DataModel_Query_OrderBy_ItemTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_OrderBy_Item::getItem
+	 * @covers \Jet\DataModel_Query_OrderBy_Item::getItem
 	 */
 	public function testGetItem() {
 		$this->assertSame($this->properties['string_property'], $this->object_string->getItem()->getItem() );
@@ -80,8 +80,8 @@ class DataModel_Query_OrderBy_ItemTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_OrderBy_Item::getDesc
-	 * @covers DataModel_Query_OrderBy_Item::setDesc
+	 * @covers \Jet\DataModel_Query_OrderBy_Item::getDesc
+	 * @covers \Jet\DataModel_Query_OrderBy_Item::setDesc
 	 */
 	public function testGetSetDesc() {
 		$this->assertFalse($this->object_string->getDesc());

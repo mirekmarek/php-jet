@@ -261,7 +261,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::appendTree
+	 * @covers \Jet\Data_Tree_Forest::appendTree
 	 */
 	public function testAppendTree() {
 		$this->object->appendTree($this->getTree1());
@@ -270,7 +270,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::appendTree
+	 * @covers \Jet\Data_Tree_Forest::appendTree
 	 *
 	 * @expectedException \Jet\Data_Tree_Exception
 	 * @expectedExceptionCode \Jet\Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
@@ -281,8 +281,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::setLabelKey
-	 * @covers Data_Tree_Forest::getLabelKey
+	 * @covers \Jet\Data_Tree_Forest::setLabelKey
+	 * @covers \Jet\Data_Tree_Forest::getLabelKey
 	 */
 	public function testSetGetLabelKey() {
 		$tree = $this->getTree1();
@@ -296,8 +296,8 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 
 
 	/**
-	 * @covers Data_Tree_Forest::getIdKey
-	 * @covers Data_Tree_Forest::setIdKey
+	 * @covers \Jet\Data_Tree_Forest::getIdKey
+	 * @covers \Jet\Data_Tree_Forest::setIdKey
 	 */
 	public function testSetGetIdKey() {
 		$tree = $this->getTree1();
@@ -312,7 +312,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 
 
 	/**
-	 * @covers Data_Tree_Forest::getTrees
+	 * @covers \Jet\Data_Tree_Forest::getTrees
 	 */
 	public function testGetTrees() {
 		$trees = $this->appendTrees();
@@ -321,7 +321,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::getTree
+	 * @covers \Jet\Data_Tree_Forest::getTree
 	 */
 	public function testGetTree() {
 		$trees = $this->appendTrees();
@@ -331,7 +331,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::removeTree
+	 * @covers \Jet\Data_Tree_Forest::removeTree
 	 */
 	public function testRemoveTree() {
 		$trees = $this->appendTrees();
@@ -343,7 +343,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::getTreeExists
+	 * @covers \Jet\Data_Tree_Forest::getTreeExists
 	 */
 	public function testGetTreeExists() {
 		$this->appendTrees();
@@ -356,7 +356,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::toArray
+	 * @covers \Jet\Data_Tree_Forest::toArray
 	 */
 	public function testToArray() {
 		$this->appendTrees();
@@ -656,7 +656,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::toJSON
+	 * @covers \Jet\Data_Tree_Forest::toJSON
 	 */
 	public function testToJSON() {
 		$this->appendTrees();
@@ -666,7 +666,7 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::toXML
+	 * @covers \Jet\Data_Tree_Forest::toXML
 	 */
 	public function testToXML() {
 		$this->appendTrees();
@@ -933,27 +933,27 @@ class Data_Tree_ForestTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Data_Tree_Forest::rewind
-	 * @covers Data_Tree_Forest::current
-	 * @covers Data_Tree_Forest::key
-	 * @covers Data_Tree_Forest::next
-	 * @covers Data_Tree_Forest::valid
+	 * @covers \Jet\Data_Tree_Forest::rewind
+	 * @covers \Jet\Data_Tree_Forest::current
+	 * @covers \Jet\Data_Tree_Forest::key
+	 * @covers \Jet\Data_Tree_Forest::next
+	 * @covers \Jet\Data_Tree_Forest::valid
 	 *
-	 * @covers Data_Tree::setData
-	 * @covers Data_Tree::appendNode
-	 * @covers Data_Tree::rewind
-	 * @covers Data_Tree::current
-	 * @covers Data_Tree::key
-	 * @covers Data_Tree::next
-	 * @covers Data_Tree::valid
+	 * @covers \Jet\Data_Tree::setData
+	 * @covers \Jet\Data_Tree::appendNode
+	 * @covers \Jet\Data_Tree::rewind
+	 * @covers \Jet\Data_Tree::current
+	 * @covers \Jet\Data_Tree::key
+	 * @covers \Jet\Data_Tree::next
+	 * @covers \Jet\Data_Tree::valid
 	 *
-	 * @covers Data_Tree_Node::rewind
-	 * @covers Data_Tree_Node::current
-	 * @covers Data_Tree_Node::key
-	 * @covers Data_Tree_Node::next
-	 * @covers Data_Tree_Node::valid
-	 * @covers Data_Tree_Node::toString
-	 * @covers Data_Tree_Node::getLabel
+	 * @covers \Jet\Data_Tree_Node::rewind
+	 * @covers \Jet\Data_Tree_Node::current
+	 * @covers \Jet\Data_Tree_Node::key
+	 * @covers \Jet\Data_Tree_Node::next
+	 * @covers \Jet\Data_Tree_Node::valid
+	 * @covers \Jet\Data_Tree_Node::toString
+	 * @covers \Jet\Data_Tree_Node::getLabel
 	 *
 	 */
 	public function testIterator() {

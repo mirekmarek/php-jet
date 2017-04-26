@@ -34,8 +34,8 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Signals_Dispatcher::addCallback
-	 * @covers Application_Signals_Dispatcher::removeCallback
+	 * @covers \Jet\Application_Signals_Dispatcher::addCallback
+	 * @covers \Jet\Application_Signals_Dispatcher::removeCallback
 	 */
 	public function testAddRemoveCallback() {
 		$callback_id_1 = Application_Signals_Dispatcher::addCallback('/test/signal', function( $signal ) {});
@@ -54,7 +54,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Signals_Dispatcher::removeCallback
+	 * @covers \Jet\Application_Signals_Dispatcher::removeCallback
 	 *
 	 * @expectedException \Jet\Application_Signals_Exception
 	 * @expectedExceptionCode \Jet\Application_Signals_Exception::CODE_INVALID_SIGNAL_CALLBACK_ID
@@ -64,7 +64,7 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Signals_Dispatcher::removeCallback
+	 * @covers \Jet\Application_Signals_Dispatcher::removeCallback
 	 *
 	 * @expectedException \Jet\Application_Signals_Exception
 	 * @expectedExceptionCode \Jet\Application_Signals_Exception::CODE_INVALID_SIGNAL_CALLBACK_ID
@@ -76,9 +76,9 @@ class Application_Signals_DispatcherTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Application_Signals_Dispatcher::dispatchSignal
-	 * @covers Application_Signals_Dispatcher::getCurrentSignal
-	 * @covers Application_Signals_Dispatcher::getSignalQueue
+	 * @covers \Jet\Application_Signals_Dispatcher::dispatchSignal
+	 * @covers \Jet\Application_Signals_Dispatcher::getCurrentSignal
+	 * @covers \Jet\Application_Signals_Dispatcher::getSignalQueue
 	 */
 	public function testDispatchSignal() {
 

@@ -193,7 +193,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 
 			$page->setUrlFragment( rawurldecode($page->getUrlFragment()) );
 
-			static::$relative_URIs_map[$page->getRelativeUrl()] = $page_key;
+			static::$relative_URIs_map[$page->getSiteId()][(string)$page->getLocale()][$page->getRelativeUrl()] = $page_key;
 
 		}
 	}

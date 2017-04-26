@@ -45,14 +45,14 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Abstract::getModelName
+	 * @covers \Jet\DataModel_Definition_Model_Abstract::getModelName
 	 */
 	public function testGetModelName() {
 		$this->assertEquals('data_model_test_mock', $this->object->getModelName());
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Abstract::getClassName
+	 * @covers \Jet\DataModel_Definition_Model_Abstract::getClassName
 	 */
 	public function testGetClassName() {
 
@@ -60,7 +60,7 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Abstract::getIdProperties
+	 * @covers \Jet\DataModel_Definition_Model_Abstract::getIdProperties
 	 */
 	public function testGetIDProperties() {
 		$id_properties = $this->object->getIdProperties();
@@ -69,7 +69,7 @@ class DataModel_Definition_Model_MainTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Definition_Model_Abstract::getProperties
+	 * @covers \Jet\DataModel_Definition_Model_Abstract::getProperties
 	 */
 	public function testGetProperties() {
 		$properties = $this->object->getProperties();

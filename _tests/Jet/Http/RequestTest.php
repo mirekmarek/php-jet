@@ -40,8 +40,8 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::initialize
-	 * @covers Http_Request::getIsInitialized
+	 * @covers \Jet\Http_Request::initialize
+	 * @covers \Jet\Http_Request::getIsInitialized
 	 */
 	public function testInitialize() {
 		$this->assertFalse( Http_Request::getIsInitialized() );
@@ -50,9 +50,9 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::initialize
-	 * @covers Http_Request::hidePHPRequestData
-	 * @covers Http_Request_Data_Hoax
+	 * @covers \Jet\Http_Request::initialize
+	 * @covers \Jet\Http_Request::hidePHPRequestData
+	 * @covers \Jet\Http_Request_Data_Hoax
 	 *
 	 * @expectedException \Jet\Http_Request_Exception
 	 * @expectedExceptionCode \Jet\Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -62,9 +62,9 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::initialize
-	 * @covers Http_Request::hidePHPRequestData
-	 * @covers Http_Request_Data_Hoax
+	 * @covers \Jet\Http_Request::initialize
+	 * @covers \Jet\Http_Request::hidePHPRequestData
+	 * @covers \Jet\Http_Request_Data_Hoax
 	 *
 	 * @expectedException \Jet\Http_Request_Exception
 	 * @expectedExceptionCode \Jet\Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -74,9 +74,9 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::initialize
-	 * @covers Http_Request::hidePHPRequestData
-	 * @covers Http_Request_Data_Hoax
+	 * @covers \Jet\Http_Request::initialize
+	 * @covers \Jet\Http_Request::hidePHPRequestData
+	 * @covers \Jet\Http_Request_Data_Hoax
 	 *
 	 * @expectedException \Jet\Http_Request_Exception
 	 * @expectedExceptionCode \Jet\Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -86,7 +86,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::POST
+	 * @covers \Jet\Http_Request::POST
 	 */
 	public function testPOST() {
 		$this->assertTrue(Http_Request::POST()->getBool('bool_true'));
@@ -116,7 +116,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::GET
+	 * @covers \Jet\Http_Request::GET
 	 */
 	public function testGET() {
 		$this->assertTrue(Http_Request::GET()->getBool('bool_true'));
@@ -145,7 +145,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::SERVER
+	 * @covers \Jet\Http_Request::SERVER
 	 */
 	public function testSERVER() {
 
@@ -175,14 +175,14 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getRawPostData
+	 * @covers \Jet\Http_Request::getRawPostData
 	 */
 	public function testGetRawPostData() {
 		//technically impossible to properly test
 	}
 
 	/**
-	 * @covers Http_Request::getRequestMethod
+	 * @covers \Jet\Http_Request::getRequestMethod
 	 */
 	public function testGetRequestMethod() {
 		$_SERVER['REQUEST_METHOD'] = null;
@@ -194,7 +194,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getRequestIsHttp
+	 * @covers \Jet\Http_Request::getRequestIsHttp
 	 */
 	public function testGetRequestIsHTTP() {
 		$_SERVER['HTTPS'] = null;
@@ -206,7 +206,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getRequestIsHttps
+	 * @covers \Jet\Http_Request::getRequestIsHttps
 	 */
 	public function testGetRequestIsHTTPS() {
 		$_SERVER['HTTPS'] = null;
@@ -218,7 +218,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getClientIP
+	 * @covers \Jet\Http_Request::getClientIP
 	 */
 	public function testGetClientIP() {
 		$_SERVER['REMOTE_ADDR'] = null;
@@ -228,7 +228,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getClientUserAgent
+	 * @covers \Jet\Http_Request::getClientUserAgent
 	 */
 	public function testGetClientUserAgent() {
 		$_SERVER['HTTP_USER_AGENT'] = null;
@@ -238,7 +238,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getURL
+	 * @covers \Jet\Http_Request::getURL
 	 */
 	public function testGetURL() {
 		$_SERVER['HTTP_HOST'] = 'www.domain.tld';
@@ -263,7 +263,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Http_Request::getHeaders
+	 * @covers \Jet\Http_Request::getHeaders
 	 */
 	public function testGetHeaders() {
 		$headers = [

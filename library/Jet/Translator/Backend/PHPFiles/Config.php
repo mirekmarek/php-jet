@@ -29,7 +29,7 @@ class Translator_Backend_PHPFiles_Config extends Translator_Backend_Config_Abstr
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = false
-	 * @JetConfig:default_value = '%JET_DATA_PATH%/dictionaries/%TRANSLATOR_NAMESPACE%/%TRANSLATOR_LOCALE%.php'
+	 * @JetConfig:default_value = JET_TRANSLATOR_DICTIONARIES_PATH
 	 * @JetConfig:form_field_label = 'Dictionaries storage path: '
      * @JetConfig:form_field_is_required = true
      * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify directory path for dictionaries']

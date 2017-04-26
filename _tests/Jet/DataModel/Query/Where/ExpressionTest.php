@@ -54,7 +54,7 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Where_Expression::__construct
+	 * @covers \Jet\DataModel_Query_Where_Expression::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -69,21 +69,21 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Where_Expression::getProperty
+	 * @covers \Jet\DataModel_Query_Where_Expression::getProperty
 	 */
 	public function testGetProperty() {
 		$this->assertEquals( $this->properties['string_property'], $this->object->getProperty() );
 	}
 
 	/**
-	 * @covers DataModel_Query_Where_Expression::getOperator
+	 * @covers \Jet\DataModel_Query_Where_Expression::getOperator
 	 */
 	public function testGetOperator() {
 		$this->assertEquals( DataModel_Query::O_NOT_EQUAL, $this->object->getOperator() );
 	}
 
 	/**
-	 * @covers DataModel_Query_Where_Expression::getValue
+	 * @covers \Jet\DataModel_Query_Where_Expression::getValue
 	 */
 	public function testGetValue() {
 		$this->assertEquals( 'test', $this->object->getValue() );
@@ -91,8 +91,8 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Where_Expression::toString
-	 * @covers DataModel_Query_Where_Expression::__toString
+	 * @covers \Jet\DataModel_Query_Where_Expression::toString
+	 * @covers \Jet\DataModel_Query_Where_Expression::__toString
 	 */
 	public function testToString() {
 		$this->assertEquals('data_model_test_mock::string_property != \'test\'', $this->object->toString() );

@@ -23,7 +23,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	const URL_MAP_FILE_NAME = 'urls_map.php';
 	const PAGES_DIR = 'pages';
 	const LAYOUTS_DIR = 'layouts';
-	const PUBLIC_DIR = 'public';
 
 	/**
 	 *

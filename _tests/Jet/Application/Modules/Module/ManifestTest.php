@@ -15,7 +15,7 @@ namespace Jet;
 if(!defined('JET_MODULES_PATH'))
 define('JET_MODULES_PATH', JET_TESTS_DATA.'Application/Modules/TestModules/');
 
-class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
+class Application_Modules_Module_ManifestTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var Application_Modules_Module_Manifest
 	 */
@@ -41,7 +41,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::readManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
@@ -51,7 +51,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::readManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
@@ -61,7 +61,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::checkManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::checkManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -71,7 +71,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::checkManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::checkManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -82,7 +82,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Application_Modules_Module_Info::checkManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::checkManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -92,7 +92,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::checkManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::checkManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -102,7 +102,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::checkManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::checkManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -112,7 +112,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::readManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -122,7 +122,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::readManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
 	 *
 	 * @expectedException \Jet\Application_Modules_Exception
 	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -132,14 +132,14 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::readManifestData
+	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
 	 */
 	public function testReadManifestData() {
 		new Application_Modules_Module_Manifest('ValidModule');
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getModuleDir
+	 * @covers \Jet\Application_Modules_Module_Manifest::getModuleDir
 	 */
 	public function testGetModuleDir() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -149,7 +149,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Application_Modules_Module_Info::getName
+	 * @covers \Jet\Application_Modules_Module_Manifest::getName
 	 */
 	public function testGetName() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -157,7 +157,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getLabel
+	 * @covers \Jet\Application_Modules_Module_Manifest::getLabel
 	 */
 	public function testGetLabel() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -165,7 +165,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getDescription
+	 * @covers \Jet\Application_Modules_Module_Manifest::getDescription
 	 */
 	public function testGetDescription() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -173,7 +173,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getAPIVersion
+	 * @covers \Jet\Application_Modules_Module_Manifest::getAPIVersion
 	 */
 	public function testGetAPIVersion() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -181,7 +181,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getTypes
+	 * @covers \Jet\Application_Modules_Module_Manifest::getTypes
 	 */
 	public function testGetTypes() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -189,7 +189,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getHasType
+	 * @covers \Jet\Application_Modules_Module_Manifest::getHasType
 	 */
 	public function testGetHasType() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -199,7 +199,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getIsAuthController
+	 * @covers \Jet\Application_Modules_Module_Manifest::getIsAuthController
 	 */
 	public function testGetIsAuthController() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -208,7 +208,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getRequire
+	 * @covers \Jet\Application_Modules_Module_Manifest::getRequire
 	 */
 	public function testGetRequire() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -219,7 +219,7 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::getSignalCallbacks
+	 * @covers \Jet\Application_Modules_Module_Manifest::getSignalCallbacks
 	 */
 	public function testGetSignalCallbacks() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -231,8 +231,8 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Application_Modules_Module_Info::setIsInstalled
-	 * @covers Application_Modules_Module_Info::getIsInstalled
+	 * @covers \Jet\Application_Modules_Module_Manifest::setIsInstalled
+	 * @covers \Jet\Application_Modules_Module_Manifest::getIsInstalled
 	 */
 	public function testSetGetIsInstalled() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -242,8 +242,8 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Application_Modules_Module_Info::setIsActivated
-	 * @covers Application_Modules_Module_Info::getIsActivated
+	 * @covers \Jet\Application_Modules_Module_Manifest::setIsActivated
+	 * @covers \Jet\Application_Modules_Module_Manifest::getIsActivated
 	 */
 	public function testSetGetIsActivated() {
 		$module_info = new Application_Modules_Module_Manifest('ValidModule');
@@ -254,8 +254,8 @@ class Application_Modules_Module_InfoTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers Application_Modules_Module_Info::setModuleTypesList
-	 * @covers Application_Modules_Module_Info::getModuleTypesList
+	 * @covers \Jet\Application_Modules_Module_Manifest::setModuleTypesList
+	 * @covers \Jet\Application_Modules_Module_Manifest::getModuleTypesList
 	 */
 	public function testSetGetModuleTypesList() {
 		$data = [

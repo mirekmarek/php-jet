@@ -50,14 +50,14 @@ class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_RecordData_Item::getPropertyDefinition
+	 * @covers \Jet\DataModel_RecordData_Item::getPropertyDefinition
 	 */
 	public function testGetPropertyDefinition() {
 		$this->assertEquals($this->properties['string_property'], $this->object->getPropertyDefinition() );
 	}
 
 	/**
-	 * @covers DataModel_RecordData_Item::getValue
+	 * @covers \Jet\DataModel_RecordData_Item::getValue
 	 */
 	public function testGetValue() {
 		$this->assertEquals('My Test', $this->object->getValue() );

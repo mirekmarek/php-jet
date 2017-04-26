@@ -15,9 +15,9 @@ namespace JetExampleApp;
 
 
 /** @noinspection PhpIncludeInspection */
-require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/CompatibilityTester.php';
+require JET_APP_INSTALLER_PATH.'classes/CompatibilityTester.php';
 /** @noinspection PhpIncludeInspection */
-require JET_EXAMPLE_APP_INSTALLER_PATH.'classes/CompatibilityTester/TestResult.php';
+require JET_APP_INSTALLER_PATH.'classes/CompatibilityTester/TestResult.php';
 
 use Jet\Http_Request;
 use Jet\Mvc_Site;

@@ -55,7 +55,7 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_GroupBy::__construct
+	 * @covers \Jet\DataModel_Query_GroupBy::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -66,12 +66,12 @@ class DataModel_Query_GroupByTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_GroupBy::__construct
-	 * @covers DataModel_Query_GroupBy::current
-	 * @covers DataModel_Query_GroupBy::key
-	 * @covers DataModel_Query_GroupBy::next
-	 * @covers DataModel_Query_GroupBy::rewind
-	 * @covers DataModel_Query_GroupBy::valid
+	 * @covers \Jet\DataModel_Query_GroupBy::__construct
+	 * @covers \Jet\DataModel_Query_GroupBy::current
+	 * @covers \Jet\DataModel_Query_GroupBy::key
+	 * @covers \Jet\DataModel_Query_GroupBy::next
+	 * @covers \Jet\DataModel_Query_GroupBy::rewind
+	 * @covers \Jet\DataModel_Query_GroupBy::valid
 	 */
 	public function testIterator() {
 		$data = [];

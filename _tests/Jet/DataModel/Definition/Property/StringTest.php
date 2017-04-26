@@ -75,8 +75,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers DataModel_Definition_Property_Abstract::setUpRelation
-	 * @covers DataModel_Definition_Property_Abstract::getRelatedToPropertyName
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::setUpRelation
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getRelatedToPropertyName
 	 */
 	public function testSetUpRelation() {
 		$this->assertNull( $this->id_object->getRelatedToPropertyName() );
@@ -88,40 +88,40 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::toString
-	 * @covers DataModel_Definition_Property_Abstract::__toString
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::toString
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::__toString
 	 */
 	public function testToString() {
 		$this->assertEquals( 'Jet\DataModel_Definition_DataModelTestMock::'.$this->property_name, (string)$this->object );
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_Abstract::getType
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getType
 	 */
 	public function testGetType() {
 		$this->assertEquals($this->property_type, $this->object->getType());
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getName
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getName
 	 */
 	public function testGetName() {
 		$this->assertEquals($this->property_name, $this->object->getName());
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getDescription
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getDescription
 	 */
 	public function testGetDescription() {
 		$this->assertEquals($this->property_options['description'], $this->object->getDescription());
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::doNotExport
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::doNotExport
 	 */
 	public function testGetDoNotExport() {
 		$this->assertEquals($this->property_options['do_not_export'], $this->object->doNotExport());
@@ -129,7 +129,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_Abstract::getDataModelDefinition
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getDataModelDefinition
 	 */
 	public function testGetDataModelDefinition() {
 		$this->assertSame($this->data_model->getDataModelDefinition(), $this->object->getDataModelDefinition());
@@ -138,8 +138,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getIsId
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getIsId
 	 */
 	public function testGetIsId() {
 		$this->assertFalse( $this->object->getIsId() );
@@ -148,8 +148,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers getFormFiledIsRequired::getFormFiledIsRequired
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_String::getFormFieldIsRequired
 	 */
 	public function testGetIsRequired() {
 		$this->assertEquals($this->property_options['form_field_is_required'], $this->object->getFormFieldIsRequired());
@@ -157,8 +157,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getDefaultValue
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getDefaultValue
 	 */
 	public function testGetDefaultValue() {
 		$this->assertEquals($this->property_options['default_value'], $this->object->getDefaultValue() );
@@ -166,8 +166,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getBackendOptions
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getBackendOptions
 	 */
 	public function testGetBackendOptions() {
 		$this->assertEquals($this->property_options['backend_options']['test'], $this->object->getBackendOptions('test'));
@@ -175,8 +175,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getFormFieldType
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getFormFieldType
 	 */
 	public function testGetFormFieldType() {
 		$this->assertEquals(Form::TYPE_INPUT, $this->object->getFormFieldType() );
@@ -184,8 +184,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getFormFieldOptions
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getFormFieldOptions
 	 */
 	public function testGetFormFieldOptions() {
 
@@ -196,8 +196,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getFormFieldLabel
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getFormFieldLabel
 	 */
 	public function testGetFormFieldLabel() {
 		$this->assertEquals(
@@ -207,8 +207,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getFormFieldErrorMessages
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getFormFieldErrorMessages
 	 */
 	public function testGetFormFieldErrorMessages() {
 		$this->assertEquals(
@@ -218,8 +218,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::createFormField
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::createFormField
 	 */
 	public function testGetFormField() {
 		$field = new Form_Field_Input('');
@@ -280,8 +280,8 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_Abstract::getTechnicalDescription
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getTechnicalDescription
 	 */
 	public function testGetTechnicalDescription() {
 
@@ -296,7 +296,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_Abstract::getValueForJsonSerialize
+	 * @covers \Jet\DataModel_Definition_Property_Abstract::getValueForJsonSerialize
 	 */
 	public function testGetValueForJsonSerialize() {
 		$value = 'value';
@@ -306,16 +306,16 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers getFormFieldValidationRegexp::getFormfieldValidationRegexp
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_String::getFormFieldValidationRegexp
 	 */
 	public function testGetValidationRegexp() {
 		$this->assertEquals($this->property_options['form_field_validation_regexp'], $this->object->getFormFieldValidationRegexp());
 	}
 
 	/**
-	 * @covers DataModel_Definition_Property_String::setUp
-	 * @covers DataModel_Definition_Property_String::getMaxLen
+	 * @covers \Jet\DataModel_Definition_Property_String::setUp
+	 * @covers \Jet\DataModel_Definition_Property_String::getMaxLen
 	 */
 	public function testGetMaxLen() {
 		$this->assertEquals($this->property_options['max_len'], $this->object->getMaxLen());
@@ -323,7 +323,7 @@ class DataModel_Definition_Property_StringTest extends \PHPUnit_Framework_TestCa
 
 
 	/**
-	 * @covers DataModel_Definition_Property_String::checkValueType
+	 * @covers \Jet\DataModel_Definition_Property_String::checkValueType
 	 */
 	public function testCheckValueType() {
 		$value = 123;

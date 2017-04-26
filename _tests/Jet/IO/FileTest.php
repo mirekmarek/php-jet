@@ -72,8 +72,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::setDefaultChmodMask
-	 * @covers IO_File::getDefaultChmodMask
+	 * @covers \Jet\IO_File::setDefaultChmodMask
+	 * @covers \Jet\IO_File::getDefaultChmodMask
 	 */
 	public function testSetGetDefaultChmodMask() {
 		$this->assertEquals(0666, IO_File::getDefaultChmodMask());
@@ -82,7 +82,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::exists
+	 * @covers \Jet\IO_File::exists
 	 */
 	public function testExists() {
 		$this->assertFalse(IO_File::exists(IO_FILE_TEST_BASEDIR . 'imaginary.file'));
@@ -91,7 +91,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::isReadable
+	 * @covers \Jet\IO_File::isReadable
 	 */
 	public function testIsReadable() {
 		$this->assertFalse(IO_File::isReadable(IO_FILE_TEST_BASEDIR . 'imaginary.file'));
@@ -100,7 +100,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::isWritable
+	 * @covers \Jet\IO_File::isWritable
 	 */
 	public function testIsWritable() {
 		$this->assertFalse(IO_File::isWritable(IO_FILE_TEST_BASEDIR . 'imaginary.file'));
@@ -109,7 +109,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::write
+	 * @covers \Jet\IO_File::write
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
@@ -120,7 +120,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::write
+	 * @covers \Jet\IO_File::write
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_WRITE_FAILED
@@ -131,7 +131,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::write
+	 * @covers \Jet\IO_File::write
 	 */
 	public function testWrite() {
 		IO_File::write($this->write_test_path, 'IO_File::write test');
@@ -139,7 +139,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::chmod
+	 * @covers \Jet\IO_File::chmod
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_CHMOD_FAILED
@@ -151,7 +151,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers IO_File::chmod
+	 * @covers \Jet\IO_File::chmod
 	 *
 	 */
 	public function testChmod() {
@@ -173,7 +173,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::append
+	 * @covers \Jet\IO_File::append
 	 *
 	 * @expectedException \Jet\IO_Dir_Exception
 	 * @expectedExceptionCode \Jet\IO_Dir_Exception::CODE_CREATE_FAILED
@@ -184,7 +184,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::append
+	 * @covers \Jet\IO_File::append
 	 */
 	public function testAppend() {
 		file_put_contents($this->append_test_path, 'old data');
@@ -195,7 +195,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::read
+	 * @covers \Jet\IO_File::read
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_READ_FAILED
@@ -206,14 +206,14 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::read
+	 * @covers \Jet\IO_File::read
 	 */
 	public function testRead() {
 		$this->assertEquals('read test', IO_File::read(IO_FILE_TEST_BASEDIR . 'readable.txt'));
 	}
 
 	/**
-	 * @covers IO_File::delete
+	 * @covers \Jet\IO_File::delete
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_DELETE_FAILED
@@ -225,7 +225,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers IO_File::delete
+	 * @covers \Jet\IO_File::delete
 	 */
 	public function testDelete() {
 		file_put_contents($this->delete_test_path, 'delete data');
@@ -236,7 +236,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers IO_File::copy
+	 * @covers \Jet\IO_File::copy
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
@@ -247,7 +247,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::copy
+	 * @covers \Jet\IO_File::copy
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
@@ -259,7 +259,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers IO_File::copy
+	 * @covers \Jet\IO_File::copy
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
@@ -270,7 +270,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::copy
+	 * @covers \Jet\IO_File::copy
 	 *
 	 */
 	public function testCopy() {
@@ -281,8 +281,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::rename
-	 * @covers IO_File::move
+	 * @covers \Jet\IO_File::rename
+	 * @covers \Jet\IO_File::move
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
@@ -293,8 +293,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::rename
-	 * @covers IO_File::move
+	 * @covers \Jet\IO_File::rename
+	 * @covers \Jet\IO_File::move
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
@@ -306,8 +306,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers IO_File::rename
-	 * @covers IO_File::move
+	 * @covers \Jet\IO_File::rename
+	 * @covers \Jet\IO_File::move
 	 *
 	 * @expectedException \Jet\IO_File_Exception
 	 * @expectedExceptionCode \Jet\IO_File_Exception::CODE_COPY_FAILED
@@ -318,8 +318,8 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::rename
-	 * @covers IO_File::move
+	 * @covers \Jet\IO_File::rename
+	 * @covers \Jet\IO_File::move
 	 *
 	 */
 	public function testRename() {
@@ -333,20 +333,20 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::getSize
+	 * @covers \Jet\IO_File::getSize
 	 */
 	public function testGetSize() {
 		$this->assertEquals(9, IO_File::getSize(IO_FILE_TEST_BASEDIR . 'readable.txt'));
 	}
 
 	/**
-	 * @covers IO_File::moveUploadedFile
+	 * @covers \Jet\IO_File::moveUploadedFile
 	 */
 	public function testMoveUploadedFile() {
 	}
 
 	/**
-	 * @covers IO_File::getMimeType
+	 * @covers \Jet\IO_File::getMimeType
 	 */
 	public function testGetMimeType() {
 		$this->assertEquals( 'application/msword-test', IO_File::getMimeType(IO_FILE_TEST_BASEDIR.'mime/doc.docx', IO_FILE_TEST_BASEDIR.'mime/map.php') );
@@ -357,7 +357,7 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::getMaxUploadSize
+	 * @covers \Jet\IO_File::getMaxUploadSize
 	 */
 	public function testGetMaxUploadSize() {
 		$max_upload = ini_get('upload_max_filesize');
@@ -378,15 +378,11 @@ class IO_FileTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers IO_File::send
+	 * @covers \Jet\IO_File::send
 	 */
 	public function testSend() {
+		//TODO:
 	}
 
-	/**
-	 * @covers IO_File::sendDownloadFileHeaders
-	 */
-	public function testSendDownloadFileHeaders() {
-	}
 
 }

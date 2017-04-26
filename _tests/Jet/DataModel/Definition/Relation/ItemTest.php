@@ -62,8 +62,8 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers DataModel_Query_Relation_Item::setJoinByProperties
-	 * @covers DataModel_Query_Relation_Item::getJoinByProperties
+	 * @covers \Jet\DataModel_Query_Relation_Item::setJoinByProperties
+	 * @covers \Jet\DataModel_Query_Relation_Item::getJoinByProperties
 	 */
 	public function testGetSetJoinByProperties() {
 		$this->markTestIncomplete(
@@ -90,8 +90,8 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers DataModel_Query_Relation_Item::setJoinType
-	 * @covers DataModel_Query_Relation_Item::getJoinType
+	 * @covers \Jet\DataModel_Query_Relation_Item::setJoinType
+	 * @covers \Jet\DataModel_Query_Relation_Item::getJoinType
 	 */
 	public function testGetSetJoinType() {
 		$this->markTestIncomplete(
@@ -107,7 +107,7 @@ class DataModel_Definition_Relation_ItemTest extends \PHPUnit_Framework_TestCase
 
 
 	/**
-	 * @covers DataModel_Query_Relation_Item::getRelatedDataModelDefinition
+	 * @covers \Jet\DataModel_Query_Relation_Item::getRelatedDataModelDefinition
 	 */
 	public function testGetRelatedDataModelDefinition() {
 		$this->markTestIncomplete(

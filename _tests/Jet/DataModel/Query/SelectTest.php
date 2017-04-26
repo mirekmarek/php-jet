@@ -70,7 +70,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Select::__construct
+	 * @covers \Jet\DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -86,7 +86,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Select::__construct
+	 * @covers \Jet\DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -104,7 +104,7 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Select::__construct
+	 * @covers \Jet\DataModel_Query_Select::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -122,9 +122,9 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @covers DataModel_Query_Select::__construct
-	 * @covers DataModel_Query_Select::addItem
-	 * @covers DataModel_Query_Select::getHasItem
+	 * @covers \Jet\DataModel_Query_Select::__construct
+	 * @covers \Jet\DataModel_Query_Select::addItem
+	 * @covers \Jet\DataModel_Query_Select::getHasItem
 	 */
 	public function testGetHasItem() {
 		$this->assertTrue( $this->object->getHasItem('id_property') );
@@ -135,9 +135,9 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Select::__construct
-	 * @covers DataModel_Query_Select::addItem
-	 * @covers DataModel_Query_Select::getItem
+	 * @covers \Jet\DataModel_Query_Select::__construct
+	 * @covers \Jet\DataModel_Query_Select::addItem
+	 * @covers \Jet\DataModel_Query_Select::getItem
 	 */
 	public function testGetItem() {
 		$this->assertTrue($this->object->getItem('id_property')->getItem() instanceof DataModel_Definition_Property_Abstract);
@@ -147,13 +147,13 @@ class DataModel_Query_SelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers DataModel_Query_Select::__construct
-	 * @covers DataModel_Query_Select::addItem
-	 * @covers DataModel_Query_Select::current
-	 * @covers DataModel_Query_Select::key
-	 * @covers DataModel_Query_Select::rewind
-	 * @covers DataModel_Query_Select::valid
-	 * @covers DataModel_Query_Select::next
+	 * @covers \Jet\DataModel_Query_Select::__construct
+	 * @covers \Jet\DataModel_Query_Select::addItem
+	 * @covers \Jet\DataModel_Query_Select::current
+	 * @covers \Jet\DataModel_Query_Select::key
+	 * @covers \Jet\DataModel_Query_Select::rewind
+	 * @covers \Jet\DataModel_Query_Select::valid
+	 * @covers \Jet\DataModel_Query_Select::next
 	 */
 	public function testIterator() {
 		$items = [];

@@ -17,10 +17,10 @@ if(
 	if( $run ) {
 		if(isset($_GET['callgraph'])) {
 			/** @noinspection PhpIncludeInspection */
-			require JET_APPLICATION_PATH."_profiler/result_callgraph.php";
+			require JET_BASE_PATH."_profiler/result_callgraph.php";
 		} else {
 			/** @noinspection PhpIncludeInspection */
-			require JET_APPLICATION_PATH."_profiler/result.phtml";
+			require JET_BASE_PATH."_profiler/result.phtml";
 		}
 		die();
 	}
