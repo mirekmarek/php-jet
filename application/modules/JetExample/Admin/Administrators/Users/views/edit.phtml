@@ -4,6 +4,7 @@ use JetExampleApp\Auth_Administrator_User;
 use Jet\Mvc;
 use Jet\Mvc_View;
 use Jet\Form;
+use Jet\Tr;
 
 /**
  * @var Mvc_View $this
@@ -17,9 +18,6 @@ $form->setDefaultLabelWidth(2);
 $form->setDefaultFieldWidth(4);
 
 $user = $this->getRaw('user');
-
-//TODO: reset hesla
-//TODO: poslani uvitani
 ?>
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
@@ -33,13 +31,13 @@ $user = $this->getRaw('user');
 
 			<?php if(!$user->getIsNew()): ?>
 			<div class="btn-group" style="margin-left: 10px">
-				<a href="" class="btn btn-warning">
+				<a href="?a=reset_password" class="btn btn-warning">
 					<?=UI::icon('refresh')?>
-					Reset password
+					<?=Tr::_('Reset password')?>
 				</a>
-				<a href="" class="btn btn-info">
+				<a href="?a=send_welcome" class="btn btn-info">
 					<?=UI::icon('send')?>
-					Send welcome e-mail
+					<?=Tr::_('Send welcome e-mail')?>
 				</a>
 			</div>
 			<?php endif; ?>

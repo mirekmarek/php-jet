@@ -38,5 +38,53 @@ class Auth_Visitor_User extends Auth_User{
 		return $this->id;
 	}
 
+	/**
+	 *
+	 */
+	public function resetPassword() {
+
+		$password = '';
+		$length = rand(8, 12);
+
+		for($l = 0; $l < $length; $l++) {
+			$password .= chr(rand(32, 126));
+		}
+
+		$this->setPassword($password);
+		$this->setPasswordIsValid(false);
+		$this->save();
+
+		Mailing::sendTemplate(
+			$this->getEmail(),
+			'reset_password_user_visitor',
+			[
+				'LOGIN' => $this->getLogin(),
+				'PASSWORD' => $password,
+				'NAME' => $this->getName(),
+				'SURNAME' => $this->getSurname(),
+				'EMAIL' => $this->getEmail()
+			],
+			$this->getLocale()
+		);
+
+	}
+
+	/**
+	 *
+	 */
+	public function sendWelcomeEmail() {
+		Mailing::sendTemplate(
+			$this->getEmail(),
+			'welcome_user_visitor',
+			[
+				'LOGIN' => $this->getLogin(),
+				'NAME' => $this->getName(),
+				'SURNAME' => $this->getSurname(),
+				'EMAIL' => $this->getEmail()
+			],
+			$this->getLocale()
+		);
+
+	}
 
 }

@@ -36,5 +36,15 @@ class Mailing {
 		return static::getConfig()->getSender($locale);
 	}
 
+	/**
+	 * @param string $to
+	 * @param string $template_id
+	 * @param array $data
+	 * @param string|Locale $locale
+	 */
+	public static function sendTemplate( $to, $template_id, array $data=[], $locale=null ) {
+		//TODO:
+	}
+
 
 }

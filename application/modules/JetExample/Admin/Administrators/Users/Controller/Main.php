@@ -80,6 +80,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	 *
 	 */
 	public function default_Action() {
+
 		$this->_setBreadcrumbNavigation();
 
 		$search_form = UI::searchForm('user');
@@ -139,6 +140,22 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		 * @var User $user
 		 */
 		$user = $this->getActionParameterValue('user');
+
+		$GET = Http_Request::GET();
+		if(($action=$GET->getString('a'))) {
+
+			if($action=='reset_password') {
+				$user->resetPassword();
+				messages::success( Tr::_('Password has been re-generated', ['LOGIN'=>$user->getLogin() ]) );
+			}
+			if($action=='send_welcome') {
+				$user->sendWelcomeEmail();
+				messages::success( Tr::_('A welcome e-mail has been sent', ['LOGIN'=>$user->getLogin() ]) );
+			}
+
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
+		}
+
 
 		$this->_setBreadcrumbNavigation( Tr::_('Edit user account <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
 

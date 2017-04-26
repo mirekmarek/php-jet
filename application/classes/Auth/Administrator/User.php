@@ -3,6 +3,7 @@ namespace JetExampleApp;
 
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
+use JetExampleApp\Mailing;
 
 /**
  *
@@ -37,6 +38,54 @@ class Auth_Administrator_User extends Auth_User{
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 *
+	 */
+	public function resetPassword() {
+
+		$password = '';
+		$length = rand(8, 12);
+
+		for($l = 0; $l < $length; $l++) {
+			$password .= chr(rand(32, 126));
+		}
+
+		$this->setPassword($password);
+		$this->setPasswordIsValid(false);
+		$this->save();
+
+		Mailing::sendTemplate(
+			$this->getEmail(),
+			'reset_password_user_administrator',
+			[
+				'LOGIN' => $this->getLogin(),
+				'PASSWORD' => $password,
+				'NAME' => $this->getName(),
+				'SURNAME' => $this->getSurname(),
+				'EMAIL' => $this->getEmail()
+			],
+			$this->getLocale()
+		);
+
+	}
+
+	/**
+	 *
+	 */
+	public function sendWelcomeEmail() {
+		Mailing::sendTemplate(
+			$this->getEmail(),
+			'welcome_user_administrator',
+			[
+				'LOGIN' => $this->getLogin(),
+				'NAME' => $this->getName(),
+				'SURNAME' => $this->getSurname(),
+				'EMAIL' => $this->getEmail()
+			],
+			$this->getLocale()
+		);
 	}
 
 }
