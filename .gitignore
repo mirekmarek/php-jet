@@ -1,6 +1,7 @@
 library/Zend
 library/Stubs
 sites/**
+dictionaries/**
 application/config/**/config.php
 application/logs/**
 application/tmp/**
