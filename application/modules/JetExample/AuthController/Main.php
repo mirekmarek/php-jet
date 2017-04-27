@@ -1,19 +1,10 @@
 <?php
 /**
  *
- *
- *
- * Default authentication and authorization module
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
-
 namespace JetApplicationModule\JetExample\AuthController;
 
 use Jet\Application_Modules_Module_Abstract;
@@ -29,11 +20,10 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 
 
-use JetExampleApp\Auth_Administrator_User;
-use JetExampleApp\Auth_Visitor_User;
+use JetExampleApp\Auth_Administrator_User as Administrator;
+use JetExampleApp\Auth_Visitor_User as Visitor;
 
 /**
- * Class Main
  *
  * @JetApplication_Signals:signal = '/user/login'
  * @JetApplication_Signals:signal = '/user/logout'
@@ -43,7 +33,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	/**
 	 * Currently logged user
 	 *
-	 * @var Auth_Administrator_User|Auth_Visitor_User
+	 * @var Administrator|Visitor
 	 */
 	protected $current_user;
 
@@ -169,9 +159,9 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 */
 	public function login( $login, $password ) {
 		if(Mvc::getIsAdminUIRequest()) {
-			$user = new Auth_Administrator_User();
+			$user = new Administrator();
 		} else {
-			$user = new Auth_Visitor_User();
+			$user = new Visitor();
 		}
 
 		$user = $user->getByIdentity(  $login, $password  );
@@ -180,6 +170,9 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 			return false;
 		}
 
+		/**
+		 * @var Administrator|Visitor $user
+		 */
 		$session = $this->getSession();
 		$session->setValue( 'user_id', $user->getId() );
 
@@ -203,7 +196,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Auth_Administrator_User|Auth_Visitor_User|bool
+	 * @return Administrator|Visitor|bool
 	 */
 	public function getCurrentUser() {
 		if($this->current_user!==null) {
@@ -218,10 +211,10 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 			$this->current_user = false;
 		} else {
 			if(Mvc::getIsAdminUIRequest()) {
-				$this->current_user = Auth_Administrator_User::get($user_id);
+				$this->current_user = Administrator::get($user_id);
 
 			} else {
-				$this->current_user = Auth_Visitor_User::get($user_id);
+				$this->current_user = Visitor::get($user_id);
 			}
 		}
 
@@ -274,7 +267,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 *
 	 * @return Form
 	 */
-	function getLoginForm() {
+	public function getLoginForm() {
         $login_field =  new Form_Field_Input('login', 'User name: ');
         $login_field->setErrorMessages([
             Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
@@ -302,7 +295,13 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	/**
 	 * @return Form
 	 */
-	function getChangePasswordForm() {
+	public function getChangePasswordForm() {
+		if(Mvc::getIsAdminUIRequest()) {
+			$user = new Administrator();
+
+		} else {
+			$user = new Visitor();
+		}
 
 		$current_password = new Form_Field_Password('current_password', 'Current password');
 		$current_password->setIsRequired( true );
@@ -313,12 +312,16 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
 		$new_password->setPasswordConfirmationLabel('Confirm new password');
 
+		$new_password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
+
 		$new_password->setIsRequired( true );
 		$new_password->setErrorMessages([
 			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match'
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
+			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
 		]);
+
 
 
 		$form = new Form('change_password', [
@@ -338,16 +341,25 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	function getMustChangePasswordForm() {
+		if(Mvc::getIsAdminUIRequest()) {
+			$user = new Administrator();
+
+		} else {
+			$user = new Visitor();
+		}
+
 		$password = new Form_Field_RegistrationPassword('password', 'New password: ');
 		$form = new Form('change_password', [
 			$password
 		]);
 
+		$password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
 
 		$password->setErrorMessages([
 			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match'
+			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
+			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
 		]);
 		$password->setIsRequired( true );
 		$password->setPasswordConfirmationLabel('Confirm new password');

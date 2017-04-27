@@ -1,23 +1,16 @@
 <?php
 /**
  *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @abstract
- *
- * @category Jet
- * @package Config
- * @subpackage Config_Section
  */
 namespace Jet;
 
+/**
+ * Class Config_Section
+ * @package Jet
+ */
 abstract class Config_Section extends Config {
 	/**
 	 * @var array

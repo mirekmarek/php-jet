@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Http
- * @subpackage Http_Headers
  */
 namespace Jet;
 
+/**
+ * Class Http_Headers
+ * @package Jet
+ */
 class Http_Headers {
 
 	const CODE_200_OK = 200;

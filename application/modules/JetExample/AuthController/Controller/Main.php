@@ -1,13 +1,9 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet\Tr;
@@ -20,6 +16,9 @@ use Jet\Auth;
 use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_User;
 
+/**
+ *
+ */
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
 	 *

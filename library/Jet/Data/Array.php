@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Data
- * @subpackage Data_Array
  */
 namespace Jet;
 
+/**
+ * Class Data_Array
+ * @package Jet
+ */
 class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 
 	const PATH_DELIMITER = '/';

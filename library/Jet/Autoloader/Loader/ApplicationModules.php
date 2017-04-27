@@ -4,15 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Autoloader
- * @subpackage Autoloader_Loader
  */
-
 namespace Jet;
 
+/**
+ * Class Autoloader_Loader_ApplicationModules
+ * @package Jet
+ */
 class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract {
 
 

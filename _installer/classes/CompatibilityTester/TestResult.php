@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Installer
  */
 namespace JetExampleApp;
 
 
+/**
+ *
+ */
 class CompatibilityTester_TestResult {
 	/**
 	 * @var bool
@@ -37,6 +34,12 @@ class CompatibilityTester_TestResult {
 	 */
 	protected $result_message = '';
 
+	/**
+	 *
+	 * @param bool $required
+	 * @param string $title
+	 * @param string $description
+	 */
 	public function __construct( $required, $title, $description ) {
 		$this->required = (bool)$required;
 		$this->title = (string)$title;

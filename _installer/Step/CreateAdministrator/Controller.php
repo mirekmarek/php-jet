@@ -1,20 +1,17 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Installer
  */
 namespace JetExampleApp;
 
 use Jet\Http_Request;
 
+/**
+ *
+ */
 class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Controller {
 
 	/**
@@ -36,7 +33,11 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 		} else {
 
 			$user = new Auth_Administrator_User();
-			$form = $user->getSimpleForm();
+			$form = $user->getRegistrationForm();
+
+			$form->getField('login')->setDefaultValue('admin');
+
+
 			$user->setLocale( Installer::getCurrentLocale() );
 
 			$this->view->setVar('form', $form);

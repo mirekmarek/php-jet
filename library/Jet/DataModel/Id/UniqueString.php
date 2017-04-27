@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package DataModel
- * @subpackage DataModel_Id
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Id_UniqueString
+ * @package Jet
+ */
 class DataModel_Id_UniqueString extends DataModel_Id_Abstract {
 	/**
 	 * @var string
@@ -36,6 +33,7 @@ class DataModel_Id_UniqueString extends DataModel_Id_Abstract {
 		}
 
 		if(!$this->_values[$this->id_property_name]) {
+			/** @noinspection SpellCheckingInspection */
 			$id = uniqid(date('Ymdhis'), false);
 
 			$this->_values[$this->id_property_name] = $id;

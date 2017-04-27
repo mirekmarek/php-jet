@@ -1,16 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
  */
 namespace Jet;
 
+/**
+ * Class Data_Image
+ * @package Jet
+ */
 class Data_Image extends BaseObject {
 	const TYPE_GIF = 1;
 	const TYPE_JPG = 2;

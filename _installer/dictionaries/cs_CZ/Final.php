@@ -11,4 +11,11 @@ return [
 	'This application is in the development mode. It is bad for performance. Please change JET_DEVEL_MODE constant value (script: application/bootstrap.php) if you want. ' => '',
 	'Please remove this line from bootstrap.php:' => '',
 	'It is possible (and recommended) to delete application/_installer directory.' => '',
+	'Error during installation!' => '',
+	'Error durring dictionaries installation' => '',
+	'Error during dictionaries installation' => '',
+	'Dictionairies installation failed. This is error message:' => '',
+	'Please resolve the issue and try to continue.' => '',
+	'Error during configuration installation' => '',
+	'System can\'t do that, because:' => '',
 ];

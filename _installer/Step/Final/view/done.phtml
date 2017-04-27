@@ -1,0 +1,18 @@
+<?php
+namespace JetExampleApp;
+
+use Jet\Tr;
+?>
+<h1><?=Tr::_('Done!');?></h1>
+
+<p>
+	<?=Tr::_('It is possible (and recommended) to delete _installer directory.');?>
+</p>
+
+<p>
+	<?=Tr::_('Enjoy!! :-)');?>
+</p>
+
+<form method="get">
+	<?=Installer::buttonNext();?>
+</form>

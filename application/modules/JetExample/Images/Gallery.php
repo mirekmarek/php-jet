@@ -1,12 +1,9 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\Images;
 
@@ -21,7 +18,6 @@ use Jet\Data_Tree;
 use Jet\IO_Dir;
 
 /**
- * Class Gallery
  *
  * @JetDataModel:name = 'ImageGallery'
  * @JetDataModel:database_table_name = 'image_galleries'
@@ -167,7 +163,7 @@ class Gallery extends DataModel {
 			} else {
 				throw new Exception(
 					'Image \''.$source_file_name.'\' allready exists in the gallery!',
-					Exception::CODE_IMAGE_ALLREADY_EXIST
+					Exception::CODE_IMAGE_ALREADY_EXIST
 				);
 
 			}

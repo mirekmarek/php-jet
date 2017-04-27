@@ -4,11 +4,6 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Debug
- * @subpackage Debug_Profiler
  */
 namespace Jet;
 
@@ -19,6 +14,10 @@ require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block.php';
 require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run.php';
 
 
+/**
+ * Class Debug_Profiler
+ * @package Jet
+ */
 class Debug_Profiler {
 	/**
 	 * @var bool

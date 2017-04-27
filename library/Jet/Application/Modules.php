@@ -1,68 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Base class for working with modules.
- *    - Getting an instance of the module
- *    - Getting a list of modules
- *    - Install / Uninstall
- *    - Activation / Deactivation
- *
- * Module name corresponds to a directory name in the directory ~/modules and corresponds to [a-zA-Z0-9]{3,50} format
- *
- * Module directory structure:
- *
- *  ~/application/modules/ModuleName
- *    |
- *    |- _install
- *    |  |- dictionaries
- *    |  |  \- [locale].php
- *    |  |- install.php
- *    |  \- uninstall.php
- *    |
- *    |- config
- *    |  \- config.php
- *    |
- *    |- public
- *    |  |- icons
- *    |  |  |- small
- *    |  |  |  |-module.png
- *    |  |  |  \- [*.png]
- *    |  |  |- normal
- *    |  |  |  |-module.png
- *    |  |  |  \- [*.png]
- *    |  |  |- large
- *    |  |  |  |-module.png
- *    |  |  |  \- [*.png]
- *    |  |  \- [*.png]
- *    |  \- [images and so on]
- *    |
- *    |- Controllers
- *    |  |- Main.php
- *    |  \- [REST.php]
- *    |
- *    |- views
- *    |     \- [*.phtml]
- *    |- layouts
- *    |     \- [*.phtml]
- *    |- Main.php
- *    |- Config.php @see Config
- *    |- [*.php]
- *    \- manifest.php ......................... @see Application_Modules_Module_Manifest
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Application
- * @subpackage Application_Modules
  */
 namespace Jet;
 
+/**
+ * Class Application_Modules
+ * @package Jet
+ */
 class Application_Modules extends BaseObject {
 
 	/**

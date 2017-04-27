@@ -1,22 +1,16 @@
 <?php
 /**
  *
- *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package DataModel
- * @subpackage DataModel_Query
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Query
+ * @package Jet
+ */
 class DataModel_Query extends BaseObject {
 	const L_O_OR = 'OR';
 	const L_O_AND = 'AND';
@@ -436,6 +430,7 @@ class DataModel_Query extends BaseObject {
 
 				/**
 				 * @var DataModel_Definition_Relation_Abstract $relevant_relation
+				 * @var DataModel_Definition_Relations $all_relations
 				 */
 				$relevant_relation = clone $all_relations->getRelation($related_data_model_name);
 

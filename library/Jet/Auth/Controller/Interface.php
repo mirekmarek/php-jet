@@ -1,27 +1,16 @@
 <?php
 /**
  *
- *
- *
- * users, roles and privileges management class implementation
- *
- * @see Auth
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @abstract
- *
- * @category Jet
- * @package Auth
- * @subpackage Auth_ControllerModule
  */
-
 namespace Jet;
 
+/**
+ * Interface Auth_Controller_Interface
+ * @package Jet
+ */
 interface Auth_Controller_Interface {
 
 	/**

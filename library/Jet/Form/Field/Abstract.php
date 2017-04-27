@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @abstract
- *
- * @category Jet
- * @package Form
  */
 namespace Jet;
 
+/**
+ * Class Form_Field_Abstract
+ * @package Jet
+ */
 abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializable {
 	const ERROR_CODE_EMPTY = 'empty';
 	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';

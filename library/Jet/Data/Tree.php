@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Data
- * @subpackage Data_Tree
  */
 namespace Jet;
 
+/**
+ * Class Data_Tree
+ * @package Jet
+ */
 class Data_Tree extends BaseObject implements \Iterator, \Countable,BaseObject_Serializable_REST {
 
 	/**

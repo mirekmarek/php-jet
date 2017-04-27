@@ -1,22 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Directory handle exception
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package IO
- * @subpackage IO_Dir
  */
 namespace Jet;
 
+/**
+ * Class IO_Dir_Exception
+ * @package Jet
+ */
 class IO_Dir_Exception extends Exception {
 
 	const CODE_CREATE_FAILED = 1;

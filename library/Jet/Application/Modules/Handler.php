@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Application
- * @subpackage Application_Modules
  */
 namespace Jet;
 
+/**
+ * Class Application_Modules_Handler
+ * @package Jet
+ */
 class Application_Modules_Handler extends Application_Modules_Handler_Abstract {
 
 

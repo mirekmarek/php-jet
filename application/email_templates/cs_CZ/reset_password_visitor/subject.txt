@@ -1,0 +1,1 @@
+Reset hesla - PHP Jet ukázková aplikace

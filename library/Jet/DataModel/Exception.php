@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package DataModel
- * @subpackage DataModel_Exception
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Exception
+ * @package Jet
+ */
 class DataModel_Exception extends Exception {
 
 

@@ -1,17 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Form
  */
 namespace Jet;
 
+/**
+ * Class Form
+ * @package Jet
+ */
 class Form extends BaseObject {
 
     const METHOD_POST = 'POST';

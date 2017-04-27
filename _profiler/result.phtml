@@ -120,7 +120,8 @@ function showRunBlock( Debug_Profiler_Run_Block $block ) {
 								<?php foreach( $block->getMessages() as $msg ): ?>
 									<li>
 										<?=$msg->getText();?>
-										<span style="font-size: 10px;"><br/>( <?=@array_shift($msg->getBacktrace());?> )</span>
+										<span style="font-size: 10px;"><br/>( <?= /** @noinspection PhpUsageOfSilenceOperatorInspection */
+											@array_shift($msg->getBacktrace());?> )</span>
 									</li>
 								<?php endforeach; ?>
 							</ul>

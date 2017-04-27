@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Form
  */
 namespace Jet;
 
+/**
+ * Class Form_Field_WYSIWYG
+ * @package Jet
+ */
 class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	/**
 	 * @var string
@@ -45,7 +42,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 		'//cdn.tinymce.com/4/tinymce.min.js'
 	];
 
-    /**
+	/**
 	 * @var array
 	 */
 	protected static $default_editor_config = [

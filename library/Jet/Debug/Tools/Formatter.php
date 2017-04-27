@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Debug
- * @subpackage Debug_ErrorHandler
  */
 namespace Jet;
 
+/**
+ * Class Debug_Tools_Formatter
+ * @package Jet
+ */
 class Debug_Tools_Formatter {
 	/**
 	 * Get current URL

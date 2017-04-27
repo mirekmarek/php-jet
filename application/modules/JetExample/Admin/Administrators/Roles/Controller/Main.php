@@ -1,16 +1,9 @@
 <?php
 /**
  *
- *
- *
- * Default admin UI module
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\Admin\Administrators\Roles;
 
@@ -29,6 +22,9 @@ use Jet\Tr;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
+/**
+ *
+ */
 class Controller_Main extends Mvc_Controller_AdminStandard {
 
 	/**

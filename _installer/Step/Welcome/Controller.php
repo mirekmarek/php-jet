@@ -1,23 +1,22 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Installer
  */
 namespace JetExampleApp;
 
 use Jet\Form;
 use Jet\Form_Field_Select;
+use Jet\Http_Headers;
 use Jet\Locale;
 use Jet\Mvc_Site;
+use Jet\Http_Request;
 
+/**
+ *
+ */
 class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 
 	/**
@@ -37,6 +36,9 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 	 *
 	 */
 	public function main() {
+		if(Http_Request::POST()->exists('go')) {
+			Installer::goToNext();
+		}
 
 		$translations = [];
 
@@ -67,8 +69,11 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller {
 
 			Installer::setSelectedLocales([$locale]);
 			Installer::setCurrentLocale($locale);
-			Installer::goToNext();
+
+			Http_Headers::reload();
 		}
+
+		//Installer::goToNext();
 
 		$this->view->setVar('form', $select_locale_form);
 

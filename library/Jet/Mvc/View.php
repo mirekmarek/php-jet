@@ -1,18 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Mvc
- * @subpackage Mvc_View
  */
 namespace Jet;
 
+/**
+ * Class Mvc_View
+ * @package Jet
+ */
 class Mvc_View extends Mvc_View_Abstract {
 
 

@@ -1,16 +1,9 @@
 <?php
 /**
  *
- *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetUI;
 use Jet\Mvc_View;
@@ -22,6 +15,10 @@ use Jet\DataModel_Query;
 use Jet\Session;
 use Jet\Http_Request;
 
+/**
+ * Class dataGrid
+ * @package JetUI
+ */
 class dataGrid extends BaseObject {
 	const SORT_GET_PARAMETER = 'sort';
 	const PAGINATOR_GET_PARAMETER = 'p';

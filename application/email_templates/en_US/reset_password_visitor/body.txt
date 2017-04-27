@@ -1,0 +1,10 @@
+Your password has been reset
+
+This is your login details:
+
+	Username: %LOGIN%
+	Password: %PASSWORD%
+
+Please change your password after sign in
+
+We wish you a nice day

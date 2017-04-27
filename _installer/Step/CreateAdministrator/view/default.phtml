@@ -1,5 +1,6 @@
 <?php
-use JetExampleApp\Installer;
+namespace JetExampleApp;
+
 use Jet\Form;
 use Jet\Mvc_View;
 
@@ -15,6 +16,7 @@ $form->setDefaultFieldWidth(4);
 <?=$form->start()?>
 	<?=$form->message()?>
 
+	<?=$form->field('locale')?>
 	<?=$form->field('login')?>
 	<?=$form->field('password')?>
 	<?=$form->field('email')?>

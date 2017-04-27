@@ -4,13 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Db
  */
 namespace Jet;
 
+/**
+ * Class Db_Connection_Abstract
+ * @package Jet
+ */
 abstract class Db_Connection_Abstract extends \PDO implements BaseObject_Interface {
 
 	use BaseObject_Trait;

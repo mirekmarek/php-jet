@@ -1,15 +1,9 @@
 <?php
 /**
  *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\TestModule;
 
@@ -17,6 +11,9 @@ use Jet\Mvc_Controller_Standard;
 use Jet\Mvc;
 use Jet\Mvc_Page;
 
+/**
+ *
+ */
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
 	 *

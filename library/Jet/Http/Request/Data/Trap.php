@@ -4,15 +4,14 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Http
- * @subpackage Http_Request
  */
 namespace Jet;
 
-class Http_Request_Data_Hoax implements \ArrayAccess, \Iterator, \Countable {
+/**
+ * Class Http_Request_Data_Hoax
+ * @package Jet
+ */
+class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 
 	/**
 	 * @throws Http_Request_Exception

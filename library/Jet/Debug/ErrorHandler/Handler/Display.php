@@ -4,17 +4,16 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Debug
- * @subpackage Debug_ErrorHandler
  */
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
 require_once JET_LIBRARY_PATH.'Jet/Debug/Tools/Formatter.php';
 
+/**
+ * Class Debug_ErrorHandler_Handler_Display
+ * @package Jet
+ */
 class Debug_ErrorHandler_Handler_Display extends Debug_ErrorHandler_Handler_Abstract {
 
 

@@ -4,11 +4,6 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Debug
- * @subpackage Debug_ErrorHandler
  */
 namespace Jet;
 
@@ -16,6 +11,10 @@ require_once 'ErrorHandler/Error.php';
 require_once 'ErrorHandler/Handler/Abstract.php';
 
 
+/**
+ * Class Debug_ErrorHandler
+ * @package Jet
+ */
 class Debug_ErrorHandler {
 	/**
 	 * @var null

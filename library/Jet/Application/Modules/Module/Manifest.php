@@ -1,18 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Application
- * @subpackage Application_Modules
  */
 namespace Jet;
 
+/**
+ * Class Application_Modules_Module_Manifest
+ * @package Jet
+ */
 class Application_Modules_Module_Manifest extends BaseObject implements \JsonSerializable {
 	const MANIFEST_FILE_NAME = 'manifest.php';
 

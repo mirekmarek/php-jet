@@ -1,20 +1,16 @@
 <?php
 /**
  *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Mvc
- * @subpackage Mvc_Layout
  */
 namespace Jet;
 
+/**
+ * Class Mvc_View_Abstract
+ * @package Jet
+ */
 abstract class Mvc_View_Abstract extends BaseObject {
 	const TAG_MODULE = 'jet_module';
 	const SCRIPT_FILE_SUFFIX = 'phtml';

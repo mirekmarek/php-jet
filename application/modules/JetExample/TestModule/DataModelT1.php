@@ -1,14 +1,9 @@
 <?php
 /**
  *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\TestModule;
 
@@ -16,7 +11,6 @@ use Jet\DataModel;
 use Jet\Data_DateTime;
 
 /**
- * Class DataModelT1
  *
  * @JetDataModel:name = 'DataModelT1'
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
@@ -251,6 +245,9 @@ class DataModelT1 extends DataModel {
 		return $this->HTML;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getSelectOptions() {
 		return [
 				'value1' => 'Option 1',

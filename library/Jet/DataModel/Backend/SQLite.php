@@ -1,32 +1,16 @@
 <?php
 /**
  *
- * Available object definition backend options:
- *      @see DataModel_Backend_MySQL_Config
- *
- * Available property definition backend options:
- *		column_type:
- *				string, default: null (auto)
- *				Force MySQL column type and options definition
- *		key:
- *				string, default: null
- *				Key on column(s)
- *		key_type:
- *				string: default: null
- *				Type of the key. Options: INDEX(default), UNIQUE
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package DataModel
- * @subpackage DataModel_Backend
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Backend_SQLite
+ * @package Jet
+ */
 class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	const PRIMARY_KEY_NAME = 'PRIMARY';
 

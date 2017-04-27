@@ -1,20 +1,17 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet\tests
- * @package IO
- * @subpackage IO_Dir
  */
 namespace Jet;
 
 define('IO_DIR_TEST_BASEDIR', JET_TESTS_DATA.'IO/Dir/');
 
-
+/**
+ *
+ */
 class IO_DirTest extends \PHPUnit_Framework_TestCase {
 
 	protected $imaginary_dir_path = '/path/to/imaginary/directory/';

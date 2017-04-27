@@ -1,12 +1,9 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\Images;
 
@@ -17,7 +14,6 @@ use Jet\DataModel;
 use Jet\DataModel_Fetch_Data_Assoc;
 
 /**
- * Class Gallery_Image
  *
  * @JetDataModel:name = 'Image'
  * @JetDataModel:database_table_name = 'image_galleries_images'
@@ -351,6 +347,9 @@ class Gallery_Image extends DataModel {
 		return $this->thumbnails[$key];
 	}
 
+	/**
+	 * @param string $new_source_file_path
+	 */
 	public function overwrite( $new_source_file_path ) {
 		IO_File::copy($new_source_file_path, $this->getFilePath() );
 

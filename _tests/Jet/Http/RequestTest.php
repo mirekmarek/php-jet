@@ -1,13 +1,9 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet\tests
- * @package Http
  */
 namespace Jet;
 
@@ -30,7 +26,9 @@ $_SERVER['bool_true'] = 1;
 $_SERVER['bool_false'] = 0;
 
 
-
+/**
+ *
+ */
 class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
@@ -52,7 +50,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Jet\Http_Request::initialize
 	 * @covers \Jet\Http_Request::hidePHPRequestData
-	 * @covers \Jet\Http_Request_Data_Hoax
+	 * @covers \Jet\Http_Request_Data_Trap
 	 *
 	 * @expectedException \Jet\Http_Request_Exception
 	 * @expectedExceptionCode \Jet\Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -64,7 +62,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Jet\Http_Request::initialize
 	 * @covers \Jet\Http_Request::hidePHPRequestData
-	 * @covers \Jet\Http_Request_Data_Hoax
+	 * @covers \Jet\Http_Request_Data_Trap
 	 *
 	 * @expectedException \Jet\Http_Request_Exception
 	 * @expectedExceptionCode \Jet\Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -76,7 +74,7 @@ class Http_RequestTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Jet\Http_Request::initialize
 	 * @covers \Jet\Http_Request::hidePHPRequestData
-	 * @covers \Jet\Http_Request_Data_Hoax
+	 * @covers \Jet\Http_Request_Data_Trap
 	 *
 	 * @expectedException \Jet\Http_Request_Exception
 	 * @expectedExceptionCode \Jet\Http_Request_Exception::CODE_REQUEST_DATA_HOAX

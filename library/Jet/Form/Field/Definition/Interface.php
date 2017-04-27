@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @abstract
- *
- * @category Jet
- * @package Form
  */
 namespace Jet;
 
+/**
+ * Interface Form_Field_Definition_Interface
+ * @package Jet
+ */
 interface Form_Field_Definition_Interface
 {
 

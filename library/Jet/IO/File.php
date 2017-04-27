@@ -4,17 +4,16 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package IO
- * @subpackage IO_File
  */
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
 require JET_LIBRARY_PATH.'Jet/IO/File/Exception.php';
 
+/**
+ * Class IO_File
+ * @package Jet
+ */
 class IO_File {
 
 	/**

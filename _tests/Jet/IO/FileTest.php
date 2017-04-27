@@ -1,20 +1,17 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet\tests
- * @package IO
- * @subpackage IO_File
  */
 namespace Jet;
 
 define('IO_FILE_TEST_BASEDIR', JET_TESTS_DATA . 'IO/File/');
 
-
+/**
+ *
+ */
 class IO_FileTest extends \PHPUnit_Framework_TestCase {
 
 	protected $imaginary_file_path = '/path/to/imaginary/directory/file.txt';

@@ -1,23 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Implementation of signal (message).
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
- * @author Miroslav Marek <mirek.marek.2m@gmail.com>,
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Application
- * @subpackage Application_Signals
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-
 namespace Jet;
 
+/**
+ * Class Application_Signals
+ * @package Jet
+ */
 class Application_Signals extends BaseObject implements BaseObject_Reflection_ParserInterface {
 	const DEFAULT_SIGNAL_OBJECT_CLASS_NAME = 'Application_Signals_Signal';
 

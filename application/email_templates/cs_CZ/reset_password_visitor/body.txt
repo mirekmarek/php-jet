@@ -1,0 +1,10 @@
+Vaše heslo bylo vyresetováno
+
+Zde jsou vaše přihlašovací údaje:
+
+	Uživatelské jméno: %LOGIN%
+	Heslo: %PASSWORD%
+
+Po přihlášení si prosím změňte heslo
+
+Přejeme příjemný den

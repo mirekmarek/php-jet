@@ -1,24 +1,16 @@
 <?php
 /**
  *
- *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @abstract
- *
- * @category Jet
- * @package Auth
- * @subpackage Auth_User
  */
 namespace Jet;
 
+/**
+ * Interface Auth_User_Interface
+ * @package Jet
+ */
 interface Auth_User_Interface extends BaseObject_Interface {
 
     /**
@@ -67,22 +59,29 @@ interface Auth_User_Interface extends BaseObject_Interface {
 
 	/**
 	 * @abstract
-	 * @return string
-	 */
-	public function getPassword();
-
-	/**
-	 * @abstract
 	 * @param string $password
 	 */
 	public function setPassword( $password );
 
 	/**
-	 * @abstract
 	 * @param string $password
 	 * @return string
 	 */
 	public function encryptPassword( $password );
+
+	/**
+	 * @param string $plain_password
+	 *
+	 * @return bool
+	 */
+	public function verifyPassword( $plain_password );
+
+
+	/**
+	 * @param string $password
+	 * @return bool
+	 */
+	public function verifyPasswordStrength( $password );
 
 	/**
 	 * @abstract

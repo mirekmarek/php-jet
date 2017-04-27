@@ -1,14 +1,9 @@
 <?php
 /**
  *
- * Default admin UI module
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 use Jet\Mvc_Controller_Standard;
@@ -20,6 +15,9 @@ use Jet\Http_Request;
 
 use JetExampleApp\Mvc_Page;
 
+/**
+ *
+ */
 class Controller_Main extends Mvc_Controller_Standard {
 	/**
 	 *
@@ -27,6 +25,9 @@ class Controller_Main extends Mvc_Controller_Standard {
 	 */
 	protected $module_instance = null;
 
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
         'logout' => false,
 		'default' => false,

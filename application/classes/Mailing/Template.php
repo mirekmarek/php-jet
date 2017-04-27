@@ -2,10 +2,8 @@
 /**
  *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
- * @license <%LICENSE%>
+ * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetExampleApp;
 
@@ -14,6 +12,10 @@ use Jet\Data_Text;
 use Jet\IO_File;
 use Jet\Locale;
 
+/**
+ * Class Mailing_Template
+ * @package JetExampleApp
+ */
 class Mailing_Template extends BaseObject
 {
 	const SUBJECT_FILE_NAME = 'subject.txt';
@@ -29,6 +31,11 @@ class Mailing_Template extends BaseObject
 	 * @var Locale
 	 */
 	protected $locale;
+
+	/**
+	 * @var string
+	 */
+	protected $root_dir = '';
 
 	/**
 	 * @var string
@@ -59,16 +66,46 @@ class Mailing_Template extends BaseObject
 
 		$this->id = $id;
 		$this->locale = $locale;
+		$this->root_dir = JETAPP_EMAIL_TEMPLATES_PATH.$this->locale.'/'.$this->id.'/';
 
-		$base_path = JETAPP_EMAIL_TEMPLATES_PATH.$this->locale.'/'.$this->id.'/';
+		$this->readTemplate();
+		$this->applyData($data);
+	}
 
-		$this->subject = IO_File::read($base_path.static::SUBJECT_FILE_NAME);
-		$this->boxy_txt = IO_File::read($base_path.static::BODY_TXT_FILE_NAME);
-		$this->body_html = IO_File::read($base_path.static::BODY_HTML_FILE_NAME);
+	/**
+	 *
+	 */
+	public function readTemplate() {
+		$this->subject = IO_File::read($this->root_dir.static::SUBJECT_FILE_NAME);
+		$this->boxy_txt = IO_File::read($this->root_dir.static::BODY_TXT_FILE_NAME);
+		$this->body_html = IO_File::read($this->root_dir.static::BODY_HTML_FILE_NAME);
 
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function applyData( array $data) {
 		$this->subject = Data_Text::replaceData($this->subject, $data);
 		$this->boxy_txt = Data_Text::replaceData($this->boxy_txt, $data);
 		$this->body_html = Data_Text::replaceData($this->body_html, $data);
+
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRootDir()
+	{
+		return $this->root_dir;
+	}
+
+	/**
+	 * @param string $root_dir
+	 */
+	public function setRootDir($root_dir)
+	{
+		$this->root_dir = $root_dir;
 	}
 
 	/**
@@ -144,17 +181,26 @@ class Mailing_Template extends BaseObject
 
 		$sender = Mailing::getSenderConfig($this->locale);
 
+		$boundary = uniqid('mp');
+
 		$subject = $this->getSubject();
 
 		$headers = "From: " . $sender->getName() . "<".$sender->getEmail().">\r\n";
 		$headers .= "Reply-To: ". $sender->getEmail() . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+		$headers .= "Content-Type: multipart/alternative;boundary=" . $boundary . "\r\n";
 
-		$message = $this->getBodyHtml();
-
+		$message = "This is a MIME encoded message.";
+		$message .= "\r\n\r\n--$boundary\r\n";
+		$message .= "Content-type: text/plain;charset=utf-8\r\n\r\n";
+		$message .= $this->getBoxyTxt();
+		$message .= "\r\n\r\n--$boundary\r\n";
+		$message .= "Content-type: text/html;charset=utf-8\r\n\r\n";
+		$message .= $this->getBodyHtml();
+		$message .= "\r\n\r\n--$boundary--";
 
 		mail($to, $subject, $message, $headers);
+
 	}
 
 }

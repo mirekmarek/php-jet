@@ -1,0 +1,1 @@
+Administrator registration details - PHP Jet example app

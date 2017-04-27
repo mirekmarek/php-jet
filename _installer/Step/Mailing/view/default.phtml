@@ -1,18 +1,16 @@
 <?php
-use JetExampleApp\Installer;
+namespace JetExampleApp;
+
 use Jet\Form;
 use Jet\Mvc_View;
 use Jet\Tr;
 
-use JetExampleApp\Application_Config_Emails;
-
 /**
  * @var Mvc_View $this
- * @var Application_Config_Emails $config
  * @var Form $form
  */
 
-$config = $this->getRaw('config');
+
 $form = $this->getRaw('form');
 $form->setDefaultLabelWidth(1);
 ?>

@@ -1,33 +1,16 @@
 <?php
 /**
  *
- *
- *
- *
- * The layout is similar to the view. Therefore allows to use. phtml files to generate output.
- * It also allows pass the layout script variables ($layout->setVar('variable', 'value'); )
- *
- * Of course, but has characteristics of highly specific for the carry out its role:
- * Allows for each positions in the output place specific content.
- *
- * - Handles the tags to determine the positions in the layout  (tag: <jet_layout_position name="positionName"/>, <jet_layout_main_position/> ), @see addOutputPart::addOutput() @see Mvc_Layout::handlePositions()
- * - Handles the tags for JavaScript initialization   (tag: <jet_layout_javascripts/> ), @see Mvc_Layout::handleJavascript(), @see Mvc_Layout::requireJavascriptLib()
- * - Handles the tags for layout parts including (tag: <jet_layout_part name="part-name"/>), @see Mvc_Layout::handleParts()
- * - Handles the tags for modules dispatching (tag: <jet_module data-module-name="ModuleName" data-action="controllerAction" data-action-params="{param:value}" />)
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Mvc
- * @subpackage Mvc_Layout
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Layout
+ * @package Jet
+ */
 class Mvc_Layout extends Mvc_View_Abstract  {
 
 	const JS_PACKAGES_DIR_NAME = 'js_packages/';

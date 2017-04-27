@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package DataModel
- * @subpackage DataModel_Fetch
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Fetch_Data_Abstract
+ * @package Jet
+ */
 abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract implements Data_Paginator_DataSource_Interface,\ArrayAccess, \Iterator, \Countable {
 	/**
 	 * @var string

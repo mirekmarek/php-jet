@@ -1,22 +1,16 @@
 <?php
 /**
  *
- *
- *
- * DataModel handle exception
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Translator
- * @subpackage Translator_Dictionary
  */
 namespace Jet;
 
+/**
+ * Class Translator_Dictionary_Phrase
+ * @package Jet
+ */
 class Translator_Dictionary_Phrase extends BaseObject {
 	/**
 	 * @var string

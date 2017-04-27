@@ -1,21 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Mvc class provides simple access to mostly used Mvc system components
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Mvc
  */
 namespace Jet;
 
+/**
+ * Class Mvc
+ * @package Jet
+ */
 class Mvc {
 
 	/**

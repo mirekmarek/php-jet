@@ -4,10 +4,6 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Autoloader
  */
 namespace Jet;
 
@@ -18,6 +14,10 @@ require_once JET_LIBRARY_PATH.'Jet/Autoloader/Exception.php';
 /** @noinspection PhpIncludeInspection */
 require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Abstract.php';
 
+/**
+ * Class Autoloader
+ * @package Jet
+ */
 class Autoloader {
 	/**
 	 *

@@ -1,0 +1,12 @@
+Welcome to System!
+
+This is your login details:
+
+	Username: %LOGIN%
+	Password: %PASSWORD%
+	Your name: %NAME% %SURNAME%
+	Your e-mail: %EMAIL%
+
+Please change your password after sign in
+
+We wish you a nice day

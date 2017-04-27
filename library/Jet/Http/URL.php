@@ -1,18 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Http
- * @subpackage Http_URL
  */
 namespace Jet;
 
+/**
+ * Class Http_URL
+ * @package Jet
+ */
 class Http_URL extends BaseObject {
 	
 	/**

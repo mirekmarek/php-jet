@@ -4,13 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Db
  */
 namespace Jet;
 
+/**
+ * Class Db_Connection_PDO
+ * @package Jet
+ */
 class Db_Connection_PDO extends Db_Connection_Abstract {
 
 	/**
@@ -32,16 +32,25 @@ class Db_Connection_PDO extends Db_Connection_Abstract {
 
 	/**
 	 * @param string $statement
-	 * @param int $fetch_method (optional)
-	 * @param int|string|object $column_no_or_class_name_or_object (optional)
-	 * @param array $class_constructor_arguments (optional)
+	 * @param int $mode
 	 *
 	 * @return \PDOStatement|void
 	 */
-	public function query( $statement, $fetch_method=0, $column_no_or_class_name_or_object, $class_constructor_arguments= []) {
+	public function query( $statement, $mode = \PDO::ATTR_DEFAULT_FETCH_MODE ) {
 		Debug_Profiler::SQLQueryStart( $statement );
 
-		$result = parent::query( $statement, $fetch_method, $column_no_or_class_name_or_object );
+		$args = func_get_args();
+
+		if(count($args)==4) {
+			/** @noinspection PhpMethodParametersCountMismatchInspection */
+			$result = parent::query( $statement, $mode, $args[2], $args[3] );
+		} else {
+			if(count($args)==3) {
+				$result = parent::query( $statement, $mode, $args[2] );
+			} else {
+				$result = parent::query( $statement, $mode );
+			}
+		}
 
 		Debug_Profiler::SQLQueryDone();
 

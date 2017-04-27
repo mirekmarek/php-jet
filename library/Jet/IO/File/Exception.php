@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package IO
- * @subpackage IO_File
  */
 namespace Jet;
 
+/**
+ * Class IO_File_Exception
+ * @package Jet
+ */
 class IO_File_Exception extends Exception {
 
 	const CODE_READ_FAILED = 1;

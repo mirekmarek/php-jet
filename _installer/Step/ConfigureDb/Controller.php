@@ -1,15 +1,9 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Installer
  */
 namespace JetExampleApp;
 
@@ -21,6 +15,9 @@ use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Mvc_Site;
 
+/**
+ *
+ */
 class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
 
 	/**

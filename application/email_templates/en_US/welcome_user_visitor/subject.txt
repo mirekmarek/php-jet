@@ -1,0 +1,1 @@
+Visitor registration details - PHP Jet example app

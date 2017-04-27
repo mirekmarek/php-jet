@@ -1,16 +1,17 @@
 <?php
 /**
  *
- * @copyright Copyright (c) 2011-2016 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet\tests
- * @package Http
  */
 namespace Jet;
 
+/**
+ * @param string $header
+ * @param bool $replace
+ * @param int $http_response_code
+ */
 function header_test( $header, $replace=true, $http_response_code=0 ) {
 	$GLOBALS['_test_Http_Headers_sent_headers'][] = [
 		'header' => $header,
@@ -19,6 +20,9 @@ function header_test( $header, $replace=true, $http_response_code=0 ) {
 	];
 }
 
+/**
+ *
+ */
 class Http_HeadersTest extends \PHPUnit_Framework_TestCase {
 
 	protected $http_codes = [

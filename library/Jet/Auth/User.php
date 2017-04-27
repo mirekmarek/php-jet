@@ -1,19 +1,9 @@
 <?php
 /**
  *
- *
- *
- *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Auth
- * @subpackage Auth_User
  */
 namespace Jet;
 
@@ -285,13 +275,6 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 
 	/**
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
-
-	/**
 	 * @param string $password
 	 */
 	public function setPassword( $password ) {
@@ -309,12 +292,20 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @param string $plain_password\
+	 * @param string $plain_password
 	 *
 	 * @return bool
 	 */
 	public function verifyPassword( $plain_password ) {
 		return password_verify( $plain_password, $this->password );
+	}
+
+	/**
+	 * @param string $password
+	 * @return bool
+	 */
+	public function verifyPasswordStrength( $password ) {
+		return true;
 	}
 
 	/**
@@ -731,57 +722,28 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		return $result;
 	}
 
-
 	/**
 	 * @param string $form_name
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name='' ) {
-		$form = parent::getCommonForm( $form_name );
+	public function getEditForm( $form_name='' ) {
+		$form = $this->getCommonForm( $form_name );
 
-		$this->_setupForm($form);
-
-		return $form;
-	}
-
-
-	/**
-	 * @param string $form_name
-	 *
-	 * @return Form
-	 */
-	public function getSimpleForm( $form_name='' ) {
-
-		if(!$form_name) {
-			$definition = static::getDataModelDefinition();
-			$form_name = $definition->getModelName();
-
-		}
-
-		$form = $this->getForm($form_name );
-
-        $this->_setupForm($form);
-
-        foreach( $form->getFields() as $field ) {
-            if(!in_array($field->getName(), ['login', 'password', 'email'])) {
-                $form->removeField($field->getName());
-            }
-        }
-
-
-		return $form;
-
-	}
-
-	/**
-	 * @param Form $form
-	 */
-	protected function _setupForm( Form $form ) {
 		if( $this->getIsNew() ) {
-			$form->getField('password')->setIsRequired(true);
+			/**
+			 * @var Form_Field_RegistrationPassword $password_field
+			 */
+			$password_field = $form->getField('password');
+			$password_field->setIsRequired(true);
+			$password_field->setPasswordStrengthCheckCallback( [$this, 'verifyPasswordStrength'] );
+			$password_field->setErrorMessages([
+				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough'
+			]);
+
+			$form->getField('password_is_valid')->setDefaultValue(false);
 		} else {
-			$form->getField('password')->setIsRequired(false);
+			$form->removeField('password');
 		}
 
 		$user = $this;
@@ -791,6 +753,11 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		]);
 		$form->getField('user_is_blocked_till')->setErrorMessages([
 			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format'
+		]);
+
+		$form->getField('locale')->setIsRequired(true);
+		$form->getField('locale')->setErrorMessages([
+			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale'
 		]);
 
 		$form->getField('login')->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
@@ -814,6 +781,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid e-mail address',
 		]);
 
+		return $form;
 	}
 
 	/**

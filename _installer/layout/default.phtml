@@ -1,5 +1,5 @@
 <?php
-use JetExampleApp\Installer_Step_Controller;
+namespace JetExampleApp;
 use Jet\Mvc_Layout;
 use Jet\Tr;
 /**
@@ -10,7 +10,7 @@ $steps = $this->getRaw('steps');
 ?>
 <html>
 <head>
-	<title><?=Tr::_('PHP Jet Platform - Example Project Installer');?></title>
+	<title><?=Tr::_('PHP Jet - Example Project Installer');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
@@ -44,7 +44,7 @@ $steps = $this->getRaw('steps');
 	<div class="row">
 		<div class="col-md-12" style="background-color: #000000;color: #ffffff;font-size: 18px;font-weight: bolder;">
 			<div style="padding: 4px;">
-				<?=Tr::_('PHP Jet Platform - Example Project Installer');?>
+				<?=Tr::_('PHP Jet - Example Project Installer');?>
 			</div>
 		</div>
 	</div>

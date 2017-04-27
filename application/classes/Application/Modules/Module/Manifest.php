@@ -1,12 +1,9 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetExampleApp;
 
@@ -14,7 +11,9 @@ use Jet\Application_Modules_Module_Manifest as Jet_Application_Modules_Module_Ma
 
 use JetUI\menu_item;
 
-
+/**
+ *
+ */
 class Application_Modules_Module_Manifest extends Jet_Application_Modules_Module_Manifest
 {
 

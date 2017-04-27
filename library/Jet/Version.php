@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Version
  */
-
 namespace Jet;
 
+/**
+ * Class Version
+ * @package Jet
+ */
 class Version extends BaseObject {
 
 	const API_VERSION = 201401;
@@ -20,7 +19,7 @@ class Version extends BaseObject {
 	 * @return string
 	 */
 	public static function getVersionNumber() {
-		return '1.0b1';
+		return '1.0';
 	}
 
 	/**

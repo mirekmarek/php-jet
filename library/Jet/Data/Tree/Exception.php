@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Data
- * @subpackage Data_Tree
  */
 namespace Jet;
 
+/**
+ * Class Data_Tree_Exception
+ * @package Jet
+ */
 class Data_Tree_Exception extends Exception {
 
 	const CODE_INCONSISTENT_TREE_DATA = 1;

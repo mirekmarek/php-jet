@@ -4,12 +4,14 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetUI;
 use Jet\BaseObject;
 
+/**
+ * Class messages_message
+ * @package JetUI
+ */
 class messages_message extends BaseObject{
 
 
@@ -98,7 +100,7 @@ class messages_message extends BaseObject{
 	public function toString() {
 		return '<div class="alert alert-'.$this->getClass().'" role="alert">
 			<span class="'.$this->icon_class.$this->icon.'"></span>
-			<button type="button" class="close" data-dismiss="alert" aria-label="" onclick="setTimeout( function() {jetshop_admin_main.adjustManRowHeight()}, 10 );"><span aria-hidden="true">&times;</span></button>
+			<button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true">&times;</span></button>
 			'.$this->getMessage().'
 		</div>';
 

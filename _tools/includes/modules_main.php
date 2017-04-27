@@ -4,10 +4,6 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package tools
  */
 namespace Jet;
 require "bootstrap_cli.php";
@@ -27,7 +23,10 @@ if (!Application_Modules::getModuleExists($module_name) ) {
         echo "Module '{$module_name}' doesn't exist ".PHP_EOL.PHP_EOL;
 	exit(20);
 }
-
+/**
+ * @param Exception $e
+ * @param int $error_code
+ */
 function handleException( Exception $e, $error_code=100 ) {
 	echo "ERROR".PHP_EOL;
 	echo $e->getMessage();

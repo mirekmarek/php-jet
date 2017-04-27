@@ -1,23 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Implementation of signal (message).
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
- * @author Miroslav Marek <mirek.marek.2m@gmail.com>,
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Application
- * @subpackage Application_Signals
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-
 namespace Jet;
 
+/**
+ * Class Application_Signals_Signal
+ * @package Jet
+ */
 class Application_Signals_Signal extends BaseObject {
 
 	/**

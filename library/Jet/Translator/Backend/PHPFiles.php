@@ -1,22 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Translator modules interface
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Translator
- * @subpackage Translator_Backend
  */
 namespace Jet;
 
+/**
+ * Class Translator_Backend_PHPFiles
+ * @package Jet
+ */
 class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	/**
 	 * @var Translator_Backend_PHPFiles_Config

@@ -4,8 +4,6 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetExampleApp;
 
@@ -13,6 +11,9 @@ namespace JetExampleApp;
 use Jet\Form;
 use Jet\Form_Field_Email;
 
+/**
+ *
+ */
 class Installer_Step_Mailing_Controller extends Installer_Step_Controller {
 
 	/**

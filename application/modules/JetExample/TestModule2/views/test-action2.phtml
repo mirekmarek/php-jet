@@ -17,6 +17,9 @@ $forms = $this->getRaw('forms');
 <h2><?=Tr::_('Form test')?></h2>
 <p>
     <?php foreach( $forms as $form_name=>$d ):
+    /**
+     * @var Form $form
+     */
         $form = $d['form'];
         //$form->setIsReadonly();
     ?>
@@ -45,11 +48,10 @@ $forms = $this->getRaw('forms');
             <?=Tr::_('Form sent:')?>
 
             <?php if($form_name=='upload_image_form'):
+                $image_field = $form->getField('upload_image');
                 /**
                  * @var Form_Field_FileImage $image_field
                  */
-                $image_field = $form->getField('upload_image');
-
                 ?>
                 <img src="<?=JET_PUBLIC_URI?>test_uploads/<?=$image_field->getFileName()?>">
             <?php else: ?>

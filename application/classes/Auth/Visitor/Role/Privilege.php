@@ -2,10 +2,8 @@
 /**
  *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
- * @license <%LICENSE%>
+ * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetExampleApp;
 use Jet\Auth_Role_Privilege;

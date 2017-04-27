@@ -1,19 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Mvc
- * @subpackage Mvc_Router
  */
 namespace Jet;
 
+/**
+ * Class Mvc_Router
+ * @package Jet
+ */
 class Mvc_Router extends Mvc_Router_Abstract {
 
 

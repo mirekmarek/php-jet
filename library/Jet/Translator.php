@@ -1,29 +1,16 @@
 <?php
 /**
  *
- *
- *
- * Texts translation class.
- * All the texts displayed somewhere on site should pass through
- * the translator to display in proper language given by actual mode
- *
- * Proper translation module/class should be installed/defined for correct function, default
- * class does not provide translation functionality.
- *
- * Class @see Tr is recommended to use instead of Translator for shorter code.
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Translator
  */
-
 namespace Jet;
 
+/**
+ * Class Translator
+ * @package Jet
+ */
 class Translator extends BaseObject {
 
 	const COMMON_NAMESPACE = '_COMMON_';

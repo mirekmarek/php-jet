@@ -1,16 +1,9 @@
 <?php
 /**
  *
- *
- *
- * Default admin UI module
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\Admin\Administrators\Users;
 
@@ -31,6 +24,9 @@ use Jet\Form;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
+/**
+ *
+ */
 class Controller_Main extends Mvc_Controller_AdminStandard {
 
 	/**
@@ -114,11 +110,17 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		$user = new User();
 
 
-		$form = $user->getCommonForm();
+		$form = $user->getEditForm();
 
 		if( $user->catchForm( $form ) ) {
+			$password = User::generatePassword();
+			$user->setPassword($password);
 			$user->save();
+
 			$this->logAllowedAction( $user );
+
+			$user->sendWelcomeEmail( $password );
+
 			messages::success( Tr::_('User <b>%LOGIN%</b> has been created', ['LOGIN'=>$user->getLogin() ]) );
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
@@ -148,10 +150,6 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 				$user->resetPassword();
 				messages::success( Tr::_('Password has been re-generated', ['LOGIN'=>$user->getLogin() ]) );
 			}
-			if($action=='send_welcome') {
-				$user->sendWelcomeEmail();
-				messages::success( Tr::_('A welcome e-mail has been sent', ['LOGIN'=>$user->getLogin() ]) );
-			}
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
 		}
@@ -162,7 +160,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		/**
 		 * @var Form $form
 		 */
-		$form = $user->getCommonForm();
+		$form = $user->getEditForm();
 		$form->removeField('password');
 
 		if( $user->catchForm( $form ) ) {
@@ -193,7 +191,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		$this->_setBreadcrumbNavigation( Tr::_('User account detail <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
 
-		$form = $user->getCommonForm();
+		$form = $user->getEditForm();
 
 		$form->setIsReadonly();
 

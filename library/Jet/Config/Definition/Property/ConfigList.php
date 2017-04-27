@@ -1,18 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Config
- * @subpackage Config_Definition
  */
 namespace Jet;
 
+/**
+ * Class Config_Definition_Property_ConfigList
+ * @package Jet
+ */
 class Config_Definition_Property_ConfigList extends Config_Definition_Property_Abstract {
 	/**
 	 * @var string

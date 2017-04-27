@@ -1,0 +1,12 @@
+Vítejte v systému!
+
+Zde jsou vaše přihlašovací údaje:
+
+	Uživatelské jméno: %LOGIN%
+	Heslo: %PASSWORD%
+	Vaše jméno: %NAME% %SURNAME%
+	Váš e-mail: %EMAIL%
+
+Po přihlášení si prosím změňte heslo
+
+Přejeme příjemný den

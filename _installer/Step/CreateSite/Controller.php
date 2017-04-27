@@ -1,15 +1,9 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Installer
  */
 namespace JetExampleApp;
 
@@ -22,6 +16,9 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\IO_Dir;
 
+/**
+ *
+ */
 class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 	/**

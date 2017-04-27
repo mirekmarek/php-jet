@@ -1,18 +1,16 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Auth
- * @subpackage Auth_Role
  */
 namespace Jet;
 
+/**
+ * Class Auth_User_Signal
+ * @package Jet
+ */
 class Auth_User_Signal extends Application_Signals_Signal {
 
 	/**

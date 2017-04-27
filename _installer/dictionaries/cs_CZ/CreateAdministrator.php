@@ -10,4 +10,11 @@ return [
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
+	'Please enter valid e-mail address' => '',
+	'Please select locale' => '',
+	'Invalid format' => '',
+	'Please select role' => '',
+	'Password is not strong enough' => '',
+	'Locale' => '',
+	'Sorry, but username %LOGIN% is registered.' => '',
 ];

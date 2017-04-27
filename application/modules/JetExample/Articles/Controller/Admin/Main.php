@@ -1,15 +1,13 @@
 <?php
 /**
  *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetApplicationModule\JetExample\Articles;
 
+use Jet\Data_DateTime;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
 use JetUI\UI;
@@ -24,6 +22,9 @@ use Jet\Http_Request;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
+/**
+ *
+ */
 class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	/**
 	 *
@@ -106,6 +107,8 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 		$article = new Article();
 
 		$form = $article->getCommonForm();
+		$form->getField('locale')->setDefaultValue(Mvc::getCurrentLocale());
+		$form->getField('date_time')->setDefaultValue( Data_DateTime::now() );
 
 		if( $article->catchForm( $form ) ) {
 			$article->save();

@@ -2,10 +2,8 @@
 /**
  *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
- * @license <%LICENSE%>
+ * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
  */
 namespace JetUI;
 
@@ -15,6 +13,10 @@ use Jet\Http_Request;
 use Jet\Session;
 use Jet\Tr;
 
+/**
+ * Class searchForm
+ * @package JetUI
+ */
 class searchForm extends BaseObject
 {
 

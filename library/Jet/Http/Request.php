@@ -4,14 +4,13 @@
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Http
- * @subpackage Http_Request
  */
 namespace Jet;
 
+/**
+ * Class Http_Request
+ * @package Jet
+ */
 class Http_Request extends BaseObject {
 
 
@@ -100,9 +99,9 @@ class Http_Request extends BaseObject {
 	 *
 	 */
 	public static function hidePHPRequestData(){
-		$_GET = new Http_Request_Data_Hoax();
-		$_POST = new Http_Request_Data_Hoax();
-		$_REQUEST = new Http_Request_Data_Hoax();
+		$_GET = new Http_Request_Data_Trap();
+		$_POST = new Http_Request_Data_Trap();
+		$_REQUEST = new Http_Request_Data_Trap();
 	}
 
 

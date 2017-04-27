@@ -1,5 +1,6 @@
 <?php
-use JetExampleApp\Installer;
+namespace JetExampleApp;
+
 use Jet\Form;
 use Jet\Mvc_View;
 use Jet\Tr;
@@ -10,10 +11,16 @@ use Jet\Tr;
 $form = $this->getRaw('form');
 $form->setDefaultLabelWidth(2);
 $form->setDefaultFieldWidth(4);
+
+$form->field('locale')->field()->addJsAction('onchange', 'this.form.submit();');
 ?>
 <h1><?=Tr::_('Welcome!');?></h1>
 
 <?=$form->start()?>
 	<?=$form->field('locale')?>
-	<?=Installer::buttonNext();?>
 <?=$form->end()?>
+
+<form method="post">
+	<input type="hidden" name="go" value="1">
+	<?=Installer::buttonNext();?>
+</form>

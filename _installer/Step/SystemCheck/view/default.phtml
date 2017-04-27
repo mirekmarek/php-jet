@@ -1,6 +1,5 @@
 <?php
-use JetExampleApp\Installer;
-use JetExampleApp\CompatibilityTester;
+namespace JetExampleApp;
 
 use Jet\Mvc_View;
 
@@ -44,9 +43,9 @@ $tester = $this->getRaw('tester');
 
 <?php if($tester->isCompatible()):
 	if(!$tester->hasWarnings()):
-		echo messages::createSuccess( Tr::_('The system is fully compatible with PHP Jet Platform!') );
+		echo messages::createSuccess( Tr::_('The system is fully compatible!') );
 	else:
-		echo messages::createWarning( Tr::_('The system is compatible with PHP Jet Platform. Please take care about warnings!') );
+		echo messages::createWarning( Tr::_('The system is compatible. Please take care about warnings!') );
 	endif;
 	?>
 	<form method="post">
@@ -55,5 +54,5 @@ $tester = $this->getRaw('tester');
 	</form>
 	<?php
 else:
-	echo messages::createDanger( Tr::_('Sorry, but the system is tom compatible with PHP Jet Platform!') );
+	echo messages::createDanger( Tr::_('Sorry, but the system is tom compatible!') );
 endif; ?>

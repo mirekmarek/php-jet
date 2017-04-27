@@ -1,21 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @abstract
- *
- * @category Jet
- * @package DataModel
- * @subpackage DataModel_Fetch
  */
 namespace Jet;
 
+/**
+ * Class DataModel_Fetch_Abstract
+ * @package Jet
+ */
 abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject_Serializable_REST, Data_Paginator_DataSource_Interface  {
 
 	/**

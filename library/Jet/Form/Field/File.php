@@ -1,18 +1,16 @@
 <?php
 /**
  *
- *
- *
  * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
- * @version <%VERSION%>
- *
- * @category Jet
- * @package Form
  */
 namespace Jet;
 
+/**
+ * Class Form_Field_File
+ * @package Jet
+ */
 class Form_Field_File extends Form_Field_Abstract {
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';

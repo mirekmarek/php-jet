@@ -1,5 +1,5 @@
 <?php
 return [
 	'Continue' => '',
-	'PHP Jet Platform - Example Project Installer' => '',
+	'PHP Jet - Example Project Installer' => '',
 ];
