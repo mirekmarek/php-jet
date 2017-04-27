@@ -16,24 +16,24 @@ use Jet\Locale;
  */
 class Mailing extends BaseObject {
 	/**
-	 * @var Application_Config_Emails
+	 * @var Mailing_Config
 	 */
 	protected static $config = null;
 
 	/**
 	 *
-	 * @return Application_Config_Emails
+	 * @return Mailing_Config
 	 */
 	public static function getConfig(){
 		if(!static::$config) {
-			static::$config = new Application_Config_Emails();
+			static::$config = new Mailing_Config();
 		}
 		return static::$config;
 	}
 
 	/**
 	 * @param string|Locale $locale
-	 * @return Application_Config_Emails_Sender
+	 * @return Mailing_Config_Sender
 	 */
 	public static function getSenderConfig( $locale ) {
 		$locale = (string)$locale;

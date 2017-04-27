@@ -12,7 +12,7 @@ use Jet\Config_Section;
 /**
  *
  */
-class Application_Config_Emails_Sender extends Config_Section {
+class Mailing_Config_Sender extends Config_Section {
 
 	/**
 	 * @JetConfig:form_field_label = 'E-mail:'

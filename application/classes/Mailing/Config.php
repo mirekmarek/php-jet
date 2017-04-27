@@ -14,7 +14,7 @@ use Jet\Config_Definition_Property_ConfigList;
  *
  * @JetConfig:data_path = 'emails'
  */
-class Application_Config_Emails extends Application_Config {
+class Mailing_Config extends Application_Config {
 
 	/**
 	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
@@ -30,7 +30,7 @@ class Application_Config_Emails extends Application_Config {
 	 *
 	 * @param $locale
 	 *
-	 * @return Application_Config_Emails_Sender
+	 * @return Mailing_Config_Sender
 	 */
 	public function getSender($locale){
 		$locale = (string)$locale;
@@ -38,11 +38,11 @@ class Application_Config_Emails extends Application_Config {
 	}
 
 	/**
-	 * @return Application_Config_Emails_Sender[]
+	 * @return Mailing_Config_Sender[]
 	 */
 	public function getSenders() {
 		/**
-		 * @var Application_Config_Emails_Sender[] $c_cfg
+		 * @var Mailing_Config_Sender[] $c_cfg
 		 */
 		$c_cfg = $this->senders->getAllConfigurationItems();
 		return $c_cfg;
@@ -50,10 +50,10 @@ class Application_Config_Emails extends Application_Config {
 
 	/**
 	 * @param string $locale
-	 * @param Application_Config_Emails_Sender $sender_configuration
+	 * @param Mailing_Config_Sender $sender_configuration
 	 *
 	 */
-	public function addSender( $locale, Application_Config_Emails_Sender $sender_configuration ) {
+	public function addSender($locale, Mailing_Config_Sender $sender_configuration ) {
 		$locale = (string)$locale;
 		$this->senders->addConfigurationItem( $locale, $sender_configuration );
 	}

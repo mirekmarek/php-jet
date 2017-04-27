@@ -26,14 +26,14 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller {
 	 */
 	public function main() {
 
-		$config = new Application_Config_Emails( true );
+		$config = new Mailing_Config( true );
 
 		$locales = [];
 		foreach(Installer::getSelectedLocales() as $locale) {
 			$locales[] = (string)$locale;
 
 			if(!$config->getSender($locale)) {
-				$sender_config = new Application_Config_Emails_Sender([], $config);
+				$sender_config = new Mailing_Config_Sender([], $config);
 
 				$config->addSender($locale, $sender_config);
 			}
