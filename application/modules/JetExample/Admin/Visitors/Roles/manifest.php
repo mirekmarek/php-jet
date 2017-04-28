@@ -12,8 +12,6 @@ return [
 	'require' => [
 	],
 
-	'signals_callbacks' => [],
-
 	'admin_sections' => [
 		'admin/visitors-roles' => [
 			'title' => 'Visitors - User roles',

@@ -12,6 +12,5 @@ namespace Jet;
  * @package Jet
  */
 trait BaseObject_Trait {
-    use BaseObject_Trait_Signals;
     use BaseObject_Trait_Properties;
 }

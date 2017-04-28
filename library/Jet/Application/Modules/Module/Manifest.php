@@ -102,24 +102,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 */
 	protected $require = [];
 
-	/**
-	 * Manifest value
-	 *
-	 * Module callbacks for signals.
-	 * 
-	 * array(
-	 *	  'signal1' => 'moduleMethod1',  // route signal 'signal1' to method 'moduleMethod1'
-	 *	  'signal2' => array(            // route signal 'signal2' to methods 'method2' and 'method3'
-	 *                       'method2',
-	 *                       'method3'
-	 *                     )
-	 * )
-	 *
-	 * @var array 
-	 */
-	protected $signals_callbacks = [];
-
-
 	//--------------------------------------------------------------------------
 
 	/**
@@ -253,17 +235,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
-
-		if(
-			isset($manifest_data['signals_callbacks']) &&
-			!is_array($manifest_data['signals_callbacks'])
-		){
-			throw new Application_Modules_Exception(
-				'Signal callbacks must be an array like [signal_name => module_method_name, signal_name2 => array(method2, method3), ...]! (Module: \''.$this->name.'\')',
-				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-			);
-		}
-
 	}
 
 	/**
@@ -397,22 +368,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 */
 	public function getRequire() {
 		return $this->require;
-	}
-
-
-	/**
-	 * array(
-	 *	  'signal1' => 'moduleMethod1',  // route signal 'signal1' to method 'moduleMethod1'
-	 *	  'signal2' => array(            // route signal 'signal2' to methods 'method2' and 'method3'
-	 *                      'method2',
-	 *                      'method3'
-	 *                  )
-	 * )
-	 *
-	 * @return array
-	 */
-	public function getSignalCallbacks() {
-		return $this->signals_callbacks;
 	}
 
 	/**

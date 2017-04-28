@@ -11,13 +11,5 @@ return [
 
 	'is_mandatory' => true,
 	'require' => [],
-	
-	'signals_callbacks' => [
-		'/test/received' => 'testReceived',
-		'/test/multiple' => [
-			'testMultiple1',
-			'testMultiple2'
-		],
-	],
 
 ];

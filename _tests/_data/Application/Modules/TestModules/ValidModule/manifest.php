@@ -17,9 +17,4 @@ return [
 			'RequireModule2'
 	],
 
-	'signals_callbacks' => [
-		'/test/signal1' => 'CallbackModuleMethodName1',
-		'/test/signal2' => 'CallbackModuleMethodName2',
-	]
-
 ];

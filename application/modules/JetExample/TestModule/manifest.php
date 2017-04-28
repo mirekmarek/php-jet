@@ -10,8 +10,4 @@ return [
 	'description' => 'Jet test module ...',
 
 	'require' => [],
-
-	'signals_callbacks' => [
-		'/test/ack' => 'testAck',
-	]
 ];

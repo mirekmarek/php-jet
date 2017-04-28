@@ -46,31 +46,6 @@ interface BaseObject_Interface {
 	public function __clone();
 
 	/**
-	 * @param $signal_name
-	 *
-	 * @return bool
-	 */
-	public function getHasSignal( $signal_name );
-
-	/**
-	 * @param string $signal_name
-	 *
-	 * @return string
-	 */
-	public function getSignalObjectClassName( $signal_name );
-
-	/**
-	 * @param $signal_name
-	 * @param array $signal_data
-	 *
-	 * @throws BaseObject_Exception
-	 *
-	 * @return Application_Signals_Signal
-	 */
-	public function sendSignal( $signal_name, array $signal_data= []);
-
-
-	/**
 	 * @return string
 	 */
 	public function getObjectClassNamespace();

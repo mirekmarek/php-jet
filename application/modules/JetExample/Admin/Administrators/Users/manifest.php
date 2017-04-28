@@ -12,8 +12,6 @@ return [
 	'require' => [
 	],
 
-	'signals_callbacks' => [],
-
 	'admin_sections' => [
 		'admin/administrators-users' => [
 			'title' => 'Administrators - Users',

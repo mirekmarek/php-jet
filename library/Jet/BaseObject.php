@@ -8,20 +8,6 @@
 namespace Jet;
 
 /**
- * Available annotation:
- *
- *      Signals:
- *          Signal definition:
- *              @JetApplication_Signals:signal = '/signal/name'
- *              @JetApplication_Signals:signal = '/next/signal/name'
- *
- *          Signal object class name:
- *              @JetApplication_Signals:signal_object_class_name = 'Some\Custom_Class_Name'
- *
- */
-
-
-/**
  *
  */
 class BaseObject implements BaseObject_Interface {

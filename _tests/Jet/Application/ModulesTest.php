@@ -75,10 +75,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 				],
-				'signals_callbacks' =>
-				[
-					'/test/ack' => 'testAck',
-				],
 				'module_dir' => '',
 				'is_installed' => false,
 				'is_activated' => false,
@@ -98,9 +94,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				[
 					0 => 'Vendor.Package.TestModule',
 				],
-				'signals_callbacks' =>
-				[
-				],
 				'module_dir' => '',
 				'is_installed' => false,
 				'is_activated' => false,
@@ -119,11 +112,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				[
 					0 => 'RequireModule1',
 					1 => 'RequireModule2',
-				],
-				'signals_callbacks' =>
-				[
-					'/test/signal1' => 'CallbackModuleMethodName1',
-					'/test/signal2' => 'CallbackModuleMethodName2',
 				],
 				'module_dir' => '',
 				'is_installed' => false,
@@ -161,11 +149,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 			[
 				0 => 'RequireModule1',
 				1 => 'RequireModule2',
-			],
-			'signals_callbacks' =>
-			[
-				'/test/signal1' => 'CallbackModuleMethodName1',
-				'/test/signal2' => 'CallbackModuleMethodName2',
 			],
 			'module_dir' => '',
 			'is_installed' => false,
@@ -224,10 +207,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 				],
-				'signals_callbacks' =>
-				[
-					'/test/ack' => 'testAck',
-				],
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => false,
@@ -246,9 +225,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 					0 => 'Vendor.Package.TestModule',
-				],
-				'signals_callbacks' =>
-				[
 				],
 				'module_dir' => '',
 				'is_installed' => true,
@@ -279,10 +255,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 				],
-				'signals_callbacks' =>
-				[
-					'/test/ack' => 'testAck',
-				],
 				'module_dir' => '',
 				'is_installed' => true,
 				'is_activated' => true,
@@ -301,9 +273,6 @@ class Application_ModulesTest extends \PHPUnit_Framework_TestCase {
 				'require' =>
 				[
 					0 => 'Vendor.Package.TestModule',
-				],
-				'signals_callbacks' =>
-				[
 				],
 				'module_dir' => '',
 				'is_installed' => true,

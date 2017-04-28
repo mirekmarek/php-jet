@@ -8,11 +8,6 @@
 namespace Jet;
 
 /**
- * @JetApplication_Signals:signal = '/role/new'
- * @JetApplication_Signals:signal = '/role/updated'
- * @JetApplication_Signals:signal = '/role/deleted'
- *
- * @JetApplication_Signals:signal_object_class_name = 'Auth_Role_Signal'
 
  * @JetDataModel:name = 'role'
  * @JetDataModel:id_class_name = 'DataModel_Id_Name'
@@ -331,21 +326,18 @@ class Auth_Role extends DataModel implements Auth_Role_Interface {
 	 *
 	 */
 	public function afterAdd() {
-		$this->sendSignal('/role/new', ['role'=>$this]);
 	}
 
 	/**
 	 *
 	 */
 	public function afterUpdate() {
-		$this->sendSignal('/role/updated', ['role'=>$this]);
 	}
 
 	/**
 	 *
 	 */
 	public function afterDelete() {
-		$this->sendSignal('/role/deleted', ['role'=>$this]);
 	}
 
 

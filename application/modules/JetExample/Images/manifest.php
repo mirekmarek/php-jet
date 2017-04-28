@@ -10,8 +10,6 @@ return [
 
 	'require' => [],
 
-	'signals_callbacks' => [],
-
 	'admin_sections' => [
 		'admin/images' => [
 			'title' => 'Images',

@@ -118,16 +118,6 @@ class Application_Modules_Module_ManifestTest extends \PHPUnit_Framework_TestCas
 
 	/**
 	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
-	 *
-	 * @expectedException \Jet\Application_Modules_Exception
-	 * @expectedExceptionCode \Jet\Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-	 */
-	public function testReadManifestDataInvalidSignalsCallbacksIsNotArray() {
-		new Application_Modules_Module_Manifest('InvalidSignalsCallbacksIsNotArray');
-	}
-
-	/**
-	 * @covers \Jet\Application_Modules_Module_Manifest::readManifestData
 	 */
 	public function testReadManifestData() {
 		new Application_Modules_Module_Manifest('ValidModule');
@@ -212,18 +202,6 @@ class Application_Modules_Module_ManifestTest extends \PHPUnit_Framework_TestCas
 			'RequireModule2'
 		], $module_info->getRequire() );
 	}
-
-	/**
-	 * @covers \Jet\Application_Modules_Module_Manifest::getSignalCallbacks
-	 */
-	public function testGetSignalCallbacks() {
-		$module_info = new Application_Modules_Module_Manifest('ValidModule');
-		$this->assertEquals( [
-			'/test/signal1' => 'CallbackModuleMethodName1',
-			'/test/signal2' => 'CallbackModuleMethodName2',
-		], $module_info->getSignalCallbacks() );
-	}
-
 
 	/**
 	 * @covers \Jet\Application_Modules_Module_Manifest::setIsInstalled

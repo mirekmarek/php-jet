@@ -25,8 +25,6 @@ use JetExampleApp\Auth_Visitor_User as Visitor;
 
 /**
  *
- * @JetApplication_Signals:signal = '/user/login'
- * @JetApplication_Signals:signal = '/user/logout'
  */
 class Main extends Application_Modules_Module_Abstract  implements Auth_Controller_Interface {
 
@@ -178,8 +176,6 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 
 		$this->current_user = $user;
 
-		$this->sendSignal('/user/login');
-
 		return true;
 	}
 
@@ -187,8 +183,6 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * Logout current user
 	 */
 	public function logout() {
-		$this->sendSignal('/user/logout');
-
 		Session::destroy();
 		$this->current_user = null;
 	}

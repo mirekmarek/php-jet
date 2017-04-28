@@ -7,27 +7,12 @@
  */
 namespace JetApplicationModule\Vendor\Package\TestModule;
 use Jet\Application_Modules_Module_Abstract;
-use Jet\Application_Signals_Signal;
 
 class Main extends Application_Modules_Module_Abstract {
 	public function getMyValue(){
 		return 'My value';
 	}
 
-	public function testAck( Application_Signals_Signal $signal){
-		echo 'TestModule: ACK signal received.\n';
-		var_dump($signal->getName(), $signal->getData(), $signal->getSender());
-	}
-
-	public function sendReceived(){
-		echo 'TestModule: sending test/received\n';
-		return $this->sendSignal('/test/received', 'HELLO!');
-	}
-
-	public function sendMultiple(){
-		echo 'TestModule: sending test/multiple\n';
-		return $this->sendSignal('/test/multiple', 'HELLO MULTIPLE!');
-	}
 
 	public function testInstall() {
 		//echo 'Hello! This is TestModule install script!\n';

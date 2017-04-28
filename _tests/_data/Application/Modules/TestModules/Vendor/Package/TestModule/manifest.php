@@ -12,8 +12,4 @@ return [
 	'description' => 'Test module 1...',
 
 	'require' => [],
-
-	'signals_callbacks' => [
-		'/test/ack' => 'testAck',
-	]
 ];

@@ -9,14 +9,6 @@ namespace Jet;
 
 /**
  *
- * @JetApplication_Signals:signal = '/user/new'
- * @JetApplication_Signals:signal = '/user/deleted'
- * @JetApplication_Signals:signal = '/user/updated'
- * @JetApplication_Signals:signal = '/user/blocked'
- * @JetApplication_Signals:signal = '/user/unblocked'
- * @JetApplication_Signals:signal = '/user/activated'
- *
- * @JetApplication_Signals:signal_object_class_name = 'Auth_User_Signal'
  *
  * @JetDataModel:name = 'user'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
@@ -461,9 +453,6 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		} else {
 			$this->user_is_blocked_till = new Data_DateTime($till);
 		}
-
-		$this->sendSignal('/user/blocked', ['user'=>$this]);
-
 	}
 
 	/**
@@ -472,8 +461,6 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	public function unBlock() {
 		$this->user_is_blocked = false;
 		$this->user_is_blocked_till = null;
-
-		$this->sendSignal('/user/unblocked', ['user'=>$this]);
 	}
 
 	/**
@@ -496,7 +483,6 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		}
 		$this->user_is_activated = true;
 
-		$this->sendSignal('/user/activated', ['user'=>$this]);
 		return true;
 	}
 
@@ -788,21 +774,18 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 */
 	public function afterAdd() {
-		$this->sendSignal('/user/new', ['user'=>$this]);
 	}
 
 	/**
 	 *
 	 */
 	public function afterUpdate() {
-		$this->sendSignal('/user/updated', ['user'=>$this]);
 	}
 
 	/**
 	 *
 	 */
 	public function afterDelete() {
-		$this->sendSignal('/user/deleted', ['user'=>$this]);
 	}
 
 }
