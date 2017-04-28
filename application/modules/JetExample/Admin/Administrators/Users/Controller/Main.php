@@ -219,7 +219,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$this->logAllowedAction( $user );
 			messages::info( Tr::_('User <b>%LOGIN%</b> has been deleted', ['LOGIN'=>$user->getLogin() ]) );
 
-			Http_Headers::movedTemporary( Mvc::getCurrentPageURI() );
+			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}
 
 

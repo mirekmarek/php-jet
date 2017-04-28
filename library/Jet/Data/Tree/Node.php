@@ -229,21 +229,21 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	}
 
 	/**
-	 * @param boolean $is_root
+	 * @param bool $is_root
 	 */
 	public function setIsRoot($is_root) {
 		$this->is_root = (bool)$is_root;
 	}
 
 	/**
-	 * @param boolean $is_orphan
+	 * @param bool $is_orphan
 	 */
 	public function setIsOrphan($is_orphan) {
 		$this->is_orphan = $is_orphan;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsOrphan() {
 		return $this->is_orphan;

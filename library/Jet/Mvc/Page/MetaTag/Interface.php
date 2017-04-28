@@ -12,6 +12,15 @@ namespace Jet;
  * @package Jet
  */
 interface Mvc_Page_MetaTag_Interface {
+	/**
+	 * @param Mvc_Page_Interface $page
+	 */
+	public function setPage(Mvc_Page_Interface $page);
+
+	/**
+	 * @return Mvc_Page_Interface
+	 */
+	public function getPage();
 
 
     /**
@@ -21,15 +30,9 @@ interface Mvc_Page_MetaTag_Interface {
     public function setData( array $data );
 
 	/**
-	 * @param string $id
-	 */
-	public function setId($id );
-
-	/**
 	 * @return string
 	 */
 	public function __toString();
-
 
 	/**
 	 * @return string

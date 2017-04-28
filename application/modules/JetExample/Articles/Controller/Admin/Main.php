@@ -207,7 +207,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 			messages::info( Tr::_('Article <b>%TITLE%</b> has been deleted', ['TITLE'=>$article->getTitle() ]) );
 
 
-			Http_Headers::movedTemporary( Mvc::getCurrentPageURI() );
+			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}
 
 

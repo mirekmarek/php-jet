@@ -71,7 +71,7 @@ interface Mvc_Site_LocalizedData_Interface {
 	public function setDefaultBodySuffix($default_body_suffix);
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface[]|DataModel_Related_1toN
+	 * @return Mvc_Site_LocalizedData_URL_Interface[]
 	 */
 	public function getURLs();
 

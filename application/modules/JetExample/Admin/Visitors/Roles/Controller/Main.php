@@ -196,7 +196,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$role->delete();
 			$this->logAllowedAction( $role );
 			messages::info( Tr::_('Role <b>%ROLE_NAME%</b> has been deleted', ['ROLE_NAME'=>$role->getName() ]) );
-			Http_Headers::movedTemporary( Mvc::getCurrentPageURI() );
+			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}
 
 

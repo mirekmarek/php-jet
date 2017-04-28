@@ -22,21 +22,21 @@ interface Mvc_Page_Content_Interface {
 	 */
 	public function getPage();
 
-	/**
-	 * @return string
-	 */
-	public function getContentKey();
-
     /**
      * @param mixed $id
      *
      */
-    public function setContentId( $id );
+    public function setId($id );
 
 	/**
 	 * @return string
 	 */
-	public function getContentId();
+	public function getId();
+
+	/**
+	 * @return string
+	 */
+	public function getKey();
 
 
     /**

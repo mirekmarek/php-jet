@@ -173,43 +173,10 @@ class Autoloader {
 
 	}
 
-
 	/**
-	 * @static
-	 *
-	 * @param string $loader_class_name
-	 * @param string $loader_script_path
-	 *
-	 * @throws Autoloader_Exception
-	 *
-	 * @return Autoloader_Loader_Abstract
+	 * @param Autoloader_Loader_Abstract $loader
 	 */
-	public static function registerLoader($loader_class_name, $loader_script_path){
-		/** @noinspection PhpIncludeInspection */
-		require_once $loader_script_path;
-
-
-		if(
-			!class_exists($loader_class_name, false)
-		) {
-			throw new Autoloader_Exception(
-				'Autoloader class \''.$loader_class_name.'\' does not exist. Should be in script: \''.$loader_script_path.'\' ',
-				Autoloader_Exception::CODE_INVALID_AUTOLOADER_CLASS_DOES_NOT_EXIST
-			);
-
-		}
-
-		$loader = new $loader_class_name();
-
-		if( ! ($loader instanceof Autoloader_Loader_Abstract) ){
-			throw new Autoloader_Exception(
-				'Autoloader class \''.$loader_class_name.'\' must extend '.__NAMESPACE__.'\Autoloader_Loader_Abstract class.',
-				Autoloader_Exception::CODE_INVALID_AUTOLOADER_CLASS
-			);
-		}
-
-		static::$loaders[$loader_class_name] = $loader;
-
-		return $loader;
+	public static function register( Autoloader_Loader_Abstract $loader ) {
+		static::$loaders[get_class($loader)] = $loader;
 	}
 }

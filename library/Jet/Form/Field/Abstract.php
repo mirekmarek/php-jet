@@ -230,7 +230,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsReadonly()
 	{
@@ -238,7 +238,7 @@ abstract class Form_Field_Abstract extends BaseObject implements \JsonSerializab
 	}
 
 	/**
-	 * @param boolean $is_readonly
+	 * @param bool $is_readonly
 	 */
 	public function setIsReadonly($is_readonly)
 	{

@@ -5,7 +5,7 @@ use Jet\Tr;
 <table>
 	<tr>
 		<td><?=Tr::_('Current site id:')?></td>
-		<td><?=Mvc::getCurrentSite()->getSiteId();?></td>
+		<td><?=Mvc::getCurrentSite()->getId();?></td>
 	</tr>
 	<tr>
 		<td><?=Tr::_('Current locale:')?></td>
@@ -13,6 +13,6 @@ use Jet\Tr;
 	</tr>
 	<tr>
 		<td><?=Tr::_('Current page id:')?></td>
-		<td><?=Mvc::getCurrentPage()->getPageId();?></td>
+		<td><?=Mvc::getCurrentPage()->getId();?></td>
 	</tr>
 </table>

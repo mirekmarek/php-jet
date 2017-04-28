@@ -43,7 +43,7 @@ class tabs_tab extends BaseObject{
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsSelected()
 	{
@@ -51,7 +51,7 @@ class tabs_tab extends BaseObject{
 	}
 
 	/**
-	 * @param boolean $is_selected
+	 * @param bool $is_selected
 	 */
 	public function setIsSelected($is_selected)
 	{

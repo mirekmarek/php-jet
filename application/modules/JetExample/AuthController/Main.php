@@ -125,7 +125,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 
 		$page->setContent( $page_content );
 
-		if(Mvc::getIsAdminUIRequest()) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			$layout = new Mvc_Layout( $this->getLayoutsDir(), 'default' );
 
 			Mvc_Layout::setCurrentLayout($layout);
@@ -139,7 +139,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Session
 	 */
 	protected function getSession() {
-		if( Mvc::getIsAdminUIRequest() ) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			return new Session('auth_admin');
 		} else {
 			return new Session('auth_web');
@@ -156,7 +156,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return bool
 	 */
 	public function login( $login, $password ) {
-		if(Mvc::getIsAdminUIRequest()) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			$user = new Administrator();
 		} else {
 			$user = new Visitor();
@@ -204,7 +204,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 		if(!$user_id) {
 			$this->current_user = false;
 		} else {
-			if(Mvc::getIsAdminUIRequest()) {
+			if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 				$this->current_user = Administrator::get($user_id);
 
 			} else {
@@ -239,7 +239,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 
 		}
 
-		if(Mvc::getIsAdminUIRequest()) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			Event_Administration::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
 		} else {
 			Event_Site::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
@@ -290,7 +290,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	public function getChangePasswordForm() {
-		if(Mvc::getIsAdminUIRequest()) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			$user = new Administrator();
 
 		} else {
@@ -335,7 +335,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	function getMustChangePasswordForm() {
-		if(Mvc::getIsAdminUIRequest()) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			$user = new Administrator();
 
 		} else {

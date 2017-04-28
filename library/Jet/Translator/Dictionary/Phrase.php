@@ -74,14 +74,14 @@ class Translator_Dictionary_Phrase extends BaseObject {
 	}
 
 	/**
-	 * @param boolean $is_translated
+	 * @param bool $is_translated
 	 */
 	public function setIsTranslated($is_translated) {
 		$this->is_translated = $is_translated;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsTranslated() {
 		return $this->is_translated;

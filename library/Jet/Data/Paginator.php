@@ -345,7 +345,7 @@ class Data_Paginator extends BaseObject {
 
 	/**
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getCurrentPageNoIsInRange() {
 		return $this->current_page_no_is_in_range;

@@ -33,12 +33,7 @@ class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract impleme
 
 		$backend = $this->data_model_definition->getBackendInstance();
 
-		$pm = $backend->getDataPaginationMode();
-		$backend->setDataPaginationMode( $this->pagination_enabled );
-
 		$l = $backend->fetchAll( $this->query );
-
-		$backend->setDataPaginationMode($pm);
 
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;

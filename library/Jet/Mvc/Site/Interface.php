@@ -17,17 +17,17 @@ interface Mvc_Site_Interface {
 	 * @param string $id
 	 *
 	 */
-	public function setSiteId( $id );
+	public function setId($id );
 
 	/**
 	 * @return string
 	 */
-	public function getSiteId();
+	public function getId();
 
 	/**
 	 *
 	 */
-	public function generateSiteId();
+	public function generateId();
 
 	/**
 	 * Returns site name
@@ -276,5 +276,12 @@ interface Mvc_Site_Interface {
 	 *
 	 */
 	public function saveUrlMapFile();
+
+	/**
+	 *
+	 * @param string $id
+	 * @return Mvc_Site_Interface|bool
+	 */
+	public static function get( $id );
 
 }

@@ -103,7 +103,7 @@ class Config_Definition_Config extends BaseObject {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getSectionIsObligatory() {
 		return $this->section_is_obligatory;

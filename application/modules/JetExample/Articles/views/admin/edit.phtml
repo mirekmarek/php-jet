@@ -22,7 +22,7 @@ $form->setDefaultFieldWidth(9);
 	<?=$form->start();?>
 
 	<div class="toolbar" id="main-toolbar">
-		<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+		<?=UI::button_goBack()->setUrl(Mvc::getCurrentPage()->getURI())?>
 
 		<?php if(!$form->getIsReadonly()): ?>
 			<?=UI::button_save()?>

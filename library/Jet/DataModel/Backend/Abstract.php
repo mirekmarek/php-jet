@@ -24,11 +24,6 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	protected $config;
 
 	/**
-	 * @var bool
-	 */
-	protected $data_pagination_mode = false;
-
-	/**
 	 *
 	 * @param DataModel_Backend_Config_Abstract $config
 	 */
@@ -37,7 +32,7 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getTransactionStarted()
 	{
@@ -61,25 +56,7 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	}
 
 
-
 	/**
-	 * @param bool $data_pagination_mode
-	 */
-	public function setDataPaginationMode( $data_pagination_mode ) {
-		$this->data_pagination_mode = (bool)$data_pagination_mode;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getDataPaginationMode() {
-		return $this->data_pagination_mode;
-	}
-
-
-
-	/**
-	 * Initializes ,,,
 	 *
 	 */
 	abstract public function initialize();
@@ -319,7 +296,6 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	 * @return string
 	 */
 	protected function serialize( $data ) {
-		//return base64_encode( serialize($data) );
 		return serialize($data);
 	}
 
@@ -329,8 +305,6 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	 * @return mixed
 	 */
 	protected function unserialize( $string ) {
-		//$data = base64_decode($string);
-		//return unserialize($data);
 		return unserialize($string);
 	}
 

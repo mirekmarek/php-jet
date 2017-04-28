@@ -243,7 +243,7 @@ abstract class DataModel_Definition_Property_Abstract extends BaseObject impleme
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function doNotExport() {
 		return $this->do_not_export;

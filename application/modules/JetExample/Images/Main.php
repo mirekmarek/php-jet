@@ -44,7 +44,7 @@ class Main extends Application_Modules_Module_Abstract {
 	public function getViewsDir() {
 		$dir = parent::getViewsDir();
 
-		if(Mvc::getIsAdminUIRequest()) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			return $dir.'admin/';
 		} else {
 			return $dir.'public/';
@@ -63,7 +63,7 @@ class Main extends Application_Modules_Module_Abstract {
 			$controller_name = $content->getCustomController();
 		}
 
-		if( Mvc::getIsAdminUIRequest() ) {
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			$controller_suffix = 'Controller_Admin_'.$controller_name;
 
 		} else {

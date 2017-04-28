@@ -83,7 +83,7 @@ class Auth_Visitor_Role extends Auth_Role{
 				$homepage = $site->getHomepage( $locale );
 
 				$tree = new Data_Tree();
-				$tree->getRootNode()->setId( $homepage->getPageKey() );
+				$tree->getRootNode()->setId( $homepage->getKey() );
 				$tree->getRootNode()->setLabel(
 					$homepage->getSite()->getName()
 					.' ('.$homepage->getLocale()->getName().')'
@@ -133,9 +133,9 @@ class Auth_Visitor_Role extends Auth_Role{
 		/**
 		 * @var Mvc_Page $page
 		 */
-		$data[$page->getPageKey()] = [
-			'id' => $page->getPageKey(),
-			'parent_id' => $page->getParent()->getPageKey(),
+		$data[$page->getKey()] = [
+			'id' => $page->getKey(),
+			'parent_id' => $page->getParent()->getKey(),
 			'name' => $page->getName()
 		];
 

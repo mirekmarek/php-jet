@@ -135,14 +135,14 @@ class dataGrid extends BaseObject {
 	}
 
 	/**
-	 * @param boolean $allow_paginator
+	 * @param bool $allow_paginator
 	 */
 	public function setAllowPaginator($allow_paginator) {
 		$this->allow_paginator = $allow_paginator;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getAllowPaginator() {
 		return $this->allow_paginator;

@@ -63,7 +63,7 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isPair()
 	{
@@ -71,7 +71,7 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getHasContent()
 	{

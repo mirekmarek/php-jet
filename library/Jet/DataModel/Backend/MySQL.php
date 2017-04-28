@@ -30,11 +30,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	private $_db_write = null;
 
 	/**
-	 * @var int
-	 */
-	protected $_last_result_count = null;
-
-	/**
 	 * @var array
 	 */
 	protected static $valid_key_types = [
@@ -256,13 +251,8 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 * @return string
 	 */
 	public function getBackendSelectQuery( DataModel_Query $query ) {
-		$select = 'SELECT';
 
-		if($this->data_pagination_mode) {
-			$select .= ' SQL_CALC_FOUND_ROWS ';
-		}
-
-		return $select.JET_EOL
+		return 'SELECT'.JET_EOL
 			.JET_TAB.$this->_getSQLQuerySelectPart($query).JET_EOL
 			.'FROM'.JET_EOL
 			.JET_TAB.$this->_getSQLQueryTableName($query)
@@ -394,10 +384,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	public function getCount( DataModel_Query $query ) {
 
-		if($this->_last_result_count!==null) {
-			return $this->_last_result_count;
-		}
-
 		return (int)$this->_db_read->fetchOne( $this->getBackendCountQuery($query) );
 	}
 
@@ -495,18 +481,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend_Abstract {
 	 */
 	protected function _fetch( DataModel_Query $query, $fetch_method ) {
 
-		$this->_last_result_count = null;
 		$data = $this->_db_read->$fetch_method(
 			$this->getBackendSelectQuery( $query )
 		);
 
 		if(!is_array($data)) {
 			return $data;
-		}
-
-		if($this->data_pagination_mode) {
-			$this->_last_result_count = (int)$this->_db_read->fetchOne( 'SELECT FOUND_ROWS();' );
-
 		}
 
 		return $this->validateResultData( $query, $fetch_method, $data );

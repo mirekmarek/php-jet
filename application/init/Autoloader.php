@@ -11,27 +11,25 @@ namespace Jet;
 require JET_LIBRARY_PATH . 'Jet/Autoloader.php';
 Autoloader::initialize();
 
-Autoloader::registerLoader(
-	__NAMESPACE__.'\Autoloader_Loader_Jet',
-	JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Jet.php'
-);
 
-Autoloader::registerLoader(
-	__NAMESPACE__.'\Autoloader_Loader_ApplicationModules',
-	JET_LIBRARY_PATH.'Jet/Autoloader/Loader/ApplicationModules.php'
-);
+require JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Jet.php';
+Autoloader_Loader_Jet::register();
 
-Autoloader::registerLoader(
-	__NAMESPACE__.'\Autoloader_Loader_Zend',
-	JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Zend.php'
-);
 
-Autoloader::registerLoader(
-    '\JetExampleApp\Autoloader',
-    JET_APPLICATION_PATH.'classes/Autoloader.php'
-);
+require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader/ApplicationModules.php';
+Autoloader_Loader_ApplicationModules::register();
 
-Autoloader::registerLoader(
-    '\JetUI\Autoloader',
-    JET_LIBRARY_PATH.'JetUI/Autoloader.php'
-);
+
+require JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Zend.php';
+Autoloader_Loader_Zend::register();
+
+
+require JET_LIBRARY_PATH.'JetUI/Autoloader.php';
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+\JetUI\Autoloader::register();
+
+
+require JET_APPLICATION_PATH.'classes/Autoloader.php';
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+\JetExampleApp\Autoloader::register();
+

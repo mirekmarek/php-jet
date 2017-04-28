@@ -9,8 +9,6 @@ namespace Jet;
 
 /**
  *
- * @JetDataModel:name = 'site'
- * @JetDataModel:database_table_name = 'Jet_Mvc_Sites'
  */
 class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	const SITE_DATA_FILE_NAME = 'site_data.php';
@@ -20,8 +18,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
@@ -29,18 +25,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Site name:'
-	 *
 	 * @var string
 	 */
 	protected $name = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
 	 */
@@ -48,27 +37,17 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var bool
 	 */
 	protected $is_active = false;
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var Locale
 	 */
 	protected $default_locale;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_CLASS
 	 *
 	 * @var Mvc_Site_LocalizedData[]
 	 */
@@ -110,10 +89,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 
 	/**
-	 * Returns site data object (or null if does not exist)
-	 *
-	 * @see Mvc_Site_Abstract
-	 * @see Mvc_Site_Factory
 	 *
 	 * @param string $id
 	 * @return Mvc_Site|bool
@@ -244,7 +219,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	/**
 	 * @return string
 	 */
-	public function getSiteId() {
+	public function getId() {
 		return $this->site_id;
 	}
 
@@ -252,14 +227,14 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @param string $id
 	 *
 	 */
-	public function setSiteId( $id ) {
+	public function setId($id ) {
 		$this->site_id = $id;
 	}
 
 	/**
 	 *
 	 */
-	public function generateSiteId() {
+	public function generateId() {
 
 		$name  = trim( $this->name );
 
@@ -573,7 +548,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	}
 
 	/**
-	 * @param DataModel_Id_Abstract|string $id
+	 * @param string $id
 	 * @return string
 	 */
 	protected static function getSiteDataFilePath( $id )
@@ -671,7 +646,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 	 * @return Mvc_Page_Interface
 	 */
 	public function getHomepage( Locale $locale ) {
-		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getSiteId() );
+		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
 	}
 
 
@@ -762,7 +737,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 		$data = '<?php'.JET_EOL.'return '.$ar->export();
 
-		$data_file_path = static::getSiteDataFilePath($this->getSiteId());
+		$data_file_path = static::getSiteDataFilePath($this->getId());
 
 
 		IO_File::write($data_file_path, $data);
@@ -792,7 +767,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface {
 
 		foreach( $this->localized_data as $ld ) {
 
-			$key = $this->getSiteId().'/'.$ld->getLocale();
+			$key = $this->getId().'/'.$ld->getLocale();
 
 			$URLs_map_data[$key] = [];
 

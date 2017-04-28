@@ -52,7 +52,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	const TYPE_STRING = 'String';
 
 	/**
-	 * Property/option type - boolean
+	 * Property/option type - bool
 	 */
 	const TYPE_BOOL = 'Bool';
 
@@ -470,7 +470,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getSoftMode() {
 		return $this->soft_mode;

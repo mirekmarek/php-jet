@@ -9,25 +9,16 @@ namespace Jet;
 
 /**
  *
- * @JetDataModel:name = 'site_localized_data_meta_tag'
- * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_MetaTags'
- * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_LocalizedData_MetaTag_Interface {
 
 	/**
-	 * @JetDataModel:related_to = 'main.id'
-	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
 	protected $site_id = '';
 
 	/**
-	 *
-	 * @JetDataModel:related_to = 'parent.locale'
-	 * @JetDataModel:is_id = true
 	 *
 	 * @var Locale
 	 */
@@ -36,16 +27,11 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
 	protected $id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 *
 	 * @var string
 	 */
@@ -53,15 +39,11 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 *
 	 * @var string
 	 */
 	protected $attribute_value = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
 	 *
 	 * @var string
 	 */
@@ -73,12 +55,9 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
      * @param string $attribute_value (optional)
      */
     public function __construct($content='', $attribute='', $attribute_value='') {
-        if($content) {
-            $this->setContent( $content );
-            $this->setAttribute( $attribute );
-            $this->setAttributeValue( $attribute_value );
-        }
-
+        $this->setContent( $content );
+        $this->setAttribute( $attribute );
+        $this->setAttributeValue( $attribute_value );
     }
 
     /**
@@ -87,14 +66,6 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
     public function  __toString() {
         return $this->toString();
     }
-
-
-	/**
-	 * @return mixed|null|string
-	 */
-	public function getArrayKeyValue() {
-		return $this->id;
-	}
 
 	/**
 	 * @return string

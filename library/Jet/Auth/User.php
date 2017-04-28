@@ -301,14 +301,14 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsSuperuser() {
 		return $this->is_superuser;
 	}
 
 	/**
-	 * @param boolean $is_superuser
+	 * @param bool $is_superuser
 	 */
 	public function setIsSuperuser($is_superuser) {
 		$this->is_superuser = (bool)$is_superuser;

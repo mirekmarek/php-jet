@@ -9,24 +9,16 @@ namespace Jet;
 
 /**
  *
- * @JetDataModel:name = 'site_localized_data_URL'
- * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData_URLs'
- * @JetDataModel:parent_model_class_name = JET_MVC_SITE_LOCALIZED_CLASS
- * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
  */
 class Mvc_Site_LocalizedData_URL extends BaseObject implements Mvc_Site_LocalizedData_URL_Interface {
 
 	/**
 	 *
-	 * @JetDataModel:related_to = 'main.id'
-	 * @JetDataModel:is_id = true
-	 *
+	 * @var string
 	 */
 	protected $site_id = '';
 
 	/**
-	 * @JetDataModel:related_to = 'parent.locale'
-	 * @JetDataModel:is_id = true
      *
      * @var Locale
 	 */
@@ -34,29 +26,17 @@ class Mvc_Site_LocalizedData_URL extends BaseObject implements Mvc_Site_Localize
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_label = 'URL:'
-	 * @JetDataModel:form_field_type = Form::TYPE_INPUT
-	 * @JetDataModel:is_id = true
-	 *
 	 * @var string
 	 */
 	protected $URL = '';
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var bool
 	 */
 	protected $is_default = false;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
 	 */

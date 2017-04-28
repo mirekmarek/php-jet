@@ -14,7 +14,6 @@ namespace Jet;
 abstract class Application_Modules_Module_Abstract extends BaseObject {
 
 	const INSTALL_DIR = '_install/';
-	const INSTALL_DICTIONARIES_PATH = '_install/dictionaries/';
 	const INSTALL_SCRIPT_PATH = '_install/install.php';
 	const UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
 
@@ -159,39 +158,8 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 			}
 		}
 
-		$this->installDictionaries();
-
 	}
 
-	/**
-	 *
-	 */
-	public function installDictionaries() {
-		$module_dir = $this->module_manifest->getModuleDir();
-		$dictionaries_path = $module_dir . static::INSTALL_DICTIONARIES_PATH;
-
-		if(!IO_Dir::exists($dictionaries_path)) {
-			return;
-		}
-
-		$list = IO_Dir::getList( $dictionaries_path, '*.php' );
-
-		$tr_backend_type = 'PHPFiles';
-
-		$backend = Translator_Factory::getBackendInstance( $tr_backend_type );
-
-		$module_name = $this->getModuleManifest()->getName();
-
-		foreach( $list as $path=>$file_name ) {
-			list($locale) = explode('.', $file_name);
-			$locale = new Locale($locale);
-
-			$dictionary = $backend->loadDictionary( $module_name, $locale, $path );
-
-			$backend->saveDictionary( $dictionary );
-		}
-
-	}
 
 	/**
 	 * @throws Application_Modules_Exception

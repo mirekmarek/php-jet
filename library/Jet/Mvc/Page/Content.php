@@ -8,25 +8,10 @@
 namespace Jet;
 
 /**
- * Class Mvc_Page_Content
  *
- * @JetDataModel:name = 'page_content'
- * @JetDataModel:parent_model_class_name = 'Mvc_Page'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
- * @JetDataModel:database_table_name = 'Jet_Mvc_Pages_Contents'
  */
 class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface {
     const DEFAULT_CONTROLLER_ACTION = 'default';
-
-	/**
-	 * @JetDataModel:related_to = 'main.site_id'
-	 */
-	protected $site_id;
-
-	/**
-	 * @JetDataModel:related_to = 'main.id'
-	 */
-	protected $page_id;
 
 	/**
 	 * @var Mvc_Page
@@ -34,33 +19,18 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	protected $page;
 
 	/**
-	 * @JetDataModel:related_to = 'main.locale'
-	 */
-	protected $locale;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:is_id = true
 	 *
 	 * @var string
 	 */
-	protected $content_id = '';
+	protected $id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 50
 	 *
 	 * @var string
 	 */
 	protected $module_name = '';
 
     /**
-     * @JetDataModel:type = DataModel::TYPE_STRING
-     * @JetDataModel:max_len = 255
-     * @JetDataModel:default_value = ''
-     *
      *
      * @var string
      */
@@ -68,16 +38,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 50
-	 *
 	 * @var string
 	 */
 	protected $controller_action = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 *
 	 * @var array
 	 */
@@ -85,8 +50,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	];
 
 	/**
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 999999
 	 *
 	 * @var string
 	 */
@@ -94,16 +57,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 50
-	 *
 	 * @var string
 	 */
 	protected $output_position = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
 	 *
 	 * @var bool
 	 */
@@ -111,15 +69,13 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 *
 	 * @var int
 	 */
 	protected $output_position_order = 0;
 
 
     /**
-     * @var Mvc_Controller_Abstract
+     *
      */
     protected $_controller_instance;
 
@@ -139,16 +95,14 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 		$output_position_required=true,
 		$output_position_order=0
 	) {
-		if($module_name) {
 
-			$this->module_name = $module_name;
-			$this->controller_action = $controller_action;
-			$this->controller_action_parameters = $controller_action_parameters;
+		$this->module_name = $module_name;
+		$this->controller_action = $controller_action;
+		$this->controller_action_parameters = $controller_action_parameters;
 
-			$this->output_position = $output_position;
-			$this->output_position_required = (bool)$output_position_required;
-			$this->output_position_order = (int)$output_position_order;
-		}
+		$this->output_position = $output_position;
+		$this->output_position_required = (bool)$output_position_required;
+		$this->output_position_order = (int)$output_position_order;
 
 	}
 
@@ -177,6 +131,10 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 	 */
 	public function getPage()
 	{
+		if(!$this->page) {
+			return Mvc::getCurrentPage();
+		}
+
 		return $this->page;
 	}
 
@@ -188,56 +146,32 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
 		$this->page = $page;
 	}
 
-
-
-	/**
-	 * @return mixed|null
-	 */
-	public function getArrayKeyValue() {
-		return $this->content_id;
-	}
-
 	/**
 	 * @return string
 	 */
-	public function getSiteId() {
-		return $this->site_id;
-	}
+	public function getKey() {
+		$page = $this->getPage();
 
-	/**
-	 * @return Locale
-	 */
-	public function getLocale() {
-		return $this->locale;
-	}
+		$site_id = $page->getSite()->getId();
+		$locale = $page->getLocale();
+		$page_id = $page->getId();
 
-	/**
-	 * @return string
-	 */
-	public function getPageId() {
-		return $this->page_id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getContentKey() {
-		return $this->site_id.':'.$this->locale.':'.$this->page_id.':'.$this->content_id;
+		return $site_id.':'.$locale.':'.$page_id.':'.$this->id;
 	}
 
     /**
      * @param mixed $id
      *
      */
-    public function setContentId($id ) {
-        $this->content_id = $id;
+    public function setId($id ) {
+        $this->id = $id;
     }
 
 	/**
 	 * @return string
 	 */
-	public function getContentId() {
-		return $this->content_id;
+	public function getId() {
+		return $this->id;
 	}
 
     /**
@@ -400,7 +334,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
                 $this->output_position,
                 $this->output_position_required,
                 $this->output_position_order,
-                $this->getContentKey()
+                $this->getKey()
             );
 
             return;
@@ -421,7 +355,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface 
             Debug_Profiler::message('Module is not installed and/or activated - skipping');
 
         } else {
-            Debug_Profiler::message('Dispatch:'.$this->getContentKey() );
+            Debug_Profiler::message('Dispatch:'.$this->getKey() );
 
 	        $translator_namespace = Translator::getCurrentNamespace();
 	        Translator::setCurrentNamespace( $module_name );

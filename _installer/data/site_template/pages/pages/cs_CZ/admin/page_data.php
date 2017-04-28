@@ -13,7 +13,7 @@ return [
 	'meta_tags' => [],
 	'contents' => [
 		[
-			'module_name' => $UI_module->getModuleManifest()->getName(),
+			'module_name' => 'JetExample.AdminUI',
 			'controller_action' => 'default',
 			'output_position' => '',
 			'output_position_required' => true,

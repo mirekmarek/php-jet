@@ -25,6 +25,7 @@ use Jet\Tr;
 class Mvc_Page extends Jet_Mvc_Page {
 	const CHANGE_PASSWORD_ID = '_change_password_';
 	const ADMIN_HOMEPAGE_ID = 'admin';
+	const REST_HOMEPAGE_ID = 'rest';
 
 	/**
 	 * @var bool
@@ -36,19 +37,17 @@ class Mvc_Page extends Jet_Mvc_Page {
 	 */
 	protected $is_system_page = false;
 
+	/**
+	 * @var bool
+	 */
+	protected $is_rest_api_hook = false;
+
 
 	/**
 	 * @var bool
 	 */
 	protected static $admin_sections_loaded = false;
 
-	/**
-	 * @param string $parent_id
-	 */
-	public function setParentId($parent_id ) {
-
-		$this->parent_id = $parent_id;
-	}
 
 	/**
 	 * @param Mvc_Site_Interface $site
@@ -58,9 +57,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 	 */
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) {
 
-		if(!Mvc::getIsAdminUIRequest()) {
-			parent::loadPages($site, $locale);
-		}
+		parent::loadPages($site, $locale);
 
 		if(static::$admin_sections_loaded) {
 			return;
@@ -70,7 +67,6 @@ class Mvc_Page extends Jet_Mvc_Page {
 
 		$modules = Application_Modules::getActivatedModulesList();
 
-		$admin_home_page_id = static::ADMIN_HOMEPAGE_ID;
 
 		foreach( $modules as $manifest ) {
 			/**
@@ -83,7 +79,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 					$page_data['layout_script_name'] = 'default';
 				}
 
-				static::addAdminPage( $admin_home_page_id, $page_id, $page_data, $manifest );
+				static::addAdminPage( static::ADMIN_HOMEPAGE_ID, $page_id, $page_data, $manifest );
 			}
 
 			foreach($manifest->getAdminDialogs() as $page_id=>$page_data ) {
@@ -95,32 +91,37 @@ class Mvc_Page extends Jet_Mvc_Page {
 
 				$page_data['URL_fragment'] = 'dialog-'.$page_data['URL_fragment'];
 
-				static::addAdminPage( $admin_home_page_id, $page_id, $page_data, $manifest );
+				static::addAdminPage( static::ADMIN_HOMEPAGE_ID, $page_id, $page_data, $manifest );
+			}
+
+			foreach( $manifest->getRestApiHooks() as $page_id=>$page_data ) {
+
+				static::addRestHook( static::REST_HOMEPAGE_ID, $page_id, $page_data, $manifest );
 			}
 		}
 	}
 
 	/**
-	 * @param string $admin_home_page_id
+	 * @param string $parent_page_id
 	 * @param string $page_id
 	 * @param array $page_data
 	 * @param Application_Modules_Module_Manifest $module_manifest
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected static function addAdminPage( $admin_home_page_id, $page_id, array $page_data, Application_Modules_Module_Manifest $module_manifest ) {
+	protected static function addAdminPage($parent_page_id, $page_id, array $page_data, Application_Modules_Module_Manifest $module_manifest ) {
 
 		foreach( Mvc::getCurrentSite()->getLocales() as $locale ) {
 
 			/**
-			 * @var Mvc_Page $admin_home_page
+			 * @var Mvc_Page $parent_page
 			 */
-			$admin_home_page = Mvc_Page::get($admin_home_page_id, $locale);
-			if(!$admin_home_page) {
+			$parent_page = Mvc_Page::get($parent_page_id, $locale);
+			if(!$parent_page) {
 				continue;
 			}
 
-			$admin_home_page->setIsSystemPage(true);
+			$parent_page->setIsSystemPage(true);
 
 
 			$title = empty($page_data['title']) ? $module_manifest->getLabel() : $page_data['title'];
@@ -147,16 +148,14 @@ class Mvc_Page extends Jet_Mvc_Page {
 			 * @var Mvc_Page $page
 			 */
 			$page = Mvc_Factory::getPageInstance();
-			$page->setSiteId( Mvc::getCurrentSite()->getSiteId() );
+			$page->setSite( Mvc::getCurrentSite() );
 			$page->setLocale( $locale );
-			$page->setPageId( $page_id );
-			$page->setParentId( $admin_home_page->getPageId() );
+			$page->setId( $page_id );
+			$page->setParent($parent_page);
 
-			$page->_parent = $admin_home_page;
-			$admin_home_page->_children[] = $page;
 
 			$page->setLayoutScriptName( $layout_script_name );
-			$page->setCustomLayoutsPath( $admin_home_page->getCustomLayoutsPath() );
+			$page->setCustomLayoutsPath( $parent_page->getCustomLayoutsPath() );
 
 			$page->setIsSystemPage($is_system_page);
 			$page->setIsDialog($is_dialog);
@@ -167,7 +166,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 			$page->setUrlFragment( $URL_fragment );
 
 			$content = Mvc_Factory::getPageContentInstance();
-			$content->setContentId( $page_id.'_'.$action );
+			$content->setId( $page_id.'_'.$action );
 			$content->setModuleName( $module_manifest->getName() );
 			$content->setControllerAction( $action );
 			$content->setOutputPosition( Mvc_Layout::DEFAULT_OUTPUT_POSITION );
@@ -179,29 +178,81 @@ class Mvc_Page extends Jet_Mvc_Page {
 				$content->setCustomController('SystemPages');
 			}
 
-
 			$page->setContent([$content]);
 
-
-			$page_key = $page->getPageKey();
-
-			if(isset(static::$loaded_pages[$page_key])) {
-				throw new Mvc_Page_Exception( 'Duplicates page key: \''.$page_key.'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
-			}
-
-			static::$loaded_pages[$page_key] = $page;
-			static::$site_pages_loaded_flag[$page_key] = true;
-
-			$page->setUrlFragment( rawurldecode($page->getUrlFragment()) );
-
-			static::$relative_URIs_map[$page->getSiteId()][(string)$page->getLocale()][$page->getRelativeUrl()] = $page_key;
+			static::appendPage( $page );
 
 		}
 	}
 
+	/**
+	 * @param string $parent_page_id
+	 * @param string $page_id
+	 * @param array $page_data
+	 * @param Application_Modules_Module_Manifest $module_manifest
+	 *
+	 * @throws Mvc_Page_Exception
+	 */
+	protected static function addRestHook($parent_page_id, $page_id, array $page_data, Application_Modules_Module_Manifest $module_manifest ) {
+
+		foreach( Mvc::getCurrentSite()->getLocales() as $locale ) {
+
+			/**
+			 * @var Mvc_Page $parent_page
+			 */
+			$parent_page = Mvc_Page::get($parent_page_id, $locale);
+			if(!$parent_page) {
+				continue;
+			}
+
+			$parent_page->setIsSystemPage(true);
+
+
+
+
+			$URL_fragment = $page_data['URL_fragment'];
+			$action = empty($page_data['action']) ? 'default' : $page_data['action'];
+
+
+
+			/**
+			 * @var Mvc_Page $page
+			 */
+			$page = Mvc_Factory::getPageInstance();
+			$page->setSite( Mvc::getCurrentSite() );
+			$page->setLocale( $locale );
+			$page->setId( $page_id );
+			$page->setParent($parent_page);
+
+			$page->setLayoutScriptName( false );
+
+			$page->setIsAdminUI(true);
+			$page->setIsRestApiHook(true);
+
+			$page->setTitle( $module_manifest->getName() );
+			$page->setUrlFragment( $URL_fragment );
+
+
+			$content = Mvc_Factory::getPageContentInstance();
+			$content->setId( $page_id.'_'.$action );
+			$content->setModuleName( $module_manifest->getName() );
+			$content->setControllerAction( $action );
+
+			$content->setCustomController('REST');
+
+
+			$page->setContent([$content]);
+
+
+			static::appendPage($page);
+		}
+	}
+
+
+
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsDialog()
 	{
@@ -209,7 +260,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 	}
 
 	/**
-	 * @param boolean $is_dialog
+	 * @param bool $is_dialog
 	 */
 	public function setIsDialog($is_dialog)
 	{
@@ -217,7 +268,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsSystemPage()
 	{
@@ -225,11 +276,27 @@ class Mvc_Page extends Jet_Mvc_Page {
 	}
 
 	/**
-	 * @param boolean $is_system_page
+	 * @param bool $is_system_page
 	 */
 	public function setIsSystemPage($is_system_page)
 	{
 		$this->is_system_page = $is_system_page;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getIsRestApiHook()
+	{
+		return $this->is_rest_api_hook;
+	}
+
+	/**
+	 * @param boolean $is_rest_api_hook
+	 */
+	public function setIsRestApiHook($is_rest_api_hook)
+	{
+		$this->is_rest_api_hook = $is_rest_api_hook;
 	}
 
 
@@ -239,7 +306,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 	 */
 	public function getAccessAllowed() {
 
-		if(!Mvc::getIsAdminUIRequest()) {
+		if(!$this->getIsAdminUI()) {
 			return parent::getAccessAllowed();
 		}
 
@@ -247,8 +314,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 			return true;
 		}
 
-
-		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getPageId() ) ) {
+		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getId() ) ) {
 			return true;
 		}
 

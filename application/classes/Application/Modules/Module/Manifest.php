@@ -9,8 +9,6 @@ namespace JetExampleApp;
 
 use Jet\Application_Modules_Module_Manifest as Jet_Application_Modules_Module_Manifest;
 
-use JetUI\menu_item;
-
 /**
  *
  */
@@ -32,9 +30,14 @@ class Application_Modules_Module_Manifest extends Jet_Application_Modules_Module
 	 */
 	protected $admin_menu_items = [];
 
+	/**
+	 * @var array
+	 */
+	protected $rest_api_hooks = [];
+
 
 	/**
-	 * @return array[]
+	 * @return array
 	 *
 	 */
 	public function getAdminSections()
@@ -43,7 +46,7 @@ class Application_Modules_Module_Manifest extends Jet_Application_Modules_Module
 	}
 
 	/**
-	 * @return array[]
+	 * @return array
 	 *
 	 */
 	public function getAdminDialogs()
@@ -52,11 +55,21 @@ class Application_Modules_Module_Manifest extends Jet_Application_Modules_Module
 	}
 
 	/**
-	 * @return menu_item[]
+	 * @return array
 	 */
 	public function getMenuItems()
 	{
 		return $this->admin_menu_items;
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getRestApiHooks()
+	{
+		return $this->rest_api_hooks;
+	}
+
+
 
 }

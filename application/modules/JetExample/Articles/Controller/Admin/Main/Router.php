@@ -25,7 +25,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		parent::__construct( $module_instance );
 
-		$base_URI = Mvc::getCurrentPageURI();
+		$base_URI = Mvc::getCurrentPage()->getURI();
 
 		$validator = function( &$parameters ) {
 			$article = Article::get( $parameters[0] );

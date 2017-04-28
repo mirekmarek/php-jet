@@ -96,7 +96,7 @@ class Translator_Dictionary extends BaseObject {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getNeedToSave() {
 		return $this->need_to_save;

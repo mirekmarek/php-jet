@@ -137,7 +137,7 @@ class Auth_Administrator_Role extends Auth_Role{
 	public static function getAclActionValuesList_Pages() {
 		$pages = [];
 
-		foreach(Mvc_Page::getPagesList( Mvc::getCurrentSite()->getSiteId(), Mvc::getCurrentLocale() ) as $page ) {
+		foreach(Mvc_Page::getList( Mvc::getCurrentSite()->getId(), Mvc::getCurrentLocale() ) as $page ) {
 			/**
 			 * @var Mvc_Page $page
 			 */
@@ -148,7 +148,7 @@ class Auth_Administrator_Role extends Auth_Role{
 			if($page->getIsDialog() || $page->getIsSystemPage()) {
 				continue;
 			}
-			$pages[$page->getPageId()] = $page->getTitle();
+			$pages[$page->getId()] = $page->getTitle();
 		}
 
 		asort($pages);

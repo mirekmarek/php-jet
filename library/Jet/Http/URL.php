@@ -155,7 +155,7 @@ class Http_URL extends BaseObject {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsValid() {
 		return $this->is_valid;

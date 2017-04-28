@@ -264,7 +264,7 @@ class Mvc_Layout extends Mvc_View_Abstract  {
 		}
 
 		if(!$output_id) {
-			$output_id = Mvc::getCurrentContent()->getContentKey();
+			$output_id = Mvc::getCurrentContent()->getKey();
 		}
 
 		$this->addOutputPart(

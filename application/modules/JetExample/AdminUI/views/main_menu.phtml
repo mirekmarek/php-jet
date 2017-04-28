@@ -48,7 +48,7 @@ use Jet\Mvc;
 				</a>
 				<ul class="dropdown-menu">
 					<?php foreach(Mvc::getCurrentSite()->getLocales() as $locale ):
-						if(!($page = Mvc_Page::get(Mvc::getCurrentPage()->getPageId(), $locale))) {
+						if(!($page = Mvc_Page::get(Mvc::getCurrentPage()->getId(), $locale))) {
 							continue;
 						}
 						?>

@@ -12,31 +12,21 @@ namespace Jet;
  *
  */
 interface Mvc_Page_Interface {
+	/**
+	 * @param Mvc_Site_Interface $site
+	 */
+	public function setSite( Mvc_Site_Interface $site );
 
 	/**
-	 * @return string
+	 * @return Mvc_Site_Interface
 	 */
-	public function getPageKey();
+	public function getSite();
 
 	/**
-	 * @param string $id
+	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function setPageId( $id );
+	public function getSiteLocalizedData();
 
-	/**
-	 * @return $parent
-	 */
-	public function getPageId();
-
-    /**
-     * @param string $site_id
-     */
-	public function setSiteId( $site_id );
-
-	/**
-	 * @return string
-	 */
-	public function getSiteId();
 
 	/**
 	 * @param Locale $locale
@@ -49,6 +39,60 @@ interface Mvc_Page_Interface {
 	 * @return Locale
 	 */
 	public function getLocale();
+
+	/**
+	 * @param string $id
+	 */
+	public function setId($id );
+
+	/**
+	 * @return $parent
+	 */
+	public function getId();
+
+	/**
+	 * @return string
+	 */
+	public function getKey();
+
+
+	/**
+	 * @param Mvc_Page_Interface $parent
+	 */
+	public function setParent( Mvc_Page_Interface $parent );
+
+	/**
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public function getParent();
+
+	/**
+	 *
+	 */
+	public function sortChildren();
+
+	/**
+	 * @return string
+	 */
+	public function getChildrenIds();
+
+	/**
+	 * @return string
+	 */
+	public function getChildrenKeys();
+
+	/**
+	 * @return Mvc_Page_Interface[]
+	 */
+	public function getChildren();
+
+	/**
+	 * @param Mvc_Page_Interface $child
+	 */
+	public function appendChild( Mvc_Page_Interface $child );
+
+
 
 	/**
 	 * @return string
@@ -91,6 +135,17 @@ interface Mvc_Page_Interface {
 	public function setIsSecretPage($is_secret_page);
 
 	/**
+	 * @param string $auth_controller_module_name
+	 */
+	public function setAuthControllerModuleName($auth_controller_module_name);
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getAuthControllerModuleName();
+
+	/**
 	 * @return bool
 	 */
 	public function getIsDirectOutput();
@@ -116,26 +171,6 @@ interface Mvc_Page_Interface {
 	 */
 	public function getAccessAllowed();
 
-	
-	/**
-	 * @return Mvc_Site_Interface
-	 */
-	public function getSite();
-
-    /**
-     * @return Mvc_Site_LocalizedData_Interface
-     */
-    public function getSiteLocalizedData();
-
-	/**
-	 * @return string
-	 */
-	public function getParentId();
-
-    /**
-     * @param string $parent_id
-     */
-	public function setParentId( $parent_id );
 
 	/**
 	 * @return int
@@ -148,11 +183,6 @@ interface Mvc_Page_Interface {
 	 */
 	public function setOrder( $order );
 
-	/**
-	 *
-	 * @return Mvc_Page_Interface
-	 */
-	public function getParent();
 
 	/**
 	 * @return string
@@ -326,11 +356,6 @@ interface Mvc_Page_Interface {
 	public function getHttpHeaders();
 
 	/**
-	 *
-	 */
-	public function handleHttpHeaders();
-
-	/**
 	 * @param array $http_headers
 	 */
 	public function setHttpHeaders( array $http_headers );
@@ -385,54 +410,6 @@ interface Mvc_Page_Interface {
 	public function setContent($contents );
 
 
-	/**
-	 * @param string $site_id
-	 * @param Locale|string $locale (optional)
-	 *
-	 * @return Mvc_Page_Interface[]
-	 */
-	public function getList($site_id, $locale );
-
-    /**
-     * @param Mvc_Site_Interface $site
-     * @param Locale $locale
-     * @param string $relative_URI
-     * @return Mvc_Page_Interface|null
-     */
-    public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI );
-
-    /**
-     *
-     */
-    public function handleDirectOutput();
-
-	/**
-	 *
-	 *
-	 * @return Data_Tree_Forest
-	 */
-	public function getAllPagesTree();
-
-	/**
-	 *
-	 */
-	public function sortChildren();
-
-	/**
-	 * @return string
-	 */
-	public function getChildrenIds();
-
-	/**
-	 * @return string
-	 */
-	public function getChildrenKeys();
-
-	/**
-	 * @return Mvc_Page_Interface[]
-	 */
-	public function getChildren();
-
 
     /**
      * @return Mvc_NavigationData_Breadcrumb_Abstract[]
@@ -474,29 +451,60 @@ interface Mvc_Page_Interface {
      */
     public function parseRequestURL();
 
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale $locale
+	 * @param string $relative_URI
+	 * @return Mvc_Page_Interface|null
+	 */
+	public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI );
+
 
     /**
      * @param string $file_path
      */
     public function handleFile( $file_path );
 
+	/**
+	 *
+	 */
+	public function handleDirectOutput();
 
-    /**
-     * @param string $auth_controller_module_name
-     */
-    public function setAuthControllerModuleName($auth_controller_module_name);
-
-
-    /**
-     *
-     * @return string
-     */
-    public function getAuthControllerModuleName();
+	/**
+	 *
+	 */
+	public function handleHttpHeaders();
 
     /**
      * @return string
      */
     public function render();
 
+
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 *
+	 */
+	public static function appendPage( Mvc_Page_Interface $page );
+
+	/**
+	 *
+	 * @param string $page_id (optional, null = current)
+	 * @param string|Locale|null $locale (optional, null = current)
+	 * @param string|null $site_id (optional, null = current)
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public static function get( $page_id=null, $locale=null, $site_id=null  );
+
+	/**
+	 *
+	 * @param string $site_id
+	 * @param Locale $locale
+	 *
+	 * @return Mvc_Page_Interface[]
+	 */
+	public static function getList($site_id, Locale $locale );
 
 }

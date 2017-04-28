@@ -89,14 +89,14 @@ class Debug_Profiler {
 	}
 
 	/**
-	 * @param boolean $enabled
+	 * @param bool $enabled
 	 */
 	public static function setEnabled($enabled) {
 		self::$enabled = $enabled;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function getEnabled() {
 		return self::$enabled;

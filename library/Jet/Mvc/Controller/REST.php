@@ -167,7 +167,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract {
         $object = $path_fragments[0];
         $path_fragments = $router->shiftPathFragments();
 
-        $method = strtolower( Http_Request::getRequestMethod());
+        $method = strtolower( Http_Request::getRequestMethod() );
 
         $controller_action = $method . '_' . $object;
 

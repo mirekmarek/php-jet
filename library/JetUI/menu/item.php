@@ -190,7 +190,7 @@ class menu_item extends BaseObject{
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getSeparatorBefore()
     {
@@ -198,7 +198,7 @@ class menu_item extends BaseObject{
     }
 
     /**
-     * @param boolean $separator_before
+     * @param bool $separator_before
      */
     public function setSeparatorBefore($separator_before)
     {
@@ -206,7 +206,7 @@ class menu_item extends BaseObject{
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getSeparatorAfter()
     {
@@ -214,7 +214,7 @@ class menu_item extends BaseObject{
     }
 
     /**
-     * @param boolean $separator_after
+     * @param bool $separator_after
      */
     public function setSeparatorAfter($separator_after)
     {

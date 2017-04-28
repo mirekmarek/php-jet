@@ -55,6 +55,7 @@ class BaseObject_Reflection {
 		}
 
 		if(strpos($class_name,'\\')===false) {
+			//TODO: aktualni jmenny prostor tridy
 			$class_name = __NAMESPACE__.'\\'.$class_name;
 		}
 

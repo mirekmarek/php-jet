@@ -256,12 +256,12 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract {
 	public function generateJsInitCode() {
 		foreach($this->getEditorCSSFiles() as $media=> $CSS_files ) {
 			foreach( $CSS_files as $URI ) {
-				Mvc::requireCssFile($URI, $media);
+				Mvc_Layout::getCurrentLayout()->requireCssFile($URI, $media);
 			}
 		}
 
 		foreach($this->getEditorJavaScriptFiles() as $URI ) {
-			Mvc::requireJavascriptFile($URI);
+			Mvc_Layout::getCurrentLayout()->requireJavascriptFile($URI);
 		}
 
 		$callback = $this->getEditorInitializeCodeGenerator();

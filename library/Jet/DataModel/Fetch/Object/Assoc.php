@@ -99,12 +99,8 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract imple
 
 		$backend = $this->data_model_definition->getBackendInstance();
 
-		$pm = $backend->getDataPaginationMode();
-		$backend->setDataPaginationMode( $this->pagination_enabled );
-
 		$l = $backend->fetchAll( $this->query );
 
-		$backend->setDataPaginationMode($pm);
 
 		if($this->load_filter) {
 			foreach( $l as $item ) {

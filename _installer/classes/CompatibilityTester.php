@@ -93,7 +93,7 @@ class CompatibilityTester {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isCompatible()
 	{
@@ -101,7 +101,7 @@ class CompatibilityTester {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasWarnings()
 	{

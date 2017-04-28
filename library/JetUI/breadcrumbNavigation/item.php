@@ -89,7 +89,7 @@ class breadcrumbNavigation_item extends BaseObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsLast()
     {
@@ -97,7 +97,7 @@ class breadcrumbNavigation_item extends BaseObject
     }
 
     /**
-     * @param boolean $is_last
+     * @param bool $is_last
      */
     public function setIsLast($is_last)
     {
@@ -105,7 +105,7 @@ class breadcrumbNavigation_item extends BaseObject
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getIsActive()
     {
@@ -113,7 +113,7 @@ class breadcrumbNavigation_item extends BaseObject
     }
 
     /**
-     * @param boolean $is_active
+     * @param bool $is_active
      */
     public function setIsActive($is_active)
     {

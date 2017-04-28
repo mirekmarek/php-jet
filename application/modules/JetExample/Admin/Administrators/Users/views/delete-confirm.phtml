@@ -22,7 +22,7 @@ $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
-	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPageURI())?>
+	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPage()->getURI())?>
 
 	<p>
 	<?=Tr::_('Do you really want to delete this user?');?>

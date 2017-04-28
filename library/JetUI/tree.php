@@ -104,14 +104,14 @@ class tree extends BaseObject {
 
 
 	/**
-	 * @param boolean $show_all
+	 * @param bool $show_all
 	 */
 	public function setShowAll($show_all) {
 		$this->show_all = $show_all;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getShowAll() {
 		return $this->show_all;

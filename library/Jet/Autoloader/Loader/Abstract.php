@@ -21,4 +21,13 @@ abstract class Autoloader_Loader_Abstract {
 	 * @return string|bool
 	 */
 	abstract public function getClassPath( $class_name );
+
+	/**
+	 *
+	 */
+	public static function register() {
+		$loader = new static();
+
+		Autoloader::register( $loader );
+	}
 }

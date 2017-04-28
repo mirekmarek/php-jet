@@ -19,6 +19,12 @@ return [
 		]
 	],
 
+	'rest_api_hooks' => [
+		'rest/articles' => [
+			'URL_fragment' => 'articles',
+		],
+	],
+
 	'admin_menu_items' => [
 		'articles' => [
 			'label' => 'Articles',
@@ -26,6 +32,7 @@ return [
 			'page_id' => 'admin/articles',
 			'icon' => 'file-text'
 		]
-	]
+	],
+
 
 ];

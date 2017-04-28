@@ -293,7 +293,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
 		}
 
-		$output_id = $current_content->getContentKey();
+		$output_id = $current_content->getKey();
 
 		Mvc_Layout::getCurrentLayout()->renderView(
 			$this->view,

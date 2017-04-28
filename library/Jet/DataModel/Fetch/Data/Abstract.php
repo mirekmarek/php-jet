@@ -123,12 +123,7 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 
 		$backend = $this->data_model_definition->getBackendInstance();
 
-		$pm = $backend->getDataPaginationMode();
-		$backend->setDataPaginationMode( $this->pagination_enabled );
-
 		$this->data = $backend->{$this->backend_fetch_method}( $this->query );
-
-		$backend->setDataPaginationMode($pm);
 	}
 
 //--------------------------------------------------------------------------------------------------

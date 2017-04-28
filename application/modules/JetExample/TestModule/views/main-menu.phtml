@@ -19,7 +19,7 @@ $show_menu = function( $pages ) use (&$show_menu) {
 	if(!$pages) return;
 
 
-	$current_page_key = Mvc::getCurrentPage()->getPageKey();
+	$current_page_key = Mvc::getCurrentPage()->getKey();
 	?>
 	<ul>
 		<?php foreach($pages as $page):
@@ -32,7 +32,7 @@ $show_menu = function( $pages ) use (&$show_menu) {
 			}
 			?>
 			<li>
-				<?php if($current_page_key==$page->getPageKey() ): ?>
+				<?php if($current_page_key==$page->getKey() ): ?>
 					<i><?=$page->getMenuTitle(); ?></i>
 				<?php else: ?>
 					<a href="<?=$page->getURL(); ?>"><?=$page->getMenuTitle(); ?></a>
@@ -47,7 +47,7 @@ $show_menu = function( $pages ) use (&$show_menu) {
 ?>
 
 <div style="background-color: #c9c9c9">
-<?php foreach( Mvc::getCurrentLocalesList() as $locale ): ?>
+<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
 	<div style="display: inline-block;padding: 3px;">
 		<?php if($locale->toString()==Mvc::getCurrentLocale()->toString()): ?>
 			<strong class="btn btn-primary btn-xs">

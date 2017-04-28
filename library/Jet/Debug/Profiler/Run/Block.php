@@ -160,7 +160,7 @@ class Debug_Profiler_Run_Block {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsAnonymous() {
 		return $this->is_anonymous;

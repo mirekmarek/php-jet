@@ -33,12 +33,12 @@ interface Auth_User_Interface extends BaseObject_Interface {
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getIsSuperuser();
 
 	/**
-	 * @param boolean $is_superuser
+	 * @param bool $is_superuser
 	 */
 	public function setIsSuperuser($is_superuser);
 

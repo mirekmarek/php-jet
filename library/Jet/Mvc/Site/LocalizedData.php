@@ -9,35 +9,22 @@ namespace Jet;
 
 /**
  *
- * @JetDataModel:name = 'site_localized_data'
- * @JetDataModel:database_table_name = 'Jet_Mvc_Sites_LocalizedData'
- * @JetDataModel:parent_model_class_name = JET_MVC_SITE_CLASS
- * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
  */
 class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 *
-	 * @JetDataModel:related_to = 'main.id'
+	 * @var string
 	 */
 	protected $site_id = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_LOCALE
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:is_id = true
-	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var Locale
 	 */
 	protected $locale;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_BOOL
-	 * @JetDataModel:default_value = true
-	 * @JetDataModel:form_field_type = false
 	 *
 	 * @var bool
 	 */
@@ -46,19 +33,11 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_label = 'Title:'
-	 *
 	 * @var string
 	 */
 	protected $title = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Header Suffix:'
 	 *
 	 * @var string
 	 */
@@ -66,19 +45,11 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Body Prefix:'
-	 *
 	 * @var string
 	 */
 	protected $default_body_prefix = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 65536
-	 * @JetDataModel:form_field_label = 'Body Suffix:'
 	 *
 	 * @var string
 	 */
@@ -86,17 +57,11 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_URL_CLASS
-	 *
 	 * @var Mvc_Site_LocalizedData_URL[]
 	 */
 	protected $URLs = [];
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = JET_MVC_SITE_LOCALIZED_META_TAG_CLASS
 	 *
 	 * @var Mvc_Site_LocalizedData_MetaTag[]
 	 */
@@ -129,14 +94,6 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	public function getLocale() {
 		return $this->locale;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getArrayKeyValue() {
-		return (string)$this->locale;
-	}
-
 
 	/**
 	 * @return bool
