@@ -205,7 +205,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 				continue;
 			}
 
-			$parent_page->setIsSystemPage(true);
+			//$parent_page->setIsSystemPage(true);
 
 
 
@@ -228,7 +228,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 			$page->setIsAdminUI(true);
 			$page->setIsRestApiHook(true);
 
-			$page->setTitle( $module_manifest->getName() );
+			$page->setTitle( 'REST API / '.$URL_fragment );
 			$page->setUrlFragment( $URL_fragment );
 
 

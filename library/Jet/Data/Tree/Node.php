@@ -453,6 +453,14 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		}
 
 		$item = $this->data;
+		if(is_object($item)) {
+			if($item instanceof \JsonSerializable) {
+				$item = $item->jsonSerialize();
+			} else {
+				$item = [];
+			}
+		}
+
 		$item[$id_key] = $this->id;
 		$item[$parent_id_key] = $this->real_parent_id;
 		$item[$label_key] = $this->label;

@@ -17,6 +17,12 @@ return [
 		]
 	],
 
+	'rest_api_hooks' => [
+		'rest/images' => [
+			'URL_fragment' => 'images',
+		],
+	],
+
 	'admin_menu_items' => [
 		'images' => [
 			'label' => 'Images',
