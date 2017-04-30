@@ -23,11 +23,11 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => 'get_article',
-		'get_article' => 'get_article',
-		'post_article' => 'add_article',
-		'put_article' => 'update_article',
-		'delete_article' => 'delete_article'
+		'default' => Main::ACTION_GET_ARTICLE,
+		'get_article' => Main::ACTION_GET_ARTICLE,
+		'post_article' => Main::ACTION_ADD_ARTICLE,
+		'put_article' => Main::ACTION_UPDATE_ARTICLE,
+		'delete_article' => Main::ACTION_DELETE_ARTICLE
 	];
 
 	/**

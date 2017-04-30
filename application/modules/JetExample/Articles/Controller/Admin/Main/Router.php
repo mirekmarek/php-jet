@@ -7,8 +7,9 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
-use Jet\Mvc;
 use Jet\Mvc_Controller_Router;
+
+use JetExampleApp\Mvc_Page;
 
 /**
  *
@@ -25,8 +26,8 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		parent::__construct( $module_instance );
 
-//TODO: nazvy akci jako konstanty
-		$base_URI = Mvc::getCurrentPage()->getURI();
+		$base_URI = Mvc_Page::get(Main::ADMIN_MAIN_PAGE)->getURI();
+
 
 		$validator = function( &$parameters ) {
 			$article = Article::get( $parameters[0] );
@@ -39,18 +40,18 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		};
 
-		$this->addAction('add', '/^add$/', 'add_article' )
+		$this->addAction('add', '/^add$/', Main::ACTION_ADD_ARTICLE )
 			->setCreateURICallback( function() use($base_URI) { return $base_URI.'add/'; } );
 
-		$this->addAction('edit', '/^edit:([\S]+)$/', 'update_article' )
+		$this->addAction('edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_ARTICLE )
 			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $validator );
 
-		$this->addAction('view', '/^view:([\S]+)$/', 'get_article' )
+		$this->addAction('view', '/^view:([\S]+)$/', Main::ACTION_GET_ARTICLE )
 			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'view:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $validator );
 
-		$this->addAction('delete', '/^delete:([\S]+)$/', 'delete_article' )
+		$this->addAction('delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_ARTICLE )
 			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $validator );
 	}

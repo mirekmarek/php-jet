@@ -13,7 +13,7 @@ use Jet\Application_Modules_Module_Abstract;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
-	const PAGE_ROLES = 'admin/administrators-roles';
+	const ADMIN_MAIN_PAGE = 'admin/administrators-roles';
 
 	const ACTION_GET_ROLE = 'get_role';
 	const ACTION_ADD_ROLE = 'add_role';

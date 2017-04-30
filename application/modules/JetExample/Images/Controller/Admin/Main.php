@@ -32,10 +32,10 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => 'get_gallery',
-		'view' => 'get_gallery',
-		'edit' => 'update_gallery',
-		'add' => 'add_gallery',
+		'default' => Main::ACTION_GET_GALLERY,
+		'view' => Main::ACTION_GET_GALLERY,
+		'edit' => Main::ACTION_UPDATE_GALLERY,
+		'add' => Main::ACTION_ADD_GALLERY,
 	];
 
 	/**

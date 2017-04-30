@@ -7,8 +7,9 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 
-use Jet\Mvc;
 use Jet\Mvc_Controller_Router;
+
+use JetExampleApp\Mvc_Page;
 
 /**
  *
@@ -26,8 +27,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		parent::__construct( $module_instance);
 
-		//TODO: stranka dle konstanty v modulu
-		$base_URI = Mvc::getCurrentPage()->getURI();
+		$base_URI = Mvc_Page::get(Main::ADMIN_PAIN_PAGE)->getURI();
 
 		$gallery_validator = function( &$parameters ) {
 			$gallery = Gallery::get( $parameters[0] );
@@ -40,7 +40,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		};
 
-		$this->addAction('add', '/^add:([\S]+)$/', 'add_gallery' )
+		$this->addAction('add', '/^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )
 			->setCreateURICallback( function( $parent_id ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_id).'/'; } )
 			->setParametersValidatorCallback( function(&$parameters) use ($gallery_validator) {
 
@@ -59,15 +59,15 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 				return true;
 			} );
 
-		$this->addAction('edit', '/^edit:([\S]+)$/', 'update_gallery' )
+		$this->addAction('edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )
 			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $gallery_validator );
 
-		$this->addAction('view', '/^view:([\S]+)$/', 'get_gallery' )
+		$this->addAction('view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )
 			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'view:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $gallery_validator );
 
-		$this->addAction('delete', '/^delete:([\S]+)$/', 'delete_gallery' )
+		$this->addAction('delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )
 			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($id).'/'; } )
 			->setParametersValidatorCallback( $gallery_validator );
 	}

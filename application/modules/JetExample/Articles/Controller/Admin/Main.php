@@ -36,11 +36,11 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => 'get_article',
-		'add' => 'add_article',
-		'edit' => 'update_article',
-		'view' => 'get_article',
-		'delete' => 'delete_article',
+		'default' => Main::ACTION_GET_ARTICLE,
+		'add' => Main::ACTION_ADD_ARTICLE,
+		'edit' => Main::ACTION_UPDATE_ARTICLE,
+		'view' => Main::ACTION_GET_ARTICLE,
+		'delete' => Main::ACTION_DELETE_ARTICLE,
 	];
 
 

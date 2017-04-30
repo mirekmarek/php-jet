@@ -13,7 +13,7 @@ use Jet\Application_Modules_Module_Abstract;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
-	const PAGE_USERS = 'admin/administrators-users';
+	const ADMIN_MAIN_PAGE = 'admin/administrators-users';
 
 	const ACTION_GET_USER = 'get_user';
 	const ACTION_ADD_USER = 'add_user';

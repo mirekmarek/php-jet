@@ -7,8 +7,8 @@
  */
 namespace JetApplicationModule\JetExample\Admin\Administrators\Roles;
 
-use Jet\Mvc_Page;
 use Jet\Mvc_Controller_Router;
+use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_Role as Role;
 
 /**
@@ -39,7 +39,7 @@ class Controller_Main_Router extends Mvc_Controller_Router {
 
 		};
 
-		$base_URI = Mvc_Page::get(Main::PAGE_ROLES)->getURI();
+		$base_URI = Mvc_Page::get(Main::ADMIN_MAIN_PAGE)->getURI();
 		$router = $this;
 
 		$URI_creator = function( $action, $action_uri, $id=0 ) use ($router, $base_URI) {

@@ -14,20 +14,31 @@ use Jet\Mvc;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
-	//TODO: nazvy akci jako konstanty
+	const ADMIN_PAIN_PAGE = 'admin/images';
+
+	const ACTION_GET_GALLERY = 'get_gallery';
+	const ACTION_ADD_GALLERY = 'add_gallery';
+	const ACTION_UPDATE_GALLERY = 'update_gallery';
+	const ACTION_DELETE_GALLERY = 'delete_gallery';
+
+	const ACTION_GET_IMAGE = 'get_image';
+	const ACTION_ADD_IMAGE = 'add_image';
+	const ACTION_UPDATE_IMAGE = 'update_image';
+	const ACTION_DELETE_IMAGE = 'delete_image';
+
 	/**
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		'get_gallery' => 'Get article(s) data',
-		'add_gallery' => 'Add new gallery',
-		'update_gallery' => 'Update gallery',
-		'delete_gallery' => 'Delete gallery',
+		self::ACTION_GET_GALLERY => 'Get article(s) data',
+		self::ACTION_ADD_GALLERY => 'Add new gallery',
+		self::ACTION_UPDATE_GALLERY => 'Update gallery',
+		self::ACTION_DELETE_GALLERY => 'Delete gallery',
 
-		'get_image' => 'Get image(s) data',
-		'add_image' => 'Add new image',
-		'update_image' => 'Update image',
-		'delete_image' => 'Delete image',
+		self::ACTION_GET_IMAGE => 'Get image(s) data',
+		self::ACTION_ADD_IMAGE => 'Add new image',
+		self::ACTION_UPDATE_IMAGE => 'Update image',
+		self::ACTION_DELETE_IMAGE => 'Delete image',
 	];
 
 	/**

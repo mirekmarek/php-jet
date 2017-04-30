@@ -30,19 +30,19 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => 'get_image',
-		'get_image' => 'get_image',
-		'get_image_thumbnail' => false,
-		'post_image' => 'add_image',
-		'delete_image' => 'delete_image',
-		'put_copy_image' => 'add_image',
+		'default' => Main::ACTION_GET_IMAGE,
+		'get_image' => Main::ACTION_GET_IMAGE,
+		'get_image_thumbnail' => Main::ACTION_GET_IMAGE,
+		'post_image' => Main::ACTION_ADD_IMAGE,
+		'delete_image' => Main::ACTION_DELETE_IMAGE,
+		'put_copy_image' => Main::ACTION_ADD_IMAGE,
 
-		'get_gallery' => 'get_gallery',
-		'get_gallery_tree' => 'get_gallery',
-		'get_gallery_tree_lazy' => 'get_gallery',
-		'post_gallery' => 'add_gallery',
-		'put_gallery' => 'update_gallery',
-		'delete_gallery' => 'delete_gallery'
+		'get_gallery' => Main::ACTION_GET_GALLERY,
+		'get_gallery_tree' => Main::ACTION_GET_GALLERY,
+		'get_gallery_tree_lazy' => Main::ACTION_GET_GALLERY,
+		'post_gallery' => Main::ACTION_ADD_GALLERY,
+		'put_gallery' => Main::ACTION_UPDATE_GALLERY,
+		'delete_gallery' => Main::ACTION_DELETE_GALLERY
 	];
 
 	protected static $errors = [

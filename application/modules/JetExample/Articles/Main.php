@@ -14,16 +14,21 @@ use Jet\Mvc;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
-	//TODO: nazvy akci do konstant
+	const ADMIN_MAIN_PAGE = 'admin/articles';
+
+	const ACTION_GET_ARTICLE = 'get_article';
+	const ACTION_ADD_ARTICLE = 'add_article';
+	const ACTION_UPDATE_ARTICLE = 'update_article';
+	const ACTION_DELETE_ARTICLE = 'delete_article';
 
 	/**
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		'get_article' => 'Get article(s) data',
-		'add_article' => 'Add new article',
-		'update_article' => 'Update article',
-		'delete_article' => 'Delete article',
+		self::ACTION_GET_ARTICLE => 'Get article(s) data',
+		self::ACTION_ADD_ARTICLE => 'Add new article',
+		self::ACTION_UPDATE_ARTICLE => 'Update article',
+		self::ACTION_DELETE_ARTICLE => 'Delete article',
 	];
 
 	/**
