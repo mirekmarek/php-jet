@@ -10,9 +10,14 @@ namespace JetApplicationModule\JetExample\Images;
 use Jet\DataModel;
 use Jet\DataModel_Fetch_Data_Assoc;
 use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Query;
+use Jet\DataModel_Id_UniqueString;
+
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_FileImage;
+use Jet\Form_Field_Input;
+
 use Jet\Tr;
 use Jet\Data_Tree;
 use Jet\IO_Dir;
@@ -23,7 +28,7 @@ use Jet\IO_Dir;
  * @JetDataModel:database_table_name = 'image_galleries'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  *
- * @JetDataModel:relation = ['module:JetExample.Images\Gallery_Image', ['id'=>'gallery_id'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ * @JetDataModel:relation = ['Gallery_Image', ['id'=>'gallery_id'], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
  */
 class Gallery extends DataModel {
 
@@ -162,7 +167,7 @@ class Gallery extends DataModel {
 
 			} else {
 				throw new Exception(
-					'Image \''.$source_file_name.'\' allready exists in the gallery!',
+					'Image \''.$source_file_name.'\' already exists in the gallery!',
 					Exception::CODE_IMAGE_ALREADY_EXIST
 				);
 

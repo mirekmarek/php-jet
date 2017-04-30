@@ -46,11 +46,6 @@ interface BaseObject_Interface {
 	public function __clone();
 
 	/**
-	 * @return string
-	 */
-	public function getObjectClassNamespace();
-
-	/**
 	 * @param $property_name
 	 *
 	 * @return bool

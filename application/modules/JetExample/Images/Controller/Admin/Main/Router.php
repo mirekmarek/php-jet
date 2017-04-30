@@ -26,7 +26,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		parent::__construct( $module_instance);
 
-
+		//TODO: stranka dle konstanty v modulu
 		$base_URI = Mvc::getCurrentPage()->getURI();
 
 		$gallery_validator = function( &$parameters ) {

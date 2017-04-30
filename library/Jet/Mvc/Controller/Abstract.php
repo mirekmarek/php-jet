@@ -76,6 +76,7 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	 * @return bool
 	 */
 	public function parseRequestURL( Mvc_Page_Content_Interface $page_content=null ) {
+
 		$router = $this->getControllerRouter();
 		if(!$router) {
 			return false;

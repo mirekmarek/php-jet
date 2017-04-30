@@ -8,6 +8,7 @@
 namespace JetExampleApp;
 
 use Jet\Application_Config;
+use Jet\Config;
 use Jet\Config_Definition_Property_ConfigList;
 
 /**
@@ -19,7 +20,7 @@ class Mailing_Config extends Application_Config {
 	/**
 	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
 	 * @JetConfig:data_path = 'senders'
-	 * @JetConfig:item_class_name = 'JetExampleApp\Mailing_Config_Sender'
+	 * @JetConfig:item_class_name = 'Mailing_Config_Sender'
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */

@@ -10,10 +10,16 @@ use Jet\DataModel;
 use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\Mvc;
+use Jet\Mvc_Site;
 use Jet\Mvc_Router_Abstract;
 use Jet\Data_Text;
 use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\Data_Paginator_DataSource_Interface;
+use Jet\DataModel_Id_UniqueString;
+use Jet\Form;
+use Jet\Form_Field_Input;
+use Jet\Form_Field_Select;
+use Jet\Form_Field_DateTime;
 
 /**
  *
@@ -37,7 +43,7 @@ class Article extends DataModel {
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Locale'
-	 * @JetDataModel:form_field_get_select_options_callback = ['Jet\Mvc_Site','getAllLocalesList']
+	 * @JetDataModel:form_field_get_select_options_callback = ['Mvc_Site','getAllLocalesList']
      * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale', Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale']
 	 *
 	 * @var Locale

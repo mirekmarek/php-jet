@@ -496,29 +496,17 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 
 
 	/**
-	 * @param array $reflection_data
-	 * @param $class_name
-	 * @param string $key
-	 * @param string $definition
-	 * @param mixed $value
-	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @param BaseObject_Reflection_ParserData $data
 	 */
-	public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
-		Config_Definition_Config::parseClassDocComment( $reflection_data, $class_name, $key, $definition, $value );
+	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data ) {
+		Config_Definition_Config::parseClassDocComment( $data );
 	}
 
 	/**
-	 * @param array &$reflection_data
-	 * @param string $class_name
-	 * @param string $property_name
-	 * @param string $key
-	 * @param string $definition
-	 * @param mixed $value
-	 *
+	 * @param BaseObject_Reflection_ParserData $data
 	 */
-	public static function parsePropertyDocComment(&$reflection_data, $class_name, $property_name, $key, $definition, $value) {
-		Config_Definition_Config::parsePropertyDocComment( $reflection_data,$class_name, $property_name, $key, $definition, $value );
+	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data ) {
+		Config_Definition_Config::parsePropertyDocComment( $data );
 	}
 
 }

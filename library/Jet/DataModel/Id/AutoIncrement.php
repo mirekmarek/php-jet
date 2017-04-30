@@ -8,7 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Id_AutoIncrement
+ *
  * @package Jet
  */
 class DataModel_Id_AutoIncrement extends DataModel_Id_Abstract {

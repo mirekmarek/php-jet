@@ -3,6 +3,8 @@ namespace JetExampleApp;
 
 
 use Jet\Application_Modules;
+use Jet\DataModel;
+use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role;
 use Jet\Data_Tree_Forest;
@@ -48,7 +50,7 @@ class Auth_Administrator_Role extends Auth_Role{
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetExampleApp\Auth_Administrator_Role_Users'
+	 * @JetDataModel:data_model_class = 'Auth_Administrator_Role_Users'
 	 *
 	 * @var Auth_Administrator_Role_Users|DataModel_Related_MtoN_Iterator|Auth_Administrator_User[]
 	 */
@@ -57,7 +59,7 @@ class Auth_Administrator_Role extends Auth_Role{
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetExampleApp\Auth_Administrator_Role_Privilege'
+	 * @JetDataModel:data_model_class = 'Auth_Administrator_Role_Privilege'
 	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var Auth_Administrator_Role_Privilege[]

@@ -140,26 +140,21 @@ class Config_Definition_Config extends BaseObject {
 	}
 
 	/**
-	 * @param &$reflection_data
-	 * @param string $class_name
-	 * @param string $key
-	 * @param string $definition
-	 * @param mixed $value
-	 *
+	 * @param BaseObject_Reflection_ParserData $data
 	 * @throws BaseObject_Reflection_Exception
 	 */
-	public static function parseClassDocComment( &$reflection_data, $class_name, $key, $definition, $value ) {
+	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data ) {
 
-		switch($key) {
+		switch($data->getKey()) {
 			case 'section_is_obligatory':
-				$reflection_data['config_section_is_obligatory'] = (bool)$value;
+				$data->result_data['config_section_is_obligatory'] = $data->getValueAsBool();
 				break;
 			case 'data_path':
-				$reflection_data['config_data_path'] = (string)$value;
+				$data->result_data['config_data_path'] = $data->getValueAsString();
 				break;
 			default:
 				throw new BaseObject_Reflection_Exception(
-					'Unknown definition! Class: \''.$class_name.'\', definition: \''.$definition.'\' ',
+					'Unknown definition! Class: \''.$data->getCurrentHierarchyClassReflection()->getName().'\', definition: \''.$data->getDefinition().'\' ',
 					BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}
@@ -167,42 +162,23 @@ class Config_Definition_Config extends BaseObject {
 	}
 
 	/**
-	 * @param array &$reflection_data
-	 * @param string $class_name
-	 * @param string $property_name
-	 * @param string $key
-	 * @param string $definition
-	 * @param mixed $value
-	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @param BaseObject_Reflection_ParserData $data
 	 */
-	public static function parsePropertyDocComment(
-		&$reflection_data,
-		$class_name,
-		$property_name,
-		$key,
-		/** @noinspection PhpUnusedParameterInspection */
-		$definition,
-		$value
-	) {
-		switch($key) {
+	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data ) {
+
+		switch($data->getKey()) {
 			case 'config_factory_class_name':
-				$value = BaseObject_Reflection::parseClassName($value);
+			case 'item_class_name':
+				$data->setResultDataPropertyValue('config_properties_definition', $data->getValueAsClassName());
 				break;
 			case 'form_field_get_select_options_callback':
-				$value = BaseObject_Reflection::parseCallback($value, $class_name);
+				$data->setResultDataPropertyValue('config_properties_definition', $data->getValueAsCallback());
 				break;
-
+			default:
+				$data->setResultDataPropertyValue('config_properties_definition', $data->getValue());
+				break;
 		}
 
-		if(!isset($reflection_data['config_properties_definition'])) {
-			$reflection_data['config_properties_definition'] = [];
-		}
-		if(!isset($reflection_data['config_properties_definition'][$property_name])) {
-			$reflection_data['config_properties_definition'][$property_name] = [];
-		}
-
-		$reflection_data['config_properties_definition'][$property_name][$key] = $value;
 
 	}
 

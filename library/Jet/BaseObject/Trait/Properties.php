@@ -13,20 +13,6 @@ namespace Jet;
  */
 trait BaseObject_Trait_Properties {
 
-	/**
-	 * @return string
-	 */
-	public function getObjectClassNamespace() {
-		$class_name = get_class($this);
-
-		if( ($pos = strrpos($class_name, '\\')) )  {
-			return '\\'.substr($class_name, 0, $pos + 1);
-		}
-
-		return '\\';
-
-	}
-
     /**
      * @param $property_name
      *

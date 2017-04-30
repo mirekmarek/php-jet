@@ -21,7 +21,6 @@ class DataModel_Helper  {
         /**
          * @var DataModel_Interface $class
          */
-        $class = BaseObject_Reflection::parseClassName($class);
 
         return $class::getBackendInstance()->helper_getCreateCommand( $class::getDataModelDefinition() );
     }
@@ -36,7 +35,6 @@ class DataModel_Helper  {
         /**
          * @var DataModel_Interface $class
          */
-        $class = BaseObject_Reflection::parseClassName($class);
 
         return $class::getBackendInstance()->helper_create( $class::getDataModelDefinition() );
     }
@@ -53,7 +51,6 @@ class DataModel_Helper  {
         /**
          * @var DataModel_Interface $class
          */
-        $class = BaseObject_Reflection::parseClassName($class);
 
         return $class::getBackendInstance()->helper_getUpdateCommand( $class::getDataModelDefinition() );
     }
@@ -67,7 +64,6 @@ class DataModel_Helper  {
         /**
          * @var DataModel_Interface $class
          */
-        $class = BaseObject_Reflection::parseClassName($class);
 
         $class::getBackendInstance()->helper_update( $class::getDataModelDefinition() );
 
@@ -82,9 +78,9 @@ class DataModel_Helper  {
         /**
          * @var DataModel_Interface $class
          */
-        $class = BaseObject_Reflection::parseClassName($class);
 
         $class::getBackendInstance()->helper_drop( $class::getDataModelDefinition() );
     }
+
 
 }

@@ -12,6 +12,7 @@ use Jet\IO_File;
 use Jet\IO_Dir;
 use Jet\DataModel;
 use Jet\DataModel_Fetch_Data_Assoc;
+use Jet\DataModel_Id_UniqueString;
 
 /**
  *
@@ -115,7 +116,7 @@ class Gallery_Image extends DataModel {
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'module:JetExample.Images\Gallery_Image_Thumbnail'
+	 * @JetDataModel:data_model_class = 'Gallery_Image_Thumbnail'
 	 *
 	 * @var Gallery_Image_Thumbnail[]
 	 */

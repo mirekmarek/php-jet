@@ -7,13 +7,15 @@
  */
 namespace JetExampleApp;
 use Jet\Auth_Role_Privilege;
+use Jet\DataModel;
+use Jet\DataModel_Id_AutoIncrement;
 
 /**
  *
  * @JetDataModel:database_table_name = 'roles_visitors_privileges'
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
- * @JetDataModel:parent_model_class_name = 'JetExampleApp\Auth_Visitor_Role'
+ * @JetDataModel:parent_model_class_name = 'Auth_Visitor_Role'
  */
 class Auth_Visitor_Role_Privilege extends Auth_Role_Privilege
 {

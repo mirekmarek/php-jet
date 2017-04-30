@@ -7,6 +7,8 @@ use Jet\Mvc_Site;
 use Jet\Mvc_Page_Interface;
 use Jet\Data_Tree;
 use Jet\Data_Tree_Forest;
+use Jet\DataModel;
+use Jet\DataModel_Id_AutoIncrement;
 
 
 /**
@@ -41,7 +43,7 @@ class Auth_Visitor_Role extends Auth_Role{
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetExampleApp\Auth_Visitor_Role_Users'
+	 * @JetDataModel:data_model_class = 'Auth_Visitor_Role_Users'
 	 *
 	 * @var Auth_Visitor_Role_Users|DataModel_Related_MtoN_Iterator|Auth_Visitor_User[]
 	 */
@@ -50,7 +52,7 @@ class Auth_Visitor_Role extends Auth_Role{
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetExampleApp\Auth_Visitor_Role_Privilege'
+	 * @JetDataModel:data_model_class = 'Auth_Visitor_Role_Privilege'
 	 * @JetDataModel:form_field_is_required = false
 	 *
 	 * @var Auth_Visitor_Role_Privilege[]

@@ -7,6 +7,8 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 
+use Jet\DataModel;
+use Jet\DataModel_Id_UniqueString;
 use Jet\DataModel_Related_1toN;
 use Jet\Data_Image;
 use Jet\Data_Image_Exception;
@@ -16,7 +18,7 @@ use Jet\IO_File;
  *
  * @JetDataModel:name = 'Image_Thumbnails'
  * @JetDataModel:database_table_name = 'image_galleries_images_thumbnails'
- * @JetDataModel:parent_model_class_name = 'module:JetExample.Images\Gallery_Image'
+ * @JetDataModel:parent_model_class_name = 'Gallery_Image'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
 class Gallery_Image_Thumbnail extends DataModel_Related_1toN {

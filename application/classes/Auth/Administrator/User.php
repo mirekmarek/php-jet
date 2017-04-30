@@ -1,6 +1,8 @@
 <?php
 namespace JetExampleApp;
 
+use Jet\DataModel;
+use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
 use Jet\Form;
@@ -26,8 +28,8 @@ class Auth_Administrator_User extends Auth_User{
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'JetExampleApp\Auth_Administrator_User_Roles'
-	 * @JetDataModel:form_field_get_select_options_callback = ['JetExampleApp\Auth_Administrator_Role', 'getList']
+	 * @JetDataModel:data_model_class = 'Auth_Administrator_User_Roles'
+	 * @JetDataModel:form_field_get_select_options_callback = ['Auth_Administrator_Role', 'getList']
 	 *
 	 * @var Auth_Administrator_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Administrator_Role[]
 	 */

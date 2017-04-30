@@ -6,14 +6,17 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetExampleApp;
+
 use Jet\Auth_Role_Privilege;
+use Jet\DataModel;
+use Jet\DataModel_Id_AutoIncrement;
 
 /**
  *
  * @JetDataModel:database_table_name = 'roles_administrators_privileges'
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
- * @JetDataModel:parent_model_class_name = 'JetExampleApp\Auth_Administrator_Role'
+ * @JetDataModel:parent_model_class_name = 'Auth_Administrator_Role'
  */
 class Auth_Administrator_Role_Privilege extends Auth_Role_Privilege
 {

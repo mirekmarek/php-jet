@@ -8,11 +8,10 @@
 namespace JetApplicationModule\JetExample\Articles;
 use Jet\Mvc_Controller_REST;
 
-//TODO: rozchodit REST
 /**
  *
  */
-class Controller_REST extends Mvc_Controller_REST {
+class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main
@@ -24,6 +23,7 @@ class Controller_REST extends Mvc_Controller_REST {
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
+		'default' => 'get_article',
 		'get_article' => 'get_article',
 		'post_article' => 'add_article',
 		'put_article' => 'update_article',
@@ -33,9 +33,9 @@ class Controller_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 */
-	public function initialize() {
-	}
+	public function default_Action() {
 
+	}
 
 	/**
 	 * @param null|string $id

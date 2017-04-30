@@ -7,6 +7,8 @@
  */
 namespace JetApplicationModule\JetExample\AuthController;
 use Jet\DataModel;
+use Jet\DataModel_Id_UniqueString;
+
 use Jet\Data_DateTime;
 use Jet\Http_Request;
 

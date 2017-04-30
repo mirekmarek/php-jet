@@ -25,6 +25,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 		parent::__construct( $module_instance );
 
+//TODO: nazvy akci jako konstanty
 		$base_URI = Mvc::getCurrentPage()->getURI();
 
 		$validator = function( &$parameters ) {

@@ -20,6 +20,7 @@ use Jet\Form_Field_Input;
 use Jet\Form_Field_Password;
 
 
+use JetExampleApp\Mvc_Page as Page;
 use JetExampleApp\Auth_Administrator_User as Administrator;
 use JetExampleApp\Auth_Visitor_User as Visitor;
 
@@ -203,6 +204,16 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 
 		if(!$user_id) {
 			$this->current_user = false;
+
+			/**
+			 * @var Page $page
+			 */
+			$page = Mvc::getCurrentPage();
+			if($page->getIsRestApiHook()) {
+				//TODO: http auth
+			}
+
+
 		} else {
 			if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 				$this->current_user = Administrator::get($user_id);
@@ -226,6 +237,7 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @param string $user_login (optional; default: null = current user login)
 	 */
 	public function logEvent( $event, $event_data, $event_txt, $user_id=null, $user_login=null ) {
+		//TODO: prekontrolovat a doplnit logovani
 		if($user_id===null) {
 			$c_user = $this->getCurrentUser();
 

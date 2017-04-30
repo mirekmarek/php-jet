@@ -9,7 +9,6 @@ namespace Jet;
 
 
 /**
- * Available annotation:
  *
  * @JetDataModel:default_order_by = ['property_name','-next_property_name', '+some_property_name']
  */

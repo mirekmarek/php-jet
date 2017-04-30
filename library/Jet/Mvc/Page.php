@@ -100,6 +100,15 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	protected $body_suffix = '';
 
+	/**
+	 * @var Mvc_Page_Interface[]
+	 */
+	protected static $pages = [];
+
+	/**
+	 * @var string[]
+	 */
+	protected static $relative_URIs_map = [];
 
 	/**
 	 * @return string
@@ -375,6 +384,29 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 			 */
 			$child->_getList( $result );
 		}
+	}
+
+	/**
+	 * @param Mvc_Page_Interface|Mvc_Page $page
+	 * @throws Mvc_Page_Exception
+	 */
+	public static function appendPage( Mvc_Page_Interface $page ) {
+
+		$page_key = $page->getKey();
+
+		if(isset(static::$pages[$page_key])) {
+			throw new Mvc_Page_Exception( 'Duplicates page: \''.$page_key.'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
+		}
+
+		static::$pages[$page_key] = $page;
+
+		$page->setUrlFragment( rawurldecode($page->getUrlFragment()) );
+
+		static::$relative_URIs_map
+			[$page->getSite()->getId()]
+			[(string)$page->getLocale()]
+			[$page->getRelativeUrl()] = $page_key;
+
 	}
 
 }

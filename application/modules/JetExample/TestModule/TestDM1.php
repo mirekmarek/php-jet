@@ -9,6 +9,11 @@ namespace JetApplicationModule\JetExample\TestModule;
 
 use Jet\DataModel;
 use Jet\Data_DateTime;
+use Jet\Form;
+use Jet\Form_Field_Abstract;
+use Jet\Form_Field_Float;
+use Jet\Form_Field_MultiSelect;
+use Jet\Form_Field_RegistrationPassword;
 
 /**
  *
@@ -16,7 +21,7 @@ use Jet\Data_DateTime;
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-class DataModelT1 extends DataModel {
+class TestDM1 extends DataModel {
 
 	/**
 	 *

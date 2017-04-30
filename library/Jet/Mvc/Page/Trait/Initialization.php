@@ -29,15 +29,6 @@ trait Mvc_Page_Trait_Initialization
 	 */
 	protected static $site_pages_loaded_flag = [];
 
-	/**
-	 * @var Mvc_Page_Interface[]
-	 */
-	protected static $loaded_pages = [];
-
-	/**
-	 * @var string[]
-	 */
-	protected static $relative_URIs_map = [];
 
 	/**
 	 * @var string
@@ -282,33 +273,13 @@ trait Mvc_Page_Trait_Initialization
 
 		$key = $site_id.':'.$locale.':'.$page_id;
 
-		if(!isset(static::$loaded_pages[$key])) {
+		if(!isset(static::$pages[$key])) {
 			return null;
 		}
 
-		return static::$loaded_pages[$key];
+		return static::$pages[$key];
 
 	}
 
-	/**
-	 * @param Mvc_Page_Interface|Mvc_Page $page
-	 * @throws Mvc_Page_Exception
-	 */
-	public static function appendPage( Mvc_Page_Interface $page ) {
-
-		$page_key = $page->getKey();
-
-		if(isset(static::$loaded_pages[$page_key])) {
-			throw new Mvc_Page_Exception( 'Duplicates page key: \''.$page_key.'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
-		}
-
-		static::$loaded_pages[$page_key] = $page;
-		static::$site_pages_loaded_flag[$page_key] = true;
-
-		$page->setUrlFragment( rawurldecode($page->getUrlFragment()) );
-
-		static::$relative_URIs_map[$page->getSite()->getId()][(string)$page->getLocale()][$page->getRelativeUrl()] = $page_key;
-
-	}
 
 }

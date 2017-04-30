@@ -330,11 +330,11 @@ class Controller_Main extends Mvc_Controller_Standard {
             /*
             $target_dir = JET_PUBLIC_PATH.'test_uploads/';
 
-            Jet\IO_Dir::create($target_dir);
+            IO_Dir::create($target_dir);
 
             $target_path = $target_dir.$upload_file_field->getFileName();
 
-            Jet\IO_File::copy( $tmp_file, $target_path );
+            IO_File::copy( $tmp_file, $target_path );
 
             $upload_file_field->setUploadedFilePath($target_path);
             */

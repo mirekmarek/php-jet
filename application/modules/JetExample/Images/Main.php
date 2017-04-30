@@ -14,8 +14,7 @@ use Jet\Mvc;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
-	const MODULE_NAME = 'JetExample.Images';
-
+	//TODO: nazvy akci jako konstanty
 	/**
 	 * @var array
 	 */

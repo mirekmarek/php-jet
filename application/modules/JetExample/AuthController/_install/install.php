@@ -1,5 +1,10 @@
 <?php
+namespace JetApplicationModule\JetExample\AuthController;
+
 use Jet\DataModel_Helper;
 
-DataModel_Helper::create('module:JetExample.AuthController\Event_Administration');
-DataModel_Helper::create('module:JetExample.AuthController\Event_Site');
+$event_administration = new Event_Administration();
+$event_site = new Event_Site();
+
+DataModel_Helper::create(get_class($event_administration));
+DataModel_Helper::create(get_class($event_site));

@@ -1,4 +1,8 @@
 <?php
+namespace JetApplicationModule\JetExample\Articles;
+
 use Jet\DataModel_Helper;
 
-DataModel_Helper::create('module:JetExample.Articles\Article');
+$article = new Article();
+
+DataModel_Helper::create(get_class($article));

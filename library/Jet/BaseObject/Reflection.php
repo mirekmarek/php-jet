@@ -8,7 +8,6 @@
 namespace Jet;
 
 /**
- * No OOP, but this one must be really fast
  *
  */
 class BaseObject_Reflection {
@@ -29,89 +28,7 @@ class BaseObject_Reflection {
 	protected static $_reflections = [];
 
 
-	/**
-	 * @param string $class_name
-	 * @throws Application_Modules_Exception
-	 * @return string
-	 */
-	public static function parseClassName( $class_name ) {
 
-		$prefix = 'module:';
-		$prefix_len = strlen($prefix);
-
-		if(substr($class_name,0, $prefix_len)==$prefix) {
-
-			list($module_name, $class_name) = explode('\\', substr($class_name, $prefix_len));
-
-			$module_manifest = Application_Modules::getModuleManifest($module_name);
-
-			if(!$module_manifest) {
-				throw new Application_Modules_Exception('Unknown module '.$module_name);
-			}
-
-			$class_name = $module_manifest->getNamespace().$class_name;
-
-			return $class_name;
-		}
-
-		if(strpos($class_name,'\\')===false) {
-			//TODO: aktualni jmenny prostor tridy
-			$class_name = __NAMESPACE__.'\\'.$class_name;
-		}
-
-		return $class_name;
-
-	}
-
-	/**
-	 * @param callable|array $callback
-	 * @param string $class_name
-	 *
-	 * @return array
-	 */
-	public static function parseCallback( $callback, $class_name ) {
-		if(is_array($callback)) {
-			if($callback[0]=='this') {
-				$callback[0] = $class_name;
-			} else {
-				$callback[0] = static::parseClassName($callback[0]);
-			}
-		}
-
-		return $callback;
-	}
-
-	/**
-	 * @param string $class
-	 * @param \ReflectionClass $reflection
-	 * @param string $definition
-	 * @param string $value_raw
-	 * @return mixed
-	 *
-	 * @throws BaseObject_Reflection_Exception
-	 */
-	public static function parseValue(
-							$class,
-							/** @noinspection PhpUnusedParameterInspection */
-							\ReflectionClass $reflection,
-							$definition,
-							$value_raw
-						) {
-		$value = null;
-
-		$eval_code = '';
-		$eval_code .= 'namespace '.__NAMESPACE__.';';
-		$eval_code .= '$value='.$value_raw.'; return true;';
-
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$eval_res = @eval($eval_code);
-
-		if( !$eval_res ) {
-			throw new BaseObject_Reflection_Exception( 'Value parse error! Class:\''.$class.'\', Definition: \''.$definition.'\' ' );
-		}
-
-		return $value;
-	}
 
 
 	/**
@@ -122,7 +39,7 @@ class BaseObject_Reflection {
 	 * @return array
 	 */
 	public static function getReflectionData( $class ) {
-		if( isset(static::$_reflections[$class]) ) {
+		if( array_key_exists($class, static::$_reflections) ) {
 			return static::$_reflections[$class];
 		}
 
@@ -138,38 +55,18 @@ class BaseObject_Reflection {
 			}
 		}
 
-		$reflection_data = [];
+		$pd = new BaseObject_Reflection_ParserData($class);
 
 
-		$reflection = new \ReflectionClass( $class );
+		foreach( $pd->getClassReflectionHierarchy() as $current_class_reflection ) {
 
-		/**
-		 * @var \ReflectionClass[] $reflections
-		 */
-		$reflections = [];
-
-		while($reflection) {
-
-			foreach( $reflection->getTraits() as $trait_reflection ) {
-				array_unshift( $reflections, $trait_reflection );
-			}
-
-			array_unshift( $reflections, $reflection );
-
-
-			if($reflection->isAbstract()) {
-				break;
-			}
-
-			$reflection = $reflection->getParentClass();
-		};
-
-		foreach( $reflections as $reflection ) {
+			$pd->setCurrentHierarchyClassReflection($current_class_reflection);
+			$pd->setCurrentPropertyReflection(null);
 
 			/**
-			 * @var \ReflectionClass $reflection
+			 * @var \ReflectionClass $current_class_reflection
 			 */
-			$doc_comment=$reflection->getDocComment();
+			$doc_comment=$current_class_reflection->getDocComment();
 
 			$matches = [];
 
@@ -177,29 +74,28 @@ class BaseObject_Reflection {
 
 			foreach( $matches as $m ) {
 
-				$definition = $m[0];
-				$reflection_parser_class_name = $m[1];
-				$key = trim($m[2]);
-				$value_raw = trim($m[3]);
-
-				$value = static::parseValue( $class, $reflection, $definition, $value_raw );
-
+				$pd->setCurrentElement(
+					$m[0],
+					$m[1],
+					$m[2],
+					$m[3]
+				);
 
 				/**
 				 * @var BaseObject_Reflection_ParserInterface $_reflection_parser_class_name
 				 */
-				$_reflection_parser_class_name = __NAMESPACE__.'\\'.$reflection_parser_class_name;
+				$_reflection_parser_class_name = __NAMESPACE__.'\\'.$pd->getReflectionParserClassName();
 
-				$_reflection_parser_class_name::parseClassDocComment($reflection_data, $class, $key, $definition, $value);
+				$_reflection_parser_class_name::parseClassDocComment( $pd );
 
 			}
 
-			foreach( $reflection->getProperties() as $prop_ref ) {
-				if($prop_ref->getName()[0]=='_') {
+			foreach( $current_class_reflection->getProperties() as $property_reflection ) {
+				if($property_reflection->getName()[0]=='_') {
 					continue;
 				}
 
-				$comment = $prop_ref->getDocComment();
+				$comment = $property_reflection->getDocComment();
 
 				$matches = [];
 
@@ -209,30 +105,30 @@ class BaseObject_Reflection {
 					continue;
 				}
 
-				$property_name = $prop_ref->getName();
+				$pd->setCurrentPropertyReflection($property_reflection);
 
 				foreach( $matches as $m ) {
-					$definition = $m[0];
-					$reflection_parser_class_name = $m[1];
-					$key = trim($m[2]);
-					$raw_value = trim($m[3]);
-
-					$value = static::parseValue( $class, $reflection, $definition, $raw_value );
+					$pd->setCurrentElement(
+						$m[0],
+						$m[1],
+						$m[2],
+						$m[3]
+					);
 
 
 					/**
 					 * @var BaseObject_Reflection_ParserInterface $_class_name
 					 */
-					$_reflection_parser_class_name = __NAMESPACE__.'\\'.$reflection_parser_class_name;
+					$_reflection_parser_class_name = __NAMESPACE__.'\\'.$pd->getReflectionParserClassName();
 
-					$_reflection_parser_class_name::parsePropertyDocComment($reflection_data, $class, $property_name, $key, $definition, $value);
+					$_reflection_parser_class_name::parsePropertyDocComment( $pd );
 				}
 
 
 			}
 		}
 
-		static::$_reflections[$class] = $reflection_data;
+		static::$_reflections[$class] = $pd->result_data;
 
 		if(JET_OBJECT_REFLECTION_CACHE_SAVE) {
 			static::$_save_list[] = $class;
@@ -246,7 +142,7 @@ class BaseObject_Reflection {
 			}
 		}
 
-		return $reflection_data;
+		return $pd->result_data;
 	}
 
 	/**

@@ -37,30 +37,19 @@ trait DataModel_Trait_Definition {
         return new DataModel_Definition_Model_Main( $data_model_class_name );
     }
 
-    /**
-     * @param array $reflection_data
-     * @param string $class_name
-     * @param string $key
-     * @param string $definition
-     * @param mixed $value
-     *
-     * @throws BaseObject_Reflection_Exception
-     */
-    public static function parseClassDocComment(&$reflection_data, $class_name, $key, $definition, $value) {
-        DataModel_Definition_Model_Abstract::parseClassDocComment($reflection_data, $class_name, $key, $definition, $value);
+	/**
+	 * @param BaseObject_Reflection_ParserData $data
+	 * @throws BaseObject_Reflection_Exception
+	 */
+	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data ) {
+        DataModel_Definition_Model_Abstract::parseClassDocComment($data);
     }
 
-    /**
-     * @param array &$reflection_data
-     * @param string $class_name
-     * @param string $property_name
-     * @param string $key
-     * @param string $definition
-     * @param mixed $value
-     *
-     */
-    public static function parsePropertyDocComment(&$reflection_data, $class_name, $property_name, $key, $definition, $value) {
-        DataModel_Definition_Model_Abstract::parsePropertyDocComment($reflection_data, $class_name, $property_name, $key, $definition, $value);
+	/**
+	 * @param BaseObject_Reflection_ParserData $data
+	 */
+	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data ) {
+        DataModel_Definition_Model_Abstract::parsePropertyDocComment( $data );
     }
 
 }

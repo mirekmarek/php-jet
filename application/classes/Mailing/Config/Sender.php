@@ -7,6 +7,8 @@
  */
 namespace JetExampleApp;
 
+use Jet\Config;
+use Jet\Form;
 use Jet\Config_Section;
 
 /**

@@ -7,8 +7,4 @@ return [
 	'layout_script_name' => false,
 	'is_admin_UI' => true,
 	'meta_tags' => [],
-	'contents' => [
-		[
-		]
-	]
 ];

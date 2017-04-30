@@ -214,7 +214,6 @@ class Mvc_Page extends Jet_Mvc_Page {
 			$action = empty($page_data['action']) ? 'default' : $page_data['action'];
 
 
-
 			/**
 			 * @var Mvc_Page $page
 			 */

@@ -15,7 +15,7 @@ use Jet\Form_Field_FileImage;
 /**
  *
  */
-class Controller_REST extends Mvc_Controller_REST {
+class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 * @var Main
@@ -23,10 +23,14 @@ class Controller_REST extends Mvc_Controller_REST {
 	protected $module_instance = null;
 
 	const ERR_CODE_NO_FILE = 'NoFile';
-	const ERR_CODE_IMAGE_ALLREADY_EXISTS = 'ImageAllreadyExists';
+	const ERR_CODE_IMAGE_ALREADY_EXISTS = 'ImageAlreadyExists';
 	const ERR_CODE_UNKNOWN_ERROR = 'UnknownError';
 
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
+		'default' => 'get_image',
 		'get_image' => 'get_image',
 		'get_image_thumbnail' => false,
 		'post_image' => 'add_image',
@@ -49,14 +53,15 @@ class Controller_REST extends Mvc_Controller_REST {
 		self::ERR_CODE_UNKNOWN_ITEM => [Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'],
 
 		self::ERR_CODE_NO_FILE => [Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent'],
-		self::ERR_CODE_IMAGE_ALLREADY_EXISTS => [Http_Headers::CODE_409_CONFLICT, 'Image allready uploaded'],
+		self::ERR_CODE_IMAGE_ALREADY_EXISTS => [Http_Headers::CODE_409_CONFLICT, 'Image already uploaded'],
 		self::ERR_CODE_UNKNOWN_ERROR => [Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error'],
 	];
 
 	/**
 	 *
 	 */
-	public function initialize() {
+	public function default_Action() {
+
 	}
 
 	/**

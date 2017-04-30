@@ -69,7 +69,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$this->view->setVar('parameter_1', $parameter_1);
 		$this->view->setVar('parameter_2', $parameter_2);
 
-		$obj = new DataModelT1();
+		$obj = new TestDM1();
 
 		$form = $obj->getCommonForm();
 

@@ -14,6 +14,7 @@ use Jet\Mvc;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
+	//TODO: nazvy akci do konstant
 
 	/**
 	 * @var array
