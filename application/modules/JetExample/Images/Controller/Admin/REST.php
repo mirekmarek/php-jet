@@ -115,6 +115,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 		);
 
 		if( ($image=$gallery->catchUploadForm( $upload_form, true )) ) {
+			$this->logAllowedAction( 'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image );
 
 			$image->getThumbnail(
                 Config::getDefaultThbMaxW(),
@@ -145,6 +146,8 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
             &&
             $gallery->getImageExists($image->getFileName())
         ) {
+	        $this->logAllowedAction( 'Image copied', $image->getIdObject()->toString(), $image->getFileName(), $image );
+
             $this->responseOK();
         }
 
@@ -163,6 +166,8 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	 */
 	public function delete_image_Action( $image_id ) {
 		$image = $this->_getImage($image_id);
+
+		$this->logAllowedAction( 'Image deleted', $image->getIdObject()->toString(), $image->getFileName(), $image );
 
 		$image->delete();
 		$this->responseOK();
@@ -242,6 +247,8 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 		$form = $gallery->getCommonForm();
 
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
+			$this->logAllowedAction( 'Gallery created', $gallery->getId(), $gallery->getTitle(), $gallery );
+
 			$gallery->save();
 
 			$this->responseData($gallery);
@@ -260,6 +267,8 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 		$form = $gallery->getCommonForm();
 
 		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
+			$this->logAllowedAction( 'Gallery updated', $gallery->getId(), $gallery->getTitle(), $gallery );
+
 			$gallery->save();
 
 			$this->responseData($gallery);
@@ -273,6 +282,8 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	 */
 	public function delete_gallery_Action( $id ) {
 		$gallery = $this->_getGallery($id);
+
+		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 		$gallery->delete();
 

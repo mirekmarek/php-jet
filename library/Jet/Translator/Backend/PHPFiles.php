@@ -12,15 +12,33 @@ namespace Jet;
  * @package Jet
  */
 class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
+
 	/**
-	 * @var Translator_Backend_PHPFiles_Config
+	 * @var string
 	 */
-	protected $config;
+	protected $dictionaries_base_path = JET_TRANSLATOR_DICTIONARIES_BASE_PATH_PATH;
 
 	/**
 	 * @var string
 	 */
 	protected $_current_file;
+
+	/**
+	 * @return string
+	 */
+	public function getDictionariesBasePath()
+	{
+		return $this->dictionaries_base_path;
+	}
+
+	/**
+	 * @param string $dictionaries_base_path
+	 */
+	public function setDictionariesBasePath($dictionaries_base_path)
+	{
+		$this->dictionaries_base_path = $dictionaries_base_path;
+	}
+
 
 	/**
 	 *
@@ -99,16 +117,10 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 
 		$namespace = str_replace('/', '.', $namespace);
 
-		$file = $this->config->getDictionaryPath($namespace, $locale);
+		$file = $this->dictionaries_base_path.$locale.'/'.$namespace.'.php';
 
 		return $file;
 	}
 
 
-	/**
-	 * Create backend after installation
-	 *
-	 */
-	public function helper_create() {
-	}
 }

@@ -15,7 +15,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	const MANIFEST_FILE_NAME = 'manifest.php';
 
 	const MODULE_TYPE_GENERAL = 'general';
-	const MODULE_TYPE_AUTH_CONTROLLER = 'auth_controller';
 	const MODULE_TYPE_SYSTEM = 'system';
 
 	/**
@@ -30,7 +29,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 */
 	protected static $module_types_list = [
 		self::MODULE_TYPE_GENERAL => 'General module',
-		self::MODULE_TYPE_AUTH_CONTROLLER => 'Authentication and Authorization Controller module',
 		self::MODULE_TYPE_SYSTEM => 'System module',
 	];
 
@@ -344,13 +342,6 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 */
 	public function getHasType( $type ) {
 		return in_array( $type, $this->types );
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsAuthController() {
-		return $this->getHasType( static::MODULE_TYPE_AUTH_CONTROLLER );
 	}
 
 	/**

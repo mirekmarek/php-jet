@@ -2,7 +2,7 @@ library/Zend
 library/Stubs
 sites/**
 dictionaries/**
-application/config/**/config.php
+application/config/**/application.php
 application/logs/**
 application/tmp/**
 application/cache/**

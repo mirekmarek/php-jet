@@ -15,7 +15,7 @@ use Jet\Mvc;
 /**
  *
  */
-class Application_Logger extends BaseObject implements Application_Log_Logger_Interface {
+class Application_Log_Logger extends BaseObject implements Application_Log_Logger_Interface {
 
 	/**
 	 *
@@ -30,9 +30,9 @@ class Application_Logger extends BaseObject implements Application_Log_Logger_In
 	public function log($event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null)
 	{
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			Application_Logger_Event_Administration::log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user );
+			Application_Log_Event_Administration::log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user );
 		} else {
-			Application_Logger_Event_Site::log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user );
+			Application_Log_Event_Site::log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user );
 		}
 
 	}

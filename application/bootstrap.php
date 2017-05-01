@@ -7,29 +7,37 @@
  */
 namespace Jet;
 
-use JetExampleApp\Application_Logger;
+use JetExampleApp\Application_Log_Logger;
+use JetExampleApp\Auth_Controller;
 
 define('JET_CONFIG_ENVIRONMENT', 'development');
 
-require('config/class_names.php');
+
 
 /** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/defines.php');
-
+require('config/'.JET_CONFIG_ENVIRONMENT.'/class_names.php');
 /** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/defines_URI.php');
-
+require('config/'.JET_CONFIG_ENVIRONMENT.'/paths.php');
+/** @noinspection PhpIncludeInspection */
+require('config/'.JET_CONFIG_ENVIRONMENT.'/jet.php');
+/** @noinspection PhpIncludeInspection */
+require('config/'.JET_CONFIG_ENVIRONMENT.'/URI.php');
 /** @noinspection PhpIncludeInspection */
 require('config/'.JET_CONFIG_ENVIRONMENT.'/php_setup.php');
 
-if( JET_DEBUG_PROFILER_ENABLED ) {
-	/** @noinspection PhpIncludeInspection */
-	require( JET_APPLICATION_PATH . 'init/Profiler.php' );
-}
+
+
+
+/** @noinspection PhpIncludeInspection */
+require( JET_APPLICATION_PATH . 'init/Profiler.php' );
 /** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 /** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
+
+
+
+
 
 //- REMOVE AFTER INSTALLATION -------------
 $installer_path = JET_BASE_PATH . '_installer/install.php';
@@ -43,7 +51,12 @@ if(
 }
 //- REMOVE AFTER INSTALLATION -------------
 
-Application_Log::setLogger( new Application_Logger() );
+
+
+
+
+Application_Log::setLogger( new Application_Log_Logger() );
+Auth::setAuthController( new Auth_Controller() );
 
 Application::start();
 Application::runMvc();

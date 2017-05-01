@@ -11,6 +11,6 @@ namespace JetExampleApp;
  *
  * @JetDataModel:database_table_name = 'events_administration'
  */
-class Application_Logger_Event_Administration extends Application_Logger_Event_Abstract
+class Application_Log_Event_Administration extends Application_Log_Event_Abstract
 {
 }

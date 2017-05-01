@@ -15,76 +15,11 @@ class Auth extends BaseObject {
 
 
 	/**
-	 * @var string
-	 */
-	protected static $auth_controller_module_name;
-
-	/**
-	 * @var string
-	 */
-	protected static $auth_controller_class_name;
-
-	/**
 	 * Auth module instance
 	 *
 	 * @var Auth_Controller_Interface
 	 */
 	protected static $auth_controller;
-
-	/**
-	 * @param string $auth_controller_module_name
-	 * @throws Exception
-	 */
-	public static function setAuthControllerModuleName($auth_controller_module_name)
-	{
-		static::$auth_controller_module_name = $auth_controller_module_name;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public static function getAuthControllerModuleName()
-	{
-		if(static::$auth_controller_module_name) {
-			return static::$auth_controller_module_name;
-		}
-
-		if(Mvc::getCurrentPage() && Mvc::getCurrentPage()->getAuthControllerModuleName()) {
-			static::$auth_controller_module_name = Mvc::getCurrentPage()->getAuthControllerModuleName();
-		} else {
-			if(defined('JET_DEFAULT_AUTH_CONTROLLER_MODULE_NAME')) {
-				static::$auth_controller_module_name = JET_DEFAULT_AUTH_CONTROLLER_MODULE_NAME;
-			}
-		}
-
-		return static::$auth_controller_module_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getAuthControllerClassName()
-	{
-		if(
-			!self::$auth_controller_class_name &&
-			defined('JET_DEFAULT_AUTH_CONTROLLER_CLASS_NAME')
-		) {
-			self::$auth_controller_class_name = JET_DEFAULT_AUTH_CONTROLLER_CLASS_NAME;
-		}
-
-		return self::$auth_controller_class_name;
-	}
-
-	/**
-	 * @param string $auth_controller_class_name
-	 */
-	public static function setAuthControllerClassName($auth_controller_class_name)
-	{
-		self::$auth_controller_class_name = $auth_controller_class_name;
-	}
-
-
 
 	/**
 	 * @param Auth_Controller_Interface $auth_controller
@@ -101,16 +36,6 @@ class Auth extends BaseObject {
 	 */
 	public static function getAuthController()
 	{
-		if(!static::$auth_controller) {
-			if( ($module_name=static::getAuthControllerModuleName()) ) {
-				static::$auth_controller = Application_Modules::getModuleInstance( $module_name );
-			} else {
-				$class_name = static::getAuthControllerClassName();
-				static::$auth_controller = new $class_name();
-			}
-
-		}
-
 		return static::$auth_controller;
 	}
 
@@ -137,16 +62,14 @@ class Auth extends BaseObject {
 	}
 
 	/**
-	 * Return current user data or FALSE
 	 *
-	 * @return Auth_User_Interface|bool
+	 * @return Auth_User_Interface|null
 	 */
 	public static function getCurrentUser() {
 		return static::getAuthController()->getCurrentUser();
 	}
 
 	/**
-	 * Does current user have given privilege?
 	 *
 	 * @param string $privilege
 	 * @param mixed $value

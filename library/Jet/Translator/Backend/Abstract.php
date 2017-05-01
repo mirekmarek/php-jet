@@ -14,15 +14,9 @@ namespace Jet;
 abstract class Translator_Backend_Abstract extends BaseObject {
 
 	/**
-	 * @var Translator_Backend_Config_Abstract
+	 *
 	 */
-	protected $config;
-
-	/**
-	 * @param Translator_Backend_Config_Abstract $config
-	 */
-	public function __construct( Translator_Backend_Config_Abstract $config ) {
-		$this->config = $config;
+	public function __construct() {
 	}
 
 	/**
@@ -43,9 +37,5 @@ abstract class Translator_Backend_Abstract extends BaseObject {
 	 */
 	abstract public function saveDictionary(Translator_Dictionary $dictionary, $file_path=null );
 
-	/**
-	 * Create backend after installation
-	 */
-	abstract public function helper_create();
 
 }

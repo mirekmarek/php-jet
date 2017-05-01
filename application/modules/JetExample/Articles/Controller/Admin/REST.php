@@ -59,6 +59,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
 			$article->save();
+			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 			$this->responseData($article);
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
@@ -76,6 +77,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 
 		if($article->catchForm( $form, $this->getRequestData(), true )) {
 			$article->save();
+			$this->logAllowedAction( 'Article updated', $article->getId(), $article->getTitle(), $article );
 
 			$this->responseData($article);
 		} else {
@@ -90,6 +92,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 		$article = $this->_getArticle($id);
 
 		$article->delete();
+		$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
 
 		$this->responseOK();
 

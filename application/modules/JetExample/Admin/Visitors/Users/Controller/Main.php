@@ -113,7 +113,8 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		if( $user->catchForm( $form ) ) {
 			$user->save();
-			$this->logAllowedAction( $user );
+
+			$this->logAllowedAction( 'User created', $user->getId(), $user->getLogin(), $user );
 
 			$user->sendWelcomeEmail( $form->getField('password')->getValue() );
 			messages::success( Tr::_('User <b>%LOGIN%</b> has been created', ['LOGIN'=>$user->getLogin() ]) );
@@ -160,7 +161,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		if( $user->catchForm( $form ) ) {
 
 			$user->save();
-			$this->logAllowedAction( $user );
+			$this->logAllowedAction( 'User updated', $user->getId(), $user->getLogin(), $user );
 			messages::success( Tr::_('User <b>%LOGIN%</b> has been updated', ['LOGIN'=>$user->getLogin() ]) );
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
@@ -210,7 +211,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$user->delete();
-			$this->logAllowedAction( $user );
+			$this->logAllowedAction( 'User deleted', $user->getId(), $user->getLogin(), $user );
 			messages::info( Tr::_('User <b>%LOGIN%</b> has been deleted', ['LOGIN'=>$user->getLogin() ]) );
 
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );

@@ -14,8 +14,6 @@ use Jet\Mvc_Layout;
 use Jet\Locale;
 use Jet\Session;
 use Jet\Translator;
-use Jet\Translator_Config;
-use Jet\Translator_Backend_PHPFiles_Config;
 use Jet\Translator_Backend_PHPFiles;
 use Jet\Tr;
 
@@ -129,6 +127,8 @@ class Installer {
 		self::$selected_locales = [];
 
 		foreach($selected_locales as $locale) {
+			$locale = new Locale($locale);
+
 			self::$selected_locales[$locale->toString()] = $locale;
 		}
 
@@ -221,19 +221,14 @@ class Installer {
 	 *
 	 */
 	public static function initTranslator() {
-		$config = new Translator_Config(true);
-		$config->setBackendType('PHPFiles');
-		$config->setAutoAppendUnknownPhrase(true);
 
-		Translator::setConfig($config);
+		Translator::setAutoAppendUnknownPhrase(true);
 
-
-		$backend_config = new Translator_Backend_PHPFiles_Config(true);
-		$backend_config->setDictionariesPath( JET_APP_INSTALLER_PATH.'dictionaries/%TRANSLATOR_LOCALE%/%TRANSLATOR_NAMESPACE%.php' );
-
-		$backend = new Translator_Backend_PHPFiles($backend_config);
-
-		Translator::setBackendInstance($backend);
+		/**
+		 * @var Translator_Backend_PHPFiles $backend
+		 */
+		$backend = Translator::getBackend();
+		$backend->setDictionariesBasePath( JET_APP_INSTALLER_PATH.'dictionaries/');
 
 		Locale::setCurrentLocale( static::getCurrentLocale() );
 		Translator::setCurrentLocale( static::getCurrentLocale() );

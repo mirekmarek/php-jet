@@ -86,6 +86,70 @@ class Application_Modules_Handler extends Application_Modules_Handler_Abstract {
 		$this->manifest_class_name = $manifest_class_name;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getModulesBasedir()
+	{
+		return $this->modules_basedir;
+	}
+
+	/**
+	 * @param string $modules_basedir
+	 */
+	public function setModulesBasedir($modules_basedir)
+	{
+		$this->modules_basedir = $modules_basedir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModulesListFilePath()
+	{
+		return $this->modules_list_file_path;
+	}
+
+	/**
+	 * @param string $modules_list_file_path
+	 */
+	public function setModulesListFilePath($modules_list_file_path)
+	{
+		$this->modules_list_file_path = $modules_list_file_path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModulesNamespace()
+	{
+		return $this->modules_namespace;
+	}
+
+	/**
+	 * @param string $modules_namespace
+	 */
+	public function setModulesNamespace($modules_namespace)
+	{
+		$this->modules_namespace = $modules_namespace;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getManifestClassName()
+	{
+		return $this->manifest_class_name;
+	}
+
+	/**
+	 * @param string $manifest_class_name
+	 */
+	public function setManifestClassName($manifest_class_name)
+	{
+		$this->manifest_class_name = $manifest_class_name;
+	}
+
 
 	/**
 	 * Returns true if the module name correspond to a valid format

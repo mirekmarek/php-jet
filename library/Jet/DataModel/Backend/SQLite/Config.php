@@ -16,66 +16,37 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = '%JET_DATA_PATH%'
-	 * @JetConfig:form_field_label = 'Data directory path: '
-     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify data directory path']
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
+	 * @JetConfig:form_field_get_select_options_callback = ['DataModel_Backend_SQLite_Config', 'getDbConnectionsList']
+	 * @JetConfig:form_field_label = 'Connection: '
+	 * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select database connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select database connection']
 	 *
 	 * @var string
 	 */
-	protected $directory_path = '%JET_DATA_PATH%';
-
-	/**
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = true
-	 * @JetConfig:default_value = 'database'
-	 * @JetConfig:form_field_label = 'Database name: '
-     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify database name']
-	 *
-	 * @var string
-	 */
-	protected $database_name= 'database';
+	protected $connection = '';
 
 
 	/**
 	 * @return string
 	 */
-	public function getDirectoryPath() {
-		return Data_Text::replaceSystemConstants( $this->directory_path );
+	public function getConnection() {
+		return $this->connection;
 	}
 
 	/**
-	 * @param string $directory_path
+	 * @param string $connection
 	 */
-	public function setDirectoryPath($directory_path)
+	public function setConnection($connection)
 	{
-		$this->directory_path = $directory_path;
+		$this->connection = $connection;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDatabaseName() {
-		return $this->database_name;
-	}
 
 	/**
-	 * @param string $database_name
+	 * @return array
 	 */
-	public function setDatabaseName($database_name)
-	{
-		$this->database_name = $database_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDSN() {
-		$dp = $this->getDirectoryPath();
-
-		if($dp==':memory:') {
-			return $dp;
-		}
-		return $dp.$this->getDatabaseName().'.sq3';
+	public static function getDbConnectionsList() {
+		return Db_Config::getConnectionsList(Db::DRIVER_SQLITE);
 	}
 
 }

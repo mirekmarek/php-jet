@@ -57,7 +57,7 @@ class Main extends Application_Modules_Module_Abstract {
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			return $dir.'admin/';
 		} else {
-			return $dir.'public/';
+			return $dir.'site/';
 		}
 	}
 
@@ -77,7 +77,7 @@ class Main extends Application_Modules_Module_Abstract {
 			$controller_suffix = 'Controller_Admin_'.$controller_name;
 
 		} else {
-			$controller_suffix = 'Controller_Public_'.$controller_name;
+			$controller_suffix = 'Controller_Site_'.$controller_name;
 		}
 
 		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;

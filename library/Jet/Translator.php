@@ -21,22 +21,20 @@ class Translator extends BaseObject {
 	protected static $current_namespace = self::COMMON_NAMESPACE;
 
 	/**
+	 * @var bool
+	 */
+	protected static $auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
+
+	/**
 	 * @var Locale
 	 */
 	protected static $current_locale;
-
-
-	/**
-	 *
-	 * @var Translator_Config
-	 */
-	protected static $config;
 
 	/**
 	 * 
 	 * @var Translator_Backend_Abstract
 	 */
-	protected static $backend_instance;
+	protected static $backend;
 
 	/**
 	 * @var Translator_Dictionary[]
@@ -44,52 +42,47 @@ class Translator extends BaseObject {
 	protected static $dictionaries = [];
 
 	/**
-	 * Gets translator backend instance
-	 *
-	 * @param bool $soft_mode (optional) @see Config
-	 *
-	 * @return Translator_Config
+	 * @return bool
 	 */
-	public static function getConfig( $soft_mode=false ){
-		if(static::$config === null){
-			static::$config = new Translator_Config( $soft_mode );
-		}
-		return static::$config;
+	public static function getAutoAppendUnknownPhrase()
+	{
+		return self::$auto_append_unknown_phrase;
 	}
 
 	/**
-	 * @static
-	 *
-	 * @param Translator_Config $config
+	 * @param bool $auto_append_unknown_phrase
 	 */
-	public static function setConfig( Translator_Config $config ) {
-		static::$config = $config;
+	public static function setAutoAppendUnknownPhrase($auto_append_unknown_phrase)
+	{
+		self::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
 	}
+
+
 
 	/**
 	 * Gets translator backend instance
 	 * 
 	 * @return Translator_Backend_Abstract
 	 */
-	public static function getBackendInstance(){
-		if(static::$backend_instance === null){
-			static::$backend_instance = Translator_Factory::getBackendInstance( static::getConfig()->getBackendType() );
+	public static function getBackend(){
+		if(static::$backend === null){
+			static::$backend = new Translator_Backend_PHPFiles();
 
-			register_shutdown_function( ['\\'.__NAMESPACE__.'\Translator', 'saveUpdatedDictionaries']);
+			register_shutdown_function( [get_called_class(), 'saveUpdatedDictionaries']);
 		}
-		return static::$backend_instance;
+		return static::$backend;
 	}
 
 	/**
 	 * @static
 	 *
-	 * @param Translator_Backend_Abstract $backend_instance
+	 * @param Translator_Backend_Abstract $backend
 	 */
-	public static function setBackendInstance( Translator_Backend_Abstract $backend_instance ) {
-		if(static::$backend_instance === null){
-			register_shutdown_function( ['\\'.__NAMESPACE__.'\Translator', 'saveUpdatedDictionaries']);
+	public static function setBackend(Translator_Backend_Abstract $backend ) {
+		if(static::$backend === null){
+			register_shutdown_function( [get_called_class(), 'saveUpdatedDictionaries']);
 		}
-		static::$backend_instance = $backend_instance;
+		static::$backend = $backend;
 	}
 
 	/**
@@ -99,7 +92,7 @@ class Translator extends BaseObject {
 	 *
 	 */
 	public static function saveUpdatedDictionaries() {
-		$backend = static::getBackendInstance();
+		$backend = static::getBackend();
 
 		foreach(static::$dictionaries as $dictionary) {
 			if($dictionary->getNeedToSave()) {
@@ -141,7 +134,7 @@ class Translator extends BaseObject {
 
 		$dictionary = static::loadDictionary($namespace, $locale);
 
-		$translation = $dictionary->getTranslation($phrase, static::getConfig()->getAutoAppendUnknownPhrase() );
+		$translation = $dictionary->getTranslation($phrase, static::getAutoAppendUnknownPhrase() );
 
 
 		if($data){
@@ -217,7 +210,7 @@ class Translator extends BaseObject {
 			!isset(static::$dictionaries[$dictionary_key]) ||
 			$force_load
 		) {
-			static::$dictionaries[$dictionary_key] = static::getBackendInstance()->loadDictionary($namespace, $locale);
+			static::$dictionaries[$dictionary_key] = static::getBackend()->loadDictionary($namespace, $locale);
 		}
 
 		return static::$dictionaries[$dictionary_key];
@@ -259,15 +252,7 @@ class Translator extends BaseObject {
 
 		$dictionary = static::loadDictionary( $namespace, $locale );
 		$dictionary->import($data);
-		static::getBackendInstance()->saveDictionary($dictionary);
-	}
-
-	/**
-	 * Creates backend after installation
-	 *
-	 */
-	public static function helper_create() {
-		static::getBackendInstance()->helper_create();
+		static::getBackend()->saveDictionary($dictionary);
 	}
 
 }

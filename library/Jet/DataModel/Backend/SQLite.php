@@ -39,11 +39,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 *
 	 */
 	public function initialize() {
-		$this->_db = Db::create('datamodel_connection', [
-			'name' => 'datamodel_connection',
-			'driver' => Db::DRIVER_SQLITE,
-			'DSN' => $this->config->getDSN()
-		]);
+		$this->_db = Db::get( $this->config->getConnection() );
 	}
 
 	/**
@@ -80,6 +76,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$create_index_query = [];
 		$keys = [];
 
+		$has_ai = false;
+		foreach( $definition->getProperties() as $property ) {
+			if($property->getType()==DataModel::TYPE_ID_AUTOINCREMENT) {
+				$has_ai = true;
+				break;
+			}
+		}
+
 		foreach($definition->getKeys() as $key_name=>$key) {
             $key_columns = [];
             foreach( $key->getPropertyNames() as $property_name ) {
@@ -92,7 +96,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 
 			switch( $key->getType() ) {
 				case DataModel::KEY_TYPE_PRIMARY:
-					$keys[] = JET_EOL.JET_TAB.',PRIMARY KEY ('.$key_columns.')';
+					if(!$has_ai) {
+						$keys[] = JET_EOL.JET_TAB.',PRIMARY KEY ('.$key_columns.')';
+					}
 				break;
 				case DataModel::KEY_TYPE_INDEX:
 					$create_index_query[] = JET_EOL.'CREATE INDEX IF NOT EXISTS '.$this->_quoteName('_k_'.$key_name).' ON '.$table_name.' ('.$key_columns.');';
@@ -346,6 +352,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 	 * @return mixed
 	 */
 	public function save( DataModel_RecordData $record ) {
+
 		$this->_db->execCommand( $this->getBackendInsertQuery($record) );
 
 		return $this->_db->lastInsertId();
@@ -953,7 +960,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 					return 'INTEGER';
 
 				} else {
-					return 'INTEGER auto_increment';
+					return 'INTEGER PRIMARY KEY AUTOINCREMENT';
 				}
 				break;
 			case DataModel::TYPE_STRING:

@@ -23,11 +23,13 @@ abstract class Autoloader_Loader_Abstract {
 	abstract public function getClassPath( $class_name );
 
 	/**
-	 *
+	 * @return static
 	 */
 	public static function register() {
 		$loader = new static();
 
 		Autoloader::register( $loader );
+
+		return $loader;
 	}
 }

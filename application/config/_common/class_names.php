@@ -1,7 +1,6 @@
 <?php
 namespace Jet;
 
-define('JET_APPLICATION_MODULES_HANDLER_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Handler');
 //define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', __NAMESPACE__.'\Application_Modules_Module_Manifest');
 define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', 'JetExampleApp\Application_Modules_Module_Manifest');
 

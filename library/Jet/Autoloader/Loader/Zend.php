@@ -14,6 +14,28 @@ namespace Jet;
 class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract {
 
 	/**
+	 *
+	 */
+	protected $library_path = JET_LIBRARY_PATH;
+
+	/**
+	 * @return mixed
+	 */
+	public function getLibraryPath()
+	{
+		return $this->library_path;
+	}
+
+	/**
+	 * @param mixed $library_path
+	 */
+	public function setLibraryPath($library_path)
+	{
+		$this->library_path = $library_path;
+	}
+
+
+	/**
 	 * Get class script path or false
 	 *
 	 * @param $class_name
@@ -28,7 +50,7 @@ class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract {
 		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return JET_LIBRARY_PATH.$class_name.'.php';
+		return $this->library_path.$class_name.'.php';
 
 	}
 }

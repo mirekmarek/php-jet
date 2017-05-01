@@ -37,7 +37,7 @@ interface Auth_Controller_Interface {
 
 	/**
 	 *
-	 * @return Auth_User_Interface|bool
+	 * @return Auth_User_Interface|null
 	 */
 	public function getCurrentUser();
 

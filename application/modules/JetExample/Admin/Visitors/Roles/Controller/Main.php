@@ -113,7 +113,8 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		if( $role->catchForm( $form ) ) {
 			$role->save();
-			$this->logAllowedAction( $role );
+			$this->logAllowedAction( 'Role created', $role->getId(), $role->getName(), $role );
+
 			messages::success( Tr::_('Role <b>%ROLE_NAME%</b> has been created', ['ROLE_NAME'=>$role->getName() ]) );
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($role->getId()) );
@@ -143,7 +144,8 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		if( $role->catchForm( $form ) ) {
 			$role->save();
-			$this->logAllowedAction( $role );
+			$this->logAllowedAction( 'Role updated', $role->getId(), $role->getName(), $role );
+
 			messages::success( Tr::_('Role <b>%ROLE_NAME%</b> has been updated', ['ROLE_NAME'=>$role->getName() ]) );
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($role->getId()) );
@@ -194,7 +196,9 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$role->delete();
-			$this->logAllowedAction( $role );
+
+			$this->logAllowedAction( 'Role deleted', $role->getId(), $role->getName(), $role );
+
 			messages::info( Tr::_('Role <b>%ROLE_NAME%</b> has been deleted', ['ROLE_NAME'=>$role->getName() ]) );
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}

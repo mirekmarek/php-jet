@@ -116,6 +116,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$edit_form = $gallery->getCommonForm();
 
 		if($gallery->catchForm($edit_form)) {
+			$this->logAllowedAction( 'Gallery created', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 			$gallery->save();
 
@@ -146,6 +147,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 		$edit_form = $gallery->getCommonForm();
 
 		if($gallery->catchForm($edit_form)) {
+			$this->logAllowedAction( 'Gallery updated', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 			$gallery->save();
 
@@ -223,6 +225,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 
 		if($upload_form->catchValues()) {
 			if( ($image=$gallery->catchUploadForm( $upload_form )) ) {
+				$this->logAllowedAction( 'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image );
 
 				$image->getThumbnail(
                     Config::getDefaultThbMaxW(),
@@ -253,6 +256,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard {
 			foreach( $POST->getRaw('images') as $image_id ) {
 				$image = Gallery_Image::get( $image_id );
 				if($image) {
+					$this->logAllowedAction( 'Image deleted', $image->getIdObject()->toString(), $image->getFileName(), $image );
 					$image->delete();
 				}
 			}

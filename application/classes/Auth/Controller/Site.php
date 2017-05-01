@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplicationModule\JetExample\AuthController;
+namespace JetExampleApp;
 
 use Jet\BaseObject;
 use Jet\Auth_Controller_Interface;
@@ -15,10 +15,6 @@ use Jet\Mvc_Factory;
 
 use Jet\Session;
 
-use Jet\Form;
-use Jet\Form_Field_Input;
-use Jet\Form_Field_Password;
-use Jet\Form_Field_RegistrationPassword;
 
 use Jet\Data_DateTime;
 
@@ -28,28 +24,13 @@ use JetExampleApp\Auth_Visitor_User as Visitor;
 /**
  *
  */
-class Main_Public extends BaseObject implements Auth_Controller_Interface {
+class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interface {
 
 	/**
-	 * Currently logged user
 	 *
 	 * @var Visitor
 	 */
-	protected $current_user;
-
-	/**
-	 * @var Main
-	 */
-	protected $module;
-
-	/**
-	 *
-	 * @param Main $module
-	 */
-	public function __construct( Main $module )
-	{
-		$this->module = $module;
-	}
+	protected $current_user = false;
 
 	/**
 	 *
@@ -123,11 +104,12 @@ class Main_Public extends BaseObject implements Auth_Controller_Interface {
 					}
 		}
 
+		$module = Auth_Controller::getLoginFormModule();
 
 		$page_content = [];
 		$page_content_item = Mvc_Factory::getPageContentInstance();
 
-		$page_content_item->setModuleName( $this->module->getModuleManifest()->getName() );
+		$page_content_item->setModuleName( $module->getModuleManifest()->getName() );
 		$page_content_item->setControllerAction( $action );
 
 
@@ -185,10 +167,10 @@ class Main_Public extends BaseObject implements Auth_Controller_Interface {
 	/**
 	 * Return current user data or FALSE
 	 *
-	 * @return Visitor|bool
+	 * @return Visitor|null
 	 */
 	public function getCurrentUser() {
-		if($this->current_user!==null) {
+		if($this->current_user!==false) {
 			return $this->current_user;
 		}
 
@@ -197,7 +179,7 @@ class Main_Public extends BaseObject implements Auth_Controller_Interface {
 		$user_id = $session->getValue('user_id', null);
 
 		if(!$user_id) {
-			$this->current_user = false;
+			$this->current_user = null;
 		} else {
 			$this->current_user = Visitor::get($user_id);
 		}
@@ -215,98 +197,5 @@ class Main_Public extends BaseObject implements Auth_Controller_Interface {
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	/**
-	 * Get login form instance
-	 *
-	 * @return Form
-	 */
-	public function getLoginForm() {
-		$login_field =  new Form_Field_Input('login', 'User name: ');
-		$login_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
-		]);
-		$password_field = new Form_Field_Password('password', 'Password:');
-		$password_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
-		]);
-
-		$form = new Form('login', [
-			$login_field,
-			$password_field
-		]);
-
-		$form->getField('login')->setIsRequired( true );
-		/**
-		 * @var Form_Field_Password $password
-		 */
-		$password = $form->getField('password');
-		$password->setIsRequired( true );
-
-		return $form;
-	}
-
-	/**
-	 * @return Form
-	 */
-	public function getChangePasswordForm() {
-		$user = new Visitor();
-
-		$current_password = new Form_Field_Password('current_password', 'Current password');
-		$current_password->setIsRequired( true );
-		$current_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
-		]);
-
-		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
-		$new_password->setPasswordConfirmationLabel('Confirm new password');
-
-		$new_password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
-
-		$new_password->setIsRequired( true );
-		$new_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-
-
-
-		$form = new Form('change_password', [
-			$current_password,
-			$new_password
-		]);
-
-
-
-
-
-		return $form;
-	}
-
-
-	/**
-	 * @return Form
-	 */
-	function getMustChangePasswordForm() {
-
-		$password = new Form_Field_RegistrationPassword('password', 'New password: ');
-		$form = new Form('change_password', [
-			$password
-		]);
-
-		$password->setPasswordStrengthCheckCallback([$this->getCurrentUser(), 'verifyPasswordStrength']);
-
-		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-		$password->setIsRequired( true );
-		$password->setPasswordConfirmationLabel('Confirm new password');
-
-		return $form;
-	}
 
 }

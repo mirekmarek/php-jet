@@ -14,7 +14,7 @@ use Jet\Mvc;
 /**
  *
  */
-class Controller_Public_Main extends Mvc_Controller_Standard {
+class Controller_Site_Main extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main

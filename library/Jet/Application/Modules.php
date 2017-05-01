@@ -24,9 +24,7 @@ class Application_Modules extends BaseObject {
 	public static function getHandler()
 	{
 		if(!static::$handler) {
-			$class_name = JET_APPLICATION_MODULES_HANDLER_CLASS_NAME;
-
-			static::$handler = new $class_name(
+			static::$handler = new Application_Modules_Handler(
 				JET_MODULES_PATH,
 				JET_APPLICATION_MODULES_LIST_PATH,
 				JET_APPLICATION_MODULE_NAMESPACE,

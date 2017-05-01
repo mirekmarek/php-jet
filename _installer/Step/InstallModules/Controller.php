@@ -60,7 +60,6 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
             foreach($this->all_modules as $m) {
                 if(
-                	$m->getIsAuthController() ||
 	                $m->isMandatory()
                 ) {
                     $this->selected_modules[] = $m->getName();

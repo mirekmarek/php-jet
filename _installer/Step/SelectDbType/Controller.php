@@ -166,8 +166,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller {
 					 * @var DataModel_Backend_SQLite_Config $data_model_backend_config
 					 */
 					$data_model_backend_config = DataModel_Factory::getBackendConfigInstance($data_model_config->getBackendType(), true);
-					$data_model_backend_config->setDirectoryPath($data_path);
-					$data_model_backend_config->setDatabaseName($data_file_name);
+					$data_model_backend_config->setConnection('default');
 
 					break;
 			}

@@ -135,17 +135,6 @@ interface Mvc_Page_Interface {
 	public function setIsSecretPage($is_secret_page);
 
 	/**
-	 * @param string $auth_controller_module_name
-	 */
-	public function setAuthControllerModuleName($auth_controller_module_name);
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getAuthControllerModuleName();
-
-	/**
 	 * @return bool
 	 */
 	public function getIsDirectOutput();

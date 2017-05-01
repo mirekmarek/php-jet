@@ -33,8 +33,7 @@ $form = $this->getRaw('form');
 			<?php if(!$manifest->getIsActivated()):
 
 				if( 
-					$manifest->isMandatory() || 
-					$manifest->getIsAuthController() 
+					$manifest->isMandatory()
 				):
 					?>
 					<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]" id="module_<?=$manifest->getName();?>" checked="checked" disabled="disabled"/>

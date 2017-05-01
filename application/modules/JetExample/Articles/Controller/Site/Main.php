@@ -15,7 +15,7 @@ use Jet\Data_Paginator;
 /**
  *
  */
-class Controller_Public_Main extends Mvc_Controller_Standard {
+class Controller_Site_Main extends Mvc_Controller_Standard {
 	/**
 	 *
 	 * @var Main
@@ -33,11 +33,6 @@ class Controller_Public_Main extends Mvc_Controller_Standard {
 		'detail' => false
 	];
 
-	/**
-	 *
-	 */
-	public function initialize() {
-	}
 
     /**
      * @param Mvc_Page_Content_Interface $page_content

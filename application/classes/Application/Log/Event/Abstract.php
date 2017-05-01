@@ -19,7 +19,7 @@ use Jet\Http_Request;
  * @JetDataModel:name = 'Auth_Event'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-abstract class Application_Logger_Event_Abstract extends DataModel {
+abstract class Application_Log_Event_Abstract extends DataModel {
 
 	/**
 	 *

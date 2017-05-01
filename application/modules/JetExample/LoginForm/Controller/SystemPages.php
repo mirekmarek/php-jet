@@ -5,7 +5,10 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplicationModule\JetExample\AuthController;
+namespace JetApplicationModule\JetExample\LoginForm;
+
+use Jet\Auth;
+use Jet\Application_Log;
 use Jet\Mvc_Controller_Standard;
 use Jet\Form;
 use Jet\Tr;
@@ -59,7 +62,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 			/**
 			 * @var User $user
 			 */
-			$user = $this->module_instance->getCurrentUser();
+			$user = Auth::getCurrentUser();
 
 			if(!$user->verifyPassword($data['current_password'])) {
 				messages::danger( Tr::_('Current password do not match') );
@@ -69,7 +72,9 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 				$user->setPasswordIsValid(true);
 				$user->setPasswordIsValidTill(null);
 				$user->save();
-//TODO: doplnit logovani
+
+				Application_Log::info('password_changed', 'User password changed', $user->getId(), $user->getLogin(), $user);
+
 				messages::success( Tr::_('Your password has been changed') );
 			}
 

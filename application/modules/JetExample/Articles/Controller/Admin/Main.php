@@ -113,7 +113,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 		if( $article->catchForm( $form ) ) {
 			$article->save();
 
-			$this->logAllowedAction( $article );
+			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 
 			messages::success( Tr::_('Article <b>%TITLE%</b> has been created', ['TITLE'=>$article->getTitle() ]) );
 
@@ -148,7 +148,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 		if( $article->catchForm( $form ) ) {
 			$article->save();
 
-			$this->logAllowedAction( $article );
+			$this->logAllowedAction( 'Article updated', $article->getId(), $article->getTitle(), $article );
 
 			messages::success( Tr::_('Article <b>%TITLE%</b> has been updated', ['TITLE'=>$article->getTitle() ]) );
 
@@ -202,7 +202,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 
 			$article->delete();
 
-			$this->logAllowedAction( $article );
+			$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
 
 			messages::info( Tr::_('Article <b>%TITLE%</b> has been deleted', ['TITLE'=>$article->getTitle() ]) );
 
