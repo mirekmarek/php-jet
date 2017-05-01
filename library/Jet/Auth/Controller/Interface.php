@@ -14,14 +14,12 @@ namespace Jet;
 interface Auth_Controller_Interface {
 
 	/**
-	 * Returns true if authentication (for example login dialog...) is required
 	 *
 	 * @return bool
 	 */
 	public function getUserIsLoggedIn();
 
 	/**
-	 * Authenticates given user and returns true if given username and password is OK
 	 *
 	 * @param string $login
 	 * @param string $password
@@ -38,24 +36,10 @@ interface Auth_Controller_Interface {
 	public function logout();
 
 	/**
-	 * Return current user data or FALSE
 	 *
 	 * @return Auth_User_Interface|bool
 	 */
 	public function getCurrentUser();
-
-	/**
-	 * Log auth event
-	 *
-	 * @abstract
-	 *
-	 * @param string $event
-	 * @param mixed $event_data
-	 * @param string $event_txt
-	 * @param string $user_id (optional; default: null = current user ID)
-	 * @param string $user_login (optional; default: null = current user login)
-	 */
-	public function logEvent( $event, $event_data, $event_txt, $user_id=null, $user_login=null );
 
 	/**
 	 *

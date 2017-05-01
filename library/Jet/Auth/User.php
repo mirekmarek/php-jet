@@ -555,12 +555,12 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @param string $password
 	 * @return Auth_User|bool
 	 */
-	public function getByIdentity(  $login, $password  ) {
+	public static function getByIdentity(  $login, $password  ) {
 
 		/**
 		 * @var Auth_User $user
 		 */
-		$user = $this->fetchOneObject( [
+		$user = (new static())->fetchOneObject( [
 			'this.login' => $login,
 		]);
 
@@ -581,11 +581,11 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return Auth_User|bool
 	 */
-	public function getGetByLogin(  $login  ) {
+	public static function getGetByLogin(  $login  ) {
 		/**
 		 * @var Auth_User $user
 		 */
-		$user = $this->fetchOneObject( [
+		$user = (new static())->fetchOneObject( [
 			'this.login' => $login
 		]);
 

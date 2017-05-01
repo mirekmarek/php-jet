@@ -283,7 +283,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 *
 	 * @return Auth_User_Interface|null
 	 */
-	public function getByIdentity(  $login, $password  );
+	public static function getByIdentity(  $login, $password  );
 
 	/**
 	 * @abstract
@@ -291,7 +291,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 * @param string $login
 	 * @return Auth_User_Interface|null
 	 */
-	public function getGetByLogin(  $login  );
+	public static function getGetByLogin(  $login  );
 
 
 }

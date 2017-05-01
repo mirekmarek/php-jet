@@ -7,20 +7,14 @@
  */
 namespace JetApplicationModule\JetExample\AuthController;
 
+use Jet\Application_Log;
 use Jet\Application_Modules_Module_Abstract;
 use Jet\Auth_Controller_Interface;
-use Jet\Form_Field_RegistrationPassword;
 use Jet\Mvc;
-use Jet\Mvc_Factory;
-use Jet\Mvc_Layout;
-use Jet\Data_DateTime;
-use Jet\Session;
 use Jet\Form;
-use Jet\Form_Field_Input;
-use Jet\Form_Field_Password;
 
 
-use JetExampleApp\Mvc_Page as Page;
+use JetExampleApp\Application_Modules_Module_Manifest;
 use JetExampleApp\Auth_Administrator_User as Administrator;
 use JetExampleApp\Auth_Visitor_User as Visitor;
 
@@ -29,17 +23,31 @@ use JetExampleApp\Auth_Visitor_User as Visitor;
  */
 class Main extends Application_Modules_Module_Abstract  implements Auth_Controller_Interface {
 
-	/**
-	 * Currently logged user
-	 *
-	 * @var Administrator|Visitor
-	 */
-	protected $current_user;
+	const EVENT_LOGIN_FAILED = 'login_failed';
+	const EVENT_LOGIN_SUCCESS = 'login_success';
+	const EVENT_LOGOUT = 'logout';
+
 
 	/**
+	 * @var Main_Public
 	 */
-	public function initialize()
+	protected $admin;
+
+	/**
+	 * @var Main_Public
+	 */
+	protected $public;
+
+	/**
+	 *
+	 * @param Application_Modules_Module_Manifest $manifest
+	 */
+	public function __construct( Application_Modules_Module_Manifest $manifest )
 	{
+		parent::__construct($manifest);
+
+		$this->admin = new Main_Admin( $this );
+		$this->public = new Main_Public( $this );
 	}
 
 	/**
@@ -47,46 +55,11 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return bool
 	 */
 	public function getUserIsLoggedIn() {
-
-		$user = $this->getCurrentUser();
-		if(!$user) {
-			return false;
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
+			return $this->admin->getUserIsLoggedIn();
+		} else {
+			return $this->public->getUserIsLoggedIn();
 		}
-
-		if(
-		!$user->getIsActivated()
-		) {
-			return false;
-		}
-
-		if($user->getIsBlocked()) {
-			$till = $user->getIsBlockedTill();
-			if(
-				$till!==null &&
-				$till<=Data_DateTime::now()
-			) {
-				$user->unBlock();
-				$user->save();
-			} else {
-				return false;
-			}
-		}
-
-		if( !$user->getPasswordIsValid() ) {
-			return false;
-		}
-
-		if(
-			($pwd_valid_till = $user->getPasswordIsValidTill())!==null &&
-			$pwd_valid_till<=Data_DateTime::now()
-		) {
-			$user->setPasswordIsValid(false);
-			$user->save();
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -94,62 +67,15 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 */
 	public function handleLogin()
 	{
-
-		$page = Mvc::getCurrentPage();
-
-
-		$action = 'login';
-
-		$user = $this->getCurrentUser();
-
-		if($user) {
-			if(!$user->getIsActivated()) {
-				$action = 'is_not_activated';
-			} else
-				if($user->getIsBlocked()) {
-					$action = 'is_blocked';
-				} else
-					if(!$user->getPasswordIsValid()) {
-						$action = 'must_change_password';
-					}
-		}
-
-
-		$page_content = [];
-		$page_content_item = Mvc_Factory::getPageContentInstance();
-
-		$page_content_item->setModuleName( $this->module_manifest->getName() );
-		$page_content_item->setControllerAction( $action );
-
-
-		$page_content[] = $page_content_item;
-
-		$page->setContent( $page_content );
-
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$layout = new Mvc_Layout( $this->getLayoutsDir(), 'default' );
-
-			Mvc_Layout::setCurrentLayout($layout);
-		}
-
-		echo $page->render();
-	}
-
-
-	/**
-	 * @return Session
-	 */
-	protected function getSession() {
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			return new Session('auth_admin');
+			$this->admin->handleLogin();
 		} else {
-			return new Session('auth_web');
+			$this->public->handleLogin();
 		}
-
 	}
 
+
 	/**
-	 * Authenticates given user and returns TRUE if given credentials are valid, otherwise returns FALSE
 	 *
 	 * @param string $login
 	 * @param string $password
@@ -158,188 +84,93 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 */
 	public function login( $login, $password ) {
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$user = new Administrator();
+			$res = $this->admin->login( $login, $password );
 		} else {
-			$user = new Visitor();
+			$res = $this->public->login( $login, $password );
 		}
 
-		$user = $user->getByIdentity(  $login, $password  );
 
-		if(!$user)  {
+		if(!$res) {
+			Application_Log::warning(
+							static::EVENT_LOGIN_FAILED,
+							'Login failed. Login: \''.$login.'\'',
+							$login
+						);
 			return false;
+		} else {
+			$user = $this->getCurrentUser();
+			Application_Log::success(
+							static::EVENT_LOGIN_SUCCESS,
+							'User '.$user->getLogin().' (id:'.$user->getId().') has logged in',
+							$user->getId(),
+							$user->getName()
+						);
+
+			return true;
 		}
 
-		/**
-		 * @var Administrator|Visitor $user
-		 */
-		$session = $this->getSession();
-		$session->setValue( 'user_id', $user->getId() );
-
-		$this->current_user = $user;
-
-		return true;
 	}
 
 	/**
-	 * Logout current user
+	 *
 	 */
 	public function logout() {
-		Session::destroy();
-		$this->current_user = null;
+		$user = $this->getCurrentUser();
+		if($user) {
+			Application_Log::info(
+							static::EVENT_LOGOUT,
+							'User has '.$user->getLogin().' (id:'.$user->getId().') logged off',
+							$user->getId(),
+							$user->getName()
+						);
+		}
+
+
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
+			$this->admin->logout();
+		} else {
+			$this->public->logout();
+		}
 	}
 
 	/**
-	 * Return current user data or FALSE
 	 *
 	 * @return Administrator|Visitor|bool
 	 */
 	public function getCurrentUser() {
-		if($this->current_user!==null) {
-			return $this->current_user;
-		}
-
-		$session = $this->getSession();
-
-		$user_id = $session->getValue('user_id', null);
-
-		if(!$user_id) {
-			$this->current_user = false;
-
-			/**
-			 * @var Page $page
-			 */
-			$page = Mvc::getCurrentPage();
-			if($page->getIsRestApiHook()) {
-				//TODO: http auth
-			}
-
-
-		} else {
-			if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-				$this->current_user = Administrator::get($user_id);
-
-			} else {
-				$this->current_user = Visitor::get($user_id);
-			}
-		}
-
-		return $this->current_user;
-	}
-
-
-	/**
-	 * Log auth event
-	 *
-	 * @param string $event
-	 * @param mixed $event_data
-	 * @param string $event_txt
-	 * @param string $user_id (optional; default: null = current user ID)
-	 * @param string $user_login (optional; default: null = current user login)
-	 */
-	public function logEvent( $event, $event_data, $event_txt, $user_id=null, $user_login=null ) {
-		//TODO: prekontrolovat a doplnit logovani
-		if($user_id===null) {
-			$c_user = $this->getCurrentUser();
-
-			if($c_user) {
-				$user_id = $c_user->getId();
-				$user_login = $c_user->getLogin();
-			} else {
-				$user_id = 0;
-				$user_login = '';
-			}
-
-		}
-
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			Event_Administration::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
+			return $this->admin->getCurrentUser();
 		} else {
-			Event_Site::logEvent($event, $event_data, $event_txt, $user_id, $user_login);
+			return $this->public->getCurrentUser();
 		}
+
 	}
 
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 	/**
-	 * Get login form instance
 	 *
 	 * @return Form
 	 */
 	public function getLoginForm() {
-        $login_field =  new Form_Field_Input('login', 'User name: ');
-        $login_field->setErrorMessages([
-            Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
-        ]);
-        $password_field = new Form_Field_Password('password', 'Password:');
-        $password_field->setErrorMessages([
-            Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
-        ]);
 
-		$form = new Form('login', [
-            $login_field,
-            $password_field
-		]);
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
+			return $this->admin->getLoginForm();
+		} else {
+			return $this->public->getLoginForm();
+		}
 
-		$form->getField('login')->setIsRequired( true );
-		/**
-		 * @var Form_Field_Password $password
-		 */
-		$password = $form->getField('password');
-		$password->setIsRequired( true );
-
-		return $form;
 	}
 
 	/**
 	 * @return Form
 	 */
 	public function getChangePasswordForm() {
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$user = new Administrator();
 
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
+			return $this->admin->getChangePasswordForm();
 		} else {
-			$user = new Visitor();
+			return $this->public->getChangePasswordForm();
 		}
 
-		$current_password = new Form_Field_Password('current_password', 'Current password');
-		$current_password->setIsRequired( true );
-		$current_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
-		]);
-
-		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
-		$new_password->setPasswordConfirmationLabel('Confirm new password');
-
-		$new_password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
-
-		$new_password->setIsRequired( true );
-		$new_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-
-
-
-		$form = new Form('change_password', [
-			$current_password,
-			$new_password
-		]);
-
-
-
-
-
-		return $form;
 	}
 
 
@@ -347,30 +178,13 @@ class Main extends Application_Modules_Module_Abstract  implements Auth_Controll
 	 * @return Form
 	 */
 	function getMustChangePasswordForm() {
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$user = new Administrator();
 
+		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
+			return $this->admin->getMustChangePasswordForm();
 		} else {
-			$user = new Visitor();
+			return $this->public->getMustChangePasswordForm();
 		}
 
-		$password = new Form_Field_RegistrationPassword('password', 'New password: ');
-		$form = new Form('change_password', [
-			$password
-		]);
-
-		$password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
-
-		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-		$password->setIsRequired( true );
-		$password->setPasswordConfirmationLabel('Confirm new password');
-
-		return $form;
 	}
 
 

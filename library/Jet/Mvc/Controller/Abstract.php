@@ -143,23 +143,34 @@ abstract class Mvc_Controller_Abstract extends BaseObject {
 	/**
 	 * @param mixed $action_parameters
 	 * @param string|null $action
+	 * @param string $action_message
 	 */
-	public function logAllowedAction( $action_parameters=null, $action=null )
+	public function logAllowedAction( $action_parameters=null, $action=null, $action_message='' )
 	{
+		//TODO: upravit a vsude doplnit
+
+		/*
 		if( $action_parameters && $action_parameters instanceof BaseObject_Serializable_JSON) {
 			$action_parameters = $action_parameters->jsonSerialize();
 		}
 
 		$action_parameters = ($action_parameters!==null) ? $action_parameters : $this->action_parameters;
+		*/
 		$action = ($action) ?
 			$action
 			:
 			$this->module_instance->getModuleManifest()->getName().':'.static::$ACL_actions_check_map[$this->current_action];
 
-		Auth::logEvent(
+		$context_object_id='';
+		$context_object_name='';
+		$context_object_data=[];
+
+		Application_Log::success(
 			'action:'.$action,
-			['action_params'=>$action_parameters],
-			'Allowed action: '.$action
+			$action_message ? $action_message : 'Allowed action: '.$action,
+			$context_object_id,
+			$context_object_name,
+			$context_object_data
 		);
 
 	}

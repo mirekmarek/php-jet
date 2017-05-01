@@ -49,7 +49,7 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	/**
 	 * @param Application_Modules_Module_Manifest $manifest
 	 */
-	final function __construct( Application_Modules_Module_Manifest $manifest ) {
+	public function __construct( Application_Modules_Module_Manifest $manifest ) {
 		$this->module_manifest = $manifest;
 	}
 

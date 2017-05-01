@@ -44,13 +44,6 @@ class Controller_Main extends Mvc_Controller_Standard {
 	public function initialize() {
 		$GET = Http_Request::GET();
 
-		/*
-		if(($locale=$GET->getString('locale')) ) {
-			AdminMain::setCurrentUiLocale( $locale );
-			Http_Headers::movedTemporary( Page::get(Page::HOMEPAGE_ID)->getURI() );
-		}
-		*/
-
 		if($GET->exists('logout')) {
 			Auth::logout();
 
@@ -128,6 +121,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 				$user->setPasswordIsValid(true);
 				$user->setPasswordIsValidTill(null);
 				$user->save();
+//TODO: doplnit logovani
 
 				Http_Headers::reload();
 			} else {

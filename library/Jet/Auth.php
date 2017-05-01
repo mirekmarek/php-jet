@@ -123,14 +123,7 @@ class Auth extends BaseObject {
 	 * @return bool
 	 */
 	public static function login( $login, $password ) {
-		if(!static::getAuthController()->login( $login, $password )) {
-			static::logEvent('login_failed', ['login'=>$login], 'Login failed. Login: \''.$login.'\'');
-			return false;
-		} else {
-			$user_id = static::getCurrentUser()->getId();
-			static::logEvent('login', ['login'=>$login, 'user_id'=>$user_id], 'Login successful. Login: \''.$login.'\', User ID: \''.$user_id.'\'');
-			return true;
-		}
+		return static::getAuthController()->login( $login, $password );
 	}
 
 	/**
@@ -139,12 +132,6 @@ class Auth extends BaseObject {
 	 * @return mixed
 	 */
 	public static function logout() {
-		$user = static::getCurrentUser();
-		if($user) {
-			$login = $user->getLogin();
-			$user_id = $user->getId();
-			static::logEvent('logout', ['login'=>$login, 'user_id'=>$user_id], 'Logout successful. Login: \''.$login.'\', User ID: \''.$user_id.'\'');
-		}
 
 		return static::getAuthController()->logout();
 	}
@@ -174,17 +161,5 @@ class Auth extends BaseObject {
 		return false;
 	}
 
-	/**
-	 * Log auth event
-	 *
-	 * @param string $event
-	 * @param mixed $event_data
-	 * @param string $event_txt
-	 * @param string $user_id (optional; default: null = current user id)
-	 * @param string $user_login (optional; default: null = current user login)
-	 */
-	public static function logEvent($event, $event_data, $event_txt, $user_id=null, $user_login=null ) {
-		static::getAuthController()->logEvent( $event, $event_data, $event_txt, $user_id, $user_login );
-	}
 
 }

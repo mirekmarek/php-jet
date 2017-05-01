@@ -206,6 +206,7 @@ class Mvc_Page extends Jet_Mvc_Page {
 			}
 
 			//$parent_page->setIsSystemPage(true);
+			$parent_page->setIsRestApiHook(true);
 
 
 

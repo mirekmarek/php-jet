@@ -69,7 +69,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 				$user->setPasswordIsValid(true);
 				$user->setPasswordIsValidTill(null);
 				$user->save();
-
+//TODO: doplnit logovani
 				messages::success( Tr::_('Your password has been changed') );
 			}
 

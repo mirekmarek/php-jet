@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+use JetExampleApp\Application_Logger;
+
 define('JET_CONFIG_ENVIRONMENT', 'development');
 
 require('config/class_names.php');
@@ -41,6 +43,7 @@ if(
 }
 //- REMOVE AFTER INSTALLATION -------------
 
+Application_Log::setLogger( new Application_Logger() );
 
 Application::start();
 Application::runMvc();

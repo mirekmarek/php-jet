@@ -21,7 +21,8 @@ class Application_Modules extends BaseObject {
 	/**
 	 * @return Application_Modules_Handler_Abstract
 	 */
-	public static function getHandler() {
+	public static function getHandler()
+	{
 		if(!static::$handler) {
 			$class_name = JET_APPLICATION_MODULES_HANDLER_CLASS_NAME;
 
@@ -34,6 +35,14 @@ class Application_Modules extends BaseObject {
 		}
 
 		return static::$handler;
+	}
+
+	/**
+	 * @param Application_Modules_Handler_Abstract $handler
+	 */
+	public static function setHandler( Application_Modules_Handler_Abstract $handler)
+	{
+		self::$handler = $handler;
 	}
 
 

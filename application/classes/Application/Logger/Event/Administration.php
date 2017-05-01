@@ -5,12 +5,12 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplicationModule\JetExample\AuthController;
+namespace JetExampleApp;
 
 /**
  *
- * @JetDataModel:database_table_name = 'auth_events_administration'
+ * @JetDataModel:database_table_name = 'events_administration'
  */
-class Event_Administration extends Event_Abstract
+class Application_Logger_Event_Administration extends Application_Logger_Event_Abstract
 {
 }
