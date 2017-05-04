@@ -110,7 +110,6 @@ class Translator_Backend_PHPFiles extends Translator_Backend_Abstract {
 	 *
 	 * @param Locale $locale
 	 *
-	 * @throws Translator_Exception
 	 * @return string
 	 */
 	protected function _getFilePath($namespace, Locale $locale) {

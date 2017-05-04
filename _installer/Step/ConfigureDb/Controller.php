@@ -102,7 +102,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
 		$username = new Form_Field_Input('username', 'Username:', $connection_config->getUsername() );
 		$username->setIsRequired(true);
 		$username->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter user name'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
 		]);
 
 		$password = new Form_Field_Input('password', 'Password:', $connection_config->getPassword() );

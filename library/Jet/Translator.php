@@ -58,6 +58,41 @@ class Translator extends BaseObject {
 	}
 
 
+	/**
+	 *
+	 * @return string
+	 */
+	public static function getCurrentNamespace() {
+		return static::$current_namespace;
+	}
+
+	/**
+	 *
+	 * @param string $current_namespace
+	 */
+	public static function setCurrentNamespace($current_namespace) {
+		static::$current_namespace = $current_namespace;
+	}
+
+	/**
+	 *
+	 * @return Locale
+	 */
+	public static function getCurrentLocale() {
+		if(!static::$current_locale) {
+			static::$current_locale = Mvc::getCurrentLocale();
+		}
+		return static::$current_locale;
+	}
+
+	/**
+	 *
+	 * @param Locale $current_locale
+	 */
+	public static function setCurrentLocale( Locale $current_locale ) {
+		static::$current_locale = $current_locale;
+	}
+
 
 	/**
 	 * Gets translator backend instance
@@ -74,7 +109,6 @@ class Translator extends BaseObject {
 	}
 
 	/**
-	 * @static
 	 *
 	 * @param Translator_Backend_Abstract $backend
 	 */
@@ -86,16 +120,13 @@ class Translator extends BaseObject {
 	}
 
 	/**
-	 * @static
-	 *
-	 * Shutdown - save all update dictionaries
 	 *
 	 */
 	public static function saveUpdatedDictionaries() {
 		$backend = static::getBackend();
 
 		foreach(static::$dictionaries as $dictionary) {
-			if($dictionary->getNeedToSave()) {
+			if($dictionary->saveRequired()) {
 				$backend->saveDictionary($dictionary);
 			}
 		}
@@ -160,42 +191,6 @@ class Translator extends BaseObject {
 
 
 	/**
-	 * @static
-	 * @return string
-	 */
-	public static function getCurrentNamespace() {
-		return static::$current_namespace;
-	}
-
-	/**
-	 * @static
-	 * @param string $current_namespace
-	 */
-	public static function setCurrentNamespace($current_namespace) {
-		static::$current_namespace = $current_namespace;
-	}
-
-	/**
-	 * @static
-	 * @return Locale
-	 */
-	public static function getCurrentLocale() {
-		if(!static::$current_locale) {
-			static::$current_locale = Mvc::getCurrentLocale();
-		}
-		return static::$current_locale;
-	}
-
-	/**
-	 * @static
-	 * @param Locale $current_locale
-	 */
-	public static function setCurrentLocale( Locale $current_locale ) {
-		static::$current_locale = $current_locale;
-	}
-
-	/**
-	 * @static
 	 *
 	 * @param string $namespace
 	 * @param Locale $locale
@@ -216,43 +211,5 @@ class Translator extends BaseObject {
 		return static::$dictionaries[$dictionary_key];
 	}
 
-
-	/**
-	 * Export phrases
-	 *
-	 * @param string $namespace
-	 * @param Locale $locale
-	 *
-	 * @return string
-	 */
-	public static function exportDictionary($namespace, Locale $locale ){
-
-		$dictionary = static::loadDictionary( $namespace, $locale );
-		return $dictionary->export();
-	}
-
-	/**
-	 * Import dictionary
-	 *
-	 * @param string $data
-	 *
-	 * @throws Translator_Exception
-	 *
-	 */
-	public static function importDictionary($data){
-
-		list($namespace, $locale) = Translator_Dictionary::getImportDataNamespaceAndLocale($data);
-
-		if(!$namespace || !$locale) {
-			throw new Translator_Exception(
-				'Incorrect file format. Header is missing.',
-				Translator_Exception::CODE_IMPORT_INCORRECT_DICTIONARY_EXPORT_FILE_FORMAT
-			);
-		}
-
-		$dictionary = static::loadDictionary( $namespace, $locale );
-		$dictionary->import($data);
-		static::getBackend()->saveDictionary($dictionary);
-	}
 
 }

@@ -52,9 +52,6 @@ class Application extends BaseObject {
 
 
 	/**
-	 * Start application
-	 *
-	 * @static
 	 *
 	 * @throws Application_Exception
 	 */
@@ -85,9 +82,6 @@ class Application extends BaseObject {
 	}
 
 	/**
-	 * Initializes system and run dispatch.
-	 *
-	 * @static
 	 *
 	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
 	 *
@@ -161,7 +155,6 @@ class Application extends BaseObject {
 	}
 
 	/**
-	 * @static
 	 *
 	 */
 	public static function end(){
@@ -180,7 +173,6 @@ class Application extends BaseObject {
 	}
 
 	/**
-	 * @static
 	 *
 	 * @return bool
 	 */

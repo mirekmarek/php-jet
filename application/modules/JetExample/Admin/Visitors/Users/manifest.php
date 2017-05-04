@@ -16,6 +16,7 @@ return [
 		'admin/visitors-users' => [
 			'title' => 'Visitors - Users',
 			'URL_fragment' => 'visitors-users',
+			'icon' => 'users',
 		]
 	],
 

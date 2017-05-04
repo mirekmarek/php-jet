@@ -12,7 +12,5 @@ $this->requireCssFile( '%JET_PUBLIC_URI%styles/flags.css' );
 
 $this->requireJavascriptFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
 $this->requireJavascriptFile('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js');
-$this->requireJavascriptFile( '%JET_PUBLIC_URI%scripts/jquery-ui.min.js' );
-$this->requireJavascriptFile( '%JET_PUBLIC_URI%scripts/jquery.form.js');
 
 $this->requireJavascriptFile( '%JET_PUBLIC_URI%scripts/admin_main.js' );

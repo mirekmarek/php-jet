@@ -259,9 +259,8 @@ class Http_Request extends BaseObject {
 	}
 
 	/**
-	 * @static
 	 *
-	 * @param $include_query_string (optional, default: true)
+	 * @param bool $include_query_string (optional, default: true)
 	 *
 	 * @return string
 	 */
@@ -292,9 +291,7 @@ class Http_Request extends BaseObject {
 	}
 
 	/**
-	 * Returns request HTTP headers
 	 *
-	 * @static
 	 * @return array
 	 */
 	public static function getHeaders() {

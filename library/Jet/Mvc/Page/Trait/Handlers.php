@@ -107,10 +107,8 @@ trait Mvc_Page_Trait_Handlers
 		if(!isset(static::$relative_URIs_map[$site->getId()][$str_locale][$relative_URI])) {
 			return null;
 		}
-
-		$id_s = static::$relative_URIs_map[$site->getId()][$str_locale][$relative_URI];
-
-		return static::$pages[$id_s];
+		
+		return static::$relative_URIs_map[$site->getId()][$str_locale][$relative_URI];
 	}
 
 	/**

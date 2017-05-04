@@ -4,7 +4,7 @@ return [
 	'Invalid date format' => '',
 	'Number is out of range (0-999)' => '',
 	'Invalid value' => '',
-	'Please type confirm password' => '',
+	'Please enter confirm password' => '',
 	'Passwords do not match' => '',
 	'Checkbox: ' => '',
 	'Date: ' => '',

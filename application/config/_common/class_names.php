@@ -31,5 +31,4 @@ define('JET_DB_CONNECTION_ADAPTER', 'PDO');
 
 define('JET_FORM_FIELD_CLASS_NAME_PREFIX', __NAMESPACE__.'\Form_Field_');
 
-define('JET_TRANSLATOR_BACKEND_CLASS_NAME_PREFIX', __NAMESPACE__.'\Translator_Backend_');
 

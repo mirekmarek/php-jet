@@ -2,11 +2,11 @@
 return [
 	'Create administrator account' => '',
 	'Administrator account has already been created :-) ' => '',
-	'Please specify user name' => '',
-	'Please type password' => '',
-	'Please type confirm password' => '',
+	'Please specify username' => '',
+	'Please enter password' => '',
+	'Please enter confirm password' => '',
 	'Passwords do not match' => '',
-	'User name' => '',
+	'Username' => '',
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
@@ -16,5 +16,5 @@ return [
 	'Please select role' => '',
 	'Password is not strong enough' => '',
 	'Locale' => '',
-	'Sorry, but username %LOGIN% is registered.' => '',
+	'Sorry, but username %USERNAME% is registered.' => '',
 ];

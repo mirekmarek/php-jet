@@ -57,8 +57,6 @@ class Application_Modules extends BaseObject {
 
 
 	/**
-	 * @static
-	 * Read installed modules list
 	 *
 	 * @throws Application_Modules_Exception
 	 * @return Application_Modules_Module_Manifest[]

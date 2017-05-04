@@ -36,7 +36,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	 *
 	 * @return bool
 	 */
-	public function getUserIsLoggedIn() {
+	public function isUserLoggedIn() {
 
 		$user = $this->getCurrentUser();
 		if(!$user) {
@@ -44,13 +44,13 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 		}
 
 		if(
-		!$user->getIsActivated()
+		!$user->isActivated()
 		) {
 			return false;
 		}
 
-		if($user->getIsBlocked()) {
-			$till = $user->getIsBlockedTill();
+		if($user->isBlocked()) {
+			$till = $user->isBlockedTill();
 			if(
 				$till!==null &&
 				$till<=Data_DateTime::now()
@@ -93,10 +93,10 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 		$user = $this->getCurrentUser();
 
 		if($user) {
-			if(!$user->getIsActivated()) {
+			if(!$user->isActivated()) {
 				$action = 'is_not_activated';
 			} else
-				if($user->getIsBlocked()) {
+				if($user->isBlocked()) {
 					$action = 'is_blocked';
 				} else
 					if(!$user->getPasswordIsValid()) {
@@ -145,14 +145,14 @@ class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interf
 	/**
 	 * Authenticates given user and returns TRUE if given credentials are valid, otherwise returns FALSE
 	 *
-	 * @param string $login
+	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool
 	 */
-	public function login( $login, $password ) {
+	public function login($username, $password ) {
 
-		$user = Administrator::getByIdentity(  $login, $password  );
+		$user = Administrator::getByIdentity(  $username, $password  );
 
 		if(!$user)  {
 			return false;

@@ -25,13 +25,18 @@ trait Mvc_Page_Trait_URL {
 
 	/**
 	 * @param string $URL_fragment
+	 * @param bool $encode (optional, default = true)
 	 */
-	public function setUrlFragment( $URL_fragment ) {
+	public function setUrlFragment( $URL_fragment, $encode=true ) {
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
 		 */
 
-		$this->URL_fragment = rawurlencode($URL_fragment);
+		if($encode) {
+			$URL_fragment = rawurlencode($URL_fragment);
+		}
+
+		$this->URL_fragment = $URL_fragment;
 
 		if( ($parent=$this->getParent()) ) {
 			$this->setRelativeUrl($parent->getRelativeUrl().$this->URL_fragment.'/');

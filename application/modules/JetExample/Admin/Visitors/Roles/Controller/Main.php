@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Admin\Visitors\Roles;
 
+use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Visitor_Role as Role;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
@@ -57,11 +58,14 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	 * @param string $current_label
 	 */
 	protected function _setBreadcrumbNavigation($current_label='' ) {
-		$menu_item = AdminUI_module::getMenuItems()['system/visitor_roles'];
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$page = Mvc_Page::get(Main::ADMIN_MAIN_PAGE);
 
 		breadcrumbNavigation::addItem(
-			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
-			$menu_item->getUrl()
+			UI::icon($page->getIcon()).'&nbsp;&nbsp;'. $page->getBreadcrumbTitle(),
+			$page->getURL()
 		);
 
 		if($current_label) {

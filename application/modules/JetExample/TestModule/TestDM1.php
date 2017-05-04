@@ -160,7 +160,7 @@ class TestDM1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Password (user registration): '
 	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
 	 * @JetDataModel:form_field_options = []
-     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please type password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
+     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */

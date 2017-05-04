@@ -168,8 +168,6 @@ class Http_Headers {
 
 	/**
 	 *
-	 * @static
-	 *
 	 * @return array
 	 */
 	public static function getResponseCodes(){
@@ -179,8 +177,6 @@ class Http_Headers {
 
 	/**
 	 * Returns HTTP text message (or false if unknown HTTP code)
-	 *
-	 * @static
 	 *
 	 * @param int $http_code
 	 *
@@ -195,9 +191,6 @@ class Http_Headers {
 	}
 
 	/**
-	 * Get response status header
-	 *
-	 * @static
 	 *
 	 * @param int $http_code
 	 *
@@ -213,9 +206,6 @@ class Http_Headers {
 	}
 
 	/**
-	 * Send status header
-	 *
-	 * @static
 	 *
 	 * @param int $code
 	 * @param array $headers (optional)

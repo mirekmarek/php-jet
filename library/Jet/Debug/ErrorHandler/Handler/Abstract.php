@@ -37,17 +37,12 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 	}
 
 	/**
-	 * @abstract
-	 *
 	 * @param Debug_ErrorHandler_Error $error
 	 *
 	 */
 	abstract public function handle( Debug_ErrorHandler_Error $error );
 
 	/**
-	 * @abstract
-	 *
-	 * Handler must return true if an error displayed
 	 *
 	 * @return bool
 	 */

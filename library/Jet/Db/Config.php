@@ -44,7 +44,7 @@ class Db_Config extends Application_Config {
 	/**
 	 * Get connection configuration
 	 *
-	 * @param $connection_name
+	 * @param string $connection_name
 	 *
 	 * @throws Db_Exception
 	 * @return Db_Connection_Config_Abstract
@@ -74,7 +74,7 @@ class Db_Config extends Application_Config {
 	}
 
 	/**
-	 * @param $connection_name
+	 * @param string $connection_name
 	 * @param Db_Connection_Config_Abstract $connection_configuration
 	 *
 	 */
@@ -83,7 +83,7 @@ class Db_Config extends Application_Config {
 	}
 
 	/**
-	 * @param $connection_name
+	 * @param string $connection_name
 	 *
 	 */
 	public function deleteConnection( $connection_name ) {

@@ -18,7 +18,6 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	/**
 	 *
 	 *
-	 * @abstract
 	 * @param string $request_URL
 	 *
 	 * @throws Mvc_Router_Exception
@@ -27,15 +26,11 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 
 
 	/**
-	 * @abstract
-	 *
 	 * @param string $public_file_name
 	 */
 	abstract public function setIsFile( $public_file_name );
 
 	/**
-	 * @abstract
-	 *
 	 * @return bool
 	 */
 	abstract public function getIsFile();
@@ -47,44 +42,37 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 
 
 	/**
-	 * Sets the request is unknown page
 	 *
-	 * @abstract
 	 */
 	abstract public function setIs404();
 
 
 	/**
-	 * Returns true is request is unknown page.
-	 *
-	 * @abstract
 	 *
 	 * @return bool
 	 */
 	abstract public function getIs404();
 
 	/**
-	 * @abstract
+	 *
 	 * @return bool
 	 */
 	abstract public function getIsRedirect();
 
 	/**
-	 * @abstract
+	 *
 	 * @return string
 	 */
 	abstract public function getRedirectTargetURL();
 
 	/**
-	 * @abstract
+	 *
 	 * @return string
 	 */
 	abstract public function getRedirectType();
 
 	/**
-	 * Sets the redirect. Redirection is not performed immediately.
 	 *
-	 * @abstract
 	 * @param string $target_URL
 	 * @param string $http_code (optional), options: temporary, permanent, default: Mvc_Router::REDIRECT_TYPE_TEMPORARY
 	 */
@@ -92,8 +80,6 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 
 
 	/**
-	 * Redirect if needed
-	 * @abstract
 	 */
 	abstract public function handleRedirect();
 
@@ -108,7 +94,6 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	abstract public function setLoginRequired($login_required);
 
 	/**
-	 * @abstract
 	 * @return string
 	 */
 	abstract public function getRequestURL();
@@ -119,7 +104,6 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	abstract public function getParsedRequestURL();
 
 	/**
-	 * @abstract
 	 * @return array
 	 */
 	abstract public function getPathFragments();
@@ -150,7 +134,6 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	abstract public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part );
 
 	/**
-	 * @abstract
 	 * @return bool
 	 */
 	abstract public function getIsSSLRequest();

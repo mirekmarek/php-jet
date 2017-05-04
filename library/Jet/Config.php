@@ -477,9 +477,8 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	}
 
 	/**
-	 * @static
 	 *
-	 * @param $base_directory
+	 * @param string $base_directory
 	 *
 	 * @return array
 	 */

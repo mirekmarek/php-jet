@@ -8,7 +8,7 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require JET_LIBRARY_PATH.'Jet/IO/File/Exception.php';
+require_once JET_LIBRARY_PATH.'Jet/IO/File/Exception.php';
 
 /**
  * Class IO_File
@@ -68,8 +68,6 @@ class IO_File {
 
 	/**
 	 *
-	 * @static
-	 *
 	 * @param string $file_path
 	 *
 	 * @return bool
@@ -79,8 +77,6 @@ class IO_File {
 	}
 
 	/**
-	 *
-	 * @static
 	 *
 	 * @param string $file_path
 	 *

@@ -14,7 +14,7 @@ return [
 	'Warning!' => '',
 	'Article is not saved! Do you really want to exit?' => '',
 	'Please select locale' => '',
-	'Please type title' => '',
+	'Please enter title' => '',
 	'Invalid date and time format' => '',
 	'Locale' => '',
 	'Annotation' => '',

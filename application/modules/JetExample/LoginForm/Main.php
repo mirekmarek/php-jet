@@ -80,21 +80,21 @@ class Main extends Application_Modules_Module_Abstract {
 	 * @return Form
 	 */
 	public function admin_getLoginForm() {
-		$login_field =  new Form_Field_Input('login', 'User name: ');
-		$login_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
+		$username_field =  new Form_Field_Input('username', 'Username: ');
+		$username_field->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
 		]);
 		$password_field = new Form_Field_Password('password', 'Password:');
 		$password_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password'
 		]);
 
 		$form = new Form('login', [
-			$login_field,
+			$username_field,
 			$password_field
 		]);
 
-		$form->getField('login')->setIsRequired( true );
+		$form->getField('username')->setIsRequired( true );
 		/**
 		 * @var Form_Field_Password $password
 		 */
@@ -113,7 +113,7 @@ class Main extends Application_Modules_Module_Abstract {
 		$current_password = new Form_Field_Password('current_password', 'Current password');
 		$current_password->setIsRequired( true );
 		$current_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
 		]);
 
 		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
@@ -123,7 +123,7 @@ class Main extends Application_Modules_Module_Abstract {
 
 		$new_password->setIsRequired( true );
 		$new_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
 			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
@@ -157,7 +157,7 @@ class Main extends Application_Modules_Module_Abstract {
 		$password->setPasswordStrengthCheckCallback([Auth::getCurrentUser(), 'verifyPasswordStrength']);
 
 		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
 			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
@@ -178,21 +178,21 @@ class Main extends Application_Modules_Module_Abstract {
 	 * @return Form
 	 */
 	public function site_getLoginForm() {
-		$login_field =  new Form_Field_Input('login', 'User name: ');
-		$login_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type user name'
+		$username_field =  new Form_Field_Input('username', 'Username: ');
+		$username_field->setErrorMessages([
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
 		]);
 		$password_field = new Form_Field_Password('password', 'Password:');
 		$password_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type password'
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password'
 		]);
 
 		$form = new Form('login', [
-			$login_field,
+			$username_field,
 			$password_field
 		]);
 
-		$form->getField('login')->setIsRequired( true );
+		$form->getField('username')->setIsRequired( true );
 		/**
 		 * @var Form_Field_Password $password
 		 */
@@ -211,7 +211,7 @@ class Main extends Application_Modules_Module_Abstract {
 		$current_password = new Form_Field_Password('current_password', 'Current password');
 		$current_password->setIsRequired( true );
 		$current_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
 		]);
 
 		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
@@ -221,7 +221,7 @@ class Main extends Application_Modules_Module_Abstract {
 
 		$new_password->setIsRequired( true );
 		$new_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
 			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
@@ -255,7 +255,7 @@ class Main extends Application_Modules_Module_Abstract {
 		$password->setPasswordStrengthCheckCallback([Auth::getCurrentUser(), 'verifyPasswordStrength']);
 
 		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type new password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
 			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',

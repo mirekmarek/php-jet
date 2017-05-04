@@ -24,6 +24,27 @@ class Session extends BaseObject {
 	protected $namespace;
 
 	/**
+	 * @var callable
+	 */
+	protected static $session_validator;
+
+	/**
+	 * @return callable
+	 */
+	public static function getSessionValidator()
+	{
+		return self::$session_validator;
+	}
+
+	/**
+	 * @param callable $session_validator
+	 */
+	public static function setSessionValidator( callable $session_validator )
+	{
+		self::$session_validator = $session_validator;
+	}
+
+	/**
 	 * @param string $namespace
 	 */
 	public function __construct( $namespace ) {
@@ -41,6 +62,13 @@ class Session extends BaseObject {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			@session_start();
 			static::$session_started = true;
+			if(static::$session_validator) {
+				$validator = static::$session_validator;
+				if(!$validator()) {
+					session_reset();
+					session_regenerate_id();
+				}
+			}
 		}
 
 		if(!isset($_SESSION[$this->namespace])) {

@@ -49,13 +49,16 @@ class Translator_Dictionary_Phrase extends BaseObject {
 	}
 
 	/**
-	 * @static
 	 *
 	 * @param $phrase
 	 *
 	 * @return string
 	 */
 	public static function generateHash($phrase) {
+		if(strlen($phrase)<255) {
+			return $phrase;
+		}
+
 		return md5($phrase);
 	}
 

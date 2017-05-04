@@ -12,5 +12,5 @@ return [
 	'Role <b>%ROLE_NAME%</b> has been created' => '',
 	'Edit role <b>%ROLE_NAME%</b>' => '',
 	'Users' => '',
-	'Login' => '',
+	'Username' => '',
 ];

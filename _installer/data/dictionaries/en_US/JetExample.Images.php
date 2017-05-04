@@ -3,7 +3,7 @@ return [
 	'Galleries' => '',
 	'Create new gallery' => '',
 	'Save' => '',
-	'Please type title' => '',
+	'Please enter title' => '',
 	'Title' => '',
 	'Upload' => '',
 	'Delete selected images' => '',

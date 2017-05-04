@@ -210,8 +210,9 @@ interface Mvc_Page_Interface {
 
 	/**
 	 * @param string $URL_fragment
+	 * @param bool $encode (optional, default = true)
 	 */
-	public function setUrlFragment( $URL_fragment );
+	public function setUrlFragment( $URL_fragment, $encode=true );
 
 
     /**

@@ -80,7 +80,7 @@ class Auth_Administrator_User extends Auth_User{
 			$this->getEmail(),
 			'reset_password_administrator',
 			[
-				'LOGIN' => $this->getLogin(),
+				'USERNAME' => $this->getUsername(),
 				'PASSWORD' => $password,
 				'NAME' => $this->getName(),
 				'SURNAME' => $this->getSurname(),
@@ -99,7 +99,7 @@ class Auth_Administrator_User extends Auth_User{
 			$this->getEmail(),
 			'welcome_user_administrator',
 			[
-				'LOGIN' => $this->getLogin(),
+				'USERNAME' => $this->getUsername(),
 				'PASSWORD' => $password,
 				'NAME' => $this->getName(),
 				'SURNAME' => $this->getSurname(),
@@ -133,7 +133,7 @@ class Auth_Administrator_User extends Auth_User{
 		$form = parent::getEditForm($form_name);
 
 		foreach( $form->getFields() as $field ) {
-			if(!in_array($field->getName(), ['login', 'locale', 'password', 'email'])) {
+			if(!in_array($field->getName(), ['username', 'locale', 'password', 'email'])) {
 				$form->removeField($field->getName());
 			}
 		}

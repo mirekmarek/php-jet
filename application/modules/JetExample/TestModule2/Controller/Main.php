@@ -89,7 +89,7 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$validated_input_field->setPlaceholder('Type ZIP code (NNN NN)');
 		$validated_input_field->setValidationRegexp('/^[0-9]{3} [0-9]{2}$/');
 		$validated_input_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please type ZIP code',
+			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter ZIP code',
 			Form_Field_Float::ERROR_CODE_INVALID_FORMAT => 'Invalid format'
 		]);
 
@@ -250,23 +250,23 @@ class Controller_Main extends Mvc_Controller_Standard {
 		$wysiwyg_field = new Form_Field_WYSIWYG( 'wysiwyg', 'WYSIWYG');
 
 
-		$registration_user_name_field = new Form_Field_RegistrationUsername('registration_user_name_field', 'Registration - user name');
+		$registration_user_name_field = new Form_Field_RegistrationUsername('registration_user_name_field', 'Registration - username');
 		$registration_user_name_field->setErrorMessages([
-			Form_Field_RegistrationUsername::ERROR_CODE_EMPTY => 'Please type user name',
+			Form_Field_RegistrationUsername::ERROR_CODE_EMPTY => 'Please enter username',
 			Form_Field_RegistrationUsername::ERROR_CODE_USER_ALREADY_EXISTS => 'Sorry, but username is already used',
 		]);
 		$registration_user_name_field->setUserExistsCheckCallback( function( $user_name ) {
 			return !in_array($user_name, [
 				'exists1',
 				'exists2',
-				'some user name'
+				'some username'
 			]);
 		} );
 
 		$registration_email_field = new Form_Field_RegistrationEmail('registration_email_field', 'Registration - e-mail');
 		$registration_email_field->setErrorMessages([
-			Form_Field_RegistrationEmail::ERROR_CODE_EMPTY => 'Please type e-mail',
-			Form_Field_RegistrationEmail::ERROR_CODE_INVALID_FORMAT => 'Please type e-mail',
+			Form_Field_RegistrationEmail::ERROR_CODE_EMPTY => 'Please enter e-mail',
+			Form_Field_RegistrationEmail::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail',
 			Form_Field_RegistrationEmail::ERROR_CODE_USER_ALREADY_EXISTS => 'Sorry, but e-mail is already used',
 
 		]);
@@ -289,10 +289,10 @@ class Controller_Main extends Mvc_Controller_Standard {
 		} );
 
 		$registration_password_field->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please type password',
+			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm password',
 			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password does not match the confirm password',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Your password is weak. Please type some better password.'
+			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Your password is weak. Please enter some better password.'
 		]);
 
 		$password_field = new Form_Field_Password('password_field', 'Password');

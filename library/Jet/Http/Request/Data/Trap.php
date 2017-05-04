@@ -16,7 +16,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	protected function hoax(){
+	protected function trap(){
 		throw new Http_Request_Exception(
 			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
 			Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -29,7 +29,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function __get($name) {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function __set($name, $value) {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function __unset($name) {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
@@ -57,42 +57,42 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function __isset($name) {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
 	public function rewind() {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
 	public function current() {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
 	public function key() {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
 	public function next() {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
 	public function valid() {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetSet($offset, $value) {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetExists($offset) {
-		$this->hoax();
+		$this->trap();
 
 		return false;
 	}
@@ -124,7 +124,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetUnset($offset) {
-		$this->hoax();
+		$this->trap();
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function offsetGet($offset) {
-		$this->hoax();
+		$this->trap();
 
 		return null;
 	}
@@ -143,6 +143,6 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 * @throws Http_Request_Exception
 	 */
 	public function count(){
-		$this->hoax();
+		$this->trap();
 	}
 }

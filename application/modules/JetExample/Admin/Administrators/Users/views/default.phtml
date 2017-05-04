@@ -33,10 +33,10 @@ $c_edit->setCssStyle( 'width:180px;' );
 
 $grid->getColumn('id')->setCssStyle( 'width:120px;' );
 
-$grid->getColumn('login')->setDisplayCallback( function(Auth_Administrator_User $item ) use ($router) {
+$grid->getColumn('username')->setDisplayCallback( function(Auth_Administrator_User $item ) use ($router) {
 	$edit_uri=$router->getEditOrViewURI($item->getId());
 	?>
-	<a href="<?=$edit_uri;?>"><?=$item->getLogin();?></a>
+	<a href="<?=$edit_uri;?>"><?=$item->getUsername();?></a>
 	<?php
 } );
 

@@ -7,7 +7,7 @@ return [
 	'New article' => '',
 	'ADD' => '',
 	'Please select locale' => '',
-	'Please type title' => '',
+	'Please enter title' => '',
 	'Invalid date and time format' => '',
 	'Locale' => '',
 	'Annotation' => '',

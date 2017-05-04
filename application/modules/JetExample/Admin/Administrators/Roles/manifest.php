@@ -15,6 +15,9 @@ return [
 	'admin_sections' => [
 		'admin/administrators-roles' => [
 			'title' => 'Administrators - User roles',
+			'menu_title' => 'Administrators - User roles',
+			'breadcrumb_title' => 'Administrators - User roles',
+			'icon' => 'user-circle',
 			'URL_fragment' => 'administrators-user-roles',
 		]
 	],

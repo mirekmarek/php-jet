@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
-use Jet\Data_DateTime;
+use JetExampleApp\Mvc_Page;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
 use JetUI\UI;
@@ -15,9 +15,10 @@ use JetUI\dataGrid;
 use JetUI\breadcrumbNavigation;
 use JetUI\messages;
 
+use Jet\Data_DateTime;
 use Jet\Mvc;
-use Jet\Http_Headers;
 use Jet\Tr;
+use Jet\Http_Headers;
 use Jet\Http_Request;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
@@ -57,11 +58,14 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard {
 	 * @param string $current_label
 	 */
 	protected function _setBreadcrumbNavigation($current_label='' ) {
-		$menu_item = AdminUI_module::getMenuItems()['content/articles'];
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$page = Mvc_Page::get(Main::ADMIN_MAIN_PAGE);
 
 		breadcrumbNavigation::addItem(
-			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
-			$menu_item->getUrl()
+			UI::icon($page->getIcon()).'&nbsp;&nbsp;'. $page->getBreadcrumbTitle(),
+			$page->getURL()
 		);
 
 		if($current_label) {

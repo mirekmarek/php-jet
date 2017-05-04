@@ -76,7 +76,7 @@ class Auth_Visitor_User extends Auth_User{
 			$this->getEmail(),
 			'reset_password_visitor',
 			[
-				'LOGIN' => $this->getLogin(),
+				'USERNAME' => $this->getUsername(),
 				'PASSWORD' => $password,
 				'NAME' => $this->getName(),
 				'SURNAME' => $this->getSurname(),
@@ -95,7 +95,7 @@ class Auth_Visitor_User extends Auth_User{
 			$this->getEmail(),
 			'welcome_user_visitor',
 			[
-				'LOGIN' => $this->getLogin(),
+				'USERNAME' => $this->getUsername(),
 				'PASSWORD' => $password,
 				'NAME' => $this->getName(),
 				'SURNAME' => $this->getSurname(),

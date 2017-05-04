@@ -73,7 +73,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 				$user->setPasswordIsValidTill(null);
 				$user->save();
 
-				Application_Log::info('password_changed', 'User password changed', $user->getId(), $user->getLogin(), $user);
+				Application_Log::info('password_changed', 'User password changed', $user->getId(), $user->getUsername(), $user);
 
 				messages::success( Tr::_('Your password has been changed') );
 			}

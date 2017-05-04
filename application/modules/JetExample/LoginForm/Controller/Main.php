@@ -70,13 +70,13 @@ class Controller_Main extends Mvc_Controller_Standard {
 		) {
 			if($form->validateValues()) {
 				$data = $form->getValues();
-				if(Auth::login( $data['login'], $data['password'] )) {
+				if(Auth::login( $data['username'], $data['password'] )) {
 					Http_Headers::reload();
 				} else {
-					$form->setCommonMessage( Tr::_('Invalid user name or password!') );
+					$form->setCommonMessage( Tr::_('Invalid username or password!') );
 				}
 			} else {
-				$form->setCommonMessage( Tr::_('Please type user name and password') );
+				$form->setCommonMessage( Tr::_('Please enter username and password') );
 			}
 		}
 
@@ -125,11 +125,11 @@ class Controller_Main extends Mvc_Controller_Standard {
 				$user->setPasswordIsValidTill(null);
 				$user->save();
 
-				Application_Log::info('password_changed', 'User password changed', $user->getId(), $user->getLogin(), $user);
+				Application_Log::info('password_changed', 'User password changed', $user->getId(), $user->getUsername(), $user);
 
 				Http_Headers::reload();
 			} else {
-				$form->getField('password')->setErrorMessage( Tr::_('Please type <strong>new</strong> password') );
+				$form->getField('password')->setErrorMessage( Tr::_('Please enter <strong>new</strong> password') );
 			}
 		}
 

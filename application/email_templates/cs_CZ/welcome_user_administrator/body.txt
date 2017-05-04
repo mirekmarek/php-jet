@@ -2,7 +2,7 @@ Vítejte v systému, administrátore!
 
 Zde jsou vaše přihlašovací údaje:
 
-	Uživatelské jméno: %LOGIN%
+	Uživatelské jméno: %USERNAME%
 	Heslo: %PASSWORD%
 	Vaše jméno: %NAME% %SURNAME%
 	Váš e-mail: %EMAIL%

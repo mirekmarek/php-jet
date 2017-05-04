@@ -300,9 +300,17 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract {
 		$columns = [];
 		$values = [];
 
-		foreach($this->_getRecord($record) as $k=>$v) {
-			$columns[] = $k;
-            $values[] = $v;
+		foreach($record as $item) {
+			if(
+				$item->getPropertyDefinition()->getType()==DataModel::TYPE_ID_AUTOINCREMENT &&
+				!$item->getPropertyDefinition()->getRelatedToPropertyName()
+			) {
+				continue;
+			}
+
+			$columns[] = $this->_getColumnName( $item->getPropertyDefinition(), true, false );
+			$values[] = $this->_getValue($item->getValue());
+
 		}
 
 		$columns = implode(','.JET_EOL, $columns);

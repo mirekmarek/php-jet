@@ -42,13 +42,13 @@ class Auth extends BaseObject {
 	/**
 	 * Authenticates given user and returns true if given username and password is OK
 	 *
-	 * @param string $login
+	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool
 	 */
-	public static function login( $login, $password ) {
-		return static::getAuthController()->login( $login, $password );
+	public static function login($username, $password ) {
+		return static::getAuthController()->login( $username, $password );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Auth extends BaseObject {
 	 */
 	public static function getCurrentUserHasPrivilege( $privilege, $value) {
 		if( ($current_user = static::getCurrentUser()) ) {
-			return $current_user->getHasPrivilege( $privilege, $value );
+			return $current_user->hasPrivilege( $privilege, $value );
 		}
 
 		return false;

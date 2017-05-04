@@ -13,27 +13,23 @@ use JetExampleApp\Auth_Controller;
 define('JET_CONFIG_ENVIRONMENT', 'development');
 
 
+$config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';
 
-/** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/class_names.php');
-/** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/paths.php');
-/** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/jet.php');
-/** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/URI.php');
-/** @noinspection PhpIncludeInspection */
-require('config/'.JET_CONFIG_ENVIRONMENT.'/php_setup.php');
+require( $config_dir.'class_names.php' );
+require( $config_dir.'paths.php' );
+require( $config_dir.'jet.php' );
+require( $config_dir.'URI.php' );
+require( $config_dir.'php_setup.php' );
 
 
+$init_dir = JET_APPLICATION_PATH . 'init/';
 
-
 /** @noinspection PhpIncludeInspection */
-require( JET_APPLICATION_PATH . 'init/Profiler.php' );
+require( $init_dir.'Profiler.php' );
 /** @noinspection PhpIncludeInspection */
-require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
+require( $init_dir.'ErrorHandler.php' );
 /** @noinspection PhpIncludeInspection */
-require( JET_APPLICATION_PATH . 'init/Autoloader.php' );
+require( $init_dir.'Autoloader.php' );
 
 
 
@@ -50,8 +46,6 @@ if(
 	require( $installer_path );
 }
 //- REMOVE AFTER INSTALLATION -------------
-
-
 
 
 

@@ -88,10 +88,9 @@ class DataModel_RecordData implements \Iterator {
 	}
 
 	/**
-	 * @static
 	 *
 	 * @param DataModel_Interface $data_model
-	 * @param array $properties_and_values - property_name => value
+	 * @param array $properties_and_values ( array(property_name => value) )
 	 *
 	 * @throws DataModel_Exception
 	 * @return DataModel_RecordData

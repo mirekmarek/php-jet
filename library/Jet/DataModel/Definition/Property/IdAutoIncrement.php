@@ -40,11 +40,5 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	public function checkValueType( &$value ) {
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getCanBeInInsertRecord() {
-		return false;
-	}
 
 }

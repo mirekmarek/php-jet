@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Admin\Administrators\Users;
 
+use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_User as User;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
@@ -59,11 +60,14 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	 * @param string $current_label
 	 */
 	protected function _setBreadcrumbNavigation($current_label='' ) {
-		$menu_item = AdminUI_module::getMenuItems()['system/administrator_users'];
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$page = Mvc_Page::get(Main::ADMIN_MAIN_PAGE);
 
 		breadcrumbNavigation::addItem(
-			UI::icon($menu_item->getIcon()).'&nbsp;&nbsp;'. $menu_item->getLabel(),
-			$menu_item->getUrl()
+			UI::icon($page->getIcon()).'&nbsp;&nbsp;'. $page->getBreadcrumbTitle(),
+			$page->getURL()
 		);
 
 
@@ -84,12 +88,12 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 		$grid = new dataGrid();
 
-		$grid->setDefaultSort('login');
+		$grid->setDefaultSort('username');
 		$grid->setIsPersistent('admin_users_list_grid');
 
 		$grid->addColumn('_edit_', '')->setAllowSort(false);
 		$grid->addColumn('id', Tr::_('ID') );
-		$grid->addColumn('login', Tr::_('Login') );
+		$grid->addColumn('username', Tr::_('Username') );
 		$grid->addColumn('first_name', Tr::_('First name') );
 		$grid->addColumn('surname', Tr::_('Surname') );
 
@@ -117,11 +121,11 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$user->setPassword($password);
 			$user->save();
 
-			$this->logAllowedAction( 'User created', $user->getId(), $user->getLogin(), $user );
+			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );
 
 			$user->sendWelcomeEmail( $password );
 
-			messages::success( Tr::_('User <b>%LOGIN%</b> has been created', ['LOGIN'=>$user->getLogin() ]) );
+			messages::success( Tr::_('User <b>%USERNAME%</b> has been created', ['USERNAME'=>$user->getUsername() ]) );
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
 		}
@@ -148,14 +152,14 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 
 			if($action=='reset_password') {
 				$user->resetPassword();
-				messages::success( Tr::_('Password has been re-generated', ['LOGIN'=>$user->getLogin() ]) );
+				messages::success( Tr::_('Password has been re-generated', ['USERNAME'=>$user->getUsername() ]) );
 			}
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
 		}
 
 
-		$this->_setBreadcrumbNavigation( Tr::_('Edit user account <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
+		$this->_setBreadcrumbNavigation( Tr::_('Edit user account <b>%USERNAME%</b>', ['USERNAME'=>$user->getUsername() ]) );
 
 		/**
 		 * @var Form $form
@@ -166,9 +170,9 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		if( $user->catchForm( $form ) ) {
 
 			$user->save();
-			$this->logAllowedAction( 'User updated', $user->getId(), $user->getLogin(), $user );
+			$this->logAllowedAction( 'User updated', $user->getId(), $user->getUsername(), $user );
 
-			messages::success( Tr::_('User <b>%LOGIN%</b> has been updated', ['LOGIN'=>$user->getLogin() ]) );
+			messages::success( Tr::_('User <b>%USERNAME%</b> has been updated', ['USERNAME'=>$user->getUsername() ]) );
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($user->getId()) );
 		}
@@ -190,7 +194,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		 */
 		$user = $this->getActionParameterValue('user');
 
-		$this->_setBreadcrumbNavigation( Tr::_('User account detail <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
+		$this->_setBreadcrumbNavigation( Tr::_('User account detail <b>%USERNAME%</b>', ['USERNAME'=>$user->getUsername() ]) );
 
 		$form = $user->getEditForm();
 
@@ -213,13 +217,13 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 		 */
 		$user = $this->getActionParameterValue('user');
 
-		$this->_setBreadcrumbNavigation( Tr::_('Delete user account <b>%LOGIN%</b>', ['LOGIN'=>$user->getLogin() ]) );
+		$this->_setBreadcrumbNavigation( Tr::_('Delete user account <b>%USERNAME%</b>', ['USERNAME'=>$user->getUsername() ]) );
 
 		if( Http_Request::POST()->getString('delete')=='yes' ) {
 			$user->delete();
-			$this->logAllowedAction( 'User deleted', $user->getId(), $user->getLogin(), $user );
+			$this->logAllowedAction( 'User deleted', $user->getId(), $user->getUsername(), $user );
 
-			messages::info( Tr::_('User <b>%LOGIN%</b> has been deleted', ['LOGIN'=>$user->getLogin() ]) );
+			messages::info( Tr::_('User <b>%USERNAME%</b> has been deleted', ['USERNAME'=>$user->getUsername() ]) );
 
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}

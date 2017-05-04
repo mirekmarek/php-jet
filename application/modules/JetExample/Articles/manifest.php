@@ -16,6 +16,7 @@ return [
 		'admin/articles' => [
 			'title' => 'Articles',
 			'URL_fragment' => 'articles',
+			'icon' => 'file-text'
 		]
 	],
 

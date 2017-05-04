@@ -1,8 +1,8 @@
 Your admin password has been reset
 
-This is your login details:
+This is your user account details:
 
-	Username: %LOGIN%
+	Username: %USERNAME%
 	Password: %PASSWORD%
 
 Please change your password after sign in

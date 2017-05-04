@@ -42,6 +42,11 @@ class Mvc_Page extends Jet_Mvc_Page {
 	 */
 	protected $is_rest_api_hook = false;
 
+	/**
+	 * @var string
+	 */
+	protected $icon = '';
+
 
 	/**
 	 * @var bool
@@ -123,11 +128,28 @@ class Mvc_Page extends Jet_Mvc_Page {
 
 			$parent_page->setIsSystemPage(true);
 
+			$page_data['id'] = $page_id;
 
-			$title = empty($page_data['title']) ? $module_manifest->getLabel() : $page_data['title'];
-			$title = Tr::_($title, [], $module_manifest->getName(), $locale);
+			$page_data['title'] = empty($page_data['title']) ? $module_manifest->getLabel() : $page_data['title'];
+			$page_data['title'] = Tr::_($page_data['title'], [], $module_manifest->getName(), $locale);
 
-			$layout_script_name = $page_data['layout_script_name'];
+			if(empty($page_data['menu_title'])) {
+				$page_data['menu_title'] = $page_data['title'];
+			} else {
+				$page_data['menu_title'] = Tr::_($page_data['menu_title'], [], $module_manifest->getName(), $locale);
+			}
+
+			if(empty($page_data['breadcrumb_title'])) {
+				$page_data['breadcrumb_title'] = $page_data['title'];
+			} else {
+				$page_data['breadcrumb_title'] = Tr::_($page_data['breadcrumb_title'], [], $module_manifest->getName(), $locale);
+			}
+
+			if(empty($page_data['icon'])) {
+				$page_data['icon'] = '';
+			}
+
+
 			$is_dialog = !empty($page_data['is_dialog']);
 			if($is_dialog) {
 				$is_system_page = false;
@@ -135,35 +157,26 @@ class Mvc_Page extends Jet_Mvc_Page {
 				$is_system_page = !empty($page_data['is_system_page']);
 			}
 
-			$URL_fragment = $page_data['URL_fragment'];
+
 			if($is_dialog) {
 				$action = substr($page_id, 7);
 			} else {
 				$action = empty($page_data['action']) ? 'default' : $page_data['action'];
 			}
 
+			if(isset($page_data['action'])) {
+				unset($page_data['action']);
+			}
 
 
-			/**
-			 * @var Mvc_Page $page
-			 */
-			$page = Mvc_Factory::getPageInstance();
-			$page->setSite( Mvc::getCurrentSite() );
-			$page->setLocale( $locale );
-			$page->setId( $page_id );
-			$page->setParent($parent_page);
 
-
-			$page->setLayoutScriptName( $layout_script_name );
+			$page = static::createPageByData(Mvc::getCurrentSite(), $locale, $page_data, $parent_page);
+			$page->setIsAdminUI(true);
 			$page->setCustomLayoutsPath( $parent_page->getCustomLayoutsPath() );
 
-			$page->setIsSystemPage($is_system_page);
-			$page->setIsDialog($is_dialog);
 
-			$page->setIsAdminUI(true);
 
-			$page->setTitle( $title );
-			$page->setUrlFragment( $URL_fragment );
+
 
 			$content = Mvc_Factory::getPageContentInstance();
 			$content->setId( $page_id.'_'.$action );
@@ -205,33 +218,24 @@ class Mvc_Page extends Jet_Mvc_Page {
 				continue;
 			}
 
-			//$parent_page->setIsSystemPage(true);
 			$parent_page->setIsRestApiHook(true);
 
 
-
-
-			$URL_fragment = $page_data['URL_fragment'];
-			$action = empty($page_data['action']) ? 'default' : $page_data['action'];
-
+			$page_data['id'] = $page_id;
+			$page_data['title'] = 'REST API / '.$page_data['URL_fragment'];
 
 			/**
 			 * @var Mvc_Page $page
 			 */
-			$page = Mvc_Factory::getPageInstance();
-			$page->setSite( Mvc::getCurrentSite() );
-			$page->setLocale( $locale );
-			$page->setId( $page_id );
-			$page->setParent($parent_page);
-
-			$page->setLayoutScriptName( false );
-
+			$page = static::createPageByData(Mvc::getCurrentSite(), $locale, $page_data, $parent_page);
 			$page->setIsAdminUI(true);
 			$page->setIsRestApiHook(true);
+			$page->setLayoutScriptName( false );
 
-			$page->setTitle( 'REST API / '.$URL_fragment );
-			$page->setUrlFragment( $URL_fragment );
 
+
+
+			$action = empty($page_data['action']) ? 'default' : $page_data['action'];
 
 			$content = Mvc_Factory::getPageContentInstance();
 			$content->setId( $page_id.'_'.$action );
@@ -246,6 +250,22 @@ class Mvc_Page extends Jet_Mvc_Page {
 
 			static::appendPage($page);
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIcon()
+	{
+		return $this->icon;
+	}
+
+	/**
+	 * @param string $icon
+	 */
+	public function setIcon($icon)
+	{
+		$this->icon = $icon;
 	}
 
 

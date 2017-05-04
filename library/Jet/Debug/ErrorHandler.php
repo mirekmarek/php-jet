@@ -61,7 +61,6 @@ class Debug_ErrorHandler {
 	}
 
 	/**
-	 * @static
 	 *
 	 */
 	public static function enableHTMLErrors() {
@@ -69,7 +68,6 @@ class Debug_ErrorHandler {
 	}
 
 	/**
-	 * @static
 	 *
 	 */
 	public static function disableHTMLErrors() {
@@ -77,7 +75,7 @@ class Debug_ErrorHandler {
 	}
 
 	/**
-	 * @static
+	 *
 	 * @return bool
 	 */
 	public static function getHTMLErrorsEnabled() {
@@ -85,7 +83,6 @@ class Debug_ErrorHandler {
 	}
 
 	/**
-	 * @static
 	 *
 	 * @param string $handler_name
 	 * @param string $handler_class_name
@@ -116,7 +113,7 @@ class Debug_ErrorHandler {
 	}
 
 	/**
-	 * @static
+	 *
 	 * @return Debug_ErrorHandler_Handler_Abstract[]
 	 */
 	public static function getRegisteredHandlers() {
@@ -126,7 +123,6 @@ class Debug_ErrorHandler {
 	/**
 	 * Get path to HTTP error pages directory containing files like 500.phtml , 404.phtml etc. for each HTTP error response code
 	 *
-	 * @static
 	 * @return string
 	 */
 	public static function getHTTPErrorPagesDir(){
@@ -136,7 +132,6 @@ class Debug_ErrorHandler {
 	/**
 	 * Set path to HTTP error pages directory containing files like 500.phtml , 404.phtml etc. for each HTTP error response code
 	 *
-	 * @static
 	 *
 	 * @param string $error_pages_dir
 	 * @param bool $check_path (optional, default: true)
@@ -159,7 +154,7 @@ class Debug_ErrorHandler {
 	/**
 	 * Returns HTTP error page file path if exists within Debug_ErrorHandler::$error_pages_dir or false if does not exist or is not readable
 	 *
-	 * @param $code
+	 * @param int $code
 	 *
 	 * @return bool|string
 	 */
@@ -184,7 +179,7 @@ class Debug_ErrorHandler {
 	 *
 	 * Returns FALSE if the file does not exist or is not readable
 	 *
-	 * @param $code
+	 * @param int $code
 	 *
 	 * @return bool
 	 */
@@ -267,7 +262,6 @@ class Debug_ErrorHandler {
 	}
 
 	/**
-	 * @static
 	 *
 	 * PHP Fatal errors detection
 	 */
@@ -295,7 +289,6 @@ class Debug_ErrorHandler {
 
 
 	/**
-	 * @static
 	 *
 	 * @param Debug_ErrorHandler_Error $error
 	 */

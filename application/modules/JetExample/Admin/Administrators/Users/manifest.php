@@ -15,6 +15,8 @@ return [
 	'admin_sections' => [
 		'admin/administrators-users' => [
 			'title' => 'Administrators - Users',
+			'breadcrumb_title' => 'Administrators - Users',
+			'icon' => 'user-secret',
 			'URL_fragment' => 'administrators-users',
 		]
 	],
@@ -22,6 +24,7 @@ return [
 	'admin_menu_items' => [
 		'administrator_users' => [
 			'label' => 'Administrators - Users',
+			'separator_before' => true,
 			'parent_menu_id' => 'system',
 			'page_id' => 'admin/administrators-users',
 			'icon' => 'user-secret'

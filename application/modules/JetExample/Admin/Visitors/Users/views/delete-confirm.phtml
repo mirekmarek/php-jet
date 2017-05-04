@@ -24,7 +24,7 @@ $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter
 	<p>
 	<?=Tr::_('Do you really want to delete this user?');?>
 	<br/>
-	<a href="<?=$router->getViewURI($user->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getLogin();?>)</a>
+	<a href="<?=$router->getViewURI($user->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getUsername();?>)</a>
 	</p>
 
 	<form action="?delete=<?=rawurlencode($user->getId());?>" method="post">

@@ -15,7 +15,7 @@ trait Mvc_Page_Trait_Tree {
 	/**
 	 * @var Mvc_Page
 	 */
-	protected $parent;
+	protected $_parent;
 
 	/**
 	 * @var bool
@@ -25,7 +25,7 @@ trait Mvc_Page_Trait_Tree {
 	/**
 	 * @var Mvc_Page[]
 	 */
-	protected $children = [];
+	protected $_children = [];
 
 
 	/**
@@ -35,15 +35,15 @@ trait Mvc_Page_Trait_Tree {
 	protected $order = 0;
 
 	/**
-	 * @param Mvc_Page_Interface $parent
+	 * @param Mvc_Page_Interface $_parent
 	 */
-	public function setParent( Mvc_Page_Interface $parent ) {
+	public function setParent( Mvc_Page_Interface $_parent ) {
 		/**
 		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
 		 */
-		$this->parent = $parent;
+		$this->_parent = $_parent;
 
-		$parent->appendChild($this);
+		$_parent->appendChild($this);
 	}
 
 	/**
@@ -51,7 +51,7 @@ trait Mvc_Page_Trait_Tree {
 	 * @return Mvc_Page
 	 */
 	public function getParent() {
-		return $this->parent;
+		return $this->_parent;
 	}
 
 	/**
@@ -59,8 +59,8 @@ trait Mvc_Page_Trait_Tree {
 	 */
 	public function appendChild( Mvc_Page_Interface $child ) {
 		/** @noinspection PhpUndefinedFieldInspection */
-		$child->parent = $this;
-		$this->children[$child->getKey()] = $child;
+		$child->_parent = $this;
+		$this->_children[$child->getKey()] = $child;
 	}
 
 	/**
@@ -97,7 +97,7 @@ trait Mvc_Page_Trait_Tree {
 			return;
 		}
 
-		uasort( $this->children, function(Mvc_Page $a, Mvc_Page $b ) {
+		uasort( $this->_children, function(Mvc_Page $a, Mvc_Page $b ) {
 			$a_order = $a->getOrder();
 			$b_order = $b->getOrder();
 
@@ -117,7 +117,7 @@ trait Mvc_Page_Trait_Tree {
 	public function getChildren() {
 		$this->sortChildren();
 
-		return $this->children;
+		return $this->_children;
 	}
 
 

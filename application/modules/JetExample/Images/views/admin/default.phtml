@@ -86,29 +86,39 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ($router) 
 			$edit_form->setDefaultFieldWidth(5);
 			?>
 
+			<div class="well">
 			<?=$edit_form->start()?>
-
-				<fieldset>
 					<?=$edit_form->field('title')?>
-
-					<?php if(!$edit_form->getIsReadonly()):
-						echo UI::button_save();
-					endif; ?>
-				</fieldset>
+					<div class="form-group row">
+						<div class="col-md-2"></div>
+						<div class="col-md-5">
+						<?php if(!$edit_form->getIsReadonly()):
+							echo UI::button_save();
+						endif; ?>
+						</div>
+					</div>
 			<?=$edit_form->end()?>
+			</div>
 
 			<?php if($upload_form):
 				$upload_form->setDefaultLabelWidth(2);
 				$upload_form->setDefaultFieldWidth(5);
 
 			?>
-			<div>
+			<div class="well">
 				<?=$upload_form->start()?>
 
 				<?=$upload_form->field('file')?>
 				<?=$upload_form->field('overwrite_if_exists')?>
 
-				<?=UI::button_save(Tr::_('Upload'))?>
+				<div class="form-group row">
+					<div class="col-md-2"></div>
+					<div class="col-md-5">
+						<?=UI::button_save(Tr::_('Upload'))?>
+					</div>
+				</div>
+
+
 				<?=$upload_form->end()?>
 			</div>
 			<?php endif; ?>
@@ -117,7 +127,7 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ($router) 
 				$gallery &&
 				$gallery->getIsSaved()
 			): ?>
-
+				<div class="well">
 				<?php
 				$images=$gallery->getImages();
 				if( count($images) ): ?>
@@ -147,6 +157,7 @@ $tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ($router) 
 					<?php endif; ?>
 				</form>
 				<?php endif; ?>
+				</div>
 			<?php endif; ?>
 
 		<?php endif; ?>

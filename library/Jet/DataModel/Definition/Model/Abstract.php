@@ -145,7 +145,7 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	}
 
 	/**
-	 * @param $class_name
+	 * @param string $class_name
 	 * @return mixed
 	 */
 	protected static function _loadDataModelDefinition($class_name )  {
@@ -179,7 +179,7 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 
 
 	/**
-	 * @param $class_name
+	 * @param string $class_name
 	 *
 	 * @return array
 	 * @throws DataModel_Exception
@@ -201,7 +201,7 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	}
 
 	/**
-	 * @param $class_name
+	 * @param string $class_name
 	 *
 	 * @return string
 	 * @throws DataModel_Exception
@@ -872,7 +872,7 @@ abstract class DataModel_Definition_Model_Abstract extends BaseObject {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return static
 	 */

@@ -72,6 +72,12 @@ class Main extends Application_Modules_Module_Abstract {
 				if(isset($menu_data['URL'])) {
 					$menu_item->setURL($menu_data['URL']);
 				}
+				if(isset($menu_data['separator_before'])) {
+					$menu_item->setSeparatorBefore($menu_data['separator_before']);
+				}
+				if(isset($menu_data['separator_after'])) {
+					$menu_item->setSeparatorAfter($menu_data['separator_after']);
+				}
 
 
 				if(!$menu_item->getAccessAllowed()) {

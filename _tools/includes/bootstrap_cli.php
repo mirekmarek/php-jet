@@ -11,8 +11,11 @@ define('JET_CONFIG_ENVIRONMENT', 'development');
 
 $application_dir = dirname(dirname(__DIR__)).'/application/';
 
-require_once( $application_dir . 'config/'.JET_CONFIG_ENVIRONMENT.'/defines.php' );
-require_once($application_dir . 'config/class_names.php');
+require_once( $application_dir . 'config/'.JET_CONFIG_ENVIRONMENT.'/paths.php' );
+require_once( $application_dir . 'config/'.JET_CONFIG_ENVIRONMENT.'/jet.php' );
+require_once($application_dir . 'config/'.JET_CONFIG_ENVIRONMENT.'/class_names.php');
+
+
 /** @noinspection PhpIncludeInspection */
 require( JET_APPLICATION_PATH . 'init/ErrorHandler.php' );
 

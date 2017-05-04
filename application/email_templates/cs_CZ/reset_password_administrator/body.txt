@@ -2,7 +2,7 @@ Vaše administrátorské heslo bylo vyresetováno
 
 Zde jsou vaše přihlašovací údaje:
 
-	Uživatelské jméno: %LOGIN%
+	Uživatelské jméno: %USERNAME%
 	Heslo: %PASSWORD%
 
 Po přihlášení si prosím změňte heslo

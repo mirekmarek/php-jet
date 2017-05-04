@@ -14,11 +14,16 @@ namespace Jet;
 interface Auth_Role_Interface extends BaseObject_Interface {
 
     /**
-     * @param string $id
+     * @param string|int $id
      *
      * @return Auth_Role_Interface
      */
-    public static function get($id );
+    public static function get( $id );
+
+	/**
+	 * @return Auth_Role_Interface[]
+	 */
+	public static function getList();
 
     /**
 	 * @return string
@@ -114,11 +119,6 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 * @return bool
 	 */
 	public function getHasPrivilege( $privilege, $value );
-
-	/**
-	 * @return Auth_Role_Interface[]
-	 */
-	public static function getList();
 
 
 

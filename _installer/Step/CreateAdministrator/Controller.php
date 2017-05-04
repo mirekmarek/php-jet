@@ -35,7 +35,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 			$user = new Auth_Administrator_User();
 			$form = $user->getRegistrationForm();
 
-			$form->getField('login')->setDefaultValue('admin');
+			$form->getField('username')->setDefaultValue('admin');
 
 
 			$user->setLocale( Installer::getCurrentLocale() );

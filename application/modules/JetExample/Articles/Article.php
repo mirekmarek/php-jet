@@ -68,7 +68,7 @@ class Article extends DataModel {
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
-     * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please type title']
+     * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
 	 *
 	 * @var string
 	 */
@@ -153,28 +153,27 @@ class Article extends DataModel {
 
 		$article_i = $this;
 
-		$this->URI_fragment = $this->generateUrlFragment($this->title, function( $URI_fragment ) use ( $article_i ) {
+		$check_callback = function( $URI_fragment ) use ( $article_i ) {
 			return $article_i->getUriFragmentExists( $URI_fragment );
-		}, '.html');
+		};
+
+		$this->URI_fragment = $this->generateUrlFragment($this->title, $check_callback, '.html');
 	}
 
 
     /**
      * Generates URI fragment:
      *
-     * - replace ' ' by '-'
-     * - remove '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', ''','/','<','>',';','?','{','}','[',']','|'
-     * - apply rawurlencode()
      *
      * @param string $URI_fragment
      *
      * @param callable $exists_check
      * @param string $suffix (optional) example: .html
-     * @param bool $remove_accents (optional, default: false)
+     * @param bool $remove_accents (optional, default: true)
      *
      * @return string
      */
-    public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=false ) {
+    public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=true ) {
 
         if($remove_accents) {
             $URI_fragment = Data_Text::removeAccents($URI_fragment);

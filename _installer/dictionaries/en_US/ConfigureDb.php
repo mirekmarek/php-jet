@@ -2,7 +2,7 @@
 return [
 	'Database configuration' => '',
 	'Configure database connection' => '',
-	'Please enter user name' => '',
+	'Please enter username' => '',
 	'Please enter the password' => '',
 	'Please enter the name of the database' => '',
 	'Username:' => '',

@@ -33,12 +33,12 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:is_unique = true
-	 * @JetDataModel:form_field_label = 'User name'
-     * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify user name']
+	 * @JetDataModel:form_field_label = 'Username'
+     * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify username']
 	 *
 	 * @var string
 	 */
-	protected $login = '';
+	protected $username = '';
 
 	/**
 	 *
@@ -50,7 +50,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
 	 * @JetDataModel:form_field_label = 'Password'
 	 * @JetDataModel:form_field_options = ['password_confirmation_label'=>'Confirm password']
-     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please type password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please type confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
+     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */
@@ -194,13 +194,13 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	protected $roles;
 
 	/**
-	 * @param string|null $login
+	 * @param string|null $username
 	 * @param string|null $password
 	 */
-	public function __construct( $login=null, $password=null ) {
+	public function __construct( $username=null, $password=null ) {
 
-		if($login!==null) {
-			$this->setLogin($login);
+		if($username!==null) {
+			$this->setUsername($username);
 		}
 		if($password!==null) {
 			$this->setPassword($password);
@@ -233,31 +233,31 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return string
 	 */
-	public function getLogin() {
-		return $this->login;
+	public function getUsername() {
+		return $this->username;
 	}
 
 	/**
-	 * @param string $login
+	 * @param string $username
 	 */
-	public function setLogin( $login ) {
-		$this->login = $login;
+	public function setUsername($username ) {
+		$this->username = $username;
 	}
 
 	/**
 	 *
-	 * @param $login
+	 * @param $username
 	 *
 	 * @return bool
 	 */
-	public function getLoginExists( $login ) {
+	public function usernameExists($username ) {
 		if($this->getIsNew()) {
 			$q = [
-				'this.login' => $login
+				'this.username' => $username
 			];
 		} else {
 			$q = [
-				'this.login' => $login,
+				'this.username' => $username,
 				'AND',
 				'this.id!=' => $this->id
 			];
@@ -432,14 +432,14 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return bool
 	 */
-	public function getIsBlocked() {
+	public function isBlocked() {
 		return $this->user_is_blocked;
 	}
 
 	/**
 	 * @return null|Data_DateTime
 	 */
-	public function getIsBlockedTill() {
+	public function isBlockedTill() {
 		return $this->user_is_blocked_till;
 	}
 
@@ -466,7 +466,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return bool
 	 */
-	public function getIsActivated() {
+	public function isActivated() {
 		return $this->user_is_activated;
 	}
 
@@ -521,7 +521,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 			$search = '%'.$search.'%';
 			$query[] = [
-				'this.login *' => $search,
+				'this.username *' => $search,
 				'OR',
 				'this.first_name *' => $search,
 				'OR',
@@ -538,12 +538,12 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 		$list = $_this->fetchObjects( $query );
 		$list->setLoadFilter([
 			'this.id',
-			'this.login',
+			'this.username',
 			'this.first_name',
 			'this.surname',
 			'this.locale'
 		]);
-		$list->getQuery()->setOrderBy('login');
+		$list->getQuery()->setOrderBy('username');
 
 		return $list;
 
@@ -551,17 +551,17 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 
 	/**
-	 * @param string $login
+	 * @param string $username
 	 * @param string $password
 	 * @return Auth_User|bool
 	 */
-	public static function getByIdentity(  $login, $password  ) {
+	public static function getByIdentity(  $username, $password  ) {
 
 		/**
 		 * @var Auth_User $user
 		 */
 		$user = (new static())->fetchOneObject( [
-			'this.login' => $login,
+			'this.username' => $username,
 		]);
 
 		if(!$user) {
@@ -577,16 +577,16 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 
 	/**
-	 * @param string $login
+	 * @param string $username
 	 *
 	 * @return Auth_User|bool
 	 */
-	public static function getGetByLogin(  $login  ) {
+	public static function getGetByUsername( $username ) {
 		/**
 		 * @var Auth_User $user
 		 */
 		$user = (new static())->fetchOneObject( [
-			'this.login' => $login
+			'this.username' => $username
 		]);
 
 		return $user;
@@ -604,7 +604,6 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @abstract
 	 * @return Auth_Role[]
 	 */
 	public function getRoles() {
@@ -649,7 +648,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return bool
 	 */
-	public function getHasRole($role_id ) {
+	public function hasRole($role_id ) {
 		foreach($this->roles as $role) {
 			/**
 			 * @var Auth_Role_Interface $role
@@ -667,7 +666,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function getHasPrivilege( $privilege, $value ) {
+	public function hasPrivilege($privilege, $value ) {
 
 		if($this->getIsSuperuser()) {
 			return true;
@@ -746,15 +745,15 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale'
 		]);
 
-		$form->getField('login')->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
-			$login = $field->getValue();
+		$form->getField('username')->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
+			$username = $field->getValue();
 
 			/** @var $user Auth_User */
-			if($user->getLoginExists( $login )) {
+			if($user->usernameExists( $username )) {
 				$field->setErrorMessage(
 					Tr::_(
-						'Sorry, but username %LOGIN% is registered.',
-						['LOGIN'=>$login]
+						'Sorry, but username %USERNAME% is registered.',
+						['USERNAME'=>$username]
 					)
 				);
 				return false;

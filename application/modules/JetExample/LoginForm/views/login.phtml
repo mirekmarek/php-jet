@@ -12,7 +12,7 @@ use Jet\Mvc_Page;
  */
 $form = $this->getRaw('login_form');
 
-$form->field('login')->setPlaceholder('user name');
+$form->field('username')->setPlaceholder('username');
 $form->field('password')->setPlaceholder('password');
 
 ?>
@@ -52,7 +52,7 @@ $form->field('password')->setPlaceholder('password');
 
 				<div style="margin-bottom: 25px" class="input-group">
 					<span class="input-group-addon"><?=UI::icon('user')?></span>
-					<?=$form->field('login')->field()->noContainer()?>
+					<?=$form->field('username')->field()->noContainer()?>
 				</div>
 
 				<div style="margin-bottom: 25px" class="input-group">

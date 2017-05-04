@@ -1,8 +1,8 @@
 Welcome to System, Administrator!
 
-This is your login details:
+This is your user account details:
 
-	Username: %LOGIN%
+	Username: %USERNAME%
 	Password: %PASSWORD%
 	Your name: %NAME% %SURNAME%
 	Your e-mail: %EMAIL%

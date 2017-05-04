@@ -14,6 +14,7 @@ return [
 		'admin/images' => [
 			'title' => 'Images',
 			'URL_fragment' => 'images',
+			'icon' => 'picture-o'
 		]
 	],
 

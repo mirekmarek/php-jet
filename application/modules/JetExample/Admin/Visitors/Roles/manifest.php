@@ -16,6 +16,7 @@ return [
 		'admin/visitors-roles' => [
 			'title' => 'Visitors - User roles',
 			'URL_fragment' => 'visitors-user-roles',
+			'icon' => 'street-view'
 		]
 	],
 

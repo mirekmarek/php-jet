@@ -4,7 +4,7 @@ return [
 	'Galleries' => '',
 	'Create new gallery' => '',
 	'Create a new gallery' => '',
-	'Please type title' => '',
+	'Please enter title' => '',
 	'Title' => '',
 	'Please select image' => '',
 	'Uploaded file is not supported image' => '',

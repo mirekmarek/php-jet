@@ -500,7 +500,7 @@ class Form extends BaseObject {
     }
 
     /**
-	 * @param $name
+	 * @param string $name
 	 * @param Form_Field_Abstract $field
 	 */
 	public function setField( $name, Form_Field_Abstract $field ) {
@@ -509,7 +509,7 @@ class Form extends BaseObject {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return bool
 	 */
 	public function fieldExists($name ) {
@@ -615,7 +615,7 @@ class Form extends BaseObject {
 	}
 
 	/**
-	 * Force invalidate
+	 *
 	 */
 	public function setIsNotValid() {
 		$this->is_valid = false;
@@ -630,7 +630,7 @@ class Form extends BaseObject {
 	}
 
 	/**
-	 * @param $message
+	 * @param string $message
 	 */
 	public function setCommonMessage($message ) {
 		$this->common_message = $message;

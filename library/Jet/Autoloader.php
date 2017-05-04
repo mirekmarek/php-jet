@@ -55,8 +55,8 @@ class Autoloader {
 		if(JET_AUTOLOADER_CACHE_LOAD) {
 			$file_path = JET_AUTOLOADER_CACHE_PATH.'autoloader_class_map.php';
 
-            /** @noinspection PhpIncludeInspection */
-			require JET_LIBRARY_PATH.'Jet/IO/File.php';
+			/** @noinspection PhpIncludeInspection */
+			require_once JET_LIBRARY_PATH.'Jet/IO/File.php';
 
 			if(IO_File::isReadable($file_path)) {
 				/** @noinspection PhpIncludeInspection */

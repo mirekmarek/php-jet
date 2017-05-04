@@ -113,7 +113,7 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 	 *
 	 * @var string
 	 */
-	protected $user_login = '';
+	protected $user_username = '';
 
 	/**
 	 *
@@ -219,8 +219,8 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 	/**
 	 * @return string
 	 */
-	public function getUserLogin() {
-		return $this->user_login;
+	public function getUserUsername() {
+		return $this->user_username;
 	}
 
 	/**
@@ -255,7 +255,7 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 
 		if($current_user) {
 			$event_i->user_id = $current_user->getId();
-			$event_i->user_login = $current_user->getLogin();
+			$event_i->user_username = $current_user->getUsername();
 		}
 
 

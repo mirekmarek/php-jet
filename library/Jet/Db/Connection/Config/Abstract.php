@@ -110,7 +110,6 @@ abstract class Db_Connection_Config_Abstract extends Config_Section {
 	}
 
 	/**
-	 * Get authorization user name
 	 *
 	 * @return string
 	 */

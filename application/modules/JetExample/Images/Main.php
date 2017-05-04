@@ -14,7 +14,7 @@ use Jet\Mvc;
  *
  */
 class Main extends Application_Modules_Module_Abstract {
-	const ADMIN_PAIN_PAGE = 'admin/images';
+	const ADMIN_MAIN_PAGE = 'admin/images';
 
 	const ACTION_GET_GALLERY = 'get_gallery';
 	const ACTION_ADD_GALLERY = 'add_gallery';

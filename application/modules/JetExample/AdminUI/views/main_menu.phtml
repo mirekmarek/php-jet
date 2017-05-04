@@ -26,13 +26,14 @@ use Jet\Mvc;
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$menu->getLabel()?> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<?php foreach( $menu->getItems() as $item ): ?>
+							<?php if($item->getSeparatorBefore()): ?><li role="separator" class="divider"></li><?php endif;?>
 							<li>
-
 								<a href="<?=$item->getUrl()?>">
 									<?=UI::icon($item->getIcon())->setWidth(20)?>
 									<?=$item->getLabel()?>
 								</a>
 							</li>
+							<?php if($item->getSeparatorAfter()): ?><li role="separator" class="divider"></li><?php endif;?>
 						<?php endforeach; ?>
 					</ul>
 				</li>
@@ -65,7 +66,7 @@ use Jet\Mvc;
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 					<?=UI::icon('user')?>
-					<?=Auth::getCurrentUser()->getLogin()?>
+					<?=Auth::getCurrentUser()->getUsername()?>
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">

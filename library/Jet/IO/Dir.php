@@ -8,7 +8,7 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require JET_LIBRARY_PATH.'Jet/IO/Dir/Exception.php';
+require_once JET_LIBRARY_PATH.'Jet/IO/Dir/Exception.php';
 
 /**
  * Class IO_Dir
@@ -64,9 +64,6 @@ class IO_Dir {
 	}
 
 	/**
-	 * Is given path readable directory?
-	 *
-	 * @static
 	 *
 	 * @param string $dir_path
 	 *
@@ -77,9 +74,6 @@ class IO_Dir {
 	}
 
 	/**
-	 * Is given path writable directory?
-	 *
-	 * @static
 	 *
 	 * @param string $dir_path
 	 *

@@ -54,11 +54,11 @@ class Auth_Controller implements Auth_Controller_Interface
 	 *
 	 * @return bool
 	 */
-	public function getUserIsLoggedIn() {
+	public function isUserLoggedIn() {
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			return $this->admin->getUserIsLoggedIn();
+			return $this->admin->isUserLoggedIn();
 		} else {
-			return $this->site->getUserIsLoggedIn();
+			return $this->site->isUserLoggedIn();
 		}
 	}
 
@@ -77,31 +77,31 @@ class Auth_Controller implements Auth_Controller_Interface
 
 	/**
 	 *
-	 * @param string $login
+	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool
 	 */
-	public function login( $login, $password ) {
+	public function login($username, $password ) {
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$res = $this->admin->login( $login, $password );
+			$res = $this->admin->login( $username, $password );
 		} else {
-			$res = $this->site->login( $login, $password );
+			$res = $this->site->login( $username, $password );
 		}
 
 
 		if(!$res) {
 			Application_Log::warning(
 				static::EVENT_LOGIN_FAILED,
-				'Login failed. Login: \''.$login.'\'',
-				$login
+				'Login failed. Username: \''.$username.'\'',
+				$username
 			);
 			return false;
 		} else {
 			$user = $this->getCurrentUser();
 			Application_Log::success(
 				static::EVENT_LOGIN_SUCCESS,
-				'User '.$user->getLogin().' (id:'.$user->getId().') has logged in',
+				'User '.$user->getUsername().' (id:'.$user->getId().') has logged in',
 				$user->getId(),
 				$user->getName()
 			);
@@ -119,7 +119,7 @@ class Auth_Controller implements Auth_Controller_Interface
 		if($user) {
 			Application_Log::info(
 				static::EVENT_LOGOUT,
-				'User has '.$user->getLogin().' (id:'.$user->getId().') logged off',
+				'User has '.$user->getUsername().' (id:'.$user->getId().') logged off',
 				$user->getId(),
 				$user->getName()
 			);

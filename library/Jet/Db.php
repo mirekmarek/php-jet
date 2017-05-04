@@ -29,7 +29,7 @@ class Db extends BaseObject {
 	/**
 	 * Get connection instance (configured PDO database adapter)
 	 *
-	 * @param $connection_name (optional)
+	 * @param string|null $connection_name (optional)
 	 *
 	 * @return Db_Connection_Abstract
 	 * @throws Db_Exception
@@ -61,7 +61,7 @@ class Db extends BaseObject {
 	/**
 	 * Get connection instance (configured PDO database adapter)
 	 *
-	 * @param $connection_name (optional)
+	 * @param string|null $connection_name (optional)
 	 *
 	 * @return Db_Connection_Abstract
 	 * @throws Db_Exception

@@ -17,16 +17,16 @@ interface Auth_Controller_Interface {
 	 *
 	 * @return bool
 	 */
-	public function getUserIsLoggedIn();
+	public function isUserLoggedIn();
 
 	/**
 	 *
-	 * @param string $login
+	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool
 	 */
-	public function login( $login, $password );
+	public function login($username, $password );
 
 	/**
 	 * Logout current user

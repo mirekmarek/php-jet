@@ -62,7 +62,7 @@ $form->setDefaultFieldWidth(4);
 			<table class="table table-striped">
 				<thead>
 				<tr>
-					<th><?=Tr::_('Login');?></th>
+					<th><?=Tr::_('Username');?></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -72,7 +72,7 @@ $form->setDefaultFieldWidth(4);
 					 */
 					?>
 					<tr>
-						<td><a href="<?=$users_module->getAdminControllerRouter()->getEditURI($user->getId());?>"><?=$user->getLogin(); ?></a></td>
+						<td><a href="<?=$users_module->getAdminControllerRouter()->getEditURI($user->getId());?>"><?=$user->getUsername(); ?></a></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>

@@ -7,7 +7,6 @@
  */
 namespace Jet;
 
-
 /**
  *
  */
@@ -333,11 +332,41 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 		if(!$locale) {
 			$locale = Mvc::getCurrentLocale();
 		}
+		if(!is_object($locale)) {
+			$locale_str = (string)$locale;
+
+			$locale = new Locale($locale_str);
+		} else {
+			$locale_str = (string)$locale;
+		}
+
+
 		if(!$site_id) {
 			$site_id = Mvc::getCurrentSite()->getId();
 		}
 
-		return static::_load( $site_id, $locale, $page_id );
+
+		if(isset(static::$pages[$site_id][$locale_str][$page_id])) {
+			return static::$pages[$site_id][$locale_str][$page_id];
+		}
+
+
+
+		$site_class_name = JET_MVC_SITE_CLASS;
+
+		/**
+		 * @var Mvc_Site_Interface $site_class_name
+		 */
+		$site =  $site_class_name::get( $site_id );
+
+		static::loadPages($site, $locale);
+
+		if(isset(static::$pages[$site_id][$locale_str][$page_id])) {
+			return static::$pages[$site_id][$locale_str][$page_id];
+		}
+
+		return null;
+
 	}
 
 
@@ -392,20 +421,20 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface {
 	 */
 	public static function appendPage( Mvc_Page_Interface $page ) {
 
-		$page_key = $page->getKey();
+		$site_id = $page->getSite()->getId();
+		$locale = (string)$page->getLocale();
+		$page_id = $page->getId();
 
-		if(isset(static::$pages[$page_key])) {
-			throw new Mvc_Page_Exception( 'Duplicates page: \''.$page_key.'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
+		if(isset(static::$pages[$site_id][$locale][$page_id])) {
+			throw new Mvc_Page_Exception( 'Duplicates page: \''.$page->getKey().'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID  );
 		}
 
-		static::$pages[$page_key] = $page;
-
-		$page->setUrlFragment( rawurldecode($page->getUrlFragment()) );
+		static::$pages[$site_id][$locale][$page_id] = $page;
 
 		static::$relative_URIs_map
-			[$page->getSite()->getId()]
-			[(string)$page->getLocale()]
-			[$page->getRelativeUrl()] = $page_key;
+			[$site_id]
+			[$locale]
+			[$page->getRelativeUrl()] = $page;
 
 	}
 

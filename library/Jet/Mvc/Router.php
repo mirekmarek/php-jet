@@ -125,11 +125,6 @@ class Mvc_Router extends Mvc_Router_Abstract {
 		array_shift( $this->path_fragments );
 
 
-		foreach( $this->path_fragments as $i=>$pf ) {
-			$this->path_fragments[$i] = rawurldecode( $pf );
-		}
-
-
 		if( !$this->validateURIFormat() ) {
 			return;
 		}
@@ -308,7 +303,7 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	        return true;
         }
 
-		if( Auth::getAuthController()->getUserIsLoggedIn() ) {
+		if( Auth::getAuthController()->isUserLoggedIn() ) {
 			return true;
 		}
 
@@ -326,7 +321,6 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	}
 
 	/**
-	 * @abstract
 	 *
 	 * @return bool
 	 */
