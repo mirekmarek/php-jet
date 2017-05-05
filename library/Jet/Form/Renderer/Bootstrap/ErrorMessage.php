@@ -11,14 +11,15 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_ErrorMessage
  * @package Jet
  */
-class Form_Renderer_Bootstrap_ErrorMessage extends Form_Renderer_Abstract_ErrorMessage {
+class Form_Renderer_Bootstrap_ErrorMessage extends Form_Renderer_Abstract_ErrorMessage
+{
 
 	/**
 	 * @return string
 	 */
 	public function render()
 	{
-		if(!$this->_field->getLastErrorMessage()) {
+		if( !$this->_field->getLastErrorMessage() ) {
 			return '';
 		}
 

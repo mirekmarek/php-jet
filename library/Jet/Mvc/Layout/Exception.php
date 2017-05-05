@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Layout_Exception
  * @package Jet
  */
-class Mvc_Layout_Exception extends Exception {
+class Mvc_Layout_Exception extends Exception
+{
 
 	const CODE_SETTING_PROTECTED_MEMBERS_NOT_ALLOWED = 1;
 	const CODE_FILE_DOES_NOT_EXIST = 2;

@@ -11,18 +11,19 @@ namespace Jet;
  * Interface Mvc_Site_LocalizedData_MetaTag_Interface
  * @package Jet
  */
-interface Mvc_Site_LocalizedData_MetaTag_Interface {
+interface Mvc_Site_LocalizedData_MetaTag_Interface
+{
 
 
 	/**
 	 * @return string
 	 */
-	public function  toString();
+	public function toString();
 
 	/**
 	 * @param string $id
 	 */
-	public function setIdentifier($id );
+	public function setIdentifier( $id );
 
 	/**
 	 * @return string
@@ -32,7 +33,7 @@ interface Mvc_Site_LocalizedData_MetaTag_Interface {
 	/**
 	 * @param string $attribute
 	 */
-	public function setAttribute($attribute);
+	public function setAttribute( $attribute );
 
 	/**
 	 * @return string
@@ -42,7 +43,7 @@ interface Mvc_Site_LocalizedData_MetaTag_Interface {
 	/**
 	 * @param string $attribute_value
 	 */
-	public function setAttributeValue($attribute_value);
+	public function setAttributeValue( $attribute_value );
 
 	/**
 	 * @return string
@@ -52,5 +53,5 @@ interface Mvc_Site_LocalizedData_MetaTag_Interface {
 	/**
 	 * @param string $content
 	 */
-	public function setContent($content);
+	public function setContent( $content );
 }

@@ -7,21 +7,21 @@ use Jet\Tr;
 
 /**
  * @var Mvc_View $this
- * @var Form $form
+ * @var Form     $form
  */
 
 
-$form = $this->getRaw('form');
-$form->setDefaultLabelWidth(1);
+$form = $this->getRaw( 'form' );
+$form->setDefaultLabelWidth( 1 );
 ?>
-<h2><?=Tr::_('Set the mail sender')?></h2>
+<h2><?=Tr::_( 'Set the mail sender' )?></h2>
 <?=$form->start()?>
-<?php foreach(Installer::getSelectedLocales() as $locale): ?>
+<?php foreach( Installer::getSelectedLocales() as $locale ): ?>
 
 	<legend><?=$locale->getName();?></legend>
 
-	<?=$form->field('/'.$locale.'/email')?>
-	<?=$form->field('/'.$locale.'/name')?>
+	<?=$form->field( '/'.$locale.'/email' )?>
+	<?=$form->field( '/'.$locale.'/name' )?>
 
 <?php endforeach; ?>
 

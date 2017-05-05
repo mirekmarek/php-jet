@@ -12,18 +12,20 @@ namespace Jet;
  * Class BaseObject_Trait_MagicClone
  * @package Jet
  */
-trait BaseObject_Trait_MagicClone {
+trait BaseObject_Trait_MagicClone
+{
 
 	/**
 	 *
 	 */
-	public function __clone() {
+	public function __clone()
+	{
 		//debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		$properties = get_object_vars( $this );
 
-		foreach( $properties as $key=>$val ) {
-			if(is_object($val)) {
+		foreach( $properties as $key => $val ) {
+			if( is_object( $val ) ) {
 				$this->{$key} = clone $val;
 			}
 		}

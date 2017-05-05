@@ -10,38 +10,38 @@ use Jet\Tr;
  */
 ?>
 
-<table class="table table-stripped">
-	<tbody>
-	<?php foreach( $this->getRaw('dirs') as $dir=>$dir_data ):
+	<table class="table table-stripped">
+		<tbody>
+		<?php foreach( $this->getRaw( 'dirs' ) as $dir => $dir_data ):
 
-		$icon = UI::icon('check');
-		$css_class = '';
-		$comment = '';
+			$icon = UI::icon( 'check' );
+			$css_class = '';
+			$comment = '';
 
-		if(!$dir_data['is_writeable']) {
-			if($dir_data['is_required']) {
-				$icon = UI::icon('frown-o');
-				$css_class = 'danger';
-			} else {
-				$icon = UI::icon('meh-o');
-				$css_class = 'warning';
+			if( !$dir_data['is_writeable'] ) {
+				if( $dir_data['is_required'] ) {
+					$icon = UI::icon( 'frown-o' );
+					$css_class = 'danger';
+				} else {
+					$icon = UI::icon( 'meh-o' );
+					$css_class = 'warning';
 
-				$comment = '<br/><br/>'.Tr::_($dir_data['comment']);
+					$comment = '<br/><br/>'.Tr::_( $dir_data['comment'] );
+				}
 			}
-		}
-		?>
-		<tr class="<?=$css_class; ?>">
-			<td><?=$icon?></td>
-			<td><?=htmlspecialchars($dir);?><?=$comment;?></td>
-		</tr>
-	<?php endforeach;?>
-	</tbody>
-</table>
+			?>
+			<tr class="<?=$css_class;?>">
+				<td><?=$icon?></td>
+				<td><?=htmlspecialchars( $dir );?><?=$comment;?></td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
 
-<br/>
-<?php if($this->getBool('is_OK')): ?>
-<form method="post">
-<input type="hidden" name="go" value="1">
-	<?=Installer::buttonNext();?>
-</form>
-<?php endif ;?>
+	<br/>
+<?php if( $this->getBool( 'is_OK' ) ): ?>
+	<form method="post">
+		<input type="hidden" name="go" value="1">
+		<?=Installer::buttonNext();?>
+	</form>
+<?php endif; ?>

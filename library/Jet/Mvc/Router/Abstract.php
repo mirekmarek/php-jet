@@ -11,8 +11,8 @@ namespace Jet;
  * Class Mvc_Router_Abstract
  * @package Jet
  */
-abstract class Mvc_Router_Abstract extends BaseObject {
-
+abstract class Mvc_Router_Abstract extends BaseObject
+{
 
 
 	/**
@@ -35,10 +35,10 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	 */
 	abstract public function getIsFile();
 
-    /**
-     * @return string
-     */
-    abstract public function getFileName();
+	/**
+	 * @return string
+	 */
+	abstract public function getFileName();
 
 
 	/**
@@ -76,7 +76,7 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	 * @param string $target_URL
 	 * @param string $http_code (optional), options: temporary, permanent, default: Mvc_Router::REDIRECT_TYPE_TEMPORARY
 	 */
-	abstract public function setIsRedirect( $target_URL, $http_code=null );
+	abstract public function setIsRedirect( $target_URL, $http_code = null );
 
 
 	/**
@@ -91,7 +91,7 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 	/**
 	 * @param bool $login_required
 	 */
-	abstract public function setLoginRequired($login_required);
+	abstract public function setLoginRequired( $login_required );
 
 	/**
 	 * @return string
@@ -115,13 +115,13 @@ abstract class Mvc_Router_Abstract extends BaseObject {
 
 
 	/**
-	 * @param string $template  (example: 'page:%VAL%' )
-	 * @param mixed $default_value
-	 * @param int $fragment_index (optional, default: 0)
+	 * @param string $template (example: 'page:%VAL%' )
+	 * @param mixed  $default_value
+	 * @param int    $fragment_index (optional, default: 0)
 	 *
 	 * @return int
 	 */
-	abstract public function parsePathFragmentIntValue( $template, $default_value=null, $fragment_index=0 );
+	abstract public function parsePathFragmentIntValue( $template, $default_value = null, $fragment_index = 0 );
 
 	/**
 	 * @param string $template

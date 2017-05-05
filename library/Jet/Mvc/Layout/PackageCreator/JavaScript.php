@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Layout_PackageCreator_JavaScript
  * @package Jet
  */
-class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_JavaScript_Abstract {
+class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_JavaScript_Abstract
+{
 
 	/**
 	 * @var string
@@ -19,23 +20,66 @@ class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_Jav
 	protected $key = null;
 
 	/**
-	 *
 	 * @return string
 	 */
-	public function getKey() {
-		if(!$this->key) {
-			$this->key = $this->locale.'_'.md5(implode('', $this->URIs));
-		}
+	public function getPackageRelativeFileName()
+	{
 
-		return $this->key;
+		return Mvc_Layout::JS_PACKAGES_DIR_NAME.$this->getKey().'.js';
 	}
-
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function createPackage() {
+	public function getKey()
+	{
+		if( !$this->key ) {
+			$this->key = $this->locale.'_'.md5( implode( '', $this->URIs ) );
+		}
+
+		return $this->key;
+	}
+
+	/**
+	 *
+	 */
+	public function generatePackageFile()
+	{
+
+		$package_path = $this->getPackagePath();
+		$package_data_path = $this->getPackageDataPath();
+
+		if( !IO_File::exists( $package_path )||!IO_File::exists( $package_data_path ) ) {
+
+			IO_File::write(
+				$package_path, $this->createPackage()
+			);
+
+			IO_File::write(
+				$package_data_path, serialize(
+					                  [
+						                  'omitted_code' => $this->omitted_code, 'omitted_URIs' => $this->omitted_URIs,
+					                  ]
+				                  )
+			);
+
+		} else {
+			$data = IO_File::read( $package_data_path );
+			$data = unserialize( $data );
+
+			$this->omitted_code = $data['omitted_code'];
+			$this->omitted_URIs = $data['omitted_URIs'];
+		}
+
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function createPackage()
+	{
 		$JS = '';
 
 		foreach( $this->URIs as $URI ) {
@@ -45,7 +89,7 @@ class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_Jav
 		}
 
 
-		if(!$this->omitted_URIs) {
+		if( !$this->omitted_URIs ) {
 			foreach( $this->code as $code ) {
 				$JS .= $code.JET_EOL;
 			}
@@ -56,52 +100,6 @@ class Mvc_Layout_PackageCreator_JavaScript extends Mvc_Layout_PackageCreator_Jav
 		}
 
 		return $JS;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPackageRelativeFileName() {
-
-		return Mvc_Layout::JS_PACKAGES_DIR_NAME
-				.$this->getKey()
-				.'.js';
-	}
-
-	/**
-	 *
-	 */
-	public function generatePackageFile() {
-
-		$package_path = $this->getPackagePath();
-		$package_data_path = $this->getPackageDataPath();
-
-		if(
-            !IO_File::exists($package_path) ||
-            !IO_File::exists($package_data_path)
-        ) {
-
-			IO_File::write(
-				$package_path,
-				$this->createPackage()
-			);
-
-			IO_File::write(
-				$package_data_path,
-				serialize([
-					'omitted_code' => $this->omitted_code,
-					'omitted_URIs' => $this->omitted_URIs
-				])
-			);
-
-		} else {
-			$data = IO_File::read($package_data_path);
-			$data = unserialize( $data );
-
-			$this->omitted_code = $data['omitted_code'];
-			$this->omitted_URIs = $data['omitted_URIs'];
-		}
-
 	}
 
 

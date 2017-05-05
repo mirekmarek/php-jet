@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Exception
  * @package Jet
  */
-class Form_Exception extends Exception {
+class Form_Exception extends Exception
+{
 	const CODE_INVALID_FIELD_CLASS = 1;
 
 	const CODE_VIEW_PARSE_ERROR = 10;

@@ -13,7 +13,8 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'data_model_test_mock'
  * @JetDataModel:id_class_name = DataModel_Id_UniqueString
  */
-class DataModel_Id_DataModelTestMock extends DataModel {
+class DataModel_Id_DataModelTestMock extends DataModel
+{
 
 	/**
 	 *
@@ -56,6 +57,7 @@ class DataModel_Id_DataModelTestMock extends DataModel {
 	/**
 	 */
 	/** @noinspection PhpMissingParentConstructorInspection */
-	public function __construct() {
+	public function __construct()
+	{
 	}
 }

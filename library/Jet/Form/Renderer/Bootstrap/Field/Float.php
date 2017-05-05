@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_Float
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_Float extends Form_Renderer_Bootstrap_Field_Input  {
+class Form_Renderer_Bootstrap_Field_Float extends Form_Renderer_Bootstrap_Field_Input
+{
 
 	/**
 	 * @var string
@@ -22,16 +23,17 @@ class Form_Renderer_Bootstrap_Field_Float extends Form_Renderer_Bootstrap_Field_
 	/**
 	 * @param array &$tag_options
 	 */
-	protected function initTagOptions( array &$tag_options ) {
+	protected function initTagOptions( array &$tag_options )
+	{
 		/**
 		 * @var Form_Field_Float $fl
 		 */
 		$fl = $this->_field;
 
-		if($fl->getMinValue()!==null) {
+		if( $fl->getMinValue()!==null ) {
 			$tag_options['min'] = $fl->getMinValue();
 		}
-		if($fl->getMaxValue()!==null) {
+		if( $fl->getMaxValue()!==null ) {
 			$tag_options['max'] = $fl->getMaxValue();
 		}
 

@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 use Jet\Locale;
 
@@ -16,41 +17,44 @@ use Jet\Locale;
 class flag extends BaseObject
 {
 
-    /**
-     * @var Locale
-     */
-    protected $locale;
+	/**
+	 * @var Locale
+	 */
+	protected $locale;
 
 
-    /**
-     * @param Locale $locale
-     */
-    public function __construct( Locale $locale ) {
-        $this->locale = $locale;
-    }
+	/**
+	 * @param Locale $locale
+	 */
+	public function __construct( Locale $locale )
+	{
+		$this->locale = $locale;
+	}
 
-    /**
-     * @return string
-     */
-    public function toString()
-    {
-    	$locale = $this->locale;
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
 
-        $res = '';
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		$locale = $this->locale;
 
-	    $title = $locale->getRegionName().' - '.$locale->getLanguageName();
+		$res = '';
 
-	    $res .= '<div class="flag flag-'.strtolower($locale->getRegion()).'" title="'.$title.'" alt="'.$title.'" /></div>';
+		$title = $locale->getRegionName().' - '.$locale->getLanguageName();
 
-        return $res;
-    }
+		$res .= '<div class="flag flag-'.strtolower(
+				$locale->getRegion()
+			).'" title="'.$title.'" alt="'.$title.'" /></div>';
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toString();
-    }
+		return $res;
+	}
 
 }

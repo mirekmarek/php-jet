@@ -7,10 +7,10 @@ use Jet\Tr;
 use Jet\Mvc;
 
 /**
- * @var Article $article
+ * @var Article  $article
  * @var Mvc_View $this
  */
-$article = $this->getRaw('article');
+$article = $this->getRaw( 'article' );
 
 /**
  * @var Controller_Admin_Main_Router $router
@@ -21,16 +21,17 @@ $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
-	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPage()->getURI())?>
+	<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
 
 	<p>
-	<?=Tr::_('Do you really want to delete this article?');?>
-	<br/>
-	<a href="<?=$router->getViewURI($article->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
+		<?=Tr::_( 'Do you really want to delete this article?' );?>
+		<br/>
+		<a href="<?=$router->getViewURI( $article->getId() );?>"
+		   style="font-weight: bolder;font-size: 20px;"><?=$article->getTitle();?></a>
 	</p>
 
-	<form action="?delete=<?=rawurlencode($article->getIdObject());?>" method="post">
+	<form action="?delete=<?=rawurlencode( $article->getIdObject() );?>" method="post">
 		<input type="hidden" name="delete" value="yes">
-		<?=UI::button_delete()->setType('submit')?>
+		<?=UI::button_delete()->setType( 'submit' )?>
 	</form>
 </div>

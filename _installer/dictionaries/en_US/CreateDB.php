@@ -1,6 +1,4 @@
 <?php
 return [
-	'Create database' => '',
-	'Class' => '',
-	'Status' => '',
+	'Create database' => '', 'Class' => '', 'Status' => '',
 ];

@@ -11,8 +11,8 @@ namespace Jet;
  * Class Application_Modules_Handler_Abstract
  * @package Jet
  */
-abstract class Application_Modules_Handler_Abstract extends BaseObject {
-
+abstract class Application_Modules_Handler_Abstract extends BaseObject
+{
 
 
 	/**
@@ -28,6 +28,7 @@ abstract class Application_Modules_Handler_Abstract extends BaseObject {
 	 * Returns true if the module name correspond to a valid format
 	 *
 	 * @param string $module_name
+	 *
 	 * @return bool
 	 */
 	abstract public function checkModuleNameFormat( $module_name );
@@ -60,7 +61,7 @@ abstract class Application_Modules_Handler_Abstract extends BaseObject {
 	 *
 	 * @return Application_Modules_Module_Manifest[]
 	 */
-	abstract public function getAllModulesList( $ignore_corrupted_modules=true );
+	abstract public function getAllModulesList( $ignore_corrupted_modules = true );
 
 	/**
 	 * Returns an array containing information on installed and activated modules
@@ -103,11 +104,11 @@ abstract class Application_Modules_Handler_Abstract extends BaseObject {
 	 * Not decide whether the module is installed and active
 	 *
 	 * @param string $module_name
-	 * @param bool $only_activated (optional, default: false)
+	 * @param bool   $only_activated (optional, default: false)
 	 *
 	 * @return Application_Modules_Module_Manifest
 	 */
-	abstract public function getModuleManifest( $module_name, $only_activated=false );
+	abstract public function getModuleManifest( $module_name, $only_activated = false );
 
 	/**
 	 * Install module
@@ -122,6 +123,7 @@ abstract class Application_Modules_Handler_Abstract extends BaseObject {
 	 * Uninstall module
 	 *
 	 * @param string $module_name
+	 *
 	 * @throws Application_Modules_Exception
 	 */
 	abstract public function uninstallModule( $module_name );
@@ -156,6 +158,7 @@ abstract class Application_Modules_Handler_Abstract extends BaseObject {
 	 * Returns instance of the module base class
 	 *
 	 * @param string $module_name
+	 *
 	 * @throws Application_Modules_Exception
 	 *
 	 * @return Application_Modules_Module_Abstract

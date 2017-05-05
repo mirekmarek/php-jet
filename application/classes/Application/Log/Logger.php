@@ -15,24 +15,31 @@ use Jet\Mvc;
 /**
  *
  */
-class Application_Log_Logger extends BaseObject implements Application_Log_Logger_Interface {
+class Application_Log_Logger extends BaseObject implements Application_Log_Logger_Interface
+{
 
 	/**
 	 *
-	 * @param string $event_class
-	 * @param string $event
-	 * @param string $event_message
-	 * @param string $context_object_id (optional)
-	 * @param string $context_object_name (optional)
-	 * @param mixed $context_object_data (optional)
+	 * @param string              $event_class
+	 * @param string              $event
+	 * @param string              $event_message
+	 * @param string              $context_object_id (optional)
+	 * @param string              $context_object_name (optional)
+	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null)
 	 */
-	public function log($event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null)
+	public function log( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
 	{
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			Application_Log_Event_Administration::log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user );
+			Application_Log_Event_Administration::log(
+				$event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data,
+				$current_user
+			);
 		} else {
-			Application_Log_Event_Site::log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, $current_user );
+			Application_Log_Event_Site::log(
+				$event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data,
+				$current_user
+			);
 		}
 
 	}

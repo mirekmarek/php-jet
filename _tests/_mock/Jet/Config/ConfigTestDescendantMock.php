@@ -7,7 +7,8 @@
  */
 namespace Jet;
 
-class ConfigTestDescendantMock extends ConfigTestMock {
+class ConfigTestDescendantMock extends ConfigTestMock
+{
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
@@ -21,7 +22,8 @@ class ConfigTestDescendantMock extends ConfigTestMock {
 	 */
 	protected $next_string_property = '';
 
-	public function getNextStringProperty() {
+	public function getNextStringProperty()
+	{
 		return $this->next_string_property;
 	}
 

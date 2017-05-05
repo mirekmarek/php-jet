@@ -17,5 +17,6 @@ use Jet\Auth_User_Roles;
  * @JetDataModel:M_model_class_name = 'Auth_Administrator_User'
  * @JetDataModel:N_model_class_name = 'Auth_Administrator_Role'
  */
-class Auth_Administrator_User_Roles extends Auth_User_Roles {
+class Auth_Administrator_User_Roles extends Auth_User_Roles
+{
 }

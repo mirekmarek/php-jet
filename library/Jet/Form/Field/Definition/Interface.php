@@ -42,7 +42,7 @@ interface Form_Field_Definition_Interface
 	/**
 	 * @param string $form_field_creator_method_name
 	 */
-	public function setFormFieldCreatorMethodName($form_field_creator_method_name);
+	public function setFormFieldCreatorMethodName( $form_field_creator_method_name );
 
 	/**
 	 * @return string
@@ -52,7 +52,7 @@ interface Form_Field_Definition_Interface
 	/**
 	 * @param callable $form_field_get_select_options_callback
 	 */
-	public function setFormFieldGetSelectOptionsCallback($form_field_get_select_options_callback);
+	public function setFormFieldGetSelectOptionsCallback( $form_field_get_select_options_callback );
 
 	/**
 	 * @return callable
@@ -62,7 +62,7 @@ interface Form_Field_Definition_Interface
 	/**
 	 * @param string $form_catch_value_method_name
 	 */
-	public function setFormCatchValueMethodName($form_catch_value_method_name);
+	public function setFormCatchValueMethodName( $form_catch_value_method_name );
 
 	/**
 	 * @return string
@@ -94,6 +94,7 @@ interface Form_Field_Definition_Interface
 
 	/**
 	 * @param array $options
+	 *
 	 * @return mixed
 	 */
 	public function setFormFieldOptions( array $options );
@@ -143,7 +144,7 @@ interface Form_Field_Definition_Interface
 	public function createFormField( $property_value );
 
 	/**
-	 * @param $object_instance
+	 * @param       $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */

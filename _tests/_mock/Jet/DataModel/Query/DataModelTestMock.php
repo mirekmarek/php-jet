@@ -15,8 +15,11 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'data_model_test_mock'
  * @JetDataModel:id_class_name = DataModel_Id_UniqueString
  */
-class DataModel_Query_DataModelTestMock extends DataModel {
+class DataModel_Query_DataModelTestMock extends DataModel
+{
 
+	protected static $__test_data_model_forced_backend_type = null;
+	protected static $__test_data_model_forced_backend_config = null;
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
@@ -25,7 +28,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var string
 	 */
 	protected $id = '';
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
@@ -38,7 +40,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var string
 	 */
 	protected $id_property = 'Id default value';
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_STRING
@@ -57,7 +58,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var string
 	 */
 	protected $string_property = 'default value';
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
@@ -69,7 +69,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var Locale
 	 */
 	protected $locale_property;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_INT
@@ -83,7 +82,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var int
 	 */
 	protected $int_property = 2;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_FLOAT
@@ -97,7 +95,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var float
 	 */
 	protected $float_property = 2.2;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_BOOL
@@ -109,7 +106,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var bool
 	 */
 	protected $bool_property = true;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
@@ -121,7 +117,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var array
 	 */
 	protected $array_property = 'default value';
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
@@ -133,7 +128,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var Data_DateTime
 	 */
 	protected $date_time_property;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE
@@ -145,7 +139,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var Data_DateTime
 	 */
 	protected $date_property;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
@@ -154,7 +147,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var DataModel_Query_DataModelRelated1TONTestMock[]
 	 */
 	protected $data_model_property_1toN;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
@@ -163,7 +155,6 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 * @var DataModel_Query_DataModelRelated1TO1TestMock[]
 	 */
 	protected $data_model_property_1to1;
-
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
@@ -173,31 +164,32 @@ class DataModel_Query_DataModelTestMock extends DataModel {
 	 */
 	protected $data_model_property_MtoN;
 
-
-	protected static $__test_data_model_forced_backend_type = null;
-	protected static $__test_data_model_forced_backend_config = null;
-
-	public function _test_get_property_options( $property_name ) {
-		$data = BaseObject_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
-		return $data[ $property_name ];
+	/** @noinspection PhpMissingParentConstructorInspection */
+	public function __construct()
+	{
 	}
 
 
 	/**
 	 */
-	/** @noinspection PhpMissingParentConstructorInspection */
-	public function __construct() {
+
+	public static function setBackendType( $backend_type )
+	{
+		static::getDataModelDefinition()->__test_set( 'forced_backend_type', $backend_type );
+		DataModel_Definition_Model_Abstract::__test_set_static( '__backend_instances', [] );
 	}
 
-
-	public static function setBackendType( $backend_type ) {
-		static::getDataModelDefinition()->__test_set('forced_backend_type', $backend_type);
-		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', []);
+	public static function setBackendOptions( $backend_config )
+	{
+		static::getDataModelDefinition()->__test_set( 'forced_backend_config', $backend_config );
+		DataModel_Definition_Model_Abstract::__test_set_static( '__backend_instances', [] );
 	}
 
-	public static function setBackendOptions( $backend_config ) {
-		static::getDataModelDefinition()->__test_set('forced_backend_config', $backend_config);
-		DataModel_Definition_Model_Abstract::__test_set_static('__backend_instances', []);
+	public function _test_get_property_options( $property_name )
+	{
+		$data = BaseObject_Reflection::get( get_called_class(), 'data_model_properties_definition', false );
+
+		return $data[$property_name];
 	}
 
 }

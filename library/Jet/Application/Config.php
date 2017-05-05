@@ -11,14 +11,16 @@ namespace Jet;
  * Class Application_Config
  *
  */
-class Application_Config extends Config {
+class Application_Config extends Config
+{
 
 	/**
 	 * Create main config instance
 	 *
 	 * @param bool $soft_mode (optional, default: false)
 	 */
-	public function __construct( $soft_mode=false ) {
+	public function __construct( $soft_mode = false )
+	{
 		parent::__construct( Application::getConfigFilePath(), $soft_mode );
 	}
 

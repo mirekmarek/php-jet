@@ -11,7 +11,8 @@ namespace Jet;
  * Interface DataModel_Related_1toN_Iterator_Interface
  * @package Jet
  */
-interface DataModel_Related_1toN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable {
+interface DataModel_Related_1toN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable
+{
 
 
 	/**
@@ -22,12 +23,12 @@ interface DataModel_Related_1toN_Iterator_Interface extends DataModel_Related_In
 	/**
 	 *
 	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
-	 * @param DataModel_PropertyFilter|null $property_filter
+	 * @param DataModel_PropertyFilter|null          $property_filter
 	 *
 	 * @return Form_Field_Abstract[]
 	 *
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter=null );
+	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter = null );
 
 	/**
 	 *

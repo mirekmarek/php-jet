@@ -27,12 +27,12 @@ class Debug_ErrorHandler_Handler_Display extends Debug_ErrorHandler_Handler_Abst
 	/**
 	 * @param Debug_ErrorHandler_Error $error
 	 */
-	public function handle(Debug_ErrorHandler_Error $error)
+	public function handle( Debug_ErrorHandler_Error $error )
 	{
-		if (Debug_ErrorHandler::getHTMLErrorsEnabled()) {
-			echo Debug_Tools_Formatter::formatErrorMessage_HTML($error);
+		if( Debug_ErrorHandler::getHTMLErrorsEnabled() ) {
+			echo Debug_Tools_Formatter::formatErrorMessage_HTML( $error );
 		} else {
-			echo Debug_Tools_Formatter::formatErrorMessage_TXT($error);
+			echo Debug_Tools_Formatter::formatErrorMessage_TXT( $error );
 		}
 	}
 

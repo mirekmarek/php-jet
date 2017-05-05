@@ -11,7 +11,8 @@ namespace Jet;
  * Class Application_Modules_Exception
  * @package Jet
  */
-class Application_Modules_Exception extends Exception {
+class Application_Modules_Exception extends Exception
+{
 
 	const CODE_MODULE_NAME_FORMAT_IS_NOT_VALID = 1;
 	const CODE_MODULE_DOES_NOT_EXIST = 2;
@@ -27,7 +28,7 @@ class Application_Modules_Exception extends Exception {
 	const CODE_FAILED_TO_INSTALL_MODULE = 7;
 	const CODE_FAILED_TO_UNINSTALL_MODULE = 8;
 
-	const CODE_UNKNOWN_MODULE= 9;
+	const CODE_UNKNOWN_MODULE = 9;
 
 	const CODE_ERROR_CREATING_MODULE_INSTANCE = 10;
 

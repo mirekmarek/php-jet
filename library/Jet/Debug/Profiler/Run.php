@@ -11,7 +11,8 @@ namespace Jet;
  * Class Debug_Profiler_Run
  * @package Jet
  */
-class Debug_Profiler_Run {
+class Debug_Profiler_Run
+{
 
 	/**
 	 * @var string
@@ -61,21 +62,22 @@ class Debug_Profiler_Run {
 	/**
 	 *
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 
-		if( php_sapi_name() == 'cli' ) {
-			$this->request_URL =  isset($_SERVER['SCRIPT_FILENAME']) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
+		if( php_sapi_name()=='cli' ) {
+			$this->request_URL = isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
 		} else {
-			if(!isset($_SERVER['HTTP_HOST']) || !isset($_SERVER['HTTP_HOST'])) {
+			if( !isset( $_SERVER['HTTP_HOST'] )||!isset( $_SERVER['HTTP_HOST'] ) ) {
 				$this->request_URL = 'unknown';
 			}
-			$this->request_URL = $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
+			$this->request_URL = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		}
 
-		$this->date_and_time = date('Y-m-d H:i:s');
+		$this->date_and_time = date( 'Y-m-d H:i:s' );
 
 		srand();
-		$this->id = md5( $this->request_URL.microtime(true).rand().rand().rand() );
+		$this->id = md5( $this->request_URL.microtime( true ).rand().rand().rand() );
 
 		$root_block = new Debug_Profiler_Run_Block( false, 'root', 0 );
 
@@ -84,86 +86,37 @@ class Debug_Profiler_Run {
 		$this->__root_block = $root_block;
 
 
-		$this->MainBlockStart("", true);
+		$this->MainBlockStart( "", true );
 
-		if(extension_loaded('xhprof')) {
+		if( extension_loaded( 'xhprof' ) ) {
 			/** @noinspection PhpUndefinedConstantInspection */
 			/** @noinspection PhpUndefinedFunctionInspection */
-			xhprof_enable( XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY );
+			xhprof_enable( XHPROF_FLAGS_CPU+XHPROF_FLAGS_MEMORY );
 		}
 
-        if(extension_loaded('tideways')) {
-            /** @noinspection PhpUndefinedConstantInspection */
-            /** @noinspection PhpUndefinedFunctionInspection */
-            tideways_enable( TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY );
-        }
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getId() {
-		return $this->id;
-	}
-
-
-	/**
-	 * @return
-	 */
-	public function getXHPData() {
-		return $this->XHP_data;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDateAndTime() {
-		return $this->date_and_time;
-	}
-
-	/**
-	 * @return Debug_Profiler_Run_Block[]
-	 */
-	public function getBlocks() {
-		return $this->blocks;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRequestURL() {
-		return $this->request_URL;
-	}
-
-	/**
-	 * @return Debug_Profiler_Run_SQLQueryData[]
-	 */
-	public function getSqlQueries() {
-		$r = [];
-
-		foreach($this->blocks as $block) {
-			$r = array_merge($r, $block->getSQLQueries());
+		if( extension_loaded( 'tideways' ) ) {
+			/** @noinspection PhpUndefinedConstantInspection */
+			/** @noinspection PhpUndefinedFunctionInspection */
+			tideways_enable( TIDEWAYS_FLAGS_CPU+TIDEWAYS_FLAGS_MEMORY );
 		}
-
-		return $r;
 	}
-
 
 	/**
 	 * Starts new block in level #1 end ends all previous block
 	 *
 	 * @param string $label
-	 * @param bool $is_anonymous (optional, default: false)
+	 * @param bool   $is_anonymous (optional, default: false)
 	 *
 	 * @return Debug_Profiler_Run_Block
 	 */
-	public function MainBlockStart( $label, $is_anonymous=false ) {
-		if($is_anonymous) {
+	public function MainBlockStart( $label, $is_anonymous = false )
+	{
+		if( $is_anonymous ) {
 			$label = "anonymous";
 		}
 
 		if( $this->__block_stack ) {
-			$timestamp = microtime(true);
+			$timestamp = microtime( true );
 
 			$_labels = [];
 
@@ -172,21 +125,27 @@ class Debug_Profiler_Run {
 				 * @var Debug_Profiler_Run_Block $block
 				 */
 				$block = array_pop( $this->__block_stack );
-				if(!$block->getIsAnonymous()) {
+				if( !$block->getIsAnonymous() ) {
 					$_labels[] = $block->getLabel();
 				}
-				$block->setEnd($timestamp);
+				$block->setEnd( $timestamp );
 
-			} while($this->__block_stack);
+			} while( $this->__block_stack );
 
-			if($_labels) {
-				trigger_error('Jet Profiler Warning: blockStart(\''.$label.'\') called, but unclosed block(s) detected: \''.implode('\', \'', $_labels).'\' ! ');
+			if( $_labels ) {
+				trigger_error(
+					'Jet Profiler Warning: blockStart(\''.$label.'\') called, but unclosed block(s) detected: \''.implode(
+						'\', \'', $_labels
+					).'\' ! '
+				);
 			}
 		}
 
 		$this->__current_block_level = 1;
 
-		$block = new Debug_Profiler_Run_Block( $is_anonymous, $label, $this->__current_block_level, $this->__root_block );
+		$block = new Debug_Profiler_Run_Block(
+			$is_anonymous, $label, $this->__current_block_level, $this->__root_block
+		);
 
 		$this->blocks[$block->getId()] = $block;
 		$this->__current_block = $block;
@@ -197,42 +156,57 @@ class Debug_Profiler_Run {
 	}
 
 	/**
-	 * @param string $label (Does nothing. Only for best practises and orientation to the application code)
+	 * @return string
 	 */
-	public function MainBlockEnd( $label ) {
-		if( !$this->__current_block_level ) {
-			trigger_error('Jet Profiler Warning: blockEnd(\''.$label.'\') called, but no block has been started! Skipping blockEnd! ');
-			return;
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @return
+	 */
+	public function getXHPData()
+	{
+		return $this->XHP_data;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDateAndTime()
+	{
+		return $this->date_and_time;
+	}
+
+	/**
+	 * @return Debug_Profiler_Run_Block[]
+	 */
+	public function getBlocks()
+	{
+		return $this->blocks;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRequestURL()
+	{
+		return $this->request_URL;
+	}
+
+	/**
+	 * @return Debug_Profiler_Run_SQLQueryData[]
+	 */
+	public function getSqlQueries()
+	{
+		$r = [];
+
+		foreach( $this->blocks as $block ) {
+			$r = array_merge( $r, $block->getSQLQueries() );
 		}
 
-		$timestamp = microtime(true);
-
-		if( $this->__current_block_level>1 ) {
-
-			$_labels = [];
-
-			do {
-				/**
-				 * @var Debug_Profiler_Run_Block $block
-				 */
-				$block = array_pop( $this->__block_stack );
-				$block->setEnd($timestamp);
-
-			} while($this->__block_stack && $block->getLevel()>1);
-
-			trigger_error('Jet Profiler Warning: blockEnd(\''.$label.'\') called, but unclosed subblock(s) detected: \''.implode('\', \'', $_labels).'\' ! ');
-		}
-
-		/**
-		 * @var Debug_Profiler_Run_Block $block
-		 */
-		$block = array_pop( $this->__block_stack );
-		$block->setEnd($timestamp);
-
-		$this->__block_stack = [];
-		$this->__current_block_level = 0;
-
-		$this->MainBlockStart("", true);
+		return $r;
 	}
 
 	/**
@@ -241,13 +215,19 @@ class Debug_Profiler_Run {
 	 *
 	 * @return Debug_Profiler_Run_Block
 	 */
-	public function blockStart( $label ) {
-		if(!$this->__current_block_level) {
-			trigger_error('Jet Profiler Warning: subBlockStart(\''.$label.'\') called, but no block has been started! Calling blockStart! ');
-			return $this->MainBlockStart($label);
+	public function blockStart( $label )
+	{
+		if( !$this->__current_block_level ) {
+			trigger_error(
+				'Jet Profiler Warning: subBlockStart(\''.$label.'\') called, but no block has been started! Calling blockStart! '
+			);
+
+			return $this->MainBlockStart( $label );
 		}
 
-		$block = new Debug_Profiler_Run_Block( false, $label, $this->__current_block_level, $this->__block_stack[$this->__current_block_level-1] );
+		$block = new Debug_Profiler_Run_Block(
+			false, $label, $this->__current_block_level, $this->__block_stack[$this->__current_block_level-1]
+		);
 
 
 		$this->__current_block_level++;
@@ -263,30 +243,80 @@ class Debug_Profiler_Run {
 	/**
 	 * @param string $label (Does nothing. Only for best practises and orientation to the application code)
 	 */
-	public function blockEnd( $label ) {
+	public function blockEnd( $label )
+	{
 
-		if(	$this->__current_block_level<=1 ) {
-			trigger_error('Jet Profiler Warning: subBlockEnd(\''.$label.'\') called, but no subblock has been started! Calling blockEnd! ');
+		if( $this->__current_block_level<=1 ) {
+			trigger_error(
+				'Jet Profiler Warning: subBlockEnd(\''.$label.'\') called, but no subblock has been started! Calling blockEnd! '
+			);
 			$this->MainBlockEnd( $label );
+
 			return;
 		}
 
 		$this->__current_block->setEnd();
 		$this->__current_block_level--;
-		array_pop($this->__block_stack);
+		array_pop( $this->__block_stack );
 
-		$this->__current_block  = $this->__block_stack[count($this->__block_stack)-1];
+		$this->__current_block = $this->__block_stack[count( $this->__block_stack )-1];
 	}
 
+	/**
+	 * @param string $label (Does nothing. Only for best practises and orientation to the application code)
+	 */
+	public function MainBlockEnd( $label )
+	{
+		if( !$this->__current_block_level ) {
+			trigger_error(
+				'Jet Profiler Warning: blockEnd(\''.$label.'\') called, but no block has been started! Skipping blockEnd! '
+			);
 
+			return;
+		}
+
+		$timestamp = microtime( true );
+
+		if( $this->__current_block_level>1 ) {
+
+			$_labels = [];
+
+			do {
+				/**
+				 * @var Debug_Profiler_Run_Block $block
+				 */
+				$block = array_pop( $this->__block_stack );
+				$block->setEnd( $timestamp );
+
+			} while( $this->__block_stack&&$block->getLevel()>1 );
+
+			trigger_error(
+				'Jet Profiler Warning: blockEnd(\''.$label.'\') called, but unclosed subblock(s) detected: \''.implode(
+					'\', \'', $_labels
+				).'\' ! '
+			);
+		}
+
+		/**
+		 * @var Debug_Profiler_Run_Block $block
+		 */
+		$block = array_pop( $this->__block_stack );
+		$block->setEnd( $timestamp );
+
+		$this->__block_stack = [];
+		$this->__current_block_level = 0;
+
+		$this->MainBlockStart( "", true );
+	}
 
 	/**
 	 *
 	 */
-	public function runEnd() {
-		$timestamp = microtime(true);
+	public function runEnd()
+	{
+		$timestamp = microtime( true );
 
-		while($this->__block_stack) {
+		while( $this->__block_stack ) {
 			/**
 			 * @var Debug_Profiler_Run_Block $block
 			 */
@@ -298,31 +328,33 @@ class Debug_Profiler_Run {
 		$this->__root_block->setEnd( $timestamp );
 
 
-		if(extension_loaded('xhprof')) {
+		if( extension_loaded( 'xhprof' ) ) {
 			/** @noinspection PhpUndefinedFunctionInspection */
 			$this->XHP_data = xhprof_disable();
 		}
 
-        if(extension_loaded('tideways')) {
-            /** @noinspection PhpUndefinedFunctionInspection */
-            $this->XHP_data = tideways_disable();
-        }
+		if( extension_loaded( 'tideways' ) ) {
+			/** @noinspection PhpUndefinedFunctionInspection */
+			$this->XHP_data = tideways_disable();
+		}
 
 	}
 
 
 	/**
-	 * @param $query
-	 * @param $query_data
+	 * @param string $query
+	 * @param array  $query_data
 	 */
-	public function SQLQueryStart(  $query, $query_data  ) {
-		$this->__current_block->SQLQueryStart($query, $query_data);
+	public function SQLQueryStart( $query, $query_data )
+	{
+		$this->__current_block->SQLQueryStart( $query, $query_data );
 	}
 
 	/**
-	 * @param $rows_count
+	 * @param int $rows_count
 	 */
-	public function SqlQueryDone($rows_count ) {
+	public function SqlQueryDone( $rows_count )
+	{
 		$this->__current_block->SQLQueryDone( $rows_count );
 	}
 
@@ -330,15 +362,17 @@ class Debug_Profiler_Run {
 	/**
 	 * @return Debug_Profiler_Run_Block|null
 	 */
-	public function getCurrentBlock() {
+	public function getCurrentBlock()
+	{
 		return $this->__current_block;
 	}
 
 	/**
-	 * @param $text
+	 * @param string $text
 	 */
-	public function message( $text ) {
-		$this->__current_block->message($text);
+	public function message( $text )
+	{
+		$this->__current_block->message( $text );
 	}
 
 	/**
@@ -346,14 +380,16 @@ class Debug_Profiler_Run {
 	 *
 	 * @return array
 	 */
-	public function __sleep(){
-		$vars = get_object_vars($this);
-		foreach($vars as $k => $v){
-			if(substr($k, 0, 2) === '__'){
-				unset($vars[$k]);
+	public function __sleep()
+	{
+		$vars = get_object_vars( $this );
+		foreach( $vars as $k => $v ) {
+			if( substr( $k, 0, 2 )==='__' ) {
+				unset( $vars[$k] );
 			}
 		}
-		return array_keys($vars);
+
+		return array_keys( $vars );
 	}
 
 }

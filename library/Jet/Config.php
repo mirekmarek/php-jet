@@ -7,43 +7,43 @@
  */
 namespace Jet;
 
-/**
- * Available annotation:
- *      Config:
- *          @JetConfig:data_path = '/some/array/path'
- *              -  Path to configuration data within config file data. @see Data_Array::getRaw() for paths usage explanation
- *
- *          @JetConfig:section_is_obligatory = false
- *              - If defined section does not exists in the configuration data and this options is true then Config system throws exception. Default is true
- *
- *      Config Property Definition:
- *          /**
- *           * @JetConfig:type = Config::TYPE_*,
- *           * @JetConfig:description = 'Some description ...',
- *           * @JetConfig:is_required = true
- *           * @JetConfig:default_value = 'some default value'
- *           * @JetConfig:form_field_type = Form::TYPE_*
- *           *     - (optional, default: autodetect)
- *           * @JetConfig:form_field_label = 'Some form filed label:'
- *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
- *           *      - optional
- *           * @JetConfig:form_field_error_messages = ['error_code' => 'Message' ]
- *           * @JetConfig:form_field_get_select_options_callback = callable
- *           *     - optional
- *           *
- *           * @var string          //some PHP type ...
- *           * /
- *          protected $some_property;
- *
- */
+	/**
+	 * Available annotation:
+	 *      Config:
+	 * @JetConfig:data_path = '/some/array/path'
+	 *              -  Path to configuration data within config file data. @see Data_Array::getRaw() for paths usage explanation
+	 *
+	 * @JetConfig:section_is_obligatory = false
+	 *              - If defined section does not exists in the configuration data and this options is true then Config system throws exception. Default is true
+	 *
+	 *      Config Property Definition:
+	 *          /**
+	 *           * @JetConfig:type = Config::TYPE_*,
+	 *           * @JetConfig:description = 'Some description ...',
+	 *           * @JetConfig:is_required = true
+	 *           * @JetConfig:default_value = 'some default value'
+	 *           * @JetConfig:form_field_type = Form::TYPE_*
+	 *           *     - (optional, default: autodetect)
+	 *           * @JetConfig:form_field_label = 'Some form filed label:'
+	 *           * @JetConfig:form_field_options = ['option1' => 'Option 1', 'option2' => 'Option 1', 'option3'=>'Option 3' ]
+	 *           *      - optional
+	 *           * @JetConfig:form_field_error_messages = ['error_code' => 'Message' ]
+	 *           * @JetConfig:form_field_get_select_options_callback = callable
+	 *           *     - optional
+	 *           *
+	 *           * @var string          //some PHP type ...
+	 *           * /
+	 *          protected $some_property;
+	 *
+	 */
 
 
 /**
  * Class Config
  *
  */
-abstract class Config extends BaseObject implements BaseObject_Reflection_ParserInterface {
-
+abstract class Config extends BaseObject implements BaseObject_Reflection_ParserInterface
+{
 
 
 	/**
@@ -71,32 +71,10 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	 */
 	const TYPE_ARRAY = 'Array';
 
-
 	/**
 	 * Property/option type - list of configurations (sub configuration)
 	 */
 	const TYPE_CONFIG_LIST = 'ConfigList';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $config_file_path = '';
-
-	/**
-	 * Ignore non-existent config file and non-existent config section. Usable for installer or setup.
-	 *
-	 * @var bool
-	 */
-	protected $soft_mode = false;
-
-
-	/**
-	 * Loaded section data from config
-	 *
-	 * @var Data_Array
-	 */
-	protected $_config_data = null;
 
 	/**
 	 * Configuration data (content of config data array wrapped to Data_Array)
@@ -106,7 +84,23 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	 * @var Data_Array[]
 	 */
 	protected static $configs_data = [];
-
+	/**
+	 *
+	 * @var string
+	 */
+	protected $config_file_path = '';
+	/**
+	 * Ignore non-existent config file and non-existent config section. Usable for installer or setup.
+	 *
+	 * @var bool
+	 */
+	protected $soft_mode = false;
+	/**
+	 * Loaded section data from config
+	 *
+	 * @var Data_Array
+	 */
+	protected $_config_data = null;
 	/**
 	 * @var Config_Definition_Config
 	 */
@@ -120,14 +114,115 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 
 	/**
 	 * @param string $config_file_path
-	 * @param bool $soft_mode  Ignore non-existent config file and non-existent config section. Usable for installer or setup.
+	 * @param bool   $soft_mode Ignore non-existent config file and non-existent config section. Usable for installer or setup.
 	 */
-	public function __construct( $config_file_path, $soft_mode=false ) {
+	public function __construct( $config_file_path, $soft_mode = false )
+	{
 		$this->config_file_path = $config_file_path;
 		$this->soft_mode = (bool)$soft_mode;
-		$this->setData( $this->readConfigData($config_file_path) );
+		$this->setData( $this->readConfigData( $config_file_path ) );
 	}
 
+	/**
+	 *
+	 * @param Data_Array|array $data
+	 * @param bool             $use_data_path_for_source_data
+	 *
+	 * @throws Config_Exception
+	 */
+	public function setData( $data, $use_data_path_for_source_data = true )
+	{
+		if( !( $data instanceof Data_Array ) ) {
+			$data = new Data_Array( $data );
+		}
+
+		$definition = $this->getDefinition();
+
+		$config_data_path = $definition->getDataPath();
+
+		if( $config_data_path&&$use_data_path_for_source_data ) {
+
+			$config_section_is_obligatory = $definition->getSectionIsObligatory();
+
+			$this_config_data = [];
+
+			if( !$data->exists( $config_data_path ) ) {
+				if( $config_section_is_obligatory&&!$this->soft_mode ) {
+					throw new Config_Exception(
+						'The obligatory section \''.$config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
+						Config_Exception::CODE_CONFIG_CHECK_ERROR
+					);
+				}
+			} else {
+				$this_config_data = $data->getRaw( $config_data_path );
+			}
+
+			$this->_config_data = new  Data_Array( $this_config_data );
+		} else {
+			$this->_config_data = $data;
+		}
+
+		$data = $this->_config_data;
+
+		foreach( $this->getPropertiesDefinition() as $property_name => $property_definition ) {
+			if( $property_definition instanceof Config_Definition_Property_ConfigList ) {
+				$this->{$property_name} = $property_definition;
+
+				continue;
+			}
+
+			if( $data->exists( $property_name ) ) {
+				$this->{$property_name} = $data->getRaw( $property_name );
+				$property_definition->checkValue( $this->{$property_name} );
+			} else {
+				if( $property_definition->getIsRequired()&&!$this->soft_mode ) {
+					throw new Config_Exception(
+						'Configuration property '.get_class(
+							$this
+						).'::'.$property_name.' is required by definition, but value is missing!',
+						Config_Exception::CODE_CONFIG_CHECK_ERROR
+					);
+				}
+				$this->{$property_name} = $property_definition->getDefaultValue();
+			}
+		}
+	}
+
+	/**
+	 * @return Config_Definition_Config
+	 */
+	public function getDefinition()
+	{
+		if( !$this->definition ) {
+			$this->definition = Config_Definition_Config::getDefinition( get_called_class() );
+		}
+
+		return $this->definition;
+	}
+
+	/**
+	 *
+	 * @return Config_Definition_Property_Abstract[]
+	 */
+	public function getPropertiesDefinition()
+	{
+		if( $this->properties_definition!==null ) {
+			return $this->properties_definition;
+		}
+
+		$definition = $this->getDefinition()->getPropertiesDefinition();
+
+		foreach( $definition as $property ) {
+			/**
+			 * @var Config_Definition_Property_Abstract $property
+			 */
+			$property->setConfiguration( $this );
+		}
+
+		$this->properties_definition = $definition;
+
+		return $definition;
+	}
 
 	/**
 	 * @param string $config_file_path
@@ -136,22 +231,23 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	 *
 	 * @return Data_Array
 	 */
-	protected function readConfigData( $config_file_path ) {
+	protected function readConfigData( $config_file_path )
+	{
 
-		if(!$config_file_path) {
+		if( !$config_file_path ) {
 			throw new Config_Exception(
-				'Config file path is not defined',
-				Config_Exception::CODE_CONFIG_FILE_PATH_NOT_DEFINED
+				'Config file path is not defined', Config_Exception::CODE_CONFIG_FILE_PATH_NOT_DEFINED
 			);
 		}
 
-		if(!isset(static::$configs_data[$config_file_path])) {
+		if( !isset( static::$configs_data[$config_file_path] ) ) {
 			$_config_file_path = stream_resolve_include_path( $config_file_path );
 
 
-			if(!IO_File::isReadable($_config_file_path)) {
-				if($this->soft_mode) {
-					static::$configs_data[$config_file_path] = new Data_Array( []);
+			if( !IO_File::isReadable( $_config_file_path ) ) {
+				if( $this->soft_mode ) {
+					static::$configs_data[$config_file_path] = new Data_Array( [] );
+
 					return static::$configs_data[$config_file_path];
 
 				}
@@ -165,7 +261,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 
 			/** @noinspection PhpIncludeInspection */
 			$data = require $_config_file_path;
-			if(!is_array($data)) {
+			if( !is_array( $data ) ) {
 				throw new Config_Exception(
 					'Config file \''.$config_file_path.'\' does not contain PHP array. Example: <?php return array(\'option\' => \'value\'); ',
 					Config_Exception::CODE_CONFIG_FILE_IS_NOT_VALID
@@ -180,39 +276,38 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	}
 
 	/**
-	 * @return Config_Definition_Config
+	 *
+	 * @param string $base_directory
+	 *
+	 * @return array
 	 */
-	public function getDefinition() {
-		if(!$this->definition) {
-			$this->definition = Config_Definition_Config::getDefinition( get_called_class() );
+	public static function getAvailableHandlersList( $base_directory )
+	{
+		$res = IO_Dir::getSubdirectoriesList( $base_directory, '*' );
+		foreach( $res as $path => $dir ) {
+			if( $dir=='Config' ) {
+				unset( $res[$path] );
+			}
 		}
 
-		return $this->definition;
+		return array_combine( $res, $res );
 	}
 
 	/**
-	 *
-	 * @return Config_Definition_Property_Abstract[]
+	 * @param BaseObject_Reflection_ParserData $data
 	 */
-	public function getPropertiesDefinition() {
-		if($this->properties_definition!==null) {
-			return $this->properties_definition;
-		}
-
-		$definition = $this->getDefinition()->getPropertiesDefinition();
-
-		foreach( $definition as $property ) {
-			/**
-			 * @var Config_Definition_Property_Abstract $property
-			 */
-			$property->setConfiguration($this);
-		}
-
-		$this->properties_definition = $definition;
-
-		return $definition;
+	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data )
+	{
+		Config_Definition_Config::parseClassDocComment( $data );
 	}
 
+	/**
+	 * @param BaseObject_Reflection_ParserData $data
+	 */
+	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data )
+	{
+		Config_Definition_Config::parsePropertyDocComment( $data );
+	}
 
 	/**
 	 *
@@ -220,77 +315,9 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	 *
 	 * @return Data_Array
 	 */
-	public function getData() {
+	public function getData()
+	{
 		return $this->_config_data;
-	}
-
-
-	/**
-	 *
-	 * @param Data_Array|array $data
-	 * @param bool $use_data_path_for_source_data
-	 *
-	 * @throws Config_Exception
-	 */
-	public function setData( $data, $use_data_path_for_source_data=true ) {
-		if( !($data instanceof Data_Array) ) {
-			$data = new Data_Array( $data );
-		}
-
-		$definition = $this->getDefinition();
-
-		$config_data_path = $definition->getDataPath();
-
-		if(
-			$config_data_path &&
-			$use_data_path_for_source_data
-		) {
-
-			$config_section_is_obligatory = $definition->getSectionIsObligatory();
-
-			$this_config_data = [];
-
-			if( !$data->exists($config_data_path) ) {
-				if(
-					$config_section_is_obligatory &&
-					!$this->soft_mode
-				) {
-					throw new Config_Exception(
-						'The obligatory section \''.$config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
-						Config_Exception::CODE_CONFIG_CHECK_ERROR
-					);
-				}
-			} else {
-				$this_config_data = $data->getRaw($config_data_path);
-			}
-
-			$this->_config_data = new  Data_Array($this_config_data);
-		} else {
-			$this->_config_data = $data;
-		}
-
-		$data = $this->_config_data;
-
-		foreach($this->getPropertiesDefinition() as $property_name=>$property_definition) {
-			if($property_definition instanceof Config_Definition_Property_ConfigList) {
-				$this->{$property_name} = $property_definition;
-
-				continue;
-			}
-
-			if( $data->exists($property_name)) {
-				$this->{$property_name} = $data->getRaw($property_name);
-				$property_definition->checkValue( $this->{$property_name} );
-			} else {
-				if($property_definition->getIsRequired() && !$this->soft_mode  ) {
-					throw new Config_Exception(
-						'Configuration property '.get_class($this).'::'.$property_name.' is required by definition, but value is missing!',
-						Config_Exception::CODE_CONFIG_CHECK_ERROR
-					);
-				}
-				$this->{$property_name} = $property_definition->getDefaultValue();
-			}
-		}
 	}
 
 	/**
@@ -298,29 +325,27 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	 *
 	 * @return Form
 	 */
-	public function getCommonForm( $form_name='' ) {
-
+	public function getCommonForm( $form_name = '' )
+	{
 		$properties_list = $this->getCommonFormPropertiesList();
 
-
-		if(!$form_name) {
-			$form_name = str_replace( '\\','_', get_class($this) );
+		if( !$form_name ) {
+			$form_name = str_replace( '\\', '_', get_class( $this ) );
 		}
 
-		return $this->getForm($form_name, $properties_list);
+		return $this->getForm( $form_name, $properties_list );
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getCommonFormPropertiesList() {
+	public function getCommonFormPropertiesList()
+	{
 		$definition = $this->getPropertiesDefinition();
 		$properties_list = [];
 
-		foreach($definition as $property_name => $property_definition) {
-			if(
-				$property_definition->getFormFieldType()===false
-			) {
+		foreach( $definition as $property_name => $property_definition ) {
+			if( $property_definition->getFormFieldType()===false ) {
 				continue;
 			}
 
@@ -331,16 +356,16 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 
 	}
 
-
 	/**
 	 *
 	 * @param string $form_name
-	 * @param array $properties_list
+	 * @param array  $properties_list
 	 *
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	protected function getForm( $form_name, array $properties_list ) {
+	protected function getForm( $form_name, array $properties_list )
+	{
 		$properties_definition = $this->getPropertiesDefinition();
 
 		$form_fields = [];
@@ -350,27 +375,29 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 			$property_definition = $properties_definition[$property_name];
 			$property = &$this->{$property_name};
 
-			if( ($field_creator_method_name = $property_definition->getFormFieldCreatorMethodName()) ) {
+			if( ( $field_creator_method_name = $property_definition->getFormFieldCreatorMethodName() ) ) {
 				$created_field = $this->{$field_creator_method_name}( $property_definition );
 			} else {
 				$created_field = $property_definition->createFormField( $property );
 			}
 
-			if(!$created_field) {
+			if( !$created_field ) {
 				continue;
 			}
 
-            $key = $created_field->getName();
+			$key = $created_field->getName();
 
-            $created_field->setCatchDataCallback( function( $value ) use ($property_definition, &$property, $key) {
+			$created_field->setCatchDataCallback(
+				function( $value ) use ( $property_definition, &$property, $key ) {
 
-                $property_definition->catchFormField( $this, $property, $value );
+					$property_definition->catchFormField( $this, $property, $value );
 
-                $this->_config_data->set($key, $value);
+					$this->_config_data->set( $key, $value );
 
-            } );
+				}
+			);
 
-            $form_fields[] = $created_field;
+			$form_fields[] = $created_field;
 
 
 		}
@@ -380,23 +407,21 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	}
 
 	/**
-	 * @param Form $form
+	 * @param Form  $form
 	 *
 	 * @param array $data
-	 * @param bool $force_catch
+	 * @param bool  $force_catch
 	 *
 	 * @return bool;
 	 */
-	public function catchForm( Form $form, $data=null, $force_catch=false   ) {
+	public function catchForm( Form $form, $data = null, $force_catch = false )
+	{
 
-		if(
-			!$form->catchValues($data, $force_catch) ||
-			!$form->validateValues()
-		) {
+		if( !$form->catchValues( $data, $force_catch )||!$form->validateValues() ) {
 			return false;
 		}
 
-        return $form->catchData();
+		return $form->catchData();
 
 	}
 
@@ -404,21 +429,55 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	 *
 	 * @return string
 	 */
-	public function getConfigFilePath() {
+	public function getConfigFilePath()
+	{
 		return $this->config_file_path;
+	}
+
+	/**
+	 * @param string $target_file_path (optional, default: current config_file_path )
+	 */
+	public function save( $target_file_path = null )
+	{
+		if( !is_readable( $this->config_file_path ) ) {
+			$original_data = [];
+		} else {
+			/** @noinspection PhpIncludeInspection */
+			$original_data = require $this->config_file_path;
+		}
+
+		$original_data = new Data_Array( $original_data );
+
+		$config_data_path = $this->getDefinition()->getDataPath();
+
+		$original_data->set( $config_data_path, $this->toArray() );
+
+		$config_data = '<?php'.JET_EOL.'return '.$original_data->export();
+
+		if( !$target_file_path ) {
+			$target_file_path = $this->config_file_path;
+		}
+
+
+		try {
+			IO_File::write( $target_file_path, $config_data );
+		} catch( Exception $e ) {
+		}
+		static::$configs_data = [];
 	}
 
 	/**
 	 *
 	 * @return array
 	 */
-	public function toArray() {
+	public function toArray()
+	{
 		$definition = $this->getPropertiesDefinition();
 
 		$result = [];
 
-		foreach($definition as $name=>$def) {
-			if(is_object($this->{$name})) {
+		foreach( $definition as $name => $def ) {
+			if( is_object( $this->{$name} ) ) {
 				/**
 				 * @var Config $prop
 				 */
@@ -433,79 +492,19 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	}
 
 	/**
-	 * @param string $target_file_path (optional, default: current config_file_path )
+	 * @return bool
 	 */
-	public function save( $target_file_path=null ) {
-		if(!is_readable($this->config_file_path)) {
-			$original_data = [];
-		} else {
-			/** @noinspection PhpIncludeInspection */
-			$original_data = require $this->config_file_path;
-		}
-
-		$original_data = new Data_Array($original_data);
-
-		$config_data_path = $this->getDefinition()->getDataPath();
-
-		$original_data->set( $config_data_path, $this->toArray());
-
-		$config_data = '<?php'.JET_EOL.'return '.$original_data->export();
-
-		if(!$target_file_path) {
-			$target_file_path = $this->config_file_path;
-		}
-
-
-		try {
-			IO_File::write($target_file_path, $config_data);
-		} catch(Exception $e) {}
-		static::$configs_data = [];
+	public function getSoftMode()
+	{
+		return $this->soft_mode;
 	}
 
 	/**
 	 * @param bool $soft_mode
 	 */
-	public function setSoftMode( $soft_mode ) {
+	public function setSoftMode( $soft_mode )
+	{
 		$this->soft_mode = (bool)$soft_mode;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getSoftMode() {
-		return $this->soft_mode;
-	}
-
-	/**
-	 *
-	 * @param string $base_directory
-	 *
-	 * @return array
-	 */
-	public static function getAvailableHandlersList( $base_directory ) {
-		$res = IO_Dir::getSubdirectoriesList($base_directory, '*');
-		foreach($res as $path=>$dir) {
-			if($dir=='Config') {
-				unset($res[$path]);
-			}
-		}
-
-		return array_combine($res, $res);
-	}
-
-
-	/**
-	 * @param BaseObject_Reflection_ParserData $data
-	 */
-	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data ) {
-		Config_Definition_Config::parseClassDocComment( $data );
-	}
-
-	/**
-	 * @param BaseObject_Reflection_ParserData $data
-	 */
-	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data ) {
-		Config_Definition_Config::parsePropertyDocComment( $data );
 	}
 
 }

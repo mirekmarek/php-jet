@@ -10,7 +10,8 @@ namespace Jet;
 /** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 
-class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
+class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase
+{
 	/**
 	 * @var DataModel_Query_DataModelTestMock
 	 */
@@ -27,40 +28,16 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	protected $object;
 
 	protected $values = [
-		'id' => 'Id123',
-		'id_property' => 'myId',
-		'string_property' => 'My Test',
-		'int_property' => 1234,
-		'float_property' => 3.14,
-		'bool_property' => true,
-		'array_property' => ['a','b','c']
+		'id'             => 'Id123', 'id_property' => 'myId', 'string_property' => 'My Test', 'int_property' => 1234,
+		'float_property' => 3.14, 'bool_property' => true, 'array_property' => [ 'a', 'b', 'c' ],
 
 	];
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		$this->data_model = new DataModel_Query_DataModelTestMock();
-
-		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
-
-		$this->object =  DataModel_RecordData::createRecordData($this->data_model, $this->values );
-
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
-
-	/**
 	 * @covers \Jet\DataModel_RecordData::getDataModelDefinition
 	 */
-	public function testGetDataModelDefinition() {
+	public function testGetDataModelDefinition()
+	{
 		$this->assertSame( $this->data_model->getDataModelDefinition(), $this->object->getDataModelDefinition() );
 	}
 
@@ -75,9 +52,10 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	 * @covers \Jet\DataModel_RecordData::rewind
 	 * @covers \Jet\DataModel_RecordData::valid
 	 */
-	public function testMain() {
+	public function testMain()
+	{
 		$data = [];
-		foreach($this->object as $item) {
+		foreach( $this->object as $item ) {
 			/**
 			 * @var DataModel_RecordData_Item $item
 			 */
@@ -86,7 +64,7 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 			$data[$k] = $v;
 		}
 
-		$this->assertEquals($this->values, $data);
+		$this->assertEquals( $this->values, $data );
 	}
 
 	/**
@@ -95,11 +73,34 @@ class DataModel_RecordDataTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\DataModel_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Exception::CODE_UNKNOWN_PROPERTY
 	 */
-	public function testCreateRecordDataFailed() {
+	public function testCreateRecordDataFailed()
+	{
 
 		$values = $this->values;
 		$values['imaginary'] = 'hoax';
 
-		DataModel_RecordData::createRecordData($this->data_model, $values );
+		DataModel_RecordData::createRecordData( $this->data_model, $values );
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->data_model = new DataModel_Query_DataModelTestMock();
+
+		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
+
+		$this->object = DataModel_RecordData::createRecordData( $this->data_model, $this->values );
+
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
 	}
 }

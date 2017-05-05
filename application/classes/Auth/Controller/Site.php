@@ -24,7 +24,8 @@ use JetExampleApp\Auth_Visitor_User as Visitor;
 /**
  *
  */
-class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interface {
+class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interface
+{
 
 	/**
 	 *
@@ -36,25 +37,21 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function isUserLoggedIn() {
+	public function isUserLoggedIn()
+	{
 
 		$user = $this->getCurrentUser();
-		if(!$user) {
+		if( !$user ) {
 			return false;
 		}
 
-		if(
-		!$user->isActivated()
-		) {
+		if( !$user->isActivated() ) {
 			return false;
 		}
 
-		if($user->isBlocked()) {
+		if( $user->isBlocked() ) {
 			$till = $user->isBlockedTill();
-			if(
-				$till!==null &&
-				$till<=Data_DateTime::now()
-			) {
+			if( $till!==null&&$till<=Data_DateTime::now() ) {
 				$user->unBlock();
 				$user->save();
 			} else {
@@ -66,17 +63,47 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 			return false;
 		}
 
-		if(
-			($pwd_valid_till = $user->getPasswordIsValidTill())!==null &&
-			$pwd_valid_till<=Data_DateTime::now()
-		) {
-			$user->setPasswordIsValid(false);
+		if( ( $pwd_valid_till = $user->getPasswordIsValidTill() )!==null&&$pwd_valid_till<=Data_DateTime::now() ) {
+			$user->setPasswordIsValid( false );
 			$user->save();
 
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Return current user data or FALSE
+	 *
+	 * @return Visitor|null
+	 */
+	public function getCurrentUser()
+	{
+		if( $this->current_user!==false ) {
+			return $this->current_user;
+		}
+
+		$session = $this->getSession();
+
+		$user_id = $session->getValue( 'user_id', null );
+
+		if( !$user_id ) {
+			$this->current_user = null;
+		} else {
+			$this->current_user = Visitor::get( $user_id );
+		}
+
+		return $this->current_user;
+	}
+
+	/**
+	 * @return Session
+	 */
+	protected function getSession()
+	{
+		return new Session( 'auth_web' );
+
 	}
 
 	/**
@@ -92,16 +119,14 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 
 		$user = $this->getCurrentUser();
 
-		if($user) {
-			if(!$user->isActivated()) {
+		if( $user ) {
+			if( !$user->isActivated() ) {
 				$action = 'is_not_activated';
-			} else
-				if($user->isBlocked()) {
-					$action = 'is_blocked';
-				} else
-					if(!$user->getPasswordIsValid()) {
-						$action = 'must_change_password';
-					}
+			} else if( $user->isBlocked() ) {
+				$action = 'is_blocked';
+			} else if( !$user->getPasswordIsValid() ) {
+				$action = 'must_change_password';
+			}
 		}
 
 		$module = Auth_Controller::getLoginFormModule();
@@ -123,17 +148,10 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 	/**
 	 * Logout current user
 	 */
-	public function logout() {
+	public function logout()
+	{
 		Session::destroy();
 		$this->current_user = null;
-	}
-
-	/**
-	 * @return Session
-	 */
-	protected function getSession() {
-		return new Session('auth_web');
-
 	}
 
 	/**
@@ -144,11 +162,12 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 	 *
 	 * @return bool
 	 */
-	public function login($username, $password ) {
+	public function login( $username, $password )
+	{
 
-		$user = Visitor::getByIdentity(  $username, $password  );
+		$user = Visitor::getByIdentity( $username, $password );
 
-		if(!$user)  {
+		if( !$user ) {
 			return false;
 		}
 
@@ -163,30 +182,6 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 		return true;
 	}
 
-
-	/**
-	 * Return current user data or FALSE
-	 *
-	 * @return Visitor|null
-	 */
-	public function getCurrentUser() {
-		if($this->current_user!==false) {
-			return $this->current_user;
-		}
-
-		$session = $this->getSession();
-
-		$user_id = $session->getValue('user_id', null);
-
-		if(!$user_id) {
-			$this->current_user = null;
-		} else {
-			$this->current_user = Visitor::get($user_id);
-		}
-
-		return $this->current_user;
-	}
-
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -195,7 +190,6 @@ class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interfa
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 }

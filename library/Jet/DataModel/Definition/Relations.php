@@ -12,7 +12,8 @@ namespace Jet;
  * Class DataModel_Definition_Relations
  * @package Jet
  */
-class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess, \Iterator, \Countable {
+class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess, \Iterator, \Countable
+{
 
 	/**
 	 * @var DataModel_Definition_Model_Abstract
@@ -26,23 +27,95 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 
 	/**
 	 * DataModel_Definition_Relations constructor.
+	 *
 	 * @param DataModel_Definition_Model_Abstract $data_model_definition
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract  $data_model_definition )
+	public function __construct( DataModel_Definition_Model_Abstract $data_model_definition )
 	{
 		$this->data_model_definition = $data_model_definition;
 	}
 
 	/**
+	 * @see \Countable
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return count( $this->relations );
+	}
+
+	/**
+	 * @see \ArrayAccess
+	 *
+	 * @param mixed $offset
+	 *
+	 * @return bool
+	 */
+	public function offsetExists( $offset )
+	{
+		return isset( $this->relations[$offset] );
+	}
+
+//----------------------------------------------
+
+	/**
+	 * @see \ArrayAccess
+	 *
+	 * @param mixed $offset
+	 *
+	 * @return DataModel_Definition_Relation_Abstract
+	 */
+	public function offsetGet( $offset )
+	{
+		return $this->getRelation( $offset );
+	}
+
+	/**
 	 * @param string $related_model_name
+	 *
+	 * @return DataModel_Definition_Relation_Abstract
+	 *
+	 * @throws DataModel_Exception
+	 */
+	public function getRelation( $related_model_name )
+	{
+
+		if( !isset( $this->relations[$related_model_name] ) ) {
+			throw new DataModel_Exception(
+				'Unknown relation \''.$this->data_model_definition->getModelName(
+				).'\' <-> \''.$related_model_name.'\' (Class: \''.$this->data_model_definition->getClassName().'\') '
+			);
+		}
+
+		return $this->relations[$related_model_name];
+
+	}
+
+	/**
+	 *
+	 * @see \ArrayAccess
+	 *
+	 * @param string                                 $offset
+	 * @param DataModel_Definition_Relation_Abstract $value
+	 *
+	 */
+	public function offsetSet( $offset, $value )
+	{
+		$this->addRelation( $offset, $value );
+	}
+
+	/**
+	 * @param string                                 $related_model_name
 	 * @param DataModel_Definition_Relation_Abstract $relation
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addRelation( $related_model_name, DataModel_Definition_Relation_Abstract $relation) {
+	public function addRelation( $related_model_name, DataModel_Definition_Relation_Abstract $relation )
+	{
 
 
-		if(isset($this->relations[ $related_model_name ])) {
+		if( isset( $this->relations[$related_model_name] ) ) {
 			$prev = $this->relations[$related_model_name]->getRelatedDataModelClassName();
 			$current = $relation->getRelatedDataModelClassName();
 
@@ -58,71 +131,13 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 	}
 
 	/**
-	 * @param string $related_model_name
-	 *
-	 * @return DataModel_Definition_Relation_Abstract
-	 *
-	 * @throws DataModel_Exception
-	 */
-	public function getRelation( $related_model_name ) {
-
-		if(!isset($this->relations[$related_model_name])) {
-			throw new DataModel_Exception(
-				'Unknown relation \''.$this->data_model_definition->getModelName().'\' <-> \''.$related_model_name.'\' (Class: \''.$this->data_model_definition->getClassName().'\') '
-			);
-		}
-		return $this->relations[$related_model_name];
-
-	}
-
-//----------------------------------------------
-
-	/**
-	 * @see \Countable
-	 *
-	 * @return int
-	 */
-	public function count() {
-		return count($this->relations);
-	}
-
-	/**
-	 * @see \ArrayAccess
-	 * @param mixed $offset
-	 * @return bool
-	 */
-	public function offsetExists( $offset  ) {
-		return isset($this->relations[$offset]);
-	}
-	/**
-	 * @see \ArrayAccess
-	 * @param mixed $offset
-	 *
-	 * @return DataModel_Definition_Relation_Abstract
-	 */
-	public function offsetGet( $offset ) {
-		return $this->getRelation($offset);
-	}
-
-	/**
-	 *
-	 * @see \ArrayAccess
-	 *
-	 * @param string $offset
-	 * @param DataModel_Definition_Relation_Abstract $value
-	 *
-	 */
-	public function offsetSet( $offset , $value ) {
-		$this->addRelation($offset, $value);
-	}
-
-	/**
 	 * @see \ArrayAccess
 	 *
 	 * @param string $offset
 	 */
-	public function offsetUnset( $offset )	{
-		unset($this->relations[$offset]);
+	public function offsetUnset( $offset )
+	{
+		unset( $this->relations[$offset] );
 	}
 
 	/**
@@ -130,49 +145,62 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 	 *
 	 * @return DataModel
 	 */
-	public function current() {
+	public function current()
+	{
 		if( $this->relations===null ) {
 			return null;
 		}
-		return current($this->relations);
+
+		return current( $this->relations );
 	}
+
 	/**
 	 * @see \Iterator
 	 *
 	 * @return string
 	 */
-	public function key() {
+	public function key()
+	{
 		if( $this->relations===null ) {
 			return null;
 		}
-		return key($this->relations);
+
+		return key( $this->relations );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function next() {
+	public function next()
+	{
 		if( $this->relations===null ) {
 			return null;
 		}
-		return next($this->relations);
+
+		return next( $this->relations );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() {
+	public function rewind()
+	{
 		if( $this->relations!==null ) {
-			reset($this->relations);
+			reset( $this->relations );
 		}
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()	{
+	public function valid()
+	{
 		if( $this->relations===null ) {
 			return false;
 		}
-		return key($this->relations)!==null;
+
+		return key( $this->relations )!==null;
 	}
 
 

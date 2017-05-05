@@ -11,7 +11,8 @@ namespace JetExampleApp;
 /**
  *
  */
-class CompatibilityTester_TestResult {
+class CompatibilityTester_TestResult
+{
 	/**
 	 * @var bool
 	 */
@@ -36,97 +37,110 @@ class CompatibilityTester_TestResult {
 
 	/**
 	 *
-	 * @param bool $required
+	 * @param bool   $required
 	 * @param string $title
 	 * @param string $description
 	 */
-	public function __construct( $required, $title, $description ) {
+	public function __construct( $required, $title, $description )
+	{
 		$this->required = (bool)$required;
 		$this->title = (string)$title;
 		$this->description = (string)$description;
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
 	 * @param string $description
 	 */
-	public function setDescription($description) {
+	public function setDescription( $description )
+	{
 		$this->description = (string)$description;
 	}
 
 	/**
-	 * @return string
+	 * @return bool
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getPassed()
+	{
+		return $this->passed;
 	}
 
 	/**
 	 * @param bool $passed
 	 */
-	public function setPassed($passed) {
+	public function setPassed( $passed )
+	{
 		$this->passed = (bool)$passed;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getPassed() {
-		return $this->passed;
+	public function getRequired()
+	{
+		return $this->required;
 	}
 
 	/**
 	 * @param bool $required
 	 */
-	public function setRequired($required) {
+	public function setRequired( $required )
+	{
 		$this->required = (bool)$required;
 	}
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	public function getRequired() {
-		return $this->required;
+	public function getResultMessage()
+	{
+		return $this->result_message;
 	}
 
 	/**
 	 * @param string $result_message
 	 */
-	public function setResultMessage($result_message) {
+	public function setResultMessage( $result_message )
+	{
 		$this->result_message = (string)$result_message;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getResultMessage() {
-		return $this->result_message;
+	public function getTitle()
+	{
+		return $this->title;
 	}
 
 	/**
 	 * @param string $title
 	 */
-	public function setTitle($title) {
+	public function setTitle( $title )
+	{
 		$this->title = (string)$title;
 	}
 
 	/**
-	 * @return string
+	 * @return bool
 	 */
-	public function getTitle() {
-		return $this->title;
+	public function getIsError()
+	{
+		return ( $this->required&&!$this->passed );
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsError() {
-		return ($this->required && !$this->passed);
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsWarning() {
-		return (!$this->required && !$this->passed);
+	public function getIsWarning()
+	{
+		return ( !$this->required&&!$this->passed );
 	}
 }

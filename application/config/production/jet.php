@@ -20,4 +20,4 @@ const JET_AUTOLOADER_CACHE_SAVE = JET_OBJECT_REFLECTION_CACHE_SAVE;
 const JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = false;
 
 /** @noinspection PhpIncludeInspection */
-require realpath(__DIR__.'/../_common/jet.php');
+require realpath( __DIR__.'/../_common/jet.php' );

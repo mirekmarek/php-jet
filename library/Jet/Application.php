@@ -12,7 +12,8 @@ namespace Jet;
  *
  *
  */
-class Application extends BaseObject {
+class Application extends BaseObject
+{
 
 	/**
 	 * @var bool
@@ -34,8 +35,8 @@ class Application extends BaseObject {
 	 */
 	public static function getConfigFilePath()
 	{
-		if(!self::$config_file_path) {
-			static::$config_file_path = JET_CONFIG_PATH . JET_CONFIG_ENVIRONMENT.'/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
+		if( !self::$config_file_path ) {
+			static::$config_file_path = JET_CONFIG_PATH.JET_CONFIG_ENVIRONMENT.'/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
 		}
 
 		return self::$config_file_path;
@@ -44,38 +45,39 @@ class Application extends BaseObject {
 	/**
 	 * @param string $config_file_path
 	 */
-	public static function setConfigFilePath($config_file_path)
+	public static function setConfigFilePath( $config_file_path )
 	{
 		self::$config_file_path = $config_file_path;
 	}
-
 
 
 	/**
 	 *
 	 * @throws Application_Exception
 	 */
-	public static function start(){
+	public static function start()
+	{
 
-		Debug_Profiler::MainBlockStart('Application init');
+		Debug_Profiler::MainBlockStart( 'Application init' );
 
 
-		Debug_Profiler::blockStart('Http request init');
-			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
-		Debug_Profiler::blockEnd('Http request init');
+		Debug_Profiler::blockStart( 'Http request init' );
+		Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+		Debug_Profiler::blockEnd( 'Http request init' );
 
-		Debug_Profiler::MainBlockEnd('Application init');
+		Debug_Profiler::MainBlockEnd( 'Application init' );
 
 	}
 
 	/**
 	 * @return Application_Config|null
 	 */
-	public static function getConfig() {
-		if(!static::$config) {
-			Debug_Profiler::blockStart('Configuration init');
+	public static function getConfig()
+	{
+		if( !static::$config ) {
+			Debug_Profiler::blockStart( 'Configuration init' );
 			static::$config = new Application_Config();
-			Debug_Profiler::blockEnd('Configuration init');
+			Debug_Profiler::blockEnd( 'Configuration init' );
 		}
 
 		return static::$config;
@@ -87,16 +89,17 @@ class Application extends BaseObject {
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
-	public static function runMvc( $URL=null  ) {
+	public static function runMvc( $URL = null )
+	{
 		$router = Mvc::getCurrentRouter();
 
-		if(!$URL) {
+		if( !$URL ) {
 			$URL = Http_Request::getURL();
 		}
 
 		$router->initialize( $URL );
 
-		if($router->getIsRedirect()) {
+		if( $router->getIsRedirect() ) {
 			$router->handleRedirect();
 		}
 
@@ -105,41 +108,46 @@ class Application extends BaseObject {
 
 		if( !$site->getIsActive() ) {
 			$site->handleDeactivatedSite();
+
 			return;
 		}
 
 		$locale = Mvc::getCurrentLocale();
-		if( !$site->getLocalizedData($locale)->getIsActive() ) {
+		if( !$site->getLocalizedData( $locale )->getIsActive() ) {
 			$site->handleDeactivatedLocale();
+
 			return;
 		}
 
 		if( $router->getIs404() ) {
 			$site->handle404();
+
 			return;
 		}
 
 		$page = Mvc::getCurrentPage();
 
-		if(!$page->getIsActive()) {
+		if( !$page->getIsActive() ) {
 			$site->handle404();
 		}
 
-		if($router->getLoginRequired()) {
+		if( $router->getLoginRequired() ) {
 			Auth::getAuthController()->handleLogin();
+
 			return;
 		}
 
 		if( !$page->getAccessAllowed() ) {
 			$site->handleAccessDenied();
+
 			return;
 		}
 
 		if( $router->getIsFile() ) {
 			$page->handleFile( $router->getFileName() );
+
 			return;
 		}
-
 
 
 		if( $page->getIsDirectOutput() ) {
@@ -157,9 +165,10 @@ class Application extends BaseObject {
 	/**
 	 *
 	 */
-	public static function end(){
+	public static function end()
+	{
 
-		if(!static::$do_not_end) {
+		if( !static::$do_not_end ) {
 			exit();
 		}
 	}
@@ -168,7 +177,8 @@ class Application extends BaseObject {
 	 * Useful for tests
 	 *
 	 */
-	public static function doNotEnd() {
+	public static function doNotEnd()
+	{
 		static::$do_not_end = true;
 	}
 
@@ -176,8 +186,9 @@ class Application extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public static function getIsInDevelMode(){
-		return defined('JET_DEVEL_MODE') && JET_DEVEL_MODE;
+	public static function getIsInDevelMode()
+	{
+		return defined( 'JET_DEVEL_MODE' )&&JET_DEVEL_MODE;
 	}
 
 }

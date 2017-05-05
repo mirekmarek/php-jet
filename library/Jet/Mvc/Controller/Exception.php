@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Controller_Exception
  * @package Jet
  */
-class Mvc_Controller_Exception extends Exception {
+class Mvc_Controller_Exception extends Exception
+{
 
 	const CODE_UNKNOWN_ACL_ACTION = 1;
 	const CODE_INVALID_RESPONSE_CODE = 2;

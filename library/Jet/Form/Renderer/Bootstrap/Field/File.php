@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_File
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_File extends Form_Renderer_Bootstrap_Field_Input  {
+class Form_Renderer_Bootstrap_Field_File extends Form_Renderer_Bootstrap_Field_Input
+{
 
 	/**
 	 * @var string
@@ -21,14 +22,15 @@ class Form_Renderer_Bootstrap_Field_File extends Form_Renderer_Bootstrap_Field_I
 	/**
 	 * @param array &$tag_options
 	 */
-	protected function initTagOptions( array &$tag_options ) {
+	protected function initTagOptions( array &$tag_options )
+	{
 		/**
 		 * @var Form_Field_File $fl
 		 */
 		$fl = $this->_field;
 
-		if($fl->getAllowedMimeTypes()) {
-			$tag_options['accept'] = implode(',', $fl->getAllowedMimeTypes());
+		if( $fl->getAllowedMimeTypes() ) {
+			$tag_options['accept'] = implode( ',', $fl->getAllowedMimeTypes() );
 		}
 
 	}

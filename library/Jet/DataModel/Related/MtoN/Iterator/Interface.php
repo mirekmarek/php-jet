@@ -11,7 +11,8 @@ namespace Jet;
  * Interface DataModel_Related_MtoN_Iterator_Interface
  * @package Jet
  */
-interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable   {
+interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable
+{
 
 
 	/**
@@ -34,6 +35,7 @@ interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_In
 	/**
 	 * @param DataModel[] $N_instances
 	 *$this->_items
+	 *
 	 * @throws DataModel_Exception
 	 */
 	public function setItems( $N_instances );

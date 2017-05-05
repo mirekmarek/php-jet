@@ -13,7 +13,8 @@ require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 /**
  *
  */
-class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
+class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase
+{
 	/**
 	 * @var DataModel_Query_DataModelTestMock
 	 */
@@ -35,72 +36,20 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	protected $query;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		$this->data_model = new DataModel_Query_DataModelTestMock();
-
-		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
-
-		$this->query = new DataModel_Query($this->data_model->getDataModelDefinition());
-		$this->query->setSelect([
-			'this.int_property',
-			'this.string_property',
-			'this.id_property'
-		]);
-
-		$this->object = new DataModel_Query_Where($this->query, [
-			'this.int_property =' => 1234,
-			'AND',
-			'this.string_property !=' => 'test',
-			'OR',
-			[
-				'this.id_property *' => 'test%',
-				'AND',
-				'this.int_property' => 54321
-			]
-		]);
-
-		$query = new DataModel_Query($this->data_model->getDataModelDefinition());
-		$query->setSelect([
-			'this.float_property'
-		]);
-
-		$query = new DataModel_Query_Where($this->query, [
-			'this.float_property =' => 3.14
-		]);
-
-		$this->object->attach($query);
-
-
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
-
-
-	/**
 	 * @covers \Jet\DataModel_Query_Where::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
-	public function testConstructFailed1() {
-		$this->object = new DataModel_Query_Where($this->query, [
-			'this.int_property =' => 1234,
-			'this.string_property !=' => 'test',
-			'OR',
-			[
-				'this.id_property *' => 'test%',
-				'AND',
-				'this.int_property' => 54321
-			]
-		]);
+	public function testConstructFailed1()
+	{
+		$this->object = new DataModel_Query_Where(
+			$this->query, [
+				            'this.int_property =' => 1234, 'this.string_property !=' => 'test', 'OR', [
+					            'this.id_property *' => 'test%', 'AND', 'this.int_property' => 54321,
+				            ],
+			            ]
+		);
 	}
 
 	/**
@@ -109,21 +58,16 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
-	public function testConstructFailed2() {
-		$this->object = new DataModel_Query_Where($this->query, [
-			'this.int_property =' => 1234,
-			'AND',
-			'AND',
-			'this.string_property !=' => 'test',
-			'OR',
-			[
-				'this.id_property *' => 'test%',
-				'AND',
-				'this.int_property' => 54321
-			]
-		]);
+	public function testConstructFailed2()
+	{
+		$this->object = new DataModel_Query_Where(
+			$this->query, [
+				            'this.int_property =' => 1234, 'AND', 'AND', 'this.string_property !=' => 'test', 'OR', [
+					            'this.id_property *' => 'test%', 'AND', 'this.int_property' => 54321,
+				            ],
+			            ]
+		);
 	}
-
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where::__construct
@@ -131,21 +75,16 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
-	public function testConstructFailed3() {
-		$this->object = new DataModel_Query_Where($this->query, [
-			'this.int_property =' => 1234,
-			'AND',
-			'this.string_property !=' => 'test',
-			'OR',
-			'OR',
-			[
-				'this.id_property *' => 'test%',
-				'AND',
-				'this.int_property' => 54321
-			]
-		]);
+	public function testConstructFailed3()
+	{
+		$this->object = new DataModel_Query_Where(
+			$this->query, [
+				            'this.int_property =' => 1234, 'AND', 'this.string_property !=' => 'test', 'OR', 'OR', [
+					            'this.id_property *' => 'test%', 'AND', 'this.int_property' => 54321,
+				            ],
+			            ]
+		);
 	}
-
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where::__construct
@@ -153,19 +92,16 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_NONSENSE
 	 */
-	public function testConstructFailed4() {
-		$this->object = new DataModel_Query_Where($this->query, [
-			'this.int_property =' => 1234,
-			'AND',
-			'this.string_property !=' => 'test',
-			[
-				'this.id_property *' => 'test%',
-				'AND',
-				'this.int_property' => 54321
-			]
-		]);
+	public function testConstructFailed4()
+	{
+		$this->object = new DataModel_Query_Where(
+			$this->query, [
+				            'this.int_property =' => 1234, 'AND', 'this.string_property !=' => 'test', [
+					            'this.id_property *' => 'test%', 'AND', 'this.int_property' => 54321,
+				            ],
+			            ]
+		);
 	}
-
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where::__construct
@@ -173,19 +109,16 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
-	public function testConstructFailed5() {
-		$this->object = new DataModel_Query_Where($this->query, [
-			'this.int_property =' => 1234,
-			'imaginary_AND',
-			'this.string_property !=' => 'test',
-			[
-				'this.id_property *' => 'test%',
-				'AND',
-				'this.int_property' => 54321
-			]
-		]);
+	public function testConstructFailed5()
+	{
+		$this->object = new DataModel_Query_Where(
+			$this->query, [
+				            'this.int_property =' => 1234, 'imaginary_AND', 'this.string_property !=' => 'test', [
+					            'this.id_property *' => 'test%', 'AND', 'this.int_property' => 54321,
+				            ],
+			            ]
+		);
 	}
-
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where::__construct
@@ -202,23 +135,63 @@ class DataModel_Query_WhereTest extends \PHPUnit_Framework_TestCase {
 	 * @covers \Jet\DataModel_Query_Where::next
 	 * @covers \Jet\DataModel_Query_Where::toString
 	 */
-	public function testGeneral() {
+	public function testGeneral()
+	{
 		$this->assertSame(
-			 '( '
-				.'data_model_test_mock::int_property = \'1234\' '
-				.'AND '
-				.'data_model_test_mock::string_property != \'test\' '
-				.'OR '
-				.'( '
-				        .'data_model_test_mock::id_property * \'test%\' '
-				        .'AND '
-				        .'data_model_test_mock::int_property = \'54321\' '
-				 .') '
-				.'AND '
-				.'data_model_test_mock::float_property = \'3.14\''
-			.' )',
+			'( '.'data_model_test_mock::int_property = \'1234\' '.'AND '.'data_model_test_mock::string_property != \'test\' '.'OR '.'( '.'data_model_test_mock::id_property * \'test%\' '.'AND '.'data_model_test_mock::int_property = \'54321\' '.') '.'AND '.'data_model_test_mock::float_property = \'3.14\''.' )',
 			$this->object->toString()
 		);
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->data_model = new DataModel_Query_DataModelTestMock();
+
+		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
+
+		$this->query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
+		$this->query->setSelect(
+			[
+				'this.int_property', 'this.string_property', 'this.id_property',
+			]
+		);
+
+		$this->object = new DataModel_Query_Where(
+			$this->query, [
+				            'this.int_property =' => 1234, 'AND', 'this.string_property !=' => 'test', 'OR', [
+					            'this.id_property *' => 'test%', 'AND', 'this.int_property' => 54321,
+				            ],
+			            ]
+		);
+
+		$query = new DataModel_Query( $this->data_model->getDataModelDefinition() );
+		$query->setSelect(
+			[
+				'this.float_property',
+			]
+		);
+
+		$query = new DataModel_Query_Where(
+			$this->query, [
+				            'this.float_property =' => 3.14,
+			            ]
+		);
+
+		$this->object->attach( $query );
+
+
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
 	}
 
 }

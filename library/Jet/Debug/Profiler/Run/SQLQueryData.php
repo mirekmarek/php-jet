@@ -12,7 +12,8 @@ namespace Jet;
  * Class Debug_Profiler_Run_SQLQueryData
  * @package Jet
  */
-class Debug_Profiler_Run_SQLQueryData {
+class Debug_Profiler_Run_SQLQueryData
+{
 	/**
 	 * @var string
 	 */
@@ -72,129 +73,144 @@ class Debug_Profiler_Run_SQLQueryData {
 	/**
 	 * @param string $block_id
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array  $query_data
 	 */
-	public function __construct($block_id, $query, $query_data ) {
+	public function __construct( $block_id, $query, $query_data )
+	{
 		$this->block_id = $block_id;
 
 		$this->query = $query;
-		$this->query_data;
+		$this->query_data = $query_data;
 
 		$this->backtrace = Debug_Profiler::getBacktrace( 5 );
 
-		$this->timestamp_start = microtime(true);
-		$this->memory_start = memory_get_usage(true);
-		$this->memory_peak_start = memory_get_peak_usage(true);
+		$this->timestamp_start = microtime( true );
+		$this->memory_start = memory_get_usage( true );
+		$this->memory_peak_start = memory_get_peak_usage( true );
 	}
 
 	/**
-	 * @param int$rows_count
+	 * @param int $rows_count
 	 */
-	public function setDone( $rows_count ) {
-		$this->timestamp_end = microtime(true);
-		$this->memory_end = memory_get_usage(true);
-		$this->memory_peak_end = memory_get_peak_usage(true);
+	public function setDone( $rows_count )
+	{
+		$this->timestamp_end = microtime( true );
+		$this->memory_end = memory_get_usage( true );
+		$this->memory_peak_end = memory_get_peak_usage( true );
 		$this->rows_count = $rows_count;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getBlockId() {
+	public function getBlockId()
+	{
 		return $this->block_id;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getBacktrace() {
+	public function getBacktrace()
+	{
 		return $this->backtrace;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMemoryEnd() {
+	public function getMemoryEnd()
+	{
 		return $this->memory_end;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMemoryStart() {
+	public function getMemoryStart()
+	{
 		return $this->memory_start;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakEnd() {
+	public function getMemoryPeakEnd()
+	{
 		return $this->memory_peak_end;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakStart() {
+	public function getMemoryPeakStart()
+	{
 		return $this->memory_peak_start;
 	}
-
 
 
 	/**
 	 * @return string
 	 */
-	public function getQuery() {
+	public function getQuery()
+	{
 		return $this->query;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getQueryData() {
+	public function getQueryData()
+	{
 		return $this->query_data;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getRowsCount() {
+	public function getRowsCount()
+	{
 		return $this->rows_count;
 	}
 
 	/**
 	 * @return float
 	 */
-	public function getTimestampStart() {
+	public function getTimestampStart()
+	{
 		return $this->timestamp_start;
 	}
 
 	/**
 	 * @return float
 	 */
-	public function getTimestampEnd() {
+	public function getTimestampEnd()
+	{
 		return $this->timestamp_end;
 	}
 
 	/**
 	 * @return float
 	 */
-	public function getDuration() {
-		return $this->timestamp_end - $this->timestamp_start;
+	public function getDuration()
+	{
+		return $this->timestamp_end-$this->timestamp_start;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMemoryUsageDiff() {
-		return $this->memory_end - $this->memory_start;
+	public function getMemoryUsageDiff()
+	{
+		return $this->memory_end-$this->memory_start;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMemoryPeakDiff() {
-		return $this->memory_peak_end - $this->memory_peak_start;
+	public function getMemoryPeakDiff()
+	{
+		return $this->memory_peak_end-$this->memory_peak_start;
 	}
 
 

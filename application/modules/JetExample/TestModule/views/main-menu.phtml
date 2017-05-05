@@ -5,83 +5,79 @@ use Jet\Mvc_Page;
 use JetUI\UI;
 
 /**
- * @var Mvc_View $this
+ * @var Mvc_View   $this
  * @var Mvc_Page[] $pages
  */
-$pages = $this->getRaw('site_tree_current');
+$pages = $this->getRaw( 'site_tree_current' );
 
 
-$show_menu = function( $pages ) use (&$show_menu) {
+$show_menu = function( $pages ) use ( &$show_menu ) {
 	/**
 	 * @var Mvc_Page[] $pages
 	 */
 
-	if(!$pages) return;
+	if( !$pages ) return;
 
 
 	$current_page_key = Mvc::getCurrentPage()->getKey();
 	?>
 	<ul>
-		<?php foreach($pages as $page):
-			if(
-				!$page->getIsActive() ||
-				$page->getIsAdminUI() ||
-				$page->getIsSecretPage()
-			) {
+		<?php foreach( $pages as $page ):
+			if( !$page->getIsActive()||$page->getIsAdminUI()||$page->getIsSecretPage() ) {
 				continue;
 			}
 			?>
 			<li>
-				<?php if($current_page_key==$page->getKey() ): ?>
-					<i><?=$page->getMenuTitle(); ?></i>
+				<?php if( $current_page_key==$page->getKey() ): ?>
+					<i><?=$page->getMenuTitle();?></i>
 				<?php else: ?>
-					<a href="<?=$page->getURL(); ?>"><?=$page->getMenuTitle(); ?></a>
+					<a href="<?=$page->getURL();?>"><?=$page->getMenuTitle();?></a>
 				<?php endif; ?>
-				<?php $show_menu($page->getChildren()); ?>
+				<?php $show_menu( $page->getChildren() ); ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>
-<?php
+	<?php
 
 };
 ?>
 
-<div style="background-color: #c9c9c9">
-<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
-	<div style="display: inline-block;padding: 3px;">
-		<?php if($locale->toString()==Mvc::getCurrentLocale()->toString()): ?>
-			<strong class="btn btn-primary btn-xs">
-				<?=UI::flag($locale)?>
-				<?=$locale->getLanguageName( $locale )?>
-			</strong>
-		<?php else:
-			$equal_page = Mvc_Page::get(null, $locale);
-			if(!$equal_page) {
-				$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
-			}
-			?>
-			<a href="<?=$equal_page->getURL()?>" class="btn btn-default btn-xs">
-				<?=UI::flag($locale)?>
-				<?=$locale->getLanguageName( $locale )?>
-			</a>
-		<?php endif; ?>
+	<div style="background-color: #c9c9c9">
+		<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
+			<div style="display: inline-block;padding: 3px;">
+				<?php if( $locale->toString()==Mvc::getCurrentLocale()->toString() ): ?>
+					<strong class="btn btn-primary btn-xs">
+						<?=UI::flag( $locale )?>
+						<?=$locale->getLanguageName( $locale )?>
+					</strong>
+				<?php else:
+					$equal_page = Mvc_Page::get( null, $locale );
+					if( !$equal_page ) {
+						$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
+					}
+					?>
+					<a href="<?=$equal_page->getURL()?>" class="btn btn-default btn-xs">
+						<?=UI::flag( $locale )?>
+						<?=$locale->getLanguageName( $locale )?>
+					</a>
+				<?php endif; ?>
+			</div>
+		<?php endforeach; ?>
 	</div>
-<?php endforeach; ?>
-</div>
 
 
-<?php $show_menu($pages); ?>
+<?php $show_menu( $pages ); ?>
 
 <?php
-$secret_area_page = Mvc_Page::get('secret_area');
+$secret_area_page = Mvc_Page::get( 'secret_area' );
 
-if($secret_area_page): ?>
+if( $secret_area_page ): ?>
 	<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
 <?php endif;
 
-$admin_page = Mvc_Page::get('admin');
+$admin_page = Mvc_Page::get( 'admin' );
 
-if($admin_page): ?>
+if( $admin_page ): ?>
 	<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
 <?php endif;
 

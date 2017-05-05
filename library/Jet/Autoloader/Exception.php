@@ -10,7 +10,8 @@ namespace Jet;
  * Class Autoloader_Exception
  * @package Jet
  */
-class Autoloader_Exception extends Exception {
+class Autoloader_Exception extends Exception
+{
 
 	const CODE_INVALID_AUTOLOADER_CLASS_DOES_NOT_EXIST = 1;
 	const CODE_INVALID_AUTOLOADER_CLASS = 2;

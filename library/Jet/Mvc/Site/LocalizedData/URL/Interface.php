@@ -11,13 +11,14 @@ namespace Jet;
  * Interface Mvc_Site_LocalizedData_URL_Interface
  * @package Jet
  */
-interface Mvc_Site_LocalizedData_URL_Interface {
+interface Mvc_Site_LocalizedData_URL_Interface
+{
 
 
 	/**
 	 * @param string $site_id
 	 */
-	public function setSiteId($site_id);
+	public function setSiteId( $site_id );
 
 	/**
 	 * @return string
@@ -25,15 +26,15 @@ interface Mvc_Site_LocalizedData_URL_Interface {
 	public function getSiteId();
 
 
-    /**
-     * @param Locale $locale
-     */
-    public function setLocale( Locale $locale );
+	/**
+	 * @param Locale $locale
+	 */
+	public function setLocale( Locale $locale );
 
-    /**
-     * @return Locale
-     */
-    public function getLocale();
+	/**
+	 * @return Locale
+	 */
+	public function getLocale();
 
 	/**
 	 * @return string
@@ -58,9 +59,10 @@ interface Mvc_Site_LocalizedData_URL_Interface {
 
 	/**
 	 * @param string $URL
+	 *
 	 * @throws Mvc_Site_Exception
 	 */
-	public function setURL($URL);
+	public function setURL( $URL );
 
 	/**
 	 * @return bool
@@ -70,7 +72,7 @@ interface Mvc_Site_LocalizedData_URL_Interface {
 	/**
 	 * @param bool $is_default
 	 */
-	public function setIsDefault($is_default);
+	public function setIsDefault( $is_default );
 
 	/**
 	 * @return bool|string

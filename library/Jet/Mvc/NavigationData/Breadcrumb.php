@@ -11,6 +11,7 @@ namespace Jet;
  * Class Mvc_NavigationData_Breadcrumb
  * @package Jet
  */
-class Mvc_NavigationData_Breadcrumb extends Mvc_NavigationData_Breadcrumb_Abstract{
+class Mvc_NavigationData_Breadcrumb extends Mvc_NavigationData_Breadcrumb_Abstract
+{
 
 }

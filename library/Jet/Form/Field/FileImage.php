@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_FileImage
  * @package Jet
  */
-class Form_Field_FileImage extends Form_Field_File {
+class Form_Field_FileImage extends Form_Field_File
+{
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
 
@@ -24,20 +25,15 @@ class Form_Field_FileImage extends Form_Field_File {
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
-		self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
-		self::ERROR_CODE_DISALLOWED_FILE_TYPE => ''
+		self::ERROR_CODE_EMPTY                => '', self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
+		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
 	];
 
 	/**
 	 * @var array
 	 */
 	protected $allowed_mime_types = [
-		'image/pjpeg',
-		'image/jpeg',
-		'image/jpg',
-		'image/gif',
-		'image/png'
+		'image/pjpeg', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png',
 	];
 
 	/**
@@ -54,7 +50,8 @@ class Form_Field_FileImage extends Form_Field_File {
 	 * @param int $maximal_width
 	 * @param int $maximal_height
 	 */
-	public function setMaximalSize( $maximal_width, $maximal_height ) {
+	public function setMaximalSize( $maximal_width, $maximal_height )
+	{
 		$this->maximal_width = (int)$maximal_width;
 		$this->maximal_height = (int)$maximal_height;
 	}
@@ -62,14 +59,16 @@ class Form_Field_FileImage extends Form_Field_File {
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalHeight() {
+	public function getMaximalHeight()
+	{
 		return $this->maximal_height;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalWidth() {
+	public function getMaximalWidth()
+	{
 		return $this->maximal_width;
 	}
 
@@ -79,34 +78,31 @@ class Form_Field_FileImage extends Form_Field_File {
 	 *
 	 * @return bool
 	 */
-	public function validateValue() {
+	public function validateValue()
+	{
 
-		if(!parent::validateValue()) {
+		if( !parent::validateValue() ) {
 			return false;
 		}
 
-        if($this->_value) {
-            if(
-                $this->maximal_width &&
-                $this->maximal_height
-            ) {
-                try {
-                    $image = new Data_Image( $this->_value );
-                    $image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
-                } catch( Data_Image_Exception $e ) {
-                    $this->setValueError(self::ERROR_CODE_DISALLOWED_FILE_TYPE);
+		if( $this->_value ) {
+			if( $this->maximal_width&&$this->maximal_height ) {
+				try {
+					$image = new Data_Image( $this->_value );
+					$image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
+				} catch( Data_Image_Exception $e ) {
+					$this->setValueError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 
-                    return false;
-                }
-            }
-        }
+					return false;
+				}
+			}
+		}
 
 
 		$this->_setValueIsValid();
 
 		return true;
 	}
-
 
 
 	/**
@@ -116,15 +112,15 @@ class Form_Field_FileImage extends Form_Field_File {
 	{
 		$codes = [];
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 
-		if($this->maximal_file_size) {
+		if( $this->maximal_file_size ) {
 			$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
 		}
 
-		if($this->allowed_mime_types) {
+		if( $this->allowed_mime_types ) {
 			$codes[] = self::ERROR_CODE_DISALLOWED_FILE_TYPE;
 		}
 

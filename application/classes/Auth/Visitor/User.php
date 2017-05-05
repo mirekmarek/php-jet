@@ -12,7 +12,8 @@ use Jet\DataModel_Id_AutoIncrement;
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
  */
-class Auth_Visitor_User extends Auth_User{
+class Auth_Visitor_User extends Auth_User
+{
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID_AUTOINCREMENT
@@ -41,67 +42,58 @@ class Auth_Visitor_User extends Auth_User{
 	}
 
 	/**
+	 *
+	 */
+	public function resetPassword()
+	{
+
+		$password = static::generatePassword();
+
+		$this->setPassword( $password );
+		$this->setPasswordIsValid( false );
+		$this->save();
+
+		Mailing::sendTemplate(
+			$this->getEmail(), 'reset_password_visitor', [
+			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
+			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+		], $this->getLocale()
+		);
+
+	}
+
+	/**
 	 * @return string
 	 */
-	public static function generatePassword() {
+	public static function generatePassword()
+	{
 		srand();
 		$password = '';
-		$length = rand(5, 9);
+		$length = rand( 5, 9 );
 
 		$chars = [
-			0,1,2,3,4,5,6,7,8,9,
-			'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-			'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+			'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 		];
 
-		for($l = 0; $l < $length; $l++) {
-			$password .= $chars[rand(1, count($chars))-1];
+		for( $l = 0; $l<$length; $l++ ) {
+			$password .= $chars[rand( 1, count( $chars ) )-1];
 		}
 
 		return $password;
 	}
 
 	/**
-	 *
-	 */
-	public function resetPassword() {
-
-		$password = static::generatePassword();
-
-		$this->setPassword($password);
-		$this->setPasswordIsValid(false);
-		$this->save();
-
-		Mailing::sendTemplate(
-			$this->getEmail(),
-			'reset_password_visitor',
-			[
-				'USERNAME' => $this->getUsername(),
-				'PASSWORD' => $password,
-				'NAME' => $this->getName(),
-				'SURNAME' => $this->getSurname(),
-				'EMAIL' => $this->getEmail()
-			],
-			$this->getLocale()
-		);
-
-	}
-
-	/**
 	 * @param string $password
 	 */
-	public function sendWelcomeEmail( $password ) {
+	public function sendWelcomeEmail( $password )
+	{
 		Mailing::sendTemplate(
-			$this->getEmail(),
-			'welcome_user_visitor',
-			[
-				'USERNAME' => $this->getUsername(),
-				'PASSWORD' => $password,
-				'NAME' => $this->getName(),
-				'SURNAME' => $this->getSurname(),
-				'EMAIL' => $this->getEmail()
-			],
-			$this->getLocale()
+			$this->getEmail(), 'welcome_user_visitor', [
+			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
+			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+		], $this->getLocale()
 		);
 	}
 

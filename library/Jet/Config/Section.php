@@ -11,7 +11,8 @@ namespace Jet;
  * Class Config_Section
  * @package Jet
  */
-abstract class Config_Section extends Config {
+abstract class Config_Section extends Config
+{
 	/**
 	 * @var array
 	 */
@@ -19,16 +20,17 @@ abstract class Config_Section extends Config {
 
 	/** @noinspection PhpMissingParentConstructorInspection
 	 *
-	 * @param array $data
+	 * @param array  $data
 	 * @param Config $configuration
 	 */
-	public function __construct(array $data, Config $configuration=null ) {
-		if($configuration) {
+	public function __construct( array $data, Config $configuration = null )
+	{
+		if( $configuration ) {
 			$this->config_file_path = $configuration->getConfigFilePath();
 			$this->soft_mode = $configuration->getSoftMode();
 		}
 		$this->_data = $data;
-		$data = new Data_Array($this->_data);
+		$data = new Data_Array( $this->_data );
 		$this->setData( $data );
 	}
 

@@ -23,19 +23,33 @@ trait Mvc_Page_Trait_Content
 	 *
 	 * @return Mvc_Page_Content_Interface[]
 	 */
-	public function getContent() {
+	public function getContent()
+	{
 		return $this->content;
+	}
+
+	/**
+	 * @param Mvc_Page_Content_Interface[] $content
+	 */
+	public function setContent( $content )
+	{
+		$this->content = [];
+
+		foreach( $content as $c ) {
+			$this->addContent( $c );
+		}
 	}
 
 	/**
 	 * @param Mvc_Page_Content_Interface $content
 	 */
-	public function addContent( Mvc_Page_Content_Interface $content) {
+	public function addContent( Mvc_Page_Content_Interface $content )
+	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_Content $this
 		 */
-		if(!$content->getId()) {
-			$content->setId( count($this->content) );
+		if( !$content->getId() ) {
+			$content->setId( count( $this->content ) );
 		}
 		$content->setPage( $this );
 
@@ -45,19 +59,9 @@ trait Mvc_Page_Trait_Content
 	/**
 	 * @param int $index
 	 */
-	public function removeContent( $index ) {
+	public function removeContent( $index )
+	{
 		unset( $this->content[$index] );
-	}
-
-	/**
-	 * @param Mvc_Page_Content_Interface[] $content
-	 */
-	public function setContent( $content ) {
-		$this->content = [];
-
-		foreach($content as $c ) {
-			$this->addContent( $c );
-		}
 	}
 
 }

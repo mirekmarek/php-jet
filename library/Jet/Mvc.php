@@ -11,14 +11,14 @@ namespace Jet;
  * Class Mvc
  * @package Jet
  */
-class Mvc {
+class Mvc
+{
 
 	/**
 	 *
 	 * @var Mvc_Router_Abstract
 	 */
 	protected static $current_router;
-
 
 	/**
 	 * @var Mvc_Site_Interface
@@ -41,33 +41,23 @@ class Mvc {
 	protected static $current_content;
 
 	/**
-	 * @param Mvc_Router_Abstract $current_router
-	 */
-	public static function setCurrentRouter( Mvc_Router_Abstract $current_router)
-	{
-		self::$current_router = $current_router;
-	}
-
-	/**
 	 * @return Mvc_Router_Abstract
 	 */
 	public static function getCurrentRouter()
 	{
-		if(!self::$current_router) {
+		if( !self::$current_router ) {
 			self::$current_router = Mvc_Factory::getRouterInstance();
 		}
 
 		return self::$current_router;
 	}
 
-
-
 	/**
-	 * @param Mvc_Site_Interface $current_site
+	 * @param Mvc_Router_Abstract $current_router
 	 */
-	public static function setCurrentSite( Mvc_Site_Interface $current_site)
+	public static function setCurrentRouter( Mvc_Router_Abstract $current_router )
 	{
-		self::$current_site = $current_site;
+		self::$current_router = $current_router;
 	}
 
 	/**
@@ -79,16 +69,12 @@ class Mvc {
 		return static::$current_site;
 	}
 
-
 	/**
-	 * @param Locale $current_locale
+	 * @param Mvc_Site_Interface $current_site
 	 */
-	public static function setCurrentLocale( Locale $current_locale)
+	public static function setCurrentSite( Mvc_Site_Interface $current_site )
 	{
-		Translator::setCurrentLocale( $current_locale );
-		Locale::setCurrentLocale( $current_locale );
-
-		self::$current_locale = $current_locale;
+		self::$current_site = $current_site;
 	}
 
 	/**
@@ -101,11 +87,14 @@ class Mvc {
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $current_page
+	 * @param Locale $current_locale
 	 */
-	public static function setCurrentPage( Mvc_Page_Interface $current_page )
+	public static function setCurrentLocale( Locale $current_locale )
 	{
-		self::$current_page = $current_page;
+		Translator::setCurrentLocale( $current_locale );
+		Locale::setCurrentLocale( $current_locale );
+
+		self::$current_locale = $current_locale;
 	}
 
 	/**
@@ -126,11 +115,11 @@ class Mvc {
 	}
 
 	/**
-	 * @param Mvc_Page_Content_Interface $current_content
+	 * @param Mvc_Page_Interface $current_page
 	 */
-	public static function setCurrentContent(Mvc_Page_Content_Interface $current_content)
+	public static function setCurrentPage( Mvc_Page_Interface $current_page )
 	{
-		static::$current_content = $current_content;
+		self::$current_page = $current_page;
 	}
 
 	/**
@@ -145,8 +134,17 @@ class Mvc {
 	/**
 	 * @return Mvc_Page_Content_Interface
 	 */
-	public static function getCurrentContent() {
+	public static function getCurrentContent()
+	{
 		return static::$current_content;
+	}
+
+	/**
+	 * @param Mvc_Page_Content_Interface $current_content
+	 */
+	public static function setCurrentContent( Mvc_Page_Content_Interface $current_content )
+	{
+		static::$current_content = $current_content;
 	}
 
 }

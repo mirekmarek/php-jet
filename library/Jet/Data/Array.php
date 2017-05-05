@@ -11,14 +11,15 @@ namespace Jet;
  * Class Data_Array
  * @package Jet
  */
-class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
+class Data_Array extends BaseObject implements BaseObject_Serializable_REST
+{
 
 	const PATH_DELIMITER = '/';
 
 
 	/**
 	 *
-	 * @var array 
+	 * @var array
 	 */
 	protected $data = [];
 
@@ -27,7 +28,8 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @param array $data
 	 */
-	public function __construct(array $data = []) {
+	public function __construct( array $data = [] )
+	{
 		$this->data = $data;
 	}
 
@@ -36,7 +38,8 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @return array
 	 */
-	public function getRawData() {
+	public function getRawData()
+	{
 		return $this->data;
 	}
 
@@ -44,7 +47,8 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @param array $data
 	 */
-	public function appendData( array $data ) {
+	public function appendData( array $data )
+	{
 		$this->data = array_merge( $this->data, $data );
 	}
 
@@ -52,14 +56,16 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @param array $data
 	 */
-	public function setData( array $data ) {
+	public function setData( array $data )
+	{
 		$this->data = $data;
 	}
 
 	/**
 	 *
 	 */
-	public function clearData() {
+	public function clearData()
+	{
 		$this->data = [];
 	}
 
@@ -67,30 +73,29 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 * Is data/path value set?
 	 *
 	 * @param string $key
+	 *
 	 * @return bool
 	 */
-	public function exists($key) {
-		if(!$key) {
+	public function exists( $key )
+	{
+		if( !$key ) {
 			return false;
 		}
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ){
-			$path = explode(self::PATH_DELIMITER, trim($key, self::PATH_DELIMITER));
+		if( $key[0]===self::PATH_DELIMITER ) {
+			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
-			if(!$path){
+			if( !$path ) {
 				return false;
 			}
 
-			$key = array_pop($path);
+			$key = array_pop( $path );
 
-			foreach($path as $part){
+			foreach( $path as $part ) {
 
-				if(
-					is_array($target) &&
-					isset($target[$part])
-				){
+				if( is_array( $target )&&isset( $target[$part] ) ) {
 					$target = &$target[$part];
 				} else {
 
@@ -101,10 +106,7 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 			}
 		}
 
-		if(
-			is_array($target) &&
-			isset($target[$key])
-		){
+		if( is_array( $target )&&isset( $target[$key] ) ) {
 			return true;
 		} else {
 			return false;
@@ -116,12 +118,13 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 * Set data value by given key/path
 	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
 	 *
 	 */
-	public function set( $key, $value ) {
+	public function set( $key, $value )
+	{
 
-		if(!$key) {
+		if( !$key ) {
 			return;
 		}
 
@@ -129,22 +132,22 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ){
-			$path = explode(self::PATH_DELIMITER, trim($key, self::PATH_DELIMITER));
+		if( $key[0]===self::PATH_DELIMITER ) {
+			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
 
-			if(!$path){
+			if( !$path ) {
 				return;
 			}
 
-			$key = array_pop($path);
+			$key = array_pop( $path );
 
-			foreach($path as $part){
-				if(!is_array($target)) {
+			foreach( $path as $part ) {
+				if( !is_array( $target ) ) {
 					return;
 				}
 
-				if( !isset($target[$part]) ){
+				if( !isset( $target[$part] ) ) {
 					$target[$part] = [];
 				}
 
@@ -153,9 +156,7 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 			}
 		}
 
-		if(
-			is_array($target)
-		){
+		if( is_array( $target ) ) {
 			$target[$key] = $value;
 		}
 	}
@@ -166,28 +167,26 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @param string $key
 	 */
-	public function remove( $key ) {
-		if(!$key) {
+	public function remove( $key )
+	{
+		if( !$key ) {
 			return;
 		}
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ){
-			$path = explode(self::PATH_DELIMITER, trim($key, self::PATH_DELIMITER));
+		if( $key[0]===self::PATH_DELIMITER ) {
+			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
-			if(!$path){
+			if( !$path ) {
 				return;
 			}
 
-			$key = array_pop($path);
+			$key = array_pop( $path );
 
-			foreach($path as $part){
+			foreach( $path as $part ) {
 
-				if(
-					is_array($target) &&
-					isset($target[$part])
-				){
+				if( is_array( $target )&&isset( $target[$part] ) ) {
 					$target = &$target[$part];
 				} else {
 
@@ -199,44 +198,50 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 		}
 
 
-		if(
-			is_array($target) &&
-			isset($target[$key])
-		){
-			unset($target[$key]);
+		if( is_array( $target )&&isset( $target[$key] ) ) {
+			unset( $target[$key] );
 		}
 	}
-
 
 	/**
 	 *
 	 * @param string $key
-	 * @param mixed $default_value (optional; default: null)
+	 * @param int    $default_value (optional, default = 0)
+	 *
+	 * @return int
+	 */
+	public function getInt( $key, $default_value = 0 )
+	{
+		return (int)$this->getRaw( $key, $default_value );
+	}
+
+	/**
+	 *
+	 * @param string $key
+	 * @param mixed  $default_value (optional; default: null)
 	 *
 	 * @return mixed
 	 */
-	public function getRaw($key, $default_value = null ){
-		if(!$key) {
+	public function getRaw( $key, $default_value = null )
+	{
+		if( !$key ) {
 			return $default_value;
 		}
 
 		$target = &$this->data;
 
-		if( $key[0]===self::PATH_DELIMITER ){
-			$path = explode(self::PATH_DELIMITER, trim($key, self::PATH_DELIMITER));
+		if( $key[0]===self::PATH_DELIMITER ) {
+			$path = explode( self::PATH_DELIMITER, trim( $key, self::PATH_DELIMITER ) );
 
-			if(!$path){
+			if( !$path ) {
 				return false;
 			}
 
-			$key = array_pop($path);
+			$key = array_pop( $path );
 
-			foreach($path as $part){
+			foreach( $path as $part ) {
 
-				if(
-					is_array($target) &&
-					isset($target[$part])
-				){
+				if( is_array( $target )&&isset( $target[$part] ) ) {
 					$target = &$target[$part];
 				} else {
 
@@ -247,69 +252,58 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 			}
 		}
 
-		if(
-			is_array($target) &&
-			isset($target[$key])
-		){
+		if( is_array( $target )&&isset( $target[$key] ) ) {
 			return $target[$key];
 		} else {
 			return $default_value;
 		}
 	}
 
-
 	/**
 	 *
 	 * @param string $key
-	 * @param int $default_value (optional, default = 0)
-	 *
-	 * @return int
-	 */
-	public function getInt($key, $default_value = 0){
-		return (int)$this->getRaw($key, $default_value);
-	}
-
-	/**
-	 *
-	 * @param string $key
-	 * @param float $default_value (optional, default = 0.0)
+	 * @param float  $default_value (optional, default = 0.0)
 	 *
 	 * @return float
 	 */
-	public function getFloat($key, $default_value = 0.0){
-		return (float)$this->getRaw($key, $default_value);
+	public function getFloat( $key, $default_value = 0.0 )
+	{
+		return (float)$this->getRaw( $key, $default_value );
 	}
 
 	/**
 	 *
 	 * @param string $key
-	 * @param bool $default_value (optional, default = false)
+	 * @param bool   $default_value (optional, default = false)
+	 *
 	 * @return bool
 	 */
-	public function getBool($key, $default_value = false){
-		return (bool)$this->getRaw($key, $default_value);
+	public function getBool( $key, $default_value = false )
+	{
+		return (bool)$this->getRaw( $key, $default_value );
 	}
 
 	/**
 	 *
 	 * @param string $key
 	 * @param string $default_value (optional, default = '')
-	 * @param array $valid_values (optional)
+	 * @param array  $valid_values (optional)
 	 *
 	 * @return string
 	 */
-	public function getString($key, $default_value = '', array $valid_values=[]){
+	public function getString( $key, $default_value = '', array $valid_values = [] )
+	{
 
-		$value = $this->getRaw($key, $default_value);
+		$value = $this->getRaw( $key, $default_value );
 
-		if($valid_values) {
-			if(!in_array($value, $valid_values)) {
+		if( $valid_values ) {
+			if( !in_array( $value, $valid_values ) ) {
 				$value = $default_value;
 			}
 		}
 
-		if(is_bool($value)){
-			$value = $value?1:0;
+		if( is_bool( $value ) ) {
+			$value = $value ? 1 : 0;
 		}
 
 		return Data_Text::htmlSpecialChars( (string)$value );
@@ -321,7 +315,8 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	 *
 	 * @return string
 	 */
-	public function export(array $comments = []){
+	public function export( array $comments = [] )
+	{
 		$result = $this->_export( '', $this->data, 0, $comments );
 
 		$result .= ';'.JET_EOL;
@@ -331,49 +326,49 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 
 	/**
 	 * @param string $path
-	 * @param array $data
-	 * @param int $level
-	 * @param array $comments
+	 * @param array  $data
+	 * @param int    $level
+	 * @param array  $comments
 	 *
 	 * @return string
 	 */
-	protected function _export( $path, array $data, $level, array $comments ) {
+	protected function _export( $path, array $data, $level, array $comments )
+	{
 		$result = '';
-		$next_level = $level + 1;
+		$next_level = $level+1;
 
-		$indent = str_pad('', $level, JET_TAB);
+		$indent = str_pad( '', $level, JET_TAB );
 
 
 		$comment = '';
-		if( isset($comments[$path]) ) {
+		if( isset( $comments[$path] ) ) {
 			$comment .= JET_TAB.'/* '.$comments[$path].' */';
 		}
 
 
 		$result .= '['.$comment.JET_EOL;
 
-		$my_root_path = $path . static::PATH_DELIMITER;
+		$my_root_path = $path.static::PATH_DELIMITER;
 
-		foreach( $data as $key=>$value ) {
+		foreach( $data as $key => $value ) {
 
 			$my_path = $my_root_path.$key;
 
 			$comment = '';
-			if( isset($comments[$my_path]) ) {
+			if( isset( $comments[$my_path] ) ) {
 				$comment .= JET_TAB.'/* '.$comments[$my_path].' */';
 			}
 
-			if(is_int($key)) {
+			if( is_int( $key ) ) {
 				$result .= $indent.JET_TAB;
 
 			} else {
-				$result .= $indent.JET_TAB.'\''.str_replace("'","\\'",$key).'\' => ';
+				$result .= $indent.JET_TAB.'\''.str_replace( "'", "\\'", $key ).'\' => ';
 			}
 
-			if(is_array($value)) {
-				$result .= $this->_export( $my_path, $value, $next_level, $comments) . '';
-			} else
-			if(is_object($value)) {
+			if( is_array( $value ) ) {
+				$result .= $this->_export( $my_path, $value, $next_level, $comments ).'';
+			} else if( is_object( $value ) ) {
 				$class_name = get_class( $value );
 
 				if( is_subclass_of( $value, '\JsonSerializable' ) ) {
@@ -386,7 +381,9 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 				}
 
 
-				$result .= $class_name.'::__set_state( '.$this->_export( $my_path, $object_values, $next_level, $comments).' )';
+				$result .= $class_name.'::__set_state( '.$this->_export(
+						$my_path, $object_values, $next_level, $comments
+					).' )';
 			} else {
 				$result .= var_export( $value, true ).$comment;
 			}
@@ -394,7 +391,7 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 			$result .= ','.JET_EOL;
 
 		}
-		$result .= $indent . ']';
+		$result .= $indent.']';
 
 		return $result;
 
@@ -403,33 +400,38 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	/**
 	 * @return string
 	 */
-	public function toJSON() {
+	public function toJSON()
+	{
 		$data = $this->jsonSerialize();
-		return json_encode($data);
+
+		return json_encode( $data );
 	}
 
 	/**
 	 *
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize()
+	{
 		$data = $this->data;
 
-		return $this->_jsonSerializeTraverse($data);
+		return $this->_jsonSerializeTraverse( $data );
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
+	 *
 	 * @return mixed
 	 */
-	protected function _jsonSerializeTraverse( $data ) {
-		foreach( $data as $key=>$val ) {
+	protected function _jsonSerializeTraverse( array $data )
+	{
+		foreach( $data as $key => $val ) {
 
-			if(is_array($val)) {
-				$data[$key] = $this->_jsonSerializeTraverse($val);
+			if( is_array( $val ) ) {
+				$data[$key] = $this->_jsonSerializeTraverse( $val );
 				continue;
 			}
 
-			if(!is_object($val)) {
+			if( !is_object( $val ) ) {
 				continue;
 			}
 
@@ -448,42 +450,45 @@ class Data_Array extends BaseObject implements BaseObject_Serializable_REST {
 	/**
 	 * @return string
 	 */
-	public function toXML() {
+	public function toXML()
+	{
 		$data = $this->jsonSerialize();
 
-		return $this->_XMLSerialize($data, 'data' );
+		return $this->_XMLSerialize( $data, 'data' );
 	}
 
 	/**
-	 * @param mixed $data
+	 * @param mixed  $data
 	 * @param string $tag
 	 * @param string $prefix
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $data, $tag, $prefix='' ) {
+	protected function _XMLSerialize( $data, $tag, $prefix = '' )
+	{
 		$result = $prefix.'<'.$tag.'>'.JET_EOL;
 
-		if(is_object($data)) {
-			$data = get_class_vars($data);
+		if( is_object( $data ) ) {
+			$data = get_class_vars( $data );
 		}
 
-		foreach($data as $key=>$val) {
-			if(is_array($val) || is_object($val)) {
-				if(is_int($key)) {
+		foreach( $data as $key => $val ) {
+			if( is_array( $val )||is_object( $val ) ) {
+				if( is_int( $key ) ) {
 					$key = 'item';
 				}
-				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
+				$result .= $this->_XMLSerialize( $val, $key, $prefix.JET_TAB );
 			} else {
-				if(is_bool($val)) {
-					$result .= $prefix.JET_TAB.'<'.$key.'>'.($val?1:0).'</'.$key.'>'.JET_EOL;
+				if( is_bool( $val ) ) {
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.( $val ? 1 : 0 ).'</'.$key.'>'.JET_EOL;
 
 				} else {
-					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars( $val ).'</'.$key.'>'.JET_EOL;
 				}
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
+
 		return $result;
 	}
 

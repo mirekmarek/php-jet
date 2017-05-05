@@ -8,7 +8,7 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require JET_LIBRARY_PATH . 'Jet/Autoloader.php';
+require JET_LIBRARY_PATH.'Jet/Autoloader.php';
 Autoloader::initialize();
 
 

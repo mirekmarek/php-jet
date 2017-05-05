@@ -6,70 +6,67 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Form[] $forms
+ * @var Form[]   $forms
  */
 
-$forms = $this->getRaw('forms');
+$forms = $this->getRaw( 'forms' );
 
 ?>
-<?=Tr::_('M2: Test Action 2')?>
+<?=Tr::_( 'M2: Test Action 2' )?>
 
-<h2><?=Tr::_('Form test')?></h2>
+<h2><?=Tr::_( 'Form test' )?></h2>
 <p>
-    <?php foreach( $forms as $form_name=>$d ):
-    /**
-     * @var Form $form
-     */
-        $form = $d['form'];
-        //$form->setIsReadonly();
-    ?>
-    <fieldset style="margin-bottom: 40px">
-        <legend><?=$d['title']?></legend>
-        <?php
-        echo $form->start();
-        foreach($form->getFields() as $field)
-            echo $field;
+	<?php foreach( $forms as $form_name => $d ):
+	/**
+	 * @var Form $form
+	 */
+	$form = $d['form'];
+	//$form->setIsReadonly();
+	?>
+	<fieldset style="margin-bottom: 40px">
+		<legend><?=$d['title']?></legend>
+		<?php
+		echo $form->start();
+		foreach( $form->getFields() as $field ) echo $field;
 
-        if(!$form->getIsReadonly()):
-        ?>
-        <div class="row">
-            <div class="col-md-offset-4">
-                <input type="submit" class="btn btn-default" value="<?=Tr::_('Submit')?>"/>
-            </div>
-        </div>
-        <?php endif; ?>
-        <?=$form->end()?>
-
+		if( !$form->getIsReadonly() ):
+			?>
+			<div class="row">
+				<div class="col-md-offset-4">
+					<input type="submit" class="btn btn-default" value="<?=Tr::_( 'Submit' )?>"/>
+				</div>
+			</div>
+		<?php endif; ?>
+		<?=$form->end()?>
 
 
 
-        <?php if($d['form_sent']): ?>
-            <hr>
-            <?=Tr::_('Form sent:')?>
 
-            <?php if($form_name=='upload_image_form'):
-                $image_field = $form->getField('upload_image');
-                /**
-                 * @var Form_Field_FileImage $image_field
-                 */
-                ?>
-                <img src="<?=JET_PUBLIC_URI?>test_uploads/<?=$image_field->getFileName()?>">
-            <?php else: ?>
-                <table>
-                    <?php foreach($d['form_values'] as $k=>$v): ?>
-                        <tr>
-                            <td><?=$k?>:</td>
-                            <td><?=is_array($v) ? implode(',',$v) : $v?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php endif; ?>
-        <?php endif; ?>
+		<?php if( $d['form_sent'] ): ?>
+			<hr>
+			<?=Tr::_( 'Form sent:' )?>
 
-    </fieldset>
-    <?php endforeach; ?>
+			<?php if( $form_name=='upload_image_form' ):
+				$image_field = $form->getField( 'upload_image' );
+				/**
+				 * @var Form_Field_FileImage $image_field
+				 */
+				?>
+				<img src="<?=JET_PUBLIC_URI?>test_uploads/<?=$image_field->getFileName()?>">
+			<?php else: ?>
+				<table>
+					<?php foreach( $d['form_values'] as $k => $v ): ?>
+						<tr>
+							<td><?=$k?>:</td>
+							<td><?=is_array( $v ) ? implode( ',', $v ) : $v?></td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+			<?php endif; ?>
+		<?php endif; ?>
 
-
+	</fieldset>
+<?php endforeach; ?>
 
 
 </p>

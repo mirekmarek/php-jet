@@ -14,7 +14,8 @@ namespace Jet;
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  * @JetDataModel:database_table_name = 'Jet_Auth_Users'
  */
-class Auth_User extends DataModel implements Auth_User_Interface {
+class Auth_User extends DataModel implements Auth_User_Interface
+{
 
 	/**
 	 *
@@ -34,7 +35,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:is_unique = true
 	 * @JetDataModel:form_field_label = 'Username'
-     * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify username']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify username']
 	 *
 	 * @var string
 	 */
@@ -50,7 +51,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
 	 * @JetDataModel:form_field_label = 'Password'
 	 * @JetDataModel:form_field_options = ['password_confirmation_label'=>'Confirm password']
-     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */
@@ -82,7 +83,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = [ 'Mvc_Site','getAllLocalesList']
-     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale']
 	 *
 	 * @var Locale
 	 */
@@ -187,7 +188,7 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Auth_Role', 'getList']
 	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
-     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
 	 *
 	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Role[]
 	 */
@@ -197,90 +198,125 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 * @param string|null $username
 	 * @param string|null $password
 	 */
-	public function __construct( $username=null, $password=null ) {
+	public function __construct( $username = null, $password = null )
+	{
 
-		if($username!==null) {
-			$this->setUsername($username);
+		if( $username!==null ) {
+			$this->setUsername( $username );
 		}
-		if($password!==null) {
-			$this->setPassword($password);
+		if( $password!==null ) {
+			$this->setPassword( $password );
 		}
 
 		parent::__construct();
 	}
 
-
-    /**
-     * @param string $id
-     *
-     * @return Auth_User
-     */
-    public static function get($id ) {
-	    /**
-	     * @var Auth_User $user
-	     */
-	    $user = static::load( $id );
-        return $user;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId() {
-        return $this->getIdObject()->toString();
-    }
+	/**
+	 * @param string $password
+	 */
+	public function setPassword( $password )
+	{
+		if( $password ) {
+			$this->password = $this->encryptPassword( $password );
+		}
+	}
 
 	/**
+	 * @param string $password
+	 *
 	 * @return string
 	 */
-	public function getUsername() {
-		return $this->username;
+	public function encryptPassword( $password )
+	{
+		return password_hash( $password, PASSWORD_DEFAULT );
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return Auth_User
+	 */
+	public static function get( $id )
+	{
+		/**
+		 * @var Auth_User $user
+		 */
+		$user = static::load( $id );
+
+		return $user;
+	}
+
+	/**
+	 * @param string|null $role_id (optional)
+	 * @param string      $search
+	 *
+	 * @return Auth_User[]|DataModel_Fetch_Object_Assoc
+	 */
+	public static function getList( $role_id = null, $search = '' )
+	{
+		$query = [];
+
+		if( $role_id ) {
+			$query = [
+				'Auth_Role.id' => $role_id,
+			];
+		}
+
+		if( $search ) {
+			if( $query ) {
+				$query [] = 'AND';
+			}
+
+			$search = '%'.$search.'%';
+			$query[] = [
+				'this.username *'    => $search, 'OR', 'this.first_name *' => $search, 'OR',
+				'this.surname *'     => $search, 'OR', 'this.email *' => $search,
+			];
+		}
+
+		/**
+		 * @var Auth_User $_this
+		 */
+		$_this = new static();
+		$list = $_this->fetchObjects( $query );
+		$list->setLoadFilter(
+			[
+				'this.id', 'this.username', 'this.first_name', 'this.surname', 'this.locale',
+			]
+		);
+		$list->getQuery()->setOrderBy( 'username' );
+
+		return $list;
+
 	}
 
 	/**
 	 * @param string $username
+	 * @param string $password
+	 *
+	 * @return Auth_User|bool
 	 */
-	public function setUsername($username ) {
-		$this->username = $username;
-	}
+	public static function getByIdentity( $username, $password )
+	{
 
-	/**
-	 *
-	 * @param $username
-	 *
-	 * @return bool
-	 */
-	public function usernameExists($username ) {
-		if($this->getIsNew()) {
-			$q = [
-				'this.username' => $username
-			];
-		} else {
-			$q = [
+		/**
+		 * @var Auth_User $user
+		 */
+		$user = ( new static() )->fetchOneObject(
+			[
 				'this.username' => $username,
-				'AND',
-				'this.id!=' => $this->id
-			];
+			]
+		);
+
+		if( !$user ) {
+			return false;
 		}
-		return (bool)static::getBackendInstance()->getCount( $this->createQuery( $q ) );
-	}
 
-
-	/**
-	 * @param string $password
-	 */
-	public function setPassword( $password ) {
-		if($password) {
-			$this->password = $this->encryptPassword($password);
+		if( !$user->verifyPassword( $password ) ) {
+			return false;
 		}
-	}
 
-	/**
-	 * @param string $password
-	 * @return string
-	 */
-	public function encryptPassword( $password ) {
-		return password_hash( $password, PASSWORD_DEFAULT );
+		return $user;
 	}
 
 	/**
@@ -288,59 +324,95 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return bool
 	 */
-	public function verifyPassword( $plain_password ) {
+	public function verifyPassword( $plain_password )
+	{
 		return password_verify( $plain_password, $this->password );
 	}
 
 	/**
-	 * @param string $password
-	 * @return bool
+	 * @param string $username
+	 *
+	 * @return Auth_User|bool
 	 */
-	public function verifyPasswordStrength( $password ) {
-		return true;
-	}
+	public static function getGetByUsername( $username )
+	{
+		/**
+		 * @var Auth_User $user
+		 */
+		$user = ( new static() )->fetchOneObject(
+			[
+				'this.username' => $username,
+			]
+		);
 
-	/**
-	 * @return bool
-	 */
-	public function getIsSuperuser() {
-		return $this->is_superuser;
-	}
-
-	/**
-	 * @param bool $is_superuser
-	 */
-	public function setIsSuperuser($is_superuser) {
-		$this->is_superuser = (bool)$is_superuser;
+		return $user;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getEmail() {
+	public function getId()
+	{
+		return $this->getIdObject()->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUsername()
+	{
+		return $this->username;
+	}
+
+	/**
+	 * @param string $username
+	 */
+	public function setUsername( $username )
+	{
+		$this->username = $username;
+	}
+
+	/**
+	 * @param string $password
+	 *
+	 * @return bool
+	 */
+	public function verifyPasswordStrength( $password )
+	{
+		return true;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmail()
+	{
 		return $this->email;
 	}
 
 	/**
 	 * @param string $email
 	 */
-	public function setEmail( $email ) {
+	public function setEmail( $email )
+	{
 		$this->email = $email;
 	}
 
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() {
+	public function getLocale()
+	{
 		return $this->locale;
 	}
 
 	/**
 	 * @param string|Locale $locale
 	 */
-	public function setLocale( $locale ) {
-		if( !($locale instanceof Locale) ) {
-			$locale = new Locale($locale);
+	public function setLocale( $locale )
+	{
+		if( !( $locale instanceof Locale ) ) {
+			$locale = new Locale( $locale );
 		}
 		$this->locale = $locale;
 	}
@@ -348,63 +420,72 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return string
 	 */
-	public function getFirstName() {
+	public function getFirstName()
+	{
 		return $this->first_name;
 	}
 
 	/**
 	 * @param string $first_name
 	 */
-	public function setFirstName( $first_name ) {
+	public function setFirstName( $first_name )
+	{
 		$this->first_name = $first_name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSurname() {
+	public function getSurname()
+	{
 		return $this->surname;
 	}
 
 	/**
 	 * @param string $surname
 	 */
-	public function setSurname($surname) {
+	public function setSurname( $surname )
+	{
 		$this->surname = $surname;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->first_name.' '.$this->surname;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
+	public function getDescription()
+	{
 		return $this->description;
 	}
 
 	/**
 	 * @param string $description
 	 */
-	public function setDescription($description) {
+	public function setDescription( $description )
+	{
 		$this->description = $description;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getPasswordIsValid() {
+	public function getPasswordIsValid()
+	{
 		return $this->password_is_valid;
 	}
 
 	/**
 	 * @param bool $password_is_valid
 	 */
-	public function setPasswordIsValid($password_is_valid) {
+	public function setPasswordIsValid( $password_is_valid )
+	{
 		$this->password_is_valid = (bool)$password_is_valid;
 	}
 
@@ -412,7 +493,8 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return Data_DateTime
 	 */
-	public function getPasswordIsValidTill() {
+	public function getPasswordIsValidTill()
+	{
 		return $this->password_is_valid_till;
 	}
 
@@ -421,44 +503,49 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return void
 	 */
-	public function setPasswordIsValidTill( $password_is_valid_till ) {
-		if(!$password_is_valid_till) {
+	public function setPasswordIsValidTill( $password_is_valid_till )
+	{
+		if( !$password_is_valid_till ) {
 			$this->password_is_valid_till = null;
 		} else {
-			$this->password_is_valid_till = new Data_DateTime($password_is_valid_till);
+			$this->password_is_valid_till = new Data_DateTime( $password_is_valid_till );
 		}
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isBlocked() {
+	public function isBlocked()
+	{
 		return $this->user_is_blocked;
 	}
 
 	/**
 	 * @return null|Data_DateTime
 	 */
-	public function isBlockedTill() {
+	public function isBlockedTill()
+	{
 		return $this->user_is_blocked_till;
 	}
 
 	/**
 	 * @param string|Data_DateTime|null $till
 	 */
-	public function block( $till=null ) {
+	public function block( $till = null )
+	{
 		$this->user_is_blocked = true;
 		if( !$till ) {
 			$this->user_is_blocked_till = null;
 		} else {
-			$this->user_is_blocked_till = new Data_DateTime($till);
+			$this->user_is_blocked_till = new Data_DateTime( $till );
 		}
 	}
 
 	/**
 	 *
 	 */
-	public function unBlock() {
+	public function unBlock()
+	{
 		$this->user_is_blocked = false;
 		$this->user_is_blocked_till = null;
 	}
@@ -466,19 +553,19 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return bool
 	 */
-	public function isActivated() {
+	public function isActivated()
+	{
 		return $this->user_is_activated;
 	}
 
 	/**
 	 * @param string|null $user_activation_hash (optional)
+	 *
 	 * @return bool
 	 */
-	public function activate( $user_activation_hash=null ) {
-		if(
-			$user_activation_hash &&
-			$this->user_activation_hash!=$user_activation_hash
-		) {
+	public function activate( $user_activation_hash = null )
+	{
+		if( $user_activation_hash&&$this->user_activation_hash!=$user_activation_hash ) {
 			return false;
 		}
 		$this->user_is_activated = true;
@@ -489,116 +576,26 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return string
 	 */
-	public function getActivationHash() {
+	public function getActivationHash()
+	{
 		return $this->user_activation_hash;
 	}
 
 	/**
 	 * @param string $user_activation_hash
 	 */
-	public function setActivationHash($user_activation_hash) {
+	public function setActivationHash( $user_activation_hash )
+	{
 		$this->user_activation_hash = $user_activation_hash;
 	}
-
-	/**
-	 * @param string|null $role_id (optional)
-	 * @param string $search
-	 * @return Auth_User[]|DataModel_Fetch_Object_Assoc
-	 */
-	public static function getList($role_id=null, $search='' ) {
-		$query = [];
-
-		if($role_id) {
-			$query = [
-				'Auth_Role.id' => $role_id
-			];
-		}
-
-		if($search) {
-			if($query) {
-				$query [] = 'AND';
-			}
-
-			$search = '%'.$search.'%';
-			$query[] = [
-				'this.username *' => $search,
-				'OR',
-				'this.first_name *' => $search,
-				'OR',
-				'this.surname *' => $search,
-				'OR',
-				'this.email *' => $search,
-			];
-		}
-
-		/**
-		 * @var Auth_User $_this
-		 */
-		$_this = new static();
-		$list = $_this->fetchObjects( $query );
-		$list->setLoadFilter([
-			'this.id',
-			'this.username',
-			'this.first_name',
-			'this.surname',
-			'this.locale'
-		]);
-		$list->getQuery()->setOrderBy('username');
-
-		return $list;
-
-	}
-
-
-	/**
-	 * @param string $username
-	 * @param string $password
-	 * @return Auth_User|bool
-	 */
-	public static function getByIdentity(  $username, $password  ) {
-
-		/**
-		 * @var Auth_User $user
-		 */
-		$user = (new static())->fetchOneObject( [
-			'this.username' => $username,
-		]);
-
-		if(!$user) {
-			return false;
-		}
-
-		if(!$user->verifyPassword($password)) {
-			return false;
-		}
-
-		return $user;
-	}
-
-
-	/**
-	 * @param string $username
-	 *
-	 * @return Auth_User|bool
-	 */
-	public static function getGetByUsername( $username ) {
-		/**
-		 * @var Auth_User $user
-		 */
-		$user = (new static())->fetchOneObject( [
-			'this.username' => $username
-		]);
-
-		return $user;
-	}
-
 
 	/**
 	 * @param DataModel_Definition_Property_Abstract $property_definition
 	 *
 	 * @return Form_Field_Abstract
 	 */
-	public function createRolesFormField( DataModel_Definition_Property_Abstract $property_definition ) {
+	public function createRolesFormField( DataModel_Definition_Property_Abstract $property_definition )
+	{
 
 		return $property_definition->createFormField( $this->roles );
 	}
@@ -606,21 +603,23 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	/**
 	 * @return Auth_Role[]
 	 */
-	public function getRoles() {
+	public function getRoles()
+	{
 		return $this->roles;
 	}
 
 	/**
 	 * @param array $roles_ids
 	 */
-	public function setRoles( array $roles_ids ) {
+	public function setRoles( array $roles_ids )
+	{
 		$roles = [];
 
-		foreach($roles_ids as $role_id) {
+		foreach( $roles_ids as $role_id ) {
 			/**
 			 * @var DataModel_Definition_Property_DataModel $roles_property_def
 			 */
-			$roles_property_def = static::getDataModelDefinition()->getProperty('roles');
+			$roles_property_def = static::getDataModelDefinition()->getProperty( 'roles' );
 			/**
 			 * @var DataModel_Definition_Model_Related_MtoN $role_definition
 			 */
@@ -631,10 +630,10 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 			/**
 			 * @var callable $call_back
 			 */
-			$call_back = [$role_class_name, 'get'];
+			$call_back = [ $role_class_name, 'get' ];
 
-			$role = $call_back($role_id);
-			if(!$role) {
+			$role = $call_back( $role_id );
+			if( !$role ) {
 				continue;
 			}
 			$roles[] = $role;
@@ -648,8 +647,9 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return bool
 	 */
-	public function hasRole($role_id ) {
-		foreach($this->roles as $role) {
+	public function hasRole( $role_id )
+	{
+		foreach( $this->roles as $role ) {
 			/**
 			 * @var Auth_Role_Interface $role
 			 */
@@ -663,20 +663,22 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 
 	/**
 	 * @param string $privilege
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return bool
 	 */
-	public function hasPrivilege($privilege, $value ) {
+	public function hasPrivilege( $privilege, $value )
+	{
 
-		if($this->getIsSuperuser()) {
+		if( $this->getIsSuperuser() ) {
 			return true;
 		}
 
-		foreach($this->roles as $role) {
+		foreach( $this->roles as $role ) {
 			/**
 			 * @var Auth_Role_Interface $role
 			 */
-			if($role->getHasPrivilege( $privilege, $value )) {
+			if( $role->getHasPrivilege( $privilege, $value ) ) {
 				return true;
 			}
 		}
@@ -685,24 +687,40 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	}
 
 	/**
-	 * @param $privilege
+	 * @return bool
+	 */
+	public function getIsSuperuser()
+	{
+		return $this->is_superuser;
+	}
+
+	/**
+	 * @param bool $is_superuser
+	 */
+	public function setIsSuperuser( $is_superuser )
+	{
+		$this->is_superuser = (bool)$is_superuser;
+	}
+
+	/**
+	 * @param string $privilege
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues($privilege) {
+	public function getPrivilegeValues( $privilege )
+	{
 		$result = [];
-		foreach($this->roles as $role) {
+		foreach( $this->roles as $role ) {
 			/**
 			 * @var Auth_Role_Interface $role
 			 */
 
 			$result = array_merge(
-				$role->getPrivilegeValues($privilege),
-				$result
+				$role->getPrivilegeValues( $privilege ), $result
 			);
 		}
 
-		$result = array_unique($result);
+		$result = array_unique( $result );
 
 		return $result;
 	}
@@ -712,79 +730,117 @@ class Auth_User extends DataModel implements Auth_User_Interface {
 	 *
 	 * @return Form
 	 */
-	public function getEditForm( $form_name='' ) {
+	public function getEditForm( $form_name = '' )
+	{
 		$form = $this->getCommonForm( $form_name );
 
 		if( $this->getIsNew() ) {
 			/**
 			 * @var Form_Field_RegistrationPassword $password_field
 			 */
-			$password_field = $form->getField('password');
-			$password_field->setIsRequired(true);
-			$password_field->setPasswordStrengthCheckCallback( [$this, 'verifyPasswordStrength'] );
-			$password_field->setErrorMessages([
-				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough'
-			]);
+			$password_field = $form->getField( 'password' );
+			$password_field->setIsRequired( true );
+			$password_field->setPasswordStrengthCheckCallback( [ $this, 'verifyPasswordStrength' ] );
+			$password_field->setErrorMessages(
+				[
+					Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
+				]
+			);
 
-			$form->getField('password_is_valid')->setDefaultValue(false);
+			$form->getField( 'password_is_valid' )->setDefaultValue( false );
 		} else {
-			$form->removeField('password');
+			$form->removeField( 'password' );
 		}
 
 		$user = $this;
 
-		$form->getField('password_is_valid_till')->setErrorMessages([
-			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format'
-		]);
-		$form->getField('user_is_blocked_till')->setErrorMessages([
-			Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format'
-		]);
+		$form->getField( 'password_is_valid_till' )->setErrorMessages(
+			[
+				Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+			]
+		);
+		$form->getField( 'user_is_blocked_till' )->setErrorMessages(
+			[
+				Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
+			]
+		);
 
-		$form->getField('locale')->setIsRequired(true);
-		$form->getField('locale')->setErrorMessages([
-			Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale'
-		]);
+		$form->getField( 'locale' )->setIsRequired( true );
+		$form->getField( 'locale' )->setErrorMessages(
+			[
+				Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale',
+			]
+		);
 
-		$form->getField('username')->setValidateDataCallback(function( Form_Field_Abstract $field ) use ($user) {
-			$username = $field->getValue();
+		$form->getField( 'username' )->setValidateDataCallback(
+			function( Form_Field_Abstract $field ) use ( $user ) {
+				$username = $field->getValue();
 
-			/** @var $user Auth_User */
-			if($user->usernameExists( $username )) {
-				$field->setErrorMessage(
-					Tr::_(
-						'Sorry, but username %USERNAME% is registered.',
-						['USERNAME'=>$username]
-					)
-				);
-				return false;
+				/** @var $user Auth_User */
+				if( $user->usernameExists( $username ) ) {
+					$field->setErrorMessage(
+						Tr::_(
+							'Sorry, but username %USERNAME% is registered.', [ 'USERNAME' => $username ]
+						)
+					);
+
+					return false;
+				}
+
+				return true;
 			}
-			return true;
-		});
+		);
 
-		$form->getField('email')->setErrorMessages([
-			Form_Field_Email::ERROR_CODE_EMPTY => 'Please enter valid e-mail address',
-			Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid e-mail address',
-		]);
+		$form->getField( 'email' )->setErrorMessages(
+			[
+				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter valid e-mail address',
+				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid e-mail address',
+			]
+		);
 
 		return $form;
 	}
 
 	/**
 	 *
+	 * @param string $username
+	 *
+	 * @return bool
 	 */
-	public function afterAdd() {
+	public function usernameExists( $username )
+	{
+		if( $this->getIsNew() ) {
+			$q = [
+				'this.username' => $username,
+			];
+		} else {
+			$q = [
+				'this.username' => $username, 'AND', 'this.id!=' => $this->id,
+			];
+		}
+
+		return (bool)static::getBackendInstance()->getCount( $this->createQuery( $q ) );
 	}
 
 	/**
 	 *
 	 */
-	public function afterUpdate() {
+	public function afterAdd()
+	{
 	}
 
 	/**
 	 *
 	 */
-	public function afterDelete() {
+	public function afterUpdate()
+	{
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete()
+	{
 	}
 
 }

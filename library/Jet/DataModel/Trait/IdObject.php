@@ -11,44 +11,47 @@ namespace Jet;
  * Class DataModel_Trait_IdObject
  * @package Jet
  */
-trait DataModel_Trait_IdObject {
+trait DataModel_Trait_IdObject
+{
 
 	/**
 	 * @var DataModel_Id_Abstract
 	 */
 	private $_id_object;
 
-    /**
-     * Returns ID
-     *
-     * @return DataModel_Id_Abstract
-     */
-    public function getIdObject() {
-        /**
-         * @var DataModel $this
-         */
+	/**
+	 * Returns ID
+	 *
+	 * @return DataModel_Id_Abstract
+	 */
+	public function getIdObject()
+	{
+		/**
+		 * @var DataModel $this
+		 */
 
-        if(!$this->_id_object) {
-	        $this->_id_object = static::getEmptyIdObject();
+		if( !$this->_id_object ) {
+			$this->_id_object = static::getEmptyIdObject();
 
-	        $this->_id_object->joinDataModel($this);
-	        foreach($this->_id_object as $property_name => $value) {
-		        $this->_id_object->joinObjectProperty( $property_name, $this->{$property_name});
-	        }
+			$this->_id_object->joinDataModel( $this );
+			foreach( $this->_id_object as $property_name => $value ) {
+				$this->_id_object->joinObjectProperty( $property_name, $this->{$property_name} );
+			}
 
-        }
-
-
-        return $this->_id_object;
-    }
+		}
 
 
-    /**
-     * @return DataModel_Id_Abstract
-     */
-    public static function getEmptyIdObject() {
-        /** @noinspection PhpUndefinedMethodInspection */
-        return static::getDataModelDefinition()->getEmptyIdInstance();
-    }
+		return $this->_id_object;
+	}
+
+
+	/**
+	 * @return DataModel_Id_Abstract
+	 */
+	public static function getEmptyIdObject()
+	{
+		/** @noinspection PhpUndefinedMethodInspection */
+		return static::getDataModelDefinition()->getEmptyIdInstance();
+	}
 
 }

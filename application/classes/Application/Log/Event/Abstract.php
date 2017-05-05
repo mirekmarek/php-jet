@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetExampleApp;
+
 use Jet\DataModel;
 use Jet\DataModel_Id_UniqueString;
 
@@ -19,7 +20,8 @@ use Jet\Http_Request;
  * @JetDataModel:name = 'Auth_Event'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-abstract class Application_Log_Event_Abstract extends DataModel {
+abstract class Application_Log_Event_Abstract extends DataModel
+{
 
 	/**
 	 *
@@ -134,6 +136,47 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 	protected $remote_IP = '';
 
 	/**
+	 *
+	 * @param string                   $event_class
+	 * @param string                   $event
+	 * @param string                   $event_message
+	 * @param string                   $context_object_id
+	 * @param string                   $context_object_name
+	 * @param mixed                    $context_object_data
+	 * @param Auth_User_Interface|null $current_user
+	 *
+	 * @return static
+	 */
+	public static function log( $event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, Auth_User_Interface $current_user = null )
+	{
+
+
+		$event_i = new static();
+
+		$event_i->date_time = Data_DateTime::now();
+		$event_i->request_URL = Http_Request::getURL();
+		$event_i->remote_IP = Http_Request::getClientIP();
+
+		$event_i->event_class = $event_class;
+		$event_i->event = $event;
+		$event_i->event_message = $event_message;
+
+		$event_i->context_object_id = $context_object_id;
+		$event_i->context_object_name = $context_object_name;
+		$event_i->context_object_data = json_encode( $context_object_data );
+
+		if( $current_user ) {
+			$event_i->user_id = $current_user->getId();
+			$event_i->user_username = $current_user->getUsername();
+		}
+
+
+		$event_i->save();
+
+		return $event_i;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getId()
@@ -141,11 +184,11 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 		return $this->id;
 	}
 
-
 	/**
 	 * @return Data_DateTime
 	 */
-	public function getDateTime() {
+	public function getDateTime()
+	{
 		return $this->date_time;
 	}
 
@@ -160,14 +203,16 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 	/**
 	 * @return string
 	 */
-	public function getEvent() {
+	public function getEvent()
+	{
 		return $this->event;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getEventMessage() {
+	public function getEventMessage()
+	{
 		return $this->event_message;
 	}
 
@@ -198,69 +243,32 @@ abstract class Application_Log_Event_Abstract extends DataModel {
 	/**
 	 * @return string
 	 */
-	public function getRemoteIP() {
+	public function getRemoteIP()
+	{
 		return $this->remote_IP;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRequestURL() {
+	public function getRequestURL()
+	{
 		return $this->request_URL;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getUserId() {
+	public function getUserId()
+	{
 		return $this->user_id;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getUserUsername() {
-		return $this->user_username;
-	}
-
-	/**
-	 *
-	 * @param string $event_class
-	 * @param string $event
-	 * @param string $event_message
-	 * @param string $context_object_id
-	 * @param string $context_object_name
-	 * @param mixed $context_object_data
-	 * @param Auth_User_Interface|null $current_user
-	 *
-	 * @return static
-	 */
-	public static function log($event_class, $event, $event_message, $context_object_id, $context_object_name, $context_object_data, Auth_User_Interface $current_user = null)
+	public function getUserUsername()
 	{
-
-
-		$event_i = new static();
-
-		$event_i->date_time = Data_DateTime::now();
-		$event_i->request_URL = Http_Request::getURL();
-		$event_i->remote_IP = Http_Request::getClientIP();
-
-		$event_i->event_class = $event_class;
-		$event_i->event = $event;
-		$event_i->event_message = $event_message;
-
-		$event_i->context_object_id = $context_object_id;
-		$event_i->context_object_name = $context_object_name;
-		$event_i->context_object_data = json_encode($context_object_data);
-
-		if($current_user) {
-			$event_i->user_id = $current_user->getId();
-			$event_i->user_username = $current_user->getUsername();
-		}
-
-
-		$event_i->save();
-
-		return $event_i;
+		return $this->user_username;
 	}
 }

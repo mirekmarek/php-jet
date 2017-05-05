@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Property_Id
  * @package Jet
  */
-class DataModel_Definition_Property_Id extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_Id extends DataModel_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -37,6 +38,7 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property_Abs
 	 *
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
 	}
 }

@@ -55,6 +55,62 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	protected $custom_renderer;
 
 	/**
+	 * @param string $event
+	 * @param string $handler_code
+	 *
+	 * @return $this
+	 */
+	public function addJsAction( $event, $handler_code )
+	{
+		$event = strtolower( $event );
+
+		if( !isset( $this->js_actions[$event] ) ) {
+			$this->js_actions[$event] = $handler_code;
+		} else {
+			$this->js_actions[$event] .= ';'.$handler_code;
+
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param string $class
+	 *
+	 * @return $this
+	 */
+	public function addCustomCssClass( $class )
+	{
+		$this->custom_css_classes[] = $class;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $style
+	 *
+	 * @return $this
+	 */
+	public function addCustomCssStyle( $style )
+	{
+		$this->custom_css_styles[] = $style;
+
+		return $this;
+	}
+
+	/**
+	 *
+	 */
+	public function end()
+	{
+		if( !$this->is_pair ) {
+			return '';
+		}
+
+		return '</'.$this->getTag().'>'.JET_EOL;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getTag()
@@ -63,47 +119,102 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	}
 
 	/**
-	 * @return bool
+	 * @param callable $custom_renderer
 	 */
-	public function isPair()
+	public function setCustomRenderer( $custom_renderer )
 	{
-		return $this->is_pair;
+		$this->custom_renderer = $custom_renderer;
 	}
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	public function getHasContent()
+	public function __toString()
 	{
-		return $this->has_content;
-	}
+		if( $this->custom_renderer ) {
+			$cr = $this->custom_renderer;
 
-	/**
-	 * @return array
-	 */
-	public function getJsActions()
-	{
-		return $this->js_actions;
-	}
-
-	/**
-	 * @param string $event
-	 * @param string $handler_code
-	 *
-	 * @return $this
-	 */
-	public function addJsAction( $event, $handler_code )
-	{
-		$event = strtolower($event);
-
-		if(!isset($this->js_actions[$event])) {
-			$this->js_actions[$event] = $handler_code;
-		} else {
-			$this->js_actions[$event] .= ';'.$handler_code;
-
+			return $cr( $this );
 		}
 
-		return $this;
+		return $this->render();
+	}
+
+	/**
+	 * @return string
+	 */
+	abstract public function render();
+
+	/**
+	 * @param array  $tag_options
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	protected function generate( array $tag_options = [], $content = '' )
+	{
+
+		$result = '<'.$this->getTag().$this->generateTagOptions( $tag_options );
+
+		foreach( $tag_options as $option => $val ) {
+			$result .= ' '.$option.'="'.$val.'"';
+		}
+
+		if( $this->getHasContent() ) {
+			$result .= '>';
+			$result .= $content;
+			$result .= '</'.$this->getTag().'>';
+		} else {
+			if( !$this->isPair() ) {
+				$result .= '/>';
+			} else {
+				$result .= '>';
+			}
+		}
+
+		return $result.JET_EOL;
+	}
+
+	/**
+	 * @param array $tag_options
+	 *
+	 * @return string
+	 */
+	protected function generateTagOptions( $tag_options )
+	{
+
+		$css_class = [];
+		if( $this->getBaseCssClass() ) {
+			$css_class[] = $this->getBaseCssClass();
+		}
+
+		if( $this->getCustomCssClasses() ) {
+			$css_class = array_merge( $css_class, $this->getCustomCssClasses() );
+		}
+
+		$css_class = implode( ' ', $css_class );
+
+		if( $css_class ) {
+			$tag_options['class'] = $css_class;
+		}
+
+		if( $this->getCustomCssStyles() ) {
+			$tag_options['style'] = implode( ';', $this->getCustomCssStyles() );
+		}
+
+		foreach( $this->getJsActions() as $action => $code ) {
+			$tag_options[$action] = $code;
+		}
+
+		$this->initTagOptions( $tag_options );
+
+		$result = '';
+
+		foreach( $tag_options as $option => $val ) {
+			$result .= ' '.$option.'="'.$val.'"';
+		}
+
+		return $result;
 	}
 
 	/**
@@ -119,7 +230,7 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	 *
 	 * @return $this
 	 */
-	public function setBaseCssClass($base_css_class)
+	public function setBaseCssClass( $base_css_class )
 	{
 		$this->base_css_class = $base_css_class;
 
@@ -135,16 +246,6 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	}
 
 	/**
-	 * @param string $class
-	 * @return $this
-	 */
-	public function addCustomCssClass( $class ) {
-		$this->custom_css_classes[] = $class;
-
-		return $this;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function getCustomCssStyles()
@@ -153,129 +254,35 @@ abstract class Form_Renderer_Abstract_Tag extends BaseObject
 	}
 
 	/**
-	 * @param $style
-	 *
-	 * @return $this
+	 * @return array
 	 */
-	public function addCustomCssStyle( $style ) {
-		$this->custom_css_styles[] = $style;
-
-		return $this;
-	}
-
-	/**
-	 * @param array $tag_options
-	 * @param string $content
-	 *
-	 * @return string
-	 */
-	protected function generate( array $tag_options=[], $content='' ) {
-
-		$result = '<'.$this->getTag().$this->generateTagOptions($tag_options);
-
-		foreach( $tag_options as $option=>$val ) {
-			$result .= ' '.$option.'="'.$val.'"';
-		}
-
-		if($this->getHasContent()) {
-			$result .= '>';
-			$result .= $content;
-			$result .= '</'.$this->getTag().'>';
-		} else {
-			if(!$this->isPair()) {
-				$result .= '/>';
-			} else {
-				$result .= '>';
-			}
-		}
-
-		return $result.JET_EOL;
-	}
-
-	/**
-	 * @param array $tag_options
-	 * @return string
-	 */
-	protected function generateTagOptions( $tag_options ) {
-
-		$css_class = [];
-		if($this->getBaseCssClass()) {
-			$css_class[] = $this->getBaseCssClass();
-		}
-
-		if($this->getCustomCssClasses()) {
-			$css_class = array_merge($css_class, $this->getCustomCssClasses());
-		}
-
-		$css_class = implode(' ', $css_class);
-
-		if($css_class) {
-			$tag_options['class'] = $css_class;
-		}
-
-		if($this->getCustomCssStyles()) {
-			$tag_options['style'] = implode(';', $this->getCustomCssStyles() );
-		}
-
-		foreach( $this->getJsActions() as $action=>$code ) {
-			$tag_options[$action] = $code;
-		}
-
-		$this->initTagOptions($tag_options);
-
-		$result = '';
-
-		foreach( $tag_options as $option=>$val ) {
-			$result .= ' '.$option.'="'.$val.'"';
-		}
-
-		return $result;
+	public function getJsActions()
+	{
+		return $this->js_actions;
 	}
 
 	/**
 	 * @param array &$tag_options
 	 */
-	protected function initTagOptions( array &$tag_options ) {
-
-	}
-
-	/**
-	 *
-	 */
-	public function end() {
-		if(!$this->is_pair) {
-			return '';
-		}
-
-		return '</'.$this->getTag().'>'.JET_EOL;
-	}
-
-	/**
-	 * @param callable $custom_renderer
-	 */
-	public function setCustomRenderer($custom_renderer)
+	protected function initTagOptions( array &$tag_options )
 	{
-		$this->custom_renderer = $custom_renderer;
+
 	}
 
-
-
 	/**
-	 * @return string
+	 * @return bool
 	 */
-	abstract public function render();
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function getHasContent()
 	{
-		if($this->custom_renderer) {
-			$cr = $this->custom_renderer;
+		return $this->has_content;
+	}
 
-			return $cr( $this );
-		}
-		return $this->render();
+	/**
+	 * @return bool
+	 */
+	public function isPair()
+	{
+		return $this->is_pair;
 	}
 
 }

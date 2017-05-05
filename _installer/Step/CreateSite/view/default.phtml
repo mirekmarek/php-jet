@@ -8,31 +8,31 @@ use Jet\Form;
 /**
  * @var Mvc_View $this
  * @var Mvc_Site $site
- * @var Form $main_form
+ * @var Form     $main_form
  */
 
-$main_form = $this->getRaw('main_form');
+$main_form = $this->getRaw( 'main_form' );
 
-$main_form->setDefaultLabelWidth(2);
+$main_form->setDefaultLabelWidth( 2 );
 
-$site = $this->getRaw('site');
+$site = $this->getRaw( 'site' );
 
 ?>
 
 <?=$main_form->start()?>
-	<?=$main_form->message()?>
-	<fieldset>
-		<?php foreach( $site->getLocales() as $locale ): ?>
+<?=$main_form->message()?>
+<fieldset>
+	<?php foreach( $site->getLocales() as $locale ): ?>
 
-			<legend><?=$locale->getName();?></legend>
+		<legend><?=$locale->getName();?></legend>
 
 
-			<?=$main_form->field('/'.$locale.'/nonSSL')?>
-			<?=$main_form->field('/'.$locale.'/SSL')?>
+		<?=$main_form->field( '/'.$locale.'/nonSSL' )?>
+		<?=$main_form->field( '/'.$locale.'/SSL' )?>
 
-		<?php endforeach; ?>
+	<?php endforeach; ?>
 
-		<?php Installer::buttonNext()?>
-	</fieldset>
+	<?php Installer::buttonNext() ?>
+</fieldset>
 <?=$main_form->end()?>
 

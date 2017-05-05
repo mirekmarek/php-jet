@@ -20,7 +20,8 @@ namespace Jet;
  * Model name: data_model_2_test_mock
  * @JetDataModel:N_model_class_name = 'Jet\\DataModel_Query_DataModel2TestMock'
  */
-class DataModel_Query_DataModelRelatedMTONTestMock extends DataModel_Related_MtoN {
+class DataModel_Query_DataModelRelatedMTONTestMock extends DataModel_Related_MtoN
+{
 
 	/**
 	 * @JetDataModel:type = DataModel::TYPE_ID

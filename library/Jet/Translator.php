@@ -11,7 +11,8 @@ namespace Jet;
  * Class Translator
  * @package Jet
  */
-class Translator extends BaseObject {
+class Translator extends BaseObject
+{
 
 	const COMMON_NAMESPACE = '_COMMON_';
 
@@ -31,7 +32,7 @@ class Translator extends BaseObject {
 	protected static $current_locale;
 
 	/**
-	 * 
+	 *
 	 * @var Translator_Backend_Abstract
 	 */
 	protected static $backend;
@@ -40,6 +41,165 @@ class Translator extends BaseObject {
 	 * @var Translator_Dictionary[]
 	 */
 	protected static $dictionaries = [];
+
+	/**
+	 *
+	 * @return string
+	 */
+	public static function getCurrentNamespace()
+	{
+		return static::$current_namespace;
+	}
+
+	/**
+	 *
+	 * @param string $current_namespace
+	 */
+	public static function setCurrentNamespace( $current_namespace )
+	{
+		static::$current_namespace = $current_namespace;
+	}
+
+	/**
+	 *
+	 * @return Locale
+	 */
+	public static function getCurrentLocale()
+	{
+		if( !static::$current_locale ) {
+			static::$current_locale = Mvc::getCurrentLocale();
+		}
+
+		return static::$current_locale;
+	}
+
+	/**
+	 *
+	 * @param Locale $current_locale
+	 */
+	public static function setCurrentLocale( Locale $current_locale )
+	{
+		static::$current_locale = $current_locale;
+	}
+
+	/**
+	 *
+	 */
+	public static function saveUpdatedDictionaries()
+	{
+		$backend = static::getBackend();
+
+		foreach( static::$dictionaries as $dictionary ) {
+			if( $dictionary->saveRequired() ) {
+				$backend->saveDictionary( $dictionary );
+			}
+		}
+	}
+
+	/**
+	 * Gets translator backend instance
+	 *
+	 * @return Translator_Backend_Abstract
+	 */
+	public static function getBackend()
+	{
+		if( static::$backend===null ) {
+			static::$backend = new Translator_Backend_PHPFiles();
+
+			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
+		}
+
+		return static::$backend;
+	}
+
+	/**
+	 *
+	 * @param Translator_Backend_Abstract $backend
+	 */
+	public static function setBackend( Translator_Backend_Abstract $backend )
+	{
+		if( static::$backend===null ) {
+			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
+		}
+		static::$backend = $backend;
+	}
+
+	/**
+	 * Gets translation of given text
+	 *
+	 * @param string $text
+	 * @param array  $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param string $namespace (optional)
+	 * @param string $locale (optional) - target locale
+	 *
+	 * @return string
+	 */
+	public static function _( $text, $data = [], $namespace = null, $locale = null )
+	{
+		return static::getTranslation( $text, $data, $namespace, $locale );
+	}
+
+	/**
+	 * Gets translation of given text
+	 *
+	 *
+	 * @param string        $phrase
+	 * @param array         $data (optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
+	 * @param string        $namespace (optional)
+	 * @param string|Locale $locale (optional) - target locale
+	 *
+	 * @return string
+	 */
+	public static function getTranslation( $phrase, $data = [], $namespace = null, $locale = null )
+	{
+
+		if( !$namespace ) {
+			$namespace = static::$current_namespace;
+		}
+
+		if( $locale===null ) {
+			$locale = static::$current_locale;
+		}
+
+		if( !$namespace||!$locale ) {
+			return Data_Text::replaceData( $phrase, $data );
+		}
+
+		if( is_string( $locale ) ) {
+			$locale = new Locale( $locale );
+		}
+
+		$dictionary = static::loadDictionary( $namespace, $locale );
+
+		$translation = $dictionary->getTranslation( $phrase, static::getAutoAppendUnknownPhrase() );
+
+
+		if( $data ) {
+			$translation = Data_Text::replaceData( $translation, $data );
+		}
+
+		return $translation;
+
+	}
+
+	/**
+	 *
+	 * @param string $namespace
+	 * @param Locale $locale
+	 * @param bool   $force_load (optional, default: false)
+	 *
+	 * @return Translator_Dictionary
+	 */
+	public static function loadDictionary( $namespace, Locale $locale, $force_load = false )
+	{
+		$dictionary_key = $namespace.':'.$locale;
+
+		if( !isset( static::$dictionaries[$dictionary_key] )||$force_load ) {
+			static::$dictionaries[$dictionary_key] = static::getBackend()->loadDictionary( $namespace, $locale );
+		}
+
+		return static::$dictionaries[$dictionary_key];
+	}
 
 	/**
 	 * @return bool
@@ -52,163 +212,9 @@ class Translator extends BaseObject {
 	/**
 	 * @param bool $auto_append_unknown_phrase
 	 */
-	public static function setAutoAppendUnknownPhrase($auto_append_unknown_phrase)
+	public static function setAutoAppendUnknownPhrase( $auto_append_unknown_phrase )
 	{
 		self::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
-	}
-
-
-	/**
-	 *
-	 * @return string
-	 */
-	public static function getCurrentNamespace() {
-		return static::$current_namespace;
-	}
-
-	/**
-	 *
-	 * @param string $current_namespace
-	 */
-	public static function setCurrentNamespace($current_namespace) {
-		static::$current_namespace = $current_namespace;
-	}
-
-	/**
-	 *
-	 * @return Locale
-	 */
-	public static function getCurrentLocale() {
-		if(!static::$current_locale) {
-			static::$current_locale = Mvc::getCurrentLocale();
-		}
-		return static::$current_locale;
-	}
-
-	/**
-	 *
-	 * @param Locale $current_locale
-	 */
-	public static function setCurrentLocale( Locale $current_locale ) {
-		static::$current_locale = $current_locale;
-	}
-
-
-	/**
-	 * Gets translator backend instance
-	 * 
-	 * @return Translator_Backend_Abstract
-	 */
-	public static function getBackend(){
-		if(static::$backend === null){
-			static::$backend = new Translator_Backend_PHPFiles();
-
-			register_shutdown_function( [get_called_class(), 'saveUpdatedDictionaries']);
-		}
-		return static::$backend;
-	}
-
-	/**
-	 *
-	 * @param Translator_Backend_Abstract $backend
-	 */
-	public static function setBackend(Translator_Backend_Abstract $backend ) {
-		if(static::$backend === null){
-			register_shutdown_function( [get_called_class(), 'saveUpdatedDictionaries']);
-		}
-		static::$backend = $backend;
-	}
-
-	/**
-	 *
-	 */
-	public static function saveUpdatedDictionaries() {
-		$backend = static::getBackend();
-
-		foreach(static::$dictionaries as $dictionary) {
-			if($dictionary->saveRequired()) {
-				$backend->saveDictionary($dictionary);
-			}
-		}
-	}
-
-	/**
-	 * Gets translation of given text
-	 * 
-	 *
-	 * @param string $phrase
-	 * @param array $data(optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string $namespace(optional)
-	 * @param string|Locale $locale(optional) - target locale
-	 * @return string
-	 */
-	public static function getTranslation($phrase, $data= [], $namespace=null, $locale=null ){
-
-		if(!$namespace){
-			$namespace = static::$current_namespace;
-		}
-
-		if($locale === null){
-			$locale = static::$current_locale;
-		}
-
-		if(
-			!$namespace ||
-			!$locale
-		) {
-			return Data_Text::replaceData($phrase, $data);
-		}
-
-		if(is_string($locale)) {
-			$locale = new Locale($locale);
-		}
-
-		$dictionary = static::loadDictionary($namespace, $locale);
-
-		$translation = $dictionary->getTranslation($phrase, static::getAutoAppendUnknownPhrase() );
-
-
-		if($data){
-			$translation = Data_Text::replaceData($translation, $data);
-		}
-
-		return $translation;
-
-	}
-
-	/**
-	 * Gets translation of given text
-	 *
-	 * @param string $text
-	 * @param array $data(optional) - data that replace parts of text; input array('KEY1'=>'value1') replaces %KEY1% in text for value1
-	 * @param string $namespace(optional)
-	 * @param string $locale(optional) - target locale
-	 * @return string
-	 */
-	public static function _($text, $data= [], $namespace=null, $locale=null){
-		return static::getTranslation($text, $data, $namespace, $locale);
-	}
-
-
-	/**
-	 *
-	 * @param string $namespace
-	 * @param Locale $locale
-	 * @param bool $force_load (optional, default: false)
-	 *
-	 * @return Translator_Dictionary
-	 */
-	public static function loadDictionary($namespace, Locale $locale, $force_load=false) {
-		$dictionary_key = $namespace.':'.$locale;
-
-		if(
-			!isset(static::$dictionaries[$dictionary_key]) ||
-			$force_load
-		) {
-			static::$dictionaries[$dictionary_key] = static::getBackend()->loadDictionary($namespace, $locale);
-		}
-
-		return static::$dictionaries[$dictionary_key];
 	}
 
 

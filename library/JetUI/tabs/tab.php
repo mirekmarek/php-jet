@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 use Jet\Http_Request;
 
@@ -13,7 +14,8 @@ use Jet\Http_Request;
  * Class tabs_tab
  * @package JetUI
  */
-class tabs_tab extends BaseObject{
+class tabs_tab extends BaseObject
+{
 
 
 	/**
@@ -36,7 +38,7 @@ class tabs_tab extends BaseObject{
 	 * @param string $id
 	 * @param string $title
 	 */
-	public function __construct($id, $title)
+	public function __construct( $id, $title )
 	{
 		$this->id = $id;
 		$this->title = $title;
@@ -53,18 +55,9 @@ class tabs_tab extends BaseObject{
 	/**
 	 * @param bool $is_selected
 	 */
-	public function setIsSelected($is_selected)
+	public function setIsSelected( $is_selected )
 	{
 		$this->is_selected = $is_selected;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString() {
-		$url = Http_Request::getCurrentURI(['p'=>$this->id]);
-
-		return '<li'.($this->is_selected?' class="active"':'').'><a href="'.$url.'">'.$this->title.'</a></li>';
 	}
 
 	/**
@@ -73,6 +66,16 @@ class tabs_tab extends BaseObject{
 	public function __toString()
 	{
 		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		$url = Http_Request::getCurrentURI( [ 'p' => $this->id ] );
+
+		return '<li'.( $this->is_selected ? ' class="active"' : '' ).'><a href="'.$url.'">'.$this->title.'</a></li>';
 	}
 
 }

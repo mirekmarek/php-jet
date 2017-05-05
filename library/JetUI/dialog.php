@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 
 
@@ -35,9 +36,9 @@ class dialog extends BaseObject
 	 *
 	 * @param string $id
 	 * @param string $title
-	 * @param int $width
+	 * @param int    $width
 	 */
-	public function __construct($id, $title, $width)
+	public function __construct( $id, $title, $width )
 	{
 		$this->id = $id;
 		$this->title = $title;
@@ -71,38 +72,41 @@ class dialog extends BaseObject
 	/**
 	 *
 	 */
-	public function start() {
+	public function start()
+	{
 		?>
 		<div class="modal fade" id="<?=$this->id?>" role="dialog">
-			<div class="modal-dialog" style="width: <?=$this->width?>px;">
+		<div class="modal-dialog" style="width: <?=$this->width?>px;">
 
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title"><?=$this->title?></h4>
-				</div>
-				<div class="modal-body">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title"><?=$this->title?></h4>
+		</div>
+		<div class="modal-body">
 		<?php
 	}
 
 	/**
 	 *
 	 */
-	public function footer() {
-		?>
-				</div>
-				<div class="modal-footer">
-		<?php
-	}
+public function footer()
+{
+	?>
+	</div>
+	<div class="modal-footer">
+	<?php
+}
 
 	/**
 	 *
 	 */
-	public function end() {
+	public function end()
+	{
 		?>
-				</div>
-			</div>
-			</div>
+		</div>
+		</div>
+		</div>
 		</div>
 		<?php
 	}

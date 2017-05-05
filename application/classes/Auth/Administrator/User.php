@@ -14,7 +14,8 @@ use Jet\Locale;
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
  */
-class Auth_Administrator_User extends Auth_User{
+class Auth_Administrator_User extends Auth_User
+{
 
 	/**
 	 *
@@ -44,81 +45,73 @@ class Auth_Administrator_User extends Auth_User{
 	}
 
 	/**
+	 *
+	 */
+	public function resetPassword()
+	{
+
+		$password = static::generatePassword();
+
+		$this->setPassword( $password );
+		$this->setPasswordIsValid( false );
+		$this->save();
+
+		Mailing::sendTemplate(
+			$this->getEmail(), 'reset_password_administrator', [
+			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
+			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+		], $this->getLocale()
+		);
+
+	}
+
+	/**
 	 * @return string
 	 */
-	public static function generatePassword() {
+	public static function generatePassword()
+	{
 		srand();
 		$password = '';
-		$length = rand(8, 12);
+		$length = rand( 8, 12 );
 
 		$chars = [
-			0,1,2,3,4,5,6,7,8,9,
-			'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-			'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-			'@','#','$','%','&','*'
+			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+			'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '@', '#', '$', '%', '&',
+			'*',
 		];
 
-		for($l = 0; $l < $length; $l++) {
-			$password .= $chars[rand(1, count($chars))-1];
+		for( $l = 0; $l<$length; $l++ ) {
+			$password .= $chars[rand( 1, count( $chars ) )-1];
 		}
 
 		return $password;
 	}
 
 	/**
-	 *
-	 */
-	public function resetPassword() {
-
-		$password = static::generatePassword();
-
-		$this->setPassword($password);
-		$this->setPasswordIsValid(false);
-		$this->save();
-
-		Mailing::sendTemplate(
-			$this->getEmail(),
-			'reset_password_administrator',
-			[
-				'USERNAME' => $this->getUsername(),
-				'PASSWORD' => $password,
-				'NAME' => $this->getName(),
-				'SURNAME' => $this->getSurname(),
-				'EMAIL' => $this->getEmail()
-			],
-			$this->getLocale()
-		);
-
-	}
-
-	/**
 	 * @param string $password
 	 */
-	public function sendWelcomeEmail( $password ) {
+	public function sendWelcomeEmail( $password )
+	{
 		Mailing::sendTemplate(
-			$this->getEmail(),
-			'welcome_user_administrator',
-			[
-				'USERNAME' => $this->getUsername(),
-				'PASSWORD' => $password,
-				'NAME' => $this->getName(),
-				'SURNAME' => $this->getSurname(),
-				'EMAIL' => $this->getEmail()
-			],
-			$this->getLocale()
+			$this->getEmail(), 'welcome_user_administrator', [
+			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
+			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+		], $this->getLocale()
 		);
 	}
 
 	/**
 	 * @param string $form_name
+	 *
 	 * @return Form
 	 */
-	public function getEditForm($form_name = '')
+	public function getEditForm( $form_name = '' )
 	{
-		$form = parent::getEditForm($form_name);
+		$form = parent::getEditForm( $form_name );
 
-		if($form->fieldExists('password')) {
-			$form->removeField('password');
+		if( $form->fieldExists( 'password' ) ) {
+			$form->removeField( 'password' );
 		}
 
 		return $form;
@@ -126,19 +119,20 @@ class Auth_Administrator_User extends Auth_User{
 
 	/**
 	 * @param string $form_name
+	 *
 	 * @return Form
 	 */
-	public function getRegistrationForm($form_name = '')
+	public function getRegistrationForm( $form_name = '' )
 	{
-		$form = parent::getEditForm($form_name);
+		$form = parent::getEditForm( $form_name );
 
 		foreach( $form->getFields() as $field ) {
-			if(!in_array($field->getName(), ['username', 'locale', 'password', 'email'])) {
-				$form->removeField($field->getName());
+			if( !in_array( $field->getName(), [ 'username', 'locale', 'password', 'email' ] ) ) {
+				$form->removeField( $field->getName() );
 			}
 		}
 
-		$form->getField('locale')->setDefaultValue(Locale::getCurrentLocale());
+		$form->getField( 'locale' )->setDefaultValue( Locale::getCurrentLocale() );
 
 		return $form;
 	}
@@ -146,10 +140,12 @@ class Auth_Administrator_User extends Auth_User{
 
 	/**
 	 * @param string $password
+	 *
 	 * @return bool
 	 */
-	public function verifyPasswordStrength( $password ) {
-		if(strlen($password)<5) {
+	public function verifyPasswordStrength( $password )
+	{
+		if( strlen( $password )<5 ) {
 			return false;
 		}
 

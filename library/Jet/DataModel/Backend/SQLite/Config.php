@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Backend_SQLite_Config
  * @package Jet
  */
-class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract {
+class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract
+{
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING
@@ -25,28 +26,28 @@ class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config_Abstract 
 	 */
 	protected $connection = '';
 
+	/**
+	 * @return array
+	 */
+	public static function getDbConnectionsList()
+	{
+		return Db_Config::getConnectionsList( Db::DRIVER_SQLITE );
+	}
 
 	/**
 	 * @return string
 	 */
-	public function getConnection() {
+	public function getConnection()
+	{
 		return $this->connection;
 	}
 
 	/**
 	 * @param string $connection
 	 */
-	public function setConnection($connection)
+	public function setConnection( $connection )
 	{
 		$this->connection = $connection;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public static function getDbConnectionsList() {
-		return Db_Config::getConnectionsList(Db::DRIVER_SQLITE);
 	}
 
 }

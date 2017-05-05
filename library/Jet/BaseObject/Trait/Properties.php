@@ -11,43 +11,45 @@ namespace Jet;
  * Class BaseObject_Trait_Properties
  * @package Jet
  */
-trait BaseObject_Trait_Properties {
+trait BaseObject_Trait_Properties
+{
 
-    /**
-     * @param $property_name
-     *
-     * @return bool
-     */
-    public function getObjectClassHasProperty($property_name ) {
-        if(
-            $property_name[0]=='_' ||
-            !property_exists($this, $property_name)
-        ) {
-            return false;
-        }
-        return true;
-    }
+	/**
+	 * @param string $property_name
+	 *
+	 * @return bool
+	 */
+	public function getObjectClassHasProperty( $property_name )
+	{
+		if( $property_name[0]=='_'||!property_exists( $this, $property_name ) ) {
+			return false;
+		}
 
-    /**
-     * @param $property_name
-     *
-     * @return string
-     */
-    public function getSetterMethodName( $property_name ) {
-        $setter_method_name = 'set'.str_replace('_', '', $property_name);
+		return true;
+	}
 
-        return $setter_method_name;
-    }
+	/**
+	 * @param string $property_name
+	 *
+	 * @return string
+	 */
+	public function getSetterMethodName( $property_name )
+	{
+		$setter_method_name = 'set'.str_replace( '_', '', $property_name );
 
-    /**
-     * @param $property_name
-     *
-     * @return string
-     */
-    public function getGetterMethodName( $property_name ) {
-        $setter_method_name = 'get'.str_replace('_', '', $property_name);
+		return $setter_method_name;
+	}
 
-        return $setter_method_name;
-    }
+	/**
+	 * @param string $property_name
+	 *
+	 * @return string
+	 */
+	public function getGetterMethodName( $property_name )
+	{
+		$setter_method_name = 'get'.str_replace( '_', '', $property_name );
+
+		return $setter_method_name;
+	}
 
 }

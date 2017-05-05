@@ -15,78 +15,76 @@ use Jet\Form_Field_FileImage;
 /**
  *
  */
-class Controller_Admin_REST extends Mvc_Controller_REST {
+class Controller_Admin_REST extends Mvc_Controller_REST
+{
+	const ERR_CODE_NO_FILE = 'NoFile';
+	const ERR_CODE_IMAGE_ALREADY_EXISTS = 'ImageAlreadyExists';
+	const ERR_CODE_UNKNOWN_ERROR = 'UnknownError';
+	/**
+	 * @var array
+	 */
+	protected static $ACL_actions_check_map = [
+		'default'             => Main::ACTION_GET_IMAGE, 'get_image' => Main::ACTION_GET_IMAGE,
+		'get_image_thumbnail' => Main::ACTION_GET_IMAGE, 'post_image' => Main::ACTION_ADD_IMAGE,
+		'delete_image'        => Main::ACTION_DELETE_IMAGE, 'put_copy_image' => Main::ACTION_ADD_IMAGE,
+
+		'get_gallery'           => Main::ACTION_GET_GALLERY, 'get_gallery_tree' => Main::ACTION_GET_GALLERY,
+		'get_gallery_tree_lazy' => Main::ACTION_GET_GALLERY, 'post_gallery' => Main::ACTION_ADD_GALLERY,
+		'put_gallery'           => Main::ACTION_UPDATE_GALLERY, 'delete_gallery' => Main::ACTION_DELETE_GALLERY,
+	];
+	protected static $errors = [
+		self::ERR_CODE_AUTHORIZATION_REQUIRED           => [
+			Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! ',
+		], self::ERR_CODE_ACCESS_DENIED                 => [
+			Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! ',
+		], self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => [
+			Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type',
+		], self::ERR_CODE_FORM_ERRORS                   => [
+			Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form',
+		], self::ERR_CODE_UNKNOWN_ITEM                  => [ Http_Headers::CODE_404_NOT_FOUND, 'Unknown item' ],
+
+		self::ERR_CODE_NO_FILE              => [ Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent' ],
+		self::ERR_CODE_IMAGE_ALREADY_EXISTS => [ Http_Headers::CODE_409_CONFLICT, 'Image already uploaded' ],
+		self::ERR_CODE_UNKNOWN_ERROR        => [ Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error' ],
+	];
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
 
-	const ERR_CODE_NO_FILE = 'NoFile';
-	const ERR_CODE_IMAGE_ALREADY_EXISTS = 'ImageAlreadyExists';
-	const ERR_CODE_UNKNOWN_ERROR = 'UnknownError';
-
-	/**
-	 * @var array
-	 */
-	protected static $ACL_actions_check_map = [
-		'default' => Main::ACTION_GET_IMAGE,
-		'get_image' => Main::ACTION_GET_IMAGE,
-		'get_image_thumbnail' => Main::ACTION_GET_IMAGE,
-		'post_image' => Main::ACTION_ADD_IMAGE,
-		'delete_image' => Main::ACTION_DELETE_IMAGE,
-		'put_copy_image' => Main::ACTION_ADD_IMAGE,
-
-		'get_gallery' => Main::ACTION_GET_GALLERY,
-		'get_gallery_tree' => Main::ACTION_GET_GALLERY,
-		'get_gallery_tree_lazy' => Main::ACTION_GET_GALLERY,
-		'post_gallery' => Main::ACTION_ADD_GALLERY,
-		'put_gallery' => Main::ACTION_UPDATE_GALLERY,
-		'delete_gallery' => Main::ACTION_DELETE_GALLERY
-	];
-
-	protected static $errors = [
-		self::ERR_CODE_AUTHORIZATION_REQUIRED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Authorization required! '],
-		self::ERR_CODE_ACCESS_DENIED => [Http_Headers::CODE_401_UNAUTHORIZED, 'Access denied! Insufficient permissions! '],
-		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => [Http_Headers::CODE_400_BAD_REQUEST, 'Unsupported data Content-Type'],
-		self::ERR_CODE_FORM_ERRORS => [Http_Headers::CODE_400_BAD_REQUEST, 'There are errors in form'],
-		self::ERR_CODE_UNKNOWN_ITEM => [Http_Headers::CODE_404_NOT_FOUND, 'Unknown item'],
-
-		self::ERR_CODE_NO_FILE => [Http_Headers::CODE_406_NOT_ACCEPTABLE, 'No file sent'],
-		self::ERR_CODE_IMAGE_ALREADY_EXISTS => [Http_Headers::CODE_409_CONFLICT, 'Image already uploaded'],
-		self::ERR_CODE_UNKNOWN_ERROR => [Http_Headers::CODE_400_BAD_REQUEST, 'Unknown error'],
-	];
-
 	/**
 	 *
 	 */
-	public function default_Action() {
+	public function default_Action()
+	{
 
 	}
 
 	/**
 	 * @param null|int $id
 	 */
-	public function get_image_Action( $id=null ) {
-		if($id) {
-			$image = $this->_getImage($id);
-			$this->responseData($image);
+	public function get_image_Action( $id = null )
+	{
+		if( $id ) {
+			$image = $this->_getImage( $id );
+			$this->responseData( $image );
 		} else {
-			$gallery_id = Http_Request::GET()->getString('gallery_id');
+			$gallery_id = Http_Request::GET()->getString( 'gallery_id' );
 
 
-			$thumbnail_max_size_w = Http_Request::GET()->getInt('thumbnail_max_size_w', Config::getDefaultThbMaxW() );
-			$thumbnail_max_size_h = Http_Request::GET()->getInt('thumbnail_max_size_h', Config::getDefaultThbMaxH() );
+			$thumbnail_max_size_w = Http_Request::GET()->getInt( 'thumbnail_max_size_w', Config::getDefaultThbMaxW() );
+			$thumbnail_max_size_h = Http_Request::GET()->getInt( 'thumbnail_max_size_h', Config::getDefaultThbMaxH() );
 
 			$list = Gallery_Image::getListAsData( $gallery_id );
-			if($thumbnail_max_size_w>0 && $thumbnail_max_size_h>0) {
+			if( $thumbnail_max_size_w>0&&$thumbnail_max_size_h>0 ) {
 				$list->setArrayWalkCallback(
-					function( &$image_data )
-					use ($thumbnail_max_size_w, $thumbnail_max_size_h)
-					{
-						$image = Gallery_Image::get($image_data['id']);
+					function( &$image_data ) use ( $thumbnail_max_size_w, $thumbnail_max_size_h ) {
+						$image = Gallery_Image::get( $image_data['id'] );
 
-						$image_data['thumbnail_URI'] = $image->getThumbnail($thumbnail_max_size_w, $thumbnail_max_size_h)->getURI();
+						$image_data['thumbnail_URI'] = $image->getThumbnail(
+							$thumbnail_max_size_w, $thumbnail_max_size_h
+						)->getURI();
 					}
 				);
 			}
@@ -97,29 +95,46 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	}
 
 	/**
+	 * @param $id
+	 *
+	 * @return Gallery_Image
+	 */
+	protected function _getImage( $id )
+	{
+		$gallery = Gallery_Image::get( $id );
+
+		if( !$gallery ) {
+			$this->responseUnknownItem( $id );
+		}
+
+		return $gallery;
+	}
+
+	/**
 	 * @param string $gallery_id
 	 */
-	public function post_image_Action( $gallery_id ) {
-		$gallery = $this->_getGallery($gallery_id);
+	public function post_image_Action( $gallery_id )
+	{
+		$gallery = $this->_getGallery( $gallery_id );
 
 		$upload_form = $gallery->getUploadForm();
 
 		/**
 		 * @var Form_Field_FileImage $image_field
 		 */
-		$image_field = $upload_form->getField('file');
+		$image_field = $upload_form->getField( 'file' );
 
 		$image_field->setMaximalSize(
-            Config::getDefaultMaxW(),
-            Config::getDefaultMaxH()
+			Config::getDefaultMaxW(), Config::getDefaultMaxH()
 		);
 
-		if( ($image=$gallery->catchUploadForm( $upload_form, true )) ) {
-			$this->logAllowedAction( 'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image );
+		if( ( $image = $gallery->catchUploadForm( $upload_form, true ) ) ) {
+			$this->logAllowedAction(
+				'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image
+			);
 
 			$image->getThumbnail(
-                Config::getDefaultThbMaxW(),
-                Config::getDefaultThbMaxH()
+				Config::getDefaultThbMaxW(), Config::getDefaultThbMaxH()
 			);
 
 			$this->responseOK();
@@ -131,31 +146,43 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	}
 
 	/**
+	 * @param $id
+	 *
+	 * @return Gallery
+	 */
+	protected function _getGallery( $id )
+	{
+		$gallery = Gallery::get( $id );
+
+		if( !$gallery ) {
+			$this->responseUnknownItem( $id );
+		}
+
+		return $gallery;
+	}
+
+	/**
 	 * @param string $image_id
 	 */
-	public function put_copy_image_Action( $image_id ) {
+	public function put_copy_image_Action( $image_id )
+	{
 		$image = $this->_getImage( $image_id );
 		$data = $this->getRequestData();
 		$gallery = $this->_getGallery( $data['target_gallery_id'] );
 
-        if(
-            (
-                !isset($data['overwrite_if_exists']) ||
-                !$data['overwrite_if_exists']
-            )
-            &&
-            $gallery->getImageExists($image->getFileName())
-        ) {
-	        $this->logAllowedAction( 'Image copied', $image->getIdObject()->toString(), $image->getFileName(), $image );
+		if( ( !isset( $data['overwrite_if_exists'] )||!$data['overwrite_if_exists'] )&&$gallery->getImageExists(
+				$image->getFileName()
+			)
+		) {
+			$this->logAllowedAction( 'Image copied', $image->getIdObject()->toString(), $image->getFileName(), $image );
 
-            $this->responseOK();
-        }
+			$this->responseOK();
+		}
 
 		$image = $gallery->addImage( $image->getFilePath(), $image->getFileName(), true );
 
 		$image->getThumbnail(
-            Config::getDefaultThbMaxW(),
-            Config::getDefaultThbMaxH()
+			Config::getDefaultThbMaxW(), Config::getDefaultThbMaxH()
 		);
 
 		$this->responseOK();
@@ -164,8 +191,9 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 * @param string $image_id
 	 */
-	public function delete_image_Action( $image_id ) {
-		$image = $this->_getImage($image_id);
+	public function delete_image_Action( $image_id )
+	{
+		$image = $this->_getImage( $image_id );
 
 		$this->logAllowedAction( 'Image deleted', $image->getIdObject()->toString(), $image->getFileName(), $image );
 
@@ -175,32 +203,33 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 
 	/**
 	 * @param string $image_id
-	 * @param int $maximal_size_w
-	 * @param int $maximal_size_h
+	 * @param int    $maximal_size_w
+	 * @param int    $maximal_size_h
 	 */
-	public function get_image_thumbnail_Action( $image_id, $maximal_size_w, $maximal_size_h ) {
+	public function get_image_thumbnail_Action( $image_id, $maximal_size_w, $maximal_size_h )
+	{
 		$maximal_size_w = (int)$maximal_size_w;
 		$maximal_size_h = (int)$maximal_size_h;
 
-		if(!$maximal_size_w || !$maximal_size_h) {
-			$this->responseUnknownItem($image_id);
+		if( !$maximal_size_w||!$maximal_size_h ) {
+			$this->responseUnknownItem( $image_id );
 		}
 
-		$image = $this->_getImage($image_id);
+		$image = $this->_getImage( $image_id );
 
-		$URI = $image->getThumbnail($maximal_size_w, $maximal_size_h)->getURI();
+		$URI = $image->getThumbnail( $maximal_size_w, $maximal_size_h )->getURI();
 
 		Http_Headers::movedPermanently( $URI );
 	}
 
-
 	/**
 	 * @param null|int $id
 	 */
-	public function get_gallery_Action( $id=null ) {
-		if($id) {
-			$gallery = $this->_getGallery($id);
-			$this->responseData($gallery);
+	public function get_gallery_Action( $id = null )
+	{
+		if( $id ) {
+			$gallery = $this->_getGallery( $id );
+			$this->responseData( $gallery );
 		} else {
 			$this->responseData( Gallery::getTree() );
 		}
@@ -209,29 +238,30 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 * @param string $parent_id (optional)
 	 */
-	public function get_gallery_tree_lazy_action( $parent_id="" ) {
+	public function get_gallery_tree_lazy_action( $parent_id = "" )
+	{
 		$tree = Gallery::getTree();
 
-		if($parent_id) {
+		if( $parent_id ) {
 			$node = $tree->getNode( $parent_id );
-			if(!$node) {
+			if( !$node ) {
 				$this->responseUnknownItem( $parent_id );
 			}
 
-			$tree->setRootNode($node);
+			$tree->setRootNode( $node );
 
 		}
-		$tree->setLazyMode(true);
+		$tree->setLazyMode( true );
 
 		$this->responseData( $tree );
 
 	}
 
-
 	/**
 	 *
 	 */
-	public function get_gallery_tree_action() {
+	public function get_gallery_tree_action()
+	{
 		$tree = Gallery::getTree();
 
 		$this->responseData( $tree );
@@ -241,17 +271,18 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 *
 	 */
-	public function post_gallery_Action() {
+	public function post_gallery_Action()
+	{
 		$gallery = Gallery::getNew();
 
 		$form = $gallery->getCommonForm();
 
-		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
+		if( $gallery->catchForm( $form, $this->getRequestData(), true ) ) {
 			$this->logAllowedAction( 'Gallery created', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 			$gallery->save();
 
-			$this->responseData($gallery);
+			$this->responseData( $gallery );
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
 		}
@@ -261,17 +292,18 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 * @param $id
 	 */
-	public function put_gallery_Action( $id ) {
-		$gallery = $this->_getGallery($id);
+	public function put_gallery_Action( $id )
+	{
+		$gallery = $this->_getGallery( $id );
 
 		$form = $gallery->getCommonForm();
 
-		if($gallery->catchForm( $form, $this->getRequestData(), true )) {
+		if( $gallery->catchForm( $form, $this->getRequestData(), true ) ) {
 			$this->logAllowedAction( 'Gallery updated', $gallery->getId(), $gallery->getTitle(), $gallery );
 
 			$gallery->save();
 
-			$this->responseData($gallery);
+			$this->responseData( $gallery );
 		} else {
 			$this->responseFormErrors( $form->getAllErrors() );
 		}
@@ -280,8 +312,9 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 	/**
 	 * @param string $id
 	 */
-	public function delete_gallery_Action( $id ) {
-		$gallery = $this->_getGallery($id);
+	public function delete_gallery_Action( $id )
+	{
+		$gallery = $this->_getGallery( $id );
 
 		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );
 
@@ -289,34 +322,6 @@ class Controller_Admin_REST extends Mvc_Controller_REST {
 
 		$this->responseOK();
 
-	}
-
-	/**
-	 * @param $id
-	 * @return Gallery
-	 */
-	protected  function _getGallery($id) {
-		$gallery = Gallery::get($id);
-
-		if(!$gallery) {
-			$this->responseUnknownItem($id);
-		}
-
-		return $gallery;
-	}
-
-	/**
-	 * @param $id
-	 * @return Gallery_Image
-	 */
-	protected  function _getImage($id) {
-		$gallery = Gallery_Image::get($id);
-
-		if(!$gallery) {
-			$this->responseUnknownItem($id);
-		}
-
-		return $gallery;
 	}
 
 }

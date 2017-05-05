@@ -10,7 +10,8 @@ namespace Jet;
 /** @noinspection PhpIncludeInspection */
 require_once '_mock/Jet/DataModel/Definition/DataModelTestMock.php';
 
-class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase {
+class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
+{
 	/**
 	 * @var DataModel_Definition_DataModelTestMock
 	 */
@@ -28,43 +29,49 @@ class DataModel_Definition_Property_DateTest extends \PHPUnit_Framework_TestCase
 	protected $property_options = [];
 
 	/**
+	 * @covers \Jet\DataModel_Definition_Property_Date::checkValueType
+	 */
+	public function testCheckValueType()
+	{
+		$date = '1980-08-13';
+		$this->object->checkValueType( $date );
+
+		$date_object = new Data_DateTime( '1980-08-13' );
+		$this->assertEquals( $date_object, $date );
+	}
+
+	/**
+	 * @covers \Jet\DataModel_Definition_Property_Date::getValueForJsonSerialize
+	 */
+	public function testGetValueForJsonSerialize()
+	{
+		$date_object = new Data_DateTime( '1980-08-13' );
+		$value = $this->object->getValueForJsonSerialize( $this->data_model, $date_object );
+		$this->assertEquals( $date_object->toString(), $value );
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
-	protected function setUp() {
+	protected function setUp()
+	{
 		$class_name = __NAMESPACE__.'\\'.$this->property_class_name;
 
 		$this->data_model = new DataModel_Definition_DataModelTestMock();
 
-		$this->property_options = $this->data_model->_test_get_property_options($this->property_name);
+		$this->property_options = $this->data_model->_test_get_property_options( $this->property_name );
 
-		$this->object = new $class_name( get_class($this->data_model), $this->property_name, $this->property_options );
+		$this->object = new $class_name(
+			get_class( $this->data_model ), $this->property_name, $this->property_options
+		);
 	}
 
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
-	protected function tearDown() {
-	}
-
-	/**
-	 * @covers \Jet\DataModel_Definition_Property_Date::checkValueType
-	 */
-	public function testCheckValueType() {
-		$date = '1980-08-13';
-		$this->object->checkValueType($date);
-
-		$date_object = new Data_DateTime('1980-08-13');
-		$this->assertEquals($date_object, $date);
-	}
-
-	/**
-	 * @covers \Jet\DataModel_Definition_Property_Date::getValueForJsonSerialize
-	 */
-	public function testGetValueForJsonSerialize() {
-		$date_object = new Data_DateTime('1980-08-13');
-		$value = $this->object->getValueForJsonSerialize($this->data_model, $date_object);
-		$this->assertEquals($date_object->toString(), $value);
+	protected function tearDown()
+	{
 	}
 }

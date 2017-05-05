@@ -11,7 +11,8 @@ namespace Jet;
  * Class Config_Definition_Property_Bool
  * @package Jet
  */
-class Config_Definition_Property_Bool extends Config_Definition_Property_Abstract {
+class Config_Definition_Property_Bool extends Config_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -25,13 +26,14 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 
 	/**
 	 * @param array|null $definition_data
+	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp(array $definition_data = null )
+	public function setUp( array $definition_data = null )
 	{
-		parent::setUp($definition_data);
+		parent::setUp( $definition_data );
 
-		if($this->form_field_type===null) {
+		if( $this->form_field_type===null ) {
 			$this->form_field_type = Form::TYPE_CHECKBOX;
 		}
 	}
@@ -39,7 +41,8 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
 		$value = (bool)$value;
 	}
 
@@ -52,7 +55,8 @@ class Config_Definition_Property_Bool extends Config_Definition_Property_Abstrac
 	 * @throws Config_Exception
 	 * @return bool
 	 */
-	public function _validateProperties_test_required( &$value ) {
+	public function _validateProperties_test_required( &$value )
+	{
 		return true;
 	}
 

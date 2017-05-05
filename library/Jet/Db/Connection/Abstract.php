@@ -11,7 +11,8 @@ namespace Jet;
  * Class Db_Connection_Abstract
  * @package Jet
  */
-abstract class Db_Connection_Abstract extends \PDO implements BaseObject_Interface {
+abstract class Db_Connection_Abstract extends \PDO implements BaseObject_Interface
+{
 
 	use BaseObject_Trait;
 	use BaseObject_Trait_MagicGet;
@@ -27,73 +28,79 @@ abstract class Db_Connection_Abstract extends \PDO implements BaseObject_Interfa
 	/**
 	 * @param Db_Connection_Config_Abstract $config
 	 */
-	public function __construct( Db_Connection_Config_Abstract $config ) {
+	public function __construct( Db_Connection_Config_Abstract $config )
+	{
 
 		$this->config = $config;
 
 		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
 
-		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		$this->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 
 	}
 
 	/**
 	 * Close connection on exit
 	 */
-	public function __destruct() {
+	public function __destruct()
+	{
 		try {
 			$this->disconnect();
-		} catch(Exception $e){}
+		} catch( Exception $e ) {
+		}
 	}
+
+	/**
+	 *
+	 */
+	abstract public function disconnect();
 
 	/**
 	 *
 	 * @return Db_Connection_Config_Abstract
 	 */
-	public function getConfig(){
+	public function getConfig()
+	{
 		return $this->config;
 	}
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array  $query_data
 	 *
 	 * @return string
 	 */
-	public function prepareQuery($query, array $query_data= []) {
+	public function prepareQuery( $query, array $query_data = [] )
+	{
 
-		if(!$query_data){
+		if( !$query_data ) {
 			return $query;
 		}
 
 
 		$replacements = [];
 
-		foreach($query_data as $key => $value){
+		foreach( $query_data as $key => $value ) {
 
-			if($value === null){
+			if( $value===null ) {
 				$value = 'NULL';
-			} else
-			if(is_bool($value)){
+			} else if( is_bool( $value ) ) {
 				$value = $value ? 1 : 0;
-			} else
-			if(is_int($value) || is_float($value)){
+			} else if( is_int( $value )||is_float( $value ) ) {
 
 			} else {
-				$value = $this->quote((string)$value);
+				$value = $this->quote( (string)$value );
 
 			}
 
 			$replacements[':'.$key] = $value;
 		}
 
-		krsort($replacements, SORT_STRING);
+		krsort( $replacements, SORT_STRING );
 
 		return str_replace(
-			array_keys($replacements),
-			array_values($replacements),
-			$query
+			array_keys( $replacements ), array_values( $replacements ), $query
 		);
 
 	}
@@ -102,74 +109,69 @@ abstract class Db_Connection_Abstract extends \PDO implements BaseObject_Interfa
 	 * Executes command (INSERT, UPDATE, DELETE or CREATE, ...) and return affected rows
 	 *
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array  $query_data
 	 *
 	 * @return int
 	 */
-	abstract public function execCommand($query, array $query_data = []);
+	abstract public function execCommand( $query, array $query_data = [] );
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data (optional)
+	 * @param array  $query_data (optional)
+	 *
 	 * @return array
 	 */
-	abstract public function fetchAll($query, array $query_data = []);
+	abstract public function fetchAll( $query, array $query_data = [] );
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data (optional)
+	 * @param array  $query_data (optional)
 	 *
 	 * @return array|bool
 	 */
-	abstract public function fetchRow($query, array $query_data = []);
+	abstract public function fetchRow( $query, array $query_data = [] );
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data (optional)
+	 * @param array  $query_data (optional)
 	 * @param string $key_column (optional)
 	 *
 	 * @return array
 	 */
-	abstract public function fetchAssoc($query, array $query_data = [], $key_column = null);
+	abstract public function fetchAssoc( $query, array $query_data = [], $key_column = null );
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data (optional)
+	 * @param array  $query_data (optional)
 	 * @param string $column (optional, default: 1st column)
 	 *
 	 * @return array
 	 */
-	abstract function fetchCol($query, array $query_data = [], $column = null);
+	abstract function fetchCol( $query, array $query_data = [], $column = null );
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data (optional)
+	 * @param array  $query_data (optional)
 	 * @param string $key_column (optional, default: 1st column)
 	 * @param string $value_column (optional, default: 2nd column)
 	 *
 	 * @return array
 	 */
-	abstract public function fetchPairs($query, array $query_data = [], $key_column = null, $value_column = null);
+	abstract public function fetchPairs( $query, array $query_data = [], $key_column = null, $value_column = null );
 
 	/**
 	 *
 	 * @param string $query
-	 * @param array $query_data (optional)
+	 * @param array  $query_data (optional)
 	 * @param string $column (optional, default:1st column)
 	 *
 	 * @return mixed
 	 */
-	abstract public function fetchOne($query, array $query_data = [], $column = null);
-
-
-	/**
-	 *
-	 */
-	abstract public function disconnect();
+	abstract public function fetchOne( $query, array $query_data = [], $column = null );
 
 }

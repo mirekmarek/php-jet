@@ -11,29 +11,30 @@ namespace Jet;
  * Interface Auth_Role_Interface
  * @package Jet
  */
-interface Auth_Role_Interface extends BaseObject_Interface {
+interface Auth_Role_Interface extends BaseObject_Interface
+{
 
-    /**
-     * @param string|int $id
-     *
-     * @return Auth_Role_Interface
-     */
-    public static function get( $id );
+	/**
+	 * @param string|int $id
+	 *
+	 * @return Auth_Role_Interface
+	 */
+	public static function get( $id );
 
 	/**
 	 * @return Auth_Role_Interface[]
 	 */
 	public static function getList();
 
-    /**
+	/**
 	 * @return string
 	 */
 	public function toString();
 
-    /**
-     * @return string
-     */
-    public function getId();
+	/**
+	 * @return string
+	 */
+	public function getId();
 
 	/**
 	 * @return string
@@ -43,7 +44,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	/**
 	 * @param string $name
 	 */
-	public function setName($name);
+	public function setName( $name );
 
 	/**
 	 * @return string
@@ -53,7 +54,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	/**
 	 * @param string $description
 	 */
-	public function setDescription($description);
+	public function setDescription( $description );
 
 	/**
 	 * @return Auth_User_Interface[]
@@ -70,6 +71,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 * Returns privilege values or empty array if the role does not have the privilege
 	 *
 	 * @param string $privilege
+	 *
 	 * @return array
 	 */
 	public function getPrivilegeValues( $privilege );
@@ -85,7 +87,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 *
 	 * @param array $privileges
 	 */
-	public function setPrivileges(array $privileges);
+	public function setPrivileges( array $privileges );
 
 	/**
 	 * Example:
@@ -95,7 +97,7 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 *
 	 *
 	 * @param string $privilege
-	 * @param array $values
+	 * @param array  $values
 	 */
 	public function setPrivilege( $privilege, array $values );
 
@@ -115,11 +117,11 @@ interface Auth_Role_Interface extends BaseObject_Interface {
 	 * values: object_id_1
 	 *
 	 * @param string $privilege
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return bool
 	 */
 	public function getHasPrivilege( $privilege, $value );
-
 
 
 }

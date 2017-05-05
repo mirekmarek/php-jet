@@ -11,7 +11,8 @@ namespace Jet;
  * Class Db
  * @package Jet
  */
-class Db extends BaseObject {
+class Db extends BaseObject
+{
 	const DRIVER_MYSQL = 'mysql';
 	const DRIVER_SQLITE = 'sqlite';
 	const DRIVER_OCI = 'oci';
@@ -34,28 +35,9 @@ class Db extends BaseObject {
 	 * @return Db_Connection_Abstract
 	 * @throws Db_Exception
 	 */
-	public static function getConnection( $connection_name=null ){
-		return self::get($connection_name);
-	}
-
-	/**
-	 * @param string $connection_name
-	 * @param array $connection_config_data
-	 *
-	 * @return Db_Connection_Abstract
-	 */
-	public static function create( $connection_name, array $connection_config_data ) {
-		if(isset(static::$connections[$connection_name])){
-			return static::$connections[$connection_name];
-		}
-
-		$config = Db_Factory::getConnectionConfigInstance( $connection_config_data );
-		$connection = Db_Factory::getConnectionInstance( $config );
-
-		static::$connections[$connection_name] = $connection;
-
-		return $connection;
-
+	public static function getConnection( $connection_name = null )
+	{
+		return self::get( $connection_name );
 	}
 
 	/**
@@ -66,23 +48,23 @@ class Db extends BaseObject {
 	 * @return Db_Connection_Abstract
 	 * @throws Db_Exception
 	 */
-	public static function get( $connection_name=null ){
-		if(!$connection_name) {
+	public static function get( $connection_name = null )
+	{
+		if( !$connection_name ) {
 			$connection_name = static::getConfig()->getDefaultConnectionName();
 		}
 
-		if(isset(static::$connections[$connection_name])){
+		if( isset( static::$connections[$connection_name] ) ) {
 			return static::$connections[$connection_name];
 		}
 
 		$config = static::getConfig();
 
-		$connection_config = $config->getConnection($connection_name);
+		$connection_config = $config->getConnection( $connection_name );
 
-		if( !$connection_config ){
+		if( !$connection_config ) {
 			throw new Db_Exception(
-				'Connection \''.$connection_name.'\' does not exist',
-				Db_Exception::CODE_UNKNOWN_CONNECTION
+				'Connection \''.$connection_name.'\' does not exist', Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}
 
@@ -96,10 +78,33 @@ class Db extends BaseObject {
 	 *
 	 * @return Db_Config
 	 */
-	public static function getConfig(){
-		if(!static::$config) {
+	public static function getConfig()
+	{
+		if( !static::$config ) {
 			static::$config = new Db_Config();
 		}
+
 		return static::$config;
+	}
+
+	/**
+	 * @param string $connection_name
+	 * @param array  $connection_config_data
+	 *
+	 * @return Db_Connection_Abstract
+	 */
+	public static function create( $connection_name, array $connection_config_data )
+	{
+		if( isset( static::$connections[$connection_name] ) ) {
+			return static::$connections[$connection_name];
+		}
+
+		$config = Db_Factory::getConnectionConfigInstance( $connection_config_data );
+		$connection = Db_Factory::getConnectionInstance( $config );
+
+		static::$connections[$connection_name] = $connection;
+
+		return $connection;
+
 	}
 }

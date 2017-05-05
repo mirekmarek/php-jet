@@ -11,7 +11,8 @@ namespace Jet;
  * Class Locale
  * @package Jet
  */
-class Locale extends BaseObject {
+class Locale extends BaseObject
+{
 
 	/**
 	 * @var Locale
@@ -33,14 +34,14 @@ class Locale extends BaseObject {
 		'gd_GB', 'gl_ES', 'gsw_FR', 'gu_IN', 'ha_Latn_NG', 'he_IL', 'hi_IN', 'hr_BA', 'hr_HR', 'hsb_DE', 'hu_HU',
 		'hy_AM', 'id_ID', 'ig_NG', 'ii_CN', 'is_IS', 'it_CH', 'it_IT', 'iu_Cans_CA', 'iu_Latn_CA', 'ja_JP', 'ka_GE',
 		'kk_KZ', 'kl_GL', 'km_KH', 'kn_IN', 'kok_IN', 'ko_KR', 'ky_KG', 'lb_LU', 'lo_LA', 'lt_LT', 'lv_LV', 'mi_NZ',
-		'mk_MK', 'ml_IN', 'mn_MN', 'mn_Mong_CN', 'moh_CA', 'mr_IN', 'ms_BN', 'ms_MY', 'mt_MT', 'nb_NO', 'ne_NP', 'nl_BE',
-		'nl_NL', 'nn_NO', 'nso_ZA', 'oc_FR', 'or_IN', 'pa_IN', 'pl_PL', 'prs_AF', 'ps_AF', 'pt_BR', 'pt_PT', 'qut_GT',
-		'quz_BO', 'quz_EC', 'quz_PE', 'rm_CH', 'ro_RO', 'ru_RU', 'rw_RW', 'sah_RU', 'sa_IN', 'se_FI', 'se_NO', 'se_SE',
-		'si_LK', 'sk_SK', 'sl_SI', 'sma_NO', 'sma_SE', 'smj_NO', 'smj_SE', 'smn_FI', 'sms_FI', 'sq_AL', 'sr_Cyrl_BA',
-		'sr_Cyrl_CS', 'sr_Cyrl_ME', 'sr_Cyrl_RS', 'sr_Latn_BA', 'sr_Latn_CS', 'sr_Latn_ME', 'sr_Latn_RS', 'sv_FI',
-		'sv_SE', 'sw_KE', 'syr_SY', 'ta_IN', 'te_IN', 'tg_Cyrl_TJ', 'th_TH', 'tk_TM', 'tn_ZA', 'tr_TR', 'tt_RU',
-		'tzm_Latn_DZ', 'ug_CN', 'uk_UA', 'ur_PK', 'uz_Cyrl_UZ', 'uz_Latn_UZ', 'vi_VN', 'wo_SN', 'xh_ZA', 'yo_NG',
-		'zh_CN', 'zh_HK', 'zh_MO', 'zh_SG', 'zh_TW', 'zu_ZA'
+		'mk_MK', 'ml_IN', 'mn_MN', 'mn_Mong_CN', 'moh_CA', 'mr_IN', 'ms_BN', 'ms_MY', 'mt_MT', 'nb_NO', 'ne_NP',
+		'nl_BE', 'nl_NL', 'nn_NO', 'nso_ZA', 'oc_FR', 'or_IN', 'pa_IN', 'pl_PL', 'prs_AF', 'ps_AF', 'pt_BR', 'pt_PT',
+		'qut_GT', 'quz_BO', 'quz_EC', 'quz_PE', 'rm_CH', 'ro_RO', 'ru_RU', 'rw_RW', 'sah_RU', 'sa_IN', 'se_FI', 'se_NO',
+		'se_SE', 'si_LK', 'sk_SK', 'sl_SI', 'sma_NO', 'sma_SE', 'smj_NO', 'smj_SE', 'smn_FI', 'sms_FI', 'sq_AL',
+		'sr_Cyrl_BA', 'sr_Cyrl_CS', 'sr_Cyrl_ME', 'sr_Cyrl_RS', 'sr_Latn_BA', 'sr_Latn_CS', 'sr_Latn_ME', 'sr_Latn_RS',
+		'sv_FI', 'sv_SE', 'sw_KE', 'syr_SY', 'ta_IN', 'te_IN', 'tg_Cyrl_TJ', 'th_TH', 'tk_TM', 'tn_ZA', 'tr_TR',
+		'tt_RU', 'tzm_Latn_DZ', 'ug_CN', 'uk_UA', 'ur_PK', 'uz_Cyrl_UZ', 'uz_Latn_UZ', 'vi_VN', 'wo_SN', 'xh_ZA',
+		'yo_NG', 'zh_CN', 'zh_HK', 'zh_MO', 'zh_SG', 'zh_TW', 'zu_ZA',
 	];
 
 	/**
@@ -88,6 +89,98 @@ class Locale extends BaseObject {
 	protected $_currency_formatter = [];
 
 	/**
+	 *
+	 * @param string $locale
+	 */
+	public function __construct( $locale = null )
+	{
+		if( $locale ) {
+			$this->_setLocale( $locale );
+		}
+	}
+
+	/**
+	 * Returns date and time formatted by current locale
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 *
+	 * @return string
+	 */
+	public static function dateAndTime( Data_DateTime $date_and_time, $format = null )
+	{
+		return static::getCurrentLocale()->formatDateAndTime( $date_and_time, $format );
+	}
+
+	/**
+	 * Returns date and time formatted by locale
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 *
+	 * @return string
+	 */
+	public function formatDateAndTime( Data_DateTime $date_and_time, $format = null )
+	{
+		if( !$date_and_time ) {
+			return '';
+		}
+
+		if( !$format ) {
+			$format = \IntlDateFormatter::MEDIUM;
+		}
+
+		$fmt = new \IntlDateFormatter(
+			$this->locale, $format, \IntlDateFormatter::SHORT, $this->getTimeZone(), $this->getCalendar()
+		);
+
+		return $fmt->format( $date_and_time );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTimeZone()
+	{
+		if( !$this->_timezone ) {
+			$this->_timezone = date_default_timezone_get();
+		}
+
+		return $this->_timezone;
+	}
+
+	/**
+	 *
+	 * @param string $time_zone
+	 */
+	public function setTimeZone( $time_zone )
+	{
+		$this->_timezone = $time_zone;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCalendar()
+	{
+		if( $this->_calendar===null ) {
+			$this->_calendar = \IntlDateFormatter::GREGORIAN;
+		}
+
+		return $this->_calendar;
+	}
+
+	/**
+	 * @param int $calendar
+	 */
+	public function setCalendar( $calendar )
+	{
+		$this->_calendar = $calendar;
+	}
+
+	/**
 	 * @return Locale
 	 */
 	public static function getCurrentLocale()
@@ -98,34 +191,218 @@ class Locale extends BaseObject {
 	/**
 	 * @param Locale $current_locale
 	 */
-	public static function setCurrentLocale( Locale $current_locale)
+	public static function setCurrentLocale( Locale $current_locale )
 	{
 		static::$current_locale = $current_locale;
 	}
 
+	/**
+	 * Returns date formatted by current locale
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 *
+	 * @return string
+	 */
+	public static function date( Data_DateTime $date_and_time, $format = null )
+	{
+		return static::getCurrentLocale()->formatDate( $date_and_time, $format );
+	}
 
+	/**
+	 * Returns date formatted by locale
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 *
+	 * @return string
+	 */
+	public function formatDate( Data_DateTime $date_and_time, $format = null )
+	{
+		if( !$date_and_time ) {
+			return '';
+		}
+
+		if( !$format ) {
+			$format = \IntlDateFormatter::MEDIUM;
+		}
+
+
+		$fmt = new \IntlDateFormatter(
+			$this->locale, $format, \IntlDateFormatter::NONE, $this->getTimeZone(), $this->getCalendar()
+		);
+
+		return $fmt->format( $date_and_time );
+	}
+
+	/**
+	 * Format number according to current locale
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatInt($number)
+	 *
+	 * @param int $number
+	 *
+	 * @return string
+	 */
+	public static function int( $number )
+	{
+		return static::getCurrentLocale()->formatInt( $number );
+	}
+
+	/**
+	 * Format giving number according to locale
+	 *
+	 * @param int $number
+	 *
+	 * @return string
+	 */
+	public function formatInt( $number )
+	{
+
+		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL );
+
+		$f->setAttribute( \NumberFormatter::MIN_FRACTION_DIGITS, 0 );
+		$f->setAttribute( \NumberFormatter::MAX_FRACTION_DIGITS, 0 );
+
+		return $f->format( $number );
+	}
+
+	/**
+	 * Format number according to current locale
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits)
+	 *
+	 * @param float $number
+	 * @param int   $min_fraction_digits
+	 * @param int   $max_fraction_digits
+	 *
+	 * @return string
+	 */
+	public static function float( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
+	{
+		return static::getCurrentLocale()->formatFloat( $number, $min_fraction_digits, $max_fraction_digits );
+	}
+
+	/**
+	 * Format number according to locale
+	 *
+	 * @param float $number
+	 * @param int   $min_fraction_digits
+	 * @param int   $max_fraction_digits
+	 *
+	 * @return string
+	 */
+	public function formatFloat( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
+	{
+
+		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL );
+
+		$f->setAttribute( \NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits );
+		$f->setAttribute( \NumberFormatter::MAX_FRACTION_DIGITS, $max_fraction_digits );
+
+		return $f->format( $number );
+	}
+
+	/**
+	 * Format file or memory size according to current locale
+	 *
+	 * Example:
+	 *      65536 -> 64 KB
+	 *
+	 * @param int    $bytes
+	 * @param string $unit (optional, default: B)
+	 * @param int    $max_places (optional, default: 2) float precision
+	 * @param string $glue (optional,default: ' ') space between number and units
+	 *
+	 * @return string
+	 */
+	public static function size( $bytes, $unit = 'B', $max_places = 2, $glue = ' ' )
+	{
+		return static::getCurrentLocale()->formatSize( $bytes, $unit, $max_places, $glue );
+	}
+
+	/**
+	 * Format file or memory size
+	 *
+	 * Example:
+	 *      65536 -> 64 KB
+	 *
+	 *
+	 * @param int    $bytes
+	 * @param string $unit (optional, default: B)
+	 * @param int    $max_places (optional, default: 2) float precision
+	 * @param string $glue (optional,default: ' ') space between number and units
+	 *
+	 * @return string
+	 */
+	public function formatSize( $bytes, $unit = 'B', $max_places = 2, $glue = ' ' )
+	{
+
+		$units = [
+			$unit, 'K'.$unit, 'M'.$unit, 'B'.$unit, 'T'.$unit,
+		];
+
+		if( $bytes<=0 ) {
+			return '0'.$glue.$units[0];
+		}
+
+		$exp = (int)( log( $bytes, 1024 ) );
+
+		if( !isset( $units[$exp] ) ) {
+			return $bytes;
+		}
+
+		$dv = pow( 1024, $exp );
+		if( !$dv ) {
+			$dv = 1;
+		}
+
+		$bytes = $bytes/$dv;
+
+		return $this->formatFloat( $bytes, 0, $max_places ).$glue.$units[$exp];
+	}
 
 	/**
 	 *
-	 * @param string $locale
+	 * @param null|string|Locale $in_locale (optional, default: current locale)
+	 *
+	 * @return array
 	 */
-	public function __construct( $locale = null ) {
-		if($locale) {
-			$this->_setLocale( $locale );
+	public static function getAllLocalesList( $in_locale = null )
+	{
+		if( !$in_locale ) {
+			$in_locale = static::getCurrentLocale();
 		}
+
+		$result = [];
+
+		foreach( static::$all_locales as $locale ) {
+			$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
+		}
+
+		asort( $result );
+
+		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLocale()
+	{
+		return $this->locale;
 	}
 
 	/**
 	 * @param string $locale
 	 */
-	protected function _setLocale( $locale ) {
+	protected function _setLocale( $locale )
+	{
 
-		$data = \Locale::parseLocale($locale);
-		if(
-			$data &&
-			!empty($data['language']) &&
-			!empty($data['region'])
-		) {
+		$data = \Locale::parseLocale( $locale );
+		if( $data&&!empty( $data['language'] )&&!empty( $data['region'] ) ) {
 			$this->region = $data['region'];
 			$this->language = $data['language'];
 			$this->locale = $this->language.'_'.$this->region;
@@ -136,75 +413,34 @@ class Locale extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getTimeZone() {
-		if(!$this->_timezone) {
-			$this->_timezone = date_default_timezone_get();
-		}
-		return $this->_timezone;
-	}
-
-	/**
-	 *
-	 * @param string $time_zone
-	 */
-	public function setTimeZone( $time_zone ) {
-		$this->_timezone = $time_zone;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCalendar() {
-		if($this->_calendar===null) {
-			$this->_calendar = \IntlDateFormatter::GREGORIAN;
-		}
-
-		return $this->_calendar;
-	}
-
-	/**
-	 * @param int $calendar
-	 */
-	public function setCalendar($calendar) {
-		$this->_calendar = $calendar;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getLocale() {
-		return $this->locale;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRegion() {
+	public function getRegion()
+	{
 		return $this->region;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLanguage() {
+	public function getLanguage()
+	{
 		return $this->language;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function toString() {
-		return $this->locale;
+	public function __toString()
+	{
+		return $this->toString();
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function __toString() {
-		return $this->toString();
+	public function toString()
+	{
+		return $this->locale;
 	}
-
 
 	/**
 	 * Returns locale name (language name + region name) in locale
@@ -217,8 +453,9 @@ class Locale extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getName( $in_locale=null ) {
-		if(!$in_locale) {
+	public function getName( $in_locale = null )
+	{
+		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
 		}
 
@@ -236,8 +473,9 @@ class Locale extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getLanguageName( $in_locale=null ) {
-		if(!$in_locale) {
+	public function getLanguageName( $in_locale = null )
+	{
+		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
 		}
 
@@ -255,126 +493,13 @@ class Locale extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getRegionName( $in_locale=null ) {
-		if(!$in_locale) {
+	public function getRegionName( $in_locale = null )
+	{
+		if( !$in_locale ) {
 			$in_locale = static::getCurrentLocale();
 		}
 
 		return \Locale::getDisplayRegion( $this->locale, (string)$in_locale );
-	}
-
-
-	/**
-	 * Returns date and time formatted by locale
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public function formatDateAndTime(Data_DateTime $date_and_time, $format=null ) {
-		if(!$date_and_time){
-			return '';
-		}
-
-		if(!$format) {
-			$format=\IntlDateFormatter::MEDIUM;
-		}
-
-		$fmt = new \IntlDateFormatter(
-			$this->locale,
-			$format,
-			\IntlDateFormatter::SHORT,
-			$this->getTimeZone(),
-			$this->getCalendar()
-		);
-		return $fmt->format($date_and_time);
-	}
-
-	/**
-	 * Returns date and time formatted by current locale
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public static function dateAndTime(Data_DateTime $date_and_time, $format=null ) {
-		return static::getCurrentLocale()->formatDateAndTime($date_and_time, $format);
-	}
-
-	/**
-	 * Returns date formatted by locale
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public function formatDate(Data_DateTime $date_and_time, $format=null ) {
-		if(!$date_and_time){
-			return '';
-		}
-
-		if(!$format) {
-			$format=\IntlDateFormatter::MEDIUM;
-		}
-
-
-		$fmt = new \IntlDateFormatter(
-			$this->locale,
-			$format,
-			\IntlDateFormatter::NONE,
-			$this->getTimeZone(),
-			$this->getCalendar()
-		);
-
-		return $fmt->format($date_and_time);
-	}
-
-	/**
-	 * Returns date formatted by current locale
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public static function date(Data_DateTime $date_and_time, $format=null ) {
-		return static::getCurrentLocale()->formatDate($date_and_time, $format);
-	}
-
-	/**
-	 * Returns date formatted by locale
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public function formatTime(Data_DateTime $date_and_time, $format=null  ) {
-		if(!$date_and_time){
-			return '';
-		}
-
-		if(!$format) {
-			$format=\IntlDateFormatter::MEDIUM;
-		}
-
-
-		$fmt = new \IntlDateFormatter(
-			$this->locale,
-			\IntlDateFormatter::NONE,
-			$format,
-			$this->getTimeZone(),
-			$this->getCalendar()
-		);
-
-		return $fmt->format($date_and_time);
 	}
 
 	/**
@@ -383,120 +508,39 @@ class Locale extends BaseObject {
 	 * Alias of: Locale::getCurrentLocale()->formatTime($date_and_time)
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public function time(Data_DateTime $date_and_time, $format=null  ) {
-		return static::getCurrentLocale()->formatTime($date_and_time, $format);
+	public function time( Data_DateTime $date_and_time, $format = null )
+	{
+		return static::getCurrentLocale()->formatTime( $date_and_time, $format );
 	}
 
 	/**
-	 * Format giving number according to locale
+	 * Returns date formatted by locale
 	 *
-	 * @param int $number
-	 *
-	 * @return string
-	 */
-	public function formatInt( $number ) {
-
-		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL);
-
-		$f->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 0);
-		$f->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 0);
-
-		return $f->format($number);
-	}
-
-	/**
-	 * Format number according to current locale
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatInt($number)
-	 *
-	 * @param int $number
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
-	public static function int( $number ) {
-		return static::getCurrentLocale()->formatInt($number);
-	}
-
-	/**
-	 * Format number according to locale
-	 *
-	 * @param float $number
-	 * @param int $min_fraction_digits
-	 * @param int $max_fraction_digits
-	 *
-	 * @return string
-	 */
-	public function formatFloat( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
-
-		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL);
-
-		$f->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits);
-		$f->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $max_fraction_digits);
-
-		return $f->format($number);
-	}
-
-	/**
-	 * Format number according to current locale
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits)
-	 *
-	 * @param float $number
-	 * @param int $min_fraction_digits
-	 * @param int $max_fraction_digits
-	 *
-	 * @return string
-	 */
-	public static function float( $number, $min_fraction_digits=0, $max_fraction_digits=2 ) {
-		return static::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits);
-	}
-
-	/**
-	 * Format file or memory size
-	 *
-	 * Example:
-	 *      65536 -> 64 KB
-	 *
-	 *
-	 * @param int $bytes
-	 * @param string $unit (optional, default: B)
-	 * @param int $max_places (optional, default: 2) float precision
-	 * @param string $glue (optional,default: ' ') space between number and units
-	 *
-	 * @return string
-	 */
-	public function formatSize( $bytes, $unit = 'B', $max_places = 2, $glue=' ' ) {
-
-		$units = [
-			$unit,
-			'K'.$unit,
-			'M'.$unit,
-			'B'.$unit,
-			'T'.$unit
-		];
-
-		if( $bytes<=0){
-			return '0'.$glue.$units[0];
+	public function formatTime( Data_DateTime $date_and_time, $format = null )
+	{
+		if( !$date_and_time ) {
+			return '';
 		}
 
-		$exp = (int)(log($bytes, 1024));
-
-		if(!isset($units[$exp])) {
-			return $bytes;
+		if( !$format ) {
+			$format = \IntlDateFormatter::MEDIUM;
 		}
 
-		$dv = pow( 1024,$exp );
-		if(!$dv) {
-			$dv = 1;
-		}
 
-		$bytes = $bytes / $dv;
+		$fmt = new \IntlDateFormatter(
+			$this->locale, \IntlDateFormatter::NONE, $format, $this->getTimeZone(), $this->getCalendar()
+		);
 
-		return $this->formatFloat($bytes, 0, $max_places).$glue.$units[$exp];
+		return $fmt->format( $date_and_time );
 	}
 
 	/**
@@ -506,53 +550,17 @@ class Locale extends BaseObject {
 	 *
 	 * @return \NumberFormatter
 	 */
-	public function getCurrencyFormatter( $currency_code ) {
+	public function getCurrencyFormatter( $currency_code )
+	{
 
-		if(!isset($this->_currency_formatter[$currency_code])) {
-			$this->_currency_formatter[$currency_code] = new \NumberFormatter( $this.'@currency='.$currency_code, \NumberFormatter::CURRENCY );
+		if( !isset( $this->_currency_formatter[$currency_code] ) ) {
+			$this->_currency_formatter[$currency_code] = new \NumberFormatter(
+				$this.'@currency='.$currency_code, \NumberFormatter::CURRENCY
+			);
 		}
 
 		return $this->_currency_formatter[$currency_code];
 
-	}
-
-	/**
-	 * Format file or memory size according to current locale
-	 *
-	 * Example:
-	 *      65536 -> 64 KB
-	 *
-	 * @param int $bytes
-	 * @param string $unit (optional, default: B)
-	 * @param int $max_places (optional, default: 2) float precision
-	 * @param string $glue (optional,default: ' ') space between number and units
-	 *
-	 * @return string
-	 */
-	public static function size( $bytes, $unit = 'B', $max_places = 2, $glue=' ' ) {
-		return static::getCurrentLocale()->formatSize($bytes, $unit, $max_places, $glue);
-	}
-
-	/**
-	 *
-	 * @param null|string|Locale $in_locale (optional, default: current locale)
-	 *
-	 * @return array
-	 */
-	public static function getAllLocalesList( $in_locale=null ) {
-		if(!$in_locale) {
-			$in_locale = static::getCurrentLocale();
-		}
-
-		$result = [];
-
-		foreach(static::$all_locales as $locale) {
-			$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
-		}
-
-		asort($result);
-
-		return $result;
 	}
 
 }

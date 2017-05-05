@@ -11,7 +11,8 @@ namespace Jet;
  * Class Data_Tree_Forest
  * @package Jet
  */
-class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseObject_Serializable_REST {
+class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable_REST
+{
 
 	/**
 	 *
@@ -33,34 +34,37 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	protected $trees = [];
 
 	/**
-	 * @param string $label_key
-	 */
-	public function setLabelKey($label_key) {
-		$this->label_key = $label_key;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getLabelKey() {
+	public function getLabelKey()
+	{
 		return $this->label_key;
 	}
 
 	/**
-	 * Key in data item representing id
-	 *
-	 * @return string
+	 * @param string $label_key
 	 */
-	public function getIdKey(){
-		return $this->id_key;
+	public function setLabelKey( $label_key )
+	{
+		$this->label_key = $label_key;
 	}
 
 	/**
 	 * Key in data item representing id
 	 *
-	 * @param $id_key
+	 * @return string
 	 */
-	public function setIdKey($id_key ) {
+	public function getIdKey()
+	{
+		return $this->id_key;
+	}
+
+	/**
+	 *
+	 * @param string $id_key
+	 */
+	public function setIdKey( $id_key )
+	{
 		$this->id_key = $id_key;
 	}
 
@@ -71,13 +75,13 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @throws Data_Tree_Exception
 	 */
-	public function appendTree( Data_Tree $tree ){
+	public function appendTree( Data_Tree $tree )
+	{
 		$tree_id = $tree->getRootNode()->getId();
 
-		if( isset($this->trees[$tree_id]) ){
+		if( isset( $this->trees[$tree_id] ) ) {
 			throw new Data_Tree_Exception(
-				'Tree \''.$tree_id.'\' already exists in the forest',
-				Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
+				'Tree \''.$tree_id.'\' already exists in the forest', Data_Tree_Exception::CODE_TREE_ALREADY_IN_FOREST
 			);
 		}
 
@@ -87,7 +91,6 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 		}
 
 
-
 		$this->trees[$tree_id] = $tree;
 	}
 
@@ -95,7 +98,8 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return Data_Tree[]
 	 */
-	public function getTrees(){
+	public function getTrees()
+	{
 		return $this->trees;
 	}
 
@@ -105,7 +109,8 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return Data_Tree
 	 */
-	public function getTree( $tree_id ){
+	public function getTree( $tree_id )
+	{
 		return $this->trees[$tree_id];
 	}
 
@@ -113,11 +118,12 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @param string $tree_id
 	 */
-	public function removeTree( $tree_id ) {
-		if( !isset($this->trees[$tree_id]) ){
+	public function removeTree( $tree_id )
+	{
+		if( !isset( $this->trees[$tree_id] ) ) {
 			return;
 		}
-		unset($this->trees[$tree_id]);
+		unset( $this->trees[$tree_id] );
 	}
 
 	/**
@@ -126,7 +132,8 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return bool
 	 */
-	public function getTreeExists( $tree_id ){
+	public function getTreeExists( $tree_id )
+	{
 		return isset( $this->trees[$tree_id] );
 	}
 
@@ -137,16 +144,18 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return array
 	 */
-	public function toArray( $max_depth=null ){
+	public function toArray( $max_depth = null )
+	{
 
 		$output = [];
-		foreach($this->trees as $tree){
-			if($max_depth) {
+		foreach( $this->trees as $tree ) {
+			if( $max_depth ) {
 				$tree->getRootNode()->setMaxDepth( $max_depth );
 			}
 
-			$output = array_merge($output, $tree->toArray());
+			$output = array_merge( $output, $tree->toArray() );
 		}
+
 		return $output;
 	}
 
@@ -161,7 +170,8 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	/**
 	 * @return string
 	 */
-	public function toJSON( ) {
+	public function toJSON()
+	{
 
 		$data = $this->jsonSerialize();
 
@@ -169,28 +179,18 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	}
 
 	/**
-	 * @return string
-	 */
-	public function toXML() {
-		$data = $this->jsonSerialize();
-
-		return $this->_XMLSerialize($data, 'tree');
-	}
-
-	/**
 	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize()
+	{
 		$data = [];
 
-		foreach($this->trees as $tree) {
-			$data = array_merge($data, $tree->toArray());
+		foreach( $this->trees as $tree ) {
+			$data = array_merge( $data, $tree->toArray() );
 		}
 
 		$data = [
-			'identifier' => $this->id_key,
-			'label' => $this->label_key,
-			'items' => $data
+			'identifier' => $this->id_key, 'label' => $this->label_key, 'items' => $data,
 		];
 
 		return $data;
@@ -198,35 +198,47 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	}
 
 	/**
+	 * @return string
+	 */
+	public function toXML()
+	{
+		$data = $this->jsonSerialize();
+
+		return $this->_XMLSerialize( $data, 'tree' );
+	}
+
+	/**
 	 * @param object|array $data
-	 * @param string $tag
-	 * @param string $prefix (optional)
+	 * @param string       $tag
+	 * @param string       $prefix (optional)
 	 *
 	 * @return string
 	 */
-	protected function _XMLSerialize( $data, $tag, $prefix='' ) {
+	protected function _XMLSerialize( $data, $tag, $prefix = '' )
+	{
 		$result = $prefix.'<'.$tag.'>'.JET_EOL;
 
-		if(is_object($data)) {
-			$data = get_class_vars($data);
+		if( is_object( $data ) ) {
+			$data = get_class_vars( $data );
 		}
 
-		foreach($data as $key=>$val) {
-			if(is_array($val) || is_object($val)) {
-				if(is_int($key)) {
+		foreach( $data as $key => $val ) {
+			if( is_array( $val )||is_object( $val ) ) {
+				if( is_int( $key ) ) {
 					$key = 'item';
 				}
-				$result .= $this->_XMLSerialize($val, $key, $prefix . JET_TAB);
+				$result .= $this->_XMLSerialize( $val, $key, $prefix.JET_TAB );
 			} else {
-				if(is_bool($val)) {
-					$result .= $prefix.JET_TAB.'<'.$key.'>'.($val?1:0).'</'.$key.'>'.JET_EOL;
+				if( is_bool( $val ) ) {
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.( $val ? 1 : 0 ).'</'.$key.'>'.JET_EOL;
 
 				} else {
-					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars($val).'</'.$key.'>'.JET_EOL;
+					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars( $val ).'</'.$key.'>'.JET_EOL;
 				}
 			}
 		}
 		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
+
 		return $result;
 	}
 
@@ -239,8 +251,9 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	/**
 	 * @return Data_Tree_Node
 	 */
-	public function current(){
-		$current_tree_id = key($this->trees);
+	public function current()
+	{
+		$current_tree_id = key( $this->trees );
 
 		return $this->trees[$current_tree_id]->current();
 	}
@@ -249,8 +262,9 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return Data_Tree_Node|bool
 	 */
-	public function next(){
-		$current_tree_id = key($this->trees);
+	public function next()
+	{
+		$current_tree_id = key( $this->trees );
 
 		$this->trees[$current_tree_id]->next();
 
@@ -260,8 +274,8 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 		}
 
 		$this->trees[$current_tree_id]->rewind();
-		$next_tree = next($this->trees);
-		if(!$next_tree) {
+		$next_tree = next( $this->trees );
+		if( !$next_tree ) {
 			return false;
 		}
 		$next_tree->rewind();
@@ -273,8 +287,9 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return string
 	 */
-	public function key(){
-		$current_tree_id = key($this->trees);
+	public function key()
+	{
+		$current_tree_id = key( $this->trees );
 
 		return $this->trees[$current_tree_id]->key();
 	}
@@ -283,11 +298,12 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	 *
 	 * @return bool
 	 */
-	public function valid(){
-		if(!key($this->trees)) {
+	public function valid()
+	{
+		if( !key( $this->trees ) ) {
 			return false;
 		}
-		$current_tree_id = key($this->trees);
+		$current_tree_id = key( $this->trees );
 
 		return $this->trees[$current_tree_id]->valid();
 	}
@@ -295,11 +311,12 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	/**
 	 *
 	 */
-	public function rewind(){
-		foreach($this->trees as $tree) {
+	public function rewind()
+	{
+		foreach( $this->trees as $tree ) {
 			$tree->rewind();
 		}
-		reset($this->trees);
+		reset( $this->trees );
 	}
 
 	//- Countable ---------------------------------------------------------------------------------
@@ -309,11 +326,12 @@ class Data_Tree_Forest extends BaseObject implements \Iterator,\Countable, BaseO
 	/**
 	 * @return int
 	 */
-	public function count(){
+	public function count()
+	{
 		$result = 0;
 
-		foreach($this->trees as  $tree) {
-			$result += count($tree);
+		foreach( $this->trees as $tree ) {
+			$result += count( $tree );
 		}
 
 		return $result;

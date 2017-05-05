@@ -11,7 +11,8 @@ namespace Jet;
  * Class BaseObject_Exception
  * @package Jet
  */
-class BaseObject_Exception extends Exception {
+class BaseObject_Exception extends Exception
+{
 
 	const CODE_UNDEFINED_PROPERTY = 1;
 	const CODE_ACCESS_PROTECTED_PROPERTY = 2;

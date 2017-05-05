@@ -13,26 +13,26 @@ use Jet\Autoloader_Loader_Abstract;
  * Class Autoloader
  * @package JetUI
  */
-class Autoloader extends Autoloader_Loader_Abstract {
+class Autoloader extends Autoloader_Loader_Abstract
+{
 
 	/**
-	 * Get class script path or false
+	 * Returns class script path or false
 	 *
-	 * @param $class_name
+	 * @param string $class_name
 	 *
 	 * @return string|bool
 	 */
-	public function getClassPath($class_name) {
-		if(
-			substr($class_name, 0, 6)!=__NAMESPACE__.'\\'
-		) {
+	public function getClassPath( $class_name )
+	{
+		if( substr( $class_name, 0, 6 )!=__NAMESPACE__.'\\' ) {
 			return false;
 		}
 
 		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-        $path = dirname(__DIR__).DIRECTORY_SEPARATOR.$class_name.'.php';
+		$path = dirname( __DIR__ ).DIRECTORY_SEPARATOR.$class_name.'.php';
 
 		return $path;
 

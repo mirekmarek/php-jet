@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Model_Related_1toN
  * @package Jet
  */
-class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model_Related_Abstract {
+class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model_Related_Abstract
+{
 
 	/**
 	 * @var string
@@ -29,7 +30,7 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	/**
 	 * @param string $iterator_class_name
 	 */
-	public function setIteratorClassName($iterator_class_name)
+	public function setIteratorClassName( $iterator_class_name )
 	{
 		$this->iterator_class_name = $iterator_class_name;
 	}
@@ -38,11 +39,12 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 	/**
 	 * @throws DataModel_Exception
 	 */
-	protected function _initParents() {
+	protected function _initParents()
+	{
 		parent::_initParents();
 
 
-		if( ($iterator_class_name=BaseObject_Reflection::get( $this->class_name, 'iterator_class_name', null )) ) {
+		if( ( $iterator_class_name = BaseObject_Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
 			$this->iterator_class_name = $iterator_class_name;
 		}
 	}

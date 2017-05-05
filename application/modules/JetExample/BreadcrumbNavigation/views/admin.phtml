@@ -3,17 +3,17 @@ use Jet\Mvc_NavigationData_Breadcrumb_Abstract;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View $this
+ * @var Mvc_View                                 $this
  * @var Mvc_NavigationData_Breadcrumb_Abstract[] $data
  */
-$data = $this->getRaw('data');
+$data = $this->getRaw( 'data' );
 ?>
 <div style="background-color: #f9f9f9;border-bottom: 1px solid #999999;padding: 5px;margin-bottom: 10px;">
 	<?php foreach( $data as $d ): ?>
-		<?php if(!$d->getIsLast()): ?>
-			<a href="<?=$d->getURI(); ?>"><?=$d->getTitle(); ?></a>&nbsp;&gt;&nbsp;
+		<?php if( !$d->getIsLast() ): ?>
+			<a href="<?=$d->getURI();?>"><?=$d->getTitle();?></a>&nbsp;&gt;&nbsp;
 		<?php else: ?>
-			<b><?=$d->getTitle(); ?></b>
+			<b><?=$d->getTitle();?></b>
 		<?php endif; ?>
 	<?php endforeach; ?>
 </div>

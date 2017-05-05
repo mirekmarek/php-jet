@@ -6,9 +6,8 @@ return [
 	'API_version' => 201401,
 
 	'vendor' => 'Vendor',
-	
-	'label' => 'Test Module 1',
-	'types' => [Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL],
+
+	'label'       => 'Test Module 1', 'types' => [ Jet\Application_Modules_Module_Manifest::MODULE_TYPE_GENERAL ],
 	'description' => 'Test module 1...',
 
 	'require' => [],

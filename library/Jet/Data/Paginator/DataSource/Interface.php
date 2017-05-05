@@ -11,7 +11,8 @@ namespace Jet;
  * Interface Data_Paginator_DataSource_Interface
  * @package Jet
  */
-interface Data_Paginator_DataSource_Interface /* extends Iterator*/ {
+interface Data_Paginator_DataSource_Interface /* extends Iterator*/
+{
 
 	/**
 	 * @param int $limit

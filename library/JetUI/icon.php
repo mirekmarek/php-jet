@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 
 /**
@@ -20,10 +21,10 @@ class icon extends BaseObject
 	 */
 	protected $tag = 'span';
 
-    /**
-     * @var string
-     */
-    protected $icon;
+	/**
+	 * @var string
+	 */
+	protected $icon;
 
 	/**
 	 * @var int
@@ -46,12 +47,13 @@ class icon extends BaseObject
 	protected $js_actions = [];
 
 
-    /**
-     * @param string $icon
-     */
-    public function __construct( $icon ) {
-        $this->icon = $icon;
-    }
+	/**
+	 * @param string $icon
+	 */
+	public function __construct( $icon )
+	{
+		$this->icon = $icon;
+	}
 
 	/**
 	 * @param string $event
@@ -65,9 +67,9 @@ class icon extends BaseObject
 		 * @var icon $this
 		 */
 
-		$event = strtolower($event);
+		$event = strtolower( $event );
 
-		if(!isset($this->js_actions[$event])) {
+		if( !isset( $this->js_actions[$event] ) ) {
 			$this->js_actions[$event] = $handler_code;
 		} else {
 			$this->js_actions[$event] .= ';'.$handler_code;
@@ -79,11 +81,11 @@ class icon extends BaseObject
 
 
 	/**
-	 * @param $size
+	 * @param int $size
 	 *
 	 * @return icon
 	 */
-	public function setSize($size)
+	public function setSize( $size )
 	{
 		$this->size = (int)$size;
 
@@ -91,11 +93,11 @@ class icon extends BaseObject
 	}
 
 	/**
-	 * @param $width
+	 * @param int $width
 	 *
 	 * @return icon
 	 */
-	public function setWidth($width)
+	public function setWidth( $width )
 	{
 		$this->width = (int)$width;
 
@@ -107,7 +109,7 @@ class icon extends BaseObject
 	 *
 	 * @return icon
 	 */
-	public function setColor($color)
+	public function setColor( $color )
 	{
 		$this->color = $color;
 
@@ -119,58 +121,58 @@ class icon extends BaseObject
 	 *
 	 * @return icon
 	 */
-	public function setTag($tag)
+	public function setTag( $tag )
 	{
 		$this->tag = $tag;
 
 		return $this;
 	}
 
-    /**
-     * @return string
-     */
-    public function toString()
-    {
-    	$icon = $this->icon;
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
 
-        $res = '';
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		$icon = $this->icon;
 
-	    $style = '';
+		$res = '';
 
-	    if($this->size) {
-	    	$style .= 'font-size:'.$this->size.'px;';
-	    }
-	    if($this->width) {
-		    $style .= 'width:'.$this->width.'px;';
-	    }
-	    if($this->color) {
-		    $style .= 'color:'.$this->color.';';
-	    }
+		$style = '';
 
-	    $res .= '<'.$this->tag.' class="'.UI::DEFAULT_ICON_CLASS.$icon.'"';
-	    if($style) {
-		    $res .= ' style="'.$style.'"';
-	    }
+		if( $this->size ) {
+			$style .= 'font-size:'.$this->size.'px;';
+		}
+		if( $this->width ) {
+			$style .= 'width:'.$this->width.'px;';
+		}
+		if( $this->color ) {
+			$style .= 'color:'.$this->color.';';
+		}
 
-	    $js_actions = [];
+		$res .= '<'.$this->tag.' class="'.UI::DEFAULT_ICON_CLASS.$icon.'"';
+		if( $style ) {
+			$res .= ' style="'.$style.'"';
+		}
 
-	    foreach( $this->js_actions as $vent=>$handler ) {
-		    $js_actions[] = ' '.$vent.'="'.$handler.'"';
-	    }
-	    $res .= implode('', $js_actions);
+		$js_actions = [];
 
-	    $res .= '></'.$this->tag.'>';
+		foreach( $this->js_actions as $vent => $handler ) {
+			$js_actions[] = ' '.$vent.'="'.$handler.'"';
+		}
+		$res .= implode( '', $js_actions );
+
+		$res .= '></'.$this->tag.'>';
 
 
-        return $res;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toString();
-    }
+		return $res;
+	}
 
 }

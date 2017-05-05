@@ -11,17 +11,19 @@ namespace Jet;
  * Class Db_Factory
  * @package Jet
  */
-class Db_Factory {
+class Db_Factory
+{
 
 	/**
 	 *
-	 * @param array $config_data (optional)
+	 * @param array     $config_data (optional)
 	 * @param Db_Config $config (optional)
 	 *
 	 * @return Db_Connection_Config_Abstract
 	 */
-	public static function getConnectionConfigInstance(array $config_data= [], Db_Config $config=null ){
-        $config_class = JET_DB_CONNECTION_CLASS_PREFIX.JET_DB_CONNECTION_ADAPTER.'_Config';
+	public static function getConnectionConfigInstance( array $config_data = [], Db_Config $config = null )
+	{
+		$config_class = JET_DB_CONNECTION_CLASS_PREFIX.JET_DB_CONNECTION_ADAPTER.'_Config';
 
 
 		return new $config_class( $config_data, $config );
@@ -33,8 +35,9 @@ class Db_Factory {
 	 *
 	 * @return Db_Connection_Abstract
 	 */
-	public static function getConnectionInstance( Db_Connection_Config_Abstract $connection_config ){
-        $adapter_class = JET_DB_CONNECTION_CLASS_PREFIX.JET_DB_CONNECTION_ADAPTER;
+	public static function getConnectionInstance( Db_Connection_Config_Abstract $connection_config )
+	{
+		$adapter_class = JET_DB_CONNECTION_CLASS_PREFIX.JET_DB_CONNECTION_ADAPTER;
 
 
 		return new $adapter_class( $connection_config );

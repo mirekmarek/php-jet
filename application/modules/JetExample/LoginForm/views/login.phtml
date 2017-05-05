@@ -8,68 +8,68 @@ use Jet\Mvc_Page;
 
 /**
  * @var Mvc_View $this
- * @var Form $form
+ * @var Form     $form
  */
-$form = $this->getRaw('login_form');
+$form = $this->getRaw( 'login_form' );
 
-$form->field('username')->setPlaceholder('username');
-$form->field('password')->setPlaceholder('password');
+$form->field( 'username' )->setPlaceholder( 'username' );
+$form->field( 'password' )->setPlaceholder( 'password' );
 
 ?>
 
-	<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-		<div class="panel panel-default" >
-			<div class="panel-heading">
-				<div class="panel-title"><?=Tr::_('Sign In')?></div>
+<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title"><?=Tr::_( 'Sign In' )?></div>
+		</div>
+
+		<div class="panel-body">
+			<?=$form->start()?>
+			<div class="row">
+				<div class="col-sm-12 controls">
+					<div style="float: right;margin: 15px">
+						<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
+							<?php if( $locale->toString()==Mvc::getCurrentLocale()->toString() ): ?>
+								<?=UI::flag( $locale )?>
+							<?php else:
+								$equal_page = Mvc_Page::get( null, $locale );
+								if( !$equal_page ) {
+									$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
+								}
+								?>
+								<a href="<?=$equal_page->getURL()?>"><?=UI::flag( $locale )?></a>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</div>
+				</div>
 			</div>
 
-			<div class="panel-body" >
-				<?=$form->start()?>
-				<div  class="row">
-					<div class="col-sm-12 controls">
-						<div style="float: right;margin: 15px">
-							<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
-									<?php if($locale->toString()==Mvc::getCurrentLocale()->toString()): ?>
-										<?=UI::flag($locale)?>
-									<?php else:
-										$equal_page = Mvc_Page::get(null, $locale);
-										if(!$equal_page) {
-											$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
-										}
-										?>
-										<a href="<?=$equal_page->getURL()?>"><?=UI::flag($locale)?></a>
-									<?php endif; ?>
-							<?php endforeach; ?>
-						</div>
-					</div>
+			<?php if( $form->getCommonMessage() ): ?>
+				<div id="login-alert" class="alert alert-danger col-sm-12">
+					<?=$form->getCommonMessage()?>
 				</div>
+			<?php endif; ?>
 
-				<?php if($form->getCommonMessage()): ?>
-					<div id="login-alert" class="alert alert-danger col-sm-12">
-						<?=$form->getCommonMessage()?>
-					</div>
-				<?php endif; ?>
-
-				<div style="margin-bottom: 25px" class="input-group">
-					<span class="input-group-addon"><?=UI::icon('user')?></span>
-					<?=$form->field('username')->field()->noContainer()?>
-				</div>
-
-				<div style="margin-bottom: 25px" class="input-group">
-					<span class="input-group-addon"><?=UI::icon('lock')->setTag('i')?></span>
-					<?=$form->field('password')->field()->noContainer()?>
-				</div>
-
-				<div style="margin-top:10px" class="form-group">
-					<div class="col-sm-12 controls">
-						<div style="float: right">
-							<input type="submit" class="btn btn-primary" value="<?=Tr::_('Sign In')?>"/>
-						</div>
-					</div>
-				</div>
-
-				<?=$form->end()?>
-
+			<div style="margin-bottom: 25px" class="input-group">
+				<span class="input-group-addon"><?=UI::icon( 'user' )?></span>
+				<?=$form->field( 'username' )->field()->noContainer()?>
 			</div>
+
+			<div style="margin-bottom: 25px" class="input-group">
+				<span class="input-group-addon"><?=UI::icon( 'lock' )->setTag( 'i' )?></span>
+				<?=$form->field( 'password' )->field()->noContainer()?>
+			</div>
+
+			<div style="margin-top:10px" class="form-group">
+				<div class="col-sm-12 controls">
+					<div style="float: right">
+						<input type="submit" class="btn btn-primary" value="<?=Tr::_( 'Sign In' )?>"/>
+					</div>
+				</div>
+			</div>
+
+			<?=$form->end()?>
+
 		</div>
 	</div>
+</div>

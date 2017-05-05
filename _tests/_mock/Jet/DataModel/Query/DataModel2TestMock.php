@@ -14,7 +14,8 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'data_model_2_test_mock'
  * @JetDataModel:id_class_name = DataModel_Id_UniqueString
  */
-class DataModel_Query_DataModel2TestMock extends DataModel {
+class DataModel_Query_DataModel2TestMock extends DataModel
+{
 
 	/**
 	 *
@@ -57,17 +58,20 @@ class DataModel_Query_DataModel2TestMock extends DataModel {
 	 */
 	protected $data_model_property_1toN;
 
-
-	public function _test_get_property_options( $property_name ) {
-		$data = BaseObject_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
-		return $data[ $property_name ];
+	/** @noinspection PhpMissingParentConstructorInspection */
+	public function __construct()
+	{
 	}
 
 
 	/**
 	 */
-	/** @noinspection PhpMissingParentConstructorInspection */
-	public function __construct() {
+
+	public function _test_get_property_options( $property_name )
+	{
+		$data = BaseObject_Reflection::get( get_called_class(), 'data_model_properties_definition', false );
+
+		return $data[$property_name];
 	}
 
 }

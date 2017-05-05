@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetApplicationModule\JetExample\Images;
+
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Application_Modules_Module_Abstract;
 use Jet\Mvc;
@@ -13,7 +14,8 @@ use Jet\Mvc;
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract
+{
 	const ADMIN_MAIN_PAGE = 'admin/images';
 
 	const ACTION_GET_GALLERY = 'get_gallery';
@@ -30,15 +32,11 @@ class Main extends Application_Modules_Module_Abstract {
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		self::ACTION_GET_GALLERY => 'Get article(s) data',
-		self::ACTION_ADD_GALLERY => 'Add new gallery',
-		self::ACTION_UPDATE_GALLERY => 'Update gallery',
-		self::ACTION_DELETE_GALLERY => 'Delete gallery',
+		self::ACTION_GET_GALLERY    => 'Get article(s) data', self::ACTION_ADD_GALLERY => 'Add new gallery',
+		self::ACTION_UPDATE_GALLERY => 'Update gallery', self::ACTION_DELETE_GALLERY => 'Delete gallery',
 
-		self::ACTION_GET_IMAGE => 'Get image(s) data',
-		self::ACTION_ADD_IMAGE => 'Add new image',
-		self::ACTION_UPDATE_IMAGE => 'Update image',
-		self::ACTION_DELETE_IMAGE => 'Delete image',
+		self::ACTION_GET_IMAGE    => 'Get image(s) data', self::ACTION_ADD_IMAGE => 'Add new image',
+		self::ACTION_UPDATE_IMAGE => 'Update image', self::ACTION_DELETE_IMAGE => 'Delete image',
 	];
 
 	/**
@@ -51,7 +49,8 @@ class Main extends Application_Modules_Module_Abstract {
 	 *
 	 * @return string
 	 */
-	public function getViewsDir() {
+	public function getViewsDir()
+	{
 		$dir = parent::getViewsDir();
 
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
@@ -62,14 +61,29 @@ class Main extends Application_Modules_Module_Abstract {
 	}
 
 	/**
+	 * @return Controller_Admin_Main_Router
+	 */
+	public function getAdminControllerRouter()
+	{
+
+		if( !$this->admin_controller_router ) {
+			$this->admin_controller_router = new Controller_Admin_Main_Router( $this );
+		}
+
+		return $this->admin_controller_router;
+	}
+
+	/**
 	 *
 	 * @param Mvc_Page_Content_Interface $content
+	 *
 	 * @return string
 	 */
-	protected function getControllerClassName(  Mvc_Page_Content_Interface $content  ) {
+	protected function getControllerClassName( Mvc_Page_Content_Interface $content )
+	{
 		$controller_name = 'Main';
 
-		if($content->getCustomController()) {
+		if( $content->getCustomController() ) {
 			$controller_name = $content->getCustomController();
 		}
 
@@ -83,19 +97,6 @@ class Main extends Application_Modules_Module_Abstract {
 		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
 
 		return $controller_class_name;
-	}
-
-
-	/**
-	 * @return Controller_Admin_Main_Router
-	 */
-	public function getAdminControllerRouter() {
-
-		if(!$this->admin_controller_router) {
-			$this->admin_controller_router = new Controller_Admin_Main_Router( $this );
-		}
-
-		return $this->admin_controller_router;
 	}
 
 }

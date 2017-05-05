@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Id_Abstract
  * @package Jet
  */
-abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,\Iterator {
+abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess, \Iterator
+{
 
 	/**
 	 * @var DataModel
@@ -35,16 +36,17 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $data_model_definition
-	 * @param array $options
+	 * @param array                               $options
 	 */
-	public function  __construct( DataModel_Definition_Model_Abstract $data_model_definition, $options ) {
+	public function __construct( DataModel_Definition_Model_Abstract $data_model_definition, $options )
+	{
 		$this->_data_model_class_name = $data_model_definition->getClassName();
 
-		foreach(array_keys( $data_model_definition->getIdProperties() ) as $id_p_n) {
+		foreach( array_keys( $data_model_definition->getIdProperties() ) as $id_p_n ) {
 			$this->_values[$id_p_n] = null;
 		}
 
-		if($options) {
+		if( $options ) {
 			$this->setOptions( $options );
 		}
 
@@ -53,8 +55,9 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	/**
 	 * @param array $options
 	 */
-	public function setOptions( array $options ) {
-		foreach( $options as $key=>$val ) {
+	public function setOptions( array $options )
+	{
+		foreach( $options as $key => $val ) {
 			$this->{$key} = $val;
 		}
 	}
@@ -62,41 +65,45 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	/**
 	 * @param DataModel_Interface $data_model
 	 */
-	public function joinDataModel( DataModel_Interface $data_model ) {
+	public function joinDataModel( DataModel_Interface $data_model )
+	{
 		$this->_data_model_instance = $data_model;
 	}
 
 	/**
 	 * @param string $name
-	 * @param mixed &$property
+	 * @param mixed  &$property
 	 */
-	public function joinObjectProperty( $name, &$property ) {
+	public function joinObjectProperty( $name, &$property )
+	{
 		$this->_values[$name] = &$property;
 	}
 
 	/**
-	 * @param $id_data
+	 * @param array|string|int $id_data
+	 *
 	 * @throws DataModel_Id_Exception
 	 */
-	public function init( $id_data ) {
+	public function init( $id_data )
+	{
 
 		$given_id_keys = [];
-		if(!is_array($id_data)) {
-			foreach($this->_values as $key=> $val ) {
+		if( !is_array( $id_data ) ) {
+			foreach( $this->_values as $key => $val ) {
 				$this->_values[$key] = $id_data;
 				$given_id_keys[] = $key;
 				break;
 			}
 		} else {
-			foreach($this->_values as $key=> $val ) {
+			foreach( $this->_values as $key => $val ) {
 				$this->_values[$key] = $id_data[$key];
 				$given_id_keys[] = $key;
 				break;
 			}
 		}
 
-		if( ($missing_keys=array_diff(array_keys($this->_values), $given_id_keys)) ) {
-			throw new DataModel_Id_Exception('ID values missing: '.implode(', ', $missing_keys));
+		if( ( $missing_keys = array_diff( array_keys( $this->_values ), $given_id_keys ) ) ) {
+			throw new DataModel_Id_Exception( 'ID values missing: '.implode( ', ', $missing_keys ) );
 		}
 
 	}
@@ -104,15 +111,9 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	/**
 	 * @return string
 	 */
-	public function getDataModelClassName() {
+	public function getDataModelClassName()
+	{
 		return $this->_data_model_class_name;
-	}
-
-	/**
-	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_MtoN
-	 */
-	public function getDataModelDefinition() {
-		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->_data_model_class_name );
 	}
 
 	/**
@@ -120,29 +121,38 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	 *
 	 * @return DataModel_Query
 	 */
-	public function getQuery() {
+	public function getQuery()
+	{
 		$data_model_definition = $this->getDataModelDefinition();
 
 		$query = new DataModel_Query( $data_model_definition );
-		if($this->_data_model_instance) {
+		if( $this->_data_model_instance ) {
 			$query->setMainDataModel( $this->_data_model_instance );
 		}
-		$query->setWhere([]);
+		$query->setWhere( [] );
 		$where = $query->getWhere();
 
 		$properties = $data_model_definition->getProperties();
 
-		foreach($this->_values as $property_name => $value) {
-			if($value===null) {
+		foreach( $this->_values as $property_name => $value ) {
+			if( $value===null ) {
 				continue;
 			}
 
 
 			$where->addAND();
-			$where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value);
+			$where->addExpression( $properties[$property_name], DataModel_Query::O_EQUAL, $value );
 		}
 
 		return $query;
+	}
+
+	/**
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related_Abstract|DataModel_Definition_Model_Related_MtoN
+	 */
+	public function getDataModelDefinition()
+	{
+		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->_data_model_class_name );
 	}
 
 	/**
@@ -161,10 +171,11 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	 *
 	 * @return DataModel_Id_Abstract
 	 */
-	public function unserialize( $id ) {
-		$id = explode(':', $id);
-		foreach(array_keys($this->_values) as $k ) {
-			if(!$id) {
+	public function unserialize( $id )
+	{
+		$id = explode( ':', $id );
+		foreach( array_keys( $this->_values ) as $k ) {
+			if( !$id ) {
 				break;
 			}
 			$val = array_shift( $id );
@@ -178,14 +189,16 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	/**
 	 * @return string
 	 */
-	public function  __toString() {
+	public function __toString()
+	{
 		return $this->toString();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function toString() {
+	public function toString()
+	{
 		return implode( ':', $this->_values );
 	}
 
@@ -212,13 +225,13 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function offsetSet($offset, $value) {
+	public function offsetSet( $offset, $value )
+	{
 
-		if(!array_key_exists($offset, $this->_values)) {
+		if( !array_key_exists( $offset, $this->_values ) ) {
 			throw new DataModel_Exception(
-					'Undefined ID part \''.$offset.'\'',
-					DataModel_Exception::CODE_UNDEFINED_ID_PART
-				);
+				'Undefined ID part \''.$offset.'\'', DataModel_Exception::CODE_UNDEFINED_ID_PART
+			);
 		}
 
 		$this->_values[$offset] = $value;
@@ -232,12 +245,12 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	 * @return mixed
 	 * @throws DataModel_Exception
 	 */
-	public function offsetGet($offset) {
+	public function offsetGet( $offset )
+	{
 
-		if(!array_key_exists($offset, $this->_values)) {
+		if( !array_key_exists( $offset, $this->_values ) ) {
 			throw new DataModel_Exception(
-					'Undefined ID part \''.$offset.'\'',
-					DataModel_Exception::CODE_UNDEFINED_ID_PART
+				'Undefined ID part \''.$offset.'\'', DataModel_Exception::CODE_UNDEFINED_ID_PART
 			);
 		}
 
@@ -251,9 +264,10 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	 *
 	 * @return bool
 	 */
-	public function offsetExists($offset) {
+	public function offsetExists( $offset )
+	{
 
-		return array_key_exists($offset, $this->_values);
+		return array_key_exists( $offset, $this->_values );
 	}
 
 	/**
@@ -263,39 +277,49 @@ abstract class DataModel_Id_Abstract extends BaseObject implements \ArrayAccess,
 	 *
 	 * @param mixed $offset
 	 */
-	public function offsetUnset($offset) {
+	public function offsetUnset( $offset )
+	{
 	}
 
 	/**
 	 * @see \Iterator
 	 */
-	public function current() {
-		return current($this->_values);
+	public function current()
+	{
+		return current( $this->_values );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key() {
-		return key($this->_values);
+	public function key()
+	{
+		return key( $this->_values );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function next() {
-		return next($this->_values);
+	public function next()
+	{
+		return next( $this->_values );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() {
-		reset($this->_values);
+	public function rewind()
+	{
+		reset( $this->_values );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()	{
-		return key($this->_values)!==null;
+	public function valid()
+	{
+		return key( $this->_values )!==null;
 	}
 }

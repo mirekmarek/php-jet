@@ -19,7 +19,8 @@ use Jet\IO_Dir;
 /**
  *
  */
-class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
+class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -29,11 +30,12 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 	/**
 	 *
 	 */
-	public function main() {
+	public function main()
+	{
 
-		if( count(Mvc_Site::getList() ) ) {
-			$this->render('site-created');
-			if(Http_Request::POST()->exists('go')) {
+		if( count( Mvc_Site::getList() ) ) {
+			$this->render( 'site-created' );
+			if( Http_Request::POST()->exists( 'go' ) ) {
 				Installer::goToNext();
 			}
 
@@ -45,22 +47,22 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 		$session = Installer::getSession();
 
-		if( !$session->getValueExists('site')) {
+		if( !$session->getValueExists( 'site' ) ) {
 
 			$site = Mvc_Factory::getSiteInstance();
 
 			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
 			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
 
-			$site->setName('Example Site');
+			$site->setName( 'Example Site' );
 			$site->generateId();
 
 			$site->addLocale( $default_locale );
 			$site->addURL( $default_locale, $nonSSL );
 			$site->addURL( $default_locale, $SSL );
 
-			foreach(Installer::getSelectedLocales() as $locale) {
-				if($locale->toString()==$default_locale->toString()) {
+			foreach( Installer::getSelectedLocales() as $locale ) {
+				if( $locale->toString()==$default_locale->toString() ) {
 					continue;
 				}
 
@@ -69,31 +71,26 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 				$site->addURL( $locale, $SSL.$locale.'/' );
 			}
 
-			$session->setValue('site', $site);
+			$session->setValue( 'site', $site );
 		} else {
 			/**
 			 * @var Mvc_Site_Interface $site
 			 */
-			$site = $session->getValue('site');
+			$site = $session->getValue( 'site' );
 		}
 
 
-
-		if(
-			Http_Request::GET()->exists('create') &&
-			count($site->getLocales())
-		) {
-			if(!$session->getValue('creating')) {
-				$session->setValue('creating', true);
-				$this->render('in-progress');
+		if( Http_Request::GET()->exists( 'create' )&&count( $site->getLocales() ) ) {
+			if( !$session->getValue( 'creating' ) ) {
+				$session->setValue( 'creating', true );
+				$this->render( 'in-progress' );
 
 			} else {
-                $site->setIsDefault(true);
-                $site->setIsActive(true);
+				$site->setIsDefault( true );
+				$site->setIsActive( true );
 
 				IO_Dir::copy(
-					JET_APP_INSTALLER_DATA_PATH.'site_template/layouts/',
-					$site->getLayoutsPath()
+					JET_APP_INSTALLER_DATA_PATH.'site_template/layouts/', $site->getLayoutsPath()
 				);
 
 
@@ -101,8 +98,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 
 				foreach( $site->getLocales() as $locale ) {
 					IO_Dir::copy(
-						$template_base_path.$locale,
-						$site->getPagesDataPath($locale)
+						$template_base_path.$locale, $site->getPagesDataPath( $locale )
 					);
 				}
 
@@ -111,7 +107,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 				$site->saveUrlMapFile();
 
 
-				Http_Headers::movedPermanently('?');
+				Http_Headers::movedPermanently( '?' );
 			}
 
 		}
@@ -120,65 +116,66 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller {
 		//----------------------------------------------------------------------
 		$main_form_fields = [];
 
-		foreach($site->getLocales() as $locale ) {
-			$URLs = $site->getLocalizedData($locale)->getURLs();
+		foreach( $site->getLocales() as $locale ) {
+			$URLs = $site->getLocalizedData( $locale )->getURLs();
 
 			$nonSSL = "";
 			$SSL = "";
 
 			foreach( $URLs as $URL ) {
-				if($URL->getIsSSL()) {
+				if( $URL->getIsSSL() ) {
 					$SSL = $URL->getURL();
 				} else {
 					$nonSSL = $URL->getURL();
 				}
 			}
 
-            $nonSSL_URL_field = new Form_Field_Input('/'.$locale.'/nonSSL', 'URL ', $nonSSL, true);
-            $nonSSL_URL_field->setErrorMessages([
-                Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL'
-            ]);
-            $SSL_URL_field = new Form_Field_Input('/'.$locale.'/SSL', 'SSL URL ', $SSL, false);
-            $SSL_URL_field->setErrorMessages([
-                Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL'
-            ]);
+			$nonSSL_URL_field = new Form_Field_Input( '/'.$locale.'/nonSSL', 'URL ', $nonSSL, true );
+			$nonSSL_URL_field->setErrorMessages(
+				[
+					Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL',
+				]
+			);
+			$SSL_URL_field = new Form_Field_Input( '/'.$locale.'/SSL', 'SSL URL ', $SSL, false );
+			$SSL_URL_field->setErrorMessages(
+				[
+					Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL',
+				]
+			);
 
 			$main_form_fields[] = $nonSSL_URL_field;
 			$main_form_fields[] = $SSL_URL_field;
 		}
 
-		$main_form = new Form('main', $main_form_fields );
+		$main_form = new Form( 'main', $main_form_fields );
 
-		if(
-			$main_form->catchValues() &&
-			$main_form->validateValues()
-		) {
+		if( $main_form->catchValues()&&$main_form->validateValues() ) {
 			$data = $main_form->getValues();
 
 			$site->setName( 'Example site' );
 			$site->generateId();
 
 			foreach( $site->getLocales() as $locale ) {
-				foreach( $site->getLocalizedData($locale)->getURLs() as $URL ) {
-					if($URL->getIsSSL()) {
-						$URL->setURL($data['/'.$locale.'/SSL']);
+				foreach( $site->getLocalizedData( $locale )->getURLs() as $URL ) {
+					if( $URL->getIsSSL() ) {
+						$URL->setURL( $data['/'.$locale.'/SSL'] );
 					} else {
-						$URL->setURL($data['/'.$locale.'/nonSSL']);
+						$URL->setURL( $data['/'.$locale.'/nonSSL'] );
 					}
 				}
 			}
 
-			Http_Headers::movedPermanently('?create');
+			Http_Headers::movedPermanently( '?create' );
 
 		}
 
 
 		//----------------------------------------------------------------------
 
-		$this->view->setVar('site', $site );
-		$this->view->setVar('main_form', $main_form);
+		$this->view->setVar( 'site', $site );
+		$this->view->setVar( 'main_form', $main_form );
 
-		$this->render('default');
+		$this->render( 'default' );
 	}
 
 }

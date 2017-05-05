@@ -21,7 +21,8 @@ use Jet\Form_Field_RegistrationPassword;
  * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-class TestDM1 extends DataModel {
+class TestDM1 extends DataModel
+{
 
 	/**
 	 *
@@ -138,8 +139,7 @@ class TestDM1 extends DataModel {
 	 *
 	 * @var array
 	 */
-	protected $multi_select = [
-	];
+	protected $multi_select = [];
 
 	/**
 	 *
@@ -160,7 +160,7 @@ class TestDM1 extends DataModel {
 	 * @JetDataModel:form_field_label = 'Password (user registration): '
 	 * @JetDataModel:form_field_type = Form::TYPE_REGISTRATION_PASSWORD
 	 * @JetDataModel:form_field_options = []
-     * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_RegistrationPassword::ERROR_CODE_EMPTY=>'Please enter password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY=>'Please enter confirm password', Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH=>'Passwords do not match']
 	 *
 	 * @var string
 	 */
@@ -177,90 +177,95 @@ class TestDM1 extends DataModel {
 	 */
 	protected $password_nc = '';
 
+	/**
+	 * @return array
+	 */
+	public static function getSelectOptions()
+	{
+		return [
+			'value1' => 'Option 1', 'value2' => 'Option 2', 'value3' => 'Option 3', 'value4' => 'Option 4',
+			'value5' => 'Option 5',
+		];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLongText()
+	{
+		return $this->long_text;
+	}
 
 	/**
 	 * @param string $long_text
 	 */
-	public function setLongText($long_text) {
+	public function setLongText( $long_text )
+	{
 		$this->long_text = $long_text;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLongText() {
-		return $this->long_text;
+	public function getText()
+	{
+		return $this->text;
 	}
 
 	/**
 	 * @param string $text
 	 */
-	public function setText($text) {
+	public function setText( $text )
+	{
 		$this->text = $text;
 	}
 
 	/**
-	 * @return string
+	 * @return Data_DateTime
 	 */
-	public function getText() {
-		return $this->text;
+	public function getDate()
+	{
+		return $this->date;
 	}
-
-
 
 	/**
 	 * @param Data_DateTime $date
 	 */
-	public function setDate($date) {
+	public function setDate( $date )
+	{
 		$this->date = $date;
 	}
 
 	/**
 	 * @return Data_DateTime
 	 */
-	public function getDate() {
-		return $this->date;
+	public function getDateTime()
+	{
+		return $this->date_time;
 	}
 
 	/**
 	 * @param Data_DateTime $date_time
 	 */
-	public function setDateTime($date_time) {
+	public function setDateTime( $date_time )
+	{
 		$this->date_time = $date_time;
-	}
-
-	/**
-	 * @return Data_DateTime
-	 */
-	public function getDateTime() {
-		return $this->date_time;
-	}
-
-	/**$HTM
-	 * @param string $HTML
-	 */
-	public function setHTML($HTML) {
-		$this->HTML = $HTML;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getHTML() {
+	public function getHTML()
+	{
 		return $this->HTML;
 	}
 
-	/**
-	 * @return array
+	/**$HTM
+	 * @param string $HTML
 	 */
-	public static function getSelectOptions() {
-		return [
-				'value1' => 'Option 1',
-				'value2' => 'Option 2',
-				'value3' => 'Option 3',
-				'value4' => 'Option 4',
-				'value5' => 'Option 5',
-		];
+	public function setHTML( $HTML )
+	{
+		$this->HTML = $HTML;
 	}
 
 

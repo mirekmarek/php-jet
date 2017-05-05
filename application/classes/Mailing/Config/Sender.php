@@ -14,7 +14,8 @@ use Jet\Config_Section;
 /**
  *
  */
-class Mailing_Config_Sender extends Config_Section {
+class Mailing_Config_Sender extends Config_Section
+{
 
 	/**
 	 * @JetConfig:form_field_label = 'E-mail:'
@@ -46,7 +47,7 @@ class Mailing_Config_Sender extends Config_Section {
 	/**
 	 * @param mixed $email
 	 */
-	public function setEmail($email)
+	public function setEmail( $email )
 	{
 		$this->email = $email;
 	}
@@ -62,12 +63,10 @@ class Mailing_Config_Sender extends Config_Section {
 	/**
 	 * @param mixed $name
 	 */
-	public function setName($name)
+	public function setName( $name )
 	{
 		$this->name = $name;
 	}
-
-
 
 
 }

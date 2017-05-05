@@ -4,60 +4,61 @@ namespace JetExampleApp;
 use Jet\Mvc_View;
 use Jet\Tr;
 use Jet\Form;
+
 /**
- * @var Mvc_View $this
- * @var Form $form
+ * @var Mvc_View                              $this
+ * @var Form                                  $form
  * @var Application_Modules_Module_Manifest[] $modules
  */
 
-$modules = $this->getRaw('modules');
+$modules = $this->getRaw( 'modules' );
 
-$form = $this->getRaw('form');
+$form = $this->getRaw( 'form' );
 
 ?>
 <?=$form->start()?>
 
-<table class="table table-striped">
-	<thead>
-	<tr>
-		<th></th>
-		<th><?=Tr::_('Vendor');?></th>
-		<th><?=Tr::_('Module');?></th>
-		<th><?=Tr::_('Installed?');?></th>
-		<th><?=Tr::_('Activated?');?></th>
-	</tr>
-	</thead>
-	<?php foreach( $modules as $manifest ): ?>
-	<tr>
-		<td>
-			<?php if(!$manifest->getIsActivated()):
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th></th>
+			<th><?=Tr::_( 'Vendor' );?></th>
+			<th><?=Tr::_( 'Module' );?></th>
+			<th><?=Tr::_( 'Installed?' );?></th>
+			<th><?=Tr::_( 'Activated?' );?></th>
+		</tr>
+		</thead>
+		<?php foreach( $modules as $manifest ): ?>
+			<tr>
+				<td>
+					<?php if( !$manifest->getIsActivated() ):
 
-				if( 
-					$manifest->isMandatory()
-				):
-					?>
-					<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]" id="module_<?=$manifest->getName();?>" checked="checked" disabled="disabled"/>
-					<?php
-				else:
-					?>
-					<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]" id="module_<?=$manifest->getName();?>" checked="checked"/>
-					<?php
-				endif;
-			endif; ?>
-		</td>
-		<td><?=$manifest->getVendor();?></td>
-		<td>
-			<label for="module_<?=$manifest->getName();?>"><?=$manifest->getLabel();?> </label>
-			<br/>
-			<div style="font-size: 11px;"><?=$manifest->getName();?></div>
-			<br/>
-			<?=$manifest->getDescription();?>
-		</td>
-		<td><?=Tr::_($manifest->getIsInstalled()?'Yes':'NO');?></td>
-		<td><?=Tr::_($manifest->getIsActivated()?'Yes':'NO');?></td>
-	</tr>
-	<?php endforeach; ?>
-</table>
+						if( $manifest->isMandatory() ):
+							?>
+							<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]"
+							       id="module_<?=$manifest->getName();?>" checked="checked" disabled="disabled"/>
+							<?php
+						else:
+							?>
+							<input type="checkbox" value="<?=$manifest->getName();?>" name="modules[]"
+							       id="module_<?=$manifest->getName();?>" checked="checked"/>
+							<?php
+						endif;
+					endif; ?>
+				</td>
+				<td><?=$manifest->getVendor();?></td>
+				<td>
+					<label for="module_<?=$manifest->getName();?>"><?=$manifest->getLabel();?> </label>
+					<br/>
+					<div style="font-size: 11px;"><?=$manifest->getName();?></div>
+					<br/>
+					<?=$manifest->getDescription();?>
+				</td>
+				<td><?=Tr::_( $manifest->getIsInstalled() ? 'Yes' : 'NO' );?></td>
+				<td><?=Tr::_( $manifest->getIsActivated() ? 'Yes' : 'NO' );?></td>
+			</tr>
+		<?php endforeach; ?>
+	</table>
 
-	<?=Installer::buttonNext();?>
+<?=Installer::buttonNext();?>
 <?=$form->end()?>

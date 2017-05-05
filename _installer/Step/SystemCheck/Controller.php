@@ -19,7 +19,8 @@ use Jet\Mvc_Site;
 /**
  *
  */
-class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller {
+class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -31,34 +32,32 @@ class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller {
 	 */
 	public function getIsAvailable()
 	{
-		return count(Mvc_Site::getList() )==0;
+		return count( Mvc_Site::getList() )==0;
 	}
 
 	/**
 	 *
 	 */
-	public function main() {
-		if(Http_Request::POST()->exists('go')) {
+	public function main()
+	{
+		if( Http_Request::POST()->exists( 'go' ) ) {
 			Installer::goToNext();
 		}
 
 		$tester = new CompatibilityTester();
 
-		$tester->testSystem([
-			'test_PHPVersion',
-			'test_PDOExtension',
-			'test_RequestUriVar',
+		$tester->testSystem(
+			[
+				'test_PHPVersion', 'test_PDOExtension', 'test_RequestUriVar',
 
-			'check_INTLExtension',
-			'check_GDExtension',
-			'check_MaxUploadFileSize',
-			'check_PHPConfigPaths',
+				'check_INTLExtension', 'check_GDExtension', 'check_MaxUploadFileSize', 'check_PHPConfigPaths',
 
-		]);
+			]
+		);
 
-		$this->view->setVar('tester', $tester);
+		$this->view->setVar( 'tester', $tester );
 
-		$this->render('default');
+		$this->render( 'default' );
 	}
 
 }

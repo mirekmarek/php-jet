@@ -6,15 +6,16 @@ use Jet\Mvc_View;
 use Jet\Form;
 
 use JetUI\UI;
+
 /**
  * @var Mvc_View $this
- * @var Form $form
+ * @var Form     $form
  */
 
-$form = $this->getRaw('form');
+$form = $this->getRaw( 'form' );
 
-$form->setDefaultLabelWidth(2);
-$form->setDefaultFieldWidth(9);
+$form->setDefaultLabelWidth( 2 );
+$form->setDefaultFieldWidth( 9 );
 
 ?>
 <div class="col-md-12 main-col" style="padding-top: 5px;">
@@ -22,18 +23,18 @@ $form->setDefaultFieldWidth(9);
 	<?=$form->start();?>
 
 	<div class="toolbar" id="main-toolbar">
-		<?=UI::button_goBack()->setUrl(Mvc::getCurrentPage()->getURI())?>
+		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
 
-		<?php if(!$form->getIsReadonly()): ?>
+		<?php if( !$form->getIsReadonly() ): ?>
 			<?=UI::button_save()?>
 		<?php endif; ?>
 	</div>
 
-	<?=$form->field('locale')?>
-	<?=$form->field('title')?>
-	<?=$form->field('annotation')?>
-	<?=$form->field('text')->field()->addCustomCssStyle('height:400px')->formField()?>
-	<?=$form->field('date_time')?>
+	<?=$form->field( 'locale' )?>
+	<?=$form->field( 'title' )?>
+	<?=$form->field( 'annotation' )?>
+	<?=$form->field( 'text' )->field()->addCustomCssStyle( 'height:400px' )->formField()?>
+	<?=$form->field( 'date_time' )?>
 
 	<?=$form->end();?>
 

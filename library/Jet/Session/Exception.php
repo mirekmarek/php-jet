@@ -11,7 +11,8 @@ namespace Jet;
  * Class Session_Exception
  * @package Jet
  */
-class Session_Exception extends Exception {
+class Session_Exception extends Exception
+{
 
 	const CODE_INVALID_KEY = 1;
 

@@ -11,7 +11,8 @@ namespace Jet;
  * Class Autoloader_Loader_Zend
  * @package Jet
  */
-class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract {
+class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract
+{
 
 	/**
 	 *
@@ -29,7 +30,7 @@ class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract {
 	/**
 	 * @param mixed $library_path
 	 */
-	public function setLibraryPath($library_path)
+	public function setLibraryPath( $library_path )
 	{
 		$this->library_path = $library_path;
 	}
@@ -38,12 +39,13 @@ class Autoloader_Loader_Zend extends Autoloader_Loader_Abstract {
 	/**
 	 * Get class script path or false
 	 *
-	 * @param $class_name
+	 * @param string $class_name
 	 *
 	 * @return string|bool
 	 */
-	public function getClassPath($class_name) {
-		if(substr($class_name, 0, 4)!='Zend') {
+	public function getClassPath( $class_name )
+	{
+		if( substr( $class_name, 0, 4 )!='Zend' ) {
 			return false;
 		}
 

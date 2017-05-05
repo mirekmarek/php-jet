@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Layout_PackageCreator_JavaScript_Abstract
  * @package Jet
  */
-abstract class Mvc_Layout_PackageCreator_JavaScript_Abstract extends Mvc_Layout_PackageCreator_Abstract {
+abstract class Mvc_Layout_PackageCreator_JavaScript_Abstract extends Mvc_Layout_PackageCreator_Abstract
+{
 
 	/**
 	 * @var array|string[]
@@ -26,10 +27,11 @@ abstract class Mvc_Layout_PackageCreator_JavaScript_Abstract extends Mvc_Layout_
 	/**
 	 *
 	 * @param Locale $locale
-	 * @param array $URIs
-	 * @param array $code
+	 * @param array  $URIs
+	 * @param array  $code
 	 */
-	public function __construct( Locale $locale, array $URIs, array $code ) {
+	public function __construct( Locale $locale, array $URIs, array $code )
+	{
 
 		$this->locale = $locale;
 		$this->URIs = $URIs;
@@ -41,7 +43,8 @@ abstract class Mvc_Layout_PackageCreator_JavaScript_Abstract extends Mvc_Layout_
 	/**
 	 * @return array
 	 */
-	public function getOmittedCode() {
+	public function getOmittedCode()
+	{
 		return $this->omitted_code;
 	}
 
@@ -64,26 +67,29 @@ abstract class Mvc_Layout_PackageCreator_JavaScript_Abstract extends Mvc_Layout_
 	/**
 	 * @return string
 	 */
-	abstract public function getPackageRelativeFileName();
-
-	/**
-	 * @return string
-	 */
-	public function getPackagePath() {
+	public function getPackagePath()
+	{
 		return JET_PUBLIC_PATH.$this->getPackageRelativeFileName();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPackageDataPath() {
+	abstract public function getPackageRelativeFileName();
+
+	/**
+	 * @return string
+	 */
+	public function getPackageDataPath()
+	{
 		return JET_DATA_PATH.$this->getPackageRelativeFileName().'.dat';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPackageURI() {
+	public function getPackageURI()
+	{
 		return JET_PUBLIC_URI.$this->getPackageRelativeFileName();
 	}
 

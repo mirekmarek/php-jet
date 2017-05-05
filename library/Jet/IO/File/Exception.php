@@ -11,7 +11,8 @@ namespace Jet;
  * Class IO_File_Exception
  * @package Jet
  */
-class IO_File_Exception extends Exception {
+class IO_File_Exception extends Exception
+{
 
 	const CODE_READ_FAILED = 1;
 	const CODE_WRITE_FAILED = 2;

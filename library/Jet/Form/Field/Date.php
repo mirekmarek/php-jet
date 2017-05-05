@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_Date
  * @package Jet
  */
-class Form_Field_Date extends Form_Field_Input {
+class Form_Field_Date extends Form_Field_Input
+{
 	/**
 	 * @var string
 	 */
@@ -25,8 +26,7 @@ class Form_Field_Date extends Form_Field_Input {
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
-		self::ERROR_CODE_INVALID_FORMAT => ''
+		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 
@@ -35,18 +35,21 @@ class Form_Field_Date extends Form_Field_Input {
 	 *
 	 * @return bool
 	 */
-	public function validateValue() {
+	public function validateValue()
+	{
 
-		if(!$this->is_required && $this->_value==='') {
+		if( !$this->is_required&&$this->_value==='' ) {
 			$this->_value = null;
+
 			return true;
 		}
 
-		if($this->_value) {
-			$check = \DateTime::createFromFormat('Y-m-d', $this->_value);
+		if( $this->_value ) {
+			$check = \DateTime::createFromFormat( 'Y-m-d', $this->_value );
 
-			if(!$check) {
-				$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
+			if( !$check ) {
+				$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+
 				return false;
 			}
 		}
@@ -63,7 +66,7 @@ class Form_Field_Date extends Form_Field_Input {
 	{
 		$codes = [];
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 		$codes[] = self::ERROR_CODE_INVALID_FORMAT;

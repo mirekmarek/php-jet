@@ -14,7 +14,8 @@ use JetExampleApp\Auth_Visitor_User as User;
 /**
  *
  */
-class Controller_Main_Router extends Mvc_Controller_Router {
+class Controller_Main_Router extends Mvc_Controller_Router
+{
 
 
 	/**
@@ -28,48 +29,58 @@ class Controller_Main_Router extends Mvc_Controller_Router {
 
 		$validator = function( &$parameters ) {
 
-			$user = User::get($parameters[0]);
+			$user = User::get( $parameters[0] );
 
-			if(!$user) {
+			if( !$user ) {
 				return false;
 			}
 
 			$parameters['user'] = $user;
+
 			return true;
 
 		};
 
-		$base_URI = Mvc_Page::get(Main::ADMIN_MAIN_PAGE)->getURI();
+		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
 		$router = $this;
 
-		$URI_creator = function( $action, $action_uri, $id=0 ) use ($router, $base_URI) {
-			if(!$router->getActionAllowed($action)) {
+		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $base_URI ) {
+			if( !$router->getActionAllowed( $action ) ) {
 				return false;
 			}
 
 
-			if(!$id) {
+			if( !$id ) {
 				return $action_uri.'/';
 			}
 
-			return $base_URI.$action_uri.':'.((int)$id).'/';
+			return $base_URI.$action_uri.':'.( (int)$id ).'/';
 		};
 
 
-		$this->addAction('add', '/^add$/', Main::ACTION_ADD_USER )
-			->setCreateURICallback( function() use($URI_creator) { return $URI_creator('add', 'add'); } );
+		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_USER )->setCreateURICallback(
+			function() use ( $URI_creator ) {
+				return $URI_creator( 'add', 'add' );
+			}
+		);
 
-		$this->addAction('edit', '/^edit:([0-9]+)$/', Main::ACTION_UPDATE_USER )
-			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator('edit', 'edit', $id); } )
-			->setParametersValidatorCallback( $validator );
+		$this->addAction( 'edit', '/^edit:([0-9]+)$/', Main::ACTION_UPDATE_USER )->setCreateURICallback(
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator( 'edit', 'edit', $id );
+			}
+		)->setParametersValidatorCallback( $validator );
 
-		$this->addAction('view', '/^view:([0-9]+)$/', Main::ACTION_GET_USER )
-			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator('view', 'view', $id); } )
-			->setParametersValidatorCallback( $validator );
+		$this->addAction( 'view', '/^view:([0-9]+)$/', Main::ACTION_GET_USER )->setCreateURICallback(
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator( 'view', 'view', $id );
+			}
+		)->setParametersValidatorCallback( $validator );
 
-		$this->addAction('delete', '/^delete:([0-9]+)$/', Main::ACTION_DELETE_USER )
-			->setCreateURICallback( function($id) use($URI_creator) { return $URI_creator('delete', 'delete', $id); } )
-			->setParametersValidatorCallback( $validator );
+		$this->addAction( 'delete', '/^delete:([0-9]+)$/', Main::ACTION_DELETE_USER )->setCreateURICallback(
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator( 'delete', 'delete', $id );
+			}
+		)->setParametersValidatorCallback( $validator );
 
 
 		return $router;
@@ -79,24 +90,19 @@ class Controller_Main_Router extends Mvc_Controller_Router {
 	/**
 	 * @return bool|string
 	 */
-	public function getAddURI() {
-		return $this->getActionURI('add');
+	public function getAddURI()
+	{
+		return $this->getActionURI( 'add' );
 	}
 
 	/**
 	 * @param int $id
+	 *
 	 * @return bool|string
 	 */
-	public function getEditURI( $id ) {
-		return $this->getActionURI('edit', $id );
-	}
-
-	/**
-	 * @param int $id
-	 * @return bool|string
-	 */
-	public function getEditOrViewURI( $id ) {
-		if( !($uri=$this->getEditURI( $id )) ) {
+	public function getEditOrViewURI( $id )
+	{
+		if( !( $uri = $this->getEditURI( $id ) ) ) {
 			$uri = $this->getViewURI( $id );
 		}
 
@@ -105,18 +111,32 @@ class Controller_Main_Router extends Mvc_Controller_Router {
 
 	/**
 	 * @param int $id
+	 *
 	 * @return bool|string
 	 */
-	public function getViewURI( $id ) {
-		return $this->getActionURI('view', $id );
+	public function getEditURI( $id )
+	{
+		return $this->getActionURI( 'edit', $id );
 	}
 
 	/**
 	 * @param int $id
+	 *
 	 * @return bool|string
 	 */
-	public function getDeleteURI( $id ) {
-		return $this->getActionURI('delete', $id );
+	public function getViewURI( $id )
+	{
+		return $this->getActionURI( 'view', $id );
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return bool|string
+	 */
+	public function getDeleteURI( $id )
+	{
+		return $this->getActionURI( 'delete', $id );
 	}
 
 }

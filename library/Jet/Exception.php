@@ -11,5 +11,6 @@ namespace Jet;
  * Class Exception
  * @package Jet
  */
-class Exception extends \Exception {
+class Exception extends \Exception
+{
 }

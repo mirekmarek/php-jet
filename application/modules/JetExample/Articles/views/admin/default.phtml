@@ -12,39 +12,45 @@ use Jet\Mvc_View;
  * @var Mvc_View $this
  * @var dataGrid $grid
  */
-$grid = $this->getRaw('grid');
+$grid = $this->getRaw( 'grid' );
 
 /**
  * @var Controller_Admin_Main_Router $router
  */
 $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
 
-$c_edit = $grid->getColumn('_edit_');
-$c_edit->setDisplayCallback( function( Article $item ) use ( $router) {
+$c_edit = $grid->getColumn( '_edit_' );
+$c_edit->setDisplayCallback(
+	function( Article $item ) use ( $router ) {
 
-	if( ($edit_uri=$router->getEditURI($item->getId())) ):
-		echo UI::button_edit()->setUrl($edit_uri);
-	endif;
-	echo '&nbsp;';
+		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
+			echo UI::button_edit()->setUrl( $edit_uri );
+		endif;
+		echo '&nbsp;';
 
-	if( ($delete_uri=$router->getDeleteURI($item->getId())) ):
-		echo UI::button_delete()->setUrl($delete_uri);
-	endif;
-} );
+		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
+			echo UI::button_delete()->setUrl( $delete_uri );
+		endif;
+	}
+);
 
-$c_edit->setAllowSort(false);
+$c_edit->setAllowSort( false );
 $c_edit->setCssStyle( 'width:180px;' );
 
-$grid->getColumn('title')->setDisplayCallback( function( Article $item ) use ( $router) {
-	?>
-	<a href="<?=$router->getEditOrViewURI($item->getId());?>"><?=$item->getTitle();?></a>
-	<?php
-} );
+$grid->getColumn( 'title' )->setDisplayCallback(
+	function( Article $item ) use ( $router ) {
+		?>
+		<a href="<?=$router->getEditOrViewURI( $item->getId() );?>"><?=$item->getTitle();?></a>
+		<?php
+	}
+);
 
-$c_date_time = $grid->getColumn('date_time');
-$c_date_time->setDisplayCallback( function( Article $item ) {
-	echo Locale::dateAndTime( $item->getDateTime() );
-} );
+$c_date_time = $grid->getColumn( 'date_time' );
+$c_date_time->setDisplayCallback(
+	function( Article $item ) {
+		echo Locale::dateAndTime( $item->getDateTime() );
+	}
+);
 
 $c_date_time->setCssStyle( 'width:200px;' );
 
@@ -53,12 +59,12 @@ $c_date_time->setCssStyle( 'width:200px;' );
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
 	<div class="toolbar">
-		<?php if( ($add_uri=$router->getAddURI()) ): ?>
-			<?=UI::button_create(Tr::_('Create a new Article'))->setUrl($add_uri)?>
+		<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
+			<?=UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri )?>
 		<?php endif; ?>
 
 	</div>
 
-	<?=$grid->render(); ?>
+	<?=$grid->render();?>
 
 </div>

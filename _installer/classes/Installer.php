@@ -23,7 +23,8 @@ require JET_APP_INSTALLER_PATH.'classes/Step/Controller.php';
 /**
  *
  */
-class Installer {
+class Installer
+{
 
 
 	/**
@@ -63,21 +64,13 @@ class Installer {
 	protected static $layout;
 
 	/**
-	 * @return Session
-	 */
-	public static function getSession() {
-		return new Session('_installer');
-	}
-
-	/**
 	 * @param array $steps
 	 */
-	public static function setSteps( array $steps)
+	public static function setSteps( array $steps )
 	{
 		static::$steps = $steps;
 		static::$step_controllers = [];
 	}
-
 
 	/**
 	 * @return Locale[]
@@ -90,11 +83,11 @@ class Installer {
 	/**
 	 * @param array $available_locales
 	 */
-	public static function setAvailableLocales(array $available_locales)
+	public static function setAvailableLocales( array $available_locales )
 	{
 		$ls = [];
 
-		foreach($available_locales as $locale ) {
+		foreach( $available_locales as $locale ) {
 			$locale = new Locale( $locale );
 			$ls[(string)$locale] = $locale;
 		}
@@ -108,11 +101,11 @@ class Installer {
 	 */
 	public static function getSelectedLocales()
 	{
-		if(!self::$selected_locales) {
-			self::$selected_locales = static::getSession()->getValue('selected_locales');
+		if( !self::$selected_locales ) {
+			self::$selected_locales = static::getSession()->getValue( 'selected_locales' );
 
-			if(!self::$selected_locales) {
-				static::setSelectedLocales( [static::getCurrentLocale()->toString()] );
+			if( !self::$selected_locales ) {
+				static::setSelectedLocales( [ static::getCurrentLocale()->toString() ] );
 			}
 		}
 
@@ -122,82 +115,40 @@ class Installer {
 	/**
 	 * @param Locale[] $selected_locales
 	 */
-	public static function setSelectedLocales(array $selected_locales)
+	public static function setSelectedLocales( array $selected_locales )
 	{
 		self::$selected_locales = [];
 
-		foreach($selected_locales as $locale) {
-			$locale = new Locale($locale);
+		foreach( $selected_locales as $locale ) {
+			$locale = new Locale( $locale );
 
 			self::$selected_locales[$locale->toString()] = $locale;
 		}
 
-		static::getSession()->setValue('selected_locales', self::$selected_locales);
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public static function getTmpConfigFilePath() {
-		return JET_TMP_PATH.'config_install.php';
+		static::getSession()->setValue( 'selected_locales', self::$selected_locales );
 	}
 
 	/**
-	 *
+	 * @return Session
 	 */
-	public static function main() {
-		Http_Request::initialize(true);
-		Application::setConfigFilePath( static::getTmpConfigFilePath() );
-
-		static::initStepControllers();
-
-		$GET = Http_Request::GET();
-		if($GET->exists('step')) {
-
-			$steps = [];
-			$first_step = null;
-			foreach( static::$step_controllers as $controller ) {
-				if(!$first_step) {
-					$first_step=$controller->getName();
-				}
-				if($controller->getIsFuture()) {
-					break;
-				}
-				$steps[] = $controller->getName();
-			}
-
-			$step = $GET->getString('step', $first_step, $steps);
-
-			static::setCurrentStepName($step);
-			Http_Headers::movedTemporary( '?' );
-
-		}
-
-		static::initTranslator();
-
-		static::getCurrentStepController()->main();
-
-		static::getLayout()->setVar('steps', static::$step_controllers);
-
-		Translator::setCurrentNamespace(Translator::COMMON_NAMESPACE);
-		echo static::getLayout()->render();
-
-		exit();
+	public static function getSession()
+	{
+		return new Session( '_installer' );
 	}
 
 	/**
 	 * @return Locale
 	 */
-	public static function getCurrentLocale() {
-		if(!static::$current_locale) {
+	public static function getCurrentLocale()
+	{
+		if( !static::$current_locale ) {
 			$session = static::getSession();
 
-			if($session->getValueExists('current_locale')) {
-				static::$current_locale = $session->getValue('current_locale');
+			if( $session->getValueExists( 'current_locale' ) ) {
+				static::$current_locale = $session->getValue( 'current_locale' );
 			} else {
-				foreach(static::$available_locales as $locale) {
-					static::setCurrentLocale($locale);
+				foreach( static::$available_locales as $locale ) {
+					static::setCurrentLocale( $locale );
 					break;
 				}
 			}
@@ -211,40 +162,74 @@ class Installer {
 	/**
 	 * @param Locale $locale
 	 */
-	public static function setCurrentLocale( Locale $locale ) {
-		static::getSession()->setValue('current_locale', $locale);
+	public static function setCurrentLocale( Locale $locale )
+	{
+		static::getSession()->setValue( 'current_locale', $locale );
 		static::$current_locale = $locale;
 	}
 
-
 	/**
 	 *
 	 */
-	public static function initTranslator() {
+	public static function main()
+	{
+		Http_Request::initialize( true );
+		Application::setConfigFilePath( static::getTmpConfigFilePath() );
 
-		Translator::setAutoAppendUnknownPhrase(true);
+		static::initStepControllers();
 
-		/**
-		 * @var Translator_Backend_PHPFiles $backend
-		 */
-		$backend = Translator::getBackend();
-		$backend->setDictionariesBasePath( JET_APP_INSTALLER_PATH.'dictionaries/');
+		$GET = Http_Request::GET();
+		if( $GET->exists( 'step' ) ) {
 
-		Locale::setCurrentLocale( static::getCurrentLocale() );
-		Translator::setCurrentLocale( static::getCurrentLocale() );
-		Translator::setCurrentNamespace( static::getCurrentStepName() );
+			$steps = [];
+			$first_step = null;
+			foreach( static::$step_controllers as $controller ) {
+				if( !$first_step ) {
+					$first_step = $controller->getName();
+				}
+				if( $controller->getIsFuture() ) {
+					break;
+				}
+				$steps[] = $controller->getName();
+			}
 
+			$step = $GET->getString( 'step', $first_step, $steps );
+
+			static::setCurrentStepName( $step );
+			Http_Headers::movedTemporary( '?' );
+
+		}
+
+		static::initTranslator();
+
+		static::getCurrentStepController()->main();
+
+		static::getLayout()->setVar( 'steps', static::$step_controllers );
+
+		Translator::setCurrentNamespace( Translator::COMMON_NAMESPACE );
+		echo static::getLayout()->render();
+
+		exit();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getTmpConfigFilePath()
+	{
+		return JET_TMP_PATH.'config_install.php';
 	}
 
 	/**
 	 *
 	 */
-	protected static function initStepControllers() {
+	protected static function initStepControllers()
+	{
 
 		$steps = static::$steps;
 
-		while($steps) {
-			$step_name = array_shift($steps);
+		while( $steps ) {
+			$step_name = array_shift( $steps );
 
 			$step_base_path = JET_APP_INSTALLER_PATH.'Step/'.$step_name.'/';
 
@@ -263,9 +248,9 @@ class Installer {
 
 			$steps_after = $controller->getStepsAfter();
 
-			if($steps_after) {
-				foreach($steps_after as $step_after) {
-					array_unshift($steps, $step_after);
+			if( $steps_after ) {
+				foreach( $steps_after as $step_after ) {
+					array_unshift( $steps, $step_after );
 				}
 			}
 		}
@@ -276,7 +261,7 @@ class Installer {
 		$steps_map = [];
 
 		foreach( static::$step_controllers as $controller ) {
-			if(!$controller->getIsAvailable()) {
+			if( !$controller->getIsAvailable() ) {
 				continue;
 			}
 
@@ -285,29 +270,29 @@ class Installer {
 
 		$c = 0;
 		$i = 0;
-		$steps_count = count(static::$step_controllers);
+		$steps_count = count( static::$step_controllers );
 		foreach( static::$step_controllers as $controller ) {
 			$c++;
 
-			if($controller->getIsAvailable()) {
-				$is_current = ($controller->getName()==$current_step_name);
-				if($is_current) {
+			if( $controller->getIsAvailable() ) {
+				$is_current = ( $controller->getName()==$current_step_name );
+				if( $is_current ) {
 					$got_current = true;
 					$is_prev = false;
 					$is_next = false;
 
-					if($i>0) {
-						static::$step_controllers[$steps_map[$i-1]]->setIsPrevious(true);
+					if( $i>0 ) {
+						static::$step_controllers[$steps_map[$i-1]]->setIsPrevious( true );
 					}
 
-					if($i<=($steps_count-1)) {
-						if(isset($steps_map[$i+1])) {
-							static::$step_controllers[$steps_map[$i+1]]->setIsComing(true);
+					if( $i<=( $steps_count-1 ) ) {
+						if( isset( $steps_map[$i+1] ) ) {
+							static::$step_controllers[$steps_map[$i+1]]->setIsComing( true );
 						}
 					}
 
 				} else {
-					if($got_current) {
+					if( $got_current ) {
 						$is_prev = false;
 						$is_next = true;
 
@@ -317,13 +302,13 @@ class Installer {
 					}
 				}
 
-				$controller->setIsCurrent($is_current);
-				$controller->setIsFuture($is_next);
-				$controller->setIsPast($is_prev);
+				$controller->setIsCurrent( $is_current );
+				$controller->setIsFuture( $is_next );
+				$controller->setIsPast( $is_prev );
 
 				$i++;
 			} else {
-				$controller->setIsPast(true);
+				$controller->setIsPast( true );
 			}
 
 
@@ -334,36 +319,24 @@ class Installer {
 	}
 
 	/**
-	 * @param $step_name
-	 *
-	 * @return Installer_Step_Controller|null
-	 */
-	protected static function getStepControllerInstance( $step_name ) {
-		if(!isset(static::$step_controllers[$step_name])) {
-			return null;
-		}
-
-		return static::$step_controllers[$step_name];
-	}
-
-	/**
 	 * @return string
 	 */
-	public static function getCurrentStepName() {
+	public static function getCurrentStepName()
+	{
 
-		if(!static::$current_step_name) {
+		if( !static::$current_step_name ) {
 
 			$session = static::getSession();
 
-			$steps = array_keys(static::$step_controllers);
+			$steps = array_keys( static::$step_controllers );
 			$first_step = $steps[0];
 
 
-			if(!$session->getValueExists('current_step')) {
-				$session->setValue('current_step', $first_step);
+			if( !$session->getValueExists( 'current_step' ) ) {
+				$session->setValue( 'current_step', $first_step );
 			}
 
-			static::$current_step_name = $session->getValue('current_step');
+			static::$current_step_name = $session->getValue( 'current_step' );
 		}
 
 		return static::$current_step_name;
@@ -372,41 +345,77 @@ class Installer {
 	/**
 	 * @param string $current_step_name
 	 */
-	public static function setCurrentStepName( $current_step_name ) {
+	public static function setCurrentStepName( $current_step_name )
+	{
 
 		static::$current_step_name = $current_step_name;
-		static::getSession()->setValue('current_step', $current_step_name);
+		static::getSession()->setValue( 'current_step', $current_step_name );
 
 		static::initStepControllers();
 	}
 
+	/**
+	 *
+	 */
+	public static function initTranslator()
+	{
+
+		Translator::setAutoAppendUnknownPhrase( true );
+
+		/**
+		 * @var Translator_Backend_PHPFiles $backend
+		 */
+		$backend = Translator::getBackend();
+		$backend->setDictionariesBasePath( JET_APP_INSTALLER_PATH.'dictionaries/' );
+
+		Locale::setCurrentLocale( static::getCurrentLocale() );
+		Translator::setCurrentLocale( static::getCurrentLocale() );
+		Translator::setCurrentNamespace( static::getCurrentStepName() );
+
+	}
 
 	/**
 	 * @return Installer_Step_Controller
 	 */
-	public static function getCurrentStepController() {
+	public static function getCurrentStepController()
+	{
 		return static::getStepControllerInstance( static::getCurrentStepName() );
 	}
 
 	/**
+	 * @param $step_name
+	 *
 	 * @return Installer_Step_Controller|null
 	 */
-	public static function getComingController() {
-		foreach( static::$step_controllers as $controller ) {
-			if($controller->getIsComing()) {
-				return $controller;
-			}
+	protected static function getStepControllerInstance( $step_name )
+	{
+		if( !isset( static::$step_controllers[$step_name] ) ) {
+			return null;
 		}
 
-		return null;
+		return static::$step_controllers[$step_name];
+	}
+
+	/**
+	 * @return Mvc_Layout
+	 */
+	public static function getLayout()
+	{
+
+		if( !static::$layout ) {
+			static::$layout = new Mvc_Layout( JET_APP_INSTALLER_PATH.'layout/', 'default' );
+		}
+
+		return static::$layout;
 	}
 
 	/**
 	 * @return Installer_Step_Controller|null
 	 */
-	public static function getPreviousController() {
+	public static function getPreviousController()
+	{
 		foreach( static::$step_controllers as $controller ) {
-			if($controller->getIsPrevious()) {
+			if( $controller->getIsPrevious() ) {
 				return $controller;
 			}
 		}
@@ -418,38 +427,43 @@ class Installer {
 	/**
 	 *
 	 */
-	public static function goToNext() {
+	public static function goToNext()
+	{
 
 		$coming = static::getComingController();
-		if($coming) {
-			static::setCurrentStepName($coming->getName());
+		if( $coming ) {
+			static::setCurrentStepName( $coming->getName() );
 			Http_Headers::movedTemporary( '?' );
 		}
 
 	}
 
 	/**
-	 * @return Mvc_Layout
+	 * @return Installer_Step_Controller|null
 	 */
-	public static function getLayout() {
-
-		if(!static::$layout) {
-			static::$layout = new Mvc_Layout(JET_APP_INSTALLER_PATH.'layout/', 'default');
+	public static function getComingController()
+	{
+		foreach( static::$step_controllers as $controller ) {
+			if( $controller->getIsComing() ) {
+				return $controller;
+			}
 		}
 
-		return static::$layout;
+		return null;
 	}
-
 
 	/**
 	 * @return string
 	 */
-	public static function buttonBack() {
+	public static function buttonBack()
+	{
 		?>
-		<a href="?"><button type="submit" class="btn btn-warning">
-			<i class="glyphicon glyphicon-chevron-left"></i>
-			<?=Tr::_('Go Back', [], Tr::COMMON_NAMESPACE);?>
-		</button></a>
+		<a href="?">
+			<button type="submit" class="btn btn-warning">
+				<i class="glyphicon glyphicon-chevron-left"></i>
+				<?=Tr::_( 'Go Back', [], Tr::COMMON_NAMESPACE );?>
+			</button>
+		</a>
 		<?php
 		return '';
 	}
@@ -457,10 +471,11 @@ class Installer {
 	/**
 	 * @return string
 	 */
-	public static function buttonNext() {
+	public static function buttonNext()
+	{
 		?>
 		<button type="submit" class="btn btn-primary">
-			<?=Tr::_('Continue', [], Tr::COMMON_NAMESPACE);?><i class="glyphicon glyphicon-chevron-right"></i>
+			<?=Tr::_( 'Continue', [], Tr::COMMON_NAMESPACE );?><i class="glyphicon glyphicon-chevron-right"></i>
 		</button>
 		<?php
 		return '';
@@ -469,10 +484,11 @@ class Installer {
 	/**
 	 * @return string
 	 */
-	public static function buttonNextSkipIt() {
+	public static function buttonNextSkipIt()
+	{
 		?>
 		<button type="submit" class="btn btn-info">
-			<?=Tr::_('Skip this step', [], Tr::COMMON_NAMESPACE);?><i class="glyphicon glyphicon-chevron-right"></i>
+			<?=Tr::_( 'Skip this step', [], Tr::COMMON_NAMESPACE );?><i class="glyphicon glyphicon-chevron-right"></i>
 		</button>
 		<?php
 		return '';

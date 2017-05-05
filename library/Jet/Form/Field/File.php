@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_File
  * @package Jet
  */
-class Form_Field_File extends Form_Field_Abstract {
+class Form_Field_File extends Form_Field_Abstract
+{
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
 
@@ -24,9 +25,8 @@ class Form_Field_File extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
-		self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
-		self::ERROR_CODE_DISALLOWED_FILE_TYPE => ''
+		self::ERROR_CODE_EMPTY                => '', self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
+		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
 	];
 
 	/**
@@ -49,100 +49,105 @@ class Form_Field_File extends Form_Field_Abstract {
 	 */
 	protected $file_name;
 
-    /**
-     * @var string
-     */
-    protected $uploaded_file_path;
-
-    /**
-     * set form instance
-     *
-     * @param Form $form
-     */
-    public function setForm(Form $form) {
-        parent::setForm($form);
-
-        if(!$form->getEnctype()) {
-            $form->setEnctype(Form::ENCTYPE_FORM_DATA);
-        }
-        $form->setMethod(Form::METHOD_POST);
-    }
-
+	/**
+	 * @var string
+	 */
+	protected $uploaded_file_path;
 
 	/**
-	 * @param int|null $maximal_file_size
+	 * set form instance
+	 *
+	 * @param Form $form
 	 */
-	public function setMaximalFileSize($maximal_file_size) {
-		$this->maximal_file_size = $maximal_file_size;
+	public function setForm( Form $form )
+	{
+		parent::setForm( $form );
+
+		if( !$form->getEnctype() ) {
+			$form->setEnctype( Form::ENCTYPE_FORM_DATA );
+		}
+		$form->setMethod( Form::METHOD_POST );
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getMaximalFileSize() {
+	public function getMaximalFileSize()
+	{
 		return $this->maximal_file_size;
 	}
 
 	/**
-	 * @param array $allowed_mime_types
+	 * @param int|null $maximal_file_size
 	 */
-	public function setAllowedMimeTypes( array $allowed_mime_types ) {
-		$this->allowed_mime_types = $allowed_mime_types;
+	public function setMaximalFileSize( $maximal_file_size )
+	{
+		$this->maximal_file_size = $maximal_file_size;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getAllowedMimeTypes() {
+	public function getAllowedMimeTypes()
+	{
 		return $this->allowed_mime_types;
+	}
+
+	/**
+	 * @param array $allowed_mime_types
+	 */
+	public function setAllowedMimeTypes( array $allowed_mime_types )
+	{
+		$this->allowed_mime_types = $allowed_mime_types;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFileName() {
+	public function getFileName()
+	{
 		return $this->file_name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTmpFilePath() {
-		return $this->tmp_file_path;
+	public function getUploadedFilePath()
+	{
+		if( !$this->uploaded_file_path ) {
+			return $this->getTmpFilePath();
+		}
+
+		return $this->uploaded_file_path;
 	}
 
-    /**
-     * @param string $uploaded_file_path
-     */
-    public function setUploadedFilePath($uploaded_file_path)
-    {
-        $this->uploaded_file_path = $uploaded_file_path;
-    }
+	/**
+	 * @param string $uploaded_file_path
+	 */
+	public function setUploadedFilePath( $uploaded_file_path )
+	{
+		$this->uploaded_file_path = $uploaded_file_path;
+	}
 
-    /**
-     * @return string
-     */
-    public function getUploadedFilePath()
-    {
-        if(!$this->uploaded_file_path) {
-            return $this->getTmpFilePath();
-        }
-        return $this->uploaded_file_path;
-    }
-
-
-
+	/**
+	 * @return string
+	 */
+	public function getTmpFilePath()
+	{
+		return $this->tmp_file_path;
+	}
 
 	/**
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data ) {
+	public function catchValue( Data_Array $data )
+	{
 
 		$this->_value = null;
-		$this->_has_value = isset($_FILES[$this->_name]) && !empty($_FILES[$this->_name]['tmp_name']);
+		$this->_has_value = isset( $_FILES[$this->_name] )&&!empty( $_FILES[$this->_name]['tmp_name'] );
 
-		if($this->_has_value) {
+		if( $this->_has_value ) {
 			$this->_value_raw = $_FILES[$this->_name];
 			$this->_value = $_FILES[$this->_name]['tmp_name'];
 			$this->tmp_file_path = $_FILES[$this->_name]['tmp_name'];
@@ -157,32 +162,33 @@ class Form_Field_File extends Form_Field_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function validateValue() {
-        if(!$this->_has_value) {
-            if($this->is_required) {
-                $this->setValueError(self::ERROR_CODE_EMPTY);
+	public function validateValue()
+	{
+		if( !$this->_has_value ) {
+			if( $this->is_required ) {
+				$this->setValueError( self::ERROR_CODE_EMPTY );
 
-                return false;
-            }
+				return false;
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-		if($this->maximal_file_size) {
+		if( $this->maximal_file_size ) {
 			$file_size = IO_File::getSize( $this->_value );
 			if( $file_size>$this->maximal_file_size ) {
-				$this->setValueError(self::ERROR_CODE_FILE_IS_TOO_LARGE);
+				$this->setValueError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
 
 				return false;
 			}
 		}
 
-		if($this->allowed_mime_types) {
-			if(!in_array(
-				IO_File::getMimeType( $this->_value ),
-				$this->allowed_mime_types
-			)) {
-				$this->setValueError(self::ERROR_CODE_DISALLOWED_FILE_TYPE);
+		if( $this->allowed_mime_types ) {
+			if( !in_array(
+				IO_File::getMimeType( $this->_value ), $this->allowed_mime_types
+			)
+			) {
+				$this->setValueError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 
 				return false;
 			}
@@ -198,7 +204,7 @@ class Form_Field_File extends Form_Field_Abstract {
 	 */
 	public function render()
 	{
-		if($this->getIsReadonly()) {
+		if( $this->getIsReadonly() ) {
 			return '';
 		}
 
@@ -212,15 +218,15 @@ class Form_Field_File extends Form_Field_Abstract {
 	{
 		$codes = [];
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 
-		if($this->maximal_file_size) {
+		if( $this->maximal_file_size ) {
 			$codes[] = self::ERROR_CODE_FILE_IS_TOO_LARGE;
 		}
 
-		if($this->allowed_mime_types) {
+		if( $this->allowed_mime_types ) {
 			$codes[] = self::ERROR_CODE_DISALLOWED_FILE_TYPE;
 		}
 

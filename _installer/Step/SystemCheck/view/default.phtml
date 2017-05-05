@@ -8,32 +8,32 @@ use JetUI\UI;
 use Jet\Tr;
 
 /**
- * @var Mvc_View $this
+ * @var Mvc_View            $this
  * @var CompatibilityTester $tester
  */
-$tester = $this->getRaw('tester');
+$tester = $this->getRaw( 'tester' );
 
 ?>
 
 <table class="table table-striped">
 	<tbody>
-	<?php foreach($tester->getTestResults() as $test_result):
-		if($test_result->getPassed()) {
-			$icon = UI::icon('check');
+	<?php foreach( $tester->getTestResults() as $test_result ):
+		if( $test_result->getPassed() ) {
+			$icon = UI::icon( 'check' );
 			$css_class = '';
 		} else {
-			if($test_result->getIsWarning()) {
-				$icon = UI::icon('meh-o');
+			if( $test_result->getIsWarning() ) {
+				$icon = UI::icon( 'meh-o' );
 				$css_class = 'warning';
 			} else {
-				$icon = UI::icon('frown-o');
+				$icon = UI::icon( 'frown-o' );
 				$css_class = 'danger';
 			}
 		}
 		?>
-		<tr class="<?=$css_class; ?>">
+		<tr class="<?=$css_class;?>">
 			<td><?=$icon?></td>
-			<td><b><?=$test_result->getTitle();?></b><br/><?=$test_result->getDescription(); ?></td>
+			<td><b><?=$test_result->getTitle();?></b><br/><?=$test_result->getDescription();?></td>
 			<td><?=$test_result->getResultMessage();?></td>
 		</tr>
 		<?php
@@ -41,11 +41,11 @@ $tester = $this->getRaw('tester');
 	</tbody>
 </table>
 
-<?php if($tester->isCompatible()):
-	if(!$tester->hasWarnings()):
-		echo messages::createSuccess( Tr::_('The system is fully compatible!') );
+<?php if( $tester->isCompatible() ):
+	if( !$tester->hasWarnings() ):
+		echo messages::createSuccess( Tr::_( 'The system is fully compatible!' ) );
 	else:
-		echo messages::createWarning( Tr::_('The system is compatible. Please take care about warnings!') );
+		echo messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) );
 	endif;
 	?>
 	<form method="post">
@@ -54,5 +54,5 @@ $tester = $this->getRaw('tester');
 	</form>
 	<?php
 else:
-	echo messages::createDanger( Tr::_('Sorry, but the system is tom compatible!') );
+	echo messages::createDanger( Tr::_( 'Sorry, but the system is tom compatible!' ) );
 endif; ?>

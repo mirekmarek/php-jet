@@ -23,7 +23,7 @@ $dot_script = @xhprof_generate_dot_script(
 );
 
 /** @noinspection PhpUsageOfSilenceOperatorInspection */
-$content = @xhprof_generate_image_by_dot( $dot_script, $type );
+$content = @xhprof_generate_image_by_dot($dot_script, $type);
 
-xhprof_generate_mime_header( $type, strlen($content) );
+xhprof_generate_mime_header($type, strlen($content));
 echo $content;

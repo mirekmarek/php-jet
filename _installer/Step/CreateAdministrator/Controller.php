@@ -12,7 +12,8 @@ use Jet\Http_Request;
 /**
  *
  */
-class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Controller {
+class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -22,35 +23,36 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 	/**
 	 *
 	 */
-	public function main() {
-		if(Http_Request::POST()->exists('go')) {
+	public function main()
+	{
+		if( Http_Request::POST()->exists( 'go' ) ) {
 			Installer::goToNext();
 		}
 
-		if(Auth_Administrator_User::getList()->getCount()>0) {
+		if( Auth_Administrator_User::getList()->getCount()>0 ) {
 
-			$this->render('created');
+			$this->render( 'created' );
 		} else {
 
 			$user = new Auth_Administrator_User();
 			$form = $user->getRegistrationForm();
 
-			$form->getField('username')->setDefaultValue('admin');
+			$form->getField( 'username' )->setDefaultValue( 'admin' );
 
 
 			$user->setLocale( Installer::getCurrentLocale() );
 
-			$this->view->setVar('form', $form);
+			$this->view->setVar( 'form', $form );
 
 
-			if($user->catchForm( $form )) {
-				$user->setIsSuperuser(true);
+			if( $user->catchForm( $form ) ) {
+				$user->setIsSuperuser( true );
 				$user->save();
 
 				Installer::goToNext();
 			}
 
-			$this->render('default');
+			$this->render( 'default' );
 		}
 
 	}

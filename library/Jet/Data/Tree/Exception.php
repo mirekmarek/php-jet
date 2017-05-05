@@ -11,7 +11,8 @@ namespace Jet;
  * Class Data_Tree_Exception
  * @package Jet
  */
-class Data_Tree_Exception extends Exception {
+class Data_Tree_Exception extends Exception
+{
 
 	const CODE_INCONSISTENT_TREE_DATA = 1;
 	const CODE_TREE_ALREADY_IN_FOREST = 2;

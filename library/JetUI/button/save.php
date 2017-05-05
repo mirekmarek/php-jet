@@ -14,24 +14,24 @@ namespace JetUI;
 class button_save extends button
 {
 
-    /**
-     * @var string
-     */
-    protected $type = 'submit';
+	/**
+	 * @var string
+	 */
+	protected $type = 'submit';
 
-    /**
-     * @var string
-     */
-    protected $class = 'primary';
+	/**
+	 * @var string
+	 */
+	protected $class = 'primary';
 
-    /**
-     * @var string
-     */
-    protected $icon = 'save';
+	/**
+	 * @var string
+	 */
+	protected $icon = 'save';
 
-    /**
-     * @var string
-     */
-    protected $icon_class = UI::DEFAULT_ICON_CLASS;
+	/**
+	 * @var string
+	 */
+	protected $icon_class = UI::DEFAULT_ICON_CLASS;
 
 }

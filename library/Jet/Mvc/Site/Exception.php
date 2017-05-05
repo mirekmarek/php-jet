@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Site_Exception
  * @package Jet
  */
-class Mvc_Site_Exception extends Exception {
+class Mvc_Site_Exception extends Exception
+{
 
 	const CODE_DATA_CHECK_FATAL_ERROR = 20;
 

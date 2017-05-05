@@ -18,7 +18,8 @@ use Jet\Mvc_Site;
 /**
  *
  */
-class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
+class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -35,27 +36,28 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
 	 */
 	public function getIsAvailable()
 	{
-		return count(Mvc_Site::getList() )==0;
+		return count( Mvc_Site::getList() )==0;
 	}
 
 	/**
 	 *
 	 */
-	public function main() {
+	public function main()
+	{
 
-		$this->main_config = new Db_Config(true);
+		$this->main_config = new Db_Config( true );
 
 		$connection_name = 'default';
 		$connection_type = 'mysql';
 
-		$this->view->setVar('connection_type', $connection_type);
+		$this->view->setVar( 'connection_type', $connection_type );
 
 		$GET = Http_Request::GET();
 
-		if($GET->exists('test_connection')) {
-			$this->{'_testConnection_'.$connection_type}($connection_name);
+		if( $GET->exists( 'test_connection' ) ) {
+			$this->{'_testConnection_'.$connection_type}( $connection_name );
 		} else {
-			$this->{'_editConnection_'.$connection_type}($connection_name);
+			$this->{'_editConnection_'.$connection_type}( $connection_name );
 		}
 
 	}
@@ -64,81 +66,78 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
 	/**
 	 * @param string $edit_connection_name
 	 */
-	protected function _editConnection_mysql( $edit_connection_name) {
-		$connection_config = $this->main_config->getConnection($edit_connection_name);
-		if(!$connection_config) {
+	protected function _editConnection_mysql( $edit_connection_name )
+	{
+		$connection_config = $this->main_config->getConnection( $edit_connection_name );
+		if( !$connection_config ) {
 			return;
 		}
 
 		$DSN_data = [
-			'host' => 'localhost',
-			'port' => 3306,
-			'dbname' => '',
-			'unix_socket' => ''
+			'host' => 'localhost', 'port' => 3306, 'dbname' => '', 'unix_socket' => '',
 		];
 
 		$DSN = $connection_config->getDsn();
-		$DSN = explode(':', $DSN);
+		$DSN = explode( ':', $DSN );
 
-		if(count($DSN)==2) {
+		if( count( $DSN )==2 ) {
 			$DSN = $DSN[1];
-			$DSN = explode(';', $DSN);
+			$DSN = explode( ';', $DSN );
 
 			foreach( $DSN as $DSN_line ) {
-				$DSN_line = explode('=', $DSN_line);
-				if(count($DSN_line)!=2) {
+				$DSN_line = explode( '=', $DSN_line );
+				if( count( $DSN_line )!=2 ) {
 					continue;
 				}
 
-				list($key, $val) = $DSN_line;
+				list( $key, $val ) = $DSN_line;
 
-				if(array_key_exists($key, $DSN_data)) {
+				if( array_key_exists( $key, $DSN_data ) ) {
 					$DSN_data[$key] = $val;
 				}
 			}
 		}
 
 
-		$username = new Form_Field_Input('username', 'Username:', $connection_config->getUsername() );
-		$username->setIsRequired(true);
-		$username->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
-		]);
+		$username = new Form_Field_Input( 'username', 'Username:', $connection_config->getUsername() );
+		$username->setIsRequired( true );
+		$username->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+			]
+		);
 
-		$password = new Form_Field_Input('password', 'Password:', $connection_config->getPassword() );
-		$password->setIsRequired(true);
-		$password->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the password'
-		]);
+		$password = new Form_Field_Input( 'password', 'Password:', $connection_config->getPassword() );
+		$password->setIsRequired( true );
+		$password->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the password',
+			]
+		);
 
-		$dbname = new Form_Field_Input('dbname', 'Database:', $DSN_data['dbname'] );
-		$dbname->setIsRequired(true);
-		$dbname->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the name of the database'
-		]);
-
-
-		$host = new Form_Field_Input('host', 'Host:', $DSN_data['host'] );
-		$port = new Form_Field_Input('port', 'Port:', $DSN_data['port'] );
-		$unix_socket = new Form_Field_Input('unix_socket', 'Unix socket path:', $DSN_data['unix_socket'] );
-
+		$dbname = new Form_Field_Input( 'dbname', 'Database:', $DSN_data['dbname'] );
+		$dbname->setIsRequired( true );
+		$dbname->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the name of the database',
+			]
+		);
 
 
-		$form = new Form('edit_connection', [
-			$username,
-			$password,
-			$dbname,
-			$host,
-			$port,
-			$unix_socket
-		]);
+		$host = new Form_Field_Input( 'host', 'Host:', $DSN_data['host'] );
+		$port = new Form_Field_Input( 'port', 'Port:', $DSN_data['port'] );
+		$unix_socket = new Form_Field_Input( 'unix_socket', 'Unix socket path:', $DSN_data['unix_socket'] );
 
-		if(
-			$form->catchValues() &&
-			$form->validateValues()
-		) {
 
-			if($unix_socket->getValue()) {
+		$form = new Form(
+			'edit_connection', [
+				                 $username, $password, $dbname, $host, $port, $unix_socket,
+			                 ]
+		);
+
+		if( $form->catchValues()&&$form->validateValues() ) {
+
+			if( $unix_socket->getValue() ) {
 				$DSN = 'unix_socket='.$unix_socket->getValue();
 			} else {
 				$DSN = 'host='.$host->getValue().';port='.$port->getValue();
@@ -147,26 +146,27 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
 			$DSN .= ';dbname='.$dbname->getValue();
 			$DSN .= ';charset=utf8';
 
-			$connection_config->setUsername($username->getValue());
-			$connection_config->setPassword($password->getValue());
-			$connection_config->setDSN($DSN);
+			$connection_config->setUsername( $username->getValue() );
+			$connection_config->setPassword( $password->getValue() );
+			$connection_config->setDSN( $DSN );
 
 			$this->main_config->save();
 
-			Http_Headers::movedTemporary('?test_connection');
+			Http_Headers::movedTemporary( '?test_connection' );
 		}
 
-		$this->view->setVar('form', $form);
+		$this->view->setVar( 'form', $form );
 
-		$this->render('edit-connection');
+		$this->render( 'edit-connection' );
 	}
 
 	/**
 	 * @param string $test_connection_name
 	 */
-	protected function _testConnection_mysql( $test_connection_name) {
-		$connection_config = $this->main_config->getConnection($test_connection_name);
-		if(!$connection_config) {
+	protected function _testConnection_mysql( $test_connection_name )
+	{
+		$connection_config = $this->main_config->getConnection( $test_connection_name );
+		if( !$connection_config ) {
 			return;
 		}
 
@@ -175,26 +175,26 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller {
 		$OK = true;
 		$error_message = '';
 		try {
-			Db::get($test_connection_name);
-		} catch(\Exception $e) {
+			Db::get( $test_connection_name );
+		} catch( \Exception $e ) {
 			$error_message = $e->getMessage();
 			$OK = false;
 		}
 
-		if($OK) {
-			if(Http_Request::POST()->exists('go')) {
+		if( $OK ) {
+			if( Http_Request::POST()->exists( 'go' ) ) {
 				Installer::goToNext();
 			}
 		}
 
-		$this->view->setVar('form', $form);
-		$this->view->setVar('connection_name', $test_connection_name);
-		$this->view->setVar('config', $connection_config);
-		$this->view->setVar('OK', $OK);
-		$this->view->setVar('error_message', $error_message);
+		$this->view->setVar( 'form', $form );
+		$this->view->setVar( 'connection_name', $test_connection_name );
+		$this->view->setVar( 'config', $connection_config );
+		$this->view->setVar( 'OK', $OK );
+		$this->view->setVar( 'error_message', $error_message );
 
 
-		$this->render('test-connection');
+		$this->render( 'test-connection' );
 
 	}
 

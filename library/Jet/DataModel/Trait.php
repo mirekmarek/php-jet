@@ -11,25 +11,27 @@ namespace Jet;
  * Class DataModel_Trait
  * @package Jet
  */
-trait DataModel_Trait {
-    use DataModel_Trait_Definition;
-    use DataModel_Trait_IdObject;
-    use DataModel_Trait_InternalState;
-    use DataModel_Trait_MagicMethods;
-    use DataModel_Trait_Backend;
-    use DataModel_Trait_Load;
-    use DataModel_Trait_Save;
-    use DataModel_Trait_Delete;
-    use DataModel_Trait_Forms;
-    use DataModel_Trait_Exports;
-    use DataModel_Trait_Fetch;
+trait DataModel_Trait
+{
+	use DataModel_Trait_Definition;
+	use DataModel_Trait_IdObject;
+	use DataModel_Trait_InternalState;
+	use DataModel_Trait_MagicMethods;
+	use DataModel_Trait_Backend;
+	use DataModel_Trait_Load;
+	use DataModel_Trait_Save;
+	use DataModel_Trait_Delete;
+	use DataModel_Trait_Forms;
+	use DataModel_Trait_Exports;
+	use DataModel_Trait_Fetch;
 
-    /**
-     *
-     */
-    public function __construct() {
-        $this->initNewObject();
-    }
+	/**
+	 *
+	 */
+	public function __construct()
+	{
+		$this->initNewObject();
+	}
 
 
 }

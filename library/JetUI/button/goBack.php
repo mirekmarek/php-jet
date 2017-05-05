@@ -14,15 +14,15 @@ namespace JetUI;
 class button_goBack extends button
 {
 
-    /**
-     * @var string
-     */
-    protected $class = 'default';
+	/**
+	 * @var string
+	 */
+	protected $class = 'default';
 
-    /**
-     * @var string
-     */
-    protected $icon = 'chevron-left';
+	/**
+	 * @var string
+	 */
+	protected $icon = 'chevron-left';
 
 
 }

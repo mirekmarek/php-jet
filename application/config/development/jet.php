@@ -21,6 +21,6 @@ const JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = true;
 
 
 /** @noinspection PhpIncludeInspection */
-require realpath(__DIR__.'/../_common/jet.php');
+require realpath( __DIR__.'/../_common/jet.php' );
 
 

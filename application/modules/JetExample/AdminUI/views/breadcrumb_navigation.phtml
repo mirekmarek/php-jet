@@ -10,9 +10,10 @@ $items = breadcrumbNavigation::getItems();
 		 * @var breadcrumbNavigation_item $item
 		 */
 		?>
-		<?php if($item->getIsActive()): ?><li class="active"><?php else: ?><li><?php endif; ?>
-		<?php if(!$item->getIsLast()): ?><a href="<?=$item->getURL(); ?>"><?=$item->getLabel(); ?></a>
-	<?php else: ?><?=$item->getLabel(); ?><?php endif; ?>
+		<?php if( $item->getIsActive() ): ?>
+		<li class="active"><?php else: ?><li><?php endif; ?>
+		<?php if( !$item->getIsLast() ): ?><a href="<?=$item->getURL();?>"><?=$item->getLabel();?></a>
+	<?php else: ?><?=$item->getLabel();?><?php endif; ?>
 		</li>
 	<?php endforeach; ?>
 </ol>

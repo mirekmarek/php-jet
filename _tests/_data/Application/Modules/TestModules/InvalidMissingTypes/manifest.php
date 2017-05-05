@@ -10,8 +10,7 @@ return [
 	'description' => 'Unit test module',
 
 	'require' => [
-			'RequireModule1',
-			'RequireModule2'
+		'RequireModule1', 'RequireModule2',
 	],
 
 ];

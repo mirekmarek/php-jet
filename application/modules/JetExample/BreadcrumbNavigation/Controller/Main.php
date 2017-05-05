@@ -6,35 +6,38 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
+
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard {
+class Controller_Main extends Mvc_Controller_Standard
+{
+	protected static $ACL_actions_check_map = [
+		'default' => false,
+	];
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
 
-	protected static $ACL_actions_check_map = [
-		'default' => false
-	];
-
 	/**
 	 *
 	 */
-	public function initialize() {
+	public function initialize()
+	{
 	}
 
 
-	public function default_Action() {
+	public function default_Action()
+	{
 
-        $view = $this->getActionParameterValue('view', 'default');
+		$view = $this->getActionParameterValue( 'view', 'default' );
 
-		$this->view->setVar('data', Mvc::getCurrentPage()->getBreadcrumbNavigation());
+		$this->view->setVar( 'data', Mvc::getCurrentPage()->getBreadcrumbNavigation() );
 
 		$this->render( $view );
 	}

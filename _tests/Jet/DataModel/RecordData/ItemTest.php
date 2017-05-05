@@ -13,7 +13,8 @@ require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 /**
  *
  */
-class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
+class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase
+{
 	/**
 	 * @var DataModel_Query_DataModelTestMock
 	 */
@@ -30,10 +31,27 @@ class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
 	protected $object;
 
 	/**
+	 * @covers \Jet\DataModel_RecordData_Item::getPropertyDefinition
+	 */
+	public function testGetPropertyDefinition()
+	{
+		$this->assertEquals( $this->properties['string_property'], $this->object->getPropertyDefinition() );
+	}
+
+	/**
+	 * @covers \Jet\DataModel_RecordData_Item::getValue
+	 */
+	public function testGetValue()
+	{
+		$this->assertEquals( 'My Test', $this->object->getValue() );
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
-	protected function setUp() {
+	protected function setUp()
+	{
 		$this->data_model = new DataModel_Query_DataModelTestMock();
 
 		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
@@ -45,20 +63,7 @@ class DataModel_RecordData_ItemTest extends \PHPUnit_Framework_TestCase {
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
-	protected function tearDown() {
-	}
-
-	/**
-	 * @covers \Jet\DataModel_RecordData_Item::getPropertyDefinition
-	 */
-	public function testGetPropertyDefinition() {
-		$this->assertEquals($this->properties['string_property'], $this->object->getPropertyDefinition() );
-	}
-
-	/**
-	 * @covers \Jet\DataModel_RecordData_Item::getValue
-	 */
-	public function testGetValue() {
-		$this->assertEquals('My Test', $this->object->getValue() );
+	protected function tearDown()
+	{
 	}
 }

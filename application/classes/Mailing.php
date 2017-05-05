@@ -14,46 +14,52 @@ use Jet\Locale;
  * Class Mailing
  * @package JetExampleApp
  */
-class Mailing extends BaseObject {
+class Mailing extends BaseObject
+{
 	/**
 	 * @var Mailing_Config
 	 */
 	protected static $config = null;
 
 	/**
+	 * @param string|Locale $locale
+	 *
+	 * @return Mailing_Config_Sender
+	 */
+	public static function getSenderConfig( $locale )
+	{
+		$locale = (string)$locale;
+
+		return static::getConfig()->getSender( $locale );
+	}
+
+	/**
 	 *
 	 * @return Mailing_Config
 	 */
-	public static function getConfig(){
-		if(!static::$config) {
+	public static function getConfig()
+	{
+		if( !static::$config ) {
 			static::$config = new Mailing_Config();
 		}
+
 		return static::$config;
 	}
 
 	/**
-	 * @param string|Locale $locale
-	 * @return Mailing_Config_Sender
-	 */
-	public static function getSenderConfig( $locale ) {
-		$locale = (string)$locale;
-
-		return static::getConfig()->getSender($locale);
-	}
-
-	/**
-	 * @param string $to
-	 * @param string $template_id
-	 * @param array $data
+	 * @param string        $to
+	 * @param string        $template_id
+	 * @param array         $data
 	 * @param string|Locale $locale
 	 */
-	public static function sendTemplate( $to, $template_id, array $data=[], $locale=null ) {
-		if(!$locale) {
+	public static function sendTemplate( $to, $template_id, array $data = [], $locale = null )
+	{
+		if( !$locale ) {
 			$locale = Locale::getCurrentLocale();
 		}
 
 		$template = new Mailing_Template( $template_id, $locale, $data );
-		$template->send($to);
+		$template->send( $to );
 	}
 
 

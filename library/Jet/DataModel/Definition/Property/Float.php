@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Property_Float
  * @package Jet
  */
-class DataModel_Definition_Property_Float extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_Float extends DataModel_Definition_Property_Abstract
+{
 	/***
 	 * @var string
 	 */
@@ -31,17 +32,18 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 	 * @param array $definition_data
 	 *
 	 */
-	public function setUp( $definition_data ) {
-		if(!$definition_data) {
+	public function setUp( $definition_data )
+	{
+		if( !$definition_data ) {
 			return;
 		}
 
-		parent::setUp($definition_data);
+		parent::setUp( $definition_data );
 
-		if($this->form_field_min_value!==null) {
+		if( $this->form_field_min_value!==null ) {
 			$this->form_field_min_value = (float)$this->form_field_min_value;
 		}
-		if($this->form_field_max_value!==null) {
+		if( $this->form_field_max_value!==null ) {
 			$this->form_field_max_value = (float)$this->form_field_max_value;
 		}
 
@@ -50,35 +52,37 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property_
 	/**
 	 * @param float &$value
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
 		$value = (float)$value;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTechnicalDescription() {
+	public function getTechnicalDescription()
+	{
 		$res = 'Type: '.$this->getType().' ';
 
-		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
+		$res .= ', required: '.( $this->form_field_is_required ? 'yes' : 'no' );
 
-		if($this->is_id) {
+		if( $this->is_id ) {
 			$res .= ', is id';
 		}
 
-		if($this->default_value) {
+		if( $this->default_value ) {
 			$res .= ', default value: '.$this->default_value;
 		}
 
-		if($this->form_field_min_value) {
+		if( $this->form_field_min_value ) {
 			$res .= ', min. value: '.$this->form_field_min_value;
 		}
 
-		if($this->form_field_max_value) {
+		if( $this->form_field_max_value ) {
 			$res .= ', max. value: '.$this->form_field_max_value;
 		}
 
-		if($this->description) {
+		if( $this->description ) {
 			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 

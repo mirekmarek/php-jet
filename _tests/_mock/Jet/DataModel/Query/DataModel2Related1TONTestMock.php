@@ -17,7 +17,8 @@ namespace Jet;
  */
 
 
-class DataModel_Query_DataModel2Related1TONTestMock extends DataModel_Related_1toN {
+class DataModel_Query_DataModel2Related1TONTestMock extends DataModel_Related_1toN
+{
 
 	/**
 	 *
@@ -65,16 +66,20 @@ class DataModel_Query_DataModel2Related1TONTestMock extends DataModel_Related_1t
 	 */
 	protected $string_property = 'default value';
 
-	public function _test_get_property_options( $property_name ) {
-		$data = BaseObject_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
-		return $data[ $property_name ];
+	/** @noinspection PhpMissingParentConstructorInspection */
+	public function __construct()
+	{
 	}
 
 
 	/**
 	 */
-	/** @noinspection PhpMissingParentConstructorInspection */
-	public function __construct() {
+
+	public function _test_get_property_options( $property_name )
+	{
+		$data = BaseObject_Reflection::get( get_called_class(), 'data_model_properties_definition', false );
+
+		return $data[$property_name];
 	}
 
 }

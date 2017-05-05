@@ -12,7 +12,8 @@ use Jet\Application_Modules_Module_Abstract;
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract {
+class Main extends Application_Modules_Module_Abstract
+{
 	const ADMIN_MAIN_PAGE = 'admin/administrators-users';
 
 	const ACTION_GET_USER = 'get_user';
@@ -24,10 +25,8 @@ class Main extends Application_Modules_Module_Abstract {
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		self::ACTION_GET_USER => 'Get user(s) data',
-		self::ACTION_ADD_USER => 'Add new user',
-		self::ACTION_UPDATE_USER => 'Update user',
-		self::ACTION_DELETE_USER => 'Delete user',
+		self::ACTION_GET_USER    => 'Get user(s) data', self::ACTION_ADD_USER => 'Add new user',
+		self::ACTION_UPDATE_USER => 'Update user', self::ACTION_DELETE_USER => 'Delete user',
 	];
 
 	/**
@@ -39,9 +38,10 @@ class Main extends Application_Modules_Module_Abstract {
 	/**
 	 * @return Controller_Main_Router
 	 */
-	public function getAdminControllerRouter() {
+	public function getAdminControllerRouter()
+	{
 
-		if(!$this->admin_controller_router) {
+		if( !$this->admin_controller_router ) {
 			$this->admin_controller_router = new Controller_Main_Router( $this );
 		}
 

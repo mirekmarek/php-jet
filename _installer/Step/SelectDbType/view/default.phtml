@@ -6,14 +6,14 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Form $form
+ * @var Form     $form
  */
-$form = $this->getRaw('form');
-$form->setDefaultLabelWidth(2);
-$form->setDefaultFieldWidth(4);
+$form = $this->getRaw( 'form' );
+$form->setDefaultLabelWidth( 2 );
+$form->setDefaultFieldWidth( 4 );
 ?>
 
 <?=$form->start()?>
-<?=$form->field('type')?>
+<?=$form->field( 'type' )?>
 <?=Installer::buttonNext();?>
 <?=$form->end()?>

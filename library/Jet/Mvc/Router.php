@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Router
  * @package Jet
  */
-class Mvc_Router extends Mvc_Router_Abstract {
+class Mvc_Router extends Mvc_Router_Abstract
+{
 
 
 	/**
@@ -93,30 +94,28 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	 *
 	 * @param string $request_URL
 	 *
-     * @return void
-     *
-     * @throws Mvc_Router_Exception
+	 * @return void
+	 *
+	 * @throws Mvc_Router_Exception
 	 */
-	public function initialize( $request_URL ) {
+	public function initialize( $request_URL )
+	{
 
 		if( !$request_URL ) {
 			throw new Mvc_Router_Exception(
-				'URL is not defined',
-				Mvc_Router_Exception::CODE_URL_NOT_DEFINED
+				'URL is not defined', Mvc_Router_Exception::CODE_URL_NOT_DEFINED
 			);
 		}
 
 		$this->request_URL = $request_URL;
 
 
-
-		$this->parsed_request_URL = Http_URL::parseRequestURL($request_URL);
+		$this->parsed_request_URL = Http_URL::parseRequestURL( $request_URL );
 		$this->is_SSL_request = $this->parsed_request_URL->getIsSSL();
 
 		if( !$this->parsed_request_URL->getIsValid() ) {
 			throw new Mvc_Router_Exception(
-				'Unable to parse URL',
-				Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
+				'Unable to parse URL', Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
 			);
 		}
 
@@ -129,179 +128,273 @@ class Mvc_Router extends Mvc_Router_Abstract {
 			return;
 		}
 
-        if( !$this->resolveSiteAndLocale() ) {
-            return;
-        }
+		if( !$this->resolveSiteAndLocale() ) {
+			return;
+		}
 
-        if( !$this->resolvePage() ) {
-            return;
-        }
+		if( !$this->resolvePage() ) {
+			return;
+		}
 
 		$this->resolveAuthentication();
 	}
 
+	/**
+	 * Validated the URI path format. Returns true if the format is OK and the redirect is not needed.
+	 *
+	 * - last char in URI path must be / ( ... or some document. example: .html )
+	 *
+	 * @return bool
+	 */
+	protected function validateURIFormat()
+	{
 
-    /**
-     * @return bool
-     */
-    protected function resolveSiteAndLocale() {
-        $site_i = Mvc_Factory::getSiteInstance();
+		$end_i = count( $this->path_fragments )-1;
 
-        $site_URLs_map = $site_i->getUrlsMap();
-
-        $known_URLs = array_keys($site_URLs_map);
-
-        usort( $known_URLs, function($a,$b){
-            return strlen($b)-strlen($a);
-        } );
-
-
-        /**
-         * @var Mvc_Site_LocalizedData_URL_Interface $current_site_URL
-         */
-        $current_site_URL = null;
-
-        $current_host = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
-        if( $this->parsed_request_URL->getPort() ) {
-            $current_host .= ':'.$this->parsed_request_URL->getPort();
-        }
+		$base_URL = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
+		if( $this->parsed_request_URL->getPort() ) {
+			$base_URL .= ':'.$this->parsed_request_URL->getPort();
+		}
 
 
-        foreach( $known_URLs as $URL ) {
+		//last char in URI path must be /
+		if( $this->path_fragments[$end_i]==='' ) {
 
-            $current_compare = $current_host;
-            $slashes_count = 0;
+			$this->request_URL = $base_URL.'/'.implode( '/', $this->path_fragments );
 
-            if($this->path_fragments) {
-                $slashes_count = substr_count($URL, '/')-2;
+			unset( $this->path_fragments[$end_i] );
 
-                if( $slashes_count ) {
-                    $path_part = array_slice($this->path_fragments, 0, $slashes_count);
-                    $path_part = implode('/', $path_part);
+			return true;
+		}
 
-                    $current_compare .= '/'.$path_part;
-                }
-            }
+		//... or some opened document, or XML and so on
+		if( strpos( $this->path_fragments[$end_i], '.' )!==false ) {
+			$this->request_URL = $base_URL.'/'.implode( '/', $this->path_fragments );
 
-            if($current_compare==$URL) {
-                $current_site_URL = $site_URLs_map[$URL];
-                if($slashes_count) {
-                    $this->path_fragments = array_slice($this->path_fragments, $slashes_count);
-                }
-                break;
-            }
-
-        }
-
-        if(!$current_site_URL) {
-            $this->setIs404();
-
-            return false;
-        }
-
-        $this->is_SSL_request = $current_site_URL->getIsSSL();
-
-        $this->setSite( Mvc_Site::get( $current_site_URL->getSiteId() ) );
-        $this->setLocale( $current_site_URL->getLocale() );
+			return true;
+		}
 
 
+		$this->setIsRedirect(
+			$base_URL.$this->parsed_request_URL->getPath().'/'.( ( $this->parsed_request_URL->getQuery() ) ?
+				'?'.$this->parsed_request_URL->getQuery() : '' ),
 
-        if(!$current_site_URL->getIsDefault() ) {
+			Http_Headers::CODE_301_MOVED_PERMANENTLY
+		);
 
-            $this->setIsRedirect(
-                $this->getSite()->getDefaultURL( $this->getLocale() )
-                    . implode('/', $this->path_fragments)
-                    . ( $this->path_fragments ? '/' : '' )
-                    . $this->parsed_request_URL->getQuery()
-            );
+		return false;
+	}
 
-            return false;
-        }
+	/**
+	 * @return bool
+	 */
+	protected function resolveSiteAndLocale()
+	{
+		$site_i = Mvc_Factory::getSiteInstance();
 
-        return true;
-    }
+		$site_URLs_map = $site_i->getUrlsMap();
 
+		$known_URLs = array_keys( $site_URLs_map );
 
-    /**
-     * @return bool
-     *
-     * @throws Mvc_Router_Exception
-     */
-    protected function resolvePage() {
-        $path = $this->path_fragments;
-
-        $URIs = [];
-        for($i=count($this->path_fragments); $i>=0; $i--) {
-
-            if($i>0) {
-                $URI = '/'.implode('/', $path).'/';
-                unset($path[count($path)-1]);
-            } else {
-                $URI = '/';
-            }
-
-            $URIs[] =$URI;
-        }
+		usort(
+			$known_URLs, function( $a, $b ) {
+			return strlen( $b )-strlen( $a );
+		}
+		);
 
 
-        $page_i = Mvc_Factory::getPageInstance();
+		/**
+		 * @var Mvc_Site_LocalizedData_URL_Interface $current_site_URL
+		 */
+		$current_site_URL = null;
 
-        $page = null;
-        foreach( $URIs as $i=>$URI ) {
-            $page = $page_i->getByRelativeURI($this->getSite(), $this->getLocale(), $URI);
-            if($page) {
-                if($i) {
-                    $this->path_fragments = array_slice($this->path_fragments, -1*$i);
-                } else {
-                    $this->path_fragments = [];
-                }
-
-                break;
-            }
-        }
-
-        if(!$page) {
-            throw new Mvc_Router_Exception('Failed to find page ...');
-        }
-
-        if($page->getSSLRequired() && !$this->is_SSL_request) {
-            $this->setIsRedirect(
-                $page->getSslURL( $_GET, $this->path_fragments )
-            );
-
-            return false;
-
-        }
+		$current_host = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
+		if( $this->parsed_request_URL->getPort() ) {
+			$current_host .= ':'.$this->parsed_request_URL->getPort();
+		}
 
 
-        $this->setPage( $page );
+		foreach( $known_URLs as $URL ) {
 
-        if($this->path_fragments) {
-            if(!$this->getPage()->parseRequestURL()) {
-                Mvc::unsetCurrentPage();
-                $this->setIs404();
+			$current_compare = $current_host;
+			$slashes_count = 0;
 
-                return false;
-            }
-        }
+			if( $this->path_fragments ) {
+				$slashes_count = substr_count( $URL, '/' )-2;
 
-        return true;
+				if( $slashes_count ) {
+					$path_part = array_slice( $this->path_fragments, 0, $slashes_count );
+					$path_part = implode( '/', $path_part );
 
-    }
+					$current_compare .= '/'.$path_part;
+				}
+			}
 
-    /**
-     *
-     * @throws Mvc_Router_Exception
-     * @return bool
-     */
-	protected function resolveAuthentication() {
+			if( $current_compare==$URL ) {
+				$current_site_URL = $site_URLs_map[$URL];
+				if( $slashes_count ) {
+					$this->path_fragments = array_slice( $this->path_fragments, $slashes_count );
+				}
+				break;
+			}
 
-        if(
-        	!$this->getPage()->getIsAdminUI() &&
-            !$this->getPage()->getIsSecretPage()
-        ) {
-	        return true;
-        }
+		}
+
+		if( !$current_site_URL ) {
+			$this->setIs404();
+
+			return false;
+		}
+
+		$this->is_SSL_request = $current_site_URL->getIsSSL();
+
+		$this->setSite( Mvc_Site::get( $current_site_URL->getSiteId() ) );
+		$this->setLocale( $current_site_URL->getLocale() );
+
+
+		if( !$current_site_URL->getIsDefault() ) {
+
+			$this->setIsRedirect(
+				$this->getSite()->getDefaultURL( $this->getLocale() ).implode(
+					'/', $this->path_fragments
+				).( $this->path_fragments ? '/' : '' ).$this->parsed_request_URL->getQuery()
+			);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 */
+	protected function setSite( Mvc_Site_Interface $site )
+	{
+		Mvc::setCurrentSite( $site );
+	}
+
+	/**
+	 * @param Locale $locale
+	 */
+	protected function setLocale( Locale $locale )
+	{
+		Mvc::setCurrentLocale( $locale );
+	}
+
+	/**
+	 *
+	 * @return Mvc_Site_Interface
+	 */
+	protected function getSite()
+	{
+		return Mvc::getCurrentSite();
+	}
+
+	/**
+	 * @return Locale
+	 */
+	protected function getLocale()
+	{
+		return Mvc::getCurrentLocale();
+	}
+
+	/**
+	 * @return bool
+	 *
+	 * @throws Mvc_Router_Exception
+	 */
+	protected function resolvePage()
+	{
+		$path = $this->path_fragments;
+
+		$URIs = [];
+		for( $i = count( $this->path_fragments ); $i>=0; $i-- ) {
+
+			if( $i>0 ) {
+				$URI = '/'.implode( '/', $path ).'/';
+				unset( $path[count( $path )-1] );
+			} else {
+				$URI = '/';
+			}
+
+			$URIs[] = $URI;
+		}
+
+
+		$page_i = Mvc_Factory::getPageInstance();
+
+		$page = null;
+		foreach( $URIs as $i => $URI ) {
+			$page = $page_i->getByRelativeURI( $this->getSite(), $this->getLocale(), $URI );
+			if( $page ) {
+				if( $i ) {
+					$this->path_fragments = array_slice( $this->path_fragments, -1*$i );
+				} else {
+					$this->path_fragments = [];
+				}
+
+				break;
+			}
+		}
+
+		if( !$page ) {
+			throw new Mvc_Router_Exception( 'Failed to find page ...' );
+		}
+
+		if( $page->getSSLRequired()&&!$this->is_SSL_request ) {
+			$this->setIsRedirect(
+				$page->getSslURL( $_GET, $this->path_fragments )
+			);
+
+			return false;
+
+		}
+
+
+		$this->setPage( $page );
+
+		if( $this->path_fragments ) {
+			if( !$this->getPage()->parseRequestURL() ) {
+				Mvc::unsetCurrentPage();
+				$this->setIs404();
+
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 */
+	protected function setPage( Mvc_Page_Interface $page )
+	{
+		Mvc::setCurrentPage( $page );
+	}
+
+	/**
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	protected function getPage()
+	{
+		return Mvc::getCurrentPage();
+	}
+
+	/**
+	 *
+	 * @throws Mvc_Router_Exception
+	 * @return bool
+	 */
+	protected function resolveAuthentication()
+	{
+
+		if( !$this->getPage()->getIsAdminUI()&&!$this->getPage()->getIsSecretPage() ) {
+			return true;
+		}
 
 		if( Auth::getAuthController()->isUserLoggedIn() ) {
 			return true;
@@ -316,7 +409,8 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	/**
 	 * @param string $public_file_name
 	 */
-	public function setIsFile( $public_file_name ) {
+	public function setIsFile( $public_file_name )
+	{
 		$this->file_name = $public_file_name;
 	}
 
@@ -324,25 +418,17 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function getIsFile() {
+	public function getIsFile()
+	{
 		return (bool)$this->file_name;
 	}
 
-    /**
-     * @return string
-     */
-    public function getFileName()
-    {
-        return $this->file_name;
-    }
-
-
 	/**
-	 * Sets the request is unknown page
-	 *
+	 * @return string
 	 */
-	public function setIs404() {
-		$this->is_404 = true;
+	public function getFileName()
+	{
+		return $this->file_name;
 	}
 
 	/**
@@ -350,8 +436,26 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function getIs404() {
+	public function getIs404()
+	{
 		return $this->is_404;
+	}
+
+	/**
+	 * Sets the request is unknown page
+	 *
+	 */
+	public function setIs404()
+	{
+		$this->is_404 = true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsRedirect()
+	{
+		return $this->is_redirect;
 	}
 
 	/**
@@ -360,8 +464,9 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	 * @param string $target_URL
 	 * @param string $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
 	 */
-	public function setIsRedirect( $target_URL, $http_code=null ) {
-		if(!$http_code ) {
+	public function setIsRedirect( $target_URL, $http_code = null )
+	{
+		if( !$http_code ) {
 			$http_code = Http_Headers::CODE_302_MOVED_TEMPORARY;
 		}
 
@@ -370,37 +475,32 @@ class Mvc_Router extends Mvc_Router_Abstract {
 		$this->redirect_type = $http_code;
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	public function getIsRedirect() {
-		return $this->is_redirect;
-	}
-
 	/**
 	 * @return string
 	 */
-	public function getRedirectTargetURL() {
+	public function getRedirectTargetURL()
+	{
 		return $this->redirect_target_URL;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRedirectType() {
+	public function getRedirectType()
+	{
 		return $this->redirect_type;
 	}
 
 	/**
 	 * Redirect if needed
 	 */
-	public function handleRedirect() {
+	public function handleRedirect()
+	{
 
-		if($this->redirect_type==Http_Headers::CODE_301_MOVED_PERMANENTLY) {
-			Http_Headers::movedPermanently($this->redirect_target_URL);
+		if( $this->redirect_type==Http_Headers::CODE_301_MOVED_PERMANENTLY ) {
+			Http_Headers::movedPermanently( $this->redirect_target_URL );
 		} else {
-			Http_Headers::movedTemporary($this->redirect_target_URL);
+			Http_Headers::movedTemporary( $this->redirect_target_URL );
 		}
 	}
 
@@ -415,106 +515,51 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	/**
 	 * @param bool $login_required
 	 */
-	public function setLoginRequired($login_required)
+	public function setLoginRequired( $login_required )
 	{
 		$this->login_required = $login_required;
-	}
-
-
-
-	/**
-	 * Validated the URI path format. Returns true if the format is OK and the redirect is not needed.
-	 *
-	 * - last char in URI path must be / ( ... or some document. example: .html )
-	 *
-	 * @return bool
-	 */
-	protected function validateURIFormat() {
-
-		$end_i = count($this->path_fragments)-1;
-
-        $base_URL = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
-        if($this->parsed_request_URL->getPort()) {
-            $base_URL .= ':'.$this->parsed_request_URL->getPort();
-        }
-
-
-		//last char in URI path must be /
-		if( $this->path_fragments[$end_i]==='' ) {
-
-			$this->request_URL = $base_URL.'/'.implode('/', $this->path_fragments);
-
-			unset($this->path_fragments[$end_i]);
-
-			return true;
-		}
-
-		//... or some opened document, or XML and so on
-		if( strpos( $this->path_fragments[$end_i], '.')!==false ) {
-			$this->request_URL = $base_URL.'/'.implode('/', $this->path_fragments);
-
-			return true;
-		}
-
-
-		$this->setIsRedirect(
-			$base_URL
-				. $this->parsed_request_URL->getPath() . '/'
-				. (($this->parsed_request_URL->getQuery()) ? '?'.$this->parsed_request_URL->getQuery() : ''),
-
-			Http_Headers::CODE_301_MOVED_PERMANENTLY
-		);
-
-		return false;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRequestURL() {
+	public function getRequestURL()
+	{
 		return $this->request_URL;
 	}
 
 	/**
 	 * @return Http_URL
 	 */
-	public function getParsedRequestURL() {
+	public function getParsedRequestURL()
+	{
 		return $this->parsed_request_URL;
 	}
 
 	/**
-
-	/**
 	 * @return array
 	 */
-	public function getPathFragments() {
-		return $this->path_fragments;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function shiftPathFragments() {
+	public function shiftPathFragments()
+	{
 		array_shift( $this->path_fragments );
 
 		return $this->path_fragments;
 	}
 
-
-
 	/**
-	 * @param string $template  (example: 'page:%VAL%' )
-	 * @param mixed $default_value
-	 * @param int $fragment_index (optional, default: 0)
+	 * @param string $template (example: 'page:%VAL%' )
+	 * @param mixed  $default_value
+	 * @param int    $fragment_index (optional, default: 0)
 	 *
 	 * @return int
 	 */
-	public function parsePathFragmentIntValue( $template, $default_value=null, $fragment_index=0 ) {
+	public function parsePathFragmentIntValue( $template, $default_value = null, $fragment_index = 0 )
+	{
 
-		$value = $this->parsePathFragmentValue($template, $fragment_index, '[0-9]{1,}');
+		$value = $this->parsePathFragmentValue( $template, $fragment_index, '[0-9]{1,}' );
 
-		if($value===null) {
-            return $default_value;
+		if( $value===null ) {
+			return $default_value;
 		}
 
 		return (int)$value;
@@ -528,20 +573,21 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	 * @return mixed
 	 * @throws Exception
 	 */
-	public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part ) {
+	public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part )
+	{
 		$path_fragments = $this->getPathFragments();
 
 		$value = null;
 
-		if(isset($path_fragments[$fragment_index])) {
-			if(strpos($template, '%VAL%')===false) {
-				throw new Exception('Incorrect parameter template format. Example: \'page:%VAL%\'');
+		if( isset( $path_fragments[$fragment_index] ) ) {
+			if( strpos( $template, '%VAL%' )===false ) {
+				throw new Exception( 'Incorrect parameter template format. Example: \'page:%VAL%\'' );
 			}
 
-			$regexp = '/^'.str_replace( '%VAL%', '('.$reg_exp_part.')' , $template ).'$/';
+			$regexp = '/^'.str_replace( '%VAL%', '('.$reg_exp_part.')', $template ).'$/';
 
 			$matches = [];
-			if(preg_match( $regexp, $path_fragments[$fragment_index], $matches )) {
+			if( preg_match( $regexp, $path_fragments[$fragment_index], $matches ) ) {
 				$value = $matches[1];
 			}
 		}
@@ -551,59 +597,21 @@ class Mvc_Router extends Mvc_Router_Abstract {
 	}
 
 	/**
+	 *
+	 * /**
+	 * @return array
+	 */
+	public function getPathFragments()
+	{
+		return $this->path_fragments;
+	}
+
+	/**
 	 * @return bool
 	 */
-	public function getIsSSLRequest() {
+	public function getIsSSLRequest()
+	{
 		return $this->is_SSL_request;
-	}
-
-    /**
-     * @param Mvc_Site_Interface $site
-     */
-    protected function setSite( Mvc_Site_Interface $site)
-    {
-        Mvc::setCurrentSite( $site );
-    }
-
-	/**
-	 *
-	 * @return Mvc_Site_Interface
-	 */
-    protected function getSite() {
-		return Mvc::getCurrentSite();
-	}
-
-    /**
-     * @param Locale $locale
-     */
-    protected function setLocale( Locale $locale)
-    {
-        Mvc::setCurrentLocale( $locale );
-    }
-
-
-
-	/**
-	 * @return Locale
-	 */
-    protected function getLocale() {
-        return Mvc::getCurrentLocale();
-	}
-
-
-	/**
-	 *
-	 * @return Mvc_Page_Interface
-	 */
-    protected function getPage() {
-		return Mvc::getCurrentPage();
-	}
-
-    /**
-     * @param Mvc_Page_Interface $page
-     */
-    protected function setPage( Mvc_Page_Interface $page ) {
-        Mvc::setCurrentPage( $page );
 	}
 
 }

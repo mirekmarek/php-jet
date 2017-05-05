@@ -71,5 +71,4 @@ class Application_Modules_Module_Manifest extends Jet_Application_Modules_Module
 	}
 
 
-
 }

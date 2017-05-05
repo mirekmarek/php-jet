@@ -11,32 +11,33 @@ namespace Jet;
  * Class DataModel_Related_Trait
  * @package Jet
  */
-trait DataModel_Related_Trait {
+trait DataModel_Related_Trait
+{
 
-    use DataModel_Trait;
+	use DataModel_Trait;
 
-    use DataModel_Related_Trait_Definition {
-        DataModel_Related_Trait_Definition::_getDataModelDefinitionInstance insteadof DataModel_Trait;
-    }
+	use DataModel_Related_Trait_Definition {
+		DataModel_Related_Trait_Definition::_getDataModelDefinitionInstance insteadof DataModel_Trait;
+	}
 
-    use DataModel_Related_Trait_Load;
+	use DataModel_Related_Trait_Load;
 
 	/**
 	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentId(DataModel_Id_Abstract $parent_id ) {
+	public function actualizeParentId( DataModel_Id_Abstract $parent_id )
+	{
 		/**
 		 * @var DataModel_Definition_Model_Related_Abstract $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
-		foreach($definition->getParentModelRelationIdProperties() as $property_definition ) {
+		foreach( $definition->getParentModelRelationIdProperties() as $property_definition ) {
 			$property_name = $property_definition->getName();
 
 
-			if(
-				$this->getIsSaved() &&
-				$this->{$property_name} != $parent_id[$property_definition->getRelatedToPropertyName()]
+			if( $this->getIsSaved()&&$this->{$property_name}!=$parent_id[$property_definition->getRelatedToPropertyName(
+				)]
 			) {
 				$this->setIsNew();
 			}
@@ -50,20 +51,20 @@ trait DataModel_Related_Trait {
 	/**
 	 * @param DataModel_Id_Abstract $main_id
 	 */
-	public function actualizeMainId(DataModel_Id_Abstract $main_id ) {
+	public function actualizeMainId( DataModel_Id_Abstract $main_id )
+	{
 
 		/**
 		 * @var DataModel_Definition_Model_Related_Abstract $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
-		foreach($definition->getMainModelRelationIdProperties() as $property_definition ) {
+		foreach( $definition->getMainModelRelationIdProperties() as $property_definition ) {
 
 			$property_name = $property_definition->getName();
 
-			if(
-				$this->getIsSaved() &&
-				$this->{$property_name} != $main_id[$property_definition->getRelatedToPropertyName()]
+			if( $this->getIsSaved()&&$this->{$property_name}!=$main_id[$property_definition->getRelatedToPropertyName(
+				)]
 			) {
 				$this->setIsNew();
 			}
@@ -72,10 +73,10 @@ trait DataModel_Related_Trait {
 
 		}
 
-		foreach( $definition->getProperties() as  $property_definition) {
+		foreach( $definition->getProperties() as $property_definition ) {
 			$property_name = $property_definition->getName();
 
-			if( $this->{$property_name} instanceof  DataModel_Related_Interface ) {
+			if( $this->{$property_name} instanceof DataModel_Related_Interface ) {
 				$this->{$property_name}->actualizeMainId( $main_id );
 			}
 		}

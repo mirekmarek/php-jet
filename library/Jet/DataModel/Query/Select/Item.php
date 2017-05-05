@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Query_Select_Item
  * @package Jet
  */
-class DataModel_Query_Select_Item extends BaseObject {
+class DataModel_Query_Select_Item extends BaseObject
+{
 
 	/**
 	 *
@@ -27,15 +28,13 @@ class DataModel_Query_Select_Item extends BaseObject {
 
 	/**
 	 * @param DataModel_Definition_Property_Abstract|DataModel_Query_Select_Item_BackendFunctionCall $item
-	 * @param string $select_as
+	 * @param string                                                                                 $select_as
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function  __construct( $item, $select_as  ) {
-		if(
-			!($item instanceof DataModel_Definition_Property_Abstract) &&
-			!($item instanceof DataModel_Query_Select_Item_BackendFunctionCall)
-		) {
+	public function __construct( $item, $select_as )
+	{
+		if( !( $item instanceof DataModel_Definition_Property_Abstract )&&!( $item instanceof DataModel_Query_Select_Item_BackendFunctionCall ) ) {
 			throw new DataModel_Query_Exception(
 				'Item must be instance of DataModel_Definition_Property_Abstract or DataModel_Query_Select_Item_BackendFunctionCall',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -49,14 +48,16 @@ class DataModel_Query_Select_Item extends BaseObject {
 	/**
 	 * @return DataModel_Definition_Property_Abstract|DataModel_Query_Select_Item_BackendFunctionCall
 	 */
-	public function getItem() {
+	public function getItem()
+	{
 		return $this->item;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSelectAs() {
+	public function getSelectAs()
+	{
 		return $this->select_as;
 	}
 

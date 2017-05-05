@@ -1,25 +1,27 @@
 <?php
 namespace Jet;
 
-function header_test_rest( $header, $replace=true, $http_response_code=0 ) {
+function header_test_rest( $header, $replace = true, $http_response_code = 0 )
+{
 	$GLOBALS['_test_Http_Headers_sent_headers'][] = [
-		'header' => $header,
-		'replace' => $replace,
-		'http_response_code' => $http_response_code
+		'header' => $header, 'replace' => $replace, 'http_response_code' => $http_response_code,
 	];
 }
 
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-class Mvc_Controller_REST_Test extends Mvc_Controller_REST {
+class Mvc_Controller_REST_Test extends Mvc_Controller_REST
+{
 	/** @noinspection PhpMissingParentConstructorInspection */
-	public function __construct() {
+	public function __construct()
+	{
 
 	}
 
 	/**
 	 * Is called after controller instance is created
 	 */
-	public function initialize() {
+	public function initialize()
+	{
 	}
 }
 
@@ -28,42 +30,23 @@ class Mvc_Controller_REST_Test extends Mvc_Controller_REST {
  */
 
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
+class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase
+{
 	/**
 	 * @var Mvc_Controller_REST_Test
 	 */
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-
-		Http_Headers::setHeaderFunctionName(__NAMESPACE__.'\header_test_rest');
-		$GLOBALS['_test_Http_Headers_sent_headers'] = [];
-
-		$this->object = new Mvc_Controller_REST_Test;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
-
-	/**
 	 * @covers \Jet\Mvc_Controller_REST::decodeRequestDataJSON
 	 */
-	public function testDecodeRequestDataJSON() {
+	public function testDecodeRequestDataJSON()
+	{
 		$data = [];
 		$data['a'] = [
-			'int' => 1234,
-			'float' => 3.14,
-			'array' => [
-					'string' => 'String "string" \'string\' ',
-			]
+			'int' => 1234, 'float' => 3.14, 'array' => [
+				'string' => 'String "string" \'string\' ',
+			],
 		];
 
 		$json = json_encode( $data );
@@ -74,9 +57,11 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Jet\Mvc_Controller_REST::decodeRequestDataXML
 	 */
-	public function testDecodeRequestDataXML() {
+	public function testDecodeRequestDataXML()
+	{
 
-		$data = $this->object->decodeRequestDataXML('<Jet_ImageGallery>
+		$data = $this->object->decodeRequestDataXML(
+			'<Jet_ImageGallery>
 											<!--  Type: ID, required: no, is ID  -->
 											<id>linux_2m_MF137301720954251d69479847362_23093172</id>
 											<!--  Type: ID, required: yes  -->
@@ -92,24 +77,21 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 
 												<title/>
 											</item>
-										</Jet_ImageGallery>');
+										</Jet_ImageGallery>'
+		);
 
-		$this->assertEquals([
-			'comment' => 'aaa',
-			'id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-			'parent_id' => '_root_',
-			'title' => 'Gallery 3',
-			'item' =>
+		$this->assertEquals(
 			[
-				'str_val' => 'string',
-				'number' => 'number',
-				'comment' => 'aaa aaa',
-				'title' => '',
+				'comment' => 'aaa', 'id' => 'linux_2m_MF137301720954251d69479847362_23093172', 'parent_id' => '_root_',
+				'title'   => 'Gallery 3', 'item' => [
+				'str_val' => 'string', 'number' => 'number', 'comment' => 'aaa aaa', 'title' => '',
 			],
-		], $data);
+			], $data
+		);
 
 		/** @noinspection SpellCheckingInspection */
-		$data = $this->object->decodeRequestDataXML('<list model_name=\'Jet_ImageGallery_Images\'>
+		$data = $this->object->decodeRequestDataXML(
+			'<list model_name=\'Jet_ImageGallery_Images\'>
 											<item>
 												<id>linux_2m_MF137301722026651d69484411740_57557045</id>
 												<gallery_id>linux_2m_MF137301720954251d69479847362_23093172</gallery_id>
@@ -194,97 +176,60 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 												/public/imagegallery/1/linux_2m_MF137301928548251d69c9575b7c1_93699139/_t_/100x100_Forest.jpg
 												</thumbnail_URI>
 											</item>
-											</list>');
+											</list>'
+		);
 
 
 		/** @noinspection SpellCheckingInspection */
-		$this->assertEquals([
-			0 =>
+		$this->assertEquals(
 			[
-				'id' => 'linux_2m_MF137301722026651d69484411740_57557045',
-				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-				'offset' => '1',
-				'title' => '',
-				'file_name' => 'Autumn Leaves.jpg',
-				'file_mime_type' => 'image/jpeg',
-				'file_size' => '276216',
-				'image_size_w' => '1024',
-				'image_size_h' => '768',
-				'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301722026651d69484411740_57557045/_t_/100x100_Autumn%20Leaves.jpg',
-			],
-			1 =>
-			[
-				'id' => 'linux_2m_MF137301723749651d69495794e07_69873685',
-				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-				'offset' => '1',
-				'title' => '',
-				'file_name' => 'Creek.jpg',
-				'file_mime_type' => 'image/jpeg',
-				'file_size' => '264409',
-				'image_size_w' => '1024',
-				'image_size_h' => '768',
+				0    => [
+					'id'            => 'linux_2m_MF137301722026651d69484411740_57557045',
+					'gallery_id'    => 'linux_2m_MF137301720954251d69479847362_23093172', 'offset' => '1',
+					'title'         => '', 'file_name' => 'Autumn Leaves.jpg', 'file_mime_type' => 'image/jpeg',
+					'file_size'     => '276216', 'image_size_w' => '1024', 'image_size_h' => '768',
+					'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301722026651d69484411740_57557045/_t_/100x100_Autumn%20Leaves.jpg',
+				], 1 => [
+				'id'            => 'linux_2m_MF137301723749651d69495794e07_69873685',
+				'gallery_id'    => 'linux_2m_MF137301720954251d69479847362_23093172', 'offset' => '1', 'title' => '',
+				'file_name'     => 'Creek.jpg', 'file_mime_type' => 'image/jpeg', 'file_size' => '264409',
+				'image_size_w'  => '1024', 'image_size_h' => '768',
 				'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301723749651d69495794e07_69873685/_t_/100x100_Creek.jpg',
-			],
-			2 =>
-			[
-				'id' => 'linux_2m_MF137301913198551d69bfbf0a916_83671300',
-				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-				'offset' => '1',
-				'title' => '',
-				'file_name' => 'Green Sea Turtle.jpg',
-				'file_mime_type' => 'image/jpeg',
-				'file_size' => '378729',
-				'image_size_w' => '1024',
-				'image_size_h' => '768',
+			], 2     => [
+				'id'            => 'linux_2m_MF137301913198551d69bfbf0a916_83671300',
+				'gallery_id'    => 'linux_2m_MF137301720954251d69479847362_23093172', 'offset' => '1', 'title' => '',
+				'file_name'     => 'Green Sea Turtle.jpg', 'file_mime_type' => 'image/jpeg', 'file_size' => '378729',
+				'image_size_w'  => '1024', 'image_size_h' => '768',
 				'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301913198551d69bfbf0a916_83671300/_t_/100x100_Green%20Sea%20Turtle.jpg',
-			],
-			3 =>
-			[
-				'id' => 'linux_2m_MF137301915725751d69c153ef4a6_93300639',
-				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-				'offset' => '1',
-				'title' => '',
-				'file_name' => 'Forest Flowers.jpg',
-				'file_mime_type' => 'image/jpeg',
-				'file_size' => '128755',
-				'image_size_w' => '1024',
-				'image_size_h' => '768',
+			], 3     => [
+				'id'            => 'linux_2m_MF137301915725751d69c153ef4a6_93300639',
+				'gallery_id'    => 'linux_2m_MF137301720954251d69479847362_23093172', 'offset' => '1', 'title' => '',
+				'file_name'     => 'Forest Flowers.jpg', 'file_mime_type' => 'image/jpeg', 'file_size' => '128755',
+				'image_size_w'  => '1024', 'image_size_h' => '768',
 				'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301915725751d69c153ef4a6_93300639/_t_/100x100_Forest%20Flowers.jpg',
-			],
-			4 =>
-			[
-				'id' => 'linux_2m_MF137301923837551d69c665b95f3_32899254',
-				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-				'offset' => '1',
-				'title' => '',
-				'file_name' => 'Waterfall.jpg',
-				'file_mime_type' => 'image/jpeg',
-				'file_size' => '287631',
-				'image_size_w' => '1024',
-				'image_size_h' => '768',
+			], 4     => [
+				'id'            => 'linux_2m_MF137301923837551d69c665b95f3_32899254',
+				'gallery_id'    => 'linux_2m_MF137301720954251d69479847362_23093172', 'offset' => '1', 'title' => '',
+				'file_name'     => 'Waterfall.jpg', 'file_mime_type' => 'image/jpeg', 'file_size' => '287631',
+				'image_size_w'  => '1024', 'image_size_h' => '768',
 				'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301923837551d69c665b95f3_32899254/_t_/100x100_Waterfall.jpg',
-			],
-			5 =>
-			[
-				'id' => 'linux_2m_MF137301928548251d69c9575b7c1_93699139',
-				'gallery_id' => 'linux_2m_MF137301720954251d69479847362_23093172',
-				'offset' => '1',
-				'title' => '',
-				'file_name' => 'Forest.jpg',
-				'file_mime_type' => 'image/jpeg',
-				'file_size' => '664489',
-				'image_size_w' => '1024',
-				'image_size_h' => '768',
+			], 5     => [
+				'id'            => 'linux_2m_MF137301928548251d69c9575b7c1_93699139',
+				'gallery_id'    => 'linux_2m_MF137301720954251d69479847362_23093172', 'offset' => '1', 'title' => '',
+				'file_name'     => 'Forest.jpg', 'file_mime_type' => 'image/jpeg', 'file_size' => '664489',
+				'image_size_w'  => '1024', 'image_size_h' => '768',
 				'thumbnail_URI' => '/public/imagegallery/1/linux_2m_MF137301928548251d69c9575b7c1_93699139/_t_/100x100_Forest.jpg',
 			],
-		], $data);
+			], $data
+		);
 	}
 
 	/**
 	 * @covers \Jet\Mvc_Controller_REST::getRequestData
 	 * @todo   Implement testGetRequestData().
 	 */
-	public function testGetRequestData() {
+	public function testGetRequestData()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 			'This test has not been implemented yet.'
@@ -294,7 +239,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Jet\Mvc_Controller_REST::responseOK
 	 */
-	public function testResponseOKJSON() {
+	public function testResponseOKJSON()
+	{
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_JSON );
 
 		ob_start();
@@ -305,26 +251,25 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 		//var_export($GLOBALS['_test_Http_Headers_sent_headers']);
 		//var_export( $d );
 
-		$this->assertEquals( [
+		$this->assertEquals(
 			[
-				'header' => 'HTTP/1.1 200 OK',
-				'replace' => true,
-				'http_response_code' => 200,
-			],
-			[
-				'header' => 'Content-type:application/json;charset=UTF-8',
-				'replace' => true,
-				'http_response_code' => 0,
-			],
-		], $GLOBALS['_test_Http_Headers_sent_headers'] );
+				[
+					'header' => 'HTTP/1.1 200 OK', 'replace' => true, 'http_response_code' => 200,
+				], [
+					'header'             => 'Content-type:application/json;charset=UTF-8', 'replace' => true,
+					'http_response_code' => 0,
+				],
+			], $GLOBALS['_test_Http_Headers_sent_headers']
+		);
 
-		$this->assertEquals('"OK"', $d );
+		$this->assertEquals( '"OK"', $d );
 	}
 
 	/**
 	 * @covers \Jet\Mvc_Controller_REST::responseOK
 	 */
-	public function testResponseOKXML() {
+	public function testResponseOKXML()
+	{
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
 
 		ob_start();
@@ -332,28 +277,25 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 		$d = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertEquals( [
+		$this->assertEquals(
 			[
-				'header' => 'HTTP/1.1 200 OK',
-				'replace' => true,
-				'http_response_code' => 200,
-			],
-			[
-				'header' => 'Content-type:text/xml;charset=UTF-8',
-				'replace' => true,
-				'http_response_code' => 0,
-			],
-		], $GLOBALS['_test_Http_Headers_sent_headers'] );
+				[
+					'header' => 'HTTP/1.1 200 OK', 'replace' => true, 'http_response_code' => 200,
+				], [
+					'header' => 'Content-type:text/xml;charset=UTF-8', 'replace' => true, 'http_response_code' => 0,
+				],
+			], $GLOBALS['_test_Http_Headers_sent_headers']
+		);
 
-		$this->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>'.JET_EOL.'<result>OK</result>', $d );
+		$this->assertEquals( '<?xml version="1.0" encoding="UTF-8" ?>'.JET_EOL.'<result>OK</result>', $d );
 	}
-
 
 	/**
 	 * @covers \Jet\Mvc_Controller_REST::responseData
 	 * @todo   Implement testResponseData().
 	 */
-	public function testResponseData() {
+	public function testResponseData()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 			'This test has not been implemented yet.'
@@ -364,7 +306,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 * @covers \Jet\Mvc_Controller_REST::responseDataModelsList
 	 * @todo   Implement testResponseDataModelsList().
 	 */
-	public function testResponseDataModelsList() {
+	public function testResponseDataModelsList()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 			'This test has not been implemented yet.'
@@ -375,7 +318,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 * @covers \Jet\Mvc_Controller_REST::responseAclAccessDenied
 	 * @todo   Implement testResponseAclAccessDenied().
 	 */
-	public function testResponseAclAccessDenied() {
+	public function testResponseAclAccessDenied()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 			'This test has not been implemented yet.'
@@ -386,7 +330,8 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 * @covers \Jet\Mvc_Controller_REST::responseFormErrors
 	 * @todo   Implement testResponseFormErrors().
 	 */
-	public function testResponseFormErrors() {
+	public function testResponseFormErrors()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 			'This test has not been implemented yet.'
@@ -397,66 +342,83 @@ class Mvc_Controller_RESTTest extends \PHPUnit_Framework_TestCase {
 	 * @covers \Jet\Mvc_Controller_REST::responseUnknownItem
 	 * @covers \Jet\Mvc_Controller_REST::responseError
 	 */
-	public function testResponseUnknownItemJSON() {
+	public function testResponseUnknownItemJSON()
+	{
 
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_JSON );
 
 		ob_start();
-		$this->object->responseUnknownItem('Item_ID');
+		$this->object->responseUnknownItem( 'Item_ID' );
 		$d = ob_get_contents();
 		ob_end_clean();
 
 		//var_export($GLOBALS['_test_Http_Headers_sent_headers']);
 		//var_export( $d );
 
-		$this->assertEquals( [
+		$this->assertEquals(
 			[
-				'header' => 'HTTP/1.1 404 Unknown item',
-				'replace' => true,
-				'http_response_code' => 404,
-			],
-			[
-				'header' => 'Content-type:application/json;charset=UTF-8',
-				'replace' => true,
-				'http_response_code' => 0,
-			],
-		], $GLOBALS['_test_Http_Headers_sent_headers'] );
+				[
+					'header' => 'HTTP/1.1 404 Unknown item', 'replace' => true, 'http_response_code' => 404,
+				], [
+					'header'             => 'Content-type:application/json;charset=UTF-8', 'replace' => true,
+					'http_response_code' => 0,
+				],
+			], $GLOBALS['_test_Http_Headers_sent_headers']
+		);
 
-		$this->assertEquals('{"error_code":"Jet\\\\Mvc_Controller_REST_Test:UnknownItem","error_msg":"Unknown item","error_data":{"id":"Item_ID"}}', $d );
+		$this->assertEquals(
+			'{"error_code":"Jet\\\\Mvc_Controller_REST_Test:UnknownItem","error_msg":"Unknown item","error_data":{"id":"Item_ID"}}',
+			$d
+		);
 	}
 
 	/**
 	 * @covers \Jet\Mvc_Controller_REST::responseUnknownItem
 	 * @covers \Jet\Mvc_Controller_REST::responseError
 	 */
-	public function testResponseUnknownItemXML() {
+	public function testResponseUnknownItemXML()
+	{
 		$this->object->setResponseFormat( Mvc_Controller_REST::RESPONSE_FORMAT_XML );
 
 		ob_start();
-		$this->object->responseUnknownItem('Item_ID');
+		$this->object->responseUnknownItem( 'Item_ID' );
 		$d = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertEquals( [
+		$this->assertEquals(
 			[
-				'header' => 'HTTP/1.1 404 Unknown item',
-				'replace' => true,
-				'http_response_code' => 404,
-			],
-			[
-				'header' => 'Content-type:text/xml;charset=UTF-8',
-				'replace' => true,
-				'http_response_code' => 0,
-			],
-		], $GLOBALS['_test_Http_Headers_sent_headers'] );
+				[
+					'header' => 'HTTP/1.1 404 Unknown item', 'replace' => true, 'http_response_code' => 404,
+				], [
+					'header' => 'Content-type:text/xml;charset=UTF-8', 'replace' => true, 'http_response_code' => 0,
+				],
+			], $GLOBALS['_test_Http_Headers_sent_headers']
+		);
 
-		$this->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>'.JET_EOL
-					.'<error>'.JET_EOL
-					.JET_TAB.'<error_code>Jet\\Mvc_Controller_REST_Test:UnknownItem</error_code>'.JET_EOL
-					.JET_TAB.'<error_msg>Unknown item</error_msg>'.JET_EOL
-					.JET_TAB.'<error_data>'.JET_EOL
-					.JET_TAB.JET_TAB.'<id>Item_ID</id>'.JET_EOL
-					.JET_TAB.'</error_data>'.JET_EOL
-					.'</error>'.JET_EOL , $d );
+		$this->assertEquals(
+			'<?xml version="1.0" encoding="UTF-8" ?>'.JET_EOL.'<error>'.JET_EOL.JET_TAB.'<error_code>Jet\\Mvc_Controller_REST_Test:UnknownItem</error_code>'.JET_EOL.JET_TAB.'<error_msg>Unknown item</error_msg>'.JET_EOL.JET_TAB.'<error_data>'.JET_EOL.JET_TAB.JET_TAB.'<id>Item_ID</id>'.JET_EOL.JET_TAB.'</error_data>'.JET_EOL.'</error>'.JET_EOL,
+			$d
+		);
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+
+		Http_Headers::setHeaderFunctionName( __NAMESPACE__.'\header_test_rest' );
+		$GLOBALS['_test_Http_Headers_sent_headers'] = [];
+
+		$this->object = new Mvc_Controller_REST_Test;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
 	}
 }

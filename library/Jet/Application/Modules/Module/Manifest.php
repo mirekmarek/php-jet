@@ -11,7 +11,8 @@ namespace Jet;
  * Class Application_Modules_Module_Manifest
  * @package Jet
  */
-class Application_Modules_Module_Manifest extends BaseObject implements \JsonSerializable {
+class Application_Modules_Module_Manifest extends BaseObject implements \JsonSerializable
+{
 	const MANIFEST_FILE_NAME = 'manifest.php';
 
 	const MODULE_TYPE_GENERAL = 'general';
@@ -28,14 +29,13 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 * @var array
 	 */
 	protected static $module_types_list = [
-		self::MODULE_TYPE_GENERAL => 'General module',
-		self::MODULE_TYPE_SYSTEM => 'System module',
+		self::MODULE_TYPE_GENERAL => 'General module', self::MODULE_TYPE_SYSTEM => 'System module',
 	];
 
 	/**
-	*
-	* @var string
-	*/
+	 *
+	 * @var string
+	 */
 	protected $name = '';
 
 	/**
@@ -84,7 +84,7 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @var string[]
 	 */
-	protected $types = [self::MODULE_TYPE_GENERAL];
+	protected $types = [ self::MODULE_TYPE_GENERAL ];
 
 	/**
 	 * @var bool
@@ -103,23 +103,23 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	//--------------------------------------------------------------------------
 
 	/**
-	* Module root directory
-	*
-	* @var string
-	*/
+	 * Module root directory
+	 *
+	 * @var string
+	 */
 	protected $module_dir = '';
 
 
 	/**
-	*
-	* @var bool
-	*/
+	 *
+	 * @var bool
+	 */
 	protected $is_installed = false;
 
 	/**
-	*
-	* @var bool
-	*/
+	 *
+	 * @var bool
+	 */
 	protected $is_activated = false;
 
 	/**
@@ -127,8 +127,9 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function  __construct( $module_name=null ) {
-		if(!$module_name) {
+	public function __construct( $module_name = null )
+	{
+		if( !$module_name ) {
 			return;
 		}
 
@@ -143,20 +144,14 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 
 	/**
 	 * @return array
-	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
-	}
-
-	/**
-	 * @return array
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function readManifestData() {
+	public function readManifestData()
+	{
 		$module_dir = $this->getModuleDir();
 
-		if( !IO_Dir::exists($module_dir) ) {
+		if( !IO_Dir::exists( $module_dir ) ) {
 			throw new Application_Modules_Exception(
 				'Directory \''.$module_dir.'\' does not exist',
 				Application_Modules_Exception::CODE_MODULE_DOES_NOT_EXIST
@@ -164,9 +159,9 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 		}
 
 
-		$manifest_file = $module_dir . static::MANIFEST_FILE_NAME;
+		$manifest_file = $module_dir.static::MANIFEST_FILE_NAME;
 
-		if( !IO_File::isReadable($manifest_file) ) {
+		if( !IO_File::isReadable( $manifest_file ) ) {
 			throw new Application_Modules_Exception(
 				'Module manifest file \''.$manifest_file.'\' does not exist or is not readable. ',
 				Application_Modules_Exception::CODE_MANIFEST_IS_NOT_READABLE
@@ -175,8 +170,18 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 
 		/** @noinspection PhpIncludeInspection */
 		$manifest_data = require $manifest_file;
-		
+
 		return $manifest_data;
+	}
+
+	/**
+	 * Returns module root directory
+	 *
+	 * @return string
+	 */
+	public function getModuleDir()
+	{
+		return JET_MODULES_PATH.str_replace( '.', '/', $this->name ).'/';
 	}
 
 	/**
@@ -184,29 +189,30 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function checkManifestData( $manifest_data ) {
-		if(!is_array($manifest_data)) {
+	protected function checkManifestData( $manifest_data )
+	{
+		if( !is_array( $manifest_data ) ) {
 			throw new Application_Modules_Exception(
 				'Manifest data must be array (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
-		if( empty( $manifest_data['API_version']) ) {
+		if( empty( $manifest_data['API_version'] ) ) {
 			throw new Application_Modules_Exception(
 				'Required API version not set! (\'API_version\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
-		if( empty( $manifest_data['label']) ) {
+		if( empty( $manifest_data['label'] ) ) {
 			throw new Application_Modules_Exception(
 				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
-		if( empty( $manifest_data['types']) ) {
+		if( empty( $manifest_data['types'] ) ) {
 			throw new Application_Modules_Exception(
 				'Module types not set! (\'type\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -214,9 +220,9 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 		}
 
 		$modules_types = static::getModuleTypesList();
-		foreach($manifest_data['types'] as $type) {
+		foreach( $manifest_data['types'] as $type ) {
 
-			if(!isset($modules_types[$type])){
+			if( !isset( $modules_types[$type] ) ) {
 				throw new Application_Modules_Exception(
 					'Invalid module type \''.$type.'\' ! See '.__NAMESPACE__.'\Application_Modules_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -224,10 +230,7 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 			}
 		}
 
-		if(
-			isset($manifest_data['require']) &&
-			!is_array($manifest_data['require'])
-		){
+		if( isset( $manifest_data['require'] )&&!is_array( $manifest_data['require'] ) ) {
 			throw new Application_Modules_Exception(
 				'Required modules (\'require\' key) must be an array like [required_module1, required_module2, ...]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -236,16 +239,40 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	}
 
 	/**
+	 * Get available modules types list
+	 *
+	 * @return array
+	 */
+	public static function getModuleTypesList()
+	{
+		return static::$module_types_list;
+	}
+
+	/**
+	 * Format:
+	 * array(
+	 *      'module_type' => 'Module type description'
+	 * )
+	 *
+	 * @param array $list
+	 */
+	public static function setModuleTypesList( array $list )
+	{
+		static::$module_types_list = $list;
+	}
+
+	/**
 	 * Sets the values ​​according to the manifest data
 	 *
-	 * @param $manifest_data
+	 * @param array $manifest_data
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	protected function setupProperties( $manifest_data ) {
+	protected function setupProperties( array $manifest_data )
+	{
 
-		foreach( $manifest_data as $key=>$val ) {
-			if(!$this->getObjectClassHasProperty($key)) {
+		foreach( $manifest_data as $key => $val ) {
+			if( !$this->getObjectClassHasProperty( $key ) ) {
 				throw new Application_Modules_Exception(
 					'Unknown manifest property \''.$key.'\' (Module: \''.$this->name.'\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
@@ -259,61 +286,83 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	}
 
 	/**
+	 *
+	 * @param array $data
+	 *
+	 * @return Application_Modules_Module_Manifest
+	 */
+	public static function __set_state( array $data )
+	{
+		$i = new static();
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+		return get_object_vars( $this );
+	}
+
+	/**
 	 * @return bool
 	 */
-	public function getIsCompatible() {
-		return Version::getAPIIsCompatible($this->API_version);
-	}
-
-	/**
-	 * Returns module root directory
-	 *
-	 * @return string
-	 */
-	public function getModuleDir() {
-		return JET_MODULES_PATH . str_replace('.', '/', $this->name) . '/';
+	public function getIsCompatible()
+	{
+		return Version::getAPIIsCompatible( $this->API_version );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getNamespace() {
-		return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace('.','\\',$this->name).'\\';
+	public function getNamespace()
+	{
+		return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace( '.', '\\', $this->name ).'\\';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getVendor() {
+	public function getVendor()
+	{
 		return $this->vendor;
 	}
 
-
 	/**
 	 * @return string
 	 */
-	public function getVersion() {
+	public function getVersion()
+	{
 		return $this->version;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLabel() {
+	public function getLabel()
+	{
 		return $this->label;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
+	public function getDescription()
+	{
 		return $this->description;
 	}
 
@@ -322,7 +371,8 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @return int
 	 */
-	public function getAPIVersion() {
+	public function getAPIVersion()
+	{
 		return $this->API_version;
 	}
 
@@ -331,7 +381,8 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @return string[]
 	 */
-	public function getTypes() {
+	public function getTypes()
+	{
 		return $this->types;
 	}
 
@@ -340,7 +391,8 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @return bool
 	 */
-	public function getHasType( $type ) {
+	public function getHasType( $type )
+	{
 		return in_array( $type, $this->types );
 	}
 
@@ -357,72 +409,40 @@ class Application_Modules_Module_Manifest extends BaseObject implements \JsonSer
 	 *
 	 * @return string[]
 	 */
-	public function getRequire() {
+	public function getRequire()
+	{
 		return $this->require;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsInstalled() {
+	public function getIsInstalled()
+	{
 		return $this->is_installed;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsActivated() {
-		return $this->is_activated;
 	}
 
 	/**
 	 * @param bool $is_installed
 	 */
-	public function setIsInstalled($is_installed) {
+	public function setIsInstalled( $is_installed )
+	{
 		$this->is_installed = (bool)$is_installed;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsActivated()
+	{
+		return $this->is_activated;
 	}
 
 	/**
 	 * @param bool $is_activated
 	 */
-	public function setIsActivated($is_activated) {
+	public function setIsActivated( $is_activated )
+	{
 		$this->is_activated = (bool)$is_activated;
-	}
-
-	/**
-	 * Get available modules types list
-	 *
-	 * @return array 
-	 */
-	public static function getModuleTypesList() {
-		return static::$module_types_list;
-	}
-
-	/**
-	 * Format:
-	 * array(
-	 *      'module_type' => 'Module type description'
-	 * )
-	 *
-	 * @param array $list
-	 */
-	public static function setModuleTypesList( array $list ) {
-		static::$module_types_list = $list;
-	}
-
-
-	/**
-	 *
-	 * @param array $data
-	 *
-	 * @return Application_Modules_Module_Manifest
-	 */
-	public static function __set_state(array $data) {
-		$i = new static();
-
-		foreach($data as $key=>$val) {
-			$i->{$key} = $val;
-		}
-		return $i;
 	}
 }

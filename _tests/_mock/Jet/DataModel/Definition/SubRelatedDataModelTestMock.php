@@ -15,7 +15,8 @@ namespace Jet;
  * @JetDataModel:parent_model_class_name = DataModel_Definition_RelatedDataModelTestMock
  * @JetDataModel:id_class_name = DataModel_Id_UniqueString
  */
-class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related_1toN {
+class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related_1toN
+{
 
 	/**
 	 * @JetDataModel:related_to = 'main.id'
@@ -180,16 +181,20 @@ class DataModel_Definition_SubRelatedDataModelTestMock extends DataModel_Related
 	 */
 	protected $data_model_property;
 
-	public function _test_get_property_options( $property_name ) {
-		$data = BaseObject_Reflection::get( get_called_class() , 'data_model_properties_definition', false);
-		return $data[ $property_name ];
+	/** @noinspection PhpMissingParentConstructorInspection */
+	public function __construct()
+	{
 	}
 
 
 	/**
 	 */
-	/** @noinspection PhpMissingParentConstructorInspection */
-	public function __construct() {
+
+	public function _test_get_property_options( $property_name )
+	{
+		$data = BaseObject_Reflection::get( get_called_class(), 'data_model_properties_definition', false );
+
+		return $data[$property_name];
 	}
 
 }

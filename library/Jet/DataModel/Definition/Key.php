@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Key
  * @package Jet
  */
-class DataModel_Definition_Key extends BaseObject {
+class DataModel_Definition_Key extends BaseObject
+{
 
 	/**
 	 * @var string
@@ -34,23 +35,24 @@ class DataModel_Definition_Key extends BaseObject {
 	/**
 	 * @param string $name
 	 * @param string $type
-	 * @param array $property_names
+	 * @param array  $property_names
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function __construct($name, $type=DataModel::KEY_TYPE_INDEX, array $property_names= []) {
-		if(!$property_names) {
+	public function __construct( $name, $type = DataModel::KEY_TYPE_INDEX, array $property_names = [] )
+	{
+		if( !$property_names ) {
 			$property_names[] = $name;
 		}
 
-		if(!in_array($type, [
-			DataModel::KEY_TYPE_INDEX,
-			DataModel::KEY_TYPE_PRIMARY,
-			DataModel::KEY_TYPE_UNIQUE
-		])) {
+		if( !in_array(
+			$type, [
+				     DataModel::KEY_TYPE_INDEX, DataModel::KEY_TYPE_PRIMARY, DataModel::KEY_TYPE_UNIQUE,
+			     ]
+		)
+		) {
 			throw new DataModel_Exception(
-				'Unknown key type',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
+				'Unknown key type', DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 
 		}
@@ -60,37 +62,39 @@ class DataModel_Definition_Key extends BaseObject {
 		$this->type = $type;
 	}
 
+	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( array $data )
+	{
+		return new static( $data['name'], $data['type'], $data['property_names'] );
+
+	}
 
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->name;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getPropertyNames() {
+	public function getPropertyNames()
+	{
 		return $this->property_names;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType()
+	{
 		return $this->type;
-	}
-
-
-	/**
-	 * @param $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( $data ) {
-		return new static( $data['name'], $data['type'], $data['property_names'] );
-
 	}
 
 }

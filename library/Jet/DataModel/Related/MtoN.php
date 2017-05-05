@@ -8,51 +8,57 @@
 namespace Jet;
 
 
-/**
- *
- * @JetDataModel:default_order_by = ['property_name','-next_property_name', '+some_property_name']
- */
+	/**
+	 *
+	 * @JetDataModel:default_order_by = ['property_name','-next_property_name', '+some_property_name']
+	 */
 
 /**
  *
  * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
  */
-abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Related_MtoN_Interface {
-    use DataModel_Related_MtoN_Trait;
-
-    /**
-     *
-     */
-    public function afterLoad() {
-
-    }
+abstract class DataModel_Related_MtoN extends BaseObject implements DataModel_Related_MtoN_Interface
+{
+	use DataModel_Related_MtoN_Trait;
 
 	/**
 	 *
 	 */
-    public function beforeSave() {
+	public function afterLoad()
+	{
 
-    }
+	}
 
-    /**
-     *
-     */
-    public function afterAdd() {
+	/**
+	 *
+	 */
+	public function beforeSave()
+	{
 
-    }
+	}
 
-    /**
-     *
-     */
-    public function afterUpdate() {
+	/**
+	 *
+	 */
+	public function afterAdd()
+	{
 
-    }
+	}
 
-    /**
-     *
-     */
-    public function afterDelete() {
+	/**
+	 *
+	 */
+	public function afterUpdate()
+	{
 
-    }
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete()
+	{
+
+	}
 
 }

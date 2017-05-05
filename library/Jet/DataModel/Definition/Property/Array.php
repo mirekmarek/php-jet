@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Property_Array
  * @package Jet
  */
-class DataModel_Definition_Property_Array extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_Array extends DataModel_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -32,12 +33,13 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data ) {
-		if(!$definition_data) {
+	public function setUp( $definition_data )
+	{
+		if( !$definition_data ) {
 			return;
 		}
 
-		parent::setUp($definition_data);
+		parent::setUp( $definition_data );
 
 		if( $this->is_id ) {
 			throw new DataModel_Exception(
@@ -48,20 +50,22 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property_
 
 	}
 
-    /**
-     * @return bool
-     */
-    public function getMustBeSerializedBeforeStore() {
-        return true;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getMustBeSerializedBeforeStore()
+	{
+		return true;
+	}
 
 
 	/**
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value ) {
-		if(!is_array($value)) {
-			$value = [$value];
+	public function checkValueType( &$value )
+	{
+		if( !is_array( $value ) ) {
+			$value = [ $value ];
 		}
 	}
 }

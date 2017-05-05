@@ -11,14 +11,16 @@ namespace Jet;
  * Class DataModel_Related_Trait_Load
  * @package Jet
  */
-trait DataModel_Related_Trait_Load {
+trait DataModel_Related_Trait_Load
+{
 
-    /**
-     * @return DataModel_Related_Interface
-     */
-    public function createNewRelatedDataModelInstance() {
-	    /** @noinspection PhpIncompatibleReturnTypeInspection */
-	    return new static();
-    }
+	/**
+	 * @return DataModel_Related_Interface
+	 */
+	public function createNewRelatedDataModelInstance()
+	{
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return new static();
+	}
 
 }

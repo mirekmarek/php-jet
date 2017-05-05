@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_RegistrationPassword
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_RegistrationPassword extends Form_Renderer_Bootstrap_Field_Input  {
+class Form_Renderer_Bootstrap_Field_RegistrationPassword extends Form_Renderer_Bootstrap_Field_Input
+{
 
 	/**
 	 * @var string

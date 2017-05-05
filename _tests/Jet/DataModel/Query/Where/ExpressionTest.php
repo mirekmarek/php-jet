@@ -13,7 +13,8 @@ require_once '_mock/Jet/DataModel/Query/DataModelTestMock.php';
 /**
  *
  */
-class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
+class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase
+{
 	/**
 	 * @var DataModel_Query_DataModelTestMock
 	 */
@@ -30,39 +31,15 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		$this->data_model = new DataModel_Query_DataModelTestMock();
-
-		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
-
-		$this->object = new DataModel_Query_Where_Expression(
-			$this->properties['string_property'],
-			DataModel_Query::O_NOT_EQUAL,
-			'test'
-		);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
-
-	/**
 	 * @covers \Jet\DataModel_Query_Where_Expression::__construct
 	 *
 	 * @expectedException \Jet\DataModel_Query_Exception
 	 * @expectedExceptionCode \Jet\DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 	 */
-	public function testConstructFailed() {
+	public function testConstructFailed()
+	{
 		$this->object = new DataModel_Query_Where_Expression(
-			$this->properties['string_property'],
-			'imaginary_operator',
-			'test'
+			$this->properties['string_property'], 'imaginary_operator', 'test'
 		);
 
 	}
@@ -70,30 +47,56 @@ class DataModel_Query_Where_ExpressionTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers \Jet\DataModel_Query_Where_Expression::getProperty
 	 */
-	public function testGetProperty() {
+	public function testGetProperty()
+	{
 		$this->assertEquals( $this->properties['string_property'], $this->object->getProperty() );
 	}
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where_Expression::getOperator
 	 */
-	public function testGetOperator() {
+	public function testGetOperator()
+	{
 		$this->assertEquals( DataModel_Query::O_NOT_EQUAL, $this->object->getOperator() );
 	}
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where_Expression::getValue
 	 */
-	public function testGetValue() {
+	public function testGetValue()
+	{
 		$this->assertEquals( 'test', $this->object->getValue() );
 	}
-
 
 	/**
 	 * @covers \Jet\DataModel_Query_Where_Expression::toString
 	 * @covers \Jet\DataModel_Query_Where_Expression::__toString
 	 */
-	public function testToString() {
-		$this->assertEquals('data_model_test_mock::string_property != \'test\'', $this->object->toString() );
+	public function testToString()
+	{
+		$this->assertEquals( 'data_model_test_mock::string_property != \'test\'', $this->object->toString() );
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->data_model = new DataModel_Query_DataModelTestMock();
+
+		$this->properties = $this->data_model->getDataModelDefinition()->getProperties();
+
+		$this->object = new DataModel_Query_Where_Expression(
+			$this->properties['string_property'], DataModel_Query::O_NOT_EQUAL, 'test'
+		);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
 	}
 }

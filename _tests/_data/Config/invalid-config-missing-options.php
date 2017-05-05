@@ -6,6 +6,6 @@ return [
 			/**
 			 * other items intentionally missing
 			 */
-		]
-	]
+		],
+	],
 ];

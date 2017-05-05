@@ -4,20 +4,21 @@ namespace JetExampleApp;
 use Jet\Form;
 use Jet\Mvc_View;
 use Jet\Tr;
+
 /**
  * @var Mvc_View $this
- * @var Form $form
+ * @var Form     $form
  */
-$form = $this->getRaw('form');
-$form->setDefaultLabelWidth(2);
-$form->setDefaultFieldWidth(4);
+$form = $this->getRaw( 'form' );
+$form->setDefaultLabelWidth( 2 );
+$form->setDefaultFieldWidth( 4 );
 
-$form->field('locale')->field()->addJsAction('onchange', 'this.form.submit();');
+$form->field( 'locale' )->field()->addJsAction( 'onchange', 'this.form.submit();' );
 ?>
-<h1><?=Tr::_('Welcome!');?></h1>
+<h1><?=Tr::_( 'Welcome!' );?></h1>
 
 <?=$form->start()?>
-	<?=$form->field('locale')?>
+<?=$form->field( 'locale' )?>
 <?=$form->end()?>
 
 <form method="post">

@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 use Jet\Session;
 
@@ -34,109 +35,118 @@ class messages extends BaseObject
 	protected static $session;
 
 	/**
-	 * @return Session
+	 * @param string $message
 	 */
-	protected static function getSession()
+	public static function success( $message )
 	{
-		if(static::$session===null) {
-			static::$session = new Session( static::SESSION_NS );
-		}
-		return self::$session;
+		static::set( static::C_SUCCESS, $message );
 	}
-
-	/**
-	 * @param $message
-	 */
-	public static function success( $message ) {
-		static::set(static::C_SUCCESS, $message);
-	}
-
-	/**
-	 * @param $message
-	 *
-	 * @return messages_message
-	 */
-	public static function createSuccess( $message ) {
-		return static::create(static::C_SUCCESS, $message);
-	}
-
-	/**
-	 * @param $message
-	 */
-	public static function info( $message ) {
-		static::set(static::C_INFO, $message);
-	}
-
-	/**
-	 * @param $message
-	 *
-	 * @return messages_message
-	 */
-	public static function createInfo( $message ) {
-		return static::create(static::C_INFO, $message);
-	}
-
-	/**
-	 * @param $message
-	 */
-	public static function warning( $message ) {
-		static::set(static::C_WARNING, $message);
-	}
-
-	/**
-	 * @param $message
-	 *
-	 * @return messages_message
-	 */
-	public static function createWarning( $message ) {
-		return static::create(static::C_WARNING, $message);
-	}
-
-	/**
-	 * @param $message
-	 */
-	public static function danger( $message ) {
-		static::set(static::C_DANGER, $message);
-	}
-
-	/**
-	 * @param $message
-	 *
-	 * @return messages_message
-	 */
-	public static function createDanger( $message ) {
-		return static::create(static::C_DANGER, $message);
-	}
-
 
 	/**
 	 * @param string $class
 	 * @param string $message
 	 */
-	public static function set( $class, $message ) {
+	public static function set( $class, $message )
+	{
 		$s = static::getSession();
 
-		if(!$s->getValueExists('msg')) {
-			$s->setValue('msg', []);
+		if( !$s->getValueExists( 'msg' ) ) {
+			$s->setValue( 'msg', [] );
 		}
 
-		$current = $s->getValue('msg');
-		$current[] = static::create($class, $message);
-		$s->setValue('msg', $current);
+		$current = $s->getValue( 'msg' );
+		$current[] = static::create( $class, $message );
+		$s->setValue( 'msg', $current );
 
 		static::$messages = null;
 	}
 
 	/**
+	 * @return Session
+	 */
+	protected static function getSession()
+	{
+		if( static::$session===null ) {
+			static::$session = new Session( static::SESSION_NS );
+		}
+
+		return self::$session;
+	}
+
+	/**
 	 * @param string $class
 	 * @param string $message
 	 *
 	 * @return messages_message
 	 */
-	public static function create( $class, $message ) {
+	public static function create( $class, $message )
+	{
 		return new messages_message( $class, $message );
 	}
 
+	/**
+	 * @param string $message
+	 *
+	 * @return messages_message
+	 */
+	public static function createSuccess( $message )
+	{
+		return static::create( static::C_SUCCESS, $message );
+	}
+
+	/**
+	 * @param string $message
+	 */
+	public static function info( $message )
+	{
+		static::set( static::C_INFO, $message );
+	}
+
+	/**
+	 * @param string $message
+	 *
+	 * @return messages_message
+	 */
+	public static function createInfo( $message )
+	{
+		return static::create( static::C_INFO, $message );
+	}
+
+	/**
+	 * @param string $message
+	 */
+	public static function warning( $message )
+	{
+		static::set( static::C_WARNING, $message );
+	}
+
+	/**
+	 * @param string $message
+	 *
+	 * @return messages_message
+	 */
+	public static function createWarning( $message )
+	{
+		return static::create( static::C_WARNING, $message );
+	}
+
+	/**
+	 * @param string $message
+	 */
+	public static function danger( $message )
+	{
+		static::set( static::C_DANGER, $message );
+	}
+
+	/**
+	 * @param string $message
+	 *
+	 * @return messages_message
+	 */
+	public static function createDanger( $message )
+	{
+		return static::create( static::C_DANGER, $message );
+	}
 
 	/**
 	 *
@@ -144,18 +154,18 @@ class messages extends BaseObject
 	 */
 	public static function get()
 	{
-		if(static::$messages===null) {
+		if( static::$messages===null ) {
 			static::$messages = [];
 
 			$s = static::getSession();
 
-			if($s->getValueExists('msg')) {
-				foreach($s->getValue('msg') as $msg) {
+			if( $s->getValueExists( 'msg' ) ) {
+				foreach( $s->getValue( 'msg' ) as $msg ) {
 					static::$messages[] = $msg;
 				}
 			}
 
-			$s->setValue('msg', []);
+			$s->setValue( 'msg', [] );
 
 		}
 

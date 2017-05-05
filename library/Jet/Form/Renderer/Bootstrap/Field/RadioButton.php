@@ -11,17 +11,18 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_RadioButton
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_RadioButton extends Form_Renderer_Bootstrap_Field_Abstract {
+class Form_Renderer_Bootstrap_Field_RadioButton extends Form_Renderer_Bootstrap_Field_Abstract
+{
 
 	/**
 	 * @var string
 	 */
 	protected $tag = 'input';
 
-    /**
-     * @var string
-     */
-    protected $base_css_class = 'radio';
+	/**
+	 * @var string
+	 */
+	protected $base_css_class = 'radio';
 
 	/**
 	 * @var bool
@@ -33,46 +34,44 @@ class Form_Renderer_Bootstrap_Field_RadioButton extends Form_Renderer_Bootstrap_
 	 */
 	public function render()
 	{
-	    $result = '';
+		$result = '';
 
-        /**
-         * @var Form_Field_RadioButton $field
-         */
-        $field = $this->_field;
+		/**
+		 * @var Form_Field_RadioButton $field
+		 */
+		$field = $this->_field;
 
-        $result .= $this->render_containerStart();
+		$result .= $this->render_containerStart();
 
-        $base_class = $this->getBaseCssClass();
-        $this->setBaseCssClass('');
-        foreach( $field->getSelectOptions() as $key=>$option ) {
-            $tag_options = [
-                'type' => 'radio',
-                'name' => $this->getTagNameValue(),
-                'value' => $key
-            ];
+		$base_class = $this->getBaseCssClass();
+		$this->setBaseCssClass( '' );
+		foreach( $field->getSelectOptions() as $key => $option ) {
+			$tag_options = [
+				'type' => 'radio', 'name' => $this->getTagNameValue(), 'value' => $key,
+			];
 
-            if($field->getValue()==$key) {
-                $tag_options['checked'] = 'checked';
-            }
+			if( $field->getValue()==$key ) {
+				$tag_options['checked'] = 'checked';
+			}
 
-            $class = $base_class;
-            if($field->getIsReadonly()) {
-                $tag_options['disabled'] = 'disabled';
-                $class .= ' disabled';
-            }
+			$class = $base_class;
+			if( $field->getIsReadonly() ) {
+				$tag_options['disabled'] = 'disabled';
+				$class .= ' disabled';
+			}
 
-            $result .= '<div class="'.$class.'">';
-            $result .= '<label>';
-            $result .= $this->generate($tag_options);
-            $result .= $option;
-            $result .= '</label>';
-            $result .= '</div>';
-        }
-        $this->setBaseCssClass($base_class);
+			$result .= '<div class="'.$class.'">';
+			$result .= '<label>';
+			$result .= $this->generate( $tag_options );
+			$result .= $option;
+			$result .= '</label>';
+			$result .= '</div>';
+		}
+		$this->setBaseCssClass( $base_class );
 
-        $result .= $this->render_containerEnd();
+		$result .= $this->render_containerEnd();
 
-        return $result;
+		return $result;
 	}
 
 }

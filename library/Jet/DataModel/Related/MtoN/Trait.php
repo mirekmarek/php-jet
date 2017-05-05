@@ -11,112 +11,77 @@ namespace Jet;
  * Class DataModel_Related_MtoN_Trait
  * @package Jet
  */
-trait DataModel_Related_MtoN_Trait {
-    use DataModel_Related_Trait;
-
-	/**
-	 * @var DataModel_Id_Abstract
-	 */
-	private $_N_id;
-
-	/**
-	 * @var DataModel
-	 */
-	private $_N_instance;
-
+trait DataModel_Related_MtoN_Trait
+{
+	use DataModel_Related_Trait;
 
 	/**
 	 * @var array
 	 */
 	protected static $_load_related_data_where_query_part = [];
-
 	/**
 	 * @var array
 	 */
 	protected static $_load_related_data_order_by = [];
-
-    /**
-     * @return DataModel_Related_Interface
-     */
-    public function createNewRelatedDataModelInstance()
-    {
-	    /**
-	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-	     */
-	    $data_model_definition = static::getDataModelDefinition();
-
-	    $iterator_class_name = $data_model_definition->getIteratorClassName();
-
-        $i = new $iterator_class_name( $data_model_definition );
-
-        return $i;
-    }
-
-    /**
-     * @param $data_model_class_name
-     *
-     * @return DataModel_Definition_Model_Related_MtoN
-     */
-    public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
-        return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );
-    }
-
-    /**
-     * @return null
-     */
-    public function getArrayKeyValue() {
-        return $this->getNId()->toString();
-    }
-
+	/**
+	 * @var DataModel_Id_Abstract
+	 */
+	private $_N_id;
+	/**
+	 * @var DataModel
+	 */
+	private $_N_instance;
 
 	/**
-	 * @param DataModel_Id_Abstract $main_id
+	 * @param string $data_model_class_name
+	 *
+	 * @return DataModel_Definition_Model_Related_MtoN
+	 */
+	public static function _getDataModelDefinitionInstance( $data_model_class_name )
+	{
+		return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );
+	}
+
+	/**
+	 * @param DataModel_Id_Abstract         $main_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array
 	 */
-	public static function loadRelatedData(
-		DataModel_Id_Abstract $main_id,
-		DataModel_PropertyFilter $load_filter=null
-	)
-    {
+	public static function loadRelatedData( DataModel_Id_Abstract $main_id, DataModel_PropertyFilter $load_filter = null )
+	{
 
-	    /**
-	     * @var DataModel_Definition_Model_Related_MtoN $definition
-	     */
-	    $definition = static::getDataModelDefinition();
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $definition
+		 */
+		$definition = static::getDataModelDefinition();
 
-	    if(
-	        $load_filter
-	    ) {
-		    if(
-			    !$load_filter->getModelAllowed( $definition->getModelName() ) &&
-			    !$load_filter->getModelAllowed( $definition->getNModelName() )
-		    ) {
-			    return [];
-		    }
+		if( $load_filter ) {
+			if( !$load_filter->getModelAllowed( $definition->getModelName() )&&!$load_filter->getModelAllowed(
+					$definition->getNModelName()
+				)
+			) {
+				return [];
+			}
 
-	    }
+		}
 
 
-	    $query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
+		$query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
 
-	    return $definition->getBackendInstance()->fetchAll($query);
+		return $definition->getBackendInstance()->fetchAll( $query );
 
-    }
-
+	}
 
 	/**
-	 * @param DataModel_Id_Abstract $main_id
+	 * @param DataModel_Id_Abstract         $main_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel_Query
 	 */
-	protected static function getLoadRelatedDataQuery(
-		/** @noinspection PhpUnusedParameterInspection */
-		DataModel_Id_Abstract $main_id,
-		DataModel_PropertyFilter $load_filter=null
-	) {
+	protected static function getLoadRelatedDataQuery( /** @noinspection PhpUnusedParameterInspection */
+		DataModel_Id_Abstract $main_id, DataModel_PropertyFilter $load_filter = null )
+	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $definition
 		 */
@@ -124,7 +89,7 @@ trait DataModel_Related_MtoN_Trait {
 
 		$query = new DataModel_Query( $definition );
 
-		$query->setWhere(static::getLoadRelatedDataWhereQueryPart());
+		$query->setWhere( static::getLoadRelatedDataWhereQueryPart() );
 
 		$where = $query->getWhere();
 
@@ -132,7 +97,7 @@ trait DataModel_Related_MtoN_Trait {
 		$m_id_properties = $definition->getMRelationIdProperties();
 
 
-		foreach($m_id_properties as $m_id_property) {
+		foreach( $m_id_properties as $m_id_property ) {
 
 			/**
 			 * @var DataModel_Definition_Property_Abstract $m_id_property
@@ -140,30 +105,22 @@ trait DataModel_Related_MtoN_Trait {
 			$value = $main_id[$m_id_property->getRelatedToPropertyName()];
 
 			$where->addAND();
-			$where->addExpression( $m_id_property, DataModel_Query::O_EQUAL, $value);
+			$where->addExpression( $m_id_property, DataModel_Query::O_EQUAL, $value );
 		}
 
 		$query->setSelect( $definition->getProperties() );
 
 		$relation = $definition->getRelationToN();
 		$this_N_model_name = $definition->getNModelName();
-		$query->addRelation($this_N_model_name, $relation);
+		$query->addRelation( $this_N_model_name, $relation );
 
 
 		$order_by = static::getLoadRelatedDataOrderBy();
-		if($order_by) {
+		if( $order_by ) {
 			$query->setOrderBy( $order_by );
 		}
 
 		return $query;
-	}
-
-	/**
-	 * @param array $where
-	 */
-	public static function setLoadRelatedDataWhereQueryPart(array $where)
-	{
-		static::$_load_related_data_where_query_part = $where;
 	}
 
 	/**
@@ -175,11 +132,11 @@ trait DataModel_Related_MtoN_Trait {
 	}
 
 	/**
-	 * @param array $order_by
+	 * @param array $where
 	 */
-	public function setLoadRelatedDataOrderBy(array $order_by)
+	public static function setLoadRelatedDataWhereQueryPart( array $where )
 	{
-		static::$_load_related_data_order_by = $order_by;
+		static::$_load_related_data_where_query_part = $where;
 	}
 
 	/**
@@ -192,165 +149,196 @@ trait DataModel_Related_MtoN_Trait {
 		 */
 		$definition = static::getDataModelDefinition();
 
-		return static::$_load_related_data_order_by ? static::$_load_related_data_order_by : $definition->getDefaultOrderBy();
+		return static::$_load_related_data_order_by ? static::$_load_related_data_order_by :
+			$definition->getDefaultOrderBy();
 	}
 
-
 	/**
-	 * @param array $loaded_related_data
-	 * @param DataModel_Id_Abstract|null $parent_id
+	 * @param array                         $loaded_related_data
+	 * @param DataModel_Id_Abstract|null    $parent_id
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return mixed
 	 */
-    public static function loadRelatedInstances(
-	    /** @noinspection PhpUnusedParameterInspection */
-	    array &$loaded_related_data,
-	    DataModel_Id_Abstract $parent_id=null,
-	    DataModel_PropertyFilter $load_filter=null
-    )
-    {
+	public static function loadRelatedInstances( /** @noinspection PhpUnusedParameterInspection */
+		array &$loaded_related_data, DataModel_Id_Abstract $parent_id = null, DataModel_PropertyFilter $load_filter = null )
+	{
 
-        /**
-         * @var DataModel_Definition_Model_Related_1toN $data_model_definition
-         */
-        $data_model_definition = static::getDataModelDefinition();
+		/**
+		 * @var DataModel_Definition_Model_Related_1toN $data_model_definition
+		 */
+		$data_model_definition = static::getDataModelDefinition();
 
 
-        $model_name = $data_model_definition->getModelName();
-        $items = [];
+		$model_name = $data_model_definition->getModelName();
+		$items = [];
 
-        if(empty($loaded_related_data[$model_name])) {
-	        $loaded_related_data[$model_name] = [];
-        }
-
-
-        foreach( $loaded_related_data[$model_name] as $i=>$dat ) {
-
-            /**
-             * @var DataModel_Related_MtoN $loaded_instance
-             */
-            $loaded_instance = new static();
-	        $loaded_instance->setLoadFilter($load_filter);
-            $loaded_instance->setState( $dat );
-	        $loaded_instance->getNId();
-
-            unset($loaded_related_data[$model_name][$i]);
-
-            $key = $loaded_instance->getArrayKeyValue();
-            if(is_object($key)) {
-                $key = (string)$key;
-            }
-
-            if($key!==null) {
-                $items[$key] = $loaded_instance;
-            } else {
-                $items[] = $loaded_instance;
-            }
-
-        }
-
-	    /**
-	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-	     * @var DataModel_Related_MtoN_Iterator $iterator
-	     */
-	    $data_model_definition = static::getDataModelDefinition();
-
-	    $iterator_class_name = $data_model_definition->getIteratorClassName();
-
-	    $iterator = new $iterator_class_name( $data_model_definition, $items );
-
-	    return $iterator;
-
-    }
+		if( empty( $loaded_related_data[$model_name] ) ) {
+			$loaded_related_data[$model_name] = [];
+		}
 
 
-    /**
-     * @param DataModel_Interface $N_instance
-     */
-    public function setNInstance( DataModel_Interface $N_instance ) {
-    	$this->_N_instance = $N_instance;
-	    $this->_N_instance = $N_instance->getIdObject();
+		foreach( $loaded_related_data[$model_name] as $i => $dat ) {
 
-	    /**
-	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-	     */
-	    $data_model_definition = static::getDataModelDefinition();
+			/**
+			 * @var DataModel_Related_MtoN $loaded_instance
+			 */
+			$loaded_instance = new static();
+			$loaded_instance->setLoadFilter( $load_filter );
+			$loaded_instance->setState( $dat );
+			$loaded_instance->getNId();
 
-	    $n_id = $N_instance->getIdObject();
-	    $n_id_properties = $data_model_definition->getNRelationIdProperties();
+			unset( $loaded_related_data[$model_name][$i] );
+
+			$key = $loaded_instance->getArrayKeyValue();
+			if( is_object( $key ) ) {
+				$key = (string)$key;
+			}
+
+			if( $key!==null ) {
+				$items[$key] = $loaded_instance;
+			} else {
+				$items[] = $loaded_instance;
+			}
+
+		}
+
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+		 * @var DataModel_Related_MtoN_Iterator         $iterator
+		 */
+		$data_model_definition = static::getDataModelDefinition();
+
+		$iterator_class_name = $data_model_definition->getIteratorClassName();
+
+		$iterator = new $iterator_class_name( $data_model_definition, $items );
+
+		return $iterator;
+
+	}
+
+	/**
+	 * @return DataModel_Id_Abstract
+	 */
+	public function getNId()
+	{
+
+		if( !$this->_N_id ) {
+			/**
+			 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+			 */
+			$data_model_definition = static::getDataModelDefinition();
+
+			/**
+			 * @var DataModel_Definition_Property_Abstract[] $n_id_properties
+			 */
+			$n_id_properties = $data_model_definition->getNRelationIdProperties();
+			$n_class_name = $data_model_definition->getNModelClassName();
 
 
-	    foreach($n_id_properties as $n_id_property) {
-		    /**
-		     * @var DataModel_Definition_Property_Abstract $n_id_property
-		     */
-		    $value = $n_id[$n_id_property->getRelatedToPropertyName()];
+			/** @noinspection PhpUndefinedMethodInspection */
+			$this->_N_id = $n_class_name::getEmptyIdObject();
 
-		    $this->{$n_id_property->getName()} = $value;
-	    }
+			foreach( $n_id_properties as $n_id_prop_name => $n_id_prop ) {
+				$this->_N_id[$n_id_prop->getRelatedToPropertyName()] = $this->{$n_id_prop_name};
+			}
 
-    }
+		}
+
+		return $this->_N_id;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function getArrayKeyValue()
+	{
+		return $this->getNId()->toString();
+	}
+
+	/**
+	 * @return DataModel_Related_Interface
+	 */
+	public function createNewRelatedDataModelInstance()
+	{
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+		 */
+		$data_model_definition = static::getDataModelDefinition();
+
+		$iterator_class_name = $data_model_definition->getIteratorClassName();
+
+		$i = new $iterator_class_name( $data_model_definition );
+
+		return $i;
+	}
+
+	/**
+	 * @param array $order_by
+	 */
+	public function setLoadRelatedDataOrderBy( array $order_by )
+	{
+		static::$_load_related_data_order_by = $order_by;
+	}
 
 	/**
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return DataModel|null
 	 */
-    public function getNInstance(DataModel_PropertyFilter $load_filter=null ) {
+	public function getNInstance( DataModel_PropertyFilter $load_filter = null )
+	{
 
-        if(!$this->_N_instance) {
+		if( !$this->_N_instance ) {
 
-	        /**
-	         * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-	         */
-	        $data_model_definition = static::getDataModelDefinition();
+			/**
+			 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+			 */
+			$data_model_definition = static::getDataModelDefinition();
 
-            $n_class_name = $data_model_definition->getNModelClassName();
+			$n_class_name = $data_model_definition->getNModelClassName();
 
-            /** @noinspection PhpUndefinedMethodInspection */
-	        $this->_N_instance = $n_class_name::load($this->getNId(), $load_filter);
+			/** @noinspection PhpUndefinedMethodInspection */
+			$this->_N_instance = $n_class_name::load( $this->getNId(), $load_filter );
 
-        }
+		}
 
-        return $this->_N_instance;
-    }
+		return $this->_N_instance;
+	}
 
-    /**
-     * @return DataModel_Id_Abstract
-     */
-    public function getNId() {
+	/**
+	 * @param DataModel_Interface $N_instance
+	 */
+	public function setNInstance( DataModel_Interface $N_instance )
+	{
+		$this->_N_instance = $N_instance;
+		$this->_N_instance = $N_instance->getIdObject();
 
-        if(!$this->_N_id) {
-            /**
-             * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-             */
-            $data_model_definition = static::getDataModelDefinition();
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+		 */
+		$data_model_definition = static::getDataModelDefinition();
 
-            /**
-             * @var DataModel_Definition_Property_Abstract[] $n_id_properties
-             */
-            $n_id_properties = $data_model_definition->getNRelationIdProperties();
-            $n_class_name = $data_model_definition->getNModelClassName();
+		$n_id = $N_instance->getIdObject();
+		$n_id_properties = $data_model_definition->getNRelationIdProperties();
 
 
-	        /** @noinspection PhpUndefinedMethodInspection */
-	        $this->_N_id = $n_class_name::getEmptyIdObject();
+		foreach( $n_id_properties as $n_id_property ) {
+			/**
+			 * @var DataModel_Definition_Property_Abstract $n_id_property
+			 */
+			$value = $n_id[$n_id_property->getRelatedToPropertyName()];
 
-            foreach( $n_id_properties as $n_id_prop_name=>$n_id_prop) {
-                $this->_N_id[$n_id_prop->getRelatedToPropertyName()] = $this->{$n_id_prop_name};
-            }
+			$this->{$n_id_property->getName()} = $value;
+		}
 
-        }
-
-        return $this->_N_id;
-    }
-
+	}
 
 	/**
 	 * @return DataModel_Id_Abstract
 	 */
-	public function getMId() {
+	public function getMId()
+	{
 
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
@@ -367,7 +355,7 @@ trait DataModel_Related_MtoN_Trait {
 		/** @noinspection PhpUndefinedMethodInspection */
 		$m_id = $m_class_name::getEmptyIdObject();
 
-		foreach( $m_id_properties as $m_id_prop_name=>$m_id_prop) {
+		foreach( $m_id_properties as $m_id_prop_name => $m_id_prop ) {
 			$m_id[$m_id_prop->getRelatedToPropertyName()] = $this->{$m_id_prop_name};
 		}
 
@@ -375,73 +363,67 @@ trait DataModel_Related_MtoN_Trait {
 	}
 
 
+	/**
+	 * @param string $prefix
+	 *
+	 * @return string
+	 */
+	public function XMLSerialize( $prefix = '' )
+	{
 
-    /**
-     * @param string $prefix
-     *
-     * @return string
-     */
-    public function XMLSerialize($prefix='' ) {
+		/**
+		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
+		 */
+		$data_model_definition = static::getDataModelDefinition();
 
-	    /**
-	     * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-	     */
-	    $data_model_definition = static::getDataModelDefinition();
+		$N_class_name = $data_model_definition->getNModelClassName();
 
-        $N_class_name = $data_model_definition->getNModelClassName();
+		$result = '';
 
-        $result = '';
+		$result .= $prefix.JET_TAB.'<'.$N_class_name.'>'.JET_EOL;
+		foreach( $this->getNId() as $id_k => $id_v ) {
+			$result .= $prefix.JET_TAB.JET_TAB.'<'.$id_k.'>'.Data_Text::htmlSpecialChars(
+					$id_v
+				).'</'.$id_k.'>'.JET_EOL;
+		}
+		$result .= $prefix.JET_TAB.'</'.$N_class_name.'>'.JET_EOL;
 
-        $result .= $prefix . JET_TAB.'<'.$N_class_name.'>'.JET_EOL;
-        foreach($this->getNId() as $id_k=> $id_v) {
-            $result .= $prefix . JET_TAB.JET_TAB.'<'.$id_k.'>'.Data_Text::htmlSpecialChars($id_v).'</'.$id_k.'>'.JET_EOL;
-        }
-        $result .= $prefix . JET_TAB.'</'.$N_class_name.'>'.JET_EOL;
+		return $result;
 
-        return $result;
+	}
 
-    }
-
-    /**
-     *
-     * @param DataModel_Definition_Property_Abstract $parent_property_definition
-     * @param DataModel_PropertyFilter $property_filter
-     *
-     * @return Form_Field_Abstract[]
-     */
-    public function getRelatedFormFields(
-        /** @noinspection PhpUnusedParameterInspection */
-        DataModel_Definition_Property_Abstract $parent_property_definition,
-	    DataModel_PropertyFilter $property_filter=null
-    ) {
-        return [];
-    }
+	/**
+	 *
+	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
+	 * @param DataModel_PropertyFilter               $property_filter
+	 *
+	 * @return Form_Field_Abstract[]
+	 */
+	public function getRelatedFormFields( /** @noinspection PhpUnusedParameterInspection */
+		DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
+	{
+		return [];
+	}
 
 	/**
 	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentId(DataModel_Id_Abstract $parent_id ) {
-		$this->setMid($parent_id);
-	}
-
-	/**
-	 * @param DataModel_Id_Abstract $main_id
-	 */
-	public function actualizeMainId(DataModel_Id_Abstract $main_id ) {
-		$this->setMid($main_id);
+	public function actualizeParentId( DataModel_Id_Abstract $parent_id )
+	{
+		$this->setMid( $parent_id );
 	}
 
 	/**
 	 * @param DataModel_Id_Abstract $m_id
 	 */
-	public function setMid(DataModel_Id_Abstract $m_id )
+	public function setMid( DataModel_Id_Abstract $m_id )
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		if($m_id->getDataModelClassName()!=$data_model_definition->getMModelClassName()) {
+		if( $m_id->getDataModelClassName()!=$data_model_definition->getMModelClassName() ) {
 			return;
 		}
 
@@ -453,7 +435,7 @@ trait DataModel_Related_MtoN_Trait {
 		$m_id_properties = $data_model_definition->getMRelationIdProperties();
 
 
-		foreach($m_id_properties as $m_id_property) {
+		foreach( $m_id_properties as $m_id_property ) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $m_id_property
 			 */
@@ -462,6 +444,14 @@ trait DataModel_Related_MtoN_Trait {
 			$this->{$m_id_property->getName()} = $value;
 		}
 
+	}
+
+	/**
+	 * @param DataModel_Id_Abstract $main_id
+	 */
+	public function actualizeMainId( DataModel_Id_Abstract $main_id )
+	{
+		$this->setMid( $main_id );
 	}
 
 

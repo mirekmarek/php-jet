@@ -44,66 +44,66 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 */
 	protected $custom_size;
 
-    /**
-     * @var string
-     */
-    protected $label = '';
+	/**
+	 * @var string
+	 */
+	protected $label = '';
 
-    /**
-     * @var string
-     */
-    protected $for;
+	/**
+	 * @var string
+	 */
+	protected $for;
 
 	/**
 	 *
 	 * @param Form_Field_Abstract $form_field
 	 */
-	public function __construct(Form_Field_Abstract $form_field)
+	public function __construct( Form_Field_Abstract $form_field )
 	{
 		$this->_field = $form_field;
-        $this->label = $form_field->getLabel();
-        $this->for = $form_field->getId();
+		$this->label = $form_field->getLabel();
+		$this->for = $form_field->getId();
 	}
 
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
+	/**
+	 * @return string
+	 */
+	public function getLabel()
+	{
+		return $this->label;
+	}
 
-    /**
-     * @param string $label
-     *
-     * @return $this
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
+	/**
+	 * @param string $label
+	 *
+	 * @return $this
+	 */
+	public function setLabel( $label )
+	{
+		$this->label = $label;
 
-	    return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getFor()
-    {
-        return $this->for;
-    }
+	/**
+	 * @return string
+	 */
+	public function getFor()
+	{
+		return $this->for;
+	}
 
-    /**
-     * @param string $for
-     *
-     * @return $this
-     */
-    public function setFor($for)
-    {
-        $this->for = $for;
+	/**
+	 * @param string $for
+	 *
+	 * @return $this
+	 */
+	public function setFor( $for )
+	{
+		$this->for = $for;
 
-	    return $this;
-    }
+		return $this;
+	}
 
 
 	/**
@@ -111,7 +111,7 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 *
 	 * @return $this
 	 */
-	public function setWidth($width)
+	public function setWidth( $width )
 	{
 		$this->custom_width = $width;
 
@@ -123,7 +123,7 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 */
 	public function getWidth()
 	{
-		if($this->custom_width) {
+		if( $this->custom_width ) {
 			return $this->custom_width;
 		}
 
@@ -135,7 +135,7 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 */
 	public function getSize()
 	{
-		if($this->custom_size) {
+		if( $this->custom_size ) {
 			return $this->custom_size;
 		}
 
@@ -147,7 +147,7 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	 *
 	 * @return $this
 	 */
-	public function setSize($custom_size)
+	public function setSize( $custom_size )
 	{
 		$this->custom_size = $custom_size;
 
@@ -157,21 +157,20 @@ abstract class Form_Renderer_Abstract_Label extends Form_Renderer_Abstract_Tag
 	/**
 	 * @return string
 	 */
-	public function render() {
-		if(
-			$this->_field instanceof Form_Field_Checkbox
-		) {
+	public function render()
+	{
+		if( $this->_field instanceof Form_Field_Checkbox ) {
 			return '';
 		}
 
 
 		$tag_options = [
-		    'for' => $this->for
+			'for' => $this->for,
 		];
 
 		$label = $this->label;
 
-		if($this->_field->getIsRequired()) {
+		if( $this->_field->getIsRequired() ) {
 			$label = '<em class="form-required">*</em> '.$label;
 		}
 

@@ -1,29 +1,32 @@
 <?php
 use JetUI\menu;
 use JetUI\UI;
+
 ?>
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
 	<div class="row">
 		<div class="col-md-4"></div>
 
-	<?php foreach( menu::getMenus() as $menu ): ?>
-		<div class="col-md-2">
-			<h3><?=$menu->getLabel()?></h3>
-			<hr/>
-			<?php foreach( $menu->getItems() as $item ): ?>
-				<div style="margin: 10px">
-					<?php if($item->getSeparatorBefore()): ?><hr/><?php endif; ?>
-					<a href="<?=$item->getUrl()?>">
-						<?=UI::icon($item->getIcon())->setWidth(35)->setSize(25)?>
-						<span style="position: relative;top:-5px"><?=$item->getLabel()?></span>
-					</a>
-					<?php if($item->getSeparatorAfter()): ?><hr/><?php endif; ?>
-				</div>
-			<?php endforeach; ?>
+		<?php foreach( menu::getMenus() as $menu ): ?>
+			<div class="col-md-2">
+				<h3><?=$menu->getLabel()?></h3>
+				<hr/>
+				<?php foreach( $menu->getItems() as $item ): ?>
+					<div style="margin: 10px">
+						<?php if( $item->getSeparatorBefore() ): ?>
+							<hr/><?php endif; ?>
+						<a href="<?=$item->getUrl()?>">
+							<?=UI::icon( $item->getIcon() )->setWidth( 35 )->setSize( 25 )?>
+							<span style="position: relative;top:-5px"><?=$item->getLabel()?></span>
+						</a>
+						<?php if( $item->getSeparatorAfter() ): ?>
+							<hr/><?php endif; ?>
+					</div>
+				<?php endforeach; ?>
 
-		</div>
-	<?php endforeach; ?>
+			</div>
+		<?php endforeach; ?>
 
 	</div>
 

@@ -11,7 +11,8 @@ namespace Jet;
  * Class Config_Definition_Property_String
  * @package Jet
  */
-class Config_Definition_Property_String extends Config_Definition_Property_Abstract {
+class Config_Definition_Property_String extends Config_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -29,16 +30,18 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 
 	/**
 	 * @param array|null $definition_data
+	 *
 	 * @throws Config_Exception
 	 */
-	public function setUp(array $definition_data = null ) {
-		parent::setUp($definition_data);
+	public function setUp( array $definition_data = null )
+	{
+		parent::setUp( $definition_data );
 
-		if($this->validation_regexp!==null) {
+		if( $this->validation_regexp!==null ) {
 			$this->form_field_validation_regexp = $this->validation_regexp;
 		}
 
-		if($this->form_field_type===null) {
+		if( $this->form_field_type===null ) {
 			$this->form_field_type = Form::TYPE_INPUT;
 		}
 
@@ -47,21 +50,24 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	/**
 	 * @param mixed &$value
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
 		$value = (string)$value;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getValidationRegexp() {
+	public function getValidationRegexp()
+	{
 		return $this->validation_regexp;
 	}
 
 	/**
 	 * @param string $validation_regexp
 	 */
-	public function setValidationRegexp($validation_regexp) {
+	public function setValidationRegexp( $validation_regexp )
+	{
 		$this->validation_regexp = $validation_regexp;
 		$this->form_field_validation_regexp = $validation_regexp;
 	}
@@ -69,20 +75,21 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	/**
 	 * @return string
 	 */
-	public function getTechnicalDescription() {
+	public function getTechnicalDescription()
+	{
 		$res = 'Type: '.$this->getType();
 
-		$res .= ', required: '.($this->is_required ? 'yes':'no');
+		$res .= ', required: '.( $this->is_required ? 'yes' : 'no' );
 
-		if($this->default_value) {
+		if( $this->default_value ) {
 			$res .= ', default value: '.$this->default_value;
 		}
 
-		if($this->validation_regexp) {
+		if( $this->validation_regexp ) {
 			$res .= ', valid value regular expression: '.$this->validation_regexp;
 		}
 
-		if($this->description) {
+		if( $this->description ) {
 			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 
@@ -98,12 +105,13 @@ class Config_Definition_Property_String extends Config_Definition_Property_Abstr
 	 * @throws Config_Exception
 	 * @return bool
 	 */
-	protected function _validateProperties_test_value( &$value ) {
-		if(!$this->validation_regexp) {
+	protected function _validateProperties_test_value( &$value )
+	{
+		if( !$this->validation_regexp ) {
 			return true;
 		}
 
-		if( !preg_match($this->validation_regexp, $value) ) {
+		if( !preg_match( $this->validation_regexp, $value ) ) {
 			throw new Config_Exception(
 				'Configuration property '.$this->_configuration_class.'::'.$this->name.' has invalid format. Valid regexp: '.$this->validation_regexp.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR

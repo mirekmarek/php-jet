@@ -11,19 +11,20 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Label
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Label extends Form_Renderer_Abstract_Label {
+class Form_Renderer_Bootstrap_Label extends Form_Renderer_Abstract_Label
+{
 
 	/**
 	 * @var string
 	 */
 	protected $base_css_class;
 
-    /**
-     * @return string
-     */
-    public function getBaseCssClass()
+	/**
+	 * @return string
+	 */
+	public function getBaseCssClass()
 	{
-		if($this->base_css_class) {
+		if( $this->base_css_class ) {
 			return $this->base_css_class;
 		}
 

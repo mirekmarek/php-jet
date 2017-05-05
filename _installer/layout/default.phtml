@@ -2,22 +2,24 @@
 namespace JetExampleApp;
 use Jet\Mvc_Layout;
 use Jet\Tr;
+
 /**
  * @var Installer_Step_Controller[] $steps
- * @var Mvc_Layout $this
+ * @var Mvc_Layout                  $this
  */
-$steps = $this->getRaw('steps');
+$steps = $this->getRaw( 'steps' );
 ?>
 <html>
 <head>
-	<title><?=Tr::_('PHP Jet - Example Project Installer');?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?=Tr::_( 'PHP Jet - Example Project Installer' );?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
 	<jet_layout_header_suffix/>
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css"
+	      href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
 
 	<style type="text/css">
 		.stepPrev {
@@ -44,7 +46,7 @@ $steps = $this->getRaw('steps');
 	<div class="row">
 		<div class="col-md-12" style="background-color: #000000;color: #ffffff;font-size: 18px;font-weight: bolder;">
 			<div style="padding: 4px;">
-				<?=Tr::_('PHP Jet - Example Project Installer');?>
+				<?=Tr::_( 'PHP Jet - Example Project Installer' );?>
 			</div>
 		</div>
 	</div>
@@ -53,23 +55,23 @@ $steps = $this->getRaw('steps');
 		<div class="col-md-2" style="height: 100%;">
 			<?php foreach( $steps as $step ):
 				$class = '';
-				if($step->getIsSubStep()) {
+				if( $step->getIsSubStep() ) {
 					$class = ' stepSub';
 				}
 				?>
-				<?php if($step->getIsPast()): ?>
+				<?php if( $step->getIsPast() ): ?>
 				<div class="stepPrev<?=$class;?>">
-					<?php if($step->getIsAvailable()): ?>
+					<?php if( $step->getIsAvailable() ): ?>
 						<a href="<?=$step->getURL();?>"><?=$step->getLabel();?></a>
 					<?php else: ?>
 						<?=$step->getLabel();?>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
-				<?php if($step->getIsCurrent()): ?>
+				<?php if( $step->getIsCurrent() ): ?>
 				<div class="stepCurrent<?=$class;?>"><?=$step->getLabel();?></div>
 			<?php endif; ?>
-				<?php if($step->getIsFuture()): ?>
+				<?php if( $step->getIsFuture() ): ?>
 				<div class="stepNext<?=$class;?>"><?=$step->getLabel();?></div>
 			<?php endif; ?>
 			<?php endforeach; ?>

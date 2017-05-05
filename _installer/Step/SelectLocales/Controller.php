@@ -14,7 +14,8 @@ use Jet\Mvc_Site;
 /**
  *
  */
-class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller {
+class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -26,13 +27,14 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller 
 	 */
 	public function getIsAvailable()
 	{
-		return count(Mvc_Site::getList() )==0;
+		return count( Mvc_Site::getList() )==0;
 	}
 
 	/**
 	 *
 	 */
-	public function main() {
+	public function main()
+	{
 
 		$locale_fields = [];
 
@@ -40,63 +42,60 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller 
 
 		foreach( Installer::getAvailableLocales() as $locale ) {
 
-			if($locale!=Installer::getCurrentLocale()) {
+			if( $locale!=Installer::getCurrentLocale() ) {
 				continue;
 			}
 
-			$field = new Form_Field_Checkbox('locale_'.$locale, $locale->getName($locale) );
-			$field->setDefaultValue( isset($selected_locales[$locale->toString()]) );
-			$field->setIsReadonly(true);
+			$field = new Form_Field_Checkbox( 'locale_'.$locale, $locale->getName( $locale ) );
+			$field->setDefaultValue( isset( $selected_locales[$locale->toString()] ) );
+			$field->setIsReadonly( true );
 
 			$locale_fields[] = $field;
 		}
 
 		foreach( Installer::getAvailableLocales() as $locale ) {
 
-			if($locale==Installer::getCurrentLocale()) {
+			if( $locale==Installer::getCurrentLocale() ) {
 				continue;
 			}
 
-			$field = new Form_Field_Checkbox('locale_'.$locale, $locale->getName($locale) );
-			$field->setDefaultValue( isset($selected_locales[$locale->toString()]) );
+			$field = new Form_Field_Checkbox( 'locale_'.$locale, $locale->getName( $locale ) );
+			$field->setDefaultValue( isset( $selected_locales[$locale->toString()] ) );
 
 			$locale_fields[] = $field;
 		}
 
 
-		$select_locale_form = new Form('select_locale_form', $locale_fields );
+		$select_locale_form = new Form( 'select_locale_form', $locale_fields );
 
 
-
-		if(
-			$select_locale_form->catchValues() && $select_locale_form->validateValues()
-		) {
+		if( $select_locale_form->catchValues()&&$select_locale_form->validateValues() ) {
 			$selected_locales = [];
 
 			foreach( Installer::getAvailableLocales() as $locale ) {
-				if($locale==Installer::getCurrentLocale()) {
+				if( $locale==Installer::getCurrentLocale() ) {
 					$selected_locales[] = $locale;
 
 					continue;
 				}
 
-				$field = $select_locale_form->field('locale_'.$locale);
-				if($field->getValue()) {
+				$field = $select_locale_form->field( 'locale_'.$locale );
+				if( $field->getValue() ) {
 					$selected_locales[] = $locale;
 				}
 			}
 
-			Installer::setSelectedLocales($selected_locales);
+			Installer::setSelectedLocales( $selected_locales );
 
-			Installer::getSession()->unsetValue('site');
+			Installer::getSession()->unsetValue( 'site' );
 
 			Installer::goToNext();
 		}
 
 
-		$this->view->setVar('form', $select_locale_form);
+		$this->view->setVar( 'form', $select_locale_form );
 
-		$this->render('default');
+		$this->render( 'default' );
 	}
 
 }

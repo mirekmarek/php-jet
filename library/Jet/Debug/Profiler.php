@@ -18,7 +18,8 @@ require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run.php';
  * Class Debug_Profiler
  * @package Jet
  */
-class Debug_Profiler {
+class Debug_Profiler
+{
 	/**
 	 * @var bool
 	 */
@@ -45,7 +46,7 @@ class Debug_Profiler {
 	protected static $log_SQL_queries = false;
 
 	/**
-     * @var Debug_Profiler_Run
+	 * @var Debug_Profiler_Run
 	 */
 	protected static $run;
 
@@ -57,113 +58,140 @@ class Debug_Profiler {
 	/**
 	 * @param bool $log_SQL_queries
 	 */
-	public static function enable( $log_SQL_queries=true ) {
+	public static function enable( $log_SQL_queries = true )
+	{
 		static::$run = new Debug_Profiler_Run();
 
 		static::$enabled = true;
 		static::$log_SQL_queries = $log_SQL_queries;
 
 
-		register_shutdown_function( function() {
-			$run = Debug_Profiler::getRun();
-			$run->runEnd();
-			$run_id = $run->getId();
+		register_shutdown_function(
+			function() {
+				$run = Debug_Profiler::getRun();
+				$run->runEnd();
+				$run_id = $run->getId();
 
-			Debug_Profiler::saveRun();
+				Debug_Profiler::saveRun();
 
-			if(!static::$output_enabled) {
-				return;
+				if( !static::$output_enabled ) {
+					return;
+				}
+
+				$URL = '?JPR&run='.$run_id;
+
+				if( static::$output_is_XML ) {
+					echo '<!-- profiler: '.$URL.' -->';
+				} elseif( static::$output_is_JSON ) {
+					//echo '//profiler: '.$URL;
+				} else {
+					echo '<div><a href="'.$URL.'" target="_blank">profiler</a></div>';
+				}
+
 			}
-
-			$URL = '?JPR&run='.$run_id;
-
-			if( static::$output_is_XML ) {
-				echo '<!-- profiler: '.$URL.' -->';
-			} elseif( static::$output_is_JSON ) {
-				//echo '//profiler: '.$URL;
-			} else {
-				echo '<div><a href="'.$URL.'" target="_blank">profiler</a></div>';
-			}
-
-		});
+		);
 	}
-
-	/**
-	 * @param bool $enabled
-	 */
-	public static function setEnabled($enabled) {
-		self::$enabled = $enabled;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getEnabled() {
-		return self::$enabled;
-	}
-
-
-	/**
-	 * @param bool $output_enabled
-	 */
-	public static function setOutputEnabled($output_enabled) {
-		static::$output_enabled = $output_enabled;
-	}
-
-	/**
-	 * @param bool $output_is_JSON
-	 */
-	public static function setOutputIsJSON($output_is_JSON) {
-		static::$output_is_JSON = $output_is_JSON;
-	}
-
-	/**
-	 * @param bool $output_is_XML
-	 */
-	public static function setOutputIsXML($output_is_XML) {
-		static::$output_is_XML = $output_is_XML;
-	}
-
-
 
 	/**
 	 * @return Debug_Profiler_Run
 	 */
-	public static function getRun() {
+	public static function getRun()
+	{
 		return static::$run;
 	}
 
 	/**
 	 *
 	 */
-	public static function saveRun() {
+	public static function saveRun()
+	{
 		$run = static::getRun();
 		$run_id = $run->getId();
 
 		$dir = static::getRunSaveDirectoryPath();
 
-		if(!file_exists($dir)) {
+		if( !file_exists( $dir ) ) {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@mkdir($dir);
+			@mkdir( $dir );
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@chmod($dir, 0777);
+			@chmod( $dir, 0777 );
 		}
 		$file_path = $dir.$run_id.'.jpd';
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@file_put_contents( $file_path, serialize($run) );
+		@file_put_contents( $file_path, serialize( $run ) );
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@chmod($file_path, 0666);
+		@chmod( $file_path, 0666 );
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getRunSaveDirectoryPath()
+	{
+		if( !static::$run_save_directory_path ) {
+			static::$run_save_directory_path = JET_TMP_PATH.'_profiler/';
+		}
+
+		return static::$run_save_directory_path;
+	}
 
 	/**
-	 * @param $run_id
+	 * @param string $run_save_directory_path
+	 */
+	public static function setRunSaveDirectoryPath( $run_save_directory_path )
+	{
+		static::$run_save_directory_path = $run_save_directory_path;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getEnabled()
+	{
+		return self::$enabled;
+	}
+
+	/**
+	 * @param bool $enabled
+	 */
+	public static function setEnabled( $enabled )
+	{
+		self::$enabled = $enabled;
+	}
+
+	/**
+	 * @param bool $output_enabled
+	 */
+	public static function setOutputEnabled( $output_enabled )
+	{
+		static::$output_enabled = $output_enabled;
+	}
+
+	/**
+	 * @param bool $output_is_JSON
+	 */
+	public static function setOutputIsJSON( $output_is_JSON )
+	{
+		static::$output_is_JSON = $output_is_JSON;
+	}
+
+	/**
+	 * @param bool $output_is_XML
+	 */
+	public static function setOutputIsXML( $output_is_XML )
+	{
+		static::$output_is_XML = $output_is_XML;
+	}
+
+	/**
+	 * @param string $run_id
 	 *
 	 * @return Debug_Profiler_Run|null
 	 * @throws \Exception
 	 */
-	public static function loadRun( $run_id ) {
-		if( strpos($run_id, '.')!==false ) {
+	public static function loadRun( $run_id )
+	{
+		if( strpos( $run_id, '.' )!==false ) {
 			return null;
 		}
 
@@ -171,89 +199,63 @@ class Debug_Profiler {
 
 		$file_path = $dir.$run_id.'.jpd';
 
-		if(!file_exists($file_path)) {
+		if( !file_exists( $file_path ) ) {
 			return null;
 		}
 
-		$d = file_get_contents($file_path);
+		$d = file_get_contents( $file_path );
 
-		$run = unserialize($d);
+		$run = unserialize( $d );
 
-		if(
-			!is_object($run) ||
-			!($run instanceof Debug_Profiler_Run)
-		) {
+		if( !is_object( $run )||!( $run instanceof Debug_Profiler_Run ) ) {
 			return null;
 		}
 
 		return $run;
 	}
 
-
-
-	/**
-	 * @param string $run_save_directory_path
-	 */
-	public static function setRunSaveDirectoryPath($run_save_directory_path) {
-		static::$run_save_directory_path = $run_save_directory_path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getRunSaveDirectoryPath() {
-		if(!static::$run_save_directory_path) {
-			static::$run_save_directory_path = JET_TMP_PATH.'_profiler/';
-		}
-		return static::$run_save_directory_path;
-	}
-
-
-
 	/**
 	 * @param string $query
-	 * @param array $query_data
+	 * @param array  $query_data
 	 */
-	public static function SQLQueryStart( $query, $query_data= []) {
-		if(
-			!static::$enabled ||
-			!static::$log_SQL_queries
-		) {
+	public static function SQLQueryStart( $query, $query_data = [] )
+	{
+		if( !static::$enabled||!static::$log_SQL_queries ) {
 			return;
 		}
 
-		static::$run->SQLQueryStart($query, $query_data);
+		static::$run->SQLQueryStart( $query, $query_data );
 	}
 
 	/**
 	 * @param int $rows_count
 	 */
-	public static function SQLQueryDone( $rows_count=0 ) {
-		if(
-			!static::$enabled ||
-			!static::$log_SQL_queries
-		) {
+	public static function SQLQueryDone( $rows_count = 0 )
+	{
+		if( !static::$enabled||!static::$log_SQL_queries ) {
 			return;
 		}
 
-		static::$run->SqlQueryDone($rows_count);
+		static::$run->SqlQueryDone( $rows_count );
 	}
 
 	/**
-	 * @param $text
+	 * @param string $text
 	 */
-	public static function message( $text ) {
+	public static function message( $text )
+	{
 		if( !static::$enabled ) {
 			return;
 		}
 
-		static::$run->message($text);
+		static::$run->message( $text );
 	}
 
 	/**
-	 * @param $label
+	 * @param string $label
 	 */
-	public static function MainBlockStart( $label ) {
+	public static function MainBlockStart( $label )
+	{
 		if( !static::$enabled ) {
 			return;
 		}
@@ -262,9 +264,10 @@ class Debug_Profiler {
 	}
 
 	/**
-	 * @param $label
+	 * @param string $label
 	 */
-	public static function MainBlockEnd( $label ) {
+	public static function MainBlockEnd( $label )
+	{
 		if( !static::$enabled ) {
 			return;
 		}
@@ -275,7 +278,8 @@ class Debug_Profiler {
 	/**
 	 * @param string $label
 	 */
-	public static function blockStart( $label ) {
+	public static function blockStart( $label )
+	{
 		if( !static::$enabled ) {
 			return;
 		}
@@ -288,7 +292,8 @@ class Debug_Profiler {
 	 * @param string $label
 	 *
 	 */
-	public static function blockEnd( $label ) {
+	public static function blockEnd( $label )
+	{
 		if( !static::$enabled ) {
 			return;
 		}
@@ -303,19 +308,20 @@ class Debug_Profiler {
 	 *
 	 * @return array
 	 */
-	public static function getBacktrace( $shift=0 ) {
+	public static function getBacktrace( $shift = 0 )
+	{
 		$_backtrace = debug_backtrace();
 
-		if($shift) {
-			for( $c=0; $c<$shift; $c++ ) {
+		if( $shift ) {
+			for( $c = 0; $c<$shift; $c++ ) {
 				array_shift( $_backtrace );
 			}
 		}
 
 		$backtrace = [];
 
-		foreach($_backtrace as $bt) {
-			if(!isset($bt['file'])) {
+		foreach( $_backtrace as $bt ) {
+			if( !isset( $bt['file'] ) ) {
 				$backtrace[] = '?';
 			} else {
 				$backtrace[] = $bt['file'].':'.$bt['line'];

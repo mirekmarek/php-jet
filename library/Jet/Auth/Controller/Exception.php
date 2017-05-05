@@ -11,5 +11,6 @@ namespace Jet;
  * Class Auth_Controller_Exception
  * @package Jet
  */
-class Auth_Controller_Exception extends Exception {
+class Auth_Controller_Exception extends Exception
+{
 }

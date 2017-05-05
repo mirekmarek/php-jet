@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 use Jet\Http_Request;
 
@@ -30,21 +31,22 @@ class tabs extends BaseObject
 	/**
 	 * @param array $tabs
 	 */
-	public function __construct( array $tabs ) {
+	public function __construct( array $tabs )
+	{
 		$tab_ids = [];
 		$default_tab_id = null;
-		foreach( $tabs as $id=>$title ) {
-			if(!$default_tab_id) {
+		foreach( $tabs as $id => $title ) {
+			if( !$default_tab_id ) {
 				$default_tab_id = $id;
 			}
 			$tab_ids[] = $id;
 
-			$this->tabs[$id] = new tabs_tab($id, $title);
+			$this->tabs[$id] = new tabs_tab( $id, $title );
 		}
 
-		$this->selected_page_id = Http_Request::GET()->getString('p', $default_tab_id, $tab_ids);
+		$this->selected_page_id = Http_Request::GET()->getString( 'p', $default_tab_id, $tab_ids );
 
-		$this->tabs[$this->selected_page_id]->setIsSelected(true);
+		$this->tabs[$this->selected_page_id]->setIsSelected( true );
 	}
 
 	/**
@@ -58,7 +60,16 @@ class tabs extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function toString() {
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
 		$result = '<ul class="nav nav-tabs" style="margin-top: 10px;">';
 		foreach( $this->tabs as $tab ) {
 			$result .= $tab;
@@ -66,13 +77,5 @@ class tabs extends BaseObject
 		$result .= '</ul>';
 
 		return $result;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
 	}
 }

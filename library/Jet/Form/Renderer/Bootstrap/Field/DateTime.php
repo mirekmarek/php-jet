@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_DateTime
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_DateTime extends Form_Renderer_Bootstrap_Field_Input  {
+class Form_Renderer_Bootstrap_Field_DateTime extends Form_Renderer_Bootstrap_Field_Input
+{
 
 	/**
 	 * @var string
@@ -21,18 +22,19 @@ class Form_Renderer_Bootstrap_Field_DateTime extends Form_Renderer_Bootstrap_Fie
 	/**
 	 * @param array &$tag_options
 	 */
-	protected function initTagOptions( array &$tag_options ) {
+	protected function initTagOptions( array &$tag_options )
+	{
 		/**
 		 * @var Form_Field_Checkbox $fl
 		 */
 		$fl = $this->_field;
 
 		$value = '';
-		if($fl->getValue()) {
+		if( $fl->getValue() ) {
 			$date = new \DateTime( $fl->getValue() );
 
-			if($date) {
-				$value = $date->format('Y-m-d\TH:i');
+			if( $date ) {
+				$value = $date->format( 'Y-m-d\TH:i' );
 			}
 		}
 

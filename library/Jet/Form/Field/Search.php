@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_Search
  * @package Jet
  */
-class Form_Field_Search extends Form_Field_Input {
+class Form_Field_Search extends Form_Field_Input
+{
 	/**
 	 * @var string
 	 */

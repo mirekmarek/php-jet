@@ -6,10 +6,10 @@ use Jet\Mvc_View;
  * @var Mvc_View $this
  * @var dataGrid $grid
  */
-$grid = $this->getRaw('grid');
+$grid = $this->getRaw( 'grid' );
 ?>
 <tbody>
-<?php foreach( $grid->getData() as $i=>$item ): ?>
+<?php foreach( $grid->getData() as $i => $item ): ?>
 	<tr>
 		<?php foreach( $grid->getColumns() as $column ):
 			$callback = $column->getDisplayCallback();

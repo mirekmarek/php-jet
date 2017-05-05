@@ -11,23 +11,22 @@ namespace Jet;
  * Class DataModel_Factory
  * @package Jet
  */
-class DataModel_Factory {
+class DataModel_Factory
+{
 
 	/**
 	 * Returns instance of Property class
 	 *
 	 * @param string $data_model_class_name
 	 * @param string $name
-	 * @param array $definition_data
+	 * @param array  $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 * @return DataModel_Definition_Property_Abstract
 	 */
-	public static function getPropertyDefinitionInstance( $data_model_class_name, $name, $definition_data ) {
-		if(
-			!isset($definition_data['type']) ||
-			!$definition_data['type']
-		) {
+	public static function getPropertyDefinitionInstance( $data_model_class_name, $name, $definition_data )
+	{
+		if( !isset( $definition_data['type'] )||!$definition_data['type'] ) {
 			throw new DataModel_Exception(
 				'Property '.$data_model_class_name.'::'.$name.': \'type\' parameter is not defined ... ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -45,25 +44,27 @@ class DataModel_Factory {
 	 * Returns instance of DataModel Backend Config class
 	 *
 	 * @param string $type
-	 * @param bool $soft_mode @see Config
+	 * @param bool   $soft_mode @see Config
 	 *
 	 * @return DataModel_Backend_Config_Abstract
 	 */
-	public static function getBackendConfigInstance( $type, $soft_mode=false ) {
+	public static function getBackendConfigInstance( $type, $soft_mode = false )
+	{
 		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type.'_Config';
 
-		return new $class_name($soft_mode);
+		return new $class_name( $soft_mode );
 	}
 
 	/**
 	 * Returns instance of DataModel Backend class
 	 *
-	 * @param string $type
+	 * @param string                            $type
 	 * @param DataModel_Backend_Config_Abstract $backend_config
 	 *
 	 * @return DataModel_Backend_Abstract
 	 */
-	public static function getBackendInstance( $type, DataModel_Backend_Config_Abstract $backend_config ) {
+	public static function getBackendInstance( $type, DataModel_Backend_Config_Abstract $backend_config )
+	{
 		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type;
 
 		return new $class_name( $backend_config );

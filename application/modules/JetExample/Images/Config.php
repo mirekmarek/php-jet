@@ -10,7 +10,8 @@ namespace JetApplicationModule\JetExample\Images;
 /**
  *
  */
-class Config {
+class Config
+{
 
 	/**
 	 *
@@ -38,30 +39,34 @@ class Config {
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMaxH() {
+	public static function getDefaultMaxH()
+	{
 		return static::$default_max_h;
 	}
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultMaxW() {
-        return static::$default_max_w;
+	public static function getDefaultMaxW()
+	{
+		return static::$default_max_w;
 	}
 
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultThbMaxH() {
-        return static::$default_thb_max_h;
+	public static function getDefaultThbMaxH()
+	{
+		return static::$default_thb_max_h;
 	}
 
 	/**
 	 * @return int
 	 */
-	public static function getDefaultThbMaxW() {
-        return static::$default_thb_max_w;
+	public static function getDefaultThbMaxW()
+	{
+		return static::$default_thb_max_w;
 	}
 
 

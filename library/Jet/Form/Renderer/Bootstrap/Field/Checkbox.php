@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_Checkbox
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_Checkbox extends Form_Renderer_Bootstrap_Field_Abstract {
+class Form_Renderer_Bootstrap_Field_Checkbox extends Form_Renderer_Bootstrap_Field_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -26,26 +27,26 @@ class Form_Renderer_Bootstrap_Field_Checkbox extends Form_Renderer_Bootstrap_Fie
 	/**
 	 * @return string
 	 */
-	protected function render_containerStart() {
-		return '<div class="col-'.$this->getSize().'-offset-'.$this->_field->label()->getWidth().' col-'.$this->getSize().'-'.$this->getWidth().'">'
-				.'<div class="checkbox">'.
-					'<label>';
+	protected function render_containerStart()
+	{
+		return '<div class="col-'.$this->getSize().'-offset-'.$this->_field->label()->getWidth().' col-'.$this->getSize(
+		).'-'.$this->getWidth().'">'.'<div class="checkbox">'.'<label>';
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function render_containerEnd() {
-		return $this->_field->getLabel().'</label>'
-			.'</div>'
-		.'</div>';
+	protected function render_containerEnd()
+	{
+		return $this->_field->getLabel().'</label>'.'</div>'.'</div>';
 	}
 
 
 	/**
 	 * @param array &$tag_options
 	 */
-	protected function initTagOptions( array &$tag_options ) {
+	protected function initTagOptions( array &$tag_options )
+	{
 		/**
 		 * @var Form_Field_Checkbox $fl
 		 */
@@ -53,11 +54,11 @@ class Form_Renderer_Bootstrap_Field_Checkbox extends Form_Renderer_Bootstrap_Fie
 
 		$tag_options['value'] = 1;
 
-		if($fl->getValue()) {
+		if( $fl->getValue() ) {
 			$tag_options['checked'] = 'checked';
 		}
 
-		if($fl->getIsReadonly()) {
+		if( $fl->getIsReadonly() ) {
 			$tag_options['disabled'] = 'disabled';
 		}
 

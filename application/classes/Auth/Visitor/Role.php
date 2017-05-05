@@ -17,16 +17,16 @@ use Jet\DataModel_Id_AutoIncrement;
  * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
  * @JetDataModel:id_options = ['id_property_name'=>'id']
  */
-class Auth_Visitor_Role extends Auth_Role{
+class Auth_Visitor_Role extends Auth_Role
+{
 
 	/**
 	 * @var array
 	 */
 	protected static $standard_privileges = [
 		self::PRIVILEGE_VISIT_PAGE => [
-			'label' => 'Sites and pages',
-			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages'
-		]
+			'label' => 'Sites and pages', 'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
+		],
 
 	];
 
@@ -59,48 +59,38 @@ class Auth_Visitor_Role extends Auth_Role{
 	 */
 	protected $privileges;
 
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
 	/**
 	 * Get sites and pages ACL values list
 	 *
 	 * @return Data_Tree_Forest
 	 */
-	public static function getAclActionValuesList_Pages() {
+	public static function getAclActionValuesList_Pages()
+	{
 
 		$forest = new Data_Tree_Forest();
-		$forest->setIdKey('id');
-		$forest->setLabelKey('name');
+		$forest->setIdKey( 'id' );
+		$forest->setLabelKey( 'name' );
 
 		foreach( Mvc_Site::getList() as $site ) {
-			foreach($site->getLocales() as $locale) {
+			foreach( $site->getLocales() as $locale ) {
 
 				$homepage = $site->getHomepage( $locale );
 
 				$tree = new Data_Tree();
 				$tree->getRootNode()->setId( $homepage->getKey() );
 				$tree->getRootNode()->setLabel(
-					$homepage->getSite()->getName()
-					.' ('.$homepage->getLocale()->getName().')'
-					. ' - '
-					.$homepage->getName()
+					$homepage->getSite()->getName().' ('.$homepage->getLocale()->getName().')'.' - '.$homepage->getName(
+					)
 				);
 
 				$pages = [];
 				foreach( $homepage->getChildren() as $page ) {
-					static::_getAllPagesTree($page, $pages);
+					static::_getAllPagesTree( $page, $pages );
 				}
 
-				$tree->setData($pages);
+				$tree->setData( $pages );
 
-				$forest->appendTree($tree);
+				$forest->appendTree( $tree );
 
 
 			}
@@ -110,11 +100,13 @@ class Auth_Visitor_Role extends Auth_Role{
 		foreach( $forest as $node ) {
 			//$node->setLabel( $node->getLabel().' ('.$node->getId().')' );
 
-			if($node->getIsRoot()) {
-				$node->setSelectOptionCssStyle('font-weight:bolder;font-size:15px;padding: 3px;');
+			if( $node->getIsRoot() ) {
+				$node->setSelectOptionCssStyle( 'font-weight:bolder;font-size:15px;padding: 3px;' );
 			} else {
 				$padding = 20*$node->getDepth();
-				$node->setSelectOptionCssStyle('padding-left: '.$padding.'px;padding-top:2px; padding-bottom:2px; font-size:12px;');
+				$node->setSelectOptionCssStyle(
+					'padding-left: '.$padding.'px;padding-top:2px; padding-bottom:2px; font-size:12px;'
+				);
 			}
 
 		}
@@ -124,10 +116,11 @@ class Auth_Visitor_Role extends Auth_Role{
 
 	/**
 	 * @param Mvc_Page_Interface $page
-	 * @param $data
+	 * @param                    $data
 	 */
-	protected static function _getAllPagesTree( Mvc_Page_Interface $page, &$data ) {
-		if($page->getIsAdminUI()) {
+	protected static function _getAllPagesTree( Mvc_Page_Interface $page, &$data )
+	{
+		if( $page->getIsAdminUI() ) {
 			return;
 		}
 
@@ -136,14 +129,20 @@ class Auth_Visitor_Role extends Auth_Role{
 		 * @var Mvc_Page $page
 		 */
 		$data[$page->getKey()] = [
-			'id' => $page->getKey(),
-			'parent_id' => $page->getParent()->getKey(),
-			'name' => $page->getName()
+			'id' => $page->getKey(), 'parent_id' => $page->getParent()->getKey(), 'name' => $page->getName(),
 		];
 
 		foreach( $page->getChildren() as $page ) {
-			static::_getAllPagesTree($page, $data);
+			static::_getAllPagesTree( $page, $data );
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
 	}
 
 }

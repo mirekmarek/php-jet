@@ -11,7 +11,31 @@ namespace Jet;
  * Class Debug_ErrorHandler_Error
  * @package Jet
  */
-class Debug_ErrorHandler_Error {
+class Debug_ErrorHandler_Error
+{
+	/**
+	 * PHP error codes to human readable
+	 *
+	 * @var array
+	 */
+	public static $PHP_errors_txt = [
+		E_ERROR             => 'PHP Error', E_WARNING => 'PHP Warning', E_PARSE => 'PHP Parsing Error',
+		E_NOTICE            => 'PHP Notice', E_CORE_ERROR => 'PHP Core Error', E_CORE_WARNING => 'PHP Core Warning',
+		E_COMPILE_ERROR     => 'PHP Compile Error', E_COMPILE_WARNING => 'PHP Compile Warning',
+		E_RECOVERABLE_ERROR => 'PHP Recoverable error', E_USER_ERROR => 'PHP User Error',
+		E_USER_WARNING      => 'PHP User Warning', E_USER_NOTICE => 'PHP User Notice', E_STRICT => 'PHP Runtime Notice',
+		E_DEPRECATED        => 'PHP Deprecated',
+
+	];
+	/**
+	 * Fatal errors list
+	 *
+	 * @var array
+	 */
+	public static $PHP_fatal_errors = [
+		E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR,
+		E_RECOVERABLE_ERROR,
+	];
 	/**
 	 * @var int
 	 */
@@ -20,12 +44,10 @@ class Debug_ErrorHandler_Error {
 	 * @var string
 	 */
 	public $txt = '';
-
 	/**
 	 * @var string
 	 */
 	public $message = '';
-
 	/**
 	 * @var string
 	 */
@@ -34,7 +56,6 @@ class Debug_ErrorHandler_Error {
 	 * @var string
 	 */
 	public $time = '';
-
 	/**
 	 * @var string
 	 */
@@ -43,12 +64,10 @@ class Debug_ErrorHandler_Error {
 	 * @var int
 	 */
 	public $line = 0;
-
 	/**
 	 * @var null|\Exception
 	 */
 	public $exception = null;
-
 	/**
 	 * @var array
 	 */
@@ -57,60 +76,21 @@ class Debug_ErrorHandler_Error {
 	 * @var array
 	 */
 	public $context = [];
-
 	/**
 	 * @var bool
 	 */
 	public $is_fatal = false;
 
 	/**
-	 * PHP error codes to human readable
-	 *
-	 * @var array
-	 */
-	public static $PHP_errors_txt = [
-		E_ERROR => 'PHP Error',
-		E_WARNING => 'PHP Warning',
-		E_PARSE => 'PHP Parsing Error',
-		E_NOTICE => 'PHP Notice',
-		E_CORE_ERROR => 'PHP Core Error',
-		E_CORE_WARNING => 'PHP Core Warning',
-		E_COMPILE_ERROR => 'PHP Compile Error',
-		E_COMPILE_WARNING => 'PHP Compile Warning',
-		E_RECOVERABLE_ERROR => 'PHP Recoverable error',
-		E_USER_ERROR => 'PHP User Error',
-		E_USER_WARNING => 'PHP User Warning',
-		E_USER_NOTICE => 'PHP User Notice',
-		E_STRICT => 'PHP Runtime Notice',
-        E_DEPRECATED => 'PHP Deprecated'
-
-	];
-
-	/**
-	 * Fatal errors list
-	 *
-	 * @var array
-	 */
-	public static $PHP_fatal_errors = [
-		E_ERROR,
-		E_PARSE,
-		E_CORE_ERROR,
-		E_CORE_WARNING,
-		E_COMPILE_ERROR,
-		E_COMPILE_WARNING,
-		E_USER_ERROR,
-		E_RECOVERABLE_ERROR
-	];
-
-	/**
 	 *
 	 */
-	public function  __construct() {
+	public function __construct()
+	{
 
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$this->date = @date('Y-m-d');
+		$this->date = @date( 'Y-m-d' );
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$this->time = @date('H:i:s');
+		$this->time = @date( 'H:i:s' );
 	}
 
 
@@ -119,11 +99,12 @@ class Debug_ErrorHandler_Error {
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newException( \Exception $exception ) {
+	public static function newException( \Exception $exception )
+	{
 		$e = new self();
 
 		$e->exception = $exception;
-		$e->txt = 'Uncaught exception: '.get_class($exception);
+		$e->txt = 'Uncaught exception: '.get_class( $exception );
 		$e->code = $exception->getCode();
 		$e->message = $exception->getMessage();
 		$e->file = $exception->getFile();
@@ -136,50 +117,32 @@ class Debug_ErrorHandler_Error {
 	}
 
 	/**
-	 * @param int $code
+	 * @param int    $code
 	 * @param string $message
 	 * @param string $file
-	 * @param int $line
-	 * @param array $context
+	 * @param int    $line
+	 * @param array  $context
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */
-	public static function newError( $code, $message, $file, $line, $context ) {
+	public static function newError( $code, $message, $file, $line, $context )
+	{
 
 		$e = new self();
 
 		$e->code = $code;
-		$e->txt = self::getErrorCodeText($code);
+		$e->txt = self::getErrorCodeText( $code );
 		$e->message = $message;
 		$e->file = $file;
 		$e->line = $line;
 
 		$e->backtrace = debug_backtrace();
 		$e->context = $context;
-		
-		array_shift($e->backtrace);
-		array_shift($e->backtrace);
 
-		$e->is_fatal = in_array($e->code, self::$PHP_fatal_errors);
+		array_shift( $e->backtrace );
+		array_shift( $e->backtrace );
 
-		return $e;
-	}
-
-	/**
-	 * @param string $error
-	 *
-	 * @return Debug_ErrorHandler_Error
-	 */
-	public static function newShutdownError( $error ) {
-		$e = new self();
-
-		$e->code = $error['type'];
-		$e->txt = self::getErrorCodeText($error['type']);
-		$e->message = $error['message'];
-		$e->file = $error['file'];
-		$e->line = $error['line'];
-
-		$e->is_fatal = in_array($e->code, self::$PHP_fatal_errors);
+		$e->is_fatal = in_array( $e->code, self::$PHP_fatal_errors );
 
 		return $e;
 	}
@@ -188,12 +151,32 @@ class Debug_ErrorHandler_Error {
 	 * Gets human-readable version of error code
 	 *
 	 * @param int $error_number
+	 *
 	 * @return string
 	 */
-	public static function getErrorCodeText($error_number){
-		return isset(self::$PHP_errors_txt[$error_number]) ?
-				self::$PHP_errors_txt[$error_number]
-				:
-				'UNKNOWN (' . (int)$error_number . ')';
+	public static function getErrorCodeText( $error_number )
+	{
+		return isset( self::$PHP_errors_txt[$error_number] ) ? self::$PHP_errors_txt[$error_number] :
+			'UNKNOWN ('.(int)$error_number.')';
+	}
+
+	/**
+	 * @param string $error
+	 *
+	 * @return Debug_ErrorHandler_Error
+	 */
+	public static function newShutdownError( $error )
+	{
+		$e = new self();
+
+		$e->code = $error['type'];
+		$e->txt = self::getErrorCodeText( $error['type'] );
+		$e->message = $error['message'];
+		$e->file = $error['file'];
+		$e->line = $error['line'];
+
+		$e->is_fatal = in_array( $e->code, self::$PHP_fatal_errors );
+
+		return $e;
 	}
 }

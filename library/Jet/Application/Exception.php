@@ -11,6 +11,7 @@ namespace Jet;
  * Class Application_Exception
  * @package Jet
  */
-class Application_Exception extends Exception {
+class Application_Exception extends Exception
+{
 	const CODE_INVALID_CONFIGURATION_NAME = 1;
 }

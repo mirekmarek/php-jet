@@ -11,30 +11,10 @@ namespace Jet;
  * Class Mvc_View_Abstract
  * @package Jet
  */
-abstract class Mvc_View_Abstract extends BaseObject {
+abstract class Mvc_View_Abstract extends BaseObject
+{
 	const TAG_MODULE = 'jet_module';
 	const SCRIPT_FILE_SUFFIX = 'phtml';
-
-	/**
-	 * View dir
-	 *
-	 * @var string
-	 */
-	protected $_scripts_dir = '';
-
-	/**
-	 * Full view file path (/some/dir/view-file.phtml)
-	 * Set by Mvc_View::render()
-	 *
-	 * @var string
-	 */
-	protected $_script_name = '';
-
-	/**
-	 * @var string
-	 */
-	protected $_script_path = '';
-
 	/**
 	 *
 	 * If the constant JET_DEBUG_MODE is true
@@ -43,16 +23,32 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 * @var bool
 	 */
 	protected static $_add_script_path_info = JET_DEVEL_MODE;
-
+	/**
+	 * View dir
+	 *
+	 * @var string
+	 */
+	protected $_scripts_dir = '';
+	/**
+	 * Full view file path (/some/dir/view-file.phtml)
+	 * Set by Mvc_View::render()
+	 *
+	 * @var string
+	 */
+	protected $_script_name = '';
+	/**
+	 * @var string
+	 */
+	protected $_script_path = '';
 	/**
 	 * View or layout script variables.
 	 *
 	 * Example:
 	 *   Controller script code example:
-	 *	$layout->setVar('test_variable', 'Hello world!');
+	 *    $layout->setVar('test_variable', 'Hello world!');
 	 *
 	 *   Layout script example:
-	 *	<p><?=$this->test_variable; ?></p>
+	 *    <p><?=$this->test_variable; ?></p>
 	 *
 	 *   Output:
 	 *     <p>Hello world!</p>
@@ -68,10 +64,40 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	protected $_postprocessors = [];
 
 	/**
+	 * Gets if adding path info into the output is enabled
+	 *
+	 * @return bool
+	 */
+	public static function getAddScriptPathInfoEnabled()
+	{
+		return static::$_add_script_path_info;
+	}
+
+	/**
+	 * Sets if adding path info into the output is enabled
+	 *
+	 * @param bool $enabled
+	 *
+	 */
+	public static function setAddScriptPathInfoEnabled( $enabled = true )
+	{
+		static::$_add_script_path_info = (bool)$enabled;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getScriptsDir()
+	{
+		return $this->_scripts_dir;
+	}
+
+	/**
 	 * @param string $scripts_dir
 	 */
-	public function setScriptsDir($scripts_dir) {
-		if( $scripts_dir[strlen($scripts_dir)-1]!='/' )  {
+	public function setScriptsDir( $scripts_dir )
+	{
+		if( $scripts_dir[strlen( $scripts_dir )-1]!='/' ) {
 			$scripts_dir .= '/';
 		}
 
@@ -79,12 +105,13 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	}
 
 	/**
+	 *
 	 * @return string
 	 */
-	public function getScriptsDir() {
-		return $this->_scripts_dir;
+	public function getScriptName()
+	{
+		return $this->_script_name;
 	}
-
 
 	/**
 	 *
@@ -93,31 +120,23 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 * @throws Mvc_View_Exception
 	 *
 	 */
-	public function setScriptName( $script_name ) {
+	public function setScriptName( $script_name )
+	{
 		if( $script_name===false ) {
 			$this->_script_name = false;
+
 			return;
 		}
 
-		if( strpos('.', $script_name)!==false ) {
+		if( strpos( '.', $script_name )!==false ) {
 			throw new Mvc_View_Exception(
-				'Illegal script file name',
-				Mvc_View_Exception::CODE_INVALID_VIEW_NAME
+				'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME
 			);
 		}
 
-		$script_name = strtolower($script_name);
+		$script_name = strtolower( $script_name );
 
 		$this->_script_name = $script_name;
-	}
-
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getScriptName() {
-		return $this->_script_name;
 	}
 
 	/**
@@ -125,20 +144,19 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getScriptPath() {
-		$file = $this->_scripts_dir . $this->_script_name . '.'.static::SCRIPT_FILE_SUFFIX;
+	public function getScriptPath()
+	{
+		$file = $this->_scripts_dir.$this->_script_name.'.'.static::SCRIPT_FILE_SUFFIX;
 
-		if( !IO_File::exists($file) ) {
+		if( !IO_File::exists( $file ) ) {
 			throw new Mvc_View_Exception(
-				'File \''.$file.'\' does not exist',
-				Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
+				'File \''.$file.'\' does not exist', Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
 			);
 		}
 
-		if( !IO_File::isReadable($file) ) {
+		if( !IO_File::isReadable( $file ) ) {
 			throw new Mvc_View_Exception(
-				'File \''.$file.'\' is not readable',
-				Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
+				'File \''.$file.'\' is not readable', Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
 			);
 		}
 
@@ -151,35 +169,38 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 * Allows testing with empty() and isset()
 	 *
 	 * @param string $key
+	 *
 	 * @return bool
 	 */
-	public function __isset($key) {
-		return $this->_data->exists($key);
+	public function __isset( $key )
+	{
+		return $this->_data->exists( $key );
 	}
-
 
 	/**
 	 * Allows testing with empty() and isset()
 	 * Alias of existsVar()
 	 *
 	 * @param string $key
+	 *
 	 * @return bool
 	 */
-	public function varExists($key) {
-		return $this->_data->exists($key);
+	public function varExists( $key )
+	{
+		return $this->_data->exists( $key );
 	}
-
 
 	/**
 	 * Sets view variable
 	 *
 	 * @param string $key
-	 * @param mixed $val
+	 * @param mixed  $val
 	 *
 	 * @throws Mvc_View_Exception
 	 */
-	public function setVar($key, $val) {
-		$this->_data->set($key, $val);
+	public function setVar( $key, $val )
+	{
+		$this->_data->set( $key, $val );
 	}
 
 	/**
@@ -187,77 +208,83 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 *
 	 * @param string $key
 	 */
-	public function unsetVar($key) {
-		$this->_data->remove($key);
+	public function unsetVar( $key )
+	{
+		$this->_data->remove( $key );
 	}
 
 	/**
 	 * Clears all assigned variables
 	 *
 	 */
-	public function clearVars() {
+	public function clearVars()
+	{
 		$this->_data->clearData();
 	}
-
 
 	/**
 	 * Get raw value from data/path
 	 *
 	 * @param string $key
-	 * @param mixed $default_value (optional; default: null)
+	 * @param mixed  $default_value (optional; default: null)
 	 *
 	 * @return mixed
 	 */
-	public function getRaw($key, $default_value = null){
-		return $this->_data->getRaw($key, $default_value);
+	public function getRaw( $key, $default_value = null )
+	{
+		return $this->_data->getRaw( $key, $default_value );
 	}
 
 	/**
 	 * Get data value as int or (int)$default_value if not exists
 	 *
 	 * @param string $key
-	 * @param int $default_value(optional - default: 0)
+	 * @param int    $default_value (optional - default: 0)
 	 *
 	 * @return int
 	 */
-	public function getInt($key, $default_value = 0){
-		return $this->_data->getInt($key, $default_value);
+	public function getInt( $key, $default_value = 0 )
+	{
+		return $this->_data->getInt( $key, $default_value );
 	}
 
 	/**
 	 * Get data value as float or (float)$default_value if not exists
 	 *
 	 * @param string $key
-	 * @param float $default_value(optional - default: 0)
+	 * @param float  $default_value (optional - default: 0)
 	 *
 	 * @return float
 	 */
-	public function getFloat($key, $default_value = 0.0){
-		return $this->_data->getFloat($key, $default_value);
+	public function getFloat( $key, $default_value = 0.0 )
+	{
+		return $this->_data->getFloat( $key, $default_value );
 	}
 
 	/**
 	 * Get data value as bool or (bool)$default_value if not exists
 	 *
 	 * @param string $key
-	 * @param bool $default_value(optional - default: false)
+	 * @param bool   $default_value (optional - default: false)
 	 *
 	 * @return bool
 	 */
-	public function getBool($key, $default_value = false){
-		return $this->_data->getBool($key, $default_value);
+	public function getBool( $key, $default_value = false )
+	{
+		return $this->_data->getBool( $key, $default_value );
 	}
 
 	/**
 	 * Get data value as string or (string)$default_value if not exists
 	 *
 	 * @param string $key
-	 * @param string $default_value(optional - default: '')
+	 * @param string $default_value (optional - default: '')
 	 *
 	 * @return string
 	 */
-	public function getString($key, $default_value = ''){
-		return $this->_data->getString($key, $default_value);
+	public function getString( $key, $default_value = '' )
+	{
+		return $this->_data->getString( $key, $default_value );
 	}
 
 	/**
@@ -265,45 +292,27 @@ abstract class Mvc_View_Abstract extends BaseObject {
 	 *
 	 * @return Data_Array
 	 */
-	public function getData(){
+	public function getData()
+	{
 		return $this->_data;
-	}
-
-
-	/**
-	 * Gets if adding path info into the output is enabled
-	 *
-	 * @return bool
-	 */
-	public static function getAddScriptPathInfoEnabled(){
-		return static::$_add_script_path_info;
-	}
-
-	/**
-	 * Sets if adding path info into the output is enabled
-	 *
-	 * @param bool $enabled
-	 *
-	 */
-	public static function setAddScriptPathInfoEnabled($enabled=true){
-		static::$_add_script_path_info = (bool)$enabled;
-	}
-
-
-	/**
-	 * @param string &$result
-	 */
-	protected function handlePostprocessors( &$result ) {
-		foreach($this->_postprocessors as $pp ) {
-			$pp($result);
-		}
 	}
 
 	/**
 	 * @param callable $postprocessor
 	 */
-	public function addPostProcessor( callable $postprocessor ) {
+	public function addPostProcessor( callable $postprocessor )
+	{
 		$this->_postprocessors[] = $postprocessor;
+	}
+
+	/**
+	 * @param string &$result
+	 */
+	protected function handlePostprocessors( &$result )
+	{
+		foreach( $this->_postprocessors as $pp ) {
+			$pp( $result );
+		}
 	}
 
 }

@@ -11,7 +11,8 @@ namespace Jet;
  * Class Auth_Role_Privilege_AvailablePrivilegesListItem
  * @package Jet
  */
-class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject {
+class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject
+{
 	/**
 	 * @var string
 	 */
@@ -26,11 +27,12 @@ class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject {
 	public $values_list = null;
 
 	/**
-	 * @param string $privilege
-	 * @param string $label
+	 * @param string                                $privilege
+	 * @param string                                $label
 	 * @param array|Data_Tree_Forest|Data_Tree|null $values_list
 	 */
-	public function __construct( $privilege, $label, $values_list=null ) {
+	public function __construct( $privilege, $label, $values_list = null )
+	{
 		$this->privilege = $privilege;
 		$this->label = $label;
 		$this->values_list = $values_list;
@@ -39,21 +41,24 @@ class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getLabel() {
+	public function getLabel()
+	{
 		return $this->label;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPrivilege() {
+	public function getPrivilege()
+	{
 		return $this->privilege;
 	}
 
 	/**
 	 * @return array|null
 	 */
-	public function getValuesList() {
+	public function getValuesList()
+	{
 		return $this->values_list;
 	}
 }

@@ -22,7 +22,14 @@ use JetExampleApp\Auth_Administrator_User as User;
 /**
  *
  */
-class Controller_SystemPages extends Mvc_Controller_Standard {
+class Controller_SystemPages extends Mvc_Controller_Standard
+{
+	/**
+	 * @var array
+	 */
+	protected static $ACL_actions_check_map = [
+		'change_password' => false,
+	];
 	/**
 	 *
 	 * @var Main
@@ -30,60 +37,59 @@ class Controller_SystemPages extends Mvc_Controller_Standard {
 	protected $module_instance = null;
 
 	/**
-	 * @var array
+	 *
 	 */
-	protected static $ACL_actions_check_map = [
-		'change_password' => false
-	];
+	public function initialize()
+	{
+	}
 
 	/**
 	 *
 	 */
-	public function initialize() {
-	}
-
-    /**
-     *
-     */
-	public function change_password_Action() {
+	public function change_password_Action()
+	{
 		/**
 		 * @var Form $form
 		 */
 		$form = $this->module_instance->getChangePasswordForm();
 
-		breadcrumbNavigation::addItem( Tr::_('Home page', [], Tr::COMMON_NAMESPACE), Mvc_Page::get(Mvc_Page::ADMIN_HOMEPAGE_ID)->getURL() );
-		breadcrumbNavigation::addItem( Tr::_('Change password', [], Tr::COMMON_NAMESPACE), Mvc_Page::get(Mvc_Page::CHANGE_PASSWORD_ID)->getURL() );
+		breadcrumbNavigation::addItem(
+			Tr::_( 'Home page', [], Tr::COMMON_NAMESPACE ), Mvc_Page::get( Mvc_Page::ADMIN_HOMEPAGE_ID )->getURL()
+		);
+		breadcrumbNavigation::addItem(
+			Tr::_( 'Change password', [], Tr::COMMON_NAMESPACE ),
+			Mvc_Page::get( Mvc_Page::CHANGE_PASSWORD_ID )->getURL()
+		);
 
-		if(
-			$form->catchValues() &&
-			$form->validateValues()
-		) {
+		if( $form->catchValues()&&$form->validateValues() ) {
 			$data = $form->getValues();
 			/**
 			 * @var User $user
 			 */
 			$user = Auth::getCurrentUser();
 
-			if(!$user->verifyPassword($data['current_password'])) {
-				messages::danger( Tr::_('Current password do not match') );
+			if( !$user->verifyPassword( $data['current_password'] ) ) {
+				messages::danger( Tr::_( 'Current password do not match' ) );
 			} else {
 
 				$user->setPassword( $data['password'] );
-				$user->setPasswordIsValid(true);
-				$user->setPasswordIsValidTill(null);
+				$user->setPasswordIsValid( true );
+				$user->setPasswordIsValidTill( null );
 				$user->save();
 
-				Application_Log::info('password_changed', 'User password changed', $user->getId(), $user->getUsername(), $user);
+				Application_Log::info(
+					'password_changed', 'User password changed', $user->getId(), $user->getUsername(), $user
+				);
 
-				messages::success( Tr::_('Your password has been changed') );
+				messages::success( Tr::_( 'Your password has been changed' ) );
 			}
 
 
 			Http_Headers::reload();
 		}
 
-		$this->view->setVar('form', $form);
+		$this->view->setVar( 'form', $form );
 
-		$this->render('change-password');
+		$this->render( 'change-password' );
 	}
 }

@@ -19,35 +19,22 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 {
 
 	/**
+	 * @var array
+	 */
+	protected static $action_URI = [];
+	/**
+	 * @var array
+	 */
+	protected static $action_regexp = [];
+	/**
 	 *
 	 * @var App_Application_Modules_Module_Manifest
 	 */
 	protected $module_manifest;
 
 	/**
-	 * @var array
-	 */
-	protected static $action_URI = [
-	];
-
-	/**
-	 * @var array
-	 */
-	protected static $action_regexp = [
-	];
-
-
-	/**
-	 * @return App_Application_Modules_Module_Manifest
-	 */
-	public function getModuleManifest()
-	{
-		return $this->module_manifest;
-	}
-
-
-	/**
 	 * @param string $action
+	 *
 	 * @return string
 	 */
 	public static function getActionURI( $action )
@@ -57,6 +44,7 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 
 	/**
 	 * @param string $action
+	 *
 	 * @return string
 	 */
 	public static function getActionRegexp( $action )
@@ -64,28 +52,34 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 		return static::$action_regexp[$action];
 	}
 
+	/**
+	 * @return App_Application_Modules_Module_Manifest
+	 */
+	public function getModuleManifest()
+	{
+		return $this->module_manifest;
+	}
 
 	/**
-	 * @param Form $form
-	 * @param bool $success
+	 * @param Form  $form
+	 * @param bool  $success
 	 * @param array $snippets
-	 * @param bool $send_messages
+	 * @param bool  $send_messages
 	 * @param array $data
 	 */
-	protected function ajaxFormResponse( Form $form, $success, array $snippets=[], $send_messages=false, $data=[]  ) {
+	protected function ajaxFormResponse( Form $form, $success, array $snippets = [], $send_messages = false, $data = [] )
+	{
 
 		$response = [
-			'form_id' => $form->getId(),
-			'result' => $success ? 'ok':'error',
-			'data' => $data
+			'form_id' => $form->getId(), 'result' => $success ? 'ok' : 'error', 'data' => $data,
 		];
 
-		if($snippets) {
+		if( $snippets ) {
 			$response['snippets'] = $snippets;
 		}
 
-		if($send_messages) {
-			if(!isset($response['snippets'])) {
+		if( $send_messages ) {
+			if( !isset( $response['snippets'] ) ) {
 				$response['snippets'] = [];
 			}
 

@@ -12,7 +12,8 @@ namespace Jet;
  * Class Data_Tree_Node
  * @package Jet
  */
-class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable, Form_Field_Select_Option_Interface  {
+class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable, Form_Field_Select_Option_Interface
+{
 
 	/**
 	 *
@@ -22,7 +23,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 
 	/**
 	 *
-	 * @var string 
+	 * @var string
 	 */
 	protected $id;
 
@@ -67,14 +68,14 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 * Range from root
 	 *
-	 * @var int 
+	 * @var int
 	 */
 	protected $depth = 0;
 
 	/**
 	 * Is node root?
 	 *
-	 * @var bool 
+	 * @var bool
 	 */
 	protected $is_root = false;
 
@@ -107,9 +108,10 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 *
 	 * @param Data_Tree $tree
-	 * @param mixed $data
+	 * @param mixed     $data
 	 */
-	public function __construct(Data_Tree $tree, $data ){
+	public function __construct( Data_Tree $tree, $data )
+	{
 		$this->_tree = $tree;
 		$this->data = $data;
 
@@ -121,61 +123,60 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 * @throws Data_Tree_Exception
 	 *
 	 */
-	public function appendChild( Data_Tree_Node $node ){
+	public function appendChild( Data_Tree_Node $node )
+	{
 
 		$id = $node->getId();
 
-		if(
-			isset($this->_children[$id])
-		) {
+		if( isset( $this->_children[$id] ) ) {
 			throw new Data_Tree_Exception(
-				'Child \''.$id.'\' already exists!',
-				Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
+				'Child \''.$id.'\' already exists!', Data_Tree_Exception::CODE_NODE_ALREADY_EXISTS
 			);
 		}
 
 		$this->_children[$id] = $node;
 	}
 
-
 	/**
+	 * Node ID
 	 *
-	 * @return Data_Tree
+	 * @return string
 	 */
-	public function getTree(){
-		return $this->_tree;
+	public function getId()
+	{
+		return $this->id;
 	}
 
 	/**
 	 * @param string $id
 	 */
-	public function setId($id)
+	public function setId( $id )
 	{
 		$this->id = $id;
 	}
 
 	/**
-	 * Node ID
 	 *
-	 * @return string 
+	 * @return Data_Tree
 	 */
-	public function getId(){
-		return $this->id;
+	public function getTree()
+	{
+		return $this->_tree;
 	}
-
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getParentId(){
+	public function getParentId()
+	{
 		return $this->parent_id;
 	}
 
 	/**
 	 * @param string $parent_id
 	 */
-	public function setParentId($parent_id)
+	public function setParentId( $parent_id )
 	{
 		$this->real_parent_id = $parent_id;
 		$this->parent_id = $parent_id;
@@ -192,85 +193,90 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 * @param string $real_parent_id
 	 */
-	public function setRealParentId($real_parent_id)
+	public function setRealParentId( $real_parent_id )
 	{
 		$this->real_parent_id = $real_parent_id;
-	}
-
-	/**
-	 * @param Data_Tree_Node $_parent
-	 */
-	public function setParent( Data_Tree_Node $_parent)
-	{
-		$this->_parent = $_parent;
-		$this->parent_id = $_parent->getId();
-		if(!$this->is_orphan) {
-			$this->real_parent_id = $_parent->getId();
-		}
-
-		$this->depth = $_parent->getDepth() + 1;
 	}
 
 	/**
 	 *
 	 * @return Data_Tree_Node
 	 */
-	public function getParent(){
+	public function getParent()
+	{
 		return $this->_parent;
 	}
 
+	/**
+	 * @param Data_Tree_Node $_parent
+	 */
+	public function setParent( Data_Tree_Node $_parent )
+	{
+		$this->_parent = $_parent;
+		$this->parent_id = $_parent->getId();
+		if( !$this->is_orphan ) {
+			$this->real_parent_id = $_parent->getId();
+		}
+
+		$this->depth = $_parent->getDepth()+1;
+	}
+
+	/**
+	 *
+	 * @return int
+	 */
+	public function getDepth()
+	{
+		return $this->depth;
+	}
 
 	/**
 	 *
 	 * @return bool
 	 */
-	public function getIsRoot(){
+	public function getIsRoot()
+	{
 		return $this->is_root;
 	}
 
 	/**
 	 * @param bool $is_root
 	 */
-	public function setIsRoot($is_root) {
+	public function setIsRoot( $is_root )
+	{
 		$this->is_root = (bool)$is_root;
-	}
-
-	/**
-	 * @param bool $is_orphan
-	 */
-	public function setIsOrphan($is_orphan) {
-		$this->is_orphan = $is_orphan;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsOrphan() {
+	public function getIsOrphan()
+	{
 		return $this->is_orphan;
 	}
 
-
-
 	/**
-	 *
-	 * @return int
+	 * @param bool $is_orphan
 	 */
-	public function getDepth(){
-		return $this->depth;
+	public function setIsOrphan( $is_orphan )
+	{
+		$this->is_orphan = $is_orphan;
 	}
 
 	/**
 	 *
 	 * @return mixed
 	 */
-	public function getData(){
+	public function getData()
+	{
 		return $this->data;
 	}
 
 	/**
 	 * @param mixed $data
 	 */
-	public function setData($data) {
+	public function setData( $data )
+	{
 		$this->data = $data;
 	}
 
@@ -278,14 +284,16 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return bool
 	 */
-	public function getHasChildren(){
+	public function getHasChildren()
+	{
 		return (bool)$this->_children;
 	}
 
 	/**
 	 *
 	 */
-	public function setHasChildren(){
+	public function setHasChildren()
+	{
 		$this->_children = true;
 	}
 
@@ -293,7 +301,8 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getChildren(){
+	public function getChildren()
+	{
 		return $this->_children;
 	}
 
@@ -303,7 +312,8 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return bool
 	 */
-	public function getChildExists($id){
+	public function getChildExists( $id )
+	{
 		return isset( $this->_children[$id] );
 	}
 
@@ -314,7 +324,8 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return Data_Tree_Node
 	 */
-	public function getChild( $child_id ){
+	public function getChild( $child_id )
+	{
 		return $this->_children[$child_id];
 	}
 
@@ -323,13 +334,14 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return Data_Tree_Node[]
 	 */
-	public function getPathToRoot(){
+	public function getPathToRoot()
+	{
 		$result = [];
 
 		$result[$this->id] = $this;
 		$_node = $this;
 
-		while( $_node->_parent ){
+		while( $_node->_parent ) {
 			$_node = $_node->_parent;
 			$result[$_node->id] = $_node;
 		}
@@ -340,30 +352,33 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 * @param int|null $max_depth
 	 */
-	public function setMaxDepth( $max_depth ) {
+	public function setMaxDepth( $max_depth )
+	{
 		$this->_max_depth = $max_depth;
 		$this->resetIteratorMap();
 	}
 
-
+	/**
+	 *
+	 */
+	public function resetIteratorMap()
+	{
+		$this->_iterator_map = [];
+	}
 
 	/**
 	 *
 	 * @return array
 	 */
-	public function jsonSerialize(){
+	public function jsonSerialize()
+	{
 
 		$props = [
-			'id',
-			'parent_id',
-			'depth',
-			'data',
-			'children',
-			'is_root'
+			'id', 'parent_id', 'depth', 'data', 'children', 'is_root',
 		];
 
 		$output = [];
-		foreach($props as $prop){
+		foreach( $props as $prop ) {
 			$output[$prop] = $this->{$prop};
 		}
 
@@ -377,35 +392,33 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return array
 	 */
-	public function __sleep(){
+	public function __sleep()
+	{
 		return [
-			'id',
-			'data',
-			'parent',
-			'children',
-			'depth',
-			'is_root'
+			'id', 'data', 'parent', 'children', 'depth', 'is_root',
 		];
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString()
+	{
 		return $this->getLabel();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function toString() {
-		return $this->getLabel();
+	public function getLabel()
+	{
+		return $this->label;
 	}
 
 	/**
 	 * @param string $label
 	 */
-	public function setLabel($label)
+	public function setLabel( $label )
 	{
 		$this->label = $label;
 	}
@@ -413,10 +426,120 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	/**
 	 * @return string
 	 */
-	public function getLabel() {
-		return $this->label;
+	public function toString()
+	{
+		return $this->getLabel();
 	}
 
+	/**
+	 *
+	 */
+	public function rewind()
+	{
+		if( !$this->_iterator_map ) {
+			$this->getIteratorMap();
+		}
+		reset( $this->_iterator_map );
+	}
+
+	/**
+	 *
+	 */
+	public function getIteratorMap()
+	{
+		if( $this->_iterator_map ) {
+			return $this->_iterator_map;
+		}
+
+		$this->_prepareIteratorMap( $this->_iterator_map, $this->_max_depth, $this->depth );
+
+		return $this->_iterator_map;
+	}
+
+	/**
+	 * @param array    &$result
+	 * @param int|null $max_depth
+	 * @param int|null $root_depth
+	 */
+	protected function _prepareIteratorMap( &$result, $max_depth, $root_depth )
+	{
+
+		$result[(string)$this->id] = $this;
+
+		if( $max_depth ) {
+			if( ( $root_depth-$this->depth )>$max_depth ) {
+				return;
+			}
+		}
+
+		foreach( $this->_children as $child ) {
+			$child->_prepareIteratorMap( $result, $max_depth, $root_depth );
+		}
+
+	}
+
+	/**
+	 * @return Data_Tree_Node
+	 */
+	public function current()
+	{
+		if( !$this->_iterator_map ) {
+			$this->getIteratorMap();
+		}
+
+		return current( $this->_iterator_map );
+	}
+
+
+
+	//- Iterator ----------------------------------------------------------------------------------
+	//- Iterator ----------------------------------------------------------------------------------
+	//- Iterator ----------------------------------------------------------------------------------
+	//- Iterator ----------------------------------------------------------------------------------
+	//- Iterator ----------------------------------------------------------------------------------
+
+	/**
+	 * @return mixed
+	 */
+	public function key()
+	{
+		if( !$this->_iterator_map ) {
+			$this->getIteratorMap();
+		}
+
+		return key( $this->_iterator_map );
+	}
+
+	/**
+	 *
+	 */
+	public function next()
+	{
+		if( !$this->_iterator_map ) {
+			$this->getIteratorMap();
+		}
+		next( $this->_iterator_map );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function valid()
+	{
+		if( !$this->_iterator_map ) {
+			$this->getIteratorMap();
+		}
+
+		return key( $this->_iterator_map )!==null;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function count()
+	{
+		return count( $this->toArray() );
+	}
 
 	/**
 	 *
@@ -424,20 +547,27 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	 *
 	 * @return array
 	 */
-	public function toArray(){
+	public function toArray()
+	{
 
 		$result = [];
-		$this->_toArray($result, $this->_max_depth, $this->depth);
+		$this->_toArray( $result, $this->_max_depth, $this->depth );
 
 		return $result;
 	}
 
+	//- Countable ---------------------------------------------------------------------------------
+	//- Countable ---------------------------------------------------------------------------------
+	//- Countable ---------------------------------------------------------------------------------
+	//- Countable ---------------------------------------------------------------------------------
+
 	/**
 	 * @param array &$_result
-	 * @param int $max_depth
-	 * @param int $root_depth
+	 * @param int   $max_depth
+	 * @param int   $root_depth
 	 */
-	public function _toArray( &$_result, $max_depth, $root_depth ){
+	public function _toArray( &$_result, $max_depth, $root_depth )
+	{
 
 		$id_key = $this->_tree->getIdKey();
 		$parent_id_key = $this->_tree->getParentIdKey();
@@ -446,15 +576,15 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$label_key = $this->_tree->getLabelKey();
 
 		$next_children = true;
-		if($max_depth) {
-			if( ($root_depth-$this->depth)>$max_depth ) {
+		if( $max_depth ) {
+			if( ( $root_depth-$this->depth )>$max_depth ) {
 				$next_children = false;
 			}
 		}
 
 		$item = $this->data;
-		if(is_object($item)) {
-			if($item instanceof \JsonSerializable) {
+		if( is_object( $item ) ) {
+			if( $item instanceof \JsonSerializable ) {
 				$item = $item->jsonSerialize();
 			} else {
 				$item = [];
@@ -466,15 +596,12 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$item[$label_key] = $this->label;
 		$item[$depth_key] = $this->depth;
 
-		if($next_children && $this->_children){
+		if( $next_children&&$this->_children ) {
 
-			if(
-				$this->is_root ||
-				!$this->_tree->getLazyMode()
-			) {
+			if( $this->is_root||!$this->_tree->getLazyMode() ) {
 				$item[$children_key] = [];
 
-				foreach($this->_children as $child) {
+				foreach( $this->_children as $child ) {
 					$child->_toArray( $item[$children_key], $max_depth, $root_depth );
 				}
 			} else {
@@ -484,7 +611,7 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 
 		}
 
-		if($this->is_root) {
+		if( $this->is_root ) {
 			$_result = $item;
 		} else {
 			$_result[] = $item;
@@ -492,130 +619,11 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 
 	}
 
-
-	/**
-	 *
-	 */
-	public function resetIteratorMap() {
-		$this->_iterator_map = [];
-	}
-
-	/**
-	 *
-	 */
-	public function getIteratorMap(){
-		if($this->_iterator_map) {
-			return $this->_iterator_map;
-		}
-
-		$this->_prepareIteratorMap($this->_iterator_map, $this->_max_depth, $this->depth);
-
-		return $this->_iterator_map;
-	}
-
-	/**
-	 * @param array &$result
-	 * @param int|null $max_depth
-	 * @param int|null $root_depth
-	 */
-	protected function _prepareIteratorMap( &$result, $max_depth, $root_depth ){
-
-		$result[(string)$this->id] = $this;
-
-		if($max_depth) {
-			if( ($root_depth-$this->depth)>$max_depth ) {
-				return;
-			}
-		}
-
-		foreach($this->_children as $child){
-			$child->_prepareIteratorMap( $result, $max_depth, $root_depth );
-		}
-
-	}
-
-
-
-	//- Iterator ----------------------------------------------------------------------------------
-	//- Iterator ----------------------------------------------------------------------------------
-	//- Iterator ----------------------------------------------------------------------------------
-	//- Iterator ----------------------------------------------------------------------------------
-	//- Iterator ----------------------------------------------------------------------------------
-
-	/**
-	 *
-	 */
-	public function rewind() {
-		if(!$this->_iterator_map){
-			$this->getIteratorMap();
-		}
-		reset($this->_iterator_map);
-	}
-
-	/**
-	 * @return Data_Tree_Node
-	 */
-	public function current() {
-		if(!$this->_iterator_map){
-			$this->getIteratorMap();
-		}
-		return current($this->_iterator_map);
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function key() {
-		if(!$this->_iterator_map){
-			$this->getIteratorMap();
-		}
-		return key($this->_iterator_map);
-	}
-
-	/**
-	 *
-	 */
-	public function next() {
-		if(!$this->_iterator_map){
-			$this->getIteratorMap();
-		}
-		next($this->_iterator_map);
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function valid() {
-		if(!$this->_iterator_map){
-			$this->getIteratorMap();
-		}
-
-		return key($this->_iterator_map)!==null;
-	}
-
-	//- Countable ---------------------------------------------------------------------------------
-	//- Countable ---------------------------------------------------------------------------------
-	//- Countable ---------------------------------------------------------------------------------
-	//- Countable ---------------------------------------------------------------------------------
-	/**
-	 * @return int
-	 */
-	public function count() {
-		return count( $this->toArray() );
-	}
-
 	//- Form_Field_Select_Option_Interface --------------------------------------------------------
 	//- Form_Field_Select_Option_Interface --------------------------------------------------------
 	//- Form_Field_Select_Option_Interface --------------------------------------------------------
 	//- Form_Field_Select_Option_Interface --------------------------------------------------------
 	//- Form_Field_Select_Option_Interface --------------------------------------------------------
-	/**
-	 * @param string $css_style
-	 */
-	public function setSelectOptionCssStyle($css_style)
-	{
-		$this->select_option_css_style = $css_style;
-	}
 
 	/**
 	 * @return string
@@ -626,11 +634,11 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	}
 
 	/**
-	 * @param string $css_class
+	 * @param string $css_style
 	 */
-	public function setSelectOptionCssClass($css_class)
+	public function setSelectOptionCssStyle( $css_style )
 	{
-		$this->select_option_css_class = $css_class;
+		$this->select_option_css_style = $css_style;
 	}
 
 	/**
@@ -639,5 +647,13 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	public function getSelectOptionCssClass()
 	{
 		return $this->select_option_css_class;
+	}
+
+	/**
+	 * @param string $css_class
+	 */
+	public function setSelectOptionCssClass( $css_class )
+	{
+		$this->select_option_css_class = $css_class;
 	}
 }

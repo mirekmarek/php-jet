@@ -7,17 +7,17 @@ use Jet\Form;
 use Jet\Tr;
 
 /**
- * @var Mvc_View $this
- * @var Form $form
+ * @var Mvc_View          $this
+ * @var Form              $form
  * @var Auth_Visitor_User $user
  */
-$form = $this->getRaw('form');
+$form = $this->getRaw( 'form' );
 
-$form->setAutocomplete(false);
-$form->setDefaultLabelWidth(2);
-$form->setDefaultFieldWidth(4);
+$form->setAutocomplete( false );
+$form->setDefaultLabelWidth( 2 );
+$form->setDefaultFieldWidth( 4 );
 
-$user = $this->getRaw('user');
+$user = $this->getRaw( 'user' );
 ?>
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
@@ -25,15 +25,15 @@ $user = $this->getRaw('user');
 	<?=$form->start()?>
 
 	<div class="toolbar" id="main-toolbar">
-		<?=UI::button_goBack()->setUrl(Mvc::getCurrentPage()->getURI())?>
-		<?php if(!$form->getIsReadonly()): ?>
+		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+		<?php if( !$form->getIsReadonly() ): ?>
 			<?=UI::button_save()?>
 
-			<?php if(!$user->getIsNew()): ?>
+			<?php if( !$user->getIsNew() ): ?>
 				<div class="btn-group" style="margin-left: 10px">
 					<a href="?a=reset_password" class="btn btn-warning">
-						<?=UI::icon('refresh')?>
-						<?=Tr::_('Reset password')?>
+						<?=UI::icon( 'refresh' )?>
+						<?=Tr::_( 'Reset password' )?>
 					</a>
 				</div>
 			<?php endif; ?>
@@ -42,25 +42,25 @@ $user = $this->getRaw('user');
 	</div>
 
 
-		<?=$form->field('username')?>
+	<?=$form->field( 'username' )?>
 
-		<?=$form->fieldExists('password')?$form->field('password'):''?>
-		<?=$form->field('email')?>
-		<?=$form->field('locale')?>
-		<?=$form->field('first_name')?>
-		<?=$form->field('surname')?>
-		<?=$form->field('description')?>
-		<?=$form->field('roles')?>
+	<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
+	<?=$form->field( 'email' )?>
+	<?=$form->field( 'locale' )?>
+	<?=$form->field( 'first_name' )?>
+	<?=$form->field( 'surname' )?>
+	<?=$form->field( 'description' )?>
+	<?=$form->field( 'roles' )?>
 
-		<hr class="separator">
-		<?=$form->field('user_is_activated')?>
-		<hr class="separator">
-		<?=$form->field('user_is_blocked')?>
-		<?=$form->field('user_is_blocked_till')?>
-		<hr class="separator">
-		<?=$form->field('password_is_valid')?>
-		<?=$form->field('password_is_valid_till')?>
-		<hr class="separator">
+	<hr class="separator">
+	<?=$form->field( 'user_is_activated' )?>
+	<hr class="separator">
+	<?=$form->field( 'user_is_blocked' )?>
+	<?=$form->field( 'user_is_blocked_till' )?>
+	<hr class="separator">
+	<?=$form->field( 'password_is_valid' )?>
+	<?=$form->field( 'password_is_valid_till' )?>
+	<hr class="separator">
 
 	<?=$form->end()?>
 </div>

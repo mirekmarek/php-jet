@@ -11,7 +11,8 @@ namespace Jet;
  * Class Auth
  * @package Jet
  */
-class Auth extends BaseObject {
+class Auth extends BaseObject
+{
 
 
 	/**
@@ -22,11 +23,16 @@ class Auth extends BaseObject {
 	protected static $auth_controller;
 
 	/**
-	 * @param Auth_Controller_Interface $auth_controller
+	 * Authenticates given user and returns true if given username and password is OK
+	 *
+	 * @param string $username
+	 * @param string $password
+	 *
+	 * @return bool
 	 */
-	public static function setAuthController(Auth_Controller_Interface $auth_controller)
+	public static function login( $username, $password )
 	{
-		self::$auth_controller = $auth_controller;
+		return static::getAuthController()->login( $username, $password );
 	}
 
 	/**
@@ -40,15 +46,11 @@ class Auth extends BaseObject {
 	}
 
 	/**
-	 * Authenticates given user and returns true if given username and password is OK
-	 *
-	 * @param string $username
-	 * @param string $password
-	 *
-	 * @return bool
+	 * @param Auth_Controller_Interface $auth_controller
 	 */
-	public static function login($username, $password ) {
-		return static::getAuthController()->login( $username, $password );
+	public static function setAuthController( Auth_Controller_Interface $auth_controller )
+	{
+		self::$auth_controller = $auth_controller;
 	}
 
 	/**
@@ -56,32 +58,35 @@ class Auth extends BaseObject {
 	 *
 	 * @return mixed
 	 */
-	public static function logout() {
+	public static function logout()
+	{
 
 		return static::getAuthController()->logout();
 	}
 
 	/**
 	 *
-	 * @return Auth_User_Interface|null
-	 */
-	public static function getCurrentUser() {
-		return static::getAuthController()->getCurrentUser();
-	}
-
-	/**
-	 *
 	 * @param string $privilege
-	 * @param mixed $value
+	 * @param mixed  $value
 	 *
 	 * @return bool
 	 */
-	public static function getCurrentUserHasPrivilege( $privilege, $value) {
-		if( ($current_user = static::getCurrentUser()) ) {
+	public static function getCurrentUserHasPrivilege( $privilege, $value )
+	{
+		if( ( $current_user = static::getCurrentUser() ) ) {
 			return $current_user->hasPrivilege( $privilege, $value );
 		}
 
 		return false;
+	}
+
+	/**
+	 *
+	 * @return Auth_User_Interface|null
+	 */
+	public static function getCurrentUser()
+	{
+		return static::getAuthController()->getCurrentUser();
 	}
 
 

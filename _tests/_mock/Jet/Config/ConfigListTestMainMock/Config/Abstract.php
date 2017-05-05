@@ -7,7 +7,8 @@
  */
 namespace Jet;
 
-abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
+abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section
+{
 
 
 	/**
@@ -22,7 +23,8 @@ abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
 
 	protected $adapter_config_value;
 
-	public function getAdapterConfigValue() {
+	public function getAdapterConfigValue()
+	{
 		return $this->adapter_config_value;
 	}
 
@@ -30,7 +32,8 @@ abstract class ConfigListTestMainMock_Config_Abstract extends Config_Section {
 	/**
 	 * @return string
 	 */
-	public function getAdapter() {
+	public function getAdapter()
+	{
 		return $this->adapter;
 	}
 }

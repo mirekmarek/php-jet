@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_Checkbox
  * @package Jet
  */
-class Form_Field_Checkbox extends Form_Field_Abstract {
+class Form_Field_Checkbox extends Form_Field_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -26,23 +27,25 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	/**
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data ) {
+	public function catchValue( Data_Array $data )
+	{
 		$this->_value_raw = false;
 		$this->_value = false;
 		$this->_has_value = true;
 
-		if($data->exists($this->_name)) {
-			$this->_value_raw = $data->getRaw($this->_name);
-			$this->_value = $data->getBool($this->_name);
+		if( $data->exists( $this->_name ) ) {
+			$this->_value_raw = $data->getRaw( $this->_name );
+			$this->_value = $data->getBool( $this->_name );
 		}
 
-        $data->set($this->_name, $this->_value);
+		$data->set( $this->_name, $this->_value );
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty() {
+	public function checkValueIsNotEmpty()
+	{
 		return true;
 	}
 
@@ -50,9 +53,10 @@ class Form_Field_Checkbox extends Form_Field_Abstract {
 	/**
 	 * @return bool
 	 */
-	public function validateValue() {
+	public function validateValue()
+	{
 		$this->_setValueIsValid();
-		
+
 		return true;
 	}
 

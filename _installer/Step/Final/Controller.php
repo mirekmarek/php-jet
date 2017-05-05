@@ -14,9 +14,10 @@ use Jet\IO_File;
 use Jet\IO_File_Exception;
 
 /**
- * 
+ *
  */
-class Installer_Step_Final_Controller extends Installer_Step_Controller {
+class Installer_Step_Final_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -54,7 +55,8 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 	/**
 	 *
 	 */
-	public function main() {
+	public function main()
+	{
 
 		$OK = true;
 
@@ -63,29 +65,29 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 		$this->config_file_source_path = Installer::getTmpConfigFilePath();
 		$this->config_file_target_path = JET_CONFIG_PATH.'_common/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
 
-		if(!$this->installConfig()) {
+		if( !$this->installConfig() ) {
 			$OK = false;
 		}
 
-		if(!$this->installDictionaries()) {
+		if( !$this->installDictionaries() ) {
 			$OK = false;
 		}
 
-		if($OK) {
+		if( $OK ) {
 			try {
 				IO_File::write( $this->install_symptom_file_path, Data_DateTime::now()->toString() );
-			} catch(IO_File_Exception $e) {
+			} catch( IO_File_Exception $e ) {
 				$OK = false;
 				$this->error_symptom_create = $e->getMessage();
 			}
 		}
 
-		$this->view->setVar('controller', $this);
+		$this->view->setVar( 'controller', $this );
 
-		if($OK) {
-			$this->render('done');
+		if( $OK ) {
+			$this->render( 'done' );
 		} else {
-			$this->render('error');
+			$this->render( 'error' );
 		}
 	}
 
@@ -93,11 +95,12 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 	 *
 	 * @return bool
 	 */
-	public function installConfig() {
+	public function installConfig()
+	{
 
 		try {
-			IO_File::copy($this->config_file_source_path, $this->config_file_target_path);
-		} catch(IO_File_Exception $e) {
+			IO_File::copy( $this->config_file_source_path, $this->config_file_target_path );
+		} catch( IO_File_Exception $e ) {
 			$this->error_config_install = $e->getMessage();
 
 			return false;
@@ -110,7 +113,8 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 	 *
 	 * @return bool
 	 */
-	public function installDictionaries() {
+	public function installDictionaries()
+	{
 
 		foreach( Installer::getSelectedLocales() as $locale ) {
 
@@ -118,10 +122,10 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 			$target = JET_TRANSLATOR_DICTIONARIES_BASE_PATH_PATH.$locale;
 
 			try {
-				if(IO_Dir::exists($target)) {
+				if( IO_Dir::exists( $target ) ) {
 					continue;
 				}
-			} catch(IO_Dir_Exception $e) {
+			} catch( IO_Dir_Exception $e ) {
 				$this->error_dictionaries_install = $e->getMessage();
 
 				return false;
@@ -129,10 +133,9 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 
 			try {
 				IO_Dir::copy(
-					$source,
-					$target
+					$source, $target
 				);
-			} catch(IO_Dir_Exception $e) {
+			} catch( IO_Dir_Exception $e ) {
 				$this->error_dictionaries_install = $e->getMessage();
 
 				return false;
@@ -190,7 +193,6 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller {
 	{
 		return $this->config_file_target_path;
 	}
-
 
 
 }

@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_Search
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_Search extends Form_Renderer_Bootstrap_Field_Input  {
+class Form_Renderer_Bootstrap_Field_Search extends Form_Renderer_Bootstrap_Field_Input
+{
 
 	/**
 	 * @var string

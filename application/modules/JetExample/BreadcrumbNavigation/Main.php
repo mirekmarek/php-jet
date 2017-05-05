@@ -6,17 +6,20 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
+
 use Jet\Application_Modules_Module_Abstract;
 
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract {
-	
+class Main extends Application_Modules_Module_Abstract
+{
+
 	/**
-	 * Initialization method 
+	 * Initialization method
 	 */
-	protected function initialize() {
+	protected function initialize()
+	{
 	}
 
 

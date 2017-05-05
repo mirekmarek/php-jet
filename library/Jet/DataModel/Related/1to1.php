@@ -11,43 +11,49 @@ namespace Jet;
  * Class DataModel_Related_1to1
  * @package Jet
  */
-abstract class DataModel_Related_1to1 extends BaseObject implements DataModel_Related_1to1_Interface {
-    use DataModel_Related_1to1_Trait;
-
-    /**
-     *
-     */
-    public function afterLoad() {
-
-    }
+abstract class DataModel_Related_1to1 extends BaseObject implements DataModel_Related_1to1_Interface
+{
+	use DataModel_Related_1to1_Trait;
 
 	/**
 	 *
 	 */
-	public function beforeSave() {
+	public function afterLoad()
+	{
 
 	}
 
-    /**
-     *
-     */
-    public function afterAdd() {
+	/**
+	 *
+	 */
+	public function beforeSave()
+	{
 
-    }
+	}
 
-    /**
-     *
-     */
-    public function afterUpdate() {
+	/**
+	 *
+	 */
+	public function afterAdd()
+	{
 
-    }
+	}
 
-    /**
-     *
-     */
-    public function afterDelete() {
+	/**
+	 *
+	 */
+	public function afterUpdate()
+	{
 
-    }
+	}
+
+	/**
+	 *
+	 */
+	public function afterDelete()
+	{
+
+	}
 
 
 }

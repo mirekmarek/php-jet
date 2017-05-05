@@ -11,7 +11,8 @@ namespace Jet;
  * Class Debug_ErrorHandler_Handler_Abstract
  * @package Jet
  */
-abstract class Debug_ErrorHandler_Handler_Abstract {
+abstract class Debug_ErrorHandler_Handler_Abstract
+{
 
 	/**
 	 * @var string
@@ -21,16 +22,18 @@ abstract class Debug_ErrorHandler_Handler_Abstract {
 	/**
 	 * @param array $options
 	 */
-	public function  __construct( array $options ) {
-		$this->setOptions($options);
+	public function __construct( array $options )
+	{
+		$this->setOptions( $options );
 	}
 
 	/**
 	 * @param array $options
 	 */
-	public function setOptions( array $options ) {
-		foreach($options as $k=>$v) {
-			if(property_exists($this, $k)) {
+	public function setOptions( array $options )
+	{
+		foreach( $options as $k => $v ) {
+			if( property_exists( $this, $k ) ) {
 				$this->{$k} = $v;
 			}
 		}

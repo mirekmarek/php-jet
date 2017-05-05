@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_Password
  * @package Jet
  */
-class Form_Field_Password extends Form_Field_Abstract {
+class Form_Field_Password extends Form_Field_Abstract
+{
 
 	/**
 	 * @var string
@@ -27,7 +28,7 @@ class Form_Field_Password extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				self::ERROR_CODE_EMPTY => ''
+		self::ERROR_CODE_EMPTY => '',
 	];
 
 	/**
@@ -37,7 +38,7 @@ class Form_Field_Password extends Form_Field_Abstract {
 	{
 		$codes = [];
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 

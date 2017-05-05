@@ -12,7 +12,8 @@ namespace Jet;
  *
  * @JetConfig:data_path = 'database'
  */
-class Db_Config extends Application_Config {
+class Db_Config extends Application_Config
+{
 
 
 	/**
@@ -23,7 +24,7 @@ class Db_Config extends Application_Config {
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Db_Config', 'getConnectionsList']
-     * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection']
+	 * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection']
 	 *
 	 * @var string
 	 */
@@ -40,6 +41,41 @@ class Db_Config extends Application_Config {
 	 */
 	protected $connections;
 
+	/**
+	 *
+	 * @param string $driver_type_filter (optional)
+	 *
+	 * @return array
+	 */
+	public static function getConnectionsList( $driver_type_filter = '' )
+	{
+		$i = new self( true );
+
+		$connections = [];
+
+		foreach( $i->getConnections() as $name => $connection ) {
+			if( $driver_type_filter&&$driver_type_filter!=$connection->getDriver() ) {
+				continue;
+			}
+
+			$connections[$name] = $name;
+		}
+
+		return array_combine( $connections, $connections );
+	}
+
+	/**
+	 * @return Db_Connection_Config_Abstract[]
+	 */
+	public function getConnections()
+	{
+		/**
+		 * @var Db_Connection_Config_Abstract[] $c_cfg
+		 */
+		$c_cfg = $this->connections->getAllConfigurationItems();
+
+		return $c_cfg;
+	}
 
 	/**
 	 * Get connection configuration
@@ -49,19 +85,9 @@ class Db_Config extends Application_Config {
 	 * @throws Db_Exception
 	 * @return Db_Connection_Config_Abstract
 	 */
-	public function getConnection($connection_name){
+	public function getConnection( $connection_name )
+	{
 		return $this->connections->getConfigurationListItem( $connection_name );
-	}
-
-	/**
-	 * @return Db_Connection_Config_Abstract[]
-	 */
-	public function getConnections() {
-		/**
-		 * @var Db_Connection_Config_Abstract[] $c_cfg
-		 */
-		$c_cfg = $this->connections->getAllConfigurationItems();
-		return $c_cfg;
 	}
 
 	/**
@@ -69,16 +95,18 @@ class Db_Config extends Application_Config {
 	 *
 	 * @return string
 	 */
-	public function getDefaultConnectionName() {
+	public function getDefaultConnectionName()
+	{
 		return $this->default_connection_name;
 	}
 
 	/**
-	 * @param string $connection_name
+	 * @param string                        $connection_name
 	 * @param Db_Connection_Config_Abstract $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, Db_Connection_Config_Abstract $connection_configuration ) {
+	public function addConnection( $connection_name, Db_Connection_Config_Abstract $connection_configuration )
+	{
 		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
 	}
 
@@ -86,32 +114,8 @@ class Db_Config extends Application_Config {
 	 * @param string $connection_name
 	 *
 	 */
-	public function deleteConnection( $connection_name ) {
+	public function deleteConnection( $connection_name )
+	{
 		$this->connections->deleteConfigurationItem( $connection_name );
-	}
-
-	/**
-	 *
-	 * @param string $driver_type_filter (optional)
-	 *
-	 * @return array
-	 */
-	public static function getConnectionsList( $driver_type_filter='' ) {
-		$i = new self(true);
-
-		$connections = [];
-
-		foreach( $i->getConnections() as $name=>$connection) {
-			if(
-				$driver_type_filter &&
-				$driver_type_filter!=$connection->getDriver()
-			) {
-				continue;
-			}
-
-			$connections[$name] = $name;
-		}
-
-		return array_combine($connections, $connections);
 	}
 }

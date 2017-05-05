@@ -11,20 +11,45 @@ namespace Jet;
  * Interface Auth_User_Interface
  * @package Jet
  */
-interface Auth_User_Interface extends BaseObject_Interface {
+interface Auth_User_Interface extends BaseObject_Interface
+{
 
-    /**
-     * @param string $id
-     *
-     * @return Auth_User_Interface
-     */
-    public static function get($id );
+	/**
+	 * @param string $id
+	 *
+	 * @return Auth_User_Interface
+	 */
+	public static function get( $id );
+
+	/**
+	 *
+	 * @param string $role_id (optional)
+	 *
+	 * @return Auth_User_Interface[]
+	 */
+	public static function getList( $role_id = null );
+
+	/**
+	 *
+	 * @param string $username
+	 * @param string $password
+	 *
+	 * @return Auth_User_Interface|null
+	 */
+	public static function getByIdentity( $username, $password );
+
+	/**
+	 *
+	 * @param string $username
+	 *
+	 * @return Auth_User_Interface|null
+	 */
+	public static function getGetByUsername( $username );
 
 	/**
 	 * @return string
 	 */
 	public function getId();
-
 
 	/**
 	 * @return bool
@@ -34,8 +59,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 * @param bool $is_superuser
 	 */
-	public function setIsSuperuser($is_superuser);
-
+	public function setIsSuperuser( $is_superuser );
 
 	/**
 	 * @return string
@@ -47,12 +71,12 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 *
 	 * @return bool
 	 */
-	public function usernameExists($username );
+	public function usernameExists( $username );
 
 	/**
 	 * @param string $username
 	 */
-	public function setUsername($username );
+	public function setUsername( $username );
 
 	/**
 	 * @param string $password
@@ -73,9 +97,9 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 */
 	public function verifyPassword( $plain_password );
 
-
 	/**
 	 * @param string $password
+	 *
 	 * @return bool
 	 */
 	public function verifyPasswordStrength( $password );
@@ -126,7 +150,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 *
 	 * @param string $surname
 	 */
-	public function setSurname($surname);
+	public function setSurname( $surname );
 
 	/**
 	 *
@@ -144,7 +168,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 *
 	 * @param string $description
 	 */
-	public function setDescription($description);
+	public function setDescription( $description );
 
 	/**
 	 *
@@ -167,6 +191,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 *
 	 * @param string|Data_DateTime $password_is_valid_till
+	 *
 	 * @return mixed
 	 */
 	public function setPasswordIsValidTill( $password_is_valid_till );
@@ -187,13 +212,12 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 *
 	 * @param Data_DateTime|string|null $till
 	 */
-	public function block( $till=null );
+	public function block( $till = null );
 
 	/**
 	 *
 	 */
 	public function unBlock();
-
 
 	/**
 	 * @return bool
@@ -203,10 +227,10 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 *
 	 * @param string $user_activation_hash (optional)
+	 *
 	 * @return bool
 	 */
-	public function activate( $user_activation_hash=null );
-
+	public function activate( $user_activation_hash = null );
 
 	/**
 	 *
@@ -218,7 +242,7 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	 *
 	 * @param string $user_activation_hash
 	 */
-	public function setActivationHash($user_activation_hash);
+	public function setActivationHash( $user_activation_hash );
 
 	/**
 	 *
@@ -235,48 +259,26 @@ interface Auth_User_Interface extends BaseObject_Interface {
 	/**
 	 *
 	 * @param string $role_id
+	 *
 	 * @return bool
 	 */
-	public function hasRole($role_id );
+	public function hasRole( $role_id );
 
 	/**
 	 *
 	 * @param string $privilege
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return bool
 	 */
-	public function hasPrivilege($privilege, $value );
+	public function hasPrivilege( $privilege, $value );
 
 	/**
-	 * @param $privilege
+	 * @param string $privilege
 	 *
 	 * @return array
 	 */
-	public function getPrivilegeValues($privilege);
-
-
-	/**
-	 *
-	 * @param string $role_id (optional)
-	 * @return Auth_User_Interface[]
-	 */
-	public static function getList($role_id=null );
-
-	/**
-	 *
-	 * @param string $username
-	 * @param string $password
-	 *
-	 * @return Auth_User_Interface|null
-	 */
-	public static function getByIdentity( $username, $password );
-
-	/**
-	 *
-	 * @param string $username
-	 * @return Auth_User_Interface|null
-	 */
-	public static function getGetByUsername( $username );
+	public function getPrivilegeValues( $privilege );
 
 
 }

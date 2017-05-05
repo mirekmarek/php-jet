@@ -11,7 +11,8 @@ namespace Jet;
  * Interface Auth_Role_Privilege_Interface
  * @package Jet
  */
-interface Auth_Role_Privilege_Interface  {
+interface Auth_Role_Privilege_Interface
+{
 
 	/**
 	 * @return string
@@ -21,7 +22,7 @@ interface Auth_Role_Privilege_Interface  {
 	/**
 	 * @param string $privilege
 	 */
-	public function setPrivilege($privilege);
+	public function setPrivilege( $privilege );
 
 	/**
 	 * @param mixed $value
@@ -38,6 +39,6 @@ interface Auth_Role_Privilege_Interface  {
 	/**
 	 * @param array $values
 	 */
-	public function setValues(array $values);
+	public function setValues( array $values );
 
 }

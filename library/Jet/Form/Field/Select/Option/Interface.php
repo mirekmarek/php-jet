@@ -11,7 +11,8 @@ namespace Jet;
  * Interface Form_Field_Select_Option_Interface
  * @package Jet
  */
-interface Form_Field_Select_Option_Interface {
+interface Form_Field_Select_Option_Interface
+{
 
 	/**
 	 * @param string $css_style

@@ -11,6 +11,7 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Form_Message
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Form_Message extends Form_Renderer_Abstract_Form_Message {
+class Form_Renderer_Bootstrap_Form_Message extends Form_Renderer_Abstract_Form_Message
+{
 
 }

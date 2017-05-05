@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Property_String
  * @package Jet
  */
-class DataModel_Definition_Property_String extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_String extends DataModel_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -34,11 +35,12 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	protected $form_field_type = Form::TYPE_INPUT;
 
 	/**
-	 * @param $definition_data
+	 * @param array $definition_data
 	 */
-	public function setUp( $definition_data ) {
-		if($definition_data) {
-			parent::setUp($definition_data);
+	public function setUp( $definition_data )
+	{
+		if( $definition_data ) {
+			parent::setUp( $definition_data );
 
 			$this->max_len = (int)$this->max_len;
 		}
@@ -49,27 +51,30 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	 * @param mixed &$value
 	 *
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
 		$value = (string)$value;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getMaxLen() {
+	public function getMaxLen()
+	{
 		return $this->max_len;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldType() {
+	public function getFormFieldType()
+	{
 
-		if($this->form_field_type!=Form::TYPE_INPUT) {
+		if( $this->form_field_type!=Form::TYPE_INPUT ) {
 			return $this->form_field_type;
 		}
 
-		if($this->max_len<=255) {
+		if( $this->max_len<=255 ) {
 			return Form::TYPE_INPUT;
 		} else {
 			return Form::TYPE_TEXTAREA;
@@ -80,25 +85,26 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @return string
 	 */
-	public function getTechnicalDescription() {
+	public function getTechnicalDescription()
+	{
 		$res = 'Type: '.$this->getType().', max length: '.$this->max_len;
 
-		$res .= ', required: '.($this->form_field_is_required ? 'yes':'no');
+		$res .= ', required: '.( $this->form_field_is_required ? 'yes' : 'no' );
 
-		if($this->is_id) {
+		if( $this->is_id ) {
 			$res .= ', is ID';
 		}
 
-		if($this->default_value) {
+		if( $this->default_value ) {
 			$res .= ', default value: '.$this->default_value;
 		}
 
-		if($this->form_field_validation_regexp) {
+		if( $this->form_field_validation_regexp ) {
 
 			$res .= ', validation regexp: '.$this->form_field_validation_regexp;
 		}
 
-		if($this->description) {
+		if( $this->description ) {
 			$res .= JET_EOL.JET_EOL.$this->description;
 		}
 

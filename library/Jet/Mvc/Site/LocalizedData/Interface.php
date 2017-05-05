@@ -11,7 +11,8 @@ namespace Jet;
  * Interface Mvc_Site_LocalizedData_Interface
  * @package Jet
  */
-interface Mvc_Site_LocalizedData_Interface {
+interface Mvc_Site_LocalizedData_Interface
+{
 
 
 	/**
@@ -27,7 +28,7 @@ interface Mvc_Site_LocalizedData_Interface {
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive($is_active);
+	public function setIsActive( $is_active );
 
 
 	/**
@@ -36,9 +37,9 @@ interface Mvc_Site_LocalizedData_Interface {
 	public function getTitle();
 
 	/**
-	 * @param $title
+	 * @param string $title
 	 */
-	public function setTitle($title);
+	public function setTitle( $title );
 
 	/**
 	 * @return string
@@ -48,7 +49,7 @@ interface Mvc_Site_LocalizedData_Interface {
 	/**
 	 * @param string $default_headers_suffix
 	 */
-	public function setDefaultHeadersSuffix($default_headers_suffix);
+	public function setDefaultHeadersSuffix( $default_headers_suffix );
 
 	/**
 	 * @return string
@@ -58,7 +59,7 @@ interface Mvc_Site_LocalizedData_Interface {
 	/**
 	 * @param string $default_body_prefix
 	 */
-	public function setDefaultBodyPrefix($default_body_prefix);
+	public function setDefaultBodyPrefix( $default_body_prefix );
 
 	/**
 	 * @return string
@@ -68,7 +69,7 @@ interface Mvc_Site_LocalizedData_Interface {
 	/**
 	 * @param string $default_body_suffix
 	 */
-	public function setDefaultBodySuffix($default_body_suffix);
+	public function setDefaultBodySuffix( $default_body_suffix );
 
 	/**
 	 * @return Mvc_Site_LocalizedData_URL_Interface[]
@@ -78,7 +79,7 @@ interface Mvc_Site_LocalizedData_Interface {
 	/**
 	 * @param Mvc_Site_LocalizedData_URL_Interface[]|string[] $URLs
 	 */
-	public function setURLs($URLs);
+	public function setURLs( $URLs );
 
 	/**
 	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
@@ -92,6 +93,7 @@ interface Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
+	 *
 	 * @return bool
 	 */
 	public function setDefaultURL( $URL );
@@ -104,6 +106,7 @@ interface Mvc_Site_LocalizedData_Interface {
 
 	/**
 	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
+	 *
 	 * @return bool
 	 */
 	public function setDefaultSslURL( $URL );
@@ -135,6 +138,6 @@ interface Mvc_Site_LocalizedData_Interface {
 	 *
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $default_meta_tags
 	 */
-	public function setDefaultMetaTags($default_meta_tags);
+	public function setDefaultMetaTags( $default_meta_tags );
 
 }

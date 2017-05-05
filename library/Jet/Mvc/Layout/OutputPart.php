@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Layout_OutputPart
  * @package Jet
  */
-class Mvc_Layout_OutputPart extends BaseObject{
+class Mvc_Layout_OutputPart extends BaseObject
+{
 	/**
 	 * @var string
 	 */
@@ -45,10 +46,11 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	 * @param string $output_id
 	 * @param string $output
 	 * @param string $position
-	 * @param bool $position_required
-	 * @param int $position_order
+	 * @param bool   $position_required
+	 * @param int    $position_order
 	 */
-	public function __construct($output, $position, $position_required, $position_order, $output_id ) {
+	public function __construct( $output, $position, $position_required, $position_order, $output_id )
+	{
 		$this->output_id = $output_id;
 		$this->output = $output;
 		$this->position = $position;
@@ -59,63 +61,72 @@ class Mvc_Layout_OutputPart extends BaseObject{
 	/**
 	 * @return string
 	 */
-	public function getOutputId() {
+	public function getOutputId()
+	{
 		return $this->output_id;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getOutput() {
+	public function getOutput()
+	{
 		return $this->output;
 	}
 
 	/**
-	 * @param $output
+	 * @param string $output
 	 */
-	public function setOutput($output) {
+	public function setOutput( $output )
+	{
 		$this->output = $output;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPosition() {
+	public function getPosition()
+	{
 		return $this->position;
 	}
 
 	/**
 	 * @param string $position
 	 */
-	public function setPosition($position) {
+	public function setPosition( $position )
+	{
 		$this->position = $position;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getPositionRequired() {
+	public function getPositionRequired()
+	{
 		return $this->position_required;
 	}
 
 	/**
 	 * @param bool $position_required
 	 */
-	public function setPositionRequired($position_required) {
+	public function setPositionRequired( $position_required )
+	{
 		$this->position_required = (bool)$position_required;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getPositionOrder() {
+	public function getPositionOrder()
+	{
 		return $this->position_order;
 	}
 
 	/**
 	 * @param int $position_order
 	 */
-	public function setPositionOrder($position_order) {
+	public function setPositionOrder( $position_order )
+	{
 		$this->position_order = (int)$position_order;
 	}
 

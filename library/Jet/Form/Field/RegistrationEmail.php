@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_RegistrationEmail
  * @package Jet
  */
-class Form_Field_RegistrationEmail extends Form_Field_Email {
+class Form_Field_RegistrationEmail extends Form_Field_Email
+{
 	const ERROR_CODE_USER_ALREADY_EXISTS = 'user_already_exists';
 
 	/**
@@ -39,10 +40,41 @@ class Form_Field_RegistrationEmail extends Form_Field_Email {
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '',
-		self::ERROR_CODE_INVALID_FORMAT => '',
-		self::ERROR_CODE_USER_ALREADY_EXISTS => ''
+		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '', self::ERROR_CODE_USER_ALREADY_EXISTS => '',
 	];
+
+	/**
+	 * validate value
+	 *
+	 * @return bool
+	 */
+	public function validateValue()
+	{
+
+		if( !$this->_value ) {
+			$this->setValueError( self::ERROR_CODE_EMPTY );
+
+			return false;
+		}
+
+		if( !filter_var( $this->_value, FILTER_VALIDATE_EMAIL ) ) {
+			$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+
+			return false;
+		}
+
+		$callback = $this->getUserExistsCheckCallback();
+
+		if( !$callback( $this->_value ) ) {
+			$this->setValueError( self::ERROR_CODE_USER_ALREADY_EXISTS );
+
+			return false;
+		}
+
+		$this->_setValueIsValid();
+
+		return true;
+	}
 
 	/**
 	 * @return callable
@@ -55,43 +87,10 @@ class Form_Field_RegistrationEmail extends Form_Field_Email {
 	/**
 	 * @param callable $user_exists_check_callback
 	 */
-	public function setUserExistsCheckCallback( callable $user_exists_check_callback)
+	public function setUserExistsCheckCallback( callable $user_exists_check_callback )
 	{
 		$this->user_exists_check_callback = $user_exists_check_callback;
 	}
-
-
-
-	/**
-	 * validate value
-	 *
-	 * @return bool
-	 */
-	public function validateValue() {
-
-		if(!$this->_value) {
-			$this->setValueError(self::ERROR_CODE_EMPTY);
-
-			return false;
-		}
-
-		if(!filter_var( $this->_value, FILTER_VALIDATE_EMAIL )) {
-			$this->setValueError(self::ERROR_CODE_INVALID_FORMAT);
-			return false;
-		}
-
-		$callback = $this->getUserExistsCheckCallback();
-
-		if( !$callback($this->_value) ) {
-			$this->setValueError(self::ERROR_CODE_USER_ALREADY_EXISTS);
-			return false;
-		}
-
-		$this->_setValueIsValid();
-
-		return true;
-	}
-
 
 	/**
 	 * @return array

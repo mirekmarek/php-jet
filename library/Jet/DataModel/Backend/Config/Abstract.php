@@ -12,6 +12,7 @@ namespace Jet;
  *
  * @JetConfig:data_path = '/data_model/backend_options'
  */
-abstract class DataModel_Backend_Config_Abstract extends Application_Config {
+abstract class DataModel_Backend_Config_Abstract extends Application_Config
+{
 
 }

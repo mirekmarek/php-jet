@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Backend_Abstract
  * @package Jet
  */
-abstract class DataModel_Backend_Abstract extends BaseObject {
+abstract class DataModel_Backend_Abstract extends BaseObject
+{
 
 	/**
 	 * @var DataModel
@@ -27,7 +28,8 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	 *
 	 * @param DataModel_Backend_Config_Abstract $config
 	 */
-	public function  __construct( DataModel_Backend_Config_Abstract $config ) {
+	public function __construct( DataModel_Backend_Config_Abstract $config )
+	{
 		$this->config = $config;
 	}
 
@@ -50,7 +52,7 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 	/**
 	 * @param DataModel $transaction_starter
 	 */
-	public function setTransactionStarter($transaction_starter)
+	public function setTransactionStarter( $transaction_starter )
 	{
 		$this->_transaction_starter = $transaction_starter;
 	}
@@ -63,11 +65,11 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $definition
-	 * @param string|null $force_table_name (optional)
+	 * @param string|null                         $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getCreateCommand( DataModel_Definition_Model_Abstract $definition, $force_table_name=null );
+	abstract public function helper_getCreateCommand( DataModel_Definition_Model_Abstract $definition, $force_table_name = null );
 
 	/**
 	 * @param DataModel_Definition_Model_Abstract $definition
@@ -126,7 +128,7 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param DataModel_Query $where
+	 * @param DataModel_Query      $where
 	 *
 	 * @return string
 	 */
@@ -148,11 +150,11 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @param DataModel_RecordData $record
-	 * @param DataModel_Query $where
+	 * @param DataModel_Query      $where
 	 *
 	 * @return int
 	 */
-	abstract public function update( DataModel_RecordData $record, DataModel_Query $where);
+	abstract public function update( DataModel_RecordData $record, DataModel_Query $where );
 
 	/**
 	 * @param DataModel_Query $where
@@ -228,50 +230,52 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 
 	/**
 	 * @param DataModel_Query $query
-	 * @param string $fetch_method
-	 * @param array $data
+	 * @param string          $fetch_method
+	 * @param array           $data
+	 *
 	 * @return array
 	 */
-	protected function validateResultData( DataModel_Query $query, $fetch_method, $data ) {
-		$fetch_row = ($fetch_method=='fetchRow');
-		$fetch_pairs = ($fetch_method=='fetchPairs');
+	protected function validateResultData( DataModel_Query $query, $fetch_method, $data )
+	{
+		$fetch_row = ( $fetch_method=='fetchRow' );
+		$fetch_pairs = ( $fetch_method=='fetchPairs' );
 
 
-		if($fetch_row) {
-			$data = [$data];
+		if( $fetch_row ) {
+			$data = [ $data ];
 		}
 
-		if($fetch_pairs) {
-			foreach($query->getSelect() as $item) {
+		if( $fetch_pairs ) {
+			foreach( $query->getSelect() as $item ) {
 			}
 
 			/**
-			 * @var DataModel_Query_Select_Item $item
+			 * @var DataModel_Query_Select_Item            $item
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
 			$property = $item->getItem();
 
-			foreach($data as $i=>$d) {
+			foreach( $data as $i => $d ) {
 				$property->checkValueType( $d );
 				$data[$i] = $d;
 			}
 
 		} else {
-			foreach($data as $i=>$d) {
-				foreach($query->getSelect() as $item) {
+			foreach( $data as $i => $d ) {
+				foreach( $query->getSelect() as $item ) {
 					/**
-					 * @var DataModel_Query_Select_Item $item
+					 * @var DataModel_Query_Select_Item            $item
 					 * @var DataModel_Definition_Property_Abstract $property
 					 */
 					$property = $item->getItem();
 
-					if( ! ($property instanceof DataModel_Definition_Property_Abstract) ) {
+					if( !( $property instanceof DataModel_Definition_Property_Abstract ) ) {
 						continue;
 					}
 
 					$key = $item->getSelectAs();
 
-					if($property->getMustBeSerializedBeforeStore()) {
+					if( $property->getMustBeSerializedBeforeStore() ) {
 						$data[$i][$key] = $this->unserialize( $data[$i][$key] );
 					}
 
@@ -281,7 +285,7 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 
 		}
 
-		if($fetch_row) {
+		if( $fetch_row ) {
 			return $data[0];
 		}
 
@@ -289,23 +293,24 @@ abstract class DataModel_Backend_Abstract extends BaseObject {
 
 	}
 
-
 	/**
-	 * @param $data
-	 *
-	 * @return string
-	 */
-	protected function serialize( $data ) {
-		return serialize($data);
-	}
-
-	/**
-	 * @param $string
+	 * @param string $string
 	 *
 	 * @return mixed
 	 */
-	protected function unserialize( $string ) {
-		return unserialize($string);
+	protected function unserialize( $string )
+	{
+		return unserialize( $string );
+	}
+
+	/**
+	 * @param mixed $data
+	 *
+	 * @return string
+	 */
+	protected function serialize( $data )
+	{
+		return serialize( $data );
 	}
 
 }

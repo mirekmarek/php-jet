@@ -11,7 +11,8 @@ namespace Jet;
  * Class Config_Definition_Property_ConfigList
  * @package Jet
  */
-class Config_Definition_Property_ConfigList extends Config_Definition_Property_Abstract {
+class Config_Definition_Property_ConfigList extends Config_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -62,10 +63,11 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	 *
 	 * @return void
 	 */
-	public function setUp(array $definition_data = null ) {
-		parent::setUp($definition_data);
+	public function setUp( array $definition_data = null )
+	{
+		parent::setUp( $definition_data );
 
-		if($this->form_field_type===null) {
+		if( $this->form_field_type===null ) {
 			$this->form_field_type = false;
 		}
 
@@ -76,7 +78,48 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	 *
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
+	}
+
+	/**
+	 * @param string         $name
+	 * @param Config_Section $configuration
+	 *
+	 */
+	public function addConfigurationItem( $name, Config_Section $configuration )
+	{
+		$this->getAllConfigurationItems();
+
+		$this->_configs[$name] = $configuration;
+	}
+
+	/**
+	 * @return Config_Section[]
+	 *
+	 * @throws Config_Exception
+	 */
+	public function getAllConfigurationItems()
+	{
+		$data = $this->_configuration->getData();
+
+		if( !$data->exists( $this->data_path ) ) {
+			if( $this->_configuration->getSoftMode() ) {
+				$data->set( $this->data_path, [] );
+			} else {
+				throw new Config_Exception(
+					'There is not \''.$this->data_path.'\' section in the config file '.$this->_configuration->getConfigFilePath(
+					).'!', Config_Exception::CODE_CONFIG_CHECK_ERROR
+				);
+			}
+		}
+
+		foreach( array_keys( $data->getRaw( $this->data_path ) ) as $name ) {
+			$this->getConfigurationListItem( $name );
+		}
+
+
+		return $this->_configs;
 	}
 
 	/**
@@ -86,41 +129,40 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	 *
 	 * @throws Config_Exception
 	 */
-	public function getConfigurationListItem( $name ) {
+	public function getConfigurationListItem( $name )
+	{
 		$data = $this->_configuration->getData();
 
-		if(isset($this->_configs[$name])) {
+		if( isset( $this->_configs[$name] ) ) {
 			return $this->_configs[$name];
 		}
 
 		$config_path = '/'.$this->data_path.'/'.$name;
 
-		if(!$data->exists($config_path)) {
+		if( !$data->exists( $config_path ) ) {
 
-			if($this->_configuration->getSoftMode()) {
+			if( $this->_configuration->getSoftMode() ) {
 				return false;
 			}
 			throw new Config_Exception(
-				'There is not \''.$config_path.'\' section in the config file \''.$this->_configuration->getConfigFilePath().'\'!',
-				Config_Exception::CODE_CONFIG_CHECK_ERROR
+				'There is not \''.$config_path.'\' section in the config file \''.$this->_configuration->getConfigFilePath(
+				).'\'!', Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
 
-		if($this->item_class_name) {
+		if( $this->item_class_name ) {
 			$this->_configs[$name] = new $this->item_class_name(
-				$data->getRaw($config_path),
-				$this->_configuration
+				$data->getRaw( $config_path ), $this->_configuration
 			);
 
 		} else {
 			/**
 			 * @var callable $callback
 			 */
-			$callback = [$this->config_factory_class_name, $this->config_factory_method_name];
+			$callback = [ $this->config_factory_class_name, $this->config_factory_method_name ];
 
 			$this->_configs[$name] = $callback(
-				$data->getRaw($config_path),
-				$this->_configuration
+				$data->getRaw( $config_path ), $this->_configuration
 			);
 
 		}
@@ -130,52 +172,15 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	}
 
 	/**
-	 * @return Config_Section[]
-	 *
-	 * @throws Config_Exception
-	 */
-	public function getAllConfigurationItems() {
-		$data = $this->_configuration->getData();
-
-		if(!$data->exists($this->data_path)) {
-			if($this->_configuration->getSoftMode()) {
-				$data->set($this->data_path, []);
-			} else {
-				throw new Config_Exception(
-					'There is not \''.$this->data_path.'\' section in the config file '.$this->_configuration->getConfigFilePath().'!',
-					Config_Exception::CODE_CONFIG_CHECK_ERROR
-				);
-			}
-		}
-
-		foreach( array_keys($data->getRaw($this->data_path)) as $name ) {
-			$this->getConfigurationListItem($name );
-		}
-
-
-		return $this->_configs;
-	}
-
-	/**
-	 * @param string $name
-	 * @param Config_Section $configuration
-	 *
-	 */
-	public function addConfigurationItem( $name, Config_Section $configuration ) {
-		$this->getAllConfigurationItems();
-
-		$this->_configs[$name] = $configuration;
-	}
-
-	/**
 	 * @param string $name
 	 *
 	 */
-	public function deleteConfigurationItem( $name ) {
+	public function deleteConfigurationItem( $name )
+	{
 		$this->getAllConfigurationItems();
 
-		if(isset($this->_configs[$name])) {
-			unset($this->_configs[$name]);
+		if( isset( $this->_configs[$name] ) ) {
+			unset( $this->_configs[$name] );
 			$this->_deleted_configs[] = $name;
 		}
 	}
@@ -184,12 +189,13 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property_A
 	 *
 	 * @return array
 	 */
-	public function toArray() {
+	public function toArray()
+	{
 		$this->getAllConfigurationItems();
 
 		$result = [];
-		foreach($this->_configs as $name=>$cfg) {
-			if(in_array($name, $this->_deleted_configs)) {
+		foreach( $this->_configs as $name => $cfg ) {
+			if( in_array( $name, $this->_deleted_configs ) ) {
 				continue;
 			}
 			$result[$name] = $cfg->toArray();

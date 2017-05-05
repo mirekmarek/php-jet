@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Abstract_Form_Message
  * @package Jet
  */
-abstract class Form_Renderer_Abstract_Form_Message extends Form_Renderer_Abstract_Tag {
+abstract class Form_Renderer_Abstract_Form_Message extends Form_Renderer_Abstract_Tag
+{
 
 	/**
 	 * @var string
@@ -38,7 +39,7 @@ abstract class Form_Renderer_Abstract_Form_Message extends Form_Renderer_Abstrac
 	 *
 	 * @param Form $form
 	 */
-	public function __construct(Form $form)
+	public function __construct( Form $form )
 	{
 		$this->_form = $form;
 	}
@@ -48,13 +49,12 @@ abstract class Form_Renderer_Abstract_Form_Message extends Form_Renderer_Abstrac
 	 */
 	public function render()
 	{
-		if(!$this->_form->getCommonMessage()) {
+		if( !$this->_form->getCommonMessage() ) {
 			return '';
 		}
 
-		$tag_options = [
-		];
+		$tag_options = [];
 
-		return $this->generate($tag_options, $this->_form->getCommonMessage() );
+		return $this->generate( $tag_options, $this->_form->getCommonMessage() );
 	}
 }

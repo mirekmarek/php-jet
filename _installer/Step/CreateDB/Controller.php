@@ -15,7 +15,8 @@ use Jet\Mvc_Site;
 /**
  *
  */
-class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
+class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -27,53 +28,49 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller {
 	 */
 	public function getIsAvailable()
 	{
-		return count(Mvc_Site::getList() )==0;
+		return count( Mvc_Site::getList() )==0;
 	}
 
 
 	/**
 	 *
 	 */
-	public function main() {
-		if(Http_Request::POST()->exists('go')) {
+	public function main()
+	{
+		if( Http_Request::POST()->exists( 'go' ) ) {
 			Installer::goToNext();
 		}
 
 
 		$classes = [
-			__NAMESPACE__.'\Auth_Administrator_Role',
-			__NAMESPACE__.'\Auth_Administrator_Role_Privilege',
-			__NAMESPACE__.'\Auth_Administrator_User',
-			__NAMESPACE__.'\Auth_Administrator_User_Roles',
+			__NAMESPACE__.'\Auth_Administrator_Role', __NAMESPACE__.'\Auth_Administrator_Role_Privilege',
+			__NAMESPACE__.'\Auth_Administrator_User', __NAMESPACE__.'\Auth_Administrator_User_Roles',
 
-			__NAMESPACE__.'\Auth_Visitor_Role',
-			__NAMESPACE__.'\Auth_Visitor_Role_Privilege',
-			__NAMESPACE__.'\Auth_Visitor_User',
-			__NAMESPACE__.'\Auth_Visitor_User_Roles',
+			__NAMESPACE__.'\Auth_Visitor_Role', __NAMESPACE__.'\Auth_Visitor_Role_Privilege',
+			__NAMESPACE__.'\Auth_Visitor_User', __NAMESPACE__.'\Auth_Visitor_User_Roles',
 
-			__NAMESPACE__.'\Application_Logger_Event_Administration',
-			__NAMESPACE__.'\Application_Logger_Event_Site',
+			__NAMESPACE__.'\Application_Logger_Event_Administration', __NAMESPACE__.'\Application_Logger_Event_Site',
 		];
 
 		$result = [];
 		$OK = true;
 
-		foreach($classes as $class ) {
+		foreach( $classes as $class ) {
 			$result[$class] = true;
 
 			try {
 				DataModel_Helper::create( $class );
-			} catch(Exception $e) {
+			} catch( Exception $e ) {
 				$result[$class] = $e->getMessage();
 				$OK = false;
 			}
 
 		}
 
-		$this->view->setVar('result', $result);
-		$this->view->setVar('OK', $OK);
+		$this->view->setVar( 'result', $result );
+		$this->view->setVar( 'OK', $OK );
 
-		$this->render('default');
+		$this->render( 'default' );
 	}
 
 }

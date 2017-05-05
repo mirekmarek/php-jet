@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Fetch_Abstract
  * @package Jet
  */
-abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject_Serializable_REST, Data_Paginator_DataSource_Interface  {
+abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject_Serializable_REST, Data_Paginator_DataSource_Interface
+{
 
 	/**
 	 * DataModel instance
@@ -43,7 +44,8 @@ abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query ) {
+	public function __construct( DataModel_Query $query )
+	{
 		$this->data_model_definition = $query->getMainDataModelDefinition();
 
 		$this->query = $query;
@@ -53,7 +55,8 @@ abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject
 	 * @param int $limit
 	 * @param int $offset
 	 */
-	public function setPagination( $limit, $offset ) {
+	public function setPagination( $limit, $offset )
+	{
 		$this->pagination_enabled = true;
 
 		$this->query->setLimit( $limit, $offset );
@@ -62,7 +65,8 @@ abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject
 	/**
 	 * @return DataModel_Query
 	 */
-	public function getQuery() {
+	public function getQuery()
+	{
 		return $this->query;
 	}
 
@@ -71,7 +75,8 @@ abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject
 	 *
 	 * @return mixed
 	 */
-	public function getBackendQuery() {
+	public function getBackendQuery()
+	{
 		return $this->data_model_definition->getBackendInstance()->getBackendSelectQuery( $this->query );
 	}
 
@@ -80,16 +85,18 @@ abstract class DataModel_Fetch_Abstract extends BaseObject implements BaseObject
 	 *
 	 * @return int
 	 */
-	public function getCount() {
-		if($this->count===null) {
+	public function getCount()
+	{
+		if( $this->count===null ) {
 			$this->count = $this->data_model_definition->getBackendInstance()->getCount( $this->query );
 		}
+
 		return $this->count;
 	}
 
 	/**
 	 *
 	 */
-	abstract protected  function _fetch();
+	abstract protected function _fetch();
 
 }

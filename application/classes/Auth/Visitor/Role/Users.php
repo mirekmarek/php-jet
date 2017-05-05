@@ -17,5 +17,6 @@ use Jet\Auth_Role_Users;
  * @JetDataModel:M_model_class_name = 'Auth_Visitor_Role'
  * @JetDataModel:N_model_class_name = 'Auth_Visitor_User'
  */
-class Auth_Visitor_Role_Users extends Auth_Role_Users  {
+class Auth_Visitor_Role_Users extends Auth_Role_Users
+{
 }

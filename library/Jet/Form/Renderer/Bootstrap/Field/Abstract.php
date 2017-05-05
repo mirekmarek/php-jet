@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_Abstract
  * @package Jet
  */
-abstract class Form_Renderer_Bootstrap_Field_Abstract extends Form_Renderer_Abstract_Field_Abstract {
+abstract class Form_Renderer_Bootstrap_Field_Abstract extends Form_Renderer_Abstract_Field_Abstract
+{
 
 	/**
 	 * @var string
@@ -26,7 +27,8 @@ abstract class Form_Renderer_Bootstrap_Field_Abstract extends Form_Renderer_Abst
 	/**
 	 * @return $this
 	 */
-	public function noContainer() {
+	public function noContainer()
+	{
 		$this->container_disabled = true;
 
 		return $this;
@@ -37,7 +39,7 @@ abstract class Form_Renderer_Bootstrap_Field_Abstract extends Form_Renderer_Abst
 	 */
 	public function render()
 	{
-		if($this->container_disabled) {
+		if( $this->container_disabled ) {
 			return parent::render();
 		}
 
@@ -47,14 +49,16 @@ abstract class Form_Renderer_Bootstrap_Field_Abstract extends Form_Renderer_Abst
 	/**
 	 * @return string
 	 */
-	protected function render_containerStart() {
+	protected function render_containerStart()
+	{
 		return '<div class="col-'.$this->getSize().'-'.$this->getWidth().'">';
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function render_containerEnd() {
+	protected function render_containerEnd()
+	{
 		return '</div>';
 	}
 

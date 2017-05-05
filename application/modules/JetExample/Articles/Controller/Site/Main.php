@@ -15,108 +15,109 @@ use Jet\Data_Paginator;
 /**
  *
  */
-class Controller_Site_Main extends Mvc_Controller_Standard {
+class Controller_Site_Main extends Mvc_Controller_Standard
+{
+	protected static $ACL_actions_check_map = [
+		'default' => false, 'list' => false, 'detail' => false,
+	];
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
+	/**
+	 * @var int
+	 */
+	protected $public_list_items_per_page = 20;
 
-    /**
-     * @var int
-     */
-    protected $public_list_items_per_page = 20;
+	/**
+	 * @param Mvc_Page_Content_Interface $page_content
+	 *
+	 * @return bool
+	 */
+	public function parseRequestURL( Mvc_Page_Content_Interface $page_content )
+	{
 
-	protected static $ACL_actions_check_map = [
-		'default' => false,
-		'list' => false,
-		'detail' => false
-	];
+		$router = Mvc::getCurrentRouter();
 
+		if( count( $router->getPathFragments() )>1 ) {
+			return false;
+		}
 
-    /**
-     * @param Mvc_Page_Content_Interface $page_content
-     *
-     * @return bool
-     */
-    public function parseRequestURL( Mvc_Page_Content_Interface $page_content ) {
+		$page_no = $router->parsePathFragmentIntValue( 'page:%VAL%' );
 
-        $router = Mvc::getCurrentRouter();
+		if( $page_no>0 ) {
+			$page_content->setControllerAction( 'list' );
 
-        if( count($router->getPathFragments())>1 ) {
-            return false;
-        }
+			return true;
+		} else {
+			$article = new Article();
+			$current_article = $article->resolveArticleByURL( $router );
 
-        $page_no = $router->parsePathFragmentIntValue( 'page:%VAL%' );
+			if( !$current_article ) {
+				return false;
+			}
 
-        if($page_no>0) {
-            $page_content->setControllerAction('list');
+			$page_content->setControllerAction( 'detail' );
+			$page_content->setControllerActionParameters(
+				[
+					'article' => $current_article,
+				]
+			);
 
-            return true;
-        } else {
-            $article = new Article();
-            $current_article = $article->resolveArticleByURL( $router );
-
-            if(!$current_article) {
-                return false;
-            }
-
-            $page_content->setControllerAction('detail');
-            $page_content->setControllerActionParameters( [
-                'article' => $current_article
-            ] );
-
-            return true;
-        }
-
-    }
-
-
-    /**
-     *
-     */
-    public function default_Action() {
-        $this->list_Action();
-	}
-
-    /**
-     *
-     */
-    public function list_Action() {
-        $article = new Article();
-        $router = Mvc::getCurrentRouter();
-
-        $paginator = new Data_Paginator(
-            $router->parsePathFragmentIntValue( 'page:%VAL%', 1 ),
-            $this->public_list_items_per_page,
-            Mvc::getCurrentPage()->getURI().'page:'.Data_Paginator::URL_PAGE_NO_KEY.'/'
-        );
-
-
-        $paginator->setDataSource( $article->getListForCurrentLocale() );
-
-        $articles_list = $paginator->getData();
-
-		$this->view->setVar('articles_list', $articles_list);
-		$this->view->setVar('paginator', $paginator);
-
-		$this->render('list');
+			return true;
+		}
 
 	}
 
-    /**
-     *
-     */
-    public function detail_Action() {
-        /**
-         * @var Article $article
-         */
-        $article = $this->getActionParameterValue('article');
 
-        Mvc::getCurrentPage()->addBreadcrumbNavigationData($article->getTitle());
+	/**
+	 *
+	 */
+	public function default_Action()
+	{
+		$this->list_Action();
+	}
 
-		$this->view->setVar('article', $article);
+	/**
+	 *
+	 */
+	public function list_Action()
+	{
+		$article = new Article();
+		$router = Mvc::getCurrentRouter();
 
-		$this->render('detail');
+		$paginator = new Data_Paginator(
+			$router->parsePathFragmentIntValue( 'page:%VAL%', 1 ), $this->public_list_items_per_page,
+			Mvc::getCurrentPage()->getURI().'page:'.Data_Paginator::URL_PAGE_NO_KEY.'/'
+		);
+
+
+		$paginator->setDataSource( $article->getListForCurrentLocale() );
+
+		$articles_list = $paginator->getData();
+
+		$this->view->setVar( 'articles_list', $articles_list );
+		$this->view->setVar( 'paginator', $paginator );
+
+		$this->render( 'list' );
+
+	}
+
+	/**
+	 *
+	 */
+	public function detail_Action()
+	{
+		/**
+		 * @var Article $article
+		 */
+		$article = $this->getActionParameterValue( 'article' );
+
+		Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
+
+		$this->view->setVar( 'article', $article );
+
+		$this->render( 'detail' );
 	}
 }

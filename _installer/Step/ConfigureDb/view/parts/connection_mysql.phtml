@@ -6,24 +6,24 @@ use Jet\Form;
 
 /**
  * @var Mvc_View $this
- * @var Form $form
+ * @var Form     $form
  */
-$form = $this->getRaw('form');
-$form->setDefaultLabelWidth(2);
+$form = $this->getRaw( 'form' );
+$form->setDefaultLabelWidth( 2 );
 
 ?>
 <?=$form->start()?>
-	<?=$form->message()?>
+<?=$form->message()?>
 
-	<?=$form->field('username')?>
-	<?=$form->field('password')?>
-	<?=$form->field('dbname')?>
-	<?=$form->field('host')?>
-	<?=$form->field('port')?>
-	<?=$form->field('unix_socket')?>
+<?=$form->field( 'username' )?>
+<?=$form->field( 'password' )?>
+<?=$form->field( 'dbname' )?>
+<?=$form->field( 'host' )?>
+<?=$form->field( 'port' )?>
+<?=$form->field( 'unix_socket' )?>
 
 
-	<?=Installer::buttonNext();?>
+<?=Installer::buttonNext();?>
 
 <?=$form->end()?>
 

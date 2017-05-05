@@ -5,57 +5,57 @@ use Jet\Mvc_View;
 use Jet\Tr;
 
 /**
- * @var Mvc_View $this
+ * @var Mvc_View                              $this
  * @var Application_Modules_Module_Manifest[] $modules
  */
 
-$modules = $this->getRaw('modules');
-$result = $this->getRaw('result');
+$modules = $this->getRaw( 'modules' );
+$result = $this->getRaw( 'result' );
 
-$OK = $this->getBool('OK');
+$OK = $this->getBool( 'OK' );
 ?>
 
 <table class="table table-striped">
 	<thead>
 	<tr>
-		<th><?=Tr::_('Module');?></th>
-		<th><?=Tr::_('Result');?></th>
+		<th><?=Tr::_( 'Module' );?></th>
+		<th><?=Tr::_( 'Result' );?></th>
 	</tr>
 	</thead>
-	<?php foreach( $modules as $name=>$info ):
-		if(!isset($result[$name])) {
+	<?php foreach( $modules as $name => $info ):
+		if( !isset( $result[$name] ) ) {
 			continue;
 		}
 
 		$state = $result[$name];
-	?>
-	<tr>
-		<td>
-			<label for="module_<?=$info->getName();?>"><?=$info->getLabel();?></label>
-			<br/>
-			<div style="font-size: 11px;"><?=$info->getName();?></div>
+		?>
+		<tr>
+			<td>
+				<label for="module_<?=$info->getName();?>"><?=$info->getLabel();?></label>
+				<br/>
+				<div style="font-size: 11px;"><?=$info->getName();?></div>
 
-		</td>
-		<td>
-			<?php if($state===true): ?>
-			<div class="OK">OK</div>
-			<?php else: ?>
-			<div class="error"><?=$state;?></div>
-			<?php endif; ?>
+			</td>
+			<td>
+				<?php if( $state===true ): ?>
+					<div class="OK">OK</div>
+				<?php else: ?>
+					<div class="error"><?=$state;?></div>
+				<?php endif; ?>
 
-		</td>
+			</td>
 
-	</tr>
+		</tr>
 	<?php endforeach; ?>
 </table>
 
-<?php if($OK): ?>
-<form method="post">
-	<input type="hidden" name="go" value="1">
-	<?=Installer::buttonNext();?>
-</form>
+<?php if( $OK ): ?>
+	<form method="post">
+		<input type="hidden" name="go" value="1">
+		<?=Installer::buttonNext();?>
+	</form>
 <?php endif; ?>
 
-<?php if(!$OK): ?>
+<?php if( !$OK ): ?>
 	<?=Installer::buttonBack()?>
 <?php endif; ?>

@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Fetch_Object_Abstract
  * @package Jet
  */
-abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract {
+abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract
+{
 
 	/**
 	 *
@@ -33,50 +34,35 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	final public function __construct( DataModel_Query $query ) {
+	final public function __construct( DataModel_Query $query )
+	{
 
-		parent::__construct($query);
+		parent::__construct( $query );
 		$load_properties = [];
 		//$group_by = array();
 
-		foreach($this->data_model_definition->getIdProperties() as $property_definition ) {
+		foreach( $this->data_model_definition->getIdProperties() as $property_definition ) {
 			$load_properties[] = $property_definition;
 			//$group_by[] = $property_definition->getName();
 		}
 
-		$this->query->setSelect($load_properties);
+		$this->query->setSelect( $load_properties );
 		//$this->query->setGroupBy($group_by);
 
 		$this->empty_id_instance = $this->data_model_definition->getEmptyIdInstance();
 	}
 
-
-	/**
-	 * @return array
-	 */
-	public function jsonSerialize() {
-		$result = [];
-
-		foreach($this as $val) {
-			/**
-			 * @var DataModel $val
-			 */
-			$result[] = $val->jsonSerialize();
-		}
-
-		return $result;
-	}
-
 	/**
 	 * @return string
 	 */
-	public function toXML() {
+	public function toXML()
+	{
 		$model_name = $this->data_model_definition->getModelName();
 
 		$result = '';
 		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
 
-		foreach($this as $val) {
+		foreach( $this as $val ) {
 			/**
 			 * @var DataModel $val
 			 */
@@ -95,8 +81,26 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	/**
 	 * @return string
 	 */
-	public function toJSON() {
-		return json_encode($this->jsonSerialize());
+	public function toJSON()
+	{
+		return json_encode( $this->jsonSerialize() );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+		$result = [];
+
+		foreach( $this as $val ) {
+			/**
+			 * @var DataModel $val
+			 */
+			$result[] = $val->jsonSerialize();
+		}
+
+		return $result;
 	}
 
 	/**
@@ -109,45 +113,65 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 *
 	 * @return int
 	 */
-	public function count() {
+	public function count()
+	{
 		return $this->getCount();
 	}
 
 	/**
 	 * @see ArrayAccess
+	 *
 	 * @param int $offset
+	 *
 	 * @return bool
 	 */
-	public function offsetExists( $offset  ) {
+	public function offsetExists( $offset )
+	{
 		$this->_fetch();
-		return array_key_exists($offset, $this->data);
+
+		return array_key_exists( $offset, $this->data );
 	}
 
 	/**
 	 * Do nothing - DataModel_FetchAll is readonly
 	 *
 	 * @see ArrayAccess
-	 * @param int $offset
+	 *
+	 * @param int   $offset
 	 * @param mixed $value
 	 */
-	public function offsetSet( $offset , $value ) {}
-
-	/**
-	 * @see ArrayAccess
-	 * @param int $offset
-	 *
-	 * @return DataModel
-	 */
-	public function offsetGet( $offset ) {
-		$this->_fetch();
-		return $this->_get($this->data[$offset]);
+	public function offsetSet( $offset, $value )
+	{
 	}
 
 	/**
 	 * @see ArrayAccess
+	 *
+	 * @param int $offset
+	 *
+	 * @return DataModel
+	 */
+	public function offsetGet( $offset )
+	{
+		$this->_fetch();
+
+		return $this->_get( $this->data[$offset] );
+	}
+
+	/**
+	 * @param mixed $item
+	 *
+	 * @return DataModel|DataModel_Id_Abstract
+	 */
+	abstract protected function _get( $item );
+
+	/**
+	 * @see ArrayAccess
+	 *
 	 * @param int $offset
 	 */
-	public function offsetUnset( $offset )	{
+	public function offsetUnset( $offset )
+	{
 		$this->_fetch();
 		unset( $this->data[$offset] );
 	}
@@ -157,47 +181,51 @@ abstract class DataModel_Fetch_Object_Abstract extends DataModel_Fetch_Abstract 
 	 *
 	 * @return DataModel
 	 */
-	public function current() {
+	public function current()
+	{
 		$this->_fetch();
 
-		return $this->_get( current($this->data) );
+		return $this->_get( current( $this->data ) );
 	}
 
 	/**
 	 * @see Iterator
 	 * @return string
 	 */
-	public function key() {
+	public function key()
+	{
 		$this->_fetch();
-		return key($this->data);
+
+		return key( $this->data );
 	}
+
 	/**
 	 * @see Iterator
 	 */
-	public function next() {
+	public function next()
+	{
 		$this->_fetch();
-		next($this->data);
+		next( $this->data );
 	}
+
 	/**
 	 * @see Iterator
 	 */
-	public function rewind() {
+	public function rewind()
+	{
 		$this->_fetch();
-		reset($this->data);
+		reset( $this->data );
 	}
+
 	/**
 	 * @see Iterator
 	 * @return bool
 	 */
-	public function valid()	{
+	public function valid()
+	{
 		$this->_fetch();
-		return key($this->data)!==null;
-	}
 
-	/**
-	 * @param $item
-	 * @return DataModel|DataModel_Id_Abstract
-	 */
-	abstract protected function _get( $item );
+		return key( $this->data )!==null;
+	}
 
 }

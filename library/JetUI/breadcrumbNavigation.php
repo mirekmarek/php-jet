@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 use Jet\Mvc;
 
@@ -24,11 +25,12 @@ class breadcrumbNavigation extends BaseObject
 	/**
 	 * @param string $label
 	 * @param string $URL
-     *
+	 *
 	 * @return breadcrumbNavigation_item
 	 */
-	public static function addItem( $label, $URL='' ) {
-		if(!$URL) {
+	public static function addItem( $label, $URL = '' )
+	{
+		if( !$URL ) {
 			$URL = Mvc::getCurrentRouter()->getRequestURL();
 		}
 
@@ -44,12 +46,13 @@ class breadcrumbNavigation extends BaseObject
 	/**
 	 * @return breadcrumbNavigation_item[]
 	 */
-	public static function getItems() {
-		$count = count(static::$items);
+	public static function getItems()
+	{
+		$count = count( static::$items );
 
-		foreach( static::$items as $i=>$item ) {
+		foreach( static::$items as $i => $item ) {
 			$i++;
-			$item->setIndex($i);
+			$item->setIndex( $i );
 			$item->setIsLast( $i==$count );
 
 		}

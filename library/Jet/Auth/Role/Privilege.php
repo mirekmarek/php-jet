@@ -14,7 +14,8 @@ namespace Jet;
  * @JetDataModel:database_table_name = 'Jet_Auth_Roles_Privileges'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface {
+class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Privilege_Interface
+{
 
 	/**
 	 * @JetDataModel:related_to = 'main.id'
@@ -47,7 +48,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 * @JetDataModel:form_field_creator_method_name = 'getFormField'
-     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value']
 	 *
 	 * @var array
 	 */
@@ -59,14 +60,15 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	protected $_role;
 
 	/**
-	 * @param $privilege
+	 * @param         $privilege
 	 * @param mixed[] $values
 	 */
-	public function __construct( $privilege='', array $values= []) {
+	public function __construct( $privilege = '', array $values = [] )
+	{
 
-		if($privilege) {
-			$this->setPrivilege($privilege);
-			$this->setValues($values);
+		if( $privilege ) {
+			$this->setPrivilege( $privilege );
+			$this->setValues( $values );
 		}
 
 		parent::__construct();
@@ -75,7 +77,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	/**
 	 * @param Auth_Role_Interface $role
 	 */
-	public function setRole(Auth_Role_Interface$role)
+	public function setRole( Auth_Role_Interface $role )
 	{
 		$this->_role = $role;
 	}
@@ -83,14 +85,16 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	/**
 	 * @return string
 	 */
-	public function getPrivilege() {
+	public function getPrivilege()
+	{
 		return $this->privilege;
 	}
 
 	/**
 	 * @param string $privilege
 	 */
-	public function setPrivilege($privilege) {
+	public function setPrivilege( $privilege )
+	{
 		$this->privilege = $privilege;
 	}
 
@@ -99,10 +103,11 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @return bool
 	 */
-	public function getHasValue( $value ) {
-		if(is_array($value)) {
+	public function getHasValue( $value )
+	{
+		if( is_array( $value ) ) {
 			foreach( $value as $v ) {
-				if(in_array($v, $this->values)) {
+				if( in_array( $v, $this->values ) ) {
 					return true;
 				}
 			}
@@ -110,20 +115,22 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 			return false;
 		}
 
-		return in_array($value, $this->values);
+		return in_array( $value, $this->values );
 	}
 
 	/**
 	 * @return mixed[]
 	 */
-	public function getValues() {
+	public function getValues()
+	{
 		return $this->values;
 	}
 
 	/**
 	 * @param array $values
 	 */
-	public function setValues(array $values) {
+	public function setValues( array $values )
+	{
 		$this->values = $values;
 	}
 
@@ -132,17 +139,9 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @return string
 	 */
-	public function getArrayKeyValue() {
+	public function getArrayKeyValue()
+	{
 		return $this->privilege;
-	}
-
-	/**
-	 * DataModel method
-	 *
-	 * @return mixed[]
-	 */
-	protected function _jsonSerializeItem() {
-		return $this->values;
 	}
 
 	/**
@@ -150,24 +149,22 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @return Form_Field_Abstract|bool
 	 */
-	public function getFormField( DataModel_Definition_Property_Abstract $values_property_definition ) {
+	public function getFormField( DataModel_Definition_Property_Abstract $values_property_definition )
+	{
 
 
 		/** @noinspection PhpStaticAsDynamicMethodCallInspection */
 		$available_privileges_list = $this->_role->getAvailablePrivilegesList();
 
-		if(!isset( $available_privileges_list[ $this->privilege ]) ) {
+		if( !isset( $available_privileges_list[$this->privilege] ) ) {
 			return false;
 		}
 
-		$privilege_data = $available_privileges_list[ $this->privilege ];
+		$privilege_data = $available_privileges_list[$this->privilege];
 
 		$form_field = Form_Factory::getFieldInstance(
-			$values_property_definition->getFormFieldType(),
-			$values_property_definition->getName(),
-			$privilege_data->getLabel(),
-			$this->values,
-			$values_property_definition->getFormFieldIsRequired()
+			$values_property_definition->getFormFieldType(), $values_property_definition->getName(),
+			$privilege_data->getLabel(), $this->values, $values_property_definition->getFormFieldIsRequired()
 		);
 
 		$form_field->setErrorMessages( $values_property_definition->getFormFieldErrorMessages() );
@@ -176,6 +173,16 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 
 		return $form_field;
 
+	}
+
+	/**
+	 * DataModel method
+	 *
+	 * @return mixed[]
+	 */
+	protected function _jsonSerializeItem()
+	{
+		return $this->values;
 	}
 
 }

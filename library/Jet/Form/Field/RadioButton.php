@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_RadioButton
  * @package Jet
  */
-class Form_Field_RadioButton extends Form_Field_Abstract {
+class Form_Field_RadioButton extends Form_Field_Abstract
+{
 	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
 
 	/**
@@ -23,8 +24,7 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				self::ERROR_CODE_EMPTY => '',
-				self::ERROR_CODE_INVALID_VALUE => ''
+		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_VALUE => '',
 	];
 
 
@@ -33,13 +33,14 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data ) {
+	public function catchValue( Data_Array $data )
+	{
 		$this->_value = null;
 		$this->_has_value = true;
 
-		if($data->exists($this->_name)) {
-			$this->_value_raw = $data->getRaw($this->_name);
-			$this->_value = trim( $data->getString($this->_name) );
+		if( $data->exists( $this->_name ) ) {
+			$this->_value_raw = $data->getRaw( $this->_name );
+			$this->_value = trim( $data->getString( $this->_name ) );
 		} else {
 			$this->_value_raw = null;
 			$this->_value = null;
@@ -49,20 +50,22 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 	/**
 	 * @return bool
 	 */
-	public function validateValue() {
-		if($this->_value===null && !$this->is_required) {
+	public function validateValue()
+	{
+		if( $this->_value===null&&!$this->is_required ) {
 			return true;
 		}
 
 		$options = $this->select_options;
-		
-		if(!isset($options[$this->_value])) {
-			$this->setValueError(self::ERROR_CODE_INVALID_VALUE);
+
+		if( !isset( $options[$this->_value] ) ) {
+			$this->setValueError( self::ERROR_CODE_INVALID_VALUE );
+
 			return false;
 		}
-		
+
 		$this->_setValueIsValid();
-		
+
 		return true;
 	}
 
@@ -75,7 +78,7 @@ class Form_Field_RadioButton extends Form_Field_Abstract {
 
 		$codes[] = self::ERROR_CODE_INVALID_VALUE;
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 

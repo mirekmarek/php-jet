@@ -25,15 +25,16 @@ use JetExampleApp\Auth_Administrator_User as Administrator;
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract {
-
+class Main extends Application_Modules_Module_Abstract
+{
 
 
 	/**
 	 *
 	 * @return Form
 	 */
-	public function getLoginForm() {
+	public function getLoginForm()
+	{
 
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			return $this->admin_getLoginForm();
@@ -44,9 +45,81 @@ class Main extends Application_Modules_Module_Abstract {
 	}
 
 	/**
+	 *
 	 * @return Form
 	 */
-	public function getChangePasswordForm() {
+	public function admin_getLoginForm()
+	{
+		$username_field = new Form_Field_Input( 'username', 'Username: ' );
+		$username_field->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+			]
+		);
+		$password_field = new Form_Field_Password( 'password', 'Password:' );
+		$password_field->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password',
+			]
+		);
+
+		$form = new Form(
+			'login', [
+				       $username_field, $password_field,
+			       ]
+		);
+
+		$form->getField( 'username' )->setIsRequired( true );
+		/**
+		 * @var Form_Field_Password $password
+		 */
+		$password = $form->getField( 'password' );
+		$password->setIsRequired( true );
+
+		return $form;
+	}
+
+	/**
+	 * Get login form instance
+	 *
+	 * @return Form
+	 */
+	public function site_getLoginForm()
+	{
+		$username_field = new Form_Field_Input( 'username', 'Username: ' );
+		$username_field->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
+			]
+		);
+		$password_field = new Form_Field_Password( 'password', 'Password:' );
+		$password_field->setErrorMessages(
+			[
+				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password',
+			]
+		);
+
+		$form = new Form(
+			'login', [
+				       $username_field, $password_field,
+			       ]
+		);
+
+		$form->getField( 'username' )->setIsRequired( true );
+		/**
+		 * @var Form_Field_Password $password
+		 */
+		$password = $form->getField( 'password' );
+		$password->setIsRequired( true );
+
+		return $form;
+	}
+
+	/**
+	 * @return Form
+	 */
+	public function getChangePasswordForm()
+	{
 
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			return $this->admin_getChangePasswordForm();
@@ -56,11 +129,93 @@ class Main extends Application_Modules_Module_Abstract {
 
 	}
 
+	/**
+	 * @return Form
+	 */
+	public function admin_getChangePasswordForm()
+	{
+		$user = new Administrator();
+
+		$current_password = new Form_Field_Password( 'current_password', 'Current password' );
+		$current_password->setIsRequired( true );
+		$current_password->setErrorMessages(
+			[
+				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
+			]
+		);
+
+		$new_password = new Form_Field_RegistrationPassword( 'password', 'New password' );
+		$new_password->setPasswordConfirmationLabel( 'Confirm new password' );
+
+		$new_password->setPasswordStrengthCheckCallback( [ $user, 'verifyPasswordStrength' ] );
+
+		$new_password->setIsRequired( true );
+		$new_password->setErrorMessages(
+			[
+				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
+				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+			]
+		);
+
+
+		$form = new Form(
+			'change_password', [
+				                 $current_password, $new_password,
+			                 ]
+		);
+
+
+		return $form;
+	}
 
 	/**
 	 * @return Form
 	 */
-	public function getMustChangePasswordForm() {
+	public function site_getChangePasswordForm()
+	{
+		$user = new Visitor();
+
+		$current_password = new Form_Field_Password( 'current_password', 'Current password' );
+		$current_password->setIsRequired( true );
+		$current_password->setErrorMessages(
+			[
+				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
+			]
+		);
+
+		$new_password = new Form_Field_RegistrationPassword( 'password', 'New password' );
+		$new_password->setPasswordConfirmationLabel( 'Confirm new password' );
+
+		$new_password->setPasswordStrengthCheckCallback( [ $user, 'verifyPasswordStrength' ] );
+
+		$new_password->setIsRequired( true );
+		$new_password->setErrorMessages(
+			[
+				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
+				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+			]
+		);
+
+
+		$form = new Form(
+			'change_password', [
+				                 $current_password, $new_password,
+			                 ]
+		);
+
+
+		return $form;
+	}
+
+	/**
+	 * @return Form
+	 */
+	public function getMustChangePasswordForm()
+	{
 
 		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
 			return $this->admin_getMustChangePasswordForm();
@@ -69,37 +224,31 @@ class Main extends Application_Modules_Module_Abstract {
 		}
 	}
 
-
-
-
-
-
-
 	/**
-	 *
 	 * @return Form
 	 */
-	public function admin_getLoginForm() {
-		$username_field =  new Form_Field_Input('username', 'Username: ');
-		$username_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
-		]);
-		$password_field = new Form_Field_Password('password', 'Password:');
-		$password_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password'
-		]);
+	public function admin_getMustChangePasswordForm()
+	{
 
-		$form = new Form('login', [
-			$username_field,
-			$password_field
-		]);
+		$password = new Form_Field_RegistrationPassword( 'password', 'New password: ' );
+		$form = new Form(
+			'change_password', [
+				                 $password,
+			                 ]
+		);
 
-		$form->getField('username')->setIsRequired( true );
-		/**
-		 * @var Form_Field_Password $password
-		 */
-		$password = $form->getField('password');
+		$password->setPasswordStrengthCheckCallback( [ Auth::getCurrentUser(), 'verifyPasswordStrength' ] );
+
+		$password->setErrorMessages(
+			[
+				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
+				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+			]
+		);
 		$password->setIsRequired( true );
+		$password->setPasswordConfirmationLabel( 'Confirm new password' );
 
 		return $form;
 	}
@@ -107,166 +256,31 @@ class Main extends Application_Modules_Module_Abstract {
 	/**
 	 * @return Form
 	 */
-	public function admin_getChangePasswordForm() {
-		$user = new Administrator();
+	public function site_getMustChangePasswordForm()
+	{
 
-		$current_password = new Form_Field_Password('current_password', 'Current password');
-		$current_password->setIsRequired( true );
-		$current_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
-		]);
+		$password = new Form_Field_RegistrationPassword( 'password', 'New password: ' );
+		$form = new Form(
+			'change_password', [
+				                 $password,
+			                 ]
+		);
 
-		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
-		$new_password->setPasswordConfirmationLabel('Confirm new password');
+		$password->setPasswordStrengthCheckCallback( [ Auth::getCurrentUser(), 'verifyPasswordStrength' ] );
 
-		$new_password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
-
-		$new_password->setIsRequired( true );
-		$new_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-
-
-
-		$form = new Form('change_password', [
-			$current_password,
-			$new_password
-		]);
-
-
-
-
-
-		return $form;
-	}
-
-
-	/**
-	 * @return Form
-	 */
-	public function admin_getMustChangePasswordForm() {
-
-		$password = new Form_Field_RegistrationPassword('password', 'New password: ');
-		$form = new Form('change_password', [
-			$password
-		]);
-
-		$password->setPasswordStrengthCheckCallback([Auth::getCurrentUser(), 'verifyPasswordStrength']);
-
-		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
+		$password->setErrorMessages(
+			[
+				Form_Field_RegistrationPassword::ERROR_CODE_EMPTY           => 'Please enter new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY     => 'Please confirm new password',
+				Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
+				Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD   => 'Password is not strong enough',
+			]
+		);
 		$password->setIsRequired( true );
-		$password->setPasswordConfirmationLabel('Confirm new password');
+		$password->setPasswordConfirmationLabel( 'Confirm new password' );
 
 		return $form;
 	}
-
-
-
-
-
-	/**
-	 * Get login form instance
-	 *
-	 * @return Form
-	 */
-	public function site_getLoginForm() {
-		$username_field =  new Form_Field_Input('username', 'Username: ');
-		$username_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username'
-		]);
-		$password_field = new Form_Field_Password('password', 'Password:');
-		$password_field->setErrorMessages([
-			Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter password'
-		]);
-
-		$form = new Form('login', [
-			$username_field,
-			$password_field
-		]);
-
-		$form->getField('username')->setIsRequired( true );
-		/**
-		 * @var Form_Field_Password $password
-		 */
-		$password = $form->getField('password');
-		$password->setIsRequired( true );
-
-		return $form;
-	}
-
-	/**
-	 * @return Form
-	 */
-	public function site_getChangePasswordForm() {
-		$user = new Visitor();
-
-		$current_password = new Form_Field_Password('current_password', 'Current password');
-		$current_password->setIsRequired( true );
-		$current_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
-		]);
-
-		$new_password = new Form_Field_RegistrationPassword('password', 'New password');
-		$new_password->setPasswordConfirmationLabel('Confirm new password');
-
-		$new_password->setPasswordStrengthCheckCallback([$user, 'verifyPasswordStrength']);
-
-		$new_password->setIsRequired( true );
-		$new_password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-
-
-
-		$form = new Form('change_password', [
-			$current_password,
-			$new_password
-		]);
-
-
-
-
-
-		return $form;
-	}
-
-
-	/**
-	 * @return Form
-	 */
-	public function site_getMustChangePasswordForm() {
-
-		$password = new Form_Field_RegistrationPassword('password', 'New password: ');
-		$form = new Form('change_password', [
-			$password
-		]);
-
-		$password->setPasswordStrengthCheckCallback([Auth::getCurrentUser(), 'verifyPasswordStrength']);
-
-		$password->setErrorMessages([
-			Form_Field_RegistrationPassword::ERROR_CODE_EMPTY => 'Please enter new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_EMPTY => 'Please confirm new password',
-			Form_Field_RegistrationPassword::ERROR_CODE_CHECK_NOT_MATCH => 'Password confirmation do not match',
-			Form_Field_RegistrationPassword::ERROR_CODE_WEAK_PASSWORD => 'Password is not strong enough',
-		]);
-		$password->setIsRequired( true );
-		$password->setPasswordConfirmationLabel('Confirm new password');
-
-		return $form;
-	}
-
-
 
 
 }

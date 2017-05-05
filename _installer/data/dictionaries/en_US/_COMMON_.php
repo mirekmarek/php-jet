@@ -1,6 +1,4 @@
 <?php
 return [
-	'PHP Jet Example Application' => '',
-	'Hello WORLD!' => '',
-	'Secret area!' => '',
+	'PHP Jet Example Application' => '', 'Hello WORLD!' => '', 'Secret area!' => '',
 ];

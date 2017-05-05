@@ -11,7 +11,8 @@ namespace Jet;
  * Class Data_Paginator
  * @package Jet
  */
-class Data_Paginator extends BaseObject {
+class Data_Paginator extends BaseObject
+{
 	const URL_PAGE_NO_KEY = '%PAGE_NO%';
 
 	const DEFAULT_ITEMS_PER_PAGE = 50;
@@ -19,7 +20,7 @@ class Data_Paginator extends BaseObject {
 	/**
 	 * @var int
 	 */
-	protected  static $max_items_per_page = 500;
+	protected static $max_items_per_page = 500;
 
 
 	/**
@@ -114,13 +115,14 @@ class Data_Paginator extends BaseObject {
 
 	/**
 	 *
-	 * @param $current_page_no (no 1 is first)
-	 * @param int $items_per_page
+	 * @param        $current_page_no (no 1 is first)
+	 * @param int    $items_per_page
 	 * @param string $URL_template
 	 *
 	 * @throws Data_Paginator_Exception
 	 */
-	public function __construct( $current_page_no, $items_per_page=self::DEFAULT_ITEMS_PER_PAGE, $URL_template='' ) {
+	public function __construct( $current_page_no, $items_per_page = self::DEFAULT_ITEMS_PER_PAGE, $URL_template = '' )
+	{
 		$this->current_page_no_is_in_range = true;
 
 		$this->current_page_no = (int)$current_page_no;
@@ -139,7 +141,7 @@ class Data_Paginator extends BaseObject {
 			$this->items_per_page = self::$max_items_per_page;
 		}
 
-		if( $URL_template && strpos($URL_template, self::URL_PAGE_NO_KEY)===false ) {
+		if( $URL_template&&strpos( $URL_template, self::URL_PAGE_NO_KEY )===false ) {
 			throw new Data_Paginator_Exception(
 				'Incorrect URL template string. Template string must contains \''.self::URL_PAGE_NO_KEY.'\' string. Example: \'?page='.self::URL_PAGE_NO_KEY.'\' ',
 				Data_Paginator_Exception::CODE_INCORRECT_URL_TEMPLATE_STRING
@@ -150,22 +152,12 @@ class Data_Paginator extends BaseObject {
 	}
 
 	/**
-	 * Sets paginated data
-	 *
-	 * @param array $data
-	 */
-	public function setData( array $data ) {
-		$this->data = $data;
-		$this->data_items_count = count($data);
-		$this->_calculate();
-	}
-
-	/**
 	 * Sets paginated data source
 	 *
 	 * @param Data_Paginator_DataSource_Interface $data
 	 */
-	public function setDataSource( Data_Paginator_DataSource_Interface $data ) {
+	public function setDataSource( Data_Paginator_DataSource_Interface $data )
+	{
 		$this->data = $data;
 
 		$this->data_items_count = $data->getCount();
@@ -175,49 +167,18 @@ class Data_Paginator extends BaseObject {
 	}
 
 	/**
-	 * Returns current page data
-	 *
-	 * @throws Data_Paginator_Exception
-	 * @return array|DataModel_Fetch_Data_Abstract
-	 */
-	public function getData() {
-		if($this->data===null) {
-			throw new Data_Paginator_Exception(
-				'Data source is not set! Please call ->setData() or ->setDataSource() first ',
-				Data_Paginator_Exception::CODE_DATA_SOURCE_IS_NOT_SET
-			);
-		}
-
-		if(
-			$this->data instanceof Data_Paginator_DataSource_Interface
-		) {
-			return $this->data;
-		}
-
-		$data_map = array_keys($this->data);
-
-		$result = [];
-
-		for( $i=$this->data_index_start; $i<=$this->data_index_end; $i++ ) {
-			$result[$data_map[$i]] = $this->data[$data_map[$i]];
-		}
-
-		return $result;
-	}
-
-
-	/**
 	 * Calculates pagination properties
 	 */
-	protected function _calculate() {
-		if(!$this->data_items_count) {
+	protected function _calculate()
+	{
+		if( !$this->data_items_count ) {
 			return;
 		}
 
-		$this->pages_count = ceil($this->data_items_count / $this->items_per_page);
+		$this->pages_count = ceil( $this->data_items_count/$this->items_per_page );
 
 
-		if( $this->current_page_no > $this->pages_count ) {
+		if( $this->current_page_no>$this->pages_count ) {
 			$this->current_page_no_is_in_range = false;
 			$this->current_page_no = $this->pages_count;
 		}
@@ -230,10 +191,10 @@ class Data_Paginator extends BaseObject {
 		if( $this->prev_page_no<1 ) {
 			$this->prev_page_no = null;
 		}
-		$this->data_index_start = ($this->current_page_no-1)*$this->items_per_page;
-		$this->data_index_end = ($this->data_index_start + $this->items_per_page)-1;
+		$this->data_index_start = ( $this->current_page_no-1 )*$this->items_per_page;
+		$this->data_index_end = ( $this->data_index_start+$this->items_per_page )-1;
 
-		if($this->data_index_end>=$this->data_items_count) {
+		if( $this->data_index_end>=$this->data_items_count ) {
 			$this->data_index_end = $this->data_items_count-1;
 		}
 
@@ -241,30 +202,73 @@ class Data_Paginator extends BaseObject {
 		$this->next_page_URL = null;
 		$this->pages_URL = [];
 
-		if($this->URL_template) {
-			if($this->prev_page_no) {
-				$this->prev_page_URL = str_replace(static::URL_PAGE_NO_KEY, $this->prev_page_no, $this->URL_template);
-				$this->first_page_URL = str_replace(static::URL_PAGE_NO_KEY, 1, $this->URL_template);
+		if( $this->URL_template ) {
+			if( $this->prev_page_no ) {
+				$this->prev_page_URL = str_replace( static::URL_PAGE_NO_KEY, $this->prev_page_no, $this->URL_template );
+				$this->first_page_URL = str_replace( static::URL_PAGE_NO_KEY, 1, $this->URL_template );
 			}
 
-			if($this->next_page_no) {
-				$this->next_page_URL = str_replace(static::URL_PAGE_NO_KEY, $this->next_page_no, $this->URL_template);
-				$this->last_page_URL = str_replace(static::URL_PAGE_NO_KEY, $this->pages_count, $this->URL_template);
+			if( $this->next_page_no ) {
+				$this->next_page_URL = str_replace( static::URL_PAGE_NO_KEY, $this->next_page_no, $this->URL_template );
+				$this->last_page_URL = str_replace( static::URL_PAGE_NO_KEY, $this->pages_count, $this->URL_template );
 			}
 
-			if($this->pages_count) {
-				for($i=1; $i<=$this->pages_count;$i++) {
-					$this->pages_URL[$i] = str_replace(static::URL_PAGE_NO_KEY, $i, $this->URL_template);
+			if( $this->pages_count ) {
+				for( $i = 1; $i<=$this->pages_count; $i++ ) {
+					$this->pages_URL[$i] = str_replace( static::URL_PAGE_NO_KEY, $i, $this->URL_template );
 				}
 			}
 		}
 	}
 
 	/**
+	 * Returns current page data
+	 *
+	 * @throws Data_Paginator_Exception
+	 * @return array|DataModel_Fetch_Data_Abstract
+	 */
+	public function getData()
+	{
+		if( $this->data===null ) {
+			throw new Data_Paginator_Exception(
+				'Data source is not set! Please call ->setData() or ->setDataSource() first ',
+				Data_Paginator_Exception::CODE_DATA_SOURCE_IS_NOT_SET
+			);
+		}
+
+		if( $this->data instanceof Data_Paginator_DataSource_Interface ) {
+			return $this->data;
+		}
+
+		$data_map = array_keys( $this->data );
+
+		$result = [];
+
+		for( $i = $this->data_index_start; $i<=$this->data_index_end; $i++ ) {
+			$result[$data_map[$i]] = $this->data[$data_map[$i]];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Sets paginated data
+	 *
+	 * @param array $data
+	 */
+	public function setData( array $data )
+	{
+		$this->data = $data;
+		$this->data_items_count = count( $data );
+		$this->_calculate();
+	}
+
+	/**
 	 *
 	 * @return int
 	 */
-	public function getDataItemsCount() {
+	public function getDataItemsCount()
+	{
 		return $this->data_items_count;
 	}
 
@@ -272,14 +276,16 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return int
 	 */
-	public function getPagesCount() {
+	public function getPagesCount()
+	{
 		return $this->pages_count;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getCurrentPageNo() {
+	public function getCurrentPageNo()
+	{
 		return $this->current_page_no;
 	}
 
@@ -288,7 +294,8 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return int|null
 	 */
-	public function getPrevPageNo() {
+	public function getPrevPageNo()
+	{
 		return $this->prev_page_no;
 	}
 
@@ -297,15 +304,17 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return int|null
 	 */
-	public function getNextPageNo() {
+	public function getNextPageNo()
+	{
 		return $this->next_page_no;
 	}
 
-	/**	 *
+	/**     *
 	 *
 	 * @return int
 	 */
-	public function getDataIndexStart() {
+	public function getDataIndexStart()
+	{
 		return $this->data_index_start;
 	}
 
@@ -313,15 +322,17 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return int
 	 */
-	public function getDataIndexEnd() {
+	public function getDataIndexEnd()
+	{
 		return $this->data_index_end;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getShowFrom() {
-		if($this->data_items_count) {
+	public function getShowFrom()
+	{
+		if( $this->data_items_count ) {
 			return $this->data_index_start+1;
 		} else {
 			return 0;
@@ -331,12 +342,14 @@ class Data_Paginator extends BaseObject {
 	/**
 	 * @return int
 	 */
-	public function getShowTo() {
-		if($this->data_items_count) {
+	public function getShowTo()
+	{
+		if( $this->data_items_count ) {
 			$show = $this->data_index_end+1;
-			if($show>$this->data_items_count) {
+			if( $show>$this->data_items_count ) {
 				$show = $this->data_items_count;
 			}
+
 			return $show;
 		} else {
 			return 0;
@@ -347,7 +360,8 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function getCurrentPageNoIsInRange() {
+	public function getCurrentPageNoIsInRange()
+	{
 		return $this->current_page_no_is_in_range;
 	}
 
@@ -356,7 +370,8 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return null|string
 	 */
-	public function getPrevPageURL() {
+	public function getPrevPageURL()
+	{
 		return $this->prev_page_URL;
 	}
 
@@ -365,30 +380,33 @@ class Data_Paginator extends BaseObject {
 	 *
 	 * @return null|string
 	 */
-	public function getNextPageURL() {
+	public function getNextPageURL()
+	{
 		return $this->next_page_URL;
 	}
 
 	/**
 	 * @return null|string
 	 */
-	public function getLastPageURL() {
+	public function getLastPageURL()
+	{
 		return $this->last_page_URL;
 	}
 
 	/**
 	 * @return null|string
 	 */
-	public function getFirstPageURL() {
+	public function getFirstPageURL()
+	{
 		return $this->first_page_URL;
 	}
-
 
 
 	/**
 	 * @return array
 	 */
-	public function getPagesURL() {
+	public function getPagesURL()
+	{
 		return $this->pages_URL;
 	}
 

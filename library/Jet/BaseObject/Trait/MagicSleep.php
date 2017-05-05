@@ -12,20 +12,23 @@ namespace Jet;
  * Class BaseObject_Trait_MagicSleep
  * @package Jet
  */
-trait BaseObject_Trait_MagicSleep {
+trait BaseObject_Trait_MagicSleep
+{
 	/**
 	 * Default serialize rules (don't serialize __* properties)
 	 *
 	 * @return array
 	 */
-	public function __sleep(){
-		$vars = get_object_vars($this);
-		foreach($vars as $k => $v){
-			if(substr($k, 0, 2) === '__'){
-				unset($vars[$k]);
+	public function __sleep()
+	{
+		$vars = get_object_vars( $this );
+		foreach( $vars as $k => $v ) {
+			if( substr( $k, 0, 2 )==='__' ) {
+				unset( $vars[$k] );
 			}
 		}
-		return array_keys($vars);
+
+		return array_keys( $vars );
 	}
 
 }

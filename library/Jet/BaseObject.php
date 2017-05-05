@@ -10,7 +10,8 @@ namespace Jet;
 /**
  *
  */
-class BaseObject implements BaseObject_Interface {
+class BaseObject implements BaseObject_Interface
+{
 
 	use BaseObject_Trait;
 	use BaseObject_Trait_MagicSleep;

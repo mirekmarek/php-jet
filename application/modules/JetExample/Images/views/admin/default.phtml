@@ -12,155 +12,157 @@ use Jet\Mvc;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View $this
- * @var Data_Tree $galleries
- * @var Gallery $gallery
- * @var Form $upload_form
- * @var Form $edit_form
+ * @var Mvc_View                     $this
+ * @var Data_Tree                    $galleries
+ * @var Gallery                      $gallery
+ * @var Form                         $upload_form
+ * @var Form                         $edit_form
  * @var Controller_Admin_Main_Router $router
  */
-$galleries = $this->getRaw('galleries');
-$gallery = $this->getRaw('gallery');
-$upload_form = $this->getRaw('upload_form');
-$edit_form = $this->getRaw('edit_form');
+$galleries = $this->getRaw( 'galleries' );
+$gallery = $this->getRaw( 'gallery' );
+$upload_form = $this->getRaw( 'upload_form' );
+$edit_form = $this->getRaw( 'edit_form' );
 $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
 
 $tree = new tree();
 
 $tree->setData( $galleries );
-$tree->setSelectedId( $this->getRaw('selected_id') );
+$tree->setSelectedId( $this->getRaw( 'selected_id' ) );
 
-$parent_id = $gallery ? $gallery->getIdObject(): Gallery::ROOT_ID;
-
-/** @noinspection PhpUnusedParameterInspection */
-$tree->setNormalDisplayCallback( function( Data_Tree_Node $node ) use ($router)  {
-	?>
-	<a href="<?=$router->getEditOrViewURI( $node->getId() );?>"><?=$node->getLabel();?></a>
-	<?php
-} );
+$parent_id = $gallery ? $gallery->getIdObject() : Gallery::ROOT_ID;
 
 /** @noinspection PhpUnusedParameterInspection */
-$tree->setSelectedDisplayCallback( function( Data_Tree_Node $node ) {
-	?>
-	<strong><?=$node->getLabel();?></strong>
-	<?php
-});
-
-$tree->setOpenedDisplayCallback( function( Data_Tree_Node $node ) use ($router) {
-	if($node->getIsRoot()):
+$tree->setNormalDisplayCallback(
+	function( Data_Tree_Node $node ) use ( $router ) {
 		?>
-		<a href="<?=Mvc::getCurrentPage()->getURI();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+		<a href="<?=$router->getEditOrViewURI( $node->getId() );?>"><?=$node->getLabel();?></a>
 		<?php
-		return;
-	endif;
-	?>
-	<a href="<?=$router->getEditOrViewURI( $node->getId() );?>" style="font-style: italic;"><?=$node->getLabel();?></a>
-<?php
-});
+	}
+);
+
+/** @noinspection PhpUnusedParameterInspection */
+$tree->setSelectedDisplayCallback(
+	function( Data_Tree_Node $node ) {
+		?>
+		<strong><?=$node->getLabel();?></strong>
+		<?php
+	}
+);
+
+$tree->setOpenedDisplayCallback(
+	function( Data_Tree_Node $node ) use ( $router ) {
+		if( $node->getIsRoot() ):
+			?>
+			<a href="<?=Mvc::getCurrentPage()->getURI();?>" style="font-style: italic;"><?=$node->getLabel();?></a>
+			<?php
+			return;
+		endif;
+		?>
+		<a href="<?=$router->getEditOrViewURI( $node->getId() );?>"
+		   style="font-style: italic;"><?=$node->getLabel();?></a>
+		<?php
+	}
+);
 
 ?>
 
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
-<div class="row">
-	<div class="col-md-2">
-		<?php if(
-			($add_uri=$router->getAddURI($parent_id)) &&
-			(
-				!$gallery ||
-				!$gallery->getIsNew()
-			)
-		): ?>
-		<div style="padding: 5px;">
-			<?=UI::button_create(Tr::_('Create new gallery'))->setUrl($add_uri)?>
+	<div class="row">
+		<div class="col-md-2">
+			<?php if( ( $add_uri = $router->getAddURI( $parent_id ) )&&( !$gallery||!$gallery->getIsNew() ) ): ?>
+				<div style="padding: 5px;">
+					<?=UI::button_create( Tr::_( 'Create new gallery' ) )->setUrl( $add_uri )?>
+				</div>
+			<?php endif; ?>
+
+			<?=$tree->render();?>
+
 		</div>
-		<?php endif; ?>
+		<div class="col-md-9">
 
-		<?=$tree->render();?>
+			<?php if( $gallery ):
+				$edit_form->setDefaultLabelWidth( 2 );
+				$edit_form->setDefaultFieldWidth( 5 );
+				?>
 
-	</div>
-	<div class="col-md-9">
-
-		<?php if($gallery):
-			$edit_form->setDefaultLabelWidth(2);
-			$edit_form->setDefaultFieldWidth(5);
-			?>
-
-			<div class="well">
-			<?=$edit_form->start()?>
-					<?=$edit_form->field('title')?>
+				<div class="well">
+					<?=$edit_form->start()?>
+					<?=$edit_form->field( 'title' )?>
 					<div class="form-group row">
 						<div class="col-md-2"></div>
 						<div class="col-md-5">
-						<?php if(!$edit_form->getIsReadonly()):
-							echo UI::button_save();
-						endif; ?>
+							<?php if( !$edit_form->getIsReadonly() ):
+								echo UI::button_save();
+							endif; ?>
 						</div>
 					</div>
-			<?=$edit_form->end()?>
-			</div>
-
-			<?php if($upload_form):
-				$upload_form->setDefaultLabelWidth(2);
-				$upload_form->setDefaultFieldWidth(5);
-
-			?>
-			<div class="well">
-				<?=$upload_form->start()?>
-
-				<?=$upload_form->field('file')?>
-				<?=$upload_form->field('overwrite_if_exists')?>
-
-				<div class="form-group row">
-					<div class="col-md-2"></div>
-					<div class="col-md-5">
-						<?=UI::button_save(Tr::_('Upload'))?>
-					</div>
+					<?=$edit_form->end()?>
 				</div>
 
+				<?php if( $upload_form ):
+				$upload_form->setDefaultLabelWidth( 2 );
+				$upload_form->setDefaultFieldWidth( 5 );
 
-				<?=$upload_form->end()?>
-			</div>
-			<?php endif; ?>
-
-			<?php if(
-				$gallery &&
-				$gallery->getIsSaved()
-			): ?>
+				?>
 				<div class="well">
-				<?php
-				$images=$gallery->getImages();
-				if( count($images) ): ?>
-				<form action="?ID=<?=$gallery->getIdObject();?>&amp;delete_images" method="post">
-					<div class="row">
-						<?php foreach( $images as $image ): ?>
-							<div class="col-md-2">
-								<div class="thumbnail">
-									<a href="<?=$image->getURI();?>">
-										<img src="<?=$image->getThumbnail(150, 150)->getURI();?>" alt="Lights" style="width:100%">
-										<div class="caption">
-											<p>
-												<?php if(!$edit_form->getIsReadonly()): ?>
-												<input type="checkbox" name="images[]" value="<?=$image->getIdObject();?>" id="image_<?=$image->getIdObject();?>">
-												<?php endif; ?>
-												<?=$image->getFileName();?>
-											</p>
-										</div>
-									</a>
-								</div>
-							</div>
-						<?php endforeach; ?>
+					<?=$upload_form->start()?>
+
+					<?=$upload_form->field( 'file' )?>
+					<?=$upload_form->field( 'overwrite_if_exists' )?>
+
+					<div class="form-group row">
+						<div class="col-md-2"></div>
+						<div class="col-md-5">
+							<?=UI::button_save( Tr::_( 'Upload' ) )?>
+						</div>
 					</div>
 
-					<?php if(!$edit_form->getIsReadonly()): ?>
-						<?=UI::button_delete(Tr::_('Delete selected images'))->setType('submit')?>
-					<?php endif; ?>
-				</form>
-				<?php endif; ?>
+
+					<?=$upload_form->end()?>
 				</div>
 			<?php endif; ?>
 
-		<?php endif; ?>
+				<?php if( $gallery&&$gallery->getIsSaved() ): ?>
+				<div class="well">
+					<?php
+					$images = $gallery->getImages();
+					if( count( $images ) ): ?>
+						<form action="?ID=<?=$gallery->getIdObject();?>&amp;delete_images" method="post">
+							<div class="row">
+								<?php foreach( $images as $image ): ?>
+									<div class="col-md-2">
+										<div class="thumbnail">
+											<a href="<?=$image->getURI();?>">
+												<img src="<?=$image->getThumbnail( 150, 150 )->getURI();?>"
+												     alt="Lights"
+												     style="width:100%">
+												<div class="caption">
+													<p>
+														<?php if( !$edit_form->getIsReadonly() ): ?>
+															<input type="checkbox" name="images[]"
+															       value="<?=$image->getIdObject();?>"
+															       id="image_<?=$image->getIdObject();?>">
+														<?php endif; ?>
+														<?=$image->getFileName();?>
+													</p>
+												</div>
+											</a>
+										</div>
+									</div>
+								<?php endforeach; ?>
+							</div>
+
+							<?php if( !$edit_form->getIsReadonly() ): ?>
+								<?=UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' )?>
+							<?php endif; ?>
+						</form>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
+
+			<?php endif; ?>
+		</div>
 	</div>
-</div>
 </div>

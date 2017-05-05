@@ -11,21 +11,33 @@ namespace Jet;
  * Class DataModel_Fetch_Object_Ids
  * @package Jet
  */
-class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract implements \ArrayAccess, \Iterator, \Countable  {
+class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract implements \ArrayAccess, \Iterator, \Countable
+{
 
 	/**
-	 * @param $item
-	 * @return DataModel_Id_Abstract
+	 *
+	 * @return array
 	 */
-	protected function _get( $item ) {
-		return $item;
+	public function toArray()
+	{
+		$this->_fetch();
+
+		$result = [];
+
+		foreach( $this->data as $id ) {
+			$result[] = (string)$id;
+		}
+
+		return $result;
+
 	}
 
 	/**
 	 *
 	 */
-	public function _fetch() {
-		if($this->data!==null) {
+	public function _fetch()
+	{
+		if( $this->data!==null ) {
 			return;
 		}
 
@@ -38,7 +50,7 @@ class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract impleme
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;
 
-			foreach($l_id as $k=>$v) {
+			foreach( $l_id as $k => $v ) {
 				$l_id[$k] = $item[$k];
 			}
 
@@ -47,20 +59,13 @@ class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract impleme
 	}
 
 	/**
+	 * @param mixed $item
 	 *
-	 * @return array
+	 * @return DataModel_Id_Abstract
 	 */
-	public function toArray() {
-		$this->_fetch();
-
-		$result = [];
-
-		foreach($this->data as $id ) {
-			$result[] = (string)$id;
-		}
-
-		return $result;
-
+	protected function _get( $item )
+	{
+		return $item;
 	}
 
 }

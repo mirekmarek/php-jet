@@ -12,7 +12,8 @@ namespace Jet;
  * Interface BaseObject_Interface
  * @package Jet
  */
-interface BaseObject_Interface {
+interface BaseObject_Interface
+{
 
 
 	/**
@@ -26,6 +27,7 @@ interface BaseObject_Interface {
 	 * Getter for protected properties
 	 *
 	 * @param string $key
+	 *
 	 * @throws BaseObject_Exception
 	 *
 	 */
@@ -35,7 +37,8 @@ interface BaseObject_Interface {
 	 * Setter for protected properties
 	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @throws BaseObject_Exception
 	 */
 	public function __set( $key, $value );
@@ -46,14 +49,14 @@ interface BaseObject_Interface {
 	public function __clone();
 
 	/**
-	 * @param $property_name
+	 * @param string $property_name
 	 *
 	 * @return bool
 	 */
-	public function getObjectClassHasProperty($property_name );
+	public function getObjectClassHasProperty( $property_name );
 
 	/**
-	 * @param $property_name
+	 * @param string $property_name
 	 *
 	 * @return string
 	 */
@@ -61,7 +64,7 @@ interface BaseObject_Interface {
 
 
 	/**
-	 * @param $property_name
+	 * @param string $property_name
 	 *
 	 * @return string
 	 */

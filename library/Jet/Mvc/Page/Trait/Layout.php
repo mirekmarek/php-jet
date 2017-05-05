@@ -25,26 +25,33 @@ trait Mvc_Page_Trait_Layout
 	protected $layout_script_name = '';
 
 	/**
+	 * @throws Exception
+	 *
+	 */
+	public function initializeLayout()
+	{
+		if( Mvc_Layout::getCurrentLayout() ) {
+			return;
+		}
+
+		Mvc_Layout::initCurrentLayout(
+			$this->getLayoutsPath(), $this->getLayoutScriptName()
+		);
+	}
+
+	/**
 	 * @return string
 	 */
-	public function getLayoutsPath() {
+	public function getLayoutsPath()
+	{
 		/**
 		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
 		 */
-		if($this->getCustomLayoutsPath()) {
+		if( $this->getCustomLayoutsPath() ) {
 			return $this->getCustomLayoutsPath();
 		}
 
 		return $this->getSite()->getLayoutsPath();
-	}
-
-
-	/**
-	 * @param string $layouts_dir
-	 */
-	public function setCustomLayoutsPath($layouts_dir)
-	{
-		$this->custom_layouts_path = $layouts_dir;
 	}
 
 	/**
@@ -55,34 +62,28 @@ trait Mvc_Page_Trait_Layout
 		return $this->custom_layouts_path;
 	}
 
+	/**
+	 * @param string $layouts_dir
+	 */
+	public function setCustomLayoutsPath( $layouts_dir )
+	{
+		$this->custom_layouts_path = $layouts_dir;
+	}
 
 	/**
 	 * @return string
 	 */
-	public function getLayoutScriptName() {
+	public function getLayoutScriptName()
+	{
 		return $this->layout_script_name;
 	}
 
 	/**
 	 * @param string $layout_script_name
 	 */
-	public function setLayoutScriptName($layout_script_name) {
+	public function setLayoutScriptName( $layout_script_name )
+	{
 		$this->layout_script_name = $layout_script_name;
-	}
-
-	/**
-	 * @throws Exception
-	 *
-	 */
-	public function initializeLayout() {
-		if(Mvc_Layout::getCurrentLayout()) {
-			return;
-		}
-
-		Mvc_Layout::initCurrentLayout(
-			$this->getLayoutsPath(),
-			$this->getLayoutScriptName()
-		);
 	}
 
 }

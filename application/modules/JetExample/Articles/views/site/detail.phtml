@@ -6,9 +6,9 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var Article $article
+ * @var Article  $article
  */
-$article = $this->getRaw('article');
+$article = $this->getRaw( 'article' );
 ?>
 
 <h1><?=$article->getTitle();?></h1 style="color: ">
@@ -19,6 +19,6 @@ $article = $this->getRaw('article');
 <?=$article->getText();?>
 
 <div>
-	<?=Tr::_('Date:');?>
-	<?=Locale::dateAndTime($article->getDateTime());?>
+	<?=Tr::_( 'Date:' );?>
+	<?=Locale::dateAndTime( $article->getDateTime() );?>
 </div>

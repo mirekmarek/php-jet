@@ -14,19 +14,19 @@ namespace JetUI;
 class button_edit extends button
 {
 
-    /**
-     * @var string
-     */
-    protected $class = 'default';
+	/**
+	 * @var string
+	 */
+	protected $class = 'default';
 
-    /**
-     * @var string
-     */
-    protected $icon = 'pencil';
+	/**
+	 * @var string
+	 */
+	protected $icon = 'pencil';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	protected $size = 'xs';
 
 

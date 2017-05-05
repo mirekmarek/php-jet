@@ -11,6 +11,7 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_FileImage
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_FileImage extends Form_Renderer_Bootstrap_Field_File  {
+class Form_Renderer_Bootstrap_Field_FileImage extends Form_Renderer_Bootstrap_Field_File
+{
 
 }

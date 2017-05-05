@@ -11,7 +11,8 @@ namespace Jet;
  * Interface Auth_Controller_Interface
  * @package Jet
  */
-interface Auth_Controller_Interface {
+interface Auth_Controller_Interface
+{
 
 	/**
 	 *
@@ -26,7 +27,7 @@ interface Auth_Controller_Interface {
 	 *
 	 * @return bool
 	 */
-	public function login($username, $password );
+	public function login( $username, $password );
 
 	/**
 	 * Logout current user

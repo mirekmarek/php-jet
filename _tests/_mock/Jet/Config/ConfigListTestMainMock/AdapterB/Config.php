@@ -11,7 +11,8 @@ namespace Jet;
 require_once "_mock/Jet/Config/ConfigListTestMainMock/Config/Abstract.php";
 
 
-class ConfigListTestMainMock_AdapterB_Config extends ConfigListTestMainMock_Config_Abstract {
+class ConfigListTestMainMock_AdapterB_Config extends ConfigListTestMainMock_Config_Abstract
+{
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING

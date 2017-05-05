@@ -11,7 +11,8 @@ namespace Jet;
  * Interface BaseObject_Reflection_ParserInterface
  * @package Jet
  */
-interface BaseObject_Reflection_ParserInterface {
+interface BaseObject_Reflection_ParserInterface
+{
 
 	/**
 	 * @param BaseObject_Reflection_ParserData $data

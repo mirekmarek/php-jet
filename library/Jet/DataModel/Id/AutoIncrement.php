@@ -11,7 +11,8 @@ namespace Jet;
  *
  * @package Jet
  */
-class DataModel_Id_AutoIncrement extends DataModel_Id_Abstract {
+class DataModel_Id_AutoIncrement extends DataModel_Id_Abstract
+{
 	/**
 	 *
 	 * @var string
@@ -24,8 +25,9 @@ class DataModel_Id_AutoIncrement extends DataModel_Id_Abstract {
 	 * @throws DataModel_Exception
 	 *
 	 */
-	public function generate() {
-		if(!array_key_exists($this->id_property_name, $this->_values)) {
+	public function generate()
+	{
+		if( !array_key_exists( $this->id_property_name, $this->_values ) ) {
 			throw new DataModel_Exception(
 				'Class \''.$this->_data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -38,8 +40,9 @@ class DataModel_Id_AutoIncrement extends DataModel_Id_Abstract {
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function afterSave( $backend_save_result  ) {
-		if(!array_key_exists($this->id_property_name, $this->_values)) {
+	public function afterSave( $backend_save_result )
+	{
+		if( !array_key_exists( $this->id_property_name, $this->_values ) ) {
 			throw new DataModel_Exception(
 				'Class \''.$this->_data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

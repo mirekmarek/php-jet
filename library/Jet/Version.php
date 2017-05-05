@@ -11,21 +11,24 @@ namespace Jet;
  * Class Version
  * @package Jet
  */
-class Version extends BaseObject {
+class Version extends BaseObject
+{
 
 	const API_VERSION = 201401;
 
 	/**
 	 * @return string
 	 */
-	public static function getVersionNumber() {
+	public static function getVersionNumber()
+	{
 		return '1.0';
 	}
 
 	/**
 	 * @return int
 	 */
-	public static function getAPIVersionNumber() {
+	public static function getAPIVersionNumber()
+	{
 		return static::API_VERSION;
 	}
 
@@ -34,7 +37,8 @@ class Version extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public static function getAPIIsCompatible( $API_version ) {
+	public static function getAPIIsCompatible( $API_version )
+	{
 		return $API_version==static::API_VERSION;
 	}
 }

@@ -24,9 +24,9 @@ class button_delete extends button
 	 */
 	protected $icon = 'trash';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	protected $size = 'xs';
 
 

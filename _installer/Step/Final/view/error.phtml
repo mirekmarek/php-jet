@@ -4,45 +4,47 @@ use Jet\Tr;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View $this
+ * @var Mvc_View                        $this
  * @var Installer_Step_Final_Controller $controller
  */
-$controller = $this->getRaw('controller');
+$controller = $this->getRaw( 'controller' );
 
 ?>
-<h2><?=Tr::_('Error during installation!');?></h2>
+<h2><?=Tr::_( 'Error during installation!' );?></h2>
 
-<?php if($controller->getErrorDictionariesInstall()): ?>
-	<h3 class="error"><?=Tr::_('Error during dictionaries installation')?></h3>
+<?php if( $controller->getErrorDictionariesInstall() ): ?>
+	<h3 class="error"><?=Tr::_( 'Error during dictionaries installation' )?></h3>
 
-	<p><?=Tr::_('Dictionairies installation failed. This is error message:')?></p>
+	<p><?=Tr::_( 'Dictionairies installation failed. This is error message:' )?></p>
 
 	<pre><?=$controller->getErrorDictionariesInstall()?></pre>
 
 <?php endif; ?>
 
-<?php if($controller->getErrorConfigInstall()): ?>
-	<h3 class="error"><?=Tr::_('Error during configuration installation')?></h3>
+<?php if( $controller->getErrorConfigInstall() ): ?>
+	<h3 class="error"><?=Tr::_( 'Error during configuration installation' )?></h3>
 
-	<p><?=Tr::_('Please copy <b>%SRC%</b> to <b>%TG%</b>', [
-			'SRC'=>$controller->getConfigFileSourcePath(),
-			'TG'=>$controller->getConfigFileTargetPath()
-		]);?></p>
-	<p><?=Tr::_('System can\'t do that, because:'); ?></p>
+	<p><?=Tr::_(
+			'Please copy <b>%SRC%</b> to <b>%TG%</b>', [
+				                                         'SRC' => $controller->getConfigFileSourcePath(),
+				                                         'TG'  => $controller->getConfigFileTargetPath(),
+			                                         ]
+		);?></p>
+	<p><?=Tr::_( 'System can\'t do that, because:' );?></p>
 
 	<pre><?=$controller->getErrorConfigInstall()?></pre>
 
 <?php endif; ?>
 
 
-<?php if($controller->getErrorSymptomCreate()): ?>
+<?php if( $controller->getErrorSymptomCreate() ): ?>
 
 	<pre><?=$controller->getErrorSymptomCreate()?></pre>
 
 <?php endif; ?>
 
 
-<p><?=Tr::_('Please resolve the issue and try to continue.')?></p>
+<p><?=Tr::_( 'Please resolve the issue and try to continue.' )?></p>
 
 <form method="get">
 	<?=Installer::buttonNext();?>

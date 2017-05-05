@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Query_Where
  * @package Jet
  */
-class DataModel_Query_Where extends BaseObject implements \Iterator {
+class DataModel_Query_Where extends BaseObject implements \Iterator
+{
 	use DataModel_Query_Where_Trait;
 
 	/**
@@ -23,82 +24,100 @@ class DataModel_Query_Where extends BaseObject implements \Iterator {
 	/**
 	 *
 	 * @param DataModel_Query $query
-	 * @param array $where
+	 * @param array           $where
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, array $where= []) {
+	public function __construct( DataModel_Query $query, array $where = [] )
+	{
 		$this->query = $query;
 
 
-		foreach( $where as $key=>$val ) {
-			if(is_int($key)) {
-				$this->_determineLogicalOperatorOrSubExpressions($val);
+		foreach( $where as $key => $val ) {
+			if( is_int( $key ) ) {
+				$this->_determineLogicalOperatorOrSubExpressions( $val );
 
 				continue;
 			}
 
 
-			$operator = $this->_determineOperator($key);
+			$operator = $this->_determineOperator( $key );
 
 			$property = $query->getPropertyAndSetRelation( $key );
 
-			$this->addExpression( $property, $operator, $val);
+			$this->addExpression( $property, $operator, $val );
 		}
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsEmpty() {
-		return (count($this->expressions)==0);
 	}
 
 	/**
 	 *
 	 * @param DataModel_Definition_Property_Abstract $property_definition
-	 * @param string $operator (DataModel_Query::O_OR,  DataModel_Query::O_AND, ... )
-	 * @param mixed $value
+	 * @param string                                 $operator (DataModel_Query::O_OR,  DataModel_Query::O_AND, ... )
+	 * @param mixed                                  $value
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addExpression( DataModel_Definition_Property_Abstract $property_definition, $operator, $value  ) {
-		if($this->expressions) {
-			$previous = $this->expressions[count($this->expressions)-1];
+	public function addExpression( DataModel_Definition_Property_Abstract $property_definition, $operator, $value )
+	{
+		if( $this->expressions ) {
+			$previous = $this->expressions[count( $this->expressions )-1];
 
-			if(
-				$previous!==DataModel_Query::L_O_AND &&
-				$previous!==DataModel_Query::L_O_OR
-			) {
+			if( $previous!==DataModel_Query::L_O_AND&&$previous!==DataModel_Query::L_O_OR ) {
 
 				throw new DataModel_Query_Exception(
-					'Previous part of the query must be AND or OR. '.$previous.' given. Current where dump:'.$this->toString(),
-					DataModel_Query_Exception::CODE_QUERY_NONSENSE
+					'Previous part of the query must be AND or OR. '.$previous.' given. Current where dump:'.$this->toString(
+					), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
 		}
 
-		$this->expressions[] = new DataModel_Query_Where_Expression($property_definition, $operator, $value);
+		$this->expressions[] = new DataModel_Query_Where_Expression( $property_definition, $operator, $value );
 	}
 
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		$result = [];
+
+		foreach( $this as $expression ) {
+			if( is_object( $expression ) ) {
+				$result[] = $expression->toString();
+			} else {
+				$result[] = (string)$expression;
+			}
+		}
+
+		return '( '.implode( ' ', $result ).' )';
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsEmpty()
+	{
+		return ( count( $this->expressions )==0 );
+	}
 
 	/**
 	 *
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addAND() {
+	public function addAND()
+	{
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
-		if(!$this->expressions) {
+		if( !$this->expressions ) {
 			return;
 		}
 
-		$previous = $this->expressions[count($this->expressions)-1];
+		$previous = $this->expressions[count( $this->expressions )-1];
 
-		if( $previous===DataModel_Query::L_O_AND || $previous===DataModel_Query::L_O_OR ) {
+		if( $previous===DataModel_Query::L_O_AND||$previous===DataModel_Query::L_O_OR ) {
 			throw new DataModel_Query_Exception(
-				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(),
-				DataModel_Query_Exception::CODE_QUERY_NONSENSE
+				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(
+				), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
 
@@ -110,18 +129,19 @@ class DataModel_Query_Where extends BaseObject implements \Iterator {
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addOR() {
+	public function addOR()
+	{
 		//for easier implementation of the query ... (often is associated with multiple conditions in the cycle)
-		if(!$this->expressions) {
+		if( !$this->expressions ) {
 			return;
 		}
 
-		$previous = $this->expressions[count($this->expressions)-1];
+		$previous = $this->expressions[count( $this->expressions )-1];
 
-		if( $previous===DataModel_Query::L_O_AND || $previous===DataModel_Query::L_O_OR ) {
+		if( $previous===DataModel_Query::L_O_AND||$previous===DataModel_Query::L_O_OR ) {
 			throw new DataModel_Query_Exception(
-				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(),
-				DataModel_Query_Exception::CODE_QUERY_NONSENSE
+				'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(
+				), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 			);
 		}
 
@@ -133,14 +153,15 @@ class DataModel_Query_Where extends BaseObject implements \Iterator {
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addSubExpressions( DataModel_Query_Where $sub_expressions ) {
-		if($this->expressions) {
-			$previous = $this->expressions[count($this->expressions)-1];
+	public function addSubExpressions( DataModel_Query_Where $sub_expressions )
+	{
+		if( $this->expressions ) {
+			$previous = $this->expressions[count( $this->expressions )-1];
 
-			if( $previous!==DataModel_Query::L_O_AND && $previous!==DataModel_Query::L_O_OR ) {
+			if( $previous!==DataModel_Query::L_O_AND&&$previous!==DataModel_Query::L_O_OR ) {
 				throw new DataModel_Query_Exception(
-					'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(),
-					DataModel_Query_Exception::CODE_QUERY_NONSENSE
+					'Previous part of the query must be Expression. '.$previous.' given. Current where dump:'.$this->toString(
+					), DataModel_Query_Exception::CODE_QUERY_NONSENSE
 				);
 			}
 		}
@@ -151,8 +172,9 @@ class DataModel_Query_Where extends BaseObject implements \Iterator {
 	/**
 	 * @param DataModel_Query_Where $part
 	 */
-	public function attach( DataModel_Query_Where $part ) {
-		if($this->expressions) {
+	public function attach( DataModel_Query_Where $part )
+	{
+		if( $this->expressions ) {
 			$this->expressions[] = DataModel_Query::L_O_AND;
 		}
 
@@ -161,60 +183,53 @@ class DataModel_Query_Where extends BaseObject implements \Iterator {
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function toString() {
-		$result = [];
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
 
-		foreach($this as $expression) {
-			if(is_object($expression)) {
-				$result[] = $expression->toString();
-			} else {
-				$result[] = (string)$expression;
-			}
-		}
-
-		return '( '.implode(' ', $result).' )';
-	}
-
-	//------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------
 	/**
 	 * @see \Iterator
 	 */
-	public function current() {
-		return current($this->expressions);
+	public function current()
+	{
+		return current( $this->expressions );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key() {
-		return key($this->expressions);
+	public function key()
+	{
+		return key( $this->expressions );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function next() {
-		return next($this->expressions);
+	public function next()
+	{
+		return next( $this->expressions );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() {
-		reset($this->expressions);
+	public function rewind()
+	{
+		reset( $this->expressions );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()	{
-		return key($this->expressions)!==null;
+	public function valid()
+	{
+		return key( $this->expressions )!==null;
 	}
 }

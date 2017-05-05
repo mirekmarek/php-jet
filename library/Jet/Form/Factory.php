@@ -11,42 +11,34 @@ namespace Jet;
  * Class Form_Factory
  * @package Jet
  */
-class Form_Factory {
+class Form_Factory
+{
 
 	/**
 	 *
-	 * @param $type
+	 * @param        $type
 	 * @param string $name
 	 * @param string $label
 	 * @param string $default_value
-	 * @param bool $is_required
+	 * @param bool   $is_required
 	 *
 	 * @throws Form_Exception
 	 *
 	 * @return Form_Field_Abstract
 	 */
-	public static function getFieldInstance(
-								$type,
-								$name,
-								$label='',
-								$default_value='',
-								$is_required=false
-							) {
+	public static function getFieldInstance( $type, $name, $label = '', $default_value = '', $is_required = false )
+	{
 
-		if(!$type) {
+		if( !$type ) {
 			throw new Form_Exception(
-				'Unknown field type \'\'',
-				Form_Exception::CODE_UNKNOWN_FIELD_TYPE
+				'Unknown field type \'\'', Form_Exception::CODE_UNKNOWN_FIELD_TYPE
 			);
 		}
 
 		$class_name = JET_FORM_FIELD_CLASS_NAME_PREFIX.$type;
 
 		return new $class_name(
-			$name,
-			$label,
-			$default_value,
-			$is_required
+			$name, $label, $default_value, $is_required
 		);
 	}
 

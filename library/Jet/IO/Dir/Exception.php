@@ -11,7 +11,8 @@ namespace Jet;
  * Class IO_Dir_Exception
  * @package Jet
  */
-class IO_Dir_Exception extends Exception {
+class IO_Dir_Exception extends Exception
+{
 
 	const CODE_CREATE_FAILED = 1;
 	const CODE_OPEN_FAILED = 2;

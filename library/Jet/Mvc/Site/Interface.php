@@ -11,13 +11,22 @@ namespace Jet;
  * Interface Mvc_Site_Interface
  * @package Jet
  */
-interface Mvc_Site_Interface {
+interface Mvc_Site_Interface
+{
+
+	/**
+	 *
+	 * @param string $id
+	 *
+	 * @return Mvc_Site_Interface|bool
+	 */
+	public static function get( $id );
 
 	/**
 	 * @param string $id
 	 *
 	 */
-	public function setId($id );
+	public function setId( $id );
 
 	/**
 	 * @return string
@@ -36,11 +45,10 @@ interface Mvc_Site_Interface {
 	 */
 	public function getName();
 
-
 	/**
 	 * @param string $name
 	 */
-	public function setName($name);
+	public function setName( $name );
 
 	/**
 	 * Returns root directory path
@@ -49,17 +57,17 @@ interface Mvc_Site_Interface {
 	 */
 	public function getBasePath();
 
-    /**
-     * @param Locale $locale (optional)
-     * @return string
-     */
-    public function getPagesDataPath( Locale $locale=null );
+	/**
+	 * @param Locale $locale (optional)
+	 *
+	 * @return string
+	 */
+	public function getPagesDataPath( Locale $locale = null );
 
 	/**
 	 * @return string
 	 */
 	public function getLayoutsPath();
-
 
 	/**
 	 * Returns default locale
@@ -143,28 +151,28 @@ interface Mvc_Site_Interface {
 	/**
 	 *
 	 * @param Locale $locale
+	 *
 	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
 	 */
 	public function getDefaultMetaTags( Locale $locale );
 
 	/**
-	 * @param Locale $locale
+	 * @param Locale                                   $locale
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag
 	 */
-	public function addDefaultMetaTag( Locale $locale, Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag);
+	public function addDefaultMetaTag( Locale $locale, Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag );
 
 	/**
 	 * @param Locale $locale
-	 * @param int $index
+	 * @param int    $index
 	 */
 	public function removeDefaultMetaTag( Locale $locale, $index );
 
 	/**
-	 * @param Locale $locale
+	 * @param Locale                                     $locale
 	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $meta_tags
 	 */
-	public function  setDefaultMetaTags( Locale $locale, $meta_tags );
-
+	public function setDefaultMetaTags( Locale $locale, $meta_tags );
 
 	/**
 	 * Returns site locales
@@ -175,7 +183,7 @@ interface Mvc_Site_Interface {
 	 *
 	 * @return Locale[]
 	 */
-	public function getLocales( $get_as_string=false );
+	public function getLocales( $get_as_string = false );
 
 	/**
 	 * Add locale
@@ -206,7 +214,7 @@ interface Mvc_Site_Interface {
 	/**
 	 * @param bool $is_default
 	 */
-	public function setIsDefault($is_default);
+	public function setIsDefault( $is_default );
 
 	/**
 	 * @return bool
@@ -216,21 +224,21 @@ interface Mvc_Site_Interface {
 	/**
 	 * @param bool $is_active
 	 */
-	public function setIsActive($is_active);
+	public function setIsActive( $is_active );
 
-    /**
-     * @param Locale $locale
-     *
-     * @return Mvc_Page_Interface
-     */
-    public function getHomepage( Locale $locale );
+	/**
+	 * @param Locale $locale
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public function getHomepage( Locale $locale );
 
-    /**
-     * @return array|Mvc_Site_LocalizedData_URL_Interface[]
-     *
-     * @throws Mvc_Router_Exception
-     */
-    public function getUrlsMap();
+	/**
+	 * @return array|Mvc_Site_LocalizedData_URL_Interface[]
+	 *
+	 * @throws Mvc_Router_Exception
+	 */
+	public function getUrlsMap();
 
 	/**
 	 * Returns default site data
@@ -239,33 +247,32 @@ interface Mvc_Site_Interface {
 	 */
 	public function getDefault();
 
+	/**
+	 *
+	 */
+	public function setupErrorPagesDir();
 
-    /**
-     *
-     */
-    public function setupErrorPagesDir();
+	/**
+	 * Sends 401 HTTP header and shows the access denied page
+	 *
+	 */
+	public function handleAccessDenied();
 
-    /**
-     * Sends 401 HTTP header and shows the access denied page
-     *
-     */
-    public function handleAccessDenied();
+	/**
+	 *
+	 */
+	public function handleDeactivatedSite();
 
-    /**
-     *
-     */
-    public function handleDeactivatedSite();
+	/**
+	 *
+	 */
+	public function handleDeactivatedLocale();
 
-    /**
-     *
-     */
-    public function handleDeactivatedLocale();
-
-    /**
-     * Sends 404 HTTP header and shows the Page Not Found
-     *
-     */
-    public function handle404();
+	/**
+	 * Sends 404 HTTP header and shows the Page Not Found
+	 *
+	 */
+	public function handle404();
 
 	/**
 	 *
@@ -276,12 +283,5 @@ interface Mvc_Site_Interface {
 	 *
 	 */
 	public function saveUrlMapFile();
-
-	/**
-	 *
-	 * @param string $id
-	 * @return Mvc_Site_Interface|bool
-	 */
-	public static function get( $id );
 
 }

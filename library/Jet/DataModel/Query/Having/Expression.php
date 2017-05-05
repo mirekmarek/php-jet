@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Query_Having_Expression
  * @package Jet
  */
-class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression {
+class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
+{
 
 	/**
 	 *
@@ -23,22 +24,24 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	/** @noinspection PhpMissingParentConstructorInspection
 	 *
 	 * @param DataModel_Query_Select_Item $property
-	 * @param string $operator
-	 * @param mixed $value
+	 * @param string                      $operator
+	 * @param mixed                       $value
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function  __construct( DataModel_Query_Select_Item $property, $operator, $value  ) {
+	public function __construct( DataModel_Query_Select_Item $property, $operator, $value )
+	{
 
 		$this->property = $property;
 		$this->value = $value;
-		$this->_setOperator($operator);
+		$this->_setOperator( $operator );
 	}
 
 	/**
 	 * @return DataModel_Query_Select_Item
 	 */
-	public function getProperty() {
+	public function getProperty()
+	{
 		return $this->property;
 	}
 
@@ -46,11 +49,13 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	 *
 	 * @return string
 	 */
-	public function toString() {
-		if($this->property->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall) {
+	public function toString()
+	{
+		if( $this->property->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall ) {
 			return $this->property->getItem()->toString().' '.$this->operator.' \''.$this->value.'\'';
 		} else {
-			return $this->property->getItem()->getDataModelDefinition()->getModelName().'::'.$this->property->getItem()->getName().' '.$this->operator.' \''.$this->value.'\'';
+			return $this->property->getItem()->getDataModelDefinition()->getModelName().'::'.$this->property->getItem()
+				->getName().' '.$this->operator.' \''.$this->value.'\'';
 		}
 	}
 

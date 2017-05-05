@@ -54,25 +54,25 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	 */
 	protected $custom_size;
 
-    /**
-     * @var string
-     */
-    protected $tag_id;
+	/**
+	 * @var string
+	 */
+	protected $tag_id;
 
-    /**
-     * @var string
-     */
-    protected $tag_name_value;
+	/**
+	 * @var string
+	 */
+	protected $tag_name_value;
 
 	/**
 	 *
 	 * @param Form_Field_Abstract $form_field
 	 */
-	public function __construct(Form_Field_Abstract $form_field)
+	public function __construct( Form_Field_Abstract $form_field )
 	{
 		$this->_field = $form_field;
-        $this->tag_name_value = $this->_field->getTagNameValue();
-        $this->tag_id = $this->_field->getId();
+		$this->tag_name_value = $this->_field->getTagNameValue();
+		$this->tag_id = $this->_field->getId();
 	}
 
 	/**
@@ -84,44 +84,44 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	}
 
 
-    /**
-     * @return string
-     */
-    public function getTagId()
-    {
-        return $this->tag_id;
-    }
+	/**
+	 * @return string
+	 */
+	public function getTagId()
+	{
+		return $this->tag_id;
+	}
 
-    /**
-     * @param string $tag_id
-     */
-    public function setTagId($tag_id)
-    {
-        $this->tag_id = $tag_id;
-    }
+	/**
+	 * @param string $tag_id
+	 */
+	public function setTagId( $tag_id )
+	{
+		$this->tag_id = $tag_id;
+	}
 
-    /**
-     * @return string
-     */
-    public function getTagNameValue()
-    {
-        return $this->tag_name_value;
-    }
+	/**
+	 * @return string
+	 */
+	public function getTagNameValue()
+	{
+		return $this->tag_name_value;
+	}
 
-    /**
-     * @param string $tag_name_value
-     */
-    public function setTagNameValue($tag_name_value)
-    {
-        $this->tag_name_value = $tag_name_value;
-    }
+	/**
+	 * @param string $tag_name_value
+	 */
+	public function setTagNameValue( $tag_name_value )
+	{
+		$this->tag_name_value = $tag_name_value;
+	}
 
 	/**
 	 * @param int $width
 	 *
 	 * @return $this
 	 */
-	public function setWidth($width)
+	public function setWidth( $width )
 	{
 		$this->custom_width = $width;
 
@@ -133,7 +133,7 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	 */
 	public function getWidth()
 	{
-		if($this->custom_width) {
+		if( $this->custom_width ) {
 			return $this->custom_width;
 		}
 
@@ -145,7 +145,7 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	 */
 	public function getSize()
 	{
-		if($this->custom_size) {
+		if( $this->custom_size ) {
 			return $this->custom_size;
 		}
 
@@ -157,7 +157,7 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	 *
 	 * @return $this
 	 */
-	public function setSize($custom_size)
+	public function setSize( $custom_size )
 	{
 		$this->custom_size = $custom_size;
 
@@ -165,35 +165,33 @@ abstract class Form_Renderer_Abstract_Field_Abstract extends Form_Renderer_Abstr
 	}
 
 
-
 	/**
 	 * @return string
 	 */
-	public function render() {
+	public function render()
+	{
 		$tag_options = [
-            'type' => $this->_input_type,
-			'id' => $this->tag_id,
-			'name' => $this->tag_name_value,
+			'type'  => $this->_input_type, 'id' => $this->tag_id, 'name' => $this->tag_name_value,
 			'value' => $this->_field->getValue(),
 		];
 
-		if(($placeholder=$this->_field->getPlaceholder())) {
+		if( ( $placeholder = $this->_field->getPlaceholder() ) ) {
 			$tag_options['placeholder'] = $placeholder;
 		}
 
-		if($this->_field->getIsReadonly()) {
+		if( $this->_field->getIsReadonly() ) {
 			$tag_options['readonly'] = 'readonly';
 		}
 
-		if($this->_field->getIsRequired()) {
+		if( $this->_field->getIsRequired() ) {
 			$tag_options['required'] = 'required';
 		}
 
-		if( ($regexp=$this->_field->getValidationRegexp()) ) {
+		if( ( $regexp = $this->_field->getValidationRegexp() ) ) {
 
-			if($regexp[0]=='/') {
-				$regexp = substr($regexp, 1);
-				$regexp = substr($regexp, 0, strrpos($regexp, '/'));
+			if( $regexp[0]=='/' ) {
+				$regexp = substr( $regexp, 1 );
+				$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
 			}
 
 			$tag_options['pattern'] = $regexp;

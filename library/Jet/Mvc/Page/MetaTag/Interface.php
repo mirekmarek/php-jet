@@ -11,11 +11,12 @@ namespace Jet;
  * Interface Mvc_Page_MetaTag_Interface
  * @package Jet
  */
-interface Mvc_Page_MetaTag_Interface {
+interface Mvc_Page_MetaTag_Interface
+{
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage(Mvc_Page_Interface $page);
+	public function setPage( Mvc_Page_Interface $page );
 
 	/**
 	 * @return Mvc_Page_Interface
@@ -23,11 +24,12 @@ interface Mvc_Page_MetaTag_Interface {
 	public function getPage();
 
 
-    /**
-     * @param array $data
-     * @return void
-     */
-    public function setData( array $data );
+	/**
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function setData( array $data );
 
 	/**
 	 * @return string
@@ -47,7 +49,7 @@ interface Mvc_Page_MetaTag_Interface {
 	/**
 	 * @param string $attribute
 	 */
-	public function setAttribute($attribute);
+	public function setAttribute( $attribute );
 
 	/**
 	 * @return string
@@ -57,7 +59,7 @@ interface Mvc_Page_MetaTag_Interface {
 	/**
 	 * @param string $attribute_value
 	 */
-	public function setAttributeValue($attribute_value);
+	public function setAttributeValue( $attribute_value );
 
 	/**
 	 * @return string
@@ -67,5 +69,5 @@ interface Mvc_Page_MetaTag_Interface {
 	/**
 	 * @param string $content
 	 */
-	public function setContent($content);
+	public function setContent( $content );
 }

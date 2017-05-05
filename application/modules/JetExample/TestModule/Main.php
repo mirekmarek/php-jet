@@ -12,19 +12,22 @@ use Jet\Application_Modules_Module_Abstract;
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract {
-    /**
-     * @return string
-     */
-    public function getMyValue(){
+class Main extends Application_Modules_Module_Abstract
+{
+	/**
+	 * @return string
+	 */
+	public function getMyValue()
+	{
 		return 'My value';
 	}
 
 	/**
 	 *
 	 */
-    public function testInstall() {
+	public function testInstall()
+	{
 
-    }
+	}
 
 }

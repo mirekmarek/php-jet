@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetApplicationModule\JetExample\Articles;
+
 use Jet\DataModel;
 use Jet\Locale;
 use Jet\Data_DateTime;
@@ -27,7 +28,8 @@ use Jet\Form_Field_DateTime;
  * @JetDataModel:database_table_name = 'articles'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-class Article extends DataModel {
+class Article extends DataModel
+{
 
 	/**
 	 *
@@ -44,7 +46,7 @@ class Article extends DataModel {
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Locale'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Mvc_Site','getAllLocalesList']
-     * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale', Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale', Form_Field_Select::ERROR_CODE_EMPTY => 'Please select locale']
 	 *
 	 * @var Locale
 	 */
@@ -68,7 +70,7 @@ class Article extends DataModel {
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Title'
-     * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
 	 *
 	 * @var string
 	 */
@@ -99,11 +101,53 @@ class Article extends DataModel {
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time'
-     * @JetDataModel:form_field_error_messages = [Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date and time format']
+	 * @JetDataModel:form_field_error_messages = [Form_Field_DateTime::ERROR_CODE_INVALID_FORMAT => 'Invalid date and time format']
 	 *
 	 * @var Data_DateTime
 	 */
 	protected $date_time;
+
+	/**
+	 * @return Article
+	 */
+	public static function getNew()
+	{
+		return new self();
+	}
+
+	/**
+	 *
+	 * @param string $id
+	 *
+	 * @return Article
+	 */
+	public static function get( $id )
+	{
+
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return static::load( $id );
+	}
+
+	/**
+	 *
+	 * @param array $query (optional)
+	 *
+	 * @return Article[]|DataModel_Fetch_Object_Assoc
+	 */
+	public static function getList( $query = [] )
+	{
+
+		/**
+		 * @var DataModel_Fetch_Object_Assoc $list
+		 */
+		$list = ( new self() )->fetchObjects(
+			$query, [
+				      'ID', 'locale', 'title', 'date_time',
+			      ]
+		);
+
+		return $list;
+	}
 
 	/**
 	 * @return string
@@ -116,16 +160,18 @@ class Article extends DataModel {
 	/**
 	 * @return Locale
 	 */
-	public function getLocale() {
+	public function getLocale()
+	{
 		return $this->locale;
 	}
 
 	/**
 	 * @param Locale|string $locale
 	 */
-	public function setLocale( $locale) {
-		if(!($locale instanceof Locale) ) {
-			$locale = new Locale($locale);
+	public function setLocale( $locale )
+	{
+		if( !( $locale instanceof Locale ) ) {
+			$locale = new Locale( $locale );
 		}
 
 		$this->locale = $locale;
@@ -134,21 +180,32 @@ class Article extends DataModel {
 	/**
 	 * @return string
 	 */
-	public function getURIFragment() {
+	public function getURL()
+	{
+		return Mvc::getCurrentPage()->getURL().$this->getURIFragment();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getURIFragment()
+	{
 		return $this->URI_fragment;
 	}
 
-    /**
-     * @return string
-     */
-    public function getURL() {
-        return Mvc::getCurrentPage()->getURL().$this->getURIFragment();
-    }
+	/**
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
 
 	/**
 	 * @param string $title
 	 */
-	public function setTitle($title) {
+	public function setTitle( $title )
+	{
 		$this->title = $title;
 
 		$article_i = $this;
@@ -157,54 +214,8 @@ class Article extends DataModel {
 			return $article_i->getUriFragmentExists( $URI_fragment );
 		};
 
-		$this->URI_fragment = $this->generateUrlFragment($this->title, $check_callback, '.html');
+		$this->URI_fragment = $this->generateUrlFragment( $this->title, $check_callback, '.html' );
 	}
-
-
-    /**
-     * Generates URI fragment:
-     *
-     *
-     * @param string $URI_fragment
-     *
-     * @param callable $exists_check
-     * @param string $suffix (optional) example: .html
-     * @param bool $remove_accents (optional, default: true)
-     *
-     * @return string
-     */
-    public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix='', $remove_accents=true ) {
-
-        if($remove_accents) {
-            $URI_fragment = Data_Text::removeAccents($URI_fragment);
-        }
-
-        $URI_fragment = str_replace(' ', '-', $URI_fragment);
-        $URI_fragment = preg_replace( '~([-]{2,})~', '-' , $URI_fragment );
-
-        $replace = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'','"' ,'/','<','>',';','?','{','}','[',']','|'];
-        $URI_fragment = str_replace($replace, '', $URI_fragment);
-
-        $URI_fragment = rawurlencode($URI_fragment);
-
-        $max_suffix_no = 9999;
-
-        if( $exists_check( $URI_fragment.$suffix ) ) {
-            $_id = substr($URI_fragment, 0, 255 - strlen( (string)$max_suffix_no )  );
-
-            for($c=1; $c<=$max_suffix_no; $c++) {
-                $URI_fragment = $_id.$c;
-
-                if( !$exists_check( $URI_fragment.$suffix ) ) {
-                    break;
-                }
-            }
-        }
-
-
-        return $URI_fragment.$suffix;
-    }
-
 
 	/**
 	 *
@@ -212,127 +223,131 @@ class Article extends DataModel {
 	 *
 	 * @return bool
 	 */
-	public function getUriFragmentExists( $URI_fragment ) {
-		if($this->getIsNew()) {
+	public function getUriFragmentExists( $URI_fragment )
+	{
+		if( $this->getIsNew() ) {
 			$q = [
-				'this.URI_fragment' => $URI_fragment
+				'this.URI_fragment' => $URI_fragment,
 			];
 		} else {
 			$q = [
-				'this.URI_fragment' => $URI_fragment,
-				'AND',
-				'this.id!=' => $this->id
+				'this.URI_fragment' => $URI_fragment, 'AND', 'this.id!=' => $this->id,
 			];
 		}
-		return (bool)$this->getBackendInstance()->getCount( $this->createQuery($q) );
+
+		return (bool)$this->getBackendInstance()->getCount( $this->createQuery( $q ) );
 	}
 
+	/**
+	 * Generates URI fragment:
+	 *
+	 *
+	 * @param string   $URI_fragment
+	 *
+	 * @param callable $exists_check
+	 * @param string   $suffix (optional) example: .html
+	 * @param bool     $remove_accents (optional, default: true)
+	 *
+	 * @return string
+	 */
+	public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix = '', $remove_accents = true )
+	{
+
+		if( $remove_accents ) {
+			$URI_fragment = Data_Text::removeAccents( $URI_fragment );
+		}
+
+		$URI_fragment = str_replace( ' ', '-', $URI_fragment );
+		$URI_fragment = preg_replace( '~([-]{2,})~', '-', $URI_fragment );
+
+		$replace = [
+			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '.', '\'', '"', '/', '<', '>', ';', '?', '{',
+			'}', '[', ']', '|',
+		];
+		$URI_fragment = str_replace( $replace, '', $URI_fragment );
+
+		$URI_fragment = rawurlencode( $URI_fragment );
+
+		$max_suffix_no = 9999;
+
+		if( $exists_check( $URI_fragment.$suffix ) ) {
+			$_id = substr( $URI_fragment, 0, 255-strlen( (string)$max_suffix_no ) );
+
+			for( $c = 1; $c<=$max_suffix_no; $c++ ) {
+				$URI_fragment = $_id.$c;
+
+				if( !$exists_check( $URI_fragment.$suffix ) ) {
+					break;
+				}
+			}
+		}
+
+
+		return $URI_fragment.$suffix;
+	}
 
 	/**
 	 * @return string
 	 */
-	public function getTitle() {
-		return $this->title;
+	public function getAnnotation()
+	{
+		return $this->annotation;
 	}
 
 	/**
 	 * @param string $annotation
 	 */
-	public function setAnnotation($annotation) {
+	public function setAnnotation( $annotation )
+	{
 		$this->annotation = $annotation;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAnnotation() {
-		return $this->annotation;
+	public function getText()
+	{
+		return $this->text;
 	}
 
 	/**
 	 * @param string $text
 	 */
-	public function setText($text) {
+	public function setText( $text )
+	{
 		$this->text = $text;
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getText() {
-		return $this->text;
-	}
-
-
-	/**
 	 * @return Data_DateTime
 	 */
-	public function getDateTime() {
+	public function getDateTime()
+	{
 		return $this->date_time;
 	}
 
 	/**
 	 * @param Data_DateTime|string $date_time
 	 */
-	public function setDateTime( $date_time) {
-		if(!($date_time instanceof Data_DateTime)) {
-			$date_time = new Data_DateTime($date_time);
+	public function setDateTime( $date_time )
+	{
+		if( !( $date_time instanceof Data_DateTime ) ) {
+			$date_time = new Data_DateTime( $date_time );
 		}
 		$this->date_time = $date_time;
-	}
-
-
-	/**
-	 * @static
-	 * @return Article
-	 */
-	public static function getNew() {
-		return new self();
-	}
-
-	/**
-	 * @static
-	 *
-	 * @param string $id
-	 *
-	 * @return Article
-	 */
-	public static function get( $id ) {
-
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return static::load( $id );
-	}
-
-	/**
-	 * @static
-	 *
-	 * @param array $query (optional)
-	 *
-	 * @return Article[]|DataModel_Fetch_Object_Assoc
-	 */
-	public static function getList( $query= []) {
-
-		/**
-		 * @var DataModel_Fetch_Object_Assoc $list
-		 */
-		$list = (new self())->fetchObjects($query, [
-			'ID',
-			'locale',
-			'title',
-			'date_time'
-		]);
-
-		return $list;
 	}
 
 	/**
 	 * @return Article[]|Data_Paginator_DataSource_Interface
 	 */
-	public function getListForCurrentLocale() {
-		$list = $this->fetchObjects([
-			'this.locale' => Mvc::getCurrentLocale()
-		]);
-		$list->getQuery()->setOrderBy('-date_time');
+	public function getListForCurrentLocale()
+	{
+		$list = $this->fetchObjects(
+			[
+				'this.locale' => Mvc::getCurrentLocale(),
+			]
+		);
+		$list->getQuery()->setOrderBy( '-date_time' );
 
 		return $list;
 	}
@@ -342,15 +357,18 @@ class Article extends DataModel {
 	 *
 	 * @return Article|null
 	 */
-	public function resolveArticleByURL( Mvc_Router_Abstract $router ) {
+	public function resolveArticleByURL( Mvc_Router_Abstract $router )
+	{
 		$current_article = null;
 		$param = $router->getPathFragments();
 
-		if(isset($param[0]) && substr($param[0], -5)=='.html' ) {
+		if( isset( $param[0] )&&substr( $param[0], -5 )=='.html' ) {
 
-			$current_article = $this->fetchOneObject( [
-				'this.URI_fragment' => 	$param[0]
-			]);
+			$current_article = $this->fetchOneObject(
+				[
+					'this.URI_fragment' => $param[0],
+				]
+			);
 
 		}
 

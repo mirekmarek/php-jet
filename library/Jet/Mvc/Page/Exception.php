@@ -11,7 +11,9 @@ namespace Jet;
  * Class Mvc_Page_Exception
  * @package Jet
  */
-class Mvc_Page_Exception extends Exception {
-    const CODE_UNABLE_TO_READ_PAGE_DATA = 1;
+class Mvc_Page_Exception extends Exception
+{
+	const CODE_UNABLE_TO_READ_PAGE_DATA = 1;
 	const CODE_DUPLICATES_PAGE_ID = 10;
-}	const CODE_PAGE_DATA_ERROR = 100;
+}
+const CODE_PAGE_DATA_ERROR = 100;

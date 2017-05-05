@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Relation_JoinBy_Item
  * @package Jet
  */
-class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
+class DataModel_Definition_Relation_JoinBy_Item extends BaseObject
+{
 
 	/**
 	 * @var string
@@ -31,15 +32,16 @@ class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 	/**
 	 *
 	 *
-	 * @param DataModel_Definition_Model_Abstract $this_model_definition
+	 * @param DataModel_Definition_Model_Abstract           $this_model_definition
 	 * @param string|DataModel_Definition_Property_Abstract $this_model_property_definition
-	 * @param string $related_to_class_name
-	 * @param string $related_to_property_name
+	 * @param string                                        $related_to_class_name
+	 * @param string                                        $related_to_property_name
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract $this_model_definition=null, $this_model_property_definition='', $related_to_class_name='', $related_to_property_name='' ) {
-		if(!$this_model_definition) {
+	public function __construct( DataModel_Definition_Model_Abstract $this_model_definition = null, $this_model_property_definition = '', $related_to_class_name = '', $related_to_property_name = '' )
+	{
+		if( !$this_model_definition ) {
 			return;
 		}
 
@@ -49,19 +51,19 @@ class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 		$this->this_property_or_value = $this_model_property_definition;
 
 
-		if( !($this->this_property_or_value instanceof DataModel_Definition_Property_Abstract) ) {
+		if( !( $this->this_property_or_value instanceof DataModel_Definition_Property_Abstract ) ) {
 			$properties = $this_model_definition->getProperties();
 
-			if(strpos($this->this_property_or_value, '.')===false) {
+			if( strpos( $this->this_property_or_value, '.' )===false ) {
 				$item = $this->this_property_or_value;
 				$prefix = 'this';
 			} else {
-				list($prefix, $item) = explode('.', $this->this_property_or_value);
+				list( $prefix, $item ) = explode( '.', $this->this_property_or_value );
 			}
 
 			switch( $prefix ) {
 				case 'this':
-					if(!isset($properties[$item])) {
+					if( !isset( $properties[$item] ) ) {
 						throw new DataModel_Query_Exception(
 							'Unknown property: '.$this_model_definition->getClassName().'::'.$item,
 							DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -73,7 +75,9 @@ class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 					//$class = $this_model_definition->getClassName();
 					//$this->this_property_or_value = $class::$item();
 
-					$this->this_property_or_value = new DataModel_Definition_Relation_JoinBy_Item_ObjectGetter( $this_model_definition, $item );
+					$this->this_property_or_value = new DataModel_Definition_Relation_JoinBy_Item_ObjectGetter(
+						$this_model_definition, $item
+					);
 					break;
 				default:
 					throw new DataModel_Query_Exception(
@@ -86,17 +90,35 @@ class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 	}
 
 	/**
-	 * @return string
+	 * @param array $data
+	 *
+	 * @return static
 	 */
-	public function toString() {
-		return $this->this_property_or_value.'<->'.$this->related_class_name.'.'.$this->related_property_name;
+	public static function __set_state( array $data )
+	{
+		$i = new static();
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString()
+	{
 		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return $this->this_property_or_value.'<->'.$this->related_class_name.'.'.$this->related_property_name;
 	}
 
 	/**
@@ -105,9 +127,10 @@ class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 	 *
 	 * @return mixed|DataModel_Definition_Property_Abstract
 	 */
-	public function getThisPropertyOrValue( DataModel_Query $query ) {
+	public function getThisPropertyOrValue( DataModel_Query $query )
+	{
 
-		if($this->this_property_or_value instanceof DataModel_Definition_Relation_JoinBy_Item_ObjectGetter) {
+		if( $this->this_property_or_value instanceof DataModel_Definition_Relation_JoinBy_Item_ObjectGetter ) {
 			$object = $query->getMainDataModel();
 			$getter_name = $this->this_property_or_value->getGetterMethodName();
 
@@ -118,27 +141,14 @@ class DataModel_Definition_Relation_JoinBy_Item extends BaseObject {
 		}
 	}
 
-
 	/**
 	 * @return DataModel_Definition_Property_Abstract
 	 */
-	public function getRelatedProperty() {
-		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->related_class_name )->getProperty($this->related_property_name);
-	}
-
-	/**
-	 * @param $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( $data ) {
-		$i = new static();
-
-		foreach( $data as $key=>$val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
+	public function getRelatedProperty()
+	{
+		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->related_class_name )->getProperty(
+			$this->related_property_name
+		);
 	}
 
 }

@@ -11,6 +11,7 @@ namespace Jet;
  * Class BaseObject_Trait
  * @package Jet
  */
-trait BaseObject_Trait {
-    use BaseObject_Trait_Properties;
+trait BaseObject_Trait
+{
+	use BaseObject_Trait_Properties;
 }

@@ -11,22 +11,55 @@ namespace Jet;
  * Class Session
  * @package Jet
  */
-class Session extends BaseObject {
+class Session extends BaseObject
+{
 
 	/**
 	 * @var bool
 	 */
 	protected static $session_started = false;
-
+	/**
+	 * @var callable
+	 */
+	protected static $session_validator;
 	/**
 	 * @var string
 	 */
 	protected $namespace;
 
 	/**
-	 * @var callable
+	 * @param string $namespace
 	 */
-	protected static $session_validator;
+	public function __construct( $namespace )
+	{
+
+		$this->namespace = (string)$namespace;
+
+		$this->sessionStart();
+	}
+
+	/**
+	 *
+	 */
+	protected function sessionStart()
+	{
+		if( !static::$session_started ) {
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
+			@session_start();
+			static::$session_started = true;
+			if( static::$session_validator ) {
+				$validator = static::$session_validator;
+				if( !$validator() ) {
+					session_reset();
+					session_regenerate_id();
+				}
+			}
+		}
+
+		if( !isset( $_SESSION[$this->namespace] ) ) {
+			$_SESSION[$this->namespace] = [];
+		}
+	}
 
 	/**
 	 * @return callable
@@ -45,63 +78,59 @@ class Session extends BaseObject {
 	}
 
 	/**
-	 * @param string $namespace
-	 */
-	public function __construct( $namespace ) {
-
-		$this->namespace = (string)$namespace;
-
-		$this->sessionStart();
-	}
-
-	/**
 	 *
 	 */
-	protected function sessionStart() {
-		if(!static::$session_started) {
-			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@session_start();
-			static::$session_started = true;
-			if(static::$session_validator) {
-				$validator = static::$session_validator;
-				if(!$validator()) {
-					session_reset();
-					session_regenerate_id();
-				}
-			}
-		}
-
-		if(!isset($_SESSION[$this->namespace])) {
-			$_SESSION[$this->namespace] = [];
-		}
+	public static function destroy()
+	{
+		session_destroy();
+		$_SESSION = [];
 	}
 
 	/**
 	 * @return null|string
 	 */
-	public function getNamespace() {
+	public function getNamespace()
+	{
 		return $this->namespace;
 	}
 
 	/**
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
 	 */
-	public function setValue( $key, $value ) {
-		$this->checkKey($key);
+	public function setValue( $key, $value )
+	{
+		$this->checkKey( $key );
 
 		$_SESSION[$this->namespace][$key] = $value;
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @throws Session_Exception
+	 */
+	protected function checkKey( &$key )
+	{
+		$key = (string)$key;
+
+		if( $key=='' ) {
+			throw new Session_Exception(
+				'The key must be a non-empty string', Session_Exception::CODE_INVALID_KEY
+			);
+		}
 	}
 
 	/**
 	 *
 	 * @param string $key
 	 */
-	public function unsetValue( $key ) {
-		$this->checkKey($key);
+	public function unsetValue( $key )
+	{
+		$this->checkKey( $key );
 
-		if( $this->getValueExists($key) ) {
-			unset($_SESSION[$this->namespace][$key]);
+		if( $this->getValueExists( $key ) ) {
+			unset( $_SESSION[$this->namespace][$key] );
 		}
 	}
 
@@ -110,21 +139,24 @@ class Session extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function getValueExists( $key ) {
-		$this->checkKey($key);
+	public function getValueExists( $key )
+	{
+		$this->checkKey( $key );
 
-		return array_key_exists($key, $_SESSION[$this->namespace]);
+		return array_key_exists( $key, $_SESSION[$this->namespace] );
 	}
 
 	/**
 	 * @param string $key
-	 * @param mixed $default_value (optional)
+	 * @param mixed  $default_value (optional)
+	 *
 	 * @return mixed
 	 */
-	public function getValue( $key, $default_value=null ) {
-		$this->checkKey($key);
+	public function getValue( $key, $default_value = null )
+	{
+		$this->checkKey( $key );
 
-		if( $this->getValueExists($key) ) {
+		if( $this->getValueExists( $key ) ) {
 			return $_SESSION[$this->namespace][$key];
 		}
 
@@ -132,33 +164,10 @@ class Session extends BaseObject {
 	}
 
 	/**
-	 * @param string $key
-	 * @throws Session_Exception
-	 */
-	protected function checkKey( &$key ) {
-		$key = (string)$key;
-
-		if($key=='') {
-			throw new Session_Exception(
-				'The key must be a non-empty string',
-				Session_Exception::CODE_INVALID_KEY
-			);
-		}
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getSessionId() {
+	public function getSessionId()
+	{
 		return session_id();
-	}
-
-
-	/**
-	 *
-	 */
-	public static function destroy() {
-		session_destroy();
-		$_SESSION = [];
 	}
 }

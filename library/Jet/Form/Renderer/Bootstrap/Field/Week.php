@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_Week
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_Week extends Form_Renderer_Bootstrap_Field_Input  {
+class Form_Renderer_Bootstrap_Field_Week extends Form_Renderer_Bootstrap_Field_Input
+{
 
 	/**
 	 * @var string

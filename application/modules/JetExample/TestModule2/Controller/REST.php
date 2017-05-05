@@ -6,15 +6,18 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetApplicationModule\JetExample\TestModule2;
+
 use Jet\Mvc_Controller_REST;
 
 /**
  *
  */
-class Controller_REST extends Mvc_Controller_REST {
+class Controller_REST extends Mvc_Controller_REST
+{
 	/**
 	 *
 	 */
-	public function initialize() {
+	public function initialize()
+	{
 	}
 }

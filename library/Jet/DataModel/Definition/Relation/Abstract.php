@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Relation_Abstract
  * @package Jet
  */
-abstract class DataModel_Definition_Relation_Abstract extends BaseObject {
+abstract class DataModel_Definition_Relation_Abstract extends BaseObject
+{
 
 	/**
 	 * @var string
@@ -43,87 +44,100 @@ abstract class DataModel_Definition_Relation_Abstract extends BaseObject {
 	/**
 	 * @return string
 	 */
-	public function getRelatedDataModelClassName() {
+	public function getRelatedDataModelClassName()
+	{
 		return $this->related_data_model_class_name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRelatedDataModelName() {
+	public function getRelatedDataModelName()
+	{
 		return $this->getRelatedDataModelDefinition()->getModelName();
 	}
 
 	/**
-	 * @param string $join_type
+	 * @return DataModel_Definition_Model_Abstract
 	 */
-	public function setJoinType($join_type) {
-		$this->join_type = $join_type;
+	public function getRelatedDataModelDefinition()
+	{
+		if( !$this->related_data_model_definition ) {
+
+			$this->related_data_model_definition = DataModel::getDataModelDefinition(
+				$this->related_data_model_class_name
+			);
+		}
+
+		return $this->related_data_model_definition;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getJoinType() {
+	public function getJoinType()
+	{
 		return $this->join_type;
 	}
 
-
 	/**
-	 * @return DataModel_Definition_Model_Abstract
+	 * @param string $join_type
 	 */
-	public function getRelatedDataModelDefinition() {
-		if(!$this->related_data_model_definition) {
-
-			$this->related_data_model_definition = DataModel::getDataModelDefinition( $this->related_data_model_class_name );
-		}
-		return $this->related_data_model_definition;
-	}
-
-	/**
-	 * @param string $related_to_class_name
-	 */
-	protected function setRelatedToClass( $related_to_class_name ) {
-		$this->related_data_model_class_name = $related_to_class_name;
+	public function setJoinType( $join_type )
+	{
+		$this->join_type = $join_type;
 	}
 
 	/**
 	 * @return DataModel_Definition_Relation_JoinBy_Item[]
 	 */
-	public function getJoinBy() {
+	public function getJoinBy()
+	{
 		return $this->join_by;
 	}
 
 	/**
 	 * @param array $items
 	 */
-	public function setJoinBy( array $items ) {
+	public function setJoinBy( array $items )
+	{
 		$this->join_by = [];
 
 		foreach( $items as $item ) {
-			$this->addJoinBy($item);
+			$this->addJoinBy( $item );
 		}
 	}
 
 	/**
 	 * @param DataModel_Definition_Relation_JoinBy_Item $item
 	 */
-	public function addJoinBy( DataModel_Definition_Relation_JoinBy_Item $item ) {
+	public function addJoinBy( DataModel_Definition_Relation_JoinBy_Item $item )
+	{
 		$this->join_by[] = $item;
-	}
-
-	/**
-	 * @param array $required_relations
-	 */
-	public function setRequiredRelations( array $required_relations ) {
-		$this->required_relations = $required_relations;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getRequiredRelations() {
+	public function getRequiredRelations()
+	{
 		return $this->required_relations;
+	}
+
+	/**
+	 * @param array $required_relations
+	 */
+	public function setRequiredRelations( array $required_relations )
+	{
+		$this->required_relations = $required_relations;
+	}
+
+	/**
+	 * @param string $related_to_class_name
+	 */
+	protected function setRelatedToClass( $related_to_class_name )
+	{
+		$this->related_data_model_class_name = $related_to_class_name;
 	}
 
 }

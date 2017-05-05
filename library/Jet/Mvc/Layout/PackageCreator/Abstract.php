@@ -11,7 +11,8 @@ namespace Jet;
  * Class Mvc_Layout_PackageCreator_Abstract
  * @package Jet
  */
-abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
+abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject
+{
 
 
 	/**
@@ -30,11 +31,20 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 	protected $omitted_URIs = [];
 
 	/**
+	 * @return array
+	 */
+	public function getOmittedURIs()
+	{
+		return $this->omitted_URIs;
+	}
+
+	/**
 	 * @param string $URI
 	 *
 	 * @return string|null
 	 */
-	protected function getFileContent( $URI ) {
+	protected function getFileContent( $URI )
+	{
 
 		$_URI = $this->normalizePath( $URI );
 
@@ -51,35 +61,30 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 	}
 
 	/**
-	 * @return array
-	 */
-	public function getOmittedURIs() {
-		return $this->omitted_URIs;
-	}
-
-
-	/**
 	 * @param string $URI
 	 *
 	 * @return string
 	 */
-	protected function normalizePath( $URI ) {
-		if($URI[0]=='%') {
-			$URI = str_replace('_URI%', '_PATH%', $URI);
+	protected function normalizePath( $URI )
+	{
+		if( $URI[0]=='%' ) {
+			$URI = str_replace( '_URI%', '_PATH%', $URI );
 
-			return Data_Text::replaceSystemConstants($URI);
+			return Data_Text::replaceSystemConstants( $URI );
 		}
 
 
-		$_URI = $this->normalizePath_Constants( $URI, [
-			'JET_PUBLIC',
-		] );
-		if($_URI) {
-			return Data_Text::replaceSystemConstants($_URI);
+		$_URI = $this->normalizePath_Constants(
+			$URI, [
+				    'JET_PUBLIC',
+			    ]
+		);
+		if( $_URI ) {
+			return Data_Text::replaceSystemConstants( $_URI );
 		}
 
 
-		if(substr($URI, 0, 2)=='//') {
+		if( substr( $URI, 0, 2 )=='//' ) {
 			return 'http:'.$URI;
 		}
 
@@ -88,10 +93,12 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 
 	/**
 	 * @param string $URI
-	 * @param array $constants
+	 * @param array  $constants
+	 *
 	 * @return string
 	 */
-	protected function normalizePath_Constants( $URI, $constants ) {
+	protected function normalizePath_Constants( $URI, $constants )
+	{
 
 		foreach( $constants as $constant_name ) {
 			$URI_constant_name = $constant_name.'_URI';
@@ -102,8 +109,8 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 
 			$URI_constant_len = strlen( $URI_constant_value );
 
-			if(substr($URI, 0, $URI_constant_len)==$URI_constant_value) {
-				return $path_constant_value.substr($URI, $URI_constant_len);
+			if( substr( $URI, 0, $URI_constant_len )==$URI_constant_value ) {
+				return $path_constant_value.substr( $URI, $URI_constant_len );
 			}
 
 		}
@@ -117,23 +124,26 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 	 *
 	 * @return string
 	 */
-	protected function normalizeURI( $URI ) {
-		if($URI[0]=='%') {
-			$URI = str_replace('_PATH%', '_URI%', $URI);
+	protected function normalizeURI( $URI )
+	{
+		if( $URI[0]=='%' ) {
+			$URI = str_replace( '_PATH%', '_URI%', $URI );
 
-			return Data_Text::replaceSystemConstants($URI);
+			return Data_Text::replaceSystemConstants( $URI );
 		}
 
 
-		$_URI = $this->normalizeURI_Constants( $URI, [
-			'JET_PUBLIC',
-		] );
-		if($_URI) {
-			return Data_Text::replaceSystemConstants($_URI);
+		$_URI = $this->normalizeURI_Constants(
+			$URI, [
+				    'JET_PUBLIC',
+			    ]
+		);
+		if( $_URI ) {
+			return Data_Text::replaceSystemConstants( $_URI );
 		}
 
 
-		if(substr($URI, 0, 2)=='//') {
+		if( substr( $URI, 0, 2 )=='//' ) {
 			return 'http:'.$URI;
 		}
 
@@ -142,10 +152,12 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 
 	/**
 	 * @param string $URI
-	 * @param array $constants
+	 * @param array  $constants
+	 *
 	 * @return string
 	 */
-	protected function normalizeURI_Constants( $URI, $constants ) {
+	protected function normalizeURI_Constants( $URI, $constants )
+	{
 
 		foreach( $constants as $constant_name ) {
 			$URI_constant_name = $constant_name.'_URI';
@@ -156,8 +168,8 @@ abstract class Mvc_Layout_PackageCreator_Abstract extends BaseObject {
 
 			$path_constant_len = strlen( $path_constant_value );
 
-			if(substr($URI, 0, $path_constant_len)==$path_constant_value) {
-				return $URI_constant_value.substr($URI, $path_constant_len);
+			if( substr( $URI, 0, $path_constant_len )==$path_constant_value ) {
+				return $URI_constant_value.substr( $URI, $path_constant_len );
 			}
 
 		}

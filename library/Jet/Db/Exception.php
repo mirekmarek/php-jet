@@ -11,7 +11,8 @@ namespace Jet;
  * Class Db_Exception
  * @package Jet
  */
-class Db_Exception extends Exception {
+class Db_Exception extends Exception
+{
 
 	const CODE_UNKNOWN_CONNECTION = 1;
 	const CODE_CONFIG_ERROR = 3;

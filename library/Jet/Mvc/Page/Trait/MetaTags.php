@@ -23,25 +23,26 @@ trait Mvc_Page_Trait_MetaTags
 	 *
 	 * @return Mvc_Page_MetaTag_Interface[]
 	 */
-	public function getMetaTags( $get_default=false ) {
+	public function getMetaTags( $get_default = false )
+	{
 		/**
 		 * @var Mvc_Page_Trait_MetaTags|Mvc_Page $this
 		 */
 
-		if($get_default) {
+		if( $get_default ) {
 			$meta_tags = [];
 
-			foreach($this->getSiteLocalizedData()->getDefaultMetaTags() as $mt) {
+			foreach( $this->getSiteLocalizedData()->getDefaultMetaTags() as $mt ) {
 				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
-				if($key==':') {
+				if( $key==':' ) {
 					$key = $mt->getContent();
 				}
 				$meta_tags[$key] = $mt;
 			}
 
-			foreach($this->meta_tags as $mt) {
+			foreach( $this->meta_tags as $mt ) {
 				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
-				if($key==':') {
+				if( $key==':' ) {
 					$key = $mt->getContent();
 				}
 				$meta_tags[$key] = $mt;
@@ -55,33 +56,36 @@ trait Mvc_Page_Trait_MetaTags
 	}
 
 	/**
+	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
+	 */
+	public function setMetaTags( $meta_tags )
+	{
+		$this->meta_tags = [];
+
+		foreach( $meta_tags as $meta_tag ) {
+			$this->addMetaTag( $meta_tag );
+		}
+	}
+
+	/**
 	 * @param Mvc_Page_MetaTag_Interface $meta_tag
 	 */
-	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag) {
+	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag )
+	{
 		/**
 		 * @var Mvc_Page_Trait_MetaTags|Mvc_Page $this
 		 */
 
-		$meta_tag->setPage($this);
+		$meta_tag->setPage( $this );
 		$this->meta_tags[] = $meta_tag;
 	}
 
 	/**
 	 * @param int $index
 	 */
-	public function removeMetaTag( $index ) {
+	public function removeMetaTag( $index )
+	{
 		unset( $this->meta_tags[$index] );
-	}
-
-	/**
-	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
-	 */
-	public function  setMetaTags( $meta_tags ) {
-		$this->meta_tags = [];
-
-		foreach( $meta_tags as $meta_tag ) {
-			$this->addMetaTag( $meta_tag );
-		}
 	}
 
 }

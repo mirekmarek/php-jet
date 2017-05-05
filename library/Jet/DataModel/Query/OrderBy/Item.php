@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Query_OrderBy_Item
  * @package Jet
  */
-class DataModel_Query_OrderBy_Item extends BaseObject {
+class DataModel_Query_OrderBy_Item extends BaseObject
+{
 
 	/**
 	 * Property instance
@@ -28,16 +29,16 @@ class DataModel_Query_OrderBy_Item extends BaseObject {
 
 	/**
 	 * @param DataModel_Definition_Property_Abstract|DataModel_Query_Select_Item $item
-	 * @param bool $desc (optional)
+	 * @param bool                                                               $desc (optional)
 	 *
 	 * @throws Exception
 	 */
-	public function  __construct( $item, $desc=false  ) {
-		if(
-			!($item instanceof DataModel_Definition_Property_Abstract) &&
-			!($item instanceof DataModel_Query_Select_Item)
-		) {
-			throw new Exception('Item must be instance of \'DataModel_Definition_Property_Abstract\' or \'DataModel_Query_Select_Item\' ');
+	public function __construct( $item, $desc = false )
+	{
+		if( !( $item instanceof DataModel_Definition_Property_Abstract )&&!( $item instanceof DataModel_Query_Select_Item ) ) {
+			throw new Exception(
+				'Item must be instance of \'DataModel_Definition_Property_Abstract\' or \'DataModel_Query_Select_Item\' '
+			);
 		}
 
 		$this->item = $item;
@@ -47,21 +48,24 @@ class DataModel_Query_OrderBy_Item extends BaseObject {
 	/**
 	 * @return DataModel_Definition_Property_Abstract|DataModel_Query_Select_Item
 	 */
-	public function getItem() {
+	public function getItem()
+	{
 		return $this->item;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getDesc() {
+	public function getDesc()
+	{
 		return $this->desc;
 	}
 
 	/**
 	 * @param bool $desc
 	 */
-	public function setDesc($desc) {
+	public function setDesc( $desc )
+	{
 		$this->desc = (bool)$desc;
 	}
 

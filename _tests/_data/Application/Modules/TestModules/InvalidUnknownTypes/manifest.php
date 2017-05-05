@@ -7,12 +7,10 @@ return [
 
 	'label' => 'Test Module',
 
-	'types' => ['UnknownType'],
-	'description' => 'Unit test module',
+	'types' => [ 'UnknownType' ], 'description' => 'Unit test module',
 
 	'require' => [
-			'RequireModule1',
-			'RequireModule2'
+		'RequireModule1', 'RequireModule2',
 	],
 
 ];

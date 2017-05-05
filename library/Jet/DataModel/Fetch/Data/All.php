@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Fetch_Data_All
  * @package Jet
  */
-class DataModel_Fetch_Data_All extends DataModel_Fetch_Data_Abstract {
+class DataModel_Fetch_Data_All extends DataModel_Fetch_Data_Abstract
+{
 	/**
 	 * @var string
 	 */

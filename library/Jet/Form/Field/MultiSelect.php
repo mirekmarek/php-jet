@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_MultiSelect
  * @package Jet
  */
-class Form_Field_MultiSelect extends Form_Field_Abstract {
+class Form_Field_MultiSelect extends Form_Field_Abstract
+{
 	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
 
 	/**
@@ -23,8 +24,7 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				self::ERROR_CODE_EMPTY => '',
-				self::ERROR_CODE_INVALID_VALUE => ''
+		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_VALUE => '',
 	];
 
 	/**
@@ -32,24 +32,26 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function validateValue() {
+	public function validateValue()
+	{
 		$options = $this->select_options;
-		if(!$this->_value) {
+		if( !$this->_value ) {
 			$this->_value = [];
 		}
 
-		if(!is_array($this->_value)) {
-			$this->_value = [$this->_value];
+		if( !is_array( $this->_value ) ) {
+			$this->_value = [ $this->_value ];
 		}
 
-		foreach($this->_value as $item){
-			if(!isset($options[$item])) {
-				$this->setValueError(self::ERROR_CODE_INVALID_VALUE);
+		foreach( $this->_value as $item ) {
+			if( !isset( $options[$item] ) ) {
+				$this->setValueError( self::ERROR_CODE_INVALID_VALUE );
+
 				return false;
 			}
 		}
 
-		
+
 		$this->_setValueIsValid();
 
 		return true;
@@ -61,9 +63,11 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function checkValueIsNotEmpty() {
-		if(!$this->_value && $this->is_required) {
-			$this->setValueError(self::ERROR_CODE_EMPTY );
+	public function checkValueIsNotEmpty()
+	{
+		if( !$this->_value&&$this->is_required ) {
+			$this->setValueError( self::ERROR_CODE_EMPTY );
+
 			return false;
 		}
 
@@ -75,22 +79,23 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data ) {
+	public function catchValue( Data_Array $data )
+	{
 		$this->_value = null;
 		$this->_has_value = true;
 
-		if( $data->exists($this->_name) ) {
+		if( $data->exists( $this->_name ) ) {
 			$this->_value_raw = $data->getRaw( $this->_name );
 
-			if(is_array($this->_value_raw)){
-				if(!empty($this->_value_raw)){
+			if( is_array( $this->_value_raw ) ) {
+				if( !empty( $this->_value_raw ) ) {
 					$this->_value = [];
-					foreach($this->_value_raw as $item){
-						$this->_value[]=$item;
+					foreach( $this->_value_raw as $item ) {
+						$this->_value[] = $item;
 					}
-				}			
-			}else{
-				$this->_value = [$this->_value_raw];
+				}
+			} else {
+				$this->_value = [ $this->_value_raw ];
 			}
 		} else {
 			$this->_value_raw = null;
@@ -108,7 +113,7 @@ class Form_Field_MultiSelect extends Form_Field_Abstract {
 
 		$codes[] = self::ERROR_CODE_INVALID_VALUE;
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 

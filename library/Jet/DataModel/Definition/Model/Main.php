@@ -11,18 +11,20 @@ namespace Jet;
  * Class DataModel_Definition_Model_Main
  * @package Jet
  */
-class DataModel_Definition_Model_Main extends DataModel_Definition_Model_Abstract {
+class DataModel_Definition_Model_Main extends DataModel_Definition_Model_Abstract
+{
 
-    /**
-     * @param string $data_model_class_name
-     *
-     * @throws DataModel_Exception
-     */
-    protected function _mainInit( $data_model_class_name ) {
+	/**
+	 * @param string $data_model_class_name
+	 *
+	 * @throws DataModel_Exception
+	 */
+	protected function _mainInit( $data_model_class_name )
+	{
 
-        parent::_mainInit($data_model_class_name);
+		parent::_mainInit( $data_model_class_name );
 
-        $this->_initBackendsConfig();
-   }
+		$this->_initBackendsConfig();
+	}
 
 }

@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Property_IdAutoIncrement
  * @package Jet
  */
-class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -37,7 +38,8 @@ class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition
 	 *
 	 * @param mixed $value
 	 */
-	public function checkValueType( &$value ) {
+	public function checkValueType( &$value )
+	{
 	}
 
 

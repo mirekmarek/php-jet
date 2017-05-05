@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Fetch_Data_Abstract
  * @package Jet
  */
-abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract implements Data_Paginator_DataSource_Interface,\ArrayAccess, \Iterator, \Countable {
+abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract implements Data_Paginator_DataSource_Interface, \ArrayAccess, \Iterator, \Countable
+{
 	/**
 	 * @var string
 	 */
@@ -30,12 +31,13 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 
 	/**
 	 *
-	 * @param string[] $select_items
+	 * @param string[]        $select_items
 	 * @param DataModel_Query $query
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( array $select_items, DataModel_Query $query ) {
+	public function __construct( array $select_items, DataModel_Query $query )
+	{
 		parent::__construct( $query );
 
 		$this->query->setSelect( $select_items );
@@ -45,30 +47,72 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 *
 	 * @param callable $array_walk_callback
 	 */
-	public function setArrayWalkCallback( callable $array_walk_callback) {
+	public function setArrayWalkCallback( callable $array_walk_callback )
+	{
 		$this->array_walk_callback = $array_walk_callback;
 	}
-
 
 
 	/**
 	 * @return array
 	 */
-	public function toArray() {
+	public function toArray()
+	{
 		$this->_fetch();
 
 		return $this->data;
 	}
 
 	/**
+	 * Fetches data
+	 *
+	 */
+	public function _fetch()
+	{
+
+		if( $this->data!==null ) {
+			return;
+		}
+
+		$backend = $this->data_model_definition->getBackendInstance();
+
+		$this->data = $backend->{$this->backend_fetch_method}( $this->query );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toXML()
+	{
+		$model_name = $this->data_model_definition->getModelName();
+
+		$result = '';
+		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
+
+		foreach( $this->jsonSerialize() as $val ) {
+			$result .= JET_TAB.'<item>'.JET_EOL;
+			foreach( $val as $k => $v ) {
+				$result .= JET_TAB.JET_TAB.'<'.$k.'>'.Data_Text::htmlSpecialChars( $v ).'</'.$k.'>'.JET_EOL;
+			}
+			$result .= JET_TAB.'</item>'.JET_EOL;
+
+		}
+
+		$result .= '</list>'.JET_EOL;
+
+		return $result;
+	}
+
+	/**
 	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize()
+	{
 		$result = [];
 
-		foreach($this as $key=>$val) {
-			foreach($val as $k=>$v) {
-				if(is_object($v)) {
+		foreach( $this as $key => $val ) {
+			foreach( $val as $k => $v ) {
+				if( is_object( $v ) ) {
 					$val[$k] = (string)$v;
 				}
 			}
@@ -81,49 +125,11 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	/**
 	 * @return string
 	 */
-	public function toXML() {
-		$model_name = $this->data_model_definition->getModelName();
-
-		$result = '';
-		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
-
-		foreach($this->jsonSerialize() as $val) {
-			$result .= JET_TAB.'<item>'.JET_EOL;
-			foreach($val as $k=>$v) {
-				$result .= JET_TAB.JET_TAB.'<'.$k.'>'.Data_Text::htmlSpecialChars($v).'</'.$k.'>'.JET_EOL;
-			}
-			$result .= JET_TAB.'</item>'.JET_EOL;
-
-		}
-
-		$result .= '</list>'.JET_EOL;
-
-		return $result;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toJSON() {
+	public function toJSON()
+	{
 		$this->_fetch();
 
 		return json_encode( $this->jsonSerialize() );
-	}
-
-
-	/**
-	 * Fetches data
-	 *
-	 */
-	public function _fetch() {
-
-		if($this->data!==null) {
-			return;
-		}
-
-		$backend = $this->data_model_definition->getBackendInstance();
-
-		$this->data = $backend->{$this->backend_fetch_method}( $this->query );
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -140,28 +146,36 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 *
 	 * @return int
 	 */
-	public function count() {
+	public function count()
+	{
 		$this->_fetch();
-		return count($this->data);
+
+		return count( $this->data );
 	}
 
 	/**
 	 * @see \ArrayAccess
+	 *
 	 * @param int $offset
+	 *
 	 * @return bool
 	 */
-	public function offsetExists( $offset  ) {
+	public function offsetExists( $offset )
+	{
 		$this->_fetch();
-		return array_key_exists($offset, $this->data);
+
+		return array_key_exists( $offset, $this->data );
 	}
 
 	/**
 	 * @see \ArrayAccess
+	 *
 	 * @param int $offset
 	 *
 	 * @return DataModel
 	 */
-	public function offsetGet( $offset ) {
+	public function offsetGet( $offset )
+	{
 		$this->_fetch();
 
 		$item = $this->data[$offset];
@@ -177,18 +191,22 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	/**
 	 *
 	 * @see \ArrayAccess
-	 * @param int $offset
+	 *
+	 * @param int   $offset
 	 * @param mixed $value
 	 */
-	public function offsetSet( $offset , $value ) {
+	public function offsetSet( $offset, $value )
+	{
 		$this->data[$offset] = $value;
 	}
 
 	/**
 	 * @see \ArrayAccess
+	 *
 	 * @param int $offset
 	 */
-	public function offsetUnset( $offset )	{
+	public function offsetUnset( $offset )
+	{
 		$this->_fetch();
 		unset( $this->data[$offset] );
 	}
@@ -198,10 +216,11 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 	 *
 	 * @return DataModel
 	 */
-	public function current() {
+	public function current()
+	{
 		$this->_fetch();
 
-		$item = current($this->data);
+		$item = current( $this->data );
 
 		if( $this->array_walk_callback ) {
 			$callback = $this->array_walk_callback;
@@ -211,35 +230,46 @@ abstract class DataModel_Fetch_Data_Abstract extends DataModel_Fetch_Abstract im
 
 		return $item;
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key() {
+	public function key()
+	{
 		$this->_fetch();
-		return key($this->data);
+
+		return key( $this->data );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function next() {
+	public function next()
+	{
 		$this->_fetch();
-		return next($this->data);
+
+		return next( $this->data );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() {
+	public function rewind()
+	{
 		$this->_fetch();
-		reset($this->data);
+		reset( $this->data );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()	{
+	public function valid()
+	{
 		$this->_fetch();
-		return key($this->data)!==null;
+
+		return key( $this->data )!==null;
 	}
 
 }

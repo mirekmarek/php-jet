@@ -23,12 +23,22 @@ class BaseObject_Reflection_Class extends \ReflectionClass
 	 */
 	protected $use_classes_map;
 
+	/**
+	 * @return string
+	 */
+	public function getUseClassesStr()
+	{
+		$this->parseUseClasses();
+
+		return $this->use_classes_str;
+	}
 
 	/**
 	 *
 	 */
-	public function parseUseClasses() {
-		if($this->use_classes_map!==null) {
+	public function parseUseClasses()
+	{
+		if( $this->use_classes_map!==null ) {
 			return;
 		}
 
@@ -36,31 +46,31 @@ class BaseObject_Reflection_Class extends \ReflectionClass
 		$this->use_classes_map = [];
 
 
-		$script = file_get_contents($this->getFileName());
+		$script = file_get_contents( $this->getFileName() );
 
-		if(preg_match_all('/use [0-9a-zA-Z_\\\\ ]{1,};/', $script, $matches, PREG_SET_ORDER)) {
+		if( preg_match_all( '/use [0-9a-zA-Z_\\\\ ]{1,};/', $script, $matches, PREG_SET_ORDER ) ) {
 			foreach( $matches as $m ) {
 				$m = $m[0];
-				if(strpos($m, '\\')===false) {
+				if( strpos( $m, '\\' )===false ) {
 					continue;
 				}
 
-				while(strpos($m, '  ')!==false) {
-					$m = str_replace('  ', ' ', $m);
+				while( strpos( $m, '  ' )!==false ) {
+					$m = str_replace( '  ', ' ', $m );
 				}
 
 				$this->use_classes_str .= $m;
 
-				$m = trim($m);
-				$m = trim(substr($m, 4, -1));
+				$m = trim( $m );
+				$m = trim( substr( $m, 4, -1 ) );
 
-				if(($as_pos=stripos($m, ' as '))!==false) {
-					$class = substr($m, 0, $as_pos);
-					$use_as = substr($m, $as_pos+4);
+				if( ( $as_pos = stripos( $m, ' as ' ) )!==false ) {
+					$class = substr( $m, 0, $as_pos );
+					$use_as = substr( $m, $as_pos+4 );
 				} else {
 					$class = $m;
 
-					$use_as = substr($class, strrpos($class, '\\')+1);
+					$use_as = substr( $class, strrpos( $class, '\\' )+1 );
 				}
 
 				$this->use_classes_map[$use_as] = $class;
@@ -71,20 +81,12 @@ class BaseObject_Reflection_Class extends \ReflectionClass
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getUseClassesStr()
-	{
-		$this->parseUseClasses();
-		return $this->use_classes_str;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function getUseClassesMap()
 	{
 		$this->parseUseClasses();
+
 		return $this->use_classes_map;
 	}
 

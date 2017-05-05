@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_RecordData_Item
  * @package Jet
  */
-class DataModel_RecordData_Item {
+class DataModel_RecordData_Item
+{
 	/**
 	 *
 	 * @var DataModel_Definition_Property_Abstract
@@ -22,13 +23,14 @@ class DataModel_RecordData_Item {
 	 *
 	 * @var mixed
 	 */
-	protected  $value = null;
+	protected $value = null;
 
 	/**
 	 * @param DataModel_Definition_Property_Abstract $property_definition
-	 * @param mixed $value
+	 * @param mixed                                  $value
 	 */
-	public function  __construct( DataModel_Definition_Property_Abstract $property_definition, $value  ) {
+	public function __construct( DataModel_Definition_Property_Abstract $property_definition, $value )
+	{
 		$this->property_definition = $property_definition;
 		$this->value = $value;
 	}
@@ -36,14 +38,16 @@ class DataModel_RecordData_Item {
 	/**
 	 * @return DataModel_Definition_Property_Abstract
 	 */
-	public function getPropertyDefinition() {
+	public function getPropertyDefinition()
+	{
 		return $this->property_definition;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getValue() {
+	public function getValue()
+	{
 		return $this->value;
 	}
 

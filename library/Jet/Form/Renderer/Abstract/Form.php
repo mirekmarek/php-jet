@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Abstract_Form
  * @package Jet
  */
-abstract class Form_Renderer_Abstract_Form extends Form_Renderer_Abstract_Tag {
+abstract class Form_Renderer_Abstract_Form extends Form_Renderer_Abstract_Tag
+{
 
 	/**
 	 * @var string
@@ -38,7 +39,7 @@ abstract class Form_Renderer_Abstract_Form extends Form_Renderer_Abstract_Tag {
 	 *
 	 * @param Form $form
 	 */
-	public function __construct(Form $form)
+	public function __construct( Form $form )
 	{
 		$this->_form = $form;
 	}
@@ -51,39 +52,37 @@ abstract class Form_Renderer_Abstract_Form extends Form_Renderer_Abstract_Tag {
 		$form = $this->_form;
 
 		$tag_options = [
-			'name' => $form->getName(),
-			'id' => $form->getId(),
-			'method' => $form->getMethod()
+			'name' => $form->getName(), 'id' => $form->getId(), 'method' => $form->getMethod(),
 		];
 
-		if($form->getAction()) {
+		if( $form->getAction() ) {
 			$tag_options['action'] = $form->getAction();
 		}
 
-		if($form->getTarget()) {
+		if( $form->getTarget() ) {
 			$tag_options['target'] = $form->getTarget();
 		}
 
-		if(!$form->getAutocomplete()) {
+		if( !$form->getAutocomplete() ) {
 			$tag_options['autocomplete'] = 'off';
 		}
 
-		if($form->getEnctype()) {
+		if( $form->getEnctype() ) {
 			$tag_options['enctype'] = $form->getEnctype();
 		}
 
-		if($form->getAcceptCharset()) {
+		if( $form->getAcceptCharset() ) {
 			$tag_options['accept-charset'] = $form->getAcceptCharset();
 		}
 
-		if($form->getNovalidate()) {
+		if( $form->getNovalidate() ) {
 			$tag_options['novalidate'] = 'novalidate';
 		}
 
 
-		$res =  $this->generate($tag_options);
+		$res = $this->generate( $tag_options );
 
-		if(!$form->getIsReadonly()) {
+		if( !$form->getIsReadonly() ) {
 			$res .= JET_TAB.'<input type="hidden" name="'.Form::FORM_SENT_KEY.'" value="'.$form->getName().'">'.JET_EOL;
 		}
 

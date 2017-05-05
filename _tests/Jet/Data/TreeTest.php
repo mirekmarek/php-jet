@@ -7,14 +7,16 @@
  */
 namespace Jet;
 
+	/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-class TreeTest_Node_Invalid {
+class TreeTest_Node_Invalid
+{
 
 }
 
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
-class TreeTest_Node_Valid extends Data_Tree_Node {
+class TreeTest_Node_Valid extends Data_Tree_Node
+{
 
 }
 
@@ -35,207 +37,129 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 			'name' => 'Root',
 		),
 		*/
-		'1' => [
-			'id' => '1',
-			'parent_id' => 'root',
-			'name' => 'Node 1',
-		],
-		'1-1' => [
-			'id' => '1-1',
-			'parent_id' => '1',
-			'name' => 'Node 1-1',
-		],
-		'1-2' => [
-			'id' => '1-2',
-			'parent_id' => '1',
-			'name' => 'Node 1-2',
-		],
-		'1-2-1' => [
-			'id' => '1-2-1',
-			'parent_id' => '1-2',
-			'name' => 'Node 1-2-1',
-		],
-		'1-2-2' => [
-			'id' => '1-2-2',
-			'parent_id' => '1-2',
-			'name' => 'Node 1-2-2',
-		],
-		'1-2-2-1' => [
-			'id' => '1-2-2-1',
-			'parent_id' => '1-2-2',
-			'name' => 'Node 1-2-2-1',
-		],
-		'1-2-2-2' => [
-			'id' => '1-2-2-2',
-			'parent_id' => '1-2-2',
-			'name' => 'Node 1-2-2-2',
-		],
-		'1-2-3' => [
-			'id' => '1-2-3',
-			'parent_id' => '1-2',
-			'name' => 'Node 1-2-3',
-		],
-		'1-3' => [
-			'id' => '1-3',
-			'parent_id' => '1',
-			'name' => 'Node 1-3',
-		],
-		'2' => [
-			'id' => '2',
-			'parent_id' => 'root',
-			'name' => 'Node 2',
-		],
-		'3' => [
-			'id' => '3',
-			'parent_id' => 'root',
-			'name' => 'Node 3',
-		],
-		'op_1' => [
-			'id' => 'op_1',
-			'parent_id' => 'non-existent-1',
-			'name' => 'orphan 1',
-		],
-		'op_1_1' => [
-			'id' => 'op_1_1',
-			'parent_id' => 'op_1',
-			'name' => 'orphan 1-1',
-		],
-		'op_1_2' => [
-			'id' => 'op_1_2',
-			'parent_id' => 'op_1',
-			'name' => 'orphan 1-2',
-		],
-		'op_1_2_1' => [
-			'id' => 'op_1_2_1',
-			'parent_id' => 'op_1_2',
-			'name' => 'orphan 1-2-1',
+		'1'           => [
+			'id' => '1', 'parent_id' => 'root', 'name' => 'Node 1',
+		], '1-1'      => [
+			'id' => '1-1', 'parent_id' => '1', 'name' => 'Node 1-1',
+		], '1-2'      => [
+			'id' => '1-2', 'parent_id' => '1', 'name' => 'Node 1-2',
+		], '1-2-1'    => [
+			'id' => '1-2-1', 'parent_id' => '1-2', 'name' => 'Node 1-2-1',
+		], '1-2-2'    => [
+			'id' => '1-2-2', 'parent_id' => '1-2', 'name' => 'Node 1-2-2',
+		], '1-2-2-1'  => [
+			'id' => '1-2-2-1', 'parent_id' => '1-2-2', 'name' => 'Node 1-2-2-1',
+		], '1-2-2-2'  => [
+			'id' => '1-2-2-2', 'parent_id' => '1-2-2', 'name' => 'Node 1-2-2-2',
+		], '1-2-3'    => [
+			'id' => '1-2-3', 'parent_id' => '1-2', 'name' => 'Node 1-2-3',
+		], '1-3'      => [
+			'id' => '1-3', 'parent_id' => '1', 'name' => 'Node 1-3',
+		], '2'        => [
+			'id' => '2', 'parent_id' => 'root', 'name' => 'Node 2',
+		], '3'        => [
+			'id' => '3', 'parent_id' => 'root', 'name' => 'Node 3',
+		], 'op_1'     => [
+			'id' => 'op_1', 'parent_id' => 'non-existent-1', 'name' => 'orphan 1',
+		], 'op_1_1'   => [
+			'id' => 'op_1_1', 'parent_id' => 'op_1', 'name' => 'orphan 1-1',
+		], 'op_1_2'   => [
+			'id' => 'op_1_2', 'parent_id' => 'op_1', 'name' => 'orphan 1-2',
+		], 'op_1_2_1' => [
+			'id' => 'op_1_2_1', 'parent_id' => 'op_1_2', 'name' => 'orphan 1-2-1',
 		],
 
-		'op_2' => [
-			'id' => 'op_2',
-			'parent_id' => 'non-existent-2',
-			'name' => 'orphan 2',
-		],
-		'op_2_1' => [
-			'id' => 'op_2_1',
-			'parent_id' => 'op_2',
-			'name' => 'orphan 2-1',
-		],
-		'op_2_2' => [
-			'id' => 'op_2_2',
-			'parent_id' => 'op_2',
-			'name' => 'orphan 2-2',
-		],
-		'op_2_2_1' => [
-			'id' => 'op_2_2_1',
-			'parent_id' => 'op_2_2',
-			'name' => 'orphan 2-2-1',
+		'op_2'        => [
+			'id' => 'op_2', 'parent_id' => 'non-existent-2', 'name' => 'orphan 2',
+		], 'op_2_1'   => [
+			'id' => 'op_2_1', 'parent_id' => 'op_2', 'name' => 'orphan 2-1',
+		], 'op_2_2'   => [
+			'id' => 'op_2_2', 'parent_id' => 'op_2', 'name' => 'orphan 2-2',
+		], 'op_2_2_1' => [
+			'id' => 'op_2_2_1', 'parent_id' => 'op_2_2', 'name' => 'orphan 2-2-1',
 		],
 
 	];
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		$this->object = new Data_Tree();
-
-		$this->object->setAdoptOrphans(true);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-	}
 
 	/**
 	 * @covers \Jet\Data_Tree::setNodesClassName
 	 * @expectedException \Jet\Data_Tree_Exception
 	 * @expectedExceptionCode \Jet\Data_Tree_Exception::CODE_INVALID_NODES_CLASS
 	 */
-	public function testSetNodeClassNameInvalid() {
-		$this->object->setNodesClassName('Jet\\TreeTest_Node_Invalid');
+	public function testSetNodeClassNameInvalid()
+	{
+		$this->object->setNodesClassName( 'Jet\\TreeTest_Node_Invalid' );
 	}
-
 
 	/**
 	 * @covers \Jet\Data_Tree::setNodesClassName
 	 * @covers \Jet\Data_Tree::getNodesClassName
 	 */
-	public function testSetAndGetNodeClassName() {
-		$this->object->setNodesClassName('Jet\\TreeTest_Node_Valid');
-		$this->assertEquals('Jet\\TreeTest_Node_Valid', $this->object->getNodesClassName());
+	public function testSetAndGetNodeClassName()
+	{
+		$this->object->setNodesClassName( 'Jet\\TreeTest_Node_Valid' );
+		$this->assertEquals( 'Jet\\TreeTest_Node_Valid', $this->object->getNodesClassName() );
 	}
 
 	/**
 	 * @covers \Jet\Data_Tree::getIdKey
 	 */
-	public function testGetIdKey() {
-		$this->assertEquals('id', $this->object->getIdKey() );
+	public function testGetIdKey()
+	{
+		$this->assertEquals( 'id', $this->object->getIdKey() );
 	}
 
 	/**
 	 * @covers \Jet\Data_Tree::getParentIdKey
 	 */
-	public function testGetParentIdKey() {
-		$this->assertEquals('parent_id', $this->object->getParentIdKey() );
+	public function testGetParentIdKey()
+	{
+		$this->assertEquals( 'parent_id', $this->object->getParentIdKey() );
 	}
 
 	/**
 	 * @covers \Jet\Data_Tree::setLabelKey
 	 * @covers \Jet\Data_Tree::getLabelKey
 	 */
-	public function testSetGetLabelKey() {
-		$this->assertEquals('name' ,$this->object->getLabelKey() );
-		$this->object->setLabelKey('label_key_test');
+	public function testSetGetLabelKey()
+	{
+		$this->assertEquals( 'name', $this->object->getLabelKey() );
+		$this->object->setLabelKey( 'label_key_test' );
 
-		$this->assertEquals('label_key_test' ,$this->object->label_key );
-		$this->assertEquals('label_key_test' ,$this->object->getLabelKey() );
+		$this->assertEquals( 'label_key_test', $this->object->label_key );
+		$this->assertEquals( 'label_key_test', $this->object->getLabelKey() );
 	}
-
 
 	/**
 	 * @covers \Jet\Data_Tree::setChildrenKey
 	 * @covers \Jet\Data_Tree::getChildrenKey
 	 */
-	public function testSetGetChildrenKey() {
-		$this->assertEquals('children' ,$this->object->getChildrenKey() );
-		$this->object->setChildrenKey('children_key_test');
-		$this->assertEquals('children_key_test' ,$this->object->children_key );
-		$this->assertEquals('children_key_test' ,$this->object->getChildrenKey() );
+	public function testSetGetChildrenKey()
+	{
+		$this->assertEquals( 'children', $this->object->getChildrenKey() );
+		$this->object->setChildrenKey( 'children_key_test' );
+		$this->assertEquals( 'children_key_test', $this->object->children_key );
+		$this->assertEquals( 'children_key_test', $this->object->getChildrenKey() );
 	}
 
 	/**
 	 * @covers \Jet\Data_Tree::setDepthKey
 	 * @covers \Jet\Data_Tree::getDepthKey
 	 */
-	public function testSetGetDepthKey() {
-		$this->assertEquals('depth' ,$this->object->getDepthKey() );
-		$this->object->setDepthKey('depth_key_test');
-		$this->assertEquals('depth_key_test' ,$this->object->depth_key );
-		$this->assertEquals('depth_key_test' ,$this->object->getDepthKey() );
+	public function testSetGetDepthKey()
+	{
+		$this->assertEquals( 'depth', $this->object->getDepthKey() );
+		$this->object->setDepthKey( 'depth_key_test' );
+		$this->assertEquals( 'depth_key_test', $this->object->depth_key );
+		$this->assertEquals( 'depth_key_test', $this->object->getDepthKey() );
 	}
-
-	/**
-	 *
-	 */
-	protected function prepareTree() {
-		$this->object->getRootNode()->setId('root');
-		$this->object->getRootNode()->setLabel('Root');
-
-		$this->object->setData( $this->data );
-	}
-
 
 	/**
 	 * @covers \Jet\Data_Tree::setData
 	 * @covers \Jet\Data_Tree::appendNode
 	 */
-	public function testGetRootNode() {
+	public function testGetRootNode()
+	{
 
 		$this->prepareTree();
 
@@ -243,16 +167,27 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 *
+	 */
+	protected function prepareTree()
+	{
+		$this->object->getRootNode()->setId( 'root' );
+		$this->object->getRootNode()->setLabel( 'Root' );
+
+		$this->object->setData( $this->data );
+	}
 
 	/**
 	 * @covers \Jet\Data_Tree::setData
 	 * @covers \Jet\Data_Tree::getNodeExists
 	 */
-	public function testGetNodeExists() {
+	public function testGetNodeExists()
+	{
 		$this->prepareTree();
 
-		$this->assertFalse( $this->object->getNodeExists('unknown-node') );
-		$this->assertTrue( $this->object->getNodeExists('1-2-2-2') );
+		$this->assertFalse( $this->object->getNodeExists( 'unknown-node' ) );
+		$this->assertTrue( $this->object->getNodeExists( '1-2-2-2' ) );
 	}
 
 	/**
@@ -266,10 +201,11 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers \Jet\Data_Tree_Node::getChildExists
 	 *
 	 */
-	public function testGeneral() {
+	public function testGeneral()
+	{
 		$this->prepareTree();
 
-		$node = $this->object->getNode('1-2-2-2');
+		$node = $this->object->getNode( '1-2-2-2' );
 		$parent_node = $node->getParent();
 
 		$this->assertEquals( '1-2-2-2', $node->getId() );
@@ -283,7 +219,7 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse( $parent_node->getChildExists( 'unknown-child' ) );
 		$this->assertTrue( $parent_node->getChildExists( '1-2-2-2' ) );
 
-		$child = $parent_node->getChild('1-2-2-2');
+		$child = $parent_node->getChild( '1-2-2-2' );
 		$this->assertEquals( '1-2-2-2', $child->getId() );
 		$this->assertEquals( '1-2-2', $child->getParentId() );
 		$this->assertEquals( 'Node 1-2-2-2', $child->getLabel() );
@@ -298,14 +234,15 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers \Jet\Data_Tree_Node::getParentId
 	 * @covers \Jet\Data_Tree_Node::getLabel
 	 */
-	public function testGetNodes() {
+	public function testGetNodes()
+	{
 		$this->prepareTree();
 		$nodes = $this->object->getNodes();
 
-		$this->assertEquals( count($this->data)+1, count($nodes) );
+		$this->assertEquals( count( $this->data )+1, count( $nodes ) );
 
-		foreach($nodes as $id=>$node) {
-			if($id=='root') {
+		foreach( $nodes as $id => $node ) {
+			if( $id=='root' ) {
 				continue;
 			}
 			$this->assertEquals( $this->data[$id]['id'], $node->getId() );
@@ -318,186 +255,90 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers \Jet\Data_Tree::setData
 	 * @covers \Jet\Data_Tree::getNodesIds
 	 */
-	public function testGetNodesIds() {
+	public function testGetNodesIds()
+	{
 		$this->prepareTree();
 
-		$this->assertEquals( array_merge(['root'],array_keys($this->data)), $this->object->getNodesIds() );
+		$this->assertEquals( array_merge( [ 'root' ], array_keys( $this->data ) ), $this->object->getNodesIds() );
 	}
-
 
 	/**
 	 * @covers \Jet\Data_Tree::setData
 	 * @covers \Jet\Data_Tree::appendNode
 	 * @covers \Jet\Data_Tree::toArray
 	 */
-	public function testToArray() {
+	public function testToArray()
+	{
 		$this->prepareTree();
 
 		$valid_tree = [
-			0 =>
-			[
-				'id' => 'root',
-				'parent_id' => '',
-				'name' => 'Root',
-				'depth' => 0,
-				'children' =>
-				[
-					0 =>
-					[
-						'id' => '1',
-						'parent_id' => 'root',
-						'name' => 'Node 1',
-						'depth' => 1,
-						'children' =>
-						[
-							0 =>
-							[
-								'id' => '1-1',
-								'parent_id' => '1',
-								'name' => 'Node 1-1',
-								'depth' => 2,
-							],
-							1 =>
-							[
-								'id' => '1-2',
-								'parent_id' => '1',
-								'name' => 'Node 1-2',
-								'depth' => 2,
-								'children' =>
-								[
-									0 =>
-									[
-										'id' => '1-2-1',
-										'parent_id' => '1-2',
-										'name' => 'Node 1-2-1',
-										'depth' => 3,
-									],
-									1 =>
-									[
-										'id' => '1-2-2',
-										'parent_id' => '1-2',
-										'name' => 'Node 1-2-2',
-										'depth' => 3,
-										'children' =>
-										[
-											0 =>
-											[
-												'id' => '1-2-2-1',
-												'parent_id' => '1-2-2',
-												'name' => 'Node 1-2-2-1',
+			0 => [
+				'id' => 'root', 'parent_id' => '', 'name' => 'Root', 'depth' => 0, 'children' => [
+					0    => [
+						'id' => '1', 'parent_id' => 'root', 'name' => 'Node 1', 'depth' => 1, 'children' => [
+							0    => [
+								'id' => '1-1', 'parent_id' => '1', 'name' => 'Node 1-1', 'depth' => 2,
+							], 1 => [
+								'id' => '1-2', 'parent_id' => '1', 'name' => 'Node 1-2', 'depth' => 2, 'children' => [
+									0    => [
+										'id' => '1-2-1', 'parent_id' => '1-2', 'name' => 'Node 1-2-1', 'depth' => 3,
+									], 1 => [
+										'id'       => '1-2-2', 'parent_id' => '1-2', 'name' => 'Node 1-2-2',
+										'depth'    => 3, 'children' => [
+											0    => [
+												'id'    => '1-2-2-1', 'parent_id' => '1-2-2', 'name' => 'Node 1-2-2-1',
 												'depth' => 4,
-											],
-											1 =>
-											[
-												'id' => '1-2-2-2',
-												'parent_id' => '1-2-2',
-												'name' => 'Node 1-2-2-2',
+											], 1 => [
+												'id'    => '1-2-2-2', 'parent_id' => '1-2-2', 'name' => 'Node 1-2-2-2',
 												'depth' => 4,
 											],
 										],
+									], 2 => [
+										'id' => '1-2-3', 'parent_id' => '1-2', 'name' => 'Node 1-2-3', 'depth' => 3,
 									],
-									2 =>
-									[
-										'id' => '1-2-3',
-										'parent_id' => '1-2',
-										'name' => 'Node 1-2-3',
+								],
+							], 2 => [
+								'id' => '1-3', 'parent_id' => '1', 'name' => 'Node 1-3', 'depth' => 2,
+							],
+						],
+					], 1 => [
+						'id' => '2', 'parent_id' => 'root', 'name' => 'Node 2', 'depth' => 1,
+					], 2 => [
+						'id' => '3', 'parent_id' => 'root', 'name' => 'Node 3', 'depth' => 1,
+					],
+
+
+					3    => [
+						'id'       => 'op_1', 'parent_id' => 'non-existent-1', 'name' => 'orphan 1', 'depth' => 1,
+						'children' => [
+							0    => [
+								'id' => 'op_1_1', 'parent_id' => 'op_1', 'name' => 'orphan 1-1', 'depth' => 2,
+							], 1 => [
+								'id'       => 'op_1_2', 'parent_id' => 'op_1', 'name' => 'orphan 1-2', 'depth' => 2,
+								'children' => [
+									0 => [
+										'id'    => 'op_1_2_1', 'parent_id' => 'op_1_2', 'name' => 'orphan 1-2-1',
 										'depth' => 3,
 									],
 								],
 							],
-							2 =>
-							[
-								'id' => '1-3',
-								'parent_id' => '1',
-								'name' => 'Node 1-3',
-								'depth' => 2,
+						],
+					], 4 => [
+						'id'       => 'op_2', 'parent_id' => 'non-existent-2', 'name' => 'orphan 2', 'depth' => 1,
+						'children' => [
+							0    => [
+								'id' => 'op_2_1', 'parent_id' => 'op_2', 'name' => 'orphan 2-1', 'depth' => 2,
+							], 1 => [
+								'id'       => 'op_2_2', 'parent_id' => 'op_2', 'name' => 'orphan 2-2', 'depth' => 2,
+								'children' => [
+									0 => [
+										'id'    => 'op_2_2_1', 'parent_id' => 'op_2_2', 'name' => 'orphan 2-2-1',
+										'depth' => 3,
+									],
+								],
 							],
 						],
 					],
-					1 =>
-					[
-						'id' => '2',
-						'parent_id' => 'root',
-						'name' => 'Node 2',
-						'depth' => 1,
-					],
-					2 =>
-					[
-						'id' => '3',
-						'parent_id' => 'root',
-						'name' => 'Node 3',
-						'depth' => 1,
-					],
-
-
-					3 =>
-						[
-							'id' => 'op_1',
-							'parent_id' => 'non-existent-1',
-							'name' => 'orphan 1',
-							'depth' => 1,
-							'children' =>
-								[
-									0 =>
-										[
-											'id' => 'op_1_1',
-											'parent_id' => 'op_1',
-											'name' => 'orphan 1-1',
-											'depth' => 2,
-										],
-									1 =>
-										[
-											'id' => 'op_1_2',
-											'parent_id' => 'op_1',
-											'name' => 'orphan 1-2',
-											'depth' => 2,
-											'children' =>
-												[
-													0 =>
-														[
-															'id' => 'op_1_2_1',
-															'parent_id' => 'op_1_2',
-															'name' => 'orphan 1-2-1',
-															'depth' => 3,
-														],
-												],
-										],
-								],
-						],
-					4 =>
-						[
-							'id' => 'op_2',
-							'parent_id' => 'non-existent-2',
-							'name' => 'orphan 2',
-							'depth' => 1,
-							'children' =>
-								[
-									0 =>
-										[
-											'id' => 'op_2_1',
-											'parent_id' => 'op_2',
-											'name' => 'orphan 2-1',
-											'depth' => 2,
-										],
-									1 =>
-										[
-											'id' => 'op_2_2',
-											'parent_id' => 'op_2',
-											'name' => 'orphan 2-2',
-											'depth' => 2,
-											'children' =>
-												[
-													0 =>
-														[
-															'id' => 'op_2_2_1',
-															'parent_id' => 'op_2_2',
-															'name' => 'orphan 2-2-1',
-															'depth' => 3,
-														],
-												],
-										],
-								],
-						],
 
 				],
 			],
@@ -505,15 +346,15 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 
 		$this->assertEquals( $valid_tree, $this->object->toArray() );
-    }
-
+	}
 
 	/**
 	 * @covers \Jet\Data_Tree::setData
 	 * @covers \Jet\Data_Tree::appendNode
 	 * @covers \Jet\Data_Tree::toJSON
 	 */
-	public function testToJSON() {
+	public function testToJSON()
+	{
 		$this->prepareTree();
 
 		$valid_JSON = '{"identifier":"id","label":"name","items":[{"id":"root","parent_id":null,"name":"Root","depth":0,"children":[{"id":"1","parent_id":"root","name":"Node 1","depth":1,"children":[{"id":"1-1","parent_id":"1","name":"Node 1-1","depth":2},{"id":"1-2","parent_id":"1","name":"Node 1-2","depth":2,"children":[{"id":"1-2-1","parent_id":"1-2","name":"Node 1-2-1","depth":3},{"id":"1-2-2","parent_id":"1-2","name":"Node 1-2-2","depth":3,"children":[{"id":"1-2-2-1","parent_id":"1-2-2","name":"Node 1-2-2-1","depth":4},{"id":"1-2-2-2","parent_id":"1-2-2","name":"Node 1-2-2-2","depth":4}]},{"id":"1-2-3","parent_id":"1-2","name":"Node 1-2-3","depth":3}]},{"id":"1-3","parent_id":"1","name":"Node 1-3","depth":2}]},{"id":"2","parent_id":"root","name":"Node 2","depth":1},{"id":"3","parent_id":"root","name":"Node 3","depth":1},{"id":"op_1","parent_id":"non-existent-1","name":"orphan 1","depth":1,"children":[{"id":"op_1_1","parent_id":"op_1","name":"orphan 1-1","depth":2},{"id":"op_1_2","parent_id":"op_1","name":"orphan 1-2","depth":2,"children":[{"id":"op_1_2_1","parent_id":"op_1_2","name":"orphan 1-2-1","depth":3}]}]},{"id":"op_2","parent_id":"non-existent-2","name":"orphan 2","depth":1,"children":[{"id":"op_2_1","parent_id":"op_2","name":"orphan 2-1","depth":2},{"id":"op_2_2","parent_id":"op_2","name":"orphan 2-2","depth":2,"children":[{"id":"op_2_2_1","parent_id":"op_2_2","name":"orphan 2-2-1","depth":3}]}]}]}]}';
@@ -527,11 +368,11 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers \Jet\Data_Tree::appendNode
 	 * @covers \Jet\Data_Tree::toXML
 	 */
-	public function testToXML() {
+	public function testToXML()
+	{
 		$this->prepareTree();
 
-		$valid_XML =
-			"<tree>
+		$valid_XML = "<tree>
 			        <identifier>id</identifier>
 			        <label>name</label>
 			        <items>
@@ -679,18 +520,17 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 
 		$test_XML = $this->object->toXML();
 
-		$valid_XML = str_replace("\r", '', $valid_XML);
-		$test_XML = str_replace("\r", '', $test_XML);
-		$valid_XML = str_replace("\t", '', $valid_XML);
-		$test_XML = str_replace("\t", '', $test_XML);
-		$valid_XML = str_replace("\n", '', $valid_XML);
-		$test_XML = str_replace("\n", '', $test_XML);
-		$valid_XML = str_replace(' ', '', $valid_XML);
-		$test_XML = str_replace(' ', '', $test_XML);
+		$valid_XML = str_replace( "\r", '', $valid_XML );
+		$test_XML = str_replace( "\r", '', $test_XML );
+		$valid_XML = str_replace( "\t", '', $valid_XML );
+		$test_XML = str_replace( "\t", '', $test_XML );
+		$valid_XML = str_replace( "\n", '', $valid_XML );
+		$test_XML = str_replace( "\n", '', $test_XML );
+		$valid_XML = str_replace( ' ', '', $valid_XML );
+		$test_XML = str_replace( ' ', '', $test_XML );
 
 		$this->assertEquals( $valid_XML, $test_XML );
 	}
-
 
 	/**
 	 * @covers \Jet\Data_Tree::setData
@@ -710,105 +550,86 @@ class Data_TreeTest extends \PHPUnit_Framework_TestCase
 	 * @covers \Jet\Data_Tree_Node::getLabel
 	 *
 	 */
-	public function testIterator() {
+	public function testIterator()
+	{
 		$this->prepareTree();
 
 		$valid_data = [
 			[
-				'id' => 'root',
-				'label' => 'Root'
-			],
-			[
-				'id' => '1',
-				'label' => 'Node 1'
-			],
-			[
-				'id' => '1-1',
-				'label' => 'Node 1-1'
-			],
-			[
-				'id' => '1-2',
-				'label' => 'Node 1-2'
-			],
-			[
-				'id' => '1-2-1',
-				'label' => 'Node 1-2-1'
-			],
-			[
-				'id' => '1-2-2',
-				'label' => 'Node 1-2-2'
-			],
-			[
-				'id' => '1-2-2-1',
-				'label' => 'Node 1-2-2-1'
-			],
-			[
-				'id' => '1-2-2-2',
-				'label' => 'Node 1-2-2-2'
-			],
-			[
-				'id' => '1-2-3',
-				'label' => 'Node 1-2-3'
-			],
-			[
-				'id' => '1-3',
-				'label' => 'Node 1-3'
-			],
-			[
-				'id' => '2',
-				'label' => 'Node 2'
-			],
-			[
-				'id' => '3',
-				'label' => 'Node 3'
-			],
-			[
-				'id' => 'op_1',
-				'label' => 'orphan 1'
-			],
-			[
-				'id' => 'op_1_1',
-				'label' => 'orphan 1-1'
-			],
-			[
-				'id' => 'op_1_2',
-				'label' => 'orphan 1-2'
-			],
-			[
-				'id' => 'op_1_2_1',
-				'label' => 'orphan 1-2-1'
-			],
-			[
-				'id' => 'op_2',
-				'label' => 'orphan 2'
-			],
-			[
-				'id' => 'op_2_1',
-				'label' => 'orphan 2-1'
-			],
-			[
-				'id' => 'op_2_2',
-				'label' => 'orphan 2-2'
-			],
-			[
-				'id' => 'op_2_2_1',
-				'label' => 'orphan 2-2-1'
+				'id' => 'root', 'label' => 'Root',
+			], [
+				'id' => '1', 'label' => 'Node 1',
+			], [
+				'id' => '1-1', 'label' => 'Node 1-1',
+			], [
+				'id' => '1-2', 'label' => 'Node 1-2',
+			], [
+				'id' => '1-2-1', 'label' => 'Node 1-2-1',
+			], [
+				'id' => '1-2-2', 'label' => 'Node 1-2-2',
+			], [
+				'id' => '1-2-2-1', 'label' => 'Node 1-2-2-1',
+			], [
+				'id' => '1-2-2-2', 'label' => 'Node 1-2-2-2',
+			], [
+				'id' => '1-2-3', 'label' => 'Node 1-2-3',
+			], [
+				'id' => '1-3', 'label' => 'Node 1-3',
+			], [
+				'id' => '2', 'label' => 'Node 2',
+			], [
+				'id' => '3', 'label' => 'Node 3',
+			], [
+				'id' => 'op_1', 'label' => 'orphan 1',
+			], [
+				'id' => 'op_1_1', 'label' => 'orphan 1-1',
+			], [
+				'id' => 'op_1_2', 'label' => 'orphan 1-2',
+			], [
+				'id' => 'op_1_2_1', 'label' => 'orphan 1-2-1',
+			], [
+				'id' => 'op_2', 'label' => 'orphan 2',
+			], [
+				'id' => 'op_2_1', 'label' => 'orphan 2-1',
+			], [
+				'id' => 'op_2_2', 'label' => 'orphan 2-2',
+			], [
+				'id' => 'op_2_2_1', 'label' => 'orphan 2-2-1',
 			],
 		];
 
 		$i = 0;
 
 
-		foreach( $this->object as $id=>$node ) {
+		foreach( $this->object as $id => $node ) {
 
 
 			$current_valid_data = $valid_data[$i];
-			$this->assertEquals($current_valid_data['id'], $id);
-			$this->assertEquals($current_valid_data['label'], (string)$node );
+			$this->assertEquals( $current_valid_data['id'], $id );
+			$this->assertEquals( $current_valid_data['label'], (string)$node );
 
 			$i++;
 		}
 
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->object = new Data_Tree();
+
+		$this->object->setAdoptOrphans( true );
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
 	}
 
 }

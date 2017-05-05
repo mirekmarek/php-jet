@@ -16,7 +16,8 @@ use Jet\Exception;
 /**
  *
  */
-class Installer_Step_InstallModules_Controller extends Installer_Step_Controller {
+class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
+{
 
 	/**
 	 * @var string
@@ -33,88 +34,92 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 	 */
 	protected $selected_modules = [];
 
-	public function main() {
-		$this->all_modules = Application_Modules::getAllModulesList(true);
+	public function main()
+	{
+		$this->all_modules = Application_Modules::getAllModulesList( true );
 
 
-        $modules_field = new Form_Field_MultiSelect('modules');
-        $modules_field->setSelectOptions( $this->all_modules );
-        $modules_field->setErrorMessages([
-	        Form_Field_MultiSelect::ERROR_CODE_EMPTY=>'Please select module',
-            Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select module'
-        ]);
+		$modules_field = new Form_Field_MultiSelect( 'modules' );
+		$modules_field->setSelectOptions( $this->all_modules );
+		$modules_field->setErrorMessages(
+			[
+				Form_Field_MultiSelect::ERROR_CODE_EMPTY         => 'Please select module',
+				Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE => 'Please select module',
+			]
+		);
 
-		$form = new Form('modules_select_form', [
-			$modules_field
-		]);
+		$form = new Form(
+			'modules_select_form', [
+				                     $modules_field,
+			                     ]
+		);
 
-		$this->view->setVar('modules', $this->all_modules);
+		$this->view->setVar( 'modules', $this->all_modules );
 
 
-		if(Http_Request::POST()->exists('go')) {
+		if( Http_Request::POST()->exists( 'go' ) ) {
 			Installer::goToNext();
 		}
 
-		if($form->catchValues() && $form->validateValues()) {
-            $this->selected_modules = [];
+		if( $form->catchValues()&&$form->validateValues() ) {
+			$this->selected_modules = [];
 
-            foreach($this->all_modules as $m) {
-                if(
-	                $m->isMandatory()
-                ) {
-                    $this->selected_modules[] = $m->getName();
-                }
-            }
+			foreach( $this->all_modules as $m ) {
+				if( $m->isMandatory() ) {
+					$this->selected_modules[] = $m->getName();
+				}
+			}
 
 			$d = $form->getValues();
-			$this->selected_modules = array_merge($this->selected_modules, $d['modules']);
+			$this->selected_modules = array_merge( $this->selected_modules, $d['modules'] );
 
-			while( !$this->resolveDependencies() ) {}
+			while( !$this->resolveDependencies() ) {
+			}
 
 
 			$result = [];
 
 			$OK = true;
 
-			foreach($this->selected_modules as $module_name) {
+			foreach( $this->selected_modules as $module_name ) {
 				$result[$module_name] = true;
 
-				if($this->all_modules[$module_name]->getIsActivated()) {
+				if( $this->all_modules[$module_name]->getIsActivated() ) {
 					continue;
 				}
 
 				try {
-					Application_Modules::installModule($module_name);
-				} catch(Exception $e) {
+					Application_Modules::installModule( $module_name );
+				} catch( Exception $e ) {
 					$result[$module_name] = $e->getMessage();
 
 					$OK = false;
 				}
 
-				if($result[$module_name]!==true) {
+				if( $result[$module_name]!==true ) {
 					continue;
 				}
 
 				try {
-					Application_Modules::activateModule($module_name);
-				} catch(Exception $e) {
+					Application_Modules::activateModule( $module_name );
+				} catch( Exception $e ) {
 					$result[$module_name] = $e->getMessage();
 					$OK = false;
 				}
 
 			}
 
-			if(!$result) {
+			if( !$result ) {
 				Installer::goToNext();
 			}
 
-			$this->view->setVar('result', $result);
-			$this->view->setVar('OK', $OK);
+			$this->view->setVar( 'result', $result );
+			$this->view->setVar( 'OK', $OK );
 
-			$this->render('modules-installation-result');
+			$this->render( 'modules-installation-result' );
 		} else {
-			$this->view->setVar('form', $form);
-			$this->render('default');
+			$this->view->setVar( 'form', $form );
+			$this->render( 'default' );
 		}
 
 	}
@@ -122,11 +127,12 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 	/**
 	 * @return bool
 	 */
-	protected function resolveDependencies( ) {
+	protected function resolveDependencies()
+	{
 		$available_modules = [];
 
 		foreach( $this->all_modules as $module_info ) {
-			if($module_info->getIsActivated()) {
+			if( $module_info->getIsActivated() ) {
 				$available_modules[] = $module_info->getName();
 			}
 		}
@@ -138,25 +144,25 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 			$require = $module_info->getRequire();
 
-			if(!$require) {
+			if( !$require ) {
 				continue;
 			}
 
 			foreach( $require as $required_module_name ) {
-				if(in_array($required_module_name, $available_modules)) {
+				if( in_array( $required_module_name, $available_modules ) ) {
 					continue;
 				}
 
 				$position = array_search( $required_module_name, $this->selected_modules );
 
-				if($position===null) {
+				if( $position===null ) {
 					//unsolvable dependency
 					continue;
 				}
 
 				unset( $this->selected_modules[$position] );
 
-				array_unshift($this->selected_modules, $required_module_name);
+				array_unshift( $this->selected_modules, $required_module_name );
 
 				return false;
 			}

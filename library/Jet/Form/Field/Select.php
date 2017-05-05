@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_Select
  * @package Jet
  */
-class Form_Field_Select extends Form_Field_Abstract {
+class Form_Field_Select extends Form_Field_Abstract
+{
 	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
 
 	/**
@@ -23,25 +24,26 @@ class Form_Field_Select extends Form_Field_Abstract {
 	 * @var array
 	 */
 	protected $error_messages = [
-				self::ERROR_CODE_EMPTY => '',
-				self::ERROR_CODE_INVALID_VALUE => ''
+		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_VALUE => '',
 	];
 
 	/**
 	 * @return bool
 	 */
-	public function validateValue() {
-		
-		$options = $this->select_options;
-		
-		if(!isset($options[$this->_value])) {
+	public function validateValue()
+	{
 
-			$this->setValueError(self::ERROR_CODE_INVALID_VALUE);
+		$options = $this->select_options;
+
+		if( !isset( $options[$this->_value] ) ) {
+
+			$this->setValueError( self::ERROR_CODE_INVALID_VALUE );
+
 			return false;
 		}
-		
+
 		$this->_setValueIsValid();
-		
+
 		return true;
 	}
 
@@ -54,7 +56,7 @@ class Form_Field_Select extends Form_Field_Abstract {
 
 		$codes[] = self::ERROR_CODE_INVALID_VALUE;
 
-		if($this->is_required ) {
+		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 

@@ -11,5 +11,6 @@ namespace Jet;
  * Interface BaseObject_Serializable_REST
  * @package Jet
  */
-interface BaseObject_Serializable_REST extends BaseObject_Serializable_JSON, BaseObject_Serializable_XML {
+interface BaseObject_Serializable_REST extends BaseObject_Serializable_JSON, BaseObject_Serializable_XML
+{
 }

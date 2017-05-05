@@ -14,15 +14,15 @@ namespace JetUI;
 class button_create extends button
 {
 
-    /**
-     * @var string
-     */
-    protected $class = 'default';
+	/**
+	 * @var string
+	 */
+	protected $class = 'default';
 
-    /**
-     * @var string
-     */
-    protected $icon = 'plus';
+	/**
+	 * @var string
+	 */
+	protected $icon = 'plus';
 
 
 }

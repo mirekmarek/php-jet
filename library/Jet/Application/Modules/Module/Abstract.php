@@ -11,7 +11,8 @@ namespace Jet;
  * Class Application_Modules_Module_Abstract
  * @package Jet
  */
-abstract class Application_Modules_Module_Abstract extends BaseObject {
+abstract class Application_Modules_Module_Abstract extends BaseObject
+{
 
 	const INSTALL_DIR = '_install/';
 	const INSTALL_SCRIPT_PATH = '_install/install.php';
@@ -21,9 +22,9 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	const LAYOUTS_DIR = 'layouts/';
 
 	/**
-	*
-	* @var Application_Modules_Module_Manifest
-	*/
+	 *
+	 * @var Application_Modules_Module_Manifest
+	 */
 	protected $module_manifest;
 
 	/**
@@ -42,14 +43,14 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 *
 	 * @var array
 	 */
-	protected $ACL_actions = [
-	];
+	protected $ACL_actions = [];
 
 
 	/**
 	 * @param Application_Modules_Module_Manifest $manifest
 	 */
-	public function __construct( Application_Modules_Module_Manifest $manifest ) {
+	public function __construct( Application_Modules_Module_Manifest $manifest )
+	{
 		$this->module_manifest = $manifest;
 	}
 
@@ -59,7 +60,8 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getViewsDir() {
+	public function getViewsDir()
+	{
 		return $this->module_manifest->getModuleDir().static::VIEWS_DIR;
 	}
 
@@ -68,8 +70,33 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getLayoutsDir() {
+	public function getLayoutsDir()
+	{
 		return $this->module_manifest->getModuleDir().static::LAYOUTS_DIR;
+	}
+
+	/**
+	 * Returns controller instance
+	 *
+	 * @param Mvc_Page_Content_Interface $content
+	 *
+	 * @return Mvc_Controller_Abstract
+	 * @throws Exception
+	 */
+	public function getControllerInstance( Mvc_Page_Content_Interface $content )
+	{
+
+		$controller_class_name = $this->getControllerClassName( $content );
+
+		$controller = new $controller_class_name( $this );
+
+		if( !$controller instanceof Mvc_Controller_Abstract ) {
+			throw new Exception(
+				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract'
+			);
+		}
+
+		return $controller;
 	}
 
 	/**
@@ -78,10 +105,11 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 *
 	 * @return string
 	 */
-	protected function getControllerClassName( Mvc_Page_Content_Interface $content ) {
+	protected function getControllerClassName( Mvc_Page_Content_Interface $content )
+	{
 		$controller_name = 'Main';
 
-		if($content->getCustomController()) {
+		if( $content->getCustomController() ) {
 			$controller_name = $content->getCustomController();
 		}
 
@@ -93,54 +121,34 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	}
 
 	/**
-	 * Returns controller instance
-	 *
-	 * @param Mvc_Page_Content_Interface $content
-	 * @return Mvc_Controller_Abstract
-	 * @throws Exception
-	 */
-	public function getControllerInstance( Mvc_Page_Content_Interface $content ) {
-
-		$controller_class_name = $this->getControllerClassName( $content );
-
-		$controller = new $controller_class_name( $this );
-
-		if (!$controller instanceof Mvc_Controller_Abstract) {
-			throw new Exception(
-				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract'
-			);
-		}
-
-		return $controller;
-	}
-
-	/**
 	 * Calls the action
 	 *
 	 * @param Mvc_Controller_Abstract $controller
-	 * @param string $action
-	 * @param array $action_parameters (optional)  @see Mvc_Dispatcher_QueueItem::$action_parameters
+	 * @param string                  $action
+	 * @param array                   $action_parameters (optional)  @see Mvc_Dispatcher_QueueItem::$action_parameters
 	 *
 	 * @throws Exception
 	 */
-	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters= []) {
+	public function callControllerAction( Mvc_Controller_Abstract $controller, $action, array $action_parameters = [] )
+	{
 
 
-		if(!$controller->checkACL($action, $action_parameters)) {
+		if( !$controller->checkACL( $action, $action_parameters ) ) {
 			return;
 		}
 
-        $controller->callAction($action, $action_parameters);
+		$controller->callAction( $action, $action_parameters );
 	}
 
 	/**
 	 * @throws Application_Modules_Exception
 	 */
-	public function install() {
+	public function install()
+	{
 		$module_dir = $this->module_manifest->getModuleDir();
-		$install_script = $module_dir . static::INSTALL_SCRIPT_PATH;
+		$install_script = $module_dir.static::INSTALL_SCRIPT_PATH;
 
-		if(file_exists($install_script)) {
+		if( file_exists( $install_script ) ) {
 			try {
 
 				/** @noinspection PhpUnusedLocalVariableInspection */
@@ -149,10 +157,10 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 				/** @noinspection PhpIncludeInspection */
 				require_once $install_script;
 
-			} catch(\Exception $e){
+			} catch( \Exception $e ) {
 
 				throw new Application_Modules_Exception(
-					'Error while processing installation script: '.get_class($e).'::'.$e->getMessage(),
+					'Error while processing installation script: '.get_class( $e ).'::'.$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
 				);
 			}
@@ -164,12 +172,13 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	/**
 	 * @throws Application_Modules_Exception
 	 */
-	public function uninstall() {
+	public function uninstall()
+	{
 		$module_dir = $this->module_manifest->getModuleDir();
 
-		$uninstall_script = $module_dir . static::UNINSTALL_SCRIPT_PATH;
+		$uninstall_script = $module_dir.static::UNINSTALL_SCRIPT_PATH;
 
-		if(file_exists($uninstall_script)) {
+		if( file_exists( $uninstall_script ) ) {
 			try {
 
 				/** @noinspection PhpUnusedLocalVariableInspection */
@@ -178,23 +187,13 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 				/** @noinspection PhpIncludeInspection */
 				require_once $uninstall_script;
 
-			} catch(\Exception $e){
+			} catch( \Exception $e ) {
 				throw new Application_Modules_Exception(
-					'Error while processing uninstall script: '.get_class($e).'::'.$e->getMessage(),
+					'Error while processing uninstall script: '.get_class( $e ).'::'.$e->getMessage(),
 					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
 				);
 			}
 		}
-	}
-
-
-	/**
-	 * @see Application_Modules_Module_Abstract::$ACL_actions_check_map
-	 *
-	 * @return array
-	 */
-	public function getAclActions() {
-		return $this->ACL_actions;
 	}
 
 	/**
@@ -204,29 +203,40 @@ abstract class Application_Modules_Module_Abstract extends BaseObject {
 	 *
 	 * @return bool
 	 */
-	public function checkAclCanDoAction( $action ) {
+	public function checkAclCanDoAction( $action )
+	{
 		$ACL_actions = $this->getAclActions();
 
-		if(!isset($ACL_actions[$action])) {
+		if( !isset( $ACL_actions[$action] ) ) {
 			throw new Application_Modules_Exception(
-				'Unknown ACL action \''.$action.'\'. Please add record to '.get_class($this).'::$ACL_actions ',
+				'Unknown ACL action \''.$action.'\'. Please add record to '.get_class( $this ).'::$ACL_actions ',
 				Application_Modules_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}
 
 
-
 		$module_name = $this->module_manifest->getName();
+
 		return Auth::getCurrentUserHasPrivilege(
-				Auth_Role::PRIVILEGE_MODULE_ACTION,
-				$module_name.':'.$action
-			);
+			Auth_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action
+		);
+	}
+
+	/**
+	 * @see Application_Modules_Module_Abstract::$ACL_actions_check_map
+	 *
+	 * @return array
+	 */
+	public function getAclActions()
+	{
+		return $this->ACL_actions;
 	}
 
 	/**
 	 * @return Application_Modules_Module_Manifest
 	 */
-	public function getModuleManifest() {
+	public function getModuleManifest()
+	{
 		return $this->module_manifest;
 	}
 

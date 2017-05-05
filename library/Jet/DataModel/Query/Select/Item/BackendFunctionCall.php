@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Query_Select_Item_BackendFunctionCall
  * @package Jet
  */
-class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
+class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
+{
 
 	/**
 	 * Property instance
@@ -37,23 +38,21 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
 
 	/**
 	 * @param DataModel_Definition_Property_Abstract|DataModel_Definition_Property_Abstract[] $properties
-	 * @param string $backend_function
+	 * @param string                                                                          $backend_function
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function  __construct( $properties, $backend_function  ) {
-		if(!is_array($properties)) {
-			$properties = [$properties];
+	public function __construct( $properties, $backend_function )
+	{
+		if( !is_array( $properties ) ) {
+			$properties = [ $properties ];
 		}
 
-		foreach($properties as $property) {
+		foreach( $properties as $property ) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
-			if(
-				!is_object($property) ||
-				!$property instanceof DataModel_Definition_Property_Abstract
-			) {
+			if( !is_object( $property )||!$property instanceof DataModel_Definition_Property_Abstract ) {
 				throw new DataModel_Query_Exception(
 					'Property must be instance of DataModel_Definition_Property_Abstract ',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -62,7 +61,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
 
 			$property_name = $property->getName();
 
-			if( strpos($backend_function, '%'.$property_name.'%')===false ) {
+			if( strpos( $backend_function, '%'.$property_name.'%' )===false ) {
 				throw new DataModel_Query_Exception(
 					'There is not property \''.$property_name.'\' placeholder in the backend function call. Example: count(%'.$property_name.'%) ',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -78,7 +77,8 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
 	/**
 	 * @return DataModel_Definition_Property_Abstract[]
 	 */
-	public function getProperties() {
+	public function getProperties()
+	{
 		return $this->properties;
 	}
 
@@ -89,7 +89,8 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function getBackendFunction() {
+	public function getBackendFunction()
+	{
 		return $this->backend_function;
 	}
 
@@ -108,20 +109,21 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject {
 	 *
 	 * @return string
 	 */
-	public function toString( callable $property_name_to_backend_column_name_callback=null ) {
-		if(!$property_name_to_backend_column_name_callback) {
+	public function toString( callable $property_name_to_backend_column_name_callback = null )
+	{
+		if( !$property_name_to_backend_column_name_callback ) {
 			$property_name_to_backend_column_name_callback = function( DataModel_Definition_Property_Abstract $property ) {
 				return $property->getDataModelDefinition()->getModelName().'::'.$property->getName();
 			};
 		}
 		$function_call = $this->backend_function;
 
-		foreach($this->properties as $property) {
+		foreach( $this->properties as $property ) {
 			/**
 			 * @var DataModel_Definition_Property_Abstract $property
 			 */
 			$column_name = $property_name_to_backend_column_name_callback( $property );
-			$function_call = str_replace('%'.$property->getName().'%', $column_name, $function_call);
+			$function_call = str_replace( '%'.$property->getName().'%', $column_name, $function_call );
 
 		}
 

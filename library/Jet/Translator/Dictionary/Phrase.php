@@ -11,7 +11,8 @@ namespace Jet;
  * Class Translator_Dictionary_Phrase
  * @package Jet
  */
-class Translator_Dictionary_Phrase extends BaseObject {
+class Translator_Dictionary_Phrase extends BaseObject
+{
 	/**
 	 * @var string
 	 */
@@ -35,83 +36,93 @@ class Translator_Dictionary_Phrase extends BaseObject {
 	/**
 	 * @param string $phrase
 	 * @param string $translation (optional)
-	 * @param bool $is_translated (optional)
-	 * @param null $hash (optional)
+	 * @param bool   $is_translated (optional)
+	 * @param null   $hash (optional)
 	 */
-	public function __construct($phrase, $translation='', $is_translated=false, $hash=null) {
+	public function __construct( $phrase, $translation = '', $is_translated = false, $hash = null )
+	{
 		$this->phrase = $phrase;
 		$this->translation = $translation;
 		$this->is_translated = (bool)$is_translated;
-		if(!$hash) {
-			$hash = static::generateHash($phrase);
+		if( !$hash ) {
+			$hash = static::generateHash( $phrase );
 		}
 		$this->hash = $hash;
 	}
 
 	/**
 	 *
-	 * @param $phrase
+	 * @param string $phrase
 	 *
 	 * @return string
 	 */
-	public static function generateHash($phrase) {
-		if(strlen($phrase)<255) {
+	public static function generateHash( $phrase )
+	{
+		if( strlen( $phrase )<255 ) {
 			return $phrase;
 		}
 
-		return md5($phrase);
+		return md5( $phrase );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPhrase() {
+	public function getPhrase()
+	{
 		return $this->phrase;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getHash() {
+	public function getHash()
+	{
 		return $this->hash;
-	}
-
-	/**
-	 * @param bool $is_translated
-	 */
-	public function setIsTranslated($is_translated) {
-		$this->is_translated = $is_translated;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsTranslated() {
+	public function getIsTranslated()
+	{
 		return $this->is_translated;
 	}
 
 	/**
-	 * @param string $translation
+	 * @param bool $is_translated
 	 */
-	public function setTranslation($translation) {
-		$this->translation = $translation;
+	public function setIsTranslated( $is_translated )
+	{
+		$this->is_translated = $is_translated;
 	}
 
 	/**
 	 *
 	 * @return string
 	 */
-	public function getTranslation() {
+	public function getTranslation()
+	{
 		if( !$this->is_translated ) {
 			return $this->phrase;
 		}
+
 		return $this->translation;
+	}
+
+	/**
+	 * @param string $translation
+	 */
+	public function setTranslation( $translation )
+	{
+		$this->translation = $translation;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTranslationRaw() {
+	public function getTranslationRaw()
+	{
 		return $this->translation;
 	}
 

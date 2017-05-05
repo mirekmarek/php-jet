@@ -16,7 +16,8 @@ namespace Jet;
  * @JetDataModel:M_model_class_name = 'Auth_User'
  * @JetDataModel:N_model_class_name = 'Auth_Role'
  */
-class Auth_User_Roles extends DataModel_Related_MtoN {
+class Auth_User_Roles extends DataModel_Related_MtoN
+{
 
 	/**
 	 * @JetDataModel:related_to = 'user.id'

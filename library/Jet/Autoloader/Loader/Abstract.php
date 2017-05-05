@@ -11,25 +11,27 @@ namespace Jet;
  * Class Autoloader_Loader_Abstract
  * @package Jet
  */
-abstract class Autoloader_Loader_Abstract {
-
-	/**
-	 * Get class script path or false
-	 *
-	 * @param $class_name
-	 *
-	 * @return string|bool
-	 */
-	abstract public function getClassPath( $class_name );
+abstract class Autoloader_Loader_Abstract
+{
 
 	/**
 	 * @return static
 	 */
-	public static function register() {
+	public static function register()
+	{
 		$loader = new static();
 
 		Autoloader::register( $loader );
 
 		return $loader;
 	}
+
+	/**
+	 * Get class script path or false
+	 *
+	 * @param string $class_name
+	 *
+	 * @return string|bool
+	 */
+	abstract public function getClassPath( $class_name );
 }

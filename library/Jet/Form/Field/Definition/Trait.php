@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Field_Definition_Trait
  * @package Jet
  */
-trait Form_Field_Definition_Trait {
+trait Form_Field_Definition_Trait
+{
 	/**
 	 * @var string
 	 */
@@ -90,39 +91,35 @@ trait Form_Field_Definition_Trait {
 	}
 
 	/**
-	 * @param string $form_field_creator_method_name
-	 */
-	public function setFormFieldCreatorMethodName($form_field_creator_method_name) {
-		$this->form_field_creator_method_name = $form_field_creator_method_name;
-	}
-
-	/**
 	 * @return string
 	 */
-	public function getFormFieldCreatorMethodName() {
+	public function getFormFieldCreatorMethodName()
+	{
 		return $this->form_field_creator_method_name;
 	}
 
 	/**
-	 * @param callable $form_field_get_select_options_callback
+	 * @param string $form_field_creator_method_name
 	 */
-	public function setFormFieldGetSelectOptionsCallback($form_field_get_select_options_callback) {
-		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
+	public function setFormFieldCreatorMethodName( $form_field_creator_method_name )
+	{
+		$this->form_field_creator_method_name = $form_field_creator_method_name;
 	}
 
 	/**
 	 * @return callable
 	 */
-	public function getFormFieldGetSelectOptionsCallback() {
+	public function getFormFieldGetSelectOptionsCallback()
+	{
 		return $this->form_field_get_select_options_callback;
 	}
 
 	/**
-	 * @param string $form_catch_value_method_name
+	 * @param callable $form_field_get_select_options_callback
 	 */
-	public function setFormCatchValueMethodName($form_catch_value_method_name)
+	public function setFormFieldGetSelectOptionsCallback( $form_field_get_select_options_callback )
 	{
-		$this->form_catch_value_method_name = $form_catch_value_method_name;
+		$this->form_field_get_select_options_callback = $form_field_get_select_options_callback;
 	}
 
 	/**
@@ -133,11 +130,19 @@ trait Form_Field_Definition_Trait {
 		return $this->form_catch_value_method_name;
 	}
 
+	/**
+	 * @param string $form_catch_value_method_name
+	 */
+	public function setFormCatchValueMethodName( $form_catch_value_method_name )
+	{
+		$this->form_catch_value_method_name = $form_catch_value_method_name;
+	}
 
 	/**
 	 * @return bool
 	 */
-	public function getFormFieldIsRequired() {
+	public function getFormFieldIsRequired()
+	{
 		return $this->form_field_is_required;
 	}
 
@@ -145,7 +150,8 @@ trait Form_Field_Definition_Trait {
 	/**
 	 * @return string|null
 	 */
-	public function getFormFieldValidationRegexp() {
+	public function getFormFieldValidationRegexp()
+	{
 		return $this->form_field_validation_regexp;
 	}
 
@@ -153,47 +159,34 @@ trait Form_Field_Definition_Trait {
 	/**
 	 * @return int|float|null
 	 */
-	public function getFormFieldMinValue() {
+	public function getFormFieldMinValue()
+	{
 		return $this->form_field_min_value;
 	}
 
 	/**
 	 * @return int|float|null
 	 */
-	public function getFormFieldMaxValue() {
+	public function getFormFieldMaxValue()
+	{
 		return $this->form_field_max_value;
-	}
-
-	/**
-	 * @param array $options
-	 */
-	public function setFormFieldOptions( array $options ) {
-		$this->form_field_options = $options;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getFormFieldOptions() {
+	public function getFormFieldOptions()
+	{
 
-		if(
-			$this->form_field_validation_regexp &&
-			!isset($this->form_field_options['validation_regexp'])
-		) {
+		if( $this->form_field_validation_regexp&&!isset( $this->form_field_options['validation_regexp'] ) ) {
 			$this->form_field_options['validation_regexp'] = $this->form_field_validation_regexp;
 		}
 
-		if(
-			$this->form_field_min_value!==null &&
-			!array_key_exists('min_value', $this->form_field_options)
-		) {
+		if( $this->form_field_min_value!==null&&!array_key_exists( 'min_value', $this->form_field_options ) ) {
 			$this->form_field_options['min_value'] = $this->form_field_min_value;
 		}
 
-		if(
-			$this->form_field_max_value!==null &&
-			!array_key_exists('max_value', $this->form_field_options)
-		) {
+		if( $this->form_field_max_value!==null&&!array_key_exists( 'max_value', $this->form_field_options ) ) {
 			$this->form_field_options['max_value'] = $this->form_field_max_value;
 		}
 
@@ -201,35 +194,45 @@ trait Form_Field_Definition_Trait {
 		return $this->form_field_options;
 	}
 
-
 	/**
-	 * @param string $label
+	 * @param array $options
 	 */
-	public function setFormFieldLabel( $label ) {
-		$this->form_field_label = $label;
+	public function setFormFieldOptions( array $options )
+	{
+		$this->form_field_options = $options;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFormFieldLabel() {
+	public function getFormFieldLabel()
+	{
 		return $this->form_field_label;
 	}
 
-
 	/**
-	 * @param array $messages
-	 *
+	 * @param string $label
 	 */
-	public function setFormFieldErrorMessages( array $messages ){
-		$this->form_field_error_messages = $messages;
+	public function setFormFieldLabel( $label )
+	{
+		$this->form_field_label = $label;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getFormFieldErrorMessages() {
+	public function getFormFieldErrorMessages()
+	{
 		return $this->form_field_error_messages;
+	}
+
+	/**
+	 * @param array $messages
+	 *
+	 */
+	public function setFormFieldErrorMessages( array $messages )
+	{
+		$this->form_field_error_messages = $messages;
 	}
 
 	/**
@@ -237,18 +240,22 @@ trait Form_Field_Definition_Trait {
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getFormFieldSelectOptions() {
+	public function getFormFieldSelectOptions()
+	{
 		/**
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
 
 		$select_options = null;
 
-		if($this->form_field_get_select_options_callback) {
+		if( $this->form_field_get_select_options_callback ) {
 			$callback = $this->form_field_get_select_options_callback;
 
-			if(!is_callable($callback)) {
-				throw new DataModel_Exception($this->getFormFieldContextClassName().'::'.$this->getFormFieldName().'::form_field_get_select_options_callback is not callable');
+			if( !is_callable( $callback ) ) {
+				throw new DataModel_Exception(
+					$this->getFormFieldContextClassName().'::'.$this->getFormFieldName(
+					).'::form_field_get_select_options_callback is not callable'
+				);
 			}
 
 			$select_options = $callback();
@@ -264,20 +271,18 @@ trait Form_Field_Definition_Trait {
 	 * @throws DataModel_Exception
 	 * @return Form_Field_Abstract|null|Form_Field_Abstract[]
 	 */
-	public function createFormField( $property_value ) {
+	public function createFormField( $property_value )
+	{
 		/**
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
 
-		if(!$this->getFormFieldType()) {
+		if( !$this->getFormFieldType() ) {
 			return null;
 		}
 
 		$field = Form_Factory::getFieldInstance(
-			$this->getFormFieldType(),
-			$this->getFormFieldName(),
-			$this->getFormFieldLabel(),
-			$property_value,
+			$this->getFormFieldType(), $this->getFormFieldName(), $this->getFormFieldLabel(), $property_value,
 			$this->getFormFieldIsRequired()
 		);
 
@@ -285,7 +290,7 @@ trait Form_Field_Definition_Trait {
 		$field->setOptions( $this->getFormFieldOptions() );
 
 		$select_options = $this->getFormFieldSelectOptions();
-		if($select_options) {
+		if( $select_options ) {
 			$field->setSelectOptions( $select_options );
 		}
 
@@ -295,25 +300,28 @@ trait Form_Field_Definition_Trait {
 
 
 	/**
-	 * @param $object_instance
+	 * @param       $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */
-	public function catchFormField( $object_instance, &$property, $value ) {
+	public function catchFormField( $object_instance, &$property, $value )
+	{
 		/**
-         * @var Object $object_instance
+		 * @var Object                                                      $object_instance
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
 
-		if( ($method_name = $this->getFormCatchValueMethodName()) ) {
-			$object_instance->{$method_name}($value);
+		if( ( $method_name = $this->getFormCatchValueMethodName() ) ) {
+			$object_instance->{$method_name}( $value );
+
 			return;
 		}
 
 		$setter_method_name = $object_instance->getSetterMethodName( $this->getFormFieldContextPropertyName() );
 
-		if( method_exists($object_instance, $setter_method_name) ) {
-			$object_instance->{$setter_method_name}($value);
+		if( method_exists( $object_instance, $setter_method_name ) ) {
+			$object_instance->{$setter_method_name}( $value );
+
 			return;
 		}
 

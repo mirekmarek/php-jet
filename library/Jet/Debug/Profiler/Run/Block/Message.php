@@ -12,7 +12,8 @@ namespace Jet;
  * Class Debug_Profiler_Run_Block_Message
  * @package Jet
  */
-class Debug_Profiler_Run_Block_Message {
+class Debug_Profiler_Run_Block_Message
+{
 	/**
 	 * @var string
 	 */
@@ -29,34 +30,38 @@ class Debug_Profiler_Run_Block_Message {
 	protected $backtrace = [];
 
 	/**
-	 * @param $text
+	 * @param string $text
 	 */
-	public function __construct( $text ) {
+	public function __construct( $text )
+	{
 		$this->text = $text;
 
-		$this->backtrace= Debug_Profiler::getBacktrace( 4 );
+		$this->backtrace = Debug_Profiler::getBacktrace( 4 );
 
-		$this->timestamp = microtime(true);
+		$this->timestamp = microtime( true );
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getBacktrace() {
+	public function getBacktrace()
+	{
 		return $this->backtrace;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getText() {
+	public function getText()
+	{
 		return $this->text;
 	}
 
 	/**
 	 * @return float
 	 */
-	public function getTimestamp() {
+	public function getTimestamp()
+	{
 		return $this->timestamp;
 	}
 

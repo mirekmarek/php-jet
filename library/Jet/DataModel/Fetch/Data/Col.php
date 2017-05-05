@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Fetch_Data_Col
  * @package Jet
  */
-class DataModel_Fetch_Data_Col extends DataModel_Fetch_Data_Abstract {
+class DataModel_Fetch_Data_Col extends DataModel_Fetch_Data_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -19,12 +20,13 @@ class DataModel_Fetch_Data_Col extends DataModel_Fetch_Data_Abstract {
 
 	/**
 	 *
-	 * @param string $select_item
+	 * @param string          $select_item
 	 * @param DataModel_Query $query
 	 *
 	 */
-	public function __construct($select_item, DataModel_Query $query ) {
-		parent::__construct( [$select_item], $query );
+	public function __construct( $select_item, DataModel_Query $query )
+	{
+		parent::__construct( [ $select_item ], $query );
 	}
 
 }

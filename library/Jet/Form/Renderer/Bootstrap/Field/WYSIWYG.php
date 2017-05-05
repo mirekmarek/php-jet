@@ -11,7 +11,8 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Field_WYSIWYG
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Field_WYSIWYG extends Form_Renderer_Bootstrap_Field_Abstract {
+class Form_Renderer_Bootstrap_Field_WYSIWYG extends Form_Renderer_Bootstrap_Field_Abstract
+{
 
 	/**
 	 * @var string
@@ -37,19 +38,20 @@ class Form_Renderer_Bootstrap_Field_WYSIWYG extends Form_Renderer_Bootstrap_Fiel
 		$value = $this->_field->getValue();
 
 		$tag_options = [
-            'name' => $this->getTagNameValue(),
-            'id' => $this->getTagId(),
+			'name' => $this->getTagNameValue(), 'id' => $this->getTagId(),
 		];
 
-		if($this->_field->getIsReadonly()) {
+		if( $this->_field->getIsReadonly() ) {
 			$tag_options['readonly'] = 'readonly';
 		}
 
-		if($this->container_disabled) {
-			$result = $this->generate($tag_options, $value).JET_EOL;
+		if( $this->container_disabled ) {
+			$result = $this->generate( $tag_options, $value ).JET_EOL;
 
 		} else {
-			$result = $this->render_containerStart().$this->generate($tag_options, $value).JET_EOL.$this->render_containerEnd().JET_EOL;
+			$result = $this->render_containerStart().$this->generate(
+					$tag_options, $value
+				).JET_EOL.$this->render_containerEnd().JET_EOL;
 		}
 
 		$result .= $fl->generateJsInitCode();

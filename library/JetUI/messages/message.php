@@ -6,61 +6,77 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 
 /**
  * Class messages_message
  * @package JetUI
  */
-class messages_message extends BaseObject{
+class messages_message extends BaseObject
+{
 
 
+	/**
+	 * @var array
+	 */
+	protected static $icons_map = [
+		messages::C_INFO    => 'info-circle', messages::C_SUCCESS => 'thumbs-up',
+		messages::C_WARNING => 'exclamation-circle', messages::C_DANGER => 'thumbs-down',
+	];
 	/**
 	 * @var string
 	 */
 	protected $class = '';
-
 	/**
 	 * @var string
 	 */
 	protected $message = '';
-
 	/**
 	 * @var string
 	 */
 	protected $icon_class = UI::DEFAULT_ICON_CLASS;
-
 	/**
 	 * @var string
 	 */
 	protected $icon = 'exclamation-sign';
 
 	/**
-	 * @var array
-	 */
-	protected static $icons_map = [
-		messages::C_INFO => 'info-circle',
-		messages::C_SUCCESS => 'thumbs-up',
-		messages::C_WARNING => 'exclamation-circle',
-		messages::C_DANGER => 'thumbs-down',
-	];
-
-	/**
 	 *
 	 * @param string $class
 	 * @param string $message
 	 */
-	public function __construct($class, $message)
+	public function __construct( $class, $message )
 	{
 		$this->class = $class;
 		$this->message = $message;
 
-		if(isset(static::$icons_map[$class])) {
+		if( isset( static::$icons_map[$class] ) ) {
 			$this->icon = static::$icons_map[$class];
 		}
 
 	}
 
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return '<div class="alert alert-'.$this->getClass().'" role="alert">
+			<span class="'.$this->icon_class.$this->icon.'"></span>
+			<button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true">&times;</span></button>
+			'.$this->getMessage().'
+		</div>';
+
+	}
 
 	/**
 	 * @return string
@@ -73,7 +89,7 @@ class messages_message extends BaseObject{
 	/**
 	 * @param string $class
 	 */
-	public function setClass($class)
+	public function setClass( $class )
 	{
 		$this->class = $class;
 	}
@@ -89,29 +105,9 @@ class messages_message extends BaseObject{
 	/**
 	 * @param string $message
 	 */
-	public function setMessage($message)
+	public function setMessage( $message )
 	{
 		$this->message = $message;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString() {
-		return '<div class="alert alert-'.$this->getClass().'" role="alert">
-			<span class="'.$this->icon_class.$this->icon.'"></span>
-			<button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true">&times;</span></button>
-			'.$this->getMessage().'
-		</div>';
-
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
 	}
 
 }

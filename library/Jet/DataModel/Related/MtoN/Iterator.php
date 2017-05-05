@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Related_MtoN_Iterator
  * @package Jet
  */
-class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Related_MtoN_Iterator_Interface {
+class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Related_MtoN_Iterator_Interface
+{
 
 	/**
 	 * @var DataModel_Definition_Model_Related_MtoN
@@ -35,9 +36,10 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 
 	/**
 	 * @param DataModel_Definition_Model_Related_MtoN $item_definition
-	 * @param DataModel_Related_MtoN[] $items
+	 * @param DataModel_Related_MtoN[]                $items
 	 */
-	public function __construct( DataModel_Definition_Model_Related_MtoN $item_definition, array $items=[] ) {
+	public function __construct( DataModel_Definition_Model_Related_MtoN $item_definition, array $items = [] )
+	{
 
 		$this->_item_definition = $item_definition;
 
@@ -53,7 +55,8 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param DataModel_Id_Abstract $parent_id
 	 */
-	public function actualizeParentId(DataModel_Id_Abstract $parent_id ) {
+	public function actualizeParentId( DataModel_Id_Abstract $parent_id )
+	{
 		foreach( $this->items as $item ) {
 			$item->actualizeParentId( $parent_id );
 		}
@@ -62,7 +65,8 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 * @param DataModel_Id_Abstract $main_id
 	 */
-	public function actualizeMainId(DataModel_Id_Abstract $main_id ) {
+	public function actualizeMainId( DataModel_Id_Abstract $main_id )
+	{
 
 		foreach( $this->items as $item ) {
 			$item->actualizeMainId( $main_id );
@@ -74,14 +78,15 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 * @throws Exception
 	 * @throws DataModel_Exception
 	 */
-	public function save() {
+	public function save()
+	{
 
 
-		foreach($this->_deleted_items as $item) {
+		foreach( $this->_deleted_items as $item ) {
 			/**
 			 * @var DataModel_Related_MtoN $item
 			 */
-			if($item->getIsSaved()) {
+			if( $item->getIsSaved() ) {
 				$item->delete();
 			}
 		}
@@ -90,7 +95,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 			return;
 		}
 
-		foreach($this->items as $item) {
+		foreach( $this->items as $item ) {
 			$item->save();
 		}
 
@@ -101,9 +106,10 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function delete() {
+	public function delete()
+	{
 
-		foreach($this->_deleted_items as $item) {
+		foreach( $this->_deleted_items as $item ) {
 			$item->delete();
 		}
 
@@ -111,8 +117,8 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 			return;
 		}
 
-		foreach($this->items as $d) {
-			if($d->getIsSaved()) {
+		foreach( $this->items as $d ) {
+			if( $d->getIsSaved() ) {
 				$d->delete();
 			}
 		}
@@ -122,8 +128,9 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	/**
 	 *
 	 */
-	public function removeAllItems() {
-		if($this->items) {
+	public function removeAllItems()
+	{
+		if( $this->items ) {
 			$this->_deleted_items = $this->items;
 		}
 		$this->items = [];
@@ -131,35 +138,26 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 
 	/**
 	 * @param DataModel[] $N_instances
+	 *$this->_items
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addItems( $N_instances ) {
-		foreach( $N_instances as $N_instance ) {
-			$this->offsetSet(null, $N_instance );
-		}
-	}
-
-	/**
-	 * @param DataModel[] $N_instances
-	 *$this->_items
-	 * @throws DataModel_Exception
-	 */
-	public function setItems( $N_instances ) {
+	public function setItems( $N_instances )
+	{
 
 		$add_items = [];
 
-		foreach( $this->items as $i=>$item ) {
+		foreach( $this->items as $i => $item ) {
 			$exists = false;
 			foreach( $N_instances as $N_instance ) {
-				if($item->getNId()->toString()==$N_instance->getIdObject()->toString()) {
+				if( $item->getNId()->toString()==$N_instance->getIdObject()->toString() ) {
 					$exists = true;
 					break;
 				}
 			}
 
-			if(!$exists) {
-				$this->offsetUnset($i);
+			if( !$exists ) {
+				$this->offsetUnset( $i );
 			}
 
 		}
@@ -167,175 +165,79 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		foreach( $N_instances as $N_instance ) {
 			$exists = false;
 			foreach( $this->items as $item ) {
-				if($item->getNId()->toString()==$N_instance->getIdObject()->toString()) {
+				if( $item->getNId()->toString()==$N_instance->getIdObject()->toString() ) {
 					$exists = true;
 					break;
 				}
 			}
 
-			if(!$exists) {
+			if( !$exists ) {
 				$add_items[] = $N_instance;
 			}
 		}
 
-		if($add_items) {
+		if( $add_items ) {
 			$this->addItems( $add_items );
 		}
 
 	}
 
 	/**
-	 * @return DataModel_Id_Abstract[]
-	 */
-	public function getIds() {
-		$ids = [];
-
-		foreach( $this->items as $item ) {
-			$ids[] = $item->getNId();
-		}
-
-		return $ids;
-	}
-
-	/**
-	 *
-	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
-	 * @param DataModel_PropertyFilter $property_filter
-	 *
-	 * @return Form_Field_Abstract[]
-	 */
-	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter=null ) {
-		return [];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function jsonSerialize() {
-
-		$res = [];
-
-		if(!$this->items) {
-			return $res;
-		}
-
-		foreach($this->items as $k=>$d) {
-			$res[$k] = $d->jsonSerialize();
-		}
-
-		return $res;
-
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toXML() {
-		$res = [];
-		if(is_array($this->items)) {
-			foreach($this->items as $d) {
-				/**
-				 * @var DataModel_Related_MtoN $d
-				 */
-				$res[] = $d->toXML();
-			}
-		}
-
-		return implode(JET_EOL,$res);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toJSON() {
-		$data = $this->jsonSerialize();
-		return json_encode($data);
-	}
-
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------------------------
-	/**
-	 * @param string $key
-	 * @return DataModel_Related_MtoN|null
-	 */
-	public function getGlueItem( $key ) {
-		if(!isset($this->items[$key])) {
-			return null;
-		}
-		return $this->items[$key];
-	}
-
-	/**
-	 * @see \Countable
-	 *
-	 * @return int
-	 */
-	public function count() {
-		return count($this->items);
-	}
-
-	/**
 	 * @see \ArrayAccess
-	 * @param mixed $offset
-	 * @return bool
-	 */
-	public function offsetExists( $offset  ) {
-		return isset($this->items[$offset]);
-	}
-	/**
-	 * @see \ArrayAccess
-	 * @param mixed $offset
 	 *
-	 * @return DataModel|DataModel_Related_MtoN
+	 * @param mixed $offset
 	 */
-	public function offsetGet( $offset ) {
-		return $this->_getCurrentItem($this->items[$offset]);
+	public function offsetUnset( $offset )
+	{
+
+		$this->_deleted_items[] = $this->items[$offset];
+
+		unset( $this->items[$offset] );
+	}
+
+	/**
+	 * @param DataModel[] $N_instances
+	 *
+	 * @throws DataModel_Exception
+	 */
+	public function addItems( $N_instances )
+	{
+		foreach( $N_instances as $N_instance ) {
+			$this->offsetSet( null, $N_instance );
+		}
 	}
 
 	/**
 	 *
 	 * @see ArrayAccess
 	 *
-	 * @param int $offset
+	 * @param int       $offset
 	 * @param DataModel $value
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function offsetSet( $offset , $value ) {
+	public function offsetSet( $offset, $value )
+	{
 
 		$valid_class_name = $this->_item_definition->getNModelClassName();
 
-		if(!is_object($value)) {
+		if( !is_object( $value ) ) {
 			throw new DataModel_Exception(
 				'Value instance must be instance of \''.$valid_class_name.'\'.'
 			);
 
 		}
 
-		if(! ($value instanceof $valid_class_name) ) {
+		if( !( $value instanceof $valid_class_name ) ) {
 			throw new DataModel_Exception(
-				'Value instance must be instance of \''.$valid_class_name.'\'. \''.get_class($value).'\' given '
+				'Value instance must be instance of \''.$valid_class_name.'\'. \''.get_class( $value ).'\' given '
 			);
 		}
 
 		/**
 		 * @var DataModel $value
 		 */
-		if(!$value->getIsSaved()) {
+		if( !$value->getIsSaved() ) {
 			throw new DataModel_Exception(
 				'Object instance must be saved '
 			);
@@ -350,17 +252,17 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		$item->setNInstance( $value );
 
 
-		if(is_null($offset)) {
+		if( is_null( $offset ) ) {
 			/**
 			 * @var DataModel_Related_1toN $value
 			 */
 			$offset = $item->getArrayKeyValue();
-			if(is_object($offset)) {
+			if( is_object( $offset ) ) {
 				$offset = (string)$offset;
 			}
 		}
 
-		if(!$offset) {
+		if( !$offset ) {
 			$this->items[] = $item;
 		} else {
 			$this->items[$offset] = $item;
@@ -369,66 +271,142 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	}
 
 	/**
-	 * @see \ArrayAccess
-	 * @param mixed $offset
+	 * @return DataModel_Id_Abstract[]
 	 */
-	public function offsetUnset( $offset )	{
+	public function getIds()
+	{
+		$ids = [];
 
-		$this->_deleted_items[] = $this->items[$offset];
+		foreach( $this->items as $item ) {
+			$ids[] = $item->getNId();
+		}
 
-		unset( $this->items[$offset] );
+		return $ids;
 	}
 
 	/**
-	 * @see \Iterator
+	 *
+	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
+	 * @param DataModel_PropertyFilter               $property_filter
+	 *
+	 * @return Form_Field_Abstract[]
+	 */
+	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter = null )
+	{
+		return [];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toXML()
+	{
+		$res = [];
+		if( is_array( $this->items ) ) {
+			foreach( $this->items as $d ) {
+				/**
+				 * @var DataModel_Related_MtoN $d
+				 */
+				$res[] = $d->toXML();
+			}
+		}
+
+		return implode( JET_EOL, $res );
+	}
+
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * @return string
+	 */
+	public function toJSON()
+	{
+		$data = $this->jsonSerialize();
+
+		return json_encode( $data );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+
+		$res = [];
+
+		if( !$this->items ) {
+			return $res;
+		}
+
+		foreach( $this->items as $k => $d ) {
+			$res[$k] = $d->jsonSerialize();
+		}
+
+		return $res;
+
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @return DataModel_Related_MtoN|null
+	 */
+	public function getGlueItem( $key )
+	{
+		if( !isset( $this->items[$key] ) ) {
+			return null;
+		}
+
+		return $this->items[$key];
+	}
+
+	/**
+	 * @see \Countable
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return count( $this->items );
+	}
+
+	/**
+	 * @see \ArrayAccess
+	 *
+	 * @param mixed $offset
+	 *
+	 * @return bool
+	 */
+	public function offsetExists( $offset )
+	{
+		return isset( $this->items[$offset] );
+	}
+
+	/**
+	 * @see \ArrayAccess
+	 *
+	 * @param mixed $offset
 	 *
 	 * @return DataModel|DataModel_Related_MtoN
 	 */
-	public function current() {
-		if( $this->items===null ) {
-			return null;
-		}
-		$current = current($this->items);
-
-		return $this->_getCurrentItem($current);
-	}
-	/**
-	 * @see \Iterator
-	 *
-	 * @return string
-	 */
-	public function key() {
-		if( $this->items===null ) {
-			return null;
-		}
-		return key($this->items);
-	}
-	/**
-	 * @see \Iterator
-	 */
-	public function next() {
-		if( $this->items===null ) {
-			return null;
-		}
-		return next($this->items);
-	}
-	/**
-	 * @see \Iterator
-	 */
-	public function rewind() {
-		if( $this->items!==null ) {
-			reset($this->items);
-		}
-	}
-	/**
-	 * @see \Iterator
-	 * @return bool
-	 */
-	public function valid()	{
-		if( $this->items===null ) {
-			return false;
-		}
-		return key($this->items)!==null;
+	public function offsetGet( $offset )
+	{
+		return $this->_getCurrentItem( $this->items[$offset] );
 	}
 
 	/**
@@ -436,8 +414,73 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return DataModel
 	 */
-	protected function _getCurrentItem( DataModel_Related_MtoN $item ) {
+	protected function _getCurrentItem( DataModel_Related_MtoN $item )
+	{
 		return $item->getNInstance( $this->_load_filter );
+	}
+
+	/**
+	 * @see \Iterator
+	 *
+	 * @return DataModel|DataModel_Related_MtoN
+	 */
+	public function current()
+	{
+		if( $this->items===null ) {
+			return null;
+		}
+		$current = current( $this->items );
+
+		return $this->_getCurrentItem( $current );
+	}
+
+	/**
+	 * @see \Iterator
+	 *
+	 * @return string
+	 */
+	public function key()
+	{
+		if( $this->items===null ) {
+			return null;
+		}
+
+		return key( $this->items );
+	}
+
+	/**
+	 * @see \Iterator
+	 */
+	public function next()
+	{
+		if( $this->items===null ) {
+			return null;
+		}
+
+		return next( $this->items );
+	}
+
+	/**
+	 * @see \Iterator
+	 */
+	public function rewind()
+	{
+		if( $this->items!==null ) {
+			reset( $this->items );
+		}
+	}
+
+	/**
+	 * @see \Iterator
+	 * @return bool
+	 */
+	public function valid()
+	{
+		if( $this->items===null ) {
+			return false;
+		}
+
+		return key( $this->items )!==null;
 	}
 
 }

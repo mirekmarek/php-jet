@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Query_OrderBy
  * @package Jet
  */
-class DataModel_Query_OrderBy extends BaseObject implements \Iterator {
+class DataModel_Query_OrderBy extends BaseObject implements \Iterator
+{
 
 	/**
 	 * @var DataModel_Query_Where_Expression[]
@@ -26,14 +27,15 @@ class DataModel_Query_OrderBy extends BaseObject implements \Iterator {
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Query $query, $order_by ) {
-		if(!is_array($order_by)) {
-			$order_by = [$order_by];
+	public function __construct( DataModel_Query $query, $order_by )
+	{
+		if( !is_array( $order_by ) ) {
+			$order_by = [ $order_by ];
 		}
 
 		$select = $query->getSelect();
 
-		if(!$select){
+		if( !$select ) {
 			throw new DataModel_Query_Exception(
 				'Query SELECT is not defined. Please use $query->setSelect()',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -42,46 +44,42 @@ class DataModel_Query_OrderBy extends BaseObject implements \Iterator {
 		}
 
 		$this->items = [];
-		foreach($order_by as $ob) {
-			if(!$ob) {
+		foreach( $order_by as $ob ) {
+			if( !$ob ) {
 				continue;
 			}
 
 			$desc = false;
 
-			if($ob[0]=='-') {
+			if( $ob[0]=='-' ) {
 				$desc = true;
 			}
 
-			if(
-				$ob[0]=='+' ||
-				$ob[0]=='-'
-			) {
-				$ob = substr($ob, 1);
+			if( $ob[0]=='+'||$ob[0]=='-' ) {
+				$ob = substr( $ob, 1 );
 			}
 
 			$property = null;
 
-			if(!$select->getHasItem($ob)) {
-				if(strpos($ob, '.')) {
-					$property = $query->getPropertyAndSetRelation($ob);
+			if( !$select->getHasItem( $ob ) ) {
+				if( strpos( $ob, '.' ) ) {
+					$property = $query->getPropertyAndSetRelation( $ob );
 				} else {
 					$properties = $query->getMainDataModelDefinition()->getProperties();
-					if(isset($properties[$ob])) {
+					if( isset( $properties[$ob] ) ) {
 						$property = $properties[$ob];
 					}
 				}
 			} else {
-				$property = $select->getItem($ob);
+				$property = $select->getItem( $ob );
 			}
 
-			if(!$property) {
+			if( !$property ) {
 				throw new DataModel_Query_Exception(
 					'setOrderBy error. Undefined order by property: \''.$ob.'\'',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
 			}
-
 
 
 			$this->items[] = new DataModel_Query_OrderBy_Item( $property, $desc );
@@ -92,8 +90,9 @@ class DataModel_Query_OrderBy extends BaseObject implements \Iterator {
 	/**
 	 * @return bool
 	 */
-	public function getIsEmpty() {
-		return (count($this->items)==0);
+	public function getIsEmpty()
+	{
+		return ( count( $this->items )==0 );
 	}
 
 
@@ -107,33 +106,42 @@ class DataModel_Query_OrderBy extends BaseObject implements \Iterator {
 	/**
 	 * @see \Iterator
 	 */
-	public function current() {
-		return current($this->items);
+	public function current()
+	{
+		return current( $this->items );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return string
 	 */
-	public function key() {
-		return key($this->items);
+	public function key()
+	{
+		return key( $this->items );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function next() {
-		return next($this->items);
+	public function next()
+	{
+		return next( $this->items );
 	}
+
 	/**
 	 * @see \Iterator
 	 */
-	public function rewind() {
-		reset($this->items);
+	public function rewind()
+	{
+		reset( $this->items );
 	}
+
 	/**
 	 * @see \Iterator
 	 * @return bool
 	 */
-	public function valid()	{
-		return key($this->items)!==null;
+	public function valid()
+	{
+		return key( $this->items )!==null;
 	}
 }

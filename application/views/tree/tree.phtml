@@ -6,9 +6,9 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View $this
- * @var tree $tree
+ * @var tree     $tree
  */
-$tree = $this->getRaw('tree');
+$tree = $this->getRaw( 'tree' );
 
 
 $icon_width = 22;
@@ -21,22 +21,22 @@ $icon_size = 16;
 		 * @var Data_Tree_Node $node
 		 */
 
-		if(
-			!$node->getIsRoot() &&
-			!$tree->nodeFilter($node)
-		) {
+		if( !$node->getIsRoot()&&!$tree->nodeFilter( $node ) ) {
 			continue;
 		}
 
-		$display_callback = $tree->nodeDisplayCallback($node);
-		$icon = $tree->nodeIcon($node);
+		$display_callback = $tree->nodeDisplayCallback( $node );
+		$icon = $tree->nodeIcon( $node );
 
-		$padding = ($node->getDepth())*$icon_width;
+		$padding = ( $node->getDepth() )*$icon_width;
 		?>
 		<div class="tree-row-container">
 			<div class="tree-row">
-				<div class="tree-row-icon-container" style="padding-left: <?=$padding;?>px;"><?=UI::icon($icon)->setSize($icon_size)->setTag('div')->setWidth($icon_width)?></div>
-				<div class="tree-row-node-container"><?=$display_callback($node, $node->getData());?></div>
+				<div class="tree-row-icon-container"
+				     style="padding-left: <?=$padding;?>px;"><?=UI::icon( $icon )->setSize( $icon_size )->setTag(
+						'div'
+					)->setWidth( $icon_width )?></div>
+				<div class="tree-row-node-container"><?=$display_callback( $node, $node->getData() );?></div>
 			</div>
 		</div>
 

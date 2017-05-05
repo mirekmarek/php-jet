@@ -26,8 +26,16 @@ use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_AdminStandard {
+class Controller_Main extends Mvc_Controller_AdminStandard
+{
 
+	/**
+	 * @var array
+	 */
+	protected static $ACL_actions_check_map = [
+		'default' => Main::ACTION_GET_ROLE, 'add' => Main::ACTION_ADD_ROLE, 'edit' => Main::ACTION_UPDATE_ROLE,
+		'view'    => Main::ACTION_GET_ROLE, 'delete' => Main::ACTION_DELETE_ROLE,
+	];
 	/**
 	 *
 	 * @var Main
@@ -35,40 +43,48 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	protected $module_instance = null;
 
 	/**
-	 * @var array
-	 */
-	protected static $ACL_actions_check_map = [
-		'default' => Main::ACTION_GET_ROLE,
-		'add' => Main::ACTION_ADD_ROLE,
-		'edit' => Main::ACTION_UPDATE_ROLE,
-		'view' => Main::ACTION_GET_ROLE,
-		'delete' => Main::ACTION_DELETE_ROLE,
-	];
-
-	/**
 	 *
-	 * @return Controller_Main_Router
 	 */
-	public function getControllerRouter() {
-		return $this->module_instance->getAdminControllerRouter();
-	}
+	public function default_Action()
+	{
+		$this->_setBreadcrumbNavigation();
 
+		$search_form = UI::searchForm( 'role' );
+		$this->view->setVar( 'search_form', $search_form );
+
+
+		$grid = new dataGrid();
+
+		$grid->setIsPersistent( 'admin_roles_list_grid' );
+		$grid->setDefaultSort( 'name' );
+
+		$grid->addColumn( '_edit_', '' )->setAllowSort( false );
+		$grid->addColumn( 'id', Tr::_( 'ID' ) );
+		$grid->addColumn( 'name', Tr::_( 'Name' ) );
+		$grid->addColumn( 'description', Tr::_( 'Description' ) );
+
+		$grid->setData( Role::getList( $search_form->getValue() ) );
+
+		$this->view->setVar( 'grid', $grid );
+
+		$this->render( 'default' );
+	}
 
 	/**
 	 * @param string $current_label
 	 */
-	protected function _setBreadcrumbNavigation($current_label='' ) {
+	protected function _setBreadcrumbNavigation( $current_label = '' )
+	{
 		/**
 		 * @var Mvc_Page $page
 		 */
-		$page = Mvc_Page::get(Main::ADMIN_MAIN_PAGE);
+		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
 
 		breadcrumbNavigation::addItem(
-			UI::icon($page->getIcon()).'&nbsp;&nbsp;'. $page->getBreadcrumbTitle(),
-			$page->getURL()
+			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(), $page->getURL()
 		);
 
-		if($current_label) {
+		if( $current_label ) {
 			breadcrumbNavigation::addItem( $current_label );
 
 		}
@@ -77,36 +93,9 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 	/**
 	 *
 	 */
-	public function default_Action() {
-		$this->_setBreadcrumbNavigation();
-
-		$search_form = UI::searchForm('role');
-		$this->view->setVar('search_form', $search_form);
-
-
-		$grid = new dataGrid();
-
-		$grid->setIsPersistent('admin_roles_list_grid');
-		$grid->setDefaultSort('name');
-
-		$grid->addColumn('_edit_', '')->setAllowSort(false);
-		$grid->addColumn('id', Tr::_('ID'));
-		$grid->addColumn('name', Tr::_('Name'));
-		$grid->addColumn('description', Tr::_('Description'));
-
-		$grid->setData( Role::getList($search_form->getValue()) );
-
-		$this->view->setVar('grid', $grid);
-
-		$this->render('default');
-	}
-
-
-	/**
-	 *
-	 */
-	public function add_Action() {
-		$this->_setBreadcrumbNavigation( Tr::_('Create a new Role') );
+	public function add_Action()
+	{
+		$this->_setBreadcrumbNavigation( Tr::_( 'Create a new Role' ) );
 
 		/**
 		 * @var Role $role
@@ -119,30 +108,41 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$role->save();
 			$this->logAllowedAction( 'Role created', $role->getId(), $role->getName(), $role );
 
-			messages::success( Tr::_('Role <b>%ROLE_NAME%</b> has been created', ['ROLE_NAME'=>$role->getName() ]) );
+			messages::success(
+				Tr::_( 'Role <b>%ROLE_NAME%</b> has been created', [ 'ROLE_NAME' => $role->getName() ] )
+			);
 
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($role->getId()) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $role->getId() ) );
 		}
 
 
+		$this->view->setVar( 'has_access', true );
+		$this->view->setVar( 'form', $form );
+		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->view->setVar('has_access', true);
-		$this->view->setVar('form', $form);
-		$this->view->setVar('available_privileges_list', Role::getAvailablePrivilegesList() );
+		$this->render( 'edit' );
+	}
 
-		$this->render('edit');
+	/**
+	 *
+	 * @return Controller_Main_Router
+	 */
+	public function getControllerRouter()
+	{
+		return $this->module_instance->getAdminControllerRouter();
 	}
 
 	/**
 	 */
-	public function edit_Action() {
+	public function edit_Action()
+	{
 
 		/**
 		 * @var Role $role
 		 */
-		$role = $this->getActionParameterValue('role');
+		$role = $this->getActionParameterValue( 'role' );
 
-		$this->_setBreadcrumbNavigation( Tr::_('Edit role <b>%ROLE_NAME%</b>', ['ROLE_NAME'=>$role->getName() ]) );
+		$this->_setBreadcrumbNavigation( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] ) );
 
 		$form = $role->getCommonForm();
 
@@ -150,67 +150,75 @@ class Controller_Main extends Mvc_Controller_AdminStandard {
 			$role->save();
 			$this->logAllowedAction( 'Role updated', $role->getId(), $role->getName(), $role );
 
-			messages::success( Tr::_('Role <b>%ROLE_NAME%</b> has been updated', ['ROLE_NAME'=>$role->getName() ]) );
+			messages::success(
+				Tr::_( 'Role <b>%ROLE_NAME%</b> has been updated', [ 'ROLE_NAME' => $role->getName() ] )
+			);
 
-			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI($role->getId()) );
+			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $role->getId() ) );
 		}
 
-		$this->view->setVar('form', $form);
-		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Role::getAvailablePrivilegesList() );
+		$this->view->setVar( 'form', $form );
+		$this->view->setVar( 'role', $role );
+		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
 
-		$this->render('edit');
+		$this->render( 'edit' );
 	}
 
 	/**
 	 *
 	 */
-	public function view_Action() {
+	public function view_Action()
+	{
 
 		/**
 		 * @var Role $role
 		 */
-		$role = $this->getActionParameterValue('role');
+		$role = $this->getActionParameterValue( 'role' );
 
-		$this->_setBreadcrumbNavigation( Tr::_('Role detail <b>%ROLE_NAME%</b>', ['ROLE_NAME'=>$role->getName() ]) );
+		$this->_setBreadcrumbNavigation(
+			Tr::_( 'Role detail <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )
+		);
 
 		$form = $role->getCommonForm();
-		$this->view->setVar('has_access', false);
-		$this->view->setVar('form', $form);
-		$this->view->setVar('role', $role);
-		$this->view->setVar('available_privileges_list', Role::getAvailablePrivilegesList() );
+		$this->view->setVar( 'has_access', false );
+		$this->view->setVar( 'form', $form );
+		$this->view->setVar( 'role', $role );
+		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
 
 		$form->setIsReadonly();
 
-		$this->render('edit');
+		$this->render( 'edit' );
 	}
 
 
 	/**
 	 *
 	 */
-	public function delete_action() {
+	public function delete_action()
+	{
 
 		/**
 		 * @var Role $role
 		 */
-		$role = $this->getActionParameterValue('role');
+		$role = $this->getActionParameterValue( 'role' );
 
-		$this->_setBreadcrumbNavigation( Tr::_('Delete role <b>%ROLE_NAME%</b>', ['ROLE_NAME'=>$role->getName() ]) );
+		$this->_setBreadcrumbNavigation(
+			Tr::_( 'Delete role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )
+		);
 
-		if( Http_Request::POST()->getString('delete')=='yes' ) {
+		if( Http_Request::POST()->getString( 'delete' )=='yes' ) {
 			$role->delete();
 
 			$this->logAllowedAction( 'Role deleted', $role->getId(), $role->getName(), $role );
 
-			messages::info( Tr::_('Role <b>%ROLE_NAME%</b> has been deleted', ['ROLE_NAME'=>$role->getName() ]) );
+			messages::info( Tr::_( 'Role <b>%ROLE_NAME%</b> has been deleted', [ 'ROLE_NAME' => $role->getName() ] ) );
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}
 
 
 		$this->view->setVar( 'role', $role );
 
-		$this->render('delete-confirm');
+		$this->render( 'delete-confirm' );
 	}
 
 

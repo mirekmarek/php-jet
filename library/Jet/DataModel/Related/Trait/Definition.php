@@ -11,15 +11,17 @@ namespace Jet;
  * Class DataModel_Related_Trait_Definition
  * @package Jet
  */
-trait DataModel_Related_Trait_Definition {
+trait DataModel_Related_Trait_Definition
+{
 
-    /**
-     * @param $data_model_class_name
-     *
-     * @return DataModel_Definition_Model_Related_Abstract
-     */
-    public static function _getDataModelDefinitionInstance( $data_model_class_name ) {
-        return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
-    }
+	/**
+	 * @param string $data_model_class_name
+	 *
+	 * @return DataModel_Definition_Model_Related_Abstract
+	 */
+	public static function _getDataModelDefinitionInstance( $data_model_class_name )
+	{
+		return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
+	}
 
 }

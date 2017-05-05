@@ -11,12 +11,35 @@ namespace Jet;
  * Class Http_Request_Data_Hoax
  * @package Jet
  */
-class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
+class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable
+{
+
+	/**
+	 * @param string $name
+	 *
+	 * @throws Http_Request_Exception
+	 */
+	public function __get( $name )
+	{
+		$this->trap();
+	}
+
+	/**
+	 * @param string $name
+	 * @param mixed  $value
+	 *
+	 * @throws Http_Request_Exception
+	 */
+	public function __set( $name, $value )
+	{
+		$this->trap();
+	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	protected function trap(){
+	protected function trap()
+	{
 		throw new Http_Request_Exception(
 			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
 			Http_Request_Exception::CODE_REQUEST_DATA_HOAX
@@ -28,17 +51,8 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function __get($name) {
-		$this->trap();
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 *
-	 * @throws Http_Request_Exception
-	 */
-	public function __set($name, $value) {
+	public function __unset( $name )
+	{
 		$this->trap();
 	}
 
@@ -47,51 +61,48 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function __unset($name) {
-		$this->trap();
-	}
-
-	/**
-	 * @param string $name
-	 *
-	 * @throws Http_Request_Exception
-	 */
-	public function __isset($name) {
+	public function __isset( $name )
+	{
 		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function rewind() {
+	public function rewind()
+	{
 		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function current() {
+	public function current()
+	{
 		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function key() {
+	public function key()
+	{
 		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function next() {
+	public function next()
+	{
 		$this->trap();
 	}
 
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function valid() {
+	public function valid()
+	{
 		$this->trap();
 	}
 
@@ -101,7 +112,8 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetSet($offset, $value) {
+	public function offsetSet( $offset, $value )
+	{
 		$this->trap();
 	}
 
@@ -112,7 +124,8 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetExists($offset) {
+	public function offsetExists( $offset )
+	{
 		$this->trap();
 
 		return false;
@@ -123,17 +136,20 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetUnset($offset) {
+	public function offsetUnset( $offset )
+	{
 		$this->trap();
 	}
 
 	/**
 	 * @param mixed $offset
+	 *
 	 * @return mixed
 	 *
 	 * @throws Http_Request_Exception
 	 */
-	public function offsetGet($offset) {
+	public function offsetGet( $offset )
+	{
 		$this->trap();
 
 		return null;
@@ -142,7 +158,8 @@ class Http_Request_Data_Trap implements \ArrayAccess, \Iterator, \Countable {
 	/**
 	 * @throws Http_Request_Exception
 	 */
-	public function count(){
+	public function count()
+	{
 		$this->trap();
 	}
 }

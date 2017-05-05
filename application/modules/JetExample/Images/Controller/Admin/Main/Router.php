@@ -14,7 +14,8 @@ use JetExampleApp\Mvc_Page;
 /**
  *
  */
-class Controller_Admin_Main_Router extends Mvc_Controller_Router {
+class Controller_Admin_Main_Router extends Mvc_Controller_Router
+{
 
 
 	/**
@@ -25,77 +26,85 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 	{
 
 
-		parent::__construct( $module_instance);
+		parent::__construct( $module_instance );
 
-		$base_URI = Mvc_Page::get(Main::ADMIN_MAIN_PAGE)->getURI();
+		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
 
 		$gallery_validator = function( &$parameters ) {
 			$gallery = Gallery::get( $parameters[0] );
-			if(!$gallery) {
+			if( !$gallery ) {
 				return false;
 			}
 
 			$parameters['gallery'] = $gallery;
+
 			return true;
 
 		};
 
-		$this->addAction('add', '/^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )
-			->setCreateURICallback( function( $parent_id ) use($base_URI) { return $base_URI.'add:'.rawurlencode($parent_id).'/'; } )
-			->setParametersValidatorCallback( function(&$parameters) use ($gallery_validator) {
+		$this->addAction( 'add', '/^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )->setCreateURICallback(
+			function( $parent_id ) use ( $base_URI ) {
+				return $base_URI.'add:'.rawurlencode( $parent_id ).'/';
+			}
+		)->setParametersValidatorCallback(
+			function( &$parameters ) use ( $gallery_validator ) {
 
 				$parameters['parent_id'] = $parameters[0];
 
-				if($parameters[0]==Gallery::ROOT_ID) {
+				if( $parameters[0]==Gallery::ROOT_ID ) {
 					return true;
 				}
 
 				$gallery = Gallery::get( $parameters[0] );
-				if(!$gallery) {
-					unset($parameters['parent_id']);
+				if( !$gallery ) {
+					unset( $parameters['parent_id'] );
+
 					return false;
 				}
 
 				return true;
-			} );
+			}
+		);
 
-		$this->addAction('edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )
-			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'edit:'.rawurlencode($id).'/'; } )
-			->setParametersValidatorCallback( $gallery_validator );
+		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )->setCreateURICallback(
+			function( $id ) use ( $base_URI ) {
+				return $base_URI.'edit:'.rawurlencode( $id ).'/';
+			}
+		)->setParametersValidatorCallback( $gallery_validator );
 
-		$this->addAction('view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )
-			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'view:'.rawurlencode($id).'/'; } )
-			->setParametersValidatorCallback( $gallery_validator );
+		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )->setCreateURICallback(
+			function( $id ) use ( $base_URI ) {
+				return $base_URI.'view:'.rawurlencode( $id ).'/';
+			}
+		)->setParametersValidatorCallback( $gallery_validator );
 
-		$this->addAction('delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )
-			->setCreateURICallback( function( $id ) use($base_URI) { return $base_URI.'delete:'.rawurlencode($id).'/'; } )
-			->setParametersValidatorCallback( $gallery_validator );
+		$this->addAction( 'delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )->setCreateURICallback(
+			function( $id ) use ( $base_URI ) {
+				return $base_URI.'delete:'.rawurlencode( $id ).'/';
+			}
+		)->setParametersValidatorCallback( $gallery_validator );
 	}
 
 
 	/**
 	 * @param string $parent_id
+	 *
 	 * @return bool|string
 	 */
-	public function getAddURI( $parent_id ) {
-		return $this->getActionURI('add', $parent_id);
+	public function getAddURI( $parent_id )
+	{
+		return $this->getActionURI( 'add', $parent_id );
 	}
 
 	/**
 	 * @param string $id
+	 *
 	 * @return bool|string
 	 */
-	public function getEditURI( $id ) {
-		return $this->getActionURI('edit', $id);
-	}
-
-	/**
-	 * @param string $id
-	 * @return bool|string
-	 */
-	public function getEditOrViewURI( $id ) {
-		if( !($uri=$this->getEditURI($id)) ) {
-			$uri = $this->getViewURI($id);
+	public function getEditOrViewURI( $id )
+	{
+		if( !( $uri = $this->getEditURI( $id ) ) ) {
+			$uri = $this->getViewURI( $id );
 		}
 
 		return $uri;
@@ -103,18 +112,32 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router {
 
 	/**
 	 * @param string $id
+	 *
 	 * @return bool|string
 	 */
-	public function getViewURI( $id ) {
-		return $this->getActionURI('view', $id);
+	public function getEditURI( $id )
+	{
+		return $this->getActionURI( 'edit', $id );
 	}
 
 	/**
 	 * @param string $id
+	 *
 	 * @return bool|string
 	 */
-	public function getDeleteURI( $id ) {
-		return $this->getActionURI('delete', $id );
+	public function getViewURI( $id )
+	{
+		return $this->getActionURI( 'view', $id );
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public function getDeleteURI( $id )
+	{
+		return $this->getActionURI( 'delete', $id );
 	}
 
 }

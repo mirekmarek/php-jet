@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Definition_Property_DynamicValue
  * @package Jet
  */
-class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Property_Abstract {
+class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Property_Abstract
+{
 	/**
 	 * @var string
 	 */
@@ -32,10 +33,11 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( $definition_data ) {
+	public function setUp( $definition_data )
+	{
 
-		if($definition_data) {
-			parent::setUp($definition_data);
+		if( $definition_data ) {
+			parent::setUp( $definition_data );
 
 			if( !$this->getter_name ) {
 				throw new DataModel_Exception(
@@ -49,88 +51,101 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
 
 	/**
-	 * @param &$property
+	 * @param                     &$property
 	 * @param DataModel_Interface $data_model_instance
 	 */
-	public function initPropertyDefaultValue(
-		&$property,
-		/** @noinspection PhpUnusedParameterInspection */
-        DataModel_Interface $data_model_instance
-	) {
-    }
+	public function initPropertyDefaultValue( &$property, /** @noinspection PhpUnusedParameterInspection */
+	                                          DataModel_Interface $data_model_instance )
+	{
+	}
 
-    /**
-     * Converts property form jsonSerialize
-     *
-     * Example: Locale to string
-     *
-     * @param DataModel_Interface $data_model_instance
-     * @param mixed &$property
-     *
-     * @return mixed
-     */
-    public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property ) {
-        return $data_model_instance->{$this->getGetterName()}();
-    }
+	/**
+	 * Converts property form jsonSerialize
+	 *
+	 * Example: Locale to string
+	 *
+	 * @param DataModel_Interface $data_model_instance
+	 * @param mixed               &$property
+	 *
+	 * @return mixed
+	 */
+	public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property )
+	{
+		return $data_model_instance->{$this->getGetterName()}();
+	}
 
-    /**
-     *
-     * @param DataModel_Interface $data_model_instance
-     * @param mixed &$property
-     *
-     * @return mixed
-     */
-    public function getXmlExportValue(DataModel_Interface $data_model_instance, &$property ) {
-        return $data_model_instance->{$this->getGetterName()}();
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getGetterName()
+	{
+		return $this->getter_name;
+	}
 
+	/**
+	 *
+	 * @param DataModel_Interface $data_model_instance
+	 * @param mixed               &$property
+	 *
+	 * @return mixed
+	 */
+	public function getXmlExportValue( DataModel_Interface $data_model_instance, &$property )
+	{
+		return $data_model_instance->{$this->getGetterName()}();
+	}
 
-    /**
-     * @return bool
-     */
-    public function getCanBeTableField() {
-        return false;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getCanBeTableField()
+	{
+		return false;
+	}
 
-    /**
-     * @return bool
-     */
-    public function getCanBeInSelectPartOfQuery() {
-        return false;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getCanBeInSelectPartOfQuery()
+	{
+		return false;
+	}
 
-    /**
-     * @return bool
-     */
-    public function getCanBeInInsertRecord() {
-        return false;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getCanBeInInsertRecord()
+	{
+		return false;
+	}
 
-    /**
-     * @return bool
-     */
-    public function getCanBeInUpdateRecord() {
-        return false;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getCanBeInUpdateRecord()
+	{
+		return false;
+	}
 
-    /**
-     * @return bool
-     */
-    public function getCanBeFormField() {
-        return false;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getCanBeFormField()
+	{
+		return false;
+	}
 
-    /**
-     *
-     * @param DataModel_Interface $data_model_instance
-     * @param mixed $property_value
-     * @param array $related_data
-     *
-     * @return Form_Field_Abstract|Form_Field_Abstract[]
-     */
-    public function createFormField( DataModel_Interface $data_model_instance, $property_value, array $related_data ) {
-    	return null;
-    }
+	/**
+	 *
+	 * @param DataModel_Interface $data_model_instance
+	 * @param mixed               $property_value
+	 * @param array               $related_data
+	 *
+	 * @return Form_Field_Abstract|Form_Field_Abstract[]
+	 */
+	public function createFormField( DataModel_Interface $data_model_instance, $property_value, array $related_data )
+	{
+		return null;
+	}
 
 	/**
 	 *
@@ -138,31 +153,31 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function getDefaultValue() {
-		throw new DataModel_Exception('You can not use getDefaultValue for the property that is DynamicValue (property: '.$this->_name.')');
+	public function getDefaultValue()
+	{
+		throw new DataModel_Exception(
+			'You can not use getDefaultValue for the property that is DynamicValue (property: '.$this->_name.')'
+		);
 	}
 
-    /**
-     * @param mixed &$property
-     * @param mixed $data
-     *
-     */
-    public function loadPropertyValue( &$property, array $data ) {
-    }
+	/**
+	 * @param mixed &$property
+	 * @param mixed $data
+	 *
+	 */
+	public function loadPropertyValue( &$property, array $data )
+	{
+	}
 
 	/**
 	 * @param mixed $value
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function checkValueType( &$value ) {
-		throw new DataModel_Exception('You can not use checkValueType for the property that is DynamicValue (property: '.$this->_name.')');
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getGetterName() {
-		return $this->getter_name;
+	public function checkValueType( &$value )
+	{
+		throw new DataModel_Exception(
+			'You can not use checkValueType for the property that is DynamicValue (property: '.$this->_name.')'
+		);
 	}
 }

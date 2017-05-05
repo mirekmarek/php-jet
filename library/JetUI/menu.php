@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetUI;
+
 use Jet\BaseObject;
 
 
@@ -15,251 +16,262 @@ use Jet\BaseObject;
  */
 class menu extends BaseObject
 {
-    /**
-     * @var menu[]|array
-     */
-    protected static $menus = [];
+	/**
+	 * @var menu[]|array
+	 */
+	protected static $menus = [];
 
-    /**
-     * @var menu_item[]
-     */
-    protected static $all_menu_items;
+	/**
+	 * @var menu_item[]
+	 */
+	protected static $all_menu_items;
 
-    /**
-     * @var string
-     */
-    protected $id = '';
+	/**
+	 * @var string
+	 */
+	protected $id = '';
 
-    /**
-     * @var string
-     */
-    protected $label = '';
+	/**
+	 * @var string
+	 */
+	protected $label = '';
 
-    /**
-     * @var string
-     */
-    protected $icon = '';
+	/**
+	 * @var string
+	 */
+	protected $icon = '';
 
-    /**
-     * @var int
-     */
-    protected $index = 0;
+	/**
+	 * @var int
+	 */
+	protected $index = 0;
 
-    /**
-     * @var menu_item[]
-     */
-    protected $items = [];
+	/**
+	 * @var menu_item[]
+	 */
+	protected $items = [];
 
-    /**
-     * @param string $id
-     *
-     * @param $label
-     * @param int|null $index
-     * @param string $icon
-     *
-     * @throws menu_Exception
-     *
-     * @return menu
-     */
-    public static function addMenu( $id, $label, $index=null, $icon='' ) {
-        if(isset(static::$menus[$id])) {
-            throw new menu_Exception('Menu ID conflict: '.$id);
-        }
+	/**
+	 * menu constructor.
+	 *
+	 * @param string $id
+	 * @param string $label
+	 * @param int    $index
+	 * @param string $icon
+	 *
+	 */
+	public function __construct( $id, $label, $index, $icon = '' )
+	{
 
-        if($index===null) {
-            $index = count(static::$menus[$id])+1;
-        }
+		$this->id = $id;
+		$this->label = $label;
 
-        $menu = new static( $id, $label, $index, $icon );
+		$this->index = $index;
+		$this->icon = $icon;
 
-        static::$menus[$id] = $menu;
+	}
 
-        return $menu;
-    }
+	/**
+	 * @param string   $id
+	 *
+	 * @param string   $label
+	 * @param int|null $index
+	 * @param string   $icon
+	 *
+	 * @throws menu_Exception
+	 *
+	 * @return menu
+	 */
+	public static function addMenu( $id, $label, $index = null, $icon = '' )
+	{
+		if( isset( static::$menus[$id] ) ) {
+			throw new menu_Exception( 'Menu ID conflict: '.$id );
+		}
 
-    /**
-     * @param $id
-     * @return menu|null
-     */
-    public static function getMenu( $id ) {
-        if(!isset(static::$menus[$id])) {
-            return null;
-        }
+		if( $index===null ) {
+			$index = count( static::$menus[$id] )+1;
+		}
 
-        return static::$menus[$id];
-    }
+		$menu = new static( $id, $label, $index, $icon );
 
-    /**
-     * @return menu[]
-     *
-     * @throws menu_Exception
-     */
-    public static function getMenus()
-    {
-        $menus = [];
+		static::$menus[$id] = $menu;
 
-        foreach( static::$menus as $menu_id=>$menu ) {
+		return $menu;
+	}
 
-            if(!count($menu->getItems())) {
-                continue;
-            }
+	/**
+	 * @param string $id
+	 *
+	 * @return menu|null
+	 */
+	public static function getMenu( $id )
+	{
+		if( !isset( static::$menus[$id] ) ) {
+			return null;
+		}
 
-            $menu->sortMenuItems();
+		return static::$menus[$id];
+	}
 
-            $menus[$menu->getId()] = $menu;
-        }
+	/**
+	 * @return menu[]
+	 *
+	 * @throws menu_Exception
+	 */
+	public static function getMenus()
+	{
+		$menus = [];
 
-        uasort( $menus, function( menu $a, menu $b ) {
-            return strcmp( $a->getLabel(), $b->getLabel() );
-        } ) ;
+		foreach( static::$menus as $menu_id => $menu ) {
 
-        uasort( $menus, function( menu $a, menu $b ) {
+			if( !count( $menu->getItems() ) ) {
+				continue;
+			}
 
-            if ($a->getIndex() == $b->getIndex()) {
-                return 0;
-            }
-            return ($a->getIndex() < $b->getIndex()) ? -1 : 1;
-        } ) ;
+			$menu->sortMenuItems();
 
-        return $menus;
-    }
+			$menus[$menu->getId()] = $menu;
+		}
 
+		uasort(
+			$menus, function( menu $a, menu $b ) {
+			return strcmp( $a->getLabel(), $b->getLabel() );
+		}
+		);
 
-    /**
-     * menu constructor.
-     *
-     * @param string $id
-     * @param string $label
-     * @param int $index
-     * @param string $icon
-     *
-     */
-    public function __construct(  $id, $label, $index, $icon='' )
-    {
+		uasort(
+			$menus, function( menu $a, menu $b ) {
 
-        $this->id = $id;
-        $this->label = $label;
+			if( $a->getIndex()==$b->getIndex() ) {
+				return 0;
+			}
 
-        $this->index = $index;
-        $this->icon = $icon;
+			return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
+		}
+		);
 
-    }
+		return $menus;
+	}
 
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * @return menu_item[]
+	 */
+	public function getItems()
+	{
+		return $this->items;
+	}
 
-    /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+	/**
+	 * @param menu_item[] $items
+	 */
+	public function setItems( $items )
+	{
+		$this->items = [];
 
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
+		foreach( $items as $item ) {
+			$this->addMenuItem( $item );
+		}
+	}
 
-    /**
-     * @return string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
+	/**
+	 *
+	 */
+	public function sortMenuItems()
+	{
+		uasort(
+			$this->items, function( menu_item $a, menu_item $b ) {
+			return strcmp( $a->getLabel(), $b->getLabel() );
+		}
+		);
 
-    /**
-     * @param string $icon
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-    }
+		uasort(
+			$this->items, function( menu_item $a, menu_item $b ) {
 
-    /**
-     * @param string $label
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
+			if( $a->getIndex()==$b->getIndex() ) {
+				return 0;
+			}
 
-    /**
-     * @return int
-     */
-    public function getIndex()
-    {
-        return $this->index;
-    }
+			return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
+		}
+		);
 
-    /**
-     * @param int $index
-     */
-    public function setIndex($index)
-    {
-        $this->index = $index;
-    }
+	}
 
-    /**
-     * @return menu_item[]
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
+	/**
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * @param menu_item $item
-     */
-    public function addMenuItem(menu_item $item)
-    {
-	    /**
-	     * @var menu $this
-	     */
-        $item->setMenu($this);
-        $this->items[$item->getId()] = $item;
-    }
+	/**
+	 * @param string $id
+	 */
+	public function setId( $id )
+	{
+		$this->id = $id;
+	}
 
-    /**
-     * @param menu_item[] $items
-     */
-    public function setItems($items)
-    {
-        $this->items = [];
+	/**
+	 * @return string
+	 */
+	public function getLabel()
+	{
+		return $this->label;
+	}
 
-        foreach( $items as $item ) {
-            $this->addMenuItem($item);
-        }
-    }
+	/**
+	 * @param string $label
+	 */
+	public function setLabel( $label )
+	{
+		$this->label = $label;
+	}
 
-    /**
-     *
-     */
-    public function sortMenuItems()
-    {
-        uasort( $this->items, function( menu_item $a, menu_item $b ) {
-            return strcmp( $a->getLabel(), $b->getLabel() );
-        } ) ;
+	/**
+	 * @return int
+	 */
+	public function getIndex()
+	{
+		return $this->index;
+	}
 
-        uasort( $this->items, function( menu_item $a, menu_item $b ) {
+	/**
+	 * @param int $index
+	 */
+	public function setIndex( $index )
+	{
+		$this->index = $index;
+	}
 
-            if ($a->getIndex() == $b->getIndex()) {
-                return 0;
-            }
-            return ($a->getIndex() < $b->getIndex()) ? -1 : 1;
-        } ) ;
+	/**
+	 * @param menu_item $item
+	 */
+	public function addMenuItem( menu_item $item )
+	{
+		/**
+		 * @var menu $this
+		 */
+		$item->setMenu( $this );
+		$this->items[$item->getId()] = $item;
+	}
 
-    }
+	/**
+	 * @return string
+	 */
+	public function getIcon()
+	{
+		return $this->icon;
+	}
 
+	/**
+	 * @param string $icon
+	 */
+	public function setIcon( $icon )
+	{
+		$this->icon = $icon;
+	}
 
 
 }

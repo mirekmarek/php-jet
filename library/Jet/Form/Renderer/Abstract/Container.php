@@ -38,7 +38,7 @@ abstract class Form_Renderer_Abstract_Container extends Form_Renderer_Abstract_T
 	 *
 	 * @param Form_Field_Abstract $form_field
 	 */
-	public function __construct(Form_Field_Abstract $form_field)
+	public function __construct( Form_Field_Abstract $form_field )
 	{
 		$this->_field = $form_field;
 	}
@@ -46,10 +46,10 @@ abstract class Form_Renderer_Abstract_Container extends Form_Renderer_Abstract_T
 	/**
 	 * @return string
 	 */
-	public function render() {
+	public function render()
+	{
 
-		$tag_options = [
-		];
+		$tag_options = [];
 
 		return $this->generate( $tag_options );
 	}

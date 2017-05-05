@@ -11,22 +11,23 @@ namespace Jet;
  * Class Mvc_Page_Content_Interface
  *
  */
-interface Mvc_Page_Content_Interface {
+interface Mvc_Page_Content_Interface
+{
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
-	public function setPage(Mvc_Page_Interface $page);
+	public function setPage( Mvc_Page_Interface $page );
 
 	/**
 	 * @return Mvc_Page_Interface
 	 */
 	public function getPage();
 
-    /**
-     * @param mixed $id
-     *
-     */
-    public function setId($id );
+	/**
+	 * @param mixed $id
+	 *
+	 */
+	public function setId( $id );
 
 	/**
 	 * @return string
@@ -39,16 +40,17 @@ interface Mvc_Page_Content_Interface {
 	public function getKey();
 
 
-    /**
-     * @param array $data
-     * @return void
-     */
-    public function setData( array $data );
+	/**
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function setData( array $data );
 
 	/**
 	 * @param string $custom_controller
 	 */
-	public function setCustomController($custom_controller);
+	public function setCustomController( $custom_controller );
 
 	/**
 	 * @return string
@@ -75,15 +77,15 @@ interface Mvc_Page_Content_Interface {
 	 */
 	public function setControllerAction( $controller_action );
 
-    /**
-     * @return array
-     */
-    public function getControllerActionParameters();
+	/**
+	 * @return array
+	 */
+	public function getControllerActionParameters();
 
-    /**
-     * @param array $controller_action_parameters
-     */
-    public function setControllerActionParameters( array $controller_action_parameters );
+	/**
+	 * @param array $controller_action_parameters
+	 */
+	public function setControllerActionParameters( array $controller_action_parameters );
 
 	/**
 	 * @return string
@@ -93,7 +95,7 @@ interface Mvc_Page_Content_Interface {
 	/**
 	 * @param string $output
 	 */
-	public function setOutput($output);
+	public function setOutput( $output );
 
 	/**
 	 * @return string
@@ -131,9 +133,9 @@ interface Mvc_Page_Content_Interface {
 	 */
 	public function getControllerInstance();
 
-    /**
-     *
-     */
-    public function dispatch();
+	/**
+	 *
+	 */
+	public function dispatch();
 
 }

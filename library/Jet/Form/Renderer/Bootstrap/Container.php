@@ -11,25 +11,26 @@ namespace Jet;
  * Class Form_Renderer_Bootstrap_Container
  * @package Jet
  */
-class Form_Renderer_Bootstrap_Container extends Form_Renderer_Abstract_Container  {
+class Form_Renderer_Bootstrap_Container extends Form_Renderer_Abstract_Container
+{
 
 	/**
 	 * @var string
 	 */
 	protected $base_css_class;
 
-    /**
-     * @return string
-     */
-    public function getBaseCssClass()
+	/**
+	 * @return string
+	 */
+	public function getBaseCssClass()
 	{
-		if($this->base_css_class) {
+		if( $this->base_css_class ) {
 			$class = $this->base_css_class;
 		} else {
 			$class = 'form-group row';
 		}
 
-		if($this->_field->getLastError()) {
+		if( $this->_field->getLastError() ) {
 			$class .= ' has-error has-feedback';
 		}
 

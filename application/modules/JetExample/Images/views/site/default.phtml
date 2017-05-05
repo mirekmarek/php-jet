@@ -7,41 +7,45 @@ use Jet\Mvc_Layout;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View $this
+ * @var Mvc_View                               $this
  * @var DataModel_Fetch_Object_Assoc|Gallery[] $children
- * @var Gallery $gallery
+ * @var Gallery                                $gallery
  */
-$children = $this->getRaw('children');
-$gallery = $this->getRaw('gallery');
+$children = $this->getRaw( 'children' );
+$gallery = $this->getRaw( 'gallery' );
 
 $images = [];
-if($gallery) {
+if( $gallery ) {
 	$images = $gallery->getImages();
 }
 
-Mvc_Layout::getCurrentLayout()->requireCssFile('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+Mvc_Layout::getCurrentLayout()->requireCssFile(
+	'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+);
 
 ?>
 
 <div class="row">
-<?php foreach( $children as $gallery ): ?>
-	<a href="<?=rawurlencode($gallery->getTitle());?>/" class="img-thumbnail" style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;">
-		<?=UI::icon('folder-o')->setSize(80)?>
-		<br/>
-		<?=$gallery->getTitle();?>
-	</a>
-<?php endforeach; ?>
+	<?php foreach( $children as $gallery ): ?>
+		<a href="<?=rawurlencode( $gallery->getTitle() );?>/" class="img-thumbnail"
+		   style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;">
+			<?=UI::icon( 'folder-o' )->setSize( 80 )?>
+			<br/>
+			<?=$gallery->getTitle();?>
+		</a>
+	<?php endforeach; ?>
 </div>
 
 <div class="row">
-<?php foreach( $images as $image ):
-    /**
-     * @var Gallery_Image $image
-     */
-    $thumbnail = $image->getThumbnail( 120, 120 );
-	?>
-	<div class="col-xs-6 col-md-3">
-		<a href="<?=$image->getURI();?>" target="_blank" class="thumbnail"><img src="<?=$thumbnail->getURI();?>"/></a>
-	</div>
-<?php endforeach; ?>
+	<?php foreach( $images as $image ):
+		/**
+		 * @var Gallery_Image $image
+		 */
+		$thumbnail = $image->getThumbnail( 120, 120 );
+		?>
+		<div class="col-xs-6 col-md-3">
+			<a href="<?=$image->getURI();?>" target="_blank" class="thumbnail"><img
+					src="<?=$thumbnail->getURI();?>"/></a>
+		</div>
+	<?php endforeach; ?>
 </div>

@@ -16,12 +16,7 @@ trait Mvc_Page_Trait_Initialization
 	 * @var array
 	 */
 	protected static $do_not_inherit_properties = [
-		'breadcrumb_title',
-		'menu_title',
-		'order',
-		'is_direct_output',
-		'direct_output_file_name',
-		'output'
+		'breadcrumb_title', 'menu_title', 'order', 'is_direct_output', 'direct_output_file_name', 'output',
 	];
 
 
@@ -31,138 +26,42 @@ trait Mvc_Page_Trait_Initialization
 	protected $data_file_path = '';
 
 	/**
-	 * @param string $data_file_path
-	 */
-	public function setDataFilePath($data_file_path)
-	{
-		$this->data_file_path = $data_file_path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDataFilePath()
-	{
-		return $this->data_file_path;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDataDirPath() {
-		return dirname($this->getDataFilePath()).'/';
-	}
-
-	/**
 	 * @param Mvc_Site_Interface $site
-	 * @param Locale $locale
-	 * @param array $data
-	 * @param Mvc_Page_Interface|null $parent_page
-	 *
-	 * @return Mvc_Page_Interface
-	 */
-	public static function createPageByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page=null ) {
-		$page = new static();
-		/**
-		 * @var Mvc_Page $page
-		 */
-
-		$page->setSite( $site );
-		$page->setLocale( $locale );
-
-		$page->setId( $data['id'] );
-		if($parent_page) {
-			$page->setParent($parent_page);
-		}
-
-		unset( $data['id'] );
-
-
-		if(!isset($data['breadcrumb_title'])) {
-			$data['breadcrumb_title'] = $data['title'];
-		}
-		if(!isset($data['menu_title'])) {
-			$data['menu_title'] = $data['title'];
-		}
-
-		if(isset($data['meta_tags'])) {
-			$meta_tags = [];
-			foreach( $data['meta_tags']  as $i=>$m_dat) {
-				$mtg = Mvc_Factory::getPageMetaTagInstance();
-
-				$mtg->setData( $m_dat );
-
-				$meta_tags[] = $mtg;
-			}
-			unset( $data['meta_tags'] );
-			$page->setMetaTags($meta_tags);
-		}
-
-		if(isset($data['contents'])) {
-			$contents = [];
-
-			foreach( $data['contents']  as $i=>$c_dat) {
-
-				$cnt = Mvc_Factory::getPageContentInstance();
-				$cnt->setData($c_dat);
-
-				$contents[] = $cnt;
-			}
-
-			unset( $data['contents'] );
-			$page->setContent($contents);
-		}
-
-
-		foreach( $data as $key=>$var ) {
-			$page->{$key} = $var;
-		}
-
-		$page->setUrlFragment($data['URL_fragment']);
-
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return $page;
-	}
-
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale $locale
+	 * @param Locale             $locale
 	 *
 	 */
-	public static function loadPages( Mvc_Site_Interface $site, Locale $locale ) {
+	public static function loadPages( Mvc_Site_Interface $site, Locale $locale )
+	{
 
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
 
-		if(
-			array_key_exists($site_id, static::$pages) &&
-			array_key_exists($locale_str, static::$pages[$site_id])
-		) {
+		if( array_key_exists( $site_id, static::$pages )&&array_key_exists( $locale_str, static::$pages[$site_id] ) ) {
 			return;
 		}
 
-		static::_loadPages_readDir( $site, $locale,  $site->getPagesDataPath( $locale ));
+		static::_loadPages_readDir( $site, $locale, $site->getPagesDataPath( $locale ) );
 	}
-
 
 	/**
 	 * @param Mvc_Site_Interface $site
-	 * @param Locale $locale
-	 * @param string $source_dir_path
-	 * @param array $parent_page_data (optional)
-	 * @param Mvc_Page $parent_page
+	 * @param Locale             $locale
+	 * @param string             $source_dir_path
+	 * @param array              $parent_page_data (optional)
+	 * @param Mvc_Page           $parent_page
 	 *
 	 */
-	protected static function _loadPages_readDir(Mvc_Site_Interface $site, Locale $locale, $source_dir_path, array $parent_page_data=null, Mvc_Page $parent_page=null ) {
+	protected static function _loadPages_readDir( Mvc_Site_Interface $site, Locale $locale, $source_dir_path, array $parent_page_data = null, Mvc_Page $parent_page = null )
+	{
 		$list = IO_Dir::getList( $source_dir_path, '*', true, false );
 
-		if(!$parent_page_data) {
+		if( !$parent_page_data ) {
 			$page_data_file_path = $source_dir_path.self::PAGE_DATA_FILE_NAME;
 
 			$page_data = static::_loadPages_readPageDataFile( $page_data_file_path );
 			$page_data['URL_fragment'] = '';
 
-			$page = static::createPageByData($site, $locale, $page_data);
+			$page = static::createPageByData( $site, $locale, $page_data );
 			static::appendPage( $page );
 
 
@@ -172,16 +71,16 @@ trait Mvc_Page_Trait_Initialization
 		}
 
 
-		foreach( $list as $dir_path=>$dir_name ) {
+		foreach( $list as $dir_path => $dir_name ) {
 
 			$page_data = static::_loadPages_readPageDataFile( $dir_path.self::PAGE_DATA_FILE_NAME, $parent_page_data );
 
 			$page_data['URL_fragment'] = $dir_name;
 
-			$page = static::createPageByData($site, $locale, $page_data, $parent_page);
+			$page = static::createPageByData( $site, $locale, $page_data, $parent_page );
 			static::appendPage( $page );
 
-			static::_loadPages_readDir($site, $locale, $dir_path, $page_data, $page);
+			static::_loadPages_readDir( $site, $locale, $dir_path, $page_data, $page );
 		}
 
 	}
@@ -189,15 +88,18 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @param string $data_file_path
 	 *
-	 * @param array $parent_page_data
+	 * @param array  $parent_page_data
 	 *
 	 * @throws Mvc_Page_Exception
 	 * @return array
 	 */
-	public static function _loadPages_readPageDataFile( $data_file_path, array $parent_page_data=null ) {
+	public static function _loadPages_readPageDataFile( $data_file_path, array $parent_page_data = null )
+	{
 
-		if(!IO_File::isReadable($data_file_path)) {
-			throw new Mvc_Page_Exception( 'Page data file is not readable: '.$data_file_path, Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA );
+		if( !IO_File::isReadable( $data_file_path ) ) {
+			throw new Mvc_Page_Exception(
+				'Page data file is not readable: '.$data_file_path, Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
+			);
 		}
 
 		/** @noinspection PhpIncludeInspection */
@@ -206,19 +108,19 @@ trait Mvc_Page_Trait_Initialization
 
 		$current_page_data['data_file_path'] = $data_file_path;
 
-		if($parent_page_data) {
+		if( $parent_page_data ) {
 
-			if(isset($parent_page_data['contents'])) {
-				unset($parent_page_data['contents']);
+			if( isset( $parent_page_data['contents'] ) ) {
+				unset( $parent_page_data['contents'] );
 			}
-			unset($parent_page_data['id']);
+			unset( $parent_page_data['id'] );
 
-			foreach( $parent_page_data as $k=>$v ) {
-				if( in_array($k, static::$do_not_inherit_properties) ) {
+			foreach( $parent_page_data as $k => $v ) {
+				if( in_array( $k, static::$do_not_inherit_properties ) ) {
 					continue;
 				}
 
-				if(!array_key_exists($k, $current_page_data)) {
+				if( !array_key_exists( $k, $current_page_data ) ) {
 					$current_page_data[$k] = $v;
 				}
 			}
@@ -232,6 +134,102 @@ trait Mvc_Page_Trait_Initialization
 
 
 		return $current_page_data;
+	}
+
+	/**
+	 * @param Mvc_Site_Interface      $site
+	 * @param Locale                  $locale
+	 * @param array                   $data
+	 * @param Mvc_Page_Interface|null $parent_page
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public static function createPageByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null )
+	{
+		$page = new static();
+		/**
+		 * @var Mvc_Page $page
+		 */
+
+		$page->setSite( $site );
+		$page->setLocale( $locale );
+
+		$page->setId( $data['id'] );
+		if( $parent_page ) {
+			$page->setParent( $parent_page );
+		}
+
+		unset( $data['id'] );
+
+
+		if( !isset( $data['breadcrumb_title'] ) ) {
+			$data['breadcrumb_title'] = $data['title'];
+		}
+		if( !isset( $data['menu_title'] ) ) {
+			$data['menu_title'] = $data['title'];
+		}
+
+		if( isset( $data['meta_tags'] ) ) {
+			$meta_tags = [];
+			foreach( $data['meta_tags'] as $i => $m_dat ) {
+				$mtg = Mvc_Factory::getPageMetaTagInstance();
+
+				$mtg->setData( $m_dat );
+
+				$meta_tags[] = $mtg;
+			}
+			unset( $data['meta_tags'] );
+			$page->setMetaTags( $meta_tags );
+		}
+
+		if( isset( $data['contents'] ) ) {
+			$contents = [];
+
+			foreach( $data['contents'] as $i => $c_dat ) {
+
+				$cnt = Mvc_Factory::getPageContentInstance();
+				$cnt->setData( $c_dat );
+
+				$contents[] = $cnt;
+			}
+
+			unset( $data['contents'] );
+			$page->setContent( $contents );
+		}
+
+
+		foreach( $data as $key => $var ) {
+			$page->{$key} = $var;
+		}
+
+		$page->setUrlFragment( $data['URL_fragment'] );
+
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return $page;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDataDirPath()
+	{
+		return dirname( $this->getDataFilePath() ).'/';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDataFilePath()
+	{
+		return $this->data_file_path;
+	}
+
+	/**
+	 * @param string $data_file_path
+	 */
+	public function setDataFilePath( $data_file_path )
+	{
+		$this->data_file_path = $data_file_path;
 	}
 
 

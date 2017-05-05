@@ -5,4 +5,4 @@ use Jet\DataModel_Helper;
 
 $article = new Article();
 
-DataModel_Helper::drop(get_class($article));
+DataModel_Helper::drop( get_class( $article ) );

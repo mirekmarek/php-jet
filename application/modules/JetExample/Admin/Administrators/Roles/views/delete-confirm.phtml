@@ -7,26 +7,27 @@ use Jet\Mvc_View;
 use Jet\Tr;
 
 /**
- * @var Mvc_View $this
- * @var Controller_Main_Router $router
+ * @var Mvc_View                $this
+ * @var Controller_Main_Router  $router
  * @var Auth_Administrator_Role $role
  */
 $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
-$role = $this->getRaw('role');
+$role = $this->getRaw( 'role' );
 ?>
 
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
-	<?=UI::button_goBack()->setUrl(Mvc::getCurrentPage()->getURI())?>
+	<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
 
 	<p>
-	<?=Tr::_('Do you really want to delete this role?');?>
-	<br/>
-	<a href="<?=$router->getViewURI($role->getId());?>" style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getId();?>)</a>
+		<?=Tr::_( 'Do you really want to delete this role?' );?>
+		<br/>
+		<a href="<?=$router->getViewURI( $role->getId() );?>"
+		   style="font-weight: bolder;font-size: 20px;"><?=$role->getName();?> (<?=$role->getId();?>)</a>
 	</p>
 
-	<form action="?delete=<?=rawurlencode($role->getId());?>" method="post">
+	<form action="?delete=<?=rawurlencode( $role->getId() );?>" method="post">
 		<input type="hidden" name="delete" value="yes">
-		<?=UI::button_delete()->setType('submit')?>
+		<?=UI::button_delete()->setType( 'submit' )?>
 	</form>
 </div>

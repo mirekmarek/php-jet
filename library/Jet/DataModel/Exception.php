@@ -11,7 +11,8 @@ namespace Jet;
  * Class DataModel_Exception
  * @package Jet
  */
-class DataModel_Exception extends Exception {
+class DataModel_Exception extends Exception
+{
 
 
 	const CODE_INVALID_PROPERTY_TYPE = 101;

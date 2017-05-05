@@ -6,6 +6,7 @@
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
 namespace JetExampleApp;
+
 use Jet\Auth_Role_Privilege;
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
