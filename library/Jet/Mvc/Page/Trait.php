@@ -1,0 +1,23 @@
+<?php
+/**
+ *
+ * @copyright Copyright (c) 2011-2017 Miroslav Marek <mirek.marek.2m@gmail.com>
+ * @license http://www.php-jet.net/php-jet/license.txt
+ * @author Miroslav Marek <mirek.marek.2m@gmail.com>
+ */
+namespace Jet;
+
+/**
+ */
+trait Mvc_Page_Trait
+{
+	use Mvc_Page_Trait_Initialization;
+	use Mvc_Page_Trait_Tree;
+	use Mvc_Page_Trait_URL;
+	use Mvc_Page_Trait_Content;
+	use Mvc_Page_Trait_MetaTags;
+	use Mvc_Page_Trait_Layout;
+	use Mvc_Page_Trait_Auth;
+	use Mvc_Page_Trait_Handlers;
+
+}
