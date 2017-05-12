@@ -7,8 +7,6 @@
  */
 namespace Jet;
 
-use Jet\Http_Request;
-
 /**
  * Class tabs_tab
  * @package Jet

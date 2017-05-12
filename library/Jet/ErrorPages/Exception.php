@@ -8,10 +8,9 @@
 namespace Jet;
 
 /**
- * Class Debug_ErrorHandler_Exception
- * @package Jet
+ *
  */
-class Debug_ErrorHandler_Exception extends Exception
+class ErrorPages_Exception extends Exception
 {
 
 	const CODE_INVALID_ERROR_PAGES_DIR_PATH = 1;

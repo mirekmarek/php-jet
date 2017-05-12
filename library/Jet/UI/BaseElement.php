@@ -7,9 +7,6 @@
  */
 namespace Jet;
 
-use Jet\BaseObject;
-use Jet\Mvc_View;
-
 /**
  *
  */
@@ -122,12 +119,10 @@ abstract class UI_BaseElement extends BaseObject
 	 */
 	public function getView() {
 
-		//TODO: moznost vlastniho adresare
 		$view = UI::getView();
 		$view->setVar( 'element', $this );
 
 		return $view;
-
 	}
 
 	/**

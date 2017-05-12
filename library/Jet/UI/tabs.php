@@ -7,12 +7,8 @@
  */
 namespace Jet;
 
-use Jet\Http_Request;
-
-
 /**
- * Class tabs
- * @package Jet
+ *
  */
 class UI_tabs extends UI_BaseElement
 {

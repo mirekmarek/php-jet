@@ -80,7 +80,6 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			$this->_mainInit( $data_model_class_name );
 
 			$this->_initParents();
-			$this->_initBackendsConfig();
 			$this->_initProperties();
 			$this->_initKeys();
 
@@ -137,20 +136,6 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 	}
 
-	/**
-	 *
-	 */
-	protected function _initBackendsConfig()
-	{
-		$main_class_name = $this->main_model_class_name;
-
-		$this->forced_backend_type = BaseObject_Reflection::get(
-			$main_class_name, 'data_model_forced_backend_type', null
-		);
-		$this->forced_backend_config = BaseObject_Reflection::get(
-			$main_class_name, 'data_model_forced_backend_config', null
-		);
-	}
 
 	/**
 	 *
@@ -241,7 +226,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	 */
 	public function getParentRelatedModelDefinition()
 	{
-		return DataModel_Definition::getDefinition( $this->parent_model_class_name );
+		return DataModel_Definition::get( $this->parent_model_class_name );
 	}
 
 	/**
@@ -287,22 +272,12 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	}
 
 	/**
-	 * Returns backend instance
-	 *
-	 * @return DataModel_Backend
-	 */
-	public function getBackendInstance()
-	{
-		return $this->getMainModelDefinition()->getBackendInstance();
-	}
-
-	/**
 	 *
 	 * @return DataModel_Definition_Model_Main
 	 */
 	public function getMainModelDefinition()
 	{
-		return DataModel_Definition::getDefinition( $this->main_model_class_name );
+		return DataModel_Definition::get( $this->main_model_class_name );
 	}
 
 	/**

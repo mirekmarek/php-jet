@@ -182,7 +182,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getDataModelDefinition()
 	{
-		return DataModel_Definition::getDefinition( $this->data_model_class_name );
+		return DataModel_Definition::get( $this->data_model_class_name );
 	}
 
 	/**

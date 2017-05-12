@@ -12,6 +12,22 @@ namespace Jet;
  */
 abstract class DataModel_Backend extends BaseObject
 {
+	/**
+	 * @var DataModel_Config
+	 */
+	protected static $_main_config;
+
+	/**
+	 *
+	 * @var DataModel_Backend[]
+	 */
+	protected static $custom_backends = [];
+
+	/**
+	 * @var DataModel_Backend
+	 */
+	protected static $default_backend;
+
 
 	/**
 	 * @var DataModel
@@ -22,6 +38,103 @@ abstract class DataModel_Backend extends BaseObject
 	 * @var DataModel_Backend_Config
 	 */
 	protected $config;
+
+
+	/**
+	 *
+	 * @return string
+	 */
+	public static function getDefaultBackendType()
+	{
+		return self::getMainConfig()->getBackendType();
+	}
+
+	/**
+	 *
+	 * @return DataModel_Config
+	 */
+	public static function getMainConfig()
+	{
+		if( !self::$_main_config ) {
+			self::$_main_config = new DataModel_Config();
+		}
+
+		return self::$_main_config;
+	}
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @return DataModel_Backend
+	 */
+	public static function get( DataModel_Definition_Model $definition )
+	{
+		if(static::$custom_backends) {
+			if($definition instanceof DataModel_Definition_Model_Related) {
+				$definition = $definition->getMainModelDefinition();
+			}
+
+			if($definition instanceof DataModel_Definition_Model_Related_MtoN) {
+				$definition = $definition->getMModelDefinition();
+			}
+
+			$class_name = $definition->getClassName();
+			if( isset(static::$custom_backends[$class_name]) ) {
+				return static::$custom_backends[$class_name];
+			}
+		}
+
+		if(!static::$default_backend) {
+			$backend_type = static::getDefaultBackendType();
+
+			static::$default_backend = DataModel_Factory::getBackendInstance(
+					$backend_type,
+					DataModel_Factory::getBackendConfigInstance( $backend_type )
+				);
+			static::$default_backend->initialize();
+		}
+
+		return static::$default_backend;
+	}
+
+	/**
+	 *
+	 * @param string            $data_model_class_name
+	 * @param DataModel_Backend $backend
+	 */
+	public function setCustomBackend( $data_model_class_name, DataModel_Backend $backend )
+	{
+		static::$custom_backends[$data_model_class_name] = $backend;
+	}
+
+	/**
+	 * @param string $data_model_class_name
+	 *
+	 * @return DataModel_Backend|null
+	 */
+	public function getCustomBackend( $data_model_class_name )
+	{
+		if(!isset(static::$custom_backends[$data_model_class_name])) {
+			return null;
+		}
+
+		return static::$custom_backends[$data_model_class_name];
+	}
+
+	/**
+	 * @param string $data_model_class_name
+	 *
+	 * @return DataModel_Backend
+	 */
+	public function unsetCustomBackend( $data_model_class_name )
+	{
+		if(isset(static::$custom_backends[$data_model_class_name])) {
+			unset(static::$custom_backends[$data_model_class_name]);
+		}
+
+		return static::$custom_backends[$data_model_class_name];
+	}
+
 
 	/**
 	 *

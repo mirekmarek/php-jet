@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Paginator
- * @package Jet
+ *
  */
 class Data_Paginator extends BaseObject
 {

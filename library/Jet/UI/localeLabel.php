@@ -7,8 +7,6 @@
  */
 namespace Jet;
 
-use Jet\Locale;
-
 /**
  * Class flag
  * @package Jet

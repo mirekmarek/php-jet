@@ -24,7 +24,6 @@ class DataModel_Definition_Model_Main extends DataModel_Definition_Model
 
 		parent::_mainInit( $data_model_class_name );
 
-		$this->_initBackendsConfig();
 	}
 
 }

@@ -146,7 +146,7 @@ class DataModel_Definition_Relation_JoinByItem extends BaseObject
 	 */
 	public function getRelatedProperty()
 	{
-		return DataModel_Definition::getDefinition( $this->related_class_name )->getProperty(
+		return DataModel_Definition::get( $this->related_class_name )->getProperty(
 			$this->related_property_name
 		);
 	}

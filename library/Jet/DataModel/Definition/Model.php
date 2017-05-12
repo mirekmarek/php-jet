@@ -7,6 +7,7 @@
  */
 namespace Jet;
 
+
 /**
  *
  */
@@ -14,74 +15,59 @@ abstract class DataModel_Definition_Model extends BaseObject
 {
 
 	/**
-	 * @var DataModel_Config
-	 */
-	protected static $__main_config;
-
-	/**
-	 * Backend instance
-	 * @see getBackendInstance()
-	 *
-	 * @var DataModel_Backend[]
-	 */
-	protected static $__backend_instances = [];
-
-	/**
-	 * DataModel name
 	 *
 	 * @var string
 	 */
 	protected $model_name = '';
+
 	/**
-	 * Database table name
 	 *
 	 * @var string
 	 */
 	protected $database_table_name = '';
+
 	/**
-	 * DataModel class name
 	 *
 	 * @var string
 	 */
 	protected $class_name = '';
+
 	/**
+	 *
 	 * @var string
 	 */
 	protected $id_class_name = '';
+
 	/**
+	 *
 	 * @var array
 	 */
 	protected $id_options = [];
+
 	/**
 	 *
 	 * @var DataModel_Definition_Property[]
 	 */
 	protected $id_properties = [];
+
 	/**
 	 *
 	 * @var DataModel_Definition_Property[]
 	 */
 	protected $properties = [];
+
 	/**
+	 *
 	 * @var DataModel_Definition_Key[]
 	 */
 	protected $keys = [];
+
 	/**
+	 *
 	 * @var DataModel_Definition_Relation[]
 	 */
 	protected $relations;
-	/**
-	 * @var null|string
-	 */
-	protected $forced_backend_type;
-	/**
-	 * @var null|array
-	 */
-	protected $forced_backend_config;
-	/**
-	 * @var string
-	 */
-	private $_backend_key;
+
 
 
 	/**
@@ -524,118 +510,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 	public function getKeys()
 	{
 		return $this->keys;
-	}
-
-	/**
-	 * @return array|null
-	 */
-	public function getForcedBackendConfig()
-	{
-		return $this->forced_backend_config;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getForcedBackendType()
-	{
-		return $this->forced_backend_type;
-	}
-
-	/**
-	 * Returns backend instance
-	 *
-	 * @return DataModel_Backend
-	 */
-	public function getBackendInstance()
-	{
-		$backend_type = $this->getBackendType();
-
-		if( !$this->_backend_key ) {
-			$this->_backend_key = $backend_type;
-
-			if( $this->forced_backend_config!==null ) {
-				$this->_backend_key .= ':'.md5( serialize( $this->forced_backend_config ) );
-			}
-		}
-
-		$key = $this->_backend_key;
-
-		if( !isset( self::$__backend_instances[$key] ) ) {
-			$backend_config = $this->getBackendConfig();
-
-			self::$__backend_instances[$key] = DataModel_Factory::getBackendInstance(
-				$backend_type, $backend_config
-			);
-			self::$__backend_instances[$key]->initialize();
-
-		}
-
-		return self::$__backend_instances[$key];
-	}
-
-	/**
-	 * Returns backend type (example: MySQL)
-	 *
-	 * @return string
-	 */
-	public function getBackendType()
-	{
-
-		if( $this->forced_backend_type!==null ) {
-			return $this->forced_backend_type;
-		}
-
-		return self::_getMainConfig()->getBackendType();
-	}
-
-	/**
-	 * Returns DataModel system config instance
-	 *
-	 * @return DataModel_Config
-	 */
-	protected static function _getMainConfig()
-	{
-		if( !self::$__main_config ) {
-			self::$__main_config = new DataModel_Config();
-		}
-
-		return self::$__main_config;
-	}
-
-	/**
-	 * Returns Backend options
-	 *
-	 * @return DataModel_Backend_Config
-	 */
-	public function getBackendConfig()
-	{
-
-		if( $this->forced_backend_config!==null ) {
-			$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType(), true );
-
-			$config->setData(
-				$this->forced_backend_config, false
-			);
-		} else {
-			$config = DataModel_Factory::getBackendConfigInstance( $this->getBackendType() );
-
-		}
-
-		return $config;
-	}
-
-	/**
-	 *
-	 */
-	protected function _initBackendsConfig()
-	{
-		$this->forced_backend_type = BaseObject_Reflection::get(
-			$this->class_name, 'data_model_forced_backend_type', null
-		);
-		$this->forced_backend_config = BaseObject_Reflection::get(
-			$this->class_name, 'data_model_forced_backend_config', null
-		);
 	}
 
 }

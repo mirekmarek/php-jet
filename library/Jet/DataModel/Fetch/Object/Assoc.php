@@ -60,9 +60,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Dat
 
 		$this->data = [];
 
-		$backend = $this->data_model_definition->getBackendInstance();
-
-		$l = $backend->fetchAll( $this->query );
+		$l = DataModel_Backend::get($this->data_model_definition)->fetchAll( $this->query );
 
 
 		if( $this->load_filter ) {

@@ -8,16 +8,10 @@
 namespace Jet;
 
 /**
- * Class DataModel_Trait_Backend
- * @package Jet
+ *
  */
 trait DataModel_Trait_Backend
 {
-
-	/**
-	 * @var DataModel_Backend
-	 */
-	protected static $_backend = false;
 
 	/**
 	 *
@@ -48,14 +42,7 @@ trait DataModel_Trait_Backend
 	 */
 	public static function getBackendInstance()
 	{
-
-		if( !static::$_backend ) {
-			/** @noinspection PhpUndefinedMethodInspection */
-			static::$_backend = static::getDataModelDefinition()->getBackendInstance();
-
-		}
-
-		return static::$_backend;
+		return DataModel_Backend::get( static::getDataModelDefinition() );
 	}
 
 	/**

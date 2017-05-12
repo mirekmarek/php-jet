@@ -25,7 +25,7 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 	 *
 	 * @return DataModel_Definition_Model
 	 */
-	public static function getDefinition( $class_name )
+	public static function get( $class_name )
 	{
 
 
@@ -201,12 +201,6 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				break;
 			case 'parent_model_class_name':
 				$data->result_data['data_model_parent_model_class_name'] = $data->getValueAsClassName();
-				break;
-			case 'forced_backend_type':
-				$data->result_data['data_model_forced_backend_type'] = $data->getValueAsString();
-				break;
-			case 'forced_backend_config':
-				$data->result_data['data_model_forced_backend_config'] = $data->getValueAsArray();
 				break;
 			case 'M_model_class_name':
 				$data->result_data['M_model_class_name'] = $data->getValueAsClassName();

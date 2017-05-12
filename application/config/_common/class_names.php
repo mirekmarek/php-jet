@@ -1,7 +1,7 @@
 <?php
 namespace Jet;
 
-//TODO: zlikvidovat ...
+//TODO: zlikvidovat, zpet do tovaren ...
 //define('JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', __NAMESPACE__.'\Application_Module_Manifest');
 define( 'JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME', 'JetExampleApp\Application_Module_Manifest' );
 

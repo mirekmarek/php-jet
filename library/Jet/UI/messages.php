@@ -7,10 +7,6 @@
  */
 namespace Jet;
 
-use Jet\BaseObject;
-use Jet\Session;
-
-
 /**
  * Class messages
  * @package Jet

@@ -19,11 +19,12 @@ require( $config_dir.'class_names.php' );
 require( $config_dir.'paths.php' );
 require( $config_dir.'jet.php' );
 require( $config_dir.'URI.php' );
-require( $config_dir.'php_setup.php' );
 
 
 $init_dir = JET_APPLICATION_PATH.'init/';
 
+/** @noinspection PhpIncludeInspection */
+require( $init_dir.'PHP.php' );
 /** @noinspection PhpIncludeInspection */
 require( $init_dir.'Profiler.php' );
 /** @noinspection PhpIncludeInspection */

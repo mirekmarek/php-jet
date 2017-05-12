@@ -7,15 +7,26 @@
  */
 namespace Jet;
 
-use Jet\BaseObject;
-use Jet\Mvc_View;
-
-
 /**
  *
  */
 class UI_dialog extends BaseObject
 {
+
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_start = 'dialog/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_footer = 'dialog/footer';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_end = 'dialog/end';
 
 	/**
 	 * @var string
@@ -33,6 +44,70 @@ class UI_dialog extends BaseObject
 	protected $width = 0;
 
 	/**
+	 * @var string
+	 */
+	protected $renderer_script_start = 'dialog/start';
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_script_footer = 'dialog/footer';
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_script_end = 'dialog/end';
+
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptStart()
+	{
+		return static::$default_renderer_script_start;
+	}
+
+	/**
+	 * @param string $default_renderer_script_start
+	 */
+	public static function setDefaultRendererScriptStart( $default_renderer_script_start )
+	{
+		static::$default_renderer_script_start = $default_renderer_script_start;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptFooter()
+	{
+		return static::$default_renderer_script_footer;
+	}
+
+	/**
+	 * @param string $default_renderer_script_footer
+	 */
+	public static function setDefaultRendererScriptFooter( $default_renderer_script_footer )
+	{
+		static::$default_renderer_script_footer = $default_renderer_script_footer;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptEnd()
+	{
+		return static::$default_renderer_script_end;
+	}
+
+	/**
+	 * @param string $default_renderer_script_end
+	 */
+	public static function setDefaultRendererScriptEnd( $default_renderer_script_end )
+	{
+		static::$default_renderer_script_end = $default_renderer_script_end;
+	}
+
+	/**
 	 *
 	 * @param string $id
 	 * @param string $title
@@ -43,6 +118,66 @@ class UI_dialog extends BaseObject
 		$this->id = $id;
 		$this->title = $title;
 		$this->width = $width;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptStart()
+	{
+		if(!$this->renderer_script_start) {
+			$this->renderer_script_start = static::getDefaultRendererScriptStart();
+		}
+
+		return $this->renderer_script_start;
+	}
+
+	/**
+	 * @param string $renderer_script_start
+	 */
+	public function setRendererScriptStart( $renderer_script_start )
+	{
+		$this->renderer_script_start = $renderer_script_start;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptFooter()
+	{
+		if(!$this->renderer_script_footer) {
+			$this->renderer_script_footer = static::getDefaultRendererScriptFooter();
+		}
+
+		return $this->renderer_script_footer;
+	}
+
+	/**
+	 * @param string $renderer_script_footer
+	 */
+	public function setRendererScriptFooter( $renderer_script_footer )
+	{
+		$this->renderer_script_footer = $renderer_script_footer;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptEnd()
+	{
+		if(!$this->renderer_script_end) {
+			$this->renderer_script_end = static::getDefaultRendererScriptEnd();
+		}
+
+		return $this->renderer_script_end;
+	}
+
+	/**
+	 * @param string $renderer_script_end
+	 */
+	public function setRendererScriptEnd( $renderer_script_end )
+	{
+		$this->renderer_script_end = $renderer_script_end;
 	}
 
 	/**
@@ -88,7 +223,7 @@ class UI_dialog extends BaseObject
 	 */
 	public function start()
 	{
-		return $this->getView()->render('dialog/start');
+		return $this->getView()->render( $this->getRendererScriptStart() );
 	}
 
 	/**
@@ -96,7 +231,7 @@ class UI_dialog extends BaseObject
 	 */
 	public function footer()
 	{
-		return $this->getView()->render('dialog/footer');
+		return $this->getView()->render( $this->getRendererScriptFooter() );
 	}
 
 	/**
@@ -104,7 +239,7 @@ class UI_dialog extends BaseObject
 	 */
 	public function end()
 	{
-		return $this->getView()->render('dialog/end');
+		return $this->getView()->render( $this->getRendererScriptEnd() );
 	}
 
 }

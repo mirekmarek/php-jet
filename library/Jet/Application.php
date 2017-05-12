@@ -108,23 +108,35 @@ class Application extends BaseObject
 		}
 
 		$site = Mvc::getCurrentSite();
-		$site->setupErrorPagesDir();
+
+		ErrorPages::setErrorPagesDir( $site->getPagesDataPath( Mvc::getCurrentLocale() ) );
+
 
 		if( !$site->getIsActive() ) {
-			$site->handleDeactivatedSite();
+			Http_Headers::response( Http_Headers::CODE_503_SERVICE_UNAVAILABLE );
+
+			if( !ErrorPages::display( Http_Headers::CODE_503_SERVICE_UNAVAILABLE ) ) {
+				echo '503 - Service Unavailable';
+			}
 
 			return;
 		}
 
 		$locale = Mvc::getCurrentLocale();
 		if( !$site->getLocalizedData( $locale )->getIsActive() ) {
-			$site->handleDeactivatedLocale();
+			Http_Headers::notFound();
+			if( !ErrorPages::display( Http_Headers::CODE_404_NOT_FOUND ) ) {
+				echo '404 - Page Not Found';
+			}
 
 			return;
 		}
 
 		if( $router->getIs404() ) {
-			$site->handle404();
+			Http_Headers::notFound();
+			if( !ErrorPages::display( Http_Headers::CODE_404_NOT_FOUND ) ) {
+				echo '404 - Page Not Found';
+			}
 
 			return;
 		}
@@ -132,8 +144,14 @@ class Application extends BaseObject
 		$page = Mvc::getCurrentPage();
 
 		if( !$page->getIsActive() ) {
-			$site->handle404();
+			Http_Headers::notFound();
+			if( !ErrorPages::display( Http_Headers::CODE_404_NOT_FOUND ) ) {
+				echo '404 - Page Not Found';
+			}
+
+			return;
 		}
+
 
 		if( $router->getLoginRequired() ) {
 			Auth::getAuthController()->handleLogin();
@@ -142,7 +160,10 @@ class Application extends BaseObject
 		}
 
 		if( !$page->getAccessAllowed() ) {
-			$site->handleAccessDenied();
+			Http_Headers::authorizationRequired();
+			if( !ErrorPages::display( Http_Headers::CODE_401_UNAUTHORIZED ) ) {
+				echo 'Unauthorized ...';
+			}
 
 			return;
 		}

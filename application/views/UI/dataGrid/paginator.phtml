@@ -11,37 +11,35 @@ use Jet\Tr;
 $grid = $this->getRaw( 'grid' );
 
 $paginator = $grid->getPaginator();
-?>
 
-<?php if( $paginator->getPagesCount()>1 ):
-	$pages = $paginator->getPagesURL();
+$pages = $paginator->getPagesURL();
 
-	$s_index = $paginator->getCurrentPageNo()-3;
-	$e_index = $paginator->getCurrentPageNo()+3;
+$s_index = $paginator->getCurrentPageNo()-3;
+$e_index = $paginator->getCurrentPageNo()+3;
+if( $s_index<1 ) {
+	$e_index = $e_index+( $s_index*-1 )+1;
+	$s_index = 1;
+}
+
+if( $e_index>count( $pages ) ) {
+	$e_index = count( $pages );
+	$s_index = $e_index-6;
 	if( $s_index<1 ) {
-		$e_index = $e_index+( $s_index*-1 )+1;
 		$s_index = 1;
 	}
-
-	if( $e_index>count( $pages ) ) {
-		$e_index = count( $pages );
-		$s_index = $e_index-6;
-		if( $s_index<1 ) {
-			$s_index = 1;
-		}
-	}
+}
 
 	?>
 	<tfoot>
 	<tr>
 		<td colspan="<?=count( $grid->getColumns() );?>">
 			<div>
-				<?=Tr::_(
-					'%FROM% - %TO% / total count: %COUNT%', [
-					'FROM'  => $paginator->getShowFrom(), 'TO' => $paginator->getShowTo(),
-					'COUNT' => $paginator->getDataItemsCount(),
-				], Tr::COMMON_NAMESPACE
-				)?>
+				<?=UI::_(
+					'%FROM% - %TO% / total count: %COUNT%',
+					[
+						'FROM'  => $paginator->getShowFrom(), 'TO' => $paginator->getShowTo(),
+						'COUNT' => $paginator->getDataItemsCount(),
+					])?>
 			</div>
 
 			<nav>
@@ -49,7 +47,7 @@ $paginator = $grid->getPaginator();
 				<ul class="pagination pagination-sm">
 					<?php if( ( $p_URL = $paginator->getFirstPageURL() ) ): ?>
 						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=Tr::_( 'Firts', [], Tr::COMMON_NAMESPACE )?>">
+							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Firts' )?>">
 								<?=UI::icon( 'backward' )?>
 							</a>
 						</li>
@@ -57,7 +55,7 @@ $paginator = $grid->getPaginator();
 					<?php endif ?>
 					<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
 						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=Tr::_( 'Previous', [], Tr::COMMON_NAMESPACE )?>">
+							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Previous' )?>">
 								<?=UI::icon( 'chevron-left' )?>
 							</a>
 						</li>
@@ -65,7 +63,7 @@ $paginator = $grid->getPaginator();
 
 
 					<?php
-					for( $p_no = $s_index; ( $p_no<=$e_index&&isset( $pages[$p_no] ) ); $p_no++ ):
+					for( $p_no = $s_index; ( $p_no<=$e_index && isset( $pages[$p_no] ) ); $p_no++ ):
 						$p_URL = $pages[$p_no];
 
 						?>
@@ -79,14 +77,14 @@ $paginator = $grid->getPaginator();
 
 					<?php if( ( $p_URL = $paginator->getNextPageURL() ) ): ?>
 						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=Tr::_( 'Next', [], Tr::COMMON_NAMESPACE )?>">
+							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Next' )?>">
 								<?=UI::icon( 'chevron-right' )?>
 							</a>
 						</li>
 					<?php endif ?>
 					<?php if( ( $p_URL = $paginator->getLastPageURL() ) ): ?>
 						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=Tr::_( 'Last', [], Tr::COMMON_NAMESPACE )?>">
+							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Last' )?>">
 								<?=UI::icon( 'forward' )?>
 							</a>
 						</li>
@@ -99,4 +97,3 @@ $paginator = $grid->getPaginator();
 	</tr>
 	</tfoot>
 
-<?php endif; ?>

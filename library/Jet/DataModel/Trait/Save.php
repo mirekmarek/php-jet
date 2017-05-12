@@ -34,7 +34,6 @@ trait DataModel_Trait_Save
 
 		$this->beforeSave();
 
-		$backend = static::getBackendInstance();
 
 		$this->startBackendTransaction();
 
@@ -48,7 +47,7 @@ trait DataModel_Trait_Save
 		}
 
 		try {
-			$this->{'_'.$operation}( $backend );
+			$this->{'_'.$operation}();
 		} catch( Exception $e ) {
 			$this->rollbackBackendTransaction();
 
@@ -88,10 +87,10 @@ trait DataModel_Trait_Save
 
 	/**
 	 *
-	 * @param DataModel_Backend $backend
 	 */
-	protected function _save( DataModel_Backend $backend )
+	protected function _save()
 	{
+
 		/**
 		 * @var DataModel                  $this
 		 * @var DataModel_Definition_Model $definition
@@ -112,7 +111,7 @@ trait DataModel_Trait_Save
 		}
 
 
-		$backend_result = $backend->save( $record );
+		$backend_result = static::getBackendInstance()->save( $record );
 
 		$id->afterSave( $backend_result );
 
@@ -158,11 +157,10 @@ trait DataModel_Trait_Save
 	}
 
 	/**
-	 * @param DataModel_Backend $backend
 	 *
 	 * @throws DataModel_Exception
 	 */
-	protected function _update( DataModel_Backend $backend )
+	protected function _update()
 	{
 		/**
 		 * @var DataModel                  $this
@@ -187,7 +185,7 @@ trait DataModel_Trait_Save
 				throw  new DataModel_Exception( 'Empty WHERE!' );
 			}
 
-			$backend->update( $record, $where_query );
+			static::getBackendInstance()->update( $record, $where_query );
 		}
 
 		/**

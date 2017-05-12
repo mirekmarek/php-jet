@@ -7,17 +7,22 @@
  */
 namespace Jet;
 
-use Jet\BaseObject;
-use Jet\Data_Tree;
-use Jet\Data_Tree_Node;
-use Jet\Mvc_View;
 
 /**
- * Class tree
- * @package Jet
+ *
  */
 class UI_tree extends BaseObject
 {
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'tree';
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_script;
+
 	/**
 	 * @var Data_Tree
 	 */
@@ -54,10 +59,40 @@ class UI_tree extends BaseObject
 	protected $normal_display_callback;
 
 	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScript()
+	{
+		return static::$default_renderer_script;
+	}
+
+	/**
+	 * @param string $default_renderer_script
+	 */
+	public static function setDefaultRendererScript( $default_renderer_script )
+	{
+		static::$default_renderer_script = $default_renderer_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScript()
+	{
+		if(!$this->renderer_script) {
+			$this->renderer_script = static::getDefaultRendererScript();
+		}
+
+		return $this->renderer_script;
+	}
+
+	/**
+	 * @param string $renderer_script
 	 *
 	 */
-	public function __construct()
+	public function setRendererScript( $renderer_script )
 	{
+		$this->renderer_script = $renderer_script;
 	}
 
 	/**
@@ -259,26 +294,15 @@ class UI_tree extends BaseObject
 	}
 
 	/**
-	 * @return string
-	 */
-	public function render()
-	{
-		$view = $this->getView();
-
-		return $view->render( 'tree' );
-	}
-
-	/**
 	 * @return Mvc_View
 	 */
-	protected function getView()
+	public function getView()
 	{
 		$view = UI::getView();
 		$view->setVar( 'tree', $this );
 
 		return $view;
 	}
-
 
 	/**
 	 * @return string
@@ -294,6 +318,14 @@ class UI_tree extends BaseObject
 	public function toString()
 	{
 		return $this->render();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function render()
+	{
+		return $this->getView()->render( $this->getRendererScript() );
 	}
 
 }

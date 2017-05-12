@@ -80,7 +80,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 			$this->_mainInit( $data_model_class_name );
 
 			$this->_initParents();
-			$this->_initBackendsConfig();
 			$this->_initProperties();
 			$this->_initKeys();
 		}
@@ -138,20 +137,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	}
 
-	/**
-	 *
-	 */
-	protected function _initBackendsConfig()
-	{
-		$main_class_name = $this->M_model_class_name;
-
-		$this->forced_backend_type = BaseObject_Reflection::get(
-			$main_class_name, 'data_model_forced_backend_type', null
-		);
-		$this->forced_backend_config = BaseObject_Reflection::get(
-			$main_class_name, 'data_model_forced_backend_config', null
-		);
-	}
 
 	/**
 	 *
@@ -222,7 +207,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 */
 	public function getMModelDefinition()
 	{
-		return DataModel_Definition::getDefinition( $this->M_model_class_name );
+		return DataModel_Definition::get( $this->M_model_class_name );
 	}
 
 	/**
@@ -248,7 +233,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 */
 	public function getNModelDefinition()
 	{
-		return DataModel_Definition::getDefinition( $this->N_model_class_name );
+		return DataModel_Definition::get( $this->N_model_class_name );
 	}
 
 	/**
@@ -289,7 +274,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		);
 
 
-		$N_model_definition = DataModel_Definition::getDefinition( $this->N_model_class_name );
+		$N_model_definition = DataModel_Definition::get( $this->N_model_class_name );
 
 		/**
 		 * @var DataModel_Definition_Relation_JoinByItem[] $glue_n_relation_join_by
@@ -313,7 +298,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	public function getRelationToN()
 	{
 
-		$N_model_definition = DataModel_Definition::getDefinition( $this->N_model_class_name );
+		$N_model_definition = DataModel_Definition::get( $this->N_model_class_name );
 
 		/**
 		 * @var DataModel_Definition_Relation_JoinByItem[] $glue_n_relation_join_by

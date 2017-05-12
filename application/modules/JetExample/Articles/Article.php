@@ -235,7 +235,7 @@ class Article extends DataModel
 			];
 		}
 
-		return (bool)$this->getBackendInstance()->getCount( $this->createQuery( $q ) );
+		return (bool)static::getBackendInstance()->getCount( $this->createQuery( $q ) );
 	}
 
 	/**

@@ -7,18 +7,22 @@
  */
 namespace Jet;
 
-use Jet\BaseObject;
-use Jet\Http_Headers;
-use Jet\Http_Request;
-use Jet\Session;
-use Jet\Mvc_View;
-
 /**
  * Class searchForm
  * @package Jet
  */
 class UI_searchForm extends BaseObject
 {
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'searchForm';
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_script;
+
 
 	/**
 	 * @var string
@@ -47,6 +51,22 @@ class UI_searchForm extends BaseObject
 	/**
 	 * @return string
 	 */
+	public static function getDefaultRendererScript()
+	{
+		return static::$default_renderer_script;
+	}
+
+	/**
+	 * @param string $default_renderer_script
+	 */
+	public static function setDefaultRendererScript( $default_renderer_script )
+	{
+		static::$default_renderer_script = $default_renderer_script;
+	}
+
+	/**
+	 * @return string
+	 */
 	public static function getDefaultPlaceholder()
 	{
 		return self::$default_placeholder;
@@ -70,10 +90,33 @@ class UI_searchForm extends BaseObject
 
 		$POST = Http_Request::POST();
 		if( $POST->exists( $this->getSearchKey() ) ) {
-			$this->session->setValue( 'search', $POST->getString( $this->getSearchKey() ) );
+			$this->session->setValue( $this->getSearchKey(), $POST->getString( $this->getSearchKey() ) );
 			Http_Headers::reload();
 		}
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScript()
+	{
+		if(!$this->renderer_script) {
+			$this->renderer_script = static::getDefaultRendererScript();
+		}
+
+		return $this->renderer_script;
+	}
+
+	/**
+	 * @param string $renderer_script
+	 *
+	 */
+	public function setRendererScript( $renderer_script )
+	{
+		$this->renderer_script = $renderer_script;
+	}
+
 
 	/**
 	 * @return string
@@ -110,7 +153,7 @@ class UI_searchForm extends BaseObject
 	 */
 	public function getValue()
 	{
-		return $this->session->getValue( 'search', '' );
+		return $this->session->getValue( $this->getSearchKey(), '' );
 	}
 
 	/**
@@ -118,11 +161,11 @@ class UI_searchForm extends BaseObject
 	 */
 	public function getPlaceholder()
 	{
-		if($this->placeholder) {
-			return $this->placeholder;
+		if(!$this->placeholder) {
+			$this->placeholder = UI::_( static::getDefaultPlaceholder() );
 		}
 
-		return static::getDefaultPlaceholder();
+		return $this->placeholder;
 	}
 
 	/**
@@ -170,7 +213,7 @@ class UI_searchForm extends BaseObject
 	 */
 	public function toString()
 	{
-		return $this->getView()->render('searchForm');
+		return $this->getView()->render($this->getRendererScript());
 	}
 
 }

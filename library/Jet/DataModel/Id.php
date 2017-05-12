@@ -152,7 +152,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function getDataModelDefinition()
 	{
-		return DataModel_Definition::getDefinition( $this->_data_model_class_name );
+		return DataModel_Definition::get( $this->_data_model_class_name );
 	}
 
 	/**

@@ -23,6 +23,8 @@ class Debug_Formatter
 	public static function formatErrorMessage_HTML( Debug_ErrorHandler_Error $e )
 	{
 
+		$url = static::getCurrentURL();
+
 		$report = [];
 
 		$report[] = '<br /><div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: \'Arial CE\', Arial, sans-serif;">';
@@ -33,14 +35,7 @@ class Debug_Formatter
 		$report[] = '<tr><td>script:</td><td>'.$e->file.'</td></tr>';
 		$report[] = '<tr><td>line:</td><td>'.$e->line.'</td></tr>';
 		$report[] = '<tr><td>time:</td><td>'.$e->date.' '.$e->time.'</td></tr>';
-
-
-		$url = static::getCurrentURL();
-
-		$url = static::encodeForHTML( $url );
-
-		$report[] = '<tr><td>URL:</td><td>'.$url.'</td></tr>';
-
+		$report[] = '<tr><td>URL:</td><td>'.static::encodeForHTML( $url ).'</td></tr>';
 		$report[] = '</table><br />';
 
 

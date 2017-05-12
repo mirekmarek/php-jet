@@ -606,20 +606,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	}
 
 	/**
-	 *
-	 */
-	public function setupErrorPagesDir()
-	{
-
-		$dir = $this->getPagesDataPath( Mvc::getCurrentLocale() );
-
-		if( IO_Dir::exists( $dir ) ) {
-			Debug_ErrorHandler::setErrorPagesDir( $dir );
-		}
-
-	}
-
-	/**
 	 * @param Locale $locale (optional)
 	 *
 	 * @return string
@@ -634,61 +620,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 
 		return $path.$locale.'/';
 
-	}
-
-	/**
-	 * Sends 401 HTTP header and shows the access denied page
-	 *
-	 */
-	public function handleAccessDenied()
-	{
-		Http_Headers::authorizationRequired();
-		if( !Debug_ErrorHandler::displayErrorPage( Http_Headers::CODE_401_UNAUTHORIZED ) ) {
-			echo 'Unauthorized ...';
-		}
-		Application::end();
-	}
-
-	/**
-	 *
-	 */
-	public function handleDeactivatedSite()
-	{
-		Http_Headers::response( Http_Headers::CODE_503_SERVICE_UNAVAILABLE );
-
-		if( !Debug_ErrorHandler::displayErrorPage( Http_Headers::CODE_503_SERVICE_UNAVAILABLE ) ) {
-			echo '503 - Service Unavailable';
-		}
-		Application::end();
-	}
-
-	/**
-	 *
-	 */
-	public function handleDeactivatedLocale()
-	{
-		$this->handle404();
-		/*
-		Http_Headers::response( Http_Headers::CODE_503_SERVICE_UNAVAILABLE );
-
-		if(!Debug_ErrorHandler::displayErrorPage( Http_Headers::CODE_503_SERVICE_UNAVAILABLE )) {
-			echo '503 - Service Unavailable';
-		}
-		Application::end();
-		*/
-	}
-
-	/**
-	 * Sends 404 HTTP header and shows the Page Not Found
-	 *
-	 */
-	public function handle404()
-	{
-		Http_Headers::notFound();
-		if( !Debug_ErrorHandler::displayErrorPage( Http_Headers::CODE_404_NOT_FOUND ) ) {
-			echo '404 - Page Not Found';
-		}
-		Application::end();
 	}
 
 	/**

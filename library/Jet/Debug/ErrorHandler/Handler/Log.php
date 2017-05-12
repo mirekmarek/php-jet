@@ -18,6 +18,13 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 {
 
 	/**
+	 * @return string
+	 */
+	public function getName() {
+		return 'Display';
+	}
+
+	/**
 	 * @var null|string
 	 */
 	protected $log_dir = null;
@@ -60,21 +67,25 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 	}
 
 	/**
+	 * @param string $log_dir
+	 */
+	public function setLogDir( $log_dir )
+	{
+		$this->log_dir = $log_dir;
+	}
+
+	/**
 	 * @return bool|null|string
 	 */
 	protected function getLogDir()
 	{
-		if( !empty( $this->log_dir ) ) {
-			$dir = $this->log_dir;
-		} else {
-			if( !defined( 'JET_LOGS_PATH' ) ) {
-				return false;
+		if(!$this->log_dir) {
+			if( defined( 'JET_LOGS_PATH' ) ) {
+				$this->log_dir = JET_LOGS_PATH;
 			}
-
-			$dir = JET_LOGS_PATH;
 		}
 
-		return $dir;
+		return $this->log_dir;
 
 	}
 

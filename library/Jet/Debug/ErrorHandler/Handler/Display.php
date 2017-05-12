@@ -16,13 +16,12 @@ require_once JET_LIBRARY_PATH.'Jet/Debug/Formatter.php';
  */
 class Debug_ErrorHandler_Handler_Display extends Debug_ErrorHandler_Handler
 {
-
-
 	/**
-	 *
-	 * @var int
+	 * @return string
 	 */
-	protected static $id_counter = 0;
+	public function getName() {
+		return 'Display';
+	}
 
 	/**
 	 * @param Debug_ErrorHandler_Error $error

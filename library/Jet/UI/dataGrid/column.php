@@ -7,11 +7,8 @@
  */
 namespace Jet;
 
-use Jet\BaseObject;
-
 /**
- * Class dataGrid_column
- * @package Jet
+ *
  */
 class UI_dataGrid_column extends BaseObject
 {

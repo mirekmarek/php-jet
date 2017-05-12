@@ -74,9 +74,7 @@ abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Pagi
 			return;
 		}
 
-		$backend = $this->data_model_definition->getBackendInstance();
-
-		$this->data = $backend->{$this->backend_fetch_method}( $this->query );
+		$this->data = DataModel_Backend::get($this->data_model_definition)->{$this->backend_fetch_method}( $this->query );
 	}
 
 	/**

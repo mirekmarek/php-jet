@@ -69,7 +69,7 @@ trait DataModel_Related_MtoN_Trait
 
 		$query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
 
-		return $definition->getBackendInstance()->fetchAll( $query );
+		return DataModel_Backend::get( $definition )->fetchAll( $query );
 
 	}
 

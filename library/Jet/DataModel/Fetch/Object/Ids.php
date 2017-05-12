@@ -43,9 +43,7 @@ class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements \Arra
 
 		$this->data = [];
 
-		$backend = $this->data_model_definition->getBackendInstance();
-
-		$l = $backend->fetchAll( $this->query );
+		$l = DataModel_Backend::get($this->data_model_definition)->fetchAll( $this->query );
 
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;

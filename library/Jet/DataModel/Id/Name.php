@@ -98,7 +98,7 @@ class DataModel_Id_Name extends DataModel_Id
 	{
 		$query = $this->getQuery();
 
-		return (bool)$this->getDataModelDefinition()->getBackendInstance()->getCount( $query );
+		return (bool)DataModel_Backend::get( $this->getDataModelDefinition() )->getCount( $query );
 	}
 
 	/**

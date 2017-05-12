@@ -8,10 +8,8 @@
 namespace Jet;
 
 
-//TODO: dukladne proverit, kde jeste neni konfigurovatelny rederer
 /**
- * Class UI
- * @package Jet
+ *
  */
 class UI
 {

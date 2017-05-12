@@ -7,24 +7,46 @@
  */
 namespace Jet;
 
-use Jet\Mvc_View;
-use Jet\BaseObject;
-use Jet\Data_Paginator;
-use Jet\DataModel_Fetch_Data;
-use Jet\DataModel_Fetch_Object;
-use Jet\DataModel_Query;
-use Jet\Session;
-use Jet\Http_Request;
-
 /**
- * Class dataGrid
- * @package Jet
+ *
  */
 class UI_dataGrid extends BaseObject
 {
-	const SORT_GET_PARAMETER = 'sort';
-	const PAGINATOR_GET_PARAMETER = 'p';
-	const DEFAULT_PAGINATOR_ITEMS_PER_PAGE = 20;
+
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'dataGrid';
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_header = 'dataGrid/header';
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_body = 'dataGrid/body';
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_paginator = 'dataGrid/paginator';
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script_footer = 'dataGrid/footer';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_sort_get_parameter = 'sort';
+	/**
+	 * @var string
+	 */
+	protected static $default_paginator_get_parameter = 'p';
+
+	/**
+	 * @var int
+	 */
+	protected static $default_items_per_page = 50;
 
 	/**
 	 * @var UI_dataGrid_column[]
@@ -59,33 +81,169 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $sort_get_parameter = UI_dataGrid::SORT_GET_PARAMETER;
+	protected $sort_get_parameter;
 	/**
 	 * @var string
 	 */
-	protected $paginator_get_parameter = UI_dataGrid::PAGINATOR_GET_PARAMETER;
+	protected $paginator_get_parameter;
 
 	/**
 	 * @var int
 	 */
-	protected $paginator_items_per_page = UI_dataGrid::DEFAULT_PAGINATOR_ITEMS_PER_PAGE;
+	protected $paginator_items_per_page;
 
 	/**
 	 * @var string
 	 */
-	protected $root_URI = '';
+	protected $session_namespace = '';
 
 	/**
 	 * @var string
 	 */
-	protected $session_name = '';
-
+	protected $renderer_script;
+	/**
+	 * @var string
+	 */
+	protected $renderer_script_header;
+	/**
+	 * @var string
+	 */
+	protected $renderer_script_body;
+	/**
+	 * @var string
+	 */
+	protected $renderer_script_paginator;
+	/**
+	 * @var string
+	 */
+	protected $renderer_script_footer;
 
 	/**
-	 *
+	 * @return string
 	 */
-	public function __construct()
+	public static function getDefaultSortGetParameter()
 	{
+		return static::$default_sort_get_parameter;
+	}
+
+	/**
+	 * @param string $default_sort_get_parameter
+	 */
+	public static function setDefaultSortGetParameter( $default_sort_get_parameter )
+	{
+		static::$default_sort_get_parameter = $default_sort_get_parameter;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultPaginatorGetParameter()
+	{
+		return static::$default_paginator_get_parameter;
+	}
+
+	/**
+	 * @param string $default_paginator_get_parameter
+	 */
+	public static function setDefaultPaginatorGetParameter( $default_paginator_get_parameter )
+	{
+		static::$default_paginator_get_parameter = $default_paginator_get_parameter;
+	}
+
+	/**
+	 * @return int
+	 */
+	public static function getDefaultItemsPerPage()
+	{
+		return static::$default_items_per_page;
+	}
+
+	/**
+	 * @param int $default_items_per_page
+	 */
+	public static function setDefaultItemsPerPage( $default_items_per_page )
+	{
+		static::$default_items_per_page = $default_items_per_page;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScript()
+	{
+		return static::$default_renderer_script;
+	}
+
+	/**
+	 * @param string $default_renderer_script
+	 */
+	public static function setDefaultRendererScript( $default_renderer_script )
+	{
+		static::$default_renderer_script = $default_renderer_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptHeader()
+	{
+		return static::$default_renderer_script_header;
+	}
+
+	/**
+	 * @param string $default_renderer_script_header
+	 */
+	public static function setDefaultRendererScriptHeader( $default_renderer_script_header )
+	{
+		static::$default_renderer_script_header = $default_renderer_script_header;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptBody()
+	{
+		return static::$default_renderer_script_body;
+	}
+
+	/**
+	 * @param string $default_renderer_script_body
+	 */
+	public static function setDefaultRendererScriptBody( $default_renderer_script_body )
+	{
+		static::$default_renderer_script_body = $default_renderer_script_body;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptPaginator()
+	{
+		return static::$default_renderer_script_paginator;
+	}
+
+	/**
+	 * @param string $default_renderer_script_paginator
+	 */
+	public static function setDefaultRendererScriptPaginator( $default_renderer_script_paginator )
+	{
+		static::$default_renderer_script_paginator = $default_renderer_script_paginator;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererScriptFooter()
+	{
+		return static::$default_renderer_script_footer;
+	}
+
+	/**
+	 * @param string $default_renderer_script_footer
+	 */
+	public static function setDefaultRendererScriptFooter( $default_renderer_script_footer )
+	{
+		static::$default_renderer_script_footer = $default_renderer_script_footer;
 	}
 
 	/**
@@ -168,8 +326,8 @@ class UI_dataGrid extends BaseObject
 	{
 		if( $this->paginator ) {
 
-			if( $this->session_name ) {
-				$session = new Session( $this->session_name );
+			if( $this->session_namespace ) {
+				$session = new Session( $this->session_namespace );
 				$session->setValue( 'page_no', $this->paginator->getCurrentPageNo() );
 			}
 
@@ -226,21 +384,22 @@ class UI_dataGrid extends BaseObject
 	public function handlePaginator()
 	{
 
-		if( $this->session_name ) {
-			$session = new Session( $this->session_name );
+		if( $this->session_namespace ) {
+			$session = new Session( $this->session_namespace );
 			$default_page_no = $session->getValue( 'page_no', 1 );
 		} else {
 			$default_page_no = 1;
 
 		}
 
-		$URL_template = Http_Request::getCurrentURI( [ $this->paginator_get_parameter => 'PAGE_NO' ] );
+		$URL_template = Http_Request::getCurrentURI( [ $this->getPaginatorGetParameter() => 'PAGE_NO' ] );
 		$URL_template = str_replace( 'PAGE_NO', Data_Paginator::URL_PAGE_NO_KEY, $URL_template );
 
 
 		$this->paginator = new Data_Paginator(
-			Http_Request::GET()->getInt( $this->paginator_get_parameter, $default_page_no ),
-			$this->paginator_items_per_page, $URL_template
+			Http_Request::GET()->getInt( $this->getPaginatorGetParameter(), $default_page_no ),
+			$this->getPaginatorItemsPerPage(),
+			$URL_template
 		);
 
 	}
@@ -268,8 +427,8 @@ class UI_dataGrid extends BaseObject
 		}
 
 		$session = false;
-		if( $this->session_name ) {
-			$session = new Session( $this->session_name );
+		if( $this->session_namespace ) {
+			$session = new Session( $this->session_namespace );
 		}
 
 
@@ -279,7 +438,7 @@ class UI_dataGrid extends BaseObject
 			$this->sort_by = $this->default_sort;
 		}
 
-		if( ( $sort = Http_Request::GET()->getString( $this->sort_get_parameter ) ) ) {
+		if( ( $sort = Http_Request::GET()->getString( $this->getSortGetParameter() ) ) ) {
 			if( in_array( $sort, $sort_options ) ) {
 				$this->sort_by = $sort;
 			}
@@ -298,6 +457,10 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function getSortGetParameter()
 	{
+		if(!$this->sort_get_parameter) {
+			$this->sort_get_parameter = static::getDefaultSortGetParameter();
+		}
+
 		return $this->sort_get_parameter;
 	}
 
@@ -345,6 +508,9 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function getPaginatorGetParameter()
 	{
+		if(!$this->paginator_get_parameter) {
+			$this->paginator_get_parameter = static::getDefaultPaginatorGetParameter();
+		}
 		return $this->paginator_get_parameter;
 	}
 
@@ -357,26 +523,14 @@ class UI_dataGrid extends BaseObject
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getRootURI()
-	{
-		return $this->root_URI;
-	}
-
-	/**
-	 * @param string $root_URI
-	 */
-	public function setRootURI( $root_URI )
-	{
-		$this->root_URI = $root_URI;
-	}
-
-	/**
 	 * @return int
 	 */
 	public function getPaginatorItemsPerPage()
 	{
+		if(!$this->paginator_items_per_page) {
+			$this->paginator_items_per_page = static::getDefaultItemsPerPage();
+		}
+
 		return $this->paginator_items_per_page;
 	}
 
@@ -393,7 +547,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function setIsPersistent( $session_name )
 	{
-		$this->session_name = $session_name;
+		$this->session_namespace = $session_name;
 	}
 
 	/**
@@ -444,9 +598,110 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
+	public function getRendererScript()
+	{
+		if(!$this->renderer_script) {
+			$this->renderer_script = static::getDefaultRendererScript();
+		}
+
+		return $this->renderer_script;
+	}
+
+	/**
+	 * @param string $renderer_script
+	 */
+	public function setRendererScript( $renderer_script )
+	{
+		$this->renderer_script = $renderer_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptHeader()
+	{
+		if(!$this->renderer_script_header) {
+			$this->renderer_script_header = static::getDefaultRendererScriptHeader();
+		}
+
+		return $this->renderer_script_header;
+	}
+
+	/**
+	 * @param string $renderer_script_header
+	 */
+	public function setRendererScriptHeader( $renderer_script_header )
+	{
+		$this->renderer_script_header = $renderer_script_header;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptBody()
+	{
+		if(!$this->renderer_script_body) {
+			$this->renderer_script_body = static::getDefaultRendererScriptBody();
+		}
+
+		return $this->renderer_script_body;
+	}
+
+	/**
+	 * @param string $renderer_script_body
+	 */
+	public function setRendererScriptBody( $renderer_script_body )
+	{
+		$this->renderer_script_body = $renderer_script_body;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptPaginator()
+	{
+		if(!$this->renderer_script_paginator) {
+			$this->renderer_script_paginator = static::getDefaultRendererScriptPaginator();
+		}
+
+		return $this->renderer_script_paginator;
+	}
+
+	/**
+	 * @param string $renderer_script_paginator
+	 */
+	public function setRendererScriptPaginator( $renderer_script_paginator )
+	{
+		$this->renderer_script_paginator = $renderer_script_paginator;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererScriptFooter()
+	{
+		if(!$this->renderer_script_footer) {
+			$this->renderer_script_footer = static::getDefaultRendererScriptFooter();
+		}
+
+		return $this->renderer_script_footer;
+	}
+
+	/**
+	 * @param string $renderer_script_footer
+	 */
+	public function setRendererScriptFooter( $renderer_script_footer )
+	{
+		$this->renderer_script_footer = $renderer_script_footer;
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function render()
 	{
-		return $this->getView()->render( 'dataGrid' );
+		return $this->getView()->render( $this->getRendererScript() );
 	}
 
 	/**
@@ -455,7 +710,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function renderHeader()
 	{
-		return $this->getView()->render( 'dataGrid/header' );
+		return $this->getView()->render( $this->getRendererScriptHeader() );
 	}
 
 	/**
@@ -464,7 +719,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function renderBody()
 	{
-		return $this->getView()->render( 'dataGrid/body' );
+		return $this->getView()->render( $this->getRendererScriptBody() );
 	}
 
 	/**
@@ -477,7 +732,7 @@ class UI_dataGrid extends BaseObject
 			return '';
 		}
 
-		return $this->getView()->render( 'dataGrid/paginator' );
+		return $this->getView()->render( $this->getRendererScriptPaginator() );
 	}
 
 	/**
@@ -486,7 +741,7 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function renderFooter()
 	{
-		return $this->getView()->render( 'dataGrid/footer' );
+		return $this->getView()->render( $this->getRendererScriptFooter() );
 	}
 
 }

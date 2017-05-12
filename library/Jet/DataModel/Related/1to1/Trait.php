@@ -47,7 +47,7 @@ trait DataModel_Related_1to1_Trait
 
 		$query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
 
-		return $definition->getBackendInstance()->fetchAll( $query );
+		return DataModel_Backend::get( $definition )->fetchAll( $query );
 	}
 
 	/**

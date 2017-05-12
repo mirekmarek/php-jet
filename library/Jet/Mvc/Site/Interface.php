@@ -123,7 +123,6 @@ interface Mvc_Site_Interface
 	public function setDefaultURL( Locale $locale, $URL );
 
 	/**
-	 * Returns default URL
 	 *
 	 * @param Locale $locale
 	 *
@@ -132,7 +131,6 @@ interface Mvc_Site_Interface
 	public function getDefaultURL( Locale $locale );
 
 	/**
-	 * Set default URL. Add URL first if is not defined.
 	 *
 	 * @param Locale $locale
 	 * @param string $URL
@@ -140,7 +138,6 @@ interface Mvc_Site_Interface
 	public function setDefaultSslURL( Locale $locale, $URL );
 
 	/**
-	 * Returns default URL
 	 *
 	 * @param Locale $locale
 	 *
@@ -175,7 +172,6 @@ interface Mvc_Site_Interface
 	public function setDefaultMetaTags( Locale $locale, $meta_tags );
 
 	/**
-	 * Returns site locales
 	 *
 	 * @see Mvc_Site
 	 *
@@ -186,7 +182,6 @@ interface Mvc_Site_Interface
 	public function getLocales( $get_as_string = false );
 
 	/**
-	 * Add locale
 	 *
 	 * @param Locale $locale
 	 */
@@ -246,33 +241,6 @@ interface Mvc_Site_Interface
 	 * @return Mvc_Site_Interface
 	 */
 	public function getDefault();
-
-	/**
-	 *
-	 */
-	public function setupErrorPagesDir();
-
-	/**
-	 * Sends 401 HTTP header and shows the access denied page
-	 *
-	 */
-	public function handleAccessDenied();
-
-	/**
-	 *
-	 */
-	public function handleDeactivatedSite();
-
-	/**
-	 *
-	 */
-	public function handleDeactivatedLocale();
-
-	/**
-	 * Sends 404 HTTP header and shows the Page Not Found
-	 *
-	 */
-	public function handle404();
 
 	/**
 	 *

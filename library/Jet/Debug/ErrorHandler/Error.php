@@ -32,7 +32,13 @@ class Debug_ErrorHandler_Error
 	 * @var array
 	 */
 	public static $PHP_fatal_errors = [
-		E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR,
+		E_ERROR,
+		E_PARSE,
+		E_CORE_ERROR,
+		E_CORE_WARNING,
+		E_COMPILE_ERROR,
+		E_COMPILE_WARNING,
+		E_USER_ERROR,
 		E_RECOVERABLE_ERROR,
 	];
 	/**
@@ -80,6 +86,22 @@ class Debug_ErrorHandler_Error
 	 */
 	public $is_fatal = false;
 
+
+	/**
+	 *
+	 * @param int $error_number
+	 *
+	 * @return string
+	 */
+	public static function getPHPErrorText( $error_number )
+	{
+		return isset( self::$PHP_errors_txt[$error_number] ) ?
+			self::$PHP_errors_txt[$error_number]
+			:
+			'UNKNOWN ('.(int)$error_number.')';
+	}
+
+
 	/**
 	 *
 	 */
@@ -115,6 +137,7 @@ class Debug_ErrorHandler_Error
 		return $e;
 	}
 
+
 	/**
 	 * @param int    $code
 	 * @param string $message
@@ -130,7 +153,7 @@ class Debug_ErrorHandler_Error
 		$e = new self();
 
 		$e->code = $code;
-		$e->txt = self::getErrorCodeText( $code );
+		$e->txt = self::getPHPErrorText( $code );
 		$e->message = $message;
 		$e->file = $file;
 		$e->line = $line;
@@ -147,18 +170,6 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 *
-	 * @param int $error_number
-	 *
-	 * @return string
-	 */
-	public static function getErrorCodeText( $error_number )
-	{
-		return isset( self::$PHP_errors_txt[$error_number] ) ? self::$PHP_errors_txt[$error_number] :
-			'UNKNOWN ('.(int)$error_number.')';
-	}
-
-	/**
 	 * @param string $error
 	 *
 	 * @return Debug_ErrorHandler_Error
@@ -168,7 +179,7 @@ class Debug_ErrorHandler_Error
 		$e = new self();
 
 		$e->code = $error['type'];
-		$e->txt = self::getErrorCodeText( $error['type'] );
+		$e->txt = self::getPHPErrorText( $error['type'] );
 		$e->message = $error['message'];
 		$e->file = $error['file'];
 		$e->line = $error['line'];

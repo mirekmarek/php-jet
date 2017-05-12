@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Fetch_Object_Abstract
- * @package Jet
+ *
  */
 abstract class DataModel_Fetch_Object extends DataModel_Fetch
 {
@@ -39,15 +38,15 @@ abstract class DataModel_Fetch_Object extends DataModel_Fetch
 
 		parent::__construct( $query );
 		$load_properties = [];
-		$group_by = array();
+		//$group_by = array();
 
 		foreach( $this->data_model_definition->getIdProperties() as $property_definition ) {
 			$load_properties[] = $property_definition;
-			$group_by[] = $property_definition->getName();
+			//$group_by[] = $property_definition->getName();
 		}
 
 		$this->query->setSelect( $load_properties );
-		$this->query->setGroupBy( $group_by );
+		//$this->query->setGroupBy( $group_by );
 
 		$this->empty_id_instance = $this->data_model_definition->getEmptyIdInstance();
 	}

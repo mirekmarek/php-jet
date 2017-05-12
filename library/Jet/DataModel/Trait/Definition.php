@@ -26,7 +26,7 @@ trait DataModel_Trait_Definition
 			$class_name = get_called_class();
 		}
 
-		return DataModel_Definition::getDefinition( $class_name );
+		return DataModel_Definition::get( $class_name );
 	}
 
 

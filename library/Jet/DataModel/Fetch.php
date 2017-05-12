@@ -77,7 +77,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Serializ
 	 */
 	public function getBackendQuery()
 	{
-		return $this->data_model_definition->getBackendInstance()->getBackendSelectQuery( $this->query );
+		return DataModel_Backend::get($this->data_model_definition)->getBackendSelectQuery( $this->query );
 	}
 
 	/**
@@ -88,7 +88,7 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Serializ
 	public function getCount()
 	{
 		if( $this->count===null ) {
-			$this->count = $this->data_model_definition->getBackendInstance()->getCount( $this->query );
+			$this->count = DataModel_Backend::get($this->data_model_definition)->getCount( $this->query );
 		}
 
 		return $this->count;
