@@ -5,16 +5,13 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
-use Jet\Tr;
-use Jet\Locale;
-use Jet\Mvc_View;
 
 //TODO: dukladne proverit, kde jeste neni konfigurovatelny rederer
 /**
  * Class UI
- * @package JetUI
+ * @package Jet
  */
 class UI
 {
@@ -87,62 +84,62 @@ class UI
 	/**
 	 * @param string $label
 	 *
-	 * @return button_save
+	 * @return UI_button_save
 	 */
 	public static function button_save( $label = '' )
 	{
-		return new button_save( $label );
+		return new UI_button_save( $label );
 	}
 
 	/**
 	 * @param string $label
 	 *
-	 * @return button_goBack
+	 * @return UI_button_goBack
 	 */
 	public static function button_goBack( $label = '' )
 	{
-		return new button_goBack( $label );
+		return new UI_button_goBack( $label );
 	}
 
 	/**
 	 * @param string $label
 	 *
-	 * @return button_edit
+	 * @return UI_button_edit
 	 */
 	public static function button_edit( $label = '' )
 	{
-		return new button_edit( $label );
+		return new UI_button_edit( $label );
 	}
 
 	/**
 	 * @param string $label
 	 *
-	 * @return button_delete
+	 * @return UI_button_delete
 	 */
 	public static function button_delete( $label = '' )
 	{
-		return new button_delete( $label );
+		return new UI_button_delete( $label );
 	}
 
 
 	/**
 	 * @param string $label
 	 *
-	 * @return button_create
+	 * @return UI_button_create
 	 */
 	public static function button_create( $label )
 	{
-		return new button_create( $label );
+		return new UI_button_create( $label );
 	}
 
 	/**
 	 * @param string $icon
 	 *
-	 * @return icon
+	 * @return UI_icon
 	 */
 	public static function icon( $icon )
 	{
-		return new icon( $icon );
+		return new UI_icon( $icon );
 	}
 
 	/**
@@ -150,50 +147,50 @@ class UI
 	 * @param string $title
 	 * @param int    $width
 	 *
-	 * @return dialog
+	 * @return UI_dialog
 	 */
 	public static function dialog( $id, $title, $width )
 	{
-		return new dialog( $id, $title, $width );
+		return new UI_dialog( $id, $title, $width );
 	}
 
 	/**
 	 * @param Locale $locale
 	 *
-	 * @return localeLabel
+	 * @return UI_localeLabel
 	 */
 	public static function localeLabel( Locale $locale )
 	{
-		return new localeLabel( $locale);
+		return new UI_localeLabel( $locale);
 	}
 
 	/**
 	 * @param Locale $locale
 	 *
-	 * @return flag
+	 * @return UI_flag
 	 */
 	public static function flag( Locale $locale )
 	{
-		return new flag( $locale );
+		return new UI_flag( $locale );
 	}
 
 	/**
 	 * @param array $tabs
 	 *
-	 * @return tabs
+	 * @return UI_tabs
 	 */
 	public static function tabs( array $tabs )
 	{
-		return new tabs( $tabs );
+		return new UI_tabs( $tabs );
 	}
 
 	/**
 	 * @param string $name
 	 *
-	 * @return searchForm
+	 * @return UI_searchForm
 	 */
 	public static function searchForm( $name )
 	{
-		return new searchForm( $name );
+		return new UI_searchForm( $name );
 	}
 }

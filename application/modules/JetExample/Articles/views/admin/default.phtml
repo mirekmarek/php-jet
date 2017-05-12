@@ -1,9 +1,9 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 
-use JetUI\button;
-use JetUI\dataGrid;
-use JetUI\UI;
+use Jet\UI_button;
+use Jet\UI_dataGrid;
+use Jet\UI;
 
 use Jet\Tr;
 use Jet\Locale;
@@ -11,8 +11,8 @@ use Jet\Mvc;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View $this
- * @var dataGrid $grid
+ * @var Mvc_View    $this
+ * @var UI_dataGrid $grid
  */
 $grid = $this->getRaw( 'grid' );
 
@@ -26,12 +26,12 @@ $c_edit->setDisplayCallback(
 	function( Article $item ) use ( $router ) {
 
 		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
-			echo UI::button_edit()->setUrl( $edit_uri )->setSize(button::SIZE_EXTRA_SMALL);
+			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 		echo '&nbsp;';
 
 		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
-			echo UI::button_delete()->setUrl( $delete_uri )->setSize(button::SIZE_EXTRA_SMALL);
+			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 	}
 );

@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\BaseObject;
 use Jet\Session;
@@ -13,9 +13,9 @@ use Jet\Session;
 
 /**
  * Class messages
- * @package JetUI
+ * @package Jet
  */
-class messages extends BaseObject
+class UI_messages extends BaseObject
 {
 	const C_SUCCESS = 'success';
 	const C_INFO = 'info';
@@ -26,7 +26,7 @@ class messages extends BaseObject
 	protected static $session_namespace = '_jsa_ui_messages';
 
 	/**
-	 * @var messages_message[]
+	 * @var UI_messages_message[]
 	 */
 	protected static $messages;
 
@@ -96,17 +96,17 @@ class messages extends BaseObject
 	 * @param string $class
 	 * @param string $message
 	 *
-	 * @return messages_message
+	 * @return UI_messages_message
 	 */
 	public static function create( $class, $message )
 	{
-		return new messages_message( $class, $message );
+		return new UI_messages_message( $class, $message );
 	}
 
 	/**
 	 * @param string $message
 	 *
-	 * @return messages_message
+	 * @return UI_messages_message
 	 */
 	public static function createSuccess( $message )
 	{
@@ -124,7 +124,7 @@ class messages extends BaseObject
 	/**
 	 * @param string $message
 	 *
-	 * @return messages_message
+	 * @return UI_messages_message
 	 */
 	public static function createInfo( $message )
 	{
@@ -142,7 +142,7 @@ class messages extends BaseObject
 	/**
 	 * @param string $message
 	 *
-	 * @return messages_message
+	 * @return UI_messages_message
 	 */
 	public static function createWarning( $message )
 	{
@@ -160,7 +160,7 @@ class messages extends BaseObject
 	/**
 	 * @param string $message
 	 *
-	 * @return messages_message
+	 * @return UI_messages_message
 	 */
 	public static function createDanger( $message )
 	{
@@ -169,7 +169,7 @@ class messages extends BaseObject
 
 	/**
 	 *
-	 * @return messages_message[]
+	 * @return UI_messages_message[]
 	 */
 	public static function get()
 	{

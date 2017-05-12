@@ -5,7 +5,7 @@ use Jet\Mvc_View;
 use Jet\Form;
 use Jet\Tr;
 
-use JetUI\messages;
+use Jet\UI_messages;
 
 /**
  * @var Mvc_View $this
@@ -22,9 +22,9 @@ $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 <h3><?=Tr::_( 'Connection \'%CONNECTION%\' Test', [ 'CONNECTION' => $this->getString( 'connection_name' ) ] );?></h3>
 
 <?php if( $this->getBool( 'OK' ) ): ?>
-	<?=messages::createSuccess( Tr::_( 'OK! Database connection works correctly.' ) )?>
+	<?=UI_messages::createSuccess( Tr::_( 'OK! Database connection works correctly.' ) )?>
 <?php else: ?>
-	<?=messages::createDanger( Tr::_( 'Error connecting to database:' ).$this->getString( 'error_message' ) )?>
+	<?=UI_messages::createDanger( Tr::_( 'Error connecting to database:' ).$this->getString( 'error_message' ) )?>
 <?php endif; ?>
 
 

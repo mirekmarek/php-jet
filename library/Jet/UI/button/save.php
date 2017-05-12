@@ -5,17 +5,23 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 /**
- *
+ * Class button_save
+ * @package Jet
  */
-class button_goBack extends button
+class UI_button_save extends UI_button
 {
 
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_script = 'button/goBack';
+	protected $type = 'submit';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'button/save';
 
 }

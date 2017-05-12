@@ -5,15 +5,15 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\BaseObject;
 
 /**
  * Class dataGrid_column
- * @package JetUI
+ * @package Jet
  */
-class dataGrid_column extends BaseObject
+class UI_dataGrid_column extends BaseObject
 {
 
 	/**
@@ -41,7 +41,7 @@ class dataGrid_column extends BaseObject
 	 */
 	protected $css_class = '';
 	/**
-	 * @var dataGrid
+	 * @var UI_dataGrid
 	 */
 	private $grid;
 
@@ -160,7 +160,7 @@ class dataGrid_column extends BaseObject
 	}
 
 	/**
-	 * @return dataGrid
+	 * @return UI_dataGrid
 	 */
 	public function getGrid()
 	{
@@ -168,9 +168,9 @@ class dataGrid_column extends BaseObject
 	}
 
 	/**
-	 * @param dataGrid $grid
+	 * @param UI_dataGrid $grid
 	 */
-	public function setGrid( dataGrid $grid )
+	public function setGrid( UI_dataGrid $grid )
 	{
 		$this->grid = $grid;
 	}

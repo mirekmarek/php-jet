@@ -15,7 +15,7 @@ use Jet\Navigation_Breadcrumb;
 use Jet\Tr;
 use Jet\Mvc;
 
-use JetUI\UI;
+use Jet\UI;
 
 use JetExampleApp\Mvc_Page;
 use JetExampleApp\Application_Module_Manifest;

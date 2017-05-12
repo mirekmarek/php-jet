@@ -1,8 +1,8 @@
 <?php
 namespace JetApplicationModule\JetExample\Images;
 
-use JetUI\tree;
-use JetUI\UI;
+use Jet\UI_tree;
+use Jet\UI;
 
 use Jet\Data_Tree;
 use Jet\Data_Tree_Node;
@@ -25,7 +25,7 @@ $upload_form = $this->getRaw( 'upload_form' );
 $edit_form = $this->getRaw( 'edit_form' );
 $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
 
-$tree = new tree();
+$tree = new UI_tree();
 
 $tree->setData( $galleries );
 $tree->setSelectedId( $this->getRaw( 'selected_id' ) );

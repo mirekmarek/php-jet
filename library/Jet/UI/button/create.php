@@ -5,13 +5,13 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 /**
  * Class button_create
- * @package JetUI
+ * @package Jet
  */
-class button_create extends button
+class UI_button_create extends UI_button
 {
 
 	/**

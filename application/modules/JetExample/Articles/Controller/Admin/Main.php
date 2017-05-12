@@ -10,9 +10,9 @@ namespace JetApplicationModule\JetExample\Articles;
 use JetExampleApp\Mvc_Page;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
-use JetUI\UI;
-use JetUI\dataGrid;
-use JetUI\messages;
+use Jet\UI;
+use Jet\UI_dataGrid;
+use Jet\UI_messages;
 
 use Jet\Data_DateTime;
 use Jet\Mvc;
@@ -52,7 +52,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 		$this->view->setVar( 'search_form', $search_form );
 
 
-		$grid = new dataGrid();
+		$grid = new UI_dataGrid();
 
 		$grid->setIsPersistent( 'admin_classic_articles_list_grid' );
 
@@ -100,7 +100,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 
 			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 
-			messages::success(
+			UI_messages::success(
 				Tr::_( 'Article <b>%TITLE%</b> has been created', [ 'TITLE' => $article->getTitle() ] )
 			);
 
@@ -146,7 +146,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 
 			$this->logAllowedAction( 'Article updated', $article->getId(), $article->getTitle(), $article );
 
-			messages::success(
+			UI_messages::success(
 				Tr::_( 'Article <b>%TITLE%</b> has been updated', [ 'TITLE' => $article->getTitle() ] )
 			);
 
@@ -207,7 +207,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 
 			$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );
 
-			messages::info( Tr::_( 'Article <b>%TITLE%</b> has been deleted', [ 'TITLE' => $article->getTitle() ] ) );
+			UI_messages::info( Tr::_( 'Article <b>%TITLE%</b> has been deleted', [ 'TITLE' => $article->getTitle() ] ) );
 
 
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );

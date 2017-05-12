@@ -1,12 +1,12 @@
 <?php
-use JetUI\messages_message;
-use JetUI\messages;
-use JetUI\UI;
+use Jet\UI_messages_message;
+use Jet\UI_messages;
+use Jet\UI;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View $this
- * @var messages_message $m
+ * @var Mvc_View            $this
+ * @var UI_messages_message $m
  */
 $m = $this->getRaw( 'element' );
 
@@ -14,10 +14,10 @@ $icon = $m->getIcon();
 
 if(!$icon) {
 	$icons_map = [
-		messages::C_INFO    => 'info-circle',
-		messages::C_SUCCESS => 'thumbs-up',
-		messages::C_WARNING => 'exclamation-circle',
-		messages::C_DANGER => 'thumbs-down',
+		UI_messages::C_INFO    => 'info-circle',
+		UI_messages::C_SUCCESS => 'thumbs-up',
+		UI_messages::C_WARNING => 'exclamation-circle',
+		UI_messages::C_DANGER  => 'thumbs-down',
 	];
 
 	$icon = $icons_map[$m->getClass()];

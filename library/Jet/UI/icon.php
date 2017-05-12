@@ -5,14 +5,14 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 
 /**
  * Class icon
- * @package JetUI
+ * @package Jet
  */
-class icon extends BaseElement
+class UI_icon extends UI_BaseElement
 {
 	/**
 	 * @var string
@@ -65,7 +65,7 @@ class icon extends BaseElement
 	/**
 	 * @param int $size
 	 *
-	 * @return icon
+	 * @return UI_icon
 	 */
 	public function setSize( $size )
 	{
@@ -85,7 +85,7 @@ class icon extends BaseElement
 	/**
 	 * @param int $width
 	 *
-	 * @return icon
+	 * @return UI_icon
 	 */
 	public function setWidth( $width )
 	{
@@ -105,7 +105,7 @@ class icon extends BaseElement
 	/**
 	 * @param string $color
 	 *
-	 * @return icon
+	 * @return UI_icon
 	 */
 	public function setColor( $color )
 	{
@@ -125,7 +125,7 @@ class icon extends BaseElement
 	/**
 	 * @param string $tag
 	 *
-	 * @return icon
+	 * @return UI_icon
 	 */
 	public function setTag( $tag )
 	{

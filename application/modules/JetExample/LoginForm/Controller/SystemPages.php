@@ -15,7 +15,7 @@ use Jet\Tr;
 use Jet\Http_Headers;
 use Jet\Navigation_Breadcrumb;
 
-use JetUI\messages;
+use Jet\UI_messages;
 
 use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_User as User;
@@ -74,7 +74,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard
 			$user = Auth::getCurrentUser();
 
 			if( !$user->verifyPassword( $data['current_password'] ) ) {
-				messages::danger( Tr::_( 'Current password do not match' ) );
+				UI_messages::danger( Tr::_( 'Current password do not match' ) );
 			} else {
 
 				$user->setPassword( $data['password'] );
@@ -86,7 +86,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard
 					'password_changed', 'User password changed', $user->getId(), $user->getUsername(), $user
 				);
 
-				messages::success( Tr::_( 'Your password has been changed' ) );
+				UI_messages::success( Tr::_( 'Your password has been changed' ) );
 			}
 
 

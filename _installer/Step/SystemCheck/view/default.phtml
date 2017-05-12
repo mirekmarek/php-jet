@@ -3,8 +3,8 @@ namespace JetExampleApp;
 
 use Jet\Mvc_View;
 
-use JetUI\messages;
-use JetUI\UI;
+use Jet\UI_messages;
+use Jet\UI;
 use Jet\Tr;
 
 /**
@@ -43,9 +43,9 @@ $tester = $this->getRaw( 'tester' );
 
 <?php if( $tester->isCompatible() ):
 	if( !$tester->hasWarnings() ):
-		echo messages::createSuccess( Tr::_( 'The system is fully compatible!' ) );
+		echo UI_messages::createSuccess( Tr::_( 'The system is fully compatible!' ) );
 	else:
-		echo messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) );
+		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) );
 	endif;
 	?>
 	<form method="post">
@@ -54,5 +54,5 @@ $tester = $this->getRaw( 'tester' );
 	</form>
 	<?php
 else:
-	echo messages::createDanger( Tr::_( 'Sorry, but the system is tom compatible!' ) );
+	echo UI_messages::createDanger( Tr::_( 'Sorry, but the system is tom compatible!' ) );
 endif; ?>

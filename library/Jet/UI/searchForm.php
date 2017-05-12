@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\BaseObject;
 use Jet\Http_Headers;
@@ -15,9 +15,9 @@ use Jet\Mvc_View;
 
 /**
  * Class searchForm
- * @package JetUI
+ * @package Jet
  */
-class searchForm extends BaseObject
+class UI_searchForm extends BaseObject
 {
 
 	/**

@@ -5,16 +5,16 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\Http_Request;
 
 
 /**
  * Class tabs
- * @package JetUI
+ * @package Jet
  */
-class tabs extends BaseElement
+class UI_tabs extends UI_BaseElement
 {
 	/**
 	 * @var string
@@ -22,7 +22,7 @@ class tabs extends BaseElement
 	protected static $default_renderer_script = 'tabs';
 
 	/**
-	 * @var tabs_tab[]
+	 * @var UI_tabs_tab[]
 	 */
 	protected $tabs = [];
 
@@ -42,7 +42,7 @@ class tabs extends BaseElement
 	public function __construct( array $tabs )
 	{
 		foreach( $tabs as $id => $title ) {
-			$this->tabs[$id] = new tabs_tab( $id, $title );
+			$this->tabs[$id] = new UI_tabs_tab( $id, $title );
 		}
 
 		$this->setGetParameter($this->getGetParameter());
@@ -93,7 +93,7 @@ class tabs extends BaseElement
 	/**
 	 * @param string $id
 	 *
-	 * @return tabs_tab
+	 * @return UI_tabs_tab
 	 */
 	public function getTab( $id )
 	{
@@ -109,7 +109,7 @@ class tabs extends BaseElement
 	}
 
 	/**
-	 * @return tabs_tab[]
+	 * @return UI_tabs_tab[]
 	 */
 	public function getTabs()
 	{

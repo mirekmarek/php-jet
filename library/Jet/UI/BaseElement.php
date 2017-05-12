@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\BaseObject;
 use Jet\Mvc_View;
@@ -13,7 +13,7 @@ use Jet\Mvc_View;
 /**
  *
  */
-abstract class BaseElement extends BaseObject
+abstract class UI_BaseElement extends BaseObject
 {
 
 	/**
@@ -82,7 +82,7 @@ abstract class BaseElement extends BaseObject
 	public function setJsAction( $event, $handler_code )
 	{
 		/**
-		 * @var icon $this
+		 * @var UI_icon $this
 		 */
 
 		$event = strtolower( $event );

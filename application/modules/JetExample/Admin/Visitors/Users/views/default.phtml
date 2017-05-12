@@ -3,9 +3,9 @@ namespace JetApplicationModule\JetExample\Admin\Visitors\Users;
 
 use JetExampleApp\Auth_Visitor_User;
 
-use JetUI\dataGrid;
-use JetUI\UI;
-use JetUI\button;
+use Jet\UI_dataGrid;
+use Jet\UI;
+use Jet\UI_button;
 
 use Jet\Tr;
 use Jet\Mvc;
@@ -13,7 +13,7 @@ use Jet\Mvc_View;
 
 /**
  * @var Mvc_View               $this
- * @var dataGrid               $grid
+ * @var UI_dataGrid            $grid
  * @var Controller_Main_Router $router
  */
 $grid = $this->getRaw( 'grid' );
@@ -24,11 +24,11 @@ $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setDisplayCallback(
 	function( Auth_Visitor_User $item ) use ( $router ) {
 		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
-			echo UI::button_edit()->setUrl( $edit_uri )->setSize(button::SIZE_EXTRA_SMALL);
+			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 		echo '&nbsp;';
 		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
-			echo UI::button_delete()->setUrl( $delete_uri )->setSize(button::SIZE_EXTRA_SMALL);
+			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 
 	}

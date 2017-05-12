@@ -5,15 +5,15 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\Http_Request;
 
 /**
  * Class tabs_tab
- * @package JetUI
+ * @package Jet
  */
-class tabs_tab extends BaseElement
+class UI_tabs_tab extends UI_BaseElement
 {
 	/**
 	 * @var string

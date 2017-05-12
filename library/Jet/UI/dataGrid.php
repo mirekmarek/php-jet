@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\Mvc_View;
 use Jet\BaseObject;
@@ -18,16 +18,16 @@ use Jet\Http_Request;
 
 /**
  * Class dataGrid
- * @package JetUI
+ * @package Jet
  */
-class dataGrid extends BaseObject
+class UI_dataGrid extends BaseObject
 {
 	const SORT_GET_PARAMETER = 'sort';
 	const PAGINATOR_GET_PARAMETER = 'p';
 	const DEFAULT_PAGINATOR_ITEMS_PER_PAGE = 20;
 
 	/**
-	 * @var dataGrid_column[]
+	 * @var UI_dataGrid_column[]
 	 */
 	protected $columns = [];
 
@@ -59,16 +59,16 @@ class dataGrid extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $sort_get_parameter = dataGrid::SORT_GET_PARAMETER;
+	protected $sort_get_parameter = UI_dataGrid::SORT_GET_PARAMETER;
 	/**
 	 * @var string
 	 */
-	protected $paginator_get_parameter = dataGrid::PAGINATOR_GET_PARAMETER;
+	protected $paginator_get_parameter = UI_dataGrid::PAGINATOR_GET_PARAMETER;
 
 	/**
 	 * @var int
 	 */
-	protected $paginator_items_per_page = dataGrid::DEFAULT_PAGINATOR_ITEMS_PER_PAGE;
+	protected $paginator_items_per_page = UI_dataGrid::DEFAULT_PAGINATOR_ITEMS_PER_PAGE;
 
 	/**
 	 * @var string
@@ -109,11 +109,11 @@ class dataGrid extends BaseObject
 	 * @param string $name
 	 * @param string $title
 	 *
-	 * @return dataGrid_column
+	 * @return UI_dataGrid_column
 	 */
 	public function addColumn( $name, $title )
 	{
-		$this->columns[$name] = new dataGrid_column( $name, $title );
+		$this->columns[$name] = new UI_dataGrid_column( $name, $title );
 		$this->columns[$name]->setGrid( $this );
 
 		return $this->columns[$name];
@@ -121,7 +121,7 @@ class dataGrid extends BaseObject
 
 	/**
 	 *
-	 * @return dataGrid_column[]
+	 * @return UI_dataGrid_column[]
 	 */
 	public function getColumns()
 	{
@@ -332,7 +332,7 @@ class dataGrid extends BaseObject
 	/**
 	 * @param string $name
 	 *
-	 * @return dataGrid_column
+	 * @return UI_dataGrid_column
 	 */
 	public function getColumn( $name )
 	{

@@ -3,9 +3,9 @@ namespace JetApplicationModule\JetExample\Admin\Administrators\Roles;
 
 use JetExampleApp\Auth_Administrator_Role;
 
-use JetUI\dataGrid;
-use JetUI\UI;
-use JetUI\button;
+use Jet\UI_dataGrid;
+use Jet\UI;
+use Jet\UI_button;
 
 use Jet\Tr;
 use Jet\Mvc;
@@ -14,7 +14,7 @@ use Jet\Mvc_View;
 /**
  * @var Mvc_View               $this
  * @var Controller_Main_Router $router
- * @var dataGrid               $grid
+ * @var UI_dataGrid            $grid
  */
 $router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
 $grid = $this->getRaw( 'grid' );
@@ -25,11 +25,11 @@ $c_edit->setDisplayCallback(
 	function( Auth_Administrator_Role $item ) use ( $router ) {
 
 		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
-			echo UI::button_edit()->setUrl( $edit_uri )->setSize(button::SIZE_EXTRA_SMALL);
+			echo UI::button_edit()->setUrl( $edit_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 		echo '&nbsp;';
 		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
-			echo UI::button_delete()->setUrl( $delete_uri )->setSize(button::SIZE_EXTRA_SMALL);
+			echo UI::button_delete()->setUrl( $delete_uri )->setSize( UI_button::SIZE_EXTRA_SMALL);
 		endif;
 	}
 );

@@ -5,15 +5,15 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\Locale;
 
 /**
  * Class flag
- * @package JetUI
+ * @package Jet
  */
-class localeLabel extends BaseElement
+class UI_localeLabel extends UI_BaseElement
 {
 	/**
 	 * @var string

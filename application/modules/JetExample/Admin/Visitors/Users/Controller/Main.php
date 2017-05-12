@@ -11,9 +11,9 @@ use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Visitor_User as User;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
-use JetUI\UI;
-use JetUI\dataGrid;
-use JetUI\messages;
+use Jet\UI;
+use Jet\UI_dataGrid;
+use Jet\UI_messages;
 
 
 use Jet\Mvc;
@@ -54,7 +54,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		$search_form = UI::searchForm( 'user' );
 		$this->view->setVar( 'search_form', $search_form );
 
-		$grid = new dataGrid();
+		$grid = new UI_dataGrid();
 
 		$grid->setDefaultSort( 'username' );
 		$grid->setIsPersistent( 'admin_users_list_grid' );
@@ -104,7 +104,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );
 
 			$user->sendWelcomeEmail( $form->getField( 'password' )->getValue() );
-			messages::success(
+			UI_messages::success(
 				Tr::_( 'User <b>%USERNAME%</b> has been created', [ 'USERNAME' => $user->getUsername() ] )
 			);
 
@@ -142,7 +142,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		if( ( $action = $GET->getString( 'a' ) ) ) {
 			if( $action=='reset_password' ) {
 				$user->resetPassword();
-				messages::success( Tr::_( 'Password has been re-generated', [ 'USERNAME' => $user->getUsername() ] ) );
+				UI_messages::success( Tr::_( 'Password has been re-generated', [ 'USERNAME' => $user->getUsername() ] ) );
 			}
 
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $user->getId() ) );
@@ -163,7 +163,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 
 			$user->save();
 			$this->logAllowedAction( 'User updated', $user->getId(), $user->getUsername(), $user );
-			messages::success(
+			UI_messages::success(
 				Tr::_( 'User <b>%USERNAME%</b> has been updated', [ 'USERNAME' => $user->getUsername() ] )
 			);
 
@@ -221,7 +221,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		if( Http_Request::POST()->getString( 'delete' )=='yes' ) {
 			$user->delete();
 			$this->logAllowedAction( 'User deleted', $user->getId(), $user->getUsername(), $user );
-			messages::info(
+			UI_messages::info(
 				Tr::_( 'User <b>%USERNAME%</b> has been deleted', [ 'USERNAME' => $user->getUsername() ] )
 			);
 

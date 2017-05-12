@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\BaseObject;
 use Jet\Mvc_View;
@@ -14,7 +14,7 @@ use Jet\Mvc_View;
 /**
  *
  */
-class dialog extends BaseObject
+class UI_dialog extends BaseObject
 {
 
 	/**

@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 use Jet\BaseObject;
 use Jet\Data_Tree;
@@ -14,9 +14,9 @@ use Jet\Mvc_View;
 
 /**
  * Class tree
- * @package JetUI
+ * @package Jet
  */
-class tree extends BaseObject
+class UI_tree extends BaseObject
 {
 	/**
 	 * @var Data_Tree

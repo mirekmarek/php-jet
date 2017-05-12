@@ -24,11 +24,6 @@ require JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Zend.php';
 Autoloader_Loader_Zend::register();
 
 
-require JET_LIBRARY_PATH.'JetUI/Autoloader.php';
-/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
-\JetUI\Autoloader::register();
-
-
 require JET_APPLICATION_PATH.'classes/Autoloader.php';
 /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
 \JetExampleApp\Autoloader::register();

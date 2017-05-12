@@ -5,14 +5,14 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 
 /**
  * Class button
- * @package JetUI
+ * @package Jet
  */
-class button extends BaseElement
+class UI_button extends UI_BaseElement
 {
 
 	const SIZE_LARGE = 'lg';
@@ -127,7 +127,7 @@ class button extends BaseElement
 	/**
 	 * @param string $size
 	 *
-	 * @return button
+	 * @return UI_button
 	 */
 	public function setSize( $size )
 	{
@@ -152,7 +152,7 @@ class button extends BaseElement
 	public function setIcon( $icon )
 	{
 		/**
-		 * @var button $this
+		 * @var UI_button $this
 		 */
 		$this->icon = $icon;
 

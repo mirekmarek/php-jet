@@ -10,7 +10,7 @@ namespace JetExampleApp;
 use Jet\Mvc_Controller_Standard;
 use JetExampleApp\Application_Module_Manifest as App_Application_Module_Manifest;
 use Jet\Form;
-use JetUI\messages;
+use Jet\UI_messages;
 
 /**
  *
@@ -83,7 +83,7 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 				$response['snippets'] = [];
 			}
 
-			$response['snippets']['system-messages-area'] = implode( '', messages::get() );
+			$response['snippets']['system-messages-area'] = implode( '', UI_messages::get() );
 		}
 
 		$this->ajaxResponse( $response );

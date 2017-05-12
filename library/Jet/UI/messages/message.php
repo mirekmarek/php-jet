@@ -5,14 +5,14 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetUI;
+namespace Jet;
 
 
 /**
  * Class messages_message
- * @package JetUI
+ * @package Jet
  */
-class messages_message extends BaseElement
+class UI_messages_message extends UI_BaseElement
 {
 
 	/**

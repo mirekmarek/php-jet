@@ -11,9 +11,9 @@ use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_Role as Role;
 use JetExampleApp\Mvc_Controller_AdminStandard;
 
-use JetUI\UI;
-use JetUI\dataGrid;
-use JetUI\messages;
+use Jet\UI;
+use Jet\UI_dataGrid;
+use Jet\UI_messages;
 
 use Jet\Mvc;
 use Jet\Http_Headers;
@@ -53,7 +53,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		$this->view->setVar( 'search_form', $search_form );
 
 
-		$grid = new dataGrid();
+		$grid = new UI_dataGrid();
 
 		$grid->setIsPersistent( 'admin_roles_list_grid' );
 		$grid->setDefaultSort( 'name' );
@@ -100,7 +100,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 			$role->save();
 			$this->logAllowedAction( 'Role created', $role->getId(), $role->getName(), $role );
 
-			messages::success(
+			UI_messages::success(
 				Tr::_( 'Role <b>%ROLE_NAME%</b> has been created', [ 'ROLE_NAME' => $role->getName() ] )
 			);
 
@@ -142,7 +142,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 			$role->save();
 			$this->logAllowedAction( 'Role updated', $role->getId(), $role->getName(), $role );
 
-			messages::success(
+			UI_messages::success(
 				Tr::_( 'Role <b>%ROLE_NAME%</b> has been updated', [ 'ROLE_NAME' => $role->getName() ] )
 			);
 
@@ -203,7 +203,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 
 			$this->logAllowedAction( 'Role deleted', $role->getId(), $role->getName(), $role );
 
-			messages::info( Tr::_( 'Role <b>%ROLE_NAME%</b> has been deleted', [ 'ROLE_NAME' => $role->getName() ] ) );
+			UI_messages::info( Tr::_( 'Role <b>%ROLE_NAME%</b> has been deleted', [ 'ROLE_NAME' => $role->getName() ] ) );
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}
 

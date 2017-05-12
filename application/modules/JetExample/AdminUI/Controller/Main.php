@@ -15,7 +15,7 @@ use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Navigation_Breadcrumb;
 
-use JetUI\UI;
+use Jet\UI;
 
 use JetExampleApp\Mvc_Page;
 
