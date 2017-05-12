@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Id_Passive
  * @package Jet
  */
-class DataModel_Id_Passive extends DataModel_Id_Abstract
+class DataModel_Id_Passive extends DataModel_Id
 {
 
 

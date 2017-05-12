@@ -17,8 +17,8 @@ trait DataModel_Trait_Fetch
 
 	/**
 	 *
-	 * @param array| $where
-	 * @param array  $load_filter (optional)
+	 * @param array $where
+	 * @param array $load_filter (optional)
 	 *
 	 * @return bool|DataModel
 	 */
@@ -136,8 +136,8 @@ trait DataModel_Trait_Fetch
 		$query->setSelect( $load_properties );
 
 		/**
-		 * @var DataModel                  $this
-		 * @var DataModel_Backend_Abstract $backend
+		 * @var DataModel         $this
+		 * @var DataModel_Backend $backend
 		 */
 		$backend = static::getBackendInstance();
 
@@ -159,8 +159,8 @@ trait DataModel_Trait_Fetch
 		$query->setSelect( [ $load_item ] );
 
 		/**
-		 * @var DataModel                  $this
-		 * @var DataModel_Backend_Abstract $backend
+		 * @var DataModel         $this
+		 * @var DataModel_Backend $backend
 		 */
 		$backend = static::getBackendInstance();
 
@@ -169,16 +169,16 @@ trait DataModel_Trait_Fetch
 
 	/**
 	 *
-	 * @param       $load_item
-	 * @param array $where
+	 * @param string $select_item
+	 * @param array  $where
 	 *
 	 * @return DataModel_Fetch_Data_Col
 	 */
-	public function fetchDataCol( $load_item, array  $where = [] )
+	public function fetchDataCol( $select_item, array  $where = [] )
 	{
 		$query = $this->createQuery( $where );
 
-		return new DataModel_Fetch_Data_Col( $load_item, $query );
+		return new DataModel_Fetch_Data_Col( $select_item, $query );
 	}
 
 }

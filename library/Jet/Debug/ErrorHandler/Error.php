@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Debug_ErrorHandler_Error
- * @package Jet
+ *
  */
 class Debug_ErrorHandler_Error
 {
@@ -148,7 +147,6 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * Gets human-readable version of error code
 	 *
 	 * @param int $error_number
 	 *

@@ -15,7 +15,7 @@ class DataModel_RecordData_Item
 {
 	/**
 	 *
-	 * @var DataModel_Definition_Property_Abstract
+	 * @var DataModel_Definition_Property
 	 */
 	protected $property_definition = null;
 
@@ -26,17 +26,17 @@ class DataModel_RecordData_Item
 	protected $value = null;
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $property_definition
-	 * @param mixed                                  $value
+	 * @param DataModel_Definition_Property $property_definition
+	 * @param mixed                         $value
 	 */
-	public function __construct( DataModel_Definition_Property_Abstract $property_definition, $value )
+	public function __construct( DataModel_Definition_Property $property_definition, $value )
 	{
 		$this->property_definition = $property_definition;
 		$this->value = $value;
 	}
 
 	/**
-	 * @return DataModel_Definition_Property_Abstract
+	 * @return DataModel_Definition_Property
 	 */
 	public function getPropertyDefinition()
 	{

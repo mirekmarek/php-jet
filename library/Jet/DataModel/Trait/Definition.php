@@ -18,7 +18,7 @@ trait DataModel_Trait_Definition
 	 *
 	 * @param string $class_name (optional)
 	 *
-	 * @return DataModel_Definition_Model_Abstract
+	 * @return DataModel_Definition_Model
 	 */
 	public static function getDataModelDefinition( $class_name = '' )
 	{
@@ -26,7 +26,7 @@ trait DataModel_Trait_Definition
 			$class_name = get_called_class();
 		}
 
-		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $class_name );
+		return DataModel_Definition::getDefinition( $class_name );
 	}
 
 
@@ -38,24 +38,6 @@ trait DataModel_Trait_Definition
 	public static function _getDataModelDefinitionInstance( $data_model_class_name )
 	{
 		return new DataModel_Definition_Model_Main( $data_model_class_name );
-	}
-
-	/**
-	 * @param BaseObject_Reflection_ParserData $data
-	 *
-	 * @throws BaseObject_Reflection_Exception
-	 */
-	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data )
-	{
-		DataModel_Definition_Model_Abstract::parseClassDocComment( $data );
-	}
-
-	/**
-	 * @param BaseObject_Reflection_ParserData $data
-	 */
-	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data )
-	{
-		DataModel_Definition_Model_Abstract::parsePropertyDocComment( $data );
 	}
 
 }

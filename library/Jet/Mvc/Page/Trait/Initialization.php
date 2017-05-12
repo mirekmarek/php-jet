@@ -13,6 +13,11 @@ namespace Jet;
 trait Mvc_Page_Trait_Initialization
 {
 	/**
+	 * @var string
+	 */
+	protected static $page_data_file_name = 'page_data.php';
+
+	/**
 	 * @var array
 	 */
 	protected static $do_not_inherit_properties = [
@@ -26,6 +31,41 @@ trait Mvc_Page_Trait_Initialization
 	protected $data_file_path = '';
 
 	/**
+	 * @var Mvc_Page_Interface[]
+	 */
+	protected static $pages = [];
+
+	/**
+	 * @var Mvc_Page_Interface[]
+	 */
+	protected static $relative_URIs_map = [];
+
+
+	/**
+	 * @param Mvc_Page_Interface|Mvc_Page $page
+	 *
+	 * @throws Mvc_Page_Exception
+	 */
+	public static function appendPage( Mvc_Page_Interface $page )
+	{
+
+		$site_id = $page->getSite()->getId();
+		$locale = (string)$page->getLocale();
+		$page_id = $page->getId();
+
+		if( isset( static::$pages[$site_id][$locale][$page_id] ) ) {
+			throw new Mvc_Page_Exception(
+				'Duplicates page: \''.$page->getKey().'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+			);
+		}
+
+		static::$pages[$site_id][$locale][$page_id] = $page;
+
+		static::$relative_URIs_map[$site_id][$locale][$page->getRelativeUrl()] = $page;
+
+	}
+
+	/**
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
 	 *
@@ -36,7 +76,10 @@ trait Mvc_Page_Trait_Initialization
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
 
-		if( array_key_exists( $site_id, static::$pages )&&array_key_exists( $locale_str, static::$pages[$site_id] ) ) {
+		if(
+			array_key_exists( $site_id, static::$pages ) &&
+			array_key_exists( $locale_str, static::$pages[$site_id] )
+		) {
 			return;
 		}
 
@@ -53,10 +96,15 @@ trait Mvc_Page_Trait_Initialization
 	 */
 	protected static function _loadPages_readDir( Mvc_Site_Interface $site, Locale $locale, $source_dir_path, array $parent_page_data = null, Mvc_Page $parent_page = null )
 	{
+		/**
+		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this
+		 * @var Mvc_Page static
+		 */
+
 		$list = IO_Dir::getList( $source_dir_path, '*', true, false );
 
 		if( !$parent_page_data ) {
-			$page_data_file_path = $source_dir_path.self::PAGE_DATA_FILE_NAME;
+			$page_data_file_path = $source_dir_path.static::$page_data_file_name;
 
 			$page_data = static::_loadPages_readPageDataFile( $page_data_file_path );
 			$page_data['URL_fragment'] = '';
@@ -73,7 +121,7 @@ trait Mvc_Page_Trait_Initialization
 
 		foreach( $list as $dir_path => $dir_name ) {
 
-			$page_data = static::_loadPages_readPageDataFile( $dir_path.self::PAGE_DATA_FILE_NAME, $parent_page_data );
+			$page_data = static::_loadPages_readPageDataFile( $dir_path.self::$page_data_file_name, $parent_page_data );
 
 			$page_data['URL_fragment'] = $dir_name;
 
@@ -146,15 +194,13 @@ trait Mvc_Page_Trait_Initialization
 	 */
 	public static function createPageByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null )
 	{
-		$page = new static();
-		/**
-		 * @var Mvc_Page $page
-		 */
+		$page = Mvc_Factory::getPageInstance();
+
 
 		$page->setSite( $site );
 		$page->setLocale( $locale );
-
 		$page->setId( $data['id'] );
+
 		if( $parent_page ) {
 			$page->setParent( $parent_page );
 		}

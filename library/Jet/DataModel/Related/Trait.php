@@ -23,12 +23,12 @@ trait DataModel_Related_Trait
 	use DataModel_Related_Trait_Load;
 
 	/**
-	 * @param DataModel_Id_Abstract $parent_id
+	 * @param DataModel_Id $parent_id
 	 */
-	public function actualizeParentId( DataModel_Id_Abstract $parent_id )
+	public function actualizeParentId( DataModel_Id $parent_id )
 	{
 		/**
-		 * @var DataModel_Definition_Model_Related_Abstract $definition
+		 * @var DataModel_Definition_Model_Related $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
@@ -49,13 +49,13 @@ trait DataModel_Related_Trait
 	}
 
 	/**
-	 * @param DataModel_Id_Abstract $main_id
+	 * @param DataModel_Id $main_id
 	 */
-	public function actualizeMainId( DataModel_Id_Abstract $main_id )
+	public function actualizeMainId( DataModel_Id $main_id )
 	{
 
 		/**
-		 * @var DataModel_Definition_Model_Related_Abstract $definition
+		 * @var DataModel_Definition_Model_Related $definition
 		 */
 		$definition = static::getDataModelDefinition();
 

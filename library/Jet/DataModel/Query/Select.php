@@ -35,7 +35,7 @@ class DataModel_Query_Select extends BaseObject implements \Iterator
 				$val = $query->getPropertyAndSetRelation( $val );
 			}
 
-			if( $val instanceof DataModel_Definition_Property_Abstract ) {
+			if( $val instanceof DataModel_Definition_Property ) {
 				if( !$val->getCanBeInSelectPartOfQuery() ) {
 					continue;
 				}
@@ -68,7 +68,7 @@ class DataModel_Query_Select extends BaseObject implements \Iterator
 
 				$properties = [];
 				foreach( $property_names as $property_name ) {
-					if( $property_name instanceof DataModel_Definition_Property_Abstract ) {
+					if( $property_name instanceof DataModel_Definition_Property ) {
 						$properties[] = $property_name;
 					} else {
 						$properties[] = $query->getPropertyAndSetRelation( $property_name );

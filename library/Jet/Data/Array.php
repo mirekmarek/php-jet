@@ -11,7 +11,7 @@ namespace Jet;
  * Class Data_Array
  * @package Jet
  */
-class Data_Array extends BaseObject implements BaseObject_Serializable_REST
+class Data_Array extends BaseObject implements BaseObject_Serializable
 {
 
 	const PATH_DELIMITER = '/';

@@ -16,7 +16,7 @@ class Form_Factory
 
 	/**
 	 *
-	 * @param        $type
+	 * @param string $type
 	 * @param string $name
 	 * @param string $label
 	 * @param string $default_value
@@ -24,7 +24,7 @@ class Form_Factory
 	 *
 	 * @throws Form_Exception
 	 *
-	 * @return Form_Field_Abstract
+	 * @return Form_Field
 	 */
 	public static function getFieldInstance( $type, $name, $label = '', $default_value = '', $is_required = false )
 	{

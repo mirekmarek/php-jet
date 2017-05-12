@@ -12,7 +12,6 @@ use JetExampleApp\Mvc_Controller_AdminStandard;
 
 use JetUI\UI;
 use JetUI\dataGrid;
-use JetUI\breadcrumbNavigation;
 use JetUI\messages;
 
 use Jet\Data_DateTime;
@@ -20,6 +19,7 @@ use Jet\Mvc;
 use Jet\Tr;
 use Jet\Http_Headers;
 use Jet\Http_Request;
+use Jet\Navigation_Breadcrumb;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
@@ -75,17 +75,10 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 	 */
 	protected function _setBreadcrumbNavigation( $current_label = '' )
 	{
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
-
-		breadcrumbNavigation::addItem(
-			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(), $page->getURL()
-		);
+		AdminUI_module::initBreadcrumb();
 
 		if( $current_label ) {
-			breadcrumbNavigation::addItem( $current_label );
+			Navigation_Breadcrumb::addURL( $current_label );
 		}
 	}
 
@@ -114,7 +107,6 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
 		}
 
-		Mvc::getCurrentPage()->addBreadcrumbNavigationData( Tr::_( 'New article' ) );
 
 
 		$this->view->setVar( 'btn_label', Tr::_( 'ADD' ) );
@@ -161,8 +153,6 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
 		}
 
-		Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
-
 		$this->view->setVar( 'btn_label', Tr::_( 'SAVE' ) );
 
 		$this->view->setVar( 'form', $form );
@@ -185,7 +175,8 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 			Tr::_( 'Article detail <b>%TITLE%</b>', [ 'TITLE' => $article->getTitle() ] )
 		);
 
-		Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
+		Navigation_Breadcrumb::addURL( $article->getTitle() );
+
 
 		$form = $article->getCommonForm();
 		$form->setIsReadonly();
@@ -222,8 +213,6 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 			Http_Headers::movedTemporary( Mvc::getCurrentPage()->getURI() );
 		}
 
-
-		Mvc::getCurrentPage()->addBreadcrumbNavigationData( 'Delete article' );
 
 		$this->view->setVar( 'article', $article );
 

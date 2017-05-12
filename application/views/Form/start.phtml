@@ -1,0 +1,31 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+use Jet\Form;
+/**
+ * @var Mvc_View $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+$form = $r->getForm();
+
+//$form->setNovalidate(true);
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('form-horizontal');
+}
+
+?>
+<form name="<?=$form->getName()?>" id="<?=$form->getId()?>" method="<?=$form->getMethod()?>" class="<?=$r->getCssClasses()?>" <?php
+	if($r->getCssStyles()) { ?> style="<?=$r->getCssStyles()?>"<?php }
+	if($r->getJsActions()) { ?> <?=$r->getJsActions()?><?php }
+	if($form->getAction()) { ?> action="<?=$form->getAction()?>"<?php }
+	if($form->getTarget()) { ?> target="<?=$form->getTarget()?>"<?php }
+	if($form->getEnctype()) { ?> enctype="<?=$form->getEnctype()?>"<?php }
+	if($form->getAcceptCharset()) { ?> accept-charset="<?=$form->getAcceptCharset()?>"<?php }
+	if($form->getNovalidate()) { ?> novalidate="novalidate"<?php }
+	if(!$form->getAutocomplete()) { ?> autocomplete="off"<?php }
+?>>
+<?php if( !$form->getIsReadonly() ) { ?>
+	<input type="hidden" name="<?=Form::FORM_SENT_KEY;?>" value="<?=$form->getName();?>">
+<?php }

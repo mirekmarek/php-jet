@@ -42,7 +42,7 @@ namespace Jet;
  * Class Config
  *
  */
-abstract class Config extends BaseObject implements BaseObject_Reflection_ParserInterface
+abstract class Config extends BaseObject
 {
 
 
@@ -107,7 +107,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	private $definition;
 
 	/**
-	 * @var Config_Definition_Property_Abstract[]
+	 * @var Config_Definition_Property[]
 	 */
 	private $properties_definition;
 
@@ -194,7 +194,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 	public function getDefinition()
 	{
 		if( !$this->definition ) {
-			$this->definition = Config_Definition_Config::getDefinition( get_called_class() );
+			$this->definition = Config_Definition::getDefinition( get_called_class() );
 		}
 
 		return $this->definition;
@@ -202,7 +202,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 
 	/**
 	 *
-	 * @return Config_Definition_Property_Abstract[]
+	 * @return Config_Definition_Property[]
 	 */
 	public function getPropertiesDefinition()
 	{
@@ -214,7 +214,7 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 
 		foreach( $definition as $property ) {
 			/**
-			 * @var Config_Definition_Property_Abstract $property
+			 * @var Config_Definition_Property $property
 			 */
 			$property->setConfiguration( $this );
 		}
@@ -291,22 +291,6 @@ abstract class Config extends BaseObject implements BaseObject_Reflection_Parser
 		}
 
 		return array_combine( $res, $res );
-	}
-
-	/**
-	 * @param BaseObject_Reflection_ParserData $data
-	 */
-	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data )
-	{
-		Config_Definition_Config::parseClassDocComment( $data );
-	}
-
-	/**
-	 * @param BaseObject_Reflection_ParserData $data
-	 */
-	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data )
-	{
-		Config_Definition_Config::parsePropertyDocComment( $data );
 	}
 
 	/**

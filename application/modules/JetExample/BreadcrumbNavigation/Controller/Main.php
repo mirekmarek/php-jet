@@ -8,7 +8,7 @@
 namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
 
 use Jet\Mvc_Controller_Standard;
-use Jet\Mvc;
+use Jet\Navigation_Breadcrumb;
 
 /**
  *
@@ -37,7 +37,7 @@ class Controller_Main extends Mvc_Controller_Standard
 
 		$view = $this->getActionParameterValue( 'view', 'default' );
 
-		$this->view->setVar( 'data', Mvc::getCurrentPage()->getBreadcrumbNavigation() );
+		$this->view->setVar( 'data', Navigation_Breadcrumb::getItems() );
 
 		$this->render( $view );
 	}

@@ -35,7 +35,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	 * @JetDataModel:is_key = true
 	 * @JetDataModel:is_unique = true
 	 * @JetDataModel:form_field_label = 'Username'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please specify username']
+	 * @JetDataModel:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please enter username']
 	 *
 	 * @var string
 	 */
@@ -590,11 +590,11 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	}
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $property_definition
+	 * @param DataModel_Definition_Property $property_definition
 	 *
-	 * @return Form_Field_Abstract
+	 * @return Form_Field
 	 */
-	public function createRolesFormField( DataModel_Definition_Property_Abstract $property_definition )
+	public function createRolesFormField( DataModel_Definition_Property $property_definition )
 	{
 
 		return $property_definition->createFormField( $this->roles );
@@ -773,7 +773,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 		);
 
 		$form->getField( 'username' )->setValidateDataCallback(
-			function( Form_Field_Abstract $field ) use ( $user ) {
+			function( Form_Field $field ) use ( $user ) {
 				$username = $field->getValue();
 
 				/** @var $user Auth_User */

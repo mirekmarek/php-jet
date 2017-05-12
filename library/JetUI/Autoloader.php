@@ -7,13 +7,13 @@
  */
 namespace JetUI;
 
-use Jet\Autoloader_Loader_Abstract;
+use Jet\Autoloader_Loader;
 
 /**
  * Class Autoloader
  * @package JetUI
  */
-class Autoloader extends Autoloader_Loader_Abstract
+class Autoloader extends Autoloader_Loader
 {
 
 	/**

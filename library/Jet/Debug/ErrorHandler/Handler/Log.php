@@ -8,13 +8,13 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Debug/Tools/Formatter.php';
+require_once JET_LIBRARY_PATH.'Jet/Debug/Formatter.php';
 
 /**
  * Class Debug_ErrorHandler_Handler_Log
  * @package Jet
  */
-class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler_Abstract
+class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 {
 
 	/**
@@ -27,7 +27,7 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler_Abstract
 	 */
 	public function handle( Debug_ErrorHandler_Error $error )
 	{
-		$message = Debug_Tools_Formatter::formatErrorMessage_TXT( $error );
+		$message = Debug_Formatter::formatErrorMessage_TXT( $error );
 
 		$dir = $this->getLogDir();
 

@@ -307,7 +307,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	}
 
 	/**
-	 * @param      $URL
+	 * @param Mvc_Site_LocalizedData_URL|string $URL
 	 * @param bool $is_SSL
 	 *
 	 * @return bool

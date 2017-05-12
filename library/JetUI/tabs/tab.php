@@ -7,15 +7,18 @@
  */
 namespace JetUI;
 
-use Jet\BaseObject;
 use Jet\Http_Request;
 
 /**
  * Class tabs_tab
  * @package JetUI
  */
-class tabs_tab extends BaseObject
+class tabs_tab extends BaseElement
 {
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'tabs/tab';
 
 
 	/**
@@ -34,6 +37,16 @@ class tabs_tab extends BaseObject
 	protected $is_selected = false;
 
 	/**
+	 * @var string
+	 */
+	protected $get_parameter;
+
+	/**
+	 * @var string
+	 */
+	protected $custom_URL;
+
+	/**
 	 *
 	 * @param string $id
 	 * @param string $title
@@ -42,6 +55,22 @@ class tabs_tab extends BaseObject
 	{
 		$this->id = $id;
 		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getGetParameter()
+	{
+		return $this->get_parameter;
+	}
+
+	/**
+	 * @param string $get_parameter
+	 */
+	public function setGetParameter( $get_parameter )
+	{
+		$this->get_parameter = $get_parameter;
 	}
 
 	/**
@@ -63,19 +92,63 @@ class tabs_tab extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function getId()
 	{
-		return $this->toString();
+		return $this->id;
+	}
+
+	/**
+	 * @param string $id
+	 */
+	public function setId( $id )
+	{
+		$this->id = $id;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function toString()
+	public function getTitle()
 	{
-		$url = Http_Request::getCurrentURI( [ 'p' => $this->id ] );
+		return $this->title;
+	}
 
-		return '<li'.( $this->is_selected ? ' class="active"' : '' ).'><a href="'.$url.'">'.$this->title.'</a></li>';
+	/**
+	 * @param string $title
+	 */
+	public function setTitle( $title )
+	{
+		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCustomURL()
+	{
+		return $this->custom_URL;
+	}
+
+	/**
+	 * @param string $custom_URL
+	 *
+	 * @return $this
+	 */
+	public function setCustomURL( $custom_URL )
+	{
+		$this->custom_URL = $custom_URL;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUrl() {
+		if( $this->custom_URL ) {
+			return $this->custom_URL;
+		}
+		return Http_Request::getCurrentURI( [ $this->getGetParameter() => $this->getId() ] );
 	}
 
 }

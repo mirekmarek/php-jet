@@ -29,6 +29,66 @@ class BaseObject_Reflection
 	protected static $_reflections = [];
 
 	/**
+	 * @var string
+	 */
+	protected static $parser_regexp = '/@([a-zA-Z_]*):([^=]*)=(.*)/';
+
+	/**
+	 * @var array
+	 */
+	protected static $parsers = [
+		'JetDataModel'  => __NAMESPACE__.'\\DataModel_Definition',
+		'JetConfig'     => __NAMESPACE__.'\\Config_Definition',
+	];
+
+	/**
+	 * @return string
+	 */
+	public static function getParserRegexp()
+	{
+		return self::$parser_regexp;
+	}
+
+	/**
+	 * @param string $parser_regexp
+	 */
+	public static function setParserRegexp( $parser_regexp )
+	{
+		self::$parser_regexp = $parser_regexp;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getParsers()
+	{
+		return static::$parsers;
+	}
+
+	/**
+	 * @param string $annotation
+	 * @param string $parser_class
+	 */
+	public static function registerParser( $annotation, $parser_class )
+	{
+		static::$parsers[$annotation] = $parser_class;
+	}
+
+	/**
+	 * @param string $annotation
+	 *
+	 * @return string|null
+	 */
+	public static function getParserClass( $annotation )
+	{
+		if(!isset(static::$parsers[$annotation])) {
+			return null;
+		}
+
+		return static::$parsers[$annotation];
+	}
+
+	/**
 	 * @param string $class
 	 * @param string $key
 	 * @param string $default_value
@@ -82,20 +142,23 @@ class BaseObject_Reflection
 
 			$matches = [];
 
-			preg_match_all( '/@Jet([a-zA-Z_]*):([^=]*)=(.*)/', $doc_comment, $matches, PREG_SET_ORDER );
+			preg_match_all( static::$parser_regexp, $doc_comment, $matches, PREG_SET_ORDER );
 
 			foreach( $matches as $m ) {
 
+				$parser_class_name = static::getParserClass($m[1]);
+				if(!$parser_class_name) {
+					continue;
+				}
+
 				$pd->setCurrentElement(
-					$m[0], $m[1], $m[2], $m[3]
+					$m[0], $parser_class_name, $m[2], $m[3]
 				);
 
 				/**
-				 * @var BaseObject_Reflection_ParserInterface $_reflection_parser_class_name
+				 * @var BaseObject_Reflection_ParserInterface $parser_class_name
 				 */
-				$_reflection_parser_class_name = __NAMESPACE__.'\\'.$pd->getReflectionParserClassName();
-
-				$_reflection_parser_class_name::parseClassDocComment( $pd );
+				$parser_class_name::parseClassDocComment( $pd );
 
 			}
 
@@ -108,7 +171,7 @@ class BaseObject_Reflection
 
 				$matches = [];
 
-				preg_match_all( '/@Jet([a-zA-Z]*):([^=]*)=(.*)/', $comment, $matches, PREG_SET_ORDER );
+				preg_match_all( static::$parser_regexp, $comment, $matches, PREG_SET_ORDER );
 
 				if( !$matches ) {
 					continue;
@@ -117,17 +180,19 @@ class BaseObject_Reflection
 				$pd->setCurrentPropertyReflection( $property_reflection );
 
 				foreach( $matches as $m ) {
+					$parser_class_name = static::getParserClass($m[1]);
+					if(!$parser_class_name) {
+						continue;
+					}
+
 					$pd->setCurrentElement(
-						$m[0], $m[1], $m[2], $m[3]
+						$m[0], $parser_class_name, $m[2], $m[3]
 					);
 
-
 					/**
-					 * @var BaseObject_Reflection_ParserInterface $_class_name
+					 * @var BaseObject_Reflection_ParserInterface $parser_class_name
 					 */
-					$_reflection_parser_class_name = __NAMESPACE__.'\\'.$pd->getReflectionParserClassName();
-
-					$_reflection_parser_class_name::parsePropertyDocComment( $pd );
+					$parser_class_name::parsePropertyDocComment( $pd );
 				}
 
 

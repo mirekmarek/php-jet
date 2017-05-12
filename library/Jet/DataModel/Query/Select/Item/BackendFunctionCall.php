@@ -17,7 +17,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 	/**
 	 * Property instance
 	 *
-	 * @var DataModel_Definition_Property_Abstract[]
+	 * @var DataModel_Definition_Property[]
 	 */
 	protected $properties = [];
 
@@ -37,8 +37,8 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract|DataModel_Definition_Property_Abstract[] $properties
-	 * @param string                                                                          $backend_function
+	 * @param DataModel_Definition_Property|DataModel_Definition_Property[] $properties
+	 * @param string                                                        $backend_function
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
@@ -50,9 +50,9 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 
 		foreach( $properties as $property ) {
 			/**
-			 * @var DataModel_Definition_Property_Abstract $property
+			 * @var DataModel_Definition_Property $property
 			 */
-			if( !is_object( $property )||!$property instanceof DataModel_Definition_Property_Abstract ) {
+			if( !is_object( $property )||!$property instanceof DataModel_Definition_Property ) {
 				throw new DataModel_Query_Exception(
 					'Property must be instance of DataModel_Definition_Property_Abstract ',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
@@ -75,7 +75,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Definition_Property_Abstract[]
+	 * @return DataModel_Definition_Property[]
 	 */
 	public function getProperties()
 	{
@@ -112,7 +112,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 	public function toString( callable $property_name_to_backend_column_name_callback = null )
 	{
 		if( !$property_name_to_backend_column_name_callback ) {
-			$property_name_to_backend_column_name_callback = function( DataModel_Definition_Property_Abstract $property ) {
+			$property_name_to_backend_column_name_callback = function( DataModel_Definition_Property $property ) {
 				return $property->getDataModelDefinition()->getModelName().'::'.$property->getName();
 			};
 		}
@@ -120,7 +120,7 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 
 		foreach( $this->properties as $property ) {
 			/**
-			 * @var DataModel_Definition_Property_Abstract $property
+			 * @var DataModel_Definition_Property $property
 			 */
 			$column_name = $property_name_to_backend_column_name_callback( $property );
 			$function_call = str_replace( '%'.$property->getName().'%', $column_name, $function_call );

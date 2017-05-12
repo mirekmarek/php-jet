@@ -8,11 +8,11 @@
 namespace JetUI;
 
 use Jet\BaseObject;
+use Jet\Mvc_View;
 
 
 /**
- * Class dialog
- * @package JetUI
+ *
  */
 class dialog extends BaseObject
 {
@@ -69,46 +69,42 @@ class dialog extends BaseObject
 		return $this->width;
 	}
 
+
 	/**
-	 *
+	 * @return Mvc_View
+	 */
+	public function getView() {
+
+		$view = UI::getView();
+		$view->setVar( 'element', $this );
+
+		return $view;
+
+	}
+
+
+	/**
+	 * @return string
 	 */
 	public function start()
 	{
-		?>
-		<div class="modal fade" id="<?=$this->id?>" role="dialog">
-		<div class="modal-dialog" style="width: <?=$this->width?>px;">
-
-		<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title"><?=$this->title?></h4>
-		</div>
-		<div class="modal-body">
-		<?php
+		return $this->getView()->render('dialog/start');
 	}
 
 	/**
-	 *
+	 * @return string
 	 */
-public function footer()
-{
-	?>
-	</div>
-	<div class="modal-footer">
-	<?php
-}
+	public function footer()
+	{
+		return $this->getView()->render('dialog/footer');
+	}
 
 	/**
-	 *
+	 * @return string
 	 */
 	public function end()
 	{
-		?>
-		</div>
-		</div>
-		</div>
-		</div>
-		<?php
+		return $this->getView()->render('dialog/end');
 	}
 
 }

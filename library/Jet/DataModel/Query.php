@@ -56,7 +56,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * The array key is related data model name
 	 *
-	 * @var DataModel_Definition_Relation_Abstract[]
+	 * @var DataModel_Definition_Relation[]
 	 */
 	protected $relations = [];
 
@@ -108,9 +108,9 @@ class DataModel_Query extends BaseObject
 
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
+	 * @param DataModel_Definition_Model $main_data_model_definition
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract $main_data_model_definition )
+	public function __construct( DataModel_Definition_Model $main_data_model_definition )
 	{
 		$this->main_data_model_definition = $main_data_model_definition;
 		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
@@ -120,13 +120,13 @@ class DataModel_Query extends BaseObject
 
 	/**
 	 *
-	 * @param DataModel_Definition_Model_Abstract $main_data_model_definition
-	 * @param array                               $where
+	 * @param DataModel_Definition_Model $main_data_model_definition
+	 * @param array                      $where
 	 *
 	 * @throws DataModel_Query_Exception
 	 * @return DataModel_Query
 	 */
-	public static function createQuery( DataModel_Definition_Model_Abstract $main_data_model_definition, array $where = [] )
+	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] )
 	{
 
 		$result = new self( $main_data_model_definition );
@@ -162,7 +162,7 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Abstract
+	 * @return DataModel_Definition_Model
 	 */
 	public function getMainDataModelDefinition()
 	{
@@ -315,7 +315,7 @@ class DataModel_Query extends BaseObject
 
 
 	/**
-	 * @return DataModel_Definition_Relation_Abstract[]
+	 * @return DataModel_Definition_Relation[]
 	 */
 	public function getRelations()
 	{
@@ -323,10 +323,10 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @param string                                 $related_data_model_name
-	 * @param DataModel_Definition_Relation_Abstract $relation
+	 * @param string                        $related_data_model_name
+	 * @param DataModel_Definition_Relation $relation
 	 */
-	public function addRelation( $related_data_model_name, DataModel_Definition_Relation_Abstract $relation )
+	public function addRelation( $related_data_model_name, DataModel_Definition_Relation $relation )
 	{
 		$this->relations[$related_data_model_name] = $relation;
 	}
@@ -351,7 +351,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @throws DataModel_Query_Exception
 	 *
-	 * @return DataModel_Definition_Relation_Abstract
+	 * @return DataModel_Definition_Relation
 	 */
 	public function getRelation( $related_data_model_name )
 	{
@@ -402,7 +402,7 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @throws DataModel_Query_Exception
 	 *
-	 * @return DataModel_Definition_Property_Abstract
+	 * @return DataModel_Definition_Property
 	 */
 	public function getPropertyAndSetRelation( $str_property_name )
 	{
@@ -441,8 +441,8 @@ class DataModel_Query extends BaseObject
 				$all_relations = $data_model_definition->getRelations();
 
 				/**
-				 * @var DataModel_Definition_Relation_Abstract $relevant_relation
-				 * @var DataModel_Definition_Relations         $all_relations
+				 * @var DataModel_Definition_Relation  $relevant_relation
+				 * @var DataModel_Definition_Relations $all_relations
 				 */
 				$relevant_relation = clone $all_relations->getRelation( $related_data_model_name );
 

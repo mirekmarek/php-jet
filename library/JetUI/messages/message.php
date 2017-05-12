@@ -7,39 +7,39 @@
  */
 namespace JetUI;
 
-use Jet\BaseObject;
 
 /**
  * Class messages_message
  * @package JetUI
  */
-class messages_message extends BaseObject
+class messages_message extends BaseElement
 {
 
-
 	/**
-	 * @var array
+	 * @var string
 	 */
-	protected static $icons_map = [
-		messages::C_INFO    => 'info-circle', messages::C_SUCCESS => 'thumbs-up',
-		messages::C_WARNING => 'exclamation-circle', messages::C_DANGER => 'thumbs-down',
-	];
+	protected static $default_renderer_script = 'messages/message';
+
 	/**
 	 * @var string
 	 */
 	protected $class = '';
+
 	/**
 	 * @var string
 	 */
 	protected $message = '';
+
 	/**
 	 * @var string
 	 */
-	protected $icon_class = UI::DEFAULT_ICON_CLASS;
+	protected $icon = '';
+
 	/**
-	 * @var string
+	 * @var bool
 	 */
-	protected $icon = 'exclamation-sign';
+	protected $closeable = true;
+
 
 	/**
 	 *
@@ -50,32 +50,26 @@ class messages_message extends BaseObject
 	{
 		$this->class = $class;
 		$this->message = $message;
-
-		if( isset( static::$icons_map[$class] ) ) {
-			$this->icon = static::$icons_map[$class];
-		}
-
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function getIcon()
 	{
-		return $this->toString();
+		return $this->icon;
 	}
 
 	/**
-	 * @return string
+	 * @param string $icon
+	 *
+	 * @return $this
 	 */
-	public function toString()
+	public function setIcon( $icon )
 	{
-		return '<div class="alert alert-'.$this->getClass().'" role="alert">
-			<span class="'.$this->icon_class.$this->icon.'"></span>
-			<button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true">&times;</span></button>
-			'.$this->getMessage().'
-		</div>';
+		$this->icon = $icon;
 
+		return $this;
 	}
 
 	/**
@@ -88,10 +82,14 @@ class messages_message extends BaseObject
 
 	/**
 	 * @param string $class
+	 *
+	 * @return $this
 	 */
 	public function setClass( $class )
 	{
 		$this->class = $class;
+
+		return $this;
 	}
 
 	/**
@@ -104,10 +102,36 @@ class messages_message extends BaseObject
 
 	/**
 	 * @param string $message
+	 *
+	 * @return $this
 	 */
 	public function setMessage( $message )
 	{
 		$this->message = $message;
+
+		return $this;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsCloseable()
+	{
+		return $this->closeable;
+	}
+
+	/**
+	 * @param bool $closeable
+	 *
+	 * @return $this
+	 */
+	public function setCloseable( $closeable )
+	{
+		$this->closeable = $closeable;
+
+		return $this;
+	}
+
+
 
 }

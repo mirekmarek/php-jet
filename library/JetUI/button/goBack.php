@@ -8,8 +8,7 @@
 namespace JetUI;
 
 /**
- * Class button_goBack
- * @package JetUI
+ *
  */
 class button_goBack extends button
 {
@@ -17,12 +16,6 @@ class button_goBack extends button
 	/**
 	 * @var string
 	 */
-	protected $class = 'default';
-
-	/**
-	 * @var string
-	 */
-	protected $icon = 'chevron-left';
-
+	protected static $default_renderer_script = 'button/goBack';
 
 }

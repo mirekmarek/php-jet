@@ -7,12 +7,12 @@
  */
 namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
 
-use Jet\Application_Modules_Module_Abstract;
+use Jet\Application_Module;
 
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract
+class Main extends Application_Module
 {
 
 	/**

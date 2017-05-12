@@ -8,94 +8,89 @@
 namespace JetApplicationModule\JetExample\AdminUI;
 
 use Jet\Application_Modules;
-use Jet\Application_Modules_Module_Abstract;
-use JetUI\menu;
-use JetUI\menu_item;
+use Jet\Application_Module;
+use Jet\Navigation_Menu;
+use Jet\Navigation_Menu_Item;
+use Jet\Navigation_Breadcrumb;
 use Jet\Tr;
+use Jet\Mvc;
 
-use JetExampleApp\Application_Modules_Module_Manifest;
+use JetUI\UI;
+
+use JetExampleApp\Mvc_Page;
+use JetExampleApp\Application_Module_Manifest;
 
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract
+class Main extends Application_Module
 {
 
 	/**
-	 * @var menu_item[]
+	 * @var bool
 	 */
-	protected static $menu_items;
+	protected static $menu_items_init;
 
 	/**
-	 * @return menu_item[]
+	 *
 	 */
-	public static function getMenuItems()
+	public static function initBreadcrumb()
 	{
-		if( static::$menu_items!==null ) {
-			return static::$menu_items;
-		}
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$page = Mvc::getCurrentPage();
 
-		menu::addMenu( 'content', 'Content', 1 );
-		menu::addMenu( 'system', 'System', 3 );
+		Navigation_Breadcrumb::reset();
 
-		static::$menu_items = [];
+		Navigation_Breadcrumb::addURL(
+			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(),
+			$page->getURL()
+		);
 
-		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
-			/**
-			 * @var Application_Modules_Module_Manifest $manifest
-			 */
-			foreach( $manifest->getMenuItems() as $id => $menu_data ) {
-
-				$menu_data['id'] = $id;
-
-				$menu_item = new menu_item(
-					$menu_data['parent_menu_id'], $menu_data['id'],
-					Tr::_( $menu_data['label'], [], $manifest->getName() )
-				);
-
-				if( isset( $menu_data['index'] ) ) {
-					$menu_item->setIndex( $menu_data['index'] );
-				}
-				if( isset( $menu_data['icon'] ) ) {
-					$menu_item->setIcon( $menu_data['icon'] );
-				}
-				if( isset( $menu_data['page_id'] ) ) {
-					$menu_item->setPageId( $menu_data['page_id'] );
-				}
-				if( isset( $menu_data['url_parts'] ) ) {
-					$menu_item->setUrlParts( $menu_data['url_parts'] );
-				}
-				if( isset( $menu_data['URL'] ) ) {
-					$menu_item->setURL( $menu_data['URL'] );
-				}
-				if( isset( $menu_data['separator_before'] ) ) {
-					$menu_item->setSeparatorBefore( $menu_data['separator_before'] );
-				}
-				if( isset( $menu_data['separator_after'] ) ) {
-					$menu_item->setSeparatorAfter( $menu_data['separator_after'] );
-				}
-
-
-				if( !$menu_item->getAccessAllowed() ) {
-					continue;
-				}
-
-				static::$menu_items[$menu_item->getId()] = $menu_item;
-
-				$menu = menu::getMenu( $menu_item->getParentMenuId() );
-				$menu->addMenuItem( $menu_item );
-			}
-
-		}
-
-		return static::$menu_items;
 	}
 
 	/**
 	 *
 	 */
-	public function initialize()
+	public static function initMenuItems()
 	{
+		if( static::$menu_items_init ) {
+			return;
+		}
+
+		Navigation_Menu::addRootMenu( 'content', 'Content', 1 );
+		Navigation_Menu::addRootMenu( 'system', 'System', 3 );
+
+
+		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
+			/**
+			 * @var Application_Module_Manifest $manifest
+			 */
+			foreach( $manifest->getMenuItems() as $id => $menu_data ) {
+
+				$menu_data['id'] = $id;
+				$menu_data['label'] = Tr::_( $menu_data['label'], [], $manifest->getName() );
+
+				$menu_id = $menu_data['menu_id'];
+				unset($menu_data['menu_id']);
+
+				$menu_item = new Navigation_Menu_Item(
+					$menu_data['id'],
+					$menu_data['label']
+				);
+
+				$menu_item->setData( $menu_data );
+
+
+				$menu = Navigation_Menu::getMenu( $menu_id );
+				$menu->addItem( $menu_item );
+			}
+
+		}
+
+		static::$menu_items_init = true;
+
 	}
 
 }

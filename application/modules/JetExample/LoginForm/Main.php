@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\LoginForm;
 
-use Jet\Application_Modules_Module_Abstract;
+use Jet\Application_Module;
 
 use Jet\Auth;
 use Jet\Mvc;
@@ -25,7 +25,7 @@ use JetExampleApp\Auth_Administrator_User as Administrator;
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract
+class Main extends Application_Module
 {
 
 

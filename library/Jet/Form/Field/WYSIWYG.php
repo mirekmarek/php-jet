@@ -11,7 +11,7 @@ namespace Jet;
  * Class Form_Field_WYSIWYG
  * @package Jet
  */
-class Form_Field_WYSIWYG extends Form_Field_Abstract
+class Form_Field_WYSIWYG extends Form_Field
 {
 	/**
 	 * @var array
@@ -51,7 +51,7 @@ class Form_Field_WYSIWYG extends Form_Field_Abstract
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
+		self::ERROR_CODE_EMPTY => ''
 	];
 	/**
 	 * @var array

@@ -60,8 +60,8 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	protected $_role;
 
 	/**
-	 * @param         $privilege
-	 * @param mixed[] $values
+	 * @param string $privilege
+	 * @param array $values
 	 */
 	public function __construct( $privilege = '', array $values = [] )
 	{
@@ -145,11 +145,11 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	}
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $values_property_definition
+	 * @param DataModel_Definition_Property $values_property_definition
 	 *
-	 * @return Form_Field_Abstract|bool
+	 * @return Form_Field|bool
 	 */
-	public function getFormField( DataModel_Definition_Property_Abstract $values_property_definition )
+	public function getFormField( DataModel_Definition_Property $values_property_definition )
 	{
 
 

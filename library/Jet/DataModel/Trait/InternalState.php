@@ -28,8 +28,8 @@ trait DataModel_Trait_InternalState
 		$this->setIsNew();
 
 		/**
-		 * @var DataModel                           $this
-		 * @var DataModel_Definition_Model_Abstract $data_model_definition
+		 * @var DataModel                  $this
+		 * @var DataModel_Definition_Model $data_model_definition
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 

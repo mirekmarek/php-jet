@@ -15,7 +15,7 @@ class DataModel_Query_GroupBy extends BaseObject implements \Iterator
 {
 
 	/**
-	 * @var DataModel_Query_Select_Item[]|DataModel_Definition_Property_Abstract[]
+	 * @var DataModel_Query_Select_Item[]|DataModel_Definition_Property[]
 	 */
 	protected $items = [];
 
@@ -80,7 +80,7 @@ class DataModel_Query_GroupBy extends BaseObject implements \Iterator
 	//------------------------------------------------------------------------------------------------------------
 	/**
 	 * @see \Iterator
-	 * @return DataModel_Query_Select_Item|DataModel_Definition_Property_Abstract
+	 * @return DataModel_Query_Select_Item|DataModel_Definition_Property
 	 */
 	public function current()
 	{

@@ -11,7 +11,7 @@ namespace Jet;
  * Interface DataModel_Interface
  * @package Jet
  */
-interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_Reflection_ParserInterface
+interface DataModel_Interface extends BaseObject_Serializable
 {
 //-- Definition ---------------------------------
 
@@ -20,7 +20,7 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
 	 *
 	 * @param string $class_name (optional)
 	 *
-	 * @return DataModel_Definition_Model_Abstract
+	 * @return DataModel_Definition_Model
 	 */
 	public static function getDataModelDefinition( $class_name = '' );
 
@@ -36,14 +36,14 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
 //-- Id -----------------------------------------
 
 	/**
-	 * @return DataModel_Id_Abstract
+	 * @return DataModel_Id
 	 */
 	public static function getEmptyIdObject();
 
 	/**
 	 * Returns backend instance
 	 *
-	 * @return DataModel_Backend_Abstract
+	 * @return DataModel_Backend
 	 */
 	public static function getBackendInstance();
 
@@ -52,7 +52,7 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
 	/**
 	 * Loads DataModel.
 	 *
-	 * @param DataModel_Id_Abstract|array $id
+	 * @param DataModel_Id|array $id
 	 *
 	 * @throws DataModel_Exception
 	 *
@@ -62,7 +62,7 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
 
 	/**
 	 *
-	 * @return DataModel_Id_Abstract
+	 * @return DataModel_Id
 	 */
 	public function getIdObject();
 
@@ -256,12 +256,12 @@ interface DataModel_Interface extends BaseObject_Serializable_REST, BaseObject_R
 
 	/**
 	 *
-	 * @param       $load_item
+	 * @param string $select_item
 	 * @param array $where
 	 *
 	 * @return DataModel_Fetch_Data_Col
 	 */
-	public function fetchDataCol( $load_item, array  $where = [] );
+	public function fetchDataCol( $select_item, array  $where = [] );
 
 
 //-- Events -------------------------------------

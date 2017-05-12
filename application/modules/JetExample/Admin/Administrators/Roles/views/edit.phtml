@@ -22,8 +22,8 @@ $form = $this->getRaw( 'form' );
 $available_privileges_list = $this->getRaw( 'available_privileges_list' );
 $users_module = Application_Modules::getModuleInstance( 'JetExample.Admin.Administrators.Users' );
 
-$form->setDefaultLabelWidth( 2 );
-$form->setDefaultFieldWidth( 4 );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 
 
 ?>
@@ -48,7 +48,7 @@ $form->setDefaultFieldWidth( 4 );
 		<?php foreach( $available_privileges_list as $privilege => $pd ):
 			$fl = $form->field( '/privileges/'.$privilege.'/values' );
 
-			$fl->field()->addCustomCssStyle( 'height:300px' );
+			$fl->input()->addCustomCssStyle( 'height:300px' );
 			?>
 			<?=$fl?>
 		<?php endforeach; ?>

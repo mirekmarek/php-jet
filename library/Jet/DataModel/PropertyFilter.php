@@ -21,10 +21,10 @@ class DataModel_PropertyFilter extends BaseObject
 
 	/**
 	 *
-	 * @param DataModel_Definition_Model_Abstract $model_definition
-	 * @param array                               $only_properties
+	 * @param DataModel_Definition_Model $model_definition
+	 * @param array                      $only_properties
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract $model_definition, array $only_properties )
+	public function __construct( DataModel_Definition_Model $model_definition, array $only_properties )
 	{
 
 		foreach( $only_properties as $lp ) {
@@ -50,12 +50,12 @@ class DataModel_PropertyFilter extends BaseObject
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $model_definition
-	 * @param DataModel_PropertyFilter|null       $load_filter
+	 * @param DataModel_Definition_Model    $model_definition
+	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
-	 * @return array|DataModel_Definition_Property_Abstract[]
+	 * @return array|DataModel_Definition_Property[]
 	 */
-	public static function getQuerySelect( DataModel_Definition_Model_Abstract $model_definition, DataModel_PropertyFilter $load_filter = null )
+	public static function getQuerySelect( DataModel_Definition_Model $model_definition, DataModel_PropertyFilter $load_filter = null )
 	{
 
 		if( !$load_filter ) {

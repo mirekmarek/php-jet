@@ -13,6 +13,11 @@ namespace Jet;
  */
 class Form extends BaseObject
 {
+	const LJ_SIZE_EXTRA_SMALL = 'xs';
+	const LJ_SIZE_SMALL = 'sm';
+	const LJ_SIZE_MEDIUM = 'md';
+	const LJ_SIZE_LARGE = 'lg';
+
 
 	const METHOD_POST = 'POST';
 	const METHOD_GET = 'GET';
@@ -65,9 +70,10 @@ class Form extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_renderer_class_name = __NAMESPACE__.'\Form_Renderer_Bootstrap';
+	protected static $default_views_dir = JET_APPLICATION_PATH.'views/Form/';
+
 	/**
-	 * Form name
+	 *
 	 * @var string $name
 	 */
 	protected $name = '';
@@ -108,7 +114,7 @@ class Form extends BaseObject
 	/**
 	 * Form fields
 	 *
-	 * @var Form_Field_Abstract[]
+	 * @var Form_Field[]
 	 */
 	protected $fields = [];
 	/**
@@ -141,33 +147,55 @@ class Form extends BaseObject
 	 * @var bool
 	 */
 	protected $is_readonly = false;
+
 	/**
 	 * @var string
 	 */
-	protected $renderer_class_name;
+	protected $views_dir;
+
 	/**
-	 * @var int
+	 * @var array
 	 */
-	protected $default_label_width = 4;
+	protected $default_label_width = [self::LJ_SIZE_MEDIUM => 4];
+
 	/**
-	 * @var int
+	 * @var array
 	 */
-	protected $default_field_width = 8;
+	protected $default_field_width = [self::LJ_SIZE_MEDIUM => 8];
+
 	/**
-	 * @var string
+	 * @var Form_Renderer_Pair
 	 */
-	protected $default_size = 'md';
+	protected $_form_tag;
+
 	/**
-	 * @var Form_Renderer_Abstract_Form|Form_Renderer_Bootstrap_Form
+	 * @var Form_Renderer_Single
 	 */
-	protected $_tag;
+	protected $_message_tag;
+
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultViewsDir()
+	{
+		return static::$default_views_dir;
+	}
+
+	/**
+	 * @param string $default_views_dir
+	 */
+	public static function setDefaultViewsDir( $default_views_dir )
+	{
+		static::$default_views_dir = $default_views_dir;
+	}
 
 	/**
 	 * constructor
 	 *
-	 * @param string                $name
-	 * @param Form_Field_Abstract[] $fields
-	 * @param string                $method - POST or GET (optional, default: POST)
+	 * @param string       $name
+	 * @param Form_Field[] $fields
+	 * @param string       $method - POST or GET (optional, default: POST)
 	 */
 	public function __construct( $name, array $fields, $method = self::METHOD_POST )
 	{
@@ -201,7 +229,7 @@ class Form extends BaseObject
 	 *
 	 * @param bool $as_multidimensional_array (optional, default: false)
 	 *
-	 * @return Form_Field_Abstract[]
+	 * @return Form_Field[]
 	 */
 	public function getFields( $as_multidimensional_array = false )
 	{
@@ -222,7 +250,7 @@ class Form extends BaseObject
 	/**
 	 * set form fields
 	 *
-	 * @param Form_Field_Abstract[] $fields
+	 * @param Form_Field[] $fields
 	 *
 	 * @throws Form_Exception
 	 */
@@ -367,7 +395,7 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @return int
+	 * @return array
 	 */
 	public function getDefaultLabelWidth()
 	{
@@ -375,15 +403,15 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @param int $default_label_width
+	 * @param array $default_label_width
 	 */
-	public function setDefaultLabelWidth( $default_label_width )
+	public function setDefaultLabelWidth( array $default_label_width )
 	{
 		$this->default_label_width = $default_label_width;
 	}
 
 	/**
-	 * @return int
+	 * @return array
 	 */
 	public function getDefaultFieldWidth()
 	{
@@ -391,33 +419,18 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @param int $default_field_width
+	 * @param array $default_field_width
 	 */
-	public function setDefaultFieldWidth( $default_field_width )
+	public function setDefaultFieldWidth( array $default_field_width )
 	{
 		$this->default_field_width = $default_field_width;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDefaultSize()
-	{
-		return $this->default_size;
-	}
 
 	/**
-	 * @param string $default_size
+	 * @param Form_Field $field
 	 */
-	public function setDefaultSize( $default_size )
-	{
-		$this->default_size = $default_size;
-	}
-
-	/**
-	 * @param Form_Field_Abstract $field
-	 */
-	public function addField( Form_Field_Abstract $field )
+	public function addField( Form_Field $field )
 	{
 		$field->setForm( $this );
 
@@ -434,7 +447,7 @@ class Form extends BaseObject
 	 * @param string $name
 	 *
 	 * @throws Form_Exception
-	 * @return Form_Field_Abstract
+	 * @return Form_Field
 	 */
 	public function field( $name )
 	{
@@ -446,7 +459,7 @@ class Form extends BaseObject
 	 * @param string $name
 	 *
 	 * @throws Form_Exception
-	 * @return Form_Field_Abstract
+	 * @return Form_Field
 	 */
 	public function getField( $name )
 	{
@@ -470,10 +483,10 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @param string              $name
-	 * @param Form_Field_Abstract $field
+	 * @param string     $name
+	 * @param Form_Field $field
 	 */
-	public function setField( $name, Form_Field_Abstract $field )
+	public function setField( $name, Form_Field $field )
 	{
 		$this->fields[$name] = $field;
 		$field->setForm( $this );
@@ -815,54 +828,55 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * @return Form_Renderer_Abstract_Form|Form_Renderer_Bootstrap_Form
+	 * @return string
+	 */
+	public function getViewsDir()
+	{
+		if(!$this->views_dir) {
+			$this->views_dir = static::getDefaultViewsDir();
+		}
+
+		return $this->views_dir;
+	}
+
+	/**
+	 * @param string $views_dir
+	 */
+	public function setViewsDir( $views_dir )
+	{
+		$this->views_dir = $views_dir;
+	}
+
+	/**
+	 * @return Mvc_View
+	 */
+	public function getView() {
+
+		return new Mvc_View($this->getViewsDir());
+	}
+
+
+	/**
+	 * @return Form_Renderer_Pair
+	 */
+	public function tag() {
+		if( !$this->_form_tag ) {
+			$this->checkFieldsHasErrorMessages();
+
+			$this->_form_tag = new Form_Renderer_Pair( $this );
+			$this->_form_tag->setViewScriptStart('start');
+			$this->_form_tag->setViewScriptEnd('end');
+		}
+
+		return $this->_form_tag;
+	}
+
+	/**
+	 * @return string
 	 */
 	public function start()
 	{
-		if( !$this->_tag ) {
-			$this->checkFieldsHasErrorMessages();
-
-			$class_name = $this->getRendererClassName().'_Form';
-			$this->_tag = new $class_name( $this );
-		}
-
-		return $this->_tag;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRendererClassName()
-	{
-		if( !$this->renderer_class_name ) {
-			$this->renderer_class_name = static::getDefaultRendererClassName();
-		}
-
-		return $this->renderer_class_name;
-	}
-
-	/**
-	 * @param string $renderer_class_name
-	 */
-	public function setRendererClassName( $renderer_class_name )
-	{
-		$this->renderer_class_name = $renderer_class_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultRendererClassName()
-	{
-		return self::$default_renderer_class_name;
-	}
-
-	/**
-	 * @param string $default_renderer_class_name
-	 */
-	public static function setDefaultRendererClassName( $default_renderer_class_name )
-	{
-		self::$default_renderer_class_name = $default_renderer_class_name;
+		return $this->tag()->start();
 	}
 
 	/**
@@ -870,18 +884,23 @@ class Form extends BaseObject
 	 */
 	public function end()
 	{
-		return $this->_tag->end();
+		return $this->_form_tag->end();
 	}
 
 	/**
 	 *
-	 * @return Form_Renderer_Abstract_Form_Message|Form_Renderer_Bootstrap_Form_Message
+	 * @return Form_Renderer_Single
 	 */
 	public function message()
 	{
-		$class_name = $this->renderer_class_name.'_Form_Message';
+		if(!$this->_message_tag) {
+			$this->_message_tag = new Form_Renderer_Single( $this );
+			$this->_message_tag->setViewScript('message');
+		}
 
-		return new $class_name( $this );
+		return $this->_message_tag;
 	}
+
+
 
 }

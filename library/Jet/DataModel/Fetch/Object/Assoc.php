@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Fetch_Object_Assoc
  * @package Jet
  */
-class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object_Abstract implements Data_Paginator_DataSource_Interface, \ArrayAccess, \Iterator, \Countable
+class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Data_Paginator_DataSource, \ArrayAccess, \Iterator, \Countable
 {
 
 	/**

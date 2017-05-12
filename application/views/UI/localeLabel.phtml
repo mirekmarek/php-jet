@@ -1,0 +1,14 @@
+<?php
+use JetUI\localeLabel;
+use JetUI\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var localeLabel $l
+ */
+$l = $this->getRaw( 'element' );
+
+$locale = $l->getLocale();
+
+echo UI::flag( $locale ).' '.$locale->getRegionName().' ('.$locale->getLanguageName().')';

@@ -18,7 +18,7 @@ class Auth extends BaseObject
 	/**
 	 * Auth module instance
 	 *
-	 * @var Auth_Controller_Interface
+	 * @var Auth_ControllerInterface
 	 */
 	protected static $auth_controller;
 
@@ -38,7 +38,7 @@ class Auth extends BaseObject
 	/**
 	 * Get instance of current Auth module
 	 *
-	 * @return Auth_Controller_Interface
+	 * @return Auth_ControllerInterface
 	 */
 	public static function getAuthController()
 	{
@@ -46,9 +46,9 @@ class Auth extends BaseObject
 	}
 
 	/**
-	 * @param Auth_Controller_Interface $auth_controller
+	 * @param Auth_ControllerInterface $auth_controller
 	 */
-	public static function setAuthController( Auth_Controller_Interface $auth_controller )
+	public static function setAuthController( Auth_ControllerInterface $auth_controller )
 	{
 		self::$auth_controller = $auth_controller;
 	}

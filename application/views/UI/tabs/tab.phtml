@@ -1,0 +1,12 @@
+<?php
+use JetUI\tabs_tab;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var tabs_tab $t
+ */
+$t = $this->getRaw( 'element' );
+
+?>
+<li<?=( $t->getIsSelected() ? ' class="active"' : '' )?>><a href="<?=$t->getUrl();?>" <?=$t->getJsActions()?>><?=$t->getTitle()?></a></li>

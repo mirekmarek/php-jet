@@ -7,7 +7,6 @@
  */
 namespace JetUI;
 
-use Jet\BaseObject;
 use Jet\Http_Request;
 
 
@@ -15,8 +14,12 @@ use Jet\Http_Request;
  * Class tabs
  * @package JetUI
  */
-class tabs extends BaseObject
+class tabs extends BaseElement
 {
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'tabs';
 
 	/**
 	 * @var tabs_tab[]
@@ -29,24 +32,72 @@ class tabs extends BaseObject
 	protected $selected_page_id;
 
 	/**
+	 * @var string
+	 */
+	protected $get_parameter = 'p';
+
+	/**
 	 * @param array $tabs
 	 */
 	public function __construct( array $tabs )
 	{
-		$tab_ids = [];
-		$default_tab_id = null;
 		foreach( $tabs as $id => $title ) {
-			if( !$default_tab_id ) {
-				$default_tab_id = $id;
-			}
-			$tab_ids[] = $id;
-
 			$this->tabs[$id] = new tabs_tab( $id, $title );
 		}
 
-		$this->selected_page_id = Http_Request::GET()->getString( 'p', $default_tab_id, $tab_ids );
+		$this->setGetParameter($this->getGetParameter());
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getGetParameter()
+	{
+		return $this->get_parameter;
+	}
+
+	/**
+	 * @param string $get_parameter
+	 *
+	 * @return $this
+	 */
+	public function setGetParameter( $get_parameter )
+	{
+		$this->get_parameter = $get_parameter;
+
+		foreach( $this->tabs as $tab ) {
+			$tab->setGetParameter($get_parameter);
+		}
+
+		$tab_ids = [];
+		$default_tab_id = null;
+		foreach( $this->tabs as $tab ) {
+			if( !$default_tab_id ) {
+				$default_tab_id = $tab->getId();
+			}
+			$tab_ids[] = $tab->getId();
+
+			$tab->setGetParameter($get_parameter);
+			$tab->setIsSelected(false);
+
+		}
+
+		$this->selected_page_id = Http_Request::GET()->getString( $this->getGetParameter(), $default_tab_id, $tab_ids );
 
 		$this->tabs[$this->selected_page_id]->setIsSelected( true );
+
+
+		return $this;
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return tabs_tab
+	 */
+	public function getTab( $id )
+	{
+		return $this->tabs[$id];
 	}
 
 	/**
@@ -58,24 +109,11 @@ class tabs extends BaseObject
 	}
 
 	/**
-	 * @return string
+	 * @return tabs_tab[]
 	 */
-	public function __toString()
+	public function getTabs()
 	{
-		return $this->toString();
+		return $this->tabs;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		$result = '<ul class="nav nav-tabs" style="margin-top: 10px;">';
-		foreach( $this->tabs as $tab ) {
-			$result .= $tab;
-		}
-		$result .= '</ul>';
-
-		return $result;
-	}
 }

@@ -129,7 +129,7 @@ interface Mvc_Page_Content_Interface
 
 	/**
 	 *
-	 * @return Mvc_Controller_Abstract|bool
+	 * @return Mvc_Controller|bool
 	 */
 	public function getControllerInstance();
 

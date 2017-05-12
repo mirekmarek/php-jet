@@ -11,7 +11,7 @@ namespace Jet;
  * Class Form_Field_RegistrationPassword
  * @package Jet
  */
-class Form_Field_RegistrationPassword extends Form_Field_Abstract
+class Form_Field_RegistrationPassword extends Form_Field
 {
 	const ERROR_CODE_CHECK_EMPTY = 'check_empty';
 	const ERROR_CODE_CHECK_NOT_MATCH = 'check_not_match';
@@ -26,19 +26,16 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY           => '', self::ERROR_CODE_CHECK_EMPTY => '',
-		self::ERROR_CODE_CHECK_NOT_MATCH => '', self::ERROR_CODE_WEAK_PASSWORD => '',
+		self::ERROR_CODE_EMPTY           => '',
+		self::ERROR_CODE_CHECK_EMPTY     => '',
+		self::ERROR_CODE_CHECK_NOT_MATCH => '',
+		self::ERROR_CODE_WEAK_PASSWORD   => '',
 	];
 
 	/**
 	 * @var bool
 	 */
 	protected $is_required = true;
-
-	/**
-	 * @var string
-	 */
-	protected $password_confirmation_value = '';
 
 	/**
 	 * @var string
@@ -51,14 +48,42 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 	protected $password_strength_check_callback;
 
 	/**
-	 * @return Form_Renderer_Abstract_Label|Form_Renderer_Bootstrap_Label
+	 * @var Form_Field_Password
+	 */
+	protected $confirmation_input;
+
+	/**
+	 * @return Form_Renderer_Single
 	 */
 	protected $_tag_label_confirmation;
 
 	/**
-	 * @return Form_Renderer_Abstract_Field_Abstract|Form_Renderer_Bootstrap_Field_Abstract
+	 * @return Form_Renderer_Single
 	 */
 	protected $_tag_field_confirmation;
+
+
+	/**
+	 *
+	 * @param string $name
+	 * @param string $label
+	 * @param string $default_value
+	 * @param bool   $is_required
+	 */
+	public function __construct( $name, $label = '', $default_value = '', $is_required = false ){
+		parent::__construct($name, $label, $default_value, $is_required);
+
+		$this->confirmation_input = new Form_Field_Password( $name.'_confirmation' );
+	}
+
+	/**
+	 * @param Form $form
+	 */
+	public function setForm( Form $form )
+	{
+		parent::setForm( $form );
+		$this->confirmation_input->setForm($form);
+	}
 
 	/**
 	 *
@@ -67,13 +92,10 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 	public function catchValue( Data_Array $data )
 	{
 
-		$this->password_confirmation_value = '';
-		$name = $this->_name.'_confirmation';
-
-		if( $data->exists( $name ) ) {
-			$this->password_confirmation_value = trim( $data->getString( $name ) );
-		}
 		parent::catchValue( $data );
+
+		$this->confirmation_input->catchValue( $data );
+
 	}
 
 	/**
@@ -87,7 +109,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 			return false;
 		}
 
-		if( !$this->password_confirmation_value ) {
+		if( !$this->confirmation_input->_value ) {
 			$this->setValueError( self::ERROR_CODE_CHECK_EMPTY );
 
 			return false;
@@ -102,7 +124,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 	public function validateValue()
 	{
 
-		if( $this->_value!=$this->password_confirmation_value ) {
+		if( $this->_value!=$this->confirmation_input->_value ) {
 			$this->setValueError( self::ERROR_CODE_CHECK_NOT_MATCH );
 
 			return false;
@@ -169,25 +191,28 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 			return '';
 		}
 
-		return $this->container().$this->error().$this->label().$this->field().$this->container()->end(
-		).$this->container().$this->label_confirmation().$this->field_confirmation().$this->container()->end();
+		return $this->row()->start()
+					.$this->error()
+					.$this->label()
+					.$this->container()->start()
+						.$this->input()
+					.$this->container()->end()
+				.$this->row()->end()
+				.$this->row()->start()
+					.$this->label_confirmation()
+					.$this->container()->start()
+						.$this->input_confirmation()
+					.$this->container()->end()
+				.$this->row()->end();
 	}
 
 	/**
-	 * @return Form_Renderer_Abstract_Label|Form_Renderer_Bootstrap_Label
+	 * @return Form_Renderer_Single
 	 */
 	public function label_confirmation()
 	{
 		if( !$this->_tag_label_confirmation ) {
-
-			/**
-			 * @var Form_Renderer_Abstract_Label $label
-			 */
-			$label = $this->_getRenderer( 'Label' );
-			$label->setLabel( $this->getPasswordConfirmationLabel() );
-			$label->setFor( $this->getId().'_confirmation' );
-
-			$this->_tag_label_confirmation = $label;
+			$this->_tag_label_confirmation = $this->confirmation_input->label();
 		}
 
 		return $this->_tag_label_confirmation;
@@ -198,7 +223,7 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 	 */
 	public function getPasswordConfirmationLabel()
 	{
-		return $this->getTranslation( $this->password_confirmation_label );
+		return $this->confirmation_input->getLabel();
 	}
 
 	/**
@@ -206,23 +231,17 @@ class Form_Field_RegistrationPassword extends Form_Field_Abstract
 	 */
 	public function setPasswordConfirmationLabel( $password_confirmation_label )
 	{
-		$this->password_confirmation_label = $password_confirmation_label;
+		$this->confirmation_input->setLabel($password_confirmation_label);
 	}
 
 	/**
-	 * @return Form_Renderer_Abstract_Field_Abstract|Form_Renderer_Bootstrap_Field_Abstract
+	 * @return Form_Renderer_Single
 	 */
-	public function field_confirmation()
+	public function input_confirmation()
 	{
 		if( !$this->_tag_field_confirmation ) {
-			/**
-			 * @var Form_Renderer_Abstract_Field_Abstract $field
-			 */
-			$field = $this->_getRenderer( 'Field_'.$this->_type );
-			$field->setTagNameValue( $this->getTagNameValue().'_confirmation' );
-			$field->setTagId( $this->getId().'_confirmation' );
 
-			$this->_tag_field_confirmation = $field;
+			$this->_tag_field_confirmation = $this->confirmation_input->input();
 		}
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */

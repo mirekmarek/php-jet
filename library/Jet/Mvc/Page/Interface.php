@@ -14,6 +14,13 @@ namespace Jet;
 interface Mvc_Page_Interface
 {
 	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 *
+	 */
+	public static function loadPages( Mvc_Site_Interface $site, Locale $locale );
+
+	/**
 	 * @param Mvc_Page_Interface $page
 	 *
 	 */
@@ -414,40 +421,6 @@ interface Mvc_Page_Interface
 	 * @param Mvc_Page_Content_Interface[] $contents
 	 */
 	public function setContent( $contents );
-
-	/**
-	 * @return Mvc_NavigationData_Breadcrumb_Abstract[]
-	 */
-	public function getBreadcrumbNavigation();
-
-	/**
-	 * @param Mvc_NavigationData_Breadcrumb_Abstract $item
-	 */
-	public function addBreadcrumbNavigationItem( Mvc_NavigationData_Breadcrumb_Abstract $item );
-
-	/**
-	 * @param string $title
-	 * @param string $URI (optional)
-	 */
-	public function addBreadcrumbNavigationData( $title, $URI = '' );
-
-	/**
-	 * @param Mvc_Page_Interface $page
-	 */
-	public function addBreadcrumbNavigationPage( Mvc_Page_Interface $page );
-
-	/**
-	 * @param Mvc_NavigationData_Breadcrumb_Abstract[] $data
-	 *
-	 * @throws Exception
-	 */
-	public function setBreadcrumbNavigation( $data );
-
-	/**
-	 *
-	 * @param int $shift_count
-	 */
-	public function breadcrumbNavigationShift( $shift_count );
 
 	/**
 	 *

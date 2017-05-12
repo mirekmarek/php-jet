@@ -10,8 +10,8 @@ namespace JetUI;
 use Jet\Mvc_View;
 use Jet\BaseObject;
 use Jet\Data_Paginator;
-use Jet\DataModel_Fetch_Data_Abstract;
-use Jet\DataModel_Fetch_Object_Abstract;
+use Jet\DataModel_Fetch_Data;
+use Jet\DataModel_Fetch_Object;
 use Jet\DataModel_Query;
 use Jet\Session;
 use Jet\Http_Request;
@@ -189,12 +189,12 @@ class dataGrid extends BaseObject
 			$this->handlePaginator();
 		}
 
-		if( ( $data instanceof DataModel_Fetch_Data_Abstract||$data instanceof DataModel_Fetch_Object_Abstract )&&( $sort = $this->handleSortRequest(
+		if( ( $data instanceof DataModel_Fetch_Data||$data instanceof DataModel_Fetch_Object )&&( $sort = $this->handleSortRequest(
 			) )
 		) {
 			/**
-			 * @var DataModel_Fetch_Data_Abstract $data
-			 * @var DataModel_Query               $query
+			 * @var DataModel_Fetch_Data $data
+			 * @var DataModel_Query      $query
 			 */
 			$query = $data->getQuery();
 
@@ -209,7 +209,7 @@ class dataGrid extends BaseObject
 				$this->paginator->setData( $data );
 			}
 
-			if( $data instanceof DataModel_Fetch_Data_Abstract||$data instanceof DataModel_Fetch_Object_Abstract ) {
+			if( $data instanceof DataModel_Fetch_Data||$data instanceof DataModel_Fetch_Object ) {
 				$this->paginator->setDataSource( $data );
 			}
 
@@ -291,77 +291,6 @@ class dataGrid extends BaseObject
 
 		return $this->sort_by;
 
-	}
-
-	/**
-	 * @return string
-	 */
-	public function render()
-	{
-
-		return $this->renderHeader().$this->renderBody().$this->renderPaginator().$this->renderFooter();
-
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderHeader()
-	{
-		$view = $this->getView();
-
-		return $view->render( 'dataGrid/header' );
-
-	}
-
-	/**
-	 * @return Mvc_View
-	 */
-	protected function getView()
-	{
-		$view = new Mvc_View( JET_APPLICATION_PATH.'views/' );
-		$view->setVar( 'grid', $this );
-		$view->setVar( 'images_uri', JET_PUBLIC_URI.'images/' );
-
-		return $view;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderBody()
-	{
-		$view = $this->getView();
-
-		return $view->render( 'dataGrid/body' );
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderPaginator()
-	{
-		if( !$this->paginator ) {
-			return '';
-		}
-
-		$view = $this->getView();
-
-		return $view->render( 'dataGrid/paginator' );
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderFooter()
-	{
-		$view = $this->getView();
-
-		return $view->render( 'dataGrid/footer' );
 	}
 
 	/**
@@ -483,5 +412,81 @@ class dataGrid extends BaseObject
 		$this->sort_by = $sort_by;
 	}
 
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return $this->render();
+	}
+
+
+	/**
+	 * @return Mvc_View
+	 */
+	protected function getView()
+	{
+		$view = UI::getView();
+		$view->setVar( 'grid', $this );
+
+		return $view;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function render()
+	{
+		return $this->getView()->render( 'dataGrid' );
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function renderHeader()
+	{
+		return $this->getView()->render( 'dataGrid/header' );
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function renderBody()
+	{
+		return $this->getView()->render( 'dataGrid/body' );
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function renderPaginator()
+	{
+		if( !$this->paginator ) {
+			return '';
+		}
+
+		return $this->getView()->render( 'dataGrid/paginator' );
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function renderFooter()
+	{
+		return $this->getView()->render( 'dataGrid/footer' );
+	}
 
 }

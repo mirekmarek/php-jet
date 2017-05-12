@@ -11,6 +11,7 @@ use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 use Jet\Data_Paginator;
+use Jet\Navigation_Breadcrumb;
 
 /**
  *
@@ -114,7 +115,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 		 */
 		$article = $this->getActionParameterValue( 'article' );
 
-		Mvc::getCurrentPage()->addBreadcrumbNavigationData( $article->getTitle() );
+		Navigation_Breadcrumb::addURL( $article->getTitle() );
 
 		$this->view->setVar( 'article', $article );
 

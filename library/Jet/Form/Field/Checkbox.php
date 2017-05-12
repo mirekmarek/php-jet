@@ -11,7 +11,7 @@ namespace Jet;
  * Class Form_Field_Checkbox
  * @package Jet
  */
-class Form_Field_Checkbox extends Form_Field_Abstract
+class Form_Field_Checkbox extends Form_Field
 {
 	/**
 	 * @var string
@@ -68,4 +68,18 @@ class Form_Field_Checkbox extends Form_Field_Abstract
 	{
 		return [];
 	}
+
+	/**
+	 * @return Form_Renderer_Single
+	 */
+	public function label()
+	{
+		if(!$this->_tag_label) {
+			$this->_tag_label = parent::label();
+			$this->_tag_label->setViewScript('Field/label/checkbox');
+		}
+
+		return $this->_tag_label;
+	}
+
 }

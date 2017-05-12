@@ -24,7 +24,7 @@ class Db_Config extends Application_Config
 	 * @JetConfig:default_value = 'default'
 	 * @JetConfig:form_field_type = Form::TYPE_SELECT
 	 * @JetConfig:form_field_get_select_options_callback = ['Db_Config', 'getConnectionsList']
-	 * @JetConfig:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection']
+	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select default connection', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select default connection']
 	 *
 	 * @var string
 	 */
@@ -35,7 +35,7 @@ class Db_Config extends Application_Config
 	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
 	 * @JetConfig:data_path = 'connections'
 	 * @JetConfig:config_factory_class_name = 'Db_Factory'
-	 * @JetConfig:config_factory_method_name = 'getConnectionConfigInstance'
+	 * @JetConfig:config_factory_method_name = 'getBackendConfigInstance'
 	 *
 	 * @var Config_Definition_Property_ConfigList
 	 */
@@ -65,12 +65,12 @@ class Db_Config extends Application_Config
 	}
 
 	/**
-	 * @return Db_Connection_Config_Abstract[]
+	 * @return Db_Backend_Config[]
 	 */
 	public function getConnections()
 	{
 		/**
-		 * @var Db_Connection_Config_Abstract[] $c_cfg
+		 * @var Db_Backend_Config[] $c_cfg
 		 */
 		$c_cfg = $this->connections->getAllConfigurationItems();
 
@@ -83,10 +83,11 @@ class Db_Config extends Application_Config
 	 * @param string $connection_name
 	 *
 	 * @throws Db_Exception
-	 * @return Db_Connection_Config_Abstract
+	 * @return Db_Backend_Config
 	 */
 	public function getConnection( $connection_name )
 	{
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return $this->connections->getConfigurationListItem( $connection_name );
 	}
 
@@ -101,11 +102,11 @@ class Db_Config extends Application_Config
 	}
 
 	/**
-	 * @param string                        $connection_name
-	 * @param Db_Connection_Config_Abstract $connection_configuration
+	 * @param string               $connection_name
+	 * @param Db_Backend_Config $connection_configuration
 	 *
 	 */
-	public function addConnection( $connection_name, Db_Connection_Config_Abstract $connection_configuration )
+	public function addConnection( $connection_name, Db_Backend_Config $connection_configuration )
 	{
 		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
 	}

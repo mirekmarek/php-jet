@@ -33,7 +33,7 @@ class Translator extends BaseObject
 
 	/**
 	 *
-	 * @var Translator_Backend_Abstract
+	 * @var Translator_Backend
 	 */
 	protected static $backend;
 
@@ -66,10 +66,6 @@ class Translator extends BaseObject
 	 */
 	public static function getCurrentLocale()
 	{
-		if( !static::$current_locale ) {
-			static::$current_locale = Mvc::getCurrentLocale();
-		}
-
 		return static::$current_locale;
 	}
 
@@ -99,7 +95,7 @@ class Translator extends BaseObject
 	/**
 	 * Gets translator backend instance
 	 *
-	 * @return Translator_Backend_Abstract
+	 * @return Translator_Backend
 	 */
 	public static function getBackend()
 	{
@@ -114,9 +110,9 @@ class Translator extends BaseObject
 
 	/**
 	 *
-	 * @param Translator_Backend_Abstract $backend
+	 * @param Translator_Backend $backend
 	 */
-	public static function setBackend( Translator_Backend_Abstract $backend )
+	public static function setBackend( Translator_Backend $backend )
 	{
 		if( static::$backend===null ) {
 			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );

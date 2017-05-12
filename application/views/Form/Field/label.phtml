@@ -1,0 +1,27 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+
+/**
+ * @var Mvc_View      $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('control-label');
+}
+
+$class = $r->getWidthCssClasses( function($size, $width) {return 'col-'.$size.'-'.$width;} );
+
+if($r->getCssClasses()) {
+	$class .= ' '.$r->getCssClasses();
+}
+?>
+	<label for="<?=$r->getField()->getId()?>" class="<?=$class?>"<?php
+		if($r->getCssStyles()) echo ' style="'.$r->getCssStyles().'"';
+		if($r->getJsActions()) echo $r->getJsActions();
+	?>><?php
+		if( $r->getField()->getIsRequired() ) echo '<em class="form-required">*</em> ';
+		echo $r->getField()->getLabel();
+	?></label>

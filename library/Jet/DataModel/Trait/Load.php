@@ -61,8 +61,8 @@ trait DataModel_Trait_Load
 	public function loadMainData()
 	{
 		/**
-		 * @var DataModel                  $this
-		 * @var DataModel_Backend_Abstract $backend
+		 * @var DataModel         $this
+		 * @var DataModel_Backend $backend
 		 */
 
 		$query = $this->getIdObject()->getQuery();
@@ -111,8 +111,8 @@ trait DataModel_Trait_Load
 	public function setState( array $this_data, $related_data = [] )
 	{
 		/**
-		 * @var DataModel                           $this
-		 * @var DataModel_Definition_Model_Abstract $definition
+		 * @var DataModel                  $this
+		 * @var DataModel_Definition_Model $definition
 		 */
 		$definition = static::getDataModelDefinition();
 
@@ -152,8 +152,8 @@ trait DataModel_Trait_Load
 	public function loadMainRelatedData()
 	{
 		/**
-		 * @var DataModel                           $this
-		 * @var DataModel_Definition_Model_Abstract $definition
+		 * @var DataModel                  $this
+		 * @var DataModel_Definition_Model $definition
 		 */
 
 		$definition = static::getDataModelDefinition();

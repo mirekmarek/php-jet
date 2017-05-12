@@ -15,12 +15,12 @@ class Mvc_Controller_Router extends BaseObject
 {
 
 	/**
-	 * @var Application_Modules_Module_Abstract
+	 * @var Application_Module
 	 */
 	protected $module_instance;
 
 	/**
-	 * @var Mvc_Router_Abstract
+	 * @var Mvc_Router_Interface
 	 */
 	protected $mvc_router;
 
@@ -37,10 +37,10 @@ class Mvc_Controller_Router extends BaseObject
 
 
 	/**
-	 * @param Application_Modules_Module_Abstract $module_instance
-	 * @param Mvc_Router_Abstract                 $mvc_router
+	 * @param Application_Module   $module_instance
+	 * @param Mvc_Router_Interface $mvc_router
 	 */
-	public function __construct( Application_Modules_Module_Abstract $module_instance, Mvc_Router_Abstract $mvc_router = null )
+	public function __construct( Application_Module $module_instance, Mvc_Router_Interface $mvc_router = null )
 	{
 		if( !$mvc_router ) {
 			$mvc_router = Mvc::getCurrentRouter();
@@ -90,7 +90,7 @@ class Mvc_Controller_Router extends BaseObject
 	}
 
 	/**
-	 * @return Application_Modules_Module_Abstract
+	 * @return Application_Module
 	 */
 	public function getModuleInstance()
 	{
@@ -98,7 +98,7 @@ class Mvc_Controller_Router extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_Router_Abstract
+	 * @return Mvc_Router_Interface
 	 */
 	public function getMvcRouter()
 	{

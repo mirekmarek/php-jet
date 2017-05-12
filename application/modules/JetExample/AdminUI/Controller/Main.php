@@ -13,6 +13,9 @@ use Jet\Auth;
 use Jet\Mvc;
 use Jet\Http_Headers;
 use Jet\Http_Request;
+use Jet\Navigation_Breadcrumb;
+
+use JetUI\UI;
 
 use JetExampleApp\Mvc_Page;
 
@@ -43,7 +46,9 @@ class Controller_Main extends Mvc_Controller_Standard
 	{
 		parent::__construct( $module_instance );
 
-		Main::getMenuItems();
+		Main::initMenuItems();
+
+
 
 		$GET = Http_Request::GET();
 
@@ -68,10 +73,7 @@ class Controller_Main extends Mvc_Controller_Standard
 	 */
 	public function default_Action()
 	{
-		Mvc::getCurrentPage()->breadcrumbNavigationShift( -1 );
-
 		$this->render( 'default' );
-
 	}
 
 	/**

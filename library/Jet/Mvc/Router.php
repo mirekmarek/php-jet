@@ -11,7 +11,7 @@ namespace Jet;
  * Class Mvc_Router
  * @package Jet
  */
-class Mvc_Router extends Mvc_Router_Abstract
+class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 {
 
 

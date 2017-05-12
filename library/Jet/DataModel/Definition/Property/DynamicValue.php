@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Definition_Property_DynamicValue
  * @package Jet
  */
-class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Property_Abstract
+class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Property
 {
 	/**
 	 * @var string
@@ -51,7 +51,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
 
 	/**
-	 * @param                     &$property
+	 * @param mixed               &$property
 	 * @param DataModel_Interface $data_model_instance
 	 */
 	public function initPropertyDefaultValue( &$property, /** @noinspection PhpUnusedParameterInspection */
@@ -140,7 +140,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	 * @param mixed               $property_value
 	 * @param array               $related_data
 	 *
-	 * @return Form_Field_Abstract|Form_Field_Abstract[]
+	 * @return Form_Field|Form_Field[]
 	 */
 	public function createFormField( DataModel_Interface $data_model_instance, $property_value, array $related_data )
 	{

@@ -22,7 +22,8 @@ class messages extends BaseObject
 	const C_WARNING = 'warning';
 	const C_DANGER = 'danger';
 
-	const SESSION_NS = '_jsa_ui_messages';
+
+	protected static $session_namespace = '_jsa_ui_messages';
 
 	/**
 	 * @var messages_message[]
@@ -33,6 +34,24 @@ class messages extends BaseObject
 	 * @var Session
 	 */
 	protected static $session;
+
+	/**
+	 * @return string
+	 */
+	public static function getSessionNamespace()
+	{
+		return self::$session_namespace;
+	}
+
+	/**
+	 * @param string $session_namespace
+	 */
+	public static function setSessionNamespace( $session_namespace )
+	{
+		self::$session_namespace = $session_namespace;
+	}
+
+
 
 	/**
 	 * @param string $message
@@ -67,7 +86,7 @@ class messages extends BaseObject
 	protected static function getSession()
 	{
 		if( static::$session===null ) {
-			static::$session = new Session( static::SESSION_NS );
+			static::$session = new Session( static::getSessionNamespace() );
 		}
 
 		return self::$session;

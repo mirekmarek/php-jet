@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Definition_Property_DataModel
  * @package Jet
  */
-class DataModel_Definition_Property_DataModel extends DataModel_Definition_Property_Abstract
+class DataModel_Definition_Property_DataModel extends DataModel_Definition_Property
 {
 	/**
 	 * @var string
@@ -59,7 +59,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 
 	/**
-	 * @param                     &$property
+	 * @param mixed               &$property
 	 * @param DataModel_Interface $data_model_instance
 	 */
 	public function initPropertyDefaultValue( &$property, DataModel_Interface $data_model_instance )
@@ -169,7 +169,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
-	 * @param       $object_instance
+	 * @param object $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */
@@ -226,12 +226,12 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Related_Abstract
+	 * @return DataModel_Definition_Model_Related
 	 */
 	public function getValueDataModelDefinition()
 	{
 		/**
-		 * @var DataModel_Definition_Model_Related_Abstract $definition
+		 * @var DataModel_Definition_Model_Related $definition
 		 */
 		$definition = DataModel::getDataModelDefinition( $this->getValueDataModelClass() );
 

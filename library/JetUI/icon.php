@@ -7,14 +7,17 @@
  */
 namespace JetUI;
 
-use Jet\BaseObject;
 
 /**
  * Class icon
  * @package JetUI
  */
-class icon extends BaseObject
+class icon extends BaseElement
 {
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'icon';
 
 	/**
 	 * @var string
@@ -41,11 +44,6 @@ class icon extends BaseObject
 	 */
 	protected $color;
 
-	/**
-	 * @var array
-	 */
-	protected $js_actions = [];
-
 
 	/**
 	 * @param string $icon
@@ -56,27 +54,11 @@ class icon extends BaseObject
 	}
 
 	/**
-	 * @param string $event
-	 * @param string $handler_code
-	 *
-	 * @return icon
+	 * @return string
 	 */
-	public function setJsAction( $event, $handler_code )
+	public function getIcon()
 	{
-		/**
-		 * @var icon $this
-		 */
-
-		$event = strtolower( $event );
-
-		if( !isset( $this->js_actions[$event] ) ) {
-			$this->js_actions[$event] = $handler_code;
-		} else {
-			$this->js_actions[$event] .= ';'.$handler_code;
-
-		}
-
-		return $this;
+		return $this->icon;
 	}
 
 
@@ -93,6 +75,14 @@ class icon extends BaseObject
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getSize()
+	{
+		return $this->size;
+	}
+
+	/**
 	 * @param int $width
 	 *
 	 * @return icon
@@ -105,6 +95,14 @@ class icon extends BaseObject
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getWidth()
+	{
+		return $this->width;
+	}
+
+	/**
 	 * @param string $color
 	 *
 	 * @return icon
@@ -114,6 +112,14 @@ class icon extends BaseObject
 		$this->color = $color;
 
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getColor()
+	{
+		return $this->color;
 	}
 
 	/**
@@ -131,48 +137,9 @@ class icon extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function getTag()
 	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		$icon = $this->icon;
-
-		$res = '';
-
-		$style = '';
-
-		if( $this->size ) {
-			$style .= 'font-size:'.$this->size.'px;';
-		}
-		if( $this->width ) {
-			$style .= 'width:'.$this->width.'px;';
-		}
-		if( $this->color ) {
-			$style .= 'color:'.$this->color.';';
-		}
-
-		$res .= '<'.$this->tag.' class="'.UI::DEFAULT_ICON_CLASS.$icon.'"';
-		if( $style ) {
-			$res .= ' style="'.$style.'"';
-		}
-
-		$js_actions = [];
-
-		foreach( $this->js_actions as $vent => $handler ) {
-			$js_actions[] = ' '.$vent.'="'.$handler.'"';
-		}
-		$res .= implode( '', $js_actions );
-
-		$res .= '></'.$this->tag.'>';
-
-
-		return $res;
+		return $this->tag;
 	}
 
 }

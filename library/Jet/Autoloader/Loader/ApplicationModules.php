@@ -11,14 +11,14 @@ namespace Jet;
  * Class Autoloader_Loader_ApplicationModules
  * @package Jet
  */
-class Autoloader_Loader_ApplicationModules extends Autoloader_Loader_Abstract
+class Autoloader_Loader_ApplicationModules extends Autoloader_Loader
 {
 
 
 	/**
 	 * Installed and activated modules list
 	 *
-	 * @var Application_Modules_Module_Manifest[] $modules_list
+	 * @var Application_Module_Manifest[] $modules_list
 	 */
 	protected $modules_list = null;
 

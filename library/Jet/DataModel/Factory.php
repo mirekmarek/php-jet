@@ -22,7 +22,7 @@ class DataModel_Factory
 	 * @param array  $definition_data
 	 *
 	 * @throws DataModel_Exception
-	 * @return DataModel_Definition_Property_Abstract
+	 * @return DataModel_Definition_Property
 	 */
 	public static function getPropertyDefinitionInstance( $data_model_class_name, $name, $definition_data )
 	{
@@ -46,7 +46,7 @@ class DataModel_Factory
 	 * @param string $type
 	 * @param bool   $soft_mode @see Config
 	 *
-	 * @return DataModel_Backend_Config_Abstract
+	 * @return DataModel_Backend_Config
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode = false )
 	{
@@ -59,11 +59,11 @@ class DataModel_Factory
 	 * Returns instance of DataModel Backend class
 	 *
 	 * @param string                            $type
-	 * @param DataModel_Backend_Config_Abstract $backend_config
+	 * @param DataModel_Backend_Config $backend_config
 	 *
-	 * @return DataModel_Backend_Abstract
+	 * @return DataModel_Backend
 	 */
-	public static function getBackendInstance( $type, DataModel_Backend_Config_Abstract $backend_config )
+	public static function getBackendInstance( $type, DataModel_Backend_Config $backend_config )
 	{
 		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type;
 

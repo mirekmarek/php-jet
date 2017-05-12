@@ -43,13 +43,18 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 
 
 		$classes = [
-			__NAMESPACE__.'\Auth_Administrator_Role', __NAMESPACE__.'\Auth_Administrator_Role_Privilege',
-			__NAMESPACE__.'\Auth_Administrator_User', __NAMESPACE__.'\Auth_Administrator_User_Roles',
+			__NAMESPACE__.'\Auth_Administrator_Role',
+			__NAMESPACE__.'\Auth_Administrator_Role_Privilege',
+			__NAMESPACE__.'\Auth_Administrator_User',
+			__NAMESPACE__.'\Auth_Administrator_User_Roles',
 
-			__NAMESPACE__.'\Auth_Visitor_Role', __NAMESPACE__.'\Auth_Visitor_Role_Privilege',
-			__NAMESPACE__.'\Auth_Visitor_User', __NAMESPACE__.'\Auth_Visitor_User_Roles',
+			__NAMESPACE__.'\Auth_Visitor_Role',
+			__NAMESPACE__.'\Auth_Visitor_Role_Privilege',
+			__NAMESPACE__.'\Auth_Visitor_User',
+			__NAMESPACE__.'\Auth_Visitor_User_Roles',
 
-			__NAMESPACE__.'\Application_Logger_Event_Administration', __NAMESPACE__.'\Application_Logger_Event_Site',
+			__NAMESPACE__.'\Application_Log_Event_Administration',
+			__NAMESPACE__.'\Application_Log_Event_Site',
 		];
 
 		$result = [];

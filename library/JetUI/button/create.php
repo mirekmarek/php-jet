@@ -17,12 +17,6 @@ class button_create extends button
 	/**
 	 * @var string
 	 */
-	protected $class = 'default';
-
-	/**
-	 * @var string
-	 */
-	protected $icon = 'plus';
-
+	protected static $default_renderer_script = 'button/create';
 
 }

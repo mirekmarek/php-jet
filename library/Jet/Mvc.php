@@ -16,7 +16,7 @@ class Mvc
 
 	/**
 	 *
-	 * @var Mvc_Router_Abstract
+	 * @var Mvc_Router_Interface
 	 */
 	protected static $current_router;
 
@@ -41,7 +41,7 @@ class Mvc
 	protected static $current_content;
 
 	/**
-	 * @return Mvc_Router_Abstract
+	 * @return Mvc_Router_Interface
 	 */
 	public static function getCurrentRouter()
 	{
@@ -53,9 +53,9 @@ class Mvc
 	}
 
 	/**
-	 * @param Mvc_Router_Abstract $current_router
+	 * @param Mvc_Router_Interface $current_router
 	 */
-	public static function setCurrentRouter( Mvc_Router_Abstract $current_router )
+	public static function setCurrentRouter( Mvc_Router_Interface $current_router )
 	{
 		self::$current_router = $current_router;
 	}

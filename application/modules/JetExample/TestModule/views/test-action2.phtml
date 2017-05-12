@@ -17,6 +17,7 @@ $form = $this->getRaw( 'form' );
 <p>
 	<?php
 	echo $form->start();
+	echo $form->message();
 	foreach( $form->getFields() as $field ) {
 		echo $field;
 	}

@@ -17,16 +17,13 @@ class Form_Field_Time extends Form_Field_Input
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_TIME;
-	/**
-	 * @var string
-	 */
-	protected $_input_type = 'time';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
+		self::ERROR_CODE_EMPTY          => '',
+		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 

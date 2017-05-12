@@ -17,7 +17,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	/**
 	 * Property instance
 	 *
-	 * @var DataModel_Definition_Property_Abstract
+	 * @var DataModel_Definition_Property
 	 */
 	protected $property;
 
@@ -33,13 +33,13 @@ class DataModel_Query_Where_Expression extends BaseObject
 
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $property
-	 * @param string                                 $operator
-	 * @param mixed                                  $value
+	 * @param DataModel_Definition_Property $property
+	 * @param string                        $operator
+	 * @param mixed                         $value
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function __construct( DataModel_Definition_Property_Abstract $property, $operator, $value )
+	public function __construct( DataModel_Definition_Property $property, $operator, $value )
 	{
 
 		$this->property = $property;
@@ -48,7 +48,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Definition_Property_Abstract
+	 * @return DataModel_Definition_Property
 	 */
 	public function getProperty()
 	{

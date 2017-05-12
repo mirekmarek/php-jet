@@ -19,11 +19,6 @@ class Form_Field_Search extends Form_Field_Input
 	protected $_type = Form::TYPE_SEARCH;
 
 	/**
-	 * @var string
-	 */
-	protected $_input_type = 'search';
-
-	/**
 	 * @var array
 	 */
 	protected $error_messages = [];

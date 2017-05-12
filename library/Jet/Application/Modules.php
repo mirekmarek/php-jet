@@ -15,7 +15,7 @@ class Application_Modules extends BaseObject
 {
 
 	/**
-	 * @var Application_Modules_Handler_Abstract
+	 * @var Application_Modules_Handler
 	 */
 	protected static $handler;
 
@@ -32,13 +32,15 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * @return Application_Modules_Handler_Abstract
+	 * @return Application_Modules_Handler
 	 */
 	public static function getHandler()
 	{
 		if( !static::$handler ) {
-			static::$handler = new Application_Modules_Handler(
-				JET_MODULES_PATH, JET_APPLICATION_MODULES_LIST_PATH, JET_APPLICATION_MODULE_NAMESPACE,
+			static::$handler = new Application_Modules_Handler_Default(
+				JET_MODULES_PATH,
+				JET_APPLICATION_MODULES_LIST_PATH,
+				JET_APPLICATION_MODULE_NAMESPACE,
 				JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME
 			);
 		}
@@ -47,9 +49,9 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * @param Application_Modules_Handler_Abstract $handler
+	 * @param Application_Modules_Handler $handler
 	 */
-	public static function setHandler( Application_Modules_Handler_Abstract $handler )
+	public static function setHandler( Application_Modules_Handler $handler )
 	{
 		self::$handler = $handler;
 	}
@@ -57,7 +59,7 @@ class Application_Modules extends BaseObject
 	/**
 	 *
 	 * @throws Application_Modules_Exception
-	 * @return Application_Modules_Module_Manifest[]
+	 * @return Application_Module_Manifest[]
 	 */
 	public static function getInstalledModulesList()
 	{
@@ -71,7 +73,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Modules_Module_Manifest[]
+	 * @return Application_Module_Manifest[]
 	 */
 	public static function getAllModulesList( $ignore_corrupted_modules = true )
 	{
@@ -81,7 +83,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * Returns an array containing information on installed and activated modules
 	 *
-	 * @return Application_Modules_Module_Manifest[]
+	 * @return Application_Module_Manifest[]
 	 */
 	public static function getActivatedModulesList()
 	{
@@ -133,7 +135,7 @@ class Application_Modules extends BaseObject
 	 * @param string $module_name
 	 * @param bool   $only_activated (optional, default: false)
 	 *
-	 * @return Application_Modules_Module_Manifest
+	 * @return Application_Module_Manifest
 	 */
 	public static function getModuleManifest( $module_name, $only_activated = false )
 	{
@@ -206,7 +208,7 @@ class Application_Modules extends BaseObject
 	 *
 	 * @throws Application_Modules_Exception
 	 *
-	 * @return Application_Modules_Module_Abstract
+	 * @return Application_Module
 	 */
 	public static function getModuleInstance( $module_name )
 	{

@@ -9,7 +9,7 @@ use Jet\Form;
  * @var Form     $form
  */
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( 2 );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 
 ?>
 <?=$form->start()?>

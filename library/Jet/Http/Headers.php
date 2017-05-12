@@ -229,9 +229,9 @@ class Http_Headers
 	 * PHP header function replacement
 	 * CLI Unit test support
 	 *
-	 * @param      $header
-	 * @param bool $replace
-	 * @param int  $http_response_code
+	 * @param string $header
+	 * @param bool   $replace
+	 * @param int    $http_response_code
 	 *
 	 */
 	public static function sendHeader( $header, $replace = true, $http_response_code = 0 )

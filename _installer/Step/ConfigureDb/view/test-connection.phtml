@@ -14,7 +14,7 @@ use JetUI\messages;
 $form = $this->getRaw( 'form' );
 
 $form->setIsReadonly();
-$form->setDefaultLabelWidth( 2 );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 ?>
 
 <?=Installer::buttonBack()?>

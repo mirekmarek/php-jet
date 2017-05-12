@@ -70,7 +70,7 @@ class Mvc_Page extends Jet_Mvc_Page
 
 		foreach( $modules as $manifest ) {
 			/**
-			 * @var Application_Modules_Module_Manifest $manifest
+			 * @var Application_Module_Manifest $manifest
 			 */
 
 
@@ -105,11 +105,11 @@ class Mvc_Page extends Jet_Mvc_Page
 	 * @param string                              $parent_page_id
 	 * @param string                              $page_id
 	 * @param array                               $page_data
-	 * @param Application_Modules_Module_Manifest $module_manifest
+	 * @param Application_Module_Manifest $module_manifest
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected static function addAdminPage( $parent_page_id, $page_id, array $page_data, Application_Modules_Module_Manifest $module_manifest )
+	protected static function addAdminPage( $parent_page_id, $page_id, array $page_data, Application_Module_Manifest $module_manifest )
 	{
 
 		foreach( Mvc::getCurrentSite()->getLocales() as $locale ) {
@@ -196,11 +196,11 @@ class Mvc_Page extends Jet_Mvc_Page
 	 * @param string                              $parent_page_id
 	 * @param string                              $page_id
 	 * @param array                               $page_data
-	 * @param Application_Modules_Module_Manifest $module_manifest
+	 * @param Application_Module_Manifest $module_manifest
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected static function addRestHook( $parent_page_id, $page_id, array $page_data, Application_Modules_Module_Manifest $module_manifest )
+	protected static function addRestHook( $parent_page_id, $page_id, array $page_data, Application_Module_Manifest $module_manifest )
 	{
 
 		foreach( Mvc::getCurrentSite()->getLocales() as $locale ) {

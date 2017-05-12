@@ -12,7 +12,7 @@ use Jet\Tr;
 
 
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( 1 );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 1 ] );
 ?>
 <h2><?=Tr::_( 'Set the mail sender' )?></h2>
 <?=$form->start()?>

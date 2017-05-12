@@ -11,7 +11,7 @@ namespace Jet;
  * Class Config_Definition_Property_Float
  * @package Jet
  */
-class Config_Definition_Property_Float extends Config_Definition_Property_Abstract
+class Config_Definition_Property_Float extends Config_Definition_Property
 {
 	/**
 	 * @var string

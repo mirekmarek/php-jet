@@ -19,15 +19,11 @@ class Form_Field_Url extends Form_Field_Input
 	protected $_type = Form::TYPE_URL;
 
 	/**
-	 * @var string
-	 */
-	protected $_input_type = 'url';
-
-	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
+		self::ERROR_CODE_EMPTY          => '',
+		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 	/**

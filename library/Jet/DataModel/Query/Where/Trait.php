@@ -54,7 +54,7 @@ trait DataModel_Query_Where_Trait
 	}
 
 	/**
-	 * @param &$key
+	 * @param string &$key
 	 *
 	 * @return string
 	 */

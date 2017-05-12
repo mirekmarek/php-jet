@@ -259,32 +259,13 @@ class tree extends BaseObject
 	}
 
 	/**
-	 * @param Data_Tree_Node $node
-	 *
-	 * @return string
-	 */
-	public function nodeIcon( Data_Tree_Node $node )
-	{
-		$icon = 'file';
-		if( $node->getHasChildren() ) {
-			if( $this->nodeOpened( $node ) ) {
-				$icon = 'folder-open';
-			} else {
-				$icon = 'folder';
-			}
-		}
-
-		return $icon;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function render()
 	{
 		$view = $this->getView();
 
-		return $view->render( 'Tree/tree' );
+		return $view->render( 'tree' );
 	}
 
 	/**
@@ -292,10 +273,27 @@ class tree extends BaseObject
 	 */
 	protected function getView()
 	{
-		$view = new Mvc_View( JET_APPLICATION_PATH.'views/' );
+		$view = UI::getView();
 		$view->setVar( 'tree', $this );
-		$view->setVar( 'images_uri', JET_PUBLIC_URI.'images/' );
 
 		return $view;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return $this->render();
+	}
+
 }

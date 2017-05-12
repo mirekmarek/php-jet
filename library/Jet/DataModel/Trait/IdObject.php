@@ -15,14 +15,14 @@ trait DataModel_Trait_IdObject
 {
 
 	/**
-	 * @var DataModel_Id_Abstract
+	 * @var DataModel_Id
 	 */
 	private $_id_object;
 
 	/**
 	 * Returns ID
 	 *
-	 * @return DataModel_Id_Abstract
+	 * @return DataModel_Id
 	 */
 	public function getIdObject()
 	{
@@ -46,7 +46,7 @@ trait DataModel_Trait_IdObject
 
 
 	/**
-	 * @return DataModel_Id_Abstract
+	 * @return DataModel_Id
 	 */
 	public static function getEmptyIdObject()
 	{

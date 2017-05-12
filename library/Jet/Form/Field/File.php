@@ -11,7 +11,7 @@ namespace Jet;
  * Class Form_Field_File
  * @package Jet
  */
-class Form_Field_File extends Form_Field_Abstract
+class Form_Field_File extends Form_Field
 {
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
@@ -25,7 +25,8 @@ class Form_Field_File extends Form_Field_Abstract
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY                => '', self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
+		self::ERROR_CODE_EMPTY                => '',
+		self::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
 		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
 	];
 

@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Id_Name
  * @package Jet
  */
-class DataModel_Id_Name extends DataModel_Id_Abstract
+class DataModel_Id_Name extends DataModel_Id
 {
 	const MIN_LEN = 3;
 	const MAX_LEN = 50;

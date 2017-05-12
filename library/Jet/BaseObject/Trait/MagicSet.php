@@ -18,7 +18,7 @@ trait BaseObject_Trait_MagicSet
 	 * Setter for protected properties
 	 *
 	 * @param string $key
-	 * @param        $value
+	 * @param mixed  $value
 	 *
 	 * @throws BaseObject_Exception
 	 *

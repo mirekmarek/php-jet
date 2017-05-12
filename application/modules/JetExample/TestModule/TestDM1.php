@@ -10,7 +10,7 @@ namespace JetApplicationModule\JetExample\TestModule;
 use Jet\DataModel;
 use Jet\Data_DateTime;
 use Jet\Form;
-use Jet\Form_Field_Abstract;
+use Jet\Form_Field;
 use Jet\Form_Field_Float;
 use Jet\Form_Field_MultiSelect;
 use Jet\Form_Field_RegistrationPassword;
@@ -46,7 +46,7 @@ class TestDM1 extends DataModel
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE
 	 * @JetDataModel:form_field_label = 'Date: '
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_INVALID_FORMAT=>'Invalid date format']
+	 * @JetDataModel:form_field_error_messages = [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format']
 	 *
 	 * @var Data_DateTime
 	 */
@@ -56,7 +56,7 @@ class TestDM1 extends DataModel
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_DATE_TIME
 	 * @JetDataModel:form_field_label = 'Date and time: '
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_INVALID_FORMAT=>'Invalid date format']
+	 * @JetDataModel:form_field_error_messages = [Form_Field::ERROR_CODE_INVALID_FORMAT=>'Invalid date format']
 	 *
 	 * @var Data_DateTime
 	 */

@@ -2,9 +2,9 @@
 namespace JetExampleApp;
 
 use Jet\Application_Modules;
-use Jet\Application_Modules_Module_Abstract;
+use Jet\Application_Module;
 use Jet\Application_Log;
-use Jet\Auth_Controller_Interface;
+use Jet\Auth_ControllerInterface;
 use Jet\Mvc;
 
 use JetExampleApp\Auth_Administrator_User as Administrator;
@@ -13,7 +13,7 @@ use JetExampleApp\Auth_Visitor_User as Visitor;
 /**
  *
  */
-class Auth_Controller implements Auth_Controller_Interface
+class Auth_Controller implements Auth_ControllerInterface
 {
 	const LOGIN_FORM_MODULE_NAME = 'JetExample.LoginForm';
 
@@ -42,7 +42,7 @@ class Auth_Controller implements Auth_Controller_Interface
 	}
 
 	/**
-	 * @return Application_Modules_Module_Abstract
+	 * @return Application_Module
 	 */
 	public static function getLoginFormModule()
 	{

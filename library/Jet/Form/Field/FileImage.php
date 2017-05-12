@@ -25,7 +25,8 @@ class Form_Field_FileImage extends Form_Field_File
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY                => '', self::ERROR_CODE_FILE_IS_TOO_LARGE => '',
+		self::ERROR_CODE_EMPTY                => '',
+		self::ERROR_CODE_FILE_IS_TOO_LARGE    => '',
 		self::ERROR_CODE_DISALLOWED_FILE_TYPE => '',
 	];
 

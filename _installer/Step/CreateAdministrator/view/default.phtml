@@ -10,8 +10,8 @@ use Jet\Mvc_View;
  */
 
 $form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( 2 );
-$form->setDefaultFieldWidth( 4 );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 ?>
 <?=$form->start()?>
 <?=$form->message()?>

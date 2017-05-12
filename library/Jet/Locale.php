@@ -7,6 +7,10 @@
  */
 namespace Jet;
 
+use \IntlDateFormatter as PHP_IntlDateFormatter;
+use \NumberFormatter as PHP_NumberFormatter;
+use \Locale as PHP_Locale;
+
 /**
  * Class Locale
  * @package Jet
@@ -75,9 +79,9 @@ class Locale extends BaseObject
 	protected $_timezone;
 
 	/**
-	 * @see \IntlDateFormatter
+	 * @see PHP_IntlDateFormatter
 	 *
-	 * \IntlDateFormatter::GREGORIAN by default
+	 * PHP_IntlDateFormatter::GREGORIAN by default
 	 *
 	 * @var int
 	 */
@@ -105,7 +109,7 @@ class Locale extends BaseObject
 	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
@@ -118,7 +122,7 @@ class Locale extends BaseObject
 	 * Returns date and time formatted by locale
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
@@ -129,11 +133,11 @@ class Locale extends BaseObject
 		}
 
 		if( !$format ) {
-			$format = \IntlDateFormatter::MEDIUM;
+			$format = PHP_IntlDateFormatter::MEDIUM;
 		}
 
-		$fmt = new \IntlDateFormatter(
-			$this->locale, $format, \IntlDateFormatter::SHORT, $this->getTimeZone(), $this->getCalendar()
+		$fmt = new PHP_IntlDateFormatter(
+			$this->locale, $format, PHP_IntlDateFormatter::SHORT, $this->getTimeZone(), $this->getCalendar()
 		);
 
 		return $fmt->format( $date_and_time );
@@ -166,7 +170,7 @@ class Locale extends BaseObject
 	public function getCalendar()
 	{
 		if( $this->_calendar===null ) {
-			$this->_calendar = \IntlDateFormatter::GREGORIAN;
+			$this->_calendar = PHP_IntlDateFormatter::GREGORIAN;
 		}
 
 		return $this->_calendar;
@@ -202,7 +206,7 @@ class Locale extends BaseObject
 	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
@@ -215,7 +219,7 @@ class Locale extends BaseObject
 	 * Returns date formatted by locale
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
@@ -226,12 +230,12 @@ class Locale extends BaseObject
 		}
 
 		if( !$format ) {
-			$format = \IntlDateFormatter::MEDIUM;
+			$format = PHP_IntlDateFormatter::MEDIUM;
 		}
 
 
-		$fmt = new \IntlDateFormatter(
-			$this->locale, $format, \IntlDateFormatter::NONE, $this->getTimeZone(), $this->getCalendar()
+		$fmt = new PHP_IntlDateFormatter(
+			$this->locale, $format, PHP_IntlDateFormatter::NONE, $this->getTimeZone(), $this->getCalendar()
 		);
 
 		return $fmt->format( $date_and_time );
@@ -261,10 +265,10 @@ class Locale extends BaseObject
 	public function formatInt( $number )
 	{
 
-		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL );
+		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::DECIMAL );
 
-		$f->setAttribute( \NumberFormatter::MIN_FRACTION_DIGITS, 0 );
-		$f->setAttribute( \NumberFormatter::MAX_FRACTION_DIGITS, 0 );
+		$f->setAttribute( PHP_NumberFormatter::MIN_FRACTION_DIGITS, 0 );
+		$f->setAttribute( PHP_NumberFormatter::MAX_FRACTION_DIGITS, 0 );
 
 		return $f->format( $number );
 	}
@@ -297,10 +301,10 @@ class Locale extends BaseObject
 	public function formatFloat( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
 	{
 
-		$f = new \NumberFormatter( $this->locale, \NumberFormatter::DECIMAL );
+		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::DECIMAL );
 
-		$f->setAttribute( \NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits );
-		$f->setAttribute( \NumberFormatter::MAX_FRACTION_DIGITS, $max_fraction_digits );
+		$f->setAttribute( PHP_NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits );
+		$f->setAttribute( PHP_NumberFormatter::MAX_FRACTION_DIGITS, $max_fraction_digits );
 
 		return $f->format( $number );
 	}
@@ -379,7 +383,7 @@ class Locale extends BaseObject
 		$result = [];
 
 		foreach( static::$all_locales as $locale ) {
-			$result[$locale] = \Locale::getDisplayName( $locale, $in_locale );
+			$result[$locale] = PHP_Locale::getDisplayName( $locale, $in_locale );
 		}
 
 		asort( $result );
@@ -401,7 +405,7 @@ class Locale extends BaseObject
 	protected function _setLocale( $locale )
 	{
 
-		$data = \Locale::parseLocale( $locale );
+		$data = PHP_Locale::parseLocale( $locale );
 		if( $data&&!empty( $data['language'] )&&!empty( $data['region'] ) ) {
 			$this->region = $data['region'];
 			$this->language = $data['language'];
@@ -447,7 +451,7 @@ class Locale extends BaseObject
 	 *
 	 * Example: cs_CZ locale name in cs_CZ locale: čeština (Česká republika)
 	 *
-	 * @see \Locale::getDisplayName
+	 * @see PHP_Locale::getDisplayName
 	 *
 	 * @param string|Locale $in_locale (optional, default: current locale)
 	 *
@@ -459,7 +463,7 @@ class Locale extends BaseObject
 			$in_locale = static::getCurrentLocale();
 		}
 
-		return \Locale::getDisplayName( $this->locale, (string)$in_locale );
+		return PHP_Locale::getDisplayName( $this->locale, (string)$in_locale );
 	}
 
 	/**
@@ -467,7 +471,7 @@ class Locale extends BaseObject
 	 *
 	 * Example: cs_CZ locale name in cs_CZ locale: čeština
 	 *
-	 * @see \Locale::getDisplayLanguage
+	 * @see PHP_Locale::getDisplayLanguage
 	 *
 	 * @param string|Locale $in_locale (optional, default: current locale)
 	 *
@@ -479,7 +483,7 @@ class Locale extends BaseObject
 			$in_locale = static::getCurrentLocale();
 		}
 
-		return \Locale::getDisplayLanguage( $this->locale, (string)$in_locale );
+		return PHP_Locale::getDisplayLanguage( $this->locale, (string)$in_locale );
 	}
 
 	/**
@@ -487,7 +491,7 @@ class Locale extends BaseObject
 	 *
 	 * Example: cs_CZ region name in cs_CZ locale: Česká republika
 	 *
-	 * @see \Locale::getDisplayRegion
+	 * @see PHP_Locale::getDisplayRegion
 	 *
 	 * @param string|Locale $in_locale (optional, default: current locale)
 	 *
@@ -499,7 +503,7 @@ class Locale extends BaseObject
 			$in_locale = static::getCurrentLocale();
 		}
 
-		return \Locale::getDisplayRegion( $this->locale, (string)$in_locale );
+		return PHP_Locale::getDisplayRegion( $this->locale, (string)$in_locale );
 	}
 
 	/**
@@ -508,7 +512,7 @@ class Locale extends BaseObject
 	 * Alias of: Locale::getCurrentLocale()->formatTime($date_and_time)
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
@@ -521,7 +525,7 @@ class Locale extends BaseObject
 	 * Returns date formatted by locale
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: \IntlDateFormatter::MEDIUM)
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
 	 * @return string
 	 */
@@ -532,12 +536,12 @@ class Locale extends BaseObject
 		}
 
 		if( !$format ) {
-			$format = \IntlDateFormatter::MEDIUM;
+			$format = PHP_IntlDateFormatter::MEDIUM;
 		}
 
 
-		$fmt = new \IntlDateFormatter(
-			$this->locale, \IntlDateFormatter::NONE, $format, $this->getTimeZone(), $this->getCalendar()
+		$fmt = new PHP_IntlDateFormatter(
+			$this->locale, PHP_IntlDateFormatter::NONE, $format, $this->getTimeZone(), $this->getCalendar()
 		);
 
 		return $fmt->format( $date_and_time );
@@ -548,14 +552,14 @@ class Locale extends BaseObject
 	 *
 	 * @param string $currency_code
 	 *
-	 * @return \NumberFormatter
+	 * @return PHP_NumberFormatter
 	 */
 	public function getCurrencyFormatter( $currency_code )
 	{
 
 		if( !isset( $this->_currency_formatter[$currency_code] ) ) {
-			$this->_currency_formatter[$currency_code] = new \NumberFormatter(
-				$this.'@currency='.$currency_code, \NumberFormatter::CURRENCY
+			$this->_currency_formatter[$currency_code] = new PHP_NumberFormatter(
+				$this.'@currency='.$currency_code, PHP_NumberFormatter::CURRENCY
 			);
 		}
 

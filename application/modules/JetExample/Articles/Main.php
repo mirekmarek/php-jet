@@ -7,14 +7,14 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
-use Jet\Application_Modules_Module_Abstract;
+use Jet\Application_Module;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 
 /**
  *
  */
-class Main extends Application_Modules_Module_Abstract
+class Main extends Application_Module
 {
 	const ADMIN_MAIN_PAGE = 'admin/articles';
 

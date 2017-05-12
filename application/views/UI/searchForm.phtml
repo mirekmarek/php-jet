@@ -1,0 +1,29 @@
+<?php
+use JetUI\searchForm;
+use JetUI\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var searchForm $f
+ */
+$f = $this->getRaw( 'element' );
+
+?>
+<form method="post" name="search_form_<?=$f->getName()?>" id="search_form_<?=$f->getName()?>" action="<?=$f->getAction()?>">
+<div class="input-group">
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="button" onclick="this.form.<?=$f->getSearchKey()?>.value='';this.form.submit();">
+			<?=UI::icon( 'times' )?>
+		</button>
+	</span>
+
+	<input type="text" class="form-control" placeholder="<?=UI::_( $f->getPlaceholder() )?>" name="<?=$f->getSearchKey()?>" value="<?=$f->getValue()?>">
+
+	<span class="input-group-btn">
+		<button class="btn btn-default" type="submit">
+			<?=UI::icon( 'search' )?>
+		</button>
+	</span>
+</div>
+</form>

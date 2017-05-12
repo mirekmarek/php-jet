@@ -15,7 +15,7 @@ trait DataModel_Trait_Backend
 {
 
 	/**
-	 * @var DataModel_Backend_Abstract
+	 * @var DataModel_Backend
 	 */
 	protected static $_backend = false;
 
@@ -44,7 +44,7 @@ trait DataModel_Trait_Backend
 	/**
 	 * Returns backend instance
 	 *
-	 * @return DataModel_Backend_Abstract
+	 * @return DataModel_Backend
 	 */
 	public static function getBackendInstance()
 	{

@@ -7,19 +7,23 @@
  */
 namespace JetUI;
 
-use Jet\BaseObject;
 
 /**
  * Class button
  * @package JetUI
  */
-class button extends BaseObject
+class button extends BaseElement
 {
+
+	const SIZE_LARGE = 'lg';
+	const SIZE_NORMAL = 'normal';
+	const SIZE_SMALL = 'sm';
+	const SIZE_EXTRA_SMALL = 'xs';
 
 	/**
 	 * @var string
 	 */
-	protected $label = '';
+	protected static $default_renderer_script = 'button';
 
 	/**
 	 * @var string
@@ -29,27 +33,23 @@ class button extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $class = 'default';
+	protected $label = '';
 
 	/**
 	 * @var string
 	 */
-	protected $size = 'normal';
+	protected $class = '';
+
+	/**
+	 * @var string
+	 */
+	protected $size = self::SIZE_NORMAL;
 
 	/**
 	 * @var string
 	 */
 	protected $icon = '';
 
-	/**
-	 * @var string
-	 */
-	protected $icon_class = UI::DEFAULT_ICON_CLASS;
-
-	/**
-	 * @var string
-	 */
-	protected $onclick = '';
 
 	/**
 	 * @var string
@@ -71,12 +71,17 @@ class button extends BaseObject
 	 */
 	public function setLabel( $label )
 	{
-		/**
-		 * @var button $this
-		 */
 		$this->label = $label;
 
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLabel()
+	{
+		return $this->label;
 	}
 
 	/**
@@ -86,12 +91,17 @@ class button extends BaseObject
 	 */
 	public function setType( $type )
 	{
-		/**
-		 * @var button $this
-		 */
 		$this->type = $type;
 
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType()
+	{
+		return $this->type;
 	}
 
 	/**
@@ -101,12 +111,17 @@ class button extends BaseObject
 	 */
 	public function setClass( $class )
 	{
-		/**
-		 * @var button $this
-		 */
 		$this->class = $class;
 
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getClass()
+	{
+		return $this->class;
 	}
 
 	/**
@@ -116,12 +131,17 @@ class button extends BaseObject
 	 */
 	public function setSize( $size )
 	{
-		/**
-		 * @var button $this
-		 */
 		$this->size = $size;
 
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSize()
+	{
+		return $this->size;
 	}
 
 	/**
@@ -140,18 +160,11 @@ class button extends BaseObject
 	}
 
 	/**
-	 * @param string $icon_class
-	 *
-	 * @return $this
+	 * @return string
 	 */
-	public function setIconClass( $icon_class )
+	public function getIcon()
 	{
-		/**
-		 * @var button $this
-		 */
-		$this->icon_class = $icon_class;
-
-		return $this;
+		return $this->icon;
 	}
 
 	/**
@@ -161,13 +174,11 @@ class button extends BaseObject
 	 */
 	public function setOnclick( $onclick )
 	{
-		/**
-		 * @var button $this
-		 */
-		$this->onclick = $onclick;
+		$this->setJsAction('onclick', $onclick);
 
 		return $this;
 	}
+
 
 	/**
 	 * @param string $url
@@ -184,46 +195,10 @@ class button extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function getUrl()
 	{
-		return $this->toString();
+		return $this->url;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-
-		if( $this->url ) {
-			$res = '';
-			$res .= '<a href="'.$this->url.'" class="btn btn-'.$this->class.' btn-'.$this->size.'"';
-			if( $this->onclick ) {
-				$res .= ' onclick="'.$this->onclick.'"';
-			}
-			$res .= '>';
-			if( $this->icon_class&&$this->icon ) {
-				$res .= '<span class="'.$this->icon_class.$this->icon.'"></span> ';
-			}
-			$res .= $this->label;
-			$res .= '</a>';
-
-			return $res;
-		}
-
-		$res = '';
-		$res .= '<button type="'.$this->type.'" class="btn btn-'.$this->class.' btn-'.$this->size.'"';
-		if( $this->onclick ) {
-			$res .= ' onclick="'.$this->onclick.'"';
-		}
-		$res .= '>';
-		if( $this->icon_class&&$this->icon ) {
-			$res .= '<span class="'.$this->icon_class.$this->icon.'"></span> ';
-		}
-		$res .= $this->label;
-		$res .= '</button>';
-
-		return $res;
-	}
 
 }

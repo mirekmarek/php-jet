@@ -188,7 +188,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 
 			foreach( $localized_data['default_meta_tags'] as $m_data ) {
 				$meta_tags[] = Mvc_Factory::getSiteLocalizedMetaTagInstance(
-					$m_data['content'], $m_data['attribute'], $m_data['attribute_value']
+					$m_data['content'],
+					$m_data['attribute'],
+					$m_data['attribute_value']
 				);
 			}
 

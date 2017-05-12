@@ -8,7 +8,7 @@
 namespace JetExampleApp;
 
 use Jet\Mvc_Controller_Standard;
-use JetExampleApp\Application_Modules_Module_Manifest as App_Application_Modules_Module_Manifest;
+use JetExampleApp\Application_Module_Manifest as App_Application_Module_Manifest;
 use Jet\Form;
 use JetUI\messages;
 
@@ -28,7 +28,7 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 	protected static $action_regexp = [];
 	/**
 	 *
-	 * @var App_Application_Modules_Module_Manifest
+	 * @var App_Application_Module_Manifest
 	 */
 	protected $module_manifest;
 
@@ -53,7 +53,7 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 	}
 
 	/**
-	 * @return App_Application_Modules_Module_Manifest
+	 * @return App_Application_Module_Manifest
 	 */
 	public function getModuleManifest()
 	{

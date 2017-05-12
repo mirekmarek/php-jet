@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Fetch_Object_Ids
  * @package Jet
  */
-class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract implements \ArrayAccess, \Iterator, \Countable
+class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements \ArrayAccess, \Iterator, \Countable
 {
 
 	/**
@@ -61,7 +61,7 @@ class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object_Abstract impleme
 	/**
 	 * @param mixed $item
 	 *
-	 * @return DataModel_Id_Abstract
+	 * @return DataModel_Id
 	 */
 	protected function _get( $item )
 	{

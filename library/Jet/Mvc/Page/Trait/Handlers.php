@@ -13,6 +13,11 @@ namespace Jet;
 trait Mvc_Page_Trait_Handlers
 {
 	/**
+	 * @var array
+	 */
+	protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7' ];
+
+	/**
 	 *
 	 * @var bool
 	 */
@@ -22,7 +27,7 @@ trait Mvc_Page_Trait_Handlers
 	 *
 	 * @var string
 	 */
-	protected $direct_output_file_name = self::DEFAULT_DIRECT_INDEX_FILE_NAME;
+	protected $direct_output_file_name = 'index.php';
 
 	/**
 	 *

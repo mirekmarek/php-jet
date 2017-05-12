@@ -11,7 +11,7 @@ namespace Jet;
  * Class Form_Field_Input
  * @package Jet
  */
-class Form_Field_Input extends Form_Field_Abstract
+class Form_Field_Input extends Form_Field
 {
 	/**
 	 * @var string
@@ -22,7 +22,8 @@ class Form_Field_Input extends Form_Field_Abstract
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
+		self::ERROR_CODE_EMPTY          => '',
+		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 

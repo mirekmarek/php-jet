@@ -13,21 +13,9 @@ namespace JetUI;
  */
 class button_delete extends button
 {
-
 	/**
 	 * @var string
 	 */
-	protected $class = 'danger';
-
-	/**
-	 * @var string
-	 */
-	protected $icon = 'trash';
-
-	/**
-	 * @var string
-	 */
-	protected $size = 'xs';
-
+	protected static $default_renderer_script = 'button/delete';
 
 }

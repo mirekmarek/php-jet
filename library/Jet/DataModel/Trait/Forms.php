@@ -21,8 +21,8 @@ trait DataModel_Trait_Forms
 	public function getCommonForm( $form_name = '' )
 	{
 		/**
-		 * @var DataModel                           $this
-		 * @var DataModel_Definition_Model_Abstract $definition
+		 * @var DataModel                  $this
+		 * @var DataModel_Definition_Model $definition
 		 */
 
 		if( !$form_name ) {
@@ -45,8 +45,8 @@ trait DataModel_Trait_Forms
 	public function getForm( $form_name, $property_filter = null )
 	{
 		/**
-		 * @var DataModel                           $this
-		 * @var DataModel_Definition_Model_Abstract $definition
+		 * @var DataModel                  $this
+		 * @var DataModel_Definition_Model $definition
 		 */
 
 

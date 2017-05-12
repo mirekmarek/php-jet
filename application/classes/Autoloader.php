@@ -7,12 +7,12 @@
  */
 namespace JetExampleApp;
 
-use Jet\Autoloader_Loader_Abstract;
+use Jet\Autoloader_Loader;
 
 /**
  *
  */
-class Autoloader extends Autoloader_Loader_Abstract
+class Autoloader extends Autoloader_Loader
 {
 
 	/**

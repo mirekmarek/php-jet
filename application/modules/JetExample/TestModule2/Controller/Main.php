@@ -141,8 +141,8 @@ class Controller_Main extends Mvc_Controller_Standard
 		$date_field->setIsRequired( true );
 		$date_field->setErrorMessages(
 			[
-				Form_Field_Date::ERROR_CODE_EMPTY          => 'Please specify date',
-				Form_Field_Date::ERROR_CODE_INVALID_FORMAT => 'Please specify date',
+				Form_Field_Date::ERROR_CODE_EMPTY          => 'Please enter date',
+				Form_Field_Date::ERROR_CODE_INVALID_FORMAT => 'Please enter date',
 			]
 		);
 		$date_field->setPlaceholder( 'Date' );
@@ -152,8 +152,8 @@ class Controller_Main extends Mvc_Controller_Standard
 		$date_time_field->setIsRequired( true );
 		$date_time_field->setErrorMessages(
 			[
-				Form_Field_Date::ERROR_CODE_EMPTY          => 'Please specify date and time',
-				Form_Field_Date::ERROR_CODE_INVALID_FORMAT => 'Please specify date and time',
+				Form_Field_Date::ERROR_CODE_EMPTY          => 'Please enter date and time',
+				Form_Field_Date::ERROR_CODE_INVALID_FORMAT => 'Please enter date and time',
 			]
 		);
 		$date_time_field->setPlaceholder( 'Date and time' );
@@ -162,7 +162,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		$time_field = new Form_Field_Time( 'time', 'Time' );
 		$time_field->setErrorMessages(
 			[
-				Form_Field_Time::ERROR_CODE_EMPTY          => 'Please specify time',
+				Form_Field_Time::ERROR_CODE_EMPTY          => 'Please enter time',
 				Form_Field_Time::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
@@ -170,7 +170,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		$week_field = new Form_Field_Week( 'week', 'Week' );
 		$week_field->setErrorMessages(
 			[
-				Form_Field_Week::ERROR_CODE_EMPTY          => 'Please specify week',
+				Form_Field_Week::ERROR_CODE_EMPTY          => 'Please enter week',
 				Form_Field_Week::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
@@ -178,7 +178,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		$month_field = new Form_Field_Month( 'month', 'Month' );
 		$month_field->setErrorMessages(
 			[
-				Form_Field_Month::ERROR_CODE_EMPTY          => 'Please specify month',
+				Form_Field_Month::ERROR_CODE_EMPTY          => 'Please enter month',
 				Form_Field_Month::ERROR_CODE_INVALID_FORMAT => 'Invalid format',
 			]
 		);
@@ -188,8 +188,8 @@ class Controller_Main extends Mvc_Controller_Standard
 		$email_field->setIsRequired( true );
 		$email_field->setErrorMessages(
 			[
-				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please specify e-mail address',
-				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please specify e-mail address',
+				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter e-mail address',
+				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter e-mail address',
 			]
 		);
 		$date_time_field->setPlaceholder( 'E-mail address' );
@@ -199,8 +199,8 @@ class Controller_Main extends Mvc_Controller_Standard
 		$url_field->setIsRequired( true );
 		$url_field->setErrorMessages(
 			[
-				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please specify URL address',
-				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please specify URL address',
+				Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter URL address',
+				Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter URL address',
 			]
 		);
 		$url_field->setPlaceholder( 'URL address' );
@@ -212,8 +212,8 @@ class Controller_Main extends Mvc_Controller_Standard
 		$tel_field->setPlaceholder( 'Telephone number' );
 		$tel_field->setErrorMessages(
 			[
-				Form_Field_Tel::ERROR_CODE_EMPTY          => 'Please specify telephone number',
-				Form_Field_Tel::ERROR_CODE_INVALID_FORMAT => 'Please specify telephone number',
+				Form_Field_Tel::ERROR_CODE_EMPTY          => 'Please enter telephone number',
+				Form_Field_Tel::ERROR_CODE_INVALID_FORMAT => 'Please enter telephone number',
 			]
 		);
 

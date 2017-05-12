@@ -11,7 +11,7 @@ use Jet\Form;
 use Jet\Form_Field_Select;
 use Jet\Db_Factory;
 use Jet\Db_Config;
-use Jet\Db_Connection_Config_Abstract;
+use Jet\Db_Backend_Config;
 use Jet\DataModel_Config;
 use Jet\DataModel_Backend_MySQL_Config;
 use Jet\DataModel_Backend_SQLite_Config;
@@ -80,7 +80,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 			switch( static::getSelectedDbType() ) {
 				case 'mysql':
-					$connection_config = Db_Factory::getConnectionConfigInstance( [], $db_config );
+					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
 					$connection_config->setName( 'default' );
 					$connection_config->setDriver( 'mysql' );
 					$connection_config->setUsername( '' );
@@ -107,7 +107,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					$data_path = JET_DATA_PATH;
 					$data_file_name = 'database';
 
-					$connection_config = Db_Factory::getConnectionConfigInstance( [], $db_config );
+					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
 					$connection_config->setName( 'default' );
 					$connection_config->setDriver( 'sqlite' );
 					$connection_config->setUsername( '' );
@@ -148,7 +148,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public static function getDbTypes()
 	{
-		$drivers = Db_Connection_Config_Abstract::getPDODrivers();
+		$drivers = Db_Backend_Config::getPDODrivers();
 
 		foreach( static::$database_types as $type => $label ) {
 			if( !in_array( $type, $drivers ) ) {

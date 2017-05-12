@@ -269,7 +269,7 @@ trait Form_Field_Definition_Trait
 	 * @param mixed $property_value
 	 *
 	 * @throws DataModel_Exception
-	 * @return Form_Field_Abstract|null|Form_Field_Abstract[]
+	 * @return Form_Field|null|Form_Field[]
 	 */
 	public function createFormField( $property_value )
 	{
@@ -300,7 +300,7 @@ trait Form_Field_Definition_Trait
 
 
 	/**
-	 * @param       $object_instance
+	 * @param object $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */

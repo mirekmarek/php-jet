@@ -134,7 +134,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 			);
 		}
 
-		$script_name = strtolower( $script_name );
 
 		$this->_script_name = $script_name;
 	}

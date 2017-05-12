@@ -17,16 +17,13 @@ class Form_Field_Month extends Form_Field_Input
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_MONTH;
-	/**
-	 * @var string
-	 */
-	protected $_input_type = 'month';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
+		self::ERROR_CODE_EMPTY          => '',
+		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 

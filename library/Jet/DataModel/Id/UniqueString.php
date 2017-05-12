@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Id_UniqueString
  * @package Jet
  */
-class DataModel_Id_UniqueString extends DataModel_Id_Abstract
+class DataModel_Id_UniqueString extends DataModel_Id
 {
 	/**
 	 * @var string

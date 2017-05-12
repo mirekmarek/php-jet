@@ -11,7 +11,7 @@ namespace Jet;
  * Class Autoloader_Loader_Jet
  * @package Jet
  */
-class Autoloader_Loader_Jet extends Autoloader_Loader_Abstract
+class Autoloader_Loader_Jet extends Autoloader_Loader
 {
 
 	/**

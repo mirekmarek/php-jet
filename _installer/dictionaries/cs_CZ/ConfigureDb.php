@@ -5,7 +5,7 @@ return [
 	'Please enter the name of the database'    => '', 'Username:' => '', 'Password:' => '', 'Database:' => '',
 	'Host:'                                    => '', 'Port:' => '', 'Unix socket path:' => '',
 	'Connection \'%CONNECTION%\' Test'         => '', 'OK! Database connection works correctly.' => '',
-	'Please specify connection name'           => '', 'Please select driver' => '',
-	'Please specify connection DSN'            => '', 'Connection name' => '', 'Driver' => '', 'DSN' => '',
+	'Please enter connection name'           => '', 'Please select driver' => '',
+	'Please enter connection DSN'            => '', 'Connection name' => '', 'Driver' => '', 'DSN' => '',
 	'Username'                                 => '', 'Password' => '',
 ];

@@ -12,10 +12,10 @@ use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\Mvc;
 use Jet\Mvc_Site;
-use Jet\Mvc_Router_Abstract;
+use Jet\Mvc_Router_Interface;
 use Jet\Data_Text;
 use Jet\DataModel_Fetch_Object_Assoc;
-use Jet\Data_Paginator_DataSource_Interface;
+use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_Id_UniqueString;
 use Jet\Form;
 use Jet\Form_Field_Input;
@@ -338,7 +338,7 @@ class Article extends DataModel
 	}
 
 	/**
-	 * @return Article[]|Data_Paginator_DataSource_Interface
+	 * @return Article[]|Data_Paginator_DataSource
 	 */
 	public function getListForCurrentLocale()
 	{
@@ -353,11 +353,11 @@ class Article extends DataModel
 	}
 
 	/**
-	 * @param Mvc_Router_Abstract $router
+	 * @param Mvc_Router_Interface $router
 	 *
 	 * @return Article|null
 	 */
-	public function resolveArticleByURL( Mvc_Router_Abstract $router )
+	public function resolveArticleByURL( Mvc_Router_Interface $router )
 	{
 		$current_article = null;
 		$param = $router->getPathFragments();

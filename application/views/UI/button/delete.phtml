@@ -1,0 +1,32 @@
+<?php
+use JetUI\button;
+use JetUI\UI;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var button $b
+ */
+$b = $this->getRaw( 'element' );
+
+if(!$b->getLabel()) {
+	$b->setLabel( UI::_('Delete') );
+}
+
+if(!$b->getIcon()) {
+	$b->setIcon('trash');
+}
+
+if(!$b->getClass()) {
+	$b->setClass('danger');
+}
+
+if($b->getUrl()):
+	?><a href="<?=$b->getUrl()?>" class="btn btn-<?=$b->getClass()?> btn-<?=$b->getSize()?>" <?=$b->getJsActions()?>><?php
+	if( $b->getIcon() ) echo UI::icon($b->getIcon());
+	?><?=$b->getLabel()?></a><?php
+else:
+	?><button type="<?=$b->getType()?>" class="btn btn-<?=$b->getClass()?> btn-<?=$b->getSize()?>" <?=$b->getJsActions()?>><?php
+	if( $b->getIcon() ) echo UI::icon($b->getIcon());
+	?><?=$b->getLabel()?></button><?php
+endif;

@@ -85,11 +85,11 @@ class Application extends BaseObject
 
 	/**
 	 *
+	 * @param callable    $after_initialization
 	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
 	 *
-	 * @throws Mvc_Router_Exception
 	 */
-	public static function runMvc( $URL = null )
+	public static function runMvc( callable $after_initialization=null, $URL = null )
 	{
 		$router = Mvc::getCurrentRouter();
 
@@ -98,6 +98,10 @@ class Application extends BaseObject
 		}
 
 		$router->initialize( $URL );
+
+		if( $after_initialization ) {
+			$after_initialization();
+		}
 
 		if( $router->getIsRedirect() ) {
 			$router->handleRedirect();

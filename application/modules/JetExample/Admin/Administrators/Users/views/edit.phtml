@@ -14,8 +14,8 @@ use Jet\Tr;
 $form = $this->getRaw( 'form' );
 
 $form->setAutocomplete( false );
-$form->setDefaultLabelWidth( 2 );
-$form->setDefaultFieldWidth( 4 );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 
 $user = $this->getRaw( 'user' );
 ?>

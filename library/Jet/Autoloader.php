@@ -12,7 +12,7 @@ require_once JET_LIBRARY_PATH.'Jet/Exception.php';
 /** @noinspection PhpIncludeInspection */
 require_once JET_LIBRARY_PATH.'Jet/Autoloader/Exception.php';
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Abstract.php';
+require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader.php';
 
 /**
  * Class Autoloader
@@ -27,7 +27,7 @@ class Autoloader
 	protected static $is_initialized = false;
 
 	/**
-	 * @var Autoloader_Loader_Abstract[]
+	 * @var Autoloader_Loader[]
 	 */
 	protected static $loaders = [];
 
@@ -186,9 +186,9 @@ class Autoloader
 	}
 
 	/**
-	 * @param Autoloader_Loader_Abstract $loader
+	 * @param Autoloader_Loader $loader
 	 */
-	public static function register( Autoloader_Loader_Abstract $loader )
+	public static function register( Autoloader_Loader $loader )
 	{
 		static::$loaders[get_class( $loader )] = $loader;
 	}

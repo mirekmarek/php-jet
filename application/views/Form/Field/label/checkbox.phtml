@@ -1,0 +1,16 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+
+/**
+ * @var Mvc_View      $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('control-label');
+}
+
+?>
+<div class="<?=$r->getWidthCssClasses( function($size, $width) {return 'col-'.$size.'-'.$width;} )?>"> </div>

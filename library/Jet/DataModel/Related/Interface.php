@@ -16,14 +16,14 @@ interface DataModel_Related_Interface
 
 
 	/**
-	 * @param DataModel_Id_Abstract $parent_id
+	 * @param DataModel_Id $parent_id
 	 */
-	public function actualizeParentId( DataModel_Id_Abstract $parent_id );
+	public function actualizeParentId( DataModel_Id $parent_id );
 
 	/**
-	 * @param DataModel_Id_Abstract $main_id
+	 * @param DataModel_Id $main_id
 	 */
-	public function actualizeMainId( DataModel_Id_Abstract $main_id );
+	public function actualizeMainId( DataModel_Id $main_id );
 
 
 	/**
@@ -38,13 +38,13 @@ interface DataModel_Related_Interface
 
 	/**
 	 *
-	 * @param DataModel_Definition_Property_Abstract $parent_property_definition
-	 * @param DataModel_PropertyFilter|null          $property_filter
+	 * @param DataModel_Definition_Property $parent_property_definition
+	 * @param DataModel_PropertyFilter|null $property_filter
 	 *
-	 * @return Form_Field_Abstract[]
+	 * @return Form_Field[]
 	 *
 	 */
-	public function getRelatedFormFields( DataModel_Definition_Property_Abstract $parent_property_definition, DataModel_PropertyFilter $property_filter = null );
+	public function getRelatedFormFields( DataModel_Definition_Property $parent_property_definition, DataModel_PropertyFilter $property_filter = null );
 
 
 }

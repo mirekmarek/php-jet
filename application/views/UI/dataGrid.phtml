@@ -1,0 +1,14 @@
+<?php
+use JetUI\dataGrid;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var dataGrid $grid
+ */
+$grid = $this->getRaw( 'grid' );
+
+echo $grid->renderHeader();
+echo $grid->renderBody();
+echo $grid->renderPaginator();
+echo $grid->renderFooter();

@@ -11,16 +11,16 @@ namespace Jet;
  * Class DataModel_Definition_Relation_External
  * @package Jet
  */
-class DataModel_Definition_Relation_External extends DataModel_Definition_Relation_Abstract
+class DataModel_Definition_Relation_External extends DataModel_Definition_Relation
 {
 
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $this_model_definition
-	 * @param array                               $definition_data (optional)
+	 * @param DataModel_Definition_Model $this_model_definition
+	 * @param array                      $definition_data (optional)
 	 *
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract $this_model_definition, $definition_data = null )
+	public function __construct( DataModel_Definition_Model $this_model_definition, $definition_data = null )
 	{
 
 		if( $definition_data ) {
@@ -29,12 +29,12 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $this_model_definition
-	 * @param array                               $definition_data
+	 * @param DataModel_Definition_Model $this_model_definition
+	 * @param array                      $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( DataModel_Definition_Model_Abstract $this_model_definition, array $definition_data )
+	public function setUp( DataModel_Definition_Model $this_model_definition, array $definition_data )
 	{
 
 		if( !isset( $definition_data['related_to_class_name'] ) ) {
@@ -64,7 +64,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 				);
 			};
 
-			$this->join_by[] = new DataModel_Definition_Relation_JoinBy_Item(
+			$this->join_by[] = new DataModel_Definition_Relation_JoinByItem(
 				$this_model_definition, $this_model_property,
 				$related_properties[$related_property_name]->getDataModelClassName(), $related_property_name
 			);

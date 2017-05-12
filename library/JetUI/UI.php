@@ -9,14 +9,79 @@ namespace JetUI;
 
 use Jet\Tr;
 use Jet\Locale;
+use Jet\Mvc_View;
 
+//TODO: dukladne proverit, kde jeste neni konfigurovatelny rederer
 /**
  * Class UI
  * @package JetUI
  */
 class UI
 {
-	const DEFAULT_ICON_CLASS = 'fa fa-';
+
+	/**
+	 * @var string
+	 */
+	protected static $views_dir = JET_APPLICATION_PATH.'views/UI/';
+
+	/**
+	 * @var string
+	 */
+	protected static $translator_namespace = Tr::COMMON_NAMESPACE;
+
+
+	/**
+	 * @return string
+	 */
+	public static function getViewsDir()
+	{
+		return self::$views_dir;
+	}
+
+	/**
+	 * @param string $views_dir
+	 */
+	public static function setViewsDir( $views_dir )
+	{
+		self::$views_dir = $views_dir;
+	}
+
+	/**
+	 * @return Mvc_View
+	 */
+	public static function getView()
+	{
+		$view = new Mvc_View( static::getViewsDir() );
+
+		return $view;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getTranslatorNamespace()
+	{
+		return self::$translator_namespace;
+	}
+
+	/**
+	 * @param string $translator_namespace
+	 */
+	public static function setTranslatorNamespace( $translator_namespace )
+	{
+		self::$translator_namespace = $translator_namespace;
+	}
+
+	/**
+	 * @param string $text
+	 * @param array  $data
+	 *
+	 * @return string
+	 */
+	public static function _( $text, $data = [] ) {
+		return Tr::_( $text, $data, static::getTranslatorNamespace() );
+	}
 
 
 	/**
@@ -26,15 +91,7 @@ class UI
 	 */
 	public static function button_save( $label = '' )
 	{
-
-		if( !$label ) {
-			$label = Tr::_( 'Save', [], Tr::COMMON_NAMESPACE );
-		}
-
-		$button = new button_save( $label );
-
-		return $button;
-
+		return new button_save( $label );
 	}
 
 	/**
@@ -44,15 +101,7 @@ class UI
 	 */
 	public static function button_goBack( $label = '' )
 	{
-
-		if( !$label ) {
-			$label = Tr::_( 'Back to List', [], Tr::COMMON_NAMESPACE );
-		}
-
-		$button = new button_goBack( $label );
-
-		return $button;
-
+		return new button_goBack( $label );
 	}
 
 	/**
@@ -62,15 +111,7 @@ class UI
 	 */
 	public static function button_edit( $label = '' )
 	{
-
-		if( !$label ) {
-			$label = Tr::_( 'Edit', [], Tr::COMMON_NAMESPACE );
-		}
-
-		$button = new button_edit( $label );
-
-		return $button;
-
+		return new button_edit( $label );
 	}
 
 	/**
@@ -80,15 +121,7 @@ class UI
 	 */
 	public static function button_delete( $label = '' )
 	{
-
-		if( !$label ) {
-			$label = Tr::_( 'Delete', [], Tr::COMMON_NAMESPACE );
-		}
-
-		$button = new button_delete( $label );
-
-		return $button;
-
+		return new button_delete( $label );
 	}
 
 
@@ -99,11 +132,7 @@ class UI
 	 */
 	public static function button_create( $label )
 	{
-
-		$button = new button_create( $label );
-
-		return $button;
-
+		return new button_create( $label );
 	}
 
 	/**
@@ -113,9 +142,7 @@ class UI
 	 */
 	public static function icon( $icon )
 	{
-		$icon = new icon( $icon );
-
-		return $icon;
+		return new icon( $icon );
 	}
 
 	/**
@@ -127,25 +154,17 @@ class UI
 	 */
 	public static function dialog( $id, $title, $width )
 	{
-
-		$dialog = new dialog( $id, $title, $width );
-
-		return $dialog;
+		return new dialog( $id, $title, $width );
 	}
 
 	/**
 	 * @param Locale $locale
 	 *
-	 * @return string
+	 * @return localeLabel
 	 */
-	public static function locale( Locale $locale )
+	public static function localeLabel( Locale $locale )
 	{
-
-		$res = UI::flag( $locale );
-		$res .= ' '.$locale->getRegionName().' ('.$locale->getLanguageName().')';
-
-		return $res;
-
+		return new localeLabel( $locale);
 	}
 
 	/**
@@ -155,10 +174,7 @@ class UI
 	 */
 	public static function flag( Locale $locale )
 	{
-
-		$flag = new flag( $locale );
-
-		return $flag;
+		return new flag( $locale );
 	}
 
 	/**

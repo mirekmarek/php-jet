@@ -58,7 +58,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	 * @JetDataModel:max_len = 100
 	 * @JetDataModel:form_field_is_required = true
 	 * @JetDataModel:form_field_label = 'Name'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Abstract::ERROR_CODE_EMPTY=>'Please enter a name']
+	 * @JetDataModel:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please enter a name']
 	 *
 	 * @var string
 	 */
@@ -243,7 +243,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 
 	/**
 	 * @param Mvc_Page_Interface $page
-	 * @param                    $data
+	 * @param array $data
 	 */
 	protected static function _getAllPagesTree( Mvc_Page_Interface $page, &$data )
 	{

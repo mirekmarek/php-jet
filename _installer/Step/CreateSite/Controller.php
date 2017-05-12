@@ -133,13 +133,13 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$nonSSL_URL_field = new Form_Field_Input( '/'.$locale.'/nonSSL', 'URL ', $nonSSL, true );
 			$nonSSL_URL_field->setErrorMessages(
 				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL',
+					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
 				]
 			);
 			$SSL_URL_field = new Form_Field_Input( '/'.$locale.'/SSL', 'SSL URL ', $SSL, false );
 			$SSL_URL_field->setErrorMessages(
 				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please specify URL',
+					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
 				]
 			);
 

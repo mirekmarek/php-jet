@@ -11,7 +11,7 @@ namespace Jet;
  * Class Form_Field_RadioButton
  * @package Jet
  */
-class Form_Field_RadioButton extends Form_Field_Abstract
+class Form_Field_RadioButton extends Form_Field
 {
 	const ERROR_CODE_INVALID_VALUE = 'invalid_value';
 
@@ -24,7 +24,8 @@ class Form_Field_RadioButton extends Form_Field_Abstract
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_VALUE => '',
+		self::ERROR_CODE_EMPTY         => '',
+		self::ERROR_CODE_INVALID_VALUE => '',
 	];
 
 

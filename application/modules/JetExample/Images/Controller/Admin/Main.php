@@ -7,18 +7,16 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 
-use JetExampleApp\Mvc_Page;
-
-use JetUI\UI;
-use JetUI\breadcrumbNavigation;
-
 use Jet\Form;
 use Jet\Mvc_Controller_Standard;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Form_Field_FileImage;
 use Jet\Tr;
+use Jet\Navigation_Breadcrumb;
 
+
+use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
 /**
  *
@@ -59,14 +57,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	protected function _setBreadcrumbNavigation( $gallery = null, $current_label = '' )
 	{
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
-
-		breadcrumbNavigation::addItem(
-			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(), $page->getURL()
-		);
+		AdminUI_module::initBreadcrumb();
 
 		if( $gallery ) {
 
@@ -86,12 +77,12 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 			$path = array_reverse( $path );
 
 			foreach( $path as $url => $title ) {
-				breadcrumbNavigation::addItem( $title, $url );
+				Navigation_Breadcrumb::addURL( $title, $url );
 			}
 		}
 
 		if( $current_label ) {
-			breadcrumbNavigation::addItem( $current_label );
+			Navigation_Breadcrumb::addURL( $current_label );
 		}
 	}
 

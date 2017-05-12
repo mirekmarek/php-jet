@@ -1,5 +1,5 @@
 <?php
-use Jet\Application_Modules_Module_Manifest;
+use Jet\Application_Module_Manifest;
 use JetExampleApp\Mvc_Page;
 
 return [
@@ -7,7 +7,7 @@ return [
 
 	'label' => 'Login page',
 
-	'types' => [ Application_Modules_Module_Manifest::MODULE_TYPE_SYSTEM ], 'description' => '',
+	'types' => [ Application_Module_Manifest::MODULE_TYPE_SYSTEM ], 'description' => '',
 
 	'is_mandatory' => true, 'require' => [],
 

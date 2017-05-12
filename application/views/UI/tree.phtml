@@ -1,0 +1,55 @@
+<?php
+use JetUI\tree;
+use JetUI\UI;
+use Jet\Data_Tree_Node;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var tree     $tree
+ */
+$tree = $this->getRaw( 'tree' );
+
+
+$icon_width = 22;
+$icon_size = 16;
+?>
+<div class="tree">
+	<?php foreach( $tree->getData() as $node ):
+
+		/**
+		 * @var Data_Tree_Node $node
+		 */
+
+		if( !$node->getIsRoot()&&!$tree->nodeFilter( $node ) ) {
+			continue;
+		}
+
+		$display_callback = $tree->nodeDisplayCallback( $node );
+
+		$icon = 'file';
+		if( $node->getHasChildren() ) {
+			if( $tree->nodeOpened( $node ) ) {
+				$icon = 'folder-open';
+			} else {
+				$icon = 'folder';
+			}
+		}
+
+
+		$padding = ( $node->getDepth() )*$icon_width;
+		?>
+		<div class="tree-row-container">
+			<div class="tree-row">
+				<div class="tree-row-icon-container"
+				     style="padding-left: <?=$padding;?>px;"><?=UI::icon( $icon )->setSize( $icon_size )->setTag(
+						'div'
+					)->setWidth( $icon_width )?></div>
+				<div class="tree-row-node-container"><?=$display_callback( $node, $node->getData() );?></div>
+			</div>
+		</div>
+
+	<?php endforeach; ?>
+</div>
+
+

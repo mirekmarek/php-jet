@@ -17,11 +17,11 @@ trait DataModel_Related_Trait_Definition
 	/**
 	 * @param string $data_model_class_name
 	 *
-	 * @return DataModel_Definition_Model_Related_Abstract
+	 * @return DataModel_Definition_Model_Related
 	 */
 	public static function _getDataModelDefinitionInstance( $data_model_class_name )
 	{
-		return new DataModel_Definition_Model_Related_Abstract( $data_model_class_name );
+		return new DataModel_Definition_Model_Related( $data_model_class_name );
 	}
 
 }

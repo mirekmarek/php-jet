@@ -51,7 +51,7 @@ class Data_Text
 	 * @param string $text
 	 * @param int    $max_length
 	 * @param bool   $add_dots (optional, default: true)
-	 * @param        $dots (optional, default: ...)
+	 * @param string $dots (optional, default: ...)
 	 *
 	 * @return string
 	 */

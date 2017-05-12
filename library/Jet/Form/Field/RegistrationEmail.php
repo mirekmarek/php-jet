@@ -21,11 +21,6 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	protected $_type = Form::TYPE_REGISTRATION_EMAIL;
 
 	/**
-	 * @var string
-	 */
-	protected $_input_type = 'email';
-
-	/**
 	 * @var bool
 	 */
 	protected $is_required = true;
@@ -40,7 +35,9 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '', self::ERROR_CODE_USER_ALREADY_EXISTS => '',
+		self::ERROR_CODE_EMPTY               => '',
+		self::ERROR_CODE_INVALID_FORMAT      => '',
+		self::ERROR_CODE_USER_ALREADY_EXISTS => '',
 	];
 
 	/**

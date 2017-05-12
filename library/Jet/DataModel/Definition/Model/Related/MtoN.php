@@ -12,7 +12,7 @@ namespace Jet;
  * Class DataModel_Definition_Model_Related_MtoN
  * @package Jet
  */
-class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model_Abstract
+class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 {
 
 	/**
@@ -48,12 +48,12 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 
 	/**
-	 * @var DataModel_Definition_Property_Abstract[][]
+	 * @var DataModel_Definition_Property[][]
 	 */
 	protected $relation_id_properties = [];
 
 	/**
-	 * @var DataModel_Definition_Relation_JoinBy_Item[][]
+	 * @var DataModel_Definition_Relation_JoinByItem[][]
 	 */
 	protected $join_by = [];
 
@@ -218,11 +218,11 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	/**
 	 *
-	 * @return DataModel_Definition_Model_Abstract|null
+	 * @return DataModel_Definition_Model|null
 	 */
 	public function getMModelDefinition()
 	{
-		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->M_model_class_name );
+		return DataModel_Definition::getDefinition( $this->M_model_class_name );
 	}
 
 	/**
@@ -244,11 +244,11 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	/**
 	 *
-	 * @return DataModel_Definition_Model_Abstract|null
+	 * @return DataModel_Definition_Model|null
 	 */
 	public function getNModelDefinition()
 	{
-		return DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->N_model_class_name );
+		return DataModel_Definition::getDefinition( $this->N_model_class_name );
 	}
 
 	/**
@@ -281,7 +281,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 
 		/**
-		 * @var DataModel_Definition_Relation_JoinBy_Item[] $main_glue_relation_join_by
+		 * @var DataModel_Definition_Relation_JoinByItem[] $main_glue_relation_join_by
 		 */
 		$main_glue_relation_join_by = $this->join_by[$this->M_model_name];
 		$relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(
@@ -289,10 +289,10 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		);
 
 
-		$N_model_definition = DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->N_model_class_name );
+		$N_model_definition = DataModel_Definition::getDefinition( $this->N_model_class_name );
 
 		/**
-		 * @var DataModel_Definition_Relation_JoinBy_Item[] $glue_n_relation_join_by
+		 * @var DataModel_Definition_Relation_JoinByItem[] $glue_n_relation_join_by
 		 */
 		$glue_n_relation_join_by = $this->join_by[$this->N_model_name];
 
@@ -313,10 +313,10 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	public function getRelationToN()
 	{
 
-		$N_model_definition = DataModel_Definition_Model_Abstract::getDataModelDefinition( $this->N_model_class_name );
+		$N_model_definition = DataModel_Definition::getDefinition( $this->N_model_class_name );
 
 		/**
-		 * @var DataModel_Definition_Relation_JoinBy_Item[] $glue_n_relation_join_by
+		 * @var DataModel_Definition_Relation_JoinByItem[] $glue_n_relation_join_by
 		 */
 		$glue_n_relation_join_by = $this->join_by[$this->N_model_name];
 		$relation = new DataModel_Definition_Relation_Internal( $N_model_definition, $glue_n_relation_join_by );
@@ -328,7 +328,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	/**
 	 *
-	 * @return DataModel_Definition_Property_Abstract[]
+	 * @return DataModel_Definition_Property[]
 	 */
 	public function getMRelationIdProperties()
 	{
@@ -337,7 +337,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 	/**
 	 *
-	 * @return DataModel_Definition_Property_Abstract[]
+	 * @return DataModel_Definition_Property[]
 	 */
 	public function getNRelationIdProperties()
 	{
@@ -366,7 +366,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 * @param array  $property_definition_data
 	 *
 	 * @throws DataModel_Exception
-	 * @return DataModel_Definition_Property_Abstract
+	 * @return DataModel_Definition_Property
 	 *
 	 */
 	protected function _initGlueProperty( $this_id_property_name, $related_to, $property_definition_data )
@@ -413,7 +413,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->properties[$this_id_property_name] = $this_id_property;
 
 		$this->relation_id_properties[$related_model_name][$this_id_property_name] = $this_id_property;
-		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinBy_Item(
+		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinByItem(
 			$this, $this_id_property, $related_to_class_name, $related_to_property_name
 		);
 		$this->_glue_defined[$related_model_name][] = $related_to_property_name;

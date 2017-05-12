@@ -8,7 +8,7 @@
 namespace JetExampleApp;
 
 use Jet\BaseObject;
-use Jet\Auth_Controller_Interface;
+use Jet\Auth_ControllerInterface;
 
 use Jet\Mvc;
 use Jet\Mvc_Factory;
@@ -24,7 +24,7 @@ use JetExampleApp\Auth_Visitor_User as Visitor;
 /**
  *
  */
-class Auth_Controller_Site extends BaseObject implements Auth_Controller_Interface
+class Auth_Controller_Site extends BaseObject implements Auth_ControllerInterface
 {
 
 	/**

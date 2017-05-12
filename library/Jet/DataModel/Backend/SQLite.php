@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Backend_SQLite
  * @package Jet
  */
-class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
+class DataModel_Backend_SQLite extends DataModel_Backend
 {
 	const PRIMARY_KEY_NAME = 'PRIMARY';
 	/**
@@ -26,7 +26,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	protected $config;
 	/**
 	 *
-	 * @var Db_Connection_Abstract
+	 * @var Db_Backend
 	 */
 	private $_db = null;
 
@@ -39,20 +39,20 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $definition
+	 * @param DataModel_Definition_Model $definition
 	 */
-	public function helper_create( DataModel_Definition_Model_Abstract $definition )
+	public function helper_create( DataModel_Definition_Model $definition )
 	{
 		$this->_db->execCommand( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $definition
-	 * @param string|null                         $force_table_name (optional)
+	 * @param DataModel_Definition_Model $definition
+	 * @param string|null                $force_table_name (optional)
 	 *
 	 * @return string
 	 */
-	public function helper_getCreateCommand( DataModel_Definition_Model_Abstract $definition, $force_table_name = null )
+	public function helper_getCreateCommand( DataModel_Definition_Model $definition, $force_table_name = null )
 	{
 
 		$options = [];
@@ -129,13 +129,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $property_definition
-	 * @param bool                                   $quote
-	 * @param bool                                   $add_table_name
+	 * @param DataModel_Definition_Property $property_definition
+	 * @param bool                          $quote
+	 * @param bool                          $add_table_name
 	 *
 	 * @return string
 	 */
-	protected function _getColumnName( DataModel_Definition_Property_Abstract $property_definition, $quote = true, $add_table_name = true )
+	protected function _getColumnName( DataModel_Definition_Property $property_definition, $quote = true, $add_table_name = true )
 	{
 		$column_name = $property_definition->getDatabaseColumnName();
 
@@ -165,12 +165,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $model_definition
-	 * @param bool                                $quote
+	 * @param DataModel_Definition_Model $model_definition
+	 * @param bool                       $quote
 	 *
 	 * @return string
 	 */
-	protected function _getTableName( DataModel_Definition_Model_Abstract $model_definition, $quote = true )
+	protected function _getTableName( DataModel_Definition_Model $model_definition, $quote = true )
 	{
 		$table_name = strtolower( $model_definition->getDatabaseTableName() );
 
@@ -182,13 +182,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $column
+	 * @param DataModel_Definition_Property $column
 	 *
 	 * @throws DataModel_Exception
 	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
-	protected function _getSQLType( DataModel_Definition_Property_Abstract $column )
+	protected function _getSQLType( DataModel_Definition_Property $column )
 	{
 		$backend_options = $column->getBackendOptions( 'SQLite' );
 
@@ -246,19 +246,19 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $definition
+	 * @param DataModel_Definition_Model $definition
 	 */
-	public function helper_drop( DataModel_Definition_Model_Abstract $definition )
+	public function helper_drop( DataModel_Definition_Model $definition )
 	{
 		$this->_db->execCommand( $this->helper_getDropCommand( $definition ) );
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $definition
+	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @return string
 	 */
-	public function helper_getDropCommand( DataModel_Definition_Model_Abstract $definition )
+	public function helper_getDropCommand( DataModel_Definition_Model $definition )
 	{
 		$table_name = $this->_getTableName( $definition );
 		$ui_prefix = '_d'.date( 'YmdHis' );
@@ -267,11 +267,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $definition
+	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @throws Exception
 	 */
-	public function helper_update( DataModel_Definition_Model_Abstract $definition )
+	public function helper_update( DataModel_Definition_Model $definition )
 	{
 		$this->transactionStart();
 		try {
@@ -294,11 +294,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	}
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $definition
+	 * @param DataModel_Definition_Model $definition
 	 *
 	 * @return array
 	 */
-	public function helper_getUpdateCommand( DataModel_Definition_Model_Abstract $definition )
+	public function helper_getUpdateCommand( DataModel_Definition_Model $definition )
 	{
 		$table_name = $this->_getTableName( $definition );
 
@@ -402,7 +402,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 	 */
 	protected function _getValue( $value )
 	{
-		if( $value instanceof DataModel_Definition_Property_Abstract ) {
+		if( $value instanceof DataModel_Definition_Property ) {
 			return $this->_getColumnName( $value );
 		}
 
@@ -586,7 +586,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 			 */
 
 			/**
-			 * @var DataModel_Definition_Property_Abstract $prop
+			 * @var DataModel_Definition_Property $prop
 			 */
 			$prop = $qp->getProperty();
 
@@ -833,9 +833,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 			/**
 			 * @var DataModel_Query_Select_Item $val
 			 */
-			if( $val instanceof DataModel_Definition_Property_Abstract ) {
+			if( $val instanceof DataModel_Definition_Property ) {
 				/**
-				 * @var DataModel_Definition_Property_Abstract $val
+				 * @var DataModel_Definition_Property $val
 				 */
 				$val = $this->_getColumnName( $val );
 			} else if( $val instanceof DataModel_Query_Select_Item ) {
@@ -889,7 +889,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 			 */
 
 			/**
-			 * @var DataModel_Definition_Property_Abstract $prop
+			 * @var DataModel_Definition_Property $prop
 			 */
 			$item = $qp->getProperty()->getSelectAs();
 
@@ -967,7 +967,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 		$columns_qp = [];
 
 
-		$mapper = function( DataModel_Definition_Property_Abstract $property ) {
+		$mapper = function( DataModel_Definition_Property $property ) {
 			return $this->_getColumnName( $property );
 		};
 
@@ -978,9 +978,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 			$property = $item->getItem();
 			$select_as = $item->getSelectAs();
 
-			if( $property instanceof DataModel_Definition_Property_Abstract ) {
+			if( $property instanceof DataModel_Definition_Property ) {
 				/**
-				 * @var DataModel_Definition_Property_Abstract $property
+				 * @var DataModel_Definition_Property $property
 				 */
 				$columns_qp[] = $this->_getColumnName( $property ).' AS '.$this->_quoteName( $select_as ).'';
 
@@ -1024,7 +1024,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 			 * @var DataModel_Query_OrderBy_Item $ob
 			 */
 			$item = $ob->getItem();
-			if( $item instanceof DataModel_Definition_Property_Abstract ) {
+			if( $item instanceof DataModel_Definition_Property ) {
 				$item = $this->_getColumnName( $item );
 			} else if( $item instanceof DataModel_Query_Select_Item ) {
 				$item = $item->getSelectAs();
@@ -1132,12 +1132,12 @@ class DataModel_Backend_SQLite extends DataModel_Backend_Abstract
 		foreach( $data as $i => $d ) {
 			foreach( $query->getSelect() as $item ) {
 				/**
-				 * @var DataModel_Query_Select_Item            $item
-				 * @var DataModel_Definition_Property_Abstract $property
+				 * @var DataModel_Query_Select_Item   $item
+				 * @var DataModel_Definition_Property $property
 				 */
 				$property = $item->getItem();
 
-				if( !( $property instanceof DataModel_Definition_Property_Abstract ) ) {
+				if( !( $property instanceof DataModel_Definition_Property ) ) {
 					continue;
 				}
 

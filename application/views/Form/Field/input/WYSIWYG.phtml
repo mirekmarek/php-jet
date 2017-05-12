@@ -1,0 +1,28 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Data_Text;
+use Jet\Form_Renderer;
+use Jet\Form_Field_WYSIWYG;
+
+/**
+ * @var Mvc_View           $this
+ * @var Form_Renderer      $r
+ * @var Form_Field_WYSIWYG $field
+ */
+$r = $this->getRaw( 'element' );
+$field = $r->getField();
+
+$field = $r->getField();
+?>
+	<textarea name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
+
+	if( $r->getJsActions() ) echo $r->getJsActions();
+	if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
+
+	if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
+	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
+	if( $field->getIsRequired() ) echo ' required="required"';
+
+	?>><?=$field->getValue()?></textarea>
+
+	<?=$field->generateJsInitCode();?>

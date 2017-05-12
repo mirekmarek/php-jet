@@ -39,8 +39,8 @@ trait DataModel_Trait_Delete
 		}
 
 		/**
-		 * @var DataModel_Backend_Abstract          $backend
-		 * @var DataModel_Definition_Model_Abstract $definition
+		 * @var DataModel_Backend          $backend
+		 * @var DataModel_Definition_Model $definition
 		 */
 		$backend = static::getBackendInstance();
 		$definition = static::getDataModelDefinition();

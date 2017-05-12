@@ -11,7 +11,7 @@ namespace Jet;
  * Class Mvc_Controller_REST
  * @package Jet
  */
-abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
+abstract class Mvc_Controller_REST extends Mvc_Controller
 {
 	const ERR_CODE_AUTHORIZATION_REQUIRED = 'AuthorizationRequired';
 	const ERR_CODE_ACCESS_DENIED = 'AccessDenied';
@@ -211,7 +211,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
 	/**
 	 * Get request HTTP header or default value if does not exist
 	 *
-	 * @param        $header
+	 * @param string $header
 	 * @param string $default_value
 	 *
 	 * @return array
@@ -309,7 +309,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
 	{
 		if( !isset( static::$errors[$code] ) ) {
 			throw new Mvc_Controller_Exception(
-				'REST Error (code:'.$code.') is not specified! Please specify the error. Add '.get_class(
+				'REST Error (code:'.$code.') is not specified! Please enter the error. Add '.get_class(
 					$this
 				).'::$errors['.$code.'] entry.  ', Mvc_Controller_Exception::CODE_INVALID_RESPONSE_CODE
 			);
@@ -451,9 +451,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
 	}
 
 	/**
-	 * @param BaseObject_Serializable_REST $data
+	 * @param BaseObject_Serializable $data
 	 */
-	public function responseData( BaseObject_Serializable_REST $data )
+	public function responseData( BaseObject_Serializable $data )
 	{
 		if( $this->responseFormatDetection()==static::RESPONSE_FORMAT_XML ) {
 			$this->_response( $data->toXML() );
@@ -463,9 +463,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
 	}
 
 	/**
-	 * @param DataModel_Fetch_Abstract $data
+	 * @param DataModel_Fetch $data
 	 */
-	public function responseDataModelsList( DataModel_Fetch_Abstract $data )
+	public function responseDataModelsList( DataModel_Fetch $data )
 	{
 
 		$response_headers = $this->handleDataPagination( $data );
@@ -481,11 +481,11 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
 	/**
 	 * Handles data pagination by request HTTP headers and returns response HTTP headers
 	 *
-	 * @param DataModel_Fetch_Abstract $data
+	 * @param DataModel_Fetch $data
 	 *
 	 * @return array
 	 */
-	protected function handleDataPagination( DataModel_Fetch_Abstract $data )
+	protected function handleDataPagination( DataModel_Fetch $data )
 	{
 		$response_headers = [];
 
@@ -533,9 +533,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller_Abstract
 	 * ?sort(-price)
 	 *
 	 *
-	 * @param DataModel_Fetch_Abstract $data
+	 * @param DataModel_Fetch $data
 	 */
-	protected function handleOrderBy( DataModel_Fetch_Abstract $data )
+	protected function handleOrderBy( DataModel_Fetch $data )
 	{
 
 		foreach( Http_Request::GET()->getRawData() as $key => $value ) {

@@ -139,12 +139,12 @@ interface Form_Field_Definition_Interface
 	 * @param mixed $property_value
 	 *
 	 * @throws DataModel_Exception
-	 * @return Form_Field_Abstract|Form_Field_Abstract[]
+	 * @return Form_Field|Form_Field[]
 	 */
 	public function createFormField( $property_value );
 
 	/**
-	 * @param       $object_instance
+	 * @param object $object_instance
 	 * @param mixed &$property
 	 * @param mixed $value
 	 */

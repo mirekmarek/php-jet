@@ -10,6 +10,7 @@ namespace JetApplicationModule\JetExample\Images;
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
+use Jet\Navigation_Breadcrumb;
 
 /**
  *
@@ -81,7 +82,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 					$gallery_id = $gallery->getIdObject();
 					$URI .= rawurlencode( $gallery->getTitle() ).'/';
 
-					Mvc::getCurrentPage()->addBreadcrumbNavigationData( $gallery->getTitle(), $URI );
+					Navigation_Breadcrumb::addURL( $gallery->getTitle(), $URI );
 
 				} else {
 					return false;

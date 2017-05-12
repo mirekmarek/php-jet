@@ -118,9 +118,9 @@ trait Mvc_Page_Trait_URL
 	}
 
 	/**
-	 * @param       $base_URL
-	 * @param array $GET_params
-	 * @param array $path_fragments
+	 * @param string $base_URL
+	 * @param array  $GET_params
+	 * @param array  $path_fragments
 	 *
 	 * @return string
 	 */

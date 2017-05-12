@@ -2,8 +2,11 @@
 namespace JetApplicationModule\JetExample\Admin\Administrators\Roles;
 
 use JetExampleApp\Auth_Administrator_Role;
+
 use JetUI\dataGrid;
 use JetUI\UI;
+use JetUI\button;
+
 use Jet\Tr;
 use Jet\Mvc;
 use Jet\Mvc_View;
@@ -22,11 +25,11 @@ $c_edit->setDisplayCallback(
 	function( Auth_Administrator_Role $item ) use ( $router ) {
 
 		if( ( $edit_uri = $router->getEditURI( $item->getId() ) ) ):
-			echo UI::button_edit()->setUrl( $edit_uri );
+			echo UI::button_edit()->setUrl( $edit_uri )->setSize(button::SIZE_EXTRA_SMALL);
 		endif;
 		echo '&nbsp;';
 		if( ( $delete_uri = $router->getDeleteURI( $item->getId() ) ) ):
-			echo UI::button_delete()->setUrl( $delete_uri );
+			echo UI::button_delete()->setUrl( $delete_uri )->setSize(button::SIZE_EXTRA_SMALL);
 		endif;
 	}
 );

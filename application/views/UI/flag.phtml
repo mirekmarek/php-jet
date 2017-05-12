@@ -1,0 +1,15 @@
+<?php
+use JetUI\flag;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var flag $f
+ */
+$f = $this->getRaw( 'element' );
+
+
+$title = $f->getLocale()->getRegionName().' - '.$f->getLocale()->getLanguageName();
+$region = strtolower( $f->getLocale()->getRegion() );
+?>
+<div class="flag flag-<?=$region?>" title="<?=$title?>" alt="<?=$title?>" <?=$f->getJsActions()?>/></div>

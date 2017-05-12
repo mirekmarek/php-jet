@@ -20,7 +20,7 @@ class Application_Log extends BaseObject
 
 
 	/**
-	 * @var Application_Log_Logger_Interface
+	 * @var Application_Log_LoggerInterface
 	 */
 	protected static $logger;
 
@@ -70,7 +70,7 @@ class Application_Log extends BaseObject
 	}
 
 	/**
-	 * @return Application_Log_Logger_Interface
+	 * @return Application_Log_LoggerInterface
 	 */
 	public static function getLogger()
 	{
@@ -78,9 +78,9 @@ class Application_Log extends BaseObject
 	}
 
 	/**
-	 * @param Application_Log_Logger_Interface $logger
+	 * @param Application_Log_LoggerInterface $logger
 	 */
-	public static function setLogger( Application_Log_Logger_Interface $logger )
+	public static function setLogger( Application_Log_LoggerInterface $logger )
 	{
 		self::$logger = $logger;
 	}

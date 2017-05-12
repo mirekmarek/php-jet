@@ -7,7 +7,7 @@
  */
 namespace JetExampleApp;
 
-use Jet\Application_Log_Logger_Interface;
+use Jet\Application_Log_LoggerInterface;
 use Jet\Auth_User_Interface;
 use Jet\BaseObject;
 use Jet\Mvc;
@@ -15,7 +15,7 @@ use Jet\Mvc;
 /**
  *
  */
-class Application_Log_Logger extends BaseObject implements Application_Log_Logger_Interface
+class Application_Log_Logger extends BaseObject implements Application_Log_LoggerInterface
 {
 
 	/**

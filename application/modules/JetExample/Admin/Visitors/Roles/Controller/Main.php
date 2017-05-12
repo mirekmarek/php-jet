@@ -13,13 +13,13 @@ use JetExampleApp\Mvc_Controller_AdminStandard;
 
 use JetUI\UI;
 use JetUI\dataGrid;
-use JetUI\breadcrumbNavigation;
 use JetUI\messages;
 
 use Jet\Mvc;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Tr;
+use Jet\Navigation_Breadcrumb;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
@@ -80,12 +80,15 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		 */
 		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
 
-		breadcrumbNavigation::addItem(
-			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(), $page->getURL()
+		Navigation_Breadcrumb::reset();
+
+		Navigation_Breadcrumb::addURL(
+			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(),
+			$page->getURL()
 		);
 
 		if( $current_label ) {
-			breadcrumbNavigation::addItem( $current_label );
+			Navigation_Breadcrumb::addURL( $current_label );
 
 		}
 	}

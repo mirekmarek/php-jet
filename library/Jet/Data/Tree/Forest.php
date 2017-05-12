@@ -11,7 +11,7 @@ namespace Jet;
  * Class Data_Tree_Forest
  * @package Jet
  */
-class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable_REST
+class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable
 {
 
 	/**

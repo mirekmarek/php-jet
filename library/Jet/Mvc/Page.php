@@ -14,32 +14,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 {
 	const HOMEPAGE_ID = '_homepage_';
 
-	const PAGE_DATA_FILE_NAME = 'page_data.php';
 
-	const DEFAULT_DIRECT_INDEX_FILE_NAME = 'index.php';
+	use Mvc_Page_Trait;
 
-	use Mvc_Page_Trait_Initialization;
-	use Mvc_Page_Trait_Tree;
-	use Mvc_Page_Trait_URL;
-	use Mvc_Page_Trait_BreadcrumbNavigation;
-	use Mvc_Page_Trait_Content;
-	use Mvc_Page_Trait_MetaTags;
-	use Mvc_Page_Trait_Layout;
-	use Mvc_Page_Trait_Auth;
-	use Mvc_Page_Trait_Handlers;
-
-	/**
-	 * @var array
-	 */
-	protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7' ];
-	/**
-	 * @var Mvc_Page_Interface[]
-	 */
-	protected static $pages = [];
-	/**
-	 * @var string[]
-	 */
-	protected static $relative_URIs_map = [];
 	/**
 	 *
 	 * @var Mvc_Site
@@ -80,6 +57,13 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 * @var string
 	 */
 	protected $menu_title = '';
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $breadcrumb_title = '';
+
 	/**
 	 *
 	 * @var string
@@ -137,13 +121,15 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 
 
 		$site_class_name = JET_MVC_SITE_CLASS;
+		$page_class_name = JET_MVC_PAGE_CLASS;
 
 		/**
 		 * @var Mvc_Site_Interface $site_class_name
+		 * @var Mvc_Page_Interface $page_class_name
 		 */
 		$site = $site_class_name::get( $site_id );
 
-		static::loadPages( $site, $locale );
+		$page_class_name::loadPages( $site, $locale );
 
 		if( isset( static::$pages[$site_id][$locale_str][$page_id] ) ) {
 			return static::$pages[$site_id][$locale_str][$page_id];
@@ -199,32 +185,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		}
 	}
 
-	/**
-	 * @param Mvc_Page_Interface|Mvc_Page $page
-	 *
-	 * @throws Mvc_Page_Exception
-	 */
-	public static function appendPage( Mvc_Page_Interface $page )
-	{
-
-		$site_id = $page->getSite()->getId();
-		$locale = (string)$page->getLocale();
-		$page_id = $page->getId();
-
-		if( isset( static::$pages[$site_id][$locale][$page_id] ) ) {
-			throw new Mvc_Page_Exception(
-				'Duplicates page: \''.$page->getKey().'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
-			);
-		}
-
-		static::$pages[$site_id][$locale][$page_id] = $page;
-
-		static::$relative_URIs_map
-		[$site_id]
-		[$locale]
-		[$page->getRelativeUrl()] = $page;
-
-	}
 
 	/**
 	 * @return string
@@ -346,6 +306,23 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	public function setMenuTitle( $menu_title )
 	{
 		$this->menu_title = $menu_title;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getBreadcrumbTitle()
+	{
+		return $this->breadcrumb_title;
+	}
+
+	/**
+	 * @param string $breadcrumb_title
+	 */
+	public function setBreadcrumbTitle( $breadcrumb_title )
+	{
+		$this->breadcrumb_title = $breadcrumb_title;
 	}
 
 	/**

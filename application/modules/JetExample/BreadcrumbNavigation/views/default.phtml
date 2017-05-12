@@ -1,17 +1,17 @@
 <?php
-use Jet\Mvc_NavigationData_Breadcrumb_Abstract;
+use Jet\Navigation_Breadcrumb_Item;
 use Jet\Mvc_View;
 
 /**
- * @var Mvc_View                                 $this
- * @var Mvc_NavigationData_Breadcrumb_Abstract[] $data
+ * @var Mvc_View                              $this
+ * @var Navigation_Breadcrumb_Item[] $data
  */
 $data = $this->getRaw( 'data' );
 ?>
 <ol class="breadcrumb">
 	<?php foreach( $data as $d ): ?>
 		<?php if( !$d->getIsLast() ): ?>
-			<li><a href="<?=$d->getURI();?>"><?=$d->getTitle();?></a></li>
+			<li><a href="<?=$d->getURL();?>"><?=$d->getTitle();?></a></li>
 		<?php else: ?>
 			<li class="active"><?=$d->getTitle();?></li>
 		<?php endif; ?>

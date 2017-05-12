@@ -189,7 +189,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 *
 	 * array( 'position_name'=>'<position_tag>' )
 	 *
-	 * @param      $result
+	 * @param string $result
 	 *
 	 * @param bool $include_tag
 	 *
@@ -266,7 +266,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 *
 	 * @param Mvc_View    $view
-	 * @param             $script
+	 * @param string      $script
 	 * @param string      $position (optional, default:  by current dispatcher queue item, @see Mvc_Layout)
 	 * @param bool        $position_required (optional, default: by current dispatcher queue item, @see Mvc_Layout)
 	 * @param int         $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)

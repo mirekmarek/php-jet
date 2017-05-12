@@ -8,26 +8,13 @@
 namespace JetUI;
 
 /**
- * Class button_edit
- * @package JetUI
+ *
  */
 class button_edit extends button
 {
-
 	/**
 	 * @var string
 	 */
-	protected $class = 'default';
-
-	/**
-	 * @var string
-	 */
-	protected $icon = 'pencil';
-
-	/**
-	 * @var string
-	 */
-	protected $size = 'xs';
-
+	protected static $default_renderer_script = 'button/edit';
 
 }

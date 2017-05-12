@@ -19,16 +19,13 @@ class Form_Field_Float extends Form_Field_Input
 	 * @var string
 	 */
 	protected $_type = Form::TYPE_FLOAT;
-	/**
-	 * @var string
-	 */
-	protected $_input_type = 'number';
 
 	/**
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_OUT_OF_RANGE => '',
+		self::ERROR_CODE_EMPTY        => '',
+		self::ERROR_CODE_OUT_OF_RANGE => '',
 	];
 
 	/**

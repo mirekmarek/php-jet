@@ -16,21 +16,21 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 {
 
 	/**
-	 * @var DataModel_Definition_Model_Abstract
+	 * @var DataModel_Definition_Model
 	 */
 	protected $data_model_definition;
 
 	/**
-	 * @var DataModel_Definition_Relation_Abstract[]
+	 * @var DataModel_Definition_Relation[]
 	 */
 	protected $relations = [];
 
 	/**
 	 * DataModel_Definition_Relations constructor.
 	 *
-	 * @param DataModel_Definition_Model_Abstract $data_model_definition
+	 * @param DataModel_Definition_Model $data_model_definition
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract $data_model_definition )
+	public function __construct( DataModel_Definition_Model $data_model_definition )
 	{
 		$this->data_model_definition = $data_model_definition;
 	}
@@ -64,7 +64,7 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 	 *
 	 * @param mixed $offset
 	 *
-	 * @return DataModel_Definition_Relation_Abstract
+	 * @return DataModel_Definition_Relation
 	 */
 	public function offsetGet( $offset )
 	{
@@ -74,7 +74,7 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 	/**
 	 * @param string $related_model_name
 	 *
-	 * @return DataModel_Definition_Relation_Abstract
+	 * @return DataModel_Definition_Relation
 	 *
 	 * @throws DataModel_Exception
 	 */
@@ -96,8 +96,8 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 	 *
 	 * @see \ArrayAccess
 	 *
-	 * @param string                                 $offset
-	 * @param DataModel_Definition_Relation_Abstract $value
+	 * @param string                        $offset
+	 * @param DataModel_Definition_Relation $value
 	 *
 	 */
 	public function offsetSet( $offset, $value )
@@ -106,12 +106,12 @@ class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess,
 	}
 
 	/**
-	 * @param string                                 $related_model_name
-	 * @param DataModel_Definition_Relation_Abstract $relation
+	 * @param string                        $related_model_name
+	 * @param DataModel_Definition_Relation $relation
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function addRelation( $related_model_name, DataModel_Definition_Relation_Abstract $relation )
+	public function addRelation( $related_model_name, DataModel_Definition_Relation $relation )
 	{
 
 

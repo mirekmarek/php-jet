@@ -13,8 +13,9 @@ use Jet\Mvc_Controller_Standard;
 use Jet\Form;
 use Jet\Tr;
 use Jet\Http_Headers;
+use Jet\Navigation_Breadcrumb;
+
 use JetUI\messages;
-use JetUI\breadcrumbNavigation;
 
 use JetExampleApp\Mvc_Page;
 use JetExampleApp\Auth_Administrator_User as User;
@@ -53,10 +54,14 @@ class Controller_SystemPages extends Mvc_Controller_Standard
 		 */
 		$form = $this->module_instance->getChangePasswordForm();
 
-		breadcrumbNavigation::addItem(
-			Tr::_( 'Home page', [], Tr::COMMON_NAMESPACE ), Mvc_Page::get( Mvc_Page::ADMIN_HOMEPAGE_ID )->getURL()
+		Navigation_Breadcrumb::reset();
+
+		Navigation_Breadcrumb::addURL(
+			Tr::_( 'Home page', [], Tr::COMMON_NAMESPACE ),
+			Mvc_Page::get( Mvc_Page::ADMIN_HOMEPAGE_ID )->getURL()
 		);
-		breadcrumbNavigation::addItem(
+
+		Navigation_Breadcrumb::addURL(
 			Tr::_( 'Change password', [], Tr::COMMON_NAMESPACE ),
 			Mvc_Page::get( Mvc_Page::CHANGE_PASSWORD_ID )->getURL()
 		);

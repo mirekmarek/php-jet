@@ -51,13 +51,13 @@ class DataModel_Query_Where extends BaseObject implements \Iterator
 
 	/**
 	 *
-	 * @param DataModel_Definition_Property_Abstract $property_definition
-	 * @param string                                 $operator (DataModel_Query::O_OR,  DataModel_Query::O_AND, ... )
-	 * @param mixed                                  $value
+	 * @param DataModel_Definition_Property $property_definition
+	 * @param string                        $operator (DataModel_Query::O_OR,  DataModel_Query::O_AND, ... )
+	 * @param mixed                         $value
 	 *
 	 * @throws DataModel_Query_Exception
 	 */
-	public function addExpression( DataModel_Definition_Property_Abstract $property_definition, $operator, $value )
+	public function addExpression( DataModel_Definition_Property $property_definition, $operator, $value )
 	{
 		if( $this->expressions ) {
 			$previous = $this->expressions[count( $this->expressions )-1];

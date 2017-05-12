@@ -1,0 +1,34 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+use Jet\Form_Field_FileImage;
+use Jet\Data_Text;
+
+/**
+ * @var Mvc_View      $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('form-control');
+}
+
+/**
+ * @var Form_Field_FileImage $field
+ */
+$field = $r->getField();
+
+?>
+	<input type="file" name="<?=$field->getTagNameValue()?>" id="<?=$field->getId()?>" <?php
+
+	if( $r->getCssClasses() ) echo ' class ="'.$r->getCssClasses().'"';
+	if( $r->getCssStyles() ) echo ' style ="'.$r->getCssStyles().'"';
+	if( $r->getJsActions() ) echo $r->getJsActions();
+
+	if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
+	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
+	if( $field->getIsRequired() ) echo ' required="required"';
+	if( $field->getAllowedMimeTypes() ) echo ' accept="'.implode( ',', $field->getAllowedMimeTypes()).'"';
+
+	?> value="<?=$field->getValue()?>"/>

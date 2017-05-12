@@ -25,7 +25,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 	protected $label = 'Modules installation';
 
 	/**
-	 * @var Application_Modules_Module_Manifest[]
+	 * @var Application_Module_Manifest[]
 	 */
 	protected $all_modules;
 

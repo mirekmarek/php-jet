@@ -11,7 +11,7 @@ use Jet\BaseObject;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Session;
-use Jet\Tr;
+use Jet\Mvc_View;
 
 /**
  * Class searchForm
@@ -23,7 +23,18 @@ class searchForm extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $search_key = 'search';
+	protected $search_key = 'search';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_placeholder = 'Search for...';
+
+	/**
+	 * @var string
+	 */
+	protected $placeholder = '';
+
 	/**
 	 * @var string
 	 */
@@ -34,6 +45,22 @@ class searchForm extends BaseObject
 	protected $session;
 
 	/**
+	 * @return string
+	 */
+	public static function getDefaultPlaceholder()
+	{
+		return self::$default_placeholder;
+	}
+
+	/**
+	 * @param string $default_placeholder
+	 */
+	public static function setDefaultPlaceholder( $default_placeholder )
+	{
+		self::$default_placeholder = $default_placeholder;
+	}
+
+	/**
 	 * @param string $name
 	 */
 	public function __construct( $name )
@@ -42,10 +69,92 @@ class searchForm extends BaseObject
 		$this->session = new Session( 'search_form_'.$name );
 
 		$POST = Http_Request::POST();
-		if( $POST->exists( static::$search_key ) ) {
-			$this->session->setValue( 'search', $POST->getString( static::$search_key ) );
+		if( $POST->exists( $this->getSearchKey() ) ) {
+			$this->session->setValue( 'search', $POST->getString( $this->getSearchKey() ) );
 			Http_Headers::reload();
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSearchKey()
+	{
+		return $this->search_key;
+	}
+
+	/**
+	 * @param string $search_key
+	 *
+	 * @return $this
+	 */
+	public function setSearchKey( $search_key )
+	{
+		$this->search_key = $search_key;
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValue()
+	{
+		return $this->session->getValue( 'search', '' );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPlaceholder()
+	{
+		if($this->placeholder) {
+			return $this->placeholder;
+		}
+
+		return static::getDefaultPlaceholder();
+	}
+
+	/**
+	 * @param string $placeholder
+	 *
+	 * @return $this
+	 */
+	public function setPlaceholder( $placeholder )
+	{
+		$this->placeholder = $placeholder;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return Mvc_View
+	 */
+	public function getView() {
+
+		$view = UI::getView();
+		$view->setVar( 'element', $this );
+
+		return $view;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAction()
+	{
+		return Http_Request::getCurrentURI();
 	}
 
 	/**
@@ -61,31 +170,7 @@ class searchForm extends BaseObject
 	 */
 	public function toString()
 	{
-		$value = $this->getValue();
-
-		$url = Http_Request::getCurrentURI( [ 'p' => 0 ] );
-
-		$res = '<form method="post" name="search_form_'.$this->name.'" id="search_form_'.$this->name.'" action="'.$url.'">
-			<div class="input-group">
-				<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="this.form.'.static::$search_key.'.value=\'\';this.form.submit();">'.UI::icon(
-				'times'
-			).'</button></span>
-				<input type="text" class="form-control" placeholder="'.Tr::_(
-				'Search for...', [], Tr::COMMON_NAMESPACE
-			).'" name="'.static::$search_key.'" value="'.$value.'">
-				<span class="input-group-btn"><button class="btn btn-default" type="submit">'.UI::icon( 'search' ).'</button></span>
-			</div>
-			</form>';
-
-		return $res;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getValue()
-	{
-		return $this->session->getValue( 'search', '' );
+		return $this->getView()->render('searchForm');
 	}
 
 }

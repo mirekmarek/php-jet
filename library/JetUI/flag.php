@@ -7,18 +7,22 @@
  */
 namespace JetUI;
 
-use Jet\BaseObject;
 use Jet\Locale;
 
 /**
  * Class flag
  * @package JetUI
  */
-class flag extends BaseObject
+class flag extends BaseElement
 {
 
 	/**
-	 * @var Locale
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'flag';
+
+	/**
+	 * @var localeLabel
 	 */
 	protected $locale;
 
@@ -32,29 +36,11 @@ class flag extends BaseObject
 	}
 
 	/**
-	 * @return string
+	 * @return Locale
 	 */
-	public function __toString()
+	public function getLocale()
 	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		$locale = $this->locale;
-
-		$res = '';
-
-		$title = $locale->getRegionName().' - '.$locale->getLanguageName();
-
-		$res .= '<div class="flag flag-'.strtolower(
-				$locale->getRegion()
-			).'" title="'.$title.'" alt="'.$title.'" /></div>';
-
-		return $res;
+		return $this->locale;
 	}
 
 }

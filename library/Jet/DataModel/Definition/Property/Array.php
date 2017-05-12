@@ -11,7 +11,7 @@ namespace Jet;
  * Class DataModel_Definition_Property_Array
  * @package Jet
  */
-class DataModel_Definition_Property_Array extends DataModel_Definition_Property_Abstract
+class DataModel_Definition_Property_Array extends DataModel_Definition_Property
 {
 	/**
 	 * @var string

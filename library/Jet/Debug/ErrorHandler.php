@@ -8,7 +8,7 @@
 namespace Jet;
 
 require_once 'ErrorHandler/Error.php';
-require_once 'ErrorHandler/Handler/Abstract.php';
+require_once 'ErrorHandler/Handler.php';
 
 
 /**
@@ -27,7 +27,7 @@ class Debug_ErrorHandler
 	protected static $HTML_errors_enabled = false;
 
 	/**
-	 * @var Debug_ErrorHandler_Handler_Abstract[]
+	 * @var Debug_ErrorHandler_Handler[]
 	 */
 	protected static $handlers = [];
 
@@ -94,7 +94,7 @@ class Debug_ErrorHandler
 	 * @param string $handler_script_path
 	 * @param array  $handler_options (optional)
 	 *
-	 * @return Debug_ErrorHandler_Handler_Abstract
+	 * @return Debug_ErrorHandler_Handler
 	 */
 	public static function registerHandler( $handler_name, $handler_class_name, $handler_script_path, array $handler_options = [] )
 	{
@@ -110,7 +110,7 @@ class Debug_ErrorHandler
 
 		$handler = new $handler_class_name( $handler_options );
 
-		if( !( $handler instanceof Debug_ErrorHandler_Handler_Abstract ) ) {
+		if( !( $handler instanceof Debug_ErrorHandler_Handler ) ) {
 			trigger_error(
 				'Error handler: Handler class \''.$handler_class_name.'\' must extend Debug_ErrorHandler_Handler_Abstract class.',
 				E_USER_ERROR
@@ -124,7 +124,7 @@ class Debug_ErrorHandler
 
 	/**
 	 *
-	 * @return Debug_ErrorHandler_Handler_Abstract[]
+	 * @return Debug_ErrorHandler_Handler[]
 	 */
 	public static function getRegisteredHandlers()
 	{
@@ -154,7 +154,10 @@ class Debug_ErrorHandler
 	{
 		$error_pages_dir = rtrim( $error_pages_dir, '/\\'.DIRECTORY_SEPARATOR ).DIRECTORY_SEPARATOR;
 
-		if( $check_path&&!is_dir( $error_pages_dir ) ) {
+		if(
+			$check_path &&
+			!is_dir( $error_pages_dir )
+		) {
 			throw new Debug_ErrorHandler_Exception(
 				'Error pages directory \''.$error_pages_dir.'\' does not exist',
 				Debug_ErrorHandler_Exception::CODE_INVALID_ERROR_PAGES_DIR_PATH

@@ -29,7 +29,7 @@ class Data_Paginator extends BaseObject
 	protected $items_per_page;
 
 	/**
-	 * @var array|DataModel_Fetch_Data_Abstract
+	 * @var array|DataModel_Fetch_Data
 	 */
 	protected $data;
 
@@ -115,7 +115,7 @@ class Data_Paginator extends BaseObject
 
 	/**
 	 *
-	 * @param        $current_page_no (no 1 is first)
+	 * @param int    $current_page_no (no 1 is first)
 	 * @param int    $items_per_page
 	 * @param string $URL_template
 	 *
@@ -154,9 +154,9 @@ class Data_Paginator extends BaseObject
 	/**
 	 * Sets paginated data source
 	 *
-	 * @param Data_Paginator_DataSource_Interface $data
+	 * @param Data_Paginator_DataSource $data
 	 */
-	public function setDataSource( Data_Paginator_DataSource_Interface $data )
+	public function setDataSource( Data_Paginator_DataSource $data )
 	{
 		$this->data = $data;
 
@@ -225,7 +225,7 @@ class Data_Paginator extends BaseObject
 	 * Returns current page data
 	 *
 	 * @throws Data_Paginator_Exception
-	 * @return array|DataModel_Fetch_Data_Abstract
+	 * @return array|DataModel_Fetch_Data
 	 */
 	public function getData()
 	{
@@ -236,7 +236,7 @@ class Data_Paginator extends BaseObject
 			);
 		}
 
-		if( $this->data instanceof Data_Paginator_DataSource_Interface ) {
+		if( $this->data instanceof Data_Paginator_DataSource ) {
 			return $this->data;
 		}
 

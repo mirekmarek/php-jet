@@ -13,7 +13,7 @@ use Jet\Form;
 
 $main_form = $this->getRaw( 'main_form' );
 
-$main_form->setDefaultLabelWidth( 2 );
+$main_form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 
 $site = $this->getRaw( 'site' );
 

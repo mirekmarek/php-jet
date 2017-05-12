@@ -46,5 +46,9 @@ Application_Log::setLogger( new Application_Log_Logger() );
 Auth::setAuthController( new Auth_Controller() );
 
 Application::start();
-Application::runMvc();
+
+Application::runMvc( function() {
+	//do something after router initialization
+} );
+
 Application::end();

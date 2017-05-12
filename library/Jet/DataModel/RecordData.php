@@ -20,14 +20,14 @@ class DataModel_RecordData implements \Iterator
 	protected $items = [];
 
 	/**
-	 * @var DataModel_Definition_Model_Abstract
+	 * @var DataModel_Definition_Model
 	 */
 	protected $data_model_definition;
 
 	/**
-	 * @param DataModel_Definition_Model_Abstract $data_model_definition
+	 * @param DataModel_Definition_Model $data_model_definition
 	 */
-	public function __construct( DataModel_Definition_Model_Abstract $data_model_definition )
+	public function __construct( DataModel_Definition_Model $data_model_definition )
 	{
 		$this->data_model_definition = $data_model_definition;
 	}
@@ -63,16 +63,16 @@ class DataModel_RecordData implements \Iterator
 	}
 
 	/**
-	 * @param DataModel_Definition_Property_Abstract $property_definition
-	 * @param mixed                                  $value
+	 * @param DataModel_Definition_Property $property_definition
+	 * @param mixed                         $value
 	 */
-	public function addItem( DataModel_Definition_Property_Abstract $property_definition, $value )
+	public function addItem( DataModel_Definition_Property $property_definition, $value )
 	{
 		$this->items[] = new DataModel_RecordData_Item( $property_definition, $value );
 	}
 
 	/**
-	 * @return DataModel_Definition_Model_Abstract
+	 * @return DataModel_Definition_Model
 	 */
 	public function getDataModelDefinition()
 	{

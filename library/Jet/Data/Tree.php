@@ -11,7 +11,7 @@ namespace Jet;
  * Class Data_Tree
  * @package Jet
  */
-class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable_REST
+class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable
 {
 
 	/**
@@ -693,9 +693,9 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 
 	/**
 	 *
-	 * @param \Iterator $data
+	 * @param \Iterator|array $data
 	 */
-	public function setDataSource( \Iterator $data )
+	public function setDataSource( $data )
 	{
 		$this->use_objects = true;
 		$this->_setData( $data );

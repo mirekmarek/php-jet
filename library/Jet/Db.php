@@ -23,29 +23,15 @@ class Db extends BaseObject
 	protected static $config = null;
 
 	/**
-	 * @var Db_Connection_Abstract[]
+	 * @var Db_Backend[]
 	 */
 	protected static $connections = [];
 
 	/**
-	 * Get connection instance (configured PDO database adapter)
 	 *
 	 * @param string|null $connection_name (optional)
 	 *
-	 * @return Db_Connection_Abstract
-	 * @throws Db_Exception
-	 */
-	public static function getConnection( $connection_name = null )
-	{
-		return self::get( $connection_name );
-	}
-
-	/**
-	 * Get connection instance (configured PDO database adapter)
-	 *
-	 * @param string|null $connection_name (optional)
-	 *
-	 * @return Db_Connection_Abstract
+	 * @return Db_Backend
 	 * @throws Db_Exception
 	 */
 	public static function get( $connection_name = null )
@@ -68,7 +54,7 @@ class Db extends BaseObject
 			);
 		}
 
-		static::$connections[$connection_name] = Db_Factory::getConnectionInstance( $connection_config );
+		static::$connections[$connection_name] = Db_Factory::getBackendInstance( $connection_config );
 
 		return static::$connections[$connection_name];
 	}
@@ -91,7 +77,7 @@ class Db extends BaseObject
 	 * @param string $connection_name
 	 * @param array  $connection_config_data
 	 *
-	 * @return Db_Connection_Abstract
+	 * @return Db_Backend
 	 */
 	public static function create( $connection_name, array $connection_config_data )
 	{
@@ -99,8 +85,8 @@ class Db extends BaseObject
 			return static::$connections[$connection_name];
 		}
 
-		$config = Db_Factory::getConnectionConfigInstance( $connection_config_data );
-		$connection = Db_Factory::getConnectionInstance( $config );
+		$config = Db_Factory::getBackendConfigInstance( $connection_config_data );
+		$connection = Db_Factory::getBackendInstance( $config );
 
 		static::$connections[$connection_name] = $connection;
 

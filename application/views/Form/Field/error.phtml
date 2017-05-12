@@ -1,0 +1,32 @@
+<?php
+use Jet\Mvc_View;
+use Jet\Form_Renderer;
+
+/**
+ * @var Mvc_View      $this
+ * @var Form_Renderer $r
+ */
+$r = $this->getRaw( 'element' );
+
+$field = $r->getField();
+
+if(!$field->getLastErrorMessage()) {
+	return;
+}
+
+if(!$r->getBaseCssClasses()) {
+	$r->setBaseCssClass('error');
+}
+?>
+<div class="form-group row has-error has-feedback">
+	<div class="<?=$field->label()->getWidthCssClasses( function($size, $width) {return 'col-'.$size.'-'.$width;} )?>"/></div>
+	<div class="<?=$field->input()->getWidthCssClasses( function($size, $width) {return 'col-'.$size.'-'.$width;} )?>">
+		<div<?php
+			if($r->getCssClasses()) echo ' class="'.$r->getCssClasses().'"';
+			if($r->getCssStyles()) echo ' style="'.$r->getCssStyles().'"';
+			if($r->getJsActions()) echo $r->getJsActions();
+		?>>
+		<?=$field->getLastErrorMessage();?>
+		</div>
+	</div>
+</div>

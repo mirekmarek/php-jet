@@ -15,15 +15,38 @@ class Db_Factory
 {
 
 	/**
+	 * @var string
+	 */
+	protected static $default_backend = __NAMESPACE__.'\\Db_Backend_PDO';
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultBackend()
+	{
+		return self::$default_backend;
+	}
+
+	/**
+	 * @param string $default_backend
+	 */
+	public static function setDefaultBackend( $default_backend )
+	{
+		self::$default_backend = $default_backend;
+	}
+
+
+
+	/**
 	 *
 	 * @param array     $config_data (optional)
 	 * @param Db_Config $config (optional)
 	 *
-	 * @return Db_Connection_Config_Abstract
+	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	public static function getConnectionConfigInstance( array $config_data = [], Db_Config $config = null )
+	public static function getBackendConfigInstance( array $config_data = [], Db_Config $config = null )
 	{
-		$config_class = JET_DB_CONNECTION_CLASS_PREFIX.JET_DB_CONNECTION_ADAPTER.'_Config';
+		$config_class = static::$default_backend.'_Config';
 
 
 		return new $config_class( $config_data, $config );
@@ -31,13 +54,13 @@ class Db_Factory
 
 	/**
 	 *
-	 * @param Db_Connection_Config_Abstract $connection_config
+	 * @param Db_Backend_Config $connection_config
 	 *
-	 * @return Db_Connection_Abstract
+	 * @return Db_Backend
 	 */
-	public static function getConnectionInstance( Db_Connection_Config_Abstract $connection_config )
+	public static function getBackendInstance( Db_Backend_Config $connection_config )
 	{
-		$adapter_class = JET_DB_CONNECTION_CLASS_PREFIX.JET_DB_CONNECTION_ADAPTER;
+		$adapter_class = static::$default_backend;
 
 
 		return new $adapter_class( $connection_config );

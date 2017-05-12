@@ -68,8 +68,8 @@ class Translator_Dictionary extends BaseObject
 	}
 
 	/**
-	 * @param      $phrase_txt
-	 * @param bool $auto_append_unknown_phrase (optional)
+	 * @param string $phrase_txt
+	 * @param bool   $auto_append_unknown_phrase (optional)
 	 *
 	 * @return string
 	 */
