@@ -51,8 +51,8 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 			$site = Mvc_Factory::getSiteInstance();
 
-			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
-			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_BASE_URI;
+			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_URI_BASE;
+			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_URI_BASE;
 
 			$site->setName( 'Example Site' );
 			$site->generateId();

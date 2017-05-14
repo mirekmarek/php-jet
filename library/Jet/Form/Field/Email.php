@@ -38,7 +38,7 @@ class Form_Field_Email extends Form_Field_Input
 		}
 
 		if( !filter_var( $this->_value, FILTER_VALIDATE_EMAIL ) ) {
-			$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}

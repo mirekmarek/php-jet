@@ -170,7 +170,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 		$page->setContent( $page_content );
 
 
-		$layout = new Mvc_Layout( $module->getLayoutsDir(), 'default' );
+		$layout = Mvc_Factory::getLayoutInstance( $module->getLayoutsDir(), 'default' );
 
 		Mvc_Layout::setCurrentLayout( $layout );
 

@@ -21,7 +21,7 @@ abstract class Mvc_Controller_Standard extends Mvc_Controller
 	 */
 	public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters )
 	{
-		//TODO: zavolat error page
+		ErrorPages::handleUnauthorized();
 	}
 
 	/**

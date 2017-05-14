@@ -8,11 +8,11 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Exception.php';
+require_once JET_PATH_LIBRARY.'Jet/Exception.php';
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Autoloader/Exception.php';
+require_once JET_PATH_LIBRARY.'Jet/Autoloader/Exception.php';
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader.php';
+require_once JET_PATH_LIBRARY.'Jet/Autoloader/Loader.php';
 
 /**
  * Class Autoloader
@@ -20,6 +20,26 @@ require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader.php';
  */
 class Autoloader
 {
+	/**
+	 * @var string
+	 */
+	protected static $cache_dir_path = JET_PATH_DATA;
+
+	/**
+	 * @var string
+	 */
+	protected static $cache_file_name = 'autoloader_class_map.php';
+
+	/**
+	 * @var bool
+	 */
+	protected static $cache_save_enabled;
+
+	/**
+	 * @var bool
+	 */
+	protected static $cache_load_enabled;
+
 	/**
 	 *
 	 * @var bool
@@ -43,6 +63,86 @@ class Autoloader
 	 */
 	protected static $classes_paths_map_updated = false;
 
+	/**
+	 * @return string
+	 */
+	public static function getCacheDirPath()
+	{
+		return static::$cache_dir_path;
+	}
+
+	/**
+	 * @param string $cache_dir_path
+	 */
+	public static function setCacheDirPath( $cache_dir_path )
+	{
+		static::$cache_dir_path = $cache_dir_path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCacheFileName()
+	{
+		return static::$cache_file_name;
+	}
+
+	/**
+	 * @param string $cache_file_name
+	 */
+	public static function setCacheFileName( $cache_file_name )
+	{
+		static::$cache_file_name = $cache_file_name;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getCacheSaveEnabled()
+	{
+		if(static::$cache_save_enabled===null) {
+			if(defined('JET_AUTOLOADER_CACHE_SAVE')) {
+				static::$cache_save_enabled = JET_AUTOLOADER_CACHE_SAVE;
+			} else {
+				static::$cache_save_enabled = false;
+			}
+		}
+
+		return static::$cache_save_enabled;
+	}
+
+	/**
+	 * @param bool $cache_save_enabled
+	 */
+	public static function setCacheSaveEnabled( $cache_save_enabled )
+	{
+		static::$cache_save_enabled = $cache_save_enabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getCacheLoadEnabled()
+	{
+		if(static::$cache_load_enabled===null) {
+			if(defined('JET_AUTOLOADER_CACHE_LOAD')) {
+				static::$cache_load_enabled = JET_AUTOLOADER_CACHE_LOAD;
+			} else {
+				static::$cache_load_enabled = false;
+			}
+		}
+
+		return static::$cache_load_enabled;
+	}
+
+	/**
+	 * @param bool $cache_load_enabled
+	 */
+	public static function setCacheLoadEnabled( $cache_load_enabled )
+	{
+		static::$cache_load_enabled = $cache_load_enabled;
+	}
+
 
 	/**
 	 * Initialize autoloader
@@ -50,15 +150,15 @@ class Autoloader
 	public static function initialize()
 	{
 
-		if( self::$is_initialized ) {
+		if( static::$is_initialized ) {
 			return;
 		}
 
-		if( JET_AUTOLOADER_CACHE_LOAD ) {
-			$file_path = JET_AUTOLOADER_CACHE_PATH.'autoloader_class_map.php';
+		if( static::getCacheLoadEnabled() ) {
+			$file_path = static::$cache_dir_path.static::$cache_file_name;
 
 			/** @noinspection PhpIncludeInspection */
-			require_once JET_LIBRARY_PATH.'Jet/IO/File.php';
+			require_once JET_PATH_LIBRARY.'Jet/IO/File.php';
 
 			if( IO_File::isReadable( $file_path ) ) {
 				/** @noinspection PhpIncludeInspection */
@@ -66,13 +166,13 @@ class Autoloader
 			}
 		}
 
-		if( JET_AUTOLOADER_CACHE_SAVE ) {
+		if( static::getCacheSaveEnabled() ) {
 
 			register_shutdown_function(
 				function() {
 
 					if( Autoloader::getClassesPathsMapUpdated() ) {
-						$file_path = JET_AUTOLOADER_CACHE_PATH.'autoloader_class_map.php';
+						$file_path = static::$cache_dir_path.static::$cache_file_name;
 
 						try {
 							IO_File::write(
@@ -86,7 +186,7 @@ class Autoloader
 			);
 		}
 
-		self::$is_initialized = true;
+		static::$is_initialized = true;
 
 
 		spl_autoload_register( [ __NAMESPACE__.'\Autoloader', 'load' ], true, true );
@@ -98,7 +198,7 @@ class Autoloader
 	 */
 	public static function getClassesPathsMapUpdated()
 	{
-		return self::$classes_paths_map_updated;
+		return static::$classes_paths_map_updated;
 	}
 
 	/**
@@ -106,7 +206,7 @@ class Autoloader
 	 */
 	public static function getClassesPathsMap()
 	{
-		return self::$classes_paths_map;
+		return static::$classes_paths_map;
 	}
 
 	/**
@@ -115,7 +215,7 @@ class Autoloader
 	 */
 	public static function getIsInitialized()
 	{
-		return self::$is_initialized;
+		return static::$is_initialized;
 	}
 
 

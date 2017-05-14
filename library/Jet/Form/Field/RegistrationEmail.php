@@ -49,13 +49,13 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	{
 
 		if( !$this->_value ) {
-			$this->setValueError( self::ERROR_CODE_EMPTY );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
 		if( !filter_var( $this->_value, FILTER_VALIDATE_EMAIL ) ) {
-			$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -63,7 +63,7 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 		$callback = $this->getUserExistsCheckCallback();
 
 		if( !$callback( $this->_value ) ) {
-			$this->setValueError( self::ERROR_CODE_USER_ALREADY_EXISTS );
+			$this->setError( self::ERROR_CODE_USER_ALREADY_EXISTS );
 
 			return false;
 		}

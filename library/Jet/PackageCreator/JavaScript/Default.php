@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Layout_PackageCreator_JavaScript_Default extends Mvc_Layout_PackageCreator_JavaScript
+class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 {
 
 	/**
@@ -57,7 +57,7 @@ class Mvc_Layout_PackageCreator_JavaScript_Default extends Mvc_Layout_PackageCre
 	public function getPackageRelativeFileName()
 	{
 
-		return Mvc_Layout::JS_PACKAGES_DIR_NAME.$this->getKey().'.js';
+		return static::getPackagesDirName().'/'.$this->getKey().'.js';
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Mvc_Layout_PackageCreator_JavaScript_Default extends Mvc_Layout_PackageCre
 	 */
 	public function getPackagePath()
 	{
-		return JET_PUBLIC_PATH.$this->getPackageRelativeFileName();
+		return JET_PATH_PUBLIC.$this->getPackageRelativeFileName();
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Mvc_Layout_PackageCreator_JavaScript_Default extends Mvc_Layout_PackageCre
 	 */
 	public function getPackageDataPath()
 	{
-		return JET_DATA_PATH.$this->getPackageRelativeFileName().'.dat';
+		return JET_PATH_DATA.$this->getPackageRelativeFileName().'.dat';
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Mvc_Layout_PackageCreator_JavaScript_Default extends Mvc_Layout_PackageCre
 	 */
 	public function getPackageURI()
 	{
-		return JET_PUBLIC_URI.$this->getPackageRelativeFileName();
+		return JET_URI_PUBLIC.$this->getPackageRelativeFileName();
 	}
 
 }

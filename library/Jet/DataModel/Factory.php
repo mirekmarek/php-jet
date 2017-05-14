@@ -8,14 +8,39 @@
 namespace Jet;
 
 /**
- * Class DataModel_Factory
- * @package Jet
+ *
  */
 class DataModel_Factory
 {
 
 	/**
-	 * Returns instance of Property class
+	 * @var string
+	 */
+	protected static $backend_class_name_prefix = __NAMESPACE__.'\DataModel_Backend_';
+
+	/**
+	 * @var string
+	 */
+	protected static $property_definition_class_name_prefix = __NAMESPACE__.'\DataModel_Definition_Property_';
+
+	/**
+	 * @return string
+	 */
+	public static function getPropertyDefinitionClassNamePrefix()
+	{
+		return self::$property_definition_class_name_prefix;
+	}
+
+	/**
+	 * @param string $property_definition_class_name_prefix
+	 */
+	public static function setPropertyDefinitionClassNamePrefix( $property_definition_class_name_prefix )
+	{
+		self::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
+	}
+
+
+	/**
 	 *
 	 * @param string $data_model_class_name
 	 * @param string $name
@@ -34,14 +59,28 @@ class DataModel_Factory
 
 		}
 
-		$class_name = JET_DATA_MODEL_PROPERTY_DEFINITION_CLASS_NAME_PREFIX.$definition_data['type'];
+		$class_name = static::getPropertyDefinitionClassNamePrefix().$definition_data['type'];
 
 		return new $class_name( $data_model_class_name, $name, $definition_data );
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getBackendClassNamePrefix()
+	{
+		return self::$backend_class_name_prefix;
+	}
 
 	/**
-	 * Returns instance of DataModel Backend Config class
+	 * @param string $backend_class_name_prefix
+	 */
+	public static function setBackendClassNamePrefix( $backend_class_name_prefix )
+	{
+		self::$backend_class_name_prefix = $backend_class_name_prefix;
+	}
+
+	/**
 	 *
 	 * @param string $type
 	 * @param bool   $soft_mode @see Config
@@ -50,7 +89,7 @@ class DataModel_Factory
 	 */
 	public static function getBackendConfigInstance( $type, $soft_mode = false )
 	{
-		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type.'_Config';
+		$class_name = static::getBackendClassNamePrefix().$type.'_Config';
 
 		return new $class_name( $soft_mode );
 	}
@@ -65,7 +104,7 @@ class DataModel_Factory
 	 */
 	public static function getBackendInstance( $type, DataModel_Backend_Config $backend_config )
 	{
-		$class_name = JET_DATA_MODEL_BACKEND_CLASS_NAME_PREFIX.$type;
+		$class_name = static::getBackendClassNamePrefix().$type;
 
 		return new $class_name( $backend_config );
 	}

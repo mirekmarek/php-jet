@@ -44,7 +44,7 @@ class Form_Field_DateTime extends Form_Field_Input
 			$check = \DateTime::createFromFormat( 'Y-m-d\TH:i', $this->_value );
 
 			if( !$check ) {
-				$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 				return false;
 			}

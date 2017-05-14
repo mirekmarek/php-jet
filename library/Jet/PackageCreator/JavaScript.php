@@ -8,19 +8,46 @@
 namespace Jet;
 
 /**
- * Class Mvc_Layout_PackageCreator_CSS_Abstract
+ * Class Mvc_Layout_PackageCreator_JavaScript_Abstract
  * @package Jet
  */
-abstract class Mvc_Layout_PackageCreator_CSS extends Mvc_Layout_PackageCreator
+abstract class PackageCreator_JavaScript extends PackageCreator
 {
 
 	/**
+	 * @var string
+	 */
+	protected static $packages_dir_name = 'js_packages';
+
+	/**
+	 * @return string
+	 */
+	public static function getPackagesDirName()
+	{
+		return static::$packages_dir_name;
+	}
+
+	/**
+	 * @param string $packages_dir_name
+	 */
+	public static function setPackagesDirName( $packages_dir_name )
+	{
+		static::$packages_dir_name = $packages_dir_name;
+	}
+
+	/**
 	 *
-	 * @param string $media
 	 * @param Locale $locale
 	 * @param array  $URIs
+	 * @param array  $code
 	 */
-	abstract public function __construct( $media, Locale $locale, array $URIs );
+	abstract public function __construct( Locale $locale, array $URIs, array $code );
+
+
+	/**
+	 * @return array
+	 */
+	abstract public function getOmittedCode();
 
 	/**
 	 *

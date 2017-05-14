@@ -352,7 +352,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		$upload_image_field->setCatchDataCallback(
 			function( $tmp_file ) use ( $upload_image_field ) {
 
-				$target_dir = JET_PUBLIC_PATH.'test_uploads/';
+				$target_dir = JET_PATH_PUBLIC.'test_uploads/';
 
 				IO_Dir::create( $target_dir );
 
@@ -377,7 +377,7 @@ class Controller_Main extends Mvc_Controller_Standard
 			function( $tmp_file ) use ( $upload_file_field ) {
 
 				/*
-				$target_dir = JET_PUBLIC_PATH.'test_uploads/';
+				$target_dir = JET_PATH_PUBLIC.'test_uploads/';
 
 				IO_Dir::create($target_dir);
 

@@ -8,12 +8,20 @@
 namespace Jet;
 
 /**
- * Class Mvc_Layout_PackageCreator_Abstract
- * @package Jet
+ *
  */
-abstract class Mvc_Layout_PackageCreator extends BaseObject
+abstract class PackageCreator extends BaseObject
 {
 
+	/**
+	 * @var string
+	 */
+	protected static $CSS_class_name = __NAMESPACE__.'\\PackageCreator_CSS_Default';
+
+	/**
+	 * @var string
+	 */
+	protected static $JavaScript_class_name = __NAMESPACE__.'\\PackageCreator_JavaScript_Default';
 
 	/**
 	 * @var Locale
@@ -29,6 +37,66 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 	 * @var array
 	 */
 	protected $omitted_URIs = [];
+
+	/**
+	 * @return string
+	 */
+	public static function getCSSClassName()
+	{
+		return self::$CSS_class_name;
+	}
+
+	/**
+	 * @param string $CSS_class_name
+	 */
+	public static function setCSSClassName( $CSS_class_name )
+	{
+		self::$CSS_class_name = $CSS_class_name;
+	}
+
+
+	/**
+	 * @param string $media
+	 * @param Locale $locale
+	 * @param array  $URIs
+	 *
+	 * @return PackageCreator_CSS
+	 */
+	public static function CSS( $media, Locale $locale, array $URIs )
+	{
+		$class_name = static::getCSSClassName();
+		return new $class_name( $media, $locale, $URIs );
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getJavaScriptClassName()
+	{
+		return self::$JavaScript_class_name;
+	}
+
+	/**
+	 * @param string $JavaScript_class_name
+	 */
+	public static function setJavaScriptClassName( $JavaScript_class_name )
+	{
+		self::$JavaScript_class_name = $JavaScript_class_name;
+	}
+
+
+	/**
+	 * @param Locale $locale
+	 * @param array  $URIs
+	 * @param array  $code
+	 *
+	 * @return PackageCreator_JavaScript
+	 */
+	public static function JavaScript( Locale $locale, array $URIs, array $code )
+	{
+		$class_name = static::getJavaScriptClassName();
+		return new $class_name( $locale, $URIs, $code );
+	}
 
 	/**
 	 * @return array
@@ -68,7 +136,7 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 	protected function normalizePath( $URI )
 	{
 		if( $URI[0]=='%' ) {
-			$URI = str_replace( '_URI%', '_PATH%', $URI );
+			$URI = str_replace( 'URI', 'PATH', $URI );
 
 			return Data_Text::replaceSystemConstants( $URI );
 		}
@@ -76,9 +144,10 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 
 		$_URI = $this->normalizePath_Constants(
 			$URI, [
-				    'JET_PUBLIC',
+				    'JET_PATH_PUBLIC' => 'JET_URI_PUBLIC'
 			    ]
 		);
+
 		if( $_URI ) {
 			return Data_Text::replaceSystemConstants( $_URI );
 		}
@@ -100,9 +169,7 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 	protected function normalizePath_Constants( $URI, $constants )
 	{
 
-		foreach( $constants as $constant_name ) {
-			$URI_constant_name = $constant_name.'_URI';
-			$path_constant_name = $constant_name.'_PATH';
+		foreach( $constants as $path_constant_name=>$URI_constant_name ) {
 
 			$URI_constant_value = constant( $URI_constant_name );
 			$path_constant_value = constant( $path_constant_name );
@@ -127,7 +194,7 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 	protected function normalizeURI( $URI )
 	{
 		if( $URI[0]=='%' ) {
-			$URI = str_replace( '_PATH%', '_URI%', $URI );
+			$URI = str_replace( 'PATH', 'URI', $URI );
 
 			return Data_Text::replaceSystemConstants( $URI );
 		}
@@ -135,7 +202,7 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 
 		$_URI = $this->normalizeURI_Constants(
 			$URI, [
-				    'JET_PUBLIC',
+				    'JET_PATH_PUBLIC' => 'JET_URI_PUBLIC'
 			    ]
 		);
 		if( $_URI ) {
@@ -159,9 +226,7 @@ abstract class Mvc_Layout_PackageCreator extends BaseObject
 	protected function normalizeURI_Constants( $URI, $constants )
 	{
 
-		foreach( $constants as $constant_name ) {
-			$URI_constant_name = $constant_name.'_URI';
-			$path_constant_name = $constant_name.'_PATH';
+		foreach( $constants as $path_constant_name=>$URI_constant_name ) {
 
 			$URI_constant_value = constant( $URI_constant_name );
 			$path_constant_value = constant( $path_constant_name );

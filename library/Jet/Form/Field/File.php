@@ -167,7 +167,7 @@ class Form_Field_File extends Form_Field
 	{
 		if( !$this->_has_value ) {
 			if( $this->is_required ) {
-				$this->setValueError( self::ERROR_CODE_EMPTY );
+				$this->setError( self::ERROR_CODE_EMPTY );
 
 				return false;
 			}
@@ -178,7 +178,7 @@ class Form_Field_File extends Form_Field
 		if( $this->maximal_file_size ) {
 			$file_size = IO_File::getSize( $this->_value );
 			if( $file_size>$this->maximal_file_size ) {
-				$this->setValueError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
+				$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
 
 				return false;
 			}
@@ -189,7 +189,7 @@ class Form_Field_File extends Form_Field
 				IO_File::getMimeType( $this->_value ), $this->allowed_mime_types
 			)
 			) {
-				$this->setValueError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
+				$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 
 				return false;
 			}

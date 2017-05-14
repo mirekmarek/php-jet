@@ -31,7 +31,7 @@ class Autoloader extends Autoloader_Loader
 		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return JET_APPLICATION_PATH.'classes/'.$class_name.'.php';
+		return JET_PATH_APPLICATION.'classes/'.$class_name.'.php';
 
 	}
 }

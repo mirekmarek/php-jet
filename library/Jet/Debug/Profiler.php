@@ -8,10 +8,10 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/SQLQueryData.php';
-require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block/Message.php';
-require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run/Block.php';
-require_once JET_LIBRARY_PATH.'Jet/Debug/Profiler/Run.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/SQLQueryData.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block/Message.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run.php';
 
 
 /**
@@ -129,7 +129,7 @@ class Debug_Profiler
 	public static function getRunSaveDirectoryPath()
 	{
 		if( !static::$run_save_directory_path ) {
-			static::$run_save_directory_path = JET_TMP_PATH.'_profiler/';
+			static::$run_save_directory_path = JET_PATH_TMP.'_profiler/';
 		}
 
 		return static::$run_save_directory_path;

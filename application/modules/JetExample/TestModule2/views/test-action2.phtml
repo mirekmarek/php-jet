@@ -52,7 +52,7 @@ $forms = $this->getRaw( 'forms' );
 				 * @var Form_Field_FileImage $image_field
 				 */
 				?>
-				<img src="<?=JET_PUBLIC_URI?>test_uploads/<?=$image_field->getFileName()?>">
+				<img src="<?=JET_URI_PUBLIC?>test_uploads/<?=$image_field->getFileName()?>">
 			<?php else: ?>
 				<table>
 					<?php foreach( $d['form_values'] as $k => $v ): ?>

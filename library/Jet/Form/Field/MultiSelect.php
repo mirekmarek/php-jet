@@ -46,7 +46,7 @@ class Form_Field_MultiSelect extends Form_Field
 
 		foreach( $this->_value as $item ) {
 			if( !isset( $options[$item] ) ) {
-				$this->setValueError( self::ERROR_CODE_INVALID_VALUE );
+				$this->setError( self::ERROR_CODE_INVALID_VALUE );
 
 				return false;
 			}
@@ -67,7 +67,7 @@ class Form_Field_MultiSelect extends Form_Field
 	public function checkValueIsNotEmpty()
 	{
 		if( !$this->_value&&$this->is_required ) {
-			$this->setValueError( self::ERROR_CODE_EMPTY );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}

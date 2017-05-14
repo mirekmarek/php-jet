@@ -8,15 +8,12 @@
 namespace Jet;
 
 /**
- * Class Mvc_View
- * @package Jet
+ *
  */
 class Mvc_View extends Mvc_View_Abstract
 {
 
-
 	/**
-	 * Constructor
 	 *
 	 * @param string $scripts_dir
 	 */
@@ -44,16 +41,16 @@ class Mvc_View extends Mvc_View_Abstract
 
 		ob_start();
 
-		if( static::$_add_script_path_info ) {
-			echo JET_EOL.'<!-- VIEW START: '.$this->_script_path.' -->'.JET_EOL.JET_EOL;
+		if( static::getAddScriptPathInfoEnabled() ) {
+			echo '<!-- VIEW START: '.$this->_script_path.' -->';
 		}
 
 
 		/** @noinspection PhpIncludeInspection */
 		include $this->_script_path;
 
-		if( static::$_add_script_path_info ) {
-			echo JET_EOL.'<!-- VIEW END: '.$this->_script_path.' --> '.JET_EOL;
+		if( static::getAddScriptPathInfoEnabled() ) {
+			echo '<!-- VIEW END: '.$this->_script_path.' -->';
 		}
 
 		$result = ob_get_clean();

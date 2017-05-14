@@ -13,10 +13,6 @@ namespace Jet;
  */
 class Mvc_Layout extends Mvc_View_Abstract
 {
-
-	const JS_PACKAGES_DIR_NAME = 'js_packages/';
-	const CSS_PACKAGES_DIR_NAME = 'css_packages/';
-
 	const TAG_POSITION = 'jet_layout_position';
 	const TAG_MAIN_POSITION = 'jet_layout_main_position';
 
@@ -27,6 +23,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 	const TAG_HEADER_SUFFIX = 'jet_layout_header_suffix';
 	const TAG_BODY_PREFIX = 'jet_layout_body_prefix';
 	const TAG_BODY_SUFFIX = 'jet_layout_body_suffix';
+
+	const TAG_MODULE = 'jet_module';
 
 
 	const DEFAULT_OUTPUT_POSITION = '__main__';
@@ -80,7 +78,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	protected $CSS_packager_enabled = true;
 
 	/**
-	 * Constructor
 	 *
 	 * @param string $scripts_dir
 	 * @param string $script_name
@@ -97,24 +94,11 @@ class Mvc_Layout extends Mvc_View_Abstract
 	}
 
 	/**
-	 * @param string $scripts_dir
-	 * @param string $script_name
-	 *
-	 * @return Mvc_Layout
-	 */
-	public static function initCurrentLayout( $scripts_dir, $script_name )
-	{
-		static::$current_layout = new static( $scripts_dir, $script_name );
-
-		return static::$current_layout;
-	}
-
-	/**
 	 * @return Mvc_Layout
 	 */
 	public static function getCurrentLayout()
 	{
-		return self::$current_layout;
+		return static::$current_layout;
 	}
 
 	/**
@@ -122,7 +106,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 */
 	public static function setCurrentLayout( Mvc_Layout $current_layout )
 	{
-		self::$current_layout = $current_layout;
+		static::$current_layout = $current_layout;
 	}
 
 	/**
@@ -244,7 +228,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	protected function _render()
 	{
 		if( $this->_script_name===false ) {
-			$result = '<'.self::TAG_MAIN_POSITION.'/>';
+			$result = '<'.static::TAG_MAIN_POSITION.'/>';
 		} else {
 			$this->getScriptPath();
 
@@ -253,8 +237,8 @@ class Mvc_Layout extends Mvc_View_Abstract
 			/** @noinspection PhpIncludeInspection */
 			include $this->_script_path;
 
-			if( static::$_add_script_path_info ) {
-				echo JET_EOL.'<!-- LAYOUT: '.$this->_script_name.' --> '.JET_EOL;
+			if( static::getAddScriptPathInfoEnabled() ) {
+				echo '<!-- LAYOUT: '.$this->_script_name.' -->';
 			}
 
 			$result = ob_get_clean();
@@ -461,7 +445,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	}
 
 	/**
-	 * Returns rendered layout according to specified .phtml file name
 	 *
 	 * @throws Mvc_Layout_Exception
 	 *
@@ -514,7 +497,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	{
 
 		$matches = [];
-		if( !preg_match_all( '/<'.self::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER ) ) {
+		if( !preg_match_all( '/<'.static::TAG_MODULE.'([^>]*)\>/i', $result, $matches, PREG_SET_ORDER ) ) {
 			return [];
 		}
 
@@ -586,7 +569,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	protected function handlePositions( &$result )
 	{
 		foreach( $this->virtual_positions as $original_string => $position ) {
-			$result = str_replace( $original_string, '<'.self::TAG_POSITION.' name="'.$position.'" />', $result );
+			$result = str_replace( $original_string, '<'.static::TAG_POSITION.' name="'.$position.'" />', $result );
 		}
 
 
@@ -644,7 +627,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$matches = [];
 
 		if( preg_match_all(
-			'/<'.self::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER
+			'/<'.static::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER
 		) ) {
 
 			$matches_count = $matches_count+count( $matches );
@@ -671,14 +654,14 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 		if( $handle_main_position&&preg_match_all(
-				'/<'.self::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER
+				'/<'.static::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER
 			)
 		) {
 			$orig = $matches[0][0];
 			$output_on_position = '';
 
 			foreach( $this->output_parts as $o_id => $o ) {
-				if( $o->getPosition()==self::DEFAULT_OUTPUT_POSITION ) {
+				if( $o->getPosition()==static::DEFAULT_OUTPUT_POSITION ) {
 					$output_on_position .= $o->getOutput();
 					unset( $this->output_parts[$o_id] );
 				}
@@ -804,12 +787,20 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL.$initial_code.JET_EOL.JET_TAB.'</script>'.JET_EOL;
 		}
 
-		if( $this->JS_packager_enabled&&( $this->required_javascript_files||$this->required_javascript_code ) ) {
+		if(
+			$this->JS_packager_enabled &&
+			(
+				$this->required_javascript_files ||
+				$this->required_javascript_code
+			)
+		) {
 			$JS_files = [];
 			$JS_code = [];
 
-			$package_creator = Mvc_Factory::getLayoutJavaScriptPackageCreatorInstance(
-				Mvc::getCurrentLocale(), $this->required_javascript_files, $this->required_javascript_code
+			$package_creator = PackageCreator::JavaScript(
+				Mvc::getCurrentLocale(),
+				$this->required_javascript_files,
+				$this->required_javascript_code
 			);
 
 			$package_creator->generatePackageFile();
@@ -870,14 +861,17 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 		$snippet = '';
 
-		if( $this->CSS_packager_enabled&&$this->required_css_files ) {
+		if(
+			$this->CSS_packager_enabled &&
+			$this->required_css_files
+		) {
 			$CSS_files = [];
 
 			foreach( $this->required_css_files as $media => $URIs ) {
 
 				$CSS_files[$media] = [];
 
-				$package_creator = Mvc_Factory::getLayoutCssPackageCreatorInstance(
+				$package_creator = PackageCreator::CSS(
 					$media, Mvc::getCurrentLocale(), $URIs
 				);
 

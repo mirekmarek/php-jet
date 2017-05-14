@@ -84,18 +84,37 @@ abstract class DataModel_Backend extends BaseObject
 			}
 		}
 
+
+		return static::getDefaultBackend();
+	}
+
+	/**
+	 * @return DataModel_Backend
+	 */
+	public static function getDefaultBackend()
+	{
 		if(!static::$default_backend) {
 			$backend_type = static::getDefaultBackendType();
 
 			static::$default_backend = DataModel_Factory::getBackendInstance(
-					$backend_type,
-					DataModel_Factory::getBackendConfigInstance( $backend_type )
-				);
+				$backend_type,
+				DataModel_Factory::getBackendConfigInstance( $backend_type )
+			);
 			static::$default_backend->initialize();
 		}
 
-		return static::$default_backend;
+		return self::$default_backend;
 	}
+
+	/**
+	 * @param DataModel_Backend $default_backend
+	 */
+	public static function setDefaultBackend( DataModel_Backend $default_backend )
+	{
+		self::$default_backend = $default_backend;
+	}
+
+
 
 	/**
 	 *

@@ -134,7 +134,7 @@ class Controller_Main extends Mvc_Controller_Standard
 
 				Http_Headers::reload();
 			} else {
-				$form->getField( 'password' )->setErrorMessage( Tr::_( 'Please enter <strong>new</strong> password' ) );
+				$form->getField( 'password' )->setCustomError( Tr::_( 'Please enter <strong>new</strong> password' ) );
 			}
 		}
 

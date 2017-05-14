@@ -104,7 +104,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 					break;
 				case 'sqlite':
-					$data_path = JET_DATA_PATH;
+					$data_path = JET_PATH_DATA;
 					$data_file_name = 'database';
 
 					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );

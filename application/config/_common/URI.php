@@ -25,6 +25,6 @@ if( !$got_base_URI ) {
 }
 //----------------------------------------------------------------
 
-define( 'JET_BASE_URI', $base_URI );
+define( 'JET_URI_BASE', $base_URI );
 
-define( 'JET_PUBLIC_URI', JET_BASE_URI.'public/' );
+define( 'JET_URI_PUBLIC', JET_URI_BASE.'public/' );

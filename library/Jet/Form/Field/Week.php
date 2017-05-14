@@ -39,7 +39,7 @@ class Form_Field_Week extends Form_Field_Input
 		}
 
 		if( !preg_match( '/^[0-9]{1,}\-W[0-9]{1,2}$/i', $this->_value ) ) {
-			$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}

@@ -38,7 +38,7 @@ class Form_Field_Select extends Form_Field
 
 		if( !isset( $options[$this->_value] ) ) {
 
-			$this->setValueError( self::ERROR_CODE_INVALID_VALUE );
+			$this->setError( self::ERROR_CODE_INVALID_VALUE );
 
 			return false;
 		}

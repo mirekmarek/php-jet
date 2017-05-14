@@ -76,12 +76,11 @@ class Http_Request extends BaseObject
 
 
 	/**
-	 * Initialize HTTP request
 	 *
-	 * @param bool|null $hide_PHP_request_data (optional, default: true)
+	 * @param bool|null $hide_PHP_request_data (optional, default: false)
 	 *
 	 */
-	public static function initialize( $hide_PHP_request_data = true )
+	public static function initialize( $hide_PHP_request_data = false )
 	{
 
 		if( self::$is_initialized ) {

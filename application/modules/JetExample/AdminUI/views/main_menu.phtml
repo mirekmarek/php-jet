@@ -31,10 +31,7 @@ use Jet\Mvc;
 						<?php if( $item->getSeparatorBefore() ): ?>
 							<li role="separator" class="divider"></li><?php endif; ?>
 						<li>
-							<a href="<?=$item->getUrl()?>">
-								<?=UI::icon( $item->getIcon() )->setWidth( 20 )?>
-								<?=$item->getLabel()?>
-							</a>
+							<a href="<?=$item->getUrl()?>"><?=UI::icon( $item->getIcon() )->setWidth( 20 )?> <?=$item->getLabel()?></a>
 						</li>
 						<?php if( $item->getSeparatorAfter() ): ?>
 							<li role="separator" class="divider"></li><?php endif; ?>

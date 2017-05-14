@@ -13,8 +13,11 @@ namespace Jet;
  */
 abstract class Mvc_View_Abstract extends BaseObject
 {
-	const TAG_MODULE = 'jet_module';
-	const SCRIPT_FILE_SUFFIX = 'phtml';
+	/**
+	 * @var string
+	 */
+	protected static $script_file_suffix = 'phtml';
+
 	/**
 	 *
 	 * If the constant JET_DEBUG_MODE is true
@@ -22,7 +25,8 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 *
 	 * @var bool
 	 */
-	protected static $_add_script_path_info = JET_DEVEL_MODE;
+	protected static $add_script_path_info = false;
+
 	/**
 	 * View dir
 	 *
@@ -64,24 +68,40 @@ abstract class Mvc_View_Abstract extends BaseObject
 	protected $_postprocessors = [];
 
 	/**
-	 * Gets if adding path info into the output is enabled
+	 * @return string
+	 */
+	public static function getScriptFileSuffix()
+	{
+		return static::$script_file_suffix;
+	}
+
+	/**
+	 * @param string $script_file_suffix
+	 */
+	public static function setScriptFileSuffix( $script_file_suffix )
+	{
+		static::$script_file_suffix = $script_file_suffix;
+	}
+
+
+
+	/**
 	 *
 	 * @return bool
 	 */
 	public static function getAddScriptPathInfoEnabled()
 	{
-		return static::$_add_script_path_info;
+		return static::$add_script_path_info;
 	}
 
 	/**
-	 * Sets if adding path info into the output is enabled
 	 *
 	 * @param bool $enabled
 	 *
 	 */
 	public static function setAddScriptPathInfoEnabled( $enabled = true )
 	{
-		static::$_add_script_path_info = (bool)$enabled;
+		static::$add_script_path_info = (bool)$enabled;
 	}
 
 	/**
@@ -145,17 +165,20 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 */
 	public function getScriptPath()
 	{
-		$file = $this->_scripts_dir.$this->_script_name.'.'.static::SCRIPT_FILE_SUFFIX;
+		$file = $this->_scripts_dir.$this->_script_name.'.'.static::getScriptFileSuffix();
+
 
 		if( !IO_File::exists( $file ) ) {
 			throw new Mvc_View_Exception(
-				'File \''.$file.'\' does not exist', Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
+				'File \''.$file.'\' does not exist',
+				Mvc_View_Exception::CODE_FILE_DOES_NOT_EXIST
 			);
 		}
 
 		if( !IO_File::isReadable( $file ) ) {
 			throw new Mvc_View_Exception(
-				'File \''.$file.'\' is not readable', Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
+				'File \''.$file.'\' is not readable',
+				Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
 			);
 		}
 

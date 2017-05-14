@@ -8,11 +8,75 @@
 namespace Jet;
 
 /**
- * Class Mvc_Factory
- * @package Jet
+ *
  */
 class Mvc_Factory
 {
+
+	/**
+	 * @var string
+	 */
+	protected static $router_class_name = __NAMESPACE__.'\Mvc_Router';
+
+
+	/**
+	 * @var string
+	 */
+	protected static $site_class_name = __NAMESPACE__.'\Mvc_Site';
+	/**
+	 * @var string
+	 */
+	protected static $site_localized_class_name = __NAMESPACE__.'\Mvc_Site_LocalizedData';
+	/**
+	 * @var string
+	 */
+	protected static $site_localized_meta_tag_class_name = __NAMESPACE__.'\Mvc_Site_LocalizedData_MetaTag';
+	/**
+	 * @var string
+	 */
+	protected static $site_localized_url_class_name = __NAMESPACE__.'\Mvc_Site_LocalizedData_URL';
+
+
+
+	/**
+	 * @var string
+	 */
+	protected static $page_class_name = __NAMESPACE__.'\Mvc_Page';
+	/**
+	 * @var string
+	 */
+	protected static $page_meta_tag_class_name = __NAMESPACE__.'\Mvc_Page_MetaTag';
+	/**
+	 * @var string
+	 */
+	protected static $page_content_class_name = __NAMESPACE__.'\Mvc_Page_Content';
+
+	/**
+	 * @var string
+	 */
+	protected static $view_class_name = __NAMESPACE__.'\Mvc_View';
+
+	/**
+	 * @var string
+	 */
+	protected static $layout_class_name = __NAMESPACE__.'\Mvc_Layout';
+
+
+	/**
+	 * @return string
+	 */
+	public static function getRouterClassName()
+	{
+		return static::$router_class_name;
+	}
+
+	/**
+	 * @param string $router_class_name
+	 */
+	public static function setRouterClassName( $router_class_name )
+	{
+		static::$router_class_name = $router_class_name;
+	}
 
 
 	/**
@@ -21,9 +85,25 @@ class Mvc_Factory
 	 */
 	public static function getRouterInstance()
 	{
-		$class_name = JET_MVC_ROUTER_CLASS;
+		$class_name = static::getRouterClassName();
 
 		return new $class_name();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getSiteClassName()
+	{
+		return static::$site_class_name;
+	}
+
+	/**
+	 * @param string $site_class_name
+	 */
+	public static function setSiteClassName( $site_class_name )
+	{
+		static::$site_class_name = $site_class_name;
 	}
 
 	/**
@@ -32,9 +112,25 @@ class Mvc_Factory
 	 */
 	public static function getSiteInstance()
 	{
-		$class_name = JET_MVC_SITE_CLASS;
+		$class_name = static::getSiteClassName();
 
 		return new $class_name();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPageClassName()
+	{
+		return static::$page_class_name;
+	}
+
+	/**
+	 * @param string $page_class_name
+	 */
+	public static function setPageClassName( $page_class_name )
+	{
+		static::$page_class_name = $page_class_name;
 	}
 
 	/**
@@ -43,9 +139,25 @@ class Mvc_Factory
 	 */
 	public static function getPageInstance()
 	{
-		$class_name = JET_MVC_PAGE_CLASS;
+		$class_name = static::getPageClassName();
 
 		return new $class_name();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPageContentClassName()
+	{
+		return static::$page_content_class_name;
+	}
+
+	/**
+	 * @param string $page_content_class_name
+	 */
+	public static function setPageContentClassName( $page_content_class_name )
+	{
+		static::$page_content_class_name = $page_content_class_name;
 	}
 
 	/**
@@ -54,10 +166,27 @@ class Mvc_Factory
 	 */
 	public static function getPageContentInstance()
 	{
-		$class_name = JET_MVC_PAGE_CONTENT_CLASS;
+		$class_name = static::getPageContentClassName();
 
 		return new $class_name();
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPageMetaTagClassName()
+	{
+		return static::$page_meta_tag_class_name;
+	}
+
+	/**
+	 * @param string $page_meta_tag_class_name
+	 */
+	public static function setPageMetaTagClassName( $page_meta_tag_class_name )
+	{
+		static::$page_meta_tag_class_name = $page_meta_tag_class_name;
+	}
+
 
 	/**
 	 *
@@ -66,9 +195,25 @@ class Mvc_Factory
 	 */
 	public static function getPageMetaTagInstance()
 	{
-		$class_name = JET_MVC_PAGE_META_TAG_CLASS;
+		$class_name = static::getPageMetaTagClassName();
 
 		return new $class_name();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getSiteLocalizedClassName()
+	{
+		return static::$site_localized_class_name;
+	}
+
+	/**
+	 * @param string $site_localized_class_name
+	 */
+	public static function setSiteLocalizedClassName( $site_localized_class_name )
+	{
+		static::$site_localized_class_name = $site_localized_class_name;
 	}
 
 	/**
@@ -77,11 +222,27 @@ class Mvc_Factory
 	 *
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public static function getLocalizedSiteInstance( Locale $locale = null )
+	public static function getSiteLocalizedInstance( Locale $locale = null )
 	{
-		$class_name = JET_MVC_SITE_LOCALIZED_CLASS;
+		$class_name = static::getSiteLocalizedClassName();
 
 		return new $class_name( $locale );
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getSiteLocalizedMetaTagClassName()
+	{
+		return static::$site_localized_meta_tag_class_name;
+	}
+
+	/**
+	 * @param string $site_localized_meta_tag_class_name
+	 */
+	public static function setSiteLocalizedMetaTagClassName( $site_localized_meta_tag_class_name )
+	{
+		static::$site_localized_meta_tag_class_name = $site_localized_meta_tag_class_name;
 	}
 
 	/**
@@ -94,10 +255,28 @@ class Mvc_Factory
 	 */
 	public static function getSiteLocalizedMetaTagInstance( $content = '', $attribute = '', $attribute_value = '' )
 	{
-		$class_name = JET_MVC_SITE_LOCALIZED_META_TAG_CLASS;
+		$class_name = static::getSiteLocalizedMetaTagClassName();
 
 		return new $class_name( $content, $attribute, $attribute_value );
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getSiteLocalizedUrlClassName()
+	{
+		return static::$site_localized_url_class_name;
+	}
+
+	/**
+	 * @param string $site_localized_url_class_name
+	 */
+	public static function setSiteLocalizedUrlClassName( $site_localized_url_class_name )
+	{
+		static::$site_localized_url_class_name = $site_localized_url_class_name;
+	}
+
+
 
 	/**
 	 *
@@ -108,39 +287,67 @@ class Mvc_Factory
 	 */
 	public static function getSiteLocalizedURLInstance( $URL = '', $is_default = false )
 	{
-		$class_name = JET_MVC_SITE_LOCALIZED_URL_CLASS;
+		$class_name = static::getSiteLocalizedUrlClassName();
 
 		return new $class_name( $URL, $is_default );
 	}
 
 	/**
-	 * @param string $media
-	 * @param Locale $locale
-	 * @param array  $URIs
-	 *
-	 * @return Mvc_Layout_PackageCreator_CSS
+	 * @return string
 	 */
-	public static function getLayoutCssPackageCreatorInstance( $media, Locale $locale, array $URIs )
+	public static function getViewClassName()
 	{
-		$class_name = JET_MVC_LAYOUT_CSS_PACKAGE_CREATOR_CLASS;
-
-		return new $class_name( $media, $locale, $URIs );
+		return static::$view_class_name;
 	}
-
 
 	/**
-	 * @param Locale $locale
-	 * @param array  $URIs
-	 * @param array  $code
-	 *
-	 * @return Mvc_Layout_PackageCreator_JavaScript
+	 * @param string $view_class_name
 	 */
-	public static function getLayoutJavaScriptPackageCreatorInstance( Locale $locale, array $URIs, array $code )
+	public static function setViewClassName( $view_class_name )
 	{
-		$class_name = JET_MVC_LAYOUT_JAVASCRIPT_PACKAGE_CREATOR_CLASS;
-
-		return new $class_name( $locale, $URIs, $code );
-
+		static::$view_class_name = $view_class_name;
 	}
+
+	/**
+	 * @param string $scripts_dir
+	 *
+	 * @return Mvc_View
+	 */
+	public static function getViewInstance( $scripts_dir )
+	{
+		$class_name = static::getViewClassName();
+
+		return new $class_name( $scripts_dir );
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getLayoutClassName()
+	{
+		return static::$layout_class_name;
+	}
+
+	/**
+	 * @param string $layout_class_name
+	 */
+	public static function setLayoutClassName( $layout_class_name )
+	{
+		static::$layout_class_name = $layout_class_name;
+	}
+
+	/**
+	 * @param string $scripts_dir
+	 * @param string $script_name
+	 *
+	 * @return Mvc_Layout
+	 */
+	public static function getLayoutInstance( $scripts_dir, $script_name )
+	{
+		$class_name = static::getLayoutClassName();
+
+		return new $class_name( $scripts_dir, $script_name );
+	}
+
 
 }

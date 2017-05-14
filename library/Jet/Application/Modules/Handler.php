@@ -16,12 +16,11 @@ abstract class Application_Modules_Handler extends BaseObject
 
 
 	/**
-	 * @param string $modules_basedir
-	 * @param string $modules_list_file_path
+	 * @param string $modules_base_path
 	 * @param string $modules_namespace
 	 * @param string $manifest_class_name
 	 */
-	abstract function __construct( $modules_basedir, $modules_list_file_path, $modules_namespace, $manifest_class_name );
+	abstract function __construct( $modules_base_path, $modules_namespace, $manifest_class_name );
 
 
 	/**

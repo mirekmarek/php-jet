@@ -32,9 +32,10 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader
 	public function getClassPath( $class_name )
 	{
 
-		$namespace_len = strlen( JET_APPLICATION_MODULE_NAMESPACE.'\\' );
+		$ns = Application_Module_Manifest::getDefaultModuleNamespace().'\\';
+		$namespace_len = strlen( $ns );
 
-		if( substr( $class_name, 0, $namespace_len )!=JET_APPLICATION_MODULE_NAMESPACE.'\\' ) {
+		if( substr( $class_name, 0, $namespace_len )!=$ns ) {
 			return false;
 		}
 

@@ -87,8 +87,8 @@ class Data_Text
 	 *
 	 * Example:
 	 * <code>
-	 * $text = 'My temp path is %JET_TMP_PATH%';
-	 * $output = Data_Text::replaceConstants($text); // %JET_TMP_PATH% will be replaced by real path to [ROAD_root]/tmp/
+	 * $text = 'My temp path is %JET_PATH_TMP%';
+	 * $output = Data_Text::replaceConstants($text); // %JET_PATH_TMP% will be replaced by real path to [ROAD_root]/tmp/
 	 * </code>
 	 *
 	 * @param string $input

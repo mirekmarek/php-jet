@@ -7,7 +7,7 @@
  */
 namespace JetExampleApp;
 
-define( 'JET_APP_INSTALLER_PATH', JET_BASE_PATH.'_installer/' );
+define( 'JET_APP_INSTALLER_PATH', JET_PATH_BASE.'_installer/' );
 define( 'JET_APP_INSTALLER_DATA_PATH', JET_APP_INSTALLER_PATH.'data/' );
 
 require 'classes/Installer.php';

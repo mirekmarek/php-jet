@@ -15,12 +15,33 @@ class Application_Modules extends BaseObject
 {
 
 	/**
+	 * @var string
+	 */
+	protected static $base_path = JET_PATH_APPLICATION.'modules/';
+
+
+	/**
 	 * @var Application_Modules_Handler
 	 */
 	protected static $handler;
 
 	/**
-	 * Returns true if the module name correspond to a valid format
+	 * @return string
+	 */
+	public static function getBasePath()
+	{
+		return static::$base_path;
+	}
+
+	/**
+	 * @param string $base_path
+	 */
+	public static function setBasePath( $base_path )
+	{
+		static::$base_path = $base_path;
+	}
+
+	/**
 	 *
 	 * @param string $module_name
 	 *
@@ -37,11 +58,15 @@ class Application_Modules extends BaseObject
 	public static function getHandler()
 	{
 		if( !static::$handler ) {
+
+			$manifest_class_name = Application_Factory::getModuleManifestClassName();
+			$module_namespace = $manifest_class_name::getDefaultModuleNamespace();
+
+
 			static::$handler = new Application_Modules_Handler_Default(
-				JET_MODULES_PATH,
-				JET_APPLICATION_MODULES_LIST_PATH,
-				JET_APPLICATION_MODULE_NAMESPACE,
-				JET_APPLICATION_MODULE_MANIFEST_CLASS_NAME
+				static::getBasePath(),
+				$module_namespace,
+				$manifest_class_name
 			);
 		}
 

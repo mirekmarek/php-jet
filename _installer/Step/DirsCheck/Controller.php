@@ -40,19 +40,30 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 		}
 
 		$dirs = [
-			JET_DATA_PATH                                 => [
-				'is_required' => true, 'is_writeable' => false,
-			], JET_TMP_PATH                               => [
-				'is_required' => true, 'is_writeable' => false,
-			], JET_LOGS_PATH                              => [
-				'is_required' => true, 'is_writeable' => false,
-			], JET_SITES_PATH                             => [
-				'is_required' => true, 'is_writeable' => false,
-			], JET_TRANSLATOR_DICTIONARIES_BASE_PATH_PATH => [
-				'is_required' => true, 'is_writeable' => false,
-			], JET_CONFIG_PATH.'_common/'                 => [
-				'is_required' => false, 'is_writeable' => false,
-				'comment'     => 'Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually.',
+			JET_PATH_DATA                              => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_TMP                               => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_LOGS                              => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_SITES                             => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_DICTIONARIES => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_CONFIG.'_common/'                 => [
+				'is_required'  => false,
+				'is_writeable' => false,
+				'comment'      => 'Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually.',
 			],
 		];
 

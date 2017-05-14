@@ -13,8 +13,10 @@ namespace Jet;
 class Application_Modules_Handler_Default extends Application_Modules_Handler
 {
 
-
-	const MODULE_MANIFEST_FILE_PATH = 'manifest.php';
+	/**
+	 * @var string
+	 */
+	protected $module_manifest_file_name = 'manifest.php';
 
 	/**
 	 * @var string
@@ -24,7 +26,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 * @var string
 	 */
-	protected $modules_list_file_path = '';
+	protected $modules_list_file_path = JET_PATH_DATA.'modules_list.php';
 
 	/**
 	 * @var string
@@ -74,17 +76,31 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	protected $installation_in_progress_module_name = null;
 
 	/**
-	 * @param string $modules_basedir
-	 * @param string $modules_list_file_path
+	 * @param string $modules_base_path
 	 * @param string $modules_namespace
 	 * @param string $manifest_class_name
 	 */
-	public function __construct( $modules_basedir, $modules_list_file_path, $modules_namespace, $manifest_class_name )
+	public function __construct( $modules_base_path, $modules_namespace, $manifest_class_name )
 	{
-		$this->modules_basedir = $modules_basedir;
-		$this->modules_list_file_path = $modules_list_file_path;
+		$this->modules_basedir = $modules_base_path;
 		$this->modules_namespace = $modules_namespace;
 		$this->manifest_class_name = $manifest_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModuleManifestFileName()
+	{
+		return $this->module_manifest_file_name;
+	}
+
+	/**
+	 * @param string $module_manifest_file_name
+	 */
+	public function setModuleManifestFileName( $module_manifest_file_name )
+	{
+		$this->module_manifest_file_name = $module_manifest_file_name;
 	}
 
 	/**
@@ -291,7 +307,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 
 		foreach( $modules as $module_dir ) {
-			if( !IO_File::exists( $base_dir.$module_dir.'/'.static::MODULE_MANIFEST_FILE_PATH ) ) {
+			if( !IO_File::exists( $base_dir.$module_dir.'/'.$this->getModuleManifestFileName() ) ) {
 
 				$next_module_name_prefix = ( $module_name_prefix ) ? $module_name_prefix.$module_dir.'\\' :
 					$module_dir.'\\';

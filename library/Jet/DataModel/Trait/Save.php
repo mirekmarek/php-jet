@@ -110,8 +110,12 @@ trait DataModel_Trait_Save
 			$record->addItem( $property_definition, $this->{$property_name} );
 		}
 
+		/**
+		 * @var DataModel_Backend $backend
+		 */
+		$backend = static::getBackendInstance();
 
-		$backend_result = static::getBackendInstance()->save( $record );
+		$backend_result = $backend->save( $record );
 
 		$id->afterSave( $backend_result );
 
@@ -185,7 +189,12 @@ trait DataModel_Trait_Save
 				throw  new DataModel_Exception( 'Empty WHERE!' );
 			}
 
-			static::getBackendInstance()->update( $record, $where_query );
+			/**
+			 * @var DataModel_Backend $backend
+			 */
+			$backend = static::getBackendInstance();
+
+			$backend->update( $record, $where_query );
 		}
 
 		/**

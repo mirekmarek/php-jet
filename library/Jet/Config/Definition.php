@@ -13,6 +13,85 @@ namespace Jet;
  */
 class Config_Definition extends BaseObject implements BaseObject_Reflection_ParserInterface
 {
+	/**
+	 * @var string
+	 */
+	protected static $cache_dir_path = JET_PATH_DATA.'config_definitions/';
+
+	/**
+	 * @var bool
+	 */
+	protected static $cache_save_enabled;
+
+	/**
+	 * @var bool
+	 */
+	protected static $cache_load_enabled;
+
+	/**
+	 * @return string
+	 */
+	public static function getCacheDirPath()
+	{
+		return static::$cache_dir_path;
+	}
+
+	/**
+	 * @param string $cache_dir_path
+	 */
+	public static function setCacheDirPath( $cache_dir_path )
+	{
+		static::$cache_dir_path = $cache_dir_path;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getCacheSaveEnabled()
+	{
+		if(static::$cache_save_enabled===null) {
+			if(defined('JET_CONFIG_DEFINITION_CACHE_SAVE')) {
+				static::$cache_save_enabled = JET_CONFIG_DEFINITION_CACHE_SAVE;
+			} else {
+				static::$cache_save_enabled = false;
+			}
+		}
+
+		return static::$cache_save_enabled;
+	}
+
+	/**
+	 * @param bool $cache_save_enabled
+	 */
+	public static function setCacheSaveEnabled( $cache_save_enabled )
+	{
+		static::$cache_save_enabled = $cache_save_enabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getCacheLoadEnabled()
+	{
+		if(static::$cache_load_enabled===null) {
+			if(defined('JET_CONFIG_DEFINITION_CACHE_LOAD')) {
+				static::$cache_load_enabled = JET_CONFIG_DEFINITION_CACHE_LOAD;
+			} else {
+				static::$cache_load_enabled = false;
+			}
+		}
+
+		return static::$cache_load_enabled;
+	}
+
+	/**
+	 * @param bool $cache_load_enabled
+	 */
+	public static function setCacheLoadEnabled( $cache_load_enabled )
+	{
+		static::$cache_load_enabled = $cache_load_enabled;
+	}
+
 
 	/**
 	 * @param string $class_name
@@ -22,9 +101,9 @@ class Config_Definition extends BaseObject implements BaseObject_Reflection_Pars
 	public static function getDefinition( $class_name )
 	{
 
-		$file_path = JET_CONFIG_DEFINITION_CACHE_PATH.str_replace( '\\', '__', $class_name.'.php' );
+		$file_path = static::getCacheDirPath().str_replace( '\\', '__', $class_name.'.php' );
 
-		if( JET_CONFIG_DEFINITION_CACHE_LOAD ) {
+		if( static::getCacheLoadEnabled() ) {
 
 			if( IO_File::exists( $file_path ) ) {
 				/** @noinspection PhpIncludeInspection */
@@ -36,7 +115,7 @@ class Config_Definition extends BaseObject implements BaseObject_Reflection_Pars
 
 		$definition = new Config_Definition_Config( $class_name );
 
-		if( JET_CONFIG_DEFINITION_CACHE_SAVE ) {
+		if( static::getCacheSaveEnabled() ) {
 			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			IO_File::write( $file_path, '<?php return '.@var_export( $definition, true ).';' );
 		}

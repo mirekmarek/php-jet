@@ -1,8 +1,4 @@
 <?php
-const JET_APPLICATION_CONFIGURATION_NAME = 'application';
-
-const JET_APPLICATION_MODULE_NAMESPACE = 'JetApplicationModule';
-
 const JET_IO_CHMOD_MASK_DIR = 0777;
 const JET_IO_CHMOD_MASK_FILE = 0666;
 

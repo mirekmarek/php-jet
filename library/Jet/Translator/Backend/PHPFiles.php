@@ -17,7 +17,7 @@ class Translator_Backend_PHPFiles extends Translator_Backend
 	/**
 	 * @var string
 	 */
-	protected $dictionaries_base_path = JET_TRANSLATOR_DICTIONARIES_BASE_PATH_PATH;
+	protected $dictionaries_base_path = JET_PATH_DICTIONARIES;
 
 	/**
 	 * @var string

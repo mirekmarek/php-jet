@@ -8,14 +8,14 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler.php';
+require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler.php';
 
-require JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler/Handler/Log.php';
+require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler/Handler/Log.php';
 Debug_ErrorHandler_Handler_Log::register();
 
 
 if( JET_DEVEL_MODE ) {
-	require JET_LIBRARY_PATH.'Jet/Debug/ErrorHandler/Handler/Display.php';
+	require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler/Handler/Display.php';
 	Debug_ErrorHandler_Handler_Display::register();
 }
 

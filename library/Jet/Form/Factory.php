@@ -15,6 +15,37 @@ class Form_Factory
 {
 
 	/**
+	 * @var string
+	 */
+	protected static $field_class_name_prefix = __NAMESPACE__.'\Form_Field_';
+
+	/**
+	 * @var string
+	 */
+	protected static $renderer_pair_class_name = __NAMESPACE__.'\Form_Renderer_Pair';
+
+	/**
+	 * @var string
+	 */
+	protected static $renderer_single_class_name = __NAMESPACE__.'\Form_Renderer_Single';
+
+	/**
+	 * @return string
+	 */
+	public static function getFieldClassNamePrefix()
+	{
+		return static::$field_class_name_prefix;
+	}
+
+	/**
+	 * @param string $field_class_name_prefix
+	 */
+	public static function setFieldClassNamePrefix( $field_class_name_prefix )
+	{
+		static::$field_class_name_prefix = $field_class_name_prefix;
+	}
+
+	/**
 	 *
 	 * @param string $type
 	 * @param string $name
@@ -35,11 +66,70 @@ class Form_Factory
 			);
 		}
 
-		$class_name = JET_FORM_FIELD_CLASS_NAME_PREFIX.$type;
+		$class_name = static::getFieldClassNamePrefix().$type;
 
 		return new $class_name(
 			$name, $label, $default_value, $is_required
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getRendererPairClassName()
+	{
+		return static::$renderer_pair_class_name;
+	}
+
+	/**
+	 * @param string $renderer_pair_class_name
+	 */
+	public static function setRendererPairClassName( $renderer_pair_class_name )
+	{
+		static::$renderer_pair_class_name = $renderer_pair_class_name;
+	}
+
+	/**
+	 * @param Form            $form
+	 * @param Form_Field|null $field
+	 *
+	 * @return Form_Renderer_Pair
+	 */
+	public static function gerRendererPairInstance(  Form $form, Form_Field $field=null  )
+	{
+		$class_name = static::getRendererPairClassName();
+
+		return new $class_name( $form, $field );
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getRendererSingleClassName()
+	{
+		return static::$renderer_single_class_name;
+	}
+
+	/**
+	 * @param string $renderer_single_class_name
+	 */
+	public static function setRendererSingleClassName( $renderer_single_class_name )
+	{
+		static::$renderer_single_class_name = $renderer_single_class_name;
+	}
+
+
+	/**
+	 * @param Form            $form
+	 * @param Form_Field|null $field
+	 *
+	 * @return Form_Renderer_Single
+	 */
+	public static function gerRendererSingleInstance(  Form $form, Form_Field $field=null  )
+	{
+		$class_name = static::getRendererSingleClassName();
+
+		return new $class_name( $form, $field );
 	}
 
 }

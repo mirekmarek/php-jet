@@ -50,13 +50,13 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 
 		if( !$this->_value ) {
 
-			$this->setValueError( self::ERROR_CODE_EMPTY );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
 		if( !$this->_validateFormat() ) {
-			$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -64,7 +64,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 		$callback = $this->getUserExistsCheckCallback();
 
 		if( !$callback( $this->_value ) ) {
-			$this->setValueError( self::ERROR_CODE_USER_ALREADY_EXISTS );
+			$this->setError( self::ERROR_CODE_USER_ALREADY_EXISTS );
 
 			return false;
 		}

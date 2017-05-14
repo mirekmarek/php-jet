@@ -106,13 +106,13 @@ class Form_Field_Range extends Form_Field_Input
 		$this->_value = (int)$this->_value_raw;
 
 		if( $this->min_value!==null&&$this->_value<$this->min_value ) {
-			$this->setValueError( self::ERROR_CODE_OUT_OF_RANGE );
+			$this->setError( self::ERROR_CODE_OUT_OF_RANGE );
 
 			return false;
 		}
 
 		if( $this->max_value!==null&&$this->_value>$this->max_value ) {
-			$this->setValueError( self::ERROR_CODE_OUT_OF_RANGE );
+			$this->setError( self::ERROR_CODE_OUT_OF_RANGE );
 
 			return false;
 		}

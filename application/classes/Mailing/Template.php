@@ -18,9 +18,15 @@ use Jet\Locale;
  */
 class Mailing_Template extends BaseObject
 {
+
 	const SUBJECT_FILE_NAME = 'subject.txt';
 	const BODY_TXT_FILE_NAME = 'body.txt';
 	const BODY_HTML_FILE_NAME = 'body.html';
+
+	/**
+	 * @var string
+	 */
+	protected static $templates_dir = JET_PATH_APPLICATION.'email_templates/';
 
 	/**
 	 * @var string
@@ -53,7 +59,24 @@ class Mailing_Template extends BaseObject
 	protected $body_html = '';
 
 	/**
-	 * Mailing constructor.
+	 * @return string
+	 */
+	public static function getTemplatesDir()
+	{
+		return self::$templates_dir;
+	}
+
+	/**
+	 * @param string $templates_dir
+	 */
+	public static function setTemplatesDir( $templates_dir )
+	{
+		self::$templates_dir = $templates_dir;
+	}
+
+
+
+	/**
 	 *
 	 * @param string        $id
 	 * @param string|Locale $locale
@@ -67,7 +90,7 @@ class Mailing_Template extends BaseObject
 
 		$this->id = $id;
 		$this->locale = $locale;
-		$this->root_dir = JETAPP_EMAIL_TEMPLATES_PATH.$this->locale.'/'.$this->id.'/';
+		$this->root_dir = static::getTemplatesDir().$this->locale.'/'.$this->id.'/';
 
 		$this->readTemplate();
 		$this->applyData( $data );

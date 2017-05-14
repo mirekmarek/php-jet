@@ -33,7 +33,7 @@ class DataModel_Config extends Application_Config
 	 */
 	public static function getBackendTypesList()
 	{
-		return static::getAvailableHandlersList( JET_LIBRARY_PATH.'Jet/DataModel/Backend/' );
+		return static::getAvailableHandlersList( JET_PATH_LIBRARY.'Jet/DataModel/Backend/' );
 	}
 
 	/**

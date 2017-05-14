@@ -1,0 +1,21 @@
+<?php
+return [
+	'PHP Jet Example Application' => '',
+	'Hello WORLD!' => '',
+	'Secret area!' => '',
+	'Search for...' => '',
+	'Back to List' => '',
+	'Save' => '',
+	'Edit' => '',
+	'Delete' => '',
+	'Home page' => '',
+	'Change password' => '',
+	'xxx' => '',
+	'Back to the list' => '',
+	'Go back' => '',
+	'%FROM% - %TO% / total count: %COUNT%' => '',
+	'Next' => '',
+	'Last' => '',
+	'Firts' => '',
+	'Previous' => '',
+];

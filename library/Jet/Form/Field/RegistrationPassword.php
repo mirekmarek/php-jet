@@ -104,13 +104,13 @@ class Form_Field_RegistrationPassword extends Form_Field
 	public function checkValueIsNotEmpty()
 	{
 		if( !$this->_value ) {
-			$this->setValueError( self::ERROR_CODE_EMPTY );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
 		if( !$this->confirmation_input->_value ) {
-			$this->setValueError( self::ERROR_CODE_CHECK_EMPTY );
+			$this->setError( self::ERROR_CODE_CHECK_EMPTY );
 
 			return false;
 		}
@@ -125,7 +125,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	{
 
 		if( $this->_value!=$this->confirmation_input->_value ) {
-			$this->setValueError( self::ERROR_CODE_CHECK_NOT_MATCH );
+			$this->setError( self::ERROR_CODE_CHECK_NOT_MATCH );
 
 			return false;
 		}
@@ -134,7 +134,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 
 		if( $check_callback ) {
 			if( !$check_callback( $this->_value ) ) {
-				$this->setValueError( self::ERROR_CODE_WEAK_PASSWORD );
+				$this->setError( self::ERROR_CODE_WEAK_PASSWORD );
 
 				return false;
 			}

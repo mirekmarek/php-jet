@@ -355,6 +355,14 @@ abstract class DataModel_Definition_Model extends BaseObject
 	}
 
 	/**
+	 * @param string $database_table_name
+	 */
+	public function setDatabaseTableName( $database_table_name )
+	{
+		$this->database_table_name = $database_table_name;
+	}
+
+	/**
 	 * @return DataModel_Id
 	 */
 	public function getEmptyIdInstance()

@@ -218,7 +218,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseDirPath()
 	{
-		$base_dir = JET_PUBLIC_PATH.'imagegallery/';
+		$base_dir = JET_PATH_PUBLIC.'imagegallery/';
 		if( !IO_Dir::exists( $base_dir ) ) {
 			IO_Dir::create( $base_dir );
 		}
@@ -374,7 +374,7 @@ class Gallery extends DataModel
 	 */
 	public function getBaseURI()
 	{
-		return JET_PUBLIC_URI.'imagegallery/';
+		return JET_URI_PUBLIC.'imagegallery/';
 	}
 
 

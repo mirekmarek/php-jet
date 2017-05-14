@@ -8,7 +8,7 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/IO/File/Exception.php';
+require_once JET_PATH_LIBRARY.'Jet/IO/File/Exception.php';
 
 /**
  * Class IO_File
@@ -428,15 +428,15 @@ class IO_File
 	 * Gets mime type of file by given file path.
 	 *
 	 * @param string      $file_path
-	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_CONFIG_PATH/file_mime_types/map.php )
+	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_PATH_CONFIG/file_mime_types/map.php )
 	 * @param bool        $without_charset (optional)
 	 *
 	 * @return string
 	 */
 	public static function getMimeType( $file_path, $extensions_mimes_map_file_path = null, $without_charset = true )
 	{
-		if( !$extensions_mimes_map_file_path&&defined( 'JET_CONFIG_PATH' ) ) {
-			$extensions_mimes_map_file_path = JET_CONFIG_PATH.'file_mime_types/map.php';
+		if( !$extensions_mimes_map_file_path&&defined( 'JET_PATH_CONFIG' ) ) {
+			$extensions_mimes_map_file_path = JET_PATH_CONFIG.'file_mime_types/map.php';
 		}
 
 		$mime_type = null;

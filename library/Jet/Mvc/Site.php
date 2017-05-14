@@ -12,10 +12,26 @@ namespace Jet;
  */
 class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 {
-	const SITE_DATA_FILE_NAME = 'site_data.php';
-	const URL_MAP_FILE_NAME = 'urls_map.php';
-	const PAGES_DIR = 'pages';
-	const LAYOUTS_DIR = 'layouts';
+
+	/**
+	 * @var string
+	 */
+	protected static $site_data_file_name = 'site_data.php';
+	/**
+	 * @var string
+	 */
+	protected static $url_map_file_name = 'urls_map.php';
+
+	/**
+	 * @var string
+	 */
+	protected static $pages_dir = 'pages';
+
+	/**
+	 * @var string
+	 */
+	protected static $layouts_dir = 'layouts';
+
 	/**
 	 * @var array|Mvc_Site_LocalizedData_URL[]
 	 */
@@ -100,7 +116,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	public static function getList()
 	{
 
-		$dirs = IO_Dir::getSubdirectoriesList( JET_SITES_PATH );
+		$dirs = IO_Dir::getSubdirectoriesList( JET_PATH_SITES );
 
 		$sites = [];
 
@@ -222,7 +238,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	protected static function getSiteDataFilePath( $id )
 	{
-		return JET_SITES_PATH.$id.'/'.static::SITE_DATA_FILE_NAME;
+		return JET_PATH_SITES.$id.'/'.static::$site_data_file_name;
 	}
 
 	/**
@@ -289,7 +305,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	protected static function getUrlMapFilePath()
 	{
-		return JET_SITES_PATH.static::URL_MAP_FILE_NAME;
+		return JET_PATH_SITES.static::$url_map_file_name;
 	}
 
 	/**
@@ -303,7 +319,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 			return;
 		}
 
-		$new_ld = Mvc_Factory::getLocalizedSiteInstance( $locale );
+		$new_ld = Mvc_Factory::getSiteLocalizedInstance( $locale );
 
 		$this->localized_data[(string)$locale] = $new_ld;
 
@@ -386,7 +402,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	public function getLayoutsPath()
 	{
-		return $this->getBasePath().static::LAYOUTS_DIR.'/';
+		return $this->getBasePath().static::$layouts_dir.'/';
 	}
 
 	/**
@@ -396,7 +412,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	public function getBasePath()
 	{
-		return JET_SITES_PATH.$this->site_id.'/';
+		return JET_PATH_SITES.$this->site_id.'/';
 	}
 
 	/**
@@ -612,7 +628,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	public function getPagesDataPath( Locale $locale = null )
 	{
-		$path = $this->getBasePath().static::PAGES_DIR.'/';
+		$path = $this->getBasePath().static::$pages_dir.'/';
 
 		if( !$locale ) {
 			return $path;

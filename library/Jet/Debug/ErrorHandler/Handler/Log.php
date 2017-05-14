@@ -8,7 +8,7 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Debug/Formatter.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Formatter.php';
 
 /**
  * Class Debug_ErrorHandler_Handler_Log
@@ -39,7 +39,7 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 		$dir = $this->getLogDir();
 
 		if( !$dir ) {
-			echo 'Warning! JET_LOGS_PATH is not defined!';
+			echo 'Warning! JET_PATH_LOGS is not defined!';
 			echo $message;
 
 			return;
@@ -80,8 +80,8 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 	protected function getLogDir()
 	{
 		if(!$this->log_dir) {
-			if( defined( 'JET_LOGS_PATH' ) ) {
-				$this->log_dir = JET_LOGS_PATH;
+			if( defined( 'JET_PATH_LOGS' ) ) {
+				$this->log_dir = JET_PATH_LOGS;
 			}
 		}
 

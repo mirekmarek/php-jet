@@ -778,7 +778,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 
 				/** @var $user Auth_User */
 				if( $user->usernameExists( $username ) ) {
-					$field->setErrorMessage(
+					$field->setCustomError(
 						Tr::_(
 							'Sorry, but username %USERNAME% is registered.', [ 'USERNAME' => $username ]
 						)

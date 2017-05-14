@@ -70,7 +70,7 @@ class Form extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $default_views_dir = JET_APPLICATION_PATH.'views/Form/';
+	protected static $default_views_dir = JET_PATH_APPLICATION.'views/Form/';
 
 	/**
 	 *
@@ -863,7 +863,8 @@ class Form extends BaseObject
 		if( !$this->_form_tag ) {
 			$this->checkFieldsHasErrorMessages();
 
-			$this->_form_tag = new Form_Renderer_Pair( $this );
+			$this->_form_tag = Form_Factory::gerRendererPairInstance( $this );
+			//TODO: rederery konfigurovatelne
 			$this->_form_tag->setViewScriptStart('start');
 			$this->_form_tag->setViewScriptEnd('end');
 		}
@@ -894,7 +895,7 @@ class Form extends BaseObject
 	public function message()
 	{
 		if(!$this->_message_tag) {
-			$this->_message_tag = new Form_Renderer_Single( $this );
+			$this->_message_tag = Form_Factory::gerRendererSingleInstance( $this );
 			$this->_message_tag->setViewScript('message');
 		}
 

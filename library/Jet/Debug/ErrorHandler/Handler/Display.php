@@ -8,7 +8,7 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require_once JET_LIBRARY_PATH.'Jet/Debug/Formatter.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Formatter.php';
 
 /**
  * Class Debug_ErrorHandler_Handler_Display

@@ -15,6 +15,8 @@ namespace Jet;
 class Application extends BaseObject
 {
 
+	const CONFIG_FILE_NAME = 'application';
+
 	/**
 	 * @var bool
 	 */
@@ -36,7 +38,7 @@ class Application extends BaseObject
 	public static function getConfigFilePath()
 	{
 		if( !self::$config_file_path ) {
-			static::$config_file_path = JET_CONFIG_PATH.JET_CONFIG_ENVIRONMENT.'/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
+			static::$config_file_path = JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/'.static::CONFIG_FILE_NAME.'.php';
 		}
 
 		return self::$config_file_path;
@@ -62,7 +64,11 @@ class Application extends BaseObject
 
 
 		Debug_Profiler::blockStart( 'Http request init' );
-		Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+		if(defined('JET_HIDE_HTTP_REQUEST')) {
+			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+		} else {
+			Http_Request::initialize();
+		}
 		Debug_Profiler::blockEnd( 'Http request init' );
 
 		Debug_Profiler::MainBlockEnd( 'Application init' );
@@ -113,30 +119,20 @@ class Application extends BaseObject
 
 
 		if( !$site->getIsActive() ) {
-			Http_Headers::response( Http_Headers::CODE_503_SERVICE_UNAVAILABLE );
-
-			if( !ErrorPages::display( Http_Headers::CODE_503_SERVICE_UNAVAILABLE ) ) {
-				echo '503 - Service Unavailable';
-			}
+			ErrorPages::handleServiceUnavailable( false );
 
 			return;
 		}
 
 		$locale = Mvc::getCurrentLocale();
 		if( !$site->getLocalizedData( $locale )->getIsActive() ) {
-			Http_Headers::notFound();
-			if( !ErrorPages::display( Http_Headers::CODE_404_NOT_FOUND ) ) {
-				echo '404 - Page Not Found';
-			}
+			ErrorPages::handleNotFound( false );
 
 			return;
 		}
 
 		if( $router->getIs404() ) {
-			Http_Headers::notFound();
-			if( !ErrorPages::display( Http_Headers::CODE_404_NOT_FOUND ) ) {
-				echo '404 - Page Not Found';
-			}
+			ErrorPages::handleNotFound( false );
 
 			return;
 		}
@@ -144,10 +140,7 @@ class Application extends BaseObject
 		$page = Mvc::getCurrentPage();
 
 		if( !$page->getIsActive() ) {
-			Http_Headers::notFound();
-			if( !ErrorPages::display( Http_Headers::CODE_404_NOT_FOUND ) ) {
-				echo '404 - Page Not Found';
-			}
+			ErrorPages::handleNotFound( false );
 
 			return;
 		}
@@ -160,10 +153,7 @@ class Application extends BaseObject
 		}
 
 		if( !$page->getAccessAllowed() ) {
-			Http_Headers::authorizationRequired();
-			if( !ErrorPages::display( Http_Headers::CODE_401_UNAUTHORIZED ) ) {
-				echo 'Unauthorized ...';
-			}
+			ErrorPages::handleUnauthorized( false );
 
 			return;
 		}

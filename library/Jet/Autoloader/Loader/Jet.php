@@ -17,7 +17,7 @@ class Autoloader_Loader_Jet extends Autoloader_Loader
 	/**
 	 *
 	 */
-	protected $library_path = JET_LIBRARY_PATH;
+	protected $library_path = JET_PATH_LIBRARY;
 
 	/**
 	 * @return mixed

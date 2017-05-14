@@ -120,8 +120,8 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		}
 
 
-		$site_class_name = JET_MVC_SITE_CLASS;
-		$page_class_name = JET_MVC_PAGE_CLASS;
+		$site_class_name = Mvc_Factory::getSiteClassName();
+		$page_class_name = Mvc_Factory::getPageClassName();
 
 		/**
 		 * @var Mvc_Site_Interface $site_class_name
@@ -148,7 +148,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public static function getList( $site_id, Locale $locale )
 	{
-		$site_class_name = JET_MVC_SITE_CLASS;
+		$site_class_name = Mvc_Factory::getSiteClassName();
 
 		/**
 		 * @var Mvc_Site_Interface $site_class_name

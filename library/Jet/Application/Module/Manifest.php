@@ -13,23 +13,26 @@ namespace Jet;
  */
 class Application_Module_Manifest extends BaseObject implements \JsonSerializable
 {
-	const MANIFEST_FILE_NAME = 'manifest.php';
-
 	const MODULE_TYPE_GENERAL = 'general';
 	const MODULE_TYPE_SYSTEM = 'system';
 
 	/**
-	 * Format:
-	 * <code>
-	 * array(
-	 *      'type_key' => 'Type description'
-	 * )
-	 * </code>
+	 * @var string
+	 */
+	protected static $manifest_file_name = 'manifest.php';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_module_namespace = 'JetApplicationModule';
+
+	/**
 	 *
 	 * @var array
 	 */
 	protected static $module_types_list = [
-		self::MODULE_TYPE_GENERAL => 'General module', self::MODULE_TYPE_SYSTEM => 'System module',
+		self::MODULE_TYPE_GENERAL => 'General module',
+		self::MODULE_TYPE_SYSTEM => 'System module',
 	];
 
 	/**
@@ -123,6 +126,62 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	protected $is_activated = false;
 
 	/**
+	 * @return string
+	 */
+	public static function getManifestFileName()
+	{
+		return self::$manifest_file_name;
+	}
+
+	/**
+	 * @param string $manifest_file_name
+	 */
+	public static function setManifestFileName( $manifest_file_name )
+	{
+		self::$manifest_file_name = $manifest_file_name;
+	}
+
+
+	/**
+	 * Get available modules types list
+	 *
+	 * @return array
+	 */
+	public static function getModuleTypesList()
+	{
+		return static::$module_types_list;
+	}
+
+	/**
+	 * Format:
+	 * array(
+	 *      'module_type' => 'Module type description'
+	 * )
+	 *
+	 * @param array $list
+	 */
+	public static function setModuleTypesList( array $list )
+	{
+		static::$module_types_list = $list;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultModuleNamespace()
+	{
+		return static::$default_module_namespace;
+	}
+
+	/**
+	 * @param string $default_module_namespace
+	 */
+	public static function setDefaultModuleNamespace( $default_module_namespace )
+	{
+		static::$default_module_namespace = $default_module_namespace;
+	}
+
+	/**
 	 * @param string $module_name (optional)
 	 *
 	 * @throws Application_Modules_Exception
@@ -159,7 +218,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 		}
 
 
-		$manifest_file = $module_dir.static::MANIFEST_FILE_NAME;
+		$manifest_file = $module_dir.static::$manifest_file_name;
 
 		if( !IO_File::isReadable( $manifest_file ) ) {
 			throw new Application_Modules_Exception(
@@ -181,7 +240,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public function getModuleDir()
 	{
-		return JET_MODULES_PATH.str_replace( '.', '/', $this->name ).'/';
+		return Application_Modules::getBasePath().str_replace( '.', '/', $this->name ).'/';
 	}
 
 	/**
@@ -236,29 +295,6 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
-	}
-
-	/**
-	 * Get available modules types list
-	 *
-	 * @return array
-	 */
-	public static function getModuleTypesList()
-	{
-		return static::$module_types_list;
-	}
-
-	/**
-	 * Format:
-	 * array(
-	 *      'module_type' => 'Module type description'
-	 * )
-	 *
-	 * @param array $list
-	 */
-	public static function setModuleTypesList( array $list )
-	{
-		static::$module_types_list = $list;
 	}
 
 	/**
@@ -331,7 +367,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public function getNamespace()
 	{
-		return JET_APPLICATION_MODULE_NAMESPACE.'\\'.str_replace( '.', '\\', $this->name ).'\\';
+		return static::getDefaultModuleNamespace().'\\'.str_replace( '.', '\\', $this->name ).'\\';
 	}
 
 	/**

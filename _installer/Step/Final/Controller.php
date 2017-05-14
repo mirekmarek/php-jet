@@ -7,6 +7,7 @@
  */
 namespace JetExampleApp;
 
+use Jet\Application;
 use Jet\Data_DateTime;
 use Jet\IO_Dir;
 use Jet\IO_Dir_Exception;
@@ -60,10 +61,10 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 
 		$OK = true;
 
-		$this->install_symptom_file_path = JET_DATA_PATH.'installed.txt';
+		$this->install_symptom_file_path = JET_PATH_DATA.'installed.txt';
 
 		$this->config_file_source_path = Installer::getTmpConfigFilePath();
-		$this->config_file_target_path = JET_CONFIG_PATH.'_common/'.JET_APPLICATION_CONFIGURATION_NAME.'.php';
+		$this->config_file_target_path = JET_PATH_CONFIG.'_common/'.Application::CONFIG_FILE_NAME.'.php';
 
 		if( !$this->installConfig() ) {
 			$OK = false;
@@ -119,7 +120,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 		foreach( Installer::getSelectedLocales() as $locale ) {
 
 			$source = JET_APP_INSTALLER_DATA_PATH.'dictionaries/'.$locale;
-			$target = JET_TRANSLATOR_DICTIONARIES_BASE_PATH_PATH.$locale;
+			$target = JET_PATH_DICTIONARIES.$locale;
 
 			try {
 				if( IO_Dir::exists( $target ) ) {

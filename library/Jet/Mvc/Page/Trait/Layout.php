@@ -34,9 +34,10 @@ trait Mvc_Page_Trait_Layout
 			return;
 		}
 
-		Mvc_Layout::initCurrentLayout(
-			$this->getLayoutsPath(), $this->getLayoutScriptName()
+		Mvc_Layout::setCurrentLayout(
+			Mvc_Factory::getLayoutInstance( $this->getLayoutsPath(), $this->getLayoutScriptName() )
 		);
+
 	}
 
 	/**

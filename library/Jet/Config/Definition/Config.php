@@ -14,7 +14,7 @@ namespace Jet;
 class Config_Definition_Config extends BaseObject
 {
 	/**
-	 * Property definition classes names prefix
+	 *
 	 */
 	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Config_Definition_Property';
 

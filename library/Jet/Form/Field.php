@@ -22,7 +22,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	protected $_type = '';
 
 	/**
-	 * filed name equals $_POST(or $_GET) key
 	 *
 	 * @var string
 	 */
@@ -32,28 +31,21 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	 * @var Form
 	 */
 	protected $_form = null;
-	/**
-	 * form name
-	 *
-	 * @var string
-	 */
-	protected $_form_name = '';
 
 	/**
-	 * raw value from input (input = most often $_POST)
+	 *
 	 * @var mixed
 	 */
 	protected $_value_raw;
 
 	/**
-	 * processed value from input (input = most often $_POST)
 	 *
 	 * @var mixed
 	 */
 	protected $_value;
 
 	/**
-	 * is there value in input? (input = most often $_POST)
+	 *
 	 * @var bool
 	 */
 	protected $_has_value = false;
@@ -65,11 +57,10 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	protected $is_valid = false;
 
 	/**
-	 * last validation error code)
 	 *
 	 * @var string
 	 */
-	protected $last_error = '';
+	protected $last_error_code = '';
 
 	/**
 	 * last validation error message
@@ -222,7 +213,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	public function setForm( Form $form )
 	{
 		$this->_form = $form;
-		$this->_form_name = $form->getName();
 	}
 
 	/**
@@ -432,6 +422,92 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		$this->is_required = (bool)$required;
 	}
 
+
+	/**
+	 * returns error messages
+	 *
+	 * @return array
+	 */
+	public function getErrorMessages()
+	{
+		return $this->error_messages;
+	}
+
+	/**
+	 * sets error messages
+	 *
+	 * @param array $error_messages
+	 *
+	 * @throws Form_Exception
+	 */
+	public function setErrorMessages( array $error_messages )
+	{
+
+		foreach( $error_messages as $key => $message ) {
+			if( !array_key_exists( $key, $this->error_messages ) ) {
+				throw new Form_Exception( 'Unknown form field error code: '.$key.'! Field: '.$this->_name );
+			}
+
+			$this->error_messages[$key] = $message;
+		}
+	}
+
+	/**
+	 *
+	 * @param string $code
+	 *
+	 * @return string|bool
+	 */
+	public function getErrorMessage( $code )
+	{
+		$message = isset( $this->error_messages[$code] ) ? $this->error_messages[$code] : false;
+
+		return $this->getTranslation( $message );
+
+	}
+
+	/**
+	 *
+	 * @param string $code
+	 */
+	public function setError( $code )
+	{
+		$this->is_valid = false;
+		$this->last_error_code = $code;
+		$this->last_error_message = $this->getErrorMessage( $code );
+	}
+
+	/**
+	 *
+	 * @param string $error_message
+	 * @param string $error_code
+	 */
+	public function setCustomError( $error_message, $error_code='custom' )
+	{
+		$this->is_valid = false;
+		$this->_form->setIsNotValid();
+		$this->last_error_code = $error_code;
+		$this->last_error_message = $error_message;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getLastErrorCode()
+	{
+		return $this->last_error_code;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getLastErrorMessage()
+	{
+		return $this->last_error_message;
+	}
+
 	/**
 	 *
 	 * @param bool $raw
@@ -464,35 +540,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	}
 
 	/**
-	 * returns error messages
-	 *
-	 * @return array
-	 */
-	public function getErrorMessages()
-	{
-		return $this->error_messages;
-	}
-
-	/**
-	 * sets error messages
-	 *
-	 * @param array $error_messages
-	 *
-	 * @throws Form_Exception
-	 */
-	public function setErrorMessages( array $error_messages )
-	{
-
-		foreach( $error_messages as $key => $message ) {
-			if( !array_key_exists( $key, $this->error_messages ) ) {
-				throw new Form_Exception( 'Unknown form field error code: '.$key.'! Field: '.$this->_name );
-			}
-
-			$this->error_messages[$key] = $message;
-		}
-	}
-
-	/**
 	 * catch value from input (input = most often $_POST)
 	 *
 	 * @param Data_Array $data
@@ -511,46 +558,18 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	}
 
 	/**
-	 * returns false if value is is_required and is empty
 	 *
 	 * @return bool
 	 */
 	public function checkValueIsNotEmpty()
 	{
 		if( $this->_value===''&&$this->is_required ) {
-			$this->setValueError( self::ERROR_CODE_EMPTY );
+			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * set error status
-	 *
-	 * @param string $code
-	 */
-	public function setValueError( $code )
-	{
-		$this->is_valid = false;
-		$this->last_error = $code;
-		$this->last_error_message = $this->getErrorMessage( $code );
-	}
-
-	/**
-	 * returns error message text or false if does not exist
-	 *
-	 * @param string $code
-	 *
-	 * @return string|bool
-	 */
-	public function getErrorMessage( $code )
-	{
-		$message = isset( $this->error_messages[$code] ) ? $this->error_messages[$code] : false;
-
-		return $this->getTranslation( $message );
-
 	}
 
 	/**
@@ -561,7 +580,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	public function validateValue()
 	{
 		if( !$this->_validateFormat() ) {
-			$this->setValueError( self::ERROR_CODE_INVALID_FORMAT );
+			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
 		}
@@ -583,7 +602,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 			return true;
 		}
 
-		if( !$this->is_required&&$this->_value==='' ) {
+		if( !$this->is_required && $this->_value==='' ) {
 			return true;
 		}
 
@@ -601,7 +620,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	protected function _setValueIsValid()
 	{
 		$this->is_valid = true;
-		$this->last_error = false;
+		$this->last_error_code = false;
 		$this->last_error_message = false;
 	}
 
@@ -681,38 +700,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	public function getValue()
 	{
 		return $this->_value;
-	}
-
-	/**
-	 * return last error key (key = this->error_messages hash key)
-	 *
-	 * @return string
-	 */
-	public function getLastError()
-	{
-		return $this->last_error;
-	}
-
-	/**
-	 * return last error message
-	 *
-	 * @return string
-	 */
-	public function getLastErrorMessage()
-	{
-		return $this->last_error_message;
-	}
-
-	/**
-	 *
-	 * @param string $error_message
-	 */
-	public function setErrorMessage( $error_message )
-	{
-		$this->is_valid = false;
-		$this->_form->setIsNotValid();
-		$this->last_error = $error_message;
-		$this->last_error_message = $error_message;
 	}
 
 	/**
@@ -823,6 +810,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	 */
 	public function render()
 	{
+		//TODO: take do view
 		return
 			$this->row()->start().
 				$this->error().
@@ -841,7 +829,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		//TODO: ty renderery konfigurovatelne ...
 
 		if( !$this->_tag_row ) {
-			$this->_tag_row = new Form_Renderer_Pair( $this->_form, $this);
+			$this->_tag_row = Form_Factory::gerRendererPairInstance( $this->_form, $this );
 			$this->_tag_row->setViewScriptStart('Field/row/start');
 			$this->_tag_row->setViewScriptEnd('Field/row/end');
 		}
@@ -858,7 +846,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		//TODO: ty renderery konfigurovatelne ...
 
 		if( !$this->_tag_container ) {
-			$this->_tag_container = new Form_Renderer_Pair( $this->_form, $this);
+			$this->_tag_container = Form_Factory::gerRendererPairInstance( $this->_form, $this );
 			$this->_tag_container->setViewScriptStart('Field/input/container/start');
 			$this->_tag_container->setViewScriptEnd('Field/input/container/end');
 			$this->_tag_container->setWidth( $this->_form->getDefaultFieldWidth() );
@@ -877,7 +865,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		//TODO: ty renderery konfigurovatelne ...
 
 		if( !$this->_tag_error ) {
-			$this->_tag_error = new Form_Renderer_Single( $this->_form, $this);
+			$this->_tag_error = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
 			$this->_tag_error->setViewScript('Field/error');
 		}
 
@@ -892,7 +880,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		//TODO: ty renderery konfigurovatelne ...
 
 		if( !$this->_tag_label ) {
-			$this->_tag_label = new Form_Renderer_Single( $this->_form, $this);
+			$this->_tag_label = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
 			$this->_tag_label->setViewScript('Field/label');
 			$this->_tag_label->setWidth( $this->_form->getDefaultLabelWidth() );
 		}
@@ -908,7 +896,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		//TODO: ty renderery konfigurovatelne ...
 
 		if( !$this->_tag_input ) {
-			$this->_tag_input = new Form_Renderer_Single( $this->_form, $this);
+			$this->_tag_input = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
 			$this->_tag_input->setViewScript('Field/input/'.$this->_type);
 			$this->_tag_input->setWidth( $this->_form->getDefaultFieldWidth() );
 		}

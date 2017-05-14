@@ -13,22 +13,19 @@ $application_dir = dirname(dirname(__DIR__)) . '/application/';
 
 require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/paths.php');
 require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/jet.php');
-require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/class_names.php');
 
 
 /** @noinspection PhpIncludeInspection */
-require(JET_APPLICATION_PATH . 'init/ErrorHandler.php');
+require(JET_PATH_APPLICATION . 'init/ErrorHandler.php');
 
-Debug_ErrorHandler::registerHandler(
-	'Display',
-	__NAMESPACE__ . '\Debug_ErrorHandler_Handler_Display',
-	JET_LIBRARY_PATH . 'Jet/Debug/ErrorHandler/Handler/Display.php',
-	[]
-);
+Debug_ErrorHandler_Handler_Display::register();
 
 
+$init_dir = JET_PATH_APPLICATION.'init/';
 /** @noinspection PhpIncludeInspection */
-require(JET_APPLICATION_PATH . 'init/Autoloader.php');
+require( $init_dir.'Autoloader.php');
+/** @noinspection PhpIncludeInspection */
+require( $init_dir.'ClassNames.php' );
 
 try {
 	Application::start();

@@ -24,7 +24,7 @@ class Translator extends BaseObject
 	/**
 	 * @var bool
 	 */
-	protected static $auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
+	protected static $auto_append_unknown_phrase;
 
 	/**
 	 * @var Locale
@@ -202,7 +202,15 @@ class Translator extends BaseObject
 	 */
 	public static function getAutoAppendUnknownPhrase()
 	{
-		return self::$auto_append_unknown_phrase;
+		if(static::$auto_append_unknown_phrase===null) {
+			if(defined('JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE')) {
+				static::$auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
+			} else {
+				static::$auto_append_unknown_phrase = false;
+			}
+		}
+
+		return static::$auto_append_unknown_phrase;
 	}
 
 	/**
@@ -210,7 +218,7 @@ class Translator extends BaseObject
 	 */
 	public static function setAutoAppendUnknownPhrase( $auto_append_unknown_phrase )
 	{
-		self::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
+		static::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
 	}
 
 

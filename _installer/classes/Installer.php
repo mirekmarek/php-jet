@@ -10,6 +10,7 @@ namespace JetExampleApp;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Application;
+use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
 use Jet\Locale;
 use Jet\Session;
@@ -217,7 +218,7 @@ class Installer
 	 */
 	public static function getTmpConfigFilePath()
 	{
-		return JET_TMP_PATH.'config_install.php';
+		return JET_PATH_TMP.'config_install.php';
 	}
 
 	/**
@@ -403,7 +404,7 @@ class Installer
 	{
 
 		if( !static::$layout ) {
-			static::$layout = new Mvc_Layout( JET_APP_INSTALLER_PATH.'layout/', 'default' );
+			static::$layout = Mvc_Factory::getLayoutInstance( JET_APP_INSTALLER_PATH.'layout/', 'default' );
 		}
 
 		return static::$layout;

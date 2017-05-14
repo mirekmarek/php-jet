@@ -14,12 +14,27 @@ namespace Jet;
 abstract class Application_Module extends BaseObject
 {
 
-	const INSTALL_DIR = '_install/';
-	const INSTALL_SCRIPT_PATH = '_install/install.php';
-	const UNINSTALL_SCRIPT_PATH = '_install/uninstall.php';
+	/**
+	 * @var string
+	 */
+	protected static $default_install_directory = '_install';
+	/**
+	 * @var string
+	 */
+	protected static $default_install_script = 'install.php';
+	/**
+	 * @var string
+	 */
+	protected static $default_uninstall_script = 'uninstall.php';
 
-	const VIEWS_DIR = 'views/';
-	const LAYOUTS_DIR = 'layouts/';
+	/**
+	 * @var string
+	 */
+	protected static $default_views_dir = 'views';
+	/**
+	 * @var string
+	 */
+	protected static $default_layouts_dir = 'layouts';
 
 	/**
 	 *
@@ -45,6 +60,86 @@ abstract class Application_Module extends BaseObject
 	 */
 	protected $ACL_actions = [];
 
+	/**
+	 * @return string
+	 */
+	public static function getDefaultInstallDirectory()
+	{
+		return static::$default_install_directory;
+	}
+
+	/**
+	 * @param string $default_install_directory
+	 */
+	public static function setDefaultInstallDirectory( $default_install_directory )
+	{
+		static::$default_install_directory = $default_install_directory;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultInstallScript()
+	{
+		return static::$default_install_script;
+	}
+
+	/**
+	 * @param string $default_install_script
+	 */
+	public static function setDefaultInstallScript( $default_install_script )
+	{
+		static::$default_install_script = $default_install_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultUninstallScript()
+	{
+		return static::$default_uninstall_script;
+	}
+
+	/**
+	 * @param string $default_uninstall_script
+	 */
+	public static function setDefaultUninstallScript( $default_uninstall_script )
+	{
+		static::$default_uninstall_script = $default_uninstall_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultViewsDir()
+	{
+		return static::$default_views_dir;
+	}
+
+	/**
+	 * @param string $default_views_dir
+	 */
+	public static function setDefaultViewsDir( $default_views_dir )
+	{
+		static::$default_views_dir = $default_views_dir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultLayoutsDir()
+	{
+		return static::$default_layouts_dir;
+	}
+
+	/**
+	 * @param string $default_layouts_dir
+	 */
+	public static function setDefaultLayoutsDir( $default_layouts_dir )
+	{
+		static::$default_layouts_dir = $default_layouts_dir;
+	}
+
 
 	/**
 	 * @param Application_Module_Manifest $manifest
@@ -62,7 +157,7 @@ abstract class Application_Module extends BaseObject
 	 */
 	public function getViewsDir()
 	{
-		return $this->module_manifest->getModuleDir().static::VIEWS_DIR;
+		return $this->module_manifest->getModuleDir().static::getDefaultViewsDir().'/';
 	}
 
 	/**
@@ -72,7 +167,7 @@ abstract class Application_Module extends BaseObject
 	 */
 	public function getLayoutsDir()
 	{
-		return $this->module_manifest->getModuleDir().static::LAYOUTS_DIR;
+		return $this->module_manifest->getModuleDir().static::getDefaultLayoutsDir().'/';
 	}
 
 	/**
@@ -146,7 +241,7 @@ abstract class Application_Module extends BaseObject
 	public function install()
 	{
 		$module_dir = $this->module_manifest->getModuleDir();
-		$install_script = $module_dir.static::INSTALL_SCRIPT_PATH;
+		$install_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultInstallScript();
 
 		if( file_exists( $install_script ) ) {
 			try {
@@ -176,7 +271,7 @@ abstract class Application_Module extends BaseObject
 	{
 		$module_dir = $this->module_manifest->getModuleDir();
 
-		$uninstall_script = $module_dir.static::UNINSTALL_SCRIPT_PATH;
+		$uninstall_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultUninstallScript();
 
 		if( file_exists( $uninstall_script ) ) {
 			try {

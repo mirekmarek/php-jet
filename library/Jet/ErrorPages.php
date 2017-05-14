@@ -17,9 +17,119 @@ class ErrorPages extends BaseObject
 	 */
 	protected static $error_pages_dir;
 
-	//TODO: handler (vcetne kodu ...)
-	//TODO: fallback callbacky
-	//TODO: callbacky pro dalsi zpracovani
+	/**
+	 * @var callable[]
+	 */
+	protected static $callbacks = [];
+
+	/**
+	 * @var callable[]
+	 */
+	protected static $fallback = [];
+
+	/**
+	 * @param int      $code
+	 * @param callable $callback
+	 */
+	public static function registerCallback( $code, callable $callback)
+	{
+		static::$callbacks[$code] = $callback;
+
+	}
+
+	/**
+	 * @param int $code
+	 */
+	public function unRegisterCallback( $code )
+	{
+		if(isset(static::$callbacks[$code])) {
+			unset(static::$callbacks[$code]);
+		}
+	}
+
+
+	/**
+	 * @param int      $code
+	 * @param callable $callback
+	 */
+	public static function registerFallback( $code, callable $callback)
+	{
+		static::$fallback[$code] = $callback;
+
+	}
+
+	/**
+	 * @param int $code
+	 */
+	public function unRegisterFallback( $code )
+	{
+		if(isset(static::$fallback[$code])) {
+			unset(static::$fallback[$code]);
+		}
+	}
+
+
+	/**
+	 * @param int  $code
+	 * @param bool $application_end
+	 */
+	public static function handle( $code, $application_end = true )
+	{
+		if(isset(static::$callbacks[$code])) {
+			$callback = static::$callbacks[$code];
+
+			$callback( $code );
+		}
+
+		Http_Headers::response( $code );
+
+		if( !ErrorPages::display( $code ) ) {
+			if(isset(static::$fallback[$code])) {
+				$fallback = static::$fallback[$code];
+
+				$fallback( $code );
+			}
+		}
+
+
+		if(!$application_end) {
+			Application::end();
+		}
+	}
+
+	/**
+	 * @param bool $application_end
+	 */
+	public static function handleServiceUnavailable( $application_end = true )
+	{
+		static::handle(Http_Headers::CODE_503_SERVICE_UNAVAILABLE, $application_end);
+	}
+
+	/**
+	 * @param bool $application_end
+	 */
+	public static function handleInternalServerError( $application_end = true )
+	{
+		static::handle(Http_Headers::CODE_500_INTERNAL_SERVER_ERROR, $application_end);
+	}
+
+
+
+	/**
+	 * @param bool $application_end
+	 */
+	public static function handleUnauthorized( $application_end = true )
+	{
+		static::handle(Http_Headers::CODE_401_UNAUTHORIZED, $application_end);
+	}
+
+	/**
+	 * @param bool $application_end
+	 */
+	public static function handleNotFound( $application_end = true )
+	{
+		static::handle(Http_Headers::CODE_404_NOT_FOUND, $application_end);
+	}
 
 	/**
 	 *

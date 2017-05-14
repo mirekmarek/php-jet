@@ -17,7 +17,7 @@ class UI
 	/**
 	 * @var string
 	 */
-	protected static $views_dir = JET_APPLICATION_PATH.'views/UI/';
+	protected static $views_dir = JET_PATH_APPLICATION.'views/UI/';
 
 	/**
 	 * @var string

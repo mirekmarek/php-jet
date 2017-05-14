@@ -60,7 +60,7 @@ class Form_Field_RadioButton extends Form_Field
 		$options = $this->select_options;
 
 		if( !isset( $options[$this->_value] ) ) {
-			$this->setValueError( self::ERROR_CODE_INVALID_VALUE );
+			$this->setError( self::ERROR_CODE_INVALID_VALUE );
 
 			return false;
 		}

@@ -8,23 +8,23 @@
 namespace Jet;
 
 /** @noinspection PhpIncludeInspection */
-require JET_LIBRARY_PATH.'Jet/Autoloader.php';
+require JET_PATH_LIBRARY.'Jet/Autoloader.php';
 Autoloader::initialize();
 
 
-require JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Jet.php';
+require JET_PATH_LIBRARY.'Jet/Autoloader/Loader/Jet.php';
 Autoloader_Loader_Jet::register();
 
 
-require_once JET_LIBRARY_PATH.'Jet/Autoloader/Loader/ApplicationModules.php';
+require_once JET_PATH_LIBRARY.'Jet/Autoloader/Loader/ApplicationModules.php';
 Autoloader_Loader_ApplicationModules::register();
 
 
-require JET_LIBRARY_PATH.'Jet/Autoloader/Loader/Zend.php';
+require JET_PATH_LIBRARY.'Jet/Autoloader/Loader/Zend.php';
 Autoloader_Loader_Zend::register();
 
 
-require JET_APPLICATION_PATH.'classes/Autoloader.php';
+require JET_PATH_APPLICATION.'classes/Autoloader.php';
 /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
 \JetExampleApp\Autoloader::register();
 

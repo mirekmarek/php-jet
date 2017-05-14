@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CSS
+class PackageCreator_CSS_Default extends PackageCreator_CSS
 {
 	/**
 	 * @var string
@@ -41,7 +41,7 @@ class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CS
 	 */
 	public function getPackagePath()
 	{
-		return JET_PUBLIC_PATH.$this->getPackageRelativeFileName();
+		return JET_PATH_PUBLIC.$this->getPackageRelativeFileName();
 	}
 
 
@@ -51,7 +51,7 @@ class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CS
 	public function getPackageRelativeFileName()
 	{
 
-		return Mvc_Layout::CSS_PACKAGES_DIR_NAME.$this->getKey().'.css';
+		return static::getPackagesDirName().'/'.$this->getKey().'.css';
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CS
 	 */
 	public function getPackageDataPath()
 	{
-		return JET_DATA_PATH.$this->getPackageRelativeFileName().'.dat';
+		return JET_PATH_DATA.$this->getPackageRelativeFileName().'.dat';
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Mvc_Layout_PackageCreator_CSS_Default extends Mvc_Layout_PackageCreator_CS
 	 */
 	public function getPackageURI()
 	{
-		return JET_PUBLIC_URI.$this->getPackageRelativeFileName();
+		return JET_URI_PUBLIC.$this->getPackageRelativeFileName();
 	}
 
 	/**
