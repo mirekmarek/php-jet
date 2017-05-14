@@ -78,7 +78,7 @@ class Application_Modules extends BaseObject
 	 */
 	public static function setHandler( Application_Modules_Handler $handler )
 	{
-		self::$handler = $handler;
+		static::$handler = $handler;
 	}
 
 	/**
@@ -92,7 +92,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Returns an array containing information on all modules
 	 *
 	 * @param bool $ignore_corrupted_modules
 	 *
@@ -106,7 +105,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Returns an array containing information on installed and activated modules
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
@@ -116,8 +114,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Returns true if module exists
-	 * Not decide whether the module is installed and active
 	 *
 	 * @param string $module_name
 	 *
@@ -129,7 +125,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Returns true if module exists and is installed (do not care about activation)
 	 *
 	 * @param string $module_name
 	 *
@@ -141,7 +136,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Returns true if module exists and is installed and activated
 	 *
 	 * @param string $module_name
 	 *
@@ -154,8 +148,6 @@ class Application_Modules extends BaseObject
 
 
 	/**
-	 * Returns information about the module
-	 * Not decide whether the module is installed and active
 	 *
 	 * @param string $module_name
 	 * @param bool   $only_activated (optional, default: false)
@@ -168,7 +160,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Install module
 	 *
 	 * @param string $module_name
 	 *
@@ -180,7 +171,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Uninstall module
 	 *
 	 * @param string $module_name
 	 *
@@ -192,7 +182,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Activate module
 	 *
 	 * @param string $module_name
 	 *
@@ -204,7 +193,6 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Deactivate module
 	 *
 	 * @param string $module_name
 	 *

@@ -74,7 +74,7 @@ class Application_Log extends BaseObject
 	 */
 	public static function getLogger()
 	{
-		return self::$logger;
+		return static::$logger;
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Application_Log extends BaseObject
 	 */
 	public static function setLogger( Application_Log_LoggerInterface $logger )
 	{
-		self::$logger = $logger;
+		static::$logger = $logger;
 	}
 
 	/**

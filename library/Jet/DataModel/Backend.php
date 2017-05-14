@@ -55,11 +55,11 @@ abstract class DataModel_Backend extends BaseObject
 	 */
 	public static function getMainConfig()
 	{
-		if( !self::$_main_config ) {
-			self::$_main_config = new DataModel_Config();
+		if( !static::$_main_config ) {
+			static::$_main_config = new DataModel_Config();
 		}
 
-		return self::$_main_config;
+		return static::$_main_config;
 	}
 
 	/**
@@ -103,7 +103,7 @@ abstract class DataModel_Backend extends BaseObject
 			static::$default_backend->initialize();
 		}
 
-		return self::$default_backend;
+		return static::$default_backend;
 	}
 
 	/**
@@ -111,7 +111,7 @@ abstract class DataModel_Backend extends BaseObject
 	 */
 	public static function setDefaultBackend( DataModel_Backend $default_backend )
 	{
-		self::$default_backend = $default_backend;
+		static::$default_backend = $default_backend;
 	}
 
 

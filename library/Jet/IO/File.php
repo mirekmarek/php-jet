@@ -145,11 +145,11 @@ class IO_File
 	 */
 	public static function getDefaultChmodMask()
 	{
-		if( self::$default_chmod_mask===null ) {
-			self::$default_chmod_mask = JET_IO_CHMOD_MASK_FILE;
+		if( static::$default_chmod_mask===null ) {
+			static::$default_chmod_mask = JET_IO_CHMOD_MASK_FILE;
 		}
 
-		return self::$default_chmod_mask;
+		return static::$default_chmod_mask;
 	}
 
 	/**
@@ -157,7 +157,7 @@ class IO_File
 	 */
 	public static function setDefaultChmodMask( $default_chmod_mask )
 	{
-		self::$default_chmod_mask = $default_chmod_mask;
+		static::$default_chmod_mask = $default_chmod_mask;
 	}
 
 	/**
@@ -215,7 +215,7 @@ class IO_File
 	 */
 	public static function getHttpResponseHeader()
 	{
-		return self::$http_response_header;
+		return static::$http_response_header;
 	}
 
 	/**

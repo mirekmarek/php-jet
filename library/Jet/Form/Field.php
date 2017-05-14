@@ -8,11 +8,14 @@
 namespace Jet;
 
 /**
- * Class Form_Field
- * @package Jet
+ *
  */
 abstract class Form_Field extends BaseObject implements \JsonSerializable
 {
+
+	use Form_Field_Trait_Render;
+
+
 	const ERROR_CODE_EMPTY = 'empty';
 	const ERROR_CODE_INVALID_FORMAT = 'invalid_format';
 
@@ -139,11 +142,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	 * @return Form_Renderer_Single
 	 */
 	protected $_tag_input;
-
-	/**
-	 * @var string
-	 */
-	protected $custom_views_dir;
 
 
 	/**
@@ -760,149 +758,4 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		$this->validate_data_callback = $validate_data_callback;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getCustomViewsDir()
-	{
-		return $this->custom_views_dir;
-	}
-
-	/**
-	 * @param string $custom_views_dir
-	 */
-	public function setCustomViewsDir( $custom_views_dir )
-	{
-		$this->custom_views_dir = $custom_views_dir;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getViewsDir()
-	{
-		if($this->custom_views_dir) {
-			return $this->custom_views_dir;
-		}
-
-		return $this->_form->getViewsDir();
-	}
-
-	/**
-	 * @return Mvc_View
-	 */
-	public function getView() {
-
-		return new Mvc_View($this->getViewsDir());
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->render();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function render()
-	{
-		//TODO: take do view
-		return
-			$this->row()->start().
-				$this->error().
-				$this->label().
-				$this->container()->start().
-					$this->input().
-				$this->container()->end().
-			$this->row()->end();
-	}
-
-	/**
-	 * @return Form_Renderer_Pair
-	 */
-	public function row()
-	{
-		//TODO: ty renderery konfigurovatelne ...
-
-		if( !$this->_tag_row ) {
-			$this->_tag_row = Form_Factory::gerRendererPairInstance( $this->_form, $this );
-			$this->_tag_row->setViewScriptStart('Field/row/start');
-			$this->_tag_row->setViewScriptEnd('Field/row/end');
-		}
-
-		return $this->_tag_row;
-	}
-
-
-	/**
-	 * @return Form_Renderer_Pair
-	 */
-	public function container()
-	{
-		//TODO: ty renderery konfigurovatelne ...
-
-		if( !$this->_tag_container ) {
-			$this->_tag_container = Form_Factory::gerRendererPairInstance( $this->_form, $this );
-			$this->_tag_container->setViewScriptStart('Field/input/container/start');
-			$this->_tag_container->setViewScriptEnd('Field/input/container/end');
-			$this->_tag_container->setWidth( $this->_form->getDefaultFieldWidth() );
-
-		}
-
-		return $this->_tag_container;
-	}
-
-
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	public function error()
-	{
-		//TODO: ty renderery konfigurovatelne ...
-
-		if( !$this->_tag_error ) {
-			$this->_tag_error = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_error->setViewScript('Field/error');
-		}
-
-		return $this->_tag_error;
-	}
-
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	public function label()
-	{
-		//TODO: ty renderery konfigurovatelne ...
-
-		if( !$this->_tag_label ) {
-			$this->_tag_label = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_label->setViewScript('Field/label');
-			$this->_tag_label->setWidth( $this->_form->getDefaultLabelWidth() );
-		}
-
-		return $this->_tag_label;
-	}
-
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	public function input()
-	{
-		//TODO: ty renderery konfigurovatelne ...
-
-		if( !$this->_tag_input ) {
-			$this->_tag_input = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
-			$this->_tag_input->setViewScript('Field/input/'.$this->_type);
-			$this->_tag_input->setWidth( $this->_form->getDefaultFieldWidth() );
-		}
-
-		return $this->_tag_input;
-	}
 }
-
-

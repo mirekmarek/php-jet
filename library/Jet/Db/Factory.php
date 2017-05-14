@@ -24,7 +24,7 @@ class Db_Factory
 	 */
 	public static function getDefaultBackend()
 	{
-		return self::$default_backend;
+		return static::$default_backend;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Db_Factory
 	 */
 	public static function setDefaultBackend( $default_backend )
 	{
-		self::$default_backend = $default_backend;
+		static::$default_backend = $default_backend;
 	}
 
 

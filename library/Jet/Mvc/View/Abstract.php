@@ -168,6 +168,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 		$file = $this->_scripts_dir.$this->_script_name.'.'.static::getScriptFileSuffix();
 
 
+		/*
 		if( !IO_File::exists( $file ) ) {
 			throw new Mvc_View_Exception(
 				'File \''.$file.'\' does not exist',
@@ -181,27 +182,15 @@ abstract class Mvc_View_Abstract extends BaseObject
 				Mvc_View_Exception::CODE_FILE_IS_NOT_READABLE
 			);
 		}
+		*/
 
 		$this->_script_path = $file;
 
 		return $this->_script_path;
 	}
 
-	/**
-	 * Allows testing with empty() and isset()
-	 *
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	public function __isset( $key )
-	{
-		return $this->_data->exists( $key );
-	}
 
 	/**
-	 * Allows testing with empty() and isset()
-	 * Alias of existsVar()
 	 *
 	 * @param string $key
 	 *
@@ -213,7 +202,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Sets view variable
 	 *
 	 * @param string $key
 	 * @param mixed  $val
@@ -226,7 +214,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * UnSets view variable
 	 *
 	 * @param string $key
 	 */
@@ -236,7 +223,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Clears all assigned variables
 	 *
 	 */
 	public function clearVars()
@@ -245,7 +231,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Get raw value from data/path
 	 *
 	 * @param string $key
 	 * @param mixed  $default_value (optional; default: null)
@@ -258,7 +243,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Get data value as int or (int)$default_value if not exists
 	 *
 	 * @param string $key
 	 * @param int    $default_value (optional - default: 0)
@@ -271,7 +255,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Get data value as float or (float)$default_value if not exists
 	 *
 	 * @param string $key
 	 * @param float  $default_value (optional - default: 0)
@@ -284,7 +267,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Get data value as bool or (bool)$default_value if not exists
 	 *
 	 * @param string $key
 	 * @param bool   $default_value (optional - default: false)
@@ -297,7 +279,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Get data value as string or (string)$default_value if not exists
 	 *
 	 * @param string $key
 	 * @param string $default_value (optional - default: '')
@@ -310,7 +291,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * Get view data
 	 *
 	 * @return Data_Array
 	 */

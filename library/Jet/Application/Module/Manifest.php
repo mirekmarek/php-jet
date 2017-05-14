@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Application_Module_Manifest
- * @package Jet
+ *
  */
 class Application_Module_Manifest extends BaseObject implements \JsonSerializable
 {
@@ -130,7 +129,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public static function getManifestFileName()
 	{
-		return self::$manifest_file_name;
+		return static::$manifest_file_name;
 	}
 
 	/**
@@ -138,7 +137,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public static function setManifestFileName( $manifest_file_name )
 	{
-		self::$manifest_file_name = $manifest_file_name;
+		static::$manifest_file_name = $manifest_file_name;
 	}
 
 
@@ -289,7 +288,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 			}
 		}
 
-		if( isset( $manifest_data['require'] )&&!is_array( $manifest_data['require'] ) ) {
+		if( isset( $manifest_data['require'] ) && !is_array( $manifest_data['require'] ) ) {
 			throw new Application_Modules_Exception(
 				'Required modules (\'require\' key) must be an array like [required_module1, required_module2, ...]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE

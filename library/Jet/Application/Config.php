@@ -8,14 +8,12 @@
 namespace Jet;
 
 /**
- * Class Application_Config
  *
  */
 class Application_Config extends Config
 {
 
 	/**
-	 * Create main config instance
 	 *
 	 * @param bool $soft_mode (optional, default: false)
 	 */

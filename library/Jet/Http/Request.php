@@ -83,13 +83,13 @@ class Http_Request extends BaseObject
 	public static function initialize( $hide_PHP_request_data = false )
 	{
 
-		if( self::$is_initialized ) {
+		if( static::$is_initialized ) {
 			return;
 		}
-		self::$_SERVER = $_SERVER;
-		self::$_POST = $_POST;
-		self::$_GET = $_GET;
-		self::$is_initialized = true;
+		static::$_SERVER = $_SERVER;
+		static::$_POST = $_POST;
+		static::$_GET = $_GET;
+		static::$is_initialized = true;
 
 		if( $hide_PHP_request_data ) {
 			Http_Request::hidePHPRequestData();
@@ -114,7 +114,7 @@ class Http_Request extends BaseObject
 	 */
 	public static function getIsInitialized()
 	{
-		return self::$is_initialized;
+		return static::$is_initialized;
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Http_Request extends BaseObject
 	public static function GET()
 	{
 		if( !static::$GET ) {
-			static::$GET = new Data_Array( self::$_GET );
+			static::$GET = new Data_Array( static::$_GET );
 		}
 
 		return static::$GET;
@@ -183,7 +183,7 @@ class Http_Request extends BaseObject
 	public static function POST()
 	{
 		if( !static::$POST ) {
-			static::$POST = new Data_Array( self::$_POST );
+			static::$POST = new Data_Array( static::$_POST );
 		}
 
 		return static::$POST;
@@ -197,7 +197,7 @@ class Http_Request extends BaseObject
 	public static function SERVER()
 	{
 		if( !static::$SERVER ) {
-			static::$SERVER = new Data_Array( self::$_SERVER );
+			static::$SERVER = new Data_Array( static::$_SERVER );
 		}
 
 		return static::$SERVER;

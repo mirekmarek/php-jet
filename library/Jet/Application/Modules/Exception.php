@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Application_Modules_Exception
- * @package Jet
+ *
  */
 class Application_Modules_Exception extends Exception
 {

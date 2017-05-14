@@ -50,7 +50,7 @@ class Auth extends BaseObject
 	 */
 	public static function setAuthController( Auth_ControllerInterface $auth_controller )
 	{
-		self::$auth_controller = $auth_controller;
+		static::$auth_controller = $auth_controller;
 	}
 
 	/**

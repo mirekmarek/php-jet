@@ -2,6 +2,8 @@
 use Jet\Debug_Profiler_Run;
 use Jet\Debug_Profiler_Run_Block;
 
+//TODO: udelat hezci
+
 /**
  * @var Debug_Profiler_Run $run
  */
@@ -86,21 +88,29 @@ function showRunBlock(Debug_Profiler_Run_Block $block)
 		<div id="run_block_label_<?= $id; ?>" class="run_block_label">
 			<table>
 				<tr>
-					<td rowspan="2" valign="top">
+					<td colspan="2" valign="top">
 						<?php if (!$is_root): ?>
 							<span style="font-weight: bold"><?= $block->getLabel(); ?></span>
 						<?php endif; ?>
 					</td>
-					<td colspan="3"><span>Duration: <?= formatDuration($block->getDuration()); ?></span></td>
 				</tr>
 				<tr>
-					<td>Memory usage diff: <?= formatBytes($block->getMemoryUsageDiff()); ?><br/>&nbsp;<span
-							style="font-size: 10px;">(on start: <?= formatBytes($block->getMemoryStart()); ?>
-							, on end: <?= formatBytes($block->getMemoryEnd()); ?>)</span></td>
-					<td>&nbsp;</td>
-					<td>Memory peake diff: <?= formatBytes($block->getMemoryPeakDiff()); ?><br/>&nbsp;<span
-							style="font-size: 10px;">(on start: <?= formatBytes($block->getMemoryPeakStart()); ?>, on end: <?= formatBytes($block->getMemoryPeakEnd()); ?>
-							)</span></td>
+					<td>Duration:</td>
+					<td><?= formatDuration($block->getDuration()); ?></td>
+				</tr>
+				<tr>
+					<td valign="top">Memory usage diff:</td>
+					<td>
+						<?= formatBytes($block->getMemoryUsageDiff()); ?><br/>
+						<span style="font-size: 10px;">(on start: <?= formatBytes($block->getMemoryStart()); ?>, on end: <?= formatBytes($block->getMemoryEnd()); ?>)</span>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">Memory peake diff:</td>
+					<td>
+						<?= formatBytes($block->getMemoryPeakDiff()); ?><br/>&nbsp;
+						<span style="font-size: 10px;">(on start: <?= formatBytes($block->getMemoryPeakStart()); ?>, on end: <?= formatBytes($block->getMemoryPeakEnd()); ?>)</span>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -110,113 +120,100 @@ function showRunBlock(Debug_Profiler_Run_Block $block)
 
 
 			<?php if (!$is_root): ?>
-				<a href="#" onClick="toggleDisplay('run_block_details_<?= $id; ?>');">Details &gt;&gt;&gt;</a>
+				<a href="javascript:toggleDisplay('run_block_details_<?= $id; ?>');">Details &gt;&gt;&gt;</a>
 			<?php endif; ?>
 
 		</div>
 
 		<div id="run_block_details_<?= $id; ?>" class="run_block_details" style="display: none;">
-			<table>
 
 				<?php if ($block->getMessages()): ?>
-					<tr>
-						<td></td>
-						<td>
-							<a href="#" onClick="toggleDisplay('run_block_details_messages_<?= $id; ?>');">Messages</a>
-							<div class="run_block_details_backtrace" id="run_block_details_messages_<?= $id; ?>"
-							     style="display: block">
-								<ul>
-									<?php foreach ($block->getMessages() as $msg): ?>
-										<li>
-											<?= $msg->getText(); ?>
-											<span
-												style="font-size: 10px;"><br/>( <?= /** @noinspection PhpUsageOfSilenceOperatorInspection */
-												@array_shift($msg->getBacktrace()); ?> )</span>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							</div>
-						</td>
-					</tr>
+					<div>
+					<a href="javascript:toggleDisplay('run_block_details_messages_<?= $id; ?>');">Messages</a>
+					<div class="run_block_details_backtrace" id="run_block_details_messages_<?= $id; ?>"
+					     style="display: block">
+						<ul>
+							<?php foreach ($block->getMessages() as $msg): ?>
+								<li>
+									<?= $msg->getText(); ?>
+									<span
+										style="font-size: 10px;"><br/>( <?= /** @noinspection PhpUsageOfSilenceOperatorInspection */
+										@array_shift($msg->getBacktrace()); ?> )</span>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					</div>
 				<?php endif; ?>
 
 				<?php if ($block->getSQLQueries()): ?>
-					<tr>
-						<td></td>
-						<td>
-							<a href="#" onClick="toggleDisplay('run_block_details_queries_<?= $id; ?>');">SQL
-								queries</a>
-							<div class="run_block_details_backtrace" id="run_block_details_queries_<?= $id; ?>"
-							     style="display: block">
-								<table border="1">
-									<thead>
-									<tr>
-										<td>Query</td>
-										<td>Duration</td>
-										<td nowrap>Rows count</td>
-										<?php /*<td nowrap>Memory diff</td>*/ ?>
-										<td>Backtrace</td>
+					<div>
+					<a href="javascript:toggleDisplay('run_block_details_queries_<?= $id; ?>');">SQL queries</a>
+					<div class="run_block_details_backtrace" id="run_block_details_queries_<?= $id; ?>"
+					     style="display: block">
+						<table class="table table-striped">
+							<thead>
+							<tr>
+								<th>Query</th>
+								<th>Duration</th>
+								<th nowrap>Rows count</th>
+								<?php /*<td nowrap>Memory diff</td>*/ ?>
+								<th>Backtrace</th>
 
-									</tr>
-									</thead>
-									<tbody>
+							</tr>
+							</thead>
+							<tbody>
 
-									<?php
-									$total_count = 0;
-									$total_duration = 0;
-									foreach ($block->getSQLQueries() as $q):
-										$total_count++;
-										$total_duration = $total_duration + $q->getDuration();
-										?>
-										<tr>
-											<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
-											<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
-											<td valign="top"><?= $q->getRowsCount(); ?></td>
-											<?php /* <td valign="top">
-											Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
-											<br/>
-											Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-										</td> */ ?>
-											<td valign="top"><?= implode('<br/>', $q->getBacktrace()); ?></td>
-										</tr>
-									<?php endforeach; ?>
-									</tbody>
-									<tfoot>
-									<tr>
-										<td>Total count: <?= $total_count; ?></td>
-										<td><?= formatDuration($total_duration); ?></td>
-									</tr>
-									</tfoot>
-								</table>
-							</div>
-						</td>
-					</tr>
+							<?php
+							$total_count = 0;
+							$total_duration = 0;
+							foreach ($block->getSQLQueries() as $q):
+								$total_count++;
+								$total_duration = $total_duration + $q->getDuration();
+								?>
+								<tr>
+									<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
+									<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
+									<td valign="top"><?= $q->getRowsCount(); ?></td>
+									<?php /* <td valign="top">
+									Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
+									<br/>
+									Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
+								</td> */ ?>
+									<td valign="top"><?= implode('<br/>', $q->getBacktrace()); ?></td>
+								</tr>
+							<?php endforeach; ?>
+							</tbody>
+							<tfoot>
+							<tr>
+								<th>Total count: <?= $total_count; ?></th>
+								<th><?= formatDuration($total_duration); ?></th>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+					</div>
 				<?php endif; ?>
 				<?php if (!$is_root): ?>
-					<tr>
-						<td></td>
-						<td>
-							<a href="#"
-							   onClick="toggleDisplay('run_block_details_backtrace_<?= $id; ?>');">Backtrace</a>
-							<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?= $id; ?>"
-							     style="display: none">
-								<strong>Block start backtrace:</strong>
-								<ul>
-									<?php foreach ($block->getBacktraceStart() as $bt): ?>
-										<li><?= $bt; ?></li>
-									<?php endforeach; ?>
-								</ul>
-								<strong>Block end backtrace:</strong>
-								<ul>
-									<?php foreach ($block->getBacktraceEnd() as $bt): ?>
-										<li><?= $bt; ?></li>
-									<?php endforeach; ?>
-								</ul>
-							</div>
-						</td>
-					</tr>
+					<div>
+					<a href="javascript:toggleDisplay('run_block_details_backtrace_<?= $id; ?>');">Backtrace</a>
+					<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?= $id; ?>"
+					     style="display: none">
+						<strong>Block start backtrace:</strong>
+						<ul>
+							<?php foreach ($block->getBacktraceStart() as $bt): ?>
+								<li><?= $bt; ?></li>
+							<?php endforeach; ?>
+						</ul>
+						<strong>Block end backtrace:</strong>
+						<ul>
+							<?php foreach ($block->getBacktraceEnd() as $bt): ?>
+								<li><?= $bt; ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					</div>
 				<?php endif; ?>
-			</table>
 		</div>
 
 		<?php if (($children = $block->getChildren())): ?>
@@ -235,11 +232,10 @@ function showRunBlock(Debug_Profiler_Run_Block $block)
 <html>
 <head>
 
-	<style type="text/css">
-		html, body, a {
-			font: 12px Arial, Myriad, Tahoma, Verdana, sans-serif;
-		}
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
 
+	<style type="text/css">
 		.run_block {
 			border: 1px solid #c9c9c9;
 			margin-bottom: 5px;;
@@ -266,92 +262,99 @@ function showRunBlock(Debug_Profiler_Run_Block $block)
 		}
 
 	</style>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
 	<script type="text/javascript">
 		function toggleDisplay(id) {
-			var e = document.getElementById(id);
-			e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+			$('#'+id).toggle();
 		}
 
 	</script>
 </head>
 <body>
-<table>
-	<tr>
-		<td>Run id:</td>
-		<td><?= $run->getId(); ?></td>
-	</tr>
-	<tr>
-		<td>Request URL:</td>
-		<td><?= $run->getRequestURL(); ?></td>
-	</tr>
-	<tr>
-		<td>Date and time:</td>
-		<td><?= $run->getDateAndTime(); ?></td>
-	</tr>
-</table>
+<div class="container-full" style="padding: 10px;">
+	<h1>PHP Jet Profiler result</h1>
 
-<hr/>
-<h2>Run blocks</h2>
-<?php showRunBlock($blocks[0]); ?>
-
-<hr/>
-
-<h2>SQL queries overview</h2>
-<table border="1">
-	<thead>
-	<tr>
-		<td>Block</td>
-		<td>Query</td>
-		<td>Duration</td>
-		<td nowrap>Rows count</td>
-		<?php /*<td nowrap>Memory diff</td>*/ ?>
-		<td>Backtrace</td>
-
-	</tr>
-	</thead>
-	<tbody>
-
-	<?php
-	$total_count = 0;
-	$total_duration = 0;
-	foreach ($run->getSqlQueries() as $q):
-		$total_count++;
-		$total_duration = $total_duration + $q->getDuration();
-		?>
+	<table class="table">
 		<tr>
-			<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
-			<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
-			<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
-			<td valign="top"><?= $q->getRowsCount(); ?></td>
-			<?php /*<td valign="top">
-							Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
-							<br/>
-							Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
-					</td>*/ ?>
-			<td valign="top">
-				<ul>
-					<li><?= implode('</li><li>', $q->getBacktrace()); ?></li>
-				</ul>
-			</td>
+			<td>Run id:</td>
+			<td width="100%"><?= $run->getId(); ?></td>
 		</tr>
-	<?php endforeach; ?>
-	</tbody>
-	<tfoot>
-	<tr>
-		<td></td>
-		<td>Total count: <?= $total_count; ?></td>
-		<td><?= formatDuration($total_duration); ?></td>
-	</tr>
-	</tfoot>
-</table>
+		<tr>
+			<td>Request URL:</td>
+			<td><?= $run->getRequestURL(); ?></td>
+		</tr>
+		<tr>
+			<td nowrap="">Date and time:</td>
+			<td><?= $run->getDateAndTime(); ?></td>
+		</tr>
+	</table>
+
+	<hr/>
+	<?php if ($run->getXHPData()): ?>
+		<a href="?JPR&run=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
+	<?php else: ?>
+		<strong>XHProf data not available</strong>
+	<?php endif; ?>
 
 
-<hr/>
-<?php if ($run->getXHPData()): ?>
-	<a href="?JPR&run=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
+	<hr/>
+	<h2>Run blocks</h2>
+	<?php showRunBlock($blocks[0]); ?>
 
-<?php else: ?>
-	<strong>XHProf data not available</strong>
-<?php endif; ?>
-</body>
+	<hr/>
+
+	<h2>SQL queries overview</h2>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Block</th>
+			<th>Query</th>
+			<th>Duration</th>
+			<th>Rows&nbsp;count</th>
+			<?php /*<td nowrap>Memory diff</td>*/ ?>
+			<th>Backtrace</th>
+
+		</tr>
+		</thead>
+		<tbody>
+
+		<?php
+		$total_count = 0;
+		$total_duration = 0;
+		foreach ($run->getSqlQueries() as $q):
+			$total_count++;
+			$total_duration = $total_duration + $q->getDuration();
+			?>
+			<tr>
+				<td><a href="#run_block_<?= $q->getBlockId(); ?>"><?= $blocks[$q->getBlockId()]->getLabel(); ?></a></td>
+				<td valign="top"><?= formatQuery($q->getQuery(), $q->getQueryData()); ?></td>
+				<td valign="top"><?= formatDuration($q->getDuration()); ?></td>
+				<td valign="top"><?= $q->getRowsCount(); ?></td>
+				<?php /*<td valign="top">
+								Usage:&nbsp;<?=formatBytes( $q->getMemoryUsageDiff() );?>
+								<br/>
+								Peak&nbsp;usage:&nbsp;<?=formatBytes( $q->getMemoryPeakDiff() );?>
+						</td>*/ ?>
+				<td valign="top">
+					<ul>
+						<li><?= implode('</li><li>', $q->getBacktrace()); ?></li>
+					</ul>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+		<tfoot>
+		<tr>
+			<th></th>
+			<th>Total count: <?= $total_count; ?></th>
+			<th><?= formatDuration($total_duration); ?></th>
+		</tr>
+		</tfoot>
+	</table>
+
+</div>
+
+	</body>
 </html>

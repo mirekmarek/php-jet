@@ -73,6 +73,26 @@ class Form extends BaseObject
 	protected static $default_views_dir = JET_PATH_APPLICATION.'views/Form/';
 
 	/**
+	 * @var string
+	 */
+	protected static $default_renderer_start_script = 'start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_renderer_end_script = 'end';
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_start_script = 'start';
+
+	/**
+	 * @var string
+	 */
+	protected $renderer_end_script = 'end';
+
+	/**
 	 *
 	 * @var string $name
 	 */
@@ -189,6 +209,79 @@ class Form extends BaseObject
 	{
 		static::$default_views_dir = $default_views_dir;
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererStartScript()
+	{
+		return static::$default_renderer_start_script;
+	}
+
+	/**
+	 * @param string $default_renderer_start_script
+	 */
+	public static function setDefaultRendererStartScript( $default_renderer_start_script )
+	{
+		static::$default_renderer_start_script = $default_renderer_start_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultRendererEndScript()
+	{
+		return static::$default_renderer_end_script;
+	}
+
+	/**
+	 * @param string $default_renderer_end_script
+	 */
+	public static function setDefaultRendererEndScript( $default_renderer_end_script )
+	{
+		static::$default_renderer_end_script = $default_renderer_end_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererStartScript()
+	{
+		if(!$this->renderer_start_script) {
+			$this->renderer_start_script = static::getRendererStartScript();
+		}
+		return $this->renderer_start_script;
+	}
+
+	/**
+	 * @param string $renderer_start_script
+	 */
+	public function setRendererStartScript( $renderer_start_script )
+	{
+		$this->renderer_start_script = $renderer_start_script;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRendererEndScript()
+	{
+		if(!$this->renderer_end_script) {
+			$this->renderer_end_script = static::getRendererEndScript();
+		}
+
+		return $this->renderer_end_script;
+	}
+
+	/**
+	 * @param string $renderer_end_script
+	 */
+	public function setRendererEndScript( $renderer_end_script )
+	{
+		$this->renderer_end_script = $renderer_end_script;
+	}
+
+
 
 	/**
 	 * constructor
@@ -864,9 +957,9 @@ class Form extends BaseObject
 			$this->checkFieldsHasErrorMessages();
 
 			$this->_form_tag = Form_Factory::gerRendererPairInstance( $this );
-			//TODO: rederery konfigurovatelne
-			$this->_form_tag->setViewScriptStart('start');
-			$this->_form_tag->setViewScriptEnd('end');
+
+			$this->_form_tag->setViewScriptStart( $this->getRendererStartScript() );
+			$this->_form_tag->setViewScriptEnd( $this->getRendererEndScript() );
 		}
 
 		return $this->_form_tag;

@@ -150,7 +150,7 @@ class Debug_ErrorHandler
 			return;
 		}
 
-		self::$last_error = [
+		static::$last_error = [
 			'type' => $code, 'message' => $message, 'file' => $file, 'line' => $line,
 		];
 
@@ -237,9 +237,9 @@ class Debug_ErrorHandler
 	 */
 	public static function getLastError()
 	{
-		$last_error = self::$last_error;
+		$last_error = static::$last_error;
 
-		self::$last_error = null;
+		static::$last_error = null;
 
 		return $last_error;
 	}

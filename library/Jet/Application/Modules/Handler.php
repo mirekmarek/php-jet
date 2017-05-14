@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Application_Modules_Handler_Abstract
- * @package Jet
+ *
  */
 abstract class Application_Modules_Handler extends BaseObject
 {
@@ -24,7 +23,6 @@ abstract class Application_Modules_Handler extends BaseObject
 
 
 	/**
-	 * Returns true if the module name correspond to a valid format
 	 *
 	 * @param string $module_name
 	 *
@@ -52,7 +50,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function getInstalledModulesList();
 
 	/**
-	 * Returns an array containing information on all modules
 	 *
 	 * @param bool $ignore_corrupted_modules
 	 *
@@ -63,15 +60,12 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function getAllModulesList( $ignore_corrupted_modules = true );
 
 	/**
-	 * Returns an array containing information on installed and activated modules
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
 	abstract public function getActivatedModulesList();
 
 	/**
-	 * Returns true if module exists
-	 * Not decide whether the module is installed and active
 	 *
 	 * @param string $module_name
 	 *
@@ -80,7 +74,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function getModuleExists( $module_name );
 
 	/**
-	 * Returns true if module exists and is installed (do not care about activation)
 	 *
 	 * @param string $module_name
 	 *
@@ -89,7 +82,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function getModuleIsInstalled( $module_name );
 
 	/**
-	 * Returns true if module exists and is installed and activated
 	 *
 	 * @param string $module_name
 	 *
@@ -99,8 +91,6 @@ abstract class Application_Modules_Handler extends BaseObject
 
 
 	/**
-	 * Returns information about the module
-	 * Not decide whether the module is installed and active
 	 *
 	 * @param string $module_name
 	 * @param bool   $only_activated (optional, default: false)
@@ -110,7 +100,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function getModuleManifest( $module_name, $only_activated = false );
 
 	/**
-	 * Install module
 	 *
 	 * @param string $module_name
 	 *
@@ -119,7 +108,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function installModule( $module_name );
 
 	/**
-	 * Uninstall module
 	 *
 	 * @param string $module_name
 	 *
@@ -128,7 +116,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function uninstallModule( $module_name );
 
 	/**
-	 * Activate module
 	 *
 	 * @param string $module_name
 	 *
@@ -137,7 +124,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function activateModule( $module_name );
 
 	/**
-	 * Deactivate module
 	 *
 	 * @param string $module_name
 	 *
@@ -146,7 +132,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	abstract public function deactivateModule( $module_name );
 
 	/**
-	 * Reloads module manifest
 	 *
 	 * @param string $module_name
 	 */
@@ -154,7 +139,6 @@ abstract class Application_Modules_Handler extends BaseObject
 
 
 	/**
-	 * Returns instance of the module base class
 	 *
 	 * @param string $module_name
 	 *

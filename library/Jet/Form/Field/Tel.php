@@ -19,6 +19,47 @@ class Form_Field_Tel extends Form_Field_Input
 	protected $_type = Form::TYPE_TEL;
 
 	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'field';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_start_renderer_script = 'Field/row/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_end_renderer_script = 'Field/row/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_error_renderer = 'Field/error';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_label_renderer = 'Field/label';
+
+	/**
+	 * @var string string
+	 */
+	protected static $default_input_renderer = 'Field/input/Tel';
+
+
+	/**
 	 * @var array
 	 */
 	protected $error_messages = [

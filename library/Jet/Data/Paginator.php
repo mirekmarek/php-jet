@@ -136,8 +136,8 @@ class Data_Paginator extends BaseObject
 			$this->items_per_page = 1;
 		}
 
-		if( $this->items_per_page>self::$max_items_per_page ) {
-			$this->items_per_page = self::$max_items_per_page;
+		if( $this->items_per_page>static::$max_items_per_page ) {
+			$this->items_per_page = static::$max_items_per_page;
 		}
 
 		if( $URL_template&&strpos( $URL_template, self::URL_PAGE_NO_KEY )===false ) {

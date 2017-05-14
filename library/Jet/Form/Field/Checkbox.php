@@ -16,6 +16,46 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @var string
 	 */
+	protected static $default_renderer_script = 'field';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_start_renderer_script = 'Field/row/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_end_renderer_script = 'Field/row/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_error_renderer = 'Field/error';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_label_renderer = 'Field/label/checkbox';
+
+	/**
+	 * @var string string
+	 */
+	protected static $default_input_renderer = 'Field/input/Checkbox';
+
+	/**
+	 * @var string
+	 */
 	protected $_type = Form::TYPE_CHECKBOX;
 
 	/**
@@ -69,17 +109,5 @@ class Form_Field_Checkbox extends Form_Field
 		return [];
 	}
 
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	public function label()
-	{
-		if(!$this->_tag_label) {
-			$this->_tag_label = parent::label();
-			$this->_tag_label->setViewScript('Field/label/checkbox');
-		}
-
-		return $this->_tag_label;
-	}
 
 }

@@ -43,7 +43,7 @@ abstract class PackageCreator extends BaseObject
 	 */
 	public static function getCSSClassName()
 	{
-		return self::$CSS_class_name;
+		return static::$CSS_class_name;
 	}
 
 	/**
@@ -51,7 +51,7 @@ abstract class PackageCreator extends BaseObject
 	 */
 	public static function setCSSClassName( $CSS_class_name )
 	{
-		self::$CSS_class_name = $CSS_class_name;
+		static::$CSS_class_name = $CSS_class_name;
 	}
 
 
@@ -73,7 +73,7 @@ abstract class PackageCreator extends BaseObject
 	 */
 	public static function getJavaScriptClassName()
 	{
-		return self::$JavaScript_class_name;
+		return static::$JavaScript_class_name;
 	}
 
 	/**
@@ -81,7 +81,7 @@ abstract class PackageCreator extends BaseObject
 	 */
 	public static function setJavaScriptClassName( $JavaScript_class_name )
 	{
-		self::$JavaScript_class_name = $JavaScript_class_name;
+		static::$JavaScript_class_name = $JavaScript_class_name;
 	}
 
 

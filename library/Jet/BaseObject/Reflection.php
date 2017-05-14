@@ -127,7 +127,7 @@ class BaseObject_Reflection
 	 */
 	public static function getParserRegexp()
 	{
-		return self::$parser_regexp;
+		return static::$parser_regexp;
 	}
 
 	/**
@@ -135,7 +135,7 @@ class BaseObject_Reflection
 	 */
 	public static function setParserRegexp( $parser_regexp )
 	{
-		self::$parser_regexp = $parser_regexp;
+		static::$parser_regexp = $parser_regexp;
 	}
 
 	/**

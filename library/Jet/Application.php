@@ -37,11 +37,11 @@ class Application extends BaseObject
 	 */
 	public static function getConfigFilePath()
 	{
-		if( !self::$config_file_path ) {
+		if( !static::$config_file_path ) {
 			static::$config_file_path = JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/'.static::CONFIG_FILE_NAME.'.php';
 		}
 
-		return self::$config_file_path;
+		return static::$config_file_path;
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Application extends BaseObject
 	 */
 	public static function setConfigFilePath( $config_file_path )
 	{
-		self::$config_file_path = $config_file_path;
+		static::$config_file_path = $config_file_path;
 	}
 
 
@@ -97,6 +97,8 @@ class Application extends BaseObject
 	 */
 	public static function runMvc( callable $after_initialization=null, $URL = null )
 	{
+		Debug_Profiler::MainBlockStart( 'MVC router - init and resolve' );
+
 		$router = Mvc::getCurrentRouter();
 
 		if( !$URL ) {
@@ -104,6 +106,8 @@ class Application extends BaseObject
 		}
 
 		$router->initialize( $URL );
+
+		Debug_Profiler::MainBlockEnd( 'MVC router - init and resolve' );
 
 		if( $after_initialization ) {
 			$after_initialization();

@@ -109,8 +109,8 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 	{
 
 
-		if( isset( self::$__definitions[$class_name] ) ) {
-			return self::$__definitions[$class_name];
+		if( isset( static::$__definitions[$class_name] ) ) {
+			return static::$__definitions[$class_name];
 		}
 
 		return static::_loadDefinition( $class_name );
@@ -141,15 +141,15 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 		/**
 		 * @var DataModel $class_name
 		 */
-		self::$__definitions[(string)$class_name] = $class_name::_getDataModelDefinitionInstance( $class_name );
+		static::$__definitions[(string)$class_name] = $class_name::_getDataModelDefinitionInstance( $class_name );
 
 		if( static::getCacheSaveEnabled() ) {
 			IO_File::write(
-				$file_path, '<?php return '.var_export( self::$__definitions[(string)$class_name], true ).';'
+				$file_path, '<?php return '.var_export( static::$__definitions[(string)$class_name], true ).';'
 			);
 		}
 
-		return self::$__definitions[(string)$class_name];
+		return static::$__definitions[(string)$class_name];
 
 	}
 

@@ -121,7 +121,7 @@ trait Mvc_Page_Trait_Initialization
 
 		foreach( $list as $dir_path => $dir_name ) {
 
-			$page_data = static::_loadPages_readPageDataFile( $dir_path.self::$page_data_file_name, $parent_page_data );
+			$page_data = static::_loadPages_readPageDataFile( $dir_path.static::$page_data_file_name, $parent_page_data );
 
 			$page_data['URL_fragment'] = $dir_name;
 

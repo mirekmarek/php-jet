@@ -273,7 +273,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns an array containing information on all modules
 	 *
 	 * @param bool $ignore_corrupted_modules
 	 *
@@ -350,7 +349,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns true if module exists and is installed (do not care about activation)
 	 *
 	 * @param string $module_name
 	 *
@@ -371,7 +369,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns true if module exists and is installed and activated
 	 *
 	 * @param string $module_name
 	 *
@@ -392,7 +389,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Install module
 	 *
 	 * @param string $module_name
 	 *
@@ -495,7 +491,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns true if the module name correspond to a valid format
 	 *
 	 * @param string $module_name
 	 *
@@ -523,8 +518,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns information about the module
-	 * Not decide whether the module is installed and active
 	 *
 	 * @param string $module_name
 	 * @param bool   $only_activated (optional, default: false)
@@ -556,7 +549,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns instance of the module base class
 	 *
 	 * @param string $module_name
 	 *
@@ -616,21 +608,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Write installed modules
-	 *
-	 */
-	protected function _saveInstalledModulesList()
-	{
-		$this->all_modules_list = null;
-
-		IO_File::write(
-			$this->modules_list_file_path,
-			'<?php'.JET_EOL.' return '.var_export( $this->installed_modules_list, true ).';'.JET_EOL
-		);
-	}
-
-	/**
-	 * Uninstall module
 	 *
 	 * @param string $module_name
 	 *
@@ -689,7 +666,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Checks module dependencies before uninstalling or deactivating
 	 *
 	 * @param string $module_name
 	 *
@@ -724,7 +700,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Activate module
 	 *
 	 * @param string $module_name
 	 *
@@ -776,7 +751,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Deactivate module
 	 *
 	 * @param string $module_name
 	 *
@@ -808,7 +782,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Reloads module manifest
 	 *
 	 * @param string $module_name
 	 */
@@ -836,6 +809,19 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			$this->_saveInstalledModulesList();
 		}
 
+	}
+
+	/**
+	 *
+	 */
+	protected function _saveInstalledModulesList()
+	{
+		$this->all_modules_list = null;
+
+		IO_File::write(
+			$this->modules_list_file_path,
+			'<?php'.JET_EOL.' return '.var_export( $this->installed_modules_list, true ).';'.JET_EOL
+		);
 	}
 
 

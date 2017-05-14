@@ -45,11 +45,11 @@ class Mvc
 	 */
 	public static function getCurrentRouter()
 	{
-		if( !self::$current_router ) {
-			self::$current_router = Mvc_Factory::getRouterInstance();
+		if( !static::$current_router ) {
+			static::$current_router = Mvc_Factory::getRouterInstance();
 		}
 
-		return self::$current_router;
+		return static::$current_router;
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Mvc
 	 */
 	public static function setCurrentRouter( Mvc_Router_Interface $current_router )
 	{
-		self::$current_router = $current_router;
+		static::$current_router = $current_router;
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Mvc
 	 */
 	public static function setCurrentSite( Mvc_Site_Interface $current_site )
 	{
-		self::$current_site = $current_site;
+		static::$current_site = $current_site;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Mvc
 		Translator::setCurrentLocale( $current_locale );
 		Locale::setCurrentLocale( $current_locale );
 
-		self::$current_locale = $current_locale;
+		static::$current_locale = $current_locale;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Mvc
 	 */
 	public static function unsetCurrentPage()
 	{
-		self::$current_page = null;
+		static::$current_page = null;
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Mvc
 	 */
 	public static function setCurrentPage( Mvc_Page_Interface $current_page )
 	{
-		self::$current_page = $current_page;
+		static::$current_page = $current_page;
 	}
 
 	/**

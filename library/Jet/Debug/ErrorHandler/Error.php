@@ -95,8 +95,8 @@ class Debug_ErrorHandler_Error
 	 */
 	public static function getPHPErrorText( $error_number )
 	{
-		return isset( self::$PHP_errors_txt[$error_number] ) ?
-			self::$PHP_errors_txt[$error_number]
+		return isset( static::$PHP_errors_txt[$error_number] ) ?
+			static::$PHP_errors_txt[$error_number]
 			:
 			'UNKNOWN ('.(int)$error_number.')';
 	}
@@ -164,7 +164,7 @@ class Debug_ErrorHandler_Error
 		array_shift( $e->backtrace );
 		array_shift( $e->backtrace );
 
-		$e->is_fatal = in_array( $e->code, self::$PHP_fatal_errors );
+		$e->is_fatal = in_array( $e->code, static::$PHP_fatal_errors );
 
 		return $e;
 	}
@@ -184,7 +184,7 @@ class Debug_ErrorHandler_Error
 		$e->file = $error['file'];
 		$e->line = $error['line'];
 
-		$e->is_fatal = in_array( $e->code, self::$PHP_fatal_errors );
+		$e->is_fatal = in_array( $e->code, static::$PHP_fatal_errors );
 
 		return $e;
 	}

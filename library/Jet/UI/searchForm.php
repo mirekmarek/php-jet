@@ -69,7 +69,7 @@ class UI_searchForm extends BaseObject
 	 */
 	public static function getDefaultPlaceholder()
 	{
-		return self::$default_placeholder;
+		return static::$default_placeholder;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class UI_searchForm extends BaseObject
 	 */
 	public static function setDefaultPlaceholder( $default_placeholder )
 	{
-		self::$default_placeholder = $default_placeholder;
+		static::$default_placeholder = $default_placeholder;
 	}
 
 	/**

@@ -66,7 +66,7 @@ class Session extends BaseObject
 	 */
 	public static function getSessionValidator()
 	{
-		return self::$session_validator;
+		return static::$session_validator;
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Session extends BaseObject
 	 */
 	public static function setSessionValidator( callable $session_validator )
 	{
-		self::$session_validator = $session_validator;
+		static::$session_validator = $session_validator;
 	}
 
 	/**

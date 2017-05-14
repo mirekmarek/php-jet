@@ -14,6 +14,47 @@ namespace Jet;
 class Form_Field_WYSIWYG extends Form_Field
 {
 	/**
+	 * @var string
+	 */
+	protected static $default_renderer_script = 'field';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_start_renderer_script = 'Field/row/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_end_renderer_script = 'Field/row/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_error_renderer = 'Field/error';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_label_renderer = 'Field/label';
+
+	/**
+	 * @var string string
+	 */
+	protected static $default_input_renderer = 'Field/input/WYSIWYG';
+
+
+	/**
 	 * @var array
 	 */
 	protected static $default_editor_CSS_files = [
@@ -113,7 +154,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public static function getDefaultEditorCSSFiles()
 	{
-		return self::$default_editor_CSS_files;
+		return static::$default_editor_CSS_files;
 	}
 
 	/**
@@ -121,7 +162,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public static function setDefaultEditorCSSFiles( $default_editor_CSS_files )
 	{
-		self::$default_editor_CSS_files = $default_editor_CSS_files;
+		static::$default_editor_CSS_files = $default_editor_CSS_files;
 	}
 
 	/**
@@ -159,7 +200,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public static function getDefaultEditorJavaScriptFiles()
 	{
-		return self::$default_editor_JavaScript_files;
+		return static::$default_editor_JavaScript_files;
 	}
 
 	/**
@@ -167,7 +208,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public static function setDefaultEditorJavaScriptFiles( $default_editor_JavaScript_files )
 	{
-		self::$default_editor_JavaScript_files = $default_editor_JavaScript_files;
+		static::$default_editor_JavaScript_files = $default_editor_JavaScript_files;
 	}
 
 	/**
@@ -195,7 +236,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public static function getDefaultEditorConfig()
 	{
-		return self::$default_editor_config;
+		return static::$default_editor_config;
 	}
 
 	/**
@@ -203,7 +244,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	public static function setDefaultEditorConfig( $default_editor_config )
 	{
-		self::$default_editor_config = $default_editor_config;
+		static::$default_editor_config = $default_editor_config;
 	}
 
 	/**

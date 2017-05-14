@@ -249,10 +249,10 @@ class IO_Dir
 	public static function getDefaultChmodMask()
 	{
 		if( static::$default_chmod_mask===null ) {
-			self::$default_chmod_mask = JET_IO_CHMOD_MASK_DIR;
+			static::$default_chmod_mask = JET_IO_CHMOD_MASK_DIR;
 		}
 
-		return self::$default_chmod_mask;
+		return static::$default_chmod_mask;
 	}
 
 	/**
@@ -260,7 +260,7 @@ class IO_Dir
 	 */
 	public static function setDefaultChmodMask( $default_chmod_mask )
 	{
-		self::$default_chmod_mask = $default_chmod_mask;
+		static::$default_chmod_mask = $default_chmod_mask;
 	}
 
 	/**

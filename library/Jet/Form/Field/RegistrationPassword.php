@@ -20,6 +20,46 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @var string
 	 */
+	protected static $default_renderer_script = 'field-RegistrationPassword';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_start_renderer_script = 'Field/row/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_row_end_renderer_script = 'Field/row/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_start_renderer_script = 'Field/input/container/start';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_input_container_end_renderer_script = 'Field/input/container/end';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_error_renderer = 'Field/error';
+
+	/**
+	 * @var string
+	 */
+	protected static $default_label_renderer = 'Field/label';
+
+	/**
+	 * @var string string
+	 */
+	protected static $default_input_renderer = 'Field/input/RegistrationPassword';
+
+	/**
+	 * @var string
+	 */
 	protected $_type = Form::TYPE_REGISTRATION_PASSWORD;
 
 	/**
@@ -191,19 +231,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 			return '';
 		}
 
-		return $this->row()->start()
-					.$this->error()
-					.$this->label()
-					.$this->container()->start()
-						.$this->input()
-					.$this->container()->end()
-				.$this->row()->end()
-				.$this->row()->start()
-					.$this->label_confirmation()
-					.$this->container()->start()
-						.$this->input_confirmation()
-					.$this->container()->end()
-				.$this->row()->end();
+		return parent::render();
 	}
 
 	/**

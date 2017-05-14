@@ -28,7 +28,7 @@ class DataModel_Factory
 	 */
 	public static function getPropertyDefinitionClassNamePrefix()
 	{
-		return self::$property_definition_class_name_prefix;
+		return static::$property_definition_class_name_prefix;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class DataModel_Factory
 	 */
 	public static function setPropertyDefinitionClassNamePrefix( $property_definition_class_name_prefix )
 	{
-		self::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
+		static::$property_definition_class_name_prefix = $property_definition_class_name_prefix;
 	}
 
 
@@ -69,7 +69,7 @@ class DataModel_Factory
 	 */
 	public static function getBackendClassNamePrefix()
 	{
-		return self::$backend_class_name_prefix;
+		return static::$backend_class_name_prefix;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class DataModel_Factory
 	 */
 	public static function setBackendClassNamePrefix( $backend_class_name_prefix )
 	{
-		self::$backend_class_name_prefix = $backend_class_name_prefix;
+		static::$backend_class_name_prefix = $backend_class_name_prefix;
 	}
 
 	/**

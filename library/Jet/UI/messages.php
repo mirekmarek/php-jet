@@ -36,7 +36,7 @@ class UI_messages extends BaseObject
 	 */
 	public static function getSessionNamespace()
 	{
-		return self::$session_namespace;
+		return static::$session_namespace;
 	}
 
 	/**
@@ -44,7 +44,7 @@ class UI_messages extends BaseObject
 	 */
 	public static function setSessionNamespace( $session_namespace )
 	{
-		self::$session_namespace = $session_namespace;
+		static::$session_namespace = $session_namespace;
 	}
 
 
@@ -85,7 +85,7 @@ class UI_messages extends BaseObject
 			static::$session = new Session( static::getSessionNamespace() );
 		}
 
-		return self::$session;
+		return static::$session;
 	}
 
 	/**

@@ -148,7 +148,7 @@ class Debug_Profiler
 	 */
 	public static function getEnabled()
 	{
-		return self::$enabled;
+		return static::$enabled;
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Debug_Profiler
 	 */
 	public static function setEnabled( $enabled )
 	{
-		self::$enabled = $enabled;
+		static::$enabled = $enabled;
 	}
 
 	/**

@@ -111,7 +111,7 @@ class Http_Headers
 	 */
 	public static function getHeaderFunctionName()
 	{
-		return self::$header_function_name;
+		return static::$header_function_name;
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Http_Headers
 	 */
 	public static function setHeaderFunctionName( $header_function_name )
 	{
-		self::$header_function_name = $header_function_name;
+		static::$header_function_name = $header_function_name;
 	}
 
 	/**

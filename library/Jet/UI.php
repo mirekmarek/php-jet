@@ -30,7 +30,7 @@ class UI
 	 */
 	public static function getViewsDir()
 	{
-		return self::$views_dir;
+		return static::$views_dir;
 	}
 
 	/**
@@ -38,7 +38,7 @@ class UI
 	 */
 	public static function setViewsDir( $views_dir )
 	{
-		self::$views_dir = $views_dir;
+		static::$views_dir = $views_dir;
 	}
 
 	/**
@@ -57,7 +57,7 @@ class UI
 	 */
 	public static function getTranslatorNamespace()
 	{
-		return self::$translator_namespace;
+		return static::$translator_namespace;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class UI
 	 */
 	public static function setTranslatorNamespace( $translator_namespace )
 	{
-		self::$translator_namespace = $translator_namespace;
+		static::$translator_namespace = $translator_namespace;
 	}
 
 	/**

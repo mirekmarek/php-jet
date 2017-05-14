@@ -78,22 +78,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	protected $CSS_packager_enabled = true;
 
 	/**
-	 *
-	 * @param string $scripts_dir
-	 * @param string $script_name
-	 */
-	public function __construct( $scripts_dir, $script_name )
-	{
-		$this->setScriptsDir( $scripts_dir );
-		$this->setScriptName( $script_name );
-
-		$this->JS_packager_enabled = JET_LAYOUT_JS_PACKAGER_ENABLED;
-		$this->CSS_packager_enabled = JET_LAYOUT_CSS_PACKAGER_ENABLED;
-
-		$this->_data = new Data_Array();
-	}
-
-	/**
 	 * @return Mvc_Layout
 	 */
 	public static function getCurrentLayout()
@@ -107,6 +91,22 @@ class Mvc_Layout extends Mvc_View_Abstract
 	public static function setCurrentLayout( Mvc_Layout $current_layout )
 	{
 		static::$current_layout = $current_layout;
+	}
+
+	/**
+	 *
+	 * @param string $scripts_dir
+	 * @param string $script_name
+	 */
+	public function __construct( $scripts_dir, $script_name )
+	{
+		$this->setScriptsDir( $scripts_dir );
+		$this->setScriptName( $script_name );
+
+		$this->JS_packager_enabled = JET_LAYOUT_JS_PACKAGER_ENABLED;
+		$this->CSS_packager_enabled = JET_LAYOUT_CSS_PACKAGER_ENABLED;
+
+		$this->_data = new Data_Array();
 	}
 
 	/**
@@ -139,85 +139,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	public function setJSPackagerEnabled( $JS_packager_enabled )
 	{
 		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
-	}
-
-	/**
-	 * Returns:
-	 *
-	 * If $include_tag=false then
-	 *
-	 * array( 'position_name'=>'position_name' )
-	 *
-	 * If $include_tag=true then
-	 *
-	 * array( 'position_name'=>'<position_tag>' )
-	 *
-	 * @param bool $include_tag (optional, default: false)
-	 *
-	 * @return array
-	 */
-	public function getPositions( $include_tag = false )
-	{
-		return $this->getPositionsFromResult( $this->_render(), $include_tag );
-
-	}
-
-	/**
-	 * Returns:
-	 *
-	 * If $include_tag=false then
-	 *
-	 * array( 'position_name'=>'position_name' )
-	 *
-	 * If $include_tag=true then
-	 *
-	 * array( 'position_name'=>'<position_tag>' )
-	 *
-	 * @param string $result
-	 *
-	 * @param bool $include_tag
-	 *
-	 * @return array
-	 */
-	public function getPositionsFromResult( $result, $include_tag = false )
-	{
-		$positions = [];
-
-		$matches = [];
-		if( preg_match_all(
-			'/<'.Mvc_Layout::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches,
-			PREG_SET_ORDER
-		) ) {
-
-			foreach( $matches as $match ) {
-				$orig = $match[0];
-				$position = $match[1];
-
-				if( $position[0]=='-' ) {
-					continue;
-				}
-
-				if( $include_tag ) {
-					$positions[$position] = $orig;
-				} else {
-					$positions[$position] = $position;
-				}
-			}
-		}
-
-		if( preg_match_all( '/<'.Mvc_Layout::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER ) ) {
-			foreach( $matches as $match ) {
-				$orig = $match[0];
-
-				if( $include_tag ) {
-					$positions[Mvc_Layout::DEFAULT_OUTPUT_POSITION] = $orig;
-				} else {
-					$positions[Mvc_Layout::DEFAULT_OUTPUT_POSITION] = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
-				}
-			}
-		}
-
-		return $positions;
 	}
 
 	/**
