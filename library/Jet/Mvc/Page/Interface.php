@@ -166,22 +166,22 @@ interface Mvc_Page_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsDirectOutput();
+	public function getIsSubApp();
 
 	/**
-	 * @param bool $is_direct_output
+	 * @param bool $is_sub_app
 	 */
-	public function setIsDirectOutput( $is_direct_output );
+	public function setIsSubApp( $is_sub_app );
 
 	/**
 	 * @return string
 	 */
-	public function getDirectOutputFileName();
+	public function getSubAppIndexFileName();
 
 	/**
-	 * @param string $direct_output_file_name
+	 * @param string $index_file_name
 	 */
-	public function setDirectOutputFileName( $direct_output_file_name );
+	public function setSubAppIndexFileName( $index_file_name );
 
 	/**
 	 * @return bool
@@ -445,7 +445,7 @@ interface Mvc_Page_Interface
 	/**
 	 *
 	 */
-	public function handleDirectOutput();
+	public function handleSubApp();
 
 	/**
 	 *

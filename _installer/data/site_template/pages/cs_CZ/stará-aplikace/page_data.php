@@ -1,7 +1,7 @@
 <?php
 return [
     'id' => 'old_application',
-	'is_direct_output' => true,
+	'is_sub_app' => true,
     'order' => 4,
     'name' => 'Stara aplikace',
     'title' => 'Stará PHP aplikace',

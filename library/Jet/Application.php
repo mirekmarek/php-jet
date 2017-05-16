@@ -166,9 +166,9 @@ class Application extends BaseObject
 		}
 
 
-		if( $page->getIsDirectOutput() ) {
+		if( $page->getIsSubApp() ) {
 			$page->handleHttpHeaders();
-			$page->handleDirectOutput();
+			$page->handleSubApp();
 		} else {
 			$result = $page->render();
 

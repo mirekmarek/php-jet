@@ -162,7 +162,7 @@ trait Form_Field_Trait_Render
 	 */
 	public function getView() {
 
-		return new Mvc_View($this->getViewsDir());
+		return Mvc_Factory::getViewInstance($this->getViewsDir());
 	}
 
 

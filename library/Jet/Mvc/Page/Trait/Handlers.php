@@ -21,13 +21,13 @@ trait Mvc_Page_Trait_Handlers
 	 *
 	 * @var bool
 	 */
-	protected $is_direct_output = false;
+	protected $is_sub_app = false;
 
 	/**
 	 *
 	 * @var string
 	 */
-	protected $direct_output_file_name = 'index.php';
+	protected $sub_app_index_file_name = 'index.php';
 
 	/**
 	 *
@@ -61,17 +61,17 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @return bool
 	 */
-	public function getIsDirectOutput()
+	public function getIsSubapp()
 	{
-		return $this->is_direct_output;
+		return $this->is_sub_app;
 	}
 
 	/**
-	 * @param bool $is_direct_output
+	 * @param bool $is_sub_app
 	 */
-	public function setIsDirectOutput( $is_direct_output )
+	public function setIsSubapp( $is_sub_app )
 	{
-		$this->is_direct_output = $is_direct_output;
+		$this->is_sub_app = $is_sub_app;
 	}
 
 	/**
@@ -179,9 +179,9 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 *
 	 */
-	public function handleDirectOutput()
+	public function handleSubApp()
 	{
-		$file_path = dirname( $this->getDataFilePath() ).'/'.$this->getDirectOutputFileName();
+		$file_path = dirname( $this->getDataFilePath() ).'/'.$this->getSubAppIndexFileName();
 
 		if( !IO_File::exists( $file_path ) ) {
 			throw new Mvc_Page_Exception( 'Direct output file '.$file_path.' does not exist' );
@@ -194,17 +194,17 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @return string
 	 */
-	public function getDirectOutputFileName()
+	public function getSubAppIndexFileName()
 	{
-		return $this->direct_output_file_name;
+		return $this->sub_app_index_file_name;
 	}
 
 	/**
-	 * @param string $direct_output_file_name
+	 * @param string $index_file_name
 	 */
-	public function setDirectOutputFileName( $direct_output_file_name )
+	public function setSubAppIndexFileName( $index_file_name )
 	{
-		$this->direct_output_file_name = $direct_output_file_name;
+		$this->sub_app_index_file_name = $index_file_name;
 	}
 
 	/**

@@ -24,7 +24,7 @@ trait Mvc_Page_Trait_Initialization
 		'breadcrumb_title',
 		'menu_title',
 		'order',
-		'is_direct_output',
+		'is_sub_app',
 		'direct_output_file_name',
 		'output',
 	];

@@ -967,7 +967,7 @@ class Form extends BaseObject
 	 */
 	public function getView() {
 
-		return new Mvc_View($this->getViewsDir());
+		return Mvc_Factory::getViewInstance($this->getViewsDir());
 	}
 
 
