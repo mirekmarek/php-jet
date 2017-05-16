@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Db_Backend_Config_Abstract
- * @package Jet
+ *
  */
 abstract class Db_Backend_Config extends Config_Section
 {

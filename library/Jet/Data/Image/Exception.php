@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Image_Exception
- * @package Jet
+ *
  */
 class Data_Image_Exception extends Exception
 {

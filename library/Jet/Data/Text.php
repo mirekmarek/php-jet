@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Text
- * @package Jet
+ *
  */
 class Data_Text
 {
@@ -20,7 +19,6 @@ class Data_Text
 	protected static $_defined_constants = [];
 
 	/**
-	 * Removes accents from text
 	 *
 	 * @param string $text
 	 *
@@ -38,10 +36,10 @@ class Data_Text
 			/** @noinspection PhpVoidFunctionResultUsedInspection */
 			/** @noinspection PhpUndefinedMethodInspection */
 			/** @noinspection SpellCheckingInspection */
-			$myTrans = \Transliterator::create( 'NFD; [:Nonspacing Mark:] Remove; NFC' );
+			$transliterator = \Transliterator::create( 'NFD; [:Nonspacing Mark:] Remove; NFC' );
 
 			/** @noinspection PhpUndefinedMethodInspection */
-			return $myTrans->transliterate( $text );
+			return $transliterator->transliterate( $text );
 
 		}
 	}

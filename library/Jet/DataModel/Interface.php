@@ -30,7 +30,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Definition_Model_Main
 	 */
-	public static function _getDataModelDefinitionInstance( $data_model_class_name );
+	public static function dataModelDefinitionFactory( $data_model_class_name );
 
 
 //-- Id -----------------------------------------

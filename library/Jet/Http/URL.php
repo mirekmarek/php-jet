@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Http_URL
- * @package Jet
+ *
  */
 class Http_URL extends BaseObject
 {
@@ -25,7 +24,6 @@ class Http_URL extends BaseObject
 	 * @var bool
 	 */
 	protected $is_valid = false;
-
 
 	/**
 	 *

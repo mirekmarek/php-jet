@@ -70,8 +70,8 @@ class Controller_Main extends Mvc_Controller_Standard
 		 */
 		$form = $this->module_instance->getLoginForm();
 
-		if( $form->catchValues() ) {
-			if( $form->validateValues() ) {
+		if( $form->catchInput() ) {
+			if( $form->validate() ) {
 				$data = $form->getValues();
 				if( Auth::login( $data['username'], $data['password'] ) ) {
 					Http_Headers::reload();
@@ -115,7 +115,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		 */
 		$form = $this->module_instance->getMustChangePasswordForm();
 
-		if( $form->catchValues()&&$form->validateValues() ) {
+		if( $form->catchInput()&&$form->validate() ) {
 			$data = $form->getValues();
 			/**
 			 * @var Auth_Administrator_User|Auth_Visitor_User $user

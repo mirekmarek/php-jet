@@ -62,7 +62,8 @@ class Form_Field_Color extends Form_Field_Input
 	 * @var array
 	 */
 	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
+		self::ERROR_CODE_EMPTY => '',
+		self::ERROR_CODE_INVALID_FORMAT => '',
 	];
 
 
@@ -71,7 +72,7 @@ class Form_Field_Color extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 		if( !$this->is_required&&$this->_value==='' ) {
 			return true;
@@ -84,7 +85,7 @@ class Form_Field_Color extends Form_Field_Input
 			return false;
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

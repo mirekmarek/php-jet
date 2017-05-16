@@ -149,7 +149,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 		$main_form = new Form( 'main', $main_form_fields );
 
-		if( $main_form->catchValues()&&$main_form->validateValues() ) {
+		if( $main_form->catchInput()&&$main_form->validate() ) {
 			$data = $main_form->getValues();
 
 			$site->setName( 'Example site' );

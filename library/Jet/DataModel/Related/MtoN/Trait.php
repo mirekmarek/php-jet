@@ -37,7 +37,7 @@ trait DataModel_Related_MtoN_Trait
 	 *
 	 * @return DataModel_Definition_Model_Related_MtoN
 	 */
-	public static function _getDataModelDefinitionInstance( $data_model_class_name )
+	public static function dataModelDefinitionFactory( $data_model_class_name )
 	{
 		return new DataModel_Definition_Model_Related_MtoN( $data_model_class_name );
 	}

@@ -52,10 +52,10 @@ class Config_Definition_Config extends BaseObject
 
 		$this->class_name = $class_name;
 
-		$this->data_path = BaseObject_Reflection::get( $class_name, 'config_data_path', '' );
+		$this->data_path = Reflection::get( $class_name, 'config_data_path', '' );
 
-		$this->section_is_obligatory = BaseObject_Reflection::get( $class_name, 'config_section_is_obligatory', true );
-		$propertied_definition_data = BaseObject_Reflection::get( $class_name, 'config_properties_definition', [] );
+		$this->section_is_obligatory = Reflection::get( $class_name, 'config_section_is_obligatory', true );
+		$propertied_definition_data = Reflection::get( $class_name, 'config_properties_definition', [] );
 
 		$this->properties_definition = [];
 		foreach( $propertied_definition_data as $property_name => $definition_data ) {

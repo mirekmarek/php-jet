@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class BaseObject_Reflection_ParserData
+class Reflection_ParserData
 {
 
 	/**
@@ -18,15 +18,15 @@ class BaseObject_Reflection_ParserData
 	 */
 	public $result_data = [];
 	/**
-	 * @var BaseObject_Reflection_Class
+	 * @var Reflection_Class
 	 */
 	protected $target_class_reflection;
 	/**
-	 * @var BaseObject_Reflection_Class[]
+	 * @var Reflection_Class[]
 	 */
 	protected $class_reflection_hierarchy = [];
 	/**
-	 * @var BaseObject_Reflection_Class
+	 * @var Reflection_Class
 	 */
 	protected $current_hierarchy_class_reflection;
 	/**
@@ -63,7 +63,7 @@ class BaseObject_Reflection_ParserData
 	 */
 	public function __construct( $class )
 	{
-		$this->target_class_reflection = new BaseObject_Reflection_Class( $class );
+		$this->target_class_reflection = new Reflection_Class( $class );
 
 		$parent_class_reflection = $this->target_class_reflection;
 
@@ -88,7 +88,7 @@ class BaseObject_Reflection_ParserData
 		$this->class_reflection_hierarchy = [];
 
 		foreach( $class_reflection_hierarchy as $reflection ) {
-			$this->class_reflection_hierarchy[$reflection->getName()] = new BaseObject_Reflection_Class(
+			$this->class_reflection_hierarchy[$reflection->getName()] = new Reflection_Class(
 				$reflection->getName()
 			);
 		}
@@ -97,7 +97,7 @@ class BaseObject_Reflection_ParserData
 	}
 
 	/**
-	 * @return BaseObject_Reflection_Class
+	 * @return Reflection_Class
 	 */
 	public function getTargetClassReflection()
 	{
@@ -106,7 +106,7 @@ class BaseObject_Reflection_ParserData
 
 
 	/**
-	 * @return BaseObject_Reflection_Class[]
+	 * @return Reflection_Class[]
 	 */
 	public function getClassReflectionHierarchy()
 	{
@@ -114,7 +114,7 @@ class BaseObject_Reflection_ParserData
 	}
 
 	/**
-	 * @return BaseObject_Reflection_Class
+	 * @return Reflection_Class
 	 */
 	public function getCurrentHierarchyClassReflection()
 	{
@@ -122,9 +122,9 @@ class BaseObject_Reflection_ParserData
 	}
 
 	/**
-	 * @param BaseObject_Reflection_Class $current_hierarchy_class_reflection
+	 * @param Reflection_Class $current_hierarchy_class_reflection
 	 */
-	public function setCurrentHierarchyClassReflection( BaseObject_Reflection_Class $current_hierarchy_class_reflection )
+	public function setCurrentHierarchyClassReflection( Reflection_Class $current_hierarchy_class_reflection )
 	{
 		$this->current_hierarchy_class_reflection = $current_hierarchy_class_reflection;
 	}
@@ -148,7 +148,7 @@ class BaseObject_Reflection_ParserData
 	/**
 	 * @return mixed
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
 	protected function parseValue()
 	{
@@ -168,7 +168,7 @@ class BaseObject_Reflection_ParserData
 		$eval_res = @eval( $eval_code );
 
 		if( !$eval_res ) {
-			throw new BaseObject_Reflection_Exception(
+			throw new Reflection_Exception(
 				'Value parse error! Class:\''.$this->current_hierarchy_class_reflection->getName(
 				).'\', Definition: \''.$this->definition.'\' '
 			);
@@ -179,7 +179,7 @@ class BaseObject_Reflection_ParserData
 	}
 
 	/**
-	 * @return BaseObject_Reflection_Class
+	 * @return Reflection_Class
 	 */
 	protected function getRelevantClassReflection()
 	{
@@ -248,7 +248,7 @@ class BaseObject_Reflection_ParserData
 	/**
 	 * @return string
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
 	public function getValueAsString()
 	{
@@ -258,13 +258,13 @@ class BaseObject_Reflection_ParserData
 	/**
 	 * @return array
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
 	public function getValueAsArray()
 	{
 
 		if( !is_array( $this->value ) ) {
-			throw new BaseObject_Reflection_Exception(
+			throw new Reflection_Exception(
 				'Value parse error! '.JET_EOL.'Class:\''.$this->getRelevantClassReflection()->getName(
 				).'\''.JET_EOL.'Definition: \''.$this->definition.'\''.JET_EOL.'Error: value is not array'
 			);
@@ -275,7 +275,7 @@ class BaseObject_Reflection_ParserData
 
 	/**
 	 * @return string
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
 	public function getValueAsClassName()
 	{
@@ -286,7 +286,7 @@ class BaseObject_Reflection_ParserData
 	 * @param string $class_name
 	 *
 	 * @return string
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
 	public function getRealClassName( $class_name )
 	{
@@ -313,7 +313,7 @@ class BaseObject_Reflection_ParserData
 	/**
 	 * @return callable
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
 	public function getValueAsCallback()
 	{

@@ -78,7 +78,6 @@ class Db_Config extends Application_Config
 	}
 
 	/**
-	 * Get connection configuration
 	 *
 	 * @param string $connection_name
 	 *

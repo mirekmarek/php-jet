@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Paginator_Exception
- * @package Jet
+ *
  */
 class Data_Paginator_Exception extends Exception
 {

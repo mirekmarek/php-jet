@@ -8,11 +8,15 @@
 namespace Jet;
 
 /**
- * Interface Auth_Role_Privilege_Interface
- * @package Jet
+ *
  */
 interface Auth_Role_Privilege_Interface
 {
+
+	/**
+	 * @param Auth_Role_Interface $role
+	 */
+	public function setRole( Auth_Role_Interface $role );
 
 	/**
 	 * @return string
@@ -25,13 +29,6 @@ interface Auth_Role_Privilege_Interface
 	public function setPrivilege( $privilege );
 
 	/**
-	 * @param mixed $value
-	 *
-	 * @return bool
-	 */
-	public function getHasValue( $value );
-
-	/**
 	 * @return mixed[]
 	 */
 	public function getValues();
@@ -40,5 +37,12 @@ interface Auth_Role_Privilege_Interface
 	 * @param array $values
 	 */
 	public function setValues( array $values );
+
+	/**
+	 * @param mixed $value
+	 *
+	 * @return bool
+	 */
+	public function hasValue( $value );
 
 }

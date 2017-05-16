@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface Auth_ControllerInterface
- * @package Jet
+ *
  */
 interface Auth_ControllerInterface
 {

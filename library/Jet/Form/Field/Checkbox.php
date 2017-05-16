@@ -67,7 +67,7 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data )
+	public function catchInput( Data_Array $data )
 	{
 		$this->_value_raw = false;
 		$this->_value = false;
@@ -93,9 +93,9 @@ class Form_Field_Checkbox extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

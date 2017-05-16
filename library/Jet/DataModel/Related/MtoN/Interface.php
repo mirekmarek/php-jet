@@ -19,7 +19,7 @@ interface DataModel_Related_MtoN_Interface extends DataModel_Related_Item_Interf
 	 *
 	 * @return DataModel_Definition_Model_Related_MtoN
 	 */
-	public static function _getDataModelDefinitionInstance( $data_model_class_name );
+	public static function dataModelDefinitionFactory( $data_model_class_name );
 
 	/**
 	 * @return null

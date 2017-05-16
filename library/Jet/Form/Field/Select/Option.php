@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_Select_Option
- * @package Jet
+ *
  */
 class Form_Field_Select_Option extends BaseObject
 {

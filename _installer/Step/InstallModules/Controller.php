@@ -61,7 +61,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 			Installer::goToNext();
 		}
 
-		if( $form->catchValues()&&$form->validateValues() ) {
+		if( $form->catchInput()&&$form->validate() ) {
 			$this->selected_modules = [];
 
 			foreach( $this->all_modules as $m ) {

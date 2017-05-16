@@ -89,6 +89,23 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 
 
 	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( array $data )
+	{
+
+		$i = new static( $data['data_model_class_name'], $data['_name'] );
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
+	/**
 	 * @param string $data_model_class_name
 	 * @param string $name
 	 * @param array  $definition_data (optional)
@@ -139,23 +156,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	}
 
 	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data )
-	{
-
-		$i = new static( $data['data_model_class_name'], $data['_name'] );
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
-	/**
 	 *
 	 * @param string $related_to_class_name
 	 * @param string $related_to_property_name
@@ -199,22 +199,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	public function getRelatedToPropertyName()
 	{
 		return $this->related_to_property_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		return $this->data_model_class_name.'::'.$this->getName();
 	}
 
 	/**
@@ -459,7 +443,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	}
 
 	/**
-	 * Converts property form jsonSerialize
 	 *
 	 * Example: Locale to string
 	 *
@@ -468,8 +451,10 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * @return mixed
 	 */
-	public function getValueForJsonSerialize( /** @noinspection PhpUnusedParameterInspection */
-		DataModel_Interface $data_model_instance, &$property )
+	public function getJsonSerializeValue( /** @noinspection PhpUnusedParameterInspection */
+		DataModel_Interface $data_model_instance,
+		&$property
+	)
 	{
 		return $property;
 	}
@@ -507,5 +492,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	{
 
 	}
+
 
 }

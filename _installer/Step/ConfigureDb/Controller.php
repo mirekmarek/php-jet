@@ -135,7 +135,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 			                 ]
 		);
 
-		if( $form->catchValues()&&$form->validateValues() ) {
+		if( $form->catchInput()&&$form->validate() ) {
 
 			if( $unix_socket->getValue() ) {
 				$DSN = 'unix_socket='.$unix_socket->getValue();

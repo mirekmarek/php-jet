@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Array
- * @package Jet
+ *
  */
 class Data_Array extends BaseObject implements BaseObject_Serializable
 {
@@ -241,7 +240,7 @@ class Data_Array extends BaseObject implements BaseObject_Serializable
 
 			foreach( $path as $part ) {
 
-				if( is_array( $target )&&isset( $target[$part] ) ) {
+				if( is_array( $target ) && isset( $target[$part] ) ) {
 					$target = &$target[$part];
 				} else {
 

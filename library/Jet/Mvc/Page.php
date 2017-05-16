@@ -90,7 +90,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public static function get( $page_id = null, $locale = null, $site_id = null )
 	{
-		if( !$page_id&&!$locale&&!$site_id ) {
+		if( !$page_id && !$locale && !$site_id ) {
 			return Mvc::getCurrentPage();
 		}
 

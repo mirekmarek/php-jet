@@ -259,7 +259,7 @@ class Gallery extends DataModel
 	public function catchUploadForm( Form $form, $force_catch = false )
 	{
 
-		if( !$form->catchValues( null, $force_catch )||!$form->validateValues() ) {
+		if( !$form->catchInput( null, $force_catch )||!$form->validate() ) {
 			return false;
 		}
 

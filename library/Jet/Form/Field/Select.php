@@ -72,7 +72,7 @@ class Form_Field_Select extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 
 		$options = $this->select_options;
@@ -84,7 +84,7 @@ class Form_Field_Select extends Form_Field
 			return false;
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

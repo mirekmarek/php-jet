@@ -10,4 +10,6 @@ return [
 	'Back to List' => '',
 	'Home page' => '',
 	'Change password' => '',
+	'%FROM% - %TO% / total count: %COUNT%' => '',
+	'Go back' => '',
 ];

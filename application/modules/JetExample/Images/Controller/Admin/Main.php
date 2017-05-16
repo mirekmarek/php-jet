@@ -177,7 +177,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 
 		$upload_form = $this->getUploadForm( $gallery );
 
-		if( $upload_form->catchValues() ) {
+		if( $upload_form->catchInput() ) {
 			if( ( $image = $gallery->catchUploadForm( $upload_form ) ) ) {
 				$this->logAllowedAction(
 					'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image

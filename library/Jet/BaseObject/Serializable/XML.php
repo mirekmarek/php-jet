@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface BaseObject_Serializable_XML
- * @package Jet
+ *
  */
 interface BaseObject_Serializable_XML
 {

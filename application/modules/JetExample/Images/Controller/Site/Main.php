@@ -69,7 +69,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 		$gallery = null;
 
 
-		$path_fragments = Mvc::getCurrentRouter()->getPathFragments();
+		$path_fragments = Mvc::getRouter()->getPathFragments();
 
 		$URI = Mvc::getCurrentPage()->getURI();
 

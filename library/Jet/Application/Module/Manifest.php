@@ -77,7 +77,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 *
 	 * @var int
 	 */
-	protected $API_version = 201401;
+	protected $API_version = 201701;
 
 	/**
 	 * Manifest value
@@ -179,6 +179,25 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	{
 		static::$default_module_namespace = $default_module_namespace;
 	}
+
+
+	/**
+	 *
+	 * @param array $data
+	 *
+	 * @return Application_Module_Manifest
+	 */
+	public static function __set_state( array $data )
+	{
+		$i = new static();
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
 
 	/**
 	 * @param string $module_name (optional)
@@ -318,23 +337,6 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 			$this->{$key} = $val;
 		}
 
-	}
-
-	/**
-	 *
-	 * @param array $data
-	 *
-	 * @return Application_Module_Manifest
-	 */
-	public static function __set_state( array $data )
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
 	}
 
 	/**

@@ -8,13 +8,12 @@
 namespace Jet;
 
 /**
- * Class Version
- * @package Jet
+ *
  */
 class Version extends BaseObject
 {
 
-	const API_VERSION = 201401;
+	const API_VERSION = 201701;
 
 	/**
 	 * @return string

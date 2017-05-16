@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Db
- * @package Jet
+ *
  */
 class Db extends BaseObject
 {
@@ -50,7 +49,8 @@ class Db extends BaseObject
 
 		if( !$connection_config ) {
 			throw new Db_Exception(
-				'Connection \''.$connection_name.'\' does not exist', Db_Exception::CODE_UNKNOWN_CONNECTION
+				'Connection \''.$connection_name.'\' does not exist',
+				Db_Exception::CODE_UNKNOWN_CONNECTION
 			);
 		}
 

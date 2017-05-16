@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class Data_Tree_Node
- * @package Jet
+ *
  */
 class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable, Form_Field_Select_Option_Interface
 {

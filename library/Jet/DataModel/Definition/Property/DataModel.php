@@ -103,7 +103,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	 *
 	 * @return mixed
 	 */
-	public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property )
+	public function getJsonSerializeValue( DataModel_Interface $data_model_instance, &$property )
 	{
 		if( !$property ) {
 			return null;
@@ -176,14 +176,8 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	public function catchFormField( $object_instance, &$property, $value )
 	{
 
-		if( ( $method_name = $this->getFormCatchValueMethodName() ) ) {
+		if( ( $method_name = $this->getFormSetterName() ) ) {
 			$object_instance->{$method_name}( $value );
-
-			return;
-		}
-
-		if( !( $property instanceof DataModel_Related_Interface ) ) {
-			return;
 		}
 
 	}

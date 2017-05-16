@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Application_Modules
- * @package Jet
+ *
  */
 class Application_Modules extends BaseObject
 {
@@ -25,32 +24,6 @@ class Application_Modules extends BaseObject
 	 */
 	protected static $handler;
 
-	/**
-	 * @return string
-	 */
-	public static function getBasePath()
-	{
-		return static::$base_path;
-	}
-
-	/**
-	 * @param string $base_path
-	 */
-	public static function setBasePath( $base_path )
-	{
-		static::$base_path = $base_path;
-	}
-
-	/**
-	 *
-	 * @param string $module_name
-	 *
-	 * @return bool
-	 */
-	public static function checkModuleNameFormat( $module_name )
-	{
-		return static::getHandler()->checkModuleNameFormat( $module_name );
-	}
 
 	/**
 	 * @return Application_Modules_Handler
@@ -79,6 +52,33 @@ class Application_Modules extends BaseObject
 	public static function setHandler( Application_Modules_Handler $handler )
 	{
 		static::$handler = $handler;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getBasePath()
+	{
+		return static::$base_path;
+	}
+
+	/**
+	 * @param string $base_path
+	 */
+	public static function setBasePath( $base_path )
+	{
+		static::$base_path = $base_path;
+	}
+
+	/**
+	 *
+	 * @param string $module_name
+	 *
+	 * @return bool
+	 */
+	public static function checkModuleNameFormat( $module_name )
+	{
+		return static::getHandler()->checkModuleNameFormat( $module_name );
 	}
 
 	/**

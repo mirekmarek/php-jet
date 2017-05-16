@@ -72,7 +72,7 @@ class Form_Field_Email extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 		if( !$this->is_required&&$this->_value==='' ) {
 			return true;
@@ -84,7 +84,7 @@ class Form_Field_Email extends Form_Field_Input
 			return false;
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

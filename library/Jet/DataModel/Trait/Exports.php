@@ -120,7 +120,7 @@ trait DataModel_Trait_Exports
 				continue;
 			}
 
-			$result[$property_name] = $property->getValueForJsonSerialize( $this, $this->{$property_name} );
+			$result[$property_name] = $property->getJsonSerializeValue( $this, $this->{$property_name} );
 
 		}
 

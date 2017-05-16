@@ -15,8 +15,7 @@ require_once JET_PATH_LIBRARY.'Jet/Autoloader/Exception.php';
 require_once JET_PATH_LIBRARY.'Jet/Autoloader/Loader.php';
 
 /**
- * Class Autoloader
- * @package Jet
+ *
  */
 class Autoloader
 {
@@ -192,6 +191,15 @@ class Autoloader
 		spl_autoload_register( [ __NAMESPACE__.'\Autoloader', 'load' ], true, true );
 
 	}
+	/**
+	 *
+	 * @return bool
+	 */
+	public static function getIsInitialized()
+	{
+		return static::$is_initialized;
+	}
+
 
 	/**
 	 * @return array
@@ -208,16 +216,6 @@ class Autoloader
 	{
 		return static::$classes_paths_map;
 	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getIsInitialized()
-	{
-		return static::$is_initialized;
-	}
-
 
 	/**
 	 *
@@ -249,11 +247,10 @@ class Autoloader
 
 		if( !$path ) {
 			throw new Autoloader_Exception(
-				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''.implode(
-					'\', \'', array_keys(
-						        static::$loaders
-					        )
-				).'\'', Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
+				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''
+				. implode( '\', \'', array_keys( static::$loaders ) )
+				.'\'',
+				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
 			);
 		}
 
@@ -268,9 +265,10 @@ class Autoloader
 		/** @noinspection PhpIncludeInspection */
 		require_once $path;
 
-		if( !class_exists( $class_name, false )&&!interface_exists( $class_name, false )&&!trait_exists(
-				$class_name, false
-			)
+		if(
+			!class_exists( $class_name, false ) &&
+			!interface_exists( $class_name, false ) &&
+			!trait_exists( $class_name, false )
 		) {
 			throw new Autoloader_Exception(
 				'Class \''.$class_name.'\' does not exist in script: \''.$path.'\', Loader: \''.$loader_name.'\' ',

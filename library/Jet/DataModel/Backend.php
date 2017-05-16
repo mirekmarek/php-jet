@@ -42,15 +42,6 @@ abstract class DataModel_Backend extends BaseObject
 
 	/**
 	 *
-	 * @return string
-	 */
-	public static function getDefaultBackendType()
-	{
-		return self::getMainConfig()->getBackendType();
-	}
-
-	/**
-	 *
 	 * @return DataModel_Config
 	 */
 	public static function getMainConfig()
@@ -60,6 +51,15 @@ abstract class DataModel_Backend extends BaseObject
 		}
 
 		return static::$_main_config;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public static function getDefaultBackendType()
+	{
+		return self::getMainConfig()->getBackendType();
 	}
 
 	/**
@@ -121,7 +121,7 @@ abstract class DataModel_Backend extends BaseObject
 	 * @param string            $data_model_class_name
 	 * @param DataModel_Backend $backend
 	 */
-	public function setCustomBackend( $data_model_class_name, DataModel_Backend $backend )
+	public static function setCustomBackend( $data_model_class_name, DataModel_Backend $backend )
 	{
 		static::$custom_backends[$data_model_class_name] = $backend;
 	}
@@ -131,7 +131,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return DataModel_Backend|null
 	 */
-	public function getCustomBackend( $data_model_class_name )
+	public static function getCustomBackend( $data_model_class_name )
 	{
 		if(!isset(static::$custom_backends[$data_model_class_name])) {
 			return null;
@@ -145,7 +145,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return DataModel_Backend
 	 */
-	public function unsetCustomBackend( $data_model_class_name )
+	public static function unsetCustomBackend( $data_model_class_name )
 	{
 		if(isset(static::$custom_backends[$data_model_class_name])) {
 			unset(static::$custom_backends[$data_model_class_name]);
@@ -165,73 +165,16 @@ abstract class DataModel_Backend extends BaseObject
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function getTransactionStarted()
-	{
-		return (bool)$this->_transaction_starter;
-	}
-
-	/**
-	 * @return DataModel
-	 */
-	public function getTransactionStarter()
-	{
-		return $this->_transaction_starter;
-	}
-
-	/**
-	 * @param DataModel $transaction_starter
-	 */
-	public function setTransactionStarter( $transaction_starter )
-	{
-		$this->_transaction_starter = $transaction_starter;
-	}
-
-
-	/**
 	 *
 	 */
 	abstract public function initialize();
 
 	/**
-	 * @param DataModel_Definition_Model $definition
-	 * @param string|null                $force_table_name (optional)
+	 * @param DataModel_Query $query
 	 *
 	 * @return string
 	 */
-	abstract public function helper_getCreateCommand( DataModel_Definition_Model $definition, $force_table_name = null );
-
-	/**
-	 * @param DataModel_Definition_Model $definition
-	 */
-	abstract public function helper_create( DataModel_Definition_Model $definition );
-
-	/**
-	 * @param DataModel_Definition_Model $definition
-	 *
-	 * @return string
-	 */
-	abstract public function helper_getDropCommand( DataModel_Definition_Model $definition );
-
-	/**
-	 * @param DataModel_Definition_Model $definition
-	 */
-	abstract public function helper_drop( DataModel_Definition_Model $definition );
-
-	/**
-	 * @param DataModel_Definition_Model $definition
-	 *
-	 * @return array
-	 */
-	abstract public function helper_getUpdateCommand( DataModel_Definition_Model $definition );
-
-	/**
-	 * @param DataModel_Definition_Model $definition
-	 *
-	 * @throws Exception
-	 */
-	abstract public function helper_update( DataModel_Definition_Model $definition );
+	abstract public function createSelectQuery( DataModel_Query $query );
 
 
 	/**
@@ -239,15 +182,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract public function getBackendSelectQuery( DataModel_Query $query );
-
-
-	/**
-	 * @param DataModel_Query $query
-	 *
-	 * @return string
-	 */
-	abstract public function getBackendCountQuery( DataModel_Query $query );
+	abstract public function createCountQuery( DataModel_Query $query );
 
 	/**
 	 * @param DataModel_RecordData $record
@@ -255,7 +190,7 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract public function getBackendInsertQuery( DataModel_RecordData $record );
+	abstract public function createInsertQuery( DataModel_RecordData $record );
 
 	/**
 	 * @param DataModel_RecordData $record
@@ -263,14 +198,14 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 * @return string
 	 */
-	abstract function getBackendUpdateQuery( DataModel_RecordData $record, DataModel_Query $where );
+	abstract function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where );
 
 	/**
 	 * @param DataModel_Query $where
 	 *
 	 * @return string
 	 */
-	abstract public function getBackendDeleteQuery( DataModel_Query $where );
+	abstract public function createDeleteQuery( DataModel_Query $where );
 
 	/**
 	 * @param DataModel_RecordData $record
@@ -347,6 +282,30 @@ abstract class DataModel_Backend extends BaseObject
 	 *
 	 */
 	abstract public function transactionStart();
+
+	/**
+	 * @return bool
+	 */
+	public function getTransactionStarted()
+	{
+		return (bool)$this->_transaction_starter;
+	}
+
+	/**
+	 * @return DataModel
+	 */
+	public function getTransactionStarter()
+	{
+		return $this->_transaction_starter;
+	}
+
+	/**
+	 * @param DataModel $transaction_starter
+	 */
+	public function setTransactionStarter( $transaction_starter )
+	{
+		$this->_transaction_starter = $transaction_starter;
+	}
 
 	/**
 	 *
@@ -443,5 +402,44 @@ abstract class DataModel_Backend extends BaseObject
 	{
 		return serialize( $data );
 	}
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 * @param string|null                $force_table_name (optional)
+	 *
+	 * @return string
+	 */
+	abstract public function helper_getCreateCommand( DataModel_Definition_Model $definition, $force_table_name = null );
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 */
+	abstract public function helper_create( DataModel_Definition_Model $definition );
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @return string
+	 */
+	abstract public function helper_getDropCommand( DataModel_Definition_Model $definition );
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 */
+	abstract public function helper_drop( DataModel_Definition_Model $definition );
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @return array
+	 */
+	abstract public function helper_getUpdateCommand( DataModel_Definition_Model $definition );
+
+	/**
+	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @throws Exception
+	 */
+	abstract public function helper_update( DataModel_Definition_Model $definition );
 
 }

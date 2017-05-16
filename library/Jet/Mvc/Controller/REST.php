@@ -145,7 +145,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	public function parseRequestURL( Mvc_Page_Content_Interface $page_content )
 	{
 
-		$router = Mvc::getCurrentRouter();
+		$router = Mvc::getRouter();
 
 		$path_fragments = $router->getPathFragments();
 
@@ -388,9 +388,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 
 		if( $response_format==static::RESPONSE_FORMAT_XML ) {
 			echo '<?xml version="1.0" encoding="'.$response_charset.'" ?>'.JET_EOL;
-			Debug_Profiler::setOutputIsXML( true );
+			Debug::setOutputIsXML( true );
 		} else {
-			Debug_Profiler::setOutputIsJSON( true );
+			Debug::setOutputIsJSON( true );
 		}
 		echo $response_text;
 		Application::end();

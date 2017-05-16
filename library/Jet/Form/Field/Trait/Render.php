@@ -99,6 +99,32 @@ trait Form_Field_Trait_Render
 	protected $input_renderer = '';
 
 
+	/**
+	 * @return Form_Renderer_Pair
+	 */
+	protected $_tag_row;
+
+	/**
+	 * @return Form_Renderer_Single
+	 */
+	protected $_tag_label;
+
+	/**
+	 * @return Form_Renderer_Single
+	 */
+	protected $_tag_error;
+
+	/**
+	 * @return Form_Renderer_Pair
+	 */
+	protected $_tag_container;
+
+	/**
+	 * @return Form_Renderer_Single
+	 */
+	protected $_tag_input;
+
+
 
 	/**
 	 * @return string
@@ -121,6 +147,9 @@ trait Form_Field_Trait_Render
 	 */
 	public function getViewsDir()
 	{
+		/**
+		 * @var Form_Field $this
+		 */
 		if($this->custom_views_dir) {
 			return $this->custom_views_dir;
 		}

@@ -47,7 +47,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ARRAY
-	 * @JetDataModel:form_field_creator_method_name = 'getFormField'
+	 * @JetDataModel:form_field_creator_method_name = 'createFormField'
 	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value']
 	 *
 	 * @var array
@@ -103,7 +103,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @return bool
 	 */
-	public function getHasValue( $value )
+	public function hasValue( $value )
 	{
 		if( is_array( $value ) ) {
 			foreach( $value as $v ) {
@@ -149,7 +149,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 	 *
 	 * @return Form_Field|bool
 	 */
-	public function getFormField( DataModel_Definition_Property $values_property_definition )
+	public function createFormField( DataModel_Definition_Property $values_property_definition )
 	{
 
 

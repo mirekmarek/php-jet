@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Definition extends BaseObject implements BaseObject_Reflection_ParserInterface
+class DataModel_Definition extends BaseObject implements Reflection_ParserInterface
 {
 	/**
 	 * @var string
@@ -141,7 +141,7 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 		/**
 		 * @var DataModel $class_name
 		 */
-		static::$__definitions[(string)$class_name] = $class_name::_getDataModelDefinitionInstance( $class_name );
+		static::$__definitions[(string)$class_name] = $class_name::dataModelDefinitionFactory( $class_name );
 
 		if( static::getCacheSaveEnabled() ) {
 			IO_File::write(
@@ -154,11 +154,11 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 	}
 
 	/**
-	 * @param BaseObject_Reflection_ParserData $data
+	 * @param Reflection_ParserData $data
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
-	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data )
+	public static function parseClassDocComment( Reflection_ParserData $data )
 	{
 
 		$current_class_reflection = $data->getCurrentHierarchyClassReflection();
@@ -173,10 +173,10 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 						$value[0]
 					)
 				) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'Key definition parse error. Class: \''.$current_class_reflection->getName(
 						).'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], DataModel::KEY_TYPE_INDEX ]',
-						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -186,10 +186,10 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				}
 
 				if( $value[2]!=DataModel::KEY_TYPE_INDEX&&$value[2]!=DataModel::KEY_TYPE_UNIQUE ) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'Unknown key type. Class: \''.$current_class_reflection->getName(
 						).'\', definition: \''.$definition.'\', Use DataModel::KEY_TYPE_INDEX or DataModel::KEY_TYPE_UNIQUE',
-						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 				}
 
@@ -198,7 +198,7 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				}
 
 				if( isset( $data->result_data['data_model_keys_definition'][$value[0]] ) ) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'Duplicate key! Class: \''.$current_class_reflection->getName(
 						).'\', definition: \''.$definition.'\''
 					);
@@ -218,10 +218,10 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 						$value[0]
 					)
 				) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'Relation definition parse error. Class: \''.$current_class_reflection->getName(
 						).'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
-						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -231,10 +231,10 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				}
 
 				if( $value[2]!=DataModel_Query::JOIN_TYPE_LEFT_JOIN&&$value[2]!=DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'Unknown relation type. Class: \''.$current_class_reflection->getName(
 						).'\', definition: \''.$definition.'\', Use DataModel_Query::JOIN_TYPE_LEFT_JOIN or DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
-						BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
@@ -244,7 +244,7 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				}
 
 				if( isset( $data->result_data['data_model_outer_relations_definition'][$value[0]] ) ) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'Duplicate relation! Class: \''.$current_class_reflection->getName(
 						).'\', definition: \''.$definition.'\''
 					);
@@ -260,7 +260,7 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				break;
 			case 'name':
 				if( !empty( $data->result_data['data_model_name'] ) ) {
-					throw new BaseObject_Reflection_Exception(
+					throw new Reflection_Exception(
 						'@Jet_DataModel:model_name is defined by parent and can\'t be overloaded! '
 					);
 
@@ -292,19 +292,19 @@ class DataModel_Definition extends BaseObject implements BaseObject_Reflection_P
 				$data->result_data['default_order_by'] = $data->getValueAsArray();
 				break;
 			default:
-				throw new BaseObject_Reflection_Exception(
+				throw new Reflection_Exception(
 					'Unknown definition! Class: \''.$current_class_reflection->getName(
 					).'\', definition: \''.$definition.'\' ',
-					BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}
 
 	}
 
 	/**
-	 * @param BaseObject_Reflection_ParserData $data
+	 * @param Reflection_ParserData $data
 	 */
-	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data )
+	public static function parsePropertyDocComment( Reflection_ParserData $data )
 	{
 
 		switch( $data->getKey() ) {

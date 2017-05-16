@@ -70,7 +70,7 @@ class DataModel_Query_Where_Expression extends BaseObject
 	 */
 	protected function _setOperator( $operator )
 	{
-		$available_operators = DataModel_Query::$_available_operators;
+		$available_operators = DataModel_Query::$available_operators;
 
 		if( !in_array( $operator, $available_operators ) ) {
 			throw new DataModel_Query_Exception(

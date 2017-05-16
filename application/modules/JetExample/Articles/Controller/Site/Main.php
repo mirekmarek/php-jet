@@ -39,7 +39,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	public function parseRequestURL( Mvc_Page_Content_Interface $page_content )
 	{
 
-		$router = Mvc::getCurrentRouter();
+		$router = Mvc::getRouter();
 
 		if( count( $router->getPathFragments() )>1 ) {
 			return false;
@@ -86,10 +86,11 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	public function list_Action()
 	{
 		$article = new Article();
-		$router = Mvc::getCurrentRouter();
+		$router = Mvc::getRouter();
 
 		$paginator = new Data_Paginator(
-			$router->parsePathFragmentIntValue( 'page:%VAL%', 1 ), $this->public_list_items_per_page,
+			$router->parsePathFragmentIntValue( 'page:%VAL%', 1 ),
+			$this->public_list_items_per_page,
 			Mvc::getCurrentPage()->getURI().'page:'.Data_Paginator::URL_PAGE_NO_KEY.'/'
 		);
 

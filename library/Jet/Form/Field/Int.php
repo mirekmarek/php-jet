@@ -135,11 +135,11 @@ class Form_Field_Int extends Form_Field_Input
 	/**
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 
 		if( !$this->is_required&&$this->_value_raw==='' ) {
-			$this->_setValueIsValid();
+			$this->setIsValid();
 
 			return true;
 		}
@@ -158,7 +158,7 @@ class Form_Field_Int extends Form_Field_Input
 			return false;
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 

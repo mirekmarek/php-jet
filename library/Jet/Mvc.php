@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc
- * @package Jet
+ *
  */
 class Mvc
 {
@@ -18,7 +17,7 @@ class Mvc
 	 *
 	 * @var Mvc_Router_Interface
 	 */
-	protected static $current_router;
+	protected static $router;
 
 	/**
 	 * @var Mvc_Site_Interface
@@ -43,21 +42,21 @@ class Mvc
 	/**
 	 * @return Mvc_Router_Interface
 	 */
-	public static function getCurrentRouter()
+	public static function getRouter()
 	{
-		if( !static::$current_router ) {
-			static::$current_router = Mvc_Factory::getRouterInstance();
+		if( !static::$router ) {
+			static::$router = Mvc_Factory::getRouterInstance();
 		}
 
-		return static::$current_router;
+		return static::$router;
 	}
 
 	/**
-	 * @param Mvc_Router_Interface $current_router
+	 * @param Mvc_Router_Interface $router
 	 */
-	public static function setCurrentRouter( Mvc_Router_Interface $current_router )
+	public static function setRouter( Mvc_Router_Interface $router )
 	{
-		static::$current_router = $current_router;
+		static::$router = $router;
 	}
 
 	/**
@@ -88,11 +87,18 @@ class Mvc
 
 	/**
 	 * @param Locale $current_locale
+	 * @param bool   $set_system_locale (optional, default: true)
+	 * @param bool   $set_translator_locale (optional, default: true)
 	 */
-	public static function setCurrentLocale( Locale $current_locale )
+	public static function setCurrentLocale( Locale $current_locale, $set_system_locale=true, $set_translator_locale=true )
 	{
-		Translator::setCurrentLocale( $current_locale );
-		Locale::setCurrentLocale( $current_locale );
+		if($set_system_locale) {
+			Locale::setCurrentLocale( $current_locale );
+		}
+
+		if($set_translator_locale) {
+			Translator::setCurrentLocale( $current_locale );
+		}
 
 		static::$current_locale = $current_locale;
 	}

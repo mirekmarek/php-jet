@@ -13,6 +13,7 @@ namespace Jet;
 abstract class Form_Field extends BaseObject implements \JsonSerializable
 {
 
+	use Form_Field_Trait_Validation;
 	use Form_Field_Trait_Render;
 
 
@@ -53,25 +54,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	 */
 	protected $_has_value = false;
 
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_valid = false;
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $last_error_code = '';
-
-	/**
-	 * last validation error message
-	 *
-	 * @var string
-	 */
-	protected $last_error_message = '';
-
 
 	/**
 	 * form field default value
@@ -100,57 +82,11 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	 */
 	protected $is_readonly = false;
 
-	/**
-	 * validation regexp
-	 *
-	 * @var string
-	 */
-	protected $validation_regexp;
 
 	/**
 	 * @var callable
 	 */
-	protected $validate_data_callback;
-
-	/**
-	 * @var callable
-	 */
-	protected $catch_data_callback;
-
-
-	/**
-	 * @return Form_Renderer_Pair
-	 */
-	protected $_tag_row;
-
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	protected $_tag_label;
-
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	protected $_tag_error;
-
-	/**
-	 * @return Form_Renderer_Pair
-	 */
-	protected $_tag_container;
-
-	/**
-	 * @return Form_Renderer_Single
-	 */
-	protected $_tag_input;
-
-
-	/**
-	 * @var array
-	 */
-	protected $error_messages = [
-		self::ERROR_CODE_EMPTY => '', self::ERROR_CODE_INVALID_FORMAT => '',
-	];
-
+	protected $catcher;
 
 	/**
 	 * Options for Select, MultiSelect, RadioButtons and so on ...
@@ -178,24 +114,6 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	}
 
 	/**
-	 * Set field options
-	 *
-	 * @param array $options
-	 *
-	 * @throws Form_Exception
-	 */
-	public function setOptions( array $options )
-	{
-		foreach( $options as $o_k => $o_v ) {
-			if( !$this->getObjectClassHasProperty( $o_k ) ) {
-				throw new Form_Exception( 'Unknown form field option: '.$o_k );
-			}
-
-			$this->{$o_k} = $o_v;
-		}
-	}
-
-	/**
 	 * @return Form
 	 */
 	public function getForm()
@@ -213,39 +131,15 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		$this->_form = $form;
 	}
 
-	/**
-	 * @return array
-	 */
-	abstract public function getRequiredErrorCodes();
 
 	/**
-	 * Options for Select, MultiSelect and so on ...
+	 * Returns field id
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getSelectOptions()
+	public function getId()
 	{
-		return $this->select_options;
-	}
-
-	/**
-	 * Options for Select, MultiSelect and so on ...
-	 *
-	 * @param array|\Iterator $options
-	 */
-	public function setSelectOptions( $options )
-	{
-		if( is_object( $options ) ) {
-
-			$_o = $options;
-			$options = [];
-
-			foreach( $_o as $k => $v ) {
-				$options[$k] = $v;
-			}
-		}
-
-		$this->select_options = $options;
+		return $this->_form->getId().'__'.str_replace( '/', '___', $this->getName() );
 	}
 
 	/**
@@ -358,7 +252,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	 */
 	public function getLabel()
 	{
-		return $this->getTranslation( $this->label );
+		return $this->_( $this->label );
 	}
 
 	/**
@@ -371,25 +265,13 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		$this->label = $label;
 	}
 
-	/**
-	 * @see Translator
-	 *
-	 * @param string $phrase
-	 * @param array  $data
-	 *
-	 * @return string
-	 */
-	public function getTranslation( $phrase, $data = [] )
-	{
-		return $this->_form->getTranslation( $phrase, $data );
-	}
 
 	/**
 	 * @return string
 	 */
 	public function getPlaceholder()
 	{
-		return $this->getTranslation( $this->placeholder );
+		return $this->_( $this->placeholder );
 	}
 
 	/**
@@ -421,232 +303,56 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	}
 
 
-	/**
-	 * returns error messages
-	 *
-	 * @return array
-	 */
-	public function getErrorMessages()
-	{
-		return $this->error_messages;
-	}
+
 
 	/**
-	 * sets error messages
+	 * Set field options
 	 *
-	 * @param array $error_messages
+	 * @param array $options
 	 *
 	 * @throws Form_Exception
 	 */
-	public function setErrorMessages( array $error_messages )
+	public function setOptions( array $options )
 	{
-
-		foreach( $error_messages as $key => $message ) {
-			if( !array_key_exists( $key, $this->error_messages ) ) {
-				throw new Form_Exception( 'Unknown form field error code: '.$key.'! Field: '.$this->_name );
+		foreach( $options as $o_k => $o_v ) {
+			if( !$this->getObjectClassHasProperty( $o_k ) ) {
+				throw new Form_Exception( 'Unknown form field option: '.$o_k );
 			}
 
-			$this->error_messages[$key] = $message;
+			$this->{$o_k} = $o_v;
 		}
 	}
 
 	/**
+	 * Options for Select, MultiSelect and so on ...
 	 *
-	 * @param string $code
-	 *
-	 * @return string|bool
+	 * @return array
 	 */
-	public function getErrorMessage( $code )
+	public function getSelectOptions()
 	{
-		$message = isset( $this->error_messages[$code] ) ? $this->error_messages[$code] : false;
-
-		return $this->getTranslation( $message );
-
+		return $this->select_options;
 	}
 
 	/**
+	 * Options for Select, MultiSelect and so on ...
 	 *
-	 * @param string $code
+	 * @param array|\Iterator $options
 	 */
-	public function setError( $code )
+	public function setSelectOptions( $options )
 	{
-		$this->is_valid = false;
-		$this->last_error_code = $code;
-		$this->last_error_message = $this->getErrorMessage( $code );
-	}
+		if( is_object( $options ) ) {
 
-	/**
-	 *
-	 * @param string $error_message
-	 * @param string $error_code
-	 */
-	public function setCustomError( $error_message, $error_code='custom' )
-	{
-		$this->is_valid = false;
-		$this->_form->setIsNotValid();
-		$this->last_error_code = $error_code;
-		$this->last_error_message = $error_message;
-	}
+			$_o = $options;
+			$options = [];
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function getLastErrorCode()
-	{
-		return $this->last_error_code;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getLastErrorMessage()
-	{
-		return $this->last_error_message;
-	}
-
-	/**
-	 *
-	 * @param bool $raw
-	 *
-	 * @return string
-	 */
-	public function getValidationRegexp( $raw=false )
-	{
-		if($raw) {
-			return $this->validation_regexp;
+			foreach( $_o as $k => $v ) {
+				$options[$k] = $v;
+			}
 		}
 
-		$regexp = $this->validation_regexp;
-
-		if( $regexp[0]=='/' ) {
-			$regexp = substr( $regexp, 1 );
-			$regexp = substr( $regexp, 0, strrpos( $regexp, '/' ) );
-		}
-
-		return $regexp;
+		$this->select_options = $options;
 	}
 
-	/**
-	 *
-	 * @param string $validation_regexp
-	 */
-	public function setValidationRegexp( $validation_regexp )
-	{
-		$this->validation_regexp = $validation_regexp;
-	}
-
-	/**
-	 * catch value from input (input = most often $_POST)
-	 *
-	 * @param Data_Array $data
-	 */
-	public function catchValue( Data_Array $data )
-	{
-		$this->_value = null;
-		$this->_has_value = $data->exists( $this->_name );
-
-		if( $this->_has_value ) {
-			$this->_value_raw = $data->getRaw( $this->_name );
-			$this->_value = trim( $data->getString( $this->_name ) );
-		} else {
-			$this->_value_raw = null;
-		}
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function checkValueIsNotEmpty()
-	{
-		if( $this->_value===''&&$this->is_required ) {
-			$this->setError( self::ERROR_CODE_EMPTY );
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * validate value
-	 *
-	 * @return bool
-	 */
-	public function validateValue()
-	{
-		if( !$this->_validateFormat() ) {
-			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
-
-			return false;
-		}
-
-		$this->_setValueIsValid();
-
-		return true;
-	}
-
-	/**
-	 * validate value by regex if validation_regexp is set
-	 *
-	 * @return bool|int
-	 */
-	protected function _validateFormat()
-	{
-
-		if( !$this->validation_regexp ) {
-			return true;
-		}
-
-		if( !$this->is_required && $this->_value==='' ) {
-			return true;
-		}
-
-		if( $this->validation_regexp[0]!='/' ) {
-			return preg_match( '/'.$this->validation_regexp.'/', $this->_value );
-		} else {
-			return preg_match( $this->validation_regexp, $this->_value );
-		}
-
-	}
-
-	/**
-	 * set value is OK
-	 */
-	protected function _setValueIsValid()
-	{
-		$this->is_valid = true;
-		$this->last_error_code = false;
-		$this->last_error_message = false;
-	}
-
-	/**
-	 * returns true if field is valid
-	 *
-	 * @return bool
-	 */
-	public function isValid()
-	{
-		return $this->is_valid;
-	}
-
-	/**
-	 *
-	 */
-	public function catchData()
-	{
-		if( $this->getIsReadonly()||!$this->getHasValue() ) {
-			return;
-		}
-
-		if( !( $callback = $this->getCatchDataCallback() ) ) {
-			return;
-		}
-
-		$callback( $this->getValue() );
-	}
 
 	/**
 	 * @return bool
@@ -664,30 +370,46 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 		$this->is_readonly = $is_readonly;
 	}
 
+
 	/**
-	 * is there value in input? (input = most often $_POST)
+	 * @return callable
+	 */
+	public function getCatcher()
+	{
+		return $this->catcher;
+	}
+
+	/**
+	 * @param callable $catcher
+	 */
+	public function setCatcher( callable $catcher )
+	{
+		$this->catcher = $catcher;
+	}
+
+	/**
+	 *
+	 */
+	public function catchData()
+	{
+		if(
+			$this->getIsReadonly() ||
+			!$this->getHasValue() ||
+			!( $catcher = $this->getCatcher() )
+		) {
+			return;
+		}
+
+		$catcher( $this->getValue() );
+	}
+
+	/**
 	 *
 	 * @return bool
 	 */
 	public function getHasValue()
 	{
 		return $this->_has_value;
-	}
-
-	/**
-	 * @return callable
-	 */
-	public function getCatchDataCallback()
-	{
-		return $this->catch_data_callback;
-	}
-
-	/**
-	 * @param callable $catch_data_callback
-	 */
-	public function setCatchDataCallback( callable $catch_data_callback )
-	{
-		$this->catch_data_callback = $catch_data_callback;
 	}
 
 	/**
@@ -699,6 +421,16 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	{
 		return $this->_value;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getValueRaw()
+	{
+		return $this->_value_raw;
+	}
+
+
 
 	/**
 	 * @return array
@@ -725,37 +457,16 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	}
 
 	/**
-	 * Returns field id
+	 * @see Translator
+	 *
+	 * @param string $phrase
+	 * @param array  $data
 	 *
 	 * @return string
 	 */
-	public function getId()
+	public function _( $phrase, $data = [] )
 	{
-		return $this->_form->getId().'__'.str_replace( '/', '___', $this->getName() );
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getValueRaw()
-	{
-		return $this->_value_raw;
-	}
-
-	/**
-	 * @return callable
-	 */
-	public function getValidateDataCallback()
-	{
-		return $this->validate_data_callback;
-	}
-
-	/**
-	 * @param callable $validate_data_callback
-	 */
-	public function setValidateDataCallback( $validate_data_callback )
-	{
-		$this->validate_data_callback = $validate_data_callback;
+		return $this->_form->_( $phrase, $data );
 	}
 
 }

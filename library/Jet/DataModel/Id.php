@@ -53,33 +53,6 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	}
 
 	/**
-	 * @param array $options
-	 */
-	public function setOptions( array $options )
-	{
-		foreach( $options as $key => $val ) {
-			$this->{$key} = $val;
-		}
-	}
-
-	/**
-	 * @param DataModel_Interface $data_model
-	 */
-	public function joinDataModel( DataModel_Interface $data_model )
-	{
-		$this->_data_model_instance = $data_model;
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed  &$property
-	 */
-	public function joinObjectProperty( $name, &$property )
-	{
-		$this->_values[$name] = &$property;
-	}
-
-	/**
 	 * @param array|string|int $id_data
 	 *
 	 * @throws DataModel_Id_Exception
@@ -106,6 +79,33 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 			throw new DataModel_Id_Exception( 'ID values missing: '.implode( ', ', $missing_keys ) );
 		}
 
+	}
+
+	/**
+	 * @param array $options
+	 */
+	public function setOptions( array $options )
+	{
+		foreach( $options as $key => $val ) {
+			$this->{$key} = $val;
+		}
+	}
+
+	/**
+	 * @param DataModel_Interface $data_model
+	 */
+	public function joinDataModel( DataModel_Interface $data_model )
+	{
+		$this->_data_model_instance = $data_model;
+	}
+
+	/**
+	 * @param string $name
+	 * @param mixed  &$property
+	 */
+	public function joinObjectProperty( $name, &$property )
+	{
+		$this->_values[$name] = &$property;
 	}
 
 	/**

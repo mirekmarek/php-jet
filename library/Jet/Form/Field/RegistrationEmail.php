@@ -86,7 +86,7 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 
 		if( !$this->_value ) {
@@ -109,7 +109,7 @@ class Form_Field_RegistrationEmail extends Form_Field_Email
 			return false;
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

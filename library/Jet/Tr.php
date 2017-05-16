@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Tr
- * @package Jet
+ *
  */
 class Tr extends Translator
 {

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Tree_Forest
- * @package Jet
+ *
  */
 class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable
 {
@@ -27,7 +26,6 @@ class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, Base
 	protected $id_key;
 
 	/**
-	 * Trees instances
 	 *
 	 * @var Data_Tree[]
 	 */

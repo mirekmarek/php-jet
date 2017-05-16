@@ -72,7 +72,7 @@ class Form_Field_DateTime extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 		if( !$this->is_required&&$this->_value==='' ) {
 			$this->_value = null;
@@ -91,7 +91,7 @@ class Form_Field_DateTime extends Form_Field_Input
 			}
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

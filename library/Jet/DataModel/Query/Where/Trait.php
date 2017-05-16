@@ -63,7 +63,7 @@ trait DataModel_Query_Where_Trait
 		$operator = DataModel_Query::O_EQUAL;
 		$key = trim( $key );
 
-		foreach( DataModel_Query::$_available_operators as $s_operator ) {
+		foreach( DataModel_Query::$available_operators as $s_operator ) {
 			$len = strlen( $s_operator );
 			if( substr( $key, -$len )==$s_operator ) {
 				$operator = $s_operator;

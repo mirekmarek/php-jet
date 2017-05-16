@@ -274,21 +274,6 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 		return $this->getIdObject()->toString();
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		return $this->name;
-	}
 
 	/**
 	 * @return string
@@ -417,13 +402,13 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @return bool
 	 */
-	public function getHasPrivilege( $privilege, $value )
+	public function hasPrivilege( $privilege, $value )
 	{
 		if( !isset( $this->privileges[$privilege] ) ) {
 			return false;
 		}
 
-		return $this->privileges[$privilege]->getHasValue( $value );
+		return $this->privileges[$privilege]->hasValue( $value );
 	}
 
 	/**
@@ -449,7 +434,6 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	}
 
 	/**
-	 * Get list of available privileges
 	 *
 	 *
 	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]

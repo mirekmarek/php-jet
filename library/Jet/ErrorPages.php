@@ -28,6 +28,40 @@ class ErrorPages extends BaseObject
 	protected static $fallback = [];
 
 	/**
+	 *
+	 *
+	 * @param string $error_pages_dir
+	 * @param bool   $check_path (optional, default: true)
+	 *
+	 * @throws ErrorPages_Exception
+	 */
+	public static function setErrorPagesDir( $error_pages_dir, $check_path = true )
+	{
+		$error_pages_dir = rtrim( $error_pages_dir, '/\\'.DIRECTORY_SEPARATOR ).DIRECTORY_SEPARATOR;
+
+		if(
+			$check_path &&
+			!is_dir( $error_pages_dir )
+		) {
+			throw new ErrorPages_Exception(
+				'Error pages directory \''.$error_pages_dir.'\' does not exist',
+				ErrorPages_Exception::CODE_INVALID_ERROR_PAGES_DIR_PATH
+			);
+		}
+
+		static::$error_pages_dir = $error_pages_dir;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public static function getErrorPagesDir()
+	{
+		return static::$error_pages_dir;
+	}
+
+	/**
 	 * @param int      $code
 	 * @param callable $callback
 	 */
@@ -40,7 +74,7 @@ class ErrorPages extends BaseObject
 	/**
 	 * @param int $code
 	 */
-	public function unRegisterCallback( $code )
+	public static function unRegisterCallback( $code )
 	{
 		if(isset(static::$callbacks[$code])) {
 			unset(static::$callbacks[$code]);
@@ -61,7 +95,7 @@ class ErrorPages extends BaseObject
 	/**
 	 * @param int $code
 	 */
-	public function unRegisterFallback( $code )
+	public static function unRegisterFallback( $code )
 	{
 		if(isset(static::$fallback[$code])) {
 			unset(static::$fallback[$code]);
@@ -182,37 +216,4 @@ class ErrorPages extends BaseObject
 
 	}
 
-	/**
-	 *
-	 * @return string
-	 */
-	public static function getErrorPagesDir()
-	{
-		return static::$error_pages_dir;
-	}
-
-	/**
-	 *
-	 *
-	 * @param string $error_pages_dir
-	 * @param bool   $check_path (optional, default: true)
-	 *
-	 * @throws ErrorPages_Exception
-	 */
-	public static function setErrorPagesDir( $error_pages_dir, $check_path = true )
-	{
-		$error_pages_dir = rtrim( $error_pages_dir, '/\\'.DIRECTORY_SEPARATOR ).DIRECTORY_SEPARATOR;
-
-		if(
-			$check_path &&
-			!is_dir( $error_pages_dir )
-		) {
-			throw new ErrorPages_Exception(
-				'Error pages directory \''.$error_pages_dir.'\' does not exist',
-				ErrorPages_Exception::CODE_INVALID_ERROR_PAGES_DIR_PATH
-			);
-		}
-
-		static::$error_pages_dir = $error_pages_dir;
-	}
 }

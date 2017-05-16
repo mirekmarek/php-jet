@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Autoloader_Loader_Zend
- * @package Jet
+ *
  */
 class Autoloader_Loader_Zend extends Autoloader_Loader
 {
@@ -37,7 +36,6 @@ class Autoloader_Loader_Zend extends Autoloader_Loader
 
 
 	/**
-	 * Get class script path or false
 	 *
 	 * @param string $class_name
 	 *

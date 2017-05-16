@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class Debug_Profiler_Run_SQLQueryData
- * @package Jet
+ *
  */
 class Debug_Profiler_Run_SQLQueryData
 {

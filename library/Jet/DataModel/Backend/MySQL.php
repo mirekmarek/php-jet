@@ -483,7 +483,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function save( DataModel_RecordData $record )
 	{
-		$this->_db_write->execCommand( $this->getBackendInsertQuery( $record ) );
+		$this->_db_write->execCommand( $this->createInsertQuery( $record ) );
 
 		return $this->_db_write->lastInsertId();
 	}
@@ -494,7 +494,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function getBackendInsertQuery( DataModel_RecordData $record )
+	public function createInsertQuery( DataModel_RecordData $record )
 	{
 
 		$data_model_definition = $record->getDataModelDefinition();
@@ -522,7 +522,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function update( DataModel_RecordData $record, DataModel_Query $where )
 	{
 
-		return $this->_db_write->execCommand( $this->getBackendUpdateQuery( $record, $where ) );
+		return $this->_db_write->execCommand( $this->createUpdateQuery( $record, $where ) );
 	}
 
 	/**
@@ -531,7 +531,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function getBackendUpdateQuery( DataModel_RecordData $record, DataModel_Query $where )
+	public function createUpdateQuery( DataModel_RecordData $record, DataModel_Query $where )
 	{
 		$data_model_definition = $record->getDataModelDefinition();
 		$table_name = $this->_getTableName( $data_model_definition );
@@ -706,7 +706,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function delete( DataModel_Query $where )
 	{
-		return $this->_db_write->execCommand( $this->getBackendDeleteQuery( $where ) );
+		return $this->_db_write->execCommand( $this->createDeleteQuery( $where ) );
 	}
 
 	/**
@@ -714,7 +714,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function getBackendDeleteQuery( DataModel_Query $where )
+	public function createDeleteQuery( DataModel_Query $where )
 	{
 		$table_name = $this->_getTableName( $where->getMainDataModelDefinition() );
 
@@ -729,7 +729,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function getCount( DataModel_Query $query )
 	{
 
-		return (int)$this->_db_read->fetchOne( $this->getBackendCountQuery( $query ) );
+		return (int)$this->_db_read->fetchOne( $this->createCountQuery( $query ) );
 	}
 
 	/**
@@ -737,7 +737,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function getBackendCountQuery( DataModel_Query $query )
+	public function createCountQuery( DataModel_Query $query )
 	{
 
 		$id_properties = [];
@@ -897,7 +897,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	{
 
 		$data = $this->_db_read->$fetch_method(
-			$this->getBackendSelectQuery( $query )
+			$this->createSelectQuery( $query )
 		);
 
 		if( !is_array( $data ) ) {
@@ -912,7 +912,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 *
 	 * @return string
 	 */
-	public function getBackendSelectQuery( DataModel_Query $query )
+	public function createSelectQuery( DataModel_Query $query )
 	{
 
 		return 'SELECT'.JET_EOL.JET_TAB.$this->_getSQLQuerySelectPart(
@@ -1125,7 +1125,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function fetchCol( DataModel_Query $query )
 	{
 		$data = $this->_db_read->fetchCol(
-			$this->getBackendSelectQuery( $query )
+			$this->createSelectQuery( $query )
 		);
 
 		if( !is_array( $data ) ) {

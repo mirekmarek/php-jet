@@ -349,7 +349,7 @@ class Controller_Main extends Mvc_Controller_Standard
 				Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
 		);
-		$upload_image_field->setCatchDataCallback(
+		$upload_image_field->setCatcher(
 			function( $tmp_file ) use ( $upload_image_field ) {
 
 				$target_dir = JET_PATH_PUBLIC.'test_uploads/';
@@ -373,7 +373,7 @@ class Controller_Main extends Mvc_Controller_Standard
 				Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
 		);
-		$upload_file_field->setCatchDataCallback(
+		$upload_file_field->setCatcher(
 			function( $tmp_file ) use ( $upload_file_field ) {
 
 				/*
@@ -487,7 +487,7 @@ class Controller_Main extends Mvc_Controller_Standard
 
 			$form->setAction( '#'.$form->getId() );
 
-			if( $form->catchValues()&&$form->validateValues() ) {
+			if( $form->catchInput()&&$form->validate() ) {
 				$form->catchData();
 
 				$forms[$form_name]['form_sent'] = true;

@@ -66,7 +66,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 		);
 
 
-		if( $select_locale_form->catchValues()&&$select_locale_form->validateValues() ) {
+		if( $select_locale_form->catchInput()&&$select_locale_form->validate() ) {
 
 			$locale = new Locale( $locale_field->getValue() );
 

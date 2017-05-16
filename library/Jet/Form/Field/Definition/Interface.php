@@ -60,14 +60,14 @@ interface Form_Field_Definition_Interface
 	public function getFormFieldGetSelectOptionsCallback();
 
 	/**
-	 * @param string $form_catch_value_method_name
+	 * @param string $setter_name
 	 */
-	public function setFormCatchValueMethodName( $form_catch_value_method_name );
+	public function setFormSetterName( $setter_name );
 
 	/**
 	 * @return string
 	 */
-	public function getFormCatchValueMethodName();
+	public function getFormSetterName();
 
 
 	/**

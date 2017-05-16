@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class Debug_Profiler_Run_Block
- * @package Jet
+ *
  */
 class Debug_Profiler_Run_Block
 {

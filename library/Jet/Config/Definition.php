@@ -11,7 +11,7 @@ namespace Jet;
  * Class Config_Definition_Config
  * @package Jet
  */
-class Config_Definition extends BaseObject implements BaseObject_Reflection_ParserInterface
+class Config_Definition extends BaseObject implements Reflection_ParserInterface
 {
 	/**
 	 * @var string
@@ -126,11 +126,11 @@ class Config_Definition extends BaseObject implements BaseObject_Reflection_Pars
 
 
 	/**
-	 * @param BaseObject_Reflection_ParserData $data
+	 * @param Reflection_ParserData $data
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 */
-	public static function parseClassDocComment( BaseObject_Reflection_ParserData $data )
+	public static function parseClassDocComment( Reflection_ParserData $data )
 	{
 
 		switch( $data->getKey() ) {
@@ -141,19 +141,19 @@ class Config_Definition extends BaseObject implements BaseObject_Reflection_Pars
 				$data->result_data['config_data_path'] = $data->getValueAsString();
 				break;
 			default:
-				throw new BaseObject_Reflection_Exception(
+				throw new Reflection_Exception(
 					'Unknown definition! Class: \''.$data->getCurrentHierarchyClassReflection()->getName(
 					).'\', definition: \''.$data->getDefinition().'\' ',
-					BaseObject_Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
+					Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}
 
 	}
 
 	/**
-	 * @param BaseObject_Reflection_ParserData $data
+	 * @param Reflection_ParserData $data
 	 */
-	public static function parsePropertyDocComment( BaseObject_Reflection_ParserData $data )
+	public static function parsePropertyDocComment( Reflection_ParserData $data )
 	{
 
 		switch( $data->getKey() ) {

@@ -17,7 +17,7 @@ trait DataModel_Related_Trait
 	use DataModel_Trait;
 
 	use DataModel_Related_Trait_Definition {
-		DataModel_Related_Trait_Definition::_getDataModelDefinitionInstance insteadof DataModel_Trait;
+		DataModel_Related_Trait_Definition::dataModelDefinitionFactory insteadof DataModel_Trait;
 	}
 
 	use DataModel_Related_Trait_Load;

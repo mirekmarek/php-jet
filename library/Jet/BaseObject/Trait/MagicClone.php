@@ -7,10 +7,8 @@
  */
 namespace Jet;
 
-//We do not have multiple inheritance in PHP :-(
 /**
- * Class BaseObject_Trait_MagicClone
- * @package Jet
+ *
  */
 trait BaseObject_Trait_MagicClone
 {

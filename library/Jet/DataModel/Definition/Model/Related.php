@@ -83,7 +83,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			$this->_initProperties();
 			$this->_initKeys();
 
-			$this->default_order_by = BaseObject_Reflection::get( $this->class_name, 'default_order_by', [] );
+			$this->default_order_by = Reflection::get( $this->class_name, 'default_order_by', [] );
 
 			if( !$this->id_properties ) {
 				throw new DataModel_Exception(
@@ -100,7 +100,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	protected function _initParents()
 	{
 
-		$parent_model_class_name = BaseObject_Reflection::get(
+		$parent_model_class_name = Reflection::get(
 			$this->class_name, 'data_model_parent_model_class_name'
 		);
 
@@ -116,7 +116,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 		$main_model_class_name = $parent_model_class_name;
 
 		// Traversing and seeking for main model
-		while( ( $_parent = BaseObject_Reflection::get(
+		while( ( $_parent = Reflection::get(
 			$main_model_class_name, 'data_model_parent_model_class_name'
 		) ) ) {
 
@@ -222,12 +222,21 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 	/**
 	 *
+	 * @return DataModel_Definition_Model_Main
+	 */
+	public function getMainModelDefinition()
+	{
+		return DataModel_Definition::get( $this->main_model_class_name );
+	}
+	/**
+	 *
 	 * @return DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN
 	 */
-	public function getParentRelatedModelDefinition()
+	public function getParentModelDefinition()
 	{
 		return DataModel_Definition::get( $this->parent_model_class_name );
 	}
+
 
 	/**
 	 *
@@ -269,15 +278,6 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	public function setDefaultOrderBy( $default_order_by )
 	{
 		$this->default_order_by = $default_order_by;
-	}
-
-	/**
-	 *
-	 * @return DataModel_Definition_Model_Main
-	 */
-	public function getMainModelDefinition()
-	{
-		return DataModel_Definition::get( $this->main_model_class_name );
 	}
 
 	/**

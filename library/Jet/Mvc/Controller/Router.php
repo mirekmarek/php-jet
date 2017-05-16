@@ -43,7 +43,7 @@ class Mvc_Controller_Router extends BaseObject
 	public function __construct( Application_Module $module_instance, Mvc_Router_Interface $mvc_router = null )
 	{
 		if( !$mvc_router ) {
-			$mvc_router = Mvc::getCurrentRouter();
+			$mvc_router = Mvc::getRouter();
 		}
 		$this->mvc_router = $mvc_router;
 		$this->module_instance = $module_instance;

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class BaseObject_Trait
- * @package Jet
+ *
  */
 trait BaseObject_Trait
 {

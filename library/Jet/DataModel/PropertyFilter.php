@@ -50,35 +50,6 @@ class DataModel_PropertyFilter extends BaseObject
 	}
 
 	/**
-	 * @param DataModel_Definition_Model    $model_definition
-	 * @param DataModel_PropertyFilter|null $load_filter
-	 *
-	 * @return array|DataModel_Definition_Property[]
-	 */
-	public static function getQuerySelect( DataModel_Definition_Model $model_definition, DataModel_PropertyFilter $load_filter = null )
-	{
-
-		if( !$load_filter ) {
-			$select = $model_definition->getProperties();
-		} else {
-			$select = [];
-
-			foreach( $model_definition->getProperties() as $property ) {
-				if( !$property->getIsId()&&!$load_filter->getPropertyAllowed(
-						$model_definition->getModelName(), $property->getName()
-					)
-				) {
-					continue;
-				}
-
-				$select[] = $property;
-			}
-		}
-
-		return $select;
-	}
-
-	/**
 	 * @param string $model_name
 	 * @param string $property_name
 	 *
@@ -115,6 +86,36 @@ class DataModel_PropertyFilter extends BaseObject
 		}
 
 		return $this->only_properties[$model_name];
+	}
+
+
+	/**
+	 * @param DataModel_Definition_Model    $model_definition
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 *
+	 * @return array|DataModel_Definition_Property[]
+	 */
+	public static function getQuerySelect( DataModel_Definition_Model $model_definition, DataModel_PropertyFilter $load_filter = null )
+	{
+
+		if( !$load_filter ) {
+			$select = $model_definition->getProperties();
+		} else {
+			$select = [];
+
+			foreach( $model_definition->getProperties() as $property ) {
+				if( !$property->getIsId()&&!$load_filter->getPropertyAllowed(
+						$model_definition->getModelName(), $property->getName()
+					)
+				) {
+					continue;
+				}
+
+				$select[] = $property;
+			}
+		}
+
+		return $select;
 	}
 
 }

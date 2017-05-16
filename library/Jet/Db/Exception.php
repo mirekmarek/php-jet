@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Db_Exception
- * @package Jet
+ *
  */
 class Db_Exception extends Exception
 {

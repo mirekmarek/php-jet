@@ -86,7 +86,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 
 		if( !$this->_value ) {
@@ -96,7 +96,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 			return false;
 		}
 
-		if( !$this->_validateFormat() ) {
+		if( !$this->validateFormat() ) {
 			$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
 			return false;
@@ -110,7 +110,7 @@ class Form_Field_RegistrationUsername extends Form_Field_Input
 			return false;
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

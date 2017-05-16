@@ -32,10 +32,15 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @var array
 	 */
-	public static $_available_operators = [
-		self::O_NOT_EQUAL, self::O_NOT_LIKE, self::O_GREATER_THAN_OR_EQUAL, self::O_LESS_THAN_OR_EQUAL, self::O_EQUAL,
-		self::O_LIKE, self::O_GREATER_THAN, self::O_LESS_THAN,
-
+	public static $available_operators = [
+		self::O_NOT_EQUAL,
+		self::O_NOT_LIKE,
+		self::O_GREATER_THAN_OR_EQUAL,
+		self::O_LESS_THAN_OR_EQUAL,
+		self::O_EQUAL,
+		self::O_LIKE,
+		self::O_GREATER_THAN,
+		self::O_LESS_THAN,
 	];
 
 	/**
@@ -78,7 +83,6 @@ class DataModel_Query extends BaseObject
 
 
 	/**
-	 * Order by columns (items definition or custom columns defined load_properties)
 	 *
 	 * @var DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]
 	 */
@@ -86,37 +90,22 @@ class DataModel_Query extends BaseObject
 
 
 	/**
-	 * Group by columns
 	 *
 	 * @var DataModel_Query_GroupBy
 	 */
 	protected $group_by;
 
 	/**
-	 * Offset value
 	 *
 	 * @var int
 	 */
 	protected $offset = null;
 
 	/**
-	 * Limit value
 	 *
 	 * @var int
 	 */
 	protected $limit = null;
-
-
-	/**
-	 * @param DataModel_Definition_Model $main_data_model_definition
-	 */
-	public function __construct( DataModel_Definition_Model $main_data_model_definition )
-	{
-		$this->main_data_model_definition = $main_data_model_definition;
-		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
-
-	}
-
 
 	/**
 	 *
@@ -129,13 +118,24 @@ class DataModel_Query extends BaseObject
 	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] )
 	{
 
-		$result = new self( $main_data_model_definition );
+		$result = new static( $main_data_model_definition );
 		if( $where ) {
 			$result->setWhere( $where );
 		}
 
 		return $result;
 	}
+
+	/**
+	 * @param DataModel_Definition_Model $main_data_model_definition
+	 */
+	public function __construct( DataModel_Definition_Model $main_data_model_definition )
+	{
+		$this->main_data_model_definition = $main_data_model_definition;
+		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
+
+	}
+
 
 	/**
 	 * @return DataModel

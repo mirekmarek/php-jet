@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Translator_Backend_Abstract
- * @package Jet
+ *
  */
 abstract class Translator_Backend extends BaseObject
 {

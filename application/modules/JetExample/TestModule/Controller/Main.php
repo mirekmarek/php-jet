@@ -75,7 +75,7 @@ class Controller_Main extends Mvc_Controller_Standard
 
 		$form = $obj->getCommonForm();
 
-		if( $form->catchValues()&&$form->validateValues() ) {
+		if( $form->catchInput()&&$form->validate() ) {
 			$this->view->setVar( 'form_data', $form->getValues() );
 		}
 		$this->view->setVar( 'form', $form );

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Layout_PackageCreator_JavaScript_Abstract
- * @package Jet
+ *
  */
 abstract class PackageCreator_JavaScript extends PackageCreator
 {

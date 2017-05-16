@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Tree
- * @package Jet
+ *
  */
 class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable
 {

@@ -183,7 +183,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data )
+	public function catchInput( Data_Array $data )
 	{
 
 		$this->_value = null;
@@ -204,7 +204,7 @@ class Form_Field_File extends Form_Field
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 		if( !$this->_has_value ) {
 			if( $this->is_required ) {
@@ -236,7 +236,7 @@ class Form_Field_File extends Form_Field
 			}
 		}
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

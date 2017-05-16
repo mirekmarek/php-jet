@@ -5,16 +5,15 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetExampleApp;
 
-/** @noinspection PhpIncludeInspection */
-require_once JET_PATH_LIBRARY.'Jet/Debug/Formatter.php';
+use Jet\Debug_ErrorHandler_Handler;
+use Jet\Debug_ErrorHandler_Error;
 
 /**
- * Class Debug_ErrorHandler_Handler_Log
- * @package Jet
+ *
  */
-class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
+class ErrorHandler_Log extends Debug_ErrorHandler_Handler
 {
 
 	/**
@@ -34,7 +33,7 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 	 */
 	public function handle( Debug_ErrorHandler_Error $error )
 	{
-		$message = Debug_Formatter::formatErrorMessage_TXT( $error );
+		$message = $error->toString();
 
 		$dir = $this->getLogDir();
 
@@ -96,4 +95,5 @@ class Debug_ErrorHandler_Handler_Log extends Debug_ErrorHandler_Handler
 	{
 		return false;
 	}
+
 }

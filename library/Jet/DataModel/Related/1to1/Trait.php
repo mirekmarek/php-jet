@@ -20,7 +20,7 @@ trait DataModel_Related_1to1_Trait
 	 *
 	 * @return DataModel_Definition_Model_Related_1to1
 	 */
-	public static function _getDataModelDefinitionInstance( $data_model_class_name )
+	public static function dataModelDefinitionFactory( $data_model_class_name )
 	{
 		return new DataModel_Definition_Model_Related_1to1( $data_model_class_name );
 	}

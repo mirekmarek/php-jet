@@ -71,6 +71,22 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 
 	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( $data )
+	{
+		$i = new static();
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
+	/**
 	 *
 	 * @param string $data_model_class_name (optional)
 	 *
@@ -117,7 +133,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 */
 	protected function _getModelNameDefinition( $class_name )
 	{
-		$model_name = BaseObject_Reflection::get( $class_name, 'data_model_name', '' );
+		$model_name = Reflection::get( $class_name, 'data_model_name', '' );
 
 		if( !is_string( $model_name )||!$model_name ) {
 			throw new DataModel_Exception(
@@ -134,7 +150,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 */
 	protected function _initIdClass()
 	{
-		$this->id_class_name = BaseObject_Reflection::get( $this->class_name, 'data_model_id_class_name' );
+		$this->id_class_name = Reflection::get( $this->class_name, 'data_model_id_class_name' );
 
 		if( !$this->id_class_name ) {
 			throw new DataModel_Exception(
@@ -144,7 +160,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		}
 
-		$this->id_options = BaseObject_Reflection::get( $this->class_name, 'id_options', [] );
+		$this->id_options = Reflection::get( $this->class_name, 'id_options', [] );
 
 
 	}
@@ -154,7 +170,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 */
 	protected function _initDatabaseTableName()
 	{
-		$this->database_table_name = BaseObject_Reflection::get( $this->class_name, 'database_table_name', '' );
+		$this->database_table_name = Reflection::get( $this->class_name, 'database_table_name', '' );
 
 		if( !is_string( $this->database_table_name )||!$this->database_table_name ) {
 			throw new DataModel_Exception(
@@ -209,7 +225,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 */
 	protected function _getPropertiesDefinitionData( $class_name )
 	{
-		$properties_definition_data = BaseObject_Reflection::get(
+		$properties_definition_data = Reflection::get(
 			$class_name, 'data_model_properties_definition', false
 		);
 
@@ -262,7 +278,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 			$this->addKey( $this->model_name.'_pk', DataModel::KEY_TYPE_PRIMARY, array_keys( $this->id_properties ) );
 		}
 
-		$keys_definition_data = BaseObject_Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
+		$keys_definition_data = Reflection::get( $this->class_name, 'data_model_keys_definition', [] );
 
 		foreach( $keys_definition_data as $kd ) {
 			$this->addKey( $kd['name'], $kd['type'], $kd['property_names'] );
@@ -271,37 +287,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $type
-	 * @param array  $key_properties
-	 *
-	 * @throws DataModel_Exception
-	 */
-	public function addKey( $name, $type, array $key_properties )
-	{
-
-		if( isset( $this->keys[$name] ) ) {
-			throw new DataModel_Exception(
-				'Class \''.$this->getClassName().'\': duplicate key \''.$name.'\' ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-		$my_properties = $this->getProperties();
-
-		foreach( $key_properties as $property_name ) {
-			if( !isset( $my_properties[$property_name] ) ) {
-				throw new DataModel_Exception(
-					'Unknown key property \''.$property_name.'\'. Class: \''.$this->class_name.'\' Key: \''.$name.'\' ',
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
-
-			}
-		}
-
-		$this->keys[$name] = new DataModel_Definition_Key( $name, $type, $key_properties );
-	}
 
 	/**
 	 * Returns DataModel class name
@@ -311,31 +296,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 	public function getClassName()
 	{
 		return $this->class_name;
-	}
-
-	/**
-	 *
-	 * @return DataModel_Definition_Property[]
-	 */
-	public function getProperties()
-	{
-		return $this->properties;
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( $data )
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
 	}
 
 	/**
@@ -392,6 +352,16 @@ abstract class DataModel_Definition_Model extends BaseObject
 	public function getIdOptions()
 	{
 		return $this->id_options;
+	}
+
+
+	/**
+	 *
+	 * @return DataModel_Definition_Property[]
+	 */
+	public function getProperties()
+	{
+		return $this->properties;
 	}
 
 	/**
@@ -482,7 +452,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		$class = $this->class_name;
 
-		$relations_definitions_data = BaseObject_Reflection::get( $class, 'data_model_outer_relations_definition', [] );
+		$relations_definitions_data = Reflection::get( $class, 'data_model_outer_relations_definition', [] );
 
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this, $definition_data );
@@ -510,6 +480,38 @@ abstract class DataModel_Definition_Model extends BaseObject
 
 		}
 
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $type
+	 * @param array  $key_properties
+	 *
+	 * @throws DataModel_Exception
+	 */
+	public function addKey( $name, $type, array $key_properties )
+	{
+
+		if( isset( $this->keys[$name] ) ) {
+			throw new DataModel_Exception(
+				'Class \''.$this->getClassName().'\': duplicate key \''.$name.'\' ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		$my_properties = $this->getProperties();
+
+		foreach( $key_properties as $property_name ) {
+			if( !isset( $my_properties[$property_name] ) ) {
+				throw new DataModel_Exception(
+					'Unknown key property \''.$property_name.'\'. Class: \''.$this->class_name.'\' Key: \''.$name.'\' ',
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
+				);
+
+			}
+		}
+
+		$this->keys[$name] = new DataModel_Definition_Key( $name, $type, $key_properties );
 	}
 
 	/**

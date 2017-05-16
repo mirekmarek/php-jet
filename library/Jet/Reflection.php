@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class BaseObject_Reflection
+class Reflection
 {
 	/**
 	 * @var string
@@ -79,8 +79,8 @@ class BaseObject_Reflection
 	public static function getCacheSaveEnabled()
 	{
 		if(static::$cache_save_enabled===null) {
-			if(defined('JET_OBJECT_REFLECTION_CACHE_SAVE')) {
-				static::$cache_save_enabled = JET_OBJECT_REFLECTION_CACHE_SAVE;
+			if(defined('JET_REFLECTION_CACHE_SAVE')) {
+				static::$cache_save_enabled = JET_REFLECTION_CACHE_SAVE;
 			} else {
 				static::$cache_save_enabled = false;
 			}
@@ -103,8 +103,8 @@ class BaseObject_Reflection
 	public static function getCacheLoadEnabled()
 	{
 		if(static::$cache_load_enabled===null) {
-			if(defined('JET_OBJECT_REFLECTION_CACHE_LOAD')) {
-				static::$cache_load_enabled = JET_OBJECT_REFLECTION_CACHE_LOAD;
+			if(defined('JET_REFLECTION_CACHE_LOAD')) {
+				static::$cache_load_enabled = JET_REFLECTION_CACHE_LOAD;
 			} else {
 				static::$cache_load_enabled = false;
 			}
@@ -186,7 +186,7 @@ class BaseObject_Reflection
 	/**
 	 * @param string $class
 	 *
-	 * @throws BaseObject_Reflection_Exception
+	 * @throws Reflection_Exception
 	 *
 	 * @return array
 	 */
@@ -208,7 +208,7 @@ class BaseObject_Reflection
 			}
 		}
 
-		$pd = new BaseObject_Reflection_ParserData( $class );
+		$pd = new Reflection_ParserData( $class );
 
 
 		foreach( $pd->getClassReflectionHierarchy() as $current_class_reflection ) {
@@ -237,7 +237,7 @@ class BaseObject_Reflection
 				);
 
 				/**
-				 * @var BaseObject_Reflection_ParserInterface $parser_class_name
+				 * @var Reflection_ParserInterface $parser_class_name
 				 */
 				$parser_class_name::parseClassDocComment( $pd );
 
@@ -271,7 +271,7 @@ class BaseObject_Reflection
 					);
 
 					/**
-					 * @var BaseObject_Reflection_ParserInterface $parser_class_name
+					 * @var Reflection_ParserInterface $parser_class_name
 					 */
 					$parser_class_name::parsePropertyDocComment( $pd );
 				}

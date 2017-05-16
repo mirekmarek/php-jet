@@ -14,6 +14,16 @@ trait DataModel_Trait_Backend
 {
 
 	/**
+	 * Returns backend instance
+	 *
+	 * @return DataModel_Backend
+	 */
+	public static function getBackendInstance()
+	{
+		return DataModel_Backend::get( static::getDataModelDefinition() );
+	}
+
+	/**
 	 *
 	 */
 	public function startBackendTransaction()
@@ -33,16 +43,6 @@ trait DataModel_Trait_Backend
 	public function getBackendTransactionStarted()
 	{
 		return static::getBackendInstance()->getTransactionStarted();
-	}
-
-	/**
-	 * Returns backend instance
-	 *
-	 * @return DataModel_Backend
-	 */
-	public static function getBackendInstance()
-	{
-		return DataModel_Backend::get( static::getDataModelDefinition() );
 	}
 
 	/**

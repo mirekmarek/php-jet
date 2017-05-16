@@ -8,14 +8,13 @@
 namespace Jet;
 
 /**
- * Interface Auth_User_Interface
- * @package Jet
+ *
  */
 interface Auth_User_Interface extends BaseObject_Interface
 {
 
 	/**
-	 * @param string $id
+	 * @param string|int $id
 	 *
 	 * @return Auth_User_Interface
 	 */
@@ -23,7 +22,7 @@ interface Auth_User_Interface extends BaseObject_Interface
 
 	/**
 	 *
-	 * @param string $role_id (optional)
+	 * @param string|int $role_id (optional)
 	 *
 	 * @return Auth_User_Interface[]
 	 */
@@ -68,15 +67,15 @@ interface Auth_User_Interface extends BaseObject_Interface
 
 	/**
 	 * @param string $username
+	 */
+	public function setUsername( $username );
+
+	/**
+	 * @param string $username
 	 *
 	 * @return bool
 	 */
 	public function usernameExists( $username );
-
-	/**
-	 * @param string $username
-	 */
-	public function setUsername( $username );
 
 	/**
 	 * @param string $password
@@ -103,6 +102,33 @@ interface Auth_User_Interface extends BaseObject_Interface
 	 * @return bool
 	 */
 	public function verifyPasswordStrength( $password );
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function getPasswordIsValid();
+
+	/**
+	 *
+	 * @param bool $password_is_valid
+	 */
+	public function setPasswordIsValid( $password_is_valid );
+
+	/**
+	 *
+	 * @return Data_DateTime
+	 */
+	public function getPasswordIsValidTill();
+
+	/**
+	 *
+	 * @param string|Data_DateTime $password_is_valid_till
+	 *
+	 * @return mixed
+	 */
+	public function setPasswordIsValidTill( $password_is_valid_till );
+
 
 	/**
 	 *
@@ -170,31 +196,6 @@ interface Auth_User_Interface extends BaseObject_Interface
 	 */
 	public function setDescription( $description );
 
-	/**
-	 *
-	 * @return bool
-	 */
-	public function getPasswordIsValid();
-
-	/**
-	 *
-	 * @param bool $password_is_valid
-	 */
-	public function setPasswordIsValid( $password_is_valid );
-
-	/**
-	 *
-	 * @return Data_DateTime
-	 */
-	public function getPasswordIsValidTill();
-
-	/**
-	 *
-	 * @param string|Data_DateTime $password_is_valid_till
-	 *
-	 * @return mixed
-	 */
-	public function setPasswordIsValidTill( $password_is_valid_till );
 
 	/**
 	 *

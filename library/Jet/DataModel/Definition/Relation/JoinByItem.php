@@ -30,6 +30,22 @@ class DataModel_Definition_Relation_JoinByItem extends BaseObject
 	protected $this_property_or_value;
 
 	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( array $data )
+	{
+		$i = new static();
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
+	/**
 	 *
 	 *
 	 * @param DataModel_Definition_Model           $this_model_definition
@@ -90,38 +106,6 @@ class DataModel_Definition_Relation_JoinByItem extends BaseObject
 	}
 
 	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data )
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		return $this->this_property_or_value.'<->'.$this->related_class_name.'.'.$this->related_property_name;
-	}
-
-	/**
 	 *
 	 * @param DataModel_Query $query
 	 *
@@ -149,6 +133,23 @@ class DataModel_Definition_Relation_JoinByItem extends BaseObject
 		return DataModel_Definition::get( $this->related_class_name )->getProperty(
 			$this->related_property_name
 		);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return $this->this_property_or_value.'<->'.$this->related_class_name.'.'.$this->related_property_name;
 	}
 
 }

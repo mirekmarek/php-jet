@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Debug_Profiler_Run
- * @package Jet
+ *
  */
 class Debug_Profiler_Run
 {

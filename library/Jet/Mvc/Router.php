@@ -8,15 +8,26 @@
 namespace Jet;
 
 /**
- * Class Mvc_Router
- * @package Jet
+ *
  */
 class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 {
-
+	/**
+	 * @var bool
+	 */
+	protected $set_mvc_state = true;
 
 	/**
-	 * Request URL
+	 * @var callable
+	 */
+	protected $after_site_resolved;
+
+	/**
+	 * @var callable
+	 */
+	protected $after_page_resolved;
+
+	/**
 	 *
 	 * @var string
 	 */
@@ -40,13 +51,28 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected $is_SSL_request = false;
 
+	/**
+	 * @var Mvc_Site_Interface
+	 */
+	protected $site;
+
+	/**
+	 * @var Locale
+	 */
+	protected $locale;
+
+	/**
+	 * @var Mvc_Page
+	 */
+	protected $page;
+
 
 	//------------------------------------------------------------------
 
 	/**
 	 * @var string
 	 */
-	protected $file_name = '';
+	protected $file_path = '';
 
 	//------------------------------------------------------------------
 	/**
@@ -85,11 +111,26 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 * @var bool
 	 */
 	protected $login_required = false;
-	//-----------------------------------------------------------------
+
+	/**
+	 * @param callable $after_site_resolved
+	 */
+	public function afterSiteResolved( callable $after_site_resolved )
+	{
+		$this->after_site_resolved = $after_site_resolved;
+	}
+
+	/**
+	 * @param callable $after_page_resolved
+	 */
+	public function afterPageResolved( callable $after_page_resolved )
+	{
+		$this->after_page_resolved = $after_page_resolved;
+	}
+
 
 
 	/**
-	 * Initializes the router.
 	 *
 	 *
 	 * @param string $request_URL
@@ -98,31 +139,32 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
-	public function initialize( $request_URL )
+	public function resolve( $request_URL )
 	{
 
 		if( !$request_URL ) {
 			throw new Mvc_Router_Exception(
-				'URL is not defined', Mvc_Router_Exception::CODE_URL_NOT_DEFINED
+				'URL is not defined',
+				Mvc_Router_Exception::CODE_URL_NOT_DEFINED
 			);
 		}
 
 		$this->request_URL = $request_URL;
 
-
 		$this->parsed_request_URL = Http_URL::parseRequestURL( $request_URL );
-		$this->is_SSL_request = $this->parsed_request_URL->getIsSSL();
 
 		if( !$this->parsed_request_URL->getIsValid() ) {
 			throw new Mvc_Router_Exception(
-				'Unable to parse URL', Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
+				'Unable to parse URL',
+				Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
 			);
 		}
+
+		$this->is_SSL_request = $this->parsed_request_URL->getIsSSL();
 
 		$this->path_fragments = explode( '/', $this->parsed_request_URL->getPath() );
 
 		array_shift( $this->path_fragments );
-
 
 		if( !$this->validateURIFormat() ) {
 			return;
@@ -131,12 +173,22 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		if( !$this->resolveSiteAndLocale() ) {
 			return;
 		}
+		if($this->after_site_resolved) {
+			$after = $this->after_site_resolved;
+			$after( $this );
+		}
 
 		if( !$this->resolvePage() ) {
 			return;
 		}
 
 		$this->resolveAuthentication();
+
+		if($this->after_page_resolved) {
+			$after = $this->after_page_resolved;
+			$after( $this );
+		}
+
 	}
 
 	/**
@@ -176,8 +228,14 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 
 		$this->setIsRedirect(
-			$base_URL.$this->parsed_request_URL->getPath().'/'.( ( $this->parsed_request_URL->getQuery() ) ?
-				'?'.$this->parsed_request_URL->getQuery() : '' ),
+			$base_URL
+			.$this->parsed_request_URL->getPath().'/'
+			.(
+				$this->parsed_request_URL->getQuery() ?
+					'?'.$this->parsed_request_URL->getQuery()
+					:
+					''
+			),
 
 			Http_Headers::CODE_301_MOVED_PERMANENTLY
 		);
@@ -197,9 +255,10 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$known_URLs = array_keys( $site_URLs_map );
 
 		usort(
-			$known_URLs, function( $a, $b ) {
-			return strlen( $b )-strlen( $a );
-		}
+			$known_URLs,
+			function( $a, $b ) {
+				return strlen( $b )-strlen( $a );
+			}
 		);
 
 
@@ -248,55 +307,28 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		$this->is_SSL_request = $current_site_URL->getIsSSL();
 
-		$this->setSite( Mvc_Site::get( $current_site_URL->getSiteId() ) );
-		$this->setLocale( $current_site_URL->getLocale() );
+		$this->site = Mvc_Site::get( $current_site_URL->getSiteId() );
+		$this->locale = $current_site_URL->getLocale();
+		if($this->set_mvc_state) {
+			Mvc::setCurrentSite($this->site);
+			Mvc::setCurrentLocale($this->locale);
+		}
+
 
 
 		if( !$current_site_URL->getIsDefault() ) {
 
 			$this->setIsRedirect(
-				$this->getSite()->getDefaultURL( $this->getLocale() ).implode(
-					'/', $this->path_fragments
-				).( $this->path_fragments ? '/' : '' ).$this->parsed_request_URL->getQuery()
+				$this->getSite()->getDefaultURL( $this->getLocale() )
+				.implode( '/', $this->path_fragments )
+				.( $this->path_fragments ? '/' : '' )
+				.$this->parsed_request_URL->getQuery()
 			);
 
 			return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * @param Mvc_Site_Interface $site
-	 */
-	protected function setSite( Mvc_Site_Interface $site )
-	{
-		Mvc::setCurrentSite( $site );
-	}
-
-	/**
-	 * @param Locale $locale
-	 */
-	protected function setLocale( Locale $locale )
-	{
-		Mvc::setCurrentLocale( $locale );
-	}
-
-	/**
-	 *
-	 * @return Mvc_Site_Interface
-	 */
-	protected function getSite()
-	{
-		return Mvc::getCurrentSite();
-	}
-
-	/**
-	 * @return Locale
-	 */
-	protected function getLocale()
-	{
-		return Mvc::getCurrentLocale();
 	}
 
 	/**
@@ -342,9 +374,20 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			throw new Mvc_Router_Exception( 'Failed to find page ...' );
 		}
 
-		if( $page->getSSLRequired()&&!$this->is_SSL_request ) {
+		$this->page = $page;
+		if($this->set_mvc_state) {
+			Mvc::setCurrentPage($this->page);
+		}
+
+		if(
+			$page->getSSLRequired() &&
+			!$this->is_SSL_request
+		) {
 			$this->setIsRedirect(
-				$page->getSslURL( $_GET, $this->path_fragments )
+				$page->getSslURL(
+					Http_Request::GET()->getRawData(),
+					$this->path_fragments
+				)
 			);
 
 			return false;
@@ -352,11 +395,9 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		}
 
 
-		$this->setPage( $page );
 
 		if( $this->path_fragments ) {
 			if( !$this->getPage()->parseRequestURL() ) {
-				Mvc::unsetCurrentPage();
 				$this->setIs404();
 
 				return false;
@@ -365,23 +406,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		return true;
 
-	}
-
-	/**
-	 * @param Mvc_Page_Interface $page
-	 */
-	protected function setPage( Mvc_Page_Interface $page )
-	{
-		Mvc::setCurrentPage( $page );
-	}
-
-	/**
-	 *
-	 * @return Mvc_Page_Interface
-	 */
-	protected function getPage()
-	{
-		return Mvc::getCurrentPage();
 	}
 
 	/**
@@ -396,7 +420,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			return true;
 		}
 
-		if( Auth::getAuthController()->isUserLoggedIn() ) {
+		if( Auth::isUserLoggedIn() ) {
 			return true;
 		}
 
@@ -407,11 +431,78 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	}
 
 	/**
-	 * @param string $public_file_name
+	 * @return bool
 	 */
-	public function setIsFile( $public_file_name )
+	public function getSetMvcState()
 	{
-		$this->file_name = $public_file_name;
+		return $this->set_mvc_state;
+	}
+
+	/**
+	 * @param bool $set_mvc_state
+	 */
+	public function setSetMvcState( $set_mvc_state )
+	{
+		$this->set_mvc_state = $set_mvc_state;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRequestURL()
+	{
+		return $this->request_URL;
+	}
+
+	/**
+	 * @return Http_URL
+	 */
+	public function getParsedRequestURL()
+	{
+		return $this->parsed_request_URL;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSSLRequest()
+	{
+		return $this->is_SSL_request;
+	}
+
+
+	/**
+	 *
+	 * @return Mvc_Site_Interface
+	 */
+	public function getSite()
+	{
+		return $this->site;
+	}
+
+	/**
+	 * @return Locale
+	 */
+	public function getLocale()
+	{
+		return $this->locale;
+	}
+
+	/**
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public function getPage()
+	{
+		return $this->page;
+	}
+
+	/**
+	 * @param string $file_path
+	 */
+	public function setIsFile( $file_path )
+	{
+		$this->file_path = $file_path;
 	}
 
 	/**
@@ -420,15 +511,15 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	public function getIsFile()
 	{
-		return (bool)$this->file_name;
+		return (bool)$this->file_path;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getFileName()
+	public function getFilePath()
 	{
-		return $this->file_name;
+		return $this->file_path;
 	}
 
 	/**
@@ -445,7 +536,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 * Sets the request is unknown page
 	 *
 	 */
-	public function setIs404()
+	protected function setIs404()
 	{
 		$this->is_404 = true;
 	}
@@ -464,7 +555,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 * @param string $target_URL
 	 * @param string $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
 	 */
-	public function setIsRedirect( $target_URL, $http_code = null )
+	protected function setIsRedirect( $target_URL, $http_code = null )
 	{
 		if( !$http_code ) {
 			$http_code = Http_Headers::CODE_302_MOVED_TEMPORARY;
@@ -491,18 +582,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		return $this->redirect_type;
 	}
 
-	/**
-	 * Redirect if needed
-	 */
-	public function handleRedirect()
-	{
-
-		if( $this->redirect_type==Http_Headers::CODE_301_MOVED_PERMANENTLY ) {
-			Http_Headers::movedPermanently( $this->redirect_target_URL );
-		} else {
-			Http_Headers::movedTemporary( $this->redirect_target_URL );
-		}
-	}
 
 	/**
 	 * @return bool
@@ -515,25 +594,9 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @param bool $login_required
 	 */
-	public function setLoginRequired( $login_required )
+	protected function setLoginRequired( $login_required )
 	{
 		$this->login_required = $login_required;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRequestURL()
-	{
-		return $this->request_URL;
-	}
-
-	/**
-	 * @return Http_URL
-	 */
-	public function getParsedRequestURL()
-	{
-		return $this->parsed_request_URL;
 	}
 
 	/**
@@ -606,12 +669,5 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		return $this->path_fragments;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getIsSSLRequest()
-	{
-		return $this->is_SSL_request;
-	}
 
 }

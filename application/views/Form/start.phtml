@@ -27,5 +27,5 @@ if(!$r->getBaseCssClasses()) {
 	if(!$form->getAutocomplete()) { ?> autocomplete="off"<?php }
 ?>>
 <?php if( !$form->getIsReadonly() ) { ?>
-	<input type="hidden" name="<?=Form::FORM_SENT_KEY;?>" value="<?=$form->getName();?>">
+	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
 <?php }

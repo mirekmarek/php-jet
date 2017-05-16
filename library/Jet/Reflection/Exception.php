@@ -8,10 +8,9 @@
 namespace Jet;
 
 /**
- * Class BaseObject_Reflection_Exception
- * @package Jet
+ *
  */
-class BaseObject_Reflection_Exception extends Exception
+class Reflection_Exception extends Exception
 {
 	const CODE_UNKNOWN_CLASS_DEFINITION = 10;
 	const CODE_UNKNOWN_PROPERTY_DEFINITION = 20;

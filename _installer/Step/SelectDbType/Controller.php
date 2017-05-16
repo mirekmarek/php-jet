@@ -70,7 +70,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		);
 
 
-		if( $select_db_type_form->catchValues()&&$select_db_type_form->validateValues() ) {
+		if( $select_db_type_form->catchInput()&&$select_db_type_form->validate() ) {
 			static::setSelectedDbType( $db_type_field->getValue() );
 
 			$data_model_config = new DataModel_Config( true );

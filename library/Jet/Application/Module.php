@@ -60,78 +60,6 @@ abstract class Application_Module extends BaseObject
 	protected $ACL_actions = [];
 
 	/**
-	 * @param Application_Module_Manifest $manifest
-	 */
-	public function __construct( Application_Module_Manifest $manifest )
-	{
-		$this->module_manifest = $manifest;
-	}
-
-	/**
-	 * @return Application_Module_Manifest
-	 */
-	public function getModuleManifest()
-	{
-		return $this->module_manifest;
-	}
-
-	/**
-	 * @throws Application_Modules_Exception
-	 */
-	public function install()
-	{
-		$module_dir = $this->module_manifest->getModuleDir();
-		$install_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultInstallScript();
-
-		if( file_exists( $install_script ) ) {
-			try {
-
-				/** @noinspection PhpUnusedLocalVariableInspection */
-				$module_instance = $this;
-
-				/** @noinspection PhpIncludeInspection */
-				require_once $install_script;
-
-			} catch( \Exception $e ) {
-
-				throw new Application_Modules_Exception(
-					'Error while processing installation script: '.get_class( $e ).'::'.$e->getMessage(),
-					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
-				);
-			}
-		}
-
-	}
-
-
-	/**
-	 * @throws Application_Modules_Exception
-	 */
-	public function uninstall()
-	{
-		$module_dir = $this->module_manifest->getModuleDir();
-
-		$uninstall_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultUninstallScript();
-
-		if( file_exists( $uninstall_script ) ) {
-			try {
-
-				/** @noinspection PhpUnusedLocalVariableInspection */
-				$module_instance = $this;
-
-				/** @noinspection PhpIncludeInspection */
-				require_once $uninstall_script;
-
-			} catch( \Exception $e ) {
-				throw new Application_Modules_Exception(
-					'Error while processing uninstall script: '.get_class( $e ).'::'.$e->getMessage(),
-					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
-				);
-			}
-		}
-	}
-
-	/**
 	 * @return string
 	 */
 	public static function getDefaultInstallDirectory()
@@ -210,6 +138,81 @@ abstract class Application_Module extends BaseObject
 	{
 		static::$default_layouts_dir = $default_layouts_dir;
 	}
+
+
+
+	/**
+	 * @param Application_Module_Manifest $manifest
+	 */
+	public function __construct( Application_Module_Manifest $manifest )
+	{
+		$this->module_manifest = $manifest;
+	}
+
+	/**
+	 * @return Application_Module_Manifest
+	 */
+	public function getModuleManifest()
+	{
+		return $this->module_manifest;
+	}
+
+	/**
+	 * @throws Application_Modules_Exception
+	 */
+	public function install()
+	{
+		$module_dir = $this->module_manifest->getModuleDir();
+		$install_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultInstallScript();
+
+		if( file_exists( $install_script ) ) {
+			try {
+
+				/** @noinspection PhpUnusedLocalVariableInspection */
+				$module_instance = $this;
+
+				/** @noinspection PhpIncludeInspection */
+				require_once $install_script;
+
+			} catch( \Exception $e ) {
+
+				throw new Application_Modules_Exception(
+					'Error while processing installation script: '.get_class( $e ).'::'.$e->getMessage(),
+					Application_Modules_Exception::CODE_FAILED_TO_INSTALL_MODULE
+				);
+			}
+		}
+
+	}
+
+
+	/**
+	 * @throws Application_Modules_Exception
+	 */
+	public function uninstall()
+	{
+		$module_dir = $this->module_manifest->getModuleDir();
+
+		$uninstall_script = $module_dir.static::getDefaultInstallDirectory().'/'.static::getDefaultUninstallScript();
+
+		if( file_exists( $uninstall_script ) ) {
+			try {
+
+				/** @noinspection PhpUnusedLocalVariableInspection */
+				$module_instance = $this;
+
+				/** @noinspection PhpIncludeInspection */
+				require_once $uninstall_script;
+
+			} catch( \Exception $e ) {
+				throw new Application_Modules_Exception(
+					'Error while processing uninstall script: '.get_class( $e ).'::'.$e->getMessage(),
+					Application_Modules_Exception::CODE_FAILED_TO_UNINSTALL_MODULE
+				);
+			}
+		}
+	}
+
 
 
 	/**

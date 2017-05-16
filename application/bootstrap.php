@@ -47,12 +47,18 @@ if(
 
 
 Application_Log::setLogger( new Application_Log_Logger() );
-Auth::setAuthController( new Auth_Controller() );
+Auth::setController( new Auth_Controller() );
+
+Mvc::getRouter()->afterSiteResolved( function( Mvc_Router_Interface $router ) {
+
+	$site = $router->getSite();
+	$locale = $router->getLocale();
+	ErrorPages::setErrorPagesDir( $site->getPagesDataPath( $locale ) );
+
+} );
 
 Application::start();
 
-Application::runMvc( function() {
-	//do something after router initialization
-} );
+Application::runMvc();
 
 Application::end();

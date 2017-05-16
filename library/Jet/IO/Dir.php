@@ -11,8 +11,7 @@ namespace Jet;
 require_once JET_PATH_LIBRARY.'Jet/IO/Dir/Exception.php';
 
 /**
- * Class IO_Dir
- * @package Jet
+ *
  */
 class IO_Dir
 {
@@ -23,6 +22,38 @@ class IO_Dir
 	 * @var int
 	 */
 	protected static $default_chmod_mask = null;
+
+	/**
+	 * @return int
+	 */
+	public static function getDefaultChmodMask()
+	{
+		if( static::$default_chmod_mask===null ) {
+			static::$default_chmod_mask = JET_IO_CHMOD_MASK_DIR;
+		}
+
+		return static::$default_chmod_mask;
+	}
+
+	/**
+	 * @param int $default_chmod_mask
+	 */
+	public static function setDefaultChmodMask( $default_chmod_mask )
+	{
+		static::$default_chmod_mask = $default_chmod_mask;
+	}
+
+
+	/**
+	 *
+	 * @param string $dir_path
+	 *
+	 * @return bool
+	 */
+	public static function exists( $dir_path )
+	{
+		return is_dir( $dir_path );
+	}
 
 	/**
 	 *
@@ -128,18 +159,6 @@ class IO_Dir
 	}
 
 	/**
-	 * Returns true if path exists and is directory
-	 *
-	 * @param string $dir_path
-	 *
-	 * @return bool
-	 */
-	public static function exists( $dir_path )
-	{
-		return is_dir( $dir_path );
-	}
-
-	/**
 	 * Creates directory.
 	 *
 	 * @param string $dir_path
@@ -228,39 +247,6 @@ class IO_Dir
 				IO_Dir_Exception::CODE_REMOVE_FAILED
 			);
 		}
-	}
-
-	/**
-	 * @return array
-	 */
-	protected static function _getLastError()
-	{
-		if( class_exists( __NAMESPACE__.'\\Debug_ErrorHandler', false ) ) {
-			return Debug_ErrorHandler::getLastError();
-		} else {
-			return error_get_last();
-		}
-	}
-
-	/**
-	 * Gets default chmod mask for directories
-	 * @return int
-	 */
-	public static function getDefaultChmodMask()
-	{
-		if( static::$default_chmod_mask===null ) {
-			static::$default_chmod_mask = JET_IO_CHMOD_MASK_DIR;
-		}
-
-		return static::$default_chmod_mask;
-	}
-
-	/**
-	 * @param int $default_chmod_mask
-	 */
-	public static function setDefaultChmodMask( $default_chmod_mask )
-	{
-		static::$default_chmod_mask = $default_chmod_mask;
 	}
 
 	/**
@@ -373,6 +359,19 @@ class IO_Dir
 	public static function getSubdirectoriesList( $dir_path, $mask = '*' )
 	{
 		return static::getList( $dir_path, $mask, true, false );
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected static function _getLastError()
+	{
+		if( class_exists( __NAMESPACE__.'\\Debug_ErrorHandler', false ) ) {
+			return Debug_ErrorHandler::getLastError();
+		} else {
+			return error_get_last();
+		}
 	}
 
 }

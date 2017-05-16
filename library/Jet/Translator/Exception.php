@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Translator_Exception
- * @package Jet
+ *
  */
 class Translator_Exception extends Exception
 {

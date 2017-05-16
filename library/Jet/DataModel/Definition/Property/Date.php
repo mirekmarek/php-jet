@@ -63,7 +63,7 @@ class DataModel_Definition_Property_Date extends DataModel_Definition_Property
 	 *
 	 * @return mixed
 	 */
-	public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property )
+	public function getJsonSerializeValue( DataModel_Interface $data_model_instance, &$property )
 	{
 		/**
 		 * @var Data_DateTime $property_value

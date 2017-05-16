@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_DateTime
- * @package Jet
+ *
  */
 class Data_DateTime extends \DateTime
 {

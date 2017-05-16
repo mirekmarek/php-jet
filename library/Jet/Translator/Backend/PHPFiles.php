@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Translator_Backend_PHPFiles
- * @package Jet
+ *
  */
 class Translator_Backend_PHPFiles extends Translator_Backend
 {

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class BaseObject_Reflection_Class extends \ReflectionClass
+class Reflection_Class extends \ReflectionClass
 {
 
 	/**

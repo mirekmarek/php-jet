@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_Definition_Trait
- * @package Jet
+ *
  */
 trait Form_Field_Definition_Trait
 {
@@ -64,7 +63,7 @@ trait Form_Field_Definition_Trait
 	/**
 	 * @var string
 	 */
-	protected $form_catch_value_method_name;
+	protected $form_setter_name;
 
 	/**
 	 *
@@ -125,17 +124,17 @@ trait Form_Field_Definition_Trait
 	/**
 	 * @return string
 	 */
-	public function getFormCatchValueMethodName()
+	public function getFormSetterName()
 	{
-		return $this->form_catch_value_method_name;
+		return $this->form_setter_name;
 	}
 
 	/**
-	 * @param string $form_catch_value_method_name
+	 * @param string $form_setter_name
 	 */
-	public function setFormCatchValueMethodName( $form_catch_value_method_name )
+	public function setFormSetterName( $form_setter_name )
 	{
-		$this->form_catch_value_method_name = $form_catch_value_method_name;
+		$this->form_setter_name = $form_setter_name;
 	}
 
 	/**
@@ -311,8 +310,8 @@ trait Form_Field_Definition_Trait
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
 
-		if( ( $method_name = $this->getFormCatchValueMethodName() ) ) {
-			$object_instance->{$method_name}( $value );
+		if( ( $setter_method_name = $this->getFormSetterName() ) ) {
+			$object_instance->{$setter_method_name}( $value );
 
 			return;
 		}

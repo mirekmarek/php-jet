@@ -8,23 +8,22 @@
 namespace Jet;
 
 /**
- * Class Auth_Role_Privilege_AvailablePrivilegesListItem
- * @package Jet
+ *
  */
 class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject
 {
 	/**
 	 * @var string
 	 */
-	public $privilege = '';
+	protected $privilege = '';
 	/**
 	 * @var string
 	 */
-	public $label = '';
+	protected $label = '';
 	/**
 	 * @var array|null
 	 */
-	public $values_list = null;
+	protected $values_list = null;
 
 	/**
 	 * @param string                                $privilege

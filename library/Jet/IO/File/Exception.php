@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class IO_File_Exception
- * @package Jet
+ *
  */
 class IO_File_Exception extends Exception
 {

@@ -41,6 +41,22 @@ trait Mvc_Page_Trait_Handlers
 	 */
 	protected $output;
 
+	/**
+	 * @return array
+	 */
+	public static function getPhpFileExtensions()
+	{
+		return static::$php_file_extensions;
+	}
+
+	/**
+	 * @param array $php_file_extensions
+	 */
+	public static function setPhpFileExtensions( $php_file_extensions )
+	{
+		static::$php_file_extensions = $php_file_extensions;
+	}
+
 
 	/**
 	 * @return bool
@@ -83,6 +99,7 @@ trait Mvc_Page_Trait_Handlers
 	 */
 	public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI )
 	{
+
 		static::loadPages( $site, $locale );
 
 		$str_locale = (string)$locale;
@@ -103,11 +120,15 @@ trait Mvc_Page_Trait_Handlers
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
-		$router = Mvc::getCurrentRouter();
+		$router = Mvc::getRouter();
 
 		$path = implode( '/', $router->getPathFragments() );
 
 		if( strpos( $path, '..' )==false ) {
+			if($path==static::getPageDataFileName()) {
+				return false;
+			}
+
 			$path = $this->getDataDirPath().$path;
 
 			if( IO_File::exists( $path ) ) {
@@ -221,7 +242,7 @@ trait Mvc_Page_Trait_Handlers
 
 		$this->initializeLayout();
 
-		Debug_Profiler::MainBlockStart( 'Content dispatch' );
+		Debug_Profiler::mainBlockStart( 'Content dispatch' );
 
 
 		$translator_namespace = Translator::COMMON_NAMESPACE;
@@ -240,7 +261,7 @@ trait Mvc_Page_Trait_Handlers
 
 		$output = Mvc_Layout::getCurrentLayout()->render();
 
-		Debug_Profiler::MainBlockEnd( 'Content dispatch' );
+		Debug_Profiler::mainBlockEnd( 'Content dispatch' );
 
 		return $output;
 

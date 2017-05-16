@@ -7,16 +7,13 @@
  */
 namespace Jet;
 
-//We do not have multiple inheritance in PHP :-(
 /**
- * Class BaseObject_Trait_MagicGet
- * @package Jet
+ *
  */
 trait BaseObject_Trait_MagicGet
 {
 
 	/**
-	 * Getter for protected properties
 	 *
 	 * @param string $key
 	 *

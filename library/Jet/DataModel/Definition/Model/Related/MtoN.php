@@ -92,11 +92,11 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	{
 		$data_model_class_name = $this->getClassName();
 
-		if( ( $iterator_class_name = BaseObject_Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
+		if( ( $iterator_class_name = Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
 			$this->iterator_class_name = $iterator_class_name;
 		}
 
-		if( !( $this->M_model_class_name = BaseObject_Reflection::get(
+		if( !( $this->M_model_class_name = Reflection::get(
 			$this->class_name, 'M_model_class_name', null
 		) )
 		) {
@@ -107,7 +107,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		}
 
-		if( !( $this->N_model_class_name = BaseObject_Reflection::get(
+		if( !( $this->N_model_class_name = Reflection::get(
 			$this->class_name, 'N_model_class_name', null
 		) )
 		) {
@@ -255,7 +255,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 *
 	 * @return DataModel_Definition_Relation_Internal[]
 	 */
-	public function _getInternalRelations()
+	protected function _getInternalRelations()
 	{
 
 

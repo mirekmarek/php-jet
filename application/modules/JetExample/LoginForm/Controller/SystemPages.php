@@ -66,7 +66,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard
 			Mvc_Page::get( Mvc_Page::CHANGE_PASSWORD_ID )->getURL()
 		);
 
-		if( $form->catchValues()&&$form->validateValues() ) {
+		if( $form->catchInput()&&$form->validate() ) {
 			$data = $form->getValues();
 			/**
 			 * @var User $user

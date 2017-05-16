@@ -83,7 +83,7 @@ namespace Jet;
 	 *       *   @JetDataModel:form_field_max_value = 999
 	 *       *   @JetDataModel:form_field_error_messages = ['error_code'=>'message','error_code'=>'message']
 	 *       *   @JetDataModel:form_field_get_select_options_callback = callable
-	 *       *   @JetDataModel:form_catch_value_method_name = 'someMethodName'
+	 *       *   @JetDataModel:form_setter_name = 'setSomething'
 	 *       *
 	 *       *
 	 *       *

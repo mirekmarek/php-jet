@@ -69,7 +69,7 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 		$select_locale_form = new Form( 'select_locale_form', $locale_fields );
 
 
-		if( $select_locale_form->catchValues()&&$select_locale_form->validateValues() ) {
+		if( $select_locale_form->catchInput()&&$select_locale_form->validate() ) {
 			$selected_locales = [];
 
 			foreach( Installer::getAvailableLocales() as $locale ) {

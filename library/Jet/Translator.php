@@ -8,28 +8,12 @@
 namespace Jet;
 
 /**
- * Class Translator
- * @package Jet
+ *
  */
 class Translator extends BaseObject
 {
 
 	const COMMON_NAMESPACE = '_COMMON_';
-
-	/**
-	 * @var string
-	 */
-	protected static $current_namespace = self::COMMON_NAMESPACE;
-
-	/**
-	 * @var bool
-	 */
-	protected static $auto_append_unknown_phrase;
-
-	/**
-	 * @var Locale
-	 */
-	protected static $current_locale;
 
 	/**
 	 *
@@ -38,9 +22,75 @@ class Translator extends BaseObject
 	protected static $backend;
 
 	/**
+	 * @var bool
+	 */
+	protected static $auto_append_unknown_phrase;
+
+	/**
+	 * @var string
+	 */
+	protected static $current_namespace = self::COMMON_NAMESPACE;
+
+	/**
+	 * @var Locale
+	 */
+	protected static $current_locale;
+
+	/**
 	 * @var Translator_Dictionary[]
 	 */
 	protected static $dictionaries = [];
+
+	/**
+	 *
+	 * @return Translator_Backend
+	 */
+	public static function getBackend()
+	{
+		if( static::$backend===null ) {
+			static::$backend = new Translator_Backend_PHPFiles();
+
+			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
+		}
+
+		return static::$backend;
+	}
+
+	/**
+	 *
+	 * @param Translator_Backend $backend
+	 */
+	public static function setBackend( Translator_Backend $backend )
+	{
+		if( static::$backend===null ) {
+			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
+		}
+		static::$backend = $backend;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getAutoAppendUnknownPhrase()
+	{
+		if(static::$auto_append_unknown_phrase===null) {
+			if(defined('JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE')) {
+				static::$auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
+			} else {
+				static::$auto_append_unknown_phrase = false;
+			}
+		}
+
+		return static::$auto_append_unknown_phrase;
+	}
+
+	/**
+	 * @param bool $auto_append_unknown_phrase
+	 */
+	public static function setAutoAppendUnknownPhrase( $auto_append_unknown_phrase )
+	{
+		static::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
+	}
 
 	/**
 	 *
@@ -90,34 +140,6 @@ class Translator extends BaseObject
 				$backend->saveDictionary( $dictionary );
 			}
 		}
-	}
-
-	/**
-	 * Gets translator backend instance
-	 *
-	 * @return Translator_Backend
-	 */
-	public static function getBackend()
-	{
-		if( static::$backend===null ) {
-			static::$backend = new Translator_Backend_PHPFiles();
-
-			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
-		}
-
-		return static::$backend;
-	}
-
-	/**
-	 *
-	 * @param Translator_Backend $backend
-	 */
-	public static function setBackend( Translator_Backend $backend )
-	{
-		if( static::$backend===null ) {
-			register_shutdown_function( [ get_called_class(), 'saveUpdatedDictionaries' ] );
-		}
-		static::$backend = $backend;
 	}
 
 	/**
@@ -195,30 +217,6 @@ class Translator extends BaseObject
 		}
 
 		return static::$dictionaries[$dictionary_key];
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getAutoAppendUnknownPhrase()
-	{
-		if(static::$auto_append_unknown_phrase===null) {
-			if(defined('JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE')) {
-				static::$auto_append_unknown_phrase = JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE;
-			} else {
-				static::$auto_append_unknown_phrase = false;
-			}
-		}
-
-		return static::$auto_append_unknown_phrase;
-	}
-
-	/**
-	 * @param bool $auto_append_unknown_phrase
-	 */
-	public static function setAutoAppendUnknownPhrase( $auto_append_unknown_phrase )
-	{
-		static::$auto_append_unknown_phrase = $auto_append_unknown_phrase;
 	}
 
 

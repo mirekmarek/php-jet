@@ -8,15 +8,14 @@
 namespace Jet;
 
 /**
- * Class Http_Request
- * @package Jet
+ *
  */
 class Http_Request extends BaseObject
 {
 
 
 	/**
-	 * PHP's super global $_SERVER original value
+	 * PHP super global $_SERVER original value
 	 *
 	 * @var array
 	 */
@@ -24,7 +23,7 @@ class Http_Request extends BaseObject
 
 
 	/**
-	 * PHP's super global $_POST original value
+	 * PHP super global $_POST original value
 	 *
 	 * @var array
 	 */
@@ -32,7 +31,7 @@ class Http_Request extends BaseObject
 
 
 	/**
-	 * PHP's super global $_GET original value
+	 * PHP super global $_GET original value
 	 *
 	 * @var array
 	 */
@@ -127,7 +126,10 @@ class Http_Request extends BaseObject
 	 */
 	public static function getCurrentURI( array $set_GET_params = [], array $unset_GET_params = [], $set_anchor = null )
 	{
-		if( $set_GET_params||$unset_GET_params ) {
+		if(
+			$set_GET_params ||
+			$unset_GET_params
+		) {
 			list( $URI ) = explode( '?', $_SERVER['REQUEST_URI'] );
 
 			$GET = Http_Request::GET()->getRawData();
@@ -162,7 +164,6 @@ class Http_Request extends BaseObject
 	}
 
 	/**
-	 * Get $_GET replacement instance
 	 *
 	 * @return Data_Array
 	 */
@@ -176,7 +177,6 @@ class Http_Request extends BaseObject
 	}
 
 	/**
-	 * Get $_POST replacement instance
 	 *
 	 * @return Data_Array
 	 */
@@ -190,7 +190,6 @@ class Http_Request extends BaseObject
 	}
 
 	/**
-	 * Get $_SERVER replacement instance
 	 *
 	 * @return Data_Array
 	 */
@@ -206,8 +205,6 @@ class Http_Request extends BaseObject
 
 	/**
 	 * @see http://php.net/manual/en/wrappers.php  php://input
-	 *
-	 *
 	 *
 	 * @return string
 	 */
@@ -249,7 +246,13 @@ class Http_Request extends BaseObject
 	 */
 	public static function getRequestIsHttps()
 	{
-		return isset( $_SERVER['HTTPS'] )&&strtolower( $_SERVER['HTTPS'] )!=='off';
+		return (
+			isset( $_SERVER['HTTPS'] ) &&
+			$_SERVER['HTTPS'] == 'on'
+		) || (
+			isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+			$_SERVER['HTTP_X_FORWARDED_PROTO']=='https'
+		);
 	}
 
 	/**

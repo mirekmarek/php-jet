@@ -8,11 +8,23 @@
 namespace Jet;
 
 /**
- * Class Debug_ErrorHandler_Handler_Abstract
- * @package Jet
+ *
  */
 abstract class Debug_ErrorHandler_Handler
 {
+	/**
+	 * @return static
+	 */
+	public static function register()
+	{
+		$loader = new static();
+
+		Debug_ErrorHandler::registerHandler( $loader );
+
+		return $loader;
+	}
+
+
 	/**
 	 * @return string
 	 */
@@ -29,17 +41,5 @@ abstract class Debug_ErrorHandler_Handler
 	 * @return bool
 	 */
 	abstract public function errorDisplayed();
-
-	/**
-	 * @return static
-	 */
-	public static function register()
-	{
-		$loader = new static();
-
-		Debug_ErrorHandler::registerHandler( $loader );
-
-		return $loader;
-	}
 
 }

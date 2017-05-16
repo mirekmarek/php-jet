@@ -8,14 +8,12 @@
 namespace Jet;
 
 /**
- * Class BaseObject_Trait_MagicSet
- * @package Jet
+ *
  */
 trait BaseObject_Trait_MagicSet
 {
 
 	/**
-	 * Setter for protected properties
 	 *
 	 * @param string $key
 	 * @param mixed  $value

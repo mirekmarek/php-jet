@@ -212,8 +212,11 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		if( $this->getOutput() ) {
 
 			Mvc_Layout::getCurrentLayout()->addOutputPart(
-				$this->getOutput(), $this->output_position, $this->output_position_required,
-				$this->output_position_order, $this->getKey()
+				$this->getOutput(),
+				$this->output_position,
+				$this->output_position_required,
+				$this->output_position_order,
+				$this->getKey()
 			);
 
 			return;
@@ -234,15 +237,19 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			Debug_Profiler::message( 'Module is not installed and/or activated - skipping' );
 
 		} else {
-			Debug_Profiler::message( 'Dispatch:'.$this->getKey() );
+			Debug_Profiler::message( 'Dispatch:'.$this->getPage()->getKey().'|'.$module_name.':'.get_class($controller).':'.$controller_action );
 
 			$translator_namespace = Translator::getCurrentNamespace();
 			Translator::setCurrentNamespace( $module_name );
 
 			$module_instance = Application_Modules::getModuleInstance( $module_name );
 			$module_instance->callControllerAction(
-				$controller, $controller_action, $this->getControllerActionParameters()
+				$controller,
+				$controller_action,
+				$this->getControllerActionParameters()
 			);
+
+
 
 			Translator::setCurrentNamespace( $translator_namespace );
 		}

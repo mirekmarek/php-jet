@@ -124,6 +124,22 @@ abstract class Config extends BaseObject
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function getSoftMode()
+	{
+		return $this->soft_mode;
+	}
+
+	/**
+	 * @param bool $soft_mode
+	 */
+	public function setSoftMode( $soft_mode )
+	{
+		$this->soft_mode = (bool)$soft_mode;
+	}
+
+	/**
 	 *
 	 * @param Data_Array|array $data
 	 * @param bool             $use_data_path_for_source_data
@@ -277,24 +293,6 @@ abstract class Config extends BaseObject
 
 	/**
 	 *
-	 * @param string $base_directory
-	 *
-	 * @return array
-	 */
-	public static function getAvailableHandlersList( $base_directory )
-	{
-		$res = IO_Dir::getSubdirectoriesList( $base_directory, '*' );
-		foreach( $res as $path => $dir ) {
-			if( $dir=='Config' ) {
-				unset( $res[$path] );
-			}
-		}
-
-		return array_combine( $res, $res );
-	}
-
-	/**
-	 *
 	 * @throws Config_Exception
 	 *
 	 * @return Data_Array
@@ -371,7 +369,7 @@ abstract class Config extends BaseObject
 
 			$key = $created_field->getName();
 
-			$created_field->setCatchDataCallback(
+			$created_field->setCatcher(
 				function( $value ) use ( $property_definition, &$property, $key ) {
 
 					$property_definition->catchFormField( $this, $property, $value );
@@ -401,7 +399,7 @@ abstract class Config extends BaseObject
 	public function catchForm( Form $form, $data = null, $force_catch = false )
 	{
 
-		if( !$form->catchValues( $data, $force_catch )||!$form->validateValues() ) {
+		if( !$form->catchInput( $data, $force_catch )||!$form->validate() ) {
 			return false;
 		}
 
@@ -476,19 +474,21 @@ abstract class Config extends BaseObject
 	}
 
 	/**
-	 * @return bool
+	 *
+	 * @param string $base_directory
+	 *
+	 * @return array
 	 */
-	public function getSoftMode()
+	public static function getAvailableHandlersList( $base_directory )
 	{
-		return $this->soft_mode;
-	}
+		$res = IO_Dir::getSubdirectoriesList( $base_directory, '*' );
+		foreach( $res as $path => $dir ) {
+			if( $dir=='Config' ) {
+				unset( $res[$path] );
+			}
+		}
 
-	/**
-	 * @param bool $soft_mode
-	 */
-	public function setSoftMode( $soft_mode )
-	{
-		$this->soft_mode = (bool)$soft_mode;
+		return array_combine( $res, $res );
 	}
 
 }

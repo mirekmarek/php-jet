@@ -5,18 +5,27 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetExampleApp;
 
+use Jet\Debug_ErrorHandler;
+
+/** @noinspection PhpIncludeInspection */
+require JET_PATH_LIBRARY.'Jet/Debug.php';
 /** @noinspection PhpIncludeInspection */
 require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler.php';
 
-require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler/Handler/Log.php';
-Debug_ErrorHandler_Handler_Log::register();
 
+/** @noinspection PhpIncludeInspection */
+require JET_PATH_APPLICATION.'error_handlers/Log.php';
+/** @noinspection PhpIncludeInspection */
+require JET_PATH_APPLICATION.'error_handlers/Display.php';
+
+
+
+ErrorHandler_Log::register();
 
 if( JET_DEVEL_MODE ) {
-	require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler/Handler/Display.php';
-	Debug_ErrorHandler_Handler_Display::register();
+	ErrorHandler_Display::register();
 }
 
 Debug_ErrorHandler::initialize();

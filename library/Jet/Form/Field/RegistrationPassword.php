@@ -129,12 +129,12 @@ class Form_Field_RegistrationPassword extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data )
+	public function catchInput( Data_Array $data )
 	{
 
-		parent::catchValue( $data );
+		parent::catchInput( $data );
 
-		$this->confirmation_input->catchValue( $data );
+		$this->confirmation_input->catchInput( $data );
 
 	}
 
@@ -161,7 +161,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 	/**
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 
 		if( $this->_value!=$this->confirmation_input->_value ) {
@@ -181,7 +181,7 @@ class Form_Field_RegistrationPassword extends Form_Field
 		}
 
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface BaseObject_Serializable_REST
- * @package Jet
+ *
  */
 interface BaseObject_Serializable extends BaseObject_Serializable_JSON, BaseObject_Serializable_XML
 {

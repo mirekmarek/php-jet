@@ -63,7 +63,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 			);
 
 			$email->setName( '/'.$locale.'/email' );
-			$email->setCatchDataCallback(
+			$email->setCatcher(
 				function( $value ) use ( $sender ) {
 					$sender->setEmail( $value );
 				}
@@ -74,7 +74,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 
 			$name = $sender_form->field( 'name' );
 			$name->setName( '/'.$locale.'/name' );
-			$name->setCatchDataCallback(
+			$name->setCatcher(
 				function( $value ) use ( $sender ) {
 					$sender->setName( $value );
 				}
@@ -84,7 +84,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 		}
 
 
-		if( $form->catchValues()&&$form->validateValues() ) {
+		if( $form->catchInput()&&$form->validate() ) {
 			$form->catchData();
 			$config->save();
 

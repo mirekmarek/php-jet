@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Image
- * @package Jet
+ *
  */
 class Data_Image extends BaseObject
 {

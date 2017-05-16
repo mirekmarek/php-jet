@@ -7,24 +7,20 @@
  */
 namespace Jet;
 
-//We don't have multiple inheritance in PHP :-(
 /**
- * Interface BaseObject_Interface
- * @package Jet
+ *
  */
 interface BaseObject_Interface
 {
 
 
 	/**
-	 * Default serialize rules (don't serialize __* properties)
 	 *
 	 * @return array
 	 */
 	public function __sleep();
 
 	/**
-	 * Getter for protected properties
 	 *
 	 * @param string $key
 	 *
@@ -34,7 +30,6 @@ interface BaseObject_Interface
 	public function __get( $key );
 
 	/**
-	 * Setter for protected properties
 	 *
 	 * @param string $key
 	 * @param mixed  $value

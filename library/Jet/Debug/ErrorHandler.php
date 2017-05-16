@@ -16,10 +16,6 @@ require_once 'ErrorHandler/Handler.php';
  */
 class Debug_ErrorHandler
 {
-	/**
-	 * @var bool
-	 */
-	protected static $HTML_errors_enabled = false;
 
 	/**
 	 * @var Debug_ErrorHandler_Handler[]
@@ -38,9 +34,9 @@ class Debug_ErrorHandler
 	{
 
 		if( php_sapi_name()!='cli' ) {
-			static::enableHTMLErrors();
+			Debug::enableHTML();
 		} else {
-			static::disableHTMLErrors();
+			Debug::disableHTML();
 		}
 
 		$class_name = get_called_class();
@@ -51,30 +47,6 @@ class Debug_ErrorHandler
 
 	}
 
-	/**
-	 *
-	 */
-	public static function enableHTMLErrors()
-	{
-		static::$HTML_errors_enabled = true;
-	}
-
-	/**
-	 *
-	 */
-	public static function disableHTMLErrors()
-	{
-		static::$HTML_errors_enabled = false;
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public static function getHTMLErrorsEnabled()
-	{
-		return static::$HTML_errors_enabled;
-	}
 
 	/**
 	 * @param Debug_ErrorHandler_Handler $handler
@@ -92,7 +64,7 @@ class Debug_ErrorHandler
 	/**
 	 * @param string $name
 	 */
-	public function unRegisterHandler( $name )
+	public static function unRegisterHandler( $name )
 	{
 		if(isset(static::$handlers[$name])) {
 			unset( static::$handlers[$name] );
@@ -104,7 +76,7 @@ class Debug_ErrorHandler
 	 *
 	 * @return Debug_ErrorHandler_Handler|null
 	 */
-	public function getHandler( $name )
+	public static function getHandler( $name )
 	{
 		if(isset(static::$handlers[$name])) {
 			return static::$handlers[$name];
@@ -202,7 +174,7 @@ class Debug_ErrorHandler
 
 		$error_displayed = false;
 
-		if( $error->is_fatal ) {
+		if( $error->isFatal() ) {
 			if( php_sapi_name()!='cli' ) {
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 				@header( 'HTTP/1.1 500 Internal Server Error' );
@@ -217,9 +189,9 @@ class Debug_ErrorHandler
 			}
 		}
 
-		if( $error->is_fatal ) {
+		if( $error->isFatal() ) {
 			if(
-				static::$HTML_errors_enabled &&
+				Debug::getOutputIsHTML() &&
 				!$error_displayed
 			) {
 				if(class_exists('ErrorPages')) {
@@ -230,7 +202,6 @@ class Debug_ErrorHandler
 			exit();
 		}
 	}
-
 
 	/**
 	 * @return array|null

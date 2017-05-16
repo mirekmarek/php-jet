@@ -44,7 +44,7 @@ class DataModel_Definition_Model_Related_1toN extends DataModel_Definition_Model
 		parent::_initParents();
 
 
-		if( ( $iterator_class_name = BaseObject_Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
+		if( ( $iterator_class_name = Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
 			$this->iterator_class_name = $iterator_class_name;
 		}
 	}

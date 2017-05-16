@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Db_Factory
- * @package Jet
+ *
  */
 class Db_Factory
 {

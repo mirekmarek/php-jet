@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Translator_Dictionary_Phrase
- * @package Jet
+ *
  */
 class Translator_Dictionary_Phrase extends BaseObject
 {

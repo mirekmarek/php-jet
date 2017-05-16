@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Data_Tree_Exception
- * @package Jet
+ *
  */
 class Data_Tree_Exception extends Exception
 {

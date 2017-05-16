@@ -69,7 +69,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	 *
 	 * @return mixed
 	 */
-	public function getValueForJsonSerialize( DataModel_Interface $data_model_instance, &$property )
+	public function getJsonSerializeValue( DataModel_Interface $data_model_instance, &$property )
 	{
 		return $data_model_instance->{$this->getGetterName()}();
 	}

@@ -8,22 +8,44 @@
 namespace Jet;
 
 /**
- * Class Auth
- * @package Jet
+ *
  */
 class Auth extends BaseObject
 {
 
 
 	/**
-	 * Auth module instance
 	 *
 	 * @var Auth_ControllerInterface
 	 */
-	protected static $auth_controller;
+	protected static $controller;
 
 	/**
-	 * Authenticates given user and returns true if given username and password is OK
+	 *
+	 * @return Auth_ControllerInterface
+	 */
+	public static function getController()
+	{
+		return static::$controller;
+	}
+
+	/**
+	 * @param Auth_ControllerInterface $controller
+	 */
+	public static function setController( Auth_ControllerInterface $controller )
+	{
+		static::$controller = $controller;
+	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public static function isUserLoggedIn() {
+		return static::getController()->isUserLoggedIn();
+	}
+
+	/**
 	 *
 	 * @param string $username
 	 * @param string $password
@@ -32,25 +54,7 @@ class Auth extends BaseObject
 	 */
 	public static function login( $username, $password )
 	{
-		return static::getAuthController()->login( $username, $password );
-	}
-
-	/**
-	 * Get instance of current Auth module
-	 *
-	 * @return Auth_ControllerInterface
-	 */
-	public static function getAuthController()
-	{
-		return static::$auth_controller;
-	}
-
-	/**
-	 * @param Auth_ControllerInterface $auth_controller
-	 */
-	public static function setAuthController( Auth_ControllerInterface $auth_controller )
-	{
-		static::$auth_controller = $auth_controller;
+		return static::getController()->login( $username, $password );
 	}
 
 	/**
@@ -61,7 +65,16 @@ class Auth extends BaseObject
 	public static function logout()
 	{
 
-		return static::getAuthController()->logout();
+		return static::getController()->logout();
+	}
+
+	/**
+	 *
+	 * @return Auth_User_Interface|null
+	 */
+	public static function getCurrentUser()
+	{
+		return static::getController()->getCurrentUser();
 	}
 
 	/**
@@ -82,12 +95,10 @@ class Auth extends BaseObject
 
 	/**
 	 *
-	 * @return Auth_User_Interface|null
 	 */
-	public static function getCurrentUser()
+	public static function handleLogin()
 	{
-		return static::getAuthController()->getCurrentUser();
+		static::getController()->handleLogin();
 	}
-
 
 }

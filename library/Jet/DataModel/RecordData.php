@@ -25,14 +25,6 @@ class DataModel_RecordData implements \Iterator
 	protected $data_model_definition;
 
 	/**
-	 * @param DataModel_Definition_Model $data_model_definition
-	 */
-	public function __construct( DataModel_Definition_Model $data_model_definition )
-	{
-		$this->data_model_definition = $data_model_definition;
-	}
-
-	/**
 	 *
 	 * @param DataModel_Interface $data_model
 	 * @param array               $properties_and_values ( array(property_name => value) )
@@ -60,6 +52,14 @@ class DataModel_RecordData implements \Iterator
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param DataModel_Definition_Model $data_model_definition
+	 */
+	public function __construct( DataModel_Definition_Model $data_model_definition )
+	{
+		$this->data_model_definition = $data_model_definition;
 	}
 
 	/**

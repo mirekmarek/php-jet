@@ -301,7 +301,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	 *
 	 * @param Data_Array $data
 	 */
-	public function catchValue( Data_Array $data )
+	public function catchInput( Data_Array $data )
 	{
 		$this->_value = null;
 		$this->_has_value = $data->exists( $this->_name );

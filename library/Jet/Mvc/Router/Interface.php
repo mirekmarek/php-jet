@@ -13,6 +13,15 @@ namespace Jet;
 interface Mvc_Router_Interface 
 {
 
+	/**
+	 * @param callable $after_site_resolved
+	 */
+	public function afterSiteResolved( callable $after_site_resolved );
+
+	/**
+	 * @param callable $after_page_resolved
+	 */
+	public function afterPageResolved( callable $after_page_resolved );
 
 	/**
 	 *
@@ -21,13 +30,51 @@ interface Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
-	public function initialize( $request_URL );
+	public function resolve( $request_URL );
+
+	/**
+	 * @return bool
+	 */
+	public function getSetMvcState();
+
+	/**
+	 * @param bool $set_mvc_state
+	 */
+	public function setSetMvcState( $set_mvc_state );
 
 
 	/**
-	 * @param string $public_file_name
+	 * @return string
 	 */
-	public function setIsFile( $public_file_name );
+	public function getRequestURL();
+
+	/**
+	 * @return Http_URL
+	 */
+	public function getParsedRequestURL();
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSSLRequest();
+
+	/**
+	 *
+	 * @return Mvc_Site_Interface
+	 */
+	public function getSite();
+
+	/**
+	 * @return Locale
+	 */
+	public function getLocale();
+
+	/**
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public function getPage();
+
 
 	/**
 	 * @return bool
@@ -35,15 +82,15 @@ interface Mvc_Router_Interface
 	public function getIsFile();
 
 	/**
-	 * @return string
+	 * @param string $file_path
 	 */
-	public function getFileName();
+	public function setIsFile( $file_path );
 
 
 	/**
-	 *
+	 * @return string
 	 */
-	public function setIs404();
+	public function getFilePath();
 
 
 	/**
@@ -71,36 +118,9 @@ interface Mvc_Router_Interface
 	public function getRedirectType();
 
 	/**
-	 *
-	 * @param string $target_URL
-	 * @param string $http_code (optional), options: temporary, permanent, default: Mvc_Router::REDIRECT_TYPE_TEMPORARY
-	 */
-	public function setIsRedirect( $target_URL, $http_code = null );
-
-
-	/**
-	 */
-	public function handleRedirect();
-
-	/**
 	 * @return bool
 	 */
 	public function getLoginRequired();
-
-	/**
-	 * @param bool $login_required
-	 */
-	public function setLoginRequired( $login_required );
-
-	/**
-	 * @return string
-	 */
-	public function getRequestURL();
-
-	/**
-	 * @return Http_URL
-	 */
-	public function getParsedRequestURL();
 
 	/**
 	 * @return array
@@ -131,10 +151,5 @@ interface Mvc_Router_Interface
 	 * @throws Exception
 	 */
 	public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part );
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSSLRequest();
 
 }

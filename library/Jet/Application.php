@@ -15,8 +15,6 @@ namespace Jet;
 class Application extends BaseObject
 {
 
-	const CONFIG_FILE_NAME = 'application';
-
 	/**
 	 * @var bool
 	 */
@@ -38,7 +36,7 @@ class Application extends BaseObject
 	public static function getConfigFilePath()
 	{
 		if( !static::$config_file_path ) {
-			static::$config_file_path = JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/'.static::CONFIG_FILE_NAME.'.php';
+			static::$config_file_path = JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/application.php';
 		}
 
 		return static::$config_file_path;
@@ -50,29 +48,6 @@ class Application extends BaseObject
 	public static function setConfigFilePath( $config_file_path )
 	{
 		static::$config_file_path = $config_file_path;
-	}
-
-
-	/**
-	 *
-	 * @throws Application_Exception
-	 */
-	public static function start()
-	{
-
-		Debug_Profiler::MainBlockStart( 'Application init' );
-
-
-		Debug_Profiler::blockStart( 'Http request init' );
-		if(defined('JET_HIDE_HTTP_REQUEST')) {
-			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
-		} else {
-			Http_Request::initialize();
-		}
-		Debug_Profiler::blockEnd( 'Http request init' );
-
-		Debug_Profiler::MainBlockEnd( 'Application init' );
-
 	}
 
 	/**
@@ -89,37 +64,59 @@ class Application extends BaseObject
 		return static::$config;
 	}
 
+
 	/**
 	 *
-	 * @param callable    $after_initialization
+	 * @throws Application_Exception
+	 */
+	public static function start()
+	{
+
+		Debug_Profiler::mainBlockStart( 'Application init' );
+
+
+		Debug_Profiler::blockStart( 'Http request init' );
+		if(defined('JET_HIDE_HTTP_REQUEST')) {
+			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+		} else {
+			Http_Request::initialize();
+		}
+		Debug_Profiler::blockEnd( 'Http request init' );
+
+		Debug_Profiler::mainBlockEnd( 'Application init' );
+
+	}
+
+	/**
+	 *
 	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
 	 *
 	 */
-	public static function runMvc( callable $after_initialization=null, $URL = null )
+	public static function runMvc( $URL = null )
 	{
-		Debug_Profiler::MainBlockStart( 'MVC router - init and resolve' );
+		Debug_Profiler::mainBlockStart( 'MVC router - init and resolve' );
 
-		$router = Mvc::getCurrentRouter();
+		$router = Mvc::getRouter();
 
 		if( !$URL ) {
 			$URL = Http_Request::getURL();
 		}
 
-		$router->initialize( $URL );
+		$router->resolve( $URL );
 
-		Debug_Profiler::MainBlockEnd( 'MVC router - init and resolve' );
-
-		if( $after_initialization ) {
-			$after_initialization();
-		}
+		Debug_Profiler::mainBlockEnd( 'MVC router - init and resolve' );
 
 		if( $router->getIsRedirect() ) {
-			$router->handleRedirect();
+
+			if( $router->getRedirectType()==Http_Headers::CODE_301_MOVED_PERMANENTLY ) {
+				Http_Headers::movedPermanently( $router->getRedirectTargetURL() );
+			} else {
+				Http_Headers::movedTemporary( $router->getRedirectTargetURL() );
+			}
+
 		}
 
 		$site = Mvc::getCurrentSite();
-
-		ErrorPages::setErrorPagesDir( $site->getPagesDataPath( Mvc::getCurrentLocale() ) );
 
 
 		if( !$site->getIsActive() ) {
@@ -151,7 +148,7 @@ class Application extends BaseObject
 
 
 		if( $router->getLoginRequired() ) {
-			Auth::getAuthController()->handleLogin();
+			Auth::handleLogin();
 
 			return;
 		}
@@ -163,7 +160,7 @@ class Application extends BaseObject
 		}
 
 		if( $router->getIsFile() ) {
-			$page->handleFile( $router->getFileName() );
+			$page->handleFile( $router->getFilePath() );
 
 			return;
 		}

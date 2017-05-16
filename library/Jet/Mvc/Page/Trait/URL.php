@@ -82,7 +82,7 @@ trait Mvc_Page_Trait_URL
 		 */
 
 		if( (string)$this->getSite()->getId()==Mvc::getCurrentSite()->getId(
-			)&&(string)$this->locale==Mvc::getCurrentLocale()&&$this->getSSLRequired()==Mvc::getCurrentRouter()
+			)&&(string)$this->locale==Mvc::getCurrentLocale()&&$this->getSSLRequired()==Mvc::getRouter()
 				->getIsSSLRequest()
 		) {
 

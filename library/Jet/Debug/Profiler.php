@@ -15,8 +15,7 @@ require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run.php';
 
 
 /**
- * Class Debug_Profiler
- * @package Jet
+ *
  */
 class Debug_Profiler
 {
@@ -33,16 +32,6 @@ class Debug_Profiler
 	/**
 	 * @var bool
 	 */
-	protected static $output_is_XML = false;
-
-	/**
-	 * @var bool
-	 */
-	protected static $output_is_JSON = false;
-
-	/**
-	 * @var bool
-	 */
 	protected static $log_SQL_queries = false;
 
 	/**
@@ -54,6 +43,28 @@ class Debug_Profiler
 	 * @var string
 	 */
 	protected static $run_save_directory_path;
+
+
+	/**
+	 * @return string
+	 */
+	public static function getRunSaveDirectoryPath()
+	{
+		if( !static::$run_save_directory_path ) {
+			static::$run_save_directory_path = JET_PATH_TMP.'_profiler/';
+		}
+
+		return static::$run_save_directory_path;
+	}
+
+	/**
+	 * @param string $run_save_directory_path
+	 */
+	public static function setRunSaveDirectoryPath( $run_save_directory_path )
+	{
+		static::$run_save_directory_path = $run_save_directory_path;
+	}
+
 
 	/**
 	 * @param bool $log_SQL_queries
@@ -80,9 +91,9 @@ class Debug_Profiler
 
 				$URL = '?JPR&run='.$run_id;
 
-				if( static::$output_is_XML ) {
+				if( Debug::getOutputIsXML() ) {
 					echo '<!-- profiler: '.$URL.' -->';
-				} elseif( static::$output_is_JSON ) {
+				} elseif( Debug::getOutputIsJSON() ) {
 					//echo '//profiler: '.$URL;
 				} else {
 					echo '<div><a href="'.$URL.'" target="_blank">profiler</a></div>';
@@ -91,6 +102,55 @@ class Debug_Profiler
 			}
 		);
 	}
+
+	/**
+	 *
+	 */
+	public static function disable()
+	{
+		static::$enabled = false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function enabled()
+	{
+		return static::$enabled;
+	}
+
+	/**
+	 * @param bool $output_enabled
+	 */
+	public static function setOutputEnabled( $output_enabled )
+	{
+		static::$output_enabled = $output_enabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getOutputEnabled()
+	{
+		return static::$output_enabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function getLogSQLQueries()
+	{
+		return static::$log_SQL_queries;
+	}
+
+	/**
+	 * @param bool $log_SQL_queries
+	 */
+	public static function setLogSQLQueries( $log_SQL_queries )
+	{
+		static::$log_SQL_queries = $log_SQL_queries;
+	}
+
 
 	/**
 	 * @return Debug_Profiler_Run
@@ -123,65 +183,6 @@ class Debug_Profiler
 		@chmod( $file_path, 0666 );
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function getRunSaveDirectoryPath()
-	{
-		if( !static::$run_save_directory_path ) {
-			static::$run_save_directory_path = JET_PATH_TMP.'_profiler/';
-		}
-
-		return static::$run_save_directory_path;
-	}
-
-	/**
-	 * @param string $run_save_directory_path
-	 */
-	public static function setRunSaveDirectoryPath( $run_save_directory_path )
-	{
-		static::$run_save_directory_path = $run_save_directory_path;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getEnabled()
-	{
-		return static::$enabled;
-	}
-
-	/**
-	 * @param bool $enabled
-	 */
-	public static function setEnabled( $enabled )
-	{
-		static::$enabled = $enabled;
-	}
-
-	/**
-	 * @param bool $output_enabled
-	 */
-	public static function setOutputEnabled( $output_enabled )
-	{
-		static::$output_enabled = $output_enabled;
-	}
-
-	/**
-	 * @param bool $output_is_JSON
-	 */
-	public static function setOutputIsJSON( $output_is_JSON )
-	{
-		static::$output_is_JSON = $output_is_JSON;
-	}
-
-	/**
-	 * @param bool $output_is_XML
-	 */
-	public static function setOutputIsXML( $output_is_XML )
-	{
-		static::$output_is_XML = $output_is_XML;
-	}
 
 	/**
 	 * @param string $run_id
@@ -220,7 +221,10 @@ class Debug_Profiler
 	 */
 	public static function SQLQueryStart( $query, $query_data = [] )
 	{
-		if( !static::$enabled||!static::$log_SQL_queries ) {
+		if(
+			!static::$enabled||
+			!static::$log_SQL_queries
+		) {
 			return;
 		}
 
@@ -232,7 +236,10 @@ class Debug_Profiler
 	 */
 	public static function SQLQueryDone( $rows_count = 0 )
 	{
-		if( !static::$enabled||!static::$log_SQL_queries ) {
+		if(
+			!static::$enabled||
+			!static::$log_SQL_queries
+		) {
 			return;
 		}
 
@@ -254,7 +261,7 @@ class Debug_Profiler
 	/**
 	 * @param string $label
 	 */
-	public static function MainBlockStart( $label )
+	public static function mainBlockStart( $label )
 	{
 		if( !static::$enabled ) {
 			return;
@@ -266,7 +273,7 @@ class Debug_Profiler
 	/**
 	 * @param string $label
 	 */
-	public static function MainBlockEnd( $label )
+	public static function mainBlockEnd( $label )
 	{
 		if( !static::$enabled ) {
 			return;

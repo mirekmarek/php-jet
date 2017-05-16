@@ -30,6 +30,26 @@ class IO_File
 	protected static $http_response_header;
 
 	/**
+	 * @return int
+	 */
+	public static function getDefaultChmodMask()
+	{
+		if( static::$default_chmod_mask===null ) {
+			static::$default_chmod_mask = JET_IO_CHMOD_MASK_FILE;
+		}
+
+		return static::$default_chmod_mask;
+	}
+
+	/**
+	 * @param int $default_chmod_mask
+	 */
+	public static function setDefaultChmodMask( $default_chmod_mask )
+	{
+		static::$default_chmod_mask = $default_chmod_mask;
+	}
+
+	/**
 	 *
 	 * @param string $file_path
 	 *
@@ -50,6 +70,88 @@ class IO_File
 	{
 		return ( is_file( $file_path )&&is_writable( $file_path ) );
 	}
+
+	/**
+	 *
+	 * @param string $file_path
+	 *
+	 * @return bool
+	 */
+	public static function isReadable( $file_path )
+	{
+		return ( is_file( $file_path )&&is_readable( $file_path ) );
+	}
+
+	/**
+	 * Gets file size
+	 *
+	 * @param string $file_path
+	 *
+	 * @throws IO_File_Exception
+	 *
+	 * @return int
+	 *
+	 */
+	public static function getSize( $file_path )
+	{
+
+		$size = filesize( $file_path );
+
+		if( $size===false ) {
+			$error = static::_getLastError();
+			throw new IO_File_Exception(
+				'Unable to get size of file \''.$file_path.'\'. Error message: '.$error['message'],
+				IO_File_Exception::CODE_GET_FILE_SIZE_FAILED
+			);
+		}
+
+		return $size;
+	}
+
+	/**
+	 * Gets mime type of file by given file path.
+	 *
+	 * @param string      $file_path
+	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_PATH_CONFIG/file_mime_types/map.php )
+	 * @param bool        $without_charset (optional)
+	 *
+	 * @return string
+	 */
+	public static function getMimeType( $file_path, $extensions_mimes_map_file_path = null, $without_charset = true )
+	{
+		if( !$extensions_mimes_map_file_path&&defined( 'JET_PATH_CONFIG' ) ) {
+			$extensions_mimes_map_file_path = JET_PATH_CONFIG.'file_mime_types/map.php';
+		}
+
+		$mime_type = null;
+
+		if( $extensions_mimes_map_file_path&&is_readable( $extensions_mimes_map_file_path ) ) {
+			/** @noinspection PhpIncludeInspection */
+			$map = require $extensions_mimes_map_file_path;
+
+			if( is_array( $map ) ) {
+				$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
+
+				if( isset( $map[$extension] ) ) {
+					$mime_type = $map[$extension];
+				}
+			}
+		}
+
+		if( !$mime_type ) {
+			$file_info = new \finfo( FILEINFO_MIME );
+			$mime_type = $file_info->file( $file_path );
+			unset( $file_info );
+		}
+
+		if( $without_charset&&( $pos = strpos( $mime_type, ';' ) )!==false ) {
+			$mime_type = substr( $mime_type, 0, $pos );
+		}
+
+
+		return $mime_type;
+	}
+
 
 	/**
 	 * Writes data into file. Creates file if does not exist.
@@ -105,18 +207,6 @@ class IO_File
 	}
 
 	/**
-	 * @return array
-	 */
-	protected static function _getLastError()
-	{
-		if( class_exists( __NAMESPACE__.'\Debug_ErrorHandler', false ) ) {
-			return Debug_ErrorHandler::getLastError();
-		} else {
-			return error_get_last();
-		}
-	}
-
-	/**
 	 * File chmod
 	 *
 	 * @param string $file_path
@@ -139,26 +229,6 @@ class IO_File
 
 	}
 
-	/**
-	 * Gets default chmod mask for new files
-	 * @return int
-	 */
-	public static function getDefaultChmodMask()
-	{
-		if( static::$default_chmod_mask===null ) {
-			static::$default_chmod_mask = JET_IO_CHMOD_MASK_FILE;
-		}
-
-		return static::$default_chmod_mask;
-	}
-
-	/**
-	 * @param int $default_chmod_mask
-	 */
-	public static function setDefaultChmodMask( $default_chmod_mask )
-	{
-		static::$default_chmod_mask = $default_chmod_mask;
-	}
 
 	/**
 	 * Appends data to the end of file. Creates file if does not exist.
@@ -387,85 +457,17 @@ class IO_File
 		Application::end();
 	}
 
-	/**
-	 *
-	 * @param string $file_path
-	 *
-	 * @return bool
-	 */
-	public static function isReadable( $file_path )
-	{
-		return ( is_file( $file_path )&&is_readable( $file_path ) );
-	}
 
 	/**
-	 * Gets file size
-	 *
-	 * @param string $file_path
-	 *
-	 * @throws IO_File_Exception
-	 *
-	 * @return int
-	 *
+	 * @return array
 	 */
-	public static function getSize( $file_path )
+	protected static function _getLastError()
 	{
-
-		$size = filesize( $file_path );
-
-		if( $size===false ) {
-			$error = static::_getLastError();
-			throw new IO_File_Exception(
-				'Unable to get size of file \''.$file_path.'\'. Error message: '.$error['message'],
-				IO_File_Exception::CODE_GET_FILE_SIZE_FAILED
-			);
+		if( class_exists( __NAMESPACE__.'\Debug_ErrorHandler', false ) ) {
+			return Debug_ErrorHandler::getLastError();
+		} else {
+			return error_get_last();
 		}
-
-		return $size;
-	}
-
-	/**
-	 * Gets mime type of file by given file path.
-	 *
-	 * @param string      $file_path
-	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_PATH_CONFIG/file_mime_types/map.php )
-	 * @param bool        $without_charset (optional)
-	 *
-	 * @return string
-	 */
-	public static function getMimeType( $file_path, $extensions_mimes_map_file_path = null, $without_charset = true )
-	{
-		if( !$extensions_mimes_map_file_path&&defined( 'JET_PATH_CONFIG' ) ) {
-			$extensions_mimes_map_file_path = JET_PATH_CONFIG.'file_mime_types/map.php';
-		}
-
-		$mime_type = null;
-
-		if( $extensions_mimes_map_file_path&&is_readable( $extensions_mimes_map_file_path ) ) {
-			/** @noinspection PhpIncludeInspection */
-			$map = require $extensions_mimes_map_file_path;
-
-			if( is_array( $map ) ) {
-				$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
-
-				if( isset( $map[$extension] ) ) {
-					$mime_type = $map[$extension];
-				}
-			}
-		}
-
-		if( !$mime_type ) {
-			$file_info = new \finfo( FILEINFO_MIME );
-			$mime_type = $file_info->file( $file_path );
-			unset( $file_info );
-		}
-
-		if( $without_charset&&( $pos = strpos( $mime_type, ';' ) )!==false ) {
-			$mime_type = substr( $mime_type, 0, $pos );
-		}
-
-
-		return $mime_type;
 	}
 
 }

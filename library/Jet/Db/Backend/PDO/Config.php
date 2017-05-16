@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Db_Backend_PDO_Config
- * @package Jet
+ *
  */
 class Db_Backend_PDO_Config extends Db_Backend_Config
 {

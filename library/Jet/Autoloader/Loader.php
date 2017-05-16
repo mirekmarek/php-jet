@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Autoloader_Loader_Abstract
- * @package Jet
+ *
  */
 abstract class Autoloader_Loader
 {

@@ -52,7 +52,10 @@ trait DataModel_Trait_Forms
 
 		$definition = static::getDataModelDefinition();
 
-		if( $property_filter&&!( $property_filter instanceof DataModel_PropertyFilter ) ) {
+		if(
+			$property_filter &&
+			!( $property_filter instanceof DataModel_PropertyFilter )
+		) {
 			$property_filter = new DataModel_PropertyFilter( $definition, $property_filter );
 		}
 
@@ -60,8 +63,11 @@ trait DataModel_Trait_Forms
 		$form_fields = [];
 
 		foreach( $definition->getProperties() as $property_name => $property_definition ) {
-			if( $property_filter&&!$property_filter->getPropertyAllowed(
-					$definition->getModelName(), $property_name
+			if(
+				$property_filter &&
+				!$property_filter->getPropertyAllowed(
+					$definition->getModelName(),
+					$property_name
 				)
 			) {
 				continue;
@@ -71,9 +77,10 @@ trait DataModel_Trait_Forms
 			if( ( $field_creator_method_name = $property_definition->getFormFieldCreatorMethodName() ) ) {
 				$created_field = $this->{$field_creator_method_name}( $property_definition, $property_filter );
 			} else {
-				if( is_object( $property )&&method_exists(
-						$property, 'getRelatedFormFields'
-					)&&$property_definition->getFormFieldType()!==false
+				if(
+					is_object( $property )&&
+					method_exists( $property, 'getRelatedFormFields' ) &&
+					$property_definition->getFormFieldType()!==false
 				) {
 					foreach( $property->getRelatedFormFields( $property_definition, $property_filter ) as $field ) {
 						$form_fields[] = $field;
@@ -90,7 +97,7 @@ trait DataModel_Trait_Forms
 				continue;
 			}
 
-			$created_field->setCatchDataCallback(
+			$created_field->setCatcher(
 				function( $value ) use ( $property_definition, &$property ) {
 					$property_definition->catchFormField( $this, $property, $value );
 				}
@@ -118,7 +125,10 @@ trait DataModel_Trait_Forms
 	public function catchForm( Form $form, $data = null, $force_catch = false )
 	{
 
-		if( !$form->catchValues( $data, $force_catch )||!$form->validateValues() ) {
+		if(
+			!$form->catchInput( $data, $force_catch )||
+			!$form->validate()
+		) {
 			return false;
 		}
 

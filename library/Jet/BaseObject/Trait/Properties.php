@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class BaseObject_Trait_Properties
- * @package Jet
+ *
  */
 trait BaseObject_Trait_Properties
 {
@@ -21,7 +20,10 @@ trait BaseObject_Trait_Properties
 	 */
 	public function getObjectClassHasProperty( $property_name )
 	{
-		if( $property_name[0]=='_'||!property_exists( $this, $property_name ) ) {
+		if(
+			$property_name[0]=='_' ||
+			!property_exists( $this, $property_name )
+		) {
 			return false;
 		}
 

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class BaseObject_Trait_MagicDebug
- * @package Jet
+ *
  */
 trait BaseObject_Trait_MagicDebug
 {

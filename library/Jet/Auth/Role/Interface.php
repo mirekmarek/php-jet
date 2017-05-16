@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface Auth_Role_Interface
- * @package Jet
+ *
  */
 interface Auth_Role_Interface extends BaseObject_Interface
 {
@@ -26,10 +25,6 @@ interface Auth_Role_Interface extends BaseObject_Interface
 	 */
 	public static function getList();
 
-	/**
-	 * @return string
-	 */
-	public function toString();
 
 	/**
 	 * @return string
@@ -81,7 +76,7 @@ interface Auth_Role_Interface extends BaseObject_Interface
 	 *
 	 * <code>
 	 * array(
-	 *      'privilege' => array('value1', 'value2')
+	 *      'privilege' => ['value1', 'value2']
 	 * )
 	 * </code>
 	 *
@@ -92,8 +87,8 @@ interface Auth_Role_Interface extends BaseObject_Interface
 	/**
 	 * Example:
 	 *
-	 * privilege: save_object
-	 * values: object_id_1,object_id_2, object_id_N
+	 * privilege: can_do_something
+	 * values: operation_id_1,operation_id_2, operation_id_M
 	 *
 	 *
 	 * @param string $privilege
@@ -113,15 +108,22 @@ interface Auth_Role_Interface extends BaseObject_Interface
 	/**
 	 * Example:
 	 *
-	 * privilege: save_object
-	 * values: object_id_1
+	 * privilege: can_do_something
+	 * values: operation_id_1
 	 *
 	 * @param string $privilege
 	 * @param mixed  $value
 	 *
 	 * @return bool
 	 */
-	public function getHasPrivilege( $privilege, $value );
+	public function hasPrivilege( $privilege, $value );
 
+
+	/**
+	 *
+	 *
+	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
+	 */
+	public static function getAvailablePrivilegesList();
 
 }

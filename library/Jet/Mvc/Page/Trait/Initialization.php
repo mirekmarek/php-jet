@@ -21,7 +21,12 @@ trait Mvc_Page_Trait_Initialization
 	 * @var array
 	 */
 	protected static $do_not_inherit_properties = [
-		'breadcrumb_title', 'menu_title', 'order', 'is_direct_output', 'direct_output_file_name', 'output',
+		'breadcrumb_title',
+		'menu_title',
+		'order',
+		'is_direct_output',
+		'direct_output_file_name',
+		'output',
 	];
 
 
@@ -39,6 +44,38 @@ trait Mvc_Page_Trait_Initialization
 	 * @var Mvc_Page_Interface[]
 	 */
 	protected static $relative_URIs_map = [];
+
+	/**
+	 * @return string
+	 */
+	public static function getPageDataFileName()
+	{
+		return static::$page_data_file_name;
+	}
+
+	/**
+	 * @param string $page_data_file_name
+	 */
+	public static function setPageDataFileName( $page_data_file_name )
+	{
+		static::$page_data_file_name = $page_data_file_name;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getDoNotInheritProperties()
+	{
+		return static::$do_not_inherit_properties;
+	}
+
+	/**
+	 * @param array $do_not_inherit_properties
+	 */
+	public static function setDoNotInheritProperties( $do_not_inherit_properties )
+	{
+		static::$do_not_inherit_properties = $do_not_inherit_properties;
+	}
 
 
 	/**
@@ -84,6 +121,7 @@ trait Mvc_Page_Trait_Initialization
 		}
 
 		static::_loadPages_readDir( $site, $locale, $site->getPagesDataPath( $locale ) );
+
 	}
 
 	/**
@@ -93,6 +131,7 @@ trait Mvc_Page_Trait_Initialization
 	 * @param array              $parent_page_data (optional)
 	 * @param Mvc_Page           $parent_page
 	 *
+	 * @throws Mvc_Page_Exception
 	 */
 	protected static function _loadPages_readDir( Mvc_Site_Interface $site, Locale $locale, $source_dir_path, array $parent_page_data = null, Mvc_Page $parent_page = null )
 	{
@@ -107,6 +146,13 @@ trait Mvc_Page_Trait_Initialization
 			$page_data_file_path = $source_dir_path.static::$page_data_file_name;
 
 			$page_data = static::_loadPages_readPageDataFile( $page_data_file_path );
+			if(!$page_data) {
+				throw new Mvc_Page_Exception(
+					'Page data file is not readable: '.$page_data_file_path,
+					Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
+				);
+
+			}
 			$page_data['URL_fragment'] = '';
 
 			$page = static::createPageByData( $site, $locale, $page_data );
@@ -122,6 +168,9 @@ trait Mvc_Page_Trait_Initialization
 		foreach( $list as $dir_path => $dir_name ) {
 
 			$page_data = static::_loadPages_readPageDataFile( $dir_path.static::$page_data_file_name, $parent_page_data );
+			if(!$page_data) {
+				continue;
+			}
 
 			$page_data['URL_fragment'] = $dir_name;
 
@@ -138,16 +187,13 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @param array  $parent_page_data
 	 *
-	 * @throws Mvc_Page_Exception
-	 * @return array
+	 * @return array|null
 	 */
 	public static function _loadPages_readPageDataFile( $data_file_path, array $parent_page_data = null )
 	{
 
 		if( !IO_File::isReadable( $data_file_path ) ) {
-			throw new Mvc_Page_Exception(
-				'Page data file is not readable: '.$data_file_path, Mvc_Page_Exception::CODE_UNABLE_TO_READ_PAGE_DATA
-			);
+			return null;
 		}
 
 		/** @noinspection PhpIncludeInspection */

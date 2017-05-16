@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form
- * @package Jet
+ *
  */
 class Form extends BaseObject
 {
@@ -65,7 +64,7 @@ class Form extends BaseObject
 	const TYPE_FILE = 'File';
 	const TYPE_FILE_IMAGE = 'FileImage';
 
-	const FORM_SENT_KEY = '_jet_form_sent_';
+
 
 	/**
 	 * @var string
@@ -97,6 +96,12 @@ class Form extends BaseObject
 	 * @var string $name
 	 */
 	protected $name = '';
+
+	/**
+	 * @var string
+	 */
+	protected $sent_key = '_jet_form_sent_';
+
 	/**
 	 * @var string $name
 	 */
@@ -477,6 +482,22 @@ class Form extends BaseObject
 		return $this->name;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getSentKey()
+	{
+		return $this->sent_key;
+	}
+
+	/**
+	 * @param string $sent_key
+	 */
+	public function setSentKey( $sent_key )
+	{
+		$this->sent_key = $sent_key;
+	}
+
 
 	/**
 	 *
@@ -599,29 +620,32 @@ class Form extends BaseObject
 	 * catch values from input ($_POST is default)
 	 * and return true if form sent ...
 	 *
-	 * @param array $data
+	 * @param array $input_data
 	 * @param bool  $force_catch
 	 *
 	 * @return bool
 	 */
-	public function catchValues( $data = null, $force_catch = false )
+	public function catchInput( $input_data = null, $force_catch = false )
 	{
 		$this->is_valid = false;
 
-		if( $data===null ) {
-			$data = $this->method==self::METHOD_GET ? Http_Request::GET()->getRawData() :
+		if( $input_data===null ) {
+			$input_data = $this->method==self::METHOD_GET ? Http_Request::GET()->getRawData() :
 				Http_Request::POST()->getRawData();
 		}
 
-		if( $data===false ) {
-			$data = [];
+		if( $input_data===false ) {
+			$input_data = [];
 		}
 
-		if( !$data instanceof Data_Array ) {
-			$data = new Data_Array( $data );
+		if( !$input_data instanceof Data_Array ) {
+			$input_data = new Data_Array( $input_data );
 		}
 
-		if( !$force_catch&&$data->getString( self::FORM_SENT_KEY )!=$this->name ) {
+		if(
+			!$force_catch  &&
+			$input_data->getString( $this->getSentKey() )!=$this->name
+		) {
 			return false;
 		}
 
@@ -629,20 +653,19 @@ class Form extends BaseObject
 			if( $field->getIsReadonly() ) {
 				continue;
 			}
-			$field->catchValue( $data );
+			$field->catchInput( $input_data );
 		}
 
-		$this->raw_data = $data;
+		$this->raw_data = $input_data;
 
 		return true;
 	}
 
 	/**
-	 * validate form values
 	 *
 	 * @return bool
 	 */
-	public function validateValues()
+	public function validate()
 	{
 		$this->checkFieldsHasErrorMessages();
 
@@ -653,9 +676,9 @@ class Form extends BaseObject
 				continue;
 			}
 
-			$callback = $field->getValidateDataCallback();
-			if( $callback ) {
-				if( !$callback( $field ) ) {
+			$validator = $field->getValidator();
+			if( $validator ) {
+				if( !$validator( $field ) ) {
 					$this->is_valid = false;
 				}
 
@@ -667,7 +690,7 @@ class Form extends BaseObject
 				continue;
 			}
 
-			if( !$field->validateValue() ) {
+			if( !$field->validate() ) {
 				$this->is_valid = false;
 			}
 
@@ -841,7 +864,6 @@ class Form extends BaseObject
 	}
 
 	/**
-	 * Returns translation. Used by field, error messages and so on.
 	 *
 	 * @see Translator
 	 *
@@ -850,7 +872,7 @@ class Form extends BaseObject
 	 *
 	 * @return string
 	 */
-	public function getTranslation( $phrase, $data = [] )
+	public function _( $phrase, $data = [] )
 	{
 		if( !$phrase ) {
 			return $phrase;

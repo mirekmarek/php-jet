@@ -187,7 +187,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
 	 * @JetDataModel:form_field_label = 'Roles'
 	 * @JetDataModel:form_field_get_select_options_callback = ['Auth_Role', 'getList']
-	 * @JetDataModel:form_catch_value_method_name = 'setRoles'
+	 * @JetDataModel:form_setter_name = 'setRoles'
 	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select role']
 	 *
 	 * @var Auth_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Role[]
@@ -678,7 +678,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 			/**
 			 * @var Auth_Role_Interface $role
 			 */
-			if( $role->getHasPrivilege( $privilege, $value ) ) {
+			if( $role->hasPrivilege( $privilege, $value ) ) {
 				return true;
 			}
 		}
@@ -772,7 +772,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 			]
 		);
 
-		$form->getField( 'username' )->setValidateDataCallback(
+		$form->getField( 'username' )->setValidator(
 			function( Form_Field $field ) use ( $user ) {
 				$username = $field->getValue();
 

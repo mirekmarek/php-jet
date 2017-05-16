@@ -120,10 +120,10 @@ class Form_Field_FileImage extends Form_Field_File
 	 *
 	 * @return bool
 	 */
-	public function validateValue()
+	public function validate()
 	{
 
-		if( !parent::validateValue() ) {
+		if( !parent::validate() ) {
 			return false;
 		}
 
@@ -141,7 +141,7 @@ class Form_Field_FileImage extends Form_Field_File
 		}
 
 
-		$this->_setValueIsValid();
+		$this->setIsValid();
 
 		return true;
 	}

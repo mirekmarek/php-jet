@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Session
- * @package Jet
+ *
  */
 class Session extends BaseObject
 {
