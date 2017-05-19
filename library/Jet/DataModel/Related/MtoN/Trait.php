@@ -57,9 +57,9 @@ trait DataModel_Related_MtoN_Trait
 		$definition = static::getDataModelDefinition();
 
 		if( $load_filter ) {
-			if( !$load_filter->getModelAllowed( $definition->getModelName() )&&!$load_filter->getModelAllowed(
-					$definition->getNModelName()
-				)
+			if(
+				!$load_filter->getModelAllowed( $definition->getModelName() )  &&
+				!$load_filter->getModelAllowed( $definition->getNModelName() )
 			) {
 				return [];
 			}

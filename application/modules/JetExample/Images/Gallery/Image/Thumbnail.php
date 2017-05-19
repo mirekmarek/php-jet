@@ -175,7 +175,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN
 		$maximal_size_w = (int)$maximal_size_w;
 		$maximal_size_h = (int)$maximal_size_h;
 
-		if( !$maximal_size_w||!$maximal_size_h ) {
+		if( !$maximal_size_w || !$maximal_size_h ) {
 			throw new Exception(
 				'Dimensions of Image thumbnail must be greater then 0! Given values: w:'.$maximal_size_w.', h:'.$maximal_size_h,
 				Exception::CODE_ILLEGAL_THUMBNAIL_DIMENSION

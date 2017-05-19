@@ -72,7 +72,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 				$path[static::getControllerRouter()->getEditOrViewURI( $parent->getId() )] = $parent->getLabel();
 
 				$parent = $parent->getParent();
-			} while( $parent&&!$parent->getIsRoot() );
+			} while( $parent && !$parent->getIsRoot() );
 
 			$path = array_reverse( $path );
 

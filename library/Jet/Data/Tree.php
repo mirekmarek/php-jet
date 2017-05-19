@@ -133,23 +133,10 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 	/**
 	 * @param string $nodes_class_name
 	 *
-	 *
-	 * @throws Data_Tree_Exception
 	 */
 	public function setNodesClassName( $nodes_class_name )
 	{
-		if( $nodes_class_name!==__NAMESPACE__.'\Data_Tree_Node'&&!is_subclass_of(
-				$nodes_class_name, __NAMESPACE__.'\Data_Tree_Node'
-			)
-		) {
-			throw new Data_Tree_Exception(
-				'Tree node class \''.$nodes_class_name.'\' must be '.__NAMESPACE__.'\Data_Tree_Node class or descendant class',
-				Data_Tree_Exception::CODE_INVALID_NODES_CLASS
-			);
-		}
-
 		$this->nodes_class_name = $nodes_class_name;
-
 	}
 
 	/**

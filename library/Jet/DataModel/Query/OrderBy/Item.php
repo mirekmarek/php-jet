@@ -35,7 +35,10 @@ class DataModel_Query_OrderBy_Item extends BaseObject
 	 */
 	public function __construct( $item, $desc = false )
 	{
-		if( !( $item instanceof DataModel_Definition_Property )&&!( $item instanceof DataModel_Query_Select_Item ) ) {
+		if(
+			!( $item instanceof DataModel_Definition_Property ) &&
+			!( $item instanceof DataModel_Query_Select_Item )
+		) {
 			throw new Exception(
 				'Item must be instance of \'DataModel_Definition_Property_Abstract\' or \'DataModel_Query_Select_Item\' '
 			);

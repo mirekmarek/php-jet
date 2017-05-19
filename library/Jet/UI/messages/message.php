@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class messages_message
- * @package Jet
+ * 
  */
 class UI_messages_message extends UI_BaseElement
 {

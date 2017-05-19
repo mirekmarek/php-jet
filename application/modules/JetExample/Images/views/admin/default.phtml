@@ -71,7 +71,7 @@ $tree->setOpenedDisplayCallback(
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 	<div class="row">
 		<div class="col-md-2">
-			<?php if( ( $add_uri = $router->getAddURI( $parent_id ) )&&( !$gallery||!$gallery->getIsNew() ) ): ?>
+			<?php if( ( $add_uri = $router->getAddURI( $parent_id ) ) && ( !$gallery || !$gallery->getIsNew() ) ): ?>
 				<div style="padding: 5px;">
 					<?=UI::button_create( Tr::_( 'Create new gallery' ) )->setUrl( $add_uri )?>
 				</div>

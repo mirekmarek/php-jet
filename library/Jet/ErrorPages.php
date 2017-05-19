@@ -20,12 +20,12 @@ class ErrorPages extends BaseObject
 	/**
 	 * @var callable[]
 	 */
-	protected static $callbacks = [];
+	protected static $handlers = [];
 
 	/**
 	 * @var callable[]
 	 */
-	protected static $fallback = [];
+	protected static $displayers = [];
 
 	/**
 	 *
@@ -65,19 +65,19 @@ class ErrorPages extends BaseObject
 	 * @param int      $code
 	 * @param callable $callback
 	 */
-	public static function registerCallback( $code, callable $callback)
+	public static function setHandler( $code, callable $callback)
 	{
-		static::$callbacks[$code] = $callback;
+		static::$handlers[$code] = $callback;
 
 	}
 
 	/**
 	 * @param int $code
 	 */
-	public static function unRegisterCallback( $code )
+	public static function unsetHandler( $code )
 	{
-		if(isset(static::$callbacks[$code])) {
-			unset(static::$callbacks[$code]);
+		if(isset( static::$handlers[$code])) {
+			unset( static::$handlers[$code]);
 		}
 	}
 
@@ -86,21 +86,22 @@ class ErrorPages extends BaseObject
 	 * @param int      $code
 	 * @param callable $callback
 	 */
-	public static function registerFallback( $code, callable $callback)
+	public static function setDisplayer( $code, callable $callback)
 	{
-		static::$fallback[$code] = $callback;
+		static::$displayers[$code] = $callback;
 
 	}
 
 	/**
 	 * @param int $code
 	 */
-	public static function unRegisterFallback( $code )
+	public static function unsetDisplayer( $code )
 	{
-		if(isset(static::$fallback[$code])) {
-			unset(static::$fallback[$code]);
+		if(isset( static::$displayers[$code])) {
+			unset( static::$displayers[$code]);
 		}
 	}
+
 
 
 	/**
@@ -109,22 +110,15 @@ class ErrorPages extends BaseObject
 	 */
 	public static function handle( $code, $application_end = true )
 	{
-		if(isset(static::$callbacks[$code])) {
-			$callback = static::$callbacks[$code];
+		if(isset( static::$handlers[$code])) {
+			$handler = static::$handlers[$code];
 
-			$callback( $code );
+			$handler( $code );
 		}
 
 		Http_Headers::response( $code );
 
-		if( !ErrorPages::display( $code ) ) {
-			if(isset(static::$fallback[$code])) {
-				$fallback = static::$fallback[$code];
-
-				$fallback( $code );
-			}
-		}
-
+		ErrorPages::display( $code );
 
 		if(!$application_end) {
 			Application::end();
@@ -173,6 +167,14 @@ class ErrorPages extends BaseObject
 	 */
 	public static function display( $code )
 	{
+		if(isset( static::$displayers[$code])) {
+			$displayer = static::$displayers[$code];
+
+			$displayer( $code );
+
+			return true;
+		}
+
 		$path = static::getErrorPageFilePath( $code );
 		if( !$path ) {
 			return false;

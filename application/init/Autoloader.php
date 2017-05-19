@@ -8,7 +8,7 @@
 namespace JetExampleApp;
 
 use Jet\Autoloader;
-use Jet\Debug_Profiler;
+//use Jet\Debug_Profiler;
 
 //Debug_Profiler::blockStart('INIT - Autoloader');
 

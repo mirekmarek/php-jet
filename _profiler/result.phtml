@@ -310,7 +310,7 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 
 	<hr/>
 	<?php if ($run->getXHPData()): ?>
-		<a href="?JPR&run=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
+		<a href="?JPR=<?= $run->getId(); ?>&callgraph" target="_blank" style="font-weight: bolder">XHProf Call Graph</a>
 	<?php else: ?>
 		<strong>XHProf data not available</strong>
 	<?php endif; ?>

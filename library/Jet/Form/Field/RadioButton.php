@@ -94,7 +94,7 @@ class Form_Field_RadioButton extends Form_Field
 	 */
 	public function validate()
 	{
-		if( $this->_value===null&&!$this->is_required ) {
+		if( $this->_value===null && !$this->is_required ) {
 			return true;
 		}
 

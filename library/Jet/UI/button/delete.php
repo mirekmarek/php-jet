@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class button_delete
- * @package Jet
+ *
  */
 class UI_button_delete extends UI_button
 {

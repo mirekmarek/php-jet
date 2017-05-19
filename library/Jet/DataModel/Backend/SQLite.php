@@ -493,8 +493,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$values = [];
 
 		foreach( $record as $item ) {
-			if( $item->getPropertyDefinition()->getType(
-				)==DataModel::TYPE_ID_AUTOINCREMENT&&!$item->getPropertyDefinition()->getRelatedToPropertyName()
+			if(
+				$item->getPropertyDefinition()->getType()==DataModel::TYPE_ID_AUTOINCREMENT &&
+				!$item->getPropertyDefinition()->getRelatedToPropertyName()
 			) {
 				continue;
 			}
@@ -597,7 +598,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		}
 
-		if( $res&&!$level ) {
+		if( $res && !$level ) {
 			$res = JET_EOL.'WHERE'.JET_EOL.$res.JET_EOL;
 		}
 
@@ -899,7 +900,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				);
 		}
 
-		if( $res&&!$level ) {
+		if( $res && !$level ) {
 			$res = JET_EOL.'HAVING'.JET_EOL.$res.JET_EOL;
 		}
 

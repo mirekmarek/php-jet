@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class searchForm
- * @package Jet
+ *
  */
 class UI_searchForm extends BaseObject
 {

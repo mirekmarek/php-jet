@@ -247,7 +247,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 
 		if( isset( $array['comment'] ) ) {
 			foreach( $array['comment'] as $k => $v ) {
-				if( is_array( $v )&&!$v ) {
+				if( is_array( $v ) && !$v ) {
 					unset( $array['comment'][$k] );
 				}
 			}

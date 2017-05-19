@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class button_save
- * @package Jet
+ * 
  */
 class UI_button_save extends UI_button
 {

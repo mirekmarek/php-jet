@@ -102,8 +102,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 					foreach( $key->getPropertyNames() as $property_name ) {
 						$property = $definition->getProperty( $property_name );
 
-						if( $property->getType(
-							)==DataModel::TYPE_ID_AUTOINCREMENT&&!$property->getRelatedToPropertyName()
+						if(
+							$property->getType()==DataModel::TYPE_ID_AUTOINCREMENT &&
+							!$property->getRelatedToPropertyName()
 						) {
 							$key_columns = $this->_getColumnName( $property, true, false );
 							break;
@@ -600,7 +601,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 		}
 
-		if( $res&&!$level ) {
+		if( $res && !$level ) {
 			$res = JET_EOL.'WHERE'.JET_EOL.$res.JET_EOL;
 		}
 
@@ -870,7 +871,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 				);
 		}
 
-		if( $res&&!$level ) {
+		if( $res && !$level ) {
 			$res = JET_EOL.'HAVING'.JET_EOL.$res.JET_EOL;
 		}
 

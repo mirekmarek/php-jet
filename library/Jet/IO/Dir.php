@@ -124,7 +124,7 @@ class IO_Dir
 			);
 		}
 
-		if( static::exists( $target_path )&&!$overwrite_if_exists ) {
+		if( static::exists( $target_path ) && !$overwrite_if_exists ) {
 			throw new IO_Dir_Exception(
 				'Target directory \''.$source_path.'\' already exists', IO_Dir_Exception::CODE_COPY_FAILED
 			);
@@ -294,7 +294,7 @@ class IO_Dir
 
 		$pattern = $dir_path.$mask;
 
-		if( $get_dirs&&!$get_files ) {
+		if( $get_dirs && !$get_files ) {
 			$options = GLOB_ERR|GLOB_ONLYDIR;
 		} else {
 			$options = GLOB_ERR;
@@ -323,7 +323,7 @@ class IO_Dir
 				continue;
 			}
 
-			if( is_file( $file_path )&&!$get_files ) {
+			if( is_file( $file_path ) && !$get_files ) {
 				continue;
 			}
 			if( is_dir( $file_path ) ) {
@@ -346,9 +346,9 @@ class IO_Dir
 	 * Gets directories list from directory (not recursively)
 	 *
 	 * Returns:
-	 * array(
+	 * [
 	 *    'full path' => 'dir name'
-	 * )
+	 * ]
 	 *
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)

@@ -71,22 +71,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		} else {
 			$gallery_id = Http_Request::GET()->getString( 'gallery_id' );
 
-
-			$thumbnail_max_size_w = Http_Request::GET()->getInt( 'thumbnail_max_size_w', Config::getDefaultThbMaxW() );
-			$thumbnail_max_size_h = Http_Request::GET()->getInt( 'thumbnail_max_size_h', Config::getDefaultThbMaxH() );
-
 			$list = Gallery_Image::getListAsData( $gallery_id );
-			if( $thumbnail_max_size_w>0&&$thumbnail_max_size_h>0 ) {
-				$list->setArrayWalkCallback(
-					function( &$image_data ) use ( $thumbnail_max_size_w, $thumbnail_max_size_h ) {
-						$image = Gallery_Image::get( $image_data['id'] );
-
-						$image_data['thumbnail_URI'] = $image->getThumbnail(
-							$thumbnail_max_size_w, $thumbnail_max_size_h
-						)->getURI();
-					}
-				);
-			}
 
 			$this->responseDataModelsList( $list );
 
@@ -169,9 +154,12 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		$data = $this->getRequestData();
 		$gallery = $this->_getGallery( $data['target_gallery_id'] );
 
-		if( ( !isset( $data['overwrite_if_exists'] )||!$data['overwrite_if_exists'] )&&$gallery->getImageExists(
-				$image->getFileName()
-			)
+		if(
+			(
+				!isset( $data['overwrite_if_exists'] ) ||
+				!$data['overwrite_if_exists']
+			) &&
+			$gallery->getImageExists( $image->getFileName() )
 		) {
 			$this->logAllowedAction( 'Image copied', $image->getIdObject()->toString(), $image->getFileName(), $image );
 
@@ -210,7 +198,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		$maximal_size_w = (int)$maximal_size_w;
 		$maximal_size_h = (int)$maximal_size_h;
 
-		if( !$maximal_size_w||!$maximal_size_h ) {
+		if( !$maximal_size_w || !$maximal_size_h ) {
 			$this->responseUnknownItem( $image_id );
 		}
 

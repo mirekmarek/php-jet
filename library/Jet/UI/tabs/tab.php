@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class tabs_tab
- * @package Jet
+ *
  */
 class UI_tabs_tab extends UI_BaseElement
 {

@@ -400,7 +400,8 @@ class Locale extends BaseObject
 		$data = PHP_Locale::parseLocale( $locale );
 		if(
 			$data &&
-			!empty( $data['language'] )&&!empty( $data['region'] )
+			!empty( $data['language'] ) &&
+			!empty( $data['region'] )
 		) {
 			$this->region = $data['region'];
 			$this->language = $data['language'];

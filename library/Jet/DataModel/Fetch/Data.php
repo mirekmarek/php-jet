@@ -44,16 +44,6 @@ abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Pagi
 	}
 
 	/**
-	 *
-	 * @param callable $array_walk_callback
-	 */
-	public function setArrayWalkCallback( callable $array_walk_callback )
-	{
-		$this->array_walk_callback = $array_walk_callback;
-	}
-
-
-	/**
 	 * @return array
 	 */
 	public function toArray()
@@ -176,14 +166,7 @@ abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Pagi
 	{
 		$this->_fetch();
 
-		$item = $this->data[$offset];
-		if( $this->array_walk_callback ) {
-			$callback = $this->array_walk_callback;
-
-			$callback( $item );
-		}
-
-		return $item;
+		return $this->data[$offset];
 	}
 
 	/**
@@ -218,15 +201,7 @@ abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Pagi
 	{
 		$this->_fetch();
 
-		$item = current( $this->data );
-
-		if( $this->array_walk_callback ) {
-			$callback = $this->array_walk_callback;
-
-			$callback( $item );
-		}
-
-		return $item;
+		return current( $this->data );
 	}
 
 	/**

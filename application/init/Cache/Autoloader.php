@@ -17,7 +17,7 @@ if(JET_AUTOLOADER_CACHE_SAVE) {
 			$file_path,
 			'<?php return '.var_export( $map, true ).';'
 		);
-		chmod($file_path, JET_IO_CHMOD_MASK_FILE);
+		@chmod($file_path, JET_IO_CHMOD_MASK_FILE);
 	});
 
 }

@@ -163,7 +163,7 @@ abstract class Config extends BaseObject
 			$this_config_data = [];
 
 			if( !$data->exists( $config_data_path ) ) {
-				if( $config_section_is_obligatory&&!$this->soft_mode ) {
+				if( $config_section_is_obligatory && !$this->soft_mode ) {
 					throw new Config_Exception(
 						'The obligatory section \''.$config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
 						Config_Exception::CODE_CONFIG_CHECK_ERROR
@@ -191,7 +191,7 @@ abstract class Config extends BaseObject
 				$this->{$property_name} = $data->getRaw( $property_name );
 				$property_definition->checkValue( $this->{$property_name} );
 			} else {
-				if( $property_definition->getIsRequired()&&!$this->soft_mode ) {
+				if( $property_definition->getIsRequired() && !$this->soft_mode ) {
 					throw new Config_Exception(
 						'Configuration property '.get_class(
 							$this

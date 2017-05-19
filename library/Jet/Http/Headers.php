@@ -288,7 +288,6 @@ class Http_Headers
 		);
 
 		if( $application_end ) {
-			Debug_Profiler::setOutputEnabled( false );
 			Application::end();
 		}
 
@@ -421,7 +420,6 @@ class Http_Headers
 			'Location: '.Http_Request::getCurrentURI( $set_GET_params, $unset_GET_params, $form->getName() )
 		);
 		if( $application_end ) {
-			Debug_Profiler::setOutputEnabled( false );
 			Application::end();
 		}
 	}
@@ -441,7 +439,6 @@ class Http_Headers
 			'Location: '.Http_Request::getCurrentURI( $set_GET_params, $unset_GET_params, $set_anchor )
 		);
 		if( $application_end ) {
-			Debug_Profiler::setOutputEnabled( false );
 			Application::end();
 		}
 	}

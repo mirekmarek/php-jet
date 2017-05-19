@@ -177,15 +177,15 @@ trait Form_Field_Definition_Trait
 	public function getFormFieldOptions()
 	{
 
-		if( $this->form_field_validation_regexp&&!isset( $this->form_field_options['validation_regexp'] ) ) {
+		if( $this->form_field_validation_regexp && !isset( $this->form_field_options['validation_regexp'] ) ) {
 			$this->form_field_options['validation_regexp'] = $this->form_field_validation_regexp;
 		}
 
-		if( $this->form_field_min_value!==null&&!array_key_exists( 'min_value', $this->form_field_options ) ) {
+		if( $this->form_field_min_value!==null && !array_key_exists( 'min_value', $this->form_field_options ) ) {
 			$this->form_field_options['min_value'] = $this->form_field_min_value;
 		}
 
-		if( $this->form_field_max_value!==null&&!array_key_exists( 'max_value', $this->form_field_options ) ) {
+		if( $this->form_field_max_value!==null && !array_key_exists( 'max_value', $this->form_field_options ) ) {
 			$this->form_field_options['max_value'] = $this->form_field_max_value;
 		}
 

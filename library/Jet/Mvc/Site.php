@@ -654,8 +654,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	{
 
 		$data = [
-			'id'             => $this->site_id, 'name' => $this->name, 'is_default' => $this->is_default,
-			'is_active'      => $this->is_active, 'default_locale' => $this->default_locale->toString(),
+			'id'             => $this->site_id,
+			'name'           => $this->name,
+			'is_default'     => $this->is_default,
+			'is_active'      => $this->is_active,
+			'default_locale' => $this->default_locale->toString(),
 			'localized_data' => [],
 		];
 

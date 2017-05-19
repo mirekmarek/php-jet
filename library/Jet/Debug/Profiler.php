@@ -59,14 +59,14 @@ class Debug_Profiler
 
 
 	/**
-	 * @param bool     $log_SQL_queries
 	 * @param callable $saver
 	 * @param callable $displayer
+	 * @param bool     $log_SQL_queries
 	 */
 	public static function enable(
-		$log_SQL_queries = true,
-		callable $saver=null,
-		callable $displayer=null
+		callable $saver = null,
+		callable $displayer = null,
+		$log_SQL_queries = true
 	)
 	{
 		static::$run = new Debug_Profiler_Run();

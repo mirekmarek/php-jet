@@ -11,11 +11,8 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 
 	$profiler_save_dir = JET_PATH_TMP.'_profiler/';
 
-	if(
-		isset( $_GET['JPR'] ) &&
-		!empty( $_GET['run'] )
-	) {
-		$run_id = $_GET['run'];
+	if( !empty( $_GET['JPR'] ) ) {
+		$run_id = $_GET['JPR'];
 		$run = null;
 
 		if( strpos( $run_id, '.' )===false ) {
@@ -52,8 +49,7 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 	}
 
 	Debug_Profiler::enable(
-		true,
-		function( Debug_Profiler_Run $run ) use ($profiler_save_dir) {
+		function( Debug_Profiler_Run $run ) use ( $profiler_save_dir ) {
 
 			$run_id = $run->getId();
 
@@ -70,7 +66,7 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 
 		},
 		function( Debug_Profiler_Run $run ) {
-			$URL = '?JPR&run='.$run->getId();
+			$URL = '?JPR='.$run->getId();
 
 			if( Debug::getOutputIsXML() ) {
 				echo '<!-- profiler: '.$URL.' -->';
@@ -79,7 +75,6 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 			} else {
 				echo '<div style="position: fixed; bottom: 0px;left: 0px;"><a href="'.$URL.'" target="_blank">profiler</a></div>';
 			}
-
 		}
 	);
 

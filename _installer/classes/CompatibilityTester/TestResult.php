@@ -133,7 +133,7 @@ class CompatibilityTester_TestResult
 	 */
 	public function getIsError()
 	{
-		return ( $this->required&&!$this->passed );
+		return ( $this->required && !$this->passed );
 	}
 
 	/**
@@ -141,6 +141,6 @@ class CompatibilityTester_TestResult
 	 */
 	public function getIsWarning()
 	{
-		return ( !$this->required&&!$this->passed );
+		return ( !$this->required && !$this->passed );
 	}
 }

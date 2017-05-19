@@ -187,7 +187,7 @@ class Form_Field_File extends Form_Field
 	{
 
 		$this->_value = null;
-		$this->_has_value = isset( $_FILES[$this->_name] )&&!empty( $_FILES[$this->_name]['tmp_name'] );
+		$this->_has_value = isset( $_FILES[$this->_name] ) && !empty( $_FILES[$this->_name]['tmp_name'] );
 
 		if( $this->_has_value ) {
 			$this->_value_raw = $_FILES[$this->_name];

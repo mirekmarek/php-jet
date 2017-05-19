@@ -52,7 +52,10 @@ class DataModel_Query_Select_Item_BackendFunctionCall extends BaseObject
 			/**
 			 * @var DataModel_Definition_Property $property
 			 */
-			if( !is_object( $property )||!$property instanceof DataModel_Definition_Property ) {
+			if(
+				!is_object( $property ) ||
+				!$property instanceof DataModel_Definition_Property
+			) {
 				throw new DataModel_Query_Exception(
 					'Property must be instance of DataModel_Definition_Property_Abstract ',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR

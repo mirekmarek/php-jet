@@ -343,7 +343,7 @@ class UI_dataGrid extends BaseObject
 	public function setData( $data )
 	{
 
-		if( $this->allow_paginator&&!$this->paginator ) {
+		if( $this->allow_paginator && !$this->paginator ) {
 			$this->handlePaginator();
 		}
 

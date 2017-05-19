@@ -49,8 +49,6 @@ class Mvc_Page extends Jet_Mvc_Page
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
 	 *
-	 * @return Mvc_Page[]
-	 *
 	 * @throws Mvc_Page_Exception
 	 */
 	public static function loadCustomPages( Mvc_Site_Interface $site, Locale $locale )
