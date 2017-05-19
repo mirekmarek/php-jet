@@ -10,93 +10,15 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Definition extends BaseObject implements Reflection_ParserInterface
+class DataModel_Definition extends BaseObject implements Reflection_ParserInterface, BaseObject_Cacheable_Interface
 {
-	/**
-	 * @var string
-	 */
-	protected static $cache_dir_path = JET_PATH_DATA.'datamodel_definitions/';
-
-	/**
-	 * @var bool
-	 */
-	protected static $cache_save_enabled;
-
-	/**
-	 * @var bool
-	 */
-	protected static $cache_load_enabled;
+	use BaseObject_Cacheable_Trait;
 
 	/**
 	 *
 	 * @var DataModel_Definition_Model[]
 	 */
 	protected static $__definitions = [];
-
-	/**
-	 * @return string
-	 */
-	public static function getCacheDirPath()
-	{
-		return static::$cache_dir_path;
-	}
-
-	/**
-	 * @param string $cache_dir_path
-	 */
-	public static function setCacheDirPath( $cache_dir_path )
-	{
-		static::$cache_dir_path = $cache_dir_path;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getCacheSaveEnabled()
-	{
-		if(static::$cache_save_enabled===null) {
-			if(defined('JET_DATAMODEL_DEFINITION_CACHE_SAVE')) {
-				static::$cache_save_enabled = JET_DATAMODEL_DEFINITION_CACHE_SAVE;
-			} else {
-				static::$cache_save_enabled = false;
-			}
-		}
-
-		return static::$cache_save_enabled;
-	}
-
-	/**
-	 * @param bool $cache_save_enabled
-	 */
-	public static function setCacheSaveEnabled( $cache_save_enabled )
-	{
-		static::$cache_save_enabled = $cache_save_enabled;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getCacheLoadEnabled()
-	{
-		if(static::$cache_load_enabled===null) {
-			if(defined('JET_DATAMODEL_DEFINITION_CACHE_LOAD')) {
-				static::$cache_load_enabled = JET_DATAMODEL_DEFINITION_CACHE_LOAD;
-			} else {
-				static::$cache_load_enabled = false;
-			}
-		}
-
-		return static::$cache_load_enabled;
-	}
-
-	/**
-	 * @param bool $cache_load_enabled
-	 */
-	public static function setCacheLoadEnabled( $cache_load_enabled )
-	{
-		static::$cache_load_enabled = $cache_load_enabled;
-	}
-
 
 	/**
 	 * Returns model definition
@@ -113,27 +35,13 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			return static::$__definitions[$class_name];
 		}
 
-		return static::_loadDefinition( $class_name );
-	}
-
-	/**
-	 * @param string $class_name
-	 *
-	 * @return mixed
-	 */
-	protected static function _loadDefinition( $class_name )
-	{
-
-		$file_path = static::getCacheDirPath().str_replace( '\\', '__', $class_name.'.php' );
-
 		if( static::getCacheLoadEnabled() ) {
 
-			if( IO_File::exists( $file_path ) ) {
-				/** @noinspection PhpIncludeInspection */
-				$definition = require $file_path;
+			$loader = static::$cache_loader;
+			$definition = $loader( $class_name );
 
+			if($definition) {
 				static::$__definitions[$class_name] = $definition;
-
 				return $definition;
 			}
 		}
@@ -141,17 +49,20 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 		/**
 		 * @var DataModel $class_name
 		 */
-		static::$__definitions[(string)$class_name] = $class_name::dataModelDefinitionFactory( $class_name );
+		$definition = $class_name::dataModelDefinitionFactory( $class_name );
+
+		static::$__definitions[(string)$class_name] = $definition;
 
 		if( static::getCacheSaveEnabled() ) {
-			IO_File::write(
-				$file_path, '<?php return '.var_export( static::$__definitions[(string)$class_name], true ).';'
-			);
+
+			$saver = static::$cache_saver;
+			$saver( $class_name, $definition );
 		}
 
-		return static::$__definitions[(string)$class_name];
+		return $definition;
 
 	}
+
 
 	/**
 	 * @param Reflection_ParserData $data

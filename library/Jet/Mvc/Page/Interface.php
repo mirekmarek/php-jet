@@ -8,7 +8,6 @@
 namespace Jet;
 
 /**
- * Class Mvc_Page_Interface
  *
  */
 interface Mvc_Page_Interface
@@ -17,8 +16,33 @@ interface Mvc_Page_Interface
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
 	 *
+	 * @return array
+	 */
+	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale );
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 *
+	 * @return Mvc_Page_Interface[]
 	 */
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale );
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 */
+	public static function loadCustomPages( Mvc_Site_Interface $site, Locale $locale );
+
+	/**
+	 * @param Mvc_Site_Interface      $site
+	 * @param Locale                  $locale
+	 * @param array                   $data
+	 * @param Mvc_Page_Interface|null $parent_page
+	 *
+	 * @return Mvc_Page_Interface
+	 */
+	public static function createPageByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null );
 
 	/**
 	 * @param Mvc_Page_Interface $page
@@ -45,6 +69,17 @@ interface Mvc_Page_Interface
 	 */
 	public static function getList( $site_id, Locale $locale );
 
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 * @param string             $relative_path
+	 *
+	 * @return Mvc_Page_Interface|null
+	 */
+	public static function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, $relative_path );
+
+
 	/**
 	 * @param Mvc_Site_Interface $site
 	 */
@@ -54,11 +89,6 @@ interface Mvc_Page_Interface
 	 * @return Mvc_Site_Interface
 	 */
 	public function getSite();
-
-	/**
-	 * @return Mvc_Site_LocalizedData_Interface
-	 */
-	public function getSiteLocalizedData();
 
 	/**
 	 * @param Locale $locale
@@ -99,11 +129,6 @@ interface Mvc_Page_Interface
 	public function getParent();
 
 	/**
-	 *
-	 */
-	public function sortChildren();
-
-	/**
 	 * @return string
 	 */
 	public function getChildrenIds();
@@ -137,6 +162,17 @@ interface Mvc_Page_Interface
 	 * @return bool
 	 */
 	public function getIsActive();
+
+	/**
+	 * @return bool
+	 */
+	public function getSSLRequired();
+
+	/**
+	 * @param bool $SSL_required
+	 */
+	public function setSSLRequired( $SSL_required );
+
 
 	/**
 	 * @param bool $is_active
@@ -200,6 +236,28 @@ interface Mvc_Page_Interface
 	public function setOrder( $order );
 
 	/**
+	 * @param string $relative_path_fragment
+	 */
+	public function setPathFragment( $relative_path_fragment );
+
+	/**
+	 * @return string
+	 */
+	public function getRelativePathFragment();
+
+
+	/**
+	 * @return string
+	 */
+	public function getRelativePath();
+
+
+	/**
+	 * @param string $relative_path
+	 */
+	public function setRelativePath( $relative_path );
+
+	/**
 	 * @return string
 	 */
 	public function getTitle();
@@ -230,61 +288,52 @@ interface Mvc_Page_Interface
 	public function setBreadcrumbTitle( $breadcrumb_title );
 
 	/**
-	 * @return string
-	 */
-	public function getUrlFragment();
-
-	/**
-	 * @param string $URL_fragment
-	 * @param bool   $encode (optional, default = true)
-	 */
-	public function setUrlFragment( $URL_fragment, $encode = true );
-
-	/**
-	 * @param array $GET_params
 	 * @param array $path_fragments
 	 *
+	 * @param array $GET_params
+	 *
 	 * @return string
 	 */
-	public function getURL( array $GET_params = [], array $path_fragments = [] );
+	public function getURL( array $path_fragments = [], array $GET_params = [] );
 
 	/**
-	 * @param array $GET_params
 	 * @param array $path_fragments
+	 *
+	 * @param array $GET_params
 	 *
 	 * @return string
 	 */
-	public function getURI( array $GET_params = [], array $path_fragments = [] );
+	public function getURI( array $path_fragments = [], array $GET_params = [] );
 
 	/**
-	 * Example: //domain/page/
+	 *
+	 * @param array $path_fragments
 	 *
 	 * @param array $GET_params
-	 * @param array $path_fragments
 	 *
 	 * @return string
 	 */
-	public function getNonSchemaURL( array $GET_params = [], array $path_fragments = [] );
+	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] );
 
 	/**
-	 * Example: http://domain/page/
+	 *
+	 * @param array $path_fragments
 	 *
 	 * @param array $GET_params
-	 * @param array $path_fragments
 	 *
 	 * @return string
 	 */
-	public function getNonSslURL( array $GET_params = [], array $path_fragments = [] );
+	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] );
 
 	/**
-	 * Example: https://domain/page/
+	 *
+	 * @param array $path_fragments
 	 *
 	 * @param array $GET_params
-	 * @param array $path_fragments
 	 *
 	 * @return string
 	 */
-	public function getSslURL( array $GET_params = [], array $path_fragments = [] );
+	public function getSslURL( array $path_fragments = [], array $GET_params = [] );
 
 	/**
 	 * @return string
@@ -317,52 +366,6 @@ interface Mvc_Page_Interface
 	 *
 	 */
 	public function initializeLayout();
-
-	/**
-	 * @param bool $get_default (optional)
-	 *
-	 * @return string
-	 */
-	public function getHeadersSuffix( $get_default = false );
-
-	/**
-	 * @param string $headers_suffix
-	 */
-	public function setHeadersSuffix( $headers_suffix );
-
-	/**
-	 * @param bool $get_default (optional)
-	 *
-	 * @return string
-	 */
-	public function getBodyPrefix( $get_default = false );
-
-	/**
-	 * @param string $body_prefix
-	 */
-	public function setBodyPrefix( $body_prefix );
-
-	/**
-	 * @param bool $get_default (optional)
-	 *
-	 * @return string
-	 */
-	public function getBodySuffix( $get_default = false );
-
-	/**
-	 * @param string $body_suffix
-	 */
-	public function setBodySuffix( $body_suffix );
-
-	/**
-	 * @return bool
-	 */
-	public function getSSLRequired();
-
-	/**
-	 * @param bool $SSL_required
-	 */
-	public function setSSLRequired( $SSL_required );
 
 	/**
 	 * @return array
@@ -426,16 +429,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return bool
 	 */
-	public function parseRequestURL();
-
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 * @param string             $relative_URI
-	 *
-	 * @return Mvc_Page_Interface|null
-	 */
-	public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI );
+	public function parseRequestPath();
 
 	/**
 	 * @param string $file_path

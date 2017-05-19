@@ -182,7 +182,7 @@ class Article extends DataModel
 	 */
 	public function getURL()
 	{
-		return Mvc::getCurrentPage()->getURL().$this->getURIFragment();
+		return Mvc::getCurrentPage()->getURL( [ $this->getURIFragment() ], [] );
 	}
 
 	/**
@@ -353,20 +353,18 @@ class Article extends DataModel
 	}
 
 	/**
-	 * @param Mvc_Router_Interface $router
+	 * @param string $path
 	 *
 	 * @return Article|null
 	 */
-	public function resolveArticleByURL( Mvc_Router_Interface $router )
+	public function resolveArticleByURL( $path )
 	{
 		$current_article = null;
-		$param = $router->getPathFragments();
-
-		if( isset( $param[0] )&&substr( $param[0], -5 )=='.html' ) {
+		if( substr( $path, -5 )=='.html' ) {
 
 			$current_article = $this->fetchOneObject(
 				[
-					'this.URI_fragment' => $param[0],
+					'this.URI_fragment' => $path,
 				]
 			);
 

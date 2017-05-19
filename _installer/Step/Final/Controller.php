@@ -64,7 +64,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 		$this->install_symptom_file_path = JET_PATH_DATA.'installed.txt';
 
 		$this->config_file_source_path = Installer::getTmpConfigFilePath();
-		$this->config_file_target_path = JET_PATH_CONFIG.'_common/'.Application::CONFIG_FILE_NAME.'.php';
+		$this->config_file_target_path = JET_PATH_CONFIG.'_common/application.php';
 
 		if( !$this->installConfig() ) {
 			$OK = false;

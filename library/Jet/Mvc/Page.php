@@ -10,10 +10,11 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Page extends BaseObject implements Mvc_Page_Interface
+class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cacheable_Interface
 {
-	const HOMEPAGE_ID = '_homepage_';
+	use BaseObject_Cacheable_Trait;
 
+	const HOMEPAGE_ID = '_homepage_';
 
 	use Mvc_Page_Trait;
 
@@ -21,7 +22,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 *
 	 * @var Mvc_Site
 	 */
-	protected $site;
+	protected $site_id;
 	/**
 	 *
 	 * @var Locale
@@ -42,11 +43,12 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 * @var bool
 	 */
 	protected $is_active = true;
+
 	/**
-	 *
 	 * @var bool
 	 */
 	protected $SSL_required = false;
+
 	/**
 	 *
 	 * @var string
@@ -81,6 +83,16 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	protected $body_suffix = '';
 
 	/**
+	 * @var string
+	 */
+	protected $relative_path_fragment = '';
+
+	/**
+	 * @var string
+	 */
+	protected $relative_path = '';
+
+	/**
 	 *
 	 * @param string             $page_id (optional, null = current)
 	 * @param string|Locale|null $locale (optional, null = current)
@@ -101,6 +113,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		if( !$locale ) {
 			$locale = Mvc::getCurrentLocale();
 		}
+
 		if( !is_object( $locale ) ) {
 			$locale_str = (string)$locale;
 
@@ -137,6 +150,27 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 
 		return null;
 
+	}
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 * @param string             $relative_path
+	 *
+	 * @return Mvc_Page_Interface|null
+	 */
+	static public function getByRelativePath( Mvc_Site_Interface $site, Locale $locale, $relative_path )
+	{
+
+		static::loadPages( $site, $locale );
+
+		$str_locale = (string)$locale;
+
+		if( !isset( static::$path_map[$site->getId()][$str_locale][$relative_path] ) ) {
+			return null;
+		}
+
+		return static::$path_map[$site->getId()][$str_locale][$relative_path];
 	}
 
 	/**
@@ -199,15 +233,20 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public function getSite()
 	{
-		return $this->site;
+		$site_class_name = Mvc_Factory::getSiteClassName();
+
+		/**
+		 * @var Mvc_Site_Interface $site_class_name
+		 */
+		return $site_class_name::get( $this->site_id );
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Site_Interface $site_id
 	 */
-	public function setSite( Mvc_Site_Interface $site )
+	public function setSite( Mvc_Site_Interface $site_id )
 	{
-		$this->site = $site;
+		$this->site_id = $site_id->getId();
 	}
 
 	/**
@@ -265,6 +304,12 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	 */
 	public function getIsActive()
 	{
+		if(
+			$this->getParent() &&
+			!$this->getParent()->getIsActive()
+		) {
+			return false;
+		}
 		return $this->is_active;
 	}
 
@@ -275,6 +320,68 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 	{
 		$this->is_active = $is_active;
 	}
+
+	/**
+	 * @param string $relative_path_fragment
+	 */
+	public function setPathFragment( $relative_path_fragment )
+	{
+		$this->relative_path_fragment = $relative_path_fragment;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRelativePathFragment()
+	{
+		return $this->relative_path_fragment;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getRelativePath()
+	{
+		return $this->relative_path;
+	}
+
+
+	/**
+	 * @param string $relative_path
+	 */
+	public function setRelativePath( $relative_path )
+	{
+		$this->relative_path = $relative_path;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getSSLRequired()
+	{
+		if(
+			$this->getParent() &&
+			$this->getParent()->getSSLRequired()
+		) {
+			return true;
+		}
+
+		if($this->getSite()->getLocalizedData( $this->getLocale() )->getSSLRequired()) {
+			return true;
+		}
+
+		return $this->SSL_required;
+	}
+
+	/**
+	 * @param bool $SSL_required
+	 */
+	public function setSSLRequired( $SSL_required )
+	{
+		$this->SSL_required = $SSL_required;
+	}
+
 
 	/**
 	 * @return string
@@ -325,96 +432,5 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface
 		$this->breadcrumb_title = $breadcrumb_title;
 	}
 
-	/**
-	 * @param bool $get_default
-	 *
-	 * @return string
-	 */
-	public function getHeadersSuffix( $get_default = false )
-	{
-
-		if( $get_default&&!$this->headers_suffix ) {
-			return $this->getSiteLocalizedData()->getDefaultHeadersSuffix();
-		}
-
-		return $this->headers_suffix;
-	}
-
-	/**
-	 * @param string $headers_suffix
-	 */
-	public function setHeadersSuffix( $headers_suffix )
-	{
-		$this->headers_suffix = $headers_suffix;
-	}
-
-	/**
-	 * @return Mvc_Site_LocalizedData_Interface
-	 */
-	public function getSiteLocalizedData()
-	{
-		return $this->getSite()->getLocalizedData( $this->getLocale() );
-	}
-
-	/**
-	 * @param bool $get_default
-	 *
-	 * @return string
-	 */
-	public function getBodyPrefix( $get_default = false )
-	{
-		if( $get_default&&!$this->body_prefix ) {
-			return $this->getSiteLocalizedData()->getDefaultBodyPrefix();
-		}
-
-		return $this->body_prefix;
-	}
-
-	/**
-	 * @param string $body_prefix
-	 */
-	public function setBodyPrefix( $body_prefix )
-	{
-		$this->body_prefix = $body_prefix;
-	}
-
-	/**
-	 * @param bool $get_default
-	 *
-	 * @return string
-	 */
-	public function getBodySuffix( $get_default = false )
-	{
-
-		if( $get_default&&!$this->body_suffix ) {
-			return $this->getSiteLocalizedData()->getDefaultBodySuffix();
-		}
-
-		return $this->body_suffix;
-	}
-
-	/**
-	 * @param string $body_suffix
-	 */
-	public function setBodySuffix( $body_suffix )
-	{
-		$this->body_suffix = $body_suffix;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getSSLRequired()
-	{
-		return $this->SSL_required;
-	}
-
-	/**
-	 * @param bool $SSL_required
-	 */
-	public function setSSLRequired( $SSL_required )
-	{
-		$this->SSL_required = (bool)$SSL_required;
-	}
 
 }

@@ -142,15 +142,14 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 *
 	 * @return bool
 	 */
-	public function parseRequestURL( Mvc_Page_Content_Interface $page_content )
+	public function parseRequestPath( Mvc_Page_Content_Interface $page_content )
 	{
 
-		$router = Mvc::getRouter();
+		$path = Mvc::getRouter()->getPath();
 
-		$path_fragments = $router->getPathFragments();
+		$path_fragments = explode('/', $path);
 
 		$object = $path_fragments[0];
-		$path_fragments = $router->shiftPathFragments();
 
 		$method = strtolower( Http_Request::getRequestMethod() );
 

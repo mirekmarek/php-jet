@@ -6,9 +6,6 @@ return [
     'name' => 'Old application',
     'title' => 'Old PHP application',
     'layout_script_name' => 'default',
-    'headers_suffix' => '',
-    'body_prefix' => '',
-    'body_suffix' => '',
 	'http_headers' => [
 		'testHeader1' => 'test value 1'
 	],

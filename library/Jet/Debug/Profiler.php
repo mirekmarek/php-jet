@@ -11,6 +11,7 @@ namespace Jet;
 require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/SQLQueryData.php';
 require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block/Message.php';
 require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block.php';
+require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block/Anonymous.php';
 require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run.php';
 
 
@@ -23,11 +24,6 @@ class Debug_Profiler
 	 * @var bool
 	 */
 	protected static $enabled = false;
-
-	/**
-	 * @var bool
-	 */
-	protected static $output_enabled = true;
 
 	/**
 	 * @var bool
@@ -50,10 +46,6 @@ class Debug_Profiler
 	 */
 	public static function getRunSaveDirectoryPath()
 	{
-		if( !static::$run_save_directory_path ) {
-			static::$run_save_directory_path = JET_PATH_TMP.'_profiler/';
-		}
-
 		return static::$run_save_directory_path;
 	}
 
@@ -67,9 +59,15 @@ class Debug_Profiler
 
 
 	/**
-	 * @param bool $log_SQL_queries
+	 * @param bool     $log_SQL_queries
+	 * @param callable $saver
+	 * @param callable $displayer
 	 */
-	public static function enable( $log_SQL_queries = true )
+	public static function enable(
+		$log_SQL_queries = true,
+		callable $saver=null,
+		callable $displayer=null
+	)
 	{
 		static::$run = new Debug_Profiler_Run();
 
@@ -78,37 +76,22 @@ class Debug_Profiler
 
 
 		register_shutdown_function(
-			function() {
+			function() use ($saver, $displayer) {
+
 				$run = Debug_Profiler::getRun();
 				$run->runEnd();
-				$run_id = $run->getId();
 
-				Debug_Profiler::saveRun();
-
-				if( !static::$output_enabled ) {
-					return;
+				if($saver) {
+					$saver( $run );
 				}
 
-				$URL = '?JPR&run='.$run_id;
-
-				if( Debug::getOutputIsXML() ) {
-					echo '<!-- profiler: '.$URL.' -->';
-				} elseif( Debug::getOutputIsJSON() ) {
-					//echo '//profiler: '.$URL;
-				} else {
-					echo '<div><a href="'.$URL.'" target="_blank">profiler</a></div>';
+				if($displayer) {
+					$displayer( $run );
 				}
+
 
 			}
 		);
-	}
-
-	/**
-	 *
-	 */
-	public static function disable()
-	{
-		static::$enabled = false;
 	}
 
 	/**
@@ -120,22 +103,6 @@ class Debug_Profiler
 	}
 
 	/**
-	 * @param bool $output_enabled
-	 */
-	public static function setOutputEnabled( $output_enabled )
-	{
-		static::$output_enabled = $output_enabled;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getOutputEnabled()
-	{
-		return static::$output_enabled;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public static function getLogSQLQueries()
@@ -144,75 +111,11 @@ class Debug_Profiler
 	}
 
 	/**
-	 * @param bool $log_SQL_queries
-	 */
-	public static function setLogSQLQueries( $log_SQL_queries )
-	{
-		static::$log_SQL_queries = $log_SQL_queries;
-	}
-
-
-	/**
 	 * @return Debug_Profiler_Run
 	 */
 	public static function getRun()
 	{
 		return static::$run;
-	}
-
-	/**
-	 *
-	 */
-	public static function saveRun()
-	{
-		$run = static::getRun();
-		$run_id = $run->getId();
-
-		$dir = static::getRunSaveDirectoryPath();
-
-		if( !file_exists( $dir ) ) {
-			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@mkdir( $dir );
-			/** @noinspection PhpUsageOfSilenceOperatorInspection */
-			@chmod( $dir, 0777 );
-		}
-		$file_path = $dir.$run_id.'.jpd';
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@file_put_contents( $file_path, serialize( $run ) );
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@chmod( $file_path, 0666 );
-	}
-
-
-	/**
-	 * @param string $run_id
-	 *
-	 * @return Debug_Profiler_Run|null
-	 * @throws \Exception
-	 */
-	public static function loadRun( $run_id )
-	{
-		if( strpos( $run_id, '.' )!==false ) {
-			return null;
-		}
-
-		$dir = static::getRunSaveDirectoryPath();
-
-		$file_path = $dir.$run_id.'.jpd';
-
-		if( !file_exists( $file_path ) ) {
-			return null;
-		}
-
-		$d = file_get_contents( $file_path );
-
-		$run = unserialize( $d );
-
-		if( !is_object( $run )||!( $run instanceof Debug_Profiler_Run ) ) {
-			return null;
-		}
-
-		return $run;
 	}
 
 	/**
@@ -261,30 +164,6 @@ class Debug_Profiler
 	/**
 	 * @param string $label
 	 */
-	public static function mainBlockStart( $label )
-	{
-		if( !static::$enabled ) {
-			return;
-		}
-
-		static::$run->MainBlockStart( $label );
-	}
-
-	/**
-	 * @param string $label
-	 */
-	public static function mainBlockEnd( $label )
-	{
-		if( !static::$enabled ) {
-			return;
-		}
-
-		static::$run->MainBlockEnd( $label );
-	}
-
-	/**
-	 * @param string $label
-	 */
 	public static function blockStart( $label )
 	{
 		if( !static::$enabled ) {
@@ -317,7 +196,7 @@ class Debug_Profiler
 	 */
 	public static function getBacktrace( $shift = 0 )
 	{
-		$_backtrace = debug_backtrace();
+		$_backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		if( $shift ) {
 			for( $c = 0; $c<$shift; $c++ ) {

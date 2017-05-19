@@ -18,19 +18,6 @@ trait Mvc_Page_Trait_Initialization
 	protected static $page_data_file_name = 'page_data.php';
 
 	/**
-	 * @var array
-	 */
-	protected static $do_not_inherit_properties = [
-		'breadcrumb_title',
-		'menu_title',
-		'order',
-		'is_sub_app',
-		'direct_output_file_name',
-		'output',
-	];
-
-
-	/**
 	 * @var string
 	 */
 	protected $data_file_path = '';
@@ -43,7 +30,7 @@ trait Mvc_Page_Trait_Initialization
 	/**
 	 * @var Mvc_Page_Interface[]
 	 */
-	protected static $relative_URIs_map = [];
+	protected static $path_map = [];
 
 	/**
 	 * @return string
@@ -59,22 +46,6 @@ trait Mvc_Page_Trait_Initialization
 	public static function setPageDataFileName( $page_data_file_name )
 	{
 		static::$page_data_file_name = $page_data_file_name;
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getDoNotInheritProperties()
-	{
-		return static::$do_not_inherit_properties;
-	}
-
-	/**
-	 * @param array $do_not_inherit_properties
-	 */
-	public static function setDoNotInheritProperties( $do_not_inherit_properties )
-	{
-		static::$do_not_inherit_properties = $do_not_inherit_properties;
 	}
 
 
@@ -98,7 +69,8 @@ trait Mvc_Page_Trait_Initialization
 
 		static::$pages[$site_id][$locale][$page_id] = $page;
 
-		static::$relative_URIs_map[$site_id][$locale][$page->getRelativeUrl()] = $page;
+		static::$path_map[$site_id][$locale][$page->getRelativePath()] = $page;
+
 
 	}
 
@@ -106,34 +78,114 @@ trait Mvc_Page_Trait_Initialization
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
 	 *
+	 * @return array
+	 */
+	public static function loadPagesData( Mvc_Site_Interface $site, Locale $locale )
+	{
+		$site_id = $site->getId();
+		$locale_str = $locale->toString();
+
+		Debug_Profiler::blockStart('Load pages data');
+		Debug_Profiler::message('site: '.$site_id.' locale: '.$locale_str);
+
+		$pages = [];
+		static::_loadPagesData_readDir( $pages, $site_id, $locale_str, $site->getPagesDataPath( $locale ) );
+
+		Debug_Profiler::blockEnd('Load pages data');
+
+		return $pages;
+
+	}
+
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 *
+	 * @return Mvc_Page_Interface[]
 	 */
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale )
 	{
-
 		$site_id = $site->getId();
 		$locale_str = $locale->toString();
 
 		if(
-			array_key_exists( $site_id, static::$pages ) &&
-			array_key_exists( $locale_str, static::$pages[$site_id] )
+			!array_key_exists( $site_id, static::$pages ) ||
+			!array_key_exists( $locale_str, static::$pages[$site_id] )
 		) {
-			return;
+
+			/** @noinspection PhpUndefinedMethodInspection */
+			if( static::getCacheLoadEnabled() ) {
+
+				/** @noinspection PhpUndefinedFieldInspection */
+				$loader = static::$cache_loader;
+				/**
+				 * @var Mvc_Page_Interface[] $pages
+				 */
+				$pages = $loader($site_id, $locale_str);
+				if($pages) {
+					Debug_Profiler::message('cache hit');
+					static::$pages[$site_id][$locale_str] = $pages;
+
+					static::$path_map[$site_id][$locale_str] = [];
+
+					foreach( $pages as $page ) {
+						static::$path_map[$site_id][$locale_str][$page->getRelativePath()] = $page;
+					}
+
+					return static::$path_map[$site_id][$locale_str];
+				}
+			}
+
+
+			$data = static::loadPagesData( $site, $locale );
+
+			Debug_Profiler::blockStart('Create page instances');
+			Debug_Profiler::message('site: '.$site_id.' locale: '.$locale_str);
+
+			foreach( $data as $id=>$page_data ) {
+				$page = static::createPageByData( $site, $locale, $page_data );
+				static::appendPage( $page );
+			}
+
+			static::loadCustomPages($site, $locale);
+
+			/** @noinspection PhpUndefinedMethodInspection */
+			if( static::getCacheSaveEnabled() ) {
+
+				/** @noinspection PhpUndefinedFieldInspection */
+				$saver = static::$cache_saver;
+				$saver( $site_id, $locale_str, static::$pages[$site_id][$locale_str] );
+			}
+
+
+			Debug_Profiler::blockEnd('Create page instances');
+
 		}
 
-		static::_loadPages_readDir( $site, $locale, $site->getPagesDataPath( $locale ) );
 
+		return static::$pages[$site_id][$locale_str];
 	}
 
 	/**
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
-	 * @param string             $source_dir_path
-	 * @param array              $parent_page_data (optional)
-	 * @param Mvc_Page           $parent_page
+	 */
+	public static function loadCustomPages( Mvc_Site_Interface $site, Locale $locale )
+	{
+
+	}
+
+	/**
+	 * @param array  $pages
+	 * @param string $site_id
+	 * @param string $locale_str
+	 * @param string $source_dir_path
+	 * @param array  $parent_page_data (optional)
 	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	protected static function _loadPages_readDir( Mvc_Site_Interface $site, Locale $locale, $source_dir_path, array $parent_page_data = null, Mvc_Page $parent_page = null )
+	protected static function _loadPagesData_readDir( array &$pages, $site_id, $locale_str, $source_dir_path, array $parent_page_data = null )
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this
@@ -145,7 +197,7 @@ trait Mvc_Page_Trait_Initialization
 		if( !$parent_page_data ) {
 			$page_data_file_path = $source_dir_path.static::$page_data_file_name;
 
-			$page_data = static::_loadPages_readPageDataFile( $page_data_file_path );
+			$page_data = static::_loadPagesData_readPageDataFile( $page_data_file_path );
 			if(!$page_data) {
 				throw new Mvc_Page_Exception(
 					'Page data file is not readable: '.$page_data_file_path,
@@ -153,31 +205,26 @@ trait Mvc_Page_Trait_Initialization
 				);
 
 			}
-			$page_data['URL_fragment'] = '';
 
-			$page = static::createPageByData( $site, $locale, $page_data );
-			static::appendPage( $page );
-
+			$pages[$page_data['id']] = $page_data;
 
 			$parent_page_data = $page_data;
-			$parent_page = $page;
 
 		}
 
 
 		foreach( $list as $dir_path => $dir_name ) {
 
-			$page_data = static::_loadPages_readPageDataFile( $dir_path.static::$page_data_file_name, $parent_page_data );
+			$page_data = static::_loadPagesData_readPageDataFile( $dir_path.static::$page_data_file_name, $parent_page_data, $dir_name );
 			if(!$page_data) {
 				continue;
 			}
 
-			$page_data['URL_fragment'] = $dir_name;
+			$pages[$page_data['id']] = $page_data;
 
-			$page = static::createPageByData( $site, $locale, $page_data, $parent_page );
-			static::appendPage( $page );
+			$pages[$page_data['parent_id']]['children'][] = $page_data['id'];
 
-			static::_loadPages_readDir( $site, $locale, $dir_path, $page_data, $page );
+			static::_loadPagesData_readDir( $pages, $site_id, $locale_str, $dir_path, $page_data );
 		}
 
 	}
@@ -187,9 +234,11 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @param array  $parent_page_data
 	 *
+	 * @param string $dir_name
+	 *
 	 * @return array|null
 	 */
-	public static function _loadPages_readPageDataFile( $data_file_path, array $parent_page_data = null )
+	public static function _loadPagesData_readPageDataFile( $data_file_path, array $parent_page_data = null, $dir_name='' )
 	{
 
 		if( !IO_File::isReadable( $data_file_path ) ) {
@@ -200,29 +249,25 @@ trait Mvc_Page_Trait_Initialization
 		$current_page_data = require $data_file_path;
 
 
+		$current_page_data['children'] = [];
 		$current_page_data['data_file_path'] = $data_file_path;
+
+		$current_page_data['relative_path_fragment'] = rawurlencode($dir_name);
 
 		if( $parent_page_data ) {
 
-			if( isset( $parent_page_data['contents'] ) ) {
-				unset( $parent_page_data['contents'] );
-			}
-			unset( $parent_page_data['id'] );
+			$current_page_data['parent_id'] = $parent_page_data['id'];
 
-			foreach( $parent_page_data as $k => $v ) {
-				if( in_array( $k, static::$do_not_inherit_properties ) ) {
-					continue;
-				}
-
-				if( !array_key_exists( $k, $current_page_data ) ) {
-					$current_page_data[$k] = $v;
-				}
+			if($parent_page_data['relative_path']) {
+				$current_page_data['relative_path'] = $parent_page_data['relative_path'].'/'.$current_page_data['relative_path_fragment'];
+			} else {
+				$current_page_data['relative_path'] = $current_page_data['relative_path_fragment'];
 			}
 
 
 		} else {
-
-			$current_page_data['relative_URI'] = '/';
+			$current_page_data['parent_id'] = '';
+			$current_page_data['relative_path'] = '';
 			$current_page_data['id'] = Mvc_Page::HOMEPAGE_ID;
 		}
 
@@ -289,12 +334,20 @@ trait Mvc_Page_Trait_Initialization
 			$page->setContent( $contents );
 		}
 
+		if(!isset($data['relative_path'])) {
+			$parent_path = $parent_page->getRelativePath();
+
+			if(!$parent_path) {
+				$data['relative_path'] = $data['relative_path_fragment'];
+			} else {
+				$data['relative_path'] = $parent_path.'/'.$data['relative_path_fragment'];
+			}
+		}
 
 		foreach( $data as $key => $var ) {
 			$page->{$key} = $var;
 		}
 
-		$page->setUrlFragment( $data['URL_fragment'] );
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
 		return $page;

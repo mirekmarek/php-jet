@@ -62,6 +62,22 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 
 
 	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( array $data )
+	{
+		$i = new static( $data['_configuration_class'], $data['name'] );
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
+	/**
 	 *
 	 * @param string|Config $configuration_class_name
 	 * @param string        $name
@@ -121,38 +137,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 		if( $this->is_required ) {
 			$this->form_field_is_required = true;
 		}
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data )
-	{
-		$i = new static( $data['_configuration_class'], $data['name'] );
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		return $this->_configuration_class.'::'.$this->getName();
 	}
 
 	/**
@@ -361,6 +345,23 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	public function getFormFieldContextPropertyName()
 	{
 		return $this->name;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return $this->_configuration_class.'::'.$this->getName();
 	}
 
 }

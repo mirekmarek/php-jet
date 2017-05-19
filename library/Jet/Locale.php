@@ -93,6 +93,119 @@ class Locale extends BaseObject
 
 	/**
 	 *
+	 * @param null|string|Locale $in_locale (optional, default: current locale)
+	 *
+	 * @return array
+	 */
+	public static function getAllLocalesList( $in_locale = null )
+	{
+		if( !$in_locale ) {
+			$in_locale = static::getCurrentLocale();
+		}
+
+		$result = [];
+
+		foreach( static::$all_locales as $locale ) {
+			$result[$locale] = PHP_Locale::getDisplayName( $locale, $in_locale );
+		}
+
+		asort( $result );
+
+		return $result;
+	}
+
+	/**
+	 * @return Locale
+	 */
+	public static function getCurrentLocale()
+	{
+		return static::$current_locale;
+	}
+
+	/**
+	 * @param Locale $current_locale
+	 */
+	public static function setCurrentLocale( Locale $current_locale )
+	{
+		static::$current_locale = $current_locale;
+	}
+
+	/**
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
+	 *
+	 * @return string
+	 */
+	public static function date( Data_DateTime $date_and_time, $format = null )
+	{
+		return static::getCurrentLocale()->formatDate( $date_and_time, $format );
+	}
+
+	/**
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
+	 *
+	 * @return string
+	 */
+	public static function dateAndTime( Data_DateTime $date_and_time, $format = null )
+	{
+		return static::getCurrentLocale()->formatDateAndTime( $date_and_time, $format );
+	}
+
+	/**
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatInt($number)
+	 *
+	 * @param int $number
+	 *
+	 * @return string
+	 */
+	public static function int( $number )
+	{
+		return static::getCurrentLocale()->formatInt( $number );
+	}
+
+	/**
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits)
+	 *
+	 * @param float $number
+	 * @param int   $min_fraction_digits
+	 * @param int   $max_fraction_digits
+	 *
+	 * @return string
+	 */
+	public static function float( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
+	{
+		return static::getCurrentLocale()->formatFloat( $number, $min_fraction_digits, $max_fraction_digits );
+	}
+
+	/**
+	 * Format file or memory size according to current locale
+	 *
+	 * Example:
+	 *      65536 -> 64 KB
+	 *
+	 * @param int    $bytes
+	 * @param string $unit (optional, default: B)
+	 * @param int    $max_places (optional, default: 2) float precision
+	 * @param string $glue (optional,default: ' ') space between number and units
+	 *
+	 * @return string
+	 */
+	public static function size( $bytes, $unit = 'B', $max_places = 2, $glue = ' ' )
+	{
+		return static::getCurrentLocale()->formatSize( $bytes, $unit, $max_places, $glue );
+	}
+
+	/**
+	 *
 	 * @param string $locale
 	 */
 	public function __construct( $locale = null )
@@ -144,36 +257,6 @@ class Locale extends BaseObject
 	}
 
 	/**
-	 * @return Locale
-	 */
-	public static function getCurrentLocale()
-	{
-		return static::$current_locale;
-	}
-
-	/**
-	 * @param Locale $current_locale
-	 */
-	public static function setCurrentLocale( Locale $current_locale )
-	{
-		static::$current_locale = $current_locale;
-	}
-
-	/**
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public static function date( Data_DateTime $date_and_time, $format = null )
-	{
-		return static::getCurrentLocale()->formatDate( $date_and_time, $format );
-	}
-
-	/**
 	 * Returns date formatted by locale
 	 *
 	 * @param Data_DateTime $date_and_time
@@ -201,20 +284,6 @@ class Locale extends BaseObject
 
 	/**
 	 *
-	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public static function dateAndTime( Data_DateTime $date_and_time, $format = null )
-	{
-		return static::getCurrentLocale()->formatDateAndTime( $date_and_time, $format );
-	}
-
-	/**
-	 *
 	 * @param Data_DateTime $date_and_time
 	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
 	 *
@@ -237,20 +306,6 @@ class Locale extends BaseObject
 		return $fmt->format( $date_and_time );
 	}
 
-
-	/**
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatInt($number)
-	 *
-	 * @param int $number
-	 *
-	 * @return string
-	 */
-	public static function int( $number )
-	{
-		return static::getCurrentLocale()->formatInt( $number );
-	}
-
 	/**
 	 *
 	 * @param int $number
@@ -270,21 +325,6 @@ class Locale extends BaseObject
 
 	/**
 	 *
-	 * Alias of: Locale::getCurrentLocale()->formatFloat($number, $min_fraction_digits, $max_fraction_digits)
-	 *
-	 * @param float $number
-	 * @param int   $min_fraction_digits
-	 * @param int   $max_fraction_digits
-	 *
-	 * @return string
-	 */
-	public static function float( $number, $min_fraction_digits = 0, $max_fraction_digits = 2 )
-	{
-		return static::getCurrentLocale()->formatFloat( $number, $min_fraction_digits, $max_fraction_digits );
-	}
-
-	/**
-	 *
 	 * @param float $number
 	 * @param int   $min_fraction_digits
 	 * @param int   $max_fraction_digits
@@ -300,24 +340,6 @@ class Locale extends BaseObject
 		$f->setAttribute( PHP_NumberFormatter::MAX_FRACTION_DIGITS, $max_fraction_digits );
 
 		return $f->format( $number );
-	}
-
-	/**
-	 * Format file or memory size according to current locale
-	 *
-	 * Example:
-	 *      65536 -> 64 KB
-	 *
-	 * @param int    $bytes
-	 * @param string $unit (optional, default: B)
-	 * @param int    $max_places (optional, default: 2) float precision
-	 * @param string $glue (optional,default: ' ') space between number and units
-	 *
-	 * @return string
-	 */
-	public static function size( $bytes, $unit = 'B', $max_places = 2, $glue = ' ' )
-	{
-		return static::getCurrentLocale()->formatSize( $bytes, $unit, $max_places, $glue );
 	}
 
 	/**
@@ -362,29 +384,6 @@ class Locale extends BaseObject
 	}
 
 	/**
-	 *
-	 * @param null|string|Locale $in_locale (optional, default: current locale)
-	 *
-	 * @return array
-	 */
-	public static function getAllLocalesList( $in_locale = null )
-	{
-		if( !$in_locale ) {
-			$in_locale = static::getCurrentLocale();
-		}
-
-		$result = [];
-
-		foreach( static::$all_locales as $locale ) {
-			$result[$locale] = PHP_Locale::getDisplayName( $locale, $in_locale );
-		}
-
-		asort( $result );
-
-		return $result;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getLocale()
@@ -424,22 +423,6 @@ class Locale extends BaseObject
 	public function getLanguage()
 	{
 		return $this->language;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function toString()
-	{
-		return $this->locale;
 	}
 
 	/**
@@ -560,6 +543,23 @@ class Locale extends BaseObject
 
 		return $this->_currency_formatter[$currency_code];
 
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function toString()
+	{
+		return $this->locale;
 	}
 
 }

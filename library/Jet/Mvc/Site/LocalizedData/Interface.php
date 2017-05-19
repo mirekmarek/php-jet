@@ -16,6 +16,16 @@ interface Mvc_Site_LocalizedData_Interface
 
 
 	/**
+	 * @return Mvc_Site_Interface
+	 */
+	public function getSite();
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 */
+	public function setSite( $site );
+
+	/**
 	 * @return Locale
 	 */
 	public function getLocale();
@@ -42,79 +52,30 @@ interface Mvc_Site_LocalizedData_Interface
 	public function setTitle( $title );
 
 	/**
-	 * @return string
-	 */
-	public function getDefaultHeadersSuffix();
-
-	/**
-	 * @param string $default_headers_suffix
-	 */
-	public function setDefaultHeadersSuffix( $default_headers_suffix );
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultBodyPrefix();
-
-	/**
-	 * @param string $default_body_prefix
-	 */
-	public function setDefaultBodyPrefix( $default_body_prefix );
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultBodySuffix();
-
-	/**
-	 * @param string $default_body_suffix
-	 */
-	public function setDefaultBodySuffix( $default_body_suffix );
-
-	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface[]
+	 * @return array
 	 */
 	public function getURLs();
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface[]|string[] $URLs
+	 * @param array $URLs
 	 */
-	public function setURLs( $URLs );
+	public function setURLs( array $URLs );
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
-	 */
-	public function addURL( $URL );
-
-	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
-	 */
-	public function removeURL( $URL );
-
-	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
-	 *
-	 * @return bool
-	 */
-	public function setDefaultURL( $URL );
-
-	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @return string
 	 */
 	public function getDefaultURL();
 
-
 	/**
-	 * @param Mvc_Site_LocalizedData_URL_Interface|string $URL
-	 *
 	 * @return bool
 	 */
-	public function setDefaultSslURL( $URL );
+	public function getSSLRequired();
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @param bool $SSL_required
 	 */
-	public function getDefaultSslURL();
+	public function setSSLRequired( $SSL_required );
+
 
 	/**
 	 *

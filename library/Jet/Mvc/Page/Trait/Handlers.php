@@ -61,7 +61,7 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @return bool
 	 */
-	public function getIsSubapp()
+	public function getIsSubApp()
 	{
 		return $this->is_sub_app;
 	}
@@ -69,7 +69,7 @@ trait Mvc_Page_Trait_Handlers
 	/**
 	 * @param bool $is_sub_app
 	 */
-	public function setIsSubapp( $is_sub_app )
+	public function setIsSubApp( $is_sub_app )
 	{
 		$this->is_sub_app = $is_sub_app;
 	}
@@ -91,48 +91,26 @@ trait Mvc_Page_Trait_Handlers
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 * @param string             $relative_URI
 	 *
-	 * @return Mvc_Page_Interface|null
-	 */
-	public function getByRelativeURI( Mvc_Site_Interface $site, Locale $locale, $relative_URI )
-	{
-
-		static::loadPages( $site, $locale );
-
-		$str_locale = (string)$locale;
-
-		if( !isset( static::$relative_URIs_map[$site->getId()][$str_locale][$relative_URI] ) ) {
-			return null;
-		}
-
-		return static::$relative_URIs_map[$site->getId()][$str_locale][$relative_URI];
-	}
-
-	/**
 	 *
 	 * @return bool
 	 */
-	public function parseRequestURL()
+	public function parseRequestPath()
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
-		$router = Mvc::getRouter();
-
-		$path = implode( '/', $router->getPathFragments() );
+		$path = Mvc::getRouter()->getPath();
 
 		if( strpos( $path, '..' )==false ) {
 			if($path==static::getPageDataFileName()) {
 				return false;
 			}
 
-			$path = $this->getDataDirPath().$path;
+			$file_path = $this->getDataDirPath().$path;
 
-			if( IO_File::exists( $path ) ) {
-				$router->setIsFile( $path );
+			if( IO_File::exists( $file_path ) ) {
+				Mvc::getRouter()->setIsFile( $file_path );
 
 				return true;
 			}
@@ -140,6 +118,10 @@ trait Mvc_Page_Trait_Handlers
 		}
 
 		foreach( $this->getContent() as $content ) {
+			if(!Application_Modules::getModuleIsActivated($content->getModuleName())) {
+				continue;
+			}
+
 			$module = Application_Modules::getModuleInstance( $content->getModuleName() );
 
 			if( !$module ) {
@@ -148,7 +130,7 @@ trait Mvc_Page_Trait_Handlers
 
 			$controller = $module->getControllerInstance( $content );
 
-			if( $controller->parseRequestURL( $content ) ) {
+			if( $controller->parseRequestPath( $content ) ) {
 				return true;
 			}
 		}
@@ -242,7 +224,7 @@ trait Mvc_Page_Trait_Handlers
 
 		$this->initializeLayout();
 
-		Debug_Profiler::mainBlockStart( 'Content dispatch' );
+		Debug_Profiler::blockStart( 'Content dispatch' );
 
 
 		$translator_namespace = Translator::COMMON_NAMESPACE;
@@ -261,7 +243,7 @@ trait Mvc_Page_Trait_Handlers
 
 		$output = Mvc_Layout::getCurrentLayout()->render();
 
-		Debug_Profiler::mainBlockEnd( 'Content dispatch' );
+		Debug_Profiler::blockEnd( 'Content dispatch' );
 
 		return $output;
 

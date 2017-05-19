@@ -4,9 +4,6 @@ return [
     'order' => 5,
     'name' => 'Static page',
     'title' => 'Static page',
-    'headers_suffix' => '',
-    'body_prefix' => '',
-    'body_suffix' => '',
 	'http_headers' => [
 		'testHeader1' => 'test value 1'
 	],

@@ -11,13 +11,13 @@ return [
 
 	'admin_sections' => [
 		'admin/images' => [
-			'title' => 'Images', 'URL_fragment' => 'images', 'icon' => 'picture-o',
+			'title' => 'Images', 'relative_path_fragment' => 'images', 'icon' => 'picture-o',
 		],
 	],
 
 	'rest_api_hooks' => [
 		'rest/images' => [
-			'URL_fragment' => 'images',
+			'relative_path_fragment' => 'images',
 		],
 	],
 

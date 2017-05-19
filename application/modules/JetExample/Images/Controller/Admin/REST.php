@@ -29,7 +29,6 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		'delete_image'        => Main::ACTION_DELETE_IMAGE, 'put_copy_image' => Main::ACTION_ADD_IMAGE,
 
 		'get_gallery'           => Main::ACTION_GET_GALLERY, 'get_gallery_tree' => Main::ACTION_GET_GALLERY,
-		'get_gallery_tree_lazy' => Main::ACTION_GET_GALLERY, 'post_gallery' => Main::ACTION_ADD_GALLERY,
 		'put_gallery'           => Main::ACTION_UPDATE_GALLERY, 'delete_gallery' => Main::ACTION_DELETE_GALLERY,
 	];
 	protected static $errors = [
@@ -235,27 +234,6 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		}
 	}
 
-	/**
-	 * @param string $parent_id (optional)
-	 */
-	public function get_gallery_tree_lazy_action( $parent_id = "" )
-	{
-		$tree = Gallery::getTree();
-
-		if( $parent_id ) {
-			$node = $tree->getNode( $parent_id );
-			if( !$node ) {
-				$this->responseUnknownItem( $parent_id );
-			}
-
-			$tree->setRootNode( $node );
-
-		}
-		$tree->setLazyMode( true );
-
-		$this->responseData( $tree );
-
-	}
 
 	/**
 	 *

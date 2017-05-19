@@ -32,5 +32,5 @@ abstract class Autoloader_Loader
 	 *
 	 * @return string|bool
 	 */
-	abstract public function getClassPath( $class_name );
+	abstract public function getScriptPath( $class_name );
 }

@@ -42,22 +42,6 @@ interface Mvc_Router_Interface
 	 */
 	public function setSetMvcState( $set_mvc_state );
 
-
-	/**
-	 * @return string
-	 */
-	public function getRequestURL();
-
-	/**
-	 * @return Http_URL
-	 */
-	public function getParsedRequestURL();
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSSLRequest();
-
 	/**
 	 *
 	 * @return Mvc_Site_Interface
@@ -86,12 +70,10 @@ interface Mvc_Router_Interface
 	 */
 	public function setIsFile( $file_path );
 
-
 	/**
 	 * @return string
 	 */
 	public function getFilePath();
-
 
 	/**
 	 *
@@ -125,31 +107,7 @@ interface Mvc_Router_Interface
 	/**
 	 * @return array
 	 */
-	public function getPathFragments();
+	public function getPath();
 
-	/**
-	 * @return array
-	 */
-	public function shiftPathFragments();
-
-
-	/**
-	 * @param string $template (example: 'page:%VAL%' )
-	 * @param mixed  $default_value
-	 * @param int    $fragment_index (optional, default: 0)
-	 *
-	 * @return int
-	 */
-	public function parsePathFragmentIntValue( $template, $default_value = null, $fragment_index = 0 );
-
-	/**
-	 * @param string $template
-	 * @param string $fragment_index
-	 * @param string $reg_exp_part
-	 *
-	 * @return mixed
-	 * @throws Exception
-	 */
-	public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part );
 
 }

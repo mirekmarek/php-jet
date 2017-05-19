@@ -46,6 +46,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 	 */
 	public function default_Action()
 	{
+
 		$this->_setBreadcrumbNavigation();
 
 		$search_form = UI::searchForm( 'article' );

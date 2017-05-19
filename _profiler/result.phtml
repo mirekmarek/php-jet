@@ -74,11 +74,16 @@ function formatQuery($query, array $query_data = [])
 
 /**
  * @param Debug_Profiler_Run_Block $block
+ * @param int                      $level
  */
 function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 {
 	$id = $block->getId();
 	$is_root = $block->getIsRoot();
+
+	if($block->getIsAnonymous() && $block->getDuration()*1000<1) {
+		return;
+	}
 
 	$next_level = $level+1;
 	?>
@@ -97,13 +102,13 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 				<tr>
 					<td valign="top">Memory usage diff:</td>
 					<td>
-						<?= formatBytes($block->getMemoryUsageDiff()); ?>&nbsp;<span style="font-size: 10px;">(on start: <?= formatBytes($block->getMemoryStart()); ?>, on end: <?= formatBytes($block->getMemoryEnd()); ?>)</span>
+						<?= formatBytes($block->getMemoryUsageDiff()); ?>&nbsp;<span style="font-size: 10px;">( <?= formatBytes($block->getMemoryStart()); ?> -> <?= formatBytes($block->getMemoryEnd()); ?>)</span>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">Memory peak diff:</td>
 					<td>
-						<?= formatBytes($block->getMemoryPeakDiff()); ?>&nbsp;<span style="font-size: 10px;">(on start: <?= formatBytes($block->getMemoryPeakStart()); ?>, on end: <?= formatBytes($block->getMemoryPeakEnd()); ?>)</span>
+						<?= formatBytes($block->getMemoryPeakDiff()); ?>&nbsp;<span style="font-size: 10px;">( <?= formatBytes($block->getMemoryPeakStart()); ?> -> <?= formatBytes($block->getMemoryPeakEnd()); ?>)</span>
 					</td>
 				</tr>
 			</table>
@@ -177,10 +182,10 @@ function showRunBlock(Debug_Profiler_Run_Block $block, $level=0)
 		<?php endif; ?>
 
 
-		<?php if (!$is_root): ?>
+		<?php if (!$is_root && !$block->getIsAnonymous()): ?>
 		<div>
 			<a href="javascript:toggleDisplay('run_block_details_backtrace_<?= $id; ?>');">Backtrace</a>
-			<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?= $id; ?>" style="display: none">
+			<div class="run_block_details_backtrace" id="run_block_details_backtrace_<?= $id; ?>" style="display: none;padding-left: 20px">
 				<legend>Block start backtrace:</legend>
 				<ul>
 					<?php foreach ($block->getBacktraceStart() as $bt): ?>

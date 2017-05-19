@@ -14,20 +14,25 @@ trait Mvc_Page_Trait_Tree
 {
 
 	/**
-	 * @var Mvc_Page
+	 * @var string
 	 */
-	protected $_parent;
+	protected $parent_id;
 
 	/**
-	 * @var bool
+	 * @var Mvc_Page_Interface
 	 */
-	protected $_children_sorted = false;
+	protected $__parent;
+
+
+	/**
+	 * @var array
+	 */
+	protected $children = [];
 
 	/**
 	 * @var Mvc_Page[]
 	 */
-	protected $_children = [];
-
+	protected $__children;
 
 	/**
 	 *
@@ -41,20 +46,33 @@ trait Mvc_Page_Trait_Tree
 	 */
 	public function getParent()
 	{
-		return $this->_parent;
+		/**
+		 * @var Mvc_Page_Interface|Mvc_Page_Trait_Tree $this
+		 */
+		if(!$this->parent_id) {
+			return null;
+		}
+
+		if(!$this->__parent) {
+			/** @noinspection PhpUndefinedMethodInspection */
+			$this->__parent = static::get( $this->parent_id, $this->getLocale(), $this->getSite()->getId() );
+		}
+
+		return $this->__parent;
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $_parent
+	 * @param Mvc_Page_Interface $parent
 	 */
-	public function setParent( Mvc_Page_Interface $_parent )
+	public function setParent( Mvc_Page_Interface $parent )
 	{
 		/**
 		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
 		 */
-		$this->_parent = $_parent;
+		$this->parent_id = $parent->getId();
+		$this->__parent = $parent;
 
-		$_parent->appendChild( $this );
+		$parent->appendChild( $this );
 	}
 
 	/**
@@ -62,9 +80,17 @@ trait Mvc_Page_Trait_Tree
 	 */
 	public function appendChild( Mvc_Page_Interface $child )
 	{
+		/**
+		 * @var Mvc_Page_Trait_Tree|Mvc_Page $this
+		 */
+
 		/** @noinspection PhpUndefinedFieldInspection */
-		$child->_parent = $this;
-		$this->_children[$child->getKey()] = $child;
+		$child->parent_id = $this->getId();
+		/** @noinspection PhpUndefinedFieldInspection */
+		$child->__parent = $this;
+
+		$this->children[] = $child->getId();
+		$this->__children = null;
 	}
 
 	/**
@@ -72,13 +98,7 @@ trait Mvc_Page_Trait_Tree
 	 */
 	public function getChildrenIds()
 	{
-		$result = [];
-
-		foreach( $this->getChildren() as $page ) {
-			$result[] = $page->getId();
-		}
-
-		return $result;
+		return $this->children;
 	}
 
 	/**
@@ -86,34 +106,35 @@ trait Mvc_Page_Trait_Tree
 	 */
 	public function getChildren()
 	{
-		$this->sortChildren();
+		/**
+		 * @var Mvc_Page_Interface|Mvc_Page_Trait_Tree $this
+		 */
 
-		return $this->_children;
-	}
+		if($this->__children===null) {
+			$this->__children = [];
 
-	/**
-	 *
-	 */
-	public function sortChildren()
-	{
-		if( $this->_children_sorted ) {
-			return;
-		}
-
-		uasort(
-			$this->_children, function( Mvc_Page $a, Mvc_Page $b ) {
-			$a_order = $a->getOrder();
-			$b_order = $b->getOrder();
-
-			if( $a_order==$b_order ) {
-				return 0;
+			foreach( $this->children as $id ) {
+				/** @noinspection PhpUndefinedMethodInspection */
+				$this->__children[$id] = static::get( $id, $this->getLocale(), $this->getSite()->getId() );
 			}
 
-			return ( $a_order<$b_order ) ? -1 : 1;
-		}
-		);
+			uasort(
+				$this->__children,
+				function( Mvc_Page $a, Mvc_Page $b ) {
+					$a_order = $a->getOrder();
+					$b_order = $b->getOrder();
 
-		$this->_children_sorted = true;
+					if( $a_order==$b_order ) {
+						return 0;
+					}
+
+					return ( $a_order<$b_order ) ? -1 : 1;
+				}
+			);
+
+		}
+
+		return $this->__children;
 	}
 
 	/**

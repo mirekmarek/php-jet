@@ -5,17 +5,21 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetExampleApp;
+
+use Jet\Application_Factory;
+use Jet\Application_Module_Manifest;
+use Jet\Autoloader_Loader;
+use Jet\Application_Modules;
 
 /**
  *
  */
-class Autoloader_Loader_ApplicationModules extends Autoloader_Loader
+class Autoloader_ApplicationModules extends Autoloader_Loader
 {
 
 
 	/**
-	 * Installed and activated modules list
 	 *
 	 * @var Application_Module_Manifest[] $modules_list
 	 */
@@ -27,10 +31,15 @@ class Autoloader_Loader_ApplicationModules extends Autoloader_Loader
 	 *
 	 * @return string|bool
 	 */
-	public function getClassPath( $class_name )
+	public function getScriptPath( $class_name )
 	{
 
-		$ns = Application_Module_Manifest::getDefaultModuleNamespace().'\\';
+		/**
+		 * @var Application_Module_Manifest $manifest_class_name
+		 */
+		$manifest_class_name = Application_Factory::getModuleManifestClassName();
+
+		$ns = $manifest_class_name::getDefaultModuleNamespace().'\\';
 		$namespace_len = strlen( $ns );
 
 		if( substr( $class_name, 0, $namespace_len )!=$ns ) {

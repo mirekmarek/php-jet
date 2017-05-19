@@ -270,6 +270,12 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 */
 	public function afterLoad();
 
+
+	/**
+	 *
+	 */
+	public function beforeSave();
+
 	/**
 	 *
 	 */

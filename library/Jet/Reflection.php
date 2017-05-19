@@ -10,33 +10,9 @@ namespace Jet;
 /**
  *
  */
-class Reflection
+class Reflection implements BaseObject_Cacheable_Interface
 {
-	/**
-	 * @var string
-	 */
-	protected static $cache_dir_path = JET_PATH_DATA.'reflections/';
-
-	/**
-	 * @var bool
-	 */
-	protected static $cache_save_enabled;
-
-	/**
-	 * @var bool
-	 */
-	protected static $cache_load_enabled;
-
-
-	/**
-	 * @var bool
-	 */
-	protected static $_save_function_registered = false;
-
-	/**
-	 * @var array
-	 */
-	protected static $_save_list = [];
+	use BaseObject_Cacheable_Trait;
 
 	/**
 	 * @var array
@@ -55,72 +31,6 @@ class Reflection
 		'JetDataModel'  => __NAMESPACE__.'\\DataModel_Definition',
 		'JetConfig'     => __NAMESPACE__.'\\Config_Definition',
 	];
-
-
-	/**
-	 * @return string
-	 */
-	public static function getCacheDirPath()
-	{
-		return static::$cache_dir_path;
-	}
-
-	/**
-	 * @param string $cache_dir_path
-	 */
-	public static function setCacheDirPath( $cache_dir_path )
-	{
-		static::$cache_dir_path = $cache_dir_path;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getCacheSaveEnabled()
-	{
-		if(static::$cache_save_enabled===null) {
-			if(defined('JET_REFLECTION_CACHE_SAVE')) {
-				static::$cache_save_enabled = JET_REFLECTION_CACHE_SAVE;
-			} else {
-				static::$cache_save_enabled = false;
-			}
-		}
-
-		return static::$cache_save_enabled;
-	}
-
-	/**
-	 * @param bool $cache_save_enabled
-	 */
-	public static function setCacheSaveEnabled( $cache_save_enabled )
-	{
-		static::$cache_save_enabled = $cache_save_enabled;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function getCacheLoadEnabled()
-	{
-		if(static::$cache_load_enabled===null) {
-			if(defined('JET_REFLECTION_CACHE_LOAD')) {
-				static::$cache_load_enabled = JET_REFLECTION_CACHE_LOAD;
-			} else {
-				static::$cache_load_enabled = false;
-			}
-		}
-
-		return static::$cache_load_enabled;
-	}
-
-	/**
-	 * @param bool $cache_load_enabled
-	 */
-	public static function setCacheLoadEnabled( $cache_load_enabled )
-	{
-		static::$cache_load_enabled = $cache_load_enabled;
-	}
-
 
 	/**
 	 * @return string
@@ -197,14 +107,14 @@ class Reflection
 		}
 
 		if( static::getCacheLoadEnabled() ) {
-			$file_path = static::getCacheDirPath().str_replace( '\\', '__', $class.'.php' );
+			$loader = static::$cache_loader;
 
-			if( IO_File::exists( $file_path ) ) {
-				/** @noinspection PhpIncludeInspection */
-				static::$_reflections[$class] = require $file_path;
+			$data = $loader( $class );
 
-				return static::$_reflections[$class];
+			if( is_array($data) ) {
+				static::$_reflections[$class] = $data;
 
+				return $data;
 			}
 		}
 
@@ -283,33 +193,17 @@ class Reflection
 		static::$_reflections[$class] = $pd->result_data;
 
 		if( static::getCacheSaveEnabled() ) {
-			static::$_save_list[] = $class;
+			$saver = static::$cache_saver;
 
-			if( !static::$_save_function_registered ) {
-				register_shutdown_function(
-					function() {
-						static::_save();
-					}
-				);
+			register_shutdown_function(
+				function() use ($saver, $class) {
+					$saver( $class, Reflection::getReflectionData( $class ) );
+				}
+			);
 
-				static::$_save_function_registered = true;
-			}
 		}
 
 		return $pd->result_data;
 	}
-
-	/**
-	 *
-	 */
-	protected static function _save()
-	{
-		foreach( static::$_save_list as $class ) {
-			$file_path = static::getCacheDirPath().str_replace( '\\', '__', $class.'.php' );
-
-			IO_File::write( $file_path, '<?php return '.var_export( static::$_reflections[$class], true ).';' );
-		}
-	}
-
 
 }

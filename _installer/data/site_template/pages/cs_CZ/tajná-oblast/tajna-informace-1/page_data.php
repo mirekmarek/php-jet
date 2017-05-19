@@ -7,9 +7,6 @@ return [
     'menu_title' => 'Tajná informace 1',
     'breadcrumb_title' => 'Tajná informace 1',
     'layout_script_name' => 'default-secret',
-    'headers_suffix' => '',
-    'body_prefix' => '',
-    'body_suffix' => '',
     'meta_tags' => [
     ],
     'contents' => [

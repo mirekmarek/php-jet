@@ -77,15 +77,24 @@ class Debug_Profiler_Run
 
 		srand();
 		$this->id = md5( $this->request_URL.microtime( true ).rand().rand().rand() );
-
-		$root_block = new Debug_Profiler_Run_Block( false, 'root', 0 );
-
+		$root_block = new Debug_Profiler_Run_Block( 'root', 0 );
 		$this->blocks[] = $root_block;
-
 		$this->__root_block = $root_block;
+		$this->__block_stack[] = $root_block;
 
 
-		$this->MainBlockStart( "", true );
+
+
+
+		$this->__current_block_level = 1;
+
+		$block = new Debug_Profiler_Run_Block_Anonymous(
+			$this->__current_block_level,
+			$this->__root_block
+		);
+
+		$this->appendBlock($block);
+
 
 		if( extension_loaded( 'xhprof' ) ) {
 			/** @noinspection PhpUndefinedConstantInspection */
@@ -98,60 +107,6 @@ class Debug_Profiler_Run
 			/** @noinspection PhpUndefinedFunctionInspection */
 			tideways_enable( TIDEWAYS_FLAGS_CPU+TIDEWAYS_FLAGS_MEMORY );
 		}
-	}
-
-	/**
-	 * Starts new block in level #1 end ends all previous block
-	 *
-	 * @param string $label
-	 * @param bool   $is_anonymous (optional, default: false)
-	 *
-	 * @return Debug_Profiler_Run_Block
-	 */
-	public function MainBlockStart( $label, $is_anonymous = false )
-	{
-		if( $is_anonymous ) {
-			$label = "anonymous";
-		}
-
-		if( $this->__block_stack ) {
-			$timestamp = microtime( true );
-
-			$_labels = [];
-
-			do {
-				/**
-				 * @var Debug_Profiler_Run_Block $block
-				 */
-				$block = array_pop( $this->__block_stack );
-				if( !$block->getIsAnonymous() ) {
-					$_labels[] = $block->getLabel();
-				}
-				$block->setEnd( $timestamp );
-
-			} while( $this->__block_stack );
-
-			if( $_labels ) {
-				trigger_error(
-					'Jet Profiler Warning: blockStart(\''.$label.'\') called, but unclosed block(s) detected: \''.implode(
-						'\', \'', $_labels
-					).'\' ! '
-				);
-			}
-		}
-
-		$this->__current_block_level = 1;
-
-		$block = new Debug_Profiler_Run_Block(
-			$is_anonymous, $label, $this->__current_block_level, $this->__root_block
-		);
-
-		$this->blocks[$block->getId()] = $block;
-		$this->__current_block = $block;
-		$this->__block_stack[] = $block;
-
-
-		return $block;
 	}
 
 	/**
@@ -208,6 +163,7 @@ class Debug_Profiler_Run
 		return $r;
 	}
 
+
 	/**
 	 *
 	 * @param string $label
@@ -216,24 +172,25 @@ class Debug_Profiler_Run
 	 */
 	public function blockStart( $label )
 	{
-		if( !$this->__current_block_level ) {
-			trigger_error(
-				'Jet Profiler Warning: subBlockStart(\''.$label.'\') called, but no block has been started! Calling blockStart! '
-			);
+		if($this->__current_block->getIsAnonymous()) {
+			$this->__current_block->setEnd();
+			array_pop( $this->__block_stack );
 
-			return $this->MainBlockStart( $label );
+			$this->__current_block_level = 1;
+			$this->__current_block = $this->__root_block;
 		}
 
+
 		$block = new Debug_Profiler_Run_Block(
-			false, $label, $this->__current_block_level, $this->__block_stack[$this->__current_block_level-1]
+			$label,
+			$this->__current_block_level,
+			$this->__block_stack[$this->__current_block_level-1]
 		);
 
 
 		$this->__current_block_level++;
-		$this->blocks[$block->getId()] = $block;
-		$this->__block_stack[] = $block;
 
-		$this->__current_block = $block;
+		$this->appendBlock($block);
 
 		return $block;
 
@@ -244,69 +201,42 @@ class Debug_Profiler_Run
 	 */
 	public function blockEnd( $label )
 	{
-
-		if( $this->__current_block_level<=1 ) {
+		if($this->__current_block->getLabel()!=$label) {
 			trigger_error(
-				'Jet Profiler Warning: subBlockEnd(\''.$label.'\') called, but no subblock has been started! Calling blockEnd! '
+				'Jet Profiler Error: Inconsistent block start and end. Star:'.$this->__current_block->getLabel().', end: '.$label
 			);
-			$this->MainBlockEnd( $label );
 
-			return;
+			die();
 		}
+
 
 		$this->__current_block->setEnd();
 		$this->__current_block_level--;
 		array_pop( $this->__block_stack );
 
-		$this->__current_block = $this->__block_stack[count( $this->__block_stack )-1];
+		if($this->__current_block_level>1) {
+			$this->__current_block = $this->__block_stack[count( $this->__block_stack )-1];
+		} else {
+			$this->__current_block_level=1;
+			$block = new Debug_Profiler_Run_Block_Anonymous(
+				$this->__current_block_level,
+				$this->__root_block
+			);
+
+			$this->appendBlock($block);
+		}
 	}
 
 	/**
-	 * @param string $label (Does nothing. Only for best practises and orientation to the application code)
+	 * @param Debug_Profiler_Run_Block $block
 	 */
-	public function MainBlockEnd( $label )
+	protected function appendBlock( Debug_Profiler_Run_Block $block )
 	{
-		if( !$this->__current_block_level ) {
-			trigger_error(
-				'Jet Profiler Warning: blockEnd(\''.$label.'\') called, but no block has been started! Skipping blockEnd! '
-			);
-
-			return;
-		}
-
-		$timestamp = microtime( true );
-
-		if( $this->__current_block_level>1 ) {
-
-			$_labels = [];
-
-			do {
-				/**
-				 * @var Debug_Profiler_Run_Block $block
-				 */
-				$block = array_pop( $this->__block_stack );
-				$block->setEnd( $timestamp );
-
-			} while( $this->__block_stack&&$block->getLevel()>1 );
-
-			trigger_error(
-				'Jet Profiler Warning: blockEnd(\''.$label.'\') called, but unclosed subblock(s) detected: \''.implode(
-					'\', \'', $_labels
-				).'\' ! '
-			);
-		}
-
-		/**
-		 * @var Debug_Profiler_Run_Block $block
-		 */
-		$block = array_pop( $this->__block_stack );
-		$block->setEnd( $timestamp );
-
-		$this->__block_stack = [];
-		$this->__current_block_level = 0;
-
-		$this->MainBlockStart( "", true );
+		$this->blocks[$block->getId()] = $block;
+		$this->__current_block = $block;
+		$this->__block_stack[] = $block;
 	}
+
 
 	/**
 	 *

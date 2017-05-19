@@ -7,9 +7,6 @@ return [
 	'menu_title' => 'Images',
 	'breadcrumb_title' => 'Images',
 	'layout_script_name' => 'default',
-	'headers_suffix' => '',
-	'body_prefix' => '',
-	'body_suffix' => '',
 	'meta_tags' => [
 		[
 			'attribute'   => 'name',

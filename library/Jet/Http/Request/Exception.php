@@ -14,6 +14,6 @@ namespace Jet;
 class Http_Request_Exception extends Exception
 {
 
-	const CODE_REQUEST_DATA_HOAX = 4;
+	const CODE_REQUEST_DATA_TRAP = 4;
 
 }

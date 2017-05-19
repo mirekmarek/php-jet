@@ -9,6 +9,7 @@ namespace JetExampleApp;
 
 use Jet\Db;
 use Jet\Db_Config;
+use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Http_Request;
@@ -36,7 +37,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::getList() )==0;
+		return count( Mvc_Site::loadSites() )==0;
 	}
 
 	/**
@@ -68,6 +69,9 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	 */
 	protected function _editConnection_mysql( $edit_connection_name )
 	{
+		/**
+		 * @var Db_Backend_PDO_Config $connection_config
+		 */
 		$connection_config = $this->main_config->getConnection( $edit_connection_name );
 		if( !$connection_config ) {
 			return;

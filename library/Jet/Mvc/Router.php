@@ -34,24 +34,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	protected $request_URL = '';
 
 	/**
-	 * @var Http_URL
-	 */
-	protected $parsed_request_URL;
-
-	/**
-	 * Request path fragments (http://host/path-fragment-0/path-fragment-1/ )
-	 *
-	 * @var string[]
-	 */
-	protected $path_fragments = [];
-
-	/**
-	 * Is it SSL (https) request?
-	 * @var bool
-	 */
-	protected $is_SSL_request = false;
-
-	/**
 	 * @var Mvc_Site_Interface
 	 */
 	protected $site;
@@ -65,6 +47,11 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 * @var Mvc_Page
 	 */
 	protected $page;
+
+	/**
+	 *
+	 */
+	protected $path = '';
 
 
 	//------------------------------------------------------------------
@@ -128,7 +115,13 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$this->after_page_resolved = $after_page_resolved;
 	}
 
-
+	/**
+	 * @return bool
+	 */
+	public function getIsSSLRequest()
+	{
+		return Http_Request::getRequestIsHttps();
+	}
 
 	/**
 	 *
@@ -139,108 +132,102 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @throws Mvc_Router_Exception
 	 */
-	public function resolve( $request_URL )
+	public function resolve( $request_URL=null )
 	{
+		Debug_Profiler::blockStart('main init');
 
 		if( !$request_URL ) {
-			throw new Mvc_Router_Exception(
-				'URL is not defined',
-				Mvc_Router_Exception::CODE_URL_NOT_DEFINED
-			);
+			$request_URL = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		}
 
+		if(($pos=strpos($request_URL, '?'))!==false) {
+			$request_URL = substr($request_URL, 0, $pos);
+		}
+
+		if(($pos=strpos($request_URL, '://'))!==false) {
+			$request_URL = substr($request_URL, $pos+2);
+
+		}
 		$this->request_URL = $request_URL;
 
-		$this->parsed_request_URL = Http_URL::parseRequestURL( $request_URL );
+		Debug_Profiler::blockEnd('main init');
 
-		if( !$this->parsed_request_URL->getIsValid() ) {
-			throw new Mvc_Router_Exception(
-				'Unable to parse URL',
-				Mvc_Router_Exception::CODE_UNABLE_TO_PARSE_URL
-			);
-		}
+		if( $this->validateURIFormat() ) {
 
-		$this->is_SSL_request = $this->parsed_request_URL->getIsSSL();
+			if( $this->resolveSiteAndLocale() ) {
 
-		$this->path_fragments = explode( '/', $this->parsed_request_URL->getPath() );
+				if($this->after_site_resolved) {
+					$after = $this->after_site_resolved;
+					$after( $this );
+				}
 
-		array_shift( $this->path_fragments );
+				if( $this->resolvePage() ) {
+					$this->resolveAuthentication();
 
-		if( !$this->validateURIFormat() ) {
-			return;
-		}
+					if($this->after_page_resolved) {
+						$after = $this->after_page_resolved;
+						$after( $this );
+					}
+				}
 
-		if( !$this->resolveSiteAndLocale() ) {
-			return;
-		}
-		if($this->after_site_resolved) {
-			$after = $this->after_site_resolved;
-			$after( $this );
-		}
-
-		if( !$this->resolvePage() ) {
-			return;
-		}
-
-		$this->resolveAuthentication();
-
-		if($this->after_page_resolved) {
-			$after = $this->after_page_resolved;
-			$after( $this );
+			}
 		}
 
 	}
 
 	/**
-	 * Validated the URI path format. Returns true if the format is OK and the redirect is not needed.
-	 *
-	 * - last char in URI path must be / ( ... or some document. example: .html )
 	 *
 	 * @return bool
 	 */
 	protected function validateURIFormat()
 	{
 
-		$end_i = count( $this->path_fragments )-1;
 
-		$base_URL = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
-		if( $this->parsed_request_URL->getPort() ) {
-			$base_URL .= ':'.$this->parsed_request_URL->getPort();
-		}
+		if(Mvc::getForceSlashOnURLEnd()) {
+			$last = strrchr($this->request_URL, '/');
 
+			if($last=='/') {
+				$this->request_URL = substr($this->request_URL, 0, -1);
+				return true;
+			}
 
-		//last char in URI path must be /
-		if( $this->path_fragments[$end_i]==='' ) {
+			if( strpos( $last, '.' )!==false ) {
+				return true;
+			}
 
-			$this->request_URL = $base_URL.'/'.implode( '/', $this->path_fragments );
+			$redirect_to = Http_Request::getRequestIsHttps() ? 'https://' : 'http://';
+			$redirect_to .= $this->request_URL.'/';
 
-			unset( $this->path_fragments[$end_i] );
+		} else {
+			if(substr_count($this->request_URL, '/')==1) {
 
-			return true;
-		}
+				$last = strrchr($this->request_URL, '/');
 
-		//... or some opened document, or XML and so on
-		if( strpos( $this->path_fragments[$end_i], '.' )!==false ) {
-			$this->request_URL = $base_URL.'/'.implode( '/', $this->path_fragments );
+				if($last=='/') {
+					$this->request_URL = substr($this->request_URL, 0, -1);
+				}
 
-			return true;
+				return true;
+			}
+
+			$last = strrchr($this->request_URL, '/');
+
+			if($last!='/') {
+				return true;
+			}
+
+			$redirect_to = Http_Request::getRequestIsHttps() ? 'https://' : 'http://';
+			$redirect_to .= substr($this->request_URL,0,-1);
 		}
 
 
 		$this->setIsRedirect(
-			$base_URL
-			.$this->parsed_request_URL->getPath().'/'
-			.(
-				$this->parsed_request_URL->getQuery() ?
-					'?'.$this->parsed_request_URL->getQuery()
-					:
-					''
-			),
-
+			$redirect_to,
 			Http_Headers::CODE_301_MOVED_PERMANENTLY
 		);
 
 		return false;
+
 	}
 
 	/**
@@ -248,9 +235,21 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function resolveSiteAndLocale()
 	{
-		$site_i = Mvc_Factory::getSiteInstance();
 
-		$site_URLs_map = $site_i->getUrlsMap();
+		Debug_Profiler::blockStart('Resolve site and locale');
+
+		/**
+		 * @var Mvc_Site_Interface $site_class_name
+		 */
+		$site_class_name = Mvc_Factory::getSiteInstance();
+
+		Debug_Profiler::blockStart('Load sites');
+		$site_class_name::loadSites();
+		Debug_Profiler::blockEnd('Load sites');
+
+
+		Debug_Profiler::blockStart('Seeking for site');
+		$site_URLs_map = $site_class_name::getUrlMap();
 
 		$known_URLs = array_keys( $site_URLs_map );
 
@@ -262,73 +261,65 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		);
 
 
-		/**
-		 * @var Mvc_Site_LocalizedData_URL_Interface $current_site_URL
-		 */
 		$current_site_URL = null;
 
-		$current_host = $this->parsed_request_URL->getScheme().'://'.$this->parsed_request_URL->getHost();
-		if( $this->parsed_request_URL->getPort() ) {
-			$current_host .= ':'.$this->parsed_request_URL->getPort();
-		}
 
+		$founded_url = null;
 
 		foreach( $known_URLs as $URL ) {
 
-			$current_compare = $current_host;
-			$slashes_count = 0;
+			if(substr($this->request_URL.'/', 0, strlen($URL))==$URL) {
+				$d = $site_URLs_map[$URL];
+				$this->site = $d->getSite();
+				$this->locale = $d->getLocale();
 
-			if( $this->path_fragments ) {
-				$slashes_count = substr_count( $URL, '/' )-2;
+				$founded_url = $URL;
 
-				if( $slashes_count ) {
-					$path_part = array_slice( $this->path_fragments, 0, $slashes_count );
-					$path_part = implode( '/', $path_part );
-
-					$current_compare .= '/'.$path_part;
+				$this->path = substr($this->request_URL, strlen($founded_url));
+				if(!$this->path) {
+					$this->path = '';
 				}
-			}
 
-			if( $current_compare==$URL ) {
-				$current_site_URL = $site_URLs_map[$URL];
-				if( $slashes_count ) {
-					$this->path_fragments = array_slice( $this->path_fragments, $slashes_count );
-				}
 				break;
 			}
-
 		}
 
-		if( !$current_site_URL ) {
+		Debug_Profiler::blockEnd('Seeking for site');
+
+		$OK = true;
+		if( !$this->site ) {
 			$this->setIs404();
 
-			return false;
+			Debug_Profiler::message('site not found');
+			$OK = false;
+		} else {
+
+			if($this->set_mvc_state) {
+				Mvc::setCurrentSite($this->site);
+				Mvc::setCurrentLocale($this->locale);
+			}
+
+			if( $founded_url!=$this->site->getDefaultURL($this->locale) ) {
+
+				$redirect_to = $this->getSite()->getDefaultURL( $this->locale ).$this->path;
+
+				if($this->path && Mvc::getForceSlashOnURLEnd()) {
+					$redirect_to .= '/';
+				}
+
+				$this->setIsRedirect( $redirect_to );
+
+				Debug_Profiler::message('wrong site URL');
+
+				$OK = false;
+			}
+
 		}
 
-		$this->is_SSL_request = $current_site_URL->getIsSSL();
-
-		$this->site = Mvc_Site::get( $current_site_URL->getSiteId() );
-		$this->locale = $current_site_URL->getLocale();
-		if($this->set_mvc_state) {
-			Mvc::setCurrentSite($this->site);
-			Mvc::setCurrentLocale($this->locale);
-		}
 
 
-
-		if( !$current_site_URL->getIsDefault() ) {
-
-			$this->setIsRedirect(
-				$this->getSite()->getDefaultURL( $this->getLocale() )
-				.implode( '/', $this->path_fragments )
-				.( $this->path_fragments ? '/' : '' )
-				.$this->parsed_request_URL->getQuery()
-			);
-
-			return false;
-		}
-
-		return true;
+		Debug_Profiler::blockEnd('Resolve site and locale');
+		return $OK;
 	}
 
 	/**
@@ -338,73 +329,91 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function resolvePage()
 	{
-		$path = $this->path_fragments;
+		Debug_Profiler::blockStart('Resolve page');
 
-		$URIs = [];
-		for( $i = count( $this->path_fragments ); $i>=0; $i-- ) {
+		/**
+		 * @var Mvc_Page_Interface $page_class_name
+		 */
+		$page_class_name = Mvc_Factory::getPageClassName();
 
-			if( $i>0 ) {
-				$URI = '/'.implode( '/', $path ).'/';
+
+		Debug_Profiler::blockStart('Load pages');
+		$page_class_name::loadPages( $this->getSite(), $this->getLocale() );
+		Debug_Profiler::blockEnd('Load pages');
+
+
+		Debug_Profiler::blockStart('Seeking for page');
+		$relative_URIs = [];
+
+		if($this->path) {
+			$path = explode('/', $this->path);
+
+			while($path) {
+				$relative_URIs[] = implode( '/', $path );
 				unset( $path[count( $path )-1] );
-			} else {
-				$URI = '/';
 			}
-
-			$URIs[] = $URI;
 		}
 
 
-		$page_i = Mvc_Factory::getPageInstance();
 
-		$page = null;
-		foreach( $URIs as $i => $URI ) {
-			$page = $page_i->getByRelativeURI( $this->getSite(), $this->getLocale(), $URI );
-			if( $page ) {
-				if( $i ) {
-					$this->path_fragments = array_slice( $this->path_fragments, -1*$i );
-				} else {
-					$this->path_fragments = [];
+		foreach( $relative_URIs as $i => $URI ) {
+
+			$this->page = $page_class_name::getByRelativePath( $this->getSite(), $this->getLocale(), $URI );
+
+			if( $this->page ) {
+
+				$this->path = substr($this->path, strlen($URI)+1);
+				if(!$this->path) {
+					$this->path = '';
 				}
 
 				break;
 			}
 		}
 
-		if( !$page ) {
-			throw new Mvc_Router_Exception( 'Failed to find page ...' );
+
+		if( !$this->page ) {
+			$this->page = $this->site->getHomepage($this->locale);
 		}
 
-		$this->page = $page;
 		if($this->set_mvc_state) {
 			Mvc::setCurrentPage($this->page);
 		}
 
-		if(
-			$page->getSSLRequired() &&
-			!$this->is_SSL_request
-		) {
-			$this->setIsRedirect(
-				$page->getSslURL(
-					Http_Request::GET()->getRawData(),
-					$this->path_fragments
-				)
-			);
+		Debug_Profiler::blockEnd('Seeking for page');
 
-			return false;
 
+		$this->path = rawurldecode($this->path);
+
+		$path = [];
+		if($this->path) {
+			$path = explode('/', $this->path);
 		}
 
+		$page_url = $this->page->getURL( $path );
 
 
-		if( $this->path_fragments ) {
-			if( !$this->getPage()->parseRequestURL() ) {
-				$this->setIs404();
+		$OK = $page_url==Http_Request::getURL(false);
 
-				return false;
+
+		if(!$OK) {
+			$this->setIsRedirect( $page_url );
+		} else {
+			if( $this->path ) {
+				Debug_Profiler::blockStart('Parsing path');
+				$OK = $this->getPage()->parseRequestPath();
+				Debug_Profiler::blockEnd('Parsing path');
+
+				if( !$OK ) {
+					$this->setIs404();
+				}
 			}
+
 		}
 
-		return true;
+
+		Debug_Profiler::blockEnd('Resolve page');
+		return $OK;
 
 	}
 
@@ -416,7 +425,10 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	protected function resolveAuthentication()
 	{
 
-		if( !$this->getPage()->getIsAdminUI()&&!$this->getPage()->getIsSecretPage() ) {
+		if(
+			!$this->getPage()->getIsAdminUI() &&
+			!$this->getPage()->getIsSecretPage()
+		) {
 			return true;
 		}
 
@@ -445,31 +457,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	{
 		$this->set_mvc_state = $set_mvc_state;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getRequestURL()
-	{
-		return $this->request_URL;
-	}
-
-	/**
-	 * @return Http_URL
-	 */
-	public function getParsedRequestURL()
-	{
-		return $this->parsed_request_URL;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSSLRequest()
-	{
-		return $this->is_SSL_request;
-	}
-
 
 	/**
 	 *
@@ -557,6 +544,10 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function setIsRedirect( $target_URL, $http_code = null )
 	{
+		if($_SERVER['QUERY_STRING']) {
+			$target_URL .= '?'.$_SERVER['QUERY_STRING'];
+		}
+
 		if( !$http_code ) {
 			$http_code = Http_Headers::CODE_302_MOVED_TEMPORARY;
 		}
@@ -599,74 +590,15 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$this->login_required = $login_required;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function shiftPathFragments()
-	{
-		array_shift( $this->path_fragments );
-
-		return $this->path_fragments;
-	}
-
-	/**
-	 * @param string $template (example: 'page:%VAL%' )
-	 * @param mixed  $default_value
-	 * @param int    $fragment_index (optional, default: 0)
-	 *
-	 * @return int
-	 */
-	public function parsePathFragmentIntValue( $template, $default_value = null, $fragment_index = 0 )
-	{
-
-		$value = $this->parsePathFragmentValue( $template, $fragment_index, '[0-9]{1,}' );
-
-		if( $value===null ) {
-			return $default_value;
-		}
-
-		return (int)$value;
-	}
-
-	/**
-	 * @param string $template
-	 * @param string $fragment_index
-	 * @param string $reg_exp_part
-	 *
-	 * @return mixed
-	 * @throws Exception
-	 */
-	public function parsePathFragmentValue( $template, $fragment_index, $reg_exp_part )
-	{
-		$path_fragments = $this->getPathFragments();
-
-		$value = null;
-
-		if( isset( $path_fragments[$fragment_index] ) ) {
-			if( strpos( $template, '%VAL%' )===false ) {
-				throw new Exception( 'Incorrect parameter template format. Example: \'page:%VAL%\'' );
-			}
-
-			$regexp = '/^'.str_replace( '%VAL%', '('.$reg_exp_part.')', $template ).'$/';
-
-			$matches = [];
-			if( preg_match( $regexp, $path_fragments[$fragment_index], $matches ) ) {
-				$value = $matches[1];
-			}
-		}
-
-		return $value;
-
-	}
 
 	/**
 	 *
 	 * /**
 	 * @return array
 	 */
-	public function getPathFragments()
+	public function getPath()
 	{
-		return $this->path_fragments;
+		return $this->path;
 	}
 
 

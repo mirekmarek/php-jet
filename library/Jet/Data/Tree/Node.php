@@ -595,9 +595,9 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 		$item[$label_key] = $this->label;
 		$item[$depth_key] = $this->depth;
 
-		if( $next_children&&$this->_children ) {
+		if( $next_children && $this->_children ) {
 
-			if( $this->is_root||!$this->_tree->getLazyMode() ) {
+			if( $this->is_root ) {
 				$item[$children_key] = [];
 
 				foreach( $this->_children as $child ) {

@@ -79,7 +79,7 @@ use Jet\Mvc;
 						<?=Tr::_( 'Change password' )?>
 					</a></li>
 				<li role="separator" class="divider"></li>
-				<li><a href="<?=Mvc_Page::get( Mvc_Page::ADMIN_HOMEPAGE_ID )->getURL( [ 'logout' => 'logout' ] )?>">
+				<li><a href="<?=Mvc_Page::get( Mvc_Page::ADMIN_HOMEPAGE_ID )->getURL( [], [ 'logout' => 'logout' ] )?>">
 						<?=UI::icon( 'sign-out' )?>
 						<?=Tr::_( 'Logout' )?>
 					</a></li>

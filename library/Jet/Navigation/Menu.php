@@ -58,26 +58,6 @@ class Navigation_Menu extends BaseObject
 	protected $items = [];
 
 	/**
-	 * menu constructor.
-	 *
-	 * @param string $id
-	 * @param string $label
-	 * @param int    $index
-	 * @param string $icon
-	 *
-	 */
-	public function __construct( $id, $label, $index, $icon = '' )
-	{
-
-		$this->id = $id;
-		$this->label = $label;
-
-		$this->index = $index;
-		$this->icon = $icon;
-
-	}
-
-	/**
 	 * @param string   $id
 	 *
 	 * @param string   $label
@@ -159,6 +139,63 @@ class Navigation_Menu extends BaseObject
 
 		return $menus;
 	}
+
+
+	/**
+	 * @param Navigation_Menu[]|Navigation_Menu_Item[] $items
+	 */
+	public static function sortMenuItems( array &$items )
+	{
+		uasort(
+			$items,
+			function( $a, $b ) {
+				/**
+				 * @var Navigation_Menu|Navigation_Menu_Item $a
+				 * @var Navigation_Menu|Navigation_Menu_Item $b
+				 */
+				return strcmp( $a->getLabel(), $b->getLabel() );
+			}
+		);
+
+		uasort(
+			$items,
+			function( $a, $b ) {
+				/**
+				 * @var Navigation_Menu|Navigation_Menu_Item $a
+				 * @var Navigation_Menu|Navigation_Menu_Item $b
+				 */
+
+				if( $a->getIndex()==$b->getIndex() ) {
+					return 0;
+				}
+
+				return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
+			}
+		);
+
+	}
+
+
+	/**
+	 * menu constructor.
+	 *
+	 * @param string $id
+	 * @param string $label
+	 * @param int    $index
+	 * @param string $icon
+	 *
+	 */
+	public function __construct( $id, $label, $index, $icon = '' )
+	{
+
+		$this->id = $id;
+		$this->label = $label;
+
+		$this->index = $index;
+		$this->icon = $icon;
+
+	}
+
 
 	/**
 	 * @return Navigation_Menu|null
@@ -343,40 +380,6 @@ class Navigation_Menu extends BaseObject
 				$this->addMenu( $item );
 			}
 		}
-	}
-
-	/**
-	 * @param array $items
-	 */
-	public static function sortMenuItems( array &$items )
-	{
-		uasort(
-			$items,
-			function( $a, $b ) {
-				/**
-				 * @var Navigation_Menu|Navigation_Menu_Item $a
-				 * @var Navigation_Menu|Navigation_Menu_Item $b
-				 */
-				return strcmp( $a->getLabel(), $b->getLabel() );
-			}
-		);
-
-		uasort(
-			$items,
-			function( $a, $b ) {
-				/**
-				 * @var Navigation_Menu|Navigation_Menu_Item $a
-				 * @var Navigation_Menu|Navigation_Menu_Item $b
-				 */
-
-				if( $a->getIndex()==$b->getIndex() ) {
-					return 0;
-				}
-
-				return ( $a->getIndex()<$b->getIndex() ) ? -1 : 1;
-			}
-		);
-
 	}
 
 }

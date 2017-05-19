@@ -10,17 +10,15 @@ namespace Jet;
 /**
  *
  */
-class Mvc_Site extends BaseObject implements Mvc_Site_Interface
+class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cacheable_Interface
 {
+
+	use BaseObject_Cacheable_Trait;
 
 	/**
 	 * @var string
 	 */
 	protected static $site_data_file_name = 'site_data.php';
-	/**
-	 * @var string
-	 */
-	protected static $url_map_file_name = 'urls_map.php';
 
 	/**
 	 * @var string
@@ -33,13 +31,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	protected static $layouts_dir = 'layouts';
 
 	/**
-	 * @var array|Mvc_Site_LocalizedData_URL[]
-	 */
-	protected static $URL_map;
-	/**
 	 * @var array|Mvc_Site[]
 	 */
-	protected static $_loaded = [];
+	protected static $sites;
+
+	/**
+	 * @var Mvc_Site_LocalizedData_Interface[]
+	 */
+	protected static $URL_map;
+
 	/**
 	 *
 	 *
@@ -61,11 +61,13 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 * @var bool
 	 */
 	protected $is_active = false;
+
 	/**
 	 *
 	 * @var Locale
 	 */
 	protected $default_locale;
+
 	/**
 	 *
 	 * @var Mvc_Site_LocalizedData[]
@@ -73,7 +75,12 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	protected $localized_data;
 
 	/**
-	 * Returns a list of all locales for all sites
+	 * @var bool
+	 */
+	protected $SSL_required = false;
+
+
+	/**
 	 *
 	 * @param bool $get_as_string (optional; if TRUE, string values of locales are returned; default: false)
 	 *
@@ -81,7 +88,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	public static function getAllLocalesList( $get_as_string = true )
 	{
-		$sites = static::getList();
+		$sites = static::loadSites();
 		$locales = [];
 
 		if( $get_as_string ) {
@@ -109,96 +116,104 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	}
 
 	/**
-	 * Returns a list of all sites
-	 *
-	 * @return Mvc_Site[]
+	 * @return array
 	 */
-	public static function getList()
-	{
+	public static function loadSitesData() {
+
+		Debug_Profiler::blockStart('Load sites data');
+		$sites = [];
 
 		$dirs = IO_Dir::getSubdirectoriesList( JET_PATH_SITES );
 
-		$sites = [];
-
 		foreach( $dirs as $id ) {
-			$site = Mvc_Site::get( $id );
 
-			$sites[$id] = $site;
-		}
+			$data_file_path = static::getSiteDataFilePath( $id );
 
-		uasort(
-			$sites, function( Mvc_Site_Interface $site_a, Mvc_Site_Interface $site_b ) {
-			return strcmp( $site_a->getName(), $site_b->getName() );
+			if( !IO_File::exists( $data_file_path ) ) {
+				return null;
+			}
+
+
+			/** @noinspection PhpIncludeInspection */
+			$site_data = require $data_file_path;
+			$site_data['id'] = $id;
+			$sites[$id] = $site_data;
 		}
-		);
+		Debug_Profiler::blockEnd('Load sites data');
+
 
 		return $sites;
 	}
 
+
 	/**
 	 *
-	 * @param string $id
-	 *
-	 * @return Mvc_Site|bool
+	 * @return Mvc_Site[]
 	 */
-	public static function get( $id )
+	public static function loadSites()
 	{
 
-		$id_s = (string)$id;
+		if(static::$sites===null) {
+			if( static::getCacheLoadEnabled() ) {
 
-		if( !isset( static::$_loaded[$id_s] ) ) {
+				$loader = static::$cache_loader;
+				$sites = $loader();
+				if($sites) {
+					Debug_Profiler::message('cache hit');
 
-			static::_load( $id );
+					static::$sites = $sites;
+					return $sites;
+				}
+			}
 
+
+			$sites_data = static::loadSitesData();
+
+			Debug_Profiler::blockStart('Create site instances');
+			static::$sites = [];
+
+			foreach( $sites_data as $data ) {
+				$site = static::createSiteByData( $data );
+				static::$sites[$site->getId()] = $site;
+			}
+
+			if( static::getCacheSaveEnabled() ) {
+
+				$saver = static::$cache_saver;
+				$saver( static::$sites );
+			}
+
+			Debug_Profiler::blockEnd('Create site instances');
 		}
 
-		if( !isset( static::$_loaded[$id_s] ) ) {
-			return false;
-		}
-
-		return static::$_loaded[$id_s];
+		return static::$sites;
 	}
 
 	/**
-	 * @param string $id
+	 * @param array  $data
 	 *
-	 * @return Mvc_Site|Mvc_Site_Interface|null
+	 * @return Mvc_Site_Interface
 	 */
-	public static function _load( $id )
+	public static function createSiteByData( array $data )
 	{
 
-		if( isset( static::$_loaded[$id] ) ) {
-			return static::$_loaded[$id];
-		}
+		/**
+		 * @var Mvc_Site $site
+		 */
+		$site = new static();
 
-		$data_file_path = static::getSiteDataFilePath( $id );
 
-		if( !IO_File::exists( $data_file_path ) ) {
-			return null;
-		}
-
-		/** @noinspection PhpIncludeInspection */
-		$data = require $data_file_path;
-
-		$site = new self();
-
-		$URL_map = $site->getUrlsMap();
-
-		$site->site_id = $id;
+		$site->site_id = $data['id'];
 		$site->name = $data['name'];
 		$site->is_active = $data['is_active'];
 
 		foreach( $data['localized_data'] as $locale_str => $localized_data ) {
-			$locale = new Locale( $locale_str );
 
-			$site->addLocale( $locale );
+			$l_data = $site->addLocale( new Locale( $locale_str ) );
 
-			$l_data = $site->localized_data[$locale_str];
-
+			$l_data->setSite( $site );
 			$l_data->setIsActive( $localized_data['is_active'] );
-			$l_data->setDefaultHeadersSuffix( $localized_data['default_headers_suffix'] );
-			$l_data->setDefaultBodyPrefix( $localized_data['default_body_prefix'] );
-			$l_data->setDefaultBodySuffix( $localized_data['default_body_suffix'] );
+			$l_data->setURLs( $localized_data['URLs'] );
 
 			$meta_tags = [];
 
@@ -211,24 +226,52 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 			}
 
 			$l_data->setDefaultMetaTags( $meta_tags );
-
-			$URLs = [];
-
-			foreach( $URL_map as $URL_data ) {
-				if( $URL_data->getSiteId()!=(string)$id||$URL_data->getLocale()!=$locale_str ) {
-					continue;
-				}
-
-				$URLs[] = $URL_data;
-			}
-
-
-			$l_data->setURLs( $URLs );
 		}
 
-		static::$_loaded[$id] = $site;
-
 		return $site;
+	}
+
+	/**
+	 * @return Mvc_Site_LocalizedData_Interface[]
+	 */
+	public static function getUrlMap()
+	{
+		if(static::$URL_map!==null) {
+			return static::$URL_map;
+		}
+
+		static::loadSites();
+		static::$URL_map = [];
+
+		foreach( static::$sites as $site ) {
+			foreach( $site->getLocales() as $locale ) {
+				$l_data = $site->getLocalizedData($locale);
+
+				foreach($l_data->getURLs() as $URL) {
+					static::$URL_map[$URL] = $l_data;
+				}
+			}
+		}
+
+
+		return static::$URL_map;
+	}
+
+	/**
+	 *
+	 * @param string $id
+	 *
+	 * @return Mvc_Site|null
+	 */
+	public static function get( $id )
+	{
+		static::loadSites();
+
+		if( !isset( static::$sites[$id] ) ) {
+			return null;
+		}
+
+		return static::$sites[$id];
 	}
 
 	/**
@@ -241,97 +284,34 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 		return JET_PATH_SITES.$id.'/'.static::$site_data_file_name;
 	}
 
-	/**
-	 * @return array|Mvc_Site_LocalizedData_URL_Interface[]
-	 *
-	 * @throws Mvc_Router_Exception
-	 */
-	public function getUrlsMap()
-	{
-
-		if( static::$URL_map ) {
-			return static::$URL_map;
-		}
-
-		$sites_URL_map_file_path = static::getUrlMapFilePath();
-
-
-		/** @noinspection PhpIncludeInspection */
-		$site_URL_map_data = require $sites_URL_map_file_path;
-
-
-		$URL_map = [];
-
-		foreach( $site_URL_map_data as $key => $URLs ) {
-			list( $site_id, $locale_str ) = explode( '/', $key );
-
-			$site_default_SSL_URL = null;
-			$site_default_non_SSL_URL = null;
-
-			foreach( $URLs as $URL ) {
-				$URL_i = Mvc_Factory::getSiteLocalizedURLInstance( $URL );
-				$URL_i->setSiteId( $site_id );
-				$URL_i->setLocale( new Locale( $locale_str ) );
-
-				if( $URL_i->getIsSSL() ) {
-					if( !$site_default_SSL_URL ) {
-						$site_default_SSL_URL = $URL;
-						$URL_i->setIsDefault( true );
-					}
-				} else {
-					if( !$site_default_non_SSL_URL ) {
-						$site_default_non_SSL_URL = $URL;
-						$URL_i->setIsDefault( true );
-					}
-				}
-
-				$URL = $URL_i->toString();
-
-				if( isset( $URL_map[$URL] ) ) {
-					throw new Mvc_Router_Exception( 'Duplicated site URL: \''.$URL.'\' ' );
-				}
-
-				$URL_map[$URL] = $URL_i;
-			}
-		}
-
-		static::$URL_map = $URL_map;
-
-		return $URL_map;
-	}
 
 	/**
-	 * @return string
-	 */
-	protected static function getUrlMapFilePath()
-	{
-		return JET_PATH_SITES.static::$url_map_file_name;
-	}
-
-	/**
-	 * Add locale
 	 *
 	 * @param Locale $locale
+	 *
+	 * @return Mvc_Site_LocalizedData_Interface
 	 */
 	public function addLocale( Locale $locale )
 	{
 		if( isset( $this->localized_data[(string)$locale] ) ) {
-			return;
+			return $this->localized_data[(string)$locale];
 		}
 
 		$new_ld = Mvc_Factory::getSiteLocalizedInstance( $locale );
 
 		$this->localized_data[(string)$locale] = $new_ld;
 
-		if( !$this->default_locale||!$this->default_locale->toString() ) {
+		if(
+			!$this->default_locale||
+			!$this->default_locale->toString()
+		) {
 			$this->setDefaultLocale( $locale );
 		}
+
+		return $new_ld;
 	}
 
 	/**
-	 * Returns site locales
-	 *
-	 * @see Mvc_Site
 	 *
 	 * @param bool $get_as_string (optional), default: false
 	 *
@@ -358,24 +338,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	public function setId( $id )
 	{
-		$this->site_id = $id;
-	}
-
-	/**
-	 *
-	 */
-	public function generateId()
-	{
-
-		$name = trim( $this->name );
-
-		$id = Data_Text::removeAccents( $name );
-		$id = str_replace( ' ', '_', $id );
-		$id = preg_replace( '/[^a-z0-9_]/i', '', $id );
-		$id = strtolower( $id );
-		$id = preg_replace( '~([_]{2,})~', '_', $id );
-		$id = substr( $id, 0, 50 );
-
 		$this->site_id = $id;
 	}
 
@@ -426,7 +388,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	}
 
 	/**
-	 * Set default locale. Add locale first if is not defined.
 	 *
 	 * @param Locale $locale
 	 */
@@ -461,7 +422,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface[]
+	 * @return array
 	 */
 	public function getURLs( Locale $locale )
 	{
@@ -469,44 +430,21 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	}
 
 	/**
-	 * Add URL
 	 *
 	 * @param Locale $locale
-	 * @param string $URL
+	 * @param array $URLs
 	 */
-	public function addURL( Locale $locale, $URL )
+	public function setURLs( Locale $locale, array $URLs )
 	{
-		$this->localized_data[(string)$locale]->addURL( $URL );
+		$this->localized_data[(string)$locale]->setURLs( $URLs );
 	}
 
-	/**
-	 * Remove URL. If the URL was default, then set as the default first possible URL
-	 *
-	 * @param Locale $locale
-	 * @param string $URL
-	 */
-	public function removeURL( Locale $locale, $URL )
-	{
-		$this->localized_data[(string)$locale]->addURL( $URL );
-	}
 
 	/**
-	 * Set default URL. Add URL first if is not defined.
-	 *
-	 * @param Locale $locale
-	 * @param string $URL
-	 */
-	public function setDefaultURL( Locale $locale, $URL )
-	{
-		$this->localized_data[(string)$locale]->setDefaultURL( $URL );
-	}
-
-	/**
-	 * Returns default URL
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @return string
 	 */
 	public function getDefaultURL( Locale $locale )
 	{
@@ -515,27 +453,21 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	}
 
 	/**
-	 * Set default URL. Add URL first if is not defined.
-	 *
-	 * @param Locale $locale
-	 * @param string $URL
+	 * @return bool
 	 */
-	public function setDefaultSslURL( Locale $locale, $URL )
+	public function getSSLRequired()
 	{
-		$this->localized_data[(string)$locale]->setDefaultSslURL( $URL );
+		return $this->SSL_required;
 	}
 
 	/**
-	 * Returns default URL
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @param bool $SSL_required
 	 */
-	public function getDefaultSslURL( Locale $locale )
+	public function setSSLRequired( $SSL_required )
 	{
-		return $this->localized_data[(string)$locale]->getDefaultSslURL();
+		$this->SSL_required = $SSL_required;
 	}
+
 
 	/**
 	 *
@@ -576,7 +508,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	}
 
 	/**
-	 * Remove locale. If the locale was default, then set as the default first possible locale
 	 *
 	 * @param Locale $locale
 	 */
@@ -645,7 +576,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 	 */
 	public function getDefault()
 	{
-		$sites = static::getList();
+		$sites = static::loadSites();
 
 		foreach( $sites as $site ) {
 			if( $site->getIsDefault() ) {
@@ -703,7 +634,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 			 */
 			unset( $data['localized_data'][$locale]['site_id'] );
 			unset( $data['localized_data'][$locale]['locale'] );
-			unset( $data['localized_data'][$locale]['URLs'] );
 		}
 
 
@@ -734,80 +664,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface
 		}
 
 		return $data;
-	}
-
-	/**
-	 *
-	 */
-	public function saveUrlMapFile()
-	{
-		$URLs_map_data = [];
-		if( static::$URL_map ) {
-			foreach( static::$URL_map as $key => $URLs ) {
-				$URLs_map_data[$key] = [];
-
-				foreach( $URLs as $URL ) {
-					/**
-					 * @var Mvc_Site_LocalizedData_URL_Interface $URL
-					 */
-					if( $URL->getIsSSL() ) {
-						$URL = 'SSL:'.$URL;
-					}
-
-					$URLs_map_data[$key][] = (string)$URL;
-				}
-			}
-		}
-
-		foreach( $this->localized_data as $ld ) {
-
-			$key = $this->getId().'/'.$ld->getLocale();
-
-			$URLs_map_data[$key] = [];
-
-			foreach( $ld->getURLs() as $URL ) {
-				if( !$URL->getIsDefault() ) {
-					continue;
-				}
-
-				if( $URL->getIsSSL() ) {
-					continue;
-				}
-
-				$URLs_map_data[$key][] = $URL->toString();
-			}
-
-			foreach( $ld->getURLs() as $URL ) {
-				if( !$URL->getIsDefault() ) {
-					continue;
-				}
-
-				if( !$URL->getIsSSL() ) {
-					continue;
-				}
-
-				$URLs_map_data[$key][] = 'SSL:'.$URL->toString();
-			}
-
-			foreach( $ld->getURLs() as $URL ) {
-				if( $URL->getIsDefault() ) {
-					continue;
-				}
-
-				if( $URL->getIsSSL() ) {
-					$URLs_map_data[$key][] = 'SSL:'.$URL->toString();
-				} else {
-					$URLs_map_data[$key][] = $URL->toString();
-				}
-			}
-		}
-
-		$ar = new Data_Array( $URLs_map_data );
-
-		IO_File::write(
-			static::getUrlMapFilePath(), '<?php'.JET_EOL.'return '.$ar->export()
-		);
-
 	}
 
 }

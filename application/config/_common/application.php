@@ -1,32 +1,36 @@
 <?php
 return [
-	'database'   => [
+	'database' => [
 		'default_connection_name' => 'default',
-		'connections'             => [
+		'connections' => [
 			'default' => [
-				'name'     => 'default',
-				'driver'   => 'sqlite',
-				'DSN'      => '/home/mirek/Jet/application/data/database.sq3',
-				'username' => '',
-				'password' => '',
+				'driver' => 'mysql',
+				'name' => 'default',
+				'DSN' => 'host=localhost;port=3306;dbname=jet;charset=utf8',
+				'username' => 'jet',
+				'password' => 'jet',
 			],
 		],
 	],
 	'data_model' => [
-		'backend_type'    => 'SQLite',
+		'backend_type' => 'MySQL',
 		'backend_options' => [
-			'connection' => 'default',
+			'connection_read' => 'default',
+			'connection_write' => 'default',
+			'engine' => 'InnoDB',
+			'default_charset' => 'utf8',
+			'collate' => 'utf8_general_ci',
 		],
 	],
-	'emails'     => [
+	'emails' => [
 		'senders' => [
 			'en_US' => [
 				'email' => 'mirek.marek.2m@gmail.com',
-				'name'  => 'Miroslav Marek EN',
+				'name' => 'Miroslav Marek',
 			],
 			'cs_CZ' => [
 				'email' => 'mirek.marek.2m@gmail.com',
-				'name'  => 'Miroslav Marek CZ',
+				'name' => 'Miroslav Marek',
 			],
 		],
 	],

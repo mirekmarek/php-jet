@@ -30,7 +30,7 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::getList() )==0;
+		return count( Mvc_Site::loadSites() )==0;
 	}
 
 	/**

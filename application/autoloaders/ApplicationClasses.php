@@ -12,7 +12,7 @@ use Jet\Autoloader_Loader;
 /**
  *
  */
-class Autoloader extends Autoloader_Loader
+class Autoloader_ApplicationClasses extends Autoloader_Loader
 {
 
 	/**
@@ -20,8 +20,9 @@ class Autoloader extends Autoloader_Loader
 	 *
 	 * @return string|bool
 	 */
-	public function getClassPath( $class_name )
+	public function getScriptPath( $class_name )
 	{
+
 		if( substr( $class_name, 0, 14 )!='JetExampleApp\\' ) {
 			return false;
 		}

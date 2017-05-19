@@ -27,10 +27,7 @@ class Mvc_Page extends Jet_Mvc_Page
 	const CHANGE_PASSWORD_ID = '_change_password_';
 	const ADMIN_HOMEPAGE_ID = 'admin';
 	const REST_HOMEPAGE_ID = 'rest';
-	/**
-	 * @var bool
-	 */
-	protected static $admin_sections_loaded = [];
+
 	/**
 	 * @var bool
 	 */
@@ -52,18 +49,14 @@ class Mvc_Page extends Jet_Mvc_Page
 	 * @param Mvc_Site_Interface $site
 	 * @param Locale             $locale
 	 *
+	 * @return Mvc_Page[]
+	 *
 	 * @throws Mvc_Page_Exception
 	 */
-	public static function loadPages( Mvc_Site_Interface $site, Locale $locale )
+	public static function loadCustomPages( Mvc_Site_Interface $site, Locale $locale )
 	{
 
-		parent::loadPages( $site, $locale );
-
-		if( isset(static::$admin_sections_loaded[(string)$locale]) ) {
-			return;
-		}
-
-		static::$admin_sections_loaded[(string)$locale] = true;
+		parent::loadCustomPages( $site, $locale );
 
 		$modules = Application_Modules::getActivatedModulesList();
 
@@ -72,7 +65,6 @@ class Mvc_Page extends Jet_Mvc_Page
 			/**
 			 * @var Application_Module_Manifest $manifest
 			 */
-
 
 			foreach( $manifest->getAdminSections() as $page_id => $page_data ) {
 				if( !isset( $page_data['layout_script_name'] ) ) {
@@ -89,7 +81,7 @@ class Mvc_Page extends Jet_Mvc_Page
 					$page_data['layout_script_name'] = 'dialog';
 				}
 
-				$page_data['URL_fragment'] = 'dialog-'.$page_data['URL_fragment'];
+				$page_data['relative_path_fragment'] = 'dialog-'.$page_data['relative_path_fragment'];
 
 				static::addAdminPage( $locale, static::ADMIN_HOMEPAGE_ID, $page_id, $page_data, $manifest );
 			}
@@ -213,7 +205,7 @@ class Mvc_Page extends Jet_Mvc_Page
 
 
 		$page_data['id'] = $page_id;
-		$page_data['title'] = 'REST API / '.$page_data['URL_fragment'];
+		$page_data['title'] = 'REST API / '.$page_data['relative_path_fragment'];
 
 		/**
 		 * @var Mvc_Page $page

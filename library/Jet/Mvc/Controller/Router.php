@@ -20,9 +20,9 @@ class Mvc_Controller_Router extends BaseObject
 	protected $module_instance;
 
 	/**
-	 * @var Mvc_Router_Interface
+	 * @var string
 	 */
-	protected $mvc_router;
+	protected $path = '';
 
 
 	/**
@@ -37,16 +37,17 @@ class Mvc_Controller_Router extends BaseObject
 
 
 	/**
-	 * @param Application_Module   $module_instance
-	 * @param Mvc_Router_Interface $mvc_router
+	 * @param Application_Module $module_instance
+	 * @param string|null        $path
 	 */
-	public function __construct( Application_Module $module_instance, Mvc_Router_Interface $mvc_router = null )
+	public function __construct( Application_Module $module_instance, $path=null )
 	{
-		if( !$mvc_router ) {
-			$mvc_router = Mvc::getRouter();
-		}
-		$this->mvc_router = $mvc_router;
 		$this->module_instance = $module_instance;
+		if($path===null) {
+			$path = Mvc::getRouter()->getPath();
+		}
+
+		$this->path = $path;
 	}
 
 	/**
@@ -97,14 +98,6 @@ class Mvc_Controller_Router extends BaseObject
 		return $this->module_instance;
 	}
 
-	/**
-	 * @return Mvc_Router_Interface
-	 */
-	public function getMvcRouter()
-	{
-		return $this->mvc_router;
-	}
-
 
 	/**
 	 * @param Mvc_Page_Content_Interface $page_content
@@ -124,7 +117,9 @@ class Mvc_Controller_Router extends BaseObject
 		}
 
 		foreach( $this->actions as $action ) {
-			if( !$action->resolve( $this ) ) {
+			$action->setRouter($this);
+
+			if( !$action->resolve( $this->path ) ) {
 				continue;
 			}
 

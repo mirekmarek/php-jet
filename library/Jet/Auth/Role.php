@@ -198,7 +198,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 		$forest->setIdKey( 'id' );
 		$forest->setLabelKey( 'name' );
 
-		foreach( Mvc_Site::getList() as $site ) {
+		foreach( Mvc_Site::loadSites() as $site ) {
 			foreach( $site->getLocales() as $locale ) {
 
 				$homepage = $site->getHomepage( $locale );

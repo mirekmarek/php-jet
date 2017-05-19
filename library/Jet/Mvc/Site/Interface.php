@@ -13,6 +13,29 @@ namespace Jet;
  */
 interface Mvc_Site_Interface
 {
+	/**
+	 * @return array
+	 */
+	public static function loadSitesData();
+
+	/**
+	 *
+	 * @return Mvc_Site[]
+	 */
+	public static function loadSites();
+
+	/**
+	 * @param array  $data
+	 *
+	 * @return Mvc_Site_Interface
+	 */
+	public static function createSiteByData( array $data );
+
+
+	/**
+	 * @return Mvc_Site_LocalizedData_Interface[]
+	 */
+	public static function getUrlMap();
 
 	/**
 	 *
@@ -32,11 +55,6 @@ interface Mvc_Site_Interface
 	 * @return string
 	 */
 	public function getId();
-
-	/**
-	 *
-	 */
-	public function generateId();
 
 	/**
 	 * Returns site name
@@ -94,56 +112,34 @@ interface Mvc_Site_Interface
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface[]
+	 * @return array
 	 */
 	public function getURLs( Locale $locale );
 
 	/**
-	 * Add URL
 	 *
 	 * @param Locale $locale
-	 * @param string $URL
+	 * @param array $URLs
 	 */
-	public function addURL( Locale $locale, $URL );
-
-	/**
-	 * Remove URL. If the URL was default, then set as the default first possible URL
-	 *
-	 * @param Locale $locale
-	 * @param string $URL
-	 */
-	public function removeURL( Locale $locale, $URL );
-
-	/**
-	 * Set default URL. Add URL first if is not defined.
-	 *
-	 * @param Locale $locale
-	 * @param string $URL
-	 */
-	public function setDefaultURL( Locale $locale, $URL );
+	public function setURLs( Locale $locale, array $URLs );
 
 	/**
 	 *
 	 * @param Locale $locale
 	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @return string
 	 */
 	public function getDefaultURL( Locale $locale );
 
 	/**
-	 *
-	 * @param Locale $locale
-	 * @param string $URL
+	 * @return bool
 	 */
-	public function setDefaultSslURL( Locale $locale, $URL );
+	public function getSSLRequired();
 
 	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
+	 * @param bool $SSL_required
 	 */
-	public function getDefaultSslURL( Locale $locale );
+	public function setSSLRequired( $SSL_required );
 
 	/**
 	 *
@@ -173,7 +169,6 @@ interface Mvc_Site_Interface
 
 	/**
 	 *
-	 * @see Mvc_Site
 	 *
 	 * @param bool $get_as_string (optional, default: false)
 	 *
@@ -184,6 +179,8 @@ interface Mvc_Site_Interface
 	/**
 	 *
 	 * @param Locale $locale
+	 *
+	 * @return Mvc_Site_LocalizedData_Interface
 	 */
 	public function addLocale( Locale $locale );
 
@@ -229,13 +226,6 @@ interface Mvc_Site_Interface
 	public function getHomepage( Locale $locale );
 
 	/**
-	 * @return array|Mvc_Site_LocalizedData_URL_Interface[]
-	 *
-	 * @throws Mvc_Router_Exception
-	 */
-	public function getUrlsMap();
-
-	/**
 	 * Returns default site data
 	 *
 	 * @return Mvc_Site_Interface
@@ -247,9 +237,5 @@ interface Mvc_Site_Interface
 	 */
 	public function saveDataFile();
 
-	/**
-	 *
-	 */
-	public function saveUrlMapFile();
 
 }

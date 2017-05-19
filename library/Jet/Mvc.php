@@ -14,6 +14,11 @@ class Mvc
 {
 
 	/**
+	 * @var bool
+	 */
+	protected static $force_slash_on_URL_end = true;
+
+	/**
 	 *
 	 * @var Mvc_Router_Interface
 	 */
@@ -38,6 +43,22 @@ class Mvc
 	 * @var Mvc_Page_Content_Interface
 	 */
 	protected static $current_content;
+
+	/**
+	 * @return boolean
+	 */
+	public static function getForceSlashOnURLEnd()
+	{
+		return self::$force_slash_on_URL_end;
+	}
+
+	/**
+	 * @param boolean $force_slash_on_URL_end
+	 */
+	public static function setForceSlashOnURLEnd( $force_slash_on_URL_end )
+	{
+		self::$force_slash_on_URL_end = $force_slash_on_URL_end;
+	}
 
 	/**
 	 * @return Mvc_Router_Interface

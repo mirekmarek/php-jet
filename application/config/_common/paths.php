@@ -6,6 +6,7 @@ define( 'JET_PATH_SITES', JET_PATH_BASE.'sites/' );
 define( 'JET_PATH_PUBLIC', JET_PATH_BASE.'public/' );
 define( 'JET_PATH_LOGS', JET_PATH_BASE.'logs/' );
 define( 'JET_PATH_TMP', JET_PATH_BASE.'tmp/' );
+define( 'JET_PATH_CACHE', JET_PATH_BASE.'cache/' );
 
 
 define( 'JET_PATH_APPLICATION', JET_PATH_BASE.'application/' );

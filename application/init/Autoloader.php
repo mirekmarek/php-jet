@@ -5,26 +5,28 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetExampleApp;
 
-/** @noinspection PhpIncludeInspection */
+use Jet\Autoloader;
+use Jet\Debug_Profiler;
+
+//Debug_Profiler::blockStart('INIT - Autoloader');
+
 require JET_PATH_LIBRARY.'Jet/Autoloader.php';
+
+
 Autoloader::initialize();
 
 
-require JET_PATH_LIBRARY.'Jet/Autoloader/Loader/Jet.php';
-Autoloader_Loader_Jet::register();
+require JET_PATH_APPLICATION.'autoloaders/Jet.php';
+Autoloader_Jet::register();
+
+require JET_PATH_APPLICATION.'autoloaders/ApplicationClasses.php';
+Autoloader_ApplicationClasses::register();
 
 
-require_once JET_PATH_LIBRARY.'Jet/Autoloader/Loader/ApplicationModules.php';
-Autoloader_Loader_ApplicationModules::register();
+require JET_PATH_APPLICATION.'autoloaders/ApplicationModules.php';
+Autoloader_ApplicationModules::register();
 
 
-require JET_PATH_LIBRARY.'Jet/Autoloader/Loader/Zend.php';
-Autoloader_Loader_Zend::register();
-
-
-require JET_PATH_APPLICATION.'classes/Autoloader.php';
-/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
-\JetExampleApp\Autoloader::register();
-
+//Debug_Profiler::blockEnd('INIT - Autoloader');

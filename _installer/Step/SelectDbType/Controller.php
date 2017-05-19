@@ -7,11 +7,11 @@
  */
 namespace JetExampleApp;
 
+use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
 use Jet\Form_Field_Select;
 use Jet\Db_Factory;
 use Jet\Db_Config;
-use Jet\Db_Backend_Config;
 use Jet\DataModel_Config;
 use Jet\DataModel_Backend_MySQL_Config;
 use Jet\DataModel_Backend_SQLite_Config;
@@ -41,7 +41,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::getList() )==0;
+		return count( Mvc_Site::loadSites() )==0;
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public static function getDbTypes()
 	{
-		$drivers = Db_Backend_Config::getPDODrivers();
+		$drivers = Db_Backend_PDO_Config::getDrivers();
 
 		foreach( static::$database_types as $type => $label ) {
 			if( !in_array( $type, $drivers ) ) {

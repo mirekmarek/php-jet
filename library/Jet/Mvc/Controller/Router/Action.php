@@ -15,6 +15,11 @@ class Mvc_Controller_Router_Action extends BaseObject
 {
 
 	/**
+	 * @var Mvc_Controller_Router
+	 */
+	protected $router;
+
+	/**
 	 * @var string
 	 */
 	protected $regexp = '';
@@ -65,6 +70,24 @@ class Mvc_Controller_Router_Action extends BaseObject
 		$this->setRegexp( $regexp );
 		$this->ACL_action = $ACL_action;
 	}
+
+	/**
+	 * @return Mvc_Controller_Router
+	 */
+	public function getRouter()
+	{
+		return $this->router;
+	}
+
+	/**
+	 * @param Mvc_Controller_Router $router
+	 */
+	public function setRouter( $router )
+	{
+		$this->router = $router;
+	}
+
+
 
 	/**
 	 * @return string
@@ -145,7 +168,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * Callback prototype:
 	 *
-	 * someCallback( Mvc_Controller_Router $router, Mvc_Controller_Router_Action $action )
+	 * someCallback( $path, Mvc_Controller_Router_Action $action )
 	 *
 	 * Callback return value: bool, true if resolved
 	 *
@@ -160,48 +183,29 @@ class Mvc_Controller_Router_Action extends BaseObject
 		return $this;
 	}
 
-	/**
-	 * Callback prototype:
-	 *
-	 * someCallback( Mvc_Controller_Router $router, Mvc_Controller_Router_Action $action )
-	 *
-	 * Callback return value: string or false
-	 *
-	 * @param callable $get_path_fragment_callback
-	 *
-	 * @return Mvc_Controller_Router_Action
-	 */
-	public function setGetPathFragmentCallback( $get_path_fragment_callback )
-	{
-		$this->get_path_fragment_callback = $get_path_fragment_callback;
-
-		return $this;
-	}
 
 	/**
 	 * Returns true if resolved
 	 *
-	 * @param Mvc_Controller_Router $router
+	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function resolve( Mvc_Controller_Router $router )
+	public function resolve( $path )
 	{
-		if( $this->resolve_callback ) {
-			$callback = $this->resolve_callback;
-
-			return $callback( $router, $this );
-		}
-
-
-		$path_fragment = $this->getPathFragment( $router );
-
-		if( !$path_fragment ) {
+		if( !$path ) {
 			return false;
 		}
 
+		if( $this->resolve_callback ) {
+			$callback = $this->resolve_callback;
+
+			return $callback( $path, $this );
+		}
+
+
 		$matches = [];
-		if( !preg_match( $this->regexp, $path_fragment, $matches ) ) {
+		if( !preg_match( $this->regexp, $path, $matches ) ) {
 			return false;
 		}
 
@@ -218,31 +222,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 		$this->action_parameters = $matches;
 
 		return true;
-	}
-
-	/**
-	 * @param Mvc_Controller_Router $router
-	 *
-	 * @return string|bool
-	 */
-	protected function getPathFragment( Mvc_Controller_Router $router )
-	{
-		if( $this->get_path_fragment_callback ) {
-			$callback = $this->get_path_fragment_callback;
-
-			return $callback( $router, $this );
-		}
-
-
-		$main_router = $router->getMvcRouter();
-
-		$path_fragments = $main_router->getPathFragments();
-		if( !$path_fragments ) {
-			return false;
-		}
-
-		return $path_fragments[0];
-
 	}
 
 	/**

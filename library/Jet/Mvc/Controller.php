@@ -80,7 +80,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function parseRequestURL( Mvc_Page_Content_Interface $page_content = null )
+	public function parseRequestPath( Mvc_Page_Content_Interface $page_content = null )
 	{
 
 		$router = $this->getControllerRouter();
@@ -93,6 +93,7 @@ abstract class Mvc_Controller extends BaseObject
 	}
 
 	/**
+	 *
 	 *
 	 * @return Mvc_Controller_Router|null
 	 */

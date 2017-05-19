@@ -392,14 +392,14 @@ class UI_dataGrid extends BaseObject
 
 		}
 
-		$URL_template = Http_Request::getCurrentURI( [ $this->getPaginatorGetParameter() => 'PAGE_NO' ] );
-		$URL_template = str_replace( 'PAGE_NO', Data_Paginator::URL_PAGE_NO_KEY, $URL_template );
 
 
 		$this->paginator = new Data_Paginator(
 			Http_Request::GET()->getInt( $this->getPaginatorGetParameter(), $default_page_no ),
 			$this->getPaginatorItemsPerPage(),
-			$URL_template
+			function( $page_no ) {
+				return Http_Request::getCurrentURI( [ $this->getPaginatorGetParameter() => $page_no ] );
+			}
 		);
 
 	}

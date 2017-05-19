@@ -4,6 +4,7 @@ application/data/**
 sites/**
 logs/**
 tmp/**
+cache/**
 public/*
 !public/scripts/admin_main.js
 !public/scripts/test.js

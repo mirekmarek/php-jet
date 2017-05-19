@@ -83,11 +83,6 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 	/**
 	 * @var bool
 	 */
-	protected $lazy_mode = false;
-
-	/**
-	 * @var bool
-	 */
 	protected $adopt_orphans = false;
 
 	/**
@@ -155,22 +150,6 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 
 		$this->nodes_class_name = $nodes_class_name;
 
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getLazyMode()
-	{
-		return $this->lazy_mode;
-	}
-
-	/**
-	 * @param bool $lazy_mode
-	 */
-	public function setLazyMode( $lazy_mode )
-	{
-		$this->lazy_mode = (bool)$lazy_mode;
 	}
 
 	/**
@@ -590,21 +569,9 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 		}
 
 		foreach( $this->__parent_map[$parent_id] as $id => $item_data ) {
-			$node = $this->appendNode( $item_data );
 			unset( $this->__parent_map[$parent_id][$id] );
 
-			if( !$this->lazy_mode ) {
-				$this->__setData( $id );
-			} else {
-				if( $node->getDepth()<1 ) {
-					$this->__setData( $id );
-				} else {
-					if( !empty( $this->__parent_map[$id] ) ) {
-						$node->setHasChildren();
-					}
-				}
-
-			}
+			$this->__setData( $id );
 		}
 		unset( $this->__parent_map[$parent_id] );
 

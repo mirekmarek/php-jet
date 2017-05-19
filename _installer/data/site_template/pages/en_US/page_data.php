@@ -5,9 +5,6 @@ return [
     'menu_title' => 'Homepage',
     'breadcrumb_title' => 'Homepage',
     'layout_script_name' => 'default',
-    'headers_suffix' => '<!-- some header code -->',
-    'body_prefix' => '<!-- some body prefix code -->',
-    'body_suffix' => '<!-- some body suffix code -->',
     'meta_tags' => [
         [
             'attribute'   => 'Meta1attribute',

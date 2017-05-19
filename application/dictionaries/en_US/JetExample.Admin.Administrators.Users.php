@@ -13,7 +13,6 @@ return [
 	'Passwords do not match' => '',
 	'Please select locale' => '',
 	'Please select role' => '',
-	'Username' => '',
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
@@ -43,4 +42,5 @@ return [
 	'Edit user account <b>%USERNAME%</b>' => '',
 	'Reset password' => '',
 	'Password has been re-generated' => '',
+	'User <b>%USERNAME%</b> has been updated' => '',
 ];

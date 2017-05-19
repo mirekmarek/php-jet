@@ -15,20 +15,19 @@ define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 
 
 $config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';
+$init_dir = __DIR__.'/init/';
 
-require( $config_dir.'paths.php' );
+
 require( $config_dir.'jet.php' );
+require( $config_dir.'paths.php' );
 require( $config_dir.'URI.php' );
 
 
-$init_dir = __DIR__.'/init/';
-
-require( $init_dir.'PHP.php' );
 require( $init_dir.'Profiler.php' );
+require( $init_dir.'PHP.php' );
 require( $init_dir.'ErrorHandler.php' );
 require( $init_dir.'Autoloader.php' );
 require( $init_dir.'ClassNames.php' );
-
 
 
 //- REMOVE AFTER INSTALLATION -------------
@@ -43,21 +42,28 @@ if(
 }
 //- REMOVE AFTER INSTALLATION -------------
 
+require( $init_dir.'Cache.php' );
+
 
 
 
 Application_Log::setLogger( new Application_Log_Logger() );
+
 Auth::setController( new Auth_Controller() );
 
 Mvc::getRouter()->afterSiteResolved( function( Mvc_Router_Interface $router ) {
 
-	$site = $router->getSite();
-	$locale = $router->getLocale();
-	ErrorPages::setErrorPagesDir( $site->getPagesDataPath( $locale ) );
+	ErrorPages::setErrorPagesDir(
+		$router->getSite()->getPagesDataPath(
+			$router->getLocale()
+		)
+	);
 
 } );
 
-Application::start();
+
+
+Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
 
 Application::runMvc();
 

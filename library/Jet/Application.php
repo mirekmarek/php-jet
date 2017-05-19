@@ -67,53 +67,29 @@ class Application extends BaseObject
 
 	/**
 	 *
-	 * @throws Application_Exception
-	 */
-	public static function start()
-	{
-
-		Debug_Profiler::mainBlockStart( 'Application init' );
-
-
-		Debug_Profiler::blockStart( 'Http request init' );
-		if(defined('JET_HIDE_HTTP_REQUEST')) {
-			Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
-		} else {
-			Http_Request::initialize();
-		}
-		Debug_Profiler::blockEnd( 'Http request init' );
-
-		Debug_Profiler::mainBlockEnd( 'Application init' );
-
-	}
-
-	/**
-	 *
 	 * @param string|null $URL (optional; URL to dispatch; default: null = current URL)
 	 *
 	 */
 	public static function runMvc( $URL = null )
 	{
-		Debug_Profiler::mainBlockStart( 'MVC router - init and resolve' );
+		Debug_Profiler::blockStart( 'MVC router - init and resolve' );
 
 		$router = Mvc::getRouter();
 
-		if( !$URL ) {
-			$URL = Http_Request::getURL();
-		}
-
 		$router->resolve( $URL );
 
-		Debug_Profiler::mainBlockEnd( 'MVC router - init and resolve' );
+		Debug_Profiler::blockEnd( 'MVC router - init and resolve' );
 
 		if( $router->getIsRedirect() ) {
 
-			if( $router->getRedirectType()==Http_Headers::CODE_301_MOVED_PERMANENTLY ) {
-				Http_Headers::movedPermanently( $router->getRedirectTargetURL() );
-			} else {
-				Http_Headers::movedTemporary( $router->getRedirectTargetURL() );
-			}
+			Http_Headers::redirect(
+				$router->getRedirectType(),
+				$router->getRedirectTargetURL(),
+				[],
+				false
+			);
 
+			return;
 		}
 
 		$site = Mvc::getCurrentSite();
@@ -169,13 +145,16 @@ class Application extends BaseObject
 		if( $page->getIsSubApp() ) {
 			$page->handleHttpHeaders();
 			$page->handleSubApp();
-		} else {
-			$result = $page->render();
 
-			$page->handleHttpHeaders();
-
-			echo $result;
+			return;
 		}
+
+		$result = $page->render();
+
+		$page->handleHttpHeaders();
+
+		echo $result;
+
 	}
 
 	/**

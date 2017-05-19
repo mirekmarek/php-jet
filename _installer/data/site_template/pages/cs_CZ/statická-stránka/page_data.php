@@ -4,9 +4,6 @@ return [
     'order' => 5,
     'name' => 'Staticka stranka',
     'title' => 'Statická stránka',
-    'headers_suffix' => '',
-    'body_prefix' => '',
-    'body_suffix' => '',
 	'http_headers' => [
 		'testHeader1' => 'test value 1'
 	],

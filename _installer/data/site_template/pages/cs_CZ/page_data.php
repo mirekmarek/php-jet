@@ -5,9 +5,6 @@ return [
     'menu_title' => 'Hlavní stránka',
     'breadcrumb_title' => 'Hlavní stránka',
     'layout_script_name' => 'default',
-    'headers_suffix' => '<!-- Kód do hlavičky -->',
-    'body_prefix' => '<!-- Kód na začátek stránky -->',
-    'body_suffix' => '<!-- Kód na konec stránky -->',
     'meta_tags' => [
         [
             'attribute'   => 'Meta1attribute',

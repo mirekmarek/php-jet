@@ -100,16 +100,14 @@ class Debug_Profiler_Run_Block
 
 
 	/**
-	 * @param bool                     $is_anonymous
 	 * @param string                   $label
 	 * @param int                      $level
 	 * @param Debug_Profiler_Run_Block $parent_block
 	 */
-	public function __construct( $is_anonymous, $label, $level, Debug_Profiler_Run_Block $parent_block = null )
+	public function __construct( $label, $level, Debug_Profiler_Run_Block $parent_block = null )
 	{
 		$this->label = $label;
 		$this->level = (int)$level;
-		$this->is_anonymous = $is_anonymous;
 
 		$this->backtrace_start = Debug_Profiler::getBacktrace( 3 );
 

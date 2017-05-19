@@ -8,6 +8,10 @@
 namespace JetExampleApp;
 
 use Jet\Debug_ErrorHandler;
+use Jet\Debug_Profiler;
+
+
+//Debug_Profiler::blockStart('INIT - ErrorHandler');
 
 /** @noinspection PhpIncludeInspection */
 require JET_PATH_LIBRARY.'Jet/Debug.php';
@@ -29,3 +33,5 @@ if( JET_DEVEL_MODE ) {
 }
 
 Debug_ErrorHandler::initialize();
+
+//Debug_Profiler::blockEnd('INIT - ErrorHandler');

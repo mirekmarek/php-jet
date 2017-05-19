@@ -7,9 +7,6 @@ return [
     'menu_title' => 'Secret area',
     'breadcrumb_title' => 'Secret area',
     'layout_script_name' => 'default-secret',
-    'headers_suffix' => '',
-    'body_prefix' => '',
-    'body_suffix' => '',
     'meta_tags' => [
         [
             'attribute'   => 'name',

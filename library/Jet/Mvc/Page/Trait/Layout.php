@@ -12,6 +12,7 @@ namespace Jet;
  */
 trait Mvc_Page_Trait_Layout
 {
+
 	/**
 	 *
 	 * @var string
@@ -25,11 +26,69 @@ trait Mvc_Page_Trait_Layout
 	protected $layout_script_name = '';
 
 	/**
+	 * @return string
+	 */
+	public function getCustomLayoutsPath()
+	{
+		/**
+		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 */
+
+		if(
+			!$this->custom_layouts_path &&
+			$this->getParent()
+		) {
+			return $this->getParent()->getCustomLayoutsPath();
+		}
+
+		return $this->custom_layouts_path;
+	}
+
+	/**
+	 * @param string $layouts_dir
+	 */
+	public function setCustomLayoutsPath( $layouts_dir )
+	{
+		$this->custom_layouts_path = $layouts_dir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLayoutScriptName()
+	{
+		/**
+		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 */
+
+		if(
+			!$this->layout_script_name &&
+			$this->getParent()
+		) {
+			return $this->getParent()->getLayoutScriptName();
+		}
+
+		return $this->layout_script_name;
+	}
+
+	/**
+	 * @param string $layout_script_name
+	 */
+	public function setLayoutScriptName( $layout_script_name )
+	{
+		$this->layout_script_name = $layout_script_name;
+	}
+
+
+	/**
 	 * @throws Exception
 	 *
 	 */
 	public function initializeLayout()
 	{
+		/**
+		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 */
 		if( Mvc_Layout::getCurrentLayout() ) {
 			return;
 		}
@@ -53,38 +112,6 @@ trait Mvc_Page_Trait_Layout
 		}
 
 		return $this->getSite()->getLayoutsPath();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCustomLayoutsPath()
-	{
-		return $this->custom_layouts_path;
-	}
-
-	/**
-	 * @param string $layouts_dir
-	 */
-	public function setCustomLayoutsPath( $layouts_dir )
-	{
-		$this->custom_layouts_path = $layouts_dir;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLayoutScriptName()
-	{
-		return $this->layout_script_name;
-	}
-
-	/**
-	 * @param string $layout_script_name
-	 */
-	public function setLayoutScriptName( $layout_script_name )
-	{
-		$this->layout_script_name = $layout_script_name;
 	}
 
 }

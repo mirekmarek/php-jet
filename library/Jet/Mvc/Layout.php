@@ -20,9 +20,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	const TAG_CSS = 'jet_layout_css';
 
 	const TAG_META_TAGS = 'jet_layout_meta_tags';
-	const TAG_HEADER_SUFFIX = 'jet_layout_header_suffix';
-	const TAG_BODY_PREFIX = 'jet_layout_body_prefix';
-	const TAG_BODY_SUFFIX = 'jet_layout_body_suffix';
 
 	const TAG_MODULE = 'jet_module';
 
@@ -609,9 +606,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	{
 		$dat = [];
 		$dat[static::TAG_META_TAGS] = '';
-		$dat[static::TAG_HEADER_SUFFIX] = '';
-		$dat[static::TAG_BODY_PREFIX] = '';
-		$dat[static::TAG_BODY_SUFFIX] = '';
 
 		if( ( $page = Mvc::getCurrentPage() ) ) {
 
@@ -619,10 +613,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 				$dat[static::TAG_META_TAGS] .= JET_EOL.JET_TAB.$mt;
 			}
 
-
-			$dat[static::TAG_HEADER_SUFFIX] = htmlspecialchars_decode( $page->getHeadersSuffix( true ) );
-			$dat[static::TAG_BODY_PREFIX] = htmlspecialchars_decode( $page->getBodyPrefix( true ) );
-			$dat[static::TAG_BODY_SUFFIX] = htmlspecialchars_decode( $page->getBodySuffix( true ) );
 		}
 
 		foreach( $dat as $tag => $rep_l ) {

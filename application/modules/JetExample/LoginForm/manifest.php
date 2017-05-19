@@ -13,7 +13,7 @@ return [
 
 	'admin_sections' => [
 		Mvc_Page::CHANGE_PASSWORD_ID => [
-			'is_system_page' => true, 'title' => 'Change password', 'URL_fragment' => 'change-password',
+			'is_system_page' => true, 'title' => 'Change password', 'relative_path_fragment' => 'change-password',
 			'action'         => 'change_password',
 		],
 	],

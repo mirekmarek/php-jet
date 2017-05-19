@@ -12,94 +12,15 @@ namespace Jet;
  */
 trait Mvc_Page_Trait_URL
 {
-	/**
-	 *
-	 * @var string
-	 */
-	protected $URL_fragment = '';
 
 	/**
-	 *
-	 * @var string
-	 */
-	protected $relative_URI = '';
-
-	/**
-	 * @return string
-	 */
-	public function getUrlFragment()
-	{
-		return $this->URL_fragment;
-	}
-
-	/**
-	 * @param string $URL_fragment
-	 * @param bool   $encode (optional, default = true)
-	 */
-	public function setUrlFragment( $URL_fragment, $encode = true )
-	{
-		/**
-		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
-		 */
-
-		if( $encode ) {
-			$URL_fragment = rawurlencode( $URL_fragment );
-		}
-
-		$this->URL_fragment = $URL_fragment;
-
-		if( ( $parent = $this->getParent() ) ) {
-			$this->setRelativeUrl( $parent->getRelativeUrl().$this->URL_fragment.'/' );
-		}
-	}
-
-	/**
-	 * @param string $URI
-	 */
-	protected function setRelativeUrl( $URI )
-	{
-		$this->relative_URI = $URI;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getRelativeUrl()
-	{
-		return $this->relative_URI;
-	}
-
-	/**
-	 * @param array $GET_params
-	 * @param array $path_fragments
+	 * @param string|null|bool $schema
+	 * @param array            $path_fragments
+	 * @param array            $GET_params
 	 *
 	 * @return string
 	 */
-	public function getURL( array $GET_params = [], array $path_fragments = [] )
-	{
-		/**
-		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
-		 */
-
-		if( (string)$this->getSite()->getId()==Mvc::getCurrentSite()->getId(
-			)&&(string)$this->locale==Mvc::getCurrentLocale()&&$this->getSSLRequired()==Mvc::getRouter()
-				->getIsSSLRequest()
-		) {
-
-			return $this->getURI( $GET_params, $path_fragments );
-		} else {
-
-			return $this->getFullURL( $GET_params, $path_fragments );
-		}
-	}
-
-	/**
-	 * @param array $GET_params
-	 * @param array $path_fragments
-	 *
-	 * @return string
-	 */
-	public function getURI( array $GET_params = [], array $path_fragments = [] )
+	protected function _createURL( $schema, array $path_fragments, array $GET_params )
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
@@ -107,37 +28,59 @@ trait Mvc_Page_Trait_URL
 
 		$site = $this->getSite();
 
-		if( $this->getSSLRequired() ) {
-			$base_URL = $site->getDefaultSslURL( $this->locale )->getPathPart();
+		$URL = $site->getDefaultURL($this->locale).$this->relative_path;
+
+		if($schema===false) {
+			$URL = strchr($URL, '/');
 		} else {
-			$base_URL = $site->getDefaultURL( $this->locale )->getPathPart();
+			if($schema===null) {
+				if($this->getSSLRequired()) {
+					$schema = 'https';
+				} else {
+					$schema = 'http';
+				}
+			}
+
+			if(!$schema) {
+				$URL = '//'.$URL;
+
+			} else {
+				$URL = $schema.'://'.$URL;
+			}
 		}
 
 
-		return $this->_createURL( $base_URL, $GET_params, $path_fragments );
-	}
-
-	/**
-	 * @param string $base_URL
-	 * @param array  $GET_params
-	 * @param array  $path_fragments
-	 *
-	 * @return string
-	 */
-	protected function _createURL( $base_URL, array $GET_params, array $path_fragments )
-	{
-		$URL = $base_URL;
-		$URL .= $this->relative_URI;
-
-
 		if( $path_fragments ) {
+
+			$do_not_add_slash = false;
+			$p = '';
 			foreach( $path_fragments as $i => $p ) {
 				$path_fragments[$i] = rawurlencode( $p );
 			}
 
-			$path_fragments = implode( '/', $path_fragments ).'/';
 
-			$URL .= $path_fragments;
+			if(strpos($p, '.')!==false) {
+				$do_not_add_slash = true;
+			}
+
+			$path_fragments = implode( '/', $path_fragments );
+
+			$URL .= '/'.$path_fragments;
+
+			if(
+				Mvc::getForceSlashOnURLEnd() &&
+				!$do_not_add_slash
+			) {
+				$URL .= '/';
+			}
+		} else {
+			if(
+				$this->relative_path &&
+				Mvc::getForceSlashOnURLEnd()
+			) {
+				$URL .= '/';
+			}
+
 		}
 
 		if( $GET_params ) {
@@ -156,96 +99,70 @@ trait Mvc_Page_Trait_URL
 
 	}
 
+
 	/**
-	 * @param array $GET_params
+	 *
 	 * @param array $path_fragments
+	 * @param array $GET_params
 	 *
 	 * @return string
 	 */
-	public function getFullURL( array $GET_params = [], array $path_fragments = [] )
+	public function getURL( array $path_fragments = [], array $GET_params = [] )
 	{
-		/**
-		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
-		 */
+		return $this->_createURL( null, $path_fragments, $GET_params );
+	}
 
-		$site = $this->getSite();
-
-		if( $this->getSSLRequired() ) {
-			$base_URL = $site->getDefaultSslURL( $this->locale );
-		} else {
-			$base_URL = $site->getDefaultURL( $this->locale );
-		}
-
-
-		return $this->_createURL( $base_URL, $GET_params, $path_fragments );
+	/**
+	 *
+	 * @param array $path_fragments
+	 * @param array $GET_params
+	 *
+	 * @return string
+	 */
+	public function getURI( array $path_fragments = [], array $GET_params = [] )
+	{
+		return $this->_createURL( false, $path_fragments, $GET_params );
 	}
 
 
 	/**
-	 * Example: //domain/page/
 	 *
-	 * @param array $GET_params
 	 * @param array $path_fragments
+	 * @param array $GET_params
 	 *
 	 * @return string
 	 */
-	public function getNonSchemaURL( array $GET_params = [], array $path_fragments = [] )
+	public function getNonSchemaURL( array $path_fragments = [], array $GET_params = [] )
 	{
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
 		 */
 
-		$site = $this->getSite();
-
-		$base_URL = $site->getDefaultURL( $this->locale );
-
-		$schema = $base_URL->getSchemePart();
-
-		$base_URL = substr( $base_URL, strlen( $schema ) );
-
-		return $this->_createURL( $base_URL, $GET_params, $path_fragments );
+		return $this->_createURL( '', $path_fragments, $GET_params );
 	}
 
 	/**
-	 * Example: http://domain/page/
 	 *
-	 * @param array $GET_params
 	 * @param array $path_fragments
+	 * @param array $GET_params
 	 *
 	 * @return string
 	 */
-	public function getNonSslURL( array $GET_params = [], array $path_fragments = [] )
+	public function getNonSslURL( array $path_fragments = [], array $GET_params = [] )
 	{
-		/**
-		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
-		 */
-
-		$site = $this->getSite();
-
-		$base_URL = $site->getDefaultURL( $this->locale );
-
-		return $this->_createURL( $base_URL, $GET_params, $path_fragments );
+		return $this->_createURL( 'http', $path_fragments, $GET_params );
 	}
 
 	/**
-	 * Example: https://domain/page/
 	 *
-	 * @param array $GET_params
 	 * @param array $path_fragments
+	 * @param array $GET_params
 	 *
 	 * @return string
 	 */
-	public function getSslURL( array $GET_params = [], array $path_fragments = [] )
+	public function getSslURL( array $path_fragments = [], array $GET_params = [] )
 	{
-		/**
-		 * @var Mvc_Page|Mvc_Page_Trait_URL $this
-		 */
-
-		$site = $this->getSite();
-
-		$base_URL = $site->getDefaultSslURL( $this->locale );
-
-		return $this->_createURL( $base_URL, $GET_params, $path_fragments );
+		return $this->_createURL( 'https', $path_fragments, $GET_params );
 	}
 
 }

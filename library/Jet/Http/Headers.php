@@ -274,50 +274,57 @@ class Http_Headers
 	}
 
 	/**
-	 * Permanent redirection - 301
-	 *
-	 * @param string $target_URL target URL
-	 * @param bool   $application_end (optional, default: true)
-	 * @param array  $headers (optional, default: none)
-	 *
+	 * @param int    $http_code
+	 * @param string $target_URL
+	 * @param array  $headers
+	 * @param bool   $application_end
 	 */
-	public static function movedPermanently( $target_URL, $application_end = true, array $headers = [] )
+	public static function redirect( $http_code, $target_URL, array $headers = [], $application_end = true )
 	{
+		$headers['Location'] = $target_URL;
 		static::response(
-			static::CODE_301_MOVED_PERMANENTLY, array_merge(
-				                                  [
-					                                  'Location' => $target_URL,
-				                                  ], $headers
-			                                  )
+			$http_code,
+			$headers
 		);
 
 		if( $application_end ) {
 			Debug_Profiler::setOutputEnabled( false );
 			Application::end();
 		}
+
+	}
+
+	/**
+	 *
+	 * @param string $target_URL target URL
+	 * @param array  $headers (optional, default: none)
+	 * @param bool   $application_end (optional, default: true)
+	 */
+	public static function movedPermanently( $target_URL, array $headers = [], $application_end = true )
+	{
+		static::redirect(
+			static::CODE_301_MOVED_PERMANENTLY,
+			$target_URL,
+			$headers,
+			$application_end
+		);
 	}
 
 	/**
 	 * Temporary redirection - 302
 	 *
 	 * @param string $target_URL target URL
-	 * @param bool   $application_end (optional, default: true)
 	 * @param array  $headers (optional, default: none)
+	 * @param bool   $application_end (optional, default: true)
 	 */
-	public static function movedTemporary( $target_URL, $application_end = true, array $headers = [] )
+	public static function movedTemporary( $target_URL, array $headers = [], $application_end = true )
 	{
-		static::response(
-			static::CODE_302_MOVED_TEMPORARY, array_merge(
-				                                [
-					                                'Location' => $target_URL,
-				                                ], $headers
-			                                )
+		static::redirect(
+			static::CODE_302_MOVED_TEMPORARY,
+			$target_URL,
+			$headers,
+			$application_end
 		);
-
-		if( $application_end ) {
-			Debug_Profiler::setOutputEnabled( false );
-			Application::end();
-		}
 	}
 
 
@@ -325,22 +332,17 @@ class Http_Headers
 	 * See other - 303
 	 *
 	 * @param string $target_URL target URL
-	 * @param bool   $application_end (optional, default: true)
 	 * @param array  $headers (optional, default: none)
+	 * @param bool   $application_end (optional, default: true)
 	 */
-	public static function seeOther( $target_URL, $application_end = true, array $headers = [] )
+	public static function seeOther( $target_URL, array $headers = [], $application_end = true )
 	{
-		static::response(
-			static::CODE_303_SEE_OTHER, array_merge(
-				                          [
-					                          'Location' => $target_URL,
-				                          ], $headers
-			                          )
+		static::redirect(
+			static::CODE_303_SEE_OTHER,
+			$target_URL,
+			$headers,
+			$application_end
 		);
-		if( $application_end ) {
-			Debug_Profiler::setOutputEnabled( false );
-			Application::end();
-		}
 	}
 
 

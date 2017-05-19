@@ -27,7 +27,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::getList() )==0;
+		return count( Mvc_Site::loadSites() )==0;
 	}
 
 	/**
@@ -45,6 +45,10 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 				'is_writeable' => false,
 			],
 			JET_PATH_TMP                               => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_CACHE                             => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],

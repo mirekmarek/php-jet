@@ -40,6 +40,22 @@ class Config_Definition_Config extends BaseObject
 	protected $properties_definition = [];
 
 	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( array $data )
+	{
+		$i = new static();
+
+		foreach( $data as $key => $val ) {
+			$i->{$key} = $val;
+		}
+
+		return $i;
+	}
+
+	/**
 	 * @param string $class_name
 	 *
 	 * @throws Config_Exception
@@ -78,22 +94,6 @@ class Config_Definition_Config extends BaseObject
 		}
 
 
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data )
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
 	}
 
 	/**

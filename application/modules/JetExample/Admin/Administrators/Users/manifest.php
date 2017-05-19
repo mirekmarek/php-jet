@@ -12,7 +12,7 @@ return [
 	'admin_sections' => [
 		'admin/administrators-users' => [
 			'title' => 'Administrators - Users', 'breadcrumb_title' => 'Administrators - Users',
-			'icon'  => 'user-secret', 'URL_fragment' => 'administrators-users',
+			'icon'  => 'user-secret', 'relative_path_fragment' => 'administrators-users',
 		],
 	],
 

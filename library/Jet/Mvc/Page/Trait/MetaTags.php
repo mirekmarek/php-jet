@@ -32,7 +32,7 @@ trait Mvc_Page_Trait_MetaTags
 		if( $get_default ) {
 			$meta_tags = [];
 
-			foreach( $this->getSiteLocalizedData()->getDefaultMetaTags() as $mt ) {
+			foreach( $this->getSite()->getLocalizedData( $this->getLocale() )->getDefaultMetaTags() as $mt ) {
 				$key = $mt->getAttribute().':'.$mt->getAttributeValue();
 				if( $key==':' ) {
 					$key = $mt->getContent();

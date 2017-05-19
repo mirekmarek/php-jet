@@ -224,7 +224,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 *
 	 * @throws Application_Modules_Exception
 	 */
-	public function readManifestData()
+	protected function readManifestData()
 	{
 		$module_dir = $this->getModuleDir();
 
@@ -249,16 +249,6 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 		$manifest_data = require $manifest_file;
 
 		return $manifest_data;
-	}
-
-	/**
-	 * Returns module root directory
-	 *
-	 * @return string
-	 */
-	public function getModuleDir()
-	{
-		return Application_Modules::getBasePath().str_replace( '.', '/', $this->name ).'/';
 	}
 
 	/**
@@ -336,7 +326,17 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 
 			$this->{$key} = $val;
 		}
+	}
 
+
+	/**
+	 * Returns module root directory
+	 *
+	 * @return string
+	 */
+	public function getModuleDir()
+	{
+		return Application_Modules::getBasePath().str_replace( '.', '/', $this->name ).'/';
 	}
 
 	/**

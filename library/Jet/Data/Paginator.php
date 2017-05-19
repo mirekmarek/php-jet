@@ -12,9 +12,6 @@ namespace Jet;
  */
 class Data_Paginator extends BaseObject
 {
-	const URL_PAGE_NO_KEY = '%PAGE_NO%';
-
-	const DEFAULT_ITEMS_PER_PAGE = 50;
 
 	/**
 	 * @var int
@@ -79,9 +76,9 @@ class Data_Paginator extends BaseObject
 	protected $current_page_no_is_in_range = false;
 
 	/**
-	 * @var string
+	 * @var callable
 	 */
-	protected $URL_template = '';
+	protected $URL_creator;
 
 	/**
 	 * Can be null if current page is the first page
@@ -116,12 +113,13 @@ class Data_Paginator extends BaseObject
 	 *
 	 * @param int    $current_page_no (no 1 is first)
 	 * @param int    $items_per_page
-	 * @param string $URL_template
+	 * @param callable $URL_creator
 	 *
 	 * @throws Data_Paginator_Exception
 	 */
-	public function __construct( $current_page_no, $items_per_page = self::DEFAULT_ITEMS_PER_PAGE, $URL_template = '' )
+	public function __construct( $current_page_no, $items_per_page, callable $URL_creator )
 	{
+
 		$this->current_page_no_is_in_range = true;
 
 		$this->current_page_no = (int)$current_page_no;
@@ -140,14 +138,16 @@ class Data_Paginator extends BaseObject
 			$this->items_per_page = static::$max_items_per_page;
 		}
 
-		if( $URL_template&&strpos( $URL_template, self::URL_PAGE_NO_KEY )===false ) {
-			throw new Data_Paginator_Exception(
-				'Incorrect URL template string. Template string must contains \''.self::URL_PAGE_NO_KEY.'\' string. Example: \'?page='.self::URL_PAGE_NO_KEY.'\' ',
-				Data_Paginator_Exception::CODE_INCORRECT_URL_TEMPLATE_STRING
-			);
-		}
 
-		$this->URL_template = $URL_template;
+		$this->URL_creator = $URL_creator;
+	}
+
+	/**
+	 * @param callable $URL_creator
+	 */
+	public function setURLCreator( callable $URL_creator )
+	{
+		$this->URL_creator = $URL_creator;
 	}
 
 	/**
@@ -201,23 +201,25 @@ class Data_Paginator extends BaseObject
 		$this->next_page_URL = null;
 		$this->pages_URL = [];
 
-		if( $this->URL_template ) {
-			if( $this->prev_page_no ) {
-				$this->prev_page_URL = str_replace( static::URL_PAGE_NO_KEY, $this->prev_page_no, $this->URL_template );
-				$this->first_page_URL = str_replace( static::URL_PAGE_NO_KEY, 1, $this->URL_template );
-			}
 
-			if( $this->next_page_no ) {
-				$this->next_page_URL = str_replace( static::URL_PAGE_NO_KEY, $this->next_page_no, $this->URL_template );
-				$this->last_page_URL = str_replace( static::URL_PAGE_NO_KEY, $this->pages_count, $this->URL_template );
-			}
+		$creator = $this->URL_creator;
 
-			if( $this->pages_count ) {
-				for( $i = 1; $i<=$this->pages_count; $i++ ) {
-					$this->pages_URL[$i] = str_replace( static::URL_PAGE_NO_KEY, $i, $this->URL_template );
-				}
+		if( $this->prev_page_no ) {
+			$this->prev_page_URL = $creator( $this->prev_page_no );
+			$this->first_page_URL = $creator( 1 );
+		}
+
+		if( $this->next_page_no ) {
+			$this->next_page_URL = $creator($this->next_page_no);
+			$this->last_page_URL = $creator($this->pages_count);
+		}
+
+		if( $this->pages_count ) {
+			for( $i = 1; $i<=$this->pages_count; $i++ ) {
+				$this->pages_URL[$i] = $creator($i);
 			}
 		}
+
 	}
 
 	/**

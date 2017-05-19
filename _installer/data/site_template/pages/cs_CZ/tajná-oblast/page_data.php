@@ -7,9 +7,6 @@ return [
     'menu_title' => 'Tajná oblast',
     'breadcrumb_title' => 'Tajná oblast',
     'layout_script_name' => 'default-secret',
-    'headers_suffix' => '',
-    'body_prefix' => '',
-    'body_suffix' => '',
     'meta_tags' => [
         [
             'attribute'   => 'name',

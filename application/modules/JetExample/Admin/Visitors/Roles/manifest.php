@@ -11,7 +11,7 @@ return [
 
 	'admin_sections' => [
 		'admin/visitors-roles' => [
-			'title' => 'Visitors - User roles', 'URL_fragment' => 'visitors-user-roles', 'icon' => 'street-view',
+			'title' => 'Visitors - User roles', 'relative_path_fragment' => 'visitors-user-roles', 'icon' => 'street-view',
 		],
 	],
 

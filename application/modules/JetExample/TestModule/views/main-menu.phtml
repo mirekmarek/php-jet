@@ -23,7 +23,10 @@ $show_menu = function( $pages ) use ( &$show_menu ) {
 	?>
 	<ul>
 		<?php foreach( $pages as $page ):
-			if( !$page->getIsActive()||$page->getIsAdminUI()||$page->getIsSecretPage() ) {
+			if(
+				!$page->getIsActive() ||
+				$page->getIsAdminUI() ||
+				$page->getIsSecretPage() ) {
 				continue;
 			}
 			?>

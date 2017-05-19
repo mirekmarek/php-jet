@@ -11,7 +11,7 @@ return [
 
 	'admin_sections' => [
 		'admin/visitors-users' => [
-			'title' => 'Visitors - Users', 'URL_fragment' => 'visitors-users', 'icon' => 'users',
+			'title' => 'Visitors - Users', 'relative_path_fragment' => 'visitors-users', 'icon' => 'users',
 		],
 	],
 

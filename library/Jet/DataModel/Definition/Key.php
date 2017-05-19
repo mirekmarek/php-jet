@@ -33,6 +33,17 @@ class DataModel_Definition_Key extends BaseObject
 
 
 	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( array $data )
+	{
+		return new static( $data['name'], $data['type'], $data['property_names'] );
+
+	}
+
+	/**
 	 * @param string $name
 	 * @param string $type
 	 * @param array  $property_names
@@ -60,17 +71,6 @@ class DataModel_Definition_Key extends BaseObject
 		$this->name = $name;
 		$this->property_names = $property_names;
 		$this->type = $type;
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data )
-	{
-		return new static( $data['name'], $data['type'], $data['property_names'] );
-
 	}
 
 	/**

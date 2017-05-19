@@ -82,6 +82,17 @@ class Http_URL extends BaseObject
 	/**
 	 *
 	 * @param string $URL
+	 *
+	 * @return Http_URL
+	 */
+	public static function parseRequestURL( $URL )
+	{
+		return new static( $URL );
+	}
+
+	/**
+	 *
+	 * @param string $URL
 	 */
 	public function __construct( $URL )
 	{
@@ -111,17 +122,6 @@ class Http_URL extends BaseObject
 		}
 
 		return true;
-	}
-
-	/**
-	 *
-	 * @param string $URL
-	 *
-	 * @return Http_URL
-	 */
-	public static function parseRequestURL( $URL )
-	{
-		return new self( $URL );
 	}
 
 	/**
@@ -164,43 +164,6 @@ class Http_URL extends BaseObject
 	public function getIsSSL()
 	{
 		return ( $this->scheme=='https' );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		$res = $this->getScheme().'://';
-
-		if( $this->getUser()&&$this->getPassword() ) {
-			$res .= $this->getUser().':'.$this->getPassword();
-		}
-
-		$res .= $this->getHost();
-		if( $this->getPort() ) {
-			$res .= ':'.$this->getPort();
-		}
-
-		$res .= $this->getPath();
-
-		if( $this->getQuery() ) {
-			$res .= '?'.$this->getQuery();
-		}
-
-		if( $this->getFragment() ) {
-			$res .= '#'.$this->getFragment();
-		}
-
-		return $res;
 	}
 
 	/**
@@ -322,6 +285,44 @@ class Http_URL extends BaseObject
 	public function setFragment( $fragment )
 	{
 		$this->fragment = $fragment;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		$res = $this->getScheme().'://';
+
+		if( $this->getUser()&&$this->getPassword() ) {
+			$res .= $this->getUser().':'.$this->getPassword();
+		}
+
+		$res .= $this->getHost();
+		if( $this->getPort() ) {
+			$res .= ':'.$this->getPort();
+		}
+
+		$res .= $this->getPath();
+
+		if( $this->getQuery() ) {
+			$res .= '?'.$this->getQuery();
+		}
+
+		if( $this->getFragment() ) {
+			$res .= '#'.$this->getFragment();
+		}
+
+		return $res;
 	}
 
 }

@@ -31,10 +31,6 @@ class Mvc_Factory
 	 * @var string
 	 */
 	protected static $site_localized_meta_tag_class_name = __NAMESPACE__.'\Mvc_Site_LocalizedData_MetaTag';
-	/**
-	 * @var string
-	 */
-	protected static $site_localized_url_class_name = __NAMESPACE__.'\Mvc_Site_LocalizedData_URL';
 
 
 
@@ -260,37 +256,7 @@ class Mvc_Factory
 		return new $class_name( $content, $attribute, $attribute_value );
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function getSiteLocalizedUrlClassName()
-	{
-		return static::$site_localized_url_class_name;
-	}
 
-	/**
-	 * @param string $site_localized_url_class_name
-	 */
-	public static function setSiteLocalizedUrlClassName( $site_localized_url_class_name )
-	{
-		static::$site_localized_url_class_name = $site_localized_url_class_name;
-	}
-
-
-
-	/**
-	 *
-	 * @param string $URL (optional)
-	 * @param bool   $is_default (optional)
-	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
-	 */
-	public static function getSiteLocalizedURLInstance( $URL = '', $is_default = false )
-	{
-		$class_name = static::getSiteLocalizedUrlClassName();
-
-		return new $class_name( $URL, $is_default );
-	}
 
 	/**
 	 * @return string

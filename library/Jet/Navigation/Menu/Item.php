@@ -318,7 +318,7 @@ class Navigation_Menu_Item extends BaseObject
 			return '';
 		}
 
-		return $page->getURL( $this->getGetParams(), $this->url_parts );
+		return $page->getURL( $this->url_parts, $this->getGetParams() );
 	}
 
 	/**

@@ -22,13 +22,19 @@ $site = $this->getRaw( 'site' );
 <?=$main_form->start()?>
 <?=$main_form->message()?>
 <fieldset>
-	<?php foreach( $site->getLocales() as $locale ): ?>
+	<?php foreach( $site->getLocales() as $locale ):
+		$field = $main_form->field( '/'.$locale.'/URL' );
+		?>
 
 		<legend><?=$locale->getName();?></legend>
 
 
-		<?=$main_form->field( '/'.$locale.'/nonSSL' )?>
-		<?=$main_form->field( '/'.$locale.'/SSL' )?>
+		<?=$field->error()?>
+		<div style="margin-bottom: 25px" class="input-group">
+			<span class="input-group-addon">http://</span>
+			<?=$field->input()?>
+			<span class="input-group-addon">/</span>
+		</div>
 
 	<?php endforeach; ?>
 

@@ -33,7 +33,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 	public function main()
 	{
 
-		if( count( Mvc_Site::getList() ) ) {
+		if( count( Mvc_Site::loadSites() ) ) {
 			$this->render( 'site-created' );
 			if( Http_Request::POST()->exists( 'go' ) ) {
 				Installer::goToNext();
@@ -51,15 +51,13 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 			$site = Mvc_Factory::getSiteInstance();
 
-			$nonSSL = 'http://'.$_SERVER['HTTP_HOST'].JET_URI_BASE;
-			$SSL = 'https://'.$_SERVER['HTTP_HOST'].JET_URI_BASE;
+			$URL = $_SERVER['HTTP_HOST'].JET_URI_BASE;
 
 			$site->setName( 'Example Site' );
-			$site->generateId();
+			$site->setId('example');
 
 			$site->addLocale( $default_locale );
-			$site->addURL( $default_locale, $nonSSL );
-			$site->addURL( $default_locale, $SSL );
+			$site->setURLs( $default_locale, [$URL] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
 				if( $locale->toString()==$default_locale->toString() ) {
@@ -67,8 +65,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				}
 
 				$site->addLocale( $locale );
-				$site->addURL( $locale, $nonSSL.$locale.'/' );
-				$site->addURL( $locale, $SSL.$locale.'/' );
+				$site->setURLs( $locale, [$URL.$locale->getLanguage()] );
 			}
 
 			$session->setValue( 'site', $site );
@@ -104,7 +101,6 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 
 				$site->saveDataFile();
-				$site->saveUrlMapFile();
 
 
 				Http_Headers::movedPermanently( '?' );
@@ -117,52 +113,36 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 		$main_form_fields = [];
 
 		foreach( $site->getLocales() as $locale ) {
-			$URLs = $site->getLocalizedData( $locale )->getURLs();
+			$URL = $site->getLocalizedData( $locale )->getURLs()[0];
 
-			$nonSSL = "";
-			$SSL = "";
+			$URL = rtrim( $URL, '/' );
 
-			foreach( $URLs as $URL ) {
-				if( $URL->getIsSSL() ) {
-					$SSL = $URL->getURL();
-				} else {
-					$nonSSL = $URL->getURL();
-				}
-			}
-
-			$nonSSL_URL_field = new Form_Field_Input( '/'.$locale.'/nonSSL', 'URL ', $nonSSL, true );
-			$nonSSL_URL_field->setErrorMessages(
-				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
-				]
-			);
-			$SSL_URL_field = new Form_Field_Input( '/'.$locale.'/SSL', 'SSL URL ', $SSL, false );
-			$SSL_URL_field->setErrorMessages(
+			$URL_field = new Form_Field_Input( '/'.$locale.'/URL', 'URL ', $URL, true );
+			$URL_field->setErrorMessages(
 				[
 					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
 				]
 			);
 
-			$main_form_fields[] = $nonSSL_URL_field;
-			$main_form_fields[] = $SSL_URL_field;
+			$main_form_fields[] = $URL_field;
 		}
 
 		$main_form = new Form( 'main', $main_form_fields );
 
-		if( $main_form->catchInput()&&$main_form->validate() ) {
-			$data = $main_form->getValues();
-
-			$site->setName( 'Example site' );
-			$site->generateId();
+		if(
+			$main_form->catchInput() &&
+			$main_form->validate()
+		) {
 
 			foreach( $site->getLocales() as $locale ) {
-				foreach( $site->getLocalizedData( $locale )->getURLs() as $URL ) {
-					if( $URL->getIsSSL() ) {
-						$URL->setURL( $data['/'.$locale.'/SSL'] );
-					} else {
-						$URL->setURL( $data['/'.$locale.'/nonSSL'] );
-					}
-				}
+				$URL = strtolower($main_form->getField('/'.$locale.'/URL')->getValue());
+				$URL = rtrim($URL, '/');
+
+				$URL = str_replace('http://', '', $URL);
+				$URL = str_replace('https://', '', $URL);
+				$URL = str_replace('//', '', $URL);
+
+				$site->getLocalizedData( $locale )->setURLs([$URL]);
 			}
 
 			Http_Headers::movedPermanently( '?create' );

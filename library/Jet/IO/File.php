@@ -79,7 +79,7 @@ class IO_File
 	 */
 	public static function isReadable( $file_path )
 	{
-		return ( is_file( $file_path )&&is_readable( $file_path ) );
+		return ( is_file( $file_path ) && is_readable( $file_path ) );
 	}
 
 	/**

@@ -42,7 +42,7 @@ class Http_Request_Trap implements \ArrayAccess, \Iterator, \Countable
 	{
 		throw new Http_Request_Exception(
 			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
-			Http_Request_Exception::CODE_REQUEST_DATA_HOAX
+			Http_Request_Exception::CODE_REQUEST_DATA_TRAP
 		);
 	}
 

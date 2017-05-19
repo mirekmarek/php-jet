@@ -15,9 +15,9 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 	/**
 	 *
-	 * @var string
+	 * @var Mvc_Site_Interface
 	 */
-	protected $site_id = '';
+	protected $site = '';
 
 	/**
 	 *
@@ -39,28 +39,20 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	protected $title = '';
 
 	/**
-	 *
 	 * @var string
 	 */
-	protected $default_headers_suffix = '';
+	protected $default_URL = '';
 
 	/**
 	 *
-	 * @var string
-	 */
-	protected $default_body_prefix = '';
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $default_body_suffix = '';
-
-	/**
-	 *
-	 * @var Mvc_Site_LocalizedData_URL[]
+	 * @var array
 	 */
 	protected $URLs = [];
+
+	/**
+	 * @var bool
+	 */
+	protected $SSL_required = false;
 
 	/**
 	 *
@@ -79,6 +71,22 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 			$this->setLocale( $locale );
 		}
 
+	}
+
+	/**
+	 * @return Mvc_Site_Interface
+	 */
+	public function getSite()
+	{
+		return $this->site;
+	}
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 */
+	public function setSite( $site )
+	{
+		$this->site = $site;
 	}
 
 	/**
@@ -133,55 +141,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getDefaultHeadersSuffix()
-	{
-		return $this->default_headers_suffix;
-	}
-
-	/**
-	 * @param string $default_headers_suffix
-	 */
-	public function setDefaultHeadersSuffix( $default_headers_suffix )
-	{
-		$this->default_headers_suffix = $default_headers_suffix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultBodyPrefix()
-	{
-		return $this->default_body_prefix;
-	}
-
-	/**
-	 * @param string $default_body_prefix
-	 */
-	public function setDefaultBodyPrefix( $default_body_prefix )
-	{
-		$this->default_body_prefix = $default_body_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDefaultBodySuffix()
-	{
-		return $this->default_body_suffix;
-	}
-
-	/**
-	 * @param string $default_body_suffix
-	 */
-	public function setDefaultBodySuffix( $default_body_suffix )
-	{
-		$this->default_body_suffix = $default_body_suffix;
-	}
-
-	/**
-	 * @return Mvc_Site_LocalizedData_URL[]
+	 * @return array
 	 */
 	public function getURLs()
 	{
@@ -189,187 +149,49 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL[]|string[] $URLs
+	 * @param array $URLs
 	 */
-	public function setURLs( $URLs )
+	public function setURLs( array $URLs )
 	{
-		$this->URLs = [];
-
-		foreach( $URLs as $URL ) {
-			$this->URLs[] = $URL;
-		}
-	}
-
-	/**
-	 * @param Mvc_Site_LocalizedData_URL|string $URL
-	 */
-	public function addURL( $URL )
-	{
-		$this->_addURL( $URL );
-	}
-
-	/**
-	 * @param string $URL
-	 *
-	 * @throws Mvc_Site_Exception
-	 */
-	protected function _addURL( $URL )
-	{
-		$URL = $this->_checkUrlFormat( $URL );
-
-		foreach( $this->URLs as $e_URL ) {
-			if( (string)$URL==(string)$e_URL ) {
-				throw new Mvc_Site_Exception(
-					'URL \''.$URL.'\' is already added', Mvc_Site_Exception::CODE_URL_ALREADY_ADDED
-				);
+		foreach( $URLs as $i=>$URL ) {
+			if($URL[strlen($URL)-1]!='/') {
+				$URLs[$i] .= '/';
 			}
 		}
 
-		$new_URL_instance = Mvc_Factory::getSiteLocalizedURLInstance();
-		$new_URL_instance->setURL( (string)$URL );
-		$is_SSL = $new_URL_instance->getIsSSL();
-
-		$is_default = true;
-
-		foreach( $this->URLs as $URL ) {
-			if( $URL->getIsSSL()==$is_SSL ) {
-				$is_default = false;
-				break;
-			}
-		}
-
-		$new_URL_instance->setIsDefault( $is_default );
-
-		$this->URLs[] = $new_URL_instance;
+		$this->URLs = $URLs;
 	}
 
-	/**
-	 * @param string $URL
-	 *
-	 * @return Mvc_Site_LocalizedData_URL_Interface
-	 */
-	protected function _checkUrlFormat( $URL )
-	{
-		$URL_i = Mvc_Factory::getSiteLocalizedURLInstance();
-		$URL_i->setURL( $URL );
-
-		return $URL_i;
-
-	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL|string $URL
-	 */
-	public function removeURL( $URL )
-	{
-		$URL = $this->_checkUrlFormat( $URL );
-
-		$index = null;
-
-		/**
-		 * @var Mvc_Site_LocalizedData_URL $e_URL
-		 */
-		foreach( $this->URLs as $i => $e_URL ) {
-			if( (string)$URL==(string)$e_URL ) {
-				$index = $i;
-				break;
-			}
-		}
-
-		if( $index===null ) {
-			return;
-		}
-
-
-		$was_default = $e_URL->getIsDefault();
-		$was_SSL = $e_URL->getIsSSL();
-
-		unset( $this->URLs[$index] );
-
-		if( $was_default ) {
-			foreach( $this->URLs as $e_URL ) {
-				if( $URL->getIsSSL()==$was_SSL ) {
-					$e_URL->setIsDefault( true );
-					break;
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param Mvc_Site_LocalizedData_URL|string $URL
-	 *
-	 * @return bool
-	 */
-	public function setDefaultURL( $URL )
-	{
-		return $this->_setDefaultURL( $URL, false );
-	}
-
-	/**
-	 * @param Mvc_Site_LocalizedData_URL|string $URL
-	 * @param bool $is_SSL
-	 *
-	 * @return bool
-	 */
-	protected function _setDefaultURL( $URL, $is_SSL )
-	{
-		$URL = $this->_checkUrlFormat( $URL );
-
-		$set = false;
-		foreach( $this->URLs as $e_URL ) {
-			if( $e_URL->getIsSSL()==$is_SSL ) {
-				$e_URL->setIsDefault( ( (string)$URL==(string)$e_URL ) );
-				if( (string)$URL==(string)$e_URL ) {
-					$set = true;
-				}
-			}
-		}
-
-		return $set;
-	}
-
-	/**
-	 * @return Mvc_Site_LocalizedData_URL
+	 * @return string
 	 */
 	public function getDefaultURL()
 	{
-		return $this->_getDefaultURL( false );
+		return $this->URLs[0];
 	}
 
-	/**
-	 * @param bool $is_SSL
-	 *
-	 * @return Mvc_Site_LocalizedData_URL
-	 */
-	protected function _getDefaultURL( $is_SSL )
-	{
-		foreach( $this->URLs as $e_URL ) {
-			if( $e_URL->getIsDefault()&&$e_URL->getIsSSL()==$is_SSL ) {
-				return $e_URL;
-			}
-		}
-
-		return null;
-	}
 
 	/**
-	 * @param Mvc_Site_LocalizedData_URL|string $URL
-	 *
 	 * @return bool
 	 */
-	public function setDefaultSslURL( $URL )
+	public function getSSLRequired()
 	{
-		return $this->_setDefaultURL( $URL, true );
+		if($this->site->getSSLRequired()) {
+			return true;
+		}
+
+		return $this->SSL_required;
 	}
 
 	/**
-	 * @return Mvc_Site_LocalizedData_URL
+	 * @param bool $SSL_required
 	 */
-	public function getDefaultSslURL()
+	public function setSSLRequired( $SSL_required )
 	{
-		return $this->_getDefaultURL( true );
+		$this->SSL_required = $SSL_required;
 	}
+
 
 	/**
 	 *
@@ -423,15 +245,11 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 			}
 		}
 		$data['default_meta_tags'] = [];
-		$data['URLs'] = [];
 
 		foreach( $this->default_meta_tags as $meta_tag ) {
 			$data['default_meta_tags'][] = $meta_tag->toArray();
 		}
 
-		foreach( $this->URLs as $URL ) {
-			$data['URLs'][] = $URL->toArray();
-		}
 
 		return $data;
 	}
