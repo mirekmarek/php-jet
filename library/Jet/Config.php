@@ -399,7 +399,10 @@ abstract class Config extends BaseObject
 	public function catchForm( Form $form, $data = null, $force_catch = false )
 	{
 
-		if( !$form->catchInput( $data, $force_catch )||!$form->validate() ) {
+		if(
+			!$form->catchInput( $data, $force_catch ) ||
+			!$form->validate()
+		) {
 			return false;
 		}
 

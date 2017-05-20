@@ -229,6 +229,8 @@ class Installer
 
 		$steps = static::$steps;
 
+		static::$step_controllers = [];
+
 		while( $steps ) {
 			$step_name = array_shift( $steps );
 
@@ -430,6 +432,8 @@ class Installer
 	 */
 	public static function goToNext()
 	{
+
+		static::initStepControllers();
 
 		$coming = static::getComingController();
 		if( $coming ) {

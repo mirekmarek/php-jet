@@ -125,9 +125,12 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			case 'relation':
 				$value = $data->getValueAsArray();
 
-				if( !is_array( $value )||empty( $value[0] )||empty( $value[1] )||!is_array( $value[1] )||!is_string(
-						$value[0]
-					)
+				if(
+					!is_array( $value ) ||
+					empty( $value[0] ) ||
+					empty( $value[1] ) ||
+					!is_array( $value[1] ) ||
+					!is_string( $value[0] )
 				) {
 					throw new Reflection_Exception(
 						'Relation definition parse error. Class: \''.$current_class_reflection->getName(

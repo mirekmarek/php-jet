@@ -189,18 +189,15 @@ class Debug_ErrorHandler
 			}
 		}
 
-		if( $error->isFatal() ) {
-			if(
-				Debug::getOutputIsHTML() &&
-				!$error_displayed
-			) {
-				if(class_exists('ErrorPages')) {
-					ErrorPages::display( 500 );
-				}
-			}
+		if(!$error_displayed) {
+			if(Debug::getOutputIsHTML()){
+				echo '<pre>'.$error.'</pre>';
 
-			exit();
+			} else {
+				echo $error;
+			}
 		}
+
 	}
 
 	/**

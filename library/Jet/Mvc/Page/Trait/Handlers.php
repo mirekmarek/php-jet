@@ -12,83 +12,7 @@ namespace Jet;
  */
 trait Mvc_Page_Trait_Handlers
 {
-	/**
-	 * @var array
-	 */
-	protected static $php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7' ];
 
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_sub_app = false;
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $sub_app_index_file_name = 'index.php';
-
-	/**
-	 *
-	 * @var array
-	 */
-	protected $http_headers = [];
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $output;
-
-	/**
-	 * @return array
-	 */
-	public static function getPhpFileExtensions()
-	{
-		return static::$php_file_extensions;
-	}
-
-	/**
-	 * @param array $php_file_extensions
-	 */
-	public static function setPhpFileExtensions( $php_file_extensions )
-	{
-		static::$php_file_extensions = $php_file_extensions;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSubApp()
-	{
-		return $this->is_sub_app;
-	}
-
-	/**
-	 * @param bool $is_sub_app
-	 */
-	public function setIsSubApp( $is_sub_app )
-	{
-		$this->is_sub_app = $is_sub_app;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getHttpHeaders()
-	{
-		return $this->http_headers;
-	}
-
-	/**
-	 * @param array $http_headers
-	 */
-	public function setHttpHeaders( array $http_headers )
-	{
-		$this->http_headers = $http_headers;
-	}
 
 	/**
 	 *
@@ -143,7 +67,11 @@ trait Mvc_Page_Trait_Handlers
 	 */
 	public function handleHttpHeaders()
 	{
-		foreach( $this->http_headers as $header => $value ) {
+		/**
+		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
+		 */
+
+		foreach( $this->getHttpHeaders() as $header => $value ) {
 			if( is_int( $header ) ) {
 				Http_Headers::sendHeader( $value );
 			} else {
@@ -163,6 +91,10 @@ trait Mvc_Page_Trait_Handlers
 	 */
 	public function handleSubApp()
 	{
+		/**
+		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
+		 */
+
 		$file_path = dirname( $this->getDataFilePath() ).'/'.$this->getSubAppIndexFileName();
 
 		if( !IO_File::exists( $file_path ) ) {
@@ -174,30 +106,17 @@ trait Mvc_Page_Trait_Handlers
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getSubAppIndexFileName()
-	{
-		return $this->sub_app_index_file_name;
-	}
-
-	/**
-	 * @param string $index_file_name
-	 */
-	public function setSubAppIndexFileName( $index_file_name )
-	{
-		$this->sub_app_index_file_name = $index_file_name;
-	}
-
-	/**
 	 * @param string $file_path
 	 */
 	public function handleFile( $file_path )
 	{
+		/**
+		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
+		 */
 
 		$ext = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
 
-		if( in_array( $ext, static::$php_file_extensions ) ) {
+		if( in_array( $ext, $this->getSubAppPhpFileExtensions() ) ) {
 
 			/** @noinspection PhpIncludeInspection */
 			require $file_path;
@@ -249,12 +168,5 @@ trait Mvc_Page_Trait_Handlers
 
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getOutput()
-	{
-		return $this->output;
-	}
 
 }

@@ -161,10 +161,10 @@ class UI_searchForm extends BaseObject
 	public function getPlaceholder()
 	{
 		if(!$this->placeholder) {
-			$this->placeholder = UI::_( static::getDefaultPlaceholder() );
+			$this->placeholder = static::getDefaultPlaceholder();
 		}
 
-		return $this->placeholder;
+		return UI::_( $this->placeholder );
 	}
 
 	/**

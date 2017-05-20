@@ -220,6 +220,17 @@ interface Mvc_Page_Interface
 	public function setSubAppIndexFileName( $index_file_name );
 
 	/**
+	 * @return array
+	 */
+	public function getSubAppPhpFileExtensions();
+
+	/**
+	 * @param array $php_file_extensions
+	 */
+	public function setSybAppPhpFileExtensions( array $php_file_extensions );
+
+
+	/**
 	 * @return bool
 	 */
 	public function getAccessAllowed();
@@ -378,21 +389,15 @@ interface Mvc_Page_Interface
 	public function setHttpHeaders( array $http_headers );
 
 	/**
-	 * @param bool $get_default (optional)
 	 *
 	 * @return Mvc_Page_MetaTag_Interface[]
 	 */
-	public function getMetaTags( $get_default = false );
+	public function getMetaTags();
 
 	/**
 	 * @param Mvc_Page_MetaTag_Interface $meta_tag
 	 */
 	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag );
-
-	/**
-	 * @param int $index
-	 */
-	public function removeMetaTag( $index );
 
 	/**
 	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags

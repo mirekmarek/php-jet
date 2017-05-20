@@ -23,6 +23,8 @@ require JET_PATH_LIBRARY.'Jet/Debug/ErrorHandler.php';
 require JET_PATH_APPLICATION.'error_handlers/Log.php';
 /** @noinspection PhpIncludeInspection */
 require JET_PATH_APPLICATION.'error_handlers/Display.php';
+/** @noinspection PhpIncludeInspection */
+require JET_PATH_APPLICATION.'error_handlers/ErrorPage.php';
 
 
 
@@ -30,6 +32,8 @@ ErrorHandler_Log::register();
 
 if( JET_DEVEL_MODE ) {
 	ErrorHandler_Display::register();
+} else {
+	ErrorHandler_ErrorPage::register();
 }
 
 Debug_ErrorHandler::initialize();

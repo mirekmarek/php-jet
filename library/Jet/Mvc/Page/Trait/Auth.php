@@ -15,18 +15,6 @@ trait Mvc_Page_Trait_Auth
 
 
 	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_admin_UI = false;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_secret_page = false;
-
-	/**
 	 * @return bool
 	 */
 	public function getAccessAllowed()
@@ -44,38 +32,6 @@ trait Mvc_Page_Trait_Auth
 
 		return false;
 
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSecretPage()
-	{
-		return $this->is_secret_page;
-	}
-
-	/**
-	 * @param bool $is_secret_page
-	 */
-	public function setIsSecretPage( $is_secret_page )
-	{
-		$this->is_secret_page = (bool)$is_secret_page;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsAdminUI()
-	{
-		return $this->is_admin_UI;
-	}
-
-	/**
-	 * @param bool $is_admin_UI
-	 */
-	public function setIsAdminUI( $is_admin_UI )
-	{
-		$this->is_admin_UI = (bool)$is_admin_UI;
 	}
 
 }

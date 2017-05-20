@@ -1,4 +1,6 @@
 <?php
 return [
-	'Continue' => 'Pokračovat', 'PHP Jet - Example Project Installer' => '', 'Go Back' => 'Zpět',
+	'Continue'                            => 'Pokračovat',
+	'PHP Jet - Example Project Installer' => '',
+	'Go Back'                             => 'Zpět',
 ];

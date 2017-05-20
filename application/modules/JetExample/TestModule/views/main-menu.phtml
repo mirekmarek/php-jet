@@ -55,6 +55,7 @@ $show_menu = function( $pages ) use ( &$show_menu ) {
 					</strong>
 				<?php else:
 					$equal_page = Mvc_Page::get( null, $locale );
+
 					if( !$equal_page ) {
 						$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
 					}

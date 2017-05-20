@@ -67,22 +67,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	protected $breadcrumb_title = '';
 
 	/**
-	 *
-	 * @var string
-	 */
-	protected $headers_suffix = '';
-	/**
-	 *
-	 * @var string
-	 */
-	protected $body_prefix = '';
-	/**
-	 *
-	 * @var string
-	 */
-	protected $body_suffix = '';
-
-	/**
 	 * @var string
 	 */
 	protected $relative_path_fragment = '';
@@ -91,6 +75,73 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @var string
 	 */
 	protected $relative_path = '';
+
+
+	/**
+	 *
+	 * @var bool
+	 */
+	protected $is_admin_UI = false;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	protected $is_secret_page = false;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	protected $is_sub_app = false;
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $sub_app_index_file_name = 'index.php';
+
+	/**
+	 * @var array
+	 */
+	protected $sub_app_php_file_extensions = [ 'php', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7' ];
+
+	/**
+	 *
+	 * @var array
+	 */
+	protected $http_headers = [];
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $output;
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $custom_layouts_path = '';
+
+	/**
+	 *
+	 * @var string
+	 */
+	protected $layout_script_name = '';
+
+	/**
+	 *
+	 * @var Mvc_Page_Content_Interface[]
+	 */
+	protected $content;
+
+	/**
+	 *
+	 * @var Mvc_Page_MetaTag[]
+	 */
+	protected $meta_tags = [];
+
 
 	/**
 	 *
@@ -430,6 +481,304 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function setBreadcrumbTitle( $breadcrumb_title )
 	{
 		$this->breadcrumb_title = $breadcrumb_title;
+	}
+
+
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSubApp()
+	{
+		return $this->is_sub_app;
+	}
+
+	/**
+	 * @param bool $is_sub_app
+	 */
+	public function setIsSubApp( $is_sub_app )
+	{
+		$this->is_sub_app = $is_sub_app;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getSubAppIndexFileName()
+	{
+		return $this->sub_app_index_file_name;
+	}
+
+	/**
+	 * @param string $index_file_name
+	 */
+	public function setSubAppIndexFileName( $index_file_name )
+	{
+		$this->sub_app_index_file_name = $index_file_name;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getHttpHeaders()
+	{
+		if(
+			!$this->http_headers &&
+			$this->getParent()
+		) {
+			return $this->getParent()->getHttpHeaders();
+		}
+		return $this->http_headers;
+	}
+
+	/**
+	 * @param array $http_headers
+	 */
+	public function setHttpHeaders( array $http_headers )
+	{
+		$this->http_headers = $http_headers;
+	}
+
+	/**
+	 * @param string $output
+	 */
+	public function setOutput( $output )
+	{
+		$this->output = $output;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getOutput()
+	{
+		return $this->output;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getSubAppPhpFileExtensions()
+	{
+		return $this->sub_app_php_file_extensions;
+	}
+
+	/**
+	 * @param array $php_file_extensions
+	 */
+	public function setSybAppPhpFileExtensions( array $php_file_extensions )
+	{
+		$this->sub_app_php_file_extensions = $php_file_extensions;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSecretPage()
+	{
+		return $this->is_secret_page;
+	}
+
+	/**
+	 * @param bool $is_secret_page
+	 */
+	public function setIsSecretPage( $is_secret_page )
+	{
+		$this->is_secret_page = (bool)$is_secret_page;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsAdminUI()
+	{
+		return $this->is_admin_UI;
+	}
+
+	/**
+	 * @param bool $is_admin_UI
+	 */
+	public function setIsAdminUI( $is_admin_UI )
+	{
+		$this->is_admin_UI = (bool)$is_admin_UI;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCustomLayoutsPath()
+	{
+		if(
+			!$this->custom_layouts_path &&
+			$this->getParent()
+		) {
+			return $this->getParent()->getCustomLayoutsPath();
+		}
+
+		return $this->custom_layouts_path;
+	}
+
+	/**
+	 * @param string $layouts_dir
+	 */
+	public function setCustomLayoutsPath( $layouts_dir )
+	{
+		$this->custom_layouts_path = $layouts_dir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLayoutScriptName()
+	{
+
+		if(
+			!$this->layout_script_name &&
+			$this->getParent()
+		) {
+			return $this->getParent()->getLayoutScriptName();
+		}
+
+		return $this->layout_script_name;
+	}
+
+	/**
+	 * @param string $layout_script_name
+	 */
+	public function setLayoutScriptName( $layout_script_name )
+	{
+		$this->layout_script_name = $layout_script_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLayoutsPath()
+	{
+		/**
+		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 */
+		if( $this->getCustomLayoutsPath() ) {
+			return $this->getCustomLayoutsPath();
+		}
+
+		return $this->getSite()->getLayoutsPath();
+	}
+
+	/**
+	 * @throws Exception
+	 *
+	 */
+	public function initializeLayout()
+	{
+		/**
+		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 */
+		if( Mvc_Layout::getCurrentLayout() ) {
+			return;
+		}
+
+		Mvc_Layout::setCurrentLayout(
+			Mvc_Factory::getLayoutInstance( $this->getLayoutsPath(), $this->getLayoutScriptName() )
+		);
+
+	}
+
+
+	/**
+	 *
+	 * @return Mvc_Page_Content_Interface[]
+	 */
+	public function getContent()
+	{
+		return $this->content;
+	}
+
+	/**
+	 * @param Mvc_Page_Content_Interface[] $content
+	 */
+	public function setContent( $content )
+	{
+		$this->content = [];
+
+		foreach( $content as $c ) {
+			$this->addContent( $c );
+		}
+	}
+
+	/**
+	 * @param Mvc_Page_Content_Interface $content
+	 */
+	public function addContent( Mvc_Page_Content_Interface $content )
+	{
+		if( !$content->getId() ) {
+			$content->setId( count( $this->content ) );
+		}
+		$content->setPage( $this );
+
+		$this->content[] = $content;
+	}
+
+	/**
+	 * @param int $index
+	 */
+	public function removeContent( $index )
+	{
+		unset( $this->content[$index] );
+	}
+
+
+	/**
+	 *
+	 * @return Mvc_Page_MetaTag_Interface[]
+	 */
+	public function getMetaTags()
+	{
+		$meta_tags = [];
+
+		foreach( $this->getSite()->getLocalizedData( $this->getLocale() )->getDefaultMetaTags() as $mt ) {
+			$key = $mt->getAttribute().':'.$mt->getAttributeValue();
+			if( $key==':' ) {
+				$key = $mt->getContent();
+			}
+			$meta_tags[$key] = $mt;
+		}
+
+
+		foreach( $this->meta_tags as $mt ) {
+			$key = $mt->getAttribute().':'.$mt->getAttributeValue();
+			if( $key==':' ) {
+				$key = $mt->getContent();
+			}
+			$meta_tags[$key] = $mt;
+		}
+
+		return $this->meta_tags;
+	}
+
+	/**
+	 * @param Mvc_Page_MetaTag_Interface[] $meta_tags
+	 */
+	public function setMetaTags( $meta_tags )
+	{
+		$this->meta_tags = [];
+
+		foreach( $meta_tags as $meta_tag ) {
+			$this->addMetaTag( $meta_tag );
+		}
+	}
+
+	/**
+	 * @param Mvc_Page_MetaTag_Interface $meta_tag
+	 */
+	public function addMetaTag( Mvc_Page_MetaTag_Interface $meta_tag )
+	{
+
+		$meta_tag->setPage( $this );
+		$this->meta_tags[] = $meta_tag;
 	}
 
 

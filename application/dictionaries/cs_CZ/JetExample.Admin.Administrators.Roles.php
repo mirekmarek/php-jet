@@ -2,9 +2,9 @@
 return [
 	'Administrators - User roles' => '',
 	'ID' => '',
-	'Name' => '',
-	'Description' => '',
-	'Create a new Role' => '',
+	'Name' => 'Název',
+	'Description' => 'Popis',
+	'Create a new Role' => 'Vytvořit novou roli',
 	'Get role(s) data' => '',
 	'Add new role' => '',
 	'Update role' => '',
@@ -15,4 +15,7 @@ return [
 	'Privileges' => '',
 	'Administration sections' => '',
 	'Modules and actions' => '',
+	'Edit role <b>%ROLE_NAME%</b>' => '',
+	'Users' => '',
+	'Username' => '',
 ];

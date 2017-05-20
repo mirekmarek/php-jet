@@ -7,6 +7,7 @@
  */
 namespace JetExampleApp;
 
+use Jet\Db;
 use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
 use Jet\Form_Field_Select;
@@ -70,7 +71,10 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		);
 
 
-		if( $select_db_type_form->catchInput()&&$select_db_type_form->validate() ) {
+		if(
+			$select_db_type_form->catchInput() &&
+			$select_db_type_form->validate()
+		) {
 			static::setSelectedDbType( $db_type_field->getValue() );
 
 			$data_model_config = new DataModel_Config( true );
@@ -79,10 +83,10 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 			$data_model_backend_config = null;
 
 			switch( static::getSelectedDbType() ) {
-				case 'mysql':
+				case Db::DRIVER_MYSQL:
 					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
 					$connection_config->setName( 'default' );
-					$connection_config->setDriver( 'mysql' );
+					$connection_config->setDriver( Db::DRIVER_MYSQL );
 					$connection_config->setUsername( '' );
 					$connection_config->setPassword( '' );
 					$connection_config->setDSN( 'host=localhost;port=3306;dbname=;charset=utf8' );
@@ -103,13 +107,13 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 
 					break;
-				case 'sqlite':
+				case Db::DRIVER_SQLITE:
 					$data_path = JET_PATH_DATA;
 					$data_file_name = 'database';
 
 					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
 					$connection_config->setName( 'default' );
-					$connection_config->setDriver( 'sqlite' );
+					$connection_config->setDriver( Db::DRIVER_MYSQL );
 					$connection_config->setUsername( '' );
 					$connection_config->setPassword( '' );
 					$connection_config->setDSN( $data_path.$data_file_name.'.sq3' );
@@ -194,7 +198,8 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function getStepsAfter()
 	{
-		if( static::getSelectedDbType()=='mysql' ) {
+		if( static::getSelectedDbType()==Db::DRIVER_MYSQL )
+		{
 			return [ 'ConfigureDb' ];
 		}
 

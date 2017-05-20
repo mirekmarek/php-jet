@@ -798,7 +798,10 @@ class Form extends BaseObject
 
 		$result = [];
 		foreach( $this->fields as $key => $field ) {
-			if( $field->getIsReadonly()||!$field->getHasValue() ) {
+			if(
+				$field->getIsReadonly() ||
+				!$field->getHasValue()
+			) {
 				continue;
 			}
 

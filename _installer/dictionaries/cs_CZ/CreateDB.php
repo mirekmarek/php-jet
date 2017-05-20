@@ -1,4 +1,6 @@
 <?php
 return [
-	'Create database' => '', 'Class' => '', 'Status' => '',
+	'Create database' => 'Vytvořit databázi',
+	'Class'           => 'Třídat (Class)',
+	'Status'          => 'Výsledek',
 ];

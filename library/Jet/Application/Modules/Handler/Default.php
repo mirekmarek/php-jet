@@ -422,8 +422,9 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		foreach( $module_manifest->getRequire() as $required_module_name ) {
 
-			if( !isset( $all_modules[$required_module_name] )||!$all_modules[$required_module_name]->getIsInstalled(
-				)
+			if(
+				!isset( $all_modules[$required_module_name] ) ||
+				!$all_modules[$required_module_name]->getIsInstalled()
 			) {
 				$required_modules[] = $required_module_name;
 			}
