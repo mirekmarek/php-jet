@@ -9,7 +9,7 @@ namespace JetApplicationModule\JetExample\Images;
 
 use Jet\Mvc_Controller_Router;
 
-use JetExampleApp\Mvc_Page;
+use JetApplication\Mvc_Page;
 
 /**
  *

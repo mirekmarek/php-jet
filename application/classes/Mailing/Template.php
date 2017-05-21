@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\BaseObject;
 use Jet\Data_Text;
@@ -14,7 +14,7 @@ use Jet\Locale;
 
 /**
  * Class Mailing_Template
- * @package JetExampleApp
+ * @package JetApplication
  */
 class Mailing_Template extends BaseObject
 {

@@ -16,9 +16,9 @@ use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Auth;
 
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Auth_Administrator_User;
-use JetExampleApp\Auth_Visitor_User;
+use JetApplication\Mvc_Page;
+use JetApplication\Auth_Administrator_User;
+use JetApplication\Auth_Visitor_User;
 
 /**
  *

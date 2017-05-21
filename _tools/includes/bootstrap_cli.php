@@ -18,7 +18,7 @@ require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/jet.php')
 /** @noinspection PhpIncludeInspection */
 require(JET_PATH_APPLICATION . 'init/ErrorHandler.php');
 
-use JetExampleApp\ErrorHandler_Display;
+use JetApplication\ErrorHandler_Display;
 ErrorHandler_Display::register();
 
 $init_dir = JET_PATH_APPLICATION.'init/';

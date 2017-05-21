@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\Autoloader;
 //use Jet\Debug_Profiler;

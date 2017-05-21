@@ -1,5 +1,5 @@
 <?php
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;

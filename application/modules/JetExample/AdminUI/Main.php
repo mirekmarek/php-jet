@@ -17,8 +17,8 @@ use Jet\Mvc;
 
 use Jet\UI;
 
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Application_Module_Manifest;
+use JetApplication\Mvc_Page;
+use JetApplication\Application_Module_Manifest;
 
 /**
  *

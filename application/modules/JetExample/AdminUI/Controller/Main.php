@@ -17,7 +17,7 @@ use Jet\Navigation_Breadcrumb;
 
 use Jet\UI;
 
-use JetExampleApp\Mvc_Page;
+use JetApplication\Mvc_Page;
 
 /**
  *

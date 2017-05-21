@@ -1,5 +1,5 @@
 <?php
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;

@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\BaseObject;
 use Jet\Auth_ControllerInterface;
@@ -18,8 +18,8 @@ use Jet\Session;
 
 use Jet\Data_DateTime;
 
-use JetExampleApp\Mvc_Page as Page;
-use JetExampleApp\Auth_Administrator_User as Administrator;
+use JetApplication\Mvc_Page as Page;
+use JetApplication\Auth_Administrator_User as Administrator;
 
 /**
  *

@@ -9,7 +9,7 @@ namespace Jet;
 
 //Debug_Profiler::blockStart('INIT - ClassNames');
 
-Application_Factory::setModuleManifestClassName( 'JetExampleApp\Application_Module_Manifest' );
-Mvc_Factory::setPageClassName( 'JetExampleApp\Mvc_Page' );
+Application_Factory::setModuleManifestClassName( 'JetApplication\Application_Module_Manifest' );
+Mvc_Factory::setPageClassName( 'JetApplication\Mvc_Page' );
 
 //Debug_Profiler::blockEnd('INIT - ClassNames');

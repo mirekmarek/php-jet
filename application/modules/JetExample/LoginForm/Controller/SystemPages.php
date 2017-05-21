@@ -17,8 +17,8 @@ use Jet\Navigation_Breadcrumb;
 
 use Jet\UI_messages;
 
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Auth_Administrator_User as User;
+use JetApplication\Mvc_Page;
+use JetApplication\Auth_Administrator_User as User;
 
 /**
  *

@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\Autoloader_Loader;
 
@@ -23,7 +23,7 @@ class Autoloader_ApplicationClasses extends Autoloader_Loader
 	public function getScriptPath( $class_name )
 	{
 
-		if( substr( $class_name, 0, 14 )!='JetExampleApp\\' ) {
+		if( substr( $class_name, 0, 15 )!='JetApplication\\' ) {
 			return false;
 		}
 

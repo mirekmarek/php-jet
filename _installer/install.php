@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 if( version_compare( PHP_VERSION, '5.5.4', '<' ) ) {
 	if( !headers_sent() ) {

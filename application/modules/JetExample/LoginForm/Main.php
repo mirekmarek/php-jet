@@ -18,8 +18,8 @@ use Jet\Form_Field_Password;
 use Jet\Form_Field_RegistrationPassword;
 
 
-use JetExampleApp\Auth_Visitor_User as Visitor;
-use JetExampleApp\Auth_Administrator_User as Administrator;
+use JetApplication\Auth_Visitor_User as Visitor;
+use JetApplication\Auth_Administrator_User as Administrator;
 
 
 /**

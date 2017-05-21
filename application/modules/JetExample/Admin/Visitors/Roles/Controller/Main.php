@@ -7,9 +7,9 @@
  */
 namespace JetApplicationModule\JetExample\Admin\Visitors\Roles;
 
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Auth_Visitor_Role as Role;
-use JetExampleApp\Mvc_Controller_AdminStandard;
+use JetApplication\Mvc_Page;
+use JetApplication\Auth_Visitor_Role as Role;
+use JetApplication\Mvc_Controller_AdminStandard;
 
 use Jet\UI;
 use Jet\UI_dataGrid;

@@ -8,8 +8,8 @@
 namespace JetApplicationModule\JetExample\Admin\Visitors\Users;
 
 use Jet\Mvc_Controller_Router;
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Auth_Visitor_User as User;
+use JetApplication\Mvc_Page;
+use JetApplication\Auth_Visitor_User as User;
 
 /**
  *

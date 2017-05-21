@@ -7,8 +7,8 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Mvc_Controller_AdminStandard;
+use JetApplication\Mvc_Page;
+use JetApplication\Mvc_Controller_AdminStandard;
 
 use Jet\UI;
 use Jet\UI_dataGrid;

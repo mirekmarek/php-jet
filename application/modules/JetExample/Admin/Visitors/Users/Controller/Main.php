@@ -7,9 +7,9 @@
  */
 namespace JetApplicationModule\JetExample\Admin\Visitors\Users;
 
-use JetExampleApp\Mvc_Page;
-use JetExampleApp\Auth_Visitor_User as User;
-use JetExampleApp\Mvc_Controller_AdminStandard;
+use JetApplication\Mvc_Page;
+use JetApplication\Auth_Visitor_User as User;
+use JetApplication\Mvc_Controller_AdminStandard;
 
 use Jet\UI;
 use Jet\UI_dataGrid;

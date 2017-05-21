@@ -1,5 +1,5 @@
 <?php
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\Application_Modules;
 use Jet\Application_Module;
@@ -7,8 +7,8 @@ use Jet\Application_Log;
 use Jet\Auth_ControllerInterface;
 use Jet\Mvc;
 
-use JetExampleApp\Auth_Administrator_User as Administrator;
-use JetExampleApp\Auth_Visitor_User as Visitor;
+use JetApplication\Auth_Administrator_User as Administrator;
+use JetApplication\Auth_Visitor_User as Visitor;
 
 /**
  *

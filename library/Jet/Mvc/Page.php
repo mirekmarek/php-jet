@@ -659,7 +659,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function getLayoutsPath()
 	{
 		/**
-		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 * @var Mvc_Page $this
 		 */
 		if( $this->getCustomLayoutsPath() ) {
 			return $this->getCustomLayoutsPath();
@@ -675,7 +675,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function initializeLayout()
 	{
 		/**
-		 * @var Mvc_Page_Trait_Layout|Mvc_Page $this
+		 * @var Mvc_Page $this
 		 */
 		if( Mvc_Layout::getCurrentLayout() ) {
 			return;

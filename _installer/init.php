@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 define( 'JET_APP_INSTALLER_PATH', JET_PATH_BASE.'_installer/' );
 define( 'JET_APP_INSTALLER_DATA_PATH', JET_APP_INSTALLER_PATH.'data/' );

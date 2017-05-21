@@ -5,10 +5,10 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetExampleApp;
+namespace JetApplication;
 
 use Jet\Mvc_Controller_Standard;
-use JetExampleApp\Application_Module_Manifest as App_Application_Module_Manifest;
+use JetApplication\Application_Module_Manifest as App_Application_Module_Manifest;
 use Jet\Form;
 use Jet\UI_messages;
 

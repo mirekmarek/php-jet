@@ -7,8 +7,8 @@
  */
 namespace Jet;
 
-use JetExampleApp\Application_Log_Logger;
-use JetExampleApp\Auth_Controller;
+use JetApplication\Application_Log_Logger;
+use JetApplication\Auth_Controller;
 
 define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 //define( 'JET_CONFIG_ENVIRONMENT', 'production' );
