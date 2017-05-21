@@ -111,7 +111,10 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			$data['controller_action_parameters'] = [];
 		}
 
-		if( !is_array( $data['controller_action_parameters'] )&&$data['controller_action_parameters'] ) {
+		if(
+			!is_array( $data['controller_action_parameters'] ) &&
+			$data['controller_action_parameters']
+		) {
 			$data['controller_action_parameters'] = [ $data['controller_action_parameters'] ];
 		} else {
 			$data['controller_action_parameters'] = [];

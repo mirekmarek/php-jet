@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Controller_REST
- * @package Jet
+ *
  */
 abstract class Mvc_Controller_REST extends Mvc_Controller
 {
@@ -132,7 +131,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 */
 	public function setResponseFormat( $response_format )
 	{
-		if( $response_format==static::RESPONSE_FORMAT_JSON||$response_format==static::RESPONSE_FORMAT_XML ) {
+		if(
+			$response_format==static::RESPONSE_FORMAT_JSON ||
+			$response_format==static::RESPONSE_FORMAT_XML
+		) {
 			$this->response_format = $response_format;
 		}
 	}
@@ -247,7 +249,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 
 		if( isset( $array['comment'] ) ) {
 			foreach( $array['comment'] as $k => $v ) {
-				if( is_array( $v ) && !$v ) {
+				if(
+					is_array( $v ) &&
+					!$v
+				) {
 					unset( $array['comment'][$k] );
 				}
 			}
@@ -261,7 +266,11 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 
 		$array = $this->_decodeRequestDataXmlCleanupArray( $array );
 
-		if( count( $array )==1&&isset( $array['item'] )&&is_array( $array['item'] ) ) {
+		if(
+			count( $array )==1 &&
+			isset( $array['item'] ) &&
+			is_array( $array['item'] )
+		) {
 			$array = $array['item'];
 		}
 
@@ -424,7 +433,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 		}
 
 		foreach( $data as $key => $val ) {
-			if( is_array( $val )||is_object( $val ) ) {
+			if(
+				is_array( $val ) ||
+				is_object( $val )
+			) {
 				$result .= $this->_XMLSerialize( $val, $key, $prefix.JET_TAB );
 			} else {
 				$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars( $val ).'</'.$key.'>'.JET_EOL;

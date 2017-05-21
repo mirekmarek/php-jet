@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Controller_Router
- * @package Jet
+ *
  */
 class Mvc_Controller_Router extends BaseObject
 {

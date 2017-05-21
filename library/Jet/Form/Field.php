@@ -223,10 +223,19 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 			$default_value = $default_value->toString();
 		}
 
-		if( is_array( $default_value )||( is_object( $default_value )&&$default_value instanceof \Iterator ) ) {
+		if(
+			is_array( $default_value ) ||
+			(
+				is_object( $default_value ) &&
+				$default_value instanceof \Iterator
+			)
+		) {
 			$this->_value = [];
 			foreach( $default_value as $k => $v ) {
-				if( is_object( $v )&&$v instanceof DataModel_Interface ) {
+				if(
+					is_object( $v ) &&
+					$v instanceof DataModel_Interface
+				) {
 					/**
 					 * @var DataModel $v
 					 */

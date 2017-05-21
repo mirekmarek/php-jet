@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class messages
- * @package Jet
+ *
  */
 class UI_messages extends BaseObject
 {

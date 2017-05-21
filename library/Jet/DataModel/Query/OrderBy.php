@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_OrderBy
- * @package Jet
+ * 
  */
 class DataModel_Query_OrderBy extends BaseObject implements \Iterator
 {
@@ -55,7 +54,10 @@ class DataModel_Query_OrderBy extends BaseObject implements \Iterator
 				$desc = true;
 			}
 
-			if( $ob[0]=='+'||$ob[0]=='-' ) {
+			if(
+				$ob[0]=='+' ||
+				$ob[0]=='-'
+			) {
 				$ob = substr( $ob, 1 );
 			}
 

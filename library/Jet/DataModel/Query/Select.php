@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_Select
- * @package Jet
+ * 
  */
 class DataModel_Query_Select extends BaseObject implements \Iterator
 {
@@ -31,7 +30,10 @@ class DataModel_Query_Select extends BaseObject implements \Iterator
 	{
 
 		foreach( $items as $key => $val ) {
-			if( is_string( $val )&&strpos( $val, '.' ) ) {
+			if(
+				is_string( $val ) &&
+				strpos( $val, '.' )
+			) {
 				$val = $query->getPropertyAndSetRelation( $val );
 			}
 

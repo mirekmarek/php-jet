@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_DateTime
- * @package Jet
+ *
  */
 class Form_Field_DateTime extends Form_Field_Input
 {
@@ -74,7 +73,10 @@ class Form_Field_DateTime extends Form_Field_Input
 	 */
 	public function validate()
 	{
-		if( !$this->is_required&&$this->_value==='' ) {
+		if(
+			!$this->is_required &&
+			$this->_value===''
+		) {
 			$this->_value = null;
 
 			return true;

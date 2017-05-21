@@ -80,13 +80,17 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			case 'key':
 				$value = $data->getValueAsArray();
 
-				if( !is_array( $value )||empty( $value[0] )||empty( $value[1] )||!is_array( $value[1] )||!is_string(
-						$value[0]
-					)
+				if(
+					!is_array( $value ) ||
+					empty( $value[0] ) ||
+					empty( $value[1] ) ||
+					!is_array( $value[1] ) ||
+					!is_string( $value[0] )
 				) {
 					throw new Reflection_Exception(
-						'Key definition parse error. Class: \''.$current_class_reflection->getName(
-						).'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], DataModel::KEY_TYPE_INDEX ]',
+						'Key definition parse error. Class: \''
+						.$current_class_reflection->getName()
+						.'\', definition: \''.$definition.'\', Example: @JetDataModel:key = [ \'some_key_name\', [ \'some_property_name_1\', \'some_property_name_2\', \'some_property_name_n\' ], DataModel::KEY_TYPE_INDEX ]',
 						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -96,10 +100,14 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 					$value[2] = DataModel::KEY_TYPE_INDEX;
 				}
 
-				if( $value[2]!=DataModel::KEY_TYPE_INDEX&&$value[2]!=DataModel::KEY_TYPE_UNIQUE ) {
+				if(
+					$value[2]!=DataModel::KEY_TYPE_INDEX &&
+					$value[2]!=DataModel::KEY_TYPE_UNIQUE
+				) {
 					throw new Reflection_Exception(
-						'Unknown key type. Class: \''.$current_class_reflection->getName(
-						).'\', definition: \''.$definition.'\', Use DataModel::KEY_TYPE_INDEX or DataModel::KEY_TYPE_UNIQUE',
+						'Unknown key type. Class: \''
+						.$current_class_reflection->getName()
+						.'\', definition: \''.$definition.'\', Use DataModel::KEY_TYPE_INDEX or DataModel::KEY_TYPE_UNIQUE',
 						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 				}
@@ -110,8 +118,7 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 
 				if( isset( $data->result_data['data_model_keys_definition'][$value[0]] ) ) {
 					throw new Reflection_Exception(
-						'Duplicate key! Class: \''.$current_class_reflection->getName(
-						).'\', definition: \''.$definition.'\''
+						'Duplicate key! Class: \''.$current_class_reflection->getName().'\', definition: \''.$definition.'\''
 					);
 
 				}
@@ -133,8 +140,9 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 					!is_string( $value[0] )
 				) {
 					throw new Reflection_Exception(
-						'Relation definition parse error. Class: \''.$current_class_reflection->getName(
-						).'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
+						'Relation definition parse error. Class: \''
+						.$current_class_reflection->getName()
+						.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
 						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -144,10 +152,12 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 					$value[2] = DataModel_Query::JOIN_TYPE_LEFT_JOIN;
 				}
 
-				if( $value[2]!=DataModel_Query::JOIN_TYPE_LEFT_JOIN&&$value[2]!=DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ) {
+				if(
+					$value[2]!=DataModel_Query::JOIN_TYPE_LEFT_JOIN &&
+					$value[2]!=DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
+				) {
 					throw new Reflection_Exception(
-						'Unknown relation type. Class: \''.$current_class_reflection->getName(
-						).'\', definition: \''.$definition.'\', Use DataModel_Query::JOIN_TYPE_LEFT_JOIN or DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
+						'Unknown relation type. Class: \''.$current_class_reflection->getName().'\', definition: \''.$definition.'\', Use DataModel_Query::JOIN_TYPE_LEFT_JOIN or DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
 						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -207,8 +217,7 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 				break;
 			default:
 				throw new Reflection_Exception(
-					'Unknown definition! Class: \''.$current_class_reflection->getName(
-					).'\', definition: \''.$definition.'\' ',
+					'Unknown definition! Class: \''.$current_class_reflection->getName().'\', definition: \''.$definition.'\' ',
 					Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 				);
 		}

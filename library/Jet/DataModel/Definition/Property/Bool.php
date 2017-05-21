@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_Bool
- * @package Jet
+ * 
  */
 class DataModel_Definition_Property_Bool extends DataModel_Definition_Property
 {

@@ -42,14 +42,6 @@ trait BaseObject_Cacheable_Trait
 	}
 
 	/**
-	 * @param bool $cache_save_enabled
-	 */
-	public static function setCacheSaveEnabled( $cache_save_enabled )
-	{
-		static::$cache_save_enabled = $cache_save_enabled;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public static function getCacheLoadEnabled()
@@ -57,28 +49,23 @@ trait BaseObject_Cacheable_Trait
 		return static::$cache_load_enabled && static::$cache_loader;
 	}
 
-	/**
-	 * @param bool $cache_load_enabled
-	 */
-	public static function setCacheLoadEnabled( $cache_load_enabled )
-	{
-		static::$cache_load_enabled = $cache_load_enabled;
-	}
 
 
 	/**
 	 * @param callable $cache_loader
 	 */
-	public static function setCacheLoader( callable $cache_loader )
+	public static function enableCacheLoad( callable $cache_loader )
 	{
-		self::$cache_loader = $cache_loader;
+		static::$cache_load_enabled = true;
+		static::$cache_loader = $cache_loader;
 	}
 
 	/**
 	 * @param callable $cache_saver
 	 */
-	public static function setCacheSaver( callable $cache_saver )
+	public static function enableCacheSave( callable $cache_saver )
 	{
-		self::$cache_saver = $cache_saver;
+		static::$cache_save_enabled = true;
+		static::$cache_saver = $cache_saver;
 	}
 }

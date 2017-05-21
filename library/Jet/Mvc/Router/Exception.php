@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Router_Exception
- * @package Jet
+ *
  */
 class Mvc_Router_Exception extends Exception
 {

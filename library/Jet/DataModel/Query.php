@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query
- * @package Jet
+ *
  */
 class DataModel_Query extends BaseObject
 {

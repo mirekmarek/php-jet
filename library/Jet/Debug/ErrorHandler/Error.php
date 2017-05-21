@@ -116,7 +116,10 @@ class Debug_ErrorHandler_Error
 		if( php_sapi_name()=='cli' ) {
 			return isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
 		} else {
-			if( !isset( $_SERVER['HTTP_HOST'] )||!isset( $_SERVER['HTTP_HOST'] ) ) {
+			if(
+				!isset( $_SERVER['HTTP_HOST'] ) ||
+				!isset( $_SERVER['HTTP_HOST'] )
+			) {
 				return 'unknown';
 			}
 

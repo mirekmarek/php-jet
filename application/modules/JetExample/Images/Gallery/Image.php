@@ -312,12 +312,9 @@ class Gallery_Image extends DataModel
 	 */
 	public static function getListAsData( $gallery_id = '' )
 	{
-		/**
-		 * @var DataModel $i ;
-		 */
-		$i = new self();
-		$props = $i->getDataModelDefinition()->getProperties();
-		$data = $i->fetchDataAssoc( $props, [] );
+
+		$props = static::getDataModelDefinition()->getProperties();
+		$data = static::fetchDataAssoc( $props, [] );
 
 		if( $gallery_id ) {
 			$data->getQuery()->setWhere( [ 'this.gallery_id' => $gallery_id ] );

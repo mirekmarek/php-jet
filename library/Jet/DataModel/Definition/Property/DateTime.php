@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_DateTime
- * @package Jet
+ *
  */
 class DataModel_Definition_Property_DateTime extends DataModel_Definition_Property
 {

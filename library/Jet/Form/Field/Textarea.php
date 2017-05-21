@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_Textarea
- * @package Jet
+ *
  */
 class Form_Field_Textarea extends Form_Field
 {

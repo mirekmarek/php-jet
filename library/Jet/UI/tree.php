@@ -119,8 +119,16 @@ class UI_tree extends BaseObject
 		}
 
 
-		if( !$this->getShowAll()&&$selected_path ) {
-			if( !( in_array( $node->getParentId(), $selected_path )||in_array( $node->getId(), $selected_path ) ) ) {
+		if(
+			!$this->getShowAll() &&
+			$selected_path
+		) {
+			if(
+				!(
+					in_array( $node->getParentId(), $selected_path ) ||
+					in_array( $node->getId(), $selected_path )
+				)
+			) {
 				return false;
 			}
 		}

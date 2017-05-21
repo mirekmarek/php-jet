@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Trait
- * @package Jet
+ *
  */
 trait DataModel_Trait
 {

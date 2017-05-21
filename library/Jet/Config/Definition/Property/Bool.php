@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Config_Definition_Property_Bool
- * @package Jet
+ *
  */
 class Config_Definition_Property_Bool extends Config_Definition_Property
 {

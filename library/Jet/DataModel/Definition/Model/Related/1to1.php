@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Model_Related_1to1
- * @package Jet
+ *
  */
 class DataModel_Definition_Model_Related_1to1 extends DataModel_Definition_Model_Related
 {

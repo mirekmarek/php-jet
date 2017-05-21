@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_MultiSelect
- * @package Jet
+ * 
  */
 class Form_Field_MultiSelect extends Form_Field
 {
@@ -107,7 +106,10 @@ class Form_Field_MultiSelect extends Form_Field
 	 */
 	public function checkValueIsNotEmpty()
 	{
-		if( !$this->_value&&$this->is_required ) {
+		if(
+			!$this->_value &&
+			$this->is_required
+		) {
 			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;

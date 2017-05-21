@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class DataModel_Definition_Relations
- * @package Jet
+ *
  */
 class DataModel_Definition_Relations extends BaseObject implements \ArrayAccess, \Iterator, \Countable
 {

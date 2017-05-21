@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Controller_Abstract
- * @package Jet
+ *
  */
 abstract class Mvc_Controller extends BaseObject
 {

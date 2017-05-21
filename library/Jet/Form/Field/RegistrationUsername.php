@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_RegistrationUsername
- * @package Jet
+ *
  */
 class Form_Field_RegistrationUsername extends Form_Field_Input
 {

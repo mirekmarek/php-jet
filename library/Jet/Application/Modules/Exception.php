@@ -35,7 +35,6 @@ class Application_Modules_Exception extends Exception
 	const CODE_MODULES_LIST_NOT_FOUND = 12;
 	const CODE_MODULES_LIST_CORRUPTED = 13;
 
-	const CODE_INVALID_MODULE_CONFIG_CLASS = 1000;
 
 	const CODE_UNKNOWN_ACL_ACTION = 5000;
 }

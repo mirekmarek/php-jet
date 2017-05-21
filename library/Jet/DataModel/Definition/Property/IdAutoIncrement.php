@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_IdAutoIncrement
- * @package Jet
+ *
  */
 class DataModel_Definition_Property_IdAutoIncrement extends DataModel_Definition_Property
 {

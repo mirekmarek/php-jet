@@ -63,7 +63,8 @@ trait Mvc_Page_Trait_Initialization
 
 		if( isset( static::$pages[$site_id][$locale][$page_id] ) ) {
 			throw new Mvc_Page_Exception(
-				'Duplicates page: \''.$page->getKey().'\' ', Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+				'Duplicate page: \''.$page->getKey().'\' ',
+				Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
 			);
 		}
 

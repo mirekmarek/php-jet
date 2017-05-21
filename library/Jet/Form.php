@@ -792,7 +792,10 @@ class Form extends BaseObject
 	 */
 	public function getValues( $escape_values = false, $force_skip_is_valid = false )
 	{
-		if( !$this->is_valid && !$force_skip_is_valid ) {
+		if(
+			!$this->is_valid &&
+			!$force_skip_is_valid
+		) {
 			return false;
 		}
 
@@ -830,14 +833,20 @@ class Form extends BaseObject
 	 */
 	public function getData( $force_skip_is_valid = false )
 	{
-		if( !$this->is_valid && !$force_skip_is_valid ) {
+		if(
+			!$this->is_valid &&
+			!$force_skip_is_valid
+		) {
 			return null;
 		}
 
 		$data = new Data_Array();
 
 		foreach( $this->fields as $key => $field ) {
-			if( $field->getIsReadonly()||!$field->getHasValue() ) {
+			if(
+				$field->getIsReadonly() ||
+				!$field->getHasValue()
+			) {
 				continue;
 			}
 

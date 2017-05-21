@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Related_MtoN_Iterator
- * @package Jet
+ *
  */
 class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Related_MtoN_Iterator_Interface
 {

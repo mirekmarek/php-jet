@@ -45,7 +45,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @var string
 	 */
-	protected $site_id = '';
+	protected $_site_id = '';
 	/**
 	 *
 	 * @var string
@@ -147,8 +147,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 
 	/**
-	 *
 	 * @return Mvc_Site[]
+	 *
+	 * @throws Mvc_Page_Exception
 	 */
 	public static function loadSites()
 	{
@@ -174,6 +175,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 			foreach( $sites_data as $data ) {
 				$site = static::createSiteByData( $data );
+
+				if(isset(static::$sites[$site->getId()])) {
+					throw new Mvc_Page_Exception(
+						'Duplicate site: \''.$site->getId().'\' ',
+						Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+					);
+
+				}
+
 				static::$sites[$site->getId()] = $site;
 			}
 
@@ -203,7 +213,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		$site = new static();
 
 
-		$site->site_id = $data['id'];
+		$site->_site_id = $data['id'];
 		$site->name = $data['name'];
 		$site->is_active = $data['is_active'];
 
@@ -338,7 +348,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function setId( $id )
 	{
-		$this->site_id = $id;
+		$this->_site_id = $id;
 	}
 
 	/**
@@ -374,7 +384,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function getBasePath()
 	{
-		return JET_PATH_SITES.$this->site_id.'/';
+		return JET_PATH_SITES.$this->_site_id.'/';
 	}
 
 	/**
@@ -570,11 +580,10 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * Returns default site data
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public function getDefault()
+	public static function getDefaultSite()
 	{
 		$sites = static::loadSites();
 
@@ -618,7 +627,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function getId()
 	{
-		return $this->site_id;
+		return $this->_site_id;
 	}
 
 	/**
@@ -653,14 +662,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	public function toArray()
 	{
 
-		$data = [
-			'id'             => $this->site_id,
-			'name'           => $this->name,
-			'is_default'     => $this->is_default,
-			'is_active'      => $this->is_active,
-			'default_locale' => $this->default_locale->toString(),
-			'localized_data' => [],
-		];
+		$data = get_object_vars( $this );
+
+		foreach( $data as $k => $v ) {
+			if( $k[0]=='_' ) {
+				unset( $data[$k] );
+			}
+		}
+		$data['localized_data'] = [];
+
 
 		foreach( $this->localized_data as $locale_str => $ld ) {
 			$data['localized_data'][$locale_str] = $ld->toArray();

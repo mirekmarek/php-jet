@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface Form_Field_Definition_Interface
- * @package Jet
+ *
  */
 interface Form_Field_Definition_Interface
 {

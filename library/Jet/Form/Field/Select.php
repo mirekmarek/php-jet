@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_Select
- * @package Jet
+ * 
  */
 class Form_Field_Select extends Form_Field
 {

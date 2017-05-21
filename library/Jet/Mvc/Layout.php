@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Layout
- * @package Jet
+ *
  */
 class Mvc_Layout extends Mvc_View_Abstract
 {
@@ -223,7 +222,10 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$position = static::DEFAULT_OUTPUT_POSITION;
 		}
 
-		if( $position_order===null||$position_order===false ) {
+		if(
+			$position_order===null ||
+			$position_order===false
+		) {
 			$position_order = 0;
 			foreach( $this->output_parts as $o ) {
 				if( $o->getPosition()!==$position ) {
@@ -455,7 +457,10 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$action_params = [];
 
 			foreach( $properties as $k => $v ) {
-				if( $k=='module'||$k=='action' ) {
+				if(
+					$k=='module' ||
+					$k=='action'
+				) {
 					continue;
 				}
 
@@ -609,7 +614,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 		if( ( $page = Mvc::getCurrentPage() ) ) {
 
-			foreach( $page->getMetaTags( true ) as $mt ) {
+			foreach( $page->getMetaTags() as $mt ) {
 				$dat[static::TAG_META_TAGS] .= JET_EOL.JET_TAB.$mt;
 			}
 

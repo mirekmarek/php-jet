@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Fetch_Abstract
- * @package Jet
+ *
  */
 abstract class DataModel_Fetch extends BaseObject implements BaseObject_Serializable, Data_Paginator_DataSource
 {

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_RecordData
- * @package Jet
+ *
  */
 class DataModel_RecordData implements \Iterator
 {

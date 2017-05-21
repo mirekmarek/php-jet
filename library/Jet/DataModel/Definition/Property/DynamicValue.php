@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_DynamicValue
- * @package Jet
+ *
  */
 class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Property
 {

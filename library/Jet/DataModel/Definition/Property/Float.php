@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_Float
- * @package Jet
+ *
  */
 class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 {

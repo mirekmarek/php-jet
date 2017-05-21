@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Http_Request_Data_Hoax
- * @package Jet
+ *
  */
 class Http_Request_Trap implements \ArrayAccess, \Iterator, \Countable
 {

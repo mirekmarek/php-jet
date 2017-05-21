@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Relation_Abstract
- * @package Jet
+ *
  */
 abstract class DataModel_Definition_Relation extends BaseObject
 {

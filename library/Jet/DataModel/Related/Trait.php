@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Related_Trait
- * @package Jet
+ *
  */
 trait DataModel_Related_Trait
 {
@@ -36,8 +35,9 @@ trait DataModel_Related_Trait
 			$property_name = $property_definition->getName();
 
 
-			if( $this->getIsSaved()&&$this->{$property_name}!=$parent_id[$property_definition->getRelatedToPropertyName(
-				)]
+			if(
+				$this->getIsSaved() &&
+				$this->{$property_name}!=$parent_id[$property_definition->getRelatedToPropertyName()]
 			) {
 				$this->setIsNew();
 			}
@@ -63,8 +63,9 @@ trait DataModel_Related_Trait
 
 			$property_name = $property_definition->getName();
 
-			if( $this->getIsSaved()&&$this->{$property_name}!=$main_id[$property_definition->getRelatedToPropertyName(
-				)]
+			if(
+				$this->getIsSaved() &&
+				$this->{$property_name}!=$main_id[$property_definition->getRelatedToPropertyName()]
 			) {
 				$this->setIsNew();
 			}

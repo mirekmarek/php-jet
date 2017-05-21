@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_Checkbox
- * @package Jet
+ * 
  */
 class Form_Field_Checkbox extends Form_Field
 {

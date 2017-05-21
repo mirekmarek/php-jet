@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_WYSIWYG
- * @package Jet
+ * 
  */
 class Form_Field_WYSIWYG extends Form_Field
 {

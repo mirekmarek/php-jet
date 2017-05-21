@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Config_Definition_Config
- * @package Jet
+ * 
  */
 class Config_Definition_Config extends BaseObject
 {
@@ -75,7 +74,10 @@ class Config_Definition_Config extends BaseObject
 
 		$this->properties_definition = [];
 		foreach( $propertied_definition_data as $property_name => $definition_data ) {
-			if( !isset( $definition_data['type'] )||!$definition_data['type'] ) {
+			if(
+				!isset( $definition_data['type'] ) ||
+				!$definition_data['type']
+			) {
 				throw new Config_Exception(
 					'Property '.get_class( $this ).'::'.$property_name.': \'type\' parameter is not defined.',
 					Config_Exception::CODE_CONFIG_CHECK_ERROR

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_Where_Trait
- * @package Jet
+ *
  */
 trait DataModel_Query_Where_Trait
 {

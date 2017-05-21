@@ -1,4 +1,5 @@
 <?php
 return [
-	'Change password' => '', 'Logout' => '',
+	'Change password' => '',
+	'Logout'          => '',
 ];

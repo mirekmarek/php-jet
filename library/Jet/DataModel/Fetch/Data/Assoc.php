@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Fetch_Data_Assoc
- * @package Jet
+ *
  */
 class DataModel_Fetch_Data_Assoc extends DataModel_Fetch_Data
 {

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_Float
- * @package Jet
+ *
  */
 class Form_Field_Float extends Form_Field_Input
 {
@@ -160,7 +159,10 @@ class Form_Field_Float extends Form_Field_Input
 	public function validate()
 	{
 
-		if( !$this->is_required&&$this->_value_raw==='' ) {
+		if(
+			!$this->is_required &&
+			$this->_value_raw===''
+		) {
 			$this->setIsValid();
 
 			return true;
@@ -170,13 +172,19 @@ class Form_Field_Float extends Form_Field_Input
 		$this->_value = (float)$this->_value_raw;
 
 
-		if( $this->min_value!==null&&$this->_value<$this->min_value ) {
+		if(
+			$this->min_value!==null &&
+			$this->_value<$this->min_value
+		) {
 			$this->setError( self::ERROR_CODE_OUT_OF_RANGE );
 
 			return false;
 		}
 
-		if( $this->max_value!==null&&$this->_value>$this->max_value ) {
+		if(
+			$this->max_value!==null &&
+			$this->_value>$this->max_value
+		) {
 			$this->setError( self::ERROR_CODE_OUT_OF_RANGE );
 
 			return false;
@@ -199,7 +207,10 @@ class Form_Field_Float extends Form_Field_Input
 			$codes[] = self::ERROR_CODE_EMPTY;
 		}
 
-		if( $this->min_value!==null||$this->max_value!==null ) {
+		if(
+			$this->min_value!==null ||
+			$this->max_value!==null
+		) {
 			$codes[] = self::ERROR_CODE_OUT_OF_RANGE;
 		}
 

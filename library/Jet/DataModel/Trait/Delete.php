@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Trait_Delete
- * @package Jet
+ *
  */
 trait DataModel_Trait_Delete
 {
@@ -30,7 +29,10 @@ trait DataModel_Trait_Delete
 			);
 		}
 
-		if( !$this->getIdObject()||!$this->getIsSaved() ) {
+		if(
+			!$this->getIdObject() ||
+			!$this->getIsSaved()
+		) {
 			throw new DataModel_Exception(
 				'Nothing to delete... Object was not loaded. (Class: \''.get_class(
 					$this

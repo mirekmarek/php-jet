@@ -7,28 +7,18 @@
  */
 namespace Jet;
 
-DataModel_Definition::setCacheLoadEnabled(JET_DATAMODEL_DEFINITION_CACHE_LOAD);
-DataModel_Definition::setCacheSaveEnabled(JET_DATAMODEL_DEFINITION_CACHE_SAVE);
+namespace JetApplication;
+
+use Jet\DataModel_Definition;
 
 if(JET_DATAMODEL_DEFINITION_CACHE_LOAD) {
-	DataModel_Definition::setCacheLoader( function( $class ) {
-
-		$file_path = JET_PATH_CACHE.'datamodel_definitions/'.str_replace( '\\', '__', $class.'.php' );
-
-		if( IO_File::exists( $file_path ) ) {
-			/** @noinspection PhpIncludeInspection */
-			return require $file_path;
-		}
-
-		return false;
+	DataModel_Definition::enableCacheLoad( function( $class ) {
+		return Cache_DataModelDefinition::load( $class );
 	} );
 }
 
 if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
-	DataModel_Definition::setCacheSaver( function( $class, $data ) {
-		$file_path = JET_PATH_CACHE.'datamodel_definitions/'.str_replace( '\\', '__', $class.'.php' );
-
-		IO_File::write( $file_path, '<?php return '.var_export( $data, true ).';' );
-
+	DataModel_Definition::enableCacheSave( function( $class, $data ) {
+		Cache_DataModelDefinition::save( $class, $data );
 	} );
 }

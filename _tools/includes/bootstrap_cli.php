@@ -15,21 +15,7 @@ require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/paths.php
 require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/jet.php');
 
 
-/** @noinspection PhpIncludeInspection */
-require(JET_PATH_APPLICATION . 'init/ErrorHandler.php');
-
-use JetApplication\ErrorHandler_Display;
-ErrorHandler_Display::register();
-
 $init_dir = JET_PATH_APPLICATION.'init/';
-/** @noinspection PhpIncludeInspection */
 require( $init_dir.'Autoloader.php');
-/** @noinspection PhpIncludeInspection */
 require( $init_dir.'ClassNames.php' );
 
-try {
-	Application::start();
-} catch (\Exception $e) {
-	echo 'ERROR: ' . $e->getMessage() . JET_EOL . JET_EOL;
-	die();
-}

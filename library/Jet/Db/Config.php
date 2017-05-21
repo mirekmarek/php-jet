@@ -54,7 +54,10 @@ class Db_Config extends Application_Config
 		$connections = [];
 
 		foreach( $i->getConnections() as $name => $connection ) {
-			if( $driver_type_filter&&$driver_type_filter!=$connection->getDriver() ) {
+			if(
+				$driver_type_filter &&
+				$driver_type_filter!=$connection->getDriver()
+			) {
 				continue;
 			}
 

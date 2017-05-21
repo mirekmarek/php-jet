@@ -565,7 +565,10 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	 */
 	public function activate( $user_activation_hash = null )
 	{
-		if( $user_activation_hash&&$this->user_activation_hash!=$user_activation_hash ) {
+		if(
+			$user_activation_hash &&
+			$this->user_activation_hash!=$user_activation_hash
+		) {
 			return false;
 		}
 		$this->user_is_activated = true;

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_FileImage
- * @package Jet
+ *
  */
 class Form_Field_FileImage extends Form_Field_File
 {
@@ -128,7 +127,10 @@ class Form_Field_FileImage extends Form_Field_File
 		}
 
 		if( $this->_value ) {
-			if( $this->maximal_width&&$this->maximal_height ) {
+			if(
+				$this->maximal_width &&
+				$this->maximal_height
+			) {
 				try {
 					$image = new Data_Image( $this->_value );
 					$image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );

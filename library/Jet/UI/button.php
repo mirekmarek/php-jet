@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class button
- * @package Jet
+ *
  */
 class UI_button extends UI_BaseElement
 {

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Backend_SQLite
- * @package Jet
+ * 
  */
 class DataModel_Backend_SQLite extends DataModel_Backend
 {
@@ -194,7 +193,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		$name = $column->getName();
 
-		if( isset( $backend_options['column_type'] )&&$backend_options['column_type'] ) {
+		if( !empty( $backend_options['column_type'] ) ) {
 			return $backend_options['column_type'];
 		}
 
@@ -574,7 +573,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				continue;
 			}
 
-			if( $qp===DataModel_Query::L_O_AND||$qp===DataModel_Query::L_O_OR ) {
+			if(
+				$qp===DataModel_Query::L_O_AND ||
+				$qp===DataModel_Query::L_O_OR
+			) {
 				/**
 				 * @var string $qp
 				 */
@@ -877,7 +879,10 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 				continue;
 			}
 
-			if( $qp===DataModel_Query::L_O_AND||$qp===DataModel_Query::L_O_OR ) {
+			if(
+				$qp===DataModel_Query::L_O_AND ||
+				$qp===DataModel_Query::L_O_OR
+			) {
 				/**
 				 * @var string $qp
 				 */

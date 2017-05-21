@@ -9,8 +9,7 @@ namespace Jet;
 
 
 /**
- * Class icon
- * @package Jet
+ * 
  */
 class UI_icon extends UI_BaseElement
 {

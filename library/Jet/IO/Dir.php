@@ -124,7 +124,10 @@ class IO_Dir
 			);
 		}
 
-		if( static::exists( $target_path ) && !$overwrite_if_exists ) {
+		if(
+			static::exists( $target_path ) &&
+			!$overwrite_if_exists
+		) {
 			throw new IO_Dir_Exception(
 				'Target directory \''.$source_path.'\' already exists', IO_Dir_Exception::CODE_COPY_FAILED
 			);
@@ -142,7 +145,10 @@ class IO_Dir
 		}
 
 		while( ( $file = readdir( $dh ) )!==false ) {
-			if( $file=='.'||$file=='..' ) {
+			if(
+				$file=='.' ||
+				$file=='..'
+			) {
 				continue;
 			}
 
@@ -227,7 +233,10 @@ class IO_Dir
 		}
 
 		while( ( $file = readdir( $dh ) )!==false ) {
-			if( $file=='.'||$file=='..' ) {
+			if(
+				$file=='.' ||
+				$file=='..'
+			) {
 				continue;
 			}
 
@@ -288,13 +297,19 @@ class IO_Dir
 	{
 		$last_char = substr( $dir_path, -1 );
 
-		if( $last_char!='/'&&$last_char!='\\' ) {
+		if(
+			$last_char!='/' &&
+			$last_char!='\\'
+		) {
 			$dir_path .= DIRECTORY_SEPARATOR;
 		}
 
 		$pattern = $dir_path.$mask;
 
-		if( $get_dirs && !$get_files ) {
+		if(
+			$get_dirs &&
+			!$get_files
+		) {
 			$options = GLOB_ERR|GLOB_ONLYDIR;
 		} else {
 			$options = GLOB_ERR;
@@ -319,11 +334,17 @@ class IO_Dir
 		foreach( $files as $file_path ) {
 			$file_name = basename( $file_path );
 
-			if( $file_name==='.'||$file_name==='..' ) {
+			if(
+				$file_name==='.' ||
+				$file_name==='..'
+			) {
 				continue;
 			}
 
-			if( is_file( $file_path ) && !$get_files ) {
+			if(
+				is_file( $file_path ) &&
+				!$get_files
+			) {
 				continue;
 			}
 			if( is_dir( $file_path ) ) {

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface DataModel_Interface
- * @package Jet
+ *
  */
 interface DataModel_Interface extends BaseObject_Serializable
 {

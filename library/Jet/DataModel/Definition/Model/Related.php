@@ -164,7 +164,10 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 			foreach( $related_definition_data as $property_name => $pd ) {
 
-				if( empty( $pd['is_id'] )||!empty( $pd['related_to'] ) ) {
+				if(
+					empty( $pd['is_id'] ) ||
+					!empty( $pd['related_to'] )
+				) {
 					continue;
 				}
 
@@ -303,7 +306,13 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		list( $what, $related_to_property_name ) = $related_to;
 
-		if( ( $what!='parent'&&$what!='main' )||!$related_to_property_name ) {
+		if(
+			(
+				$what!='parent' &&
+				$what!='main'
+			) ||
+			!$related_to_property_name
+		) {
 			throw new DataModel_Exception(
 				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\'  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -311,7 +320,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 		}
 
 
-		if( !$this->is_sub_related_model&&$what=='parent' ) {
+		if( !$this->is_sub_related_model && $what=='parent' ) {
 			throw new DataModel_Exception(
 				'Invalid @JetDataModel:related_to = \'parent.'.$related_to_property_name.'\' definition. Use: @JetDataModel:related_to = \'main.'.$related_to_property_name.'\'  ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

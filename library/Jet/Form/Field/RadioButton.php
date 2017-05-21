@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_RadioButton
- * @package Jet
+ * 
  */
 class Form_Field_RadioButton extends Form_Field
 {

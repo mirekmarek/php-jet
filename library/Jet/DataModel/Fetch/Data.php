@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Fetch_Data_Abstract
- * @package Jet
+ *
  */
 abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Paginator_DataSource, \ArrayAccess, \Iterator, \Countable
 {

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface Mvc_Site_Interface
- * @package Jet
+ *
  */
 interface Mvc_Site_Interface
 {
@@ -226,11 +225,10 @@ interface Mvc_Site_Interface
 	public function getHomepage( Locale $locale );
 
 	/**
-	 * Returns default site data
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public function getDefault();
+	public static function getDefaultSite();
 
 	/**
 	 *

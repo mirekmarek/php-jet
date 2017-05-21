@@ -16,7 +16,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 
 	const HOMEPAGE_ID = '_homepage_';
 
-	use Mvc_Page_Trait;
+	use Mvc_Page_Trait_Initialization;
+	use Mvc_Page_Trait_Tree;
+	use Mvc_Page_Trait_URL;
+	use Mvc_Page_Trait_Auth;
+	use Mvc_Page_Trait_Handlers;
 
 	/**
 	 *
@@ -153,7 +157,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	public static function get( $page_id = null, $locale = null, $site_id = null )
 	{
-		if( !$page_id && !$locale && !$site_id ) {
+		if(
+			!$page_id &&
+			!$locale &&
+			!$site_id
+		) {
 			return Mvc::getCurrentPage();
 		}
 

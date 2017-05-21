@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface Mvc_Page_MetaTag_Interface
- * @package Jet
+ *
  */
 interface Mvc_Page_MetaTag_Interface
 {

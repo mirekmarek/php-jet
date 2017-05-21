@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_OrderBy_Item
- * @package Jet
+ * 
  */
 class DataModel_Query_OrderBy_Item extends BaseObject
 {

@@ -67,7 +67,10 @@ class Debug_Profiler_Run
 		if( php_sapi_name()=='cli' ) {
 			$this->request_URL = isset( $_SERVER['SCRIPT_FILENAME'] ) ? $_SERVER['SCRIPT_FILENAME'] : 'CLI';
 		} else {
-			if( !isset( $_SERVER['HTTP_HOST'] )||!isset( $_SERVER['HTTP_HOST'] ) ) {
+			if( 
+				!isset( $_SERVER['HTTP_HOST'] ) ||
+				!isset( $_SERVER['HTTP_HOST'] ) 
+			) {
 				$this->request_URL = 'unknown';
 			}
 			$this->request_URL = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];

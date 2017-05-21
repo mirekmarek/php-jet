@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class flag
- * @package Jet
+ * 
  */
 class UI_localeLabel extends UI_BaseElement
 {

@@ -141,7 +141,7 @@ class Navigation_Breadcrumb_Item extends BaseObject
 	 */
 	public function getIsActive()
 	{
-		return $this->is_active||$this->is_last;
+		return $this->is_active || $this->is_last;
 	}
 
 	/**

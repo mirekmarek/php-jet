@@ -123,13 +123,10 @@ class Gallery extends DataModel
 	 */
 	public static function getListAsData()
 	{
-		/**
-		 * @var DataModel $i ;
-		 */
-		$i = new self();
-		$props = $i->getDataModelDefinition()->getProperties();
 
-		return $i->fetchDataAssoc( $props, [] );
+		$props = static::getDataModelDefinition()->getProperties();
+
+		return static::fetchDataAssoc( $props, [] );
 	}
 
 	/**

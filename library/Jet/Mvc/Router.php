@@ -232,6 +232,8 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 	/**
 	 * @return bool
+	 *
+	 * @throws Mvc_Page_Exception
 	 */
 	protected function resolveSiteAndLocale()
 	{
@@ -286,35 +288,50 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		Debug_Profiler::blockEnd('Seeking for site');
 
-		$OK = true;
-		if( !$this->site ) {
-			$this->setIs404();
+		if(!$this->site) {
+			$this->site = $site_class_name::getDefaultSite();
+			if(!$this->site) {
 
-			Debug_Profiler::message('site not found');
-			$OK = false;
-		} else {
+				throw new Mvc_Page_Exception(
+					'Unable to find default site'
+				);
 
-			if($this->set_mvc_state) {
-				Mvc::setCurrentSite($this->site);
-				Mvc::setCurrentLocale($this->locale);
 			}
 
-			if( $founded_url!=$this->site->getDefaultURL($this->locale) ) {
+			$this->locale = $this->site->getDefaultLocale();
+			if(!$this->locale) {
 
-				$redirect_to = $this->getSite()->getDefaultURL( $this->locale ).$this->path;
-
-				if($this->path && Mvc::getForceSlashOnURLEnd()) {
-					$redirect_to .= '/';
-				}
-
-				$this->setIsRedirect( $redirect_to );
-
-				Debug_Profiler::message('wrong site URL');
-
-				$OK = false;
+				throw new Mvc_Page_Exception(
+					'Unable to find default locale (site: '.$this->site->getId().')'
+				);
 			}
 
 		}
+
+
+		$OK = true;
+
+		if($this->set_mvc_state) {
+			Mvc::setCurrentSite($this->site);
+			Mvc::setCurrentLocale($this->locale);
+		}
+
+		if( $founded_url!=$this->site->getDefaultURL($this->locale) ) {
+
+			$redirect_to = $this->getSite()->getDefaultURL( $this->locale ).$this->path;
+
+			if($this->path && Mvc::getForceSlashOnURLEnd()) {
+				$redirect_to .= '/';
+			}
+
+			$this->setIsRedirect( $redirect_to );
+
+			Debug_Profiler::message('wrong site URL');
+
+			$OK = false;
+		}
+
+
 
 
 

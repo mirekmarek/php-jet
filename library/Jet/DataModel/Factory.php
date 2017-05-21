@@ -51,7 +51,10 @@ class DataModel_Factory
 	 */
 	public static function getPropertyDefinitionInstance( $data_model_class_name, $name, $definition_data )
 	{
-		if( !isset( $definition_data['type'] )||!$definition_data['type'] ) {
+		if(
+			!isset( $definition_data['type'] ) ||
+			!$definition_data['type']
+		) {
 			throw new DataModel_Exception(
 				'Property '.$data_model_class_name.'::'.$name.': \'type\' parameter is not defined ... ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

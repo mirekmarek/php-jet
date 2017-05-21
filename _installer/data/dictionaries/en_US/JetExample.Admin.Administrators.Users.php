@@ -13,7 +13,6 @@ return [
 	'Passwords do not match'                  => '',
 	'Please select locale'                    => '',
 	'Please select role'                      => '',
-	'Username'                                => '',
 	'Password'                                => '',
 	'Confirm password'                        => '',
 	'E-mail'                                  => '',

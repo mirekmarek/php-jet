@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_Exception
- * @package Jet
+ * 
  */
 class DataModel_Query_Exception extends Exception
 {

@@ -347,8 +347,9 @@ class UI_dataGrid extends BaseObject
 			$this->handlePaginator();
 		}
 
-		if( ( $data instanceof DataModel_Fetch_Data||$data instanceof DataModel_Fetch_Object )&&( $sort = $this->handleSortRequest(
-			) )
+		if(
+			( $data instanceof DataModel_Fetch_Data || $data instanceof DataModel_Fetch_Object ) &&
+			( $sort = $this->handleSortRequest() )
 		) {
 			/**
 			 * @var DataModel_Fetch_Data $data
@@ -367,7 +368,10 @@ class UI_dataGrid extends BaseObject
 				$this->paginator->setData( $data );
 			}
 
-			if( $data instanceof DataModel_Fetch_Data||$data instanceof DataModel_Fetch_Object ) {
+			if(
+				$data instanceof DataModel_Fetch_Data ||
+				$data instanceof DataModel_Fetch_Object
+			) {
 				$this->paginator->setDataSource( $data );
 			}
 
@@ -481,7 +485,10 @@ class UI_dataGrid extends BaseObject
 	public function getSortURL( $column_name, $desc = false )
 	{
 		$column = $this->getColumn( $column_name );
-		if( !$column||!$column->getAllowSort() ) {
+		if(
+			!$column ||
+			!$column->getAllowSort()
+		) {
 			return '';
 		}
 

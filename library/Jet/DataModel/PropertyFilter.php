@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_PropertyFilter
- * @package Jet
+ *
  */
 class DataModel_PropertyFilter extends BaseObject
 {

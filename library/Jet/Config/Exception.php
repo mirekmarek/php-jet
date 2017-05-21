@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Config_Exception
- * @package Jet
+ *
  */
 class Config_Exception extends Exception
 {

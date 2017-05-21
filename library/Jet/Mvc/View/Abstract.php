@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_View_Abstract
- * @package Jet
+ *
  */
 abstract class Mvc_View_Abstract extends BaseObject
 {
@@ -149,9 +148,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 		}
 
 		if( strpos( '.', $script_name )!==false ) {
-			throw new Mvc_View_Exception(
-				'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME
-			);
+			throw new Mvc_View_Exception( 'Illegal script file name', Mvc_View_Exception::CODE_INVALID_VIEW_NAME );
 		}
 
 

@@ -217,7 +217,10 @@ trait Form_Field_Trait_Validation
 	 */
 	public function checkValueIsNotEmpty()
 	{
-		if( $this->_value===''&&$this->is_required ) {
+		if(
+			$this->_value==='' &&
+			$this->is_required
+		) {
 			$this->setError( self::ERROR_CODE_EMPTY );
 
 			return false;
@@ -256,7 +259,10 @@ trait Form_Field_Trait_Validation
 			return true;
 		}
 
-		if( !$this->is_required && $this->_value==='' ) {
+		if(
+			!$this->is_required &&
+			$this->_value===''
+		) {
 			return true;
 		}
 

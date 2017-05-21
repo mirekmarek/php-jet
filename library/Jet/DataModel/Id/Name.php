@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Id_Name
- * @package Jet
+ *
  */
 class DataModel_Id_Name extends DataModel_Id
 {

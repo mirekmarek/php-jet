@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Layout_Exception
- * @package Jet
+ *
  */
 class Mvc_Layout_Exception extends Exception
 {

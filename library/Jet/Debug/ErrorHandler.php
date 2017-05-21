@@ -158,7 +158,10 @@ class Debug_ErrorHandler
 	public static function handleShutdown()
 	{
 		$error = error_get_last();
-		if( $error&&is_array( $error ) ) {
+		if(
+			$error &&
+			is_array( $error )
+		) {
 			$error = Debug_ErrorHandler_Error::newShutdownError( $error );
 			static::_handleError( $error );
 		}

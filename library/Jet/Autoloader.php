@@ -67,15 +67,7 @@ class Autoloader
 	 */
 	public static function getCacheSaveEnabled()
 	{
-		return static::$cache_save_enabled;
-	}
-
-	/**
-	 * @param bool $cache_save_enabled
-	 */
-	public static function setCacheSaveEnabled( $cache_save_enabled )
-	{
-		static::$cache_save_enabled = $cache_save_enabled;
+		return static::$cache_save_enabled && static::$cache_saver;
 	}
 
 	/**
@@ -83,39 +75,25 @@ class Autoloader
 	 */
 	public static function getCacheLoadEnabled()
 	{
-		return static::$cache_load_enabled;
-	}
-
-	/**
-	 * @param bool $cache_load_enabled
-	 */
-	public static function setCacheLoadEnabled( $cache_load_enabled )
-	{
-		static::$cache_load_enabled = $cache_load_enabled;
+		return static::$cache_load_enabled && static::$cache_loader;
 	}
 
 	/**
 	 * @param callable $cache_loader
 	 */
-	public static function setCacheLoader( callable $cache_loader )
+	public static function enableCacheLoad( callable $cache_loader )
 	{
-		self::$cache_loader = $cache_loader;
-	}
-
-	/**
-	 * @return callable
-	 */
-	public static function getCacheLoader()
-	{
-		return self::$cache_loader;
+		static::$cache_load_enabled = true;
+		static::$cache_loader = $cache_loader;
 	}
 
 	/**
 	 * @param callable $cache_saver
 	 */
-	public static function setCacheSaver( callable $cache_saver )
+	public static function enableCacheSave( callable $cache_saver )
 	{
-		self::$cache_saver = $cache_saver;
+		static::$cache_save_enabled = true;
+		static::$cache_saver = $cache_saver;
 	}
 
 
@@ -211,7 +189,7 @@ class Autoloader
 				'Unable to load class \''.$class_name.'\'. Registered auto loaders: \''
 				. implode( '\', \'', array_keys( static::$loaders ) )
 				.'\'',
-				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
+				Autoloader_Exception::CODE_UNABLE_TO_DETERMINE_SCRIPT_PATH
 			);
 		}
 
@@ -219,7 +197,7 @@ class Autoloader
 		if( !file_exists( $path ) ) {
 			throw new Autoloader_Exception(
 				'File \''.$path.'\' does not exist. Class: \''.$class_name.'\', Loader: \''.$loader_name.'\'',
-				Autoloader_Exception::CODE_INVALID_CLASS_DOES_NOT_EXIST
+				Autoloader_Exception::CODE_SCRIPT_DOES_NOT_EXIST
 			);
 
 		}

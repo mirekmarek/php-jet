@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Mvc_Layout_OutputPart
- * @package Jet
+ *
  */
 class Mvc_Layout_OutputPart extends BaseObject
 {

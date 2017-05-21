@@ -190,7 +190,7 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN
 	 */
 	public function getArrayKeyValue()
 	{
-		return $this->createKey( $this->maximal_size_w, $this->maximal_size_h );
+		return static::createKey( $this->maximal_size_w, $this->maximal_size_h );
 	}
 
 	/**

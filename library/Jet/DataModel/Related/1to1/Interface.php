@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface DataModel_Related_1to1_Interface
- * @package Jet
+ *
  */
 interface DataModel_Related_1to1_Interface extends DataModel_Related_Item_Interface, DataModel_Interface
 {

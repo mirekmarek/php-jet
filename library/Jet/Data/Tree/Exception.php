@@ -18,7 +18,5 @@ class Data_Tree_Exception extends Exception
 
 	const CODE_NODE_ALREADY_EXISTS = 3;
 	const CODE_MISSING_VALUE = 4;
-	const CODE_COLLISION = 5;
-	const CODE_INVALID_NODES_CLASS = 6;
 
 }

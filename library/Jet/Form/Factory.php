@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Factory
- * @package Jet
+ * 
  */
 class Form_Factory
 {

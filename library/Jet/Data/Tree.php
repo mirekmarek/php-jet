@@ -747,7 +747,10 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 		}
 
 		foreach( $data as $key => $val ) {
-			if( is_array( $val )||is_object( $val ) ) {
+			if(
+				is_array( $val ) ||
+				is_object( $val )
+			) {
 				if( is_int( $key ) ) {
 					$key = 'item';
 				}

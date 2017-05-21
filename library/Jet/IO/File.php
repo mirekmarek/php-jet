@@ -11,8 +11,7 @@ namespace Jet;
 require_once JET_PATH_LIBRARY.'Jet/IO/File/Exception.php';
 
 /**
- * Class IO_File
- * @package Jet
+ *
  */
 class IO_File
 {
@@ -119,13 +118,19 @@ class IO_File
 	 */
 	public static function getMimeType( $file_path, $extensions_mimes_map_file_path = null, $without_charset = true )
 	{
-		if( !$extensions_mimes_map_file_path&&defined( 'JET_PATH_CONFIG' ) ) {
+		if(
+			!$extensions_mimes_map_file_path &&
+			defined( 'JET_PATH_CONFIG' )
+		) {
 			$extensions_mimes_map_file_path = JET_PATH_CONFIG.'file_mime_types/map.php';
 		}
 
 		$mime_type = null;
 
-		if( $extensions_mimes_map_file_path&&is_readable( $extensions_mimes_map_file_path ) ) {
+		if(
+			$extensions_mimes_map_file_path &&
+			is_readable( $extensions_mimes_map_file_path )
+		) {
 			/** @noinspection PhpIncludeInspection */
 			$map = require $extensions_mimes_map_file_path;
 
@@ -144,7 +149,10 @@ class IO_File
 			unset( $file_info );
 		}
 
-		if( $without_charset&&( $pos = strpos( $mime_type, ';' ) )!==false ) {
+		if(
+			$without_charset &&
+			( $pos = strpos( $mime_type, ';' ) )!==false
+		) {
 			$mime_type = substr( $mime_type, 0, $pos );
 		}
 
@@ -192,7 +200,10 @@ class IO_File
 
 		if( !file_put_contents( $file_path, $data, $flags ) ) {
 			$error = static::_getLastError();
-			if( $data&&$error ) {
+			if(
+				$data &&
+				$error
+			) {
 				throw new IO_File_Exception(
 					'Unable to write file \''.$file_path.'\'. Error message: '.$error['message'],
 					IO_File_Exception::CODE_WRITE_FAILED
@@ -262,7 +273,10 @@ class IO_File
 			static::$http_response_header = $http_response_header;
 
 			foreach( $http_response_header as $header ) {
-				if( stristr( $header, 'content-encoding' )&&stristr( $header, 'gzip' ) ) {
+				if(
+					stristr( $header, 'content-encoding' ) &&
+					stristr( $header, 'gzip' )
+				) {
 					$data = gzdecode( $data );
 				}
 			}

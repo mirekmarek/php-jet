@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Relation_External
- * @package Jet
+ * 
  */
 class DataModel_Definition_Relation_External extends DataModel_Definition_Relation
 {

@@ -179,7 +179,10 @@ class Translator extends BaseObject
 			$locale = static::$current_locale;
 		}
 
-		if( !$namespace||!$locale ) {
+		if(
+			!$namespace ||
+			!$locale
+		) {
 			return Data_Text::replaceData( $phrase, $data );
 		}
 
@@ -212,7 +215,10 @@ class Translator extends BaseObject
 	{
 		$dictionary_key = $namespace.':'.$locale;
 
-		if( !isset( static::$dictionaries[$dictionary_key] )||$force_load ) {
+		if(
+			!isset( static::$dictionaries[$dictionary_key] ) ||
+			$force_load
+		) {
 			static::$dictionaries[$dictionary_key] = static::getBackend()->loadDictionary( $namespace, $locale );
 		}
 

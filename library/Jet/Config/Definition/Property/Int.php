@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Config_Definition_Property_Int
- * @package Jet
+ *
  */
 class Config_Definition_Property_Int extends Config_Definition_Property
 {
@@ -135,18 +134,27 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 	 */
 	protected function _validateProperties_test_value( &$value )
 	{
-		if( $this->min_value===null&&$this->max_value===null ) {
+		if(
+			$this->min_value===null &&
+			$this->max_value===null
+		) {
 			return true;
 		}
 
-		if( $this->min_value!==null&&$value<$this->min_value ) {
+		if(
+			$this->min_value!==null &&
+			$value<$this->min_value
+		) {
 			throw new Config_Exception(
 				'Configuration property '.$this->_configuration_class.'::'.$this->name.' value '.$value.' is under the minimal value. Minimal value: '.$this->min_value.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR
 			);
 		}
 
-		if( $this->max_value!==null&&$value>$this->max_value ) {
+		if(
+			$this->max_value!==null &&
+			$value>$this->max_value
+		) {
 			throw new Config_Exception(
 				'Configuration property '.$this->_configuration_class.'::'.$this->name.' value is above the maximum value. Maximum value: '.$this->max_value.', current value: '.$value,
 				Config_Exception::CODE_CONFIG_CHECK_ERROR

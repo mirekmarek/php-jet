@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_GroupBy
- * @package Jet
+ * 
  */
 class DataModel_Query_GroupBy extends BaseObject implements \Iterator
 {

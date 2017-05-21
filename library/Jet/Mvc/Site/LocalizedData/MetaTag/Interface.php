@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Interface Mvc_Site_LocalizedData_MetaTag_Interface
- * @package Jet
+ *
  */
 interface Mvc_Site_LocalizedData_MetaTag_Interface
 {

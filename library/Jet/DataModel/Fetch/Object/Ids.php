@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Fetch_Object_Ids
- * @package Jet
+ *
  */
 class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements \ArrayAccess, \Iterator, \Countable
 {

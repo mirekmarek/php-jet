@@ -156,7 +156,10 @@ abstract class Config extends BaseObject
 
 		$config_data_path = $definition->getDataPath();
 
-		if( $config_data_path&&$use_data_path_for_source_data ) {
+		if(
+			$config_data_path &&
+			$use_data_path_for_source_data
+		) {
 
 			$config_section_is_obligatory = $definition->getSectionIsObligatory();
 

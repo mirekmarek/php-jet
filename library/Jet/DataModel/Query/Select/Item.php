@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_Select_Item
- * @package Jet
+ * 
  */
 class DataModel_Query_Select_Item extends BaseObject
 {

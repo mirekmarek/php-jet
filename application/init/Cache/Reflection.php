@@ -5,30 +5,18 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetApplication;
 
-Reflection::setCacheLoadEnabled(JET_REFLECTION_CACHE_LOAD);
-Reflection::setCacheSaveEnabled(JET_REFLECTION_CACHE_SAVE);
+use Jet\Reflection;
 
 if(JET_REFLECTION_CACHE_LOAD) {
-	Reflection::setCacheLoader( function( $class ) {
-
-		$file_path = JET_PATH_CACHE.'reflections/'.str_replace( '\\', '__', $class.'.php' );
-
-		if( IO_File::exists( $file_path ) ) {
-			/** @noinspection PhpIncludeInspection */
-			return require $file_path;
-		}
-
-		return false;
+	Reflection::enableCacheLoad( function( $class ) {
+		return Cache_Reflection::load( $class );
 	} );
 }
 
 if(JET_REFLECTION_CACHE_SAVE) {
-	Reflection::setCacheSaver( function( $class, $data ) {
-		$file_path = JET_PATH_CACHE.'reflections/'.str_replace( '\\', '__', $class.'.php' );
-
-		IO_File::write( $file_path, '<?php return '.var_export( $data, true ).';' );
-
+	Reflection::enableCacheSave( function( $class, $data ) {
+		Cache_Reflection::save( $class, $data );
 	} );
 }

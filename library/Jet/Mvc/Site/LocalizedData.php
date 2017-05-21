@@ -17,13 +17,13 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 *
 	 * @var Mvc_Site_Interface
 	 */
-	protected $site = '';
+	protected $_site = '';
 
 	/**
 	 *
 	 * @var Locale
 	 */
-	protected $locale;
+	protected $_locale;
 
 	/**
 	 *
@@ -78,15 +78,15 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	public function getSite()
 	{
-		return $this->site;
+		return $this->_site;
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $site
+	 * @param Mvc_Site_Interface $_site
 	 */
-	public function setSite( $site )
+	public function setSite( $_site )
 	{
-		$this->site = $site;
+		$this->_site = $_site;
 	}
 
 	/**
@@ -94,17 +94,17 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	public function getLocale()
 	{
-		return $this->locale;
+		return $this->_locale;
 	}
 
 	/**
-	 * @param Locale $locale
+	 * @param Locale $_locale
 	 *
 	 * @return void
 	 */
-	protected function setLocale( Locale $locale )
+	protected function setLocale( Locale $_locale )
 	{
-		$this->locale = $locale;
+		$this->_locale = $_locale;
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	public function getSSLRequired()
 	{
-		if($this->site->getSSLRequired()) {
+		if($this->_site->getSSLRequired()) {
 			return true;
 		}
 

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Id_Abstract
- * @package Jet
+ *
  */
 abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterator
 {

@@ -99,7 +99,10 @@ class Navigation_Menu_Item extends BaseObject
 	public function setData( array $data )
 	{
 		foreach( $data as $key=>$val ) {
-			if($key=='id' || $key=='label') {
+			if(
+				$key=='id' ||
+				$key=='label'
+			) {
 				continue;
 			}
 

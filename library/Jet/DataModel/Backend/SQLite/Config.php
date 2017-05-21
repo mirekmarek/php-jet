@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Backend_SQLite_Config
- * @package Jet
+ * 
  */
 class DataModel_Backend_SQLite_Config extends DataModel_Backend_Config
 {

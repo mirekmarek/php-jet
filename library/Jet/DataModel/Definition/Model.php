@@ -135,7 +135,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 	{
 		$model_name = Reflection::get( $class_name, 'data_model_name', '' );
 
-		if( !is_string( $model_name )||!$model_name ) {
+		if(
+			!is_string( $model_name ) ||
+			!$model_name
+		) {
 			throw new DataModel_Exception(
 				'DataModel \''.$class_name.'\' does not have model name! Please enter it by @JetDataModel:name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -172,7 +175,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 	{
 		$this->database_table_name = Reflection::get( $this->class_name, 'database_table_name', '' );
 
-		if( !is_string( $this->database_table_name )||!$this->database_table_name ) {
+		if(
+			!is_string( $this->database_table_name ) ||
+			!$this->database_table_name
+		) {
 			throw new DataModel_Exception(
 				'DataModel \''.$this->class_name.'\' does not have database table name! Please enter it by @JetDataModel:database_table_name ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -229,7 +235,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 			$class_name, 'data_model_properties_definition', false
 		);
 
-		if( !is_array( $properties_definition_data )||!$properties_definition_data ) {
+		if(
+			!is_array( $properties_definition_data ) ||
+			!$properties_definition_data
+		) {
 			throw new DataModel_Exception(
 				'DataModel \''.$class_name.'\' does not have any properties defined!',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE

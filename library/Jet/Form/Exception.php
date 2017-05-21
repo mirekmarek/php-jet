@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Exception
- * @package Jet
+ *
  */
 class Form_Exception extends Exception
 {

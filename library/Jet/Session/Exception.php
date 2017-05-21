@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Session_Exception
- * @package Jet
+ *
  */
 class Session_Exception extends Exception
 {

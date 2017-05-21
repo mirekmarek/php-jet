@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_Locale
- * @package Jet
+ *
  */
 class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 {

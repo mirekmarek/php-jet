@@ -22,7 +22,10 @@ trait Mvc_Page_Trait_Auth
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this
 		 */
-		if( !$this->getIsSecretPage() && !$this->getIsAdminUI() ) {
+		if(
+			!$this->getIsSecretPage() &&
+			!$this->getIsAdminUI()
+		) {
 			return true;
 		}
 

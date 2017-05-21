@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Property_Abstract
- * @package Jet
+ *
  */
 abstract class DataModel_Definition_Property extends BaseObject implements Form_Field_Definition_Interface
 {

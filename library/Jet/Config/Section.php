@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Config_Section
- * @package Jet
+ *
  */
 abstract class Config_Section extends Config
 {

@@ -12,5 +12,4 @@ namespace Jet;
  */
 class Application_Exception extends Exception
 {
-	const CODE_INVALID_CONFIGURATION_NAME = 1;
 }

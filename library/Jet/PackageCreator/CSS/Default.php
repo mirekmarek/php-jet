@@ -93,7 +93,10 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 		$package_path = $this->getPackagePath();
 		$package_data_path = $this->getPackageDataPath();
 
-		if( !IO_File::exists( $package_path )||!IO_File::exists( $package_data_path ) ) {
+		if(
+			!IO_File::exists( $package_path ) ||
+			!IO_File::exists( $package_data_path )
+		) {
 
 			IO_File::write(
 				$package_path, $this->createPackage()
@@ -159,7 +162,10 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 				$orig_str = $r[0];
 				$path = trim( $r[1] );
 
-				if( $path[0]=='"'||$path[0]=="'" ) {
+				if(
+					$path[0]=='"' ||
+					$path[0]=="'"
+				) {
 					$path = substr( $path, 1, -1 );
 				}
 

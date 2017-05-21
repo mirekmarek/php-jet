@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Relation_JoinBy_Item
- * @package Jet
+ * 
  */
 class DataModel_Definition_Relation_JoinByItem extends BaseObject
 {

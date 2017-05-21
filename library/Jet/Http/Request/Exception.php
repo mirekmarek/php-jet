@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Http_Request_Exception
- * @package Jet
+ *
  */
 class Http_Request_Exception extends Exception
 {

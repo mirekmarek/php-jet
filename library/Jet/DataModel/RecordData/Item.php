@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_RecordData_Item
- * @package Jet
+ * 
  */
 class DataModel_RecordData_Item
 {

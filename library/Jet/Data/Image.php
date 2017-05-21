@@ -246,7 +246,10 @@ class Data_Image extends BaseObject
 
 		$new_image = imagecreatetruecolor( $new_width, $new_height );
 
-		if( $target_img_type==self::TYPE_PNG||$target_img_type==self::TYPE_GIF ) {
+		if(
+			$target_img_type==self::TYPE_PNG ||
+			$target_img_type==self::TYPE_GIF
+		) {
 			imagealphablending( $new_image, false );
 			imagesavealpha( $new_image, true );
 

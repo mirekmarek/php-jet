@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_Where_Expression
- * @package Jet
+ *
  */
 class DataModel_Query_Where_Expression extends BaseObject
 {

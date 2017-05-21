@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class flag
- * @package Jet
+ * 
  */
 class UI_flag extends UI_BaseElement
 {

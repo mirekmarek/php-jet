@@ -8,16 +8,9 @@
 namespace Jet;
 
 /**
- * Class Mvc_Site_Exception
- * @package Jet
+ *
  */
 class Mvc_Site_Exception extends Exception
 {
-
-	const CODE_DATA_CHECK_FATAL_ERROR = 20;
-
-	const CODE_URL_NOT_DEFINED = 100;
-	const CODE_URL_INVALID_FORMAT = 101;
-	const CODE_URL_ALREADY_ADDED = 102;
-
+	const CODE_DUPLICATES_SITE_ID = 10;
 }

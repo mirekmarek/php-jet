@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Query_Having
- * @package Jet
+ *
  */
 class DataModel_Query_Having extends BaseObject implements \Iterator
 {
@@ -68,7 +67,10 @@ class DataModel_Query_Having extends BaseObject implements \Iterator
 		if( $this->expressions ) {
 			$previous = $this->expressions[count( $this->expressions )-1];
 
-			if( $previous!==DataModel_Query::L_O_AND&&$previous!==DataModel_Query::L_O_OR ) {
+			if(
+				$previous!==DataModel_Query::L_O_AND &&
+				$previous!==DataModel_Query::L_O_OR
+			) {
 
 				throw new DataModel_Query_Exception(
 					'Previous part of the query must be AND or OR. '.$previous.' given. Current having dump:'.$this->toString(
@@ -120,7 +122,10 @@ class DataModel_Query_Having extends BaseObject implements \Iterator
 
 		$previous = $this->expressions[count( $this->expressions )-1];
 
-		if( $previous===DataModel_Query::L_O_AND||$previous===DataModel_Query::L_O_OR ) {
+		if(
+			$previous===DataModel_Query::L_O_AND ||
+			$previous===DataModel_Query::L_O_OR
+		) {
 			throw new DataModel_Query_Exception(
 				'Previous part of the query must be Expression. '.$previous.' given. Current having dump:'.$this->toString(
 				), DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -144,7 +149,10 @@ class DataModel_Query_Having extends BaseObject implements \Iterator
 
 		$previous = $this->expressions[count( $this->expressions )-1];
 
-		if( $previous===DataModel_Query::L_O_AND||$previous===DataModel_Query::L_O_OR ) {
+		if(
+			$previous===DataModel_Query::L_O_AND ||
+			$previous===DataModel_Query::L_O_OR
+		) {
 			throw new DataModel_Query_Exception(
 				'Previous part of the query must be Expression. '.$previous.' given. Current having dump:'.$this->toString(
 				), DataModel_Query_Exception::CODE_QUERY_NONSENSE
@@ -164,7 +172,10 @@ class DataModel_Query_Having extends BaseObject implements \Iterator
 		if( $this->expressions ) {
 			$previous = $this->expressions[count( $this->expressions )-1];
 
-			if( $previous!==DataModel_Query::L_O_AND&&$previous!==DataModel_Query::L_O_OR ) {
+			if(
+				$previous!==DataModel_Query::L_O_AND &&
+				$previous!==DataModel_Query::L_O_OR
+			) {
 				throw new DataModel_Query_Exception(
 					'Previous part of the query must be Expression. '.$previous.' given. Current having dump:'.$this->toString(
 					), DataModel_Query_Exception::CODE_QUERY_NONSENSE

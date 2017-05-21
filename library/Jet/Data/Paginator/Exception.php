@@ -13,5 +13,4 @@ namespace Jet;
 class Data_Paginator_Exception extends Exception
 {
 	const CODE_DATA_SOURCE_IS_NOT_SET = 1;
-	const CODE_INCORRECT_URL_TEMPLATE_STRING = 100;
 }

@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Definition_Key
- * @package Jet
+ * 
  */
 class DataModel_Definition_Key extends BaseObject
 {

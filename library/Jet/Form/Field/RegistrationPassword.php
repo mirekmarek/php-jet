@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class Form_Field_RegistrationPassword
- * @package Jet
+ *
  */
 class Form_Field_RegistrationPassword extends Form_Field
 {

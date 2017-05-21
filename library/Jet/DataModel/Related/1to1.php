@@ -8,8 +8,7 @@
 namespace Jet;
 
 /**
- * Class DataModel_Related_1to1
- * @package Jet
+ *
  */
 abstract class DataModel_Related_1to1 extends BaseObject implements DataModel_Related_1to1_Interface
 {
