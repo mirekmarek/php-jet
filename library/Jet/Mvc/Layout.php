@@ -44,7 +44,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 	/**
-	 * @var string
+	 * @var array
 	 */
 	protected $required_javascript_files = [];
 

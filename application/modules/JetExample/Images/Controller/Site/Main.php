@@ -59,18 +59,17 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 
 
 	/**
-	 * @param string                     $path
 	 * @param Mvc_Page_Content_Interface $page_content
 	 *
 	 * @return bool
 	 */
-	public function parseRequestPath( $path, Mvc_Page_Content_Interface $page_content = null )
+	public function parseRequestPath( Mvc_Page_Content_Interface $page_content )
 	{
 		$gallery_id = Gallery::ROOT_ID;
 		$gallery = null;
 
 
-		$path_fragments = explode('/',$path);
+		$path_fragments = explode('/',Mvc::getRouter()->getPath());
 
 		$URI = Mvc::getCurrentPage()->getURI();
 

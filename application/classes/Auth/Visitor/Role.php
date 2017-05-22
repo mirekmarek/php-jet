@@ -14,8 +14,6 @@ use Jet\DataModel_Id_AutoIncrement;
 /**
  *
  * @JetDataModel:database_table_name = 'roles_visitors'
- * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
- * @JetDataModel:id_options = ['id_property_name'=>'id']
  */
 class Auth_Visitor_Role extends Auth_Role
 {
@@ -29,16 +27,6 @@ class Auth_Visitor_Role extends Auth_Role
 		],
 
 	];
-
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID_AUTOINCREMENT
-	 * @JetDataModel:is_id = true
-	 *
-	 * @var int
-	 */
-	protected $id = 0;
 
 	/**
 	 *

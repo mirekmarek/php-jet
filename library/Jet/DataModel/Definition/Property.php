@@ -82,7 +82,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	protected $default_value = '';
 
 	/**
-	 * @var string
+	 * @var array
 	 */
 	protected $backend_options = '';
 

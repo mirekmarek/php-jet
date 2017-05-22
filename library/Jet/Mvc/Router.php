@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+require_once 'Router/Interface.php';
+
 /**
  *
  */
@@ -50,6 +52,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 	/**
 	 *
+	 * @var string
 	 */
 	protected $path = '';
 
@@ -134,7 +137,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	public function resolve( $request_URL=null )
 	{
-		Debug_Profiler::blockStart('main init');
 
 		if( !$request_URL ) {
 			$request_URL = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -150,7 +152,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		}
 		$this->request_URL = $request_URL;
 
-		Debug_Profiler::blockEnd('main init');
 
 		if( $this->validateURIFormat() ) {
 
@@ -611,7 +612,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 *
 	 * /**
-	 * @return array
+	 * @return string
 	 */
 	public function getPath()
 	{

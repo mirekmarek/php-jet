@@ -105,7 +105,7 @@ interface Mvc_Router_Interface
 	public function getLoginRequired();
 
 	/**
-	 * @return array
+	 * @return string
 	 */
 	public function getPath();
 

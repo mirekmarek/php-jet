@@ -7,12 +7,9 @@
  */
 namespace Jet;
 
-/** @noinspection PhpIncludeInspection */
-require_once JET_PATH_LIBRARY.'Jet/Exception.php';
-/** @noinspection PhpIncludeInspection */
-require_once JET_PATH_LIBRARY.'Jet/Autoloader/Exception.php';
-/** @noinspection PhpIncludeInspection */
-require_once JET_PATH_LIBRARY.'Jet/Autoloader/Loader.php';
+require_once 'Exception.php';
+require_once 'Autoloader/Exception.php';
+require_once 'Autoloader/Loader.php';
 
 /**
  *

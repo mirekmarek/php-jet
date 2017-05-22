@@ -102,13 +102,21 @@ class Debug_Profiler_Run
 		if( extension_loaded( 'xhprof' ) ) {
 			/** @noinspection PhpUndefinedConstantInspection */
 			/** @noinspection PhpUndefinedFunctionInspection */
-			xhprof_enable( XHPROF_FLAGS_CPU+XHPROF_FLAGS_MEMORY );
+			xhprof_enable(
+				XHPROF_FLAGS_CPU+XHPROF_FLAGS_MEMORY,
+				[
+				]
+			);
 		}
 
 		if( extension_loaded( 'tideways' ) ) {
 			/** @noinspection PhpUndefinedConstantInspection */
 			/** @noinspection PhpUndefinedFunctionInspection */
-			tideways_enable( TIDEWAYS_FLAGS_CPU+TIDEWAYS_FLAGS_MEMORY );
+			tideways_enable(
+				TIDEWAYS_FLAGS_CPU+TIDEWAYS_FLAGS_MEMORY,
+				[
+				]
+			);
 		}
 	}
 

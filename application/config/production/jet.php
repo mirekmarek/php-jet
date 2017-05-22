@@ -1,6 +1,6 @@
 <?php
 const JET_DEVEL_MODE = false;
-const JET_DEBUG_PROFILER_ENABLED = false;
+const JET_DEBUG_PROFILER_ENABLED = true;
 
 const JET_LAYOUT_CSS_PACKAGER_ENABLED = true;
 const JET_LAYOUT_JS_PACKAGER_ENABLED = true;

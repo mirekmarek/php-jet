@@ -68,6 +68,8 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 
 		$select_locale_form = new Form( 'select_locale_form', $locale_fields );
 
+		$select_locale_form->setDoNotTranslateTexts(true);
+
 
 		if( $select_locale_form->catchInput()&&$select_locale_form->validate() ) {
 			$selected_locales = [];

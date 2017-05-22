@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+require_once 'Content/Interface.php';
+
 /**
  *
  */

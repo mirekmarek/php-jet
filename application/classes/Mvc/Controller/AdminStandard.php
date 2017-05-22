@@ -71,7 +71,9 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 	{
 
 		$response = [
-			'form_id' => $form->getId(), 'result' => $success ? 'ok' : 'error', 'data' => $data,
+			'form_id' => $form->getId(),
+			'result' => $success ? 'ok' : 'error',
+			'data' => $data,
 		];
 
 		if( $snippets ) {

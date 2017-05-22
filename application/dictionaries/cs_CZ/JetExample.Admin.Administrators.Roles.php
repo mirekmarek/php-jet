@@ -18,4 +18,6 @@ return [
 	'Edit role <b>%ROLE_NAME%</b>' => '',
 	'Users' => '',
 	'Username' => '',
+	'Role <b>%ROLE_NAME%</b> has been created' => '',
+	'Role <b>%ROLE_NAME%</b> has been updated' => '',
 ];

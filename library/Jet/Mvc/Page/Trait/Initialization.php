@@ -23,7 +23,7 @@ trait Mvc_Page_Trait_Initialization
 	protected $data_file_path = '';
 
 	/**
-	 * @var Mvc_Page_Interface[]
+	 * @var Mvc_Page_Interface[][]
 	 */
 	protected static $pages = [];
 

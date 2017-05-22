@@ -7,6 +7,11 @@
  */
 namespace Jet;
 
+require_once 'BaseObject/Cacheable/Interface.php';
+require_once 'BaseObject/Cacheable/Trait.php';
+
+require_once 'Reflection/ParserInterface.php';
+
 /**
  *
  */

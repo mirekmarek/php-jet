@@ -12,6 +12,7 @@ use Jet\Db_Config;
 use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
 use Jet\Form_Field_Input;
+use Jet\Form_Field_Password;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Mvc_Site;
@@ -111,7 +112,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 			]
 		);
 
-		$password = new Form_Field_Input( 'password', 'Password:', $connection_config->getPassword() );
+		$password = new Form_Field_Password( 'password', 'Password:', $connection_config->getPassword() );
 		$password->setIsRequired( true );
 		$password->setErrorMessages(
 			[
@@ -138,6 +139,8 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 				                 $username, $password, $dbname, $host, $port, $unix_socket,
 			                 ]
 		);
+
+		$form->setAutocomplete(false);
 
 		if( $form->catchInput()&&$form->validate() ) {
 

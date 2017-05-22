@@ -7,8 +7,7 @@
  */
 namespace Jet;
 
-/** @noinspection PhpIncludeInspection */
-require_once JET_PATH_LIBRARY.'Jet/IO/File/Exception.php';
+require_once 'File/Exception.php';
 
 /**
  *

@@ -497,4 +497,20 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	{
 	}
 
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return $this->name;
+	}
+
 }

@@ -14,4 +14,8 @@ return [
 	'Please enter password' => '',
 	'username' => '',
 	'password' => '',
+	'<b>Your password expired.</b><br/>Please change your password.' => '',
+	'New password: ' => '',
+	'Logout' => '',
+	'Please enter <strong>new</strong> password' => '',
 ];

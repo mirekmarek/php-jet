@@ -207,7 +207,7 @@ class Debug_ErrorHandler_Error
 	}
 
 	/**
-	 * @param string $error
+	 * @param array $error
 	 *
 	 * @return Debug_ErrorHandler_Error
 	 */

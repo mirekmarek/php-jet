@@ -35,6 +35,7 @@ class Db_Backend_PDO_Config extends Db_Backend_Config
 	protected $username;
 
 	/**
+	 * @JetConfig:form_field_type = Form::TYPE_PASSWORD
 	 * @JetConfig:form_field_label = 'Password'
 	 * @JetConfig:type = Config::TYPE_STRING
 	 * @JetConfig:default_value = null

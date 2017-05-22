@@ -36,9 +36,12 @@ class Mailing_Config extends Application_Config
 	 */
 	public function getSender( $locale )
 	{
-		$locale = (string)$locale;
+		/**
+		 * @var Mailing_Config_Sender $sender
+		 */
+		$sender = $this->senders->getConfigurationListItem( (string)$locale );
 
-		return $this->senders->getConfigurationListItem( $locale );
+		return $sender;
 	}
 
 	/**

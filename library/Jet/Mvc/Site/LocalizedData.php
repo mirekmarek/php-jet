@@ -7,6 +7,9 @@
  */
 namespace Jet;
 
+require_once 'LocalizedData/Interface.php';
+require_once 'LocalizedData/MetaTag.php';
+
 /**
  *
  */
@@ -33,26 +36,21 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 
 	/**
+	 * @var bool
+	 */
+	protected $SSL_required = false;
+
+	/**
 	 *
 	 * @var string
 	 */
 	protected $title = '';
 
 	/**
-	 * @var string
-	 */
-	protected $default_URL = '';
-
-	/**
 	 *
 	 * @var array
 	 */
 	protected $URLs = [];
-
-	/**
-	 * @var bool
-	 */
-	protected $SSL_required = false;
 
 	/**
 	 *
@@ -154,9 +152,10 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	public function setURLs( array $URLs )
 	{
 		foreach( $URLs as $i=>$URL ) {
-			if($URL[strlen($URL)-1]!='/') {
-				$URLs[$i] .= '/';
-			}
+			$URL = trim($URL, '/');
+			$URL .= '/';
+
+			$URLs[$i] = $URL;
 		}
 
 		$this->URLs = $URLs;

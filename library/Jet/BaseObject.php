@@ -7,6 +7,15 @@
  */
 namespace Jet;
 
+require_once 'BaseObject/Interface.php';
+require_once 'BaseObject/Trait.php';
+require_once 'BaseObject/Trait/MagicSleep.php';
+require_once 'BaseObject/Trait/MagicGet.php';
+require_once 'BaseObject/Trait/MagicSet.php';
+require_once 'BaseObject/Trait/MagicClone.php';
+require_once 'BaseObject/Trait/MagicDebug.php';
+
+
 /**
  *
  */

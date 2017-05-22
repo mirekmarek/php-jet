@@ -144,7 +144,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 *
 	 * @return bool
 	 */
-	public function parseRequestPath( Mvc_Page_Content_Interface $page_content )
+	public function parseRequestPath( Mvc_Page_Content_Interface $page_content=null )
 	{
 
 		$path = Mvc::getRouter()->getPath();
@@ -215,7 +215,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 * @param string $header
 	 * @param string $default_value
 	 *
-	 * @return array
+	 * @return string
 	 */
 	protected function getHttpRequestHeader( $header, $default_value = '' )
 	{

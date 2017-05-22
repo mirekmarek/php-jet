@@ -476,11 +476,9 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 *
 	 * @param DataModel_Definition_Relations $internal_relations
-	 * @param string                         $parent_model_class_name
 	 *
 	 */
-	public function getInternalRelations( DataModel_Definition_Relations $internal_relations, /** @noinspection PhpUnusedParameterInspection */
-	                                      $parent_model_class_name = '' )
+	public function getInternalRelations( DataModel_Definition_Relations $internal_relations )
 	{
 
 		foreach( $this->properties as $related_property_definition ) {

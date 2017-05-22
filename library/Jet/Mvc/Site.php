@@ -7,6 +7,9 @@
  */
 namespace Jet;
 
+require_once 'Site/Interface.php';
+require_once 'Site/LocalizedData.php';
+
 /**
  *
  */
@@ -69,15 +72,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	protected $default_locale;
 
 	/**
+	 * @var bool
+	 */
+	protected $SSL_required = false;
+
+	/**
 	 *
 	 * @var Mvc_Site_LocalizedData[]
 	 */
 	protected $localized_data;
-
-	/**
-	 * @var bool
-	 */
-	protected $SSL_required = false;
 
 
 	/**
@@ -670,6 +673,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			}
 		}
 		$data['localized_data'] = [];
+		$data['default_locale'] = $this->default_locale->toString();
 
 
 		foreach( $this->localized_data as $locale_str => $ld ) {

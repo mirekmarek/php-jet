@@ -15,8 +15,6 @@ use Jet\Mvc;
 /**
  *
  * @JetDataModel:database_table_name = 'roles_administrators'
- * @JetDataModel:id_class_name = 'DataModel_Id_AutoIncrement'
- * @JetDataModel:id_options = ['id_property_name'=>'id']
  *
  */
 class Auth_Administrator_Role extends Auth_Role
@@ -38,15 +36,6 @@ class Auth_Administrator_Role extends Auth_Role
 
 	];
 
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID_AUTOINCREMENT
-	 * @JetDataModel:is_id = true
-	 *
-	 * @var int
-	 */
-	protected $id = 0;
 
 	/**
 	 *
@@ -97,16 +86,17 @@ class Auth_Administrator_Role extends Auth_Role
 
 			foreach( $actions as $action => $action_description ) {
 				$data[] = [
-					'id'   => $module_name.':'.$action, 'parent_id' => $module_name,
+					'id'   => $module_name.':'.$action,
+					'parent_id' => $module_name,
 					'name' => Tr::_( $action_description, [], $module_info->getName() ),
 				];
 			}
 
+
 			$tree = new Data_Tree();
-			$tree->getRootNode()->setLabel(
-				Tr::_( $module_info->getLabel(), [], $module_info->getName() ).' ('.$module_name.')'
-			);
+			$tree->getRootNode()->setLabel( Tr::_( $module_info->getLabel(), [], $module_info->getName() ).' ('.$module_name.')' );
 			$tree->getRootNode()->setId( $module_name );
+
 
 			$tree->setData( $data );
 

@@ -7,12 +7,11 @@
  */
 namespace Jet;
 
-/** @noinspection PhpIncludeInspection */
-require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/SQLQueryData.php';
-require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block/Message.php';
-require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block.php';
-require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run/Block/Anonymous.php';
-require_once JET_PATH_LIBRARY.'Jet/Debug/Profiler/Run.php';
+require_once 'Profiler/Run/SQLQueryData.php';
+require_once 'Profiler/Run/Block/Message.php';
+require_once 'Profiler/Run/Block.php';
+require_once 'Profiler/Run/Block/Anonymous.php';
+require_once 'Profiler/Run.php';
 
 
 /**

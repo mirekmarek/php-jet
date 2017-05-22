@@ -556,6 +556,7 @@ class Data_Tree extends BaseObject implements \Iterator, \Countable, BaseObject_
 		}
 
 		foreach( $this->__parent_map[$parent_id] as $id => $item_data ) {
+			$this->appendNode( $item_data );
 			unset( $this->__parent_map[$parent_id][$id] );
 
 			$this->__setData( $id );

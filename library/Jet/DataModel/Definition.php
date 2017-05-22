@@ -16,7 +16,7 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 
 	/**
 	 *
-	 * @var DataModel_Definition_Model[]
+	 * @var DataModel_Definition_Model_Main[]|DataModel_Definition_Model_Related_1to1[]|DataModel_Definition_Model_Related_1toN[]|DataModel_Definition_Model_Related[]|DataModel_Definition_Model_Related_MtoN[]
 	 */
 	protected static $__definitions = [];
 
@@ -25,7 +25,7 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 	 *
 	 * @param string $class_name
 	 *
-	 * @return DataModel_Definition_Model
+	 * @return DataModel_Definition_Model_Main|DataModel_Definition_Model_Related_1to1|DataModel_Definition_Model_Related_1toN|DataModel_Definition_Model_Related|DataModel_Definition_Model_Related_MtoN
 	 */
 	public static function get( $class_name )
 	{

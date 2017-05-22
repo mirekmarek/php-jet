@@ -7,6 +7,16 @@
  */
 namespace Jet;
 
+require_once 'Page/Interface.php';
+require_once 'Page/Trait/Initialization.php';
+require_once 'Page/Trait/Tree.php';
+require_once 'Page/Trait/URL.php';
+require_once 'Page/Trait/Auth.php';
+require_once 'Page/Trait/Handlers.php';
+require_once 'Page/MetaTag.php';
+require_once 'Page/Content.php';
+
+
 /**
  *
  */
@@ -587,6 +597,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	public function getIsSecretPage()
 	{
+		if(($parent=$this->getParent()) ) {
+			if($parent->getIsSecretPage()) {
+				return true;
+			}
+		}
 		return $this->is_secret_page;
 	}
 

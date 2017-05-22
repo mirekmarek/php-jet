@@ -54,7 +54,7 @@ class Controller_Main_Router extends Mvc_Controller_Router
 				return $action_uri.'/';
 			}
 
-			return $base_URI.$action_uri.':'.( (int)$id ).'/';
+			return $base_URI.$action_uri.':'.( $id ).'/';
 		};
 
 
@@ -64,19 +64,19 @@ class Controller_Main_Router extends Mvc_Controller_Router
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([0-9]+)$/', Main::ACTION_UPDATE_ROLE )->setCreateURICallback(
+		$this->addAction( 'edit', '/^edit:([a-z\-0-9\_]+)$/', Main::ACTION_UPDATE_ROLE )->setCreateURICallback(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'edit', 'edit', $id );
 			}
 		)->setParametersValidatorCallback( $validator );
 
-		$this->addAction( 'view', '/^view:([0-9]+)$/', Main::ACTION_GET_ROLE )->setCreateURICallback(
+		$this->addAction( 'view', '/^view:([a-z\-0-9\_]+)$/', Main::ACTION_GET_ROLE )->setCreateURICallback(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'view', 'view', $id );
 			}
 		)->setParametersValidatorCallback( $validator );
 
-		$this->addAction( 'delete', '/^delete:([0-9]+)$/', Main::ACTION_DELETE_ROLE )->setCreateURICallback(
+		$this->addAction( 'delete', '/^delete:([a-z\-0-9\_]+)$/', Main::ACTION_DELETE_ROLE )->setCreateURICallback(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'delete', 'delete', $id );
 			}

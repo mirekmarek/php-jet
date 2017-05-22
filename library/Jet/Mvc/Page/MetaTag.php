@@ -7,6 +7,8 @@
  */
 namespace Jet;
 
+require_once 'MetaTag/Interface.php';
+
 /**
  *
  */

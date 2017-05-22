@@ -18,4 +18,8 @@ return [
 	'Update role' => '',
 	'Delete role' => '',
 	'Visitor roles management' => '',
+	'Delete role <b>%ROLE_NAME%</b>' => '',
+	'Do you really want to delete this role?' => '',
+	'Role <b>%ROLE_NAME%</b> has been deleted' => '',
+	'Role <b>%ROLE_NAME%</b> has been updated' => '',
 ];
