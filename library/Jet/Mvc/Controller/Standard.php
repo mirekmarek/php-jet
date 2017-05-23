@@ -45,4 +45,24 @@ abstract class Mvc_Controller_Standard extends Mvc_Controller
 
 	}
 
+	/**
+	 * @param Form  $form
+	 * @param bool  $success
+	 * @param array $snippets
+	 * @param array $data
+	 */
+	protected function ajaxFormResponse( Form $form, $success, array $snippets = [], $data = [] )
+	{
+
+		$response = [
+			'form_id' => $form->getId(),
+			'result' => $success ? 'ok' : 'error',
+			'data' => $data,
+			'snippets' => $snippets
+		];
+
+
+		$this->ajaxResponse( $response );
+	}
+
 }

@@ -4,6 +4,7 @@ use Jet\Mvc_View;
 use Jet\Mvc_Page;
 use Jet\UI;
 
+
 /**
  * @var Mvc_View   $this
  * @var Mvc_Page[] $pages
@@ -43,32 +44,33 @@ $show_menu = function( $pages ) use ( &$show_menu ) {
 	<?php
 
 };
+
+$tabs = [];
+foreach( Mvc::getCurrentSite()->getLocales() as $locale ) {
+	$tabs[$locale->toString()] = UI::flag( $locale ).'&nbsp;'.$locale->getLanguageName( $locale );
+}
+
+$tabs = UI::tabs(
+		$tabs,
+		function( $locale ) {
+			$equal_page = Mvc_Page::get( null, $locale );
+
+			if( !$equal_page ) {
+				$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
+			}
+
+			return $equal_page->getURL();
+
+		},
+		function() {
+			return Mvc::getCurrentLocale()->toString();
+		}
+);
 ?>
 
-	<div style="background-color: #c9c9c9">
-		<?php foreach( Mvc::getCurrentSite()->getLocales() as $locale ): ?>
-			<div style="display: inline-block;padding: 3px;">
-				<?php if( $locale->toString()==Mvc::getCurrentLocale()->toString() ): ?>
-					<strong class="btn btn-primary btn-xs">
-						<?=UI::flag( $locale )?>
-						<?=$locale->getLanguageName( $locale )?>
-					</strong>
-				<?php else:
-					$equal_page = Mvc_Page::get( null, $locale );
 
-					if( !$equal_page ) {
-						$equal_page = Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale );
-					}
-					?>
-					<a href="<?=$equal_page->getURL()?>" class="btn btn-default btn-xs">
-						<?=UI::flag( $locale )?>
-						<?=$locale->getLanguageName( $locale )?>
-					</a>
-				<?php endif; ?>
-			</div>
-		<?php endforeach; ?>
-	</div>
 
+<?=$tabs?>
 
 <?php $show_menu( $pages ); ?>
 

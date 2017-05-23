@@ -65,12 +65,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 	/**
 	 *
-	 * @var bool
-	 */
-	protected $output_position_required = false;
-
-	/**
-	 *
 	 * @var int
 	 */
 	protected $output_position_order = 0;
@@ -86,10 +80,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 * @param string $controller_action (optional)
 	 * @param array  $controller_action_parameters (optional)
 	 * @param string $output_position (optional)
-	 * @param bool   $output_position_required (optional)
 	 * @param int    $output_position_order (optional)
 	 */
-	public function __construct( $module_name = '', $controller_action = '', $controller_action_parameters = [], $output_position = '', $output_position_required = true, $output_position_order = 0 )
+	public function __construct( $module_name = '', $controller_action = '', $controller_action_parameters = [], $output_position = '', $output_position_order = 0 )
 	{
 
 		$this->module_name = $module_name;
@@ -97,7 +90,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		$this->controller_action_parameters = $controller_action_parameters;
 
 		$this->output_position = $output_position;
-		$this->output_position_required = (bool)$output_position_required;
 		$this->output_position_order = (int)$output_position_order;
 
 	}
@@ -176,21 +168,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		$this->output_position = $output_position;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getOutputPositionRequired()
-	{
-		return $this->output_position_required;
-	}
-
-	/**
-	 * @param bool $output_position_required
-	 */
-	public function setOutputPositionRequired( $output_position_required )
-	{
-		$this->output_position_required = (bool)$output_position_required;
-	}
 
 	/**
 	 * @return int
@@ -219,7 +196,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			Mvc_Layout::getCurrentLayout()->addOutputPart(
 				$this->getOutput(),
 				$this->output_position,
-				$this->output_position_required,
 				$this->output_position_order,
 				$this->getKey()
 			);

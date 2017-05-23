@@ -72,10 +72,17 @@ class Form_Field_WYSIWYG extends Form_Field
 	 * @var array
 	 */
 	protected static $default_editor_config = [
-		'mode'              => 'exact', 'theme' => 'modern', 'apply_source_formatting' => true,
-		'remove_linebreaks' => false, 'entity_encoding' => 'raw', 'convert_urls' => false, 'verify_html' => true,
+		'mode'                    => 'exact',
+		'theme'                   => 'modern',
+		'apply_source_formatting' => true,
+		'remove_linebreaks'       => false,
+		'entity_encoding'         => 'raw',
+		'convert_urls'            => false,
+		'verify_html'             => true,
 
-		'force_br_newlines' => false, 'force_p_newlines' => false, 'forced_root_block' => '',
+		'force_br_newlines' => false,
+		'force_p_newlines'  => false,
+		'forced_root_block' => '',
 
 		'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
 		'paste_as_text' => true,
@@ -267,7 +274,8 @@ class Form_Field_WYSIWYG extends Form_Field
 
 	}
 
-	/**
+
+/**
 	 * @return callable
 	 */
 	public function getEditorInitializeCodeGenerator()
@@ -275,13 +283,14 @@ class Form_Field_WYSIWYG extends Form_Field
 		if( !$this->editor_initialize_code_generator ) {
 			$this->editor_initialize_code_generator = function( $node_id, $editor_config ) {
 				$editor_config['selector'] = '#'.$node_id;
+
 				if( $this->getIsReadonly() ) {
 					$editor_config['readonly'] = 1;
 				}
 
-				return '<script type="text/javascript">'.'tinymce.init('.json_encode(
-					$editor_config
-				).');'.'</script>'.JET_EOL;
+				return '<script type="text/javascript">'
+					.'tinymce.init('.json_encode( $editor_config ).');'
+					.'</script>'.JET_EOL;
 			};
 		}
 

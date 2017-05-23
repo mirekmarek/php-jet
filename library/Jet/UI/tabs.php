@@ -25,66 +25,32 @@ class UI_tabs extends UI_BaseElement
 	/**
 	 * @var string
 	 */
-	protected $selected_page_id;
+	protected $selected_tab_id;
+
 
 	/**
-	 * @var string
+	 * @param array    $tabs
+	 * @param callable $tab_url_creator
+	 * @param callable $selected_tab_catcher
 	 */
-	protected $get_parameter = 'p';
-
-	/**
-	 * @param array $tabs
-	 */
-	public function __construct( array $tabs )
+	public function __construct( array $tabs, callable $tab_url_creator, callable $selected_tab_catcher)
 	{
 		foreach( $tabs as $id => $title ) {
-			$this->tabs[$id] = new UI_tabs_tab( $id, $title );
+			$this->tabs[$id] = new UI_tabs_tab( $id, $title, $tab_url_creator );
 		}
 
-		$this->setGetParameter($this->getGetParameter());
-	}
+		$this->selected_tab_id = $selected_tab_catcher();
 
-	/**
-	 * @return string
-	 */
-	public function getGetParameter()
-	{
-		return $this->get_parameter;
-	}
-
-	/**
-	 * @param string $get_parameter
-	 *
-	 * @return $this
-	 */
-	public function setGetParameter( $get_parameter )
-	{
-		$this->get_parameter = $get_parameter;
-
-		foreach( $this->tabs as $tab ) {
-			$tab->setGetParameter($get_parameter);
+		if(!$this->selected_tab_id) {
+			$this->selected_tab_id = array_keys($this->tabs)[0];
 		}
 
-		$tab_ids = [];
-		$default_tab_id = null;
-		foreach( $this->tabs as $tab ) {
-			if( !$default_tab_id ) {
-				$default_tab_id = $tab->getId();
-			}
-			$tab_ids[] = $tab->getId();
-
-			$tab->setGetParameter($get_parameter);
-			$tab->setIsSelected(false);
-
+		foreach( $this->tabs as $id=>$tab ) {
+			$tab->setIsSelected( $id==$this->selected_tab_id );
 		}
 
-		$this->selected_page_id = Http_Request::GET()->getString( $this->getGetParameter(), $default_tab_id, $tab_ids );
-
-		$this->tabs[$this->selected_page_id]->setIsSelected( true );
-
-
-		return $this;
 	}
+
 
 	/**
 	 * @param string $id
@@ -93,15 +59,15 @@ class UI_tabs extends UI_BaseElement
 	 */
 	public function getTab( $id )
 	{
-		return $this->tabs[$id];
+		return $this->getTabs()[$id];
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getSelectedPageId()
+	public function getSelectedTabId()
 	{
-		return $this->selected_page_id;
+		return $this->selected_tab_id;
 	}
 
 	/**

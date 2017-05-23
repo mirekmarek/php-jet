@@ -19,7 +19,6 @@ return [
 				'module_name' => 'JetExample.Articles',
 				'controller_action' => 'default',
 				'output_position' => '',
-				'output_position_required' => true,
 				'output_position_order' => 1
 			]
 	]

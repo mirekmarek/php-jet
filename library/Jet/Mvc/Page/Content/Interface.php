@@ -108,16 +108,6 @@ interface Mvc_Page_Content_Interface
 	public function setOutputPosition( $output_position );
 
 	/**
-	 * @return bool
-	 */
-	public function getOutputPositionRequired();
-
-	/**
-	 * @param bool $output_position_required
-	 */
-	public function setOutputPositionRequired( $output_position_required );
-
-	/**
 	 * @return int
 	 */
 	public function getOutputPositionOrder();

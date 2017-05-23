@@ -31,12 +31,6 @@ class Mvc_Layout_OutputPart extends BaseObject
 
 	/**
 	 *
-	 * @var bool
-	 */
-	protected $position_required = false;
-
-	/**
-	 *
 	 * @var float
 	 */
 	protected $position_order = 0.0;
@@ -45,15 +39,13 @@ class Mvc_Layout_OutputPart extends BaseObject
 	 * @param string $output_id
 	 * @param string $output
 	 * @param string $position
-	 * @param bool   $position_required
 	 * @param int    $position_order
 	 */
-	public function __construct( $output, $position, $position_required, $position_order, $output_id )
+	public function __construct( $output, $position, $position_order, $output_id )
 	{
 		$this->output_id = $output_id;
 		$this->output = $output;
 		$this->position = $position;
-		$this->position_required = $position_required;
 		$this->position_order = $position_order;
 	}
 
@@ -95,22 +87,6 @@ class Mvc_Layout_OutputPart extends BaseObject
 	public function setPosition( $position )
 	{
 		$this->position = $position;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getPositionRequired()
-	{
-		return $this->position_required;
-	}
-
-	/**
-	 * @param bool $position_required
-	 */
-	public function setPositionRequired( $position_required )
-	{
-		$this->position_required = (bool)$position_required;
 	}
 
 	/**

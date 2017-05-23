@@ -27,30 +27,30 @@ return [
 		    'module_name' => 'JetExample.TestModule',
 		    'controller_action' => 'test_mvc_info',
 		    'output_position' => 'right',
-		    'output_position_required' => true,
 		    'output_position_order' => 1
 	    ],
-        [
-            'module_name' => 'JetExample.TestModule',
-            'controller_action' => 'test_action2',
-            'output_position' => '',
-            'output_position_required' => true,
-            'output_position_order' => 2
-        ],
-        [
-            'module_name' => 'JetExample.TestModule2',
-            'controller_action' => 'test_action2',
-            'output_position' => '',
-            'output_position_required' => true,
-            'output_position_order' => 1
-        ],
-        [
-            'module_name' => 'JetExample.TestModule2',
-            'controller_action' => 'test_action1',
-            'output_position' => 'right',
-            'output_position_required' => true,
-            'output_position_order' => 1
-        ],
+	    [
+		    'output_position' => '',
+		    'output_position_order' => 1,
+	        'output' => <<<EOT
+<h1>Vítejte!</h1>
+
+<p>Toto je ukázková aplikace PHP frameworku Jet. Co Jet umí?</p>
+<ul>
+	<li>Modulární aplikace - snadno znovu použitelný kód a moduly</li>
+	<li>Důraz na bezpečnost</li
+	<li>Důraz na výkon</li>
+	<li>Snadné učení</li>
+	<li>Navrženo a vyvíjeno na základě poznatků z reálné praxe v prostředí různorodých projektů od malého rozsahu po opravdu velké projekty</li>
+	<li>MVC</li>
+	<li>ORM</li>
+	<li>ACL</li>
+</ul>
+
+<p>Tato aplikace může sloužit jako základ vašeho projektu, či produktu.</p>
+EOT
+	    ]
+
     ]
 ];
 

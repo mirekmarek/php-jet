@@ -5,8 +5,10 @@
  * @license http://www.php-jet.net/php-jet/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
+
 namespace JetApplicationModule\JetExample\TestModule2;
 
+use Jet\Http_Request;
 use Jet\Tr;
 
 use Jet\Form;
@@ -51,38 +53,31 @@ use Jet\IO_Dir;
 use Jet\IO_File;
 
 use Jet\Mvc_Controller_Standard;
+use Jet\UI_messages;
 
 /**
  *
  */
 class Controller_Main extends Mvc_Controller_Standard
 {
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
-		'default' => false, 'test_action1' => false, 'test_action2' => false,
+		'test_forms'   => false,
 	];
+
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
 
+
 	/**
 	 *
 	 */
-	public function initialize()
-	{
-	}
-
-	public function default_Action()
-	{
-	}
-
-	public function test_action1_Action()
-	{
-		$this->render( 'test-action1' );
-	}
-
-	public function test_action2_Action()
+	public function test_forms_Action()
 	{
 		$input_field = new Form_Field_Input( 'input', 'Input' );
 		$input_field->setPlaceholder( 'Input field without validation' );
@@ -233,7 +228,10 @@ class Controller_Main extends Mvc_Controller_Standard
 		$select_field = new Form_Field_Select( 'select', 'Select' );
 		$select_field->setSelectOptions(
 			[
-				'o1' => 'Option 1', 'o2' => 'Option 2', 'o3' => 'Option 3', 'o4' => 'Option 4',
+				'o1' => 'Option 1',
+				'o2' => 'Option 2',
+				'o3' => 'Option 3',
+				'o4' => 'Option 4',
 			]
 		);
 		$select_field->setErrorMessages(
@@ -246,7 +244,10 @@ class Controller_Main extends Mvc_Controller_Standard
 		$multi_select_field = new Form_Field_MultiSelect( 'multi_select', 'Multi Select' );
 		$multi_select_field->setSelectOptions(
 			[
-				'o1' => 'Option 1', 'o2' => 'Option 2', 'o3' => 'Option 3', 'o4' => 'Option 4',
+				'o1' => 'Option 1',
+				'o2' => 'Option 2',
+				'o3' => 'Option 3',
+				'o4' => 'Option 4',
 			]
 		);
 		$multi_select_field->setErrorMessages(
@@ -260,7 +261,10 @@ class Controller_Main extends Mvc_Controller_Standard
 		$radio_field = new Form_Field_RadioButton( 'radio', 'Radio buttons' );
 		$radio_field->setSelectOptions(
 			[
-				'o1' => 'Option 1', 'o2' => 'Option 2', 'o3' => 'Option 3', 'o4' => 'Option 4',
+				'o1' => 'Option 1',
+				'o2' => 'Option 2',
+				'o3' => 'Option 3',
+				'o4' => 'Option 4',
 			]
 		);
 		$radio_field->setErrorMessages(
@@ -286,7 +290,9 @@ class Controller_Main extends Mvc_Controller_Standard
 			function( $user_name ) {
 				return !in_array(
 					$user_name, [
-						          'exists1', 'exists2', 'some username',
+						          'exists1',
+						          'exists2',
+						          'some username',
 					          ]
 				);
 			}
@@ -307,7 +313,9 @@ class Controller_Main extends Mvc_Controller_Standard
 			function( $user_name ) {
 				return !in_array(
 					$user_name, [
-						          'exists1@domain.tld', 'exists2@domain.tld', 'some.user.name@domain.tld',
+						          'exists1@domain.tld',
+						          'exists2@domain.tld',
+						          'some.user.name@domain.tld',
 					          ]
 				);
 			}
@@ -320,7 +328,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		$registration_password_field->setPasswordConfirmationLabel( 'Registration - Confirm password' );
 		$registration_password_field->setPasswordStrengthCheckCallback(
 			function( $password ) {
-				if( $password=='stupidpassword' ) {
+				if( $password == 'stupidpassword' ) {
 					return false;
 				}
 
@@ -342,7 +350,7 @@ class Controller_Main extends Mvc_Controller_Standard
 
 		$upload_image_field = new Form_Field_FileImage( 'upload_image', 'Upload image' );
 		$upload_image_field->setMaximalSize( 200, 150 );
-		$upload_image_field->setMaximalFileSize( 2*1024*1024 );
+		$upload_image_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_image_field->setErrorMessages(
 			[
 				Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
@@ -366,7 +374,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		);
 
 		$upload_file_field = new Form_Field_File( 'upload_file', 'Upload file' );
-		$upload_file_field->setMaximalFileSize( 2*1024*1024 );
+		$upload_file_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_file_field->setErrorMessages(
 			[
 				Form_Field_File::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
@@ -395,74 +403,99 @@ class Controller_Main extends Mvc_Controller_Standard
 		$forms = [];
 
 		$forms['common_form'] = [
-			'title' => Tr::_( 'Common form' ), 'form' => new Form(
+			'title' => Tr::_( 'Common form' ),
+			'form'  => new Form(
 				'common_form', [
-					             $input_field, $validated_input_field,
+					             $input_field,
+					             $validated_input_field,
 				             ]
 			),
 		];
 
 		$forms['numbers_form'] = [
-			'title' => Tr::_( 'Number form' ), 'form' => new Form(
+			'title' => Tr::_( 'Number form' ),
+			'form'  => new Form(
 				'numbers_form', [
-					              $int_field, $float_field, $range_field,
+					              $int_field,
+					              $float_field,
+					              $range_field,
 				              ]
 			),
 		];
 
 		$forms['date_form'] = [
-			'title' => Tr::_( 'Time and date form' ), 'form' => new Form(
+			'title' => Tr::_( 'Time and date form' ),
+			'form'  => new Form(
 				'date_form', [
-					           $date_field, $date_time_field, $time_field, $week_field, $month_field,
+					           $date_field,
+					           $date_time_field,
+					           $time_field,
+					           $week_field,
+					           $month_field,
 				           ]
 			),
 		];
 
 		$forms['contact_form'] = [
-			'title' => Tr::_( 'Contact form' ), 'form' => new Form(
+			'title' => Tr::_( 'Contact form' ),
+			'form'  => new Form(
 				'contact_form', [
-					              $email_field, $tel_field,
+					              $email_field,
+					              $tel_field,
 				              ]
 			),
 		];
 
 		$forms['select_form'] = [
-			'title' => Tr::_( 'Select form' ), 'form' => new Form(
+			'title' => Tr::_( 'Select form' ),
+			'form'  => new Form(
 				'select_form', [
-					             $select_field, $multi_select_field, $checkbox_field, $radio_field,
+					             $select_field,
+					             $multi_select_field,
+					             $checkbox_field,
+					             $radio_field,
 
 				             ]
 			),
 		];
 
 		$forms['text_form'] = [
-			'title' => Tr::_( 'Text form' ), 'form' => new Form(
+			'title' => Tr::_( 'Text form' ),
+			'form'  => new Form(
 				'text_form', [
-					           $textarea_field, $wysiwyg_field,
+					           $textarea_field,
+					           $wysiwyg_field,
 				           ]
 			),
 		];
 
 		$forms['registration_form'] = [
-			'title' => Tr::_( 'Registration form' ), 'form' => new Form(
+			'title' => Tr::_( 'Registration form' ),
+			'form'  => new Form(
 				'registration_form', [
-					                   $registration_user_name_field, $registration_email_field,
+					                   $registration_user_name_field,
+					                   $registration_email_field,
 					                   $registration_password_field,
 				                   ]
 			),
 		];
 
 		$forms['special_form'] = [
-			'title' => Tr::_( 'Special fields form' ), 'form' => new Form(
+			'title' => Tr::_( 'Special fields form' ),
+			'form'  => new Form(
 				'special_form', [
-					              $password_field, $url_field, $search_field, $color_field,
+					              $password_field,
+					              $url_field,
+					              $search_field,
+					              $color_field,
 				              ]
 			),
 		];
 
 
 		$forms['upload_file_form'] = [
-			'title' => Tr::_( 'File upload form' ), 'form' => new Form(
+			'title' => Tr::_( 'File upload form' ),
+			'form'  => new Form(
 				'upload_file_form', [
 					                  $upload_file_field,
 				                  ]
@@ -471,7 +504,8 @@ class Controller_Main extends Mvc_Controller_Standard
 
 
 		$forms['upload_image_form'] = [
-			'title' => Tr::_( 'Image upload form' ), 'form' => new Form(
+			'title' => Tr::_( 'Image upload form' ),
+			'form'  => new Form(
 				'upload_image_form', [
 					                   $upload_image_field,
 				                   ]
@@ -487,23 +521,35 @@ class Controller_Main extends Mvc_Controller_Standard
 
 			$form->setAction( '#'.$form->getId() );
 
-			if( $form->catchInput()&&$form->validate() ) {
-				$form->catchData();
+			if($form->catchInput()) {
+				$form->validate();
+				if($form->getIsValid()) {
+					$form->catchData();
+					$form->setCommonMessage( UI_messages::createSuccess( Tr::_('Form sent and is valid') ) );
+				} else {
+					$form->setCommonMessage( UI_messages::createDanger( Tr::_('Form sent, but is not valid') ) );
+				}
 
-				$forms[$form_name]['form_sent'] = true;
-				$forms[$form_name]['form_values'] = $form->getValues();
-			} else {
-				$forms[$form_name]['form_sent'] = false;
-				$forms[$form_name]['form_values'] = null;
+				if(Http_Request::POST()->exists('ajax')) {
+					$this->view->setVar('form', $form);
 
+					$this->ajaxFormResponse(
+						$form,
+						$form->getIsValid(),
+						[
+							'form_area_'.$form->getId() => $this->view->render('test-forms/form')
+						]
+					);
+				}
 			}
+
 
 			$this->view->setVar( $form_name, $form );
 		}
 
 
 		$this->view->setVar( 'forms', $forms );
-		$this->render( 'test-action2' );
+		$this->render( 'test-forms' );
 	}
 
 }

@@ -60,34 +60,4 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 		return $this->module_manifest;
 	}
 
-	/**
-	 * @param Form  $form
-	 * @param bool  $success
-	 * @param array $snippets
-	 * @param bool  $send_messages
-	 * @param array $data
-	 */
-	protected function ajaxFormResponse( Form $form, $success, array $snippets = [], $send_messages = false, $data = [] )
-	{
-
-		$response = [
-			'form_id' => $form->getId(),
-			'result' => $success ? 'ok' : 'error',
-			'data' => $data,
-		];
-
-		if( $snippets ) {
-			$response['snippets'] = $snippets;
-		}
-
-		if( $send_messages ) {
-			if( !isset( $response['snippets'] ) ) {
-				$response['snippets'] = [];
-			}
-
-			$response['snippets']['system-messages-area'] = implode( '', UI_messages::get() );
-		}
-
-		$this->ajaxResponse( $response );
-	}
 }

@@ -34,41 +34,23 @@ class UI_tabs_tab extends UI_BaseElement
 	protected $is_selected = false;
 
 	/**
-	 * @var string
+	 * @var callable
 	 */
-	protected $get_parameter;
-
-	/**
-	 * @var string
-	 */
-	protected $custom_URL;
+	protected $tab_url_creator;
 
 	/**
 	 *
-	 * @param string $id
-	 * @param string $title
+	 * @param string   $id
+	 * @param string   $title
+	 * @param callable $tab_url_creator
 	 */
-	public function __construct( $id, $title )
+	public function __construct( $id, $title, callable $tab_url_creator)
 	{
 		$this->id = $id;
 		$this->title = $title;
+		$this->tab_url_creator = $tab_url_creator;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getGetParameter()
-	{
-		return $this->get_parameter;
-	}
-
-	/**
-	 * @param string $get_parameter
-	 */
-	public function setGetParameter( $get_parameter )
-	{
-		$this->get_parameter = $get_parameter;
-	}
 
 	/**
 	 * @return bool
@@ -121,31 +103,10 @@ class UI_tabs_tab extends UI_BaseElement
 	/**
 	 * @return string
 	 */
-	public function getCustomURL()
-	{
-		return $this->custom_URL;
-	}
-
-	/**
-	 * @param string $custom_URL
-	 *
-	 * @return $this
-	 */
-	public function setCustomURL( $custom_URL )
-	{
-		$this->custom_URL = $custom_URL;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getUrl() {
-		if( $this->custom_URL ) {
-			return $this->custom_URL;
-		}
-		return Http_Request::getCurrentURI( [ $this->getGetParameter() => $this->getId() ] );
+		$creator = $this->tab_url_creator;
+
+		return $creator( $this->id );
 	}
 
 }

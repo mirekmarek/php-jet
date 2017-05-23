@@ -23,13 +23,27 @@ if(!$icon) {
 	$icon = $icons_map[$m->getClass()];
 }
 
+$id = '__message__'.md5($m->getMessage().microtime(true));
+
 ?>
-<div class="alert alert-<?=$m->getClass()?>" role="alert">
+<div class="alert alert-<?=$m->getClass()?>" role="alert" id="<?=$id?>">
 	<?php
 	echo UI::icon($icon);
 
 	if($m->getIsCloseable()):
-		?><button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true">&times;</span></button><?php
+		?><button type="button" class="close" data-dismiss="alert" aria-label=""><span aria-hidden="true" onclick="$('#<?=$id?>').fadeOut({duration:250});">&times;</span></button><?php
 	endif; ?>
 	<?=$m->getMessage()?>
 </div>
+<?php if($m->getIsCloseable() && $m->getClass()==UI_messages::C_SUCCESS): ?>
+<script type="text/javascript">
+	setTimeout( function() {
+		$('#<?=$id?>').fadeOut({
+			duration: 1000,
+			complete: function() {
+			}
+		});
+
+	}, 3000 );
+</script>
+<?php endif; ?>

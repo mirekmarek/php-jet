@@ -259,20 +259,15 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @param string $script
 	 * @param string $position (optional, default: by current dispatcher queue item)
-	 * @param bool   $position_required (optional, default: by current dispatcher queue item)
 	 * @param int    $position_order (optional, default: by current dispatcher queue item)
 	 */
-	public function render( $script, $position = null, $position_required = null, $position_order = null )
+	public function render( $script, $position = null, $position_order = null )
 	{
 
 		$current_content = Mvc::getCurrentContent();
 
 		if( !$position ) {
 			$position = $current_content->getOutputPosition();
-		}
-
-		if( $position_required===null ) {
-			$position_required = $current_content->getOutputPositionRequired();
 		}
 
 		if( $position_order===null ) {
@@ -286,7 +281,7 @@ abstract class Mvc_Controller extends BaseObject
 		$output_id = $current_content->getKey();
 
 		Mvc_Layout::getCurrentLayout()->renderView(
-			$this->view, $script, $position, $position_required, $position_order, $output_id
+			$this->view, $script, $position, $position_order, $output_id
 		);
 
 		return;

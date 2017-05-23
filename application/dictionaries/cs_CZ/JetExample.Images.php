@@ -20,4 +20,5 @@ return [
 	'Update image' => '',
 	'Delete image' => '',
 	'Images module' => '',
+	'Delete selected images' => '',
 ];

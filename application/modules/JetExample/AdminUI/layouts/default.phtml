@@ -12,6 +12,48 @@ require_once 'parts/init_libs.php';
 	<jet_layout_javascripts/>
 </head>
 <body>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+
+		var toolbar = $('#main-toolbar');
+
+		if(!toolbar.offset()) {
+			return;
+		}
+
+		var toolbar_offset = toolbar.offset().top;
+		var main_menu_h = 51;
+		var scroll_limit = toolbar_offset-main_menu_h;
+
+		$(window).scroll( function( event ) {
+
+			var w_s = $(this).scrollTop();
+
+			if(w_s>=scroll_limit) {
+				toolbar.css({
+					position: 'fixed',
+					top: (main_menu_h)+'px'
+				});
+
+				$('.main-col').css({
+					'margin-top': (main_menu_h)+'px'
+				});
+			} else {
+				toolbar.css({
+					position: 'relative',
+					top: 'auto'
+				});
+				$('.main-col').css({
+					'margin-top': '0px'
+				});
+
+			}
+		} );
+	});
+
+
+</script>
 <div class="container" id="container" style="width: 100%;min-height: 100%;height: 100%;">
 	<div class="row" style="height: 50px;">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -37,7 +79,7 @@ require_once 'parts/init_libs.php';
 </div>
 
 
-<div id="__progress__">
+<div id="__progress__" style="display: none">
 
 	<div class="loading" align="center">
 		<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>

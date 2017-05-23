@@ -29,6 +29,6 @@ $field = $r->getField();
 	if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
 	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
 	if( $field->getIsRequired() ) echo ' required="required"';
-	if( $field->getAllowedMimeTypes() ) echo ' accept="'.implode( ',', $field->getAllowedMimeTypes()).'"';
+	if( $field->getAllowedMimeTypes() ) echo ' accept="'.implode( '|', $field->getAllowedMimeTypes()).'"';
 
 	?> value="<?=$field->getValue()?>"/>

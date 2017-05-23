@@ -146,6 +146,12 @@ class Form extends BaseObject
 	 * @var bool
 	 */
 	protected $is_valid = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $post_size_exceeded = false;
+
 	/**
 	 * @var Data_Array
 	 */
@@ -627,6 +633,7 @@ class Form extends BaseObject
 	 */
 	public function catchInput( $input_data = null, $force_catch = false )
 	{
+
 		$this->is_valid = false;
 
 		if( $input_data===null ) {
@@ -751,7 +758,6 @@ class Form extends BaseObject
 	public function setCommonMessage( $message )
 	{
 		$this->common_message = $message;
-		$this->is_valid = false;
 	}
 
 	/**

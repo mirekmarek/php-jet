@@ -65,4 +65,9 @@ return [
 	'Upload file' => '',
 	'Unsupported file type' => '',
 	'Upload image' => '',
+	'Form sent:' => '',
+	'Submit (AJAX)' => '',
+	'Form sent and is valid' => '',
+	'Form sent, but is not valid' => '',
+	'Loading ...' => '',
 ];

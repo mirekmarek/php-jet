@@ -132,12 +132,14 @@ $tree->setOpenedDisplayCallback(
 						<form action="?ID=<?=$gallery->getIdObject();?>&amp;delete_images" method="post">
 							<div class="row">
 								<?php foreach( $images as $image ): ?>
-									<div class="col-md-2">
-										<div class="thumbnail">
+									<div style="float:left;margin: 10px;overflow: hidden;">
+										<div class="thumbnail" style="height: 200px;width: 200px;padding:10px;overflow: hidden">
 											<a href="<?=$image->getURI();?>">
-												<img src="<?=$image->getThumbnail( 150, 150 )->getURI();?>"
-												     alt="Lights"
-												     style="width:100%">
+												<div
+														style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 200, 150 )->getURI();?>');"
+												></div>
+											</a>
+
 												<div class="caption">
 													<p>
 														<?php if( !$edit_form->getIsReadonly() ): ?>
@@ -148,7 +150,6 @@ $tree->setOpenedDisplayCallback(
 														<?=$image->getFileName();?>
 													</p>
 												</div>
-											</a>
 										</div>
 									</div>
 								<?php endforeach; ?>

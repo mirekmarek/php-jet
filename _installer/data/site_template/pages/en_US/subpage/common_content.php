@@ -2,7 +2,6 @@
 return [
 	[
 		'output_position' => '',
-		'output_position_required' => true,
 		'output_position_order' => 1,
 		'output' => <<<EOT
 <h1>Lorem ipsum dolor sit amet</h1>
@@ -20,7 +19,6 @@ EOT
 		'module_name' => 'JetExample.TestModule',
 		'controller_action' => 'test_mvc_info',
 		'output_position' => 'right',
-		'output_position_required' => true,
 		'output_position_order' => 1
 	],
 ];

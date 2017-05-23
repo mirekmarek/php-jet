@@ -17,7 +17,6 @@ return [
     'contents' => [
 	    [
 		    'output_position' => '',
-		    'output_position_required' => true,
 		    'output_position_order' => 1,
 		    'output' => <<<EOT
 <h2>Secret area</h2>

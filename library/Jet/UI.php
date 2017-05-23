@@ -174,12 +174,14 @@ class UI
 
 	/**
 	 * @param array $tabs
+	 * @param callable $tab_url_creator
+	 * @param callable $selected_tab_catcher
 	 *
 	 * @return UI_tabs
 	 */
-	public static function tabs( array $tabs )
+	public static function tabs( array $tabs, callable $tab_url_creator, callable $selected_tab_catcher )
 	{
-		return new UI_tabs( $tabs );
+		return new UI_tabs( $tabs, $tab_url_creator, $selected_tab_catcher );
 	}
 
 	/**

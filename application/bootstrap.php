@@ -10,17 +10,20 @@ namespace Jet;
 use JetApplication\Application_Log_Logger;
 use JetApplication\Auth_Controller;
 
-define( 'JET_CONFIG_ENVIRONMENT', 'development' );
-//define( 'JET_CONFIG_ENVIRONMENT', 'production' );
+//define( 'JET_CONFIG_ENVIRONMENT', 'development' );
+define( 'JET_CONFIG_ENVIRONMENT', 'production' );
 
 
 $config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';
 $init_dir = __DIR__.'/init/';
 
 
+
+
 require( $config_dir.'jet.php' );
 require( $config_dir.'paths.php' );
 require( $config_dir.'URI.php' );
+require( $config_dir.'js_css.php' );
 
 
 require( $init_dir.'Profiler.php' );
@@ -42,8 +45,6 @@ if(
 //- REMOVE AFTER INSTALLATION -------------
 
 require( $init_dir.'Cache.php' );
-
-
 
 
 Application_Log::setLogger( new Application_Log_Logger() );

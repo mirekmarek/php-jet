@@ -73,7 +73,19 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 			} elseif( Debug::getOutputIsJSON() ) {
 				//echo '//profiler: '.$URL;
 			} else {
-				echo '<div style="position: fixed; bottom: 0px;left: 0px;"><a href="'.$URL.'" target="_blank">profiler</a></div>';
+				$root_block = $run->getBlocks()[0];
+				$duration = round($root_block->getDuration()*1000, 2);
+				$memory = $root_block->getMemoryUsageDiff()/1024;
+
+				echo '<div style="position: fixed; bottom: 0px;left: 0px;background-color: #c9c9c9;padding: 10px;font-family: Helvetica, Arial, sans-serif;border: 1px inset #ffffff;font-size:14px;">';
+				echo '<a href="'.$URL.'" target="_blank" style="text-decoration: underline;font-weight: bolder;color: #000000;">PROFILER</a>';
+				echo '&nbsp;&nbsp;&nbsp;';
+				echo 'Duration: <b>'.$duration.' ms</b>';
+				echo '&nbsp;&nbsp;&nbsp;';
+				echo 'Memory: <b>'.$memory.' Kib</b>';
+				echo '&nbsp;&nbsp;&nbsp;';
+				echo 'SQL queries count: <b>'.count($run->getSqlQueries()).'</b>';
+				echo '</div>';
 			}
 		}
 	);

@@ -17,29 +17,17 @@ use Jet\Mvc_Page;
 class Controller_Main extends Mvc_Controller_Standard
 {
 	protected static $ACL_actions_check_map = [
-		'default'       => false, 'main_menu' => false, 'secret_area_menu' => false, 'test_action2' => false,
-		'test_mvc_info' => false,
+		'main_menu'        => false,
+		'secret_area_menu' => false,
+		'test_forms'       => false,
+		'test_mvc_info'    => false,
 	];
+
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module_instance = null;
-
-	/**
-	 *
-	 */
-	public function initialize()
-	{
-	}
-
-
-	/**
-	 *
-	 */
-	public function default_Action()
-	{
-	}
 
 	/**
 	 *
@@ -52,6 +40,9 @@ class Controller_Main extends Mvc_Controller_Standard
 		$this->render( 'main-menu' );
 	}
 
+	/**
+	 *
+	 */
 	public function secret_area_menu_Action()
 	{
 		$this->view->setVar( 'site_tree_current', [ Mvc_Page::get( 'secret_area' ) ] );
@@ -62,30 +53,28 @@ class Controller_Main extends Mvc_Controller_Standard
 	/**
 	 *
 	 */
-	public function test_action2_Action()
+	public function test_forms_Action()
 	{
-
-		$parameter_1 = $this->getActionParameterValue( 'parameter_1', 'undefined' );
-		$parameter_2 = $this->getActionParameterValue( 'parameter_2', 'undefined' );
-
-		$this->view->setVar( 'parameter_1', $parameter_1 );
-		$this->view->setVar( 'parameter_2', $parameter_2 );
 
 		$obj = new TestDM1();
 
 		$form = $obj->getCommonForm();
 
-		if( $form->catchInput()&&$form->validate() ) {
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
 			$this->view->setVar( 'form_data', $form->getValues() );
 		}
 		$this->view->setVar( 'form', $form );
 
-		$this->view->setVar( 'parameter_1', $parameter_1 );
-		$this->view->setVar( 'parameter_2', $parameter_2 );
 
-		$this->render( 'test-action2' );
+		$this->render( 'test-forms' );
 	}
 
+	/**
+	 *
+	 */
 	public function test_mvc_info_Action()
 	{
 		$this->render( 'test-mvc-info' );
