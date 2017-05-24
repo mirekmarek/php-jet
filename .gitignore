@@ -1,6 +1,6 @@
 application/config/**/application.php
 application/data/**
-sites/example/site_data.php
+sites/**
 logs/**
 tmp/**
 cache/**
