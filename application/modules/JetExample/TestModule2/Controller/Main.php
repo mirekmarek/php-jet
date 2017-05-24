@@ -350,10 +350,12 @@ class Controller_Main extends Mvc_Controller_Standard
 
 
 		$upload_image_field = new Form_Field_FileImage( 'upload_image', 'Upload image' );
+		$upload_image_field->setIsRequired(true);
 		$upload_image_field->setMaximalSize( 200, 150 );
 		$upload_image_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_image_field->setErrorMessages(
 			[
+				Form_Field_FileImage::ERROR_CODE_EMPTY => 'Please select image',
 				Form_Field_FileImage::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
 				Form_Field_FileImage::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]
@@ -375,9 +377,11 @@ class Controller_Main extends Mvc_Controller_Standard
 		);
 
 		$upload_file_field = new Form_Field_File( 'upload_file', 'Upload file' );
+		$upload_file_field->setIsRequired(true);
 		$upload_file_field->setMaximalFileSize( 2 * 1024 * 1024 );
 		$upload_file_field->setErrorMessages(
 			[
+				Form_Field_File::ERROR_CODE_EMPTY => 'Please select file',
 				Form_Field_File::ERROR_CODE_DISALLOWED_FILE_TYPE => 'Unsupported file type',
 				Form_Field_File::ERROR_CODE_FILE_IS_TOO_LARGE    => 'Maximal file size is 2MiB',
 			]

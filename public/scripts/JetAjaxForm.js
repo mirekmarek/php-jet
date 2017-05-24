@@ -48,7 +48,7 @@ var JetAjaxForm = {
 
 		JetAjaxForm.xhr = new XMLHttpRequest();
 
-		/*
+
 		JetAjaxForm.xhr.upload.addEventListener('progress', function(e) {
 
 			if (e.lengthComputable) {
@@ -57,7 +57,7 @@ var JetAjaxForm = {
 				handlers.onProgress( form, percentage );
 			}
 		});
-		*/
+
 
 		JetAjaxForm.xhr.onreadystatechange = function() {
 

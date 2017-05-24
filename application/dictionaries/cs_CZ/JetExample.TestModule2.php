@@ -91,4 +91,6 @@ return [
 	'Name' => '',
 	'Native name' => '',
 	'Code' => '',
+	'Please select image' => '',
+	'Please select file' => '',
 ];
