@@ -431,7 +431,7 @@ abstract class DataModel_Backend extends BaseObject
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
-	 * @return string
+	 * @return array
 	 */
 	abstract public function helper_getUpdateCommand( DataModel_Definition_Model $definition );
 

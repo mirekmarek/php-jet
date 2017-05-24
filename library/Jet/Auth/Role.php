@@ -413,13 +413,13 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 
 	/**
 	 *
-	 * @param string                   $form_name
-	 * @param DataModel_PropertyFilter $property_filter
+	 * @param string                              $form_name
+	 * @param array|DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @throws DataModel_Exception
 	 * @return Form
 	 */
-	public function getForm( $form_name, DataModel_PropertyFilter $property_filter = null )
+	public function getForm( $form_name, $property_filter = null )
 	{
 		$available_privileges_list = static::getAvailablePrivilegesList();
 

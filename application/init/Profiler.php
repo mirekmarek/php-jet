@@ -85,7 +85,41 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 				echo 'Memory: <b>'.$memory.' Kib</b>';
 				echo '&nbsp;&nbsp;&nbsp;';
 				echo 'SQL queries count: <b>'.count($run->getSqlQueries()).'</b>';
+				echo '&nbsp;&nbsp;&nbsp;';
+				echo 'Environment: <a href="#" onclick="var el=document.getElementById(\'__profiler__cache_state\');el.style.display=(el.style.display==\'none\'?\'block\':\'none\');return false;" style="text-decoration: underline;font-weight: bolder;color: #000000;">'.JET_CONFIG_ENVIRONMENT.'</a>';
+
+
+				$show_cache_state = function( $title, $cache_name ) {
+					$load = constant('JET_CACHE_'.$cache_name.'_LOAD');
+					$save = constant('JET_CACHE_'.$cache_name.'_SAVE');
+
+					echo '<tr>';
+					echo '<td colspan="2" style="font-weight: bolder">'.$title.'</td>';
+					echo '</tr>';
+					echo '<tr style="background-color: '.($load?'#009900':'#990000').'">';
+						echo '<td>Load:</td>';
+						echo '<td>'.($load?'yes':'no').'</td>';
+					echo '</tr>';
+					echo '<tr style="background-color: '.($save?'#009900':'#990000').'">';
+						echo '<td>Save:</td>';
+						echo '<td>'.($save?'yes':'no').'</td>';
+					echo '</tr>';
+
+				};
+
+				echo '<div id="__profiler__cache_state" style="display: none"><b>Cache settings</b>';
+				echo '<table style="margin: 10px;">';
+					$show_cache_state('Autoloader', 'AUTOLOADER');
+					$show_cache_state('Reflection', 'REFLECTION');
+					$show_cache_state('DataModel Definition', 'DATAMODEL_DEFINITION');
+					$show_cache_state('Config Definition', 'CONFIG_DEFINITION');
+					$show_cache_state('MVC - Sites', 'MVC_SITE');
+					$show_cache_state('MVC - Pages', 'MVC_PAGE');
+				echo '</table></div>';
+
 				echo '</div>';
+
+
 			}
 		}
 	);

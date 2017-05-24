@@ -44,9 +44,14 @@ Mvc_Layout::getCurrentLayout()->requireCssFile(
 		 */
 		$thumbnail = $image->getThumbnail( 120, 120 );
 		?>
-		<div class="col-xs-6 col-md-3">
-			<a href="<?=$image->getURI();?>" target="_blank" class="thumbnail"><img
-					src="<?=$thumbnail->getURI();?>"/></a>
+		<div style="float:left;margin: 10px;overflow: hidden;">
+			<div class="thumbnail" style="height: 155px;width: 200px;padding:10px;overflow: hidden">
+				<a href="<?=$image->getURI();?>">
+					<div
+							style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 )->getURI();?>');"
+					></div>
+				</a>
+			</div>
 		</div>
 	<?php endforeach; ?>
 </div>

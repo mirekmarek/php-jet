@@ -47,7 +47,7 @@ class Mvc_View extends Mvc_View_Abstract
 
 
 		/** @noinspection PhpIncludeInspection */
-		include $this->_script_path;
+		require $this->_script_path;
 
 		if( static::getAddScriptPathInfoEnabled() ) {
 			echo '<!-- VIEW END: '.$this->_script_path.' -->';

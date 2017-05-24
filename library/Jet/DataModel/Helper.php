@@ -48,7 +48,7 @@ class DataModel_Helper
 	 *
 	 * @param string $class
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public static function getUpdateCommand( $class )
 	{

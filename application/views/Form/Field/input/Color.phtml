@@ -26,5 +26,6 @@ $field = $r->getField();
 	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
 	if( $field->getIsRequired() ) echo ' required="required"';
 	if( $field->getValidationRegexp() ) echo ' pattern="'.$field->getValidationRegexp().'"';
+	if( $field->getValue() ) echo ' value="'.$field->getValue().'"';
 
-	?> value="<?=$field->getValue()?>"/>
+	?>/>

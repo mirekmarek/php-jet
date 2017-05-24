@@ -29,19 +29,22 @@ class UI_tabs extends UI_BaseElement
 
 
 	/**
-	 * @param array    $tabs
-	 * @param callable $tab_url_creator
-	 * @param callable $selected_tab_catcher
+	 * @param array       $tabs
+	 * @param callable    $tab_url_creator
+	 * @param string|null $selected_tab_id
 	 */
-	public function __construct( array $tabs, callable $tab_url_creator, callable $selected_tab_catcher)
+	public function __construct( array $tabs, callable $tab_url_creator, $selected_tab_id=null)
 	{
 		foreach( $tabs as $id => $title ) {
 			$this->tabs[$id] = new UI_tabs_tab( $id, $title, $tab_url_creator );
 		}
 
-		$this->selected_tab_id = $selected_tab_catcher();
+		$this->selected_tab_id = (string)$selected_tab_id;
 
-		if(!$this->selected_tab_id) {
+		if(
+			!$this->selected_tab_id ||
+			!isset($this->tabs[$this->selected_tab_id])
+		) {
 			$this->selected_tab_id = array_keys($this->tabs)[0];
 		}
 

@@ -4,7 +4,7 @@ $content = require 'common_content.php';
 return [
     'id' => 'subpage',
 	'is_active' => true,
-    'order' => 3,
+    'order' => 4,
     'name' => 'Subpage',
 	'title' => 'Subpage',
 	'menu_title' => 'Subpage',

@@ -62,9 +62,7 @@ $tabs = UI::tabs(
 			return $equal_page->getURL();
 
 		},
-		function() {
-			return Mvc::getCurrentLocale()->toString();
-		}
+		Mvc::getCurrentLocale()->toString()
 );
 ?>
 

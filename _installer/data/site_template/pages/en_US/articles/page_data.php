@@ -1,7 +1,7 @@
 <?php
 return [
     'id' => 'articles',
-	'order' => 1,
+	'order' => 3,
     'name' => 'Articles',
 	'title' => 'Articles',
 	'menu_title' => 'Articles',

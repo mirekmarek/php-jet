@@ -11,13 +11,13 @@ namespace JetApplication;
 
 use Jet\DataModel_Definition;
 
-if(JET_DATAMODEL_DEFINITION_CACHE_LOAD) {
+if(JET_CACHE_DATAMODEL_DEFINITION_LOAD) {
 	DataModel_Definition::enableCacheLoad( function( $class ) {
 		return Cache_DataModelDefinition::load( $class );
 	} );
 }
 
-if(JET_DATAMODEL_DEFINITION_CACHE_SAVE) {
+if(JET_CACHE_DATAMODEL_DEFINITION_SAVE) {
 	DataModel_Definition::enableCacheSave( function( $class, $data ) {
 		Cache_DataModelDefinition::save( $class, $data );
 	} );

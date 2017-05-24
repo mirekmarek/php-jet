@@ -10,4 +10,8 @@ return [
 	'%FROM% - %TO% / total count: %COUNT%' => '%FROM% - %TO% / celkem: %COUNT%',
 	'Go back' => 'Zpět',
 	'Secret area!' => '',
+	'Next' => '',
+	'Last' => '',
+	'Firts' => '',
+	'Previous' => '',
 ];

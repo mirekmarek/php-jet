@@ -11,11 +11,51 @@ use \IntlDateFormatter as PHP_IntlDateFormatter;
 use \NumberFormatter as PHP_NumberFormatter;
 use \Locale as PHP_Locale;
 
+
 /**
  *
  */
 class Locale extends BaseObject
 {
+
+
+	/**
+	 * Most abbreviated style, only essential data (12/13/52 or 3:30pm)
+	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
+	 */
+	const DATE_TIME_FORMAT_SHORT = PHP_IntlDateFormatter::SHORT;
+
+	/**
+	 * Medium style (Jan 12, 1952)
+	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
+	 */
+	const DATE_TIME_FORMAT_MEDIUM = PHP_IntlDateFormatter::MEDIUM;
+
+	/**
+	 * Long style (January 12, 1952 or 3:30:32pm)
+	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
+	 */
+	const DATE_TIME_FORMAT_LONG = PHP_IntlDateFormatter::LONG;
+
+	/**
+	 * Completely specified style (Tuesday, April 12, 1952 AD or 3:30:42pm PST)
+	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
+	 */
+	const DATE_TIME_FORMAT_FULL = PHP_IntlDateFormatter::FULL;
+
+
+	/**
+	 * Gregorian Calendar
+	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
+	 */
+	const CALENDAR_GREGORIAN = PHP_IntlDateFormatter::GREGORIAN;
+
+	/**
+	 * Non-Gregorian Calendar
+	 * @link http://php.net/manual/en/intl.intldateformatter-constants.php
+	 */
+	const CALENDAR_TRADITIONAL = PHP_IntlDateFormatter::TRADITIONAL;
+
 
 	/**
 	 * @var Locale
@@ -78,9 +118,6 @@ class Locale extends BaseObject
 	protected $_timezone;
 
 	/**
-	 * @see PHP_IntlDateFormatter
-	 *
-	 * PHP_IntlDateFormatter::GREGORIAN by default
 	 *
 	 * @var int
 	 */
@@ -135,11 +172,11 @@ class Locale extends BaseObject
 	 * Alias of: Locale::getCurrentLocale()->formatDate($date_and_time);
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
+	 * @param int           $format
 	 *
 	 * @return string
 	 */
-	public static function date( Data_DateTime $date_and_time, $format = null )
+	public static function date( Data_DateTime $date_and_time, $format = self::DATE_TIME_FORMAT_MEDIUM )
 	{
 		return static::getCurrentLocale()->formatDate( $date_and_time, $format );
 	}
@@ -149,14 +186,31 @@ class Locale extends BaseObject
 	 * Alias of: Locale::getCurrentLocale()->formatDateAdnTime($date_and_time);
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
+	 * @param int           $date_format
+	 * @param int           $time_format
 	 *
 	 * @return string
 	 */
-	public static function dateAndTime( Data_DateTime $date_and_time, $format = null )
+	public static function dateAndTime( Data_DateTime $date_and_time, $date_format = self::DATE_TIME_FORMAT_MEDIUM, $time_format = self::DATE_TIME_FORMAT_SHORT )
 	{
-		return static::getCurrentLocale()->formatDateAndTime( $date_and_time, $format );
+		return static::getCurrentLocale()->formatDateAndTime( $date_and_time, $date_format, $time_format );
 	}
+
+
+	/**
+	 *
+	 * Alias of: Locale::getCurrentLocale()->formatTime($date_and_time);
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $time_format
+	 *
+	 * @return string
+	 */
+	public static function time( Data_DateTime $date_and_time, $time_format = self::DATE_TIME_FORMAT_SHORT )
+	{
+		return static::getCurrentLocale()->formatTime( $date_and_time, $time_format );
+	}
+
 
 	/**
 	 *
@@ -199,9 +253,22 @@ class Locale extends BaseObject
 	 *
 	 * @return string
 	 */
-	public static function size( $bytes, $unit = 'B', $max_places = 2, $glue = ' ' )
+	public static function size( $bytes, $unit = 'iB', $max_places = 2, $glue = ' ' )
 	{
 		return static::getCurrentLocale()->formatSize( $bytes, $unit, $max_places, $glue );
+	}
+
+	/**
+	 *
+	 * @param float  $value
+	 * @param string $currency
+	 *
+	 * @return string
+	 */
+	public static function currency( $value ,$currency )
+	{
+		return static::getCurrentLocale()->formatCurrency( $value ,$currency );
+
 	}
 
 	/**
@@ -242,7 +309,7 @@ class Locale extends BaseObject
 	public function getCalendar()
 	{
 		if( $this->_calendar===null ) {
-			$this->_calendar = PHP_IntlDateFormatter::GREGORIAN;
+			$this->_calendar = self::CALENDAR_GREGORIAN;
 		}
 
 		return $this->_calendar;
@@ -260,20 +327,15 @@ class Locale extends BaseObject
 	 * Returns date formatted by locale
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
+	 * @param int           $format
 	 *
 	 * @return string
 	 */
-	public function formatDate( Data_DateTime $date_and_time, $format = null )
+	public function formatDate( Data_DateTime $date_and_time, $format = self::DATE_TIME_FORMAT_MEDIUM )
 	{
 		if( !$date_and_time ) {
 			return '';
 		}
-
-		if( !$format ) {
-			$format = PHP_IntlDateFormatter::MEDIUM;
-		}
-
 
 		$fmt = new PHP_IntlDateFormatter(
 			$this->locale, $format, PHP_IntlDateFormatter::NONE, $this->getTimeZone(), $this->getCalendar()
@@ -285,26 +347,47 @@ class Locale extends BaseObject
 	/**
 	 *
 	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
+	 * @param int           $date_format
+	 * @param int           $time_format
 	 *
 	 * @return string
 	 */
-	public function formatDateAndTime( Data_DateTime $date_and_time, $format = null )
+	public function formatDateAndTime( Data_DateTime $date_and_time, $date_format = self::DATE_TIME_FORMAT_MEDIUM, $time_format=self::DATE_TIME_FORMAT_SHORT )
 	{
 		if( !$date_and_time ) {
 			return '';
 		}
 
-		if( !$format ) {
-			$format = PHP_IntlDateFormatter::MEDIUM;
-		}
 
 		$fmt = new PHP_IntlDateFormatter(
-			$this->locale, $format, PHP_IntlDateFormatter::SHORT, $this->getTimeZone(), $this->getCalendar()
+			$this->locale, $date_format, $time_format, $this->getTimeZone(), $this->getCalendar()
 		);
 
 		return $fmt->format( $date_and_time );
 	}
+
+
+	/**
+	 *
+	 * @param Data_DateTime $date_and_time
+	 * @param int           $time_format
+	 *
+	 * @return string
+	 */
+	public function formatTime( Data_DateTime $date_and_time, $time_format=self::DATE_TIME_FORMAT_SHORT )
+	{
+		if( !$date_and_time ) {
+			return '';
+		}
+
+
+		$fmt = new PHP_IntlDateFormatter(
+			$this->locale, -1, $time_format, $this->getTimeZone(), $this->getCalendar()
+		);
+
+		return $fmt->format( $date_and_time );
+	}
+
 
 	/**
 	 *
@@ -360,7 +443,7 @@ class Locale extends BaseObject
 	{
 
 		$units = [
-			$unit, 'K'.$unit, 'M'.$unit, 'B'.$unit, 'T'.$unit,
+			$unit, 'K'.$unit, 'M'.$unit, 'G'.$unit, 'T'.$unit,
 		];
 
 		if( $bytes<=0 ) {
@@ -381,6 +464,18 @@ class Locale extends BaseObject
 		$bytes = $bytes/$dv;
 
 		return $this->formatFloat( $bytes, 0, $max_places ).$glue.$units[$exp];
+	}
+
+	/**
+	 * @param float $value
+	 * @param string $currency
+	 *
+	 * @return string
+	 */
+	public function formatCurrency( $value ,$currency )
+	{
+		$f = new PHP_NumberFormatter( $this->locale, PHP_NumberFormatter::CURRENCY );
+		return $f->formatCurrency($value, $currency);
 	}
 
 	/**
@@ -483,67 +578,8 @@ class Locale extends BaseObject
 			$in_locale = static::getCurrentLocale();
 		}
 
+
 		return PHP_Locale::getDisplayRegion( $this->locale, (string)$in_locale );
-	}
-
-	/**
-	 *
-	 * Alias of: Locale::getCurrentLocale()->formatTime($date_and_time)
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public function time( Data_DateTime $date_and_time, $format = null )
-	{
-		return static::getCurrentLocale()->formatTime( $date_and_time, $format );
-	}
-
-	/**
-	 * Returns date formatted by locale
-	 *
-	 * @param Data_DateTime $date_and_time
-	 * @param int           $format (optional, default: PHP_IntlDateFormatter::MEDIUM)
-	 *
-	 * @return string
-	 */
-	public function formatTime( Data_DateTime $date_and_time, $format = null )
-	{
-		if( !$date_and_time ) {
-			return '';
-		}
-
-		if( !$format ) {
-			$format = PHP_IntlDateFormatter::MEDIUM;
-		}
-
-
-		$fmt = new PHP_IntlDateFormatter(
-			$this->locale, PHP_IntlDateFormatter::NONE, $format, $this->getTimeZone(), $this->getCalendar()
-		);
-
-		return $fmt->format( $date_and_time );
-	}
-
-	/**
-	 *  ISO 4217
-	 *
-	 * @param string $currency_code
-	 *
-	 * @return PHP_NumberFormatter
-	 */
-	public function getCurrencyFormatter( $currency_code )
-	{
-
-		if( !isset( $this->_currency_formatter[$currency_code] ) ) {
-			$this->_currency_formatter[$currency_code] = new PHP_NumberFormatter(
-				$this.'@currency='.$currency_code, PHP_NumberFormatter::CURRENCY
-			);
-		}
-
-		return $this->_currency_formatter[$currency_code];
-
 	}
 
 

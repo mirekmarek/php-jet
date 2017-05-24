@@ -14,8 +14,8 @@ return [
 		    'output_position' => '',
 		    'output_position_order' => 1,
 		    'output' => <<<EOT
-<h2>:-/ Vítejte do reálného světa ...</h2>
-<a href="https://wikileaks.org/">WikiLeaks</a>
+<h2>:-)</h2>
+<img src="http://www.internetgovernance.org/wordpress/wp-content/uploads/yeti.jpg"/>
 EOT
 	    ],
 

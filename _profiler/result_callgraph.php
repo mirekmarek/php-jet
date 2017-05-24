@@ -14,7 +14,7 @@ $type = 'png';
 
 /** @noinspection PhpUsageOfSilenceOperatorInspection */
 $dot_script = @xhprof_generate_dot_script(
-	$run->getXHPData(),
+	$GLOBALS['run']->getXHPData(),
 	$threshold,
 	$source,
 	$description,

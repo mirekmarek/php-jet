@@ -79,15 +79,6 @@ class UI_dataGrid extends BaseObject
 	protected $allow_paginator = true;
 
 	/**
-	 * @var string
-	 */
-	protected $sort_get_parameter;
-	/**
-	 * @var string
-	 */
-	protected $paginator_get_parameter;
-
-	/**
 	 * @var int
 	 */
 	protected $paginator_items_per_page;
@@ -117,6 +108,28 @@ class UI_dataGrid extends BaseObject
 	 * @var string
 	 */
 	protected $renderer_script_footer;
+
+	/**
+	 * @var callable
+	 */
+	protected $page_no_catcher;
+
+	/**
+	 * @var callable
+	 */
+	protected $page_url_creator;
+
+
+	/**
+	 * @var callable
+	 */
+	protected $sort_catcher;
+
+	/**
+	 * @var callable
+	 */
+	protected $sort_url_creator;
+
 
 	/**
 	 * @return string
@@ -388,24 +401,22 @@ class UI_dataGrid extends BaseObject
 	public function handlePaginator()
 	{
 
-		//TODO: handler ven
-
 		if( $this->session_namespace ) {
 			$session = new Session( $this->session_namespace );
 			$default_page_no = $session->getValue( 'page_no', 1 );
 		} else {
 			$default_page_no = 1;
-
 		}
 
+		$catcher = $this->getPageNoCatcher();
+
+		$creator = $this->getPageUrlCreator();
 
 
 		$this->paginator = new Data_Paginator(
-			Http_Request::GET()->getInt( $this->getPaginatorGetParameter(), $default_page_no ),
+			$catcher( $default_page_no ),
 			$this->getPaginatorItemsPerPage(),
-			function( $page_no ) {
-				return Http_Request::getCurrentURI( [ $this->getPaginatorGetParameter() => $page_no ] );
-			}
+			$creator
 		);
 
 	}
@@ -415,7 +426,6 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function handleSortRequest()
 	{
-		//TODO: handler ven
 
 		$sort_options = [];
 		foreach( $this->columns as $column ) {
@@ -445,7 +455,10 @@ class UI_dataGrid extends BaseObject
 			$this->sort_by = $this->default_sort;
 		}
 
-		if( ( $sort = Http_Request::GET()->getString( $this->getSortGetParameter() ) ) ) {
+		$catcher = $this->getSortCatcher();
+
+
+		if( ( $sort = $catcher() ) ) {
 			if( in_array( $sort, $sort_options ) ) {
 				$this->sort_by = $sort;
 			}
@@ -460,30 +473,6 @@ class UI_dataGrid extends BaseObject
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getSortGetParameter()
-	{
-		//TODO: handler ven
-
-		if(!$this->sort_get_parameter) {
-			$this->sort_get_parameter = static::getDefaultSortGetParameter();
-		}
-
-		return $this->sort_get_parameter;
-	}
-
-	/**
-	 * @param string $sort_get_parameter
-	 */
-	public function setSortGetParameter( $sort_get_parameter )
-	{
-		//TODO: handler ven
-
-		$this->sort_get_parameter = $sort_get_parameter;
-	}
-
-	/**
 	 * @param string $column_name
 	 * @param bool   $desc
 	 *
@@ -491,8 +480,6 @@ class UI_dataGrid extends BaseObject
 	 */
 	public function getSortURL( $column_name, $desc = false )
 	{
-		//TODO: handler ven
-
 		$column = $this->getColumn( $column_name );
 		if(
 			!$column ||
@@ -501,11 +488,9 @@ class UI_dataGrid extends BaseObject
 			return '';
 		}
 
-		if( $desc ) {
-			$column_name = '-'.$column_name;
-		}
+		$creator = $this->getSortUrlCreator();
 
-		return Http_Request::getCurrentURI( [ 'sort' => $column_name ] );
+		return $creator( $column_name, $desc );
 	}
 
 	/**
@@ -518,26 +503,6 @@ class UI_dataGrid extends BaseObject
 		return $this->columns[$name];
 
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getPaginatorGetParameter()
-	{
-		if(!$this->paginator_get_parameter) {
-			$this->paginator_get_parameter = static::getDefaultPaginatorGetParameter();
-		}
-		return $this->paginator_get_parameter;
-	}
-
-	/**
-	 * @param string $paginator_get_parameter
-	 */
-	public function setPaginatorGetParameter( $paginator_get_parameter )
-	{
-		$this->paginator_get_parameter = $paginator_get_parameter;
-	}
-
 	/**
 	 * @return int
 	 */
@@ -557,6 +522,108 @@ class UI_dataGrid extends BaseObject
 	{
 		$this->paginator_items_per_page = $paginator_items_per_page;
 	}
+
+	/**
+	 * @return callable
+	 */
+	public function getPageNoCatcher()
+	{
+		if(!$this->page_no_catcher) {
+			/**
+			 * @param $default_page_no
+			 *
+			 * @return int
+			 */
+			$this->page_no_catcher = function( $default_page_no ) {
+				return Http_Request::GET()->getInt( 'page', $default_page_no );
+			};
+
+		}
+
+		return $this->page_no_catcher;
+	}
+
+	/**
+	 * @param callable $page_no_catcher
+	 */
+	public function setPageNoCatcher( callable $page_no_catcher )
+	{
+		$this->page_no_catcher = $page_no_catcher;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getPageUrlCreator()
+	{
+		if(!$this->page_url_creator) {
+			$this->page_url_creator = function( $page_no ) {
+				return Http_Request::getCurrentURI( [ 'page' => $page_no ] );
+			};
+		}
+
+		return $this->page_url_creator;
+	}
+
+	/**
+	 * @param callable $page_url_creator
+	 */
+	public function setPageUrlCreator( callable $page_url_creator )
+	{
+		$this->page_url_creator = $page_url_creator;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getSortCatcher()
+	{
+		if(!$this->sort_catcher) {
+			$this->sort_catcher = function() {
+				return Http_Request::GET()->getString( 'sort' );
+			};
+		}
+
+		return $this->sort_catcher;
+	}
+
+	/**
+	 * @param callable $sort_catcher
+	 */
+	public function setSortCatcher( callable $sort_catcher )
+	{
+		$this->sort_catcher = $sort_catcher;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getSortUrlCreator()
+	{
+
+		if(!$this->sort_url_creator) {
+			$this->sort_url_creator = function($column_name, $desc) {
+				if( $desc ) {
+					$column_name = '-'.$column_name;
+				}
+
+				return Http_Request::getCurrentURI( [ 'sort' => $column_name ] );
+			};
+		}
+
+
+		return $this->sort_url_creator;
+	}
+
+	/**
+	 * @param callable $sort_url_creator
+	 */
+	public function setSortUrlCreator( callable $sort_url_creator )
+	{
+		$this->sort_url_creator = $sort_url_creator;
+	}
+
+
 
 	/**
 	 * @param string $session_name

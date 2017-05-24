@@ -9,13 +9,13 @@ namespace JetApplication;
 
 use Jet\Reflection;
 
-if(JET_REFLECTION_CACHE_LOAD) {
+if(JET_CACHE_REFLECTION_LOAD) {
 	Reflection::enableCacheLoad( function( $class ) {
 		return Cache_Reflection::load( $class );
 	} );
 }
 
-if(JET_REFLECTION_CACHE_SAVE) {
+if(JET_CACHE_REFLECTION_SAVE) {
 	Reflection::enableCacheSave( function( $class, $data ) {
 		Cache_Reflection::save( $class, $data );
 	} );

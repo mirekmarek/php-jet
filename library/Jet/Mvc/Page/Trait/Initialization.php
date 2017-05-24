@@ -206,8 +206,18 @@ trait Mvc_Page_Trait_Initialization
 				);
 
 			}
+			$page_id = $page_data['id'];
 
-			$pages[$page_data['id']] = $page_data;
+
+			if( isset( $pages[$page_id] ) ) {
+				throw new Mvc_Page_Exception(
+					'Duplicate page: \''.$site_id.':'.$locale_str.':'.$page_id.'\', page data file: '.$page_data_file_path,
+					Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+				);
+			}
+
+
+			$pages[$page_id] = $page_data;
 
 			$parent_page_data = $page_data;
 
@@ -215,15 +225,25 @@ trait Mvc_Page_Trait_Initialization
 
 
 		foreach( $list as $dir_path => $dir_name ) {
+			$page_data_file_path = $dir_path.static::$page_data_file_name;
 
-			$page_data = static::_loadPagesData_readPageDataFile( $dir_path.static::$page_data_file_name, $parent_page_data, $dir_name );
+			$page_data = static::_loadPagesData_readPageDataFile( $page_data_file_path, $parent_page_data, $dir_name );
 			if(!$page_data) {
 				continue;
 			}
 
-			$pages[$page_data['id']] = $page_data;
+			$page_id = $page_data['id'];
 
-			$pages[$page_data['parent_id']]['children'][] = $page_data['id'];
+			if( isset( $pages[$page_id] ) ) {
+				throw new Mvc_Page_Exception(
+					'Duplicate page: \''.$site_id.':'.$locale_str.':'.$page_id.'\', page data file: '.$page_data_file_path,
+					Mvc_Page_Exception::CODE_DUPLICATES_PAGE_ID
+				);
+			}
+
+			$pages[$page_id] = $page_data;
+
+			$pages[$page_data['parent_id']]['children'][] = $page_id;
 
 			static::_loadPagesData_readDir( $pages, $site_id, $locale_str, $dir_path, $page_data );
 		}

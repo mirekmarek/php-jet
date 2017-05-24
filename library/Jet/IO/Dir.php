@@ -388,7 +388,17 @@ class IO_Dir
 	protected static function _getLastError()
 	{
 		if( class_exists( __NAMESPACE__.'\\Debug_ErrorHandler', false ) ) {
-			return Debug_ErrorHandler::getLastError();
+			$e = Debug_ErrorHandler::getLastError();
+			if(!$e) {
+				return null;
+			}
+
+			return [
+				'type'    => $e->getCode(),
+				'message' => $e->getMessage(),
+				'file'    => $e->getFile(),
+				'line'    => $e->getLine(),
+			];
 		} else {
 			return error_get_last();
 		}

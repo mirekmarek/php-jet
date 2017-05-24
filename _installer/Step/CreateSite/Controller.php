@@ -108,6 +108,9 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 		}
 
+		//TODO: vyradit _installer/data/site_template
+		//TODO: vyradit _installer/data/dictionaries
+
 
 		//----------------------------------------------------------------------
 		$main_form_fields = [];

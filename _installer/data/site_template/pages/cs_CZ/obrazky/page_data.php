@@ -1,7 +1,7 @@
 <?php
 return [
     'id' => 'images',
-	'order' => 2,
+	'order' => 3,
     'name' => 'Obrázky',
 	'title' => 'Obrázky',
 	'menu_title' => 'Obrázky',

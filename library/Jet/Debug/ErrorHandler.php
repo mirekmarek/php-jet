@@ -23,9 +23,34 @@ class Debug_ErrorHandler
 	protected static $handlers = [];
 
 	/**
-	 * @var array|null
+	 * @var Debug_ErrorHandler_Error|null
 	 */
 	protected static $last_error;
+
+	/**
+	 * @var array
+	 */
+	protected static $ignore_non_fatal_errors_paths = [
+		'/'.__NAMESPACE__.'/IO/'
+	];
+
+	/**
+	 * @param string $path
+	 */
+	public static function addIgnoreNonFatalErrorsPath( $path )
+	{
+		$path = str_replace('\\', '/', $path);
+
+		static::$ignore_non_fatal_errors_paths[] = $path;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getIgnoreNonFatalErrorsPaths()
+	{
+		return self::$ignore_non_fatal_errors_paths;
+	}
 
 	/**
 	 *
@@ -108,35 +133,27 @@ class Debug_ErrorHandler
 			return;
 		}
 
-		if(
-			$code==E_STRICT &&
-			strpos( $file, 'PEAR' )!==false
-		) {
-			return;
-		}
-
-		if(
-			$code==E_STRICT &&
-			strpos( $message, 'should be compatible with' )
-		) {
-			return;
-		}
-
-		static::$last_error = [
-			'type' => $code, 'message' => $message, 'file' => $file, 'line' => $line,
-		];
-
-		if( strpos( $file, __NAMESPACE__.'/IO/' )!==false||strpos( $file, __NAMESPACE__.'\\IO\\' )!==false ) {
-			return;
-		}
-
-
-		if( error_reporting()==0 ) {
-			return;
-		}
-
-
 		$error = Debug_ErrorHandler_Error::newError( $code, $message, $file, $line, $context );
+
+		static::$last_error = $error;
+
+		if(!$error->isFatal()) {
+			if( error_reporting()==0 ) {
+				return;
+			}
+
+			foreach( static::$ignore_non_fatal_errors_paths as $path_part ) {
+				$win_path_part = str_replace('/', '\\', $path_part);
+
+				if(
+					strpos( $file, $path_part )!==false ||
+					strpos( $file, $win_path_part )!==false
+				) {
+					return;
+				}
+			}
+		}
+
 		static::_handleError( $error );
 	}
 
@@ -201,10 +218,13 @@ class Debug_ErrorHandler
 			}
 		}
 
+		if( $error->isFatal() ) {
+			die();
+		}
 	}
 
 	/**
-	 * @return array|null
+	 * @return Debug_ErrorHandler_Error|null
 	 */
 	public static function getLastError()
 	{

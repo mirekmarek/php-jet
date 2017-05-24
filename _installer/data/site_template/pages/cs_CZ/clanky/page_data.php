@@ -1,7 +1,7 @@
 <?php
 return [
     'id' => 'articles',
-	'order' => 1,
+	'order' => 2,
     'name' => 'Články',
 	'title' => 'Články',
 	'menu_title' => 'Články',

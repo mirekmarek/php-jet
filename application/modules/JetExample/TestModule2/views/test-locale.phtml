@@ -1,0 +1,178 @@
+<?php
+use Jet\Locale;
+use Jet\Tr;
+use Jet\Data_DateTime;
+use Jet\UI;
+
+$now = Data_DateTime::now();
+?>
+
+<legend><?=Tr::_('Date')?></legend>
+
+<table class="table">
+	<tr>
+		<td style="width: 20%"><?=Tr::_( 'Short: ' )?></td>
+		<td><?=Locale::date( $now, Locale::DATE_TIME_FORMAT_SHORT );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Medium: ' )?></td>
+		<td><?=Locale::date( $now, Locale::DATE_TIME_FORMAT_MEDIUM );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Long: ' )?></td>
+		<td><?=Locale::date( $now, Locale::DATE_TIME_FORMAT_LONG );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Full: ' )?></td>
+		<td><?=Locale::date( $now, Locale::DATE_TIME_FORMAT_FULL );?></td>
+	</tr>
+
+	<tr>
+		<td><?=Tr::_( 'Custom: ' )?></td>
+		<td><?=$now->format('Y-m-d');?></td>
+	</tr>
+
+</table>
+
+<legend><?=Tr::_('Time')?></legend>
+
+<table class="table">
+	<tr>
+		<td style="width: 20%"><?=Tr::_( 'Short: ' )?></td>
+		<td><?=Locale::time( $now, Locale::DATE_TIME_FORMAT_SHORT );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Medium: ' )?></td>
+		<td><?=Locale::time( $now, Locale::DATE_TIME_FORMAT_MEDIUM );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Long: ' )?></td>
+		<td><?=Locale::time( $now, Locale::DATE_TIME_FORMAT_LONG );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Full: ' )?></td>
+		<td><?=Locale::time( $now, Locale::DATE_TIME_FORMAT_FULL );?></td>
+	</tr>
+
+	<tr>
+		<td><?=Tr::_( 'Custom: ' )?></td>
+		<td><?=$now->format('H:i:s');?></td>
+	</tr>
+
+</table>
+
+
+<legend><?=Tr::_('Date and time')?></legend>
+
+<table class="table">
+	<tr>
+		<td style="width: 20%"><?=Tr::_( 'Short: ' )?></td>
+		<td><?=Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_SHORT, Locale::DATE_TIME_FORMAT_SHORT );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Medium: ' )?></td>
+		<td><?=Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_MEDIUM, Locale::DATE_TIME_FORMAT_MEDIUM );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Long: ' )?></td>
+		<td><?=Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_LONG, Locale::DATE_TIME_FORMAT_LONG );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Full: ' )?></td>
+		<td><?=Locale::dateAndTime( $now, Locale::DATE_TIME_FORMAT_FULL, Locale::DATE_TIME_FORMAT_FULL );?></td>
+	</tr>
+
+	<tr>
+		<td><?=Tr::_( 'Custom: ' )?></td>
+		<td><?=$now->format('Y-m-d H:i:s');?></td>
+	</tr>
+
+</table>
+
+<legend><?=Tr::_('Nulbers')?></legend>
+
+<table class="table">
+	<tr>
+		<td style="width: 20%"><?=Tr::_( 'Integer: ' )?></td>
+		<td><?=Locale::int( 1234567898765321 );?></td>
+	</tr>
+
+	<tr>
+		<td><?=Tr::_( 'Float: ' )?></td>
+		<td><?=Locale::float( pi(), 2, 20 );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Float: ' )?></td>
+		<td><?=Locale::float( 1980, 2, 20 );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'File size: ' )?></td>
+		<td><?=Locale::size( 5046586572 );?></td>
+	</tr>
+
+	<tr>
+		<td><?=Tr::_( 'Price: ' )?></td>
+		<td><?=Locale::currency( 10.95, 'USD' );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Price: ' )?></td>
+		<td><?=Locale::currency( 225.70, 'CZK' );?></td>
+	</tr>
+	<tr>
+		<td><?=Tr::_( 'Price: ' )?></td>
+		<td><?=Locale::currency( 11.81, 'EUR' );?></td>
+	</tr>
+
+</table>
+
+
+<legend><?=Tr::_('Locales')?></legend>
+
+<table>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th rowspan="2"></th>
+
+			<th rowspan="2"><?=Tr::_('Locale code')?></th>
+			<th rowspan="2"><?=Tr::_('Name')?></th>
+			<th rowspan="2"><?=Tr::_('Native name')?></th>
+			<th colspan="3"><?=Tr::_('Region')?></th>
+			<th colspan="3"><?=Tr::_('Language')?></th>
+		</tr>
+		<tr>
+			<th><?=Tr::_('Code')?></th>
+			<th><?=Tr::_('Name')?></th>
+			<th><?=Tr::_('Native name')?></th>
+			<th><?=Tr::_('Code')?></th>
+			<th><?=Tr::_('Name')?></th>
+			<th><?=Tr::_('Native name')?></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	$current_locale = Locale::getCurrentLocale();
+	foreach( Locale::getAllLocalesList() as $l=>$name ):
+		$l = new Locale($l);
+		?>
+		<tr>
+			<td><?=UI::flag($l)?></td>
+
+			<td><?=$l?></td>
+			<td><?=$l->getName($current_locale)?></td>
+			<td><?=$l->getName($l)?></td>
+
+			<td><?=$l->getRegion()?></td>
+			<td><?=$l->getRegionName($current_locale)?></td>
+			<td><?=$l->getRegionName($l)?></td>
+
+			<td><?=$l->getLanguage()?></td>
+			<td><?=$l->getLanguageName($current_locale)?></td>
+			<td><?=$l->getLanguageName($l)?></td>
+
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
+
+</table>

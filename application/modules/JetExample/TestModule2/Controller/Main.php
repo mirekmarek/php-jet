@@ -65,6 +65,7 @@ class Controller_Main extends Mvc_Controller_Standard
 	 */
 	protected static $ACL_actions_check_map = [
 		'test_forms'   => false,
+	    'test_locale'  => false
 	];
 
 	/**
@@ -550,6 +551,15 @@ class Controller_Main extends Mvc_Controller_Standard
 
 		$this->view->setVar( 'forms', $forms );
 		$this->render( 'test-forms' );
+	}
+
+	/**
+	 *
+	 */
+	public function test_locale_Action()
+	{
+		$this->render( 'test-locale' );
+
 	}
 
 }

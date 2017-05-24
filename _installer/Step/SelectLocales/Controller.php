@@ -42,7 +42,7 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 
 		foreach( Installer::getAvailableLocales() as $locale ) {
 
-			if( $locale!=Installer::getCurrentLocale() ) {
+			if( ((string)$locale)!=((string)Installer::getCurrentLocale()) ) {
 				continue;
 			}
 
@@ -55,7 +55,7 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 
 		foreach( Installer::getAvailableLocales() as $locale ) {
 
-			if( $locale==Installer::getCurrentLocale() ) {
+			if( ((string)$locale)==((string)Installer::getCurrentLocale()) ) {
 				continue;
 			}
 
@@ -75,7 +75,7 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 			$selected_locales = [];
 
 			foreach( Installer::getAvailableLocales() as $locale ) {
-				if( $locale==Installer::getCurrentLocale() ) {
+				if( ((string)$locale)==((string)Installer::getCurrentLocale()) ) {
 					$selected_locales[] = $locale;
 
 					continue;

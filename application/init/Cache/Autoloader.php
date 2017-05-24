@@ -9,13 +9,13 @@ namespace JetApplication;
 
 use Jet\Autoloader;
 
-if(JET_AUTOLOADER_CACHE_SAVE) {
+if(JET_CACHE_AUTOLOADER_SAVE) {
 	Autoloader::enableCacheSave( function( $data ) {
 		Cache_Autoloader::save( $data );
 	});
 }
 
-if(JET_AUTOLOADER_CACHE_LOAD) {
+if(JET_CACHE_AUTOLOADER_LOAD) {
 	Autoloader::enableCacheLoad( function() {
 		return Cache_Autoloader::load();
 	} );

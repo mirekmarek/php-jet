@@ -3,7 +3,7 @@ $content = require 'common_content.php';
 
 return [
     'id' => 'subpage',
-    'order' => 3,
+    'order' => 4,
     'name' => 'Podstránka',
 	'title' => 'Podstránka',
 	'menu_title' => 'Podstránka',

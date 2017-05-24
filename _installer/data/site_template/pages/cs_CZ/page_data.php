@@ -38,7 +38,7 @@ return [
 <p>Toto je ukázková aplikace PHP frameworku Jet. Co Jet umí?</p>
 <ul>
 	<li>Modulární aplikace - snadno znovu použitelný kód a moduly</li>
-	<li>Důraz na bezpečnost</li
+	<li>Důraz na bezpečnost</li>
 	<li>Důraz na výkon</li>
 	<li>Snadné učení</li>
 	<li>Navrženo a vyvíjeno na základě poznatků z reálné praxe v prostředí různorodých projektů od malého rozsahu po opravdu velké projekty</li>
