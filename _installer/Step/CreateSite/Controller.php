@@ -35,9 +35,8 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 		if( count( Mvc_Site::loadSites() ) ) {
 			$this->render( 'site-created' );
-			if( Http_Request::POST()->exists( 'go' ) ) {
-				Installer::goToNext();
-			}
+
+			$this->catchContinue();
 
 			return;
 		}
@@ -54,7 +53,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$URL = $_SERVER['HTTP_HOST'].JET_URI_BASE;
 
 			$site->setName( 'Example Site' );
-			$site->setId('example');
+			$site->setId(Installer::SITE_ID);
 
 			$site->addLocale( $default_locale );
 			$site->setURLs( $default_locale, [$URL] );
@@ -86,20 +85,6 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$site->setIsDefault( true );
 				$site->setIsActive( true );
 
-				IO_Dir::copy(
-					JET_APP_INSTALLER_DATA_PATH.'site_template/layouts/', $site->getLayoutsPath()
-				);
-
-
-				$template_base_path = JET_APP_INSTALLER_DATA_PATH.'site_template/pages/';
-
-				foreach( $site->getLocales() as $locale ) {
-					IO_Dir::copy(
-						$template_base_path.$locale, $site->getPagesDataPath( $locale )
-					);
-				}
-
-
 				$site->saveDataFile();
 
 
@@ -107,9 +92,6 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			}
 
 		}
-
-		//TODO: vyradit _installer/data/site_template
-		//TODO: vyradit _installer/data/dictionaries
 
 
 		//----------------------------------------------------------------------

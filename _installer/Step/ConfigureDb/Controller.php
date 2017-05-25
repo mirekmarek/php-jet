@@ -189,9 +189,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 		}
 
 		if( $OK ) {
-			if( Http_Request::POST()->exists( 'go' ) ) {
-				Installer::goToNext();
-			}
+			$this->catchContinue();
 		}
 
 		$this->view->setVar( 'form', $form );

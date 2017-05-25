@@ -10,7 +10,6 @@ use Jet\Mvc_View;
 $controller = $this->getRaw( 'controller' );
 
 ?>
-<h2><?=Tr::_( 'Error during installation!' );?></h2>
 
 <?php if( $controller->getErrorDictionariesInstall() ): ?>
 	<h3 class="error"><?=Tr::_( 'Error during dictionaries installation' )?></h3>

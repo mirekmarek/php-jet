@@ -96,7 +96,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	/**
 	 * Manifest value
 	 *
-	 * List of modules (module names) that the module requires
+	 * List of Modules (module names) that the module requires
 	 *
 	 * @var string[]
 	 */
@@ -142,7 +142,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 
 
 	/**
-	 * Get available modules types list
+	 * Get available Modules types list
 	 *
 	 * @return array
 	 */
@@ -302,7 +302,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 			!is_array( $manifest_data['require'] )
 		) {
 			throw new Application_Modules_Exception(
-				'Required modules (\'require\' key) must be an array like [required_module1, required_module2, ...]! (Module: \''.$this->name.'\')',
+				'Required Modules (\'require\' key) must be an array like [required_module1, required_module2, ...]! (Module: \''.$this->name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}

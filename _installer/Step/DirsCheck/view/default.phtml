@@ -39,9 +39,6 @@ use Jet\Tr;
 	</table>
 
 	<br/>
-<?php if( $this->getBool( 'is_OK' ) ): ?>
-	<form method="post">
-		<input type="hidden" name="go" value="1">
-		<?=Installer::buttonNext();?>
-	</form>
-<?php endif; ?>
+<?php if( $this->getBool( 'is_OK' ) ):
+	Installer::continueForm();
+endif; ?>

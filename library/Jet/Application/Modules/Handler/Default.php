@@ -214,7 +214,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Returns an array containing information on installed and activated modules
+	 * Returns an array containing information on installed and activated Modules
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
@@ -240,7 +240,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	}
 
 	/**
-	 * Read installed modules list
+	 * Read installed Modules list
 	 *
 	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]
@@ -433,7 +433,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( $required_modules ) {
 			throw new Application_Modules_Exception(
-				'The module \''.$module_name.'\' requires these modules: '.implode(
+				'The module \''.$module_name.'\' requires these Modules: '.implode(
 					', ', $required_modules
 				).'. This module must be installed before.', Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
 			);
@@ -727,7 +727,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( $required_modules ) {
 			throw new Application_Modules_Exception(
-				'The module requires these modules: '.implode( ',', $required_modules ).'. They must be activated.',
+				'The module requires these Modules: '.implode( ',', $required_modules ).'. They must be activated.',
 				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
 			);
 		}

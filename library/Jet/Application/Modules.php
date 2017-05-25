@@ -16,7 +16,7 @@ class Application_Modules extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected static $base_path = JET_PATH_APPLICATION.'modules/';
+	protected static $base_path = JET_PATH_APPLICATION.'Modules/';
 
 
 	/**

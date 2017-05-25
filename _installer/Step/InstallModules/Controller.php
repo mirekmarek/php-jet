@@ -49,19 +49,18 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 		);
 
 		$form = new Form(
-			'modules_select_form', [
-				                     $modules_field,
-			                     ]
+			'modules_select_form', [ $modules_field, ]
 		);
 
 		$this->view->setVar( 'modules', $this->all_modules );
 
 
-		if( Http_Request::POST()->exists( 'go' ) ) {
-			Installer::goToNext();
-		}
+		$this->catchContinue();
 
-		if( $form->catchInput()&&$form->validate() ) {
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
 			$this->selected_modules = [];
 
 			foreach( $this->all_modules as $m ) {
@@ -70,12 +69,8 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 				}
 			}
 
-			$d = $form->getValues();
-			$this->selected_modules = array_merge( $this->selected_modules, $d['modules'] );
 
-			while( !$this->resolveDependencies() ) {
-			}
-
+			$this->selected_modules = array_merge( $this->selected_modules, $modules_field->getValue() );
 
 			$result = [];
 

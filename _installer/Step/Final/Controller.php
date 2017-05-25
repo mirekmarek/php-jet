@@ -13,6 +13,7 @@ use Jet\IO_Dir;
 use Jet\IO_Dir_Exception;
 use Jet\IO_File;
 use Jet\IO_File_Exception;
+use Jet\Mvc_Site;
 
 /**
  *
@@ -23,7 +24,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 	/**
 	 * @var string
 	 */
-	protected $label = 'Done';
+	protected $label = 'Installation finish';
 
 	/**
 	 * @var string
@@ -70,11 +71,11 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 			$OK = false;
 		}
 
-		if( !$this->installDictionaries() ) {
-			$OK = false;
-		}
 
-		if( $OK ) {
+		if(
+			$OK &&
+			count(Mvc_Site::loadSites())
+		) {
 			try {
 				IO_File::write( $this->install_symptom_file_path, Data_DateTime::now()->toString() );
 			} catch( IO_File_Exception $e ) {
@@ -98,50 +99,12 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 	 */
 	public function installConfig()
 	{
-
 		try {
 			IO_File::copy( $this->config_file_source_path, $this->config_file_target_path );
 		} catch( IO_File_Exception $e ) {
 			$this->error_config_install = $e->getMessage();
 
 			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function installDictionaries()
-	{
-
-		foreach( Installer::getSelectedLocales() as $locale ) {
-
-			$source = JET_APP_INSTALLER_DATA_PATH.'dictionaries/'.$locale;
-			$target = JET_PATH_DICTIONARIES.$locale;
-
-			try {
-				if( IO_Dir::exists( $target ) ) {
-					continue;
-				}
-			} catch( IO_Dir_Exception $e ) {
-				$this->error_dictionaries_install = $e->getMessage();
-
-				return false;
-			}
-
-			try {
-				IO_Dir::copy(
-					$source, $target
-				);
-			} catch( IO_Dir_Exception $e ) {
-				$this->error_dictionaries_install = $e->getMessage();
-
-				return false;
-			}
-
 		}
 
 		return true;

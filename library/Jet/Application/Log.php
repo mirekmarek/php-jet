@@ -63,7 +63,7 @@ class Application_Log extends BaseObject
 		}
 
 
-		static::getLogger()->log(
+		$logger->log(
 			$event_class,
 			$event,
 			$event_message,

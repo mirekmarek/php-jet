@@ -133,7 +133,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			$data_file_path = static::getSiteDataFilePath( $id );
 
 			if( !IO_File::exists( $data_file_path ) ) {
-				return null;
+				continue;
 			}
 
 
@@ -190,7 +190,10 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 				static::$sites[$site->getId()] = $site;
 			}
 
-			if( static::getCacheSaveEnabled() ) {
+			if(
+				static::$sites &&
+				static::getCacheSaveEnabled()
+			) {
 
 				$saver = static::$cache_saver;
 				$saver( static::$sites );

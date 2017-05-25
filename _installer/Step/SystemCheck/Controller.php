@@ -7,13 +7,8 @@
  */
 namespace JetApplication;
 
+require 'CompatibilityTester.php';
 
-/** @noinspection PhpIncludeInspection */
-require JET_APP_INSTALLER_PATH.'classes/CompatibilityTester.php';
-/** @noinspection PhpIncludeInspection */
-require JET_APP_INSTALLER_PATH.'classes/CompatibilityTester/TestResult.php';
-
-use Jet\Http_Request;
 use Jet\Mvc_Site;
 
 /**
@@ -40,17 +35,19 @@ class Installer_Step_SystemCheck_Controller extends Installer_Step_Controller
 	 */
 	public function main()
 	{
-		if( Http_Request::POST()->exists( 'go' ) ) {
-			Installer::goToNext();
-		}
+		$this->catchContinue();
 
-		$tester = new CompatibilityTester();
+		$tester = new Installer_CompatibilityTester();
 
 		$tester->testSystem(
 			[
-				'test_PHPVersion', 'test_PDOExtension', 'test_RequestUriVar',
+				'test_PHPVersion',
+				'test_PDOExtension',
+				'test_RequestUriVar',
+				'test_INTLExtension',
 
-				'check_INTLExtension', 'check_GDExtension', 'check_MaxUploadFileSize', 'check_PHPConfigPaths',
+				'check_GDExtension',
+				'check_MaxUploadFileSize'
 
 			]
 		);

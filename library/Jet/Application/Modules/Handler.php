@@ -42,7 +42,7 @@ abstract class Application_Modules_Handler extends BaseObject
 
 
 	/**
-	 * Read installed modules list
+	 * Read installed Modules list
 	 *
 	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]

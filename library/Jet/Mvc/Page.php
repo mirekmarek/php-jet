@@ -128,7 +128,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 
 	/**
 	 *
-	 * @var string
+	 * @var string|callable
 	 */
 	protected $output;
 
@@ -560,7 +560,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @param string $output
+	 * @param string|callable $output
 	 */
 	public function setOutput( $output )
 	{
@@ -568,7 +568,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @return string|null
+	 * @return string|callable|null
 	 */
 	public function getOutput()
 	{

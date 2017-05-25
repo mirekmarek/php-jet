@@ -35,9 +35,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 	 */
 	public function main()
 	{
-		if( Http_Request::POST()->exists( 'go' ) ) {
-			Installer::goToNext();
-		}
+		$this->catchContinue();
 
 		$dirs = [
 			JET_PATH_DATA                              => [
@@ -56,7 +54,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_SITES                             => [
+			JET_PATH_SITES.Installer::SITE_ID.'/'      => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],

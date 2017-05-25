@@ -138,6 +138,10 @@ trait Mvc_Page_Trait_Handlers
 		 */
 
 		if( ( $output = $this->getOutput() ) ) {
+			if(is_callable($output)) {
+				return $output( $this );
+			}
+
 			return $output;
 		}
 

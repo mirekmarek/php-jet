@@ -53,7 +53,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 	/**
 	 *
-	 * @var string
+	 * @var string|callable
 	 */
 	protected $output = '';
 
@@ -191,10 +191,13 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	public function dispatch()
 	{
 
-		if( $this->getOutput() ) {
+		if( ($output=$this->getOutput()) ) {
+			if(is_callable($output)) {
+				$output = $output( $this->getPage(), $this );
+			}
 
 			Mvc_Layout::getCurrentLayout()->addOutputPart(
-				$this->getOutput(),
+				$output,
 				$this->output_position,
 				$this->output_position_order,
 				$this->getKey()
@@ -240,7 +243,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 	/**
-	 * @return string
+	 * @return string|callable
 	 */
 	public function getOutput()
 	{
@@ -248,7 +251,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 	/**
-	 * @param string $output
+	 * @param string|callable $output
 	 */
 	public function setOutput( $output )
 	{

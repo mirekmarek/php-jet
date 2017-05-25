@@ -8,8 +8,8 @@ use Jet\UI;
 use Jet\Tr;
 
 /**
- * @var Mvc_View            $this
- * @var CompatibilityTester $tester
+ * @var Mvc_View                      $this
+ * @var Installer_CompatibilityTester $tester
  */
 $tester = $this->getRaw( 'tester' );
 
@@ -43,16 +43,13 @@ $tester = $this->getRaw( 'tester' );
 
 <?php if( $tester->isCompatible() ):
 	if( !$tester->hasWarnings() ):
-		echo UI_messages::createSuccess( Tr::_( 'The system is fully compatible!' ) );
+		echo UI_messages::createSuccess( Tr::_( 'The system is fully compatible!' ) )->setCloseable(false);
 	else:
-		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) );
+		echo UI_messages::createWarning( Tr::_( 'The system is compatible. Please take care about warnings!' ) )->setCloseable(false);
 	endif;
-	?>
-	<form method="post">
-		<input type="hidden" name="go" value="1">
-		<?=Installer::buttonNext();?>
-	</form>
-	<?php
+
+	Installer::continueForm();
+
 else:
-	echo UI_messages::createDanger( Tr::_( 'Sorry, but the system is tom compatible!' ) );
+	echo UI_messages::createDanger( Tr::_( 'Sorry, but the system is not compatible!' ) )->setCloseable(false);
 endif; ?>

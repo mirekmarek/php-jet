@@ -38,9 +38,6 @@ $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 <?=$form->end()?>
 
 
-<?php if( $this->getBool( 'OK' ) ): ?>
-	<form method="post">
-		<input type="hidden" name="go" value="1">
-		<?=Installer::buttonNext();?>
-	</form>
-<?php endif; ?>
+<?php if( $this->getBool( 'OK' ) ):
+	Installer::continueForm();
+endif; ?>

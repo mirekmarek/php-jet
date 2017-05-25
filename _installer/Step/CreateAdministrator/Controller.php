@@ -25,9 +25,7 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 	 */
 	public function main()
 	{
-		if( Http_Request::POST()->exists( 'go' ) ) {
-			Installer::goToNext();
-		}
+		$this->catchContinue();
 
 		if( Auth_Administrator_User::getList()->getCount()>0 ) {
 

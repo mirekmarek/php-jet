@@ -88,12 +88,12 @@ interface Mvc_Page_Content_Interface
 	public function setControllerActionParameters( array $controller_action_parameters );
 
 	/**
-	 * @return string
+	 * @return string|callable
 	 */
 	public function getOutput();
 
 	/**
-	 * @param string $output
+	 * @param string|callable $output
 	 */
 	public function setOutput( $output );
 

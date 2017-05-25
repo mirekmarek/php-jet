@@ -56,9 +56,9 @@ class Application extends BaseObject
 	public static function getConfig()
 	{
 		if( !static::$config ) {
-			Debug_Profiler::blockStart( 'Configuration init' );
+			Debug_Profiler::blockStart( 'Configuration Init' );
 			static::$config = new Application_Config();
-			Debug_Profiler::blockEnd( 'Configuration init' );
+			Debug_Profiler::blockEnd( 'Configuration Init' );
 		}
 
 		return static::$config;
@@ -72,13 +72,13 @@ class Application extends BaseObject
 	 */
 	public static function runMvc( $URL = null )
 	{
-		Debug_Profiler::blockStart( 'MVC router - init and resolve' );
+		Debug_Profiler::blockStart( 'MVC router - Init and resolve' );
 
 		$router = Mvc::getRouter();
 
 		$router->resolve( $URL );
 
-		Debug_Profiler::blockEnd( 'MVC router - init and resolve' );
+		Debug_Profiler::blockEnd( 'MVC router - Init and resolve' );
 
 		if( $router->getIsRedirect() ) {
 

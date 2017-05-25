@@ -4,9 +4,6 @@ namespace JetApplication;
 use Jet\Tr;
 
 ?>
-<h1><?=Tr::_( 'Administrator account has already been created :-) ' );?></h1>
+<p><?=Tr::_( 'Administrator account has already been created :-) ' );?></p>
 
-<form method="post">
-	<input type="hidden" name="go" value="1">
-	<?=Installer::buttonNext();?>
-</form>
+<?php Installer::continueForm(); ?>

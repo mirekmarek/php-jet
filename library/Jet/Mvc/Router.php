@@ -105,7 +105,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @param callable $after_site_resolved
 	 */
-	public function afterSiteResolved( callable $after_site_resolved )
+	public function afterSiteAndLocaleResolved( callable $after_site_resolved )
 	{
 		$this->after_site_resolved = $after_site_resolved;
 	}

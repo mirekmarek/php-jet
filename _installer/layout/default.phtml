@@ -76,6 +76,8 @@ $steps = $this->getRaw( 'steps' );
 		</div>
 		<div class="col-md-10" style="background-color: #ffffff;min-height: 100%;">
 			<div style="padding: 10px;">
+				<h1><?=Installer::getCurrentStepController()->getLabel()?></h1>
+				<hr/>
 				<jet_layout_main_position/>
 			</div>
 		</div>

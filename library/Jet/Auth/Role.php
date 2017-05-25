@@ -21,7 +21,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	const PRIVILEGE_VISIT_PAGE = 'visit_page';
 
 	/**
-	 * Privilege for modules/actions
+	 * Privilege for Modules/actions
 	 */
 	const PRIVILEGE_MODULE_ACTION = 'module_action';
 
@@ -30,7 +30,8 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	 */
 	protected static $standard_privileges = [
 		self::PRIVILEGE_VISIT_PAGE => [
-			'label' => 'Sites and pages', 'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
+			'label'                                 => 'Sites and pages',
+			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
 		],
 
 		self::PRIVILEGE_MODULE_ACTION => [
@@ -141,7 +142,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	}
 
 	/**
-	 * Get modules and actions ACL values list
+	 * Get Modules and actions ACL values list
 	 *
 	 * @return Data_Tree_Forest
 	 */

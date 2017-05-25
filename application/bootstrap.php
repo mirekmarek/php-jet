@@ -15,7 +15,7 @@ define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 
 
 $config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';
-$init_dir = __DIR__.'/init/';
+$init_dir = __DIR__.'/Init/';
 
 
 
@@ -50,7 +50,7 @@ Application_Log::setLogger( new Application_Log_Logger() );
 
 Auth::setController( new Auth_Controller() );
 
-Mvc::getRouter()->afterSiteResolved( function( Mvc_Router_Interface $router ) {
+Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router_Interface $router ) {
 
 	ErrorPages::setErrorPagesDir(
 		$router->getSite()->getPagesDataPath(
@@ -58,6 +58,12 @@ Mvc::getRouter()->afterSiteResolved( function( Mvc_Router_Interface $router ) {
 		)
 	);
 
+	if($router->getLocale()->getLanguage()!='en') {
+		Form_Field_WYSIWYG::setDefaultEditorConfigValue(
+			'language_url',
+			JET_URI_PUBLIC.'scripts/tinymce/language/'.$router->getLocale()->toString().'.js'
+		);
+	}
 } );
 
 

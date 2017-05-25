@@ -58,15 +58,14 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	protected static $default_editor_CSS_files = [
 		'' => [
-			'//cdn.tinymce.com/4/skins/lightgray/skin.min.css',
-			//'//cdn.tinymce.com/4/skins/lightgray/content.min.css',
+			'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
 		],
 	];
 	/**
 	 * @var array
 	 */
 	protected static $default_editor_JavaScript_files = [
-		'//cdn.tinymce.com/4/tinymce.min.js',
+			'//cdn.tinymce.com/4/tinymce.min.js',
 	];
 	/**
 	 * @var array
@@ -90,6 +89,13 @@ class Form_Field_WYSIWYG extends Form_Field
 		//'content_css' => 'wysiwyg.css',
 		//'language_url' => .'tinymce/language/cs_CZ.js'
 	];
+
+
+	/**
+	 * @var callable
+	 */
+	protected static $default_initialize_code_generator;
+
 	/**
 	 * @var string
 	 */
@@ -119,6 +125,100 @@ class Form_Field_WYSIWYG extends Form_Field
 	 * @var callable
 	 */
 	protected $editor_initialize_code_generator;
+
+
+	/**
+	 * @return array
+	 */
+	public static function getDefaultEditorJavaScriptFiles()
+	{
+		return static::$default_editor_JavaScript_files;
+	}
+
+	/**
+	 * @param array $default_editor_JavaScript_files
+	 */
+	public static function setDefaultEditorJavaScriptFiles( $default_editor_JavaScript_files )
+	{
+		static::$default_editor_JavaScript_files = $default_editor_JavaScript_files;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getDefaultEditorCSSFiles()
+	{
+		return static::$default_editor_CSS_files;
+	}
+
+	/**
+	 * @param array $default_editor_CSS_files
+	 */
+	public static function setDefaultEditorCSSFiles( $default_editor_CSS_files )
+	{
+		static::$default_editor_CSS_files = $default_editor_CSS_files;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getDefaultEditorConfig()
+	{
+		return static::$default_editor_config;
+	}
+
+	/**
+	 * @param array $default_editor_config
+	 */
+	public static function setDefaultEditorConfig( $default_editor_config )
+	{
+		static::$default_editor_config = $default_editor_config;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed  $value
+	 */
+	public static function setDefaultEditorConfigValue( $key, $value )
+	{
+		static::$default_editor_config[$key] = $value;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public static function getDefaultInitializeCodeGenerator()
+	{
+		if(!self::$default_initialize_code_generator) {
+			return function( Form_Field_WYSIWYG $field, $editor_config ) {
+				$editor_config['selector'] = '#'.$field->getId();
+
+				if( $field->getIsReadonly() ) {
+					$editor_config['readonly'] = 1;
+				}
+
+				return '<script type="text/javascript">'
+					.'tinymce.init('.json_encode( $editor_config ).');'
+					.'</script>'.JET_EOL;
+			};
+		}
+
+		return self::$default_initialize_code_generator;
+	}
+
+	/**
+	 * @param callable $default_initialize_code_generator
+	 */
+	public static function setDefaultInitializeCodeGenerator( callable $default_initialize_code_generator )
+	{
+		self::$default_initialize_code_generator = $default_initialize_code_generator;
+	}
+
+
+
+
+
 
 	/**
 	 * @param string $URI
@@ -156,22 +256,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	}
 
 	/**
-	 * @return array
-	 */
-	public static function getDefaultEditorCSSFiles()
-	{
-		return static::$default_editor_CSS_files;
-	}
-
-	/**
-	 * @param array $default_editor_CSS_files
-	 */
-	public static function setDefaultEditorCSSFiles( $default_editor_CSS_files )
-	{
-		static::$default_editor_CSS_files = $default_editor_CSS_files;
-	}
-
-	/**
 	 * @param string $URI
 	 */
 	public function appendEditorJavaScriptFile( $URI )
@@ -204,22 +288,6 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @return array
 	 */
-	public static function getDefaultEditorJavaScriptFiles()
-	{
-		return static::$default_editor_JavaScript_files;
-	}
-
-	/**
-	 * @param array $default_editor_JavaScript_files
-	 */
-	public static function setDefaultEditorJavaScriptFiles( $default_editor_JavaScript_files )
-	{
-		static::$default_editor_JavaScript_files = $default_editor_JavaScript_files;
-	}
-
-	/**
-	 * @return array
-	 */
 	public function getEditorConfig()
 	{
 		if( !$this->editor_config ) {
@@ -237,26 +305,43 @@ class Form_Field_WYSIWYG extends Form_Field
 		$this->editor_config = $editor_config;
 	}
 
+
 	/**
-	 * @return array
+	 * @param string $key
+	 * @param mixed  $value
 	 */
-	public static function getDefaultEditorConfig()
+	public function setEditorConfigValue( $key, $value )
 	{
-		return static::$default_editor_config;
+		$this->getEditorConfig();
+		$this->editor_config[$key] = $value;
+	}
+
+
+	/**
+	 * @return callable
+	 */
+	public function getEditorInitializeCodeGenerator()
+	{
+		if( !$this->editor_initialize_code_generator ) {
+			$this->editor_initialize_code_generator = static::getDefaultInitializeCodeGenerator();
+		}
+
+		return $this->editor_initialize_code_generator;
 	}
 
 	/**
-	 * @param array $default_editor_config
+	 * @param callable $editor_initialize_code_generator
 	 */
-	public static function setDefaultEditorConfig( $default_editor_config )
+	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator )
 	{
-		static::$default_editor_config = $default_editor_config;
+		$this->editor_initialize_code_generator = $editor_initialize_code_generator;
 	}
+
 
 	/**
 	 * @return string
 	 */
-	public function generateJsInitCode()
+	public function generateJavascriptInitializationCode()
 	{
 		foreach( $this->getEditorCSSFiles() as $media => $CSS_files ) {
 			foreach( $CSS_files as $URI ) {
@@ -270,40 +355,10 @@ class Form_Field_WYSIWYG extends Form_Field
 
 		$callback = $this->getEditorInitializeCodeGenerator();
 
-		return $callback( $this->getId(), $this->editor_config );
+		return $callback( $this, $this->getEditorConfig() );
 
 	}
 
-
-/**
-	 * @return callable
-	 */
-	public function getEditorInitializeCodeGenerator()
-	{
-		if( !$this->editor_initialize_code_generator ) {
-			$this->editor_initialize_code_generator = function( $node_id, $editor_config ) {
-				$editor_config['selector'] = '#'.$node_id;
-
-				if( $this->getIsReadonly() ) {
-					$editor_config['readonly'] = 1;
-				}
-
-				return '<script type="text/javascript">'
-					.'tinymce.init('.json_encode( $editor_config ).');'
-					.'</script>'.JET_EOL;
-			};
-		}
-
-		return $this->editor_initialize_code_generator;
-	}
-
-	/**
-	 * @param callable $editor_initialize_code_generator
-	 */
-	public function setEditorInitializeCodeGenerator( callable $editor_initialize_code_generator )
-	{
-		$this->editor_initialize_code_generator = $editor_initialize_code_generator;
-	}
 
 	/**
 	 *
@@ -332,10 +387,6 @@ class Form_Field_WYSIWYG extends Form_Field
 
 		if( $this->is_required ) {
 			$codes[] = self::ERROR_CODE_EMPTY;
-		}
-
-		if( $this->validation_regexp ) {
-			$codes[] = self::ERROR_CODE_INVALID_FORMAT;
 		}
 
 		return $codes;

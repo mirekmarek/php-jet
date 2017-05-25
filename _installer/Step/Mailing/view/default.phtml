@@ -14,7 +14,7 @@ use Jet\Tr;
 $form = $this->getRaw( 'form' );
 $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 1 ] );
 ?>
-<h2><?=Tr::_( 'Set the mail sender' )?></h2>
+<h3><?=Tr::_( 'Set the mail sender' )?></h3>
 <?=$form->start()?>
 <?php foreach( Installer::getSelectedLocales() as $locale ): ?>
 

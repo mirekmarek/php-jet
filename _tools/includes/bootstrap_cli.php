@@ -15,7 +15,7 @@ require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/paths.php
 require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/jet.php');
 
 
-$init_dir = JET_PATH_APPLICATION.'init/';
+$init_dir = JET_PATH_APPLICATION.'Init/';
 require( $init_dir.'Autoloader.php');
 require( $init_dir.'ClassNames.php' );
 

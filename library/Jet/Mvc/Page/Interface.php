@@ -405,7 +405,12 @@ interface Mvc_Page_Interface
 	public function setMetaTags( $meta_tags );
 
 	/**
-	 * @return string|null
+	 * @param string|callable $output
+	 */
+	public function setOutput( $output );
+
+	/**
+	 * @return string|callable|null
 	 */
 	public function getOutput();
 

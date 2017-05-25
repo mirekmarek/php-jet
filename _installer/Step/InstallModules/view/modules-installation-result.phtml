@@ -49,12 +49,9 @@ $OK = $this->getBool( 'OK' );
 	<?php endforeach; ?>
 </table>
 
-<?php if( $OK ): ?>
-	<form method="post">
-		<input type="hidden" name="go" value="1">
-		<?=Installer::buttonNext();?>
-	</form>
-<?php endif; ?>
+<?php if( $OK ):
+	Installer::continueForm();
+endif; ?>
 
 <?php if( !$OK ): ?>
 	<?=Installer::buttonBack()?>
