@@ -408,6 +408,9 @@ class Installer
 
 		if( !static::$layout ) {
 			static::$layout = Mvc_Factory::getLayoutInstance( JET_APP_INSTALLER_PATH.'layout/', 'default' );
+			static::$layout->setCSSPackagerEnabled(false);
+			static::$layout->setJSPackagerEnabled(false);
+
 		}
 
 		return static::$layout;

@@ -1,7 +1,8 @@
 <?php
 return [
-	'Done'                                                             => '',
-	'Done!'                                                            => '',
+	'Done' => '',
+	'Done!' => '',
 	'It is possible (and recommended) to delete _installer directory.' => '',
-	'Enjoy!! :-)'                                                      => '',
+	'Enjoy!! :-)' => '',
+	'Installation finish' => '',
 ];

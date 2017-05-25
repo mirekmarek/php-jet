@@ -77,48 +77,52 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 				$duration = round($root_block->getDuration()*1000, 2);
 				$memory = $root_block->getMemoryUsageDiff()/1024;
 
-				echo '<div style="position: fixed; bottom: 0px;left: 0px;background-color: #c9c9c9;padding: 10px;font-family: Helvetica, Arial, sans-serif;border: 1px inset #ffffff;font-size:14px;">';
-				echo '<a href="'.$URL.'" target="_blank" style="text-decoration: underline;font-weight: bolder;color: #000000;">PROFILER</a>';
-				echo '&nbsp;&nbsp;&nbsp;';
-				echo 'Duration: <b>'.$duration.' ms</b>';
-				echo '&nbsp;&nbsp;&nbsp;';
-				echo 'Memory: <b>'.$memory.' Kib</b>';
-				echo '&nbsp;&nbsp;&nbsp;';
-				echo 'SQL queries count: <b>'.count($run->getSqlQueries()).'</b>';
-				echo '&nbsp;&nbsp;&nbsp;';
-				echo 'Environment: <a href="#" onclick="var el=document.getElementById(\'__profiler__cache_state\');el.style.display=(el.style.display==\'none\'?\'block\':\'none\');return false;" style="text-decoration: underline;font-weight: bolder;color: #000000;">'.JET_CONFIG_ENVIRONMENT.'</a>';
-
-
 				$show_cache_state = function( $title, $cache_name ) {
 					$load = constant('JET_CACHE_'.$cache_name.'_LOAD');
 					$save = constant('JET_CACHE_'.$cache_name.'_SAVE');
-
-					echo '<tr>';
-					echo '<td colspan="2" style="font-weight: bolder">'.$title.'</td>';
-					echo '</tr>';
-					echo '<tr style="background-color: '.($load?'#009900':'#990000').'">';
-						echo '<td>Load:</td>';
-						echo '<td>'.($load?'yes':'no').'</td>';
-					echo '</tr>';
-					echo '<tr style="background-color: '.($save?'#009900':'#990000').'">';
-						echo '<td>Save:</td>';
-						echo '<td>'.($save?'yes':'no').'</td>';
-					echo '</tr>';
-
+					?>
+					<tr>
+						<td colspan="2" style="font-weight: bolder"><?=$title?></td>
+					</tr>
+					<tr style="background-color: <?=($load?'#009900':'#990000')?>">
+						<td>Load:</td>
+						<td><?=($load?'yes':'no')?></td>
+					</tr>
+					<tr style="background-color: <?=($save?'#009900':'#990000')?>">
+						<td>Save:</td>
+						<td><?=($save?'yes':'no')?></td>
+					</tr>
+					<?php
 				};
 
-				echo '<div id="__profiler__cache_state" style="display: none"><b>Cache settings</b>';
-				echo '<table style="margin: 10px;">';
-					$show_cache_state('Autoloader', 'AUTOLOADER');
-					$show_cache_state('Reflection', 'REFLECTION');
-					$show_cache_state('DataModel Definition', 'DATAMODEL_DEFINITION');
-					$show_cache_state('Config Definition', 'CONFIG_DEFINITION');
-					$show_cache_state('MVC - Sites', 'MVC_SITE');
-					$show_cache_state('MVC - Pages', 'MVC_PAGE');
-				echo '</table></div>';
+				?>
+				<div id="__profiler__" style="position: fixed; bottom: 0px;left: 0px;background-color: #c9c9c9;padding: 10px;font-family: Helvetica, Arial, sans-serif;border: 1px inset #ffffff;font-size:14px;">
+				<span onclick="document.getElementById('__profiler__').style.display='none';">X</span>&nbsp;&nbsp;&nbsp;
+					<a href="<?=$URL?>" target="_blank" style="text-decoration: underline;font-weight: bolder;color: #000000;">PROFILER</a>
+					&nbsp;&nbsp;&nbsp;
+					Duration: <b><?=$duration?> ms</b>
+					&nbsp;&nbsp;&nbsp;
+					Memory: <b><?=$memory?> Kib</b>
+					&nbsp;&nbsp;&nbsp;
+					SQL queries count: <b><?=count($run->getSqlQueries())?></b>
+					&nbsp;&nbsp;&nbsp;
+					Environment: <a href="#" onclick="var el=document.getElementById('__profiler__cache_state');el.style.display=(el.style.display=='none'?'block':'none');return false;" style="text-decoration: underline;font-weight: bolder;color: #000000;"><?=JET_CONFIG_ENVIRONMENT?></a>
 
-				echo '</div>';
+					<div id="__profiler__cache_state" style="display: none"><b>Cache settings</b>
+						<table style="margin: 10px;">
+							<?php
+							$show_cache_state('Autoloader', 'AUTOLOADER');
+							$show_cache_state('Reflection', 'REFLECTION');
+							$show_cache_state('DataModel Definition', 'DATAMODEL_DEFINITION');
+							$show_cache_state('Config Definition', 'CONFIG_DEFINITION');
+							$show_cache_state('MVC - Sites', 'MVC_SITE');
+							$show_cache_state('MVC - Pages', 'MVC_PAGE');
+							?>
+						</table>
+					</div>
 
+				</div>
+				<?php
 
 			}
 		}

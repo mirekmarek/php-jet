@@ -1,7 +1,6 @@
 <?php
 return [
-	'Welcome!'               => '',
-	'Please select locale'   => '',
-	'Please select locale: ' => '',
-	'Welcome'                => '',
+	'Welcome!' => '',
+	'Please choose your language' => '',
+	'Welcome' => '',
 ];

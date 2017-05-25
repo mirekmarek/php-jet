@@ -4,20 +4,26 @@ namespace JetApplication;
 use Jet\Form;
 use Jet\Mvc_View;
 use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var Mvc_View $this
- * @var Form     $form
  */
-$form = $this->getRaw( 'form' );
-$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
-$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
-
-$form->field( 'locale' )->input()->addJsAction( 'onchange', 'this.form.submit();' );
 ?>
 
-<?=$form->start()?>
-<?=$form->field( 'locale' )?>
-<?=$form->end()?>
 
-<?php Installer::continueForm(); ?>
+<?php foreach(Installer::getAvailableLocales() as $locale): ?>
+	<div style="padding: 10px">
+		<?php if( $locale->toString()==Installer::getCurrentLocale()->toString() ): ?>
+			<?=UI::flag( $locale )?>&nbsp;&nbsp;<b><?=$locale->getLanguageName($locale)?></b>
+			<br/>
+			<a href="?locale=<?=$locale?>"><?=Tr::_( 'Please choose your language', [], Installer::getCurrentStepName(), $locale )?></a>
+		<?php else: ?>
+			<?=UI::flag( $locale )?>&nbsp;&nbsp;<?=$locale->getLanguageName($locale)?>
+			<br/>
+			<a href="?locale=<?=$locale?>"><?=Tr::_( 'Please choose your language', [], Installer::getCurrentStepName(), $locale )?></a>
+		<?php endif; ?>
+	</div>
+<?php endforeach; ?>
+
+<?php Installer::continueForm() ?>

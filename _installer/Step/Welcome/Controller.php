@@ -43,40 +43,25 @@ class Installer_Step_Welcome_Controller extends Installer_Step_Controller
 		$translations = [];
 
 		foreach( Installer::getAvailableLocales() as $locale ) {
-			$translations[$locale->toString()] = $locale->getName( $locale );
+			$translations[] = $locale->toString();
 		}
 
-		$locale_field = new Form_Field_Select( 'locale', 'Please select locale: ' );
-		$locale_field->setSelectOptions( $translations );
-		$locale_field->setIsRequired( true );
-		$locale_field->setDefaultValue( Installer::getCurrentLocale() );
-		$locale_field->setErrorMessages(
-			[
-				Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale',
-				Form_Field_Select::ERROR_CODE_EMPTY         => 'Please select locale',
-			]
-		);
+		if(Http_Request::GET()->exists('locale')) {
+			$locale = Http_Request::GET()->getString(
+									'locale',
+									Installer::getCurrentLocale()->toString(),
+									$translations
+						);
 
-		$select_locale_form = new Form(
-			'select_locale_form', [
-				                    $locale_field,
-			                    ]
-		);
-
-
-		if( $select_locale_form->catchInput()&&$select_locale_form->validate() ) {
-
-			$locale = new Locale( $locale_field->getValue() );
+			$locale = new Locale( $locale );
 
 			Installer::setSelectedLocales( [ $locale ] );
 			Installer::setCurrentLocale( $locale );
 
-			Http_Headers::reload();
+			Http_Headers::reload([], ['locale']);
+
 		}
 
-		//Installer::goToNext();
-
-		$this->view->setVar( 'form', $select_locale_form );
 
 		$this->render( 'default' );
 	}

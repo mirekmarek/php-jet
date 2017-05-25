@@ -8,6 +8,11 @@ use Jet\Tr;
  * @var Mvc_Layout                  $this
  */
 $steps = $this->getRaw( 'steps' );
+
+$this->requireJavascriptFile( JQUERY_JS_URL );
+$this->requireCssFile( BOOTSTRAP_CSS_URL );
+$this->requireCssFile(FONT_AWESOME_CSS_URL);
+$this->requireCssFile(FLAGS_CSS_URL);
 ?>
 <html>
 <head>
@@ -16,25 +21,50 @@ $steps = $this->getRaw( 'steps' );
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>
 	<jet_layout_javascripts/>
-	<link rel="stylesheet" type="text/css" href="<?=BOOTSTRAP_CSS_URL?>"/>
-	<link rel="stylesheet" type="text/css" href="<?=FONT_AWESOME_CSS_URL?>"/>
-	<script src="<?=JQUERY_JS_URL?>"></script>
+
 	<style type="text/css">
-		.stepPrev {
 
-		}
-
-		.stepCurrent {
+		.title-area {
+			background-color: #000000;
+			color: #ffffff;
+			font-size: 18px;
 			font-weight: bolder;
 		}
 
-		.stepNext {
-			color: #c9c9c9;
+		.progress-area {
+			background-color: #111111;
 		}
 
-		.stepSub {
+		.step {
+			padding: 5px;
+		}
+		.step-prev {
+
+		}
+
+		.step-prev a {
+			color: #cccccc;
+		}
+
+		.step-current {
+			background-color: #eeeeee;
+			padding: 5px;
+			font-weight: bolder;
+		}
+
+		.step-next {
+			color: #666666;
+		}
+
+		.step-sub {
 			padding-left: 10px;
 		}
+
+		.main {
+			background-color: #ffffff;
+			min-height: 100%;
+		}
+
 	</style>
 
 </head>
@@ -42,7 +72,7 @@ $steps = $this->getRaw( 'steps' );
 <div class="container" id="container" style="width: 100%">
 
 	<div class="row">
-		<div class="col-md-12" style="background-color: #000000;color: #ffffff;font-size: 18px;font-weight: bolder;">
+		<div class="col-md-12 title-area">
 			<div style="padding: 4px;">
 				<?=Tr::_( 'PHP Jet - Example Project Installer' );?>
 			</div>
@@ -50,15 +80,15 @@ $steps = $this->getRaw( 'steps' );
 	</div>
 
 	<div class="row" style="">
-		<div class="col-md-2" style="height: 100%;">
+		<div class="col-md-2 progress-area" style="height: 100%;">
 			<?php foreach( $steps as $step ):
 				$class = '';
 				if( $step->getIsSubStep() ) {
-					$class = ' stepSub';
+					$class = ' step-sub';
 				}
 				?>
 				<?php if( $step->getIsPast() ): ?>
-				<div class="stepPrev<?=$class;?>">
+				<div class="step step-prev<?=$class;?>">
 					<?php if( $step->getIsAvailable() ): ?>
 						<a href="<?=$step->getURL();?>"><?=$step->getLabel();?></a>
 					<?php else: ?>
@@ -67,14 +97,14 @@ $steps = $this->getRaw( 'steps' );
 				</div>
 			<?php endif; ?>
 				<?php if( $step->getIsCurrent() ): ?>
-				<div class="stepCurrent<?=$class;?>"><?=$step->getLabel();?></div>
+				<div class="step step-current<?=$class;?>"><?=$step->getLabel();?></div>
 			<?php endif; ?>
 				<?php if( $step->getIsFuture() ): ?>
-				<div class="stepNext<?=$class;?>"><?=$step->getLabel();?></div>
+				<div class="step step-next<?=$class;?>"><?=$step->getLabel();?></div>
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</div>
-		<div class="col-md-10" style="background-color: #ffffff;min-height: 100%;">
+		<div class="col-md-10 main">
 			<div style="padding: 10px;">
 				<h1><?=Installer::getCurrentStepController()->getLabel()?></h1>
 				<hr/>
