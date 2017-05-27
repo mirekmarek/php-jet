@@ -164,42 +164,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 		return $result;
 	}
 
-	/**
-	 *
-	 * @param Mvc_View    $view
-	 * @param string      $script
-	 * @param string      $position (optional, default:  by current dispatcher queue item, @see Mvc_Layout)
-	 * @param int         $position_order (optional, default: by current dispatcher queue item, @see Mvc_Layout)
-	 * @param string|null $output_id
-	 *
-	 * @internal param string $output
-	 */
-	public function renderView( Mvc_View $view, $script, $position = null, $position_order = null, $output_id = null )
-	{
-
-		$output = $view->render( $script );
-
-		if( !$position ) {
-			$position = Mvc::getCurrentContent()->getOutputPosition();
-		}
-
-		if( $position_order===null ) {
-			$position_order = Mvc::getCurrentContent()->getOutputPositionOrder();
-		}
-
-		if( !$position ) {
-			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
-		}
-
-		if( !$output_id ) {
-			$output_id = Mvc::getCurrentContent()->getKey();
-		}
-
-		$this->addOutputPart(
-			$output, $position, $position_order, $output_id
-		);
-
-	}
 
 	/**
 	 * Adds output to specified position
@@ -395,9 +359,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$content = $this->parseContent( $result );
 
 		foreach( $content as $c ) {
-			Mvc::setCurrentContent( $c );
 			$c->dispatch();
-			Mvc::unsetCurrentContent();
 		}
 
 	}
@@ -448,7 +410,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			$module_name = $properties['module'];
 			$action = isset( $properties['action'] ) ? $properties['action'] : '';
-			$action_params = [];
+			$parameters = [];
 
 			foreach( $properties as $k => $v ) {
 				if(
@@ -458,7 +420,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 					continue;
 				}
 
-				$action_params[$k] = $v;
+				$parameters[$k] = $v;
 			}
 
 			$position_name = 'module_content_'.md5( $orig_str );
@@ -469,7 +431,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			$page_content->setModuleName( $module_name );
 			$page_content->setControllerAction( $action );
-			$page_content->setControllerActionParameters( $action_params );
+			$page_content->setParameters( $parameters );
 			$page_content->setOutputPosition( $position_name );
 			$page_content->setOutputPositionOrder( 1 );
 
@@ -726,7 +688,10 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 
 		foreach( $JS_files as $URI ) {
-			$URI = Data_Text::replaceSystemConstants( $URI );
+			if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
+				$URI = JET_URI_PUBLIC.$URI;
+			}
+
 			$snippet .= JET_TAB.'<script type="text/javascript" src="'.$URI.'"></script>'.JET_EOL;
 		}
 
@@ -798,7 +763,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 			 * @var array $URIs
 			 */
 			foreach( $URIs as $URI ) {
-				$URI = Data_Text::replaceSystemConstants( $URI );
+				if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
+					$URI = JET_URI_PUBLIC.$URI;
+				}
 
 				if( $media ) {
 					$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.JET_EOL;

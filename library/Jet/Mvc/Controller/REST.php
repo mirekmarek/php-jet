@@ -104,15 +104,12 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	protected $http_headers = null;
 
 	/**
-	 * @param string $action
-	 * @param array  $action_parameters
 	 *
-	 * @throws Exception
 	 */
-	public function callAction( $action, array $action_parameters )
+	public function dispatch()
 	{
 
-		$method = $action.'_Action';
+		$method = $this->content->getControllerAction().'_Action';
 
 		if( !method_exists( $this, $method ) ) {
 			throw new Exception(
@@ -120,9 +117,8 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 			);
 		}
 
-		$this->setActionParameters( $action_parameters );
 
-		call_user_func_array( [ $this, $method ], $action_parameters );
+		call_user_func_array( [ $this, $method ], $this->content->getParameters() );
 	}
 
 
@@ -159,7 +155,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 
 
 		$page_content->setControllerAction( $controller_action );
-		$page_content->setControllerActionParameters( $path_fragments );
+		$page_content->setParameters( $path_fragments );
 
 		return true;
 
@@ -572,7 +568,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 * @param array  $action_parameters
 	 *
 	 */
-	public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters )
+	public function responseAccessDenied( $module_action, $controller_action, $action_parameters )
 	{
 		if( !Auth::getCurrentUser() ) {
 			$this->responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );

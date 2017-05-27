@@ -8,6 +8,7 @@
 namespace JetApplicationModule\JetExample\Admin\Visitors\Roles;
 
 use Jet\Mvc_Controller_Router;
+use Jet\Mvc_Controller;
 use JetApplication\Mvc_Page;
 use JetApplication\Auth_Visitor_Role as Role;
 
@@ -19,22 +20,21 @@ class Controller_Main_Router extends Mvc_Controller_Router
 
 
 	/**
-	 *
-	 * @param Main $module_instance
+	 * @param Mvc_Controller $controller
 	 */
-	public function __construct( Main $module_instance )
+	public function __construct( Mvc_Controller $controller )
 	{
 
-		parent::__construct( $module_instance );
+		parent::__construct( $controller );
 
-		$validator = function( &$parameters ) {
+		$validator = function( $parameters ) use ($controller) {
 			$role = Role::get( $parameters[0] );
 
 			if( !$role ) {
 				return false;
 			}
 
-			$parameters['role'] = $role;
+			$controller->getContent()->setParameter('role', $role);
 
 			return true;
 

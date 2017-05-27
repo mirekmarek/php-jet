@@ -17,7 +17,7 @@ use Jet\Mvc_View;
  * @var Controller_Main_Router $router
  */
 $grid = $this->getRaw( 'grid' );
-$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$router = $this->getController()->getControllerRouter();
 
 
 $c_edit = $grid->getColumn( '_edit_' );

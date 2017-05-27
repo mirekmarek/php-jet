@@ -17,6 +17,9 @@ use Jet\Navigation_Breadcrumb;
  */
 class Controller_Site_Main extends Mvc_Controller_Standard
 {
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
 		'default' => false,
 	];
@@ -24,14 +27,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
-
-	/**
-	 *
-	 */
-	public function initialize()
-	{
-	}
+	protected $module = null;
 
 	/**
 	 *
@@ -42,8 +38,8 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 		/**
 		 * @var Gallery $gallery
 		 */
-		$gallery_id = $this->getActionParameterValue( 'gallery_id', Gallery::ROOT_ID );
-		$gallery = $this->getActionParameterValue( 'gallery' );
+		$gallery_id = $this->getParameter( 'gallery_id', Gallery::ROOT_ID );
+		$gallery = $this->getParameter( 'gallery' );
 
 		if( !$gallery ) {
 			$gallery = Gallery::get( $gallery_id );
@@ -59,17 +55,18 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 
 
 	/**
-	 * @param Mvc_Page_Content_Interface $page_content
+	 *
+	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function parseRequestPath( Mvc_Page_Content_Interface $page_content )
+	public function resolve( $path )
 	{
 		$gallery_id = Gallery::ROOT_ID;
 		$gallery = null;
 
 
-		$path_fragments = explode('/',Mvc::getRouter()->getPath());
+		$path_fragments = explode('/', $path);
 
 		$URI = Mvc::getCurrentPage()->getURI();
 
@@ -91,11 +88,10 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 			}
 		}
 
-		$page_content->setControllerActionParameters(
-			[
-				'gallery_id' => $gallery_id, 'gallery' => $gallery,
-			]
-		);
+
+		$this->content->setParameter('gallery_id', $gallery_id );
+		$this->content->setParameter('gallery', $gallery );
+
 
 		return true;
 	}

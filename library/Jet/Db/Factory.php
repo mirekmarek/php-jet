@@ -55,7 +55,7 @@ class Db_Factory
 	 *
 	 * @param Db_Backend_Config $connection_config
 	 *
-	 * @return Db_Backend
+	 * @return Db_BackendInterface
 	 */
 	public static function getBackendInstance( Db_Backend_Config $connection_config )
 	{

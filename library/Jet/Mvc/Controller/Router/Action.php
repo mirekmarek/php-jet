@@ -34,11 +34,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 	protected $ACL_action = '';
 
 	/**
-	 * @var array
-	 */
-	protected $action_parameters = [];
-
-	/**
 	 * @var callable
 	 */
 	protected $resolve_callback;
@@ -108,25 +103,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 		return $this;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getActionParameters()
-	{
-		return $this->action_parameters;
-	}
-
-	/**
-	 * @param array $action_parameters
-	 *
-	 * @return Mvc_Controller_Router_Action
-	 */
-	public function setActionParameters( $action_parameters )
-	{
-		$this->action_parameters = $action_parameters;
-
-		return $this;
-	}
 
 	/**
 	 * @return string
@@ -217,8 +193,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 				return false;
 			}
 		}
-
-		$this->action_parameters = $matches;
 
 		return true;
 	}

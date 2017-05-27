@@ -7,214 +7,142 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 
-use Jet\DataModel;
-use Jet\DataModel_Id_UniqueString;
-use Jet\DataModel_Related_1toN;
+use Jet\BaseObject;
 use Jet\Data_Image;
-use Jet\Data_Image_Exception;
 use Jet\IO_File;
+use Jet\IO_Dir;
 
 /**
  *
- * @JetDataModel:name = 'Image_Thumbnails'
- * @JetDataModel:database_table_name = 'image_galleries_images_thumbnails'
- * @JetDataModel:parent_model_class_name = 'Gallery_Image'
- * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-class Gallery_Image_Thumbnail extends DataModel_Related_1toN
+class Gallery_Image_Thumbnail extends BaseObject
 {
-
 	/**
-	 * @JetDataModel:related_to = 'main.id'
+	 * @var Gallery_Image
 	 */
-	protected $image_id;
+	protected $image;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ID
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:is_id = true
-	 *
-	 * @var string
-	 */
-	protected $id = '';
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var int
 	 */
 	protected $maximal_size_w = 0;
-
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var int
 	 */
 	protected $maximal_size_h = 0;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var int
-	 */
-	protected $real_size_w = 0;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var int
-	 */
-	protected $real_size_h = 0;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_INT
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_type = false
-	 *
-	 * @var int
-	 */
-	protected $file_size = 0;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var string
 	 */
-	protected $file_mime_type = '';
+	protected $dir_path = '';
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 255
-	 * @JetDataModel:form_field_type = false
-	 *
 	 * @var string
 	 */
-	protected $file_name = '';
+	protected $path = '';
 
 	/**
-	 * @var Gallery_Image
+	 * @var string
 	 */
-	protected $__image;
+	protected $URI;
 
 	/**
-	 * @param Gallery_Image $image
-	 * @param int           $maximal_size_w
-	 * @param int           $maximal_size_h
+	 * @var bool
+	 */
+	protected $generated = false;
+
+	/**
+	 * @var Data_Image
+	 */
+	protected $real_image;
+
+	/**
+	 * Gallery_Image_Thumbnail constructor.
 	 *
-	 * @throws Exception
-	 * @return Gallery_Image_Thumbnail
-	 */
-	public static function getNewThumbnail( Gallery_Image $image, $maximal_size_w, $maximal_size_h )
-	{
-
-		$maximal_size_w = (int)$maximal_size_w;
-		$maximal_size_h = (int)$maximal_size_h;
-
-		$key = static::createKey( $maximal_size_w, $maximal_size_h );
-
-		/**
-		 * @var Gallery_Image_Thumbnail $thumbnail
-		 */
-		$thumbnail = new static();
-
-		$thumbnail->file_name = $key.'_'.$image->getFileName();
-
-		try {
-			$image_file = new Data_Image( $image->getFilePath() );
-
-			$target_path = $image->getThumbnailsDirPath().$thumbnail->file_name;
-
-			$created_image_file = $image_file->createThumbnail( $target_path, $maximal_size_w, $maximal_size_h );
-
-			$thumbnail->real_size_w = $created_image_file->getWidth();
-			$thumbnail->real_size_h = $created_image_file->getHeight();
-
-			$thumbnail->maximal_size_w = $maximal_size_w;
-			$thumbnail->maximal_size_h = $maximal_size_h;
-
-			$thumbnail->file_name = $created_image_file->getFileName();
-			$thumbnail->file_mime_type = $created_image_file->getMimeType();
-			$thumbnail->file_size = IO_File::getSize( $target_path );
-
-			$thumbnail->__image = $image;
-
-		} catch( Data_Image_Exception $e ) {
-			return null;
-		}
-
-		return $thumbnail;
-	}
-
-	/**
+	 * @param $image
 	 * @param int $maximal_size_w
 	 * @param int $maximal_size_h
-	 *
-	 * @return string
-	 * @throws Exception
 	 */
-	public static function createKey( $maximal_size_w, $maximal_size_h )
-	{
-		$maximal_size_w = (int)$maximal_size_w;
-		$maximal_size_h = (int)$maximal_size_h;
+	public function __construct( Gallery_Image $image, $maximal_size_w, $maximal_size_h ) {
 
-		if( !$maximal_size_w || !$maximal_size_h ) {
-			throw new Exception(
-				'Dimensions of Image thumbnail must be greater then 0! Given values: w:'.$maximal_size_w.', h:'.$maximal_size_h,
-				Exception::CODE_ILLEGAL_THUMBNAIL_DIMENSION
-			);
+		$this->image = $image;
+		$this->maximal_size_w = (int)$maximal_size_w;
+		$this->maximal_size_h = (int)$maximal_size_h;
+
+
+		$key = $maximal_size_w.'x'.$maximal_size_h;
+
+		$file_name = $key.'__'.$image->getFileName();
+
+		$this->dir_path = $image->getGallery()->getThumbnailsBaseDirPath().$image->getOffset().'/'.$image->getId().'/';
+
+
+		$this->path = $this->dir_path.$file_name;
+
+
+		$this->URI = $image->getGallery()->getThumbnailsBaseURI().$image->getOffset().'/'.$image->getId().'/'.$file_name;
+
+	}
+
+	/**
+	 * @param bool $regenerate
+	 */
+	public function generate( $regenerate=false ) {
+		if($this->generated) {
+			return;
 		}
 
-		return $maximal_size_w.'x'.$maximal_size_h;
+
+		if(
+			$regenerate ||
+			!IO_File::exists($this->path)
+		) {
+			if(!IO_Dir::exists($this->dir_path)) {
+				IO_Dir::create($this->dir_path);
+			}
+
+			$image_file = new Data_Image( $this->image->getFilePath() );
+			$image_file->createThumbnail(
+				$this->path,
+				$this->maximal_size_w,
+				$this->maximal_size_h
+			);
+
+			$this->real_image = null;
+
+		}
+
+		$this->generated = true;
+
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getArrayKeyValue()
-	{
-		return static::createKey( $this->maximal_size_w, $this->maximal_size_h );
+	public function getURI() {
+		$this->generate();
+
+		return $this->URI;
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getFileMimeType()
+	public function getPath()
 	{
-		return $this->file_mime_type;
+		$this->generate();
+
+		return $this->path;
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getFileSize()
+	public function getDirPath()
 	{
-		return $this->file_size;
-	}
+		$this->generate();
 
-	/**
-	 * @return int
-	 */
-	public function getMaximalSizeH()
-	{
-		return $this->maximal_size_h;
+		return $this->dir_path;
 	}
 
 	/**
@@ -228,70 +156,68 @@ class Gallery_Image_Thumbnail extends DataModel_Related_1toN
 	/**
 	 * @return int
 	 */
-	public function getRealSizeH()
+	public function getMaximalSizeH()
 	{
-		return $this->real_size_h;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getRealSizeW()
-	{
-		return $this->real_size_w;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getURI()
-	{
-		return $this->__image->getThumbnailsBaseURI().rawurlencode( $this->getFileName() );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFileName()
-	{
-		return $this->file_name;
-	}
-
-	/**
-	 * @param Gallery_Image $image
-	 */
-	public function setImage( Gallery_Image $image )
-	{
-		$this->__image = $image;
+		return $this->maximal_size_h;
 	}
 
 	/**
 	 *
 	 */
-	public function recreate()
+	public function delete()
 	{
+		if(IO_File::exists($this->path)) {
+			IO_File::delete($this->path);
+		}
 
-		$image_file = new Data_Image( $this->__image->getFilePath() );
-
-		$target_path = $this->getPath();
-
-		$created_image_file = $image_file->createThumbnail(
-			$target_path, $this->maximal_size_w, $this->maximal_size_h
-		);
-
-		$this->real_size_w = $created_image_file->getWidth();
-		$this->real_size_h = $created_image_file->getHeight();
-		$this->file_mime_type = $created_image_file->getMimeType();
-		$this->file_size = IO_File::getSize( $target_path );
-
+		if(IO_Dir::exists($this->dir_path)) {
+			IO_Dir::remove($this->dir_path);
+		}
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getPath()
+	public function __toString()
 	{
-		return $this->__image->getThumbnailsDirPath().$this->getFileName();
+		return $this->getURI();
+	}
+
+	/**
+	 * @return Data_Image
+	 */
+	public function getRealImage()
+	{
+		if(!$this->real_image) {
+			$this->generate();
+			$this->real_image = new Data_Image($this->path);
+		}
+
+		return $this->real_image;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getWidth()
+	{
+		return $this->getRealImage()->getWidth();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getHeight()
+	{
+		return $this->getRealImage()->getHeight();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMimeType()
+	{
+		return $this->getRealImage()->getMimeType();
 	}
 
 }

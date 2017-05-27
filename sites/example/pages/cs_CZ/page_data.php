@@ -35,7 +35,7 @@ return [
 	    ],
 	    [
 		    'output_position_order' => 2,
-		    'output' => '<hr/>&copy; Miroslav Marek <mirek.marek.2m@gmail.com>'
+		    'output' => '<hr/>&copy; Miroslav Marek'
 	    ],
 
 

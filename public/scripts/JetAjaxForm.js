@@ -1,7 +1,7 @@
 var JetAjaxForm = {
 	xhr: null,
 
-	submit: function( form_id, handlers ) {
+	submit: function( form_id, handlers, form_data ) {
 
 		var form = document.getElementById(form_id);
 		if(!form ) {
@@ -43,8 +43,10 @@ var JetAjaxForm = {
 		JetAjaxForm.WYSIWYG.beforeSend( form );
 
 
-		var form_data = new FormData(form);
-		form_data.append('ajax', 'ajax');
+		if(!form_data) {
+			form_data = new FormData(form);
+			form_data.append('ajax', 'ajax');
+		}
 
 		JetAjaxForm.xhr = new XMLHttpRequest();
 

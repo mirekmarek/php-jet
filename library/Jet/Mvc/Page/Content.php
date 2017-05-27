@@ -49,7 +49,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @var array
 	 */
-	protected $controller_action_parameters = [];
+	protected $parameters = [];
 
 	/**
 	 *
@@ -69,25 +69,30 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	protected $output_position_order = 0;
 
+	/**
+	 * @var Application_Module
+	 */
+	protected $_module_instance;
 
 	/**
 	 *
+	 * @var Mvc_Controller
 	 */
 	protected $_controller_instance;
 
 	/**
 	 * @param string $module_name (optional)
 	 * @param string $controller_action (optional)
-	 * @param array  $controller_action_parameters (optional)
+	 * @param array  $parameters (optional)
 	 * @param string $output_position (optional)
 	 * @param int    $output_position_order (optional)
 	 */
-	public function __construct( $module_name = '', $controller_action = '', $controller_action_parameters = [], $output_position = '', $output_position_order = 0 )
+	public function __construct( $module_name = '', $controller_action = '', $parameters = [], $output_position = '', $output_position_order = 0 )
 	{
 
 		$this->module_name = $module_name;
 		$this->controller_action = $controller_action;
-		$this->controller_action_parameters = $controller_action_parameters;
+		$this->parameters = $parameters;
 
 		$this->output_position = $output_position;
 		$this->output_position_order = (int)$output_position_order;
@@ -101,19 +106,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function setData( array $data )
 	{
-		if( !isset( $data['controller_action_parameters'] ) ) {
-			$data['controller_action_parameters'] = [];
-		}
-
-		if(
-			!is_array( $data['controller_action_parameters'] ) &&
-			$data['controller_action_parameters']
-		) {
-			$data['controller_action_parameters'] = [ $data['controller_action_parameters'] ];
-		} else {
-			$data['controller_action_parameters'] = [];
-		}
-
 		foreach( $data as $key => $val ) {
 			$this->{$key} = $val;
 		}
@@ -186,63 +178,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 	/**
-	 *
-	 */
-	public function dispatch()
-	{
-
-		if( ($output=$this->getOutput()) ) {
-			if(is_callable($output)) {
-				$output = $output( $this->getPage(), $this );
-			}
-
-			Mvc_Layout::getCurrentLayout()->addOutputPart(
-				$output,
-				$this->output_position,
-				$this->output_position_order,
-				$this->getKey()
-			);
-
-			return;
-		}
-
-		$module_name = $this->getModuleName();
-		$controller_action = $this->getControllerAction();
-
-		$block_name = $module_name.':'.$controller_action;
-
-		Debug_Profiler::blockStart( 'Dispatch '.$block_name );
-
-
-		$controller = $this->getControllerInstance();
-
-		if( !$controller ) {
-
-			Debug_Profiler::message( 'Module is not installed and/or activated - skipping' );
-
-		} else {
-			Debug_Profiler::message( 'Dispatch:'.$this->getPage()->getKey().'|'.$module_name.':'.get_class($controller).':'.$controller_action );
-
-			$translator_namespace = Translator::getCurrentNamespace();
-			Translator::setCurrentNamespace( $module_name );
-
-			$module_instance = Application_Modules::getModuleInstance( $module_name );
-			$module_instance->callControllerAction(
-				$controller,
-				$controller_action,
-				$this->getControllerActionParameters()
-			);
-
-
-
-			Translator::setCurrentNamespace( $translator_namespace );
-		}
-
-		Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
-
-	}
-
-	/**
 	 * @return string|callable
 	 */
 	public function getOutput()
@@ -309,6 +244,36 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 	/**
+	 * @return Application_Module|bool
+	 */
+	public function getModuleInstance()
+	{
+		if( $this->_module_instance!==null ) {
+			return $this->_module_instance;
+		}
+
+
+		$module_name = $this->getModuleName();
+
+		if( !Application_Modules::getModuleIsActivated( $module_name ) ) {
+			$this->_module_instance = false;
+
+			return false;
+		}
+
+		$this->_module_instance = Application_Modules::getModuleInstance( $module_name );
+
+		if( !$this->_module_instance ) {
+			$this->_module_instance = false;
+
+			return false;
+		}
+
+		return $this->_module_instance;
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getControllerAction()
@@ -324,6 +289,59 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		$this->controller_action = $controller_action;
 	}
 
+
+
+	/**
+	 * @return array
+	 */
+	public function getParameters()
+	{
+		return $this->parameters;
+	}
+
+	/**
+	 * @param array $parameters
+	 */
+	public function setParameters( array $parameters )
+	{
+		$this->parameters = $parameters;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed  $default_value
+	 *
+	 * @return mixed
+	 */
+	public function getParameter( $key, $default_value = null )
+	{
+		if( !array_key_exists( $key, $this->parameters ) ) {
+			return $default_value;
+		}
+
+		return $this->parameters[$key];
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed  $value
+	 */
+	public function setParameter( $key, $value )
+	{
+		$this->parameters[$key] = $value;
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function parameterExists( $key )
+	{
+		return array_key_exists( $key, $this->parameters );
+	}
+
+
 	/**
 	 *
 	 * @return Mvc_Controller|bool
@@ -334,41 +352,70 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			return $this->_controller_instance;
 		}
 
-
-		$module_name = $this->getModuleName();
-
-		if( !Application_Modules::getModuleIsActivated( $module_name ) ) {
-			$this->_controller_instance = false;
-
+		$module_instance = $this->getModuleInstance();
+		if(!$module_instance) {
 			return false;
 		}
 
-		$module_instance = Application_Modules::getModuleInstance( $module_name );
+		$controller_class_name = $module_instance->getControllerClassName( $this );
 
-		if( !$module_instance ) {
-
-			return false;
-		}
-
-		$this->_controller_instance = $module_instance->getControllerInstance( $this );
+		$this->_controller_instance = new $controller_class_name( $this );
 
 		return $this->_controller_instance;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getControllerActionParameters()
-	{
-		return $this->controller_action_parameters;
-	}
 
 	/**
-	 * @param array $controller_action_parameters
+	 *
 	 */
-	public function setControllerActionParameters( array $controller_action_parameters )
+	public function dispatch()
 	{
-		$this->controller_action_parameters = $controller_action_parameters;
+
+		if( ($output=$this->getOutput()) ) {
+			if(is_callable($output)) {
+				$output = $output( $this->getPage(), $this );
+			}
+
+			Mvc_Layout::getCurrentLayout()->addOutputPart(
+				$output,
+				$this->output_position,
+				$this->output_position_order,
+				$this->getKey()
+			);
+
+			return;
+		}
+
+		$module_name = $this->getModuleName();
+		$controller_action = $this->getControllerAction();
+
+		$block_name = $module_name.':'.$controller_action;
+
+		Debug_Profiler::blockStart( 'Dispatch '.$block_name );
+
+
+		$controller = $this->getControllerInstance();
+
+		if( !$controller ) {
+
+			Debug_Profiler::message( 'Module is not installed and/or activated - skipping' );
+
+		} else {
+			Debug_Profiler::message( 'Dispatch:'.$this->getPage()->getKey().'|'.$module_name.':'.get_class($controller).':'.$controller_action );
+
+			$translator_namespace = Translator::getCurrentNamespace();
+			Translator::setCurrentNamespace( $module_name );
+
+			if( $controller->checkAccess()) {
+				$controller->dispatch();
+			}
+
+
+			Translator::setCurrentNamespace( $translator_namespace );
+		}
+
+		Debug_Profiler::blockEnd( 'Dispatch '.$block_name );
+
 	}
 
 

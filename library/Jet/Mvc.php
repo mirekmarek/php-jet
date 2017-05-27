@@ -39,10 +39,6 @@ class Mvc
 	 */
 	protected static $current_page;
 
-	/**
-	 * @var Mvc_Page_Content_Interface
-	 */
-	protected static $current_content;
 
 	/**
 	 * @return boolean
@@ -149,29 +145,5 @@ class Mvc
 		static::$current_page = $current_page;
 	}
 
-	/**
-	 *
-	 */
-	public static function unsetCurrentContent()
-	{
-		static::$current_content = null;
-
-	}
-
-	/**
-	 * @return Mvc_Page_Content_Interface
-	 */
-	public static function getCurrentContent()
-	{
-		return static::$current_content;
-	}
-
-	/**
-	 * @param Mvc_Page_Content_Interface $current_content
-	 */
-	public static function setCurrentContent( Mvc_Page_Content_Interface $current_content )
-	{
-		static::$current_content = $current_content;
-	}
 
 }

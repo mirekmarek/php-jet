@@ -14,6 +14,7 @@ use Jet\Mvc;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Navigation_Breadcrumb;
+use Jet\Mvc_Page_Content_Interface;
 
 use Jet\UI;
 
@@ -35,16 +36,15 @@ class Controller_Main extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 
 	/**
-	 * Controller_Main constructor.
 	 *
-	 * @param Main $module_instance
+	 * @param  Mvc_Page_Content_Interface $content
 	 */
-	public function __construct( Main $module_instance )
+	public function __construct( Mvc_Page_Content_Interface $content )
 	{
-		parent::__construct( $module_instance );
+		parent::__construct( $content );
 
 		Main::initMenuItems();
 

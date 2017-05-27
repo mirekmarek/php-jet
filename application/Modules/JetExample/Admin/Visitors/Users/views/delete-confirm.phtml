@@ -13,7 +13,7 @@ use Jet\Mvc_View;
  * @var Controller_Main_Router $router
  */
 $user = $this->getRaw( 'user' );
-$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$router = $this->getController()->getControllerRouter();
 
 ?>
 

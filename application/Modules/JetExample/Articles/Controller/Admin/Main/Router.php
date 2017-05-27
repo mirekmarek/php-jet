@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
+use Jet\Mvc_Controller;
 use Jet\Mvc_Controller_Router;
 
 use JetApplication\Mvc_Page;
@@ -19,24 +20,23 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 
 	/**
-	 *
-	 * @param Main $module_instance
+	 * @param Mvc_Controller $controller
 	 */
-	public function __construct( Main $module_instance )
+	public function __construct( Mvc_Controller $controller )
 	{
 
-		parent::__construct( $module_instance );
+		parent::__construct( $controller );
 
 		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
 
 
-		$validator = function( &$parameters ) {
+		$validator = function( $parameters ) use ($controller) {
 			$article = Article::get( $parameters[0] );
 			if( !$article ) {
 				return false;
 			}
 
-			$parameters['article'] = $article;
+			$controller->getContent()->setParameter('article', $article);
 
 			return true;
 

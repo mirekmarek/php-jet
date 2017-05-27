@@ -34,7 +34,12 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
+
+	/**
+	 * @var Controller_Admin_Main_Router
+	 */
+	protected $router;
 
 	/**
 	 *
@@ -42,7 +47,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	public function default_Action()
 	{
 
-		$this->_setBreadcrumbNavigation( $this->getActionParameterValue( 'gallery' ) );
+		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
 
 		$this->view->setVar( 'selected_id', Gallery::ROOT_ID );
 
@@ -92,7 +97,11 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	public function getControllerRouter()
 	{
-		return $this->module_instance->getAdminControllerRouter();
+		if( !$this->router ) {
+			$this->router = new Controller_Admin_Main_Router( $this );
+		}
+
+		return $this->router;
 	}
 
 	/**
@@ -102,7 +111,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	{
 
 
-		$parent_id = $this->getActionParameterValue( 'parent_id' );
+		$parent_id = $this->getParameter( 'parent_id' );
 
 		$this->_setBreadcrumbNavigation( Gallery::get( $parent_id ), Tr::_( 'Create a new gallery' ) );
 
@@ -135,12 +144,12 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	public function edit_Action()
 	{
-		$this->_setBreadcrumbNavigation( $this->getActionParameterValue( 'gallery' ) );
+		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
 
 		/**
 		 * @var Gallery $gallery
 		 */
-		$gallery = $this->getActionParameterValue( 'gallery' );
+		$gallery = $this->getParameter( 'gallery' );
 
 		$edit_form = $gallery->getCommonForm();
 
@@ -171,7 +180,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	public function handleUploadImage( Gallery $gallery )
 	{
-		if( !$this->module_instance->checkAclCanDoAction( 'add_image' ) ) {
+		if( !$this->module->checkAccess( 'add_image' ) ) {
 			return;
 		}
 
@@ -183,9 +192,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 					'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image
 				);
 
-				$image->getThumbnail(
-					Config::getDefaultThbMaxW(), Config::getDefaultThbMaxH()
-				);
 
 				Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 			}
@@ -220,7 +226,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	public function handleDeleteImages( Gallery $gallery )
 	{
-		if( !$this->module_instance->checkAclCanDoAction( 'delete_image' ) ) {
+		if( !$this->module->checkAccess( 'delete_image' ) ) {
 			return;
 		}
 
@@ -248,12 +254,12 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	public function view_Action()
 	{
-		$this->_setBreadcrumbNavigation( $this->getActionParameterValue( 'gallery' ) );
+		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
 
 		/**
 		 * @var Gallery $gallery
 		 */
-		$gallery = $this->getActionParameterValue( 'gallery' );
+		$gallery = $this->getParameter( 'gallery' );
 
 		$edit_form = $gallery->getCommonForm();
 		$edit_form->setIsReadonly();

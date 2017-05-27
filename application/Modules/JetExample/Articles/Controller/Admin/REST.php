@@ -26,7 +26,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 
 	/**
 	 *

@@ -16,7 +16,7 @@ use Jet\Mvc_View;
  * @var Controller_Main_Router $router
  * @var UI_dataGrid            $grid
  */
-$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$router = $this->getController()->getControllerRouter();
 $grid = $this->getRaw( 'grid' );
 
 

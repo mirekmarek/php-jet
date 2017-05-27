@@ -211,19 +211,6 @@ class Gallery extends DataModel
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getBaseDirPath()
-	{
-		$base_dir = JET_PATH_PUBLIC.'imagegallery/';
-		if( !IO_Dir::exists( $base_dir ) ) {
-			IO_Dir::create( $base_dir );
-		}
-
-		return $base_dir;
-	}
-
-	/**
 	 * @return Form
 	 */
 	public function getUploadForm()
@@ -238,10 +225,7 @@ class Gallery extends DataModel
 		);
 
 		$form = new Form(
-			'gallery_image_upload', [
-				                      $image_field,
-				                      new Form_Field_Checkbox( 'overwrite_if_exists', 'Overwrite image if exists' ),
-			                      ]
+			'gallery_image_upload', [ $image_field ]
 		);
 
 		return $form;
@@ -263,7 +247,6 @@ class Gallery extends DataModel
 			return false;
 		}
 
-		$overwrite_if_exists = $form->getField( 'overwrite_if_exists' )->getValue();
 
 
 		/**
@@ -274,19 +257,10 @@ class Gallery extends DataModel
 		$tmp_file_path = $img_field->getTmpFilePath();
 		$file_name = $img_field->getFileName();
 
-		if( !$overwrite_if_exists&&$this->getImageExists( $file_name ) ) {
-			$form->setCommonMessage(
-				Tr::_(
-					'Image is already uploaded. Use \'Overwrite image if exists\' option if you want to overwrite it. '
-				)
-			);
-
-			return false;
-		}
-
 		try {
 			$image = $this->addImage(
-				$tmp_file_path, $file_name, $overwrite_if_exists
+				$tmp_file_path,
+				$file_name
 			);
 		} catch( Exception $e ) {
 			$form->setCommonMessage( Tr::_( $e->getMessage() ) );
@@ -330,35 +304,24 @@ class Gallery extends DataModel
 	/**
 	 * @param             $source_file_path
 	 * @param null|string $source_file_name
-	 * @param bool        $overwrite_if_exists (optional)
 	 *
 	 * @throws Exception
 	 * @return Gallery_Image
 	 */
-	public function addImage( $source_file_path, $source_file_name = null, $overwrite_if_exists = false )
+	public function addImage( $source_file_path, $source_file_name = null  )
 	{
 
 		if( !$source_file_name ) {
 			$source_file_name = basename( $source_file_path );
 		}
 
-		$existing_image = $this->getImageExists( $source_file_name );
+		$pi = pathinfo($source_file_name);
 
-		if( $existing_image ) {
-			if( $overwrite_if_exists ) {
-				$existing_image->overwrite( $source_file_path );
+		$i = 0;
+		while( ($existing_image = $this->getImageExists( $source_file_name )) ) {
+			$i++;
 
-				$existing_image->save();
-
-				return $existing_image;
-
-			} else {
-				throw new Exception(
-					'Image \''.$source_file_name.'\' already exists in the gallery!',
-					Exception::CODE_IMAGE_ALREADY_EXIST
-				);
-
-			}
+			$source_file_name = $pi['filename'].'_'.$i.'.'.$pi['extension'];
 		}
 
 		$image = Gallery_Image::getNewImage( $this, $source_file_path, $source_file_name );
@@ -369,6 +332,33 @@ class Gallery extends DataModel
 
 	}
 
+
+	/**
+	 * @return string
+	 */
+	public function getBaseDirPath()
+	{
+		$base_dir = JET_PATH_PUBLIC.'imagegallery/';
+		if( !IO_Dir::exists( $base_dir ) ) {
+			IO_Dir::create( $base_dir );
+		}
+
+		return $base_dir;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThumbnailsBaseDirPath()
+	{
+		$base_dir = JET_PATH_PUBLIC.'imagegallery/_thb_/';
+		if( !IO_Dir::exists( $base_dir ) ) {
+			IO_Dir::create( $base_dir );
+		}
+
+		return $base_dir;
+	}
+
 	/**
 	 * @return string
 	 */
@@ -376,6 +366,15 @@ class Gallery extends DataModel
 	{
 		return JET_URI_PUBLIC.'imagegallery/';
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getThumbnailsBaseURI()
+	{
+		return JET_URI_PUBLIC.'imagegallery/_thb_/';
+	}
+
 
 
 }

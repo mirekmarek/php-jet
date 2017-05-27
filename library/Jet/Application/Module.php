@@ -239,32 +239,9 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * @param Mvc_Page_Content_Interface $content
 	 *
-	 * @return Mvc_Controller
-	 * @throws Exception
-	 */
-	public function getControllerInstance( Mvc_Page_Content_Interface $content )
-	{
-
-		$controller_class_name = $this->getControllerClassName( $content );
-
-		$controller = new $controller_class_name( $this );
-
-		if( !$controller instanceof Mvc_Controller ) {
-			throw new Exception(
-				'Controller \''.$controller_class_name.'\' is not an instance of Mvc_Controller_Abstract'
-			);
-		}
-
-		return $controller;
-	}
-
-	/**
-	 *
-	 * @param Mvc_Page_Content_Interface $content
-	 *
 	 * @return string
 	 */
-	protected function getControllerClassName( Mvc_Page_Content_Interface $content )
+	public function getControllerClassName( Mvc_Page_Content_Interface $content )
 	{
 		$controller_name = 'Main';
 
@@ -279,24 +256,6 @@ abstract class Application_Module extends BaseObject
 		return $controller_class_name;
 	}
 
-	/**
-	 *
-	 * @param Mvc_Controller $controller
-	 * @param string         $action
-	 * @param array          $action_parameters (optional)  @see Mvc_Dispatcher_QueueItem::$action_parameters
-	 *
-	 * @throws Exception
-	 */
-	public function callControllerAction( Mvc_Controller $controller, $action, array $action_parameters = [] )
-	{
-
-
-		if( !$controller->checkACL( $action, $action_parameters ) ) {
-			return;
-		}
-
-		$controller->callAction( $action, $action_parameters );
-	}
 
 	/**
 	 * @param string $action
@@ -305,7 +264,7 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function checkAclCanDoAction( $action )
+	public function checkAccess( $action )
 	{
 		$ACL_actions = $this->getAclActions();
 

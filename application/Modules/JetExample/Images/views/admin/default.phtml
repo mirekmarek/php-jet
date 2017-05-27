@@ -23,7 +23,7 @@ $galleries = $this->getRaw( 'galleries' );
 $gallery = $this->getRaw( 'gallery' );
 $upload_form = $this->getRaw( 'upload_form' );
 $edit_form = $this->getRaw( 'edit_form' );
-$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$router = $this->getController()->getControllerRouter();
 
 $tree = new UI_tree();
 
@@ -110,7 +110,6 @@ $tree->setOpenedDisplayCallback(
 					<?=$upload_form->start()?>
 
 					<?=$upload_form->field( 'file' )?>
-					<?=$upload_form->field( 'overwrite_if_exists' )?>
 
 					<div class="form-group row">
 						<div class="col-md-2"></div>
@@ -136,7 +135,7 @@ $tree->setOpenedDisplayCallback(
 										<div class="thumbnail" style="height: 200px;width: 200px;padding:10px;overflow: hidden">
 											<a href="<?=$image->getURI();?>">
 												<div
-														style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 )->getURI();?>');"
+														style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 );?>');"
 												></div>
 											</a>
 

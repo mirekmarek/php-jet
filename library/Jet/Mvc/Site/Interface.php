@@ -45,6 +45,15 @@ interface Mvc_Site_Interface
 	public static function get( $id );
 
 	/**
+	 *
+	 * @return Mvc_Site_Interface
+	 */
+	public static function getDefaultSite();
+
+
+
+
+	/**
 	 * @param string $id
 	 *
 	 */
@@ -66,6 +75,38 @@ interface Mvc_Site_Interface
 	 * @param string $name
 	 */
 	public function setName( $name );
+
+
+	/**
+	 * @return bool
+	 */
+	public function getSSLRequired();
+
+	/**
+	 * @param bool $SSL_required
+	 */
+	public function setSSLRequired( $SSL_required );
+
+	/**
+	 * @return bool
+	 */
+	public function getIsDefault();
+
+	/**
+	 * @param bool $is_default
+	 */
+	public function setIsDefault( $is_default );
+
+	/**
+	 * @return bool
+	 */
+	public function getIsActive();
+
+	/**
+	 * @param bool $is_active
+	 */
+	public function setIsActive( $is_active );
+
 
 	/**
 	 * Returns root directory path
@@ -107,64 +148,6 @@ interface Mvc_Site_Interface
 	 */
 	public function getLocalizedData( Locale $locale );
 
-	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return array
-	 */
-	public function getURLs( Locale $locale );
-
-	/**
-	 *
-	 * @param Locale $locale
-	 * @param array $URLs
-	 */
-	public function setURLs( Locale $locale, array $URLs );
-
-	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return string
-	 */
-	public function getDefaultURL( Locale $locale );
-
-	/**
-	 * @return bool
-	 */
-	public function getSSLRequired();
-
-	/**
-	 * @param bool $SSL_required
-	 */
-	public function setSSLRequired( $SSL_required );
-
-	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
-	 */
-	public function getDefaultMetaTags( Locale $locale );
-
-	/**
-	 * @param Locale                                   $locale
-	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag
-	 */
-	public function addDefaultMetaTag( Locale $locale, Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag );
-
-	/**
-	 * @param Locale $locale
-	 * @param int    $index
-	 */
-	public function removeDefaultMetaTag( Locale $locale, $index );
-
-	/**
-	 * @param Locale                                     $locale
-	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $meta_tags
-	 */
-	public function setDefaultMetaTags( Locale $locale, $meta_tags );
 
 	/**
 	 *
@@ -198,37 +181,11 @@ interface Mvc_Site_Interface
 	public function setDefaultLocale( Locale $locale );
 
 	/**
-	 * @return bool
-	 */
-	public function getIsDefault();
-
-	/**
-	 * @param bool $is_default
-	 */
-	public function setIsDefault( $is_default );
-
-	/**
-	 * @return bool
-	 */
-	public function getIsActive();
-
-	/**
-	 * @param bool $is_active
-	 */
-	public function setIsActive( $is_active );
-
-	/**
 	 * @param Locale $locale
 	 *
 	 * @return Mvc_Page_Interface
 	 */
 	public function getHomepage( Locale $locale );
-
-	/**
-	 *
-	 * @return Mvc_Site_Interface
-	 */
-	public static function getDefaultSite();
 
 	/**
 	 *

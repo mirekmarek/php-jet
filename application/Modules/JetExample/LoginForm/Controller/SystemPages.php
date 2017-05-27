@@ -35,7 +35,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 
 	/**
 	 *
@@ -52,7 +52,7 @@ class Controller_SystemPages extends Mvc_Controller_Standard
 		/**
 		 * @var Form $form
 		 */
-		$form = $this->module_instance->getChangePasswordForm();
+		$form = $this->module->getChangePasswordForm();
 
 		Navigation_Breadcrumb::reset();
 

@@ -31,6 +31,9 @@ use Jet\Form_Field_DateTime;
 class Article extends DataModel
 {
 
+	//TODO: bezna vycejazycnost
+	//TODO: doplnit hledani
+
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID

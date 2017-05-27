@@ -25,12 +25,12 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	protected $config;
 	/**
 	 *
-	 * @var Db_Backend
+	 * @var Db_BackendInterface
 	 */
 	private $_db_read = null;
 	/**
 	 *
-	 * @var Db_Backend
+	 * @var Db_BackendInterface
 	 */
 	private $_db_write = null;
 

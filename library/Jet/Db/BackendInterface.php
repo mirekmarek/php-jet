@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-interface Db_Backend
+interface Db_BackendInterface
 {
 
 	/**

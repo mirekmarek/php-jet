@@ -29,7 +29,7 @@ class Controller_Main extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 
 	/**
 	 * @param string $action
@@ -39,7 +39,7 @@ class Controller_Main extends Mvc_Controller_Standard
 	 *
 	 * @return bool
 	 */
-	public function checkACL( $action, $action_parameters )
+	public function checkAccess( $action, $action_parameters )
 	{
 		return true;
 	}
@@ -68,7 +68,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		/**
 		 * @var Form $form
 		 */
-		$form = $this->module_instance->getLoginForm();
+		$form = $this->module->getLoginForm();
 
 		if( $form->catchInput() ) {
 			if( $form->validate() ) {
@@ -113,7 +113,7 @@ class Controller_Main extends Mvc_Controller_Standard
 		/**
 		 * @var Form $form
 		 */
-		$form = $this->module_instance->getMustChangePasswordForm();
+		$form = $this->module->getMustChangePasswordForm();
 
 		if( $form->catchInput()&&$form->validate() ) {
 			$data = $form->getValues();

@@ -22,7 +22,6 @@ use Jet\DataModel_Id_UniqueString;
  */
 class Gallery_Image extends DataModel
 {
-	const THUMBNAILS_DIR_NAME = '_t_';
 
 	/**
 	 *
@@ -50,17 +49,6 @@ class Gallery_Image extends DataModel
 	 * @var int
 	 */
 	protected $offset = 0;
-
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_is_required = false
-	 * @JetDataModel:form_field_label = 'Title: '
-	 *
-	 * @var string
-	 */
-	protected $title = '';
 
 	/**
 	 *
@@ -116,12 +104,11 @@ class Gallery_Image extends DataModel
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
-	 * @JetDataModel:data_model_class = 'Gallery_Image_Thumbnail'
+	 * @JetDataModel:type = DataModel::TYPE_ARRAY
 	 *
-	 * @var Gallery_Image_Thumbnail[]
+	 * @var array
 	 */
-	protected $thumbnails;
+	protected $generated_thumbnails;
 
 	/**
 	 * @var Gallery
@@ -181,7 +168,6 @@ class Gallery_Image extends DataModel
 		}
 
 		IO_Dir::create( $image->getDirPath() );
-		IO_Dir::create( $image->getThumbnailsDirPath() );
 
 		IO_File::copy( $source_file_path, $image->getFilePath() );
 
@@ -193,6 +179,17 @@ class Gallery_Image extends DataModel
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getId()
+	{
+		if(!$this->id) {
+			$this->getIdObject()->generate();
+		}
+		return $this->id;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getAllImagesCount()
@@ -200,13 +197,6 @@ class Gallery_Image extends DataModel
 		return $this->fetchObjectIds()->getCount();
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getOffsetDirPath()
-	{
-		return $this->getGallery()->getBaseDirPath().$this->getOffset().'/';
-	}
 
 	/**
 	 * @return Gallery
@@ -249,17 +239,17 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getDirPath()
+	public function getOffsetDirPath()
 	{
-		return $this->getOffsetDirPath().$this->getIdObject().'/';
+		return $this->getGallery()->getBaseDirPath().$this->getOffset().'/';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getThumbnailsDirPath()
+	public function getDirPath()
 	{
-		return $this->getDirPath().static::THUMBNAILS_DIR_NAME.'/';
+		return $this->getOffsetDirPath().$this->getIdObject().'/';
 	}
 
 	/**
@@ -398,84 +388,40 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getTitle()
-	{
-		return $this->title;
-	}
-
-	/**
-	 * @param string $title
-	 */
-	public function setTitle( $title )
-	{
-		$this->title = $title;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getURI()
 	{
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/'.rawurldecode(
-			$this->getFileName()
-		);
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/'.rawurldecode( $this->getFileName() );
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getThumbnailsBaseURI()
-	{
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject(
-		).'/'.static::THUMBNAILS_DIR_NAME.'/';
-	}
-
-	/**
-	 * @param      $maximal_size_w
-	 * @param      $maximal_size_h
-	 * @param bool $do_not_save_now
+	 * @param int  $maximal_size_w
+	 * @param int  $maximal_size_h
 	 *
-	 * @return Gallery_Image_Thumbnail|null
+	 * @return Gallery_Image_Thumbnail
 	 */
-	public function getThumbnail( $maximal_size_w, $maximal_size_h, $do_not_save_now = false )
+	public function getThumbnail( $maximal_size_w, $maximal_size_h )
 	{
-		$key = Gallery_Image_Thumbnail::createKey( $maximal_size_w, $maximal_size_h );
+		$maximal_size_w = (int)$maximal_size_w;
+		$maximal_size_h = (int)$maximal_size_h;
 
+		$thb = new Gallery_Image_Thumbnail($this, $maximal_size_w, $maximal_size_h);
 
-		if( !isset( $this->thumbnails[$key] ) ) {
-			$thb = Gallery_Image_Thumbnail::getNewThumbnail( $this, $maximal_size_w, $maximal_size_h );
-			if( !$thb ) {
-				return null;
-			}
-			$this->thumbnails[$key] = $thb;
-			if( !$do_not_save_now ) {
-				$this->save();
-			}
+		$key = $maximal_size_w.'x'.$maximal_size_h;
+		if(!in_array($key, $this->generated_thumbnails)) {
+			$thb->generate();
+			$this->generated_thumbnails[] = $key;
+			$this->save();
 		}
 
-		$this->thumbnails[$key]->setImage( $this );
-
-		return $this->thumbnails[$key];
+		return $thb;
 	}
 
 	/**
-	 * @param string $new_source_file_path
+	 *
 	 */
-	public function overwrite( $new_source_file_path )
+	public function afterDelete()
 	{
-		IO_File::copy( $new_source_file_path, $this->getFilePath() );
-
-		$source_image_file = new Data_Image( $new_source_file_path );
-
-		$this->setImageSizeH( $source_image_file->getHeight() );
-		$this->setImageSizeW( $source_image_file->getWidth() );
-		$this->setFileMimeType( $source_image_file->getMimeType() );
-		$this->setFileSize( IO_File::getSize( $new_source_file_path ) );
-
-		foreach( $this->thumbnails as $thumbnail ) {
-			$thumbnail->setImage( $this );
-			$thumbnail->recreate();
-		}
+		//TODO: smazat
 	}
 
 }

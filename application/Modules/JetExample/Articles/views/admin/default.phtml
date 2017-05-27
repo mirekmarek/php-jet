@@ -19,7 +19,7 @@ $grid = $this->getRaw( 'grid' );
 /**
  * @var Controller_Admin_Main_Router $router
  */
-$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$router = $this->getController()->getControllerRouter();
 
 $c_edit = $grid->getColumn( '_edit_' );
 $c_edit->setDisplayCallback(

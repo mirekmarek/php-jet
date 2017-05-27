@@ -50,7 +50,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 
 	/**
 	 *
@@ -114,12 +114,10 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 		if( ( $image = $gallery->catchUploadForm( $upload_form, true ) ) ) {
 			$this->logAllowedAction(
-				'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image
+				'Image created',
+				$image->getIdObject()->toString(), $image->getFileName(), $image
 			);
 
-			$image->getThumbnail(
-				Config::getDefaultThbMaxW(), Config::getDefaultThbMaxH()
-			);
 
 			$this->responseOK();
 		} else {
@@ -145,35 +143,6 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		return $gallery;
 	}
 
-	/**
-	 * @param string $image_id
-	 */
-	public function put_copy_image_Action( $image_id )
-	{
-		$image = $this->_getImage( $image_id );
-		$data = $this->getRequestData();
-		$gallery = $this->_getGallery( $data['target_gallery_id'] );
-
-		if(
-			(
-				!isset( $data['overwrite_if_exists'] ) ||
-				!$data['overwrite_if_exists']
-			) &&
-			$gallery->getImageExists( $image->getFileName() )
-		) {
-			$this->logAllowedAction( 'Image copied', $image->getIdObject()->toString(), $image->getFileName(), $image );
-
-			$this->responseOK();
-		}
-
-		$image = $gallery->addImage( $image->getFilePath(), $image->getFileName(), true );
-
-		$image->getThumbnail(
-			Config::getDefaultThbMaxW(), Config::getDefaultThbMaxH()
-		);
-
-		$this->responseOK();
-	}
 
 	/**
 	 * @param string $image_id
@@ -204,7 +173,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 		$image = $this->_getImage( $image_id );
 
-		$URI = $image->getThumbnail( $maximal_size_w, $maximal_size_h )->getURI();
+		$URI = $image->getThumbnail( $maximal_size_w, $maximal_size_h );
 
 		Http_Headers::movedPermanently( $URI );
 	}

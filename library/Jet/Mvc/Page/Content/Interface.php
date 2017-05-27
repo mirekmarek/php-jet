@@ -68,6 +68,11 @@ interface Mvc_Page_Content_Interface
 	public function setModuleName( $module_name );
 
 	/**
+	 * @return Application_Module|bool
+	 */
+	public function getModuleInstance();
+
+	/**
 	 * @return string
 	 */
 	public function getControllerAction();
@@ -80,12 +85,33 @@ interface Mvc_Page_Content_Interface
 	/**
 	 * @return array
 	 */
-	public function getControllerActionParameters();
+	public function getParameters();
 
 	/**
-	 * @param array $controller_action_parameters
+	 * @param array $parameters
 	 */
-	public function setControllerActionParameters( array $controller_action_parameters );
+	public function setParameters( array $parameters );
+
+	/**
+	 * @param string $key
+	 * @param mixed  $default_value
+	 *
+	 * @return mixed
+	 */
+	public function getParameter( $key, $default_value = null );
+
+	/**
+	 * @param string $key
+	 * @param mixed  $value
+	 */
+	public function setParameter( $key, $value );
+
+	/**
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function parameterExists( $key );
 
 	/**
 	 * @return string|callable

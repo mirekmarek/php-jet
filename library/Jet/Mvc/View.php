@@ -14,6 +14,11 @@ class Mvc_View extends Mvc_View_Abstract
 {
 
 	/**
+	 * @var Mvc_Controller
+	 */
+	protected $controller;
+
+	/**
 	 *
 	 * @param string $scripts_dir
 	 */
@@ -24,6 +29,24 @@ class Mvc_View extends Mvc_View_Abstract
 
 		$this->_data = new Data_Array();
 	}
+
+	/**
+	 * @return Mvc_Controller
+	 */
+	public function getController()
+	{
+		return $this->controller;
+	}
+
+	/**
+	 * @param Mvc_Controller $controller
+	 */
+	public function setController( $controller )
+	{
+		$this->controller = $controller;
+	}
+
+
 
 
 	/**

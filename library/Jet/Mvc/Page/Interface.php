@@ -439,7 +439,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return bool
 	 */
-	public function parseRequestPath();
+	public function resolvePath();
 
 	/**
 	 * @param string $file_path

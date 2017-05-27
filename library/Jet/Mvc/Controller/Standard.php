@@ -18,7 +18,7 @@ abstract class Mvc_Controller_Standard extends Mvc_Controller
 	 * @param array  $action_parameters
 	 *
 	 */
-	public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters )
+	public function responseAccessDenied( $module_action, $controller_action, $action_parameters )
 	{
 		ErrorPages::handleUnauthorized();
 	}

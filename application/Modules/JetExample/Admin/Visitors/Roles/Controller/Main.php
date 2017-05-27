@@ -40,7 +40,13 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
+
+
+	/**
+	 * @var Controller_Main_Router
+	 */
+	protected $router;
 
 	/**
 	 *
@@ -132,7 +138,11 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 	 */
 	public function getControllerRouter()
 	{
-		return $this->module_instance->getAdminControllerRouter();
+		if( !$this->router ) {
+			$this->router = new Controller_Main_Router( $this );
+		}
+
+		return $this->router;
 	}
 
 	/**
@@ -143,7 +153,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		/**
 		 * @var Role $role
 		 */
-		$role = $this->getActionParameterValue( 'role' );
+		$role = $this->getParameter( 'role' );
 
 		$this->_setBreadcrumbNavigation( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] ) );
 
@@ -176,7 +186,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		/**
 		 * @var Role $role
 		 */
-		$role = $this->getActionParameterValue( 'role' );
+		$role = $this->getParameter( 'role' );
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'Role detail <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )
@@ -203,7 +213,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		/**
 		 * @var Role $role
 		 */
-		$role = $this->getActionParameterValue( 'role' );
+		$role = $this->getParameter( 'role' );
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'Delete role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )

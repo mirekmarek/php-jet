@@ -15,27 +15,28 @@ use Jet\Navigation_Breadcrumb;
  */
 class Controller_Main extends Mvc_Controller_Standard
 {
+
+	/**
+	 * @var array
+	 */
 	protected static $ACL_actions_check_map = [
 		'default' => false,
 	];
+
 	/**
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
+
 
 	/**
 	 *
 	 */
-	public function initialize()
-	{
-	}
-
-
 	public function default_Action()
 	{
 
-		$view = $this->getActionParameterValue( 'view', 'default' );
+		$view = $this->getParameter( 'view', 'default' );
 
 		$this->view->setVar( 'data', Navigation_Breadcrumb::getItems() );
 

@@ -153,83 +153,31 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$this->request_URL = $request_URL;
 
 
-		if( $this->validateURIFormat() ) {
 
-			if( $this->resolveSiteAndLocale() ) {
+		if( $this->resolveSiteAndLocale() ) {
 
-				if($this->after_site_resolved) {
-					$after = $this->after_site_resolved;
-					$after( $this );
-				}
+			if($this->after_site_resolved) {
+				$after = $this->after_site_resolved;
+				$after( $this );
+			}
 
-				if( $this->resolvePage() ) {
+			if( $this->resolvePage() ) {
+				if($this->checkUrl()) {
 					$this->resolveAuthentication();
 
 					if($this->after_page_resolved) {
 						$after = $this->after_page_resolved;
 						$after( $this );
 					}
+
 				}
-
-			}
-		}
-
-	}
-
-	/**
-	 *
-	 * @return bool
-	 */
-	protected function validateURIFormat()
-	{
-
-
-		if(Mvc::getForceSlashOnURLEnd()) {
-			$last = strrchr($this->request_URL, '/');
-
-			if($last=='/') {
-				$this->request_URL = substr($this->request_URL, 0, -1);
-				return true;
 			}
 
-			if( strpos( $last, '.' )!==false ) {
-				return true;
-			}
-
-			$redirect_to = Http_Request::getRequestIsHttps() ? 'https://' : 'http://';
-			$redirect_to .= $this->request_URL.'/';
-
-		} else {
-			if(substr_count($this->request_URL, '/')==1) {
-
-				$last = strrchr($this->request_URL, '/');
-
-				if($last=='/') {
-					$this->request_URL = substr($this->request_URL, 0, -1);
-				}
-
-				return true;
-			}
-
-			$last = strrchr($this->request_URL, '/');
-
-			if($last!='/') {
-				return true;
-			}
-
-			$redirect_to = Http_Request::getRequestIsHttps() ? 'https://' : 'http://';
-			$redirect_to .= substr($this->request_URL,0,-1);
 		}
 
 
-		$this->setIsRedirect(
-			$redirect_to,
-			Http_Headers::CODE_301_MOVED_PERMANENTLY
-		);
-
-		return false;
-
 	}
+
 
 	/**
 	 * @return bool
@@ -317,9 +265,9 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			Mvc::setCurrentLocale($this->locale);
 		}
 
-		if( $founded_url!=$this->site->getDefaultURL($this->locale) ) {
+		if( $founded_url!=$this->site->getLocalizedData($this->locale)->getDefaultURL() ) {
 
-			$redirect_to = $this->getSite()->getDefaultURL( $this->locale ).$this->path;
+			$redirect_to = $this->getSite()->getLocalizedData($this->locale)->getDefaultURL().$this->path;
 
 			if($this->path && Mvc::getForceSlashOnURLEnd()) {
 				$redirect_to .= '/';
@@ -401,38 +349,59 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		Debug_Profiler::blockEnd('Seeking for page');
 
 
-		$this->path = rawurldecode($this->path);
+		$this->decodePath();
 
-		$path = [];
-		if($this->path) {
-			$path = explode('/', $this->path);
-		}
+		Debug_Profiler::blockStart('Resolving path');
+		$OK = $this->getPage()->resolvePath();
+		Debug_Profiler::blockEnd('Resolving path');
 
-		$page_url = $this->page->getURL( $path );
-
-
-		$OK = $page_url==Http_Request::getURL(false);
-
-
-		if(!$OK) {
-			$this->setIsRedirect( $page_url );
-		} else {
-			if( $this->path ) {
-				Debug_Profiler::blockStart('Parsing path');
-				$OK = $this->getPage()->parseRequestPath();
-				Debug_Profiler::blockEnd('Parsing path');
-
-				if( !$OK ) {
-					$this->setIs404();
-				}
-			}
-
+		if( !$OK ) {
+			$this->setIs404();
 		}
 
 
 		Debug_Profiler::blockEnd('Resolve page');
 		return $OK;
 
+	}
+
+	/**
+	 *
+	 */
+	protected function decodePath()
+	{
+
+		$path = [];
+		if($this->path) {
+			$_path = explode('/', $this->path);
+			foreach( $_path as $i=>$p ) {
+				if(!$p) {
+					continue;
+				}
+				$path[$i] = rawurldecode($p);
+			}
+
+			$this->path = implode('/', $path);
+
+		}
+
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function checkUrl()
+	{
+
+		$correct_page_url = $this->page->getURL( $this->path ? explode('/', $this->path) : [] );
+
+		if($correct_page_url!=Http_Request::getURL(false)) {
+			$this->setIsRedirect( $correct_page_url );
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

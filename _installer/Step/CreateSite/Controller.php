@@ -55,16 +55,17 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$site->setName( 'Example Site' );
 			$site->setId(Installer::SITE_ID);
 
-			$site->addLocale( $default_locale );
-			$site->setURLs( $default_locale, [$URL] );
+			$ld = $site->addLocale( $default_locale );
+			$ld->setTitle('PHP Jet');
+			$ld->setURLs( [$URL] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
 				if( $locale->toString()==$default_locale->toString() ) {
 					continue;
 				}
-
-				$site->addLocale( $locale );
-				$site->setURLs( $locale, [$URL.$locale->getLanguage()] );
+				$ld = $site->addLocale( $locale );
+				$ld->setTitle('PHP Jet');
+				$ld->setURLs( [$URL.$locale->getLanguage()] );
 			}
 
 			$session->setValue( 'site', $site );

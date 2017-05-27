@@ -144,7 +144,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		}
 		Debug_Profiler::blockEnd('Load sites data');
 
-
 		return $sites;
 	}
 
@@ -228,6 +227,8 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			$l_data = $site->addLocale( new Locale( $locale_str ) );
 
 			$l_data->setSite( $site );
+			$l_data->setSSLRequired( !empty($localized_data['SSL_required']) );
+			$l_data->setTitle( $localized_data['title'] );
 			$l_data->setIsActive( $localized_data['is_active'] );
 			$l_data->setURLs( $localized_data['URLs'] );
 
@@ -348,6 +349,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		return $result;
 	}
 
+
+	/**
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->_site_id;
+	}
+
 	/**
 	 * @param string $id
 	 *
@@ -393,6 +403,25 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		return JET_PATH_SITES.$this->_site_id.'/';
 	}
 
+
+
+	/**
+	 * @return bool
+	 */
+	public function getSSLRequired()
+	{
+		return $this->SSL_required;
+	}
+
+	/**
+	 * @param bool $SSL_required
+	 */
+	public function setSSLRequired( $SSL_required )
+	{
+		$this->SSL_required = $SSL_required;
+	}
+
+
 	/**
 	 * Returns default locale
 	 *
@@ -432,95 +461,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	public function getLocalizedData( Locale $locale )
 	{
 		return $this->localized_data[$locale->toString()];
-	}
-
-	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return array
-	 */
-	public function getURLs( Locale $locale )
-	{
-		return $this->localized_data[(string)$locale]->getURLs();
-	}
-
-	/**
-	 *
-	 * @param Locale $locale
-	 * @param array $URLs
-	 */
-	public function setURLs( Locale $locale, array $URLs )
-	{
-		$this->localized_data[(string)$locale]->setURLs( $URLs );
-	}
-
-
-	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return string
-	 */
-	public function getDefaultURL( Locale $locale )
-	{
-
-		return $this->localized_data[(string)$locale]->getDefaultURL();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getSSLRequired()
-	{
-		return $this->SSL_required;
-	}
-
-	/**
-	 * @param bool $SSL_required
-	 */
-	public function setSSLRequired( $SSL_required )
-	{
-		$this->SSL_required = $SSL_required;
-	}
-
-
-	/**
-	 *
-	 * @param Locale $locale
-	 *
-	 * @return Mvc_Site_LocalizedData_MetaTag_Interface[]
-	 */
-	public function getDefaultMetaTags( Locale $locale )
-	{
-		return $this->localized_data[(string)$locale]->getDefaultMetaTags();
-	}
-
-	/**
-	 * @param Locale                                   $locale
-	 * @param Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag
-	 */
-	public function addDefaultMetaTag( Locale $locale, Mvc_Site_LocalizedData_MetaTag_Interface $meta_tag )
-	{
-		$this->localized_data[(string)$locale]->addDefaultMetaTag( $meta_tag );
-	}
-
-	/**
-	 * @param Locale $locale
-	 * @param int    $index
-	 */
-	public function removeDefaultMetaTag( Locale $locale, $index )
-	{
-		$this->localized_data[(string)$locale]->removeDefaultMetaTag( $index );
-	}
-
-	/**
-	 * @param Locale                                     $locale
-	 * @param Mvc_Site_LocalizedData_MetaTag_Interface[] $meta_tags
-	 */
-	public function setDefaultMetaTags( Locale $locale, $meta_tags )
-	{
-		$this->localized_data[(string)$locale]->setDefaultMetaTags( $meta_tags );
 	}
 
 	/**
@@ -626,14 +566,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	public function getHomepage( Locale $locale )
 	{
 		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getId()
-	{
-		return $this->_site_id;
 	}
 
 	/**

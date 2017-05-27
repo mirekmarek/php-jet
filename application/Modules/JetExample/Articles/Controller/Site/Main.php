@@ -25,48 +25,40 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 	/**
 	 * @var int
 	 */
 	protected $public_list_items_per_page = 20;
 
 	/**
-	 * @param Mvc_Page_Content_Interface $page_content
+	 *
+	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function parseRequestPath( Mvc_Page_Content_Interface $page_content )
+	public function resolve( $path )
 	{
-		$path = Mvc::getRouter()->getPath();
 
 		if( preg_match('/^page:([0-9]{1,})$/', $path, $matches) ) {
-			$page_content->setControllerAction( 'list' );
-			$page_content->setControllerActionParameters(
-				[
-					'page_no' => $matches[1],
-				]
-			);
+			$this->content->setControllerAction( 'list' );
+			$this->content->setParameter('page_no', $matches[1]);
 
 			return true;
 		} else {
 			$article = new Article();
 			$current_article = $article->resolveArticleByURL( $path );
 
-			if( !$current_article ) {
-				return false;
+			if( $current_article ) {
+				$this->content->setControllerAction( 'detail' );
+				$this->content->setParameter( 'article', $current_article );
+
+				return true;
 			}
 
-			$page_content->setControllerAction( 'detail' );
-			$page_content->setControllerActionParameters(
-				[
-					'article' => $current_article,
-				]
-			);
-
-			return true;
 		}
 
+		return false;
 	}
 
 
@@ -87,7 +79,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 
 		$paginator = new Data_Paginator(
 			$this->public_list_items_per_page,
-			$this->getActionParameterValue('page_no'),
+			$this->getParameter( 'page_no'),
 			function( $page_no ) {
 				return Mvc::getCurrentPage()->getURI(['page:'.$page_no]);
 			}
@@ -113,7 +105,7 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 		/**
 		 * @var Article $article
 		 */
-		$article = $this->getActionParameterValue( 'article' );
+		$article = $this->getParameter( 'article' );
 
 		Navigation_Breadcrumb::addURL( $article->getTitle() );
 

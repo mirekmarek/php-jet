@@ -26,17 +26,6 @@ class Config
 	protected static $default_max_h = 600;
 
 	/**
-	 *
-	 * @var int
-	 */
-	protected static $default_thb_max_w = 50;
-
-	/**
-	 * @var int
-	 */
-	protected static $default_thb_max_h = 50;
-
-	/**
 	 * @return int
 	 */
 	public static function getDefaultMaxH()
@@ -52,22 +41,6 @@ class Config
 		return static::$default_max_w;
 	}
 
-
-	/**
-	 * @return int
-	 */
-	public static function getDefaultThbMaxH()
-	{
-		return static::$default_thb_max_h;
-	}
-
-	/**
-	 * @return int
-	 */
-	public static function getDefaultThbMaxW()
-	{
-		return static::$default_thb_max_w;
-	}
 
 
 }

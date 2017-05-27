@@ -1,5 +1,6 @@
 <?php
 use Jet\Mvc_Layout;
+use Jet\Mvc;
 use Jet\Tr;
 
 /**
@@ -9,11 +10,11 @@ use Jet\Tr;
 require 'parts/init_libs.php';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?=Mvc::getCurrentLocale()->getLanguage()?>">
 <head>
-	<title><?=Tr::_('PHP Jet Example Application')?> : %JET_SITE_TITLE% - %JET_PAGE_TITLE%</title>
+	<title><?=Mvc::getCurrentSite()->getLocalizedData( Mvc::getCurrentLocale() )->getTitle()?> : <?=Mvc::getCurrentPage()->getTitle()?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="content-language" content="%JET_LANGUAGE%" />
+	<meta http-equiv="content-language" content="<?=Mvc::getCurrentLocale()->getLanguage()?>" />
 
 	<jet_layout_meta_tags/>
 	<jet_layout_css/>

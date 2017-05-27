@@ -16,6 +16,10 @@ use Jet\Mvc;
  */
 class Main extends Application_Module
 {
+	//TODO: bezna vycejazycnost
+	//TODO: hledani
+
+
 	const ADMIN_MAIN_PAGE = 'admin/images';
 
 	const ACTION_GET_GALLERY = 'get_gallery';
@@ -61,25 +65,12 @@ class Main extends Application_Module
 	}
 
 	/**
-	 * @return Controller_Admin_Main_Router
-	 */
-	public function getAdminControllerRouter()
-	{
-
-		if( !$this->admin_controller_router ) {
-			$this->admin_controller_router = new Controller_Admin_Main_Router( $this );
-		}
-
-		return $this->admin_controller_router;
-	}
-
-	/**
 	 *
 	 * @param Mvc_Page_Content_Interface $content
 	 *
 	 * @return string
 	 */
-	protected function getControllerClassName( Mvc_Page_Content_Interface $content )
+	public function getControllerClassName( Mvc_Page_Content_Interface $content )
 	{
 		$controller_name = 'Main';
 

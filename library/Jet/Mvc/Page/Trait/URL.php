@@ -28,7 +28,8 @@ trait Mvc_Page_Trait_URL
 
 		$site = $this->getSite();
 
-		$URL = $site->getDefaultURL($this->locale).$this->relative_path;
+
+		$URL = $site->getLocalizedData($this->locale)->getDefaultURL().$this->relative_path;
 
 		if($schema===false) {
 			$URL = strchr($URL, '/');
@@ -52,11 +53,21 @@ trait Mvc_Page_Trait_URL
 
 		if( $path_fragments ) {
 
-			$do_not_add_slash = false;
+			$_path_fragments = $path_fragments;
+			$path_fragments = [];
 			$p = '';
-			foreach( $path_fragments as $i => $p ) {
-				$path_fragments[$i] = rawurlencode( $p );
+			foreach( $_path_fragments as $i=>$p ) {
+				if(!$p) {
+					continue;
+				}
+				$p = rawurlencode( $p );
+				$p = str_replace('%3A', ':', $p);
+
+				$path_fragments[] = $p;
+
 			}
+
+			$do_not_add_slash = false;
 
 
 			if(strpos($p, '.')!==false) {
@@ -65,7 +76,12 @@ trait Mvc_Page_Trait_URL
 
 			$path_fragments = implode( '/', $path_fragments );
 
-			$URL .= '/'.$path_fragments;
+			if($URL[strlen($URL)-1]!='/') {
+				$URL .= '/';
+			}
+
+
+			$URL .= $path_fragments;
 
 			if(
 				Mvc::getForceSlashOnURLEnd() &&

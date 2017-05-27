@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Db_Backend_PDO extends \PDO implements BaseObject_Interface, Db_Backend
+class Db_Backend_PDO extends \PDO implements BaseObject_Interface, Db_BackendInterface
 {
 	use BaseObject_Trait;
 	use BaseObject_Trait_MagicGet;

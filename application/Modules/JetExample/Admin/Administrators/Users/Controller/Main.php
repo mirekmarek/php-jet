@@ -42,7 +42,13 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
+
+
+	/**
+	 * @var Controller_Main_Router
+	 */
+	protected $router;
 
 	/**
 	 *
@@ -127,7 +133,11 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 	 */
 	public function getControllerRouter()
 	{
-		return $this->module_instance->getAdminControllerRouter();
+		if( !$this->router ) {
+			$this->router = new Controller_Main_Router( $this );
+		}
+
+		return $this->router;
 	}
 
 	/**
@@ -139,7 +149,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		/**
 		 * @var User $user
 		 */
-		$user = $this->getActionParameterValue( 'user' );
+		$user = $this->getParameter( 'user' );
 
 		$GET = Http_Request::GET();
 		if( ( $action = $GET->getString( 'a' ) ) ) {
@@ -191,7 +201,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		/**
 		 * @var User $user
 		 */
-		$user = $this->getActionParameterValue( 'user' );
+		$user = $this->getParameter( 'user' );
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'User account detail <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )
@@ -217,7 +227,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		/**
 		 * @var User $user
 		 */
-		$user = $this->getActionParameterValue( 'user' );
+		$user = $this->getParameter( 'user' );
 
 		$this->_setBreadcrumbNavigation(
 			Tr::_( 'Delete user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )

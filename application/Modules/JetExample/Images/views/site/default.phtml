@@ -42,13 +42,12 @@ Mvc_Layout::getCurrentLayout()->requireCssFile(
 		/**
 		 * @var Gallery_Image $image
 		 */
-		$thumbnail = $image->getThumbnail( 120, 120 );
 		?>
 		<div style="float:left;margin: 10px;overflow: hidden;">
 			<div class="thumbnail" style="height: 155px;width: 200px;padding:10px;overflow: hidden">
 				<a href="<?=$image->getURI();?>">
 					<div
-							style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 )->getURI();?>');"
+							style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 );?>');"
 					></div>
 				</a>
 			</div>

@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Images;
 
+use Jet\Mvc_Controller;
 use Jet\Mvc_Controller_Router;
 
 use JetApplication\Mvc_Page;
@@ -19,24 +20,23 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 
 	/**
-	 *
-	 * @param Main $module_instance
+	 * @param Mvc_Controller $controller
 	 */
-	public function __construct( Main $module_instance )
+	public function __construct( Mvc_Controller $controller )
 	{
 
 
-		parent::__construct( $module_instance );
+		parent::__construct( $controller );
 
 		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
 
-		$gallery_validator = function( &$parameters ) {
+		$gallery_validator = function( $parameters ) use ($controller) {
 			$gallery = Gallery::get( $parameters[0] );
 			if( !$gallery ) {
 				return false;
 			}
 
-			$parameters['gallery'] = $gallery;
+			$controller->getContent()->setParameter('gallery', $gallery);
 
 			return true;
 

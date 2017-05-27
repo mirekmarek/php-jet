@@ -19,12 +19,17 @@ trait Mvc_Page_Trait_Handlers
 	 *
 	 * @return bool
 	 */
-	public function parseRequestPath()
+	public function resolvePath()
 	{
 		/**
 		 * @var Mvc_Page_Trait_Handlers|Mvc_Page $this
 		 */
 		$path = Mvc::getRouter()->getPath();
+
+		if(!$path) {
+			return true;
+		}
+
 
 		if( strpos( $path, '..' )==false ) {
 			if($path==static::getPageDataFileName()) {
@@ -42,19 +47,16 @@ trait Mvc_Page_Trait_Handlers
 		}
 
 		foreach( $this->getContent() as $content ) {
-			if(!Application_Modules::getModuleIsActivated($content->getModuleName())) {
+			if($content->getOutput()) {
 				continue;
 			}
 
-			$module = Application_Modules::getModuleInstance( $content->getModuleName() );
-
-			if( !$module ) {
+			$controller = $content->getControllerInstance();
+			if(!$controller) {
 				continue;
 			}
 
-			$controller = $module->getControllerInstance( $content );
-
-			if( $controller->parseRequestPath( $content ) ) {
+			if( $controller->resolve( $path ) ) {
 				return true;
 			}
 		}
@@ -149,20 +151,9 @@ trait Mvc_Page_Trait_Handlers
 
 		Debug_Profiler::blockStart( 'Content dispatch' );
 
-
-		$translator_namespace = Translator::COMMON_NAMESPACE;
-
-		Translator::setCurrentNamespace( $translator_namespace );
-
 		foreach( $this->getContent() as $content ) {
-			Mvc::setCurrentContent( $content );
-
 			$content->dispatch();
-
-			Mvc::unsetCurrentContent();
 		}
-
-		Translator::setCurrentNamespace( $translator_namespace );
 
 		$output = Mvc_Layout::getCurrentLayout()->render();
 

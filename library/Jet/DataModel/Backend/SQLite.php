@@ -25,7 +25,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	protected $config;
 	/**
 	 *
-	 * @var Db_Backend
+	 * @var Db_BackendInterface
 	 */
 	private $_db = null;
 

@@ -72,7 +72,7 @@ class Controller_Main extends Mvc_Controller_Standard
 	 *
 	 * @var Main
 	 */
-	protected $module_instance = null;
+	protected $module = null;
 
 
 	/**

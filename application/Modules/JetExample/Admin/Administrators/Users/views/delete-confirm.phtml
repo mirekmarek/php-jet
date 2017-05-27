@@ -16,7 +16,7 @@ $user = $this->getRaw( 'user' );
 /**
  * @var Controller_Main_Router $router
  */
-$router = Mvc::getCurrentContent()->getControllerInstance()->getControllerRouter();
+$router = $this->getController()->getControllerRouter();
 
 ?>
 

@@ -30,21 +30,4 @@ class Main extends Application_Module
 	];
 
 
-	/**
-	 * @var Controller_Main_Router
-	 */
-	protected $admin_controller_router;
-
-	/**
-	 * @return Controller_Main_Router
-	 */
-	public function getAdminControllerRouter()
-	{
-
-		if( !$this->admin_controller_router ) {
-			$this->admin_controller_router = new Controller_Main_Router( $this );
-		}
-
-		return $this->admin_controller_router;
-	}
 }

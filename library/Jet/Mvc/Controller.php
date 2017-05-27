@@ -35,31 +35,29 @@ abstract class Mvc_Controller extends BaseObject
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [];
+
+	/**
+	 * @var Mvc_Page_Content_Interface
+	 */
+	protected $content;
 	/**
 	 *
 	 * @var Application_Module
 	 */
-	protected $module_instance;
+	protected $module;
 	/**
 	 * @var Mvc_View
 	 */
 	protected $view;
-	/**
-	 * @var string
-	 */
-	protected $current_action = '';
-	/**
-	 * @var array
-	 */
-	protected $action_parameters = [];
 
 	/**
 	 *
-	 * @param Application_Module $module_instance
+	 * @param Mvc_Page_Content_Interface $content
 	 */
-	public function __construct( Application_Module $module_instance )
+	public function __construct( Mvc_Page_Content_Interface $content )
 	{
-		$this->module_instance = $module_instance;
+		$this->module = $content->getModuleInstance();
+		$this->content = $content;
 
 		$this->initializeDefaultView();
 	}
@@ -71,25 +69,27 @@ abstract class Mvc_Controller extends BaseObject
 	 */
 	protected function initializeDefaultView()
 	{
-		$this->view = Mvc_Factory::getViewInstance( $this->module_instance->getViewsDir() );
+		$this->view = Mvc_Factory::getViewInstance( $this->module->getViewsDir() );
+		$this->view->setController($this);
+	}
+
+
+	/**
+	 * @return Mvc_Page_Content_Interface
+	 */
+	public function getContent()
+	{
+		return $this->content;
 	}
 
 	/**
-	 * @param Mvc_Page_Content_Interface $page_content
-	 *
-	 * @return bool
+	 * @return Application_Module
 	 */
-	public function parseRequestPath( Mvc_Page_Content_Interface $page_content )
+	public function getModule()
 	{
-
-		$router = $this->getControllerRouter();
-		if( !$router ) {
-			return false;
-		}
-
-
-		return $router->resolve( $page_content );
+		return $this->module;
 	}
+
 
 	/**
 	 *
@@ -99,32 +99,6 @@ abstract class Mvc_Controller extends BaseObject
 	public function getControllerRouter()
 	{
 		return null;
-	}
-
-	/**
-	 * @param string $action
-	 * @param array  $action_parameters
-	 *
-	 * @throws Mvc_Controller_Exception
-	 *
-	 * @return bool
-	 */
-	public function checkACL( $action, $action_parameters )
-	{
-
-		$module_action = static::getModuleAction( $action );
-
-		if( $module_action===false ) {
-			return true;
-		}
-
-		if( !$this->module_instance->checkAclCanDoAction( $module_action ) ) {
-			$this->responseAclAccessDenied( $module_action, $action, $action_parameters );
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -138,8 +112,7 @@ abstract class Mvc_Controller extends BaseObject
 	{
 		if( !isset( static::$ACL_actions_check_map[$controller_action] ) ) {
 			throw new Mvc_Controller_Exception(
-				'Action \''.$controller_action.'\' is not specified in ACL check map! Please enter the ACL rules. Add '.get_called_class(
-				).'::$ACL_actions_check_map['.$controller_action.'] entry.',
+				'Action \''.$controller_action.'\' is not specified in ACL check map! Please enter the ACL rules. Add '.get_called_class().'::$ACL_actions_check_map['.$controller_action.'] entry.',
 				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}
@@ -153,7 +126,7 @@ abstract class Mvc_Controller extends BaseObject
 	 * @param array  $action_parameters
 	 *
 	 */
-	abstract public function responseAclAccessDenied( $module_action, $controller_action, $action_parameters );
+	abstract public function responseAccessDenied( $module_action, $controller_action, $action_parameters );
 
 	/**
 	 * @param string $action_message
@@ -164,8 +137,7 @@ abstract class Mvc_Controller extends BaseObject
 	public function logAllowedAction( $action_message, $context_object_id = '', $context_object_name = '', $context_object_data = [] )
 	{
 
-		$action = $this->module_instance->getModuleManifest()->getName(
-			).':'.static::$ACL_actions_check_map[$this->current_action];
+		$action = $this->module->getModuleManifest()->getName().':'.static::$ACL_actions_check_map[$this->content->getControllerAction()];
 
 		Application_Log::success(
 			'allowed_action:'.$action, $action_message, $context_object_id, $context_object_name, $context_object_data
@@ -173,60 +145,13 @@ abstract class Mvc_Controller extends BaseObject
 
 	}
 
-	/**
-	 * @param string $action
-	 * @param array  $action_parameters
-	 *
-	 * @throws Exception
-	 */
-	public function callAction( $action, array $action_parameters )
-	{
-
-		$method = $action.'_Action';
-
-		if( !method_exists( $this, $method ) ) {
-			throw new Exception(
-				'Controller method '.get_class( $this ).'::'.$method.'() does not exist'
-			);
-		}
-
-		$this->setActionParameters( $action_parameters );
-		$this->setCurrentAction( $action );
-
-		$this->{$method}();
-
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCurrentAction()
-	{
-		return $this->current_action;
-	}
-
-	/**
-	 * @param string $current_action
-	 */
-	public function setCurrentAction( $current_action )
-	{
-		$this->current_action = $current_action;
-	}
 
 	/**
 	 * @return array
 	 */
-	public function getActionParameters()
+	public function getParameters()
 	{
-		return $this->action_parameters;
-	}
-
-	/**
-	 * @param array $action_parameters
-	 */
-	public function setActionParameters( array $action_parameters )
-	{
-		$this->action_parameters = $action_parameters;
+		return $this->content->getParameters();
 	}
 
 	/**
@@ -235,13 +160,9 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return mixed
 	 */
-	public function getActionParameterValue( $key, $default_value = null )
+	public function getParameter( $key, $default_value = null )
 	{
-		if( !array_key_exists( $key, $this->action_parameters ) ) {
-			return $default_value;
-		}
-
-		return $this->action_parameters[$key];
+		return $this->content->getParameter( $key, $default_value );
 	}
 
 	/**
@@ -249,9 +170,75 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function getActionParameterExists( $key )
+	public function parameterExists( $key )
 	{
-		return array_key_exists( $key, $this->action_parameters );
+		return $this->content->parameterExists( $key );
+	}
+
+
+
+	/**
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	public function resolve( $path )
+	{
+
+		$router = $this->getControllerRouter();
+		if( !$router ) {
+			return false;
+		}
+
+
+		return $router->resolve( $path );
+	}
+
+
+
+	/**
+	 *
+	 * @throws Mvc_Controller_Exception
+	 *
+	 * @return bool
+	 */
+	public function checkAccess()
+	{
+
+		$module_action = static::getModuleAction( $this->content->getControllerAction() );
+
+		if( $module_action===false ) {
+			return true;
+		}
+
+		if( !$this->module->checkAccess( $module_action ) ) {
+			$this->responseAccessDenied( $module_action, $this->content->getControllerAction(), $this->content->getParameters() );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 *
+	 *
+	 * @throws Exception
+	 */
+	public function dispatch()
+	{
+
+		$method = $this->content->getControllerAction().'_Action';
+
+
+		if( !method_exists( $this, $method ) ) {
+			throw new Exception(
+				'Controller method '.get_class( $this ).'::'.$method.'() does not exist'
+			);
+		}
+
+		$this->{$method}();
+
 	}
 
 	/**
@@ -261,30 +248,37 @@ abstract class Mvc_Controller extends BaseObject
 	 * @param string $position (optional, default: by current dispatcher queue item)
 	 * @param int    $position_order (optional, default: by current dispatcher queue item)
 	 */
-	public function render( $script, $position = null, $position_order = null )
+	protected function render( $script, $position = null, $position_order = null )
 	{
 
-		$current_content = Mvc::getCurrentContent();
 
 		if( !$position ) {
-			$position = $current_content->getOutputPosition();
+			$position = $this->content->getOutputPosition();
 		}
 
 		if( $position_order===null ) {
-			$position_order = $current_content->getOutputPositionOrder();
+			$position_order = $this->content->getOutputPositionOrder();
 		}
 
 		if( !$position ) {
 			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
 		}
 
-		$output_id = $current_content->getKey();
+		$output_id = $this->content->getKey();
 
-		Mvc_Layout::getCurrentLayout()->renderView(
-			$this->view, $script, $position, $position_order, $output_id
+		$output = $this->view->render( $script );
+
+
+		Mvc_Layout::getCurrentLayout()->addOutputPart(
+			$output,
+			$position,
+			$position_order,
+			$output_id
 		);
+
 
 		return;
 	}
+
 
 }

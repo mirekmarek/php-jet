@@ -135,21 +135,8 @@ abstract class PackageCreator extends BaseObject
 	 */
 	protected function normalizePath( $URI )
 	{
-		if( $URI[0]=='%' ) {
-			$URI = str_replace( 'URI', 'PATH', $URI );
-
-			return Data_Text::replaceSystemConstants( $URI );
-		}
-
-
-		$_URI = $this->normalizePath_Constants(
-			$URI, [
-				    'JET_PATH_PUBLIC' => 'JET_URI_PUBLIC'
-			    ]
-		);
-
-		if( $_URI ) {
-			return Data_Text::replaceSystemConstants( $_URI );
+		if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
+			return JET_PATH_PUBLIC.$URI;
 		}
 
 
@@ -193,25 +180,8 @@ abstract class PackageCreator extends BaseObject
 	 */
 	protected function normalizeURI( $URI )
 	{
-		if( $URI[0]=='%' ) {
-			$URI = str_replace( 'PATH', 'URI', $URI );
-
-			return Data_Text::replaceSystemConstants( $URI );
-		}
-
-
-		$_URI = $this->normalizeURI_Constants(
-			$URI, [
-				    'JET_PATH_PUBLIC' => 'JET_URI_PUBLIC'
-			    ]
-		);
-		if( $_URI ) {
-			return Data_Text::replaceSystemConstants( $_URI );
-		}
-
-
-		if( substr( $URI, 0, 2 )=='//' ) {
-			return 'http:'.$URI;
+		if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
+			return JET_URI_PUBLIC.$URI;
 		}
 
 		return $URI;
