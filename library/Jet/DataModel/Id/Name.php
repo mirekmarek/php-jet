@@ -35,14 +35,14 @@ class DataModel_Id_Name extends DataModel_Id
 	public function generate()
 	{
 
-		if( !array_key_exists( $this->id_property_name, $this->_values ) ) {
+		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Class \''.$this->_data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
+				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
 
-		if( !$this->_values[$this->id_property_name] ) {
+		if( !$this->values[$this->id_property_name] ) {
 			$this->generateNameId(
 				$this->id_property_name, $this->_data_model_instance->{$this->get_name_method_name}()
 			);
@@ -69,13 +69,13 @@ class DataModel_Id_Name extends DataModel_Id
 		$id = substr( $id, 0, static::MAX_LEN );
 
 
-		$this->_values[$id_property_name] = $id;
+		$this->values[$id_property_name] = $id;
 
 		if( $this->getExists() ) {
 			$_id = substr( $id, 0, static::MAX_LEN-strlen( (string)static::MAX_SUFFIX_NO ) );
 
 			for( $c = 1; $c<=static::MAX_SUFFIX_NO; $c++ ) {
-				$this->_values[$id_property_name] = $_id.$c;
+				$this->values[$id_property_name] = $_id.$c;
 
 				if( !$this->getExists() ) {
 					return;

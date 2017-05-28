@@ -7,6 +7,8 @@
  */
 namespace JetApplicationModule\JetExample\Articles;
 
+use Jet\Http_Headers;
+use Jet\Http_Request;
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
@@ -19,7 +21,9 @@ use Jet\Navigation_Breadcrumb;
 class Controller_Site_Main extends Mvc_Controller_Standard
 {
 	protected static $ACL_actions_check_map = [
-		'default' => false, 'list' => false, 'detail' => false,
+		'default' => false,
+		'list'    => false,
+		'detail'  => false,
 	];
 	/**
 	 *
@@ -41,13 +45,13 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	{
 
 		if( preg_match('/^page:([0-9]{1,})$/', $path, $matches) ) {
+
 			$this->content->setControllerAction( 'list' );
 			$this->content->setParameter('page_no', $matches[1]);
 
 			return true;
 		} else {
-			$article = new Article();
-			$current_article = $article->resolveArticleByURL( $path );
+			$current_article = Article::resolveArticleByURL( $path, Mvc::getCurrentLocale() );
 
 			if( $current_article ) {
 				$this->content->setControllerAction( 'detail' );
@@ -75,18 +79,31 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	 */
 	public function list_Action()
 	{
-		$article = new Article();
+
+		$page_no = (int)$this->getParameter('page_no');
 
 		$paginator = new Data_Paginator(
+			$page_no,
 			$this->public_list_items_per_page,
-			$this->getParameter( 'page_no'),
 			function( $page_no ) {
 				return Mvc::getCurrentPage()->getURI(['page:'.$page_no]);
 			}
 		);
 
+		$paginator->setDataSource( Article::getListForCurrentLocale() );
 
-		$paginator->setDataSource( $article->getListForCurrentLocale() );
+
+		if(!$paginator->getCurrentPageNoIsInRange()) {
+
+			Http_Headers::movedTemporary(
+							($page_no>1) ?
+									$paginator->getLastPageURL()
+									:
+									$paginator->getFirstPageURL()
+							);
+		}
+
+
 
 		$articles_list = $paginator->getData();
 

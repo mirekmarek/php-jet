@@ -1,6 +1,7 @@
 <?php
 namespace JetApplicationModule\JetExample\Articles;
 
+use Jet\Mvc_Site;
 use Jet\UI_button;
 use Jet\UI_dataGrid;
 use Jet\UI;
@@ -41,9 +42,11 @@ $c_edit->setCssStyle( 'width:180px;' );
 
 $grid->getColumn( 'title' )->setDisplayCallback(
 	function( Article $item ) use ( $router ) {
+		foreach( Mvc_Site::getAllLocalesList(false) as $locale ):
 		?>
-		<a href="<?=$router->getEditOrViewURI( $item->getId() );?>"><?=$item->getTitle();?></a>
+		<?=UI::flag($locale)?>&nbsp;<a href="<?=$router->getEditOrViewURI( $item->getId() );?>"><?=$item->getLocalized($locale)->getTitle();?></a><br/>
 		<?php
+		endforeach;
 	}
 );
 
@@ -61,6 +64,11 @@ $c_date_time->setCssStyle( 'width:200px;' );
 <div class="col-md-12 main-col" style="padding-top: 5px;">
 
 	<div class="toolbar">
+		<div class="col-lg-3">
+			<?=$this->getRaw( 'search_form' )?>
+		</div>
+
+
 		<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
 			<?=UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri )?>
 		<?php endif; ?>

@@ -18,7 +18,7 @@ use JetApplication\Auth_Administrator_User as User;
 class Controller_Main_Router extends Mvc_Controller_Router
 {
 
-
+//TODO: ID stranek jako konstanty
 	/**
 	 * @param Mvc_Controller $controller
 	 */
@@ -35,7 +35,7 @@ class Controller_Main_Router extends Mvc_Controller_Router
 				return false;
 			}
 
-			$controller->getContent()->setParameter('use', $user);
+			$controller->getContent()->setParameter('user', $user);
 
 			return true;
 

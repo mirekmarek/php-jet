@@ -74,9 +74,7 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 					?>
 					<tr>
 						<td>
-							<a href="<?=$users_module->getAdminControllerRouter()->getEditURI(
-								$user->getId()
-							);?>"><?=$user->getUsername();?></a>
+							<?=$user->getUsername();?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

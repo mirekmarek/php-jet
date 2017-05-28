@@ -8,6 +8,7 @@
 namespace JetApplicationModule\JetExample\LoginForm;
 
 use Jet\Application_Log;
+use Jet\Session;
 use Jet\Tr;
 use Jet\Mvc_Controller_Standard;
 use Jet\Mvc_Controller_Exception;
@@ -74,6 +75,7 @@ class Controller_Main extends Mvc_Controller_Standard
 			if( $form->validate() ) {
 				$data = $form->getValues();
 				if( Auth::login( $data['username'], $data['password'] ) ) {
+					Session::regenerateId();
 					Http_Headers::reload();
 				} else {
 					$form->setCommonMessage( Tr::_( 'Invalid username or password!' ) );

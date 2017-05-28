@@ -12,7 +12,6 @@ return [
 	'Please select locale' => '',
 	'Invalid format' => '',
 	'Please select role' => '',
-	'Username' => '',
 	'E-mail' => '',
 	'Locale' => '',
 	'Description' => '',
@@ -38,4 +37,5 @@ return [
 	'Update user' => '',
 	'Delete user' => '',
 	'Administrator users management' => '',
+	'User account detail <b>%USERNAME%</b>' => '',
 ];

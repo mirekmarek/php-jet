@@ -114,7 +114,7 @@ class Gallery extends DataModel
 	 */
 	public static function getList()
 	{
-		return ( new self() )->fetchObjects();
+		return static::fetchObjects();
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Gallery extends DataModel
 	 */
 	public static function getChildren( $parent_id )
 	{
-		return ( new self() )->fetchObjects( [ [ 'this.parent_id' => $parent_id ] ] );
+		return static::fetchObjects( [ [ 'this.parent_id' => $parent_id ] ] );
 	}
 
 	/**
@@ -148,7 +148,11 @@ class Gallery extends DataModel
 	public static function getByTitle( $title, $parent_id )
 	{
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return ( new self() )->fetchOneObject( [ [ 'this.title' => $title, 'AND', 'this.parent_id' => $parent_id ] ] );
+		return static::fetchOneObject( [
+							'this.title' => $title,
+							'AND',
+							'this.parent_id' => $parent_id
+                       ] );
 	}
 
 	/**
@@ -157,7 +161,7 @@ class Gallery extends DataModel
 	public static function getTree()
 	{
 		if( !static::$_tree ) {
-			$data = ( new self() )->fetchObjects( [] );
+			$data = static::fetchObjects( [] );
 
 			static::$_tree = new Data_Tree();
 			static::$_tree->setLabelGetterMethodName( 'getTitle' );
@@ -349,32 +353,9 @@ class Gallery extends DataModel
 	/**
 	 * @return string
 	 */
-	public function getThumbnailsBaseDirPath()
-	{
-		$base_dir = JET_PATH_PUBLIC.'imagegallery/_thb_/';
-		if( !IO_Dir::exists( $base_dir ) ) {
-			IO_Dir::create( $base_dir );
-		}
-
-		return $base_dir;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getBaseURI()
 	{
 		return JET_URI_PUBLIC.'imagegallery/';
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getThumbnailsBaseURI()
-	{
-		return JET_URI_PUBLIC.'imagegallery/_thb_/';
-	}
-
-
 
 }

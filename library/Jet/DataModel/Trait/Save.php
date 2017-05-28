@@ -45,13 +45,7 @@ trait DataModel_Trait_Save
 			$operation = 'update';
 		}
 
-		try {
-			$this->{'_'.$operation}();
-		} catch( Exception $e ) {
-			$this->rollbackBackendTransaction();
-
-			throw $e;
-		}
+		$this->{'_'.$operation}();
 
 		$this->commitBackendTransaction();
 
@@ -77,9 +71,10 @@ trait DataModel_Trait_Save
 		$backend->update(
 			DataModel_RecordData::createRecordData(
 				$this, $data
-			), DataModel_Query::createQuery(
-			static::getDataModelDefinition(), $where
-		)
+			),
+			static::createQuery(
+				$where
+			)
 		);
 
 	}

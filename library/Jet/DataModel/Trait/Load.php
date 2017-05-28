@@ -47,7 +47,8 @@ trait DataModel_Trait_Load
 		}
 
 		$_this->setState(
-			$main_data, $_this->loadMainRelatedData()
+			$main_data,
+			$_this->loadMainRelatedData()
 		);
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */

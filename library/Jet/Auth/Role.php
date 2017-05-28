@@ -121,21 +121,22 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 			$search = '%'.$search.'%';
 
 			$where[] = [
-				'this.name *' => $search, 'OR', 'this.description *' => $search,
+				'this.name *' => $search,
+				'OR',
+				'this.description *' => $search,
 			];
 		}
 
-		/**
-		 * @var Auth_Role $_this
-		 */
-		$_this = new static();
 
-		$list = $_this->fetchObjects( $where );
-		$list->setLoadFilter(
+		$list = static::fetchObjects(
+			$where,
 			[
-				'this.id', 'this.name', 'this.description',
-			]
-		);
+				'this.id',
+				'this.name',
+				'this.description',
+
+			]);
+
 		$list->getQuery()->setOrderBy( 'name' );
 
 		return $list;

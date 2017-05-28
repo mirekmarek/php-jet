@@ -79,6 +79,14 @@ class Session extends BaseObject
 	/**
 	 *
 	 */
+	public static function regenerateId()
+	{
+		session_regenerate_id();
+	}
+
+	/**
+	 *
+	 */
 	public static function destroy()
 	{
 		session_destroy();

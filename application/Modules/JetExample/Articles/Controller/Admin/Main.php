@@ -32,8 +32,11 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => Main::ACTION_GET_ARTICLE, 'add' => Main::ACTION_ADD_ARTICLE, 'edit' => Main::ACTION_UPDATE_ARTICLE,
-		'view'    => Main::ACTION_GET_ARTICLE, 'delete' => Main::ACTION_DELETE_ARTICLE,
+		'default' => Main::ACTION_GET_ARTICLE,
+		'add'     => Main::ACTION_ADD_ARTICLE,
+		'edit'    => Main::ACTION_UPDATE_ARTICLE,
+		'view'    => Main::ACTION_GET_ARTICLE,
+		'delete'  => Main::ACTION_DELETE_ARTICLE,
 	];
 	/**
 	 *
@@ -60,14 +63,14 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 
 		$grid = new UI_dataGrid();
 
-		$grid->setIsPersistent( 'admin_classic_articles_list_grid' );
+		$grid->setIsPersistent( 'admin_content_articles_list_grid' );
 
 		$grid->addColumn( '_edit_', '' )->setAllowSort( false );
-		$grid->addColumn( 'title', Tr::_( 'Title' ) );
+		$grid->addColumn( 'title', Tr::_( 'Title' ) )->setAllowSort( false );
 		$grid->addColumn( 'date_time', Tr::_( 'Date and time' ) );
 
 
-		$list = Article::getList();
+		$list = Article::getList( $search_form->getValue() );
 
 		$grid->setData( $list );
 
@@ -98,7 +101,7 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 		$article = new Article();
 
 		$form = $article->getCommonForm();
-		$form->getField( 'locale' )->setDefaultValue( Mvc::getCurrentLocale() );
+
 		$form->getField( 'date_time' )->setDefaultValue( Data_DateTime::now() );
 
 		if( $article->catchForm( $form ) ) {

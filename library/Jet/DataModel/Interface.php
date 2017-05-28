@@ -181,7 +181,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Query
 	 */
-	public function createQuery( array $where = [] );
+	public static function createQuery( array $where = [] );
 
 	/**
 	 *
@@ -189,7 +189,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel
 	 */
-	public function fetchOneObject( array $where );
+	public static function fetchOneObject( array $where );
 
 	/**
 	 *
@@ -197,7 +197,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Fetch_Object_Assoc
 	 */
-	public function fetchObjects( array  $where = [] );
+	public static function fetchObjects( array  $where = [] );
 
 	/**
 	 *
@@ -205,7 +205,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Fetch_Object_Ids
 	 */
-	public function fetchObjectIDs( array $where = [] );
+	public static function fetchObjectIDs( array $where = [] );
 
 
 	/**
@@ -215,7 +215,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Fetch_Data_All
 	 */
-	public function fetchDataAll( array $load_items, array  $where = [] );
+	public static function fetchDataAll( array $load_items, array  $where = [] );
 
 	/**
 	 *
@@ -224,7 +224,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
-	public function fetchDataAssoc( array $load_items, array  $where = [] );
+	public static function fetchDataAssoc( array $load_items, array  $where = [] );
 
 	/**
 	 *
@@ -233,7 +233,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Fetch_Data_Pairs
 	 */
-	public function fetchDataPairs( array $load_items, array  $where = [] );
+	public static function fetchDataPairs( array $load_items, array  $where = [] );
 
 	/**
 	 *
@@ -242,7 +242,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return mixed|null
 	 */
-	public function fetchDataRow( array $load_items, array  $where = [] );
+	public static function fetchDataRow( array $load_items, array  $where = [] );
 
 	/**
 	 *
@@ -251,7 +251,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return mixed|null
 	 */
-	public function fetchDataOne( $load_item, array  $where = [] );
+	public static function fetchDataOne( $load_item, array  $where = [] );
 
 	/**
 	 *
@@ -260,7 +260,7 @@ interface DataModel_Interface extends BaseObject_Serializable
 	 *
 	 * @return DataModel_Fetch_Data_Col
 	 */
-	public function fetchDataCol( $select_item, array  $where = [] );
+	public static function fetchDataCol( $select_item, array  $where = [] );
 
 
 //-- Events -------------------------------------

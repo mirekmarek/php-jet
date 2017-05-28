@@ -72,15 +72,13 @@ class Gallery_Image_Thumbnail extends BaseObject
 
 		$key = $maximal_size_w.'x'.$maximal_size_h;
 
-		$file_name = $key.'__'.$image->getFileName();
+		$file_name = $key.pathinfo($image->getFileName())['extension'];
 
-		$this->dir_path = $image->getGallery()->getThumbnailsBaseDirPath().$image->getOffset().'/'.$image->getId().'/';
-
-
+		$this->dir_path = $image->getDirPath().'_thb_/';
 		$this->path = $this->dir_path.$file_name;
 
 
-		$this->URI = $image->getGallery()->getThumbnailsBaseURI().$image->getOffset().'/'.$image->getId().'/'.$file_name;
+		$this->URI = $image->getBaseURI().'_thb_/'.$file_name;
 
 	}
 
@@ -170,9 +168,6 @@ class Gallery_Image_Thumbnail extends BaseObject
 			IO_File::delete($this->path);
 		}
 
-		if(IO_Dir::exists($this->dir_path)) {
-			IO_Dir::remove($this->dir_path);
-		}
 	}
 
 	/**

@@ -86,17 +86,9 @@ class DataModel_Definition_Relation_JoinByItem extends BaseObject
 					}
 					$this->this_property_or_value = $properties[$item];
 					break;
-				case 'this_value':
-					//$class = $this_model_definition->getClassName();
-					//$this->this_property_or_value = $class::$item();
-
-					$this->this_property_or_value = new DataModel_Definition_Relation_JoinByItem_ObjectGetter(
-						$this_model_definition, $item
-					);
-					break;
 				default:
 					throw new DataModel_Query_Exception(
-						'Invalid property name: \''.$this->this_property_or_value.'\'. Valid examples: property_name or this.property_name or this_value.staticGetMethodName ',
+						'Invalid property name: \''.$this->this_property_or_value.'\'. Valid examples: property_name or this.property_name',
 						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 					);
 					break;
@@ -106,22 +98,12 @@ class DataModel_Definition_Relation_JoinByItem extends BaseObject
 
 	/**
 	 *
-	 * @param DataModel_Query $query
 	 *
 	 * @return mixed|DataModel_Definition_Property
 	 */
-	public function getThisPropertyOrValue( DataModel_Query $query )
+	public function getThisPropertyOrValue()
 	{
-
-		if( $this->this_property_or_value instanceof DataModel_Definition_Relation_JoinByItem_ObjectGetter ) {
-			$object = $query->getMainDataModel();
-			$getter_name = $this->this_property_or_value->getGetterMethodName();
-
-			return $object->{$getter_name}();
-
-		} else {
-			return $this->this_property_or_value;
-		}
+		return $this->this_property_or_value;
 	}
 
 	/**

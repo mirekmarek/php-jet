@@ -22,7 +22,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 *
 	 * @var string
 	 */
-	protected $_data_model_class_name;
+	protected $data_model_class_name;
 
 	/**
 	 * array key: ID property name
@@ -30,7 +30,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 *
 	 * @var array
 	 */
-	protected $_values = [];
+	protected $values = [];
 
 
 	/**
@@ -39,10 +39,10 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function __construct( DataModel_Definition_Model $data_model_definition, $options )
 	{
-		$this->_data_model_class_name = $data_model_definition->getClassName();
+		$this->data_model_class_name = $data_model_definition->getClassName();
 
 		foreach( array_keys( $data_model_definition->getIdProperties() ) as $id_p_n ) {
-			$this->_values[$id_p_n] = null;
+			$this->values[$id_p_n] = null;
 		}
 
 		if( $options ) {
@@ -61,20 +61,20 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 
 		$given_id_keys = [];
 		if( !is_array( $id_data ) ) {
-			foreach( $this->_values as $key => $val ) {
-				$this->_values[$key] = $id_data;
+			foreach( $this->values as $key => $val ) {
+				$this->values[$key] = $id_data;
 				$given_id_keys[] = $key;
 				break;
 			}
 		} else {
-			foreach( $this->_values as $key => $val ) {
-				$this->_values[$key] = $id_data[$key];
+			foreach( $this->values as $key => $val ) {
+				$this->values[$key] = $id_data[$key];
 				$given_id_keys[] = $key;
 				break;
 			}
 		}
 
-		if( ( $missing_keys = array_diff( array_keys( $this->_values ), $given_id_keys ) ) ) {
+		if( ( $missing_keys = array_diff( array_keys( $this->values ), $given_id_keys ) ) ) {
 			throw new DataModel_Id_Exception( 'ID values missing: '.implode( ', ', $missing_keys ) );
 		}
 
@@ -104,7 +104,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function joinObjectProperty( $name, &$property )
 	{
-		$this->_values[$name] = &$property;
+		$this->values[$name] = &$property;
 	}
 
 	/**
@@ -112,7 +112,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function getDataModelClassName()
 	{
-		return $this->_data_model_class_name;
+		return $this->data_model_class_name;
 	}
 
 	/**
@@ -125,15 +125,13 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 		$data_model_definition = $this->getDataModelDefinition();
 
 		$query = new DataModel_Query( $data_model_definition );
-		if( $this->_data_model_instance ) {
-			$query->setMainDataModel( $this->_data_model_instance );
-		}
+
 		$query->setWhere( [] );
 		$where = $query->getWhere();
 
 		$properties = $data_model_definition->getProperties();
 
-		foreach( $this->_values as $property_name => $value ) {
+		foreach( $this->values as $property_name => $value ) {
 			if( $value===null ) {
 				continue;
 			}
@@ -151,7 +149,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function getDataModelDefinition()
 	{
-		return DataModel_Definition::get( $this->_data_model_class_name );
+		return DataModel_Definition::get( $this->data_model_class_name );
 	}
 
 	/**
@@ -173,13 +171,13 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	public function unserialize( $id )
 	{
 		$id = explode( ':', $id );
-		foreach( array_keys( $this->_values ) as $k ) {
+		foreach( array_keys( $this->values ) as $k ) {
 			if( !$id ) {
 				break;
 			}
 			$val = array_shift( $id );
 
-			$this->_values[$k] = $val;
+			$this->values[$k] = $val;
 		}
 
 		return $this;
@@ -198,7 +196,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function toString()
 	{
-		return implode( ':', $this->_values );
+		return implode( ':', $this->values );
 	}
 
 
@@ -227,13 +225,13 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	public function offsetSet( $offset, $value )
 	{
 
-		if( !array_key_exists( $offset, $this->_values ) ) {
+		if( !array_key_exists( $offset, $this->values ) ) {
 			throw new DataModel_Exception(
 				'Undefined ID part \''.$offset.'\'', DataModel_Exception::CODE_UNDEFINED_ID_PART
 			);
 		}
 
-		$this->_values[$offset] = $value;
+		$this->values[$offset] = $value;
 	}
 
 	/**
@@ -247,13 +245,13 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	public function offsetGet( $offset )
 	{
 
-		if( !array_key_exists( $offset, $this->_values ) ) {
+		if( !array_key_exists( $offset, $this->values ) ) {
 			throw new DataModel_Exception(
 				'Undefined ID part \''.$offset.'\'', DataModel_Exception::CODE_UNDEFINED_ID_PART
 			);
 		}
 
-		return $this->_values[$offset];
+		return $this->values[$offset];
 	}
 
 	/**
@@ -266,7 +264,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	public function offsetExists( $offset )
 	{
 
-		return array_key_exists( $offset, $this->_values );
+		return array_key_exists( $offset, $this->values );
 	}
 
 	/**
@@ -285,7 +283,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function current()
 	{
-		return current( $this->_values );
+		return current( $this->values );
 	}
 
 	/**
@@ -294,7 +292,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function key()
 	{
-		return key( $this->_values );
+		return key( $this->values );
 	}
 
 	/**
@@ -302,7 +300,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function next()
 	{
-		return next( $this->_values );
+		return next( $this->values );
 	}
 
 	/**
@@ -310,7 +308,7 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function rewind()
 	{
-		reset( $this->_values );
+		reset( $this->values );
 	}
 
 	/**
@@ -319,6 +317,6 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	 */
 	public function valid()
 	{
-		return key( $this->_values )!==null;
+		return key( $this->values )!==null;
 	}
 }

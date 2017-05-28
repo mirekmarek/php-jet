@@ -263,6 +263,24 @@ class Gallery_Image extends DataModel
 	/**
 	 * @return string
 	 */
+	public function getBaseURI()
+	{
+		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/';
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getURI()
+	{
+		return $this->getBaseURI().rawurldecode( $this->getFileName() );
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function getFileName()
 	{
 		return $this->file_name;
@@ -291,26 +309,7 @@ class Gallery_Image extends DataModel
 		}
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return ( new self() )->fetchObjects( $query );
-	}
-
-	/**
-	 *
-	 * @param string $gallery_id (optional)
-	 *
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public static function getListAsData( $gallery_id = '' )
-	{
-
-		$props = static::getDataModelDefinition()->getProperties();
-		$data = static::fetchDataAssoc( $props, [] );
-
-		if( $gallery_id ) {
-			$data->getQuery()->setWhere( [ 'this.gallery_id' => $gallery_id ] );
-		}
-
-		return $data;
+		return static::fetchObjects( $query );
 	}
 
 	/**
@@ -386,14 +385,6 @@ class Gallery_Image extends DataModel
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getURI()
-	{
-		return $this->getGallery()->getBaseURI().$this->getOffset().'/'.$this->getIdObject().'/'.rawurldecode( $this->getFileName() );
-	}
-
-	/**
 	 * @param int  $maximal_size_w
 	 * @param int  $maximal_size_h
 	 *
@@ -421,7 +412,11 @@ class Gallery_Image extends DataModel
 	 */
 	public function afterDelete()
 	{
-		//TODO: smazat
+		$path = $this->getDirPath();
+
+		if(IO_Dir::exists($path)) {
+			IO_Dir::remove( $path );
+		}
 	}
 
 }

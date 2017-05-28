@@ -254,34 +254,35 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	 */
 	public static function getList( $role_id = null, $search = '' )
 	{
-		$query = [];
+		$where = [];
 
 		if( $role_id ) {
-			$query = [
+			$where = [
 				'Auth_Role.id' => $role_id,
 			];
 		}
 
 		if( $search ) {
-			if( $query ) {
-				$query [] = 'AND';
+			if( $where ) {
+				$where [] = 'AND';
 			}
 
 			$search = '%'.$search.'%';
-			$query[] = [
+			$where[] = [
 				'this.username *'    => $search, 'OR', 'this.first_name *' => $search, 'OR',
 				'this.surname *'     => $search, 'OR', 'this.email *' => $search,
 			];
 		}
 
-		/**
-		 * @var Auth_User $_this
-		 */
-		$_this = new static();
-		$list = $_this->fetchObjects( $query );
+
+		$list = static::fetchObjects( $where );
 		$list->setLoadFilter(
 			[
-				'this.id', 'this.username', 'this.first_name', 'this.surname', 'this.locale',
+				'this.id',
+				'this.username',
+				'this.first_name',
+				'this.surname',
+				'this.locale',
 			]
 		);
 		$list->getQuery()->setOrderBy( 'username' );
@@ -302,7 +303,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 		/**
 		 * @var Auth_User $user
 		 */
-		$user = ( new static() )->fetchOneObject(
+		$user = static::fetchOneObject(
 			[
 				'this.username' => $username,
 			]
@@ -339,7 +340,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 		/**
 		 * @var Auth_User $user
 		 */
-		$user = ( new static() )->fetchOneObject(
+		$user = static::fetchOneObject(
 			[
 				'this.username' => $username,
 			]
@@ -822,7 +823,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 			];
 		}
 
-		return (bool)static::getBackendInstance()->getCount( $this->createQuery( $q ) );
+		return (bool)static::getBackendInstance()->getCount( DataModel_Trait_Fetch::createQuery( $q ) );
 	}
 
 	/**

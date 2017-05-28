@@ -71,7 +71,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		} else {
 			$gallery_id = Http_Request::GET()->getString( 'gallery_id' );
 
-			$list = Gallery_Image::getListAsData( $gallery_id );
+			$list = Gallery_Image::getList( $gallery_id );
 
 			$this->responseDataModelsList( $list );
 

@@ -126,7 +126,10 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Dat
 			 */
 			$_i = new $class_name();
 			$_i->setLoadFilter( $this->load_filter );
-			$_i->setState( $item['__data'], $_i->loadMainRelatedData() );
+			$_i->setState( $item['__data'], [] );
+
+			$main_related_data = $_i->loadMainRelatedData();
+			$_i->setState( $item['__data'], $main_related_data );
 
 			$_i->afterLoad();
 		} else {

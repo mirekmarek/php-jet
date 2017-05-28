@@ -43,16 +43,6 @@ class DataModel_Query extends BaseObject
 	];
 
 	/**
-	 * @var string
-	 */
-	protected $main_data_model_class_name;
-
-	/**
-	 * @var DataModel
-	 */
-	protected $main_data_model;
-
-	/**
 	 * @var DataModel_Definition_Model_Main
 	 */
 	protected $main_data_model_definition;
@@ -131,34 +121,9 @@ class DataModel_Query extends BaseObject
 	public function __construct( DataModel_Definition_Model $main_data_model_definition )
 	{
 		$this->main_data_model_definition = $main_data_model_definition;
-		$this->main_data_model_class_name = $this->main_data_model_definition->getClassName();
 
 	}
 
-
-	/**
-	 * @return DataModel
-	 */
-	public function getMainDataModel()
-	{
-		return $this->main_data_model;
-	}
-
-	/**
-	 * @param DataModel_Interface $main_data_model
-	 */
-	public function setMainDataModel( DataModel_Interface $main_data_model )
-	{
-		$this->main_data_model = $main_data_model;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMainDataModelClassName()
-	{
-		return $this->main_data_model_class_name;
-	}
 
 	/**
 	 * @return DataModel_Definition_Model

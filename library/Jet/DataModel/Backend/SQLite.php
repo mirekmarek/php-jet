@@ -798,16 +798,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 
 			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisPropertyOrValue( $query );
+				$related_value = $join_by_property->getThisPropertyOrValue();
 				if( $related_value===null ) {
 					continue;
 				}
 
 				$related_value = $this->_getValue( $related_value );
 
-				$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName(
-						$join_by_property->getRelatedProperty()
-					).' = '.$related_value;
+				$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName( $join_by_property->getRelatedProperty() ).' = '.$related_value;
 
 			}
 

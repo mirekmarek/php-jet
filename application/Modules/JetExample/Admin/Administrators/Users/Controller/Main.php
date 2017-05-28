@@ -163,9 +163,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		}
 
 
-		$this->_setBreadcrumbNavigation(
-			Tr::_( 'Edit user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] )
-		);
+		$this->_setBreadcrumbNavigation( Tr::_( 'Edit user account <b>%USERNAME%</b>', [ 'USERNAME' => $user->getUsername() ] ) );
 
 		/**
 		 * @var Form $form

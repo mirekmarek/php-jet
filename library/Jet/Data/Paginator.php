@@ -174,7 +174,7 @@ class Data_Paginator extends BaseObject
 			return;
 		}
 
-		$this->pages_count = ceil( $this->data_items_count/$this->items_per_page );
+		$this->pages_count = (int)ceil( $this->data_items_count/$this->items_per_page );
 
 
 		if( $this->current_page_no>$this->pages_count ) {
@@ -204,14 +204,16 @@ class Data_Paginator extends BaseObject
 
 		$creator = $this->URL_creator;
 
+
+		$this->first_page_URL = $creator( 1 );
+		$this->last_page_URL = $creator($this->pages_count);
+
 		if( $this->prev_page_no ) {
 			$this->prev_page_URL = $creator( $this->prev_page_no );
-			$this->first_page_URL = $creator( 1 );
 		}
 
 		if( $this->next_page_no ) {
 			$this->next_page_URL = $creator($this->next_page_no);
-			$this->last_page_URL = $creator($this->pages_count);
 		}
 
 		if( $this->pages_count ) {
@@ -310,7 +312,7 @@ class Data_Paginator extends BaseObject
 		return $this->next_page_no;
 	}
 
-	/**     *
+	/**
 	 *
 	 * @return int
 	 */
