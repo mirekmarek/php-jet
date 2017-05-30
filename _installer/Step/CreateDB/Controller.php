@@ -7,7 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Http_Request;
 use Jet\DataModel_Helper;
 use Jet\Exception;
 use Jet\Mvc_Site;

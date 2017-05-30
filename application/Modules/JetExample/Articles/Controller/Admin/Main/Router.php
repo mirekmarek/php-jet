@@ -27,7 +27,22 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 		parent::__construct( $controller );
 
-		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
+
+		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
+		$router = $this;
+
+		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $page ) {
+			if( !$router->getActionAllowed( $action ) ) {
+				return false;
+			}
+
+
+			if( !$id ) {
+				return $page->getURI([ $action_uri ]);
+			}
+
+			return $page->getURI([$action_uri.':'.$id ]);
+		};
 
 
 		$validator = function( $parameters ) use ($controller) {
@@ -43,26 +58,26 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 		};
 
 		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ARTICLE )->setCreateURICallback(
-			function() use ( $base_URI ) {
-				return $base_URI.'add/';
+			function() use ( $URI_creator ) {
+				return $URI_creator('add', 'add');
 			}
 		);
 
 		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_ARTICLE )->setCreateURICallback(
-			function( $id ) use ( $base_URI ) {
-				return $base_URI.'edit:'.rawurlencode( $id ).'/';
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator('edit', 'edit', $id);
 			}
 		)->setParametersValidatorCallback( $validator );
 
 		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_ARTICLE )->setCreateURICallback(
-			function( $id ) use ( $base_URI ) {
-				return $base_URI.'view:'.rawurlencode( $id ).'/';
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator('view', 'view', $id);
 			}
 		)->setParametersValidatorCallback( $validator );
 
 		$this->addAction( 'delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_ARTICLE )->setCreateURICallback(
-			function( $id ) use ( $base_URI ) {
-				return $base_URI.'delete:'.rawurlencode( $id ).'/';
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator('delete', 'delete', $id);
 			}
 		)->setParametersValidatorCallback( $validator );
 	}

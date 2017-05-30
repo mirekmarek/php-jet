@@ -26,7 +26,8 @@ namespace Jet;
 	 *      - ONLY FOR RELATED MODELS!
 	 *
 	 * Relation on foreign model definition:
-	 * @JetDataModel:relation = [ 'Some\RelatedClass', [ 'property_name'=>'related_property_name', 'another_property_name' => 'another_related_property_name' ], DataModel_Query::JOIN_TYPE_* ]
+	 * //TODO: doplnit moznost zavyslosti
+	 * @JetDataModel:relation = [ 'Some_Related_Class', [ 'property_name'=>'related_property_name', 'another_property_name' => 'another_related_property_name' ], DataModel_Query::JOIN_TYPE_*, ['some_required_related_model_name'] ]
 	 *
 	 *          Warning!
 	 *          This kind of relation has no affect on saving or deleting object (like DataModel_Related_* models has).
@@ -97,7 +98,6 @@ namespace Jet;
 
 
 /**
- * Class DataModel
  *
  */
 abstract class DataModel extends BaseObject implements DataModel_Interface

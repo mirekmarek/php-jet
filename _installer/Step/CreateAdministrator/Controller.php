@@ -7,8 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Http_Request;
-
 /**
  *
  */

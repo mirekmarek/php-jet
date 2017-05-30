@@ -8,49 +8,21 @@ use Jet\Mvc_View;
 use Jet\Mvc;
 
 /**
- * @var Mvc_View                               $this
- * @var DataModel_Fetch_Object_Assoc|Gallery[] $children
- * @var Gallery                                $gallery
+ * @var Mvc_View  $this
+ * @var Gallery[] $galleries
  */
-$children = $this->getRaw( 'children' );
-$gallery = $this->getRaw( 'gallery' );
 
-$images = [];
-if( $gallery ) {
-	$images = $gallery->getImages();
-}
-
-Mvc_Layout::getCurrentLayout()->requireCssFile(
-	'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-);
+$galleries = $this->getRaw( 'galleries' );
 
 ?>
 
 <div class="row">
-	<?php foreach( $children as $gallery ): ?>
-		<a href="<?=Mvc::getCurrentPage()->getURI( [ $gallery->getTitle() ] );?>" class="img-thumbnail"
-		   style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;">
+	<?php foreach( $galleries as $gallery ): ?>
+		<a href="<?=$gallery->getLocalized()->getURL()?>" class="img-thumbnail"
+		   style="width: 120px;height: 120px;text-align: center;overflow: hidden;margin: 3px;border:none">
 			<?=UI::icon( 'folder-o' )->setSize( 80 )?>
 			<br/>
 			<?=$gallery->getTitle();?>
 		</a>
-	<?php endforeach; ?>
-</div>
-
-<div class="row">
-	<?php foreach( $images as $image ):
-		/**
-		 * @var Gallery_Image $image
-		 */
-		?>
-		<div style="float:left;margin: 10px;overflow: hidden;">
-			<div class="thumbnail" style="height: 155px;width: 200px;padding:10px;overflow: hidden">
-				<a href="<?=$image->getURI();?>">
-					<div
-							style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 );?>');"
-					></div>
-				</a>
-			</div>
-		</div>
 	<?php endforeach; ?>
 </div>

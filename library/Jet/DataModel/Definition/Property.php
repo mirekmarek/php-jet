@@ -20,6 +20,17 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	protected $data_model_class_name = '';
 
 	/**
+	 * @var string
+	 */
+	protected $type = null;
+
+
+	/**
+	 * @var string
+	 */
+	protected $name = '';
+
+	/**
 	 *
 	 * @var string|null
 	 */
@@ -30,18 +41,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 * @var string|null
 	 */
 	protected $related_to_property_name = null;
-
-
-	/**
-	 * @var string
-	 */
-	protected $_type = null;
-
-
-	/**
-	 * @var string
-	 */
-	protected $_name = '';
 
 	/**
 	 *
@@ -95,7 +94,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	public static function __set_state( array $data )
 	{
 
-		$i = new static( $data['data_model_class_name'], $data['_name'] );
+		$i = new static( $data['data_model_class_name'], $data['name'] );
 
 		foreach( $data as $key => $val ) {
 			$i->{$key} = $val;
@@ -112,7 +111,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	public function __construct( $data_model_class_name, $name, $definition_data = null )
 	{
 		$this->data_model_class_name = (string)$data_model_class_name;
-		$this->_name = $name;
+		$this->name = $name;
 
 		$this->setUp( $definition_data );
 
@@ -131,7 +130,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 			foreach( $definition_data as $key => $val ) {
 				if( !$this->getObjectClassHasProperty( $key ) ) {
 					throw new DataModel_Exception(
-						$this->data_model_class_name.'::'.$this->_name.': unknown definition option \''.$key.'\'  ',
+						$this->data_model_class_name.'::'.$this->name.': unknown definition option \''.$key.'\'  ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
@@ -165,6 +164,19 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	{
 		$this->related_to_class_name = $related_to_class_name;
 		$this->related_to_property_name = $related_to_property_name;
+	}
+
+	/**
+	 * @return DataModel_Definition_Relation_Join_Item
+	 */
+	public function getRelationJoinItem()
+	{
+		return new DataModel_Definition_Relation_Join_Item(
+			$this->data_model_class_name,
+			$this->name,
+			$this->related_to_class_name,
+			$this->related_to_property_name
+		);
 	}
 
 	/**
@@ -205,7 +217,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**
@@ -323,13 +335,10 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	}
 
 	/**
-	 * @param mixed               &$property
-	 * @param DataModel_Interface $data_model_instance
+	 * @param mixed &$property
 	 */
-	public function initPropertyDefaultValue( &$property, /** @noinspection PhpUnusedParameterInspection */
-	                                          DataModel_Interface $data_model_instance )
+	public function initPropertyDefaultValue( &$property )
 	{
-
 		if( $property===null ) {
 			$property = $this->getDefaultValue();
 
@@ -388,7 +397,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getFormFieldName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**
@@ -404,7 +413,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getFormFieldContextPropertyName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 
@@ -438,7 +447,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getType()
 	{
-		return $this->_type;
+		return $this->type;
 	}
 
 	/**
@@ -479,17 +488,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function getAllRelatedPropertyDefinitions( array &$related_definitions )
 	{
-	}
-
-	/**
-	 *
-	 * @param DataModel_Definition_Relations $internal_relations
-	 *
-	 * @throws DataModel_Exception
-	 */
-	public function getInternalRelations( DataModel_Definition_Relations $internal_relations )
-	{
-
 	}
 
 

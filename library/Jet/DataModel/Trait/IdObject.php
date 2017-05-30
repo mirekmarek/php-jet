@@ -33,7 +33,8 @@ trait DataModel_Trait_IdObject
 			$this->_id_object = static::getEmptyIdObject();
 
 			$this->_id_object->joinDataModel( $this );
-			foreach( $this->_id_object as $property_name => $value ) {
+
+			foreach( $this->_id_object->getPropertyNames() as $property_name ) {
 				$this->_id_object->joinObjectProperty( $property_name, $this->{$property_name} );
 			}
 

@@ -16,7 +16,7 @@ use Jet\DataModel_Id_UniqueString;
 
 /**
  *
- * @JetDataModel:name = 'Image'
+ * @JetDataModel:name = 'image'
  * @JetDataModel:database_table_name = 'image_galleries_images'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
@@ -103,14 +103,6 @@ class Gallery_Image extends DataModel
 	protected $image_size_h = 0;
 
 	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_ARRAY
-	 *
-	 * @var array
-	 */
-	protected $generated_thumbnails;
-
-	/**
 	 * @var Gallery
 	 */
 	protected $__gallery;
@@ -194,7 +186,7 @@ class Gallery_Image extends DataModel
 	 */
 	public function getAllImagesCount()
 	{
-		return $this->fetchObjectIds()->getCount();
+		return static::fetchObjectIds()->getCount();
 	}
 
 
@@ -302,14 +294,14 @@ class Gallery_Image extends DataModel
 	 */
 	public static function getList( $gallery_id = '' )
 	{
-		$query = [];
+		$where = [];
 
 		if( $gallery_id ) {
-			$query['this.gallery_id'] = $gallery_id;
+			$where['gallery_id'] = $gallery_id;
 		}
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return static::fetchObjects( $query );
+		return static::fetchObjects( $where );
 	}
 
 	/**
@@ -396,13 +388,6 @@ class Gallery_Image extends DataModel
 		$maximal_size_h = (int)$maximal_size_h;
 
 		$thb = new Gallery_Image_Thumbnail($this, $maximal_size_w, $maximal_size_h);
-
-		$key = $maximal_size_w.'x'.$maximal_size_h;
-		if(!in_array($key, $this->generated_thumbnails)) {
-			$thb->generate();
-			$this->generated_thumbnails[] = $key;
-			$this->save();
-		}
 
 		return $thb;
 	}

@@ -70,7 +70,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 */
 	public function post_article_Action()
 	{
-		$article = Article::getNew();
+		$article = new Article();
 
 		$form = $article->getCommonForm();
 

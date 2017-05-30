@@ -12,6 +12,8 @@ use Jet\DataModel_Fetch_Data_Assoc;
 use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\DataModel_Query;
 use Jet\DataModel_Id_UniqueString;
+use Jet\DataModel_Related_1toN;
+use Jet\DataModel_Related_1toN_Iterator;
 
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
@@ -22,9 +24,14 @@ use Jet\Tr;
 use Jet\Data_Tree;
 use Jet\IO_Dir;
 
+use Jet\Locale;
+
+use Jet\Mvc;
+use Jet\Mvc_Site;
+
 /**
  *
- * @JetDataModel:name = 'ImageGallery'
+ * @JetDataModel:name = 'gallery'
  * @JetDataModel:database_table_name = 'image_galleries'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  *
@@ -33,7 +40,6 @@ use Jet\IO_Dir;
 class Gallery extends DataModel
 {
 
-	const ROOT_ID = '_root_';
 	/**
 	 * @var Data_Tree;
 	 */
@@ -42,6 +48,7 @@ class Gallery extends DataModel
 	 * @var Gallery
 	 */
 	protected static $__galleries = [];
+
 	/**
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_ID
@@ -57,29 +64,26 @@ class Gallery extends DataModel
 	 * @var string
 	 */
 	protected $id = '';
-	/**
-	 *
-	 * @JetDataModel:type = DataModel::TYPE_STRING
-	 * @JetDataModel:max_len = 100
-	 * @JetDataModel:form_field_is_required = true
-	 * @JetDataModel:form_field_label = 'Title'
-	 * @JetDataModel:form_field_error_messages = [Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter title']
-	 *
-	 * @var string
-	 */
-	protected $title = '';
-	/**
-	 * @var Gallery_Image
-	 */
-	protected $__images;
 
 	/**
-	 * @return Gallery
+	 * @JetDataModel:type = DataModel::TYPE_DATA_MODEL
+	 * @JetDataModel:data_model_class = 'Gallery_Localized'
+	 *
+	 * @var Gallery_Localized[]|DataModel_Related_1toN|DataModel_Related_1toN_Iterator
 	 */
-	public static function getNew()
-	{
-		return new self();
-	}
+	protected $localized;
+
+
+	/**
+	 * @var Gallery_Image[]
+	 */
+	protected $_images;
+
+	/**
+	 * @var Gallery[]
+	 */
+	protected $_children;
+
 
 	/**
 	 *
@@ -119,6 +123,16 @@ class Gallery extends DataModel
 
 	/**
 	 *
+	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
+	 */
+	public static function getRootGalleries()
+	{
+		return static::fetchObjects(['parent_id'=>'']);
+	}
+
+
+	/**
+	 *
 	 * @return DataModel_Fetch_Data_Assoc
 	 */
 	public static function getListAsData()
@@ -130,29 +144,28 @@ class Gallery extends DataModel
 	}
 
 	/**
-	 * @param string $parent_id
-	 *
-	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
-	 */
-	public static function getChildren( $parent_id )
-	{
-		return static::fetchObjects( [ [ 'this.parent_id' => $parent_id ] ] );
-	}
-
-	/**
-	 * @param string $title
-	 * @param string $parent_id
+	 * @param string        $path
+	 * @param string|Locale $locale
 	 *
 	 * @return Gallery|null
 	 */
-	public static function getByTitle( $title, $parent_id )
+	public static function resolveGalleryByURL( $path, $locale )
 	{
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return static::fetchOneObject( [
-							'this.title' => $title,
-							'AND',
-							'this.parent_id' => $parent_id
-                       ] );
+
+		$gallery = static::fetchOneObject(
+				[
+					'gallery_localized.URI_fragment' => $path,
+					'AND',
+					'gallery_localized.locale' => $locale
+				]
+			);
+
+
+
+		/**
+		 * @var Gallery $gallery
+		 */
+		return $gallery;
 	}
 
 	/**
@@ -165,7 +178,6 @@ class Gallery extends DataModel
 
 			static::$_tree = new Data_Tree();
 			static::$_tree->setLabelGetterMethodName( 'getTitle' );
-			static::$_tree->getRootNode()->setId( Gallery::ROOT_ID );
 			static::$_tree->getRootNode()->setLabel( Tr::_( 'Galleries' ) );
 			static::$_tree->setDataSource( $data );
 		}
@@ -174,6 +186,35 @@ class Gallery extends DataModel
 		return static::$_tree;
 	}
 
+
+	/**
+	 *
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->afterLoad();
+	}
+
+	/**
+	 *
+	 */
+	public function afterLoad()
+	{
+
+		foreach( Mvc_Site::getAllLocalesList(false) as $lc_str => $locale) {
+
+			if (!isset($this->localized[$lc_str])) {
+
+				$this->localized[$lc_str] = new Gallery_Localized($this->getId(), $locale);
+			}
+
+			$this->localized[$lc_str]->setArticle( $this );
+		}
+
+	}
+
+
 	/**
 	 * @return string
 	 */
@@ -181,6 +222,42 @@ class Gallery extends DataModel
 	{
 		return $this->id;
 	}
+
+
+	/**
+	 *
+	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
+	 */
+	public function getChildren()
+	{
+		if($this->_children===null) {
+			$this->_children = static::fetchObjects( [ 'parent_id' => $this->id ] );
+		}
+
+		return $this->_children;
+	}
+
+	/**
+	 * @param Locale|null $locale
+	 *
+	 * @return Gallery_Localized
+	 */
+	public function getLocalized( Locale $locale=null )
+	{
+		if(!$locale) {
+			$locale = Mvc::getCurrentLocale();
+		}
+		return $this->localized[$locale->toString()];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->getLocalized()->getTitle();
+	}
+
 
 	/**
 	 * @return string
@@ -199,20 +276,17 @@ class Gallery extends DataModel
 	}
 
 	/**
-	 * @return string
+	 * @return Gallery|null
 	 */
-	public function getTitle()
+	public function getParent()
 	{
-		return $this->title;
+		if(!$this->parent_id) {
+			return null;
+		}
+
+		return Gallery::get($this->parent_id);
 	}
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle( $title )
-	{
-		$this->title = (string)$title;
-	}
 
 	/**
 	 * @return Form
@@ -272,6 +346,9 @@ class Gallery extends DataModel
 			return false;
 		}
 
+		$this->_images = null;
+
+
 		return $image;
 
 	}
@@ -298,11 +375,11 @@ class Gallery extends DataModel
 	 */
 	public function getImages()
 	{
-		if( $this->__images===null ) {
-			$this->__images = Gallery_Image::getList( $this->id );
+		if( $this->_images===null ) {
+			$this->_images = Gallery_Image::getList( $this->id );
 		}
 
-		return $this->__images;
+		return $this->_images;
 	}
 
 	/**
@@ -330,7 +407,7 @@ class Gallery extends DataModel
 
 		$image = Gallery_Image::getNewImage( $this, $source_file_path, $source_file_name );
 
-		$this->__images[] = $image;
+		$this->_images[] = $image;
 
 		return $image;
 

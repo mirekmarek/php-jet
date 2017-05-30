@@ -17,7 +17,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 * @var array
 	 */
 	protected static $valid_key_types = [
-		DataModel::KEY_TYPE_PRIMARY, DataModel::KEY_TYPE_INDEX, DataModel::KEY_TYPE_UNIQUE,
+		DataModel::KEY_TYPE_PRIMARY,
+		DataModel::KEY_TYPE_INDEX,
+		DataModel::KEY_TYPE_UNIQUE,
 	];
 	/**
 	 * @var DataModel_Backend_MySQL_Config
@@ -406,9 +408,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$common_cols[$i] = $this->_quoteName( $col );
 		}
 
-		$data_migration_command = 'INSERT INTO '.$updated_table_name.' ('.implode(
-				',', $common_cols
-			).') SELECT '.implode( ',', $common_cols ).' FROM '.$table_name.';';
+		$data_migration_command = 'INSERT INTO '.$updated_table_name.' ('.implode( ',', $common_cols ).') SELECT '.implode( ',', $common_cols ).' FROM '.$table_name.';';
 
 		$update_default_values = '';
 
@@ -802,18 +802,23 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			}
 
 			$j = [];
-			$join_by_properties = $relation->getJoinBy();
 
 
-			foreach( $join_by_properties as $join_by_property ) {
-				$related_value = $join_by_property->getThisPropertyOrValue();
-				if( $related_value===null ) {
-					continue;
+			foreach( $relation->getJoinBy() as $join_by ) {
+
+
+				if($join_by instanceof DataModel_Definition_Relation_Join_Item) {
+					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName( $join_by->getRelatedProperty() ).' = '.$this->_getColumnName( $join_by->getThisProperty() );
 				}
 
-				$related_value = $this->_getValue( $related_value );
+				if($join_by instanceof DataModel_Definition_Relation_Join_Condition) {
 
-				$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName( $join_by_property->getRelatedProperty() ).' = '.$related_value;
+					$value = $this->_getValue($join_by->getValue());
+					$operator = $this->_getSQLQueryWherePart_handleOperator( $join_by->getOperator(), $value );
+
+					$j[] = JET_TAB.JET_TAB.JET_TAB.$this->_getColumnName( $join_by->getRelatedProperty() ).$operator.$value;
+
+				}
 
 			}
 
@@ -921,15 +926,16 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function createSelectQuery( DataModel_Query $query )
 	{
 
-		return 'SELECT'.JET_EOL.JET_TAB.$this->_getSQLQuerySelectPart(
-			$query
-		).JET_EOL.'FROM'.JET_EOL.JET_TAB.$this->_getSQLQueryTableName( $query ).$this->_getSQLQueryJoinPart( $query )
-
-		.$this->_getSqlQueryWherePart( $query->getWhere() ).$this->_getSqlQueryGroupPart(
-			$query
-		).$this->_getSqlQueryHavingPart( $query->getHaving() ).$this->_getSqlQueryOrderByPart(
-			$query
-		).$this->_getSqlQueryLimitPart( $query );
+		return 'SELECT'.JET_EOL
+			.JET_TAB.$this->_getSQLQuerySelectPart( $query ).JET_EOL
+			.'FROM'.JET_EOL
+			.JET_TAB.$this->_getSQLQueryTableName( $query )
+			.$this->_getSQLQueryJoinPart( $query )
+			.$this->_getSqlQueryWherePart( $query->getWhere() )
+			.$this->_getSqlQueryGroupPart( $query )
+			.$this->_getSqlQueryHavingPart( $query->getHaving() )
+			.$this->_getSqlQueryOrderByPart( $query )
+			.$this->_getSqlQueryLimitPart( $query );
 
 	}
 
@@ -964,10 +970,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 				continue;
 			}
 
-			if( $property instanceof DataModel_Query_Select_Item_BackendFunctionCall ) {
+			if( $property instanceof DataModel_Query_Select_Item_Expression ) {
 
 				/**
-				 * @var DataModel_Query_Select_Item_BackendFunctionCall $property
+				 * @var DataModel_Query_Select_Item_Expression $property
 				 */
 
 				$backend_function_call = $property->toString( $mapper );

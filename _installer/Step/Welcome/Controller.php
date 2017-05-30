@@ -7,8 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Form;
-use Jet\Form_Field_Select;
 use Jet\Http_Headers;
 use Jet\Locale;
 use Jet\Mvc_Site;

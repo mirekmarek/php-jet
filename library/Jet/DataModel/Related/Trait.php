@@ -37,12 +37,12 @@ trait DataModel_Related_Trait
 
 			if(
 				$this->getIsSaved() &&
-				$this->{$property_name}!=$parent_id[$property_definition->getRelatedToPropertyName()]
+				$this->{$property_name}!=$parent_id->getValue( $property_definition->getRelatedToPropertyName() )
 			) {
 				$this->setIsNew();
 			}
 
-			$this->{$property_name} = $parent_id[$property_definition->getRelatedToPropertyName()];
+			$this->{$property_name} = $parent_id->getValue( $property_definition->getRelatedToPropertyName() );
 
 		}
 
@@ -65,12 +65,12 @@ trait DataModel_Related_Trait
 
 			if(
 				$this->getIsSaved() &&
-				$this->{$property_name}!=$main_id[$property_definition->getRelatedToPropertyName()]
+				$this->{$property_name}!=$main_id->getValue( $property_definition->getRelatedToPropertyName() )
 			) {
 				$this->setIsNew();
 			}
 
-			$this->{$property_name} = $main_id[$property_definition->getRelatedToPropertyName()];
+			$this->{$property_name} = $main_id->getValue( $property_definition->getRelatedToPropertyName() );
 
 		}
 

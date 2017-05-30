@@ -26,12 +26,7 @@ class DataModel_Id_AutoIncrement extends DataModel_Id
 	 */
 	public function generate()
 	{
-		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
-			throw new DataModel_Exception(
-				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
+		$this->_check();
 	}
 
 	/**
@@ -41,6 +36,12 @@ class DataModel_Id_AutoIncrement extends DataModel_Id
 	 */
 	public function afterSave( $backend_save_result )
 	{
+		$this->_check();
+
+		$this->values[$this->id_property_name] = (int)$backend_save_result;
+	}
+
+	protected function _check() {
 		if( !array_key_exists( $this->id_property_name, $this->values ) ) {
 			throw new DataModel_Exception(
 				'Class \''.$this->data_model_class_name.'\': Property \''.$this->id_property_name.'\' does not exist. Please configure ID class by @JetDataModel:id_options, or define that property, or create your own ID class.',
@@ -48,8 +49,6 @@ class DataModel_Id_AutoIncrement extends DataModel_Id
 			);
 		}
 
-
-		$this->values[$this->id_property_name] = (int)$backend_save_result;
 	}
 
 }

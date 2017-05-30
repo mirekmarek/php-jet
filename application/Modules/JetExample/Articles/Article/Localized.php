@@ -227,14 +227,14 @@ class Article_Localized extends DataModel_Related_1toN
 	public function getUriFragmentExists( $URI_fragment )
 	{
 		$q = [
-			'this.URI_fragment' => $URI_fragment,
+			'URI_fragment' => $URI_fragment,
 			'AND',
-			'this.locale' => $this->locale,
+			'locale' => $this->locale,
 		];
 
 		if( !$this->getIsNew() ) {
 			$q[] = 'AND';
-			$q['this.article_id!='] = $this->article_id;
+			$q['article_id!='] = $this->article_id;
 		}
 
 		return (bool)static::getBackendInstance()->getCount( static::createQuery( $q ) );

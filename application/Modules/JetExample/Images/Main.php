@@ -16,7 +16,6 @@ use Jet\Mvc;
  */
 class Main extends Application_Module
 {
-	//TODO: bezna vycejazycnost
 	//TODO: hledani
 
 

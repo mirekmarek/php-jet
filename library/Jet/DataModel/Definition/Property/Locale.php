@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_LOCALE;
+	protected $type = DataModel::TYPE_LOCALE;
 
 	/**
 	 * @var null

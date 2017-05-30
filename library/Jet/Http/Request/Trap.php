@@ -10,8 +10,19 @@ namespace Jet;
 /**
  *
  */
-class Http_Request_Trap implements \ArrayAccess, \Iterator, \Countable
+class Http_Request_Trap implements BaseObject_ArrayEmulator
 {
+
+	/**
+	 * @throws Http_Request_Exception
+	 */
+	protected function trap()
+	{
+		throw new Http_Request_Exception(
+			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
+			Http_Request_Exception::CODE_REQUEST_DATA_TRAP
+		);
+	}
 
 	/**
 	 * @param string $name
@@ -32,17 +43,6 @@ class Http_Request_Trap implements \ArrayAccess, \Iterator, \Countable
 	public function __set( $name, $value )
 	{
 		$this->trap();
-	}
-
-	/**
-	 * @throws Http_Request_Exception
-	 */
-	protected function trap()
-	{
-		throw new Http_Request_Exception(
-			'Direct access to PHP request data ($_GET, $_POST and $_REQUEST) forbidden.',
-			Http_Request_Exception::CODE_REQUEST_DATA_TRAP
-		);
 	}
 
 	/**

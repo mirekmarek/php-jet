@@ -15,25 +15,25 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 
 	/**
-	 * @param DataModel_Definition_Model $this_model_definition
-	 * @param array                      $definition_data (optional)
+	 * @param string $this_model_class_name
+	 * @param array  $definition_data (optional)
 	 *
 	 */
-	public function __construct( DataModel_Definition_Model $this_model_definition, $definition_data = null )
+	public function __construct( $this_model_class_name='', $definition_data = null )
 	{
 
 		if( $definition_data ) {
-			$this->setUp( $this_model_definition, $definition_data );
+			$this->setUp( $this_model_class_name, $definition_data );
 		}
 	}
 
 	/**
-	 * @param DataModel_Definition_Model $this_model_definition
-	 * @param array                      $definition_data
+	 * @param string $this_model_class_name
+	 * @param array  $definition_data
 	 *
 	 * @throws DataModel_Exception
 	 */
-	public function setUp( DataModel_Definition_Model $this_model_definition, array $definition_data )
+	public function setUp( $this_model_class_name, array $definition_data )
 	{
 
 		if( !isset( $definition_data['related_to_class_name'] ) ) {
@@ -51,11 +51,12 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 		}
 
 
-		$this->setRelatedToClass( $definition_data['related_to_class_name'] );
+		$this->related_data_model_class_name = $definition_data['related_to_class_name'];
 
 		$related_properties = $this->getRelatedDataModelDefinition()->getProperties();
 
-		foreach( $definition_data['join_by_properties'] as $this_model_property => $related_property_name ) {
+		foreach( $definition_data['join_by_properties'] as $this_property_name => $related_property_name ) {
+
 			if( !isset( $related_properties[$related_property_name] ) ) {
 				throw new DataModel_Exception(
 					'Unknown property '.$definition_data['related_to_class_name'].'::'.$related_property_name.' ',
@@ -63,9 +64,14 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 				);
 			};
 
-			$this->join_by[] = new DataModel_Definition_Relation_JoinByItem(
-				$this_model_definition, $this_model_property,
-				$related_properties[$related_property_name]->getDataModelClassName(), $related_property_name
+			$related_model_class_name = $related_properties[$related_property_name]->getDataModelClassName();
+
+			$this->join_by[] = new DataModel_Definition_Relation_Join_Item(
+				$this_model_class_name,
+				$this_property_name,
+
+				$related_model_class_name,
+				$related_property_name
 			);
 		}
 

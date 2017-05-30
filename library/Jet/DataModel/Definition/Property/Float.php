@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Float extends DataModel_Definition_Property
 	/***
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_FLOAT;
+	protected $type = DataModel::TYPE_FLOAT;
 
 	/**
 	 * @var float

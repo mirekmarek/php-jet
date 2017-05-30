@@ -7,10 +7,7 @@
  */
 namespace JetApplication;
 
-use Jet\Application;
 use Jet\Data_DateTime;
-use Jet\IO_Dir;
-use Jet\IO_Dir_Exception;
 use Jet\IO_File;
 use Jet\IO_File_Exception;
 use Jet\Mvc_Site;

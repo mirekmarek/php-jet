@@ -14,7 +14,9 @@ use Jet\Http_Request;
 use Jet\Form_Field_FileImage;
 use Jet\Tr;
 use Jet\Navigation_Breadcrumb;
-
+use Jet\UI;
+use Jet\UI_messages;
+use Jet\UI_searchForm;
 
 use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 
@@ -41,20 +43,20 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	 */
 	protected $router;
 
+
 	/**
 	 *
+	 * @return Controller_Admin_Main_Router
 	 */
-	public function default_Action()
+	public function getControllerRouter()
 	{
+		if( !$this->router ) {
+			$this->router = new Controller_Admin_Main_Router( $this );
+		}
 
-		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
-
-		$this->view->setVar( 'selected_id', Gallery::ROOT_ID );
-
-		$this->view->setVar( 'galleries', Gallery::getTree() );
-
-		$this->render( 'default' );
+		return $this->router;
 	}
+
 
 	/**
 	 * @param string  $current_label
@@ -70,9 +72,9 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 			$tree = Gallery::getTree();
 
 			$parent = $tree->getNode( $gallery->getId() );
-			//var_dump($parent);die();
 
-			//while($parent)
+
+
 			do {
 				$path[static::getControllerRouter()->getEditOrViewURI( $parent->getId() )] = $parent->getLabel();
 
@@ -92,16 +94,31 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	}
 
 	/**
-	 *
-	 * @return Controller_Admin_Main_Router
+	 * @return UI_searchForm;
 	 */
-	public function getControllerRouter()
-	{
-		if( !$this->router ) {
-			$this->router = new Controller_Admin_Main_Router( $this );
-		}
+	public function _initGalleries() {
+		$search_form = UI::searchForm( 'images' );
+		$this->view->setVar( 'search_form', $search_form );
 
-		return $this->router;
+		$this->view->setVar( 'galleries', Gallery::getTree() );
+
+		return $search_form;
+	}
+
+	/**
+	 *
+	 */
+	public function default_Action()
+	{
+
+		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
+
+		$this->_initGalleries();
+
+		$this->view->setVar( 'selected_id', '' );
+
+
+		$this->render( 'default' );
 	}
 
 	/**
@@ -114,6 +131,8 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 		$parent_id = $this->getParameter( 'parent_id' );
 
 		$this->_setBreadcrumbNavigation( Gallery::get( $parent_id ), Tr::_( 'Create a new gallery' ) );
+
+		$this->_initGalleries();
 
 
 		$gallery = new Gallery();
@@ -129,13 +148,11 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 		}
 
-		$this->view->setVar( 'has_access', true );
 		$this->view->setVar( 'gallery', $gallery );
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'selected_id', $parent_id );
-		$this->view->setVar( 'galleries', Gallery::getTree() );
 
-		$this->render( 'default' );
+		$this->render( 'add' );
 
 	}
 
@@ -145,6 +162,8 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 	public function edit_Action()
 	{
 		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
+
+		$this->_initGalleries();
 
 		/**
 		 * @var Gallery $gallery
@@ -161,19 +180,43 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 		}
 
+		$this->view->setVar( 'gallery', $gallery );
+		$this->view->setVar( 'edit_form', $edit_form );
+		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
 
 		$this->handleUploadImage( $gallery );
 		$this->handleDeleteImages( $gallery );
 
 
+
+		$this->render( 'edit' );
+	}
+
+
+	/**
+	 *
+	 */
+	public function view_Action()
+	{
+		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
+		$this->_initGalleries();
+
+		/**
+		 * @var Gallery $gallery
+		 */
+		$gallery = $this->getParameter( 'gallery' );
+
+		$edit_form = $gallery->getCommonForm();
+		$edit_form->setIsReadonly();
+
 		$this->view->setVar( 'gallery', $gallery );
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
-		$this->view->setVar( 'galleries', Gallery::getTree() );
 
-		$this->render( 'default' );
+		$this->render( 'edit' );
 
 	}
+
 
 	/**
 	 * @param Gallery $gallery
@@ -184,29 +227,6 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 			return;
 		}
 
-		$upload_form = $this->getUploadForm( $gallery );
-
-		if( $upload_form->catchInput() ) {
-			if( ( $image = $gallery->catchUploadForm( $upload_form ) ) ) {
-				$this->logAllowedAction(
-					'Image created', $image->getIdObject()->toString(), $image->getFileName(), $image
-				);
-
-
-				Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
-			}
-
-		}
-		$this->view->setVar( 'upload_form', $upload_form );
-	}
-
-	/**
-	 * @param Gallery $gallery
-	 *
-	 * @return Form
-	 */
-	protected function getUploadForm( Gallery $gallery )
-	{
 		$upload_form = $gallery->getUploadForm();
 
 		/**
@@ -215,11 +235,37 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 		$image_field = $upload_form->getField( 'file' );
 
 		$image_field->setMaximalSize(
-			Config::getDefaultMaxW(), Config::getDefaultMaxH()
+			Config::getDefaultMaxW(),
+			Config::getDefaultMaxH()
 		);
 
-		return $upload_form;
+
+		$this->view->setVar( 'upload_form', $upload_form );
+
+		if( $upload_form->catchInput() ) {
+			$ok = false;
+			if( ( $image = $gallery->catchUploadForm( $upload_form ) ) ) {
+
+				$upload_form->setCommonMessage( UI_messages::createSuccess( Tr::_('Image %FILE_NAME% uploaded ....', ['FILE_NAME'=>$image->getFileName()]) ) );
+
+				$this->logAllowedAction(
+					'image_uploaded',
+					$image->getIdObject()->toString(),
+					$image->getFileName(),
+					$image
+				);
+				$ok = true;
+			} else {
+				$upload_form->setCommonMessage( UI_messages::createDanger( $upload_form->getField('file')->getLastErrorMessage() ) );
+			}
+
+			$this->ajaxFormResponse($upload_form, $ok, [
+				'images_area' => $this->view->render('parts/images'),
+			    'upload_form_area' => $this->view->render('parts/upload-form')
+			]);
+		}
 	}
+
 
 	/**
 	 * @param Gallery $gallery
@@ -247,29 +293,5 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 			}
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $gallery->getId() ) );
 		}
-	}
-
-	/**
-	 *
-	 */
-	public function view_Action()
-	{
-		$this->_setBreadcrumbNavigation( $this->getParameter( 'gallery' ) );
-
-		/**
-		 * @var Gallery $gallery
-		 */
-		$gallery = $this->getParameter( 'gallery' );
-
-		$edit_form = $gallery->getCommonForm();
-		$edit_form->setIsReadonly();
-
-		$this->view->setVar( 'gallery', $gallery );
-		$this->view->setVar( 'edit_form', $edit_form );
-		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
-		$this->view->setVar( 'galleries', Gallery::getTree() );
-
-		$this->render( 'default' );
-
 	}
 }

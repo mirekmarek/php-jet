@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_ARRAY;
+	protected $type = DataModel::TYPE_ARRAY;
 
 	/**
 	 * @var array
@@ -42,7 +42,7 @@ class DataModel_Definition_Property_Array extends DataModel_Definition_Property
 
 		if( $this->is_id ) {
 			throw new DataModel_Exception(
-				'Property '.$this->data_model_class_name.'::'.$this->_name.' is Array and Array can\'t be ID.',
+				'Property '.$this->data_model_class_name.'::'.$this->name.' is Array and Array can\'t be ID.',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

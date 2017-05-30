@@ -9,8 +9,9 @@ namespace Jet;
 
 /**
  *
+ *
  */
-class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Data_Paginator_DataSource, \ArrayAccess, \Iterator, \Countable
+class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Data_Paginator_DataSource, BaseObject_ArrayEmulator
 {
 
 	/**
@@ -66,21 +67,22 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Dat
 			foreach( $l as $item ) {
 				$l_id = clone $this->empty_id_instance;
 
-				foreach( $l_id as $k => $v ) {
-					$l_id[$k] = $item[$k];
+				foreach( $l_id->getPropertyNames() as $k ) {
+					$l_id->setValue($k, $item[$k]);
 				}
 
 
 				$this->data[(string)$l_id] = [
-					'__id' => $l_id, '__data' => $item,
+					'__id' => $l_id,
+					'__data' => $item,
 				];
 			}
 		} else {
 			foreach( $l as $item ) {
 				$l_id = clone $this->empty_id_instance;
 
-				foreach( $l_id as $k => $v ) {
-					$l_id[$k] = $item[$k];
+				foreach( $l_id->getPropertyNames() as $k ) {
+					$l_id->setValue($k, $item[$k]);
 				}
 
 				$this->data[(string)$l_id] = [

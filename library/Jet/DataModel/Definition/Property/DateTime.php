@@ -15,7 +15,7 @@ class DataModel_Definition_Property_DateTime extends DataModel_Definition_Proper
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_DATE_TIME;
+	protected $type = DataModel::TYPE_DATE_TIME;
 
 	/**
 	 * @var null

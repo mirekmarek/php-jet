@@ -52,36 +52,22 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	protected $relation_id_properties = [];
 
 	/**
-	 * @var DataModel_Definition_Relation_JoinByItem[][]
+	 * @var DataModel_Definition_Relation_Join_Item[][]
 	 */
 	protected $join_by = [];
 
-	/**
-	 * @var array
-	 */
-	protected $_glue_defined = [];
+
 
 	/**
-	 * @var array
-	 */
-	protected $_related_model_class_names = [];
-
-	/** @noinspection PhpMissingParentConstructorInspection
-	 *
-	 * @param string $data_model_class_name (optional)
-	 *
-	 * @throws DataModel_Exception
 	 *
 	 */
-	public function __construct( $data_model_class_name = '' )
+	public function init()
 	{
-		if( $data_model_class_name ) {
-			$this->_mainInit( $data_model_class_name );
+		$this->_initParents();
+		$this->_initProperties();
+		$this->_initKeys();
+		$this->_initRelations();
 
-			$this->_initParents();
-			$this->_initProperties();
-			$this->_initKeys();
-		}
 	}
 
 	/**
@@ -127,13 +113,6 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->join_by[$this->M_model_name] = [];
 		$this->join_by[$this->N_model_name] = [];
 
-		$this->_glue_defined[$this->M_model_name] = [];
-		$this->_glue_defined[$this->N_model_name] = [];
-
-
-		$this->_related_model_class_names[$this->M_model_name] = $this->M_model_class_name;
-		$this->_related_model_class_names[$this->N_model_name] = $this->N_model_class_name;
-
 	}
 
 
@@ -145,11 +124,23 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		parent::_initProperties();
 
-		foreach( $this->_glue_defined as $model_name => $glue_defined ) {
+		$classes = [
+			$this->getNModelClassName() => $this->getNModelName(),
+			$this->getMModelClassName() => $this->getMModelName()
+		];
 
-			$related_definition_data = $this->_getPropertiesDefinitionData(
-				$this->_related_model_class_names[$model_name]
-			);
+		foreach( $classes as $class_name=>$model_name ) {
+			$id_relation_defined = [];
+
+			foreach( $this->properties as $property ) {
+
+				if($property->getRelatedToClassName()==$class_name) {
+					$id_relation_defined[] = $property->getRelatedToPropertyName();
+				}
+			}
+
+
+			$related_definition_data = $this->_getPropertiesDefinitionData( $class_name );
 
 			foreach( $related_definition_data as $main_id_property_name => $pd ) {
 
@@ -157,14 +148,46 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 					continue;
 				}
 
-				if( !in_array( $main_id_property_name, $glue_defined ) ) {
+				if( !in_array( $main_id_property_name, $id_relation_defined ) ) {
+
 					throw new DataModel_Exception(
 						'Class \''.$this->class_name.'\':  Model \''.$model_name.'\' relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \''.$model_name.'.'.$main_id_property_name.'\' ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE
 					);
 				}
 			}
+
+
 		}
+	}
+
+	/**
+	 *
+	 */
+	protected function _initRelations()
+	{
+		parent::_initRelations();
+
+		$this->getMModelDefinition()->addRelation(
+			$this->getModelName(),
+			new DataModel_Definition_Relation_Internal(
+				$this->getClassName(),
+				$this->join_by[$this->M_model_name]
+			)
+		);
+
+
+
+		$this->getMModelDefinition()->addRelation(
+			$this->N_model_name,
+			new DataModel_Definition_Relation_Internal(
+				$this->N_model_class_name,
+				$this->join_by[$this->N_model_name],
+				[$this->getModelName()]
+			)
+		);
+
+
 	}
 
 	/**
@@ -235,58 +258,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		return DataModel_Definition::get( $this->N_model_class_name );
 	}
 
-	/**
-	 *
-	 * @param DataModel_Definition_Relations $internal_relations
-	 *
-	 */
-	public function getInternalRelations( DataModel_Definition_Relations $internal_relations )
-	{
 
-		foreach( $this->_getInternalRelations() as $key => $relation ) {
-			$internal_relations[$key] = $relation;
-		}
-	}
-
-	/**
-	 *
-	 * @throws DataModel_Exception
-	 *
-	 * @return DataModel_Definition_Relation_Internal[]
-	 */
-	protected function _getInternalRelations()
-	{
-
-
-		/**
-		 * @var DataModel_Definition_Relation_Internal[] $relations
-		 */
-		$relations = [];
-
-
-		/**
-		 * @var DataModel_Definition_Relation_JoinByItem[] $main_glue_relation_join_by
-		 */
-		$main_glue_relation_join_by = $this->join_by[$this->M_model_name];
-		$relations[$this->getModelName()] = new DataModel_Definition_Relation_Internal(
-			$this, $main_glue_relation_join_by
-		);
-
-
-		$N_model_definition = DataModel_Definition::get( $this->N_model_class_name );
-
-		/**
-		 * @var DataModel_Definition_Relation_JoinByItem[] $glue_n_relation_join_by
-		 */
-		$glue_n_relation_join_by = $this->join_by[$this->N_model_name];
-
-		$relations[$this->N_model_name] = new DataModel_Definition_Relation_Internal(
-			$N_model_definition, $glue_n_relation_join_by
-		);
-		$relations[$this->N_model_name]->setRequiredRelations( [ $this->getModelName() ] );
-
-		return $relations;
-	}
 
 	/**
 	 *
@@ -297,13 +269,12 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	public function getRelationToN()
 	{
 
-		$N_model_definition = DataModel_Definition::get( $this->N_model_class_name );
 
 		/**
-		 * @var DataModel_Definition_Relation_JoinByItem[] $glue_n_relation_join_by
+		 * @var DataModel_Definition_Relation_Join_Item[] $join_by
 		 */
-		$glue_n_relation_join_by = $this->join_by[$this->N_model_name];
-		$relation = new DataModel_Definition_Relation_Internal( $N_model_definition, $glue_n_relation_join_by );
+		$join_by = $this->join_by[$this->N_model_name];
+		$relation = new DataModel_Definition_Relation_Internal( $this->N_model_class_name, $join_by );
 
 
 		return $relation;
@@ -353,7 +324,7 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 * @return DataModel_Definition_Property
 	 *
 	 */
-	protected function _initGlueProperty( $this_id_property_name, $related_to, $property_definition_data )
+	protected function _initRelationProperty( $this_id_property_name, $related_to, $property_definition_data )
 	{
 
 		$related_to = explode( '.', $related_to );
@@ -366,7 +337,10 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		list( $related_model_name, $related_to_property_name ) = $related_to;
 
-		if( !isset( $this->_related_model_class_names[$related_model_name] ) ) {
+		if(
+			$related_model_name != $this->getNModelName() &&
+			$related_model_name != $this->getMModelName()
+		) {
 			throw new DataModel_Exception(
 				'Unknown related data model name \''.$related_model_name.'\' (in class \''.$this->class_name.'\', property: \''.$this_id_property_name.'\') ',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
@@ -374,7 +348,12 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 
 		}
 
-		$related_to_class_name = $this->_related_model_class_names[$related_model_name];
+		if($related_model_name==$this->getMModelName()) {
+			$related_to_class_name = $this->getMModelClassName();
+		} else {
+			$related_to_class_name = $this->getNModelClassName();
+		}
+
 		$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
 
 
@@ -383,12 +362,13 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 				'Unknown relation property \''.$related_to_class_name.'.'.$related_to_property_name.'\' (in class \''.$this->class_name.'\', property: \''.$this_id_property_name.'\')',
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
-
 		}
 
 
 		$this_id_property = DataModel_Factory::getPropertyDefinitionInstance(
-			$this->class_name, $this_id_property_name, $related_definition_data[$related_to_property_name]
+			$this->class_name,
+			$this_id_property_name,
+			$related_definition_data[$related_to_property_name]
 		);
 
 
@@ -397,10 +377,13 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		$this->properties[$this_id_property_name] = $this_id_property;
 
 		$this->relation_id_properties[$related_model_name][$this_id_property_name] = $this_id_property;
-		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_JoinByItem(
-			$this, $this_id_property, $related_to_class_name, $related_to_property_name
+
+		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_Join_Item(
+			$this->getClassName(),
+			$this_id_property->getName(),
+			$related_to_class_name,
+			$related_to_property_name
 		);
-		$this->_glue_defined[$related_model_name][] = $related_to_property_name;
 
 		return $this_id_property;
 	}

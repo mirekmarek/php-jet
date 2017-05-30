@@ -50,11 +50,10 @@ class DataModel_Query_Having_Expression extends DataModel_Query_Where_Expression
 	 */
 	public function toString()
 	{
-		if( $this->property->getItem() instanceof DataModel_Query_Select_Item_BackendFunctionCall ) {
+		if( $this->property->getItem() instanceof DataModel_Query_Select_Item_Expression ) {
 			return $this->property->getItem()->toString().' '.$this->operator.' \''.$this->value.'\'';
 		} else {
-			return $this->property->getItem()->getDataModelDefinition()->getModelName().'::'.$this->property->getItem()
-				->getName().' '.$this->operator.' \''.$this->value.'\'';
+			return $this->property->getItem()->getDataModelDefinition()->getModelName().'::'.$this->property->getItem()->getName().' '.$this->operator.' \''.$this->value.'\'';
 		}
 	}
 

@@ -15,7 +15,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_DYNAMIC_VALUE;
+	protected $type = DataModel::TYPE_DYNAMIC_VALUE;
 
 	/**
 	 * @var string
@@ -40,7 +40,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
 			if( !$this->getter_name ) {
 				throw new DataModel_Exception(
-					'Property '.$this->data_model_class_name.'::'.$this->_name.' is Dynamic Value, but getter_name is missing in definition data.',
+					'Property '.$this->data_model_class_name.'::'.$this->name.' is Dynamic Value, but getter_name is missing in definition data.',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -50,11 +50,9 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 
 
 	/**
-	 * @param mixed               &$property
-	 * @param DataModel_Interface $data_model_instance
+	 * @param mixed &$property
 	 */
-	public function initPropertyDefaultValue( &$property, /** @noinspection PhpUnusedParameterInspection */
-	                                          DataModel_Interface $data_model_instance )
+	public function initPropertyDefaultValue( &$property )
 	{
 	}
 
@@ -155,7 +153,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	public function getDefaultValue()
 	{
 		throw new DataModel_Exception(
-			'You can not use getDefaultValue for the property that is DynamicValue (property: '.$this->_name.')'
+			'You can not use getDefaultValue for the property that is DynamicValue (property: '.$this->name.')'
 		);
 	}
 
@@ -176,7 +174,7 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	public function checkValueType( &$value )
 	{
 		throw new DataModel_Exception(
-			'You can not use checkValueType for the property that is DynamicValue (property: '.$this->_name.')'
+			'You can not use checkValueType for the property that is DynamicValue (property: '.$this->name.')'
 		);
 	}
 }

@@ -33,14 +33,10 @@ class Controller_Main extends Mvc_Controller_Standard
 	protected $module = null;
 
 	/**
-	 * @param string $action
-	 * @param array  $action_parameters
-	 *
-	 * @throws Mvc_Controller_Exception
 	 *
 	 * @return bool
 	 */
-	public function checkAccess( $action, $action_parameters )
+	public function checkAccess()
 	{
 		return true;
 	}

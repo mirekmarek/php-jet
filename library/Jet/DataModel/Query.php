@@ -70,13 +70,11 @@ class DataModel_Query extends BaseObject
 	 */
 	protected $having;
 
-
 	/**
 	 *
 	 * @var DataModel_Query_OrderBy|DataModel_Query_OrderBy_Item[]
 	 */
 	protected $order_by;
-
 
 	/**
 	 *
@@ -321,8 +319,7 @@ class DataModel_Query extends BaseObject
 	{
 		if( !isset( $this->relations[$related_data_model_name] ) ) {
 			throw new DataModel_Query_Exception(
-				'Unknown relation \''.$this->main_data_model_definition->getModelName(
-				).'\' <-> \''.$related_data_model_name.'\' Class: \''.$this->main_data_model_class_name.'\' ',
+				'Unknown relation \''.$this->main_data_model_definition->getModelName().'\' <-> \''.$related_data_model_name.'\' Class: \''.$this->main_data_model_definition->getClassName().'\' ',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
@@ -330,105 +327,60 @@ class DataModel_Query extends BaseObject
 		return $this->relations[$related_data_model_name];
 	}
 
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Property_name examples:
 	 *
-	 * this.property_name
-	 * this.related_property.property_name
-	 * this.related_property.next_related_property.property_name
-	 *
-	 * outer_relation_name.property_name
-	 *
-	 * M2N_related_class_name.property_name
-	 * M2N_related_class_name.related_property.property_name
-	 * M2N_related_class_name.related_property.next_related_property.property_name
+	 * property_name
+	 * related_model_name.property_name
 	 *
 	 *
-	 * @param string $str_property_name
+	 * @param string $property_name
 	 *
 	 * @throws DataModel_Query_Exception
 	 *
 	 * @return DataModel_Definition_Property
 	 */
-	public function getPropertyAndSetRelation( $str_property_name )
+	public function getPropertyAndSetRelation( $property_name )
 	{
-		$property_name_parts = explode( '.', $str_property_name );
 
-		if( count( $property_name_parts )<2 ) {
-			throw new DataModel_Query_Exception(
-				'Invalid property name: \''.$str_property_name.'\'. Valid examples: this.property_name, related_data_model_name.property_name, related_data_model.next_related_data_model.property_name, ...',
-				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-			);
+		if(strpos($property_name, '.')!==false) {
+			$property_name_parts = explode( '.', $property_name );
 
-		}
-
-
-		$data_model_definition = $this->main_data_model_definition;
-
-		if( $property_name_parts[0]=='this' ) {
-			array_shift( $property_name_parts );
-
-			$property_name = array_shift( $property_name_parts );
-
-			if( $property_name_parts ) {
+			if( count( $property_name_parts )!=2 ) {
 				throw new DataModel_Query_Exception(
-					'Invalid property name: \''.$str_property_name.'\'. Valid examples: this.property_name, related_data_model_name.property_name, related_data_model.next_related_data_model.property_name, ...',
+					'Invalid property name: \''.$property_name.'\'. Valid examples: property_name, related_data_model_name.property_name',
 					DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 				);
+
 			}
 
-		} else {
+			list($related_data_model_name, $property_name) = $property_name_parts;
 
-			$property_name = array_pop( $property_name_parts );
 
-			do {
-				$related_data_model_name = array_shift( $property_name_parts );
+			/**
+			 * @var DataModel_Definition_Relation  $relevant_relation
+			 */
+			$relevant_relation = clone $this->main_data_model_definition->getRelation( $related_data_model_name );
 
-				$all_relations = $data_model_definition->getRelations();
-
-				/**
-				 * @var DataModel_Definition_Relation  $relevant_relation
-				 * @var DataModel_Definition_Relations $all_relations
-				 */
-				$relevant_relation = clone $all_relations->getRelation( $related_data_model_name );
-
-				if( ( $required_relations = $relevant_relation->getRequiredRelations() ) ) {
-					foreach( $required_relations as $required_relation ) {
-						if( !isset( $this->relations[$required_relation] ) ) {
-							$this->relations[$required_relation] = clone $all_relations->getRelation(
-								$required_relation
-							);
-						}
+			if( ( $required_relations = $relevant_relation->getRequiredRelations() ) ) {
+				foreach( $required_relations as $required_relation ) {
+					if( !isset( $this->relations[$required_relation] ) ) {
+						$this->relations[$required_relation] = clone $this->main_data_model_definition->getRelation( $required_relation );
 					}
 				}
+			}
 
-				if( !isset( $this->relations[$related_data_model_name] ) ) {
-					$this->relations[$related_data_model_name] = $relevant_relation;
-				}
+			if( !isset( $this->relations[$related_data_model_name] ) ) {
+				$this->relations[$related_data_model_name] = $relevant_relation;
+			}
 
-				$data_model_definition = $relevant_relation->getRelatedDataModelDefinition();
+			$data_model_definition = $relevant_relation->getRelatedDataModelDefinition();
 
-			} while( $property_name_parts );
-
+		} else {
+			$data_model_definition = $this->main_data_model_definition;
 		}
+
 
 
 		$properties = $data_model_definition->getProperties();
@@ -441,5 +393,21 @@ class DataModel_Query extends BaseObject
 		}
 
 		return $properties[$property_name];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toString()
+	{
+		return DataModel_Backend::get($this->main_data_model_definition)->createSelectQuery( $this );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
 	}
 }

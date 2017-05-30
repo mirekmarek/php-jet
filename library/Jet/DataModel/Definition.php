@@ -46,12 +46,14 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			}
 		}
 
+
 		/**
 		 * @var DataModel $class_name
 		 */
 		$definition = $class_name::dataModelDefinitionFactory( $class_name );
 
-		static::$__definitions[(string)$class_name] = $definition;
+		static::$__definitions[$class_name] = $definition;
+		$definition->init();
 
 		if( static::getCacheSaveEnabled() ) {
 

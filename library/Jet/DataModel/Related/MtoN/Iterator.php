@@ -365,7 +365,7 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 	 *
 	 * @return DataModel_Related_MtoN|null
 	 */
-	public function getGlueItem( $key )
+	public function getRelationItem( $key )
 	{
 		if( !isset( $this->items[$key] ) ) {
 			return null;

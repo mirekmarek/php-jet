@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Bool extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_BOOL;
+	protected $type = DataModel::TYPE_BOOL;
 
 	/**
 	 * @var bool

@@ -15,7 +15,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_DATA_MODEL;
+	protected $type = DataModel::TYPE_DATA_MODEL;
 
 	/**
 	 * @var string
@@ -40,7 +40,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 			if( $this->is_id ) {
 				throw new DataModel_Exception(
-					$this->data_model_class_name.'::'.$this->_name.' property type is DataModel. Can\'t be ID! ',
+					$this->data_model_class_name.'::'.$this->name.' property type is DataModel. Can\'t be ID! ',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -48,7 +48,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 			if( !$this->data_model_class ) {
 				throw new DataModel_Exception(
-					'Property '.$this->data_model_class_name.'::'.$this->_name.' is DataModel, but data_model_class is missing in definition data.',
+					'Property '.$this->data_model_class_name.'::'.$this->name.' is DataModel, but data_model_class is missing in definition data.',
 					DataModel_Exception::CODE_DEFINITION_NONSENSE
 				);
 			}
@@ -58,10 +58,9 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 
 
 	/**
-	 * @param mixed               &$property
-	 * @param DataModel_Interface $data_model_instance
+	 * @param mixed &$property
 	 */
-	public function initPropertyDefaultValue( &$property, DataModel_Interface $data_model_instance )
+	public function initPropertyDefaultValue( &$property )
 	{
 		$property = $this->getDefaultValue();
 	}
@@ -163,7 +162,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 	public function checkValueType( &$value )
 	{
 		throw new DataModel_Exception(
-			'You can not use checkValueType for the property that is DataObject (property: '.$this->_name.')'
+			'You can not use checkValueType for the property that is DataObject (property: '.$this->name.')'
 		);
 	}
 
@@ -231,20 +230,5 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		return $definition;
 	}
 
-	/**
-	 *
-	 * @param DataModel_Definition_Relations $internal_relations
-	 *
-	 * @throws DataModel_Exception
-	 */
-	public function getInternalRelations( DataModel_Definition_Relations $internal_relations )
-	{
-
-		$related_model_definition = $this->getValueDataModelDefinition();
-
-		$related_model_definition->getInternalRelations( $internal_relations );
-
-
-	}
 
 }

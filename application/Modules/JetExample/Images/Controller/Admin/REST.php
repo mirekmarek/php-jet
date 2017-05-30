@@ -208,7 +208,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 */
 	public function post_gallery_Action()
 	{
-		$gallery = Gallery::getNew();
+		$gallery = new Gallery();
 
 		$form = $gallery->getCommonForm();
 

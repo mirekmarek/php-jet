@@ -19,7 +19,6 @@ trait DataModel_Trait_InternalState
 	private $_data_model_saved = false;
 
 	/**
-	 * Initializes new DataModel
 	 *
 	 */
 	public function initNewObject()
@@ -34,7 +33,7 @@ trait DataModel_Trait_InternalState
 
 		foreach( $data_model_definition->getProperties() as $property_name => $property_definition ) {
 
-			$property_definition->initPropertyDefaultValue( $this->{$property_name}, $this );
+			$property_definition->initPropertyDefaultValue( $this->{$property_name} );
 
 		}
 

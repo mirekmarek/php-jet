@@ -17,11 +17,11 @@ use Jet\Form_Field_RegistrationPassword;
 
 /**
  *
- * @JetDataModel:name = 'DataModelT1'
- * @JetDataModel:database_table_name = 'JetApplicationModule_TestModule_DataModelT1'
+ * @JetDataModel:name = 'data_model_test_form_generator'
+ * @JetDataModel:database_table_name = 'data_model_test_form_generator'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
-class TestDM1 extends DataModel
+class DataModelTest_FormGenerator extends DataModel
 {
 
 	/**

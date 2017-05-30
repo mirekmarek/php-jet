@@ -269,8 +269,13 @@ class Auth_User extends DataModel implements Auth_User_Interface
 
 			$search = '%'.$search.'%';
 			$where[] = [
-				'this.username *'    => $search, 'OR', 'this.first_name *' => $search, 'OR',
-				'this.surname *'     => $search, 'OR', 'this.email *' => $search,
+				'username *'   => $search,
+				'OR',
+				'first_name *' => $search,
+				'OR',
+				'surname *'    => $search,
+				'OR',
+				'email *'      => $search,
 			];
 		}
 
@@ -278,11 +283,11 @@ class Auth_User extends DataModel implements Auth_User_Interface
 		$list = static::fetchObjects( $where );
 		$list->setLoadFilter(
 			[
-				'this.id',
-				'this.username',
-				'this.first_name',
-				'this.surname',
-				'this.locale',
+				'id',
+				'username',
+				'first_name',
+				'surname',
+				'locale',
 			]
 		);
 		$list->getQuery()->setOrderBy( 'username' );
@@ -305,7 +310,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 		 */
 		$user = static::fetchOneObject(
 			[
-				'this.username' => $username,
+				'username' => $username,
 			]
 		);
 
@@ -342,7 +347,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 		 */
 		$user = static::fetchOneObject(
 			[
-				'this.username' => $username,
+				'username' => $username,
 			]
 		);
 
@@ -815,11 +820,13 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	{
 		if( $this->getIsNew() ) {
 			$q = [
-				'this.username' => $username,
+				'username' => $username,
 			];
 		} else {
 			$q = [
-				'this.username' => $username, 'AND', 'this.id!=' => $this->id,
+				'username' => $username,
+				'AND',
+				'id!='     => $this->id,
 			];
 		}
 

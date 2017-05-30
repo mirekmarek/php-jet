@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterator
+abstract class DataModel_Id extends BaseObject
 {
 
 	/**
@@ -153,17 +153,6 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 	}
 
 	/**
-	 *
-	 */
-	abstract public function generate();
-
-	/**
-	 * @param mixed $backend_save_result
-	 *
-	 */
-	abstract public function afterSave( $backend_save_result );
-
-	/**
 	 * @param string $id
 	 *
 	 * @return DataModel_Id
@@ -199,124 +188,62 @@ abstract class DataModel_Id extends BaseObject implements \ArrayAccess, \Iterato
 		return implode( ':', $this->values );
 	}
 
-
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------------
 	/**
-	 * @see \ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @param mixed $value
-	 *
-	 * @throws DataModel_Exception
-	 */
-	public function offsetSet( $offset, $value )
-	{
-
-		if( !array_key_exists( $offset, $this->values ) ) {
-			throw new DataModel_Exception(
-				'Undefined ID part \''.$offset.'\'', DataModel_Exception::CODE_UNDEFINED_ID_PART
-			);
-		}
-
-		$this->values[$offset] = $value;
-	}
-
-	/**
-	 * @see \ArrayAccess
-	 *
-	 * @param mixed $offset
+	 * @param string $property_name
 	 *
 	 * @return mixed
+	 *
 	 * @throws DataModel_Exception
 	 */
-	public function offsetGet( $offset )
+	public function getValue( $property_name )
 	{
-
-		if( !array_key_exists( $offset, $this->values ) ) {
+		if( !array_key_exists( $property_name, $this->values ) ) {
 			throw new DataModel_Exception(
-				'Undefined ID part \''.$offset.'\'', DataModel_Exception::CODE_UNDEFINED_ID_PART
+				'Undefined ID property \''.$property_name.'\''
 			);
 		}
 
-		return $this->values[$offset];
+		return $this->values[$property_name];
+
 	}
 
+
 	/**
-	 * @see \ArrayAccess
+	 * @param string $property_name
+	 * @param mixed  $value
 	 *
-	 * @param mixed $offset
+	 * @throws DataModel_Exception
+	 */
+	public function setValue( $property_name, $value )
+	{
+		if( !array_key_exists( $property_name, $this->values ) ) {
+			throw new DataModel_Exception(
+				'Undefined ID property \''.$property_name.'\''
+			);
+		}
+
+		$this->values[$property_name] = $value;
+
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getPropertyNames()
+	{
+		return array_keys( $this->values );
+	}
+
+
+	/**
 	 *
-	 * @return bool
 	 */
-	public function offsetExists( $offset )
-	{
-
-		return array_key_exists( $offset, $this->values );
-	}
+	abstract public function generate();
 
 	/**
-	 * @see \ArrayAccess
+	 * @param mixed $backend_save_result
 	 *
-	 * Do nothing
-	 *
-	 * @param mixed $offset
 	 */
-	public function offsetUnset( $offset )
-	{
-	}
+	abstract public function afterSave( $backend_save_result );
 
-	/**
-	 * @see \Iterator
-	 */
-	public function current()
-	{
-		return current( $this->values );
-	}
-
-	/**
-	 * @see \Iterator
-	 * @return string
-	 */
-	public function key()
-	{
-		return key( $this->values );
-	}
-
-	/**
-	 * @see \Iterator
-	 */
-	public function next()
-	{
-		return next( $this->values );
-	}
-
-	/**
-	 * @see \Iterator
-	 */
-	public function rewind()
-	{
-		reset( $this->values );
-	}
-
-	/**
-	 * @see \Iterator
-	 * @return bool
-	 */
-	public function valid()
-	{
-		return key( $this->values )!==null;
-	}
 }

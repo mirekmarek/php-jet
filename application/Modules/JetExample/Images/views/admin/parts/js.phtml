@@ -1,0 +1,38 @@
+<script type="text/javascript">
+	var imageGallery = {
+		uploadImage: function( form_id ) {
+			imageGallery.submit(form_id);
+		},
+		submit: function( id ) {
+			JetAjaxForm.submit(id, {
+				showProgressIndicator: function( form ) {
+					$('#__progress__').show();
+					$('#__progress_prc__').html('');
+				},
+
+				hideProgressIndicator: function( form ) {
+					$('#__progress__').hide();
+				},
+
+				onProgress: function( form, percent ) {
+					$('#__progress_prc__').html(percent+'%');
+				},
+
+				onSuccess: function( form, response_data ) {
+				},
+
+				onFormError: function( form, response_data ) {
+				},
+
+				onAccessDenied: function( form ) {
+					alert('Access denied!');
+				},
+
+				onError: function( form ) {
+					alert('Unknown error ...');
+				}
+			});
+		}
+	};
+
+</script>

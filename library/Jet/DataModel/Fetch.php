@@ -70,16 +70,6 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Serializ
 	}
 
 	/**
-	 * Returns query prepared by backend (SELECT x FROM y ....)
-	 *
-	 * @return mixed
-	 */
-	public function getBackendQuery()
-	{
-		return DataModel_Backend::get($this->data_model_definition)->createSelectQuery( $this->query );
-	}
-
-	/**
 	 * Returns data count
 	 *
 	 * @return int

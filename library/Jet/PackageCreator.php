@@ -147,31 +147,6 @@ abstract class PackageCreator extends BaseObject
 		return $URI;
 	}
 
-	/**
-	 * @param string $URI
-	 * @param array  $constants
-	 *
-	 * @return string
-	 */
-	protected function normalizePath_Constants( $URI, $constants )
-	{
-
-		foreach( $constants as $path_constant_name=>$URI_constant_name ) {
-
-			$URI_constant_value = constant( $URI_constant_name );
-			$path_constant_value = constant( $path_constant_name );
-
-			$URI_constant_len = strlen( $URI_constant_value );
-
-			if( substr( $URI, 0, $URI_constant_len )==$URI_constant_value ) {
-				return $path_constant_value.substr( $URI, $URI_constant_len );
-			}
-
-		}
-
-		return null;
-	}
-
 
 	/**
 	 * @param string $URI
@@ -187,29 +162,5 @@ abstract class PackageCreator extends BaseObject
 		return $URI;
 	}
 
-	/**
-	 * @param string $URI
-	 * @param array  $constants
-	 *
-	 * @return string
-	 */
-	protected function normalizeURI_Constants( $URI, $constants )
-	{
-
-		foreach( $constants as $path_constant_name=>$URI_constant_name ) {
-
-			$URI_constant_value = constant( $URI_constant_name );
-			$path_constant_value = constant( $path_constant_name );
-
-			$path_constant_len = strlen( $path_constant_value );
-
-			if( substr( $URI, 0, $path_constant_len )==$path_constant_value ) {
-				return $URI_constant_value.substr( $URI, $path_constant_len );
-			}
-
-		}
-
-		return null;
-	}
 
 }

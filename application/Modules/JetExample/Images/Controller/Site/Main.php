@@ -38,19 +38,33 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 		/**
 		 * @var Gallery $gallery
 		 */
-		$gallery_id = $this->getParameter( 'gallery_id', Gallery::ROOT_ID );
 		$gallery = $this->getParameter( 'gallery' );
 
-		if( !$gallery ) {
-			$gallery = Gallery::get( $gallery_id );
+		if(!$gallery) {
+			$this->view->setVar( 'galleries', Gallery::getRootGalleries() );
+
+			$this->render( 'default' );
+
+		} else {
+
+			$parent = $gallery;
+
+			$bn_path = [];
+
+			do {
+				array_unshift( $bn_path, $parent );
+			} while( ($parent=$parent->getParent()) );
+
+			foreach( $bn_path as $g ) {
+				Navigation_Breadcrumb::addURL( $g->getTitle(), $g->getLocalized()->getURL() );
+			}
+
+
+
+
+			$this->view->setVar( 'gallery', $gallery );
+			$this->render( 'gallery' );
 		}
-
-		$children = Gallery::getChildren( $gallery_id );
-
-		$this->view->setVar( 'children', $children );
-		$this->view->setVar( 'gallery', $gallery );
-
-		$this->render( 'default' );
 	}
 
 
@@ -62,36 +76,14 @@ class Controller_Site_Main extends Mvc_Controller_Standard
 	 */
 	public function resolve( $path )
 	{
-		$gallery_id = Gallery::ROOT_ID;
-		$gallery = null;
 
+		$gallery = Gallery::resolveGalleryByURL( $path, Mvc::getCurrentLocale() );
 
-		$path_fragments = explode('/', $path);
-
-		$URI = Mvc::getCurrentPage()->getURI();
-
-		if( $path_fragments ) {
-
-			foreach( $path_fragments as $pf ) {
-
-				if( ( $_g = Gallery::getByTitle( rawurldecode( $pf ), $gallery_id ) ) ) {
-					$gallery = $_g;
-					$gallery_id = $gallery->getIdObject();
-					$URI .= rawurlencode( $gallery->getTitle() ).'/';
-
-					Navigation_Breadcrumb::addURL( $gallery->getTitle(), $URI );
-
-				} else {
-					return false;
-				}
-
-			}
+		if(!$gallery) {
+			return false;
 		}
 
-
-		$this->content->setParameter('gallery_id', $gallery_id );
 		$this->content->setParameter('gallery', $gallery );
-
 
 		return true;
 	}

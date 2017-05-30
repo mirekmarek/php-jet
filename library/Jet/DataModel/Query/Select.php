@@ -54,41 +54,14 @@ class DataModel_Query_Select extends BaseObject implements \Iterator
 				continue;
 			}
 
-			if( is_array( $val ) ) {
-				if( !isset( $val[1] ) ) {
-					throw new DataModel_Query_Exception(
-						'Invalid backend function call specification. Example: array( array(\'this.prop_a\', \'this.prop_b\'), \'SUM(%prop_a%)+%prop_b%\'  )',
-						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-					);
 
-				}
-
-				$property_names = $val[0];
-				if( !is_array( $property_names ) ) {
-					$property_names = [ $property_names ];
-				}
+			if( $val instanceof DataModel_Query_Select_Item_Expression ) {
 
 				$properties = [];
-				foreach( $property_names as $property_name ) {
-					if( $property_name instanceof DataModel_Definition_Property ) {
-						$properties[] = $property_name;
-					} else {
-						$properties[] = $query->getPropertyAndSetRelation( $property_name );
-					}
+				foreach( $val->getProperties() as $k=>$p ) {
+					$properties[$k] = $query->getPropertyAndSetRelation( $p );
 				}
-
-				$val = new DataModel_Query_Select_Item_BackendFunctionCall( $properties, $val[1] );
-
-			}
-
-
-			if( $val instanceof DataModel_Query_Select_Item_BackendFunctionCall ) {
-				if( !is_string( $key ) ) {
-					throw new DataModel_Query_Exception(
-						'The item is DataModel_Query_Select_Item_BackendFunctionCall. So the key must be string. Example: Special item is \'sum(something) as total_sum\' and then the array key is \'total_sum\'.',
-						DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
-					);
-				}
+				$val->setProperties( $properties );
 
 				$select_as = $key;
 

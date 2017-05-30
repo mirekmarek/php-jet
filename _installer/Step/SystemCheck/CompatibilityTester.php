@@ -360,8 +360,10 @@ class Installer_CompatibilityTester
 		$last = strtoupper($val[strlen($val)-1]);
 
 		switch($last) {
+			/** @noinspection PhpMissingBreakStatementInspection */
 			case 'G':
 				$val *= 1024;
+			/** @noinspection PhpMissingBreakStatementInspection */
 			case 'M':
 				$val *= 1024;
 			case 'K':

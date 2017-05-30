@@ -5,22 +5,15 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplicationModule\JetExample\BreadcrumbNavigation;
+namespace Jet;
 
-use Jet\Application_Module;
+use ArrayAccess as PHP_ArrayAccess;
+use Iterator as PHP_Iterator;
+use Countable as PHP_Countable;
 
 /**
  *
  */
-class Main extends Application_Module
+interface BaseObject_ArrayEmulator extends PHP_ArrayAccess, PHP_Iterator, PHP_Countable
 {
-
-	/**
-	 * Initialization method
-	 */
-	protected function initialize()
-	{
-	}
-
-
 }

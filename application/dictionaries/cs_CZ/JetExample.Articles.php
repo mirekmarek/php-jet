@@ -22,4 +22,8 @@ return [
 	'Update article' => '',
 	'Delete article' => '',
 	'Basic acticles module' => '',
+	'Delete article <b>%TITLE%</b>' => '',
+	'Do you really want to delete this article?' => '',
+	'Article <b>%TITLE%</b> has been deleted' => '',
+	'Article detail <b>%TITLE%</b>' => '',
 ];

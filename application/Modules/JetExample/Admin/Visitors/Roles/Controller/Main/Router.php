@@ -40,20 +40,20 @@ class Controller_Main_Router extends Mvc_Controller_Router
 
 		};
 
-		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
+		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
 		$router = $this;
 
-		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $base_URI ) {
+		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $page ) {
 			if( !$router->getActionAllowed( $action ) ) {
 				return false;
 			}
 
 
 			if( !$id ) {
-				return $action_uri.'/';
+				return $page->getURI([ $action_uri ]);
 			}
 
-			return $base_URI.$action_uri.':'.( $id ).'/';
+			return $page->getURI([$action_uri.':'.$id ]);
 		};
 
 

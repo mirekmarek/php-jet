@@ -1,12 +1,13 @@
 <?php
 use Jet\Navigation_Breadcrumb_Item;
 use Jet\Mvc_View;
+use Jet\Navigation_Breadcrumb;
 
 /**
  * @var Mvc_View                              $this
  * @var Navigation_Breadcrumb_Item[] $data
  */
-$data = $this->getRaw( 'data' );
+$data = Navigation_Breadcrumb::getItems()
 ?>
 <ol class="breadcrumb">
 	<?php foreach( $data as $d ): ?>

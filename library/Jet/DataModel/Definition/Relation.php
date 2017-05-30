@@ -18,15 +18,9 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	 */
 	protected $related_data_model_class_name;
 
-	/**
-	 *
-	 * @var DataModel_Definition_Model
-	 */
-	protected $related_data_model_definition;
-
 
 	/**
-	 * @var DataModel_Definition_Relation_JoinByItem[]
+	 * @var DataModel_Definition_Relation_Join_Item[]|DataModel_Definition_Relation_Join_Condition[]
 	 */
 	protected $join_by = [];
 
@@ -39,6 +33,23 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	 * @var array
 	 */
 	protected $required_relations = [];
+
+
+	/**
+	 * @param array $data
+	 *
+	 * @return static
+	 */
+	public static function __set_state( $data )
+	{
+		$i = new static();
+		foreach( $data as $k=>$v ) {
+			$i->{$k} = $v;
+		}
+
+		return $i;
+	}
+
 
 	/**
 	 * @return string
@@ -61,14 +72,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	 */
 	public function getRelatedDataModelDefinition()
 	{
-		if( !$this->related_data_model_definition ) {
-
-			$this->related_data_model_definition = DataModel::getDataModelDefinition(
-				$this->related_data_model_class_name
-			);
-		}
-
-		return $this->related_data_model_definition;
+		return DataModel::getDataModelDefinition( $this->related_data_model_class_name );
 	}
 
 	/**
@@ -88,7 +92,7 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	}
 
 	/**
-	 * @return DataModel_Definition_Relation_JoinByItem[]
+	 * @return DataModel_Definition_Relation_Join_Item[]|DataModel_Definition_Relation_Join_Condition[]
 	 */
 	public function getJoinBy()
 	{
@@ -108,11 +112,20 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	}
 
 	/**
-	 * @param DataModel_Definition_Relation_JoinByItem $item
+	 * @param DataModel_Definition_Relation_Join_Item $item
 	 */
-	public function addJoinBy( DataModel_Definition_Relation_JoinByItem $item )
+	public function addJoinBy( DataModel_Definition_Relation_Join_Item $item )
 	{
 		$this->join_by[] = $item;
+	}
+
+	/**
+	 * @param DataModel_Definition_Relation_Join_Condition $condition
+	 */
+	public function addJoinCondition( DataModel_Definition_Relation_Join_Condition $condition )
+	{
+		$this->join_by[] = $condition;
+
 	}
 
 	/**

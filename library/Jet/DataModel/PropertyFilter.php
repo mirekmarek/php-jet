@@ -29,15 +29,11 @@ class DataModel_PropertyFilter extends BaseObject
 		foreach( $only_properties as $lp ) {
 			$property_name = null;
 
-			$model_name = $model_definition->getModelName();
 			if( strpos( $lp, '.' )===false ) {
+				$model_name = $model_definition->getModelName();
 				$property_name = $lp;
 			} else {
 				list( $model_name, $property_name ) = explode( '.', $lp );
-
-				if( $model_name=='this' ) {
-					$model_name = $model_definition->getModelName();
-				}
 			}
 
 			if( !isset( $this->only_properties[$model_name] ) ) {

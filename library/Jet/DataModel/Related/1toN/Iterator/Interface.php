@@ -7,10 +7,11 @@
  */
 namespace Jet;
 
+
 /**
  *
  */
-interface DataModel_Related_1toN_Iterator_Interface extends DataModel_Related_Interface, \ArrayAccess, \Iterator, \Countable
+interface DataModel_Related_1toN_Iterator_Interface extends DataModel_Related_Interface, BaseObject_ArrayEmulator
 {
 
 

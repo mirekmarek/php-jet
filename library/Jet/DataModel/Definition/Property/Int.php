@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_INT;
+	protected $type = DataModel::TYPE_INT;
 
 	/**
 	 * @var int

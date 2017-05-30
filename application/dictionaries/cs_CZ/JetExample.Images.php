@@ -21,4 +21,9 @@ return [
 	'Delete image' => '',
 	'Images module' => '',
 	'Delete selected images' => '',
+	'Image %FILE_NAME% uploaded ....' => '',
+	'<span class="flag flag-cz" title="Česká republika - čeština" alt="Česká republika - čeština" ></span>Title' => '',
+	'<span class="flag flag-us" title="Spojené státy - angličtina" alt="Spojené státy - angličtina" ></span>Title' => '',
+	'<span class="flag flag-cz" title="Česká republika - čeština" alt="Česká republika - čeština" ></span>&nbsp;Title' => '',
+	'<span class="flag flag-us" title="Spojené státy - angličtina" alt="Spojené státy - angličtina" ></span>&nbsp;Title' => '',
 ];

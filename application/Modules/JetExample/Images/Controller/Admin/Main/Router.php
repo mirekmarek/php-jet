@@ -28,9 +28,25 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 		parent::__construct( $controller );
 
-		$base_URI = Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI();
+		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
+		$router = $this;
 
-		$gallery_validator = function( $parameters ) use ($controller) {
+		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $page ) {
+			if( !$router->getActionAllowed( $action ) ) {
+				return false;
+			}
+
+
+			if( !$id ) {
+				return $page->getURI();
+			}
+
+			return $page->getURI([$action_uri.':'.$id ]);
+		};
+
+
+
+		$validator = function( $parameters ) use ($controller) {
 			$gallery = Gallery::get( $parameters[0] );
 			if( !$gallery ) {
 				return false;
@@ -42,47 +58,57 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 		};
 
-		$this->addAction( 'add', '/^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )->setCreateURICallback(
-			function( $parent_id ) use ( $base_URI ) {
-				return $base_URI.'add:'.rawurlencode( $parent_id ).'/';
+
+
+		$this->addAction( 'add', '/^add$|^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )->setCreateURICallback(
+			function( $parent_id ) use ( $page, $router ) {
+				if( !$router->getActionAllowed( 'add' ) ) {
+					return false;
+				}
+
+
+				if( !$parent_id ) {
+					return $page->getURI(['add']);
+				}
+
+				return $page->getURI(['add:'.$parent_id ]);
+
 			}
 		)->setParametersValidatorCallback(
-			function( &$parameters ) use ( $gallery_validator ) {
+			function( $parameters ) use ( $validator, $controller ) {
 
-				$parameters['parent_id'] = $parameters[0];
-
-				if( $parameters[0]==Gallery::ROOT_ID ) {
+				if( !$parameters ) {
 					return true;
 				}
 
 				$gallery = Gallery::get( $parameters[0] );
 				if( !$gallery ) {
-					unset( $parameters['parent_id'] );
-
 					return false;
 				}
+
+				$controller->getContent()->setParameter('parent_id', $gallery->getId());
 
 				return true;
 			}
 		);
 
 		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )->setCreateURICallback(
-			function( $id ) use ( $base_URI ) {
-				return $base_URI.'edit:'.rawurlencode( $id ).'/';
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator('edit', 'edit', $id);
 			}
-		)->setParametersValidatorCallback( $gallery_validator );
+		)->setParametersValidatorCallback( $validator );
 
 		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )->setCreateURICallback(
-			function( $id ) use ( $base_URI ) {
-				return $base_URI.'view:'.rawurlencode( $id ).'/';
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator('view', 'view', $id);
 			}
-		)->setParametersValidatorCallback( $gallery_validator );
+		)->setParametersValidatorCallback( $validator );
 
 		$this->addAction( 'delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )->setCreateURICallback(
-			function( $id ) use ( $base_URI ) {
-				return $base_URI.'delete:'.rawurlencode( $id ).'/';
+			function( $id ) use ( $URI_creator ) {
+				return $URI_creator('delete', 'delete', $id);
 			}
-		)->setParametersValidatorCallback( $gallery_validator );
+		)->setParametersValidatorCallback( $validator );
 	}
 
 

@@ -1,0 +1,32 @@
+<?php
+namespace JetApplicationModule\JetExample\Images;
+
+use Jet\UI;
+
+use Jet\Data_Tree;
+use Jet\Tr;
+use Jet\Form;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View                     $this
+ * @var Gallery                      $gallery
+ * @var Form                         $upload_form
+ * @var Form                         $edit_form
+ * @var Controller_Admin_Main_Router $router
+ */
+$gallery = $this->getRaw( 'gallery' );
+$router = $this->getController()->getControllerRouter();
+
+$parent_id = $gallery ? $gallery->getIdObject() : '';
+
+?>
+<div class="col-lg-3">
+	<?=$this->getRaw( 'search_form' )?>
+</div>
+
+
+<?php if( ( $add_uri = $router->getAddURI( $parent_id ) ) && ( !$gallery || !$gallery->getIsNew() ) ): ?>
+	<?=UI::button_create( Tr::_( 'Create a new gallery' ) )->setUrl( $add_uri )?>
+<?php endif; ?>
+

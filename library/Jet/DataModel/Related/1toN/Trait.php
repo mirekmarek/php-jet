@@ -85,7 +85,7 @@ trait DataModel_Related_1toN_Trait
 			 * @var DataModel_Definition_Property $property
 			 */
 			$property_name = $property->getRelatedToPropertyName();
-			$value = $main_id[$property_name];
+			$value = $main_id->getValue( $property_name );
 
 			$where->addAND();
 			$where->addExpression(
@@ -147,7 +147,7 @@ trait DataModel_Related_1toN_Trait
 				/**
 				 * @var DataModel_Definition_Property $property
 				 */
-				$parent_id_values[$property->getName()] = $parent_id[$property->getRelatedToPropertyName()];
+				$parent_id_values[$property->getName()] = $parent_id->getValue( $property->getRelatedToPropertyName() );
 
 			}
 		}

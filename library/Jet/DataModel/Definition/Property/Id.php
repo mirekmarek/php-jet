@@ -15,7 +15,7 @@ class DataModel_Definition_Property_Id extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_ID;
+	protected $type = DataModel::TYPE_ID;
 
 	/**
 	 * @var null

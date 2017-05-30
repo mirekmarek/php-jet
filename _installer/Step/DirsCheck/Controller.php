@@ -7,7 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Http_Request;
 use Jet\IO_Dir;
 use Jet\Mvc_Site;
 

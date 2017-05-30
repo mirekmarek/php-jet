@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements \ArrayAccess, \Iterator, \Countable
+class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements BaseObject_ArrayEmulator
 {
 
 	/**
@@ -47,8 +47,8 @@ class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements \Arra
 		foreach( $l as $item ) {
 			$l_id = clone $this->empty_id_instance;
 
-			foreach( $l_id as $k => $v ) {
-				$l_id[$k] = $item[$k];
+			foreach( $l_id->getPropertyNames() as $k ) {
+				$l_id->setValue( $k, $item[$k]);
 			}
 
 			$this->data[(string)$l_id] = $l_id;

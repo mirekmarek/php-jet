@@ -22,6 +22,7 @@ trait DataModel_Related_MtoN_Trait
 	 * @var array
 	 */
 	protected static $_load_related_data_order_by = [];
+
 	/**
 	 * @var DataModel_Id
 	 */
@@ -101,7 +102,7 @@ trait DataModel_Related_MtoN_Trait
 			/**
 			 * @var DataModel_Definition_Property $m_id_property
 			 */
-			$value = $main_id[$m_id_property->getRelatedToPropertyName()];
+			$value = $main_id->getValue( $m_id_property->getRelatedToPropertyName() );
 
 			$where->addAND();
 			$where->addExpression( $m_id_property, DataModel_Query::O_EQUAL, $value );
@@ -239,7 +240,7 @@ trait DataModel_Related_MtoN_Trait
 			$this->_N_id = $n_class_name::getEmptyIdObject();
 
 			foreach( $n_id_properties as $n_id_prop_name => $n_id_prop ) {
-				$this->_N_id[$n_id_prop->getRelatedToPropertyName()] = $this->{$n_id_prop_name};
+				$this->_N_id->setValue( $n_id_prop->getRelatedToPropertyName(), $this->{$n_id_prop_name});
 			}
 
 		}
@@ -326,7 +327,7 @@ trait DataModel_Related_MtoN_Trait
 			/**
 			 * @var DataModel_Definition_Property $n_id_property
 			 */
-			$value = $n_id[$n_id_property->getRelatedToPropertyName()];
+			$value = $n_id->getValue( $n_id_property->getRelatedToPropertyName() );
 
 			$this->{$n_id_property->getName()} = $value;
 		}
@@ -352,10 +353,13 @@ trait DataModel_Related_MtoN_Trait
 
 
 		/** @noinspection PhpUndefinedMethodInspection */
+		/**
+		 * @var DataModel_Id $m_id
+		 */
 		$m_id = $m_class_name::getEmptyIdObject();
 
 		foreach( $m_id_properties as $m_id_prop_name => $m_id_prop ) {
-			$m_id[$m_id_prop->getRelatedToPropertyName()] = $this->{$m_id_prop_name};
+			$m_id->setValue( $m_id_prop->getRelatedToPropertyName(), $this->{$m_id_prop_name} );
 		}
 
 		return $m_id;
@@ -438,7 +442,7 @@ trait DataModel_Related_MtoN_Trait
 			/**
 			 * @var DataModel_Definition_Property $m_id_property
 			 */
-			$value = $m_id[$m_id_property->getRelatedToPropertyName()];
+			$value = $m_id->getValue( $m_id_property->getRelatedToPropertyName() );
 
 			$this->{$m_id_property->getName()} = $value;
 		}

@@ -13,25 +13,19 @@ namespace Jet;
 class DataModel_Definition_Relation_Internal extends DataModel_Definition_Relation
 {
 
-	/**
-	 * @var DataModel_Definition_Property[]
-	 */
-	protected $join_by_properties = [];
-
 
 	/**
-	 * @param DataModel_Definition_Model                 $related_data_model_definition
-	 * @param DataModel_Definition_Relation_JoinByItem[] $join_by
-	 * @param string                                     $join_type
+	 * @param string                                    $related_data_model_class_name
+	 * @param DataModel_Definition_Relation_Join_Item[] $join_by
+	 * @param array                                     $required_relations
 	 */
-	public function __construct( DataModel_Definition_Model $related_data_model_definition, array $join_by, $join_type = DataModel_Query::JOIN_TYPE_LEFT_JOIN )
+	public function __construct( $related_data_model_class_name='', array $join_by=[], array $required_relations=[] )
 	{
 
-		$this->related_data_model_class_name = $related_data_model_definition->getClassName();
-		$this->related_data_model_definition = $related_data_model_definition;
-		$this->join_type = $join_type;
+		$this->related_data_model_class_name = $related_data_model_class_name;
+		$this->required_relations = $required_relations;
 
-		$this->setJoinBy( $join_by );
+		$this->setJoinBy($join_by);
 	}
 
 

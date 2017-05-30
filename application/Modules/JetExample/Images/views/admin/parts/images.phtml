@@ -1,0 +1,56 @@
+<?php
+namespace JetApplicationModule\JetExample\Images;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\Mvc_View;
+use Jet\Form;
+
+/**
+ * @var Mvc_View                     $this
+ * @var Gallery                      $gallery
+ * @var Form                         $edit_form
+ */
+$gallery = $this->getRaw( 'gallery' );
+$images = $gallery->getImages();
+$edit_form = $this->getRaw( 'edit_form' );
+
+
+
+?>
+
+
+
+
+<?php if( count( $images ) ): ?>
+	<form action="?ID=<?=$gallery->getIdObject();?>&amp;delete_images" method="post">
+		<div class="row">
+			<?php foreach( $images as $image ): ?>
+				<div style="float:left;margin: 10px;overflow: hidden;">
+					<div class="thumbnail" style="height: 200px;width: 200px;padding:10px;overflow: hidden">
+						<a href="<?=$image->getURI();?>" target="_blank">
+							<div
+								style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 );?>');"
+							></div>
+						</a>
+
+						<div class="caption">
+							<p>
+								<?php if( !$edit_form->getIsReadonly() ): ?>
+									<input type="checkbox" name="images[]"
+									       value="<?=$image->getIdObject();?>"
+									       id="image_<?=$image->getIdObject();?>">
+								<?php endif; ?>
+								<?=$image->getFileName();?>
+							</p>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<?php if( !$edit_form->getIsReadonly() ): ?>
+			<?=UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' )?>
+		<?php endif; ?>
+	</form>
+<?php endif; ?>

@@ -15,7 +15,7 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 	/**
 	 * @var string
 	 */
-	protected $_type = DataModel::TYPE_STRING;
+	protected $type = DataModel::TYPE_STRING;
 
 
 	/**
