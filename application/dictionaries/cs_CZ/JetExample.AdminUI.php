@@ -1,5 +1,5 @@
 <?php
 return [
-	'Change password' => '',
-	'Logout' => '',
+	'Change password' => 'Změnit heslo',
+	'Logout' => 'Odhlásit se',
 ];

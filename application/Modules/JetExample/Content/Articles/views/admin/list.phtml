@@ -1,0 +1,96 @@
+<?php
+namespace JetApplicationModule\JetExample\Content\Articles;
+
+use Jet\Mvc_Site;
+use Jet\UI_button;
+use Jet\UI_dataGrid;
+use Jet\UI;
+
+use Jet\Tr;
+use Jet\Locale;
+use Jet\Mvc;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View    $this
+ * @var UI_dataGrid $grid
+ */
+$grid = $this->getRaw( 'grid' );
+
+/**
+ * @var Controller_Admin_Main_Router $router
+ */
+$router = $this->getController()->getControllerRouter();
+
+$delete_uri = $router->getDeleteURI();
+
+$grid->getColumn( '_edit_' )
+	->setAllowSort( false )
+	->setCssStyle( 'width:30px;' )
+	->setRenderer(
+		function( Article $item ) use ( $delete_uri ) {
+			if( $delete_uri ):
+				?>
+				<input type="checkbox" name="selected[]" value="<?=$item->getId()?>"/>
+				<?php
+			endif;
+		}
+	);
+
+
+$grid->getColumn( 'title' )
+	->setRenderer(
+		function( Article $item ) use ( $router ) {
+			foreach( Mvc_Site::getAllLocalesList(false) as $locale ):
+				$URI = $router->getEditOrViewURI( $item->getId() );
+				$title = $item->getLocalized($locale)->getTitle();
+
+				echo UI::flag($locale).'&nbsp;<a href="'.$URI.'">'.$title.'</a><br/>';
+			endforeach;
+		}
+	);
+
+$grid->getColumn( 'date_time' )
+	->setCssStyle( 'width:200px;' )
+	->setRenderer(
+		function( Article $item ) {
+			echo Locale::dateAndTime( $item->getDateTime() );
+		}
+	);
+
+if($delete_uri) {
+	$grid->setCustomFooter('
+		<tr>
+			<td colspan="'.count($grid->getColumns()).'" class="toolbar">
+				'.UI::button_delete()->setType('submit')->setSize(UI_button::SIZE_EXTRA_SMALL).'
+			</td>
+		</tr>
+	');
+}
+
+?>
+
+<div class="row toolbar">
+	<div class="col-xs-7 col-md-3">
+		<?=$this->getRaw( 'search_form' ) ?>
+	</div>
+	<div class="col-xs-5 col-md-3">
+		<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
+			<?=UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri )?>
+		<?php endif; ?>
+	</div>
+</div>
+<div class="row main-row">
+	<div class="col-md-12 main-col">
+
+
+		<div class="row">
+			<div class="col-md-12">
+				<form action="<?=$delete_uri?>" method="post">
+					<?=$grid->render()?>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>

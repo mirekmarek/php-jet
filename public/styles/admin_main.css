@@ -43,15 +43,20 @@ html, body {
 	padding: 4px;
 	background-color: #f9f9f9;
 	margin-bottom: 10px;
-	height: 43px;
+	min-height: 43px;
 }
 
+#main-toolbar {
+	z-index: 999;
+}
 .main-col {
-	padding-bottom: 10px;
-	min-height: 100%;
+	margin: 0px;
 }
 
-.main-row {
+
+.breadcrumb_navigation {
+	padding: 0px;
+	margin: 0px;
 }
 
 .alert {
@@ -67,10 +72,6 @@ html, body {
 	margin-bottom: 10px;
 }
 
-#main-toolbar {
-	z-index: 999;
-	width: 100%;
-}
 
 #__progress__ {
 	z-index: 9999999999;

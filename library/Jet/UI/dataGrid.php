@@ -29,10 +29,6 @@ class UI_dataGrid extends BaseObject
 	 * @var string
 	 */
 	protected static $default_renderer_script_paginator = 'dataGrid/paginator';
-	/**
-	 * @var string
-	 */
-	protected static $default_renderer_script_footer = 'dataGrid/footer';
 
 	/**
 	 * @var string
@@ -104,10 +100,6 @@ class UI_dataGrid extends BaseObject
 	 * @var string
 	 */
 	protected $renderer_script_paginator;
-	/**
-	 * @var string
-	 */
-	protected $renderer_script_footer;
 
 	/**
 	 * @var callable
@@ -129,6 +121,16 @@ class UI_dataGrid extends BaseObject
 	 * @var callable
 	 */
 	protected $sort_url_creator;
+
+	/**
+	 * @var string
+	 */
+	protected $custom_header;
+
+	/**
+	 * @var string
+	 */
+	protected $custom_footer;
 
 
 	/**
@@ -246,22 +248,6 @@ class UI_dataGrid extends BaseObject
 	/**
 	 * @return string
 	 */
-	public static function getDefaultRendererScriptFooter()
-	{
-		return static::$default_renderer_script_footer;
-	}
-
-	/**
-	 * @param string $default_renderer_script_footer
-	 */
-	public static function setDefaultRendererScriptFooter( $default_renderer_script_footer )
-	{
-		static::$default_renderer_script_footer = $default_renderer_script_footer;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getDefaultSort()
 	{
 		return $this->default_sort;
@@ -269,10 +255,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $default_sort
+	 *
+	 * @return $this
 	 */
 	public function setDefaultSort( $default_sort )
 	{
 		$this->default_sort = $default_sort;
+
+		return $this;
 	}
 
 
@@ -309,10 +299,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param bool $allow_paginator
+	 *
+	 * @return $this
 	 */
 	public function setAllowPaginator( $allow_paginator )
 	{
 		$this->allow_paginator = $allow_paginator;
+
+		return $this;
 	}
 
 	/**
@@ -326,10 +320,14 @@ class UI_dataGrid extends BaseObject
 	/**
 	 *
 	 * @param Data_Paginator $paginator
+	 *
+	 * @return $this
 	 */
 	public function setPaginator( Data_Paginator $paginator )
 	{
 		$this->paginator = $paginator;
+
+		return $this;
 	}
 
 	/**
@@ -517,10 +515,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param int $paginator_items_per_page
+	 *
+	 * @return $this
 	 */
 	public function setPaginatorItemsPerPage( $paginator_items_per_page )
 	{
 		$this->paginator_items_per_page = $paginator_items_per_page;
+
+		return $this;
 	}
 
 	/**
@@ -545,10 +547,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param callable $page_no_catcher
+	 *
+	 * @return $this
 	 */
 	public function setPageNoCatcher( callable $page_no_catcher )
 	{
 		$this->page_no_catcher = $page_no_catcher;
+
+		return $this;
 	}
 
 	/**
@@ -567,10 +573,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param callable $page_url_creator
+	 *
+	 * @return $this
 	 */
 	public function setPageUrlCreator( callable $page_url_creator )
 	{
 		$this->page_url_creator = $page_url_creator;
+
+		return $this;
 	}
 
 	/**
@@ -589,10 +599,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param callable $sort_catcher
+	 *
+	 * @return $this
 	 */
 	public function setSortCatcher( callable $sort_catcher )
 	{
 		$this->sort_catcher = $sort_catcher;
+
+		return $this;
 	}
 
 	/**
@@ -617,20 +631,28 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param callable $sort_url_creator
+	 *
+	 * @return $this
 	 */
 	public function setSortUrlCreator( callable $sort_url_creator )
 	{
 		$this->sort_url_creator = $sort_url_creator;
+
+		return $this;
 	}
 
 
 
 	/**
 	 * @param string $session_name
+	 *
+	 * @return $this
 	 */
 	public function setIsPersistent( $session_name )
 	{
 		$this->session_namespace = $session_name;
+
+		return $this;
 	}
 
 	/**
@@ -643,10 +665,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $sort_by
+	 *
+	 * @return $this
 	 */
 	public function setSortBy( $sort_by )
 	{
 		$this->sort_by = $sort_by;
+
+		return $this;
 	}
 
 
@@ -692,10 +718,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $renderer_script
+	 *
+	 * @return $this
 	 */
 	public function setRendererScript( $renderer_script )
 	{
 		$this->renderer_script = $renderer_script;
+
+		return $this;
 	}
 
 	/**
@@ -712,10 +742,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $renderer_script_header
+	 *
+	 * @return $this
 	 */
 	public function setRendererScriptHeader( $renderer_script_header )
 	{
 		$this->renderer_script_header = $renderer_script_header;
+
+		return $this;
 	}
 
 	/**
@@ -732,10 +766,14 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $renderer_script_body
+	 *
+	 * @return $this
 	 */
 	public function setRendererScriptBody( $renderer_script_body )
 	{
 		$this->renderer_script_body = $renderer_script_body;
+
+		return $this;
 	}
 
 	/**
@@ -752,30 +790,54 @@ class UI_dataGrid extends BaseObject
 
 	/**
 	 * @param string $renderer_script_paginator
+	 *
+	 * @return $this
 	 */
 	public function setRendererScriptPaginator( $renderer_script_paginator )
 	{
 		$this->renderer_script_paginator = $renderer_script_paginator;
+
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRendererScriptFooter()
+	public function getCustomHeader()
 	{
-		if(!$this->renderer_script_footer) {
-			$this->renderer_script_footer = static::getDefaultRendererScriptFooter();
-		}
-
-		return $this->renderer_script_footer;
+		return $this->custom_header;
 	}
 
 	/**
-	 * @param string $renderer_script_footer
+	 * @param string $custom_header
+	 *
+	 * @return $this
 	 */
-	public function setRendererScriptFooter( $renderer_script_footer )
+	public function setCustomHeader( $custom_header )
 	{
-		$this->renderer_script_footer = $renderer_script_footer;
+		$this->custom_header = $custom_header;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCustomFooter()
+	{
+		return $this->custom_footer;
+	}
+
+	/**
+	 * @param string $custom_footer
+	 *
+	 * @return $this
+	 */
+	public function setCustomFooter( $custom_footer )
+	{
+		$this->custom_footer = $custom_footer;
+
+		return $this;
 	}
 
 
@@ -816,15 +878,6 @@ class UI_dataGrid extends BaseObject
 		}
 
 		return $this->getView()->render( $this->getRendererScriptPaginator() );
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function renderFooter()
-	{
-		return $this->getView()->render( $this->getRendererScriptFooter() );
 	}
 
 }

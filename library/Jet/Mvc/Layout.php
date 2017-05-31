@@ -49,6 +49,11 @@ class Mvc_Layout extends Mvc_View_Abstract
 	protected $required_javascript_files = [];
 
 	/**
+	 * @var array
+	 */
+	protected $required_main_javascript_files = [];
+
+	/**
 	 * @var string[]
 	 */
 	protected $required_initial_javascript_code = [];
@@ -62,6 +67,12 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @var string[][]
 	 */
 	protected $required_css_files = [];
+
+	/**
+	 * @var string[][]
+	 */
+	protected $required_main_css_files = [];
+
 
 	/**
 	 * @var bool
@@ -286,6 +297,16 @@ class Mvc_Layout extends Mvc_View_Abstract
 	}
 
 	/**
+	 * @param string $URI
+	 */
+	public function requireMainJavascriptFile( $URI )
+	{
+		if( !in_array( $URI, $this->required_main_javascript_files ) ) {
+			$this->required_main_javascript_files[] = $URI;
+		}
+	}
+
+	/**
 	 * @param string $code
 	 */
 	public function requireInitialJavascriptCode( $code )
@@ -318,6 +339,23 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 		if( !in_array( $URI, $this->required_css_files[$media] ) ) {
 			$this->required_css_files[$media][] = $URI;
+		}
+
+	}
+
+	/**
+	 * @param string $URI
+	 * @param string $media (optional)
+	 */
+	public function requireMainCssFile( $URI, $media = '' )
+	{
+
+		if( !isset( $this->required_main_css_files[$media] ) ) {
+			$this->required_main_css_files[$media] = [];
+		}
+
+		if( !in_array( $URI, $this->required_main_css_files[$media] ) ) {
+			$this->required_main_css_files[$media][] = $URI;
 		}
 
 	}
@@ -635,7 +673,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 			array_merge( $this->required_initial_javascript_code, $required_initial_javascript_code )
 		);
 		$this->required_javascript_files = array_unique(
-			array_merge( $this->required_javascript_files, $required_javascript_files )
+			array_merge( $this->required_main_javascript_files, $this->required_javascript_files, $required_javascript_files )
 		);
 		$this->required_javascript_code = array_unique(
 			array_merge( $this->required_javascript_code, $required_javascript_code )
@@ -754,8 +792,24 @@ class Mvc_Layout extends Mvc_View_Abstract
 			}
 
 		} else {
-			$CSS_files = $this->required_css_files;
 
+			$CSS_files = $this->required_main_css_files;
+
+			foreach( $this->required_css_files as $media=>$files ) {
+				if(!isset($CSS_files[$media])) {
+					$CSS_files[$media] = $files;
+
+					continue;
+				}
+
+				foreach( $files as $file ) {
+					if(in_array($file, $CSS_files[$media])) {
+						continue;
+					}
+
+					$CSS_files[$media][] = $file;
+				}
+			}
 		}
 
 		foreach( $CSS_files as $media => $URIs ) {

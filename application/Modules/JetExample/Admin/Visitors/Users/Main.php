@@ -25,8 +25,10 @@ class Main extends Application_Module
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		self::ACTION_GET_USER    => 'Get user(s) data', self::ACTION_ADD_USER => 'Add new user',
-		self::ACTION_UPDATE_USER => 'Update user', self::ACTION_DELETE_USER => 'Delete user',
+		self::ACTION_GET_USER    => 'Get user(s) data',
+		self::ACTION_ADD_USER    => 'Add new user',
+		self::ACTION_UPDATE_USER => 'Update user',
+		self::ACTION_DELETE_USER => 'Delete user',
 	];
 
 

@@ -16,7 +16,7 @@ return [
 	],
 	'contents' => [
 			[
-				'module_name' => 'JetExample.Articles',
+				'module_name' => 'JetExample.Content.Articles',
 				'controller_action' => 'default',
 				'output_position_order' => 1
 			]

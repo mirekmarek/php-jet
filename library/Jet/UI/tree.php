@@ -46,17 +46,17 @@ class UI_tree extends BaseObject
 	/**
 	 * @var callable
 	 */
-	protected $selected_display_callback;
+	protected $renderer_selected;
 
 	/**
 	 * @var callable
 	 */
-	protected $opened_display_callback;
+	protected $renderer_opened;
 
 	/**
 	 * @var callable
 	 */
-	protected $normal_display_callback;
+	protected $renderer_normal;
 
 	/**
 	 * @return string
@@ -216,38 +216,6 @@ class UI_tree extends BaseObject
 		$this->show_all = $show_all;
 	}
 
-	/**
-	 * @param Data_Tree_Node $node
-	 *
-	 * @return callable
-	 */
-	public function nodeDisplayCallback( Data_Tree_Node $node )
-	{
-		$callback = $this->getNormalDisplayCallback();
-		if( $this->nodeSelected( $node ) ) {
-			$callback = $this->getSelectedDisplayCallback();
-		} else if( $this->nodeOpened( $node ) ) {
-			$callback = $this->getOpenedDisplayCallback();
-		}
-
-		return $callback;
-	}
-
-	/**
-	 * @return callable
-	 */
-	public function getNormalDisplayCallback()
-	{
-		return $this->normal_display_callback;
-	}
-
-	/**
-	 * @param callable $normal_display_callback
-	 */
-	public function setNormalDisplayCallback( callable $normal_display_callback )
-	{
-		$this->normal_display_callback = $normal_display_callback;
-	}
 
 	/**
 	 * @param Data_Tree_Node $node
@@ -257,22 +225,6 @@ class UI_tree extends BaseObject
 	public function nodeSelected( Data_Tree_Node $node )
 	{
 		return ( $node->getId()==$this->getSelectedId() );
-	}
-
-	/**
-	 * @return callable
-	 */
-	public function getSelectedDisplayCallback()
-	{
-		return $this->selected_display_callback;
-	}
-
-	/**
-	 * @param callable $selected_display_callback
-	 */
-	public function setSelectedDisplayCallback( callable $selected_display_callback )
-	{
-		$this->selected_display_callback = $selected_display_callback;
 	}
 
 	/**
@@ -286,19 +238,80 @@ class UI_tree extends BaseObject
 	}
 
 	/**
+	 * @param Data_Tree_Node $node
+	 *
 	 * @return callable
+	 *
+	 * @throws Exception
 	 */
-	public function getOpenedDisplayCallback()
+	public function getNodeRenderer( Data_Tree_Node $node )
 	{
-		return $this->opened_display_callback;
+		$renderer = $this->getRendererNormal();
+		if(!$renderer) {
+			throw new Exception('Renderer for normal tree node is not defined');
+		}
+
+		if( $this->nodeSelected( $node ) ) {
+			$renderer = $this->getRendererSelected();
+			if(!$renderer) {
+				throw new Exception('Renderer for selected tree node is not defined');
+			}
+		} else if( $this->nodeOpened( $node ) ) {
+			$renderer = $this->getRendererOpened();
+			if(!$renderer) {
+				throw new Exception('Renderer for opened tree node is not defined');
+			}
+		}
+
+		return $renderer;
 	}
 
 	/**
-	 * @param callable $opened_display_callback
+	 * @return callable
 	 */
-	public function setOpenedDisplayCallback( callable $opened_display_callback )
+	public function getRendererNormal()
 	{
-		$this->opened_display_callback = $opened_display_callback;
+		return $this->renderer_normal;
+	}
+
+	/**
+	 * @param callable $renderer
+	 */
+	public function setRendererNormal( callable $renderer )
+	{
+		$this->renderer_normal = $renderer;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getRendererSelected()
+	{
+		return $this->renderer_selected;
+	}
+
+	/**
+	 * @param callable $renderer
+	 */
+	public function setRendererSelected( callable $renderer )
+	{
+		$this->renderer_selected = $renderer;
+	}
+
+	/**
+	 * @return callable
+	 */
+	public function getRendererOpened()
+	{
+		return $this->renderer_opened;
+	}
+
+	/**
+	 * @param callable $renderer
+	 */
+	public function setRendererOpened( callable $renderer )
+	{
+		$this->renderer_opened = $renderer;
 	}
 
 	/**

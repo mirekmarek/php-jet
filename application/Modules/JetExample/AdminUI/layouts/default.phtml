@@ -44,6 +44,7 @@ require_once 'parts/init_libs.php';
 			} else {
 				toolbar.css({
 					position: 'relative',
+					width: '100%',
 					top: 'auto'
 				});
 				$('.main-col').css({
@@ -66,18 +67,18 @@ require_once 'parts/init_libs.php';
 	</div>
 
 	<div class="row">
-		<jet_module module="JetExample.AdminUI" action="breadcrumb_navigation"/>
+		<div class="col-md-12 breadcrumb_navigation">
+			<jet_module module="JetExample.AdminUI" action="breadcrumb_navigation"/>
+		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-xs-12" id="system-messages-area">
+		<div class="col-md-12" id="system-messages-area">
 			<jet_module module="JetExample.AdminUI" action="messages"/>
 		</div>
 	</div>
 
-	<div class="row main-row">
-		<jet_layout_main_position/>
-	</div>
+	<jet_layout_main_position/>
 </div>
 
 

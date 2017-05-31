@@ -38,4 +38,9 @@ return [
 	'Delete user' => '',
 	'Administrator users management' => '',
 	'User account detail <b>%USERNAME%</b>' => '',
+	'Delete user account <b>%USERNAME%</b>' => '',
+	'Do you really want to delete this user?' => '',
+	'Password is not strong enough' => '',
+	'Sorry, but username %USERNAME% is registered.' => '',
+	'User <b>%USERNAME%</b> has been deleted' => '',
 ];

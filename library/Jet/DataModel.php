@@ -26,7 +26,6 @@ namespace Jet;
 	 *      - ONLY FOR RELATED MODELS!
 	 *
 	 * Relation on foreign model definition:
-	 * //TODO: doplnit moznost zavyslosti
 	 * @JetDataModel:relation = [ 'Some_Related_Class', [ 'property_name'=>'related_property_name', 'another_property_name' => 'another_related_property_name' ], DataModel_Query::JOIN_TYPE_*, ['some_required_related_model_name'] ]
 	 *
 	 *          Warning!

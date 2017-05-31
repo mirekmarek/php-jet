@@ -89,7 +89,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return Locale[]|string[]
 	 */
-	public static function getAllLocalesList( $get_as_string = false )
+	public static function getAllLocalesList( $get_as_string = true )
 	{
 		$sites = static::loadSites();
 		$locales = [];

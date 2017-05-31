@@ -14,20 +14,5 @@ use Jet\Application_Module;
  */
 class Main extends Application_Module
 {
-	/**
-	 * @return string
-	 */
-	public function getMyValue()
-	{
-		return 'My value';
-	}
-
-	/**
-	 *
-	 */
-	public function testInstall()
-	{
-
-	}
 
 }

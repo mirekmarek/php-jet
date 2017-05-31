@@ -19,12 +19,11 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 
 $user = $this->getRaw( 'user' );
 ?>
-<div class="col-md-12 main-col" style="padding-top: 5px;">
 
+<?=$form->start()?>
 
-	<?=$form->start()?>
-
-	<div class="toolbar" id="main-toolbar">
+<div class="row toolbar" id="main-toolbar">
+	<div class="col-md-12">
 		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
 		<?php if( !$form->getIsReadonly() ): ?>
 			<?=UI::button_save()?>
@@ -38,29 +37,32 @@ $user = $this->getRaw( 'user' );
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 main-col">
+		<?=$form->field( 'username' )?>
+
+		<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
+		<?=$form->field( 'email' )?>
+		<?=$form->field( 'locale' )?>
+		<?=$form->field( 'first_name' )?>
+		<?=$form->field( 'surname' )?>
+		<?=$form->field( 'description' )?>
+		<?=$form->field( 'roles' )?>
+
+		<hr class="separator">
+		<?=$form->field( 'user_is_activated' )?>
+		<hr class="separator">
+		<?=$form->field( 'user_is_blocked' )?>
+		<?=$form->field( 'user_is_blocked_till' )?>
+		<hr class="separator">
+		<?=$form->field( 'password_is_valid' )?>
+		<?=$form->field( 'password_is_valid_till' )?>
+		<hr class="separator">
 
 	</div>
-
-
-	<?=$form->field( 'username' )?>
-
-	<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
-	<?=$form->field( 'email' )?>
-	<?=$form->field( 'locale' )?>
-	<?=$form->field( 'first_name' )?>
-	<?=$form->field( 'surname' )?>
-	<?=$form->field( 'description' )?>
-	<?=$form->field( 'roles' )?>
-
-	<hr class="separator">
-	<?=$form->field( 'user_is_activated' )?>
-	<hr class="separator">
-	<?=$form->field( 'user_is_blocked' )?>
-	<?=$form->field( 'user_is_blocked_till' )?>
-	<hr class="separator">
-	<?=$form->field( 'password_is_valid' )?>
-	<?=$form->field( 'password_is_valid_till' )?>
-	<hr class="separator">
-
-	<?=$form->end()?>
 </div>
+
+<?=$form->end()?>

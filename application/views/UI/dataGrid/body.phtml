@@ -8,11 +8,11 @@ use Jet\Mvc_View;
  */
 $grid = $this->getRaw( 'grid' );
 ?>
-<tbody>
+
 <?php foreach( $grid->getData() as $i => $item ): ?>
 	<tr>
 		<?php foreach( $grid->getColumns() as $column ):
-			$callback = $column->getDisplayCallback();
+			$callback = $column->getRenderer();
 			?>
 			<td>
 				<?=$callback( $item, $i );?>
@@ -20,4 +20,4 @@ $grid = $this->getRaw( 'grid' );
 		<?php endforeach; ?>
 	</tr>
 <?php endforeach; ?>
-</tbody>
+

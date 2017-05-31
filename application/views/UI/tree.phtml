@@ -24,7 +24,7 @@ $icon_size = 16;
 			continue;
 		}
 
-		$display_callback = $tree->nodeDisplayCallback( $node );
+		$display_callback = $tree->getNodeRenderer( $node );
 
 		$icon = 'file';
 		if( $node->getHasChildren() ) {

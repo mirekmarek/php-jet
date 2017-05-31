@@ -9,6 +9,7 @@ use Jet\Data_Tree;
 use Jet\Data_Tree_Forest;
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
+use Jet\Form;
 
 
 /**
@@ -46,6 +47,16 @@ class Auth_Visitor_Role extends Auth_Role
 	 * @var Auth_Visitor_Role_Privilege[]
 	 */
 	protected $privileges;
+
+	/**
+	 * @var Form
+	 */
+	protected $_form_add;
+	/**
+	 * @var Form
+	 */
+	protected $_form_edit;
+
 
 	/**
 	 * Get sites and pages ACL values list
@@ -131,6 +142,47 @@ class Auth_Visitor_Role extends Auth_Role
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * @return Form
+	 */
+	public function getEditForm()
+	{
+		if(!$this->_form_edit) {
+			$this->_form_edit = $this->getCommonForm();
+		}
+
+		return $this->_form_edit;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm()
+	{
+		return $this->catchForm( $this->getEditForm() );
+	}
+
+
+	/**
+	 * @return Form
+	 */
+	public function getAddForm()
+	{
+		if(!$this->_form_add) {
+			$this->_form_add = $this->getCommonForm();
+		}
+
+		return $this->_form_add;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchAddForm()
+	{
+		return $this->catchForm( $this->getAddForm() );
 	}
 
 }

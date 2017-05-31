@@ -14,6 +14,7 @@ $paginator = $grid->getPaginator();
 
 $pages = $paginator->getPagesURL();
 
+
 $s_index = $paginator->getCurrentPageNo()-3;
 $e_index = $paginator->getCurrentPageNo()+3;
 if( $s_index<1 ) {
@@ -30,10 +31,10 @@ if( $e_index>count( $pages ) ) {
 }
 
 	?>
-	<tfoot>
+
 	<tr>
 		<td colspan="<?=count( $grid->getColumns() );?>">
-			<div>
+			<div style="float: right">
 				<?=UI::_(
 					'%FROM% - %TO% / total count: %COUNT%',
 					[
@@ -45,15 +46,12 @@ if( $e_index>count( $pages ) ) {
 			<nav>
 
 				<ul class="pagination pagination-sm">
-					<?php if( ( $p_URL = $paginator->getFirstPageURL() ) ): ?>
+					<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
 						<li>
 							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Firts' )?>">
 								<?=UI::icon( 'backward' )?>
 							</a>
 						</li>
-
-					<?php endif ?>
-					<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
 						<li>
 							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Previous' )?>">
 								<?=UI::icon( 'chevron-left' )?>
@@ -81,8 +79,6 @@ if( $e_index>count( $pages ) ) {
 								<?=UI::icon( 'chevron-right' )?>
 							</a>
 						</li>
-					<?php endif ?>
-					<?php if( ( $p_URL = $paginator->getLastPageURL() ) ): ?>
 						<li>
 							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Last' )?>">
 								<?=UI::icon( 'forward' )?>
@@ -95,5 +91,5 @@ if( $e_index>count( $pages ) ) {
 
 		</td>
 	</tr>
-	</tfoot>
+
 

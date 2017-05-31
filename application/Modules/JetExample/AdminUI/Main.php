@@ -59,8 +59,8 @@ class Main extends Application_Module
 			return;
 		}
 
-		Navigation_Menu::addRootMenu( 'content', 'Content', 1 );
-		Navigation_Menu::addRootMenu( 'system', 'System', 3 );
+		Navigation_Menu::addRootMenu( 'content', Tr::_('Content'), 1 );
+		Navigation_Menu::addRootMenu( 'system', Tr::_('System'), 3 );
 
 
 		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {

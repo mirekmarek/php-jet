@@ -14,7 +14,6 @@ return [
 	'Please select locale' => '',
 	'Invalid format' => '',
 	'Please select role' => '',
-	'Username' => '',
 	'Password' => '',
 	'Confirm password' => '',
 	'E-mail' => '',
@@ -39,4 +38,7 @@ return [
 	'Update user' => '',
 	'Delete user' => '',
 	'Visitor users management' => '',
+	'Delete user account <b>%USERNAME%</b>' => '',
+	'Do you really want to delete this user?' => '',
+	'User <b>%USERNAME%</b> has been deleted' => '',
 ];

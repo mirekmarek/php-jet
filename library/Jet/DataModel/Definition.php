@@ -139,12 +139,16 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 					empty( $value[0] ) ||
 					empty( $value[1] ) ||
 					!is_array( $value[1] ) ||
-					!is_string( $value[0] )
+					!is_string( $value[0] ) ||
+					(
+						isset($value[3]) &&
+						!is_array($value[3])
+					)
 				) {
 					throw new Reflection_Exception(
 						'Relation definition parse error. Class: \''
 						.$current_class_reflection->getName()
-						.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]',
+						.'\', definition: \''.$definition.'\', Example: @JetDataModel:relation = [ \'Some\RelatedClass\', [ \'property_name\'=>\'related_property_name\', \'another_property_name\' => \'another_related_property_name\' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN, [\'required_data_model_name\'] ]',
 						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
@@ -159,11 +163,17 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 					$value[2]!=DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN
 				) {
 					throw new Reflection_Exception(
-						'Unknown relation type. Class: \''.$current_class_reflection->getName().'\', definition: \''.$definition.'\', Use DataModel_Query::JOIN_TYPE_LEFT_JOIN or DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
+						'Unknown relation type. Class: \''.$current_class_reflection->getName()
+						.'\', definition: \''.$definition.'\', Use DataModel_Query::JOIN_TYPE_LEFT_JOIN or DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN',
 						Reflection_Exception::CODE_UNKNOWN_CLASS_DEFINITION
 					);
 
 				}
+
+				if( !isset( $value[3] ) ) {
+					$value[3] = [];
+				}
+
 
 				if( !isset( $data->result_data['data_model_outer_relations_definition'] ) ) {
 					$data->result_data['data_model_outer_relations_definition'] = [];
@@ -171,15 +181,16 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 
 				if( isset( $data->result_data['data_model_outer_relations_definition'][$value[0]] ) ) {
 					throw new Reflection_Exception(
-						'Duplicate relation! Class: \''.$current_class_reflection->getName(
-						).'\', definition: \''.$definition.'\''
+						'Duplicate relation! Class: \''.$current_class_reflection->getName().'\', definition: \''.$definition.'\''
 					);
 
 				}
 
 				$data->result_data['data_model_outer_relations_definition'][$value[0]] = [
-					'related_to_class_name' => $data->getRealClassName( $value[0] ), 'join_by_properties' => $value[1],
+					'related_to_class_name' => $data->getRealClassName( $value[0] ),
+					'join_by_properties'    => $value[1],
 					'join_type'             => $value[2],
+				    'required_relations'    => $value[3]
 				];
 
 				return;

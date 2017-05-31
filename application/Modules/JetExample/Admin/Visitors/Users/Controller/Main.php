@@ -35,8 +35,11 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => Main::ACTION_GET_USER, 'add' => Main::ACTION_ADD_USER, 'edit' => Main::ACTION_UPDATE_USER,
-		'view'    => Main::ACTION_GET_USER, 'delete' => Main::ACTION_DELETE_USER,
+		'default' => Main::ACTION_GET_USER,
+		'add'     => Main::ACTION_ADD_USER,
+		'edit'    => Main::ACTION_UPDATE_USER,
+		'view'    => Main::ACTION_GET_USER,
+		'delete'  => Main::ACTION_DELETE_USER,
 	];
 	/**
 	 *
@@ -74,7 +77,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 
 		$this->view->setVar( 'grid', $grid );
 
-		$this->render( 'default' );
+		$this->render( 'list' );
 
 	}
 
@@ -101,9 +104,9 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		$user = new User();
 
 
-		$form = $user->getEditForm();
+		$form = $user->getAddForm();
 
-		if( $user->catchForm( $form ) ) {
+		if( $user->catchAddForm() ) {
 			$user->save();
 
 			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );
@@ -168,7 +171,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		$form = $user->getEditForm();
 		$form->removeField( 'password' );
 
-		if( $user->catchForm( $form ) ) {
+		if( $user->catchEditForm() ) {
 
 			$user->save();
 			$this->logAllowedAction( 'User updated', $user->getId(), $user->getUsername(), $user );

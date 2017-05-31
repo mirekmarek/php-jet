@@ -5,6 +5,7 @@ use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
+use Jet\Form;
 
 /**
  *
@@ -32,6 +33,16 @@ class Auth_Visitor_User extends Auth_User
 	 * @var Auth_Visitor_User_Roles|DataModel_Related_MtoN_Iterator|Auth_Visitor_Role[]
 	 */
 	protected $roles;
+
+
+	/**
+	 * @var Form
+	 */
+	protected $_form_add;
+	/**
+	 * @var Form
+	 */
+	protected $_form_edit;
 
 	/**
 	 * @return int
@@ -95,6 +106,54 @@ class Auth_Visitor_User extends Auth_User
 			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
 		], $this->getLocale()
 		);
+	}
+
+	/**
+	 *
+	 * @return Form
+	 */
+	public function getEditForm()
+	{
+		if(!$this->_form_edit) {
+			$form = parent::getForm('edit_user');
+
+			if( $form->fieldExists( 'password' ) ) {
+				$form->removeField( 'password' );
+			}
+
+			$this->_form_edit = $form;
+		}
+
+		return $this->_form_edit;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm()
+	{
+		return $this->catchForm( $this->getEditForm() );
+	}
+
+
+	/**
+	 * @return Form
+	 */
+	public function getAddForm()
+	{
+		if(!$this->_form_add) {
+			$this->_form_add = parent::getForm('add_user');
+		}
+
+		return $this->_form_add;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchAddForm()
+	{
+		return $this->catchForm( $this->getAddForm() );
 	}
 
 }

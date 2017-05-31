@@ -5,12 +5,12 @@ use Jet\Mvc_Layout;
  * @var Mvc_Layout $this
  */
 
-$this->requireCssFile( BOOTSTRAP_CSS_URL );
-$this->requireCssFile( FONT_AWESOME_CSS_URL );
-$this->requireCssFile( FLAGS_CSS_URL );
-$this->requireCssFile( 'styles/site_main.css' );
+$this->requireMainCssFile( BOOTSTRAP_CSS_URL );
+$this->requireMainCssFile( FONT_AWESOME_CSS_URL );
+$this->requireMainCssFile( FLAGS_CSS_URL );
+$this->requireMainCssFile( 'styles/site_main.css' );
 
 
-$this->requireJavascriptFile( JQUERY_JS_URL );
-$this->requireJavascriptFile( JET_AJAX_FORM_JS_URL );
+$this->requireMainJavascriptFile( JQUERY_JS_URL );
+$this->requireMainJavascriptFile( JET_AJAX_FORM_JS_URL );
 

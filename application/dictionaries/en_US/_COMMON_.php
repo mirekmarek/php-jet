@@ -18,4 +18,5 @@ return [
 	'Last' => '',
 	'Firts' => '',
 	'Previous' => '',
+	'Loading ...' => '',
 ];

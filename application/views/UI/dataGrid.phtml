@@ -8,7 +8,17 @@ use Jet\Mvc_View;
  */
 $grid = $this->getRaw( 'grid' );
 
-echo $grid->renderHeader();
-echo $grid->renderBody();
-echo $grid->renderPaginator();
-echo $grid->renderFooter();
+?>
+<table class="table table-striped">
+	<thead>
+		<?=$grid->getCustomHeader()?>
+		<?=$grid->renderHeader();?>
+	</thead>
+	<tbody>
+		<?=$grid->renderBody()?>
+	</tbody>
+	<tfoot>
+		<?=$grid->getCustomFooter()?>
+		<?=$grid->renderPaginator()?>
+	</tfoot>
+</table>

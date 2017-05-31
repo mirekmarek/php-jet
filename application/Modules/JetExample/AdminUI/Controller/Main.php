@@ -29,8 +29,11 @@ class Controller_Main extends Mvc_Controller_Standard
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'logout'    => false, 'default' => false, 'breadcrumb_navigation' => false, 'messages' => false,
-		'main_menu' => false,
+		'logout'                => false,
+		'default'               => false,
+		'breadcrumb_navigation' => false,
+		'messages'              => false,
+		'main_menu'             => false,
 	];
 	/**
 	 *

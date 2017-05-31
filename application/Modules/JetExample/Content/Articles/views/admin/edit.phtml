@@ -1,0 +1,57 @@
+<?php
+namespace JetApplicationModule\JetExample\Content\Articles;
+
+use Jet\Mvc;
+use Jet\Mvc_View;
+use Jet\Form;
+use Jet\Mvc_Site;
+
+use Jet\UI;
+
+/**
+ * @var Mvc_View $this
+ * @var Form     $form
+ */
+
+$form = $this->getRaw( 'form' );
+
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
+
+//$form->field( 'text' )->input()->addCustomCssStyle( 'height:400px' );
+
+
+?>
+<?=$form->start();?>
+
+<div class="row toolbar" id="main-toolbar">
+	<div class="col-md-12">
+		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+
+		<?php if( !$form->getIsReadonly() ): ?>
+			<?=UI::button_save()?>
+		<?php endif; ?>
+	</div>
+</div>
+
+<div class="row main-row">
+	<div class="col-md-12 main-col">
+
+		<?=$form->field( 'date_time' )?>
+
+
+		<?php foreach( Mvc_Site::getAllLocalesList( false ) as $locale ):
+
+			$form->field( '/localized/'.$locale.'/text' )->input()->addCustomCssStyle('height:400px');
+			?>
+			<legend><?=UI::flag($locale)?>&nbsp;<?=$locale->getName()?></legend>
+			<?=$form->field( '/localized/'.$locale.'/title' )?>
+			<?=$form->field( '/localized/'.$locale.'/annotation' )?>
+			<?=$form->field( '/localized/'.$locale.'/text' )?>
+
+		<?php endforeach;?>
+
+	</div>
+</div>
+
+<?=$form->end();?>

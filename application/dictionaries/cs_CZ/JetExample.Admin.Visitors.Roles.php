@@ -22,4 +22,5 @@ return [
 	'Do you really want to delete this role?' => '',
 	'Role <b>%ROLE_NAME%</b> has been deleted' => '',
 	'Role <b>%ROLE_NAME%</b> has been updated' => '',
+	'Role detail <b>%ROLE_NAME%</b>' => '',
 ];

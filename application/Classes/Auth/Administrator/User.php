@@ -36,6 +36,16 @@ class Auth_Administrator_User extends Auth_User
 	 */
 	protected $roles;
 
+
+	/**
+	 * @var Form
+	 */
+	protected $_form_add;
+	/**
+	 * @var Form
+	 */
+	protected $_form_edit;
+
 	/**
 	 * @return int
 	 */
@@ -101,30 +111,14 @@ class Auth_Administrator_User extends Auth_User
 		);
 	}
 
+
 	/**
-	 * @param string $form_name
 	 *
 	 * @return Form
 	 */
-	public function getEditForm( $form_name = '' )
+	public function getRegistrationForm()
 	{
-		$form = parent::getEditForm( $form_name );
-
-		if( $form->fieldExists( 'password' ) ) {
-			$form->removeField( 'password' );
-		}
-
-		return $form;
-	}
-
-	/**
-	 * @param string $form_name
-	 *
-	 * @return Form
-	 */
-	public function getRegistrationForm( $form_name = '' )
-	{
-		$form = parent::getEditForm( $form_name );
+		$form = parent::getForm('register_user');
 
 		foreach( $form->getFields() as $field ) {
 			if( !in_array( $field->getName(), [ 'username', 'locale', 'password', 'email' ] ) ) {
@@ -152,5 +146,61 @@ class Auth_Administrator_User extends Auth_User
 		return true;
 	}
 
+
+	/**
+	 *
+	 * @return Form
+	 */
+	public function getEditForm()
+	{
+		if(!$this->_form_edit) {
+			$form = parent::getForm('edit_user');
+
+			if( $form->fieldExists( 'password' ) ) {
+				$form->removeField( 'password' );
+			}
+
+			$this->_form_edit = $form;
+		}
+
+		return $this->_form_edit;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchEditForm()
+	{
+		return $this->catchForm( $this->getEditForm() );
+	}
+
+
+	/**
+	 * @return Form
+	 */
+	public function getAddForm()
+	{
+		if(!$this->_form_add) {
+
+			$form = parent::getForm('add_user');
+			if( $form->fieldExists( 'password' ) ) {
+				$form->removeField( 'password' );
+			}
+
+			$this->_form_add = $form;
+
+
+		}
+
+		return $this->_form_add;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function catchAddForm()
+	{
+		return $this->catchForm( $this->getAddForm() );
+	}
 
 }

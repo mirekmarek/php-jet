@@ -25,8 +25,10 @@ class Main extends Application_Module
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		self::ACTION_GET_ROLE    => 'Get role(s) data', self::ACTION_ADD_ROLE => 'Add new role',
-		self::ACTION_UPDATE_ROLE => 'Update role', self::ACTION_DELETE_ROLE => 'Delete role',
+		self::ACTION_GET_ROLE    => 'Get role(s) data',
+		self::ACTION_ADD_ROLE    => 'Add new role',
+		self::ACTION_UPDATE_ROLE => 'Update role',
+		self::ACTION_DELETE_ROLE => 'Delete role',
 	];
 
 

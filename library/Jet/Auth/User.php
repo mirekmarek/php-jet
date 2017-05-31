@@ -735,13 +735,15 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	}
 
 	/**
-	 * @param string $form_name
+	 *
+	 * @param string                              $form_name
+	 * @param array|DataModel_PropertyFilter|null $property_filter
 	 *
 	 * @return Form
 	 */
-	public function getEditForm( $form_name = '' )
+	public function getForm( $form_name, $property_filter = null )
 	{
-		$form = $this->getCommonForm( $form_name );
+		$form = parent::getForm($form_name, $property_filter);
 
 		if( $this->getIsNew() ) {
 			/**
@@ -830,7 +832,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 			];
 		}
 
-		return (bool)static::getBackendInstance()->getCount( DataModel_Trait_Fetch::createQuery( $q ) );
+		return (bool)static::getBackendInstance()->getCount( static::createQuery( $q ) );
 	}
 
 	/**

@@ -33,8 +33,11 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default' => Main::ACTION_GET_ROLE, 'add' => Main::ACTION_ADD_ROLE, 'edit' => Main::ACTION_UPDATE_ROLE,
-		'view'    => Main::ACTION_GET_ROLE, 'delete' => Main::ACTION_DELETE_ROLE,
+		'default' => Main::ACTION_GET_ROLE,
+		'add'     => Main::ACTION_ADD_ROLE,
+		'edit'    => Main::ACTION_UPDATE_ROLE,
+		'view'    => Main::ACTION_GET_ROLE,
+		'delete'  => Main::ACTION_DELETE_ROLE,
 	];
 	/**
 	 *
@@ -74,7 +77,7 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 
 		$this->view->setVar( 'grid', $grid );
 
-		$this->render( 'default' );
+		$this->render( 'list' );
 	}
 
 	/**
@@ -101,9 +104,9 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 		 */
 		$role = new Role();
 
-		$form = $role->getCommonForm();
+		$form = $role->getAddForm();
 
-		if( $role->catchForm( $form ) ) {
+		if( $role->catchAddForm() ) {
 			$role->save();
 			$this->logAllowedAction( 'Role created', $role->getId(), $role->getName(), $role );
 
@@ -147,9 +150,9 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 
 		$this->_setBreadcrumbNavigation( Tr::_( 'Edit role <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] ) );
 
-		$form = $role->getCommonForm();
+		$form = $role->getEditForm();
 
-		if( $role->catchForm( $form ) ) {
+		if( $role->catchEditForm() ) {
 			$role->save();
 			$this->logAllowedAction( 'Role updated', $role->getId(), $role->getName(), $role );
 
@@ -182,7 +185,8 @@ class Controller_Main extends Mvc_Controller_AdminStandard
 			Tr::_( 'Role detail <b>%ROLE_NAME%</b>', [ 'ROLE_NAME' => $role->getName() ] )
 		);
 
-		$form = $role->getCommonForm();
+		$form = $role->getEditForm();
+
 		$this->view->setVar( 'has_access', false );
 		$this->view->setVar( 'form', $form );
 		$this->view->setVar( 'role', $role );

@@ -20,19 +20,20 @@ $router = $this->getController()->getControllerRouter();
 
 ?>
 
-<div class="col-md-12 main-col" style="padding-top: 5px;">
+<div class="row">
+	<div class="col-md-12 main-col">
 
-	<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+		<p>
+			<?=Tr::_( 'Do you really want to delete this user?' );?>
+			<br/>
+			<a href="<?=$router->getViewURI( $user->getId() );?>"
+			   style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getUsername();?>)</a>
+		</p>
 
-	<p>
-		<?=Tr::_( 'Do you really want to delete this user?' );?>
-		<br/>
-		<a href="<?=$router->getViewURI( $user->getId() );?>"
-		   style="font-weight: bolder;font-size: 20px;"><?=$user->getName();?> (<?=$user->getUsername();?>)</a>
-	</p>
-
-	<form action="?delete=<?=rawurlencode( $user->getId() );?>" method="post">
-		<input type="hidden" name="delete" value="yes">
-		<?=UI::button_delete()->setType( 'submit' )?>
-	</form>
+		<form action="?delete=<?=rawurlencode( $user->getId() );?>" method="post">
+			<input type="hidden" name="delete" value="yes">
+			<?=UI::button_delete()->setType( 'submit' )?>
+		</form>
+	</div>
 </div>
