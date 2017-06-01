@@ -24,64 +24,50 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default'             => Main::ACTION_GET_IMAGE,
-		'get_image'           => Main::ACTION_GET_IMAGE,
-		'get_image_thumbnail' => Main::ACTION_GET_IMAGE,
-		'post_image'          => Main::ACTION_ADD_IMAGE,
-		'delete_image'        => Main::ACTION_DELETE_IMAGE,
-		'put_copy_image'      => Main::ACTION_ADD_IMAGE,
-
 		'get_gallery'      => Main::ACTION_GET_GALLERY,
 		'get_gallery_tree' => Main::ACTION_GET_GALLERY,
 		'put_gallery'      => Main::ACTION_UPDATE_GALLERY,
 		'delete_gallery'   => Main::ACTION_DELETE_GALLERY,
-	];
-	protected static $errors = [
-		self::ERR_CODE_AUTHORIZATION_REQUIRED        => [
-			Http_Headers::CODE_401_UNAUTHORIZED,
-			'Access denied! Authorization required! ',
-		],
-		self::ERR_CODE_ACCESS_DENIED                 => [
-			Http_Headers::CODE_401_UNAUTHORIZED,
-			'Access denied! Insufficient permissions! ',
-		],
-		self::ERR_CODE_UNSUPPORTED_DATA_CONTENT_TYPE => [
-			Http_Headers::CODE_400_BAD_REQUEST,
-			'Unsupported data Content-Type',
-		],
-		self::ERR_CODE_FORM_ERRORS                   => [
-			Http_Headers::CODE_400_BAD_REQUEST,
-			'There are errors in form',
-		],
-		self::ERR_CODE_UNKNOWN_ITEM                  => [
-			Http_Headers::CODE_404_NOT_FOUND,
-			'Unknown item',
-		],
 
-		self::ERR_CODE_NO_FILE              => [
-			Http_Headers::CODE_406_NOT_ACCEPTABLE,
-			'No file sent',
-		],
-		self::ERR_CODE_IMAGE_ALREADY_EXISTS => [
-			Http_Headers::CODE_409_CONFLICT,
-			'Image already uploaded',
-		],
-		self::ERR_CODE_UNKNOWN_ERROR        => [
-			Http_Headers::CODE_400_BAD_REQUEST,
-			'Unknown error',
-		],
+		'get_image'           => Main::ACTION_GET_GALLERY,
+		'get_image_thumbnail' => Main::ACTION_GET_GALLERY,
+		'post_image'          => Main::ACTION_ADD_IMAGE,
+		'delete_image'        => Main::ACTION_DELETE_IMAGE,
+
 	];
+
 	/**
 	 *
 	 * @var Main
 	 */
 	protected $module = null;
 
+	//TODO: kompletne prepracovat
+
 	/**
+	 * @param string $path
 	 *
+	 * @return bool
 	 */
-	public function default_Action()
+	public function resolve( $path )
 	{
+		$path_fragments = explode('/', $path);
+
+		$object = array_shift($path_fragments);
+
+		$method = strtolower( Http_Request::getRequestMethod() );
+
+		$controller_action = $method.'_'.$object;
+
+		if(!method_exists($this, $controller_action.'_Action')) {
+			return false;
+		}
+
+
+		$this->getContent()->setControllerAction( $controller_action );
+		$this->getContent()->setParameters( $path_fragments );
+
+		return true;
 
 	}
 
@@ -146,7 +132,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 			$this->responseOK();
 		} else {
-			$this->responseFormErrors( $upload_form->getAllErrors() );
+			$this->responseValidationError( $upload_form->getAllErrors() );
 		}
 
 
@@ -244,7 +230,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 			$this->responseData( $gallery );
 		} else {
-			$this->responseFormErrors( $form->getAllErrors() );
+			$this->responseValidationError( $form->getAllErrors() );
 		}
 
 	}
@@ -265,7 +251,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 			$this->responseData( $gallery );
 		} else {
-			$this->responseFormErrors( $form->getAllErrors() );
+			$this->responseValidationError( $form->getAllErrors() );
 		}
 	}
 

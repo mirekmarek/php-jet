@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, BaseObject_Serializable
+class Data_Tree_Forest extends BaseObject implements BaseObject_IteratorCountable, BaseObject_Serializable_JSON
 {
 
 	/**
@@ -195,50 +195,6 @@ class Data_Tree_Forest extends BaseObject implements \Iterator, \Countable, Base
 
 	}
 
-	/**
-	 * @return string
-	 */
-	public function toXML()
-	{
-		$data = $this->jsonSerialize();
-
-		return $this->_XMLSerialize( $data, 'tree' );
-	}
-
-	/**
-	 * @param object|array $data
-	 * @param string       $tag
-	 * @param string       $prefix (optional)
-	 *
-	 * @return string
-	 */
-	protected function _XMLSerialize( $data, $tag, $prefix = '' )
-	{
-		$result = $prefix.'<'.$tag.'>'.JET_EOL;
-
-		if( is_object( $data ) ) {
-			$data = get_class_vars( $data );
-		}
-
-		foreach( $data as $key => $val ) {
-			if( is_array( $val )||is_object( $val ) ) {
-				if( is_int( $key ) ) {
-					$key = 'item';
-				}
-				$result .= $this->_XMLSerialize( $val, $key, $prefix.JET_TAB );
-			} else {
-				if( is_bool( $val ) ) {
-					$result .= $prefix.JET_TAB.'<'.$key.'>'.( $val ? 1 : 0 ).'</'.$key.'>'.JET_EOL;
-
-				} else {
-					$result .= $prefix.JET_TAB.'<'.$key.'>'.Data_Text::htmlSpecialChars( $val ).'</'.$key.'>'.JET_EOL;
-				}
-			}
-		}
-		$result .= $prefix.'</'.$tag.'>'.JET_EOL;
-
-		return $result;
-	}
 
 	//- Iterator ----------------------------------------------------------------------------------
 	//- Iterator ----------------------------------------------------------------------------------

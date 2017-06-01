@@ -57,7 +57,7 @@ namespace Jet;
 	 *       * @JetDataModel:description = 'Some description ...'
 	 *       * @JetDataModel:do_not_export = bool
 	 *       *      - default: false
-	 *       *      - Do not export property into the XML/JSON result
+	 *       *      - Do not export property into the JSON result
 	 *       * @JetDataModel:backend_options = ['BackendType'=>['option'=>'value','option'=>'value']]
 	 *       *
 	 *       *

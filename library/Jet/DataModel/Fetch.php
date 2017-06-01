@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-abstract class DataModel_Fetch extends BaseObject implements BaseObject_Serializable, Data_Paginator_DataSource
+abstract class DataModel_Fetch extends BaseObject implements BaseObject_Serializable_JSON, Data_Paginator_DataSource
 {
 
 	/**

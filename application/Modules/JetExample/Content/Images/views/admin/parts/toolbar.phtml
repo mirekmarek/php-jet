@@ -23,10 +23,10 @@ $parent_id = $gallery ? $gallery->getIdObject() : '';
 
 ?>
 <div class="row toolbar">
-	<div class="col-xs-5 col-md-3">
+	<div class="col-xs-12 col-md-3">
 		<?=$this->getRaw( 'search_form' ) ?>
 	</div>
-	<div class="col-xs-7 col-md-3">
+	<div class="col-xs-12 col-md-9">
 		<?php if( ( $add_uri = $router->getAddURI( $parent_id ) ) && ( !$gallery || !$gallery->getIsNew() ) ):
 			echo UI::button_create( Tr::_( 'Create a new gallery' ) )->setUrl( $add_uri );
 		endif;
@@ -34,7 +34,7 @@ $parent_id = $gallery ? $gallery->getIdObject() : '';
 		echo '&nbsp;';
 
 		if( $gallery && !$gallery->getIsNew() && ($delete_uri = $router->getDeleteURI( $gallery->getId() )) ):
-			echo UI::button_delete( ' ' )->setUrl( $delete_uri )->setSize(UI_button::SIZE_EXTRA_SMALL);
+			echo UI::button_delete( Tr::_('Delete this gallery') )->setUrl( $delete_uri )->setSize(UI_button::SIZE_EXTRA_SMALL);
 		endif; ?>
 	</div>
 </div>

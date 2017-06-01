@@ -234,7 +234,7 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 		$gallery = $this->getParameter( 'gallery' );
 
 		$parent_id = $gallery->getParentId();
-		
+
 		$gallery->delete();
 
 		$this->logAllowedAction( 'Gallery deleted', $gallery->getId(), $gallery->getTitle(), $gallery );

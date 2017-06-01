@@ -54,32 +54,6 @@ abstract class DataModel_Fetch_Object extends DataModel_Fetch
 	/**
 	 * @return string
 	 */
-	public function toXML()
-	{
-		$model_name = $this->data_model_definition->getModelName();
-
-		$result = '';
-		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
-
-		foreach( $this as $val ) {
-			/**
-			 * @var DataModel $val
-			 */
-
-			$result .= JET_TAB.'<item>'.JET_EOL;
-			$result .= $val->toXML();
-			$result .= JET_TAB.'</item>'.JET_EOL;
-
-		}
-
-		$result .= '</list>'.JET_EOL;
-
-		return $result;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function toJSON()
 	{
 		return json_encode( $this->jsonSerialize() );

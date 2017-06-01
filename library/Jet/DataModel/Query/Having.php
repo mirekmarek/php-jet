@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Query_Having extends BaseObject implements \Iterator
+class DataModel_Query_Having extends BaseObject implements BaseObject_IteratorCountable
 {
 	use DataModel_Query_Where_Trait;
 
@@ -242,7 +242,6 @@ class DataModel_Query_Having extends BaseObject implements \Iterator
 	{
 		reset( $this->expressions );
 	}
-
 	/**
 	 * @see \Iterator
 	 * @return bool
@@ -251,4 +250,16 @@ class DataModel_Query_Having extends BaseObject implements \Iterator
 	{
 		return key( $this->expressions )!==null;
 	}
+
+
+	/**
+	 * @see \Countable
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return count($this->expressions);
+	}
+
 }

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  * 
  */
-class DataModel_Query_Select extends BaseObject implements \Iterator
+class DataModel_Query_Select extends BaseObject implements BaseObject_IteratorCountable
 {
 
 	/**
@@ -183,4 +183,16 @@ class DataModel_Query_Select extends BaseObject implements \Iterator
 	{
 		return key( $this->items )!==null;
 	}
+
+
+	/**
+	 * @see \Countable
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return count($this->items);
+	}
+
 }

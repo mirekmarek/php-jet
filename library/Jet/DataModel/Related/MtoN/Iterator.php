@@ -295,23 +295,6 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		return [];
 	}
 
-	/**
-	 * @return string
-	 */
-	public function toXML()
-	{
-		$res = [];
-		if( is_array( $this->items ) ) {
-			foreach( $this->items as $d ) {
-				/**
-				 * @var DataModel_Related_MtoN $d
-				 */
-				$res[] = $d->toXML();
-			}
-		}
-
-		return implode( JET_EOL, $res );
-	}
 
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------

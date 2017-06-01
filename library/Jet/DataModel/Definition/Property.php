@@ -262,6 +262,10 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	public function doNotExport()
 	{
+		if($this->is_id && $this->related_to_class_name) {
+			return true;
+		}
+
 		return $this->do_not_export;
 	}
 
@@ -467,18 +471,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 		return $property;
 	}
 
-	/**
-	 *
-	 * @param DataModel_Interface $data_model_instance
-	 * @param mixed               &$property
-	 *
-	 * @return mixed
-	 */
-	public function getXmlExportValue( /** @noinspection PhpUnusedParameterInspection */
-		DataModel_Interface $data_model_instance, &$property )
-	{
-		return $property;
-	}
 
 	/**
 	 *

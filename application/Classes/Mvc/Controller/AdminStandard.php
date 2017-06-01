@@ -19,38 +19,11 @@ abstract class Mvc_Controller_AdminStandard extends Mvc_Controller_Standard
 {
 
 	/**
-	 * @var array
-	 */
-	protected static $action_URI = [];
-	/**
-	 * @var array
-	 */
-	protected static $action_regexp = [];
-	/**
 	 *
 	 * @var App_Application_Module_Manifest
 	 */
 	protected $module_manifest;
 
-	/**
-	 * @param string $action
-	 *
-	 * @return string
-	 */
-	public static function getActionURI( $action )
-	{
-		return static::$action_URI[$action];
-	}
-
-	/**
-	 * @param string $action
-	 *
-	 * @return string
-	 */
-	public static function getActionRegexp( $action )
-	{
-		return static::$action_regexp[$action];
-	}
 
 	/**
 	 * @return App_Application_Module_Manifest

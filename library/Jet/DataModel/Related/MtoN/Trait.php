@@ -365,36 +365,6 @@ trait DataModel_Related_MtoN_Trait
 		return $m_id;
 	}
 
-
-	/**
-	 * @param string $prefix
-	 *
-	 * @return string
-	 */
-	public function XMLSerialize( $prefix = '' )
-	{
-
-		/**
-		 * @var DataModel_Definition_Model_Related_MtoN $data_model_definition
-		 */
-		$data_model_definition = static::getDataModelDefinition();
-
-		$N_class_name = $data_model_definition->getNModelClassName();
-
-		$result = '';
-
-		$result .= $prefix.JET_TAB.'<'.$N_class_name.'>'.JET_EOL;
-		foreach( $this->getNId() as $id_k => $id_v ) {
-			$result .= $prefix.JET_TAB.JET_TAB.'<'.$id_k.'>'.Data_Text::htmlSpecialChars(
-					$id_v
-				).'</'.$id_k.'>'.JET_EOL;
-		}
-		$result .= $prefix.JET_TAB.'</'.$N_class_name.'>'.JET_EOL;
-
-		return $result;
-
-	}
-
 	/**
 	 *
 	 * @param DataModel_Definition_Property $parent_property_definition

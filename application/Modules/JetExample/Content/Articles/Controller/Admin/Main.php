@@ -131,9 +131,6 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 		}
 
 
-
-		$this->view->setVar( 'btn_label', Tr::_( 'ADD' ) );
-		$this->view->setVar( 'has_access', true );
 		$this->view->setVar( 'form', $form );
 
 		$this->render( 'edit' );
@@ -167,7 +164,6 @@ class Controller_Admin_Main extends Mvc_Controller_AdminStandard
 			Http_Headers::movedTemporary( $this->getControllerRouter()->getEditURI( $article->getId() ) );
 		}
 
-		$this->view->setVar( 'btn_label', Tr::_( 'SAVE' ) );
 
 		$this->view->setVar( 'form', $form );
 

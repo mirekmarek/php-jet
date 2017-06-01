@@ -19,4 +19,6 @@ return [
 	'Firts' => '',
 	'Previous' => '',
 	'Loading ...' => '',
+	'Content' => '',
+	'System' => '',
 ];

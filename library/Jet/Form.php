@@ -679,6 +679,7 @@ class Form extends BaseObject
 		$this->common_message = '';
 		$this->is_valid = true;
 		foreach( $this->fields as $field ) {
+
 			if( $field->getIsReadonly() ) {
 				continue;
 			}

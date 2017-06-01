@@ -67,30 +67,6 @@ abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Pagi
 	}
 
 	/**
-	 * @return string
-	 */
-	public function toXML()
-	{
-		$model_name = $this->data_model_definition->getModelName();
-
-		$result = '';
-		$result .= '<list model_name="'.$model_name.'">'.JET_EOL;
-
-		foreach( $this->jsonSerialize() as $val ) {
-			$result .= JET_TAB.'<item>'.JET_EOL;
-			foreach( $val as $k => $v ) {
-				$result .= JET_TAB.JET_TAB.'<'.$k.'>'.Data_Text::htmlSpecialChars( $v ).'</'.$k.'>'.JET_EOL;
-			}
-			$result .= JET_TAB.'</item>'.JET_EOL;
-
-		}
-
-		$result .= '</list>'.JET_EOL;
-
-		return $result;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function jsonSerialize()

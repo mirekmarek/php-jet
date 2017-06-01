@@ -84,10 +84,10 @@ class Mvc_Page extends Jet_Mvc_Page
 				static::addAdminPage( $locale, static::ADMIN_HOMEPAGE_ID, $page_id, $page_data, $manifest );
 			}
 
-			foreach( $manifest->getRestApiHooks() as $page_id => $page_data ) {
-
-				static::addRestHook( $locale, static::REST_HOMEPAGE_ID, $page_id, $page_data, $manifest );
+			if($manifest->hasRestAPI()) {
+				static::addRestHook( $locale, static::REST_HOMEPAGE_ID, $manifest );
 			}
+
 		}
 	}
 
@@ -183,12 +183,10 @@ class Mvc_Page extends Jet_Mvc_Page
 	/**
 	 * @param Locale                      $locale
 	 * @param string                      $parent_page_id
-	 * @param string                      $page_id
-	 * @param array                       $page_data
 	 * @param Application_Module_Manifest $module_manifest
 	 *
 	 */
-	protected static function addRestHook( Locale $locale, $parent_page_id, $page_id, array $page_data, Application_Module_Manifest $module_manifest )
+	protected static function addRestHook( Locale $locale, $parent_page_id, Application_Module_Manifest $module_manifest )
 	{
 
 		/**
@@ -201,33 +199,14 @@ class Mvc_Page extends Jet_Mvc_Page
 
 		$parent_page->setIsRestApiHook( true );
 
-
-		$page_data['id'] = $page_id;
-		$page_data['title'] = 'REST API / '.$page_data['relative_path_fragment'];
-
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$page = static::createPageByData( Mvc::getCurrentSite(), $locale, $page_data, $parent_page );
-		$page->setIsAdminUI( true );
-		$page->setIsRestApiHook( true );
-		$page->setLayoutScriptName( false );
-
-
-		$action = empty( $page_data['action'] ) ? 'default' : $page_data['action'];
-
 		$content = Mvc_Factory::getPageContentInstance();
-		$content->setId( $page_id.'_'.$action );
+		$content->setId( $module_manifest->getName() );
 		$content->setModuleName( $module_manifest->getName() );
-		$content->setControllerAction( $action );
-
+		$content->setControllerAction( false );
 		$content->setCustomController( 'REST' );
 
+		$parent_page->addContent( $content );
 
-		$page->setContent( [ $content ] );
-
-
-		static::appendPage( $page );
 
 	}
 

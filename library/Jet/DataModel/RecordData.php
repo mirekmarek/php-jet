@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_RecordData implements \Iterator
+class DataModel_RecordData implements BaseObject_IteratorCountable
 {
 
 	/**
@@ -120,6 +120,18 @@ class DataModel_RecordData implements \Iterator
 	{
 		return key( $this->items )!==null;
 	}
+
+
+	/**
+	 * @see \Countable
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return count($this->items );
+	}
+
 
 	/**
 	 * @return bool

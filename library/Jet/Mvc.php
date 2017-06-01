@@ -16,7 +16,7 @@ class Mvc
 	/**
 	 * @var bool
 	 */
-	protected static $force_slash_on_URL_end = true;
+	protected static $force_slash_on_URL_end = false;
 
 	/**
 	 *

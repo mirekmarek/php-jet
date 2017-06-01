@@ -1,4 +1,5 @@
 <?php
+//TODO:
 return [
 	'Common form'                                               => 'Obecný formulář',
 	'Number form'                                               => 'Formulář s čísly',

@@ -389,6 +389,10 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		$module_name = $this->getModuleName();
 		$controller_action = $this->getControllerAction();
 
+		if($controller_action===false) {
+			return;
+		}
+
 		$block_name = $module_name.':'.$controller_action;
 
 		Debug_Profiler::blockStart( 'Dispatch '.$block_name );

@@ -37,7 +37,6 @@ class Main extends Application_Module
 		self::ACTION_UPDATE_GALLERY => 'Update gallery',
 		self::ACTION_DELETE_GALLERY => 'Delete gallery',
 
-		self::ACTION_GET_IMAGE    => 'Get image data',
 		self::ACTION_ADD_IMAGE    => 'Add new image',
 		self::ACTION_UPDATE_IMAGE => 'Update image',
 		self::ACTION_DELETE_IMAGE => 'Delete image',

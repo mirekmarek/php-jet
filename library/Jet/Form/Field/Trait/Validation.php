@@ -208,6 +208,7 @@ trait Form_Field_Trait_Validation
 			$this->_value = trim( $data->getString( $this->_name ) );
 		} else {
 			$this->_value_raw = null;
+			$this->_value = $this->default_value;
 		}
 	}
 

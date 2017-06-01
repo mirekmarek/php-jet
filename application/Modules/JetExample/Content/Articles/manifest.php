@@ -2,28 +2,31 @@
 use Jet\Application_Module_Manifest;
 
 return [
-	'API_version' => 201701, 'vendor' => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
+	'API_version' => 201701,
+	'vendor'      => 'Miroslav Marek <mirek.marek.2m@gmail.com>',
 
-	'label'       => 'Basic acticles module', 'types' => [ Application_Module_Manifest::MODULE_TYPE_GENERAL ],
+	'label'       => 'Articles',
+	'types'       => [ Application_Module_Manifest::MODULE_TYPE_GENERAL ],
 	'description' => '',
 
 	'require' => [],
 
 	'admin_sections' => [
 		'admin/articles' => [
-			'title' => 'Articles', 'relative_path_fragment' => 'articles', 'icon' => 'file-text',
+			'title'                  => 'Articles',
+			'relative_path_fragment' => 'articles',
+			'icon'                   => 'file-text',
 		],
 	],
 
-	'rest_api_hooks' => [
-		'rest/articles' => [
-			'relative_path_fragment' => 'articles',
-		],
-	],
+	'has_rest_api' => true,
 
 	'admin_menu_items' => [
 		'articles' => [
-			'label' => 'Articles', 'menu_id' => 'content', 'page_id' => 'admin/articles', 'icon' => 'file-text',
+			'label'   => 'Articles',
+			'menu_id' => 'content',
+			'page_id' => 'admin/articles',
+			'icon'    => 'file-text',
 		],
 	],
 

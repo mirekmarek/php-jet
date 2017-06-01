@@ -33,7 +33,7 @@ class Application_Module_Manifest extends Jet_Application_Module_Manifest
 	/**
 	 * @var array
 	 */
-	protected $rest_api_hooks = [];
+	protected $has_rest_api = false;
 
 
 	/**
@@ -65,9 +65,9 @@ class Application_Module_Manifest extends Jet_Application_Module_Manifest
 	/**
 	 * @return array
 	 */
-	public function getRestApiHooks()
+	public function hasRestAPI()
 	{
-		return $this->rest_api_hooks;
+		return $this->has_rest_api;
 	}
 
 

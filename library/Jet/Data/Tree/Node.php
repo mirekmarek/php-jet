@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonSerializable, Form_Field_Select_Option_Interface
+class Data_Tree_Node extends BaseObject implements BaseObject_IteratorCountable, BaseObject_Serializable_JSON, Form_Field_Select_Option_Interface
 {
 
 	/**
@@ -363,6 +363,14 @@ class Data_Tree_Node extends BaseObject implements \Iterator, \Countable, \JsonS
 	public function resetIteratorMap()
 	{
 		$this->_iterator_map = [];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toJSON()
+	{
+		return json_encode($this);
 	}
 
 	/**

@@ -80,18 +80,6 @@ class DataModel_Definition_Property_DynamicValue extends DataModel_Definition_Pr
 	}
 
 	/**
-	 *
-	 * @param DataModel_Interface $data_model_instance
-	 * @param mixed               &$property
-	 *
-	 * @return mixed
-	 */
-	public function getXmlExportValue( DataModel_Interface $data_model_instance, &$property )
-	{
-		return $data_model_instance->{$this->getGetterName()}();
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function getCanBeTableField()

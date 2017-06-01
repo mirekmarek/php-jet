@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Content\Articles;
 
+use Jet\Http_Request;
 use Jet\Mvc_Controller_REST;
 
 /**
@@ -18,10 +19,13 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 * @var array
 	 */
 	protected static $ACL_actions_check_map = [
-		'default'        => Main::ACTION_GET_ARTICLE, 'get_article' => Main::ACTION_GET_ARTICLE,
-		'post_article'   => Main::ACTION_ADD_ARTICLE, 'put_article' => Main::ACTION_UPDATE_ARTICLE,
-		'delete_article' => Main::ACTION_DELETE_ARTICLE,
+		'get'    => Main::ACTION_GET_ARTICLE,
+		'list'   => Main::ACTION_GET_ARTICLE,
+		'add'    => Main::ACTION_ADD_ARTICLE,
+		'update' => Main::ACTION_UPDATE_ARTICLE,
+		'delete' => Main::ACTION_DELETE_ARTICLE,
 	];
+
 	/**
 	 *
 	 * @var Main
@@ -29,86 +33,155 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	protected $module = null;
 
 	/**
+	 * @param string $path
 	 *
+	 * @return bool
 	 */
-	public function default_Action()
+	public function resolve( $path )
 	{
+		$path_fragments = explode('/', $path);
 
-	}
+		$object = array_shift($path_fragments);
 
-	/**
-	 * @param null|string $id
-	 */
-	public function get_article_Action( $id = null )
-	{
-		if( $id ) {
-			$article = $this->_getArticle( $id );
-			$this->responseData( $article );
-		} else {
-			$this->responseDataModelsList( Article::getList() );
-		}
-	}
-
-	/**
-	 * @param $id
-	 *
-	 * @return Article
-	 */
-	protected function _getArticle( $id )
-	{
-		$article = Article::get( $id );
-
-		if( !$article ) {
-			$this->responseUnknownItem( $id );
+		if($object!='article') {
+			return false;
 		}
 
-		return $article;
+		if(count($path_fragments)>1) {
+			return false;
+		}
+
+		$article = null;
+		if($path_fragments) {
+			$article = Article::get($path_fragments[0]);
+			if(!$article) {
+				return false;
+			}
+		}
+
+
+
+		$controller_action = '';
+
+		switch(Http_Request::getRequestMethod()) {
+			case self::REQUEST_METHOD_GET:
+				$controller_action = $article ? 'get' : 'list';
+				break;
+			case self::REQUEST_METHOD_POST:
+				if($article) {
+					return false;
+				}
+				$controller_action = 'add';
+				break;
+			case self::REQUEST_METHOD_PUT:
+				if(!$article) {
+					return false;
+				}
+				$controller_action = 'update';
+				break;
+			case self::REQUEST_METHOD_DELETE:
+				if(!$article) {
+					return false;
+				}
+				$controller_action = 'delete';
+				break;
+		}
+
+
+		$this->getContent()->setControllerAction( $controller_action );
+		$this->getContent()->setParameter( 'article', $article );
+
+
+		return true;
+
+	}
+
+
+	/**
+	 *
+	 */
+	public function get_Action( )
+	{
+		/**
+		 * @var Article $article
+		 */
+		$article = $this->getParameter('article');
+		$this->responseData( $article );
+
 	}
 
 	/**
 	 *
 	 */
-	public function post_article_Action()
+	public function list_Action( )
+	{
+
+		$this->responseDataModelsList( Article::getList() );
+	}
+
+	/**
+	 *
+	 */
+	public function add_Action()
 	{
 		$article = new Article();
 
-		$form = $article->getCommonForm();
+		$form = $article->getEditForm();
 
-		if( $article->catchForm( $form, $this->getRequestData(), true ) ) {
+		$data = $this->getRequestData();
+
+		$form->catchInput($data, true);
+
+		if($form->validate()) {
+			$form->catchData();
+
 			$article->save();
+
 			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 			$this->responseData( $article );
 		} else {
-			$this->responseFormErrors( $form->getAllErrors() );
+			$this->responseValidationError( $form->getAllErrors() );
 		}
 
 	}
 
 	/**
-	 * @param string $id
+	 *
 	 */
-	public function put_article_Action( $id )
+	public function update_Action()
 	{
-		$article = $this->_getArticle( $id );
+		/**
+		 * @var Article $article
+		 */
+		$article = $this->getParameter('article');
 
-		$form = $article->getCommonForm();
+		$form = $article->getEditForm();
 
-		if( $article->catchForm( $form, $this->getRequestData(), true ) ) {
+		$form->catchInput($this->getRequestData(), true);
+
+		if($form->validate()) {
+
+			$form->catchData();
+
 			$article->save();
-			$this->logAllowedAction( 'Article updated', $article->getId(), $article->getTitle(), $article );
 
+			$this->logAllowedAction( 'Article created', $article->getId(), $article->getTitle(), $article );
 			$this->responseData( $article );
 		} else {
-			$this->responseFormErrors( $form->getAllErrors() );
+			$this->responseValidationError( $form->getAllErrors() );
 		}
+
 	}
 
 	/**
-	 * @param string $id
+	 *
 	 */
-	public function delete_article_Action( $id )
+	public function delete_Action()
 	{
-		$article = $this->_getArticle( $id );
+		/**
+		 * @var Article $article
+		 */
+		$article = $this->getParameter('article');
 
 		$article->delete();
 		$this->logAllowedAction( 'Article deleted', $article->getId(), $article->getTitle(), $article );

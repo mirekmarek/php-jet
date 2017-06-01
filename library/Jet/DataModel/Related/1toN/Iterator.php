@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Related_1toN_Iterator_Interface
+class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Related_1toN_Iterator_Interface, BaseObject_Serializable_JSON
 {
 
 	/**
@@ -148,6 +148,20 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 
 	}
 
+
+
+	/**
+	 *
+	 */
+	public function removeAllItems()
+	{
+		if( $this->items ) {
+			$this->_deleted_items = $this->items;
+		}
+		$this->items = [];
+	}
+
+
 	/**
 	 *
 	 * @throws DataModel_Exception
@@ -173,23 +187,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function toXML()
-	{
-		$res = [];
-		if( is_array( $this->items ) ) {
-			foreach( $this->items as $d ) {
-				/**
-				 * @var DataModel_Related_1toN $d
-				 */
-				$res[] = $d->toXML();
-			}
-		}
-
-		return implode( JET_EOL, $res );
-	}
 
 	/**
 	 * @return string
@@ -219,17 +216,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 
 		return $res;
 
-	}
-
-	/**
-	 *
-	 */
-	public function removeAllItems()
-	{
-		if( $this->items ) {
-			$this->_deleted_items = $this->items;
-		}
-		$this->items = [];
 	}
 
 

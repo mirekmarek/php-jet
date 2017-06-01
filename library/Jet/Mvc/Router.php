@@ -162,14 +162,12 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			}
 
 			if( $this->resolvePage() ) {
-				if($this->checkUrl()) {
-					$this->resolveAuthentication();
 
-					if($this->after_page_resolved) {
-						$after = $this->after_page_resolved;
-						$after( $this );
-					}
+				$this->resolveAuthentication();
 
+				if($this->after_page_resolved) {
+					$after = $this->after_page_resolved;
+					$after( $this );
 				}
 			}
 
@@ -390,7 +388,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 */
-	protected function checkUrl()
+	public function checkUrl()
 	{
 
 		$correct_page_url = $this->page->getURL( $this->path ? explode('/', $this->path) : [] );
