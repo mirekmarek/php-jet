@@ -41,7 +41,7 @@ class DataModel_Query_Having extends BaseObject implements BaseObject_IteratorCo
 
 			$operator = $this->_determineOperator( $key );
 
-			if( !$query->getSelect()->getHasItem( $key ) ) {
+			if( !$query->getSelect()->hasItem( $key ) ) {
 				throw new DataModel_Query_Exception(
 					'There is not item \''.$key.'\' in the query select items list! In the having clause can only use items that are defined in the select',
 					DataModel_Query_Exception::CODE_QUERY_NONSENSE

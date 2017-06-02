@@ -46,24 +46,4 @@ class Config_Definition_Property_Array extends Config_Definition_Property
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType().'';
-
-		$res .= ', required: '.( $this->is_required ? 'yes' : 'no' );
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.implode( ',', $this->default_value );
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
 }

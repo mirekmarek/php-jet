@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Paginator extends BaseObject
+class Data_Paginator extends BaseObject implements BaseObject_Serializable_JSON
 {
 
 	/**
@@ -413,4 +413,46 @@ class Data_Paginator extends BaseObject
 		return $this->pages_URL;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function toJSON()
+	{
+		return json_encode($this->jsonSerialize());
+	}
+
+	/**
+	 * 
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+
+		$items = $this->getData();
+		
+		if( $items instanceof Data_Paginator_DataSource ) {
+			$items = $items->jsonSerialize();
+		}
+		
+		return [
+			'pagination' => [
+				'items_per_page' => $this->items_per_page,
+
+				'data_items_count' => $this->data_items_count,
+
+				'pages_count'      => $this->pages_count,
+
+				'current_page_no'  => $this->current_page_no,
+
+				'prev_page_no'     => $this->prev_page_no,
+				'next_page_no'     => $this->next_page_no,
+
+				'prev_page_URL'    => $this->prev_page_URL,
+				'next_page_URL'    => $this->next_page_URL,
+				'first_page_URL'   => $this->first_page_URL,
+				'last_page_URL'    => $this->last_page_URL,
+			],
+	    	'items' => $items
+		];
+	}
 }

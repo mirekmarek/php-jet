@@ -54,7 +54,7 @@ namespace Jet;
 	 *       *      - default: false (or default is true if is_id is true)
 	 *       * @JetDataModel:key_type = DataModel::KEY_TYPE_*
 	 *       *      - default: DataModel::KEY_TYPE_INDEX
-	 *       * @JetDataModel:description = 'Some description ...'
+	 *
 	 *       * @JetDataModel:do_not_export = bool
 	 *       *      - default: false
 	 *       *      - Do not export property into the JSON result
@@ -115,7 +115,6 @@ abstract class DataModel extends BaseObject implements DataModel_Interface
 	const TYPE_DATE_TIME = 'DateTime';
 	const TYPE_ARRAY = 'Array';
 	const TYPE_DATA_MODEL = 'DataModel';
-	const TYPE_DYNAMIC_VALUE = 'DynamicValue';
 
 	const KEY_TYPE_PRIMARY = 'PRIMARY';
 	const KEY_TYPE_INDEX = 'INDEX';

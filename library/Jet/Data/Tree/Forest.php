@@ -158,13 +158,6 @@ class Data_Tree_Forest extends BaseObject implements BaseObject_IteratorCountabl
 	}
 
 
-	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-	//- Mvc_Controller_REST_Serializable ----------------------------------------------------------------------
-
 	/**
 	 * @return string
 	 */
@@ -186,10 +179,6 @@ class Data_Tree_Forest extends BaseObject implements BaseObject_IteratorCountabl
 		foreach( $this->trees as $tree ) {
 			$data = array_merge( $data, $tree->toArray() );
 		}
-
-		$data = [
-			'identifier' => $this->id_key, 'label' => $this->label_key, 'items' => $data,
-		];
 
 		return $data;
 

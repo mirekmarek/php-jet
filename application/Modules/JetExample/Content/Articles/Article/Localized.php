@@ -26,7 +26,7 @@ use Jet\Form_Field_DateTime;
 
 /**
  *
- * @JetDataModel:name = 'articles_localized'
+ * @JetDataModel:name = 'article_localized'
  * @JetDataModel:database_table_name = 'articles_localized'
  * @JetDataModel:id_class_name = 'DataModel_Id_Passive'
  * @JetDataModel:parent_model_class_name = 'Article'

@@ -417,7 +417,7 @@ class Http_Headers
 	public static function formSent( Form $form, array $set_GET_params = [], array $unset_GET_params = [], $application_end = true )
 	{
 		static::sendHeader(
-			'Location: '.Http_Request::getCurrentURI( $set_GET_params, $unset_GET_params, $form->getName() )
+			'Location: '.Http_Request::currentURI( $set_GET_params, $unset_GET_params, $form->getName() )
 		);
 		if( $application_end ) {
 			Application::end();
@@ -436,7 +436,7 @@ class Http_Headers
 	public static function reload( array $set_GET_params = [], array $unset_GET_params = [], $set_anchor = null, $application_end = true )
 	{
 		static::sendHeader(
-			'Location: '.Http_Request::getCurrentURI( $set_GET_params, $unset_GET_params, $set_anchor )
+			'Location: '.Http_Request::currentURI( $set_GET_params, $unset_GET_params, $set_anchor )
 		);
 		if( $application_end ) {
 			Application::end();

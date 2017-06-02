@@ -684,13 +684,7 @@ class Data_Tree extends BaseObject implements BaseObject_IteratorCountable, Base
 	public function jsonSerialize()
 	{
 
-
-		$data = [
-			'identifier' => $this->id_key, 'label' => $this->label_key, 'items' => $this->toArray(),
-		];
-
-		return $data;
-
+		return $this->toArray();
 	}
 
 

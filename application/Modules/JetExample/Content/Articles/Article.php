@@ -26,7 +26,7 @@ use Jet\Form_Field_DateTime;
 
 /**
  *
- * @JetDataModel:name = 'articles'
+ * @JetDataModel:name = 'article'
  * @JetDataModel:database_table_name = 'articles'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
  */
@@ -146,9 +146,9 @@ class Article extends DataModel
 		$list = static::fetchObjects(
 			$where,
 			[
-				'articles.id',
-				'articles.date_time',
-				'articles_localized.title',
+				'article.id',
+				'article.date_time',
+				'article_localized.title',
 			]
 		);
 

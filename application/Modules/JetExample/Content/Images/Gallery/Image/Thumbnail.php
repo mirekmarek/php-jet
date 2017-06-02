@@ -8,6 +8,8 @@
 namespace JetApplicationModule\JetExample\Content\Images;
 
 use Jet\BaseObject;
+use Jet\BaseObject_Serializable_JSON;
+use Jet\Http_Request;
 use Jet\Data_Image;
 use Jet\IO_File;
 use Jet\IO_Dir;
@@ -15,7 +17,7 @@ use Jet\IO_Dir;
 /**
  *
  */
-class Gallery_Image_Thumbnail extends BaseObject
+class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Serializable_JSON
 {
 	/**
 	 * @var Gallery_Image
@@ -215,4 +217,30 @@ class Gallery_Image_Thumbnail extends BaseObject
 		return $this->getRealImage()->getMimeType();
 	}
 
+
+	/**
+	 *
+	 */
+	public function jsonSerialize()
+	{
+
+		$data = [
+			'maximal_size_w' => $this->maximal_size_w,
+			'maximal_size_h' => $this->maximal_size_h,
+			'real_size_w' => $this->getRealImage()->getWidth(),
+			'real_size_h' => $this->getRealImage()->getHeight(),
+			'file_size' => IO_File::getSize( $this->getPath() ),
+			'URL' => Http_Request::baseURL().$this->getURI()
+		];
+
+		return $data;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function toJSON()
+	{
+		return json_encode($this->jsonSerialize());
+	}
 }

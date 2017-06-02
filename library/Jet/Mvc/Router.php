@@ -123,7 +123,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	public function getIsSSLRequest()
 	{
-		return Http_Request::getRequestIsHttps();
+		return Http_Request::isHttps();
 	}
 
 	/**
@@ -393,7 +393,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		$correct_page_url = $this->page->getURL( $this->path ? explode('/', $this->path) : [] );
 
-		if($correct_page_url!=Http_Request::getURL(false)) {
+		if($correct_page_url!=Http_Request::URL( false)) {
 			$this->setIsRedirect( $correct_page_url );
 
 			return false;

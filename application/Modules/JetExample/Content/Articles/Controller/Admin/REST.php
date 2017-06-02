@@ -53,8 +53,11 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 		$article = null;
 		if($path_fragments) {
-			$article = Article::get($path_fragments[0]);
+			$id = $path_fragments[0];
+
+			$article = Article::get( $id );
 			if(!$article) {
+				$this->responseUnknownItem($id);
 				return false;
 			}
 		}
@@ -63,7 +66,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 		$controller_action = '';
 
-		switch(Http_Request::getRequestMethod()) {
+		switch(Http_Request::requestMethod()) {
 			case self::REQUEST_METHOD_GET:
 				$controller_action = $article ? 'get' : 'list';
 				break;
@@ -85,6 +88,8 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 				}
 				$controller_action = 'delete';
 				break;
+			default:
+				return false;
 		}
 
 
@@ -116,7 +121,17 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	public function list_Action( )
 	{
 
-		$this->responseDataModelsList( Article::getList() );
+		$this->responseData(
+			$this->handleDataPagination(
+				$this->handleOrderBy(
+					Article::getList(),
+					[
+						'title' => 'article_localized.title',
+					    'date_time' => 'article.date_time'
+					]
+				)
+			)
+		);
 	}
 
 	/**

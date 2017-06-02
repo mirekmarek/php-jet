@@ -63,12 +63,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 */
 	protected $is_unique = false;
 
-
-	/**
-	 * @var string
-	 */
-	protected $description = '';
-
 	/**
 	 * @var bool
 	 */
@@ -250,14 +244,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 
 
 	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function doNotExport()
@@ -420,32 +406,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 		return $this->name;
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType();
-
-		$res .= ', required: '.( $this->form_field_is_required ? 'yes' : 'no' );
-
-
-		if( $this->is_id ) {
-			$res .= ', is id';
-		}
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.$this->default_value;
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
 	/**
 	 * @return string
 	 */
@@ -458,15 +418,11 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * Example: Locale to string
 	 *
-	 * @param DataModel_Interface $data_model_instance
 	 * @param mixed               &$property
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( /** @noinspection PhpUnusedParameterInspection */
-		DataModel_Interface $data_model_instance,
-		&$property
-	)
+	public function getJsonSerializeValue( &$property )
 	{
 		return $property;
 	}

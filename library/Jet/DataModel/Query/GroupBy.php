@@ -38,7 +38,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_IteratorC
 
 			$property = null;
 
-			if( !$select->getHasItem( $gb ) ) {
+			if( !$select->hasItem( $gb ) ) {
 				if( strpos( $gb, '.' ) ) {
 					$property = $query->getPropertyAndSetRelation( $gb );
 				} else {

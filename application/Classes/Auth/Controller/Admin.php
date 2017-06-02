@@ -94,9 +94,6 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 			 * @var Page $page
 			 */
 			$page = Mvc::getCurrentPage();
-			if( $page->getIsRestApiHook() ) {
-				$this->handleRestApiHttpAuth();
-			}
 
 
 		} else {
@@ -114,23 +111,6 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 		return new Session( 'auth_admin' );
 	}
 
-	/**
-	 *
-	 */
-	protected function handleRestApiHttpAuth()
-	{
-
-		if( !isset( $_SERVER['PHP_AUTH_USER'] ) ) {
-			header( 'WWW-Authenticate: Basic realm="Login"' );
-			header( 'HTTP/1.0 401 Unauthorized' );
-		} else {
-			$user = Administrator::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
-
-			if( $user ) {
-				$this->current_user = $user;
-			}
-		}
-	}
 
 	/**
 	 *
@@ -155,7 +135,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 			}
 		}
 
-		$module = Auth_Controller::getLoginFormModule();
+		$module = Auth_Controller::getLoginModule();
 
 
 		$page_content = [];

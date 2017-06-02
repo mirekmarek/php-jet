@@ -416,29 +416,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 			);
 		}
 
-		$all_modules = $this->getAllModulesList();
-
-		$required_modules = [];
-
-		foreach( $module_manifest->getRequire() as $required_module_name ) {
-
-			if(
-				!isset( $all_modules[$required_module_name] ) ||
-				!$all_modules[$required_module_name]->getIsInstalled()
-			) {
-				$required_modules[] = $required_module_name;
-			}
-
-		}
-
-		if( $required_modules ) {
-			throw new Application_Modules_Exception(
-				'The module \''.$module_name.'\' requires these Modules: '.implode(
-					', ', $required_modules
-				).'. This module must be installed before.', Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
-			);
-		}
-
 		$this->installation_in_progress = true;
 		$this->installation_in_progress_module_name = $module_name;
 
@@ -618,7 +595,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 
 		$this->_hardCheckModuleExists( $module_name );
-		$this->_checkModuleDependencies( $module_name );
 
 		$module_manifest = $this->getModuleManifest( $module_name );
 
@@ -666,39 +642,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 		}
 	}
 
-	/**
-	 *
-	 * @param string $module_name
-	 *
-	 * @throws Application_Modules_Exception
-	 */
-	protected function _checkModuleDependencies( $module_name )
-	{
-		$activated_modules = $this->getActivatedModulesList();
-
-		$dependent_modules = [];
-
-		foreach( $activated_modules as $d_module_name => $module_manifest ) {
-			/**
-			 * @var Application_Module_Manifest $module_manifest
-			 */
-			if( $d_module_name==$module_name ) {
-				continue;
-			}
-
-			if( in_array( $module_name, $module_manifest->getRequire() ) ) {
-				$dependent_modules[] = $d_module_name;
-			}
-		}
-
-		if( $dependent_modules ) {
-			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' is required for '.implode( ',', $dependent_modules ),
-				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
-			);
-		}
-
-	}
 
 	/**
 	 *
@@ -710,27 +653,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 
 		$this->_hardCheckModuleExists( $module_name );
-
-		$activated_modules = $this->getActivatedModulesList();
-
-		$required_modules = [];
-
-		$module_manifest = $this->getModuleManifest( $module_name );
-
-		foreach( $module_manifest->getRequire() as $required_module_name ) {
-
-			if( !isset( $activated_modules[$required_module_name] ) ) {
-				$required_modules[] = $required_module_name;
-			}
-
-		}
-
-		if( $required_modules ) {
-			throw new Application_Modules_Exception(
-				'The module requires these Modules: '.implode( ',', $required_modules ).'. They must be activated.',
-				Application_Modules_Exception::CODE_DEPENDENCIES_ERROR
-			);
-		}
 
 		$module_manifest = $this->getModuleManifest( $module_name );
 
@@ -761,7 +683,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	{
 
 		$this->_hardCheckModuleExists( $module_name );
-		$this->_checkModuleDependencies( $module_name );
 
 		$module_manifest = $this->getModuleManifest( $module_name );
 

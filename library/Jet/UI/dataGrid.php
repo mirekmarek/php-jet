@@ -564,7 +564,7 @@ class UI_dataGrid extends BaseObject
 	{
 		if(!$this->page_url_creator) {
 			$this->page_url_creator = function( $page_no ) {
-				return Http_Request::getCurrentURI( [ 'page' => $page_no ] );
+				return Http_Request::currentURI( [ 'page' => $page_no ] );
 			};
 		}
 
@@ -621,7 +621,7 @@ class UI_dataGrid extends BaseObject
 					$column_name = '-'.$column_name;
 				}
 
-				return Http_Request::getCurrentURI( [ 'sort' => $column_name ] );
+				return Http_Request::currentURI( [ 'sort' => $column_name ] );
 			};
 		}
 

@@ -66,7 +66,7 @@ class Navigation_Breadcrumb extends BaseObject
 		}
 
 		if( !$URL ) {
-			$URL = Http_Request::getURL();
+			$URL = Http_Request::URL();
 		}
 
 		$item = new Navigation_Breadcrumb_Item();

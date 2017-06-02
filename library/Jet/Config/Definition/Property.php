@@ -232,26 +232,6 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	/**
 	 * @return string
 	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType();
-
-		$res .= ', required: '.( $this->is_required ? 'yes' : 'no' );
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.$this->default_value;
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getType()
 	{
 		return $this->_type;

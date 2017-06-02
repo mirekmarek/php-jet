@@ -278,6 +278,10 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function getControllerAction()
 	{
+		if($this->controller_action===false) {
+			return false;
+		}
+
 		return $this->controller_action ? $this->controller_action : static::DEFAULT_CONTROLLER_ACTION;
 	}
 

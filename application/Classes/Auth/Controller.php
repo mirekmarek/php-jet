@@ -15,7 +15,7 @@ use JetApplication\Auth_Visitor_User as Visitor;
  */
 class Auth_Controller implements Auth_ControllerInterface
 {
-	const LOGIN_FORM_MODULE_NAME = 'JetExample.LoginForm';
+	const LOGIN_FORM_MODULE_NAME = 'JetExample.Login';
 
 	const EVENT_LOGIN_FAILED = 'login_failed';
 	const EVENT_LOGIN_SUCCESS = 'login_success';
@@ -33,22 +33,51 @@ class Auth_Controller implements Auth_ControllerInterface
 	protected $site;
 
 	/**
+	 * @var Auth_Controller_Site
+	 */
+	protected $rest;
+
+	/**
 	 *
 	 */
 	public function __construct()
 	{
 		$this->admin = new Auth_Controller_Admin();
 		$this->site = new Auth_Controller_Site();
+		$this->rest = new Auth_Controller_REST();
 	}
 
 	/**
 	 * @return Application_Module
 	 */
-	public static function getLoginFormModule()
+	public static function getLoginModule()
 	{
 		$module = Application_Modules::getModuleInstance( static::LOGIN_FORM_MODULE_NAME );
 
 		return $module;
+	}
+
+	/**
+	 * @return Auth_Controller_Admin|Auth_Controller_REST|Auth_Controller_Site
+	 */
+	protected function getController()
+	{
+		/**
+		 * @var Mvc_Page $page;
+		 */
+		$page = Mvc::getCurrentPage();
+
+		if( $page->getIsRestApiHook() ) {
+			return $this->rest;
+		}
+
+		if( $page->getIsAdminUI() ) {
+			return $this->admin;
+		}
+
+
+		return $this->site;
+
 	}
 
 	/**
@@ -57,11 +86,7 @@ class Auth_Controller implements Auth_ControllerInterface
 	 */
 	public function isUserLoggedIn()
 	{
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			return $this->admin->isUserLoggedIn();
-		} else {
-			return $this->site->isUserLoggedIn();
-		}
+		return $this->getController()->isUserLoggedIn();
 	}
 
 	/**
@@ -69,11 +94,7 @@ class Auth_Controller implements Auth_ControllerInterface
 	 */
 	public function handleLogin()
 	{
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$this->admin->handleLogin();
-		} else {
-			$this->site->handleLogin();
-		}
+		return $this->getController()->handleLogin();
 	}
 
 
@@ -86,11 +107,7 @@ class Auth_Controller implements Auth_ControllerInterface
 	 */
 	public function login( $username, $password )
 	{
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$res = $this->admin->login( $username, $password );
-		} else {
-			$res = $this->site->login( $username, $password );
-		}
+		$res = $this->getController()->login( $username, $password );
 
 
 		if( !$res ) {
@@ -117,12 +134,7 @@ class Auth_Controller implements Auth_ControllerInterface
 	 */
 	public function getCurrentUser()
 	{
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			return $this->admin->getCurrentUser();
-		} else {
-			return $this->site->getCurrentUser();
-		}
-
+		return $this->getController()->getCurrentUser();
 	}
 
 	/**
@@ -139,11 +151,7 @@ class Auth_Controller implements Auth_ControllerInterface
 		}
 
 
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$this->admin->logout();
-		} else {
-			$this->site->logout();
-		}
+		$this->getController()->logout();
 	}
 
 

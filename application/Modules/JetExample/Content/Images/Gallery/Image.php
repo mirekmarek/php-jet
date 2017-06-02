@@ -8,10 +8,11 @@
 namespace JetApplicationModule\JetExample\Content\Images;
 
 use Jet\Data_Image;
+use Jet\Http_Request;
 use Jet\IO_File;
 use Jet\IO_Dir;
 use Jet\DataModel;
-use Jet\DataModel_Fetch_Data_Assoc;
+use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\DataModel_Id_UniqueString;
 
 /**
@@ -290,7 +291,7 @@ class Gallery_Image extends DataModel
 	 *
 	 * @param string $gallery_id (optional)
 	 *
-	 * @return Gallery_Image[]
+	 * @return Gallery_Image[]|DataModel_Fetch_Object_Assoc
 	 */
 	public static function getList( $gallery_id = '' )
 	{
@@ -402,6 +403,20 @@ class Gallery_Image extends DataModel
 		if(IO_Dir::exists($path)) {
 			IO_Dir::remove( $path );
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	public function jsonSerialize()
+	{
+
+		$data = parent::jsonSerialize();
+
+		$data['URL'] = Http_Request::baseURL().$this->getURI();
+
+		return $data;
 	}
 
 }

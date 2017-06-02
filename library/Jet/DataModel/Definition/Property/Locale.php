@@ -42,16 +42,12 @@ class DataModel_Definition_Property_Locale extends DataModel_Definition_Property
 	}
 
 	/**
-	 * Converts property form jsonSerialize
 	 *
-	 * Example: Locale to string
-	 *
-	 * @param DataModel_Interface $data_model_instance
 	 * @param mixed               &$property
 	 *
 	 * @return mixed
 	 */
-	public function getJsonSerializeValue( DataModel_Interface $data_model_instance, &$property )
+	public function getJsonSerializeValue( &$property )
 	{
 		if( !$property ) {
 			return $property;

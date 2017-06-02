@@ -71,30 +71,6 @@ class Config_Definition_Property_String extends Config_Definition_Property
 		$this->form_field_validation_regexp = $validation_regexp;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType();
-
-		$res .= ', required: '.( $this->is_required ? 'yes' : 'no' );
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.$this->default_value;
-		}
-
-		if( $this->validation_regexp ) {
-			$res .= ', valid value regular expression: '.$this->validation_regexp;
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
 
 	/**
 	 * Column value test - checks format

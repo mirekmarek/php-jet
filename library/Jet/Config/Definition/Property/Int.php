@@ -95,35 +95,6 @@ class Config_Definition_Property_Int extends Config_Definition_Property
 		$value = (int)$value;
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType().'';
-
-		$res .= ', required: '.( $this->is_required ? 'yes' : 'no' );
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.$this->default_value;
-		}
-
-		if( $this->min_value ) {
-			$res .= ', min. value: '.$this->min_value;
-		}
-
-		if( $this->max_value ) {
-			$res .= ', max. value: '.$this->max_value;
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
 	/**
 	 * Column value test - checks range
 	 *

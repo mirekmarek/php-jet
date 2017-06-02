@@ -56,37 +56,4 @@ class DataModel_Definition_Property_Int extends DataModel_Definition_Property
 	{
 		$value = (int)$value;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType().' ';
-
-		$res .= ', required: '.( $this->form_field_is_required ? 'yes' : 'no' );
-
-		if( $this->is_id ) {
-			$res .= ', is id';
-		}
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.$this->default_value;
-		}
-
-		if( $this->form_field_min_value ) {
-			$res .= ', min. value: '.$this->form_field_min_value;
-		}
-
-		if( $this->form_field_max_value ) {
-			$res .= ', max. value: '.$this->form_field_max_value;
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
 }

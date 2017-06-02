@@ -1,7 +1,7 @@
 <?php
 return [
 	'Create administrator account'                        => '',
-	'Administrator account has already been created :-) ' => '',
+	'Administrator account has already been created'      => '',
 	'Please enter username'                               => '',
 	'Please enter password'                               => '',
 	'Please enter confirm password'                       => '',

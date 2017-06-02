@@ -1,5 +1,4 @@
 <?php
 return [
 	'Articles' => '',
-	'Date:'    => '',
 ];

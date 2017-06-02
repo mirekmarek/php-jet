@@ -429,6 +429,16 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 * @param string $property_name
 	 *
+	 * @return bool
+	 */
+	public function hasProperty( $property_name )
+	{
+		return isset( $this->properties[$property_name] );
+	}
+
+	/**
+	 * @param string $property_name
+	 *
 	 * @return DataModel_Definition_Property
 	 */
 	public function getProperty( $property_name )

@@ -80,35 +80,4 @@ class DataModel_Definition_Property_String extends DataModel_Definition_Property
 		}
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public function getTechnicalDescription()
-	{
-		$res = 'Type: '.$this->getType().', max length: '.$this->max_len;
-
-		$res .= ', required: '.( $this->form_field_is_required ? 'yes' : 'no' );
-
-		if( $this->is_id ) {
-			$res .= ', is ID';
-		}
-
-		if( $this->default_value ) {
-			$res .= ', default value: '.$this->default_value;
-		}
-
-		if( $this->form_field_validation_regexp ) {
-
-			$res .= ', validation regexp: '.$this->form_field_validation_regexp;
-		}
-
-		if( $this->description ) {
-			$res .= JET_EOL.JET_EOL.$this->description;
-		}
-
-		return $res;
-	}
-
-
 }

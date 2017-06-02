@@ -25,23 +25,30 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	const ERR_CODE_COMMON = 'common_error';
 
 
-	//TODO: prepracovat strankovani
 	/**
 	 * @var string
 	 */
-	protected static $pagination_request_http_header_name = 'Range';
+	protected static $sort_get_param = 'sort';
+
 	/**
 	 * @var string
 	 */
-	protected static $pagination_request_http_header_regexp = '/^items=([0-9]{1,})-([0-9]{1,})$/';
+	protected static $page_get_param = 'page';
+
 	/**
 	 * @var string
 	 */
-	protected static $pagination_response_http_header_name = 'Content-Range';
+	protected static $items_per_page_get_param = 'items_per_page';
+
 	/**
-	 * @var string
+	 * @var int
 	 */
-	protected static $pagination_response_http_header_value_template = 'items %RANGE_FROM%-%RANGE_TO%/%COUNT%';
+	protected static $default_items_per_page = 20;
+
+	/**
+	 * @var int
+	 */
+	protected static $max_items_per_page = 100;
 
 	/**
 	 *
@@ -86,6 +93,89 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	protected static $request_data;
 
 	/**
+	 * @return string
+	 */
+	public static function getSortGetParam()
+	{
+		return static::$sort_get_param;
+	}
+
+	/**
+	 * @param string $sort_get_param
+	 */
+	public static function setSortGetParam( $sort_get_param )
+	{
+		static::$sort_get_param = $sort_get_param;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPageGetParam()
+	{
+		return static::$page_get_param;
+	}
+
+	/**
+	 * @param string $page_get_param
+	 */
+	public static function setPageGetParam( $page_get_param )
+	{
+		static::$page_get_param = $page_get_param;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getItemsPerPageGetParam()
+	{
+		return static::$items_per_page_get_param;
+	}
+
+	/**
+	 * @param string $items_per_page_get_param
+	 */
+	public static function setItemsPerPageGetParam( $items_per_page_get_param )
+	{
+		static::$items_per_page_get_param = $items_per_page_get_param;
+	}
+
+	/**
+	 * @return int
+	 */
+	public static function getDefaultItemsPerPage()
+	{
+		return static::$default_items_per_page;
+	}
+
+	/**
+	 * @param int $default_items_per_page
+	 */
+	public static function setDefaultItemsPerPage( $default_items_per_page )
+	{
+		static::$default_items_per_page = (int)$default_items_per_page;
+	}
+
+	/**
+	 * @return int
+	 */
+	public static function getMaxItemsPerPage()
+	{
+		return static::$max_items_per_page;
+	}
+
+	/**
+	 * @param int $max_items_per_page
+	 */
+	public static function setMaxItemsPerPage( $max_items_per_page )
+	{
+		static::$max_items_per_page = (int)$max_items_per_page;
+	}
+
+
+
+
+	/**
 	 *
 	 * @param Mvc_Page_Content_Interface $content
 	 */
@@ -94,7 +184,9 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 		parent::__construct( $content );
 
 		Debug::setOutputIsJSON( true );
-		//TODO: error stranky (např 401) napojit na kontroler
+
+		ErrorPages::setHandler(401, [$this, 'responseAccessDenied']);
+		ErrorPages::setHandler(404, [$this, 'responseBadRequest']);
 	}
 
 	/**
@@ -114,7 +206,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 */
 	public function getRequestMethod() {
 		if(!static::$request_method) {
-			static::$request_method = strtoupper( Http_Request::getRequestMethod() );
+			static::$request_method = strtoupper( Http_Request::requestMethod() );
 		}
 
 		return static::$request_method;
@@ -128,7 +220,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 
 		if(static::$request_data===null) {
 
-			$data = Http_Request::getRawPostData();
+			$data = Http_Request::rawPostData();
 
 			if( !$data ) {
 				$this->responseValidationError(['Input is missing']);
@@ -159,9 +251,35 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 */
 	protected function getHttpRequestHeader( $header, $default_value = '' )
 	{
-		$headers = Http_Request::getHeaders();
+		$headers = Http_Request::headers();
 
 		return isset( $headers[$header] ) ? $headers[$header] : $default_value;
+	}
+
+
+	/**
+	 * @param string $message
+	 */
+	public function responseOK( $message='' )
+	{
+		$response = [
+			'result' => 'OK',
+		];
+
+		if($message) {
+			$response['message'] = $message;
+		}
+
+		$this->_response( json_encode( $response ) );
+
+	}
+
+	/**
+	 * @param mixed $data
+	 */
+	public function responseData(  $data )
+	{
+		$this->_response( json_encode($data) );
 	}
 
 
@@ -184,6 +302,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 		$error_code = $code;
 
 		$error = [
+			'result' => 'error',
 			'error_code' => $error_code,
 			'error_msg'  => $error_message,
 		];
@@ -198,38 +317,8 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	}
 
 
-	/**
-	 *
-	 */
-	public function responseOK()
-	{
-		$this->_response( json_encode( 'OK' ) );
-
-	}
 
 	/**
-	 * @param BaseObject_Serializable_JSON $data
-	 */
-	public function responseData( BaseObject_Serializable_JSON $data )
-	{
-		$this->_response( $data->toJSON() );
-	}
-
-	/**
-	 * @param DataModel_Fetch $data
-	 */
-	public function responseDataModelsList( DataModel_Fetch $data )
-	{
-
-		$response_headers = $this->handleDataPagination( $data );
-		$this->handleOrderBy( $data );
-		$this->_response( $data->toJSON(), $response_headers );
-	}
-
-	/**
-	 * @param string $module_action
-	 * @param string $controller_action
-	 * @param array  $action_parameters
 	 *
 	 */
 	public function responseAccessDenied( $module_action, $controller_action, $action_parameters )
@@ -237,12 +326,7 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 		if( !Auth::getCurrentUser() ) {
 			$this->responseError( self::ERR_CODE_AUTHORIZATION_REQUIRED );
 		} else {
-			$this->responseError(
-				self::ERR_CODE_ACCESS_DENIED, [
-					                            'module_action'     => $module_action,
-					                            'controller_action' => $controller_action,
-				                            ]
-			);
+			$this->responseError( self::ERR_CODE_ACCESS_DENIED );
 		}
 	}
 
@@ -264,6 +348,14 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 			$id = [ 'id' => $id ];
 		}
 		$this->responseError( self::ERR_CODE_UNKNOWN_ITEM, $id );
+	}
+
+	/**
+	 *
+	 */
+	public function responseBadRequest()
+	{
+		$this->responseError( self::ERR_CODE_REQUEST_ERROR, [] );
 	}
 
 
@@ -294,76 +386,68 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	 *
 	 * @param DataModel_Fetch $data
 	 *
-	 * @return array
+	 * @return Data_Paginator
 	 */
 	protected function handleDataPagination( DataModel_Fetch $data )
 	{
-		$response_headers = [];
+		$GET = Http_Request::GET();
 
-		$header = $this->getHttpRequestHeader( static::$pagination_request_http_header_name );
+		$current_page_no = $GET->getInt(static::getPageGetParam(), 1);
+		$items_per_page = $GET->getInt(static::getItemsPerPageGetParam(), static::getDefaultItemsPerPage());
 
-		if( preg_match( static::$pagination_request_http_header_regexp, $header, $matches ) ) {
-			list( , $range_from, $range_to ) = $matches;
-
-
-			$offset = $range_from;
-			$limit = ( $range_to+1 )-$range_from;
-
-			$data->setPagination( $limit, $offset );
-
-			$count = $data->getCount();
-
-			if( $range_to>$count ) {
-				$range_to = $count;
-			}
-
-			if( $range_from>$count ) {
-				$range_from = $count;
-			}
-
-			$response_headers[static::$pagination_response_http_header_name] = Data_Text::replaceData(
-				static::$pagination_response_http_header_value_template, [
-					                                                       'RANGE_FROM' => $range_from,
-					                                                       'RANGE_TO'   => $range_to, 'COUNT' => $count,
-				                                                       ]
-			);
+		if($items_per_page>static::getMaxItemsPerPage()) {
+			$items_per_page = static::getMaxItemsPerPage();
 		}
 
-		return $response_headers;
+		$page_get_param = static::getPageGetParam();
+
+		$paginator = new Data_Paginator($current_page_no, $items_per_page, function( $page_no ) use ($page_get_param) {
+			return Http_Request::currentURL( [ $page_get_param => $page_no ] );
+		});
+
+		$paginator->setDataSource($data);
+
+		return $paginator;
 	}
 
 	/**
-	 * Handles data order by
-	 *
-	 * Order by is determined by GET parameter
-	 *
-	 * Examples:
-	 *
-	 * ?sort(+name,+age)
-	 *
-	 * ?sort(-price)
-	 *
 	 *
 	 * @param DataModel_Fetch $data
+	 * @param array           $sort_items_map
+	 *
+	 * @return DataModel_Fetch
 	 */
-	protected function handleOrderBy( DataModel_Fetch $data )
+	protected function handleOrderBy( DataModel_Fetch $data, array $sort_items_map )
 	{
+		$GET = Http_Request::GET();
 
-		foreach( Http_Request::GET()->getRawData() as $key => $value ) {
-			if( substr( $key, 0, 5 )=='sort('&&substr( $key, -1 )==')' ) {
+		if( ($order_by_param=$GET->getString(static::getSortGetParam())) ) {
 
-				$order_by = explode( ',', substr( $key, 5, -1 ) );
+			$order_by = [];
 
-				foreach( $order_by as $i => $v ) {
-					if( $v[0]=='_' ) {
-						$order_by[$i][0] = '+';
-					}
+			foreach( explode(',', $order_by_param) as $oi ) {
+				$direction = $oi[0];
+
+				if( $direction!='+' && $direction!='-' ) {
+					$direction = '+';
+					$item = $oi;
+				} else {
+					$item = substr($oi, 1);
 				}
 
-				$data->getQuery()->setOrderBy( $order_by );
+				if(!isset($sort_items_map[$item])) {
+					$this->responseError( self::ERR_CODE_REQUEST_ERROR, ['Unknown sort item: '.$oi] );
+				}
 
+				$order_by[] = $direction.$sort_items_map[$item];
 			}
+
+			$data->getQuery()->setOrderBy( $order_by );
+
+
 		}
+
+		return $data;
 	}
 
 }

@@ -63,7 +63,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_IteratorC
 
 			$property = null;
 
-			if( !$select->getHasItem( $ob ) ) {
+			if( !$select->hasItem( $ob ) ) {
 				if( strpos( $ob, '.' ) ) {
 					$property = $query->getPropertyAndSetRelation( $ob );
 				} else {

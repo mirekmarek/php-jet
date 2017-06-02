@@ -126,7 +126,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_IteratorCo
 	 *
 	 * @return bool
 	 */
-	public function getHasItem( $select_as )
+	public function hasItem( $select_as )
 	{
 		return array_key_exists( $select_as, $this->items );
 	}

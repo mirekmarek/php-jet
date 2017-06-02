@@ -12,8 +12,6 @@ namespace Jet;
  */
 class Application_Module_Manifest extends BaseObject implements \JsonSerializable
 {
-	const MODULE_TYPE_GENERAL = 'general';
-	const MODULE_TYPE_SYSTEM = 'system';
 
 	/**
 	 * @var string
@@ -27,18 +25,16 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 
 	/**
 	 *
-	 * @var array
-	 */
-	protected static $module_types_list = [
-		self::MODULE_TYPE_GENERAL => 'General module',
-		self::MODULE_TYPE_SYSTEM => 'System module',
-	];
-
-	/**
-	 *
 	 * @var string
 	 */
 	protected $name = '';
+
+	//--------------------------------------------------------------------------
+	/**
+	 *
+	 * @var int
+	 */
+	protected $API_version = 201701;
 
 	/**
 	 * @var string
@@ -50,67 +46,25 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	protected $version = '';
 
-	//--------------------------------------------------------------------------
 
 	/**
-	 * Manifest value
-	 *
-	 * Human readable module name
 	 *
 	 * @var string
 	 */
 	protected $label = '';
 
 	/**
-	 * Manifest value
-	 *
-	 * Module Description
 	 *
 	 * @var string
 	 */
 	protected $description = '';
 
 	/**
-	 * Manifest value
-	 *
-	 * Required API version
-	 *
-	 * @var int
-	 */
-	protected $API_version = 201701;
-
-	/**
-	 * Manifest value
-	 *
-	 * Module type - one of Application_Module_Manifest::MODULE_TYPE_
-	 *
-	 * @var string[]
-	 */
-	protected $types = [ self::MODULE_TYPE_GENERAL ];
-
-	/**
 	 * @var bool
 	 */
 	protected $is_mandatory = false;
 
-	/**
-	 * Manifest value
-	 *
-	 * List of Modules (module names) that the module requires
-	 *
-	 * @var string[]
-	 */
-	protected $require = [];
-
 	//--------------------------------------------------------------------------
-
-	/**
-	 * Module root directory
-	 *
-	 * @var string
-	 */
-	protected $module_dir = '';
-
 
 	/**
 	 *
@@ -138,30 +92,6 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	public static function setManifestFileName( $manifest_file_name )
 	{
 		static::$manifest_file_name = $manifest_file_name;
-	}
-
-
-	/**
-	 * Get available Modules types list
-	 *
-	 * @return array
-	 */
-	public static function getModuleTypesList()
-	{
-		return static::$module_types_list;
-	}
-
-	/**
-	 * Format:
-	 * array(
-	 *      'module_type' => 'Module type description'
-	 * )
-	 *
-	 * @param array $list
-	 */
-	public static function setModuleTypesList( array $list )
-	{
-		static::$module_types_list = $list;
 	}
 
 	/**
@@ -279,33 +209,8 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 			);
 		}
 
-		if( empty( $manifest_data['types'] ) ) {
-			throw new Application_Modules_Exception(
-				'Module types not set! (\'type\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
-				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-			);
-		}
 
-		$modules_types = static::getModuleTypesList();
-		foreach( $manifest_data['types'] as $type ) {
 
-			if( !isset( $modules_types[$type] ) ) {
-				throw new Application_Modules_Exception(
-					'Invalid module type \''.$type.'\' ! See '.__NAMESPACE__.'\Application_Module_Manifest::getModulesTypesList() (Module: \''.$this->name.'\')',
-					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-				);
-			}
-		}
-
-		if(
-			isset( $manifest_data['require'] ) &&
-			!is_array( $manifest_data['require'] )
-		) {
-			throw new Application_Modules_Exception(
-				'Required Modules (\'require\' key) must be an array like [required_module1, required_module2, ...]! (Module: \''.$this->name.'\')',
-				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
-			);
-		}
 	}
 
 	/**
@@ -417,41 +322,11 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	}
 
 	/**
-	 * Returns types list ( array )
-	 *
-	 * @return string[]
-	 */
-	public function getTypes()
-	{
-		return $this->types;
-	}
-
-	/**
-	 * @param string $type
-	 *
-	 * @return bool
-	 */
-	public function getHasType( $type )
-	{
-		return in_array( $type, $this->types );
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function isMandatory()
 	{
 		return $this->is_mandatory;
-	}
-
-	/**
-	 * Returns required module names ([module1, module2, ....])
-	 *
-	 * @return string[]
-	 */
-	public function getRequire()
-	{
-		return $this->require;
 	}
 
 	/**

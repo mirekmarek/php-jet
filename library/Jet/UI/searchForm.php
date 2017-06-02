@@ -196,7 +196,7 @@ class UI_searchForm extends BaseObject
 	 */
 	public function getAction()
 	{
-		return Http_Request::getCurrentURI();
+		return Http_Request::currentURI();
 	}
 
 	/**

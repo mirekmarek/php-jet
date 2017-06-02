@@ -47,12 +47,12 @@ abstract class Application_Module extends BaseObject
 	 * Example:
 	 *
 	 * <code>
-	 * protected static $ACL_actions = array(
+	 * protected static $ACL_actions = [
 	 *      'get_data_module_action' => 'Get data',
 	 *      'update_record_module_action' => 'Update data',
 	 *      'add_record_module_action' => 'Add new data',
 	 *      'delete_record_module_action' => 'Delete data'
-	 * );
+	 * ];
 	 * </code>
 	 *
 	 * @var array

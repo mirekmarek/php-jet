@@ -11,6 +11,7 @@ use Jet\Mvc_Controller_Standard;
 use Jet\Mvc;
 use Jet\Mvc_Page;
 
+//TODO: testovaci moduly rozdělit na TestREST, TestORM, TestMVC, TestFORMS
 /**
  *
  */
@@ -22,6 +23,7 @@ class Controller_Main extends Mvc_Controller_Standard
 	protected static $ACL_actions_check_map = [
 		'test_forms'       => false,
 		'test_mvc_info'    => false,
+	    'test_rest'        => false
 	];
 
 	/**
@@ -58,6 +60,14 @@ class Controller_Main extends Mvc_Controller_Standard
 	public function test_mvc_info_Action()
 	{
 		$this->render( 'test-mvc-info' );
+	}
+
+	/**
+	 *
+	 */
+	public function test_rest_Action()
+	{
+		//TODO:
 	}
 
 }

@@ -154,8 +154,8 @@ abstract class Application_Log_Event_Abstract extends DataModel
 		$event_i = new static();
 
 		$event_i->date_time = Data_DateTime::now();
-		$event_i->request_URL = Http_Request::getURL();
-		$event_i->remote_IP = Http_Request::getClientIP();
+		$event_i->request_URL = Http_Request::URL();
+		$event_i->remote_IP = Http_Request::clientIP();
 
 		$event_i->event_class = $event_class;
 		$event_i->event = $event;

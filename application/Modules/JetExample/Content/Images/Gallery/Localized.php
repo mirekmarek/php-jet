@@ -55,6 +55,7 @@ class Gallery_Localized extends DataModel_Related_1toN
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:is_id = true
 	 * @JetDataModel:form_field_type = false
+	 * @JetDataModel:do_not_export = true
 	 *
 	 * @var Locale
 	 */

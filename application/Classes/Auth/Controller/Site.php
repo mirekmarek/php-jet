@@ -129,7 +129,7 @@ class Auth_Controller_Site extends BaseObject implements Auth_ControllerInterfac
 			}
 		}
 
-		$module = Auth_Controller::getLoginFormModule();
+		$module = Auth_Controller::getLoginModule();
 
 		$page_content = [];
 		$page_content_item = Mvc_Factory::getPageContentInstance();

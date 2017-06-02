@@ -22,6 +22,8 @@ class DataModel_PropertyFilter extends BaseObject
 	 *
 	 * @param DataModel_Definition_Model $model_definition
 	 * @param array                      $only_properties
+	 *
+	 * @throws DataModel_Exception
 	 */
 	public function __construct( DataModel_Definition_Model $model_definition, array $only_properties )
 	{
@@ -32,8 +34,23 @@ class DataModel_PropertyFilter extends BaseObject
 			if( strpos( $lp, '.' )===false ) {
 				$model_name = $model_definition->getModelName();
 				$property_name = $lp;
+				if(!$model_definition->hasProperty($property_name)) {
+					throw new DataModel_Exception('Unknown property '.$lp);
+				}
+
 			} else {
 				list( $model_name, $property_name ) = explode( '.', $lp );
+				if($model_name!=$model_definition->getModelName()) {
+					$relation = $model_definition->getRelation($model_name);
+
+					if(!$relation->getRelatedDataModelDefinition()->hasProperty($property_name)) {
+						throw new DataModel_Exception('Unknown property '.$lp);
+					}
+				} else {
+					if(!$model_definition->hasProperty($property_name)) {
+						throw new DataModel_Exception('Unknown property '.$lp);
+					}
+				}
 			}
 
 			if( !isset( $this->only_properties[$model_name] ) ) {
