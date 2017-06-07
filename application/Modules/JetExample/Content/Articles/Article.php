@@ -132,11 +132,11 @@ class Article extends DataModel
 			$search = '%'.$search.'%';
 
 			$where[] = [
-				'articles_localized.title *' => $search,
+				'article_localized.title *' => $search,
 				'OR',
-				'articles_localized.text *' => $search,
+				'article_localized.text *' => $search,
 				'OR',
-				'articles_localized.annotation *' => $search,
+				'article_localized.annotation *' => $search,
 			];
 		}
 
@@ -208,7 +208,7 @@ class Article extends DataModel
 	{
 		$list = static::fetchObjects(
 			[
-				'articles_localized.locale' => Mvc::getCurrentLocale(),
+				'article_localized.locale' => Mvc::getCurrentLocale(),
 			]
 		);
 		$list->getQuery()->setOrderBy( '-date_time' );
@@ -229,9 +229,9 @@ class Article extends DataModel
 
 			$current_article = static::fetchOneObject(
 				[
-					'articles_localized.URI_fragment' => $path,
+					'article_localized.URI_fragment' => $path,
 					'AND',
-					'articles_localized.locale' => $locale
+					'article_localized.locale' => $locale
 				]
 			);
 

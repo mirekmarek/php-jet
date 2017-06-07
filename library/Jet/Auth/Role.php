@@ -153,11 +153,11 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 		$forest->setLabelKey( 'name' );
 		$forest->setIdKey( 'id' );
 
-		$modules = Application_Modules::getActivatedModulesList();
+		$modules = Application_Modules::activatedModulesList();
 
 		foreach( $modules as $module_name => $module_info ) {
 
-			$module = Application_Modules::getModuleInstance( $module_name );
+			$module = Application_Modules::moduleInstance( $module_name );
 
 			$actions = $module->getAclActions();
 

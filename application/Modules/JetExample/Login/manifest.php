@@ -8,11 +8,9 @@ return [
 
 	'label' => 'Login page',
 
-	'types'       => [ Application_Module_Manifest::MODULE_TYPE_SYSTEM ],
 	'description' => '',
 
 	'is_mandatory' => true,
-	'require'      => [],
 
 	'admin_sections' => [
 		Mvc_Page::CHANGE_PASSWORD_ID => [

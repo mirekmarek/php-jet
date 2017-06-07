@@ -14,12 +14,8 @@ if (!isset($argv[1])) {
 
 $module_name = $argv[1];
 
-if (!Application_Modules::checkModuleNameFormat($module_name)) {
-	echo "'{$module_name}' is not valid module name ([a-zA-Z0-9]{3,50}) " . PHP_EOL . PHP_EOL;
-	exit(10);
-}
 
-if (!Application_Modules::getModuleExists($module_name)) {
+if (!Application_Modules::moduleExists( $module_name)) {
 	echo "Module '{$module_name}' doesn't exist " . PHP_EOL . PHP_EOL;
 	exit(20);
 }

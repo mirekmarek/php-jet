@@ -193,19 +193,6 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 		$this->output = $output;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getKey()
-	{
-		$page = $this->getPage();
-
-		$site_id = $page->getSite()->getId();
-		$locale = $page->getLocale();
-		$page_id = $page->getId();
-
-		return $site_id.':'.$locale.':'.$page_id.':'.$this->id;
-	}
 
 	/**
 	 * @return Mvc_Page_Interface
@@ -255,13 +242,13 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 		$module_name = $this->getModuleName();
 
-		if( !Application_Modules::getModuleIsActivated( $module_name ) ) {
+		if( !Application_Modules::moduleIsActivated( $module_name ) ) {
 			$this->_module_instance = false;
 
 			return false;
 		}
 
-		$this->_module_instance = Application_Modules::getModuleInstance( $module_name );
+		$this->_module_instance = Application_Modules::moduleInstance( $module_name );
 
 		if( !$this->_module_instance ) {
 			$this->_module_instance = false;
@@ -383,8 +370,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			Mvc_Layout::getCurrentLayout()->addOutputPart(
 				$output,
 				$this->output_position,
-				$this->output_position_order,
-				$this->getKey()
+				$this->output_position_order
 			);
 
 			return;

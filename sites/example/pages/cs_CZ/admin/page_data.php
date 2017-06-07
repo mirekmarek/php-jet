@@ -1,7 +1,7 @@
 <?php
 use Jet\Application_Modules;
 
-$UI_module = Application_Modules::getModuleInstance('JetExample.AdminUI');
+$UI_module = Application_Modules::moduleInstance( 'JetExample.AdminUI');
 
 return [
 	'id' => 'admin',

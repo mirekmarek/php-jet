@@ -1,6 +1,7 @@
 <?php
 return [
 	'id' => 'forms-test',
+	'order' => 100,
     'name' => 'Forms test',
     'title' => 'Test formulářů',
     'layout_script_name' => 'default',
@@ -8,20 +9,13 @@ return [
     ],
     'contents' => [
 	    [
-		    'module_name' => 'JetExample.TestModule',
-		    'controller_action' => 'test_mvc_info',
-		    'output_position' => 'right',
-		    'output_position_order' => 1
-	    ],
-
-	    [
-		    'module_name' => 'JetExample.TestModule2',
+		    'module_name' => 'JetExample.Test.Forms',
 		    'controller_action' => 'test_forms',
 		    'output_position_order' => 1
 	    ],
 	    [
-		    'module_name' => 'JetExample.TestModule',
-		    'controller_action' => 'test_forms',
+		    'module_name' => 'JetExample.Test.Forms',
+		    'controller_action' => 'test_forms_data_model',
 		    'output_position_order' => 2
 	    ],
     ]

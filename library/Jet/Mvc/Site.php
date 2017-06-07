@@ -221,6 +221,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		$site->_site_id = $data['id'];
 		$site->name = $data['name'];
 		$site->is_active = $data['is_active'];
+		$site->is_default = !empty($data['is_default']);
 
 		foreach( $data['localized_data'] as $locale_str => $localized_data ) {
 

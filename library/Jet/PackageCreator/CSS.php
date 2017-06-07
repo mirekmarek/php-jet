@@ -37,10 +37,19 @@ abstract class PackageCreator_CSS extends PackageCreator
 	/**
 	 *
 	 * @param string $media
-	 * @param Locale $locale
 	 * @param array  $URIs
 	 */
-	abstract public function __construct( $media, Locale $locale, array $URIs );
+	abstract public function __construct( $media, array $URIs );
+
+	/**
+	 *
+	 */
+	abstract public function generate();
+
+	/**
+	 * @return string
+	 */
+	abstract public function createPackage();
 
 	/**
 	 *
@@ -51,27 +60,12 @@ abstract class PackageCreator_CSS extends PackageCreator
 	/**
 	 * @return string
 	 */
-	abstract public function createPackage();
-
-	/**
-	 *
-	 */
-	abstract public function generatePackageFile();
-
-	/**
-	 * @return string
-	 */
 	abstract public function getPackagePath();
 
 	/**
 	 * @return string
 	 */
 	abstract public function getPackageRelativeFileName();
-
-	/**
-	 * @return string
-	 */
-	abstract public function getPackageDataPath();
 
 	/**
 	 * @return string

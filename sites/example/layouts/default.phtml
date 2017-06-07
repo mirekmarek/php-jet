@@ -22,8 +22,8 @@ require 'parts/init_libs.php';
 
 </head>
 <body>
-<div class="container" style="width: 100%;height: 100%">
-	<div class="page-header">
+<div class="container-fluid">
+	<div class="page-header well well-large">
 		<h1><?=Tr::_('Hello WORLD!')?></h1>
 		<small><?=Tr::_("PHP Jet Example Application");?></small>
 	</div>
@@ -41,6 +41,9 @@ require 'parts/init_libs.php';
 			<jet_layout_main_position/>
 		</div>
 		<div class="col-md-2">
+			<div class="well well-small">
+				<jet_module module="JetExample.Test.MVC" action="test_mvc_info" />
+			</div>
 			<jet_layout_position name="right"/>
 		</div>
 	</div>

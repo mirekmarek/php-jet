@@ -146,10 +146,13 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 			$request_URL = substr($request_URL, 0, $pos);
 		}
 
-		if(($pos=strpos($request_URL, '://'))!==false) {
-			$request_URL = substr($request_URL, $pos+2);
-
+		if(substr($request_URL, 0, 7)=='http://') {
+			$request_URL = substr($request_URL, 7);
 		}
+		if(substr($request_URL, 0, 8)=='https://') {
+			$request_URL = substr($request_URL, 8);
+		}
+
 		$this->request_URL = $request_URL;
 
 
@@ -211,7 +214,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 
 		$current_site_URL = null;
-
 
 		$founded_url = null;
 

@@ -31,19 +31,16 @@ class Mvc_Page extends Jet_Mvc_Page
 	/**
 	 * @var bool
 	 */
-	//TODO: zvazit
 	protected $is_dialog = false;
 
 	/**
 	 * @var bool
 	 */
-	//TODO: zvazit
 	protected $is_system_page = false;
 
 	/**
 	 * @var bool
 	 */
-	//TODO: presunout do jadra
 	protected $is_rest_api_hook = false;
 	/**
 	 * @var string
@@ -61,7 +58,7 @@ class Mvc_Page extends Jet_Mvc_Page
 
 		parent::loadCustomPages( $site, $locale );
 
-		$modules = Application_Modules::getActivatedModulesList();
+		$modules = Application_Modules::activatedModulesList();
 
 
 		foreach( $modules as $manifest ) {

@@ -317,9 +317,10 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	}
 
 
-
 	/**
-	 *
+	 * @param string $module_action
+	 * @param string $controller_action
+	 * @param array  $action_parameters
 	 */
 	public function responseAccessDenied( $module_action, $controller_action, $action_parameters )
 	{

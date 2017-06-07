@@ -89,13 +89,6 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 
 		if( !$user_id ) {
 			$this->current_user = false;
-
-			/**
-			 * @var Page $page
-			 */
-			$page = Mvc::getCurrentPage();
-
-
 		} else {
 			$this->current_user = Administrator::get( $user_id );
 		}

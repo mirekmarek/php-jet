@@ -6,4 +6,4 @@ const FLAGS_CSS_URL = 'styles/flags.css';
 const BOOTSTRAP_JS_URL = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js';
 const JQUERY_JS_URL = '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js';
 
-const JET_AJAX_FORM_JS_URL = 'scripts/JetAjaxForm.js';
+const JET_AJAX_FORM_JS_URL = 'scripts/JetAjaxForm.js?v=1';

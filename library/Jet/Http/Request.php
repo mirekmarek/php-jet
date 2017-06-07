@@ -13,15 +13,6 @@ namespace Jet;
 class Http_Request extends BaseObject
 {
 
-
-	/**
-	 * PHP super global $_SERVER original value
-	 *
-	 * @var array
-	 */
-	protected static $_SERVER;
-
-
 	/**
 	 * PHP super global $_POST original value
 	 *
@@ -56,12 +47,6 @@ class Http_Request extends BaseObject
 	 */
 	protected static $POST = null;
 
-	/**
-	 *
-	 * @var Data_Array
-	 */
-	protected static $SERVER = null;
-
 
 	/**
 	 * @var string
@@ -85,7 +70,7 @@ class Http_Request extends BaseObject
 		if( static::$is_initialized ) {
 			return;
 		}
-		static::$_SERVER = $_SERVER;
+
 		static::$_POST = $_POST;
 		static::$_GET = $_GET;
 		static::$is_initialized = true;
@@ -105,16 +90,6 @@ class Http_Request extends BaseObject
 		$_REQUEST = new Http_Request_Trap();
 	}
 
-
-	/**
-	 * Is request initialized?
-	 *
-	 * @return bool
-	 */
-	public static function isInitialized()
-	{
-		return static::$is_initialized;
-	}
 
 	/**
 	 *
@@ -173,12 +148,36 @@ class Http_Request extends BaseObject
 	 */
 	public static function currentURL( array $set_GET_params = [], array $unset_GET_params = [], $set_anchor = null )
 	{
+		return static::baseURL() . static::currentURI( $set_GET_params, $unset_GET_params, $set_anchor );
+	}
 
+	/**
+	 *
+	 * @param bool $include_query_string (optional, default: true)
+	 *
+	 * @return string
+	 */
+	public static function URL( $include_query_string = true )
+	{
+		$request_URI = $_SERVER['REQUEST_URI'];
+
+		if( !$include_query_string ) {
+			list( $request_URI ) = explode( '?', $request_URI );
+		}
+
+		return static::baseURL().$request_URI;
+	}
+
+	/**
+	 *
+	 *
+	 * @return string
+	 */
+	public static function baseURL( )
+	{
 		$scheme = 'http';
 		$host = $_SERVER['HTTP_HOST'];
 		$port = '';
-		$request_URI = static::currentURI( $set_GET_params, $unset_GET_params, $set_anchor );
-
 
 		if( static::isHttps() ) {
 			$scheme = 'https';
@@ -191,8 +190,18 @@ class Http_Request extends BaseObject
 			}
 		}
 
-		return $scheme.'://'.$host.$port.$request_URI;
+		return $scheme.'://'.$host.$port;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function schema()
+	{
+		return static::isHttps() ? 'https' : 'http';
+	}
+
 
 	/**
 	 *
@@ -218,19 +227,6 @@ class Http_Request extends BaseObject
 		}
 
 		return static::$POST;
-	}
-
-	/**
-	 *
-	 * @return Data_Array
-	 */
-	public static function SERVER()
-	{
-		if( !static::$SERVER ) {
-			static::$SERVER = new Data_Array( static::$_SERVER );
-		}
-
-		return static::$SERVER;
 	}
 
 
@@ -286,14 +282,6 @@ class Http_Request extends BaseObject
 	}
 
 	/**
-	 * @return string
-	 */
-	public static function schema()
-	{
-		return static::isHttps() ? 'https' : 'http';
-	}
-
-	/**
 	 * Get client's IP address
 	 *
 	 * @return string
@@ -330,61 +318,6 @@ class Http_Request extends BaseObject
 		return 'unknown';
 	}
 
-	/**
-	 *
-	 * @param bool $include_query_string (optional, default: true)
-	 *
-	 * @return string
-	 */
-	public static function URL( $include_query_string = true )
-	{
-		$scheme = 'http';
-		$host = $_SERVER['HTTP_HOST'];
-		$port = '';
-		$request_URI = $_SERVER['REQUEST_URI'];
-
-		if( !$include_query_string ) {
-			list( $request_URI ) = explode( '?', $request_URI );
-		}
-
-		if( static::isHttps() ) {
-			$scheme = 'https';
-			if( $_SERVER['SERVER_PORT']!='443' ) {
-				$port = ':'.$_SERVER['SERVER_PORT'];
-			}
-		} else {
-			if( $_SERVER['SERVER_PORT']!='80' ) {
-				$port = ':'.$_SERVER['SERVER_PORT'];
-			}
-		}
-
-		return $scheme.'://'.$host.$port.$request_URI;
-	}
-
-	/**
-	 *
-	 *
-	 * @return string
-	 */
-	public static function baseURL( )
-	{
-		$scheme = 'http';
-		$host = $_SERVER['HTTP_HOST'];
-		$port = '';
-
-		if( static::isHttps() ) {
-			$scheme = 'https';
-			if( $_SERVER['SERVER_PORT']!='443' ) {
-				$port = ':'.$_SERVER['SERVER_PORT'];
-			}
-		} else {
-			if( $_SERVER['SERVER_PORT']!='80' ) {
-				$port = ':'.$_SERVER['SERVER_PORT'];
-			}
-		}
-
-		return $scheme.'://'.$host.$port;
-	}
 
 
 	/**

@@ -52,7 +52,7 @@ class Auth_Controller implements Auth_ControllerInterface
 	 */
 	public static function getLoginModule()
 	{
-		$module = Application_Modules::getModuleInstance( static::LOGIN_FORM_MODULE_NAME );
+		$module = Application_Modules::moduleInstance( static::LOGIN_FORM_MODULE_NAME );
 
 		return $module;
 	}

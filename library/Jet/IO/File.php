@@ -20,12 +20,17 @@ class IO_File
 	 *
 	 * @var int
 	 */
-	protected static $default_chmod_mask = null;
+	protected static $default_chmod_mask;
 
 	/**
 	 * @var array
 	 */
 	protected static $http_response_header;
+
+	/**
+	 * @var array
+	 */
+	protected static $extensions_mimes_map;
 
 	/**
 	 * @return int
@@ -45,6 +50,22 @@ class IO_File
 	public static function setDefaultChmodMask( $default_chmod_mask )
 	{
 		static::$default_chmod_mask = $default_chmod_mask;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getExtensionsMimesMap()
+	{
+		return static::$extensions_mimes_map;
+	}
+
+	/**
+	 * @param array $extensions_mimes_map
+	 */
+	public static function setExtensionsMimesMap( array $extensions_mimes_map )
+	{
+		static::$extensions_mimes_map = $extensions_mimes_map;
 	}
 
 	/**
@@ -107,38 +128,22 @@ class IO_File
 	}
 
 	/**
-	 * Gets mime type of file by given file path.
 	 *
 	 * @param string      $file_path
-	 * @param null|string $extensions_mimes_map_file_path (optional, default, JET_PATH_CONFIG/file_mime_types/map.php )
 	 * @param bool        $without_charset (optional)
 	 *
 	 * @return string
 	 */
-	public static function getMimeType( $file_path, $extensions_mimes_map_file_path = null, $without_charset = true )
+	public static function getMimeType( $file_path, $without_charset = true )
 	{
-		if(
-			!$extensions_mimes_map_file_path &&
-			defined( 'JET_PATH_CONFIG' )
-		) {
-			$extensions_mimes_map_file_path = JET_PATH_CONFIG.'file_mime_types/map.php';
-		}
 
 		$mime_type = null;
 
-		if(
-			$extensions_mimes_map_file_path &&
-			is_readable( $extensions_mimes_map_file_path )
-		) {
-			/** @noinspection PhpIncludeInspection */
-			$map = require $extensions_mimes_map_file_path;
+		if( is_array( static::$extensions_mimes_map ) ) {
+			$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
 
-			if( is_array( $map ) ) {
-				$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
-
-				if( isset( $map[$extension] ) ) {
-					$mime_type = $map[$extension];
-				}
+			if( isset( $map[$extension] ) ) {
+				$mime_type = $map[$extension];
 			}
 		}
 
@@ -161,7 +166,6 @@ class IO_File
 
 
 	/**
-	 * Writes data into file. Creates file if does not exist.
 	 *
 	 * @param string $file_path - path to file
 	 * @param string $data - data to be written
@@ -171,7 +175,7 @@ class IO_File
 	 */
 	public static function write( $file_path, $data )
 	{
-		self::_write( $file_path, $data, false );
+		static::_write( $file_path, $data, false );
 	}
 
 	/**
@@ -212,12 +216,11 @@ class IO_File
 		}
 
 		if( $is_new ) {
-			self::chmod( $file_path );
+			static::chmod( $file_path );
 		}
 	}
 
 	/**
-	 * File chmod
 	 *
 	 * @param string $file_path
 	 * @param int    $chmod_mask (optional, default: by application configuration)
@@ -226,7 +229,7 @@ class IO_File
 	 */
 	public static function chmod( $file_path, $chmod_mask = null )
 	{
-		$chmod_mask = ( $chmod_mask===null ) ? self::getDefaultChmodMask() : $chmod_mask;
+		$chmod_mask = ( $chmod_mask===null ) ? static::getDefaultChmodMask() : $chmod_mask;
 
 		if( !chmod( $file_path, $chmod_mask ) ) {
 			$error = static::_getLastError();
@@ -241,7 +244,6 @@ class IO_File
 
 
 	/**
-	 * Appends data to the end of file. Creates file if does not exist.
 	 *
 	 * @param string $file_path
 	 * @param mixed  $data
@@ -251,7 +253,7 @@ class IO_File
 	 */
 	public static function append( $file_path, $data )
 	{
-		self::_write( $file_path, $data, true );
+		static::_write( $file_path, $data, true );
 	}
 
 	/**
@@ -319,11 +321,10 @@ class IO_File
 			);
 		}
 
-		self::move( $source_path, $target_path, $overwrite_if_exists );
+		static::move( $source_path, $target_path, $overwrite_if_exists );
 	}
 
 	/**
-	 * Alias of rename
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
@@ -338,7 +339,6 @@ class IO_File
 	}
 
 	/**
-	 * Moves (or renames) file from $source_path to $target_path
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
@@ -354,7 +354,6 @@ class IO_File
 	}
 
 	/**
-	 * Copies file from $source_path to $target_path
 	 *
 	 * @param string $source_path
 	 * @param string $target_path
@@ -367,7 +366,7 @@ class IO_File
 
 		if( file_exists( $target_path ) ) {
 			if( $overwrite_if_exists ) {
-				self::delete( $target_path );
+				static::delete( $target_path );
 			} else {
 				throw new IO_File_Exception(
 					'Unable to copy file \''.$source_path.'\' -> \''.$target_path.'\'. Target already exists.',
@@ -384,7 +383,7 @@ class IO_File
 			);
 		}
 
-		self::chmod( $target_path );
+		static::chmod( $target_path );
 	}
 
 	/**
@@ -406,7 +405,6 @@ class IO_File
 	}
 
 	/**
-	 * Gets max allowed file size for upload
 	 *
 	 * @return int
 	 */
@@ -429,7 +427,6 @@ class IO_File
 	}
 
 	/**
-	 * Download file
 	 *
 	 * @param string $file_path
 	 * @param string $file_name (optional, custom file name header value; default: autodetect)

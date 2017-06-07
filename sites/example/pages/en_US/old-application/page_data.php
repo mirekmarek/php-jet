@@ -1,8 +1,8 @@
 <?php
 return [
     'id' => 'old_application',
+    'order' => 9999,
 	'is_sub_app' => true,
-    'order' => 4,
     'name' => 'Old application',
     'title' => 'Old PHP application',
     'layout_script_name' => 'default',

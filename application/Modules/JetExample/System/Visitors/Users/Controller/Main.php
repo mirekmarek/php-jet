@@ -7,7 +7,6 @@
  */
 namespace JetApplicationModule\JetExample\System\Visitors\Users;
 
-use JetApplication\Mvc_Page;
 use JetApplication\Auth_Visitor_User as User;
 use JetApplication\Mvc_Controller_AdminStandard;
 

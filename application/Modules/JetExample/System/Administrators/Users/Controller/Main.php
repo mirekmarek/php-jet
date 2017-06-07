@@ -7,7 +7,6 @@
  */
 namespace JetApplicationModule\JetExample\System\Administrators\Users;
 
-use JetApplication\Mvc_Page;
 use JetApplication\Auth_Administrator_User as User;
 use JetApplication\Mvc_Controller_AdminStandard;
 

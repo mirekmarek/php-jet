@@ -9,7 +9,7 @@ return [
 	'meta_tags' => [],
 	'contents' => [
 		[
-			'module_name' => 'JetExample.TestModule',
+			'module_name' => 'JetExample.Test.REST',
 			'controller_action' => 'test_rest',
 		]
 

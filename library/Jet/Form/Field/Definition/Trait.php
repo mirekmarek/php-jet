@@ -308,14 +308,14 @@ trait Form_Field_Definition_Trait
 
 
 	/**
-	 * @param object $object_instance
-	 * @param mixed &$property
-	 * @param mixed $value
+	 * @param BaseObject $object_instance
+	 * @param mixed      &$property
+	 * @param mixed      $value
 	 */
 	public function catchFormField( $object_instance, &$property, $value )
 	{
 		/**
-		 * @var Object                                                      $object_instance
+		 * @var BaseObject                                                  $object_instance
 		 * @var Form_Field_Definition_Interface|Form_Field_Definition_Trait $this
 		 */
 

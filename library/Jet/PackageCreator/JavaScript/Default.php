@@ -14,100 +14,37 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 {
 
 	/**
-	 * @var array|string[]
-	 */
-	protected $code = [];
-
-	/**
-	 * @var array|string[]
-	 */
-	protected $omitted_code = [];
-
-	/**
 	 * @var string
 	 */
 	protected $key = null;
 
 	/**
 	 *
-	 * @param Locale $locale
 	 * @param array  $URIs
-	 * @param array  $code
 	 */
-	public function __construct( Locale $locale, array $URIs, array $code )
+	public function __construct( array $URIs )
 	{
-
-		$this->locale = $locale;
 		$this->URIs = $URIs;
-		$this->code = $code;
-
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getOmittedCode()
-	{
-		return $this->omitted_code;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPackageRelativeFileName()
-	{
-
-		return static::getPackagesDirName().'/'.$this->getKey().'.js';
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getKey()
-	{
-		if( !$this->key ) {
-			$this->key = $this->locale.'_'.md5( implode( '', $this->URIs ) );
-		}
-
-		return $this->key;
 	}
 
 	/**
 	 *
 	 */
-	public function generatePackageFile()
+	public function generate()
 	{
 
 		$package_path = $this->getPackagePath();
-		$package_data_path = $this->getPackageDataPath();
 
 		if(
-			!IO_File::exists( $package_path ) ||
-			!IO_File::exists( $package_data_path )
+			!IO_File::exists( $package_path )
 		) {
 
 			IO_File::write(
 				$package_path, $this->createPackage()
 			);
-
-			IO_File::write(
-				$package_data_path, serialize(
-					                  [
-						                  'omitted_code' => $this->omitted_code, 'omitted_URIs' => $this->omitted_URIs,
-					                  ]
-				                  )
-			);
-
-		} else {
-			$data = IO_File::read( $package_data_path );
-			$data = unserialize( $data );
-
-			$this->omitted_code = $data['omitted_code'];
-			$this->omitted_URIs = $data['omitted_URIs'];
 		}
-
 	}
+
 
 	/**
 	 *
@@ -123,18 +60,31 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 			$JS .= '/* ------------------------ */ '.JET_EOL;
 		}
 
+		return $JS;
+	}
 
-		if( !$this->omitted_URIs ) {
-			foreach( $this->code as $code ) {
-				$JS .= $code.JET_EOL;
-			}
 
-			$this->omitted_code = [];
-		} else {
-			$this->omitted_code = $this->code;
+	/**
+	 *
+	 * @return string
+	 */
+	public function getKey()
+	{
+		if( !$this->key ) {
+			$this->key = md5( implode( '', $this->URIs ) );
 		}
 
-		return $JS;
+		return $this->key;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPackageRelativeFileName()
+	{
+
+		return static::getPackagesDirName().'/'.$this->getKey().'.js';
 	}
 
 	/**
@@ -143,14 +93,6 @@ class PackageCreator_JavaScript_Default extends PackageCreator_JavaScript
 	public function getPackagePath()
 	{
 		return JET_PATH_PUBLIC.$this->getPackageRelativeFileName();
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPackageDataPath()
-	{
-		return JET_PATH_DATA.$this->getPackageRelativeFileName().'.dat';
 	}
 
 	/**

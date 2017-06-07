@@ -237,13 +237,13 @@ interface Auth_User_Interface extends BaseObject_Interface
 	 *
 	 * @return string
 	 */
-	public function getActivationHash();
+	public function getActivationKey();
 
 	/**
 	 *
 	 * @param string $user_activation_hash
 	 */
-	public function setActivationHash( $user_activation_hash );
+	public function setActivationKey( $user_activation_hash );
 
 	/**
 	 *

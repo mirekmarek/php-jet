@@ -12,10 +12,6 @@ namespace Jet;
  */
 class Mvc_Layout_OutputPart extends BaseObject
 {
-	/**
-	 * @var string
-	 */
-	protected $output_id = '';
 
 	/**
 	 *
@@ -31,30 +27,20 @@ class Mvc_Layout_OutputPart extends BaseObject
 
 	/**
 	 *
-	 * @var float
+	 * @var int
 	 */
-	protected $position_order = 0.0;
+	protected $position_order = 0;
 
 	/**
-	 * @param string $output_id
 	 * @param string $output
 	 * @param string $position
 	 * @param int    $position_order
 	 */
-	public function __construct( $output, $position, $position_order, $output_id )
+	public function __construct( $output, $position, $position_order )
 	{
-		$this->output_id = $output_id;
 		$this->output = $output;
 		$this->position = $position;
 		$this->position_order = $position_order;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getOutputId()
-	{
-		return $this->output_id;
 	}
 
 	/**

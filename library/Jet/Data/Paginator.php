@@ -151,30 +151,16 @@ class Data_Paginator extends BaseObject implements BaseObject_Serializable_JSON
 	}
 
 	/**
-	 * Sets paginated data source
-	 *
-	 * @param Data_Paginator_DataSource $data
-	 */
-	public function setDataSource( Data_Paginator_DataSource $data )
-	{
-		$this->data = $data;
-
-		$this->data_items_count = $data->getCount();
-		$this->_calculate();
-
-		$this->data->setPagination( $this->items_per_page, $this->data_index_start );
-	}
-
-	/**
 	 * Calculates pagination properties
 	 */
 	protected function _calculate()
 	{
-		if( !$this->data_items_count ) {
-			return;
-		}
 
 		$this->pages_count = (int)ceil( $this->data_items_count/$this->items_per_page );
+
+		if(!$this->pages_count) {
+			$this->pages_count = 1;
+		}
 
 
 		if( $this->current_page_no>$this->pages_count ) {
@@ -224,6 +210,35 @@ class Data_Paginator extends BaseObject implements BaseObject_Serializable_JSON
 
 	}
 
+
+	/**
+	 * Sets paginated data source
+	 *
+	 * @param Data_Paginator_DataSource $data
+	 */
+	public function setDataSource( Data_Paginator_DataSource $data )
+	{
+		$this->data = $data;
+
+		$this->data_items_count = $data->getCount();
+		$this->_calculate();
+
+		$this->data->setPagination( $this->items_per_page, $this->data_index_start );
+	}
+
+	/**
+	 * Sets paginated data
+	 *
+	 * @param array $data
+	 */
+	public function setData( array $data )
+	{
+		$this->data = $data;
+		$this->data_items_count = count( $data );
+		$this->_calculate();
+	}
+
+
 	/**
 	 * Returns current page data
 	 *
@@ -252,18 +267,6 @@ class Data_Paginator extends BaseObject implements BaseObject_Serializable_JSON
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Sets paginated data
-	 *
-	 * @param array $data
-	 */
-	public function setData( array $data )
-	{
-		$this->data = $data;
-		$this->data_items_count = count( $data );
-		$this->_calculate();
 	}
 
 	/**

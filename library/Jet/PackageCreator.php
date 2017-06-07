@@ -34,11 +34,6 @@ abstract class PackageCreator extends BaseObject
 	protected $URIs = [];
 
 	/**
-	 * @var array
-	 */
-	protected $omitted_URIs = [];
-
-	/**
 	 * @return string
 	 */
 	public static function getCSSClassName()
@@ -57,15 +52,14 @@ abstract class PackageCreator extends BaseObject
 
 	/**
 	 * @param string $media
-	 * @param Locale $locale
 	 * @param array  $URIs
 	 *
 	 * @return PackageCreator_CSS
 	 */
-	public static function CSS( $media, Locale $locale, array $URIs )
+	public static function CSS( $media, array $URIs )
 	{
 		$class_name = static::getCSSClassName();
-		return new $class_name( $media, $locale, $URIs );
+		return new $class_name( $media, $URIs );
 	}
 
 	/**
@@ -86,25 +80,16 @@ abstract class PackageCreator extends BaseObject
 
 
 	/**
-	 * @param Locale $locale
 	 * @param array  $URIs
-	 * @param array  $code
 	 *
 	 * @return PackageCreator_JavaScript
 	 */
-	public static function JavaScript( Locale $locale, array $URIs, array $code )
+	public static function JavaScript( array $URIs )
 	{
 		$class_name = static::getJavaScriptClassName();
-		return new $class_name( $locale, $URIs, $code );
+		return new $class_name( $URIs );
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getOmittedURIs()
-	{
-		return $this->omitted_URIs;
-	}
 
 	/**
 	 * @param string $URI
@@ -116,14 +101,8 @@ abstract class PackageCreator extends BaseObject
 
 		$_URI = $this->normalizePath( $URI );
 
-		try {
-			$content = IO_File::read( $_URI );
+		$content = IO_File::read( $_URI );
 
-		} catch( IO_File_Exception $e ) {
-			$this->omitted_URIs[] = $URI;
-
-			return null;
-		}
 
 		return $content;
 	}
@@ -135,16 +114,23 @@ abstract class PackageCreator extends BaseObject
 	 */
 	protected function normalizePath( $URI )
 	{
+
+		$o_URI = $URI;
+
+		if(strpos($URI, '?')!==false) {
+			$URI = strstr($URI, '?', true);
+		}
+
 		if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
 			return JET_PATH_PUBLIC.$URI;
 		}
 
 
-		if( substr( $URI, 0, 2 )=='//' ) {
-			return 'http:'.$URI;
+		if( substr( $o_URI, 0, 2 )=='//' ) {
+			return 'http:'.$o_URI;
 		}
 
-		return $URI;
+		return $o_URI;
 	}
 
 

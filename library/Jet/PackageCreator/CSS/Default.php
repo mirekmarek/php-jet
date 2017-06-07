@@ -25,100 +25,35 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	/**
 	 *
 	 * @param string $media
-	 * @param Locale $locale
 	 * @param array  $URIs
 	 */
-	public function __construct( $media, Locale $locale, array $URIs )
+	public function __construct( $media, array $URIs )
 	{
 
 		$this->media = $media;
-		$this->locale = $locale;
 		$this->URIs = $URIs;
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getPackagePath()
-	{
-		return JET_PATH_PUBLIC.$this->getPackageRelativeFileName();
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getPackageRelativeFileName()
-	{
-
-		return static::getPackagesDirName().'/'.$this->getKey().'.css';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPackageDataPath()
-	{
-		return JET_PATH_DATA.$this->getPackageRelativeFileName().'.dat';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getPackageURI()
-	{
-		return JET_URI_PUBLIC.$this->getPackageRelativeFileName();
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getKey()
-	{
-		if( !$this->key ) {
-			$this->key = $this->locale.'_'.$this->media.'_'.md5( implode( '', $this->URIs ) );
-		}
-
-		return $this->key;
-	}
-
-	/**
 	 *
 	 */
-	public function generatePackageFile()
+	public function generate()
 	{
-
 
 		$package_path = $this->getPackagePath();
-		$package_data_path = $this->getPackageDataPath();
 
 		if(
-			!IO_File::exists( $package_path ) ||
-			!IO_File::exists( $package_data_path )
+		!IO_File::exists( $package_path )
 		) {
 
 			IO_File::write(
 				$package_path, $this->createPackage()
 			);
 
-			IO_File::write(
-				$package_data_path, serialize(
-					                  [
-						                  'omitted_URIs' => $this->omitted_URIs,
-					                  ]
-				                  )
-			);
-
-		} else {
-			$data = IO_File::read( $package_data_path );
-			$data = unserialize( $data );
-
-			$this->omitted_URIs = $data['omitted_URIs'];
-
 		}
 
 	}
+
 
 	/**
 	 *
@@ -131,9 +66,6 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 		foreach( $this->URIs as $URI ) {
 
 			$CSS_file_data = $this->getFileContent( $URI );
-			if( !$CSS_file_data ) {
-				continue;
-			}
 
 			$CSS_file_data = $this->changeUrls( $CSS_file_data, $URI );
 
@@ -202,6 +134,46 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 		}
 
 		return $CSS_file_data;
+	}
+
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getKey()
+	{
+		if( !$this->key ) {
+			$this->key = $this->media.'_'.md5( implode( '', $this->URIs ) );
+		}
+
+		return $this->key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPackagePath()
+	{
+		return JET_PATH_PUBLIC.$this->getPackageRelativeFileName();
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPackageRelativeFileName()
+	{
+
+		return static::getPackagesDirName().'/'.$this->getKey().'.css';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPackageURI()
+	{
+		return JET_URI_PUBLIC.$this->getPackageRelativeFileName();
 	}
 
 

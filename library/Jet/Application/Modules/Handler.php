@@ -12,58 +12,27 @@ namespace Jet;
  */
 abstract class Application_Modules_Handler extends BaseObject
 {
-
-
-	/**
-	 * @param string $modules_base_path
-	 * @param string $modules_namespace
-	 * @param string $manifest_class_name
-	 */
-	abstract function __construct( $modules_base_path, $modules_namespace, $manifest_class_name );
-
-
 	/**
 	 *
-	 * @param string $module_name
-	 *
-	 * @return bool
-	 */
-	abstract public function checkModuleNameFormat( $module_name );
-
-	/**
-	 * @return bool
-	 */
-	abstract public function getInstallationInProgress();
-
-	/**
-	 * @return string
-	 */
-	abstract public function getInstallationInProgressModuleName();
-
-
-	/**
-	 * Read installed Modules list
-	 *
-	 * @throws Application_Modules_Exception
-	 * @return Application_Module_Manifest[]
-	 */
-	abstract public function getInstalledModulesList();
-
-	/**
-	 *
-	 * @param bool $ignore_corrupted_modules
 	 *
 	 * @throws Application_Modules_Exception
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	abstract public function getAllModulesList( $ignore_corrupted_modules = true );
+	abstract public function allModulesList();
+
+	/**
+	 *
+	 * @throws Application_Modules_Exception
+	 * @return Application_Module_Manifest[]
+	 */
+	abstract public function installedModulesList();
 
 	/**
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	abstract public function getActivatedModulesList();
+	abstract public function activatedModulesList();
 
 	/**
 	 *
@@ -71,7 +40,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function getModuleExists( $module_name );
+	abstract public function moduleExists( $module_name );
 
 	/**
 	 *
@@ -79,7 +48,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function getModuleIsInstalled( $module_name );
+	abstract public function moduleIsInstalled( $module_name );
 
 	/**
 	 *
@@ -87,17 +56,7 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return bool
 	 */
-	abstract public function getModuleIsActivated( $module_name );
-
-
-	/**
-	 *
-	 * @param string $module_name
-	 * @param bool   $only_activated (optional, default: false)
-	 *
-	 * @return Application_Module_Manifest
-	 */
-	abstract public function getModuleManifest( $module_name, $only_activated = false );
+	abstract public function moduleIsActivated( $module_name );
 
 	/**
 	 *
@@ -131,12 +90,14 @@ abstract class Application_Modules_Handler extends BaseObject
 	 */
 	abstract public function deactivateModule( $module_name );
 
+
 	/**
 	 *
 	 * @param string $module_name
+	 *
+	 * @return Application_Module_Manifest
 	 */
-	abstract public function reloadModuleManifest( $module_name );
-
+	abstract public function moduleManifest( $module_name );
 
 	/**
 	 *
@@ -146,6 +107,6 @@ abstract class Application_Modules_Handler extends BaseObject
 	 *
 	 * @return Application_Module
 	 */
-	abstract public function getModuleInstance( $module_name );
+	abstract public function moduleInstance( $module_name );
 
 }

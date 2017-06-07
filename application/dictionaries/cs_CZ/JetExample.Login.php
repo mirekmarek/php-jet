@@ -24,4 +24,5 @@ return [
 	'<b>Your account is not activated!</b><br/>Please contact your system administrator.' => '<b>Váš uživatelský účet není aktivován!</b><br/>Prosím kontaktujte vašeho správce systému.',
 	'Account is blocked'                                                                  => 'Uživatelský účet je zablokován',
 	'<b>Your account is blocked!</b><br/>Please contact your system administrator.'       => '<b>Váš uživatelský účet je zablokován!</b><br/>Prosím kontaktujte vašeho správce systému.',
+	'Invalid username or password!'                                                       => 'Neplatné uživatelské jméno, nebo heslo',
 ];

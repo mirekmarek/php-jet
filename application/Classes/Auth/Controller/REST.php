@@ -7,9 +7,12 @@
  */
 namespace JetApplication;
 
+use Jet\Application;
 use Jet\BaseObject;
 use Jet\Auth_ControllerInterface;
 
+use Jet\ErrorPages;
+use Jet\Http_Headers;
 use Jet\Mvc;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
@@ -21,8 +24,6 @@ use Jet\Data_DateTime;
 use JetApplication\Mvc_Page as Page;
 use JetApplication\Auth_Administrator_User as Administrator;
 
-//TODO: kompletne oddelit
-//TODO: odstranit admin
 /**
  *
  */
@@ -44,12 +45,12 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 
 		$user = $this->getCurrentUser();
 		if( !$user ) {
-			//TODO:
 			return false;
 		}
 
 		if( !$user->isActivated() ) {
-			//TODO:
+			$this->responseNotAuthorized('Yor account is not activated');
+
 			return false;
 		}
 
@@ -62,12 +63,15 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 				$user->unBlock();
 				$user->save();
 			} else {
-				//TODO:
+				$this->responseNotAuthorized('Yor account is blocked');
+
 				return false;
 			}
 		}
 
 		if( !$user->getPasswordIsValid() ) {
+			$this->responseNotAuthorized('You have to change your password');
+
 			return false;
 		}
 
@@ -75,11 +79,32 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 			$user->setPasswordIsValid( false );
 			$user->save();
 
-			//TODO:
+			$this->responseNotAuthorized('You have to change your password');
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param string $message
+	 */
+	protected function responseNotAuthorized( $message )
+	{
+
+		$error = [
+			'result' => 'error',
+			'error_code' => 'Not authorized',
+			'error_msg'  => $message,
+		];
+
+		header( 'WWW-Authenticate: Basic realm="Login"' );
+		Http_Headers::authorizationRequired();
+
+		echo json_encode($error);
+
+		Application::end();
+
 	}
 
 	/**
@@ -93,20 +118,23 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 		}
 
 
-		if( !isset( $_SERVER['PHP_AUTH_USER'] ) ) {
-			header( 'WWW-Authenticate: Basic realm="Login"' );
-			header( 'HTTP/1.0 401 Unauthorized' );
+		if(
+			!isset( $_SERVER['PHP_AUTH_USER'] ) ||
+			!isset( $_SERVER['PHP_AUTH_PW'] )
+		) {
+			$this->responseNotAuthorized('Please enter username and password');
 		} else {
 			$user = Administrator::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
 			if( $user ) {
 				$this->current_user = $user;
+				return $this->current_user;
 			}
+
+			$this->responseNotAuthorized('Incorrect username or password');
 		}
 
-
-
-		return $this->current_user;
+		return null;
 	}
 
 

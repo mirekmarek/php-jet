@@ -48,10 +48,10 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * <code>
 	 * protected static $ACL_actions = [
-	 *      'get_data_module_action' => 'Get data',
-	 *      'update_record_module_action' => 'Update data',
-	 *      'add_record_module_action' => 'Add new data',
-	 *      'delete_record_module_action' => 'Delete data'
+	 *      'get_data'      => 'Get data',
+	 *      'update_record' => 'Update data',
+	 *      'add_record'    => 'Add new data',
+	 *      'delete_record' => 'Delete data'
 	 * ];
 	 * </code>
 	 *
@@ -279,7 +279,8 @@ abstract class Application_Module extends BaseObject
 		$module_name = $this->module_manifest->getName();
 
 		return Auth::getCurrentUserHasPrivilege(
-			Auth_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action
+			Auth_Role::PRIVILEGE_MODULE_ACTION,
+			$module_name.':'.$action
 		);
 	}
 

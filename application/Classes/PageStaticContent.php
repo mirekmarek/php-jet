@@ -20,17 +20,17 @@ class PageStaticContent extends BaseObject
 {
 	/**
 	 * @param Mvc_Page_Interface              $page
-	 * @param Mvc_Page_Content_Interface|null $content
+	 * @param Mvc_Page_Content_Interface|null $page_content
 	 *
 	 * @return string
 	 */
-	public static function get( Mvc_Page_Interface $page, Mvc_Page_Content_Interface $content=null )
+	public static function get( Mvc_Page_Interface $page, Mvc_Page_Content_Interface $page_content=null )
 	{
 
 
 		if(
-			$content &&
-			($text_id=$content->getParameter('text_id'))
+			$page_content &&
+			($text_id=$page_content->getParameter( 'text_id'))
 		) {
 			$file_path = JET_PATH_APPLICATION.'texts/staticContent/'.$page->getLocale().'/'.$text_id.'.html';
 		} else {

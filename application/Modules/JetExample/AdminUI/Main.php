@@ -63,7 +63,7 @@ class Main extends Application_Module
 		Navigation_Menu::addRootMenu( 'system', Tr::_('System'), 3 );
 
 
-		foreach( Application_Modules::getActivatedModulesList() as $manifest ) {
+		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 			/**
 			 * @var Application_Module_Manifest $manifest
 			 */

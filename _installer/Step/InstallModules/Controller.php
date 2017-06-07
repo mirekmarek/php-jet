@@ -35,7 +35,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 
 	public function main()
 	{
-		$this->all_modules = Application_Modules::getAllModulesList( true );
+		$this->all_modules = Application_Modules::allModulesList();
 
 
 		$modules_field = new Form_Field_MultiSelect( 'modules' );
@@ -78,7 +78,7 @@ class Installer_Step_InstallModules_Controller extends Installer_Step_Controller
 			foreach( $this->selected_modules as $module_name ) {
 				$result[$module_name] = true;
 
-				if( $this->all_modules[$module_name]->getIsActivated() ) {
+				if( $this->all_modules[$module_name]->isActivated() ) {
 					continue;
 				}
 

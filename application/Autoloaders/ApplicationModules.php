@@ -9,6 +9,7 @@ namespace JetApplication;
 
 use Jet\Application_Factory;
 use Jet\Application_Module_Manifest;
+use Jet\Application_Modules_Exception;
 use Jet\Autoloader_Loader;
 use Jet\Application_Modules;
 
@@ -17,13 +18,6 @@ use Jet\Application_Modules;
  */
 class Autoloader_ApplicationModules extends Autoloader_Loader
 {
-
-
-	/**
-	 *
-	 * @var Application_Module_Manifest[] $modules_list
-	 */
-	protected $modules_list = null;
 
 	/**
 	 *
@@ -49,23 +43,20 @@ class Autoloader_ApplicationModules extends Autoloader_Loader
 		$pos = strrpos( $class_name, '\\' );
 
 		$module_name = str_replace( '\\', '.', substr( $class_name, $namespace_len, $pos-$namespace_len ) );
+
+		if( !Application_Modules::moduleIsActivated( $module_name) ) {
+			return false;
+		}
+
 		$class_name = substr( $class_name, $pos+1 );
 
-		if( $this->modules_list===null ) {
-			$this->modules_list = Application_Modules::getActivatedModulesList();
+
+		try {
+			$module_manifest = Application_Modules::moduleManifest( $module_name );
+		} catch( Application_Modules_Exception $e ) {
+			$module_manifest = null;
 		}
 
-		$module_manifest = null;
-		if( isset( $this->modules_list[$module_name] ) ) {
-			$module_manifest = $this->modules_list[$module_name];
-		} else {
-			if( Application_Modules::getInstallationInProgress() ) {
-				$all_modules = Application_Modules::getAllModulesList();
-				if( isset( $all_modules[$module_name] ) ) {
-					$module_manifest = $all_modules[$module_name];
-				}
-			}
-		}
 		if( !$module_manifest ) {
 			return false;
 		}

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Application_Module_Manifest extends BaseObject implements \JsonSerializable
+class Application_Module_Manifest extends BaseObject
 {
 
 	/**
@@ -27,7 +27,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	protected $_name = '';
 
 	//--------------------------------------------------------------------------
 	/**
@@ -66,17 +66,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 
 	//--------------------------------------------------------------------------
 
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_installed = false;
 
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_activated = false;
 
 	/**
 	 * @return string
@@ -112,24 +102,6 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 
 
 	/**
-	 *
-	 * @param array $data
-	 *
-	 * @return Application_Module_Manifest
-	 */
-	public static function __set_state( array $data )
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
-
-	/**
 	 * @param string $module_name (optional)
 	 *
 	 * @throws Application_Modules_Exception
@@ -140,7 +112,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 			return;
 		}
 
-		$this->name = $module_name;
+		$this->_name = $module_name;
 
 		$manifest_data = $this->readManifestData();
 		$this->checkManifestData( $manifest_data );
@@ -190,21 +162,21 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	{
 		if( !is_array( $manifest_data ) ) {
 			throw new Application_Modules_Exception(
-				'Manifest data must be array (Module: \''.$this->name.'\')',
+				'Manifest data must be array (Module: \''.$this->_name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		if( empty( $manifest_data['API_version'] ) ) {
 			throw new Application_Modules_Exception(
-				'Required API version not set! (\'API_version\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
+				'Required API version not set! (\'API_version\' array key does not exist, or is empty) (Module: \''.$this->_name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
 
 		if( empty( $manifest_data['label'] ) ) {
 			throw new Application_Modules_Exception(
-				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \''.$this->name.'\')',
+				'Module label not set! (\'label\' array key does not exist, or is empty) (Module: \''.$this->_name.'\')',
 				Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 			);
 		}
@@ -226,7 +198,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 		foreach( $manifest_data as $key => $val ) {
 			if( !$this->getObjectClassHasProperty( $key ) ) {
 				throw new Application_Modules_Exception(
-					'Unknown manifest property \''.$key.'\' (Module: \''.$this->name.'\') ',
+					'Unknown manifest property \''.$key.'\' (Module: \''.$this->_name.'\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE
 				);
 			}
@@ -244,23 +216,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public function getModuleDir()
 	{
-		return Application_Modules::getBasePath().str_replace( '.', '/', $this->name ).'/';
-	}
-
-	/**
-	 * @return array
-	 */
-	public function jsonSerialize()
-	{
-		return get_object_vars( $this );
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsCompatible()
-	{
-		return Version::getAPIIsCompatible( $this->API_version );
+		return Application_Modules::getBasePath().str_replace( '.', '/', $this->_name ).'/';
 	}
 
 	/**
@@ -268,7 +224,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public function getName()
 	{
-		return $this->name;
+		return $this->_name;
 	}
 
 	/**
@@ -276,7 +232,7 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	 */
 	public function getNamespace()
 	{
-		return static::getDefaultModuleNamespace().'\\'.str_replace( '.', '\\', $this->name ).'\\';
+		return static::getDefaultModuleNamespace().'\\'.str_replace( '.', '\\', $this->_name ).'\\';
 	}
 
 	/**
@@ -321,6 +277,15 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 		return $this->API_version;
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function isCompatible()
+	{
+		return Version::getAPIIsCompatible( $this->API_version );
+	}
+
 	/**
 	 * @return bool
 	 */
@@ -332,32 +297,17 @@ class Application_Module_Manifest extends BaseObject implements \JsonSerializabl
 	/**
 	 * @return bool
 	 */
-	public function getIsInstalled()
+	public function isInstalled()
 	{
-		return $this->is_installed;
-	}
-
-	/**
-	 * @param bool $is_installed
-	 */
-	public function setIsInstalled( $is_installed )
-	{
-		$this->is_installed = (bool)$is_installed;
+		return Application_Modules::moduleIsInstalled( $this->_name );
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function getIsActivated()
+	public function isActivated()
 	{
-		return $this->is_activated;
+		return Application_Modules::moduleIsActivated( $this->_name );
 	}
 
-	/**
-	 * @param bool $is_activated
-	 */
-	public function setIsActivated( $is_activated )
-	{
-		$this->is_activated = (bool)$is_activated;
-	}
 }

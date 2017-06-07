@@ -20,7 +20,7 @@ class IO_Dir
 	 *
 	 * @var int
 	 */
-	protected static $default_chmod_mask = null;
+	protected static $default_chmod_mask;
 
 	/**
 	 * @return int
@@ -258,12 +258,11 @@ class IO_Dir
 	}
 
 	/**
-	 * Gets files list from directory (not recursively)
 	 *
 	 * Returns:
-	 * array(
+	 * [
 	 *    'full path' => 'file name'
-	 * )
+	 * ]
 	 *
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
@@ -277,12 +276,11 @@ class IO_Dir
 	}
 
 	/**
-	 * Gets directories and files  list from directory (not recursively)
 	 *
 	 * Returns:
-	 * array(
+	 * [
 	 *    'full path' => 'file or dir name'
-	 * )
+	 * ]
 	 *
 	 * @param string $dir_path
 	 * @param string $mask (optional, default: '*', @see glob)
@@ -363,7 +361,6 @@ class IO_Dir
 	}
 
 	/**
-	 * Gets directories list from directory (not recursively)
 	 *
 	 * Returns:
 	 * [

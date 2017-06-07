@@ -32,15 +32,9 @@ class Application_Modules extends BaseObject
 	{
 		if( !static::$handler ) {
 
-			$manifest_class_name = Application_Factory::getModuleManifestClassName();
-			$module_namespace = $manifest_class_name::getDefaultModuleNamespace();
 
 
-			static::$handler = new Application_Modules_Handler_Default(
-				static::getBasePath(),
-				$module_namespace,
-				$manifest_class_name
-			);
+			static::$handler = new Application_Modules_Handler_Default();
 		}
 
 		return static::$handler;
@@ -70,47 +64,36 @@ class Application_Modules extends BaseObject
 		static::$base_path = $base_path;
 	}
 
-	/**
-	 *
-	 * @param string $module_name
-	 *
-	 * @return bool
-	 */
-	public static function checkModuleNameFormat( $module_name )
-	{
-		return static::getHandler()->checkModuleNameFormat( $module_name );
-	}
 
 	/**
 	 *
 	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function getInstalledModulesList()
+	public static function installedModulesList()
 	{
-		return static::getHandler()->getInstalledModulesList();
+		return static::getHandler()->installedModulesList();
 	}
 
 	/**
 	 *
-	 * @param bool $ignore_corrupted_modules
 	 *
 	 * @throws Application_Modules_Exception
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function getAllModulesList( $ignore_corrupted_modules = true )
+	public static function allModulesList()
 	{
-		return static::getHandler()->getAllModulesList( $ignore_corrupted_modules );
+		return static::getHandler()->allModulesList();
 	}
 
 	/**
 	 *
 	 * @return Application_Module_Manifest[]
 	 */
-	public static function getActivatedModulesList()
+	public static function activatedModulesList()
 	{
-		return static::getHandler()->getActivatedModulesList();
+		return static::getHandler()->activatedModulesList();
 	}
 
 	/**
@@ -119,9 +102,9 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function getModuleExists( $module_name )
+	public static function moduleExists( $module_name )
 	{
-		return static::getHandler()->getModuleExists( $module_name );
+		return static::getHandler()->moduleExists( $module_name );
 	}
 
 	/**
@@ -130,9 +113,9 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function getModuleIsInstalled( $module_name )
+	public static function moduleIsInstalled( $module_name )
 	{
-		return static::getHandler()->getModuleIsInstalled( $module_name );
+		return static::getHandler()->moduleIsInstalled( $module_name );
 	}
 
 	/**
@@ -141,22 +124,21 @@ class Application_Modules extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public static function getModuleIsActivated( $module_name )
+	public static function moduleIsActivated( $module_name )
 	{
-		return static::getHandler()->getModuleIsActivated( $module_name );
+		return static::getHandler()->moduleIsActivated( $module_name );
 	}
 
 
 	/**
 	 *
 	 * @param string $module_name
-	 * @param bool   $only_activated (optional, default: false)
 	 *
 	 * @return Application_Module_Manifest
 	 */
-	public static function getModuleManifest( $module_name, $only_activated = false )
+	public static function moduleManifest( $module_name )
 	{
-		return static::getHandler()->getModuleManifest( $module_name, $only_activated );
+		return static::getHandler()->moduleManifest( $module_name );
 	}
 
 	/**
@@ -204,44 +186,15 @@ class Application_Modules extends BaseObject
 	}
 
 	/**
-	 * Reloads module manifest
 	 *
 	 * @param string $module_name
-	 */
-	public static function reloadModuleManifest( $module_name )
-	{
-		static::getHandler()->reloadModuleManifest( $module_name );
-	}
-
-
-	/**
-	 * Returns instance of the module base class
-	 *
-	 * @param string $module_name
-	 *
-	 * @throws Application_Modules_Exception
 	 *
 	 * @return Application_Module
 	 */
-	public static function getModuleInstance( $module_name )
+	public static function moduleInstance( $module_name )
 	{
-		return static::getHandler()->getModuleInstance( $module_name );
+		return static::getHandler()->moduleInstance( $module_name );
 	}
 
-	/**
-	 * @return bool
-	 */
-	public static function getInstallationInProgress()
-	{
-		return static::getHandler()->getInstallationInProgress();
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getInstallationInProgressModuleName()
-	{
-		return static::getHandler()->getInstallationInProgressModuleName();
-	}
 
 }

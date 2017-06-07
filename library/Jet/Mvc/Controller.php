@@ -264,7 +264,6 @@ abstract class Mvc_Controller extends BaseObject
 			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
 		}
 
-		$output_id = $this->content->getKey();
 
 		$output = $this->view->render( $script );
 
@@ -272,8 +271,7 @@ abstract class Mvc_Controller extends BaseObject
 		Mvc_Layout::getCurrentLayout()->addOutputPart(
 			$output,
 			$position,
-			$position_order,
-			$output_id
+			$position_order
 		);
 
 

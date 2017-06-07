@@ -61,6 +61,27 @@ class DataModel_PropertyFilter extends BaseObject
 		}
 	}
 
+
+	/**
+	 * @param DataModel_Definition_Property $property
+	 *
+	 * @return bool
+	 */
+	public function getPropertyDefinitionAllowed( DataModel_Definition_Property $property )
+	{
+		if($property instanceof DataModel_Definition_Property_DataModel) {
+			if(!$this->getModelAllowed( $property->getValueDataModelDefinition()->getModelName() ) ) {
+				return false;
+			}
+
+		} else {
+			if(!$this->getPropertyAllowed( $property->getDataModelDefinition()->getModelName(), $property->getName() )) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 	/**
 	 * @param string $model_name
 	 * @param string $property_name

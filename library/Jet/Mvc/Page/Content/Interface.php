@@ -34,11 +34,6 @@ interface Mvc_Page_Content_Interface
 	 */
 	public function getId();
 
-	/**
-	 * @return string
-	 */
-	public function getKey();
-
 
 	/**
 	 * @param array $data

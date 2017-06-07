@@ -46,33 +46,22 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @var array
 	 */
-	protected $required_javascript_files = [];
+	protected $required_main_javascript_files = [];
 
 	/**
 	 * @var array
 	 */
-	protected $required_main_javascript_files = [];
-
-	/**
-	 * @var string[]
-	 */
-	protected $required_initial_javascript_code = [];
-
-	/**
-	 * @var string[]
-	 */
-	protected $required_javascript_code = [];
-
-	/**
-	 * @var string[][]
-	 */
-	protected $required_css_files = [];
+	protected $required_javascript_files = [];
 
 	/**
 	 * @var string[][]
 	 */
 	protected $required_main_css_files = [];
 
+	/**
+	 * @var string[][]
+	 */
+	protected $required_css_files = [];
 
 	/**
 	 * @var bool
@@ -116,37 +105,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$this->_data = new Data_Array();
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function getCSSPackagerEnabled()
-	{
-		return $this->CSS_packager_enabled;
-	}
-
-	/**
-	 * @param bool $CSS_packager_enabled
-	 */
-	public function setCSSPackagerEnabled( $CSS_packager_enabled )
-	{
-		$this->CSS_packager_enabled = (bool)$CSS_packager_enabled;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getJSPackagerEnabled()
-	{
-		return $this->JS_packager_enabled;
-	}
-
-	/**
-	 * @param bool $JS_packager_enabled
-	 */
-	public function setJSPackagerEnabled( $JS_packager_enabled )
-	{
-		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
-	}
 
 	/**
 	 * @return string
@@ -182,10 +140,9 @@ class Mvc_Layout extends Mvc_View_Abstract
 	 * @param string $output
 	 * @param string $position (optional, default: main position)
 	 * @param int    $position_order (optional, default:null)
-	 * @param string $output_id (optional)
 	 *
 	 */
-	public function addOutputPart( $output, $position = null, $position_order = null, $output_id = '' )
+	public function addOutputPart( $output, $position = null, $position_order = null )
 	{
 		if( !$position ) {
 			$position = static::DEFAULT_OUTPUT_POSITION;
@@ -223,67 +180,27 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$position_order = $current_max_position_order+0.001;
 		}
 
-		if( !$output_id ) {
-			$output_id = $position.':'.$position_order;
-		}
 
-		$o = new Mvc_Layout_OutputPart( $output, $position, $position_order, $output_id );
+		$o = new Mvc_Layout_OutputPart( $output, $position, $position_order );
 
 		$this->output_parts[] = $o;
 	}
 
+
 	/**
-	 * @param string|null $output_id
-	 *
-	 * @return array|Mvc_Layout_OutputPart[]
+	 * @return bool
 	 */
-	public function getOutputParts( $output_id = null )
+	public function getJSPackagerEnabled()
 	{
-		if( $output_id===null ) {
-			return $this->output_parts;
-		}
-
-		$result = [];
-
-		foreach( $this->output_parts as $output_part ) {
-			if( $output_part->getOutputId()==$output_id ) {
-				$result[] = $output_part;
-			}
-		}
-
-		return $result;
-
+		return $this->JS_packager_enabled;
 	}
 
 	/**
-	 * @param Mvc_Layout_OutputPart[] $output_parts
+	 * @param bool $JS_packager_enabled
 	 */
-	public function setOutputParts( array $output_parts )
+	public function setJSPackagerEnabled( $JS_packager_enabled )
 	{
-		$this->output_parts = [];
-		foreach( $output_parts as $output_part ) {
-			$this->setOutputPart( $output_part );
-		}
-	}
-
-	/**
-	 * @param Mvc_Layout_OutputPart $output_part
-	 */
-	public function setOutputPart( Mvc_Layout_OutputPart $output_part )
-	{
-		$this->output_parts[] = $output_part;
-	}
-
-	/**
-	 * @param string $output_id
-	 */
-	public function unsetOutputParts( $output_id )
-	{
-		foreach( $this->output_parts as $i => $output_part ) {
-			if( $output_part->getOutputId()==$output_id ) {
-				unset( $this->output_parts[$i] );
-			}
-		}
+		$this->JS_packager_enabled = (bool)$JS_packager_enabled;
 	}
 
 	/**
@@ -306,24 +223,22 @@ class Mvc_Layout extends Mvc_View_Abstract
 		}
 	}
 
+
+
 	/**
-	 * @param string $code
+	 * @return bool
 	 */
-	public function requireInitialJavascriptCode( $code )
+	public function getCSSPackagerEnabled()
 	{
-		if( !in_array( $code, $this->required_initial_javascript_code ) ) {
-			$this->required_initial_javascript_code[] = $code;
-		}
+		return $this->CSS_packager_enabled;
 	}
 
 	/**
-	 * @param string $code
+	 * @param bool $CSS_packager_enabled
 	 */
-	public function requireJavascriptCode( $code )
+	public function setCSSPackagerEnabled( $CSS_packager_enabled )
 	{
-		if( !in_array( $code, $this->required_javascript_files ) ) {
-			$this->required_javascript_code[] = $code;
-		}
+		$this->CSS_packager_enabled = (bool)$CSS_packager_enabled;
 	}
 
 	/**
@@ -375,7 +290,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 		$this->handlePositions( $result );
 
-		$this->handleSitePageTags( $result );
+		$this->handleMetaTags( $result );
 
 
 		$this->handleJavascripts( $result );
@@ -488,41 +403,16 @@ class Mvc_Layout extends Mvc_View_Abstract
 			$result = str_replace( $original_string, '<'.static::TAG_POSITION.' name="'.$position.'" />', $result );
 		}
 
+		uasort( $this->output_parts, function( Mvc_Layout_OutputPart $a, Mvc_Layout_OutputPart $b ) {
+			$a_o = $a->getPositionOrder();
+			$b_o = $b->getPositionOrder();
 
-		$output = [];
-		$sort_hash = [];
-
-		foreach( $this->output_parts as $o_id => $o ) {
-			$sort_hash[$o_id] = $o->getPositionOrder();
-		}
-
-		asort( $sort_hash );
-		foreach( array_keys( $sort_hash ) as $o_id ) {
-			$output[$o_id] = $this->output_parts[$o_id];
-		}
-
-		$this->output_parts = $output;
-
-
-		do {
-			$matches_count = 0;
-
-			foreach( $this->output_parts as $o ) {
-				/**
-				 * @var Mvc_Layout_OutputPart $o
-				 */
-				$output_result = $o->getOutput();
-
-				$matches_count = $this->_handlePositions( $output_result, false );
-
-				if( $matches_count ) {
-					$o->setOutput( $output_result );
-					continue 2;
-				}
-
+			if ($a_o == $b_o) {
+				return 0;
 			}
+			return ( $a_o < $b_o ) ? -1 : 1;
+		} );
 
-		} while( $matches_count>0 );
 
 		$this->_handlePositions( $result, true );
 
@@ -543,7 +433,10 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$matches = [];
 
 		if( preg_match_all(
-			'/<'.static::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER
+			'/<'.static::TAG_POSITION.'[ ]{1,}name="([a-zA-Z0-9\-_ ]*)"[^\/]*\/>/i',
+			$result,
+			$matches,
+			PREG_SET_ORDER
 		) ) {
 
 			$matches_count = $matches_count+count( $matches );
@@ -569,8 +462,13 @@ class Mvc_Layout extends Mvc_View_Abstract
 		}
 
 
-		if( $handle_main_position&&preg_match_all(
-				'/<'.static::TAG_MAIN_POSITION.'[^\/]*\/>/i', $result, $matches, PREG_SET_ORDER
+		if(
+			$handle_main_position &&
+			preg_match_all(
+				'/<'.static::TAG_MAIN_POSITION.'[^\/]*\/>/i',
+				$result,
+				$matches,
+				PREG_SET_ORDER
 			)
 		) {
 			$orig = $matches[0][0];
@@ -593,7 +491,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @param string &$result
 	 */
-	protected function handleSitePageTags( &$result )
+	protected function handleMetaTags( &$result )
 	{
 		$dat = [];
 		$dat[static::TAG_META_TAGS] = '';
@@ -642,12 +540,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 	}
 
 	/**
-	 * Handle the JavaScript tag  ( <jet_layout_javascripts/> )
-	 *
-	 * @see Mvc_Layout::requireJavascriptLib();
-	 * @see Mvc_Layout::requireJavascriptFile();
-	 * @see Mvc_Layout::requireJavascriptCode();
-	 * @see JavaScript_Abstract
 	 *
 	 * @param string &$result
 	 */
@@ -658,72 +550,30 @@ class Mvc_Layout extends Mvc_View_Abstract
 			return;
 		}
 
-		$snippet = '';
 
-		$required_initial_javascript_code = $this->required_initial_javascript_code;
-		$required_javascript_files = $this->required_javascript_files;
-		$required_javascript_code = $this->required_javascript_code;
-
-		$this->required_initial_javascript_code = [];
-		$this->required_javascript_files = [];
-		$this->required_javascript_code = [];
-
-
-		$this->required_initial_javascript_code = array_unique(
-			array_merge( $this->required_initial_javascript_code, $required_initial_javascript_code )
-		);
-		$this->required_javascript_files = array_unique(
-			array_merge( $this->required_main_javascript_files, $this->required_javascript_files, $required_javascript_files )
-		);
-		$this->required_javascript_code = array_unique(
-			array_merge( $this->required_javascript_code, $required_javascript_code )
+		$JS_files = array_unique(
+			array_merge(
+				$this->required_main_javascript_files,
+				$this->required_javascript_files
+			)
 		);
 
 
-		$initial_code = '';
-		foreach( $this->required_initial_javascript_code as $code ) {
-			$initial_code .= $code.JET_EOL;
-		}
-
-		if( $initial_code ) {
-			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL.$initial_code.JET_EOL.JET_TAB.'</script>'.JET_EOL;
-		}
 
 		if(
 			$this->JS_packager_enabled &&
-			(
-				$this->required_javascript_files ||
-				$this->required_javascript_code
-			)
+			$JS_files
 		) {
-			$JS_files = [];
-			$JS_code = [];
+			$package_creator = PackageCreator::JavaScript( $JS_files );
 
-			$package_creator = PackageCreator::JavaScript(
-				Mvc::getCurrentLocale(),
-				$this->required_javascript_files,
-				$this->required_javascript_code
-			);
-
-			$package_creator->generatePackageFile();
+			$package_creator->generate();
 			$package_URI = $package_creator->getPackageURI();
 
-			$JS_files[] = $package_URI;
-
-			foreach( $package_creator->getOmittedURIs() as $URI ) {
-				$JS_files[] = $URI;
-			}
-
-			foreach( $package_creator->getOmittedCode() as $code ) {
-				$JS_code[] = $code;
-			}
-
-		} else {
-			$JS_files = $this->required_javascript_files;
-			$JS_code = $this->required_javascript_code;
-
+			$JS_files = [ $package_URI ];
 		}
 
+
+		$snippet = '';
 
 		foreach( $JS_files as $URI ) {
 			if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
@@ -732,18 +582,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 
 			$snippet .= JET_TAB.'<script type="text/javascript" src="'.$URI.'"></script>'.JET_EOL;
 		}
-
-		if( $JS_code ) {
-
-			$snippet .= JET_TAB.'<script type="text/javascript">'.JET_EOL;
-			foreach( $JS_code as $code ) {
-				$snippet .= $code.JET_EOL;
-
-			}
-			$snippet .= JET_TAB.'</script>'.JET_EOL;
-
-		}
-
 
 		$result = $this->_replaceTagByValue( $result, static::TAG_JAVASCRIPT, $snippet );
 
@@ -763,55 +601,45 @@ class Mvc_Layout extends Mvc_View_Abstract
 			return;
 		}
 
+		$CSS_files = $this->required_main_css_files;
 
-		$snippet = '';
+		foreach( $this->required_css_files as $media=>$files ) {
+			if(!isset($CSS_files[$media])) {
+				$CSS_files[$media] = $files;
 
-		if(
-			$this->CSS_packager_enabled &&
-			$this->required_css_files
-		) {
-			$CSS_files = [];
-
-			foreach( $this->required_css_files as $media => $URIs ) {
-
-				$CSS_files[$media] = [];
-
-				$package_creator = PackageCreator::CSS(
-					$media, Mvc::getCurrentLocale(), $URIs
-				);
-
-				$package_creator->generatePackageFile();
-				$package_URI = $package_creator->getPackageURI();
-
-				$CSS_files[$media][] = $package_URI;
-
-				foreach( $package_creator->getOmittedURIs() as $URI ) {
-					$CSS_files[$media][] = $URI;
-				}
-
+				continue;
 			}
 
-		} else {
-
-			$CSS_files = $this->required_main_css_files;
-
-			foreach( $this->required_css_files as $media=>$files ) {
-				if(!isset($CSS_files[$media])) {
-					$CSS_files[$media] = $files;
-
+			foreach( $files as $file ) {
+				if(in_array($file, $CSS_files[$media])) {
 					continue;
 				}
 
-				foreach( $files as $file ) {
-					if(in_array($file, $CSS_files[$media])) {
-						continue;
-					}
-
-					$CSS_files[$media][] = $file;
-				}
+				$CSS_files[$media][] = $file;
 			}
 		}
 
+
+		if(
+			$this->CSS_packager_enabled &&
+			$CSS_files
+		) {
+
+			foreach( $CSS_files as $media => $URIs ) {
+
+				$package_creator = PackageCreator::CSS(
+					$media,
+					$URIs
+				);
+
+				$package_creator->generate();
+				$package_URI = $package_creator->getPackageURI();
+
+				$CSS_files[$media] = [$package_URI];
+			}
+		}
+
+		$snippet = '';
 		foreach( $CSS_files as $media => $URIs ) {
 			/**
 			 * @var array $URIs

@@ -36,6 +36,9 @@ trait DataModel_Trait_Exports
 		$definition = static::getDataModelDefinition();
 		$properties = $definition->getProperties();
 
+
+		$load_filter = $this->getLoadFilter();
+
 		$result = [];
 		foreach( $properties as $property_name => $property ) {
 			/**
@@ -44,6 +47,14 @@ trait DataModel_Trait_Exports
 			if( $property->doNotExport() ) {
 				continue;
 			}
+
+			if(
+				$load_filter &&
+				!$load_filter->getPropertyDefinitionAllowed( $property )
+			) {
+				continue;
+			}
+
 
 			$result[$property_name] = $property->getJsonSerializeValue( $this->{$property_name} );
 

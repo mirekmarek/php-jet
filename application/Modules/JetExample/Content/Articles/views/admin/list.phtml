@@ -58,7 +58,7 @@ $grid->getColumn( 'date_time' )
 		}
 	);
 
-if($delete_uri) {
+if($delete_uri && count($grid->getData()) ) {
 	$grid->setCustomFooter('
 		<tr>
 			<td colspan="'.count($grid->getColumns()).'" class="toolbar">

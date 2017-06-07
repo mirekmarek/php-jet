@@ -219,13 +219,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 		$this->_data->remove( $key );
 	}
 
-	/**
-	 *
-	 */
-	public function clearVars()
-	{
-		$this->_data->clearData();
-	}
 
 	/**
 	 *
@@ -287,14 +280,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 		return $this->_data->getString( $key, $default_value );
 	}
 
-	/**
-	 *
-	 * @return Data_Array
-	 */
-	public function getData()
-	{
-		return $this->_data;
-	}
 
 	/**
 	 * @param callable $postprocessor

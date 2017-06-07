@@ -177,7 +177,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @var string
 	 */
-	protected $user_activation_hash = '';
+	protected $user_activation_key = '';
 
 	/**
 	 *
@@ -573,7 +573,7 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	{
 		if(
 			$user_activation_hash &&
-			$this->user_activation_hash!=$user_activation_hash
+			$this->user_activation_key!=$user_activation_hash
 		) {
 			return false;
 		}
@@ -585,17 +585,17 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @return string
 	 */
-	public function getActivationHash()
+	public function getActivationKey()
 	{
-		return $this->user_activation_hash;
+		return $this->user_activation_key;
 	}
 
 	/**
 	 * @param string $user_activation_hash
 	 */
-	public function setActivationHash( $user_activation_hash )
+	public function setActivationKey( $user_activation_hash )
 	{
-		$this->user_activation_hash = $user_activation_hash;
+		$this->user_activation_key = $user_activation_hash;
 	}
 
 	/**

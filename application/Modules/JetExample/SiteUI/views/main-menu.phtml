@@ -70,6 +70,7 @@ $tabs = UI::tabs(
 
 <?=$tabs?>
 
+<div class="panel panel-default panel-body" style="border-top: none;border-radius: 0px;box-shadow: 2px 2px 2px #aaaaaa;">
 <?php $show_menu( $pages ); ?>
 
 <?php
@@ -90,4 +91,5 @@ $rest_page = Mvc_Page::get( 'rest' );
 
 if( $rest_page ): ?>
 	<a href="<?=$rest_page->getURL()?>" rel="nofollow"><?=$rest_page->getMenuTitle()?></a><br/>
-<?php endif;
+<?php endif; ?>
+</div>

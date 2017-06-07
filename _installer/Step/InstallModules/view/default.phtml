@@ -31,7 +31,7 @@ $form = $this->getRaw( 'form' );
 		<?php foreach( $modules as $manifest ): ?>
 			<tr>
 				<td>
-					<?php if( !$manifest->getIsActivated() ):
+					<?php if( !$manifest->isActivated() ):
 
 						if( $manifest->isMandatory() ):
 							?>
@@ -54,8 +54,8 @@ $form = $this->getRaw( 'form' );
 					<br/>
 					<?=$manifest->getDescription();?>
 				</td>
-				<td><?=Tr::_( $manifest->getIsInstalled() ? 'Yes' : 'NO' );?></td>
-				<td><?=Tr::_( $manifest->getIsActivated() ? 'Yes' : 'NO' );?></td>
+				<td><?=Tr::_( $manifest->isInstalled() ? 'Yes' : 'NO' );?></td>
+				<td><?=Tr::_( $manifest->isActivated() ? 'Yes' : 'NO' );?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>

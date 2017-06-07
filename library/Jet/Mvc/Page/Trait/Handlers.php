@@ -46,6 +46,8 @@ trait Mvc_Page_Trait_Handlers
 
 		}
 
+		$path_resolved = false;
+
 		foreach( $this->getContent() as $content ) {
 			if($content->getOutput()) {
 				continue;
@@ -57,11 +59,11 @@ trait Mvc_Page_Trait_Handlers
 			}
 
 			if( $controller->resolve( $path ) ) {
-				return true;
+				$path_resolved = true;
 			}
 		}
 
-		return false;
+		return $path_resolved;
 	}
 
 	/**

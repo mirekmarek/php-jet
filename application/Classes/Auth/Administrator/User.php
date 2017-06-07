@@ -8,7 +8,6 @@ use Jet\Auth_User;
 use Jet\Form;
 use Jet\Locale;
 
-//TODO: oddelit uzivatele API
 /**
  *
  * @JetDataModel:database_table_name = 'users_administrators'

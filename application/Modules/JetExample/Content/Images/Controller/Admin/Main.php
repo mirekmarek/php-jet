@@ -77,6 +77,9 @@ class Controller_Admin_Main extends Mvc_Controller_Standard
 		if( $gallery ) {
 
 			foreach( $gallery->getPath() as $gallery ) {
+				/**
+				 * @var Gallery $gallery
+				 */
 				Navigation_Breadcrumb::addURL(
 						$gallery->getTitle(),
 						$this->getControllerRouter()->getEditOrViewURI( $gallery->getId() )
