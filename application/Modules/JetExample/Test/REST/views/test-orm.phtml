@@ -3,18 +3,16 @@ namespace JetApplicationModule\JetExample\Test\REST;
 
 use Jet\Http_Request;
 use Jet\Tr;
+use Jet\Mvc_View;
 /**
  *
+ * @var Mvc_View $this
+ * @var Test_Abstract $selected_test
  */
 
 
-/*
-$cl = new Client( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
-
-$cl->get('article')['items'];
-*/
-
-$test_client = $this->getRaw('test_client');
+$tests = $this->getRaw('tests');
+$selected_test = $this->getRaw('selected_test');
 
 ?>
 <div class="container">
@@ -23,29 +21,30 @@ $test_client = $this->getRaw('test_client');
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<h2><?=Tr::_('Articles')?></h2>
-			<ul>
-				<li><a href="<?=Http_Request::currentURL(['test'=>'article_get_list'])?>"><?=Tr::_('Get list')?></a></li>
-
-				<li><a href="<?=Http_Request::currentURL(['test'=>'article_get_unknown'])?>"><?=Tr::_('Get data - unknown (error simulation)')?></a></li>
-
-				<li><a href="<?=Http_Request::currentURL(['test'=>'article_get_one'])?>"><?=Tr::_('Get data')?></a></li>
-
-			</ul>
+			<?php foreach($tests as $tests_data): ?>
+				<h2><?=$tests_data['title']?></h2>
+				<ul>
+					<?php foreach($tests_data['tests'] as $test):
+					/**
+					 * @var Test_Abstract $test
+					 */
+					if($test->isSelected()):
+						?>
+						<li><strong><?=$test->getTitle()?></strong></li>
+						<?php
+					else:
+						?>
+						<li><a href="<?=Http_Request::currentURL(['test'=>$test->getId()])?>"><?=$test->getTitle()?></a></li>
+						<?php
+					endif;
+					endforeach; ?>
+				</ul>
+			<?php endforeach; ?>
 		</div>
 		<div class="col-md-8">
-			<?php if( isset($test_client) ): ?>
-				<h3><?=Tr::_('Request')?></h3>
-				<pre><?=$test_client->request()?></pre>
-
-				<h3><?=Tr::_('Response')?></h3>
-				<h4><?=Tr::_('Header')?></h4>
-				<pre><?=$test_client->responseHeader()?></pre>
-				<h4><?=Tr::_('Body')?></h4>
-				<pre><?=$test_client->responseHeader()?></pre>
-				<h4><?=Tr::_('Data')?></h4>
-				<pre><?=var_export($test_client->responseData(), true)?></pre>
-			<?php endif; ?>
+			<?php if( $selected_test ):
+				$selected_test->showResult();
+			endif; ?>
 		</div>
 	</div>
 

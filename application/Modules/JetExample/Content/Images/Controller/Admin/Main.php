@@ -8,7 +8,7 @@
 namespace JetApplicationModule\JetExample\Content\Images;
 
 use Jet\Form;
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Form_Field_FileImage;
@@ -23,7 +23,7 @@ use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 /**
  *
  */
-class Controller_Admin_Main extends Mvc_Controller_Standard
+class Controller_Admin_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

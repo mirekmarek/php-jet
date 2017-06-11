@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\AdminUI;
 
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 
 use Jet\Auth;
 use Jet\Mvc;
@@ -23,7 +23,7 @@ use JetApplication\Mvc_Page;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

@@ -26,11 +26,12 @@ abstract class Autoloader_Loader
 	}
 
 	/**
-	 * Get class script path or false
 	 *
+	 * @param string $root_namespace
+	 * @param string $namespace
 	 * @param string $class_name
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
-	abstract public function getScriptPath( $class_name );
+	abstract public function getScriptPath( $root_namespace, $namespace, $class_name );
 }

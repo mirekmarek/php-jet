@@ -10,7 +10,7 @@ namespace JetApplicationModule\JetExample\Login;
 use Jet\Application_Log;
 use Jet\Session;
 use Jet\Tr;
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Mvc_Controller_Exception;
 use Jet\Form;
 use Jet\Http_Headers;
@@ -24,7 +24,7 @@ use JetApplication\Auth_Visitor_User;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	/**
 	 *

@@ -173,8 +173,12 @@ class Autoloader
 			$loader_name = 'CACHE';
 			$cache_hit = true;
 		} else {
+			$root_namespace = strstr($class_name, '\\', true);
+			$namespace = substr( $class_name, 0, strrpos($class_name, '\\') );
+			$_class_name = substr( $class_name, strlen($namespace)+1 );
+
 			foreach( static::$loaders as $loader_name => $loader ) {
-				$path = $loader->getScriptPath( $class_name );
+				$path = $loader->getScriptPath( $root_namespace, $namespace, $_class_name );
 				if( $path ) {
 					break;
 				}

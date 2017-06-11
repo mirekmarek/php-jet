@@ -21,50 +21,34 @@ class Autoloader_ApplicationModules extends Autoloader_Loader
 
 	/**
 	 *
+	 * @param string $root_namespace
+	 * @param string $namespace
 	 * @param string $class_name
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
-	public function getScriptPath( $class_name )
+	public function getScriptPath( $root_namespace, $namespace, $class_name )
 	{
+		$root_namespace = Application_Modules::getModuleRootNamespace();
 
-		/**
-		 * @var Application_Module_Manifest $manifest_class_name
-		 */
-		$manifest_class_name = Application_Factory::getModuleManifestClassName();
-
-		$ns = $manifest_class_name::getDefaultModuleNamespace().'\\';
-		$namespace_len = strlen( $ns );
-
-		if( substr( $class_name, 0, $namespace_len )!=$ns ) {
+		if( $root_namespace!=$root_namespace ) {
 			return false;
 		}
 
-		$pos = strrpos( $class_name, '\\' );
 
-		$module_name = str_replace( '\\', '.', substr( $class_name, $namespace_len, $pos-$namespace_len ) );
+
+		$module_name = str_replace( '\\', '.', substr( $namespace, strlen($root_namespace)+1 ) );
 
 		if( !Application_Modules::moduleIsActivated( $module_name) ) {
 			return false;
 		}
 
-		$class_name = substr( $class_name, $pos+1 );
 
-
-		try {
-			$module_manifest = Application_Modules::moduleManifest( $module_name );
-		} catch( Application_Modules_Exception $e ) {
-			$module_manifest = null;
-		}
-
-		if( !$module_manifest ) {
-			return false;
-		}
-
-		$module_path = $module_manifest->getModuleDir();
+		$module_path = Application_Modules::getModuleDir( $module_name );
 
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 		$path = $module_path.$class_name.'.php';
+
 
 		return $path;
 

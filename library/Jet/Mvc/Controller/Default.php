@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-abstract class Mvc_Controller_Standard extends Mvc_Controller
+abstract class Mvc_Controller_Default extends Mvc_Controller
 {
 	/**
 	 * @param string $module_action

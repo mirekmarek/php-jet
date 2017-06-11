@@ -9,12 +9,12 @@
 namespace JetApplicationModule\JetExample\Test\Locale;
 
 
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

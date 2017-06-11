@@ -19,11 +19,6 @@ class Application_Module_Manifest extends BaseObject
 	protected static $manifest_file_name = 'manifest.php';
 
 	/**
-	 * @var string
-	 */
-	protected static $default_module_namespace = 'JetApplicationModule';
-
-	/**
 	 *
 	 * @var string
 	 */
@@ -82,22 +77,6 @@ class Application_Module_Manifest extends BaseObject
 	public static function setManifestFileName( $manifest_file_name )
 	{
 		static::$manifest_file_name = $manifest_file_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getDefaultModuleNamespace()
-	{
-		return static::$default_module_namespace;
-	}
-
-	/**
-	 * @param string $default_module_namespace
-	 */
-	public static function setDefaultModuleNamespace( $default_module_namespace )
-	{
-		static::$default_module_namespace = $default_module_namespace;
 	}
 
 
@@ -216,7 +195,7 @@ class Application_Module_Manifest extends BaseObject
 	 */
 	public function getModuleDir()
 	{
-		return Application_Modules::getBasePath().str_replace( '.', '/', $this->_name ).'/';
+		return Application_Modules::getModuleDir( $this->_name );
 	}
 
 	/**
@@ -232,7 +211,7 @@ class Application_Module_Manifest extends BaseObject
 	 */
 	public function getNamespace()
 	{
-		return static::getDefaultModuleNamespace().'\\'.str_replace( '.', '\\', $this->_name ).'\\';
+		return Application_Modules::getModuleRootNamespace().'\\'.str_replace( '.', '\\', $this->_name ).'\\';
 	}
 
 	/**

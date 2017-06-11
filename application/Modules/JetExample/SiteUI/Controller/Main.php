@@ -7,14 +7,14 @@
  */
 namespace JetApplicationModule\JetExample\SiteUI;
 
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Mvc;
 use Jet\Mvc_Page;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	protected static $ACL_actions_check_map = [
 		'main_menu'            => false,

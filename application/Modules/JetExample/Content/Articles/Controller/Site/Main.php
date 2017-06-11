@@ -9,7 +9,7 @@ namespace JetApplicationModule\JetExample\Content\Articles;
 
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 use Jet\Data_Paginator;
@@ -18,7 +18,7 @@ use Jet\Navigation_Breadcrumb;
 /**
  *
  */
-class Controller_Site_Main extends Mvc_Controller_Standard
+class Controller_Site_Main extends Mvc_Controller_Default
 {
 	protected static $ACL_actions_check_map = [
 		'default' => false,

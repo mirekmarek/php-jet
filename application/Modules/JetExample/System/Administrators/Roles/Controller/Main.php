@@ -8,7 +8,8 @@
 namespace JetApplicationModule\JetExample\System\Administrators\Roles;
 
 use JetApplication\Auth_Administrator_Role as Role;
-use JetApplication\Mvc_Controller_AdminStandard;
+
+use Jet\Mvc_Controller_Default;
 
 use Jet\UI;
 use Jet\UI_dataGrid;
@@ -25,7 +26,7 @@ use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_AdminStandard
+class Controller_Main extends Mvc_Controller_Default
 {
 
 	/**

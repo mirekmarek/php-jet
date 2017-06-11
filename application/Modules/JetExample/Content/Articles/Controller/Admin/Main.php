@@ -7,16 +7,14 @@
  */
 namespace JetApplicationModule\JetExample\Content\Articles;
 
-use Jet\Mvc_Page_Content_Interface;
+use Jet\Mvc_Controller_Default;
 use JetApplication\Mvc_Page;
-use JetApplication\Mvc_Controller_AdminStandard;
 
 use Jet\UI;
 use Jet\UI_dataGrid;
 use Jet\UI_messages;
 
 use Jet\Data_DateTime;
-use Jet\Mvc;
 use Jet\Tr;
 use Jet\Http_Headers;
 use Jet\Http_Request;
@@ -27,7 +25,7 @@ use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 /**
  *
  */
-class Controller_Admin_Main extends Mvc_Controller_AdminStandard
+class Controller_Admin_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

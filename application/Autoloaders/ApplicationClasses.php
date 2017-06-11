@@ -16,20 +16,20 @@ class Autoloader_ApplicationClasses extends Autoloader_Loader
 {
 
 	/**
-	 * @param $class_name
 	 *
-	 * @return string|bool
+	 * @param string $root_namespace
+	 * @param string $namespace
+	 * @param string $class_name
+	 *
+	 * @return bool|string
 	 */
-	public function getScriptPath( $class_name )
+	public function getScriptPath( $root_namespace, $namespace, $class_name )
 	{
 
-		if( substr( $class_name, 0, 15 )!='JetApplication\\' ) {
+		if( $root_namespace!='JetApplication' ) {
 			return false;
 		}
 
-		$class_name = substr( $class_name, 14 );
-
-		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
 		return JET_PATH_APPLICATION.'Classes/'.$class_name.'.php';

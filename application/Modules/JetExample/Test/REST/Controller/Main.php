@@ -8,16 +8,14 @@
 
 namespace JetApplicationModule\JetExample\Test\REST;
 
-use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Mvc_Controller_Standard;
-use Jet\Mvc;
-use Jet\Mvc_Page;
+use Jet\Mvc_Controller_Default;
+use Jet\Tr;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array
@@ -49,34 +47,65 @@ class Controller_Main extends Mvc_Controller_Standard
 	 */
 	public function test_rest_Action()
 	{
+		/**
+		 * @var Test_Abstract[] $all_tests
+		 */
+		$all_tests = [];
 
+		$tests = [
+			[
+				'title' => 'Articles',
+			    'tests' => [
+			    	'Article_GetList',
+				    'Article_GetListSortAndPagination',
 
-		$test_client = null;
-		$cl = new Client();
+				    'Article_GetOne',
+			        'Article_GetUnknown',
 
-		switch( Http_Request::GET()->getString( 'test' ) ) {
-			case 'article_get_list':
-				$cl->get('article');
+				    'Article_Post',
+				    'Article_PostInvalid',
 
-				$test_client = $cl;
-				break;
-			case 'article_get_unknown':
-				$cl->get('article/unknownunknownunknown');
+				    'Article_Put',
+				    'Article_PutInvalid',
 
-				$test_client = $cl;
-				break;
-			case 'article_get_one':
-				$cl->get('article');
-				$id = $cl->responseData()['items'][0]['id'];
+				    'Article_Delete',
+				    'Article_DeleteInvalid',
 
-				$cl->get('article/'.$id);
+			    ]
+			],
+		    [
+			    'title' => 'Images',
+			    'tests' => [
+			    	//TODO:
+				]
+		    ]
+		];
 
-				$test_client = $cl;
-				break;
+		foreach( $tests as $i=>$tests_data ) {
+			$tests[$i]['title'] = Tr::_($tests_data['title']);
+
+			$test_instances = [];
+
+			foreach( $tests_data['tests'] as $test ) {
+				$class_name = __NAMESPACE__.'\\Test_'.$test;
+				$test_instances[$test] = new $class_name( $test );
+				$all_tests[$test] = $test_instances[$test];
+
+			}
+
+			$tests[$i]['tests'] = $test_instances;
 		}
 
 
-		$this->view->setVar( 'test_client', $test_client );
+		$selected_test_id = Http_Request::GET()->getString( 'test', '', array_keys($all_tests) );
+
+		$this->view->setVar('tests', $tests);
+		if($selected_test_id) {
+			$all_tests[$selected_test_id]->setIsSelected(true);
+			$this->view->setVar( 'selected_test', $all_tests[$selected_test_id] );
+			$all_tests[$selected_test_id]->test();
+		}
+
 		$this->render( 'test-orm' );
 	}
 

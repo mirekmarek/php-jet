@@ -18,11 +18,43 @@ class Application_Modules extends BaseObject
 	 */
 	protected static $base_path = JET_PATH_APPLICATION.'Modules/';
 
+	/**
+	 * @var string
+	 */
+	protected static $module_root_namespace = 'JetApplicationModule';
+
 
 	/**
 	 * @var Application_Modules_Handler
 	 */
 	protected static $handler;
+
+
+	/**
+	 * @return string
+	 */
+	public static function getModuleRootNamespace()
+	{
+		return static::$module_root_namespace;
+	}
+
+	/**
+	 * @param string $module_root_namespace
+	 */
+	public static function setModuleRootNamespace( $module_root_namespace )
+	{
+		static::$module_root_namespace = $module_root_namespace;
+	}
+
+	/**
+	 * @param string $module_name
+	 *
+	 * @return string
+	 */
+	public static function getModuleDir( $module_name )
+	{
+		return static::getBasePath().str_replace( '.', '/', $module_name).'/';
+	}
 
 
 	/**

@@ -7,14 +7,14 @@
  */
 namespace JetApplicationModule\JetExample\Test\ORM;
 
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Mvc;
 use Jet\Mvc_Page;
 
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

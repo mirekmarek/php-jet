@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Content\Images;
 
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 use Jet\Navigation_Breadcrumb;
@@ -15,7 +15,7 @@ use Jet\Navigation_Breadcrumb;
 /**
  *
  */
-class Controller_Site_Main extends Mvc_Controller_Standard
+class Controller_Site_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

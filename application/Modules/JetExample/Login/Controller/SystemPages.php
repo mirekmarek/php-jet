@@ -9,7 +9,7 @@ namespace JetApplicationModule\JetExample\Login;
 
 use Jet\Auth;
 use Jet\Application_Log;
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 use Jet\Form;
 use Jet\Tr;
 use Jet\Http_Headers;
@@ -23,7 +23,7 @@ use JetApplication\Auth_Administrator_User as User;
 /**
  *
  */
-class Controller_SystemPages extends Mvc_Controller_Standard
+class Controller_SystemPages extends Mvc_Controller_Default
 {
 	/**
 	 * @var array

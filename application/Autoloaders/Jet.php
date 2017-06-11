@@ -16,20 +16,21 @@ class Autoloader_Jet extends Autoloader_Loader
 {
 	/**
 	 *
+	 * @param string $root_namespace
+	 * @param string $namespace
 	 * @param string $class_name
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
-	public function getScriptPath( $class_name )
+	public function getScriptPath( $root_namespace, $namespace, $class_name )
 	{
-		if( substr( $class_name, 0, 4 )!='Jet\\' ) {
+		if($root_namespace!='Jet') {
 			return false;
 		}
 
-		$class_name = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name );
 		$class_name = str_replace( '_', DIRECTORY_SEPARATOR, $class_name );
 
-		return JET_PATH_LIBRARY.$class_name.'.php';
+		return JET_PATH_LIBRARY.'Jet/'.$class_name.'.php';
 
 	}
 }

@@ -48,6 +48,16 @@ class Client
 	protected $request = '';
 
 	/**
+	 * @var array
+	 */
+	protected $request_data = [];
+
+	/**
+	 * @var string
+	 */
+	protected $request_body = '';
+
+	/**
 	 * @var int
 	 */
 	protected $response_status = 0;
@@ -120,7 +130,9 @@ class Client
 
 		curl_setopt( $curl_handle, CURLOPT_URL, $URL );
 
-		$data = json_encode( $data );
+		$this->request_data = $data;
+		$this->request_body = json_encode( $data );
+
 
 		switch( $method ) {
 			case self::METHOD_DELETE:
@@ -128,13 +140,14 @@ class Client
 				break;
 			case self::METHOD_POST:
 				curl_setopt( $curl_handle, CURLOPT_POST, true );
-				curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, $data );
+
+				curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, $this->request_body );
 				$headers[] = 'Content-Type: application/json';
 				$headers[] = 'Expect:';
 				break;
 			case self::METHOD_PUT:
 				$handle = fopen( 'php://temp', 'w+' );
-				fwrite( $handle, $data );
+				fwrite( $handle, $this->request_body );
 				rewind( $handle );
 				$f_stat = fstat( $handle );
 				curl_setopt( $curl_handle, CURLOPT_PUT, true );
@@ -166,6 +179,7 @@ class Client
 		$header_size = curl_getinfo( $curl_handle, CURLINFO_HEADER_SIZE );
 		$this->response_header = substr( $this->response_body, 0, $header_size );
 		$this->response_body = substr( $this->response_body, $header_size );
+
 
 
 		$result = false;
@@ -246,6 +260,22 @@ class Client
 	public function request()
 	{
 		return $this->request;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function requestBody()
+	{
+		return $this->request_body;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function requestData()
+	{
+		return $this->request_data;
 	}
 
 	/**

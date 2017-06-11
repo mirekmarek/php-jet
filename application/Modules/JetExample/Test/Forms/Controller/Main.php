@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Test\Forms;
 
-use Jet\Mvc_Controller_Standard;
+use Jet\Mvc_Controller_Default;
 
 use Jet\Http_Request;
 use Jet\Tr;
@@ -58,7 +58,7 @@ use Jet\UI_messages;
 /**
  *
  */
-class Controller_Main extends Mvc_Controller_Standard
+class Controller_Main extends Mvc_Controller_Default
 {
 	/**
 	 * @var array
