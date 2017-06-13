@@ -121,7 +121,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 		}
 
 		foreach( $definition_data as $key => $val ) {
-			if( !$this->getObjectClassHasProperty( $key ) ) {
+			if( !$this->objectHasProperty( $key ) ) {
 				throw new Config_Exception(
 					$this->_configuration_class.'::'.$this->name.': unknown definition option \''.$key.'\'  ',
 					Config_Exception::CODE_DEFINITION_NONSENSE

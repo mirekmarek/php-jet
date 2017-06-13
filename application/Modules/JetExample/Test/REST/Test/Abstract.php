@@ -26,6 +26,11 @@ abstract class Test_Abstract
 	protected $client;
 
 	/**
+	 * @var array
+	 */
+	protected $data;
+
+	/**
 	 * @var bool
 	 */
 	protected $is_selected = false;
@@ -34,12 +39,15 @@ abstract class Test_Abstract
 	 * Test_Abstract constructor.
 	 *
 	 * @param string $id
+	 * @param array  $data
 	 */
-	public function __construct( $id )
+	public function __construct( $id, $data )
 	{
 		$this->id = $id;
 
 		$this->client = new Client();
+
+		$this->data = $data;
 	}
 
 	/**
@@ -110,10 +118,12 @@ abstract class Test_Abstract
 		<h3><?=Tr::_('Request')?></h3>
 		<h4><?=Tr::_('Header')?></h4>
 		<pre><?=$this->client->request()?></pre>
+		<?php if($this->client->requestBody()): ?>
 		<h4><?=Tr::_('Body')?></h4>
-		<pre><?=$this->client->requestBody()?></pre>
+		<pre><?=is_string($this->client->requestBody()) ? $this->client->requestBody(): var_dump($this->client->requestBody())?></pre>
 		<h4><?=Tr::_('Data')?></h4>
 		<pre><?=var_export( $this->client->requestData(), true )?></pre>
+		<?php endif; ?>
 
 
 		<h3><?=Tr::_('Response')?></h3>

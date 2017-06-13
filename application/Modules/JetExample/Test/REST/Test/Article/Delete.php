@@ -16,23 +16,6 @@ use Jet\Mvc_Site;
  */
 class Test_Article_Delete extends Test_Abstract
 {
-	/**
-	 * @var array
-	 */
-	protected $items = [];
-
-	/**
-	 *
-	 * @param string $id
-	 */
-	public function __construct( $id )
-	{
-		parent::__construct( $id );
-
-		$this->client->get('article');
-		$this->items = $this->client->responseData()['items'];
-
-	}
 
 
 	/**
@@ -40,7 +23,7 @@ class Test_Article_Delete extends Test_Abstract
 	 */
 	public function isEnabled()
 	{
-		return count($this->items)>0;
+		return count($this->data['articles'])>0;
 	}
 
 	/**
@@ -56,7 +39,7 @@ class Test_Article_Delete extends Test_Abstract
 	 */
 	public function test()
 	{
-		$id = $this->items[0]['id'];
+		$id = $this->data['articles'][0]['id'];
 
 		$this->client->delete('article/'.$id);
 

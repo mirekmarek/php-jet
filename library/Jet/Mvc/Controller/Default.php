@@ -13,12 +13,10 @@ namespace Jet;
 abstract class Mvc_Controller_Default extends Mvc_Controller
 {
 	/**
-	 * @param string $module_action
-	 * @param string $controller_action
-	 * @param array  $action_parameters
+	 *
 	 *
 	 */
-	public function responseAccessDenied( $module_action, $controller_action, $action_parameters )
+	public function responseAccessDenied()
 	{
 		ErrorPages::handleUnauthorized();
 		Application::end();

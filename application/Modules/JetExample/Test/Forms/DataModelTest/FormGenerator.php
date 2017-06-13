@@ -183,7 +183,10 @@ class DataModelTest_FormGenerator extends DataModel
 	public static function getSelectOptions()
 	{
 		return [
-			'value1' => 'Option 1', 'value2' => 'Option 2', 'value3' => 'Option 3', 'value4' => 'Option 4',
+			'value1' => 'Option 1',
+			'value2' => 'Option 2',
+			'value3' => 'Option 3',
+			'value4' => 'Option 4',
 			'value5' => 'Option 5',
 		];
 	}
@@ -266,6 +269,134 @@ class DataModelTest_FormGenerator extends DataModel
 	public function setHTML( $HTML )
 	{
 		$this->HTML = $HTML;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getCheckbox()
+	{
+		return $this->checkbox;
+	}
+
+	/**
+	 * @param bool $checkbox
+	 */
+	public function setCheckbox( $checkbox )
+	{
+		$this->checkbox = $checkbox;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getFloat()
+	{
+		return $this->float;
+	}
+
+	/**
+	 * @param float $float
+	 */
+	public function setFloat( $float )
+	{
+		$this->float = $float;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getInt()
+	{
+		return $this->int;
+	}
+
+	/**
+	 * @param int $int
+	 */
+	public function setInt( $int )
+	{
+		$this->int = $int;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSelect()
+	{
+		return $this->select;
+	}
+
+	/**
+	 * @param string $select
+	 */
+	public function setSelect( $select )
+	{
+		$this->select = $select;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMultiSelect()
+	{
+		return $this->multi_select;
+	}
+
+	/**
+	 * @param array $multi_select
+	 */
+	public function setMultiSelect( $multi_select )
+	{
+		$this->multi_select = $multi_select;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRadioButton()
+	{
+		return $this->radio_button;
+	}
+
+	/**
+	 * @param array $radio_button
+	 */
+	public function setRadioButton( $radio_button )
+	{
+		$this->radio_button = $radio_button;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPassword()
+	{
+		return $this->password;
+	}
+
+	/**
+	 * @param string $password
+	 */
+	public function setPassword( $password )
+	{
+		$this->password = $password;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPasswordNc()
+	{
+		return $this->password_nc;
+	}
+
+	/**
+	 * @param string $password_nc
+	 */
+	public function setPasswordNc( $password_nc )
+	{
+		$this->password_nc = $password_nc;
 	}
 
 

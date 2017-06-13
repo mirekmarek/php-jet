@@ -231,11 +231,6 @@ interface Mvc_Page_Interface
 
 
 	/**
-	 * @return bool
-	 */
-	public function getAccessAllowed();
-
-	/**
 	 * @return int
 	 */
 	public function getOrder();
@@ -455,6 +450,11 @@ interface Mvc_Page_Interface
 	 *
 	 */
 	public function handleHttpHeaders();
+
+	/**
+	 * @return bool
+	 */
+	public function accessAllowed();
 
 	/**
 	 * @return string

@@ -145,10 +145,7 @@ class Auth_Administrator_Role extends Auth_Role
 				continue;
 			}
 
-			if( $page->getIsDialog()||$page->getIsSystemPage() ) {
-				continue;
-			}
-			$pages[$page->getId()] = $page->getTitle();
+			$pages[$page->getId()] = $page->getName();
 		}
 
 		asort( $pages );

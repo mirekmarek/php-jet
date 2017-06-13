@@ -31,6 +31,7 @@ class Test_Article_Post extends Test_Abstract
 	 */
 	public function test()
 	{
+
 		$data = [
 			'date_time' => Data_DateTime::now()->toString(),
 			'localized' =>
@@ -38,9 +39,9 @@ class Test_Article_Post extends Test_Abstract
 				]
 		];
 
-		foreach(Mvc_Site::getAllLocalesList() as $locale=>$locale_name) {
-			$data['localized'][$locale] = [
-				'title' => 'test title',
+		foreach(Mvc_Site::getAllLocalesList(false) as $locale_str=>$locale) {
+			$data['localized'][$locale_str] = [
+				'title' => 'test title ('.$locale->getLanguageName($locale).') '.time(),
 				'annotation' => 'annotation annotation',
 				'text' => 'text text text',
 			];

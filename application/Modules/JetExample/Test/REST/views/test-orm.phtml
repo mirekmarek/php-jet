@@ -28,6 +28,10 @@ $selected_test = $this->getRaw('selected_test');
 					/**
 					 * @var Test_Abstract $test
 					 */
+					if(!$test->isEnabled()) {
+						continue;
+					}
+
 					if($test->isSelected()):
 						?>
 						<li><strong><?=$test->getTitle()?></strong></li>

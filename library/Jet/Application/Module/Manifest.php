@@ -175,7 +175,7 @@ class Application_Module_Manifest extends BaseObject
 	{
 
 		foreach( $manifest_data as $key => $val ) {
-			if( !$this->getObjectClassHasProperty( $key ) ) {
+			if( !$this->objectHasProperty( $key ) ) {
 				throw new Application_Modules_Exception(
 					'Unknown manifest property \''.$key.'\' (Module: \''.$this->_name.'\') ',
 					Application_Modules_Exception::CODE_MANIFEST_NONSENSE

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-interface Auth_User_Interface extends BaseObject_Interface
+interface Auth_User_Interface
 {
 
 	/**

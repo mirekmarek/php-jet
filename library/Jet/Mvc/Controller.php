@@ -121,12 +121,9 @@ abstract class Mvc_Controller extends BaseObject
 	}
 
 	/**
-	 * @param string $module_action
-	 * @param string $controller_action
-	 * @param array  $action_parameters
 	 *
 	 */
-	abstract public function responseAccessDenied( $module_action, $controller_action, $action_parameters );
+	abstract public function responseAccessDenied();
 
 	/**
 	 * @param string $action_message
@@ -211,8 +208,8 @@ abstract class Mvc_Controller extends BaseObject
 			return true;
 		}
 
-		if( !$this->module->checkAccess( $module_action ) ) {
-			$this->responseAccessDenied( $module_action, $this->content->getControllerAction(), $this->content->getParameters() );
+		if( !$this->module->accessAllowed( $module_action ) ) {
+			$this->responseAccessDenied();
 
 			return false;
 		}

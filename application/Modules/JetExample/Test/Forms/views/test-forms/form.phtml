@@ -22,26 +22,30 @@ $form = $this->getRaw( 'form' );
 
 
 	<?php if( $form->getIsValid() ): ?>
-		<hr>
-		<?=Tr::_( 'Form sent:' )?>
+	<div class="row">
+		<div class="col-md-offset-4">
+			<hr>
+			<?=Tr::_( 'Form sent:' )?>
 
-		<?php if( $form->getName()=='upload_image_form' ):
-			$image_field = $form->getField( 'upload_image' );
-			/**
-			 * @var Form_Field_FileImage $image_field
-			 */
-			?>
-			<img src="<?=JET_URI_PUBLIC?>test_uploads/<?=$image_field->getFileName()?>">
-		<?php else: ?>
-			<table>
-				<?php foreach( $form->getValues() as $k => $v ): ?>
-					<tr>
-						<td><?=$k?>:</td>
-						<td><?=is_array( $v ) ? implode( ',', $v ) : $v?></td>
-					</tr>
-				<?php endforeach; ?>
-			</table>
-		<?php endif; ?>
+			<?php if( $form->getName()=='upload_image_form' ):
+				$image_field = $form->getField( 'upload_image' );
+				/**
+				 * @var Form_Field_FileImage $image_field
+				 */
+				?>
+				<img src="<?=JET_URI_PUBLIC?>test_uploads/<?=$image_field->getFileName()?>">
+			<?php else: ?>
+				<table class="table table-bordered">
+					<?php foreach( $form->getValues() as $k => $v ): ?>
+						<tr>
+							<td><?=$k?>:</td>
+							<td><?=is_array( $v ) ? implode( ',', $v ) : $v?></td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+			<?php endif; ?>
+		</div>
+	</div>
 	<?php endif; ?>
 
 

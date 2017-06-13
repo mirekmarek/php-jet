@@ -113,12 +113,17 @@ class Mvc_Page extends Jet_Mvc_Page
 			return;
 		}
 
-		$parent_page->setIsSystemPage( true );
-
 		$page_data['id'] = $page_id;
 
 		$page_data['title'] = empty( $page_data['title'] ) ? $module_manifest->getLabel() : $page_data['title'];
 		$page_data['title'] = Tr::_( $page_data['title'], [], $module_manifest->getName(), $locale );
+
+		if(!isset($page_data['name'])) {
+			$page_data['name'] = $page_data['title'];
+		} else {
+			$page_data['name'] = Tr::_( $page_data['name'], [], $module_manifest->getName(), $locale );
+		}
+
 
 		if( empty( $page_data['menu_title'] ) ) {
 			$page_data['menu_title'] = $page_data['title'];
@@ -156,6 +161,7 @@ class Mvc_Page extends Jet_Mvc_Page
 		if( isset( $page_data['action'] ) ) {
 			unset( $page_data['action'] );
 		}
+
 
 
 		$page = static::createPageByData( Mvc::getCurrentSite(), $locale, $page_data, $parent_page );
@@ -247,28 +253,6 @@ class Mvc_Page extends Jet_Mvc_Page
 	/**
 	 * @return bool
 	 */
-	public function getAccessAllowed()
-	{
-
-		if( !$this->getIsAdminUI() ) {
-			return parent::getAccessAllowed();
-		}
-
-		if( $this->getIsDialog()||$this->getIsSystemPage() ) {
-			return true;
-		}
-
-		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getId() ) ) {
-			return true;
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * @return bool
-	 */
 	public function getIsDialog()
 	{
 		return $this->is_dialog;
@@ -296,6 +280,28 @@ class Mvc_Page extends Jet_Mvc_Page
 	public function setIsSystemPage( $is_system_page )
 	{
 		$this->is_system_page = $is_system_page;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function accessAllowed()
+	{
+		if(
+			!$this->getIsSecretPage() &&
+			!$this->getIsAdminUI()
+		) {
+			return true;
+		}
+
+		$page_id = $this->getIsAdminUI() ? $this->getId() : $this->getKey();
+
+		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $page_id ) ) {
+			return true;
+		}
+
+		return false;
+
 	}
 
 }

@@ -155,7 +155,7 @@ class Mvc_Controller_Router extends BaseObject
 			return true;
 		}
 
-		return $this->controller->getModule()->checkAccess( $ACL_action_name );
+		return $this->controller->getModule()->accessAllowed( $ACL_action_name );
 	}
 
 }

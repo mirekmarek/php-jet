@@ -110,7 +110,7 @@ class Navigation_Menu_Item extends BaseObject
 				throw new Navigation_Menu_Exception( 'Unknown menu property: '.$key);
 			}
 
-			$setter = $this->getSetterMethodName($key);
+			$setter = $this->objectSetterMethodName($key);
 
 			$this->$setter($val);
 		}
@@ -363,7 +363,7 @@ class Navigation_Menu_Item extends BaseObject
 			return false;
 		}
 
-		return $page->getAccessAllowed();
+		return $page->accessAllowed();
 	}
 
 }

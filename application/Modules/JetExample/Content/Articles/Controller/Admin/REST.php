@@ -63,9 +63,6 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 		}
 
 
-
-		$controller_action = '';
-
 		switch(Http_Request::requestMethod()) {
 			case self::REQUEST_METHOD_GET:
 				$controller_action = $article ? 'get' : 'list';

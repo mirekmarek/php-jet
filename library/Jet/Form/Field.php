@@ -324,7 +324,7 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	public function setOptions( array $options )
 	{
 		foreach( $options as $o_k => $o_v ) {
-			if( !$this->getObjectClassHasProperty( $o_k ) ) {
+			if( !$this->objectHasProperty( $o_k ) ) {
 				throw new Form_Exception( 'Unknown form field option: '.$o_k );
 			}
 

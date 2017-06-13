@@ -20,7 +20,7 @@ class Test_Article_GetUnknown extends Test_Abstract
 	 */
 	protected function _getTitle()
 	{
-		return 'Get data - unknown (error simulation)';
+		return 'Get item - unknown (error simulation)';
 	}
 
 	/**

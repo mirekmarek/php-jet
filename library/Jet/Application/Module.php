@@ -264,7 +264,7 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function checkAccess( $action )
+	public function accessAllowed( $action )
 	{
 		$ACL_actions = $this->getAclActions();
 

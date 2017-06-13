@@ -122,7 +122,7 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 			unset( $definition_data['type'] );
 
 			foreach( $definition_data as $key => $val ) {
-				if( !$this->getObjectClassHasProperty( $key ) ) {
+				if( !$this->objectHasProperty( $key ) ) {
 					throw new DataModel_Exception(
 						$this->data_model_class_name.'::'.$this->name.': unknown definition option \''.$key.'\'  ',
 						DataModel_Exception::CODE_DEFINITION_NONSENSE

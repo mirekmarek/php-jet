@@ -5,7 +5,7 @@ $UI_module = Application_Modules::moduleInstance( 'JetExample.AdminUI');
 
 return [
 	'id' => 'admin',
-	'name' => 'Administrace',
+	'name' => 'Administrace - hlavní stránka',
 	'title' => 'Administrace',
 	'custom_layouts_path' => $UI_module->getLayoutsDir(),
 	'layout_script_name' => 'default',

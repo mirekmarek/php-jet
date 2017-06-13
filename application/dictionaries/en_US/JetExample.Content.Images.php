@@ -8,4 +8,5 @@ return [
 	'Please select image' => '',
 	'Uploaded file is not supported image' => '',
 	'Upload image' => '',
+	'Delete selected images' => '',
 ];

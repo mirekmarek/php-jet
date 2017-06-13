@@ -16,29 +16,11 @@ class Test_Article_GetOne extends Test_Abstract
 {
 
 	/**
-	 * @var array
-	 */
-	protected $items = [];
-
-	/**
-	 *
-	 * @param string $id
-	 */
-	public function __construct( $id )
-	{
-		parent::__construct( $id );
-
-		$this->client->get('article');
-		$this->items = $this->client->responseData()['items'];
-
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function isEnabled()
 	{
-		return count($this->items)>0;
+		return count($this->data['articles'])>0;
 	}
 
 	/**
@@ -46,7 +28,7 @@ class Test_Article_GetOne extends Test_Abstract
 	 */
 	protected function _getTitle()
 	{
-		return 'Get data';
+		return 'Get item';
 	}
 
 	/**
@@ -56,7 +38,7 @@ class Test_Article_GetOne extends Test_Abstract
 	{
 
 		$ids = [];
-		foreach( $this->items as $item ) {
+		foreach( $this->data['articles'] as $item ) {
 			$ids[] = $item['id'];
 		}
 

@@ -129,7 +129,7 @@ class Application extends BaseObject
 			return;
 		}
 
-		if( !$page->getAccessAllowed() ) {
+		if( !$page->accessAllowed() ) {
 			ErrorPages::handleUnauthorized( false );
 
 			return;

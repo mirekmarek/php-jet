@@ -325,7 +325,7 @@ trait Form_Field_Definition_Trait
 			return;
 		}
 
-		$setter_method_name = $object_instance->getSetterMethodName( $this->getFormFieldContextPropertyName() );
+		$setter_method_name = $object_instance->objectSetterMethodName( $this->getFormFieldContextPropertyName() );
 
 		if( method_exists( $object_instance, $setter_method_name ) ) {
 			$object_instance->{$setter_method_name}( $value );

@@ -9,4 +9,7 @@ return [
 	'Search for...' => '',
 	'Save' => '',
 	'%FROM% - %TO% / total count: %COUNT%' => '',
+	'Delete' => '',
+	'Next' => '',
+	'Last' => '',
 ];

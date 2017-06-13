@@ -8,8 +8,6 @@
 namespace JetApplicationModule\JetExample\Test\ORM;
 
 use Jet\Mvc_Controller_Default;
-use Jet\Mvc;
-use Jet\Mvc_Page;
 
 /**
  *

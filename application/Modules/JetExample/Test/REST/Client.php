@@ -50,7 +50,7 @@ class Client
 	/**
 	 * @var array
 	 */
-	protected $request_data = [];
+	protected $request_data;
 
 	/**
 	 * @var string
@@ -107,10 +107,11 @@ class Client
 	 * @param string $object
 	 * @param array  $data
 	 * @param array  $get_params
+	 * @param string $upload_file_path
 	 *
 	 * @return bool
 	 */
-	public function exec( $method, $object, array $data = [], $get_params=[] )
+	public function exec( $method, $object, array $data = [], $get_params=[], $upload_file_path='' )
 	{
 		$headers = [];
 
@@ -130,22 +131,41 @@ class Client
 
 		curl_setopt( $curl_handle, CURLOPT_URL, $URL );
 
-		$this->request_data = $data;
-		$this->request_body = json_encode( $data );
 
 
 		switch( $method ) {
+			case self::METHOD_GET:
+				curl_setopt( $curl_handle, CURLOPT_HTTPGET, true );
+				break;
 			case self::METHOD_DELETE:
 				curl_setopt( $curl_handle, CURLOPT_CUSTOMREQUEST, self::METHOD_DELETE );
 				break;
 			case self::METHOD_POST:
 				curl_setopt( $curl_handle, CURLOPT_POST, true );
 
+				if($upload_file_path) {
+					curl_setopt($curl_handle, CURLOPT_SAFE_UPLOAD, false);
+
+					$this->request_body = [
+						'file' => new \CURLFile($upload_file_path)
+					];
+
+				} else {
+					$headers[] = 'Content-Type: application/json';
+
+					$this->request_data = $data;
+					$this->request_body = json_encode( $data );
+
+				}
+
+
 				curl_setopt( $curl_handle, CURLOPT_POSTFIELDS, $this->request_body );
-				$headers[] = 'Content-Type: application/json';
 				$headers[] = 'Expect:';
 				break;
 			case self::METHOD_PUT:
+				$this->request_data = $data;
+				$this->request_body = json_encode( $data );
+
 				$handle = fopen( 'php://temp', 'w+' );
 				fwrite( $handle, $this->request_body );
 				rewind( $handle );
@@ -155,9 +175,6 @@ class Client
 				curl_setopt( $curl_handle, CURLOPT_INFILESIZE, $f_stat['size'] );
 				$headers[] = 'Content-Type: application/json';
 				$headers[] = 'Expect:';
-				break;
-			case self::METHOD_GET:
-				curl_setopt( $curl_handle, CURLOPT_HTTPGET, true );
 				break;
 		}
 
@@ -236,11 +253,12 @@ class Client
 	/**
 	 * @param string $object
 	 * @param array  $data
+	 * @param string $upload_file_path
 	 *
 	 * @return bool
 	 */
-	public function post( $object, array $data  ) {
-		return $this->exec( static::METHOD_POST, $object, $data );
+	public function post( $object, array $data, $upload_file_path=''  ) {
+		return $this->exec( static::METHOD_POST, $object, $data, [], $upload_file_path );
 	}
 
 	/**

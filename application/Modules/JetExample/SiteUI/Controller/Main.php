@@ -10,6 +10,11 @@ namespace JetApplicationModule\JetExample\SiteUI;
 use Jet\Mvc_Controller_Default;
 use Jet\Mvc;
 use Jet\Mvc_Page;
+use Jet\Mvc_Page_Content_Interface;
+use Jet\Http_Request;
+use Jet\Auth;
+use Jet\Http_Headers;
+
 
 /**
  *
@@ -27,6 +32,33 @@ class Controller_Main extends Mvc_Controller_Default
 	 * @var Main
 	 */
 	protected $module = null;
+
+	/**
+	 *
+	 * @param  Mvc_Page_Content_Interface $content
+	 */
+	public function __construct( Mvc_Page_Content_Interface $content )
+	{
+		parent::__construct( $content );
+
+		$GET = Http_Request::GET();
+
+		if( $GET->exists( 'logout' ) ) {
+			$this->logout_Action();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public function logout_Action()
+	{
+		Auth::logout();
+
+		Http_Headers::movedTemporary( Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL() );
+	}
+
 
 	/**
 	 *

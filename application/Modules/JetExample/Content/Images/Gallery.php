@@ -18,6 +18,7 @@ use Jet\DataModel_Related_1toN_Iterator;
 use Jet\Form;
 use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_FileImage;
+use Jet\Form_Field_Hidden;
 use Jet\Form_Field_Input;
 
 use Jet\Tr;
@@ -447,6 +448,22 @@ class Gallery extends DataModel
 	{
 		if(!$this->_form_edit) {
 			$this->_form_edit = $this->getCommonForm();
+
+			$this->_form_edit->getField('parent_id')->setValidator( function( Form_Field_Hidden $field ) {
+
+				$parent_id = $field->getValue();
+				if(!$parent_id) {
+					return true;
+				}
+
+				if(!Gallery::get($parent_id)) {
+					$field->setCustomError(Tr::_('Unknown parent'), 'UNKNOWN_PARENT');
+					return false;
+				}
+				return true;
+
+			} );
+
 		}
 
 		return $this->_form_edit;
@@ -467,7 +484,22 @@ class Gallery extends DataModel
 	public function getAddForm()
 	{
 		if(!$this->_form_add) {
+
 			$this->_form_add = $this->getCommonForm();
+			$this->_form_add->getField('parent_id')->setValidator( function( Form_Field_Hidden $field ) {
+
+				$parent_id = $field->getValue();
+				if(!$parent_id) {
+					return true;
+				}
+
+				if(!Gallery::get($parent_id)) {
+					$field->setCustomError(Tr::_('Unknown parent'), 'UNKNOWN_PARENT');
+					return false;
+				}
+				return true;
+
+			} );
 		}
 
 		return $this->_form_add;

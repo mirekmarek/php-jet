@@ -105,8 +105,6 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 
 
 
-		$controller_action = false;
-
 		switch( $method ) {
 			case self::REQUEST_METHOD_GET:
 
@@ -352,6 +350,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 	 */
 	public function add_image_Action()
 	{
+
 		/**
 		 * @var Gallery $gallery
 		 */
@@ -368,7 +367,7 @@ class Controller_Admin_REST extends Mvc_Controller_REST
 				$image
 			);
 
-			$this->responseOK();
+			$this->responseData( $image );
 		} else {
 			$this->responseValidationError( $upload_form->getAllErrors() );
 		}

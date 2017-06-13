@@ -566,11 +566,18 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$form = $obj->getCommonForm();
 
-		if(
-			$form->catchInput() &&
-			$form->validate()
-		) {
-			$this->view->setVar( 'form_data', $form->getValues() );
+		if( $form->catchInput() ) {
+
+			$form->validate();
+			if($form->getIsValid()) {
+				$form->catchData();
+				$form->setCommonMessage( UI_messages::createSuccess( Tr::_('Form sent and is valid') ) );
+
+				$this->view->setVar( 'data_model', $obj );
+			} else {
+				$form->setCommonMessage( UI_messages::createDanger( Tr::_('Form sent, but is not valid') ) );
+			}
+
 		}
 		$this->view->setVar( 'form', $form );
 
