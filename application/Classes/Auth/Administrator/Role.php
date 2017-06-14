@@ -7,7 +7,7 @@ use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role;
-use Jet\Data_Tree_Forest;
+use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Tr;
 use Jet\Mvc;
@@ -70,12 +70,12 @@ class Auth_Administrator_Role extends Auth_Role
 	/**
 	 * Get Modules and actions ACL values list
 	 *
-	 * @return Data_Tree_Forest
+	 * @return Data_Forest
 	 */
 	public static function getAclActionValuesList_ModulesActions()
 	{
 
-		$forest = new Data_Tree_Forest();
+		$forest = new Data_Forest();
 		$forest->setLabelKey( 'name' );
 		$forest->setIdKey( 'id' );
 

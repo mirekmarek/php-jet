@@ -243,17 +243,14 @@ class Mvc_Factory
 
 	/**
 	 *
-	 * @param string $content (optional)
-	 * @param string $attribute (optional)
-	 * @param string $attribute_value (optional)
 	 *
 	 * @return Mvc_Site_LocalizedData_MetaTag_Interface
 	 */
-	public static function getSiteLocalizedMetaTagInstance( $content = '', $attribute = '', $attribute_value = '' )
+	public static function getSiteLocalizedMetaTagInstance()
 	{
 		$class_name = static::getSiteLocalizedMetaTagClassName();
 
-		return new $class_name( $content, $attribute, $attribute_value );
+		return new $class_name();
 	}
 
 

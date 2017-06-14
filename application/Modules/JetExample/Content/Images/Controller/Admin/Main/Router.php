@@ -60,7 +60,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 
 
-		$this->addAction( 'add', '/^add$|^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )->setCreateURICallback(
+		$this->addAction( 'add', '/^add$|^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )->setURICreator(
 			function( $parent_id ) use ( $page, $router ) {
 				if( !$router->getActionAllowed( 'add' ) ) {
 					return false;
@@ -74,7 +74,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 				return $page->getURI(['add:'.$parent_id ]);
 
 			}
-		)->setParametersValidatorCallback(
+		)->setValidator(
 			function( $parameters ) use ( $validator, $controller ) {
 
 				if( !$parameters ) {
@@ -92,41 +92,41 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )->setCreateURICallback(
+		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator('edit', 'edit', $id);
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )->setCreateURICallback(
+		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator('view', 'view', $id);
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )->setCreateURICallback(
+		$this->addAction( 'delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator('delete', 'delete', $id);
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
 
 		$this->addAction( 'uploadImage', '/^upload-image:([\S]+)$/', Main::ACTION_ADD_IMAGE )
-			->setCreateURICallback(
+			->setURICreator(
 				function( $id ) use ( $URI_creator ) {
 					return $URI_creator('uploadImage', 'upload-image', $id);
 				}
 			)
-			->setParametersValidatorCallback( $validator );
+			->setValidator( $validator );
 
 
 		$this->addAction( 'deleteImages', '/^delete-images:([\S]+)$/', Main::ACTION_DELETE_IMAGE )
-			->setCreateURICallback(
+			->setURICreator(
 				function( $id ) use ( $URI_creator ) {
 					return $URI_creator('deleteImages', 'delete-images', $id);
 				}
 			)
-			->setParametersValidatorCallback( $validator );
+			->setValidator( $validator );
 
 	}
 

@@ -20,13 +20,13 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 *
 	 * @var Mvc_Site_Interface
 	 */
-	protected $_site = '';
+	protected $__site;
 
 	/**
 	 *
 	 * @var Locale
 	 */
-	protected $_locale;
+	protected $__locale;
 
 	/**
 	 *
@@ -58,17 +58,34 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	protected $default_meta_tags = [];
 
-
 	/**
-	 * @param Locale $locale (optional)
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 * @param array              $data
+	 *
+	 * @return Mvc_Site_LocalizedData_Interface
 	 */
-	public function __construct( Locale $locale = null )
-	{
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) {
+		$ld = Mvc_Factory::getSiteLocalizedInstance();
 
-		if( $locale ) {
-			$this->setLocale( $locale );
+		$ld->setSite( $site );
+		$ld->setLocale( $locale );
+
+		foreach( $data as $key => $val ) {
+			$ld->{$key} = $val;
 		}
 
+		$meta_tags = [];
+
+		if(isset($data['default_meta_tags'])) {
+			foreach( $data['default_meta_tags'] as $m_data ) {
+				$meta_tags[] = Mvc_Site_LocalizedData_MetaTag::createByData( $ld, $m_data);
+			}
+
+			$ld->setDefaultMetaTags( $meta_tags );
+		}
+
+		return $ld;
 	}
 
 	/**
@@ -76,15 +93,15 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	public function getSite()
 	{
-		return $this->_site;
+		return $this->__site;
 	}
 
 	/**
-	 * @param Mvc_Site_Interface $_site
+	 * @param Mvc_Site_Interface $__site
 	 */
-	public function setSite( $_site )
+	public function setSite( $__site )
 	{
-		$this->_site = $_site;
+		$this->__site = $__site;
 	}
 
 	/**
@@ -92,17 +109,16 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	public function getLocale()
 	{
-		return $this->_locale;
+		return $this->__locale;
 	}
 
 	/**
-	 * @param Locale $_locale
+	 * @param Locale $__locale
 	 *
-	 * @return void
 	 */
-	protected function setLocale( Locale $_locale )
+	public function setLocale( Locale $__locale )
 	{
-		$this->_locale = $_locale;
+		$this->__locale = $__locale;
 	}
 
 	/**
@@ -176,7 +192,7 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 */
 	public function getSSLRequired()
 	{
-		if($this->_site->getSSLRequired()) {
+		if($this->__site->getSSLRequired()) {
 			return true;
 		}
 
@@ -251,5 +267,15 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 
 
 		return $data;
+	}
+
+	/**
+	 *
+	 */
+	public function __wakeup()
+	{
+		foreach( $this->default_meta_tags as $mt ) {
+			$mt->setLocalizedData( $this );
+		}
 	}
 }

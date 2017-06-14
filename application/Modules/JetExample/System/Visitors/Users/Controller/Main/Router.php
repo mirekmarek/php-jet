@@ -58,29 +58,29 @@ class Controller_Main_Router extends Mvc_Controller_Router
 		};
 
 
-		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_USER )->setCreateURICallback(
+		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_USER )->setURICreator(
 			function() use ( $URI_creator ) {
 				return $URI_creator( 'add', 'add' );
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([0-9]+)$/', Main::ACTION_UPDATE_USER )->setCreateURICallback(
+		$this->addAction( 'edit', '/^edit:([0-9]+)$/', Main::ACTION_UPDATE_USER )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'edit', 'edit', $id );
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([0-9]+)$/', Main::ACTION_GET_USER )->setCreateURICallback(
+		$this->addAction( 'view', '/^view:([0-9]+)$/', Main::ACTION_GET_USER )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'view', 'view', $id );
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete:([0-9]+)$/', Main::ACTION_DELETE_USER )->setCreateURICallback(
+		$this->addAction( 'delete', '/^delete:([0-9]+)$/', Main::ACTION_DELETE_USER )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'delete', 'delete', $id );
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
 
 		return $router;

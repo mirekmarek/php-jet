@@ -28,13 +28,22 @@ interface Mvc_Site_Interface
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public static function createSiteByData( array $data );
+	public static function createByData( array $data );
 
 
 	/**
 	 * @return Mvc_Site_LocalizedData_Interface[]
 	 */
 	public static function getUrlMap();
+
+	/**
+	 *
+	 * @param bool $get_as_string (optional; if TRUE, string values of locales are returned; default: false)
+	 *
+	 * @return Locale[]|string[]
+	 */
+	public static function getAllLocalesList( $get_as_string = true );
+
 
 	/**
 	 *

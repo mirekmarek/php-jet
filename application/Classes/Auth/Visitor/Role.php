@@ -6,7 +6,7 @@ use Jet\Auth_Role;
 use Jet\Mvc_Site;
 use Jet\Mvc_Page_Interface;
 use Jet\Data_Tree;
-use Jet\Data_Tree_Forest;
+use Jet\Data_Forest;
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
 use Jet\Form;
@@ -61,12 +61,12 @@ class Auth_Visitor_Role extends Auth_Role
 	/**
 	 * Get sites and pages ACL values list
 	 *
-	 * @return Data_Tree_Forest
+	 * @return Data_Forest
 	 */
 	public static function getAclActionValuesList_Pages()
 	{
 
-		$forest = new Data_Tree_Forest();
+		$forest = new Data_Forest();
 		$forest->setIdKey( 'id' );
 		$forest->setLabelKey( 'name' );
 

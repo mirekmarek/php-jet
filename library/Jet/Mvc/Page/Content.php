@@ -19,13 +19,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @var Mvc_Page
 	 */
-	protected $page;
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $id = '';
+	protected $__page;
 
 	/**
 	 *
@@ -72,60 +66,31 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @var Application_Module
 	 */
-	protected $_module_instance;
+	protected $__module_instance;
 
 	/**
 	 *
 	 * @var Mvc_Controller
 	 */
-	protected $_controller_instance;
+	protected $__controller_instance;
+
 
 	/**
-	 * @param string $module_name (optional)
-	 * @param string $controller_action (optional)
-	 * @param array  $parameters (optional)
-	 * @param string $output_position (optional)
-	 * @param int    $output_position_order (optional)
-	 */
-	public function __construct( $module_name = '', $controller_action = '', $parameters = [], $output_position = '', $output_position_order = 0 )
-	{
-
-		$this->module_name = $module_name;
-		$this->controller_action = $controller_action;
-		$this->parameters = $parameters;
-
-		$this->output_position = $output_position;
-		$this->output_position_order = (int)$output_position_order;
-
-	}
-
-	/**
-	 * @param array $data
+	 * @param Mvc_Page_Interface $page
+	 * @param array              $data
 	 *
-	 * @return void
+	 * @return Mvc_Page_Content_Interface
 	 */
-	public function setData( array $data )
+	public static function createByData( Mvc_Page_Interface $page, array $data )
 	{
+		$content = Mvc_Factory::getPageContentInstance();
+		$content->setPage( $page );
+
 		foreach( $data as $key => $val ) {
-			$this->{$key} = $val;
+			$content->{$key} = $val;
 		}
-	}
 
-	/**
-	 * @return string
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @param mixed $id
-	 *
-	 */
-	public function setId( $id )
-	{
-		$this->id = $id;
+		return $content;
 	}
 
 	/**
@@ -199,19 +164,19 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function getPage()
 	{
-		if( !$this->page ) {
+		if( !$this->__page ) {
 			return Mvc::getCurrentPage();
 		}
 
-		return $this->page;
+		return $this->__page;
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param Mvc_Page_Interface $__page
 	 */
-	public function setPage( Mvc_Page_Interface $page )
+	public function setPage( Mvc_Page_Interface $__page )
 	{
-		$this->page = $page;
+		$this->__page = $__page;
 	}
 
 	/**
@@ -235,28 +200,28 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function getModuleInstance()
 	{
-		if( $this->_module_instance!==null ) {
-			return $this->_module_instance;
+		if( $this->__module_instance!==null ) {
+			return $this->__module_instance;
 		}
 
 
 		$module_name = $this->getModuleName();
 
 		if( !Application_Modules::moduleIsActivated( $module_name ) ) {
-			$this->_module_instance = false;
+			$this->__module_instance = false;
 
 			return false;
 		}
 
-		$this->_module_instance = Application_Modules::moduleInstance( $module_name );
+		$this->__module_instance = Application_Modules::moduleInstance( $module_name );
 
-		if( !$this->_module_instance ) {
-			$this->_module_instance = false;
+		if( !$this->__module_instance ) {
+			$this->__module_instance = false;
 
 			return false;
 		}
 
-		return $this->_module_instance;
+		return $this->__module_instance;
 	}
 
 
@@ -339,8 +304,8 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public function getControllerInstance()
 	{
-		if( $this->_controller_instance!==null ) {
-			return $this->_controller_instance;
+		if( $this->__controller_instance!==null ) {
+			return $this->__controller_instance;
 		}
 
 		$module_instance = $this->getModuleInstance();
@@ -350,9 +315,9 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 
 		$controller_class_name = $module_instance->getControllerClassName( $this );
 
-		$this->_controller_instance = new $controller_class_name( $this );
+		$this->__controller_instance = new $controller_class_name( $this );
 
-		return $this->_controller_instance;
+		return $this->__controller_instance;
 	}
 
 

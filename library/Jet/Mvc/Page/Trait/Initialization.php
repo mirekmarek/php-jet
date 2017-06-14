@@ -145,7 +145,7 @@ trait Mvc_Page_Trait_Initialization
 			Debug_Profiler::message('site: '.$site_id.' locale: '.$locale_str);
 
 			foreach( $data as $id=>$page_data ) {
-				$page = static::createPageByData( $site, $locale, $page_data );
+				$page = static::createByData( $site, $locale, $page_data );
 				static::appendPage( $page );
 			}
 
@@ -304,8 +304,11 @@ trait Mvc_Page_Trait_Initialization
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public static function createPageByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null )
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null )
 	{
+		/**
+		 * @var Mvc_Page $page
+		 */
 		$page = Mvc_Factory::getPageInstance();
 
 
@@ -328,31 +331,21 @@ trait Mvc_Page_Trait_Initialization
 		}
 
 		if( isset( $data['meta_tags'] ) ) {
-			$meta_tags = [];
+
 			foreach( $data['meta_tags'] as $i => $m_dat ) {
-				$mtg = Mvc_Factory::getPageMetaTagInstance();
-
-				$mtg->setData( $m_dat );
-
-				$meta_tags[] = $mtg;
+				$page->meta_tags[] = Mvc_Page_MetaTag::createByData( $page, $m_dat );
 			}
+
 			unset( $data['meta_tags'] );
-			$page->setMetaTags( $meta_tags );
 		}
 
 		if( isset( $data['contents'] ) ) {
-			$contents = [];
 
 			foreach( $data['contents'] as $i => $c_dat ) {
-
-				$cnt = Mvc_Factory::getPageContentInstance();
-				$cnt->setData( $c_dat );
-
-				$contents[] = $cnt;
+				$page->content[] = Mvc_Page_Content::createByData( $page, $c_dat );
 			}
 
 			unset( $data['contents'] );
-			$page->setContent( $contents );
 		}
 
 		if(!isset($data['relative_path'])) {

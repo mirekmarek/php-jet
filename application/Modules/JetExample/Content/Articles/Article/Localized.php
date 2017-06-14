@@ -248,13 +248,13 @@ class Article_Localized extends DataModel_Related_1toN
 	 *
 	 * @param string   $URI_fragment
 	 *
-	 * @param callable $exists_check
+	 * @param callable $exists_checker
 	 * @param string   $suffix (optional) example: .html
 	 * @param bool     $remove_accents (optional, default: true)
 	 *
 	 * @return string
 	 */
-	public function generateUrlFragment( $URI_fragment, callable $exists_check, $suffix = '', $remove_accents = true )
+	public function generateUrlFragment( $URI_fragment, callable $exists_checker, $suffix = '', $remove_accents = true )
 	{
 
 		if( $remove_accents ) {
@@ -274,13 +274,13 @@ class Article_Localized extends DataModel_Related_1toN
 
 		$max_suffix_no = 9999;
 
-		if( $exists_check( $URI_fragment.$suffix ) ) {
+		if( $exists_checker( $URI_fragment.$suffix ) ) {
 			$_id = substr( $URI_fragment, 0, 255-strlen( (string)$max_suffix_no ) );
 
 			for( $c = 1; $c<=$max_suffix_no; $c++ ) {
 				$URI_fragment = $_id.$c;
 
-				if( !$exists_check( $URI_fragment.$suffix ) ) {
+				if( !$exists_checker( $URI_fragment.$suffix ) ) {
 					break;
 				}
 			}

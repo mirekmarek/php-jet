@@ -48,7 +48,7 @@ if( $e_index>count( $pages ) ) {
 				<ul class="pagination pagination-sm">
 					<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
 						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Firts' )?>">
+							<a href="<?=$paginator->getFirstPageURL()?>" aria-label="<?=UI::_( 'Firts' )?>">
 								<?=UI::icon( 'backward' )?>
 							</a>
 						</li>
@@ -80,7 +80,7 @@ if( $e_index>count( $pages ) ) {
 							</a>
 						</li>
 						<li>
-							<a href="<?=$p_URL?>" aria-label="<?=UI::_( 'Last' )?>">
+							<a href="<?=$paginator->getLastPageURL()?>" aria-label="<?=UI::_( 'Last' )?>">
 								<?=UI::icon( 'forward' )?>
 							</a>
 						</li>

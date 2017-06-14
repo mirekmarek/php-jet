@@ -12,4 +12,6 @@ return [
 	'Delete' => '',
 	'Next' => '',
 	'Last' => '',
+	'Firts' => '',
+	'Previous' => '',
 ];

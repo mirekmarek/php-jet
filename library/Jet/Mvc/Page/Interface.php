@@ -42,7 +42,7 @@ interface Mvc_Page_Interface
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public static function createPageByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null );
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data, Mvc_Page_Interface $parent_page = null );
 
 	/**
 	 * @param Mvc_Page_Interface $page

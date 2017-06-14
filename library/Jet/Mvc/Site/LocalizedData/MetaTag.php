@@ -17,16 +17,9 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 
 	/**
 	 *
-	 * @var string
+	 * @var Mvc_Site_LocalizedData_Interface
 	 */
-	protected $site_id = '';
-
-	/**
-	 *
-	 * @var Locale
-	 */
-	protected $locale = '';
-
+	protected $__localized_data;
 
 	/**
 	 *
@@ -53,16 +46,39 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	protected $content = '';
 
 	/**
-	 * @param string $content (optional)
-	 * @param string $attribute (optional)
-	 * @param string $attribute_value (optional)
+	 * @param Mvc_Site_LocalizedData_Interface $localized_data
+	 * @param array                            $data
+	 *
+	 * @return Mvc_Site_LocalizedData_MetaTag_Interface
 	 */
-	public function __construct( $content = '', $attribute = '', $attribute_value = '' )
+	public static function createByData( Mvc_Site_LocalizedData_Interface $localized_data, array $data )
 	{
-		$this->setContent( $content );
-		$this->setAttribute( $attribute );
-		$this->setAttributeValue( $attribute_value );
+		$meta_tag = Mvc_Factory::getSiteLocalizedMetaTagInstance();
+		$meta_tag->setLocalizedData( $localized_data );
+
+		foreach( $data as $key => $val ) {
+			$meta_tag->{$key} = $val;
+		}
+
+		return $meta_tag;
 	}
+
+	/**
+	 * @return Mvc_Site_LocalizedData_Interface
+	 */
+	public function getLocalizedData()
+	{
+		return $this->__localized_data;
+	}
+
+	/**
+	 * @param Mvc_Site_LocalizedData_Interface $localized_data
+	 */
+	public function setLocalizedData( Mvc_Site_LocalizedData_Interface $localized_data )
+	{
+		$this->__localized_data = $localized_data;
+	}
+
 
 	/**
 	 * @return string

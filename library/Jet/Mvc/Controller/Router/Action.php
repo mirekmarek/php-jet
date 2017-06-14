@@ -36,22 +36,17 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @var callable
 	 */
-	protected $resolve_callback;
+	protected $resolver;
 
 	/**
 	 * @var callable
 	 */
-	protected $get_path_fragment_callback;
+	protected $validator;
 
 	/**
 	 * @var callable
 	 */
-	protected $parameters_validator_callback;
-
-	/**
-	 * @var callable
-	 */
-	protected $create_URI_callback;
+	protected $URI_creator;
 
 	/**
 	 * @param string $controller_action_name
@@ -147,13 +142,13 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 *
 	 * Callback return value: bool, true if resolved
 	 *
-	 * @param callable $resolve_callback
+	 * @param callable $resolver
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function setResolveCallback( callable $resolve_callback )
+	public function setResolver( callable $resolver )
 	{
-		$this->resolve_callback = $resolve_callback;
+		$this->resolver = $resolver;
 
 		return $this;
 	}
@@ -172,8 +167,8 @@ class Mvc_Controller_Router_Action extends BaseObject
 			return false;
 		}
 
-		if( $this->resolve_callback ) {
-			$callback = $this->resolve_callback;
+		if( $this->resolver ) {
+			$callback = $this->resolver;
 
 			return $callback( $path, $this );
 		}
@@ -186,8 +181,8 @@ class Mvc_Controller_Router_Action extends BaseObject
 
 		array_shift( $matches );
 
-		if( $this->parameters_validator_callback ) {
-			$callback = $this->parameters_validator_callback;
+		if( $this->validator ) {
+			$callback = $this->validator;
 
 			if( !$callback( $matches ) ) {
 				return false;
@@ -198,25 +193,25 @@ class Mvc_Controller_Router_Action extends BaseObject
 	}
 
 	/**
-	 * @param callable $create_URI_callback
+	 * @param callable $URI_creator
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function setCreateURICallback( callable $create_URI_callback )
+	public function setURICreator( callable $URI_creator )
 	{
-		$this->create_URI_callback = $create_URI_callback;
+		$this->URI_creator = $URI_creator;
 
 		return $this;
 	}
 
 	/**
-	 * @param callable $parameters_validator_callback
+	 * @param callable $validator
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function setParametersValidatorCallback( callable $parameters_validator_callback )
+	public function setValidator( callable $validator )
 	{
-		$this->parameters_validator_callback = $parameters_validator_callback;
+		$this->validator = $validator;
 
 		return $this;
 	}
@@ -229,7 +224,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 	 */
 	public function getURI( array $arguments )
 	{
-		return call_user_func_array( $this->create_URI_callback, $arguments );
+		return call_user_func_array( $this->URI_creator, $arguments );
 	}
 
 

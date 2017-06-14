@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Tree_Forest extends BaseObject implements BaseObject_IteratorCountable, BaseObject_Serializable_JSON
+class Data_Forest extends BaseObject implements BaseObject_IteratorCountable, BaseObject_Serializable_JSON
 {
 
 	/**

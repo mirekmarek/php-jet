@@ -145,11 +145,11 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * Get Modules and actions ACL values list
 	 *
-	 * @return Data_Tree_Forest
+	 * @return Data_Forest
 	 */
 	public static function getAclActionValuesList_ModulesActions()
 	{
-		$forest = new Data_Tree_Forest();
+		$forest = new Data_Forest();
 		$forest->setLabelKey( 'name' );
 		$forest->setIdKey( 'id' );
 
@@ -191,12 +191,12 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * Get sites and pages ACL values list
 	 *
-	 * @return Data_Tree_Forest
+	 * @return Data_Forest
 	 */
 	public static function getAclActionValuesList_Pages()
 	{
 
-		$forest = new Data_Tree_Forest();
+		$forest = new Data_Forest();
 		$forest->setIdKey( 'id' );
 		$forest->setLabelKey( 'name' );
 

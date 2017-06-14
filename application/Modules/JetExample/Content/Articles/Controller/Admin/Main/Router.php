@@ -57,25 +57,25 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 		};
 
-		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ARTICLE )->setCreateURICallback(
+		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ARTICLE )->setURICreator(
 			function() use ( $URI_creator ) {
 				return $URI_creator('add', 'add');
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_ARTICLE )->setCreateURICallback(
+		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_ARTICLE )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator('edit', 'edit', $id);
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_ARTICLE )->setCreateURICallback(
+		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_ARTICLE )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator('view', 'view', $id);
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete$/', Main::ACTION_DELETE_ARTICLE )->setCreateURICallback(
+		$this->addAction( 'delete', '/^delete$/', Main::ACTION_DELETE_ARTICLE )->setURICreator(
 			function() use ( $URI_creator ) {
 				return $URI_creator('delete', 'delete' );
 			}

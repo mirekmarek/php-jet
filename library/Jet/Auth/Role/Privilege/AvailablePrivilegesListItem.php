@@ -26,9 +26,9 @@ class Auth_Role_Privilege_AvailablePrivilegesListItem extends BaseObject
 	protected $values_list = null;
 
 	/**
-	 * @param string                                $privilege
-	 * @param string                                $label
-	 * @param array|Data_Tree_Forest|Data_Tree|null $values_list
+	 * @param string                           $privilege
+	 * @param string                           $label
+	 * @param array|Data_Forest|Data_Tree|null $values_list
 	 */
 	public function __construct( $privilege, $label, $values_list = null )
 	{

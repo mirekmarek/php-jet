@@ -12,6 +12,15 @@ namespace Jet;
  */
 interface Mvc_Page_MetaTag_Interface
 {
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 * @param array              $data
+	 *
+	 * @return Mvc_Page_MetaTag_Interface
+	 */
+	public static function createByData( Mvc_Page_Interface $page, array $data );
+
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
@@ -22,13 +31,6 @@ interface Mvc_Page_MetaTag_Interface
 	 */
 	public function getPage();
 
-
-	/**
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	public function setData( array $data );
 
 	/**
 	 * @return string

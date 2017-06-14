@@ -164,13 +164,12 @@ class Mvc_Page extends Jet_Mvc_Page
 
 
 
-		$page = static::createPageByData( Mvc::getCurrentSite(), $locale, $page_data, $parent_page );
+		$page = static::createByData( Mvc::getCurrentSite(), $locale, $page_data, $parent_page );
 		$page->setIsAdminUI( true );
 		$page->setCustomLayoutsPath( $parent_page->getCustomLayoutsPath() );
 
 
 		$content = Mvc_Factory::getPageContentInstance();
-		$content->setId( $page_id.'_'.$action );
 		$content->setModuleName( $module_manifest->getName() );
 		$content->setControllerAction( $action );
 		$content->setOutputPosition( Mvc_Layout::DEFAULT_OUTPUT_POSITION );
@@ -208,7 +207,6 @@ class Mvc_Page extends Jet_Mvc_Page
 		$parent_page->setIsRestApiHook( true );
 
 		$content = Mvc_Factory::getPageContentInstance();
-		$content->setId( $module_manifest->getName() );
 		$content->setModuleName( $module_manifest->getName() );
 		$content->setControllerAction( false );
 		$content->setCustomController( 'REST' );

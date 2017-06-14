@@ -148,7 +148,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 *
 	 * @var Mvc_Page_Content_Interface[]
 	 */
-	protected $content;
+	protected $content = [];
 
 	/**
 	 *
@@ -737,9 +737,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	public function addContent( Mvc_Page_Content_Interface $content )
 	{
-		if( !$content->getId() ) {
-			$content->setId( count( $this->content ) );
-		}
 		$content->setPage( $this );
 
 		$this->content[] = $content;
@@ -804,5 +801,18 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 		$this->meta_tags[] = $meta_tag;
 	}
 
+	/**
+	 *
+	 */
+	public function __wakeup()
+	{
+		foreach( $this->content as $cnt ) {
+			$cnt->setPage( $this );
+		}
+
+		foreach( $this->meta_tags as $mt ) {
+			$mt->setPage( $this );
+		}
+	}
 
 }

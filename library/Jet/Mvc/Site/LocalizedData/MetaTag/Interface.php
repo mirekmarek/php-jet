@@ -13,6 +13,28 @@ namespace Jet;
 interface Mvc_Site_LocalizedData_MetaTag_Interface
 {
 
+	/**
+	 * @param Mvc_Site_LocalizedData_Interface $localized_data
+	 * @param array                            $data
+	 *
+	 * @return Mvc_Site_LocalizedData_MetaTag_Interface
+	 */
+	public static function createByData( Mvc_Site_LocalizedData_Interface $localized_data, array $data );
+
+	/**
+	 * @return Mvc_Site_LocalizedData_Interface
+	 */
+	public function getLocalizedData();
+
+	/**
+	 * @param Mvc_Site_LocalizedData_Interface $localized_data
+	 */
+	public function setLocalizedData( Mvc_Site_LocalizedData_Interface $localized_data );
+
+	/**
+	 * @return string
+	 */
+	public function __toString();
 
 	/**
 	 * @return string

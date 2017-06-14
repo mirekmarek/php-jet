@@ -31,7 +31,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @var array
 	 */
-	public static $available_operators = [
+	const AVAILABLE_OPERATORS = [
 		self::O_NOT_EQUAL,
 		self::O_NOT_LIKE,
 		self::O_GREATER_THAN_OR_EQUAL,
@@ -112,6 +112,8 @@ class DataModel_Query extends BaseObject
 
 		return $result;
 	}
+
+
 
 	/**
 	 * @param DataModel_Definition_Model $main_data_model_definition

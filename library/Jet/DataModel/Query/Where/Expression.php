@@ -69,13 +69,11 @@ class DataModel_Query_Where_Expression extends BaseObject
 	 */
 	protected function _setOperator( $operator )
 	{
-		$available_operators = DataModel_Query::$available_operators;
 
-		if( !in_array( $operator, $available_operators ) ) {
+		if( !in_array( $operator, DataModel_Query::AVAILABLE_OPERATORS ) ) {
 			throw new DataModel_Query_Exception(
-				'Unknown operator \''.$operator.'\'. Available operators: \''.implode(
-					'\',\'', $available_operators
-				).'\' ', DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
+				'Unknown operator \''.$operator.'\'. Available operators: \''.implode( '\',\'', DataModel_Query::AVAILABLE_OPERATORS ).'\' ',
+				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 
 		}

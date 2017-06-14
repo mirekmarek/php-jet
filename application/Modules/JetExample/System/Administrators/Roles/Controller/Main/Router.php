@@ -58,29 +58,29 @@ class Controller_Main_Router extends Mvc_Controller_Router
 		};
 
 
-		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ROLE )->setCreateURICallback(
+		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ROLE )->setURICreator(
 			function() use ( $URI_creator ) {
 				return $URI_creator( 'add', 'add' );
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([a-z\-0-9\_]+)$/', Main::ACTION_UPDATE_ROLE )->setCreateURICallback(
+		$this->addAction( 'edit', '/^edit:([a-z\-0-9\_]+)$/', Main::ACTION_UPDATE_ROLE )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'edit', 'edit', $id );
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([a-z\-0-9\_]+)$/', Main::ACTION_GET_ROLE )->setCreateURICallback(
+		$this->addAction( 'view', '/^view:([a-z\-0-9\_]+)$/', Main::ACTION_GET_ROLE )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'view', 'view', $id );
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete:([a-z\-0-9\_]+)$/', Main::ACTION_DELETE_ROLE )->setCreateURICallback(
+		$this->addAction( 'delete', '/^delete:([a-z\-0-9\_]+)$/', Main::ACTION_DELETE_ROLE )->setURICreator(
 			function( $id ) use ( $URI_creator ) {
 				return $URI_creator( 'delete', 'delete', $id );
 			}
-		)->setParametersValidatorCallback( $validator );
+		)->setValidator( $validator );
 
 
 		return $router;

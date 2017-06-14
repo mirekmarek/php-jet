@@ -48,7 +48,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @var string
 	 */
-	protected $_site_id = '';
+	protected $id = '';
 	/**
 	 *
 	 * @var string
@@ -80,7 +80,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @var Mvc_Site_LocalizedData[]
 	 */
-	protected $localized_data;
+	protected $localized_data = [];
 
 
 	/**
@@ -176,7 +176,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			static::$sites = [];
 
 			foreach( $sites_data as $data ) {
-				$site = static::createSiteByData( $data );
+				$site = Mvc_Site::createByData( $data );
 
 				if(isset(static::$sites[$site->getId()])) {
 					throw new Mvc_Page_Exception(
@@ -209,42 +209,38 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 *
 	 * @return Mvc_Site_Interface
 	 */
-	public static function createSiteByData( array $data )
+	public static function createByData( array $data )
 	{
 
 		/**
 		 * @var Mvc_Site $site
 		 */
-		$site = new static();
+		$site = Mvc_Factory::getSiteInstance();
 
-
-		$site->_site_id = $data['id'];
-		$site->name = $data['name'];
-		$site->is_active = $data['is_active'];
-		$site->is_default = !empty($data['is_default']);
+		$site->id = $data['id'];
+		unset($data['id']);
 
 		foreach( $data['localized_data'] as $locale_str => $localized_data ) {
+			$locale = new Locale( $locale_str );
 
-			$l_data = $site->addLocale( new Locale( $locale_str ) );
+			$site->localized_data[$locale_str] = Mvc_Site_LocalizedData::createByData( $site, $locale, $localized_data );
 
-			$l_data->setSite( $site );
-			$l_data->setSSLRequired( !empty($localized_data['SSL_required']) );
-			$l_data->setTitle( $localized_data['title'] );
-			$l_data->setIsActive( $localized_data['is_active'] );
-			$l_data->setURLs( $localized_data['URLs'] );
-
-			$meta_tags = [];
-
-			foreach( $localized_data['default_meta_tags'] as $m_data ) {
-				$meta_tags[] = Mvc_Factory::getSiteLocalizedMetaTagInstance(
-					$m_data['content'],
-					$m_data['attribute'],
-					$m_data['attribute_value']
-				);
+			if(
+				!$site->default_locale||
+				!$site->default_locale->toString()
+			) {
+				$site->setDefaultLocale( $locale );
 			}
-
-			$l_data->setDefaultMetaTags( $meta_tags );
 		}
+		unset($data['localized_data']);
+
+		$data['is_active'] = !empty($data['is_active']);
+		$data['is_default'] = !empty($data['is_default']);
+
+		foreach( $data as $key=>$val ) {
+			$site->{$key} = $val;
+		}
+
 
 		return $site;
 	}
@@ -356,7 +352,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function getId()
 	{
-		return $this->_site_id;
+		return $this->id;
 	}
 
 	/**
@@ -365,7 +361,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function setId( $id )
 	{
-		$this->_site_id = $id;
+		$this->id = $id;
 	}
 
 	/**
@@ -401,7 +397,7 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function getBasePath()
 	{
-		return JET_PATH_SITES.$this->_site_id.'/';
+		return JET_PATH_SITES.$this->id.'/';
 	}
 
 
@@ -619,4 +615,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		return $data;
 	}
 
+	/**
+	 *
+	 */
+	public function __wakeup()
+	{
+		foreach( $this->localized_data as $locale_str=>$ld ) {
+			$locale = new Locale($locale_str);
+			$ld->setSite( $this );
+			$ld->setLocale( $locale );
+		}
+	}
 }

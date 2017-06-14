@@ -9,7 +9,7 @@ namespace Jet;
 require "includes/bootstrap_cli.php";
 
 try {
-	$list = Application_Modules::allModulesList( false);
+	$list = Application_Modules::allModulesList();
 } catch (Application_Modules_Exception $e) {
 	die("ERROR:\n" . $e->getMessage() . "\n\n");
 }

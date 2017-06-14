@@ -18,7 +18,7 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	/**
 	 * @var Mvc_Page
 	 */
-	protected $page;
+	protected $__page;
 
 	/**
 	 *
@@ -39,19 +39,21 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	protected $content = '';
 
 	/**
-	 * @param string $content (optional)
-	 * @param string $attribute (optional)
-	 * @param string $attribute_value (optional)
+	 * @param Mvc_Page_Interface $page
+	 * @param array              $data
+	 *
+	 * @return Mvc_Page_MetaTag_Interface
 	 */
-	public function __construct( $content = '', $attribute = '', $attribute_value = '' )
+	public static function createByData( Mvc_Page_Interface $page, array $data )
 	{
+		$meta_tag = Mvc_Factory::getPageMetaTagInstance();
+		$meta_tag->setPage( $page );
 
-		if( $content ) {
-			$this->setContent( $content );
-			$this->setAttribute( $attribute );
-			$this->setAttributeValue( $attribute_value );
+		foreach( $data as $key => $val ) {
+			$meta_tag->{$key} = $val;
 		}
 
+		return $meta_tag;
 	}
 
 	/**
@@ -59,19 +61,19 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	 */
 	public function getPage()
 	{
-		if( !$this->page ) {
+		if( !$this->__page ) {
 			return Mvc::getCurrentPage();
 		}
 
-		return $this->page;
+		return $this->__page;
 	}
 
 	/**
-	 * @param Mvc_Page_Interface $page
+	 * @param Mvc_Page_Interface $__page
 	 */
-	public function setPage( Mvc_Page_Interface $page )
+	public function setPage( Mvc_Page_Interface $__page )
 	{
-		$this->page = $page;
+		$this->__page = $__page;
 	}
 
 	/**
@@ -93,18 +95,6 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 			).'" content="'.Data_Text::htmlSpecialChars( $this->content ).'" />';
 		} else {
 			return '<meta content="'.Data_Text::htmlSpecialChars( $this->content ).'" />';
-		}
-	}
-
-	/**
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	public function setData( array $data )
-	{
-		foreach( $data as $key => $val ) {
-			$this->{$key} = $val;
 		}
 	}
 

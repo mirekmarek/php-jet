@@ -156,7 +156,7 @@ class Installer_CompatibilityTester
 	 */
 	public function test_PHPVersion()
 	{
-		$required_version = '5.5.4';
+		$required_version = '5.6.4';
 
 		$this->test(
 			Tr::_('PHP version'),

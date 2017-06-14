@@ -21,5 +21,5 @@ return [
 	'Add new image' => 'Přidat obrázek',
 	'Update image' => 'Upravit obrázek',
 	'Delete image' => 'Smazat obrázek',
-	'Unknown parent' => '',
+	'Unknown parent' => 'Neznámý rodič',
 ];

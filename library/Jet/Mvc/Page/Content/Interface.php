@@ -13,6 +13,15 @@ namespace Jet;
  */
 interface Mvc_Page_Content_Interface
 {
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 * @param array              $data
+	 *
+	 * @return Mvc_Page_Content_Interface
+	 */
+	public static function createByData( Mvc_Page_Interface $page, array $data );
+
 	/**
 	 * @param Mvc_Page_Interface $page
 	 */
@@ -22,25 +31,6 @@ interface Mvc_Page_Content_Interface
 	 * @return Mvc_Page_Interface
 	 */
 	public function getPage();
-
-	/**
-	 * @param mixed $id
-	 *
-	 */
-	public function setId( $id );
-
-	/**
-	 * @return string
-	 */
-	public function getId();
-
-
-	/**
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	public function setData( array $data );
 
 	/**
 	 * @param string $custom_controller

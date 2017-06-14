@@ -13,6 +13,14 @@ namespace Jet;
 interface Mvc_Site_LocalizedData_Interface
 {
 
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale             $locale
+	 * @param array              $data
+	 *
+	 * @return Mvc_Site_LocalizedData_Interface
+	 */
+	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data );
 
 	/**
 	 * @return Mvc_Site_Interface
@@ -28,6 +36,12 @@ interface Mvc_Site_LocalizedData_Interface
 	 * @return Locale
 	 */
 	public function getLocale();
+
+	/**
+	 * @param Locale $_locale
+	 *
+	 */
+	public function setLocale( Locale $_locale );
 
 	/**
 	 * @return bool
