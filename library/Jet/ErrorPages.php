@@ -180,10 +180,10 @@ class ErrorPages extends BaseObject
 			return false;
 		}
 
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@ob_end_clean();
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		@ob_implicit_flush();
+		if(ob_get_level()) {
+			ob_end_clean();
+			ob_implicit_flush();
+		}
 
 		/** @noinspection PhpIncludeInspection */
 		require $path;
