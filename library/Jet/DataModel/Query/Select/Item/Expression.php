@@ -97,7 +97,7 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 			 */
 			$column_name = $property_name_to_backend_column_name_callback( $property );
 
-			$expression = str_replace( '%'.$property->getName().'%', $column_name, $expression );
+			$expression = str_replace( '%'.$key.'%', $column_name, $expression );
 
 		}
 

@@ -30,10 +30,7 @@ class DataModel_Query_Select extends BaseObject implements BaseObject_IteratorCo
 	{
 
 		foreach( $items as $key => $val ) {
-			if(
-				is_string( $val ) &&
-				strpos( $val, '.' )
-			) {
+			if( is_string( $val ) ) {
 				$val = $query->getPropertyAndSetRelation( $val );
 			}
 

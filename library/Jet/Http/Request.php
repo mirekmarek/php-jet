@@ -155,9 +155,11 @@ class Http_Request extends BaseObject
 	 *
 	 * @param bool $include_query_string (optional, default: true)
 	 *
+	 * @param bool $force_SSL
+	 *
 	 * @return string
 	 */
-	public static function URL( $include_query_string = true )
+	public static function URL( $include_query_string = true, $force_SSL=false )
 	{
 		$request_URI = $_SERVER['REQUEST_URI'];
 
@@ -165,7 +167,11 @@ class Http_Request extends BaseObject
 			list( $request_URI ) = explode( '?', $request_URI );
 		}
 
-		return static::baseURL().$request_URI;
+		if($force_SSL) {
+			return static::baseSSLURL().$request_URI;
+		} else {
+			return static::baseURL().$request_URI;
+		}
 	}
 
 	/**
@@ -192,6 +198,25 @@ class Http_Request extends BaseObject
 
 		return $scheme.'://'.$host.$port;
 	}
+
+	/**
+	 *
+	 *
+	 * @return string
+	 */
+	public static function baseSSLURL( )
+	{
+		$host = $_SERVER['HTTP_HOST'];
+		$port = '';
+
+		$scheme = 'https';
+		if( $_SERVER['SERVER_PORT']!='443' ) {
+			$port = ':'.$_SERVER['SERVER_PORT'];
+		}
+
+		return $scheme.'://'.$host.$port;
+	}
+
 
 
 	/**

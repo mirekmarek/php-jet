@@ -435,6 +435,11 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$value = (string)$value;
 		}
 
+		if(!$this->_db) {
+			return "'".addslashes( $value )."'";
+		}
+
+
 		return $this->_db->quote( $value );
 	}
 

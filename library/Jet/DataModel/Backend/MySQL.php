@@ -311,6 +311,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$value = (string)$value;
 		}
 
+		if(!$this->_db_read) {
+			return "'".addslashes( $value )."'";
+		}
+
 		return $this->_db_read->quote( $value );
 	}
 
@@ -567,14 +571,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		$res = '';
 
 		$next_level = $level+1;
-		$tab = str_repeat( JET_TAB, $next_level );
+		$tab = str_repeat( JET_TAB, $level );
 
 		foreach( $query as $qp ) {
 			if( $qp instanceof DataModel_Query_Where ) {
 				/**
 				 * @var DataModel_Query_Where $qp
 				 */
-				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryWherePart( $qp, $next_level ).JET_EOL.JET_TAB.')';
+				$res .= $tab.'('.JET_EOL.$this->_getSqlQueryWherePart( $qp, $next_level ).JET_EOL.$tab.')';
 				continue;
 			}
 

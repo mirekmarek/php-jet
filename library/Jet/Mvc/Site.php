@@ -312,6 +312,8 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		}
 
 		$new_ld = Mvc_Factory::getSiteLocalizedInstance( $locale );
+		$new_ld->setLocale( $locale );
+		$new_ld->setSite( $this );
 
 		$this->localized_data[(string)$locale] = $new_ld;
 

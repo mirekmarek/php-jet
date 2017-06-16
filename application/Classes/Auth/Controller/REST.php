@@ -11,6 +11,7 @@ use Jet\Application;
 use Jet\BaseObject;
 use Jet\Auth_ControllerInterface;
 
+use Jet\Debug;
 use Jet\Http_Headers;
 use Jet\Data_DateTime;
 
@@ -83,6 +84,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 	 */
 	protected function responseNotAuthorized( $message )
 	{
+		Debug::setOutputIsJSON( true );
 
 		$error = [
 			'result' => 'error',
@@ -105,10 +107,26 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 	 */
 	public function getCurrentUser()
 	{
+
 		if( $this->current_user!==false ) {
 			return $this->current_user;
 		}
 
+		if(
+			!empty($_SERVER['HTTP_AUTHORIZATION']) &&
+			(
+				!isset( $_SERVER['PHP_AUTH_USER'] ) ||
+				!isset( $_SERVER['PHP_AUTH_PW'] )
+			)
+		) {
+
+			list(
+				$_SERVER['PHP_AUTH_USER'],
+				$_SERVER['PHP_AUTH_PW']
+			)
+				= explode(':' , base64_decode( substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
+
+		}
 
 		if(
 			!isset( $_SERVER['PHP_AUTH_USER'] ) ||
@@ -123,7 +141,8 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 				return $this->current_user;
 			}
 
-			$this->responseNotAuthorized('Incorrect username or password');
+			//$this->responseNotAuthorized('Incorrect username or password');
+			die();
 		}
 
 		return null;

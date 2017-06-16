@@ -59,10 +59,9 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 
 		foreach( $classes as $class ) {
 			$result[$class] = true;
-
 			try {
 				DataModel_Helper::create( $class );
-			} catch( Exception $e ) {
+			} catch( \Exception $e ) {
 				$result[$class] = $e->getMessage();
 				$OK = false;
 			}

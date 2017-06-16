@@ -62,6 +62,10 @@ class Application_Log extends BaseObject
 			$current_user = Auth::getCurrentUser();
 		}
 
+		if(!$current_user) {
+			$current_user = null;
+		}
+
 
 		$logger->log(
 			$event_class,

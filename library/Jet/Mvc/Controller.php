@@ -251,19 +251,18 @@ abstract class Mvc_Controller extends BaseObject
 
 		if( !$position ) {
 			$position = $this->content->getOutputPosition();
+			if( !$position ) {
+				$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
+			}
 		}
+
 
 		if( $position_order===null ) {
 			$position_order = $this->content->getOutputPositionOrder();
 		}
 
-		if( !$position ) {
-			$position = Mvc_Layout::DEFAULT_OUTPUT_POSITION;
-		}
-
 
 		$output = $this->view->render( $script );
-
 
 		Mvc_Layout::getCurrentLayout()->addOutputPart(
 			$output,

@@ -67,6 +67,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.$locale->getLanguage()] );
 			}
 
+
 			$session->setValue( 'site', $site );
 		} else {
 			/**

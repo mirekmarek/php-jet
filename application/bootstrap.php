@@ -10,8 +10,8 @@ namespace Jet;
 use JetApplication\Application_Log_Logger;
 use JetApplication\Auth_Controller;
 
-//define( 'JET_CONFIG_ENVIRONMENT', 'development' );
-define( 'JET_CONFIG_ENVIRONMENT', 'production' );
+define( 'JET_CONFIG_ENVIRONMENT', 'development' );
+//define( 'JET_CONFIG_ENVIRONMENT', 'production' );
 
 
 $config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';

@@ -122,6 +122,12 @@ class Application extends BaseObject
 			return;
 		}
 
+		if(
+			$page->getSSLRequired() &&
+			!Http_Request::isHttps()
+		) {
+			Http_Headers::movedPermanently( Http_Request::URL(true, true) );
+		}
 
 		if( $router->getLoginRequired() ) {
 			Auth::handleLogin();
