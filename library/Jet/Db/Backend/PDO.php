@@ -29,7 +29,7 @@ class Db_Backend_PDO extends \PDO implements Db_BackendInterface
 
 		$this->config = $config;
 
-		parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
+		@parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
 
 		$this->setAttribute( static::ATTR_ERRMODE, static::ERRMODE_EXCEPTION );
 

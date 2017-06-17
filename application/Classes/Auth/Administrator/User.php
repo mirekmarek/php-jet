@@ -6,6 +6,7 @@ use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
 use Jet\Form;
+use Jet\Form_Field_RegistrationPassword;
 use Jet\Locale;
 
 /**
@@ -127,6 +128,11 @@ class Auth_Administrator_User extends Auth_User
 		}
 
 		$form->getField( 'locale' )->setDefaultValue( Locale::getCurrentLocale() );
+		/**
+		 * @var Form_Field_RegistrationPassword $pwd
+		 */
+		$pwd = $form->getField( 'password' );
+		$pwd->setPasswordConfirmationLabel('Confirm password');
 
 		return $form;
 	}
