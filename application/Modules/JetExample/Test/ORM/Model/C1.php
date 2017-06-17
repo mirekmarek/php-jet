@@ -8,14 +8,18 @@
 namespace JetApplicationModule\JetExample\Test\ORM;
 
 use Jet\DataModel;
+use Jet\DataModel_Query;
 
 /**
  *
- * @JetDataModel:name = 'model_b1'
- * @JetDataModel:database_table_name = 'model_b1'
+ * @JetDataModel:name = 'model_c1'
+ * @JetDataModel:database_table_name = 'model_c1'
  * @JetDataModel:id_class_name = 'DataModel_Id_UniqueString'
+ *
+ * @JetDataModel:relation = [ 'Model_A1', [ 'id'=>'id' ], DataModel_Query::JOIN_TYPE_LEFT_OUTER_JOIN ]
+ *
  */
-class Model_B1 extends DataModel
+class Model_C1 extends DataModel
 {
 
 	/**

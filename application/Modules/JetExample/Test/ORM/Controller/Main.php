@@ -49,7 +49,11 @@ class Controller_Main extends Mvc_Controller_Default
 		    'SimpleInternalRelation',
 			'SimpleInternalSubRelation',
 
-			//TODO:
+		    'CountSelect',
+
+		    'M2NRelation',
+
+		    'ExternalRelation'
 		];
 
 		$tests = [];
