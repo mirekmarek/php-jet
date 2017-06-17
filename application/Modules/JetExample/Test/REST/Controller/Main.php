@@ -60,21 +60,25 @@ class Controller_Main extends Mvc_Controller_Default
 		    'images'    => []
 		];
 
-		if($client->get('article')) {
-			$data['articles'] = $client->responseData()['items'];
-		}
+		$init_data = function() use (&$data, $client) {
+			if($client->get('article')) {
+				$data['articles'] = $client->responseData()['items'];
+			}
 
-		if($client->get('gallery')) {
-			$data['galleries'] = $client->responseData()['items'];
+			if($client->get('gallery')) {
+				$data['galleries'] = $client->responseData()['items'];
 
-			if($data['galleries']) {
-				$gallery = $data['galleries'][0];
+				if($data['galleries']) {
+					$gallery = $data['galleries'][0];
 
-				if($client->get('gallery/'.$gallery['id'].'/image')) {
-					$data['images'] = $client->responseData()['items'];
+					if($client->get('gallery/'.$gallery['id'].'/image')) {
+						$data['images'] = $client->responseData()['items'];
+					}
 				}
 			}
-		}
+		};
+
+		$init_data();
 
 
 
@@ -160,6 +164,8 @@ class Controller_Main extends Mvc_Controller_Default
 
 
 			$all_tests[$selected_test_id]->test();
+
+			//$init_data();
 		}
 
 		$this->render( 'test-orm' );
