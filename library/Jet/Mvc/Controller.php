@@ -22,14 +22,13 @@ abstract class Mvc_Controller extends BaseObject
 	 * Example:
 	 *
 	 * <code>
-	 * const ACL_ACTIONS_MAP = array(
-	 *      'get_public_data' => false, //do not check this
-	 *      'get_data' => 'get_data_module_action',
-	 *      'put_data' => 'update_record_module_action',
-	 *      'post_data => 'add_record_module_action'
-	 *      'delete_data => 'delete_record_module_action'
-	 * );
-	 * </code>
+	 * const ACL_ACTIONS_MAP = [
+	 *      'default' => Main::ACTION_GET,
+	 *      'add'     => Main::ACTION_ADD,
+	 *      'edit'    => Main::ACTION_UPDATE,
+	 *      'view'    => Main::ACTION_GET,
+	 *      'delete'  => Main::ACTION_DELETE,
+	 * ];
 	 *
 	 * @var array
 	 */
