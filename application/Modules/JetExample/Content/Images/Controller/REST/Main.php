@@ -19,7 +19,7 @@ class Controller_REST_Main extends Mvc_Controller_REST
 	/**
 	 * @var array
 	 */
-	protected static $ACL_actions_check_map = [
+	const ACL_ACTIONS_MAP = [
 		'get_galleries'    => Main::ACTION_GET_GALLERY,
 		'get_gallery'      => Main::ACTION_GET_GALLERY,
 		'add_gallery'      => Main::ACTION_ADD_GALLERY,

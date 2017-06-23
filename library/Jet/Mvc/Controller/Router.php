@@ -33,14 +33,6 @@ class Mvc_Controller_Router extends BaseObject
 	}
 
 	/**
-	 * @return Mvc_Controller
-	 */
-	public function getController()
-	{
-		return $this->controller;
-	}
-
-	/**
 	 * @param string $controller_action_name
 	 * @param string $regexp
 	 *
@@ -48,15 +40,23 @@ class Mvc_Controller_Router extends BaseObject
 	 */
 	public function addAction( $controller_action_name, $regexp='' )
 	{
-		$ACL_action = $this->controller->getModuleAction($controller_action_name);
+		$module_action = $this->controller->getModuleAction($controller_action_name);
 
-		$action = new Mvc_Controller_Router_Action( $this, $controller_action_name, $regexp, $ACL_action );
+		$action = new Mvc_Controller_Router_Action( $this, $controller_action_name, $regexp, $module_action );
 
 		$this->actions[$controller_action_name] = $action;
 
 		return $action;
 	}
 
+
+	/**
+	 * @return Mvc_Controller
+	 */
+	public function getController()
+	{
+		return $this->controller;
+	}
 
 
 	/**
@@ -91,7 +91,7 @@ class Mvc_Controller_Router extends BaseObject
 				continue;
 			}
 
-			$this->controller->getContent()->setControllerAction( $action->getActionName() );
+			$this->controller->getContent()->setControllerAction( $action->getControllerAction() );
 
 			return true;
 		}

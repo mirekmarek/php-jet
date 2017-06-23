@@ -10,7 +10,6 @@ namespace JetApplication;
 use Jet\Locale;
 use Jet\Mvc_Page as Jet_Mvc_Page;
 use Jet\Application_Modules;
-use Jet\Mvc;
 use Jet\Mvc_Page_Exception;
 use Jet\Mvc_Site_Interface;
 use Jet\Mvc_Factory;

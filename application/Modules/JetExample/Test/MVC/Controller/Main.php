@@ -17,7 +17,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @var array
 	 */
-	protected static $ACL_actions_check_map = [
+	const ACL_ACTIONS_MAP = [
 		'test_mvc_info'    => false,
 	];
 

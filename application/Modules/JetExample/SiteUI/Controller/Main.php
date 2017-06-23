@@ -21,7 +21,7 @@ use Jet\Http_Headers;
  */
 class Controller_Main extends Mvc_Controller_Default
 {
-	protected static $ACL_actions_check_map = [
+	const ACL_ACTIONS_MAP = [
 		'main_menu'            => false,
 		'secret_area_menu'     => false,
 	    'breadcrumbNavigation' => false,

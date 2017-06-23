@@ -15,15 +15,14 @@ abstract class Mvc_Controller extends BaseObject
 	/**
 	 * Format:
 	 *
-	 * controller_action => false|module_action_name
+	 * controller_action => module_action_name | false
 	 *
-	 * @see Mvc_Modules_Module::$ACL_actions_check_map
 	 *
 	 *
 	 * Example:
 	 *
 	 * <code>
-	 * protected static $ACL_actions_check_map = array(
+	 * const ACL_ACTIONS_MAP = array(
 	 *      'get_public_data' => false, //do not check this
 	 *      'get_data' => 'get_data_module_action',
 	 *      'put_data' => 'update_record_module_action',
@@ -34,7 +33,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @var array
 	 */
-	protected static $ACL_actions_check_map = [];
+	const ACL_ACTIONS_MAP = [];
 
 	/**
 	 * @var Mvc_Page_Content_Interface
@@ -45,6 +44,7 @@ abstract class Mvc_Controller extends BaseObject
 	 * @var Application_Module
 	 */
 	protected $module;
+
 	/**
 	 * @var Mvc_View
 	 */
@@ -108,16 +108,16 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @throws Mvc_Controller_Exception
 	 */
-	public static function getModuleAction( $controller_action )
+	public function getModuleAction( $controller_action )
 	{
-		if( !isset( static::$ACL_actions_check_map[$controller_action] ) ) {
+		if( !isset( static::ACL_ACTIONS_MAP[$controller_action] ) ) {
 			throw new Mvc_Controller_Exception(
-				'Action \''.$controller_action.'\' is not specified in ACL check map! Please enter the ACL rules. Add '.get_called_class().'::$ACL_actions_check_map['.$controller_action.'] entry.',
+				'Action \''.$controller_action.'\' is not specified in ACL check map! Please enter the ACL rules. Add '.get_called_class().'::ACL_ACTIONS_MAP['.$controller_action.'] entry.',
 				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}
 
-		return static::$ACL_actions_check_map[$controller_action];
+		return static::ACL_ACTIONS_MAP[$controller_action];
 	}
 
 	/**
@@ -134,10 +134,15 @@ abstract class Mvc_Controller extends BaseObject
 	public function logAllowedAction( $action_message, $context_object_id = '', $context_object_name = '', $context_object_data = [] )
 	{
 
-		$action = $this->module->getModuleManifest()->getName().':'.static::$ACL_actions_check_map[$this->content->getControllerAction()];
+		$module_name = $this->module->getModuleManifest()->getName();
+		$module_action = $this->getModuleAction( $this->content->getControllerAction() );
 
 		Application_Log::success(
-			'allowed_action:'.$action, $action_message, $context_object_id, $context_object_name, $context_object_data
+			'allowed_action:'.$module_name.':'.$module_action,
+			$action_message,
+			$context_object_id,
+			$context_object_name,
+			$context_object_data
 		);
 
 	}
@@ -202,7 +207,7 @@ abstract class Mvc_Controller extends BaseObject
 	public function checkAccess()
 	{
 
-		$module_action = static::getModuleAction( $this->content->getControllerAction() );
+		$module_action = $this->getModuleAction( $this->content->getControllerAction() );
 
 		if( $module_action===false ) {
 			return true;

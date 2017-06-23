@@ -256,7 +256,6 @@ abstract class Application_Module extends BaseObject
 	}
 
 	/**
-	 * @see Application_Module::$ACL_actions_check_map
 	 *
 	 * @return array
 	 */

@@ -26,12 +26,12 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $action_name = '';
+	protected $controller_action = '';
 
 	/**
 	 * @var string
 	 */
-	protected $ACL_action = '';
+	protected $module_action = '';
 
 	/**
 	 * @var callable
@@ -50,16 +50,16 @@ class Mvc_Controller_Router_Action extends BaseObject
 
 	/**
 	 * @param Mvc_Controller_Router $router
-	 * @param string                $controller_action_name
+	 * @param string                $controller_action
 	 * @param string                $regexp
-	 * @param string                $ACL_action
+	 * @param string                $module_action
 	 */
-	public function __construct( Mvc_Controller_Router $router, $controller_action_name, $regexp, $ACL_action )
+	public function __construct( Mvc_Controller_Router $router, $controller_action, $regexp, $module_action )
 	{
 		$this->router = $router;
-		$this->action_name = $controller_action_name;
+		$this->controller_action = $controller_action;
 		$this->regexp = $regexp;
-		$this->ACL_action = $ACL_action;
+		$this->module_action = $module_action;
 	}
 
 	/**
@@ -82,19 +82,19 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getActionName()
+	public function getControllerAction()
 	{
-		return $this->action_name;
+		return $this->controller_action;
 	}
 
 	/**
-	 * @param string $action_name
+	 * @param string $controller_action
 	 *
 	 * @return Mvc_Controller_Router_Action
 	 */
-	public function setActionName( $action_name )
+	public function setControllerAction( $controller_action )
 	{
-		$this->action_name = $action_name;
+		$this->controller_action = $controller_action;
 
 		return $this;
 	}
@@ -103,17 +103,17 @@ class Mvc_Controller_Router_Action extends BaseObject
 	/**
 	 * @return string
 	 */
-	public function getACLAction()
+	public function getModuleAction()
 	{
-		return $this->ACL_action;
+		return $this->module_action;
 	}
 
 	/**
-	 * @param string $ACL_action
+	 * @param string $module_action
 	 */
-	public function setACLAction( $ACL_action )
+	public function setModuleAction( $module_action )
 	{
-		$this->ACL_action = $ACL_action;
+		$this->module_action = $module_action;
 	}
 
 	/**
@@ -239,13 +239,13 @@ class Mvc_Controller_Router_Action extends BaseObject
 	public function accessAllowed()
 	{
 
-		$ACL_action_name = $this->getACLAction();
+		$module_action = $this->getModuleAction();
 
-		if( !$ACL_action_name ) {
+		if( !$module_action ) {
 			return true;
 		}
 
-		return $this->router->getController()->getModule()->accessAllowed( $ACL_action_name );
+		return $this->router->getController()->getModule()->accessAllowed( $module_action );
 	}
 
 

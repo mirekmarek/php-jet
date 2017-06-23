@@ -14,7 +14,6 @@ use Jet\Form_Field_Password;
 use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc_Controller_Default;
-use Jet\Session;
 use Jet\Tr;
 
 /**
@@ -25,7 +24,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @var array
 	 */
-	protected static $ACL_actions_check_map = [
+	const ACL_ACTIONS_MAP = [
 		'test_rest' => false,
 	];
 

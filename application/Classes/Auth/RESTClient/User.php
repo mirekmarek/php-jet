@@ -6,8 +6,6 @@ use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
 use Jet\Form;
-use Jet\Form_Field_RegistrationPassword;
-use Jet\Locale;
 
 /**
  *

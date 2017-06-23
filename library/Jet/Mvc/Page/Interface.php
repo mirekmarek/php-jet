@@ -179,6 +179,12 @@ interface Mvc_Page_Interface
 	 */
 	public function setIsActive( $is_active );
 
+
+	/**
+	 *
+	 */
+	public function setIsSecret();
+
 	/**
 	 * @return bool
 	 */

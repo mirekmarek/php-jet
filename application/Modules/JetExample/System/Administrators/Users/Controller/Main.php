@@ -34,7 +34,7 @@ class Controller_Main extends Mvc_Controller_Default
 	/**
 	 * @var array
 	 */
-	protected static $ACL_actions_check_map = [
+	const ACL_ACTIONS_MAP = [
 		'default' => Main::ACTION_GET_USER,
 		'add'     => Main::ACTION_ADD_USER,
 		'edit'    => Main::ACTION_UPDATE_USER,

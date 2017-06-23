@@ -18,7 +18,7 @@ use Jet\Navigation_Breadcrumb;
  */
 class Controller_Web_Main extends Mvc_Controller_Default
 {
-	protected static $ACL_actions_check_map = [
+	const ACL_ACTIONS_MAP = [
 		'default' => false,
 		'list'    => false,
 		'detail'  => false,
