@@ -1,6 +1,4 @@
 <?php
-use Jet\Debug_Profiler;
-
 //Debug_Profiler::blockStart('INIT - Cache');
 
 require 'Cache/Autoloader.php';

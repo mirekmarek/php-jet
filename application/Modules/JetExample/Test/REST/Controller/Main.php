@@ -8,8 +8,13 @@
 
 namespace JetApplicationModule\JetExample\Test\REST;
 
+use Jet\Form;
+use Jet\Form_Field_Input;
+use Jet\Form_Field_Password;
+use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc_Controller_Default;
+use Jet\Session;
 use Jet\Tr;
 
 /**
@@ -47,6 +52,77 @@ class Controller_Main extends Mvc_Controller_Default
 	 */
 	public function test_rest_Action()
 	{
+		$session = Main::getSession();
+
+		if(
+			!$session->getValueExists('username') ||
+			!$session->getValueExists('password') ||
+			!$session->getValue('valid_login')
+		) {
+			$this->login();
+		} else {
+			if(Http_Request::GET()->exists('logout')) {
+				$session = Main::getSession();
+				$session->unsetValue( 'username' );
+				$session->unsetValue( 'password' );
+				$session->unsetValue( 'valid_login' );
+
+				Http_Headers::reload([], ['logout']);
+
+			}
+			$this->tests();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function login()
+	{
+
+		$username_field = new Form_Field_Input('username', 'Username:');
+		$password_field = new Form_Field_Password('password', 'Password:');
+		$form = new Form('login_form', [
+			$username_field,
+		    $password_field
+		]);
+
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
+			$username = $username_field->getValue();
+			$password = $password_field->getValue();
+
+
+			$client = new Client($username, $password);
+
+			$client->get('');
+
+			if($client->responseStatus()==200) {
+				$session = Main::getSession();
+				$session->setValue('username', $username);
+				$session->setValue('password', $password);
+				$session->setValue('valid_login', true);
+
+				Http_Headers::reload();
+			}
+
+			$this->view->setVar('client', $client);
+
+
+		}
+
+		$this->view->setVar('form', $form);
+
+		$this->render('login');
+	}
+
+	/**
+	 *
+	 */
+	public function tests()
+	{
 		/**
 		 * @var Test_Abstract[] $all_tests
 		 */
@@ -56,8 +132,8 @@ class Controller_Main extends Mvc_Controller_Default
 
 		$data = [
 			'articles'  => [],
-		    'galleries' => [],
-		    'images'    => []
+			'galleries' => [],
+			'images'    => []
 		];
 
 		$init_data = function() use (&$data, $client) {
@@ -85,58 +161,58 @@ class Controller_Main extends Mvc_Controller_Default
 		$tests = [
 			[
 				'title' => 'Articles',
-			    'tests' => [
-			    	'Article_GetList',
-				    'Article_GetListSortAndPagination',
+				'tests' => [
+					'Article_GetList',
+					'Article_GetListSortAndPagination',
 
-				    'Article_GetOne',
-			        'Article_GetUnknown',
+					'Article_GetOne',
+					'Article_GetUnknown',
 
-				    'Article_Post',
-				    'Article_PostInvalid',
+					'Article_Post',
+					'Article_PostInvalid',
 
-				    'Article_Put',
-				    'Article_PutInvalid',
+					'Article_Put',
+					'Article_PutInvalid',
 
-				    'Article_Delete',
-				    'Article_DeleteInvalid',
-
-			    ]
-			],
-		    [
-			    'title' => 'Images',
-			    'tests' => [
-				    'Gallery_GetList',
-				    'Gallery_GetTree',
-			        'Gallery_GetListSortAndPagination',
-
-			        'Gallery_GetOne',
-				    'Gallery_GetUnknown',
-
-			    	'Gallery_Post',
-				    'Gallery_PostInvalid',
-
-				    'Gallery_Put',
-				    'Gallery_PutInvalid',
-
-				    'Gallery_Delete',
-				    'Gallery_DeleteInvalid',
-
-				    'Gallery_GetImages',
-				    'Gallery_GetImagesUnknown',
-
-				    'Gallery_ImagePost',
-			        'Gallery_ImagePostInvalidType',
-
-				    'Gallery_GetImage',
-				    'Gallery_GetImageUnknown',
-				    'Gallery_GetImageThb',
-
-				    'Gallery_DeleteImage',
-				    'Gallery_DeleteImageInvalid'
+					'Article_Delete',
+					'Article_DeleteInvalid',
 
 				]
-		    ]
+			],
+			[
+				'title' => 'Images',
+				'tests' => [
+					'Gallery_GetList',
+					'Gallery_GetTree',
+					'Gallery_GetListSortAndPagination',
+
+					'Gallery_GetOne',
+					'Gallery_GetUnknown',
+
+					'Gallery_Post',
+					'Gallery_PostInvalid',
+
+					'Gallery_Put',
+					'Gallery_PutInvalid',
+
+					'Gallery_Delete',
+					'Gallery_DeleteInvalid',
+
+					'Gallery_GetImages',
+					'Gallery_GetImagesUnknown',
+
+					'Gallery_ImagePost',
+					'Gallery_ImagePostInvalidType',
+
+					'Gallery_GetImage',
+					'Gallery_GetImageUnknown',
+					'Gallery_GetImageThb',
+
+					'Gallery_DeleteImage',
+					'Gallery_DeleteImageInvalid'
+
+				]
+			]
 		];
 
 		foreach( $tests as $i=>$tests_data ) {
@@ -168,7 +244,8 @@ class Controller_Main extends Mvc_Controller_Default
 			//$init_data();
 		}
 
-		$this->render( 'test-orm' );
+		$this->render( 'tests' );
+
 	}
 
 }

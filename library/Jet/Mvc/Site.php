@@ -54,6 +54,12 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 * @var string
 	 */
 	protected $name = '';
+
+	/**
+	 * @var bool
+	 */
+	protected $is_secret = false;
+
 	/**
 	 *
 	 * @var bool
@@ -82,41 +88,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	protected $localized_data = [];
 
-
-	/**
-	 *
-	 * @param bool $get_as_string (optional; if TRUE, string values of locales are returned; default: false)
-	 *
-	 * @return Locale[]|string[]
-	 */
-	public static function getAllLocalesList( $get_as_string = true )
-	{
-		$sites = static::loadSites();
-		$locales = [];
-
-		if( $get_as_string ) {
-
-			foreach( $sites as $site ) {
-				foreach( $site->getLocales( false ) as $locale ) {
-					$locales[(string)$locale] = $locale->getName();
-				}
-			}
-
-			asort( $locales );
-
-		} else {
-			foreach( $sites as $site ) {
-				/**
-				 * @var Mvc_Site_Interface $site
-				 */
-				foreach( $site->getLocales( false ) as $locale ) {
-					$locales[(string)$locale] = $locale;
-				}
-			}
-		}
-
-		return $locales;
-	}
 
 	/**
 	 * @return array
@@ -216,20 +187,29 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		 * @var Mvc_Site $site
 		 */
 		$site = Mvc_Factory::getSiteInstance();
-
 		$site->id = $data['id'];
 		unset($data['id']);
 
+		$site->setData( $data );
+
+		return $site;
+	}
+
+	/**
+	 * @param array $data
+	 */
+	protected function setData( array $data )
+	{
 		foreach( $data['localized_data'] as $locale_str => $localized_data ) {
 			$locale = new Locale( $locale_str );
 
-			$site->localized_data[$locale_str] = Mvc_Site_LocalizedData::createByData( $site, $locale, $localized_data );
+			$this->localized_data[$locale_str] = Mvc_Site_LocalizedData::createByData( $this, $locale, $localized_data );
 
 			if(
-				!$site->default_locale||
-				!$site->default_locale->toString()
+				!$this->default_locale||
+				!$this->default_locale->toString()
 			) {
-				$site->setDefaultLocale( $locale );
+				$this->setDefaultLocale( $locale );
 			}
 		}
 		unset($data['localized_data']);
@@ -238,11 +218,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		$data['is_default'] = !empty($data['is_default']);
 
 		foreach( $data as $key=>$val ) {
-			$site->{$key} = $val;
+			$this->{$key} = $val;
 		}
 
-
-		return $site;
 	}
 
 	/**
@@ -341,7 +319,8 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		foreach( $this->localized_data as $ld ) {
 			$locale = $ld->getLocale();
 
-			$result[] = $get_as_string ? (string)$locale : $locale;
+			$lc_str = (string)$locale;
+			$result[$lc_str] = $get_as_string ? $lc_str : $locale;
 		}
 
 
@@ -382,6 +361,22 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	public function setName( $name )
 	{
 		$this->name = $name;
+	}
+
+	/**
+	 *
+	 */
+	public function setIsSecret()
+	{
+		$this->is_secret = true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSecret()
+	{
+		return $this->is_secret;
 	}
 
 	/**

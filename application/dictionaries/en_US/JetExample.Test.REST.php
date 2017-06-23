@@ -32,4 +32,6 @@ return [
 	'Get image thumbnail - valid' => '',
 	'Delete image - valid' => '',
 	'Delete image - unknown (error simulation)' => '',
+	'Username:' => '',
+	'Password:' => '',
 ];

@@ -9,6 +9,7 @@ namespace JetApplicationModule\JetExample\Content\Articles;
 
 use Jet\Mvc_Controller;
 use Jet\Mvc_Controller_Router;
+use Jet\Mvc_Controller_Router_Action;
 
 use JetApplication\Mvc_Page;
 
@@ -18,6 +19,25 @@ use JetApplication\Mvc_Page;
 class Controller_Admin_Main_Router extends Mvc_Controller_Router
 {
 
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $add;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $edit;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $view;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $delete;
 
 	/**
 	 * @param Mvc_Controller $controller
@@ -26,23 +46,6 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 	{
 
 		parent::__construct( $controller );
-
-
-		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
-		$router = $this;
-
-		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $page ) {
-			if( !$router->getActionAllowed( $action ) ) {
-				return false;
-			}
-
-
-			if( !$id ) {
-				return $page->getURI([ $action_uri ]);
-			}
-
-			return $page->getURI([$action_uri.':'.$id ]);
-		};
 
 
 		$validator = function( $parameters ) use ($controller) {
@@ -57,27 +60,35 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 		};
 
-		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ARTICLE )->setURICreator(
-			function() use ( $URI_creator ) {
-				return $URI_creator('add', 'add');
+		$this->add = $this->addAction( 'add', '/^add$/' );
+		$this->add->setURICreator(
+			function() {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['add']);
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_ARTICLE )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator('edit', 'edit', $id);
+		$this->edit = $this->addAction( 'edit', '/^edit:([\S]+)$/' );
+		$this->edit->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['edit:'.$id]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->edit->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_ARTICLE )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator('view', 'view', $id);
+
+		$this->view = $this->addAction( 'view', '/^view:([\S]+)$/' )->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['view:'.$id]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->view->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete$/', Main::ACTION_DELETE_ARTICLE )->setURICreator(
-			function() use ( $URI_creator ) {
-				return $URI_creator('delete', 'delete' );
+
+
+		$this->delete = $this->addAction( 'delete', '/^delete$/' );
+		$this->delete->setURICreator(
+			function() {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['delete']);
 			}
 		);
 	}
@@ -88,8 +99,38 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 	 */
 	public function getAddURI()
 	{
-		return $this->getActionURI( 'add' );
+		return $this->add->URI();
 	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public function getEditURI( $id )
+	{
+		return $this->edit->URI( $id );
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public function getViewURI( $id )
+	{
+		return $this->view->URI( $id );
+	}
+
+	/**
+	 *
+	 * @return bool|string
+	 */
+	public function getDeleteURI()
+	{
+		return $this->delete->URI();
+	}
+
 
 	/**
 	 * @param string $id
@@ -103,35 +144,6 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 		}
 
 		return $uri;
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return bool|string
-	 */
-	public function getEditURI( $id )
-	{
-		return $this->getActionURI( 'edit', $id );
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return bool|string
-	 */
-	public function getViewURI( $id )
-	{
-		return $this->getActionURI( 'view', $id );
-	}
-
-	/**
-	 *
-	 * @return bool|string
-	 */
-	public function getDeleteURI()
-	{
-		return $this->getActionURI( 'delete' );
 	}
 
 }

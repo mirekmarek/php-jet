@@ -131,8 +131,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @param string $request_URL
 	 *
-	 * @return void
-	 *
 	 * @throws Mvc_Router_Exception
 	 */
 	public function resolve( $request_URL=null )
@@ -411,11 +409,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function resolveAuthentication()
 	{
-
-		if(
-			!$this->getPage()->getIsAdminUI() &&
-			!$this->getPage()->getIsSecretPage()
-		) {
+		if( !$this->getPage()->isSecret() ) {
 			return true;
 		}
 

@@ -66,8 +66,11 @@ class Auth_Visitor_User extends Auth_User
 
 		Mailing::sendTemplate(
 			$this->getEmail(), 'reset_password_visitor', [
-			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
-			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+			'USERNAME' => $this->getUsername(),
+			'PASSWORD' => $password,
+			'NAME'     => $this->getName(),
+			'SURNAME'  => $this->getSurname(),
+			'EMAIL'    => $this->getEmail(),
 		], $this->getLocale()
 		);
 
@@ -102,8 +105,11 @@ class Auth_Visitor_User extends Auth_User
 	{
 		Mailing::sendTemplate(
 			$this->getEmail(), 'welcome_user_visitor', [
-			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
-			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+			'USERNAME' => $this->getUsername(),
+			'PASSWORD' => $password,
+			'NAME'     => $this->getName(),
+			'SURNAME'  => $this->getSurname(),
+			'EMAIL'    => $this->getEmail(),
 		], $this->getLocale()
 		);
 	}
@@ -120,6 +126,8 @@ class Auth_Visitor_User extends Auth_User
 			if( $form->fieldExists( 'password' ) ) {
 				$form->removeField( 'password' );
 			}
+
+			$form->getField('locale')->setSelectOptions( $this->_getLocales() );
 
 			$this->_form_edit = $form;
 		}
@@ -143,6 +151,9 @@ class Auth_Visitor_User extends Auth_User
 	{
 		if(!$this->_form_add) {
 			$this->_form_add = parent::getForm('add_user');
+
+			$this->_form_add->getField('locale')->setSelectOptions( $this->_getLocales() );
+
 		}
 
 		return $this->_form_add;
@@ -154,6 +165,21 @@ class Auth_Visitor_User extends Auth_User
 	public function catchAddForm()
 	{
 		return $this->catchForm( $this->getAddForm() );
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function _getLocales()
+	{
+		$locales = [];
+
+		foreach( Application::getWebSite()->getLocales() as $locale_str=>$locale ) {
+			$locales[$locale_str] = $locale->getName();
+		}
+
+		return $locales;
 	}
 
 }

@@ -314,6 +314,39 @@ abstract class DataModel_Definition_Model extends BaseObject
 	protected function _initRelations()
 	{
 
+		$this->_initEternalRelations();
+
+		foreach( $this->getAllRelatedPropertyDefinitions() as $related_model_definition_property ) {
+			$related_model_definition = $related_model_definition_property->getValueDataModelDefinition();
+
+			if($related_model_definition instanceof DataModel_Definition_Model_Related_MtoN) {
+				continue;
+			}
+
+
+			$related_to_main_relation = new DataModel_Definition_Relation_Internal( $related_model_definition->getClassName() );
+			$main_to_related_relation = new DataModel_Definition_Relation_Internal( $this->getClassName() );
+
+
+			foreach( $related_model_definition->getMainModelRelationIdProperties() as $property ) {
+				$related_to_main_relation->addJoinBy( $property->getRelationJoinItem() );
+				$main_to_related_relation->addJoinBy( $property->getRelationJoinItem() );
+			}
+
+
+			$this->addRelation( $related_model_definition->getModelName(), $related_to_main_relation );
+
+			$related_model_definition->addRelation( $this->getModelName(), $main_to_related_relation );
+
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function _initEternalRelations()
+	{
+
 		$class = $this->class_name;
 
 		$relations_definitions_data = Reflection::get( $class, 'data_model_outer_relations_definition', [] );
@@ -324,12 +357,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 			$related_model_name = $relation->getRelatedDataModelName();
 
 			$this->addRelation($related_model_name, $relation);
-		}
-
-		foreach( $this->properties as $property ) {
-			if($property instanceof DataModel_Definition_Property_DataModel) {
-				DataModel_Definition::get($property->getValueDataModelClass());
-			}
 		}
 
 	}
@@ -538,16 +565,20 @@ abstract class DataModel_Definition_Model extends BaseObject
 	public function addRelation( $related_model_name, DataModel_Definition_Relation $relation )
 	{
 
-
 		if( isset( $this->relations[$related_model_name] ) ) {
 			$prev = $this->relations[$related_model_name]->getRelatedDataModelClassName();
 			$current = $relation->getRelatedDataModelClassName();
 
+			if(
+				$prev!=$current &&
+				!is_subclass_of($prev, $current)
+			) {
+				throw new DataModel_Exception(
+					'Add relation ('.$this->model_name.' -> '.$related_model_name.') error: Data model name ('.$related_model_name.') collision. Classes: '.$prev.' vs '.$current,
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
+				);
+			}
 
-			throw new DataModel_Exception(
-				'Data model name ('.$related_model_name.') collision: '.$prev.' vs '.$current,
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
 		}
 
 		$this->relations[$related_model_name] = $relation;

@@ -1,0 +1,1 @@
+Reset REST API hesla - PHP Jet ukázková aplikace

@@ -30,10 +30,7 @@ abstract class Application_Module extends BaseObject
 	 * @var string
 	 */
 	protected static $default_views_dir = 'views';
-	/**
-	 * @var string
-	 */
-	protected static $default_layouts_dir = 'layouts';
+
 
 	/**
 	 *
@@ -123,22 +120,6 @@ abstract class Application_Module extends BaseObject
 		static::$default_views_dir = $default_views_dir;
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function getDefaultLayoutsDir()
-	{
-		return static::$default_layouts_dir;
-	}
-
-	/**
-	 * @param string $default_layouts_dir
-	 */
-	public static function setDefaultLayoutsDir( $default_layouts_dir )
-	{
-		static::$default_layouts_dir = $default_layouts_dir;
-	}
-
 
 
 	/**
@@ -223,16 +204,6 @@ abstract class Application_Module extends BaseObject
 	public function getViewsDir()
 	{
 		return $this->module_manifest->getModuleDir().static::getDefaultViewsDir().'/';
-	}
-
-	/**
-	 * Returns module layouts directory
-	 *
-	 * @return string
-	 */
-	public function getLayoutsDir()
-	{
-		return $this->module_manifest->getModuleDir().static::getDefaultLayoutsDir().'/';
 	}
 
 	/**

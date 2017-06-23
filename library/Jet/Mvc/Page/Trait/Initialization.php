@@ -322,6 +322,24 @@ trait Mvc_Page_Trait_Initialization
 
 		unset( $data['id'] );
 
+		$page->setData( $data );
+
+
+		/** @noinspection PhpIncompatibleReturnTypeInspection */
+		return $page;
+	}
+
+	/**
+	 * @param array $data
+	 */
+	protected function setData( array $data )
+	{
+		/**
+		 * @var Mvc_Page $this
+		 */
+		if(!isset($data['title'])) {
+			$data['title'] = '';
+		}
 
 		if( !isset( $data['breadcrumb_title'] ) ) {
 			$data['breadcrumb_title'] = $data['title'];
@@ -333,7 +351,7 @@ trait Mvc_Page_Trait_Initialization
 		if( isset( $data['meta_tags'] ) ) {
 
 			foreach( $data['meta_tags'] as $i => $m_dat ) {
-				$page->meta_tags[] = Mvc_Page_MetaTag::createByData( $page, $m_dat );
+				$this->meta_tags[] = Mvc_Page_MetaTag::createByData( $this, $m_dat );
 			}
 
 			unset( $data['meta_tags'] );
@@ -342,14 +360,14 @@ trait Mvc_Page_Trait_Initialization
 		if( isset( $data['contents'] ) ) {
 
 			foreach( $data['contents'] as $i => $c_dat ) {
-				$page->content[] = Mvc_Page_Content::createByData( $page, $c_dat );
+				$this->content[] = Mvc_Page_Content::createByData( $this, $c_dat );
 			}
 
 			unset( $data['contents'] );
 		}
 
 		if(!isset($data['relative_path'])) {
-			$parent_path = $parent_page->getRelativePath();
+			$parent_path = $this->getParent()->getRelativePath();
 
 			if(!$parent_path) {
 				$data['relative_path'] = $data['relative_path_fragment'];
@@ -359,13 +377,10 @@ trait Mvc_Page_Trait_Initialization
 		}
 
 		foreach( $data as $key => $var ) {
-			$page->{$key} = $var;
+			$this->{$key} = $var;
 		}
-
-
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return $page;
 	}
+
 
 	/**
 	 * @return string

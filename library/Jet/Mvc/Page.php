@@ -90,18 +90,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	protected $relative_path = '';
 
-
 	/**
 	 *
 	 * @var bool
 	 */
-	protected $is_admin_UI = false;
-
-	/**
-	 *
-	 * @var bool
-	 */
-	protected $is_secret_page = false;
+	protected $is_secret = false;
 
 	/**
 	 *
@@ -131,12 +124,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @var string|callable
 	 */
 	protected $output;
-
-	/**
-	 *
-	 * @var string
-	 */
-	protected $custom_layouts_path = '';
 
 	/**
 	 *
@@ -595,61 +582,18 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsSecretPage()
+	public function isSecret()
 	{
+		if($this->getSite()->isSecret()) {
+			return true;
+		}
+
 		if(($parent=$this->getParent()) ) {
-			if($parent->getIsSecretPage()) {
+			if($parent->isSecret()) {
 				return true;
 			}
 		}
-		return $this->is_secret_page;
-	}
-
-	/**
-	 * @param bool $is_secret_page
-	 */
-	public function setIsSecretPage( $is_secret_page )
-	{
-		$this->is_secret_page = (bool)$is_secret_page;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getIsAdminUI()
-	{
-		return $this->is_admin_UI;
-	}
-
-	/**
-	 * @param bool $is_admin_UI
-	 */
-	public function setIsAdminUI( $is_admin_UI )
-	{
-		$this->is_admin_UI = (bool)$is_admin_UI;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCustomLayoutsPath()
-	{
-		if(
-			!$this->custom_layouts_path &&
-			$this->getParent()
-		) {
-			return $this->getParent()->getCustomLayoutsPath();
-		}
-
-		return $this->custom_layouts_path;
-	}
-
-	/**
-	 * @param string $layouts_dir
-	 */
-	public function setCustomLayoutsPath( $layouts_dir )
-	{
-		$this->custom_layouts_path = $layouts_dir;
+		return $this->is_secret;
 	}
 
 	/**
@@ -681,13 +625,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	public function getLayoutsPath()
 	{
-		/**
-		 * @var Mvc_Page $this
-		 */
-		if( $this->getCustomLayoutsPath() ) {
-			return $this->getCustomLayoutsPath();
-		}
-
 		return $this->getSite()->getLayoutsPath();
 	}
 
@@ -697,15 +634,11 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 */
 	public function initializeLayout()
 	{
-		/**
-		 * @var Mvc_Page $this
-		 */
-		if( Mvc_Layout::getCurrentLayout() ) {
-			return;
-		}
-
 		Mvc_Layout::setCurrentLayout(
-			Mvc_Factory::getLayoutInstance( $this->getLayoutsPath(), $this->getLayoutScriptName() )
+			Mvc_Factory::getLayoutInstance(
+				$this->getLayoutsPath(),
+				$this->getLayoutScriptName()
+			)
 		);
 
 	}

@@ -7,7 +7,7 @@ return [
 	'description' => '',
 
 	'admin_sections' => [
-		'admin/images' => [
+		'images' => [
 			'title'                  => 'Images',
 			'relative_path_fragment' => 'images',
 			'icon'                   => 'picture-o',
@@ -20,7 +20,7 @@ return [
 		'images' => [
 			'label'   => 'Images',
 			'menu_id' => 'content',
-			'page_id' => 'admin/images',
+			'page_id' => 'images',
 			'icon'    => 'picture-o',
 		],
 	],

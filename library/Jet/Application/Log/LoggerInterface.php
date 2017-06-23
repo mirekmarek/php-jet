@@ -23,5 +23,5 @@ interface Application_Log_LoggerInterface
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null)
 	 */
-	public function log( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null );
+	public function log( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null );
 }

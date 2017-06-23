@@ -7,9 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Application_Factory;
-use Jet\Application_Module_Manifest;
-use Jet\Application_Modules_Exception;
 use Jet\Autoloader_Loader;
 use Jet\Application_Modules;
 

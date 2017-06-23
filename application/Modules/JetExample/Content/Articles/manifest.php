@@ -7,7 +7,7 @@ return [
 	'description' => '',
 
 	'admin_sections' => [
-		'admin/articles' => [
+		'articles' => [
 			'title'                  => 'Articles',
 			'relative_path_fragment' => 'articles',
 			'icon'                   => 'file-text',
@@ -20,7 +20,7 @@ return [
 		'articles' => [
 			'label'   => 'Articles',
 			'menu_id' => 'content',
-			'page_id' => 'admin/articles',
+			'page_id' => 'articles',
 			'icon'    => 'file-text',
 		],
 	],

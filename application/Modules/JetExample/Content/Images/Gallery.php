@@ -16,10 +16,8 @@ use Jet\DataModel_Related_1toN;
 use Jet\DataModel_Related_1toN_Iterator;
 
 use Jet\Form;
-use Jet\Form_Field_Checkbox;
 use Jet\Form_Field_FileImage;
 use Jet\Form_Field_Hidden;
-use Jet\Form_Field_Input;
 
 use Jet\Tr;
 use Jet\Data_Tree;
@@ -28,8 +26,9 @@ use Jet\IO_Dir;
 use Jet\Locale;
 
 use Jet\Mvc;
-use Jet\Mvc_Site;
+
 use Jet\Mvc_Page_Interface;
+use JetApplication\Application;
 
 /**
  *
@@ -246,7 +245,7 @@ class Gallery extends DataModel
 	public function afterLoad()
 	{
 
-		foreach( Mvc_Site::getAllLocalesList(false) as $lc_str => $locale) {
+		foreach( Application::getWebSite()->getLocales() as $lc_str => $locale) {
 
 			if (!isset($this->localized[$lc_str])) {
 

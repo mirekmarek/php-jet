@@ -8,8 +8,6 @@
 namespace JetApplication;
 
 use Jet\Debug_ErrorHandler;
-use Jet\Debug_Profiler;
-
 
 //Debug_Profiler::blockStart('INIT - ErrorHandler');
 

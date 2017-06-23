@@ -28,4 +28,10 @@ return [
 	'Get image - valid'                                          => 'Obrázek',
 	'Get image thumbnail - valid'                                => 'Náhled obrázky',
 	'Get image - unknown (error simulation)'                     => 'Obrázek - neznámý (simulace chyby)',
+	'Current REST API client user: %USERNAME%'                   => 'Aktuální REST API uživatel: %USERNAME%',
+	'Logout'                                                     => 'Odhlásit se',
+	'Username:'                                                  => 'Uživatelské jméno:',
+	'Password:'                                                  => 'Heslo:',
+	'Sign In'                                                    => 'Přihlásit se ',
+	'REST API Tests - client login'                              => 'REST API Testy - přihlášení klienta',
 ];

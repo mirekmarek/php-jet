@@ -53,14 +53,25 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	 */
 	public static function createByData( Mvc_Site_LocalizedData_Interface $localized_data, array $data )
 	{
+		/**
+		 * @var Mvc_Site_LocalizedData_MetaTag $meta_tag
+		 */
 		$meta_tag = Mvc_Factory::getSiteLocalizedMetaTagInstance();
 		$meta_tag->setLocalizedData( $localized_data );
 
-		foreach( $data as $key => $val ) {
-			$meta_tag->{$key} = $val;
-		}
+		$meta_tag->setData( $data );
 
 		return $meta_tag;
+	}
+
+	/**
+	 * @param array $data
+	 */
+	protected function setData( array $data )
+	{
+		foreach( $data as $key => $val ) {
+			$this->{$key} = $val;
+		}
 	}
 
 	/**

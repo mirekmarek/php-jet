@@ -7,7 +7,7 @@ return [
 	'description' => '',
 
 	'admin_sections' => [
-		'admin/administrators-users' => [
+		'administrators-users' => [
 			'title'                  => 'Administrators - Users',
 			'breadcrumb_title'       => 'Administrators - Users',
 			'icon'                   => 'user-secret',
@@ -20,7 +20,7 @@ return [
 			'label'            => 'Administrators - Users',
 			'separator_before' => true,
 			'menu_id'          => 'system',
-			'page_id'          => 'admin/administrators-users',
+			'page_id'          => 'administrators-users',
 			'icon'             => 'user-secret',
 			'index'            => 200,
 		],

@@ -182,22 +182,7 @@ interface Mvc_Page_Interface
 	/**
 	 * @return bool
 	 */
-	public function getIsAdminUI();
-
-	/**
-	 * @param bool $is_admin_UI
-	 */
-	public function setIsAdminUI( $is_admin_UI );
-
-	/**
-	 * @return bool
-	 */
-	public function getIsSecretPage();
-
-	/**
-	 * @param bool $is_secret_page
-	 */
-	public function setIsSecretPage( $is_secret_page );
+	public function isSecret();
 
 	/**
 	 * @return bool
@@ -345,16 +330,6 @@ interface Mvc_Page_Interface
 	 * @return string
 	 */
 	public function getLayoutsPath();
-
-	/**
-	 * @param string $layouts_dir
-	 */
-	public function setCustomLayoutsPath( $layouts_dir );
-
-	/**
-	 * @return string
-	 */
-	public function getCustomLayoutsPath();
 
 	/**
 	 * @return string

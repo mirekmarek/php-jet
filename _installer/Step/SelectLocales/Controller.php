@@ -89,7 +89,7 @@ class Installer_Step_SelectLocales_Controller extends Installer_Step_Controller
 
 			Installer::setSelectedLocales( $selected_locales );
 
-			Installer::getSession()->unsetValue( 'site' );
+			Installer::getSession()->unsetValue( 'sites' );
 
 			Installer::goToNext();
 		}

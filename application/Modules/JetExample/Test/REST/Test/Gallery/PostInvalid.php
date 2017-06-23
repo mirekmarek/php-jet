@@ -7,8 +7,8 @@
  */
 
 namespace JetApplicationModule\JetExample\Test\REST;
-use Jet\Data_DateTime;
-use Jet\Mvc_Site;
+
+use JetApplication\Application;
 
 
 /**
@@ -38,8 +38,8 @@ class Test_Gallery_PostInvalid extends Test_Abstract
 				]
 		];
 
-		foreach(Mvc_Site::getAllLocalesList() as $locale=>$locale_name) {
-			$data['localized'][$locale] = [
+		foreach( Application::getWebSite()->getLocales() as $locale_str=>$locale ) {
+			$data['localized'][$locale_str] = [
 				'title' => ''
 			];
 		}

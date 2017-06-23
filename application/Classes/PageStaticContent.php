@@ -9,7 +9,6 @@ namespace JetApplication;
 
 use Jet\BaseObject;
 use Jet\IO_File;
-use Jet\Locale;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc_Page_Interface;
 

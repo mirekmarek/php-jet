@@ -1,0 +1,10 @@
+Vítejte v systému, uživateli REST API!
+
+Zde jsou vaše přihlašovací údaje:
+
+	Uživatelské jméno: %USERNAME%
+	Heslo: %PASSWORD%
+	Vaše jméno: %NAME% %SURNAME%
+	Váš e-mail: %EMAIL%
+
+Přejeme příjemný den

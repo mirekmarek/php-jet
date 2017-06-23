@@ -30,20 +30,29 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 			$this->render( 'created' );
 		} else {
 
-			$user = new Auth_Administrator_User();
-			$form = $user->getRegistrationForm();
+			$administrator = new Auth_Administrator_User();
+			$form = $administrator->getRegistrationForm();
 
 			$form->getField( 'username' )->setDefaultValue( 'admin' );
 
 
-			$user->setLocale( Installer::getCurrentLocale() );
+			$administrator->setLocale( Installer::getCurrentLocale() );
 
 			$this->view->setVar( 'form', $form );
 
 
-			if( $user->catchForm( $form ) ) {
-				$user->setIsSuperuser( true );
-				$user->save();
+			if( $administrator->catchForm( $form ) ) {
+				$administrator->setIsSuperuser( true );
+				$administrator->save();
+
+
+				$api_user = new Auth_RESTClient_User();
+				$api_user->setUsername( $administrator->getUsername() );
+				$api_user->setLocale( $administrator->getLocale() );
+				$api_user->setEmail( $administrator->getEmail() );
+				$api_user->setIsSuperuser( true );
+				$api_user->setPassword( $form->getField('password')->getValue() );
+				$api_user->save();
 
 				Installer::goToNext();
 			}

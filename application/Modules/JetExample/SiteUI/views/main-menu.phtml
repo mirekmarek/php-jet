@@ -26,8 +26,8 @@ $show_menu = function( $pages ) use ( &$show_menu ) {
 		<?php foreach( $pages as $page ):
 			if(
 				!$page->getIsActive() ||
-				$page->getIsAdminUI() ||
-				$page->getIsSecretPage() ) {
+				$page->isSecret()
+			) {
 				continue;
 			}
 			?>
@@ -80,16 +80,9 @@ if( $secret_area_page ): ?>
 	<a href="<?=$secret_area_page->getURL()?>" rel="nofollow"><?=$secret_area_page->getMenuTitle()?></a><br/>
 <?php endif;
 
-$admin_page = Mvc_Page::get( 'admin' );
+$admin_page = Mvc_Page::get( '_homepage_', null, 'admin' );
 
 if( $admin_page ): ?>
 	<a href="<?=$admin_page->getURL()?>" rel="nofollow"><?=$admin_page->getMenuTitle()?></a><br/>
-<?php endif;
-
-
-$rest_page = Mvc_Page::get( 'rest' );
-
-if( $rest_page ): ?>
-	<a href="<?=$rest_page->getURL()?>" rel="nofollow"><?=$rest_page->getMenuTitle()?></a><br/>
 <?php endif; ?>
 </div>

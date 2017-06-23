@@ -8,7 +8,7 @@ return [
 
 
 	'admin_sections' => [
-		'admin/visitors-users' => [
+		'visitors-users' => [
 			'title'                  => 'Visitors - Users',
 			'relative_path_fragment' => 'visitors-users',
 			'icon'                   => 'users',
@@ -19,7 +19,7 @@ return [
 		'visitor_users' => [
 			'label'   => 'Visitors - Users',
 			'menu_id' => 'system',
-			'page_id' => 'admin/visitors-users',
+			'page_id' => 'visitors-users',
 			'icon'    => 'users',
 			'index'   => 100,
 		],

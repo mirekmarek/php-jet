@@ -24,7 +24,7 @@ class Auth_Administrator_Role extends Auth_Role
 	/**
 	 * @var array
 	 */
-	protected static $standard_privileges = [
+	protected static $privilege_set = [
 		self::PRIVILEGE_VISIT_PAGE => [
 			'label'                                 => 'Administration sections',
 			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
@@ -137,14 +137,7 @@ class Auth_Administrator_Role extends Auth_Role
 	{
 		$pages = [];
 
-		foreach( Mvc_Page::getList( Mvc::getCurrentSite()->getId(), Mvc::getCurrentLocale() ) as $page ) {
-			/**
-			 * @var Mvc_Page $page
-			 */
-			if( !$page->getIsAdminUI() ) {
-				continue;
-			}
-
+		foreach( Mvc_Page::getList( Application::getAdminSiteId(), Mvc::getCurrentLocale() ) as $page ) {
 			$pages[$page->getId()] = $page->getName();
 		}
 

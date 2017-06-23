@@ -4,7 +4,8 @@ namespace JetApplicationModule\JetExample\Content\Images;
 use Jet\UI;
 use Jet\Form;
 use Jet\Mvc_View;
-use Jet\Mvc_Site;
+
+use JetApplication\Application;
 
 /**
  * @var Mvc_View                     $this
@@ -21,7 +22,7 @@ $edit_form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 5 ] );
 	<?=$edit_form->start()?>
 
 
-<?php foreach( Mvc_Site::getAllLocalesList( false ) as $locale ):
+<?php foreach( Application::getWebSite()->getLocales() as $locale ):
 	$field = $edit_form->field( '/localized/'.$locale.'/title' );
 
 	echo $field->row()->start();

@@ -11,12 +11,14 @@ use Jet\Application_Module;
 use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 
+use JetApplication\Application;
+
 /**
  *
  */
 class Main extends Application_Module
 {
-	const ADMIN_MAIN_PAGE = 'admin/articles';
+	const ADMIN_MAIN_PAGE = 'articles';
 
 	const ACTION_GET_ARTICLE = 'get_article';
 	const ACTION_ADD_ARTICLE = 'add_article';
@@ -46,10 +48,10 @@ class Main extends Application_Module
 	{
 		$dir = parent::getViewsDir();
 
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
+		if( Mvc::getCurrentSite()->getId()==Application::getAdminSiteId() ) {
 			return $dir.'admin/';
 		} else {
-			return $dir.'site/';
+			return $dir.'web/';
 		}
 	}
 
@@ -67,12 +69,18 @@ class Main extends Application_Module
 			$controller_name = $content->getCustomController();
 		}
 
-		if( Mvc::getCurrentPage()->getIsAdminUI() ) {
-			$controller_suffix = 'Controller_Admin_'.$controller_name;
-
-		} else {
-			$controller_suffix = 'Controller_Site_'.$controller_name;
+		switch( Mvc::getCurrentSite()->getId() ) {
+			case Application::getAdminSiteId():
+				$controller_suffix = 'Controller_Admin_'.$controller_name;
+				break;
+			case Application::getRESTSiteId():
+				$controller_suffix = 'Controller_REST_'.$controller_name;
+				break;
+			default:
+				$controller_suffix = 'Controller_Web_'.$controller_name;
+				break;
 		}
+
 
 		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
 

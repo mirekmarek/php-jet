@@ -66,26 +66,39 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	 * @return Mvc_Site_LocalizedData_Interface
 	 */
 	public static function createByData( Mvc_Site_Interface $site, Locale $locale, array $data ) {
+		/**
+		 * @var Mvc_Site_LocalizedData $ld
+		 */
 		$ld = Mvc_Factory::getSiteLocalizedInstance();
 
 		$ld->setSite( $site );
 		$ld->setLocale( $locale );
 
-		foreach( $data as $key => $val ) {
-			$ld->{$key} = $val;
-		}
+		$ld->setData( $data );
 
+		return $ld;
+	}
+
+	/**
+	 * @param array $data
+	 */
+	protected function setData( array $data )
+	{
 		$meta_tags = [];
 
 		if(isset($data['default_meta_tags'])) {
 			foreach( $data['default_meta_tags'] as $m_data ) {
-				$meta_tags[] = Mvc_Site_LocalizedData_MetaTag::createByData( $ld, $m_data);
+				$meta_tags[] = Mvc_Site_LocalizedData_MetaTag::createByData( $this, $m_data);
 			}
 
-			$ld->setDefaultMetaTags( $meta_tags );
+			$this->setDefaultMetaTags( $meta_tags );
+
+			unset( $data['default_meta_tags'] );
 		}
 
-		return $ld;
+		foreach( $data as $key => $val ) {
+			$this->{$key} = $val;
+		}
 	}
 
 	/**

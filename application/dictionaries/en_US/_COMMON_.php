@@ -14,4 +14,7 @@ return [
 	'Last' => '',
 	'Firts' => '',
 	'Previous' => '',
+	'Edit' => '',
+	'Go back' => '',
+	'Change password' => '',
 ];

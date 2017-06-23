@@ -49,33 +49,34 @@ class Mvc_Controller_Router_Action extends BaseObject
 	protected $URI_creator;
 
 	/**
-	 * @param string $controller_action_name
-	 * @param string $regexp
-	 * @param string $ACL_action
+	 * @param Mvc_Controller_Router $router
+	 * @param string                $controller_action_name
+	 * @param string                $regexp
+	 * @param string                $ACL_action
 	 */
-	public function __construct( $controller_action_name, $regexp, $ACL_action )
+	public function __construct( Mvc_Controller_Router $router, $controller_action_name, $regexp, $ACL_action )
 	{
-		$this->setActionName( $controller_action_name );
-		$this->setRegexp( $regexp );
+		$this->router = $router;
+		$this->action_name = $controller_action_name;
+		$this->regexp = $regexp;
 		$this->ACL_action = $ACL_action;
 	}
 
 	/**
 	 * @return Mvc_Controller_Router
 	 */
-	public function getRouter()
+	public function router()
 	{
 		return $this->router;
 	}
 
 	/**
-	 * @param Mvc_Controller_Router $router
+	 * @return Mvc_Controller
 	 */
-	public function setRouter( $router )
+	public function controller()
 	{
-		$this->router = $router;
+		return $this->router()->getController();
 	}
-
 
 
 	/**
@@ -153,45 +154,6 @@ class Mvc_Controller_Router_Action extends BaseObject
 		return $this;
 	}
 
-
-	/**
-	 * Returns true if resolved
-	 *
-	 * @param string $path
-	 *
-	 * @return bool
-	 */
-	public function resolve( $path )
-	{
-		if( !$path ) {
-			return false;
-		}
-
-		if( $this->resolver ) {
-			$callback = $this->resolver;
-
-			return $callback( $path, $this );
-		}
-
-
-		$matches = [];
-		if( !preg_match( $this->regexp, $path, $matches ) ) {
-			return false;
-		}
-
-		array_shift( $matches );
-
-		if( $this->validator ) {
-			$callback = $this->validator;
-
-			if( !$callback( $matches ) ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	/**
 	 * @param callable $URI_creator
 	 *
@@ -216,16 +178,76 @@ class Mvc_Controller_Router_Action extends BaseObject
 		return $this;
 	}
 
+	/**
+	 * Returns true if resolved
+	 *
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	public function resolve( $path )
+	{
+		if( !$path ) {
+			return false;
+		}
+
+		if( $this->resolver ) {
+			$resolver = $this->resolver;
+
+			return $resolver( $path, $this );
+		}
+
+
+		$matches = [];
+		if( !preg_match( $this->regexp, $path, $matches ) ) {
+			return false;
+		}
+
+		array_shift( $matches );
+
+		if( $this->validator ) {
+			$validator = $this->validator;
+
+			if( !$validator( $matches, $this ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 
 	/**
+	 *
 	 * @param array $arguments
 	 *
-	 * @return string
+	 * @return string|bool
 	 */
-	public function getURI( array $arguments )
+	public function URI( ...$arguments )
 	{
+		if(!$this->accessAllowed()) {
+			return false;
+		}
+
 		return call_user_func_array( $this->URI_creator, $arguments );
 	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function accessAllowed()
+	{
+
+		$ACL_action_name = $this->getACLAction();
+
+		if( !$ACL_action_name ) {
+			return true;
+		}
+
+		return $this->router->getController()->getModule()->accessAllowed( $ACL_action_name );
+	}
+
 
 
 }

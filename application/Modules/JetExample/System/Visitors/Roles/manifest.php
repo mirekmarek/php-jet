@@ -8,7 +8,7 @@ return [
 
 
 	'admin_sections' => [
-		'admin/visitors-roles' => [
+		'visitors-roles' => [
 			'title'                  => 'Visitors - User roles',
 			'relative_path_fragment' => 'visitors-user-roles',
 			'icon'                   => 'street-view',
@@ -19,7 +19,7 @@ return [
 		'visitor_roles' => [
 			'label'   => 'Visitors - User roles',
 			'menu_id' => 'system',
-			'page_id' => 'admin/visitors-roles',
+			'page_id' => 'visitors-roles',
 			'icon'    => 'street-view',
 			'index'   => 101,
 		],

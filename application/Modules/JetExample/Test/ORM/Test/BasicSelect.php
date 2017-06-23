@@ -8,8 +8,6 @@
 
 namespace JetApplicationModule\JetExample\Test\ORM;
 
-use Jet\Tr;
-
 /**
  *
  */

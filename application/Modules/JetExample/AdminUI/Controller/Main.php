@@ -10,13 +10,9 @@ namespace JetApplicationModule\JetExample\AdminUI;
 use Jet\Mvc_Controller_Default;
 
 use Jet\Auth;
-use Jet\Mvc;
 use Jet\Http_Headers;
 use Jet\Http_Request;
-use Jet\Navigation_Breadcrumb;
 use Jet\Mvc_Page_Content_Interface;
-
-use Jet\UI;
 
 use JetApplication\Mvc_Page;
 

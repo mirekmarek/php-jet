@@ -94,6 +94,16 @@ class Auth extends BaseObject
 	}
 
 	/**
+	 * @param Mvc_Page_Interface $page
+	 *
+	 * @return bool
+	 */
+	public static function checkPageAccess( Mvc_Page_Interface $page )
+	{
+		return self::getController()->checkPageAccess( $page );
+	}
+
+	/**
 	 *
 	 */
 	public static function handleLogin()

@@ -7,25 +7,29 @@
  */
 namespace JetApplication;
 
-use Jet\Application;
 use Jet\BaseObject;
 use Jet\Auth_ControllerInterface;
+use Jet\Mvc_Page_Interface;
 
 use Jet\Debug;
 use Jet\Http_Headers;
 use Jet\Data_DateTime;
 
-use JetApplication\Auth_Administrator_User as Administrator;
+use Jet\Application_Log;
+
+use JetApplication\Auth_RESTClient_User as RESTClient;
 
 /**
  *
  */
 class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterface
 {
+	const EVENT_LOGIN_FAILED = 'login_failed';
+	const EVENT_LOGIN_SUCCESS = 'login_success';
 
 	/**
 	 *
-	 * @var Administrator
+	 * @var RESTClient
 	 */
 	protected $current_user = false;
 
@@ -79,31 +83,10 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 		return true;
 	}
 
-	/**
-	 * @param string $message
-	 */
-	protected function responseNotAuthorized( $message )
-	{
-		Debug::setOutputIsJSON( true );
-
-		$error = [
-			'result' => 'error',
-			'error_code' => 'Not authorized',
-			'error_msg'  => $message,
-		];
-
-		header( 'WWW-Authenticate: Basic realm="Login"' );
-		Http_Headers::authorizationRequired();
-
-		echo json_encode($error);
-
-		Application::end();
-
-	}
 
 	/**
 	 *
-	 * @return Administrator|null
+	 * @return RESTClient|null
 	 */
 	public function getCurrentUser()
 	{
@@ -134,15 +117,23 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 		) {
 			$this->responseNotAuthorized('Please enter username and password');
 		} else {
-			$user = Administrator::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+			$user = RESTClient::getByIdentity( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
-			if( $user ) {
-				$this->current_user = $user;
-				return $this->current_user;
+			if( !$user ) {
+				Application_Log::warning(
+					static::EVENT_LOGIN_FAILED,
+					'Login failed. Username: \''.$_SERVER['PHP_AUTH_USER'].'\'',
+					$_SERVER['PHP_AUTH_USER'],
+					'',
+					[],
+					false
+				);
+
+				$this->responseNotAuthorized('Invalid username or password');
 			}
+			$this->current_user = $user;
 
-			//$this->responseNotAuthorized('Incorrect username or password');
-			die();
+			return $this->current_user;
 		}
 
 		return null;
@@ -174,7 +165,7 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 	public function login( $username, $password )
 	{
 
-		$user = Administrator::getByIdentity( $username, $password );
+		$user = RESTClient::getByIdentity( $username, $password );
 
 		if( !$user ) {
 			return false;
@@ -183,6 +174,49 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 		$this->current_user = $user;
 
 		return true;
+	}
+
+
+	/**
+	 * @param string $message
+	 */
+	protected function responseNotAuthorized( $message )
+	{
+		Debug::setOutputIsJSON( true );
+
+		$error = [
+			'result' => 'error',
+			'error_code' => 'Not authorized',
+			'error_msg'  => $message,
+		];
+
+		header( 'WWW-Authenticate: Basic realm="Login"' );
+		Http_Headers::authorizationRequired();
+
+		echo json_encode($error);
+
+		Application::end();
+
+	}
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 *
+	 * @return bool
+	 */
+	public function checkPageAccess( Mvc_Page_Interface $page ) {
+
+		$current_user = $this->getCurrentUser();
+
+		if(!$current_user) {
+			return false;
+		}
+
+		return
+			(
+				$current_user instanceof Auth_RESTClient_User
+			);
+
 	}
 
 

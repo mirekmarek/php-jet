@@ -27,8 +27,6 @@ require JET_APP_INSTALLER_PATH.'Classes/Step/Controller.php';
 class Installer
 {
 
-	const SITE_ID = 'example';
-
 	/**
 	 * @var array
 	 */

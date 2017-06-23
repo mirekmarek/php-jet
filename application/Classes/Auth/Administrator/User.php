@@ -69,8 +69,11 @@ class Auth_Administrator_User extends Auth_User
 
 		Mailing::sendTemplate(
 			$this->getEmail(), 'reset_password_administrator', [
-			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
-			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+			'USERNAME' => $this->getUsername(),
+			'PASSWORD' => $password,
+			'NAME'     => $this->getName(),
+			'SURNAME'  => $this->getSurname(),
+			'EMAIL'    => $this->getEmail(),
 		], $this->getLocale()
 		);
 
@@ -106,8 +109,11 @@ class Auth_Administrator_User extends Auth_User
 	{
 		Mailing::sendTemplate(
 			$this->getEmail(), 'welcome_user_administrator', [
-			'USERNAME' => $this->getUsername(), 'PASSWORD' => $password, 'NAME' => $this->getName(),
-			'SURNAME'  => $this->getSurname(), 'EMAIL' => $this->getEmail(),
+			'USERNAME' => $this->getUsername(),
+			'PASSWORD' => $password,
+			'NAME'     => $this->getName(),
+			'SURNAME'  => $this->getSurname(),
+			'EMAIL'    => $this->getEmail(),
 		], $this->getLocale()
 		);
 	}
@@ -127,7 +133,9 @@ class Auth_Administrator_User extends Auth_User
 			}
 		}
 
+		$form->getField('locale')->setSelectOptions( $this->_getLocales() );
 		$form->getField( 'locale' )->setDefaultValue( Locale::getCurrentLocale() );
+
 		/**
 		 * @var Form_Field_RegistrationPassword $pwd
 		 */
@@ -152,7 +160,6 @@ class Auth_Administrator_User extends Auth_User
 		return true;
 	}
 
-
 	/**
 	 *
 	 * @return Form
@@ -165,6 +172,9 @@ class Auth_Administrator_User extends Auth_User
 			if( $form->fieldExists( 'password' ) ) {
 				$form->removeField( 'password' );
 			}
+
+
+			$form->getField('locale')->setSelectOptions( $this->_getLocales() );
 
 			$this->_form_edit = $form;
 		}
@@ -193,6 +203,8 @@ class Auth_Administrator_User extends Auth_User
 				$form->removeField( 'password' );
 			}
 
+			$form->getField('locale')->setSelectOptions( $this->_getLocales() );
+
 			$this->_form_add = $form;
 
 
@@ -207,6 +219,21 @@ class Auth_Administrator_User extends Auth_User
 	public function catchAddForm()
 	{
 		return $this->catchForm( $this->getAddForm() );
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function _getLocales()
+	{
+		$locales = [];
+
+		foreach( Application::getAdminSite()->getLocales() as $locale_str=>$locale ) {
+			$locales[$locale_str] = $locale->getName();
+		}
+
+		return $locales;
 	}
 
 }

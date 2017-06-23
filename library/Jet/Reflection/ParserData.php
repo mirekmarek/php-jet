@@ -78,10 +78,6 @@ class Reflection_ParserData
 			array_unshift( $class_reflection_hierarchy, $parent_class_reflection );
 
 
-			if( $parent_class_reflection->isAbstract() ) {
-				break;
-			}
-
 			$parent_class_reflection = $parent_class_reflection->getParentClass();
 		};
 
@@ -164,13 +160,26 @@ class Reflection_ParserData
 		$eval_code .= '$value='.$this->value_raw.'; return true;';
 
 
+		$error_message = '';
 		/** @noinspection PhpUsageOfSilenceOperatorInspection */
-		$eval_res = @eval( $eval_code );
+		try {
+			$eval_res = @eval( $eval_code );
+		} catch( \Exception $e ) {
+
+			$error_message = $e->getMessage();
+			$eval_res = false;
+		}
 
 		if( !$eval_res ) {
+			if($error_message) {
+				$error_message = JET_EOL.JET_EOL.$error_message;
+			}
+
 			throw new Reflection_Exception(
-				'Value parse error! Class:\''.$this->current_hierarchy_class_reflection->getName(
-				).'\', Definition: \''.$this->definition.'\' '
+				'Value parse error! '
+				.'Class:\''.$this->current_hierarchy_class_reflection->getName().'\', '
+				.'Definition: \''.$this->definition.'\' '
+				.$error_message
 			);
 		}
 
@@ -184,8 +193,9 @@ class Reflection_ParserData
 	protected function getRelevantClassReflection()
 	{
 		if( $this->current_property_reflection ) {
-			$relevant_class_reflection = $this->class_reflection_hierarchy[$this->current_property_reflection->getDeclaringClass(
-			)->getName()];
+			$declaring_class_name = $this->current_property_reflection->getDeclaringClass()->getName();
+
+			$relevant_class_reflection = $this->class_reflection_hierarchy[$declaring_class_name];
 		} else {
 			$relevant_class_reflection = $this->current_hierarchy_class_reflection;
 		}

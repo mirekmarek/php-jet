@@ -7,6 +7,7 @@ use Jet\Form;
 use Jet\Mvc_Site;
 
 use Jet\UI;
+use JetApplication\Application;
 
 /**
  * @var Mvc_View $this
@@ -40,7 +41,7 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
 		<?=$form->field( 'date_time' )?>
 
 
-		<?php foreach( Mvc_Site::getAllLocalesList( false ) as $locale ):
+		<?php foreach( Application::getWebSite()->getLocales() as $locale ):
 
 			$form->field( '/localized/'.$locale.'/text' )->input()->addCustomCssStyle('height:400px');
 			?>

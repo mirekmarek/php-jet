@@ -9,4 +9,11 @@ return [
 	'Uploaded file is not supported image' => '',
 	'Upload image' => '',
 	'Delete selected images' => '',
+	'Get galley data' => '',
+	'Add new gallery' => '',
+	'Update gallery' => '',
+	'Delete gallery' => '',
+	'Add new image' => '',
+	'Update image' => '',
+	'Delete image' => '',
 ];

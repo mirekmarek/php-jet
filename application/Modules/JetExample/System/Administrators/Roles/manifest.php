@@ -7,7 +7,7 @@ return [
 	'description' => '',
 
 	'admin_sections' => [
-		'admin/administrators-roles' => [
+		'administrators-roles' => [
 			'title'                  => 'Administrators - User roles',
 			'menu_title'             => 'Administrators - User roles',
 			'breadcrumb_title'       => 'Administrators - User roles',
@@ -20,7 +20,7 @@ return [
 		'administrator_roles' => [
 			'menu_id' => 'system',
 			'label'   => 'Administrators - User roles',
-			'page_id' => 'admin/administrators-roles',
+			'page_id' => 'administrators-roles',
 			'icon'    => 'user-circle',
 			'index'   => 201,
 		],

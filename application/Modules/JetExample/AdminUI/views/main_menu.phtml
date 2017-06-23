@@ -74,12 +74,18 @@ use Jet\Mvc;
 			</a>
 			<ul class="dropdown-menu">
 
-				<li><a href="<?=Mvc_Page::get( Mvc_Page::CHANGE_PASSWORD_ID )->getURL()?>">
+				<?php if(
+						Mvc_Page::get( 'change_password' ) &&
+						Mvc_Page::get( 'change_password' )->accessAllowed()
+				): ?>
+				<li><a href="<?=Mvc_Page::get( 'change_password' )->getURL()?>">
 						<?=UI::icon( 'cog' )?>
 						<?=Tr::_( 'Change password' )?>
 					</a></li>
 				<li role="separator" class="divider"></li>
-				<li><a href="<?=Mvc_Page::get( Mvc_Page::ADMIN_HOMEPAGE_ID )->getURL( [], [ 'logout' => 'logout' ] )?>">
+				<?php endif; ?>
+
+				<li><a href="<?=Mvc_Page::get( Mvc_Page::HOMEPAGE_ID )->getURL( [], [ 'logout' => 'logout' ] )?>">
 						<?=UI::icon( 'sign-out' )?>
 						<?=Tr::_( 'Logout' )?>
 					</a></li>

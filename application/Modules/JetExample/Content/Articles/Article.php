@@ -14,8 +14,6 @@ use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\Mvc;
 use Jet\Mvc_Site;
-use Jet\Mvc_Router_Interface;
-use Jet\Data_Text;
 use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_Id_UniqueString;
@@ -23,6 +21,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_DateTime;
+use JetApplication\Application;
 
 /**
  *
@@ -90,7 +89,7 @@ class Article extends DataModel
 	public function afterLoad()
 	{
 
-		foreach( Mvc_Site::getAllLocalesList(false) as $lc_str => $locale) {
+		foreach( Application::getWebSite()->getLocales() as $lc_str => $locale) {
 
 			if (!isset($this->localized[$lc_str])) {
 

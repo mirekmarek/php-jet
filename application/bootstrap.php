@@ -5,10 +5,17 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace Jet;
+namespace JetApplication;
 
-use JetApplication\Application_Log_Logger;
-use JetApplication\Auth_Controller;
+use Jet\IO_File;
+use Jet\Application_Log;
+use Jet\Auth;
+use Jet\Mvc;
+use Jet\Mvc_Router;
+use Jet\ErrorPages;
+use Jet\Form_Field_WYSIWYG;
+use Jet\Http_Request;
+
 
 define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 //define( 'JET_CONFIG_ENVIRONMENT', 'production' );
@@ -16,9 +23,6 @@ define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 
 $config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';
 $init_dir = __DIR__.'/Init/';
-
-
-
 
 require( $config_dir.'jet.php' );
 require( $config_dir.'paths.php' );
@@ -46,17 +50,31 @@ if(
 
 require( $init_dir.'Cache.php' );
 
-Application_Log::setLogger( new Application_Log_Logger() );
 
-Auth::setController( new Auth_Controller() );
 
-Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router_Interface $router ) {
+Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router $router ) {
+	$current_site = $router->getSite();
 
 	ErrorPages::setErrorPagesDir(
-		$router->getSite()->getPagesDataPath(
+		$current_site->getPagesDataPath(
 			$router->getLocale()
 		)
 	);
+
+	switch($current_site->getId()) {
+		case Application::getAdminSiteId():
+			Application_Log::setLogger( new Application_Log_Logger_Admin() );
+			Auth::setController( new Auth_Controller_Admin() );
+			break;
+		case Application::getRESTSiteId():
+			Application_Log::setLogger( new Application_Log_Logger_REST() );
+			Auth::setController( new Auth_Controller_REST() );
+			break;
+		default:
+			Application_Log::setLogger( new Application_Log_Logger_Web() );
+			Auth::setController( new Auth_Controller_Web() );
+			break;
+	}
 
 	if($router->getLocale()->getLanguage()!='en') {
 		Form_Field_WYSIWYG::setDefaultEditorConfigValue(

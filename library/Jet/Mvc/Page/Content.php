@@ -83,14 +83,26 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 */
 	public static function createByData( Mvc_Page_Interface $page, array $data )
 	{
+		/**
+		 * @var Mvc_Page_Content $content;
+		 */
 		$content = Mvc_Factory::getPageContentInstance();
 		$content->setPage( $page );
 
-		foreach( $data as $key => $val ) {
-			$content->{$key} = $val;
-		}
+		$content->setData( $data );
 
 		return $content;
+	}
+
+
+	/**
+	 * @param array $data
+	 */
+	protected function setData( array $data )
+	{
+		foreach( $data as $key => $val ) {
+			$this->{$key} = $val;
+		}
 	}
 
 	/**

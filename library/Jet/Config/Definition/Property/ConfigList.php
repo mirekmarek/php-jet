@@ -60,7 +60,6 @@ class Config_Definition_Property_ConfigList extends Config_Definition_Property
 	/**
 	 * @param array $definition_data
 	 *
-	 * @return void
 	 */
 	public function setUp( array $definition_data = null )
 	{

@@ -8,7 +8,6 @@
 namespace JetApplication;
 
 use Jet\DataModel_Helper;
-use Jet\Exception;
 use Jet\Mvc_Site;
 
 /**
@@ -50,8 +49,14 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 			__NAMESPACE__.'\Auth_Visitor_User',
 			__NAMESPACE__.'\Auth_Visitor_User_Roles',
 
-			__NAMESPACE__.'\Application_Log_Event_Administration',
-			__NAMESPACE__.'\Application_Log_Event_Site',
+			__NAMESPACE__.'\Auth_RESTClient_Role',
+			__NAMESPACE__.'\Auth_RESTClient_Role_Privilege',
+			__NAMESPACE__.'\Auth_RESTClient_User',
+			__NAMESPACE__.'\Auth_RESTClient_User_Roles',
+
+			__NAMESPACE__.'\Application_Log_Logger_Admin_Event',
+			__NAMESPACE__.'\Application_Log_Logger_Web_Event',
+			__NAMESPACE__.'\Application_Log_Logger_REST_Event',
 		];
 
 		$result = [];

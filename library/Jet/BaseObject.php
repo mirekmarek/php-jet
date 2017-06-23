@@ -13,7 +13,7 @@ require_once 'BaseObject/Trait.php';
 /**
  *
  */
-class BaseObject implements BaseObject_Interface
+abstract class BaseObject implements BaseObject_Interface
 {
 
 	use BaseObject_Trait;

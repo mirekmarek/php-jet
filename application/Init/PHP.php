@@ -1,5 +1,4 @@
 <?php
-use Jet\Debug_Profiler;
 
 //Debug_Profiler::blockStart('INIT - PHP');
 

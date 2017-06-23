@@ -12,20 +12,30 @@ use Jet\Auth_ControllerInterface;
 
 use Jet\Mvc;
 use Jet\Mvc_Factory;
-use Jet\Mvc_Layout;
+use Jet\Mvc_Page_Interface;
+
+use Jet\Auth_Role;
+use Jet\Application_Modules;
+use Jet\Application_Log;
 
 use Jet\Session;
 
 use Jet\Data_DateTime;
 
-use JetApplication\Mvc_Page as Page;
 use JetApplication\Auth_Administrator_User as Administrator;
+
 
 /**
  *
  */
 class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterface
 {
+	const LOGIN_FORM_MODULE_NAME = 'JetExample.Login.Admin';
+
+
+	const EVENT_LOGIN_FAILED = 'login_failed';
+	const EVENT_LOGIN_SUCCESS = 'login_success';
+	const EVENT_LOGOUT = 'logout';
 
 	/**
 	 *
@@ -128,7 +138,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 			}
 		}
 
-		$module = Auth_Controller::getLoginModule();
+		$module = Application_Modules::moduleInstance( static::LOGIN_FORM_MODULE_NAME );
 
 
 		$page_content = [];
@@ -143,9 +153,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 		$page->setContent( $page_content );
 
 
-		$layout = Mvc_Factory::getLayoutInstance( $module->getLayoutsDir(), 'default' );
-
-		Mvc_Layout::setCurrentLayout( $layout );
+		$page->setLayoutScriptName('login');
 
 
 		echo $page->render();
@@ -156,6 +164,14 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 	 */
 	public function logout()
 	{
+		$user = $this->getCurrentUser();
+		if( $user ) {
+			Application_Log::info(
+				static::EVENT_LOGOUT, 'User has '.$user->getUsername().' (id:'.$user->getId().') logged off',
+				$user->getId(), $user->getName()
+			);
+		}
+
 		Session::destroy();
 		$this->current_user = null;
 	}
@@ -174,8 +190,19 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 		$user = Administrator::getByIdentity( $username, $password );
 
 		if( !$user ) {
+			Application_Log::warning(
+				static::EVENT_LOGIN_FAILED,
+				'Login failed. Username: \''.$username.'\'',
+				$username,
+				'',
+				[],
+				false
+			);
+
 			return false;
 		}
+
+
 
 		/**
 		 * @var Administrator $user
@@ -185,8 +212,37 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 
 		$this->current_user = $user;
 
+		Application_Log::success(
+			static::EVENT_LOGIN_SUCCESS,
+			'User '.$user->getUsername().' (id:'.$user->getId().') has logged in',
+			$user->getId(),
+			$user->getName()
+		);
+
 		return true;
 	}
+
+	/**
+	 * @param Mvc_Page_Interface $page
+	 *
+	 * @return bool
+	 */
+	public function checkPageAccess( Mvc_Page_Interface $page ) {
+
+		$current_user = $this->getCurrentUser();
+
+		if(!$current_user) {
+			return false;
+		}
+
+		return
+			(
+				$current_user instanceof Auth_Administrator_User &&
+				$current_user->hasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $page->getId() )
+			);
+
+	}
+
 
 
 }

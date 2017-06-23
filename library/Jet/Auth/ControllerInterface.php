@@ -46,4 +46,11 @@ interface Auth_ControllerInterface
 	 */
 	public function handleLogin();
 
+	/**
+	 * @param Mvc_Page_Interface $page
+	 *
+	 * @return bool
+	 */
+	public function checkPageAccess( Mvc_Page_Interface $page );
+
 }

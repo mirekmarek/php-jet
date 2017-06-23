@@ -54,6 +54,42 @@ class Controller_Main extends Mvc_Controller_Default
 
 	/**
 	 *
+	 * @return Controller_Main_Router
+	 */
+	public function getControllerRouter()
+	{
+		if( !$this->router ) {
+			$this->router = new Controller_Main_Router( $this );
+		}
+
+		return $this->router;
+	}
+
+	/**
+	 * @param string $current_label
+	 */
+	protected function _setBreadcrumbNavigation( $current_label = '' )
+	{
+		/**
+		 * @var Mvc_Page $page
+		 */
+		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
+
+		Navigation_Breadcrumb::reset();
+
+		Navigation_Breadcrumb::addURL(
+			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(),
+			$page->getURL()
+		);
+
+		if( $current_label ) {
+			Navigation_Breadcrumb::addURL( $current_label );
+
+		}
+	}
+
+	/**
+	 *
 	 */
 	public function default_Action()
 	{
@@ -78,29 +114,6 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'grid', $grid );
 
 		$this->render( 'list' );
-	}
-
-	/**
-	 * @param string $current_label
-	 */
-	protected function _setBreadcrumbNavigation( $current_label = '' )
-	{
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
-
-		Navigation_Breadcrumb::reset();
-
-		Navigation_Breadcrumb::addURL(
-			UI::icon( $page->getIcon() ).'&nbsp;&nbsp;'.$page->getBreadcrumbTitle(),
-			$page->getURL()
-		);
-
-		if( $current_label ) {
-			Navigation_Breadcrumb::addURL( $current_label );
-
-		}
 	}
 
 	/**
@@ -134,19 +147,6 @@ class Controller_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'available_privileges_list', Role::getAvailablePrivilegesList() );
 
 		$this->render( 'edit' );
-	}
-
-	/**
-	 *
-	 * @return Controller_Main_Router
-	 */
-	public function getControllerRouter()
-	{
-		if( !$this->router ) {
-			$this->router = new Controller_Main_Router( $this );
-		}
-
-		return $this->router;
 	}
 
 	/**

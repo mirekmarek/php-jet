@@ -78,6 +78,15 @@ class UI
 		return Tr::_( $text, $data, static::getTranslatorNamespace() );
 	}
 
+	/**
+	 * @param string $label
+	 *
+	 * @return UI_button
+	 */
+	public static function button( $label = '' )
+	{
+		return new UI_button( $label );
+	}
 
 	/**
 	 * @param string $label
@@ -171,6 +180,18 @@ class UI
 	{
 		return new UI_flag( $locale );
 	}
+
+
+	/**
+	 * @param Locale $locale
+	 *
+	 * @return UI_locale
+	 */
+	public static function locale( Locale $locale )
+	{
+		return new UI_locale( $locale );
+	}
+
 
 	/**
 	 * @param array       $tabs

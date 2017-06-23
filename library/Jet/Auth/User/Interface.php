@@ -125,7 +125,6 @@ interface Auth_User_Interface
 	 *
 	 * @param string|Data_DateTime $password_is_valid_till
 	 *
-	 * @return mixed
 	 */
 	public function setPasswordIsValidTill( $password_is_valid_till );
 

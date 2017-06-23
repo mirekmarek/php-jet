@@ -7,7 +7,6 @@
  */
 namespace JetApplicationModule\JetExample\Test\ORM;
 
-use Jet\DataModel_Backend;
 use Jet\DataModel_Backend_MySQL;
 use Jet\DataModel_Backend_MySQL_Config;
 use Jet\DataModel_Backend_SQLite;

@@ -7,8 +7,10 @@
  */
 namespace JetApplicationModule\JetExample\System\Visitors\Roles;
 
-use Jet\Mvc_Controller_Router;
 use Jet\Mvc_Controller;
+use Jet\Mvc_Controller_Router;
+use Jet\Mvc_Controller_Router_Action;
+
 use JetApplication\Mvc_Page;
 use JetApplication\Auth_Visitor_Role as Role;
 
@@ -17,6 +19,27 @@ use JetApplication\Auth_Visitor_Role as Role;
  */
 class Controller_Main_Router extends Mvc_Controller_Router
 {
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $add_action;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $edit_action;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $view_action;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $delete_action;
+
 
 
 	/**
@@ -27,62 +50,57 @@ class Controller_Main_Router extends Mvc_Controller_Router
 
 		parent::__construct( $controller );
 
-		$validator = function( $parameters ) use ($controller) {
-			$role = Role::get( $parameters[0] );
+		$validator = function( $parameters, Mvc_Controller_Router_Action $action ) {
 
-			if( !$role ) {
-				return false;
+			if( ($role = Role::get( $parameters[0] )) ) {
+				$action->controller()->getContent()->setParameter('role', $role);
+				return true;
 			}
 
-			$controller->getContent()->setParameter('role', $role);
-
-			return true;
-
-		};
-
-		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
-		$router = $this;
-
-		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $page ) {
-			if( !$router->getActionAllowed( $action ) ) {
-				return false;
-			}
-
-
-			if( !$id ) {
-				return $page->getURI([ $action_uri ]);
-			}
-
-			return $page->getURI([$action_uri.':'.$id ]);
+			return false;
 		};
 
 
-		$this->addAction( 'add', '/^add$/', Main::ACTION_ADD_ROLE )->setURICreator(
-			function() use ( $URI_creator ) {
-				return $URI_creator( 'add', 'add' );
+
+		$this->add_action = $this->addAction( 'add', '/^add$/' );
+		$this->add_action->setURICreator(
+			function() {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['add' ]);
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([a-z\-0-9\_]+)$/', Main::ACTION_UPDATE_ROLE )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator( 'edit', 'edit', $id );
+
+
+		$this->edit_action = $this->addAction( 'edit', '/^edit:([a-z\-0-9\_]+)$/' );
+		$this->edit_action->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['edit:'.$id ]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->edit_action->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([a-z\-0-9\_]+)$/', Main::ACTION_GET_ROLE )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator( 'view', 'view', $id );
+
+
+
+		$this->view_action = $this->addAction( 'view', '/^view:([a-z\-0-9\_]+)$/' );
+		$this->view_action->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['view:'.$id ]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->view_action->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete:([a-z\-0-9\_]+)$/', Main::ACTION_DELETE_ROLE )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator( 'delete', 'delete', $id );
+
+
+		$this->delete_action = $this->addAction( 'delete', '/^delete:([a-z\-0-9\_]+)$/' );
+		$this->delete_action->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['delete:'.$id ]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->delete_action->setValidator( $validator );
 
 
-		return $router;
 	}
 
 
@@ -91,8 +109,39 @@ class Controller_Main_Router extends Mvc_Controller_Router
 	 */
 	public function getAddURI()
 	{
-		return $this->getActionURI( 'add' );
+		return $this->add_action->URI();
 	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return bool|string
+	 */
+	public function getEditURI( $id )
+	{
+		return $this->edit_action->URI( $id );
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return bool|string
+	 */
+	public function getViewURI( $id )
+	{
+		return $this->view_action->URI( $id );
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return bool|string
+	 */
+	public function getDeleteURI( $id )
+	{
+		return $this->delete_action->URI( $id );
+	}
+
 
 	/**
 	 * @param int $id
@@ -106,36 +155,6 @@ class Controller_Main_Router extends Mvc_Controller_Router
 		}
 
 		return $uri;
-	}
-
-	/**
-	 * @param int $id
-	 *
-	 * @return bool|string
-	 */
-	public function getEditURI( $id )
-	{
-		return $this->getActionURI( 'edit', $id );
-	}
-
-	/**
-	 * @param int $id
-	 *
-	 * @return bool|string
-	 */
-	public function getViewURI( $id )
-	{
-		return $this->getActionURI( 'view', $id );
-	}
-
-	/**
-	 * @param int $id
-	 *
-	 * @return bool|string
-	 */
-	public function getDeleteURI( $id )
-	{
-		return $this->getActionURI( 'delete', $id );
 	}
 
 }

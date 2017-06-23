@@ -8,7 +8,12 @@
 
 namespace JetApplicationModule\JetExample\Test\REST;
 
+use Jet\Mvc;
+use Jet\Session;
+
+use JetApplication\Application;
 use JetApplication\Mvc_Page;
+
 
 /**
  *
@@ -83,21 +88,21 @@ class Client
 	 *
 	 * @param string $username
 	 * @param string $password
-	 * @param string $root_page_id
 	 */
-	public function __construct( $username='', $password='', $root_page_id = 'rest' )
+	public function __construct( $username='', $password='' )
 	{
 		if(!$username) {
-			$username = $_SERVER['PHP_AUTH_USER'];
+			$session = Main::getSession();
+
+			$username = $session->getValue('username');
+			$password = $session->getValue('password');
 		}
-		if(!$password) {
-			$password = $_SERVER['PHP_AUTH_PW'];
-		}
+
 
 		$this->username = $username;
 		$this->password = $password;
 
-		$this->root_page = Mvc_Page::get( $root_page_id );
+		$this->root_page = Application::getRESTSite()->getHomepage( Mvc::getCurrentLocale() );
 	}
 
 

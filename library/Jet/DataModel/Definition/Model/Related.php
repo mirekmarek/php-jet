@@ -180,40 +180,37 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	protected function _initRelations()
 	{
 
-		parent::_initRelations();
+		$this->_initEternalRelations();
 
-		$this_to_main_relation = new DataModel_Definition_Relation_Internal( $this->class_name );
-		$main_to_this_relation = new DataModel_Definition_Relation_Internal( $this->main_model_class_name );
+		foreach( $this->properties as $property ) {
+			if($property instanceof DataModel_Definition_Property_DataModel) {
+				/**
+				 * @var DataModel_Definition_Model_Related $related_model_definition
+				 */
+				$related_model_definition = $property->getValueDataModelDefinition();
+
+				if($related_model_definition instanceof DataModel_Definition_Model_Related_MtoN) {
+					continue;
+				}
+
+				$related_to_this_relation = new DataModel_Definition_Relation_Internal( $related_model_definition->getClassName() );
+				$this_to_related_relation = new DataModel_Definition_Relation_Internal( $this->getClassName() );
 
 
-		foreach( $this->main_model_relation_id_properties as $property_name ) {
-			$this_to_main_relation->addJoinBy( $this->properties[$property_name]->getRelationJoinItem() );
-			$main_to_this_relation->addJoinBy( $this->properties[$property_name]->getRelationJoinItem() );
-		}
+				foreach( $related_model_definition->getParentModelRelationIdProperties() as $relation_property ) {
+					$related_to_this_relation->addJoinBy( $relation_property->getRelationJoinItem() );
+					$this_to_related_relation->addJoinBy( $relation_property->getRelationJoinItem() );
+				}
 
-		$main_definition = $this->getMainModelDefinition();
 
-		$main_definition->addRelation( $this->model_name, $this_to_main_relation );
-		$this->addRelation( $main_definition->getModelName(), $main_to_this_relation );
+				$this->addRelation( $related_model_definition->getModelName(), $related_to_this_relation );
 
-		if( $this->is_sub_related_model ) {
-			$this_to_parent_relation = new DataModel_Definition_Relation_Internal( $this->class_name );
-			$parent_to_this_relation = new DataModel_Definition_Relation_Internal( $this->parent_model_class_name );
+				$related_model_definition->addRelation( $this->getModelName(), $this_to_related_relation );
 
-			foreach( $this->parent_model_relation_id_properties as $property_name ) {
-				$this_to_parent_relation->addJoinBy( $this->properties[$property_name]->getRelationJoinItem() );
-				$parent_to_this_relation->addJoinBy( $this->properties[$property_name]->getRelationJoinItem() );
 			}
-
-
-			$parent_definition = $this->getParentModelDefinition();
-
-			$parent_definition->addRelation( $this->model_name, $this_to_parent_relation );
-			$this->addRelation( $parent_definition->getModelName(), $parent_to_this_relation );
-
 		}
-
 	}
+
 
 	/**
 	 *

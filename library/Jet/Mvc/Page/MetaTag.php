@@ -46,14 +46,26 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	 */
 	public static function createByData( Mvc_Page_Interface $page, array $data )
 	{
+		/**
+		 * @var Mvc_Page_MetaTag $meta_tag
+		 */
 		$meta_tag = Mvc_Factory::getPageMetaTagInstance();
 		$meta_tag->setPage( $page );
 
-		foreach( $data as $key => $val ) {
-			$meta_tag->{$key} = $val;
-		}
+		$meta_tag->setData( $data );
 
 		return $meta_tag;
+	}
+
+
+	/**
+	 * @param array $data
+	 */
+	protected function setData( array $data )
+	{
+		foreach( $data as $key => $val ) {
+			$this->{$key} = $val;
+		}
 	}
 
 	/**

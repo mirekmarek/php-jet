@@ -53,7 +53,15 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_SITES.Installer::SITE_ID.'/'      => [
+			JET_PATH_SITES.Application::getAdminSiteId().'/' => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_SITES.Application::getWebSiteId().'/' => [
+				'is_required'  => true,
+				'is_writeable' => false,
+			],
+			JET_PATH_SITES.Application::getRestSiteId().'/' => [
 				'is_required'  => true,
 				'is_writeable' => false,
 			],

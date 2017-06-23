@@ -51,7 +51,7 @@ class Application_Log extends BaseObject
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
 	 */
-	public static function common( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
+	public static function common( $event_class, $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
 		$logger = static::getLogger();
 		if( !$logger ) {
@@ -87,7 +87,7 @@ class Application_Log extends BaseObject
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
 	 */
-	public static function success( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
+	public static function success( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
 		static::common(
 			static::EVENT_CLASS_SUCCESS,
@@ -109,7 +109,7 @@ class Application_Log extends BaseObject
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
 	 */
-	public static function info( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
+	public static function info( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
 		static::common(
 			static::EVENT_CLASS_INFO,
@@ -131,7 +131,7 @@ class Application_Log extends BaseObject
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
 	 */
-	public static function warning( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
+	public static function warning( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
 		static::common(
 			static::EVENT_CLASS_WARNING,
@@ -153,7 +153,7 @@ class Application_Log extends BaseObject
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
 	 */
-	public static function danger( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
+	public static function danger( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
 		static::common(
 			static::EVENT_CLASS_DANGER,
@@ -175,7 +175,7 @@ class Application_Log extends BaseObject
 	 * @param mixed               $context_object_data (optional)
 	 * @param Auth_User_Interface $current_user (optional; default: null = current user)
 	 */
-	public static function fault( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], Auth_User_Interface $current_user = null )
+	public static function fault( $event, $event_message, $context_object_id = '', $context_object_name = '', $context_object_data = [], $current_user = null )
 	{
 		static::common(
 			static::EVENT_CLASS_FAULT,

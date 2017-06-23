@@ -9,6 +9,7 @@ namespace JetApplicationModule\JetExample\Content\Images;
 
 use Jet\Mvc_Controller;
 use Jet\Mvc_Controller_Router;
+use Jet\Mvc_Controller_Router_Action;
 
 use JetApplication\Mvc_Page;
 
@@ -17,6 +18,36 @@ use JetApplication\Mvc_Page;
  */
 class Controller_Admin_Main_Router extends Mvc_Controller_Router
 {
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $add;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $edit;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $view;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $delete;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $upload_image;
+
+	/**
+	 * @var Mvc_Controller_Router_Action
+	 */
+	protected $delete_images;
 
 
 	/**
@@ -27,24 +58,6 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 
 		parent::__construct( $controller );
-
-		$page = Mvc_Page::get( Main::ADMIN_MAIN_PAGE );
-		$router = $this;
-
-		$URI_creator = function( $action, $action_uri, $id = 0 ) use ( $router, $page ) {
-			if( !$router->getActionAllowed( $action ) ) {
-				return false;
-			}
-
-
-			if( !$id ) {
-				return $page->getURI();
-			}
-
-			return $page->getURI([$action_uri.':'.$id ]);
-		};
-
-
 
 		$validator = function( $parameters ) use ($controller) {
 			$gallery = Gallery::get( $parameters[0] );
@@ -60,21 +73,18 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 
 
 
-		$this->addAction( 'add', '/^add$|^add:([\S]+)$/', Main::ACTION_ADD_GALLERY )->setURICreator(
-			function( $parent_id ) use ( $page, $router ) {
-				if( !$router->getActionAllowed( 'add' ) ) {
-					return false;
-				}
-
-
+		$this->add = $this->addAction( 'add', '/^add$|^add:([\S]+)$/' );
+		$this->add->setURICreator(
+			function( $parent_id ) {
 				if( !$parent_id ) {
-					return $page->getURI(['add']);
+					return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['add']);
 				}
 
-				return $page->getURI(['add:'.$parent_id ]);
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['add:'.$parent_id]);
 
 			}
-		)->setValidator(
+		);
+		$this->add->setValidator(
 			function( $parameters ) use ( $validator, $controller ) {
 
 				if( !$parameters ) {
@@ -92,41 +102,51 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 			}
 		);
 
-		$this->addAction( 'edit', '/^edit:([\S]+)$/', Main::ACTION_UPDATE_GALLERY )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator('edit', 'edit', $id);
+		$this->edit = $this->addAction( 'edit', '/^edit:([\S]+)$/' );
+		$this->edit->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['edit:'.$id]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->edit->setValidator( $validator );
 
-		$this->addAction( 'view', '/^view:([\S]+)$/', Main::ACTION_GET_GALLERY )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator('view', 'view', $id);
+
+
+		$this->view = $this->addAction( 'view', '/^view:([\S]+)$/' );
+		$this->view->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['view:'.$id]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->view->setValidator( $validator );
 
-		$this->addAction( 'delete', '/^delete:([\S]+)$/', Main::ACTION_DELETE_GALLERY )->setURICreator(
-			function( $id ) use ( $URI_creator ) {
-				return $URI_creator('delete', 'delete', $id);
+
+
+		$this->delete = $this->addAction( 'delete', '/^delete:([\S]+)$/' );
+		$this->delete->setURICreator(
+			function( $id ) {
+				return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['delete:'.$id]);
 			}
-		)->setValidator( $validator );
+		);
+		$this->delete->setValidator( $validator );
 
 
-		$this->addAction( 'uploadImage', '/^upload-image:([\S]+)$/', Main::ACTION_ADD_IMAGE )
-			->setURICreator(
-				function( $id ) use ( $URI_creator ) {
-					return $URI_creator('uploadImage', 'upload-image', $id);
+		$this->upload_image = $this->addAction( 'uploadImage', '/^upload-image:([\S]+)$/' );
+		$this->upload_image->setURICreator(
+				function( $id ) {
+					return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['upload-image:'.$id]);
 				}
-			)
-			->setValidator( $validator );
+			);
+		$this->upload_image->setValidator( $validator );
 
 
-		$this->addAction( 'deleteImages', '/^delete-images:([\S]+)$/', Main::ACTION_DELETE_IMAGE )
-			->setURICreator(
-				function( $id ) use ( $URI_creator ) {
-					return $URI_creator('deleteImages', 'delete-images', $id);
+		$this->delete_images = $this->addAction( 'deleteImages', '/^delete-images:([\S]+)$/' );
+		$this->delete_images->setURICreator(
+				function( $id ) {
+					return Mvc_Page::get( Main::ADMIN_MAIN_PAGE )->getURI(['delete-images:'.$id]);
 				}
-			)
-			->setValidator( $validator );
+			);
+		$this->delete_images->setValidator( $validator );
 
 	}
 
@@ -136,10 +156,41 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 	 *
 	 * @return bool|string
 	 */
-	public function getAddURI( $parent_id )
+	public function getAddURI( $parent_id='' )
 	{
-		return $this->getActionURI( 'add', $parent_id );
+		return $this->add->URI( $parent_id );
 	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public function getEditURI( $id )
+	{
+		return $this->edit->URI( $id );
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public function getViewURI( $id )
+	{
+		return $this->view->URI( $id );
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public function getDeleteURI( $id )
+	{
+		return $this->delete->URI( $id );
+	}
+
 
 	/**
 	 * @param string $id
@@ -155,36 +206,6 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 		return $uri;
 	}
 
-	/**
-	 * @param string $id
-	 *
-	 * @return bool|string
-	 */
-	public function getEditURI( $id )
-	{
-		return $this->getActionURI( 'edit', $id );
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return bool|string
-	 */
-	public function getViewURI( $id )
-	{
-		return $this->getActionURI( 'view', $id );
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return bool|string
-	 */
-	public function getDeleteURI( $id )
-	{
-		return $this->getActionURI( 'delete', $id );
-	}
-
 
 
 	/**
@@ -194,7 +215,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 	 */
 	public function getUploadImageURI( $id )
 	{
-		return $this->getActionURI( 'uploadImage', $id );
+		return $this->upload_image->URI( $id );
 	}
 
 	/**
@@ -204,7 +225,7 @@ class Controller_Admin_Main_Router extends Mvc_Controller_Router
 	 */
 	public function getDeleteImagesURI( $id )
 	{
-		return $this->getActionURI( 'deleteImages', $id );
+		return $this->delete_images->URI( $id );
 	}
 
 

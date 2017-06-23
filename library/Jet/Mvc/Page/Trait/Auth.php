@@ -22,18 +22,11 @@ trait Mvc_Page_Trait_Auth
 		/**
 		 * @var Mvc_Page|Mvc_Page_Trait_Auth $this
 		 */
-		if(
-			!$this->getIsSecretPage() &&
-			!$this->getIsAdminUI()
-		) {
+		if( !$this->isSecret() ) {
 			return true;
 		}
 
-		if( Auth::getCurrentUserHasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $this->getKey() ) ) {
-			return true;
-		}
-
-		return false;
+		return Auth::checkPageAccess( $this );
 
 	}
 

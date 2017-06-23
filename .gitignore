@@ -2,7 +2,7 @@
 .idea
 application/config/**/application.php
 application/data/**
-sites/example/site_data.php
+sites/**/site_data.php
 logs/**
 tmp/**
 cache/**

@@ -1,0 +1,8 @@
+Your REST API password has been reset
+
+This is your user account details:
+
+	Username: %USERNAME%
+	Password: %PASSWORD%
+
+We wish you a nice day

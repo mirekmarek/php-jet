@@ -28,18 +28,8 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 	/**
 	 * @var array
 	 */
-	protected static $standard_privileges = [
-		self::PRIVILEGE_VISIT_PAGE => [
-			'label'                                 => 'Sites and pages',
-			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
-		],
+	protected static $privilege_set = [];
 
-		self::PRIVILEGE_MODULE_ACTION => [
-			'label'                                 => 'Modules and actions',
-			'get_available_values_list_method_name' => 'getAclActionValuesList_ModulesActions',
-		],
-
-	];
 	/**
 	 * @var Auth_Role_Privilege_AvailablePrivilegesListItem[]
 	 */
@@ -142,131 +132,6 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 		return $list;
 	}
 
-	/**
-	 * Get Modules and actions ACL values list
-	 *
-	 * @return Data_Forest
-	 */
-	public static function getAclActionValuesList_ModulesActions()
-	{
-		$forest = new Data_Forest();
-		$forest->setLabelKey( 'name' );
-		$forest->setIdKey( 'id' );
-
-		$modules = Application_Modules::activatedModulesList();
-
-		foreach( $modules as $module_name => $module_info ) {
-
-			$module = Application_Modules::moduleInstance( $module_name );
-
-			$actions = $module->getAclActions();
-
-			if( !$actions ) {
-				continue;
-			}
-
-
-			$data = [];
-
-
-			foreach( $actions as $action => $action_description ) {
-				$data[] = [
-					'id' => $module_name.':'.$action, 'parent_id' => $module_name, 'name' => $action_description,
-				];
-			}
-
-			$tree = new Data_Tree();
-			$tree->getRootNode()->setLabel( $module_info->getLabel().' ('.$module_name.')' );
-			$tree->getRootNode()->setId( $module_name );
-
-			$tree->setData( $data );
-
-			$forest->appendTree( $tree );
-
-		}
-
-		return $forest;
-	}
-
-	/**
-	 * Get sites and pages ACL values list
-	 *
-	 * @return Data_Forest
-	 */
-	public static function getAclActionValuesList_Pages()
-	{
-
-		$forest = new Data_Forest();
-		$forest->setIdKey( 'id' );
-		$forest->setLabelKey( 'name' );
-
-		foreach( Mvc_Site::loadSites() as $site ) {
-			foreach( $site->getLocales() as $locale ) {
-
-				$homepage = $site->getHomepage( $locale );
-
-				$tree = new Data_Tree();
-				$tree->getRootNode()->setId( $homepage->getKey() );
-				$tree->getRootNode()->setLabel(
-					$homepage->getSite()->getName().' ('.$homepage->getLocale()->getName().')'.' - '.$homepage->getName(
-					)
-				);
-
-				$pages = [];
-				foreach( $homepage->getChildren() as $page ) {
-					static::_getAllPagesTree( $page, $pages );
-				}
-
-				$tree->setData( $pages );
-
-				$forest->appendTree( $tree );
-
-
-			}
-		}
-
-
-		foreach( $forest as $node ) {
-			//$node->setLabel( $node->getLabel().' ('.$node->getId().')' );
-
-			if( $node->getIsRoot() ) {
-				$node->setSelectOptionCssStyle( 'font-weight:bolder;font-size:15px;padding: 3px;' );
-			} else {
-				$padding = 20*$node->getDepth();
-				$node->setSelectOptionCssStyle(
-					'padding-left: '.$padding.'px;padding-top:2px; padding-bottom:2px; font-size:12px;'
-				);
-			}
-
-		}
-
-		return $forest;
-	}
-
-	/**
-	 * @param Mvc_Page_Interface $page
-	 * @param array $data
-	 */
-	protected static function _getAllPagesTree( Mvc_Page_Interface $page, &$data )
-	{
-		/*
-		if($page->getIsAdminUI()) {
-			return;
-		}
-		*/
-
-
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$data[$page->getKey()] = [
-			'id' => $page->getKey(), 'parent_id' => $page->getParent()->getKey(), 'name' => $page->getName(),
-		];
-
-		foreach( $page->getChildren() as $page ) {
-			static::_getAllPagesTree( $page, $data );
-		}
-	}
 
 	/**
 	 * @return string
@@ -446,7 +311,7 @@ class Auth_Role extends DataModel implements Auth_Role_Interface
 		if( static::$available_privileges_list===null ) {
 			static::$available_privileges_list = [];
 
-			foreach( static::$standard_privileges as $privilege => $d ) {
+			foreach( static::$privilege_set as $privilege => $d ) {
 				$available_values_list = null;
 
 				/**

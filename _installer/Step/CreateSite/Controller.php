@@ -40,53 +40,111 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			return;
 		}
 
-
 		$default_locale = Installer::getCurrentLocale();
 
 		$session = Installer::getSession();
 
-		if( !$session->getValueExists( 'site' ) ) {
-
-			$site = Mvc_Factory::getSiteInstance();
+		if( !$session->getValueExists( 'sites' ) )
+		{
 
 			$URL = $_SERVER['HTTP_HOST'].JET_URI_BASE;
 
-			$site->setName( 'Example Site' );
-			$site->setId(Installer::SITE_ID);
+			$web = Mvc_Factory::getSiteInstance();
+			$web->setName( 'Example Web' );
+			$web->setId( Application::getWebSiteId() );
 
-			$ld = $site->addLocale( $default_locale );
-			$ld->setTitle('PHP Jet');
+			$ld = $web->addLocale( $default_locale );
+			$ld->setTitle('PHP Jet Example Web');
 			$ld->setURLs( [$URL] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
 				if( $locale->toString()==$default_locale->toString() ) {
 					continue;
 				}
-				$ld = $site->addLocale( $locale );
-				$ld->setTitle('PHP Jet');
+				$ld = $web->addLocale( $locale );
+				$ld->setTitle('PHP Jet Example Web');
 				$ld->setURLs( [$URL.$locale->getLanguage()] );
 			}
+			$web->setIsDefault( true );
+			$web->setIsActive( true );
 
 
-			$session->setValue( 'site', $site );
-		} else {
-			/**
-			 * @var Mvc_Site_Interface $site
-			 */
-			$site = $session->getValue( 'site' );
+
+
+
+			$admin = Mvc_Factory::getSiteInstance();
+			$admin->setIsSecret();
+			$admin->setName( 'Example Administration' );
+			$admin->setId( Application::getAdminSiteId() );
+
+			$ld = $admin->addLocale( $default_locale );
+			$ld->setTitle('PHP Jet Example Administration');
+			$ld->setURLs( [$URL.'admin/'] );
+
+			foreach( Installer::getSelectedLocales() as $locale ) {
+				if( $locale->toString()==$default_locale->toString() ) {
+					continue;
+				}
+				$ld = $admin->addLocale( $locale );
+				$ld->setTitle('PHP Jet Example Web');
+				$ld->setURLs( [$URL.'admin/'.$locale->getLanguage().'/'] );
+			}
+			$admin->setIsActive( true );
+
+
+
+			$rest = Mvc_Factory::getSiteInstance();
+			$rest->setIsSecret();
+			$rest->setName( 'Example REST API' );
+			$rest->setId( Application::getRESTSiteId() );
+
+			$ld = $rest->addLocale( $default_locale );
+			$ld->setTitle('PHP Jet Example REST API');
+			$ld->setURLs( [$URL.'rest/'] );
+
+			foreach( Installer::getSelectedLocales() as $locale ) {
+				if( $locale->toString()==$default_locale->toString() ) {
+					continue;
+				}
+				$ld = $rest->addLocale( $locale );
+				$ld->setTitle('PHP Jet Example Web');
+				$ld->setURLs( [$URL.'rest/'.$locale->getLanguage().'/'] );
+			}
+			$rest->setIsActive( true );
+
+
+
+			$sites = [
+				$web->getId()   => $web,
+			    $admin->getId() => $admin,
+			    $rest->getId()  => $rest
+			];
+
+
+			$session->setValue( 'sites', $sites );
+
+		}
+		else {
+			$sites = $session->getValue( 'sites' );
 		}
 
+		/**
+		 * @var Mvc_Site_Interface $site
+		 */
 
-		if( Http_Request::GET()->exists( 'create' )&&count( $site->getLocales() ) ) {
+
+		if(
+			Http_Request::GET()->exists( 'create' ) &&
+			count( $sites )
+		) {
 			if( !$session->getValue( 'creating' ) ) {
 				$session->setValue( 'creating', true );
 				$this->render( 'in-progress' );
 
 			} else {
-				$site->setIsDefault( true );
-				$site->setIsActive( true );
-
-				$site->saveDataFile();
+				foreach( $sites as $site ) {
+					$site->saveDataFile();
+				}
 
 
 				Http_Headers::movedPermanently( '?' );
@@ -98,20 +156,25 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 		//----------------------------------------------------------------------
 		$main_form_fields = [];
 
-		foreach( $site->getLocales() as $locale ) {
-			$URL = $site->getLocalizedData( $locale )->getURLs()[0];
+		foreach( $sites as $site) {
+			foreach( $site->getLocales() as $locale ) {
+				$URL = $site->getLocalizedData( $locale )->getURLs()[0];
 
-			$URL = rtrim( $URL, '/' );
+				$URL = rtrim( $URL, '/' );
 
-			$URL_field = new Form_Field_Input( '/'.$locale.'/URL', 'URL ', $URL, true );
-			$URL_field->setErrorMessages(
-				[
-					Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
-				]
-			);
+				$URL_field = new Form_Field_Input( '/'.$site->getId().'/'.$locale.'/URL', 'URL ', $URL, true );
 
-			$main_form_fields[] = $URL_field;
+				$URL_field->setErrorMessages(
+					[
+						Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter URL',
+					]
+				);
+
+				$main_form_fields[] = $URL_field;
+			}
+
 		}
+
 
 		$main_form = new Form( 'main', $main_form_fields );
 
@@ -120,16 +183,20 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$main_form->validate()
 		) {
 
-			foreach( $site->getLocales() as $locale ) {
-				$URL = strtolower($main_form->getField('/'.$locale.'/URL')->getValue());
-				$URL = rtrim($URL, '/');
+			foreach( $sites as $site ) {
 
-				$URL = str_replace('http://', '', $URL);
-				$URL = str_replace('https://', '', $URL);
-				$URL = str_replace('//', '', $URL);
+				foreach( $site->getLocales() as $locale ) {
+					$URL = strtolower($main_form->getField('/'.$site->getId().'/'.$locale.'/URL')->getValue());
+					$URL = rtrim($URL, '/');
 
-				$site->getLocalizedData( $locale )->setURLs([$URL]);
+					$URL = str_replace('http://', '', $URL);
+					$URL = str_replace('https://', '', $URL);
+					$URL = str_replace('//', '', $URL);
+
+					$site->getLocalizedData( $locale )->setURLs([$URL]);
+				}
 			}
+
 
 			Http_Headers::movedPermanently( '?create' );
 
@@ -138,7 +205,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 		//----------------------------------------------------------------------
 
-		$this->view->setVar( 'site', $site );
+		$this->view->setVar( 'sites', $sites );
 		$this->view->setVar( 'main_form', $main_form );
 
 		$this->render( 'default' );

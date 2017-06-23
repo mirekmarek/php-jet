@@ -14,7 +14,7 @@ use Jet\Application_Module;
  */
 class Main extends Application_Module
 {
-	const ADMIN_MAIN_PAGE = 'admin/visitors-users';
+	const ADMIN_MAIN_PAGE = 'visitors-users';
 
 	const ACTION_GET_USER = 'get_user';
 	const ACTION_ADD_USER = 'add_user';

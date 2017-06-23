@@ -14,7 +14,7 @@ use Jet\Application_Module;
  */
 class Main extends Application_Module
 {
-	const ADMIN_MAIN_PAGE = 'admin/administrators-roles';
+	const ADMIN_MAIN_PAGE = 'administrators-roles';
 
 	const ACTION_GET_ROLE = 'get_role';
 	const ACTION_ADD_ROLE = 'add_role';

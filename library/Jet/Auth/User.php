@@ -82,7 +82,6 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	 *
 	 * @JetDataModel:type = DataModel::TYPE_LOCALE
 	 * @JetDataModel:form_field_label = 'Locale'
-	 * @JetDataModel:form_field_get_select_options_callback = [ 'Mvc_Site','getAllLocalesList']
 	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Please select locale']
 	 *
 	 * @var Locale
@@ -507,7 +506,6 @@ class Auth_User extends DataModel implements Auth_User_Interface
 	/**
 	 * @param Data_DateTime|string $password_is_valid_till
 	 *
-	 * @return void
 	 */
 	public function setPasswordIsValidTill( $password_is_valid_till )
 	{

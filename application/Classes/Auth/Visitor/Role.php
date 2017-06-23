@@ -3,7 +3,6 @@ namespace JetApplication;
 
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_Role;
-use Jet\Mvc_Site;
 use Jet\Mvc_Page_Interface;
 use Jet\Data_Tree;
 use Jet\Data_Forest;
@@ -22,9 +21,10 @@ class Auth_Visitor_Role extends Auth_Role
 	/**
 	 * @var array
 	 */
-	protected static $standard_privileges = [
+	protected static $privilege_set = [
 		self::PRIVILEGE_VISIT_PAGE => [
-			'label' => 'Sites and pages', 'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
+			'label'                                 => 'Secret area access',
+			'get_available_values_list_method_name' => 'getAclActionValuesList_Pages',
 		],
 
 	];
@@ -70,30 +70,31 @@ class Auth_Visitor_Role extends Auth_Role
 		$forest->setIdKey( 'id' );
 		$forest->setLabelKey( 'name' );
 
-		foreach( Mvc_Site::loadSites() as $site ) {
-			foreach( $site->getLocales() as $locale ) {
 
-				$homepage = $site->getHomepage( $locale );
+		$site = Application::getWebSite();
+		foreach( $site->getLocales() as $locale ) {
 
-				$tree = new Data_Tree();
-				$tree->getRootNode()->setId( $homepage->getKey() );
-				$tree->getRootNode()->setLabel(
-					$homepage->getSite()->getName().' ('.$homepage->getLocale()->getName().')'.' - '.$homepage->getName(
-					)
-				);
+			$homepage = $site->getHomepage( $locale );
 
-				$pages = [];
-				foreach( $homepage->getChildren() as $page ) {
-					static::_getAllPagesTree( $page, $pages );
-				}
+			$tree = new Data_Tree();
+			$tree->setAdoptOrphans( true );
 
-				$tree->setData( $pages );
+			$tree->getRootNode()->setId( $homepage->getKey() );
+			$tree->getRootNode()->setLabel(
+				$homepage->getSite()->getName().' ('.$homepage->getLocale()->getName().')'.' - '.$homepage->getName(
+				)
+			);
 
-				$forest->appendTree( $tree );
-
-
+			$pages = [];
+			foreach( $homepage->getChildren() as $page ) {
+				static::_getPagesTree( $page, $pages );
 			}
+
+			$tree->setData( $pages );
+
+			$forest->appendTree( $tree );
 		}
+
 
 
 		foreach( $forest as $node ) {
@@ -117,22 +118,20 @@ class Auth_Visitor_Role extends Auth_Role
 	 * @param Mvc_Page_Interface $page
 	 * @param                    $data
 	 */
-	protected static function _getAllPagesTree( Mvc_Page_Interface $page, &$data )
+	protected static function _getPagesTree( Mvc_Page_Interface $page, &$data )
 	{
-		if( $page->getIsAdminUI() ) {
-			return;
+
+		if($page->isSecret()) {
+			$data[$page->getKey()] = [
+				'id'        => $page->getKey(),
+				'parent_id' => $page->getParent()->getKey(),
+				'name'      => $page->getName(),
+			];
 		}
 
 
-		/**
-		 * @var Mvc_Page $page
-		 */
-		$data[$page->getKey()] = [
-			'id' => $page->getKey(), 'parent_id' => $page->getParent()->getKey(), 'name' => $page->getName(),
-		];
-
 		foreach( $page->getChildren() as $page ) {
-			static::_getAllPagesTree( $page, $data );
+			static::_getPagesTree( $page, $data );
 		}
 	}
 
