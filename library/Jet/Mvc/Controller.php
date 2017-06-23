@@ -110,7 +110,7 @@ abstract class Mvc_Controller extends BaseObject
 	 */
 	public function getModuleAction( $controller_action )
 	{
-		if( !isset( static::ACL_ACTIONS_MAP[$controller_action] ) ) {
+		if( !array_key_exists( $controller_action, static::ACL_ACTIONS_MAP ) ) {
 			throw new Mvc_Controller_Exception(
 				'Action \''.$controller_action.'\' is not specified in ACL check map! Please enter the ACL rules. Add '.get_called_class().'::ACL_ACTIONS_MAP['.$controller_action.'] entry.',
 				Mvc_Controller_Exception::CODE_UNKNOWN_ACL_ACTION
