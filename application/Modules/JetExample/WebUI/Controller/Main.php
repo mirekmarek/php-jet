@@ -5,7 +5,7 @@
  * @license http://www.php-jet.net/license/license.txt
  * @author Miroslav Marek <mirek.marek.2m@gmail.com>
  */
-namespace JetApplicationModule\JetExample\SiteUI;
+namespace JetApplicationModule\JetExample\WebUI;
 
 use Jet\Mvc_Controller_Default;
 use Jet\Mvc;
