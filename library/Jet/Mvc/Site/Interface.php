@@ -187,13 +187,6 @@ interface Mvc_Site_Interface
 	public function removeLocale( Locale $locale );
 
 	/**
-	 * Set default locale. Add locale first if is not defined.
-	 *
-	 * @param Locale $locale
-	 */
-	public function setDefaultLocale( Locale $locale );
-
-	/**
 	 * @param Locale $locale
 	 *
 	 * @return Mvc_Page_Interface

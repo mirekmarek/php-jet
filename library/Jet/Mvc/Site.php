@@ -72,12 +72,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	protected $is_active = false;
 
 	/**
-	 *
-	 * @var Locale
-	 */
-	protected $default_locale;
-
-	/**
 	 * @var bool
 	 */
 	protected $SSL_required = false;
@@ -205,12 +199,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 			$this->localized_data[$locale_str] = Mvc_Site_LocalizedData::createByData( $this, $locale, $localized_data );
 
-			if(
-				!$this->default_locale||
-				!$this->default_locale->toString()
-			) {
-				$this->setDefaultLocale( $locale );
-			}
 		}
 		unset($data['localized_data']);
 
@@ -295,12 +283,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 		$this->localized_data[(string)$locale] = $new_ld;
 
-		if(
-			!$this->default_locale||
-			!$this->default_locale->toString()
-		) {
-			$this->setDefaultLocale( $locale );
-		}
 
 		return $new_ld;
 	}
@@ -423,18 +405,10 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	public function getDefaultLocale()
 	{
-		return $this->default_locale;
-	}
+		foreach( $this->localized_data as $ld ) {
+			return $ld->getLocale();
 
-	/**
-	 *
-	 * @param Locale $locale
-	 */
-	public function setDefaultLocale( Locale $locale )
-	{
-		$this->addLocale( $locale );
-
-		$this->default_locale = $locale;
+		}
 	}
 
 	/**
@@ -475,14 +449,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 				continue;
 			}
 
-			if( (string)$locale==(string)$this->default_locale ) {
-				$this->default_locale = $o_locale;
-			}
-
-		}
-
-		if( !count( $this->localized_data ) ) {
-			$this->default_locale = null;
 		}
 	}
 
@@ -602,7 +568,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 			}
 		}
 		$data['localized_data'] = [];
-		$data['default_locale'] = $this->default_locale->toString();
 
 
 		foreach( $this->localized_data as $locale_str => $ld ) {
