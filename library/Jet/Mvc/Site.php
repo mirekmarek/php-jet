@@ -407,8 +407,9 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	{
 		foreach( $this->localized_data as $ld ) {
 			return $ld->getLocale();
-
 		}
+
+		return null;
 	}
 
 	/**

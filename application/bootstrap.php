@@ -50,14 +50,16 @@ if(
 
 require( $init_dir.'Cache.php' );
 
+Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
 
 
 Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router $router ) {
 	$current_site = $router->getSite();
+	$current_locale = $router->getLocale();
 
 	ErrorPages::setErrorPagesDir(
 		$current_site->getPagesDataPath(
-			$router->getLocale()
+			$current_locale
 		)
 	);
 
@@ -76,17 +78,14 @@ Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router $router ) {
 			break;
 	}
 
-	if($router->getLocale()->getLanguage()!='en') {
+	if( $current_locale->getLanguage()!='en' ) {
 		Form_Field_WYSIWYG::setDefaultEditorConfigValue(
 			'language_url',
-			JET_URI_PUBLIC.'scripts/tinymce/language/'.$router->getLocale()->toString().'.js'
+			JET_URI_PUBLIC.'scripts/tinymce/language/'.$current_locale->toString().'.js'
 		);
 	}
 } );
 
-
-
-Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
 
 Application::runMvc();
 

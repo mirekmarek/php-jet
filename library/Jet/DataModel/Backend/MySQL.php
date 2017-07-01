@@ -37,20 +37,52 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	private $_db_write = null;
 
 	/**
-	 *
+	 * @return Db_BackendInterface
 	 */
-	public function initialize()
+	public function getDbRead()
 	{
-		$this->_db_read = Db::get( $this->config->getConnectionRead() );
-		$this->_db_write = Db::get( $this->config->getConnectionWrite() );
+		if(!$this->_db_read) {
+			$this->_db_read = Db::get( $this->config->getConnectionRead() );
+		}
+		return $this->_db_read;
 	}
+
+	/**
+	 * @param Db_BackendInterface $db_read
+	 */
+	public function setDbRead( Db_BackendInterface $db_read )
+	{
+		$this->_db_read = $db_read;
+	}
+
+	/**
+	 * @return Db_BackendInterface
+	 */
+	public function getDbWrite()
+	{
+		if(!$this->_db_write) {
+			$this->_db_write = Db::get( $this->config->getConnectionWrite() );
+		}
+
+		return $this->_db_write;
+	}
+
+	/**
+	 * @param Db_BackendInterface $db_write
+	 */
+	public function setDbWrite( Db_BackendInterface $db_write )
+	{
+		$this->_db_write = $db_write;
+	}
+
+
 
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */
 	public function helper_create( DataModel_Definition_Model $definition )
 	{
-		$this->_db_write->execCommand( $this->helper_getCreateCommand( $definition ) );
+		$this->getDbWrite()->execCommand( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
@@ -311,11 +343,8 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$value = (string)$value;
 		}
 
-		if(!$this->_db_read) {
-			return "'".addslashes( $value )."'";
-		}
 
-		return $this->_db_read->quote( $value );
+		return "'".addslashes( $value )."'";
 	}
 
 	/**
@@ -323,7 +352,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function helper_drop( DataModel_Definition_Model $definition )
 	{
-		$this->_db_write->execCommand( $this->helper_getDropCommand( $definition ) );
+		$this->getDbWrite()->execCommand( $this->helper_getDropCommand( $definition ) );
 	}
 
 	/**
@@ -349,7 +378,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 		$this->transactionStart();
 		try {
 			foreach( $this->helper_getUpdateCommand( $definition ) as $q ) {
-				$this->_db_write->execCommand( $q );
+				$this->getDbWrite()->execCommand( $q );
 			}
 		} catch( Exception $e ) {
 			$this->transactionRollback();
@@ -363,7 +392,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function transactionStart()
 	{
-		$this->_db_write->beginTransaction();
+		$this->getDbWrite()->beginTransaction();
 	}
 
 	/**
@@ -375,7 +404,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	{
 		$table_name = $this->_getTableName( $definition );
 
-		$exists_cols = $this->_db_write->fetchCol( 'DESCRIBE '.$table_name.'' );
+		$exists_cols = $this->getDbWrite()->fetchCol( 'DESCRIBE '.$table_name.'' );
 
 		$update_prefix = '_UP'.date( 'YmdHis' ).'_';
 		$updated_table_name = $this->_quoteName( $update_prefix.$this->_getTableName( $definition, false ) );
@@ -471,7 +500,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function transactionRollback()
 	{
-		$this->_db_write->rollBack();
+		$this->getDbWrite()->rollBack();
 	}
 
 	/**
@@ -479,7 +508,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function transactionCommit()
 	{
-		$this->_db_write->commit();
+		$this->getDbWrite()->commit();
 	}
 
 	/**
@@ -489,9 +518,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function save( DataModel_RecordData $record )
 	{
-		$this->_db_write->execCommand( $this->createInsertQuery( $record ) );
+		$this->getDbWrite()->execCommand( $this->createInsertQuery( $record ) );
 
-		return $this->_db_write->lastInsertId();
+		return $this->getDbWrite()->lastInsertId();
 	}
 
 	/**
@@ -528,7 +557,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function update( DataModel_RecordData $record, DataModel_Query $where )
 	{
 
-		return $this->_db_write->execCommand( $this->createUpdateQuery( $record, $where ) );
+		return $this->getDbWrite()->execCommand( $this->createUpdateQuery( $record, $where ) );
 	}
 
 	/**
@@ -715,7 +744,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function delete( DataModel_Query $where )
 	{
-		return $this->_db_write->execCommand( $this->createDeleteQuery( $where ) );
+		return $this->getDbWrite()->execCommand( $this->createDeleteQuery( $where ) );
 	}
 
 	/**
@@ -738,7 +767,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	public function getCount( DataModel_Query $query )
 	{
 
-		return (int)$this->_db_read->fetchOne( $this->createCountQuery( $query ) );
+		return (int)$this->getDbRead()->fetchOne( $this->createCountQuery( $query ) );
 	}
 
 	/**
@@ -911,7 +940,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	protected function _fetch( DataModel_Query $query, $fetch_method )
 	{
 
-		$data = $this->_db_read->$fetch_method(
+		$data = $this->getDbRead()->$fetch_method(
 			$this->createSelectQuery( $query )
 		);
 
@@ -1140,7 +1169,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function fetchCol( DataModel_Query $query )
 	{
-		$data = $this->_db_read->fetchCol(
+		$data = $this->getDbRead()->fetchCol(
 			$this->createSelectQuery( $query )
 		);
 

@@ -31,12 +31,25 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	private $_db = null;
 
+
 	/**
-	 *
+	 * @return Db_BackendInterface
 	 */
-	public function initialize()
+	public function getDb()
 	{
-		$this->_db = Db::get( $this->config->getConnection() );
+		if(!$this->_db) {
+			$this->_db = Db::get( $this->config->getConnection() );
+		}
+
+		return $this->_db;
+	}
+
+	/**
+	 * @param Db_BackendInterface $db
+	 */
+	public function setDb( Db_BackendInterface $db )
+	{
+		$this->_db = $db;
 	}
 
 	/**
@@ -44,7 +57,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function helper_create( DataModel_Definition_Model $definition )
 	{
-		$this->_db->execCommand( $this->helper_getCreateCommand( $definition ) );
+		$this->getDb()->execCommand( $this->helper_getCreateCommand( $definition ) );
 	}
 
 	/**
@@ -251,7 +264,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function helper_drop( DataModel_Definition_Model $definition )
 	{
-		$this->_db->execCommand( $this->helper_getDropCommand( $definition ) );
+		$this->getDb()->execCommand( $this->helper_getDropCommand( $definition ) );
 	}
 
 	/**
@@ -277,7 +290,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$this->transactionStart();
 		try {
 			foreach( $this->helper_getUpdateCommand( $definition ) as $q ) {
-				$this->_db->execCommand( $q );
+				$this->getDb()->execCommand( $q );
 			}
 		} catch( Exception $e ) {
 			$this->transactionRollback();
@@ -291,7 +304,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function transactionStart()
 	{
-		$this->_db->beginTransaction();
+		$this->getDb()->beginTransaction();
 	}
 
 	/**
@@ -303,7 +316,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	{
 		$table_name = $this->_getTableName( $definition );
 
-		$exists_cols = $this->_db->fetchCol( 'PRAGMA table_info('.$table_name.')', [], 'name' );
+		$exists_cols = $this->getDb()->fetchCol( 'PRAGMA table_info('.$table_name.')', [], 'name' );
 
 
 		$update_prefix = '_UP'.date( 'YmdHis' ).'_';
@@ -435,12 +448,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$value = (string)$value;
 		}
 
-		if(!$this->_db) {
-			return "'".addslashes( $value )."'";
-		}
-
-
-		return $this->_db->quote( $value );
+		return "'".addslashes( $value )."'";
 	}
 
 	/**
@@ -458,7 +466,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function transactionRollback()
 	{
-		$this->_db->rollBack();
+		$this->getDb()->rollBack();
 	}
 
 	/**
@@ -466,7 +474,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function transactionCommit()
 	{
-		$this->_db->commit();
+		$this->getDb()->commit();
 	}
 
 	/**
@@ -477,9 +485,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	public function save( DataModel_RecordData $record )
 	{
 
-		$this->_db->execCommand( $this->createInsertQuery( $record ) );
+		$this->getDb()->execCommand( $this->createInsertQuery( $record ) );
 
-		return $this->_db->lastInsertId();
+		return $this->getDb()->lastInsertId();
 	}
 
 	/**
@@ -526,7 +534,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function update( DataModel_RecordData $record, DataModel_Query $where )
 	{
-		return $this->_db->execCommand( $this->createUpdateQuery( $record, $where ) );
+		return $this->getDb()->execCommand( $this->createUpdateQuery( $record, $where ) );
 	}
 
 	/**
@@ -710,7 +718,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function delete( DataModel_Query $where )
 	{
-		return $this->_db->execCommand( $this->createDeleteQuery( $where ) );
+		return $this->getDb()->execCommand( $this->createDeleteQuery( $where ) );
 	}
 
 	/**
@@ -732,7 +740,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function getCount( DataModel_Query $query )
 	{
-		return (int)$this->_db->fetchOne( $this->createCountQuery( $query ) );
+		return (int)$this->getDb()->fetchOne( $this->createCountQuery( $query ) );
 	}
 
 	/**
@@ -742,18 +750,17 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function createCountQuery( DataModel_Query $query )
 	{
-		$id_properties = [];
-		foreach( $query->getMainDataModelDefinition()->getIdProperties() as $id_property ) {
-			$id_properties[] = $this->_getColumnName( $id_property );
+
+		if(!$query->getSelect()) {
+			$id_properties = [];
+			foreach( $query->getMainDataModelDefinition()->getIdProperties() as $id_property ) {
+				$id_properties[] = $id_property;
+			}
+
+			$query->setSelect( $id_properties );
 		}
 
-		$id_properties = implode( ', ', $id_properties );
-
-		return 'SELECT count(DISTINCT '.$id_properties.') FROM'.JET_EOL.JET_TAB.$this->_getSQLQueryTableName(
-			$query
-		).$this->_getSQLQueryJoinPart( $query ).$this->_getSqlQueryWherePart(
-			$query->getWhere()
-		).$this->_getSqlQueryGroupPart( $query ).$this->_getSqlQueryHavingPart( $query->getHaving() );
+		return 'SELECT count(*) FROM ('.$this->createSelectQuery($query).')';
 	}
 
 	/**
@@ -937,7 +944,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	protected function _fetch( DataModel_Query $query, $fetch_method )
 	{
 
-		$data = $this->_db->$fetch_method(
+		$data = $this->getDb()->$fetch_method(
 			$this->createSelectQuery( $query )
 		);
 
@@ -1134,7 +1141,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function fetchCol( DataModel_Query $query )
 	{
-		$data = $this->_db->fetchCol(
+		$data = $this->getDb()->fetchCol(
 			$this->createSelectQuery( $query )
 		);
 

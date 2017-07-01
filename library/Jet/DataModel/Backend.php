@@ -100,7 +100,6 @@ abstract class DataModel_Backend extends BaseObject
 				$backend_type,
 				DataModel_Factory::getBackendConfigInstance( $backend_type )
 			);
-			static::$default_backend->initialize();
 		}
 
 		return static::$default_backend;
@@ -163,11 +162,6 @@ abstract class DataModel_Backend extends BaseObject
 	{
 		$this->config = $config;
 	}
-
-	/**
-	 *
-	 */
-	abstract public function initialize();
 
 	/**
 	 * @param DataModel_Query $query

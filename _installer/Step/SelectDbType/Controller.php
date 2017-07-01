@@ -19,7 +19,6 @@ use Jet\DataModel_Backend_SQLite_Config;
 use Jet\DataModel_Factory;
 use Jet\Mvc_Site;
 
-
 /**
  *
  */
@@ -30,7 +29,8 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 * @var array
 	 */
 	protected static $database_types = [
-		'mysql' => 'MySQL / MariaDB', 'sqlite' => 'SQLite',
+		Db::DRIVER_MYSQL  => 'MySQL / MariaDB',
+		Db::DRIVER_SQLITE => 'SQLite',
 	];
 	/**
 	 * @var string
@@ -113,7 +113,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
 					$connection_config->setName( 'default' );
-					$connection_config->setDriver( Db::DRIVER_MYSQL );
+					$connection_config->setDriver( Db::DRIVER_SQLITE );
 					$connection_config->setUsername( '' );
 					$connection_config->setPassword( '' );
 					$connection_config->setDSN( $data_path.$data_file_name.'.sq3' );

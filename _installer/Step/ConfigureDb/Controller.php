@@ -70,6 +70,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	 */
 	protected function _editConnection_mysql( $edit_connection_name )
 	{
+		//TODO: nechyta se zmena URL v instalatoru
 		/**
 		 * @var Db_Backend_PDO_Config $connection_config
 		 */
