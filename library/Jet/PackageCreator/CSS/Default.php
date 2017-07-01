@@ -43,7 +43,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 		$package_path = $this->getPackagePath();
 
 		if(
-		!IO_File::exists( $package_path )
+			!IO_File::exists( $package_path )
 		) {
 
 			IO_File::write(
@@ -61,7 +61,7 @@ class PackageCreator_CSS_Default extends PackageCreator_CSS
 	 */
 	public function createPackage()
 	{
-		$CSS = '';
+		$CSS = '@charset "utf-8";'.JET_EOL.JET_EOL;
 
 		foreach( $this->URIs as $URI ) {
 
