@@ -14,7 +14,7 @@ abstract class Autoloader_Loader
 {
 
 	/**
-	 * @return static
+	 * @return self
 	 */
 	public static function register()
 	{

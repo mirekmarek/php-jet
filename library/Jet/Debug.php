@@ -29,19 +29,11 @@ class Debug
 	protected static $output_is_JSON = false;
 
 	/**
-	 *
+	 * @param bool $output_is_HTML
 	 */
-	public static function enableHTML()
+	public static function setOutputIsHTML( $output_is_HTML )
 	{
-		static::$output_is_HTML = true;
-	}
-
-	/**
-	 *
-	 */
-	public static function disableHTML()
-	{
-		static::$output_is_HTML = false;
+		static::$output_is_HTML = $output_is_HTML;
 	}
 
 	/**

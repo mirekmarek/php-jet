@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Http_Request_Trap implements BaseObject_ArrayEmulator
+class Http_Request_Trap implements BaseObject_Interface_ArrayEmulator
 {
 
 	/**

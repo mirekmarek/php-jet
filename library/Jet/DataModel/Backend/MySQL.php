@@ -27,17 +27,17 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	protected $config;
 	/**
 	 *
-	 * @var Db_BackendInterface
+	 * @var Db_Backend_Interface
 	 */
 	private $_db_read = null;
 	/**
 	 *
-	 * @var Db_BackendInterface
+	 * @var Db_Backend_Interface
 	 */
 	private $_db_write = null;
 
 	/**
-	 * @return Db_BackendInterface
+	 * @return Db_Backend_Interface
 	 */
 	public function getDbRead()
 	{
@@ -48,15 +48,15 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	}
 
 	/**
-	 * @param Db_BackendInterface $db_read
+	 * @param Db_Backend_Interface $db_read
 	 */
-	public function setDbRead( Db_BackendInterface $db_read )
+	public function setDbRead( Db_Backend_Interface $db_read )
 	{
 		$this->_db_read = $db_read;
 	}
 
 	/**
-	 * @return Db_BackendInterface
+	 * @return Db_Backend_Interface
 	 */
 	public function getDbWrite()
 	{
@@ -68,9 +68,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	}
 
 	/**
-	 * @param Db_BackendInterface $db_write
+	 * @param Db_Backend_Interface $db_write
 	 */
-	public function setDbWrite( Db_BackendInterface $db_write )
+	public function setDbWrite( Db_Backend_Interface $db_write )
 	{
 		$this->_db_write = $db_write;
 	}

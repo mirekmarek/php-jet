@@ -7,13 +7,12 @@
  */
 namespace Jet;
 
+use Iterator as PHP_Iterator;
+use Countable as PHP_Countable;
+
 /**
  *
  */
-interface BaseObject_Serializable_JSON extends \JsonSerializable
+interface BaseObject_Interface_IteratorCountable extends PHP_Iterator, PHP_Countable
 {
-	/**
-	 * @return string
-	 */
-	public function toJSON();
 }

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Paginator extends BaseObject implements BaseObject_Serializable_JSON
+class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
 
 	/**
@@ -263,6 +263,10 @@ class Data_Paginator extends BaseObject implements BaseObject_Serializable_JSON
 		$result = [];
 
 		for( $i = $this->data_index_start; $i<=$this->data_index_end; $i++ ) {
+			if(!isset($data_map[$i])) {
+				break;
+			}
+			
 			$result[$data_map[$i]] = $this->data[$data_map[$i]];
 		}
 

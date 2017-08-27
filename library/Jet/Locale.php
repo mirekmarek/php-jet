@@ -479,6 +479,20 @@ class Locale extends BaseObject
 	}
 
 	/**
+	 *  ISO 4217
+	 *
+	 * @param string $currency_code
+	 *
+	 * @return \NumberFormatter
+	 */
+	public function getCurrencyFormatter( $currency_code ) {
+		if(!isset($this->_currency_formatter[$currency_code])) {
+			$this->_currency_formatter[$currency_code] = new \NumberFormatter( $this.'@currency='.$currency_code, \NumberFormatter::CURRENCY );
+		}
+		return $this->_currency_formatter[$currency_code];
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getLocale()

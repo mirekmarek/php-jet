@@ -11,7 +11,7 @@ namespace Jet;
  *
  *
  */
-class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Data_Paginator_DataSource, BaseObject_ArrayEmulator
+class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Data_Paginator_DataSource, BaseObject_Interface_ArrayEmulator
 {
 
 	/**

@@ -58,11 +58,7 @@ class Debug_ErrorHandler
 	public static function initialize()
 	{
 
-		if( php_sapi_name()!='cli' ) {
-			Debug::enableHTML();
-		} else {
-			Debug::disableHTML();
-		}
+		Debug::setOutputIsHTML( php_sapi_name()!='cli' );
 
 		$class_name = get_called_class();
 

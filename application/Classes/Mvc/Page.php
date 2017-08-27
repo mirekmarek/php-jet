@@ -23,8 +23,6 @@ use Jet\Tr;
 class Mvc_Page extends Jet_Mvc_Page
 {
 
-	const CHANGE_PASSWORD_ID = '_change_password_';
-
 
 	/**
 	 * @var string

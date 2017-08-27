@@ -10,7 +10,7 @@ namespace Jet;
 /**
  * 
  */
-class DataModel_Query_GroupBy extends BaseObject implements BaseObject_IteratorCountable
+class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface_IteratorCountable
 {
 
 	/**

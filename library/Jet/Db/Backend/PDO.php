@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Db_Backend_PDO extends \PDO implements Db_BackendInterface
+class Db_Backend_PDO extends \PDO implements Db_Backend_Interface
 {
 	/**
 	 *

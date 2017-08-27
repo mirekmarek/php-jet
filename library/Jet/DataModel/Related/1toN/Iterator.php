@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Related_1toN_Iterator_Interface, BaseObject_Serializable_JSON
+class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Related_1toN_Iterator_Interface, BaseObject_Interface_Serializable_JSON
 {
 
 	/**

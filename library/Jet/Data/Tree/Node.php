@@ -11,7 +11,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Tree_Node extends BaseObject implements BaseObject_IteratorCountable, BaseObject_Serializable_JSON, Form_Field_Select_Option_Interface
+class Data_Tree_Node extends BaseObject implements BaseObject_Interface_IteratorCountable, BaseObject_Interface_Serializable_JSON, Form_Field_Select_Option_Interface
 {
 
 	/**
@@ -347,6 +347,16 @@ class Data_Tree_Node extends BaseObject implements BaseObject_IteratorCountable,
 
 		return $result;
 	}
+
+	/**
+	 *
+	 * @return Data_Tree_Node[]
+	 */
+	public function getPathFromRoot()
+	{
+		return array_reverse( $this->getPathToRoot() );
+	}
+
 
 	/**
 	 * @param int|null $max_depth

@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_RecordData implements BaseObject_IteratorCountable
+class DataModel_RecordData implements BaseObject_Interface_IteratorCountable
 {
 
 	/**

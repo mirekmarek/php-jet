@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-interface Data_Paginator_DataSource extends BaseObject_Serializable_JSON
+interface Data_Paginator_DataSource extends BaseObject_Interface_Serializable_JSON
 {
 
 	/**

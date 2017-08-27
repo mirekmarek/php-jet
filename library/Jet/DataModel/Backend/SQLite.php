@@ -27,13 +27,13 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	protected $config;
 	/**
 	 *
-	 * @var Db_BackendInterface
+	 * @var Db_Backend_Interface
 	 */
 	private $_db = null;
 
 
 	/**
-	 * @return Db_BackendInterface
+	 * @return Db_Backend_Interface
 	 */
 	public function getDb()
 	{
@@ -45,9 +45,9 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	}
 
 	/**
-	 * @param Db_BackendInterface $db
+	 * @param Db_Backend_Interface $db
 	 */
-	public function setDb( Db_BackendInterface $db )
+	public function setDb( Db_Backend_Interface $db )
 	{
 		$this->_db = $db;
 	}
@@ -448,7 +448,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			$value = (string)$value;
 		}
 
-		return "'".addslashes( $value )."'";
+		return "'".\SQLite3::escapeString( $value )."'";
 	}
 
 	/**

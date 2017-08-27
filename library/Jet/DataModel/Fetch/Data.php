@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Paginator_DataSource, BaseObject_ArrayEmulator
+abstract class DataModel_Fetch_Data extends DataModel_Fetch implements Data_Paginator_DataSource, BaseObject_Interface_ArrayEmulator
 {
 	/**
 	 * @var string

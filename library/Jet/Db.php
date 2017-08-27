@@ -22,7 +22,7 @@ class Db extends BaseObject
 	protected static $config = null;
 
 	/**
-	 * @var Db_BackendInterface[]
+	 * @var Db_Backend_Interface[]
 	 */
 	protected static $connections = [];
 
@@ -30,7 +30,7 @@ class Db extends BaseObject
 	 *
 	 * @param string|null $connection_name (optional)
 	 *
-	 * @return Db_BackendInterface
+	 * @return Db_Backend_Interface
 	 * @throws Db_Exception
 	 */
 	public static function get( $connection_name = null )
@@ -77,7 +77,7 @@ class Db extends BaseObject
 	 * @param string $connection_name
 	 * @param array  $connection_config_data
 	 *
-	 * @return Db_BackendInterface
+	 * @return Db_Backend_Interface
 	 */
 	public static function create( $connection_name, array $connection_config_data )
 	{

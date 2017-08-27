@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-interface DataModel_Interface extends BaseObject_Serializable_JSON
+interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 {
 //-- Definition ---------------------------------
 

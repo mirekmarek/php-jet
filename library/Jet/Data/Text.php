@@ -70,12 +70,15 @@ class Data_Text
 
 	/**
 	 * @param string $input
+	 * @param bool   $encode_quotes
 	 *
 	 * @return string
 	 */
-	public static function htmlSpecialChars( $input )
+	public static function htmlSpecialChars( $input, $encode_quotes=false )
 	{
-		return htmlspecialchars( $input, ENT_QUOTES, JET_CHARSET );
+		$flag = $encode_quotes ? ENT_QUOTES : ENT_COMPAT;
+
+		return htmlspecialchars( $input, $flag, JET_CHARSET );
 	}
 
 }

@@ -8,7 +8,7 @@
 namespace JetApplicationModule\JetExample\Content\Images;
 
 use Jet\BaseObject;
-use Jet\BaseObject_Serializable_JSON;
+use Jet\BaseObject_Interface_Serializable_JSON;
 use Jet\Http_Request;
 use Jet\Data_Image;
 use Jet\IO_File;
@@ -17,7 +17,7 @@ use Jet\IO_Dir;
 /**
  *
  */
-class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Serializable_JSON
+class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
 	/**
 	 * @var Gallery_Image
@@ -97,6 +97,10 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Serializa
 			$regenerate ||
 			!IO_File::exists($this->path)
 		) {
+			if( !IO_File::isReadable($this->image->getFilePath()) ) {
+				return;
+			}
+
 			if(!IO_Dir::exists($this->dir_path)) {
 				IO_Dir::create($this->dir_path);
 			}
@@ -121,6 +125,10 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Serializa
 	 */
 	public function getURI() {
 		$this->generate();
+
+		if(!$this->generated) {
+			return '';
+		}
 
 		return $this->URI;
 	}
@@ -177,7 +185,13 @@ class Gallery_Image_Thumbnail extends BaseObject implements BaseObject_Serializa
 	 */
 	public function __toString()
 	{
-		return $this->getURI();
+		try {
+			$URI = $this->getURI();
+		} catch( \Exception $e ) {
+			$URI = '';
+		}
+
+		return $URI;
 	}
 
 	/**

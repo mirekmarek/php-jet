@@ -7,13 +7,13 @@
  */
 namespace Jet;
 
-use ArrayAccess as PHP_ArrayAccess;
-use Iterator as PHP_Iterator;
-use Countable as PHP_Countable;
-
 /**
  *
  */
-interface BaseObject_ArrayEmulator extends PHP_ArrayAccess, PHP_Iterator, PHP_Countable
+interface BaseObject_Interface_Serializable_JSON extends \JsonSerializable
 {
+	/**
+	 * @return string
+	 */
+	public function toJSON();
 }

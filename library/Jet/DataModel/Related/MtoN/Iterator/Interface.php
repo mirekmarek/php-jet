@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Interface, BaseObject_ArrayEmulator
+interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Interface, BaseObject_Interface_ArrayEmulator
 {
 
 

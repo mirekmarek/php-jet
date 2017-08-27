@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class Data_Array extends BaseObject implements BaseObject_Serializable_JSON
+class Data_Array extends BaseObject implements BaseObject_Interface_Serializable_JSON
 {
 
 	const PATH_DELIMITER = '/';

@@ -8,6 +8,7 @@
 namespace JetApplication;
 
 use Jet\Debug;
+use Jet\Debug_ErrorHandler;
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
 
@@ -53,11 +54,11 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 	{
 
 		?>
-			<br />
-			<div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: 'Arial CE', Arial, sans-serif;">
+		<br />
+		<div style="background-color: #c9ffc9;padding:5px;border: 1px solid black; font-family: 'Arial CE', Arial, sans-serif;">
 			<h2 style="padding:0;margin:0;"><?=static::encode( $e->getTxt() )?></h2>
 			<hr/>
-				<?=static::encode( $e->getMessage() )?>
+			<?=static::encode( $e->getMessage() )?>
 			<hr/>
 			<table cellSpacing="0" cellPadding="2" border="1" style="border-collapse:collapse;collapse;background-color: #c9c9c9;">
 				<tr><td>script:</td><td><?=$e->getFile()?></td></tr>
@@ -67,46 +68,46 @@ class ErrorHandler_Display extends Debug_ErrorHandler_Handler
 			</table><br />
 
 
-		<?php if( $e->getContext() ): ?>
-			<br /><strong>Error context:</strong><br/>
-			<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">
-				<tr><th align="left">Variable</th><th align="left">Value</th></tr>
-			<?php
-			$i = 0;
-			foreach( $e->getContext() as $var_name => $var_value ):
-				$row_style = 'background-color:'.( ( $i%2 ? '#f0f0f0' : '#c9c9c9' ) );
-				$i++;
-				$var_value = Debug_ErrorHandler_Error::formatVariable($var_value);
-				?>
-				<tr style="<?=$row_style?>"><td valign="top"> $<?=$var_name?></td><td><?=static::encode( $var_value )?></td></tr>
-			<?php endforeach; ?>
-			</table>
-		<?php endif; ?>
-		<?php if( $e->getBacktrace() ): ?>
+			<?php if( $e->getContext() ): ?>
+				<br /><strong>Error context:</strong><br/>
+				<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">
+					<tr><th align="left">Variable</th><th align="left">Value</th></tr>
+					<?php
+					$i = 0;
+					foreach( $e->getContext() as $var_name => $var_value ):
+						$row_style = 'background-color:'.( ( $i%2 ? '#f0f0f0' : '#c9c9c9' ) );
+						$i++;
+						$var_value = Debug_ErrorHandler_Error::formatVariable($var_value);
+						?>
+						<tr style="<?=$row_style?>"><td valign="top"> $<?=$var_name?></td><td><?=static::encode( $var_value )?></td></tr>
+					<?php endforeach; ?>
+				</table>
+			<?php endif; ?>
+			<?php if( $e->getBacktrace() ): ?>
 
-			<br /><strong>Debug backtrace:</strong><br />
+				<br /><strong>Debug backtrace:</strong><br />
 
-			<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">
-			<tr>
-				<th align="left">File</th>
-				<th align="left">Line</th>
-				<th align="left">Call</th>
-			</tr>
+				<table border="1" cellSpacing="0" cellpadding="2" style="border-collapse:collapse;background-color: #999999;">
+					<tr>
+						<th align="left">File</th>
+						<th align="left">Line</th>
+						<th align="left">Call</th>
+					</tr>
 
-			<?php
-			$i = 0;
-			foreach( $e->getBacktrace() as $d ):
-				$row_style = 'background-color:'.( ( $i%2 ? '#f0f0f0' : '#c9c9c9' ) );
-				$i++;
-				?>
-				<tr style="<?=$row_style?>">
-					<td valign="top"><?=$d->getFile()?></td>
-					<td valign="top"><?=$d->getLine()?></td>
-					<td valign="top"><?=self::encode( $d->getCall() )?></td>
-				</tr>
-			<?php endforeach; ?>
-			</table>
-		<?php endif; ?>
+					<?php
+					$i = 0;
+					foreach( $e->getBacktrace() as $d ):
+						$row_style = 'background-color:'.( ( $i%2 ? '#f0f0f0' : '#c9c9c9' ) );
+						$i++;
+						?>
+						<tr style="<?=$row_style?>">
+							<td valign="top"><?=$d->getFile()?></td>
+							<td valign="top"><?=$d->getLine()?></td>
+							<td valign="top"><?=self::encode( $d->getCall() )?></td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+			<?php endif; ?>
 
 		</div><br />
 

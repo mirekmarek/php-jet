@@ -34,7 +34,7 @@ class UI_tree extends BaseObject
 	protected $selected_id = '';
 
 	/**
-	 * @var array
+	 * @var string
 	 */
 	protected $root_id = [];
 
@@ -185,7 +185,7 @@ class UI_tree extends BaseObject
 	}
 
 	/**
-	 * @return array
+	 * @return string
 	 */
 	public function getRootId()
 	{
@@ -193,7 +193,7 @@ class UI_tree extends BaseObject
 	}
 
 	/**
-	 * @param array $root_id
+	 * @param string $root_id
 	 */
 	public function setRootId( $root_id )
 	{

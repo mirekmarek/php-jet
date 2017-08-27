@@ -9,4 +9,9 @@ return [
 	'Current password' => '',
 	'New password' => '',
 	'Confirm new password' => '',
+	'Sign In' => '',
+	'Please enter username' => '',
+	'Please enter password' => '',
+	'username' => '',
+	'password' => '',
 ];
