@@ -11,4 +11,6 @@ public/**
 !public/styles/admin_main.js
 !public/styles/flags.js
 !public/styles/site_main.js
+!public/styles/wysiwyg.css
 !public/images/flags.png
+

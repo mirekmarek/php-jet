@@ -73,6 +73,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	protected static $default_editor_config = [
 		'mode'                    => 'exact',
 		'theme'                   => 'modern',
+		'skin'                    => false,
 		'apply_source_formatting' => true,
 		'remove_linebreaks'       => false,
 		'entity_encoding'         => 'raw',
@@ -83,10 +84,11 @@ class Form_Field_WYSIWYG extends Form_Field
 		'force_p_newlines'  => false,
 		'forced_root_block' => '',
 
+
 		'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
 		'paste_as_text' => true,
 
-		//'content_css' => 'wysiwyg.css',
+		'content_css' => JET_URI_PUBLIC.'styles/wysiwyg.css',
 		//'language_url' => .'tinymce/language/cs_CZ.js'
 	];
 
