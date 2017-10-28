@@ -14,6 +14,8 @@ use Jet\Mvc_Factory;
 use Jet\Mvc_Site_Interface;
 use Jet\Form;
 use Jet\Form_Field_Input;
+use Jet\Mvc_Site_LocalizedData_MetaTag;
+use Jet\Tr;
 
 /**
  *
@@ -54,16 +56,24 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$web->setId( Application::getWebSiteId() );
 
 			$ld = $web->addLocale( $default_locale );
-			$ld->setTitle('PHP Jet Example Web');
+			$ld->setTitle( Tr::_( 'PHP Jet Example Web', [], null, $default_locale ) );
 			$ld->setURLs( [$URL] );
+
+			$meta_tag = new Mvc_Site_LocalizedData_MetaTag();
+			$meta_tag->setAttribute( 'attribute' );
+			$meta_tag->setAttributeValue( 'example' );
+			$meta_tag->setContent( 'Example tag' );
+
+			$ld->addDefaultMetaTag( $meta_tag );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
 				if( $locale->toString()==$default_locale->toString() ) {
 					continue;
 				}
 				$ld = $web->addLocale( $locale );
-				$ld->setTitle('PHP Jet Example Web');
+				$ld->setTitle( Tr::_( 'PHP Jet Example Web', [], null, $locale ) );
 				$ld->setURLs( [$URL.$locale->getLanguage()] );
+				$ld->addDefaultMetaTag( $meta_tag );
 			}
 			$web->setIsDefault( true );
 			$web->setIsActive( true );
@@ -78,7 +88,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$admin->setId( Application::getAdminSiteId() );
 
 			$ld = $admin->addLocale( $default_locale );
-			$ld->setTitle('PHP Jet Example Administration');
+			$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $default_locale ) );
 			$ld->setURLs( [$URL.'admin/'] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
@@ -86,7 +96,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 					continue;
 				}
 				$ld = $admin->addLocale( $locale );
-				$ld->setTitle('PHP Jet Example Web');
+				$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $locale ) );
 				$ld->setURLs( [$URL.'admin/'.$locale->getLanguage().'/'] );
 			}
 			$admin->setIsActive( true );
@@ -99,7 +109,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$rest->setId( Application::getRESTSiteId() );
 
 			$ld = $rest->addLocale( $default_locale );
-			$ld->setTitle('PHP Jet Example REST API');
+			$ld->setTitle( Tr::_( 'PHP Jet Example REST API', [], null, $default_locale ) );
 			$ld->setURLs( [$URL.'rest/'] );
 
 			foreach( Installer::getSelectedLocales() as $locale ) {
@@ -107,7 +117,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 					continue;
 				}
 				$ld = $rest->addLocale( $locale );
-				$ld->setTitle('PHP Jet Example Web');
+				$ld->setTitle( Tr::_( 'PHP Jet Example REST API', [], null, $locale ) );
 				$ld->setURLs( [$URL.'rest/'.$locale->getLanguage().'/'] );
 			}
 			$rest->setIsActive( true );

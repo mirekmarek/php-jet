@@ -25,12 +25,6 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	 *
 	 * @var string
 	 */
-	protected $id = '';
-
-	/**
-	 *
-	 * @var string
-	 */
 	protected $attribute = '';
 
 	/**
@@ -113,13 +107,6 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 		}
 	}
 
-	/**
-	 * @param string $id
-	 */
-	public function setIdentifier( $id )
-	{
-		$this->id = $id;
-	}
 
 	/**
 	 * @return string
@@ -174,6 +161,13 @@ class Mvc_Site_LocalizedData_MetaTag extends BaseObject implements Mvc_Site_Loca
 	 */
 	public function toArray()
 	{
-		return get_object_vars( $this );
+		$data = get_object_vars( $this );
+		foreach( $data as $k => $v ) {
+			if( $k[0]=='_' ) {
+				unset( $data[$k] );
+			}
+		}
+
+		return $data;
 	}
 }

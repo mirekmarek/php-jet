@@ -708,7 +708,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 			$meta_tags[$key] = $mt;
 		}
 
-
 		foreach( $this->meta_tags as $mt ) {
 			$key = $mt->getAttribute().':'.$mt->getAttributeValue();
 			if( $key==':' ) {
@@ -717,7 +716,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 			$meta_tags[$key] = $mt;
 		}
 
-		return $this->meta_tags;
+		return $meta_tags;
 	}
 
 	/**
