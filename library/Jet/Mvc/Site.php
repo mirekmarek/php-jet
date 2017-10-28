@@ -520,12 +520,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @param Locale $locale
+	 * @param Locale $locale (optional)
 	 *
 	 * @return Mvc_Page_Interface
 	 */
-	public function getHomepage( Locale $locale )
+	public function getHomepage( Locale $locale=null )
 	{
+		if(!$locale) {
+			$locale = Mvc::getCurrentLocale();
+		}
 		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
 	}
 

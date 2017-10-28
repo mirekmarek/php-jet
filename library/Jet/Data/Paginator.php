@@ -266,7 +266,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 			if(!isset($data_map[$i])) {
 				break;
 			}
-			
+
 			$result[$data_map[$i]] = $this->data[$data_map[$i]];
 		}
 

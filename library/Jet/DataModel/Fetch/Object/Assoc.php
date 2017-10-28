@@ -130,7 +130,7 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Dat
 			$_i->setLoadFilter( $this->load_filter );
 			$_i->setState( $item['__data'], [] );
 
-			$main_related_data = $_i->loadMainRelatedData();
+			$main_related_data = $_i->loadRelatedData();
 			$_i->setState( $item['__data'], $main_related_data );
 
 			$_i->afterLoad();

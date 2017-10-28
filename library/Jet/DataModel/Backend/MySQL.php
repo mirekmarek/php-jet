@@ -785,11 +785,10 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 
 		$id_properties = implode( ', ', $id_properties );
 
-		return 'SELECT count(DISTINCT '.$id_properties.') FROM'.JET_EOL.JET_TAB.$this->_getSQLQueryTableName(
-			$query
-		).$this->_getSQLQueryJoinPart( $query ).$this->_getSqlQueryWherePart(
-			$query->getWhere()
-		).$this->_getSqlQueryHavingPart( $query->getHaving() );
+		return 'SELECT count(DISTINCT '.$id_properties.') FROM'.JET_EOL
+			.JET_TAB.$this->_getSQLQueryTableName( $query )
+			.$this->_getSQLQueryJoinPart( $query ).$this->_getSqlQueryWherePart( $query->getWhere() )
+			.$this->_getSqlQueryHavingPart( $query->getHaving() );
 	}
 
 	/**

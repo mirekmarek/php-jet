@@ -48,7 +48,7 @@ trait DataModel_Trait_Load
 
 		$_this->setState(
 			$main_data,
-			$_this->loadMainRelatedData()
+			$_this->loadRelatedData()
 		);
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -74,6 +74,45 @@ trait DataModel_Trait_Load
 
 		return $backend->fetchRow( $query );
 
+	}
+
+	/**
+	 * @return array|bool
+	 */
+	public function loadRelatedData()
+	{
+		/**
+		 * @var DataModel                  $this
+		 * @var DataModel_Definition_Model $definition
+		 */
+
+		$definition = static::getDataModelDefinition();
+		$related_properties = $definition->getAllRelatedPropertyDefinitions();
+
+		$related_data = [];
+		foreach( $related_properties as $related_model_name => $related_property ) {
+			/**
+			 * @var DataModel_Definition_Property_DataModel $related_property
+			 * @var DataModel_Related_Item_Interface        $class_name
+			 */
+			$class_name = $related_property->getValueDataModelClass();
+
+			$_related_data = $class_name::loadRelatedData( $this->getIdObject(), $this->getLoadFilter() );
+
+			if( !$_related_data ) {
+				continue;
+			}
+
+			if( !isset( $related_data[$related_model_name] ) ) {
+				$related_data[$related_model_name] = [];
+
+				foreach( $_related_data as $rd ) {
+					$related_data[$related_model_name][] = $rd;
+				}
+			}
+		}
+
+		return $related_data;
 	}
 
 	/**
@@ -144,44 +183,5 @@ trait DataModel_Trait_Load
 		}
 
 		$this->afterLoad();
-	}
-
-	/**
-	 * @return array|bool
-	 */
-	public function loadMainRelatedData()
-	{
-		/**
-		 * @var DataModel                  $this
-		 * @var DataModel_Definition_Model $definition
-		 */
-
-		$definition = static::getDataModelDefinition();
-		$related_properties = $definition->getAllRelatedPropertyDefinitions();
-
-		$related_data = [];
-		foreach( $related_properties as $related_model_name => $related_property ) {
-			/**
-			 * @var DataModel_Definition_Property_DataModel $related_property
-			 * @var DataModel_Related_Item_Interface        $class_name
-			 */
-			$class_name = $related_property->getValueDataModelClass();
-
-			$_related_data = $class_name::loadRelatedData( $this->getIdObject(), $this->getLoadFilter() );
-
-			if( !$_related_data ) {
-				continue;
-			}
-
-			if( !isset( $related_data[$related_model_name] ) ) {
-				$related_data[$related_model_name] = [];
-
-				foreach( $_related_data as $rd ) {
-					$related_data[$related_model_name][] = $rd;
-				}
-			}
-		}
-
-		return $related_data;
 	}
 }

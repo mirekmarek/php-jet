@@ -70,7 +70,6 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	 */
 	protected function _editConnection_mysql( $edit_connection_name )
 	{
-		//TODO: nechyta se zmena URL v instalatoru
 		/**
 		 * @var Db_Backend_PDO_Config $connection_config
 		 */
@@ -80,7 +79,10 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 		}
 
 		$DSN_data = [
-			'host' => 'localhost', 'port' => 3306, 'dbname' => '', 'unix_socket' => '',
+			'host'        => 'localhost',
+			'port'        => 3306,
+			'dbname'      => '',
+			'unix_socket' => '',
 		];
 
 		$DSN = $connection_config->getDsn();
