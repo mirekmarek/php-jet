@@ -265,7 +265,9 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 		if( $founded_url!=$this->site->getLocalizedData($this->locale)->getDefaultURL() ) {
 
-			$redirect_to = $this->getSite()->getLocalizedData($this->locale)->getDefaultURL().$this->path;
+			$redirect_to = (Http_Request::isHttps() ? 'https' : 'http').'://'
+					.$this->getSite()->getLocalizedData($this->locale)->getDefaultURL()
+					.$this->path;
 
 			if($this->path && Mvc::getForceSlashOnURLEnd()) {
 				$redirect_to .= '/';
@@ -390,10 +392,10 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	public function checkUrl()
 	{
-
 		$correct_page_url = $this->page->getURL( $this->path ? explode('/', $this->path) : [] );
 
 		if($correct_page_url!=Http_Request::URL( false)) {
+
 			$this->setIsRedirect( $correct_page_url );
 
 			return false;
@@ -518,13 +520,13 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	}
 
 	/**
-	 * Sets the redirect. Redirection is not performed immediately
 	 *
 	 * @param string $target_URL
 	 * @param string $http_code (optional), options: temporary, permanent, default: Http_Headers::CODE_302_MOVED_TEMPORARY
 	 */
 	protected function setIsRedirect( $target_URL, $http_code = null )
 	{
+
 		if($_SERVER['QUERY_STRING']) {
 			$target_URL .= '?'.$_SERVER['QUERY_STRING'];
 		}
