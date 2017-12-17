@@ -8,7 +8,7 @@ use Jet\Mvc_Layout;
 $this->requireMainCssFile( BOOTSTRAP_CSS_URL );
 $this->requireMainCssFile( FONT_AWESOME_CSS_URL );
 $this->requireMainCssFile( FLAGS_CSS_URL );
-$this->requireMainCssFile( 'styles/site_main.css?v=1' );
+$this->requireMainCssFile( JET_URI_PUBLIC.'styles/site_main.css?v=1' );
 
 
 $this->requireMainJavascriptFile( JQUERY_JS_URL );

@@ -9,6 +9,7 @@ namespace JetApplication;
 
 use Jet\Application as Jet_Application;
 use Jet\Mvc_Site;
+use Jet\Mvc_View;
 
 /**
  *
@@ -57,5 +58,41 @@ class Application extends Jet_Application
 	public static function getRESTSite() {
 		return Mvc_Site::get( static::getRESTSiteId() );
 	}
+
+	/**
+	 * @param string $dialog_id
+	 * @param array  $options
+	 *
+	 * @return null|string
+	 */
+	public static function requireAdminDialog( $dialog_id, array $options=[] ) {
+
+		$page = Mvc_Page::get('dialog-'.$dialog_id);
+
+		if(
+			!$page ||
+			!$page->getContent()
+		) {
+			return null;
+		}
+
+		$content = $page->getContent()[0];
+
+		$module = $content->getModuleInstance();
+
+		if(!$module) {
+			return null;
+		}
+
+		$view = new Mvc_View( $module->getViewsDir().'dialog-hooks/' );
+		foreach( $options as $k=>$v ) {
+			$view->setVar( $k, $v );
+		}
+
+		return $view->render( $dialog_id );
+
+
+	}
+
 
 }

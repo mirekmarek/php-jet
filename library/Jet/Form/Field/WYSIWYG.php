@@ -58,19 +58,24 @@ class Form_Field_WYSIWYG extends Form_Field
 	 */
 	protected static $default_editor_CSS_files = [
 		'' => [
-			'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
+            '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css'
+			//'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
 		],
 	];
 	/**
 	 * @var array
 	 */
 	protected static $default_editor_JavaScript_files = [
-			'//cdn.tinymce.com/4/tinymce.min.js',
+		BOOTSTRAP_JS_URL,
+		'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js'
+		//'//cdn.tinymce.com/4/tinymce.min.js',
 	];
 	/**
 	 * @var array
 	 */
 	protected static $default_editor_config = [
+		'height' => 500,
+		/*
 		'mode'                    => 'exact',
 		'theme'                   => 'modern',
 		'skin'                    => false,
@@ -89,7 +94,7 @@ class Form_Field_WYSIWYG extends Form_Field
 		'paste_as_text' => true,
 
 		'content_css' => JET_URI_PUBLIC.'styles/wysiwyg.css',
-		//'language_url' => .'tinymce/language/cs_CZ.js'
+		*/
 	];
 
 
@@ -194,6 +199,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	{
 		if(!self::$default_initialize_code_generator) {
 			return function( Form_Field_WYSIWYG $field, $editor_config ) {
+				/*
 				$editor_config['selector'] = '#'.$field->getId();
 
 				if( $field->getIsReadonly() ) {
@@ -203,6 +209,11 @@ class Form_Field_WYSIWYG extends Form_Field
 				return '<script type="text/javascript">'
 					.'tinymce.init('.json_encode( $editor_config ).');'
 					.'</script>'.JET_EOL;
+				*/
+				return '<script type="text/javascript">'
+					.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
+					.'</script>'.JET_EOL;
+
 			};
 		}
 

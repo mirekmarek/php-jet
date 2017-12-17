@@ -11,4 +11,6 @@ return [
 	'Add new article' => '',
 	'Update article' => '',
 	'Delete article' => '',
+	'Annotation' => '',
+	'Text' => '',
 ];

@@ -576,10 +576,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 		$snippet = '';
 
 		foreach( $JS_files as $URI ) {
-			if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
-				$URI = JET_URI_PUBLIC.$URI;
-			}
-
 			$snippet .= JET_TAB.'<script type="text/javascript" src="'.$URI.'"></script>'.JET_EOL;
 		}
 
@@ -645,9 +641,6 @@ class Mvc_Layout extends Mvc_View_Abstract
 			 * @var array $URIs
 			 */
 			foreach( $URIs as $URI ) {
-				if(IO_File::exists(JET_PATH_PUBLIC.$URI)) {
-					$URI = JET_URI_PUBLIC.$URI;
-				}
 
 				if( $media ) {
 					$snippet .= JET_TAB.'<link rel="stylesheet" type="text/css" href="'.$URI.'" media="'.$media.'"/>'.JET_EOL;

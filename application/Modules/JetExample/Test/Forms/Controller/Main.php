@@ -277,6 +277,7 @@ class Controller_Main extends Mvc_Controller_Default
 		$wysiwyg_field = new Form_Field_WYSIWYG( 'wysiwyg', 'WYSIWYG' );
 
 
+
 		$registration_user_name_field = new Form_Field_RegistrationUsername(
 			'registration_user_name_field', 'Registration - username'
 		);

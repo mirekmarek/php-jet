@@ -22,4 +22,5 @@ return [
 	'Update image' => 'Upravit obrázek',
 	'Delete image' => 'Smazat obrázek',
 	'Unknown parent' => 'Neznámý rodič',
+	'Select image' => '',
 ];

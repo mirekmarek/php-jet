@@ -78,12 +78,15 @@ Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router $router ) {
 			break;
 	}
 
+	/*
+	//TODO:
 	if( $current_locale->getLanguage()!='en' ) {
 		Form_Field_WYSIWYG::setDefaultEditorConfigValue(
 			'language_url',
 			JET_URI_PUBLIC.'scripts/tinymce/language/'.$current_locale->toString().'.js'
 		);
 	}
+	*/
 } );
 
 

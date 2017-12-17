@@ -11,8 +11,7 @@ use Jet\Mvc_Layout;
 
 $forms = $this->getRaw( 'forms' );
 
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile('scripts/JetAjaxForm.js');
-Mvc_Layout::getCurrentLayout()->requireJavascriptFile('scripts/JetAjaxForm.js');
+Mvc_Layout::getCurrentLayout()->requireJavascriptFile(JET_AJAX_FORM_JS_URL);
 
 ?>
 <script type="text/javascript">

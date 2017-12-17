@@ -17,4 +17,5 @@ return [
 	'Update image' => '',
 	'Delete image' => '',
 	'Image %FILE_NAME% uploaded ....' => '',
+	'Select image' => '',
 ];

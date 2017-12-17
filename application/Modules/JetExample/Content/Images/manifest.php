@@ -14,6 +14,15 @@ return [
 		],
 	],
 
+	'admin_dialogs' => [
+		'select-image' => [
+			'title'                  => 'Select image',
+			'relative_path_fragment' => 'select-image',
+			'icon'                   => 'picture-o',
+		],
+
+	],
+
 	'has_rest_api' => true,
 
 	'admin_menu_items' => [

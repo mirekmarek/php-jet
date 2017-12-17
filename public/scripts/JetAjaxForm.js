@@ -122,12 +122,15 @@ var JetAjaxForm = {
 
 	WYSIWYG: {
 		beforeSend: function( form ) {
+			/*
 			if(window['tinyMCE']) {
 				tinyMCE.triggerSave();
 			}
+			*/
 		},
 
 		beforeApplySnippet: function( form ) {
+			/*
 			if(window['tinyMCE']) {
 				var editor;
 				for(var input_id in form.elements) {
@@ -137,6 +140,7 @@ var JetAjaxForm = {
 					}
 				}
 			}
+			*/
 		}
 	},
 

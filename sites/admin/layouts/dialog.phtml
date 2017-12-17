@@ -1,0 +1,82 @@
+<?php
+use Jet\Tr;
+
+require_once 'parts/init_libs.php';
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?=$this->getString( 'page_title', 'JetApplication admin' )?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<jet_layout_meta_tags/>
+	<jet_layout_css/>
+	<jet_layout_javascripts/>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+
+		var toolbar = $('#main-toolbar');
+
+		if(!toolbar.offset()) {
+			return;
+		}
+
+		var toolbar_offset = toolbar.offset().top;
+		var main_menu_h = 51;
+		var scroll_limit = toolbar_offset-main_menu_h;
+
+		$(window).scroll( function( event ) {
+
+			var w_s = $(this).scrollTop();
+
+			if(w_s>=scroll_limit) {
+				toolbar.css({
+					position: 'fixed',
+					top: (main_menu_h)+'px'
+				});
+
+				$('.main-col').css({
+					'margin-top': (main_menu_h)+'px'
+				});
+			} else {
+				toolbar.css({
+					position: 'relative',
+					width: '100%',
+					top: 'auto'
+				});
+				$('.main-col').css({
+					'margin-top': '0px'
+				});
+
+			}
+		} );
+	});
+
+
+</script>
+<div class="container" id="container" style="width: 100%;min-height: 100%;height: 100%;">
+
+	<div class="row">
+		<div class="col-md-12" id="system-messages-area">
+			<jet_module module="JetExample.AdminUI" action="messages"/>
+		</div>
+	</div>
+
+	<jet_layout_main_position/>
+</div>
+
+
+<div id="__progress__">
+
+	<div class="loading" align="center">
+		<div id="__progress_prc__"></div>
+		<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+		<span class="sr-only"><?=Tr::_('Loading ...');?></span>
+	</div>
+</div>
+
+</body>
+</html>
