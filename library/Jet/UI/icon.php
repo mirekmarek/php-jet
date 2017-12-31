@@ -43,6 +43,11 @@ class UI_icon extends UI_BaseElement
 	 */
 	protected $color;
 
+	/**
+	 * @var string
+	 */
+	protected $title = '';
+
 
 	/**
 	 * @param string $icon
@@ -140,5 +145,26 @@ class UI_icon extends UI_BaseElement
 	{
 		return $this->tag;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 *
+	 * @return $this
+	 */
+	public function setTitle($title)
+	{
+		$this->title = $title;
+
+		return $this;
+	}
+
 
 }

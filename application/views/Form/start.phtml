@@ -29,3 +29,7 @@ if(!$r->getBaseCssClasses()) {
 <?php if( !$form->getIsReadonly() ) { ?>
 	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
 <?php }
+
+if($form->getCommonMessage()) {
+	echo $form->getCommonMessage();
+}

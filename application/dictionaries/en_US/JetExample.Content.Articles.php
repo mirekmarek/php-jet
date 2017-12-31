@@ -13,4 +13,5 @@ return [
 	'Delete article' => '',
 	'Annotation' => '',
 	'Text' => '',
+	'Select image' => '',
 ];

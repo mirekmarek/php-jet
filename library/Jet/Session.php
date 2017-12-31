@@ -171,6 +171,14 @@ class Session extends BaseObject
 	}
 
 	/**
+	 *
+	 */
+	public function reset()
+	{
+		$_SESSION[$this->namespace] = [];
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getSessionId()
