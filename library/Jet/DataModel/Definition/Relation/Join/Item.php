@@ -56,7 +56,6 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 	 * @param string $related_to_class_name
 	 * @param string $related_to_property_name
 	 *
-	 * @throws DataModel_Query_Exception
 	 */
 	public function __construct(
 				$this_model_class_name = '',
@@ -77,6 +76,40 @@ class DataModel_Definition_Relation_Join_Item extends BaseObject
 
 
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getThisClassName()
+	{
+		return $this->this_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThisPropertyName()
+	{
+		return $this->this_property_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRelatedClassName()
+	{
+		return $this->related_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRelatedPropertyName()
+	{
+		return $this->related_property_name;
+	}
+
+
 
 	/**
 	 *
