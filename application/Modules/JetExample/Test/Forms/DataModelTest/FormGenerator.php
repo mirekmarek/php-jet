@@ -131,7 +131,7 @@ class DataModelTest_FormGenerator extends DataModel
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_CUSTOM_DATA
 	 * @JetDataModel:form_field_label = 'Multi Select: '
 	 * @JetDataModel:form_field_type = Form::TYPE_MULTI_SELECT
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']
@@ -143,7 +143,7 @@ class DataModelTest_FormGenerator extends DataModel
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_CUSTOM_DATA
 	 * @JetDataModel:form_field_label = 'Radio Button: '
 	 * @JetDataModel:form_field_type = Form::TYPE_RADIO_BUTTON
 	 * @JetDataModel:form_field_get_select_options_callback = ['this', 'getSelectOptions']

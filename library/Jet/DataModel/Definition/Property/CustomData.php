@@ -10,12 +10,12 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Definition_Property_Array extends DataModel_Definition_Property
+class DataModel_Definition_Property_CustomData extends DataModel_Definition_Property
 {
 	/**
 	 * @var string
 	 */
-	protected $type = DataModel::TYPE_ARRAY;
+	protected $type = DataModel::TYPE_CUSTOM_DATA;
 
 	/**
 	 * @var array

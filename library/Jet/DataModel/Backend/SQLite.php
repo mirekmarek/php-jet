@@ -246,7 +246,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			case DataModel::TYPE_DATE_TIME:
 				return 'NUMERIC';
 				break;
-			case DataModel::TYPE_ARRAY:
+			case DataModel::TYPE_CUSTOM_DATA:
 				return 'BLOB';
 				break;
 			default:
@@ -401,9 +401,14 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			 * @var DataModel_RecordData_Item $item
 			 */
 
+			$value = $item->getValue();
+			if($item->getPropertyDefinition()->getMustBeSerializedBeforeStore()) {
+				$value = $this->serialize( $value );
+			}
+
 			$_record[$this->_getColumnName(
 				$item->getPropertyDefinition(), $quote, $add_table_name
-			)] = $this->_getValue( $item->getValue() );
+			)] = $this->_getValue( $value );
 		}
 
 		return $_record;

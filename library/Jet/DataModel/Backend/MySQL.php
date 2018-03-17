@@ -291,7 +291,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			case DataModel::TYPE_DATE_TIME:
 				return 'datetime DEFAULT NULL';
 				break;
-			case DataModel::TYPE_ARRAY:
+			case DataModel::TYPE_CUSTOM_DATA:
 				return 'longtext';
 				break;
 			default:
@@ -335,7 +335,9 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			$value = $value->format( 'Y-m-d H:i:s' );
 		}
 
-		if( is_array( $value ) ) {
+		if(
+			is_array( $value )
+		) {
 			$value = $this->serialize( $value );
 		}
 
@@ -487,9 +489,14 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			 * @var DataModel_RecordData_Item $item
 			 */
 
-			$_record[$this->_getColumnName(
-				$item->getPropertyDefinition(), $quote, $add_table_name
-			)] = $this->_getValue( $item->getValue() );
+			$value = $item->getValue();
+			if($item->getPropertyDefinition()->getMustBeSerializedBeforeStore()) {
+				$value = $this->serialize( $value );
+			}
+
+			$_record[
+				$this->_getColumnName( $item->getPropertyDefinition(), $quote, $add_table_name)
+			] = $this->_getValue( $value );
 		}
 
 		return $_record;

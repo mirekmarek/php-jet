@@ -384,6 +384,10 @@ abstract class DataModel_Backend extends BaseObject
 	 */
 	protected function unserialize( $string )
 	{
+		if(!$string) {
+			return null;
+		}
+
 		return unserialize( $string );
 	}
 

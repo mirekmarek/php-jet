@@ -113,7 +113,7 @@ abstract class DataModel extends BaseObject implements DataModel_Interface
 	const TYPE_LOCALE = 'Locale';
 	const TYPE_DATE = 'Date';
 	const TYPE_DATE_TIME = 'DateTime';
-	const TYPE_ARRAY = 'Array';
+	const TYPE_CUSTOM_DATA = 'CustomData';
 	const TYPE_DATA_MODEL = 'DataModel';
 
 	const KEY_TYPE_PRIMARY = 'PRIMARY';

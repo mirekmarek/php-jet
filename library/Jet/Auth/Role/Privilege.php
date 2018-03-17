@@ -46,7 +46,7 @@ class Auth_Role_Privilege extends DataModel_Related_1toN implements Auth_Role_Pr
 
 	/**
 	 *
-	 * @JetDataModel:type = DataModel::TYPE_ARRAY
+	 * @JetDataModel:type = DataModel::TYPE_CUSTOM_DATA
 	 * @JetDataModel:form_field_creator_method_name = 'createFormField'
 	 * @JetDataModel:form_field_error_messages = [Form_Field_Select::ERROR_CODE_INVALID_VALUE => 'Invalid value']
 	 *
