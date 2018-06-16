@@ -76,7 +76,12 @@ trait DataModel_Trait_Backend
 			return false;
 		}
 
-		if( $starter->getIdObject()->toString()!=$this->getIdObject()->toString() ) {
+		/**
+		 * @var DataModel_Id $id_object
+		 */
+		$id_object = $this->getIdObject();
+
+		if( $starter->getIdObject()->toString()!=$id_object->toString() ) {
 			return false;
 		}
 

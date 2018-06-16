@@ -3,6 +3,7 @@ namespace JetApplication;
 
 
 use Jet\Application_Modules;
+use Jet\Application_Module_Manifest;
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;

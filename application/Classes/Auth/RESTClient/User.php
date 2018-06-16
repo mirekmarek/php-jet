@@ -199,7 +199,7 @@ class Auth_RESTClient_User extends Auth_User
 	{
 		$locales = [];
 
-		foreach( Application::getRESTSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_REST::getSite()->getLocales() as $locale_str=>$locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 

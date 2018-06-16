@@ -122,9 +122,12 @@ trait Form_Field_Trait_Validation
 	{
 		/**
 		 * @var Form_Field $this
+		 * @var Form $form
 		 */
+		$form = $this->_form;
+
 		$this->is_valid = false;
-		$this->_form->setIsNotValid();
+		$form->setIsNotValid();
 		$this->last_error_code = $code;
 		$this->last_error_message = $this->getErrorMessage( $code );
 	}
@@ -138,9 +141,12 @@ trait Form_Field_Trait_Validation
 	{
 		/**
 		 * @var Form_Field $this
+		 * @var Form $form
 		 */
+		$form = $this->_form;
+
 		$this->is_valid = false;
-		$this->_form->setIsNotValid();
+		$form->setIsNotValid();
 		$this->last_error_code = $code;
 		$this->last_error_message = $error_message;
 	}

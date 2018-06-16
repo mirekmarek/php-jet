@@ -8,7 +8,7 @@
 
 namespace JetApplicationModule\JetExample\Test\REST;
 
-use JetApplication\Application;
+use JetApplication\Application_Web;
 
 
 /**
@@ -39,7 +39,7 @@ class Test_Gallery_Post extends Test_Abstract
 				]
 		];
 
-		foreach( Application::getWebSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Web::getSite()->getLocales() as $locale_str=>$locale ) {
 			$data['localized'][$locale_str] = [
 				'title' => 'test title ('.$locale->getLanguageName($locale).') '.time(),
 			];

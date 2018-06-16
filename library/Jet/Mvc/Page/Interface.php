@@ -29,12 +29,6 @@ interface Mvc_Page_Interface
 	public static function loadPages( Mvc_Site_Interface $site, Locale $locale );
 
 	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 */
-	public static function loadCustomPages( Mvc_Site_Interface $site, Locale $locale );
-
-	/**
 	 * @param Mvc_Site_Interface      $site
 	 * @param Locale                  $locale
 	 * @param array                   $data

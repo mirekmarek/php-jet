@@ -7,7 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\System\Visitors\Roles;
 
-use JetApplication\Mvc_Page;
+use Jet\Mvc_Page;
 use JetApplication\Auth_Visitor_Role as Role;
 
 use Jet\UI;

@@ -64,7 +64,7 @@ trait DataModel_Related_1to1_Trait
 		 * @var DataModel_Interface|DataModel_Related_Interface $this
 		 * @var DataModel_Definition_Model_Related              $data_model_definition
 		 */
-		$data_model_definition = $this->getDataModelDefinition();
+		$data_model_definition = static::getDataModelDefinition();
 
 		$query = new DataModel_Query( $data_model_definition );
 

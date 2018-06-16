@@ -93,6 +93,9 @@ trait DataModel_Trait_Save
 
 		$record = new DataModel_RecordData( $definition );
 
+		/**
+		 * @var DataModel_Id $id
+		 */
 		$id = $this->getIdObject();
 
 		$id->generate();
@@ -178,7 +181,11 @@ trait DataModel_Trait_Save
 		}
 
 		if( !$record->getIsEmpty() ) {
-			$where_query = $this->getIdObject()->getQuery();
+			/**
+			 * @var DataModel_Id $id_object
+			 */
+			$id_object = $this->getIdObject();
+			$where_query = $id_object->getQuery();
 			if( $where_query->getWhere()->getIsEmpty() ) {
 				throw  new DataModel_Exception( 'Empty WHERE!' );
 			}

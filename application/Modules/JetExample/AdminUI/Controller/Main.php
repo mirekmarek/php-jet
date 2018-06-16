@@ -14,7 +14,7 @@ use Jet\Http_Headers;
 use Jet\Http_Request;
 use Jet\Mvc_Page_Content_Interface;
 
-use JetApplication\Mvc_Page;
+use Jet\Mvc_Page;
 
 /**
  *

@@ -8,7 +8,7 @@ use Jet\UI;
 use Jet\Tr;
 use Jet\Locale;
 use Jet\Mvc_View;
-use JetApplication\Application;
+use JetApplication\Application_Web;
 
 /**
  * @var Mvc_View    $this
@@ -40,7 +40,7 @@ $grid->getColumn( '_edit_' )
 $grid->getColumn( 'title' )
 	->setRenderer(
 		function( Article $item ) use ( $router ) {
-			foreach( Application::getWebSite()->getLocales() as $locale ):
+			foreach( Application_Web::getSite()->getLocales() as $locale ):
 				$URI = $router->getEditOrViewURI( $item->getId() );
 				$title = $item->getLocalized($locale)->getTitle();
 

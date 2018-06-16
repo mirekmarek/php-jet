@@ -229,7 +229,7 @@ class Auth_Administrator_User extends Auth_User
 	{
 		$locales = [];
 
-		foreach( Application::getAdminSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Admin::getSite()->getLocales() as $locale_str=>$locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 

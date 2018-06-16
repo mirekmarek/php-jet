@@ -8,12 +8,8 @@
 namespace JetApplication;
 
 use Jet\IO_File;
-use Jet\Application_Log;
-use Jet\Auth;
 use Jet\Mvc;
 use Jet\Mvc_Router;
-use Jet\ErrorPages;
-use Jet\Form_Field_WYSIWYG;
 use Jet\Http_Request;
 
 
@@ -45,50 +41,13 @@ if(
 ) {
 	/** @noinspection PhpIncludeInspection */
 	require( $installer_path );
+	die();
 }
 //- REMOVE AFTER INSTALLATION -------------
 
 require( $init_dir.'Cache.php' );
 
 Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
-
-
-Mvc::getRouter()->afterSiteAndLocaleResolved( function( Mvc_Router $router ) {
-	$current_site = $router->getSite();
-	$current_locale = $router->getLocale();
-
-	ErrorPages::setErrorPagesDir(
-		$current_site->getPagesDataPath(
-			$current_locale
-		)
-	);
-
-	switch($current_site->getId()) {
-		case Application::getAdminSiteId():
-			Application_Log::setLogger( new Application_Log_Logger_Admin() );
-			Auth::setController( new Auth_Controller_Admin() );
-			break;
-		case Application::getRESTSiteId():
-			Application_Log::setLogger( new Application_Log_Logger_REST() );
-			Auth::setController( new Auth_Controller_REST() );
-			break;
-		default:
-			Application_Log::setLogger( new Application_Log_Logger_Web() );
-			Auth::setController( new Auth_Controller_Web() );
-			break;
-	}
-
-	/*
-	//TODO:
-	if( $current_locale->getLanguage()!='en' ) {
-		Form_Field_WYSIWYG::setDefaultEditorConfigValue(
-			'language_url',
-			JET_URI_PUBLIC.'scripts/tinymce/language/'.$current_locale->toString().'.js'
-		);
-	}
-	*/
-} );
-
 
 Application::runMvc();
 

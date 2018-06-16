@@ -149,8 +149,6 @@ trait Mvc_Page_Trait_Initialization
 				static::appendPage( $page );
 			}
 
-			static::loadCustomPages($site, $locale);
-
 			/** @noinspection PhpUndefinedMethodInspection */
 			if( static::getCacheSaveEnabled() ) {
 
@@ -166,15 +164,6 @@ trait Mvc_Page_Trait_Initialization
 
 
 		return static::$pages[$site_id][$locale_str];
-	}
-
-	/**
-	 * @param Mvc_Site_Interface $site
-	 * @param Locale             $locale
-	 */
-	public static function loadCustomPages( Mvc_Site_Interface $site, Locale $locale )
-	{
-
 	}
 
 	/**
@@ -367,7 +356,11 @@ trait Mvc_Page_Trait_Initialization
 		}
 
 		if(!isset($data['relative_path'])) {
-			$parent_path = $this->getParent()->getRelativePath();
+			/**
+			 * @var Mvc_Page $parent
+			 */
+			$parent = $this->getParent();
+			$parent_path = $parent->getRelativePath();
 
 			if(!$parent_path) {
 				$data['relative_path'] = $data['relative_path_fragment'];

@@ -49,6 +49,9 @@ trait Mvc_Page_Trait_Handlers
 		$path_resolved = false;
 
 		foreach( $this->getContent() as $content ) {
+			/**
+			 * @var Mvc_Page_Content $content
+			 */
 			if($content->getOutput()) {
 				continue;
 			}
@@ -154,6 +157,9 @@ trait Mvc_Page_Trait_Handlers
 		Debug_Profiler::blockStart( 'Content dispatch' );
 
 		foreach( $this->getContent() as $content ) {
+			/**
+			 * @var Mvc_Page_Content $content
+			 */
 			$content->dispatch();
 		}
 

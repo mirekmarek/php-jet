@@ -58,7 +58,12 @@ trait DataModel_Trait_Delete
 				}
 			}
 
-			$backend->delete( $this->getIdObject()->getQuery() );
+			/**
+			 * @var DataModel_Id $id_object
+			 */
+			$id_object = $this->getIdObject();
+
+			$backend->delete( $id_object->getQuery() );
 		} catch( Exception $e ) {
 			$this->rollbackBackendTransaction();
 

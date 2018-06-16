@@ -33,6 +33,19 @@ interface Mvc_Site_LocalizedData_Interface
 	public function setSite( $site );
 
 	/**
+	 *
+	 * @param callable $initializer
+	 */
+	public function setInitializer( callable $initializer );
+
+	/**
+	 *
+	 * @return callable|null
+	 */
+	public function getInitializer();
+
+
+	/**
 	 * @return Locale
 	 */
 	public function getLocale();

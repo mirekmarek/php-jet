@@ -120,6 +120,18 @@ interface Mvc_Site_Interface
 	 */
 	public function setIsActive( $is_active );
 
+	/**
+	 *
+	 * @param callable $initializer
+	 */
+	public function setInitializer( $initializer );
+
+	/**
+	 *
+	 * @return callable|null
+	 */
+	public function getInitializer();
+
 
 	/**
 	 * Returns root directory path

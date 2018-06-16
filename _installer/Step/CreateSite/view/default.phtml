@@ -20,9 +20,9 @@ $main_form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 $sites = $this->getRaw( 'sites' );
 
 $titles = [
-	Application::getWebSiteId()   => Tr::_('Web'),
-	Application::getAdminSiteId() => Tr::_('Administration'),
-	Application::getRESTSiteId()  => Tr::_('REST API'),
+	Application_Web::getSiteId()   => Tr::_('Web'),
+	Application_Admin::getSiteId() => Tr::_('Administration'),
+	Application_REST::getSiteId()  => Tr::_('REST API'),
 ];
 
 ?>

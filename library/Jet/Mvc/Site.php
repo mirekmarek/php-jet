@@ -82,6 +82,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	 */
 	protected $localized_data = [];
 
+	/**
+	 * @var callable|null
+	 */
+	protected $initializer;
+
 
 	/**
 	 * @return array
@@ -253,6 +258,26 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 
 		return static::$sites[$id];
 	}
+
+
+	/**
+	 *
+	 * @param callable $initializer
+	 */
+	public function setInitializer( $initializer )
+	{
+		$this->initializer = $initializer;
+	}
+
+	/**
+	 *
+	 * @return callable|null
+	 */
+	public function getInitializer()
+	{
+		return $this->initializer;
+	}
+
 
 	/**
 	 * @param string $id

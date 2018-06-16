@@ -12,6 +12,8 @@ use Jet\Mvc_Page_Content_Interface;
 use Jet\Mvc;
 
 use JetApplication\Application;
+use JetApplication\Application_Admin;
+use JetApplication\Application_REST;
 
 /**
  *
@@ -48,7 +50,7 @@ class Main extends Application_Module
 	{
 		$dir = parent::getViewsDir();
 
-		if( Mvc::getCurrentSite()->getId()==Application::getAdminSiteId() ) {
+		if( Mvc::getCurrentSite()->getId()==Application_Admin::getSiteId() ) {
 			return $dir.'admin/';
 		} else {
 			return $dir.'web/';
@@ -70,10 +72,10 @@ class Main extends Application_Module
 		}
 
 		switch( Mvc::getCurrentSite()->getId() ) {
-			case Application::getAdminSiteId():
+			case Application_Admin::getSiteId():
 				$controller_suffix = 'Controller_Admin_'.$controller_name;
 				break;
-			case Application::getRESTSiteId():
+			case Application_REST::getSiteId():
 				$controller_suffix = 'Controller_REST_'.$controller_name;
 				break;
 			default:

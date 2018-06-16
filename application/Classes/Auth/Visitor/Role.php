@@ -71,7 +71,7 @@ class Auth_Visitor_Role extends Auth_Role
 		$forest->setLabelKey( 'name' );
 
 
-		$site = Application::getWebSite();
+		$site = Application_Web::getSite();
 		foreach( $site->getLocales() as $locale ) {
 
 			$homepage = $site->getHomepage( $locale );

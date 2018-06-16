@@ -142,8 +142,8 @@ class IO_File
 		if( is_array( static::$extensions_mimes_map ) ) {
 			$extension = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
 
-			if( isset( $map[$extension] ) ) {
-				$mime_type = $map[$extension];
+			if( isset( static::$extensions_mimes_map[$extension] ) ) {
+				$mime_type = static::$extensions_mimes_map[$extension];
 			}
 		}
 

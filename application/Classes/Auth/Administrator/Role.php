@@ -11,6 +11,7 @@ use Jet\Data_Forest;
 use Jet\Data_Tree;
 use Jet\Tr;
 use Jet\Mvc;
+use Jet\Mvc_Page;
 use Jet\Form;
 
 /**
@@ -137,7 +138,7 @@ class Auth_Administrator_Role extends Auth_Role
 	{
 		$pages = [];
 
-		foreach( Mvc_Page::getList( Application::getAdminSiteId(), Mvc::getCurrentLocale() ) as $page ) {
+		foreach( Mvc_Page::getList( Application_Admin::getSiteId(), Mvc::getCurrentLocale() ) as $page ) {
 			$pages[$page->getId()] = $page->getName();
 		}
 

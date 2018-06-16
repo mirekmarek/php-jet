@@ -132,6 +132,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 * @param string $request_URL
 	 *
 	 * @throws Mvc_Router_Exception
+	 * @throws Mvc_Page_Exception
 	 */
 	public function resolve( $request_URL=null )
 	{
@@ -281,6 +282,19 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		}
 
 
+		if( $OK ) {
+			if( ($site_initializer=$this->site->getInitializer()) ) {
+				Debug_Profiler::blockStart('Site initializer call');
+				$site_initializer( $this );
+				Debug_Profiler::blockEnd('Site initializer call');
+			}
+
+			if( ($locale_initializer=$this->site->getLocalizedData( $this->locale )->getInitializer()) ) {
+				Debug_Profiler::blockStart('Site locale initializer call');
+				$site_initializer( $this );
+				Debug_Profiler::blockEnd('Site locale initializer call');
+			}
+		}
 
 
 

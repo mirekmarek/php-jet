@@ -68,6 +68,12 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	 * @var string
 	 */
 	protected $title = '';
+
+	/**
+	 * @var string
+	 */
+	protected $icon = '';
+
 	/**
 	 *
 	 * @var string
@@ -453,6 +459,22 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function setTitle( $title )
 	{
 		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIcon()
+	{
+		return $this->icon;
+	}
+
+	/**
+	 * @param string $icon
+	 */
+	public function setIcon( $icon )
+	{
+		$this->icon = $icon;
 	}
 
 	/**

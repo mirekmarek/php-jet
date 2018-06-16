@@ -28,7 +28,7 @@ use Jet\Locale;
 use Jet\Mvc;
 
 use Jet\Mvc_Page_Interface;
-use JetApplication\Application;
+use JetApplication\Application_Web;
 
 /**
  *
@@ -245,7 +245,7 @@ class Gallery extends DataModel
 	public function afterLoad()
 	{
 
-		foreach( Application::getWebSite()->getLocales() as $lc_str => $locale) {
+		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale) {
 
 			if (!isset($this->localized[$lc_str])) {
 

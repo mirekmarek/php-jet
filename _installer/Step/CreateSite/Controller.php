@@ -53,7 +53,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 			$web = Mvc_Factory::getSiteInstance();
 			$web->setName( 'Example Web' );
-			$web->setId( Application::getWebSiteId() );
+			$web->setId( Application_Web::getSiteId() );
 
 			$ld = $web->addLocale( $default_locale );
 			$ld->setTitle( Tr::_( 'PHP Jet Example Web', [], null, $default_locale ) );
@@ -77,6 +77,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			}
 			$web->setIsDefault( true );
 			$web->setIsActive( true );
+			$web->setInitializer(['JetApplication\Application_Web','init']);
 
 
 
@@ -85,7 +86,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 			$admin = Mvc_Factory::getSiteInstance();
 			$admin->setIsSecret();
 			$admin->setName( 'Example Administration' );
-			$admin->setId( Application::getAdminSiteId() );
+			$admin->setId( Application_Admin::getSiteId() );
 
 			$ld = $admin->addLocale( $default_locale );
 			$ld->setTitle( Tr::_( 'PHP Jet Example Administration', [], null, $default_locale ) );
@@ -100,13 +101,14 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.'admin/'.$locale->getLanguage().'/'] );
 			}
 			$admin->setIsActive( true );
+			$admin->setInitializer(['JetApplication\Application_Admin','init']);
 
 
 
 			$rest = Mvc_Factory::getSiteInstance();
 			$rest->setIsSecret();
 			$rest->setName( 'Example REST API' );
-			$rest->setId( Application::getRESTSiteId() );
+			$rest->setId( Application_REST::getSiteId() );
 
 			$ld = $rest->addLocale( $default_locale );
 			$ld->setTitle( Tr::_( 'PHP Jet Example REST API', [], null, $default_locale ) );
@@ -121,6 +123,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$ld->setURLs( [$URL.'rest/'.$locale->getLanguage().'/'] );
 			}
 			$rest->setIsActive( true );
+			$rest->setInitializer(['JetApplication\Application_REST','init']);
 
 
 
@@ -152,6 +155,13 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				$this->render( 'in-progress' );
 
 			} else {
+				/**
+				 * @var Mvc_Site[] $sites
+				 */
+				$sites[Application_REST::getSiteId()]->setInitializer(['JetApplication\Application_REST','init']);
+				$sites[Application_Web::getSiteId()]->setInitializer(['JetApplication\Application_Web','init']);
+				$sites[Application_Admin::getSiteId()]->setInitializer(['JetApplication\Application_Admin','init']);
+
 				foreach( $sites as $site ) {
 					$site->saveDataFile();
 				}

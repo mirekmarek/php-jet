@@ -36,7 +36,9 @@ trait DataModel_Trait_Exports
 		$definition = static::getDataModelDefinition();
 		$properties = $definition->getProperties();
 
-
+		/**
+		 * @var DataModel_PropertyFilter $load_filter
+		 */
 		$load_filter = $this->getLoadFilter();
 
 		$result = [];

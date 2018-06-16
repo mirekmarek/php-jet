@@ -8,6 +8,7 @@
 namespace JetApplication;
 
 use Jet\Application_Modules;
+use Jet\Application_Module_Manifest;
 use Jet\Form;
 use Jet\Form_Field_MultiSelect;
 use Jet\Exception;

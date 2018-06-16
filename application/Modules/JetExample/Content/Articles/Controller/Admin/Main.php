@@ -8,7 +8,7 @@
 namespace JetApplicationModule\JetExample\Content\Articles;
 
 use Jet\Mvc_Controller_Default;
-use JetApplication\Mvc_Page;
+use Jet\Mvc_Page;
 
 use Jet\UI;
 use Jet\UI_dataGrid;

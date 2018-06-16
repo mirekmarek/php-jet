@@ -9,6 +9,7 @@ namespace JetApplicationModule\JetExample\AdminUI;
 
 use Jet\Application_Modules;
 use Jet\Application_Module;
+use Jet\Application_Module_Manifest;
 use Jet\Navigation_Menu;
 use Jet\Navigation_Menu_Item;
 use Jet\Navigation_Breadcrumb;
@@ -17,8 +18,7 @@ use Jet\Mvc;
 
 use Jet\UI;
 
-use JetApplication\Mvc_Page;
-use JetApplication\Application_Module_Manifest;
+use Jet\Mvc_Page;
 
 /**
  *
@@ -67,23 +67,22 @@ class Main extends Application_Module
 			/**
 			 * @var Application_Module_Manifest $manifest
 			 */
-			foreach( $manifest->getMenuItems() as $id => $menu_data ) {
+			foreach( $manifest->getAdminMenuItems() as $menu_item_definition ) {
 
-				$menu_data['id'] = $id;
-				$menu_data['label'] = Tr::_( $menu_data['label'], [], $manifest->getName() );
-
-				$menu_id = $menu_data['menu_id'];
-				unset($menu_data['menu_id']);
 
 				$menu_item = new Navigation_Menu_Item(
-					$menu_data['id'],
-					$menu_data['label']
+					$menu_item_definition->getItemId(),
+					Tr::_( $menu_item_definition->getLabel(), [], $manifest->getName() )
 				);
 
-				$menu_item->setData( $menu_data );
+				$data = $menu_item_definition->asArray();
+				unset($data['item_id']);
+				unset($data['menu_id']);
+
+				$menu_item->setData( $data );
 
 
-				$menu = Navigation_Menu::getMenu( $menu_id );
+				$menu = Navigation_Menu::getMenu( $menu_item_definition->getMenuId() );
 				$menu->addItem( $menu_item );
 			}
 

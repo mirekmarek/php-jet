@@ -8,8 +8,12 @@
 namespace JetApplication;
 
 use Jet\Application as Jet_Application;
-use Jet\Mvc_Site;
-use Jet\Mvc_View;
+
+use Jet\Mvc_Router;
+
+use Jet\Form_Field_WYSIWYG;
+
+use Jet\ErrorPages;
 
 /**
  *
@@ -18,81 +22,37 @@ class Application extends Jet_Application
 {
 
 	/**
-	 * @return string
+	 * @param Mvc_Router $router
 	 */
-	public static function getAdminSiteId() {
-		return 'admin';
+	public static function initErrorPages( Mvc_Router $router )
+	{
+		$current_site = $router->getSite();
+		$current_locale = $router->getLocale();
+
+		ErrorPages::setErrorPagesDir(
+			$current_site->getPagesDataPath(
+				$current_locale
+			)
+		);
+
 	}
 
 	/**
-	 * @return Mvc_Site
+	 * @param Mvc_Router $router
 	 */
-	public static function getAdminSite() {
-		return Mvc_Site::get( static::getAdminSiteId() );
-	}
+	public static function initWYSIWYG( Mvc_Router $router )
+	{
+		//TODO:
 
-	/**
-	 * @return string
-	 */
-	public static function getWebSiteId() {
-		return 'web';
-	}
+		$current_locale = $router->getLocale();
 
-	/**
-	 * @return Mvc_Site
-	 */
-	public static function getWebSite() {
-		return Mvc_Site::get( static::getWebSiteId() );
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getRESTSiteId() {
-		return 'rest';
-	}
-
-	/**
-	 * @return Mvc_Site
-	 */
-	public static function getRESTSite() {
-		return Mvc_Site::get( static::getRESTSiteId() );
-	}
-
-	/**
-	 * @param string $dialog_id
-	 * @param array  $options
-	 *
-	 * @return null|string
-	 */
-	public static function requireAdminDialog( $dialog_id, array $options=[] ) {
-
-		$page = Mvc_Page::get('dialog-'.$dialog_id);
-
-		if(
-			!$page ||
-			!$page->getContent()
-		) {
-			return null;
+		if( $current_locale->getLanguage()!='en' ) {
+			Form_Field_WYSIWYG::setDefaultEditorConfigValue(
+				'language_url',
+				JET_URI_PUBLIC.'scripts/tinymce/language/'.$current_locale->toString().'.js'
+			);
 		}
 
-		$content = $page->getContent()[0];
-
-		$module = $content->getModuleInstance();
-
-		if(!$module) {
-			return null;
-		}
-
-		$view = new Mvc_View( $module->getViewsDir().'dialog-hooks/' );
-		foreach( $options as $k=>$v ) {
-			$view->setVar( $k, $v );
-		}
-
-		return $view->render( $dialog_id );
-
-
 	}
-
 
 }

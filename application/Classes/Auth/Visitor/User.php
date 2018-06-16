@@ -175,7 +175,7 @@ class Auth_Visitor_User extends Auth_User
 	{
 		$locales = [];
 
-		foreach( Application::getWebSite()->getLocales() as $locale_str=>$locale ) {
+		foreach( Application_Web::getSite()->getLocales() as $locale_str=>$locale ) {
 			$locales[$locale_str] = $locale->getName();
 		}
 

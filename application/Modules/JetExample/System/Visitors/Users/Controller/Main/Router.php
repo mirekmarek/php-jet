@@ -10,7 +10,7 @@ namespace JetApplicationModule\JetExample\System\Visitors\Users;
 use Jet\Mvc_Controller;
 use Jet\Mvc_Controller_Router;
 use Jet\Mvc_Controller_Router_Action;
-use JetApplication\Mvc_Page;
+use Jet\Mvc_Page;
 use JetApplication\Auth_Visitor_User as User;
 
 /**

@@ -149,12 +149,15 @@ trait Form_Field_Trait_Render
 	{
 		/**
 		 * @var Form_Field $this
+		 * @var Form $form
 		 */
+
 		if($this->custom_views_dir) {
 			return $this->custom_views_dir;
 		}
+		$form = $this->_form;
 
-		return $this->_form->getViewsDir();
+		return $form->getViewsDir();
 	}
 
 	/**
@@ -506,7 +509,13 @@ trait Form_Field_Trait_Render
 			$this->_tag_container = Form_Factory::gerRendererPairInstance( $this->_form, $this );
 			$this->_tag_container->setViewScriptStart( $this->getInputContainerStartRendererScript() );
 			$this->_tag_container->setViewScriptEnd( $this->getInputContainerEndRendererScript() );
-			$this->_tag_container->setWidth( $this->_form->getDefaultFieldWidth() );
+
+			/**
+			 * @var Form $form
+			 */
+			$form = $this->_form;
+
+			$this->_tag_container->setWidth( $form->getDefaultFieldWidth() );
 
 		}
 
@@ -539,7 +548,12 @@ trait Form_Field_Trait_Render
 		if( !$this->_tag_label ) {
 			$this->_tag_label = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
 			$this->_tag_label->setViewScript( $this->getLabelRenderer() );
-			$this->_tag_label->setWidth( $this->_form->getDefaultLabelWidth() );
+			/**
+			 * @var Form $form
+			 */
+			$form = $this->_form;
+
+			$this->_tag_label->setWidth( $form->getDefaultLabelWidth() );
 		}
 
 		return $this->_tag_label;
@@ -557,7 +571,13 @@ trait Form_Field_Trait_Render
 		if( !$this->_tag_input ) {
 			$this->_tag_input = Form_Factory::gerRendererSingleInstance( $this->_form, $this );
 			$this->_tag_input->setViewScript( $this->getInputRenderer() );
-			$this->_tag_input->setWidth( $this->_form->getDefaultFieldWidth() );
+
+			/**
+			 * @var Form $form
+			 */
+			$form = $this->_form;
+
+			$this->_tag_input->setWidth( $form->getDefaultFieldWidth() );
 		}
 
 		return $this->_tag_input;

@@ -6,7 +6,8 @@ use Jet\Mvc_View;
 use Jet\Form;
 
 use Jet\UI;
-use JetApplication\Application;
+use JetApplication\Application_Admin;
+use JetApplication\Application_Web;
 
 /**
  * @var Mvc_View $this
@@ -23,7 +24,7 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
 
 ?>
 
-<?=Application::requireAdminDialog('select-image');?>
+<?=Application_Admin::requireDialog('select-image');?>
 
 <script type="text/javascript">
 
@@ -47,7 +48,7 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 9 ] );
 		<?=$form->field( 'date_time' )?>
 
 
-		<?php foreach( Application::getWebSite()->getLocales() as $locale ):
+		<?php foreach( Application_Web::getSite()->getLocales() as $locale ):
 
 			$form->field( '/localized/'.$locale.'/text' )->input()->addCustomCssStyle('height:400px');
 			?>

@@ -63,9 +63,12 @@ trait DataModel_Trait_Load
 		/**
 		 * @var DataModel         $this
 		 * @var DataModel_Backend $backend
+		 * @var DataModel_Id      $id_object
 		 */
 
-		$query = $this->getIdObject()->getQuery();
+		$id_object = $this->getIdObject();
+
+		$query = $id_object->getQuery();
 
 		$select = DataModel_PropertyFilter::getQuerySelect( static::getDataModelDefinition(), $this->getLoadFilter() );
 

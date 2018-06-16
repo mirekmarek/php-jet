@@ -21,7 +21,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Form_Field_Select;
 use Jet\Form_Field_DateTime;
-use JetApplication\Application;
+use JetApplication\Application_Web;
 
 /**
  *
@@ -89,7 +89,7 @@ class Article extends DataModel
 	public function afterLoad()
 	{
 
-		foreach( Application::getWebSite()->getLocales() as $lc_str => $locale) {
+		foreach( Application_Web::getSite()->getLocales() as $lc_str => $locale) {
 
 			if (!isset($this->localized[$lc_str])) {
 

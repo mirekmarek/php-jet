@@ -12,7 +12,8 @@ use Jet\Mvc;
 use Jet\Session;
 
 use JetApplication\Application;
-use JetApplication\Mvc_Page;
+use Jet\Mvc_Page;
+use JetApplication\Application_REST;
 
 
 /**
@@ -102,7 +103,7 @@ class Client
 		$this->username = $username;
 		$this->password = $password;
 
-		$this->root_page = Application::getRESTSite()->getHomepage( Mvc::getCurrentLocale() );
+		$this->root_page = Application_REST::getSite()->getHomepage( Mvc::getCurrentLocale() );
 	}
 
 

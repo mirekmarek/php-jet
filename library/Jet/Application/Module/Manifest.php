@@ -61,6 +61,30 @@ class Application_Module_Manifest extends BaseObject
 
 	//--------------------------------------------------------------------------
 
+	/**
+	 * @var array
+	 */
+	protected $has_rest_api = false;
+
+	//--------------------------------------------------------------------------
+
+
+	/**
+	 * @var Application_Module_Manifest_AdminSection[]
+	 */
+	protected $admin_sections = [];
+
+	/**
+	 * @var Application_Module_Manifest_AdminDialog[]
+	 */
+	protected $admin_dialogs = [];
+
+	/**
+	 * @var Application_Module_Manifest_AdminMenuItem[]
+	 */
+	protected $admin_menu_items = [];
+
+	//--------------------------------------------------------------------------
 
 
 	/**
@@ -182,8 +206,28 @@ class Application_Module_Manifest extends BaseObject
 				);
 			}
 
+			switch( $key ) {
+				case 'admin_sections':
+					foreach( $val as $id=>$data ) {
+						$this->admin_sections[$id] = Application_Module_Manifest_AdminSection::create( $id, $data );
+					}
+				break;
+				case 'admin_dialogs':
+					foreach( $val as $id=>$data ) {
+						$this->admin_dialogs[$id] = Application_Module_Manifest_AdminDialog::create( $id, $data );
+					}
+				break;
+				case 'admin_menu_items':
+					foreach( $val as $id=>$data ) {
+						$this->admin_menu_items[$id] = Application_Module_Manifest_AdminMenuItem::create( $id, $data );
+					}
+				break;
 
-			$this->{$key} = $val;
+				default:
+					$this->{$key} = $val;
+					break;
+			}
+
 		}
 	}
 
@@ -273,6 +317,42 @@ class Application_Module_Manifest extends BaseObject
 		return $this->is_mandatory;
 	}
 
+
+	/**
+	 * @return array
+	 */
+	public function hasRestAPI()
+	{
+		return $this->has_rest_api;
+	}
+
+	/**
+	 * @return Application_Module_Manifest_AdminSection[]
+	 *
+	 */
+	public function getAdminSections()
+	{
+		return $this->admin_sections;
+	}
+
+	/**
+	 * @return Application_Module_Manifest_AdminDialog[]
+	 *
+	 */
+	public function getAdminDialogs()
+	{
+		return $this->admin_dialogs;
+	}
+
+	/**
+	 * @return Application_Module_Manifest_AdminMenuItem[]
+	 */
+	public function getAdminMenuItems()
+	{
+		return $this->admin_menu_items;
+	}
+
+
 	/**
 	 * @return bool
 	 */
@@ -288,5 +368,4 @@ class Application_Module_Manifest extends BaseObject
 	{
 		return Application_Modules::moduleIsActivated( $this->_name );
 	}
-
 }

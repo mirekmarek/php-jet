@@ -338,6 +338,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		$related_to_class_name = '';
 
+		$related_definition_data = [];
 
 		if( $what=='parent' ) {
 			$related_to_class_name = $this->parent_model_class_name;
