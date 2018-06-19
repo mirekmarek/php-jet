@@ -8,8 +8,6 @@
 namespace JetApplication;
 
 use Jet\IO_File;
-use Jet\Mvc;
-use Jet\Mvc_Router;
 use Jet\Http_Request;
 
 
@@ -18,19 +16,19 @@ define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 
 
 $config_dir = __DIR__.'/config/'.JET_CONFIG_ENVIRONMENT.'/';
-$init_dir = __DIR__.'/Init/';
-
 require( $config_dir.'jet.php' );
 require( $config_dir.'paths.php' );
 require( $config_dir.'URI.php' );
 require( $config_dir.'js_css.php' );
 
 
+$init_dir = __DIR__.'/Init/';
 require( $init_dir.'Profiler.php' );
 require( $init_dir.'PHP.php' );
 require( $init_dir.'ErrorHandler.php' );
 require( $init_dir.'Autoloader.php' );
 require( $init_dir.'ClassNames.php' );
+
 
 //- REMOVE AFTER INSTALLATION -------------
 $installer_path = JET_PATH_BASE.'_installer/install.php';
@@ -46,6 +44,8 @@ if(
 //- REMOVE AFTER INSTALLATION -------------
 
 require( $init_dir.'Cache.php' );
+
+
 
 Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
 

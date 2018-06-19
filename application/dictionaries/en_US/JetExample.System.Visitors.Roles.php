@@ -15,4 +15,7 @@ return [
 	'Update role' => '',
 	'Delete role' => '',
 	'Visitor roles management' => '',
+	'Secret area access' => '',
+	'Users' => '',
+	'Username' => '',
 ];

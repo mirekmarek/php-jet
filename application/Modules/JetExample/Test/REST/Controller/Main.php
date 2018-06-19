@@ -35,18 +35,6 @@ class Controller_Main extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @param string $path
-	 *
-	 * @return bool
-	 */
-	public function resolve( $path )
-	{
-		$this->content->setControllerAction( false );
-
-		return false;
-	}
-
-	/**
 	 *
 	 */
 	public function test_rest_Action()

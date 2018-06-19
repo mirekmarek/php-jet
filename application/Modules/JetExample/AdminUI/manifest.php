@@ -7,5 +7,4 @@ return [
 	'description' => '',
 
 	'is_mandatory' => true,
-
 ];

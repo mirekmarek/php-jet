@@ -49,39 +49,29 @@ class Application_REST
 		Application_Log::setLogger( new Application_Log_Logger_REST() );
 		Auth::setController( new Auth_Controller_REST() );
 
+		$site = $router->getSite();
+		$locale = $router->getLocale();
+
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 			/**
 			 * @var Application_Module_Manifest $manifest
 			 */
-			if($manifest->hasRestAPI()) {
-				static::addRestHook( $router->getLocale(), $manifest );
+
+
+			$pages = $manifest->getPages(
+				$site,
+				$locale
+			);
+
+			$parent_page = $router->getSite()->getHomepage( $locale );
+
+			foreach( $pages as $page ) {
+				$page->setParent( $parent_page );
+
+				Mvc_Page::appendPage( $page );
 			}
+
 		}
-
 	}
-
-	/**
-	 * @param Locale                      $locale
-	 * @param Application_Module_Manifest $module_manifest
-	 *
-	 */
-	protected static function addRestHook( Locale $locale, Application_Module_Manifest $module_manifest )
-	{
-
-		/**
-		 * @var Mvc_Page $parent_page
-		 */
-		$parent_page = Application_REST::getSite()->getHomepage( $locale );
-
-		$content = Mvc_Factory::getPageContentInstance();
-		$content->setModuleName( $module_manifest->getName() );
-		$content->setControllerAction( false );
-
-		$parent_page->addContent( $content );
-
-
-	}
-
-
 
 }

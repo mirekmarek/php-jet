@@ -27,6 +27,21 @@ trait Mvc_Page_Trait_Handlers
 		$path = Mvc::getRouter()->getPath();
 
 		if(!$path) {
+			foreach( $this->getContent() as $content ) {
+				/**
+				 * @var Mvc_Page_Content $content
+				 */
+
+				if(
+					$content->getOutput() ||
+					!($controller = $content->getControllerInstance())
+				) {
+					continue;
+				}
+
+				$controller->resolve( '' );
+			}
+
 			return true;
 		}
 

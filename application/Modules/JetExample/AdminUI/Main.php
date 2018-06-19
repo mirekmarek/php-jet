@@ -59,31 +59,20 @@ class Main extends Application_Module
 			return;
 		}
 
-		Navigation_Menu::addRootMenu( 'content', Tr::_('Content'), 1 );
-		Navigation_Menu::addRootMenu( 'system', Tr::_('System'), 3 );
+		Navigation_Menu::initRootMenuByData( require JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/admin_menu.php' );
 
 
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 			/**
 			 * @var Application_Module_Manifest $manifest
 			 */
-			foreach( $manifest->getAdminMenuItems() as $menu_item_definition ) {
+			foreach( $manifest->getMenuItems() as $menu_item ) {
 
+				$menu = Navigation_Menu::getMenu( $menu_item->getMenuId() );
 
-				$menu_item = new Navigation_Menu_Item(
-					$menu_item_definition->getItemId(),
-					Tr::_( $menu_item_definition->getLabel(), [], $manifest->getName() )
-				);
-
-				$data = $menu_item_definition->asArray();
-				unset($data['item_id']);
-				unset($data['menu_id']);
-
-				$menu_item->setData( $data );
-
-
-				$menu = Navigation_Menu::getMenu( $menu_item_definition->getMenuId() );
-				$menu->addItem( $menu_item );
+				if( $menu ) {
+					$menu->addItem( $menu_item );
+				}
 			}
 
 		}

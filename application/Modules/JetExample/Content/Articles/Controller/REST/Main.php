@@ -39,22 +39,8 @@ class Controller_REST_Main extends Mvc_Controller_REST
 	 */
 	public function resolve( $path )
 	{
-		$path_fragments = explode('/', $path);
-
-		$object = array_shift($path_fragments);
-
-		if($object!='article') {
-			return false;
-		}
-
-		if(count($path_fragments)>1) {
-			return false;
-		}
-
 		$article = null;
-		if($path_fragments) {
-			$id = $path_fragments[0];
-
+		if( ($id = $path) ) {
 			$article = Article::get( $id );
 			if(!$article) {
 				$this->responseUnknownItem($id);
@@ -63,7 +49,7 @@ class Controller_REST_Main extends Mvc_Controller_REST
 		}
 
 
-		switch(Http_Request::requestMethod()) {
+		switch( $this->getRequestMethod() ) {
 			case self::REQUEST_METHOD_GET:
 				$controller_action = $article ? 'get' : 'list';
 				break;

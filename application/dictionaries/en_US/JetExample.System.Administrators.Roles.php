@@ -16,4 +16,7 @@ return [
 	'Privileges' => '',
 	'Administration sections' => '',
 	'Modules and actions' => '',
+	'Users' => '',
+	'Username' => '',
+	'Role <b>%ROLE_NAME%</b> has been updated' => '',
 ];

@@ -76,11 +76,11 @@ class Auth_RESTClient_Role extends Auth_Role
 
 		$modules = Application_Modules::activatedModulesList();
 
-		foreach( $modules as $module_name => $module_info ) {
+		foreach( $modules as $module_name => $module_manifest ) {
 			/**
-			 * @var Application_Module_Manifest $module_info
+			 * @var Application_Module_Manifest $module_manifest
 			 */
-			if(!$module_info->hasRestAPI()) {
+			if( !isset($module_manifest->getPagesRaw()[Application_REST::getSiteId()]) ) {
 				continue;
 			}
 
@@ -100,13 +100,13 @@ class Auth_RESTClient_Role extends Auth_Role
 				$data[] = [
 					'id'   => $module_name.':'.$action,
 					'parent_id' => $module_name,
-					'name' => Tr::_( $action_description, [], $module_info->getName() ),
+					'name' => Tr::_( $action_description, [], $module_manifest->getName() ),
 				];
 			}
 
 
 			$tree = new Data_Tree();
-			$tree->getRootNode()->setLabel( Tr::_( $module_info->getLabel(), [], $module_info->getName() ).' ('.$module_name.')' );
+			$tree->getRootNode()->setLabel( Tr::_( $module_manifest->getLabel(), [], $module_manifest->getName() ).' ('.$module_name.')' );
 			$tree->getRootNode()->setId( $module_name );
 
 

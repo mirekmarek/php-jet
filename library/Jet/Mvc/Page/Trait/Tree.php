@@ -72,6 +72,13 @@ trait Mvc_Page_Trait_Tree
 		$this->parent_id = $parent->getId();
 		$this->__parent = $parent;
 
+		if($parent->getRelativePath()) {
+			$this->relative_path = $parent->getRelativePath().'/'.$this->relative_path_fragment;
+		} else {
+			$this->relative_path = $this->relative_path_fragment;
+
+		}
+
 		$parent->appendChild( $this );
 	}
 

@@ -6,22 +6,27 @@ return [
 	'label'       => 'Visitor users management',
 	'description' => '',
 
-
-	'admin_sections' => [
-		'visitors-users' => [
-			'title'                  => 'Visitors - Users',
-			'relative_path_fragment' => 'visitors-users',
-			'icon'                   => 'users',
+	'pages' => [
+		'admin' => [
+			'visitors-users' => [
+				'title'                  => 'Visitors - Users',
+				'relative_path_fragment' => 'visitors-users',
+				'icon'                   => 'users',
+				'contents' => [
+					[
+						'controller_action' => 'default'
+					]
+				],
+			],
 		],
 	],
 
-	'admin_menu_items' => [
-		'visitor_users' => [
-			'label'   => 'Visitors - Users',
-			'menu_id' => 'system',
-			'page_id' => 'visitors-users',
-			'icon'    => 'users',
-			'index'   => 100,
+	'menu_items' => [
+		'system' => [
+			'visitor_users' => [
+				'page_id' => 'visitors-users',
+				'index'   => 100,
+			],
 		],
 	],
 

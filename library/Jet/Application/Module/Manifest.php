@@ -61,28 +61,16 @@ class Application_Module_Manifest extends BaseObject
 
 	//--------------------------------------------------------------------------
 
+
 	/**
 	 * @var array
 	 */
-	protected $has_rest_api = false;
-
-	//--------------------------------------------------------------------------
-
+	protected $pages = [];
 
 	/**
-	 * @var Application_Module_Manifest_AdminSection[]
+	 * @var array
 	 */
-	protected $admin_sections = [];
-
-	/**
-	 * @var Application_Module_Manifest_AdminDialog[]
-	 */
-	protected $admin_dialogs = [];
-
-	/**
-	 * @var Application_Module_Manifest_AdminMenuItem[]
-	 */
-	protected $admin_menu_items = [];
+	protected $menu_items = [];
 
 	//--------------------------------------------------------------------------
 
@@ -206,27 +194,7 @@ class Application_Module_Manifest extends BaseObject
 				);
 			}
 
-			switch( $key ) {
-				case 'admin_sections':
-					foreach( $val as $id=>$data ) {
-						$this->admin_sections[$id] = Application_Module_Manifest_AdminSection::create( $id, $data );
-					}
-				break;
-				case 'admin_dialogs':
-					foreach( $val as $id=>$data ) {
-						$this->admin_dialogs[$id] = Application_Module_Manifest_AdminDialog::create( $id, $data );
-					}
-				break;
-				case 'admin_menu_items':
-					foreach( $val as $id=>$data ) {
-						$this->admin_menu_items[$id] = Application_Module_Manifest_AdminMenuItem::create( $id, $data );
-					}
-				break;
-
-				default:
-					$this->{$key} = $val;
-					break;
-			}
+			$this->{$key} = $val;
 
 		}
 	}
@@ -319,37 +287,115 @@ class Application_Module_Manifest extends BaseObject
 
 
 	/**
+	 *
 	 * @return array
 	 */
-	public function hasRestAPI()
+	public function getPagesRaw()
 	{
-		return $this->has_rest_api;
+		return $this->pages;
 	}
 
 	/**
-	 * @return Application_Module_Manifest_AdminSection[]
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale $locale
+	 * @param null|string|bool $translator_namespace
 	 *
+	 * @return Mvc_Page[]
 	 */
-	public function getAdminSections()
+	public function getPages( Mvc_Site_Interface $site, Locale $locale, $translator_namespace=null )
 	{
-		return $this->admin_sections;
+
+		if($translator_namespace===null) {
+			$translator_namespace = $this->getName();
+		}
+
+		if(
+			!isset($this->pages[$site->getId()]) ||
+			!is_array($this->pages[$site->getId()])
+		) {
+			return [];
+		}
+
+		$pages = [];
+
+		$translate_fields = [
+			'name',
+			'title',
+			'menu_title',
+			'breadcrumb_title',
+		];
+
+		foreach( $this->pages[$site->getId()] as $page_id=>$page_data ) {
+			$page_data['id'] = $page_id;
+
+			if(isset($page_data['contents'])) {
+				foreach( $page_data['contents'] as $i=>$content ) {
+					if( !isset($content['module_name']) ) {
+						$page_data['contents'][$i]['module_name'] = $this->getName();
+					}
+				}
+			}
+
+			if( $translator_namespace!==false ) {
+				foreach( $translate_fields as $tf ) {
+					if(!empty($page_data[$tf])) {
+						$page_data[$tf] = Tr::_( $page_data[$tf], [], $translator_namespace, $locale );
+					}
+				}
+			}
+
+			$page = Mvc_Page::createByData( $site, $locale, $page_data );
+
+			$pages[] = $page;
+
+		}
+
+		return $pages;
 	}
 
 	/**
-	 * @return Application_Module_Manifest_AdminDialog[]
+	 * @return array
+	 */
+	public function getMenuItemsRaw()
+	{
+		return $this->menu_items;
+	}
+
+	/**
 	 *
+	 * @param null|string|bool $translator_namespace
+	 *
+	 * @return Navigation_Menu_Item[]
 	 */
-	public function getAdminDialogs()
+	public function getMenuItems( $translator_namespace=null )
 	{
-		return $this->admin_dialogs;
-	}
+		if($translator_namespace===null) {
+			$translator_namespace = $this->getName();
+		}
 
-	/**
-	 * @return Application_Module_Manifest_AdminMenuItem[]
-	 */
-	public function getAdminMenuItems()
-	{
-		return $this->admin_menu_items;
+		$res = [];
+
+		foreach( $this->menu_items as $menu_id=>$menu_items_data ) {
+			foreach( $menu_items_data as $item_id=>$menu_item_data ) {
+				$label = '';
+
+				if(!empty($menu_item_data['label'])) {
+					if($translator_namespace!==false) {
+						$label = Tr::_($menu_item_data['label'], [], $translator_namespace);
+					} else {
+						$label = $menu_item_data['label'];
+					}
+				}
+
+				$menu_item = new Navigation_Menu_Item( $item_id, $label );
+				$menu_item->setMenuId( $menu_id );
+				$menu_item->setData( $menu_item_data );
+
+				$res[] = $menu_item;
+			}
+		}
+
+		return $res;
 	}
 
 
@@ -368,4 +414,5 @@ class Application_Module_Manifest extends BaseObject
 	{
 		return Application_Modules::moduleIsActivated( $this->_name );
 	}
+
 }

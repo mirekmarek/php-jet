@@ -23,4 +23,5 @@ return [
 	'Delete image' => 'Smazat obrázek',
 	'Unknown parent' => 'Neznámý rodič',
 	'Select image' => '',
+	'Dialog - Select image' => '',
 ];

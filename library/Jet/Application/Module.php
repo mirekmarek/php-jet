@@ -206,27 +206,6 @@ abstract class Application_Module extends BaseObject
 		return $this->module_manifest->getModuleDir().static::getDefaultViewsDir().'/';
 	}
 
-	/**
-	 *
-	 * @param Mvc_Page_Content_Interface $content
-	 *
-	 * @return string
-	 */
-	public function getControllerClassName( Mvc_Page_Content_Interface $content )
-	{
-		$controller_name = 'Main';
-
-		if( $content->getCustomController() ) {
-			$controller_name = $content->getCustomController();
-		}
-
-		$controller_suffix = 'Controller_'.$controller_name;
-
-		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
-
-		return $controller_class_name;
-	}
-
 
 	/**
 	 * @param string $action

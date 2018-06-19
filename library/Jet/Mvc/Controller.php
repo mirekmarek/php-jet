@@ -185,6 +185,9 @@ abstract class Mvc_Controller extends BaseObject
 	 */
 	public function resolve( $path )
 	{
+		if(!$path) {
+			return false;
+		}
 
 		$router = $this->getControllerRouter();
 		if( !$router ) {

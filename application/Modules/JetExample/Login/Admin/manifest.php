@@ -7,5 +7,20 @@ return [
 
 	'description' => '',
 
-	'is_mandatory' => true
+	'is_mandatory' => true,
+
+	'pages'        => [
+		'admin'    => [
+			'change_password' => [
+				'title' => 'Change password',
+				'relative_path_fragment' => 'change-password',
+				'contents' => [
+					[
+						'controller_action' => 'change_password'
+					]
+				]
+			]
+		]
+	]
+
 ];

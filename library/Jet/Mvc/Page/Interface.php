@@ -261,6 +261,16 @@ interface Mvc_Page_Interface
 	/**
 	 * @return string
 	 */
+	public function getIcon();
+
+	/**
+	 * @param string $icon
+	 */
+	public function setIcon( $icon );
+
+	/**
+	 * @return string
+	 */
 	public function getMenuTitle();
 
 	/**

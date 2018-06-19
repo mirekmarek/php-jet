@@ -22,6 +22,11 @@ class Navigation_Menu_Item extends BaseObject
 	/**
 	 * @var string
 	 */
+	protected $menu_id = '';
+
+	/**
+	 * @var string
+	 */
 	protected $id = '';
 
 	/**
@@ -131,6 +136,23 @@ class Navigation_Menu_Item extends BaseObject
 	public function setMenu( Navigation_Menu $menu )
 	{
 		$this->menu = $menu;
+		$this->menu_id = $menu->getId();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMenuId()
+	{
+		return $this->menu_id;
+	}
+
+	/**
+	 * @param string $menu_id
+	 */
+	public function setMenuId( $menu_id )
+	{
+		$this->menu_id = $menu_id;
 	}
 
 
@@ -162,6 +184,14 @@ class Navigation_Menu_Item extends BaseObject
 	 */
 	public function getLabel()
 	{
+		if(
+			!$this->icon &&
+			$this->page_id &&
+			($page = Mvc_Page::get( $this->page_id ))
+		) {
+			return $page->getMenuTitle();
+		}
+
 		return $this->label;
 	}
 
@@ -178,6 +208,14 @@ class Navigation_Menu_Item extends BaseObject
 	 */
 	public function getIcon()
 	{
+		if(
+			!$this->icon &&
+			$this->page_id &&
+			($page = Mvc_Page::get( $this->page_id ))
+		) {
+			return $page->getIcon();
+		}
+
 		return $this->icon;
 	}
 

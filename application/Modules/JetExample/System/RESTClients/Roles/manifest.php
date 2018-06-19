@@ -6,24 +6,28 @@ return [
 	'label'       => 'REST clients roles management',
 	'description' => '',
 
-	'admin_sections' => [
-		'rest-clients-roles' => [
-			'title'                  => 'REST clients - User roles',
-			'menu_title'             => 'REST clients - User roles',
-			'breadcrumb_title'       => 'REST clients - User roles',
-			'icon'                   => 'lock',
-			'relative_path_fragment' => 'rest-clients-user-roles',
+	'pages' => [
+		'admin' => [
+			'rest-clients-roles' => [
+				'title'                  => 'REST clients - User roles',
+				'icon'                   => 'lock',
+				'relative_path_fragment' => 'rest-clients-user-roles',
+				'contents' => [
+					[
+						'controller_action' => 'default'
+					]
+				],
+			],
 		],
 	],
 
-	'admin_menu_items' => [
-		'rest_clients_roles' => [
-			'menu_id' => 'system',
-			'label'   => 'REST clients - User roles',
-			'page_id' => 'rest-clients-roles',
-			'icon'    => 'lock',
-			'index'   => 301,
-		],
+	'menu_items' => [
+		'system' => [
+			'rest_clients_roles' => [
+				'page_id' => 'rest-clients-roles',
+				'index'   => 301,
+			],
+		]
 	],
 
 ];

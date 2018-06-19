@@ -18,4 +18,5 @@ return [
 	'Delete image' => '',
 	'Image %FILE_NAME% uploaded ....' => '',
 	'Select image' => '',
+	'Dialog - Select image' => '',
 ];

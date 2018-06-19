@@ -42,8 +42,6 @@ class Application extends Jet_Application
 	 */
 	public static function initWYSIWYG( Mvc_Router $router )
 	{
-		//TODO:
-
 		$current_locale = $router->getLocale();
 
 		if( $current_locale->getLanguage()!='en' ) {

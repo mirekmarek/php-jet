@@ -34,4 +34,6 @@ return [
 	'Delete image - unknown (error simulation)' => '',
 	'Username:' => '',
 	'Password:' => '',
+	'Current REST API client user: %USERNAME%' => '',
+	'Logout' => '',
 ];

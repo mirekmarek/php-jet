@@ -35,14 +35,8 @@ class Main extends Application_Module
 		self::ACTION_UPDATE_ARTICLE => 'Update article', self::ACTION_DELETE_ARTICLE => 'Delete article',
 	];
 
-	/**
-	 * @var Controller_Admin_Main_Router
-	 */
-	protected $admin_controller_router;
-
 
 	/**
-	 * Returns module views directory
 	 *
 	 * @return string
 	 */
@@ -57,35 +51,4 @@ class Main extends Application_Module
 		}
 	}
 
-	/**
-	 *
-	 * @param Mvc_Page_Content_Interface $content
-	 *
-	 * @return string
-	 */
-	public function getControllerClassName( Mvc_Page_Content_Interface $content )
-	{
-		$controller_name = 'Main';
-
-		if( $content->getCustomController() ) {
-			$controller_name = $content->getCustomController();
-		}
-
-		switch( Mvc::getCurrentSite()->getId() ) {
-			case Application_Admin::getSiteId():
-				$controller_suffix = 'Controller_Admin_'.$controller_name;
-				break;
-			case Application_REST::getSiteId():
-				$controller_suffix = 'Controller_REST_'.$controller_name;
-				break;
-			default:
-				$controller_suffix = 'Controller_Web_'.$controller_name;
-				break;
-		}
-
-
-		$controller_class_name = $this->module_manifest->getNamespace().$controller_suffix;
-
-		return $controller_class_name;
-	}
 }

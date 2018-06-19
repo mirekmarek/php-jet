@@ -46,22 +46,14 @@ class Controller_REST_Main extends Mvc_Controller_REST
 	 */
 	public function resolve( $path )
 	{
-		$path_fragments = explode('/', $path);
-
-		$object = array_shift($path_fragments);
-
-		if($object!='gallery') {
-			return false;
-		}
-
-		$method = $this->getRequestMethod();
-
 
 		$gallery = null;
 		$image = null;
 		$sub_object = null;
 
-		if($path_fragments) {
+		if( $path ) {
+			$path_fragments = explode('/', $path);
+
 			$gallery_id = array_shift($path_fragments);
 			$gallery = Gallery::get($gallery_id);
 
@@ -103,7 +95,7 @@ class Controller_REST_Main extends Mvc_Controller_REST
 
 
 
-		switch( $method ) {
+		switch( $this->getRequestMethod() ) {
 			case self::REQUEST_METHOD_GET:
 
 				$controller_action = 'get_galleries';

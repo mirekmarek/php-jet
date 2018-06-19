@@ -85,4 +85,5 @@ return [
 	'Radio Button: ' => '',
 	'Password (user registration): ' => '',
 	'Password: ' => '',
+	'Form sent, but is not valid' => '',
 ];

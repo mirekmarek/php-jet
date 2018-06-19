@@ -326,16 +326,6 @@ trait Mvc_Page_Trait_Initialization
 		/**
 		 * @var Mvc_Page $this
 		 */
-		if(!isset($data['title'])) {
-			$data['title'] = '';
-		}
-
-		if( !isset( $data['breadcrumb_title'] ) ) {
-			$data['breadcrumb_title'] = $data['title'];
-		}
-		if( !isset( $data['menu_title'] ) ) {
-			$data['menu_title'] = $data['title'];
-		}
 
 		if( isset( $data['meta_tags'] ) ) {
 
@@ -360,7 +350,7 @@ trait Mvc_Page_Trait_Initialization
 			 * @var Mvc_Page $parent
 			 */
 			$parent = $this->getParent();
-			$parent_path = $parent->getRelativePath();
+			$parent_path = $parent ? $parent->getRelativePath() : '';
 
 			if(!$parent_path) {
 				$data['relative_path'] = $data['relative_path_fragment'];
@@ -369,9 +359,23 @@ trait Mvc_Page_Trait_Initialization
 			}
 		}
 
+
 		foreach( $data as $key => $var ) {
 			$this->{$key} = $var;
 		}
+
+		if(!$this->name) {
+			$this->name = $this->title;
+		}
+
+		if(!$this->menu_title) {
+			$this->menu_title = $this->title;
+		}
+
+		if(!$this->breadcrumb_title) {
+			$this->breadcrumb_title = $this->title;
+		}
+
 	}
 
 

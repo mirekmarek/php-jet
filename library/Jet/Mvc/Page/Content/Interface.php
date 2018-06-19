@@ -32,15 +32,27 @@ interface Mvc_Page_Content_Interface
 	 */
 	public function getPage();
 
+
 	/**
-	 * @param string $custom_controller
+	 * @param string $controller_class
 	 */
-	public function setCustomController( $custom_controller );
+	public function setControllerClass( $controller_class );
 
 	/**
 	 * @return string
 	 */
-	public function getCustomController();
+	public function getControllerClass();
+
+
+	/**
+	 * @param string $controller_name
+	 */
+	public function setControllerName( $controller_name );
+
+	/**
+	 * @return string
+	 */
+	public function getControllerName();
 
 	/**
 	 * @return string

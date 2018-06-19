@@ -31,7 +31,12 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	 *
 	 * @var string
 	 */
-	protected $custom_controller = '';
+	protected $controller_name = 'Main';
+
+	/**
+	 * @var string
+	 */
+	protected $controller_class = '';
 
 	/**
 	 *
@@ -108,18 +113,36 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	/**
 	 * @return string
 	 */
-	public function getCustomController()
+	public function getControllerName()
 	{
-		return $this->custom_controller;
+		return $this->controller_name;
 	}
 
 	/**
-	 * @param string $custom_controller
+	 * @param string $controller_name
 	 */
-	public function setCustomController( $custom_controller )
+	public function setControllerName( $controller_name )
 	{
-		$this->custom_controller = $custom_controller;
+		$this->controller_name = $controller_name;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getControllerClass()
+	{
+		return $this->controller_class;
+	}
+
+	/**
+	 * @param string $controller_class
+	 */
+	public function setControllerClass( $controller_class )
+	{
+		$this->controller_class = $controller_class;
+	}
+
+
 
 	/**
 	 * @return string
@@ -320,12 +343,18 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			return $this->__controller_instance;
 		}
 
-		$module_instance = $this->getModuleInstance();
-		if(!$module_instance) {
-			return false;
+		if( !($controller_class_name=$this->getControllerClass()) ) {
+			$module_instance = $this->getModuleInstance();
+			if(!$module_instance) {
+				return false;
+			}
+
+			$controller_suffix = 'Controller_'.$this->getControllerName();
+
+			$controller_class_name = $module_instance->getModuleManifest()->getNamespace().$controller_suffix;
+
 		}
 
-		$controller_class_name = $module_instance->getControllerClassName( $this );
 
 		$this->__controller_instance = new $controller_class_name( $this );
 

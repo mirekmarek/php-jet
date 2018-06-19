@@ -6,22 +6,27 @@ return [
 	'label'       => 'Visitor roles management',
 	'description' => '',
 
-
-	'admin_sections' => [
-		'visitors-roles' => [
-			'title'                  => 'Visitors - User roles',
-			'relative_path_fragment' => 'visitors-user-roles',
-			'icon'                   => 'street-view',
+	'pages' => [
+		'admin' => [
+			'visitors-roles' => [
+				'title'                  => 'Visitors - User roles',
+				'relative_path_fragment' => 'visitors-user-roles',
+				'icon'                   => 'street-view',
+				'contents' => [
+					[
+						'controller_action' => 'default'
+					]
+				],
+			],
 		],
 	],
 
-	'admin_menu_items' => [
-		'visitor_roles' => [
-			'label'   => 'Visitors - User roles',
-			'menu_id' => 'system',
-			'page_id' => 'visitors-roles',
-			'icon'    => 'street-view',
-			'index'   => 101,
+	'menu_items' => [
+		'system' => [
+			'visitor_roles' => [
+				'page_id' => 'visitors-roles',
+				'index'   => 101,
+			],
 		],
 	],
 

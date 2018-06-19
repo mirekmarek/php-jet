@@ -6,23 +6,28 @@ return [
 	'label'       => 'Administrator users management',
 	'description' => '',
 
-	'admin_sections' => [
-		'administrators-users' => [
-			'title'                  => 'Administrators - Users',
-			'breadcrumb_title'       => 'Administrators - Users',
-			'icon'                   => 'user-secret',
-			'relative_path_fragment' => 'administrators-users',
+	'pages' => [
+		'admin' => [
+			'administrators-users' => [
+				'title'                  => 'Administrators - Users',
+				'icon'                   => 'user-secret',
+				'relative_path_fragment' => 'administrators-users',
+				'contents' => [
+					[
+						'controller_action' => 'default'
+					]
+				],
+			],
 		],
 	],
 
-	'admin_menu_items' => [
-		'administrator_users' => [
-			'label'            => 'Administrators - Users',
-			'separator_before' => true,
-			'menu_id'          => 'system',
-			'page_id'          => 'administrators-users',
-			'icon'             => 'user-secret',
-			'index'            => 200,
+	'menu_items' => [
+		'system' => [
+			'administrator_users' => [
+				'separator_before' => true,
+				'page_id'          => 'administrators-users',
+				'index'            => 200,
+			],
 		],
 	],
 

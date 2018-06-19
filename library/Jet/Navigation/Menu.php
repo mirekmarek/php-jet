@@ -61,21 +61,21 @@ class Navigation_Menu extends BaseObject
 	 * @param string   $id
 	 *
 	 * @param string   $label
-	 * @param int|null $index
 	 * @param string   $icon
+	 * @param int|null $index
 	 *
 	 * @throws Navigation_Menu_Exception
 	 *
 	 * @return Navigation_Menu
 	 */
-	public static function addRootMenu( $id, $label, $index = null, $icon = '' )
+	public static function addRootMenu( $id, $label, $icon = '', $index = null  )
 	{
 		if( isset( static::$root_menus[$id] ) ) {
 			throw new Navigation_Menu_Exception( 'Menu ID conflict: '.$id );
 		}
 
 		if( $index===null ) {
-			$index = count( static::$root_menus[$id] )+1;
+			$index = count( static::$root_menus )+1;
 		}
 
 		$menu = new static( $id, $label, $index, $icon );
@@ -84,6 +84,39 @@ class Navigation_Menu extends BaseObject
 		static::$all_menus[$id] = $menu;
 
 		return $menu;
+	}
+
+	/**
+	 * @param array $data
+	 * @param null|string $translator_namespace
+	 */
+	public static function initRootMenuByData( array $data, $translator_namespace = null )
+	{
+
+		foreach( $data as $id=>$item_data ) {
+			if(empty($item_data['icon'])) {
+				$item_data['icon'] = '';
+			}
+
+			$root_menu = Navigation_Menu::addRootMenu(
+				$id,
+				Tr::_($item_data['label'], [], $translator_namespace),
+				$item_data['icon']
+			);
+
+			if( isset($item_data['items']) ) {
+				foreach( $item_data['items'] as $id=>$menu_item_data ) {
+					$label = Tr::_($menu_item_data['label'], [], $translator_namespace);
+					$menu_item = new Navigation_Menu_Item( $id, $label );
+					$menu_item->setData( $menu_item_data );
+
+					$root_menu->addItem( $menu_item );
+				}
+
+			}
+
+		}
+
 	}
 
 	/**

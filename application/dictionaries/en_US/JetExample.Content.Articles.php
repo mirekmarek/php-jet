@@ -14,4 +14,5 @@ return [
 	'Annotation' => '',
 	'Text' => '',
 	'Select image' => '',
+	'Edit article <b>%TITLE%</b>' => '',
 ];
