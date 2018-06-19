@@ -17,6 +17,7 @@ return [
 	'contents' => [
 			[
 				'module_name' => 'JetExample.Content.Articles',
+				'controller_name' => 'Web_Main',
 				'controller_action' => 'default',
 				'output_position_order' => 1
 			]

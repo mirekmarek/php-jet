@@ -7,10 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\IO_File;
-use Jet\Http_Request;
-
-
 define( 'JET_CONFIG_ENVIRONMENT', 'development' );
 //define( 'JET_CONFIG_ENVIRONMENT', 'production' );
 
@@ -28,27 +24,10 @@ require( $init_dir.'PHP.php' );
 require( $init_dir.'ErrorHandler.php' );
 require( $init_dir.'Autoloader.php' );
 require( $init_dir.'ClassNames.php' );
-
-
-//- REMOVE AFTER INSTALLATION -------------
-$installer_path = JET_PATH_BASE.'_installer/install.php';
-$install_symptom_file = JET_PATH_DATA.'installed.txt';
-if(
-	IO_File::exists( $installer_path ) &&
-	!IO_File::exists( $install_symptom_file )
-) {
-	/** @noinspection PhpIncludeInspection */
-	require( $installer_path );
-	die();
-}
-//- REMOVE AFTER INSTALLATION -------------
-
+//<REMOVE AFTER INSTALLATION> !!!
+require( $init_dir.'Installation.php' );
+//</REMOVE AFTER INSTALLATION> !!!
 require( $init_dir.'Cache.php' );
-
-
-
-Http_Request::initialize( JET_HIDE_HTTP_REQUEST );
+require( $init_dir.'HTTPRequest.php' );
 
 Application::runMvc();
-
-Application::end();
