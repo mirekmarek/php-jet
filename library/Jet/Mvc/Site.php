@@ -334,6 +334,36 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		return $result;
 	}
 
+	/**
+	 * @param array $order
+	 */
+	public function sortLocales( array $order )
+	{
+		$e_locales = $this->getLocales( true );
+
+		foreach( $order as $i=>$l ) {
+			if(!in_array( $l, $e_locales )) {
+				unset( $order[$i] );
+			}
+		}
+
+		$order = array_values($order);
+
+		foreach( $e_locales as $l ) {
+			if(!in_array( $l, $order )) {
+				$order[] = $l;
+			}
+		}
+
+		$o_ld = $this->localized_data;
+		$this->localized_data = [];
+
+		foreach( $order as $l ) {
+			$this->localized_data[$l] = $o_ld[$l];
+		}
+
+	}
+
 
 	/**
 	 * @return string

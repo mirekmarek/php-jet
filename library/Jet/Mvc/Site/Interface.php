@@ -182,6 +182,13 @@ interface Mvc_Site_Interface
 	 */
 	public function getLocales( $get_as_string = false );
 
+
+	/**
+	 * @param array $order
+	 */
+	public function sortLocales( array $order );
+
+
 	/**
 	 *
 	 * @param Locale $locale

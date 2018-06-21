@@ -432,6 +432,14 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 	}
 
 	/**
+	 * @param mixed $value
+	 */
+	public function setValue( $value )
+	{
+		$this->_value = $value;
+	}
+
+	/**
 	 * @return mixed
 	 */
 	public function getValueRaw()
