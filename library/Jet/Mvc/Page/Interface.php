@@ -175,14 +175,14 @@ interface Mvc_Page_Interface
 
 
 	/**
-	 *
+	 * @param bool $is_secret
 	 */
-	public function setIsSecret();
+	public function setIsSecret( $is_secret );
 
 	/**
 	 * @return bool
 	 */
-	public function isSecret();
+	public function getIsSecret();
 
 	/**
 	 * @return bool

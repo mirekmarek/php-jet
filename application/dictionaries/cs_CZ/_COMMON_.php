@@ -18,13 +18,4 @@ return [
 	'Change password' => 'Změnit heslo',
 	'Content' => 'Obsah',
 	'System' => 'Systém',
-	'Test' => '',
-	'Articles' => '',
-	'Images' => '',
-	'Administrators - User roles' => '',
-	'Administrators - Users' => '',
-	'REST clients - User roles' => '',
-	'REST clients - Users' => '',
-	'Visitors - User roles' => '',
-	'Visitors - Users' => '',
 ];

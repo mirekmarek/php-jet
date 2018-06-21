@@ -121,7 +121,7 @@ class Auth_Visitor_Role extends Auth_Role
 	protected static function _getPagesTree( Mvc_Page_Interface $page, &$data )
 	{
 
-		if($page->isSecret()) {
+		if($page->getIsSecret()) {
 			$data[$page->getKey()] = [
 				'id'        => $page->getKey(),
 				'parent_id' => $page->getParent()->getKey(),

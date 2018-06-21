@@ -53,11 +53,6 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	protected $URLs = [];
 
 	/**
-	 * @var callable|null
-	 */
-	protected $initializer;
-
-	/**
 	 *
 	 * @var Mvc_Site_LocalizedData_MetaTag[]
 	 */
@@ -120,24 +115,6 @@ class Mvc_Site_LocalizedData extends BaseObject implements Mvc_Site_LocalizedDat
 	public function setSite( $__site )
 	{
 		$this->__site = $__site;
-	}
-
-	/**
-	 *
-	 * @param callable $initializer
-	 */
-	public function setInitializer( callable $initializer )
-	{
-		$this->initializer = $initializer;
-	}
-
-	/**
-	 *
-	 * @return callable|null
-	 */
-	public function getInitializer()
-	{
-		return $this->initializer;
 	}
 
 

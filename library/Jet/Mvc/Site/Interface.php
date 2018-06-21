@@ -65,18 +65,6 @@ interface Mvc_Site_Interface
 	 */
 	public function getId();
 
-
-	/**
-	 *
-	 */
-	public function setIsSecret();
-
-
-	/**
-	 * @return bool
-	 */
-	public function isSecret();
-
 	/**
 	 * Returns site name
 	 *
@@ -88,6 +76,17 @@ interface Mvc_Site_Interface
 	 * @param string $name
 	 */
 	public function setName( $name );
+
+
+	/**
+	 * @param bool $is_secret
+	 */
+	public function setIsSecret( $is_secret );
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSecret();
 
 
 	/**

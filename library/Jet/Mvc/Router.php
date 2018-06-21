@@ -20,16 +20,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	protected $set_mvc_state = true;
 
 	/**
-	 * @var callable
-	 */
-	protected $after_site_resolved;
-
-	/**
-	 * @var callable
-	 */
-	protected $after_page_resolved;
-
-	/**
 	 *
 	 * @var string
 	 */
@@ -103,22 +93,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	protected $login_required = false;
 
 	/**
-	 * @param callable $after_site_resolved
-	 */
-	public function afterSiteAndLocaleResolved( callable $after_site_resolved )
-	{
-		$this->after_site_resolved = $after_site_resolved;
-	}
-
-	/**
-	 * @param callable $after_page_resolved
-	 */
-	public function afterPageResolved( callable $after_page_resolved )
-	{
-		$this->after_page_resolved = $after_page_resolved;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function getIsSSLRequest()
@@ -155,24 +129,10 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 		$this->request_URL = $request_URL;
 
 
-
 		if( $this->resolveSiteAndLocale() ) {
-
-			if($this->after_site_resolved) {
-				$after = $this->after_site_resolved;
-				$after( $this );
-			}
-
 			if( $this->resolvePage() ) {
-
 				$this->resolveAuthentication();
-
-				if($this->after_page_resolved) {
-					$after = $this->after_page_resolved;
-					$after( $this );
-				}
 			}
-
 		}
 
 
@@ -287,12 +247,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 				Debug_Profiler::blockStart('Site initializer call');
 				$site_initializer( $this );
 				Debug_Profiler::blockEnd('Site initializer call');
-			}
-
-			if( ($locale_initializer=$this->site->getLocalizedData( $this->locale )->getInitializer()) ) {
-				Debug_Profiler::blockStart('Site locale initializer call');
-				$site_initializer( $this );
-				Debug_Profiler::blockEnd('Site locale initializer call');
 			}
 		}
 
@@ -425,7 +379,7 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 */
 	protected function resolveAuthentication()
 	{
-		if( !$this->getPage()->isSecret() ) {
+		if( !$this->getPage()->getIsSecret() ) {
 			return true;
 		}
 

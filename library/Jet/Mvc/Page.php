@@ -602,24 +602,24 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
-	 *
+	 * @param bool $is_secret
 	 */
-	public function setIsSecret()
+	public function setIsSecret( $is_secret )
 	{
-		$this->is_secret = true;
+		$this->is_secret = (bool)$is_secret;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isSecret()
+	public function getIsSecret()
 	{
-		if($this->getSite()->isSecret()) {
+		if($this->getSite()->getIsSecret()) {
 			return true;
 		}
 
 		if(($parent=$this->getParent()) ) {
-			if($parent->isSecret()) {
+			if($parent->getIsSecret()) {
 				return true;
 			}
 		}

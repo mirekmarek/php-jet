@@ -370,21 +370,6 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		$this->name = $name;
 	}
 
-	/**
-	 *
-	 */
-	public function setIsSecret()
-	{
-		$this->is_secret = true;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isSecret()
-	{
-		return $this->is_secret;
-	}
 
 	/**
 	 * @return string
@@ -405,6 +390,21 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	}
 
 
+	/**
+	 * @param bool $is_secret
+	 */
+	public function setIsSecret( $is_secret )
+	{
+		$this->is_secret  = (bool)$is_secret;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSecret()
+	{
+		return $this->is_secret;
+	}
 
 	/**
 	 * @return bool

@@ -14,16 +14,6 @@ interface Mvc_Router_Interface
 {
 
 	/**
-	 * @param callable $after_site_resolved
-	 */
-	public function afterSiteAndLocaleResolved( callable $after_site_resolved );
-
-	/**
-	 * @param callable $after_page_resolved
-	 */
-	public function afterPageResolved( callable $after_page_resolved );
-
-	/**
 	 *
 	 *
 	 * @param string $request_URL

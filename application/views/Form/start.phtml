@@ -26,10 +26,6 @@ if(!$r->getBaseCssClasses()) {
 	if($form->getNovalidate()) { ?> novalidate="novalidate"<?php }
 	if(!$form->getAutocomplete()) { ?> autocomplete="off"<?php }
 ?>>
-<?php if( !$form->getIsReadonly() ) { ?>
+<?php if( !$form->getIsReadonly() ): ?>
 	<input type="hidden" name="<?=$form->getSentKey()?>" value="<?=$form->getName();?>">
-<?php }
-
-if($form->getCommonMessage()) {
-	echo $form->getCommonMessage();
-}
+<?php endif; ?>
