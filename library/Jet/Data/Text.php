@@ -78,7 +78,13 @@ class Data_Text
 	{
 		$flag = $encode_quotes ? ENT_QUOTES : ENT_COMPAT;
 
-		return htmlspecialchars( $input, $flag, JET_CHARSET );
+		return htmlspecialchars(
+			htmlspecialchars_decode(
+				trim(
+					strip_tags($input)
+				)
+			), $flag, JET_CHARSET);
+
 	}
 
 }

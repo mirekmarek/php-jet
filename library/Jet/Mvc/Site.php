@@ -584,7 +584,13 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 		if(!$locale) {
 			$locale = Mvc::getCurrentLocale();
 		}
-		return Mvc_Page::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
+
+		/**
+		 * @var Mvc_Page $class_name
+		 */
+		$class_name = Mvc_Factory::getPageClassName();
+
+		return $class_name::get( Mvc_Page::HOMEPAGE_ID, $locale, $this->getId() );
 	}
 
 	/**

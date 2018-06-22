@@ -245,6 +245,8 @@ abstract class Form_Field extends BaseObject implements \JsonSerializable
 					$v = $k;
 				}
 
+				//TODO: htmlSpecialChars je spatne ...
+
 				$this->_value[] = trim( Data_Text::htmlSpecialChars( (string)$v ) );
 			}
 		} else {

@@ -75,6 +75,16 @@ interface Mvc_Page_Interface
 
 
 	/**
+	 * @return string
+	 */
+	public function getSiteId();
+
+	/**
+	 * @param string $site_id
+	 */
+	public function setSiteId( $site_id );
+
+	/**
 	 * @param Mvc_Site_Interface $site
 	 */
 	public function setSite( Mvc_Site_Interface $site );
@@ -155,7 +165,18 @@ interface Mvc_Page_Interface
 	/**
 	 * @return bool
 	 */
+	public function getIsDeactivatedByDefault();
+
+	/**
+	 * @return bool
+	 */
 	public function getIsActive();
+
+	/**
+	 * @return bool
+	 */
+	public function isSSLRequiredByDefault();
+
 
 	/**
 	 * @return bool
@@ -178,6 +199,11 @@ interface Mvc_Page_Interface
 	 * @param bool $is_secret
 	 */
 	public function setIsSecret( $is_secret );
+
+	/**
+	 * @return bool
+	 */
+	public function isSecretByDefault();
 
 	/**
 	 * @return bool
@@ -212,7 +238,7 @@ interface Mvc_Page_Interface
 	/**
 	 * @param array $php_file_extensions
 	 */
-	public function setSybAppPhpFileExtensions( array $php_file_extensions );
+	public function setSubAppPhpFileExtensions( array $php_file_extensions );
 
 
 	/**

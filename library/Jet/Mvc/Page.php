@@ -34,7 +34,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 
 	/**
 	 *
-	 * @var Mvc_Site
+	 * @var string
 	 */
 	protected $site_id;
 	/**
@@ -291,6 +291,22 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getSiteId()
+	{
+		return $this->site_id;
+	}
+
+	/**
+	 * @param string $site_id
+	 */
+	public function setSiteId( $site_id )
+	{
+		$this->site_id = $site_id;
+	}
+
+	/**
 	 * @return Mvc_Site_Interface
 	 */
 	public function getSite()
@@ -364,14 +380,27 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsActive()
+	public function getIsDeactivatedByDefault()
 	{
 		if(
 			$this->getParent() &&
 			!$this->getParent()->getIsActive()
 		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsActive()
+	{
+		if( $this->getIsDeactivatedByDefault() ) {
 			return false;
 		}
+
 		return $this->is_active;
 	}
 
@@ -420,7 +449,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getSSLRequired()
+	public function isSSLRequiredByDefault()
 	{
 		if(
 			$this->getParent() &&
@@ -430,6 +459,18 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 		}
 
 		if($this->getSite()->getLocalizedData( $this->getLocale() )->getSSLRequired()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getSSLRequired()
+	{
+		if( $this->isSSLRequiredByDefault() ) {
 			return true;
 		}
 
@@ -596,7 +637,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param array $php_file_extensions
 	 */
-	public function setSybAppPhpFileExtensions( array $php_file_extensions )
+	public function setSubAppPhpFileExtensions( array $php_file_extensions )
 	{
 		$this->sub_app_php_file_extensions = $php_file_extensions;
 	}
@@ -612,7 +653,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @return bool
 	 */
-	public function getIsSecret()
+	public function isSecretByDefault()
 	{
 		if($this->getSite()->getIsSecret()) {
 			return true;
@@ -623,6 +664,19 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 				return true;
 			}
 		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getIsSecret()
+	{
+		if( $this->isSecretByDefault() ) {
+			return true;
+		}
+
 		return $this->is_secret;
 	}
 

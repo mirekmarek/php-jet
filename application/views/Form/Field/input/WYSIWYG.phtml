@@ -23,6 +23,6 @@ $field = $r->getField();
 	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
 	if( $field->getIsRequired() ) echo ' required="required"';
 
-	?>><?=$field->getValue()?></textarea>
+	?>><?=$field->getValueRaw()?></textarea>
 
 	<?=$field->generateJavascriptInitializationCode();?>
