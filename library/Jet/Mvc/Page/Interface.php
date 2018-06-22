@@ -255,7 +255,7 @@ interface Mvc_Page_Interface
 	/**
 	 * @param string $relative_path_fragment
 	 */
-	public function setPathFragment( $relative_path_fragment );
+	public function setRelativePathFragment( $relative_path_fragment );
 
 	/**
 	 * @return string

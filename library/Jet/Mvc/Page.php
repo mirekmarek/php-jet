@@ -415,7 +415,7 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	/**
 	 * @param string $relative_path_fragment
 	 */
-	public function setPathFragment( $relative_path_fragment )
+	public function setRelativePathFragment( $relative_path_fragment )
 	{
 		$this->relative_path_fragment = $relative_path_fragment;
 	}
