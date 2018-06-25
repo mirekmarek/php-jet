@@ -111,7 +111,7 @@ class Application_Admin
 			return null;
 		}
 
-		$view = new Mvc_View( $module->getViewsDir().'dialog-hooks/' );
+		$view = new Mvc_View( $module->getViewsDir().'admin/dialog-hooks/' );
 		foreach( $options as $k=>$v ) {
 			$view->setVar( $k, $v );
 		}
