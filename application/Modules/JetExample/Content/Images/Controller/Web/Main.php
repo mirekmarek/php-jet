@@ -42,7 +42,7 @@ class Controller_Web_Main extends Mvc_Controller_Default
 		if(!$gallery) {
 			$this->view->setVar( 'galleries', Gallery::getRootGalleries() );
 
-			$this->render( 'default' );
+			$this->render( 'web/default' );
 
 		} else {
 
@@ -51,7 +51,7 @@ class Controller_Web_Main extends Mvc_Controller_Default
 			}
 
 			$this->view->setVar( 'gallery', $gallery );
-			$this->render( 'gallery' );
+			$this->render( 'web/gallery' );
 		}
 	}
 

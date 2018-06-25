@@ -44,20 +44,4 @@ class Main extends Application_Module
 		self::ACTION_UPDATE_IMAGE => 'Update image',
 		self::ACTION_DELETE_IMAGE => 'Delete image',
 	];
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getViewsDir()
-	{
-		$dir = parent::getViewsDir();
-
-		if( Mvc::getCurrentSite()->getId()==Application_Admin::getSiteId() ) {
-			return $dir.'admin/';
-		} else {
-			return $dir.'web/';
-		}
-	}
-
 }

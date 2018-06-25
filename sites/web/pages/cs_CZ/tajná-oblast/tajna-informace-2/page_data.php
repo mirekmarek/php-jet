@@ -14,7 +14,7 @@ return [
 		    'output_position_order' => 1,
 		    'output' => <<<EOT
 <h2>:-)</h2>
-<img src="http://www.internetgovernance.org/wordpress/wp-content/uploads/yeti.jpg"/>
+<img src="http://assets1.bigthink.com/system/tinymce_assets/7239/original/pixar-yeti.jpeg"/>
 EOT
 	    ],
 

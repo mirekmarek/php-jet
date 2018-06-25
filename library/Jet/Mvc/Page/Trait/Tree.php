@@ -122,7 +122,11 @@ trait Mvc_Page_Trait_Tree
 
 			foreach( $this->children as $id ) {
 				/** @noinspection PhpUndefinedMethodInspection */
-				$this->__children[$id] = static::get( $id, $this->getLocale(), $this->getSite()->getId() );
+				$ch = static::get( $id, $this->getLocale(), $this->getSite()->getId() );
+
+				if($ch) {
+					$this->__children[$id] = $ch;
+				}
 			}
 
 			uasort(

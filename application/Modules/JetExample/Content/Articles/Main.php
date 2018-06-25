@@ -31,24 +31,10 @@ class Main extends Application_Module
 	 * @var array
 	 */
 	protected $ACL_actions = [
-		self::ACTION_GET_ARTICLE    => 'Get article(s) data', self::ACTION_ADD_ARTICLE => 'Add new article',
-		self::ACTION_UPDATE_ARTICLE => 'Update article', self::ACTION_DELETE_ARTICLE => 'Delete article',
+		self::ACTION_GET_ARTICLE    => 'Get article(s) data',
+		self::ACTION_ADD_ARTICLE    => 'Add new article',
+		self::ACTION_UPDATE_ARTICLE => 'Update article',
+		self::ACTION_DELETE_ARTICLE => 'Delete article',
 	];
-
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getViewsDir()
-	{
-		$dir = parent::getViewsDir();
-
-		if( Mvc::getCurrentSite()->getId()==Application_Admin::getSiteId() ) {
-			return $dir.'admin/';
-		} else {
-			return $dir.'web/';
-		}
-	}
 
 }

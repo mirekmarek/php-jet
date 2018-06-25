@@ -123,7 +123,7 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'selected_id', '' );
 
 
-		$this->render( 'default' );
+		$this->render( 'admin/default' );
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'selected_id', $parent_id );
 
-		$this->render( 'add' );
+		$this->render( 'admin/add' );
 
 	}
 
@@ -198,7 +198,7 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'upload_form', $gallery->getImageUploadForm() );
 		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
 
-		$this->render( 'edit' );
+		$this->render( 'admin/edit' );
 	}
 
 
@@ -222,7 +222,7 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'edit_form', $edit_form );
 		$this->view->setVar( 'selected_id', $gallery->getIdObject() );
 
-		$this->render( 'edit' );
+		$this->render( 'admin/edit' );
 
 	}
 
@@ -286,8 +286,8 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 
 
 		$this->ajaxFormResponse($upload_form, $ok, [
-			'images_area' => $this->view->render('parts/images'),
-			'upload_form_area' => $this->view->render('parts/upload-form')
+			'images_area' => $this->view->render('admin/parts/images'),
+			'upload_form_area' => $this->view->render('admin/parts/upload-form')
 		]);
 
 	}

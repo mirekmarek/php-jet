@@ -108,7 +108,7 @@ class Controller_Web_Main extends Mvc_Controller_Default
 		$this->view->setVar( 'articles_list', $articles_list );
 		$this->view->setVar( 'paginator', $paginator );
 
-		$this->render( 'list' );
+		$this->render( 'web/list' );
 
 	}
 
@@ -126,6 +126,6 @@ class Controller_Web_Main extends Mvc_Controller_Default
 
 		$this->view->setVar( 'article', $article );
 
-		$this->render( 'detail' );
+		$this->render( 'web/detail' );
 	}
 }
