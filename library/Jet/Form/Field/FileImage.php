@@ -126,17 +126,33 @@ class Form_Field_FileImage extends Form_Field_File
 			return false;
 		}
 
-		if( $this->_value ) {
+		$check_dimensions = function( $path ) {
 			if(
 				$this->maximal_width &&
 				$this->maximal_height
 			) {
 				try {
-					$image = new Data_Image( $this->_value );
-					$image->createThumbnail( $this->_value, $this->maximal_width, $this->maximal_height );
+					$image = new Data_Image( $path );
+					$image->createThumbnail( $path, $this->maximal_width, $this->maximal_height );
 				} catch( Data_Image_Exception $e ) {
-					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
+					return false;
+				}
+			}
 
+			return true;
+		};
+
+		if( $this->_value ) {
+			if(is_array($this->_value)) {
+				foreach( $this->_value as $i=>$path ) {
+					if(!$check_dimensions( $path )) {
+						$this->unsetFile( $i );
+					}
+
+				}
+			} else {
+				if(!$check_dimensions( $this->_value )) {
+					$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 					return false;
 				}
 			}

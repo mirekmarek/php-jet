@@ -27,8 +27,9 @@ $field = $r->getField();
 	if( $r->getJsActions() ) echo $r->getJsActions();
 
 	if( $field->getPlaceholder() ) echo ' placeholder="'.Data_Text::htmlSpecialChars($field->getPlaceholder()).'"';
+	if( $field->getAllowMultipleUpload() ) echo ' multiple="multiple"';
 	if( $field->getIsReadonly() ) echo ' readonly="readonly"';
 	if( $field->getIsRequired() ) echo ' required="required"';
 	if( $field->getAllowedMimeTypes() ) echo ' accept="'.implode( '|', $field->getAllowedMimeTypes()).'"';
 
-	?> value="<?=$field->getValue()?>"/>
+	?> value=""/>

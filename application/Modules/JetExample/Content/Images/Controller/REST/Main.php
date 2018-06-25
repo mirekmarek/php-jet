@@ -349,15 +349,22 @@ class Controller_REST_Main extends Mvc_Controller_REST
 		$upload_form = $gallery->getImageUploadForm();
 
 
-		if( ( $image = $gallery->catchImageUploadForm( true ) ) ) {
+		if( ( $images = $gallery->catchImageUploadForm( true ) ) ) {
+			$ids = [];
+			$names = [];
+			foreach( $images as $i ) {
+				$ids[] = $i->getIdObject()->toString();
+				$names[] = $i->getFileName();
+			}
+
+
 			$this->logAllowedAction(
-				'Image created',
-				$image->getId(),
-				$image->getFileName(),
-				$image
+				'image_uploaded',
+				implode(', ', $ids),
+				implode(', ', $names)
 			);
 
-			$this->responseData( $image );
+			$this->responseData( $images[0] );
 		} else {
 			$this->responseValidationError( $upload_form->getAllErrors() );
 		}

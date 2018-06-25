@@ -268,15 +268,21 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 
 		$ok = false;
 
-		if( ( $image = $gallery->catchImageUploadForm() ) ) {
+		if( ( $images = $gallery->catchImageUploadForm() ) ) {
 
-			$upload_form->setCommonMessage( UI_messages::createSuccess( Tr::_('Image %FILE_NAME% uploaded ....', ['FILE_NAME'=>$image->getFileName()]) ) );
+			$ids = [];
+			$names = [];
+			foreach( $images as $i ) {
+				$ids[] = $i->getIdObject()->toString();
+				$names[] = $i->getFileName();
+			}
+
+			$upload_form->setCommonMessage( UI_messages::createSuccess( Tr::_('Image %FILE_NAME% uploaded ....', ['FILE_NAME'=>implode(', ', $names)]) ) );
 
 			$this->logAllowedAction(
 				'image_uploaded',
-				$image->getIdObject()->toString(),
-				$image->getFileName(),
-				$image
+				implode(', ', $ids),
+				implode(', ', $names)
 			);
 
 			$ok = true;

@@ -531,6 +531,8 @@ class Gallery extends DataModel
 				Config::getDefaultMaxH()
 			);
 
+			$image_field->setAllowMultipleUpload( true );
+
 			$this->_form_image_upload = new Form(
 				'gallery_image_upload', [ $image_field ]
 			);
@@ -544,7 +546,7 @@ class Gallery extends DataModel
 	/**
 	 * @param bool $force_catch
 	 *
-	 * @return bool|Gallery_Image
+	 * @return bool|Gallery_Image[]
 	 */
 	public function catchImageUploadForm( $force_catch = false )
 	{
@@ -565,14 +567,25 @@ class Gallery extends DataModel
 		 */
 		$img_field = $form->getField( 'file' );
 
-		$tmp_file_path = $img_field->getTmpFilePath();
-		$file_name = $img_field->getFileName();
+		$tmp_file_paths = $img_field->getTmpFilePath();
+		$file_names = $img_field->getFileName();
+
+		$new_images = [];
 
 		try {
-			$image = $this->addImage(
-				$tmp_file_path,
-				$file_name
-			);
+			if(is_array($tmp_file_paths)) {
+				foreach( $tmp_file_paths as $i=>$tmp_file_path ) {
+					$new_images[] = $this->addImage(
+						$tmp_file_path,
+						$file_names[$i]
+					);
+				}
+			} else {
+				$new_images[] = $this->addImage(
+					$tmp_file_paths,
+					$file_names
+				);
+			}
 		} catch( Exception $e ) {
 			$form->setCommonMessage( Tr::_( $e->getMessage() ) );
 
@@ -582,7 +595,7 @@ class Gallery extends DataModel
 		$this->_images = null;
 
 
-		return $image;
+		return $new_images;
 
 	}
 

@@ -12,6 +12,7 @@ namespace Jet;
  */
 class Form_Field_File extends Form_Field
 {
+
 	const ERROR_CODE_FILE_IS_TOO_LARGE = 'file_is_too_large';
 	const ERROR_CODE_DISALLOWED_FILE_TYPE = 'disallowed_file_type';
 
@@ -96,6 +97,11 @@ class Form_Field_File extends Form_Field
 	protected $uploaded_file_path;
 
 	/**
+	 * @var bool
+	 */
+	protected $allow_multiple_upload = false;
+
+	/**
 	 * set form instance
 	 *
 	 * @param Form $form
@@ -143,7 +149,7 @@ class Form_Field_File extends Form_Field
 	}
 
 	/**
-	 * @return string
+	 * @return string|array
 	 */
 	public function getFileName()
 	{
@@ -171,7 +177,25 @@ class Form_Field_File extends Form_Field
 	}
 
 	/**
-	 * @return string
+	 * @return bool
+	 */
+	public function getAllowMultipleUpload()
+	{
+		return $this->allow_multiple_upload;
+	}
+
+	/**
+	 * @param bool $allow_multiple_upload
+	 */
+	public function setAllowMultipleUpload( $allow_multiple_upload )
+	{
+		$this->allow_multiple_upload = $allow_multiple_upload;
+	}
+
+
+
+	/**
+	 * @return string|array
 	 */
 	public function getTmpFilePath()
 	{
@@ -184,9 +208,64 @@ class Form_Field_File extends Form_Field
 	 */
 	public function catchInput( Data_Array $data )
 	{
-
 		$this->_value = null;
 		$this->_has_value = isset( $_FILES[$this->_name] ) && !empty( $_FILES[$this->_name]['tmp_name'] );
+
+		if(
+			$this->getAllowMultipleUpload() &&
+			$this->_has_value &&
+			is_array($_FILES[$this->_name]['tmp_name'])
+		) {
+			$this->catchInput_multiple();
+		} else {
+			$this->catchInput_single();
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected function catchInput_multiple()
+	{
+
+		if( $this->_has_value ) {
+
+			$_files = $_FILES[$this->_name];
+
+			$names = $_files['name'];
+			$types = $_files['type'];
+			$tmp_names = $_files['tmp_name'];
+			$errors = $_files['error'];
+			$sizes = $_files['size'];
+
+
+			$files = [];
+
+			foreach( $names as $i=>$name ) {
+				$files[$i] = [
+					'name' => $name,
+					'type' => $types[$i],
+					'tmp_name' => $tmp_names[$i],
+					'error' => $errors[$i],
+					'size' => $sizes[$i]
+				];
+			}
+
+			$this->_value_raw = $files;
+			$this->_value = $tmp_names;
+			$this->tmp_file_path = $tmp_names;
+			$this->file_name = $names;
+
+		} else {
+			$this->_value_raw = null;
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected function catchInput_single()
+	{
 
 		if( $this->_has_value ) {
 			$this->_value_raw = $_FILES[$this->_name];
@@ -215,29 +294,73 @@ class Form_Field_File extends Form_Field
 			return true;
 		}
 
-		if( $this->maximal_file_size ) {
-			$file_size = IO_File::getSize( $this->_value );
-			if( $file_size>$this->maximal_file_size ) {
+		$check_file_size = function( $path ) {
+
+			if( $this->maximal_file_size ) {
+				$file_size = IO_File::getSize( $path );
+				if( $file_size>$this->maximal_file_size ) {
+					return false;
+				}
+			}
+
+			return true;
+		};
+
+		$check_mime_type = function( $path ) {
+			if( $this->allowed_mime_types ) {
+				if( !in_array(
+					IO_File::getMimeType( $path ), $this->allowed_mime_types
+				)
+				) {
+					return false;
+				}
+			}
+
+			return true;
+		};
+
+		if(!is_array($this->_value)) {
+			if( !$check_file_size( $this->_value ) ) {
 				$this->setError( self::ERROR_CODE_FILE_IS_TOO_LARGE );
 
 				return false;
 			}
-		}
 
-		if( $this->allowed_mime_types ) {
-			if( !in_array(
-				IO_File::getMimeType( $this->_value ), $this->allowed_mime_types
-			)
-			) {
+			if( !$check_mime_type( $this->_value ) ) {
 				$this->setError( self::ERROR_CODE_DISALLOWED_FILE_TYPE );
 
 				return false;
 			}
+
+			$this->setIsValid();
+
+			return true;
+		} else {
+			foreach( $this->_value as $i=>$path ) {
+				if(
+					!$check_file_size( $path ) ||
+					!$check_mime_type( $path )
+				) {
+					$this->unsetFile( $i );
+				}
+			}
+
+			$this->setIsValid();
+
+			return true;
 		}
+	}
 
-		$this->setIsValid();
+	/**
+	 * @param int $index
+	 */
+	protected function unsetFile( $index )
+	{
+		unset( $this->_value_raw[$index] );
+		unset( $this->_value[$index] );
+		unset( $this->tmp_file_path[$index] );
+		unset( $this->file_name[$index] );
 
-		return true;
 	}
 
 	/**
@@ -274,4 +397,27 @@ class Form_Field_File extends Form_Field
 		return $codes;
 	}
 
+	/**
+	 * Converts name to HTML ready name
+	 *
+	 * Example:
+	 *
+	 * name: /object/property/sub_property
+	 *
+	 * to: object[property][sub_property]
+	 *
+	 * @param string|null $name
+	 *
+	 * @return string
+	 */
+	public function getTagNameValue( $name = null )
+	{
+		$name = parent::getTagNameValue( $name );
+
+		if( substr($name, -1)!=']' ) {
+			$name .= '[]';
+		}
+
+		return $name;
+	}
 }
