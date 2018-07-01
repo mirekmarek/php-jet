@@ -295,7 +295,7 @@ abstract class Mvc_View_Abstract extends BaseObject
 	protected function handlePostprocessors( &$result )
 	{
 		foreach( $this->_postprocessors as $pp ) {
-			$pp( $result );
+			$pp( $result, $this );
 		}
 	}
 
