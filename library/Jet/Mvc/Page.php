@@ -831,4 +831,70 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 		}
 	}
 
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+
+		$data = get_object_vars( $this );
+
+		foreach( $data as $k => $v ) {
+			if(
+				$k=='content' ||
+				$k=='meta_tags' ||
+				$k[0]=='_'
+			) {
+				unset( $data[$k] );
+			}
+		}
+
+		unset( $data['site_id'] );
+		unset( $data['locale'] );
+		unset( $data['data_file_path'] );
+		unset( $data['relative_path'] );
+		unset( $data['protected $parent_id'] );
+		unset( $data['parent_id'] );
+		unset( $data['children'] );
+		unset( $data['order'] );
+		unset( $data['relative_path'] );
+		unset( $data['relative_path_fragment'] );
+
+
+
+		$data['meta_tags'] = [];
+		foreach( $this->meta_tags as $meta_tag ) {
+			$data['meta_tags'][] = $meta_tag->toArray();
+		}
+
+		if(
+			!$this->getOutput() &&
+			!$this->getIsSubApp()
+		) {
+			unset($data['output']);
+			unset($data['is_sub_app']);
+			unset($data['sub_app_index_file_name']);
+			unset($data['sub_app_php_file_extensions']);
+
+			$data['content'] = [];
+			foreach( $this->content as $content ) {
+				$data['content'][] = $content->toArray();
+			}
+		} else {
+			unset($data['layout_script_name']);
+
+			if( $this->getIsSubApp()) {
+				unset($data['output']);
+			} else {
+				unset($data['is_sub_app']);
+				unset($data['sub_app_index_file_name']);
+				unset($data['sub_app_php_file_extensions']);
+			}
+		}
+
+
+
+		return $data;
+	}
+
 }

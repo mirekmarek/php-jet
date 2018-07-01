@@ -216,5 +216,9 @@ interface Mvc_Site_Interface
 	 */
 	public function saveDataFile();
 
+	/**
+	 * @return array
+	 */
+	public function toArray();
 
 }

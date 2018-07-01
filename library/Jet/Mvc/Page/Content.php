@@ -419,4 +419,37 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 	}
 
 
+
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+		$data = get_object_vars( $this );
+		foreach( $data as $k => $v ) {
+			if( $k[0]=='_' ) {
+				unset( $data[$k] );
+			}
+		}
+
+		if( $this->output ) {
+			unset($data['module_name']);
+			unset($data['controller_name']);
+			unset($data['controller_class']);
+			unset($data['controller_action']);
+
+
+		} else {
+			unset( $data['output'] );
+
+			if($this->controller_class) {
+				unset($data['module_name']);
+				unset($data['controller_name']);
+			} else {
+				unset($data['controller_class']);
+			}
+		}
+
+		return $data;
+	}
 }

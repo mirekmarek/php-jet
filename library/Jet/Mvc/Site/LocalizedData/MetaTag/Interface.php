@@ -70,4 +70,11 @@ interface Mvc_Site_LocalizedData_MetaTag_Interface
 	 * @param string $content
 	 */
 	public function setContent( $content );
+
+
+	/**
+	 * @return array
+	 */
+	public function toArray();
+
 }

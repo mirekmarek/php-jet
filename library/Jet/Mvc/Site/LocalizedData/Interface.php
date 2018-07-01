@@ -115,4 +115,10 @@ interface Mvc_Site_LocalizedData_Interface
 	 */
 	public function setDefaultMetaTags( $default_meta_tags );
 
+
+	/**
+	 * @return array
+	 */
+	public function toArray();
+
 }

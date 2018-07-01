@@ -151,4 +151,9 @@ interface Mvc_Page_Content_Interface
 	 */
 	public function dispatch();
 
+	/**
+	 * @return array
+	 */
+	public function toArray();
+
 }

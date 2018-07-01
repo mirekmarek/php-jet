@@ -157,4 +157,20 @@ class Mvc_Page_MetaTag extends BaseObject implements Mvc_Page_MetaTag_Interface
 	{
 		$this->content = $content;
 	}
+
+
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+		$data = get_object_vars( $this );
+		foreach( $data as $k => $v ) {
+			if( $k[0]=='_' ) {
+				unset( $data[$k] );
+			}
+		}
+
+		return $data;
+	}
 }

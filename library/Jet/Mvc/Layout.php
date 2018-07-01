@@ -109,7 +109,7 @@ class Mvc_Layout extends Mvc_View_Abstract
 	/**
 	 * @return string
 	 *
-	 * @throws Mvc_Layout_Exception
+	 * @throws Mvc_View_Exception
 	 */
 	protected function _render()
 	{

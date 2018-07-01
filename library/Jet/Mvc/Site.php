@@ -600,23 +600,11 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 	{
 		$data = $this->toArray();
 
-		foreach( $this->getLocales( true ) as $locale ) {
-			/**
-			 * @var string $locale
-			 */
-			unset( $data['localized_data'][$locale]['site_id'] );
-			unset( $data['localized_data'][$locale]['locale'] );
-		}
+		IO_File::write(
+			$this->getBasePath().static::$site_data_file_name,
+			'<?php'.JET_EOL.'return '.(new Data_Array( $data ))->export()
+		);
 
-
-		$ar = new Data_Array( $data );
-
-		$data = '<?php'.JET_EOL.'return '.$ar->export();
-
-		$data_file_path = static::getSiteDataFilePath( $this->getId() );
-
-
-		IO_File::write( $data_file_path, $data );
 	}
 
 	/**
@@ -632,12 +620,15 @@ class Mvc_Site extends BaseObject implements Mvc_Site_Interface, BaseObject_Cach
 				unset( $data[$k] );
 			}
 		}
-		$data['localized_data'] = [];
 
+		$data['localized_data'] = [];
 
 		foreach( $this->localized_data as $locale_str => $ld ) {
 			$data['localized_data'][$locale_str] = $ld->toArray();
+			unset( $data['localized_data'][$locale_str]['site_id'] );
+			unset( $data['localized_data'][$locale_str]['locale'] );
 		}
+
 
 		return $data;
 	}
