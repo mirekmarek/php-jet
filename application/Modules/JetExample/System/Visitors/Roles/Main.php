@@ -21,13 +21,5 @@ class Main extends Application_Module
 	const ACTION_UPDATE_ROLE = 'update_role';
 	const ACTION_DELETE_ROLE = 'delete_role';
 
-	/**
-	 * @var array
-	 */
-	protected $ACL_actions = [
-		self::ACTION_GET_ROLE    => 'Get role(s) data', self::ACTION_ADD_ROLE => 'Add new role',
-		self::ACTION_UPDATE_ROLE => 'Update role', self::ACTION_DELETE_ROLE => 'Delete role',
-	];
-
 
 }

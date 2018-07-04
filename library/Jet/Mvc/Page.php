@@ -765,6 +765,8 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	public function removeContent( $index )
 	{
 		unset( $this->content[$index] );
+
+		$this->content = array_values($this->content);
 	}
 
 

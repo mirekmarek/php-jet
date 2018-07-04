@@ -6,7 +6,7 @@ return [
 	'Description' => '',
 	'Create a new Role' => '',
 	'Edit role <b>%ROLE_NAME%</b>' => '',
-	'Get role(s) data' => '',
+	'Get role data' => '',
 	'Add new role' => '',
 	'Update role' => '',
 	'Delete role' => '',

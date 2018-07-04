@@ -27,14 +27,4 @@ class Main extends Application_Module
 	const ACTION_UPDATE_ARTICLE = 'update_article';
 	const ACTION_DELETE_ARTICLE = 'delete_article';
 
-	/**
-	 * @var array
-	 */
-	protected $ACL_actions = [
-		self::ACTION_GET_ARTICLE    => 'Get article(s) data',
-		self::ACTION_ADD_ARTICLE    => 'Add new article',
-		self::ACTION_UPDATE_ARTICLE => 'Update article',
-		self::ACTION_DELETE_ARTICLE => 'Delete article',
-	];
-
 }

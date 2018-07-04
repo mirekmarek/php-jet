@@ -21,13 +21,6 @@ class Main extends Application_Module
 	const ACTION_UPDATE_USER = 'update_user';
 	const ACTION_DELETE_USER = 'delete_user';
 
-	/**
-	 * @var array
-	 */
-	protected $ACL_actions = [
-		self::ACTION_GET_USER    => 'Get user(s) data', self::ACTION_ADD_USER => 'Add new user',
-		self::ACTION_UPDATE_USER => 'Update user', self::ACTION_DELETE_USER => 'Delete user',
-	];
 
 
 }

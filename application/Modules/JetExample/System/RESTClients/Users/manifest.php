@@ -6,6 +6,14 @@ return [
 	'label'       => 'REST clients users management',
 	'description' => '',
 
+
+	'ACL_actions' => [
+		'get_user'    => 'Get user data',
+		'add_user'    => 'Add new user',
+		'update_user' => 'Update user',
+		'delete_user' => 'Delete user',
+	],
+	
 	'pages' => [
 		'admin' => [
 			'rest-clients-users' => [

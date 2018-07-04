@@ -14,7 +14,7 @@ return [
 	'Annotation' => 'Anotace',
 	'Text' => 'Text',
 	'Create a new Article' => 'Vytvořit nový článek',
-	'Get article(s) data' => 'Získat informace o článcích',
+	'Get article data' => 'Získat informace o článcích',
 	'Add new article' => 'Přidat nový článek',
 	'Update article' => 'Upravit článek',
 	'Delete article' => 'Smazat článek',

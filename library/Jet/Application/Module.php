@@ -30,32 +30,14 @@ abstract class Application_Module extends BaseObject
 	 * @var string
 	 */
 	protected static $default_views_dir = 'views';
-
-
+	
 	/**
 	 *
 	 * @var Application_Module_Manifest
 	 */
 	protected $module_manifest;
-
-	/**
-	 * action => Human readable action description
-	 *
-	 * Example:
-	 *
-	 * <code>
-	 * protected static $ACL_actions = [
-	 *      'get_data'      => 'Get data',
-	 *      'update_record' => 'Update data',
-	 *      'add_record'    => 'Add new data',
-	 *      'delete_record' => 'Delete data'
-	 * ];
-	 * </code>
-	 *
-	 * @var array
-	 */
-	protected $ACL_actions = [];
-
+	
+	
 	/**
 	 * @return string
 	 */
@@ -214,33 +196,21 @@ abstract class Application_Module extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function accessAllowed( $action )
+	public function actionIsAllowed( $action )
 	{
-		$ACL_actions = $this->getAclActions();
+		$module_name = $this->module_manifest->getName();
 
-		if( !isset( $ACL_actions[$action] ) ) {
+		if( !$this->module_manifest->hasACLAction($action) ) {
 			throw new Application_Modules_Exception(
-				'Unknown ACL action \''.$action.'\'. Please add record to '.get_class( $this ).'::$ACL_actions ',
+				'Unknown ACL action \''.$action.'\' (Module: '.$module_name.')',
 				Application_Modules_Exception::CODE_UNKNOWN_ACL_ACTION
 			);
 		}
-
-
-		$module_name = $this->module_manifest->getName();
 
 		return Auth::getCurrentUserHasPrivilege(
 			Auth_Role::PRIVILEGE_MODULE_ACTION,
 			$module_name.':'.$action
 		);
 	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getAclActions()
-	{
-		return $this->ACL_actions;
-	}
-
+	
 }

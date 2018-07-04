@@ -1,7 +1,7 @@
 <?php
 return [
 	'Administrators - Users' => '',
-	'Get user(s) data' => '',
+	'Get user data' => '',
 	'Add new user' => '',
 	'Update user' => '',
 	'Delete user' => '',

@@ -25,7 +25,7 @@ use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 /**
  *
  */
-class Controller_Admin_Main extends Mvc_Controller_Default
+class Controller_Admin extends Mvc_Controller_Default
 {
 	/**
 	 * @var array
@@ -44,19 +44,19 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Controller_Admin_Main_Router;
+	 * @var Controller_Admin_Router;
 	 */
 	protected $router;
 
 
 	/**
 	 *
-	 * @return Controller_Admin_Main_Router
+	 * @return Controller_Admin_Router
 	 */
 	public function getControllerRouter()
 	{
 		if( !$this->router ) {
-			$this->router = new Controller_Admin_Main_Router( $this );
+			$this->router = new Controller_Admin_Router( $this );
 		}
 
 		return $this->router;

@@ -206,7 +206,7 @@ abstract class Mvc_Controller extends BaseObject
 	 *
 	 * @return bool
 	 */
-	public function checkAccess()
+	public function actionIsAllowed()
 	{
 
 		$module_action = $this->getModuleAction( $this->content->getControllerAction() );
@@ -215,7 +215,7 @@ abstract class Mvc_Controller extends BaseObject
 			return true;
 		}
 
-		if( !$this->module->accessAllowed( $module_action ) ) {
+		if( !$this->module->actionIsAllowed( $module_action ) ) {
 			$this->responseAccessDenied();
 
 			return false;

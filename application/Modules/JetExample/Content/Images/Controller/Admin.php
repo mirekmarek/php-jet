@@ -7,6 +7,7 @@
  */
 namespace JetApplicationModule\JetExample\Content\Images;
 
+use Jet\AJAX;
 use Jet\Form;
 use Jet\Mvc_Controller_Default;
 use Jet\Http_Headers;
@@ -23,7 +24,7 @@ use JetApplicationModule\JetExample\AdminUI\Main as AdminUI_module;
 /**
  *
  */
-class Controller_Admin_Main extends Mvc_Controller_Default
+class Controller_Admin extends Mvc_Controller_Default
 {
 	/**
 	 * @var array
@@ -47,19 +48,19 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 	protected $module = null;
 
 	/**
-	 * @var Controller_Admin_Main_Router
+	 * @var Controller_Admin_Router
 	 */
 	protected $router;
 
 
 	/**
 	 *
-	 * @return Controller_Admin_Main_Router
+	 * @return Controller_Admin_Router
 	 */
 	public function getControllerRouter()
 	{
 		if( !$this->router ) {
-			$this->router = new Controller_Admin_Main_Router( $this );
+			$this->router = new Controller_Admin_Router( $this );
 		}
 
 		return $this->router;
@@ -291,10 +292,12 @@ class Controller_Admin_Main extends Mvc_Controller_Default
 		}
 
 
-		$this->ajaxFormResponse($upload_form, $ok, [
-			'images_area' => $this->view->render('admin/parts/images'),
-			'upload_form_area' => $this->view->render('admin/parts/upload-form')
-		]);
+		AJAX::formResponse(
+			$ok,
+			[
+				'images_area' => $this->view->render('admin/parts/images'),
+				'upload_form_area' => $this->view->render('admin/parts/upload-form')
+			]);
 
 	}
 

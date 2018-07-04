@@ -10,7 +10,7 @@ return [
 	'Invalid value' => '',
 	'Privileges' => '',
 	'Sites and pages' => '',
-	'Get role(s) data' => '',
+	'Get role data' => '',
 	'Add new role' => '',
 	'Update role' => '',
 	'Delete role' => '',

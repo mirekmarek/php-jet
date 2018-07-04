@@ -6,7 +6,7 @@ return [
 	'First name' => '',
 	'Surname' => '',
 	'Create a new User' => '',
-	'Get user(s) data' => '',
+	'Get user data' => '',
 	'Add new user' => '',
 	'Update user' => '',
 	'Delete user' => '',

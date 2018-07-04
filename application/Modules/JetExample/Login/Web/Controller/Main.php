@@ -32,7 +32,7 @@ class Controller_Main extends Mvc_Controller_Default
 	 *
 	 * @return bool
 	 */
-	public function checkAccess()
+	public function actionIsAllowed()
 	{
 		return true;
 	}

@@ -19,7 +19,7 @@ return [
 	'Do you really want to delete this role?'  => 'Opravdu si přejete smazat tuto roli?',
 	'Sites and pages'                          => 'Weby a stránky',
 	'Visitor roles management'                 => 'Správa rolí návštěvníků',
-	'Get role(s) data'                         => 'Získat informace o rolích',
+	'Get role data'                         => 'Získat informace o rolích',
 	'Add new role'                             => 'Přidat novou roli',
 	'Update role'                              => 'Upravit roli',
 	'Delete role'                              => 'Smazat roli',

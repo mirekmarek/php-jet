@@ -55,6 +55,11 @@ class Application_Module_Manifest extends BaseObject
 	protected $description = '';
 
 	/**
+	 * @var array 
+	 */
+	protected $ACL_actions = [];
+
+	/**
 	 * @var bool
 	 */
 	protected $is_mandatory = false;
@@ -257,6 +262,39 @@ class Application_Module_Manifest extends BaseObject
 	{
 		return $this->description;
 	}
+
+	/**
+	 * @param bool $translate
+	 * @param Locale|null $translate_locale
+	 * 
+	 * @return array
+	 */
+	public function getACLActions( $translate=true, Locale $translate_locale=null )
+	{
+		if(!$translate) {
+			return $this->ACL_actions;
+		}
+		
+		$res = [];
+		
+		foreach($this->ACL_actions as $action=>$label) {
+			$res[$action] = Tr::_($label, [], $this->getName(), $translate_locale);
+		}
+		
+		return $res;
+	}
+
+	/**
+	 * @param string $action
+	 * 
+	 * @return bool
+	 */
+	public function hasACLAction( $action )
+	{
+		return array_key_exists( $action, $this->ACL_actions );
+	}
+	
+	
 
 	/**
 	 * Returns required API version

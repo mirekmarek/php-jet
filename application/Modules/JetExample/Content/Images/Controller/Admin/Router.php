@@ -16,7 +16,7 @@ use Jet\Mvc_Page;
 /**
  *
  */
-class Controller_Admin_Main_Router extends Mvc_Controller_Router
+class Controller_Admin_Router extends Mvc_Controller_Router
 {
 
 	/**

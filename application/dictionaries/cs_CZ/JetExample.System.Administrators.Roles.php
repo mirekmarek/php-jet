@@ -21,7 +21,7 @@ return [
 	'Modules and actions'                      => 'Moduly a operace',
 
 	'Administrator roles management'           => 'Správa rolí administrátorů',
-	'Get role(s) data'                         => 'Získat informace o rolích',
+	'Get role data'                         => 'Získat informace o rolích',
 	'Add new role'                             => 'Přidat novou roli',
 	'Update role'                              => 'Upravit roli',
 	'Delete role'                              => 'Smazat roli',

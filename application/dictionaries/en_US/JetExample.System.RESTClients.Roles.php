@@ -5,7 +5,7 @@ return [
 	'Name' => '',
 	'Description' => '',
 	'Create a new Role' => '',
-	'Get role(s) data' => '',
+	'Get role data' => '',
 	'Add new role' => '',
 	'Update role' => '',
 	'Delete role' => '',

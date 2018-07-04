@@ -54,6 +54,7 @@ use Jet\IO_Dir;
 use Jet\IO_File;
 
 use Jet\UI_messages;
+use Jet\AJAX;
 
 /**
  *
@@ -538,8 +539,7 @@ class Controller_Main extends Mvc_Controller_Default
 				if(Http_Request::POST()->exists('ajax')) {
 					$this->view->setVar('form', $form);
 
-					$this->ajaxFormResponse(
-						$form,
+					AJAX::formResponse(
 						$form->getIsValid(),
 						[
 							'form_area_'.$form->getId() => $this->view->render('test-forms/form')

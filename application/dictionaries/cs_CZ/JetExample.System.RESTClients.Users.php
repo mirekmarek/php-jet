@@ -32,7 +32,7 @@ return [
 	'User account detail <b>%USERNAME%</b>'         => 'Detail uživatele <b>%USERNAME%</b>',
 	'Delete user account <b>%USERNAME%</b>'         => 'Smazat uživatele <b>%USERNAME%</b>',
 	'Administrator users management'                => 'Správa administrátorských uživatelských účtů',
-	'Get user(s) data'                              => 'Získat informace o uživatelích',
+	'Get user data'                              => 'Získat informace o uživatelích',
 	'Add new user'                                  => 'Založit uživatele',
 	'Update user'                                   => 'Upravit uživatele',
 	'Delete user'                                   => 'Smazat uživatele',

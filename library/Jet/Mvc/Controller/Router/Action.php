@@ -245,7 +245,7 @@ class Mvc_Controller_Router_Action extends BaseObject
 			return true;
 		}
 
-		return $this->router->getController()->getModule()->accessAllowed( $module_action );
+		return $this->router->getController()->getModule()->actionIsAllowed( $module_action );
 	}
 
 

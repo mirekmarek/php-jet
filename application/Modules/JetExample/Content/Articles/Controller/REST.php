@@ -7,13 +7,13 @@
  */
 namespace JetApplicationModule\JetExample\Content\Articles;
 
-use Jet\Http_Request;
 use Jet\Mvc_Controller_REST;
+use Jet\REST;
 
 /**
  *
  */
-class Controller_REST_Main extends Mvc_Controller_REST
+class Controller_REST extends Mvc_Controller_REST
 {
 	/**
 	 * @var array
@@ -50,22 +50,22 @@ class Controller_REST_Main extends Mvc_Controller_REST
 
 
 		switch( $this->getRequestMethod() ) {
-			case self::REQUEST_METHOD_GET:
+			case REST::REQUEST_METHOD_GET:
 				$controller_action = $article ? 'get' : 'list';
 				break;
-			case self::REQUEST_METHOD_POST:
+			case REST::REQUEST_METHOD_POST:
 				if($article) {
 					return false;
 				}
 				$controller_action = 'add';
 				break;
-			case self::REQUEST_METHOD_PUT:
+			case REST::REQUEST_METHOD_PUT:
 				if(!$article) {
 					return false;
 				}
 				$controller_action = 'update';
 				break;
-			case self::REQUEST_METHOD_DELETE:
+			case REST::REQUEST_METHOD_DELETE:
 				if(!$article) {
 					return false;
 				}

@@ -86,7 +86,7 @@ class Auth_Administrator_Role extends Auth_Role
 
 			$module = Application_Modules::moduleInstance( $module_name );
 
-			$actions = $module->getAclActions();
+			$actions = $module->getModuleManifest()->getACLActions();
 
 			if( !$actions ) {
 				continue;
@@ -100,7 +100,7 @@ class Auth_Administrator_Role extends Auth_Role
 				$data[] = [
 					'id'   => $module_name.':'.$action,
 					'parent_id' => $module_name,
-					'name' => Tr::_( $action_description, [], $module_info->getName() ),
+					'name' => $action_description,
 				];
 			}
 

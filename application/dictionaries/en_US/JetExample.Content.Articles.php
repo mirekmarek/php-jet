@@ -7,7 +7,7 @@ return [
 	'Create a new Article' => '',
 	'Invalid date and time format' => '',
 	'Please enter title' => '',
-	'Get article(s) data' => '',
+	'Get article data' => '',
 	'Add new article' => '',
 	'Update article' => '',
 	'Delete article' => '',

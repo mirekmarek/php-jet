@@ -6,6 +6,17 @@ return [
 	'label'       => 'Images',
 	'description' => '',
 
+	'ACL_actions' => [
+		'get_gallery'    => 'Get galley data',
+		'add_gallery'    => 'Add new gallery',
+		'update_gallery' => 'Update gallery',
+		'delete_gallery' => 'Delete gallery',
+
+		'add_image'    => 'Add new image',
+		'update_image' => 'Update image',
+		'delete_image' => 'Delete image',
+	],
+
 	'pages' => [
 		'admin' => [
 			'images' => [
@@ -14,7 +25,7 @@ return [
 				'icon'                   => 'picture-o',
 				'contents' => [
 					[
-						'controller_name' => 'Admin_Main',
+						'controller_name' => 'Admin',
 						'controller_action' => 'default'
 					]
 				],
@@ -38,7 +49,7 @@ return [
 				'relative_path_fragment' => 'gallery',
 				'contents' => [
 					[
-						'controller_name' => 'REST_Main',
+						'controller_name' => 'REST',
 						'controller_action' => 'default'
 					]
 				],

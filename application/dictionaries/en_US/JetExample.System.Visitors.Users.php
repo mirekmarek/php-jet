@@ -1,7 +1,7 @@
 <?php
 return [
 	'Visitors - Users' => '',
-	'Get user(s) data' => '',
+	'Get user data' => '',
 	'Add new user' => '',
 	'Update user' => '',
 	'Delete user' => '',

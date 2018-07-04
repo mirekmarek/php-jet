@@ -406,7 +406,7 @@ class Mvc_Page_Content extends BaseObject implements Mvc_Page_Content_Interface
 			$translator_namespace = Translator::getCurrentNamespace();
 			Translator::setCurrentNamespace( $module_name );
 
-			if( $controller->checkAccess()) {
+			if( $controller->actionIsAllowed()) {
 				$controller->dispatch();
 			}
 
