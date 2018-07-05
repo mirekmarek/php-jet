@@ -264,21 +264,21 @@ class Application_Module_Manifest extends BaseObject
 	}
 
 	/**
-	 * @param bool $translate
+	 * @param bool $translate_description
 	 * @param Locale|null $translate_locale
 	 * 
 	 * @return array
 	 */
-	public function getACLActions( $translate=true, Locale $translate_locale=null )
+	public function getACLActions( $translate_description=true, Locale $translate_locale=null )
 	{
-		if(!$translate) {
+		if(!$translate_description) {
 			return $this->ACL_actions;
 		}
 		
 		$res = [];
 		
-		foreach($this->ACL_actions as $action=>$label) {
-			$res[$action] = Tr::_($label, [], $this->getName(), $translate_locale);
+		foreach($this->ACL_actions as $action=>$description) {
+			$res[$action] = Tr::_($description, [], $this->getName(), $translate_locale);
 		}
 		
 		return $res;

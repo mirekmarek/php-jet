@@ -283,7 +283,6 @@ class REST extends BaseObject
 	 */
 	public static function responseError( $code, $data = null )
 	{
-		//TODO: nastavitelne kody ...
 		if( !isset( static::$errors[$code] ) ) {
 			throw new Mvc_Controller_Exception(
 				'REST Error (code:'.$code.') is not specified! Please enter the error. Add '.get_called_class().'::$errors['.$code.'] entry.  ',
