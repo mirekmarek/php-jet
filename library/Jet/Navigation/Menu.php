@@ -13,6 +13,11 @@ namespace Jet;
 class Navigation_Menu extends BaseObject
 {
 	/**
+	 * @var string
+	 */
+	protected static $menu_config_file_name = 'menus.php';
+
+	/**
 	 * @var Navigation_Menu[]|array
 	 */
 	protected static $root_menus = [];
@@ -58,6 +63,23 @@ class Navigation_Menu extends BaseObject
 	protected $items = [];
 
 	/**
+	 * @return string
+	 */
+	public static function getMenuConfigFileName()
+	{
+		return self::$menu_config_file_name;
+	}
+
+	/**
+	 * @param string $menu_config_file_name
+	 */
+	public static function setMenuConfigFileName( $menu_config_file_name )
+	{
+		self::$menu_config_file_name = $menu_config_file_name;
+	}
+
+
+	/**
 	 * @param string   $id
 	 *
 	 * @param string   $label
@@ -84,6 +106,21 @@ class Navigation_Menu extends BaseObject
 		static::$all_menus[$id] = $menu;
 
 		return $menu;
+	}
+
+	/**
+	 * @param string $menu_namespace
+	 * @param string|null $translator_namespace
+	 */
+	public static function initRootMenu( $menu_namespace, $translator_namespace=null )
+	{
+		$path = Config::getConfigDirPath().static::getMenuConfigFileName();
+
+		$menu_data = require $path;
+
+		if(isset($menu_data[$menu_namespace])) {
+			static::initRootMenuByData( $menu_data[$menu_namespace], $translator_namespace );
+		}
 	}
 
 	/**

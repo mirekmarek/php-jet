@@ -8,7 +8,6 @@ const JET_LAYOUT_JS_PACKAGER_ENABLED = true;
 const JET_TRANSLATOR_AUTO_APPEND_UNKNOWN_PHRASE = true;
 
 
-
 const JET_CACHE_REFLECTION_LOAD = false;
 const JET_CACHE_REFLECTION_SAVE = false;
 
@@ -28,8 +27,14 @@ const JET_CACHE_MVC_PAGE_LOAD = JET_CACHE_REFLECTION_LOAD;
 const JET_CACHE_MVC_PAGE_SAVE = JET_CACHE_REFLECTION_SAVE;
 
 
+const JET_IO_CHMOD_MASK_DIR = 0777;
+const JET_IO_CHMOD_MASK_FILE = 0666;
 
-/** @noinspection PhpIncludeInspection */
-require realpath( __DIR__.'/../_common/jet.php' );
+const JET_HIDE_HTTP_REQUEST = true;
 
+const JET_CHARSET = 'UTF-8';
 
+const JET_TIMEZONE = 'Europe/Prague';
+
+const JET_TAB = "\t";
+const JET_EOL = PHP_EOL;

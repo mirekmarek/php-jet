@@ -69,7 +69,7 @@ class Installer_Step_DirsCheck_Controller extends Installer_Step_Controller
 				'is_required'  => true,
 				'is_writeable' => false,
 			],
-			JET_PATH_CONFIG.'_common/'                 => [
+			JET_PATH_CONFIG       => [
 				'is_required'  => false,
 				'is_writeable' => false,
 				'comment'      => 'Never mind. In fact, it is better that the directory is not writeable. But you have to complete the installation manually.',

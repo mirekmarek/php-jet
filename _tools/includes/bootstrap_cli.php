@@ -7,12 +7,11 @@
  */
 namespace Jet;
 
-define('JET_CONFIG_ENVIRONMENT', 'development');
 
 $application_dir = dirname(dirname(__DIR__)) . '/application/';
 
-require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/paths.php');
-require_once($application_dir . 'config/' . JET_CONFIG_ENVIRONMENT . '/jet.php');
+require_once($application_dir . 'config/paths.php');
+require_once($application_dir . 'config/jet.php');
 
 
 $init_dir = JET_PATH_APPLICATION.'Init/';

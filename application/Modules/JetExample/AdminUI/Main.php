@@ -59,10 +59,7 @@ class Main extends Application_Module
 			return;
 		}
 
-		$menu_data = require JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/menus.php';
-
-		Navigation_Menu::initRootMenuByData( $menu_data['admin'] );
-
+		Navigation_Menu::initRootMenu( 'admin' );
 
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 			/**

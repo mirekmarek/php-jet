@@ -106,8 +106,6 @@ if( JET_DEBUG_PROFILER_ENABLED ) {
 					&nbsp;&nbsp;&nbsp;
 					SQL queries count: <b><?=count($run->getSqlQueries())?></b>
 					&nbsp;&nbsp;&nbsp;
-					Environment: <a href="#" onclick="var el=document.getElementById('__profiler__cache_state');el.style.display=(el.style.display=='none'?'block':'none');return false;" style="text-decoration: underline;font-weight: bolder;color: #000000;"><?=JET_CONFIG_ENVIRONMENT?></a>
-
 					<div id="__profiler__cache_state" style="display: none"><b>Cache settings</b>
 						<table style="margin: 10px;">
 							<?php

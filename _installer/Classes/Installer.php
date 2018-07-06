@@ -176,7 +176,7 @@ class Installer
 	{
 		Http_Request::initialize( true );
 
-		Config::setConfigDirPath( JET_PATH_CONFIG.'_common/' );
+		Config::setConfigDirPath( JET_PATH_CONFIG );
 
 		static::initStepControllers();
 
