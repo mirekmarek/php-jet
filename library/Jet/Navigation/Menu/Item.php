@@ -184,15 +184,18 @@ class Navigation_Menu_Item extends BaseObject
 	 */
 	public function getLabel()
 	{
-		if(
-			!$this->icon &&
-			$this->page_id &&
-			($page = Mvc_Page::get( $this->page_id ))
-		) {
-			return $page->getMenuTitle();
+		if($this->label) {
+			return $this->label;
 		}
 
-		return $this->label;
+		$page = $this->getTargetPage();
+
+		if(!$page) {
+			return '';
+		}
+
+		return $page->getMenuTitle();
+
 	}
 
 	/**
@@ -208,15 +211,17 @@ class Navigation_Menu_Item extends BaseObject
 	 */
 	public function getIcon()
 	{
-		if(
-			!$this->icon &&
-			$this->page_id &&
-			($page = Mvc_Page::get( $this->page_id ))
-		) {
-			return $page->getIcon();
+		if($this->icon) {
+			return $this->icon;
 		}
 
-		return $this->icon;
+		$page = $this->getTargetPage();
+
+		if(!$page) {
+			return '';
+		}
+
+		return $page->getIcon();
 	}
 
 	/**
@@ -348,12 +353,7 @@ class Navigation_Menu_Item extends BaseObject
 			return $this->URL;
 		}
 
-		/**
-		 * @var Mvc_Page_Interface $page_class
-		 */
-		$page_class = Mvc_Factory::getPageClassName();
-
-		$page = $page_class::get( $this->page_id, $this->locale, $this->site_id );
+		$page = $this->getTargetPage();
 
 		if( !$page ) {
 			return '';
@@ -395,13 +395,28 @@ class Navigation_Menu_Item extends BaseObject
 			return true;
 		}
 
-		$page = Mvc_Page::get( $this->page_id );
+		$page = $this->getTargetPage();
 
 		if( !$page ) {
 			return false;
 		}
 
 		return $page->accessAllowed();
+	}
+
+	/**
+	 * @return Mvc_Page_Interface
+	 */
+	public function getTargetPage()
+	{
+		/**
+		 * @var Mvc_Page $page_class
+		 */
+		$page_class = Mvc_Factory::getPageClassName();
+
+		$page = $page_class::get( $this->page_id, $this->locale, $this->site_id );
+
+		return $page;
 	}
 
 }
