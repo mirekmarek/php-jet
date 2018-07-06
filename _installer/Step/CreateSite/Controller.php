@@ -16,6 +16,7 @@ use Jet\Form;
 use Jet\Form_Field_Input;
 use Jet\Mvc_Site_LocalizedData_MetaTag;
 use Jet\Tr;
+use Jet\UI_messages;
 
 /**
  *
@@ -29,12 +30,20 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 	protected $label = 'Create site';
 
 	/**
+	 * @return bool
+	 */
+	public static function sitesCreated()
+	{
+		return count( Mvc_Site::loadSites() )==3;
+	}
+
+	/**
 	 *
 	 */
 	public function main()
 	{
 
-		if( count( Mvc_Site::loadSites() ) ) {
+		if( static::sitesCreated() ) {
 			$this->render( 'site-created' );
 
 			$this->catchContinue();
@@ -84,7 +93,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 
 			$admin = Mvc_Factory::getSiteInstance();
-			$admin->setIsSecret();
+			$admin->setIsSecret(true);
 			$admin->setName( 'Example Administration' );
 			$admin->setId( Application_Admin::getSiteId() );
 
@@ -106,7 +115,7 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 
 
 			$rest = Mvc_Factory::getSiteInstance();
-			$rest->setIsSecret();
+			$rest->setIsSecret(true);
 			$rest->setName( 'Example REST API' );
 			$rest->setId( Application_REST::getSiteId() );
 
@@ -159,12 +168,22 @@ class Installer_Step_CreateSite_Controller extends Installer_Step_Controller
 				 * @var Mvc_Site[] $sites
 				 */
 				$sites[Application_REST::getSiteId()]->setInitializer(['JetApplication\Application_REST','init']);
-				$sites[Application_Web::getSiteId()]->setInitializer(['JetApplication\Application_Web','init']);
-				$sites[Application_Admin::getSiteId()]->setInitializer(['JetApplication\Application_Admin','init']);
+				$sites[Application_REST::getSiteId()]->setIsSecret(true);
 
-				foreach( $sites as $site ) {
-					$site->saveDataFile();
+				$sites[Application_Admin::getSiteId()]->setInitializer(['JetApplication\Application_Admin','init']);
+				$sites[Application_Admin::getSiteId()]->setIsSecret(true);
+
+				$sites[Application_Web::getSiteId()]->setInitializer(['JetApplication\Application_Web','init']);
+
+				try {
+					foreach( $sites as $site ) {
+						$site->saveDataFile();
+					}
+
+				} catch( \Exception $e ) {
+					UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
 				}
+
 
 
 				Http_Headers::movedPermanently( '?' );

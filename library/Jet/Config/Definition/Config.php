@@ -26,12 +26,12 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @var string
 	 */
-	protected $data_path = '';
+	protected $name = '';
 
 	/**
-	 * @var bool
+	 * @var string
 	 */
-	protected $section_is_obligatory = true;
+	protected $data_path = '';
 
 	/**
 	 * @var Config_Definition_Property[]
@@ -67,9 +67,16 @@ class Config_Definition_Config extends BaseObject
 
 		$this->class_name = $class_name;
 
+		$this->name = Reflection::get( $class_name, 'name', '' );
+		if(!$this->name) {
+			throw new DataModel_Exception(
+				'Config Class \''.$this->class_name.'\' does not have name! Please enter it by @JetConfig:name ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
 		$this->data_path = Reflection::get( $class_name, 'config_data_path', '' );
 
-		$this->section_is_obligatory = Reflection::get( $class_name, 'config_section_is_obligatory', true );
 		$propertied_definition_data = Reflection::get( $class_name, 'config_properties_definition', [] );
 
 		$this->properties_definition = [];
@@ -109,6 +116,15 @@ class Config_Definition_Config extends BaseObject
 	/**
 	 * @return string
 	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function getDataPath()
 	{
 		return $this->data_path;
@@ -120,14 +136,6 @@ class Config_Definition_Config extends BaseObject
 	public function getPropertiesDefinition()
 	{
 		return $this->properties_definition;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function getSectionIsObligatory()
-	{
-		return $this->section_is_obligatory;
 	}
 
 }

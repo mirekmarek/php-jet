@@ -13,8 +13,6 @@ namespace Jet;
 	 * @JetConfig:data_path = '/some/array/path'
 	 *              -  Path to configuration data within config file data. @see Data_Array::getRaw() for paths usage explanation
 	 *
-	 * @JetConfig:section_is_obligatory = false
-	 *              - If defined section does not exists in the configuration data and this options is true then Config system throws exception. Default is true
 	 *
 	 *      Config Property Definition:
 	 *          /**
@@ -39,7 +37,6 @@ namespace Jet;
 
 
 /**
- * Class Config
  *
  */
 abstract class Config extends BaseObject
@@ -77,30 +74,31 @@ abstract class Config extends BaseObject
 	const TYPE_CONFIG_LIST = 'ConfigList';
 
 	/**
-	 * Configuration data (content of config data array wrapped to Data_Array)
-	 *
-	 * Array key = config file path
-	 *
-	 * @var Data_Array[]
-	 */
-	protected static $configs_data = [];
-	/**
 	 *
 	 * @var string
 	 */
-	protected $config_file_path = '';
+	protected $_config_file_path = '';
+
+	/**
+	 *
+	 * @var Data_Array[]
+	 */
+	protected static $_config_file_data = [];
+
+	/**
+	 *
+	 * @var Data_Array
+	 */
+	protected $_config_data = null;
+
+
 	/**
 	 * Ignore non-existent config file and non-existent config section. Usable for installer or setup.
 	 *
 	 * @var bool
 	 */
 	protected $soft_mode = false;
-	/**
-	 * Loaded section data from config
-	 *
-	 * @var Data_Array
-	 */
-	protected $_config_data = null;
+
 	/**
 	 * @var Config_Definition_Config
 	 */
@@ -111,16 +109,41 @@ abstract class Config extends BaseObject
 	 */
 	private $properties_definition;
 
+	/**
+	 * @var string
+	 */
+	protected static $config_dir_path;
+
 
 	/**
-	 * @param string $config_file_path
+	 * @return string
+	 */
+	public static function getConfigDirPath()
+	{
+		if( !static::$config_dir_path ) {
+			static::$config_dir_path = JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/';
+		}
+
+		return static::$config_dir_path;
+	}
+
+	/**
+	 * @param string $path
+	 */
+	public static function setConfigDirPath( $path )
+	{
+		static::$config_dir_path = $path;
+	}
+
+
+	/**
 	 * @param bool   $soft_mode Ignore non-existent config file and non-existent config section. Usable for installer or setup.
 	 */
-	public function __construct( $config_file_path, $soft_mode = false )
+	public function __construct( $soft_mode = false )
 	{
-		$this->config_file_path = $config_file_path;
+
 		$this->soft_mode = (bool)$soft_mode;
-		$this->setData( $this->readConfigData( $config_file_path ) );
+		$this->setData( $this->readConfigFileData() );
 	}
 
 	/**
@@ -139,14 +162,14 @@ abstract class Config extends BaseObject
 		$this->soft_mode = (bool)$soft_mode;
 	}
 
+
 	/**
 	 *
 	 * @param Data_Array|array $data
-	 * @param bool             $use_data_path_for_source_data
 	 *
 	 * @throws Config_Exception
 	 */
-	public function setData( $data, $use_data_path_for_source_data = true )
+	public function setData( $data )
 	{
 		if( !( $data instanceof Data_Array ) ) {
 			$data = new Data_Array( $data );
@@ -156,19 +179,15 @@ abstract class Config extends BaseObject
 
 		$config_data_path = $definition->getDataPath();
 
-		if(
-			$config_data_path &&
-			$use_data_path_for_source_data
-		) {
+		if( $config_data_path ) {
 
-			$config_section_is_obligatory = $definition->getSectionIsObligatory();
 
 			$this_config_data = [];
 
 			if( !$data->exists( $config_data_path ) ) {
-				if( $config_section_is_obligatory && !$this->soft_mode ) {
+				if( !$this->soft_mode ) {
 					throw new Config_Exception(
-						'The obligatory section \''.$config_data_path.'\' is missing in the configuration file \''.$this->config_file_path.'\'! ',
+						'The obligatory section \''.$config_data_path.'\' is missing in the configuration file \''.$this->getConfigFilePath().'\'! ',
 						Config_Exception::CODE_CONFIG_CHECK_ERROR
 					);
 				}
@@ -195,6 +214,7 @@ abstract class Config extends BaseObject
 				$property_definition->checkValue( $this->{$property_name} );
 			} else {
 				if( $property_definition->getIsRequired() && !$this->soft_mode ) {
+
 					throw new Config_Exception(
 						'Configuration property '.get_class(
 							$this
@@ -241,57 +261,6 @@ abstract class Config extends BaseObject
 		$this->properties_definition = $definition;
 
 		return $definition;
-	}
-
-	/**
-	 * @param string $config_file_path
-	 *
-	 * @throws Config_Exception
-	 *
-	 * @return Data_Array
-	 */
-	protected function readConfigData( $config_file_path )
-	{
-
-		if( !$config_file_path ) {
-			throw new Config_Exception(
-				'Config file path is not defined', Config_Exception::CODE_CONFIG_FILE_PATH_NOT_DEFINED
-			);
-		}
-
-		if( !isset( static::$configs_data[$config_file_path] ) ) {
-			$_config_file_path = stream_resolve_include_path( $config_file_path );
-
-
-			if( !IO_File::isReadable( $_config_file_path ) ) {
-				if( $this->soft_mode ) {
-					static::$configs_data[$config_file_path] = new Data_Array( [] );
-
-					return static::$configs_data[$config_file_path];
-
-				}
-
-				throw new Config_Exception(
-					'Config file \''.$config_file_path.'\' does not exist or is not readable',
-					Config_Exception::CODE_CONFIG_FILE_IS_NOT_READABLE
-				);
-
-			}
-
-			/** @noinspection PhpIncludeInspection */
-			$data = require $_config_file_path;
-			if( !is_array( $data ) ) {
-				throw new Config_Exception(
-					'Config file \''.$config_file_path.'\' does not contain PHP array. Example: <?php return array(\'option\' => \'value\'); ',
-					Config_Exception::CODE_CONFIG_FILE_IS_NOT_VALID
-				);
-
-			}
-
-			static::$configs_data[$config_file_path] = new Data_Array( $data );
-		}
-
-		return static::$configs_data[$config_file_path];
 	}
 
 	/**
@@ -415,47 +384,6 @@ abstract class Config extends BaseObject
 
 	/**
 	 *
-	 * @return string
-	 */
-	public function getConfigFilePath()
-	{
-		return $this->config_file_path;
-	}
-
-	/**
-	 * @param string $target_file_path (optional, default: current config_file_path )
-	 */
-	public function save( $target_file_path = null )
-	{
-		if( !is_readable( $this->config_file_path ) ) {
-			$original_data = [];
-		} else {
-			/** @noinspection PhpIncludeInspection */
-			$original_data = require $this->config_file_path;
-		}
-
-		$original_data = new Data_Array( $original_data );
-
-		$config_data_path = $this->getDefinition()->getDataPath();
-
-		$original_data->set( $config_data_path, $this->toArray() );
-
-		$config_data = '<?php'.JET_EOL.'return '.$original_data->export();
-
-		if( !$target_file_path ) {
-			$target_file_path = $this->config_file_path;
-		}
-
-
-		try {
-			IO_File::write( $target_file_path, $config_data );
-		} catch( Exception $e ) {
-		}
-		static::$configs_data = [];
-	}
-
-	/**
-	 *
 	 * @return array
 	 */
 	public function toArray()
@@ -495,6 +423,96 @@ abstract class Config extends BaseObject
 		}
 
 		return array_combine( $res, $res );
+	}
+
+
+
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getConfigFilePath()
+	{
+		if(!$this->_config_file_path) {
+			$this->_config_file_path = stream_resolve_include_path( static::getConfigDirPath().$this->getDefinition()->getName().'.php');
+		}
+
+		return $this->_config_file_path;
+	}
+
+	/**
+	 * @param string $config_file_path
+	 */
+	public function setConfigFilePath( $config_file_path )
+	{
+		$this->_config_file_path = $config_file_path;
+	}
+
+
+	/**
+	 *
+	 * @throws Config_Exception
+	 *
+	 * @return Data_Array
+	 */
+	public function readConfigFileData()
+	{
+		$config_file_path = $this->getConfigFilePath();
+
+		if(!isset(Config::$_config_file_data[$config_file_path])) {
+
+			if( !IO_File::isReadable( $config_file_path ) ) {
+				if( $this->soft_mode ) {
+					Config::$_config_file_data[$config_file_path] = new Data_Array( [] );
+
+					return Config::$_config_file_data[$config_file_path];
+				}
+
+				throw new Config_Exception(
+					'Config file \''.$config_file_path.'\' does not exist or is not readable',
+					Config_Exception::CODE_CONFIG_FILE_IS_NOT_READABLE
+				);
+
+			}
+
+			/** @noinspection PhpIncludeInspection */
+			$data = require $config_file_path;
+			if( !is_array( $data ) ) {
+				throw new Config_Exception(
+					'Config file \''.$config_file_path.'\' does not contain PHP array. Example: <?php return array(\'option\' => \'value\'); ',
+					Config_Exception::CODE_CONFIG_FILE_IS_NOT_VALID
+				);
+
+			}
+
+			Config::$_config_file_data[$config_file_path] = new Data_Array( $data );
+		}
+
+		return Config::$_config_file_data[$config_file_path];
+	}
+
+
+	/**
+	 *
+	 */
+	public function writeConfigFile()
+	{
+		$config_file_path = $this->getConfigFilePath();
+
+		$original_data = $this->readConfigFileData();
+
+		$config_data_path = $this->getDefinition()->getDataPath();
+
+		$original_data->set( $config_data_path, $this->toArray() );
+
+		$config_data = '<?php'.JET_EOL.'return '.$original_data->export();
+
+
+		IO_File::write( $config_file_path, $config_data );
+
+		Config::$_config_file_data = [];
 	}
 
 }

@@ -10,6 +10,8 @@ namespace JetApplication;
 use Jet\BaseObject;
 use Jet\Locale;
 
+//TODO: zrevidovat a dat do jadra
+
 /**
  *
  */

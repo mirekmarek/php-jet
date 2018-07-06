@@ -7,15 +7,14 @@
  */
 namespace JetApplication;
 
-use Jet\Application_Config;
 use Jet\Config;
 use Jet\Config_Definition_Property_ConfigList;
 
 /**
  *
- * @JetConfig:data_path = 'emails'
+ * @JetConfig:name = 'mailing'
  */
-class Mailing_Config extends Application_Config
+class Mailing_Config extends Config
 {
 
 	/**

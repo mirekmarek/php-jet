@@ -7,4 +7,5 @@ return [
 	'Name:'                            => 'Jméno:',
 	'E-mail:'                          => 'E-mail:',
 	'Set the mail sender'              => 'Nastavte odesílatele mailů',
+	'Something went wrong: %error%'    => 'Něco se nepovedlo: %error%',
 ];

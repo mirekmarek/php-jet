@@ -17,7 +17,10 @@ use Jet\DataModel_Config;
 use Jet\DataModel_Backend_MySQL_Config;
 use Jet\DataModel_Backend_SQLite_Config;
 use Jet\DataModel_Factory;
+use Jet\Http_Headers;
 use Jet\Mvc_Site;
+use Jet\UI_messages;
+use Jet\Tr;
 
 /**
  *
@@ -42,7 +45,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::loadSites() )==0;
+		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
 
 	/**
@@ -92,7 +95,13 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					$connection_config->setDSN( 'host=localhost;port=3306;dbname=;charset=utf8' );
 
 					$db_config->addConnection( 'default', $connection_config );
-					$db_config->save();
+
+					try {
+						$db_config->writeConfigFile();
+					} catch( \Exception $e ) {
+						UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+						Http_Headers::reload();
+					}
 
 
 					$data_model_config->setBackendType( 'MySQL' );
@@ -119,7 +128,13 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					$connection_config->setDSN( $data_path.$data_file_name.'.sq3' );
 
 					$db_config->addConnection( 'default', $connection_config );
-					$db_config->save();
+
+					try {
+						$db_config->writeConfigFile();
+					} catch( \Exception $e ) {
+						UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+						Http_Headers::reload();
+					}
 
 
 					$data_model_config->setBackendType( 'SQLite' );
@@ -134,8 +149,14 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					break;
 			}
 
-			$data_model_config->save();
-			$data_model_backend_config->save();
+			try {
+				$data_model_config->writeConfigFile();
+				$data_model_backend_config->writeConfigFile();
+			} catch( \Exception $e ) {
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+				Http_Headers::reload();
+			}
+
 
 			Installer::goToNext();
 		}

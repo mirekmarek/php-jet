@@ -26,7 +26,7 @@ class Installer_Step_CreateDB_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::loadSites() )==0;
+		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
 
 

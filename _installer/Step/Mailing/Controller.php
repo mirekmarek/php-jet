@@ -10,6 +10,9 @@ namespace JetApplication;
 
 use Jet\Form;
 use Jet\Form_Field_Email;
+use Jet\UI_messages;
+use Jet\Http_Headers;
+use Jet\Tr;
 
 /**
  *
@@ -86,7 +89,13 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 
 		if( $form->catchInput()&&$form->validate() ) {
 			$form->catchData();
-			$config->save();
+
+			try {
+				$config->writeConfigFile();
+			} catch( \Exception $e ) {
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+				Http_Headers::reload();
+			}
 
 			Installer::goToNext();
 		}

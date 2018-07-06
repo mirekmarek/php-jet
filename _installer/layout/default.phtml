@@ -2,6 +2,7 @@
 namespace JetApplication;
 use Jet\Mvc_Layout;
 use Jet\Tr;
+use Jet\UI_messages;
 
 /**
  * @var Installer_Step_Controller[] $steps
@@ -129,6 +130,14 @@ $this->requireCssFile(FLAGS_CSS_URL);
 		<div class="col-md-10 main">
 			<h1><?=Installer::getCurrentStepController()->getLabel()?></h1>
 			<hr/>
+			<div id="system-messages-area">
+				<?php
+				foreach( UI_messages::get() as $msg ):
+					echo $msg;
+				endforeach;
+				?>
+			</div>
+
 			<jet_layout_main_position/>
 		</div>
 	</div>

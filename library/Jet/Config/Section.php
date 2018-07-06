@@ -25,7 +25,6 @@ abstract class Config_Section extends Config
 	public function __construct( array $data, Config $configuration = null )
 	{
 		if( $configuration ) {
-			$this->config_file_path = $configuration->getConfigFilePath();
 			$this->soft_mode = $configuration->getSoftMode();
 		}
 		$this->_data = $data;

@@ -8,11 +8,10 @@
 namespace Jet;
 
 /**
- * Class Db_Config
  *
- * @JetConfig:data_path = 'database'
+ * @JetConfig:name = 'db'
  */
-class Db_Config extends Application_Config
+class Db_Config extends Config
 {
 
 

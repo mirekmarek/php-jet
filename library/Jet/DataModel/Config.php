@@ -8,11 +8,10 @@
 namespace Jet;
 
 /**
- * Class DataModel_Config
  *
- * @JetConfig:data_path = 'data_model'
+ * @JetConfig:name = 'data_model'
  */
-class DataModel_Config extends Application_Config
+class DataModel_Config extends Config
 {
 
 	/**

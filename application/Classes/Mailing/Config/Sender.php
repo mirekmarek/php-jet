@@ -12,6 +12,7 @@ use Jet\Form;
 use Jet\Config_Section;
 
 /**
+ * @JetConfig:name = 'mailing'
  *
  */
 class Mailing_Config_Sender extends Config_Section

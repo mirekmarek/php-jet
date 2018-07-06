@@ -16,6 +16,8 @@ use Jet\Form_Field_Password;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Mvc_Site;
+use Jet\UI_messages;
+use Jet\Tr;
 
 /**
  *
@@ -38,7 +40,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	 */
 	public function getIsAvailable()
 	{
-		return count( Mvc_Site::loadSites() )==0;
+		return !Installer_Step_CreateSite_Controller::sitesCreated();
 	}
 
 	/**
@@ -160,9 +162,18 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 			$connection_config->setPassword( $password->getValue() );
 			$connection_config->setDSN( $DSN );
 
-			$this->main_config->save();
+			$ok = true;
 
-			Http_Headers::movedTemporary( '?test_connection' );
+			try {
+				$this->main_config->writeConfigFile();
+			} catch( \Exception $e ) {
+				$ok = false;
+				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
+			}
+
+			if($ok) {
+				Http_Headers::movedTemporary( '?test_connection' );
+			}
 		}
 
 		$this->view->setVar( 'form', $form );

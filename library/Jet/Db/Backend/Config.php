@@ -9,6 +9,7 @@ namespace Jet;
 
 /**
  *
+ * @JetConfig:name = 'db'
  */
 abstract class Db_Backend_Config extends Config_Section
 {

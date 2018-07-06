@@ -8,7 +8,6 @@
 namespace Jet;
 
 /**
- * Class Application
  *
  *
  */
@@ -19,51 +18,6 @@ class Application extends BaseObject
 	 * @var bool
 	 */
 	protected static $do_not_end = false;
-
-	/**
-	 * @var string
-	 */
-	protected static $config_file_path;
-
-	/**
-	 * @var Application_Config
-	 */
-	protected static $config = null;
-
-	/**
-	 * @return string
-	 */
-	public static function getConfigFilePath()
-	{
-		if( !static::$config_file_path ) {
-			static::$config_file_path = JET_PATH_CONFIG.JET_CONFIG_ENVIRONMENT.'/application.php';
-		}
-
-		return static::$config_file_path;
-	}
-
-	/**
-	 * @param string $config_file_path
-	 */
-	public static function setConfigFilePath( $config_file_path )
-	{
-		static::$config_file_path = $config_file_path;
-	}
-
-	/**
-	 * @return Application_Config|null
-	 */
-	public static function getConfig()
-	{
-		if( !static::$config ) {
-			Debug_Profiler::blockStart( 'Configuration Init' );
-			static::$config = new Application_Config();
-			Debug_Profiler::blockEnd( 'Configuration Init' );
-		}
-
-		return static::$config;
-	}
-
 
 	/**
 	 *

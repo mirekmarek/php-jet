@@ -7,6 +7,7 @@
  */
 namespace JetApplication;
 
+use Jet\Config;
 use Jet\Http_Request;
 use Jet\Http_Headers;
 use Jet\Application;
@@ -174,7 +175,8 @@ class Installer
 	public static function main()
 	{
 		Http_Request::initialize( true );
-		Application::setConfigFilePath( static::getTmpConfigFilePath() );
+
+		Config::setConfigDirPath( JET_PATH_CONFIG.'_common/' );
 
 		static::initStepControllers();
 
@@ -212,13 +214,6 @@ class Installer
 		exit();
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function getTmpConfigFilePath()
-	{
-		return JET_PATH_TMP.'config_install.php';
-	}
 
 	/**
 	 *

@@ -52,8 +52,8 @@ class Config_Definition extends BaseObject implements Reflection_ParserInterface
 	{
 
 		switch( $data->getKey() ) {
-			case 'section_is_obligatory':
-				$data->result_data['config_section_is_obligatory'] = $data->getValueAsBool();
+			case 'name':
+				$data->result_data['name'] = $data->getValueAsString();
 				break;
 			case 'data_path':
 				$data->result_data['config_data_path'] = $data->getValueAsString();

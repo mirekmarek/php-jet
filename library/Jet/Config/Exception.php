@@ -12,7 +12,6 @@ namespace Jet;
  */
 class Config_Exception extends Exception
 {
-	const CODE_CONFIG_FILE_PATH_NOT_DEFINED = 1;
 	const CODE_CONFIG_FILE_IS_NOT_READABLE = 2;
 	const CODE_CONFIG_FILE_IS_NOT_VALID = 3;
 	const CODE_DEFINITION_NONSENSE = 100;

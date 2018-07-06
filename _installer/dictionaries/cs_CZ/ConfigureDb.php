@@ -20,4 +20,5 @@ return [
 	'Connection name'                          => 'Název spojení',
 	'DSN'                                      => 'DSN',
 	'Username'                                 => 'Uživatelské jméno',
+	'Something went wrong: %error%'            => 'Něco se nepovedlo: %error%',
 ];
