@@ -56,46 +56,17 @@ class Form_Field_WYSIWYG extends Form_Field
 	/**
 	 * @var array
 	 */
-	protected static $default_editor_CSS_files = [
-		'' => [
-            '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css'
-			//'//cdn.tinymce.com/4/skins/lightgray/skin.min.css'
-		],
-	];
+	protected static $default_editor_CSS_files = WYSIWYG_DEFAULT_EDITOR_CSS_FILES;
+
 	/**
 	 * @var array
 	 */
-	protected static $default_editor_JavaScript_files = [
-		BOOTSTRAP_JS_URL,
-		'//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js'
-		//'//cdn.tinymce.com/4/tinymce.min.js',
-	];
+	protected static $default_editor_JavaScript_files = WYSIWYG_DEFAULT_EDITOR_JAVASCRIPT_FILES;
+
 	/**
 	 * @var array
 	 */
-	protected static $default_editor_config = [
-		'height' => 500,
-		/*
-		'mode'                    => 'exact',
-		'theme'                   => 'modern',
-		'skin'                    => false,
-		'apply_source_formatting' => true,
-		'remove_linebreaks'       => false,
-		'entity_encoding'         => 'raw',
-		'convert_urls'            => false,
-		'verify_html'             => true,
-
-		'force_br_newlines' => false,
-		'force_p_newlines'  => false,
-		'forced_root_block' => '',
-
-
-		'plugins'       => 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking save table contextmenu directionality template paste textcolor colorpicker textpattern imagetools',
-		'paste_as_text' => true,
-
-		'content_css' => JET_URI_PUBLIC.'styles/wysiwyg.css',
-		*/
-	];
+	protected static $default_editor_config = WYSIWYG_DEFAULT_EDITOR_CONFIG;
 
 
 	/**
@@ -198,23 +169,7 @@ class Form_Field_WYSIWYG extends Form_Field
 	public static function getDefaultInitializeCodeGenerator()
 	{
 		if(!self::$default_initialize_code_generator) {
-			return function( Form_Field_WYSIWYG $field, $editor_config ) {
-				/*
-				$editor_config['selector'] = '#'.$field->getId();
-
-				if( $field->getIsReadonly() ) {
-					$editor_config['readonly'] = 1;
-				}
-
-				return '<script type="text/javascript">'
-					.'tinymce.init('.json_encode( $editor_config ).');'
-					.'</script>'.JET_EOL;
-				*/
-				return '<script type="text/javascript">'
-					.'$("#'.$field->getId().'").summernote('.json_encode($editor_config).');'
-					.'</script>'.JET_EOL;
-
-			};
+			return $GLOBALS['WYSIWYG_DEFAULT_INITIALIZER_GENERATOR'];
 		}
 
 		return self::$default_initialize_code_generator;
