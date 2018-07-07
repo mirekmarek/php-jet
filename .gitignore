@@ -1,6 +1,6 @@
 .settings
 .idea
-application/config/**/application.php
+application/config/**
 application/data/**
 sites/**/site_data.php
 logs/**
