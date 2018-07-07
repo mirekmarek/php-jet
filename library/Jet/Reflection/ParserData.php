@@ -161,8 +161,8 @@ class Reflection_ParserData
 
 
 		$error_message = '';
-		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		try {
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
 			$eval_res = @eval( $eval_code );
 		} catch( \Exception $e ) {
 

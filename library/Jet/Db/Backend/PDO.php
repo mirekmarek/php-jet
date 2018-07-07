@@ -29,6 +29,7 @@ class Db_Backend_PDO extends \PDO implements Db_Backend_Interface
 
 		$this->config = $config;
 
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		@parent::__construct( $config->getDsn(), $config->getUsername(), $config->getPassword() );
 
 		$this->setAttribute( static::ATTR_ERRMODE, static::ERRMODE_EXCEPTION );
@@ -42,7 +43,7 @@ class Db_Backend_PDO extends \PDO implements Db_Backend_Interface
 	{
 		try {
 			$this->disconnect();
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 		}
 	}
 

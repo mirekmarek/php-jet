@@ -382,7 +382,7 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 			foreach( $this->helper_getUpdateCommand( $definition ) as $q ) {
 				$this->getDbWrite()->execCommand( $q );
 			}
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 			$this->transactionRollback();
 			throw $e;
 		}

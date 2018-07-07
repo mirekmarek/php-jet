@@ -6,6 +6,7 @@ use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
 use Jet\Auth_User;
 use Jet\Form;
+use Jet\Mailing_Email;
 
 /**
  *
@@ -65,15 +66,17 @@ class Auth_RESTClient_User extends Auth_User
 		$this->setPasswordIsValid( true );
 		$this->save();
 
-		Mailing::sendTemplate(
-			$this->getEmail(), 'reset_password_rest_client', [
-			'USERNAME' => $this->getUsername(),
-			'PASSWORD' => $password,
-			'NAME'     => $this->getName(),
-			'SURNAME'  => $this->getSurname(),
-			'EMAIL'    => $this->getEmail(),
-		], $this->getLocale()
+		$email = new Mailing_Email(
+			'user_password_reset',
+			$this->getLocale(),
+			Application_REST::getSiteId()
 		);
+
+		$email->setVar('user', $this);
+		$email->setVar('password', $password);
+
+		$email->send( $this->getEmail() );
+
 
 	}
 
@@ -104,15 +107,16 @@ class Auth_RESTClient_User extends Auth_User
 	 */
 	public function sendWelcomeEmail( $password )
 	{
-		Mailing::sendTemplate(
-			$this->getEmail(), 'welcome_user_rest_client', [
-			'USERNAME' => $this->getUsername(),
-			'PASSWORD' => $password,
-			'NAME'     => $this->getName(),
-			'SURNAME'  => $this->getSurname(),
-			'EMAIL'    => $this->getEmail(),
-		], $this->getLocale()
+		$email = new Mailing_Email(
+			'user_welcome',
+			$this->getLocale(),
+			Application_REST::getSiteId()
 		);
+
+		$email->setVar('user', $this);
+		$email->setVar('password', $password);
+
+		$email->send( $this->getEmail() );
 	}
 
 

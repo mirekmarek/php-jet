@@ -29,6 +29,7 @@ trait DataModel_Query_Where_Trait
 		if( is_array( $val ) ) {
 			/** @noinspection PhpUndefinedMethodInspection */
 			/** @noinspection PhpParamsInspection */
+			/** @noinspection PhpMethodParametersCountMismatchInspection */
 			$this->addSubExpressions( new self( $this->query, $val ) );
 		} else {
 			switch( strtoupper( $val ) ) {

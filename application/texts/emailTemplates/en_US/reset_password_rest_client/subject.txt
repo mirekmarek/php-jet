@@ -1,1 +1,0 @@
-REST API password reset - PHP Jet example app

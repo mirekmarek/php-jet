@@ -112,7 +112,7 @@ interface Mvc_Page_Interface
 	public function setId( $id );
 
 	/**
-	 * @return $parent
+	 * @return string
 	 */
 	public function getId();
 

@@ -1,0 +1,24 @@
+<?php
+namespace JetApplication;
+
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var Auth_Visitor_User $user
+ */
+
+$user = $this->getRaw('user');
+?>
+Vaše heslo bylo vyresetováno
+
+Zde jsou vaše přihlašovací údaje:
+
+	Uživatelské jméno: <?=$user->getUsername()?>
+
+	Heslo: <?=$this->getString('password')?>
+
+
+Po přihlášení si prosím změňte heslo
+
+Přejeme příjemný den

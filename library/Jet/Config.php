@@ -436,7 +436,7 @@ abstract class Config extends BaseObject
 	public function getConfigFilePath()
 	{
 		if(!$this->_config_file_path) {
-			$this->_config_file_path = stream_resolve_include_path( static::getConfigDirPath().$this->getDefinition()->getName().'.php');
+			$this->_config_file_path = static::getConfigDirPath().$this->getDefinition()->getName().'.php';
 		}
 
 		return $this->_config_file_path;
@@ -501,14 +501,9 @@ abstract class Config extends BaseObject
 	{
 		$config_file_path = $this->getConfigFilePath();
 
-		$original_data = $this->readConfigFileData();
+		$data = new Data_Array( $this->toArray() );
 
-		$config_data_path = $this->getDefinition()->getDataPath();
-
-		$original_data->set( $config_data_path, $this->toArray() );
-
-		$config_data = '<?php'.JET_EOL.'return '.$original_data->export();
-
+		$config_data = '<?php'.JET_EOL.'return '.$data->export();
 
 		IO_File::write( $config_file_path, $config_data );
 

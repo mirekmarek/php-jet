@@ -7,12 +7,15 @@
  */
 namespace JetApplication;
 
-
 use Jet\Form;
 use Jet\Form_Field_Email;
+use Jet\Mailing_Config_Sender;
+use Jet\Mvc_Site;
 use Jet\UI_messages;
 use Jet\Http_Headers;
 use Jet\Tr;
+use Jet\Mailing_Config;
+
 
 /**
  *
@@ -30,31 +33,41 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 	 */
 	public function main()
 	{
-
 		$config = new Mailing_Config( true );
 
-		$locales = [];
-		foreach( Installer::getSelectedLocales() as $locale ) {
-			$locales[] = (string)$locale;
+		$known_senders = [];
+		$specification = '';
 
-			if( !$config->getSender( $locale ) ) {
-				$sender_config = new Mailing_Config_Sender( [], $config );
+		foreach( Mvc_Site::loadSites() as $site ) {
+			$site_id = $site->getId();
 
-				$config->addSender( $locale, $sender_config );
+			foreach( $site->getLocales() as $locale ) {
+
+				if(!$config->getSender( $locale,$site_id, $specification )) {
+					$sender = new Mailing_Config_Sender( [], $config);
+
+					$config->addSender( $sender, $locale, $site_id, $specification );
+				}
+
+				$known_senders[] = $config->getSenderKey( $locale, $site_id, $specification );
 			}
 		}
 
-		foreach( array_keys( $config->getSenders() ) as $e_l ) {
-			if( !in_array( $e_l, $locales ) ) {
-				$config->deleteSender( $e_l );
+
+		foreach( array_keys( $config->getSenders() ) as $key ) {
+			if( !in_array( $key, $known_senders ) ) {
+				$config->deleteSender( $key );
 			}
 		}
+
 
 
 		$form = new Form( 'config', [] );
 
-		foreach( $config->getSenders() as $locale => $sender ) {
+		foreach( $config->getSenders() as $key => $sender ) {
 			$sender_form = $sender->getCommonForm();
+
+			$field_key = str_replace(':', '_', $key);
 
 			$email = $sender_form->field( 'email' );
 			$email->setIsRequired( true );
@@ -65,7 +78,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 				]
 			);
 
-			$email->setName( '/'.$locale.'/email' );
+			$email->setName( '/'.$field_key.'/email' );
 			$email->setCatcher(
 				function( $value ) use ( $sender ) {
 					$sender->setEmail( $value );
@@ -76,7 +89,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 
 
 			$name = $sender_form->field( 'name' );
-			$name->setName( '/'.$locale.'/name' );
+			$name->setName( '/'.$field_key.'/name' );
 			$name->setCatcher(
 				function( $value ) use ( $sender ) {
 					$sender->setName( $value );
@@ -87,8 +100,12 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 		}
 
 
-		if( $form->catchInput()&&$form->validate() ) {
+		if(
+			$form->catchInput() &&
+			$form->validate()
+		) {
 			$form->catchData();
+
 
 			try {
 				$config->writeConfigFile();

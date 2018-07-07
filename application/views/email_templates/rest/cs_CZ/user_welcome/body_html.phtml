@@ -1,0 +1,36 @@
+<?php
+namespace JetApplication;
+
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var Auth_RESTClient_User $user
+ */
+
+$user = $this->getRaw('user');
+?>
+<h1>Vítejte v systému, uživateli REST API!</h1>
+
+<p>Zde jsou vaše přihlašovací údaje:</p>
+
+<table>
+	<tr>
+		<td>Uživatelské jméno:</td>
+		<td><?=$user->getUsername()?></td>
+	</tr>
+	<tr>
+		<td>Heslo:</td>
+		<td><?=$this->getString('password')?></td>
+	</tr>
+	<tr>
+		<td>Vaše jméno:</td>
+		<td><?=$user->getName()?></td>
+	</tr>
+	<tr>
+		<td>Váš e-mail:</td>
+		<td><?=$user->getEmail()?></td>
+	</tr>
+</table>
+
+<p>Přejeme příjemný den</p>

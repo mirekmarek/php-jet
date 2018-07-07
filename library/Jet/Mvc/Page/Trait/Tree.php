@@ -79,6 +79,7 @@ trait Mvc_Page_Trait_Tree
 
 		}
 
+		/** @noinspection PhpParamsInspection */
 		$parent->appendChild( $this );
 	}
 

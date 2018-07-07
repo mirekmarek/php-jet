@@ -1,8 +1,9 @@
 <?php
 return [
-	'Mailing configuration'            => '',
-	'Set the mail sender'              => '',
+	'Mailing configuration' => '',
+	'Set the mail sender' => '',
 	'Please enter valid email address' => '',
-	'E-mail:'                          => '',
-	'Name:'                            => '',
+	'E-mail:' => '',
+	'Name:' => '',
+	'Something went wrong: %error%' => '',
 ];

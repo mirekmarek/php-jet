@@ -142,9 +142,9 @@ class Navigation_Menu extends BaseObject
 			);
 
 			if( isset($item_data['items']) ) {
-				foreach( $item_data['items'] as $id=>$menu_item_data ) {
+				foreach( $item_data['items'] as $menu_item_id=>$menu_item_data ) {
 					$label = Tr::_($menu_item_data['label'], [], $translator_namespace);
-					$menu_item = new Navigation_Menu_Item( $id, $label );
+					$menu_item = new Navigation_Menu_Item( $menu_item_id, $label );
 					$menu_item->setData( $menu_item_data );
 
 					$root_menu->addItem( $menu_item );

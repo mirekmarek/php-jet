@@ -292,7 +292,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 			foreach( $this->helper_getUpdateCommand( $definition ) as $q ) {
 				$this->getDb()->execCommand( $q );
 			}
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 			$this->transactionRollback();
 			throw $e;
 		}

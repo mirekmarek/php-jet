@@ -2,8 +2,11 @@
 namespace JetApplication;
 
 use Jet\Form;
+use Jet\Mailing;
+use Jet\Mvc_Site;
 use Jet\Mvc_View;
 use Jet\Tr;
+use Jet\UI;
 
 /**
  * @var Mvc_View $this
@@ -13,16 +16,27 @@ use Jet\Tr;
 
 $form = $this->getRaw( 'form' );
 $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 1 ] );
+$config = Mailing::getConfig(true);
 ?>
 <h3><?=Tr::_( 'Set the mail sender' )?></h3>
 <?=$form->start()?>
-<?php foreach( Installer::getSelectedLocales() as $locale ): ?>
 
-	<legend><?=$locale->getName();?></legend>
+<?php foreach( Mvc_Site::loadSites() as $site ): ?>
 
-	<?=$form->field( '/'.$locale.'/email' )?>
-	<?=$form->field( '/'.$locale.'/name' )?>
+<fieldset>
+<legend><?=$site->getName()?></legend>
 
+	<?php foreach( $site->getLocales() as $locale ):
+		$key = str_replace(':', '_', $config->getSenderKey( $locale, $site->getId(), '' ));
+		?>
+	<fieldset style="padding-left: 60px;">
+		<legend><?=UI::flag($locale)?> <?=$locale->getName();?></legend>
+
+		<?=$form->field( '/'.$key.'/email' )?>
+		<?=$form->field( '/'.$key.'/name' )?>
+	</fieldset>
+	<?php endforeach; ?>
+</fieldset>
 <?php endforeach; ?>
 
 <?=Installer::buttonNext()?>

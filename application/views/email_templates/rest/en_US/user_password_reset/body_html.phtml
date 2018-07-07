@@ -1,0 +1,28 @@
+<?php
+namespace JetApplication;
+
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View $this
+ * @var Auth_RESTClient_User $user
+ */
+
+$user = $this->getRaw('user');
+?>
+<h1>Your REST API password has been reset</h1>
+
+<p>This is your user account details:</p>
+
+<table>
+	<tr>
+		<td>Username:</td>
+		<td><?=$user->getUsername()?></td>
+	</tr>
+	<tr>
+		<td>Password:</td>
+		<td><?=$this->getString('password')?></td>
+	</tr>
+</table>
+
+<p>We wish you a nice day</p>

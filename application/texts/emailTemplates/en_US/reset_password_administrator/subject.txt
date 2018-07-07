@@ -1,1 +1,0 @@
-Admin password reset - PHP Jet example app

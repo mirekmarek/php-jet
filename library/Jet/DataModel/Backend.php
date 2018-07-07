@@ -330,8 +330,6 @@ abstract class DataModel_Backend extends BaseObject
 		}
 
 		if( $fetch_pairs ) {
-			foreach( $query->getSelect() as $item ) {
-			}
 
 			/**
 			 * @var DataModel_Query_Select_Item   $item

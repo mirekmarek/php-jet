@@ -330,6 +330,7 @@ trait Mvc_Page_Trait_Initialization
 		if( isset( $data['meta_tags'] ) ) {
 
 			foreach( $data['meta_tags'] as $i => $m_dat ) {
+				/** @noinspection PhpParamsInspection */
 				$this->meta_tags[] = Mvc_Page_MetaTag::createByData( $this, $m_dat );
 			}
 
@@ -339,6 +340,7 @@ trait Mvc_Page_Trait_Initialization
 		if( isset( $data['contents'] ) ) {
 
 			foreach( $data['contents'] as $i => $c_dat ) {
+				/** @noinspection PhpParamsInspection */
 				$this->content[] = Mvc_Page_Content::createByData( $this, $c_dat );
 			}
 

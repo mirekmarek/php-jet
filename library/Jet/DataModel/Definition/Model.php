@@ -266,6 +266,7 @@ abstract class DataModel_Definition_Model extends BaseObject
 	 * @param array  $property_definition_data
 	 *
 	 * @throws DataModel_Exception
+	 *
 	 * @return DataModel_Definition_Property
 	 *
 	 */

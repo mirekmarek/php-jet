@@ -98,6 +98,7 @@ trait DataModel_Trait_Forms
 
 			$created_field->setCatcher(
 				function( $value ) use ( $property_definition, &$property ) {
+					/** @noinspection PhpParamsInspection */
 					$property_definition->catchFormField( $this, $property, $value );
 				}
 			);

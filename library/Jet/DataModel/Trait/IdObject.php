@@ -32,6 +32,7 @@ trait DataModel_Trait_IdObject
 		if( !$this->_id_object ) {
 			$this->_id_object = static::getEmptyIdObject();
 
+			/** @noinspection PhpParamsInspection */
 			$this->_id_object->joinDataModel( $this );
 
 			foreach( $this->_id_object->getPropertyNames() as $property_name ) {

@@ -68,6 +68,7 @@ trait DataModel_Trait_Save
 
 		$backend = static::getBackendInstance();
 
+		/** @noinspection PhpParamsInspection */
 		$backend->update(
 			DataModel_RecordData::createRecordData(
 				$this, $data

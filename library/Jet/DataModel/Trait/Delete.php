@@ -64,7 +64,7 @@ trait DataModel_Trait_Delete
 			$id_object = $this->getIdObject();
 
 			$backend->delete( $id_object->getQuery() );
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 			$this->rollbackBackendTransaction();
 
 			throw $e;

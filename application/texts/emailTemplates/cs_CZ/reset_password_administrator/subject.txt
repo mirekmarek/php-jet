@@ -1,1 +1,0 @@
-Reset administrátorského hesla - PHP Jet ukázková aplikace

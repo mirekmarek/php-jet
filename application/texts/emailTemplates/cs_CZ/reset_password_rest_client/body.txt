@@ -1,8 +1,0 @@
-Vaše heslo k REST API bylo vyresetováno
-
-Zde jsou vaše přihlašovací údaje:
-
-	Uživatelské jméno: %USERNAME%
-	Heslo: %PASSWORD%
-
-Přejeme příjemný den

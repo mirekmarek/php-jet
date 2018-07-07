@@ -13,4 +13,5 @@ return [
 	'Web' => '',
 	'Administration' => '',
 	'REST API' => '',
+	'Sites has been created' => '',
 ];
