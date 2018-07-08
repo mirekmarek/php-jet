@@ -19,7 +19,6 @@ use Jet\Auth;
  */
 class Application_Web
 {
-
 	/**
 	 * @return string
 	 */
@@ -43,7 +42,5 @@ class Application_Web
 		Application_Log::setLogger( new Application_Log_Logger_Web() );
 		Auth::setController( new Auth_Controller_Web() );
 	}
-
-
 
 }

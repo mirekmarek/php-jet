@@ -26,14 +26,15 @@ class PageStaticContent extends BaseObject
 	public static function get( Mvc_Page_Interface $page, Mvc_Page_Content_Interface $page_content=null )
 	{
 
+		$root_dir = JET_PATH_APPLICATION.'texts/staticContent/';
 
 		if(
 			$page_content &&
 			($text_id=$page_content->getParameter( 'text_id'))
 		) {
-			$file_path = JET_PATH_APPLICATION.'texts/staticContent/'.$page->getLocale().'/'.$text_id.'.html';
+			$file_path = $root_dir.$page->getLocale().'/'.$text_id.'.html';
 		} else {
-			$file_path = JET_PATH_APPLICATION.'texts/staticContent/'.$page->getLocale().'/'.$page->getSite()->getId().'/'.$page->getId().'.html';
+			$file_path = $root_dir.$page->getLocale().'/'.$page->getSite()->getId().'/'.$page->getId().'.html';
 		}
 
 		if(!IO_File::exists($file_path)) {

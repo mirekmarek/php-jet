@@ -112,14 +112,37 @@ class Navigation_Menu extends BaseObject
 	 * @param string $menu_namespace
 	 * @param string|null $translator_namespace
 	 */
-	public static function initRootMenu( $menu_namespace, $translator_namespace=null )
+	public static function initMenu( $menu_namespace, $translator_namespace=null )
 	{
 		$path = Config::getConfigDirPath().static::getMenuConfigFileName();
 
 		$menu_data = require $path;
 
 		if(isset($menu_data[$menu_namespace])) {
-			static::initRootMenuByData( $menu_data[$menu_namespace], $translator_namespace );
+			static::initMenuByData( $menu_data[$menu_namespace], $translator_namespace );
+		}
+
+		static::initModuleMenuItems();
+	}
+
+	/**
+	 *
+	 */
+	public static function initModuleMenuItems()
+	{
+		foreach( Application_Modules::activatedModulesList() as $manifest ) {
+			/**
+			 * @var Application_Module_Manifest $manifest
+			 */
+			foreach( $manifest->getMenuItems() as $menu_item ) {
+
+				$menu = Navigation_Menu::getMenu( $menu_item->getMenuId() );
+
+				if( $menu ) {
+					$menu->addItem( $menu_item );
+				}
+			}
+
 		}
 	}
 
@@ -127,7 +150,7 @@ class Navigation_Menu extends BaseObject
 	 * @param array $data
 	 * @param null|string $translator_namespace
 	 */
-	public static function initRootMenuByData( array $data, $translator_namespace = null )
+	public static function initMenuByData( array $data, $translator_namespace = null )
 	{
 
 		foreach( $data as $id=>$item_data ) {

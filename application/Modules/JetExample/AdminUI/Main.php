@@ -29,7 +29,7 @@ class Main extends Application_Module
 	/**
 	 * @var bool
 	 */
-	protected static $menu_items_init;
+	protected static $menu_init_done;
 
 	/**
 	 *
@@ -55,28 +55,13 @@ class Main extends Application_Module
 	 */
 	public static function initMenuItems()
 	{
-		if( static::$menu_items_init ) {
+		if( static::$menu_init_done ) {
 			return;
 		}
 
-		Navigation_Menu::initRootMenu( 'admin' );
+		Navigation_Menu::initMenu( 'admin' );
 
-		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			/**
-			 * @var Application_Module_Manifest $manifest
-			 */
-			foreach( $manifest->getMenuItems() as $menu_item ) {
-
-				$menu = Navigation_Menu::getMenu( $menu_item->getMenuId() );
-
-				if( $menu ) {
-					$menu->addItem( $menu_item );
-				}
-			}
-
-		}
-
-		static::$menu_items_init = true;
+		static::$menu_init_done = true;
 
 	}
 

@@ -33,8 +33,6 @@ use Jet\Auth;
  */
 class Application_Admin
 {
-
-
 	/**
 	 * @return string
 	 */
@@ -58,33 +56,7 @@ class Application_Admin
 		Application_Log::setLogger( new Application_Log_Logger_Admin() );
 		Auth::setController( new Auth_Controller_Admin() );
 
-		$site = $router->getSite();
-
-		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			/**
-			 * @var Application_Module_Manifest $manifest
-			 */
-
-			foreach( $site->getLocales() as $locale ) {
-				$pages = $manifest->getPages(
-					$site,
-					$locale
-				);
-
-				$parent_page = $router->getSite()->getHomepage( $locale );
-
-				foreach( $pages as $page ) {
-					$page->setParent( $parent_page );
-
-					Mvc_Page::appendPage( $page );
-				}
-			}
-
-
-		}
-
 	}
-
 
 	/**
 	 * @param string $dialog_id
@@ -119,5 +91,4 @@ class Application_Admin
 		return $view->render( $dialog_id );
 
 	}
-
 }

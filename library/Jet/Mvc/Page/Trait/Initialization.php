@@ -149,6 +149,9 @@ trait Mvc_Page_Trait_Initialization
 				static::appendPage( $page );
 			}
 
+			static::loadModulePages( $site, $locale );
+
+
 			/** @noinspection PhpUndefinedMethodInspection */
 			if( static::getCacheSaveEnabled() ) {
 
@@ -156,14 +159,44 @@ trait Mvc_Page_Trait_Initialization
 				$saver = static::$cache_saver;
 				$saver( $site_id, $locale_str, static::$pages[$site_id][$locale_str] );
 			}
-
-
+			
 			Debug_Profiler::blockEnd('Create page instances');
 
 		}
 
 
+
 		return static::$pages[$site_id][$locale_str];
+	}
+
+	/**
+	 * @param Mvc_Site_Interface $site
+	 * @param Locale $locale
+	 */
+	public static function loadModulePages( Mvc_Site_Interface $site, Locale $locale )
+	{
+		$site_id = $site->getId();
+		$locale_str = $locale->toString();
+
+		Debug_Profiler::blockStart('Loading module pages');
+		Debug_Profiler::message('site: '.$site_id.' locale: '.$locale_str);
+
+		foreach( Application_Modules::activatedModulesList() as $manifest ) {
+
+			$pages = $manifest->getPages(
+				$site,
+				$locale
+			);
+
+			foreach( $pages as $page ) {
+				$page->setParent( static::$pages[$site_id][$locale_str][static::HOMEPAGE_ID] );
+
+				static::appendPage( $page );
+			}
+
+		}
+		Debug_Profiler::blockEnd('Loading module pages');
+
 	}
 
 	/**

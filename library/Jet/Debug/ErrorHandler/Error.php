@@ -92,6 +92,19 @@ class Debug_ErrorHandler_Error
 	 */
 	protected $is_fatal = false;
 
+	/**
+	 * @var callable
+	 */
+	protected static $formatter;
+
+	/**
+	 * @param callable $formatter
+	 */
+	public static function setFormatter( callable $formatter )
+	{
+		self::$formatter = $formatter;
+	}
+
 
 	/**
 	 *
@@ -381,6 +394,12 @@ class Debug_ErrorHandler_Error
 	 * @return string
 	 */
 	public function toString() {
+
+		if(static::$formatter) {
+			$formatter = static::$formatter;
+
+			return $formatter( $this );
+		}
 
 		$output = '';
 

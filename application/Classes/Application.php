@@ -42,6 +42,7 @@ class Application extends Jet_Application
 	 */
 	public static function initWYSIWYG( Mvc_Router $router )
 	{
+		/*
 		$current_locale = $router->getLocale();
 
 		if( $current_locale->getLanguage()!='en' ) {
@@ -50,7 +51,7 @@ class Application extends Jet_Application
 				JET_URI_PUBLIC.'scripts/tinymce/language/'.$current_locale->toString().'.js'
 			);
 		}
-
+		*/
 	}
 
 }

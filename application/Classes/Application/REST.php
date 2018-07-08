@@ -39,7 +39,6 @@ class Application_REST
 		return Mvc_Site::get( static::getSiteId() );
 	}
 
-
 	/**
 	 * @param Mvc_Router $router
 	 */
@@ -48,30 +47,6 @@ class Application_REST
 		Application::initErrorPages( $router );
 		Application_Log::setLogger( new Application_Log_Logger_REST() );
 		Auth::setController( new Auth_Controller_REST() );
-
-		$site = $router->getSite();
-		$locale = $router->getLocale();
-
-		foreach( Application_Modules::activatedModulesList() as $manifest ) {
-			/**
-			 * @var Application_Module_Manifest $manifest
-			 */
-
-
-			$pages = $manifest->getPages(
-				$site,
-				$locale
-			);
-
-			$parent_page = $router->getSite()->getHomepage( $locale );
-
-			foreach( $pages as $page ) {
-				$page->setParent( $parent_page );
-
-				Mvc_Page::appendPage( $page );
-			}
-
-		}
 	}
 
 }
