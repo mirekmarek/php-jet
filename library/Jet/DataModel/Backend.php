@@ -98,7 +98,7 @@ abstract class DataModel_Backend extends BaseObject
 
 			static::$default_backend = DataModel_Factory::getBackendInstance(
 				$backend_type,
-				DataModel_Factory::getBackendConfigInstance( $backend_type )
+				static::getMainConfig()->getBackendConfig()
 			);
 		}
 

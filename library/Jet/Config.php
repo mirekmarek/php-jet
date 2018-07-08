@@ -128,9 +128,9 @@ abstract class Config extends BaseObject
 	/**
 	 * @param array $data
 	 */
-	public function __construct( array $data=[] )
+	public function __construct( array $data=null )
 	{
-		if(!$data) {
+		if($data===null) {
 			$data = $this->readConfigFileData();
 		}
 

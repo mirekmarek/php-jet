@@ -28,9 +28,11 @@ class Config_Section extends Config
 	/**
 	 * @param array $data
 	 */
-	public function __construct( array $data = [] )
+	public function __construct( array $data = null )
 	{
-		$this->setData( $data );
+		if($data!==null) {
+			$this->setData( $data );
+		}
 	}
 
 	/**
