@@ -33,7 +33,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 	 */
 	public function main()
 	{
-		$config = new Mailing_Config( true );
+		$config = new Mailing_Config();
 
 		$known_senders = [];
 		$specification = '';
@@ -44,7 +44,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 			foreach( $site->getLocales() as $locale ) {
 
 				if(!$config->getSender( $locale,$site_id, $specification )) {
-					$sender = new Mailing_Config_Sender( [], $config);
+					$sender = new Mailing_Config_Sender();
 
 					$config->addSender( $sender, $locale, $site_id, $specification );
 				}
@@ -60,45 +60,7 @@ class Installer_Step_Mailing_Controller extends Installer_Step_Controller
 			}
 		}
 
-
-
-		$form = new Form( 'config', [] );
-
-		foreach( $config->getSenders() as $key => $sender ) {
-			$sender_form = $sender->getCommonForm();
-
-			$field_key = str_replace(':', '_', $key);
-
-			$email = $sender_form->field( 'email' );
-			$email->setIsRequired( true );
-			$email->setErrorMessages(
-				[
-					Form_Field_Email::ERROR_CODE_EMPTY          => 'Please enter valid email address',
-					Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address',
-				]
-			);
-
-			$email->setName( '/'.$field_key.'/email' );
-			$email->setCatcher(
-				function( $value ) use ( $sender ) {
-					$sender->setEmail( $value );
-				}
-			);
-
-			$form->addField( $email );
-
-
-			$name = $sender_form->field( 'name' );
-			$name->setName( '/'.$field_key.'/name' );
-			$name->setCatcher(
-				function( $value ) use ( $sender ) {
-					$sender->setName( $value );
-				}
-			);
-
-			$form->addField( $name );
-		}
-
+		$form = $config->getCommonForm();
 
 		if(
 			$form->catchInput() &&

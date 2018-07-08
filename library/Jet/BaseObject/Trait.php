@@ -100,7 +100,6 @@ trait BaseObject_Trait
 	 *
 	 * @throws BaseObject_Exception
 	 *
-	 * @param mixed  $value
 	 */
 	public function __set( $key, $value )
 	{

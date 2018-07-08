@@ -27,6 +27,18 @@ class DataModel_Config extends Config
 	 */
 	protected $backend_type;
 
+
+	/**
+	 * @JetConfig:type = Config::TYPE_SECTION
+	 * @JetConfig:is_required = true
+	 * @JetConfig:section_creator_method_name = 'createBackendConfigInstance'
+	 *
+	 * @var DataModel_Backend_Config
+	 */
+	protected $backend_config;
+
+
+
 	/**
 	 * @return array
 	 */
@@ -34,6 +46,25 @@ class DataModel_Config extends Config
 	{
 		return static::getAvailableHandlersList( JET_PATH_LIBRARY.'Jet/DataModel/Backend/' );
 	}
+
+	/**
+	 *
+	 * @param string $base_directory
+	 *
+	 * @return array
+	 */
+	public static function getAvailableHandlersList( $base_directory )
+	{
+		$res = IO_Dir::getSubdirectoriesList( $base_directory, '*' );
+		foreach( $res as $path => $dir ) {
+			if( $dir=='Config' ) {
+				unset( $res[$path] );
+			}
+		}
+
+		return array_combine( $res, $res );
+	}
+
 
 	/**
 	 * @return string
@@ -49,6 +80,29 @@ class DataModel_Config extends Config
 	public function setBackendType( $backend_type )
 	{
 		$this->backend_type = $backend_type;
+		$this->backend_config = $this->createBackendConfigInstance([]);
+	}
+
+	/**
+	 * @return DataModel_Backend_Config
+	 */
+	public function getBackendConfig()
+	{
+		return $this->backend_config;
+	}
+
+
+	/**
+	 * @param array $data
+	 *
+	 * @return DataModel_Backend_Config
+	 */
+	public function createBackendConfigInstance( array $data )
+	{
+		return DataModel_Factory::getBackendConfigInstance(
+			$this->getBackendType(),
+			$data
+		);
 	}
 
 

@@ -7,6 +7,7 @@
  */
 namespace JetApplication;
 
+use Jet\Config_Section;
 use Jet\Db;
 use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
@@ -21,6 +22,7 @@ use Jet\Http_Headers;
 use Jet\Mvc_Site;
 use Jet\UI_messages;
 use Jet\Tr;
+use Jet\Config;
 
 /**
  *
@@ -53,8 +55,6 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function main()
 	{
-
-
 		$db_type_field = new Form_Field_Select( 'type', 'Please database type: ' );
 		$db_type_field->setSelectOptions( static::getDbTypes() );
 		$db_type_field->setDefaultValue( static::getSelectedDbType() );
@@ -80,14 +80,14 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		) {
 			static::setSelectedDbType( $db_type_field->getValue() );
 
-			$data_model_config = new DataModel_Config( true );
-			$db_config = new Db_Config( true );
+			$data_model_config = new DataModel_Config();
+			$db_config = new Db_Config();
 
 			$data_model_backend_config = null;
 
 			switch( static::getSelectedDbType() ) {
 				case Db::DRIVER_MYSQL:
-					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
+					$connection_config = Db_Factory::getBackendConfigInstance();
 					$connection_config->setName( 'default' );
 					$connection_config->setDriver( Db::DRIVER_MYSQL );
 					$connection_config->setUsername( '' );
@@ -108,9 +108,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					/**
 					 * @var DataModel_Backend_MySQL_Config $data_model_backend_config
 					 */
-					$data_model_backend_config = DataModel_Factory::getBackendConfigInstance(
-						$data_model_config->getBackendType(), true
-					);
+					$data_model_backend_config = $data_model_config->getBackendConfig();
 					$data_model_backend_config->setConnectionRead( 'default' );
 					$data_model_backend_config->setConnectionWrite( 'default' );
 
@@ -120,7 +118,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					$data_path = JET_PATH_DATA;
 					$data_file_name = 'database';
 
-					$connection_config = Db_Factory::getBackendConfigInstance( [], $db_config );
+					$connection_config = Db_Factory::getBackendConfigInstance();
 					$connection_config->setName( 'default' );
 					$connection_config->setDriver( Db::DRIVER_SQLITE );
 					$connection_config->setUsername( '' );
@@ -141,9 +139,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 					/**
 					 * @var DataModel_Backend_SQLite_Config $data_model_backend_config
 					 */
-					$data_model_backend_config = DataModel_Factory::getBackendConfigInstance(
-						$data_model_config->getBackendType(), true
-					);
+					$data_model_backend_config = $data_model_config->getBackendConfig();
 					$data_model_backend_config->setConnection( 'default' );
 
 					break;
@@ -151,7 +147,6 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 			try {
 				$data_model_config->writeConfigFile();
-				$data_model_backend_config->writeConfigFile();
 			} catch( \Exception $e ) {
 				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
 				Http_Headers::reload();

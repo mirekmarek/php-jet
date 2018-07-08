@@ -38,26 +38,20 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	}
 
 	/**
-	 * @param mixed &$value
+	 * @param mixed $value
 	 */
 	public function checkValueType( &$value )
 	{
 		$value = (bool)$value;
 	}
 
-
 	/**
-	 * Property required test
 	 *
 	 * @param mixed &$value
 	 *
 	 * @throws Config_Exception
-	 * @return bool
 	 */
-	public function _validateProperties_test_required( &$value )
+	protected function checkValue( $value )
 	{
-		return true;
 	}
-
-
 }

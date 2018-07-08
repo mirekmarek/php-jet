@@ -10,26 +10,93 @@ namespace Jet;
 /**
  *
  */
-abstract class Config_Section extends Config
+class Config_Section extends Config
 {
-	/**
-	 * @var array
-	 */
-	protected $_data;
 
-	/** @noinspection PhpMissingParentConstructorInspection
-	 *
-	 * @param array  $data
-	 * @param Config $configuration
+	/**
+	 * @var Config
 	 */
-	public function __construct( array $data, Config $configuration = null )
+	protected $_config;
+
+	/**
+	 * @var Config_Definition_Config_Section
+	 */
+	protected $definition;
+
+
+	/** @noinspection PhpMissingParentConstructorInspection */
+	/**
+	 * @param array $data
+	 */
+	public function __construct( array $data = [] )
 	{
-		if( $configuration ) {
-			$this->soft_mode = $configuration->getSoftMode();
-		}
-		$this->_data = $data;
-		$data = new Data_Array( $this->_data );
 		$this->setData( $data );
+	}
+
+	/**
+	 * @return Config_Definition_Config
+	 */
+	public function getDefinition()
+	{
+		if( !$this->definition ) {
+			$this->definition = Config_Definition::getSectionConfigDefinition( get_called_class() );
+		}
+
+		return $this->definition;
+	}
+
+
+	/**
+	 * @return Config
+	 */
+	public function getConfig()
+	{
+		return $this->_config;
+	}
+
+	/**
+	 * @param Config $config
+	 */
+	public function setConfig( Config $config )
+	{
+		$this->_config = $config;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getConfigFilePath()
+	{
+		return $this->getConfig()->getConfigFilePath();
+	}
+
+	/**
+	 * @param string $config_file_path
+	 */
+	public function setConfigFilePath( $config_file_path )
+	{
+		$this->getConfig()->setConfigFilePath( $config_file_path );
+	}
+
+
+	/**
+	 *
+	 * @throws Config_Exception
+	 *
+	 * @return array
+	 */
+	public function readConfigFileData()
+	{
+		return $this->getConfig()->readConfigFileData();
+	}
+
+
+	/**
+	 *
+	 */
+	public function writeConfigFile()
+	{
+		$this->getConfig()->writeConfigFile();
 	}
 
 }

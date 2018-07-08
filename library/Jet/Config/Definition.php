@@ -19,7 +19,7 @@ class Config_Definition extends BaseObject implements Reflection_ParserInterface
 	 *
 	 * @return Config_Definition_Config
 	 */
-	public static function get( $class_name )
+	public static function getMainConfigDefinition( $class_name )
 	{
 		if( static::getCacheLoadEnabled() ) {
 
@@ -44,6 +44,36 @@ class Config_Definition extends BaseObject implements Reflection_ParserInterface
 
 
 	/**
+	 * @param string $class_name
+	 *
+	 * @return Config_Definition_Config
+	 */
+	public static function getSectionConfigDefinition( $class_name )
+	{
+		if( static::getCacheLoadEnabled() ) {
+
+			$loader = static::$cache_loader;
+			$definition = $loader( $class_name );
+			if($definition) {
+				return $definition;
+			}
+		}
+
+		$definition = new Config_Definition_Config_Section( $class_name );
+
+		if( static::getCacheSaveEnabled() ) {
+
+			$saver = static::$cache_saver;
+			$saver( $class_name, $definition );
+		}
+
+
+		return $definition;
+	}
+
+
+
+	/**
 	 * @param Reflection_ParserData $data
 	 *
 	 * @throws Reflection_Exception
@@ -54,9 +84,6 @@ class Config_Definition extends BaseObject implements Reflection_ParserInterface
 		switch( $data->getKey() ) {
 			case 'name':
 				$data->result_data['name'] = $data->getValueAsString();
-				break;
-			case 'data_path':
-				$data->result_data['config_data_path'] = $data->getValueAsString();
 				break;
 			default:
 				throw new Reflection_Exception(
@@ -75,9 +102,8 @@ class Config_Definition extends BaseObject implements Reflection_ParserInterface
 	{
 
 		switch( $data->getKey() ) {
-			case 'config_factory_class_name':
-			case 'item_class_name':
-				$data->setResultDataPropertyValue( 'config_properties_definition', $data->getValueAsClassName() );
+			case 'section_creator_method_name':
+				$data->setResultDataPropertyValue( 'config_properties_definition', $data->getValueAsString() );
 				break;
 			case 'form_field_get_select_options_callback':
 				$data->setResultDataPropertyValue( 'config_properties_definition', $data->getValueAsCallback() );

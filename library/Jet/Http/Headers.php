@@ -182,7 +182,6 @@ class Http_Headers
 	/**
 	 *
 	 * @param array $headers (optional)
-	 * @param array $headers (optional, default: none)
 	 */
 	public static function responseOK( array $headers = [] )
 	{

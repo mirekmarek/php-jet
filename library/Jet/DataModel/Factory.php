@@ -86,15 +86,15 @@ class DataModel_Factory
 	/**
 	 *
 	 * @param string $type
-	 * @param bool   $soft_mode @see Config
+	 * @param array $data
 	 *
 	 * @return DataModel_Backend_Config
 	 */
-	public static function getBackendConfigInstance( $type, $soft_mode = false )
+	public static function getBackendConfigInstance( $type, array $data=[] )
 	{
 		$class_name = static::getBackendClassNamePrefix().$type.'_Config';
 
-		return new $class_name( $soft_mode );
+		return new $class_name( $data );
 	}
 
 	/**

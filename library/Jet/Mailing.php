@@ -46,14 +46,12 @@ class Mailing extends BaseObject
 
 	/**
 	 *
-	 * @param bool $soft_mode
-	 *
 	 * @return Mailing_Config
 	 */
-	public static function getConfig( $soft_mode=false )
+	public static function getConfig()
 	{
 		if( !static::$config ) {
-			static::$config = new Mailing_Config( $soft_mode );
+			static::$config = new Mailing_Config();
 		}
 
 		return static::$config;

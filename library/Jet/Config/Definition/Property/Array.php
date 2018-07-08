@@ -46,4 +46,13 @@ class Config_Definition_Property_Array extends Config_Definition_Property
 		}
 	}
 
+	/**
+	 *
+	 * @param mixed &$value
+	 *
+	 * @throws Config_Exception
+	 */
+	protected function checkValue( $value )
+	{
+	}
 }

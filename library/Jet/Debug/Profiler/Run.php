@@ -129,7 +129,7 @@ class Debug_Profiler_Run
 	}
 
 	/**
-	 * @return
+	 * @return mixed
 	 */
 	public function getXHPData()
 	{

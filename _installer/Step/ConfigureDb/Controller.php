@@ -49,7 +49,7 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	public function main()
 	{
 
-		$this->main_config = new Db_Config( true );
+		$this->main_config = new Db_Config();
 
 		$connection_name = 'default';
 		$connection_type = 'mysql';

@@ -238,69 +238,37 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	}
 
 	/**
-	 * Check column (data) by definition (retype)
-	 *  - type
 	 *
-	 * @param mixed &$value
+	 * @param mixed $value
+	 * @param Config $config
 	 *
-	 * @return bool
+	 * @return mixed
+	 *
 	 * @throws Config_Exception
 	 */
-	public function checkValue( &$value )
+	public function prepareValue( $value, Config $config )
 	{
 
 		$this->checkValueType( $value );
+		$this->checkValue( $value );
 
-		if( $this->_validateProperties_test_required( $value ) ) {
-			return $this->_validateProperties_test_value( $value );
-		}
+		return $value;
 
-		return true;
 	}
 
 	/**
-	 * Check data type by definition (retype)
 	 *
 	 * @param mixed &$value
 	 */
-	abstract function checkValueType( &$value );
+	abstract protected function checkValueType( &$value );
 
 	/**
-	 * Property required test
 	 *
 	 * @param mixed &$value
 	 *
 	 * @throws Config_Exception
-	 * @return bool
 	 */
-	protected function _validateProperties_test_required( &$value )
-	{
-		if( !$this->is_required ) {
-			return true;
-		}
-
-		if( !$value ) {
-			throw new Config_Exception(
-				'Configuration property '.$this->_configuration_class.'::'.$this->name.' is required by definition, but value is missing!',
-				Config_Exception::CODE_CONFIG_CHECK_ERROR
-			);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Property value test - can be specific for each column type (eg: min and max value for number, string format ...)
-	 *
-	 * @param mixed &$value
-	 *
-	 * @return bool
-	 */
-	protected function _validateProperties_test_value( /** @noinspection PhpUnusedParameterInspection */
-		&$value )
-	{
-		return true;
-	}
+	abstract protected function checkValue( $value );
 
 	/**
 	 * @return string

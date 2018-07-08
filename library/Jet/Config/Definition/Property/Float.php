@@ -99,19 +99,12 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 	/**
 	 * Column value test - checks range
 	 *
-	 * @param mixed &$value
+	 * @param mixed $value
 	 *
 	 * @throws Config_Exception
-	 * @return bool
 	 */
-	protected function _validateProperties_test_value( &$value )
+	protected function checkValue( $value )
 	{
-		if(
-			$this->min_value===null &&
-			$this->max_value===null
-		) {
-			return true;
-		}
 
 		if(
 			$this->min_value!==null &&
@@ -133,7 +126,6 @@ class Config_Definition_Property_Float extends Config_Definition_Property
 			);
 		}
 
-		return true;
 	}
 
 }

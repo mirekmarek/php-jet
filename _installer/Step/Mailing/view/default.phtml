@@ -16,7 +16,7 @@ use Jet\UI;
 
 $form = $this->getRaw( 'form' );
 $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 1 ] );
-$config = Mailing::getConfig(true);
+$config = Mailing::getConfig();
 ?>
 <h3><?=Tr::_( 'Set the mail sender' )?></h3>
 <?=$form->start()?>
@@ -27,13 +27,13 @@ $config = Mailing::getConfig(true);
 <legend><?=$site->getName()?></legend>
 
 	<?php foreach( $site->getLocales() as $locale ):
-		$key = str_replace(':', '_', $config->getSenderKey( $locale, $site->getId(), '' ));
+		$key = $config->getSenderKey( $locale, $site->getId(), '' );
 		?>
 	<fieldset style="padding-left: 60px;">
 		<legend><?=UI::flag($locale)?> <?=$locale->getName();?></legend>
 
-		<?=$form->field( '/'.$key.'/email' )?>
-		<?=$form->field( '/'.$key.'/name' )?>
+		<?=$form->field( '/senders/'.$key.'/email' )?>
+		<?=$form->field( '/senders/'.$key.'/name' )?>
 	</fieldset>
 	<?php endforeach; ?>
 </fieldset>

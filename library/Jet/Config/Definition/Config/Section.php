@@ -8,47 +8,12 @@
 namespace Jet;
 
 /**
- * 
+ *
  */
-class Config_Definition_Config extends BaseObject
+class Config_Definition_Config_Section extends Config_Definition_Config
 {
-	/**
-	 *
-	 */
-	const BASE_PROPERTY_DEFINITION_CLASS_NAME = 'Config_Definition_Property';
 
-	/**
-	 * @var string
-	 */
-	protected $class_name = '';
-
-
-	/**
-	 * @var string
-	 */
-	protected $name = '';
-
-	/**
-	 * @var Config_Definition_Property[]
-	 */
-	protected $properties_definition = [];
-
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( array $data )
-	{
-		$i = new static();
-
-		foreach( $data as $key => $val ) {
-			$i->{$key} = $val;
-		}
-
-		return $i;
-	}
-
+	/** @noinspection PhpMissingParentConstructorInspection */
 	/**
 	 * @param string $class_name
 	 *
@@ -61,14 +26,6 @@ class Config_Definition_Config extends BaseObject
 		}
 
 		$this->class_name = $class_name;
-
-		$this->name = Reflection::get( $class_name, 'name', '' );
-		if(!$this->name) {
-			throw new DataModel_Exception(
-				'Config Class \''.$this->class_name.'\' does not have name! Please enter it by @JetConfig:name ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
 
 		$propertied_definition_data = Reflection::get( $class_name, 'config_properties_definition', [] );
 
@@ -96,31 +53,6 @@ class Config_Definition_Config extends BaseObject
 		}
 
 
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getClassName()
-	{
-		return $this->class_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-
-	/**
-	 * @return Config_Definition_Property[]
-	 */
-	public function getPropertiesDefinition()
-	{
-		return $this->properties_definition;
 	}
 
 }

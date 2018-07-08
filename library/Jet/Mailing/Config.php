@@ -16,11 +16,10 @@ class Mailing_Config extends Config
 {
 
 	/**
-	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
-	 * @JetConfig:data_path = 'senders'
-	 * @JetConfig:item_class_name = 'Mailing_Config_Sender'
+	 * @JetConfig:type = Config::TYPE_SECTIONS
+	 * @JetConfig:section_creator_method_name = 'createSenderConfigInstance'
 	 *
-	 * @var Config_Definition_Property_ConfigList
+	 * @var Mailing_Config_Sender[]
 	 */
 	protected $senders;
 
@@ -37,12 +36,13 @@ class Mailing_Config extends Config
 	public function getSender( $locale, $site_id, $specification )
 	{
 
-		/**
-		 * @var Mailing_Config_Sender $sender
-		 */
-		$sender = $this->senders->getConfigurationListItem( $this->getSenderKey( $locale, $site_id, $specification ) );
+		$key = $this->getSenderKey( $locale, $site_id, $specification );
 
-		return $sender;
+		if(!isset($this->senders[$key])) {
+			return null;
+		}
+
+		return $this->senders[$key];
 	}
 
 	/**
@@ -50,12 +50,7 @@ class Mailing_Config extends Config
 	 */
 	public function getSenders()
 	{
-		/**
-		 * @var Mailing_Config_Sender[] $c_cfg
-		 */
-		$c_cfg = $this->senders->getAllConfigurationItems();
-
-		return $c_cfg;
+		return $this->senders;
 	}
 
 	/**
@@ -67,10 +62,7 @@ class Mailing_Config extends Config
 	 */
 	public function addSender( Mailing_Config_Sender $sender_configuration, $locale, $site_id, $specification )
 	{
-		$this->senders->addConfigurationItem(
-			$this->getSenderKey( $locale, $site_id, $specification ),
-			$sender_configuration
-		);
+		$this->senders[ $this->getSenderKey( $locale, $site_id, $specification ) ] = $sender_configuration;
 	}
 
 	/**
@@ -78,7 +70,9 @@ class Mailing_Config extends Config
 	 */
 	public function deleteSender( $key )
 	{
-		$this->senders->deleteConfigurationItem( $key );
+		if(isset($this->senders[$key])) {
+			unset( $this->senders[$key] );
+		}
 	}
 
 	/**
@@ -96,13 +90,23 @@ class Mailing_Config extends Config
 			$site_id = 'ALL';
 		}
 
-		$key .= ':'.$site_id;
+		$key .= '/'.$site_id;
 
 
 		if($specification) {
-			$key .= ':'.$specification;
+			$key .= '/'.$specification;
 		}
 
 		return $key;
+	}
+
+	/**
+	 * @param array $data
+	 *
+	 * @return Mailing_Config_Sender
+	 */
+	public function createSenderConfigInstance( array $data )
+	{
+		return new Mailing_Config_Sender($data);
 	}
 }

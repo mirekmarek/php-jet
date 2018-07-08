@@ -9,8 +9,6 @@ namespace JetApplication;
 
 use Jet\Application as Jet_Application;
 use Jet\Application_Log;
-use Jet\Application_Module_Manifest_AdminDialog;
-use Jet\Application_Module_Manifest_AdminSection;
 use Jet\Application_Modules;
 use Jet\Application_Module_Manifest;
 

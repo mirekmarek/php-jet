@@ -7,9 +7,13 @@
  */
 namespace JetApplication;
 
+use Jet\Config;
+
 define( 'JET_APP_INSTALLER_PATH', JET_PATH_BASE.'_installer/' );
 
 require 'Classes/Installer.php';
+
+Config::setBeTolerant( true );
 
 Installer::setSteps(
 	[

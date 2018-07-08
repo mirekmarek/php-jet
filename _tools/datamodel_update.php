@@ -20,7 +20,7 @@ echo JET_EOL . 'Update for class \'' . $class . '\'' . JET_EOL;
 
 try {
 	class_exists($class);
-} catch (Autoloader_Exception $e) {
+} catch (\Exception $e) {
 	echo JET_EOL . 'ERROR: ' . $e->getMessage() . JET_EOL . JET_EOL;
 	die();
 }

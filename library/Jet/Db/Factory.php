@@ -39,16 +39,14 @@ class Db_Factory
 	/**
 	 *
 	 * @param array     $config_data (optional)
-	 * @param Db_Config $config (optional)
 	 *
 	 * @return Db_Backend_Config|Db_Backend_PDO_Config
 	 */
-	public static function getBackendConfigInstance( array $config_data = [], Db_Config $config = null )
+	public static function getBackendConfigInstance( array $config_data = [] )
 	{
 		$config_class = static::$default_backend.'_Config';
 
-
-		return new $config_class( $config_data, $config );
+		return new $config_class( $config_data );
 	}
 
 	/**

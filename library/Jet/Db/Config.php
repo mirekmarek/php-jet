@@ -31,12 +31,10 @@ class Db_Config extends Config
 
 
 	/**
-	 * @JetConfig:type = Config::TYPE_CONFIG_LIST
-	 * @JetConfig:data_path = 'connections'
-	 * @JetConfig:config_factory_class_name = 'Db_Factory'
-	 * @JetConfig:config_factory_method_name = 'getBackendConfigInstance'
+	 * @JetConfig:type = Config::TYPE_SECTIONS
+	 * @JetConfig:section_creator_method_name = 'connectionConfigCreator'
 	 *
-	 * @var Config_Definition_Property_ConfigList
+	 * @var Db_Backend_Config[]
 	 */
 	protected $connections;
 
@@ -71,12 +69,7 @@ class Db_Config extends Config
 	 */
 	public function getConnections()
 	{
-		/**
-		 * @var Db_Backend_Config[] $c_cfg
-		 */
-		$c_cfg = $this->connections->getAllConfigurationItems();
-
-		return $c_cfg;
+		return $this->connections;
 	}
 
 	/**
@@ -88,8 +81,11 @@ class Db_Config extends Config
 	 */
 	public function getConnection( $connection_name )
 	{
-		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return $this->connections->getConfigurationListItem( $connection_name );
+		if(!isset($this->connections[$connection_name])) {
+			return null;
+		}
+
+		return $this->connections[$connection_name];
 	}
 
 	/**
@@ -109,7 +105,7 @@ class Db_Config extends Config
 	 */
 	public function addConnection( $connection_name, Db_Backend_Config $connection_configuration )
 	{
-		$this->connections->addConfigurationItem( $connection_name, $connection_configuration );
+		$this->connections[$connection_name] = $connection_configuration;
 	}
 
 	/**
@@ -118,6 +114,18 @@ class Db_Config extends Config
 	 */
 	public function deleteConnection( $connection_name )
 	{
-		$this->connections->deleteConfigurationItem( $connection_name );
+		if(isset($this->connections[$connection_name])) {
+			unset($this->connections[$connection_name]);
+		}
+	}
+
+	/**
+	 * @param array $data
+	 *
+	 * @return Db_Backend_Config|Db_Backend_PDO_Config
+	 */
+	public function connectionConfigCreator( array $data )
+	{
+		return Db_Factory::getBackendConfigInstance( $data );
 	}
 }

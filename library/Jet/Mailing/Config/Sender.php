@@ -15,10 +15,12 @@ class Mailing_Config_Sender extends Config_Section
 {
 
 	/**
+	 * @JetConfig:type = Config::TYPE_STRING
+	 * @JetConfig:is_required = true
+	 *
 	 * @JetConfig:form_field_label = 'E-mail:'
 	 * @JetConfig:form_field_type = Form::TYPE_EMAIL
-	 * @JetConfig:type = Config::TYPE_STRING
-	 * @JetConfig:is_required = false
+	 * @JetConfig:form_field_error_messages = [Form_Field_Email::ERROR_CODE_EMPTY => 'Please enter valid email address',Form_Field_Email::ERROR_CODE_INVALID_FORMAT => 'Please enter valid email address']
 	 *
 	 * @var string
 	 */
