@@ -39,8 +39,8 @@ class Controller_Main extends Mvc_Controller_Default
 	{
 		$backends = [];
 
-		$backends['MySQL'] = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config( true )) );
-		$backends['SQLite'] = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config( true )) );
+		$backends['MySQL'] = new DataModel_Backend_MySQL( (new DataModel_Backend_MySQL_Config()) );
+		$backends['SQLite'] = new DataModel_Backend_SQLite( (new DataModel_Backend_SQLite_Config()) );
 
 		$_tests = [
 			'BasicSelect',

@@ -53,6 +53,7 @@ class Installer_Step_Final_Controller extends Installer_Step_Controller
 		}
 
 		if( $OK ) {
+			session_reset();
 			$this->render( 'done' );
 		} else {
 			$this->render( 'error' );
