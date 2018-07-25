@@ -46,7 +46,7 @@ class Db_Config extends Config
 	 */
 	public static function getConnectionsList( $driver_type_filter = '' )
 	{
-		$i = new self( true );
+		$i = new self();
 
 		$connections = [];
 
@@ -89,7 +89,6 @@ class Db_Config extends Config
 	}
 
 	/**
-	 * Returns connection name for Db::get() / Db::getConnection() if connection name is not specified (one of the keys in 'connections')
 	 *
 	 * @return string
 	 */
@@ -97,6 +96,16 @@ class Db_Config extends Config
 	{
 		return $this->default_connection_name;
 	}
+
+	/**
+	 * @param string $default_connection_name
+	 */
+	public function setDefaultConnectionName( $default_connection_name )
+	{
+		$this->default_connection_name = $default_connection_name;
+	}
+
+
 
 	/**
 	 * @param string               $connection_name

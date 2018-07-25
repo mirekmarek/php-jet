@@ -52,6 +52,27 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 		$this->_db = $db;
 	}
 
+
+	/**
+	 *
+	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @return bool
+	 */
+	public function helper_tableExists( DataModel_Definition_Model $definition )
+	{
+		$table_name = $this->_getTableName( $definition, false );
+
+		$db = $this->getDb();
+
+		if($db->fetchOne("SELECT name FROM sqlite_master WHERE type='table' AND name='{$table_name}';")) {
+			return true;
+		}
+		
+		return false;
+	}
+
+
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 */

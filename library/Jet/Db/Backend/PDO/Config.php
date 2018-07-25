@@ -12,6 +12,20 @@ namespace Jet;
  */
 class Db_Backend_PDO_Config extends Db_Backend_Config
 {
+	/**
+	 * @JetConfig:type = Config::TYPE_STRING
+	 * @JetConfig:description = 'PDO driver'
+	 * @JetConfig:default_value = 'mysql'
+	 * @JetConfig:is_required = true
+	 * @JetConfig:form_field_type = Form::TYPE_SELECT
+	 * @JetConfig:form_field_get_select_options_callback = ['this', 'getDrivers']
+	 * @JetConfig:form_field_label = 'Driver'
+	 * @JetConfig:form_field_error_messages = [Form_Field::ERROR_CODE_EMPTY=>'Please select driver', Form_Field_MultiSelect::ERROR_CODE_INVALID_VALUE=>'Please select driver']
+	 *
+	 * @var string
+	 */
+	protected $driver;
+
 
 	/**
 	 * @JetConfig:type = Config::TYPE_STRING

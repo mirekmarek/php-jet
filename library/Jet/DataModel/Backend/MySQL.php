@@ -76,6 +76,29 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	}
 
 
+	/**
+	 *
+	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @return bool
+	 */
+	public function helper_tableExists( DataModel_Definition_Model $definition )
+	{
+		$table_name = $this->_getTableName( $definition, false );
+
+		$db = $this->getDbWrite();
+
+		$database = $db->fetchOne("SELECT DATABASE()");
+
+		return (bool)$db->fetchOne("SELECT 
+			count(*)
+		FROM 
+			information_schema.TABLES
+		WHERE 
+			(TABLE_SCHEMA = '{$database}') AND (TABLE_NAME = '{$table_name}')");
+
+	}
+
 
 	/**
 	 * @param DataModel_Definition_Model $definition

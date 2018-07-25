@@ -50,6 +50,24 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 
 
 	/**
+	 * @param Config $config
+	 *
+	 * @return Config_Section|mixed
+	 */
+	public function getDefaultValue( Config $config )
+	{
+		/**
+		 * @var Config_Section $section
+		 */
+		$section = $config->{$this->section_creator_method_name}( [] );
+		$section->setConfig( $config );
+
+		return $section;
+	}
+
+
+
+	/**
 	 *
 	 * @param array $value
 	 * @param Config $config
@@ -98,7 +116,10 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 	 */
 	public function createFormField( $property_value )
 	{
-		if( $this->getFormFieldType()===false ) {
+		if(
+			$this->getFormFieldType()===false ||
+			!$property_value
+		) {
 			return null;
 		}
 
@@ -107,6 +128,7 @@ class Config_Definition_Property_Section extends Config_Definition_Property
 		 */
 
 		$fields = [];
+
 
 		$form = $property_value->getCommonForm();
 

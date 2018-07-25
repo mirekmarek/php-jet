@@ -165,9 +165,11 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	}
 
 	/**
+	 * @param Config $config
+	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue( Config $config )
 	{
 		return $this->default_value;
 	}

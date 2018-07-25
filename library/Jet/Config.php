@@ -162,7 +162,7 @@ abstract class Config extends BaseObject
 					);
 				}
 
-				$this->{$property_name} = $property_definition->getDefaultValue();
+				$this->{$property_name} = $property_definition->getDefaultValue( $this );
 
 				continue;
 			}

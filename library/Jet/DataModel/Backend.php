@@ -401,6 +401,13 @@ abstract class DataModel_Backend extends BaseObject
 
 	/**
 	 * @param DataModel_Definition_Model $definition
+	 *
+	 * @throws Exception
+	 */
+	abstract public function helper_tableExists( DataModel_Definition_Model $definition );
+
+	/**
+	 * @param DataModel_Definition_Model $definition
 	 * @param string|null                $force_table_name (optional)
 	 *
 	 * @return string
