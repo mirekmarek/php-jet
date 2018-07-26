@@ -79,6 +79,28 @@ class Application_Module_Manifest extends BaseObject
 
 	//--------------------------------------------------------------------------
 
+	/**
+	 * @var callable
+	 */
+	protected static $compatibility_checker;
+
+	/**
+	 * @return callable
+	 */
+	public static function getCompatibilityChecker()
+	{
+		return static::$compatibility_checker;
+	}
+
+	/**
+	 * @param callable $compatibility_checker
+	 */
+	public static function setCompatibilityChecker( callable $compatibility_checker )
+	{
+		static::$compatibility_checker = $compatibility_checker;
+	}
+
+
 
 	/**
 	 * @return string
@@ -312,7 +334,16 @@ class Application_Module_Manifest extends BaseObject
 	 */
 	public function isCompatible()
 	{
-		return Version::getAPIIsCompatible( $this->API_version );
+		if(!static::$compatibility_checker) {
+			return true;
+		}
+
+		/**
+		 * @var callable $checker
+		 */
+		$checker = static::$compatibility_checker;
+
+		return $checker( $this );
 	}
 
 	/**

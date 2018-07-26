@@ -308,8 +308,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 
 		if( !$module_manifest->isCompatible() ) {
 			throw new Application_Modules_Exception(
-				'Module \''.$module_name.'\' (API version '.$module_manifest->getAPIVersion(
-				).') is not compatible with this system version (API version'.Version::getAPIVersionNumber().')',
+				'Module \''.$module_name.'\' is not compatible with this system.',
 				Application_Modules_Exception::CODE_MODULE_IS_NOT_COMPATIBLE
 			);
 		}
