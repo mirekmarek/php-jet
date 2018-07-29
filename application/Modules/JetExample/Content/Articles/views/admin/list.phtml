@@ -68,28 +68,25 @@ if($delete_uri && count($grid->getData()) ) {
 }
 
 ?>
-
-<div class="row toolbar">
-	<div class="col-xs-7 col-md-3">
-		<?=$this->getRaw( 'search_form' ) ?>
-	</div>
-	<div class="col-xs-5 col-md-3">
-		<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
-			<?=UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri )?>
-		<?php endif; ?>
-	</div>
-</div>
-<div class="row main-row">
-	<div class="col-md-12 main-col">
-
-
-		<div class="row">
-			<div class="col-md-12">
-				<form action="<?=$delete_uri?>" method="post">
-					<?=$grid->render()?>
-				</form>
+<div class="row">
+	<div class="col-md-12" style="padding: 0px">
+		<div class="toolbar" id="main-toolbar">
+			<div class="col-xs-7 col-md-3">
+				<?=$this->getRaw( 'search_form' ) ?>
+			</div>
+			<div class="col-xs-5 col-md-3">
+				<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
+					<?=UI::button_create( Tr::_( 'Create a new Article' ) )->setUrl( $add_uri )?>
+				<?php endif; ?>
 			</div>
 		</div>
+	</div>
+</div>
 
+<div class="row main-row">
+	<div class="col-md-12 main-col">
+		<form action="<?=$delete_uri?>" method="post">
+			<?=$grid->render()?>
+		</form>
 	</div>
 </div>

@@ -19,50 +19,52 @@ $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
 
 $user = $this->getRaw( 'user' );
 ?>
-
 <?=$form->start()?>
-
-<div class="row toolbar" id="main-toolbar">
-	<div class="col-md-12">
-		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
-		<?php if( !$form->getIsReadonly() ): ?>
-			<?=UI::button_save()?>
-
-			<?php if( !$user->getIsNew() ): ?>
-				<div class="btn-group" style="margin-left: 10px">
-					<a href="?a=reset_password" class="btn btn-warning">
-						<?=UI::icon( 'refresh' )?>
-						<?=Tr::_( 'Reset password' )?>
-					</a>
-				</div>
-			<?php endif; ?>
-		<?php endif; ?>
-	</div>
-</div>
-
 <div class="row">
-	<div class="col-md-12 main-col">
-		<?=$form->field( 'username' )?>
+	<div class="col-md-12" style="padding: 0px">
+		<div class="toolbar" id="main-toolbar">
+			<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
 
-		<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
-		<?=$form->field( 'email' )?>
-		<?=$form->field( 'locale' )?>
-		<?=$form->field( 'first_name' )?>
-		<?=$form->field( 'surname' )?>
-		<?=$form->field( 'description' )?>
-		<?=$form->field( 'roles' )?>
+			<?php if( !$form->getIsReadonly() ): ?>
+				<?=UI::button_save()?>
 
-		<hr class="separator">
-		<?=$form->field( 'user_is_activated' )?>
-		<hr class="separator">
-		<?=$form->field( 'user_is_blocked' )?>
-		<?=$form->field( 'user_is_blocked_till' )?>
-		<hr class="separator">
-		<?=$form->field( 'password_is_valid' )?>
-		<?=$form->field( 'password_is_valid_till' )?>
-		<hr class="separator">
+				<?php if( !$user->getIsNew() ): ?>
+					<div class="btn-group" style="margin-left: 10px">
+						<a href="?a=reset_password" class="btn btn-warning">
+							<?=UI::icon( 'refresh' )?>
+							<?=Tr::_( 'Reset password' )?>
+						</a>
+					</div>
+				<?php endif; ?>
+			<?php endif; ?>
+		</div>
 
+		<div class="container-fluid">
+			<div class="row main-row">
+				<div class="col-md-12 main-col">
+					<?=$form->field( 'username' )?>
+
+					<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
+					<?=$form->field( 'email' )?>
+					<?=$form->field( 'locale' )?>
+					<?=$form->field( 'first_name' )?>
+					<?=$form->field( 'surname' )?>
+					<?=$form->field( 'description' )?>
+					<?=$form->field( 'roles' )?>
+
+					<hr class="separator">
+					<?=$form->field( 'user_is_activated' )?>
+					<hr class="separator">
+					<?=$form->field( 'user_is_blocked' )?>
+					<?=$form->field( 'user_is_blocked_till' )?>
+					<hr class="separator">
+					<?=$form->field( 'password_is_valid' )?>
+					<?=$form->field( 'password_is_valid_till' )?>
+					<hr class="separator">
+
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-
 <?=$form->end()?>

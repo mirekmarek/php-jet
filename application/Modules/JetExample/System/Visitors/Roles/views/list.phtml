@@ -57,19 +57,24 @@ $grid->getColumn( 'description' )->setRenderer(
 	}
 );
 ?>
-<div class="row toolbar">
-	<div class="col-xs-7 col-md-3">
-		<?=$this->getRaw( 'search_form' ) ?>
-	</div>
-	<div class="col-xs-5 col-md-3">
-		<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
-			<?=UI::button_create( Tr::_( 'Create a new Role' ) )->setUrl( $add_uri )?>
-		<?php endif; ?>
+<div class="row">
+	<div class="col-md-12" style="padding: 0px">
+		<div class="toolbar" id="main-toolbar">
+			<div class="col-xs-7 col-md-3">
+				<?=$this->getRaw( 'search_form' ) ?>
+			</div>
+			<div class="col-xs-5 col-md-3">
+				<?php if( ( $add_uri = $router->getAddURI() ) ): ?>
+					<?=UI::button_create( Tr::_( 'Create a new Role' ) )->setUrl( $add_uri )?>
+				<?php endif; ?>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-		<?=$grid->render();?>
+<div class="row main-row">
+	<div class="col-md-12 main-col">
+		<?=$grid->render()?>
 	</div>
 </div>
+

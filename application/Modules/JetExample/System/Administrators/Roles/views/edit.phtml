@@ -20,67 +20,66 @@ $available_privileges_list = $this->getRaw( 'available_privileges_list' );
 
 $form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
 $form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
-
-
 ?>
 
 <?=$form->start()?>
-
-<div class="row toolbar" id="main-toolbar">
-	<div class="col-md-12">
-		<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
-
-		<?php if( !$form->getIsReadonly() ): ?>
-			<?=UI::button_save()?>
-		<?php endif; ?>
-	</div>
-</div>
-
 <div class="row">
-	<div class="col-md-12 main-col">
+	<div class="col-md-12" style="padding: 0px">
+		<div class="toolbar" id="main-toolbar">
+			<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+
+			<?php if( !$form->getIsReadonly() ): ?>
+				<?=UI::button_save()?>
+			<?php endif; ?>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row main-row">
+				<div class="col-md-12 main-col">
+					<?=$form->field( 'name' )?>
+					<?=$form->field( 'description' )?>
+
+					<fieldset>
+						<legend><?=Tr::_( 'Privileges' );?></legend>
+						<?php foreach( $available_privileges_list as $privilege => $pd ):
+							$fl = $form->field( '/privileges/'.$privilege.'/values' );
+
+							$fl->input()->addCustomCssStyle( 'height:300px' );
+							?>
+							<?=$fl?>
+						<?php endforeach; ?>
+					</fieldset>
 
 
-		<?=$form->field( 'name' )?>
-		<?=$form->field( 'description' )?>
+					<?php if( $role&&count( $role->getUsers() ) ): ?>
+						<fieldset style="margin-top: 30px">
+							<legend><?=Tr::_( 'Users' );?></legend>
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th><?=Tr::_( 'Username' );?></th>
+								</tr>
+								</thead>
+								<tbody>
+								<?php foreach( $role->getUsers() as $user ):
+									/**
+									 * @var Auth_Administrator_User $user
+									 */
+									?>
+									<tr>
+										<td>
+											<?=$user->getUsername();?>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+								</tbody>
+							</table>
+						</fieldset>
+					<?php endif; ?>
 
-		<fieldset>
-			<legend><?=Tr::_( 'Privileges' );?></legend>
-			<?php foreach( $available_privileges_list as $privilege => $pd ):
-				$fl = $form->field( '/privileges/'.$privilege.'/values' );
-
-				$fl->input()->addCustomCssStyle( 'height:300px' );
-				?>
-				<?=$fl?>
-			<?php endforeach; ?>
-		</fieldset>
-
-
-		<?php if( $role&&count( $role->getUsers() ) ): ?>
-			<fieldset style="margin-top: 30px">
-				<legend><?=Tr::_( 'Users' );?></legend>
-				<table class="table table-striped">
-					<thead>
-					<tr>
-						<th><?=Tr::_( 'Username' );?></th>
-					</tr>
-					</thead>
-					<tbody>
-					<?php foreach( $role->getUsers() as $user ):
-						/**
-						 * @var Auth_Administrator_User $user
-						 */
-						?>
-						<tr>
-							<td>
-								<?=$user->getUsername();?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-					</tbody>
-				</table>
-			</fieldset>
-		<?php endif; ?>
-
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <?=$form->end()?>
