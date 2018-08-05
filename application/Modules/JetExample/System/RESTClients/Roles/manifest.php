@@ -31,12 +31,14 @@ return [
 	],
 
 	'menu_items' => [
-		'system' => [
-			'rest_clients_roles' => [
-				'page_id' => 'rest-clients-roles',
-				'index'   => 301,
+		'admin' => [
+			'system' => [
+				'rest_clients_roles' => [
+					'page_id' => 'rest-clients-roles',
+					'index'   => 301,
+				],
 			],
-		]
+		],
 	],
 
 ];

@@ -312,6 +312,8 @@ class IO_Dir
 			$options = GLOB_ERR;
 		}
 
+		$options = $options|GLOB_BRACE;
+
 		$files = glob( $pattern, $options );
 
 		if( $files===false ) {

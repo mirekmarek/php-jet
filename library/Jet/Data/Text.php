@@ -81,7 +81,7 @@ class Data_Text
 		return htmlspecialchars(
 			htmlspecialchars_decode(
 				trim(
-					strip_tags($input)
+					$input
 				)
 			), $flag, JET_CHARSET);
 

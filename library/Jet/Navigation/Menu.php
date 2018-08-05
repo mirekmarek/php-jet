@@ -122,19 +122,19 @@ class Navigation_Menu extends BaseObject
 			static::initMenuByData( $menu_data[$menu_namespace], $translator_namespace );
 		}
 
-		static::initModuleMenuItems();
+		static::initModuleMenuItems( $menu_namespace );
 	}
 
 	/**
-	 *
+	 * @param string $menu_namespace
 	 */
-	public static function initModuleMenuItems()
+	public static function initModuleMenuItems( $menu_namespace )
 	{
 		foreach( Application_Modules::activatedModulesList() as $manifest ) {
 			/**
 			 * @var Application_Module_Manifest $manifest
 			 */
-			foreach( $manifest->getMenuItems() as $menu_item ) {
+			foreach( $manifest->getMenuItems( $menu_namespace ) as $menu_item ) {
 
 				$menu = Navigation_Menu::getMenu( $menu_item->getMenuId() );
 

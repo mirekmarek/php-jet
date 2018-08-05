@@ -30,10 +30,12 @@ return [
 	],
 
 	'menu_items' => [
-		'system' => [
-			'visitor_roles' => [
-				'page_id' => 'visitors-roles',
-				'index'   => 101,
+		'admin' => [
+			'system' => [
+				'visitor_roles' => [
+					'page_id' => 'visitors-roles',
+					'index'   => 101,
+				],
 			],
 		],
 	],

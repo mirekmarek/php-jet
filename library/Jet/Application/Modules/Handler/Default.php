@@ -564,7 +564,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	protected function _saveInstalledModulesList()
 	{
 		IO_File::write(
-			$this->installed_modules_list_file_path,
+			$this->getInstalledModulesListFilePath(),
 			'<?php'.JET_EOL.' return '.var_export( $this->installed_modules_list, true ).';'.JET_EOL
 		);
 	}
@@ -575,7 +575,7 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	protected function _saveActivatedModulesList()
 	{
 		IO_File::write(
-			$this->activated_modules_list_file_path,
+			$this->getActivatedModulesListFilePath(),
 			'<?php'.JET_EOL.' return '.var_export( $this->activated_modules_list, true ).';'.JET_EOL
 		);
 	}

@@ -30,11 +30,13 @@ return [
 	],
 
 	'menu_items' => [
-		'system' => [
-			'administrator_users' => [
-				'separator_before' => true,
-				'page_id'          => 'administrators-users',
-				'index'            => 200,
+		'admin' => [
+			'system' => [
+				'administrator_users' => [
+					'separator_before' => true,
+					'page_id'          => 'administrators-users',
+					'index'            => 200,
+				],
 			],
 		],
 	],

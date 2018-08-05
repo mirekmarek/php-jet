@@ -851,17 +851,13 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 			}
 		}
 
-		unset( $data['site_id'] );
-		unset( $data['locale'] );
 		unset( $data['data_file_path'] );
 		unset( $data['relative_path'] );
-		unset( $data['protected $parent_id'] );
 		unset( $data['parent_id'] );
 		unset( $data['children'] );
+		unset( $data['site_id'] );
+		unset( $data['locale'] );
 		unset( $data['order'] );
-		unset( $data['relative_path'] );
-		unset( $data['relative_path_fragment'] );
-
 
 
 		$data['meta_tags'] = [];

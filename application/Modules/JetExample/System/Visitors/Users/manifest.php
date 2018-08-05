@@ -31,10 +31,12 @@ return [
 	],
 
 	'menu_items' => [
-		'system' => [
-			'visitor_users' => [
-				'page_id' => 'visitors-users',
-				'index'   => 100,
+		'admin' => [
+			'system' => [
+				'visitor_users' => [
+					'page_id' => 'visitors-users',
+					'index'   => 100,
+				],
 			],
 		],
 	],

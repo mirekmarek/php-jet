@@ -42,10 +42,12 @@ return [
 	],
 
 	'menu_items' => [
-		'content' => [
-			'articles' => [
-				'page_id' => 'articles',
-			],
+		'admin' => [
+			'content' => [
+				'articles' => [
+					'page_id' => 'articles',
+				],
+			]
 		]
 	],
 

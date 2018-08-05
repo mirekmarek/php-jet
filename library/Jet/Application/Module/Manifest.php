@@ -432,19 +432,24 @@ class Application_Module_Manifest extends BaseObject
 
 	/**
 	 *
-	 * @param null|string|bool $translator_namespace
+	 * @param string $menu_namespace
+	 * @param null|string $translator_namespace
 	 *
 	 * @return Navigation_Menu_Item[]
 	 */
-	public function getMenuItems( $translator_namespace=null )
+	public function getMenuItems( $menu_namespace, $translator_namespace=null )
 	{
+
+		if(!isset($this->menu_items[$menu_namespace])) {
+			return [];
+		}
+
 		if($translator_namespace===null) {
 			$translator_namespace = $this->getName();
 		}
 
 		$res = [];
-
-		foreach( $this->menu_items as $menu_id=>$menu_items_data ) {
+		foreach( $this->menu_items[$menu_namespace] as $menu_id=>$menu_items_data ) {
 			foreach( $menu_items_data as $item_id=>$menu_item_data ) {
 				$label = '';
 

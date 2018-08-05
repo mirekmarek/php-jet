@@ -59,9 +59,11 @@ return [
 	],
 
 	'menu_items' => [
-		'content' => [
-			'images' => [
-				'page_id' => 'images',
+		'admin' => [
+			'content' => [
+				'images' => [
+					'page_id' => 'images',
+				],
 			],
 		],
 	],
