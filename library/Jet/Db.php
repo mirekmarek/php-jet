@@ -74,6 +74,14 @@ class Db extends BaseObject
 	}
 
 	/**
+	 * @param Db_Config $config
+	 */
+	public static function setConfig( Db_Config $config )
+	{
+		static::$config = $config;
+	}
+
+	/**
 	 * @param string $connection_name
 	 * @param array  $connection_config_data
 	 *

@@ -13,6 +13,21 @@ namespace Jet;
 abstract class DataModel_Backend extends BaseObject
 {
 	/**
+	 * @var array
+	 */
+	protected static $backend_types = [
+			'MySQL' => [
+				'title' => 'MySQL / MariaDB',
+				'driver' => Db::DRIVER_MYSQL
+			],
+			'SQLite' => [
+				'title' => 'SQLite',
+				'driver' => Db::DRIVER_SQLITE
+			]
+
+		];
+
+	/**
 	 * @var DataModel_Config
 	 */
 	protected static $_main_config;
@@ -38,6 +53,52 @@ abstract class DataModel_Backend extends BaseObject
 	 * @var DataModel_Backend_Config
 	 */
 	protected $config;
+
+	/**
+	 * @param bool $as_hash
+	 *
+	 * @return array
+	 */
+	public static function getBackendTypes( $as_hash=false )
+	{
+
+		$drivers = Db_Backend_PDO_Config::getDrivers();
+
+		foreach( static::$backend_types as $type => $data ) {
+			if( !in_array( $data['driver'], $drivers ) ) {
+				unset( static::$backend_types[$type] );
+			} else {
+				static::$backend_types[$type]['type'] = $type;
+			}
+		}
+
+		if( $as_hash ) {
+			$types = [];
+
+			foreach( static::$backend_types as $type => $d ) {
+				$types[$type] = $d['title'];
+			}
+
+			return $types;
+
+		}
+
+		return static::$backend_types;
+
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $driver
+	 * @param string $title
+	 */
+	public static function addBackendType( $type, $driver, $title )
+	{
+		static::$backend_types[$type] = [
+			'title'  => $title,
+			'driver' => $driver
+		];
+	}
 
 
 	/**

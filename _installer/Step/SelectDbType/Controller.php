@@ -7,22 +7,14 @@
  */
 namespace JetApplication;
 
-use Jet\Config_Section;
-use Jet\Db;
-use Jet\Db_Backend_PDO_Config;
 use Jet\Form;
 use Jet\Form_Field_Select;
-use Jet\Db_Factory;
 use Jet\Db_Config;
 use Jet\DataModel_Config;
-use Jet\DataModel_Backend_MySQL_Config;
-use Jet\DataModel_Backend_SQLite_Config;
-use Jet\DataModel_Factory;
 use Jet\Http_Headers;
-use Jet\Mvc_Site;
 use Jet\UI_messages;
 use Jet\Tr;
-use Jet\Config;
+use Jet\DataModel_Backend;
 
 /**
  *
@@ -30,13 +22,7 @@ use Jet\Config;
 class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 {
 
-	/**
-	 * @var array
-	 */
-	protected static $database_types = [
-		Db::DRIVER_MYSQL  => 'MySQL / MariaDB',
-		Db::DRIVER_SQLITE => 'SQLite',
-	];
+
 	/**
 	 * @var string
 	 */
@@ -55,9 +41,10 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function main()
 	{
+
 		$db_type_field = new Form_Field_Select( 'type', 'Please database type: ' );
-		$db_type_field->setSelectOptions( static::getDbTypes() );
-		$db_type_field->setDefaultValue( static::getSelectedDbType() );
+		$db_type_field->setSelectOptions( DataModel_Backend::getBackendTypes(true) );
+		$db_type_field->setDefaultValue( static::getSelectedBackendType()['type'] );
 		$db_type_field->setIsRequired( true );
 
 		$db_type_field->setErrorMessages(
@@ -68,9 +55,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		);
 
 		$select_db_type_form = new Form(
-			'select_db_type_form', [
-				                     $db_type_field,
-			                     ]
+			'select_db_type_form', [ $db_type_field ]
 		);
 
 
@@ -80,72 +65,24 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 		) {
 			static::setSelectedDbType( $db_type_field->getValue() );
 
+			$driver = static::getSelectedBackendType()['driver'];
+
 			$data_model_config = new DataModel_Config();
 			$db_config = new Db_Config();
 
-			$data_model_backend_config = null;
+			require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig.php';
+			require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig/'.$driver.'.php';
 
-			switch( static::getSelectedDbType() ) {
-				case Db::DRIVER_MYSQL:
-					$connection_config = Db_Factory::getBackendConfigInstance();
-					$connection_config->setName( 'default' );
-					$connection_config->setDriver( Db::DRIVER_MYSQL );
-					$connection_config->setUsername( '' );
-					$connection_config->setPassword( '' );
-					$connection_config->setDSN( 'host=localhost;port=3306;dbname=;charset=utf8' );
+			$class_name = __NAMESPACE__.'\\Installer_DbDriverConfig_'.$driver;
 
-					$db_config->addConnection( 'default', $connection_config );
-
-					try {
-						$db_config->writeConfigFile();
-					} catch( \Exception $e ) {
-						UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
-						Http_Headers::reload();
-					}
-
-
-					$data_model_config->setBackendType( 'MySQL' );
-					/**
-					 * @var DataModel_Backend_MySQL_Config $data_model_backend_config
-					 */
-					$data_model_backend_config = $data_model_config->getBackendConfig();
-					$data_model_backend_config->setConnectionRead( 'default' );
-					$data_model_backend_config->setConnectionWrite( 'default' );
-
-
-					break;
-				case Db::DRIVER_SQLITE:
-					$data_path = JET_PATH_DATA;
-					$data_file_name = 'database';
-
-					$connection_config = Db_Factory::getBackendConfigInstance();
-					$connection_config->setName( 'default' );
-					$connection_config->setDriver( Db::DRIVER_SQLITE );
-					$connection_config->setUsername( '' );
-					$connection_config->setPassword( '' );
-					$connection_config->setDSN( $data_path.$data_file_name.'.sq3' );
-
-					$db_config->addConnection( 'default', $connection_config );
-
-					try {
-						$db_config->writeConfigFile();
-					} catch( \Exception $e ) {
-						UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
-						Http_Headers::reload();
-					}
-
-
-					$data_model_config->setBackendType( 'SQLite' );
-					/**
-					 * @var DataModel_Backend_SQLite_Config $data_model_backend_config
-					 */
-					$data_model_backend_config = $data_model_config->getBackendConfig();
-					$data_model_backend_config->setConnection( 'default' );
-
-					break;
-			}
+			/**
+			 * @var Installer_DbDriverConfig $driver_config
+			 */
+			$driver_config = new $class_name();
+			$driver_config->initialize(  $db_config, $data_model_config );
 
 			try {
+				$db_config->writeConfigFile();
 				$data_model_config->writeConfigFile();
 			} catch( \Exception $e ) {
 				UI_messages::danger( Tr::_('Something went wrong: %error%', ['error'=>$e->getMessage()]) );
@@ -163,37 +100,23 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 
 	}
 
+
 	/**
 	 * @return array
 	 */
-	public static function getDbTypes()
-	{
-		$drivers = Db_Backend_PDO_Config::getDrivers();
-
-		foreach( static::$database_types as $type => $label ) {
-			if( !in_array( $type, $drivers ) ) {
-				unset( static::$database_types[$type] );
-			}
-
-		}
-
-		return static::$database_types;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function getSelectedDbType()
+	public static function getSelectedBackendType()
 	{
 		$session = Installer::getSession();
 
-		if( !$session->getValueExists( 'db_type' ) ) {
-			list( $default ) = array_keys( static::getDbTypes() );
+		$types = DataModel_Backend::getBackendTypes();
 
-			$session->setValue( 'db_type', $default );
+		if( !$session->getValueExists( 'backend_type' ) ) {
+			list( $default ) = array_keys( $types );
+
+			$session->setValue( 'backend_type', $default );
 		}
 
-		return $session->getValue( 'db_type' );
+		return $types[$session->getValue( 'backend_type' )];
 	}
 
 	/**
@@ -201,11 +124,12 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public static function setSelectedDbType( $type )
 	{
-		if( !isset( static::getDbTypes()[$type] ) ) {
+
+		if( !isset( DataModel_Backend::getBackendTypes()[$type] ) ) {
 			return;
 		}
 
-		Installer::getSession()->setValue( 'db_type', $type );
+		Installer::getSession()->setValue( 'backend_type', $type );
 
 	}
 
@@ -214,7 +138,7 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function getStepsAfter()
 	{
-		if( static::getSelectedDbType()==Db::DRIVER_MYSQL )
+		//if( static::getSelectedBackendType()['driver']!=Db::DRIVER_SQLITE )
 		{
 			return [ 'ConfigureDb' ];
 		}

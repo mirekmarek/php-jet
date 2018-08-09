@@ -10,12 +10,8 @@ namespace JetApplication;
 use Jet\Db;
 use Jet\Db_Config;
 use Jet\Db_Backend_PDO_Config;
-use Jet\Form;
-use Jet\Form_Field_Input;
-use Jet\Form_Field_Password;
 use Jet\Http_Request;
 use Jet\Http_Headers;
-use Jet\Mvc_Site;
 use Jet\UI_messages;
 use Jet\Tr;
 
@@ -52,115 +48,46 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 		$this->main_config = new Db_Config();
 
 		$connection_name = 'default';
-		$connection_type = 'mysql';
 
-		$this->view->setVar( 'connection_type', $connection_type );
-
-		$GET = Http_Request::GET();
-
-		if( $GET->exists( 'test_connection' ) ) {
-			$this->{'_testConnection_'.$connection_type}( $connection_name );
-		} else {
-			$this->{'_editConnection_'.$connection_type}( $connection_name );
-		}
-
-	}
-
-
-	/**
-	 * @param string $edit_connection_name
-	 */
-	protected function _editConnection_mysql( $edit_connection_name )
-	{
 		/**
 		 * @var Db_Backend_PDO_Config $connection_config
 		 */
-		$connection_config = $this->main_config->getConnection( $edit_connection_name );
+		$connection_config = $this->main_config->getConnection( $connection_name );
 		if( !$connection_config ) {
 			return;
 		}
 
-		$DSN_data = [
-			'host'        => 'localhost',
-			'port'        => 3306,
-			'dbname'      => '',
-			'unix_socket' => '',
-		];
 
-		$DSN = $connection_config->getDsn();
-		$DSN = explode( ':', $DSN );
+		$GET = Http_Request::GET();
 
-		if( count( $DSN )==2 ) {
-			$DSN = $DSN[1];
-			$DSN = explode( ';', $DSN );
-
-			foreach( $DSN as $DSN_line ) {
-				$DSN_line = explode( '=', $DSN_line );
-				if( count( $DSN_line )!=2 ) {
-					continue;
-				}
-
-				list( $key, $val ) = $DSN_line;
-
-				if( array_key_exists( $key, $DSN_data ) ) {
-					$DSN_data[$key] = $val;
-				}
-			}
+		if( $GET->exists( 'test_connection' ) ) {
+			$this->test( $connection_config );
+		} else {
+			$this->configure( $connection_config );
 		}
+	}
 
 
-		$username = new Form_Field_Input( 'username', 'Username:', $connection_config->getUsername() );
-		$username->setIsRequired( true );
-		$username->setErrorMessages(
-			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter username',
-			]
-		);
+	/**
+	 * @param $connection_config
+	 */
+	protected function configure( Db_Backend_PDO_Config $connection_config )
+	{
+		$driver = $connection_config->getDriver();
 
-		$password = new Form_Field_Password( 'password', 'Password:', $connection_config->getPassword() );
-		$password->setIsRequired( true );
-		$password->setErrorMessages(
-			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the password',
-			]
-		);
+		require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig.php';
+		require JET_APP_INSTALLER_PATH.'Classes/DbDriverConfig/'.$driver.'.php';
 
-		$dbname = new Form_Field_Input( 'dbname', 'Database:', $DSN_data['dbname'] );
-		$dbname->setIsRequired( true );
-		$dbname->setErrorMessages(
-			[
-				Form_Field_Input::ERROR_CODE_EMPTY => 'Please enter the name of the database',
-			]
-		);
+		$class_name = __NAMESPACE__.'\\Installer_DbDriverConfig_'.$driver;
 
+		/**
+		 * @var Installer_DbDriverConfig $driver_config
+		 */
+		$driver_config = new $class_name( $connection_config );
 
-		$host = new Form_Field_Input( 'host', 'Host:', $DSN_data['host'] );
-		$port = new Form_Field_Input( 'port', 'Port:', $DSN_data['port'] );
-		$unix_socket = new Form_Field_Input( 'unix_socket', 'Unix socket path:', $DSN_data['unix_socket'] );
+		$form = $driver_config->getForm();
 
-
-		$form = new Form(
-			'edit_connection', [
-				                 $username, $password, $dbname, $host, $port, $unix_socket,
-			                 ]
-		);
-
-		$form->setAutocomplete(false);
-
-		if( $form->catchInput()&&$form->validate() ) {
-
-			if( $unix_socket->getValue() ) {
-				$DSN = 'unix_socket='.$unix_socket->getValue();
-			} else {
-				$DSN = 'host='.$host->getValue().';port='.$port->getValue();
-			}
-
-			$DSN .= ';dbname='.$dbname->getValue();
-			$DSN .= ';charset=utf8';
-
-			$connection_config->setUsername( $username->getValue() );
-			$connection_config->setPassword( $password->getValue() );
-			$connection_config->setDSN( $DSN );
+		if($driver_config->catchForm()) {
 
 			$ok = true;
 
@@ -182,21 +109,16 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 	}
 
 	/**
-	 * @param string $test_connection_name
+	 * @param $connection_config
 	 */
-	protected function _testConnection_mysql( $test_connection_name )
+	protected function test( Db_Backend_PDO_Config $connection_config )
 	{
-		$connection_config = $this->main_config->getConnection( $test_connection_name );
-		if( !$connection_config ) {
-			return;
-		}
 
-		$form = $connection_config->getCommonForm();
 
 		$OK = true;
 		$error_message = '';
 		try {
-			Db::get( $test_connection_name );
+			Db::get( $connection_config->getName() );
 		} catch( \Exception $e ) {
 			$error_message = $e->getMessage();
 			$OK = false;
@@ -205,9 +127,10 @@ class Installer_Step_ConfigureDb_Controller extends Installer_Step_Controller
 		if( $OK ) {
 			$this->catchContinue();
 		}
+		$form = $connection_config->getCommonForm();
 
 		$this->view->setVar( 'form', $form );
-		$this->view->setVar( 'connection_name', $test_connection_name );
+		$this->view->setVar( 'connection_name', $connection_config->getName() );
 		$this->view->setVar( 'config', $connection_config );
 		$this->view->setVar( 'OK', $OK );
 		$this->view->setVar( 'error_message', $error_message );

@@ -874,9 +874,9 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 			unset($data['sub_app_index_file_name']);
 			unset($data['sub_app_php_file_extensions']);
 
-			$data['content'] = [];
+			$data['contents'] = [];
 			foreach( $this->content as $content ) {
-				$data['content'][] = $content->toArray();
+				$data['contents'][] = $content->toArray();
 			}
 		} else {
 			unset($data['layout_script_name']);

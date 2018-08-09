@@ -1,4 +1,6 @@
 <?php
+namespace JetApplication;
+
 use Jet\Form;
 use Jet\Mvc_View;
 
@@ -7,7 +9,18 @@ use Jet\Mvc_View;
  * @var Form     $form
  */
 $form = $this->getRaw( 'form' );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+
+?>
+<?=$form->start()?>
+<?=$form->message()?>
+
+<?php foreach( $form->getFields() as $field ):
+	echo $field;
+endforeach; ?>
 
 
-/** @noinspection PhpIncludeInspection */
-require 'parts/connection_'.$this->getString( 'connection_type' ).'.phtml';
+<?=Installer::buttonNext();?>
+
+<?=$form->end()?>
+
