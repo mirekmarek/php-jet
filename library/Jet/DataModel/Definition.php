@@ -198,7 +198,7 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			case 'name':
 				if( !empty( $data->result_data['data_model_name'] ) ) {
 					throw new Reflection_Exception(
-						'@Jet_DataModel:model_name is defined by parent and can\'t be overloaded! '
+						'@Jet_DataModel:name is defined by parent and can\'t be overloaded! '
 					);
 
 				}
