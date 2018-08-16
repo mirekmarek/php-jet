@@ -67,6 +67,20 @@ class Form_Field_Date extends Form_Field_Input
 
 
 	/**
+	 * @param Data_Array $data
+	 */
+	public function catchInput( Data_Array $data )
+	{
+		parent::catchInput( $data );
+
+		if( $this->_value==='' ) {
+			$this->_value = null;
+		}
+
+	}
+
+
+	/**
 	 * validate value
 	 *
 	 * @return bool
@@ -74,21 +88,17 @@ class Form_Field_Date extends Form_Field_Input
 	public function validate()
 	{
 
-		if(
-			!$this->is_required &&
-			$this->_value===''
-		) {
-			$this->_value = null;
-
-			return true;
-		}
-
 		if( $this->_value ) {
 			$check = \DateTime::createFromFormat( 'Y-m-d', $this->_value );
 
 			if( !$check ) {
 				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
+				return false;
+			}
+		} else {
+			if($this->is_required) {
+				$this->setError( self::ERROR_CODE_EMPTY );
 				return false;
 			}
 		}

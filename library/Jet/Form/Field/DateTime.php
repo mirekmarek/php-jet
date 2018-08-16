@@ -67,21 +67,25 @@ class Form_Field_DateTime extends Form_Field_Input
 	];
 
 	/**
+	 * @param Data_Array $data
+	 */
+	public function catchInput( Data_Array $data )
+	{
+		parent::catchInput( $data );
+
+		if( $this->_value==='' ) {
+			$this->_value = null;
+		}
+
+	}
+
+	/**
 	 * validate value
 	 *
 	 * @return bool
 	 */
 	public function validate()
 	{
-		if(
-			!$this->is_required &&
-			$this->_value===''
-		) {
-			$this->_value = null;
-
-			return true;
-		}
-
 
 		if( $this->_value ) {
 
@@ -91,6 +95,11 @@ class Form_Field_DateTime extends Form_Field_Input
 			if( !$check && !$check_c ) {
 				$this->setError( self::ERROR_CODE_INVALID_FORMAT );
 
+				return false;
+			}
+		} else {
+			if($this->is_required) {
+				$this->setError( self::ERROR_CODE_EMPTY );
 				return false;
 			}
 		}
