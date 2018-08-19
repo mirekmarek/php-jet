@@ -489,6 +489,15 @@ class Form extends BaseObject
 	}
 
 	/**
+	 * @param string $name
+	 */
+	public function setName( $name )
+	{
+		$this->name = $name;
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getSentKey()
