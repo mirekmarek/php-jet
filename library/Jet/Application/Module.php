@@ -207,10 +207,7 @@ abstract class Application_Module extends BaseObject
 			);
 		}
 
-		return Auth::getCurrentUserHasPrivilege(
-			Auth_Role::PRIVILEGE_MODULE_ACTION,
-			$module_name.':'.$action
-		);
+		return Auth::checkModuleActionAccess( $module_name, $action );
 	}
 	
 }

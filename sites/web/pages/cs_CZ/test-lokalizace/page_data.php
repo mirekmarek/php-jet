@@ -9,7 +9,7 @@ return [
     ],
     'contents' => [
 	    [
-		    'module_name' => 'JetExample.Test.Locale',
+		    'module_name' => 'Test.Locale',
 		    'controller_action' => 'test_locale',
 		    'output_position_order' => 1
 	    ]

@@ -16,13 +16,13 @@ class Auth extends BaseObject
 
 	/**
 	 *
-	 * @var Auth_ControllerInterface
+	 * @var Auth_Controller_Interface
 	 */
 	protected static $controller;
 
 	/**
 	 *
-	 * @return Auth_ControllerInterface
+	 * @return Auth_Controller_Interface
 	 */
 	public static function getController()
 	{
@@ -30,9 +30,9 @@ class Auth extends BaseObject
 	}
 
 	/**
-	 * @param Auth_ControllerInterface $controller
+	 * @param Auth_Controller_Interface $controller
 	 */
-	public static function setController( Auth_ControllerInterface $controller )
+	public static function setController( Auth_Controller_Interface $controller )
 	{
 		static::$controller = $controller;
 	}
@@ -86,11 +86,18 @@ class Auth extends BaseObject
 	 */
 	public static function getCurrentUserHasPrivilege( $privilege, $value )
 	{
-		if( ( $current_user = static::getCurrentUser() ) ) {
-			return $current_user->hasPrivilege( $privilege, $value );
-		}
+		return static::getController()->getCurrentUserHasPrivilege( $privilege, $value );
+	}
 
-		return false;
+	/**
+	 * @param string $module_name
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public static function checkModuleActionAccess( $module_name, $action )
+	{
+		return static::getController()->checkModuleActionAccess( $module_name, $action );
 	}
 
 	/**
@@ -100,7 +107,7 @@ class Auth extends BaseObject
 	 */
 	public static function checkPageAccess( Mvc_Page_Interface $page )
 	{
-		return self::getController()->checkPageAccess( $page );
+		return static::getController()->checkPageAccess( $page );
 	}
 
 	/**

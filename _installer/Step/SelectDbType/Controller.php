@@ -138,11 +138,15 @@ class Installer_Step_SelectDbType_Controller extends Installer_Step_Controller
 	 */
 	public function getStepsAfter()
 	{
-		//if( static::getSelectedBackendType()['driver']!=Db::DRIVER_SQLITE )
+		return [ 'ConfigureDb' ];
+
+		/*
+		if( static::getSelectedBackendType()['driver']!=Db::DRIVER_SQLITE )
 		{
 			return [ 'ConfigureDb' ];
 		}
 
 		return false;
+		*/
 	}
 }

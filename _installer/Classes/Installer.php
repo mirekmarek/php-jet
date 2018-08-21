@@ -10,7 +10,6 @@ namespace JetApplication;
 use Jet\Config;
 use Jet\Http_Request;
 use Jet\Http_Headers;
-use Jet\Application;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Layout;
 use Jet\Locale;

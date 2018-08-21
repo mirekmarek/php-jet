@@ -8,16 +8,8 @@
 namespace JetApplication;
 
 use Jet\Application_Log;
-use Jet\Application_Modules;
-use Jet\Application_Module_Manifest;
-
-use Jet\Mvc_Factory;
 use Jet\Mvc_Site;
-use Jet\Mvc_Page;
 use Jet\Mvc_Router;
-
-use Jet\Locale;
-
 use Jet\Auth;
 
 /**

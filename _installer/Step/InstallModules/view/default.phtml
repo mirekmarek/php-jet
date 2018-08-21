@@ -23,7 +23,6 @@ $form = $this->getRaw( 'form' );
 		<thead>
 		<tr>
 			<th></th>
-			<th><?=Tr::_( 'Vendor' );?></th>
 			<th><?=Tr::_( 'Module' );?></th>
 			<th><?=Tr::_( 'Installed?' );?></th>
 			<th><?=Tr::_( 'Activated?' );?></th>
@@ -47,7 +46,6 @@ $form = $this->getRaw( 'form' );
 						endif;
 					endif; ?>
 				</td>
-				<td><?=$manifest->getVendor();?></td>
 				<td>
 					<label for="module_<?=$manifest->getName();?>"><?=$manifest->getLabel();?> </label>
 					<br/>

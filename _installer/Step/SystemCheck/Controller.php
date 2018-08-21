@@ -9,8 +9,6 @@ namespace JetApplication;
 
 require 'CompatibilityTester.php';
 
-use Jet\Mvc_Site;
-
 /**
  *
  */

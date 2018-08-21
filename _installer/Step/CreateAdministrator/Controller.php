@@ -50,7 +50,6 @@ class Installer_Step_CreateAdministrator_Controller extends Installer_Step_Contr
 				$api_user->setUsername( $administrator->getUsername() );
 				$api_user->setLocale( $administrator->getLocale() );
 				$api_user->setEmail( $administrator->getEmail() );
-				$api_user->setIsSuperuser( true );
 				$api_user->setPassword( $form->getField('password')->getValue() );
 				$api_user->save();
 

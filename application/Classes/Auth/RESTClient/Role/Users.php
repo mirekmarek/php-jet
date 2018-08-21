@@ -7,16 +7,26 @@
  */
 namespace JetApplication;
 
-use Jet\Auth_Role_Users;
+use Jet\DataModel_Related_MtoN;
 
 /**
  *
  *
+ * @JetDataModel:name = 'roles_users'
  * @JetDataModel:database_table_name = 'users_rest_clients_roles'
  *
  * @JetDataModel:M_model_class_name = 'Auth_RESTClient_Role'
  * @JetDataModel:N_model_class_name = 'Auth_RESTClient_User'
  */
-class Auth_RESTClient_Role_Users extends Auth_Role_Users
+class Auth_RESTClient_Role_Users extends DataModel_Related_MtoN
 {
+	/**
+	 * @JetDataModel:related_to = 'user.id'
+	 */
+	protected $user_id = '';
+
+	/**
+	 * @JetDataModel:related_to = 'role.id'
+	 */
+	protected $role_id = '';
 }

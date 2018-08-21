@@ -14,11 +14,6 @@ interface Auth_Role_Privilege_Interface
 {
 
 	/**
-	 * @param Auth_Role_Interface $role
-	 */
-	public function setRole( Auth_Role_Interface $role );
-
-	/**
 	 * @return string
 	 */
 	public function getPrivilege();

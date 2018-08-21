@@ -46,19 +46,10 @@ interface Auth_User_Interface
 	public static function getGetByUsername( $username );
 
 	/**
-	 * @return string
+	 * @return string|int
 	 */
 	public function getId();
 
-	/**
-	 * @return bool
-	 */
-	public function getIsSuperuser();
-
-	/**
-	 * @param bool $is_superuser
-	 */
-	public function setIsSuperuser( $is_superuser );
 
 	/**
 	 * @return string
@@ -97,87 +88,6 @@ interface Auth_User_Interface
 	public function verifyPassword( $plain_password );
 
 	/**
-	 * @param string $password
-	 *
-	 * @return bool
-	 */
-	public function verifyPasswordStrength( $password );
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function getPasswordIsValid();
-
-	/**
-	 *
-	 * @param bool $password_is_valid
-	 */
-	public function setPasswordIsValid( $password_is_valid );
-
-	/**
-	 *
-	 * @return Data_DateTime
-	 */
-	public function getPasswordIsValidTill();
-
-	/**
-	 *
-	 * @param string|Data_DateTime $password_is_valid_till
-	 *
-	 */
-	public function setPasswordIsValidTill( $password_is_valid_till );
-
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getEmail();
-
-	/**
-	 *
-	 * @param string $email
-	 */
-	public function setEmail( $email );
-
-	/**
-	 *
-	 * @return Locale
-	 */
-	public function getLocale();
-
-	/**
-	 *
-	 * @param Locale|string $locale
-	 */
-	public function setLocale( $locale );
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getFirstName();
-
-	/**
-	 *
-	 * @param string $first_name
-	 */
-	public function setFirstName( $first_name );
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getSurname();
-
-	/**
-	 *
-	 * @param string $surname
-	 */
-	public function setSurname( $surname );
-
-	/**
 	 *
 	 * @return string
 	 */
@@ -185,70 +95,9 @@ interface Auth_User_Interface
 
 	/**
 	 *
-	 * @return string
+	 * @param string[] $role_ids
 	 */
-	public function getDescription();
-
-	/**
-	 *
-	 * @param string $description
-	 */
-	public function setDescription( $description );
-
-
-	/**
-	 *
-	 * @return bool
-	 */
-	public function isBlocked();
-
-	/**
-	 *
-	 * @return Data_DateTime|null
-	 */
-	public function isBlockedTill();
-
-	/**
-	 *
-	 * @param Data_DateTime|string|null $till
-	 */
-	public function block( $till = null );
-
-	/**
-	 *
-	 */
-	public function unBlock();
-
-	/**
-	 * @return bool
-	 */
-	public function isActivated();
-
-	/**
-	 *
-	 * @param string $user_activation_hash (optional)
-	 *
-	 * @return bool
-	 */
-	public function activate( $user_activation_hash = null );
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getActivationKey();
-
-	/**
-	 *
-	 * @param string $user_activation_hash
-	 */
-	public function setActivationKey( $user_activation_hash );
-
-	/**
-	 *
-	 * @param string[] $roles_ids
-	 */
-	public function setRoles( array $roles_ids );
+	public function setRoles( array $role_ids );
 
 	/**
 	 *

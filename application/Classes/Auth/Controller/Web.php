@@ -8,8 +8,7 @@
 namespace JetApplication;
 
 use Jet\BaseObject;
-use Jet\Auth_ControllerInterface;
-use Jet\Auth_Role;
+use Jet\Auth_Controller_Interface;
 
 use Jet\Mvc;
 use Jet\Mvc_Factory;
@@ -29,9 +28,9 @@ use JetApplication\Auth_Visitor_User as Visitor;
 /**
  *
  */
-class Auth_Controller_Web extends BaseObject implements Auth_ControllerInterface
+class Auth_Controller_Web extends BaseObject implements Auth_Controller_Interface
 {
-	const LOGIN_FORM_MODULE_NAME = 'JetExample.Login.Web';
+	const LOGIN_FORM_MODULE_NAME = 'Login.Web';
 
 
 	const EVENT_LOGIN_FAILED = 'login_failed';
@@ -217,25 +216,49 @@ class Auth_Controller_Web extends BaseObject implements Auth_ControllerInterface
 		return true;
 	}
 
+
+	/**
+	 *
+	 * @param string $privilege
+	 * @param mixed  $value
+	 *
+	 * @return bool
+	 */
+	public function getCurrentUserHasPrivilege( $privilege, $value )
+	{
+		$current_user = $this->getCurrentUser();
+
+		if(
+			!$current_user ||
+			!($current_user instanceof Auth_Visitor_User)
+		) {
+			return false;
+		}
+
+		return $current_user->hasPrivilege($privilege, $value);
+	}
+
+
+	/**
+	 * @param string $module_name
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function checkModuleActionAccess( $module_name, $action )
+	{
+		return false;
+	}
+
+
 	/**
 	 * @param Mvc_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ) {
-
-		$current_user = $this->getCurrentUser();
-
-		if(!$current_user) {
-			return false;
-		}
-
-		return
-			(
-				$current_user instanceof Auth_Visitor_User &&
-				$current_user->hasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $page->getKey() )
-			);
-
+	public function checkPageAccess( Mvc_Page_Interface $page )
+	{
+		return $this->getCurrentUserHasPrivilege( Auth_Visitor_Role::PRIVILEGE_VISIT_PAGE, $page->getId() );
 	}
 
 

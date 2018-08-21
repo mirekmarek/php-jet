@@ -1,0 +1,75 @@
+<?php
+use Jet\UI;
+use JetApplication\Auth_Administrator_User;
+use Jet\Mvc;
+use Jet\Mvc_View;
+use Jet\Form;
+use Jet\Tr;
+
+/**
+ * @var Mvc_View                $this
+ * @var Form                    $form
+ * @var Auth_Administrator_User $user
+ */
+$form = $this->getRaw( 'form' );
+
+$form->setAutocomplete( false );
+$form->setDefaultLabelWidth( [ Form::LJ_SIZE_MEDIUM => 2 ] );
+$form->setDefaultFieldWidth( [ Form::LJ_SIZE_MEDIUM => 4 ] );
+
+$user = $this->getRaw( 'user' );
+?>
+
+
+<?=$form->start()?>
+
+<div class="row">
+	<div class="col-md-12" style="padding: 0px">
+
+
+		<div class="toolbar" id="main-toolbar">
+			<?=UI::button_goBack()->setUrl( Mvc::getCurrentPage()->getURI() )?>
+
+			<?php if( !$form->getIsReadonly() ): ?>
+				<?=UI::button_save()?>
+
+				<?php if( !$user->getIsNew() ): ?>
+					<div class="btn-group" style="margin-left: 10px">
+						<a href="?a=reset_password" class="btn btn-warning">
+							<?=UI::icon( 'refresh' )?>
+							<?=Tr::_( 'Reset password' )?>
+						</a>
+					</div>
+				<?php endif; ?>
+			<?php endif; ?>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row main-row">
+				<div class="col-md-12 main-col">
+
+
+					<?=$form->field( 'username' )?>
+
+					<?=$form->fieldExists( 'password' ) ? $form->field( 'password' ) : ''?>
+					<?=$form->field( 'email' )?>
+					<?=$form->field( 'locale' )?>
+					<?=$form->field( 'first_name' )?>
+					<?=$form->field( 'surname' )?>
+					<?=$form->field( 'description' )?>
+					<?=$form->field( 'roles' )?>
+
+					<hr class="separator">
+					<?=$form->field( 'user_is_blocked' )?>
+					<?=$form->field( 'user_is_blocked_till' )?>
+					<hr class="separator">
+					<?=$form->field( 'password_is_valid' )?>
+					<?=$form->field( 'password_is_valid_till' )?>
+					<hr class="separator">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?=$form->end()?>

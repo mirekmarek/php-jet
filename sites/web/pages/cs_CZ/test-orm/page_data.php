@@ -9,7 +9,7 @@ return [
     ],
     'contents' => [
 	    [
-		    'module_name' => 'JetExample.Test.ORM',
+		    'module_name' => 'Test.ORM',
 		    'controller_action' => 'test_orm',
 		    'output_position_order' => 1
 	    ]

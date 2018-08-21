@@ -9,12 +9,12 @@ return [
     ],
     'contents' => [
 	    [
-		    'module_name' => 'JetExample.Test.Forms',
+		    'module_name' => 'Test.Forms',
 		    'controller_action' => 'test_forms',
 		    'output_position_order' => 1
 	    ],
 	    [
-		    'module_name' => 'JetExample.Test.Forms',
+		    'module_name' => 'Test.Forms',
 		    'controller_action' => 'test_forms_data_model',
 		    'output_position_order' => 2
 	    ],

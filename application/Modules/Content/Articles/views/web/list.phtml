@@ -1,0 +1,53 @@
+<?php
+use JetApplicationModule\Content\Articles\Article;
+use Jet\Data_Paginator;
+use Jet\Locale;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View       $this
+ * @var Article[]      $articles_list
+ * @var Data_Paginator $paginator
+ */
+$articles_list = $this->getRaw( 'articles_list' );
+$paginator = $this->getRaw( 'paginator' );
+
+?>
+
+<?php foreach( $articles_list as $article ): ?>
+	<div>
+		<a href="<?=$article->getURL();?>" style="font-size: 25px;"><?=$article->getTitle();?></a>
+		<br/>
+		<span style="font-size: 10px;"><?=Locale::dateAndTime( $article->getDateTime() );?></span>
+		<p><?=$article->getAnnotation();?></p>
+	</div>
+	<hr/>
+<?php endforeach; ?>
+
+<div style="background-color: #eeeeee;padding: 10px;">
+	<div style="display: inline-block;width: 30px;">
+		<?php if( ( $p_URL = $paginator->getPrevPageURL() ) ): ?>
+			<a href="<?=$p_URL;?>" class="btn btn-default">&lt;</a>
+		<?php endif ?>
+	</div>
+	<div style="display: inline-block;width: 400px;text-align: center">
+		<?php foreach( $paginator->getPagesURL() as $p_no => $p_URL ): ?>
+			<?php if( $p_no==$paginator->getCurrentPageNo() ): ?>
+				<strong class="btn btn-info"><?php echo $p_no; ?></strong>
+			<?php else: ?>
+				<a href="<?=$p_URL;?>" class="btn btn-default btn-sm"><?=$p_no;?></a>
+			<?php endif; ?>
+		<?php endforeach; ?>
+
+	</div>
+	<div style="display: inline-block;width: 30px;">
+		<?php if( ( $p_URL = $paginator->getNextPageURL() ) ): ?>
+			<a href="<?=$p_URL;?>" class="btn btn-default">&gt;</a>
+		<?php endif ?>
+	</div>
+
+	<div style="display: inline-block;float:right;" class="btn">
+		<?=$paginator->getShowFrom();?> - <?=$paginator->getShowTo();?> / <?=$paginator->getDataItemsCount();?>
+	</div>
+</div>
+

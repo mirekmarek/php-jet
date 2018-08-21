@@ -8,7 +8,6 @@
 namespace JetApplication;
 
 use Jet\DataModel_Helper;
-use Jet\Mvc_Site;
 
 /**
  *

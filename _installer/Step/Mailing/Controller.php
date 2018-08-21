@@ -7,8 +7,6 @@
  */
 namespace JetApplication;
 
-use Jet\Form;
-use Jet\Form_Field_Email;
 use Jet\Mailing_Config_Sender;
 use Jet\Mvc_Site;
 use Jet\UI_messages;

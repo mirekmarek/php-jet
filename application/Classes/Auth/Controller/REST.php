@@ -8,7 +8,7 @@
 namespace JetApplication;
 
 use Jet\BaseObject;
-use Jet\Auth_ControllerInterface;
+use Jet\Auth_Controller_Interface;
 use Jet\Mvc_Page_Interface;
 
 use Jet\Debug;
@@ -22,7 +22,7 @@ use JetApplication\Auth_RESTClient_User as RESTClient;
 /**
  *
  */
-class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterface
+class Auth_Controller_REST extends BaseObject implements Auth_Controller_Interface
 {
 	const EVENT_LOGIN_FAILED = 'login_failed';
 	const EVENT_LOGIN_SUCCESS = 'login_success';
@@ -45,11 +45,6 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 			return false;
 		}
 
-		if( !$user->isActivated() ) {
-			$this->responseNotAuthorized('Yor account is not activated');
-
-			return false;
-		}
 
 		if( $user->isBlocked() ) {
 			$till = $user->isBlockedTill();
@@ -64,20 +59,6 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 
 				return false;
 			}
-		}
-
-		if( !$user->getPasswordIsValid() ) {
-			$this->responseNotAuthorized('You have to change your password');
-
-			return false;
-		}
-
-		if( ( $pwd_valid_till = $user->getPasswordIsValidTill() )!==null&&$pwd_valid_till<=Data_DateTime::now() ) {
-			$user->setPasswordIsValid( false );
-			$user->save();
-
-			$this->responseNotAuthorized('You have to change your password');
-			return false;
 		}
 
 		return true;
@@ -200,23 +181,57 @@ class Auth_Controller_REST extends BaseObject implements Auth_ControllerInterfac
 	}
 
 	/**
+	 *
+	 * @param string $privilege
+	 * @param mixed  $value
+	 *
+	 * @return bool
+	 */
+	public function getCurrentUserHasPrivilege( $privilege, $value )
+	{
+		$current_user = $this->getCurrentUser();
+
+		if(
+			!$current_user ||
+			!($current_user instanceof Auth_RESTClient_User)
+		) {
+			return false;
+		}
+
+		return $current_user->hasPrivilege($privilege, $value);
+	}
+
+
+	/**
+	 * @param string $module_name
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function checkModuleActionAccess( $module_name, $action )
+	{
+		return $this->getCurrentUserHasPrivilege( Auth_RESTClient_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action );
+	}
+
+
+	/**
 	 * @param Mvc_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ) {
+	public function checkPageAccess( Mvc_Page_Interface $page )
+	{
 
 		$current_user = $this->getCurrentUser();
 
-		if(!$current_user) {
+		if(
+			!$current_user ||
+			!($current_user instanceof Auth_RESTClient_User)
+		) {
 			return false;
 		}
 
-		return
-			(
-				$current_user instanceof Auth_RESTClient_User
-			);
-
+		return true;
 	}
 
 

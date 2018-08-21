@@ -7,7 +7,7 @@ return [
 	'meta_tags' => [],
 	'contents' => [
 		[
-			'module_name' => 'JetExample.AdminUI',
+			'module_name' => 'UI.Admin',
 			'controller_action' => 'default',
 			'output_position_order' => 0
 		]

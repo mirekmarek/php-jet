@@ -8,7 +8,6 @@
 namespace JetApplication;
 
 use Jet\Debug;
-use Jet\Debug_ErrorHandler;
 use Jet\Debug_ErrorHandler_Handler;
 use Jet\Debug_ErrorHandler_Error;
 

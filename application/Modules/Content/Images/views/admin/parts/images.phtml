@@ -1,0 +1,56 @@
+<?php
+namespace JetApplicationModule\Content\Images;
+
+use Jet\UI;
+use Jet\Tr;
+use Jet\Mvc_View;
+
+/**
+ * @var Mvc_View                     $this
+ * @var Gallery                      $gallery
+ * @var Controller_Admin_Router $router
+ */
+$gallery = $this->getRaw( 'gallery' );
+$images = $gallery->getImages();
+
+$router = $this->getController()->getControllerRouter();
+
+$delete_uri = $router->getDeleteImagesURI($gallery->getId());
+
+?>
+
+
+
+
+<?php if( count( $images ) ): ?>
+	<form action="<?=$delete_uri?>" method="post">
+		<div class="row">
+			<?php foreach( $images as $image ): ?>
+				<div style="float:left;margin: 10px;overflow: hidden;">
+					<div class="thumbnail" style="height: 200px;width: 200px;padding:10px;overflow: hidden">
+						<a href="<?=$image->getURI();?>" target="_blank">
+							<div
+								style="width:180px;height:135px;background-position:center;background-repeat:no-repeat;background-image: url('<?=$image->getThumbnail( 180, 135 )->getURI();?>');"
+							></div>
+						</a>
+
+						<div class="caption">
+							<p>
+								<?php if( $delete_uri ): ?>
+									<input type="checkbox" name="images[]"
+									       value="<?=$image->getIdObject();?>"
+									       id="image_<?=$image->getIdObject();?>">
+								<?php endif; ?>
+								<?=$image->getFileName();?>
+							</p>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<?php if( $delete_uri ): ?>
+			<?=UI::button_delete( Tr::_( 'Delete selected images' ) )->setType( 'submit' )?>
+		<?php endif; ?>
+	</form>
+<?php endif; ?>

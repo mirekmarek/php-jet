@@ -7,23 +7,11 @@
  */
 namespace JetApplication;
 
-use Jet\Application as Jet_Application;
 use Jet\Application_Log;
-use Jet\Application_Modules;
-use Jet\Application_Module_Manifest;
-
-use Jet\Mvc_Factory;
 use Jet\Mvc_Site;
 use Jet\Mvc_Page;
 use Jet\Mvc_View;
 use Jet\Mvc_Router;
-use Jet\Mvc_Page_Exception;
-use Jet\Mvc_Layout;
-
-use Jet\Locale;
-
-use Jet\Tr;
-
 use Jet\Auth;
 
 /**

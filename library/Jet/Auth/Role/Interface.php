@@ -118,12 +118,4 @@ interface Auth_Role_Interface
 	 */
 	public function hasPrivilege( $privilege, $value );
 
-
-	/**
-	 *
-	 *
-	 * @return Auth_Role_Privilege_AvailablePrivilegesListItem[]
-	 */
-	public static function getAvailablePrivilegesList();
-
 }

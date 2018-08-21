@@ -8,13 +8,12 @@
 namespace JetApplication;
 
 use Jet\BaseObject;
-use Jet\Auth_ControllerInterface;
+use Jet\Auth_Controller_Interface;
 
 use Jet\Mvc;
 use Jet\Mvc_Factory;
 use Jet\Mvc_Page_Interface;
 
-use Jet\Auth_Role;
 use Jet\Application_Modules;
 use Jet\Application_Log;
 
@@ -28,9 +27,9 @@ use JetApplication\Auth_Administrator_User as Administrator;
 /**
  *
  */
-class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterface
+class Auth_Controller_Admin extends BaseObject implements Auth_Controller_Interface
 {
-	const LOGIN_FORM_MODULE_NAME = 'JetExample.Login.Admin';
+	const LOGIN_FORM_MODULE_NAME = 'Login.Admin';
 
 
 	const EVENT_LOGIN_FAILED = 'login_failed';
@@ -52,10 +51,6 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 
 		$user = $this->getCurrentUser();
 		if( !$user ) {
-			return false;
-		}
-
-		if( !$user->isActivated() ) {
 			return false;
 		}
 
@@ -129,9 +124,7 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 		$user = $this->getCurrentUser();
 
 		if( $user ) {
-			if( !$user->isActivated() ) {
-				$action = 'is_not_activated';
-			} else if( $user->isBlocked() ) {
+			if( $user->isBlocked() ) {
 				$action = 'is_blocked';
 			} else if( !$user->getPasswordIsValid() ) {
 				$action = 'must_change_password';
@@ -222,25 +215,49 @@ class Auth_Controller_Admin extends BaseObject implements Auth_ControllerInterfa
 		return true;
 	}
 
+
+	/**
+	 *
+	 * @param string $privilege
+	 * @param mixed  $value
+	 *
+	 * @return bool
+	 */
+	public function getCurrentUserHasPrivilege( $privilege, $value )
+	{
+		$current_user = $this->getCurrentUser();
+
+		if(
+			!$current_user ||
+			!($current_user instanceof Auth_Administrator_User)
+		) {
+			return false;
+		}
+
+		return $current_user->hasPrivilege($privilege, $value);
+	}
+
+
+	/**
+	 * @param string $module_name
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function checkModuleActionAccess( $module_name, $action )
+	{
+		return $this->getCurrentUserHasPrivilege( Auth_Administrator_Role::PRIVILEGE_MODULE_ACTION, $module_name.':'.$action );
+	}
+
+
 	/**
 	 * @param Mvc_Page_Interface $page
 	 *
 	 * @return bool
 	 */
-	public function checkPageAccess( Mvc_Page_Interface $page ) {
-
-		$current_user = $this->getCurrentUser();
-
-		if(!$current_user) {
-			return false;
-		}
-
-		return
-			(
-				$current_user instanceof Auth_Administrator_User &&
-				$current_user->hasPrivilege( Auth_Role::PRIVILEGE_VISIT_PAGE, $page->getId() )
-			);
-
+	public function checkPageAccess( Mvc_Page_Interface $page )
+	{
+		return $this->getCurrentUserHasPrivilege( Auth_Administrator_Role::PRIVILEGE_VISIT_PAGE, $page->getId() );
 	}
 
 

@@ -9,7 +9,6 @@ namespace JetApplication;
 
 use Jet\Http_Headers;
 use Jet\Locale;
-use Jet\Mvc_Site;
 use Jet\Http_Request;
 
 /**
