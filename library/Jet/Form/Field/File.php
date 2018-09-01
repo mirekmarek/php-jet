@@ -209,7 +209,31 @@ class Form_Field_File extends Form_Field
 	public function catchInput( Data_Array $data )
 	{
 		$this->_value = null;
-		$this->_has_value = isset( $_FILES[$this->_name] ) && !empty( $_FILES[$this->_name]['tmp_name'] );
+		$this->_has_value = false;
+
+		if(array_key_exists($this->_name, $_FILES)) {
+			$file_data = $_FILES[$this->_name];
+
+			if(isset($file_data['tmp_name'])) {
+				$tmp_name = $file_data['tmp_name'];
+
+				if(is_array($tmp_name)) {
+					foreach( $tmp_name as $tn ) {
+						if($tn) {
+							$this->_has_value = true;
+						}
+
+						break;
+					}
+				} else {
+					if($tmp_name) {
+						$this->_has_value = true;
+					}
+				}
+			}
+
+		}
+
 
 		if(
 			$this->getAllowMultipleUpload() &&
@@ -268,10 +292,18 @@ class Form_Field_File extends Form_Field
 	{
 
 		if( $this->_has_value ) {
-			$this->_value_raw = $_FILES[$this->_name];
-			$this->_value = $_FILES[$this->_name]['tmp_name'];
-			$this->tmp_file_path = $_FILES[$this->_name]['tmp_name'];
-			$this->file_name = $_FILES[$this->_name]['name'];
+			$file_data = $_FILES[$this->_name];
+
+			$this->_value_raw = $file_data;
+			$this->_value = $file_data['tmp_name'];
+			$this->tmp_file_path = $file_data['tmp_name'];
+			$this->file_name = $file_data['name'];
+
+			if(is_array($this->tmp_file_path)) {
+				$this->tmp_file_path = $this->tmp_file_path[0];
+				$this->_value = $this->tmp_file_path;
+				$this->file_name = $this->file_name[0];
+			}
 		} else {
 			$this->_value_raw = null;
 		}

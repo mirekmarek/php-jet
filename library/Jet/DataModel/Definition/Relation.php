@@ -52,6 +52,14 @@ abstract class DataModel_Definition_Relation extends BaseObject
 
 
 	/**
+	 * @param string $related_to_class_name
+	 */
+	public function setRelatedToClass( $related_to_class_name )
+	{
+		$this->related_data_model_class_name = $related_to_class_name;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getRelatedDataModelClassName()
@@ -142,14 +150,6 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	public function setRequiredRelations( array $required_relations )
 	{
 		$this->required_relations = $required_relations;
-	}
-
-	/**
-	 * @param string $related_to_class_name
-	 */
-	protected function setRelatedToClass( $related_to_class_name )
-	{
-		$this->related_data_model_class_name = $related_to_class_name;
 	}
 
 }

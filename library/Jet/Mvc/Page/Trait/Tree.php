@@ -62,6 +62,22 @@ trait Mvc_Page_Trait_Tree
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getPath()
+	{
+		$path = [$this->getId()];
+
+		$parent = $this;
+		while( ( $parent = $parent->getParent() ) ) {
+
+			array_unshift( $path, $parent->getId() );
+		}
+
+		return $path;
+	}
+
+	/**
 	 * @param Mvc_Page_Interface $parent
 	 */
 	public function setParent( Mvc_Page_Interface $parent )

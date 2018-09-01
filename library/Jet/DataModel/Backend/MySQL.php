@@ -796,7 +796,6 @@ class DataModel_Backend_MySQL extends DataModel_Backend
 	 */
 	public function getCount( DataModel_Query $query )
 	{
-
 		return (int)$this->getDbRead()->fetchOne( $this->createCountQuery( $query ) );
 	}
 

@@ -51,7 +51,12 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 		$this->_deleted_items = [];
 
 		foreach( $items as $item ) {
-			$this->items[$item->getArrayKeyValue()] = $item;
+			$key = $item->getArrayKeyValue();
+			if($key===null) {
+				$this->items[] = $item;
+			} else {
+				$this->items[$key] = $item;
+			}
 		}
 	}
 

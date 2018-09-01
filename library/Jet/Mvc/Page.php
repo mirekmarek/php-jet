@@ -291,6 +291,51 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isCurrent()
+	{
+		$current_page = Mvc::getCurrentPage();
+
+		if(
+			$current_page &&
+			$current_page->getId()==$this->getId() &&
+			$current_page->getSiteId()==$this->getSiteId() &&
+			$current_page->getLocale()->toString()==$this->getLocale()->toString()
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isInCurrentPath()
+	{
+		$current_page = Mvc::getCurrentPage();
+
+		if(!$current_page) {
+			return false;
+		}
+
+		if(
+			!$current_page ||
+			$current_page->getSiteId()!=$this->getSiteId() ||
+			$current_page->getLocale()->toString()!=$this->getLocale()->toString()
+		) {
+			return false;
+		}
+
+		$c_path = $current_page->getPath();
+
+		return in_array($this->getId(), $c_path);
+
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getSiteId()

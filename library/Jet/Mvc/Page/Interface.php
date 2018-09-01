@@ -127,10 +127,25 @@ interface Mvc_Page_Interface
 	public function setParent( Mvc_Page_Interface $parent );
 
 	/**
+	 * @return bool
+	 */
+	public function isCurrent();
+
+	/**
+	 * @return bool
+	 */
+	public function isInCurrentPath();
+
+	/**
 	 *
 	 * @return Mvc_Page_Interface
 	 */
 	public function getParent();
+
+	/**
+	 * @return array
+	 */
+	public function getPath();
 
 	/**
 	 * @return string

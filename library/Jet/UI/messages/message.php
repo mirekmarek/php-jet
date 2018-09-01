@@ -32,6 +32,11 @@ class UI_messages_message extends UI_BaseElement
 	/**
 	 * @var string
 	 */
+	protected $context = '';
+
+	/**
+	 * @var string
+	 */
 	protected $icon = '';
 
 	/**
@@ -44,11 +49,13 @@ class UI_messages_message extends UI_BaseElement
 	 *
 	 * @param string $class
 	 * @param string $message
+	 * @param string $context
 	 */
-	public function __construct( $class, $message )
+	public function __construct( $class, $message, $context='' )
 	{
 		$this->class = $class;
 		$this->message = $message;
+		$this->context = $context;
 	}
 
 	/**
@@ -110,6 +117,28 @@ class UI_messages_message extends UI_BaseElement
 
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getContext()
+	{
+		return $this->context;
+	}
+
+	/**
+	 * @param string $context
+	 *
+	 * @return $this
+	 */
+	public function setContext( $context )
+	{
+		$this->context = $context;
+
+		return $this;
+	}
+
+
 
 	/**
 	 * @return bool

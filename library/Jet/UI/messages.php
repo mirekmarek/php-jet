@@ -59,8 +59,9 @@ class UI_messages extends BaseObject
 	/**
 	 * @param string $class
 	 * @param string $message
+	 * @param string $context
 	 */
-	public static function set( $class, $message )
+	public static function set( $class, $message, $context='' )
 	{
 		$s = static::getSession();
 
@@ -69,7 +70,7 @@ class UI_messages extends BaseObject
 		}
 
 		$current = $s->getValue( 'msg' );
-		$current[] = static::create( $class, $message );
+		$current[] = static::create( $class, $message, $context );
 		$s->setValue( 'msg', $current );
 
 		static::$messages = null;
@@ -90,99 +91,122 @@ class UI_messages extends BaseObject
 	/**
 	 * @param string $class
 	 * @param string $message
+	 * @param string $context=''
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function create( $class, $message )
+	public static function create( $class, $message, $context='' )
 	{
-		return new UI_messages_message( $class, $message );
+		return new UI_messages_message( $class, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createSuccess( $message )
+	public static function createSuccess( $message, $context='' )
 	{
-		return static::create( static::C_SUCCESS, $message );
+		return static::create( static::C_SUCCESS, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 */
-	public static function info( $message )
+	public static function info( $message, $context='' )
 	{
-		static::set( static::C_INFO, $message );
+		static::set( static::C_INFO, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createInfo( $message )
+	public static function createInfo( $message, $context='' )
 	{
-		return static::create( static::C_INFO, $message );
+		return static::create( static::C_INFO, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 */
-	public static function warning( $message )
+	public static function warning( $message, $context='' )
 	{
-		static::set( static::C_WARNING, $message );
+		static::set( static::C_WARNING, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createWarning( $message )
+	public static function createWarning( $message, $context='' )
 	{
-		return static::create( static::C_WARNING, $message );
+		return static::create( static::C_WARNING, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 */
-	public static function danger( $message )
+	public static function danger( $message, $context='' )
 	{
-		static::set( static::C_DANGER, $message );
+		static::set( static::C_DANGER, $message, $context );
 	}
 
 	/**
 	 * @param string $message
+	 * @param string $context
 	 *
 	 * @return UI_messages_message
 	 */
-	public static function createDanger( $message )
+	public static function createDanger( $message, $context='' )
 	{
-		return static::create( static::C_DANGER, $message );
+		return static::create( static::C_DANGER, $message, $context );
 	}
 
 	/**
+	 * @param string|null $context
 	 *
 	 * @return UI_messages_message[]
 	 */
-	public static function get()
+	public static function get( $context=null )
 	{
-		if( static::$messages===null ) {
-			static::$messages = [];
+		$messages = [];
 
-			$s = static::getSession();
+		$not_relevant_messages = [];
 
-			if( $s->getValueExists( 'msg' ) ) {
+		$s = static::getSession();
+
+		if( $s->getValueExists( 'msg' ) ) {
+
+			if($context!==null) {
 				foreach( $s->getValue( 'msg' ) as $msg ) {
-					static::$messages[] = $msg;
+					/**
+					 * @var UI_messages_message $msg
+					 */
+					if($msg->getContext()==$context) {
+						$messages[] = $msg;
+					} else {
+						$not_relevant_messages[] = $msg;
+					}
+				}
+
+			} else {
+				foreach( $s->getValue( 'msg' ) as $msg ) {
+					$messages[] = $msg;
 				}
 			}
-
-			$s->setValue( 'msg', [] );
-
 		}
 
-		return static::$messages;
+		$s->setValue( 'msg', $not_relevant_messages );
+
+		return $messages;
 	}
 }
