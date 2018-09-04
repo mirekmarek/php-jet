@@ -22,7 +22,6 @@ trait DataModel_Trait
 	use DataModel_Trait_Delete;
 	use DataModel_Trait_Forms;
 	use DataModel_Trait_Exports;
-	use DataModel_Trait_Fetch;
 
 	/**
 	 *

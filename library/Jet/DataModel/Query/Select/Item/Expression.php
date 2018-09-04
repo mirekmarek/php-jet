@@ -38,7 +38,6 @@ class DataModel_Query_Select_Item_Expression extends BaseObject
 	 * @param array  $properties
 	 * @param string $expression
 	 *
-	 * @throws DataModel_Query_Exception
 	 */
 	public function __construct( $expression, array $properties=[] )
 	{

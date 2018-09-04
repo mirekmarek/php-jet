@@ -48,16 +48,7 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 
 //-- InternalState ------------------------------
 
-	/**
-	 * Loads DataModel.
-	 *
-	 * @param DataModel_Id|array $id
-	 *
-	 * @throws DataModel_Exception
-	 *
-	 * @return DataModel
-	 */
-	public static function load( $id );
+
 
 	/**
 	 *
@@ -115,12 +106,86 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 */
 	public function commitBackendTransaction();
 
-//-- Load ---------------------------------------
-
 	/**
 	 *
 	 */
 	public function rollbackBackendTransaction();
+
+//-- Load ---------------------------------------
+
+	/**
+	 * @return DataModel_PropertyFilter
+	 */
+	public function getLoadFilter();
+
+	/**
+	 * @param array $where
+	 *
+	 * @return DataModel_Query
+	 */
+	public static function createQuery( array $where = [] );
+
+
+	/**
+	 * @param array $this_data
+	 * @param array $related_data
+	 * @param DataModel_PropertyFilter|null $load_filter
+	 *
+	 * @return DataModel
+	 */
+	public static function initByData( array $this_data, $related_data = [], DataModel_PropertyFilter $load_filter=null );
+
+
+	/**
+	 * Loads DataModel.
+	 *
+	 * @param array|string|int               $id_or_where
+	 * @param array|DataModel_PropertyFilter $load_filter
+	 *
+	 * @return DataModel
+	 */
+	public static function load( $id_or_where, $load_filter = null );
+
+
+	/**
+	 * @param array $where_per_model
+	 * @param array|string|null $order_by
+	 * @param callable|null $item_key_generator
+	 * @param array|DataModel_PropertyFilter $load_filter
+	 *
+	 * @return DataModel[]
+	 */
+	public static function fetch( array $where_per_model=[], $order_by=null, callable $item_key_generator = null, $load_filter=null );
+
+
+	/**
+	 * @param array $select
+	 * @param array $where
+	 * @param string $fetch_method
+	 *
+	 * @return mixed
+	 *
+	 * @throws DataModel_Query_Exception
+	 */
+	public static function fetchData( array $select, array $where, $fetch_method='fetchAll' );
+
+
+	/**
+	 *
+	 * @param array $where
+	 * @param array $load_filter (optional)
+	 *
+	 * @return DataModel_Fetch_Instances
+	 */
+	public static function fetchInstances( array $where = [], array $load_filter = [] );
+
+	/**
+	 *
+	 * @param array $where
+	 *
+	 * @return DataModel_Fetch_IDs
+	 */
+	public static function fetchIDs( array $where = [] );
 
 //-- Save ---------------------------------------
 
@@ -173,94 +238,6 @@ interface DataModel_Interface extends BaseObject_Interface_Serializable_JSON
 	 * @return bool;
 	 */
 	public function catchForm( Form $form, $data = null, $force_catch = false );
-
-//-- Fetch --------------------------------------
-
-	/**
-	 * @param array $where
-	 *
-	 * @return DataModel_Query
-	 */
-	public static function createQuery( array $where = [] );
-
-	/**
-	 *
-	 * @param array| $where
-	 *
-	 * @return DataModel
-	 */
-	public static function fetchOneObject( array $where );
-
-	/**
-	 *
-	 * @param array $where
-	 *
-	 * @return DataModel_Fetch_Object_Assoc
-	 */
-	public static function fetchObjects( array  $where = [] );
-
-	/**
-	 *
-	 * @param array $where
-	 *
-	 * @return DataModel_Fetch_Object_Ids
-	 */
-	public static function fetchObjectIDs( array $where = [] );
-
-
-	/**
-	 *
-	 * @param array $load_items
-	 * @param array $where
-	 *
-	 * @return DataModel_Fetch_Data_All
-	 */
-	public static function fetchDataAll( array $load_items, array  $where = [] );
-
-	/**
-	 *
-	 * @param array $load_items
-	 * @param array $where
-	 *
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public static function fetchDataAssoc( array $load_items, array  $where = [] );
-
-	/**
-	 *
-	 * @param array $load_items
-	 * @param array $where
-	 *
-	 * @return DataModel_Fetch_Data_Pairs
-	 */
-	public static function fetchDataPairs( array $load_items, array  $where = [] );
-
-	/**
-	 *
-	 * @param array $load_items
-	 * @param array $where
-	 *
-	 * @return mixed|null
-	 */
-	public static function fetchDataRow( array $load_items, array  $where = [] );
-
-	/**
-	 *
-	 * @param array $load_item
-	 * @param array $where
-	 *
-	 * @return mixed|null
-	 */
-	public static function fetchDataOne( $load_item, array  $where = [] );
-
-	/**
-	 *
-	 * @param string $select_item
-	 * @param array $where
-	 *
-	 * @return DataModel_Fetch_Data_Col
-	 */
-	public static function fetchDataCol( $select_item, array  $where = [] );
 
 
 //-- Events -------------------------------------

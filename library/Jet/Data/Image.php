@@ -173,27 +173,28 @@ class Data_Image extends BaseObject
 	 */
 	public function createThumbnail( $target_path, $maximal_width, $maximal_height, $target_img_type = null )
 	{
+
 		if( $this->width>=$this->height ) {
 			$new_width = $maximal_width;
-			$new_height = round( ( $new_width/$this->width )*$this->height );
+			$new_height = (int)round( ( $new_width/$this->width )*$this->height );
+
 
 			if( $new_height>$maximal_height ) {
 				$_height = $new_height;
 				$new_height = $maximal_height;
-				$new_width = round( ( $new_width/$_height )*$new_width );
+				$new_width = (int)round( ( $new_height/$_height )*$new_width );
 			}
 
 		} else {
 			$new_height = $maximal_height;
-			$new_width = round( ( $new_height/$this->height )*$this->width );
+			$new_width = (int)round( ( $new_height/$this->height )*$this->width );
 
 			if( $new_width>$maximal_width ) {
 				$_width = $new_width;
 				$new_width = $maximal_width;
-				$new_height = round( ( $new_width/$_width )*$new_height );
+				$new_height = (int)round( ( $new_width/$_width )*$new_height );
 			}
 		}
-
 
 		return $this->saveAs( $target_path, $new_width, $new_height, $target_img_type );
 	}

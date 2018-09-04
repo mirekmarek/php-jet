@@ -7,36 +7,12 @@
  */
 namespace Jet;
 
+
 /**
  *
  */
-interface DataModel_Related_Interface extends DataModel_Interface
+interface DataModel_Related_Iterator_Interface extends BaseObject_Interface_ArrayEmulator
 {
-
-	/**
-	 *
-	 * @param array                  $where
-	 * @param DataModel_PropertyFilter|null $load_filter
-	 *
-	 * @return array
-	 */
-	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null );
-
-	/**
-	 *
-	 * @param array  $this_data
-	 * @param array  &$related_data
-	 * @param DataModel_PropertyFilter|null $load_filter
-	 *
-	 * @return mixed
-	 */
-	public static function initRelatedByData( $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null );
-
-	/**
-	 * @return DataModel_Related_Interface
-	 */
-	public function createNewRelatedDataModelInstance();
-
 
 	/**
 	 * @param DataModel_Id $parent_id
@@ -48,6 +24,7 @@ interface DataModel_Related_Interface extends DataModel_Interface
 	 */
 	public function actualizeMainId( DataModel_Id $main_id );
 
+
 	/**
 	 *
 	 */
@@ -57,6 +34,17 @@ interface DataModel_Related_Interface extends DataModel_Interface
 	 *
 	 */
 	public function delete();
+
+	/**
+	 *
+	 */
+	public function removeAllItems();
+
+	/**
+	 * @return DataModel_Related_Interface[]
+	 */
+	public function getItems();
+
 
 	/**
 	 *

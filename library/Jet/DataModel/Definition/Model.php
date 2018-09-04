@@ -114,9 +114,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
-
-		$this->_initRelations();
-
 	}
 
 	/**
@@ -279,6 +276,8 @@ abstract class DataModel_Definition_Model extends BaseObject
 			DataModel_Exception::CODE_DEFINITION_NONSENSE
 		);
 
+		/** @noinspection PhpUnreachableStatementInspection */
+		return null;
 	}
 
 	/**
@@ -312,40 +311,21 @@ abstract class DataModel_Definition_Model extends BaseObject
 	/**
 	 *
 	 */
-	protected function _initRelations()
+	public function initRelations()
 	{
+		$this->_initExternalRelations();
 
-		$this->_initEternalRelations();
-
-		foreach( $this->getAllRelatedPropertyDefinitions() as $related_model_definition_property ) {
-			$related_model_definition = $related_model_definition_property->getValueDataModelDefinition();
-
-			if($related_model_definition instanceof DataModel_Definition_Model_Related_MtoN) {
-				continue;
+		foreach( $this->properties as $property ) {
+			if($property instanceof DataModel_Definition_Property_DataModel) {
+				$property->getValueDataModelDefinition()->initRelations();
 			}
-
-
-			$related_to_main_relation = new DataModel_Definition_Relation_Internal( $related_model_definition->getClassName() );
-			$main_to_related_relation = new DataModel_Definition_Relation_Internal( $this->getClassName() );
-
-
-			foreach( $related_model_definition->getMainModelRelationIdProperties() as $property ) {
-				$related_to_main_relation->addJoinBy( $property->getRelationJoinItem() );
-				$main_to_related_relation->addJoinBy( $property->getRelationJoinItem() );
-			}
-
-
-			$this->addRelation( $related_model_definition->getModelName(), $related_to_main_relation );
-
-			$related_model_definition->addRelation( $this->getModelName(), $main_to_related_relation );
-
 		}
 	}
 
 	/**
 	 *
 	 */
-	public function _initEternalRelations()
+	public function _initExternalRelations()
 	{
 
 		$class = $this->class_name;
@@ -355,9 +335,10 @@ abstract class DataModel_Definition_Model extends BaseObject
 		foreach( $relations_definitions_data as $definition_data ) {
 			$relation = new DataModel_Definition_Relation_External( $this->getClassName(), $definition_data );
 
-			$related_model_name = $relation->getRelatedDataModelName();
-
-			$this->addRelation($related_model_name, $relation);
+			DataModel_Relations::add(
+				$class,
+				$relation
+			);
 		}
 
 	}
@@ -475,7 +456,6 @@ abstract class DataModel_Definition_Model extends BaseObject
 	}
 
 	/**
-	 * @throws DataModel_Exception
 	 *
 	 * @return array|DataModel_Definition_Property_DataModel[]
 	 */
@@ -546,56 +526,26 @@ abstract class DataModel_Definition_Model extends BaseObject
 	public function getRelation( $related_model_name )
 	{
 
-		if( !isset( $this->relations[$related_model_name] ) ) {
+		$relations = $this->getRelations();
+
+		if( !isset( $relations[$related_model_name] ) ) {
 
 			throw new DataModel_Exception(
 				'Unknown relation \''.$this->getModelName().'\' <-> \''.$related_model_name.'\' (Class: \''.$this->getClassName().'\') '
 			);
 		}
 
-		return $this->relations[$related_model_name];
-
+		return $relations[$related_model_name];
 	}
 
 	/**
-	 * @param string                        $related_model_name
-	 * @param DataModel_Definition_Relation $relation
 	 *
-	 * @throws DataModel_Exception
-	 */
-	public function addRelation( $related_model_name, DataModel_Definition_Relation $relation )
-	{
-
-		if( isset( $this->relations[$related_model_name] ) ) {
-			$prev = $this->relations[$related_model_name]->getRelatedDataModelClassName();
-			$current = $relation->getRelatedDataModelClassName();
-
-			if(
-				$prev!=$current &&
-				!is_subclass_of($prev, $current)
-			) {
-				throw new DataModel_Exception(
-					'Add relation ('.$this->model_name.' -> '.$related_model_name.') error: Data model name ('.$related_model_name.') collision. Classes: '.$prev.' vs '.$current,
-					DataModel_Exception::CODE_DEFINITION_NONSENSE
-				);
-			}
-
-		}
-
-		$this->relations[$related_model_name] = $relation;
-
-	}
-
-
-	/**
-	 *
-	 * @throws DataModel_Exception
 	 *
 	 * @return DataModel_Definition_Relation[]
 	 */
 	public function getRelations()
 	{
-		return $this->relations;
+		return DataModel_Relations::get( $this->class_name );
 	}
 
 }

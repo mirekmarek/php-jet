@@ -68,14 +68,15 @@ abstract class DataModel_Id extends BaseObject
 			}
 		} else {
 			foreach( $this->values as $key => $val ) {
-				$this->values[$key] = $id_data[$key];
-				$given_id_keys[] = $key;
-				break;
+				if(isset($id_data[$key])) {
+					$this->values[$key] = $id_data[$key];
+					$given_id_keys[] = $key;
+				}
 			}
 		}
 
 		if( ( $missing_keys = array_diff( array_keys( $this->values ), $given_id_keys ) ) ) {
-			throw new DataModel_Id_Exception( 'ID values missing: '.implode( ', ', $missing_keys ) );
+			throw new DataModel_Id_Exception( 'ID value missing: '.implode( ', ', $missing_keys ) );
 		}
 
 	}

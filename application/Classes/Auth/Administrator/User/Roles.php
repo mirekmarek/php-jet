@@ -15,13 +15,13 @@ use Jet\DataModel_Related_MtoN;
  * @JetDataModel:name = 'users_roles'
  * @JetDataModel:database_table_name = 'users_administrators_roles'
  *
- * @JetDataModel:M_model_class_name = 'Auth_Administrator_User'
+ * @JetDataModel:parent_model_class_name = 'Auth_Administrator_User'
  * @JetDataModel:N_model_class_name = 'Auth_Administrator_Role'
  */
 class Auth_Administrator_User_Roles extends DataModel_Related_MtoN
 {
 	/**
-	 * @JetDataModel:related_to = 'user.id'
+	 * @JetDataModel:related_to = 'main.id'
 	 */
 	protected $user_id = '';
 

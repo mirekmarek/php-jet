@@ -14,7 +14,7 @@ use Jet\Mvc;
 use Jet\Mvc_Page;
 use Jet\Form;
 use Jet\Form_Field;
-use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Fetch_Instances;
 
 /**
  *
@@ -114,7 +114,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @param string $search
 	 *
-	 * @return DataModel_Fetch_Object_Assoc|Auth_RESTClient_Role[]
+	 * @return DataModel_Fetch_Instances|Auth_RESTClient_Role[]
 	 */
 	public static function getList( $search = '' )
 	{
@@ -131,7 +131,7 @@ class Auth_RESTClient_Role extends DataModel implements Auth_Role_Interface
 		}
 
 
-		$list = static::fetchObjects(
+		$list = static::fetchInstances(
 			$where,
 			[
 				'id',

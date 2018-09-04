@@ -17,7 +17,6 @@ class DataModel_Id_Passive extends DataModel_Id
 	/**
 	 *
 	 *
-	 * @throws DataModel_Exception
 	 */
 	public function generate()
 	{

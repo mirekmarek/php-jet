@@ -25,7 +25,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	protected $items_per_page;
 
 	/**
-	 * @var array|DataModel_Fetch_Data
+	 * @var array|DataModel_Fetch_Instances
 	 */
 	protected $data;
 
@@ -115,7 +115,6 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 * @param int    $items_per_page
 	 * @param callable $URL_creator
 	 *
-	 * @throws Data_Paginator_Exception
 	 */
 	public function __construct( $current_page_no, $items_per_page, callable $URL_creator )
 	{
@@ -243,7 +242,7 @@ class Data_Paginator extends BaseObject implements BaseObject_Interface_Serializ
 	 * Returns current page data
 	 *
 	 * @throws Data_Paginator_Exception
-	 * @return array|DataModel_Fetch_Data
+	 * @return array|DataModel_Fetch_Instances
 	 */
 	public function getData()
 	{

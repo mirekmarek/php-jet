@@ -258,7 +258,6 @@ class Reflection_ParserData
 	/**
 	 * @return string
 	 *
-	 * @throws Reflection_Exception
 	 */
 	public function getValueAsString()
 	{
@@ -285,7 +284,6 @@ class Reflection_ParserData
 
 	/**
 	 * @return string
-	 * @throws Reflection_Exception
 	 */
 	public function getValueAsClassName()
 	{
@@ -296,7 +294,6 @@ class Reflection_ParserData
 	 * @param string $class_name
 	 *
 	 * @return string
-	 * @throws Reflection_Exception
 	 */
 	public function getRealClassName( $class_name )
 	{
@@ -323,7 +320,6 @@ class Reflection_ParserData
 	/**
 	 * @return callable
 	 *
-	 * @throws Reflection_Exception
 	 */
 	public function getValueAsCallback()
 	{

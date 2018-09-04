@@ -10,19 +10,14 @@ namespace Jet;
 /**
  *
  */
-interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Interface, BaseObject_Interface_ArrayEmulator
+interface DataModel_Related_MtoN_Iterator_Interface extends DataModel_Related_Iterator_Interface
 {
-
 
 	/**
 	 * @param DataModel_Definition_Model_Related_MtoN $item_definition
 	 */
 	public function __construct( DataModel_Definition_Model_Related_MtoN $item_definition );
 
-	/**
-	 *
-	 */
-	public function removeAllItems();
 
 	/**
 	 * @param DataModel[] $N_instances

@@ -12,7 +12,7 @@ use Jet\Http_Request;
 use Jet\IO_File;
 use Jet\IO_Dir;
 use Jet\DataModel;
-use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_Id_UniqueString;
 
 /**
@@ -187,7 +187,7 @@ class Gallery_Image extends DataModel
 	 */
 	public function getAllImagesCount()
 	{
-		return static::fetchObjectIds()->getCount();
+		return static::fetchIDs()->getCount();
 	}
 
 
@@ -291,7 +291,7 @@ class Gallery_Image extends DataModel
 	 *
 	 * @param string $gallery_id (optional)
 	 *
-	 * @return Gallery_Image[]|DataModel_Fetch_Object_Assoc
+	 * @return Gallery_Image[]|DataModel_Fetch_Instances
 	 */
 	public static function getList( $gallery_id = '' )
 	{
@@ -302,7 +302,7 @@ class Gallery_Image extends DataModel
 		}
 
 		/** @noinspection PhpIncompatibleReturnTypeInspection */
-		return static::fetchObjects( $where );
+		return static::fetchInstances( $where );
 	}
 
 	/**

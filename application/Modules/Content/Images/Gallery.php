@@ -8,8 +8,7 @@
 namespace JetApplicationModule\Content\Images;
 
 use Jet\DataModel;
-use Jet\DataModel_Fetch_Data_Assoc;
-use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Fetch_Instances;
 use Jet\DataModel_Query;
 use Jet\DataModel_Id_UniqueString;
 use Jet\DataModel_Related_1toN;
@@ -132,34 +131,23 @@ class Gallery extends DataModel
 
 	/**
 	 *
-	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
+	 * @return DataModel_Fetch_Instances|Gallery[]
 	 */
 	public static function getList()
 	{
-		return static::fetchObjects();
+		return static::fetchInstances();
 	}
 
 	/**
 	 *
-	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
+	 * @return DataModel_Fetch_Instances|Gallery[]
 	 */
 	public static function getRootGalleries()
 	{
-		return static::fetchObjects(['parent_id'=>'']);
+		return static::fetchInstances(['parent_id'=>'']);
 	}
 
 
-	/**
-	 *
-	 * @return DataModel_Fetch_Data_Assoc
-	 */
-	public static function getListAsData()
-	{
-
-		$props = static::getDataModelDefinition()->getProperties();
-
-		return static::fetchDataAssoc( $props, [] );
-	}
 
 	/**
 	 * @param string        $path
@@ -170,7 +158,7 @@ class Gallery extends DataModel
 	public static function resolveGalleryByURL( $path, $locale )
 	{
 
-		$gallery = static::fetchOneObject(
+		$gallery = static::load(
 				[
 					'gallery_localized.URI_fragment' => $path,
 					'AND',
@@ -196,7 +184,7 @@ class Gallery extends DataModel
 
 		$search = '%'.$search.'%';
 
-		$result = static::fetchObjects(
+		$result = static::fetchInstances(
 			[
 				'gallery_localized.title *' => $search,
 			    'OR',
@@ -217,7 +205,7 @@ class Gallery extends DataModel
 	public static function getTree()
 	{
 		if( !static::$_tree ) {
-			$data = static::fetchObjects( [] );
+			$data = static::fetchInstances();
 
 			static::$_tree = new Data_Tree();
 			static::$_tree->setLabelGetterMethodName( 'getTitle' );
@@ -269,12 +257,12 @@ class Gallery extends DataModel
 
 	/**
 	 *
-	 * @return DataModel_Fetch_Object_Assoc|Gallery[]
+	 * @return DataModel_Fetch_Instances|Gallery[]
 	 */
 	public function getChildren()
 	{
 		if($this->_children===null) {
-			$this->_children = static::fetchObjects( [ 'parent_id' => $this->id ] );
+			$this->_children = static::fetchInstances( [ 'parent_id' => $this->id ] );
 		}
 
 		return $this->_children;

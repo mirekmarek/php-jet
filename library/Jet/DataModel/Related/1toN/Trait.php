@@ -29,16 +29,19 @@ trait DataModel_Related_1toN_Trait
 		return new DataModel_Definition_Model_Related_1toN( $data_model_class_name );
 	}
 
+
 	/**
-	 * @param DataModel_Id                  $main_id
+	 *
+	 * @param array                  $where
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return array
 	 */
-	public static function loadRelatedData( DataModel_Id $main_id, DataModel_PropertyFilter $load_filter = null )
+	public static function fetchRelatedData( array $where, DataModel_PropertyFilter $load_filter = null )
 	{
 		/**
 		 * @var DataModel_Definition_Model_Related_1toN $definition
+		 * @var DataModel_Interface|DataModel_Related_Interface $this
 		 */
 		$definition = static::getDataModelDefinition();
 
@@ -48,50 +51,13 @@ trait DataModel_Related_1toN_Trait
 			}
 		}
 
-		$query = static::getLoadRelatedDataQuery( $main_id, $load_filter );
-
-		return DataModel_Backend::get( $definition )->fetchAll( $query );
-	}
-
-	/**
-	 * @param DataModel_Id             $main_id
-	 * @param DataModel_PropertyFilter $load_filter
-	 *
-	 * @return DataModel_Query
-	 */
-	protected static function getLoadRelatedDataQuery( DataModel_Id $main_id, DataModel_PropertyFilter $load_filter = null )
-	{
-
-		/**
-		 * @var DataModel_Definition_Model_Related_1toN $definition
-		 */
-		$definition = static::getDataModelDefinition();
-
-		/**
-		 * @var DataModel_Interface|DataModel_Related_Interface $this
-		 */
-
 		$query = new DataModel_Query( $definition );
 
 		$select = DataModel_PropertyFilter::getQuerySelect( $definition, $load_filter );
 
 		$query->setSelect( $select );
-		$query->setWhere( [] );
+		$query->setWhere( $where );
 
-		$where = $query->getWhere();
-
-		foreach( $definition->getMainModelRelationIdProperties() as $property ) {
-			/**
-			 * @var DataModel_Definition_Property $property
-			 */
-			$property_name = $property->getRelatedToPropertyName();
-			$value = $main_id->getValue( $property_name );
-
-			$where->addAND();
-			$where->addExpression(
-				$property, DataModel_Query::O_EQUAL, $value
-			);
-		}
 
 		$order_by = static::getLoadRelatedDataOrderBy();
 		if( $order_by ) {
@@ -99,7 +65,7 @@ trait DataModel_Related_1toN_Trait
 		}
 
 
-		return $query;
+		return DataModel_Backend::get( $definition )->fetchAll( $query );
 	}
 
 	/**
@@ -124,14 +90,16 @@ trait DataModel_Related_1toN_Trait
 		static::$load_related_data_order_by = $order_by;
 	}
 
+
 	/**
-	 * @param array                         &$loaded_related_data
-	 * @param DataModel_Id|null             $parent_id
+	 *
+	 * @param array  $this_data
+	 * @param array  &$related_data
 	 * @param DataModel_PropertyFilter|null $load_filter
 	 *
 	 * @return mixed
 	 */
-	public static function loadRelatedInstances( array &$loaded_related_data, DataModel_Id $parent_id = null, DataModel_PropertyFilter $load_filter = null )
+	public static function initRelatedByData( $this_data, array &$related_data, DataModel_PropertyFilter $load_filter = null )
 	{
 
 		/**
@@ -139,59 +107,12 @@ trait DataModel_Related_1toN_Trait
 		 */
 		$data_model_definition = static::getDataModelDefinition();
 
-		$parent_id_values = [];
-		if( $parent_id ) {
-
-			foreach( $data_model_definition->getParentModelRelationIdProperties() as $property ) {
-
-				/**
-				 * @var DataModel_Definition_Property $property
-				 */
-				$parent_id_values[$property->getName()] = $parent_id->getValue( $property->getRelatedToPropertyName() );
-
-			}
-		}
-
-
-		$model_name = $data_model_definition->getModelName();
 		$items = [];
 
-		if( !empty( $loaded_related_data[$model_name] ) ) {
-			foreach( $loaded_related_data[$model_name] as $i => $dat ) {
-				if( $parent_id_values ) {
-					foreach( $parent_id_values as $k => $v ) {
-						if( $dat[$k]!=$v ) {
-							continue 2;
-						}
-					}
-				}
-
-				/**
-				 * @var DataModel_Related_1toN $loaded_instance
-				 */
-				$loaded_instance = new static();
-				$loaded_instance->setLoadFilter( $load_filter );
-
-				$loaded_instance->setState( $dat, $loaded_related_data );
-
-				unset( $loaded_related_data[$model_name][$i] );
-
-				/**
-				 * @var DataModel_Related_1toN $loaded_instance
-				 */
-				$key = $loaded_instance->getArrayKeyValue();
-				if( is_object( $key ) ) {
-					$key = (string)$key;
-				}
-
-				if( $key!==null ) {
-					$items[$key] = $loaded_instance;
-				} else {
-					$items[] = $loaded_instance;
-				}
-
-			}
+		foreach( $this_data as $d ) {
+			$items[] = static::initByData( $d, $related_data, $load_filter );
 		}
+
 
 		/**
 		 * @var DataModel_Related_1toN_Iterator $iterator

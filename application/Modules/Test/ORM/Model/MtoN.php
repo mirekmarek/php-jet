@@ -15,7 +15,7 @@ use Jet\DataModel_Related_MtoN;
  *
  * @JetDataModel:database_table_name = 'a1_m2n_b1'
  *
- * @JetDataModel:M_model_class_name = 'Model_A1'
+ * @JetDataModel:parent_model_class_name = 'Model_A1'
  * @JetDataModel:N_model_class_name = 'Model_B1'
  */
 class Model_MtoN extends DataModel_Related_MtoN
@@ -23,7 +23,7 @@ class Model_MtoN extends DataModel_Related_MtoN
 
 	/**
 	 *
-	 * @JetDataModel:related_to = 'model_a1.id'
+	 * @JetDataModel:related_to = 'main.id'
 	 *
 	 * @var string
 	 */

@@ -219,9 +219,6 @@ class DataModel_Definition extends BaseObject implements Reflection_ParserInterf
 			case 'parent_model_class_name':
 				$data->result_data['data_model_parent_model_class_name'] = $data->getValueAsClassName();
 				break;
-			case 'M_model_class_name':
-				$data->result_data['M_model_class_name'] = $data->getValueAsClassName();
-				break;
 			case 'N_model_class_name':
 				$data->result_data['N_model_class_name'] = $data->getValueAsClassName();
 				break;

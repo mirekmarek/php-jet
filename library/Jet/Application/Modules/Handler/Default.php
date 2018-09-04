@@ -152,7 +152,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 *
 	 *
-	 * @throws Application_Modules_Exception
 	 * @return Application_Module_Manifest[]
 	 */
 	public function installedModulesList()
@@ -172,7 +171,6 @@ class Application_Modules_Handler_Default extends Application_Modules_Handler
 	/**
 	 *
 	 *
-	 * @throws Application_Modules_Exception
 	 *
 	 * @return Application_Module_Manifest[]
 	 */

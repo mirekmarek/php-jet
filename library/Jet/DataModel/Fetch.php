@@ -14,8 +14,6 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 {
 
 	/**
-	 * DataModel instance
-	 *
 	 * @var DataModel_Definition_Model
 	 */
 	protected $data_model_definition;
@@ -37,17 +35,41 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 */
 	protected $pagination_enabled = false;
 
+
 	/**
 	 *
-	 * @param DataModel_Query $query
-	 *
-	 * @throws DataModel_Query_Exception
+	 * @var DataModel_Id
 	 */
-	public function __construct( DataModel_Query $query )
+	protected $empty_id_instance;
+
+	/**
+	 *
+	 * @var array
+	 */
+	protected $data;
+
+
+	/**
+	 *
+	 * @param array|DataModel_Query $query
+	 *
+	 */
+	final public function __construct( DataModel_Query $query )
 	{
-		$this->data_model_definition = $query->getMainDataModelDefinition();
+
+		$this->data_model_definition = $query->getDataModelDefinition();
 
 		$this->query = $query;
+
+		$load_properties = [];
+
+		foreach( $this->data_model_definition->getIdProperties() as $property_definition ) {
+			$load_properties[] = $property_definition;
+		}
+
+		$this->query->setSelect( $load_properties );
+
+		$this->empty_id_instance = $this->data_model_definition->getEmptyIdInstance();
 	}
 
 	/**
@@ -87,5 +109,156 @@ abstract class DataModel_Fetch extends BaseObject implements BaseObject_Interfac
 	 *
 	 */
 	abstract protected function _fetch();
+
+
+	/**
+	 * @return string
+	 */
+	public function toJSON()
+	{
+		return json_encode( $this->jsonSerialize() );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+		$result = [];
+
+		foreach( $this as $val ) {
+			/**
+			 * @var DataModel $val
+			 */
+			$result[] = $val->jsonSerialize();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return array
+	 */
+	abstract public function toArray();
+
+	/**
+	 * @see Countable
+	 *
+	 * @return int
+	 */
+	public function count()
+	{
+		return $this->getCount();
+	}
+
+	/**
+	 * @see ArrayAccess
+	 *
+	 * @param int $offset
+	 *
+	 * @return bool
+	 */
+	public function offsetExists( $offset )
+	{
+		$this->_fetch();
+
+		return array_key_exists( $offset, $this->data );
+	}
+
+	/**
+	 * Do nothing - DataModel_FetchAll is readonly
+	 *
+	 * @see ArrayAccess
+	 *
+	 * @param int   $offset
+	 * @param mixed $value
+	 */
+	public function offsetSet( $offset, $value )
+	{
+	}
+
+	/**
+	 * @see ArrayAccess
+	 *
+	 * @param int $offset
+	 *
+	 * @return DataModel
+	 */
+	public function offsetGet( $offset )
+	{
+		$this->_fetch();
+
+		return $this->_get( $this->data[$offset] );
+	}
+
+	/**
+	 * @param mixed $item
+	 *
+	 * @return DataModel|DataModel_Id
+	 */
+	abstract protected function _get( $item );
+
+	/**
+	 * @see ArrayAccess
+	 *
+	 * @param int $offset
+	 */
+	public function offsetUnset( $offset )
+	{
+		$this->_fetch();
+		unset( $this->data[$offset] );
+	}
+
+	/**
+	 * @see Iterator
+	 *
+	 * @return DataModel
+	 */
+	public function current()
+	{
+		$this->_fetch();
+
+		return $this->_get( current( $this->data ) );
+	}
+
+	/**
+	 * @see Iterator
+	 * @return string
+	 */
+	public function key()
+	{
+		$this->_fetch();
+
+		return key( $this->data );
+	}
+
+	/**
+	 * @see Iterator
+	 */
+	public function next()
+	{
+		$this->_fetch();
+		next( $this->data );
+	}
+
+	/**
+	 * @see Iterator
+	 */
+	public function rewind()
+	{
+		$this->_fetch();
+		reset( $this->data );
+	}
+
+	/**
+	 * @see Iterator
+	 * @return bool
+	 */
+	public function valid()
+	{
+		$this->_fetch();
+
+		return key( $this->data )!==null;
+	}
 
 }

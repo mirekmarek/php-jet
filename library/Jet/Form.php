@@ -356,7 +356,6 @@ class Form extends BaseObject
 	 *
 	 * @param Form_Field[] $fields
 	 *
-	 * @throws Form_Exception
 	 */
 	public function setFields( array $fields )
 	{

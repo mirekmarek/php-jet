@@ -33,11 +33,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 	 */
 	private $_deleted_items = [];
 
-	/**
-	 * @var DataModel_PropertyFilter
-	 */
-	private $_load_filter;
-
 
 	/**
 	 * @param DataModel_Definition_Model_Related_1toN $item_definition
@@ -58,6 +53,14 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 				$this->items[$key] = $item;
 			}
 		}
+	}
+
+	/**
+	 * @return DataModel_Related_1toN[]
+	 */
+	public function getItems()
+	{
+		return $this->items;
 	}
 
 	/**
@@ -388,24 +391,6 @@ class DataModel_Related_1toN_Iterator extends BaseObject implements DataModel_Re
 		}
 
 		return key( $this->items )!==null;
-	}
-
-	/**
-	 * @return DataModel_Related_1toN
-	 */
-	protected function _getEmptyItemInstance()
-	{
-
-		if( !$this->_empty_item_instance ) {
-
-			$class_name = $this->_item_definition->getClassName();
-			$this->_empty_item_instance = new $class_name();
-
-			$this->_empty_item_instance->setLoadFilter( $this->_load_filter );
-		}
-
-		return $this->_empty_item_instance;
-
 	}
 
 }

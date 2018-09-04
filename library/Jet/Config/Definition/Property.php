@@ -169,7 +169,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @return mixed
 	 */
-	public function getDefaultValue( Config $config )
+	public function getDefaultValue( /** @noinspection PhpUnusedParameterInspection */ Config $config )
 	{
 		return $this->default_value;
 	}
@@ -248,7 +248,7 @@ abstract class Config_Definition_Property extends BaseObject implements Form_Fie
 	 *
 	 * @throws Config_Exception
 	 */
-	public function prepareValue( $value, Config $config )
+	public function prepareValue( /** @noinspection PhpUnusedParameterInspection */ $value, Config $config )
 	{
 
 		$this->checkValueType( $value );

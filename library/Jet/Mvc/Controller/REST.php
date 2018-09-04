@@ -119,23 +119,23 @@ abstract class Mvc_Controller_REST extends Mvc_Controller
 	
 	/**
 	 *
-	 * @param DataModel_Fetch $data
+	 * @param DataModel_Fetch_Instances $data
 	 *
 	 * @return Data_Paginator
 	 */
-	protected function handleDataPagination( DataModel_Fetch $data )
+	protected function handleDataPagination( DataModel_Fetch_Instances $data )
 	{
 		return REST::handleDataPagination( $data );
 	}
 
 	/**
 	 *
-	 * @param DataModel_Fetch $data
+	 * @param DataModel_Fetch_Instances $data
 	 * @param array           $sort_items_map
 	 *
-	 * @return DataModel_Fetch
+	 * @return DataModel_Fetch_Instances
 	 */
-	protected function handleOrderBy( DataModel_Fetch $data, array $sort_items_map )
+	protected function handleOrderBy( DataModel_Fetch_Instances $data, array $sort_items_map )
 	{
 		return REST::handleOrderBy( $data, $sort_items_map );
 	}

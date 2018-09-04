@@ -377,11 +377,11 @@ class REST extends BaseObject
 
 	/**
 	 *
-	 * @param DataModel_Fetch $data
+	 * @param DataModel_Fetch_Instances $data
 	 *
 	 * @return Data_Paginator
 	 */
-	public static function handleDataPagination( DataModel_Fetch $data )
+	public static function handleDataPagination( DataModel_Fetch_Instances $data )
 	{
 		$GET = Http_Request::GET();
 
@@ -405,12 +405,12 @@ class REST extends BaseObject
 
 	/**
 	 *
-	 * @param DataModel_Fetch $data
+	 * @param DataModel_Fetch_Instances $data
 	 * @param array           $sort_items_map
 	 *
-	 * @return DataModel_Fetch
+	 * @return DataModel_Fetch_Instances
 	 */
-	public static  function handleOrderBy( DataModel_Fetch $data, array $sort_items_map )
+	public static  function handleOrderBy( DataModel_Fetch_Instances $data, array $sort_items_map )
 	{
 		$GET = Http_Request::GET();
 

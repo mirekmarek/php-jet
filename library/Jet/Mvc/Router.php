@@ -105,7 +105,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	 *
 	 * @param string $request_URL
 	 *
-	 * @throws Mvc_Router_Exception
 	 * @throws Mvc_Page_Exception
 	 */
 	public function resolve( $request_URL=null )
@@ -259,7 +258,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 	/**
 	 * @return bool
 	 *
-	 * @throws Mvc_Router_Exception
 	 */
 	protected function resolvePage()
 	{
@@ -374,7 +372,6 @@ class Mvc_Router extends BaseObject  implements Mvc_Router_Interface
 
 	/**
 	 *
-	 * @throws Mvc_Router_Exception
 	 * @return bool
 	 */
 	protected function resolveAuthentication()

@@ -103,7 +103,6 @@ class DataModel_Id_Name extends DataModel_Id
 	/**
 	 * @param mixed $backend_save_result
 	 *
-	 * @throws DataModel_Exception
 	 */
 	public function afterSave( $backend_save_result )
 	{

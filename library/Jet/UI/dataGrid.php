@@ -359,11 +359,10 @@ class UI_dataGrid extends BaseObject
 		}
 
 		if(
-			( $data instanceof DataModel_Fetch_Data || $data instanceof DataModel_Fetch_Object ) &&
+			( $data instanceof DataModel_Fetch_Instances ) &&
 			( $sort = $this->handleSortRequest() )
 		) {
 			/**
-			 * @var DataModel_Fetch_Data $data
 			 * @var DataModel_Query      $query
 			 */
 			$query = $data->getQuery();
@@ -380,8 +379,7 @@ class UI_dataGrid extends BaseObject
 			}
 
 			if(
-				$data instanceof DataModel_Fetch_Data ||
-				$data instanceof DataModel_Fetch_Object
+				$data instanceof DataModel_Fetch_Instances
 			) {
 				$this->paginator->setDataSource( $data );
 			}

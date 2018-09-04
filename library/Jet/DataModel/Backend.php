@@ -135,10 +135,6 @@ abstract class DataModel_Backend extends BaseObject
 				$definition = $definition->getMainModelDefinition();
 			}
 
-			if($definition instanceof DataModel_Definition_Model_Related_MtoN) {
-				$definition = $definition->getMModelDefinition();
-			}
-
 			$class_name = $definition->getClassName();
 			if( isset(static::$custom_backends[$class_name]) ) {
 				return static::$custom_backends[$class_name];

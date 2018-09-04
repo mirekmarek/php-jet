@@ -5,7 +5,7 @@ use Jet\Auth_User_Interface;
 use Jet\DataModel;
 use Jet\DataModel_Id_AutoIncrement;
 use Jet\DataModel_Related_MtoN_Iterator;
-use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Fetch_Instances;
 use Jet\Form;
 use Jet\Form_Field_Email;
 use Jet\Form_Field_Input;
@@ -252,7 +252,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 	 * @param string|null $role_id (optional)
 	 * @param string      $search
 	 *
-	 * @return Auth_Administrator_User[]|DataModel_Fetch_Object_Assoc
+	 * @return Auth_Administrator_User[]|DataModel_Fetch_Instances
 	 */
 	public static function getList( $role_id = null, $search = '' )
 	{
@@ -282,7 +282,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		}
 
 
-		$list = static::fetchObjects( $where );
+		$list = static::fetchInstances( $where );
 		$list->setLoadFilter(
 			[
 				'id',
@@ -310,7 +310,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		/**
 		 * @var Auth_Administrator_User $user
 		 */
-		$user = static::fetchOneObject(
+		$user = static::load(
 			[
 				'username' => $username,
 			]
@@ -347,7 +347,7 @@ class Auth_Administrator_User extends DataModel implements Auth_User_Interface
 		/**
 		 * @var Auth_Administrator_User $user
 		 */
-		$user = static::fetchOneObject(
+		$user = static::load(
 			[
 				'username' => $username,
 			]

@@ -11,23 +11,13 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
+class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model_Related
 {
 
 	/**
 	 * @var string
 	 */
 	protected $iterator_class_name = __NAMESPACE__.'\DataModel_Related_MtoN_Iterator';
-
-	/**
-	 * @var string
-	 */
-	protected $M_model_class_name = '';
-
-	/**
-	 * @var string
-	 */
-	protected $M_model_name = '';
 
 	/**
 	 * @var string
@@ -39,156 +29,11 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	 */
 	protected $N_model_name = '';
 
-
 	/**
+	 *
 	 * @var array
 	 */
-	protected $default_order_by = [];
-
-
-	/**
-	 * @var DataModel_Definition_Property[][]
-	 */
-	protected $relation_id_properties = [];
-
-	/**
-	 * @var DataModel_Definition_Relation_Join_Item[][]
-	 */
-	protected $join_by = [];
-
-
-
-	/**
-	 *
-	 */
-	public function init()
-	{
-		$this->_initParents();
-		$this->_initProperties();
-		$this->_initKeys();
-		$this->_initRelations();
-
-	}
-
-	/**
-	 * @throws DataModel_Exception
-	 */
-	protected function _initParents()
-	{
-		$data_model_class_name = $this->getClassName();
-
-		if( ( $iterator_class_name = Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
-			$this->iterator_class_name = $iterator_class_name;
-		}
-
-		if( !( $this->M_model_class_name = Reflection::get(
-			$this->class_name, 'M_model_class_name', null
-		) )
-		) {
-			throw new DataModel_Exception(
-				$data_model_class_name.' @JetDataModel:M_model_class_name is not defined!',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-
-		}
-
-		if( !( $this->N_model_class_name = Reflection::get(
-			$this->class_name, 'N_model_class_name', null
-		) )
-		) {
-			throw new DataModel_Exception(
-				$data_model_class_name.' @JetDataModel:N_model_class_name is not defined!',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-
-		}
-
-		$this->M_model_name = $this->_getModelNameDefinition( $this->M_model_class_name );
-		$this->N_model_name = $this->_getModelNameDefinition( $this->N_model_class_name );
-
-
-		$this->relation_id_properties[$this->M_model_name] = [];
-		$this->relation_id_properties[$this->N_model_name] = [];
-
-		$this->join_by[$this->M_model_name] = [];
-		$this->join_by[$this->N_model_name] = [];
-
-	}
-
-
-	/**
-	 *
-	 */
-	protected function _initProperties()
-	{
-
-		parent::_initProperties();
-
-		$classes = [
-			$this->getNModelClassName() => $this->getNModelName(),
-			$this->getMModelClassName() => $this->getMModelName()
-		];
-
-		foreach( $classes as $class_name=>$model_name ) {
-			$id_relation_defined = [];
-
-			foreach( $this->properties as $property ) {
-
-				if($property->getRelatedToClassName()==$class_name) {
-					$id_relation_defined[] = $property->getRelatedToPropertyName();
-				}
-			}
-
-
-			$related_definition_data = $this->_getPropertiesDefinitionData( $class_name );
-
-			foreach( $related_definition_data as $main_id_property_name => $pd ) {
-
-				if( empty( $pd['is_id'] ) ) {
-					continue;
-				}
-
-				if( !in_array( $main_id_property_name, $id_relation_defined ) ) {
-
-					throw new DataModel_Exception(
-						'Class \''.$this->class_name.'\':  Model \''.$model_name.'\' relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \''.$model_name.'.'.$main_id_property_name.'\' ',
-						DataModel_Exception::CODE_DEFINITION_NONSENSE
-					);
-				}
-			}
-
-
-		}
-	}
-
-	/**
-	 *
-	 */
-	protected function _initRelations()
-	{
-		parent::_initRelations();
-
-		$this->getMModelDefinition()->addRelation(
-			$this->getModelName(),
-			new DataModel_Definition_Relation_Internal(
-				$this->getClassName(),
-				$this->join_by[$this->M_model_name]
-			)
-		);
-
-
-
-		$this->getMModelDefinition()->addRelation(
-			$this->N_model_name,
-			new DataModel_Definition_Relation_Internal(
-				$this->N_model_class_name,
-				$this->join_by[$this->N_model_name],
-				[$this->getModelName()]
-			)
-		);
-
-
-	}
+	protected $N_model_relation_id_properties = [];
 
 	/**
 	 * @return string
@@ -207,30 +52,255 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 	}
 
 	/**
-	 * @return string
+	 * @throws DataModel_Exception
 	 */
-	public function getMModelClassName()
+	protected function _initParents()
 	{
-		return $this->M_model_class_name;
+		parent::_initParents();
+
+		if( ( $iterator_class_name = Reflection::get( $this->class_name, 'iterator_class_name', null ) ) ) {
+			$this->iterator_class_name = $iterator_class_name;
+		}
+
+		$data_model_class_name = $this->getClassName();
+
+
+		if(
+			!( $this->N_model_class_name = Reflection::get( $this->class_name, 'N_model_class_name', null ) )
+		) {
+			throw new DataModel_Exception(
+				$data_model_class_name.' @JetDataModel:N_model_class_name is not defined!',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+
+		}
+		$this->N_model_name = $this->_getModelNameDefinition( $this->N_model_class_name );
 	}
+
 
 	/**
 	 *
-	 * @return string|null
 	 */
-	public function getMModelName()
+	protected function _initProperties()
 	{
-		return $this->M_model_name;
+
+		parent::_initProperties();
+
+		$N_id_relation_defined = [];
+
+		foreach( $this->properties as $property ) {
+			if(!$property->getRelatedToClassName()) {
+				continue;
+			}
+
+			if($property->getRelatedToClassName()==$this->N_model_class_name) {
+				$N_id_relation_defined[] = $property->getRelatedToPropertyName();
+			}
+		}
+
+		$N_related_definition_data = $this->_getPropertiesDefinitionData( $this->N_model_class_name );
+
+		foreach( $N_related_definition_data as $property_name => $pd ) {
+			if( empty( $pd['is_id'] ) ) {
+				continue;
+			}
+
+			if( !in_array( $property_name, $N_id_relation_defined ) ) {
+				throw new DataModel_Exception(
+					'Class: \''.$this->class_name.'\'  N model relation property is missing! Please declare property with this annotation: @JetDataModel:related_to = \''.$this->N_model_name.'.'.$property_name.'\' ',
+					DataModel_Exception::CODE_DEFINITION_NONSENSE
+				);
+			}
+		}
+
 	}
+
+
+	/**
+	 * @param string $this_id_property_name
+	 * @param string $related_to
+	 * @param array  $property_definition_data
+	 *
+	 * @throws DataModel_Exception
+	 * @return DataModel_Definition_Property
+	 *
+	 */
+	protected function _initRelationProperty( $this_id_property_name, $related_to, $property_definition_data )
+	{
+
+		$related_to = explode( '.', $related_to );
+		$N_model_name = $this->getNModelName();
+
+		if( count( $related_to )!=2 ) {
+			throw new DataModel_Exception(
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\', class:'.$this->class_name,
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		list( $what, $related_to_property_name ) = $related_to;
+
+		if(
+			(
+				$what!='parent' &&
+				$what!='main' &&
+				$what!=$N_model_name
+			) ||
+			!$related_to_property_name
+		) {
+			throw new DataModel_Exception(
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\', class:'.$this->class_name,
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+
+		if( !$this->is_sub_related_model && $what=='parent' ) {
+			throw new DataModel_Exception(
+				'Invalid @JetDataModel:related_to = \'parent.'.$related_to_property_name.'\' definition. Use: @JetDataModel:related_to = \'main.'.$related_to_property_name.'\'  ',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+		}
+
+		$related_to_class_name = '';
+
+		$related_definition_data = [];
+
+		$relation_to_N = false;
+
+		if( $what=='parent' ) {
+			$related_to_class_name = $this->parent_model_class_name;
+			$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
+			$target_properties_array = &$this->parent_model_relation_id_properties;
+		}
+
+		if( $what=='main' ) {
+			$related_to_class_name = $this->main_model_class_name;
+			$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
+			$target_properties_array = &$this->main_model_relation_id_properties;
+		}
+
+		if( $what==$N_model_name ) {
+			$related_to_class_name = $this->N_model_class_name;
+			$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
+			$target_properties_array = &$this->N_model_relation_id_properties;
+			$relation_to_N = true;
+		}
+
+		if( !isset( $related_definition_data[$related_to_property_name] ) ) {
+			throw new DataModel_Exception(
+				'Unknown relation property \''.$related_to_class_name.'.'.$related_to_property_name.'\'',
+				DataModel_Exception::CODE_DEFINITION_NONSENSE
+			);
+
+		}
+
+		$parent_id_property_data = $related_definition_data[$related_to_property_name];
+
+		$parent_id_property_data['is_key'] = true;
+		$parent_id_property_data['is_id'] = true;
+
+
+		if(!$relation_to_N) {
+			$parent_id_property_data['form_field_type'] = false;
+		} else {
+			if( isset( $property_definition_data['form_field_type'] ) ) {
+				$parent_id_property_data['form_field_type'] = $property_definition_data['form_field_type'];
+			}
+		}
+
+		$this_id_property = DataModel_Factory::getPropertyDefinitionInstance(
+			$this->class_name,
+			$this_id_property_name,
+			$parent_id_property_data
+		);
+
+		$this_id_property->setUpRelation( $related_to_class_name, $related_to_property_name );
+
+
+		$this->properties[$this_id_property_name] = $this_id_property;
+
+		$target_properties_array[] = $this_id_property_name;
+
+		return $this_id_property;
+
+	}
+
 
 	/**
 	 *
-	 * @return DataModel_Definition_Model|null
 	 */
-	public function getMModelDefinition()
+	public function initRelations()
 	{
-		return DataModel_Definition::get( $this->M_model_class_name );
+		parent::initRelations();
+
+		$this_to_N_join = [];
+
+		foreach( $this->properties as $property ) {
+			if($property->getRelatedToClassName()==$this->N_model_class_name) {
+				$this_to_N_join[$property->getName()] = $property->getRelatedToPropertyName();
+			}
+		}
+
+		DataModel_Relations::add(
+			$this->class_name,
+			new DataModel_Definition_Relation_Internal(
+				$this->class_name,
+				$this->N_model_class_name,
+				$this_to_N_join
+			)
+		);
+
+
+		DataModel_Relations::add(
+			$this->getMainModelClassName(),
+			new DataModel_Definition_Relation_Internal(
+				$this->class_name,
+				$this->N_model_class_name,
+				$this_to_N_join,
+				[$this->model_name]
+			)
+		);
+
+
+
+		if( $this->is_sub_related_model ) {
+			//TODO: napojit i na ostatni
+			DataModel_Relations::add(
+				$this->getParentModelClassName(),
+				new DataModel_Definition_Relation_Internal(
+					$this->class_name,
+					$this->N_model_class_name,
+					$this_to_N_join,
+					[$this->model_name]
+				)
+			);
+		}
+
+		$N_relations = $this->getNModelDefinition()->getRelations();
+
+		foreach( $N_relations as $_N_relation ) {
+			//TODO: nalepit i na ostatni
+
+			$N_relation = clone $_N_relation;
+
+			$required = $N_relation->getRequiredRelations();
+			array_unshift($required, $this->getNModelName());
+			array_unshift($required, $this->model_name);
+
+			$N_relation->setRequiredRelations( $required );
+
+			DataModel_Relations::add(
+				$this->getMainModelClassName(),
+				$N_relation,
+				true
+			);
+
+		}
+
+
 	}
+
 
 	/**
 	 * @return string
@@ -258,134 +328,17 @@ class DataModel_Definition_Model_Related_MtoN extends DataModel_Definition_Model
 		return DataModel_Definition::get( $this->N_model_class_name );
 	}
 
-
-
-	/**
-	 *
-	 * @throws DataModel_Exception
-	 *
-	 * @return DataModel_Definition_Relation_Internal
-	 */
-	public function getRelationToN()
-	{
-
-
-		/**
-		 * @var DataModel_Definition_Relation_Join_Item[] $join_by
-		 */
-		$join_by = $this->join_by[$this->N_model_name];
-		$relation = new DataModel_Definition_Relation_Internal( $this->N_model_class_name, $join_by );
-
-
-		return $relation;
-
-	}
-
-	/**
-	 *
-	 * @return DataModel_Definition_Property[]
-	 */
-	public function getMRelationIdProperties()
-	{
-		return $this->relation_id_properties[$this->M_model_name];
-	}
-
-	/**
-	 *
-	 * @return DataModel_Definition_Property[]
-	 */
-	public function getNRelationIdProperties()
-	{
-		return $this->relation_id_properties[$this->N_model_name];
-	}
-
 	/**
 	 * @return array
 	 */
-	public function getDefaultOrderBy()
+	public function getNModelRelationIdProperties()
 	{
-		return $this->default_order_by;
+		$res = [];
+
+		foreach( $this->N_model_relation_id_properties as $property_name ) {
+			$res[$property_name] = $this->properties[$property_name];
+		}
+
+		return $res;
 	}
-
-	/**
-	 * @param array $default_order_by
-	 */
-	public function setDefaultOrderBy( $default_order_by )
-	{
-		$this->default_order_by = $default_order_by;
-	}
-
-	/**
-	 * @param string $this_id_property_name
-	 * @param string $related_to
-	 * @param array  $property_definition_data
-	 *
-	 * @throws DataModel_Exception
-	 * @return DataModel_Definition_Property
-	 *
-	 */
-	protected function _initRelationProperty( $this_id_property_name, $related_to, $property_definition_data )
-	{
-
-		$related_to = explode( '.', $related_to );
-		if( count( $related_to )!=2 ) {
-			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'related_model_name_m.id\', @JetDataModel:related_to=\'related_model_name_n.id\'  ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-		list( $related_model_name, $related_to_property_name ) = $related_to;
-
-		if(
-			$related_model_name != $this->getNModelName() &&
-			$related_model_name != $this->getMModelName()
-		) {
-			throw new DataModel_Exception(
-				'Unknown related data model name \''.$related_model_name.'\' (in class \''.$this->class_name.'\', property: \''.$this_id_property_name.'\') ',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-
-		}
-
-		if($related_model_name==$this->getMModelName()) {
-			$related_to_class_name = $this->getMModelClassName();
-		} else {
-			$related_to_class_name = $this->getNModelClassName();
-		}
-
-		$related_definition_data = $this->_getPropertiesDefinitionData( $related_to_class_name );
-
-
-		if( !isset( $related_definition_data[$related_to_property_name] ) ) {
-			throw new DataModel_Exception(
-				'Unknown relation property \''.$related_to_class_name.'.'.$related_to_property_name.'\' (in class \''.$this->class_name.'\', property: \''.$this_id_property_name.'\')',
-				DataModel_Exception::CODE_DEFINITION_NONSENSE
-			);
-		}
-
-
-		$this_id_property = DataModel_Factory::getPropertyDefinitionInstance(
-			$this->class_name,
-			$this_id_property_name,
-			$related_definition_data[$related_to_property_name]
-		);
-
-
-		$this_id_property->setUpRelation( $related_to_class_name, $related_to_property_name );
-
-		$this->properties[$this_id_property_name] = $this_id_property;
-
-		$this->relation_id_properties[$related_model_name][$this_id_property_name] = $this_id_property;
-
-		$this->join_by[$related_model_name][] = new DataModel_Definition_Relation_Join_Item(
-			$this->getClassName(),
-			$this_id_property->getName(),
-			$related_to_class_name,
-			$related_to_property_name
-		);
-
-		return $this_id_property;
-	}
-
 }

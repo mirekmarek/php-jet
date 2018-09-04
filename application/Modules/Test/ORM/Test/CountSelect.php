@@ -45,7 +45,7 @@ class Test_CountSelect extends Test_Abstract
 
 		$q->setWhere( $where );
 
-		echo DataModel_Backend::get( $q->getMainDataModelDefinition() )->createCountQuery( $q );
+		echo DataModel_Backend::get( $q->getDataModelDefinition() )->createCountQuery( $q );
 
 	}
 }

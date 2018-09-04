@@ -46,7 +46,12 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		$this->_deleted_items = [];
 
 		foreach( $items as $item ) {
-			$this->items[$item->getArrayKeyValue()] = $item;
+			$key = $item->getArrayKeyValue();
+			if($key===null) {
+				$this->items[] = $item;
+			} else {
+				$this->items[$key] = $item;
+			}
 		}
 	}
 
@@ -281,6 +286,14 @@ class DataModel_Related_MtoN_Iterator extends BaseObject implements DataModel_Re
 		}
 
 		return $ids;
+	}
+
+	/**
+	 * @return DataModel_Related_MtoN[]
+	 */
+	public function getItems()
+	{
+		return $this->items;
 	}
 
 	/**

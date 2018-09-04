@@ -49,7 +49,6 @@ class Config_Definition_Property_Bool extends Config_Definition_Property
 	 *
 	 * @param mixed &$value
 	 *
-	 * @throws Config_Exception
 	 */
 	protected function checkValue( $value )
 	{

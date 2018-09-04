@@ -16,6 +16,11 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	/**
 	 * @var string
 	 */
+	protected $this_data_model_class_name;
+	
+	/**
+	 * @var string
+	 */
 	protected $related_data_model_class_name;
 
 
@@ -35,19 +40,37 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	protected $required_relations = [];
 
 
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( $data )
-	{
-		$i = new static();
-		foreach( $data as $k=>$v ) {
-			$i->{$k} = $v;
-		}
 
-		return $i;
+	/**
+	 * @param string $this_to_class_name
+	 */
+	public function setThisToClass( $this_to_class_name )
+	{
+		$this->this_data_model_class_name = $this_to_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThisDataModelClassName()
+	{
+		return $this->this_data_model_class_name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThisDataModelName()
+	{
+		return $this->getThisDataModelDefinition()->getModelName();
+	}
+
+	/**
+	 * @return DataModel_Definition_Model
+	 */
+	public function getThisDataModelDefinition()
+	{
+		return DataModel::getDataModelDefinition( $this->this_data_model_class_name );
 	}
 
 
@@ -114,8 +137,10 @@ abstract class DataModel_Definition_Relation extends BaseObject
 	{
 		$this->join_by = [];
 
-		foreach( $items as $item ) {
-			$this->addJoinBy( $item );
+		foreach( $items as $this_property_name=>$related_property_name ) {
+			$join_item = new DataModel_Definition_Relation_Join_Item( $this, $this_property_name, $related_property_name );
+
+			$this->join_by[] = $join_item;
 		}
 	}
 

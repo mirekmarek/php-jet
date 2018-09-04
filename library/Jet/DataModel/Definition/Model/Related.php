@@ -66,7 +66,6 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			);
 		}
 
-		$this->_initRelations();
 
 	}
 
@@ -177,38 +176,75 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 	/**
 	 *
 	 */
-	protected function _initRelations()
+	public function initRelations()
 	{
+		parent::initRelations();
 
-		$this->_initEternalRelations();
+		$main_to_this_join = [];
+
+		$main_model_class_name = $this->getMainModelClassName();
+
 
 		foreach( $this->properties as $property ) {
-			if($property instanceof DataModel_Definition_Property_DataModel) {
-				/**
-				 * @var DataModel_Definition_Model_Related $related_model_definition
-				 */
-				$related_model_definition = $property->getValueDataModelDefinition();
-
-				if($related_model_definition instanceof DataModel_Definition_Model_Related_MtoN) {
-					continue;
-				}
-
-				$related_to_this_relation = new DataModel_Definition_Relation_Internal( $related_model_definition->getClassName() );
-				$this_to_related_relation = new DataModel_Definition_Relation_Internal( $this->getClassName() );
-
-
-				foreach( $related_model_definition->getParentModelRelationIdProperties() as $relation_property ) {
-					$related_to_this_relation->addJoinBy( $relation_property->getRelationJoinItem() );
-					$this_to_related_relation->addJoinBy( $relation_property->getRelationJoinItem() );
-				}
-
-
-				$this->addRelation( $related_model_definition->getModelName(), $related_to_this_relation );
-
-				$related_model_definition->addRelation( $this->getModelName(), $this_to_related_relation );
-
+			if($property->getRelatedToClassName()==$main_model_class_name) {
+				$main_to_this_join[ $property->getRelatedToPropertyName() ] = $property->getName();
 			}
 		}
+
+
+
+		DataModel_Relations::add(
+			$main_model_class_name,
+			new DataModel_Definition_Relation_Internal(
+				$main_model_class_name,
+				$this->class_name,
+				$main_to_this_join
+			)
+		);
+
+
+		if( $this->is_sub_related_model ) {
+
+			$parent_to_this_join = [];
+
+			$parent_model_class_name = $this->getParentModelClassName();
+			$parent_model_definition = $this->getParentModelDefinition();
+
+			//TODO: napojit i na ostatni
+
+
+			foreach( $this->properties as $property ) {
+				if($property->getRelatedToClassName()==$parent_model_class_name) {
+					$parent_to_this_join[$property->getRelatedToPropertyName()] = $property->getName();
+				}
+
+				if($property->getRelatedToClassName()==$main_model_class_name) {
+
+					foreach( $parent_model_definition->getProperties() as $parent_property ) {
+						if(
+							$parent_property->getRelatedToClassName()==$main_model_class_name &&
+							$parent_property->getRelatedToPropertyName()==$property->getRelatedToPropertyName()
+						) {
+							$parent_to_this_join[ $parent_property->getName() ] = $property->getName();
+							break;
+						}
+					}
+
+				}
+			}
+
+			DataModel_Relations::add(
+				$parent_model_class_name,
+
+				new DataModel_Definition_Relation_Internal(
+					$parent_model_class_name,
+					$this->class_name,
+					$parent_to_this_join
+				)
+			);
+		}
+
+
 	}
 
 
@@ -308,7 +344,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 
 		if( count( $related_to )!=2 ) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\'  ',
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\', class:'.$this->class_name,
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}
@@ -323,7 +359,7 @@ class DataModel_Definition_Model_Related extends DataModel_Definition_Model
 			!$related_to_property_name
 		) {
 			throw new DataModel_Exception(
-				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\'  ',
+				'Invalid @JetDataModel:related_to definition format. Examples: @JetDataModel:related_to=\'parent.id\', @JetDataModel:related_to=\'main.id\', class:'.$this->class_name,
 				DataModel_Exception::CODE_DEFINITION_NONSENSE
 			);
 		}

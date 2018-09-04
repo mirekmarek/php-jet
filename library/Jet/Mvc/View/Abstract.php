@@ -156,7 +156,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	}
 
 	/**
-	 * @throws Mvc_View_Exception
 	 *
 	 * @return string
 	 */
@@ -203,7 +202,6 @@ abstract class Mvc_View_Abstract extends BaseObject
 	 * @param string $key
 	 * @param mixed  $val
 	 *
-	 * @throws Mvc_View_Exception
 	 */
 	public function setVar( $key, $val )
 	{

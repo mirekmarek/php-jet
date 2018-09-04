@@ -10,7 +10,7 @@ use Jet\Data_Tree;
 use Jet\Tr;
 use Jet\Form;
 use Jet\Form_Field;
-use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Fetch_Instances;
 use Jet\Mvc_Page_Interface;
 
 /**
@@ -109,7 +109,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 	 *
 	 * @param string $search
 	 *
-	 * @return DataModel_Fetch_Object_Assoc|Auth_Visitor_Role[]
+	 * @return DataModel_Fetch_Instances|Auth_Visitor_Role[]
 	 */
 	public static function getList( $search = '' )
 	{
@@ -126,7 +126,7 @@ class Auth_Visitor_Role extends DataModel implements Auth_Role_Interface
 		}
 
 
-		$list = static::fetchObjects(
+		$list = static::fetchInstances(
 			$where,
 			[
 				'id',

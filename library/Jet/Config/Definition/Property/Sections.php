@@ -55,7 +55,6 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	 *
 	 * @return Config_Definition_Property_Section[]
 	 *
-	 * @throws Config_Exception
 	 */
 	public function prepareValue( $value, Config $config )
 	{
@@ -82,7 +81,6 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	 *
 	 * @param mixed &$value
 	 *
-	 * @throws Config_Exception
 	 */
 	protected function checkValue( $value )
 	{
@@ -92,7 +90,6 @@ class Config_Definition_Property_Sections extends Config_Definition_Property
 	 *
 	 * @param mixed $property_value
 	 *
-	 * @throws DataModel_Exception
 	 * @return Form_Field|null|Form_Field[]
 	 */
 	public function createFormField( $property_value )

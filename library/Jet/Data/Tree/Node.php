@@ -560,7 +560,6 @@ class Data_Tree_Node extends BaseObject implements BaseObject_Interface_Iterator
 
 	/**
 	 *
-	 * @throws Data_Tree_Exception
 	 *
 	 * @return array
 	 */

@@ -101,7 +101,6 @@ class Reflection implements BaseObject_Cacheable_Interface
 	/**
 	 * @param string $class
 	 *
-	 * @throws Reflection_Exception
 	 *
 	 * @return array
 	 */

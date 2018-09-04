@@ -220,7 +220,6 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 * @param DataModel_Definition_Property $column
 	 *
 	 * @throws DataModel_Exception
-	 * @throws DataModel_Backend_Exception
 	 * @return string
 	 */
 	protected function _getSQLType( DataModel_Definition_Property $column )
@@ -304,7 +303,6 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	/**
 	 * @param DataModel_Definition_Model $definition
 	 *
-	 * @throws Exception
 	 */
 	public function helper_update( DataModel_Definition_Model $definition )
 	{
@@ -754,7 +752,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	public function createDeleteQuery( DataModel_Query $where )
 	{
-		$table_name = $this->_getTableName( $where->getMainDataModelDefinition() );
+		$table_name = $this->_getTableName( $where->getDataModelDefinition() );
 
 		return 'DELETE FROM '.$table_name.''.$this->_getSqlQueryWherePart( $where->getWhere() );
 	}
@@ -779,7 +777,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 
 		if(!$query->getSelect()) {
 			$id_properties = [];
-			foreach( $query->getMainDataModelDefinition()->getIdProperties() as $id_property ) {
+			foreach( $query->getDataModelDefinition()->getIdProperties() as $id_property ) {
 				$id_properties[] = $id_property;
 			}
 
@@ -796,7 +794,7 @@ class DataModel_Backend_SQLite extends DataModel_Backend
 	 */
 	protected function _getSQLQueryTableName( DataModel_Query $query )
 	{
-		$main_model_definition = $query->getMainDataModelDefinition();
+		$main_model_definition = $query->getDataModelDefinition();
 
 		return $this->_getTableName( $main_model_definition );
 

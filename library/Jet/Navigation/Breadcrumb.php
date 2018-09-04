@@ -29,7 +29,6 @@ class Navigation_Breadcrumb extends BaseObject
 	/**
 	 * @param Navigation_Breadcrumb_Item[] $items
 	 *
-	 * @throws Exception
 	 */
 	public static function set( array $items=[] )
 	{

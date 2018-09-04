@@ -14,9 +14,9 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 {
 
 	/**
-	 * @var string
+	 * @var DataModel_Definition_Relation
 	 */
-	protected $related_class_name = '';
+	protected $relation;
 
 	/**
 	 * @var string
@@ -33,42 +33,25 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	 */
 	protected $value;
 
-	/**
-	 * @param array $data
-	 *
-	 * @return static
-	 */
-	public static function __set_state( $data )
-	{
-		$i = new static();
-		foreach( $data as $k=>$v ) {
-			$i->{$k} = $v;
-		}
-
-		return $i;
-	}
 
 	/**
 	 *
 	 *
-	 * @param string $related_to_class_name
+	 * @param DataModel_Definition_Relation $relation
 	 * @param string $related_to_property_name
 	 * @param string $operator
 	 * @param mixed  $value
 	 *
 	 */
 	public function __construct(
-				$related_to_class_name = '',
-				$related_to_property_name = '',
-				$operator = '',
-				$value = ''
-	)
-	{
-		if( !$related_to_class_name ) {
-			return;
-		}
+				DataModel_Definition_Relation $relation,
+				$related_to_property_name,
+				$operator,
+				$value
+	) {
 
-		$this->related_class_name = $related_to_class_name;
+
+		$this->relation = $relation;
 		$this->related_property_name = $related_to_property_name;
 
 		$this->operator = $operator;
@@ -83,7 +66,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	 */
 	public function getRelatedProperty()
 	{
-		return DataModel_Definition::get( $this->related_class_name )->getProperty( $this->related_property_name );
+		return $this->relation->getRelatedDataModelDefinition()->getProperty( $this->related_property_name );
 	}
 
 	/**
@@ -116,7 +99,7 @@ class DataModel_Definition_Relation_Join_Condition extends BaseObject
 	 */
 	public function toString()
 	{
-		return $this->related_class_name.'.'.$this->related_property_name.' '.$this->operator.' '.$this->value;
+		return $this->relation->getRelatedDataModelClassName().'.'.$this->related_property_name.' '.$this->operator.' '.$this->value;
 	}
 
 }

@@ -45,7 +45,7 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @var DataModel_Definition_Model_Main
 	 */
-	protected $main_data_model_definition;
+	protected $data_model_definition;
 
 	/**
 	 * The array key is related data model name
@@ -99,7 +99,6 @@ class DataModel_Query extends BaseObject
 	 * @param DataModel_Definition_Model $main_data_model_definition
 	 * @param array                      $where
 	 *
-	 * @throws DataModel_Query_Exception
 	 * @return DataModel_Query
 	 */
 	public static function createQuery( DataModel_Definition_Model $main_data_model_definition, array $where = [] )
@@ -120,7 +119,7 @@ class DataModel_Query extends BaseObject
 	 */
 	public function __construct( DataModel_Definition_Model $main_data_model_definition )
 	{
-		$this->main_data_model_definition = $main_data_model_definition;
+		$this->data_model_definition = $main_data_model_definition;
 
 	}
 
@@ -128,9 +127,9 @@ class DataModel_Query extends BaseObject
 	/**
 	 * @return DataModel_Definition_Model
 	 */
-	public function getMainDataModelDefinition()
+	public function getDataModelDefinition()
 	{
-		return $this->main_data_model_definition;
+		return $this->data_model_definition;
 	}
 
 	/**
@@ -147,7 +146,6 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 *
-	 * @throws DataModel_Query_Exception
 	 */
 	public function setSelect( array $items )
 	{
@@ -211,7 +209,6 @@ class DataModel_Query extends BaseObject
 	 *
 	 * @return DataModel_Query
 	 *
-	 * @throws DataModel_Query_Exception
 	 */
 	public function setGroupBy( $group_by )
 	{
@@ -234,8 +231,6 @@ class DataModel_Query extends BaseObject
 	 * @param string[]|string $order_by
 	 *
 	 * @return DataModel_Query
-	 *
-	 * @throws DataModel_Query_Exception
 	 *
 	 */
 	public function setOrderBy( $order_by )
@@ -287,12 +282,12 @@ class DataModel_Query extends BaseObject
 	}
 
 	/**
-	 * @param string                        $related_data_model_name
+	 * @param string                        $name
 	 * @param DataModel_Definition_Relation $relation
 	 */
-	public function addRelation( $related_data_model_name, DataModel_Definition_Relation $relation )
+	public function addRelation( $name, DataModel_Definition_Relation $relation )
 	{
-		$this->relations[$related_data_model_name] = $relation;
+		$this->relations[$name] = $relation;
 	}
 
 	/**
@@ -321,7 +316,7 @@ class DataModel_Query extends BaseObject
 	{
 		if( !isset( $this->relations[$related_data_model_name] ) ) {
 			throw new DataModel_Query_Exception(
-				'Unknown relation \''.$this->main_data_model_definition->getModelName().'\' <-> \''.$related_data_model_name.'\' Class: \''.$this->main_data_model_definition->getClassName().'\' ',
+				'Unknown relation \''.$this->data_model_definition->getModelName().'\' <-> \''.$related_data_model_name.'\' Class: \''.$this->data_model_definition->getClassName().'\' ',
 				DataModel_Query_Exception::CODE_QUERY_PARSE_ERROR
 			);
 		}
@@ -363,12 +358,12 @@ class DataModel_Query extends BaseObject
 			/**
 			 * @var DataModel_Definition_Relation  $relevant_relation
 			 */
-			$relevant_relation = clone $this->main_data_model_definition->getRelation( $related_data_model_name );
+			$relevant_relation = clone $this->data_model_definition->getRelation( $related_data_model_name );
 
 			if( ( $required_relations = $relevant_relation->getRequiredRelations() ) ) {
 				foreach( $required_relations as $required_relation ) {
 					if( !isset( $this->relations[$required_relation] ) ) {
-						$this->relations[$required_relation] = clone $this->main_data_model_definition->getRelation( $required_relation );
+						$this->relations[$required_relation] = clone $this->data_model_definition->getRelation( $required_relation );
 					}
 				}
 			}
@@ -380,7 +375,7 @@ class DataModel_Query extends BaseObject
 			$data_model_definition = $relevant_relation->getRelatedDataModelDefinition();
 
 		} else {
-			$data_model_definition = $this->main_data_model_definition;
+			$data_model_definition = $this->data_model_definition;
 		}
 
 
@@ -402,7 +397,7 @@ class DataModel_Query extends BaseObject
 	 */
 	public function toString()
 	{
-		return DataModel_Backend::get($this->main_data_model_definition)->createSelectQuery( $this );
+		return DataModel_Backend::get($this->data_model_definition)->createSelectQuery( $this );
 	}
 
 	/**

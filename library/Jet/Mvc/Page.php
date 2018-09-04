@@ -758,7 +758,6 @@ class Mvc_Page extends BaseObject implements Mvc_Page_Interface, BaseObject_Cach
 	}
 
 	/**
-	 * @throws Exception
 	 *
 	 */
 	public function initializeLayout()

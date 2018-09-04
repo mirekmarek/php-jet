@@ -11,13 +11,23 @@ namespace Jet;
  *
  *
  */
-class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Data_Paginator_DataSource, BaseObject_Interface_ArrayEmulator
+class DataModel_Fetch_Instances extends DataModel_Fetch implements Data_Paginator_DataSource, BaseObject_Interface_ArrayEmulator
 {
 
 	/**
 	 * @var array|DataModel_PropertyFilter
 	 */
 	protected $load_filter;
+
+	/**
+	 * @var DataModel[]
+	 */
+	protected $_instances;
+
+	/**
+	 * @var array
+	 */
+	protected $_where = [];
 
 	/**
 	 * @return array|DataModel_PropertyFilter
@@ -62,33 +72,22 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Dat
 
 		$l = DataModel_Backend::get($this->data_model_definition)->fetchAll( $this->query );
 
+		foreach( $l as $item ) {
+			$l_id = clone $this->empty_id_instance;
 
-		if( $this->load_filter ) {
-			foreach( $l as $item ) {
-				$l_id = clone $this->empty_id_instance;
+			foreach( $l_id->getPropertyNames() as $k ) {
+				$l_id->setValue( $k, $item[$k]);
 
-				foreach( $l_id->getPropertyNames() as $k ) {
-					$l_id->setValue($k, $item[$k]);
+				if(!isset($this->_where[$k])) {
+					$this->_where[$k] = [];
 				}
 
-
-				$this->data[(string)$l_id] = [
-					'__id' => $l_id,
-					'__data' => $item,
-				];
+				$this->_where[$k][] =  $item[$k];
 			}
-		} else {
-			foreach( $l as $item ) {
-				$l_id = clone $this->empty_id_instance;
 
-				foreach( $l_id->getPropertyNames() as $k ) {
-					$l_id->setValue($k, $item[$k]);
-				}
+			$i_id_str = (string)$l_id;
 
-				$this->data[(string)$l_id] = [
-					'__id' => $l_id,
-				];
-			}
+			$this->data[$i_id_str] = $i_id_str;
 		}
 	}
 
@@ -110,41 +109,34 @@ class DataModel_Fetch_Object_Assoc extends DataModel_Fetch_Object implements Dat
 	}
 
 	/**
-	 * @param array $item
+	 * @param string $item
 	 *
 	 * @return DataModel
 	 */
 	protected function _get( $item )
 	{
 
-		if( isset( $item['__instance'] ) ) {
-			return $item['__instance'];
-		}
-		$class_name = $this->data_model_definition->getClassName();
+		if( $this->_instances===null ) {
 
-		if( isset( $item['__data'] ) ) {
-			/**
-			 * @var DataModel $_i
-			 */
-			$_i = new $class_name();
-			$_i->setLoadFilter( $this->load_filter );
-			$_i->setState( $item['__data'], [] );
-
-			$main_related_data = $_i->loadRelatedData();
-			$_i->setState( $item['__data'], $main_related_data );
-
-			$_i->afterLoad();
-		} else {
 			/**
 			 * @var DataModel $class_name
 			 */
-			$_i = $class_name::load( $item['__id'], $this->load_filter );
+			$class_name = $this->data_model_definition->getClassName();
+			$model_name = $this->data_model_definition->getModelName();
+
+			$this->_instances = $class_name::fetch(
+				[
+					$model_name=>$this->_where
+				],
+				null,
+				function( DataModel $item ) {
+					return $item->getIdObject()->toString();
+				},
+				$this->load_filter
+			);
 		}
 
-		$this->data[$_i->getIdObject()->toString()]['__instance'] = $_i;
-
-
-		return $_i;
+		return $this->_instances[$item];
 	}
 
 

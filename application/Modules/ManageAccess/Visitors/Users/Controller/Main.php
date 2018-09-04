@@ -120,11 +120,13 @@ class Controller_Main extends Mvc_Controller_Default
 		$form = $user->getAddForm();
 
 		if( $user->catchAddForm() ) {
+			$password = User::generatePassword();
+			$user->setPassword( $password );
 			$user->save();
 
 			$this->logAllowedAction( 'User created', $user->getId(), $user->getUsername(), $user );
 
-			$user->sendWelcomeEmail( $form->getField( 'password' )->getValue() );
+			$user->sendWelcomeEmail( $password );
 			UI_messages::success(
 				Tr::_( 'User <b>%USERNAME%</b> has been created', [ 'USERNAME' => $user->getUsername() ] )
 			);

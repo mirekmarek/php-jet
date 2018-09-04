@@ -42,7 +42,7 @@ class DataModel_Query_GroupBy extends BaseObject implements BaseObject_Interface
 				if( strpos( $gb, '.' ) ) {
 					$property = $query->getPropertyAndSetRelation( $gb );
 				} else {
-					$properties = $query->getMainDataModelDefinition()->getProperties();
+					$properties = $query->getDataModelDefinition()->getProperties();
 					if( isset( $properties[$gb] ) ) {
 						$property = $properties[$gb];
 					}

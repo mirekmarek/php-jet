@@ -67,7 +67,7 @@ class DataModel_Query_OrderBy extends BaseObject implements BaseObject_Interface
 				if( strpos( $ob, '.' ) ) {
 					$property = $query->getPropertyAndSetRelation( $ob );
 				} else {
-					$properties = $query->getMainDataModelDefinition()->getProperties();
+					$properties = $query->getDataModelDefinition()->getProperties();
 					if( isset( $properties[$ob] ) ) {
 						$property = $properties[$ob];
 					}

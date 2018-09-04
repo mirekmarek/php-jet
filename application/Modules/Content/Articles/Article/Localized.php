@@ -9,7 +9,6 @@ namespace JetApplicationModule\Content\Articles;
 
 use Jet\DataModel;
 use Jet\DataModel_Related_1toN;
-use Jet\DataModel_Fetch_Object_Assoc;
 use Jet\DataModel_Id_Passive;
 
 use Jet\Locale;

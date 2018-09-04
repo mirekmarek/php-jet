@@ -10,7 +10,7 @@ namespace Jet;
 /**
  *
  */
-class DataModel_Fetch_Object_Ids extends DataModel_Fetch_Object implements BaseObject_Interface_ArrayEmulator
+class DataModel_Fetch_IDs extends DataModel_Fetch implements BaseObject_Interface_ArrayEmulator
 {
 
 	/**

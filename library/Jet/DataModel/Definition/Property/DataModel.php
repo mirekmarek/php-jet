@@ -74,7 +74,7 @@ class DataModel_Definition_Property_DataModel extends DataModel_Definition_Prope
 		$class_name = $this->getValueDataModelClass();
 
 		/**
-		 * @var DataModel_Related_Item_Interface $default_value
+		 * @var DataModel_Related_Interface $default_value
 		 */
 		$default_value = new $class_name();
 

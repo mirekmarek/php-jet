@@ -152,25 +152,11 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 * @param string $related_to_class_name
 	 * @param string $related_to_property_name
 	 *
-	 * @throws DataModel_Exception
 	 */
 	public function setUpRelation( $related_to_class_name, $related_to_property_name )
 	{
 		$this->related_to_class_name = $related_to_class_name;
 		$this->related_to_property_name = $related_to_property_name;
-	}
-
-	/**
-	 * @return DataModel_Definition_Relation_Join_Item
-	 */
-	public function getRelationJoinItem()
-	{
-		return new DataModel_Definition_Relation_Join_Item(
-			$this->data_model_class_name,
-			$this->name,
-			$this->related_to_class_name,
-			$this->related_to_property_name
-		);
 	}
 
 	/**
@@ -432,7 +418,6 @@ abstract class DataModel_Definition_Property extends BaseObject implements Form_
 	 *
 	 * @param array|DataModel_Definition_Property_DataModel[] &$related_definitions
 	 *
-	 * @throws DataModel_Exception
 	 */
 	public function getAllRelatedPropertyDefinitions( array &$related_definitions )
 	{

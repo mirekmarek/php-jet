@@ -66,6 +66,7 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 
 
 
+		$this->this_data_model_class_name = $this_model_class_name;
 		$this->related_data_model_class_name = $definition_data['related_to_class_name'];
 		$this->join_type = $definition_data['join_type'];
 		$this->required_relations = $definition_data['required_relations'];
@@ -82,13 +83,10 @@ class DataModel_Definition_Relation_External extends DataModel_Definition_Relati
 				);
 			};
 
-			$related_model_class_name = $related_properties[$related_property_name]->getDataModelClassName();
 
 			$this->join_by[] = new DataModel_Definition_Relation_Join_Item(
-				$this_model_class_name,
+				$this,
 				$this_property_name,
-
-				$related_model_class_name,
 				$related_property_name
 			);
 		}

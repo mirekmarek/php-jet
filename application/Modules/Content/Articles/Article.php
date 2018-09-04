@@ -13,7 +13,7 @@ use Jet\DataModel_Related_1toN_Iterator;
 use Jet\Locale;
 use Jet\Data_DateTime;
 use Jet\Mvc;
-use Jet\DataModel_Fetch_Object_Assoc;
+use Jet\DataModel_Fetch_Instances;
 use Jet\Data_Paginator_DataSource;
 use Jet\DataModel_Id_UniqueString;
 use Jet\Form;
@@ -117,7 +117,7 @@ class Article extends DataModel
 	 *
 	 * @param string $search
 	 *
-	 * @return Article[]|DataModel_Fetch_Object_Assoc
+	 * @return Article[]|DataModel_Fetch_Instances
 	 */
 	public static function getList( $search = '' )
 	{
@@ -137,9 +137,9 @@ class Article extends DataModel
 		}
 
 		/**
-		 * @var DataModel_Fetch_Object_Assoc $list
+		 * @var DataModel_Fetch_Instances $list
 		 */
-		$list = static::fetchObjects(
+		$list = static::fetchInstances(
 			$where,
 			[
 				'article.id',
@@ -202,7 +202,7 @@ class Article extends DataModel
 	 */
 	public static function getListForCurrentLocale()
 	{
-		$list = static::fetchObjects(
+		$list = static::fetchInstances(
 			[
 				'article_localized.locale' => Mvc::getCurrentLocale(),
 			]
@@ -223,7 +223,7 @@ class Article extends DataModel
 		$current_article = null;
 		if( substr( $path, -5 )=='.html' ) {
 
-			$current_article = static::fetchOneObject(
+			$current_article = static::load(
 				[
 					'article_localized.URI_fragment' => $path,
 					'AND',
