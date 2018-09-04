@@ -136,23 +136,25 @@ trait DataModel_Trait_Save
 		$definition = static::getDataModelDefinition();
 
 		$is_related = ( $this instanceof DataModel_Related_Interface );
+
 		foreach( $definition->getProperties() as $property_name => $property_definition ) {
 
-			/**
-			 * @var DataModel_Related_Interface $prop
-			 */
 			$prop = $this->{$property_name};
-			if( !( $prop instanceof DataModel_Related_Interface ) ) {
-				continue;
+
+			if(
+				($prop instanceof DataModel_Related_Interface) ||
+				($prop instanceof DataModel_Related_Iterator_Interface)
+			) {
+				if( $is_related ) {
+					$prop->actualizeParentId( $this->getIdObject() );
+				} else {
+					$prop->actualizeMainId( $this->getIdObject() );
+				}
+
+				$prop->save();
 			}
 
-			if( $is_related ) {
-				$prop->actualizeParentId( $this->getIdObject() );
-			} else {
-				$prop->actualizeMainId( $this->getIdObject() );
-			}
 
-			$prop->save();
 		}
 	}
 

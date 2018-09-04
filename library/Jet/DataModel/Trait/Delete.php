@@ -52,8 +52,12 @@ trait DataModel_Trait_Delete
 		try {
 
 			foreach( $definition->getProperties() as $property_name => $property_definition ) {
+
 				$prop = $this->{$property_name};
-				if( $prop instanceof DataModel_Related_Interface ) {
+				if(
+					($prop instanceof DataModel_Related_Interface) ||
+					($prop instanceof DataModel_Related_Iterator_Interface)
+				) {
 					$prop->delete();
 				}
 			}
